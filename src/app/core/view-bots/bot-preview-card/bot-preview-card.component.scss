@@ -1,0 +1,47 @@
+@import "~src/sass/variables";
+@import "~src/sass/mixins";
+
+p{
+  @include margin-padding-0()
+}
+
+.card, .card-header,.card-body, .card-footer{
+  background-color: white;
+  border: none;
+  @include margin-padding-0();
+  padding-top: 7px;
+}
+.card{
+  padding-left: 15px;
+  padding-right: 15px;
+  .card-header{
+    .bot-logo{
+      height: 30px;
+      width: 30px;
+    }
+  }
+
+  .bot-name{
+    @include typography($font-size-sm, $line-height-normal, $font-weight-normal, $color-text-normal)
+  }
+  .bot-title{
+    @include typography($font-size-xs, $line-height-normal, $font-weight-normal, $color-secondary)
+  }
+  .bot-created,.bot-updated{
+    font-size: $font-size-xs;
+    @include typography($font-size-xs, $line-height-normal, $font-weight-300, $color-text-normal)
+
+  }
+  .card-footer{
+    padding-bottom: 10px;
+    .fa{
+      padding-right: 2px;
+    }
+    .copy{
+      font-size: $font-size-xs !important;
+      color: $color-secondary;
+    }
+  }
+}
+
+

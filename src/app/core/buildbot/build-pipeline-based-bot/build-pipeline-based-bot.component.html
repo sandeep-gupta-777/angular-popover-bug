@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+
+      <div class="card-body pt-0 mt-0">
+        <ul class="nav nav-tabs mb-2">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/buildbot','intelligent']" fragment="basic"  (click)="tabClicked('basic')"
+               appRouterQueryParamActive="basic"><strong>Basic Info</strong></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/buildbot','intelligent']" fragment="pipeline" (click)="tabClicked('pipeline')"
+               appRouterQueryParamActive="pipeline"><strong>Pipeline</strong></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/buildbot','intelligent']" fragment="knowledge" (click)="tabClicked('knowledge')"
+               appRouterQueryParamActive="knowledge"><strong>Knowledge Base</strong></a>
+          </li>
+        </ul>
+
+        <!--tabs end-->
+        <!--forms start-->
+        <!--todo: make this row independent-->
+        <div class="row pl-3">
+          <div class="col-12" *ngIf="activeTab === 'basic'">
+            <app-basic-info-form></app-basic-info-form>
+          </div>
+          <div class="col-12" *ngIf="activeTab === 'avators'">
+            <app-avator-form></app-avator-form>
+          </div>
+          <div class="col-12" *ngIf="activeTab === 'pipeline'">
+            <app-pipeline></app-pipeline>
+          </div>
+          <div class="col-12" *ngIf="activeTab === 'knowledge'">
+            <app-knowledge-base></app-knowledge-base>
+          </div>
+          <div class="col-12" *ngIf="activeTab === 'code'">
+            <app-code-input></app-code-input>
+          </div>
+          <div class="col-12" *ngIf="activeTab === 'integration'">
+            <app-integration-option-list></app-integration-option-list>
+          </div>
+
+        </div>
+        <!--forms end-->
+
+      </div>
+
+
+    </div>
+  </div>
+</div>
+

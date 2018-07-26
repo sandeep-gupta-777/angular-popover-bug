@@ -1,0 +1,53 @@
+<div class="row mx-0 row-sessions-stats py-2 bg-white mx-0 shadow-theme">
+  <div class="col-4 ">
+    <div class="row">
+      <div class="col-6 d-flex flex-column justify-content-center align-items-center justify-content-around ">
+        <h4 class="mt-auto card-heading">Total User Msgs</h4>
+        <hr class="my-4"  style="border-top: 1px solid rgba(0,0,0,0.47); width: 60%">
+        <span class="card-number mb-auto">{{totalMessages.total.total}}</span>
+      </div>
+      <div class="col-6 d-flex justify-content-center align-items-center">
+        <i class="fa fa-comments"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4 ">
+    <div class="row mx-0 border-right border-left">
+      <div class="col-6  d-flex flex-column justify-content-center align-items-center justify-content-around ">
+        <h4 class="mt-auto card-heading">Handled by Bot</h4>
+        <hr class="my-4"  style="border-top: 1px solid rgba(0,0,0,0.47); width: 60%">
+        <span class="card-number mb-auto">{{totalMessages.total.bothandled}}</span>
+      </div>
+      <div class="col-6 d-flex justify-content-center align-items-center">
+        <i class="fa fa-android"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4 ">
+    <div class="row">
+      <div class="col-6 d-flex flex-column justify-content-center align-items-center justify-content-around ">
+        <h4 class="mt-auto card-heading">Handled by Agent</h4>
+        <hr class="my-4"  style="border-top: 1px solid rgba(0,0,0,0.47); width: 60%">
+        <span class="card-number mb-auto">{{totalMessages.total.nonbothandled}}</span>
+      </div>
+      <div class="col-6 d-flex justify-content-center align-items-center">
+        <i class="fa fa-user"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row mx-0 bg-white my-3 p-3  ">
+  <div class="col-12 border-bottom">
+    <h4>MESSAGE ANALYSIS</h4>
+  </div>
+  <div class="col-12 p-3">
+    <app-chart [data]="totalMessagesData" [title]="'Messages'"></app-chart>
+  </div>
+  <div class="col-12">
+    <!--<app-smart-table></app-smart-table>-->
+  </div>
+</div>

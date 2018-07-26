@@ -1,0 +1,28 @@
+<img src="https://imibot.ai/assets/img/login_page.png" class="fixed-top sticky-logo" alt="">
+<div class="container">
+  <div class="row login-row string p-0 m-0 bg-white">
+
+    <div class="col-5 col-lg-5 col-xl-5 imi-logo-box d-flex flex-column align-items-center">
+      <div class="mt-auto">
+        <img class="imi-logo" src="https://imibot.ai/assets/img/IMI_logo.png" alt="">
+      </div>
+      <p class="mb-auto tagline">The bot building platform for your enterprise</p>
+    </div>
+    <div class="col-5 col-lg-5 col-xl-5  login-form-box">
+      <div class="col-12 string d-flex justify-content-center align-items-center">
+        <p  class="title pb-4">Sign in</p>
+      </div>
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        <form class="login-form" (ngSubmit)="onSubmit()" #heroForm="ngForm">
+          <div class="form-group">
+            <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" name="password" ngModel required placeholder="Password">
+          </div>
+          <button type="submit" class="btn-block btn-theme-primary mt-4">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

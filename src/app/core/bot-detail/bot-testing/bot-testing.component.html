@@ -1,0 +1,3 @@
+<div *ngIf="(testCases$|async) as testCases">
+  <app-handsontable [testData] = "testCases.data" [columns]="handontable_column" [colHeaders]="handontable_colHeaders"></app-handsontable>
+</div>

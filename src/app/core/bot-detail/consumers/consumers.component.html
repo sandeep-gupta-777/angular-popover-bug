@@ -1,0 +1,3 @@
+<div *ngIf="(consumers$|async) as consumers">
+  <app-smart-table [data]="consumers.results" [settings]="smartTableSettings_Consumers" ></app-smart-table>
+</div>

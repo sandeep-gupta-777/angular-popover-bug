@@ -1,0 +1,29 @@
+@import "~src/sass/main.scss";
+.card{
+  height: 410px;
+  width: 320px;
+}
+.card-header{
+  background-color: $color-primary;
+  flex-shrink:0;
+  color: white;
+}
+
+.card-body{
+  overflow-y: hidden;
+}
+
+.card-footer{
+  height: 45px;
+  border-top: 1px solid $color-primary;
+  position: relative;
+  input{
+    height: 80%;
+    width: 100%;
+    @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-secondary);
+    @include hide-borders();
+  }
+  .icon{
+    color: $color-primary;
+  }
+}

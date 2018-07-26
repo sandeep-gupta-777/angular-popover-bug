@@ -1,0 +1,42 @@
+@import '~src/sass/main';
+
+.login-row{
+
+  height: 90vh;
+  @include center-vertical-horizontal();
+  .imi-logo-box{
+    //border: 1px solid red;
+    height: 70vh;
+    //@include center-vertical-horizontal();
+    border-right: 2px solid #e0e0e0;
+    .imi-logo{
+      height: 70px;
+      width : 241px;
+      margin-bottom: 20px;
+    }
+    .tagline{
+      @include typography(20px, 22px, $font-weight-300, #56627c);
+    }
+  }
+
+  .login-form{
+    width: 80%;
+  }
+
+  .title{
+    @include typography(24px, $line-height-normal, $font-weight-300, #00abd3);
+    text-align: center;
+  }
+
+  .form-control{
+    @include hide-borders();
+    border-bottom: $border-normal;
+    border-radius: 0;
+  }
+
+  .btn-theme-primary{
+    height: 34px !important;
+    font-size: 14px;
+    background-color: #00abd3 !important;
+  }
+}

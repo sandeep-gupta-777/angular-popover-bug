@@ -1,0 +1,13 @@
+<ul class="nav nav-tabs my-2">
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['/core','viewbots','codebased']" routerLinkActive="tab-active" ><strong>CODE BASED BOTS</strong></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['/core','viewbots','intelligent']" routerLinkActive="tab-active" ><strong>PIPELINE BASED BOTS</strong></a>
+  </li>
+</ul>
+
+<router-outlet></router-outlet>
+<!--<app-view-code-based-bot [hidden]="activeTab==='pipeline_based'"></app-view-code-based-bot>-->
+<!--<app-view-pipeline-based-bots [hidden]="activeTab==='code_based'"></app-view-pipeline-based-bots>-->
+

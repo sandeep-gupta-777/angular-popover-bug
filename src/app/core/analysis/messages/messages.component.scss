@@ -1,0 +1,18 @@
+@import "~src/sass/main.scss";
+
+.row-sessions-stats {
+  .row{
+    height: 240px;
+    .card-heading {
+      @include typography($font-size-lg, 22px, $font-weight-400, #1c2b36);
+    }
+
+    .card-number {
+      @include typography(40px, $line-height-md, $font-weight-700, #1c2b36);
+    }
+    .fa {
+      font-size: 80px;
+    }
+  }
+}
+

@@ -1,0 +1,54 @@
+@import '~src/sass/main';
+
+.header-container{
+  height: 56px;
+  //@include center-vertical();
+  padding: 10px 0px;
+  padding-right: 28px;
+
+  .box-logo{
+    width: 180px;
+    border-right: solid 1px #e0e0e0;;
+    @include center-horizontal
+    .box-logo__image{
+      height: 32px !important;
+    }
+  }
+
+  .box-search{
+    width: 40%;
+    .box-search__input{
+      border: none;
+      width: 100%;
+    }
+
+    .box-search__input:focus{
+      @include hide-borders(); //to hide border when focused
+    }
+
+  }
+
+  .box-details-personal{
+    @include typography($font-size-md,$line-height-normal,$font-weight-300, $color-text-normal);
+    border-right: $border-normal;
+    .box-details-personal__designation{
+      color: #9e9e9e;
+    }
+  }
+
+  .box-details__logo, .box-details__orgname{
+    padding-right: 10px;
+  }
+}
+
+.fa{
+  font-size: 14px;
+  margin-right: 35px ;
+  color: $color-text-normal;
+  cursor: pointer;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: $color-text-muted;
+  opacity: 1; /* Firefox */
+}

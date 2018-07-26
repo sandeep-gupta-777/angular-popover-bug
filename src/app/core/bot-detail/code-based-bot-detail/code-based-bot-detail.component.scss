@@ -1,0 +1,77 @@
+@import "~src/sass/main";
+
+.row-details{
+  .fa{
+    font-size: 30px;
+    //line-height: 50px;
+    font-weight: 400;
+    height: 40px;
+    color: $color-primary;
+  }
+}
+
+.label{
+  @include typography($font-size-normal, $line-height-normal, $font-weight-400, #56627c);
+}
+
+.title{
+  @include typography($font-size-md, $line-height-md, $font-weight-700, #56627c);
+}
+
+.description{
+  @include  typography($font-size-xs, $line-height-normal, $font-weight-300, $color-text-normal);
+  text-align: center;
+}
+
+#channel-selector{
+  @include  typography($font-size-normal, $line-height-normal, $font-weight-300, $color-text-normal);
+}
+
+//
+///*code for card. TODO: to be removed later*/
+//@import "~src/sass/variables";
+//@import "~src/sass/mixins";
+//
+//p{
+//  @include margin-padding-0()
+//}
+//
+//.card, .card-header,.card-body, .card-footer{
+//  background-color: white;
+//  border: none;
+//  @include margin-padding-0();
+//  padding-top: 7px;
+//}
+//.card{
+//  padding-left: 15px;
+//  padding-right: 15px;
+//  .card-header{
+//    .timePeriod-logo{
+//      height: 30px;
+//      width: 30px;
+//    }
+//  }
+//
+//  .timePeriod-name{
+//    @include typography($font-size-sm, $line-height-normal, $font-weight-normal, $color-text-normal)
+//  }
+//  .timePeriod-title{
+//    @include typography($font-size-xs, $line-height-normal, $font-weight-normal, $color-secondary)
+//  }
+//  .timePeriod-created,.timePeriod-updated{
+//    font-size: $font-size-xs;
+//    @include typography($font-size-xs, $line-height-normal, $font-weight-300, $color-text-normal)
+//
+//  }
+//  .card-footer{
+//    padding-bottom: 10px;
+//    .fa{
+//      padding-right: 2px;
+//    }
+//    .copy{
+//      font-size: $font-size-xs !important;
+//      color: $color-secondary;
+//    }
+//  }
+//}
+//

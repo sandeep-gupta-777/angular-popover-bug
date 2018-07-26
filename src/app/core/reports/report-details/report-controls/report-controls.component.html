@@ -1,0 +1,95 @@
+<!--<button (click)="click()">click1</button>-->
+<form class="row" #form="ngForm">
+  <div class="col-6">
+    <div class="select-theme-primary">
+      <label for="" class="Bot">Bot</label>
+      <select class="concept1" ngModel required name="botId">
+        <option type="button" *ngFor="let bot of botlist" [value]="bot._id" ><button (click)="selectedBotChanged(bot)">{{bot.name}}</button></option>
+      </select>
+    </div>
+  </div>
+
+  <div class="col-5">
+    <div class="select-theme-primary">
+      <label for="" class="Bot">Report type</label>
+      <select class="concept1"  >
+        <option value="single_match">Messages</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-12 mt-3">
+    <div class="btn-group" role="group">
+      <label (click)="filetype='csv'"  [ngClass]="{'btn-theme-primary': filetype==='csv', 'btn-theme-secondary-outline':filetype==='pdf'}" for="csv" class="btn ">CSV</label>
+      <label (click)="filetype='pdf'" [ngClass]="{'btn-theme-primary': filetype==='pdf', 'btn-theme-secondary-outline':filetype==='csv'}" for="pdf" class="btn ">PDF</label>
+      <input type="radio" ngModel id="csv" name="filetype" value="csv" hidden>
+      <input type="radio" ngModel id="pdf" name="filetype" value="pdf" hidden>
+    </div>
+  </div>
+
+  <div class="col-5 mt-4">
+    <div class="select-theme-primary">
+      <label for="" class="Bot">Frequency</label>
+      <select class="concept1" ngModel required name="frequency">
+        <option value="daily">Daily</option>
+        <option value="weely">Weekly</option>
+        <option value="biweekly">Bi-weekly</option>
+        <option value="monthly">Monthly</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="col-5 mt-4">
+    <div class="select-theme-primary">
+      <label for="" class="Bot">Time</label>
+      <select class="concept1">
+        <option value="time">Select</option>
+      </select>
+    </div>
+
+  </div>
+
+  <div class="col-12 mt-4">
+    <div class="row">
+      <div class="col-xs-12 col-12 col-md-4 form-group">
+        <label for="" class="Bot" style="width: 100%">Select Date</label>
+        <input type="text"
+               placeholder="Datepicker"
+               class="form-control date-input"
+               ngModel
+               name="updated_at"
+               bsDatepicker [bsConfig]="datePickerConfig">
+      </div>
+    </div>
+
+  </div>
+  <div class="row m-0 p-0" ngModelGroup="delivery">
+    <div class="col-12">
+      <div class="Bot" style="width: 100%; color: #474747">Delivery Mode</div>
+    </div>
+    <div class="col-12">
+      <ul class="nav nav-tabs my-2">
+        <input type="text" ngModel name="delivery_type" hidden>
+        <li class="nav-item">
+          <a class="nav-link" [ngClass]="{'tab-active':deliveryMode==='email'}" (click)="deliveryMode='email'"><strong>Email</strong></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [ngClass]="{'tab-active':deliveryMode==='sftp'}" (click)="deliveryMode='sftp'"><strong>SFTP</strong></a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-8 text-report ">
+      Schedule emails for multiple recipients, separate with semi-colon(;)
+    </div>
+    <div class="col-4 text-right ">
+      <ui-switch ngModel name="enabled" class="pt-2" style="border:none" size="small"></ui-switch>
+    </div>
+    <div class="col-12 ">
+      <div class="col-10 mt-2 border-left">
+        <div class="text-report pb-2">Recipients</div>
+        <textarea ngModel name="recipients" class="p-2" style="width: 100%; height: 90px"></textarea>
+      </div>
+    </div>
+  </div>
+</form>
+<!---->

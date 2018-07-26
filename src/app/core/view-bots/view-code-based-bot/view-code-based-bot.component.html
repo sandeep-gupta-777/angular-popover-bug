@@ -1,0 +1,6 @@
+
+<div class="row" *ngIf="(codeBasedBotList$|async) as codeBasedBotList">
+  <div class="col-3" *ngFor="let bot of codeBasedBotList">
+    <app-bot-preview-card [bot] = bot></app-bot-preview-card>
+  </div>
+</div>

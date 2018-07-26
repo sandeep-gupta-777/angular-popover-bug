@@ -1,0 +1,15 @@
+@import "~src/sass/variables";
+
+.nav-link{
+  border: none;
+}
+
+.nav{
+  border-bottom: $border-normal;
+}
+
+a{
+  text-decoration: none !important;
+  font-size: $font-size-sm;
+  color: black;
+}

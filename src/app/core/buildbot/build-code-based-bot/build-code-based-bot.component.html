@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+
+      <div class="card-body pt-0 mt-0">
+        <ul class="nav nav-tabs mb-2">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['.']"  [queryParams]="{tab:'basic'}"  (click)="tabClicked('basic')"
+               appRouterQueryParamActive="basic"><strong>Basic Info</strong></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['.']" [queryParams]="{tab:'avators'}" (click)="tabClicked('avators')"
+               appRouterQueryParamActive="avators"><strong>Avators</strong></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['.']" [queryParams]="{tab:'pipeline'}" (click)="tabClicked('pipeline')"
+               appRouterQueryParamActive="pipeline"><strong>Pipeline</strong></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['.']" [queryParams]="{tab:'knowledge'}" (click)="tabClicked('knowledge')"
+               appRouterQueryParamActive="knowledge"><strong>Knowledge Base</strong></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['.']" [queryParams]="{tab:'code'}" (click)="tabClicked('code')"
+               appRouterQueryParamActive="code"><strong>Code</strong></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['.']" [queryParams]="{tab:'integration'}" (click)="tabClicked('integration')"
+               appRouterQueryParamActive="integration"><strong>Integration</strong></a>
+          </li>
+        </ul>
+
+        <!--tabs end-->
+        <!--forms start-->
+        <!--todo: make this row independent-->
+        <div class="row pl-3">
+          <div class="col-12" *ngIf="activeTab === 'basic'">
+            <app-basic-info-form [bot]="bot"></app-basic-info-form>
+          </div>
+          <div class="col-12" *ngIf="activeTab === 'avators'">
+            <app-avator-form [bot]="bot"></app-avator-form>
+          </div>
+          <div class="col-12" *ngIf="activeTab === 'pipeline'">
+            <app-pipeline [bot]="bot"></app-pipeline>
+          </div>
+          <div class="col-12" *ngIf="activeTab === 'knowledge'">
+            <app-knowledge-base [bot]="bot"></app-knowledge-base>
+          </div>
+          <div class="col-12" *ngIf="activeTab === 'code'">
+            <app-code-input [bot]="bot"></app-code-input>
+          </div>
+          <div class="col-12" *ngIf="activeTab === 'integration'">
+            <app-integration-option-list [bot]="bot"></app-integration-option-list>
+          </div>
+        </div>
+        <!--forms end-->
+
+      </div>
+
+
+    </div>
+  </div>
+</div>
+

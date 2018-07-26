@@ -1,0 +1,15 @@
+@import '~src/sass/main';
+
+#search-session-model{
+  @include hide-borders();
+  padding-left: 30px;/*todo: this doesn't seem right*/
+  outline: none;
+  ::placeholder{
+    font-size: 13px;
+  }
+}
+
+
+li{
+  margin-left: 30px;
+}

@@ -1,0 +1,230 @@
+<header class="row mt-3 pb-3 bg-white profile-row">
+  <div class="col-12">
+    <div class="card">
+
+      <div
+        class="card-header pt-4 mb-4 pb-0 bg-white d-flex justify-content-between justify-content-center align-items-center">
+        <h4>General Enterprise Profile Information</h4>
+        <div>
+          <button class="btn-theme-primary" (click)="saveForm()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+
+
+<section class="row basic-row bg-white">
+  <div class="col-3 logo-wrapper-col p-5">
+    <div class="logo-wrapper">
+      <img [src]="(loggeduserenterpriseinfo$|async).logo" alt="">
+    </div>
+  </div>
+  <div class="col-9">
+    <h4 class="form-title">Basic</h4>
+    <form  class="basic-info-form" #form="ngForm">
+      <div class="row">
+        <div class="col-5">
+          <div class="form-group">
+            <label for="name">Company Name</label>
+            <input type="text" class="form-control" [ngModel]="(loggeduserenterpriseinfo$|async).name" name="name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="alterEgo">Industry</label>
+            <input type="text" class="form-control" [ngModel]="(loggeduserenterpriseinfo$|async).industry" name="industry">
+          </div>
+<!---->
+          <div class="form-group">
+            <label for="alterEgo">Logo Url</label>
+            <input type="text" class="form-control" [ngModel]="(loggeduserenterpriseinfo$|async).logo" name="logo">
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="form-group">
+            <label for="alterEgo">Email</label>
+            <input type="text" class="form-control" [ngModel]="(loggeduserenterpriseinfo$|async).email" name="email">
+          </div>
+
+          <div class="form-group">
+            <label for="alterEgo">Website Url</label>
+            <input type="text" class="form-control" [ngModel]="(loggeduserenterpriseinfo$|async).websiteUrl" name="websiteUrl">
+          </div>
+        </div>
+      </div>
+      <h4 class="form-title">Advanced</h4>
+      <div class="row">
+        <div class="col-5">
+          <div class="form-group">
+            <label for="name">Enterprise Unique Name</label>
+            <input type="text" class="form-control" required [ngModel]="(loggeduserenterpriseinfo$|async).enterpriseUniqueName" name="enterpriseUniqueName">
+          </div>
+
+        </div>
+        <div class="col-5">
+          <div class="form-group">
+            <label for="alterEgo">Tier</label>
+            <input type="text" class="form-control" [ngModel]="(loggeduserenterpriseinfo$|async).tier" name="tier">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+<!---->
+
+<header class="row mt-3 pb-3 bg-white profile-row">
+  <div class="col-12">
+    <div class="card">
+      <div
+        class="card-header pt-4 mb-4 pb-0 bg-white d-flex justify-content-between justify-content-center align-items-center">
+        <h4>Enterprise Users</h4>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="row enterprise-profile-info-row bg-white">
+  <div class="col-12">
+    <table class="table">
+      <thead class="">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Created At</th>
+        <th scope="col">Updated At</th>
+        <th scope="col">Permissions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let enterpriseuser of (loggeduserenterpriseinfo$|async).enterpriseusers">
+        <td>1</td>
+        <td>{{enterpriseuser.firstname}}</td>
+        <td>{{enterpriseuser.email}}</td>
+        <td>{{enterpriseuser.created_at}}</td>
+        <td>{{enterpriseuser.updated_at}}</td>
+        <td> empty</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<!--==========Above temple without variable wiring==========-->
+
+<!--<header class="row mt-3 pb-3 bg-white profile-row">-->
+  <!--<div class="col-12">-->
+    <!--<div class="card">-->
+
+      <!--<div-->
+        <!--class="card-header pt-4 mb-4 pb-0 bg-white d-flex justify-content-between justify-content-center align-items-center">-->
+        <!--<h4>General Enterprise Profile Information</h4>-->
+        <!--<div>-->
+          <!--<button class="btn-theme-primary" (click)="saveForm()">Update</button>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+
+<!--</header>-->
+
+
+<!--<section class="row basic-row bg-white">-->
+  <!--<div class="col-3 logo-wrapper-col p-5">-->
+    <!--<div class="logo-wrapper">-->
+      <!--<img [src]="(loggeduserenterpriseinfo$|async).logo" alt="">-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--<div class="col-9">-->
+    <!--<h4 class="form-title">Basic</h4>-->
+    <!--<form  class="basic-info-form" #form="ngForm">-->
+      <!--<div class="row">-->
+        <!--<div class="col-5">-->
+          <!--<div class="form-group">-->
+            <!--<label for="name">Company Name</label>-->
+            <!--<input type="text" class="form-control" [ngModel]="(loggeduserenterpriseinfo$|async).name" name="name" required>-->
+          <!--</div>-->
+
+          <!--<div class="form-group">-->
+            <!--<label for="alterEgo">Industry</label>-->
+            <!--<input type="text" class="form-control" [ngModel]="(loggeduserenterpriseinfo$|async).industry" name="industry">-->
+          <!--</div>-->
+          <!--&lt;!&ndash;&ndash;&gt;-->
+          <!--<div class="form-group">-->
+            <!--<label for="alterEgo">Logo Url</label>-->
+            <!--<input type="text" class="form-control" [ngModel]="(loggeduserenterpriseinfo$|async).logo" name="logo">-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-5">-->
+          <!--<div class="form-group">-->
+            <!--<label for="alterEgo">Email</label>-->
+            <!--<input type="text" class="form-control" [ngModel]="(loggeduserenterpriseinfo$|async).email" name="email">-->
+          <!--</div>-->
+
+          <!--<div class="form-group">-->
+            <!--<label for="alterEgo">Website Url</label>-->
+            <!--<input type="text" class="form-control" [ngModel]="(loggeduserenterpriseinfo$|async).websiteUrl" name="websiteUrl">-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<h4 class="form-title">Advanced</h4>-->
+      <!--<div class="row">-->
+        <!--<div class="col-5">-->
+          <!--<div class="form-group">-->
+            <!--<label for="name">Enterprise Unique Name</label>-->
+            <!--<input type="text" class="form-control" required [ngModel]="(loggeduserenterpriseinfo$|async).enterpriseUniqueName" name="enterpriseUniqueName">-->
+          <!--</div>-->
+
+        <!--</div>-->
+        <!--<div class="col-5">-->
+          <!--<div class="form-group">-->
+            <!--<label for="alterEgo">Tier</label>-->
+            <!--<input type="text" class="form-control" [ngModel]="(loggeduserenterpriseinfo$|async).tier" name="tier">-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</form>-->
+  <!--</div>-->
+<!--</section>-->
+<!--&lt;!&ndash;&ndash;&gt;-->
+
+<!--<header class="row mt-3 pb-3 bg-white profile-row">-->
+  <!--<div class="col-12">-->
+    <!--<div class="card">-->
+      <!--<div-->
+        <!--class="card-header pt-4 mb-4 pb-0 bg-white d-flex justify-content-between justify-content-center align-items-center">-->
+        <!--<h4>Enterprise Users</h4>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</header>-->
+
+<!--<section class="row enterprise-profile-info-row bg-white">-->
+  <!--<div class="col-12">-->
+    <!--<table class="table">-->
+      <!--<thead class="">-->
+      <!--<tr>-->
+        <!--<th scope="col">#</th>-->
+        <!--<th scope="col">Name</th>-->
+        <!--<th scope="col">Email</th>-->
+        <!--<th scope="col">Created At</th>-->
+        <!--<th scope="col">Updated At</th>-->
+        <!--<th scope="col">Permissions</th>-->
+      <!--</tr>-->
+      <!--</thead>-->
+      <!--<tbody>-->
+      <!--<tr *ngFor="let i of (loggeduserenterpriseinfo$|async).enterpriseusers">-->
+        <!--<td>1</td>-->
+        <!--<td>IMIbot</td>-->
+        <!--<td>demos@imimobile.com</td>-->
+        <!--<td>2017-11-08 19:16:17.532000</td>-->
+        <!--<td>2018-07-02 10:21:11.767000</td>-->
+        <!--<td> empty</td>-->
+      <!--</tr>-->
+      <!--</tbody>-->
+    <!--</table>-->
+  <!--</div>-->
+<!--</section>-->

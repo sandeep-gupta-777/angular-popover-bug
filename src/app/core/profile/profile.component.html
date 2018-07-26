@@ -1,0 +1,152 @@
+<div class="row my-3 pb-3 bg-white profile-row">
+  <div class="col-12">
+    <div class="card">
+
+      <div
+        class="card-header pt-4 mb-4 pb-0 bg-white d-flex justify-content-between justify-content-center align-items-center">
+        <h4>Profile Information</h4>
+        <div>
+          <button class="btn-theme-primary" (click)="updateProfile()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <form class="col-12" #form="ngForm">
+    <div class="col-12">
+      <h5 class="px-4">Basic</h5>
+    </div>
+    <div class="col-12">
+      <label for="" class="pl-5 ml-5">First Name:</label>
+      <!--<span class="value">{{(loggeduser$|async).user.firstname}}</span>-->
+      <input class="edit-input value" type="text" [ngModel]="(loggeduser$|async).user.firstname" name="firstname">
+    </div>
+    <div class="col-12">
+      <label for="" class="pl-5 ml-5">Last Name:</label>
+      <input class="edit-input value" type="text" [ngModel]="(loggeduser$|async).user.lastname" name="lastname">
+    </div>
+    <div class="col-12">
+      <label for="" class="pl-5 ml-5">Email Name:</label>
+      <span class="value non-editable">{{(loggeduser$|async).user.email}}</span>
+    </div>
+  </form>
+
+  <section class="col-12">
+    <div class="col-12">
+      <h5 class="px-4">Advanced</h5>
+    </div>
+    <div class="col-12">
+      <label for="" class="pl-5 ml-5 pr-4">Role:</label>
+      <span class="value non-editable ">{{(loggeduser$|async).user.role}}</span>
+    </div>
+    <div class="col-12">
+      <label for="" class="pl-5 ml-5 pr-4">Permission:</label>
+      <span class="text-info">{{(loggeduser$|async).user.permissions.length}} permissions given</span>
+      <div class="perm-list d-flex flex-wrap">
+      <span class="badge badge-secondary"
+            *ngFor="let perm of (loggeduser$|async).user.permissions">{{perm}}</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<section class="row bg-white password-row p-5">
+
+    <div class="col-12 mb-3">
+      <header><h4>Current Password</h4></header>
+    </div>
+    <div class="col-3 mb-3">
+      <div class="label">Current Password</div>
+      <input class="m-0 p-0" type="password">
+    </div>
+    <div class="col-9 mb-3">
+      <div class="label">Confirm Current Password</div>
+      <input class="m-0 p-0" type="password">
+    </div>
+    <div class="col-3 mb-3">
+      <div class="label">New Password</div>
+      <input class="m-0 p-0" type="password">
+    </div>
+    <div class="col-9 mb-3">
+      <div class="label">Confirm New Password</div>
+      <input class="m-0 p-0" type="password">
+    </div>
+</section>
+
+<!--============ following is html template without any vaiable wiring ============-->
+
+<!--<div class="row my-3 pb-3 bg-white profile-row">-->
+  <!--<div class="col-12">-->
+    <!--<div class="card">-->
+
+      <!--<div-->
+        <!--class="card-header pt-4 mb-4 pb-0 bg-white d-flex justify-content-between justify-content-center align-items-center">-->
+        <!--<h4>Profile Information</h4>-->
+        <!--<div>-->
+          <!--<button class="btn-theme-primary ">Update</button>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <!--<section class="col-12">-->
+    <!--<div class="col-12">-->
+      <!--<h5 class="px-4">Basic</h5>-->
+    <!--</div>-->
+    <!--<div class="col-12">-->
+      <!--<label for="" class="pl-5 ml-5">First Name:</label>-->
+      <!--<span class="value">Sandeep</span>-->
+    <!--</div>-->
+    <!--<div class="col-12">-->
+      <!--<label for="" class="pl-5 ml-5">Last Name:</label>-->
+      <!--<span class="value">Gupta</span>-->
+    <!--</div>-->
+    <!--<div class="col-12">-->
+      <!--<label for="" class="pl-5 ml-5">Email Name:</label>-->
+      <!--<span class="value">Sandeepkgupta007@gmail.com</span>-->
+    <!--</div>-->
+  <!--</section>-->
+
+  <!--<section class="col-12">-->
+    <!--<div class="col-12">-->
+      <!--<h5 class="px-4">Advanced</h5>-->
+    <!--</div>-->
+    <!--<div class="col-12">-->
+      <!--<label for="" class="pl-5 ml-5 pr-4">Role:</label>-->
+      <!--<span class="value">Admin</span>-->
+    <!--</div>-->
+    <!--<div class="col-12">-->
+      <!--<label for="" class="pl-5 ml-5 pr-4">Permission:</label>-->
+      <!--<span class="text-info">38 permissions given</span>-->
+      <!--<div class="perm-list d-flex flex-wrap">-->
+      <!--<span class="badge badge-secondary"-->
+            <!--*ngFor="let i of [1,2,3,2,34,4,5,6,6,2,7,8,8,1,2,3,2,34,4,5,6,6,2,7,8,8,1,2,3,2,34,4,5,6,6,2,7,8,8]">overview_summary</span>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</section>-->
+
+<!--</div>-->
+
+<!--<section class="row bg-white password-row p-5">-->
+
+  <!--<div class="col-12 mb-3">-->
+    <!--<header><h4>Current Password</h4></header>-->
+  <!--</div>-->
+  <!--<div class="col-3 mb-3">-->
+    <!--<div class="label">Current Password</div>-->
+    <!--<input class="m-0 p-0" type="password">-->
+  <!--</div>-->
+  <!--<div class="col-9 mb-3">-->
+    <!--<div class="label">Confirm Current Password</div>-->
+    <!--<input class="m-0 p-0" type="password">-->
+  <!--</div>-->
+  <!--<div class="col-3 mb-3">-->
+    <!--<div class="label">New Password</div>-->
+    <!--<input class="m-0 p-0" type="password">-->
+  <!--</div>-->
+  <!--<div class="col-9 mb-3">-->
+    <!--<div class="label">Confirm New Password</div>-->
+    <!--<input class="m-0 p-0" type="password">-->
+  <!--</div>-->
+<!--</section>-->

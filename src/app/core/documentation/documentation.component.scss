@@ -1,0 +1,29 @@
+@import '~src/sass/main';
+
+img{
+  height: 200px;
+  width:200px;
+  padding: 10px 10px ;
+}
+
+.card-title{
+  @include typography($font-size-xl, $line-height-normal, $font-weight-normal, $color-text-normal)
+}
+
+.card-body{
+  @include typography($font-size-normal, 18px, $font-weight-normal, $color-text-grey);
+}
+
+.card-header, .card-body{
+  border-bottom: $border-normal;
+
+}
+
+.card-body{
+  border-top: $border-normal;
+
+}
+
+.fa{
+  padding-right: 10px;
+}

@@ -1,0 +1,27 @@
+@import '~src/sass/main';
+
+.details{
+  .fa{
+    font-size: 50px;
+    line-height: 50px;
+    font-weight: 400;
+    height: 70px;
+    margin-bottom: 32px;
+
+  }
+  .number{
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 8px;
+    color: black;
+    height: 40px;
+  }
+  .description{
+    @include  typography($font-size-md, $line-height-md, $font-weight-700, $color-text-normal)
+  }
+
+}
+
+span{
+  text-align: center;
+}

@@ -1,0 +1,14 @@
+@import "~src/sass/variables";
+
+.card{
+  border: none;
+}
+
+.active{
+  border-color: white !important;
+  border-bottom: 2px solid $color-primary !important;
+}
+
+.nav-link{
+  font-size: 12px;
+}

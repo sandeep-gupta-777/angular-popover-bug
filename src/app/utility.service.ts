@@ -1,0 +1,132 @@
+import { Injectable } from '@angular/core';
+import {ToastrService} from 'ngx-toastr';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UtilityService {
+
+  constructor(
+    private toastr: ToastrService,
+  ) { }
+
+  getPriorDate(days_before:number){
+    let today:any = new Date(Date.now()-days_before*24*3600*1000);
+    let dd:any = today.getDate();
+    let mm:any = today.getMonth()+1; //January is 0!
+    let yyyy:any = today.getFullYear();
+
+    if(dd<10) {
+      dd = '0'+dd
+    }
+
+    if(mm<10) {
+      mm = '0'+mm
+    }
+
+    return (today = dd + '/' + mm + '/' + yyyy);
+  }
+
+  convertDateObjectStringToDDMMYY(dateStr:Date){
+    let today:any = new Date(dateStr);
+
+    let dd:any = today.getDate();
+    let mm:any = today.getMonth()+1; //January is 0!
+    let yyyy:any = today.getFullYear();
+
+    if(dd<10) {
+      dd = '0'+dd
+    }
+
+    if(mm<10) {
+      mm = '0'+mm
+    }
+
+    return (today = dd + '/' + mm + '/' + yyyy);
+
+  }
+  convertDateObjectStringToMMDDYY(dateStr:Date){
+    let today:any = new Date(dateStr);
+
+    let dd:any = today.getDate();
+    let mm:any = today.getMonth()+1; //January is 0!
+    let yyyy:any = today.getFullYear();
+
+    if(dd<10) {
+      dd = '0'+dd
+    }
+
+    if(mm<10) {
+      mm = '0'+mm
+    }
+
+    return (today = mm + '/' + dd + '/' + yyyy);
+
+  }
+
+  copyToClipboard(text) {
+    if ((<any>window).clipboardData && (<any>window).clipboardData.setData) {
+      // IE specific code path to prevent textarea being shown while dialog is visible.
+      return (<any>window).clipboardData.setData("Text", text);
+
+    } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+      var textarea = document.createElement("textarea");
+      textarea.textContent = text;
+      textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+      } catch (ex) {
+        console.warn("Copy to clipboard failed.", ex);
+        return false;
+      } finally {
+        document.body.removeChild(textarea);
+      }
+    }
+  }
+
+
+  findDataByName(convertedData, name){
+    for (let i=0; i<convertedData.length;++i){
+      if(convertedData[i].name === name)
+        return convertedData[i].data;
+    }
+  }
+
+  convert(rawData,xAxisLabel) {
+    let convertedData = []
+    /*initialize the convertedData*/
+    Object.keys(rawData[0]).forEach((value)=>{
+      if(value==='labels') return;
+      convertedData.push({
+        name:value,//y1
+        data:[]//[(xi,y1i)]
+      })
+    });
+
+    /*now loop over rawData and fill convertedData's data array*/
+    rawData.forEach((obj)=>{
+      Object.keys(obj).forEach((key)=>{
+        if(key===xAxisLabel) return;
+        let data = this.findDataByName(convertedData,key);
+        // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
+        let dateStr_ddmmyyyy = obj[xAxisLabel];
+        let dd = dateStr_ddmmyyyy.split('/')[0];
+        let mm = dateStr_ddmmyyyy.split('/')[1];
+        let yyyy = dateStr_ddmmyyyy.split('/')[2];
+        let dateStr_mmddyyyy = `${mm}/${dd}/${yyyy}`;
+        let ms = Date.parse(dateStr_mmddyyyy);
+       if(data)/*This fix is done for new keys which were not in rawdata[0]. They will be ignored*/
+        data.push([ms, obj[key]]);//pushing a new coordinate
+      });
+    })
+    return convertedData;
+  }
+
+  showErrorToaster(error){
+    this.toastr.error(error.message,error.name,{positionClass:'toast-bottom-left',timeOut:2000})
+
+  }
+
+}

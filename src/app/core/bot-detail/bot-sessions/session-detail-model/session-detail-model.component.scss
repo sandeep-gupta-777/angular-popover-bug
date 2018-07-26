@@ -1,0 +1,90 @@
+@import '~src/sass/main';
+
+.card-header{
+  background-color: $color-primary;
+}
+
+.fa{
+  font-size: 22px;
+  color: white;
+}
+
+.fa-refresh, .fa-times{
+  font-size: 16px;
+}
+
+
+.primary16{
+  height: 16px;
+  font-family: Helvetica;
+  font-size: 13px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #ffffff;
+}
+
+.primary{
+  height: 14px;
+  font-family: Helvetica;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #ffffff;
+}
+
+.secondary{
+  font-family: Helvetica;
+  font-size: 10px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #ffffff;
+}
+
+span{
+  margin: 0;
+}
+
+#search-session-model{
+  @include hide-borders();
+  padding-left: 30px;/*todo: this doesn't seem right*/
+  outline: none;
+}
+
+
+
+.nav-link{
+  border: none;
+}
+
+.nav{
+  //border-bottom: $border-normal; TODO: this will be misplaced when code text overflows
+  border: none;
+}
+
+a{
+  text-decoration: none !important;
+  font-size: 10px;
+  color: black;
+}
+
+.indicate{
+  height: 34px;
+  font-family: Helvetica;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #9e9e9e;
+}

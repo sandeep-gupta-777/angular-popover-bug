@@ -1,0 +1,40 @@
+@mixin center-vertical{
+  display: flex;
+  align-items: center;
+}
+
+@mixin center-horizontal{
+  display: flex;
+  justify-content: center;
+}
+@mixin center-vertical-horizontal{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@import "./variables";
+
+@mixin hide-borders{
+  border: none;
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  outline: none;
+}
+
+@mixin typography($size, $line-height, $weight, $color){
+  font-size: $size;
+  line-height: $line-height;
+  font-weight: $weight;
+  color: $color;
+  font-family: "Helvetica", sans-serif;
+}
+
+@mixin margin-padding-0(){
+  margin: 0;
+  padding: 0;
+}
+
+@function remy($pxsize) {
+  @return ($pxsize/16)+rem;
+}

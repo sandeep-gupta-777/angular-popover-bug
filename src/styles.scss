@@ -1,0 +1,229 @@
+$fa-font-path: "../node_modules/font-awesome/fonts";
+@import "../node_modules/font-awesome/scss/font-awesome.scss";
+@import "./sass/main.scss";
+
+.border1 {
+  border: 1px solid red !important;
+}
+
+.border-theme{
+  border: 1px solid rgba(0, 0, 0, 0.38);
+}
+.border-primary{
+  border: 1px solid $color-primary ;
+}
+
+.modal-content{
+  background-color: transparent !important;
+  border: none !important;
+}
+.modal-dialog{
+  max-width: 66vw !important;
+
+}
+
+
+.text-theme-normal {
+  .center-horizontal-absolute {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  .center-vertical-absolute {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    right: 15px;
+  }
+  @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-text-normal);
+}
+
+.text-theme-muted {
+  @include typography($font-size-xs, $line-height-normal, $font-weight-300, $color-text-border-e0);
+}
+
+.box {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.tab-active {
+  border-bottom: 2px solid $color-primary !important;
+  background-color: transparent; //important is required to override bootstrap active
+  font-weight: 400 !important;
+}
+
+.dropdown-item-active{
+  background-color: $color-primary;
+  color: white !important;
+}
+
+.shadow-theme{
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+ }
+
+.shadow-theme-hover:hover{
+  box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.2);
+ }
+
+.btn-theme-primary {
+  background-color: #00abd3 !important;
+  border: none;
+  border-radius: 2px;
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 32px !important;
+  font-size: $font-size-xs;
+  color: white;
+  cursor: pointer;
+  &:hover{
+    background-color: #0291d2 !important;
+  }
+}
+
+.btn-theme-primary-outline {
+  background-color: white !important;
+  border-radius: 2px;
+  border: 1px solid;
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 32px !important;
+  font-size: $font-size-xs;
+  color: $color-primary;
+}
+
+.btn-theme-secondary-outline {
+  background-color: white !important;
+  border-radius: 2px;
+  border: 1px solid $color-secondary;
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 32px !important;
+  font-size: $font-size-xs;
+  color: $color-primary;
+}
+
+.btn-theme-success {
+  background-color: $color-success !important;
+  border: none;
+  border-radius: 2px;
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 32px !important;
+  font-size: $font-size-xs;
+  color: white;
+}
+
+.btn-theme-danger {
+  background-color: $color-danger !important;
+  border: none;
+  border-radius: 2px;
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 32px !important;
+  font-size: $font-size-xs;
+  color: white;
+}
+
+.btn-theme-danger-sm {
+  background-color: $color-danger !important;
+  border: none;
+  border-radius: 2px;
+  padding: 1px 5px;
+  height: 23px !important;
+  font-size: $font-size-xs;
+  color: white;
+  width: 70px;
+}
+
+.btn-theme-success-sm {
+  background-color: $color-success !important;
+  border: none;
+  border-radius: 2px;
+  padding: 1px 5px;
+  height: 23px !important;
+  font-size: $font-size-xs;
+  color: white;
+  width: 70px;
+}
+
+h4 {
+  @include typography($font-size-lg, $line-height-md, $font-weight-700, $color-text-grey);
+}
+
+.center-horizontal-absolute {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.center-vertical-absolute {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  right: 15px;
+}
+
+
+/*bootstrap overrides*/
+.card, .card-header, .card-footer {
+  border: none;
+}
+
+.table td, .table th{
+  vertical-align: middle !important;
+}
+th{
+  border: none !important; /*overriding bootstrap style*/
+}
+
+th,td{
+  text-align: center;
+}
+
+
+.limit-oneline{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis
+}
+
+.col-1d5{
+  width: 12.499999995%
+  //width: 24% !important;
+}
+
+.nav-link,.cursor-pointer{
+  cursor: pointer;
+}
+
+.dropdown-menu{
+  font-size: 14px;
+  border-radius: 0;
+}
+
+
+.scrollbar-theme, body {
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgba(136, 136, 136, 0.28);
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(85, 85, 85, 0.51);
+  }
+
+}

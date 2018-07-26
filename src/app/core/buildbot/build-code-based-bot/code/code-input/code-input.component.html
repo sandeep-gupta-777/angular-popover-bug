@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card ">
+
+
+      <!--tabs end-->
+      <div class="card-body p-0 mr-2">
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active': activeTab==='dfTemplate'}"  (click)="tabClicked('dfTemplate')"><strong>DF Template</strong></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active': activeTab==='dfRules'}" (click)="tabClicked('dfRules')"><strong>DF Rules</strong></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active': activeTab==='generationRules'}" (click)="tabClicked('generationRules')"><strong>Generation Rules</strong></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active': activeTab==='generationTemplates'}" (click)="tabClicked('generationTemplates')"><strong>Generation Template</strong></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active': activeTab==='workflows'}" (click)="tabClicked('workflows')"><strong>Workflows</strong></a>
+          </li>
+        </ul>
+
+        <!--tabs end-->
+        <!--code editor starts-->
+        <!--todo: make this row independent-->
+        <div class="row pl-3">
+          <div class="col-12 pt-2 d-flex justify-content-end">
+            <button class="btn btn-theme-primary-outline">Upload File</button>
+          </div>
+          <div class="col-12">
+            <app-code-editor [text]="editorCode" (textChangedEvent)="saveText($event)"></app-code-editor>
+          </div>
+        </div>
+        <!--code editor ends-->
+      </div>
+
+
+    </div>
+  </div>
+</div>
+

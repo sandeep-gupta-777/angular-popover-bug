@@ -1,0 +1,44 @@
+@import "~src/sass/mixins";
+@import "~src/sass/variables";
+
+#search-aim{
+  width: 260px;
+  height: 30px;
+  &:focus{
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    outline: 1px solid #4db1a7;
+    background: #fff;
+  }
+}
+
+
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+.heading{
+  font-size: $font-size-md;
+}
+
+.aim-list, .pipeline-wrapper{
+  height: 300px;
+  overflow: auto;
+}
+.pipeline{
+  height: 100%;
+}
+
+ul {
+  list-style-type: none;
+}
+.bg-grey{
+  background-color: #dddddd;
+}
+.module-box{
+  height: 40px;
+  font-size: 13px;
+}
+

@@ -1,0 +1,20 @@
+@import "~src/sass/variables";
+
+.active{
+  border-color: white !important;
+  border-bottom: 2px solid $color-primary !important;
+}
+
+a{//bootstrap override
+  text-decoration: none !important;
+  font-size: $font-size-sm;
+  color: black;
+}
+
+input{
+  width: 100%;
+}
+/*todo: there is an issue with centering text*/
+.table td {
+  text-align: center;
+}
