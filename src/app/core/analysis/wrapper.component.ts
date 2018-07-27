@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, NgZone, OnInit, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {IBot} from '../interfaces/IBot';
@@ -10,6 +10,8 @@ import {UtilityService} from '../../utility.service';
 import {st} from '@angular/core/src/render3';
 import {SetOverViewInfo} from './ngxs/analysis.action';
 import {IAnalysisState} from './ngxs/analysis.state';
+import {NgForm} from '@angular/forms';
+import {BsDatepickerConfig} from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-wrapper',
@@ -20,9 +22,13 @@ export class WrapperComponent implements OnInit {
 
   @Select() botlist$: Observable<ViewBotStateModel>;
   @Select() analysisstate$: Observable<IAnalysisState>;
+  @ViewChild("f") form: NgForm;
   overviewInfo$: Observable<IOverviewInfoResponse>;
-  start_date: string;
-  end_date: string;
+  datePickerConfig: Partial<BsDatepickerConfig>;
+
+  start_date: string = "";
+  end_date: string = "";
+  granularity: string;
   bot_id: string;
   botList: IBot[];
   channelList = [
@@ -31,10 +37,11 @@ export class WrapperComponent implements OnInit {
     {name: 'web', displayName: 'WebChat'},
     {name: 'alexa', displayName: 'Alexa'}];
   timePeriodList = [
-    {name: '7', displayName: 'Weekly'},
-    {name: '30', displayName: 'Monthly'},
-    {name: '15', displayName: 'Bi-Monthly'},
-    {name: '365', displayName: 'Yearly'}
+    {name: 'hour', displayName: 'Hour'},
+    {name: 'day', displayName: 'Day'},
+    {name: 'week', displayName: 'Week'},
+    {name: 'month', displayName: 'Month'},
+    {name: 'year', displayName: 'Year'}
   ];
   selectedBot: IBot = null;
   selectedTime: {name: string, displayName: string} = {displayName:'Monthly',name:"30"};
@@ -44,8 +51,13 @@ export class WrapperComponent implements OnInit {
     private constantService: ConstantsService,
     private serverService: ServerService,
     private utilityService: UtilityService,
-    private store: Store
-  ) {}
+    private store: Store,
+  ) {
+    this.datePickerConfig = Object.assign({},{
+      'containerClass':'theme-dark-blue',
+      'dateInputFormat':'DD/MM/YYYY',
+    });
+  }
 
   ngOnInit() {
     this.botlist$.subscribe((value) => {
@@ -68,33 +80,56 @@ export class WrapperComponent implements OnInit {
       if(value.overviewinfo.selectedChannel) this.selectedChannel= value.overviewinfo.selectedChannel;
       if(value.overviewinfo.selectedTime) this.selectedTime  = value.overviewinfo.selectedTime;
       this.selectedBot =value.overviewinfo.selectedBot;
+    });
+
+    this.form.valueChanges.subscribe((value)=>{
+      console.log(value);
+      this.overviewInfoChanged(value);
     })
   }
 
   botSelected(bot) {
+
     this.selectedBot = bot;
-    console.log(this.selectedBot);
-    this.overviewInfoChanged();
+    // this.overviewInfoChanged();
+    this.form.form.updateValueAndValidity();
   }
 
   channelSelected(channel) {
     this.selectedChannel = channel;
-    this.overviewInfoChanged();
+    // this.overviewInfoChanged();
+    this.form.form.updateValueAndValidity();
   }
 
-  timePeriodSelected(time:{name: string, displayName: string}) {
-    this.end_date= this.utilityService.getPriorDate(0);
-    this.start_date = this.utilityService.getPriorDate(Number(time.name));
+  // timePeriodSelected(time:{name: string, displayName: string}) {
+  //   // this.end_date= this.utilityService.getPriorDate(0);
+  //   // this.start_date = this.utilityService.getPriorDate(Number(time.name));
+  //   this.granularity = time.name;
+  //   this.selectedTime = time;
+  //   this.form.form.updateValueAndValidity();
+  //   // this.overviewInfoChanged();;
+  // }
+  granularityChanged(time:{name: string, displayName: string}) {
     this.selectedTime = time;
-    this.overviewInfoChanged();
+    this.granularity = time.name;
+    this.form.form.updateValueAndValidity();
   }
 
-  overviewInfoChanged() {
+  // dateRangeChanged(data){
+  //   setTimeout(()=>{
+  //     console.log(this.end_date);
+  //   });
+  //   // this.overviewInfoChanged();
+  // }
+
+  overviewInfoChanged(formData: IOverviewInfoPostBody) {
     let overviewInfo:IOverviewInfoPostBody = {
       bot_id: this.selectedBot._id,
       platform: this.selectedChannel.name,
-      start_date: this.start_date,
-      end_date: this.end_date,
+      start_date: this.utilityService.convertDateObjectStringToDDMMYY(formData.start_date),
+      end_date: this.utilityService.convertDateObjectStringToDDMMYY(formData.end_date),
+      granularity:this.granularity,
+      /**/
       selectedTime:this.selectedTime,
       selectedBot:this.selectedBot,
       selectedChannel:this.selectedChannel

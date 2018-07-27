@@ -23,6 +23,7 @@ export interface IOverviewInfoPostBody {
   'start_date': string// '11/06/2018',
   'end_date': string// '11/06/2018',
   'platform': string//'all'
+  granularity:string,//"hour","month"
 
   /*following fields are not the part of the body*/
   selectedTime:{name: string, displayName: string},

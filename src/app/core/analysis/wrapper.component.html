@@ -1,8 +1,8 @@
-<div class="row mt-3 bg-white analysis-row p-3 px-4 shadow-theme">
-  <div class="col-8">
+<form class="row mt-3 bg-white  analysis-row p-3 px-4 shadow-theme" #f="ngForm">
+  <div class="col-4">
     <div class="btn-group " dropdown style="width: 100%">
       <div dropdownToggle style="width: 100%">
-        <input type="text" id="add" style="width: 100%; position: relative" placeholder="select a bot" [value]="selectedBot && selectedBot.name || ''">
+        <input type="text" id="add" style="width: 100%; position: relative" name="bot_id" ngModel placeholder="select a bot" [value]="selectedBot && selectedBot.name || ''">
         <i class="fa fa-angle-down center-vertical-absolute"></i>
 
       </div>
@@ -29,21 +29,41 @@
 
   </div>
   <div class="col-2">
+    <input type="text"
+           style="width: 100%"
+           placeholder="Start Date"
+           class="form-control date-input"
+           [(ngModel)]="start_date"
+           name="start_date"
+           bsDatepicker [bsConfig]="datePickerConfig">
+  </div>
+  <div class="col-2">
+    <input type="text"
+           style="width: 100%"
+           placeholder="End date"
+           class="form-control date-input"
+           [(ngModel)]="end_date"
+           name="end_date"
+           bsDatepicker [bsConfig]="datePickerConfig">
+  </div>
+  <div class="col-2">
     <div class="btn-group " dropdown style="width: 100%">
+
       <div dropdownToggle>
-        <input type="text" placeholder="Select Period" [value]="selectedTime.displayName" style="width: 100%; position: relative">
+        <input type="text" placeholder="granularity" [value]="selectedTime.displayName" style="width: 100%; position: relative">
         <i class="fa fa-angle-down center-vertical-absolute "></i>
       </div>
       <ul *dropdownMenu class="dropdown-menu" role="menu" style="width: 100%">
         <li role="menuitem">
           <a class="dropdown-item" *ngFor="let timePeriod of timePeriodList"
              [ngClass]="{'dropdown-item-active': selectedTime.name===timePeriod.name}"
-             (click)="timePeriodSelected(timePeriod)">{{timePeriod.displayName}}</a>
+             (click)="granularityChanged(timePeriod)">{{timePeriod.displayName}}</a>
         </li>
       </ul>
-    </div>
+
   </div>
 </div>
+</form>
 <div class="row mt-3">
   <div class="col-12 p-0">
     <router-outlet></router-outlet>

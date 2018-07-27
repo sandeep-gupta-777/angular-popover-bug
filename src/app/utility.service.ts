@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
+import {st} from '@angular/core/src/render3';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class UtilityService {
     return (today = dd + '/' + mm + '/' + yyyy);
   }
 
-  convertDateObjectStringToDDMMYY(dateStr:Date){
+  convertDateObjectStringToDDMMYY(dateStr:string){
     let today:any = new Date(dateStr);
 
     let dd:any = today.getDate();

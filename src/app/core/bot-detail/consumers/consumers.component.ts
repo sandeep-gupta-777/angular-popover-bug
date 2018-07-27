@@ -22,7 +22,6 @@ export class ConsumersComponent implements OnInit {
 
   ngOnInit() {
     let url = this.constantsService.getBotConsumerUrl(this.id,1,10);
-    debugger;
     this.consumers$ = this.serverService.makeGetReq<IConsumer>({url})
       .map((value)=>{
         return {
