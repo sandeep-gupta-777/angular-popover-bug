@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import {ReportControlsComponent} from './report-controls/report-controls.component';
 import {Select, Selector} from '@ngxs/store';
 import {Observable} from 'rxjs';
@@ -9,6 +9,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ServerService} from '../../../server.service';
 import {ConstantsService} from '../../../constants.service';
 import * as moment from 'moment';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 @Component({
   selector: 'app-report-details',
@@ -20,10 +22,13 @@ export class ReportDetailsComponent implements OnInit {
   @ViewChild(ReportControlsComponent)reportControlsComponent:ReportControlsComponent;
   @Select() reportItem$:Observable<ReportStateModel>;
   reportFormData:IReportItem;
+
+  modalRef: BsModalRef;
   constructor(
     private activatedRoute:ActivatedRoute,
     private serverService:ServerService,
     private constantsService:ConstantsService,
+    private modalService: BsModalService
   ) { }
 
   ngOnInit() {
@@ -32,7 +37,7 @@ export class ReportDetailsComponent implements OnInit {
     // })
   }
 
-  submitSubscriptionForm(){
+  submitSubscriptionForm(template: TemplateRef<any>){
     this.reportFormData = this.reportControlsComponent.reportFormData;
     let timeNow = (new Date()).toString();
     this.reportFormData._id = this.activatedRoute.snapshot.paramMap.get("_id");
@@ -52,6 +57,9 @@ export class ReportDetailsComponent implements OnInit {
       .subscribe((value)=>{
         console.log(value);
       });
+    //opening model with sucss messsage
+      this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+
   }
 
 }

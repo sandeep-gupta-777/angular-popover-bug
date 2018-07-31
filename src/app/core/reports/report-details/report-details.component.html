@@ -3,9 +3,10 @@
     <div class="col-12 mb-4 py-3 d-flex align-items-center " style="border-bottom: solid 2px #e0e0e0;">
       <div class="p-0 h4" ><i class="fa fa-angle-left pr-2"></i>Subscribe to Report</div>
       <button class="btn btn-theme-primary-outline ml-auto mr-3" routerLink="/core/reports">Cancel</button>
-      <button class="btn btn-theme-primary" (click)="submitSubscriptionForm()">Create</button>
+      <button class="btn btn-theme-primary" (click)="submitSubscriptionForm(Primarytemplate)">Create</button>
     </div>
   </div>
+
   <div class="row">
     <div class="col-5 pr-5 border-right">
       <!--<app-report-controls [reportFormData]="reportFormData"></app-report-controls>-->
@@ -16,4 +17,53 @@
     </div>
   </div>
 </div>
+<!--===================Templates Down===================-->
+<ng-template #Primarytemplate>
+  <div class="primary-modal">
+    <div class = "top-dec"></div>
+    <div class="modal-header" >
+      <h4 class="modal-title"> Subscribed successfully</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+    </div>
+
+    <div class="modal-body">
+      <div class ="row">
+        <div class="col-md-12">
+          You have subscribed to <strong>messages</strong> report for
+          <strong>Weathery</strong> bot in a <strong>csv</strong> format,which is scheduled <strong>weekly</strong> at <strong>9:00 AM </strong>via <strong>email</strong>
+        </div>
+        <div class  = "col-md-12">
+          <i class="fa fa-check-circle" ></i>
+        </div>
+        <div class = "col-md-12 light-text">The next delivery is scheduled on</div>
+        <div class="col-md-12"><strong>13 July, 2018</strong></div>
+        <div class="col-md-12">9:00 AM</div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #Dangertemplate>
+  <div class="danger-modal">
+    <div class = "top-dec"></div>
+    <div class="modal-header" >
+      <h4 class="modal-title"> Unsubscribed successfully</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class ="row">
+        <div class="col-md-12 mb-2">You have subscribed to <strong>messages</strong> report for
+          <strong>Weathery</strong> bot in a <strong>csv</strong> format,which is scheduled  <strong>weekly</strong> at <strong>9:00 AM </strong>via <strong>email</strong>
+        </div>
+        <div class="col-md-12">You can subscribe to it later if you need from configure tab later</div>
+      </div>
+    </div>
+  </div>
+</ng-template>
 <!---->
