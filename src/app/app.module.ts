@@ -1,32 +1,33 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import { HotTableModule } from 'ng2-handsontable';
+import {HotTableModule} from 'ng2-handsontable';
+// import { HotTableModule } from '@handsontable/angular'
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './core/header/header.component';
-import {Route, RouterModule} from '@angular/router'
-import { NotFoundComponent } from './core/not-found/not-found.component';
+import {Route, RouterModule} from '@angular/router';
+import {NotFoundComponent} from './core/not-found/not-found.component';
 import {BsDropdownModule, ModalModule, TabsModule} from 'ngx-bootstrap';
 import {UiSwitchModule} from 'ngx-toggle-switch';
 import {FormsModule} from '@angular/forms';
 import {DragAndDropModule} from 'angular-draggable-droppable';
-import { DraggableDirective } from './draggable.directive';
+import {DraggableDirective} from './draggable.directive';
 import {DragService} from './drag.service';
-import { DropTargetDirective } from './drop-target.directive';
+import {DropTargetDirective} from './drop-target.directive';
 import {AimService} from './aim.service';
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { DocumentationComponent } from './core/documentation/documentation.component';
-import { ViewCustomnerComponent } from './core/customner/view-customner/view-customner.component';
-import { CreateCustomnerComponent } from './core/customner/create-customner/create-customner.component';
-import { EnterpriseprofileComponent } from './core/enterpriseprofile/enterpriseprofile.component';
-import { ChartComponent } from './core/chart/chart.component';
+import {TooltipModule} from 'ngx-bootstrap/tooltip';
+import {DocumentationComponent} from './core/documentation/documentation.component';
+import {ViewCustomnerComponent} from './core/customner/view-customner/view-customner.component';
+import {CreateCustomnerComponent} from './core/customner/create-customner/create-customner.component';
+import {EnterpriseprofileComponent} from './core/enterpriseprofile/enterpriseprofile.component';
+import {ChartComponent} from './core/chart/chart.component';
 import {ChartModule} from 'angular-highcharts';
 import {NGXS_PLUGINS, NgxsModule} from '@ngxs/store';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
 import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
 import {HttpClientModule} from '@angular/common/http';
-import { LoginComponent } from './auth/login/login.component';
-import { CoreWrapperComponent } from './core/core-wrapper.component';
-import { SignupComponent } from './auth/signup/signup.component';
+import {LoginComponent} from './auth/login/login.component';
+import {CoreWrapperComponent} from './core/core-wrapper.component';
+import {SignupComponent} from './auth/signup/signup.component';
 import {ViewBotsComponent} from './core/view-bots/view-bots.component';
 import {ViewCodeBasedBotComponent} from './core/view-bots/view-code-based-bot/view-code-based-bot.component';
 import {ViewPipelineBasedBotsComponent} from './core/view-bots/view-pipeline-based-bots/view-pipeline-based-bots.component';
@@ -61,37 +62,37 @@ import {AuthStateReducer} from './auth/ngxs/auth.state';
 import {NavigationStateReducer} from './ngxs/navigation.state';
 import {EnterpriseprofileStateReducer} from './core/enterpriseprofile/ngxs/enterpriseprofile.state';
 import {persistPlugin} from './ngxs/ngxs.plugin';
-import { PipelineTestComponent } from './pipeline-test/pipeline-test.component';
+import {PipelineTestComponent} from './pipeline-test/pipeline-test.component';
 import {DragulaModule} from 'ng2-dragula';
 import {ViewBotStateReducer} from './core/view-bots/ngxs/view-bot.state';
-import { BotDetailComponent } from './core/view-bots/bot-detail/bot-detail.component';
-import { HandsontableComponent } from './handsontable/handsontable.component';
-import { SmartTableComponent } from './smart-table/smart-table.component';
+import {BotDetailComponent} from './core/view-bots/bot-detail/bot-detail.component';
+import {HandsontableComponent} from './handsontable/handsontable.component';
+import {SmartTableComponent} from './smart-table/smart-table.component';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {Ng2CompleterModule} from 'ng2-completer';
-import { BotDetailWrapperComponent } from './core/bot-detail/bot-detail-wrapper.component';
-import { CodeBasedBotDetailComponent } from './core/bot-detail/code-based-bot-detail/code-based-bot-detail.component';
-import { PipelineBasedBotDetailComponent } from './core/bot-detail/pipeline-based-bot-detail/pipeline-based-bot-detail.component';
-import { BotTestingComponent } from './core/bot-detail/bot-testing/bot-testing.component';
-import { ConsumersComponent } from './core/bot-detail/consumers/consumers.component';
-import { SessionComponent } from './core/bot-detail/session/session.component';
-import { BotSessionsComponent } from './core/bot-detail/bot-sessions/bot-sessions.component';
-import { ChatWrapperComponent } from './chat/chat-wrapper/chat-wrapper.component';
-import { ChatWindowComponent } from './chat/chat-window/chat-window.component';
-import { ChatMessageComponent } from './chat/chatroom/chat-message/chat-message.component';
-import { BotWelcomeComponent } from './chat/bot-welcome/bot-welcome.component';
-import { ChatListComponent } from './chat/chat-list/chat-list.component';
-import { ChatItemComponent } from './chat/chat-list/chat-item/chat-item.component';
-import { ChatroomComponent } from './chat/chatroom/chatroom.component';
+import {BotDetailWrapperComponent} from './core/bot-detail/bot-detail-wrapper.component';
+import {CodeBasedBotDetailComponent} from './core/bot-detail/code-based-bot-detail/code-based-bot-detail.component';
+import {PipelineBasedBotDetailComponent} from './core/bot-detail/pipeline-based-bot-detail/pipeline-based-bot-detail.component';
+import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.component';
+import {ConsumersComponent} from './core/bot-detail/consumers/consumers.component';
+import {SessionComponent} from './core/bot-detail/session/session.component';
+import {BotSessionsComponent} from './core/bot-detail/bot-sessions/bot-sessions.component';
+import {ChatWrapperComponent} from './chat/chat-wrapper/chat-wrapper.component';
+import {ChatWindowComponent} from './chat/chat-window/chat-window.component';
+import {ChatMessageComponent} from './chat/chatroom/chat-message/chat-message.component';
+import {BotWelcomeComponent} from './chat/bot-welcome/bot-welcome.component';
+import {ChatListComponent} from './chat/chat-list/chat-list.component';
+import {ChatItemComponent} from './chat/chat-list/chat-item/chat-item.component';
+import {ChatroomComponent} from './chat/chatroom/chatroom.component';
 import {ChatSessionStateReducer} from './chat/ngxs/chat.state';
-import { ScrollerDirective } from './scroller.directive';
+import {ScrollerDirective} from './scroller.directive';
 import {BotCreationStateReducer} from './core/buildbot/ngxs/buildbot.state';
 import {AnalysisStateReducer} from './core/analysis/ngxs/analysis.state';
-import { ReportDetailsComponent } from './core/reports/report-details/report-details.component';
-import { ReportDisplayComponent } from './core/reports/report-details/report-display/report-display.component';
-import { ReportControlsComponent } from './core/reports/report-details/report-controls/report-controls.component';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { TestComponent } from './test/test.component';
+import {ReportDetailsComponent} from './core/reports/report-details/report-details.component';
+import {ReportDisplayComponent} from './core/reports/report-details/report-display/report-display.component';
+import {ReportControlsComponent} from './core/reports/report-details/report-controls/report-controls.component';
+import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+import {TestComponent} from './test/test.component';
 import {
   ToastrModule,
   ToastNoAnimation,
@@ -100,28 +101,34 @@ import {
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AuthGaurdService} from './auth-gaurd.service';
 import {ReportsStateReducer} from './core/reports/ngxs/reports.state';
-import { SessionDetailModelComponent } from './core/bot-detail/bot-sessions/session-detail-model/session-detail-model.component';
-import { SessionTabsDetailsComponent } from './core/bot-detail/bot-sessions/session-detail-model/session-tabs-details/session-tabs-details.component';
-import { SessionMessageComponent } from './core/bot-detail/bot-sessions/session-detail-model/session-message/session-message.component';
+import {SessionDetailModelComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-detail-model.component';
+import {SessionTabsDetailsComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-tabs-details/session-tabs-details.component';
+import {SessionMessageComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-message/session-message.component';
 
 const routes: Route[] = [
   {
 
-    path: "core",canActivate: [AuthGaurdService],canActivateChild: [AuthGaurdService], component: CoreWrapperComponent, children:[
-      {path: 'viewbots', component: ViewBotsComponent, children:
+    path: 'core',
+    canActivate: [AuthGaurdService],
+    canActivateChild: [AuthGaurdService],
+    component: CoreWrapperComponent, children: [
+      {
+        path: 'viewbots', component: ViewBotsComponent, children:
           [
             {path: 'codebased', component: ViewCodeBasedBotComponent},
             {path: 'intelligent', component: ViewPipelineBasedBotsComponent},
             // {path: '', component: ViewCodeBasedBotComponent}
           ]
       },
-      {path: 'botdetail', component: BotDetailWrapperComponent, children:
+      {
+        path: 'botdetail', component: BotDetailWrapperComponent, children:
           [
             {path: 'codebased/:id', component: CodeBasedBotDetailComponent},
             {path: 'intelligent/:id', component: PipelineBasedBotDetailComponent},
           ]
       },
-      {path: 'analytics', component: WrapperComponent, children:
+      {
+        path: 'analytics', component: WrapperComponent, children:
           [
             {path: 'overview', component: OverviewComponent},
             {path: 'users', component: UsersComponent},
@@ -143,7 +150,8 @@ const routes: Route[] = [
       {path: 'documentation', component: DocumentationComponent},
       // {path: 'buildbot/codebased', component: BuildCodeBasedBotComponent},
       // {path: 'buildbot/intelligent', component: BuildPipelineBasedBotComponent},
-      {path: 'buildbot', component: BuildbotWrapperComponent, children:
+      {
+        path: 'buildbot', component: BuildbotWrapperComponent, children:
           [
             {path: 'codebased', component: BuildCodeBasedBotComponent},
             {path: 'intelligent', component: BuildPipelineBasedBotComponent},
@@ -152,18 +160,20 @@ const routes: Route[] = [
       },
       // {path: 'viewbots/codebased', component: ViewCodeBasedBotComponent},
       // {path: 'viewbots/intelligent', component: ViewPipelineBasedBotsComponent},
-      {path: 'login',  component: LoginComponent, pathMatch: 'full'},
-      {path: 'login',  component: LoginComponent, pathMatch: 'full'},
+      {path: 'login', component: LoginComponent, pathMatch: 'full'},
+      {path: 'login', component: LoginComponent, pathMatch: 'full'},
 
       {path: '**', component: NotFoundComponent}
     ],
   },
-  {path: "auth", component: AuthWrapperComponent, children: [
-      {path:'login', component: LoginComponent},
+  {
+    path: 'auth', component: AuthWrapperComponent, children: [
+      {path: 'login', component: LoginComponent},
       {path: 'test', component: TestComponent},
-      {path:'auth', component: SignupComponent}
-    ]},
-  {path: '',  redirectTo: 'core/viewbots/codebased',pathMatch: 'full'},
+      {path: 'auth', component: SignupComponent}
+    ]
+  },
+  {path: '', redirectTo: 'core/viewbots/codebased', pathMatch: 'full'},
 ];
 
 @NgModule({
@@ -269,7 +279,7 @@ const routes: Route[] = [
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot() // ToastrModule added
   ],
-  providers: [DragService, AimService,{
+  providers: [DragService, AimService, {
     provide: NGXS_PLUGINS,
     useValue: persistPlugin,
     multi: true

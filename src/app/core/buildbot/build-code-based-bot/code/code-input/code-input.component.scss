@@ -1,4 +1,4 @@
-@import "~src/sass/variables";
+@import "~src/sass/main";
 
 .card{
   border: none;
@@ -11,4 +11,48 @@
 
 .nav-link{
   font-size: 12px;
+}
+
+.row-flex-bot-versioning-toaster{
+  background-color: white;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 20;
+}
+
+.flex-bot-versioning-toaster{
+  border: 1px solid  #9e9e9e;
+  height: 32px;
+  width: 100%;
+
+  .count {
+    text-align: left;
+    @include typography(20px, 24px, $font-weight-700, $color-text-normal);
+
+  }
+  input[type=radio] {
+    border: 0px;
+    width: 100%;
+    height: 6px;
+  }
+
+  .forked {
+    text-align: left;
+    @include typography(8px, 10px, $font-weight-700, $color-text-normal);
+  }
+
+  .update {
+    width: 70px;
+    text-align: center;
+    align-self: stretch;
+    @include typography(8px, 10px, $font-weight-400, $color-text-normal);
+
+  }
+
+  .insert {
+    @include typography(8px, 10px, $font-weight-400, $color-text-normal);
+  }
+
+
 }

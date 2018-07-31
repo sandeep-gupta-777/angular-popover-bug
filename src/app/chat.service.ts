@@ -15,7 +15,6 @@ export class ChatService {
 
   constructor(private store:Store, private serverService:ServerService, private constantsService:ConstantsService) { }
   startNewChat(botDetails:{_id:string, token:string}, messageByHuman:string, frameEnabled:EChatFrame){
-    console.log("this.startNewChat()");
     /*login here*/
     let url = this.constantsService.getStartNewChatLoginUrl();
     let body: ISendApiRequestPayload = {

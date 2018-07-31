@@ -92,7 +92,6 @@ export class ChatSessionStateReducer {
       token:payload.botToken,
     };
 
-    console.log(room.messageList);
     setState({...state});
 
   }

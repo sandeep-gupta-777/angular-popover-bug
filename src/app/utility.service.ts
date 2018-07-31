@@ -28,8 +28,8 @@ export class UtilityService {
     return (today = dd + '/' + mm + '/' + yyyy);
   }
 
-  convertDateObjectStringToDDMMYY(dateStr:string){
-    let today:any = new Date(dateStr);
+  convertDateObjectStringToDDMMYY(dateStr:string=""){
+    let today:any = dateStr? new Date(dateStr): new Date();
 
     let dd:any = today.getDate();
     let mm:any = today.getMonth()+1; //January is 0!
@@ -127,7 +127,6 @@ export class UtilityService {
 
   showErrorToaster(error){
     this.toastr.error(error.message,error.name,{positionClass:'toast-bottom-left',timeOut:2000})
-
   }
 
 }

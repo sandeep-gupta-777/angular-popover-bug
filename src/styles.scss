@@ -1,6 +1,7 @@
 $fa-font-path: "../node_modules/font-awesome/fonts";
 @import "../node_modules/font-awesome/scss/font-awesome.scss";
 @import "./sass/main.scss";
+@import '~handsontable/dist/handsontable.full.css';
 
 .border1 {
   border: 1px solid red !important;
@@ -63,12 +64,31 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
  }
 
+.bg-theme-primary{
+  background-color: $color-primary;
+}
+
 .shadow-theme-hover:hover{
   box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.2);
  }
 
 .btn-theme-primary {
   background-color: #00abd3 !important;
+  border: none;
+  border-radius: 2px;
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 32px !important;
+  font-size: $font-size-xs;
+  color: white;
+  cursor: pointer;
+  &:hover{
+    background-color: #0291d2 !important;
+  }
+}
+
+.btn-theme-danger {
+  background-color: #e85656 !important;
   border: none;
   border-radius: 2px;
   padding-left: 20px;
@@ -175,7 +195,7 @@ h4 {
   vertical-align: middle !important;
 }
 th{
-  border: none !important; /*overriding bootstrap style*/
+  //border: none !important; /*overriding bootstrap style*/
 }
 
 th,td{

@@ -5,28 +5,29 @@
       <div class="card-body pt-0 mt-0">
         <ul class="nav nav-tabs mb-2">
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="['.']"  [queryParams]="{tab:'basic'}"  (click)="tabClicked('basic')"
-               appRouterQueryParamActive="basic"><strong>Basic Info</strong></a>
+            <!---->
+            <a class="nav-link" [routerLink]="['.']" replaceUrl="true"  [queryParams]="{tab:'basic'}"  (click)="tabClicked('basic')"
+               [ngClass]="{'tab-active':activeTab==='basic'}"><strong>Basic Info</strong></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="['.']" [queryParams]="{tab:'avators'}" (click)="tabClicked('avators')"
-               appRouterQueryParamActive="avators"><strong>Avators</strong></a>
+            <a class="nav-link" [routerLink]="['.']" replaceUrl="true" [queryParams]="{tab:'avators'}" (click)="tabClicked('avators')"
+               [ngClass]="{'tab-active':activeTab==='avators'}"><strong>Avators</strong></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="['.']" [queryParams]="{tab:'pipeline'}" (click)="tabClicked('pipeline')"
-               appRouterQueryParamActive="pipeline"><strong>Pipeline</strong></a>
+            <a class="nav-link" [routerLink]="['.']" replaceUrl="true" [queryParams]="{tab:'pipeline'}" (click)="tabClicked('pipeline')"
+               [ngClass]="{'tab-active':activeTab==='pipeline'}"><strong>Pipeline</strong></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="['.']" [queryParams]="{tab:'knowledge'}" (click)="tabClicked('knowledge')"
-               appRouterQueryParamActive="knowledge"><strong>Knowledge Base</strong></a>
+            <a class="nav-link" [routerLink]="['.']" replaceUrl="true" [queryParams]="{tab:'knowledge'}" (click)="tabClicked('knowledge')"
+               [ngClass]="{'tab-active':activeTab==='knowledge'}"><strong>Knowledge Base</strong></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="['.']" [queryParams]="{tab:'code'}" (click)="tabClicked('code')"
-               appRouterQueryParamActive="code"><strong>Code</strong></a>
+            <a class="nav-link" [routerLink]="['.']" replaceUrl="true" [queryParams]="{tab:'code'}" (click)="tabClicked('code')"
+               [ngClass]="{'tab-active':activeTab==='code'}"><strong>Code</strong></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="['.']" [queryParams]="{tab:'integration'}" (click)="tabClicked('integration')"
-               appRouterQueryParamActive="integration"><strong>Integration</strong></a>
+            <a class="nav-link" [routerLink]="['.']" replaceUrl="true" [queryParams]="{tab:'integration'}" (click)="tabClicked('integration')"
+               [ngClass]="{'tab-active':activeTab==='integration'}"><strong>Integration</strong></a>
           </li>
         </ul>
 

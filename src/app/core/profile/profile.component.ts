@@ -30,7 +30,6 @@ export class ProfileComponent implements OnInit {
   }
 
   updateProfile(){
-    console.log(this.f.value);
     let url:string = this.constantsService.getUserUpdateUrl();
     let body = {...this.loggeduser, ...this.f.value};
     let headerData:IHeaderData  = {"content-type": 'application/json'}

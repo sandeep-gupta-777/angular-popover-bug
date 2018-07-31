@@ -14,7 +14,6 @@ export class AuthGaurdService implements CanActivate, CanActivateChild {
   @Select() loggeduser$: Observable<IAuthState>;
 
   canActivate() {
-    console.log('i am checking to see if you are logged in');
     // return true;
     return this.loggeduser$.map((value: IAuthState) => {
       if (value.user != null) {
@@ -27,7 +26,6 @@ export class AuthGaurdService implements CanActivate, CanActivateChild {
   }
 
   canActivateChild() {
-    console.log('checking child route access');
     // return true;
     return this.loggeduser$.map((value: IAuthState) => {
       if (value.user != null) {

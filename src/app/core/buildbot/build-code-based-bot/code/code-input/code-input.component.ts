@@ -18,6 +18,7 @@ export class CodeInputComponent implements OnInit {
   generationTemplates;
   workflows;
   editorCode;
+  showVersionList:false;
 
   constructor(private store:Store) {}
 

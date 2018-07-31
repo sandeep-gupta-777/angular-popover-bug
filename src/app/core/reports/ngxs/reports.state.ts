@@ -19,7 +19,6 @@ export class ReportsStateReducer{
 
   @Action(SetReportFormAction)
   setCodebasedBotList({patchState, setState, getState,dispatch}:StateContext<ReportStateModel>, {payload} : SetReportFormAction){
-    console.log("SetCodeBasedBotListAction");
     patchState({formData:payload.reportItem});
   }
 

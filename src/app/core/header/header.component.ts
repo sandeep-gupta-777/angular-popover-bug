@@ -19,7 +19,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.loggeduser$.subscribe((value)=>{
-      console.log(value);
     })
   }
 

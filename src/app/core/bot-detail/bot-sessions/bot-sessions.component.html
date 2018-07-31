@@ -1,4 +1,4 @@
-<button (click)="goToReportEditComponent(null, template)">click</button>
+<!--<button (click)="goToReportEditComponent(null, template)">click</button>-->
 
 <div *ngIf="(sessions$|async) as sessions">
   <app-smart-table [data]="sessions.results" (rowClicked$)="goToReportEditComponent($event, template)" [settings]="smartTableSettings_Sessions" ></app-smart-table>

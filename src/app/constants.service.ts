@@ -23,15 +23,34 @@ export class ConstantsService {
   private BACKEND_USER_CODE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'integrations';//https://dev.imibot.ai/integrations
   private BACKEND_USER_PIPELINE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'bots';//https://dev.imibot.ai/bots
 
+  public readonly CHANNEL_LIST = [
+    {name: 'all', displayName: 'All channels'},
+    {name: 'facebook', displayName: 'Facebook'},
+    {name: 'web', displayName: 'WebChat'},
+    {name: 'alexa', displayName: 'Alexa'}];
+
+  public readonly TIME_GRANULARITY_LIST = [
+    {name: 'hour', displayName: 'Hour'},
+    {name: 'day', displayName: 'Day'},
+    {name: 'week', displayName: 'Week'},
+    {name: 'month', displayName: 'Month'},
+    {name: 'year', displayName: 'Year'}
+  ];
+
+  public readonly DATE_PICKER_CONFIG = Object.assign({},{
+    'containerClass':'theme-dark-blue',
+    'dateInputFormat':'DD/MM/YYYY',
+  });
+
   constructor() {
   }
+
 
   setLoggedUser(loggedUser: IUser) {
     this.loggedUser = loggedUser;
   }
 
   getUserUpdateUrl() {
-    console.log('==========================================', ConstantsService.state);
     return this.BACKEND_USER_UPDATE_URL + <any>(ConstantsService).state.loggeduser.user.id;
   }
 

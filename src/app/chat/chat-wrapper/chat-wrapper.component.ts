@@ -39,7 +39,6 @@ export class ChatWrapperComponent implements OnInit {
   ngOnInit() {
     console.log("ChatWrapperComponent init");
     this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState)=>{
-      console.log("chatsessionstate$ change");
       if(!chatSessionState) return;
       this.frameEnabled = chatSessionState.frameEnabled;
       this.windowOpen=chatSessionState.opened;
@@ -52,7 +51,6 @@ export class ChatWrapperComponent implements OnInit {
     });
 
     this.store.subscribe((state)=>{
-      console.log("state changed", state);
     })
   }
 

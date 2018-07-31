@@ -1,3 +1,58 @@
+<div class="row my-2" style="position: relative">
+  <div class="col-6 p-0">
+    <div class="d-flex align-items-center justify-content-between flex-bot-versioning-toaster">
+      <button class="btn btn-theme-primary mr-1" style="flex-basis: 56px">Active</button>
+      <div class="count mr-1">2</div>
+      <div class="forked mr-1">Forked from version 1</div>
+      <div class="update d-flex flex-column mr-1 justify-content-center">
+        <div class="mr-1">Last update</div>
+        <form class="d-flex">
+          <input type="radio" name="optradio" checked>
+          <input type="radio" name="optradio">
+          <input type="radio" name="optradio">
+          <input type="radio" name="optradio">
+          <input type="radio" name="optradio">
+        </form>
+      </div>
+      <div class="insert mr-1">Insert the last comment here, which can span
+        more than 2 lines and if longer we use …
+      </div>
+      <i (click)="showVersionList= !showVersionList" class="fa fa-angle-down py-2 px-3 bg-theme-primary text-white"></i>
+    </div>
+  </div>
+  <div class="col-6">
+    <button class="btn btn-theme-primary-outline mr-1">Save Version</button>
+    <button class="btn btn-theme-primary-outline">Fork new version</button>
+  </div>
+  <div class="row my-2 row-flex-bot-versioning-toaster mx-0" *ngIf="showVersionList" style="width: 50%">
+    <div class="col-12 my-1 p-0">
+      <div class="d-flex align-items-center justify-content-between flex-bot-versioning-toaster">
+        <button class="btn btn-theme-primary mr-1" style="flex-basis: 56px">Active</button>
+        <div class="count mr-1">2</div>
+        <div class="forked mr-1">Forked from version 1</div>
+        <div class="update d-flex flex-column mr-1 justify-content-center">
+          <div class="mr-1">Last update</div>
+          <form class="d-flex">
+            <input type="radio" name="optradio" checked>
+            <input type="radio" name="optradio">
+            <input type="radio" name="optradio">
+            <input type="radio" name="optradio">
+            <input type="radio" name="optradio">
+          </form>
+        </div>
+        <div class="insert mr-1">Insert the last comment here, which can span
+          more than 2 lines and if longer we use …
+        </div>
+        <i class="fa fa-angle-down py-2 px-3 bg-theme-primary text-white"></i>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
 <div class="row">
   <div class="col-12">
     <div class="card ">
@@ -7,19 +62,24 @@
       <div class="card-body p-0 mr-2">
         <ul class="nav nav-tabs">
           <li class="nav-item">
-            <a class="nav-link" [ngClass]="{'active': activeTab==='dfTemplate'}"  (click)="tabClicked('dfTemplate')"><strong>DF Template</strong></a>
+            <a class="nav-link" [ngClass]="{'active': activeTab==='dfTemplate'}"
+               (click)="tabClicked('dfTemplate')"><strong>DF Template</strong></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [ngClass]="{'active': activeTab==='dfRules'}" (click)="tabClicked('dfRules')"><strong>DF Rules</strong></a>
+            <a class="nav-link" [ngClass]="{'active': activeTab==='dfRules'}" (click)="tabClicked('dfRules')"><strong>DF
+              Rules</strong></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [ngClass]="{'active': activeTab==='generationRules'}" (click)="tabClicked('generationRules')"><strong>Generation Rules</strong></a>
+            <a class="nav-link" [ngClass]="{'active': activeTab==='generationRules'}"
+               (click)="tabClicked('generationRules')"><strong>Generation Rules</strong></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [ngClass]="{'active': activeTab==='generationTemplates'}" (click)="tabClicked('generationTemplates')"><strong>Generation Template</strong></a>
+            <a class="nav-link" [ngClass]="{'active': activeTab==='generationTemplates'}"
+               (click)="tabClicked('generationTemplates')"><strong>Generation Template</strong></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [ngClass]="{'active': activeTab==='workflows'}" (click)="tabClicked('workflows')"><strong>Workflows</strong></a>
+            <a class="nav-link" [ngClass]="{'active': activeTab==='workflows'}"
+               (click)="tabClicked('workflows')"><strong>Workflows</strong></a>
           </li>
         </ul>
 

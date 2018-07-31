@@ -10,7 +10,7 @@
       <div class="col-md-10 col-sm-10 col-12 ">
         <div class="d-flex m-0 pb-0">
           <p class="bot-name m-0 limit-oneline"><strong class="ng-binding"><a [routerLink]="['/core', 'botdetail','codebased',bot._id]" class="text-dark">{{bot.name}}</a></strong></p>
-          <i class="fa fa-trash ml-auto"></i>
+          <i class="fa fa-trash ml-auto" (click)="openModal(template)"></i>
         </div>
         <!---->
         <!--TODO: Improve below-->
@@ -28,6 +28,21 @@
     <div class="copy cursor-pointer" (click)="copy(bot.enterpriseId)" ><i class="fa fa-copy" #enterprise_id></i>Enterprise ID</div>
   </div>
 </div>
+
+<!--Template for modal-->
+<ng-template #template>
+  <div class="modal-header bg-danger">
+    <h4 class="modal-title pull-left text-white">Really delete: {{bot.name}}?</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-white text-dark">
+    <p class="mb-3">Do you confirm the Deletion? This is a permanent and irreversible change</p>
+    <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+    <button class="btn btn-theme-danger" (click)="deleteBot()">Delete</button>
+  </div>
+</ng-template>
 <!--============================== Following is unbinded html for css tests ==============================-->
 <!---->
 <!--<div class="card mb-2">-->

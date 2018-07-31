@@ -25,13 +25,11 @@ export class SessionDetailModelComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.sessionData);
     this.tabClicked(this.activeTab);
   }
 
   /*todo: shitty name, change it*/
   changeTransactionId(txnId) {
-    console.log('transaction id changed', this.sessionData, txnId);
     /*This data will show under Manager Bot*/
     let messageDataForGiveTxnId = this.sessionData.messages.find((message) => {
       return message.transaction_id === txnId;

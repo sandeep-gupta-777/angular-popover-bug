@@ -27,8 +27,6 @@ export class ServerService {
     private store:Store,
     private constantsService:ConstantsService) {
     this.loggeduser$.subscribe((value)=>{
-      console.log('server constructor')
-
       if(!value || !value.user) return;
       this.AUTH_TOKEN =  value.user.auth_token && value.user.auth_token;
       this.X_AXIS_TOKEN = value.user.token && value.user.token;
@@ -69,7 +67,6 @@ export class ServerService {
   }
   makePostReq<T>(reqObj: {url:string, body:any, headerData?:any}): Observable<T>{
     let headers = this.createHeaders(reqObj.headerData);
-    console.log(headers);
     // return this.httpClient.post<T>('http://dev.imibot.ai/login', reqObj.body, {headers:headers});
     return this.httpClient.post<T>(reqObj.url, reqObj.body, {headers:headers})
       .catch((e: any, caught:Observable<T>) => {

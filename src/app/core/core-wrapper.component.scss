@@ -1,0 +1,13 @@
+.grid-container{
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 56px auto 56px;
+}
+
+.grid-header{
+  grid-column: 1 / -1;
+}
+.grid-body{
+  grid-row: 2 / 3;
+  grid-column: 2/-2;
+}

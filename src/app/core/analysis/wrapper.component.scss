@@ -2,7 +2,7 @@
 
 
 .analysis-row{
-  input, input:focus{
+  input, input:focus, select{
     //border-radius: 2px;
     @include hide-borders();
     width: 60%;
@@ -20,10 +20,34 @@
       vertical-align: middle;
     }
     padding-left: 10px;
-    //padding-bottom: 20px;
   }
 
   .btn-group{
     border-radius: 2px;
+  }
+}
+
+select {
+  width: 100% !important;
+  padding: 5px 35px 5px 5px;
+  font-size: 16px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+
+/* CAUTION: IE hackery ahead */
+
+
+select::-ms-expand {
+  display: none; /* remove default arrow in IE 10 and 11 */
+}
+
+/* target Internet Explorer 9 to undo the custom arrow */
+@media screen and (min-width:0\0) {
+  select {
+    background:none\9;
+    padding: 5px\9;
   }
 }

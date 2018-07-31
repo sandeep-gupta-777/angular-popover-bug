@@ -34,7 +34,6 @@ export class LoginComponent implements OnInit {
     let loginData = this.f.value;
     let loginUrl = this.constantsService.BACKEND_URL_LOGIN
     let headerData:IHeaderData = {'api-key': '54asdkj1209nksnda',"content-type":'application/x-www-form-urlencoded'};
-    console.log(loginData);
     let body =  new URLSearchParams();
     body.set('email', 'demos@imimobile.com');
     body.set('password', 'Botwoman@123!');
@@ -42,8 +41,6 @@ export class LoginComponent implements OnInit {
 
     this.serverService.makePostReq<IUser>({url:loginUrl, body:bodystr, headerData})
       .subscribe((user)=>{
-        console.log(user);
-
         this.store.dispatch([
           new SetUserAction({user}),
           // new NavigateAction({route:'/'})

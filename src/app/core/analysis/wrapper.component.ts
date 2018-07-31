@@ -22,30 +22,18 @@ export class WrapperComponent implements OnInit {
 
   @Select() botlist$: Observable<ViewBotStateModel>;
   @Select() analysisstate$: Observable<IAnalysisState>;
-  @ViewChild("f") form: NgForm;
-  overviewInfo$: Observable<IOverviewInfoResponse>;
-  datePickerConfig: Partial<BsDatepickerConfig>;
+  @ViewChild('f') form: NgForm;
 
-  start_date: string = "";
-  end_date: string = "";
-  granularity: string;
-  bot_id: string;
+  start_date = new Date();
+  end_date = new Date();
+  granularity: string = 'hour';
   botList: IBot[];
-  channelList = [
-    {name: 'all', displayName: 'All channels'},
-    {name: 'facebook', displayName: 'Facebook'},
-    {name: 'web', displayName: 'WebChat'},
-    {name: 'alexa', displayName: 'Alexa'}];
-  timePeriodList = [
-    {name: 'hour', displayName: 'Hour'},
-    {name: 'day', displayName: 'Day'},
-    {name: 'week', displayName: 'Week'},
-    {name: 'month', displayName: 'Month'},
-    {name: 'year', displayName: 'Year'}
-  ];
+  channelList = this.constantService.CHANNEL_LIST;
+  timePeriodList = this.constantService.TIME_GRANULARITY_LIST;
   selectedBot: IBot = null;
-  selectedTime: {name: string, displayName: string} = {displayName:'Monthly',name:"30"};
-  selectedChannel: {name: string, displayName: string} = {displayName:'All Channels', name:'all'};
+  selectedTime: { name: string, displayName: string } = {displayName: 'Monthly', name: '30'};
+  selectedChannel: { name: string, displayName: string } = {displayName: 'All Channels', name: 'all'};
+  datePickerConfig: Partial<BsDatepickerConfig> = this.constantService.DATE_PICKER_CONFIG;
 
   constructor(
     private constantService: ConstantsService,
@@ -53,86 +41,53 @@ export class WrapperComponent implements OnInit {
     private utilityService: UtilityService,
     private store: Store,
   ) {
-    this.datePickerConfig = Object.assign({},{
-      'containerClass':'theme-dark-blue',
-      'dateInputFormat':'DD/MM/YYYY',
-    });
   }
 
   ngOnInit() {
+    this.form.form.patchValue({botId:'hour'});
     this.botlist$.subscribe((value) => {
-      if(value && value.codeBasedBotList){
+      if (value && value.codeBasedBotList) {
         this.botList = value && [...value.codeBasedBotList, ...value.pipelineBasedBotList];
-        this.botSelected(this.botList[0]);
+        this.selectedBot = this.botList[0];
       }
-      if(!this.botList){
+      if (!this.botList) {
         this.serverService.getNSetBotList()
-          .subscribe(()=>{
-            console.log("bot list is set in store");
-          })
+          .subscribe(() => {
+            console.log('bot list is set in store');
+          });
       }
-      setTimeout(()=>{
-          this.botSelected(this.botList[0]);
-      },0);
-    });
-    this.analysisstate$.subscribe((value)=>{
-      if(!value || !value.overviewinfo) return;
-      if(value.overviewinfo.selectedChannel) this.selectedChannel= value.overviewinfo.selectedChannel;
-      if(value.overviewinfo.selectedTime) this.selectedTime  = value.overviewinfo.selectedTime;
-      this.selectedBot =value.overviewinfo.selectedBot;
     });
 
-    this.form.valueChanges.subscribe((value)=>{
-      console.log(value);
+
+    this.analysisstate$.subscribe((value) => {
+      if (!value || !value.overviewinfo) return;
+      if (value.overviewinfo.selectedChannel) this.selectedChannel = value.overviewinfo.selectedChannel;
+      if (value.overviewinfo.selectedTime) this.selectedTime = value.overviewinfo.selectedTime;
+      this.selectedBot = value.overviewinfo.selectedBot;
+    });
+
+    this.form.valueChanges.subscribe((value) => {
       this.overviewInfoChanged(value);
-    })
+    });
   }
 
-  botSelected(bot) {
-
-    this.selectedBot = bot;
-    // this.overviewInfoChanged();
-    this.form.form.updateValueAndValidity();
-  }
-
-  channelSelected(channel) {
-    this.selectedChannel = channel;
-    // this.overviewInfoChanged();
-    this.form.form.updateValueAndValidity();
-  }
-
-  // timePeriodSelected(time:{name: string, displayName: string}) {
-  //   // this.end_date= this.utilityService.getPriorDate(0);
-  //   // this.start_date = this.utilityService.getPriorDate(Number(time.name));
-  //   this.granularity = time.name;
-  //   this.selectedTime = time;
-  //   this.form.form.updateValueAndValidity();
-  //   // this.overviewInfoChanged();;
-  // }
-  granularityChanged(time:{name: string, displayName: string}) {
+  granularityChanged(time: { name: string, displayName: string }) {
     this.selectedTime = time;
     this.granularity = time.name;
     this.form.form.updateValueAndValidity();
   }
 
-  // dateRangeChanged(data){
-  //   setTimeout(()=>{
-  //     console.log(this.end_date);
-  //   });
-  //   // this.overviewInfoChanged();
-  // }
-
   overviewInfoChanged(formData: IOverviewInfoPostBody) {
-    let overviewInfo:IOverviewInfoPostBody = {
-      bot_id: this.selectedBot._id,
-      platform: this.selectedChannel.name,
+    let overviewInfo: IOverviewInfoPostBody = {
+      bot_id: this.selectedBot && this.selectedBot._id,
+      platform: this.selectedChannel && this.selectedChannel.name,
       start_date: this.utilityService.convertDateObjectStringToDDMMYY(formData.start_date),
       end_date: this.utilityService.convertDateObjectStringToDDMMYY(formData.end_date),
-      granularity:this.granularity,
+      granularity: this.granularity,
       /**/
-      selectedTime:this.selectedTime,
-      selectedBot:this.selectedBot,
-      selectedChannel:this.selectedChannel
+      selectedTime: this.selectedTime,
+      selectedBot: this.selectedBot,
+      selectedChannel: this.selectedChannel
     };
 
     this.store.dispatch([
