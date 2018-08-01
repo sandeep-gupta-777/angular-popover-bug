@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
 import {Store} from '@ngxs/store';
 import {SaveCodeInfo} from '../../../ngxs/buildbot.action';
+import { ServerService } from '../../../../../server.service';
+import { ConstantsService } from '../../../../../constants.service';
 
 @Component({
   selector: 'app-code-input',
@@ -20,7 +22,11 @@ export class CodeInputComponent implements OnInit {
   editorCode;
   showVersionList:false;
 
-  constructor(private store:Store) {}
+  constructor(
+    private store:Store, 
+    private serverService:ServerService, 
+    private constantsService:ConstantsService
+  ) {}
 
   ngOnInit() {
     this.editorCode = this.bot.dfTemplate;
@@ -29,6 +35,12 @@ export class CodeInputComponent implements OnInit {
     this.generationRules = this.bot.generationRules;
     this.generationTemplates = this.bot.generationTemplates;
     // this.workflows = this.timePeriod.workflows;
+    let url = this.constantsService.getAllVersionsByBotId(this.bot._id);
+    this.serverService.makeGetReq({url})
+      .subscribe((value)=>{
+        console.log(value);
+      });
+    
   }
 
   tabClicked(activeTab: string) {

@@ -21,8 +21,8 @@ export class AuthStateReducer {
 
   constructor(private constantsService:ConstantsService){}
   @Action(SetUserAction)
-  setUser({patchState, setState, getState,dispatch}:StateContext<IAuthState>, payload : SetUserAction){
-    patchState({user:payload.payload.user});
-    this.constantsService.setLoggedUser(payload.payload.user);
+  setUser({patchState, setState, getState,dispatch}:StateContext<IAuthState>, {payload} : SetUserAction){
+    patchState({user:payload.user});
+    this.constantsService.setLoggedUser(payload.user);
   }
 }

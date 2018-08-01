@@ -20,8 +20,8 @@ export class EnterpriseprofileComponent implements OnInit {
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   @ViewChild('form') f: HTMLFormElement;
 
-  userid: string;
-  enterpriseId: string;
+  userid: number;
+  enterpriseId: number;
   loggeduserenterpriseinfo: IEnterpriseProfileInfo;
 
   constructor(private store: Store, private constantsService: ConstantsService, private serverService: ServerService) {
@@ -30,7 +30,7 @@ export class EnterpriseprofileComponent implements OnInit {
   ngOnInit() {
     this.loggeduser$.subscribe(({user}) => {
       this.userid = user.id;
-      this.enterpriseId = user.enterpriseId;
+      this.enterpriseId = user.enterprise_id;
       let url = this.constantsService.getEnterpriseUrl(this.userid);
       this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: url})
         .subscribe((value: IEnterpriseProfileInfo) => {
