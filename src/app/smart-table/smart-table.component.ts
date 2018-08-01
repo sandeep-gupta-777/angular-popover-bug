@@ -9,30 +9,75 @@ import {Observable} from 'rxjs';
 })
 export class SmartTableComponent implements OnInit {
 
-  @Input() data:any;
+  @Input() set data(value){
+    this._data = value;
+      this.source.load(this._data);
+      this.source.refresh();
+  };
+  _data:any;
   iterableDiffer;
   @Input() settings:any;
   @Output() rowClicked$ = new EventEmitter();
+  @Output() pageChanged$ = new EventEmitter();
   source: LocalDataSource = new LocalDataSource();
+  @Input() totalRecords:number = 10;
+  paginationArr=[];
+  currentPage:number = 1;
+  recordsPerPage:number=5;
+  totalPageCount;
+  math = Math;
   constructor(private _iterableDiffers: IterableDiffers) {
     this.iterableDiffer = this._iterableDiffers.find([]).create(null);
   }
 
   ngOnInit() {
-    this.source.load(this.data);
+    this.source.load(this._data);
+    let start = 1;
+    this.totalPageCount = Math.ceil(this.totalRecords/this.recordsPerPage);
+    let end = Math.min(this.totalPageCount,5);
+    this.createPaginationArray(start,end);
+    debugger;
   }
 
   ngDoCheck() {
-    let changes = this.iterableDiffer.diff(this.data);
-    if (changes) {
-      console.log('Changes in data detected!');
-      this.source.refresh();
-    }
+    // let changes = this.iterableDiffer.diff(this._data);
+    // if (changes) {
+    //   debugger;
+    //   this.source.load(this._data);
+    //   console.log('Changes in data detected!');
+    //   this.source.refresh();
+    // }
   }
 
   onUserRowSelect(event): void {
     console.log("row clicked");
     this.rowClicked$.emit(event);
+  }
+  goToPage(currentPage){
+    debugger;
+    this.currentPage = currentPage;
+    this.totalPageCount = Math.ceil(this.totalRecords/this.recordsPerPage);
+    let start, end;
+    if(currentPage<=3){
+      start = 1;
+      end = Math.min(this.totalPageCount,5);
+    }else if(currentPage >= this.totalPageCount -2) {
+      end = this.totalPageCount;
+      start = Math.max(this.currentPage -2, 0);
+    }else{
+      start = this.currentPage - 2;
+      end = this.currentPage + 2;
+    }
+    this.createPaginationArray(start,end);
+    this.pageChanged$.emit(currentPage);
+    // this.source.setPage(currentPage);
+  }
+
+  createPaginationArray(start,end){
+    this.paginationArr.length = 0;
+    for(let i = start; i <= end ;++i){
+      this.paginationArr.push(i);
+    }
   }
 
   // settings = {

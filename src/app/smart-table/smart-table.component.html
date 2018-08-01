@@ -1,1 +1,9 @@
 <ng2-smart-table class="consumers-smart-table" [settings]="settings" [source]="source" (userRowSelect)="onUserRowSelect($event)"></ng2-smart-table>
+
+<ul class="pagination pagination-sm justify-content-center my-2">
+  <li class="page-item"><a class="page-link" (click)="goToPage(math.max(0,currentPage-1))">Previous</a></li>
+  <li class="page-item" *ngFor="let i of paginationArr"><a class="page-link" [ngClass]="{'bg-theme-primary':i===currentPage, 'text-white':i===currentPage}" (click)="goToPage(i)">{{i}}</a></li>
+  <li class="page-item"><a class="page-link" (click)="goToPage(math.min(totalPageCount,currentPage+1))">Next</a></li>
+</ul>
+
+

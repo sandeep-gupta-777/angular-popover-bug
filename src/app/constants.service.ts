@@ -152,6 +152,10 @@ export class ConstantsService {
     return this.BACKEND_URL + 'send';
   }
 
+  getAllBotVersionByBotIdUrl(bot_id) {
+    return this.BACKEND_URL + `api/v1/botversioning/?bot_id=${bot_id}`; //http://localhost:8000/api/v1/botversioning/?bot_id=2
+  }
+
   //localstorage keys
   LOCALSTORAGE_APP_STATE: string = 'LOCALSTORAGE_APP_STATE';
   LOCALSTORAGE_LAST_STATE_UPDATED: string = 'LOCALSTORAGE_LAST_STATE_UPDATED';
@@ -223,6 +227,10 @@ export class ConstantsService {
       edit: false,
       delete: false
     },
+    pager:{
+      display:true,
+      perPage: 5
+    }
   };
   readonly SMART_TABLE_KNOWLEDGEBASE_SETTING = {
 
