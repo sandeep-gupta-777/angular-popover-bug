@@ -61,7 +61,6 @@ import {AuthWrapperComponent} from './auth/auth-wrapper.component';
 import {AuthStateReducer} from './auth/ngxs/auth.state';
 import {NavigationStateReducer} from './ngxs/navigation.state';
 import {EnterpriseprofileStateReducer} from './core/enterpriseprofile/ngxs/enterpriseprofile.state';
-import {persistPlugin} from './ngxs/ngxs.plugin';
 import {PipelineTestComponent} from './pipeline-test/pipeline-test.component';
 import {DragulaModule} from 'ng2-dragula';
 import {ViewBotStateReducer} from './core/view-bots/ngxs/view-bot.state';
@@ -104,6 +103,7 @@ import {ReportsStateReducer} from './core/reports/ngxs/reports.state';
 import {SessionDetailModelComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-detail-model.component';
 import {SessionTabsDetailsComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-tabs-details/session-tabs-details.component';
 import {SessionMessageComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-message/session-message.component';
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 
 const routes: Route[] = [
   {
@@ -266,6 +266,7 @@ const routes: Route[] = [
       AnalysisStateReducer,
       ReportsStateReducer
     ]),
+    NgxsStoragePluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
     HttpClientModule,
@@ -279,11 +280,7 @@ const routes: Route[] = [
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot() // ToastrModule added
   ],
-  providers: [DragService, AimService, {
-    provide: NGXS_PLUGINS,
-    useValue: persistPlugin,
-    multi: true
-  }],
+  providers: [DragService, AimService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

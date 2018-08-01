@@ -38,7 +38,7 @@
 
   <div class="d-flex header-container__right align-items-center ml-auto ">
     <div class="box box-details-personal d-flex flex-column">
-      <span class="box-details-personal__name  pr-0">{{(loggeduser$|async).user.firstname +" "+ (loggeduser$|async).user.lastname}}</span>
+      <span class="box-details-personal__name  pr-0">{{(loggeduser$|async).user.first_name +" "+ (loggeduser$|async).user.last_name}}</span>
       <span class="box-details-personal__designation text-theme-muted pt-1 text-right">{{(loggeduser$|async).user.role}}</span>
     </div>
 

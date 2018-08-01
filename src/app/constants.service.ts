@@ -17,7 +17,7 @@ export class ConstantsService {
   loggedUser: IUser;
 
   public BACKEND_URL = 'https://dev.imibot.ai/';
-  public BACKEND_URL_LOGIN = `${this.BACKEND_URL}` + 'login';
+  public BACKEND_URL_LOGIN = `${this.BACKEND_URL}` + 'api/v1/user/login/';
   private BACKEND_URL_ENTERPRISE_USERS = `${this.BACKEND_URL}` + 'users/enterprise';
   private BACKEND_USER_UPDATE_URL = `${this.BACKEND_URL}` + 'user/';//https://dev.imibot.ai/user/5a030aa9b050705bd0ca5a45
   private BACKEND_USER_CODE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'integrations';//https://dev.imibot.ai/integrations
@@ -54,7 +54,7 @@ export class ConstantsService {
     return this.BACKEND_USER_UPDATE_URL + <any>(ConstantsService).state.loggeduser.user.id;
   }
 
-  getEnterpriseUrl(enterpriseId: string) {
+  getEnterpriseUrl(enterpriseId: number) {
     return this.BACKEND_URL + 'enterprise/' + enterpriseId; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
   }
 
@@ -133,6 +133,10 @@ export class ConstantsService {
 
   getSaveReportsEditInfo(_id) {
     return this.BACKEND_URL + 'reports/' + _id; //  https://dev.imibot.ai/reports/5b335b127c15580059c13fc5
+  }
+
+  getAllVersionsByBotId(_id:string) {
+    return this.BACKEND_URL + 'api/v1/botversioning/' + _id; //"http://localhost:8000/api/v1/botversioning/?bot_id=2"
   }
 
 

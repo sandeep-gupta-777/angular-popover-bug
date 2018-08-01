@@ -29,8 +29,8 @@ export class ServerService {
     private constantsService:ConstantsService) {
     this.loggeduser$.subscribe((value)=>{
       if(!value || !value.user) return;
-      this.AUTH_TOKEN =  value.user.auth_token && value.user.auth_token;
-      this.X_AXIS_TOKEN = value.user.token && value.user.token;
+      this.AUTH_TOKEN =  value.user["auth-token"] && value.user["auth-token"];
+      this.X_AXIS_TOKEN = value.user["x-access-token"] && value.user["x-access-token"];
     })
   };
 
@@ -46,11 +46,11 @@ export class ServerService {
 
     /*expanding header data*/
     headerData = {
-      "cross-domain": "true",
-      "api-key": "54asdkj1209nksnda",
-      ...tokenData,
-      ...headerData,
-
+      // "cross-domain": "true",
+      // "api-key": "54asdkj1209nksnda",
+      // ...tokenData,
+      // ...headerData,
+      "Content-Type":"application/json"
     };
 
     if(headerData)
