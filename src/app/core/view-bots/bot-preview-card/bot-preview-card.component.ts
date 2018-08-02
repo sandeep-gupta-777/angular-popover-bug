@@ -30,7 +30,7 @@ export class BotPreviewCardComponent implements OnInit {
   }
 
   openBot(){
-    this.chatService.startNewChat({token:this.bot.token,_id:this.bot._id},"delhi",  EChatFrame.CHAT_BOX);
+    // this.chatService.startNewChat({token:this.bot.token,_id:this.bot._id},"delhi",  EChatFrame.CHAT_BOX);//comperror:
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});

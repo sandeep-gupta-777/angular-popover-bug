@@ -34,7 +34,7 @@ export class KnowledgeBaseComponent implements OnInit {
 
   ngOnInit() {
     this.settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;
-    this.data = this.bot.customNers || [];
+    // this.data = this.bot.customNers || [];//comperror:
     this.data.push({key: 'sadasd', nerType: 'asdasd', conflict_policy: 'override'});
     this.handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
     this.handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;

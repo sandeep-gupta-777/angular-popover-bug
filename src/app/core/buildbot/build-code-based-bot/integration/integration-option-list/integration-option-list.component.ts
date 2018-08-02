@@ -18,7 +18,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   @Input() bot:IBot;
   constructor(private store:Store) {}
   ngOnInit() {
-    this.formValue = <any>this.bot.channels || {};
+    // this.formValue = <any>this.bot.channels || {};//comperror:
   }
 
   onChange($event){

@@ -79,7 +79,7 @@ export class WrapperComponent implements OnInit {
 
   overviewInfoChanged(formData: IOverviewInfoPostBody) {
     let overviewInfo: IOverviewInfoPostBody = {
-      bot_id: this.selectedBot && this.selectedBot._id,
+      bot_id: "",//comperror: this.selectedBot && this.selectedBot._id,
       platform: this.selectedChannel && this.selectedChannel.name,
       start_date: this.utilityService.convertDateObjectStringToDDMMYY(formData.start_date),
       end_date: this.utilityService.convertDateObjectStringToDDMMYY(formData.end_date),

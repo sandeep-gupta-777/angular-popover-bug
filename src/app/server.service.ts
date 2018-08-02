@@ -29,8 +29,8 @@ export class ServerService {
     private constantsService:ConstantsService) {
     this.loggeduser$.subscribe((value)=>{
       if(!value || !value.user) return;
-      this.AUTH_TOKEN =  value.user["auth-token"] && value.user["auth-token"];
-      this.X_AXIS_TOKEN = value.user["x-access-token"] && value.user["x-access-token"];
+      this.AUTH_TOKEN =  value.user.auth_token && value.user.auth_token;
+      this.X_AXIS_TOKEN = value.user.user_access_token && value.user.user_access_token;
     })
   };
 
@@ -40,7 +40,7 @@ export class ServerService {
     let headers = new HttpHeaders();
     let tokenData = {};
     if(this.X_AXIS_TOKEN)
-      tokenData = {"x-access-token": this.X_AXIS_TOKEN};
+      tokenData = {"user-access-token": this.X_AXIS_TOKEN};
     if(this.AUTH_TOKEN)
       tokenData = {...tokenData, "auth-token": this.AUTH_TOKEN};
 
@@ -50,6 +50,9 @@ export class ServerService {
       // "api-key": "54asdkj1209nksnda",
       // ...tokenData,
       // ...headerData,
+      // crossOrigin : true,
+      // "auth-token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NzcsInJvbGUiOiJhdXRoIn0.diYtz23k19lqMGg5cqDKvSK4wO-TUPOMITN80plfU40",
+      // "user-access-token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoidXNlciIsImlkIjoxfQ.ycXXJUTse-L_kpe0_RMk-DIgZkSL-57in4d9pqalO8c",
       "Content-Type":"application/json"
     };
 
@@ -99,7 +102,7 @@ export class ServerService {
         let pipelineBasedBotList: IBot[] = [];
 
         botList.forEach((bot) => {
-          bot.botType !== 'intelligent' ? codeBasedBotList.push(bot) : pipelineBasedBotList.push(bot);
+          bot.bot_type !== 'intelligent' ? codeBasedBotList.push(bot) : pipelineBasedBotList.push(bot);
         });
         this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
         this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));

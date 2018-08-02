@@ -11,8 +11,8 @@ export interface IUser {
   is_active: boolean,
   is_admin: boolean,
   date_joined: string,
-  "auth-token": string,
-  "x-access-token" : string
+  auth_token: string,
+  user_access_token : string
 }
 
 

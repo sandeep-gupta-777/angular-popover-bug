@@ -31,14 +31,14 @@ export class CodeInputComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.editorCode = this.bot.dfTemplate;
-    this.dfTemplate = this.bot.dfTemplate;
-    this.dfRules = this.bot.dfRules;
-    this.generationRules = this.bot.generationRules;
-    this.generationTemplates = this.bot.generationTemplates;
+    // this.editorCode = this.bot.dfTemplate;
+    // this.dfTemplate = this.bot.dfTemplate;
+    // this.dfRules = this.bot.dfRules;
+    // this.generationRules = this.bot.generationRules;
+    // this.generationTemplates = this.bot.generationTemplates;
 
-    /*AJAX for bot versioning by id*/
-    let url = this.constantsService.getAllBotVersionByBotIdUrl(this.bot._id);
+    // this.workflows = this.timePeriod.workflows;
+    let url = this.constantsService.getAllVersionsByBotId(this.bot.bot_access_token);
     this.serverService.makeGetReq({url})
       .subscribe((value)=>{
         debugger;
