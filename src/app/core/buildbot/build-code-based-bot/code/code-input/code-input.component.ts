@@ -35,7 +35,7 @@ export class CodeInputComponent implements OnInit {
     this.generationRules = this.bot.generationRules;
     this.generationTemplates = this.bot.generationTemplates;
     // this.workflows = this.timePeriod.workflows;
-    let url = this.constantsService.getAllVersionsByBotId(this.bot._id);
+    let url = this.constantsService.getAllVersionsByBotId(this.bot.bot_access_token);
     this.serverService.makeGetReq({url})
       .subscribe((value)=>{
         console.log(value);
