@@ -1,10 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {IBot} from '../../../../interfaces/IBot';
+import {IBot, IBotVersionResult} from '../../../../interfaces/IBot';
 import {Store} from '@ngxs/store';
 import {SaveCodeInfo} from '../../../ngxs/buildbot.action';
 
 import { ServerService } from '../../../../../server.service';
 import { ConstantsService } from '../../../../../constants.service';
+import { access } from 'fs';
+import { SaveVersionInfoInBot } from '../../../../view-bots/ngxs/view-bot.action';
 
 @Component({
   selector: 'app-code-input',
@@ -38,12 +40,16 @@ export class CodeInputComponent implements OnInit {
     // this.generationTemplates = this.bot.generationTemplates;
 
     // this.workflows = this.timePeriod.workflows;
-    let url; //= this.constantsService.getAllVersionsByBotId(this.bot._id);//comperror
-    this.serverService.makeGetReq({url})
+    let url= this.constantsService.getAllVersionsByBotId(this.bot.id);//comperror
+    let botId = this.bot.id;
+    this.serverService.makeGetReq<IBotVersionResult>({url,headerData:{"bot-access-token":this.bot.bot_access_token}})
       .subscribe((value)=>{
         debugger;
-        console.log(value);
+        this.store.dispatch([
+          new SaveVersionInfoInBot({data: value.objects, botId: botId})
+        ]);
       })
+    
   }
 
   tabClicked(activeTab: string) {

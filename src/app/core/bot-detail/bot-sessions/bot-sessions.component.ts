@@ -38,7 +38,7 @@ export class BotSessionsComponent implements OnInit {
     this.sessions$ = this.serverService.makeGetReq<ISessions>({url:this.url});
     this.sessions$.subscribe((value) =>{
       this.totalSessionRecords = value.total;
-      debugger;
+      
       this.sessions = value;
 
     });
@@ -63,7 +63,7 @@ export class BotSessionsComponent implements OnInit {
     this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
   }
   sessionTablePageChanged(pageNumber){
-    debugger;
+    
     this.url = this.constantsService.getBotSessionsUrl(this.id,pageNumber,5);
     this.serverService.makeGetReq<ISessions>({url:this.url})
       .subscribe((value) =>{

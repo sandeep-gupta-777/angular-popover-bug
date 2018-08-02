@@ -1,5 +1,6 @@
 import {IAvatarList, IBasicInfo, ICode, ICustomners, IIntegration, IPipeline} from '../../../../interfaces/bot-creation';
 import {IAIModule} from '../../../../interfaces/ai-module';
+import { IBotVersionData } from '../../interfaces/IBot';
 
 export class SaveBasicInfo {
   static readonly type = '[build-bots] set basic info';
@@ -25,3 +26,4 @@ export class SaveIntegrationInfo {
   static readonly type = '[build-bots] set Integration info';
   constructor(public payload: { data: IIntegration }) {}
 }
+

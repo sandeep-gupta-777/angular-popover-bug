@@ -36,7 +36,8 @@ export class SmartTableComponent implements OnInit {
     this.totalPageCount = Math.ceil(this.totalRecords/this.recordsPerPage);
     let end = Math.min(this.totalPageCount,5);
     this.createPaginationArray(start,end);
-    debugger;
+    
+    
   }
 
   ngDoCheck() {
@@ -54,7 +55,8 @@ export class SmartTableComponent implements OnInit {
     this.rowClicked$.emit(event);
   }
   goToPage(currentPage){
-    debugger;
+    
+    
     this.currentPage = currentPage;
     this.totalPageCount = Math.ceil(this.totalRecords/this.recordsPerPage);
     let start, end;

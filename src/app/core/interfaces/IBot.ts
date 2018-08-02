@@ -1,10 +1,11 @@
 import { IMeta } from "./meta";
+import { IAvatar } from "../../../interfaces/bot-creation";
 
 export interface IBot {
   "active_version_id": number,
   "advanced_data_protection": boolean,
   "allow_anonymization": boolean,
-  "avatars": Array<any>,
+  "avatars": IAvatar[],
   "blanket_consent": boolean,
   "bot_access_token": string,
   "bot_type": string,
@@ -47,7 +48,9 @@ export interface IBot {
   "room_persistence_time": number,
   "transactions_per_pricing_unit": number,
   "updated_at": string,
-  "updated_by": number
+  "updated_by": number,
+  // these r store properties
+  "store_bot_versions" : IBotVersionData[]
 }
 
 export interface IBotResult {

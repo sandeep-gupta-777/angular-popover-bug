@@ -12,6 +12,7 @@ import {ToastrService} from 'ngx-toastr';
 import {UtilityService} from './utility.service';
 import {SetCodeBasedBotListAction, SetPipeLineBasedBotListAction} from './core/view-bots/ngxs/view-bot.action';
 import {IBot, IBotResult} from './core/interfaces/IBot';
+import { ActivatedRoute, Router } from '../../node_modules/@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,7 @@ export class ServerService {
     private httpClient:HttpClient,
     private utilityService:UtilityService,
     private store:Store,
+    private router : Router,
     private constantsService:ConstantsService) {
     this.loggeduser$.subscribe((value)=>{
       if(!value || !value.user) return;
@@ -43,13 +45,16 @@ export class ServerService {
       tokenData = {"user-access-token": this.X_AXIS_TOKEN};
     if(this.AUTH_TOKEN)
       tokenData = {...tokenData, "auth-token": this.AUTH_TOKEN};
-
+      if(this.router.url.toString() === "/auth/login"){
+        tokenData = {"Content-Type":"application/json"};
+      
+      }
     /*expanding header data*/
     headerData = {
       // "cross-domain": "true",
       // "api-key": "54asdkj1209nksnda",
       ...tokenData,
-      // ...headerData,
+      ...headerData,
       // crossOrigin : true,
       // "auth-token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NzcsInJvbGUiOiJhdXRoIn0.diYtz23k19lqMGg5cqDKvSK4wO-TUPOMITN80plfU40",
       // "user-access-token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoidXNlciIsImlkIjoxfQ.ycXXJUTse-L_kpe0_RMk-DIgZkSL-57in4d9pqalO8c",
@@ -65,7 +70,7 @@ export class ServerService {
   }
 
   makeGetReq<T>(reqObj: {url:string, headerData?:any}): Observable<T>{
-    let headers = this.createHeaders();
+    let headers = this.createHeaders(reqObj.headerData);
     console.log('making get request');
     return this.httpClient.get<T>(reqObj.url, {headers: headers});
   }
@@ -98,7 +103,7 @@ export class ServerService {
     let headerData: IHeaderData = {'content-type': 'application/json'};
     return this.makeGetReq<IBotResult>({url, headerData})
       .do((botResult) => {
-        debugger;
+        
         let codeBasedBotList: IBot[] = [];
         let pipelineBasedBotList: IBot[] = [];
 

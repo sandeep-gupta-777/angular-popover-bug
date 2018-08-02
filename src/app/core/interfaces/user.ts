@@ -13,6 +13,22 @@ export interface IUser {
   date_joined: string,
   auth_token: string,
   user_access_token : string
+  role: {
+    "resource_uri": string,
+    "permissions": {
+      "actions": number[],
+      "bots": number[]
+    },
+    "id": number,
+    "name": string,
+    "enterprise_id": number,
+    "is_system_role": boolean,
+    "session_expiry_time": number,
+    "created_by": number,
+    "updated_by": number,
+    "created_at": boolean,
+    "updated_at": string
+  }
 }
 
 
