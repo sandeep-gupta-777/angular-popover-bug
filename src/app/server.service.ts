@@ -11,7 +11,7 @@ import 'rxjs/add/operator/do';
 import {ToastrService} from 'ngx-toastr';
 import {UtilityService} from './utility.service';
 import {SetCodeBasedBotListAction, SetPipeLineBasedBotListAction} from './core/view-bots/ngxs/view-bot.action';
-import {IBot} from './core/interfaces/IBot';
+import {IBot, IBotResult} from './core/interfaces/IBot';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +48,7 @@ export class ServerService {
     headerData = {
       // "cross-domain": "true",
       // "api-key": "54asdkj1209nksnda",
-      // ...tokenData,
+      ...tokenData,
       // ...headerData,
       // crossOrigin : true,
       // "auth-token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NzcsInJvbGUiOiJhdXRoIn0.diYtz23k19lqMGg5cqDKvSK4wO-TUPOMITN80plfU40",
@@ -96,12 +96,13 @@ export class ServerService {
   getNSetBotList(){
     let url = this.constantsService.getPipelinebasedBotListUrl();
     let headerData: IHeaderData = {'content-type': 'application/json'};
-    return this.makeGetReq<IBot[]>({url, headerData})
-      .do((botList: IBot[]) => {
+    return this.makeGetReq<IBotResult>({url, headerData})
+      .do((botResult) => {
+        debugger;
         let codeBasedBotList: IBot[] = [];
         let pipelineBasedBotList: IBot[] = [];
 
-        botList.forEach((bot) => {
+        botResult.objects.forEach((bot) => {
           bot.bot_type !== 'intelligent' ? codeBasedBotList.push(bot) : pipelineBasedBotList.push(bot);
         });
         this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));

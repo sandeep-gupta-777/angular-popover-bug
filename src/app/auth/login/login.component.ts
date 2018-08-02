@@ -32,12 +32,8 @@ export class LoginComponent implements OnInit {
 
   onSubmit(){
     let loginData = this.f.value;
-    let loginUrl = this.constantsService.BACKEND_URL_LOGIN 
+    let loginUrl = this.constantsService.BACKEND_URL_LOGIN
     let headerData:IHeaderData = {'api-key': '54asdkj1209nksnda',"content-type":'application/x-www-form-urlencoded'};
-    // let body =  new URLSearchParams();
-    // body.set('email', 'demos@imimobile.com');
-    // body.set('password', 'Botwoman@123!');
-    // let bodystr = body.toString();
     let body = {
       "email":"ayeshreddy.k@imimobile.com",
       "password":"Botwoman@123!"

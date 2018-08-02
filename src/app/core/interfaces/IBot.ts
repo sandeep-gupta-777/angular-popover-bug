@@ -50,23 +50,28 @@ export interface IBot {
   "updated_by": number
 }
 
+export interface IBotResult {
+  "meta": IMeta,
+  "objects": IBot[]
+}
+
 export interface IBotVersionResult {
   "meta": IMeta,
   "objects": IBotVersionData[]
 }
 
-export interface IBotVersionData  { 
-  "bot_id": number, 
+export interface IBotVersionData  {
+  "bot_id": number,
   "comment" : string,
   "created_at" : string,
   "df_rules" : string,
   "df_template" : string,
   "generation_rules" : string,
   "generation_templates" : string,
-  "id": number, 
+  "id": number,
   "resource_uri" : string,
   "updated_at" : string,
-  "version": number, 
+  "version": number,
   "workflow" : string
 }
 

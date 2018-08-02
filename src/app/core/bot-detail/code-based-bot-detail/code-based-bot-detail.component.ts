@@ -20,7 +20,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
   @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
   bot$: Observable<IBot>;
-  bot_id: string;
+  bot_id: number;
   overviewInfo$: Observable<IOverviewInfoResponse>;
   selectedChannel: string = 'all';
   start_date: string;
@@ -32,12 +32,12 @@ export class CodeBasedBotDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.bot_id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
     // let id = this.activatedRoute.snapshot.paramMap.get('id');
     this.bot$ = this.codeBasedBotList$.map((codeBasedBotList: IBot[]) => {
       let bot = codeBasedBotList.filter((bot) => {
-        // return bot._id === this.bot_id;//comperror:
+        return bot.id === this.bot_id;//
       });
       console.log("view detailed bot", bot[0]);
       return bot[0];

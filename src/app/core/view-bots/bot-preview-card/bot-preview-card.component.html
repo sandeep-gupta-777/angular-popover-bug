@@ -4,12 +4,12 @@
     <div class="row">
 
       <div class="col-md-2 col-sm-2 col-12">
-        <img class="bot-logo rounded-circle" [src]="bot.botLogo">
+        <img class="bot-logo rounded-circle" [src]="bot.logo">
       </div>
 
       <div class="col-md-10 col-sm-10 col-12 ">
         <div class="d-flex m-0 pb-0">
-          <p class="bot-name m-0 limit-oneline"><strong class="ng-binding"><a [routerLink]="['/core', 'botdetail','codebased',bot._id]" class="text-dark">{{bot.name}}</a></strong></p>
+          <p class="bot-name m-0 limit-oneline"><strong class="ng-binding"><a [routerLink]="['/core', 'botdetail','codebased',bot.id]" class="text-dark">{{bot.name}}</a></strong></p>
           <i class="fa fa-trash ml-auto" (click)="openModal(template)"></i>
         </div>
         <!---->
@@ -24,8 +24,8 @@
     <button class="btn-theme-primary ml-auto" (click)="openBot()">Preview Bot</button>
   </div>
   <div class="card-footer d-flex justify-content-between">
-    <div class="copy cursor-pointer" (click)="copy(bot.token)"><i class="fa fa-copy"></i>Access Token</div>
-    <div class="copy cursor-pointer" (click)="copy(bot.enterpriseId)" ><i class="fa fa-copy" #enterprise_id></i>Enterprise ID</div>
+    <div class="copy cursor-pointer" (click)="copy(bot.bot_access_token)"><i class="fa fa-copy"></i>Access Token</div>
+    <div class="copy cursor-pointer" (click)="copy(bot.enterprise_id)" ><i class="fa fa-copy" #enterprise_id></i>Enterprise ID</div>
   </div>
 </div>
 

@@ -38,7 +38,7 @@ export class CodeInputComponent implements OnInit {
     // this.generationTemplates = this.bot.generationTemplates;
 
     // this.workflows = this.timePeriod.workflows;
-    let url = this.constantsService.getAllVersionsByBotId(this.bot._id);
+    let url; //= this.constantsService.getAllVersionsByBotId(this.bot._id);//comperror
     this.serverService.makeGetReq({url})
       .subscribe((value)=>{
         debugger;
