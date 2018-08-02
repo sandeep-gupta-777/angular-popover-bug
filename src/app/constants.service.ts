@@ -16,12 +16,12 @@ export class ConstantsService {
   static state: any;
   loggedUser: IUser;
 
-  public BACKEND_URL = 'https://dev.imibot.ai/';
+  public BACKEND_URL = "http://10.0.27.153:8000/";
   public BACKEND_URL_LOGIN = `${this.BACKEND_URL}` + 'api/v1/user/login/';
   private BACKEND_URL_ENTERPRISE_USERS = `${this.BACKEND_URL}` + 'users/enterprise';
   private BACKEND_USER_UPDATE_URL = `${this.BACKEND_URL}` + 'user/';//https://dev.imibot.ai/user/5a030aa9b050705bd0ca5a45
   private BACKEND_USER_CODE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'integrations';//https://dev.imibot.ai/integrations
-  private BACKEND_USER_PIPELINE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'bots';//https://dev.imibot.ai/bots
+  public BACKEND_USER_PIPELINE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'api/v1/bot/';//https://dev.imibot.ai/bots
 
   public readonly CHANNEL_LIST = [
     {name: 'all', displayName: 'All channels'},

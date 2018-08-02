@@ -2,13 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
 import {Store} from '@ngxs/store';
 import {SaveCodeInfo} from '../../../ngxs/buildbot.action';
-<<<<<<< HEAD
-import {ServerService} from '../../../../../server.service';
-import {ConstantsService} from '../../../../../constants.service';
-=======
+
 import { ServerService } from '../../../../../server.service';
 import { ConstantsService } from '../../../../../constants.service';
->>>>>>> 362dee1aa404e6c099cabdb92a1a069177a5d196
 
 @Component({
   selector: 'app-code-input',
@@ -28,15 +24,10 @@ export class CodeInputComponent implements OnInit {
   showVersionList:false;
 
   constructor(
-<<<<<<< HEAD
+
     private store:Store,
-    private constantsService: ConstantsService,
-    private serverService: ServerService,
-=======
-    private store:Store, 
-    private serverService:ServerService, 
+    private serverService:ServerService,
     private constantsService:ConstantsService
->>>>>>> 362dee1aa404e6c099cabdb92a1a069177a5d196
   ) {}
 
   ngOnInit() {
@@ -45,7 +36,6 @@ export class CodeInputComponent implements OnInit {
     this.dfRules = this.bot.dfRules;
     this.generationRules = this.bot.generationRules;
     this.generationTemplates = this.bot.generationTemplates;
-<<<<<<< HEAD
 
     /*AJAX for bot versioning by id*/
     let url = this.constantsService.getAllBotVersionByBotIdUrl(this.bot._id);
@@ -54,15 +44,6 @@ export class CodeInputComponent implements OnInit {
         debugger;
         console.log(value);
       })
-=======
-    // this.workflows = this.timePeriod.workflows;
-    let url = this.constantsService.getAllVersionsByBotId(this.bot._id);
-    this.serverService.makeGetReq({url})
-      .subscribe((value)=>{
-        console.log(value);
-      });
-    
->>>>>>> 362dee1aa404e6c099cabdb92a1a069177a5d196
   }
 
   tabClicked(activeTab: string) {

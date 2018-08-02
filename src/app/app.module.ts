@@ -103,7 +103,7 @@ import {ReportsStateReducer} from './core/reports/ngxs/reports.state';
 import {SessionDetailModelComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-detail-model.component';
 import {SessionTabsDetailsComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-tabs-details/session-tabs-details.component';
 import {SessionMessageComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-message/session-message.component';
-import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
+import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
 
 const routes: Route[] = [
   {
