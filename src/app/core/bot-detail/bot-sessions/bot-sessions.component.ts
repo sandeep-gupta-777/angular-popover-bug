@@ -23,6 +23,8 @@ export class BotSessionsComponent implements OnInit {
   modalRef: BsModalRef;
   smartTableSettings_Sessions;
   selectedRow_Session:ISessionItem;
+  totalSessionRecords:number = 0;
+  sessions:ISessions;
 
   constructor(
     private serverService: ServerService,
@@ -32,8 +34,14 @@ export class BotSessionsComponent implements OnInit {
   ) {  }
 
   ngOnInit() {
-    this.url = this.constantsService.getBotSessionsUrl(this.id,1,10);
+    this.url = this.constantsService.getBotSessionsUrl(this.id,1,5);
     this.sessions$ = this.serverService.makeGetReq<ISessions>({url:this.url});
+    this.sessions$.subscribe((value) =>{
+      this.totalSessionRecords = value.total;
+      debugger;
+      this.sessions = value;
+
+    });
     this.smartTableSettings_Sessions = this.constantsService.SMART_TABLE_SESSIONS_SETTING;
   }
 
@@ -52,7 +60,16 @@ export class BotSessionsComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+    this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
+  }
+  sessionTablePageChanged(pageNumber){
+    debugger;
+    this.url = this.constantsService.getBotSessionsUrl(this.id,pageNumber,5);
+    this.serverService.makeGetReq<ISessions>({url:this.url})
+      .subscribe((value) =>{
+        this.totalSessionRecords = value.total
+        this.sessions = value;
+      });
   }
 
 }

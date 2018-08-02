@@ -22,10 +22,11 @@ export class PipelineComponent implements OnInit {
   }
 
   ngOnInit() {
-    let isBotNew = ((this.bot.unselected_pipeline.length===<number>0) && (this.bot.pipeline.length ===<number>0));
-    this.aiModules = this.bot.unselected_pipeline ||this.aimService.getModules();
-    // this.aiModules = this.bot.unselected_pipeline;
-    this.pipeLine = this.bot.pipeline ||[];
+    /*comperror: */
+    // let isBotNew = ((this.bot.unselected_pipeline.length===<number>0) && (this.bot.pipeline.length ===<number>0));
+    // this.aiModules = this.bot.unselected_pipeline ||this.aimService.getModules();
+    //// this.aiModules = this.bot.unselected_pipeline;
+    // this.pipeLine = this.bot.pipeline ||[];
     console.log(this.pipeLine);
   };
 

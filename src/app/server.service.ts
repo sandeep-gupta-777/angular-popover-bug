@@ -12,6 +12,7 @@ import {ToastrService} from 'ngx-toastr';
 import {UtilityService} from './utility.service';
 import {SetCodeBasedBotListAction, SetPipeLineBasedBotListAction} from './core/view-bots/ngxs/view-bot.action';
 import {IBot} from './core/interfaces/IBot';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -47,7 +48,7 @@ export class ServerService {
     headerData = {
       // "cross-domain": "true",
       // "api-key": "54asdkj1209nksnda",
-      ...tokenData,
+      // ...tokenData,
       // ...headerData,
       // crossOrigin : true,
       // "auth-token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NzcsInJvbGUiOiJhdXRoIn0.diYtz23k19lqMGg5cqDKvSK4wO-TUPOMITN80plfU40",

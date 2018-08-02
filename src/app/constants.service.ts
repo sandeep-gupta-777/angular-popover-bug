@@ -16,12 +16,12 @@ export class ConstantsService {
   static state: any;
   loggedUser: IUser;
 
-  public BACKEND_URL = 'https://dev.imibot.ai/';
+  public BACKEND_URL = "https://dev.imibot.ai/";
   public BACKEND_URL_LOGIN = `${this.BACKEND_URL}` + 'api/v1/user/login/';
   private BACKEND_URL_ENTERPRISE_USERS = `${this.BACKEND_URL}` + 'users/enterprise';
   private BACKEND_USER_UPDATE_URL = `${this.BACKEND_URL}` + 'user/';//https://dev.imibot.ai/user/5a030aa9b050705bd0ca5a45
   private BACKEND_USER_CODE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'integrations';//https://dev.imibot.ai/integrations
-  private BACKEND_USER_PIPELINE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'api/v1/bot/';//https://dev.imibot.ai/bots
+  public BACKEND_USER_PIPELINE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'api/v1/bot/';//https://dev.imibot.ai/bots
 
   public readonly CHANNEL_LIST = [
     {name: 'all', displayName: 'All channels'},
@@ -156,6 +156,10 @@ export class ConstantsService {
     return this.BACKEND_URL + 'send';
   }
 
+  getAllBotVersionByBotIdUrl(bot_id) {
+    return this.BACKEND_URL + `api/v1/botversioning/?bot_id=${bot_id}`; //http://localhost:8000/api/v1/botversioning/?bot_id=2
+  }
+
   //localstorage keys
   LOCALSTORAGE_APP_STATE: string = 'LOCALSTORAGE_APP_STATE';
   LOCALSTORAGE_LAST_STATE_UPDATED: string = 'LOCALSTORAGE_LAST_STATE_UPDATED';
@@ -227,6 +231,10 @@ export class ConstantsService {
       edit: false,
       delete: false
     },
+    pager:{
+      display:true,
+      perPage: 5
+    }
   };
   readonly SMART_TABLE_KNOWLEDGEBASE_SETTING = {
 

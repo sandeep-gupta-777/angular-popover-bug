@@ -37,7 +37,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
     // let id = this.activatedRoute.snapshot.paramMap.get('id');
     this.bot$ = this.codeBasedBotList$.map((codeBasedBotList: IBot[]) => {
       let bot = codeBasedBotList.filter((bot) => {
-        return bot._id === this.bot_id;
+        // return bot._id === this.bot_id;//comperror:
       });
       console.log("view detailed bot", bot[0]);
       return bot[0];
