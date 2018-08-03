@@ -1,8 +1,9 @@
 <div class="row my-2" style="position: relative">
-  <div class="col-6 p-0">
+  <div class="col-6 p-0" *ngIf = "selectedVersion">
     <div class="d-flex align-items-center justify-content-between flex-bot-versioning-toaster">
-      <button class="btn btn-theme-primary mr-1" style="flex-basis: 56px">Active</button>
-      <div class="count mr-1">2</div>
+      <button *ngIf = "selectedVersion.id === activeVersion.id" class="btn btn-theme-primary mr-1" style="flex-basis: 56px">Active</button>
+      <button *ngIf = "selectedVersion.id !== activeVersion.id" class="btn btn-theme-primary mr-1" style="flex-basis: 56px">Inactive</button>
+      <div class="count mr-1">{{selectedVersion.id}}</div>
       <div class="forked mr-1">Forked from version 1</div>
       <div class="update d-flex flex-column mr-1 justify-content-center">
         <div class="mr-1">Last update</div>
@@ -14,8 +15,7 @@
           <input type="radio" name="optradio">
         </form>
       </div>
-      <div class="insert mr-1">Insert the last comment here, which can span
-        more than 2 lines and if longer we use …
+      <div class="insert mr-1">{{selectedVersion.comment}}
       </div>
       <i (click)="showVersionList= !showVersionList" class="fa fa-angle-down py-2 px-3 bg-theme-primary text-white"></i>
     </div>
@@ -24,11 +24,12 @@
     <button class="btn btn-theme-primary-outline mr-1">Save Version</button>
     <button class="btn btn-theme-primary-outline">Fork new version</button>
   </div>
-  <div class="row my-2 row-flex-bot-versioning-toaster mx-0" *ngIf="showVersionList" style="width: 50%">
-    <div class="col-12 my-1 p-0">
-      <div class="d-flex align-items-center justify-content-between flex-bot-versioning-toaster">
-        <button class="btn btn-theme-primary mr-1" style="flex-basis: 56px">Active</button>
-        <div class="count mr-1">2</div>
+  <div class="row row-flex-bot-versioning-toaster mx-0" *ngIf="showVersionList" style="width: 50%">
+    <div class="col-12 my-1 p-0" *ngFor = "let version of bot.store_bot_versions | filterActiveBot:selectedVersion.id">
+      <div class="d-flex align-items-center justify-content-between flex-bot-versioning-toaster" (click)="selectedVersion = version">
+        <button *ngIf = "version.id === activeVersion.id" class="btn btn-theme-primary mr-1" style="flex-basis: 56px">Active</button>
+      <button *ngIf = "version.id !== activeVersion.id" class="btn btn-theme-primary mr-1" style="flex-basis: 56px">Inactive</button>
+        <div class="count mr-1">{{version.id}}</div>
         <div class="forked mr-1">Forked from version 1</div>
         <div class="update d-flex flex-column mr-1 justify-content-center">
           <div class="mr-1">Last update</div>
@@ -40,10 +41,9 @@
             <input type="radio" name="optradio">
           </form>
         </div>
-        <div class="insert mr-1">Insert the last comment here, which can span
-          more than 2 lines and if longer we use …
+        <div class="insert mr-1">{{version.comment}}
         </div>
-        <i class="fa fa-angle-down py-2 px-3 bg-theme-primary text-white"></i>
+        <i class=" py-2 px-3 "></i>
       </div>
     </div>
   </div>

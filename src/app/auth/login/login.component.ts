@@ -33,14 +33,14 @@ export class LoginComponent implements OnInit {
   onSubmit(){
     let loginData = this.f.value;
     let loginUrl = this.constantsService.BACKEND_URL_LOGIN
-    let headerData:IHeaderData = {'api-key': '54asdkj1209nksnda',"content-type":'application/x-www-form-urlencoded'};
+    // let headerData:IHeaderData = {'api-key': '54asdkj1209nksnda',"content-type":'application/x-www-form-urlencoded'};
     let body = {
       "email":"ayeshreddy.k@imimobile.com",
       "password":"Botwoman@123!"
     };
 
 
-    this.serverService.makePostReq<IUser>({url:loginUrl, body, headerData})
+    this.serverService.makePostReq<IUser>({url:loginUrl, body })
       .subscribe((user)=>{
         this.store.dispatch([
           new SetUserAction({user}),

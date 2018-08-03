@@ -135,8 +135,8 @@ export class ConstantsService {
     return this.BACKEND_URL + 'reports/' + _id; //  https://dev.imibot.ai/reports/5b335b127c15580059c13fc5
   }
 
-  getAllVersionsByBotId(_id:number) {
-    return this.BACKEND_URL + 'api/v1/botversioning/?id=' + _id; //"http://localhost:8000/api/v1/botversioning/?bot_id=2"
+  getAllVersionsByBotId() {
+    return this.BACKEND_URL + 'api/v1/botversioning/'; //"http://localhost:8000/api/v1/botversioning/"
   }
 
 

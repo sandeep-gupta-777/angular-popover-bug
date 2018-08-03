@@ -104,6 +104,7 @@ import {SessionDetailModelComponent} from './core/bot-detail/bot-sessions/sessio
 import {SessionTabsDetailsComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-tabs-details/session-tabs-details.component';
 import {SessionMessageComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-message/session-message.component';
 import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
+import { FilterActiveBotPipe } from './filter-active-bot.pipe';
 
 const routes: Route[] = [
   {
@@ -244,7 +245,8 @@ const routes: Route[] = [
     TestComponent,
     SessionDetailModelComponent,
     SessionTabsDetailsComponent,
-    SessionMessageComponent
+    SessionMessageComponent,
+    FilterActiveBotPipe
   ],
   imports: [
     BrowserModule,

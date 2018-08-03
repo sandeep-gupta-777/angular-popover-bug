@@ -63,7 +63,7 @@ export class ServerService {
 
     if(headerData)
     for(let key in headerData){{
-      headers = headers.set(key, headerData[key]);
+      headers = headers.set(key, headerData[key]);; ``
     }}
     // headers = headers.set("content-type","application/x-www-form-urlencoded");
     return headers;

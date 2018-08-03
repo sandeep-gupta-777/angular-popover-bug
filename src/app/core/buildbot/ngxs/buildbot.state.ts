@@ -16,7 +16,6 @@ import {
   SaveCustomnersInfo,
   SaveIntegrationInfo,
   SavePipeLineInfo,
-  SaveVersionInfoInBot
 } from './buildbot.action';
 import {ConstantsService} from '../../../constants.service';
 import {buildPath} from 'selenium-webdriver/http';
@@ -24,36 +23,36 @@ import {IAIModule} from '../../../../interfaces/ai-module';
 
 
 export interface IBotCreationState {
-  codeBased: {
-    basicInfo: IBasicInfo,
-    avatars: IAvatar[],
-    pipeline: IAIModule[],
-    /*TODO: change the intgerface here*/
-    unselected_pipeline: IAIModule[]
-    customners: ICustomners,
-    code: ICode,
-    integration: IIntegration,
-    botConfig: IBotConfig,
+  codeBased?: {
+    basicInfo?: IBasicInfo,
+    avatars?: IAvatar[],
+    pipeline?: IAIModule[],
+    /*TODO?: change the intgerface here*/
+    unselected_pipeline?: IAIModule[]
+    customners?: ICustomners,
+    code?: ICode,
+    integration?: IIntegration,
+    botConfig?: IBotConfig,
   }
-  pipeLineBased: {
-    botCreationState: IBotCreationState,
-    basicInfo: IBasicInfo,
-    avatar: IAvatar,
-    avatarList: IAvatarList,
-    pipeline: IPipeline,
-    ipelineData: pipelineData,
-    customners: ICustomners,
-    code: ICode,
-    integration: IIntegration,
-    botConfig: IBotConfig,
+  pipeLineBased?: {
+    botCreationState?: IBotCreationState,
+    basicInfo?: IBasicInfo,
+    avatar?: IAvatar,
+    avatarList?: IAvatarList,
+    pipeline?: IPipeline,
+    ipelineData?: pipelineData,
+    customners?: ICustomners,
+    code?: ICode,
+    integration?: IIntegration,
+    botConfig?: IBotConfig,
   }
 }
 
 @State<IBotCreationState>({
   name: 'botcreationstate',
   defaults: {
-    codeBased: null,
-    pipeLineBased: null
+    codeBased: {},
+    pipeLineBased: {}
   }
 })
 
@@ -65,6 +64,8 @@ export class BotCreationStateReducer {
   @Action(SaveBasicInfo)
   closeChatWindow({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveBasicInfo) {
     let state: IBotCreationState = getState();
+    if(!state) return;
+    // TODO: Later
     let x = {
       ...state, codeBased: {
         ...state.codeBased,

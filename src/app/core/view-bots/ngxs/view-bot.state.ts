@@ -50,7 +50,6 @@ export class ViewBotStateReducer{
      state.pipelineBasedBotList.find((bot)=>bot.id === payload.botId);
 
     bot.store_bot_versions = payload.data;
-    debugger;
     setState({...state});
   }
 
