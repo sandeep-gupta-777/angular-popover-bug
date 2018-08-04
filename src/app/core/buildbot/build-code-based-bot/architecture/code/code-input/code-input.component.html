@@ -60,25 +60,25 @@
 
       <!--tabs end-->
       <div class="card-body p-0 mr-2">
-        <ul class="nav nav-tabs">
-          <li class="nav-item">
-            <a class="nav-link text-theme-normal" [ngClass]="{'active': activeTab==='dfTemplate'}"
+        <ul class="nav nav-tabs theme-tabbing">
+          <li class="nav-item" [ngClass]="{'tab-active': activeTab==='dfTemplate'}">
+            <a class="nav-link text-theme-normal"
                (click)="tabClicked('dfTemplate')">DF Template</a>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" [ngClass]="{'active': activeTab==='dfRules'}" (click)="tabClicked('dfRules')">DF
+          <li class="nav-item" [ngClass]="{'tab-active': activeTab==='dfRules'}">
+            <a class="nav-link text-theme-normal"  (click)="tabClicked('dfRules')">DF
               Rules</a>
           </li>
-          <li class="nav-item text-theme-normal">
-            <a class="nav-link" [ngClass]="{'active': activeTab==='generationRules'}"
+          <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab==='generationRules'}">
+            <a class="nav-link"
                (click)="tabClicked('generationRules')">Generation Rules</a>
           </li>
-          <li class="nav-item text-theme-normal">
-            <a class="nav-link" [ngClass]="{'active': activeTab==='generationTemplates'}"
+          <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab==='generationTemplates'}">
+            <a class="nav-link"
                (click)="tabClicked('generationTemplates')">Generation Template</a>
           </li>
-          <li class="nav-item text-theme-normal">
-            <a class="nav-link" [ngClass]="{'active': activeTab==='workflows'}"
+          <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab==='workflows'}">
+            <a class="nav-link"
                (click)="tabClicked('workflows')">Workflows</a>
           </li>
         </ul>

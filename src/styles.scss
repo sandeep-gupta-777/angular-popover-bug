@@ -271,15 +271,21 @@ th, td {
   }
 }
 
-.logo-md{
+.logo-md {
   height: 40px;
   width: 40px;
 }
 
-.theme-tabbing{
-  .nav-link {
-    border: none;
-    color: black;
-  }
+.theme-tabbing {
 
+  .nav-item {
+    border: none;
+    .nav-link {
+      border: none;
+      color: black;
+      &:hover {
+        border: none;
+      }
+    }
+  }
 }

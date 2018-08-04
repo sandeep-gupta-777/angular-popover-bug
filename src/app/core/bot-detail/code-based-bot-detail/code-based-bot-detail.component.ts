@@ -19,7 +19,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
 
   @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
-  selectedTab;
+  selectedTab = "architecture";
   bot$: Observable<IBot>;
   bot_id: number;
   overviewInfo$: Observable<IOverviewInfoResponse>;
@@ -39,7 +39,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
   ngOnInit() {
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
-    this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build');
+    this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build')|| "architecture";
     this.bot$ = this.codeBasedBotList$.map((codeBasedBotList: IBot[]) => {
       let bot = codeBasedBotList.filter((bot) => {
         return bot.id === this.bot_id;//
