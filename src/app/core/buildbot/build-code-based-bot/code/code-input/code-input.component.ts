@@ -44,12 +44,12 @@ export class CodeInputComponent implements OnInit {
     let botId = this.bot.id;
     this.serverService.makeGetReq<IBotVersionResult>({url,headerData:{"bot-access-token":this.bot.bot_access_token}})
       .subscribe((value)=>{
-        debugger;
+        console.log(this.bot.id);
         this.store.dispatch([
-          new SaveVersionInfoInBot({data: value.objects, botId: botId})
+          new SaveVersionInfoInBot({data: value.objects, botId: this.bot.id})
         ]);
       })
-    
+
   }
 
   tabClicked(activeTab: string) {

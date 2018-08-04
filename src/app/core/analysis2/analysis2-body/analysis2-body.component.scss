@@ -1,0 +1,20 @@
+@import "~src/sass/main.scss";
+
+.row-body{
+    height: 85%;
+  .side-bar{
+    flex-basis: 11%;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .heading {
+    @include typography(16px, $line-height-normal, $font-weight-700, $color-text-normal);
+  }
+
+  .tab{
+    @include typography(13px, $line-height-normal, $font-weight-300, $color-text-normal);
+
+  }
+}

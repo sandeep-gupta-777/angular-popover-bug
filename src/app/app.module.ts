@@ -104,6 +104,13 @@ import {SessionDetailModelComponent} from './core/bot-detail/bot-sessions/sessio
 import {SessionTabsDetailsComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-tabs-details/session-tabs-details.component';
 import {SessionMessageComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-message/session-message.component';
 import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
+import { Analysis2WrapperComponent } from './core/analysis2/analysis2-wrapper/analysis2-wrapper.component';
+import { Analysis2HeaderComponent } from './core/analysis2/analysis2-header/analysis2-header.component';
+import { Analysis2BodyComponent } from './core/analysis2/analysis2-body/analysis2-body.component';
+import { Analysis2OverviewComponent } from './core/analysis2/analysis2-overview/analysis2-overview.component';
+import { Analysis2VolumeComponent } from './core/analysis2/analysis2-volume/analysis2-volume.component';
+import { Analysis2PerformanceComponent } from './core/analysis2/analysis2-performance/analysis2-performance.component';
+import { Analysis2EngagementComponent } from './core/analysis2/analysis2-engagement/analysis2-engagement.component';
 
 const routes: Route[] = [
   {
@@ -244,7 +251,14 @@ const routes: Route[] = [
     TestComponent,
     SessionDetailModelComponent,
     SessionTabsDetailsComponent,
-    SessionMessageComponent
+    SessionMessageComponent,
+    Analysis2WrapperComponent,
+    Analysis2HeaderComponent,
+    Analysis2BodyComponent,
+    Analysis2OverviewComponent,
+    Analysis2VolumeComponent,
+    Analysis2PerformanceComponent,
+    Analysis2EngagementComponent
   ],
   imports: [
     BrowserModule,

@@ -16,7 +16,6 @@ import {
   SaveCustomnersInfo,
   SaveIntegrationInfo,
   SavePipeLineInfo,
-  SaveVersionInfoInBot
 } from './buildbot.action';
 import {ConstantsService} from '../../../constants.service';
 import {buildPath} from 'selenium-webdriver/http';
@@ -128,7 +127,7 @@ export class BotCreationStateReducer {
   }
 
 
-  
+
 
 
 }

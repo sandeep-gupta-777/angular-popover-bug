@@ -1,0 +1,22 @@
+@import "~src/sass/main.scss";
+
+.analysis2-header-row {
+  background-color: white;
+  height: 100%;
+  .heading {
+    @include typography(16px, $line-height-normal, $font-weight-700, $color-text-normal);
+  }
+  label {
+    margin-right: 10px;
+    @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-text-normal);
+  }
+  select{
+    height: 32px;
+    width: 180px;
+    border-radius: 2px;
+    border: solid 1px #e0e0e0;
+    @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-text-normal);
+    outline: none;
+  }
+
+}

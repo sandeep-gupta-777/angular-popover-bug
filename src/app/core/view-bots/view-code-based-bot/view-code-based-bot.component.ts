@@ -17,14 +17,12 @@ export class ViewCodeBasedBotComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(){
-    console.log("ViewCodeBotsComponent init=======================================================");
     this.codeBasedBotList$.subscribe((value)=>{
       console.log(value)
     });
   }
 
   ngOnDestroy(): void {
-    console.log("ViewCodeBasedBotComponent destroyed")
   }
 
 }

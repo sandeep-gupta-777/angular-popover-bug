@@ -30,25 +30,5 @@ export class ViewBotsComponent implements OnInit {
       .subscribe(()=>{
         console.log("bot list is set in store");
       })
-    // let url = this.constantsService.getPipelinebasedBotListUrl();
-    // let headerData: IHeaderData = {'content-type': 'application/json'};
-    // this.botList$ = this.serverService.makeGetReq<IBot[]>({url, headerData});
-    // this.botList$
-    //   .subscribe((botList: IBot[]) => {
-    //     let codeBasedBotList: IBot[] = [];
-    //     let pipelineBasedBotList: IBot[] = [];
-    //
-    //     botList.forEach((bot) => {
-    //       bot.botType !== 'intelligent' ? codeBasedBotList.push(bot) : pipelineBasedBotList.push(bot);
-    //     });
-    //     this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
-    //     this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
-    //   });
   }
-  // changeActiveTab(activeTab){
-  //   console.log("hi");
-  //   this.router.navigate(['core','viewbots',activeTab]);
-  //   this.activeTab =activeTab
-  //
-  // }
 }

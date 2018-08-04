@@ -16,7 +16,7 @@ export class AuthGaurdService implements CanActivate, CanActivateChild {
   canActivate() {
     // return true;
     return this.loggeduser$.map((value: IAuthState) => {
-      if (value.user != null) {
+      if (value && value.user != null) {
         return true;
       } else {
         this.router.navigate(['auth', 'login']);

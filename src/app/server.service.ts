@@ -47,7 +47,7 @@ export class ServerService {
       tokenData = {...tokenData, "auth-token": this.AUTH_TOKEN};
       if(this.router.url.toString() === "/auth/login"){
         tokenData = {"Content-Type":"application/json"};
-      
+
       }
     /*expanding header data*/
     headerData = {
@@ -103,7 +103,6 @@ export class ServerService {
     let headerData: IHeaderData = {'content-type': 'application/json'};
     return this.makeGetReq<IBotResult>({url, headerData})
       .do((botResult) => {
-        
         let codeBasedBotList: IBot[] = [];
         let pipelineBasedBotList: IBot[] = [];
 

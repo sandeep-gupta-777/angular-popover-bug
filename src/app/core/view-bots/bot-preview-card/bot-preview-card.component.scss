@@ -1,51 +1,119 @@
 @import "~src/sass/variables";
 @import "~src/sass/mixins";
+//
+//p{
+//  @include margin-padding-0()
+//}
+//
+//.card, .card-header,.card-body, .card-footer{
+//  background-color: white;
+//  border: none;
+//  @include margin-padding-0();
+//  padding-top: 7px;
+//}
+//.card{
+//  padding-left: 15px;
+//  padding-right: 15px;
+//  .card-header{
+//    .bot-logo{
+//      height: 30px;
+//      width: 30px;
+//    }
+//  }
+//
+//  .bot-name{
+//    @include typography($font-size-sm, $line-height-normal, $font-weight-normal, $color-text-normal)
+//  }
+//  .bot-title{
+//    @include typography($font-size-xs, $line-height-normal, $font-weight-normal, $color-secondary)
+//  }
+//  .bot-created,.bot-updated{
+//    font-size: $font-size-xs;
+//    @include typography($font-size-xs, $line-height-normal, $font-weight-300, $color-text-normal)
+//
+//  }
+//  .card-footer{
+//    padding-bottom: 10px;
+//    .fa{
+//      padding-right: 2px;
+//    }
+//    .copy{
+//      font-size: $font-size-xs !important;
+//      color: $color-secondary;
+//    }
+//  }
+//}
+//
+//::ng-deep .modal-sm{
+//  width: 40% !important;
+//}
+/*=======================*/
+@import "~src/sass/variables";
+@import "~src/sass/mixins";
 
-p{
-  @include margin-padding-0()
+.grid-bot-preview {
+  display: grid;
+  width: 300px;
+  height: 176px;
+  grid-template-columns: 56px 1fr 14px 36px;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: 'ct ct ct ct' 'cb cb cb cb';
 }
 
-.card, .card-header,.card-body, .card-footer{
-  background-color: white;
-  border: none;
-  @include margin-padding-0();
-  padding-top: 7px;
-}
-.card{
-  padding-left: 15px;
-  padding-right: 15px;
-  .card-header{
-    .bot-logo{
-      height: 30px;
-      width: 30px;
-    }
-  }
-
-  .bot-name{
-    @include typography($font-size-sm, $line-height-normal, $font-weight-normal, $color-text-normal)
-  }
-  .bot-title{
-    @include typography($font-size-xs, $line-height-normal, $font-weight-normal, $color-secondary)
-  }
-  .bot-created,.bot-updated{
-    font-size: $font-size-xs;
-    @include typography($font-size-xs, $line-height-normal, $font-weight-300, $color-text-normal)
-
-  }
-  .card-footer{
-    padding-bottom: 10px;
-    .fa{
-      padding-right: 2px;
-    }
-    .copy{
-      font-size: $font-size-xs !important;
-      color: $color-secondary;
-    }
-  }
+.top {
+  grid-area: ct;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 16px;
 }
 
-::ng-deep .modal-sm{
-  width: 40% !important;
+.bot {
+  grid-area: cb;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 16px;
 }
 
+.heading {
+  @include typography(16px, $line-height-normal, $font-weight-700, $color-text-normal);
+  margin-bottom: 4px;
+}
 
+.description, .unique-name, .date-protection {
+  @include typography(11px, 1.45, $font-weight-300, $color-text-normal);
+}
+
+.active-button {
+  height: 24px;
+  border-radius: 2px;
+  background-color: #509005;
+  @include typography(11px, 1.45, $font-weight-300, $color-text-normal);
+  color: white;
+}
+
+.more {
+  @include typography(13px, $line-height-normal, $font-weight-300, #00abd3);
+}
+
+.positioned-wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(244, 244, 244, 0.8);
+  opacity: 0;
+  &:hover{
+    animation-name: bottom-up;
+    animation-duration: .5s;
+    animation-fill-mode: backwards;
+    opacity: 1;
+  }
+}
+
+@keyframes bottom-up {
+  0%   {
+    opacity: 0;
+  }
+  100% {opacity: 1}
+}

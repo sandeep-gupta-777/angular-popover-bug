@@ -45,12 +45,11 @@ export class ViewBotStateReducer{
   saveVersionInfoInBot({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>,
      {payload}: SaveVersionInfoInBot) {
     let state: ViewBotStateModel = getState();
-    
+
     let bot:IBot =  state.codeBasedBotList.find((bot)=>bot.id === payload.botId) ||
      state.pipelineBasedBotList.find((bot)=>bot.id === payload.botId);
 
     bot.store_bot_versions = payload.data;
-    debugger;
     setState({...state});
   }
 
