@@ -6,6 +6,7 @@
     </div>
   </div>
   <div class="col-9 pt-4">
+    <!---->
     <div class="row  mb-4 d-flex align-items-center">
       <div class="col-4">
         <h4 class="title">Analysis Overview</h4>
@@ -102,7 +103,7 @@
 
   <div class="col-12">
     <!--<app-handsontable></app-handsontable>-->
-    <app-bot-testing [id]="(bot$|async)._id" ></app-bot-testing>
+    <app-bot-testing [id]="(bot$|async).id" ></app-bot-testing>
   </div>
 </div>
 

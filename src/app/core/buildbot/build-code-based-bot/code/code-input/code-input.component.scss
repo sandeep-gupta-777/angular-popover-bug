@@ -19,22 +19,29 @@
   top: 100%;
   left: 0;
   z-index: 20;
+  width: 50%;
 }
 
 .flex-bot-versioning-toaster{
-  border: 1px solid  #9e9e9e;
+  //border: 1px solid  #9e9e9e;
   height: 32px;
   width: 100%;
-
-  .count {
+    .count {
     text-align: left;
     @include typography(20px, 24px, $font-weight-700, $color-text-normal);
 
   }
+
+  form{
+    display: flex;
+    justify-content: center;
+  }
   input[type=radio] {
-    border: 0px;
-    width: 100%;
-    height: 6px;
+    //border: 0px;
+    //width: 100%;
+    width: 6px;
+    margin-right: 3px;
+    //transform: scale(.5);
   }
 
   .forked {
@@ -55,4 +62,8 @@
   }
 
 
+}
+
+.active-label-text{
+  @include typography(11px, $line-height-normal, $font-weight-400, $color-text-normal);
 }
