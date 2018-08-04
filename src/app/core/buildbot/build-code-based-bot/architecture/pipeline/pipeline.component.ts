@@ -1,10 +1,10 @@
 import {Component, Input, IterableDiffers, OnInit} from '@angular/core';
-import {IAIModule} from '../../../../../interfaces/ai-module';
-import {AimService} from '../../../../aim.service';
-import {ObjectArrayCrudService} from '../../../../object-array-crud.service';
-import {IBot} from '../../../interfaces/IBot';
 import {Store} from '@ngxs/store';
-import {SavePipeLineInfo} from '../../ngxs/buildbot.action';
+import {IBot} from '../../../../interfaces/IBot';
+import {IAIModule} from '../../../../../../interfaces/ai-module';
+import {AimService} from '../../../../../aim.service';
+import {ObjectArrayCrudService} from '../../../../../object-array-crud.service';
+import {SavePipeLineInfo} from '../../../ngxs/buildbot.action';
 
 @Component({
   selector: 'app-pipeline',
@@ -17,7 +17,11 @@ export class PipelineComponent implements OnInit {
   iterableDiffer;
   pipeLine:IAIModule[] = [];
   aiModules: IAIModule[]=[];
-  constructor(private aimService:AimService, private objectArrayCrudService:ObjectArrayCrudService, private _iterableDiffers: IterableDiffers, private store:Store){
+  constructor(
+    private aimService:AimService,
+    private objectArrayCrudService:ObjectArrayCrudService,
+    private _iterableDiffers: IterableDiffers,
+    private store:Store){
     this.iterableDiffer = this._iterableDiffers.find([]).create(null);
   }
 

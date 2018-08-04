@@ -1,9 +1,9 @@
-import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {IBot} from '../../../interfaces/IBot';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Store} from '@ngxs/store';
-import {ServerService} from '../../../../server.service';
-import {ConstantsService} from '../../../../constants.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {IBot} from '../../../../interfaces/IBot';
+import {ServerService} from '../../../../../server.service';
+import {ConstantsService} from '../../../../../constants.service';
 
 @Component({
   selector: 'app-knowledge-base',
@@ -15,7 +15,7 @@ export class KnowledgeBaseComponent implements OnInit {
   @Input() bot: IBot;
   @ViewChild('form') f: HTMLFormElement;
   settings;
-  data;
+  data=[];
   codeText: string;
   showTable = true;
   /*new concept*/
@@ -28,11 +28,16 @@ export class KnowledgeBaseComponent implements OnInit {
   handontableData=[];
 
   /*TODO: use model instead of ngif;else*/
-  constructor(private serverService: ServerService, private constantsService: ConstantsService, private store: Store) {
+  constructor(
+    private serverService: ServerService,
+    private constantsService: ConstantsService,
+    private store: Store) {
 
   }
 
   ngOnInit() {
+    debugger;
+    console.log(this.bot);
     this.settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;
     // this.data = this.bot.customNers || [];//comperror:
     this.data.push({key: 'sadasd', nerType: 'asdasd', conflict_policy: 'override'});

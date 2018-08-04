@@ -1,213 +1,315 @@
-<div class="row shadow-theme my-2 p-3 bg-white d-flex align-items-center">
-  <div class="col-3 ">
-    <!--TODO: make implementation of this more flexible-->
-    <div class="p-1">
-      <app-bot-preview-card [bot]="(bot$|async)"></app-bot-preview-card>
+<!--<div class="row shadow-theme my-2 p-3 bg-white d-flex align-items-center">-->
+<!--<div class="col-3 ">-->
+<!--&lt;!&ndash;TODO: make implementation of this more flexible&ndash;&gt;-->
+<!--<div class="p-1">-->
+<!--<app-bot-preview-card [bot]="(bot$|async)"></app-bot-preview-card>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="col-9 pt-4">-->
+<!--<div class="row  mb-4 d-flex align-items-center">-->
+<!--<div class="col-4">-->
+<!--<h4 class="title">Analysis Overview</h4>-->
+<!--</div>-->
+<!--<div class="col-4 d-flex align-items-center">-->
+<!--<span class="mr-2 text-muted label">Channels</span>-->
+<!--<div class="btn-group" dropdown>-->
+<!--<button id="button-disabled-item" dropdownToggle type="button"-->
+<!--class="btn-theme-primary-outline dropdown-toggle"-->
+<!--aria-controls="dropdown-disabled-item">{{selectedChannelDisplayName||'All Channels'}}<span-->
+<!--class="caret"></span>-->
+<!--</button>-->
+<!--<ul id="dropdown-disabled-item" *dropdownMenu class="dropdown-menu"-->
+<!--role="menu" aria-labelledby="button-disabled-item">-->
+<!--<li role="menuitem"><a class="dropdown-item" (click)="selectedChannelChanged('all', 'All Channels')">All-->
+<!--Channels</a></li>-->
+<!--<li role="menuitem"><a class="dropdown-item" (click)="selectedChannelChanged('facebook', 'Facebook')">Facebook</a>-->
+<!--</li>-->
+<!--<li role="menuitem"><a class="dropdown-item" (click)="selectedChannelChanged('web', 'Webchat')">Webchat</a>-->
+<!--</li>-->
+<!--<li role="menuitem"><a class="dropdown-item" (click)="selectedChannelChanged('alexa', 'Alexa')">Alexa</a>-->
+<!--</li>-->
+<!--</ul>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div class="col-4 d-flex align-items-center">-->
+<!--<span class="mr-2 text-muted label">Duration</span>-->
+<!--<div class="btn-group" dropdown>-->
+<!--<button id="button-disabled-item1" dropdownToggle type="button"-->
+<!--class="btn-theme-primary-outline dropdown-toggle"-->
+<!--aria-controls="dropdown-disabled-item">-->
+<!--{{selectedDurationDisplayName||'All Channels'}} <span class="caret"></span>-->
+<!--</button>-->
+<!--<ul id="dropdown-disabled-item1" *dropdownMenu class="dropdown-menu"-->
+<!--role="menu" aria-labelledby="button-disabled-item">-->
+<!--<li role="menuitem"><a class="dropdown-item" (click)="selectedDurationChanged(7, 'Weekly')">Weekly</a></li>-->
+<!--<li role="menuitem"><a class="dropdown-item" (click)="selectedDurationChanged(30, 'Monthly')">Monthly</a>-->
+<!--</li>-->
+<!--<li role="menuitem"><a class="dropdown-item"-->
+<!--(click)="selectedDurationChanged(15, 'Bi-Monthly')">Bi-Monthly</a></li>-->
+<!--<li role="menuitem"><a class="dropdown-item" (click)="selectedDurationChanged(365, 'Yearly')">Yearly</a>-->
+<!--</li>-->
+<!--</ul>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="row row-details" *ngIf="(overviewInfo$ | async) as overviewInfo; else placeholder">-->
+<!--<div class="col-2  d-flex flex-column align-items-center justify-content-start">-->
+<!--<i class="fa fa-area-chart p-0"></i>-->
+<!--<span class="number">{{overviewInfo.totalSessionsData || '0'}}</span>-->
+<!--<span class="description">Total Session</span>-->
+<!--</div>-->
+<!--<div class="col-2 pb-5 d-flex flex-column align-items-center">-->
+<!--<i class="fa fa-users"></i>-->
+<!--<span class="number">{{overviewInfo.totalUsers || '0'}}</span>-->
+<!--<span class="description">Total Users</span>-->
+<!--</div>-->
+<!--<div class="col-2 d-flex flex-column align-items-center">-->
+<!--<i class="fa fa-envelope"></i>-->
+<!--<span class="number">{{overviewInfo.totalMessages || '0'}}</span>-->
+<!--<span class="description">Total Messages</span>-->
+<!--</div>-->
+<!--<div class="col-2 d-flex flex-column align-items-center">-->
+<!--<i class="fa fa-exchange"></i>-->
+<!--<span class="number">{{overviewInfo.averageMessages || '0'}}</span>-->
+<!--<span class="description">Average Message Per Session</span>-->
+<!--</div>-->
+<!--<div class="col-2 d-flex flex-column align-items-center">-->
+<!--<i class="fa fa-clock-o"></i>-->
+<!--<span class="number">{{overviewInfo.totalTime.hours + ':'+ overviewInfo.totalTime.minutes || '0'}}</span>-->
+<!--<span class="description">Total Time Spent(hh:mm)</span>-->
+<!--</div>-->
+<!--<div class="col-2 d-flex flex-column align-items-center">-->
+<!--<i class="fa fa-hourglass"></i>-->
+<!--<span class="number">{{(overviewInfo).averageTime.hours + ':'+ overviewInfo.averageTime.minutes || '0'}}</span>-->
+<!--<span class="description">Time Spent Per Session (hh:mm)</span>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<div *ngIf="(bot$|async) as bot">
+
+  <app-bot-detail-header [bot]="bot"></app-bot-detail-header>
+
+  <div class="row shadow-theme bg-white py-4 my-3">
+
+    <div class="col-12">
+      <div class="col-12 d-flex justify-content-between px-4 pb-3">
+        <h4>Bot Configuration</h4>
+        <button class="btn-theme-primary">Update Changes</button>
+      </div>
+      <app-bot-config [bot]="(bot$|async)"></app-bot-config>
     </div>
   </div>
-  <div class="col-9 pt-4">
-    <div class="row  mb-4 d-flex align-items-center">
-      <div class="col-4">
-        <h4 class="title">Analysis Overview</h4>
+
+  <div class="row shadow-theme bg-white p-3 my-3">
+    <div class="col-12 d-flex justify-content-between mb-3">
+      <h4>Testing</h4>
+      <div class="d-flex align-items-center">
+        <i class="fa fa-plus pr-4"></i>
+        <i class="fa fa-minus pr-4"></i>
+        <button class="btn-theme-primary-outline mr-4">Export to CSV</button>
+        <button class="btn-theme-primary pr-4">Begin Test</button>
       </div>
-      <div class="col-4 d-flex align-items-center">
-        <span class="mr-2 text-muted label">Channels</span>
-        <div class="btn-group" dropdown>
-          <button id="button-disabled-item" dropdownToggle type="button" class="btn-theme-primary-outline dropdown-toggle"
-                  aria-controls="dropdown-disabled-item">{{selectedChannelDisplayName||'All Channels'}}<span class="caret"></span>
-          </button>
-          <ul id="dropdown-disabled-item" *dropdownMenu class="dropdown-menu"
-              role="menu" aria-labelledby="button-disabled-item">
-            <li role="menuitem"><a class="dropdown-item" (click)="selectedChannelChanged('all', 'All Channels')">All Channels</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="selectedChannelChanged('facebook', 'Facebook')">Facebook</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="selectedChannelChanged('web', 'Webchat')">Webchat</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="selectedChannelChanged('alexa', 'Alexa')">Alexa</a></li>
-          </ul>
+    </div>
+
+    <div class="col-12">
+      <!--<app-handsontable></app-handsontable>-->
+      <app-bot-testing [id]="(bot$|async).id"></app-bot-testing>
+    </div>
+  </div>
+
+  <div class="row bg-white p-3 my-3 shadow-theme">
+    <div class="col-12 d-flex justify-content-between mb-3">
+      <h4>CONSUMERS</h4>
+      <div class="d-flex align-items-center">
+        <i class="fa fa-expand"></i>
+      </div>
+    </div>
+
+    <div class="col-12 d-flex justify-content-end">
+      <button class="btn-theme-primary-outline mr-3" (click)="refreshSession()">Refresh Sessions</button>
+      <div class="btn-group " dropdown style="width: 150px">
+        <div dropdownToggle>
+          <!--<input type="text" placeholder="Select timePeriod" style="width: 100%; position: relative">-->
+          <button class="btn-theme-primary-outline">Row per page<i class="fa fa-angle-down pl-1"></i></button>
         </div>
+        <ul *dropdownMenu class="dropdown-menu" role="menu" style="width: 100%">
+          <li role="menuitem"><a class="dropdown-item">5</a></li>
+          <li role="menuitem"><a class="dropdown-item">10</a></li>
+          <li role="menuitem"><a class="dropdown-item">15</a></li>
+          <li role="menuitem"><a class="dropdown-item">20</a></li>
+          <li role="menuitem"><a class="dropdown-item">25</a></li>
+        </ul>
       </div>
-
-      <div class="col-4 d-flex align-items-center">
-        <span class="mr-2 text-muted label">Duration</span>
-        <div class="btn-group" dropdown>
-          <button id="button-disabled-item1" dropdownToggle type="button" class="btn-theme-primary-outline dropdown-toggle"
-                  aria-controls="dropdown-disabled-item">
-            {{selectedDurationDisplayName||'All Channels'}} <span class="caret"></span>
-          </button>
-          <ul id="dropdown-disabled-item1" *dropdownMenu class="dropdown-menu"
-              role="menu" aria-labelledby="button-disabled-item">
-            <li role="menuitem"><a class="dropdown-item" (click)="selectedDurationChanged(7, 'Weekly')">Weekly</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="selectedDurationChanged(30, 'Monthly')">Monthly</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="selectedDurationChanged(15, 'Bi-Monthly')">Bi-Monthly</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="selectedDurationChanged(365, 'Yearly')">Yearly</a></li>
-          </ul>
-        </div>
-      </div>
+      <!---->
     </div>
-    <div class="row row-details" *ngIf="(overviewInfo$ | async) as overviewInfo; else placeholder">
-      <div class="col-2  d-flex flex-column align-items-center justify-content-start">
-        <i class="fa fa-area-chart p-0"></i>
-        <span class="number">{{overviewInfo.totalSessionsData || '0'}}</span>
-        <span class="description">Total Session</span>
-      </div>
-      <div class="col-2 pb-5 d-flex flex-column align-items-center">
-        <i class="fa fa-users"></i>
-        <span class="number">{{overviewInfo.totalUsers || '0'}}</span>
-        <span class="description">Total Users</span>
-      </div>
-      <div class="col-2 d-flex flex-column align-items-center">
-        <i class="fa fa-envelope"></i>
-        <span class="number">{{overviewInfo.totalMessages || '0'}}</span>
-        <span class="description">Total Messages</span>
-      </div>
-      <div class="col-2 d-flex flex-column align-items-center">
-        <i class="fa fa-exchange"></i>
-        <span class="number">{{overviewInfo.averageMessages || '0'}}</span>
-        <span class="description">Average Message Per Session</span>
-      </div>
-      <div class="col-2 d-flex flex-column align-items-center">
-        <i class="fa fa-clock-o"></i>
-        <span class="number">{{overviewInfo.totalTime.hours + ':'+ overviewInfo.totalTime.minutes || '0'}}</span>
-        <span class="description">Total Time Spent(hh:mm)</span>
-      </div>
-      <div class="col-2 d-flex flex-column align-items-center">
-        <i class="fa fa-hourglass"></i>
-        <span class="number">{{(overviewInfo).averageTime.hours + ':'+ overviewInfo.averageTime.minutes || '0'}}</span>
-        <span class="description">Time Spent Per Session (hh:mm)</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row shadow-theme bg-white py-4 my-5">
-
-  <div class="col-12">
-    <div class="col-12 d-flex justify-content-between px-4 pb-3">
-      <h4>Bot Configuration</h4>
-      <button class="btn-theme-primary">Update Changes</button>
-    </div>
-    <app-build-code-based-bot [bot]="(bot$|async)"></app-build-code-based-bot>
-  </div>
-</div>
-
-<div class="row shadow-theme bg-white p-3 my-5">
-  <div class="col-12 d-flex justify-content-between mb-3">
-    <h4>Testing</h4>
-    <div class="d-flex align-items-center">
-      <i class="fa fa-plus pr-4"></i>
-      <i class="fa fa-minus pr-4"></i>
-      <button class="btn-theme-primary-outline mr-4">Export to CSV</button>
-      <button class="btn-theme-primary pr-4">Begin Test</button>
-    </div>
-  </div>
-
-  <div class="col-12">
-    <!--<app-handsontable></app-handsontable>-->
-    <app-bot-testing [id]="(bot$|async)._id" ></app-bot-testing>
-  </div>
-</div>
-
-<div class="row bg-white p-3 my-3 shadow-theme">
-  <div class="col-12 d-flex justify-content-between mb-3">
-    <h4>CONSUMERS</h4>
-    <div class="d-flex align-items-center">
-      <i class="fa fa-expand"></i>
-    </div>
-  </div>
-
-  <div class="col-12 d-flex justify-content-end">
-    <button class="btn-theme-primary-outline mr-3" (click)="refreshSession()">Refresh Sessions</button>
-    <div class="btn-group " dropdown style="width: 150px">
-      <div dropdownToggle>
-        <!--<input type="text" placeholder="Select timePeriod" style="width: 100%; position: relative">-->
-        <button class="btn-theme-primary-outline" >Row per page<i class="fa fa-angle-down pl-1"></i></button>
-      </div>
-      <ul *dropdownMenu class="dropdown-menu" role="menu" style="width: 100%">
-        <li role="menuitem"><a class="dropdown-item">5</a></li>
-        <li role="menuitem"><a class="dropdown-item">10</a></li>
-        <li role="menuitem"><a class="dropdown-item">15</a></li>
-        <li role="menuitem"><a class="dropdown-item">20</a></li>
-        <li role="menuitem"><a class="dropdown-item">25</a></li>
-      </ul>
-    </div>
-    <!---->
-  </div>
-  <!--<div class="col-12 d-flex justify-content-end">-->
+    <!--<div class="col-12 d-flex justify-content-end">-->
     <!--<button class="btn-theme-primary-outline mr-3">Refresh Sessions</button>-->
     <!--<button class="btn-theme-primary-outline mr-3">Rows on page</button>-->
     <!--&lt;!&ndash;TODO: insert dropdown here&ndash;&gt;-->
     <!--<button class="btn-theme-primary-outline">Rows on page</button>-->
-  <!--</div>-->
-  <div class="col-12 mt-3">
-    <!--<app-consumers [id]="(bot$|async)._id"></app-consumers>-->
-    <app-consumers></app-consumers>
-  </div>
-</div>
-
-
-<div class="row bg-white p-3 shadow-theme">
-  <div class="col-12 d-flex justify-content-between mb-3">
-    <h4>SESSIONS</h4>
-    <div class="d-flex align-items-center">
-      <i class="fa fa-expand"></i>
+    <!--</div>-->
+    <div class="col-12 mt-3">
+      <!--<app-consumers [id]="(bot$|async)._id"></app-consumers>-->
+      <app-consumers></app-consumers>
     </div>
   </div>
-  <div class="col-12 d-flex justify-content-end">
-    <button class="btn-theme-primary-outline mr-3" (click)="refreshSession()">Refresh Sessions</button>
-    <div class="btn-group " dropdown style="width: 150px">
-      <div dropdownToggle>
-        <!--<input type="text" placeholder="Select timePeriod" style="width: 100%; position: relative">-->
-        <button class="btn-theme-primary-outline" >Row per page<i class="fa fa-angle-down pl-1"></i></button>
+
+
+  <div class="row bg-white p-3 shadow-theme">
+    <div class="col-12 d-flex justify-content-between mb-3">
+      <h4>SESSIONS</h4>
+      <div class="d-flex align-items-center">
+        <i class="fa fa-expand"></i>
       </div>
-      <ul *dropdownMenu class="dropdown-menu" role="menu" style="width: 100%">
-        <li role="menuitem"><a class="dropdown-item">5</a></li>
-        <li role="menuitem"><a class="dropdown-item">10</a></li>
-        <li role="menuitem"><a class="dropdown-item">15</a></li>
-        <li role="menuitem"><a class="dropdown-item">20</a></li>
-        <li role="menuitem"><a class="dropdown-item">25</a></li>
-      </ul>
     </div>
-    <!---->
+    <div class="col-12 d-flex justify-content-end">
+      <button class="btn-theme-primary-outline mr-3" (click)="refreshSession()">Refresh Sessions</button>
+      <div class="btn-group " dropdown style="width: 150px">
+        <div dropdownToggle>
+          <!--<input type="text" placeholder="Select timePeriod" style="width: 100%; position: relative">-->
+          <button class="btn-theme-primary-outline">Row per page<i class="fa fa-angle-down pl-1"></i></button>
+        </div>
+        <ul *dropdownMenu class="dropdown-menu" role="menu" style="width: 100%">
+          <li role="menuitem"><a class="dropdown-item">5</a></li>
+          <li role="menuitem"><a class="dropdown-item">10</a></li>
+          <li role="menuitem"><a class="dropdown-item">15</a></li>
+          <li role="menuitem"><a class="dropdown-item">20</a></li>
+          <li role="menuitem"><a class="dropdown-item">25</a></li>
+        </ul>
+      </div>
+      <!---->
+    </div>
+    <div class="col-12 mt-3">
+      <app-bot-sessions [id]="(bot$|async).id"></app-bot-sessions>
+    </div>
   </div>
-  <div class="col-12 mt-3">
-    <app-bot-sessions [id]="(bot$|async)._id"></app-bot-sessions>
-  </div>
+
+  <!--============================ngtemplate============================-->
+  <ng-template #placeholder>
+    <div class="row row-details">
+      <div class="col-2  d-flex flex-column align-items-center justify-content-start">
+        <i class="fa fa-area-chart p-0"></i>
+        <span class="number">0</span>
+        <span class="description">Total Session</span>
+      </div>
+      <div class="col-2 pb-5 d-flex flex-column align-items-center">
+        <i class="fa fa-users"></i>
+        <span class="number">0</span>
+        <span class="description">Total Users</span>
+      </div>
+      <div class="col-2 d-flex flex-column align-items-center">
+        <i class="fa fa-envelope"></i>
+        <span class="number">0</span>
+        <span class="description">Total Messages</span>
+      </div>
+      <div class="col-2 d-flex flex-column align-items-center">
+        <i class="fa fa-exchange"></i>
+        <span class="number">0</span>
+        <span class="description">Average Message Per Session</span>
+      </div>
+      <div class="col-2 d-flex flex-column align-items-center">
+        <i class="fa fa-clock-o"></i>
+        <span class="number">0</span>
+        <span class="description">Total Time Spent(hh:mm)</span>
+      </div>
+      <div class="col-2 d-flex flex-column align-items-center">
+        <i class="fa fa-hourglass"></i>
+        <span class="number">0</span>
+        <span class="description">Time Spent Per Session (hh:mm)</span>
+      </div>
+    </div>
+  </ng-template>
+
 </div>
 
-<!--============================ngtemplate============================-->
-<ng-template #placeholder>
-  <div class="row row-details">
-    <div class="col-2  d-flex flex-column align-items-center justify-content-start">
-      <i class="fa fa-area-chart p-0"></i>
-      <span class="number">0</span>
-      <span class="description">Total Session</span>
+<!--============= REDESIGN=================-->
+
+<div class="row shadow-theme bg-white py-4 my-5">
+
+  <!--tabs start-->
+  <div class="col-12 px-4">
+    <ul class="nav nav-tabs theme-tabbing mb-2">
+      <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='architecture'}">
+        <a class="nav-link heading" [routerLink]="['.']"
+           queryParamsHandling="merge"
+           replaceUrl="true"
+           (click)="tabChanged('architecture')"
+           [queryParams]="{build:'architecture'}">Bot Architecture</a>
+      </li>
+      <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='testing'}">
+        <a class="nav-link heading" [routerLink]="['.']"
+           queryParamsHandling="merge"
+           replaceUrl="true"
+           (click)="tabChanged('testing')"
+           [queryParams]="{build:'testing'}">Testing</a>
+      </li>
+      <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='sessions'}">
+        <a class="nav-link heading" [routerLink]="['.']"
+           queryParamsHandling="merge"
+           replaceUrl="true"
+           (click)="tabChanged('sessions')"
+           [queryParams]="{build:'sessions'}">Session</a>
+      </li>
+      <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='consumer'}">
+        <a class="nav-link heading" [routerLink]="['.']"
+           queryParamsHandling="merge"
+           replaceUrl="true"
+           (click)="tabChanged('consumer')"
+           [queryParams]="{build:'consumer'}">Consumer</a>
+      </li>
+    </ul>
+
+  </div>
+  <!--tabs end-->
+
+  <!--architeture starts-->
+  <div class="col-12 architeture-body" *ngIf="selectedTab==='architecture' && (bot$|async) as bot ">
+    <div class="d-flex row-body bg-white mt-2">
+
+      <div class="side-bar  border-right">
+        <div class="sidebar-content">
+          <div [ngClass]="{'font-weight-bold':selectedSideBarTab==='pipeline'}"
+               (click)="selectedSideBarTab='pipeline'"
+               class="tab font-weight-bold">Pipeline
+          </div>
+          <div [ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"
+               (click)="selectedSideBarTab='knowledge'"
+               class="tab">Knowledge base
+          </div>
+          <div [ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"
+               (click)="selectedSideBarTab='code'"
+               class="tab">Code
+          </div>
+          <div [ngClass]="{'font-weight-bold':selectedSideBarTab==='integration'}"
+               (click)="selectedSideBarTab='integration'"
+               class="tab">Integration
+          </div>
+        </div>
+      </div>
+      <div class="p-2" style="width: 85%;">
+        <app-pipeline *ngIf="selectedSideBarTab==='pipeline'" [bot]="bot"></app-pipeline>
+        <app-knowledge-base *ngIf="selectedSideBarTab==='knowledge'" [bot]="(bot$|async)"></app-knowledge-base>
+        <app-code-input *ngIf="selectedSideBarTab==='code'" [bot]="(bot$|async)"></app-code-input>
+        <app-integration-option-list *ngIf="selectedSideBarTab==='integration'" [bot]="(bot$|async)"></app-integration-option-list>
+      </div>
+
     </div>
-    <div class="col-2 pb-5 d-flex flex-column align-items-center">
-      <i class="fa fa-users"></i>
-      <span class="number">0</span>
-      <span class="description">Total Users</span>
-    </div>
-    <div class="col-2 d-flex flex-column align-items-center">
-      <i class="fa fa-envelope"></i>
-      <span class="number">0</span>
-      <span class="description">Total Messages</span>
-    </div>
-    <div class="col-2 d-flex flex-column align-items-center">
-      <i class="fa fa-exchange"></i>
-      <span class="number">0</span>
-      <span class="description">Average Message Per Session</span>
-    </div>
-    <div class="col-2 d-flex flex-column align-items-center">
-      <i class="fa fa-clock-o"></i>
-      <span class="number">0</span>
-      <span class="description">Total Time Spent(hh:mm)</span>
-    </div>
-    <div class="col-2 d-flex flex-column align-items-center">
-      <i class="fa fa-hourglass"></i>
-      <span class="number">0</span>
-      <span class="description">Time Spent Per Session (hh:mm)</span>
-    </div>
+
+  </div>
+  <!--architeture ends-->
+
+  <div class="col-12" *ngIf="selectedTab==='testing'">
+    <app-bot-testing [id]="bot_id"></app-bot-testing>
   </div>
 
+  <div class="col-12" *ngIf="selectedTab==='testing'">
+    <app-bot-sessions [id]="bot_id"></app-bot-sessions>
+  </div>
 
+  <div class="col-12" *ngIf="selectedTab==='consumer'">
+    <app-consumers [id]="bot_id"></app-consumers>
+  </div>
 
-</ng-template>
+</div>

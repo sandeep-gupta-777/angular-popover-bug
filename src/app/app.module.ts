@@ -42,19 +42,12 @@ import {EngagementComponent} from './core/analysis/engagement/engagement.compone
 import {UsageComponent} from './core/analysis/usage/usage.component';
 import {ProfileComponent} from './core/profile/profile.component';
 import {ReportsComponent} from './core/reports/reports.component';
-import {BuildbotWrapperComponent} from './core/buildbot/buildbot-wrapper/buildbot-wrapper.component';
+import {BuildbotWrapperComponent} from './core/buildbot/buildbot-wrapper.component';
 import {BuildCodeBasedBotComponent} from './core/buildbot/build-code-based-bot/build-code-based-bot.component';
 import {BuildPipelineBasedBotComponent} from './core/buildbot/build-pipeline-based-bot/build-pipeline-based-bot.component';
 import {BotPreviewCardComponent} from './core/view-bots/bot-preview-card/bot-preview-card.component';
 import {RouterFragmentActiveDirective} from './router-fragment-active.directive';
-import {BasicInfoFormComponent} from './core/buildbot/build-code-based-bot/basic-info-form/basic-info-form.component';
 import {AvatorFormComponent} from './core/buildbot/build-code-based-bot/avator-form/avator-form.component';
-import {PipelineComponent} from './core/buildbot/build-code-based-bot/pipeline/pipeline.component';
-import {KnowledgeBaseComponent} from './core/buildbot/build-code-based-bot/knowledge-base/knowledge-base.component';
-import {CodeInputComponent} from './core/buildbot/build-code-based-bot/code/code-input/code-input.component';
-import {IntegrationOptionListComponent} from './core/buildbot/build-code-based-bot/integration/integration-option-list/integration-option-list.component';
-import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/code/code-editor/code-editor.component';
-import {IntegrationItemComponent} from './core/buildbot/build-code-based-bot/integration/integration-item/integration-item.component';
 import {AceEditorModule} from 'ng2-ace-editor';
 import {AppStateReducer} from './ngxs/app.state';
 import {AuthWrapperComponent} from './auth/auth-wrapper.component';
@@ -111,6 +104,18 @@ import { Analysis2OverviewComponent } from './core/analysis2/analysis2-overview/
 import { Analysis2VolumeComponent } from './core/analysis2/analysis2-volume/analysis2-volume.component';
 import { Analysis2PerformanceComponent } from './core/analysis2/analysis2-performance/analysis2-performance.component';
 import { Analysis2EngagementComponent } from './core/analysis2/analysis2-engagement/analysis2-engagement.component';
+import {AdditionalInfoFormComponent} from './core/buildbot/build-code-based-bot/bot-config/additional-info-form/additional-info-form.component';
+import {BotConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/bot-config.component';
+import {DataManageFormComponent} from './core/buildbot/build-code-based-bot/bot-config/data-manage-form/data-manage-form.component';
+import {BasicInfoFormComponent} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/basic-info-form.component';
+import {PipelineComponent} from './core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
+import {KnowledgeBaseComponent} from './core/buildbot/build-code-based-bot/architecture/knowledge-base/knowledge-base.component';
+import {CodeInputComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component';
+import {IntegrationOptionListComponent} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-option-list.component';
+import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
+import {IntegrationItemComponent} from './core/buildbot/build-code-based-bot/architecture/integration/integration-item/integration-item.component';
+import { BotArchitetureComponent } from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
+import { BotDetailHeaderComponent } from './core/bot-detail/bot-detail-header/bot-detail-header.component';
 
 const routes: Route[] = [
   {
@@ -258,7 +263,12 @@ const routes: Route[] = [
     Analysis2OverviewComponent,
     Analysis2VolumeComponent,
     Analysis2PerformanceComponent,
-    Analysis2EngagementComponent
+    Analysis2EngagementComponent,
+    DataManageFormComponent,
+    AdditionalInfoFormComponent,
+    BotConfigComponent,
+    BotArchitetureComponent,
+    BotDetailHeaderComponent
   ],
   imports: [
     BrowserModule,

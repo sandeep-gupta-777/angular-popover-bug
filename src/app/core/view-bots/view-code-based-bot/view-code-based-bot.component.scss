@@ -55,3 +55,13 @@
 //    color: $color-secondary;
 //  }
 //}
+
+/*GRID IMPLEMENTATION*/
+
+.grid-bot-preview{
+  display: grid;
+  grid-template-columns: 24%  24%  24%  24%;
+  grid-column-gap: 1%;
+  grid-row-gap: 10px;
+  justify-content: center;
+}

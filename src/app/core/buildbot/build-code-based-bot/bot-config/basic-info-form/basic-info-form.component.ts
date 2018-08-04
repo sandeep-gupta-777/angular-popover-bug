@@ -1,9 +1,9 @@
 import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {IBot} from '../../../interfaces/IBot';
+import {IBot} from '../../../../interfaces/IBot';
 import 'rxjs/add/operator/debounceTime';
 import {Store} from '@ngxs/store';
-import {SaveBasicInfo} from '../../ngxs/buildbot.action';
-import {IBasicInfo} from '../../../../../interfaces/bot-creation';
+import {SaveBasicInfo} from '../../../ngxs/buildbot.action';
+import {IBasicInfo} from '../../../../../../interfaces/bot-creation';
 
 @Component({
   selector: 'app-basic-info-form',

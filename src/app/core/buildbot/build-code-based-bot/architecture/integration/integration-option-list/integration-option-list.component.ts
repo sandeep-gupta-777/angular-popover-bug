@@ -1,9 +1,8 @@
 import {AfterContentInit, AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {IBot} from '../../../../interfaces/IBot';
-import {IBasicInfo, IIntegration} from '../../../../../../interfaces/bot-creation';
-import {IIntegrationOption} from '../../../../../../interfaces/integration-option';
 import {Store} from '@ngxs/store';
-import {SaveBasicInfo, SaveIntegrationInfo} from '../../../ngxs/buildbot.action';
+import {IBot, IBotVersionResult} from '../../../../../interfaces/IBot';
+import {IIntegrationOption} from '../../../../../../../interfaces/integration-option';
+import {SaveIntegrationInfo} from '../../../../ngxs/buildbot.action';
 
 @Component({
   selector: 'app-integration-option-list',

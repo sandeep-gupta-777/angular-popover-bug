@@ -1,0 +1,23 @@
+<div class="row-bot-detail-header d-flex align-items-center mt-2">
+  <img style="width: 40px;height: 40px" src="http://www.pngmart.com/files/3/Weather-PNG-HD.png" alt="">
+  <div class="name">
+    <div class="heading">{{bot.name}}</div>
+  </div>
+  <i class="fa fa-users" style="font-size: 20px"></i>
+  <div class="text-theme-normal">
+    Created by : <strong>{{bot.created_by}}</strong> on <strong> {{bot.created_at|date}}</strong>
+  </div>
+  <div class="text-theme-normal">
+    Last Updated By :<strong>{{bot.updated_by}}</strong> on <strong>{{bot.updated_at|date}}</strong>
+  </div>
+  <div class="active-button px-1 border-right d-flex justify-content-center align-items-center">
+    Active({{bot.active_version_id}})
+  </div>
+  <div class="ml-auto"></div>
+  <img *ngFor="let keys of myObject.keys(bot.integrations)" style="width: 28px;height: 28px"
+       src="http://www.pngmart.com/files/3/Weather-PNG-HD.png" alt="">
+  <span *ngIf="myObject.keys(bot.integrations).length>4" class="more">+{{myObject.keys(bot.integrations).length-4}} More</span>
+  <div class="headerDivider mx-2"></div>
+  <i class="fa fa-refresh px-2"></i>
+  <button class="btn btn-theme-primary">Update Bot</button>
+</div>

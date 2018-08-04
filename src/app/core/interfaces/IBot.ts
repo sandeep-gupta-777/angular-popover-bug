@@ -1,6 +1,7 @@
 import { IMeta } from "./meta";
 import { IAvatar } from "../../../interfaces/bot-creation";
 
+/*TODO: what is the key for industry*/
 export interface IBot {
   "active_version_id": number,
   "advanced_data_protection": boolean,
@@ -22,6 +23,7 @@ export interface IBot {
   "first_message": string,
   "heading": string,
   "id": number,
+  /*TODO: Queries:Integration should be array*/
   "integrations": {
     "facebook": {
       "id": string,

@@ -1,12 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {IBot, IBotVersionResult} from '../../../../interfaces/IBot';
 import {Store} from '@ngxs/store';
-import {SaveCodeInfo} from '../../../ngxs/buildbot.action';
+import {IBot, IBotVersionResult} from '../../../../../interfaces/IBot';
+import {ServerService} from '../../../../../../server.service';
+import {ConstantsService} from '../../../../../../constants.service';
+import {SaveVersionInfoInBot} from '../../../../../view-bots/ngxs/view-bot.action';
+import {SaveCodeInfo} from '../../../../ngxs/buildbot.action';
 
-import { ServerService } from '../../../../../server.service';
-import { ConstantsService } from '../../../../../constants.service';
-import { access } from 'fs';
-import { SaveVersionInfoInBot } from '../../../../view-bots/ngxs/view-bot.action';
 
 @Component({
   selector: 'app-code-input',

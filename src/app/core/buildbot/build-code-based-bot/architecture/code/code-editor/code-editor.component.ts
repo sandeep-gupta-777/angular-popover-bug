@@ -1,6 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-// import "brace/theme/chrome";
-// import "brace/mode/yaml";
 
 
 @Component({

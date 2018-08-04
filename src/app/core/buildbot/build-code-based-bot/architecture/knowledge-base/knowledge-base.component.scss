@@ -1,23 +1,6 @@
 @import '~src/sass/main';
 
-.table td, .table th{
-  vertical-align: middle !important;
-}
-th{
-  border: none !important; /*overriding bootstrap style*/
-}
-
-th,td{
-  text-align: center;
-}
-
-.td-input{
-  width: 100%;
-}
-
-
 .form-check-label{
-  //@include typography($font-size-xs, $line-height-normal, $font-weight-normal, $color-text-normal)
   font-size: 10px !important;
 }
 

@@ -1,4 +1,4 @@
-<div class="row my-2" style="position: relative">
+<div class="row my-2 m-0" style="position: relative">
   <div class="col-6 p-0">
     <div class="d-flex align-items-center justify-content-between flex-bot-versioning-toaster">
       <button class="btn btn-theme-primary mr-1" style="flex-basis: 56px">Active</button>
@@ -62,24 +62,24 @@
       <div class="card-body p-0 mr-2">
         <ul class="nav nav-tabs">
           <li class="nav-item">
-            <a class="nav-link" [ngClass]="{'active': activeTab==='dfTemplate'}"
-               (click)="tabClicked('dfTemplate')"><strong>DF Template</strong></a>
+            <a class="nav-link text-theme-normal" [ngClass]="{'active': activeTab==='dfTemplate'}"
+               (click)="tabClicked('dfTemplate')">DF Template</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" [ngClass]="{'active': activeTab==='dfRules'}" (click)="tabClicked('dfRules')"><strong>DF
-              Rules</strong></a>
+          <li class="nav-item ">
+            <a class="nav-link" [ngClass]="{'active': activeTab==='dfRules'}" (click)="tabClicked('dfRules')">DF
+              Rules</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item text-theme-normal">
             <a class="nav-link" [ngClass]="{'active': activeTab==='generationRules'}"
-               (click)="tabClicked('generationRules')"><strong>Generation Rules</strong></a>
+               (click)="tabClicked('generationRules')">Generation Rules</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item text-theme-normal">
             <a class="nav-link" [ngClass]="{'active': activeTab==='generationTemplates'}"
-               (click)="tabClicked('generationTemplates')"><strong>Generation Template</strong></a>
+               (click)="tabClicked('generationTemplates')">Generation Template</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item text-theme-normal">
             <a class="nav-link" [ngClass]="{'active': activeTab==='workflows'}"
-               (click)="tabClicked('workflows')"><strong>Workflows</strong></a>
+               (click)="tabClicked('workflows')">Workflows</a>
           </li>
         </ul>
 

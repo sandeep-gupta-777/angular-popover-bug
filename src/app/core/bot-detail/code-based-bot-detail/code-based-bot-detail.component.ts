@@ -19,6 +19,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
 
   @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
+  selectedTab;
   bot$: Observable<IBot>;
   bot_id: number;
   overviewInfo$: Observable<IOverviewInfoResponse>;
@@ -27,14 +28,18 @@ export class CodeBasedBotDetailComponent implements OnInit {
   end_date: string;
   selectedChannelDisplayName: string;
   selectedDurationDisplayName: string = 'Monthly';
+  selectedSideBarTab:string = 'pipeline';
 
-  constructor(private activatedRoute: ActivatedRoute, private serverService: ServerService, private utilityService: UtilityService) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private serverService: ServerService,
+    private utilityService: UtilityService) {
   }
 
   ngOnInit() {
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
-    // let id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build');
     this.bot$ = this.codeBasedBotList$.map((codeBasedBotList: IBot[]) => {
       let bot = codeBasedBotList.filter((bot) => {
         return bot.id === this.bot_id;//
@@ -73,6 +78,10 @@ export class CodeBasedBotDetailComponent implements OnInit {
 
   refreshSession(){
     this.sessionChild.refreshSession();
+  }
+
+  tabChanged(tab:string){
+    this.selectedTab = tab;
   }
 
 }

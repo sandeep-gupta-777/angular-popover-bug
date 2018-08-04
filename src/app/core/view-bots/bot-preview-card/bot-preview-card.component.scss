@@ -1,93 +1,44 @@
-@import "~src/sass/variables";
-@import "~src/sass/mixins";
-//
-//p{
-//  @include margin-padding-0()
-//}
-//
-//.card, .card-header,.card-body, .card-footer{
-//  background-color: white;
-//  border: none;
-//  @include margin-padding-0();
-//  padding-top: 7px;
-//}
-//.card{
-//  padding-left: 15px;
-//  padding-right: 15px;
-//  .card-header{
-//    .bot-logo{
-//      height: 30px;
-//      width: 30px;
-//    }
-//  }
-//
-//  .bot-name{
-//    @include typography($font-size-sm, $line-height-normal, $font-weight-normal, $color-text-normal)
-//  }
-//  .bot-title{
-//    @include typography($font-size-xs, $line-height-normal, $font-weight-normal, $color-secondary)
-//  }
-//  .bot-created,.bot-updated{
-//    font-size: $font-size-xs;
-//    @include typography($font-size-xs, $line-height-normal, $font-weight-300, $color-text-normal)
-//
-//  }
-//  .card-footer{
-//    padding-bottom: 10px;
-//    .fa{
-//      padding-right: 2px;
-//    }
-//    .copy{
-//      font-size: $font-size-xs !important;
-//      color: $color-secondary;
-//    }
-//  }
-//}
-//
-//::ng-deep .modal-sm{
-//  width: 40% !important;
-//}
-/*=======================*/
-@import "~src/sass/variables";
-@import "~src/sass/mixins";
+@import '~src/sass/main';
 
 .grid-bot-preview {
   display: grid;
-  width: 300px;
+  width: 100%;
   height: 176px;
   grid-template-columns: 56px 1fr 14px 36px;
   grid-template-rows: 1fr 1fr;
-  grid-template-areas: 'ct ct ct ct' 'cb cb cb cb';
+  grid-template-areas:
+    'ct ct ct ct'
+    'cb cb cb cb';
 }
 
 .top {
   grid-area: ct;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-top: 16px;
+  padding: 16px 16px 0 16px;
+
 }
 
 .bot {
   grid-area: cb;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-bottom: 16px;
+  padding: 0 16px 16px 16px;
+
 }
 
 .heading {
-  @include typography(16px, $line-height-normal, $font-weight-700, $color-text-normal);
   margin-bottom: 4px;
 }
 
-.description, .unique-name, .date-protection {
+.description, .unique-name, .date-protection,.active-button {
   @include typography(11px, 1.45, $font-weight-300, $color-text-normal);
+  strong{
+    font-weight: bold;
+  }
 }
 
 .active-button {
   height: 24px;
+  min-width: 70px;
   border-radius: 2px;
   background-color: #509005;
-  @include typography(11px, 1.45, $font-weight-300, $color-text-normal);
   color: white;
 }
 
@@ -117,3 +68,5 @@
   }
   100% {opacity: 1}
 }
+
+

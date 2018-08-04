@@ -1,0 +1,37 @@
+@import "~src/sass/variables";
+@import "~src/sass/mixins";
+
+.row-bot-detail-header {
+  height: 40px;
+  *:not(.fa){
+    @include typography(11px, 1.45, $font-weight-300, #9e9e9e);
+    strong{
+      font-weight: bold;
+    }
+  }
+  *{
+    margin-right: 5px;;
+  }
+  strong{
+    color: #4a4a4a !important;
+  }
+  .active-button {
+    height: 24px;
+    border-radius: 2px;
+    background-color: #509005;
+    @include typography(11px, 1.45, $font-weight-300, $color-text-normal);
+    color: white;
+  }
+
+  .fa{
+    color: #9b9b9b;
+  }
+  .more {
+    @include typography(13px, $line-height-normal, $font-weight-300, #00abd3);
+  }
+
+  .headerDivider {
+    border-left:1px solid #9e9e9e;;
+    height:85%;
+  }
+}

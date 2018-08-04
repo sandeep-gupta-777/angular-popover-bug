@@ -22,7 +22,7 @@ export class BuildCodeBasedBotComponent implements OnInit {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('tab') || 'basic'; //todo: not a robust code
     this.botcreationstate$.subscribe((value)=>{
       // console.log('test');
-      if(!value.codeBased) return;
+      if(!value || !value.codeBased) return;
       this.bot = {
         ...value.codeBased.basicInfo,
         avatars: value.codeBased.avatars,
@@ -39,7 +39,6 @@ export class BuildCodeBasedBotComponent implements OnInit {
   tabClicked(activeTab:string){
     this.activeTab = activeTab;
     console.log(this.activeTab);
-
   }
 
 }

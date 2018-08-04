@@ -1,0 +1,39 @@
+
+<div class="row m-0">
+  <div class="col-12 mb-1 d-flex justify-content-between">
+    <p class="text-theme-muted">Drag and drop modules from 'Available Intelligence Modules' to 'Bot Intelligence
+      Pipeline' and vice versa</p>
+    <div class="search-theme-input-with-search">
+      <span class="fa fa-search"></span>
+      <input type="search" placeholder="Search Modules" class="border">
+
+    </div>
+  </div>
+
+  <div class="col-7 border">
+    <h4 class="heading mt-3 mb-4 ">Available Intelligence Modules</h4>
+    <ul class="aim-list  px-3 pt-3 d-flex align-items-start align-content-start flex-row flex-wrap"
+        [dragula]='"first-bag"' [dragulaModel]='aiModules'>
+      <li class="border py-2 px-3 mb-2 mr-3 d-flex justify-content-center align-items-start"
+          *ngFor="let aiModule of aiModules; let i of index">{{aiModule.id}}
+      </li>
+    </ul>
+  </div>
+  <div class="col-5 pipeline-wrapper">
+    <div class="col-12 border pr-0 pipeline" style="height: 100%">
+      <h4 class="heading mt-3 mb-4 ">Bot Intelligence Pipeline</h4>
+      <div  [dragula]='"first-bag"' [dragulaModel]='pipeLine'>
+        <div *ngFor="let aiModule of pipeLine;let targetIndexNew = index">
+          <div class="border py-2 px-3 mb-2 mr-3 module-box" [ngClass]="{'bg-grey':aiModule.$$hashKey==='PLACE_HOLDER'}">
+            {{aiModule.id}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--<div appDraggable appDropTarget="{zone:'another'}" (myDrop)="onDrop($event)"> drag me </div>-->
+<!--<div appDropTarget="{zone:'another'}" appDraggable (myDrop)="onDrop($event)" class="drop-target">Accepts Draggable A or B</div>-->
+

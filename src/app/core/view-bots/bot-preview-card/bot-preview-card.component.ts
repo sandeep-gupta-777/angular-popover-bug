@@ -5,6 +5,7 @@ import {UtilityService} from '../../../utility.service';
 import {ChatService} from '../../../chat.service';
 import {EChatFrame} from '../../../../interfaces/chat-session-state';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-bot-preview-card',
@@ -15,11 +16,13 @@ export class BotPreviewCardComponent implements OnInit {
 
   @Input() bot: IBot;
   modalRef: BsModalRef;
+  myObject = Object;
   message: string;
   constructor(
     private utilityService:UtilityService,
     private chatService:ChatService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    public router: Router
   ) { }
 
   ngOnInit() {}
