@@ -36,7 +36,6 @@ export class KnowledgeBaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    debugger;
     console.log(this.bot);
     this.settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;
     // this.data = this.bot.customNers || [];//comperror:

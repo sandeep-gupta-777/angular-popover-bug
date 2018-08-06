@@ -97,13 +97,13 @@ import {SessionDetailModelComponent} from './core/bot-detail/bot-sessions/sessio
 import {SessionTabsDetailsComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-tabs-details/session-tabs-details.component';
 import {SessionMessageComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-message/session-message.component';
 import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
-import { Analysis2WrapperComponent } from './core/analysis2/analysis2-wrapper/analysis2-wrapper.component';
-import { Analysis2HeaderComponent } from './core/analysis2/analysis2-header/analysis2-header.component';
-import { Analysis2BodyComponent } from './core/analysis2/analysis2-body/analysis2-body.component';
-import { Analysis2OverviewComponent } from './core/analysis2/analysis2-overview/analysis2-overview.component';
-import { Analysis2VolumeComponent } from './core/analysis2/analysis2-volume/analysis2-volume.component';
-import { Analysis2PerformanceComponent } from './core/analysis2/analysis2-performance/analysis2-performance.component';
-import { Analysis2EngagementComponent } from './core/analysis2/analysis2-engagement/analysis2-engagement.component';
+import {Analysis2WrapperComponent} from './core/analysis2/analysis2-wrapper/analysis2-wrapper.component';
+import {Analysis2HeaderComponent} from './core/analysis2/analysis2-header/analysis2-header.component';
+import {Analysis2BodyComponent} from './core/analysis2/analysis2-body/analysis2-body.component';
+import {Analysis2OverviewComponent} from './core/analysis2/analysis2-overview/analysis2-overview.component';
+import {Analysis2VolumeComponent} from './core/analysis2/analysis2-volume/analysis2-volume.component';
+import {Analysis2PerformanceComponent} from './core/analysis2/analysis2-performance/analysis2-performance.component';
+import {Analysis2EngagementComponent} from './core/analysis2/analysis2-engagement/analysis2-engagement.component';
 import {AdditionalInfoFormComponent} from './core/buildbot/build-code-based-bot/bot-config/additional-info-form/additional-info-form.component';
 import {BotConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {DataManageFormComponent} from './core/buildbot/build-code-based-bot/bot-config/data-manage-form/data-manage-form.component';
@@ -114,8 +114,9 @@ import {CodeInputComponent} from './core/buildbot/build-code-based-bot/architect
 import {IntegrationOptionListComponent} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-option-list.component';
 import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 import {IntegrationItemComponent} from './core/buildbot/build-code-based-bot/architecture/integration/integration-item/integration-item.component';
-import { BotArchitetureComponent } from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
-import { BotDetailHeaderComponent } from './core/bot-detail/bot-detail-header/bot-detail-header.component';
+import {BotArchitetureComponent} from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
+import {BotDetailHeaderComponent} from './core/bot-detail/bot-detail-header/bot-detail-header.component';
+import {AnalysisStateReducer2} from './core/analysis2/ngxs/analysis.state';
 
 const routes: Route[] = [
   {
@@ -138,6 +139,16 @@ const routes: Route[] = [
             {path: 'codebased/:id', component: CodeBasedBotDetailComponent},
             {path: 'intelligent/:id', component: PipelineBasedBotDetailComponent},
           ]
+      },
+      {
+        path: 'analytics2', component: Analysis2WrapperComponent,children: [
+          {path: '', redirectTo: "overview", pathMatch:"full" },
+          {path: 'overview', component: Analysis2OverviewComponent},
+          {path: 'volume', component: Analysis2VolumeComponent},
+          {path: 'performance', component: Analysis2PerformanceComponent},
+          {path: 'engagement', component: Analysis2EngagementComponent},
+
+        ]
       },
       {
         path: 'analytics', component: WrapperComponent, children:
@@ -280,7 +291,8 @@ const routes: Route[] = [
     FormsModule,
     DragAndDropModule.forRoot(),
     ChartModule,
-    NgxsModule.forRoot([AuthStateReducer,
+    NgxsModule.forRoot([
+      AuthStateReducer,
       NavigationStateReducer,
       AppStateReducer,
       EnterpriseprofileStateReducer,
@@ -288,7 +300,8 @@ const routes: Route[] = [
       ChatSessionStateReducer,
       BotCreationStateReducer,
       AnalysisStateReducer,
-      ReportsStateReducer
+      ReportsStateReducer,
+      AnalysisStateReducer2
     ]),
     NgxsStoragePluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),

@@ -277,12 +277,14 @@ th, td {
 }
 
 .theme-tabbing {
-
   .nav-item {
     border: none;
     .nav-link {
       border: none;
-      color: black;
+
+      text-decoration: none !important;
+      font-size: $font-size-sm;
+      @include typography($font-size-sm, $line-height-normal, $font-weight-300, $color-text-grey);
       &:hover {
         border: none;
       }

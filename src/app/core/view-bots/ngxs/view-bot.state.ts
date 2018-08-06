@@ -7,13 +7,15 @@ import {ActivatedRoute} from '@angular/router';
 export interface ViewBotStateModel {
   codeBasedBotList?: IBot[];
   pipelineBasedBotList?: IBot[];
+  allBotList:IBot[];
 }
 
 @State<ViewBotStateModel>({
   name:'botlist',
   defaults:{
     codeBasedBotList:null,
-    pipelineBasedBotList:null
+    pipelineBasedBotList:null,
+    allBotList:null
   }
 })
 
@@ -23,21 +25,22 @@ export class ViewBotStateReducer{
   constructor(private activatedRoute:ActivatedRoute){console.log("ViewBotStateReducer")}
   @Action(SetCodeBasedBotListAction)
   setCodebasedBotList({patchState, setState, getState,dispatch}:StateContext<ViewBotStateModel>, {payload} : SetCodeBasedBotListAction){
-    console.log("SetCodeBasedBotListAction");
-    patchState({codeBasedBotList: payload.botList});
+    let state = getState();
+    patchState({codeBasedBotList: payload.botList, allBotList: [...(state.codeBasedBotList||[]),...(state.pipelineBasedBotList||[]),...payload.botList]});
   }
 
   @Action(SetPipeLineBasedBotListAction)
   setPipelineBasedBotList({patchState, setState, getState,dispatch}:StateContext<ViewBotStateModel>, {payload} : SetPipeLineBasedBotListAction){
-    console.log("SetPipeLineBasedBotListAction");
-    patchState({pipelineBasedBotList: payload.botList});
+    let state = getState();
+    patchState({pipelineBasedBotList: payload.botList, allBotList: [...(state.codeBasedBotList||[]),...(state.pipelineBasedBotList||[]),...payload.botList]});
   }
 
   @Action(ResetBotListAction)
   resetBotList({patchState, setState, getState,dispatch}:StateContext<ViewBotStateModel>){
     setState({
       codeBasedBotList:null,
-      pipelineBasedBotList:null
+      pipelineBasedBotList:null,
+      allBotList:null
     });
   }
 

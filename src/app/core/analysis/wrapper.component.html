@@ -1,4 +1,4 @@
-<form class="row mt-3 bg-white  analysis-row p-3 px-4 shadow-theme" #f="ngForm">
+<form class="row mt-3 bg-white  analysis-row p-3 px-4 shadow-theme" #form="ngForm">
   <div class="col-4">
     <div class="btn-group " dropdown style="width: 100%">
       <div dropdownToggle style="width: 100%">
@@ -40,7 +40,7 @@
            [bsValue]="start_date"
            name="start_date"
            required
-           (bsValueChange)="form.form.updateValueAndValidity()"
+           (bsValueChange)="f.form.updateValueAndValidity()"
            bsDatepicker [bsConfig]="datePickerConfig">
   </div>
   <div class="col-2">
@@ -51,7 +51,7 @@
            [bsValue]="end_date"
            name="end_date"
            required
-           (bsValueChange)="form.form.updateValueAndValidity()"
+           (bsValueChange)="f.form.updateValueAndValidity()"
            bsDatepicker [bsConfig]="datePickerConfig">
   </div>
   <div class="col-2">

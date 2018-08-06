@@ -1,3 +1,42 @@
-<p>
-  analysis2-performance works!
-</p>
+<!--TODO: create a directive for tabbing-->
+<!--Tabbing starts-->
+<ul class="nav nav-tabs my-2 theme-tabbing">
+  <li class="nav-item ml-3">
+    <a class="nav-link" [routerLink]="['.']"
+       queryParamsHandling="merge"
+       replaceUrl="true"
+       [queryParams]="{perf:'sessions'}"
+       (click)="tabClicked('sessions')"
+       [ngClass]="{'tab-active':activeTab==='sessions'}"><strong>Sessions wise</strong></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['.']"
+       queryParamsHandling="merge"
+       replaceUrl="true"
+       [queryParams]="{perf:'template'}"
+       (click)="tabClicked('template')"
+       [ngClass]="{'tab-active':activeTab==='template'}"><strong>Template key</strong></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true"
+       [queryParams]="{perf:'flows'}"
+       (click)="tabClicked('flows')"
+       [ngClass]="{'tab-active':activeTab==='flows'}"><strong>Flows triggered</strong></a>
+  </li>
+</ul>
+<!--Tabbing ends-->
+
+
+<app-chart *ngIf="activeTab==='sessions'" [data]="series_sessions"
+           [chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE"
+           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE"></app-chart>
+
+<app-chart *ngIf="activeTab==='template'" [data]="series_template"
+           [chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED"
+           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED">
+</app-chart>
+
+<app-chart *ngIf="activeTab==='flows'" [data]="series_template"
+           [chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED"
+           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED">
+</app-chart>

@@ -65,7 +65,7 @@ export class ServerService {
     for(let key in headerData){{
       headers = headers.set(key, headerData[key]);
     }}
-    // headers = headers.set("content-type","application/x-www-form-urlencoded");
+    // headers = headers.set("content-type","application/x-www-f-urlencoded");
     return headers;
   }
 
@@ -94,6 +94,7 @@ export class ServerService {
 
   getOverviewInfo<T>(body:any):Observable<IOverviewInfoResponse>{
     console.log('getting overview info');
+    debugger;
     let url = this.constantsService.getOverViewInfoUrl();
     return this.makePostReq<IOverviewInfoResponse>({url, body});
   }
