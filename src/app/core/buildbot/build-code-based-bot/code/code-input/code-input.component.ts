@@ -32,7 +32,7 @@ export class CodeInputComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
+
     // this.editorCode = this.bot.dfTemplate;
     // this.dfTemplate = this.bot.dfTemplate;
     // this.dfRules = this.bot.dfRules;
@@ -40,7 +40,7 @@ export class CodeInputComponent implements OnInit {
     // this.generationTemplates = this.bot.generationTemplates;
 
     // this.workflows = this.timePeriod.workflows;
-    let url = this.constantsService.getAllVersionsByBotId();//comperror
+    let url = this.constantsService.getAllVersionsByBotId("f");//comperror
     let botId = this.bot.id;
     this.serverService.makeGetReq<IBotVersionResult>({ url, headerData: { "bot-access-token": this.bot.bot_access_token } })
       .subscribe((value) => {
@@ -53,7 +53,7 @@ export class CodeInputComponent implements OnInit {
         return this.bot.active_version_id === BotVersion.id;
       });
       this.activeVersion = activeVersion;
-      if (!this.selectedVersion) { 
+      if (!this.selectedVersion) {
         this.selectedVersion = activeVersion;
         this.tabClicked('dfTemplate');
         };

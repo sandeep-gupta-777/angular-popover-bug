@@ -105,6 +105,8 @@ import {SessionTabsDetailsComponent} from './core/bot-detail/bot-sessions/sessio
 import {SessionMessageComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-message/session-message.component';
 import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
 import { FilterActiveBotPipe } from './filter-active-bot.pipe';
+import { LoadingComponent } from './loading/loading.component';
+import { NgIfLoadingDirective } from './ng-if-loading.directive';
 
 const routes: Route[] = [
   {
@@ -246,7 +248,9 @@ const routes: Route[] = [
     SessionDetailModelComponent,
     SessionTabsDetailsComponent,
     SessionMessageComponent,
-    FilterActiveBotPipe
+    FilterActiveBotPipe,
+    LoadingComponent,
+    NgIfLoadingDirective
   ],
   imports: [
     BrowserModule,
