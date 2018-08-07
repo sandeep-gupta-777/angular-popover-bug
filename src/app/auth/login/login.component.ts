@@ -17,6 +17,7 @@ import {UtilityService} from '../../utility.service';
 })
 export class LoginComponent implements OnInit {
 
+  panelActive:string='login';
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
@@ -50,6 +51,10 @@ export class LoginComponent implements OnInit {
       }
       )
 
+  }
+
+  showPanel(panel){
+    this.panelActive = panel;
   }
 
 };
