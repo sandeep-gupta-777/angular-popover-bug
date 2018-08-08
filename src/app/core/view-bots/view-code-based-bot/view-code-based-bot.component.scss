@@ -1,66 +1,7 @@
-//@import "~src/sass/variables";
-//
-//.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
-//  background-color: #00abd3 !important;
-//  border:none;
-//  border-radius: 2px;
-//  padding-left: 20px;
-//  padding-right: 20px;
-//  height: 32px !important;
-//  font-size: $font-size-xs;
-//}
-//
-//
-//p{
-//  margin: 0;
-//  padding:0;
-//}
-//.card, .card-header,.card-body, .card-footer{
-//  background-color: white;
-//  border: none;
-//  margin:0 ;
-//  padding: 0;
-//  padding-top: 7px;
-//}
-//.card{
-//  padding-left: 15px;
-//  padding-right: 15px;
-//}
-//
-//.card-header{
-//  .timePeriod-logo{
-//    height: 40px;
-//  }
-//
-//  .timePeriod-name{
-//    font-size: $font-size-sm;
-//  }
-//  .timePeriod-title{
-//    font-size: $font-size-xs;
-//    color: $color-secondary;
-//  }
-//  .timePeriod-created,.timePeriod-updated{
-//    font-size: $font-size-xs;
-//  }
-//}
-//
-//.card-footer{
-//
-//  padding-bottom: 10px;
-//  .fa{
-//    padding-right: 2px;
-//  }
-//  .copy{
-//    font-size: $font-size-xs !important;
-//    color: $color-secondary;
-//  }
-//}
-
-/*GRID IMPLEMENTATION*/
-
 .grid-bot-preview{
   display: grid;
-  grid-template-columns: 24%  24%  24%  24%;
+  //grid-template-columns: 24%  24%  24%  24%;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr) );
   grid-column-gap: 1%;
   grid-row-gap: 10px;
   justify-content: center;
