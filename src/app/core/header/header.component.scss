@@ -9,7 +9,7 @@
   .box-logo{
     width: 180px;
     border-right: solid 1px #e0e0e0;;
-    @include center-horizontal
+    @include center-horizontal;
     .box-logo__image{
       height: 32px !important;
     }

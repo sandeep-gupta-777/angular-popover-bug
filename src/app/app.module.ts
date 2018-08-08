@@ -116,6 +116,7 @@ import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architec
 import {IntegrationItemComponent} from './core/buildbot/build-code-based-bot/architecture/integration/integration-item/integration-item.component';
 import { BotArchitetureComponent } from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
 import { BotDetailHeaderComponent } from './core/bot-detail/bot-detail-header/bot-detail-header.component';
+import { FilterActiveBotPipe } from './filter-active-bot.pipe';
 
 const routes: Route[] = [
   {
@@ -268,7 +269,8 @@ const routes: Route[] = [
     AdditionalInfoFormComponent,
     BotConfigComponent,
     BotArchitetureComponent,
-    BotDetailHeaderComponent
+    BotDetailHeaderComponent,
+    FilterActiveBotPipe
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ISessionItem, ISessionMessageData} from '../../../../../../interfaces/sessions';
+import {ISessionItem, ISessionMessageItem} from '../../../../../../interfaces/sessions';
 
 @Component({
   selector: 'app-session-message',
@@ -8,7 +8,7 @@ import {ISessionItem, ISessionMessageData} from '../../../../../../interfaces/se
 })
 export class SessionMessageComponent implements OnInit {
 
-  @Input() sessionMessageData: ISessionMessageData;
+  @Input() sessionMessageData: ISessionMessageItem[];
   @Output() messageClickedEvent$: EventEmitter<string> = new EventEmitter();
   constructor() { }
 

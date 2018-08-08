@@ -107,7 +107,7 @@ export class ServerService {
         let pipelineBasedBotList: IBot[] = [];
 
         botResult.objects.forEach((bot) => {
-          bot.bot_type !== 'intelligent' ? codeBasedBotList.push(bot) : pipelineBasedBotList.push(bot);
+          bot.bot_type !== 'genbot' ? codeBasedBotList.push(bot) : pipelineBasedBotList.push(bot);
         });
         this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
         this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));

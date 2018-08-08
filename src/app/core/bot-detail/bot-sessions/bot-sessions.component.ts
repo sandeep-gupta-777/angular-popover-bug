@@ -7,6 +7,7 @@ import {ConstantsService} from '../../../constants.service';
 import {ISessionItem, ISessions} from '../../../../interfaces/sessions';
 import { of } from 'rxjs';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import { IBot } from '../../interfaces/IBot';
 
 @Component({
   selector: 'app-bot-sessions',
@@ -17,6 +18,7 @@ export class BotSessionsComponent implements OnInit {
 
 
   @Input() id: string;
+  @Input() bot: IBot;
   sessions$: Observable<ISessions>;
   refreshSessions$: Observable<ISessions>;
   url:string;
@@ -24,7 +26,7 @@ export class BotSessionsComponent implements OnInit {
   smartTableSettings_Sessions;
   selectedRow_Session:ISessionItem;
   totalSessionRecords:number = 0;
-  sessions:ISessions;
+  sessions:ISessionItem[];
 
   constructor(
     private serverService: ServerService,
@@ -34,15 +36,17 @@ export class BotSessionsComponent implements OnInit {
   ) {  }
 
   ngOnInit() {
-    this.url = this.constantsService.getBotSessionsUrl(this.id,1,5);
-    this.sessions$ = this.serverService.makeGetReq<ISessions>({url:this.url});
+    this.url = this.constantsService.getBotSessionsUrl(1,0);
+    this.sessions$ = this.serverService.makeGetReq<ISessions>({url:this.url,headerData:{"bot-access-token":this.bot.bot_access_token}});
     this.sessions$.subscribe((value) =>{
-      this.totalSessionRecords = value.total;
-      
-      this.sessions = value;
-
+      if(!value) return;
+      this.totalSessionRecords = value.meta.total_count;
+      this.sessions = value.objects;
+      console.log("sdasdasdasdasdasdasd"+this.sessions+"sdasdasdasdasdasdasd");
     });
+    
     this.smartTableSettings_Sessions = this.constantsService.SMART_TABLE_SESSIONS_SETTING;
+    debugger;
   }
 
   /*todo: implement it better way*/
@@ -64,11 +68,11 @@ export class BotSessionsComponent implements OnInit {
   }
   sessionTablePageChanged(pageNumber){
     
-    this.url = this.constantsService.getBotSessionsUrl(this.id,pageNumber,5);
+    this.url = this.constantsService.getBotSessionsUrl(1,0);
     this.serverService.makeGetReq<ISessions>({url:this.url})
       .subscribe((value) =>{
-        this.totalSessionRecords = value.total
-        this.sessions = value;
+        this.totalSessionRecords = value.meta.total_count
+        this.sessions = value.objects;
       });
   }
 
