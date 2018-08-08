@@ -140,6 +140,14 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/botversioning'; //"http://localhost:8000/api/v1/botversioning"
   }
 
+  getSaveVersionByBotId(id) {
+    return this.BACKEND_URL + `api/v1/botversioning/${id}`; //https://dev.imibot.ai/api/v1/botversioning/9/
+  }
+  getCreateNewVersionByBotId(id) {
+    return this.BACKEND_URL + `api/v1/botversioning`; //https://dev.imibot.ai/api/v1/botversioning/9/
+  }
+
+
 
   getBotTestingUrl(id: string) {
     return this.BACKEND_URL + 'bottestcases/bot/' + id; //https://dev.imibot.ai/bottestcases/bot/59e055773b6219000ca825ba

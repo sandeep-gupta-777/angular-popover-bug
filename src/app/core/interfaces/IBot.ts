@@ -24,10 +24,43 @@ export interface IBot {
   "heading": string,
   "id": number,
   /*TODO: Queries:Integration should be array*/
-  "integrations": {
-    "facebook": {
-      "id": string,
-      "token": string,
+  integrations: {
+    ccsp_details: {
+      debug: {
+        debugurl: '',
+        enabled: false
+      },
+      imichat: {
+        'access-token': '',
+        domain: '',
+        enabled: false,
+        'service-key': ''
+      }
+    },
+    channels: {
+      alexa: {
+        enabled: false,
+        skillId: ''
+      },
+      facebook: {
+        enabled: true,
+        'facebook-token': 'EAAc8APVKjxsBAI86VkZBDg5ZCZAGXSMpVsNQRdUgTSR1eq31ajiajCLSsTQLAeEzgqs6uKN2qq0VBAXcDX31D2OPzEJvaQZAzkNNLcexNxuresG7zXabZCIfySUnEUf9XVbDPWBRZAwJZBFdtAnmXusEYtHlIZAHiPzRWB8jdsFlswZDZD',
+        id: '194700987927464'
+      },
+      skype: {
+        client_id: '',
+        client_secret: '',
+        enabled: false
+      }
+    },
+    fulfillment_provider_details: {
+      imiconnect: {
+        appId: '',
+        appSecret: '',
+        enabled: false,
+        serviceKey: '',
+        streamName: ''
+      }
     }
   },
   "logo": string,

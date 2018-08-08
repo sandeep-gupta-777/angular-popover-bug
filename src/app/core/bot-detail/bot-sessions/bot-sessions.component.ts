@@ -36,7 +36,7 @@ export class BotSessionsComponent implements OnInit {
   ) {  }
 
   ngOnInit() {
-    this.url = this.constantsService.getBotSessionsUrl(1,0);
+    this.url = this.constantsService.getBotSessionsUrl(5,0);
     this.sessions$ = this.serverService.makeGetReq<ISessions>({url:this.url,headerData:{"bot-access-token":this.bot.bot_access_token}});
     this.sessions$.subscribe((value) =>{
       if(!value) return;
@@ -44,9 +44,9 @@ export class BotSessionsComponent implements OnInit {
       this.sessions = value.objects;
       console.log("sdasdasdasdasdasdasd"+this.sessions+"sdasdasdasdasdasdasd");
     });
-    
+
     this.smartTableSettings_Sessions = this.constantsService.SMART_TABLE_SESSIONS_SETTING;
-    debugger;
+    // debugger;
   }
 
   /*todo: implement it better way*/
@@ -67,8 +67,8 @@ export class BotSessionsComponent implements OnInit {
     this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
   }
   sessionTablePageChanged(pageNumber){
-    
-    this.url = this.constantsService.getBotSessionsUrl(1,0);
+
+    this.url = this.constantsService.getBotSessionsUrl(5,0);
     this.serverService.makeGetReq<ISessions>({url:this.url})
       .subscribe((value) =>{
         this.totalSessionRecords = value.meta.total_count

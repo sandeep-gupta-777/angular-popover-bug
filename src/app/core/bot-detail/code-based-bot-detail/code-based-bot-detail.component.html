@@ -282,19 +282,31 @@
 
       <div class="side-bar  border-right">
         <div class="sidebar-content">
-          <div [ngClass]="{'font-weight-bold':selectedSideBarTab==='pipeline'}"
+          <a routerLink="."
+             [queryParams]="{'build-tab':'pipeline'}"
+             queryParamsHandling="merge"
+             [ngClass]="{'font-weight-bold':selectedSideBarTab==='pipeline'}"
                (click)="selectedSideBarTab='pipeline'"
                class="tab-theme font-weight-bold">Pipeline
-          </div>
-          <div [ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"
+          </a>
+          <div routerLink="."
+             [queryParams]="{'build-tab':'knowledge'}"
+             queryParamsHandling="merge"
+            [ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"
                (click)="selectedSideBarTab='knowledge'"
                class="tab-theme">Knowledge base
           </div>
-          <div [ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"
+          <div routerLink="."
+             [queryParams]="{'build-tab':'code'}"
+             queryParamsHandling="merge"
+            [ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"
                (click)="selectedSideBarTab='code'"
                class="tab-theme">Code
           </div>
-          <div [ngClass]="{'font-weight-bold':selectedSideBarTab==='integration'}"
+          <div routerLink="."
+             [queryParams]="{'build-tab':'integration'}"
+             queryParamsHandling="merge"
+            [ngClass]="{'font-weight-bold':selectedSideBarTab==='integration'}"
                (click)="selectedSideBarTab='integration'"
                class="tab-theme">Integration
           </div>

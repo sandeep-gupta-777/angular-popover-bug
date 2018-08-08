@@ -17,7 +17,7 @@
         <input type="text" class="concept" placeholder="Concept Key" [(ngModel)]="key" name="key">
         <span>Concept Type</span>
         <!--<input type="text" class="concept" placeholder="Concept Type" [(ngModel)]="nerType"  name="nerType">-->
-        <select class="concept1" required [(ngModel)]="nerType" name="nerType">
+        <select required [(ngModel)]="nerType" name="nerType">
           <option value="single_match">Single Match</option>
           <option value="double_match">Double Match</option>
           <option value="with_metadata">With Metadata</option>
@@ -44,7 +44,12 @@
 
     <div class="col-12 mt-2">
       <div *ngIf="nerType==='single_match' ||nerType==='double_match' ||nerType==='with_metadata'; else table">
-        <div class="pb-2"><input type="file" accept='text/plain' multiple (change)='openFile($event)'></div>
+        <div class="d-flex justify-content-end">
+          <label for="uploadInput" class="btn btn-theme-primary-outline">Upload File
+            <input type="file" hidden id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)' #uploadInput>
+          </label>
+          <!--<input type="file" id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)' #uploadInput>-->
+        </div>
         <app-code-editor [text]="codeText"></app-code-editor>
       </div>
     </div>
@@ -53,7 +58,7 @@
 
 
 <ng-template #table>
-  <div class="pb-2"><input type="search"></div>
+  <div class="pb-2"><input type="search" placeholder="search table"></div>
   <app-handsontable [testData]="handontableData" [columns]="handontable_column"
                     [colHeaders]="handontable_colHeaders"></app-handsontable>
 </ng-template>

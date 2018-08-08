@@ -8,5 +8,6 @@ export interface IHeaderData {
   'user-agent'?: string,
   'x-access-token'?: string,
   'api-key'?:string
+  'bot-access-token'?:string
 }
 

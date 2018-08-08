@@ -3,6 +3,7 @@ import {Store} from '@ngxs/store';
 import {IBot, IBotVersionResult} from '../../../../../interfaces/IBot';
 import {IIntegrationOption} from '../../../../../../../interfaces/integration-option';
 import {SaveIntegrationInfo} from '../../../../ngxs/buildbot.action';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-integration-option-list',
@@ -13,10 +14,12 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
 
   isActive:boolean;
   enable = false;
-  formValue:IIntegrationOption;
+  formValue/*:IIntegrationOption*/;
   @Input() bot:IBot;
+  @ViewChild("form") f:NgForm;
   constructor(private store:Store) {}
   ngOnInit() {
+    // debugger;
     // this.formValue = <any>this.bot.channels || {};//comperror:
   }
 
@@ -24,12 +27,18 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
     this.isActive  = $event;
   }
 
-  @ViewChild("form") f:HTMLFormElement;
   click(){
     console.log(this.f.value);
   }
 
   ngAfterViewInit(): void {
+    let formData = this.formValue ={
+      ...this.bot.integrations.ccsp_details,
+      ...this.bot.integrations.channels,
+      ...this.bot.integrations.fulfillment_provider_details
+    };
+    // debugger;
+    // this.f.form.patchValue(formData);
     this.f.valueChanges.debounceTime(1000).subscribe((data:IIntegrationOption) => {
       console.log("hello");
       if(!this.f.dirty) return;

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ConstantsService} from './constants.service';
@@ -12,43 +12,42 @@ import {ToastrService} from 'ngx-toastr';
 import {UtilityService} from './utility.service';
 import {SetCodeBasedBotListAction, SetPipeLineBasedBotListAction} from './core/view-bots/ngxs/view-bot.action';
 import {IBot, IBotResult} from './core/interfaces/IBot';
-import { ActivatedRoute, Router } from '../../node_modules/@angular/router';
+import {ActivatedRoute, Router} from '../../node_modules/@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServerService {
 
-  @Select() loggeduser$: Observable<{user:IUser}>;
+  @Select() loggeduser$: Observable<{ user: IUser }>;
   private X_AXIS_TOKEN: string = null;
   private AUTH_TOKEN: string = null;
-  private isLoggedIn: boolean = false
+  private isLoggedIn: boolean = false;
+
   constructor(
-    private httpClient:HttpClient,
-    private utilityService:UtilityService,
-    private store:Store,
-    private router : Router,
-    private constantsService:ConstantsService) {
-    this.loggeduser$.subscribe((value)=>{
-      if(!value || !value.user) return;
-      this.AUTH_TOKEN =  value.user.auth_token && value.user.auth_token;
+    private httpClient: HttpClient,
+    private utilityService: UtilityService,
+    private store: Store,
+    private router: Router,
+    private constantsService: ConstantsService) {
+    this.loggeduser$.subscribe((value) => {
+      if (!value || !value.user) return;
+      this.AUTH_TOKEN = value.user.auth_token && value.user.auth_token;
       this.X_AXIS_TOKEN = value.user.user_access_token && value.user.user_access_token;
-    })
+    });
   };
 
 
-
-  createHeaders(headerData?:any):HttpHeaders{
+  createHeaders(headerData?: any): HttpHeaders {
     let headers = new HttpHeaders();
     let tokenData = {};
-    if(this.X_AXIS_TOKEN)
-      tokenData = {"user-access-token": this.X_AXIS_TOKEN};
-    if(this.AUTH_TOKEN)
-      tokenData = {...tokenData, "auth-token": this.AUTH_TOKEN};
-      if(this.router.url.toString() === "/auth/login"){
-        tokenData = {"Content-Type":"application/json"};
-
-      }
+    if (this.X_AXIS_TOKEN)
+      tokenData = {'user-access-token': this.X_AXIS_TOKEN};
+    if (this.AUTH_TOKEN)
+      tokenData = {...tokenData, 'auth-token': this.AUTH_TOKEN};
+    // if (this.router.url.toString() === '/auth/login') {
+    tokenData = {...tokenData, 'Content-Type': 'application/json'};
+    // }
     /*expanding header data*/
     headerData = {
       // "cross-domain": "true",
@@ -61,23 +60,20 @@ export class ServerService {
       // "Content-Type":"application/json"
     };
 
-    if(headerData)
-    for(let key in headerData){{
-      headers = headers.set(key, headerData[key]);
-    }}
+    if (headerData)
+      for (let key in headerData) {
+        {
+          headers = headers.set(key, headerData[key]);
+        }
+      }
     // headers = headers.set("content-type","application/x-www-f-urlencoded");
     return headers;
   }
 
-  makeGetReq<T>(reqObj: {url:string, headerData?:any}): Observable<T>{
+  makeGetReq<T>(reqObj: { url: string, headerData?: any }): Observable<T> {
     let headers = this.createHeaders(reqObj.headerData);
-    return this.httpClient.get<T>(reqObj.url, {headers: headers});
-  }
-  makePostReq<T>(reqObj: {url:string, body:any, headerData?:any}): Observable<T>{
-    let headers = this.createHeaders(reqObj.headerData);
-    // return this.httpClient.post<T>('http://dev.imibot.ai/login', reqObj.body, {headers:headers});
-    return this.httpClient.post<T>(reqObj.url, reqObj.body, {headers:headers})
-      .catch((e: any, caught:Observable<T>) => {
+    return this.httpClient.get<T>(reqObj.url, {headers: headers})
+      .catch((e: any, caught: Observable<T>) => {
         console.log(e);
         console.log(caught);
         this.utilityService.showErrorToaster(e);
@@ -85,19 +81,37 @@ export class ServerService {
       });
   }
 
-  makePutReq<T>(reqObj: {url:string, body:any, headerData?:IHeaderData}): Observable<T>{
+  makePostReq<T>(reqObj: { url: string, body: any, headerData?: any }): Observable<T> {
     let headers = this.createHeaders(reqObj.headerData);
-    console.log("making post request");
-    return this.httpClient.put<T>(reqObj.url, JSON.stringify(reqObj.body), {headers:headers});
+    // return this.httpClient.post<T>('http://dev.imibot.ai/login', reqObj.body, {headers:headers});
+    return this.httpClient.post<T>(reqObj.url, reqObj.body, {headers: headers})
+      .catch((e: any, caught: Observable<T>) => {
+        console.log(e);
+        console.log(caught);
+        this.utilityService.showErrorToaster(e);
+        return _throw('error');
+      });
   }
 
-  getOverviewInfo<T>(body:any):Observable<IOverviewInfoResponse>{
+  makePutReq<T>(reqObj: { url: string, body: any, headerData?: IHeaderData }): Observable<T> {
+    let headers = this.createHeaders(reqObj.headerData);
+    console.log('making post request');
+    return this.httpClient.put<T>(reqObj.url, JSON.stringify(reqObj.body), {headers: headers})
+      .catch((e: any, caught: Observable<T>) => {
+        console.log(e);
+        console.log(caught);
+        this.utilityService.showErrorToaster(e);
+        return _throw('error');
+      });
+  }
+
+  getOverviewInfo<T>(body: any): Observable<IOverviewInfoResponse> {
     console.log('getting overview info');
     let url = this.constantsService.getOverViewInfoUrl();
     return this.makePostReq<IOverviewInfoResponse>({url, body});
   }
 
-  getNSetBotList(){
+  getNSetBotList() {
     let url = this.constantsService.getPipelinebasedBotListUrl();
     let headerData: IHeaderData = {'content-type': 'application/json'};
     return this.makeGetReq<IBotResult>({url, headerData})

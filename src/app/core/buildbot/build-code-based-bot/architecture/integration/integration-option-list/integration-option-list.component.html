@@ -1,5 +1,5 @@
 <!--todo: this is a hardcoded code, change it to more flexible-->
-<form class="row" #form="ngForm">
+<form class="row form-theme" *ngIf="formValue" #form="ngForm">
   <div class="col-6">
 
     <!--IMIConnect starts-->
@@ -13,10 +13,11 @@
             <span class="lead-text">IMICONNECT</span>
           </div>
           <div class="switch">
-            <ui-switch name="enabled" [(ngModel)]="formValue.imiconnect.enabled" size="small" switchColor="white"
+            <ui-switch name="enabled" [(ngModel)]="formValue && formValue.imiconnect && formValue.imiconnect.enabled" size="small" switchColor="white"
                        style="height: 10px" defaultBgColor="grey"
                        (change)="onChange($event)"
                        [checked]="false"></ui-switch>
+            <!---->
           </div>
         </div>
       </div>
@@ -25,23 +26,23 @@
           <div [hidden]="false" class="form-context">
             <div class="form-group">
               <label>App id</label>
-              <input [ngModel]="formValue.imiconnect.appId" type="text" class="form-control" name="appId">
+              <input [ngModel]="formValue.imiconnect && formValue.imiconnect.appId" type="text" class="form-control" name="appId">
             </div>
             <div class="form-group">
               <label>App Secret</label>
-              <input [ngModel]="formValue.imiconnect.appSecret" type="text" class="form-control" name="appSecret">
+              <input [ngModel]="formValue.imiconnect && formValue.imiconnect.appSecret" type="text" class="form-control" name="appSecret">
             </div>
             <div class="form-group">
               <label>Stream Name</label>
-              <input [ngModel]="formValue.imiconnect.streamName" type="text" class="form-control" name="streamName">
+              <input [ngModel]="formValue.imiconnect && formValue.imiconnect.streamName" type="text" class="form-control" name="streamName">
             </div>
             <div class="form-group">
               <label>Service Key</label>
-              <input [ngModel]="formValue.imiconnect.serviceKey" type="text" class="form-control" name="serviceKey">
+              <input [ngModel]="formValue.imiconnect && formValue.imiconnect.serviceKey" type="text" class="form-control" name="serviceKey">
             </div>
             <div class="form-group">
               <label>Send request via Connect</label>
-              <input [ngModel]="formValue.imiconnect.send_via_connect" type="text" class="form-control"
+              <input [ngModel]="formValue.imiconnect && formValue.imiconnect.send_via_connect" type="text" class="form-control"
                      name="send_via_connect">
             </div>
           </div>
@@ -61,7 +62,7 @@
             <span class="lead-text">Facebook</span>
           </div>
           <div class="switch">
-            <ui-switch name="enabled" [(ngModel)]="formValue.facebook.enabled" size="small" switchColor="white"
+            <ui-switch name="enabled" [(ngModel)]="formValue.facebook && formValue.facebook.enabled" size="small" switchColor="white"
                        style="height: 10px" defaultBgColor="grey"
                        (change)="onChange($event)"
                        [checked]="false"></ui-switch>
@@ -73,11 +74,11 @@
           <div [hidden]="false" class="form-context">
             <div class="form-group">
               <label>PageId</label>
-              <input [ngModel]="formValue.facebook.id" type="text" class="form-control" name="facebook-token">
+              <input [ngModel]="formValue.facebook && formValue.facebook.id" type="text" class="form-control" name="facebook-token">
             </div>
             <div class="form-group">
               <label>Facebook Token</label>
-              <input [ngModel]="formValue.facebook['facebook-token']" type="text" class="form-control" name="id">
+              <input [ngModel]="formValue.facebook && formValue.facebook['facebook-token']" type="text" class="form-control" name="id">
             </div>
           </div>
         </div>
@@ -97,7 +98,7 @@
             <span class="lead-text">Skype</span>
           </div>
           <div class="switch">
-            <ui-switch name="enabled" [(ngModel)]="formValue.skype.enabled" size="small" switchColor="white"
+            <ui-switch name="enabled" [(ngModel)]="formValue.skype && formValue.skype.enabled" size="small" switchColor="white"
                        style="height: 10px" defaultBgColor="grey"
                        (change)="onChange($event)"
                        [checked]="false"></ui-switch>
@@ -109,11 +110,11 @@
           <div [hidden]="false" class="form-context">
             <div class="form-group">
               <label>App id</label>
-              <input [ngModel]="formValue.skype.client_id" type="text" class="form-control" name="client_id">
+              <input [ngModel]="formValue.skype && formValue.skype.client_id" type="text" class="form-control" name="client_id">
             </div>
             <div class="form-group">
               <label>App Secret</label>
-              <input [ngModel]="formValue.skype.client_secret" type="text" class="form-control" name="client_secret">
+              <input [ngModel]="formValue.skype && formValue.skype.client_secret" type="text" class="form-control" name="client_secret">
             </div>
             <div class="form-group">
               <label>Stream Name</label>
@@ -136,7 +137,7 @@
             <span class="lead-text">Alexa</span>
           </div>
           <div class="switch">
-            <ui-switch name="enabled" [(ngModel)]="formValue.alexa.enabled" size="small" switchColor="white"
+            <ui-switch name="enabled" [(ngModel)]="formValue.alexa && formValue.alexa.enabled" size="small" switchColor="white"
                        style="height: 10px" defaultBgColor="grey"
                        (change)="onChange($event)"
                        [checked]="false"></ui-switch>
@@ -148,7 +149,7 @@
           <div [hidden]="false" class="form-context">
             <div class="form-group">
               <label>Skill id</label>
-              <input [ngModel]="formValue.alexa.skillId" type="text" class="form-control" name="skillId">
+              <input [ngModel]="formValue.alexa && formValue.alexa.skillId" type="text" class="form-control" name="skillId">
             </div>
           </div>
         </div>
@@ -167,7 +168,7 @@
             <span class="lead-text">Line</span>
           </div>
           <div class="switch">
-            <ui-switch name="enabled" [(ngModel)]="formValue.line.enabled" size="small" switchColor="white"
+            <ui-switch name="enabled" [(ngModel)]="formValue.line && formValue.line.enabled" size="small" switchColor="white"
                        style="height: 10px" defaultBgColor="grey"
                        (change)="onChange($event)"
                        [checked]="false"></ui-switch>
@@ -179,7 +180,7 @@
           <div [hidden]="false" class="form-context">
             <div class="form-group">
               <label>App id</label>
-              <input [ngModel]="formValue.line.skillId" type="text" class="form-control" name="skillId">
+              <input [ngModel]="formValue.line && formValue.line.skillId" type="text" class="form-control" name="skillId">
             </div>
           </div>
         </div>
@@ -202,7 +203,7 @@
             <span class="lead-text">VIBER</span>
           </div>
           <div class="switch">
-            <ui-switch name="enabled" [(ngModel)]="formValue.viber.enabled" size="small" switchColor="white"
+            <ui-switch name="enabled" [(ngModel)]="formValue.viber && formValue.viber.enabled" size="small" switchColor="white"
                        style="height: 10px" defaultBgColor="grey"
                        (change)="onChange($event)"
                        [checked]="false"></ui-switch>
@@ -214,15 +215,15 @@
           <div [hidden]="false" class="form-context">
             <div class="form-group">
               <label>bot-name</label>
-              <input [ngModel]="formValue.viber.bot_name" type="text" class="form-control" name="bot_name">
+              <input [ngModel]="formValue.viber && formValue.viber.bot_name" type="text" class="form-control" name="bot_name">
             </div>
             <div class="form-group">
               <label>Bot-auth-token</label>
-              <input [ngModel]="formValue.viber.bot_auth_token" type="text" class="form-control" name="bot_auth_token">
+              <input [ngModel]="formValue.viber && formValue.viber.bot_auth_token" type="text" class="form-control" name="bot_auth_token">
             </div>
             <div class="form-group">
               <label>Bot Avatar</label>
-              <input [ngModel]="formValue.viber.bot_avatar" type="text" class="form-control" name="bot_avatar">
+              <input [ngModel]="formValue.viber && formValue.viber.bot_avatar" type="text" class="form-control" name="bot_avatar">
             </div>
           </div>
         </div>
@@ -241,7 +242,7 @@
             <span class="lead-text">DEBUG</span>
           </div>
           <div class="switch">
-            <ui-switch name="enabled" [(ngModel)]="formValue.debug.enabled" size="small" switchColor="white"
+            <ui-switch name="enabled" [(ngModel)]="formValue.debug && formValue.debug.enabled" size="small" switchColor="white"
                        style="height: 10px" defaultBgColor="grey"
                        (change)="onChange($event)"
                        [checked]="false"></ui-switch>
@@ -253,7 +254,7 @@
           <div [hidden]="false" class="form-context">
             <div class="form-group">
               <label>Debug Url</label>
-              <input [ngModel]="formValue.debug.speech_model" type="text" class="form-control" name="speech_model">
+              <input [ngModel]="formValue.debug && formValue.debug.speech_model" type="text" class="form-control" name="speech_model">
             </div>
           </div>
         </div>
@@ -273,7 +274,7 @@
             <span class="lead-text">IMICHAT</span>
           </div>
           <div class="switch">
-            <ui-switch name="enabled" [(ngModel)]="formValue.imichat.enabled" size="small" switchColor="white"
+            <ui-switch name="enabled" [(ngModel)]="formValue.imichat && formValue.imichat.enabled" size="small" switchColor="white"
                        style="height: 10px" defaultBgColor="grey"
                        (change)="onChange($event)"
                        [checked]="false"></ui-switch>
@@ -285,15 +286,15 @@
           <div [hidden]="false" class="form-context">
             <div class="form-group">
               <label>Service Key</label>
-              <input [ngModel]="formValue.imichat['service-key']" type="text" class="form-control" name="service-key">
+              <input [ngModel]="formValue.imichat && formValue.imichat['service-key']" type="text" class="form-control" name="service-key">
             </div>
             <div class="form-group">
               <label>Access Token</label>
-              <input [ngModel]="formValue.imichat['access-token']" type="text" class="form-control" name="access-token">
+              <input [ngModel]="formValue.imichat && formValue.imichat['access-token']" type="text" class="form-control" name="access-token">
             </div>
             <div class="form-group">
               <label>Domain</label>
-              <input [ngModel]="formValue.imichat.domain" type="text" class="form-control" name="domain">
+              <input [ngModel]="formValue.imichat && formValue.imichat.domain" type="text" class="form-control" name="domain">
             </div>
           </div>
         </div>
@@ -312,7 +313,7 @@
             <span class="lead-text">WEB</span>
           </div>
           <div class="switch">
-            <ui-switch name="enabled" [(ngModel)]="formValue.web.enabled" size="small" switchColor="white"
+            <ui-switch name="enabled" [(ngModel)]="formValue.web && formValue.web.enabled" size="small" switchColor="white"
                        style="height: 10px" defaultBgColor="grey"
                        (change)="onChange($event)"
                        [checked]="false"></ui-switch>
@@ -324,15 +325,15 @@
           <div [hidden]="false" class="form-context">
             <div class="form-group">
               <label>Speech Model</label>
-              <input [ngModel]="formValue.web.speech_model" type="text" class="form-control" name="speech_model">
+              <input [ngModel]="formValue.web && formValue.web.speech_model" type="text" class="form-control" name="speech_model">
             </div>
             <div class="form-group">
               <label>Enable TTS</label>
-              <input [ngModel]="formValue.web.speech_tts" type="text" class="form-control" name="speech_tts">
+              <input [ngModel]="formValue.web && formValue.web.speech_tts" type="text" class="form-control" name="speech_tts">
             </div>
             <div class="form-group">
               <label>Speech Integration URL</label>
-              <input [ngModel]="formValue.web.speech_url" type="text" class="form-control" name="speech_url">
+              <input [ngModel]="formValue.web && formValue.web.speech_url" type="text" class="form-control" name="speech_url">
             </div>
           </div>
         </div>

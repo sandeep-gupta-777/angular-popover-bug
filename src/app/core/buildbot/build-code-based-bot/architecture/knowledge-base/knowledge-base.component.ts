@@ -4,6 +4,7 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {IBot} from '../../../../interfaces/IBot';
 import {ServerService} from '../../../../../server.service';
 import {ConstantsService} from '../../../../../constants.service';
+import {UtilityService} from '../../../../../utility.service';
 
 @Component({
   selector: 'app-knowledge-base',
@@ -31,6 +32,7 @@ export class KnowledgeBaseComponent implements OnInit {
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
+    private utilityService:UtilityService,
     private store: Store) {
 
   }
@@ -49,19 +51,8 @@ export class KnowledgeBaseComponent implements OnInit {
     console.log(this.data);
   }
 
-  openFile(event) {
-    let input = event.target;
-    for (var index = 0; index < input.files.length; index++) {
-      let reader = new FileReader();
-      reader.onload = () => {
-        // this 'text' is the content of the file
-        var text = reader.result;
-        this.codeText = text;
-        console.log(text);
-      };
-      reader.readAsText(input.files[index]);
-    };
-
+  async openFile(inputEl) {
+    this.codeText= await this.utilityService.readInputFileAsText(inputEl)
   }
 
   rowClicked($event) {

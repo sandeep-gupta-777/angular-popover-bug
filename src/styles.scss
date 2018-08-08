@@ -391,3 +391,19 @@ th, td {
   transform: translate(-50%, -50%);
 }
 
+
+.form-theme{
+  border-radius: 2px;
+  label{
+    @include typography(12px, $line-height-normal, $font-weight-300, $color-secondary);
+    margin: 0;
+  }
+  .form-control{
+    @include hide-borders();
+    border-bottom: $border-normal;
+    border-radius: 0;
+   padding: 8px 0px;
+    @include typography(11px, $line-height-normal, $font-weight-300, $color-text-normal);
+  }
+}
+//

@@ -11,6 +11,23 @@ export class UtilityService {
     private toastr: ToastrService,
   ) { }
 
+  readInputFileAsText(inputElement):Promise<string>{
+    return new Promise<string>((resolve, reject)=>{
+      let input = inputElement//event.target;
+      for (let index = 0; index < input.files.length; index++) {
+        let reader = new FileReader();
+        reader.onload = () => {
+          // this 'text' is the content of the file
+          let text = reader.result;
+          // this.editorCode= text;
+          // console.log(text);
+          resolve(text);
+        };
+        reader.readAsText(input.files[index]);
+      };
+    })
+  }
+
   getPriorDate(days_before:number){
     let today:any = new Date(Date.now()-days_before*24*3600*1000);
     let dd:any = today.getDate();

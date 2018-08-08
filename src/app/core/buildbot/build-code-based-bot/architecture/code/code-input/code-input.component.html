@@ -1,13 +1,13 @@
 <div class="row my-2 m-0" style="position: relative">
-  <div class="col-6 p-0" *ngIf="selectedVersion">
-    <div class="d-flex align-items-center justify-content-between flex-bot-versioning-toaster border-theme-secondary">
-      <button *ngIf="selectedVersion.id === activeVersion.id" class="btn btn-theme-primary mr-1" 
+  <div class="col-6 p-0" >
+    <div *ngIf="selectedVersion" class="d-flex align-items-center justify-content-between flex-bot-versioning-toaster border-theme-secondary">
+      <button *ngIf="selectedVersion.id === activeVersion.id" class="btn btn-theme-primary mr-1"
               style="flex-basis: 56px">Active
             </button>
       <button *ngIf="selectedVersion.id !== activeVersion.id" class="btn btn-theme-primary mr-1"
             style="flex-basis: 56px">Inactive
             </button>
-      <div class="count mr-1">{{selectedVersion.id}}</div>
+      <div class="count mr-1" style="width: 30px">{{selectedVersion.id}}</div>
       <div class="forked mr-1">Forked from version 1</div>
       <div class="update d-flex flex-column mr-1 justify-content-center">
         <div class="mr-1">Last update</div>
@@ -21,19 +21,20 @@
       </div>
       <div class="insert mr-1">{{selectedVersion.comment}}
       </div>
-      <i (click)="showVersionList= !showVersionList" class="fa fa-angle-down py-2 px-3 bg-theme-primary text-white"></i>
+      <!---->
+      <i (click)="showVersionList= !showVersionList" class="fa fa-angle-down py-2 px-3 bg-theme-primary text-white" style="height: 100%"></i>
     </div>
   </div>
   <div class="col-6">
-    <button class="btn btn-theme-primary-outline mr-1">Save Version</button>
-    <button class="btn btn-theme-primary-outline">Fork new version</button>
+    <button class="btn btn-theme-primary-outline mr-1" (click)="saveSelectedVersion()">Save Version</button>
+    <button class="btn btn-theme-primary-outline" (click)="forkNewVersionFromSelectedVersion()">Fork new version</button>
   </div>
   <div class="row row-flex-bot-versioning-toaster border-theme-secondary  border-top-0 mx-0"
        *ngIf="showVersionList">
     <div class="col-12 py-2 border-bottom-theme-secondary"
          *ngFor="let version of bot.store_bot_versions | filterActiveBot:selectedVersion.id">
       <div class="d-flex align-items-center justify-content-between flex-bot-versioning-toaster"
-           (click)="selectedVersion = version; tabClicked('dfTemplate');">
+           (click)="selectedVersion = version; showVersionList = false; tabClicked('dfTemplate');">
         <div class="active-label-text">{{version.id === activeVersion.id?'Active':'Inactive'}}</div>
         <div class="count mr-1">{{version.id}}</div>
         <div class="forked mr-1">Forked from version 1</div>
@@ -94,7 +95,9 @@
         <!--todo: make this row independent-->
         <div class="row pl-3">
           <div class="col-12 pt-2 d-flex justify-content-end">
-            <button class="btn btn-theme-primary-outline">Upload File</button>
+            <label for="uploadInput" class="btn btn-theme-primary-outline">Upload File
+              <input type="file" hidden id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)' #uploadInput>
+            </label>
           </div>
           <div class="col-12">
             <app-code-editor [text]="editorCode" (textChangedEvent)="saveText($event)"></app-code-editor>

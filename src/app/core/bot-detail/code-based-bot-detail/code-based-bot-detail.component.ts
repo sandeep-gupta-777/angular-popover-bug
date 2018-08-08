@@ -48,6 +48,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
       // console.log("view detailed bot", bot[0]);
       // return bot[0];
     });
+    this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab')||'pipeline';
 
     this.start_date = this.utilityService.getPriorDate(0);
     this.end_date = this.utilityService.getPriorDate(30);

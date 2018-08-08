@@ -7,6 +7,8 @@ import {SaveVersionInfoInBot} from '../../../../../view-bots/ngxs/view-bot.actio
 import {SaveCodeInfo} from '../../../../ngxs/buildbot.action';
 import { ViewBotStateModel } from '../../../../../view-bots/ngxs/view-bot.state';
 import { Observable } from '../../../../../../../../node_modules/rxjs';
+import {IHeaderData} from '../../../../../../../interfaces/header-data';
+import {UtilityService} from '../../../../../../utility.service';
 
 
 @Component({
@@ -27,7 +29,8 @@ export class CodeInputComponent implements OnInit {
 
     private store:Store,
     private serverService:ServerService,
-    private constantsService:ConstantsService
+    private constantsService:ConstantsService,
+    private utilityService:UtilityService
   ) {}
 
   ngOnInit() {
@@ -54,10 +57,14 @@ export class CodeInputComponent implements OnInit {
         this.activeVersion = activeVersion;
         if (!this.selectedVersion) {
           this.selectedVersion = activeVersion;
-          this.tabClicked('dfTemplate');  
+          this.tabClicked('dfTemplate');
           };
       }, (err) => { console.log(err) })
 
+  }
+  async openFile(inputEl) {
+    // debugger;
+    this.editorCode = await this.utilityService.readInputFileAsText(inputEl);
   }
 
   tabClicked(activeTab: string) {
@@ -86,4 +93,29 @@ export class CodeInputComponent implements OnInit {
       new SaveCodeInfo({data: objectTobeSaved})
     ])
   }
+
+  saveSelectedVersion(){
+    let headerData:IHeaderData = {
+        "bot-access-token":this.bot.bot_access_token
+    };
+    let url = this.constantsService.getSaveVersionByBotId(this.bot.id);
+    // debugger;
+    this.serverService.makePutReq({url, body:this.selectedVersion, headerData})
+      .subscribe((value)=>{
+        // debugger;
+        console.log(value);
+      })
+  }
+
+  forkNewVersionFromSelectedVersion(){
+    let headerData:IHeaderData = {
+      "bot-access-token":this.bot.bot_access_token
+    };
+    let url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
+    this.serverService.makePutReq({url, body:this.selectedVersion, headerData})
+      .subscribe((value)=>{
+        console.log(value);
+      })
+  }
+
 }
