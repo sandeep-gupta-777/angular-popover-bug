@@ -110,12 +110,12 @@ import {DataManageFormComponent} from './core/buildbot/build-code-based-bot/bot-
 import {BasicInfoFormComponent} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/basic-info-form.component';
 import {PipelineComponent} from './core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
 import {KnowledgeBaseComponent} from './core/buildbot/build-code-based-bot/architecture/knowledge-base/knowledge-base.component';
-import {CodeInputComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component';
 import {IntegrationOptionListComponent} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-option-list.component';
 import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 import {IntegrationItemComponent} from './core/buildbot/build-code-based-bot/architecture/integration/integration-item/integration-item.component';
 import { BotArchitetureComponent } from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
 import { BotDetailHeaderComponent } from './core/bot-detail/bot-detail-header/bot-detail-header.component';
+import {CodeInputComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component';
 
 const routes: Route[] = [
   {
