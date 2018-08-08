@@ -3,6 +3,13 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 @import "./sass/main.scss";
 @import '~handsontable/dist/handsontable.full.css';
 
+* div {
+  @include typography($font-size-normal, $line-height-normal, $font-weight-300, $color-text-normal);
+  strong {
+    font-weight: 700;
+  }
+}
+
 .border1 {
   border: 1px solid red !important;
 }
@@ -241,9 +248,22 @@ th, td {
     background: rgba(85, 85, 85, 0.51);
   }
 }
+.tab-theme {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  @include typography(13px, $line-height-normal, $font-weight-300, $color-text-normal);
+  cursor: pointer;
+  &:hover {
+    background-color: #f7f7f7;
+  }
+  text-decoration: none;
+}
 
 .heading {
-  @include typography(16px, $line-height-normal, $font-weight-700, $color-text-normal);
+  font-size: 16px !important;
+  font-family: "Helvetica", sans-serif;
   margin-bottom: 4px;
 }
 
@@ -281,7 +301,6 @@ th, td {
     border: none;
     .nav-link {
       border: none;
-
       text-decoration: none !important;
       font-size: $font-size-sm;
       @include typography($font-size-sm, $line-height-normal, $font-weight-300, $color-text-grey);
@@ -360,5 +379,12 @@ th, td {
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
   }
+}
+
+.center-absolute {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 

@@ -13,7 +13,7 @@
 <!--</div>-->
 <!--</div>-->
 
-<div style="overflow-y: scroll;overflow-x: hidden; height: 320px;" >
+<div style="overflow-y: scroll;overflow-x: hidden; height: 100%" >
   <app-chat-item *ngFor="let room of (chatsessionstate$|async).rooms" [room]="room"></app-chat-item>
 </div>
 <!--<app-chat-item></app-chat-item>-->

@@ -31,22 +31,16 @@ export interface ISendApiResponsePayload {
   'room': {
     '_id': string,
     'agentHandOver': false,
-    'botId': string,
+    'botId': number,
     'consentAcknowledged': true,
     'consumerId': {
       '_id': string,
       'botId': string,
       'consentAcknowledged': true,
-      'consentPermissions': [
-        {
+      'consentPermissions': {
           'permission': string,
           'status': string
-        },
-        {
-          'permission': string,
-          'status': string
-        }
-        ],
+        }[],
       'consumerDataStore': {},
       'created_at': string,
       'email': string,
@@ -71,3 +65,4 @@ export interface ISendApiResponsePayload {
   },
   'transaction_id': string
 }
+

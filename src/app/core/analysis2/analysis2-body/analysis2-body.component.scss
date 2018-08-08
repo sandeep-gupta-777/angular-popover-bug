@@ -16,9 +16,4 @@
   .heading {
     @include typography(16px, $line-height-normal, $font-weight-700, $color-text-normal);
   }
-
-  .tab{
-    @include typography(13px, $line-height-normal, $font-weight-300, $color-text-normal);
-
-  }
 }

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {IMessageData} from '../../../../interfaces/chat-session-state';
+import {IMessageData} from '../../../../../interfaces/chat-session-state';
 
 @Component({
   selector: 'app-chat-message',

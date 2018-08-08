@@ -1,14 +1,14 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {EChatFrame, IChatSessionState, IMessageData, IRoomData} from '../../../interfaces/chat-session-state';
-import {AddMessagesToRoom, ChangeFrameAction, SetCurrentRoomID, ToggleChatWindow} from '../ngxs/chat.action';
-import {ServerService} from '../../server.service';
-import {ConstantsService} from '../../constants.service';
-import {ISendApiRequestPayload, ISendApiResponsePayload} from '../../../interfaces/send-api-request-payload';
-import {IHeaderData} from '../../../interfaces/header-data';
-import {ChatService} from '../../chat.service';
-import {IAuthState} from '../../auth/ngxs/auth.state';
+import {EChatFrame, IChatSessionState, IMessageData, IRoomData} from '../../interfaces/chat-session-state';
+import {AddMessagesToRoom, ChangeFrameAction, SetCurrentRoomID, ToggleChatWindow} from './ngxs/chat.action';
+import {ServerService} from '../server.service';
+import {ConstantsService} from '../constants.service';
+import {ISendApiRequestPayload, ISendApiResponsePayload} from '../../interfaces/send-api-request-payload';
+import {IHeaderData} from '../../interfaces/header-data';
+import {ChatService} from '../chat.service';
+import {IAuthState} from '../auth/ngxs/auth.state';
 
 @Component({
   selector: 'app-chat-wrapper',
@@ -27,13 +27,13 @@ export class ChatWrapperComponent implements OnInit {
   selectedAvatar:any;
   currentRoom:IRoomData;
   currentBotToken:string;
-  currentBotId:string;
+  currentBotId:number;
   chatWindowTitle:string = "Start Chat";
   messageByHuman:string="";
   constructor(private store: Store,
               private serverService:ServerService,
               private constantsService: ConstantsService,
-              private chatService: ChatService
+              private chatService: ChatService,
   ){}
 
   ngOnInit() {
@@ -46,7 +46,7 @@ export class ChatWrapperComponent implements OnInit {
       this.messageData = this.currentRoom && this.currentRoom.messageList;
       this.selectedAvatar = this.currentRoom && this.currentRoom.selectedAvatar;
       this.currentBotToken = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.token;
-      this.currentBotId = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails._id;
+      this.currentBotId = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.id;
       this.chatWindowTitle = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.name;
     });
 
@@ -56,7 +56,7 @@ export class ChatWrapperComponent implements OnInit {
 
 
   startNewChat(messageByHuman:string, frameEnabled?:EChatFrame){
-    this.chatService.startNewChat({token:this.currentBotToken, _id:this.currentBotId}, messageByHuman, frameEnabled);
+    this.chatService.startNewChat({token:this.currentBotToken, id:this.currentBotId}, messageByHuman, frameEnabled);
   }
 
   navigate(frame){

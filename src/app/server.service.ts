@@ -58,7 +58,7 @@ export class ServerService {
       // crossOrigin : true,
       // "auth-token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NzcsInJvbGUiOiJhdXRoIn0.diYtz23k19lqMGg5cqDKvSK4wO-TUPOMITN80plfU40",
       // "user-access-token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoidXNlciIsImlkIjoxfQ.ycXXJUTse-L_kpe0_RMk-DIgZkSL-57in4d9pqalO8c",
-      "Content-Type":"application/json"
+      // "Content-Type":"application/json"
     };
 
     if(headerData)
@@ -71,7 +71,6 @@ export class ServerService {
 
   makeGetReq<T>(reqObj: {url:string, headerData?:any}): Observable<T>{
     let headers = this.createHeaders(reqObj.headerData);
-    console.log('making get request');
     return this.httpClient.get<T>(reqObj.url, {headers: headers});
   }
   makePostReq<T>(reqObj: {url:string, body:any, headerData?:any}): Observable<T>{
@@ -94,7 +93,6 @@ export class ServerService {
 
   getOverviewInfo<T>(body:any):Observable<IOverviewInfoResponse>{
     console.log('getting overview info');
-    debugger;
     let url = this.constantsService.getOverViewInfoUrl();
     return this.makePostReq<IOverviewInfoResponse>({url, body});
   }

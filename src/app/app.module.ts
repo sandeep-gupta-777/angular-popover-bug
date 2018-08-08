@@ -69,13 +69,7 @@ import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.com
 import {ConsumersComponent} from './core/bot-detail/consumers/consumers.component';
 import {SessionComponent} from './core/bot-detail/session/session.component';
 import {BotSessionsComponent} from './core/bot-detail/bot-sessions/bot-sessions.component';
-import {ChatWrapperComponent} from './chat/chat-wrapper/chat-wrapper.component';
-import {ChatWindowComponent} from './chat/chat-window/chat-window.component';
-import {ChatMessageComponent} from './chat/chatroom/chat-message/chat-message.component';
-import {BotWelcomeComponent} from './chat/bot-welcome/bot-welcome.component';
-import {ChatListComponent} from './chat/chat-list/chat-list.component';
-import {ChatItemComponent} from './chat/chat-list/chat-item/chat-item.component';
-import {ChatroomComponent} from './chat/chatroom/chatroom.component';
+import {ChatWrapperComponent} from './chat/chat-wrapper.component';
 import {ChatSessionStateReducer} from './chat/ngxs/chat.state';
 import {ScrollerDirective} from './scroller.directive';
 import {BotCreationStateReducer} from './core/buildbot/ngxs/buildbot.state';
@@ -117,6 +111,12 @@ import {IntegrationItemComponent} from './core/buildbot/build-code-based-bot/arc
 import {BotArchitetureComponent} from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
 import {BotDetailHeaderComponent} from './core/bot-detail/bot-detail-header/bot-detail-header.component';
 import {AnalysisStateReducer2} from './core/analysis2/ngxs/analysis.state';
+import {ChatWindowComponent} from './chat/rooms-and-convo-panel/chat-window.component';
+import {ChatMessageComponent} from './chat/rooms-and-convo-panel/chat-message-list/chat-message/chat-message.component';
+import {BotWelcomeComponent} from './chat/bot-welcome-panel/bot-welcome.component';
+import {ChatListComponent} from './chat/rooms-and-convo-panel/chat-room-list/chat-list.component';
+import {ChatroomComponent} from './chat/rooms-and-convo-panel/chat-message-list/chatroom.component';
+import {ChatItemComponent} from './chat/rooms-and-convo-panel/chat-room-list/chat-item/chat-item.component';
 
 const routes: Route[] = [
   {

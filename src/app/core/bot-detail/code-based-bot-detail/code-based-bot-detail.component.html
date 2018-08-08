@@ -91,14 +91,26 @@
 
   <app-bot-detail-header [bot]="bot"></app-bot-detail-header>
 
-  <div class="row shadow-theme bg-white py-4 my-3">
-
-    <div class="col-12">
-      <div class="col-12 d-flex justify-content-between px-4 pb-3">
-        <h4>Bot Configuration</h4>
-        <button class="btn-theme-primary">Update Changes</button>
+  <div class="row shadow-theme bg-white py-4 mb-3">
+    <!---->
+    <div class="col-12 text-theme-normal">
+      <div class="col-12 d-flex justify-content-between px-4 py-2">
+        <h4 class="heading">Bot Configuration</h4>
+        <div *ngIf="!showConfig" class="d-flex mx-4 justify-content-between align-items-center flex-grow-1">
+          <div>Bot Unique Name : <strong>Botuniquename</strong></div>
+          <div>Session Time : <strong>240 </strong>min</div>
+          <div>Advance Data Protection : <strong>ON</strong></div>
+          <div>Data Retention Period : <strong>40 </strong>Days</div>
+          <div>Blank Consent : <strong>OFF</strong></div>
+        </div>
+        <div class="cursor-pointer"
+             (click)="showConfig=!showConfig">
+          <i class="fa fa-angle-down"style="font-size: 20px; line-height: 12px"></i>
+        </div>
       </div>
-      <app-bot-config [bot]="(bot$|async)"></app-bot-config>
+
+      <app-bot-config *ngIf="showConfig" [bot]="(bot$|async)"></app-bot-config>
+
     </div>
   </div>
 
@@ -236,28 +248,28 @@
            queryParamsHandling="merge"
            replaceUrl="true"
            (click)="tabChanged('architecture')"
-           [queryParams]="{build:'architecture'}">Bot Architecture</a>
+           [queryParams]="{build:'architecture'}"><strong>Bot Architecture</strong></a>
       </li>
       <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='testing'}">
         <a class="nav-link heading" [routerLink]="['.']"
            queryParamsHandling="merge"
            replaceUrl="true"
            (click)="tabChanged('testing')"
-           [queryParams]="{build:'testing'}">Testing</a>
+           [queryParams]="{build:'testing'}"><strong>Testing</strong></a>
       </li>
       <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='sessions'}">
         <a class="nav-link heading" [routerLink]="['.']"
            queryParamsHandling="merge"
            replaceUrl="true"
            (click)="tabChanged('sessions')"
-           [queryParams]="{build:'sessions'}">Session</a>
+           [queryParams]="{build:'sessions'}"><strong>Session</strong></a>
       </li>
       <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='consumer'}">
         <a class="nav-link heading" [routerLink]="['.']"
            queryParamsHandling="merge"
            replaceUrl="true"
            (click)="tabChanged('consumer')"
-           [queryParams]="{build:'consumer'}">Consumer</a>
+           [queryParams]="{build:'consumer'}"><strong>Consumer</strong></a>
       </li>
     </ul>
 
@@ -272,19 +284,19 @@
         <div class="sidebar-content">
           <div [ngClass]="{'font-weight-bold':selectedSideBarTab==='pipeline'}"
                (click)="selectedSideBarTab='pipeline'"
-               class="tab font-weight-bold">Pipeline
+               class="tab-theme font-weight-bold">Pipeline
           </div>
           <div [ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"
                (click)="selectedSideBarTab='knowledge'"
-               class="tab">Knowledge base
+               class="tab-theme">Knowledge base
           </div>
           <div [ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"
                (click)="selectedSideBarTab='code'"
-               class="tab">Code
+               class="tab-theme">Code
           </div>
           <div [ngClass]="{'font-weight-bold':selectedSideBarTab==='integration'}"
                (click)="selectedSideBarTab='integration'"
-               class="tab">Integration
+               class="tab-theme">Integration
           </div>
         </div>
       </div>
@@ -292,7 +304,8 @@
         <app-pipeline *ngIf="selectedSideBarTab==='pipeline'" [bot]="bot"></app-pipeline>
         <app-knowledge-base *ngIf="selectedSideBarTab==='knowledge'" [bot]="(bot$|async)"></app-knowledge-base>
         <app-code-input *ngIf="selectedSideBarTab==='code'" [bot]="(bot$|async)"></app-code-input>
-        <app-integration-option-list *ngIf="selectedSideBarTab==='integration'" [bot]="(bot$|async)"></app-integration-option-list>
+        <app-integration-option-list *ngIf="selectedSideBarTab==='integration'"
+                                     [bot]="(bot$|async)"></app-integration-option-list>
       </div>
 
     </div>

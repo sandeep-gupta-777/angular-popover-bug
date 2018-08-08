@@ -16,7 +16,6 @@ export class ChartComponent implements OnInit {
   @Input() chartValue:any;
   @Input() highChartThemeValue:any;
   @Input()set data(value){
-    debugger;
     this._data = value;
     if(!value) return;
     console.log(value);

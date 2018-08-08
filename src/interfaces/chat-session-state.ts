@@ -10,7 +10,7 @@ export interface IMessageData {
 
 export interface IRoomData{
   _id:string,
-  'botId': string,
+  'botId': number,
   botToken:string,
   'messageList': IMessageData[],
   "selectedAvatar"?: {
@@ -24,6 +24,6 @@ export interface IChatSessionState {
   opened: boolean;
   frameEnabled: EChatFrame,
   currentRoomId: string,
-  currentBotDetails: {_id:string, name?:string, token:string},
+  currentBotDetails: {id:number, name?:string, token:string},
   rooms:IRoomData[]
 }

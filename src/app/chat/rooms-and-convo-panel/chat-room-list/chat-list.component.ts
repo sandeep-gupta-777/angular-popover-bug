@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Observable} from 'rxjs';
-import {IChatSessionState} from '../../../interfaces/chat-session-state';
 import {Select} from '@ngxs/store';
+import {IChatSessionState} from '../../../../interfaces/chat-session-state';
 
 @Component({
   selector: 'app-chat-list',

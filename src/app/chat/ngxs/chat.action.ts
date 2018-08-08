@@ -24,7 +24,7 @@ export class SetCurrentRoomID {
 
 export class SetCurrentBotID {
   static readonly type = '[chat-widdow] set SetCurrentBotID';
-  constructor(public payload: { botId: string}) {}
+  constructor(public payload: { botId: number}) {}
 }
 
 export class ResetChatState {
