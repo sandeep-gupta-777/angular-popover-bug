@@ -60,7 +60,7 @@ export class ReportControlsComponent implements OnInit {
 
 
         // this.reportFormData.startdate = this.utilityService.convertDateObjectStringToDDMMYY(new Date(this.reportFormData.startdate));
-        // if (this.reportFormData) this.f.form.patchValue(this.reportFormData);
+        // if (this.reportFormData) this.f.f.patchValue(this.reportFormData);
         //
         if (_id && _id !== 'new') {
           let url = this.constantsService.getReportsEditInfo(_id);
@@ -70,12 +70,12 @@ export class ReportControlsComponent implements OnInit {
               /*TODO: VERY BAD FIX; USE REACTIVE FORM INSTEAD*/
               value.delivery = value.delivery[0];;
               if (value) this.f.form.patchValue(value);
-              // this.f.form.patchValue({startdate:value.startdate});
-              // this.f.form.patchValue({startdate:value.startdate});//This will only accept mmddyyyy format...
+              // this.f.f.patchValue({startdate:value.startdate});
+              // this.f.f.patchValue({startdate:value.startdate});//This will only accept mmddyyyy format...
             });
           // } else if(_id==='new') {
           //   this.reportFormData.startdate = this.utilityService.convertDateObjectStringToDDMMYY(new Date(this.reportFormData.startdate));
-          //   if (this.reportFormData && !_id) this.f.form.patchValue(this.reportFormData);
+          //   if (this.reportFormData && !_id) this.f.f.patchValue(this.reportFormData);
         }
       }, 0);
     });
@@ -98,7 +98,7 @@ export class ReportControlsComponent implements OnInit {
   }
 
   click() {
-    // this.f.form.patchValue({startdate:this.servervalue.startdate})
+    // this.f.f.patchValue({startdate:this.servervalue.startdate})
     console.log(this.reportItem);
     console.log(this.f.value);
   }

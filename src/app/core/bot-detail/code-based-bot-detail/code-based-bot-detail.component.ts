@@ -22,6 +22,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
   selectedTab = "architecture";
   bot$: Observable<IBot>;
   bot_id: number;
+  showConfig:boolean =true;
   overviewInfo$: Observable<IOverviewInfoResponse>;
   selectedChannel: string = 'all';
   start_date: string;

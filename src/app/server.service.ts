@@ -58,20 +58,19 @@ export class ServerService {
       // crossOrigin : true,
       // "auth-token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NzcsInJvbGUiOiJhdXRoIn0.diYtz23k19lqMGg5cqDKvSK4wO-TUPOMITN80plfU40",
       // "user-access-token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoidXNlciIsImlkIjoxfQ.ycXXJUTse-L_kpe0_RMk-DIgZkSL-57in4d9pqalO8c",
-      "Content-Type":"application/json"
+      // "Content-Type":"application/json"
     };
 
     if(headerData)
     for(let key in headerData){{
       headers = headers.set(key, headerData[key]);
     }}
-    // headers = headers.set("content-type","application/x-www-form-urlencoded");
+    // headers = headers.set("content-type","application/x-www-f-urlencoded");
     return headers;
   }
 
   makeGetReq<T>(reqObj: {url:string, headerData?:any}): Observable<T>{
     let headers = this.createHeaders(reqObj.headerData);
-    console.log('making get request');
     return this.httpClient.get<T>(reqObj.url, {headers: headers});
   }
   makePostReq<T>(reqObj: {url:string, body:any, headerData?:any}): Observable<T>{

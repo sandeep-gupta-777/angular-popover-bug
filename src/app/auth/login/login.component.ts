@@ -17,6 +17,7 @@ import {UtilityService} from '../../utility.service';
 })
 export class LoginComponent implements OnInit {
 
+  panelActive:string='login';
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
@@ -33,7 +34,7 @@ export class LoginComponent implements OnInit {
   onSubmit(){
     let loginData = this.f.value;
     let loginUrl = this.constantsService.BACKEND_URL_LOGIN
-    // let headerData:IHeaderData = {'api-key': '54asdkj1209nksnda',"content-type":'application/x-www-form-urlencoded'};
+    // let headerData:IHeaderData = {'api-key': '54asdkj1209nksnda',"content-type":'application/x-www-f-urlencoded'};
     let body = {
       "email":"ayeshreddy.k@imimobile.com",
       "password":"Botwoman@123!"
@@ -50,6 +51,10 @@ export class LoginComponent implements OnInit {
       }
       )
 
+  }
+
+  showPanel(panel){
+    this.panelActive = panel;
   }
 
 };

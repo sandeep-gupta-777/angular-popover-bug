@@ -8,25 +8,25 @@
            replaceUrl="true"
            [queryParams]="{config:'basic'}"
            (click)="tabClicked('basic')"
-           [ngClass]="{'tab-active':activeTab==='basic'}"><strong>Basic Info</strong></a>
+           [ngClass]="{'tab-active':activeTab==='basic'}">Basic Info</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true"
            [queryParams]="{config:'data'}"
            (click)="tabClicked('data')"
-           [ngClass]="{'tab-active':activeTab==='data'}"><strong>Data Management</strong></a>
+           [ngClass]="{'tab-active':activeTab==='data'}">Data Management</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true"
            [queryParams]="{config:'add-info'}"
            (click)="tabClicked('add-info')"
-           [ngClass]="{'tab-active':activeTab==='add-info'}"><strong>Additional Info</strong></a>
+           [ngClass]="{'tab-active':activeTab==='add-info'}">Additional Info</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true"
            [queryParams]="{config:'avators'}"
            (click)="tabClicked('avators')"
-           [ngClass]="{'tab-active':activeTab==='avators'}"><strong>Avators</strong></a>
+           [ngClass]="{'tab-active':activeTab==='avators'}">Avators</a>
       </li>
     </ul>
 

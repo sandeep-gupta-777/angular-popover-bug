@@ -49,7 +49,7 @@ export class ChatSessionStateReducer {
     let state  = getState();
     let bot_token:string;
     let bot_name:string;
-    let botId:string = payload.botId ;
+    let botId:number = payload.botId ;
     /*find token for a given timePeriod*/
     state.rooms.forEach((room)=> {
       if(room.botId === botId){
@@ -60,7 +60,7 @@ export class ChatSessionStateReducer {
     patchState({
       ...state,
       currentBotDetails: {
-        _id: botId,
+        id: botId,
         token: bot_token,
         name:bot_name
       }
@@ -88,7 +88,7 @@ export class ChatSessionStateReducer {
     room.messageList = [...room.messageList, ...payload.messageList];
     state.currentBotDetails = {
       ...state.currentBotDetails,
-      _id: payload.botId,
+      id: payload.botId,
       token:payload.botToken,
     };
 

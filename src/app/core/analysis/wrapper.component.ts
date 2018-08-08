@@ -22,7 +22,7 @@ export class WrapperComponent implements OnInit {
 
   @Select() botlist$: Observable<ViewBotStateModel>;
   @Select() analysisstate$: Observable<IAnalysisState>;
-  @ViewChild('f') form: NgForm;
+  @ViewChild('form') f: NgForm;
 
   start_date = new Date();
   end_date = new Date();
@@ -44,7 +44,7 @@ export class WrapperComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.form.form.patchValue({botId:'hour'});
+    this.f.form.patchValue({botId:'hour'});
     this.botlist$.subscribe((value) => {
       if (value && value.codeBasedBotList) {
         this.botList = value && [...value.codeBasedBotList, ...value.pipelineBasedBotList];
@@ -66,7 +66,7 @@ export class WrapperComponent implements OnInit {
       this.selectedBot = value.overviewinfo.selectedBot;
     });
 
-    this.form.valueChanges.subscribe((value) => {
+    this.f.valueChanges.subscribe((value) => {
       this.overviewInfoChanged(value);
     });
   }
@@ -74,7 +74,7 @@ export class WrapperComponent implements OnInit {
   granularityChanged(time: { name: string, displayName: string }) {
     this.selectedTime = time;
     this.granularity = time.name;
-    this.form.form.updateValueAndValidity();
+    this.f.form.updateValueAndValidity();
   }
 
   overviewInfoChanged(formData: IOverviewInfoPostBody) {

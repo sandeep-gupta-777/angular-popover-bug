@@ -1,8 +1,8 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
 import {Observable} from 'rxjs';
-import {EChatFrame, IChatSessionState, IRoomData} from '../../../../interfaces/chat-session-state';
 import {Select, Store} from '@ngxs/store';
-import {ChangeFrameAction, SetCurrentBotID, SetCurrentRoomID} from '../../ngxs/chat.action';
+import {EChatFrame, IRoomData} from '../../../../../interfaces/chat-session-state';
+import {ChangeFrameAction, SetCurrentBotID, SetCurrentRoomID} from '../../../ngxs/chat.action';
 
 @Component({
   selector: 'app-chat-item',

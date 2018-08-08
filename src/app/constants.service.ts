@@ -16,7 +16,7 @@ export class ConstantsService {
   static state: any;
   loggedUser: IUser;
 
-  public BACKEND_URL = "https://dev.imibot.ai/";
+  public BACKEND_URL = 'https://dev.imibot.ai/';
   public BACKEND_URL_LOGIN = `${this.BACKEND_URL}` + 'api/v1/user/login/';
   private BACKEND_URL_ENTERPRISE_USERS = `${this.BACKEND_URL}` + 'users/enterprise';
   private BACKEND_USER_UPDATE_URL = `${this.BACKEND_URL}` + 'user/';//https://dev.imibot.ai/user/5a030aa9b050705bd0ca5a45
@@ -37,9 +37,9 @@ export class ConstantsService {
     {name: 'year', displayName: 'Year'}
   ];
 
-  public readonly DATE_PICKER_CONFIG = Object.assign({},{
-    'containerClass':'theme-dark-blue',
-    'dateInputFormat':'DD/MM/YYYY',
+  public readonly DATE_PICKER_CONFIG = Object.assign({}, {
+    'containerClass': 'theme-dark-blue',
+    'dateInputFormat': 'DD/MM/YYYY',
   });
 
   constructor() {
@@ -135,7 +135,7 @@ export class ConstantsService {
     return this.BACKEND_URL + 'reports/' + _id; //  https://dev.imibot.ai/reports/5b335b127c15580059c13fc5
   }
 
-  getAllVersionsByBotId(_id:number) {
+  getAllVersionsByBotId(_id: number) {
     return this.BACKEND_URL + 'api/v1/botversioning/?id=' + _id; //"http://localhost:8000/api/v1/botversioning/?bot_id=2"
   }
 
@@ -231,8 +231,8 @@ export class ConstantsService {
       edit: false,
       delete: false
     },
-    pager:{
-      display:true,
+    pager: {
+      display: true,
       perPage: 5
     }
   };
@@ -268,5 +268,158 @@ export class ConstantsService {
     {data: 1, type: 'text'},
     {data: 2, type: 'text'},
   ];
+
+  readonly HIGHCHART_CHARTVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE = {
+    chart: {
+      type: 'column'
+    },
+    title: {
+      text: 'Session Handling'
+    },
+    xAxis: {
+      type: 'datetime'
+    },
+    yAxis: {
+      min: 0,
+      title: {
+        text: 'Percentage'
+      }
+    },
+    tooltip: {
+      pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+      shared: true
+    },
+    plotOptions: {
+      column: {
+        stacking: 'percent'
+      },
+      series: {
+        pointStart: Date.UTC(2018, 6, 20),
+        pointInterval: 24 * 3600 * 1000
+      }
+    }
+  };
+
+  readonly HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE = {
+    chart: {
+      style: {
+        fontFamily: 'helvetica'
+      }
+    },
+    colors: ['#5392ff', '#71cddd', '#34bc6e', '#95d13c', '#ffb000', '#fe8500', '#ff509e', '#9b82f3']
+  };
+
+  readonly HIGHCHART_CHARTVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED = {
+    chart: {
+      type: 'column'
+    },
+    title: {
+      text: ''
+    },
+    xAxis: {
+      categories: ['Flow 1', 'Flow 2', 'Flow 3', 'Flow 4', 'Flow 5']
+    },
+    yAxis: {
+      min: 0,
+      title: {
+        text: ''
+      },
+      stackLabels: {
+        enabled: false,
+        style: {
+          fontWeight: 'bold',
+          color: 'gray'
+        }
+      }
+    },
+    tooltip: {
+      headerFormat: '<b>{point.x}</b><br/>'
+    },
+    plotOptions: {
+      column: {
+        stacking: 'normal'
+      }
+    }
+  };
+
+  readonly HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED = {
+    chart: {
+      style: {
+        fontFamily: 'helvetica'
+      }
+    },
+    colors: ['#5392ff', '#71cddd', '#34bc6e', '#95d13c', '#ffb000', '#fe8500', '#ff509e', '#9b82f3']
+  };
+
+  readonly HIGHCHART_THEMEVALUE_ANALYTICS_ENGAGEMENT = {
+
+    title: {
+      text: ''
+    },
+
+    subtitle: {
+      text: ''
+    },
+    xAxis: {
+      type: 'datetime'
+    },
+
+    yAxis: {
+      title: {
+        text: '',
+        rotation: -90,
+        margin: 10,
+        style: {
+          fontWeight: 'bold'
+        }
+      }
+    },
+    legend: {
+      layout: 'horizontal',
+      align: 'right',
+      verticalAlign: 'bottom'
+    },
+    tooltip: {
+      shared: true
+    },
+
+    plotOptions: {
+      series: {
+        pointStart: Date.UTC(2018, 6, 20),
+        pointInterval: 24 * 3600 * 1000, // one day
+        marker: {
+          symbol: 'circle',
+          /* fillColor: '#ffffff' , */
+          lineWidth: 0,
+          radius: 4,
+          lineColor: null, // inherit from series
+        },
+        lineWidth: 3,
+        label: {
+          enabled: false,
+          style: {
+            fontFamily: 'sans-serif',
+            fontWeight: 'regular',
+            fontSize: 11
+          }
+        }
+      }
+    },
+    responsive: {
+      rules: [{
+        condition: {
+          maxWidth: 1200
+        },
+        chartOptions: {
+          legend: {
+            layout: 'horizontal',
+            align: 'center',
+            verticalAlign: 'bottom'
+          }
+        }
+      }]
+    }
+
+  };
 
 }

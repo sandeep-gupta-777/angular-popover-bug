@@ -37,17 +37,15 @@
     height: 6px;
   }
 
-  .forked {
-    text-align: left;
+  .forked, .update >div{
+    text-align: center;
     @include typography(8px, 10px, $font-weight-700, $color-text-normal);
   }
 
-  .update {
+  .update{
     width: 70px;
     text-align: center;
     align-self: stretch;
-    @include typography(8px, 10px, $font-weight-400, $color-text-normal);
-
   }
 
   .insert {

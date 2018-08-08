@@ -1,0 +1,110 @@
+@import "~src/sass/main.scss";
+.card{
+  //height: 500px;
+  //width: 320px;
+}
+.card-header{
+  background-color: $color-primary;
+  flex-shrink:0;
+  color: white;
+}
+
+.card-body{
+  overflow-y: hidden;
+}
+
+.card-footer{
+  height: 45px;
+  border-top: 1px solid $color-primary;
+  position: relative;
+  input{
+    height: 80%;
+    width: 100%;
+    @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-secondary);
+    @include hide-borders();
+  }
+  .icon{
+    color: $color-primary;
+  }
+}
+
+
+/*NEW CSS BELOW*/
+
+.chat-grid{
+
+  height: 475px;
+  width: 376px;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 56px 1fr 56px;
+  grid-template-areas:
+  'h'
+  'b'
+  'f';
+
+  .header{
+    grid-area: h;
+    background-color: $color-primary;
+    flex-shrink:0;
+    color: white;
+    .user{
+      height: 32px;
+      width: 32px;
+      border-radius: 50%;
+      background-color: #0291b2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .fa-times{
+      font-size: 20px;
+    }
+    .fa{
+      color: white;
+    }
+  }
+  .body{
+    grid-area: b;
+    background-color: white;
+    overflow-y: hidden;
+  }
+  .footer{
+    grid-area: f;
+    height: 45px;
+    border-top: 1px solid $color-primary;
+    position: relative;
+    input{
+      height: 80%;
+      width: 100%;
+      @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-secondary);
+      @include hide-borders();
+    }
+    .icon{
+      color: $color-primary;
+    }
+  }
+
+
+}
+.dropdown-menu-left{
+  /*TODO: Find a better way to do this*/
+  left:-200px !important;
+}
+
+form{
+  border-radius: 2px;
+  label{
+    @include typography(11px, $line-height-normal, $font-weight-300, $color-secondary);
+    margin: 0;
+  }
+  .form-control{
+    @include hide-borders();
+    border-bottom: $border-normal;
+    border-radius: 0;
+    @include typography(11px, $line-height-normal, $font-weight-300, $color-secondary);
+  }
+
+}
+

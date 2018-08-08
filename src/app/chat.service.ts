@@ -14,15 +14,27 @@ import {IBot} from './core/interfaces/IBot';
 export class ChatService {
 
   constructor(private store:Store, private serverService:ServerService, private constantsService:ConstantsService) { }
-  startNewChat(botDetails:{_id:string, token:string}, messageByHuman:string, frameEnabled:EChatFrame){
-    /*login here*/
+  startNewChat(botDetails:{id:number, token:string}, messageByHuman:string, frameEnabled:EChatFrame){
+    // let url = 'https://imibot.ai/bots/uniquename/demos/offers_demo_from_citibank';
+    // let headerData  =  {
+    //   'api-key': '54asdkj1209nksnda'
+    // }
+    // this.serverService.makeGetReq({url, headerData})
+    //   .subscribe((response:IChatRoomDetails)=>{
+    //     debugger;
+    //     // this.store.dispatch(new SetCurrentRoomID({currentRoomId:response._id}));
+    //   });
+
+    //
+
+    // /*login here*/
     let url = this.constantsService.getStartNewChatLoginUrl();
-    let body: ISendApiRequestPayload = {
-      'bot_id': botDetails._id,
+    let body/*: ISendApiRequestPayload */= {
+      'bot_id': botDetails.id,
       'consumer': {
-        // '_id': '5b487477a26917000d998b0a',
-        // 'botId': '59e055773b6219000ca825ba',
-        'botId': botDetails._id,
+        '_id': '5b487477a26917000d998b0a',
+        'botId': '59e055773b6219000ca825ba',
+        // 'botId': botDetails.id,
         'consentAcknowledged': false,
         'consentPermissions': [],
         'consumerDataStore': {},
@@ -42,8 +54,8 @@ export class ChatService {
       'platform': 'web'
     };
     let headerData:IHeaderData =
-      // {"x-access-token":'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYm90IiwiaWQiOiI1OWRmNjdmNWVjNjYyZDAwMTA5MWNiZTYifQ.f9oCj1O0vR7ywFE5LaQewO18iGzjuN9j6wRIOylEC8Q'};
-      {"x-access-token":botDetails.token};
+      {"x-access-token":'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYm90IiwiaWQiOiI1OWRmNjdmNWVjNjYyZDAwMTA5MWNiZTYifQ.f9oCj1O0vR7ywFE5LaQewO18iGzjuN9j6wRIOylEC8Q'};
+      // {"x-access-token":botDetails.token};
 
     this.serverService.makePostReq({ url, body, headerData})
       .subscribe((response:ISendApiResponsePayload)=>{

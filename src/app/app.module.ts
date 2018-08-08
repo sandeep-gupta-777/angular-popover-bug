@@ -69,13 +69,7 @@ import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.com
 import {ConsumersComponent} from './core/bot-detail/consumers/consumers.component';
 import {SessionComponent} from './core/bot-detail/session/session.component';
 import {BotSessionsComponent} from './core/bot-detail/bot-sessions/bot-sessions.component';
-import {ChatWrapperComponent} from './chat/chat-wrapper/chat-wrapper.component';
-import {ChatWindowComponent} from './chat/chat-window/chat-window.component';
-import {ChatMessageComponent} from './chat/chatroom/chat-message/chat-message.component';
-import {BotWelcomeComponent} from './chat/bot-welcome/bot-welcome.component';
-import {ChatListComponent} from './chat/chat-list/chat-list.component';
-import {ChatItemComponent} from './chat/chat-list/chat-item/chat-item.component';
-import {ChatroomComponent} from './chat/chatroom/chatroom.component';
+import {ChatWrapperComponent} from './chat/chat-wrapper.component';
 import {ChatSessionStateReducer} from './chat/ngxs/chat.state';
 import {ScrollerDirective} from './scroller.directive';
 import {BotCreationStateReducer} from './core/buildbot/ngxs/buildbot.state';
@@ -97,13 +91,13 @@ import {SessionDetailModelComponent} from './core/bot-detail/bot-sessions/sessio
 import {SessionTabsDetailsComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-tabs-details/session-tabs-details.component';
 import {SessionMessageComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-message/session-message.component';
 import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
-import { Analysis2WrapperComponent } from './core/analysis2/analysis2-wrapper/analysis2-wrapper.component';
-import { Analysis2HeaderComponent } from './core/analysis2/analysis2-header/analysis2-header.component';
-import { Analysis2BodyComponent } from './core/analysis2/analysis2-body/analysis2-body.component';
-import { Analysis2OverviewComponent } from './core/analysis2/analysis2-overview/analysis2-overview.component';
-import { Analysis2VolumeComponent } from './core/analysis2/analysis2-volume/analysis2-volume.component';
-import { Analysis2PerformanceComponent } from './core/analysis2/analysis2-performance/analysis2-performance.component';
-import { Analysis2EngagementComponent } from './core/analysis2/analysis2-engagement/analysis2-engagement.component';
+import {Analysis2WrapperComponent} from './core/analysis2/analysis2-wrapper/analysis2-wrapper.component';
+import {Analysis2HeaderComponent} from './core/analysis2/analysis2-header/analysis2-header.component';
+import {Analysis2BodyComponent} from './core/analysis2/analysis2-body/analysis2-body.component';
+import {Analysis2OverviewComponent} from './core/analysis2/analysis2-overview/analysis2-overview.component';
+import {Analysis2VolumeComponent} from './core/analysis2/analysis2-volume/analysis2-volume.component';
+import {Analysis2PerformanceComponent} from './core/analysis2/analysis2-performance/analysis2-performance.component';
+import {Analysis2EngagementComponent} from './core/analysis2/analysis2-engagement/analysis2-engagement.component';
 import {AdditionalInfoFormComponent} from './core/buildbot/build-code-based-bot/bot-config/additional-info-form/additional-info-form.component';
 import {BotConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {DataManageFormComponent} from './core/buildbot/build-code-based-bot/bot-config/data-manage-form/data-manage-form.component';
@@ -113,9 +107,16 @@ import {KnowledgeBaseComponent} from './core/buildbot/build-code-based-bot/archi
 import {IntegrationOptionListComponent} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-option-list.component';
 import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 import {IntegrationItemComponent} from './core/buildbot/build-code-based-bot/architecture/integration/integration-item/integration-item.component';
-import { BotArchitetureComponent } from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
-import { BotDetailHeaderComponent } from './core/bot-detail/bot-detail-header/bot-detail-header.component';
 import {CodeInputComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component';
+import {AnalysisStateReducer2} from './core/analysis2/ngxs/analysis.state';
+import {ChatWindowComponent} from './chat/rooms-and-convo-panel/chat-window.component';
+import {ChatMessageComponent} from './chat/rooms-and-convo-panel/chat-message-list/chat-message/chat-message.component';
+import {BotWelcomeComponent} from './chat/bot-welcome-panel/bot-welcome.component';
+import {ChatListComponent} from './chat/rooms-and-convo-panel/chat-room-list/chat-list.component';
+import {ChatroomComponent} from './chat/rooms-and-convo-panel/chat-message-list/chatroom.component';
+import {ChatItemComponent} from './chat/rooms-and-convo-panel/chat-room-list/chat-item/chat-item.component';
+import {BotArchitetureComponent} from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
+import {BotDetailHeaderComponent} from './core/bot-detail/bot-detail-header/bot-detail-header.component';
 
 const routes: Route[] = [
   {
@@ -138,6 +139,16 @@ const routes: Route[] = [
             {path: 'codebased/:id', component: CodeBasedBotDetailComponent},
             {path: 'intelligent/:id', component: PipelineBasedBotDetailComponent},
           ]
+      },
+      {
+        path: 'analytics2', component: Analysis2WrapperComponent,children: [
+          {path: '', redirectTo: "overview", pathMatch:"full" },
+          {path: 'overview', component: Analysis2OverviewComponent},
+          {path: 'volume', component: Analysis2VolumeComponent},
+          {path: 'performance', component: Analysis2PerformanceComponent},
+          {path: 'engagement', component: Analysis2EngagementComponent},
+
+        ]
       },
       {
         path: 'analytics', component: WrapperComponent, children:
@@ -280,7 +291,8 @@ const routes: Route[] = [
     FormsModule,
     DragAndDropModule.forRoot(),
     ChartModule,
-    NgxsModule.forRoot([AuthStateReducer,
+    NgxsModule.forRoot([
+      AuthStateReducer,
       NavigationStateReducer,
       AppStateReducer,
       EnterpriseprofileStateReducer,
@@ -288,7 +300,8 @@ const routes: Route[] = [
       ChatSessionStateReducer,
       BotCreationStateReducer,
       AnalysisStateReducer,
-      ReportsStateReducer
+      ReportsStateReducer,
+      AnalysisStateReducer2
     ]),
     NgxsStoragePluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
