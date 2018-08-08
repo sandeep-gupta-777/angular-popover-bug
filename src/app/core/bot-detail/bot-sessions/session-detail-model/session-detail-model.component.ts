@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {IGeneratedDf, ISessionItem} from '../../../../../interfaces/sessions';
+import {ISessionMessageItem} from '../../../../../interfaces/sessions';
 
 @Component({
   selector: 'app-session-detail-model',
@@ -8,11 +8,11 @@ import {IGeneratedDf, ISessionItem} from '../../../../../interfaces/sessions';
 })
 export class SessionDetailModelComponent implements OnInit {
 
-  @Input() sessionData: ISessionItem;
+  @Input() sessionData: ISessionMessageItem[];
   activeTab: string = 'manager_bot';  // = 'manager_bot' | 'active_bot'|'final_df'|'datastore';
   codeText;
   managerPanelData: {
-    'generatedDf': IGeneratedDf,
+    'generatedDf': {},
     'generatedMsg': { 'text': string }[], /*bot message*/
     'message': string, /*user message*/
 
@@ -31,17 +31,17 @@ export class SessionDetailModelComponent implements OnInit {
   /*todo: shitty name, change it*/
   changeTransactionId(txnId) {
     /*This data will show under Manager Bot*/
-    let messageDataForGiveTxnId = this.sessionData.messages.find((message) => {
+    let messageDataForGiveTxnId = this.sessionData.find((message) => {
       return message.transaction_id === txnId;
     });
-    this.managerPanelData = {
-      'generatedDf': messageDataForGiveTxnId.generatedDf,
-      'generatedMsg': messageDataForGiveTxnId.generatedMsg, /*bot message*/
-      'message': messageDataForGiveTxnId.message, /*user message*/
-    };
-    this.activeBotPanelData = messageDataForGiveTxnId.messageStore;
-    this.dataStorePanelData = this.sessionData.dataStore;
-    this.finalDFPanelData = this.sessionData.dfState;
+    // this.managerPanelData = {
+    //   // 'generatedDf': messageDataForGiveTxnId.generatedDf,
+    //   // 'generatedMsg': messageDataForGiveTxnId.generatedMsg, /*bot message*/
+    //   'message': messageDataForGiveTxnId.message, /*user message*/
+    // };
+    // this.activeBotPanelData = messageDataForGiveTxnId.messageStore;
+    // this.dataStorePanelData = this.sessionData.dataStore;
+    // this.finalDFPanelData = this.sessionData.dfState;
     this.tabClicked(this.activeTab)
 
   }

@@ -1,17 +1,15 @@
-
 <div *ngIf="sessions">
-  <app-smart-table [data]="sessions.results"
-                   [totalRecords]="sessions.total"
-                   (rowClicked$)="goToReportEditComponent($event, template)"
-                   (pageChanged$)="sessionTablePageChanged($event)"
-                   [settings]="smartTableSettings_Sessions" ></app-smart-table>
+  <app-smart-table [data]="sessions" 
+                    [totalRecords]="totalSessionRecords"
+                     (rowClicked$)="goToReportEditComponent($event, template)"
+    (pageChanged$)="sessionTablePageChanged($event)" [settings]="smartTableSettings_Sessions"></app-smart-table>
 </div>
 
+
 <ng-template #template>
-    <div class="row" style="width: 100%">
-      <div class="col-12">
-        <app-session-detail-model [sessionData]="selectedRow_Session"></app-session-detail-model>
-      </div>
+  <div class="row" style="width: 100%">
+    <div class="col-12">
+      <app-session-detail-model [sessionData]="selectedRow_Session"></app-session-detail-model>
     </div>
+  </div>
 </ng-template>
-<!---->

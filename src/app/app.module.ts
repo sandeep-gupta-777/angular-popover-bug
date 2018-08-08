@@ -115,8 +115,9 @@ import {BotWelcomeComponent} from './chat/bot-welcome-panel/bot-welcome.componen
 import {ChatListComponent} from './chat/rooms-and-convo-panel/chat-room-list/chat-list.component';
 import {ChatroomComponent} from './chat/rooms-and-convo-panel/chat-message-list/chatroom.component';
 import {ChatItemComponent} from './chat/rooms-and-convo-panel/chat-room-list/chat-item/chat-item.component';
-import {BotArchitetureComponent} from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
-import {BotDetailHeaderComponent} from './core/bot-detail/bot-detail-header/bot-detail-header.component';
+import { BotArchitetureComponent } from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
+import { BotDetailHeaderComponent } from './core/bot-detail/bot-detail-header/bot-detail-header.component';
+import { FilterActiveBotPipe } from './filter-active-bot.pipe';
 
 const routes: Route[] = [
   {
@@ -279,7 +280,8 @@ const routes: Route[] = [
     AdditionalInfoFormComponent,
     BotConfigComponent,
     BotArchitetureComponent,
-    BotDetailHeaderComponent
+    BotDetailHeaderComponent,
+    FilterActiveBotPipe
   ],
   imports: [
     BrowserModule,

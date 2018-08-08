@@ -1,14 +1,14 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {Select} from '@ngxs/store';
-import {ViewBotStateReducer} from '../../view-bots/ngxs/view-bot.state';
-import {Observable} from 'rxjs';
-import {IBot} from '../../interfaces/IBot';
-import {ActivatedRoute} from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Select } from '@ngxs/store';
+import { ViewBotStateReducer } from '../../view-bots/ngxs/view-bot.state';
+import { Observable } from 'rxjs';
+import { IBot } from '../../interfaces/IBot';
+import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/map';
-import {IOverviewInfoResponse} from '../../../../interfaces/overview-info';
-import {ServerService} from '../../../server.service';
-import {UtilityService} from '../../../utility.service';
-import {BotSessionsComponent} from '../bot-sessions/bot-sessions.component';
+import { IOverviewInfoResponse } from '../../../../interfaces/overview-info';
+import { ServerService } from '../../../server.service';
+import { UtilityService } from '../../../utility.service';
+import { BotSessionsComponent } from '../bot-sessions/bot-sessions.component';
 
 @Component({
   selector: 'app-code-based-bot-detail',
@@ -29,7 +29,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
   end_date: string;
   selectedChannelDisplayName: string;
   selectedDurationDisplayName: string = 'Monthly';
-  selectedSideBarTab:string = 'pipeline';
+  selectedSideBarTab: string = 'pipeline';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -40,13 +40,13 @@ export class CodeBasedBotDetailComponent implements OnInit {
   ngOnInit() {
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
-    this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build')|| "architecture";
+    this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || "architecture";
     this.bot$ = this.codeBasedBotList$.map((codeBasedBotList: IBot[]) => {
-      let bot = codeBasedBotList.filter((bot) => {
+      return codeBasedBotList.find((bot) => {
         return bot.id === this.bot_id;//
       });
-      console.log("view detailed bot", bot[0]);
-      return bot[0];
+      // console.log("view detailed bot", bot[0]);
+      // return bot[0];
     });
 
     this.start_date = this.utilityService.getPriorDate(0);
@@ -77,11 +77,11 @@ export class CodeBasedBotDetailComponent implements OnInit {
     });
   }
 
-  refreshSession(){
+  refreshSession() {
     this.sessionChild.refreshSession();
   }
 
-  tabChanged(tab:string){
+  tabChanged(tab: string) {
     this.selectedTab = tab;
   }
 

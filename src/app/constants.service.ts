@@ -135,8 +135,9 @@ export class ConstantsService {
     return this.BACKEND_URL + 'reports/' + _id; //  https://dev.imibot.ai/reports/5b335b127c15580059c13fc5
   }
 
-  getAllVersionsByBotId(_id: number) {
-    return this.BACKEND_URL + 'api/v1/botversioning/?id=' + _id; //"http://localhost:8000/api/v1/botversioning/?bot_id=2"
+
+  getAllVersionsByBotId() {
+    return this.BACKEND_URL + 'api/v1/botversioning'; //"http://localhost:8000/api/v1/botversioning"
   }
 
 
@@ -148,8 +149,8 @@ export class ConstantsService {
     return this.BACKEND_URL + `consumers/bot/${id}?page=${pageNumber}&pageSize=${pageSize}`; //https://dev.imibot.ai/consumers/bot/59e055773b6219000ca825ba?page=1&pageSize=10
   }
 
-  getBotSessionsUrl(id: string, pageNumber: number, pageSize: number) {
-    return this.BACKEND_URL + `analytics/rooms/${id}?page=${pageNumber}&pageSize=${pageSize}`; //https://dev.imibot.ai/analytics/rooms/59e055773b6219000ca825ba?page=1&pageSize=10
+  getBotSessionsUrl(limit: number, offset: number) {
+    return this.BACKEND_URL + `api/v1/room/?limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/aip/v1/room
   }
 
   getStartNewChatLoginUrl() {
@@ -205,23 +206,23 @@ export class ConstantsService {
   readonly SMART_TABLE_SESSIONS_SETTING = {
 
     columns: {
-      _id: {
+      id: {
         title: 'Room ID'
       },
-      consumerId: {
+      consumer_id: {
         title: 'Consumer Id'
       },
-      'messages.length': {
-        title: 'Messages'
+      // 'messages.length': {
+      //   title: 'Messages'
+      // },
+      last_updated_job_id: {
+        title: 'Last Updated Job Id'
       },
-      updated_at: {
-        title: 'Updated At'
-      },
-      agentHandOver: {
+      agent_handover: {
         title: 'Sent to Agent'
       },
-      botId: {
-        title: 'Download All CSVs'
+      bot_id: {
+        title: 'Bot Id'
       },
 
     },
