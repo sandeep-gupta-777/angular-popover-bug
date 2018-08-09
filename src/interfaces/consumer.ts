@@ -1,24 +1,28 @@
+import { IMeta } from "../app/core/interfaces/meta";
+
 export interface IConsumerResults{
-  '_id': string,
-  'botId': string,
-  'consentAcknowledged': boolean,
-  'consentPermissions': any[],
-  'consumerDataStore': object,
-  'created_at': string,
-  'decrypt': true,
-  'email': string,
-  'extra_params': string,
-  'facebookId': string,
-  'lineId': string,
-  'name': string,
-  'phone': string,
-  'skypeId': string,
-  'uid': string,
-  'updated_at': string
+  "active_rooms": {},
+  "bot_id": number,
+  "consent_permissions": Array<any>,
+  "consent_permissions_acknowledged": boolean,
+  "consumer_data_store": {},
+  "created_at" : string,
+  "email" : string,
+  "extra_params" : string,
+  "facebook_id" : string,
+  "id": number,
+  "line_id" : string,
+  "name" : string,
+  "new_consumer": null,
+  "phone" : string,
+  "resource_uri" : string,
+  "skype_id" : string,
+  "uid" : string,
+  "updated_at" : string
 }
 
 export interface IConsumer {
-  'results': IConsumerResults[],
-  'total': number
+  'objects': IConsumerResults[],
+  'meta': IMeta,
 }
 

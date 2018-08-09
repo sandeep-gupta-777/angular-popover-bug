@@ -8,11 +8,12 @@ import {ISessionItem, ISessionMessageItem} from '../../../../../../interfaces/se
 })
 export class SessionMessageComponent implements OnInit {
 
-  @Input() sessionMessageData: ISessionMessageItem[];
+  @Input() sessionMessageData: ISessionMessageItem;
   @Output() messageClickedEvent$: EventEmitter<string> = new EventEmitter();
   constructor() { }
 
   ngOnInit() {
+    this.sessionMessageData.user_type;
   }
 
 }

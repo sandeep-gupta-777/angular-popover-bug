@@ -63,7 +63,7 @@
                 </div>
                 <!--search input ends-->
                 <div class="row m-0 my-2" style="height: 65vh;overflow-y: scroll;overflow-x: hidden;">
-                  <div class="col-12" *ngFor="let message of sessionData.messages">
+                  <div class="col-12" *ngFor="let message of sessionMessageData">
                     <app-session-message  [sessionMessageData]="message" (messageClickedEvent$)="changeTransactionId($event)"></app-session-message>
                   </div>
                 </div>

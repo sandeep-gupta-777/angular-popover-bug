@@ -1,7 +1,7 @@
 
 
 
-<div *ngIf="sessionMessageData && sessionMessageData.userType==='human'">
+<div *ngIf="sessionMessageData && sessionMessageData.user_type==='human'">
   <div class="row reverse-flex-row my-1" (click)="messageClickedEvent$.emit(sessionMessageData.transaction_id)">
     <div class="col-1 text-left p-0">
       <img class="" src="http://logok.org/wp-content/uploads/2014/04/Citi-logo-880x660.png"
@@ -18,7 +18,7 @@
 
 
 
-<div *ngIf="sessionMessageData && sessionMessageData.userType==='bot'">
+<div *ngIf="sessionMessageData && sessionMessageData.user_type==='bot'">
   <div class="row" *ngFor="let message of sessionMessageData.message">
     <div class="col-1 text-left p-0">
       <img class="" src="http://logok.org/wp-content/uploads/2014/04/Citi-logo-880x660.png"

@@ -101,7 +101,6 @@ export class SmartTableComponent implements OnInit {
   // ];
 
   @Input() set data(value){
-    debugger;
     this._data = value;
       this.source.load(this._data);
       this.source.refresh();
