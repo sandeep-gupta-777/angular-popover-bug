@@ -112,10 +112,16 @@ export class CodeInputComponent implements OnInit {
       "bot-access-token":this.bot.bot_access_token
     };
     let url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
-    this.serverService.makePutReq({url, body:this.selectedVersion, headerData})
+    debugger;
+    this.selectedVersion.version=12;
+
+    delete this.selectedVersion.id;
+    delete this.selectedVersion.resource_uri;
+    delete this.selectedVersion.resource_uri;
+
+    this.serverService.makePostReq({url, body:this.selectedVersion, headerData})
       .subscribe((value)=>{
         console.log(value);
       })
   }
-
 }
