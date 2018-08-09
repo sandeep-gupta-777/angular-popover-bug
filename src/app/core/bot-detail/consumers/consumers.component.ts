@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {ITestcases} from '../../../../interfaces/testcases';
 import {ConstantsService} from '../../../constants.service';
 import {IConsumer} from '../../../../interfaces/consumer';
+import { IBot } from '../../interfaces/IBot';
 
 @Component({
   selector: 'app-consumers',
@@ -14,6 +15,7 @@ import {IConsumer} from '../../../../interfaces/consumer';
 export class ConsumersComponent implements OnInit {
 
   @Input() id: string;
+  @Input() bot: IBot;
   consumers$: Observable<IConsumer>;
   smartTableSettings_Consumers;
 
@@ -21,12 +23,12 @@ export class ConsumersComponent implements OnInit {
   }
 
   ngOnInit() {
-    let url = this.constantsService.getBotConsumerUrl(this.id,1,10);
-    this.consumers$ = this.serverService.makeGetReq<IConsumer>({url})
+    let url = this.constantsService.getBotConsumerUrl(10,0);
+    this.consumers$ = this.serverService.makeGetReq<IConsumer>({url,headerData:{"bot-access-token":this.bot.bot_access_token}})
       .map((value)=>{
         return {
           ...value,
-          results: value.results.map((result)=>{
+          results: value.objects.map((result)=>{
           return {...result, created_at: new Date(result.created_at).toLocaleDateString()};
         })
         };

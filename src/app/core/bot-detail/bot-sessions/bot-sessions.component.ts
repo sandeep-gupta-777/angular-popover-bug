@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, TemplateRef} from '@angular/core';
-import {Store} from '@ngxs/store';
+import {Store, Select} from '@ngxs/store';
 import {IConsumer} from '../../../../interfaces/consumer';
 import {ServerService} from '../../../server.service';
 import {Observable} from 'rxjs';
@@ -16,7 +16,7 @@ import { IBot } from '../../interfaces/IBot';
 })
 export class BotSessionsComponent implements OnInit {
 
-
+  @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
   @Input() id: string;
   @Input() bot: IBot;
   sessions$: Observable<ISessions>;
@@ -36,17 +36,15 @@ export class BotSessionsComponent implements OnInit {
   ) {  }
 
   ngOnInit() {
-    this.url = this.constantsService.getBotSessionsUrl(5,0);
+    this.url = this.constantsService.getBotSessionsUrl(10,0);
     this.sessions$ = this.serverService.makeGetReq<ISessions>({url:this.url,headerData:{"bot-access-token":this.bot.bot_access_token}});
     this.sessions$.subscribe((value) =>{
       if(!value) return;
       this.totalSessionRecords = value.meta.total_count;
       this.sessions = value.objects;
-      console.log("sdasdasdasdasdasdasd"+this.sessions+"sdasdasdasdasdasdasd");
     });
 
     this.smartTableSettings_Sessions = this.constantsService.SMART_TABLE_SESSIONS_SETTING;
-    // debugger;
   }
 
   /*todo: implement it better way*/
@@ -67,8 +65,8 @@ export class BotSessionsComponent implements OnInit {
     this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
   }
   sessionTablePageChanged(pageNumber){
-
-    this.url = this.constantsService.getBotSessionsUrl(5,0);
+    
+    this.url = this.constantsService.getBotSessionsUrl(10,0);
     this.serverService.makeGetReq<ISessions>({url:this.url})
       .subscribe((value) =>{
         this.totalSessionRecords = value.meta.total_count
