@@ -93,7 +93,77 @@
         <!--tabs end-->
         <!--code editor starts-->
         <!--todo: make this row independent-->
-        <div class="row pl-3">
+        <div class="row pl-3 genTempGrid pt-2" *ngIf="activeTab === 'generationTemplates'">
+          <div class="genTempGridItem intent-header">
+            <div class="text-bold">Intent Header</div>
+            <input type="text" placeholder="Search Intent" >
+
+            <!-- these div's will come from *ngFor -->
+            <div class = "p-1" *ngFor="let x of intentList">{{x.name}}</div>
+          </div>
+          <div class="genTempGridItem">
+            <div class="col-12 pt-2 d-flex justify-content-end">
+              <label for="uploadInput" class="btn btn-theme-primary-outline">Upload File
+                <input type="file" hidden id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)' #uploadInput>
+              </label>
+            </div>
+            <div class="col-12">
+              <app-code-editor [text]="editorCode" (textChangedEvent)="saveText($event)"></app-code-editor>
+            </div>
+          </div>
+          <div class="genTempGridItem bot-templates">
+            <ul>
+              <li class = "bot-template-heading">
+                  <div class= "text-bold">Bot Response Template</div>
+                  <div class= "text-lite">Drag & Drop elements to add to response</div>
+              </li>
+              <li>
+                  <i class="fa fa-users"></i>
+                  Textie
+              </li>
+              <li>
+                  <i class="fa fa-users"></i>
+                  Textie
+              </li>
+              <li>
+                  <i class="fa fa-users"></i>
+                  Textie
+              </li>
+              <li>
+                  <i class="fa fa-users"></i>
+                  Textie
+              </li>
+              <li>
+                  <i class="fa fa-users"></i>
+                  Textie
+              </li>
+              <li>
+                  <i class="fa fa-users"></i>
+                  Textie
+              </li>
+              <li>
+                  <i class="fa fa-users"></i>
+                  Textie
+              </li>
+            </ul>
+            <!-- <div class="template-heading">
+              <div>Bot Response Templates</div>
+            </div>
+            <div class="bot-templates">
+              <i class="fa fa-users" style="font-size: 12px"></i>
+              dasdasd das das da sda 
+            </div>
+            <div class="bot-templates"></div>
+            <div class="bot-templates"></div>
+            <div class="bot-templates"></div>
+            <div class="bot-templates"></div>
+            <div class="bot-templates"></div>
+            <div class="bot-templates"></div> -->
+
+          </div>
+        </div>
+        <!--todo: make this row independent-->
+          <div class="row pl-3" *ngIf="activeTab !== 'generationTemplates'">
           <div class="col-12 pt-2 d-flex justify-content-end">
             <label for="uploadInput" class="btn btn-theme-primary-outline">Upload File
               <input type="file" hidden id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)' #uploadInput>
@@ -105,8 +175,6 @@
         </div>
         <!--code editor ends-->
       </div>
-
-
     </div>
   </div>
 </div>

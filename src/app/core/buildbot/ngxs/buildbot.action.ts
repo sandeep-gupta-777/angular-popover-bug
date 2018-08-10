@@ -1,10 +1,14 @@
-import {IAvatarList, IBasicInfo, ICode, ICustomners, IIntegration, IPipeline} from '../../../../interfaces/bot-creation';
+import {IAvatarList, IBasicInfo, ICustomners, IIntegration, IPipeline, ISaveDataManagment} from '../../../../interfaces/bot-creation';
 import {IAIModule} from '../../../../interfaces/ai-module';
-import { IBotVersionData } from '../../interfaces/IBot';
+import {ICodeData } from '../../interfaces/IBot';
 
 export class SaveBasicInfo {
   static readonly type = '[build-bots] set basic info';
   constructor(public payload: { data: IBasicInfo }) {}
+}
+export class SaveDataManagment {
+  static readonly type = '[build-bots] set data management info';
+  constructor(public payload: { data: ISaveDataManagment }) {}
 }
 export class SaveAvatorInfo {
   static readonly type = '[build-bots] set Avator info';
@@ -20,10 +24,9 @@ export class SaveCustomnersInfo {
 }
 export class SaveCodeInfo {
   static readonly type = '[build-bots] set Code info';
-  constructor(public payload: { data: ICode }) {}
+  constructor(public payload: { data: ICodeData }) {}
 }
 export class SaveIntegrationInfo {
   static readonly type = '[build-bots] set Integration info';
   constructor(public payload: { data: IIntegration }) {}
 }
-

@@ -57,7 +57,6 @@ import {EnterpriseprofileStateReducer} from './core/enterpriseprofile/ngxs/enter
 import {PipelineTestComponent} from './pipeline-test/pipeline-test.component';
 import {DragulaModule} from 'ng2-dragula';
 import {ViewBotStateReducer} from './core/view-bots/ngxs/view-bot.state';
-import {BotDetailComponent} from './core/view-bots/bot-detail/bot-detail.component';
 import {HandsontableComponent} from './handsontable/handsontable.component';
 import {SmartTableComponent} from './smart-table/smart-table.component';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
@@ -244,7 +243,6 @@ const routes: Route[] = [
     SignupComponent,
     AuthWrapperComponent,
     PipelineTestComponent,
-    BotDetailComponent,
     HandsontableComponent,
     SmartTableComponent,
     BotDetailWrapperComponent,
