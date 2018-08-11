@@ -114,89 +114,88 @@
     </div>
   </div>
 
-  <div class="row shadow-theme bg-white p-3 my-3">
-    <div class="col-12 d-flex justify-content-between mb-3">
-      <h4>Testing</h4>
-      <div class="d-flex align-items-center">
-        <i class="fa fa-plus pr-4"></i>
-        <i class="fa fa-minus pr-4"></i>
-        <button class="btn-theme-primary-outline mr-4">Export to CSV</button>
-        <button class="btn-theme-primary pr-4">Begin Test</button>
-      </div>
-    </div>
-
-    <div class="col-12">
-      <!--<app-handsontable></app-handsontable>-->
-      <app-bot-testing [id]="(bot$|async).id"></app-bot-testing>
-    </div>
-  </div>
-
-  <div class="row bg-white p-3 my-3 shadow-theme">
-    <div class="col-12 d-flex justify-content-between mb-3">
-      <h4>CONSUMERS</h4>
-      <div class="d-flex align-items-center">
-        <i class="fa fa-expand"></i>
-      </div>
-    </div>
-
-    <div class="col-12 d-flex justify-content-end">
-      <button class="btn-theme-primary-outline mr-3" (click)="refreshSession()">Refresh Sessions</button>
-      <div class="btn-group " dropdown style="width: 150px">
-        <div dropdownToggle>
-          <!--<input type="text" placeholder="Select timePeriod" style="width: 100%; position: relative">-->
-          <button class="btn-theme-primary-outline">Row per page<i class="fa fa-angle-down pl-1"></i></button>
-        </div>
-        <ul *dropdownMenu class="dropdown-menu" role="menu" style="width: 100%">
-          <li role="menuitem"><a class="dropdown-item">5</a></li>
-          <li role="menuitem"><a class="dropdown-item">10</a></li>
-          <li role="menuitem"><a class="dropdown-item">15</a></li>
-          <li role="menuitem"><a class="dropdown-item">20</a></li>
-          <li role="menuitem"><a class="dropdown-item">25</a></li>
-        </ul>
-      </div>
-      <!---->
-    </div>
-    <!--<div class="col-12 d-flex justify-content-end">-->
-    <!--<button class="btn-theme-primary-outline mr-3">Refresh Sessions</button>-->
-    <!--<button class="btn-theme-primary-outline mr-3">Rows on page</button>-->
-    <!--&lt;!&ndash;TODO: insert dropdown here&ndash;&gt;-->
-    <!--<button class="btn-theme-primary-outline">Rows on page</button>-->
+  <!--<div class="row shadow-theme bg-white p-3 my-3">-->
+    <!--<div class="col-12 d-flex justify-content-between mb-3">-->
+      <!--<h4>Testing</h4>-->
+      <!--<div class="d-flex align-items-center">-->
+        <!--<i class="fa fa-plus pr-4"></i>-->
+        <!--<i class="fa fa-minus pr-4"></i>-->
+        <!--<button class="btn-theme-primary-outline mr-4">Export to CSV</button>-->
+        <!--<button class="btn-theme-primary pr-4">Begin Test</button>-->
+      <!--</div>-->
     <!--</div>-->
-    <div class="col-12 mt-3">
-      <!--<app-consumers [id]="(bot$|async)._id"></app-consumers>-->
-      <app-consumers [id]="(bot$|async).id" [bot]="(bot$|async)"></app-consumers>
-    </div>
-  </div>
+
+    <!--<div class="col-12">-->
+      <!--&lt;!&ndash;<app-handsontable></app-handsontable>&ndash;&gt;-->
+      <!--<app-bot-testing [bot]="(bot$|async)"></app-bot-testing>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--<div class="row bg-white p-3 my-3 shadow-theme">-->
+    <!--<div class="col-12 d-flex justify-content-between mb-3">-->
+      <!--<h4>CONSUMERS</h4>-->
+      <!--<div class="d-flex align-items-center">-->
+        <!--<i class="fa fa-expand"></i>-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="col-12 d-flex justify-content-end">-->
+      <!--<button class="btn-theme-primary-outline mr-3" (click)="refreshSession()">Refresh Sessions</button>-->
+      <!--<div class="btn-group " dropdown style="width: 150px">-->
+        <!--<div dropdownToggle>-->
+          <!--&lt;!&ndash;<input type="text" placeholder="Select timePeriod" style="width: 100%; position: relative">&ndash;&gt;-->
+          <!--<button class="btn-theme-primary-outline">Row per page<i class="fa fa-angle-down pl-1"></i></button>-->
+        <!--</div>-->
+        <!--<ul *dropdownMenu class="dropdown-menu" role="menu" style="width: 100%">-->
+          <!--<li role="menuitem"><a class="dropdown-item">5</a></li>-->
+          <!--<li role="menuitem"><a class="dropdown-item">10</a></li>-->
+          <!--<li role="menuitem"><a class="dropdown-item">15</a></li>-->
+          <!--<li role="menuitem"><a class="dropdown-item">20</a></li>-->
+          <!--<li role="menuitem"><a class="dropdown-item">25</a></li>-->
+        <!--</ul>-->
+      <!--</div>-->
+      <!--&lt;!&ndash;&ndash;&gt;-->
+    <!--</div>-->
+    <!--&lt;!&ndash;<div class="col-12 d-flex justify-content-end">&ndash;&gt;-->
+    <!--&lt;!&ndash;<button class="btn-theme-primary-outline mr-3">Refresh Sessions</button>&ndash;&gt;-->
+    <!--&lt;!&ndash;<button class="btn-theme-primary-outline mr-3">Rows on page</button>&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;TODO: insert dropdown here&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<button class="btn-theme-primary-outline">Rows on page</button>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--<div class="col-12 mt-3">-->
+      <!--&lt;!&ndash;<app-consumers [id]="(bot$|async)._id"></app-consumers>&ndash;&gt;-->
+      <!--<app-consumers [id]="(bot$|async).id" [bot]="(bot$|async)"></app-consumers>-->
+    <!--</div>-->
+  <!--</div>-->
 
 
-  <div class="row bg-white p-3 shadow-theme">
-    <div class="col-12 d-flex justify-content-between mb-3">
-      <h4>SESSIONS</h4>
-      <div class="d-flex align-items-center">
-        <i class="fa fa-expand"></i>
-      </div>
-    </div>
-    <div class="col-12 d-flex justify-content-end">
-      <button class="btn-theme-primary-outline mr-3" (click)="refreshSession()">Refresh Sessions</button>
-      <div class="btn-group " dropdown style="width: 150px">
-        <div dropdownToggle>
-          <!--<input type="text" placeholder="Select timePeriod" style="width: 100%; position: relative">-->
-          <button class="btn-theme-primary-outline">Row per page<i class="fa fa-angle-down pl-1"></i></button>
-        </div>
-        <ul *dropdownMenu class="dropdown-menu" role="menu" style="width: 100%">
-          <li role="menuitem"><a class="dropdown-item">5</a></li>
-          <li role="menuitem"><a class="dropdown-item">10</a></li>
-          <li role="menuitem"><a class="dropdown-item">15</a></li>
-          <li role="menuitem"><a class="dropdown-item">20</a></li>
-          <li role="menuitem"><a class="dropdown-item">25</a></li>
-        </ul>
-      </div>
-      <!---->
-    </div>
-    <div class="col-12 mt-3">
-      <app-bot-sessions [id]="(bot$|async).id" [bot]="(bot$|async)"></app-bot-sessions>
-    </div>
-  </div>
+  <!--<div class="row bg-white p-3 shadow-theme">-->
+    <!--<div class="col-12 d-flex justify-content-between mb-3">-->
+      <!--<h4>SESSIONS</h4>-->
+      <!--<div class="d-flex align-items-center">-->
+        <!--<i class="fa fa-expand"></i>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-12 d-flex justify-content-end">-->
+      <!--<button class="btn-theme-primary-outline mr-3" (click)="refreshSession()">Refresh Sessions</button>-->
+      <!--<div class="btn-group " dropdown style="width: 150px">-->
+        <!--<div dropdownToggle>-->
+          <!--&lt;!&ndash;<input type="text" placeholder="Select timePeriod" style="width: 100%; position: relative">&ndash;&gt;-->
+          <!--<button class="btn-theme-primary-outline">Row per page<i class="fa fa-angle-down pl-1"></i></button>-->
+        <!--</div>-->
+        <!--<ul *dropdownMenu class="dropdown-menu" role="menu" style="width: 100%">-->
+          <!--<li role="menuitem"><a class="dropdown-item">5</a></li>-->
+          <!--<li role="menuitem"><a class="dropdown-item">10</a></li>-->
+          <!--<li role="menuitem"><a class="dropdown-item">15</a></li>-->
+          <!--<li role="menuitem"><a class="dropdown-item">20</a></li>-->
+          <!--<li role="menuitem"><a class="dropdown-item">25</a></li>-->
+        <!--</ul>-->
+      <!--</div>-->
+      <!--&lt;!&ndash;&ndash;&gt;-->
+    <!--</div>-->
+    <!--<div class="col-12 mt-3">-->
+      <!--<app-bot-sessions [id]="(bot$|async).id" [bot]="(bot$|async)"></app-bot-sessions>-->
+    <!--</div>-->
+  <!--</div>-->
 
   <!--============================ngtemplate============================-->
   <ng-template #placeholder>
@@ -238,7 +237,7 @@
 
 <!--============= REDESIGN=================-->
 
-<div class="row shadow-theme bg-white py-4 my-5">
+<div class="row shadow-theme bg-white p-4 my-5">
 
   <!--tabs start-->
   <div class="col-12 px-4">
@@ -326,7 +325,7 @@
   <!--architeture ends-->
 
   <div class="col-12" *ngIf="selectedTab==='testing'">
-    <app-bot-testing [id]="bot_id"></app-bot-testing>
+    <app-bot-testing [bot]="bot$|async"></app-bot-testing>
   </div>
 
   <div class="col-12" *ngIf="selectedTab==='sessions'">

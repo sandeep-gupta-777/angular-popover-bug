@@ -45,7 +45,7 @@ export class BotCreationStateReducer {
   saveBasicInfo({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveBasicInfo) {
     let state: IBotCreationState = getState();
     let x = {
-      ...state, 
+      ...state,
       codeBased: {
         ...state.codeBased,
         ...payload.data
@@ -59,7 +59,7 @@ export class BotCreationStateReducer {
 saveDataManagment({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveDataManagment) {
     let state: IBotCreationState = getState();
     let x = {
-      ...state, 
+      ...state,
       codeBased: {
         ...state.codeBased,
         ...payload.data
@@ -100,7 +100,7 @@ saveDataManagment({patchState, setState, getState, dispatch}: StateContext<IBotC
 
   @Action(SaveCodeInfo)
   saveCodeInfo({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveCodeInfo) {
-    debugger;
+    // debugger;
     let state: IBotCreationState = getState();
     patchState({
       codeBased: {
@@ -108,7 +108,7 @@ saveDataManagment({patchState, setState, getState, dispatch}: StateContext<IBotC
         code: {
           ...state.codeBased.code
           , ...payload.data.code
-        
+
       }
       }
     });

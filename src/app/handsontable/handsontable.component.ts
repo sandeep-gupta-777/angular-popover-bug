@@ -1,6 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {getAdvancedData, getBasicData} from '../data';
 import {ConstantsService} from '../constants.service';
+import {HotTableComponent} from 'ng2-handsontable';
+import * as Handsontable from 'handsontable';
+import set = Reflect.set;
 
 @Component({
   selector: 'app-handsontable',
@@ -13,7 +16,19 @@ export class HandsontableComponent implements OnInit {
   @Input() testData:[string,string][];
   @Input() colHeaders: string[];
   @Input() columns: any[];
+  testCaseData;
   public options: any;
+  @ViewChild(HotTableComponent) hotTableComponent: HotTableComponent;
+
+  alert1(data){
+    debugger;
+    // alert();
+    let x = this.hotTableComponent.getHandsontableInstance();
+    // setTimeout(()=>{
+    //   console.log(x.getData())
+    // },5000);
+    x.setCellMeta(0,0, 'readOnly', "true");
+  }
 
   constructor(private constantsService:ConstantsService) {
     // this.testData = getAdvancedData();
@@ -31,8 +46,9 @@ export class HandsontableComponent implements OnInit {
       colWidths: 100,
       contextMenu: true,
       className: 'htCenter htMiddle',
-      readOnly: true,
+      readOnly: false,
       autoRowSize: true,
+      minRows: 5
     };
   }
   dataset: any[] = [

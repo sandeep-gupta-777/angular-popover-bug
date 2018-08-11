@@ -27,6 +27,8 @@ form {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  grid-auto-rows: 185px;
 }
 
 .avator-item{

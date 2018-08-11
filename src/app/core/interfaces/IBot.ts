@@ -1,6 +1,7 @@
 import { IMeta } from "./meta";
 import { IAvatar } from "../../../interfaces/bot-creation";
 import {IAIModule} from '../../../interfaces/ai-module';
+import {IIntegrationOption} from '../../../interfaces/integration-option';
 
 /*TODO: what is the key for industry*/
 export interface IBot {
@@ -22,48 +23,52 @@ export interface IBot {
   "enterprise_id": number,
   "error_message": string,
   "first_message": string,
+  room_close_callback:boolean,
   "heading": string,
   "id": number,
   /*TODO: Queries:Integration should be array*/
-  integrations: {
-    ccsp_details: {
-      debug: {
-        debugurl: '',
-        enabled: false
-      },
-      imichat: {
-        'access-token': '',
-        domain: '',
-        enabled: false,
-        'service-key': ''
-      }
-    },
-    channels: {
-      alexa: {
-        enabled: false,
-        skillId: ''
-      },
-      facebook: {
-        enabled: true,
-        'facebook-token': 'EAAc8APVKjxsBAI86VkZBDg5ZCZAGXSMpVsNQRdUgTSR1eq31ajiajCLSsTQLAeEzgqs6uKN2qq0VBAXcDX31D2OPzEJvaQZAzkNNLcexNxuresG7zXabZCIfySUnEUf9XVbDPWBRZAwJZBFdtAnmXusEYtHlIZAHiPzRWB8jdsFlswZDZD',
-        id: '194700987927464'
-      },
-      skype: {
-        client_id: '',
-        client_secret: '',
-        enabled: false
-      }
-    },
-    fulfillment_provider_details: {
-      imiconnect: {
-        appId: '',
-        appSecret: '',
-        enabled: false,
-        serviceKey: '',
-        streamName: ''
-      }
-    }
-  },
+  integrations: IIntegrationOption
+  //   {
+  //   ccsp_details: {
+  //     debug: {
+  //       debugurl: string,
+  //       enabled: boolean
+  //     },
+  //     imichat: {
+  //       'access-token': string,
+  //       domain: string,
+  //       enabled: boolean,
+  //       'service-key': string
+  //     }
+  //   },
+  //   channels: {
+  //     alexa: {
+  //       enabled: boolean,
+  //       skillId: string
+  //     },
+  //     facebook: {
+  //       enabled: true,
+  //       'facebook-token':string,
+  //       id: string
+  //     },
+  //     skype: {
+  //       client_id: string,
+  //       client_secret: string,
+  //       enabled: boolean,
+  //       'skype-page-name':string
+  //     }
+  //   },
+  //   fulfillment_provider_details: {
+  //     imiconnect: {
+  //       appId: string,
+  //       appSecret: string,
+  //       enabled: boolean,
+  //       serviceKey: string,
+  //       streamName: string
+  //     }
+  //   }
+  // }
+  ,
   "logo": string,
   "name": string,
   "parent_bots": string,
@@ -201,5 +206,5 @@ export interface ICode {
 }
 
 export interface IBotCreation extends IBot,ICodeData {
-  
+
 }

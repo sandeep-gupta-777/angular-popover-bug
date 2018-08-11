@@ -1,17 +1,7 @@
-//.row {
-//  display: flex;
-//  flex-wrap: wrap;
-//}
-//.row > [class*='col-'] {
-//  display: flex;
-//  flex-direction: column;
-//}
-
-
 @import '~src/sass/main';
 
 
-[ngModelGroup]{
+.ngModelGroup-border{
   padding: 1px;
   padding-top: 8px;
   padding-bottom: 8px;

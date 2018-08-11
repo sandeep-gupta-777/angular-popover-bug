@@ -6,6 +6,7 @@ import {IUser} from './core/interfaces/user';
 import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {IBot} from './core/interfaces/IBot';
+import {IIntegrationOption} from '../interfaces/integration-option';
 
 // import {IGlobalState} from '../interfaces/global-state';
 @Injectable({
@@ -89,8 +90,9 @@ export class ConstantsService {
   getTotalSessionsUrl() {
     return this.BACKEND_URL + 'analytics/totalSessions'; //https://dev.imibot.ai/analytics/totalSessions
   }
+
   getSessionsMessageUrl(room_id: number) {
-    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}`; //https://dev.imibot.ai/api/v1/message/?room_id=60   
+    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}`; //https://dev.imibot.ai/api/v1/message/?room_id=60
   }
 
   getTotalMessagesUrl() {
@@ -151,9 +153,13 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/botversioning/`; //https://dev.imibot.ai/api/v1/botversioning/9/
   }
 
+  getCreateNewBot() {
+    return this.BACKEND_URL + `api/v1/bot/`; //https://dev.imibot.ai/api/v1/bot/
+  }
 
-  getBotTestingUrl(id: string) {
-    return this.BACKEND_URL + 'bottestcases/bot/' + id; //https://dev.imibot.ai/bottestcases/bot/59e055773b6219000ca825ba
+
+  getBotTestingUrl() {
+    return this.BACKEND_URL + 'api/v1/bottestcases/'; //https://dev.imibot.ai/api/v1/bottestcases/
   }
 
   getBotConsumerUrl(limit: number, offset: number) {
@@ -194,12 +200,12 @@ export class ConstantsService {
   }
 
   /*Enterprise NER*/
-  getEnterpriseNer(limit: number=10, offset: number=0) {
+  getEnterpriseNer(limit: number = 10, offset: number = 0) {
     return this.BACKEND_URL + `api/v1/customner/?limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/api/v1/customner/
   }
 
-  getAnalyticsUrl(){
-    return this.BACKEND_URL + 'api/v1/analytics/'//https://dev.imibot.ai/api/v1/analytics/
+  getAnalyticsUrl() {
+    return this.BACKEND_URL + 'api/v1/analytics/';//https://dev.imibot.ai/api/v1/analytics/
   }
 
   updateEnterpriseNer(id) {/*TODO: is it enterprise id??*/
@@ -210,23 +216,21 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/customner/'; //https://dev.imibot.ai/api/v1/customner/
   }
 
-  updateBotSerializer(bot:IBot){
+  updateBotSerializer(bot: IBot) {
     let clone = {...bot};
     let not_keys = [
-      "bot_access_token",
-      "created_at",
-      "created_by",
-      "enterprise_id",
-      "id",
-      "store_bot_versions"
+      'bot_access_token',
+      'created_at',
+      'created_by',
+      'enterprise_id',
+      'id',
+      'store_bot_versions'
     ];
-    not_keys.forEach((key)=>{
-      delete clone[key]
+    not_keys.forEach((key) => {
+      delete clone[key];
     });
     return clone;
   }
-
-
 
 
   //localstorage keys
@@ -301,7 +305,7 @@ export class ConstantsService {
       delete: false
     },
     pager: {
-      display: true,
+      display: false,
       perPage: 5
     }
   };
@@ -491,4 +495,61 @@ export class ConstantsService {
 
   };
 
+  readonly integrationOptionListTemplate: IIntegrationOption = {
+    ccsp_details: {
+      debug: {
+        debugurl: '',
+        enabled: false
+      },
+      imichat: {
+        'access-token': '',
+        domain: '',
+        enabled: false,
+        'service-key': ''
+      }
+    },
+    channels: {
+      alexa: {
+        enabled: false,
+        skillId: ''
+      },
+      facebook: {
+        enabled: false,
+        'facebook-token': '',
+        id: ''
+      },
+      skype: {
+        client_id: '',
+        client_secret: '',
+        'skype-page-name': '',
+        enabled: false
+      },
+      'viber': {
+        'enabled': false,
+        'bot_name': '',
+        'bot_auth_token': '',
+        'bot_avatar': ''
+      },
+      'web': {
+        'enabled': false,
+        'speech_model': '',
+        'speech_tts': '',
+        'speech_url': ''
+      },
+      'line': {
+        'enabled': false,
+        skillId:''
+      }
+    },
+    fulfillment_provider_details: {
+      imiconnect: {
+        appId: '',
+        appSecret: '',
+        enabled: false,
+        serviceKey: '',
+        streamName: ''
+      }
+    }
+
+  };
 }

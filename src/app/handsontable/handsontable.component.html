@@ -1,6 +1,7 @@
 <hot-table [data]="testData"
            [colHeaders]="colHeaders"
            [columns]="columns"
+           (afterInit)="alert1($event)"
            [options]="options"></hot-table>
 
 <!--<hot-table-->

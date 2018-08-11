@@ -4,7 +4,8 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 @import '~handsontable/dist/handsontable.full.css';
 
 * div {
-  @include typography($font-size-normal, $line-height-normal, $font-weight-300, $color-text-normal);
+  //@include typography($font-size-normal, $line-height-normal, $font-weight-300, $color-text-normal);
+  font-size: $font-size-normal;
   strong {
     font-weight: 700;
   }
@@ -201,10 +202,6 @@ h4 {
 .table td, .table th {
   vertical-align: middle !important;
 }
-
-// th {
-//   //border: none !important; /*overriding bootstrap style*/
-// }
 
 th, td {
   text-align: center;

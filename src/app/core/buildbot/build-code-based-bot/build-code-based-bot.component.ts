@@ -9,6 +9,7 @@ import { ServerService } from '../../../server.service';
 import { UtilityService } from '../../../utility.service';
 import { IOverviewInfoResponse } from '../../../../interfaces/overview-info';
 import { BotSessionsComponent } from '../../bot-detail/bot-sessions/bot-sessions.component';
+import {ConstantsService} from '../../../constants.service';
 
 @Component({
   selector: 'app-build-code-based-bot',
@@ -32,22 +33,25 @@ export class BuildCodeBasedBotComponent implements OnInit {
   selectedDurationDisplayName: string = 'Monthly';
   selectedSideBarTab: string = 'pipeline';
 
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private serverService: ServerService,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private constantsService: ConstantsService,
+
   ) { }
   activeTab:string = 'basic';
   @Input() bot = {};
 
   ngOnInit() {
-    debugger; 
+    // debugger;
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('tab') || 'basic'; //todo: not a robust code
     this.botcreationstate$.subscribe((value)=>{
       // console.log('test');
       if(!value || !value.codeBased) return;
       this.bot = value.codeBased;
-    })
+    });
 
     this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab')||'pipeline';
 
@@ -60,6 +64,14 @@ export class BuildCodeBasedBotComponent implements OnInit {
 
   tabChanged(tab: string) {
     this.selectedTab = tab;
+  }
+  createBot(){
+    let url = this.constantsService.getCreateNewBot();
+    this.serverService.makePostReq({url:url, body:this.bot})
+      .subscribe((value)=>{
+        console.log();
+        debugger;
+      })
   }
 
 }

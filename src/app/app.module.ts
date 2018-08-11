@@ -179,8 +179,8 @@ const routes: Route[] = [
       {
         path: 'buildbot', component: BuildbotWrapperComponent, children:
           [
-            {path: 'codebased', component: BuildCodeBasedBotComponent},
-            {path: 'intelligent', component: BuildPipelineBasedBotComponent},
+            {path: 'codebased', component: BuildCodeBasedBotComponent, data:{buildBot:true}},
+            {path: 'intelligent', component: BuildPipelineBasedBotComponent, data:{buildBot:true}},
             {path: '', component: ViewCodeBasedBotComponent}
           ]
       },

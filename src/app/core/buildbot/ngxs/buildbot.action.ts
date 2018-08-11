@@ -1,10 +1,10 @@
 import {IAvatarList, IBasicInfo, ICustomners, IIntegration, IPipeline, ISaveDataManagment} from '../../../../interfaces/bot-creation';
 import {IAIModule} from '../../../../interfaces/ai-module';
-import {ICodeData } from '../../interfaces/IBot';
+import {IBot, ICodeData} from '../../interfaces/IBot';
 
 export class SaveBasicInfo {
   static readonly type = '[build-bots] set basic info';
-  constructor(public payload: { data: IBasicInfo }) {}
+  constructor(public payload: { data: Partial<IBot> }) {}
 }
 export class SaveDataManagment {
   static readonly type = '[build-bots] set data management info';

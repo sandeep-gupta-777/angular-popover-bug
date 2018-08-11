@@ -1,20 +1,26 @@
-<form class="grid-avator ">
+<form class="grid-avator" #form="ngForm">
   <div class="d-flex flex-column align-items-center justify-content-center border">
-    <i class="fa fa-plus  "></i>
-    <div>Create</div>
-    <div>Generate</div>
+    <i class="fa fa-plus text-info cursor-pointer"></i>
+    <div class="text-info cursor-pointer my-1" (click)="createPrebuiltAvatarRow(true)">Create</div>
+    <div class="text-info cursor-pointer" (click)="createPrebuiltAvatarRow(false)">Generate</div>
   </div>
-  <div class="avator-item border py-2 px-3 d-flex flex-column">
-    <i class="fa fa-trash"></i>
+  <div class="avator-item border py-2 px-3 d-flex flex-column" *ngFor="let avatorItem of avatorList.reverse(); let i = index">
+    <i class="fa fa-trash cursor-pointer" (click)="avatorList.splice(i,1)"></i>
     <img class="logo-md rounded-circle align-self-center" src="http://www.pngmart.com/files/3/Weather-PNG-HD.png">
     <div class="form-group">
       <label for="alterEgo">Avator Name</label>
       <input type="text" class="form-control"
-             placeholder="name" id="alterEgo">
+             [(ngModel)]="avatorItem.avator.name"
+             (ngModelChange) = "saveChangesInStore()"
+             [name]="'name'+i"
+             placeholder="name" id="avator_name">
     </div>
     <div class="form-group">
       <label for="alterEgo">Image Url</label>
       <input type="text" class="form-control"
+             [name]="'url'+i"
+             [(ngModel)]="avatorItem.avator.imageUrl"
+             (ngModelChange) = "saveChangesInStore()"
              placeholder="Image Url" id="alterEgo">
     </div>
   </div>

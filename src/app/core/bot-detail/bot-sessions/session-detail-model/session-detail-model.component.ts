@@ -35,13 +35,12 @@ export class SessionDetailModelComponent implements OnInit {
     private constantsService: ConstantsService,
     private serverService: ServerService
   ) { }
-  
+
 
   ngOnInit() {
     this.url = this.constantsService.getSessionsMessageUrl(this.sessionId);
     this.sessionMessageData$ = this.serverService.makeGetReq<ISessionMessage>({url:this.url,headerData:{"bot-access-token":this.bot.bot_access_token}});
     this.sessionMessageData$.subscribe((value) =>{
-      debugger;
       if(!value) return;
       this.totalMessagesCount = value.meta.total_count;
       this.sessionMessageData = value.objects;

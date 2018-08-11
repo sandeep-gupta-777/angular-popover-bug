@@ -1,9 +1,13 @@
 import {AfterContentInit, AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {Store} from '@ngxs/store';
+import {Select, Selector, Store} from '@ngxs/store';
 import {IBot, IBotVersionResult} from '../../../../../interfaces/IBot';
 import {IIntegrationOption} from '../../../../../../../interfaces/integration-option';
-import {SaveIntegrationInfo} from '../../../../ngxs/buildbot.action';
+import {SaveBasicInfo, SaveIntegrationInfo} from '../../../../ngxs/buildbot.action';
 import {NgForm} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
+import {ConstantsService} from '../../../../../../constants.service';
+import {Observable} from 'rxjs';
+import {IBotCreationState} from '../../../../ngxs/buildbot.state';
 
 @Component({
   selector: 'app-integration-option-list',
@@ -12,38 +16,68 @@ import {NgForm} from '@angular/forms';
 })
 export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
 
-  isActive:boolean;
+  isActive: boolean;
   enable = false;
-  formValue/*:IIntegrationOption*/;
-  @Input() bot:IBot;
-  @ViewChild("form") f:NgForm;
-  constructor(private store:Store) {}
+  formValue: IIntegrationOption;
+  @Input() bot: IBot;
+  @ViewChild('form') f: NgForm;
+  @Select() botcreationstate$: Observable<IBotCreationState>;
+  routeParent;
+
+  constructor(
+    private store: Store,
+    private activatedRoute: ActivatedRoute,
+    private constantsService: ConstantsService
+  ) {
+  }
+
   ngOnInit() {
-    // debugger;
-    // this.formValue = <any>this.bot.channels || {};//comperror:
+    this.routeParent = this.activatedRoute.snapshot.data;
+    if (this.bot) {
+      this.formValue = this.bot.integrations;
+    } else if (this.routeParent['buildBot']) {
+      this.botcreationstate$.subscribe((botCreationState: IBotCreationState) => {
+        this.formValue = botCreationState.codeBased.integrations;
+      });
+    }
+    this.formValue = {
+      channels:{
+        ...this.constantsService.integrationOptionListTemplate.channels,
+        ...this.formValue.channels
+      },
+      ccsp_details:{
+        ...this.constantsService.integrationOptionListTemplate.ccsp_details,
+        ...this.formValue.ccsp_details
+      },
+      fulfillment_provider_details:{
+        ...this.constantsService.integrationOptionListTemplate.fulfillment_provider_details,
+        ...this.formValue.fulfillment_provider_details
+      }
+    };;
+
   }
 
-  onChange($event){
-    this.isActive  = $event;
+  onChange($event) {
+    this.isActive = $event;
   }
 
-  click(){
-    console.log(this.f.value);
+  click() {
+    // console.log(this.formValue);
   }
 
   ngAfterViewInit(): void {
-    let formData = this.formValue ={
-      ...this.bot.integrations.ccsp_details,
-      ...this.bot.integrations.channels,
-      ...this.bot.integrations.fulfillment_provider_details
-    };
-    // debugger;
-    // this.f.form.patchValue(formData);
-    this.f.valueChanges.debounceTime(1000).subscribe((data:IIntegrationOption) => {
-      console.log("hello");
-      if(!this.f.dirty) return;
-      this.store.dispatch(new SaveIntegrationInfo({data:{channels:data}}));
+    setTimeout(() => {
+      this.f.form.patchValue(this.formValue);
+    });
+
+    this.f.valueChanges.debounceTime(1000).subscribe((integrationInfo: IIntegrationOption) => {
+      if (!this.f.dirty) return;
+
+
+      if (this.routeParent['buildBot'])
+        this.store.dispatch([
+          new SaveBasicInfo({data: {integrations: integrationInfo}})
+        ]);
     });
   }
-
 }
