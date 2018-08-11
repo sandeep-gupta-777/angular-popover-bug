@@ -6,6 +6,7 @@ import {ServerService} from '../../server.service';
 import {ConstantsService} from '../../constants.service';
 import {IHeaderData} from '../../../interfaces/header-data';
 import {SetUserAction} from '../../auth/ngxs/auth.action';
+import {UtilityService} from '../../utility.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,22 +22,28 @@ export class ProfileComponent implements OnInit {
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
+    private utilityService: UtilityService,
     private store:Store ) { }
 
   ngOnInit() {
     this.loggeduser$.subscribe((loggeduser)=>{
-      this.loggeduser = loggeduser.user;;
+      this.loggeduser = loggeduser.user;
     })
   }
 
   updateProfile(){
-    let url:string = this.constantsService.getUserUpdateUrl();
-    let body = {...this.loggeduser, ...this.f.value};
-    let headerData:IHeaderData  = {"content-type": 'application/json'}
-    this.serverService.makePutReq({url, body,headerData})
+    if(!this.f.valid){
+      this.utilityService.showErrorToaster(new Error("please fill valid values"));
+      return;
+    }
+    let url:string = this.constantsService.getUserUpdateUrl(this.loggeduser.id);
+    // debugger;
+    // let body = {...this.loggeduser, ...this.f.value};
+    let body = this.f.value;
+    this.serverService.makePutReq({url, body})
       .subscribe((value: IUser)=>{
         console.log(value);
-        let updatedUser:IUser =  {...this.loggeduser, ...value}
+        let updatedUser:IUser =  {...this.loggeduser, ...value};
         this.store.dispatch([
           new SetUserAction({user:updatedUser})
         ])

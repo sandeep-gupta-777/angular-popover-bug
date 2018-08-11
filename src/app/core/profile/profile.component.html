@@ -1,4 +1,4 @@
-<div class="row my-3 pb-3 bg-white profile-row">
+<div *ngIf="(loggeduser$|async) as loggedUser" class="row my-3 pb-3 bg-white profile-row">
   <div class="col-12">
     <div class="card">
 
@@ -18,16 +18,15 @@
     </div>
     <div class="col-12">
       <label for="" class="pl-5 ml-5">First Name:</label>
-      <!--<span class="value">{{(loggeduser$|async).user.firstname}}</span>-->
-      <input class="edit-input value" type="text" [ngModel]="(loggeduser$|async).user.firstname" name="firstname">
+      <input class="edit-input value" type="text" [ngModel]="loggedUser.user.first_name" required name="first_name">
     </div>
     <div class="col-12">
       <label for="" class="pl-5 ml-5">Last Name:</label>
-      <input class="edit-input value" type="text" [ngModel]="(loggeduser$|async).user.lastname" name="lastname">
+      <input class="edit-input value" type="text" [ngModel]="loggedUser.user.last_name" required name="last_name">
     </div>
     <div class="col-12">
       <label for="" class="pl-5 ml-5">Email Name:</label>
-      <span class="value non-editable">{{(loggeduser$|async).user.email}}</span>
+      <span class="value non-editable">{{loggedUser.user.email}}</span>
     </div>
   </form>
 
@@ -37,14 +36,15 @@
     </div>
     <div class="col-12">
       <label for="" class="pl-5 ml-5 pr-4">Role:</label>
-      <span class="value non-editable ">{{(loggeduser$|async).user.role}}</span>
+      <span class="value non-editable ">{{loggedUser.user.role.name}}</span>
     </div>
     <div class="col-12">
       <label for="" class="pl-5 ml-5 pr-4">Permission:</label>
-      <span class="text-info">{{(loggeduser$|async).user.permissions.length}} permissions given</span>
+      <span class="text-info"><strong>{{loggedUser.user.role.permissions.actions.length}}</strong> action permissions given and </span>
+      <span class="text-info"><strong>{{loggedUser.user.role.permissions.bots.length}}</strong> bot permissions given</span>
       <div class="perm-list d-flex flex-wrap">
       <span class="badge badge-secondary"
-            *ngFor="let perm of (loggeduser$|async).user.permissions">{{perm}}</span>
+            *ngFor="let perm of loggedUser.user.role.permissions.actions">{{perm}}</span>
       </div>
     </div>
   </section>

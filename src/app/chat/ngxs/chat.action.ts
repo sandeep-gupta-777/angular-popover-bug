@@ -1,4 +1,5 @@
 import {EChatFrame, IMessageData, IRoomData} from '../../../interfaces/chat-session-state';
+import {IBot} from '../../core/interfaces/IBot';
 
 export class ToggleChatWindow {
   static readonly type = '[chat-widdow] set toggle';
@@ -19,12 +20,12 @@ export class AddMessagesToRoom {
 
 export class SetCurrentRoomID {
   static readonly type = '[chat-widdow] set SetCurrentRoomID';
-  constructor(public payload: { _id: string}) {}
+  constructor(public payload: { id: number}) {}
 }
 
 export class SetCurrentBotID {
   static readonly type = '[chat-widdow] set SetCurrentBotID';
-  constructor(public payload: { botId: number}) {}
+  constructor(public payload: { bot_id: number,bot?:IBot}) {}
 }
 
 export class ResetChatState {

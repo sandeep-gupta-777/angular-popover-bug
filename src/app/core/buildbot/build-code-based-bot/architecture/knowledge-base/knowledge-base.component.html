@@ -1,9 +1,10 @@
 <div class="row" *ngIf="showTable; else rowDetails">
   <div class="col-12 pb-2 d-flex justify-content-end">
-    <button class="btn-theme-success">Create Concept</button>
+    <button class="btn-theme-success" (click)="reinitialise()">Create Concept</button>
   </div>
   <div class="col-12">
-    <app-smart-table [data]="data" [settings]="settings"
+    <app-smart-table *ngIf="data" [data]="data" [settings]="settings"
+                     (pageChanged$)="pageChanged($event)"
                      (rowClicked$)="rowClicked($event)"></app-smart-table>
   </div>
 </div>
@@ -11,13 +12,14 @@
 <ng-template #rowDetails>
   <div class="row create-concept-row">
     <div class="col-12 d-flex justify-content-between">
-      <button class="btn-theme-primary-outline" (click)="showTable=true">Go back</button>
+      <button class="btn-theme-primary-outline" (click)="showTable=true; selectedRowData = []">Go back</button>
       <form class="options d-flex align-items-center" #form="ngForm">
         <span>Concept Key</span>
-        <input type="text" class="concept" placeholder="Concept Key" [(ngModel)]="key" name="key">
+        <input [disabled]="selectedRowData.created_at" type="text" class="concept" placeholder="Concept Key"
+               [(ngModel)]="key" name="key">
         <span>Concept Type</span>
         <!--<input type="text" class="concept" placeholder="Concept Type" [(ngModel)]="nerType"  name="nerType">-->
-        <select required [(ngModel)]="nerType" name="nerType">
+        <select required [(ngModel)]="nerType" name="nerType" [disabled]="selectedRowData.created_at">
           <option value="single_match">Single Match</option>
           <option value="double_match">Double Match</option>
           <option value="with_metadata">With Metadata</option>
@@ -26,19 +28,22 @@
         </select>
 
         <span>Override Policy</span>
-        <div class="form-check-inline align-items-start">
-          <label class="form-check-label" for="radio1">
-            <input type="radio" class="form-check-input" id="radio1" name="conflict_policy"
-                   [(ngModel)]="conflict_policy" value="override" checked>Override
-          </label>
-        </div>
-        <div class="form-check-inline">
-          <label class="form-check-label" for="radio2">
-            <input type="radio" class="form-check-input" id="radio2" name="conflict_policy"
-                   [(ngModel)]="conflict_policy" value="merge">Merge
-          </label>
-        </div>
-        <button class="btn-theme-primary" (click)="createConceptHandler()"> Save Concept</button>
+        <fieldset [disabled]="selectedRowData.created_at">
+
+          <div class="form-check-inline align-items-start">
+            <label class="form-check-label" for="radio1">
+              <input type="radio" class="form-check-input" id="radio1" name="conflict_policy"
+                     [(ngModel)]="conflict_policy" value="override" checked>Override
+            </label>
+          </div>
+          <div class="form-check-inline">
+            <label class="form-check-label" for="radio2">
+              <input type="radio" class="form-check-input" id="radio2" name="conflict_policy"
+                     [(ngModel)]="conflict_policy" value="merge">Merge
+            </label>
+          </div>
+        </fieldset>
+        <button class="btn-theme-primary" (click)="updateOrSaveConcept()"> Save Concept</button>
       </form>
     </div>
 
@@ -46,11 +51,12 @@
       <div *ngIf="nerType==='single_match' ||nerType==='double_match' ||nerType==='with_metadata'; else table">
         <div class="d-flex justify-content-end">
           <label for="uploadInput" class="btn btn-theme-primary-outline">Upload File
-            <input type="file" hidden id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)' #uploadInput>
+            <input type="file" hidden id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)'
+                   #uploadInput>
           </label>
           <!--<input type="file" id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)' #uploadInput>-->
         </div>
-        <app-code-editor [text]="codeText"></app-code-editor>
+        <app-code-editor (textChangedEvent)="codeText = $event " [text]="codeText"></app-code-editor>
       </div>
     </div>
   </div>

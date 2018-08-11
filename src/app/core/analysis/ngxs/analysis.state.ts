@@ -15,7 +15,6 @@ export interface IAnalysisState {
 
 export class AnalysisStateReducer {
 
-
   @Action(SetOverViewInfo)
   setOverViewInfo({patchState, setState, getState, dispatch}: StateContext<IAnalysisState>, {payload}: SetOverViewInfo) {
     let state:IAnalysisState = getState();

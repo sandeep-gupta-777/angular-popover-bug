@@ -41,32 +41,20 @@ export class ServerService {
   createHeaders(headerData?: any): HttpHeaders {
     let headers = new HttpHeaders();
     let tokenData = {};
-    if (this.X_AXIS_TOKEN)
-      tokenData = {'user-access-token': this.X_AXIS_TOKEN};
-    if (this.AUTH_TOKEN)
-      tokenData = {...tokenData, 'auth-token': this.AUTH_TOKEN};
-    // if (this.router.url.toString() === '/auth/login') {
+    tokenData = {'user-access-token': this.X_AXIS_TOKEN};
+    tokenData = {...tokenData, 'auth-token': this.AUTH_TOKEN};
     tokenData = {...tokenData, 'Content-Type': 'application/json'};
-    // }
-    /*expanding header data*/
+
     headerData = {
-      // "cross-domain": "true",
-      // "api-key": "54asdkj1209nksnda",
       ...tokenData,
       ...headerData,
-      // crossOrigin : true,
-      // "auth-token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NzcsInJvbGUiOiJhdXRoIn0.diYtz23k19lqMGg5cqDKvSK4wO-TUPOMITN80plfU40",
-      // "user-access-token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoidXNlciIsImlkIjoxfQ.ycXXJUTse-L_kpe0_RMk-DIgZkSL-57in4d9pqalO8c",
-      // "Content-Type":"application/json"
     };
 
     if (headerData)
       for (let key in headerData) {
-        {
-          headers = headers.set(key, headerData[key]);
-        }
+        /*don't set header data for undefined values*/
+        headerData[key] && (headers = headers.set(key, headerData[key]));
       }
-    // headers = headers.set("content-type","application/x-www-f-urlencoded");
     return headers;
   }
 
@@ -83,7 +71,6 @@ export class ServerService {
 
   makePostReq<T>(reqObj: { url: string, body: any, headerData?: any }): Observable<T> {
     let headers = this.createHeaders(reqObj.headerData);
-    // return this.httpClient.post<T>('http://dev.imibot.ai/login', reqObj.body, {headers:headers});
     return this.httpClient.post<T>(reqObj.url, reqObj.body, {headers: headers})
       .catch((e: any, caught: Observable<T>) => {
         console.log(e);

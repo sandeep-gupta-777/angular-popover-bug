@@ -59,40 +59,40 @@ export class WrapperComponent implements OnInit {
     });
 
 
-    this.analysisstate$.subscribe((value) => {
-      if (!value || !value.overviewinfo) return;
-      if (value.overviewinfo.selectedChannel) this.selectedChannel = value.overviewinfo.selectedChannel;
-      if (value.overviewinfo.selectedTime) this.selectedTime = value.overviewinfo.selectedTime;
-      this.selectedBot = value.overviewinfo.selectedBot;
-    });
-
-    this.f.valueChanges.subscribe((value) => {
-      this.overviewInfoChanged(value);
-    });
-  }
-
-  granularityChanged(time: { name: string, displayName: string }) {
-    this.selectedTime = time;
-    this.granularity = time.name;
-    this.f.form.updateValueAndValidity();
-  }
-
-  overviewInfoChanged(formData: IOverviewInfoPostBody) {
-    let overviewInfo: IOverviewInfoPostBody = {
-      bot_id: "",//comperror: this.selectedBot && this.selectedBot._id,
-      platform: this.selectedChannel && this.selectedChannel.name,
-      start_date: this.utilityService.convertDateObjectStringToDDMMYY(formData.start_date),
-      end_date: this.utilityService.convertDateObjectStringToDDMMYY(formData.end_date),
-      granularity: this.granularity,
-      /**/
-      selectedTime: this.selectedTime,
-      selectedBot: this.selectedBot,
-      selectedChannel: this.selectedChannel
-    };
-
-    this.store.dispatch([
-      new SetOverViewInfo({overviewInfo: overviewInfo})
-    ]);
+  //   this.analysisstate$.subscribe((value) => {
+  //     if (!value || !value.overviewinfo) return;
+  //     if (value.overviewinfo.selectedChannel) this.selectedChannel = value.overviewinfo.selectedChannel;
+  //     // if (value.overviewinfo.selectedTime) this.selectedTime = value.overviewinfo.selectedTime;
+  //     this.selectedBot = value.overviewinfo.selectedBot;
+  //   });
+  //
+  //   this.f.valueChanges.subscribe((value) => {
+  //     this.overviewInfoChanged(value);
+  //   });
+  // }
+  //
+  // granularityChanged(time: { name: string, displayName: string }) {
+  //   this.selectedTime = time;
+  //   this.granularity = time.name;
+  //   this.f.form.updateValueAndValidity();
+  // }
+  //
+  // overviewInfoChanged(formData: IOverviewInfoPostBody) {
+  //   let overviewInfo: IOverviewInfoPostBody = {
+  //     bot_id: "",//comperror: this.selectedBot && this.selectedBot._id,
+  //     platform: this.selectedChannel && this.selectedChannel.name,
+  //     start_date: this.utilityService.convertDateObjectStringToDDMMYY(formData.start_date),
+  //     end_date: this.utilityService.convertDateObjectStringToDDMMYY(formData.end_date),
+  //     granularity: this.granularity,
+  //     /**/
+  //     selectedTime: this.selectedTime,
+  //     selectedBot: this.selectedBot,
+  //     selectedChannel: this.selectedChannel
+  //   };
+  //
+  //   this.store.dispatch([
+  //     new SetOverViewInfo({overviewInfo: overviewInfo})
+  //   ]);
   }
 
 }

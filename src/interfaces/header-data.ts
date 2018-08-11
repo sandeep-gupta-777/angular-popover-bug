@@ -6,8 +6,19 @@ export interface IHeaderData {
   'origin'?: string,
   'referer'?: string,
   'user-agent'?: string,
-  'x-access-token'?: string,
+  'user-access-token'?: string,
   'api-key'?:string
-  'bot-access-token'?:string
+  'bot-access-token'?:string,
+
+}
+
+export interface IAnalyticsHeaderData {
+  startdate:string,
+  enddate:string,
+  platform:string,
+  type:string,
+  'auth-token': string,
+  'bot-access-token':string,
+  "user-access-token":string
 }
 

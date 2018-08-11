@@ -1,19 +1,20 @@
 import {IUser} from '../../core/interfaces/user';
 import {Action, State, StateContext} from '@ngxs/store';
 import {SetCodeBasedBotListAction} from '../../core/view-bots/ngxs/view-bot.action';
-import {SetUserAction} from './auth.action';
+import {ResetAuthToDefaultState, SetUserAction} from './auth.action';
 import {ConstantsService} from '../../constants.service';
 
 
 export interface IAuthState {
   user?: IUser;
 }
+const initialState: IAuthState ={
+  user:null
+};
 
 @State<IAuthState>({
   name:'loggeduser',
-  defaults:{
-    user:null
-  }
+  defaults:initialState
 })
 
 //same as reducer
@@ -25,4 +26,10 @@ export class AuthStateReducer {
     patchState({user:payload.user});
     this.constantsService.setLoggedUser(payload.user);
   }
+
+  @Action(ResetAuthToDefaultState)
+  resetAuthToDefaultState({patchState, setState, getState,dispatch}:StateContext<IAuthState>){
+    patchState({user:null});
+  }
+
 }

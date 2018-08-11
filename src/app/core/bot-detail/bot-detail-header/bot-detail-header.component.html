@@ -19,5 +19,5 @@
   <span *ngIf="myObject.keys(bot.integrations).length>4" class="more">+{{myObject.keys(bot.integrations).length-4}} More</span>
   <div class="headerDivider mx-2"></div>
   <i class="fa fa-refresh px-2"></i>
-  <button class="btn btn-theme-primary">Update Bot</button>
+  <button class="btn btn-theme-primary" (click)="updateBot()">Update Bot</button>
 </div>

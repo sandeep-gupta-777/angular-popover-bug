@@ -23,46 +23,72 @@ export interface ISendApiRequestPayload {
   'platform': string
 }
 
-
 export interface ISendApiResponsePayload {
-  'generated_msg': [{
-      'text': string
-    }],
+  'TimeStamp': 1533902788.0,
+  'bot_msg': '',
+  'generated_msg': [{ 'text': 'gg{\'tag\': 8}working' }],
+  'messageStore': { 'endflow': true, 'templateKey': 'A1' },
   'room': {
-    '_id': string,
-    'agentHandOver': false,
-    'botId': number,
-    'consentAcknowledged': true,
-    'consumerId': {
-      '_id': string,
-      'botId': string,
-      'consentAcknowledged': true,
-      'consentPermissions': {
-          'permission': string,
-          'status': string
-        }[],
-      'consumerDataStore': {},
-      'created_at': string,
-      'email': string,
-      'extra_params': string,
-      'facebookId': string,
-      'lineId': string,
-      'name': string,
-      'phone': string,
-      'skypeId': string,
-      'uid': string,
-      'updated_at': string
+    'agent_handover': false,
+    'allow_anonymization': false,
+    'bot_id': number//1,
+    'consent_permissions': any[],
+    'consumer_id': number,//43,
+    'cross_retention_period': false,
+    'data_store': {},
+    'df_state': {
+      'answer': 'hi', 'question': 'hi'
     },
-    'created_at': string,
-    'managerBotRoomId': null,
+    'id': number,
+    'imichat_agent': {},
+    'is_anonymized': false,
+    'last_updated_job_id': '5b6d7fc4736453000587246a',
+    'manager_bot_room_id': 0,
+    'resource_uri': '/api/v1/room/64/',
     'room_state_closed': false,
-    'selectedAvatar': {
-      'id': 1,
-      'imageUrl': string,
-      'name': string
-    },
-    'updated_at': string
+    'selected_avatar': any
   },
-  'transaction_id': string
+  'sendtoagent': false,
+  'templateKey': 'A1',
+  'transaction_id': '79f2707b0d2c419198febf0ccaaa4b99'
+  // 'generated_msg': [{
+  //     'text': string
+  //   }],
+  // 'room': {
+  //   '_id': string,
+  //   'agentHandOver': false,
+  //   'botId': number,
+  //   'consentAcknowledged': true,
+  //   'consumerId': {
+  //     '_id': string,
+  //     'botId': string,
+  //     'consentAcknowledged': true,
+  //     'consentPermissions': {
+  //         'permission': string,
+  //         'status': string
+  //       }[],
+  //     'consumerDataStore': {},
+  //     'created_at': string,
+  //     'email': string,
+  //     'extra_params': string,
+  //     'facebookId': string,
+  //     'lineId': string,
+  //     'name': string,
+  //     'phone': string,
+  //     'skypeId': string,
+  //     'uid': string,
+  //     'updated_at': string
+  //   },
+  //   'created_at': string,
+  //   'managerBotRoomId': null,
+  //   'room_state_closed': false,
+  //   'selectedAvatar': {
+  //     'id': 1,
+  //     'imageUrl': string,
+  //     'name': string
+  //   },
+  //   'updated_at': string
+  // },
+  // 'transaction_id': string
 }
 

@@ -1,129 +1,133 @@
-<!--<div class="container" *ngIf="">-->
-<!--<div class="container" >-->
 
-<div class="chat-grid text-center" [hidden]="!(windowOpen && (loggeduser$|async).user)">
-  <div class="header d-flex align-items-center px-3">
-    <i class="fa fa-arrow-left cursor-pointer" (click)="navigate(myEChatFrame.CHAT_LIST)"
-       [hidden]="frameEnabled!==myEChatFrame.CHAT_BOX"></i>
-    <span class="ml-auto mr-auto">{{chatWindowTitle}}</span>
-    <!--<div class="user cursor-pointer mx-2"><i class="fa fa-user"></i></div>-->
+<!--<h1>{{!!windowOpen}}</h1>-->
+<div *ngIf="!isFullScreenPreview">
+  <div class="chat-grid text-center" [hidden]="(!windowOpen || !(loggeduser$|async).user)">
+    <div class="header d-flex align-items-center px-3">
+      <i class="fa fa-arrow-left cursor-pointer" (click)="navigate(myEChatFrame.CHAT_LIST)"
+         [hidden]="frameEnabled!==myEChatFrame.CHAT_BOX"></i>
+      <span class="ml-auto mr-auto">{{chatWindowTitle}}</span>
+      <!--<div class="user cursor-pointer mx-2"><i class="fa fa-user"></i></div>-->
+        <!--<div class="user cursor-pointer">-->
+      <a routerLink="/preview"><i class="fa fa-external-link">
 
-    <div class="btn-group p-2" [autoClose]="false" dropdown>
-      <div dropdownToggle class="user cursor-pointer"><i class="fa fa-user"></i></div>
+      </i></a>
+    <!--</div>-->
 
-      <form *dropdownMenu class="dropdown-menu dropdown-menu-left p-3" role="menu" #heroForm="ngForm"
-            style="width: 240px">
-        <p class="heading mb-2">Edit Customer</p>
-        <div class="form-group">
-          <label>UserName</label>
-          <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp"
-                 placeholder="Enter email">
-        </div>
-        <div class="form-group">
-          <label>Phone</label>
-          <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp"
-                 placeholder="Enter email">
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp"
-                 placeholder="Enter email">
-        </div>
-        <div class="form-group">
-          <label>Facebook ID</label>
-          <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp"
-                 placeholder="Enter email">
-        </div>
-        <div class="form-group">
-          <label>UID</label>
-          <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp"
-                 placeholder="Enter email">
-        </div>
-        <button type="submit" class="btn-block btn-theme-primary my-3">Save Changes</button>
-      </form>
+      <div class="btn-group p-2" [autoClose]="false" dropdown>
+        <div dropdownToggle class="user cursor-pointer"><i class="fa fa-user"></i></div>
+
+        <form *dropdownMenu class="dropdown-menu dropdown-menu-left p-3" role="menu" #heroForm="ngForm"
+              style="width: 240px">
+          <p class="heading mb-2">Edit Customer</p>
+          <div class="form-group">
+            <label>UserName</label>
+            <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp"
+                   placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp"
+                   placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp"
+                   placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label>Facebook ID</label>
+            <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp"
+                   placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label>UID</label>
+            <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp"
+                   placeholder="Enter email">
+          </div>
+          <button type="submit" class="btn-block btn-theme-primary my-3">Save Changes</button>
+        </form>
+      </div>
+
+      <!--<i class="fa fa-external-link pr-2 cursor-pointer"></i>-->
+      <i class="fa fa-times cursor-pointer" (click)="closeChatWindow()"></i>
+    </div>
+    <div class="body p-0 border-left border-right">
+      <app-bot-welcome *ngIf="frameEnabled=== myEChatFrame.WELCOME_BOX"></app-bot-welcome>
+      <app-chat-list class="mt-4" *ngIf="frameEnabled===myEChatFrame.CHAT_LIST"></app-chat-list>
+      <app-chat-window *ngIf="frameEnabled===myEChatFrame.CHAT_BOX && this.messageData"
+                       [selectedAvatar]="selectedAvatar"
+                       [messageDataArray]="messageData"></app-chat-window>
     </div>
 
-    <!--<i class="fa fa-external-link pr-2 cursor-pointer"></i>-->
-    <i class="fa fa-times cursor-pointer" (click)="closeChatWindow()"></i>
+    <!--text input starts-->
+    <div class="footer bg-white px-2 d-flex align-items-center text-muted"
+         [hidden]="frameEnabled!==myEChatFrame.CHAT_BOX">
+      <input type="text" [(ngModel)]="messageByHuman" (keyup.enter)="sendMessageByHuman(messageByHuman)">
+      <span class="icon"><i class="fa fa-send cursor-pointer" (click)="sendMessageByHuman(messageByHuman)"></i></span>
+    </div>
+    <!--text input ends-->
+
+    <!--new chat button starts-->
+    <div class="footer bg-white text-muted d-flex align-items-center justify-content-center"
+         *ngIf="frameEnabled!==myEChatFrame.CHAT_BOX">
+      <button class="btn-theme-primary cursor-pointer" (click)="startNewChat('hi', myEChatFrame.CHAT_BOX)">Start a
+        new chat
+      </button>
+    </div>
+    <!--new chat button end-->
+
   </div>
-  <div class="body p-0 border-left border-right">
-    <app-bot-welcome *ngIf="frameEnabled=== myEChatFrame.WELCOME_BOX"></app-bot-welcome>
-    <app-chat-list class="mt-4" *ngIf="frameEnabled===myEChatFrame.CHAT_LIST"></app-chat-list>
+
+</div>
+
+<div class="d-flex justify-content-end cursor-pointer" (click)="toggleChatWindow()" *ngIf="!windowOpen && !isFullScreenPreview">
+  <div class="speech-bubble float-on-hover-animation">
+    <div class="stick-wrapper">
+      <div class="stick"></div>
+      <div class="stick"></div>
+      <div class="stick"></div>
+    </div>
+  </div>
+</div>
+
+<!--===============FULL SCREEN BELOW===================-->
+<div *ngIf="isFullScreenPreview" class="grid-chat-preview-full-screen">
+  <div class="header1 bg-theme-primary px-3 d-flex align-items-center">
+    <img class="logo-md" src="https://image.flaticon.com/icons/svg/17/17004.svg" alt="">
+  </div>
+  <div class="header2 px-3 bg-theme-primary d-flex align-items-center">
+    <!--<img class="logo-md" src="https://image.flaticon.com/icons/svg/17/17004.svg" alt="">-->
+    <img class="logo-md" [src]="selectedAvatar.imageUrl||'https://image.flaticon.com/icons/svg/17/17004.svg'">
+
+  </div>
+  <div class="chat-rooms">
+    <app-chat-list class="mt-4"></app-chat-list>
+  </div>
+  <div class="chat">
     <app-chat-window *ngIf="frameEnabled===myEChatFrame.CHAT_BOX && this.messageData"
                      [selectedAvatar]="selectedAvatar"
                      [messageDataArray]="messageData"></app-chat-window>
   </div>
+  <div class="inputBox">
 
-  <!--text input starts-->
-  <div class="footer bg-white px-2 d-flex align-items-center text-muted"
-       [hidden]="frameEnabled!==myEChatFrame.CHAT_BOX">
-    <input type="text" [(ngModel)]="messageByHuman" (keyup.enter)="sendMessageByHuman(messageByHuman)">
-    <span class="icon"><i class="fa fa-send cursor-pointer" (click)="sendMessageByHuman(messageByHuman)"></i></span>
+    <!--text input starts-->
+    <div class="footer px-2 d-flex align-items-center text-muted"
+         [hidden]="frameEnabled!==myEChatFrame.CHAT_BOX">
+      <input class="mr-2" type="text" [(ngModel)]="messageByHuman" (keyup.enter)="sendMessageByHuman(messageByHuman)">
+      <span class="icon"><i class="fa fa-send cursor-pointer" (click)="sendMessageByHuman(messageByHuman)"></i></span>
+    </div>
+    <!--text input ends-->
+    <!--new chat button starts-->
+    <div class="footer bg-white text-muted d-flex align-items-center justify-content-center"
+         *ngIf="frameEnabled!==myEChatFrame.CHAT_BOX">
+      <button class="btn-theme-primary cursor-pointer" (click)="startNewChat('hi', myEChatFrame.CHAT_BOX)">Start a
+        new chat
+      </button>
+    </div>
+    <!--new chat button end-->
+
   </div>
-  <!--text input ends-->
-
-  <!--new chat button starts-->
-  <div class="footer bg-white text-muted d-flex align-items-center justify-content-center"
-       *ngIf="frameEnabled!==myEChatFrame.CHAT_BOX">
-    <button class="btn-theme-primary cursor-pointer" (click)="startNewChat('hi', myEChatFrame.CHAT_BOX)">Start a
-      new chat
-    </button>
-  </div>
-  <!--new chat button starts-->
-
 </div>
 
-<!--</div>-->
 
-
-<!--==================================-->
-
-
-<!--&lt;!&ndash;<div class="container" *ngIf="">&ndash;&gt;-->
-<!--<div class="container" [hidden]="!(windowOpen && (loggeduser$|async).user)">-->
-<!--<div class="row">-->
-<!--<div class="col-12">-->
-
-<!--<div class="card text-center">-->
-<!--<div class="card-header d-flex align-items-center">-->
-<!--<i class="fa fa-arrow-left cursor-pointer" (click)="navigate(myEChatFrame.CHAT_LIST)"-->
-<!--[hidden]="frameEnabled!==myEChatFrame.CHAT_BOX"></i>-->
-<!--<span class="ml-auto mr-auto">{{chatWindowTitle}}</span>-->
-<!--<i class="fa fa-external-link pr-2 cursor-pointer"></i>-->
-<!--<i class="fa fa-times cursor-pointer" (click)="closeChatWindow()"></i>-->
-<!--</div>-->
-<!--<div class="card-body p-0 border-left border-right">-->
-<!--<app-bot-welcome *ngIf="frameEnabled=== myEChatFrame.WELCOME_BOX"></app-bot-welcome>-->
-<!--<app-chat-list *ngIf="frameEnabled===myEChatFrame.CHAT_LIST"></app-chat-list>-->
-<!--<app-chat-window *ngIf="frameEnabled===myEChatFrame.CHAT_BOX && this.messageData"-->
-<!--[selectedAvatar]="selectedAvatar"-->
-<!--[messageDataArray]="messageData"></app-chat-window>-->
-<!--</div>-->
-
-<!--&lt;!&ndash;text input starts&ndash;&gt;-->
-<!--<div class="card-footer bg-white text-muted" [hidden]="frameEnabled!==myEChatFrame.CHAT_BOX">-->
-<!--<div class="row d-flex">-->
-<!--<div class="col-10 p-0 pl-2">-->
-<!--<input type="text" [(ngModel)]="messageByHuman" (keyup.enter)="sendMessageByHuman(messageByHuman)">-->
-<!--</div>-->
-<!--<div class="col-1">-->
-<!--<span class="icon"><i class="fa fa-send cursor-pointer" (click)="sendMessageByHuman(messageByHuman)"></i></span>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--&lt;!&ndash;text input ends&ndash;&gt;-->
-
-<!--&lt;!&ndash;new chat button starts&ndash;&gt;-->
-<!--<div class="card-footer bg-white text-muted d-flex align-items-center justify-content-center"-->
-<!--*ngIf="frameEnabled!==myEChatFrame.CHAT_BOX">-->
-<!--<button class="btn-theme-primary cursor-pointer" (click)="startNewChat('hi', myEChatFrame.CHAT_BOX)">Start a-->
-<!--new chat-->
-<!--</button>-->
-<!--</div>-->
-<!--&lt;!&ndash;new chat button starts&ndash;&gt;-->
-
-<!--</div>-->
-
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
+<!---->

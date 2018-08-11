@@ -19,14 +19,15 @@ export interface IOverviewInfoResponse {
 
 
 export interface IOverviewInfoPostBody {
-  'bot_id': string//'59e055773b6219000ca825ba',
-  'start_date': string// '11/06/2018',
-  'end_date': string// '11/06/2018',
+  // 'bot_id': string//'59e055773b6219000ca825ba',
+  'startdate': string// '11/06/2018',
+  'enddate': string// '11/06/2018',
   'platform': string//'all'
-  granularity:string,//"hour","month"
+  // granularity:string,//"hour","month"
 
   /*following fields are not the part of the body*/
-  selectedTime:{name: string, displayName: string},
+  selectedStartDate:{name: string, displayName: string},
+  selectedEndDate:{name: string, displayName: string},
   selectedBot:IBot,
   selectedChannel:{name: string, displayName: string}
 }

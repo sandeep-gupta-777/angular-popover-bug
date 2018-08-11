@@ -9,6 +9,7 @@ import {ISendApiRequestPayload, ISendApiResponsePayload} from '../../interfaces/
 import {IHeaderData} from '../../interfaces/header-data';
 import {ChatService} from '../chat.service';
 import {IAuthState} from '../auth/ngxs/auth.state';
+import {ActivatedRoute, Route, Router, RoutesRecognized} from '@angular/router';
 
 @Component({
   selector: 'app-chat-wrapper',
@@ -26,27 +27,42 @@ export class ChatWrapperComponent implements OnInit {
   messageData:IMessageData[] = null;
   selectedAvatar:any;
   currentRoom:IRoomData;
-  currentBotToken:string;
+  bot_access_token:string;
   currentBotId:number;
   chatWindowTitle:string = "Start Chat";
   messageByHuman:string="";
+  isFullScreenPreview;
   constructor(private store: Store,
               private serverService:ServerService,
               private constantsService: ConstantsService,
               private chatService: ChatService,
+              private activatedRoute: ActivatedRoute,
+              private route:Router
   ){}
 
   ngOnInit() {
     console.log("ChatWrapperComponent init");
+    this.isFullScreenPreview = this.activatedRoute.snapshot.data.isFullScreenPreview;
+    /*This is to access route data from non-subtree component
+    * see: https://github.com/angular/angular/issues/11812
+    * */
+    this.route.events.subscribe((data) => {
+      if (data instanceof RoutesRecognized) {
+        // debugger;
+        this.isFullScreenPreview = data.state.root.firstChild.data.isFullScreenPreview;
+      }
+    });
+
     this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState)=>{
       if(!chatSessionState) return;
+      let currentBot = chatSessionState.currentBotDetails;
       this.frameEnabled = chatSessionState.frameEnabled;
       this.windowOpen=chatSessionState.opened;
-      this.currentRoom = chatSessionState.rooms.find((room)=>room._id===chatSessionState.currentRoomId);
+      this.currentRoom = chatSessionState.rooms.find((room)=>room.id===chatSessionState.currentRoomId);
       this.messageData = this.currentRoom && this.currentRoom.messageList;
       this.selectedAvatar = this.currentRoom && this.currentRoom.selectedAvatar;
-      this.currentBotToken = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.token;
-      this.currentBotId = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.id;
+      this.bot_access_token = this.currentRoom && this.currentRoom.bot_access_token || currentBot.token;
+      this.currentBotId = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.id || currentBot.id;
       this.chatWindowTitle = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.name;
     });
 
@@ -56,7 +72,12 @@ export class ChatWrapperComponent implements OnInit {
 
 
   startNewChat(messageByHuman:string, frameEnabled?:EChatFrame){
-    this.chatService.startNewChat({token:this.currentBotToken, id:this.currentBotId}, messageByHuman, frameEnabled);
+    this.chatService.startNewChat(
+      {
+        bot_access_token:this.bot_access_token, id:this.currentBotId
+      },
+      messageByHuman,
+      frameEnabled);
   }
 
   navigate(frame){
@@ -69,15 +90,14 @@ export class ChatWrapperComponent implements OnInit {
   sendMessageByHuman(messageByHuman:string){
     if(messageByHuman.trim() === "") return;
     this.store.dispatch(new AddMessagesToRoom({
-      _id: this.currentRoom._id,
+      id: this.currentRoom.id,
       messageList: [{
         text:messageByHuman,
         type:"human",
         time:"10:20 PM"
       }],
-      botId: this.currentRoom.botId,
-      botToken:this.currentBotToken
-
+      bot_id: this.currentRoom.bot_id,
+      bot_access_token:this.bot_access_token
     }));
     console.log("sending messgae by human");
     this.startNewChat(messageByHuman, null);
@@ -88,5 +108,10 @@ export class ChatWrapperComponent implements OnInit {
     try {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     } catch(err) { console.log(err)}
+  }
+  toggleChatWindow(){
+    this.store.dispatch([
+      new ToggleChatWindow({open:true})
+    ])
   }
 }

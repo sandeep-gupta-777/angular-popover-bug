@@ -35,7 +35,7 @@ export class MessagesComponent implements OnInit {
         ...value.overviewinfo
       };
       let body_messagesByTemplateKey = {
-        bot_id: value.overviewinfo.bot_id,
+        bot_id: value.overviewinfo.selectedBot.id,
         messageStoreKey: 'flag',
         messageStoreValue: true
       };

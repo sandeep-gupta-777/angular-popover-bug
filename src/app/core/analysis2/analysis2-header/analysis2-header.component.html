@@ -13,7 +13,7 @@
   <div class="form-group m-0 mr-4 ">
     <label for="">Channel</label>
     <select  ngModel required name="platform">
-      <option *ngFor="let channel of channelList" type="button">{{channel.displayName}}</option>
+      <option *ngFor="let channel of channelList"  type="button" [value]="channel.name">{{channel.displayName}}</option>
     </select>
   </div>
 
@@ -22,8 +22,8 @@
            style="width: 100%"
            ngModel
            placeholder="Start Date"
-           name="start_date"
-           [(ngModel)]="start_date"
+           name="startdate"
+           [(ngModel)]="startdate"
            required
            bsDatepicker
            [bsConfig]="datePickerConfig">
@@ -31,8 +31,9 @@
   <div class="form-group m-0 mr-4">
     <input type="text"
            placeholder="End Date"
-           name="end_date"
-           [(ngModel)]="end_date"
+           name="enddate"
+           required
+           [(ngModel)]="enddate"
            bsDatepicker
            [bsConfig]="datePickerConfig">
   </div>

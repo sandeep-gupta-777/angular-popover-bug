@@ -21,8 +21,8 @@ export class ChatItemComponent implements OnInit {
 
   openChatRoom() {
     this.store.dispatch([
-      new SetCurrentRoomID({_id: this.room._id}),
-      new SetCurrentBotID({botId:this.room.botId}),
+      new SetCurrentRoomID({id: this.room.id}),
+      new SetCurrentBotID({bot_id:this.room.bot_id}),
       new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX})]);
   }
 }

@@ -44,13 +44,14 @@ export class CodeInputComponent implements OnInit {
     let url= this.constantsService.getAllVersionsByBotId();//comperror
     let botId = this.bot.id;
     this.serverService.makeGetReq<IBotVersionResult>({url,headerData:{"bot-access-token":this.bot.bot_access_token}})
-      .subscribe((value)=>{
+      .subscribe((botVersionResult)=>{
         console.log(this.bot.id);
         this.store.dispatch([
-          new SaveVersionInfoInBot({data: value.objects, botId: this.bot.id})
+          new SaveVersionInfoInBot({data: botVersionResult.objects, botId: this.bot.id})
         ]);
-      })
+      });
       this.botlist$.subscribe((value) => {
+        // debugger;
         let activeVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.find((BotVersion) => {
           return this.bot.active_version_id === BotVersion.id;
         });
@@ -112,7 +113,7 @@ export class CodeInputComponent implements OnInit {
       "bot-access-token":this.bot.bot_access_token
     };
     let url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
-    debugger;
+    // debugger;
     this.selectedVersion.version=12;
 
     delete this.selectedVersion.id;
@@ -122,6 +123,7 @@ export class CodeInputComponent implements OnInit {
     this.serverService.makePostReq({url, body:this.selectedVersion, headerData})
       .subscribe((value)=>{
         console.log(value);
+        this.ngOnInit();/*TODO: implement it correctly*/
       })
   }
 }

@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {ResetStoreToDefault} from '../../ngxs/app.action';
 import {ResetChatState} from '../../chat/ngxs/chat.action';
 import {ResetBotListAction} from '../view-bots/ngxs/view-bot.action';
+import {ResetAuthToDefaultState} from '../../auth/ngxs/auth.action';
 
 @Component({
   selector: 'app-header',
@@ -24,10 +25,11 @@ export class HeaderComponent implements OnInit {
 
   logout(){
     localStorage.clear();
-    this.store.reset({});
+    // this.store.reset({});
     this.store.dispatch([
       new ResetChatState(),
-      new ResetBotListAction()
+      new ResetBotListAction(),
+      new ResetAuthToDefaultState()
     ]);
     this.router.navigate(['auth','login']);
 

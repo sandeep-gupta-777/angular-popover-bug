@@ -5,26 +5,27 @@
       Pipeline' and vice versa</p>
     <div class="search-theme-input-with-search">
       <span class="fa fa-search"></span>
-      <input type="search" placeholder="Search Modules" class="border">
+      <input type="search" placeholder="Search Modules" [(ngModel)]="searchKeyword" class="border">
 
     </div>
   </div>
 
-  <div class="col-7 border">
+  <div class="col-8 border">
     <h4 class="heading mt-3 mb-4 ">Available Intelligence Modules</h4>
     <ul class="aim-list  px-3 pt-3 d-flex align-items-start align-content-start flex-row flex-wrap"
         [dragula]='"first-bag"' [dragulaModel]='aiModules'>
       <li class="border py-2 px-3 mb-2 mr-3 d-flex justify-content-center align-items-start"
-          *ngFor="let aiModule of aiModules; let i of index">{{aiModule.id}}
+          *ngFor="let aiModule of (aiModules|pipelineFilter:searchKeyword); let i of index">{{aiModule.unique_name}}
       </li>
     </ul>
   </div>
-  <div class="col-5 pipeline-wrapper">
-    <div class="col-12 border pr-0 pipeline" style="height: 100%">
-      <h4 class="heading mt-3 mb-4 ">Bot Intelligence Pipeline</h4>
-      <div  [dragula]='"first-bag"' [dragulaModel]='pipeLine'>
-        <div *ngFor="let aiModule of pipeLine;let targetIndexNew = index">
-          <div class="border py-2 px-3 mb-2 mr-3 module-box" [ngClass]="{'bg-grey':aiModule.$$hashKey==='PLACE_HOLDER'}">
+  <div class="col-4 pipeline-wrapper">
+    <div class="col-12 border pr-0 pipeline d-flex flex-column" style="height: 100%">
+      <h4 class="heading mt-3 mb-4">Bot Intelligence Pipeline</h4>
+      <div class="flex-grow-1"  [dragula]='"first-bag"' [dragulaModel]='pipeLine'>
+        <div *ngFor="let aiModule of (pipeLine|pipelineFilter:searchKeyword);let targetIndexNew = index">
+          <div class="border mb-2 mr-3 module-box"
+               [ngClass]="{'bg-grey':aiModule.$$hashKey==='PLACE_HOLDER'}">
             {{aiModule.id}}
           </div>
         </div>
@@ -32,6 +33,7 @@
     </div>
   </div>
 </div>
+
 
 
 <!--<div appDraggable appDropTarget="{zone:'another'}" (myDrop)="onDrop($event)"> drag me </div>-->

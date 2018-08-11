@@ -118,6 +118,9 @@ import {ChatItemComponent} from './chat/rooms-and-convo-panel/chat-room-list/cha
 import { BotArchitetureComponent } from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
 import { BotDetailHeaderComponent } from './core/bot-detail/bot-detail-header/bot-detail-header.component';
 import { FilterActiveBotPipe } from './filter-active-bot.pipe';
+import { FilterArrayPipe } from './filter-array.pipe';
+import { PipelineFilterPipe } from './pipeline-filter.pipe';
+import { ChatPreviewNewPageComponent } from './chat/chat-preview-new-page/chat-preview-new-page.component';
 
 const routes: Route[] = [
   {
@@ -197,8 +200,10 @@ const routes: Route[] = [
       {path: 'auth', component: SignupComponent}
     ]
   },
+
+  {path: 'preview', component:ChatWrapperComponent, data:{isFullScreenPreview:true} },
   {path: '', redirectTo: 'core/viewbots/codebased', pathMatch: 'full'},
-];
+];;
 
 @NgModule({
   declarations: [
@@ -281,7 +286,10 @@ const routes: Route[] = [
     BotConfigComponent,
     BotArchitetureComponent,
     BotDetailHeaderComponent,
-    FilterActiveBotPipe
+    FilterActiveBotPipe,
+    FilterArrayPipe,
+    PipelineFilterPipe,
+    ChatPreviewNewPageComponent
   ],
   imports: [
     BrowserModule,

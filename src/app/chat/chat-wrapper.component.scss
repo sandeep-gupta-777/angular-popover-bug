@@ -108,3 +108,51 @@ form{
 
 }
 
+/*FULL SCRENN BELOW*/
+.grid-chat-preview-full-screen{
+  //padding: 10px;
+  height: 100vh;
+  background-color: white;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 60px 1fr 60px;
+  grid-template-areas:
+    'h1 h2'
+    'room chat'
+    'room  inputbox';
+
+  .chat-rooms{
+    grid-area: room;
+  }
+  .header1{
+    grid-area: h1;
+  }
+  .header2{
+    grid-area: h2;
+  }
+  .chat{
+    grid-area: chat;
+    max-height: 90vh;
+    overflow-y: hidden;
+  }
+  .footer{
+    grid-area: inputbox;
+    height: 100%;
+    background-color: rgba(200, 200, 200, 0.3 );;
+    input{
+      height: 70%;
+      width: 95%;
+      @include typography(15px, $line-height-normal, $font-weight-400, $color-secondary);
+      @include hide-borders();
+      border-radius: 4px;
+      padding: 0 10px;
+    }
+    .icon{
+      font-size: 25px;
+      color: $color-primary;
+    }
+  }
+
+}
+
+

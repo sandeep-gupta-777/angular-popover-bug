@@ -5,9 +5,9 @@ import {IAuthState} from './auth/ngxs/auth.state';
 import {IUser} from './core/interfaces/user';
 import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
+import {IBot} from './core/interfaces/IBot';
 
 // import {IGlobalState} from '../interfaces/global-state';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -50,8 +50,8 @@ export class ConstantsService {
     this.loggedUser = loggedUser;
   }
 
-  getUserUpdateUrl() {
-    return this.BACKEND_USER_UPDATE_URL + <any>(ConstantsService).state.loggeduser.user.id;
+  getUserUpdateUrl(enterprise_UserId: number) {
+    return this.BACKEND_URL + `api/v1/user/${enterprise_UserId}/`;//{{url}}/user/{{Enterprise_UserId}}
   }
 
   getEnterpriseUrl(enterpriseId: number) {
@@ -143,10 +143,10 @@ export class ConstantsService {
   getSaveVersionByBotId(id) {
     return this.BACKEND_URL + `api/v1/botversioning/${id}/`; //https://dev.imibot.ai/api/v1/botversioning/9/
   }
+
   getCreateNewVersionByBotId(id) {
     return this.BACKEND_URL + `api/v1/botversioning/`; //https://dev.imibot.ai/api/v1/botversioning/9/
   }
-
 
 
   getBotTestingUrl(id: string) {
@@ -162,12 +162,69 @@ export class ConstantsService {
   }
 
   getStartNewChatLoginUrl() {
-    return this.BACKEND_URL + 'send';
+    return this.BACKEND_URL + 'api/v1/webhook/web/';//'send';
   }
 
   getAllBotVersionByBotIdUrl(bot_id) {
     return this.BACKEND_URL + `api/v1/botversioning/?bot_id=${bot_id}`; //http://localhost:8000/api/v1/botversioning/?bot_id=2
   }
+
+  getCustomBotNER(bot_id) {
+    return this.BACKEND_URL + `api/v1/customner`; //https://dev.imibot.ai/api/v1/customner/
+  }
+
+  updateCustomBotNER(custom_ner_id) {
+    return this.BACKEND_URL + `api/v1/customner/${custom_ner_id}/`; //https://dev.imibot.ai/api/v1/customner/13/
+  }
+
+  updateBotUrl(bot_id: number) {
+    return this.BACKEND_URL + `api/v1/bot/${bot_id}/`;//https://dev.imibot.ai/api/v1/bot/13/
+  }
+
+  createNewCustomBotNER() {
+    return this.BACKEND_URL + `api/v1/customner/`; //https://dev.imibot.ai/api/v1/customner/
+  }
+
+  /*Pipeline*/
+  getAllPipelineModuleUrl() {
+    return this.BACKEND_URL + `api/v1/pipelinemodule/`; //https://dev.imibot.ai/api/v1/pipelinemodule/
+  }
+
+  /*Enterprise NER*/
+  getEnterpriseNer(limit: number=10, offset: number=0) {
+    return this.BACKEND_URL + `api/v1/customner/?limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/api/v1/customner/
+  }
+
+  getAnalyticsUrl(){
+    return this.BACKEND_URL + 'api/v1/analytics/'//https://dev.imibot.ai/api/v1/analytics/
+  }
+
+  updateEnterpriseNer(id) {/*TODO: is it enterprise id??*/
+    return this.BACKEND_URL + `api/v1/customner/${id}/`; //https://dev.imibot.ai/api/v1/customner/12/
+  }
+
+  createEnterpriseNer() {
+    return this.BACKEND_URL + 'api/v1/customner/'; //https://dev.imibot.ai/api/v1/customner/
+  }
+
+  updateBotSerializer(bot:IBot){
+    let clone = {...bot};
+    let not_keys = [
+      "bot_access_token",
+      "created_at",
+      "created_by",
+      "enterprise_id",
+      "id",
+      "store_bot_versions"
+    ];
+    not_keys.forEach((key)=>{
+      delete clone[key]
+    });
+    return clone;
+  }
+
+
+
 
   //localstorage keys
   LOCALSTORAGE_APP_STATE: string = 'LOCALSTORAGE_APP_STATE';
@@ -251,7 +308,7 @@ export class ConstantsService {
       key: {
         title: 'Concept Key'
       },
-      nerType: {
+      ner_type: {
         title: 'type'
       },
       conflict_policy: {
