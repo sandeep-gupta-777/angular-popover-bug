@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
-import {IBasicInfo} from '../../../../../../interfaces/bot-creation';
-import {SaveBasicInfo} from '../../../ngxs/buildbot.action';
+import {IBasicInfo, ISaveDataManagment} from '../../../../../../interfaces/bot-creation';
+import { SaveDataManagment} from '../../../ngxs/buildbot.action';
 import {Store} from '@ngxs/store';
 
 @Component({
@@ -22,10 +22,10 @@ export class DataManageFormComponent implements OnInit {
   //
   ngAfterViewInit(): void {
     console.log(this.bot);
-    this.f.valueChanges.debounceTime(1000).subscribe((data:IBasicInfo) => {
+    this.f.valueChanges.debounceTime(1000).subscribe((data:ISaveDataManagment) => {
       console.log(this.f);
       if(!this.f.dirty) return;
-      this.store.dispatch(new SaveBasicInfo({data}));
+      this.store.dispatch(new SaveDataManagment({data}));
     });
   }
 

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Store, Select} from '@ngxs/store';
-import {IBot, IBotVersionResult} from '../../../../../interfaces/IBot';
+import {IBot, IBotVersionResult, ICode} from '../../../../../interfaces/IBot';
 import {ServerService} from '../../../../../../server.service';
 import {ConstantsService} from '../../../../../../constants.service';
 import {SaveVersionInfoInBot} from '../../../../../view-bots/ngxs/view-bot.action';
@@ -9,6 +9,8 @@ import { ViewBotStateModel } from '../../../../../view-bots/ngxs/view-bot.state'
 import { Observable } from '../../../../../../../../node_modules/rxjs';
 import {IHeaderData} from '../../../../../../../interfaces/header-data';
 import {UtilityService} from '../../../../../../utility.service';
+import { Router, ActivatedRoute } from '../../../../../../../../node_modules/@angular/router';
+import { IBotCreationState } from '../../../../ngxs/buildbot.state';
 
 
 @Component({
@@ -20,26 +22,44 @@ export class CodeInputComponent implements OnInit {
 
   activeTab: string = 'dfTemplate';
   @Select() botlist$: Observable<ViewBotStateModel>;
+  @Select() botcreationstate$: Observable<IBotCreationState>;
   @Input() bot: IBot;
   editorCode;
   showVersionList:false;
   activeVersion;
   selectedVersion;
+  code:ICode;
+  intentList: any[] = [
+    {
+      "name": "Douglas  Pace"
+    },
+    {
+      "name": "Mcleod  Mueller"
+    },
+    {
+      "name": "Day  Meyers"
+    },
+    {
+      "name": "Aguirre  Ellis"
+    },
+    {
+      "name": "Cook  Tyson"
+    }
+  ];
   constructor(
 
     private store:Store,
     private serverService:ServerService,
     private constantsService:ConstantsService,
-    private utilityService:UtilityService
+    private utilityService:UtilityService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    // this.editorCode = this.bot.dfTemplate;
-    // this.dfTemplate = this.bot.dfTemplate;
-    // this.dfRules = this.bot.dfRules;
-    // this.generationRules = this.bot.generationRules;
-    // this.generationTemplates = this.bot.generationTemplates;
-
+    this.botcreationstate$.subscribe((value)=>{
+      this.code = value.codeBased.code;       
+    })
     // this.workflows = this.timePeriod.workflows;
     let url= this.constantsService.getAllVersionsByBotId();//comperror
     let botId = this.bot.id;
@@ -58,9 +78,11 @@ export class CodeInputComponent implements OnInit {
         this.activeVersion = activeVersion;
         if (!this.selectedVersion) {
           this.selectedVersion = activeVersion;
-          this.tabClicked('dfTemplate');
+          this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab') || 'dfTemplate' 
+          this.tabClicked(this.activeTab);
           };
-      }, (err) => { console.log(err) })
+      }, (err) => { console.log(err) });
+      
 
   }
   async openFile(inputEl) {
@@ -68,28 +90,51 @@ export class CodeInputComponent implements OnInit {
     this.editorCode = await this.utilityService.readInputFileAsText(inputEl);
   }
 
+  // tabClicked(activeTab: string) {
+  //   console.log('tab clicked');
+  //   this.activeTab = activeTab;
+  //   if (this.selectedVersion) {
+  //     if (this.activeTab === 'dfTemplate') {
+  //       this.editorCode = this.selectedVersion.df_template;
+  //     } else if (this.activeTab === 'dfRules') {
+  //       this.editorCode = this.selectedVersion.df_rules;
+  //     } else if (this.activeTab === 'generationRules') {
+  //       this.editorCode = this.selectedVersion.generation_rules;
+  //     } else if (this.activeTab === 'generationTemplates') {
+  //       this.editorCode = this.selectedVersion.generation_templates;
+  //     } else if (this.activeTab === 'workflows') {
+  //       this.editorCode = this.selectedVersion.workflow;
+  //     }
+  //     console.log(this.editorCode);
+  //   }
+  //   this.router.navigate(['core/botdetail/codebased/',this.bot.id], {queryParams:{'code-tab':activeTab}, queryParamsHandling:'merge', replaceUrl:true});
+  // }
+
+
+// for code here
   tabClicked(activeTab: string) {
     console.log('tab clicked');
     this.activeTab = activeTab;
-    if (this.selectedVersion) {
+    if (this.code) {
       if (this.activeTab === 'dfTemplate') {
-        this.editorCode = this.selectedVersion.df_template;
+        this.editorCode = this.code.df_template;
       } else if (this.activeTab === 'dfRules') {
-        this.editorCode = this.selectedVersion.df_rules;
+        this.editorCode = this.code.df_rules;
       } else if (this.activeTab === 'generationRules') {
-        this.editorCode = this.selectedVersion.generation_rules;
+        this.editorCode = this.code.generation_rules;
       } else if (this.activeTab === 'generationTemplates') {
-        this.editorCode = this.selectedVersion.generation_templates;
+        this.editorCode = this.code.generation_templates;
       } else if (this.activeTab === 'workflows') {
-        this.editorCode = this.selectedVersion.workflow;
+        this.editorCode = this.code.workflow;
       }
       console.log(this.editorCode);
     }
+    this.router.navigate(['core/botdetail/codebased/',this.bot.id], {queryParams:{'code-tab':activeTab}, queryParamsHandling:'merge', replaceUrl:true});
   }
 
-  saveText(code:string){
-    let objectTobeSaved = {};
-    objectTobeSaved[this.activeTab] = code;
+  saveText(codeStr:string){
+    let objectTobeSaved = {code:{}};
+    objectTobeSaved.code[this.activeTab] = codeStr ;
     this.store.dispatch([
       new SaveCodeInfo({data: objectTobeSaved})
     ])

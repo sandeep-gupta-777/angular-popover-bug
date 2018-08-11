@@ -9,7 +9,7 @@
 <ng-template #template>
   <div class="row" style="width: 100%">
     <div class="col-12">
-      <app-session-detail-model [sessionData]="selectedRow_Session"></app-session-detail-model>
+      <app-session-detail-model [sessionId]="selectedRow_Session.id" [bot]="bot" [finalDfState]="selectedRow_Session.df_state" [sessionDataStore]="selectedRow_Session.data_store"></app-session-detail-model>
     </div>
   </div>
 </ng-template>

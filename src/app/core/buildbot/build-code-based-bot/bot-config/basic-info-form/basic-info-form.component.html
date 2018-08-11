@@ -13,14 +13,14 @@
 
       <div class="form-group">
         <label for="alterEgo">Bot Logo Url</label>
-        <input ngModel="{{bot.logo}}" name="botLogo" type="text" class="form-control" placeholder="URL for the Bot Logo/Brand Image" id="alterEgo">
+        <input ngModel="{{bot.logo}}" name="logo" type="text" class="form-control" placeholder="URL for the Bot Logo/Brand Image" id="alterEgo">
       </div>
 
     </div>
     <div class="col-5">
       <div class="form-group">
         <label for="name">Unique Name</label>
-        <input [(ngModel)]="bot.bot_unique_name"  name="botUniqueName" type="text" class="form-control" placeholder="Bot Unique Name (non-editable after Bot creation)" id="name" required>
+        <input [(ngModel)]="bot.bot_unique_name"  name="bot_unique_name" type="text" class="form-control" placeholder="Bot Unique Name (non-editable after Bot creation)" id="name" required>
       </div>
 
 

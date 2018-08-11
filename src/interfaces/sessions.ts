@@ -1,17 +1,15 @@
-export interface IMeta { 
-  "limit": number, 
-  "next": null, 
-  "offset": number, 
-  "previous": null, 
-  "total_count": number 
-}
+import { IMeta } from "../app/core/interfaces/meta";
+
 
 export interface ISessionMessageItem{
   "bot_id": number,
   "consumer_id": number,
   "created_at": string,
+  "generated_df": {},
+  "generated_msg": Array<any>,
+  "generated_msg_string": string,
   "id": number,
-  "message": string,
+  "message": Array<any>,
   "message_store": {},
   "platform": string,
   "resource_uri": string,

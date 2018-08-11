@@ -89,6 +89,9 @@ export class ConstantsService {
   getTotalSessionsUrl() {
     return this.BACKEND_URL + 'analytics/totalSessions'; //https://dev.imibot.ai/analytics/totalSessions
   }
+  getSessionsMessageUrl(room_id: number) {
+    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}`; //https://dev.imibot.ai/api/v1/message/?room_id=60   
+  }
 
   getTotalMessagesUrl() {
     return this.BACKEND_URL + 'analytics/totalMessages'; //https://dev.imibot.ai/analytics/totalMessages
@@ -153,8 +156,8 @@ export class ConstantsService {
     return this.BACKEND_URL + 'bottestcases/bot/' + id; //https://dev.imibot.ai/bottestcases/bot/59e055773b6219000ca825ba
   }
 
-  getBotConsumerUrl(id: string, pageNumber: number, pageSize: number) {
-    return this.BACKEND_URL + `consumers/bot/${id}?page=${pageNumber}&pageSize=${pageSize}`; //https://dev.imibot.ai/consumers/bot/59e055773b6219000ca825ba?page=1&pageSize=10
+  getBotConsumerUrl(limit: number, offset: number) {
+    return this.BACKEND_URL + `api/v1/consumer/?limit=${limit}&offset=${offset}`; //https://localhost:8000/api/v1/consumer/?limit=1&offset=0
   }
 
   getBotSessionsUrl(limit: number, offset: number) {
@@ -234,29 +237,29 @@ export class ConstantsService {
   //settings for smart table
   readonly SMART_TABLE_CONSUMER_SETTING = {
     columns: {
-      _id: {//
+      id: {//
         title: 'ID'
       },
-      name: {//
-        title: 'Name'
-      },
+      // name: {//
+      //   title: 'Name'
+      // },
       phone: {//
         title: 'Phone'
       },
-      facebookId: {//
+      facebook_id: {//
         title: 'Facebook Id'
       },
-      skypeId: {//
+      skype_id: {//
         title: 'Skype Id'
       },
-      botId: {
+      bot_id: {
         title: 'U Id'
       },
       email: {//
         title: 'Email'
       },
-      created_at: {//
-        title: 'Created At'
+      updated_at: {//
+        title: 'Updated At'
       },
 
     },

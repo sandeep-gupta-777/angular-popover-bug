@@ -185,3 +185,21 @@ export interface IBotVersionData  {
 //   /*custom, maybe wrong*/
 //   cmsurl:string,
 // }
+export interface ICodeData {
+  "code": ICode
+}
+
+export interface ICode {
+  // "bot_id": number,
+  "comment"? : string,
+  "df_rules"? : string,
+  "df_template"? : string,
+  "generation_rules"? : string,
+  "generation_templates" ?: string,
+  "version"?: number,
+  "workflow"? : string
+}
+
+export interface IBotCreation extends IBot,ICodeData {
+  
+}

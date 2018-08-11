@@ -164,7 +164,7 @@
     <!--</div>-->
     <div class="col-12 mt-3">
       <!--<app-consumers [id]="(bot$|async)._id"></app-consumers>-->
-      <app-consumers></app-consumers>
+      <app-consumers [id]="(bot$|async).id" [bot]="(bot$|async)"></app-consumers>
     </div>
   </div>
 
@@ -329,12 +329,12 @@
     <app-bot-testing [id]="bot_id"></app-bot-testing>
   </div>
 
-  <div class="col-12" *ngIf="selectedTab==='testing'">
-    <app-bot-sessions [id]="bot_id"></app-bot-sessions>
+  <div class="col-12" *ngIf="selectedTab==='sessions'">
+    <app-bot-sessions [id]="(bot$|async).id" [bot]="(bot$|async)"></app-bot-sessions>
   </div>
 
   <div class="col-12" *ngIf="selectedTab==='consumer'">
-    <app-consumers [id]="bot_id"></app-consumers>
+    <app-consumers [id]="(bot$|async).id" [bot]="(bot$|async)"></app-consumers>
   </div>
 
 </div>

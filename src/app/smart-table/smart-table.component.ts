@@ -100,8 +100,7 @@ export class SmartTableComponent implements OnInit {
   //   },
   // ];
 
-  @Input() set data(value) {
-    // debugger;
+  @Input() set data(value){
     this._data = value;
     this.totalPageCount = Math.ceil((value && value.length) / this.recordsPerPage);
     this.source.load(this._data);
