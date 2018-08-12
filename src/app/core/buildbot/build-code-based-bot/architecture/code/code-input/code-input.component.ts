@@ -59,9 +59,6 @@ export class CodeInputComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.botcreationstate$.subscribe((value)=>{
-      this.code = value.codeBased.code;
-    });
     // this.workflows = this.timePeriod.workflows;
     let url= this.constantsService.getAllVersionsByBotId();//comperror
     let botId = this.bot.id;

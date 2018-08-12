@@ -10,12 +10,12 @@ import {
 } from '../../../../interfaces/bot-creation';
 import {
   SaveAvatorInfo,
-  SaveBasicInfo,
+  SaveNewBotInfo_CodeBased,
   SaveDataManagment,
   SaveCodeInfo,
   SaveCustomnersInfo,
   SaveIntegrationInfo,
-  SavePipeLineInfo,
+  SavePipeLineInfo, SaveNewBotInfo_PipelineBased,
 } from './buildbot.action';
 import {ConstantsService} from '../../../constants.service';
 import {buildPath} from 'selenium-webdriver/http';
@@ -41,13 +41,27 @@ export class BotCreationStateReducer {
   constructor(private constantsService: ConstantsService) {
   }
 
-  @Action(SaveBasicInfo)
-  saveBasicInfo({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveBasicInfo) {
+  @Action(SaveNewBotInfo_CodeBased)
+  saveBasicInfo({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveNewBotInfo_CodeBased) {
     let state: IBotCreationState = getState();
     let x = {
       ...state,
       codeBased: {
         ...state.codeBased,
+        ...payload.data
+      }
+    };
+    console.log(x);
+    setState(x);
+  }
+
+  @Action(SaveNewBotInfo_PipelineBased)
+  saveNewBotInfoPipelineBased({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveNewBotInfo_PipelineBased) {
+    let state: IBotCreationState = getState();
+    let x = {
+      ...state,
+      pipeLineBased: {
+        ...state.pipeLineBased,
         ...payload.data
       }
     };

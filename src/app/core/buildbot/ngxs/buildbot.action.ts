@@ -2,8 +2,12 @@ import {IAvatarList, IBasicInfo, ICustomners, IIntegration, IPipeline, ISaveData
 import {IAIModule} from '../../../../interfaces/ai-module';
 import {IBot, ICodeData} from '../../interfaces/IBot';
 
-export class SaveBasicInfo {
-  static readonly type = '[build-bots] set basic info';
+export class SaveNewBotInfo_CodeBased {
+  static readonly type = '[build-bots] set new codebased bot info';
+  constructor(public payload: { data: Partial<IBot> }) {}
+}
+export class SaveNewBotInfo_PipelineBased {
+  static readonly type = '[build-bots] set new pipeline based bot info';
   constructor(public payload: { data: Partial<IBot> }) {}
 }
 export class SaveDataManagment {

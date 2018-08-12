@@ -27,7 +27,8 @@ export class KnowledgeBaseComponent implements OnInit {
   @Output() updateOrSaveParentNers$ = new EventEmitter();
   loggeduser: { user: IUser };
   settings;
-  codeText: string;
+  codeTextOutPutFromCodeEditor: string;
+  codeTextInputToCodeEditor: string;
   showTable = true;
   /*new concept*/
   key;
@@ -65,12 +66,16 @@ export class KnowledgeBaseComponent implements OnInit {
     this.loggeduser$.subscribe((value) => this.loggeduser = value);
   }
 
+  textChanged(codeText){
+    this.codeTextOutPutFromCodeEditor = codeText;
+  }
+
   updateOrSaveConcept() {
 
     let body:ICustomNerItem;
     // debugger;
     if (this.nerType === 'single_match' || this.nerType === 'double_match' || this.nerType === 'with_metadata') {
-      body = {values: this.codeText.split(',')};
+      body = {values: this.codeTextOutPutFromCodeEditor.split(',')};
     } else if (this.nerType === 'database') {
       // body =
       /*TODO: implement for databse*/
@@ -152,7 +157,7 @@ export class KnowledgeBaseComponent implements OnInit {
   }
 
   async openFile(inputEl) {
-    this.codeText = await this.utilityService.readInputFileAsText(inputEl);
+    this.codeTextInputToCodeEditor = await this.utilityService.readInputFileAsText(inputEl);
   }
 
   rowClicked($event) {
@@ -160,7 +165,7 @@ export class KnowledgeBaseComponent implements OnInit {
     // debugger;
     this.selectedRowData = $event.data;
     this.showTable = false;
-    this.codeText = this.selectedRowData.values && this.selectedRowData.values.join();
+    this.codeTextInputToCodeEditor = this.selectedRowData.values && this.selectedRowData.values.join();
     this.nerType = this.selectedRowData.ner_type;
     this.key = this.selectedRowData.key;
     this.conflict_policy = this.selectedRowData.conflict_policy;
@@ -171,7 +176,7 @@ export class KnowledgeBaseComponent implements OnInit {
       this.handontableData = arr.map((value) => {
         return [value.key, value.payload, value.title];
       });
-      this.codeText = null;
+      this.codeTextInputToCodeEditor = null;
       console.log(arr);
     } else {
       this.handontableData = null;
@@ -183,7 +188,7 @@ export class KnowledgeBaseComponent implements OnInit {
     this.nerType = 'single_match';
     this.key = '';
     this.conflict_policy = 'override';
-    this.codeText = '';
+    this.codeTextInputToCodeEditor = '';
     this.selectedRowData = {};
 
     /*show create ner stuff*/

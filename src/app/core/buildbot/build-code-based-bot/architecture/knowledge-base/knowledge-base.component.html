@@ -9,6 +9,8 @@
   </div>
 </div>
 
+
+
 <ng-template #rowDetails>
   <div class="row create-concept-row">
     <div class="col-12 d-flex justify-content-between">
@@ -56,7 +58,7 @@
           </label>
           <!--<input type="file" id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)' #uploadInput>-->
         </div>
-        <app-code-editor (textChangedEvent)="codeText = $event " [text]="codeText"></app-code-editor>
+        <app-code-editor (textChangedEvent)="textChanged($event)" [text]="codeTextInputToCodeEditor"></app-code-editor>
       </div>
     </div>
   </div>

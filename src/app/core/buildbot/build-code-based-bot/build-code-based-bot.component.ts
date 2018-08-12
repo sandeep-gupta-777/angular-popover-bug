@@ -10,7 +10,7 @@ import { UtilityService } from '../../../utility.service';
 import { IOverviewInfoResponse } from '../../../../interfaces/overview-info';
 import { BotSessionsComponent } from '../../bot-detail/bot-sessions/bot-sessions.component';
 import {ConstantsService} from '../../../constants.service';
-import {SaveBasicInfo} from '../ngxs/buildbot.action';
+import {SaveNewBotInfo_CodeBased} from '../ngxs/buildbot.action';
 
 @Component({
   selector: 'app-build-code-based-bot',
@@ -78,7 +78,7 @@ export class BuildCodeBasedBotComponent implements OnInit {
   datachanged(data:Partial<IBot>){
     // debugger;
     this.store.dispatch([
-      new SaveBasicInfo({data:data})
+      new SaveNewBotInfo_CodeBased({data:data})
     ]);
   }
 

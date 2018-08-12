@@ -2,7 +2,7 @@ import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild
 import {IBot} from '../../../../interfaces/IBot';
 import 'rxjs/add/operator/debounceTime';
 import {Store} from '@ngxs/store';
-import {SaveBasicInfo} from '../../../ngxs/buildbot.action';
+import {SaveNewBotInfo_CodeBased} from '../../../ngxs/buildbot.action';
 import {IBasicInfo} from '../../../../../../interfaces/bot-creation';
 
 @Component({

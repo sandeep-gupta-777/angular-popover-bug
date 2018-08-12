@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 declare var CodeMirror: any;
 
 @Component({
@@ -10,24 +10,32 @@ export class CodeEditorComponent implements OnInit {
 
   editor;
   _text;
+  @ViewChild('f') codeEditor:ElementRef;
   constructor() { }
   @Input() set text(value){
+    if(this._text===value) return;
     debugger;
-    this.editor.setValue(value);
+    this._text = value;
+    this.editor && this.editor.setValue(value);
   }
   @Output() textChangedEvent:EventEmitter<string> = new EventEmitter<string>();
   ngOnInit() {
     debugger;
-    let editor = document.getElementById('code-editor-text-area');
+    let editor = this.codeEditor.nativeElement;
     this.editor = new CodeMirror.fromTextArea(editor, {
       lineNumbers: true,
       mode: "python",
       theme:'cobalt',
+      rtlMoveVisually:false,
+      direction: "ltr",
+      moveInputWithCursor:false
     });
     this.editor.on('change', editor => {
+      debugger;
       this.textChangedEvent.emit(editor.getValue())
     });
-    this.editor.setValue(this.text);
+
+    this.text && this.editor.setValue(this.text);
   }
 
   options:any = {maxLines: 20, printMargin: false};

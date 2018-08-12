@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {ViewBotStateModel} from '../../../view-bots/ngxs/view-bot.state';
 import {IBot} from '../../../interfaces/IBot';
 import {IBasicInfo} from '../../../../../interfaces/bot-creation';
-import {SaveBasicInfo} from '../../../buildbot/ngxs/buildbot.action';
+import {SaveNewBotInfo_CodeBased} from '../../../buildbot/ngxs/buildbot.action';
 import {IReportItem} from '../../../../../interfaces/report';
 import {SetReportFormAction} from '../../ngxs/reports.action';
 import {NgForm} from '@angular/forms';

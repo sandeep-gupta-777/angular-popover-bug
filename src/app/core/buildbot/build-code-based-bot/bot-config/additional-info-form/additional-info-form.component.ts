@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
 import {IBasicInfo} from '../../../../../../interfaces/bot-creation';
-import {SaveBasicInfo} from '../../../ngxs/buildbot.action';
+import {SaveNewBotInfo_CodeBased} from '../../../ngxs/buildbot.action';
 import {Store} from '@ngxs/store';
 
 @Component({
