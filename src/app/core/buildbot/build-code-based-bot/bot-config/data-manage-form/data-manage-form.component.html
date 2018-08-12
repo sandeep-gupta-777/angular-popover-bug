@@ -4,23 +4,18 @@
     <div class="col-5">
       <div class="form-group">
         <label for="name">Data retention period [days]</label>
-        <input ngModel="{{bot.data_persistence_period}}" name="data_persistence_period" type="text" class="form-control" placeholder="Time until Data will retain((in days)" id="name" required>
+        <input [ngModel]="bot.data_persistence_period" name="data_persistence_period" type="text" class="form-control" placeholder="Time until Data will retain((in days)" id="name" required>
       </div>
 
       <div class="form-group">
         <label for="alterEgo">Consent disclaimer message</label>
-        <input ngModel="{{bot.consent_message}}" name="consentMessage" type="text" class="form-control" placeholder="Consent Message" id="alterEgo">
+        <input [ngModel]="bot.consent_message" name="consent_message" type="text" class="form-control" placeholder="Consent Message" id="alterEgo">
       </div>
 
-      <!--<div class="form-group">-->
-        <!--<label for="alterEgo">Advanced Data Protection</label>-->
-        <!--<ui-switch class="pt-2" ngModel="{{bot.advanced_data_protection}}"  name="advanced_data_protection" style="border:none" size="small"></ui-switch>-->
-        <!--&lt;!&ndash;<input ngModel="{{bot.advanced_data_protection}}" name="advanced_data_protection" type="text" class="form-control" placeholder="Endpoint URL to fetch consent config" id="alterEgo">&ndash;&gt;-->
-      <!--</div>-->
       <div class="form-group">
         <div class="form-control d-flex align-items-center justify-content-between pr-5">
           <label class="pr-2">Advanced Data Protection</label>
-          <ui-switch class="pt-2" ngModel="{{bot.advanced_data_protection}}"  name="advanced_data_protection" style="border:none" size="small"></ui-switch>
+          <ui-switch class="pt-2" [ngModel]="bot.advanced_data_protection"  name="advanced_data_protection" style="border:none" size="small"></ui-switch>
         </div>
       </div>
 <!---->
@@ -29,7 +24,7 @@
       <div class="form-group">
         <div class="form-control d-flex align-items-center justify-content-between pr-5">
           <label class="pr-2">Allow anonymization?</label>
-          <ui-switch class="pt-2" ngModel="{{bot.allow_anonymization}}"  name="allow_anonymization" style="border:none" size="small"></ui-switch>
+          <ui-switch class="pt-2" [ngModel]="bot.allow_anonymization"  name="allow_anonymization" style="border:none" size="small"></ui-switch>
         </div>
       </div>
 

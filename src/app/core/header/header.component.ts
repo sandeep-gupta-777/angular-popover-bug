@@ -7,6 +7,8 @@ import {ResetStoreToDefault} from '../../ngxs/app.action';
 import {ResetChatState} from '../../chat/ngxs/chat.action';
 import {ResetBotListAction} from '../view-bots/ngxs/view-bot.action';
 import {ResetAuthToDefaultState} from '../../auth/ngxs/auth.action';
+import {ConstantsService} from '../../constants.service';
+import {ServerService} from '../../server.service';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +18,11 @@ import {ResetAuthToDefaultState} from '../../auth/ngxs/auth.action';
 export class HeaderComponent implements OnInit {
 
   @Select() loggeduser$: Observable<{user:IUser}>;
-  constructor(private store: Store, private router:Router) { }
+  constructor(
+    private store: Store,
+    private serverService: ServerService,
+    private constantsService: ConstantsService,
+    private router:Router) { }
 
   ngOnInit() {
     this.loggeduser$.subscribe((value)=>{
@@ -31,6 +37,7 @@ export class HeaderComponent implements OnInit {
       new ResetBotListAction(),
       new ResetAuthToDefaultState()
     ]);
+    this.serverService.removeTokens();
     this.router.navigate(['auth','login']);
 
   }

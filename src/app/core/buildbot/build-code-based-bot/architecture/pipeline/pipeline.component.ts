@@ -1,4 +1,4 @@
-import {Component, Input, IterableDiffers, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, IterableDiffers, OnInit, Output} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {IBot} from '../../../../interfaces/IBot';
 import {IAIModule} from '../../../../../../interfaces/ai-module';
@@ -23,6 +23,7 @@ export class PipelineComponent implements OnInit {
   aiModules: IAIModule[] = [];
   searchKeyword: string;
   purpose:any;
+  @Output() datachanged$ = new EventEmitter();
 
   constructor(
     private aimService: AimService,
@@ -36,6 +37,7 @@ export class PipelineComponent implements OnInit {
   ngOnInit() {
     this.purpose = this.activatedRoute.snapshot.data;
     this.pipeLine = this.bot && this.bot.pipelines || [];
+
     this.aimService.getModules()
       .subscribe((value: IAIModule[]) => {
         this.aiModules = value;
@@ -49,7 +51,6 @@ export class PipelineComponent implements OnInit {
 
   ngDoCheck() {
     if (!this.pipeLine || this.pipeLine.length === 0) return;
-    console.log('ngdocheck here', this.aiModules);
     let changes = this.iterableDiffer.diff(this.pipeLine);
     if (changes) {
       if(this.purpose['buildBot']){
@@ -58,9 +59,10 @@ export class PipelineComponent implements OnInit {
         ]);
         return;
       }
-      this.store.dispatch([
-        new SavePipeLineInfo({data: {pipeline: this.pipeLine, unselectedPipeline: this.aiModules}})
-      ]);
+      this.datachanged$.emit({data: {pipeline: this.pipeLine, unselectedPipeline: this.aiModules}});
+      // this.store.dispatch([
+      //   new SavePipeLineInfo({data: {pipeline: this.pipeLine, unselectedPipeline: this.aiModules}})
+      // ]);
     }
   }
 }

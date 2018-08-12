@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Store, Select} from '@ngxs/store';
 import {IBot, IBotVersionResult, ICode} from '../../../../../interfaces/IBot';
 import {ServerService} from '../../../../../../server.service';
@@ -24,6 +24,8 @@ export class CodeInputComponent implements OnInit {
   @Select() botlist$: Observable<ViewBotStateModel>;
   @Select() botcreationstate$: Observable<IBotCreationState>;
   @Input() bot: IBot;
+  @Output() datachanged$ = new EventEmitter();
+
   editorCode;
   showVersionList:false;
   activeVersion;
@@ -58,8 +60,8 @@ export class CodeInputComponent implements OnInit {
 
   ngOnInit() {
     this.botcreationstate$.subscribe((value)=>{
-      this.code = value.codeBased.code;       
-    })
+      this.code = value.codeBased.code;
+    });
     // this.workflows = this.timePeriod.workflows;
     let url= this.constantsService.getAllVersionsByBotId();//comperror
     let botId = this.bot.id;
@@ -78,11 +80,11 @@ export class CodeInputComponent implements OnInit {
         this.activeVersion = activeVersion;
         if (!this.selectedVersion) {
           this.selectedVersion = activeVersion;
-          this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab') || 'dfTemplate' 
+          this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab') || 'dfTemplate'
           this.tabClicked(this.activeTab);
           };
       }, (err) => { console.log(err) });
-      
+
 
   }
   async openFile(inputEl) {
@@ -135,9 +137,7 @@ export class CodeInputComponent implements OnInit {
   saveText(codeStr:string){
     let objectTobeSaved = {code:{}};
     objectTobeSaved.code[this.activeTab] = codeStr ;
-    this.store.dispatch([
-      new SaveCodeInfo({data: objectTobeSaved})
-    ])
+    this.datachanged$.emit({data: objectTobeSaved});
   }
 
   saveSelectedVersion(){

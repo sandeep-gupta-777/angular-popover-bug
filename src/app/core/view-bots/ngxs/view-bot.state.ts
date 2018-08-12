@@ -1,5 +1,11 @@
 import {Action, Selector, State, StateContext} from '@ngxs/store';
-import {ResetBotListAction, SetCodeBasedBotListAction, SetPipeLineBasedBotListAction, SaveVersionInfoInBot} from './view-bot.action';
+import {
+  ResetBotListAction,
+  SetCodeBasedBotListAction,
+  SetPipeLineBasedBotListAction,
+  SaveVersionInfoInBot,
+  SaveInfoInBotInBotList
+} from './view-bot.action';
 import {IBot} from '../../interfaces/IBot';
 import {ActivatedRoute} from '@angular/router';
 
@@ -53,6 +59,19 @@ export class ViewBotStateReducer{
      state.pipelineBasedBotList.find((bot)=>bot.id === payload.botId);
 
     bot.store_bot_versions = payload.data;
+    setState({...state});
+  }
+
+  @Action(SaveInfoInBotInBotList)
+  SaveVersionInfoInBot({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>,
+     {payload}: SaveInfoInBotInBotList) {
+    let state: ViewBotStateModel = getState();
+
+    let bot:IBot =  state.codeBasedBotList.find((bot)=>bot.id === payload.botId) ||
+     state.pipelineBasedBotList.find((bot)=>bot.id === payload.botId);
+    // debugger;
+
+    Object.assign(bot,payload.data);
     setState({...state});
   }
 

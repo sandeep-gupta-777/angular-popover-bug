@@ -24,6 +24,7 @@ export class ServerService {
   private AUTH_TOKEN: string = null;
   private isLoggedIn: boolean = false;
 
+
   constructor(
     private httpClient: HttpClient,
     private utilityService: UtilityService,
@@ -37,6 +38,10 @@ export class ServerService {
     });
   };
 
+  removeTokens(){
+    this.X_AXIS_TOKEN = null;
+    this.AUTH_TOKEN = null;
+  }
 
   createHeaders(headerData?: any): HttpHeaders {
     let headers = new HttpHeaders();

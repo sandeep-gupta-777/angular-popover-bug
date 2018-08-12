@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="(data$|async) as data">
   <div class="row">
     <div class="col-12 header d-flex align-items-center">
       <div class="heading mb-0">
@@ -11,7 +11,7 @@
     <!--q1 starts-->
     <div class="col-6 border-right border-bottom pb-5">
       <div class="heading mb-12">Total Session</div>
-      <div class="font-20 mb-32">245k</div>
+      <div class="font-20 mb-32">{{data.totalSessions}}</div>
       <div class="d-flex justify-content-between font-20 mb-2">
         <div>40%</div>
         <div>20%</div>
@@ -27,7 +27,7 @@
     <!--q2 starts-->
     <div class="col-6 border-bottom">
       <div class="heading mb-12">Total Users</div>
-      <div class="font-26 mb-32">127k</div>
+      <div class="font-26 mb-32">{{data.totalUsers}}</div>
       <div class="d-flex justify-content-between mb-2">
         <div class="d-flex flex-column align-items-center">
           <div class="font-20 mb-2">40%</div>
@@ -46,20 +46,18 @@
     <!--q3 starts-->
     <div class="col-6 border-right q3">
       <div class="row m-0 ">
-        <div class="col-6 p-0 heading mb-12">Avg time spent on bot</div>
-        <div class="col-6 p-0 heading mb-12">
-          <div>Avg session per user</div>
-        </div>
+        <div class="col-6 p-0 heading mb-12">Avg time spent on bot(h:m)</div>
+        <div class="col-6 p-0 heading mb-12">Avg session per user</div>
       </div>
       <div class="row m-0 mb-32">
-        <div class="col-6 p-0 font-26">420</div>
+        <div class="col-6 p-0 font-26">{{data.averageTime.hours+':'+data.averageTime.minutes}}</div>
         <div class="col-6 p-0 font-26">
           <div>2.4</div>
         </div>
       </div>
       <div class="row m-0">
-        <div class="col-12 p-0 heading mb-12">Total time spent</div>
-        <div class="col-12 p-0 font-26">156</div>
+        <div class="col-12 p-0 heading mb-12">Total time spent(h:m)</div>
+        <div class="col-12 p-0 font-26">{{data.totalTime.hours+':'+data.totalTime.minutes}}</div>
       </div>
     </div>
 
@@ -72,11 +70,11 @@
             <div>Top template keys triggered</div>
         </div>
         <div class="row m-0">
-          <div class="col-5 p-0 d-flex justify-content-between">
+          <div class="col-5 mb-32 p-0 d-flex justify-content-between">
             <span>Do_you_deliver</span>
             <span class="font-20">2%</span>
           </div>
-          <div class="col-1"></div>
+          <div class="col-1 mb-32"></div>
           <div class="col-6 p-0 d-flex justify-content-between">
             <span>Do_you_deliver</span>
             <span class="font-20">2%</span>

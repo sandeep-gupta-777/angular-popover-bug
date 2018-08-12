@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
 import {IBasicInfo} from '../../../../../../interfaces/bot-creation';
 import {SaveBasicInfo} from '../../../ngxs/buildbot.action';
@@ -14,6 +14,8 @@ export class AdditionalInfoFormComponent implements OnInit {
 
   @Input() bot: IBot;
   @ViewChild('form') f: HTMLFormElement;
+  @Output() datachanged$ = new EventEmitter<Partial<IBot>>();
+
 
   constructor(private store: Store) {
   }
@@ -27,7 +29,8 @@ export class AdditionalInfoFormComponent implements OnInit {
     this.f.valueChanges.debounceTime(1000).subscribe((data: IBasicInfo) => {
       console.log(this.f);
       if (!this.f.dirty) return;
-      this.store.dispatch(new SaveBasicInfo({data}));
+      // this.store.dispatch(new SaveBasicInfo({data}));
+      this.datachanged$.emit(data);
     });
   }
 }

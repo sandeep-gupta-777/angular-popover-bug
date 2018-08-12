@@ -1,6 +1,9 @@
 import {IBot} from '../app/core/interfaces/IBot';
 
-export interface IOverviewInfoResponse {
+export interface IOverviewInfoResponse
+{meta:any, objects:[{output:IOverviewInfo}]}
+
+export interface IOverviewInfo {
   'averageMessages': string,
   'averageTime': {
     'days': number,
@@ -16,6 +19,38 @@ export interface IOverviewInfoResponse {
   },
   'totalUsers': number
 }
+
+
+// x = {
+//   "meta": {
+//     "limit": 20,
+//     "next": null,
+//     "offset": 0,
+//     "previous": null,
+//     "total_count": 1
+//   },
+//   "objects": [
+//     {
+//       "output": {
+//         "averageMessages": "0.0",
+//         "averageTime": {
+//           "days": 0,
+//           "hours": 0,
+//           "minutes": 40
+//         },
+//         "totalMessages": 0,
+//         "totalSessions": 6,
+//         "totalTime": {
+//           "days": 0,
+//           "hours": 4,
+//           "minutes": 0
+//         },
+//         "totalUsers": 1
+//       },
+//       "resource_uri": "/api/v1/analytics/None/"
+//     }
+//   ]
+// }
 
 
 export interface IOverviewInfoPostBody {

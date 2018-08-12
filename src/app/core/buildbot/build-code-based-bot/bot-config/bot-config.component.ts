@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IBot} from '../../../interfaces/IBot';
 import {ActivatedRoute} from '@angular/router';
 
@@ -11,6 +11,7 @@ export class BotConfigComponent implements OnInit {
 
   @Input() bot:IBot;
   activeTab:string = "basic";
+  @Output() datachanged$ = new EventEmitter();
   constructor(private activatedRoute:ActivatedRoute) { }
 
   ngOnInit() {

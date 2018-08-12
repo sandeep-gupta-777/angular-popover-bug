@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
 import 'rxjs/add/operator/debounceTime';
 import {Store} from '@ngxs/store';
@@ -13,20 +13,25 @@ import {IBasicInfo} from '../../../../../../interfaces/bot-creation';
 export class BasicInfoFormComponent implements OnInit, AfterViewInit {
 
   @Input() bot:IBot;
+  @Output() datachanged$ = new EventEmitter<Partial<IBot>>();
   @ViewChild('form') f:HTMLFormElement;
   constructor(private store:Store) {}
 
 
   ngOnInit() {
+
   }
 
   ngAfterViewInit(): void {
     console.log(this.bot);
-    this.f.valueChanges.debounceTime(1000).subscribe((data:IBasicInfo) => {
+    this.f.valueChanges.debounceTime(1000).subscribe((data:Partial<IBot>) => {
       console.log(this.f);
       if(!this.f.dirty) return;
-      this.store.dispatch(new SaveBasicInfo({data}));
+      // this.store.dispatch(new SaveBasicInfo({data:data}));
+      this.datachanged$.emit(data);
     });
   }
 
 }
+
+

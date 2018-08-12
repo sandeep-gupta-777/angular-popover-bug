@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Select } from '@ngxs/store';
+import {Select, Store} from '@ngxs/store';
 import { ViewBotStateReducer } from '../../view-bots/ngxs/view-bot.state';
 import { Observable } from 'rxjs';
 import { IBot } from '../../interfaces/IBot';
@@ -9,6 +9,7 @@ import { IOverviewInfoResponse } from '../../../../interfaces/overview-info';
 import { ServerService } from '../../../server.service';
 import { UtilityService } from '../../../utility.service';
 import { BotSessionsComponent } from '../bot-sessions/bot-sessions.component';
+import {SaveInfoInBotInBotList, SaveVersionInfoInBot} from '../../view-bots/ngxs/view-bot.action';
 
 @Component({
   selector: 'app-code-based-bot-detail',
@@ -34,6 +35,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private serverService: ServerService,
+    private store: Store,
     private utilityService: UtilityService) {
   }
 
@@ -84,6 +86,14 @@ export class CodeBasedBotDetailComponent implements OnInit {
 
   tabChanged(tab: string) {
     this.selectedTab = tab;
+  }
+
+  datachanged(data:IBot){
+    // debugger;
+    this.store.dispatch([
+      new SaveInfoInBotInBotList({data, botId:this.bot_id})
+    ]);
+    console.log(event);
   }
 
 }

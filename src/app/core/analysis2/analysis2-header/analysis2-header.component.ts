@@ -42,7 +42,8 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
       .debounceTime(1000)
       .subscribe((formData)=>{
         if(!this.f.valid) return;
-        let selectedBot:IBot = this.allbotList.find((bot)=>bot.id === this.f.value.botId);
+        let selectedBot:IBot = this.allbotList.find((bot)=>bot.id === Number(this.f.value.botId));
+        debugger;
         let overviewInfo: IOverviewInfoPostBody = {
           selectedBot:selectedBot,
           platform:'web',

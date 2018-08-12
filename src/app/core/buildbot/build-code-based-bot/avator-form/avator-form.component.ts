@@ -1,4 +1,4 @@
-import {Component, Input, IterableDiffers, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, IterableDiffers, OnInit, Output, ViewChild} from '@angular/core';
 import {IAvatar, IAvatarList} from '../../../../../interfaces/bot-creation';
 import {ObjectArrayCrudService} from '../../../../object-array-crud.service';
 import {IBot} from '../../../interfaces/IBot';
@@ -15,7 +15,7 @@ export class AvatorFormComponent implements OnInit {
 
   @Input() bot:IBot;
   @ViewChild('ngForm') f:NgForm;
-  x="sandeep";
+  @Output() datachanged$ = new EventEmitter<Partial<IBot>>();
   iterableDiffer;
   constructor(private _iterableDiffers: IterableDiffers, private store:Store) {
     this.iterableDiffer = this._iterableDiffers.find([]).create(null);
@@ -46,7 +46,8 @@ export class AvatorFormComponent implements OnInit {
     let avatorListToBeSaved:IAvatar[] = this.avatorList.map((value)=>{
       return {...value.avator}
     });
-    this.store.dispatch(new SaveAvatorInfo({data:{avatars:avatorListToBeSaved}}));
+    // this.store.dispatch(new SaveAvatorInfo({data:{avatars:avatorListToBeSaved}}));
+    this.datachanged$.emit({avatars:avatorListToBeSaved});
   }
 
 

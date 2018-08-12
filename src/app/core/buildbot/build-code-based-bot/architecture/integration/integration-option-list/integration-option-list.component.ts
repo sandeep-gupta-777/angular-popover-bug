@@ -1,4 +1,4 @@
-import {AfterContentInit, AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterContentInit, AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Select, Selector, Store} from '@ngxs/store';
 import {IBot, IBotVersionResult} from '../../../../../interfaces/IBot';
 import {IIntegrationOption} from '../../../../../../../interfaces/integration-option';
@@ -22,6 +22,8 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   @Input() bot: IBot;
   @ViewChild('form') f: NgForm;
   @Select() botcreationstate$: Observable<IBotCreationState>;
+  @Output() datachanged$ = new EventEmitter();
+
   routeParent;
 
   constructor(
@@ -71,13 +73,13 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
     });
 
     this.f.valueChanges.debounceTime(1000).subscribe((integrationInfo: IIntegrationOption) => {
-      if (!this.f.dirty) return;
+      // if (!this.f.dirty) return;
 
-
-      if (this.routeParent['buildBot'])
-        this.store.dispatch([
-          new SaveBasicInfo({data: {integrations: integrationInfo}})
-        ]);
+      this.datachanged$.emit({integrations: integrationInfo});
+      // if (this.routeParent['buildBot'])
+      //   this.store.dispatch([
+      //     new SaveBasicInfo({data: {integrations: integrationInfo}})
+      //   ]);
     });
   }
 }

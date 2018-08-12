@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {IBot} from '../../interfaces/IBot';
-import {Select} from '@ngxs/store';
+import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {IBotConfig} from '../../../../interfaces/bot-creation';
 import {IBotCreationState} from '../ngxs/buildbot.state';
@@ -10,6 +10,7 @@ import { UtilityService } from '../../../utility.service';
 import { IOverviewInfoResponse } from '../../../../interfaces/overview-info';
 import { BotSessionsComponent } from '../../bot-detail/bot-sessions/bot-sessions.component';
 import {ConstantsService} from '../../../constants.service';
+import {SaveBasicInfo} from '../ngxs/buildbot.action';
 
 @Component({
   selector: 'app-build-code-based-bot',
@@ -39,6 +40,7 @@ export class BuildCodeBasedBotComponent implements OnInit {
     private serverService: ServerService,
     private utilityService: UtilityService,
     private constantsService: ConstantsService,
+    private store:Store
 
   ) { }
   activeTab:string = 'basic';
@@ -70,8 +72,14 @@ export class BuildCodeBasedBotComponent implements OnInit {
     this.serverService.makePostReq({url:url, body:this.bot})
       .subscribe((value)=>{
         console.log();
-        debugger;
+        // debugger;
       })
+  }
+  datachanged(data:Partial<IBot>){
+    // debugger;
+    this.store.dispatch([
+      new SaveBasicInfo({data:data})
+    ]);
   }
 
 }

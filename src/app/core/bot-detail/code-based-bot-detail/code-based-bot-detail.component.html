@@ -109,7 +109,7 @@
         </div>
       </div>
 
-      <app-bot-config *ngIf="showConfig" [bot]="(bot$|async)"></app-bot-config>
+      <app-bot-config (datachanged$)="datachanged($event)" *ngIf="showConfig" [bot]="(bot$|async)"></app-bot-config>
 
     </div>
   </div>
@@ -312,10 +312,10 @@
         </div>
       </div>
       <div class="p-2" style="width: 85%;">
-        <app-pipeline *ngIf="selectedSideBarTab==='pipeline'" [bot]="bot"></app-pipeline>
-        <app-knowledge-base *ngIf="selectedSideBarTab==='knowledge'" [bot]="(bot$|async)"></app-knowledge-base>
-        <app-code-input *ngIf="selectedSideBarTab==='code'" [bot]="(bot$|async)"></app-code-input>
-        <app-integration-option-list *ngIf="selectedSideBarTab==='integration'"
+        <app-pipeline (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'" [bot]="bot"></app-pipeline>
+        <app-knowledge-base (datachanged$)="datachanged($event)"  *ngIf="selectedSideBarTab==='knowledge'" [bot]="(bot$|async)"></app-knowledge-base>
+        <app-code-input (datachanged$)="datachanged($event)"  *ngIf="selectedSideBarTab==='code'" [bot]="(bot$|async)"></app-code-input>
+        <app-integration-option-list (datachanged$)="datachanged($event)"  *ngIf="selectedSideBarTab==='integration'"
                                      [bot]="(bot$|async)"></app-integration-option-list>
       </div>
 

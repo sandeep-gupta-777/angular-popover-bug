@@ -39,16 +39,16 @@
     <!--todo: make this row independent-->
     <div class="row pl-3">
       <div class="col-12" *ngIf="activeTab === 'basic'">
-        <app-basic-info-form [bot]="bot"></app-basic-info-form>
+        <app-basic-info-form (datachanged$)="datachanged$.emit($event)" [bot]="bot"></app-basic-info-form>
       </div>
       <div class="col-12" *ngIf="activeTab === 'data'">
-        <app-data-manage-form [bot]="bot"></app-data-manage-form>
+        <app-data-manage-form (datachanged$)="datachanged$.emit($event)" [bot]="bot"></app-data-manage-form>
       </div>
       <div class="col-12" *ngIf="activeTab === 'add-info'">
-        <app-additional-info-form [bot]="bot"></app-additional-info-form>
+        <app-additional-info-form (datachanged$)="datachanged$.emit($event)" [bot]="bot"></app-additional-info-form>
       </div>
       <div class="col-12" *ngIf="activeTab === 'avators'">
-        <app-avator-form [bot]="bot"></app-avator-form>
+        <app-avator-form (datachanged$)="datachanged$.emit($event)" [bot]="bot"></app-avator-form>
       </div>
     </div>
     <!--forms end-->

@@ -2,7 +2,7 @@
   <h4 class="m-0">Create Bot</h4>
   <button class="btn btn-theme-primary" (click)="createBot()">Create Bot</button>
 </div>
-<app-bot-config [bot]="bot"></app-bot-config>
+<app-bot-config (datachanged$)="datachanged($event)" [bot]="bot"></app-bot-config>
 
 <div class="row m-0 mt-3 p-3 bg-white">
   <div class="col-12">
@@ -64,7 +64,7 @@
         </div>
 
         <!--<app-code-input *ngIf="selectedSideBarTab==='code'"></app-code-input>-->
-        <app-integration-option-list *ngIf="selectedSideBarTab==='integration'"></app-integration-option-list>
+        <app-integration-option-list (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='integration'"></app-integration-option-list>
       </div>
 
     </div>

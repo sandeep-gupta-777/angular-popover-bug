@@ -20,3 +20,8 @@ export class SaveVersionInfoInBot {
   static readonly type = '[build-bots] set version info in bot';
   constructor(public payload: { data: IBotVersionData[], botId:number }) {}
 }
+
+export class SaveInfoInBotInBotList {
+  static readonly type = '[build-bots] set info in bot inj botlist';
+  constructor(public payload: { data: IBot, botId:number }) {}
+}
