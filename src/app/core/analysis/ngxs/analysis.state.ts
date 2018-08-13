@@ -1,6 +1,6 @@
 import {Action, State, StateContext} from '@ngxs/store';
 import {SetOverViewInfo} from './analysis.action';
-import {IOverviewInfoPostBody} from '../../../../interfaces/overview-info';
+import {IOverviewInfoPostBody} from '../../../../interfaces/Analytics2/overview-info';
 
 export interface IAnalysisState {
   overviewinfo:IOverviewInfoPostBody,
@@ -15,11 +15,11 @@ export interface IAnalysisState {
 
 export class AnalysisStateReducer {
 
-  @Action(SetOverViewInfo)
-  setOverViewInfo({patchState, setState, getState, dispatch}: StateContext<IAnalysisState>, {payload}: SetOverViewInfo) {
-    let state:IAnalysisState = getState();
-    setState({...state, overviewinfo:payload.overviewInfo});
-  }
+  // @Action(SetOverViewInfo)
+  // setOverViewInfo({patchState, setState, getState, dispatch}: StateContext<IAnalysisState>, {payload}: SetOverViewInfo) {
+  //   let state:IAnalysisState = getState();
+  //   // setState({...state, overviewinfo:payload.overviewInfo});
+  // }
 
 }
 

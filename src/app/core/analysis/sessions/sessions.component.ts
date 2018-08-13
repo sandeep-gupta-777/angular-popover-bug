@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {IOverviewInfoPostBody} from '../../../../interfaces/overview-info';
+import {IOverviewInfoPostBody} from '../../../../interfaces/Analytics2/overview-info';
 import {Observable} from 'rxjs';
 import {ConstantsService} from '../../../constants.service';
 import {IAnalysisState} from '../ngxs/analysis.state';

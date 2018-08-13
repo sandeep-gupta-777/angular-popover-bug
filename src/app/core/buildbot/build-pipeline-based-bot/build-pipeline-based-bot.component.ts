@@ -8,7 +8,7 @@ import {UtilityService} from '../../../utility.service';
 import {ServerService} from '../../../server.service';
 import {Observable} from 'rxjs';
 import {IBotCreationState} from '../ngxs/buildbot.state';
-import {IOverviewInfoResponse} from '../../../../interfaces/overview-info';
+import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ConstantsService} from '../../../constants.service';
 
 @Component({

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ConstantsService} from '../../../constants.service';
 import {ServerService} from '../../../server.service';
 import {IUserAcquisition} from '../../../../interfaces/analytics/user-aquasition';
-import {IOverviewInfoPostBody} from '../../../../interfaces/overview-info';
+import {IOverviewInfoPostBody} from '../../../../interfaces/Analytics2/overview-info';
 import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {IAnalysisState} from '../ngxs/analysis.state';

@@ -5,7 +5,7 @@ import {ConstantsService} from './constants.service';
 import {Select, Selector, Store} from '@ngxs/store';
 import {IUser} from './core/interfaces/user';
 import {IHeaderData} from '../interfaces/header-data';
-import {IOverviewInfoResponse, IOverviewInfoPostBody} from '../interfaces/overview-info';
+import {IOverviewInfoResponse, IOverviewInfoPostBody} from '../interfaces/Analytics2/overview-info';
 import {_throw} from 'rxjs/observable/throw';
 import 'rxjs/add/operator/do';
 import {ToastrService} from 'ngx-toastr';

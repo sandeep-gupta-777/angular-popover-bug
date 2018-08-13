@@ -5,7 +5,7 @@ import {IBot} from '../interfaces/IBot';
 import {ViewBotStateModel} from '../view-bots/ngxs/view-bot.state';
 import {ConstantsService} from '../../constants.service';
 import {ServerService} from '../../server.service';
-import {IOverviewInfoPostBody, IOverviewInfoResponse} from '../../../interfaces/overview-info';
+import {IOverviewInfoPostBody, IOverviewInfoResponse} from '../../../interfaces/Analytics2/overview-info';
 import {UtilityService} from '../../utility.service';
 import {st} from '@angular/core/src/render3';
 import {SetOverViewInfo} from './ngxs/analysis.action';

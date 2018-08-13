@@ -18,16 +18,9 @@ export class AppComponent implements OnInit {
   editor: any;
 
   ngOnInit() {
-    // let editor = document.getElementById('code');
-    // this.editor = new CodeMirror.fromTextArea(editor, {
-    //   lineNumbers: true,
-    //   mode: {name: 'javascript', globalVars: true},
-    //   theme:'cobalt'
-    // });
     this.router.events.subscribe((data) => {
       if (data instanceof RoutesRecognized) {
-        // debugger;
-        this.isFullScreenPreview = data.state.root.firstChild.data.isFullScreenPreview;
+        this.isFullScreenPreview = data.state.root.firstChild.data.isFullScreenPreview;;
       }
     });
   }

@@ -1,4 +1,4 @@
-import {IOverviewInfoResponse} from '../overview-info';
+import {IOverviewInfoResponse} from '../Analytics2/overview-info';
 
 export interface IUserAcquisition {
   'labels': string,

@@ -1,0 +1,21 @@
+export enum EAnalysis2TypesEnum {
+  averageRoomTime="averageRoomTime",
+  usagetracking="usagetracking",
+  medianConversationLengthOfRooms="medianConversationLengthOfRooms",
+  totalFlows="totalFlows",
+  flowsPerRoom="flowsPerRoom",
+  totalRooms="totalRooms",
+  totalTimeOfRooms="totalTimeOfRooms",
+  overviewinfo="overviewinfo",
+  transactioninfo="transactioninfo",
+  userLoyalty="userLoyalty",
+  roomDuration="roomDuration",
+  topgenerationtemplates="topgenerationtemplates",
+  totalMessages="totalMessages",
+  userAcquisition="userAcquisition",
+  messagesByTemplateKey="messagesByTemplateKey",
+  channelWiseUsers="channelWiseUsers",
+  channelWiseAverageSessionTime="channelWiseAverageSessionTime",
+  channelWiseSessions="channelWiseSessions",
+  channelWiseFlowsPerSession="channelWiseFlowsPerSession"
+}

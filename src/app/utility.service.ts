@@ -163,5 +163,12 @@ export class UtilityService {
     return hours + ":" + minutes;
   };
 
+  areAllValesDefined(obj:object){
+    for(let key in obj){
+      if(!obj[key])
+        return false
+    }
+    return true;
+  }
 
 }

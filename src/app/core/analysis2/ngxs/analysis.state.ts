@@ -1,25 +1,42 @@
 import {Action, State, StateContext} from '@ngxs/store';
-import {SetOverViewInfo2} from './analysis.action';
-import {IOverviewInfoPostBody} from '../../../../interfaces/overview-info';
+import {SetAnalysis2HeaderData, SetOverviewInfoData} from './analysis.action';
+import {IOverviewInfo, IOverviewInfoPostBody} from '../../../../interfaces/Analytics2/overview-info';
+import {IAnalysis2HeaderData} from '../../../../interfaces/Analytics2/analytics2-header';
 
-export interface IAnalysisState {
-  overviewinfo:IOverviewInfoPostBody,
+export interface IAnalysis2State {
+  // analysisHeaderData:IOverviewInfoPostBody,
+  analysisHeaderData:IAnalysis2HeaderData,
+  overviewInfo: IOverviewInfo
 }
 
-@State<IAnalysisState>({
+@State<IAnalysis2State>({
   name: 'analysisstate2',
   defaults: {
-    overviewinfo:null
+    analysisHeaderData:null,
+    overviewInfo:null
   }
 })
 
 export class AnalysisStateReducer2 {
 
 
-  @Action(SetOverViewInfo2)
-  setOverViewInfo2({patchState, setState, getState, dispatch}: StateContext<IAnalysisState>, {payload}: SetOverViewInfo2) {
-    let state:IAnalysisState = getState();
-    setState({...state, overviewinfo:payload.overviewInfo});
+  @Action(SetAnalysis2HeaderData)
+  setOverViewInfo2({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetAnalysis2HeaderData) {
+    let state:IAnalysis2State = getState();
+    patchState({ analysisHeaderData:{
+        ...state.analysisHeaderData,
+        ...payload.analysisHeaderData
+      }});
+  }
+
+  @Action(SetOverviewInfoData)
+  setOverviewInfoData({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetOverviewInfoData) {
+    let state:IAnalysis2State = getState();
+    patchState({overviewInfo:payload.data});
+  }
+
+  static getAnalytics2HeaderData(state){
+    return state.analysisstate2.analysisHeaderData;
   }
 
 }

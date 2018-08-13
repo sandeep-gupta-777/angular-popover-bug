@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { IBot } from '../../interfaces/IBot';
 import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/map';
-import { IOverviewInfoResponse } from '../../../../interfaces/overview-info';
+import { IOverviewInfoResponse } from '../../../../interfaces/Analytics2/overview-info';
 import { ServerService } from '../../../server.service';
 import { UtilityService } from '../../../utility.service';
 import { BotSessionsComponent } from '../bot-sessions/bot-sessions.component';

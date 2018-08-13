@@ -5,7 +5,7 @@ import {ServerService} from '../../../server.service';
 import {Observable} from 'rxjs';
 import {IAnalysisState} from '../ngxs/analysis.state';
 import {Select} from '@ngxs/store';
-import {IOverviewInfoPostBody} from '../../../../interfaces/overview-info';
+import {IOverviewInfoPostBody} from '../../../../interfaces/Analytics2/overview-info';
 import {IAverageRoomTimeItem, ITotalFlowsItem, ITotalSessions} from '../../../../interfaces/analytics/sessions';
 import {IChannelWiseUsersItem} from '../../../../interfaces/analytics/channel';
 

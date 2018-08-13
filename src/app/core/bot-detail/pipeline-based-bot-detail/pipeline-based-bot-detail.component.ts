@@ -6,7 +6,7 @@ import {BotSessionsComponent} from '../bot-sessions/bot-sessions.component';
 import {ServerService} from '../../../server.service';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {IOverviewInfoResponse} from '../../../../interfaces/overview-info';
+import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ActivatedRoute} from '@angular/router';
 import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
 

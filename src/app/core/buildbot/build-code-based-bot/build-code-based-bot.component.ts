@@ -7,7 +7,7 @@ import {IBotConfig} from '../../../../interfaces/bot-creation';
 import {IBotCreationState} from '../ngxs/buildbot.state';
 import { ServerService } from '../../../server.service';
 import { UtilityService } from '../../../utility.service';
-import { IOverviewInfoResponse } from '../../../../interfaces/overview-info';
+import { IOverviewInfoResponse } from '../../../../interfaces/Analytics2/overview-info';
 import { BotSessionsComponent } from '../../bot-detail/bot-sessions/bot-sessions.component';
 import {ConstantsService} from '../../../constants.service';
 import {SaveNewBotInfo_CodeBased} from '../ngxs/buildbot.action';

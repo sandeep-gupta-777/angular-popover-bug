@@ -7,13 +7,17 @@ import {NgForm} from '@angular/forms';
 import {ConstantsService} from '../../../constants.service';
 import {BsDatepickerConfig} from 'ngx-bootstrap';
 import {Select, Store} from '@ngxs/store';
-import {SetOverViewInfo2} from '../ngxs/analysis.action';
+import {SetAnalysis2HeaderData, SetOverviewInfoData} from '../ngxs/analysis.action';
 import {IAnalysisState} from '../../analysis/ngxs/analysis.state';
-import {IOverviewInfoPostBody} from '../../../../interfaces/overview-info';
-import {IAnalyticsHeaderData} from '../../../../interfaces/header-data';
+import {IOverviewInfoPostBody, IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
 import {UtilityService} from '../../../utility.service';
 import {IUser} from '../../interfaces/user';
+import {AnalysisStateReducer2, IAnalysis2State} from '../ngxs/analysis.state';
+import {EAnalysis2TypesEnum} from '../../../../interfaces/Analytics2/analysis2-types';
+import {SetOverViewInfo} from '../../analysis/ngxs/analysis.action';
+import {IAnalysis2HeaderData} from '../../../../interfaces/Analytics2/analytics2-header';
+import {IAuthState} from '../../../auth/ngxs/auth.state';
 
 @Component({
   selector: 'app-analysis2-header',
@@ -22,76 +26,84 @@ import {IUser} from '../../interfaces/user';
 })
 export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
 
-  @Input() allbotList:IBot[];
-  @ViewChild("form") f : NgForm;
-  @Select() analysisstate2$: Observable<IAnalysisState>;
+  @Input() allbotList: IBot[];
+  @ViewChild('form') f: NgForm;
+  @Select(AnalysisStateReducer2.getAnalytics2HeaderData) analytics2HeaderData$: Observable<IAnalysis2HeaderData>;
   @Select() loggeduser$: Observable<{ user: IUser }>;
   startdate = new Date();
   enddate = new Date();
   datePickerConfig: Partial<BsDatepickerConfig> = this.constantsService.DATE_PICKER_CONFIG;
   channelList = this.constantsService.CHANNEL_LIST;
+  loggeduser: IAuthState;
+
   constructor(
-    private store:Store,
-    private serverService:ServerService,
-    private constantsService:ConstantsService,
-    private utilityService:UtilityService
-  ) { }
+    private store: Store,
+    private serverService: ServerService,
+    private constantsService: ConstantsService,
+    private utilityService: UtilityService
+  ) {
+  }
 
   ngOnInit() {
+
+    /*
+    * form contains the header data, Whenever form changes,
+    * update the header data in store
+    * */
     this.f.form.valueChanges
       .debounceTime(1000)
-      .subscribe((formData)=>{
-        if(!this.f.valid) return;
-        let selectedBot:IBot = this.allbotList.find((bot)=>bot.id === Number(this.f.value.botId));
-        // debugger;
-        let overviewInfo: IOverviewInfoPostBody = {
-          selectedBot:selectedBot,
-          platform:'web',
+      .subscribe((formData) => {
+        if (!this.f.valid) return;
+        let selectedBot: IBot = this.allbotList.find((bot) => bot.id === Number(this.f.value.botId));
+        let analysisHeaderData: IAnalysis2HeaderData = {
+          'bot-access-token': selectedBot.bot_access_token,
+          platform: 'web',
           ...formData
         };
         this.store.dispatch([
-          new SetOverViewInfo2({overviewInfo})
+          new SetAnalysis2HeaderData({analysisHeaderData})
         ]);
       });
-    this.initiateGetAnalyticsDataObservable();
-  }
 
-  onAddonClicked( event ){
+    /*
+    *Whenever the header data changes, make get request for analytics data
+    * and when analytics data arrives, save in store again its "type"
+    * */
+    this.loggeduser$.subscribe((loggeduser) => {
+      this.loggeduser = loggeduser;
+    });
 
-  }
-  ngAfterViewInit(){
-    setTimeout(()=>{
-      this.f.form.patchValue({botId:this.allbotList[0].id, platform:this.channelList[0].name});
-    },0);
-  }
-  click(){
-    console.log(this.f.value);
-  }
-
-  initiateGetAnalyticsDataObservable(){
-    this.loggeduser$.subscribe((loggeduser)=>{
-      this.analysisstate2$.subscribe((analysisstate)=>{
-        try{
-          let url = this.constantsService.getAnalyticsUrl();
-          let headerData:IAnalyticsHeaderData = {
-            startdate:this.utilityService.convertDateObjectStringToDDMMYY(analysisstate.overviewinfo.startdate),
-            enddate:this.utilityService.convertDateObjectStringToDDMMYY(analysisstate.overviewinfo.enddate),
-            platform:analysisstate.overviewinfo.platform,
-            type:"averageRoomTime",
-            'auth-token': loggeduser.user.auth_token,//'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTE4LCJyb2xlIjoiYXV0aCJ9.6AFhp9k-XLGLcntigbhxrCvPIdj8FiPqlqsQe19mXAY',
-            'bot-access-token':analysisstate.overviewinfo.selectedBot.bot_access_token,
-            "user-access-token": loggeduser.user.user_access_token//'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6ImJvdCJ9.ZV8O_UJ29UDzc-5od1Yl8xTsOdhDkw9Lo6FuQeK-nKw'
-          };
-          this.serverService.makeGetReq({url, headerData})
-            .subscribe((value)=>{
-              console.log(value);
-            })
-        }catch (e) {
-          this.utilityService.showErrorToaster(e);
-        }
-      })
-    })
+    this.analytics2HeaderData$.subscribe((analytics2HeaderData) => {
+      /*TODO: for some reason, angular form validation is not working. This is a hack*/
+      if (!this.f.valid || Object.keys(this.f.value).length !== 4) return;
+      try {
+        let url = this.constantsService.getAnalyticsUrl();
+        let headerData: IAnalysis2HeaderData = {
+          ...analytics2HeaderData,
+          'auth-token': this.loggeduser.user.auth_token,
+          'user-access-token': this.loggeduser.user.user_access_token,
+          startdate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.startdate),
+          enddate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.enddate),
+        };
+        if (!this.utilityService.areAllValesDefined(headerData)) return;
+        this.serverService.makeGetReq({url, headerData})
+          .subscribe((response: any) => {
+            debugger;
+            if (headerData.type === EAnalysis2TypesEnum.overviewinfo) {
+              let responseCopy: IOverviewInfoResponse = response;
+              // this.store.dispatch(new SetOverviewInfoData({data: responseCopy.objects[0].output}));
+            }
+          });
+      } catch (e) {
+        this.utilityService.showErrorToaster(e);
+      }
+    });
 
   }
 
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.f.form.patchValue({botId: this.allbotList[0].id, platform: this.channelList[0].name});
+    }, 0);
+  }
 }

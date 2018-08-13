@@ -1,4 +1,4 @@
-import {IBot} from '../app/core/interfaces/IBot';
+import {IBot} from '../../app/core/interfaces/IBot';
 
 export interface IOverviewInfoResponse
 {meta:any, objects:[{output:IOverviewInfo}]}

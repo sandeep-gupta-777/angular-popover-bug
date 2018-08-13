@@ -3,7 +3,7 @@ import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {ServerService} from '../../../server.service';
 import {IAnalysisState} from '../ngxs/analysis.state';
-import {IOverviewInfoPostBody, IOverviewInfoResponse} from '../../../../interfaces/overview-info';
+import {IOverviewInfoPostBody, IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 
 @Component({
   selector: 'app-overview',

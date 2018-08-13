@@ -1,18 +1,18 @@
-<form class="d-flex align-items-center analysis2-header-row" #form="ngForm">
+<form ngNativeValidate  class="d-flex align-items-center analysis2-header-row" #form="ngForm">
 
 
   <div class="heading ml-4">Filter Data</div>
 
   <div class="form-group m-0 mr-4 ml-auto">
     <label for="">Bot</label>
-    <select class="concept1" ngModel required name="botId">
+    <select class="concept1" [ngModel] required validate name="botId">
       <option *ngFor="let bot of allbotList; let i = index;" [selected]="i===0" type="button" [value]="bot.id">{{bot.name}}</option>
     </select>
   </div>
 
   <div class="form-group m-0 mr-4 ">
     <label for="">Channel</label>
-    <select  ngModel required name="platform">
+    <select  [ngModel] required validate name="platform">
       <option *ngFor="let channel of channelList"  type="button" [value]="channel.name">{{channel.displayName}}</option>
     </select>
   </div>
@@ -20,11 +20,11 @@
   <div class="form-group m-0 mr-4">
     <input type="text"
            style="width: 100%"
-           ngModel
+
            placeholder="Start Date"
            name="startdate"
            [(ngModel)]="startdate"
-           required
+           required validate
            bsDatepicker
            [bsConfig]="datePickerConfig">
   </div>
@@ -32,7 +32,6 @@
     <input type="text"
            placeholder="End Date"
            name="enddate"
-           required
            [(ngModel)]="enddate"
            bsDatepicker
            [bsConfig]="datePickerConfig">
