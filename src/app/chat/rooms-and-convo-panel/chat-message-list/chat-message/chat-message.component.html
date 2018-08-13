@@ -9,7 +9,7 @@
          [ngClass]="{'bg-message-bot':messageData?.type==='bot','bg-message-human':messageData?.type==='human'}"
          style="display: inline-block">
       <span class="message-text">{{messageData?.text}}</span>
-      <div class="time text-right">10:42 PM</div>
+      <div class="time text-right">{{messageData?.time||'no time info'}}</div>
     </div>
   </div>
 </div>

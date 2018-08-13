@@ -21,7 +21,7 @@ export class HandsontableComponent implements OnInit {
   @ViewChild(HotTableComponent) hotTableComponent: HotTableComponent;
 
   alert1(data){
-    debugger;
+    // debugger;
     // alert();
     let x = this.hotTableComponent.getHandsontableInstance();
     // setTimeout(()=>{

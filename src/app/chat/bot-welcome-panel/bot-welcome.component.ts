@@ -1,4 +1,10 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {IBot} from '../../core/interfaces/IBot';
+import {ViewBotStateModel} from '../../core/view-bots/ngxs/view-bot.state';
+import {Select} from '@ngxs/store';
+import {Observable} from 'rxjs';
+import {validate} from 'codelyzer/walkerFactory/walkerFn';
+import {EChatFrame, IChatSessionState} from '../../../interfaces/chat-session-state';
 
 @Component({
   selector: 'app-bot-welcome',
@@ -7,12 +13,34 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 })
 export class BotWelcomeComponent implements OnInit {
 
-  constructor() { }
-  @Output() navigateEvent:EventEmitter<string> =new EventEmitter();
-  ngOnInit() {
+  @Select() botlist$: Observable<ViewBotStateModel>;
+  @Select() chatsessionstate$: Observable<IChatSessionState>;
+  @Output() startnewchat$= new EventEmitter();
+  myEChatFrame = EChatFrame;
+
+  currentBot: IBot;
+
+  constructor() {
   }
 
-  navigate(frame){
+  @Output() navigateEvent: EventEmitter<string> = new EventEmitter();
+  @Input() bot_id: number;
+
+  ngOnInit() {
+    // debugger;
+
+
+    this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
+      this.bot_id = chatSessionState.currentBotDetails.id;
+      this.botlist$.subscribe((value) => {
+        this.currentBot = value.codeBasedBotList.find(value => value.id === this.bot_id) || value.pipelineBasedBotList.find(value => value.id === this.bot_id);
+      });
+    });
+
+
+  }
+
+  navigate(frame) {
     this.navigateEvent.emit(frame);
   }
 

@@ -27,7 +27,7 @@ export class DataManageFormComponent implements OnInit {
   ngAfterViewInit(): void {
     console.log(this.bot);
     this.f.valueChanges.debounceTime(1000).subscribe((data:ISaveDataManagment) => {
-      debugger;
+      // debugger;
       console.log(this.f);
       if(!this.f.dirty) return;
       // this.store.dispatch(new SaveDataManagment({data}));

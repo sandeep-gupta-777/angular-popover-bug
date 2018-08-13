@@ -43,7 +43,6 @@ export class PipelineComponent implements OnInit {
       .subscribe((value: IAIModule[]) => {
         this.aiModules = value;
       });
-    debugger;
     if(this.buildBotType){
       this.botcreationstate$.subscribe((botcreationstate)=>{
         this.pipeLine = botcreationstate[this.buildBotType] && botcreationstate[this.buildBotType].pipelines || [];
@@ -52,7 +51,6 @@ export class PipelineComponent implements OnInit {
   };
 
   ngDoCheck() {
-    debugger;
     // if (!this.pipeLine || this.pipeLine.length === 0) return;
     let changes = this.iterableDiffer.diff(this.pipeLine);
     if (changes) {

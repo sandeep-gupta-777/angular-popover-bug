@@ -131,8 +131,8 @@ const routes: Route[] = [
       {
         path: 'viewbots', component: ViewBotsComponent, children:
           [
-            {path: 'codebased', component: ViewCodeBasedBotComponent},
-            {path: 'intelligent', component: ViewPipelineBasedBotsComponent},
+            {path: 'codebased', component: ViewCodeBasedBotComponent, data:{route:'codebased'}},
+            {path: 'intelligent', component: ViewPipelineBasedBotsComponent, data:{route:'intelligent'}},
             // {path: '', component: ViewCodeBasedBotComponent}
           ]
       },

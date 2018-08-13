@@ -1,17 +1,15 @@
-
-<!--<h1>{{!!windowOpen}}</h1>-->
+<!--<h1>hello</h1>-->
+<!--<h1>{{windowOpen}}</h1>-->
+<!--<h1>{{!!((loggeduser$|async).user)}}</h1>-->
+<!--<h1>{{frameEnabled}}</h1>-->
+<!--<h1>hello</h1>-->
 <div *ngIf="!isFullScreenPreview">
-  <div class="chat-grid text-center" [hidden]="(!windowOpen || !(loggeduser$|async).user)">
-    <div class="header d-flex align-items-center px-3">
+  <div class="chat-grid text-center" *ngIf="(windowOpen && (loggeduser$|async).user)">
+    <div class="header d-flex align-items-center px-3 position-relative">
       <i class="fa fa-arrow-left cursor-pointer" (click)="navigate(myEChatFrame.CHAT_LIST)"
          [hidden]="frameEnabled!==myEChatFrame.CHAT_BOX"></i>
-      <span class="ml-auto mr-auto">{{chatWindowTitle}}</span>
-      <!--<div class="user cursor-pointer mx-2"><i class="fa fa-user"></i></div>-->
-        <!--<div class="user cursor-pointer">-->
-      <a routerLink="/preview"><i class="fa fa-external-link">
-
-      </i></a>
-    <!--</div>-->
+      <span class="center-absolute">{{chatWindowTitle}}</span>
+      <a class="ml-auto" routerLink="/preview"><i class="fa fa-external-link"></i></a>
 
       <div class="btn-group p-2" [autoClose]="false" dropdown>
         <div dropdownToggle class="user cursor-pointer"><i class="fa fa-user"></i></div>
@@ -48,11 +46,10 @@
         </form>
       </div>
 
-      <!--<i class="fa fa-external-link pr-2 cursor-pointer"></i>-->
       <i class="fa fa-times cursor-pointer" (click)="closeChatWindow()"></i>
     </div>
-    <div class="body p-0 border-left border-right">
-      <app-bot-welcome *ngIf="frameEnabled=== myEChatFrame.WELCOME_BOX"></app-bot-welcome>
+    <div class="body p-0 border-left border-right" [ngClass]="{'make-body-occupy-footer':frameEnabled!==myEChatFrame.CHAT_BOX}">
+      <app-bot-welcome (startnewchat$)="startNewChat()" [bot_id]="currentBotId" *ngIf="frameEnabled === myEChatFrame.WELCOME_BOX"></app-bot-welcome>
       <app-chat-list class="mt-4" *ngIf="frameEnabled===myEChatFrame.CHAT_LIST"></app-chat-list>
       <app-chat-window *ngIf="frameEnabled===myEChatFrame.CHAT_BOX && this.messageData"
                        [selectedAvatar]="selectedAvatar"
@@ -60,27 +57,27 @@
     </div>
 
     <!--text input starts-->
-    <div class="footer bg-white px-2 d-flex align-items-center text-muted"
-         [hidden]="frameEnabled!==myEChatFrame.CHAT_BOX">
-      <input type="text" [(ngModel)]="messageByHuman" (keyup.enter)="sendMessageByHuman(messageByHuman)">
+    <div class="footer px-3 d-flex align-items-center justify-content-between text-muted"
+         *ngIf="frameEnabled===myEChatFrame.CHAT_BOX">
+      <input class="px-2" placeholder="say something..." type="text" [(ngModel)]="messageByHuman" (keyup.enter)="sendMessageByHuman(messageByHuman)">
       <span class="icon"><i class="fa fa-send cursor-pointer" (click)="sendMessageByHuman(messageByHuman)"></i></span>
     </div>
     <!--text input ends-->
 
-    <!--new chat button starts-->
-    <div class="footer bg-white text-muted d-flex align-items-center justify-content-center"
-         *ngIf="frameEnabled!==myEChatFrame.CHAT_BOX">
-      <button class="btn-theme-primary cursor-pointer" (click)="startNewChat('hi', myEChatFrame.CHAT_BOX)">Start a
-        new chat
-      </button>
-    </div>
-    <!--new chat button end-->
+    <!--&lt;!&ndash;new chat button starts&ndash;&gt;-->
+    <!--<div class="footer bg-white border border-top-0 text-muted d-flex align-items-center justify-content-center"-->
+         <!--*ngIf="frameEnabled===myEChatFrame.WELCOME_BOX">-->
+      <!--<button class="btn-theme-primary cursor-pointer" (click)="startNewChat('hi', myEChatFrame.CHAT_BOX)">Start a new chat-->
+      <!--</button>-->
+    <!--</div>-->
+    <!--&lt;!&ndash;new chat button end&ndash;&gt;-->
 
   </div>
 
 </div>
 
-<div class="d-flex justify-content-end cursor-pointer" (click)="toggleChatWindow()" *ngIf="!windowOpen && !isFullScreenPreview">
+<div class="d-flex justify-content-end cursor-pointer" (click)="toggleChatWindow()"
+     *ngIf="!windowOpen && !isFullScreenPreview && (loggeduser$|async).user && current_uid">
   <div class="speech-bubble float-on-hover-animation">
     <div class="stick-wrapper">
       <div class="stick"></div>
@@ -93,12 +90,29 @@
 <!--===============FULL SCREEN BELOW===================-->
 <div *ngIf="isFullScreenPreview" class="grid-chat-preview-full-screen">
   <div class="header1 bg-theme-primary px-3 d-flex align-items-center">
-    <img class="logo-md" src="https://image.flaticon.com/icons/svg/17/17004.svg" alt="">
+    <img class="logo-md mr-2" src="https://image.flaticon.com/icons/svg/17/17004.svg" alt="">
+    <div class="d-flex flex-column text-white">
+      <div>{{loggeduser.user.first_name}}</div>
+      <div class="font-11">{{loggeduser.user.email}}</div>
+    </div>
   </div>
   <div class="header2 px-3 bg-theme-primary d-flex align-items-center">
     <!--<img class="logo-md" src="https://image.flaticon.com/icons/svg/17/17004.svg" alt="">-->
-    <img class="logo-md" [src]="selectedAvatar.imageUrl||'https://image.flaticon.com/icons/svg/17/17004.svg'">
-
+    <img class="logo-md mr-2" [src]="selectedAvatar.imageUrl||'https://image.flaticon.com/icons/svg/17/17004.svg'">
+    <div class="d-flex flex-column text-white">
+      <div>Weathery</div>
+      <div class="font-11">Description</div>
+    </div>
+    <!---->
+    <!--<div class="room-details ml-auto">-->
+      <div [style.visibility]="currentRoom.id?'visible':'hidden'" class="d-flex flex-column align-items-end ml-auto mr-4 text-white">
+        <div>Room Id:</div>
+        <div class="font-11">{{currentRoom.id}}</div>
+      </div>
+      <div *ngIf="currentRoom.lastTemplateKey" class="d-flex flex-column align-items-end text-white">
+        <div>Last template triggered::</div>
+        <div class="font-11">{{currentRoom.lastTemplateKey}}</div>
+      </div>
   </div>
   <div class="chat-rooms">
     <app-chat-list class="mt-4"></app-chat-list>
@@ -113,17 +127,17 @@
     <!--text input starts-->
     <div class="footer px-2 d-flex align-items-center text-muted"
          [hidden]="frameEnabled!==myEChatFrame.CHAT_BOX">
-      <input class="mr-2" type="text" [(ngModel)]="messageByHuman" (keyup.enter)="sendMessageByHuman(messageByHuman)">
+      <input class="mr-2" placeholder="say something..." type="text" [(ngModel)]="messageByHuman" (keyup.enter)="sendMessageByHuman(messageByHuman)">
       <span class="icon"><i class="fa fa-send cursor-pointer" (click)="sendMessageByHuman(messageByHuman)"></i></span>
     </div>
     <!--text input ends-->
     <!--new chat button starts-->
-    <div class="footer bg-white text-muted d-flex align-items-center justify-content-center"
-         *ngIf="frameEnabled!==myEChatFrame.CHAT_BOX">
-      <button class="btn-theme-primary cursor-pointer" (click)="startNewChat('hi', myEChatFrame.CHAT_BOX)">Start a
-        new chat
-      </button>
-    </div>
+    <!--<div class="footer bg-white text-muted d-flex align-items-center justify-content-center"-->
+         <!--*ngIf="frameEnabled!==myEChatFrame.CHAT_BOX">-->
+      <!--<button class="btn-theme-primary cursor-pointer" (click)="startNewChat('hi', myEChatFrame.CHAT_BOX)">Start a-->
+        <!--new chat-->
+      <!--</button>-->
+    <!--</div>-->
     <!--new chat button end-->
 
   </div>

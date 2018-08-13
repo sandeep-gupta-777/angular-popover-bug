@@ -14,13 +14,11 @@ export class CodeEditorComponent implements OnInit {
   constructor() { }
   @Input() set text(value){
     if(this._text===value) return;
-    debugger;
     this._text = value;
     this.editor && this.editor.setValue(value);
   }
   @Output() textChangedEvent:EventEmitter<string> = new EventEmitter<string>();
   ngOnInit() {
-    debugger;
     let editor = this.codeEditor.nativeElement;
     this.editor = new CodeMirror.fromTextArea(editor, {
       lineNumbers: true,
@@ -31,7 +29,6 @@ export class CodeEditorComponent implements OnInit {
       moveInputWithCursor:false
     });
     this.editor.on('change', editor => {
-      debugger;
       this.textChangedEvent.emit(editor.getValue())
     });
 

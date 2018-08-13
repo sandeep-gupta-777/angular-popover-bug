@@ -5,7 +5,7 @@ import {UtilityService} from '../../../utility.service';
 import {ChatService} from '../../../chat.service';
 import {EChatFrame} from '../../../../interfaces/chat-session-state';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Store} from '@ngxs/store';
 import {ChangeFrameAction, SetCurrentBotID, ToggleChatWindow} from '../../../chat/ngxs/chat.action';
 
@@ -20,15 +20,19 @@ export class BotPreviewCardComponent implements OnInit {
   modalRef: BsModalRef;
   myObject = Object;
   message: string;
+  parentRoute:string;
   constructor(
     private utilityService:UtilityService,
     private chatService:ChatService,
     private modalService: BsModalService,
+    private activatedRoute: ActivatedRoute,
     public router: Router,
     public store: Store
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.parentRoute = this.activatedRoute.snapshot.data.route;
+  }
 
   copy(text:string,element){
     this.utilityService.copyToClipboard(text);

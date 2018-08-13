@@ -1,4 +1,4 @@
-<div class="row mb-1">
+<div class="row mb-1" [ngClass]="{'bg-theme-primary':currentUid === room.uid}">
   <div class="p-0 m-2" style="width: 40px">
     <img [src]="room.selectedAvatar.imageUrl"
          style="width: 32px;height: 32px" alt="">
@@ -7,7 +7,7 @@
     <div class="message p-2 cursor-pointer" (click)="openChatRoom()">
       <div class="d-flex justify-content-between ">
         <div class="message-text ">{{room.selectedAvatar.name}}</div>
-        <div class="time">10:20PM</div>
+        <div class="time">{{room.messageList[room.messageList.length-1].time}}</div>
       </div>
       <div class="time limit-oneline">{{room.messageList[room.messageList.length-1].text}}</div>
     </div>

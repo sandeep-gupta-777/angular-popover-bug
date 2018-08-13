@@ -1,0 +1,69 @@
+@import "~src/sass/main";
+
+.row-details {
+  .fa {
+    font-size: 30px;
+    //line-height: 50px;
+    font-weight: 400;
+    height: 40px;
+    color: $color-primary;
+  }
+}
+
+.label {
+  @include typography($font-size-normal, $line-height-normal, $font-weight-400, #56627c);
+}
+
+.title {
+  @include typography($font-size-md, $line-height-md, $font-weight-700, #56627c);
+}
+
+.description {
+  @include typography($font-size-xs, $line-height-normal, $font-weight-300, $color-text-normal);
+  text-align: center;
+}
+
+#channel-selector {
+  @include typography($font-size-normal, $line-height-normal, $font-weight-300, $color-text-normal);
+}
+
+
+//
+//a{//bootstrap override
+//  text-decoration: none !important;
+//  font-size: $font-size-sm;
+//  color: black;
+//  @include typography($font-size-sm,$line-height-normal, $font-weight-300 , $color-text-grey)
+//}
+
+//.heading {
+//  font-family: Helvetica;
+//  font-size: 16px;
+//  font-weight: bold;
+//  font-style: normal;
+//  font-stretch: normal;
+//  line-height: 1;
+//  letter-spacing: normal;
+//  color: #474747;
+//}
+
+.architeture-body {
+  height: 85%;
+  .side-bar {
+    width: 12.5%;
+    padding-left: 10px;
+    padding-right: 14px;
+  }
+  .tab {
+    height: 32px;
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    @include typography(13px, $line-height-normal, $font-weight-300, $color-text-normal);
+    cursor: pointer;
+    &:hover{
+      background-color: #f7f7f7;
+    }
+  }
+
+}

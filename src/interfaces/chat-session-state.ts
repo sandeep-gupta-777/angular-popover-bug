@@ -13,11 +13,13 @@ export interface IRoomData{
   bot_id: number,
   bot_access_token:string,
   'messageList': IMessageData[],
+  uid?:string,
   "selectedAvatar"?: {
-    "id": number,
+    "id"?: number,
     "imageUrl": string,
-    "name": string
-  }
+    "name"?: string
+  },
+  lastTemplateKey:string
 }
 export interface IChatSessionState {
 
@@ -30,5 +32,6 @@ export interface IChatSessionState {
     logo:string,
     token:string
   },
+  currentUId:string,
   rooms:IRoomData[]
 }

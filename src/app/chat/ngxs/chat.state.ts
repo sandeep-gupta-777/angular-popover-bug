@@ -1,16 +1,26 @@
 import {Action, State, StateContext} from '@ngxs/store';
 import {ConstantsService} from '../../constants.service';
-import {AddMessagesToRoom, ChangeFrameAction, ResetChatState, SetCurrentBotID, SetCurrentRoomID, ToggleChatWindow} from './chat.action';
+import {
+  AddNewRoom,
+  AddMessagesToRoomByUId,
+  ChangeFrameAction,
+  ResetChatState,
+  SetCurrentBotID,
+  SetCurrentUId,
+  SetCurrentRoomID,
+  ToggleChatWindow, AttachRoomIdToRoomByUId, SetLastTemplateKeyToRoomByUId
+} from './chat.action';
 import {EChatFrame, IChatSessionState, IRoomData} from '../../../interfaces/chat-session-state';
 import {isNullOrUndefined} from 'util';
 
 
-export const defaultChatState = {
+export const defaultChatState:IChatSessionState = {
   frameEnabled: EChatFrame.WELCOME_BOX,
   opened: false,
   currentRoomId: null,
   currentBotDetails: null,
-  rooms: []
+  currentUId: null,
+  rooms: [],
 };
 
 
@@ -42,6 +52,11 @@ export class ChatSessionStateReducer {
   setCurrentRoomID({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: SetCurrentRoomID) {
     let state: IChatSessionState = getState();
     patchState({...state, currentRoomId: payload.id});
+  }
+  @Action(SetCurrentUId)
+  setCurrentConsumerId({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: SetCurrentUId) {
+    let state: IChatSessionState = getState();
+    patchState({...state, currentUId: payload.uid});
   }
 
   @Action(SetCurrentBotID)
@@ -75,23 +90,35 @@ export class ChatSessionStateReducer {
     });
   }
 
-  @Action(AddMessagesToRoom)
-  addMessagesToRoom({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: AddMessagesToRoom) {
+  @Action(AddNewRoom)
+  addNewRoom({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: AddNewRoom) {
     let state = getState();
     let rooms = state.rooms;
-    let roomid = payload.id;
-    let room: IRoomData = (rooms && (rooms.find((room) => room.id === roomid)));
-    if (!room) {
-      room = {
-        id: roomid,
-        bot_id: payload.bot_id,
-        'messageList': [],
-        selectedAvatar: payload.selectedAvatar,
-        bot_access_token: payload.bot_access_token
-      };
-      if (!state.rooms) state.rooms = [];
-      state.rooms.push(room);
-    }
+    let room = payload;
+    if (!state.rooms) state.rooms = [];
+    state.rooms.push(room);
+  }
+
+  @Action(AddMessagesToRoomByUId)
+  addMessagesToRoom({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: AddMessagesToRoomByUId) {
+    let state = getState();
+    let rooms = state.rooms;
+    // debugger;
+    let uId =payload.uid;
+    // let roomid = payload.id;
+    let room: IRoomData = (rooms && (rooms.find((room) => room.uid === uId)));
+    // if (!room) {
+    //   room = {
+    //     id: roomid,
+    //     bot_id: payload.bot_id,
+    //     'messageList': [],
+    //     uid: payload.uid,
+    //     selectedAvatar: payload.selectedAvatar,
+    //     bot_access_token: payload.bot_access_token
+    //   };
+    //   if (!state.rooms) state.rooms = [];
+    //   state.rooms.push(room);
+    // }
 
     room.messageList = [...room.messageList, ...payload.messageList];
     state.currentBotDetails = {
@@ -102,6 +129,27 @@ export class ChatSessionStateReducer {
 
     setState({...state});
 
+  }
+
+  @Action(AttachRoomIdToRoomByUId)
+  attachRoomIdToRoomByUId({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: AttachRoomIdToRoomByUId) {
+    let state = getState();
+    let rooms = state.rooms;
+    let uId =payload.uid;
+    let room: IRoomData = (rooms && (rooms.find((room) => room.uid === uId)));
+    room.id = payload.room_id;
+    setState({...state});
+
+  }
+
+  @Action(SetLastTemplateKeyToRoomByUId)
+  SetLastTemplateKeyToRoomByUId({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: SetLastTemplateKeyToRoomByUId) {
+    let state = getState();
+    let rooms = state.rooms;
+    let uId =payload.uid;
+    let room: IRoomData = (rooms && (rooms.find((room) => room.uid === uId)));
+    room.lastTemplateKey = payload.lastTemplateKey;
+    setState({...state});
   }
 
   @Action(ResetChatState)

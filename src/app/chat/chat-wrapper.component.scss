@@ -1,37 +1,38 @@
 @import "~src/sass/main.scss";
-.card{
+
+.card {
   //height: 500px;
   //width: 320px;
 }
-.card-header{
+
+.card-header {
   background-color: $color-primary;
-  flex-shrink:0;
+  flex-shrink: 0;
   color: white;
 }
 
-.card-body{
+.card-body {
   overflow-y: hidden;
 }
 
-.card-footer{
+.card-footer {
   height: 45px;
   border-top: 1px solid $color-primary;
   position: relative;
-  input{
+  input {
     height: 80%;
     width: 100%;
     @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-secondary);
     @include hide-borders();
   }
-  .icon{
+  .icon {
     color: $color-primary;
   }
 }
 
-
 /*NEW CSS BELOW*/
 
-.chat-grid{
+.chat-grid {
 
   height: 475px;
   width: 376px;
@@ -40,16 +41,16 @@
   grid-template-columns: 1fr;
   grid-template-rows: 56px 1fr 56px;
   grid-template-areas:
-  'h'
-  'b'
-  'f';
+    'h'
+    'b'
+    'f';
 
-  .header{
+  .header {
     grid-area: h;
     background-color: $color-primary;
-    flex-shrink:0;
+    flex-shrink: 0;
     color: white;
-    .user{
+    .user {
       height: 32px;
       width: 32px;
       border-radius: 50%;
@@ -58,48 +59,53 @@
       align-items: center;
       justify-content: center;
     }
-    .fa-times{
+    .fa-times {
       font-size: 20px;
     }
-    .fa{
+    .fa {
       color: white;
     }
   }
-  .body{
+  .body {
     grid-area: b;
     background-color: white;
     overflow-y: hidden;
   }
-  .footer{
+  .footer {
     grid-area: f;
-    height: 45px;
+    //grid-row: 2/span2;
     border-top: 1px solid $color-primary;
     position: relative;
-    input{
+    height: 100% !important;
+    background-color: rgb(236, 236, 236);;
+
+    input {
       height: 80%;
-      width: 100%;
+      width: 90%;
       @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-secondary);
+      border-radius: 4px;
       @include hide-borders();
     }
-    .icon{
+    .icon {
       color: $color-primary;
+      font-size: 25px;
     }
   }
 
-
 }
-.dropdown-menu-left{
+
+.dropdown-menu-left {
   /*TODO: Find a better way to do this*/
-  left:-200px !important;
+  left: -200px !important;
 }
 
-form{
+form {
   border-radius: 2px;
-  label{
+  label {
     @include typography(11px, $line-height-normal, $font-weight-300, $color-secondary);
     margin: 0;
   }
-  .form-control{
+  .form-control {
     @include hide-borders();
     border-bottom: $border-normal;
     border-radius: 0;
@@ -109,37 +115,35 @@ form{
 }
 
 /*FULL SCRENN BELOW*/
-.grid-chat-preview-full-screen{
+.grid-chat-preview-full-screen {
   //padding: 10px;
   height: 100vh;
+  overflow-y: hidden;
   background-color: white;
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-template-rows: 60px 1fr 60px;
-  grid-template-areas:
-    'h1 h2'
-    'room chat'
-    'room  inputbox';
+  grid-template-areas: 'h1 h2' 'room chat' 'room  inputbox';
 
-  .chat-rooms{
+  .chat-rooms {
     grid-area: room;
   }
-  .header1{
+  .header1 {
     grid-area: h1;
   }
-  .header2{
+  .header2 {
     grid-area: h2;
   }
-  .chat{
+  .chat {
     grid-area: chat;
     max-height: 90vh;
     overflow-y: hidden;
   }
-  .footer{
+  .footer {
     grid-area: inputbox;
     height: 100%;
-    background-color: rgba(200, 200, 200, 0.3 );;
-    input{
+    background-color: rgba(200, 200, 200, 0.3);;
+    input {
       height: 70%;
       width: 95%;
       @include typography(15px, $line-height-normal, $font-weight-400, $color-secondary);
@@ -147,7 +151,7 @@ form{
       border-radius: 4px;
       padding: 0 10px;
     }
-    .icon{
+    .icon {
       font-size: 25px;
       color: $color-primary;
     }
@@ -156,3 +160,16 @@ form{
 }
 
 
+
+.make-body-occupy-footer{
+  padding-bottom: 20px;
+  overflow-y: hidden;
+  grid-row: 2/-1 !important;
+  border-bottom: 9px solid $color-primary;
+}
+
+.font-11 {
+  font-size: 11px;
+  line-height: 5px;
+  margin-top: 4px;
+}

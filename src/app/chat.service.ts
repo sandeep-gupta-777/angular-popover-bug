@@ -3,41 +3,36 @@ import {Store} from '@ngxs/store';
 import {ServerService} from './server.service';
 import {IHeaderData} from '../interfaces/header-data';
 import {EChatFrame, IMessageData} from '../interfaces/chat-session-state';
-import {AddMessagesToRoom, ChangeFrameAction, SetCurrentBotID, SetCurrentRoomID, ToggleChatWindow} from './chat/ngxs/chat.action';
+import {
+  AddMessagesToRoomByUId,
+  AttachRoomIdToRoomByUId,
+  ChangeFrameAction,
+  SetCurrentBotID,
+  SetCurrentRoomID, SetLastTemplateKeyToRoomByUId,
+  ToggleChatWindow
+} from './chat/ngxs/chat.action';
 import {ISendApiRequestPayload, ISendApiResponsePayload} from '../interfaces/send-api-request-payload';
 import {ConstantsService} from './constants.service';
 import {IBot} from './core/interfaces/IBot';
+import {UtilityService} from './utility.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
 
-  constructor(private store: Store, private serverService: ServerService, private constantsService: ConstantsService) {
+  constructor(
+    private store: Store,
+    private serverService: ServerService,
+    private utilityService: UtilityService,
+    private constantsService: ConstantsService) {
   }
 
-  startNewChat(botDetails: { id: number, bot_access_token: string }, messageByHuman: string, frameEnabled: EChatFrame) {
+  startNewChat(botDetails: { id: number, bot_access_token: string }, uid: string, messageByHuman: string, frameEnabled: EChatFrame) {
     let url = this.constantsService.getStartNewChatLoginUrl();
     let body/*: ISendApiRequestPayload */ = {
-      // 'bot_id': botDetails.id,
       'consumer': {
-        phone: 12415434123124,
-        '_id': '5b487477a86917310d998b0a',
-        // 'botId': '59e055773b6219000ca825ba',
-        // 'botId': botDetails.id,
-        // 'consentAcknowledged': false,
-        // 'consentPermissions': [],
-        // 'consumerDataStore': {},
-        // 'created_at': '2018-07-13 09:44:23.574375',
-        // 'email': '',
-        // 'extra_params': '',
-        // 'facebookId': '',
-        // 'lineId': '',
-        // 'name': '',
-        // 'phone': '',
-        // 'skypeId': '',
-        // 'uid': 'd67d729f76994a03897e5ca7fb38f716',
-        // 'updated_at': '2018-07-13 09:44:23.574406'
+        'uid': uid,
       },
       'type': 'human',
       'msg': messageByHuman || 'hi',
@@ -50,26 +45,29 @@ export class ChatService {
     };
     this.serverService.makePostReq({url, body, headerData})
       .subscribe((response: ISendApiResponsePayload) => {
-        // debugger;
-        // this.messageByHuman="";//creating the input
         let editedMessages: IMessageData[] = response.generated_msg.map((messgage: { text: string }) => {
           return {
             ...messgage,
-            time: '10:20pm',
+            time: this.utilityService.getCurrentTimeInHHMM(),
             type: 'bot'
           };
         });
-
-        this.store.dispatch(new AddMessagesToRoom({
-          id: response.room.id,
-          messageList: editedMessages,
-          bot_id: response.room.bot_id,
-          selectedAvatar: response.room.selected_avatar,
-          bot_access_token: botDetails.bot_access_token
-        }));
+        // debugger;
+        this.store.dispatch([
+          new AddMessagesToRoomByUId({
+            id: response.room.id,
+            messageList: editedMessages,
+            uid,
+            bot_id: response.room.bot_id,
+            selectedAvatar: response.room.selected_avatar,
+            bot_access_token: botDetails.bot_access_token,
+            lastTemplateKey: response.templateKey/*TODO: NOT NEEDED*/
+          }),
+          new AttachRoomIdToRoomByUId({room_id: response.room.id, uid})
+        ]);
+        this.store.dispatch(new SetLastTemplateKeyToRoomByUId({lastTemplateKey:response.templateKey ,uid:uid}));
         this.store.dispatch(new SetCurrentRoomID({id: response.room.id}));
         this.store.dispatch(new SetCurrentBotID({bot_id: response.room.bot_id}));
-
       });
 
     this.store.dispatch(new ToggleChatWindow({open: true}));

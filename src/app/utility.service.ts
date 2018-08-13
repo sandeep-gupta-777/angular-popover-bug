@@ -146,4 +146,22 @@ export class UtilityService {
     this.toastr.error(error.message,error.name,{positionClass:'toast-bottom-left',timeOut:2000})
   }
 
+  createRandomString(length:number=10) {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < length; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+  }
+
+  getCurrentTimeInHHMM() {
+    var date = new Date();
+    var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+    var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+    return hours + ":" + minutes;
+  };
+
+
 }

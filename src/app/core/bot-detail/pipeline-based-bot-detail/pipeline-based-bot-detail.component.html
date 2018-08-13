@@ -1,3 +1,170 @@
-<p>
-  pipeline-based-bot-detail works!
-</p>
+<div *ngIf="(bot$|async) as bot">
+
+  <app-bot-detail-header [bot]="bot"></app-bot-detail-header>
+
+  <div class="row shadow-theme bg-white py-4 mb-3">
+    <!---->
+    <div class="col-12 text-theme-normal">
+      <div class="col-12 d-flex justify-content-between px-4 py-2">
+        <h4 class="heading">Bot Configuration</h4>
+        <div *ngIf="!showConfig" class="d-flex mx-4 justify-content-between align-items-center flex-grow-1">
+          <div>Bot Unique Name : <strong>Botuniquename</strong></div>
+          <div>Session Time : <strong>240 </strong>min</div>
+          <div>Advance Data Protection : <strong>ON</strong></div>
+          <div>Data Retention Period : <strong>40 </strong>Days</div>
+          <div>Blank Consent : <strong>OFF</strong></div>
+        </div>
+        <div class="cursor-pointer"
+             (click)="showConfig=!showConfig">
+          <i class="fa fa-angle-down"style="font-size: 20px; line-height: 12px"></i>
+        </div>
+      </div>
+
+      <app-bot-config (datachanged$)="datachanged($event)" *ngIf="showConfig" [bot]="(bot$|async)"></app-bot-config>
+
+    </div>
+  </div>
+
+
+
+
+  <!--============================ngtemplate============================-->
+  <ng-template #placeholder>
+    <div class="row row-details">
+      <div class="col-2  d-flex flex-column align-items-center justify-content-start">
+        <i class="fa fa-area-chart p-0"></i>
+        <span class="number">0</span>
+        <span class="description">Total Session</span>
+      </div>
+      <div class="col-2 pb-5 d-flex flex-column align-items-center">
+        <i class="fa fa-users"></i>
+        <span class="number">0</span>
+        <span class="description">Total Users</span>
+      </div>
+      <div class="col-2 d-flex flex-column align-items-center">
+        <i class="fa fa-envelope"></i>
+        <span class="number">0</span>
+        <span class="description">Total Messages</span>
+      </div>
+      <div class="col-2 d-flex flex-column align-items-center">
+        <i class="fa fa-exchange"></i>
+        <span class="number">0</span>
+        <span class="description">Average Message Per Session</span>
+      </div>
+      <div class="col-2 d-flex flex-column align-items-center">
+        <i class="fa fa-clock-o"></i>
+        <span class="number">0</span>
+        <span class="description">Total Time Spent(hh:mm)</span>
+      </div>
+      <div class="col-2 d-flex flex-column align-items-center">
+        <i class="fa fa-hourglass"></i>
+        <span class="number">0</span>
+        <span class="description">Time Spent Per Session (hh:mm)</span>
+      </div>
+    </div>
+  </ng-template>
+
+</div>
+
+<!--============= REDESIGN=================-->
+
+<div class="row shadow-theme bg-white p-4 my-5">
+
+  <!--tabs start-->
+  <div class="col-12 px-4">
+    <ul class="nav nav-tabs theme-tabbing mb-2">
+      <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='architecture'}">
+        <a class="nav-link heading" [routerLink]="['.']"
+           queryParamsHandling="merge"
+           replaceUrl="true"
+           (click)="tabChanged('architecture')"
+           [queryParams]="{build:'architecture'}"><strong>Bot Architecture</strong></a>
+      </li>
+      <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='testing'}">
+        <a class="nav-link heading" [routerLink]="['.']"
+           queryParamsHandling="merge"
+           replaceUrl="true"
+           (click)="tabChanged('testing')"
+           [queryParams]="{build:'testing'}"><strong>Testing</strong></a>
+      </li>
+      <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='sessions'}">
+        <a class="nav-link heading" [routerLink]="['.']"
+           queryParamsHandling="merge"
+           replaceUrl="true"
+           (click)="tabChanged('sessions')"
+           [queryParams]="{build:'sessions'}"><strong>Session</strong></a>
+      </li>
+      <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='consumer'}">
+        <a class="nav-link heading" [routerLink]="['.']"
+           queryParamsHandling="merge"
+           replaceUrl="true"
+           (click)="tabChanged('consumer')"
+           [queryParams]="{build:'consumer'}"><strong>Consumer</strong></a>
+      </li>
+    </ul>
+
+  </div>
+  <!--tabs end-->
+
+  <!--architeture starts-->
+  <div class="col-12 architeture-body" *ngIf="selectedTab==='architecture' && (bot$|async) as bot ">
+    <div class="d-flex row-body bg-white mt-2">
+
+      <div class="side-bar  border-right">
+        <div class="sidebar-content">
+          <a routerLink="."
+             [queryParams]="{'build-tab':'pipeline'}"
+             queryParamsHandling="merge"
+             [ngClass]="{'font-weight-bold':selectedSideBarTab==='pipeline'}"
+             (click)="selectedSideBarTab='pipeline'"
+             class="tab-theme font-weight-bold">Pipeline
+          </a>
+          <div routerLink="."
+               [queryParams]="{'build-tab':'knowledge'}"
+               queryParamsHandling="merge"
+               [ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"
+               (click)="selectedSideBarTab='knowledge'"
+               class="tab-theme">Knowledge base
+          </div>
+          <!--<div routerLink="."-->
+               <!--[queryParams]="{'build-tab':'code'}"-->
+               <!--queryParamsHandling="merge"-->
+               <!--[ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"-->
+               <!--(click)="selectedSideBarTab='code'"-->
+               <!--class="tab-theme">Code-->
+          <!--</div>-->
+          <!--<div routerLink="."-->
+               <!--[queryParams]="{'build-tab':'integration'}"-->
+               <!--queryParamsHandling="merge"-->
+               <!--[ngClass]="{'font-weight-bold':selectedSideBarTab==='integration'}"-->
+               <!--(click)="selectedSideBarTab='integration'"-->
+               <!--class="tab-theme">Integration-->
+          <!--</div>-->
+        </div>
+      </div>
+      <div class="p-2" style="width: 85%;">
+        <app-pipeline (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'" [bot]="bot"></app-pipeline>
+        <app-knowledge-base (datachanged$)="datachanged($event)"  *ngIf="selectedSideBarTab==='knowledge'" [bot]="(bot$|async)"></app-knowledge-base>
+        <!--<app-code-input (datachanged$)="datachanged($event)"  *ngIf="selectedSideBarTab==='code'" [bot]="(bot$|async)"></app-code-input>-->
+        <!--<app-integration-option-list (datachanged$)="datachanged($event)"  *ngIf="selectedSideBarTab==='integration'"-->
+                                     <!--[bot]="(bot$|async)"></app-integration-option-list>-->
+      </div>
+
+    </div>
+
+  </div>
+  <!--architeture ends-->
+
+  <div class="col-12" *ngIf="selectedTab==='testing'">
+    <app-bot-testing [bot]="bot$|async"></app-bot-testing>
+  </div>
+
+  <div class="col-12" *ngIf="selectedTab==='sessions'">
+    <app-bot-sessions [id]="(bot$|async).id" [bot]="(bot$|async)"></app-bot-sessions>
+  </div>
+
+  <div class="col-12" *ngIf="selectedTab==='consumer'">
+    <app-consumers [id]="(bot$|async).id" [bot]="(bot$|async)"></app-consumers>
+  </div>
+
+</div>

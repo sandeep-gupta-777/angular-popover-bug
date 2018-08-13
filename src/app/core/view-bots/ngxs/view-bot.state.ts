@@ -76,11 +76,10 @@ export class ViewBotStateReducer{
   }
 
   static getCodeBased(x){
-    console.log("ngxs getCodeBased");
     return x.botlist.codeBasedBotList;
   }
   static getPipelineBased(x){
-    console.log("ngxs getPipelineBased");
+    // debugger;
     return x.botlist.pipelineBasedBotList;
   }
   // static getBotById(state){

@@ -13,9 +13,21 @@ export class ChangeFrameAction {
 
   constructor(public payload: { frameEnabled: EChatFrame }) {}
 }
-export class AddMessagesToRoom {
+export class AddNewRoom {
+  static readonly type = '[chat-widdow] update AddNewRoom';
+  constructor(public payload: IRoomData) {}
+}
+export class AddMessagesToRoomByUId {
   static readonly type = '[chat-widdow] update AddMessagesToRoom';
   constructor(public payload: IRoomData) {}
+}
+export class AttachRoomIdToRoomByUId {
+  static readonly type = '[chat-widdow] update AttachRoomIdToRoomByUId';
+  constructor(public payload: {room_id:number, uid:string}) {}
+}
+export class SetLastTemplateKeyToRoomByUId {
+  static readonly type = '[chat-widdow] update SetLastTemplateKeyToRoomByUId';
+  constructor(public payload: {lastTemplateKey:string, uid:string}) {}
 }
 
 export class SetCurrentRoomID {
@@ -26,6 +38,11 @@ export class SetCurrentRoomID {
 export class SetCurrentBotID {
   static readonly type = '[chat-widdow] set SetCurrentBotID';
   constructor(public payload: { bot_id: number,bot?:IBot}) {}
+}
+
+export class SetCurrentUId {
+  static readonly type = '[chat-widdow] set SetCurrentConsumerId';
+  constructor(public payload: { uid: string}) {}
 }
 
 export class ResetChatState {
