@@ -121,7 +121,7 @@ export class ConstantsService {
   }
 
   getReportUrl(page = 1, pageSize = 10) {
-    return this.BACKEND_URL + `reports?page=${page}&pageSize=${pageSize}`; //https://dev.imibot.ai/reports?page=1&pageSize=10
+    return this.BACKEND_URL + `api/v1/reports?page=${page}&pageSize=${pageSize}`; //{{url}}/reports?page=1&pageSize=10
   }
 
   getReportHistoryUrl(page = 1, pageSize = 10) {

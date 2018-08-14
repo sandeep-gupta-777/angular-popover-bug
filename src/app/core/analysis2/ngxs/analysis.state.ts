@@ -5,7 +5,7 @@ import {IAnalysis2HeaderData} from '../../../../interfaces/Analytics2/analytics2
 
 export interface IAnalysis2State {
   // analysisHeaderData:IOverviewInfoPostBody,
-  analysisHeaderData:IAnalysis2HeaderData,
+  analysisHeaderData:Partial<IAnalysis2HeaderData>,
   overviewInfo: IOverviewInfo
 }
 
@@ -23,10 +23,14 @@ export class AnalysisStateReducer2 {
   @Action(SetAnalysis2HeaderData)
   setOverViewInfo2({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetAnalysis2HeaderData) {
     let state:IAnalysis2State = getState();
-    patchState({ analysisHeaderData:{
-        ...state.analysisHeaderData,
-        ...payload.analysisHeaderData
-      }});
+    if(state){
+      patchState({ analysisHeaderData:{
+          ...state.analysisHeaderData,
+          ...payload.analysisHeaderData
+        }});
+    }else {
+      patchState({ analysisHeaderData:payload.analysisHeaderData});
+    }
   }
 
   @Action(SetOverviewInfoData)

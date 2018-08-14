@@ -75,6 +75,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
 
     this.analytics2HeaderData$.subscribe((analytics2HeaderData) => {
       /*TODO: for some reason, angular form validation is not working. This is a hack*/
+      debugger;
       if (!this.f.valid || Object.keys(this.f.value).length !== 4) return;
       try {
         let url = this.constantsService.getAnalyticsUrl();
@@ -91,7 +92,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
             debugger;
             if (headerData.type === EAnalysis2TypesEnum.overviewinfo) {
               let responseCopy: IOverviewInfoResponse = response;
-              // this.store.dispatch(new SetOverviewInfoData({data: responseCopy.objects[0].output}));
+              this.store.dispatch(new SetOverviewInfoData({data: responseCopy.objects[0].output}));
             }
           });
       } catch (e) {

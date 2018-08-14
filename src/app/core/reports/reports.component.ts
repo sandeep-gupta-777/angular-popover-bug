@@ -46,6 +46,7 @@ export class ReportsComponent implements OnInit {
     let reportUrl = this.constantsService.getReportUrl(1,10);
     let reportHistoryUrl = this.constantsService.getReportHistoryUrl(1,10);
     let reportTypeUrl = this.constantsService.geReportTypesUrl();
+        debugger;
     this.serverService.makeGetReq<IReportTypeItem[]>({url:reportTypeUrl})
       .subscribe((reportTypes)=>{
         console.log(reportTypes);
