@@ -112,7 +112,7 @@ export class UtilityService {
     }
   }
 
-  convert(rawData,xAxisLabel) {
+  convert(rawData,xAxisLabel:string) {
     let convertedData = []
     /*initialize the convertedData*/
     Object.keys(rawData[0]).forEach((value)=>{
@@ -130,11 +130,14 @@ export class UtilityService {
         let data = this.findDataByName(convertedData,key);
         // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
         let dateStr_ddmmyyyy = obj[xAxisLabel];
-        let dd = dateStr_ddmmyyyy.split('/')[0];
-        let mm = dateStr_ddmmyyyy.split('/')[1];
-        let yyyy = dateStr_ddmmyyyy.split('/')[2];
-        let dateStr_mmddyyyy = `${mm}/${dd}/${yyyy}`;
-        let ms = Date.parse(dateStr_mmddyyyy);
+        let hh = dateStr_ddmmyyyy.split(':')[1];
+        let mm = dateStr_ddmmyyyy.split(':')[0];
+        let ms = hh*3600*1000 + mm*60*1000;
+        // let dd = dateStr_ddmmyyyy.split('/')[0];
+        // let mm = dateStr_ddmmyyyy.split('/')[1];
+        // let yyyy = dateStr_ddmmyyyy.split('/')[2];
+        // let dateStr_mmddyyyy = `${mm}/${dd}/${yyyy}`;
+        // let ms = Date.parse(dateStr_mmddyyyy);
        if(data)/*This fix is done for new keys which were not in rawdata[0]. They will be ignored*/
         data.push([ms, obj[key]]);//pushing a new coordinate
       });

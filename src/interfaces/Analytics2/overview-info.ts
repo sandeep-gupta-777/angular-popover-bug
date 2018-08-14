@@ -1,7 +1,10 @@
 import {IBot} from '../../app/core/interfaces/IBot';
 
 export interface IOverviewInfoResponse
-{meta:any, objects:[{output:IOverviewInfo}]}
+{
+  meta:any, 
+  objects:[{output:IOverviewInfo}]
+}
 
 export interface IOverviewInfo {
   'averageMessages': string,

@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {ConstantsService} from '../../../constants.service';
 import {ActivatedRoute} from '@angular/router';
+import { EAnalysis2TypesEnum } from '../../../../interfaces/Analytics2/analysis2-types';
+import { SetAnalysis2HeaderData } from '../ngxs/analysis.action';
+import { Store, Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { IAnalysis2State } from '../ngxs/analysis.state';
+import { IChannelWiseFlowsPerSessionResponseBody, IChannelWiseFlowsPerSessionItem } from '../../../../interfaces/Analytics2/volume-sessions';
+import { UtilityService } from '../../../utility.service';
 
 @Component({
   selector: 'app-analysis2-volume',
@@ -8,9 +15,10 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./analysis2-volume.component.scss']
 })
 export class Analysis2VolumeComponent implements OnInit {
-
+  @Select() analysisstate2$: Observable<IAnalysis2State>;
+  data$: Observable<IChannelWiseFlowsPerSessionItem[]>;
   activeTab: string = 'Sessions';
-  series_Sessions: any[] = [{
+  series_Sessions: {name:string, data:number[]}[] = [{
     name: 'Maximum',
     data: [4, 5, 8, 12, 10, 6, 22, 3]
   }, {
@@ -29,6 +37,8 @@ export class Analysis2VolumeComponent implements OnInit {
   constructor(
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
+    private store: Store,
+    private u:UtilityService
   ) {
   }
 
@@ -37,7 +47,22 @@ export class Analysis2VolumeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('perf') || 'Sessions';
+    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('vol') || 'Sessions';
+      debugger; 
+      this.store.dispatch(new SetAnalysis2HeaderData({
+        analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseFlowsPerSession}
+      }));
+      this.analysisstate2$
+      .subscribe((value)=>{
+        debugger;
+        let x  = this.u.convert(value.channelWiseFlowsPerSession,"labels") ;
+        this.series_Sessions = x;
+
+      })
+      // .map((analysisState) => {
+      //   debugger;
+      // let x =  this.u.convert(analysisState.channelWiseFlowsPerSession,"labels") ;
+      // });
   }
 
 

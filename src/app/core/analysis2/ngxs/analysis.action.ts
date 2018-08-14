@@ -1,6 +1,7 @@
 
 import {IOverviewInfo} from '../../../../interfaces/Analytics2/overview-info';
 import {IAnalysis2HeaderData} from '../../../../interfaces/Analytics2/analytics2-header';
+import {  IChannelWiseFlowsPerSessionItem } from '../../../../interfaces/Analytics2/volume-sessions';
 
 export class SetAnalysis2HeaderData {
   static readonly type = '[analytics2] SetOverViewInfo2';
@@ -16,4 +17,9 @@ export class SetOverviewInfoData {
 }
 
 
+export class SetChannelWiseFlowsPerSession {
+  static readonly type = '[analytics2] SetChannelWiseFlowsPerSession';
+  constructor(public payload: { data: IChannelWiseFlowsPerSessionItem[]}) {
+  }
+}
 

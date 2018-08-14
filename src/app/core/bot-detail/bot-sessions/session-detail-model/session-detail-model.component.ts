@@ -3,7 +3,7 @@ import {ISessionMessageItem, ISessionMessage} from '../../../../../interfaces/se
 import { ConstantsService } from '../../../../constants.service';
 import { ServerService } from '../../../../server.service';
 import { IBot } from '../../../interfaces/IBot';
-import { Observable } from '../../../../../../node_modules/rxjs';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-session-detail-model',
   templateUrl: './session-detail-model.component.html',

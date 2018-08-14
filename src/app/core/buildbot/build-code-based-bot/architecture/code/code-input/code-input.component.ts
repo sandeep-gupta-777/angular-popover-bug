@@ -6,10 +6,10 @@ import {ConstantsService} from '../../../../../../constants.service';
 import {SaveVersionInfoInBot} from '../../../../../view-bots/ngxs/view-bot.action';
 import {SaveCodeInfo} from '../../../../ngxs/buildbot.action';
 import { ViewBotStateModel } from '../../../../../view-bots/ngxs/view-bot.state';
-import { Observable } from '../../../../../../../../node_modules/rxjs';
+import { Observable } from 'rxjs';
 import {IHeaderData} from '../../../../../../../interfaces/header-data';
 import {UtilityService} from '../../../../../../utility.service';
-import { Router, ActivatedRoute } from '../../../../../../../../node_modules/@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { IBotCreationState } from '../../../../ngxs/buildbot.state';
 
 
