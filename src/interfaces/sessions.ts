@@ -9,7 +9,7 @@ export interface ISessionMessageItem{
   "generated_msg": Array<any>,
   "generated_msg_string": string,
   "id": number,
-  "message": Array<any>,
+  "message": any//Array<any>| string,
   "message_store": {},
   "platform": string,
   "resource_uri": string,
@@ -52,5 +52,5 @@ export interface ISessionItem {
 export interface ISessions {
   'meta' : IMeta,
   'objects': ISessionItem[]
-  
+
 }

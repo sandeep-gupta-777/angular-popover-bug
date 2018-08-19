@@ -9,100 +9,9 @@ import {Observable} from 'rxjs';
 })
 export class SmartTableComponent implements OnInit {
 
-
-  // settings1 = {
-  //   columns: {
-  //     id: {
-  //       title: 'ID',
-  //       filter: false,
-  //     },
-  //     name: {
-  //       title: 'Full Name',
-  //       filter: false,
-  //     },
-  //     username: {
-  //       title: 'User Name',
-  //       filter: false,
-  //     },
-  //     email: {
-  //       title: 'Email',
-  //       filter: false,
-  //     },
-  //   },
-  // };
-
-  // data1 = [
-  //   {
-  //     id: 1,
-  //     name: 'Leanne Graham',
-  //     username: 'Bret',
-  //     email: 'Sincere@april.biz',
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'Ervin Howell',
-  //     username: 'Antonette',
-  //     email: 'Shanna@melissa.tv',
-  //   },
-  //   {
-  //     id: 3,
-  //     name: 'Clementine Bauch',
-  //     username: 'Samantha',
-  //     email: 'Nathan@yesenia.net',
-  //   },
-  //   {
-  //     id: 4,
-  //     name: 'Patricia Lebsack',
-  //     username: 'Karianne',
-  //     email: 'Julianne.OConner@kory.org',
-  //   },
-  //   {
-  //     id: 5,
-  //     name: 'Chelsey Dietrich',
-  //     username: 'Kamren',
-  //     email: 'Lucio_Hettinger@annie.ca',
-  //   },
-  //   {
-  //     id: 6,
-  //     name: 'Mrs. Dennis Schulist',
-  //     username: 'Leopoldo_Corkery',
-  //     email: 'Karley_Dach@jasper.info',
-  //   },
-  //   {
-  //     id: 7,
-  //     name: 'Kurtis Weissnat',
-  //     username: 'Elwyn.Skiles',
-  //     email: 'Telly.Hoeger@billy.biz',
-  //   },
-  //   {
-  //     id: 8,
-  //     name: 'Nicholas Runolfsdottir V',
-  //     username: 'Maxime_Nienow',
-  //     email: 'Sherwood@rosamond.me',
-  //   },
-  //   {
-  //     id: 9,
-  //     name: 'Glenna Reichert',
-  //     username: 'Delphine',
-  //     email: 'Chaim_McDermott@dana.io',
-  //   },
-  //   {
-  //     id: 10,
-  //     name: 'Clementina DuBuque',
-  //     username: 'Moriah.Stanton',
-  //     email: 'Rey.Padberg@karina.biz',
-  //   },
-  //   {
-  //     id: 11,
-  //     name: 'Nicholas DuBuque',
-  //     username: 'Nicholas.Stanton',
-  //     email: 'Rey.Padberg@rosamond.biz',
-  //   },
-  // ];
-
   @Input() set data(value){
     this._data = value;
-    this.totalPageCount = Math.ceil((value && value.length) / this.recordsPerPage);
+    // this.totalPageCount = Math.ceil((this.totalRecords) / this.recordsPerPage);
     this.source.load(this._data);
     this.source.refresh();
   };
@@ -116,7 +25,7 @@ export class SmartTableComponent implements OnInit {
   @Input() totalRecords: number = 10;
   paginationArr = [];
   currentPage: number = 1;
-  recordsPerPage: number = 5;
+  recordsPerPage: number = 10;
   totalPageCount;
   math = Math;
 
@@ -126,6 +35,7 @@ export class SmartTableComponent implements OnInit {
 
   ngOnInit() {
     this.source.load(this._data);
+    this.totalPageCount = Math.ceil((this.totalRecords) / this.recordsPerPage);
     let start = 1;
     let end = Math.min(this.totalPageCount, 5);
     this.createPaginationArray(start, end);
@@ -147,8 +57,17 @@ export class SmartTableComponent implements OnInit {
     console.log('row clicked');
     this.rowClicked$.emit(event);
   }
+  goToNextPage(){
+    if(this.currentPage<this.totalPageCount)
+    this.goToPage(Math.min(this.totalPageCount,this.currentPage+1));
+  }
+  goToPrevPage(){
+    if(this.currentPage>=2)
+    this.goToPage(Math.max(0,this.currentPage-1));
+  }
 
   goToPage(currentPage) {
+    // debugger;
 
     this.currentPage = currentPage;
     this.totalPageCount = Math.ceil(this.totalRecords / this.recordsPerPage);

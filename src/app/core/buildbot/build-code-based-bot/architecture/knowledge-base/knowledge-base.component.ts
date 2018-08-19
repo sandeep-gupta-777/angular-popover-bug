@@ -101,14 +101,14 @@ export class KnowledgeBaseComponent implements OnInit {
           'column_nermap': {},
           'conflict_policy': this.conflict_policy,
           /*change date format*/
-          'created_at': new Date().toISOString(),
-          'created_by': this.loggeduser.user.id,
+          // 'created_at': new Date().toISOString(),
+          // 'created_by': this.loggeduser.user.id,
           'enterprise_id': this.loggeduser.user.enterprise_id,
           'key': this.key,
           'ner_type': this.nerType,
           // "process_raw_text": false,
           'type': 'bot',
-          'updated_at': new Date().toISOString(),
+          // 'updated_at': new Date().toISOString(),
           // "updated_by": 0,
           // "values"?: any[]
         };

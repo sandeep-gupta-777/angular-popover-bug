@@ -45,7 +45,7 @@ export class PipelineComponent implements OnInit {
       });
     if(this.buildBotType){
       this.botcreationstate$.subscribe((botcreationstate)=>{
-        this.pipeLine = botcreationstate[this.buildBotType] && botcreationstate[this.buildBotType].pipelines || [];
+        this.pipeLine = botcreationstate && botcreationstate[this.buildBotType] && botcreationstate[this.buildBotType].pipelines || [];
       })
     }
   };

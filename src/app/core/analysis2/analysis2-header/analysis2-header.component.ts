@@ -7,7 +7,7 @@ import {NgForm} from '@angular/forms';
 import {ConstantsService} from '../../../constants.service';
 import {BsDatepickerConfig} from 'ngx-bootstrap';
 import {Select, Store} from '@ngxs/store';
-import {SetAnalysis2HeaderData, SetOverviewInfoData} from '../ngxs/analysis.action';
+import {SetAnalysis2HeaderData, SetOverviewInfoData, SetChannelWiseFlowsPerSession} from '../ngxs/analysis.action';
 import {IAnalysisState} from '../../analysis/ngxs/analysis.state';
 import {IOverviewInfoPostBody, IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
@@ -18,6 +18,7 @@ import {EAnalysis2TypesEnum} from '../../../../interfaces/Analytics2/analysis2-t
 import {SetOverViewInfo} from '../../analysis/ngxs/analysis.action';
 import {IAnalysis2HeaderData} from '../../../../interfaces/Analytics2/analytics2-header';
 import {IAuthState} from '../../../auth/ngxs/auth.state';
+import { IChannelWiseFlowsPerSessionResponseBody } from '../../../../interfaces/Analytics2/volume-sessions';
 
 @Component({
   selector: 'app-analysis2-header',
@@ -75,7 +76,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
 
     this.analytics2HeaderData$.subscribe((analytics2HeaderData) => {
       /*TODO: for some reason, angular form validation is not working. This is a hack*/
-      debugger;
+      // debugger;
       if (!this.f.valid || Object.keys(this.f.value).length !== 4) return;
       try {
         let url = this.constantsService.getAnalyticsUrl();
@@ -89,10 +90,13 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
         if (!this.utilityService.areAllValesDefined(headerData)) return;
         this.serverService.makeGetReq({url, headerData})
           .subscribe((response: any) => {
-            debugger;
             if (headerData.type === EAnalysis2TypesEnum.overviewinfo) {
               let responseCopy: IOverviewInfoResponse = response;
               this.store.dispatch(new SetOverviewInfoData({data: responseCopy.objects[0].output}));
+            }
+            if (headerData.type === EAnalysis2TypesEnum.channelWiseFlowsPerSession) {
+              let responseCopy: IChannelWiseFlowsPerSessionResponseBody = response;
+              this.store.dispatch(new SetChannelWiseFlowsPerSession({data: responseCopy.objects[0].output.channelWiseFlowsPerSession}));
             }
           });
       } catch (e) {

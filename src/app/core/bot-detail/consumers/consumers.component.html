@@ -1,3 +1,7 @@
-<div *ngIf="(consumers$|async) as consumers">
-  <app-smart-table [data]="consumers.objects" [settings]="smartTableSettings_Consumers" ></app-smart-table>
-</div>
+<app-smart-table
+  [totalRecords]="totalRecords"
+  (pageChanged$)="pageChanged($event)"
+  [data]="(consumers$|async).objects"
+  [settings]="smartTableSettings_Consumers">
+
+</app-smart-table>

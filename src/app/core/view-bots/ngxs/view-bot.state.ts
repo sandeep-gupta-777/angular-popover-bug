@@ -28,7 +28,7 @@ export interface ViewBotStateModel {
 //same as reducer
 export class ViewBotStateReducer{
 
-  constructor(private activatedRoute:ActivatedRoute){console.log("ViewBotStateReducer")}
+  constructor(private activatedRoute:ActivatedRoute){}
   @Action(SetCodeBasedBotListAction)
   setCodebasedBotList({patchState, setState, getState,dispatch}:StateContext<ViewBotStateModel>, {payload} : SetCodeBasedBotListAction){
     let state = getState();

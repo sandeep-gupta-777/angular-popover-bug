@@ -43,11 +43,9 @@ export class MessagesComponent implements OnInit {
         .subscribe((x) => {
           this.totalMessages  = x;
           this.totalMessagesData = this.chartSettingService.createSeriesDataFromArray(x.messagesinfo,'labels');
-          console.log(x);
         });
       this.serverService.makePostReq<any>({url: messagesByTemplateKeyUrl, body:body_messagesByTemplateKey})
         .subscribe((x) => {
-          console.log(x);
         });
     });
   }

@@ -1,9 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ISessionMessageItem, ISessionMessage} from '../../../../../interfaces/sessions';
-import { ConstantsService } from '../../../../constants.service';
-import { ServerService } from '../../../../server.service';
-import { IBot } from '../../../interfaces/IBot';
-import { Observable } from '../../../../../../node_modules/rxjs';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ISessionMessageItem, ISessionMessage, ISessionItem} from '../../../../../interfaces/sessions';
+import {ConstantsService} from '../../../../constants.service';
+import {ServerService} from '../../../../server.service';
+import {IBot} from '../../../interfaces/IBot';
+import {Observable} from 'rxjs';
+
 @Component({
   selector: 'app-session-detail-model',
   templateUrl: './session-detail-model.component.html',
@@ -11,16 +12,34 @@ import { Observable } from '../../../../../../node_modules/rxjs';
 })
 export class SessionDetailModelComponent implements OnInit {
 
-  @Input() sessionId: number;
+  @Input() set session(_session) {
+    this._session = _session;
+    if (_session && _session.id)
+      setTimeout(() => {
+          this.loadSessionById(_session.id);
+        }
+      );
+    ;
+
+  };
+
+  _session: ISessionItem;
+
   @Input() bot: IBot;
-  @Input() finalDfState:{};
+  @Input() finalDfState: {};
   @Input() sessionDataStore: {};
+  @Output() selectNextRow = new EventEmitter();
+  @Output() selectPrevRow = new EventEmitter();
+  @Input() showPrevButton:boolean =false;
+  @Input() pageNumberOfCurrentRowSelected:number;
+  @Input() indexOfCurrentRowSelected:number;
   sessionMessageData$: Observable<ISessionMessage>;
-  sessionMessageData: ISessionMessageItem[] ;
+  sessionMessageData: ISessionMessageItem[];
+  messageSearchKeyword: string = '';
   activeTab: string = 'manager_bot';  // = 'manager_bot' | 'active_bot'|'final_df'|'datastore';
   codeText;
   totalMessagesCount: number;
-  url:string;
+  url: string;
   managerPanelData: {
     'generatedDf': {},
     'generatedMsg': Array<any>, /*bot message*/
@@ -34,17 +53,25 @@ export class SessionDetailModelComponent implements OnInit {
   constructor(
     private constantsService: ConstantsService,
     private serverService: ServerService
-  ) { }
+  ) {
+  }
 
 
   ngOnInit() {
-    this.url = this.constantsService.getSessionsMessageUrl(this.sessionId);
-    this.sessionMessageData$ = this.serverService.makeGetReq<ISessionMessage>({url:this.url,headerData:{"bot-access-token":this.bot.bot_access_token}});
-    this.sessionMessageData$.subscribe((value) =>{
-      if(!value) return;
+
+    // this.loadSessionById(this._session.id);
+  }
+
+  loadSessionById(id) {
+    this.url = this.constantsService.getSessionsMessageUrl(id);
+    this.sessionMessageData$ = this.serverService.makeGetReq<ISessionMessage>({
+      url: this.url,
+      headerData: {'bot-access-token': this.bot.bot_access_token}
+    });
+    this.sessionMessageData$.subscribe((value) => {
+      if (!value) return;
       this.totalMessagesCount = value.meta.total_count;
       this.sessionMessageData = value.objects;
-      console.log("sdasdasdasdasdasdasd"+this.sessionMessageData+"sdasdasdasdasdasdasd");
     });
     this.tabClicked(this.activeTab);
   }
@@ -63,11 +90,12 @@ export class SessionDetailModelComponent implements OnInit {
     this.activeBotPanelData = messageDataForGiveTxnId.message_store;
     // this.dataStorePanelData = this.sessionData.dataStore;
     // this.finalDFPanelData = this.sessionData.dfState;
-    this.tabClicked(this.activeTab)
+    this.tabClicked(this.activeTab);
 
   }
 
   tabClicked(active: string) {
+    // debugger;
     this.activeTab = active;
     switch (active) {
       case 'manager_bot': {
@@ -87,6 +115,10 @@ export class SessionDetailModelComponent implements OnInit {
         break;
       }
     }
+  }
+
+  selectNextPreviousRow() {
+
   }
 
 }

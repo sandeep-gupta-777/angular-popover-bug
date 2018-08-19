@@ -30,11 +30,11 @@
     <button class="btn btn-theme-primary-outline" (click)="forkNewVersionFromSelectedVersion()">Fork new version</button>
   </div>
   <div class="row row-flex-bot-versioning-toaster border-theme-secondary  border-top-0 mx-0"
-       *ngIf="showVersionList">
+       *ngIf="showVersionList" style="max-height: 50vh; overflow-y: scroll">
     <div class="col-12 py-2 border-bottom-theme-secondary"
          *ngFor="let version of bot.store_bot_versions | filterActiveBot:selectedVersion.id">
       <div class="d-flex align-items-center justify-content-between flex-bot-versioning-toaster"
-           (click)="selectedVersion = version; showVersionList = false; tabClicked('dfTemplate');">
+           (click)="selectedVersion = version; showVersionList = false; tabClicked('df_template');">
         <div class="active-label-text">{{version.id === activeVersion.id?'Active':'Inactive'}}</div>
         <div class="count mr-1">{{version.id}}</div>
         <div class="forked mr-1">Forked from version 1</div>
@@ -68,25 +68,25 @@
       <!--tabs end-->
       <div class="card-body p-0 mr-2">
         <ul class="nav nav-tabs theme-tabbing">
-          <li class="nav-item" [ngClass]="{'tab-active': activeTab==='dfTemplate'}">
+          <li class="nav-item" [ngClass]="{'tab-active': activeTab==='df_template'}">
             <a class="nav-link text-theme-normal"
-               (click)="tabClicked('dfTemplate')">DF Template</a>
+               (click)="tabClicked('df_template')">DF Template</a>
           </li>
-          <li class="nav-item" [ngClass]="{'tab-active': activeTab==='dfRules'}">
-            <a class="nav-link text-theme-normal"  (click)="tabClicked('dfRules')">DF
+          <li class="nav-item" [ngClass]="{'tab-active': activeTab==='df_rules'}">
+            <a class="nav-link text-theme-normal"  (click)="tabClicked('df_rules')">DF
               Rules</a>
           </li>
-          <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab==='generationRules'}">
+          <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab==='generation_rules'}">
             <a class="nav-link"
-               (click)="tabClicked('generationRules')">Generation Rules</a>
+               (click)="tabClicked('generation_rules')">Generation Rules</a>
           </li>
-          <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab==='generationTemplates'}">
+          <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab==='generation_templates'}">
             <a class="nav-link"
-               (click)="tabClicked('generationTemplates')">Generation Template</a>
+               (click)="tabClicked('generation_templates')">Generation Template</a>
           </li>
-          <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab==='workflows'}">
+          <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab==='workflow'}">
             <a class="nav-link"
-               (click)="tabClicked('workflows')">Workflows</a>
+               (click)="tabClicked('workflow')">Workflows</a>
           </li>
         </ul>
 
@@ -151,7 +151,7 @@
             </div>
             <div class="bot-templates">
               <i class="fa fa-users" style="font-size: 12px"></i>
-              dasdasd das das da sda 
+              dasdasd das das da sda
             </div>
             <div class="bot-templates"></div>
             <div class="bot-templates"></div>

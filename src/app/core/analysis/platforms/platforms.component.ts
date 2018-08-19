@@ -40,21 +40,17 @@ export class PlatformsComponent implements OnInit {
       this.serverService.makePostReq<IChannelWiseUsersItem[]>({url:channelWiseUsersUrl, body})
         .subscribe((response)=>{
           this.channelWiseUsers = this.chartSettingService.createSeriesDataFromArray(response,'labels');
-          console.log(response);
         });
       this.serverService.makePostReq<IChannelWiseUsersItem[]>({url:channelWiseSessionsUrl, body})
         .subscribe((response)=>{
           this.channelWiseSessions = this.chartSettingService.createSeriesDataFromArray(response,'labels');
-          console.log(response);
         });
       this.serverService.makePostReq<IChannelWiseUsersItem[]>({url:channelWiseFlowsPerSessionUrl, body})
         .subscribe((response)=>{
           this.channelWiseFlowsPerSession = this.chartSettingService.createSeriesDataFromArray(response,'labels');
-          console.log(response);
         });
       this.serverService.makePostReq<IChannelWiseUsersItem[]>({url:channelWiseAverageSessionTimeUrl, body})
         .subscribe((response)=>{
-          console.log(response);
           this.channelWiseAverageSessionTime = this.chartSettingService.createSeriesDataFromArray(response,'labels');
         });
     })

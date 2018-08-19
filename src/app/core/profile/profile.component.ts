@@ -42,7 +42,6 @@ export class ProfileComponent implements OnInit {
     let body = this.f.value;
     this.serverService.makePutReq({url, body})
       .subscribe((value: IUser)=>{
-        console.log(value);
         let updatedUser:IUser =  {...this.loggeduser, ...value};
         this.store.dispatch([
           new SetUserAction({user:updatedUser})

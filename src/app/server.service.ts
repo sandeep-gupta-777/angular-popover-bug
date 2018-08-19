@@ -12,7 +12,8 @@ import {ToastrService} from 'ngx-toastr';
 import {UtilityService} from './utility.service';
 import {SetCodeBasedBotListAction, SetPipeLineBasedBotListAction} from './core/view-bots/ngxs/view-bot.action';
 import {IBot, IBotResult} from './core/interfaces/IBot';
-import {ActivatedRoute, Router} from '../../node_modules/@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SetProgressValue} from './ngxs/app.action';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,7 @@ export class ServerService {
     });
   };
 
-  removeTokens(){
+  removeTokens() {
     this.X_AXIS_TOKEN = null;
     this.AUTH_TOKEN = null;
   }
@@ -65,10 +66,25 @@ export class ServerService {
 
   makeGetReq<T>(reqObj: { url: string, headerData?: any }): Observable<T> {
     let headers = this.createHeaders(reqObj.headerData);
+    this.store.dispatch([
+      new SetProgressValue({
+          progressbar: {
+            loading: true,
+            value: 10
+          }
+        }
+      )
+    ]);
+    this.changeProgressBar(true, 100);
+
     return this.httpClient.get<T>(reqObj.url, {headers: headers})
+      .do((value) => {
+        this.changeProgressBar(true, 100);
+      })
       .catch((e: any, caught: Observable<T>) => {
         console.log(e);
-        console.log(caught);
+        this.changeProgressBar(false, 100);
+
         this.utilityService.showErrorToaster(e);
         return _throw('error');
       });
@@ -76,10 +92,16 @@ export class ServerService {
 
   makePostReq<T>(reqObj: { url: string, body: any, headerData?: any }): Observable<T> {
     let headers = this.createHeaders(reqObj.headerData);
+
+    this.changeProgressBar(true, 10);
+
     return this.httpClient.post<T>(reqObj.url, reqObj.body, {headers: headers})
+      .do((value) => {
+        this.changeProgressBar(false, 100);
+      })
       .catch((e: any, caught: Observable<T>) => {
         console.log(e);
-        console.log(caught);
+        this.changeProgressBar(false, 100);
         this.utilityService.showErrorToaster(e);
         return _throw('error');
       });
@@ -87,18 +109,20 @@ export class ServerService {
 
   makePutReq<T>(reqObj: { url: string, body: any, headerData?: IHeaderData }): Observable<T> {
     let headers = this.createHeaders(reqObj.headerData);
-    console.log('making post request');
+    this.changeProgressBar(false, 10);
+
     return this.httpClient.put<T>(reqObj.url, JSON.stringify(reqObj.body), {headers: headers})
+      .do((value) => {
+        this.changeProgressBar(true, 100);
+      })
       .catch((e: any, caught: Observable<T>) => {
-        console.log(e);
-        console.log(caught);
         this.utilityService.showErrorToaster(e);
+        this.changeProgressBar(false, 100);
         return _throw('error');
       });
   }
 
   getOverviewInfo<T>(body: any): Observable<IOverviewInfoResponse> {
-    console.log('getting overview info');
     let url = this.constantsService.getOverViewInfoUrl();
     return this.makePostReq<IOverviewInfoResponse>({url, body});
   }
@@ -117,5 +141,18 @@ export class ServerService {
         this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
         this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
       });
+  }
+
+  changeProgressBar(loading: boolean, value: number) {
+    this.store.dispatch([
+      new SetProgressValue({
+          progressbar: {
+            loading: loading,
+            value: value
+          }
+        }
+      )
+    ]);
+
   }
 }

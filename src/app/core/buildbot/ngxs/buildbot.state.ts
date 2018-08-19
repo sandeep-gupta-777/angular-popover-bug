@@ -51,7 +51,6 @@ export class BotCreationStateReducer {
         ...payload.data
       }
     };
-    console.log(x);
     setState(x);
   }
 
@@ -65,7 +64,6 @@ export class BotCreationStateReducer {
         ...payload.data
       }
     };
-    console.log(x);
     setState(x);
   }
 
@@ -79,7 +77,6 @@ saveDataManagment({patchState, setState, getState, dispatch}: StateContext<IBotC
         ...payload.data
       }
     };
-    console.log(x);
     setState(x);
   }
 

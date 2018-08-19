@@ -7,9 +7,6 @@ export class ScrollerDirective {
   constructor(private elRef: ElementRef, private renderer: Renderer) {
     let lastScrollTop = -1;
     renderer.listen(elRef.nativeElement, 'wheel', (e) => {
-      console.log('event', e);
-      console.log('scrollTop', elRef.nativeElement.scrollTop);
-      console.log('lastScrollTop', lastScrollTop);
 
       if (elRef.nativeElement.scrollTop == lastScrollTop && e.deltaY > 0) {
         e = e || window.event;

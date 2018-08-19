@@ -50,7 +50,6 @@ export class BuildCodeBasedBotComponent implements OnInit {
     // debugger;
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('tab') || 'basic'; //todo: not a robust code
     this.botcreationstate$.subscribe((value)=>{
-      // console.log('test');
       if(!value || !value.codeBased) return;
       this.bot = value.codeBased;
     });
@@ -61,7 +60,6 @@ export class BuildCodeBasedBotComponent implements OnInit {
 
   tabClicked(activeTab:string){
     this.activeTab = activeTab;
-    console.log(this.activeTab);
   }
 
   tabChanged(tab: string) {
@@ -71,8 +69,6 @@ export class BuildCodeBasedBotComponent implements OnInit {
     let url = this.constantsService.getCreateNewBot();
     this.serverService.makePostReq({url:url, body:this.bot})
       .subscribe((value)=>{
-        console.log();
-        // debugger;
       })
   }
   datachanged(data:Partial<IBot>){

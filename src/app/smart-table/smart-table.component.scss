@@ -64,13 +64,15 @@
 $table-font-color: #606c71;
 $table-border-color: #e9ebec;
 
-::ng-deep tr {
-  border: 1px solid $table-border-color;
-  input{
-    border: 1px solid $table-border-color;
-  }
-  @include typography($font-size-normal, 35px, $font-weight-300, $color-text-grey);;
-}
+//::ng-deep tr {
+//  height: 37px;
+//  border: 1px solid #e0e0e0;
+//  border-radius: 2px;
+//  input{
+//    border: 1px solid #e0e0e0;
+//  }
+//  @include typography($font-size-normal, 35px, $font-weight-300, $color-text-grey);;
+//}
 
 ::ng-deep input {
   outline: none;
@@ -85,10 +87,19 @@ $table-border-color: #e9ebec;
 
 :host /deep/ ng2-smart-table {
   * div {
-    @include typography(12px, $line-height-normal, $font-weight-300, $color-text-normal);
+    @include typography(12px, $line-height-normal, $font-weight-300, #666666);
     strong {
       font-weight: 700;
     }
+  }
+  tr {
+    height: 37px;
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    input{
+      border: 1px solid #e0e0e0;
+    }
+    @include typography($font-size-normal, 35px, $font-weight-300, $color-text-grey);;
   }
 }
 

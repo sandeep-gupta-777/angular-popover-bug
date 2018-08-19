@@ -6,6 +6,7 @@ import {ITestcases} from '../../../../interfaces/testcases';
 import {Observable} from 'rxjs';
 import {IBot} from '../../interfaces/IBot';
 import {IHeaderData} from '../../../../interfaces/header-data';
+import {UtilityService} from '../../../utility.service';
 
 @Component({
   selector: 'app-bot-testing',
@@ -22,7 +23,19 @@ export class BotTestingComponent implements OnInit {
   testCasesUrl = this.constantsService.getBotTestingUrl();
 
 
-  constructor(private serverService: ServerService, private constantsService: ConstantsService, private store: Store) {
+  constructor(
+    private serverService: ServerService,
+    private constantsService: ConstantsService,
+    private utilityService: UtilityService,
+    private store: Store) {}
+
+  exportToCSV(){
+    let csvData = this.testCaseData;
+    let csvColumn = [1,2,3];
+    this.utilityService.downloadArrayAsCSV(csvData,csvColumn);
+  }
+  click(){
+    this.utilityService.downloadArrayAsCSV([],{});
   }
 
   ngOnInit() {
@@ -34,6 +47,7 @@ export class BotTestingComponent implements OnInit {
         });
       })
       .subscribe((value) => {
+        // debugger;
         this.testCaseData = value;
       });
     this.handontable_colHeaders = this.constantsService.HANDSON_TABLE_BOT_TESTING_colHeaders;
@@ -51,7 +65,6 @@ export class BotTestingComponent implements OnInit {
         "data":[["hi","A1",""]]
       }
     }).subscribe((value)=>{
-      console.log(value);
     })
   }
 }

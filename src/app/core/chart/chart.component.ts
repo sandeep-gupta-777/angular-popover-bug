@@ -18,7 +18,6 @@ export class ChartComponent implements OnInit {
   @Input()set data(value){
     this._data = value;
     if(!value) return;
-    console.log(value);
     this.init();
   }
   ngOnInit() {

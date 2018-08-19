@@ -38,6 +38,6 @@ export class Analysis2OverviewComponent implements OnInit {
     this.data$ = this.analysisstate2$.map((analysisState) => {
       return analysisState.overviewInfo;
     });
-  }
+  } 
 
 }

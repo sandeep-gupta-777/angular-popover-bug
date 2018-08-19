@@ -24,18 +24,15 @@ import {IEnterpriseUser} from '../../interfaces/enterprise-users';
   }
 })
 
-//same as reducer
 export class EnterpriseprofileStateReducer {
 
   @Action(SetEnterpriseInfoAction)
   SetEnterpriseInfo({patchState, setState, getState,dispatch}:StateContext<IEnterpriseProfileInfo>, {payload} : SetEnterpriseInfoAction){
-    console.log("enterprise reducer");
     patchState(payload.enterpriseInfo);
   }
 
   @Action(SetEnterpriseUsersAction)
   setEnterpriseUsers({patchState, setState, getState,dispatch}:StateContext<IEnterpriseProfileInfo>, {payload} : SetEnterpriseUsersAction){
-    console.log("enterprise reducer");
     patchState({enterpriseusers:payload.enterpriseUsers});
   }
 }

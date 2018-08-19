@@ -99,8 +99,6 @@ export class AimService {
       .map(value => value.objects)
     this.aiModules$
       .subscribe((value)=>{
-        // debugger;
-        console.log(value);
       })
   }
 

@@ -65,7 +65,6 @@ export class ChatWrapperComponent implements OnInit {
     this.botlist$.subscribe((value) => {
       this.allBotList = value.allBotList;
     });
-    console.log('ChatWrapperComponent init');
     this.isFullScreenPreview = this.activatedRoute.snapshot.data.isFullScreenPreview;
     /*This is to access route data from non-subtree component
     * see: https://github.com/angular/angular/issues/11812

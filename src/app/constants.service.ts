@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {st} from '@angular/core/src/render3';
-import {IAppData} from './ngxs/app.state';
+import {IAppState} from './ngxs/app.state';
 import {IAuthState} from './auth/ngxs/auth.state';
 import {IUser} from './core/interfaces/user';
 import {Select} from '@ngxs/store';
@@ -129,7 +129,7 @@ export class ConstantsService {
   }
 
   geReportTypesUrl() {
-    return this.BACKEND_URL + 'reporttypes'; //  https://dev.imibot.ai/reporttypes
+    return this.BACKEND_URL + 'api/v1/reporttypes'; // http://dev.imibot.ai/api/v1/reporttypes
   }
 
   getReportsEditInfo(_id) {

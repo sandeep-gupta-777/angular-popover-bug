@@ -31,8 +31,7 @@ export class CodeEditorComponent implements OnInit {
     this.editor.on('change', editor => {
       this.textChangedEvent.emit(editor.getValue())
     });
-
-    this.text && this.editor.setValue(this.text);
+    this._text && this.editor.setValue(this._text);
   }
 
   options:any = {maxLines: 20, printMargin: false};

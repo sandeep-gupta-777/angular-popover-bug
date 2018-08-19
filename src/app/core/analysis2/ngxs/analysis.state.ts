@@ -1,19 +1,22 @@
 import {Action, State, StateContext} from '@ngxs/store';
-import {SetAnalysis2HeaderData, SetOverviewInfoData} from './analysis.action';
+import {SetAnalysis2HeaderData, SetOverviewInfoData, SetChannelWiseFlowsPerSession} from './analysis.action';
 import {IOverviewInfo, IOverviewInfoPostBody} from '../../../../interfaces/Analytics2/overview-info';
 import {IAnalysis2HeaderData} from '../../../../interfaces/Analytics2/analytics2-header';
+import {  IChannelWiseFlowsPerSessionResponseBody, IChannelWiseFlowsPerSessionItem } from '../../../../interfaces/Analytics2/volume-sessions';
 
 export interface IAnalysis2State {
   // analysisHeaderData:IOverviewInfoPostBody,
   analysisHeaderData:Partial<IAnalysis2HeaderData>,
-  overviewInfo: IOverviewInfo
+  overviewInfo: IOverviewInfo,
+  channelWiseFlowsPerSession : IChannelWiseFlowsPerSessionItem[]
 }
 
 @State<IAnalysis2State>({
   name: 'analysisstate2',
   defaults: {
     analysisHeaderData:null,
-    overviewInfo:null
+    overviewInfo:null,
+    channelWiseFlowsPerSession : null
   }
 })
 
@@ -21,7 +24,7 @@ export class AnalysisStateReducer2 {
 
 
   @Action(SetAnalysis2HeaderData)
-  setOverViewInfo2({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetAnalysis2HeaderData) {
+  setAnalysis2HeaderData({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetAnalysis2HeaderData) {
     let state:IAnalysis2State = getState();
     if(state){
       patchState({ analysisHeaderData:{
@@ -37,6 +40,13 @@ export class AnalysisStateReducer2 {
   setOverviewInfoData({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetOverviewInfoData) {
     let state:IAnalysis2State = getState();
     patchState({overviewInfo:payload.data});
+  }
+
+
+  @Action(SetChannelWiseFlowsPerSession)
+  setVolumUserData({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetChannelWiseFlowsPerSession) {
+    let state:IAnalysis2State = getState();
+    patchState({channelWiseFlowsPerSession:payload.data});
   }
 
   static getAnalytics2HeaderData(state){

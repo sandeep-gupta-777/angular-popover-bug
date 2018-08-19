@@ -16,6 +16,7 @@ import {IBot} from '../interfaces/IBot';
 import {SmartTableSettingsService} from '../../smart-table-settings.service';
 import {Router} from '@angular/router';
 import {TempVariableService} from '../../temp-variable.service';
+import {IHeaderData} from '../../../interfaces/header-data';
 
 @Component({
   selector: 'app-reports',
@@ -46,10 +47,8 @@ export class ReportsComponent implements OnInit {
     let reportUrl = this.constantsService.getReportUrl(1,10);
     let reportHistoryUrl = this.constantsService.getReportHistoryUrl(1,10);
     let reportTypeUrl = this.constantsService.geReportTypesUrl();
-        debugger;
     this.serverService.makeGetReq<IReportTypeItem[]>({url:reportTypeUrl})
       .subscribe((reportTypes)=>{
-        console.log(reportTypes);
         this.serverService.makeGetReq<IReportList>({url:reportUrl})
           .subscribe((reports)=>{
 
@@ -85,7 +84,6 @@ export class ReportsComponent implements OnInit {
 
               })
             });
-            console.log(reportHistory);
           })
       });
     this.SMART_TABLE_REPORTS_SETTING = this.smartTableSettingsService.SMART_TABLE_REPORTS_SETTING;
@@ -97,7 +95,6 @@ export class ReportsComponent implements OnInit {
   }
 
   goToReportEditComponent(eventData:any){
-    console.log(eventData.data);
     this.tempVariableService.reportRowClicked = eventData.data;
     this.router.navigate(['/core','reports', 'edit',eventData.data._id]);
   }
