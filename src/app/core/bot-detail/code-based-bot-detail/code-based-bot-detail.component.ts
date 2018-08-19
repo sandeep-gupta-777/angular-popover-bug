@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {Select, Store} from '@ngxs/store';
-import { ViewBotStateReducer } from '../../view-bots/ngxs/view-bot.state';
+import {ViewBotStateModel, ViewBotStateReducer} from '../../view-bots/ngxs/view-bot.state';
 import { Observable } from 'rxjs';
 import { IBot } from '../../interfaces/IBot';
 import { ActivatedRoute } from '@angular/router';
@@ -10,6 +10,8 @@ import { ServerService } from '../../../server.service';
 import { UtilityService } from '../../../utility.service';
 import { BotSessionsComponent } from '../bot-sessions/bot-sessions.component';
 import {SaveInfoInBotInBotList, SaveVersionInfoInBot} from '../../view-bots/ngxs/view-bot.action';
+import {ConstantsService} from '../../../constants.service';
+import {IHeaderData} from '../../../../interfaces/header-data';
 
 @Component({
   selector: 'app-code-based-bot-detail',
@@ -18,7 +20,7 @@ import {SaveInfoInBotInBotList, SaveVersionInfoInBot} from '../../view-bots/ngxs
 })
 export class CodeBasedBotDetailComponent implements OnInit {
 
-  @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
+  @Select() botlist$: Observable<ViewBotStateModel>;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
   selectedTab = "architecture";
   bot$: Observable<IBot>;
@@ -31,11 +33,13 @@ export class CodeBasedBotDetailComponent implements OnInit {
   selectedChannelDisplayName: string;
   selectedDurationDisplayName: string = 'Monthly';
   selectedSideBarTab: string = 'pipeline';
+  bot: IBot;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private serverService: ServerService,
     private store: Store,
+    private constantsService: ConstantsService,
     private utilityService: UtilityService) {
   }
 
@@ -43,16 +47,31 @@ export class CodeBasedBotDetailComponent implements OnInit {
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
     this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || "architecture";
-    this.bot$ = this.codeBasedBotList$.map((codeBasedBotList: IBot[]) => {
-      return codeBasedBotList.find((bot) => {
-        return bot.id === this.bot_id;//
+    /*this.bot$ = */
+    this.botlist$.map((botListState) => {
+      debugger;
+      return this.bot =  botListState.allBotList.find((bot) => {
+        return bot.id === this.bot_id;
       });
-    });
+    }).subscribe(()=>{});
     this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab')||'pipeline';
 
     this.start_date = this.utilityService.getPriorDate(0);
     this.end_date = this.utilityService.getPriorDate(30);
     this.getOverviewInfo();
+  }
+
+  refreshBotDetails(){
+    let getBotById = this.constantsService.getSpecificBotByBotTokenUrl();
+    let headerData: IHeaderData  = {
+      'bot-access-token': this.bot.bot_access_token
+    };
+    this.serverService.makeGetReq<{objects:IBot[]}>({url:getBotById, headerData})
+      .subscribe((val)=>{
+        this.store.dispatch([
+          new SaveInfoInBotInBotList({data:val.objects[0], botId:this.bot.id})
+        ]);
+      })
   }
 
   selectedChannelChanged(channel: string, name: string) {
@@ -92,5 +111,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
       new SaveInfoInBotInBotList({data, botId:this.bot_id})
     ]);
   }
+
+
 
 }

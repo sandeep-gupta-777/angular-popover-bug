@@ -166,6 +166,10 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/consumer/?limit=${limit}&offset=${offset}`; //https://localhost:8000/api/v1/consumer/?limit=1&offset=0
   }
 
+  getSpecificBotByBotTokenUrl(){
+    return this.BACKEND_URL + `api/v1/bot`; //https://dev.imibot.ai/api/v1/bot/
+  }
+
   getBotSessionsUrl(limit: number, offset: number) {
     return this.BACKEND_URL + `api/v1/room/?limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/aip/v1/room
   }
