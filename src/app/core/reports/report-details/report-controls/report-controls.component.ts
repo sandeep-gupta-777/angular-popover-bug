@@ -96,6 +96,10 @@ export class ReportControlsComponent implements OnInit {
     });
   }
 
+  selectedBotChanged(bot){
+
+  }
+
   click() {
   }
 }

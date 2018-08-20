@@ -40,7 +40,7 @@ export class ReportDetailsComponent implements OnInit {
   submitSubscriptionForm(template: TemplateRef<any>){
     this.reportFormData = this.reportControlsComponent.reportFormData;
     let timeNow = (new Date()).toString();
-    this.reportFormData._id = this.activatedRoute.snapshot.paramMap.get("_id");
+    this.reportFormData.id = Number(this.activatedRoute.snapshot.paramMap.get("_id"));
     let tempDate = moment(new Date()).format('YYYY-MM-DD h:mm:ss.mmmmmm');
     // if(!this.reportFormData._id) {
     //   /*create uuid*/
@@ -50,7 +50,7 @@ export class ReportDetailsComponent implements OnInit {
     // console.log(this.reportFormData);
 
     this.reportFormData.updated_at = tempDate;
-    let url = this.constantsService.getSaveReportsEditInfo(this.reportFormData._id);
+    let url = this.constantsService.getSaveReportsEditInfo(this.reportFormData.id);
     let body = this.reportFormData;
     this.serverService.makePutReq({url,body})
       .subscribe((value)=>{

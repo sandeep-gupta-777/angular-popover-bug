@@ -11,40 +11,48 @@ export interface IReportTypeItem {
 }
 
 export interface IReportItem {
-  '_id': string,
-  'botId': string,
+  'bot_id': number,
   'created_at': string,
-  'delivery': {
-    'delivery_type': string,
-    'enabled': true,
-    'recipients': string,
-  }[],
-  'enterpriseId': string,
-  'filetype': string,//
-  'frequency': string,//
-  'last_jobId': string,
+  'delivery': [
+    {
+      'delivery_type': string,
+      'directory': string,
+      'enabled': boolean,
+      'ip': string,
+      'port': string,
+      'privatekey': string,
+      'username': string
+    }
+    ],
+  'enterprise_id': number,
+  'filetype': string,
+  'frequency': string,
+  'id': number,
+  'isactive': boolean,
+  'last_job_id': string,
+  'lastreportgenerated': string,
   'nextreportgenerated': string,
-  'reporttypeId': string,
+  'reporttype_id': number,
+  'resource_uri': string,
   'startdate': string,
   'updated_at': string
-  isactive: boolean,
 }
 
 export interface IReportList {
-  'results': IReportItem[],
-  'total': number
+  'objects': IReportItem[],
+  'meta': object
 }
 
 
 export interface IReportHistory {
-  'results': [
+  'objects': [
     {
       '_id': string,
       'botId': string,
       'created_at': string,
       'delivery': {
         'delivery_type': string,
-        'enabled': true,
+        'enabled': boolean,
         'recipients': string,
       }[],
       'enterpriseId': string,
@@ -57,9 +65,9 @@ export interface IReportHistory {
 }
 
 
-export interface ISmartTableReportDataItem extends IReportItem{
+export interface ISmartTableReportDataItem extends IReportItem {
   bot: string,
-  _id: string,
+  id: number,
   name: string,
   frequency: string,
   last_jobId: string,

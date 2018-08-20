@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     let loginUrl = this.constantsService.BACKEND_URL_LOGIN
     // let headerData:IHeaderData = {'api-key': '54asdkj1209nksnda',"content-type":'application/x-www-f-urlencoded'};
     let body = {
-      "email":"ayeshreddy.k@imimobile.com",
+      "email":"imibotadmin@imimobile.com",
       "password":"Botwoman@123!"
     };
 

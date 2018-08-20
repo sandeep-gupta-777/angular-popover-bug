@@ -1,19 +1,19 @@
 <!--<button (click)="click()">click1</button>-->
-<form class="row" #form="ngForm">
+<form class="row report-detail-row" #form="ngForm">
   <div class="col-6">
     <div class="select-theme-primary">
       <label for="" class="Bot">Bot</label>
       <select class="concept1" ngModel required name="botId">
-        <option type="button" *ngFor="let bot of botlist" [value]="bot._id">
+        <option type="button" *ngFor="let bot of botlist" [value]="bot.id">
           <button (click)="selectedBotChanged(bot)">{{bot.name}}</button>
         </option>
       </select>
     </div>
   </div>
 
-  <div class="col-5">
+  <div class="col-6">
     <div class="select-theme-primary">
-      <label for="" class="Bot">Report type</label>
+      <label for="" class="">Report type</label>
       <select class="concept1">
         <option value="single_match">Messages</option>
       </select>
@@ -34,7 +34,7 @@
 
   <div class="col-5 mt-4">
     <div class="select-theme-primary">
-      <label for="" class="Bot">Frequency</label>
+      <label for="" class="">Frequency</label>
       <select class="concept1" ngModel required name="frequency">
         <option value="daily">Daily</option>
         <option value="weely">Weekly</option>
@@ -46,7 +46,7 @@
 
   <div class="col-5 mt-4">
     <div class="select-theme-primary">
-      <label for="" class="Bot">Time</label>
+      <label for="" class="">Time</label>
       <select class="concept1">
         <option value="time">Select</option>
       </select>
@@ -57,7 +57,7 @@
   <div class="col-12 mt-4">
     <div class="row">
       <div class="col-xs-12 col-12 col-md-4 form-group">
-        <label for="" class="Bot" style="width: 100%">Select Date</label>
+        <label for="" class="" style="width: 100%">Select Date</label>
         <input type="text"
                placeholder="Datepicker"
                class="form-control date-input"
@@ -71,7 +71,7 @@
 
   <div class="row m-0 p-0" ngModelGroup="delivery">
     <div class="col-12">
-      <div class="Bot" style="width: 100%; color: #474747">Delivery Mode</div>
+      <div class="" style="width: 100%; color: #474747">Delivery Mode</div>
     </div>
     <div class="col-12">
       <ul class="nav nav-tabs my-2">
@@ -100,22 +100,22 @@
       </div>
     </div>
 
-    <div class="row m-0 mb-1">
+    <div class="row m-0 my-3">
       <div class="col-8 text-report">
         Push reports to a secure location as scheduled
       </div>
       <div class="col-12 ">
         <div class="co-10 border-left pl-3 mt-2 sftp-grid">
-          <label for="" class="Bot m-0">IP Address</label>
-          <label for="" class="Bot m-0">Port</label>
+          <label for="" class=" m-0">IP Address</label>
+          <label for="" class=" m-0">Port</label>
           <input class="input-material mb-3" type="text">
           <input class="input-material mb-3" type="text">
-          <label for="" class="Bot m-0">Username</label>
-          <label for="" class="Bot m-0">Password</label>
+          <label for="" class=" m-0">Username</label>
+          <label for="" class=" m-0">Password</label>
           <input class="input-material mb-3" type="text">
           <input class="input-material mb-3" type="text">
           <button class="btn btn-theme-primary-outline">Upload private key</button>
-          <label for="" class="Bot m-0">Upload directory</label>
+          <label for="" class=" m-0">Upload directory</label>
           <input class="input-material" type="text">
         </div>
       </div>
