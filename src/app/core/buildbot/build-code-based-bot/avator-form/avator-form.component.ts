@@ -29,11 +29,9 @@ export class AvatorFormComponent implements OnInit {
   avatorList:{avator:IAvatar, editMode:boolean}[] = [];
 
   ngOnInit() {
-    console.log(this.bot.avatars);
     this.avatorList = this.bot.avatars.map((value)=>{
       return {avator:value,editMode:false }
     });
-    console.log(this.avatorList);
   }
 
   ngDoCheck() {
@@ -86,11 +84,9 @@ export class AvatorFormComponent implements OnInit {
       }
     }
     this.avatorList.push(newAvator);
-    console.log(this.avatorList);
   }
 
   saveAvatorRow(index:string){
-    console.log(this.avatorList);
     this.avatorList[index].editMode =false;
     /*toggle edit mode*/
     /*make req to server*/

@@ -13,10 +13,8 @@ export class RouterFragmentActiveDirective implements OnInit{
   }
 
   ngOnInit(): void {
-    // console.log(this.activatedRoute.snapshot.queryParamMap);
     this.activatedRoute.queryParamMap.subscribe((paramMap)=>{
       let tabParamValue:string;
-      // console.log('in directive');
       if(paramMap.get('tab') === this.tabParamValue) this.classList.add('tab-active');
       else{
         this.classList.remove('tab-active')

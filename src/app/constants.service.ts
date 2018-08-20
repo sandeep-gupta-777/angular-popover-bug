@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {st} from '@angular/core/src/render3';
-import {IAppData} from './ngxs/app.state';
+import {IAppState} from './ngxs/app.state';
 import {IAuthState} from './auth/ngxs/auth.state';
 import {IUser} from './core/interfaces/user';
 import {Select} from '@ngxs/store';
@@ -121,7 +121,7 @@ export class ConstantsService {
   }
 
   getReportUrl(page = 1, pageSize = 10) {
-    return this.BACKEND_URL + `reports?page=${page}&pageSize=${pageSize}`; //https://dev.imibot.ai/reports?page=1&pageSize=10
+    return this.BACKEND_URL + `api/v1/reports?page=${page}&pageSize=${pageSize}`; //{{url}}/reports?page=1&pageSize=10
   }
 
   getReportHistoryUrl(page = 1, pageSize = 10) {
@@ -129,7 +129,7 @@ export class ConstantsService {
   }
 
   geReportTypesUrl() {
-    return this.BACKEND_URL + 'reporttypes'; //  https://dev.imibot.ai/reporttypes
+    return this.BACKEND_URL + 'api/v1/reporttypes'; // http://dev.imibot.ai/api/v1/reporttypes
   }
 
   getReportsEditInfo(_id) {
@@ -164,6 +164,10 @@ export class ConstantsService {
 
   getBotConsumerUrl(limit: number, offset: number) {
     return this.BACKEND_URL + `api/v1/consumer/?limit=${limit}&offset=${offset}`; //https://localhost:8000/api/v1/consumer/?limit=1&offset=0
+  }
+
+  getSpecificBotByBotTokenUrl(){
+    return this.BACKEND_URL + `api/v1/bot`; //https://dev.imibot.ai/api/v1/bot/
   }
 
   getBotSessionsUrl(limit: number, offset: number) {

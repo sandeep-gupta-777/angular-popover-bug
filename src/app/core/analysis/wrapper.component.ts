@@ -53,7 +53,6 @@ export class WrapperComponent implements OnInit {
       if (!this.botList) {
         this.serverService.getNSetBotList()
           .subscribe(() => {
-            console.log('bot list is set in store');
           });
       }
     });

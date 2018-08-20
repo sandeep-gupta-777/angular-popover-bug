@@ -6,6 +6,7 @@ import {ITestcases} from '../../../../interfaces/testcases';
 import {Observable} from 'rxjs';
 import {IBot} from '../../interfaces/IBot';
 import {IHeaderData} from '../../../../interfaces/header-data';
+import {UtilityService} from '../../../utility.service';
 
 @Component({
   selector: 'app-bot-testing',
@@ -18,40 +19,89 @@ export class BotTestingComponent implements OnInit {
   testCases$: Observable<[string, string, string][]>;
   handontable_colHeaders;
   handontable_column;
-  testCaseData: [string, string, string][] = [];
+  testCaseData: [string, string, string][] = [ ];
   testCasesUrl = this.constantsService.getBotTestingUrl();
+  testCaseId : number;
+  isData:boolean;
 
 
-  constructor(private serverService: ServerService, private constantsService: ConstantsService, private store: Store) {
+  constructor(
+    private serverService: ServerService,
+    private constantsService: ConstantsService,
+    private utilityService: UtilityService,
+    private store: Store) {}
+
+  exportToCSV(){
+    let csvData = this.testCaseData;
+    let csvColumn = [1,2,3];
+    this.utilityService.downloadArrayAsCSV(csvData,csvColumn);
+  }
+  click(){
+    this.utilityService.downloadArrayAsCSV([],{});
   }
 
   ngOnInit() {
     // debugger;
-    this.serverService.makeGetReq<{ meta: any, objects: ITestcases[] }>({url:this.testCasesUrl})
-      .map((value) => {
-        return value.objects.map((item: ITestcases) => {
-          return item.data[0];
-        });
-      })
+    this.serverService.makeGetReq<{ meta: any, objects: ITestcases[] }>(
+      {url: this.testCasesUrl, 
+        headerData: {'bot-access-token': this.bot.bot_access_token}
+      }
+    )
+      // .map((value) => {
+      //   return value.objects.map((item: ITestcases) => {
+      //     return item.data[0];
+      //   });
+      // })
       .subscribe((value) => {
-        this.testCaseData = value;
+        debugger;
+        if(value.objects.length === 0) {
+          this.isData = false;
+        }
+        else{
+          this.isData = true;
+          this.testCaseData = value.objects[0].data;
+          this.testCaseId = value.objects[0].id;
+        }
       });
     this.handontable_colHeaders = this.constantsService.HANDSON_TABLE_BOT_TESTING_colHeaders;
     this.handontable_column = this.constantsService.HANDSON_TABLE_BOT_TESTING_columns;
   }
 
   createTC(){
-    let header:IHeaderData = {
-      "bot-access-token":this.bot.bot_access_token
-    };
     this.serverService.makePostReq<{ meta: any, objects: ITestcases[] }>({
-      url:this.testCasesUrl,
+      url:this.testCasesUrl ,
+      headerData: {'bot-access-token': this.bot.bot_access_token},
       body:{
         "status":"IDLE",
-        "data":[["hi","A1",""]]
+        "data":this.testCaseData
       }
     }).subscribe((value)=>{
-      console.log(value);
+
     })
   }
+  updateTC(){
+    this.serverService.makePutReq<{ meta: any, objects: ITestcases[] }>({
+      url:this.testCasesUrl + `${this.testCaseId}/`,
+      headerData: {'bot-access-token': this.bot.bot_access_token},
+      body:{
+        "status":"IDLE",
+        "data":this.testCaseData
+      }
+    }).subscribe((value)=>{
+      console.log("Updated Test cases Successfully");
+    })
+  }
+  beginTest(){
+    this.serverService.makeGetReq<any>(
+      {url: this.testCasesUrl +'oneclicktesting/', 
+        headerData: {'bot-access-token': this.bot.bot_access_token}
+      }
+    )
+    .subscribe((value) => {
+      debugger;
+      this.testCaseData = value.data;
+
+    });
+  }
 }
+

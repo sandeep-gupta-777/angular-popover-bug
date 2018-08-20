@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
 import {st} from '@angular/core/src/render3';
 
+// import import downloadCsv from 'download-csv'; from 'download-csv';
+import downloadCsv from 'download-csv';
 @Injectable({
   providedIn: 'root'
 })
@@ -20,7 +22,6 @@ export class UtilityService {
           // this 'text' is the content of the file
           let text = reader.result;
           // this.editorCode= text;
-          // console.log(text);
           resolve(text);
         };
         reader.readAsText(input.files[index]);
@@ -194,6 +195,19 @@ export class UtilityService {
     var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
     return hours + ":" + minutes;
   };
+
+  downloadArrayAsCSV(data:any[]=[], columns:object={}){
+     // data = [
+     //  { name: 'test1', score: 1, level: 'Z' },
+     //  { name: 'test2', score: 2 },
+     //  { name: 'test3', score: 3 },
+     //  { name: 'test4', score: 4 },
+    // ];
+    //
+    // columns = { name: '姓名', score: '分数' };
+
+    downloadCsv(data, columns);
+  }
 
   areAllValesDefined(obj:object){
     for(let key in obj){

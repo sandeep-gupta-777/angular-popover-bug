@@ -13,12 +13,10 @@ export class ViewCodeBasedBotComponent implements OnInit, OnDestroy {
 
   @Select(ViewBotStateReducer.getCodeBased)  codeBasedBotList$ : Observable<IBot>;
   constructor(private store: Store) {
-    console.log("ViewCodeBasedBotComponent constructor")
   }
 
   ngOnInit(){
     this.codeBasedBotList$.subscribe((value)=>{
-      console.log(value)
     });
   }
 

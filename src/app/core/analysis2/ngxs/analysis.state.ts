@@ -13,7 +13,7 @@ import { ITopgenerationtemplatesItem } from '../../../../interfaces/Analytics2/p
 
 export interface IAnalysis2State {
   // analysisHeaderData:IOverviewInfoPostBody,
-  analysisHeaderData:IAnalysis2HeaderData,
+  analysisHeaderData:Partial<IAnalysis2HeaderData>,
   overviewInfo: IOverviewInfo,
   channelWiseFlowsPerSession : IChannelWiseFlowsPerSessionItem[],
   userAcquisition : IUserAcquisitionItem[],
@@ -47,10 +47,14 @@ export class AnalysisStateReducer2 {
   @Action(SetAnalysis2HeaderData)
   setAnalysis2HeaderData({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetAnalysis2HeaderData) {
     let state:IAnalysis2State = getState();
-    patchState({ analysisHeaderData:{
-        ...state.analysisHeaderData,
-        ...payload.analysisHeaderData
-      }});
+    if(state){
+      patchState({ analysisHeaderData:{
+          ...state.analysisHeaderData,
+          ...payload.analysisHeaderData
+        }});
+    }else {
+      patchState({ analysisHeaderData:payload.analysisHeaderData});
+    }
   }
 
   @Action(SetOverviewInfoData)

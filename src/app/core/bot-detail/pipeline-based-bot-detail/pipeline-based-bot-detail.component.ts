@@ -48,7 +48,6 @@ export class PipelineBasedBotDetailComponent implements OnInit {
       return botlist.allBotList.find((bot) => {
         return bot.id === this.bot_id;//
       });
-      // console.log("view detailed bot", bot[0]);
       // return bot[0];
     });
     this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab')||'pipeline';
@@ -94,7 +93,6 @@ export class PipelineBasedBotDetailComponent implements OnInit {
     this.store.dispatch([
       new SaveInfoInBotInBotList({data, botId:this.bot_id})
     ]);
-    console.log(event);
   }
 
 

@@ -28,7 +28,6 @@ export class ViewBotsComponent implements OnInit {
   ngOnInit() {
     this.serverService.getNSetBotList()
       .subscribe(()=>{
-        console.log("bot list is set in store");
       })
   }
 }

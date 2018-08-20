@@ -39,12 +39,10 @@ export class SessionsComponent implements OnInit {
       this.serverService.makePostReq<IAverageRoomTimeItem[]>({url:averageRoomTimeUrl, body})
         .subscribe((response)=>{
           this.averageRoomTimeData = this.chartSettingService.createSeriesDataFromArray(response,'labels');
-          console.log(response);
         });
       this.serverService.makePostReq<ITotalFlowsItem[]>({url:totalFlowsUrl, body})
         .subscribe((response)=>{
           this.totalFlowsData = this.chartSettingService.createSeriesDataFromArray(response,'labels');
-          console.log(response);
         });
       this.serverService.makePostReq<ITotalSessions>({url:totalSessionsUrl, body})
         .subscribe((response)=>{

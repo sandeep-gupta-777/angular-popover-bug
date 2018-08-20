@@ -11,16 +11,13 @@ import {IBot} from '../../interfaces/IBot';
 })
 export class ViewPipelineBasedBotsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
-    console.log('pipelineBasedBotList');
   }
 
   @Select(ViewBotStateReducer.getPipelineBased)  pipelineBasedBotList$ : Observable<IBot>;
   constructor() { }
 
   ngOnInit() {
-    console.log('pipelineBasedBotList');
     this.pipelineBasedBotList$.subscribe((value)=>{
-      console.log(value)
     });
   }
 

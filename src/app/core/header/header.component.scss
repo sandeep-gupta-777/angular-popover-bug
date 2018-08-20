@@ -5,6 +5,10 @@
   //@include center-vertical();
   padding: 10px 0px;
   padding-right: 28px;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  right: 0;
 
   .box-logo{
     width: 180px;

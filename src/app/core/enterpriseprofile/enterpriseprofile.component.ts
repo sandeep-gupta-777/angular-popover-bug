@@ -48,7 +48,6 @@ export class EnterpriseprofileComponent implements OnInit {
     let enterpriseUsersUrl = this.constantsService.getEnterpriseUsersUrl();
     this.serverService.makeGetReq<{users:IEnterpriseUser[]}>({url: enterpriseUsersUrl, headerData})
       .subscribe((enterpriseUsers) => {
-        console.log(enterpriseUsers);
         this.store.dispatch([
           new SetEnterpriseUsersAction({enterpriseUsers: enterpriseUsers.users})
         ]);

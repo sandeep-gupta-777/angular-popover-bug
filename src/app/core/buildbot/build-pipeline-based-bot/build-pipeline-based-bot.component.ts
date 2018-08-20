@@ -60,7 +60,6 @@ export class BuildPipelineBasedBotComponent implements OnInit {
 
   tabClicked(activeTab:string){
     this.activeTab = activeTab;
-    console.log(this.activeTab);
   }
 
   tabChanged(tab: string) {
@@ -70,8 +69,6 @@ export class BuildPipelineBasedBotComponent implements OnInit {
     let url = this.constantsService.getCreateNewBot();
     this.serverService.makePostReq({url:url, body:this.bot})
       .subscribe((value)=>{
-        console.log();
-        // debugger;
       })
   }
   datachanged(data:Partial<IBot>){

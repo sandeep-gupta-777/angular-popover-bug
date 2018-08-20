@@ -82,7 +82,6 @@ export class ReportControlsComponent implements OnInit {
 
 
     this.f.valueChanges.debounceTime(1000).subscribe((data: any) => {
-      console.log(this.f.value);
       // if (!this.f.dirty) return;
       /*TODO: VERY BAD FIX; USE REACTIVE FORM INSTEAD*/
       data.delivery = [data.delivery];
@@ -98,8 +97,5 @@ export class ReportControlsComponent implements OnInit {
   }
 
   click() {
-    // this.f.f.patchValue({startdate:this.servervalue.startdate})
-    console.log(this.reportItem);
-    console.log(this.f.value);
   }
 }

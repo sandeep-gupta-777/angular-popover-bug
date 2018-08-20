@@ -52,10 +52,8 @@ export class ReportDetailsComponent implements OnInit {
     this.reportFormData.updated_at = tempDate;
     let url = this.constantsService.getSaveReportsEditInfo(this.reportFormData._id);
     let body = this.reportFormData;
-    console.log(body);
     this.serverService.makePutReq({url,body})
       .subscribe((value)=>{
-        console.log(value);
       });
     //opening model with sucss messsage
       this.modalRef = this.modalService.show(template, { class: 'modal-md' });

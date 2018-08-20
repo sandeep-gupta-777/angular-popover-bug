@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {IBot} from '../core/interfaces/IBot';
 
 @Component({
   selector: 'app-test',
@@ -9,13 +10,14 @@ import {Router} from '@angular/router';
 export class TestComponent implements OnInit {
 
   constructor(private router:Router) { }
+  _bot: IBot;
+  @Input() set bot(botData: IBot) {
+    // debugger;
+    this._bot = botData;
+  }
 
   ngOnInit() {
   }
 
-  click(){
-    console.log("hi");
-    this.router.navigate(['/core','viewbots','intelligent']);
-  }
 
 }

@@ -482,5 +482,16 @@ th, td {
 
 .CodeMirror {
   border: 1px solid #eee;
-  height: auto;
+  //height: auto !important;
+  //min-height: 300px;
 }
+
+progressbar {
+  border-radius: 0 !important;
+  height: 5px !important;
+  .progress-bar {
+    background-color: $color-primary;
+    border-radius: 0;
+  }
+}
+

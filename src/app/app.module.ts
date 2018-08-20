@@ -1,11 +1,12 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {HotTableModule} from 'ng2-handsontable';
+// import {HotTableModule} from 'ng2-handsontable';
 // import { HotTableModule } from '@handsontable/angular'
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './core/header/header.component';
 import {Route, RouterModule} from '@angular/router';
 import {NotFoundComponent} from './core/not-found/not-found.component';
+import { ProgressbarModule } from 'ngx-bootstrap';
 import {BsDropdownModule, ModalModule, TabsModule} from 'ngx-bootstrap';
 import {UiSwitchModule} from 'ngx-toggle-switch';
 import {FormsModule} from '@angular/forms';
@@ -57,7 +58,7 @@ import {EnterpriseprofileStateReducer} from './core/enterpriseprofile/ngxs/enter
 import {PipelineTestComponent} from './pipeline-test/pipeline-test.component';
 import {DragulaModule} from 'ng2-dragula';
 import {ViewBotStateReducer} from './core/view-bots/ngxs/view-bot.state';
-import {HandsontableComponent} from './handsontable/handsontable.component';
+// import {HandsontableComponent} from './handsontable/handsontable.component';
 import {SmartTableComponent} from './smart-table/smart-table.component';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {Ng2CompleterModule} from 'ng2-completer';
@@ -120,6 +121,8 @@ import { FilterActiveBotPipe } from './filter-active-bot.pipe';
 import { FilterArrayPipe } from './filter-array.pipe';
 import { PipelineFilterPipe } from './pipeline-filter.pipe';
 import { ChatPreviewNewPageComponent } from './chat/chat-preview-new-page/chat-preview-new-page.component';
+import {HandsontableComponent} from './handsontable/handsontable.component';
+import { FilterObjectArrayPipe } from './filter-object-array.pipe';
 
 const routes: Route[] = [
   {
@@ -287,7 +290,8 @@ const routes: Route[] = [
     FilterActiveBotPipe,
     FilterArrayPipe,
     PipelineFilterPipe,
-    ChatPreviewNewPageComponent
+    ChatPreviewNewPageComponent,
+    FilterObjectArrayPipe
   ],
   imports: [
     BrowserModule,
@@ -316,14 +320,15 @@ const routes: Route[] = [
     NgxsLoggerPluginModule.forRoot(),
     HttpClientModule,
     DragulaModule,
-    HotTableModule,
+    // HotTableModule,
     Ng2CompleterModule,
     Ng2SmartTableModule,
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
     BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot() // ToastrModule added
+    ToastrModule.forRoot(), // ToastrModule added,
+    ProgressbarModule.forRoot()
   ],
   providers: [DragService, AimService],
   bootstrap: [AppComponent]
