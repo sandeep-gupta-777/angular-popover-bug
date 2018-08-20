@@ -64,7 +64,7 @@ export class BotSessionsComponent implements OnInit {
   }
 
   goToReportEditComponent($event, template) {
-    debugger;
+    // debugger;
     this.selectedRow_Session = $event.data;
     this.indexOfCurrentRowSelected = this.sessions.findIndex((session) => {
       return this.selectedRow_Session.id === session.id;
@@ -90,7 +90,7 @@ export class BotSessionsComponent implements OnInit {
   }
 
   selectNextRow() {
-    debugger;
+    // debugger;
     // this.selectedRow_Session
 
 
@@ -111,7 +111,7 @@ export class BotSessionsComponent implements OnInit {
   }
 
   selectPrevRow() {
-    debugger;
+    // debugger;
     let currentIndex = this.sessions.findIndex((session) => {
       return this.selectedRow_Session.id === session.id;
     });
@@ -123,7 +123,7 @@ export class BotSessionsComponent implements OnInit {
       this.indexOfCurrentRowSelected = currentIndex;
     }
     else {
-      debugger;
+      // debugger;
       this.smartTableComponent.goToPrevPage();
       this.selectedRow_number = 9;
       this.indexOfCurrentRowSelected = 9;

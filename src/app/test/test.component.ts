@@ -12,7 +12,7 @@ export class TestComponent implements OnInit {
   constructor(private router:Router) { }
   _bot: IBot;
   @Input() set bot(botData: IBot) {
-    debugger;
+    // debugger;
     this._bot = botData;
   }
 

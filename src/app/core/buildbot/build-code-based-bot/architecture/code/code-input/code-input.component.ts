@@ -65,12 +65,13 @@ export class CodeInputComponent implements OnInit {
     let botId = this.bot.id;
     this.serverService.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
       .subscribe((botVersionResult) => {
-        console.log(this.bot.id);
+debugger;
         this.store.dispatch([
           new SaveVersionInfoInBot({data: botVersionResult.objects, botId: this.bot.id})
         ]);
       });
     this.botlist$.subscribe((value) => {
+      debugger;
       let activeVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.find((BotVersion) => {
         return this.bot.active_version_id === BotVersion.id;
       });

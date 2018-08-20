@@ -62,9 +62,8 @@ export class ViewBotStateReducer {
   saveVersionInfoInBot({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>,
                        {payload}: SaveVersionInfoInBot) {
     let state: ViewBotStateModel = getState();
-
-    let bot: IBot = state.codeBasedBotList.find((bot) => bot.id === payload.botId) ||
-      state.pipelineBasedBotList.find((bot) => bot.id === payload.botId);
+    debugger;
+    let bot: IBot = state.allBotList.find((bot) => bot.id === payload.botId);
 
     bot.store_bot_versions = payload.data;
     setState({...state});
@@ -74,7 +73,6 @@ export class ViewBotStateReducer {
   SaveVersionInfoInBot({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>,
                        {payload}: SaveInfoInBotInBotList) {
     let state: ViewBotStateModel = getState();
-    debugger;
     state.allBotList = state.allBotList.map((bot) => {
       if(bot.id === payload.botId){
         return {...bot, ...payload.data}
