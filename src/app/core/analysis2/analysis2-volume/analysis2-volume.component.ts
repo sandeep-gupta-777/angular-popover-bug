@@ -16,7 +16,7 @@ import { UtilityService } from '../../../utility.service';
 })
 export class Analysis2VolumeComponent implements OnInit {
   @Select() analysisstate2$: Observable<IAnalysis2State>;
-  data$: Observable<IChannelWiseFlowsPerSessionItem[]>;
+  // data$: Observable<IChannelWiseFlowsPerSessionItem[]>;
   activeTab: string = 'Sessions';
   series_Sessions: {name:string, data:number[]}[] = [{
     name: 'Maximum',
@@ -36,7 +36,10 @@ export class Analysis2VolumeComponent implements OnInit {
     name: 'Triggered',
     data: [5, 3, 4, 7, 2]
   }];
-  series_Time: any[];
+  series_Time: any[]  = [{
+    name: 'Triggered',
+    data: [5, 3, 4, 7, 2]
+  }];
 
   constructor(
     public constantsService: ConstantsService,
@@ -63,24 +66,31 @@ export class Analysis2VolumeComponent implements OnInit {
       analysisHeaderData:{type:EAnalysis2TypesEnum.totalMessages}
     }));
   }
+  if(this.activeTab === 'Time'){
+    this.store.dispatch(new SetAnalysis2HeaderData({
+      analysisHeaderData:{type:EAnalysis2TypesEnum.averageRoomTime}
+    }));
+  }
   }
 
   ngOnInit() {
-    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('vol') || 'Sessions';
-      debugger; 
-
+    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('vol') || 'Users';
       this.analysisstate2$
       .subscribe((value)=>{
         debugger;
-        let x  = this.u.convert(value.channelWiseFlowsPerSession,"labels","Sessions") ;
-        this.series_Sessions = x;
-        let y  = this.u.convert(value.userAcquisition,"labels","Users") ;
-        this.series_Users = y;
-        let z  = this.u.convert(value.totalMessages,"labels","Messages") ;
-        this.series_Messages = z;
+        if(value.channelWiseFlowsPerSession){
+          this.series_Sessions  = this.u.convert(value.channelWiseFlowsPerSession,"labels","Date") ;
+        }
+        if(value.userAcquisition){
+          this.series_Users  = this.u.convert(value.userAcquisition,"labels","Date") ;
+        }
+        if(value.totalMessages){
+          this.series_Messages = this.u.convert(value.totalMessages,"labels","Date") ;
+        }
+        if(value.averageRoomTime  ){
+          this.series_Time  = this.u.convert(value.averageRoomTime,"labels","Date") ;
+        }
       })
-
-      
 
       // this.analysisstate2$
       // .subscribe((value)=>{
