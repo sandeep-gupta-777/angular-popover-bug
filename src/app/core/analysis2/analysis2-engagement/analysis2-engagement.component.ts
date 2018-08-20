@@ -1,6 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ConstantsService} from '../../../constants.service';
 import {ActivatedRoute} from '@angular/router';
+import { Observable } from '../../../../../node_modules/rxjs';
+import { IAnalysis2State } from '../ngxs/analysis.state';
+import { Select, Store } from '../../../../../node_modules/@ngxs/store';
+import { UtilityService } from '../../../utility.service';
+import { SetUserLoyalty, SetAnalysis2HeaderData } from '../ngxs/analysis.action';
+import { EAnalysis2TypesEnum } from '../../../../interfaces/Analytics2/analysis2-types';
 
 @Component({
   selector: 'app-analysis2-engagement',
@@ -8,6 +14,8 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./analysis2-engagement.component.scss']
 })
 export class Analysis2EngagementComponent implements OnInit {
+  @Select() analysisstate2$: Observable<IAnalysis2State>;
+
 
   activeTab: string = 'Sessions';
   series_Sessions: any[] = [{
@@ -29,15 +37,38 @@ export class Analysis2EngagementComponent implements OnInit {
   constructor(
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
+    private store: Store,
+    private u:UtilityService
   ) {
   }
 
   tabClicked(activeTab: string) {
     this.activeTab = activeTab;
+    if(this.activeTab==='Sessions'){
+      this.store.dispatch(new SetAnalysis2HeaderData({
+        analysisHeaderData:{type:EAnalysis2TypesEnum.userLoyalty}
+      }));
+    }
+    if(this.activeTab==='Time'){
+      this.store.dispatch(new SetAnalysis2HeaderData({
+        analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseAverageSessionTime}
+      }));
+    }
   }
 
   ngOnInit() {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('perf') || 'Sessions';
+    this.analysisstate2$
+      .subscribe((value)=>{
+        debugger;
+        if(value.userLoyalty){
+          this.series_Sessions  = this.u.convert(value.userLoyalty,"labels","String") ;
+        }
+        
+        if(value.channelWiseAverageSessionTime){
+          this.series_Time  = this.u.convert(value.channelWiseAverageSessionTime,"labels","Date") ;
+        }
+      })
   }
 
 

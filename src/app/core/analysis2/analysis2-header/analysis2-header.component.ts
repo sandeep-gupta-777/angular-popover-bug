@@ -7,7 +7,7 @@ import {NgForm} from '@angular/forms';
 import {ConstantsService} from '../../../constants.service';
 import {BsDatepickerConfig} from 'ngx-bootstrap';
 import {Select, Store} from '@ngxs/store';
-import {SetAnalysis2HeaderData, SetOverviewInfoData, SetChannelWiseFlowsPerSession, SetUserAcquisition, SetTotalMessages} from '../ngxs/analysis.action';
+import {SetAnalysis2HeaderData, SetOverviewInfoData, SetChannelWiseFlowsPerSession, SetUserAcquisition, SetTotalMessages, SetAverageRoomTime, SetUserLoyalty, SetChannelWiseAverageSessionTime} from '../ngxs/analysis.action';
 import {IAnalysisState} from '../../analysis/ngxs/analysis.state';
 import {IOverviewInfoPostBody, IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
@@ -21,6 +21,9 @@ import {IAuthState} from '../../../auth/ngxs/auth.state';
 import { IChannelWiseFlowsPerSessionResponseBody } from '../../../../interfaces/Analytics2/volume-sessions';
 import { IUserAcquisitionResponseBody } from '../../../../interfaces/Analytics2/volume-users';
 import { ITotalMessagesResponseBody } from '../../../../interfaces/Analytics2/volume-messages';
+import { IAverageRoomTimeItem, IAverageRoomTimeResponseBody } from '../../../../interfaces/Analytics2/volume-time';
+import { IUserLoyaltyResponseBody } from '../../../../interfaces/Analytics2/engagement-userLoyalty';
+import { IChannelWiseAverageSessionTimeResponseBody } from '../../../../interfaces/Analytics2/engagement-averageSessionTime';
 
 @Component({
   selector: 'app-analysis2-header',
@@ -108,6 +111,19 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
               let responseCopy: ITotalMessagesResponseBody = response;
               this.store.dispatch(new SetTotalMessages({data: responseCopy.objects[0].output.messagesinfo}));
             }
+            if (headerData.type === EAnalysis2TypesEnum.averageRoomTime) {
+              let responseCopy: IAverageRoomTimeResponseBody = response;
+              this.store.dispatch(new SetAverageRoomTime({data: responseCopy.objects[0].output.averageRoomTime}));
+            }
+            if (headerData.type === EAnalysis2TypesEnum.userLoyalty) {
+              let responseCopy: IUserLoyaltyResponseBody = response;
+              this.store.dispatch(new SetUserLoyalty({data: responseCopy.objects[0].output.userLoyalty}));
+            }
+            if (headerData.type === EAnalysis2TypesEnum.channelWiseAverageSessionTime) {
+              let responseCopy: IChannelWiseAverageSessionTimeResponseBody = response;
+              this.store.dispatch(new SetChannelWiseAverageSessionTime({data: responseCopy.objects[0].output.channelWiseAverageSessionTime}));
+            }
+            
           });
       } catch (e) {
         this.utilityService.showErrorToaster(e);
