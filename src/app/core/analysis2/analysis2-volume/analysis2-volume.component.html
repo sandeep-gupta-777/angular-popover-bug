@@ -40,14 +40,14 @@
 
 <app-chart *ngIf="activeTab==='Messages'" [data]="series_Messages"
            [chartValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_ENGAGEMENT"
-           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED">
+           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
 </app-chart>
 
-<app-chart *ngIf="activeTab==='Time'" [data]="series_Messages"
+<app-chart *ngIf="activeTab==='Time'" [data]="series_Time"
            [chartValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_ENGAGEMENT"
            [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED">
 </app-chart>
-<app-chart *ngIf="activeTab==='Users'" [data]="series_Messages"
+<app-chart *ngIf="activeTab==='Users'" [data]="series_Users"
            [chartValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_ENGAGEMENT"
            [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
           </app-chart>

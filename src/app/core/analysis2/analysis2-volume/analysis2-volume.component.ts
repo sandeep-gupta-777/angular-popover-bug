@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ConstantsService} from '../../../constants.service';
 import {ActivatedRoute} from '@angular/router';
 import { EAnalysis2TypesEnum } from '../../../../interfaces/Analytics2/analysis2-types';
-import { SetAnalysis2HeaderData } from '../ngxs/analysis.action';
+import { SetAnalysis2HeaderData, SetUserAcquisition } from '../ngxs/analysis.action';
 import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { IAnalysis2State } from '../ngxs/analysis.state';
@@ -32,6 +32,10 @@ export class Analysis2VolumeComponent implements OnInit {
     name: 'Triggered',
     data: [5, 3, 4, 7, 2]
   }];
+  series_Users: any[] = [{
+    name: 'Triggered',
+    data: [5, 3, 4, 7, 2]
+  }];
   series_Time: any[];
 
   constructor(
@@ -44,10 +48,26 @@ export class Analysis2VolumeComponent implements OnInit {
 
   tabClicked(activeTab: string) {
     this.activeTab = activeTab;
+    if(this.activeTab==='Sessions'){
+    this.store.dispatch(new SetAnalysis2HeaderData({
+      analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseFlowsPerSession}
+    }));
+  }
+  if(this.activeTab === 'Users'){
+    this.store.dispatch(new SetAnalysis2HeaderData({
+      analysisHeaderData:{type:EAnalysis2TypesEnum.userAcquisition}
+    }));
+  }
+  if(this.activeTab === 'Messages'){
+    this.store.dispatch(new SetAnalysis2HeaderData({
+      analysisHeaderData:{type:EAnalysis2TypesEnum.totalMessages}
+    }));
+  }
   }
 
   ngOnInit() {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('vol') || 'Sessions';
+// <<<<<<< HEAD
       // debugger;
       this.store.dispatch(new SetAnalysis2HeaderData({
         analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseFlowsPerSession}
@@ -55,10 +75,32 @@ export class Analysis2VolumeComponent implements OnInit {
       this.analysisstate2$
       .subscribe((value)=>{
         // debugger;
-        let x  = this.u.convert(value.channelWiseFlowsPerSession,"labels") ;
-        this.series_Sessions = x;
+        // let x  = this.u.convert(value.channelWiseFlowsPerSession,"labels") ;
+// =======
+//       debugger;
 
+      // this.analysisstate2$
+      // .subscribe((value)=>{
+        debugger;
+        let x  = this.u.convert(value.channelWiseFlowsPerSession,"labels","Sessions") ;
+// >>>>>>> 0c6784def1fe98bdb4b26384a7da06d45d0c2176
+        this.series_Sessions = x;
+        let y  = this.u.convert(value.userAcquisition,"labels","Users") ;
+        this.series_Users = y;
+        let z  = this.u.convert(value.totalMessages,"labels","Messages") ;
+        this.series_Messages = z;
       })
+
+
+
+      // this.analysisstate2$
+      // .subscribe((value)=>{
+      //   debugger;
+      // let y  = this.u.convert(value.channelWiseFlowsPerSession,"labels") ;
+      //   this.series_Sessions = y;
+      //
+      // })
+
       // .map((analysisState) => {
       //   debugger;
       // let x =  this.u.convert(analysisState.channelWiseFlowsPerSession,"labels") ;

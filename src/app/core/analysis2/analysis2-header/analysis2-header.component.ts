@@ -7,7 +7,7 @@ import {NgForm} from '@angular/forms';
 import {ConstantsService} from '../../../constants.service';
 import {BsDatepickerConfig} from 'ngx-bootstrap';
 import {Select, Store} from '@ngxs/store';
-import {SetAnalysis2HeaderData, SetOverviewInfoData, SetChannelWiseFlowsPerSession} from '../ngxs/analysis.action';
+import {SetAnalysis2HeaderData, SetOverviewInfoData, SetChannelWiseFlowsPerSession, SetUserAcquisition, SetTotalMessages} from '../ngxs/analysis.action';
 import {IAnalysisState} from '../../analysis/ngxs/analysis.state';
 import {IOverviewInfoPostBody, IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
@@ -19,6 +19,8 @@ import {SetOverViewInfo} from '../../analysis/ngxs/analysis.action';
 import {IAnalysis2HeaderData} from '../../../../interfaces/Analytics2/analytics2-header';
 import {IAuthState} from '../../../auth/ngxs/auth.state';
 import { IChannelWiseFlowsPerSessionResponseBody } from '../../../../interfaces/Analytics2/volume-sessions';
+import { IUserAcquisitionResponseBody } from '../../../../interfaces/Analytics2/volume-users';
+import { ITotalMessagesResponseBody } from '../../../../interfaces/Analytics2/volume-messages';
 
 @Component({
   selector: 'app-analysis2-header',
@@ -97,6 +99,14 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
             if (headerData.type === EAnalysis2TypesEnum.channelWiseFlowsPerSession) {
               let responseCopy: IChannelWiseFlowsPerSessionResponseBody = response;
               this.store.dispatch(new SetChannelWiseFlowsPerSession({data: responseCopy.objects[0].output.channelWiseFlowsPerSession}));
+            }
+            if (headerData.type === EAnalysis2TypesEnum.userAcquisition) {
+              let responseCopy: IUserAcquisitionResponseBody = response;
+              this.store.dispatch(new SetUserAcquisition({data: responseCopy.objects[0].output.userAcquisition}));
+            }
+            if (headerData.type === EAnalysis2TypesEnum.totalMessages) {
+              let responseCopy: ITotalMessagesResponseBody = response;
+              this.store.dispatch(new SetTotalMessages({data: responseCopy.objects[0].output.messagesinfo}));
             }
           });
       } catch (e) {
