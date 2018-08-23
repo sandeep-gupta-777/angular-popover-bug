@@ -10,10 +10,11 @@ import {_throw} from 'rxjs/observable/throw';
 import 'rxjs/add/operator/do';
 import {ToastrService} from 'ngx-toastr';
 import {UtilityService} from './utility.service';
-import {SetCodeBasedBotListAction, SetPipeLineBasedBotListAction} from './core/view-bots/ngxs/view-bot.action';
+import {SetAllBotListAction, SetCodeBasedBotListAction, SetPipeLineBasedBotListAction} from './core/view-bots/ngxs/view-bot.action';
 import {IBot, IBotResult} from './core/interfaces/IBot';
 import {ActivatedRoute, Router} from '@angular/router';
-import {SetProgressValue} from './ngxs/app.action';
+import {SetMasterIntegrationsList, SetProgressValue} from './ngxs/app.action';
+import {IIntegrationMasterListItem, IIntegrationOption} from '../interfaces/integration-option';
 
 @Injectable({
   providedIn: 'root'
@@ -66,20 +67,27 @@ export class ServerService {
 
   makeGetReq<T>(reqObj: { url: string, headerData?: any }): Observable<T> {
     let headers = this.createHeaders(reqObj.headerData);
-    this.store.dispatch([
-      new SetProgressValue({
-          progressbar: {
-            loading: true,
-            value: 10
-          }
-        }
-      )
-    ]);
-    this.changeProgressBar(true, 100);
 
+    this.changeProgressBar(true, 0);
     return this.httpClient.get<T>(reqObj.url, {headers: headers})
       .do((value) => {
-        this.changeProgressBar(true, 100);
+        this.changeProgressBar(false, 100);
+      })
+      .catch((e: any, caught: Observable<T>) => {
+        console.log(e);
+        this.changeProgressBar(false, 100);
+
+        this.utilityService.showErrorToaster(e);
+        return _throw('error');
+      });
+  }
+  makeDeleteReq<T>(reqObj: { url: string, headerData?: any }): Observable<T> {
+    let headers = this.createHeaders(reqObj.headerData);
+
+    this.changeProgressBar(true, 0);
+    return this.httpClient.delete<T>(reqObj.url, {headers: headers})
+      .do((value) => {
+        this.changeProgressBar(false, 100);
       })
       .catch((e: any, caught: Observable<T>) => {
         console.log(e);
@@ -93,8 +101,7 @@ export class ServerService {
   makePostReq<T>(reqObj: { url: string, body: any, headerData?: any }): Observable<T> {
     let headers = this.createHeaders(reqObj.headerData);
 
-    this.changeProgressBar(true, 10);
-
+    this.changeProgressBar(true, 0);
     return this.httpClient.post<T>(reqObj.url, reqObj.body, {headers: headers})
       .do((value) => {
         this.changeProgressBar(false, 100);
@@ -109,11 +116,11 @@ export class ServerService {
 
   makePutReq<T>(reqObj: { url: string, body: any, headerData?: IHeaderData }): Observable<T> {
     let headers = this.createHeaders(reqObj.headerData);
-    this.changeProgressBar(false, 10);
+    this.changeProgressBar(true, 0);
 
     return this.httpClient.put<T>(reqObj.url, JSON.stringify(reqObj.body), {headers: headers})
       .do((value) => {
-        this.changeProgressBar(true, 100);
+        this.changeProgressBar(false, 100);
       })
       .catch((e: any, caught: Observable<T>) => {
         this.utilityService.showErrorToaster(e);
@@ -138,9 +145,27 @@ export class ServerService {
         botResult.objects.forEach((bot) => {
           bot.bot_type !== 'genbot' ? codeBasedBotList.push(bot) : pipelineBasedBotList.push(bot);
         });
+        this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
         this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
         this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
       });
+
+  }
+  getNSetIntegrationList(){
+    let url = this.constantsService.getMasterIntegrationsList();
+    return this.makeGetReq<{meta:any, objects:IIntegrationMasterListItem[]}>({url})
+      .do((value) => {
+        // this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
+        // this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
+      })
+      .subscribe((value)=>{
+        debugger;
+        this.store.dispatch([
+          new SetMasterIntegrationsList({
+            masterIntegrationList: value.objects
+          })
+        ])
+      })
   }
 
   changeProgressBar(loading: boolean, value: number) {

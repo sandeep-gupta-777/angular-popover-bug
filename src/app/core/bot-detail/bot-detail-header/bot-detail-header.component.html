@@ -16,8 +16,13 @@
     Active({{bot.active_version_id}})
   </div>
   <div class="ml-auto"></div>
-  <img *ngFor="let keys of myObject.keys(bot.integrations)" style="width: 28px;height: 28px"
-       src="http://www.pngmart.com/files/3/Weather-PNG-HD.png" alt="">
+  <!--<img *ngFor="let keys of myObject.keys(bot.integrations)" style="width: 28px;height: 28px"-->
+       <!--src="http://www.pngmart.com/files/3/Weather-PNG-HD.png" alt="">-->
+  <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos|async))"
+       [src]="'https://imibot.ai'+integrationsMasterListItem.icon"
+       class="logo-image"
+       style="width: 18px;height: 18px"
+       alt="">
   <span *ngIf="myObject.keys(bot.integrations).length>4" class="more">+{{myObject.keys(bot.integrations).length-4}} More</span>
   <div class="headerDivider mx-2"></div>
   <i class="fa fa-refresh px-2" (click)="refreshBotDetails$.emit()"></i>

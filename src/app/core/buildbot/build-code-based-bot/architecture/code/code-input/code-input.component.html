@@ -8,7 +8,7 @@
       <button *ngIf="selectedVersion.id !== activeVersion.id" class="btn btn-theme-primary mr-1"
             style="flex-basis: 56px">Inactive
             </button>
-      <div class="count mr-1" style="width: 30px">{{selectedVersion.id}}</div>
+      <div class="count mr-1" style="width: 30px">{{selectedVersion.version}}</div>
       <div class="forked mr-1">Forked from version 1</div>
       <div class="update d-flex flex-column mr-1 justify-content-center">
         <div class="mr-1">Last update</div>
@@ -37,7 +37,7 @@
       <div class="d-flex align-items-center justify-content-between flex-bot-versioning-toaster"
            (click)="selectedVersion = version; showVersionList = false; tabClicked('df_template');">
         <div class="active-label-text">{{version.id === activeVersion.id?'Active':'Inactive'}}</div>
-        <div class="count mr-1">{{version.id}}</div>
+        <div class="count mr-1">{{version.version}}</div>
         <div class="forked mr-1">Forked from version 1</div>
         <div class="update d-flex flex-column mr-1 justify-content-center">
           <div class="mr-1">Last update</div>

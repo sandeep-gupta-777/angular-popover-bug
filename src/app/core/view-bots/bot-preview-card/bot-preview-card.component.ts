@@ -8,6 +8,9 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Store} from '@ngxs/store';
 import {ChangeFrameAction, SetCurrentBotID, ToggleChatWindow} from '../../../chat/ngxs/chat.action';
+import {ConstantsService} from '../../../constants.service';
+import {ServerService} from '../../../server.service';
+import {IHeaderData} from '../../../../interfaces/header-data';
 
 @Component({
   selector: 'app-bot-preview-card',
@@ -27,6 +30,8 @@ export class BotPreviewCardComponent implements OnInit {
     private modalService: BsModalService,
     private activatedRoute: ActivatedRoute,
     public router: Router,
+    public constantsService: ConstantsService,
+    public serverService: ServerService,
     public store: Store
   ) { }
 
@@ -55,6 +60,16 @@ export class BotPreviewCardComponent implements OnInit {
   }
   deleteBot(){
     this.modalRef.hide()
+    let url = this.constantsService.getDeleteBotUrl(this.bot.id);
+    let headerData:IHeaderData = {
+      "bot-access-token": this.bot.bot_access_token
+    };
+    this.serverService.makeDeleteReq({url, headerData})
+      .subscribe((value)=>{
+        this.serverService.getNSetBotList()
+          .subscribe(()=>{
+          })
+      })
   }
 
 

@@ -160,7 +160,7 @@ export class UtilityService {
   if(labelType === 'String'){
     rawData.forEach((obj)=>{
       Object.keys(obj).forEach((key)=>{
-        if(key===xAxisLabel) return;  
+        if(key===xAxisLabel) return;
         let data = this.findDataByName(convertedData,key);
         // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
         // let dateStr_ddmmyyyy = obj[xAxisLabel];
@@ -177,6 +177,9 @@ export class UtilityService {
 
   showErrorToaster(error){
     this.toastr.error(error.message,error.name,{positionClass:'toast-bottom-left',timeOut:2000})
+  }
+  showSuccessToaster(message){
+    this.toastr.success(message,null,{positionClass:'toast-bottom-left',timeOut:2000})
   }
 
   createRandomString(length:number=10) {

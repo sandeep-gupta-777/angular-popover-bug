@@ -56,15 +56,19 @@ export class ConstantsService {
   }
 
   getEnterpriseUrl(enterpriseId: number) {
-    return this.BACKEND_URL + 'enterprise/' + enterpriseId; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
+    return this.BACKEND_URL + 'api/v1/enterprise/' + enterpriseId; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
   }
 
   getEnterpriseUsersUrl() {
-    return this.BACKEND_URL_ENTERPRISE_USERS; //https://dev.imibot.ai/users/enterprise
+    return this.BACKEND_URL + 'api/v1/users/enterprise'; //users/enterprise
   }
 
   getPipelinebasedBotListUrl() {
     return this.BACKEND_USER_PIPELINE_BASED_BOT_LIST;
+  }
+
+  getMasterIntegrationsList() {
+    return this.BACKEND_URL + 'api/v1/integrations/';
   }
 
   getCodebasedBotListUrl() {
@@ -142,7 +146,7 @@ export class ConstantsService {
 
 
   getAllVersionsByBotId() {
-    return this.BACKEND_URL + 'api/v1/botversioning/'; //"http://localhost:8000/api/v1/botversioning"
+    return this.BACKEND_URL + 'api/v1/botversioning/?limit=1000'; //"http://localhost:8000/api/v1/botversioning"
   }
 
   getSaveVersionByBotId(id) {
@@ -164,6 +168,9 @@ export class ConstantsService {
 
   getBotConsumerUrl(limit: number, offset: number) {
     return this.BACKEND_URL + `api/v1/consumer/?limit=${limit}&offset=${offset}`; //https://localhost:8000/api/v1/consumer/?limit=1&offset=0
+  }
+  getDeleteBotUrl(id: number) {
+    return this.BACKEND_URL + `api/v1/bot/${id}`; //http://localhost:8000/api/v1/bot/66/
   }
 
   getSpecificBotByBotTokenUrl(){
@@ -217,7 +224,10 @@ export class ConstantsService {
   }
 
   createEnterpriseNer() {
-    return this.BACKEND_URL + 'api/v1/customner/'; //https://dev.imibot.ai/api/v1/customner/
+  }
+
+  updatePassword(){
+    return this.BACKEND_URL + 'api/v1/user/updatepassword/'; //https:dev.imibot.ai/api/v1/user/updatepassword///
   }
 
   updateBotSerializer(bot: IBot) {

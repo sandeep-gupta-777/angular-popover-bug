@@ -123,6 +123,8 @@ import { PipelineFilterPipe } from './pipeline-filter.pipe';
 import { ChatPreviewNewPageComponent } from './chat/chat-preview-new-page/chat-preview-new-page.component';
 import {HandsontableComponent} from './handsontable/handsontable.component';
 import { FilterObjectArrayPipe } from './filter-object-array.pipe';
+import { IntegrationLogosPipe } from './integration-logos.pipe';
+import { IntegrationImageCountPipe } from './integration-image-count.pipe';
 
 const routes: Route[] = [
   {
@@ -291,7 +293,9 @@ const routes: Route[] = [
     FilterArrayPipe,
     PipelineFilterPipe,
     ChatPreviewNewPageComponent,
-    FilterObjectArrayPipe
+    FilterObjectArrayPipe,
+    IntegrationLogosPipe,
+    IntegrationImageCountPipe
   ],
   imports: [
     BrowserModule,

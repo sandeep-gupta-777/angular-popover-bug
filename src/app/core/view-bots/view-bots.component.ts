@@ -26,6 +26,9 @@ export class ViewBotsComponent implements OnInit {
   }
 
   ngOnInit() {
+
+
+    this.serverService.getNSetIntegrationList()
     this.serverService.getNSetBotList()
       .subscribe(()=>{
       })

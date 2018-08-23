@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
 
       // "email":"ayeshreddy.k@imimobile.com",
       // "password":"Botwoman@123!"
-      "email": "imibotadmin@imimobile.com",
+      "email": "ayeshreddy.k@imimobile.com",
       "password": "Botwoman@123!"
     };
 
@@ -53,7 +53,6 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/']);
       }
       )
-
   }
 
   showPanel(panel){

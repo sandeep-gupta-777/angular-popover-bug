@@ -6,6 +6,11 @@ export class SetCodeBasedBotListAction {
   constructor(public payload:{botList:IBot[] }){}
 }
 
+export class SetAllBotListAction {
+  static readonly type = '[view-bots] set SetAllBotListAction';
+  constructor(public payload:{botList:IBot[] }){}
+}
+
 export class SetPipeLineBasedBotListAction {
   static readonly type = '[view-bots] set pipeline-based-list';
   constructor(public payload:{botList:IBot[] }){}

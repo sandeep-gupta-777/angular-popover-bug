@@ -107,4 +107,46 @@ export interface IIntegrationOption {
     }
   }
 }
+
+
+export interface IMasterIntegration {
+  meta: any,
+  objects: IIntegrationMasterListItem[]
+}
+
+
+export interface IIntegrationMasterListItem {
+  'created_at': '2018-08-06T11:26:46.702000',
+  'icon': '/assets/img/app/integrations/imiconnect.png',
+  'id': 1,
+  'inputs': [
+    {
+      'display_text': 'App Id',
+      'param_name': 'appId'
+    },
+    {
+      'display_text': 'App Secret',
+      'param_name': 'appSecret'
+    },
+    {
+      'display_text': 'Stream Name',
+      'param_name': 'streamName'
+    },
+    {
+      'display_text': 'Service Key',
+      'param_name': 'serviceKey'
+    },
+    {
+      'display_text': 'Send request via Connect',
+      'param_name': 'send_via_connect'
+    }
+    ],
+  'integration_type': 'fulfillment_provider_details',
+  'key': 'imiconnect',
+  'resource_uri': '/api/v1/integrations/1/',
+  'type': 'fulfillment',
+  'unique_name': string,// 'IMIConnect',
+  'updated_at': '2018-08-06T11:26:46.703000'
+}
+
 //aasdasda

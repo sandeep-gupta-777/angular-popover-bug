@@ -30,18 +30,26 @@ export class EnterpriseprofileComponent implements OnInit {
   ngOnInit() {
     this.loggeduser$.subscribe(({user}) => {
       this.userid = user.id;
-      this.enterpriseId = user.enterprise_id;
-      let url = this.constantsService.getEnterpriseUrl(this.userid);
-      this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: url})
+      this.enterpriseId = user.enterprise_id;//enterprise_id
+      let enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(this.enterpriseId);
+      this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
         .subscribe((value: IEnterpriseProfileInfo) => {
           this.store.dispatch([
             new SetEnterpriseInfoAction({enterpriseInfo: value})
+          ]);
+        });
+      let enterpriseUsersUrl = this.constantsService.getEnterpriseUsersUrl();
+      this.serverService.makeGetReq<{users:IEnterpriseUser[]}>({url: enterpriseUsersUrl, headerData})
+        .subscribe((enterpriseUsers) => {
+          this.store.dispatch([
+            new SetEnterpriseUsersAction({enterpriseUsers: enterpriseUsers.users})
           ]);
         });
     });
 
     this.loggeduserenterpriseinfo$.subscribe((value) => {
       this.loggeduserenterpriseinfo = value;
+      // debugger;
     });
 
     let headerData: IHeaderData = {'content-type': 'application/json'};

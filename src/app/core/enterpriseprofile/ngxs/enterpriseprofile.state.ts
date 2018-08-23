@@ -5,34 +5,34 @@ import {SetEnterpriseInfoAction, SetEnterpriseUsersAction} from './enterprisepro
 import {IEnterpriseUser} from '../../interfaces/enterprise-users';
 
 
-@State<IEnterpriseProfileInfo>({
-  name:'loggeduserenterpriseinfo',
+@State<Partial<IEnterpriseProfileInfo>>({
+  name: 'loggeduserenterpriseinfo',
   defaults: {
-    "_id": 'loading',
-    "created_at": 'loading',
-    "email": 'loading',
-    "enterpriseUniqueName": 'loading',
-    "industry": 'loading',
-    "logo": 'loading',
-    "name": 'loading',
-    "phone": 'loading',
-    "tier": 'loading',
-    "updated_at": 'loading',
-    "updated_by": 'loading',
-    "websiteUrl": 'loading',
-    "enterpriseusers":[]
+    'id': '',
+    'created_at': '',
+    // "email": '',
+    'enterprise_unique_name': '',
+    // "industry": '',
+    'logo': '',
+    'name': '',
+    // "phone": '',
+    // "tier": '',
+    'updated_at': '',
+    'updated_by': null,
+    // "websiteUrl": '',
+    // "enterpriseusers":[]
   }
 })
 
 export class EnterpriseprofileStateReducer {
 
   @Action(SetEnterpriseInfoAction)
-  SetEnterpriseInfo({patchState, setState, getState,dispatch}:StateContext<IEnterpriseProfileInfo>, {payload} : SetEnterpriseInfoAction){
+  SetEnterpriseInfo({patchState, setState, getState, dispatch}: StateContext<IEnterpriseProfileInfo>, {payload}: SetEnterpriseInfoAction) {
     patchState(payload.enterpriseInfo);
   }
 
   @Action(SetEnterpriseUsersAction)
-  setEnterpriseUsers({patchState, setState, getState,dispatch}:StateContext<IEnterpriseProfileInfo>, {payload} : SetEnterpriseUsersAction){
-    patchState({enterpriseusers:payload.enterpriseUsers});
+  setEnterpriseUsers({patchState, setState, getState, dispatch}: StateContext<IEnterpriseProfileInfo>, {payload}: SetEnterpriseUsersAction) {
+    patchState({enterpriseusers: payload.enterpriseUsers});
   }
 }

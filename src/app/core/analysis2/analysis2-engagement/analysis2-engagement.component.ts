@@ -60,11 +60,11 @@ export class Analysis2EngagementComponent implements OnInit {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('perf') || 'Sessions';
     this.analysisstate2$
       .subscribe((value)=>{
-        debugger;
+        // debugger;
         if(value.userLoyalty){
           this.series_Sessions  = this.u.convert(value.userLoyalty,"labels","String") ;
         }
-        
+
         if(value.channelWiseAverageSessionTime){
           this.series_Time  = this.u.convert(value.channelWiseAverageSessionTime,"labels","Date") ;
         }

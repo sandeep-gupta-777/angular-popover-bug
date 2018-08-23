@@ -90,7 +90,7 @@ export class Analysis2VolumeComponent implements OnInit {
 
       // this.analysisstate2$
       // .subscribe((value)=>{
-        debugger;
+      //   debugger;
         if(value.channelWiseFlowsPerSession){
           this.series_Sessions  = this.u.convert(value.channelWiseFlowsPerSession,"labels","Date") ;
         }

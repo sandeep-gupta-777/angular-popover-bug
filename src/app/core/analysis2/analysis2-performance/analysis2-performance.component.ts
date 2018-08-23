@@ -52,7 +52,7 @@ export class Analysis2PerformanceComponent implements OnInit {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('perf') || 'sessions';
     this.analysisstate2$
     .subscribe((value)=>{
-      debugger;
+      // debugger;
       if(value.topgenerationtemplates){
         this.series_template  = this.u.convert(value.topgenerationtemplates,"labels","Date") ;
       }

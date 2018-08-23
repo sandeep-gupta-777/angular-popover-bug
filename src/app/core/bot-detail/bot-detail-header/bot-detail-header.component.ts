@@ -4,6 +4,7 @@ import {ServerService} from '../../../server.service';
 import {Store} from '@ngxs/store';
 import {ConstantsService} from '../../../constants.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
+import {UtilityService} from '../../../utility.service';
 
 @Component({
   selector: 'app-bot-detail-header',
@@ -19,6 +20,7 @@ export class BotDetailHeaderComponent implements OnInit {
   constructor(
     private store: Store,
     private serverService: ServerService,
+    private utilityService: UtilityService,
     private constantsService: ConstantsService) {
   }
 
@@ -33,7 +35,7 @@ export class BotDetailHeaderComponent implements OnInit {
     let body = this.constantsService.updateBotSerializer(this.bot);
     this.serverService.makePutReq({url, body, headerData})
       .subscribe((value) => {
-        console.log(value);
+        this.utilityService.showSuccessToaster("Bot Successfully updated!");
       });
   }
 

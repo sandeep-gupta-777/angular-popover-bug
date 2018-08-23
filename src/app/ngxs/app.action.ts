@@ -1,5 +1,6 @@
 import {IUser} from '../core/interfaces/user';
 import {IAppState} from './app.state';
+import {IIntegrationMasterListItem} from '../../interfaces/integration-option';
 
 export class SetStateFromLocalStorageAction {
   static readonly type = '[app] set state from localstorage';
@@ -32,6 +33,14 @@ export class SetProgressValue {
       loading: boolean,
       value: number
     }
+  }) {}
+}
+
+export class SetMasterIntegrationsList {
+  static readonly type = '[app] set SetMasterIntegrationsList';
+
+  constructor(public payload: {
+    masterIntegrationList:IIntegrationMasterListItem[]
   }) {}
 }
 

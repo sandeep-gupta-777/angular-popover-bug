@@ -29,20 +29,20 @@
 <!--</div>-->
 <!--</div>-->
 
-<!--&lt;!&ndash;Template for modal&ndash;&gt;-->
-<!--<ng-template #template>-->
-<!--<div class="modal-header bg-danger">-->
-<!--<h4 class="modal-title pull-left text-white">Really delete: {{bot.name}}?</h4>-->
-<!--<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">-->
-<!--<span aria-hidden="true">&times;</span>-->
-<!--</button>-->
-<!--</div>-->
-<!--<div class="modal-body bg-white text-dark">-->
-<!--<p class="mb-3">Do you confirm the Deletion? This is a permanent and irreversible change</p>-->
-<!--<button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>-->
-<!--<button class="btn btn-theme-danger" (click)="deleteBot()">Delete</button>-->
-<!--</div>-->
-<!--</ng-template>-->
+<!--Template for modal-->
+<ng-template #template>
+  <div class="modal-header bg-danger">
+    <h4 class="modal-title heading pull-left text-white">Really delete: <strong>{{bot.name}}</strong>?</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true" class="text-white">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-white text-dark">
+    <p class="mb-3">Do you confirm the Deletion? This is a permanent and irreversible change</p>
+    <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+    <button class="btn btn-theme-danger" (click)="deleteBot()">Delete</button>
+  </div>
+</ng-template>
 <!--============================== Following is unbinded html for css tests ==============================-->
 <!---->
 <!--<div class="card mb-2">-->
@@ -79,7 +79,8 @@
 
 <!--================NEW DESIGN==================-->
 <div class="grid-bot-preview bg-white shadow-theme">
-  <div class="top d-flex border-bottom cursor-pointer" (click)="router.navigate(['core/botdetail/'+parentRoute+'/'+ bot.id])">
+  <div class="top d-flex border-bottom cursor-pointer"
+       (click)="router.navigate(['core/botdetail/'+parentRoute+'/'+ bot.id])">
     <div class="mr-2">
       <img class="logo-md rounded-circle" [src]="bot.logo" alt="">
     </div>
@@ -109,7 +110,7 @@
             <a class="dropdown-item">Make Bot Active</a>
           </li>
           <li role="menuitem">
-            <a class="dropdown-item">Delete</a>
+            <a class="dropdown-item" (click)="openModal(template)">Delete</a>
           </li>
         </ul>
       </div>
@@ -117,15 +118,21 @@
     </div>
     <!---->
     <div class="unique-name mt-2">Bot Unique Name : <strong>{{bot.bot_unique_name}}</strong></div>
-    <div class="date-protection mb-3">Advance Data Protection : <strong>{{bot.advanced_data_protection?"ON":"OFF"}}</strong></div>
+    <div class="date-protection mb-3">Advance Data Protection :
+      <strong>{{bot.advanced_data_protection?"ON":"OFF"}}</strong></div>
     <div class="d-flex bot-strip align-items-center">
       <div class="pr-1 border-right">
-        <div class="active-button px-1 border-right d-flex justify-content-center align-items-center">Active  ({{bot.active_version_id}})
+        <div class="active-button px-1 border-right d-flex justify-content-center align-items-center">Active
+          ({{bot.active_version_id}})
         </div>
       </div>
-      <img *ngFor="let keys of myObject.keys(bot.integrations)" style="width: 28px;height: 28px" src="http://www.pngmart.com/files/3/Weather-PNG-HD.png" alt="">
+      <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos|async)|slice:0:5)"
+           [src]="'https://imibot.ai'+integrationsMasterListItem.icon"
+           class="logo-image"
+           style="width: 16px;height: 16px"
+           alt="">
 
-      <span *ngIf="myObject.keys(bot.integrations).length>4" class="more">+{{myObject.keys(bot.integrations).length-4}} More</span>
+      <span *ngIf="(bot.integrations|integrationImageCount)>4" class="more ml-auto">+{{(bot.integrations|integrationImageCount)}} More</span>
     </div>
   </div>
   <!---->
@@ -133,56 +140,56 @@
 
 <!--===========NO BINDNGS==========================-->
 <!--<div class="grid-bot-preview bg-white">-->
-  <!--<div class="top d-flex border-bottom">-->
-    <!--<div class="mr-2">-->
-      <!--<img class="logo-md rounded-circle" [src]="bot.logo" alt="">-->
-    <!--</div>-->
-    <!--<div class="d-flex flex-column">-->
-      <!--<div class="heading">{{bot.name}}</div>-->
-      <!--<div class="description">This space is for bot description. This-->
-        <!--space is for bot description-->
-      <!--</div>-->
-    <!--</div>-->
-    <!--<i class="fa fa-users" style="color: #9b9b9b"></i>-->
-  <!--</div>-->
-  <!--<div class="bot" style="position: relative">-->
-    <!--<div class="positioned-wrapper">-->
-      <!--<button class="btn btn-theme-primary"-->
-              <!--style="position: absolute; left:50%;top: 50%;transform: translate(-50%, -50%);">Preview-->
-      <!--</button>-->
-      <!--<div class="btn-group p-2" dropdown style="position: absolute; right:2%;top: 2%;">-->
-        <!--<i dropdownToggle class="fa fa-ellipsis-v p-1"></i>-->
-        <!--<ul *dropdownMenu class="dropdown-menu" role="menu">-->
-          <!--<li role="menuitem">-->
-            <!--<a class="dropdown-item">Copy Access Token</a>-->
-          <!--</li>-->
-          <!--<li role="menuitem">-->
-            <!--<a class="dropdown-item">Copy Enterprise ID</a>-->
-          <!--</li>-->
-          <!--<li role="menuitem">-->
-            <!--<a class="dropdown-item">Make Bot Active</a>-->
-          <!--</li>-->
-          <!--<li role="menuitem">-->
-            <!--<a class="dropdown-item">Delete</a>-->
-          <!--</li>-->
-        <!--</ul>-->
-      <!--</div>-->
+<!--<div class="top d-flex border-bottom">-->
+<!--<div class="mr-2">-->
+<!--<img class="logo-md rounded-circle" [src]="bot.logo" alt="">-->
+<!--</div>-->
+<!--<div class="d-flex flex-column">-->
+<!--<div class="heading">{{bot.name}}</div>-->
+<!--<div class="description">This space is for bot description. This-->
+<!--space is for bot description-->
+<!--</div>-->
+<!--</div>-->
+<!--<i class="fa fa-users" style="color: #9b9b9b"></i>-->
+<!--</div>-->
+<!--<div class="bot" style="position: relative">-->
+<!--<div class="positioned-wrapper">-->
+<!--<button class="btn btn-theme-primary"-->
+<!--style="position: absolute; left:50%;top: 50%;transform: translate(-50%, -50%);">Preview-->
+<!--</button>-->
+<!--<div class="btn-group p-2" dropdown style="position: absolute; right:2%;top: 2%;">-->
+<!--<i dropdownToggle class="fa fa-ellipsis-v p-1"></i>-->
+<!--<ul *dropdownMenu class="dropdown-menu" role="menu">-->
+<!--<li role="menuitem">-->
+<!--<a class="dropdown-item">Copy Access Token</a>-->
+<!--</li>-->
+<!--<li role="menuitem">-->
+<!--<a class="dropdown-item">Copy Enterprise ID</a>-->
+<!--</li>-->
+<!--<li role="menuitem">-->
+<!--<a class="dropdown-item">Make Bot Active</a>-->
+<!--</li>-->
+<!--<li role="menuitem">-->
+<!--<a class="dropdown-item">Delete</a>-->
+<!--</li>-->
+<!--</ul>-->
+<!--</div>-->
 
-    <!--</div>-->
-    <!--&lt;!&ndash;&ndash;&gt;-->
-    <!--<div class="unique-name mt-2">Bot Unique Name : <strong>Bot_unique_name</strong></div>-->
-    <!--<div class="date-protection mb-3">Advance Data Protection : <strong>ON</strong></div>-->
-    <!--<div class="d-flex bot-strip justify-content-between align-items-center">-->
-      <!--<div class="pr-1 border-right">-->
-        <!--<div class="active-button px-1 border-right d-flex justify-content-center align-items-center">Active(4.2.1)-->
-        <!--</div>-->
-      <!--</div>-->
-      <!--<img style="width: 28px;height: 28px" src="http://www.pngmart.com/files/3/Weather-PNG-HD.png" alt="">-->
-      <!--<img style="width: 28px;height: 28px" src="http://www.pngmart.com/files/3/Weather-PNG-HD.png" alt="">-->
-      <!--<img style="width: 28px;height: 28px" src="http://www.pngmart.com/files/3/Weather-PNG-HD.png" alt="">-->
-      <!--<img style="width: 28px;height: 28px" src="http://www.pngmart.com/files/3/Weather-PNG-HD.png" alt="">-->
-      <!--<span class="more">+5 More</span>-->
-    <!--</div>-->
-  <!--</div>-->
-  <!--&lt;!&ndash;&ndash;&gt;-->
+<!--</div>-->
+<!--&lt;!&ndash;&ndash;&gt;-->
+<!--<div class="unique-name mt-2">Bot Unique Name : <strong>Bot_unique_name</strong></div>-->
+<!--<div class="date-protection mb-3">Advance Data Protection : <strong>ON</strong></div>-->
+<!--<div class="d-flex bot-strip justify-content-between align-items-center">-->
+<!--<div class="pr-1 border-right">-->
+<!--<div class="active-button px-1 border-right d-flex justify-content-center align-items-center">Active(4.2.1)-->
+<!--</div>-->
+<!--</div>-->
+<!--<img style="width: 28px;height: 28px" src="http://www.pngmart.com/files/3/Weather-PNG-HD.png" alt="">-->
+<!--<img style="width: 28px;height: 28px" src="http://www.pngmart.com/files/3/Weather-PNG-HD.png" alt="">-->
+<!--<img style="width: 28px;height: 28px" src="http://www.pngmart.com/files/3/Weather-PNG-HD.png" alt="">-->
+<!--<img style="width: 28px;height: 28px" src="http://www.pngmart.com/files/3/Weather-PNG-HD.png" alt="">-->
+<!--<span class="more">+5 More</span>-->
+<!--</div>-->
+<!--</div>-->
+<!--&lt;!&ndash;&ndash;&gt;-->
 <!--</div>-->

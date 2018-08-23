@@ -65,13 +65,13 @@ export class CodeInputComponent implements OnInit {
     let botId = this.bot.id;
     this.serverService.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
       .subscribe((botVersionResult) => {
-debugger;
+// debugger;
         this.store.dispatch([
           new SaveVersionInfoInBot({data: botVersionResult.objects, botId: this.bot.id})
         ]);
       });
     this.botlist$.subscribe((value) => {
-      debugger;
+      // debugger;
       let activeVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.find((BotVersion) => {
         return this.bot.active_version_id === BotVersion.id;
       });
@@ -109,7 +109,7 @@ debugger;
       // } else if (this.activeTab === 'workflow') {
       //   this.editorCode = this.code.workflow;
       // }
-      debugger;
+      // debugger;
       this.editorCode = this.code[this.activeTab];
     }
     this.router.navigate(['core/botdetail/codebased/', this.bot.id], {
@@ -122,7 +122,7 @@ debugger;
   saveText(codeStr: string) {
     /*some changes have been made to selected version*/
     this.selectedVersion[this.activeTab] = codeStr;
-    debugger;
+    // debugger;
     // let objectTobeSaved = {code: {}};
     // objectTobeSaved.code[this.activeTab] = codeStr;
     // this.datachanged$.emit({data: objectTobeSaved});
@@ -135,7 +135,7 @@ debugger;
     let url = this.constantsService.getSaveVersionByBotId(this.bot.id);
     this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
       .subscribe((value) => {
-        console.log(value);
+        this.utilityService.showSuccessToaster("new version saved successfully!");
       });
   }
 
@@ -154,6 +154,7 @@ debugger;
       .subscribe((forkedVersion: IBotVersionData) => {
         console.log(forkedVersion);
         this.selectedVersion = forkedVersion;
+        this.utilityService.showSuccessToaster("new version forked successfully!")
         ;
         this.ngOnInit();
         /*TODO: implement it correctly*/

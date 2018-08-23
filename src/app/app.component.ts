@@ -24,21 +24,46 @@ export class AppComponent implements OnInit {
   showProgressbar: boolean = false;
   dom: BrowserDomAdapter;
   editor: any;
+  currentIntervalRef;
 
   ngOnInit() {
     this.app$.subscribe((app) => {
-      // this.showProgressbar = app.progressbar.show;
-      this.progressVal = app.progressbar.value;
-      if(this.progressVal===100){
-        setTimeout(()=>{this.showProgressbar=false},1000)
-      }else {
-        this.showProgressbar=true;
+      // debugger;
+      // this.showProgressbar = app.progressbar.loading;
+      // if(this.progressVal===100){
+      //   setTimeout(()=>{
+      //     this.showProgressbar=false
+      //   },1000)
+      // }
+      // else {
+      //   // this.showProgressbar=true;
+      // }
+
+      if (app.progressbar.loading) {
+        this.showProgressbar = true;
+        this.currentIntervalRef && clearInterval(this.currentIntervalRef);
+        this.progressVal = app.progressbar.value;
+        // this.progressVal = 0;
+        this.currentIntervalRef = setInterval(() => {
+          if (this.progressVal < 80)
+            ++this.progressVal;
+          else {
+            this.showProgressbar = false;
+          }
+        }, 200);
+      } else {
+        setTimeout(() => {
+          this.progressVal = 100;
+          this.currentIntervalRef && clearInterval(this.currentIntervalRef);
+          setTimeout(() => {
+            this.showProgressbar = false;
+          }, 500);
+        }, 1000);
       }
+
     });
-    setInterval(() => {
-      if (this.progressVal < 80)
-        ++this.progressVal;
-    }, 200);
+
+
     this.router.events.subscribe((data) => {
       if (data instanceof RoutesRecognized) {
         this.isFullScreenPreview = data.state.root.firstChild.data.isFullScreenPreview;

@@ -4,7 +4,7 @@ import {
   SetCodeBasedBotListAction,
   SetPipeLineBasedBotListAction,
   SaveVersionInfoInBot,
-  SaveInfoInBotInBotList
+  SaveInfoInBotInBotList, SetAllBotListAction
 } from './view-bot.action';
 import {IBot} from '../../interfaces/IBot';
 import {ActivatedRoute} from '@angular/router';
@@ -31,12 +31,21 @@ export class ViewBotStateReducer {
   constructor(private activatedRoute: ActivatedRoute) {
   }
 
+  @Action(SetAllBotListAction)
+  setAllBotListAction({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>, {payload}: SetAllBotListAction) {
+    let state = getState();
+    patchState({
+      // codeBasedBotList: payload.botList,
+      allBotList: [...payload.botList]
+    });
+  }
+
   @Action(SetCodeBasedBotListAction)
   setCodebasedBotList({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>, {payload}: SetCodeBasedBotListAction) {
     let state = getState();
     patchState({
       codeBasedBotList: payload.botList,
-      allBotList: [...(state.codeBasedBotList || []), ...(state.pipelineBasedBotList || []), ...payload.botList]
+      // allBotList: [...(state.codeBasedBotList || []), ...(state.pipelineBasedBotList || []), ...payload.botList]
     });
   }
 
@@ -45,7 +54,7 @@ export class ViewBotStateReducer {
     let state = getState();
     patchState({
       pipelineBasedBotList: payload.botList,
-      allBotList: [...(state.codeBasedBotList || []), ...(state.pipelineBasedBotList || []), ...payload.botList]
+      // allBotList: [...(state.codeBasedBotList || []), ...(state.pipelineBasedBotList || []), ...payload.botList]
     });
   }
 
@@ -62,7 +71,7 @@ export class ViewBotStateReducer {
   saveVersionInfoInBot({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>,
                        {payload}: SaveVersionInfoInBot) {
     let state: ViewBotStateModel = getState();
-    debugger;
+    // debugger;
     let bot: IBot = state.allBotList.find((bot) => bot.id === payload.botId);
 
     bot.store_bot_versions = payload.data;
