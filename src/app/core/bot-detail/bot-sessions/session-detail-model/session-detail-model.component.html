@@ -8,7 +8,7 @@
             <i class="fa fa-angle-left pr-2 cursor-pointer"
                [ngClass]="{invisible:indexOfCurrentRowSelected<=0 && pageNumberOfCurrentRowSelected<=1}"
                (click)="selectPrevRow.emit()"></i>
-            <i class="fa fa-angle-right cursor-pointer" [ngClass]="{invisible:showNextButton}"
+            <i class="fa fa-angle-right cursor-pointer" [ngClass]="{invisible:false}"
                (click)="selectNextRow.emit()"></i>
           </div>
 
