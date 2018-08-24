@@ -45,3 +45,12 @@ export class SetMasterIntegrationsList {
 }
 
 
+export class SetMasterProfilePermissions {
+  static readonly type = '[app] set SetProfilePermissions';
+
+  constructor(public payload: {
+    masterProfilePermissions:IProfilePermission[]
+  }) {}
+}
+
+

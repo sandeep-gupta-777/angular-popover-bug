@@ -2,7 +2,7 @@ import {Action, NgxsOnInit, Selector, State, StateContext, Store} from '@ngxs/st
 import {
   ResetStoreToDefault,
   SetLastSateUpdatedTimeAction,
-  SetMasterIntegrationsList,
+  SetMasterIntegrationsList, SetMasterProfilePermissions,
   SetProgressValue,
   SetStateFromLocalStorageAction
 } from './app.action';
@@ -21,7 +21,8 @@ export interface IAppState /*extends INavigationState, IAuthState */
     loading: boolean,
     value: number
   },
-  masterIntegrationList: IIntegrationMasterListItem[]
+  masterIntegrationList: IIntegrationMasterListItem[],
+  masterProfilePermissions: IProfilePermission[]
 }
 
 const appDefaultState = {
@@ -38,7 +39,8 @@ const appDefaultState = {
       loading: false,
       value: 0
     },
-    masterIntegrationList: null
+    masterIntegrationList: null,
+    masterProfilePermissions:null
   }
 })//same as reducer
 export class AppStateReducer {
@@ -67,6 +69,11 @@ export class AppStateReducer {
   @Action(SetMasterIntegrationsList)
   setMasterIntegrationsList({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetMasterIntegrationsList) {
     patchState({masterIntegrationList: payload.payload.masterIntegrationList});
+  }
+
+  @Action(SetMasterProfilePermissions)
+  setMasterProfilePermissions({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetMasterProfilePermissions) {
+    patchState({masterProfilePermissions: payload.payload.masterProfilePermissions});
   }
 
 }

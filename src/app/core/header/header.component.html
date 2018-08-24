@@ -3,25 +3,26 @@
     <a routerLink="/"><img class="box-logo__image" src="https://imibot.ai/assets/img/IMI_logo.png" alt=""></a>
   </div>
 
-  <div class="box box-search">
-    <input class="box-search__input" type="search" placeholder="Search...">
-  </div>
+  <!--<div class="box box-search">-->
+    <!--<input class="box-search__input" type="search" placeholder="Search...">-->
+  <!--</div>-->
 
   <div class="box box-tools d-flex align-items-center">
 
-    <div class="btn-group p-2" dropdown>
-      <i dropdownToggle class="fa fa-plus"></i>
-      <ul *dropdownMenu class="dropdown-menu" role="menu">
-        <li role="menuitem"><a class="dropdown-item" [routerLink]="['buildbot','codebased']">Code Based Bot</a></li>
-        <li role="menuitem"><a class="dropdown-item" [routerLink]="['buildbot','intelligent']">Pipeline Based Bot</a>
-        </li>
-      </ul>
-    </div>
-    <a routerLink="customner"><i class="fa fa-graduation-cap"></i></a>
-    <a routerLink="documentation"><i class="fa fa-file"></i></a>
+    <!--<div class="btn-group p-2" dropdown>-->
+      <!--<i dropdownToggle class="fa fa-plus"></i>-->
+      <!--<ul *dropdownMenu class="dropdown-menu" role="menu">-->
+        <!--<li role="menuitem"><a class="dropdown-item" [routerLink]="['buildbot','codebased']">Code Based Bot</a></li>-->
+        <!--<li role="menuitem"><a class="dropdown-item" [routerLink]="['buildbot','intelligent']">Pipeline Based Bot</a>-->
+        <!--</li>-->
+      <!--</ul>-->
+    <!--</div>-->
+    <a class="header-nav" routerLink="customner"><i class="fa fa-home"></i>Bot Dashboard</a>
+    <a class="header-nav" routerLink="customner"><i class="fa fa-graduation-cap"></i>Knowledge Base</a>
+    <a class="header-nav" routerLink="documentation"><i class="fa fa-file"></i>Documentation</a>
 
     <div class="btn-group" dropdown>
-      <a routerLink="analytics2"><i dropdownToggle class="fa fa-bar-chart"></i></a>
+      <a class="header-nav" routerLink="analytics2"><i dropdownToggle class="fa fa-bar-chart"></i>Analytics</a>
       <!--<i dropdownToggle class="fa fa-bar-chart"></i>-->
       <!--<ul *dropdownMenu class="dropdown-menu" role="menu">-->
         <!--<li role="menuitem"><a class="dropdown-item" [routerLink]="['analytics','overview']">Overview</a></li>-->
@@ -34,7 +35,7 @@
         <!--<li role="menuitem"><a class="dropdown-item" [routerLink]="['analytics','usage']">Usage</a></li>-->
       <!--</ul>-->
     </div>
-    <a routerLink="reports"><i class="fa fa-list"></i></a>
+    <a class="header-nav" routerLink="reports"><i class="fa fa-list"></i>Reports</a>
   </div>
 
   <div class="d-flex header-container__right align-items-center ml-auto ">

@@ -1,11 +1,11 @@
 <!--<p>{{bot|json}}</p>-->
 
 <div class="row-bot-detail-header d-flex align-items-center my-3">
-  <img style="width: 40px;height: 40px" src="http://www.pngmart.com/files/3/Weather-PNG-HD.png" alt="">
+  <img style="width: 32px;height: 32px" class="rounded-circle" [src]="bot.logo" alt="">
   <div class="name">
     <div class="heading">{{bot.name}}</div>
   </div>
-  <i class="fa fa-users" style="font-size: 20px"></i>
+  <i class="fa fa-users" *ngIf="bot.child_bots.length>0" style="font-size: 20px"></i>
   <div class="text-theme-normal">
     Created by : <strong>{{bot.created_by}}</strong> on <strong> {{bot.created_at|date}}</strong>
   </div>

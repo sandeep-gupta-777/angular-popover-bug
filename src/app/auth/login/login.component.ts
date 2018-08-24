@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
 
       // "email":"ayeshreddy.k@imimobile.com",
       // "password":"Botwoman@123!"
-      "email": "ayeshreddy.k@imimobile.com",
+      "email": "imibotadmin@imimobile.com",
       "password": "Botwoman@123!"
     };
 

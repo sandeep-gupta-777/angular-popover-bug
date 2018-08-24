@@ -137,7 +137,7 @@ export class ConstantsService {
   }
 
   getReportsEditInfo(_id) {
-    return this.BACKEND_URL + 'reports/' + _id; //  https://dev.imibot.ai/reports/5b335b127c15580059c13fc5
+    return this.BACKEND_URL + 'api/v1/reports/' + _id; //  https://dev.imibot.ai/reports/5b335b127c15580059c13fc5
   }
 
   getSaveReportsEditInfo(_id) {
@@ -168,6 +168,10 @@ export class ConstantsService {
 
   getBotConsumerUrl(limit: number, offset: number) {
     return this.BACKEND_URL + `api/v1/consumer/?limit=${limit}&offset=${offset}`; //https://localhost:8000/api/v1/consumer/?limit=1&offset=0
+  }
+
+  getAllActionsUrl() {
+    return this.BACKEND_URL + `api/v1/actions/?limit=100`; //https://dev.imibot.ai/api/v1/actions/
   }
   getDeleteBotUrl(id: number) {
     return this.BACKEND_URL + `api/v1/bot/${id}`; //http://localhost:8000/api/v1/bot/66/

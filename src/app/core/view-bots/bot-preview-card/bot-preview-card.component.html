@@ -89,7 +89,7 @@
       <div class="description">{{bot.description}}
       </div>
     </div>
-    <i class="fa fa-users ml-auto" style="color: #9b9b9b"></i>
+    <i class="fa fa-users ml-auto" [hidden]="bot.child_bots.length===0" style="color: #9b9b9b"></i>
   </div>
   <div class="bot" style="position: relative">
     <div class="positioned-wrapper">

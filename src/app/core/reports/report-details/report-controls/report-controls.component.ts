@@ -12,7 +12,7 @@ import {UtilityService} from '../../../../utility.service';
 import {TempVariableService} from '../../../../temp-variable.service';
 import {ServerService} from '../../../../server.service';
 import {ConstantsService} from '../../../../constants.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {BsDatepickerConfig} from 'ngx-bootstrap/datepicker';
 
 
@@ -34,6 +34,7 @@ export class ReportControlsComponent implements OnInit {
   reportFormData: IReportItem;
   servervalue;
   deliveryMode:string = 'email';
+  startdate = new Date();
   // start_date = new Date();
 
   constructor(
@@ -42,6 +43,7 @@ export class ReportControlsComponent implements OnInit {
     private tempVariableService: TempVariableService,
     private serverService: ServerService,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private constantsService: ConstantsService,
   ) {
     this.datePickerConfig = Object.assign({},{
@@ -51,6 +53,10 @@ export class ReportControlsComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.activatedRoute.queryParamMap.subscribe((queryParams:any)=>{
+      this.deliveryMode = queryParams.params['deliveryMode'] || 'email';
+    });
 
     let _id = this.activatedRoute.snapshot.paramMap.get('_id');
 
@@ -66,10 +72,14 @@ export class ReportControlsComponent implements OnInit {
           let url = this.constantsService.getReportsEditInfo(_id);
           this.serverService.makeGetReq<IReportItem>({url})
             .subscribe((value: any) => {
+              debugger;
               this.servervalue = value;
               /*TODO: VERY BAD FIX; USE REACTIVE FORM INSTEAD*/
-              value.delivery = value.delivery[0];;
+              value.delivery = value.delivery[0];
+              // delete value.startdate;
+              debugger;
               if (value) this.f.form.patchValue(value);
+              this.startdate = new Date(value.startdate);
               // this.f.f.patchValue({startdate:value.startdate});
               // this.f.f.patchValue({startdate:value.startdate});//This will only accept mmddyyyy format...
             });
@@ -101,5 +111,9 @@ export class ReportControlsComponent implements OnInit {
   }
 
   click() {
+  }
+  navigate(deliveryMode){
+    this.router.navigate([], {queryParams:{deliveryMode}});
+    // deliveryMode='email'
   }
 }

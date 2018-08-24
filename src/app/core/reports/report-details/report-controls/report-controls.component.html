@@ -3,7 +3,7 @@
   <div class="col-6">
     <div class="select-theme-primary">
       <label for="" class="Bot">Bot</label>
-      <select class="concept1" ngModel required name="botId">
+      <select class="concept1" ngModel required name="bot_id">
         <option type="button" *ngFor="let bot of botlist" [value]="bot.id">
           <button (click)="selectedBotChanged(bot)">{{bot.name}}</button>
         </option>
@@ -61,7 +61,7 @@
         <input type="text"
                placeholder="Datepicker"
                class="form-control date-input"
-               ngModel
+               [(ngModel)]="startdate"
                name="updated_at"
                bsDatepicker [bsConfig]="datePickerConfig">
       </div>
@@ -77,15 +77,15 @@
       <ul class="nav nav-tabs my-2">
         <input type="text" ngModel name="delivery_type" hidden>
         <li class="nav-item">
-          <a class="nav-link" [ngClass]="{'tab-active':deliveryMode==='email'}" (click)="deliveryMode='email'"><strong>Email</strong></a>
+          <a class="nav-link" [ngClass]="{'tab-active':deliveryMode==='email'}" (click)="navigate('email')"><strong>Email</strong></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [ngClass]="{'tab-active':deliveryMode==='sftp'}" (click)="deliveryMode='sftp'"><strong>SFTP</strong></a>
+          <a class="nav-link" [ngClass]="{'tab-active':deliveryMode==='sftp'}" (click)="navigate('sftp')"><strong>SFTP</strong></a>
         </li>
       </ul>
     </div>
 
-    <div class="row m-0">
+    <div class="row m-0" *ngIf="deliveryMode==='email'">
       <div class="col-8 text-report ">
         Schedule emails for multiple recipients, separate with semi-colon(;)
       </div>
@@ -100,7 +100,7 @@
       </div>
     </div>
 
-    <div class="row m-0 my-3">
+    <div class="row m-0 my-3" *ngIf="deliveryMode==='sftp'">
       <div class="col-8 text-report">
         Push reports to a secure location as scheduled
       </div>

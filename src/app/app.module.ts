@@ -126,6 +126,7 @@ import { FilterObjectArrayPipe } from './filter-object-array.pipe';
 import { IntegrationLogosPipe } from './integration-logos.pipe';
 import { IntegrationImageCountPipe } from './integration-image-count.pipe';
 import { IntegrationInputKeysFilterPipe } from './integration-input-keys-filter.pipe';
+import { ProfilePermissionIdToNamePipe } from './core/profile/profile-permission-id-to-name.pipe';
 
 const routes: Route[] = [
   {
@@ -297,7 +298,8 @@ const routes: Route[] = [
     FilterObjectArrayPipe,
     IntegrationLogosPipe,
     IntegrationImageCountPipe,
-    IntegrationInputKeysFilterPipe
+    IntegrationInputKeysFilterPipe,
+    ProfilePermissionIdToNamePipe
   ],
   imports: [
     BrowserModule,

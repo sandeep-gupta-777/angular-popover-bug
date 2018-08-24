@@ -33,8 +33,9 @@ export class ObjectArrayCrudService {
   getObjectItemByKeyValuePair(array:any[], obj:object){
     let key = Object.keys(obj)[0];
     let value =  obj[key];
-    return array.find(item => {
+    let x = array.find(item => {
       return item[key] === value;
     })
+    return x;
   }
 }

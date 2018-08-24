@@ -1,7 +1,7 @@
 <div class="container px-5 pb-5 my-3 bg-white shadow-theme">
   <div class="row">
     <div class="col-12 mb-4 py-3 d-flex align-items-center " style="border-bottom: solid 2px #e0e0e0;">
-      <div class="p-0 h4" ><i class="fa fa-angle-left pr-2"></i>Subscribe to Report</div>
+      <a class="p-0 h4 cursor-pointer" [routerLink]="['/core','reports']" ><i class="fa fa-angle-left pr-2"></i>Subscribe to Report</a>
       <button class="btn btn-theme-primary-outline ml-auto mr-3" routerLink="/core/reports">Cancel</button>
       <button class="btn btn-theme-primary" (click)="submitSubscriptionForm(Primarytemplate)">Create</button>
     </div>
