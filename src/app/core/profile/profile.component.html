@@ -36,24 +36,24 @@
         <span
           class="text-info"><strong>{{loggedUser.user.role.permissions.bots.length}}</strong> bot permissions</span>
         <div class="permissions-box p-2 ">
-        <span class="badge badge-secondary mr-1"
-              *ngFor="let perm of loggedUser.user.role.permissions.bots">{{perm}}
+        <span class="badge badge-secondary mr-1 mb-2"
+              *ngFor="let perm of (loggedUser.user.role.permissions.bots|profilePermissionIdToName|async)">{{perm}}
       </span>
         </div>
       </div>
     </div>
-
-    <div class="col-12 d-flex mt-2" style="overflow-x: hidden">
-      <label for="" class="pl-5 ml-5 pr-4 pt-1">Action Permissions:</label>
-      <div class="" style="flex-grow: 1">
-        <span class="text-info"><strong>{{loggedUser.user.role.permissions.actions.length}}</strong> action permissions </span>
-        <div class="permissions-box p-2 " >
-        <span class="badge badge-secondary mr-1"
-              *ngFor="let perm of loggedUser.user.role.permissions.actions">{{perm}}
-      </span>
-        </div>
-      </div>
-    </div>
+    <!---->
+    <!--<div class="col-12 d-flex mt-2" style="overflow-x: hidden">-->
+    <!--<label for="" class="pl-5 ml-5 pr-4 pt-1">Action Permissions:</label>-->
+    <!--<div class="" style="flex-grow: 1">-->
+    <!--<span class="text-info"><strong>{{loggedUser.user.role.permissions.actions.length}}</strong> action permissions </span>-->
+    <!--<div class="permissions-box p-2 " >-->
+    <!--<span class="badge badge-secondary mr-1"-->
+    <!--*ngFor="let perm of loggedUser.user.role.permissions.actions">{{perm}}-->
+    <!--</span>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
   </section>
 
   <section class="col-12">
@@ -86,30 +86,30 @@
 
         <div class="col-md-12">
           <label for="">Old Password</label>
-          <input type="password" [(ngModel)]="old_password"  name="old_password">
+          <input type="password" [(ngModel)]="old_password" name="old_password">
         </div>
         <div class="col-md-12">
           <hr>
         </div>
         <div class="col-md-12">
           <label for="">New Password</label>
-          <input type="password" [(ngModel)]="new_password"  name="new_password">
+          <input type="password" [(ngModel)]="new_password" name="new_password">
         </div>
         <div class="col-md-12">
           <label for="">Confirm Password</label>
-          <input type="password" [(ngModel)]="new_password_confirm"  name="new_password_confirm">
+          <input type="password" [(ngModel)]="new_password_confirm" name="new_password_confirm">
         </div>
         <div class="col-md-12 p-0 m-0" style="height: 25px">
           <p class="text-danger text-secondary m-0">{{passwordErrorStr?passwordErrorStr:''}}</p>
         </div>
         <div class="col-md-12">
-          <button class="btn btn-theme-primary-outline mr-1">Cancel</button>
+          <button class="btn btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>
           <button class="btn btn-theme-primary" (click)="changePassword()">Modify</button>
         </div>
         <!--<div class="col-md-12">-->
-          <!--You have subscribed to <strong>messages</strong> report for-->
-          <!--<strong>Weathery</strong> bot in a <strong>csv</strong> format,which is scheduled <strong>weekly</strong> at-->
-          <!--<strong>9:00 AM </strong>via <strong>email</strong>-->
+        <!--You have subscribed to <strong>messages</strong> report for-->
+        <!--<strong>Weathery</strong> bot in a <strong>csv</strong> format,which is scheduled <strong>weekly</strong> at-->
+        <!--<strong>9:00 AM </strong>via <strong>email</strong>-->
         <!--</div>-->
 
       </form>
@@ -126,30 +126,30 @@
 </ng-template>
 <!--<form class="row" #password_form="ngForm">-->
 
-  <!--<div class="col-md-12">-->
-    <!--<label for="">Old Password</label>-->
-    <!--<input type="text" ngModel name="old_password">-->
-  <!--</div>-->
-  <!--<div class="col-md-12">-->
-    <!--<hr>-->
-  <!--</div>-->
-  <!--<div class="col-md-12">-->
-    <!--<label for="">New Password</label>-->
-    <!--<input type="text" ngModel name="new_password">-->
-  <!--</div>-->
-  <!--<div class="col-md-12">-->
-    <!--<label for="">Confirm Password</label>-->
-    <!--<input type="text" ngModel name="new_password_confirm">-->
-  <!--</div>-->
-  <!--<div class="col-md-12 mt-2">-->
-    <!--<button class="btn btn-theme-primary-outline mr-1">Cancel</button>-->
-    <!--<button class="btn btn-theme-primary" (click)="changePassword()">Modify</button>-->
-  <!--</div>-->
-  <!--<div class="col-md-12">-->
-    <!--You have subscribed to <strong>messages</strong> report for-->
-    <!--<strong>Weathery</strong> bot in a <strong>csv</strong> format,which is scheduled <strong>weekly</strong> at-->
-    <!--<strong>9:00 AM </strong>via <strong>email</strong>-->
-  <!--</div>-->
+<!--<div class="col-md-12">-->
+<!--<label for="">Old Password</label>-->
+<!--<input type="text" ngModel name="old_password">-->
+<!--</div>-->
+<!--<div class="col-md-12">-->
+<!--<hr>-->
+<!--</div>-->
+<!--<div class="col-md-12">-->
+<!--<label for="">New Password</label>-->
+<!--<input type="text" ngModel name="new_password">-->
+<!--</div>-->
+<!--<div class="col-md-12">-->
+<!--<label for="">Confirm Password</label>-->
+<!--<input type="text" ngModel name="new_password_confirm">-->
+<!--</div>-->
+<!--<div class="col-md-12 mt-2">-->
+<!--<button class="btn btn-theme-primary-outline mr-1">Cancel</button>-->
+<!--<button class="btn btn-theme-primary" (click)="changePassword()">Modify</button>-->
+<!--</div>-->
+<!--<div class="col-md-12">-->
+<!--You have subscribed to <strong>messages</strong> report for-->
+<!--<strong>Weathery</strong> bot in a <strong>csv</strong> format,which is scheduled <strong>weekly</strong> at-->
+<!--<strong>9:00 AM </strong>via <strong>email</strong>-->
+<!--</div>-->
 
 <!--</form>-->
 

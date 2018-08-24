@@ -10,6 +10,7 @@ import {UtilityService} from '../../utility.service';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {NgForm} from '@angular/forms';
+import {SetMasterProfilePermissions} from '../../ngxs/app.action';
 
 @Component({
   selector: 'app-profile',
@@ -42,6 +43,14 @@ export class ProfileComponent implements OnInit {
     this.loggeduser$.subscribe((loggeduser) => {
       this.loggeduser = loggeduser.user;
     });
+
+    let allActionsUrl = this.constantsService.getAllActionsUrl();
+    this.serverService.makeGetReq<{meta:any, objects:IProfilePermission[]}>({url:allActionsUrl})
+      .subscribe(({objects})=>{
+        this.store.dispatch([
+          new SetMasterProfilePermissions({masterProfilePermissions: objects})
+        ]);
+      })
   }
 
   updateProfile() {
