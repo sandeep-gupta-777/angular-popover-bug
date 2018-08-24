@@ -19,11 +19,13 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   isActive: boolean;
   enable = false;
   formValue: IIntegrationOption;
+  formValueFinal: IIntegrationOption;
   @Input() bot: IBot;
   @ViewChild('form') f: NgForm;
+  @ViewChild('form_new') f_new: NgForm;
   @Select() botcreationstate$: Observable<IBotCreationState>;
   @Output() datachanged$ = new EventEmitter();
-
+  myObject = Object;
   routeParent;
 
   constructor(
@@ -35,6 +37,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.routeParent = this.activatedRoute.snapshot.data;
+    debugger;
     if (this.bot) {
       this.formValue = this.bot.integrations;
     } else if (this.routeParent['buildBot']) {
@@ -42,7 +45,10 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
         this.formValue = botCreationState.codeBased.integrations;
       });
     }
-    this.formValue = {
+    debugger;
+    // this.formValueFinal = this.constantsService.integrationOptionListTemplate;
+    // this.formValueFinal =  this.bot.integrations;
+    this.formValueFinal =  {
       channels:{
         ...this.constantsService.integrationOptionListTemplate.channels,
         ...this.formValue.channels
@@ -55,7 +61,9 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
         ...this.constantsService.integrationOptionListTemplate.fulfillment_provider_details,
         ...this.formValue.fulfillment_provider_details
       }
-    };;
+    };
+
+
 
   }
 
@@ -66,20 +74,38 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   click() {
     // console.log(this.formValue);
   }
+  test = false;
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.f.form.patchValue(this.formValue);
+      this.f_new.form.patchValue(this.formValueFinal);
     });
 
-    this.f.valueChanges.debounceTime(1000).subscribe((integrationInfo: IIntegrationOption) => {
-      // if (!this.f.dirty) return;
-
+    this.f_new.valueChanges.debounceTime(1000).subscribe((integrationInfo: IIntegrationOption) => {
+      if (!this.f_new.dirty) return;
+      debugger;
       this.datachanged$.emit({integrations: integrationInfo});
       // if (this.routeParent['buildBot'])
       //   this.store.dispatch([
       //     new SaveBasicInfo({data: {integrations: integrationInfo}})
       //   ]);
     });
+
+    // this.f_new.valueChanges.subscribe((value)=>{
+    //   debugger;
+    //   // if(value)
+    //     this.formValueFinal = value;
+    // })
   }
+
+  onSwitchChange(obj){
+    obj.enabled = !obj.enabled;
+  }
+
+
+  click1(){
+    console.log(this.f_new.value);
+    console.log(this.formValueFinal);
+  }
+
 }

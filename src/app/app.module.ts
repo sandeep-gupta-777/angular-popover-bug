@@ -125,6 +125,7 @@ import {HandsontableComponent} from './handsontable/handsontable.component';
 import { FilterObjectArrayPipe } from './filter-object-array.pipe';
 import { IntegrationLogosPipe } from './integration-logos.pipe';
 import { IntegrationImageCountPipe } from './integration-image-count.pipe';
+import { IntegrationInputKeysFilterPipe } from './integration-input-keys-filter.pipe';
 
 const routes: Route[] = [
   {
@@ -295,7 +296,8 @@ const routes: Route[] = [
     ChatPreviewNewPageComponent,
     FilterObjectArrayPipe,
     IntegrationLogosPipe,
-    IntegrationImageCountPipe
+    IntegrationImageCountPipe,
+    IntegrationInputKeysFilterPipe
   ],
   imports: [
     BrowserModule,
