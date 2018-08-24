@@ -46,7 +46,7 @@ export class BuildPipelineBasedBotComponent implements OnInit {
   @Input() bot = {};
 
   ngOnInit() {
-    // debugger;
+    // ;
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('tab') || 'basic'; //todo: not a robust code
     this.botcreationstate$.subscribe((value)=>{
       // console.log('test');
@@ -72,7 +72,7 @@ export class BuildPipelineBasedBotComponent implements OnInit {
       })
   }
   datachanged(data:Partial<IBot>){
-    // debugger;
+    // ;
     this.store.dispatch([
       new SaveNewBotInfo_PipelineBased({data:data})
     ]);

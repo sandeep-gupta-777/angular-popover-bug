@@ -46,7 +46,7 @@ export class SmartTableComponent implements OnInit {
   ngDoCheck() {
     // let changes = this.iterableDiffer.diff(this._data);
     // if (changes) {
-    //   debugger;
+    //   ;
     //   this.source.load(this._data);
     //   console.log('Changes in data detected!');
     //   this.source.refresh();
@@ -67,7 +67,7 @@ export class SmartTableComponent implements OnInit {
   }
 
   goToPage(currentPage) {
-    // debugger;
+    // ;
 
     this.currentPage = currentPage;
     this.totalPageCount = Math.ceil(this.totalRecords / this.recordsPerPage);

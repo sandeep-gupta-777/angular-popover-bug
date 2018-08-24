@@ -71,7 +71,7 @@ export class ChatWrapperComponent implements OnInit {
     * */
     this.route.events.subscribe((data) => {
       if (data instanceof RoutesRecognized) {
-        // debugger;
+        // ;
         this.isFullScreenPreview = data.state.root.firstChild.data.isFullScreenPreview;
       }
     });
@@ -105,7 +105,7 @@ export class ChatWrapperComponent implements OnInit {
     * open the chat window
     * */
 
-    // debugger;
+    // ;
     let new_uid = this.utilityService.createRandomString(12);
     this.store.dispatch([
       new AddNewRoom({
@@ -165,7 +165,7 @@ export class ChatWrapperComponent implements OnInit {
       lastTemplateKey:'none'
     }))
       .subscribe(()=>{
-        // debugger;
+        // ;
         this.chatService.startNewChat(
           {
             bot_access_token:this.bot_access_token, id:this.currentBotId

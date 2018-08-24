@@ -37,9 +37,9 @@ export class LoginComponent implements OnInit {
     // let headerData:IHeaderData = {'api-key': '54asdkj1209nksnda',"content-type":'application/x-www-f-urlencoded'};
     let body = {
 
-      // "email":"ayeshreddy.k@imimobile.com",
+      "email":"ayeshreddy.k@imimobile.com",
       // "password":"Botwoman@123!"
-      "email": "imibotadmin@imimobile.com",
+      // "email": "imibotadmin@imimobile.com",
       "password": "Botwoman@123!"
     };
 

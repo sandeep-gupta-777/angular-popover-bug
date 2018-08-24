@@ -49,7 +49,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
     this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || "architecture";
     /*this.bot$ = */
     this.botlist$.map((botListState) => {
-      debugger;
+      ;
       return this.bot =  botListState.allBotList.find((bot) => {
         return bot.id === this.bot_id;
       });
@@ -106,7 +106,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
   }
 
   datachanged(data:IBot){
-    debugger;
+    ;
     this.store.dispatch([
       new SaveInfoInBotInBotList({data, botId:this.bot_id})
     ]);

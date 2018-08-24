@@ -33,8 +33,9 @@ export class ReportControlsComponent implements OnInit {
   // @Input()
   reportFormData: IReportItem;
   servervalue;
-  deliveryMode:string = 'email';
+  deliveryMode: string = 'email';
   startdate = new Date();
+
   // start_date = new Date();
 
   constructor(
@@ -46,15 +47,15 @@ export class ReportControlsComponent implements OnInit {
     private router: Router,
     private constantsService: ConstantsService,
   ) {
-    this.datePickerConfig = Object.assign({},{
-      'containerClass':'theme-dark-blue',
-      'dateInputFormat':'DD/MM/YYYY',
+    this.datePickerConfig = Object.assign({}, {
+      'containerClass': 'theme-dark-blue',
+      'dateInputFormat': 'DD/MM/YYYY',
     });
   }
 
   ngOnInit() {
 
-    this.activatedRoute.queryParamMap.subscribe((queryParams:any)=>{
+    this.activatedRoute.queryParamMap.subscribe((queryParams: any) => {
       this.deliveryMode = queryParams.params['deliveryMode'] || 'email';
     });
 
@@ -71,14 +72,16 @@ export class ReportControlsComponent implements OnInit {
         if (_id && _id !== 'new') {
           let url = this.constantsService.getReportsEditInfo(_id);
           this.serverService.makeGetReq<IReportItem>({url})
-            .subscribe((value: any) => {
+            .subscribe((value: IReportItem) => {
               debugger;
-              this.servervalue = value;
-              /*TODO: VERY BAD FIX; USE REACTIVE FORM INSTEAD*/
-              value.delivery = value.delivery[0];
+              let formDataSerialized = {
+                ...value,
+                delivery: {
+                  sftp: value.delivery[0]
+                }
+              };
               // delete value.startdate;
-              debugger;
-              if (value) this.f.form.patchValue(value);
+              if (value) this.f.form.patchValue(formDataSerialized);
               this.startdate = new Date(value.startdate);
               // this.f.f.patchValue({startdate:value.startdate});
               // this.f.f.patchValue({startdate:value.startdate});//This will only accept mmddyyyy format...
@@ -94,7 +97,7 @@ export class ReportControlsComponent implements OnInit {
     this.f.valueChanges.debounceTime(1000).subscribe((data: any) => {
       // if (!this.f.dirty) return;
       /*TODO: VERY BAD FIX; USE REACTIVE FORM INSTEAD*/
-      data.delivery = [data.delivery];
+      // data.delivery = [data.delivery];
       data = {
         ...this.servervalue,
         ...data
@@ -106,14 +109,16 @@ export class ReportControlsComponent implements OnInit {
     });
   }
 
-  selectedBotChanged(bot){
+  selectedBotChanged(bot) {
 
   }
 
   click() {
+    console.log(this.f.value);
   }
-  navigate(deliveryMode){
-    this.router.navigate([], {queryParams:{deliveryMode}});
+
+  navigate(deliveryMode) {
+    this.router.navigate([], {queryParams: {deliveryMode}});
     // deliveryMode='email'
   }
 }

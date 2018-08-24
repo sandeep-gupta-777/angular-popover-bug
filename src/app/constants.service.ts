@@ -141,7 +141,7 @@ export class ConstantsService {
   }
 
   getSaveReportsEditInfo(_id) {
-    return this.BACKEND_URL + 'reports/' + _id; //  https://dev.imibot.ai/reports/5b335b127c15580059c13fc5
+    return this.BACKEND_URL + `api/v1/reports/${_id}/`; //  http://dev.imibot.ai/api/v1/reports/1/
   }
 
 

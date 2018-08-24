@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class PipelineFilterPipe implements PipeTransform {
 
   transform(items: any[], keyword: string): any {
-    // debugger;
+    // ;
     keyword = keyword && keyword.trim();
     if(!keyword || keyword==="") return items;
     return items.filter((item)=>{

@@ -60,7 +60,7 @@ export class KnowledgeBaseComponent implements OnInit {
       this.serverService.makeGetReq({url, headerData})
         .subscribe((value: { objects: [ICustomNerItem] }) => {
           this.data = value.objects;
-          // debugger;
+          // ;
         });
     }
     this.loggeduser$.subscribe((value) => this.loggeduser = value);
@@ -73,7 +73,7 @@ export class KnowledgeBaseComponent implements OnInit {
   updateOrSaveConcept() {
 
     let body:ICustomNerItem;
-    // debugger;
+    // ;
     if (this.nerType === 'single_match' || this.nerType === 'double_match' || this.nerType === 'with_metadata') {
       body = {values: this.codeTextOutPutFromCodeEditor.split(',')};
     } else if (this.nerType === 'database') {
@@ -162,7 +162,7 @@ export class KnowledgeBaseComponent implements OnInit {
 
   rowClicked($event) {
     // this.f.form.disabled(true);
-    // debugger;
+    // ;
     this.selectedRowData = $event.data;
     this.showTable = false;
     this.codeTextInputToCodeEditor = this.selectedRowData.values && this.selectedRowData.values.join();

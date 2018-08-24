@@ -21,7 +21,7 @@ export class ChatItemComponent implements OnInit {
   }
 
   openChatRoom() {
-    // debugger;
+    // ;
     this.store.dispatch([
       new SetCurrentUId({uid: this.room.uid}),
       new SetCurrentBotID({bot_id:this.room.bot_id}),

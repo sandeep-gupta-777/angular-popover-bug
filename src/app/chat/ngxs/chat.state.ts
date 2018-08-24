@@ -103,7 +103,7 @@ export class ChatSessionStateReducer {
   addMessagesToRoom({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: AddMessagesToRoomByUId) {
     let state = getState();
     let rooms = state.rooms;
-    // debugger;
+    // ;
     let uId =payload.uid;
     // let roomid = payload.id;
     let room: IRoomData = (rooms && (rooms.find((room) => room.uid === uId)));

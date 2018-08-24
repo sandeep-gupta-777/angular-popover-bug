@@ -59,7 +59,7 @@ export class ProfileComponent implements OnInit {
       return;
     }
     let url: string = this.constantsService.getUserUpdateUrl(this.loggeduser.id);
-    // debugger;
+    // ;
     // let body = {...this.loggeduser, ...this.f.value};
     let body = this.f.value;
     this.serverService.makePutReq({url, body})
@@ -78,7 +78,7 @@ export class ProfileComponent implements OnInit {
 
   changePassword() {
     //TODO: make use of forms here instead
-    // debugger;
+    // ;
     // if(this.passwordForm.valid){
     let changePasswordUrl = this.constantsService.updatePassword();
     //   let formData =  this.passwordForm.value;

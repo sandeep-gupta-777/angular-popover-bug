@@ -1,4 +1,4 @@
-<!--<button (click)="click()">click1</button>-->
+<button (click)="click()">click1</button>
 <form class="row report-detail-row" #form="ngForm">
   <div class="col-6">
     <div class="select-theme-primary">
@@ -62,14 +62,14 @@
                placeholder="Datepicker"
                class="form-control date-input"
                [(ngModel)]="startdate"
-               name="updated_at"
+               name="startdate"
                bsDatepicker [bsConfig]="datePickerConfig">
       </div>
     </div>
 
   </div>
 
-  <div class="row m-0 p-0" ngModelGroup="delivery">
+  <div class="row m-0 p-0" ngModelGroup='delivery'>
     <div class="col-12">
       <div class="" style="width: 100%; color: #474747">Delivery Mode</div>
     </div>
@@ -85,7 +85,7 @@
       </ul>
     </div>
 
-    <div class="row m-0" *ngIf="deliveryMode==='email'">
+    <div class="row m-0" [hidden]="deliveryMode!=='email'" ngModelGroup='email'>
       <div class="col-8 text-report ">
         Schedule emails for multiple recipients, separate with semi-colon(;)
       </div>
@@ -100,7 +100,7 @@
       </div>
     </div>
 
-    <div class="row m-0 my-3" *ngIf="deliveryMode==='sftp'">
+    <div class="row m-0 my-3" [hidden]="deliveryMode!=='sftp'" ngModelGroup='sftp'>
       <div class="col-8 text-report">
         Push reports to a secure location as scheduled
       </div>
@@ -108,15 +108,15 @@
         <div class="co-10 border-left pl-3 mt-2 sftp-grid">
           <label for="" class=" m-0">IP Address</label>
           <label for="" class=" m-0">Port</label>
-          <input class="input-material mb-3" type="text">
-          <input class="input-material mb-3" type="text">
+          <input class="input-material mb-3" type="text" ngModel name="ip">
+          <input class="input-material mb-3" type="text" ngModel name="port">
           <label for="" class=" m-0">Username</label>
           <label for="" class=" m-0">Password</label>
-          <input class="input-material mb-3" type="text">
-          <input class="input-material mb-3" type="text">
-          <button class="btn btn-theme-primary-outline">Upload private key</button>
+          <input class="input-material mb-3" type="text" ngModel name="username">
+          <input class="input-material mb-3" type="password" ngModel name="privatekey">
           <label for="" class=" m-0">Upload directory</label>
-          <input class="input-material" type="text">
+          <button class="btn btn-theme-primary-outline upload-private-key-button">Upload private key</button>
+          <input class="input-material" type="text" ngModel name="directory">
         </div>
       </div>
 
@@ -124,4 +124,3 @@
 
   </div>
 </form>
-<!---->

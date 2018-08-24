@@ -47,7 +47,7 @@ export class BuildCodeBasedBotComponent implements OnInit {
   @Input() bot = {};
 
   ngOnInit() {
-    // debugger;
+    // ;
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('tab') || 'basic'; //todo: not a robust code
     this.botcreationstate$.subscribe((value)=>{
       // console.log('test');
@@ -72,11 +72,11 @@ export class BuildCodeBasedBotComponent implements OnInit {
     this.serverService.makePostReq({url:url, body:this.bot})
       .subscribe((value)=>{
         console.log();
-        // debugger;
+        // ;
       })
   }
   datachanged(data:Partial<IBot>){
-    // debugger;
+    // ;
     this.store.dispatch([
       new SaveNewBotInfo_CodeBased({data:data})
     ]);

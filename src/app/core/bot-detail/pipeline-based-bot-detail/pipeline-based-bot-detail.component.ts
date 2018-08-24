@@ -40,7 +40,7 @@ export class PipelineBasedBotDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    // debugger;
+    // ;
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
     this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || "architecture";
@@ -89,7 +89,7 @@ export class PipelineBasedBotDetailComponent implements OnInit {
   }
 
   datachanged(data:IBot){
-    // debugger;
+    // ;
     this.store.dispatch([
       new SaveInfoInBotInBotList({data, botId:this.bot_id})
     ]);

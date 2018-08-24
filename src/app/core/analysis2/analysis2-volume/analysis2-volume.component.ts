@@ -76,21 +76,21 @@ export class Analysis2VolumeComponent implements OnInit {
   ngOnInit() {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('vol') || 'Sessions';
 // <<<<<<< HEAD
-      // debugger;
+      // ;
       this.store.dispatch(new SetAnalysis2HeaderData({
         analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseFlowsPerSession}
       }));
 
       this.analysisstate2$
       .subscribe((value)=>{
-        // debugger;
+        // ;
         // let x  = this.u.convert(value.channelWiseFlowsPerSession,"labels") ;
 // =======
-//       debugger;
+//       ;
 
       // this.analysisstate2$
       // .subscribe((value)=>{
-      //   debugger;
+      //   ;
         if(value.channelWiseFlowsPerSession){
           this.series_Sessions  = this.u.convert(value.channelWiseFlowsPerSession,"labels","Date") ;
         }
@@ -107,14 +107,14 @@ export class Analysis2VolumeComponent implements OnInit {
 
       // this.analysisstate2$
       // .subscribe((value)=>{
-      //   debugger;
+      //   ;
       // let y  = this.u.convert(value.channelWiseFlowsPerSession,"labels") ;
       //   this.series_Sessions = y;
       //
       // })
 
       // .map((analysisState) => {
-      //   debugger;
+      //   ;
       // let x =  this.u.convert(analysisState.channelWiseFlowsPerSession,"labels") ;
       // });
   }

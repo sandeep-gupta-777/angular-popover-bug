@@ -11,7 +11,7 @@ export class ProfilePermissionIdToNamePipe implements PipeTransform {
   @Select() app$: Observable<IAppState>;
 
   transform(permissionIds: number[], args?: any): any {
-    debugger;
+    ;
     return this.app$.map((appState) => {
       let masterPermissions = appState.masterProfilePermissions;
       return permissionIds.map((permissionId) => {

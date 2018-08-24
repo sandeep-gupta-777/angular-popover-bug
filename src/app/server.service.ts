@@ -159,7 +159,7 @@ export class ServerService {
         // this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
       })
       .subscribe((value)=>{
-        debugger;
+        ;
         this.store.dispatch([
           new SetMasterIntegrationsList({
             masterIntegrationList: value.objects

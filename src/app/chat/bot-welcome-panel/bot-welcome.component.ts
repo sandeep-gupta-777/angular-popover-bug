@@ -27,7 +27,7 @@ export class BotWelcomeComponent implements OnInit {
   @Input() bot_id: number;
 
   ngOnInit() {
-    // debugger;
+    // ;
 
 
     this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {

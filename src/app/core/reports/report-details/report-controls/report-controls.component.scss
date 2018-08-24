@@ -78,6 +78,13 @@ textarea {
   .Bot {
     margin-bottom: 0 !important;
   }
+  input{
+    padding: 4px ;
+    color: $color-secondary;
+  }
+  .upload-private-key-button{
+    grid-row: auto/ span 2;
+  }
 }
 
 .input-material {

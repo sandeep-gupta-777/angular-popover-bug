@@ -19,7 +19,7 @@ export class PipelineComponent implements OnInit {
   // @Input() bot: IBot;
   _bot: IBot;
   @Input() set bot(botData: IBot) {
-    // debugger;
+    // ;
     this._bot = botData;
     this.pipeLine = this._bot && this._bot.pipelines || [];
   }

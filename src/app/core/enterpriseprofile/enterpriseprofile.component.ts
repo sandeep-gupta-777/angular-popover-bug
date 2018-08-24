@@ -49,7 +49,7 @@ export class EnterpriseprofileComponent implements OnInit {
 
     this.loggeduserenterpriseinfo$.subscribe((value) => {
       this.loggeduserenterpriseinfo = value;
-      // debugger;
+      // ;
     });
 
     let headerData: IHeaderData = {'content-type': 'application/json'};

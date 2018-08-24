@@ -43,7 +43,7 @@ export class BotTestingComponent implements OnInit {
   }
 
   ngOnInit() {
-    // debugger;
+    // ;
     this.serverService.makeGetReq<{ meta: any, objects: ITestcases[] }>(
       {
         url: this.testCasesUrl,
@@ -56,7 +56,7 @@ export class BotTestingComponent implements OnInit {
     //   });
     // })
       .subscribe((value) => {
-        // debugger;
+        // ;
         if (value.objects.length === 0) {
           this.isData = false;
         }
@@ -64,7 +64,7 @@ export class BotTestingComponent implements OnInit {
           this.isData = true;
           let testCaseData = value.objects[0].data;
           this.testCaseData = testCaseData.length > 0 ? testCaseData : [['', '', '']];
-          // debugger;
+          // ;
           this.testCaseId = value.objects[0].id;
         }
       });
@@ -73,7 +73,7 @@ export class BotTestingComponent implements OnInit {
   }
 
   createTC() {
-    // debugger;
+    // ;
     console.log(this.testCaseData);
     this.serverService.makePostReq<{ meta: any, objects: ITestcases[] }>({
       url:this.testCasesUrl ,
@@ -95,7 +95,7 @@ export class BotTestingComponent implements OnInit {
   }
 
   updateTC() {
-    // debugger;
+    // ;
     this.serverService.makePutReq<{ meta: any, objects: ITestcases[] }>({
       url: this.testCasesUrl + `${this.testCaseId}/`,
       headerData: {'bot-access-token': this.bot.bot_access_token},
@@ -116,7 +116,7 @@ export class BotTestingComponent implements OnInit {
       }
     )
       .subscribe((value) => {
-        // debugger;
+        // ;
         this.testCaseData = value.data;
 
       });

@@ -8,7 +8,7 @@ import {ISessionMessageItem} from '../interfaces/sessions';
 export class FilterObjectArrayPipe implements PipeTransform {
 
   transform(arr: ISessionMessageItem[], messageSearchKeyword: string): any {
-    // debugger;
+    // ;
     if(!Array.isArray(arr) || arr.length<1 || !messageSearchKeyword) return arr;
 
     return arr.filter((objItem: ISessionMessageItem) => {

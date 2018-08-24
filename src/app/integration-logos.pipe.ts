@@ -18,7 +18,7 @@ export class IntegrationLogosPipe implements PipeTransform {
     };
     if(!Object.keys(integrations) || Object.keys(integrations).length ===0) return;
     return this.app$.map((value)=>{
-      // debugger;
+      // ;
       console.log(1);
       let integrationsMasterList = value.masterIntegrationList;
       let arr = Object.keys(integrations).map((key)=>{

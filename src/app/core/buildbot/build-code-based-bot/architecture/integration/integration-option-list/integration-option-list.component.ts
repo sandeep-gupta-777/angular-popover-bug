@@ -37,7 +37,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.routeParent = this.activatedRoute.snapshot.data;
-    debugger;
+    ;
     if (this.bot) {
       this.formValue = this.bot.integrations;
     } else if (this.routeParent['buildBot']) {
@@ -45,7 +45,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
         this.formValue = botCreationState.codeBased.integrations;
       });
     }
-    debugger;
+    ;
     // this.formValueFinal = this.constantsService.integrationOptionListTemplate;
     // this.formValueFinal =  this.bot.integrations;
     this.formValueFinal =  {
@@ -83,7 +83,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
 
     this.f_new.valueChanges.debounceTime(1000).subscribe((integrationInfo: IIntegrationOption) => {
       if (!this.f_new.dirty) return;
-      debugger;
+      ;
       this.datachanged$.emit({integrations: integrationInfo});
       // if (this.routeParent['buildBot'])
       //   this.store.dispatch([
@@ -92,7 +92,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
     });
 
     // this.f_new.valueChanges.subscribe((value)=>{
-    //   debugger;
+    //   ;
     //   // if(value)
     //     this.formValueFinal = value;
     // })

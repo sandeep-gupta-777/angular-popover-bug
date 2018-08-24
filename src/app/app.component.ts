@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.app$.subscribe((app) => {
-      // debugger;
+      // ;
       // this.showProgressbar = app.progressbar.loading;
       // if(this.progressVal===100){
       //   setTimeout(()=>{

@@ -111,7 +111,7 @@ saveDataManagment({patchState, setState, getState, dispatch}: StateContext<IBotC
 
   @Action(SaveCodeInfo)
   saveCodeInfo({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveCodeInfo) {
-    // debugger;
+    // ;
     let state: IBotCreationState = getState();
     patchState({
       codeBased: {

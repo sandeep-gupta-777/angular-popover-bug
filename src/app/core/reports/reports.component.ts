@@ -59,7 +59,7 @@ export class ReportsComponent implements OnInit {
             reports.objects.forEach(report => {
               this.botlist$.subscribe((value) => {
                 let listOfAllBots = value.allBotList;
-                // debugger;
+                // ;
                 this.reportSmartTableData.push({
                   ...report,
                   bot: this.objectArrayCrudService.getObjectItemByKeyValuePair(listOfAllBots, {id: report.bot_id}).name,
@@ -104,7 +104,7 @@ export class ReportsComponent implements OnInit {
   }
 
   goToReportEditComponent(eventData: any) {
-    // debugger;
+    // ;
     this.store.dispatch(new SetCurrentEditedReportAction({reportItem:eventData.data}));
     this.tempVariableService.reportRowClicked = eventData.data;
     this.router.navigate(['/core', 'reports', 'edit', eventData.data.id]);
