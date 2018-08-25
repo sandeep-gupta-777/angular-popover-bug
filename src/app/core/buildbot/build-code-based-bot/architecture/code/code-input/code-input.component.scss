@@ -58,16 +58,16 @@
     list-style-type:none;
     padding: 0;
     padding-right:30px;
-    padding-left: 15px; 
+    padding-left: 15px;
     >li{
       color: #474747;
       background-color:#ffffff;
       height: 40px;
-      margin-bottom: 8px; 
+      margin-bottom: 8px;
       border-radius: 2px;
       list-style-type:none;
-      display: flex; 
-      align-items: center; 
+      display: flex;
+      align-items: center;
       padding: 5px;
       .fa{
         font-size: 12px;
@@ -116,8 +116,16 @@
     width: 70px;
     text-align: center;
     align-self: stretch;
+    .fa{
+      margin-right: 2px;
+      color: greenyellow;
+      font-size: 7px;
+    }
+    .dark-green{
+      color: #8cd82f;
+    }
   }
-  
+
 
   .insert {
     @include typography(8px, 10px, $font-weight-400, $color-text-normal);

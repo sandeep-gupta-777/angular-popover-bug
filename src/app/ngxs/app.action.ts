@@ -1,6 +1,7 @@
 import {IUser} from '../core/interfaces/user';
 import {IAppState} from './app.state';
 import {IIntegrationMasterListItem} from '../../interfaces/integration-option';
+import {IProfilePermission} from '../../interfaces/profile-action-permission';
 
 export class SetStateFromLocalStorageAction {
   static readonly type = '[app] set state from localstorage';

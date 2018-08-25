@@ -103,8 +103,17 @@ export interface IBotVersionData  {
   "resource_uri" : string,
   "updated_at" : string,
   "version": number,
-  "workflow" : string
+  "workflow" : string,
+  "updated_fields": {
+    "df_template": false,
+    "df_rules": false,
+    "generation_rules": false,
+    "generation_template": false,
+    "workflows": false
+  },
+  "forked_from": number,
 }
+
 
 // export interface IBot {
 //   '_id': string,

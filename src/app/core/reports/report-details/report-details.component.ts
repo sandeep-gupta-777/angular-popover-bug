@@ -51,6 +51,11 @@ export class ReportDetailsComponent implements OnInit {
     // }
     // this.reportFormData.updated_at = timeNow;
     // console.log(this.reportFormData);
+    this.reportFormData.delivery = <any>[{
+        ...this.reportFormData.delivery['sftp'],
+      delivery_type: 'sftp'
+      }
+    ];
 
     this.reportFormData.updated_at = new Date().toISOString();
     let url = this.constantsService.getSaveReportsEditInfo(this.reportFormData.id);

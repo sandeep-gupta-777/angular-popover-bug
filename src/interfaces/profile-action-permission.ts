@@ -1,4 +1,4 @@
-interface IProfilePermission{
+export interface IProfilePermission{
   "created_at": string,
   "description": string,
   "id": 1,

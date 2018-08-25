@@ -27,7 +27,7 @@ export class CodeInputComponent implements OnInit {
   @Output() datachanged$ = new EventEmitter();
 
   editorCode;
-  showVersionList: false;
+  showVersionList= false;
   activeVersion;
   selectedVersion: IBotVersionData;
   code: ICode;
@@ -65,7 +65,6 @@ export class CodeInputComponent implements OnInit {
     let botId = this.bot.id;
     this.serverService.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
       .subscribe((botVersionResult) => {
-// ;
         this.store.dispatch([
           new SaveVersionInfoInBot({data: botVersionResult.objects, botId: this.bot.id})
         ]);
@@ -98,18 +97,6 @@ export class CodeInputComponent implements OnInit {
     this.code = this.selectedVersion;
     /*TODO: We dont need code here... just replace it with selectedVersion. Also we dont need ICode interface*/
     if (this.code) {
-      // if (this.activeTab === 'df_template') {
-      //   this.editorCode = this.code.df_template;
-      // } else if (this.activeTab === 'df_rules') {
-      //   this.editorCode = this.code.df_rules;
-      // } else if (this.activeTab === 'generation_rules') {
-      //   this.editorCode = this.code.generation_rules;
-      // } else if (this.activeTab === 'generation_templates') {
-      //   this.editorCode = this.code.generation_templates;
-      // } else if (this.activeTab === 'workflow') {
-      //   this.editorCode = this.code.workflow;
-      // }
-      // ;
       this.editorCode = this.code[this.activeTab];
     }
     this.router.navigate(['core/botdetail/codebased/', this.bot.id], {
@@ -120,12 +107,19 @@ export class CodeInputComponent implements OnInit {
   }
 
   saveText(codeStr: string) {
-    /*some changes have been made to selected version*/
+    /*
+    *at this point some changes have been made to selected version's codeText
+    *if the new codeText is same as old codeText
+    * */
+    debugger;
+    let selectedVersion_pristine = this.bot.store_bot_versions.find((version) => version.id === this.selectedVersion.id);
+    let codeTextPristine = selectedVersion_pristine[this.activeTab];
+    if(this.selectedVersion.updated_fields[this.activeTab]===true) return;/*If field is dirty from server, nothing can change it*/
+    this.selectedVersion.updated_fields[this.activeTab] = codeStr !== codeTextPristine;
     this.selectedVersion[this.activeTab] = codeStr;
-    // ;
-    // let objectTobeSaved = {code: {}};
-    // objectTobeSaved.code[this.activeTab] = codeStr;
-    // this.datachanged$.emit({data: objectTobeSaved});
+    /*comparing old code text to new*/
+
+
   }
 
   saveSelectedVersion() {
@@ -133,9 +127,10 @@ export class CodeInputComponent implements OnInit {
       'bot-access-token': this.bot.bot_access_token
     };
     let url = this.constantsService.getSaveVersionByBotId(this.bot.id);
+    debugger;
     this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
       .subscribe((value) => {
-        this.utilityService.showSuccessToaster("new version saved successfully!");
+        this.utilityService.showSuccessToaster('new version saved successfully!');
       });
   }
 
@@ -154,10 +149,19 @@ export class CodeInputComponent implements OnInit {
       .subscribe((forkedVersion: IBotVersionData) => {
         console.log(forkedVersion);
         this.selectedVersion = forkedVersion;
-        this.utilityService.showSuccessToaster("new version forked successfully!")
+        this.utilityService.showSuccessToaster('new version forked successfully!')
         ;
         this.ngOnInit();
         /*TODO: implement it correctly*/
       });
+  }
+
+  changeSelectedVersion(version) {
+    this.selectedVersion = version;
+    this.tabClicked(this.activeTab);
+  }
+
+  toggleVersionList(){
+    return this.showVersionList= !this.showVersionList
   }
 }

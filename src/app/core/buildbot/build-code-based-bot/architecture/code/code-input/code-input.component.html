@@ -1,5 +1,5 @@
 
-<div class="row my-2 m-0" style="position: relative">
+<div class="row my-2 m-0" style="position: relative" (clickOutside)="showVersionList = false">
   <div class="col-6 p-0" >
     <div *ngIf="selectedVersion" class="d-flex align-items-center justify-content-between flex-bot-versioning-toaster border-theme-secondary">
       <button *ngIf="selectedVersion.id === activeVersion.id" class="btn btn-theme-primary mr-1"
@@ -9,21 +9,31 @@
             style="flex-basis: 56px">Inactive
             </button>
       <div class="count mr-1" style="width: 30px">{{selectedVersion.version}}</div>
-      <div class="forked mr-1">Forked from version 1</div>
+      <div class="forked mr-1">Forked from version {{selectedVersion.forked_from}}</div>
       <div class="update d-flex flex-column mr-1 justify-content-center">
-        <div class="mr-1">Last update</div>
-        <form class="d-flex">
-          <input type="radio" name="optradio" checked>
-          <input type="radio" name="optradio">
-          <input type="radio" name="optradio">
-          <input type="radio" name="optradio">
-          <input type="radio" name="optradio">
-        </form>
+        <div>Last update</div>
+        <div class="d-flex justify-content-center">
+            <i class="fa fa-circle" [ngClass]="{'text-danger':selectedVersion.updated_fields['df_template'], 'dark-green':activeTab==='df_template'}"></i>
+            <i class="fa fa-circle" [ngClass]="{'text-danger':selectedVersion.updated_fields['df_rules'], 'dark-green':activeTab==='df_rules'}"></i>
+            <i class="fa fa-circle" [ngClass]="{'text-danger':selectedVersion.updated_fields['generation_rules'], 'dark-green':activeTab==='generation_rules'}"></i>
+            <i class="fa fa-circle" [ngClass]="{'text-danger':selectedVersion.updated_fields['generation_templates'], 'dark-green':activeTab==='generation_templates'}"></i>
+            <i class="fa fa-circle" [ngClass]="{'text-danger':selectedVersion.updated_fields['workflows'], 'dark-green':activeTab==='workflows'}"></i>
+        </div>
+        <!--<form class="d-flex">-->
+          <!--<input type="radio" name="optradio" checked>-->
+          <!--<input type="radio" name="optradio">-->
+          <!--<input type="radio" name="optradio">-->
+          <!--<input type="radio" name="optradio">-->
+          <!--<input type="radio" name="optradio">-->
+        <!--</form>-->
       </div>
       <div class="insert mr-1">{{selectedVersion.comment}}
       </div>
       <!---->
-      <i (click)="showVersionList= !showVersionList" class="fa fa-angle-down py-2 px-3 bg-theme-primary text-white" style="height: 100%"></i>
+      <i (click)="showVersionList= !showVersionList"
+         class="fa py-2 px-3 bg-theme-primary text-white"
+         [ngClass]="{'fa-angle-down':showVersionList, 'fa-angle-up':!showVersionList}"
+         style="height: 100%"></i>
     </div>
   </div>
   <div class="col-6">
@@ -31,23 +41,31 @@
     <button class="btn btn-theme-primary-outline" (click)="forkNewVersionFromSelectedVersion()">Fork new version</button>
   </div>
   <div class="row row-flex-bot-versioning-toaster border-theme-secondary  border-top-0 mx-0"
-       *ngIf="showVersionList" style="max-height: 50vh; overflow-y: scroll">
+       *ngIf="showVersionList"  style="max-height: 50vh; overflow-y: scroll">
     <div class="col-12 py-2 border-bottom-theme-secondary"
          *ngFor="let version of bot.store_bot_versions | filterActiveBot:selectedVersion.id">
       <div class="d-flex align-items-center justify-content-between flex-bot-versioning-toaster"
-           (click)="selectedVersion = version; showVersionList = false; tabClicked('df_template');">
+           (click)="changeSelectedVersion(version); showVersionList = false; tabClicked('df_template');">
         <div class="active-label-text">{{version.id === activeVersion.id?'Active':'Inactive'}}</div>
         <div class="count mr-1">{{version.version}}</div>
-        <div class="forked mr-1">Forked from version 1</div>
+        <div class="forked mr-1">Forked from version {{version.forked_from}}</div>
         <div class="update d-flex flex-column mr-1 justify-content-center">
           <div class="mr-1">Last update</div>
-          <form>
-            <input type="radio" checked>
-            <input type="radio">
-            <input type="radio">
-            <input type="radio">
-            <input type="radio">
-          </form>
+          <div>
+            <i class="fa fa-circle" [ngClass]="{'text-danger':version.updated_fields['df_template'], 'dark-green':activeTab==='df_template'}"></i>
+            <i class="fa fa-circle" [ngClass]="{'text-danger':version.updated_fields['df_rules'], 'dark-green':activeTab==='df_rules'}"></i>
+            <i class="fa fa-circle" [ngClass]="{'text-danger':version.updated_fields['generation_rules'], 'dark-green':activeTab==='generation_rules'}"></i>
+            <i class="fa fa-circle" [ngClass]="{'text-danger':version.updated_fields['generation_templates'], 'dark-green':activeTab==='generation_templates'}"></i>
+            <i class="fa fa-circle" [ngClass]="{'text-danger':version.updated_fields['workflows'], 'dark-green':activeTab==='workflows'}"></i>
+
+          </div>
+          <!--<form>-->
+            <!--<input type="radio" [checked]="false">-->
+            <!--<input type="radio">-->
+            <!--<input type="radio">-->
+            <!--<input type="radio">-->
+            <!--<input type="radio">-->
+          <!--</form>-->
         </div>
         <div class="insert mr-1">{{version.comment}}
         </div>
@@ -87,7 +105,7 @@
           </li>
           <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab==='workflow'}">
             <a class="nav-link"
-               (click)="tabClicked('workflow')">Workflows</a>
+               (click)="tabClicked('workflows')">Workflows</a>
           </li>
         </ul>
 

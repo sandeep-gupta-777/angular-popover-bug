@@ -2,7 +2,8 @@ import {Action, NgxsOnInit, Selector, State, StateContext, Store} from '@ngxs/st
 import {
   ResetStoreToDefault,
   SetLastSateUpdatedTimeAction,
-  SetMasterIntegrationsList, SetMasterProfilePermissions,
+  SetMasterIntegrationsList,
+  SetMasterProfilePermissions,
   SetProgressValue,
   SetStateFromLocalStorageAction
 } from './app.action';
@@ -11,6 +12,7 @@ import {IAuthState} from '../auth/ngxs/auth.state';
 import {ConstantsService} from '../constants.service';
 import {defaultChatState} from '../chat/ngxs/chat.state';
 import {IIntegrationMasterListItem} from '../../interfaces/integration-option';
+import {IProfilePermission} from '../../interfaces/profile-action-permission';
 
 
 export interface IAppState /*extends INavigationState, IAuthState */

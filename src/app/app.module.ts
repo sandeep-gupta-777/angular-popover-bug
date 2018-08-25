@@ -127,6 +127,7 @@ import { IntegrationLogosPipe } from './integration-logos.pipe';
 import { IntegrationImageCountPipe } from './integration-image-count.pipe';
 import { IntegrationInputKeysFilterPipe } from './integration-input-keys-filter.pipe';
 import { ProfilePermissionIdToNamePipe } from './core/profile/profile-permission-id-to-name.pipe';
+import {ClickOutsideModule} from 'ng2-click-outside';
 
 const routes: Route[] = [
   {
@@ -336,7 +337,8 @@ const routes: Route[] = [
     TooltipModule.forRoot(),
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added,
-    ProgressbarModule.forRoot()
+    ProgressbarModule.forRoot(),
+    ClickOutsideModule
   ],
   providers: [DragService, AimService],
   bootstrap: [AppComponent]
