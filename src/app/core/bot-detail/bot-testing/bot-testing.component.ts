@@ -56,16 +56,19 @@ export class BotTestingComponent implements OnInit {
     //   });
     // })
       .subscribe((value) => {
-        // ;
+        debugger;
         if (value.objects.length === 0) {
           this.isData = false;
         }
         else {
           this.isData = true;
-          let testCaseData = value.objects[0].data;
-          this.testCaseData = testCaseData.length > 0 ? testCaseData : [['', '', '']];
-          // ;
-          this.testCaseId = value.objects[0].id;
+          // let testCaseData = value.objects[0].data;
+          let testCaseDataForBot: ITestcases = value.objects.find((testcase)=>{
+            return testcase.bot_id === this.bot.id
+          });
+          this.testCaseData = (testCaseDataForBot && testCaseDataForBot.data && testCaseDataForBot.data.length>0)?testCaseDataForBot.data:  [['hi', 'hi', '']];
+          // this.testCaseId = value.objects[0].id;
+          this.testCaseId = testCaseDataForBot && testCaseDataForBot.id;
         }
       });
     this.handontable_colHeaders = this.constantsService.HANDSON_TABLE_BOT_TESTING_colHeaders;
@@ -73,21 +76,21 @@ export class BotTestingComponent implements OnInit {
   }
 
   createTC() {
-    // ;
+    debugger;
     console.log(this.testCaseData);
     this.serverService.makePostReq<{ meta: any, objects: ITestcases[] }>({
       url:this.testCasesUrl ,
       headerData: {'bot-access-token': this.bot.bot_access_token},
       body:{
         "status":"IDLE",
-        "data":this.testCaseData
-          .map((testCaseItem:[ string, string, string ])=>{
-            /*
-            *This is to remove third item of testcase array
-            * Not sure of needed
-            * */
-          return [testCaseItem[0], testCaseItem[1]]
-        })
+        "data":[[this.testCaseData[0][0], this.testCaseData[0][1]]]
+        //   .map((testCaseItem:[ string, string, string ])=>{
+        //     /*
+        //     *This is to remove third item of testcase array
+        //     * Not sure of needed
+        //     * */
+        //   return [testCaseItem[0], testCaseItem[1]]
+        // })
       }
     }).subscribe((value)=>{
 
@@ -120,6 +123,9 @@ export class BotTestingComponent implements OnInit {
         this.testCaseData = value.data;
 
       });
+  }
+
+  removeNullRowsFromTableData(arr:[string,string,string][]){
   }
 }
 

@@ -11,7 +11,10 @@ export class SetEnterpriseInfoAction {
 
 export class SetEnterpriseUsersAction {
   static readonly type = '[enterprise-users] set enterpriseusers';
-  constructor(public payload:{enterpriseUsers:IEnterpriseUser[]}){
+  constructor(public payload:{enterpriseUsers:IEnterpriseUser[]}){}
+}
 
-  }
+export class ResetEnterpriseUsersAction {
+  static readonly type = '[enterprise-users] set ResetEnterpriseUsersAction';
+  constructor(){}
 }

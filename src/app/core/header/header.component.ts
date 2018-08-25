@@ -9,6 +9,7 @@ import {ResetBotListAction} from '../view-bots/ngxs/view-bot.action';
 import {ResetAuthToDefaultState} from '../../auth/ngxs/auth.action';
 import {ConstantsService} from '../../constants.service';
 import {ServerService} from '../../server.service';
+import {ResetEnterpriseUsersAction} from '../enterpriseprofile/ngxs/enterpriseprofile.action';
 
 @Component({
   selector: 'app-header',
@@ -35,7 +36,8 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch([
       new ResetChatState(),
       new ResetBotListAction(),
-      new ResetAuthToDefaultState()
+      new ResetAuthToDefaultState(),
+      new ResetEnterpriseUsersAction()
     ]);
     this.serverService.removeTokens();
     this.router.navigate(['auth','login']);

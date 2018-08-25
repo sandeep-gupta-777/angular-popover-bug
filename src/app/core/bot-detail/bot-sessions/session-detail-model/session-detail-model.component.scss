@@ -88,3 +88,10 @@ a{
   text-align: center;
   color: #9e9e9e;
 }
+
+.border-selected-txn{
+  border-left: 4px solid $color-primary;
+}
+.border-unselected-txn{
+  border-left: 4px solid transparent;
+}

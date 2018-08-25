@@ -4,6 +4,7 @@ import {ConstantsService} from '../../../../constants.service';
 import {ServerService} from '../../../../server.service';
 import {IBot} from '../../../interfaces/IBot';
 import {Observable} from 'rxjs';
+import {st} from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-session-detail-model',
@@ -30,11 +31,13 @@ export class SessionDetailModelComponent implements OnInit {
   @Input() sessionDataStore: {};
   @Output() selectNextRow = new EventEmitter();
   @Output() selectPrevRow = new EventEmitter();
-  @Input() showPrevButton:boolean =false;
-  @Input() pageNumberOfCurrentRowSelected:number;
-  @Input() indexOfCurrentRowSelected:number;
+  @Input() showPrevButton: boolean = false;
+  @Input() pageNumberOfCurrentRowSelected: number;
+  @Input() indexOfCurrentRowSelected: number;
   sessionMessageData$: Observable<ISessionMessage>;
   sessionMessageData: ISessionMessageItem[];
+  sessionMessageDataCopy: ISessionMessageItem[];
+  transactionIdSelectedInModel:string;
   messageSearchKeyword: string = '';
   activeTab: string = 'manager_bot';  // = 'manager_bot' | 'active_bot'|'final_df'|'datastore';
   codeText;
@@ -72,16 +75,19 @@ export class SessionDetailModelComponent implements OnInit {
       if (!value) return;
       this.totalMessagesCount = value.meta.total_count;
       this.sessionMessageData = value.objects;
+      this.sessionMessageDataCopy = [...this.sessionMessageData];
     });
     this.tabClicked(this.activeTab);
   }
 
-  /*todo: shitty name, change it*/
-  changeTransactionId(txnId) {
+
+  transactionIdChangedInModel(txnId) {
+    this.transactionIdSelectedInModel = txnId;
     /*This data will show under Manager Bot*/
     let messageDataForGiveTxnId = this.sessionMessageData.find((message) => {
       return message.transaction_id === txnId;
     });
+    this.sessionMessageDataCopy = [...this.sessionMessageData];
     this.managerPanelData = {
       'generatedDf': messageDataForGiveTxnId.generated_df,
       'generatedMsg': messageDataForGiveTxnId.generated_msg, /*bot message*/
@@ -119,6 +125,27 @@ export class SessionDetailModelComponent implements OnInit {
 
   selectNextPreviousRow() {
 
+  }
+
+  scroll(txnId) {
+    let ele = document.getElementsByClassName(txnId)[0];
+    ele.scrollIntoView();
+  }
+
+  performSearch(messageSearchKeyword) {
+    this.messageSearchKeyword = messageSearchKeyword = messageSearchKeyword.trim();
+    if (messageSearchKeyword === '') return;
+    this.sessionMessageDataCopy = [...this.sessionMessageData];
+    /*find transaction id of first matched text*/
+    let elementDataToScroll = this.sessionMessageData.find((objItem: ISessionMessageItem) => {
+      /*find if messageSearchKeyword exists in message or message[0].text as substring */
+      return objItem.message
+        && objItem.message.includes(messageSearchKeyword)
+        || objItem.message
+        && objItem.message[0].text
+        && objItem.message[0].text.includes(messageSearchKeyword);
+    });
+    this.scroll(elementDataToScroll.transaction_id);
   }
 
 }

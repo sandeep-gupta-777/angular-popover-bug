@@ -1,6 +1,10 @@
 
 
-<progressbar *ngIf="showProgressbar" [value]="progressVal" [animate]="true" style="position: fixed; right: 0px; top: 0px;z-index:300"></progressbar>
+<progressbar
+  *ngIf="showProgressbar"
+  [value]="progressVal"
+  [animate]="true"
+  style="position: fixed; right: 0px; top: 0px;z-index:300"></progressbar>
 <router-outlet></router-outlet>
 <div *ngIf="!isFullScreenPreview" style="position: fixed; right: 0px; bottom: 0px;z-index:100">
   <app-chat-wrapper></app-chat-wrapper>
