@@ -23,7 +23,7 @@ export class IntegrationLogosPipe implements PipeTransform {
       let integrationsMasterList = value.masterIntegrationList;
       let arr = Object.keys(integrations).map((key)=>{
         let x =  integrationsMasterList.find((integrationsMasterListItem)=>{
-          console.log(integrationsMasterListItem.unique_name.toUpperCase(), key.toUpperCase());
+          // console.log(integrationsMasterListItem.unique_name.toUpperCase(), key.toUpperCase());
           return integrationsMasterListItem.unique_name.toUpperCase() === key.toUpperCase();
         });
         return x;

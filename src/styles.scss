@@ -501,5 +501,10 @@ progressbar {
     background-color: $color-primary;
     border-radius: 0;
   }
+  background-color: transparent !important;
 }
 
+.text-highlight{
+  background-color: yellow;
+  color: #474747;
+}

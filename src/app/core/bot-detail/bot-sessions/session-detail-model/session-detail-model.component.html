@@ -1,9 +1,10 @@
 <div class="container">
   <div class="row">
+    <button class="btn  btn-theme-primary" (click)="scroll()">scroll</button>
     <div class="col-12">
       <div class="card">
         <div class="card-header d-flex  justify-content-between align-items-center">
-<!--<p>{{indexOfCurrentRowSelected+''+pageNumberOfCurrentRowSelected}}</p>-->
+          <!--<p>{{indexOfCurrentRowSelected+''+pageNumberOfCurrentRowSelected}}</p>-->
           <div class="d-flex ">
             <i class="fa fa-angle-left pr-2 cursor-pointer"
                [ngClass]="{invisible:indexOfCurrentRowSelected<=0 && pageNumberOfCurrentRowSelected<=1}"
@@ -55,7 +56,8 @@
                   <div class="col-8">
                     <div class="input-group border p-1"
                          style="height: 32px;border-radius: 2px!important;position: relative">
-                      <input class="form-control py-2 border-0" [(ngModel)]="messageSearchKeyword"
+                      <input class="form-control py-2 border-0" [ngModel]="messageSearchKeyword"
+                             (ngModelChange)=performSearch($event)
                              id="search-session-model" type="search"
                              placeholder="search">
                       <i class="fa fa-angle-down text-dark"
@@ -68,10 +70,12 @@
                 <!--search input ends-->
                 <div class="row m-0 my-2 align-items-start align-content-start"
                      style="height: 65vh;overflow-y: scroll;overflow-x: hidden;">
-                  <div class="col-12 "
-                       *ngFor="let message of sessionMessageData|filterObjectArray:messageSearchKeyword">
+                  <div class="col-12"
+                       *ngFor="let message of sessionMessageDataCopy|filterObjectArray:messageSearchKeyword"
+                       [ngClass]="{'border-selected-txn':message.transaction_id === transactionIdSelectedInModel,
+                        'border-unselected-txn':message.transaction_id !== transactionIdSelectedInModel}">
                     <app-session-message [sessionMessageData]="message"
-                                         (messageClickedEvent$)="changeTransactionId($event)"></app-session-message>
+                                         (messageClickedEvent$)="transactionIdChangedInModel($event)"></app-session-message>
                   </div>
                 </div>
               </div>

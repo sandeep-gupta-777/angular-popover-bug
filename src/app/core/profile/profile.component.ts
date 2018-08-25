@@ -11,6 +11,7 @@ import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {NgForm} from '@angular/forms';
 import {SetMasterProfilePermissions} from '../../ngxs/app.action';
+import {IProfilePermission} from '../../../interfaces/profile-action-permission';
 
 @Component({
   selector: 'app-profile',

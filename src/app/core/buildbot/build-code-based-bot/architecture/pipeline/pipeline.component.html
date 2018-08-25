@@ -26,7 +26,7 @@
         <div *ngFor="let aiModule of (pipeLine|pipelineFilter:searchKeyword);let targetIndexNew = index">
           <div class="border mb-2 mr-3 module-box"
                [ngClass]="{'bg-grey':aiModule.$$hashKey==='PLACE_HOLDER'}">
-            {{aiModule.id}}
+            {{aiModule.unique_name}}
           </div>
         </div>
       </div>
