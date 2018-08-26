@@ -47,7 +47,8 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
       data: this._data   ,
       rowHeaders: true,
       ...this.options,
-      colHeaders: this.colHeaders
+      colHeaders: this.colHeaders,
+      contextMenu: true
     });
   }
 }
