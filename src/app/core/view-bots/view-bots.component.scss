@@ -6,7 +6,10 @@
 }
 
 .nav{
-  border-bottom: $border-normal;
+  //border-bottom: $border-normal;
+}
+.nav-tabs{
+  border-bottom: 0;
 }
 
 a{
@@ -24,10 +27,17 @@ a{
   }
   .modal-body{
     .fa{
-      font-size:35px;
+      font-size:26px;
       color: #474747;
       //padding: 10px 0px;
     }
+    .action:hover{
+      background-color: $color-secondary;
+    }
+    .action{
+      border-radius: 2px;
+    }
+
 
     .new-bot-heading{
       @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-text-normal);

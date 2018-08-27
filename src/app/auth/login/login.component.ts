@@ -17,9 +17,8 @@ import {UtilityService} from '../../utility.service';
 })
 export class LoginComponent implements OnInit {
 
-  panelActive:string='login';
-  emailE : string = null;
-  passwordP : string = null;
+  panelActive ='login';
+  errorMessage = "";
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
@@ -37,14 +36,23 @@ export class LoginComponent implements OnInit {
     let loginData = this.f.value;
     let loginUrl = this.constantsService.BACKEND_URL_LOGIN
     // let headerData:IHeaderData = {'api-key': '54asdkj1209nksnda',"content-type":'application/x-www-f-urlencoded'};
-    let body = {
-      "email" : this.emailE,
-      "password" :this.passwordP
-      // "email":"ayeshreddy.k@imimobile.com",
-      // "password":"Botwoman@123!"
-      // "email": "imibotadmin@imimobile.com",
-      // "password": "Botwoman@123!"
-    };
+    // let body = {
+    //
+    //   // "email":"ayeshreddy.k@imimobile.com",
+    //   // "password":"Botwoman@123!"
+    //   "email": "imibotadmin@imimobile.com",
+    //   "password": "Botwoman@123!"
+    // };
+    let body;
+    debugger;
+    if(this.f.valid){
+
+      body = this.f.value;
+    }else{
+      this.errorMessage = "Details not valid";
+      setTimeout(()=>{this.errorMessage = ""},3000);
+      return;
+    }
 
 
     this.serverService.makePostReq<IUser>({url:loginUrl, body})

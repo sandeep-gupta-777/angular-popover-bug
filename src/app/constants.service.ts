@@ -60,7 +60,7 @@ export class ConstantsService {
   }
 
   getEnterpriseUsersUrl() {
-    return this.BACKEND_URL + 'api/v1/users/enterprise'; //users/enterprise
+    return this.BACKEND_URL + 'api/v1/user/enterpriseusers/'; //https://dev.imibot.ai/api/v1/user/enterpriseusers/
   }
 
   getPipelinebasedBotListUrl() {

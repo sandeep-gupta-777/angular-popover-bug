@@ -43,6 +43,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.loggeduser$.subscribe((loggeduser) => {
       this.loggeduser = loggeduser.user;
+      debugger;
     });
 
     let allActionsUrl = this.constantsService.getAllActionsUrl();

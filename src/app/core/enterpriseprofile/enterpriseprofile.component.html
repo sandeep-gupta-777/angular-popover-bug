@@ -87,7 +87,7 @@
   </section>
   <!---->
 
-  <header class="row mt-3 pb-3 bg-white profile-row">
+  <header class="row mt-3 pb-3 bg-white profile-row" *ngIf="role==='Admin'">
     <div class="col-12">
       <div class="card">
         <div
@@ -98,7 +98,8 @@
     </div>
   </header>
 
-  <section class="row enterprise-profile-info-row bg-white">
+  <!---->
+  <section class="row enterprise-profile-info-row bg-white" *ngIf="role==='Admin'">
     <div class="col-12">
       <table class="table">
         <thead class="">
@@ -114,10 +115,10 @@
         <tbody>
         <tr *ngFor="let enterpriseuser of loggeduserenterpriseinfo.enterpriseusers">
           <td>1</td>
-          <td>{{enterpriseuser.firstname}}</td>
+          <td>{{enterpriseuser.first_name}}</td>
           <td>{{enterpriseuser.email}}</td>
-          <td>{{enterpriseuser.created_at}}</td>
-          <td>{{enterpriseuser.updated_at}}</td>
+          <td>{{enterpriseuser.created_at|date}}</td>
+          <td>{{enterpriseuser.updated_at|date}}</td>
           <td> empty</td>
         </tr>
         </tbody>
