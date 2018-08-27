@@ -76,6 +76,9 @@
                     <app-session-message [sessionMessageData]="message"
                                          (messageClickedEvent$)="transactionIdChangedInModel($event)"></app-session-message>
                   </div>
+                  <div *ngIf="!sessionMessageDataCopy || sessionMessageData.length===0" class="col-12 align-self-stretch d-flex justify-content-center align-items-center">
+                    <p class="text-muted">No Messages to show</p>
+                  </div>
                 </div>
               </div>
             </div>
