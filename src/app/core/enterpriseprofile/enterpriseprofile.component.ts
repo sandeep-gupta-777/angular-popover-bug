@@ -8,6 +8,7 @@ import {SetEnterpriseInfoAction, SetEnterpriseUsersAction} from './ngxs/enterpri
 import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
 import {IHeaderData} from '../../../interfaces/header-data';
 import {IEnterpriseUser} from '../interfaces/enterprise-users';
+import {UtilityService} from '../../utility.service';
 
 @Component({
   selector: 'app-enterpriseprofile',
@@ -21,15 +22,21 @@ export class EnterpriseprofileComponent implements OnInit {
   @ViewChild('form') f: HTMLFormElement;
 
   userid: number;
+  role: string;
   enterpriseId: number;
   loggeduserenterpriseinfo: IEnterpriseProfileInfo;
 
-  constructor(private store: Store, private constantsService: ConstantsService, private serverService: ServerService) {
+  constructor(
+    private store: Store,
+    private constantsService: ConstantsService,
+    private utilityService: UtilityService,
+    private serverService: ServerService) {
   }
 
   ngOnInit() {
     this.loggeduser$.subscribe(({user}) => {
       this.userid = user.id;
+      this.role = user.role.name;
       this.enterpriseId = user.enterprise_id;//enterprise_id
       let enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(this.enterpriseId);
       this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
@@ -39,10 +46,11 @@ export class EnterpriseprofileComponent implements OnInit {
           ]);
         });
       let enterpriseUsersUrl = this.constantsService.getEnterpriseUsersUrl();
-      this.serverService.makeGetReq<{users:IEnterpriseUser[]}>({url: enterpriseUsersUrl, headerData})
-        .subscribe((enterpriseUsers) => {
+      this.serverService.makeGetReq<{ objects: IEnterpriseUser[] }>({url: enterpriseUsersUrl})
+        .subscribe((value) => {
+          debugger;
           this.store.dispatch([
-            new SetEnterpriseUsersAction({enterpriseUsers: enterpriseUsers.users})
+            new SetEnterpriseUsersAction({enterpriseUsers: value.objects})
           ]);
         });
     });
@@ -52,14 +60,14 @@ export class EnterpriseprofileComponent implements OnInit {
       // ;
     });
 
-    let headerData: IHeaderData = {'content-type': 'application/json'};
-    let enterpriseUsersUrl = this.constantsService.getEnterpriseUsersUrl();
-    this.serverService.makeGetReq<{users:IEnterpriseUser[]}>({url: enterpriseUsersUrl, headerData})
-      .subscribe((enterpriseUsers) => {
-        this.store.dispatch([
-          new SetEnterpriseUsersAction({enterpriseUsers: enterpriseUsers.users})
-        ]);
-      });
+    // let headerData: IHeaderData = {'content-type': 'application/json'};
+    // let enterpriseUsersUrl = this.constantsService.getEnterpriseUsersUrl();
+    // this.serverService.makeGetReq<{users:IEnterpriseUser[]}>({url: enterpriseUsersUrl, headerData})
+    //   .subscribe((enterpriseUsers) => {
+    //     this.store.dispatch([
+    //       new SetEnterpriseUsersAction({enterpriseUsers: enterpriseUsers.users})
+    //     ]);
+    //   });
   }
 
   saveForm() {
@@ -69,6 +77,7 @@ export class EnterpriseprofileComponent implements OnInit {
     let headerData: IHeaderData = {'content-type': 'application/json'};
     this.serverService.makePutReq({url, body, headerData})
       .subscribe(() => {
+        this.utilityService.showSuccessToaster('Successfully Updated!');
         this.store.dispatch([
           new SetEnterpriseInfoAction({enterpriseInfo: body})
         ]);

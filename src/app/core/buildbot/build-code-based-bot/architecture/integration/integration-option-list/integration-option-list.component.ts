@@ -1,13 +1,14 @@
 import {AfterContentInit, AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Select, Selector, Store} from '@ngxs/store';
 import {IBot, IBotVersionResult} from '../../../../../interfaces/IBot';
-import {IIntegrationOption} from '../../../../../../../interfaces/integration-option';
+import {IIntegrationMasterListItem, IIntegrationOption} from '../../../../../../../interfaces/integration-option';
 import {SaveNewBotInfo_CodeBased, SaveIntegrationInfo} from '../../../../ngxs/buildbot.action';
 import {NgForm} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {ConstantsService} from '../../../../../../constants.service';
 import {Observable} from 'rxjs';
 import {IBotCreationState} from '../../../../ngxs/buildbot.state';
+import {IAppState} from '../../../../../../ngxs/app.state';
 
 @Component({
   selector: 'app-integration-option-list',
@@ -25,9 +26,10 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   @ViewChild('form_new') f_new: NgForm;
   @Select() botcreationstate$: Observable<IBotCreationState>;
   @Output() datachanged$ = new EventEmitter();
+  @Select() app$: Observable<IAppState>;
   myObject = Object;
   routeParent;
-
+  masterIntegrationList: IIntegrationMasterListItem[];
   constructor(
     private store: Store,
     private activatedRoute: ActivatedRoute,
@@ -36,8 +38,11 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.app$.subscribe((value)=>{
+      this.masterIntegrationList = value.masterIntegrationList;
+    });
+
     this.routeParent = this.activatedRoute.snapshot.data;
-    ;
     if (this.bot) {
       this.formValue = this.bot.integrations;
     } else if (this.routeParent['buildBot']) {
@@ -45,7 +50,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
         this.formValue = botCreationState.codeBased.integrations;
       });
     }
-    ;
+
     // this.formValueFinal = this.constantsService.integrationOptionListTemplate;
     // this.formValueFinal =  this.bot.integrations;
     this.formValueFinal =  {
@@ -66,6 +71,13 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
 
 
   }
+  getLogo(key){
+    let matchedMasterIntegration = this.masterIntegrationList.find((masterIntegrationItem)=>{
+      return masterIntegrationItem.key===key;
+    });
+    return matchedMasterIntegration.icon;
+
+  }
 
   onChange($event) {
     this.isActive = $event;
@@ -83,7 +95,6 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
 
     this.f_new.valueChanges.debounceTime(1000).subscribe((integrationInfo: IIntegrationOption) => {
       if (!this.f_new.dirty) return;
-      ;
       this.datachanged$.emit({integrations: integrationInfo});
       // if (this.routeParent['buildBot'])
       //   this.store.dispatch([

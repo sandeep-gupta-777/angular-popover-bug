@@ -415,10 +415,11 @@
       *ngFor="let integration_keys of myObject.keys(formValue[form_value_key])" ngModelGroup="{{integration_keys}}"
       class="border px-3">
       <div class="d-flex justify-content-center align-items-center" style="height: 90px">
-        <img class="logo-sm"
-             src="https://lh3.googleusercontent.com/sKno9pSJ8euvMhhgtoAwibpOxtf3Vlp79AXjUmI4h0dSBci-naI-99Ks-QAnD7Mgdxtn=w300"
+        <img
+             style="height: 16px; width: 16px"
+             [src]="'https://imibot.ai/'+ getLogo(integration_keys)"
              alt="">
-        <div class="heading mx-2">{{integration_keys.toUpperCase()}}</div>
+        <div class="heading my-0 mx-2">{{integration_keys.toUpperCase()}}</div>
         <ui-switch size="small" ngModel name="enabled" (change)="onSwitchChange(formValueFinal[form_value_key][integration_keys])"></ui-switch>
       </div>
       <div [hidden]="!formValueFinal[form_value_key][integration_keys]['enabled']" >
