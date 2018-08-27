@@ -22,7 +22,7 @@ export class BotTestingComponent implements OnInit {
   testCaseData: [string, string, string][] = [];
   testCasesUrl = this.constantsService.getBotTestingUrl();
   testCaseId: number;
-  isData: boolean;
+  isData: boolean = false;
 
 
   constructor(
@@ -83,7 +83,7 @@ export class BotTestingComponent implements OnInit {
       headerData: {'bot-access-token': this.bot.bot_access_token},
       body:{
         "status":"IDLE",
-        "data":[[this.testCaseData[0][0], this.testCaseData[0][1]]]
+        "data":this.testCaseData
         //   .map((testCaseItem:[ string, string, string ])=>{
         //     /*
         //     *This is to remove third item of testcase array

@@ -55,22 +55,22 @@ export class Analysis2VolumeComponent implements OnInit {
     this.store.dispatch(new SetAnalysis2HeaderData({
       analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseFlowsPerSession}
     }));
-  }
-  if(this.activeTab === 'Users'){
-    this.store.dispatch(new SetAnalysis2HeaderData({
-      analysisHeaderData:{type:EAnalysis2TypesEnum.userAcquisition}
-    }));
-  }
-  if(this.activeTab === 'Messages'){
-    this.store.dispatch(new SetAnalysis2HeaderData({
-      analysisHeaderData:{type:EAnalysis2TypesEnum.totalMessages}
-    }));
-  }
-  if(this.activeTab === 'Time'){
-    this.store.dispatch(new SetAnalysis2HeaderData({
-      analysisHeaderData:{type:EAnalysis2TypesEnum.averageRoomTime}
-    }));
-  }
+    }
+    if(this.activeTab === 'Users'){
+      this.store.dispatch(new SetAnalysis2HeaderData({
+        analysisHeaderData:{type:EAnalysis2TypesEnum.userAcquisition}
+      }));
+    }
+    if(this.activeTab === 'Messages'){
+      this.store.dispatch(new SetAnalysis2HeaderData({
+        analysisHeaderData:{type:EAnalysis2TypesEnum.totalMessages}
+      }));
+    }
+    if(this.activeTab === 'Time'){
+      this.store.dispatch(new SetAnalysis2HeaderData({
+        analysisHeaderData:{type:EAnalysis2TypesEnum.averageRoomTime}
+      }));
+    }
   }
 
   ngOnInit() {

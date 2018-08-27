@@ -5,7 +5,7 @@ import { Observable } from '../../../../../node_modules/rxjs';
 import { IAnalysis2State } from '../ngxs/analysis.state';
 import { Select, Store } from '../../../../../node_modules/@ngxs/store';
 import { UtilityService } from '../../../utility.service';
-import { SetUserLoyalty, SetAnalysis2HeaderData } from '../ngxs/analysis.action';
+import { SetUserLoyalty, SetAnalysis2HeaderData, SetChannelWiseSessions } from '../ngxs/analysis.action';
 import { EAnalysis2TypesEnum } from '../../../../interfaces/Analytics2/analysis2-types';
 
 @Component({
@@ -32,6 +32,8 @@ export class Analysis2EngagementComponent implements OnInit {
     name: 'Triggered',
     data: [5, 3, 4, 7, 2]
   }];
+  series_ChannelWiseSessions: any[];
+  series_ChannelWiseUsers: any[];
   series_Time: any[];
 
   constructor(
@@ -54,6 +56,17 @@ export class Analysis2EngagementComponent implements OnInit {
         analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseAverageSessionTime}
       }));
     }
+    if(this.activeTab==='channel_Wise_Sessions'){
+      this.store.dispatch(new SetAnalysis2HeaderData({
+        analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseSessions}
+      }));
+    }
+    if(this.activeTab==='channel_Wise_Users'){
+      this.store.dispatch(new SetAnalysis2HeaderData({
+        analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseUsers}
+      }));
+    }
+
   }
 
   ngOnInit() {
@@ -67,6 +80,14 @@ export class Analysis2EngagementComponent implements OnInit {
 
         if(value.channelWiseAverageSessionTime){
           this.series_Time  = this.u.convert(value.channelWiseAverageSessionTime,"labels","Date") ;
+        }
+        
+        if(value.channelWiseSessions){
+          this.series_ChannelWiseSessions  = this.u.convert(value.channelWiseSessions,"labels","Date") ;
+        }
+
+        if(value.channelWiseUsers){
+          this.series_ChannelWiseUsers  = this.u.convert(value.channelWiseUsers,"labels","Date") ;
         }
       })
   }

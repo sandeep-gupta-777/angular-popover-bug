@@ -18,6 +18,8 @@ import {UtilityService} from '../../utility.service';
 export class LoginComponent implements OnInit {
 
   panelActive:string='login';
+  emailE : string = null;
+  passwordP : string = null;
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
@@ -36,11 +38,12 @@ export class LoginComponent implements OnInit {
     let loginUrl = this.constantsService.BACKEND_URL_LOGIN
     // let headerData:IHeaderData = {'api-key': '54asdkj1209nksnda',"content-type":'application/x-www-f-urlencoded'};
     let body = {
-
+      "email" : this.emailE,
+      "password" :this.passwordP
       // "email":"ayeshreddy.k@imimobile.com",
       // "password":"Botwoman@123!"
-      "email": "imibotadmin@imimobile.com",
-      "password": "Botwoman@123!"
+      // "email": "imibotadmin@imimobile.com",
+      // "password": "Botwoman@123!"
     };
 
 
