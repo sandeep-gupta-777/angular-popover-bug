@@ -7,7 +7,7 @@ import {NgForm} from '@angular/forms';
 import {ConstantsService} from '../../../constants.service';
 import {BsDatepickerConfig} from 'ngx-bootstrap';
 import {Select, Store} from '@ngxs/store';
-import {SetAnalysis2HeaderData, SetOverviewInfoData, SetChannelWiseFlowsPerSession, SetUserAcquisition, SetTotalMessages, SetAverageRoomTime, SetUserLoyalty, SetChannelWiseAverageSessionTime} from '../ngxs/analysis.action';
+import {SetAnalysis2HeaderData, SetOverviewInfoData, SetChannelWiseFlowsPerSession, SetUserAcquisition, SetTotalMessages, SetAverageRoomTime, SetUserLoyalty, SetChannelWiseAverageSessionTime, SetTotalFlows, SetFlowsPerRoom, SetTotalRooms, SetRoomDuration, SetChannelWiseSessions, SetChannelWiseUsers} from '../ngxs/analysis.action';
 import {IAnalysisState} from '../../analysis/ngxs/analysis.state';
 import {IOverviewInfoPostBody, IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
@@ -24,6 +24,12 @@ import { ITotalMessagesResponseBody } from '../../../../interfaces/Analytics2/vo
 import { IAverageRoomTimeItem, IAverageRoomTimeResponseBody } from '../../../../interfaces/Analytics2/volume-time';
 import { IUserLoyaltyResponseBody } from '../../../../interfaces/Analytics2/engagement-userLoyalty';
 import { IChannelWiseAverageSessionTimeResponseBody } from '../../../../interfaces/Analytics2/engagement-averageSessionTime';
+import { ITotalFlowsItem, ITotalFlowsResponseBody } from '../../../../interfaces/Analytics2/performance-flows';
+import { IFlowsPerRoomResponseBody } from '../../../../interfaces/Analytics2/performance-flowsPerRoom';
+import { ITotalRoomsResponseBody } from '../../../../interfaces/Analytics2/performance-totalRooms';
+import { IRoomDurationResponseBody } from '../../../../interfaces/Analytics2/performance-roomDuration';
+import { IChannelWiseSessionsResponseBody } from '../../../../interfaces/Analytics2/engagement-channelWiseSessions';
+import { IChannelWiseUsersResponseBody } from '../../../../interfaces/Analytics2/engagement-channelWiseUsers';
 
 @Component({
   selector: 'app-analysis2-header',
@@ -123,7 +129,41 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
               let responseCopy: IChannelWiseAverageSessionTimeResponseBody = response;
               this.store.dispatch(new SetChannelWiseAverageSessionTime({data: responseCopy.objects[0].output.channelWiseAverageSessionTime}));
             }
+            debugger;
+            if (headerData.type === EAnalysis2TypesEnum.totalFlows) {
+              let responseCopy: ITotalFlowsResponseBody = response;
+              this.store.dispatch(new SetTotalFlows({data: responseCopy.objects[0].output.totalFlows}));
+            }
+            if (headerData.type === EAnalysis2TypesEnum.totalFlows) {
+              let responseCopy: ITotalFlowsResponseBody = response;
+              this.store.dispatch(new SetTotalFlows({data: responseCopy.objects[0].output.totalFlows}));
+            }
+            
+            if (headerData.type === EAnalysis2TypesEnum.flowsPerRoom) {
+              let responseCopy: IFlowsPerRoomResponseBody = response;
+              this.store.dispatch(new SetFlowsPerRoom({data: responseCopy.objects[0].output.flowsPerRoom}));
+            }
 
+            if (headerData.type === EAnalysis2TypesEnum.totalRooms) {
+              let responseCopy: ITotalRoomsResponseBody = response;
+              this.store.dispatch(new SetTotalRooms({data: responseCopy.objects[0].output.totalRooms}));
+            }
+
+            if (headerData.type === EAnalysis2TypesEnum.roomDuration) {
+              let responseCopy: IRoomDurationResponseBody = response;
+              this.store.dispatch(new SetRoomDuration({data: responseCopy.objects[0].output.roomDuration}));
+            }
+
+            if (headerData.type === EAnalysis2TypesEnum.channelWiseSessions) {
+              let responseCopy: IChannelWiseSessionsResponseBody = response;
+              this.store.dispatch(new SetChannelWiseSessions({data: responseCopy.objects[0].output.channelWiseSessions}));
+            }
+            
+            if (headerData.type === EAnalysis2TypesEnum.channelWiseUsers) {
+              let responseCopy: IChannelWiseUsersResponseBody = response;
+              this.store.dispatch(new SetChannelWiseUsers({data: responseCopy.objects[0].output.channelWiseUsers}));
+            }
+            
           });
       } catch (e) {
         this.utilityService.showErrorToaster(e);

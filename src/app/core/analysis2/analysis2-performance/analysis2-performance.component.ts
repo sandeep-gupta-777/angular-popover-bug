@@ -30,7 +30,13 @@ export class Analysis2PerformanceComponent implements OnInit {
     name: 'Triggered',
     data: [5, 3, 4, 7, 2]
   }];
+  series_flows_per_room:any[]= [{
+    name: 'Triggered',
+    data: [5, 3, 4, 7, 2]
+  }];
+  series_room_duration:any[];
   series_flows:any[];
+  series_total_rooms:any[];
 
   constructor(
     public constantsService: ConstantsService,
@@ -46,6 +52,27 @@ export class Analysis2PerformanceComponent implements OnInit {
         analysisHeaderData:{type:EAnalysis2TypesEnum.topgenerationtemplates}
       }));
     }
+    debugger;
+    if(this.activeTab==='flows'){
+      this.store.dispatch(new SetAnalysis2HeaderData({
+        analysisHeaderData:{type:EAnalysis2TypesEnum.totalFlows}
+      }));
+    }
+    if(this.activeTab==='flows_per_room'){
+      this.store.dispatch(new SetAnalysis2HeaderData({
+        analysisHeaderData:{type:EAnalysis2TypesEnum.flowsPerRoom}
+      }));
+    }
+    if(this.activeTab==='total_rooms'){
+      this.store.dispatch(new SetAnalysis2HeaderData({
+        analysisHeaderData:{type:EAnalysis2TypesEnum.totalRooms}
+      }));
+    }
+    if(this.activeTab==='room_duration'){
+      this.store.dispatch(new SetAnalysis2HeaderData({
+        analysisHeaderData:{type:EAnalysis2TypesEnum.roomDuration}
+      }));
+    }
   }
 
   ngOnInit() {
@@ -55,6 +82,19 @@ export class Analysis2PerformanceComponent implements OnInit {
       // ;
       if(value.topgenerationtemplates){
         this.series_template  = this.u.convert(value.topgenerationtemplates,"labels","Date") ;
+      }
+      debugger;
+      if(value.totalFlows){
+        this.series_flows  = this.u.convert(value.totalFlows,"labels","Date");
+      }
+      if(value.flowsPerRoom){
+        this.series_flows_per_room  = this.u.convert(value.flowsPerRoom,"labels","Date");
+      }
+      if(value.totalRooms){
+        this.series_total_rooms  = this.u.convert(value.totalRooms,"labels","Date");
+      }
+      if(value.roomDuration){
+        this.series_room_duration  = this.u.convert(value.roomDuration,"labels","String");
       }
     });
   }
