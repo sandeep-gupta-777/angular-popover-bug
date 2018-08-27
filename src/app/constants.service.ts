@@ -327,6 +327,39 @@ export class ConstantsService {
       perPage: 5
     }
   };
+  readonly SMART_TABLE_ENTERPISE_USERS_SETTING = {
+
+    columns: {
+      first_name: {
+        title: 'First Name'
+      },
+      email: {
+        title: 'Email'
+      },
+      // 'messages.length': {
+      //   title: 'Messages'
+      // },
+      created_at: {
+        title: 'Created At'
+      },
+      updated_at: {
+        title: 'Updated At'
+      }
+    },
+    // hideSubHeader: true
+    actions: {
+      add: false,
+      edit: false,
+      delete: false
+    },
+    pager: {
+      display: false,
+      perPage: 5
+    }
+  };
+
+
+
   readonly SMART_TABLE_KNOWLEDGEBASE_SETTING = {
 
     columns: {
@@ -334,11 +367,14 @@ export class ConstantsService {
         title: 'Concept Key'
       },
       ner_type: {
-        title: 'type'
+        title: 'Type'
       },
       conflict_policy: {
         title: 'Override Policy'
       },
+    },
+    pager:{
+      display:false
     },
     actions: {
       add: false,

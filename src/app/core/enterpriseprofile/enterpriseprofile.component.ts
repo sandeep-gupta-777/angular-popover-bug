@@ -19,12 +19,14 @@ export class EnterpriseprofileComponent implements OnInit {
 
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
+  loggeduserenterpriseinfoMap$: Observable<IEnterpriseProfileInfo>;
   @ViewChild('form') f: HTMLFormElement;
 
   userid: number;
   role: string;
   enterpriseId: number;
   loggeduserenterpriseinfo: IEnterpriseProfileInfo;
+  smartTableSettings_Enterpise_profiles = this.constantsService.SMART_TABLE_ENTERPISE_USERS_SETTING;
 
   constructor(
     private store: Store,
@@ -41,24 +43,42 @@ export class EnterpriseprofileComponent implements OnInit {
       let enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(this.enterpriseId);
       this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
         .subscribe((value: IEnterpriseProfileInfo) => {
+          debugger;
           this.store.dispatch([
             new SetEnterpriseInfoAction({enterpriseInfo: value})
           ]);
         });
-      let enterpriseUsersUrl = this.constantsService.getEnterpriseUsersUrl();
-      this.serverService.makeGetReq<{ objects: IEnterpriseUser[] }>({url: enterpriseUsersUrl})
-        .subscribe((value) => {
-          debugger;
-          this.store.dispatch([
-            new SetEnterpriseUsersAction({enterpriseUsers: value.objects})
-          ]);
-        });
+      if(this.role==='Admin'){
+        let enterpriseUsersUrl = this.constantsService.getEnterpriseUsersUrl();
+        this.serverService.makeGetReq<{ objects: IEnterpriseUser[] }>({url: enterpriseUsersUrl})
+          .subscribe((value) => {
+            debugger;
+            this.store.dispatch([
+              new SetEnterpriseUsersAction({enterpriseUsers: value.objects})
+            ]);
+          });
+      }
+
     });
 
-    this.loggeduserenterpriseinfo$.subscribe((value) => {
-      this.loggeduserenterpriseinfo = value;
+    this.loggeduserenterpriseinfoMap$=
+    this.loggeduserenterpriseinfo$
+      .map((value)=>{
+        return {
+          ...value,
+          enterpriseusers:value.enterpriseusers.map((enterpriseuser)=>{
+            return {
+              ...enterpriseuser,
+              created_at:new Date(enterpriseuser.created_at).toLocaleDateString(),
+              updated_at:new Date(enterpriseuser.updated_at).toLocaleDateString()
+            }
+          })
+        }
+      })
+      // .subscribe((value) => {
+      // this.loggeduserenterpriseinfo = value;
       // ;
-    });
+    // });
 
     // let headerData: IHeaderData = {'content-type': 'application/json'};
     // let enterpriseUsersUrl = this.constantsService.getEnterpriseUsersUrl();

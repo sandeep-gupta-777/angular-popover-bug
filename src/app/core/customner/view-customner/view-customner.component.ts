@@ -16,6 +16,8 @@ export class ViewCustomnerComponent implements OnInit {
 
   @Select() loggeduser$: Observable<{ user: IUser }>;
   enterpriseNerData: ICustomNerItem[];
+  settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;
+
 
   constructor(
     private store: Store,

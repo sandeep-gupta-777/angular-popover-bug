@@ -13,8 +13,8 @@ export interface IEnterpriseProfileInfo {
   //new fields
   'created_by': number,
   'tier_group': number,
-  'log_retention_period': 'PT180D',
-  'secret_key': 'AQICAHgG1Vy07brAUrCzGdDJQou9EPS1GuvCAahPyedc99fRewGIt5tVDSFBfOZTT9xVAzjAAAAAbTBrBgkqhkiG9w0BBwagXjBcAgEAMFcGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMfJZ7TAOyLMLy/YrMAgEQgCrYjse+pn9bXVFRPVTEoagtiRmAWxiEZuwaEglWDGACgYwZStVlmfw7K4U=',
+  'log_retention_period': string,
+  'secret_key': string,
 
   //not in new
   'phone': string

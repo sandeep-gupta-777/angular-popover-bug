@@ -10,6 +10,13 @@
   left: 0;
   right: 0;
 
+  .header-nav{
+    @include typography(13px, $line-height-normal, $font-weight-300, $color-text-normal);
+    .fa{
+      font-size: 15px;
+    }
+
+  }
   .box-logo {
     width: 180px;
     border-right: solid 1px #e0e0e0;;

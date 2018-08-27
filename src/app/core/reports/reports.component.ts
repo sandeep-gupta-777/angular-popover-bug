@@ -57,19 +57,24 @@ export class ReportsComponent implements OnInit {
 
             /*Making reportItem$ data*/
             reports.objects.forEach(report => {
+              report.bot_id=29;//todo: temporary stuff, remove it later//
               this.botlist$.subscribe((value) => {
                 let listOfAllBots = value.allBotList;
                 // ;
-                this.reportSmartTableData.push({
-                  ...report,
-                  bot: this.objectArrayCrudService.getObjectItemByKeyValuePair(listOfAllBots, {id: report.bot_id}).name,
-                  id: report.id,
-                  name: this.objectArrayCrudService.getObjectItemByKeyValuePair(reportTypes.objects, {id: report.reporttype_id}).name,
-                  frequency: report.frequency,
-                  last_jobId: report.last_job_id,
-                  nextreportgenerated: (new Date(report.nextreportgenerated).toDateString()),
-                  isactive: report.isactive
-                });
+                try{
+                  this.reportSmartTableData.push({
+                    ...report,
+                    bot: this.objectArrayCrudService.getObjectItemByKeyValuePair(listOfAllBots, {id: report.bot_id}).name,
+                    id: report.id,
+                    name: this.objectArrayCrudService.getObjectItemByKeyValuePair(reportTypes.objects, {id: report.reporttype_id}).name,
+                    frequency: report.frequency,
+                    last_jobId: report.last_job_id,
+                    nextreportgenerated: (new Date(report.nextreportgenerated).toDateString()),
+                    isactive: report.isactive
+                  });
+                }catch (e) {
+                  console.log(e);;
+                }
                 this.reportSmartTableData = [
                   ...this.reportSmartTableData
                 ];

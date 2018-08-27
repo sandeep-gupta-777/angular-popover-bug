@@ -6,18 +6,23 @@ import {IEnterpriseUser} from '../../interfaces/enterprise-users';
 
 const initialState = {
   'id': '',
+  enterpriseUniqueName:'',
   'created_at': '',
-  // "email": '',
+  "email": '',
   'enterprise_unique_name': '',
-  // "industry": '',
+  "industry": '',
   'logo': '',
   'name': '',
-  // "phone": '',
-  // "tier": '',
+  "phone": '',
+  "tier": '',
   'updated_at': '',
   'updated_by': null,
-  // "websiteUrl": '',
-  // "enterpriseusers":[]
+  "websiteUrl": '',
+  "enterpriseusers":[],
+  'tier_group': null,
+  'log_retention_period': '',
+  'secret_key': '',
+
 }
 @State<Partial<IEnterpriseProfileInfo>>({
   name: 'loggeduserenterpriseinfo',
@@ -38,6 +43,6 @@ export class EnterpriseprofileStateReducer {
 
   @Action(ResetEnterpriseUsersAction)
   resetEnterpriseUsersAction({patchState, setState, getState, dispatch}: StateContext<IEnterpriseProfileInfo>) {
-    patchState(initialState);
+    setState(<any>initialState);
   }
 }

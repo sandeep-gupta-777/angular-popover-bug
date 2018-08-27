@@ -25,7 +25,7 @@ export class BotPreviewCardComponent implements OnInit {
   message: string;
   parentRoute:string;
   constructor(
-    private utilityService:UtilityService,
+    public utilityService:UtilityService,
     private chatService:ChatService,
     private modalService: BsModalService,
     private activatedRoute: ActivatedRoute,

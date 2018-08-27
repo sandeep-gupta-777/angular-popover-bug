@@ -1,10 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
 import {IBot} from '../../interfaces/IBot';
 import {ServerService} from '../../../server.service';
 import {Store} from '@ngxs/store';
 import {ConstantsService} from '../../../constants.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {UtilityService} from '../../../utility.service';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-bot-detail-header',
@@ -16,11 +17,14 @@ export class BotDetailHeaderComponent implements OnInit {
   @Input() bot: IBot;
   myObject = Object;
   @Output() refreshBotDetails$ = new EventEmitter();
+  modalRef: BsModalRef;
+
 
   constructor(
     private store: Store,
     private serverService: ServerService,
-    private utilityService: UtilityService,
+    public utilityService: UtilityService,
+    private modalService: BsModalService,
     private constantsService: ConstantsService) {
   }
 
@@ -43,4 +47,21 @@ export class BotDetailHeaderComponent implements OnInit {
 
   }
 
+  deleteBot(){
+    this.modalRef.hide();
+    let url = this.constantsService.getDeleteBotUrl(this.bot.id);
+    let headerData:IHeaderData = {
+      "bot-access-token": this.bot.bot_access_token
+    };
+    this.serverService.makeDeleteReq({url, headerData})
+      .subscribe((value)=>{
+        this.serverService.getNSetBotList()
+          .subscribe(()=>{
+          })
+      })
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+  }
 }

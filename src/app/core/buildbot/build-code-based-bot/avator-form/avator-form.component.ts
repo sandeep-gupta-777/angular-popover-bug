@@ -84,6 +84,7 @@ export class AvatorFormComponent implements OnInit {
       }
     }
     this.avatorList.push(newAvator);
+    this.avatorList = [...this.avatorList];
   }
 
   saveAvatorRow(index:string){

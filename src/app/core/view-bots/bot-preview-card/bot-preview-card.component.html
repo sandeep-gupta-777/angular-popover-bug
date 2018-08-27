@@ -101,10 +101,10 @@
         <i dropdownToggle class="fa fa-ellipsis-v p-1"></i>
         <ul *dropdownMenu class="dropdown-menu" role="menu">
           <li role="menuitem">
-            <a class="dropdown-item">Copy Access Token</a>
+            <a class="dropdown-item cursor-pointer" (click)="utilityService.copyToClipboard(bot.bot_access_token)" >Copy Access Token</a>
           </li>
           <li role="menuitem">
-            <a class="dropdown-item">Copy Enterprise ID</a>
+            <a class="dropdown-item cursor-pointer" (click)="utilityService.copyToClipboard(bot.enterprise_id)">Copy Enterprise ID</a>
           </li>
           <li role="menuitem">
             <a class="dropdown-item">Make Bot Active</a>

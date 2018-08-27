@@ -1,9 +1,11 @@
 <div class="row" *ngIf="showTable; else rowDetails">
   <div class="col-12 pb-2 d-flex justify-content-end">
-    <button class="btn-theme-success" (click)="reinitialise()">Create Concept</button>
+    <button class="btn-theme-primary" (click)="reinitialise()">Create Concept</button>
   </div>
   <div class="col-12">
-    <app-smart-table *ngIf="data" [data]="data" [settings]="settings"
+    <app-smart-table *ngIf="data"
+                     [data]="data"
+                     [settings]="settings"
                      (pageChanged$)="pageChanged($event)"
                      (rowClicked$)="rowClicked($event)"></app-smart-table>
   </div>

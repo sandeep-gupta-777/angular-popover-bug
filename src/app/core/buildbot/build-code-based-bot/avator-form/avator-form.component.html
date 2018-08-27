@@ -4,7 +4,11 @@
     <div class="text-info cursor-pointer my-1" (click)="createPrebuiltAvatarRow(true)">Create</div>
     <div class="text-info cursor-pointer" (click)="createPrebuiltAvatarRow(false)">Generate</div>
   </div>
-  <div class="avator-item border py-2 px-3 d-flex flex-column" *ngFor="let avatorItem of avatorList.reverse(); let i = index">
+
+  <!--<p>{{avatorList|json}}</p>-->
+
+  <div class="avator-item border py-2 px-3 d-flex flex-column"
+       *ngFor="let avatorItem of avatorList; let i = index">
     <i class="fa fa-trash cursor-pointer" (click)="avatorList.splice(i,1)"></i>
     <img class="logo-md rounded-circle align-self-center" src="http://www.pngmart.com/files/3/Weather-PNG-HD.png">
     <div class="form-group">
