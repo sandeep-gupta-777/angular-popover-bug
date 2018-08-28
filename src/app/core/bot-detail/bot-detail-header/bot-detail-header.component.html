@@ -18,8 +18,9 @@
   <div class="ml-auto"></div>
   <!--<img *ngFor="let keys of myObject.keys(bot.integrations)" style="width: 28px;height: 28px"-->
        <!--src="http://www.pngmart.com/files/3/Weather-PNG-HD.png" alt="">-->
+
   <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos|async))"
-       [src]="'https://imibot.ai'+integrationsMasterListItem.icon"
+       [src]="'https://imibot.ai'+integrationsMasterListItem?.icon"
        class="logo-image"
        style="width: 18px;height: 18px"
        alt="">

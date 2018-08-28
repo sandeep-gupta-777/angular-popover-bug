@@ -1,6 +1,7 @@
 import {Action, NgxsOnInit, Selector, State, StateContext, Store} from '@ngxs/store';
 import {
-  ResetStoreToDefault,
+  ResetAppState,
+  ResetStoreToDefault, SetBackendURlRoot,
   SetLastSateUpdatedTimeAction,
   SetMasterIntegrationsList,
   SetMasterProfilePermissions,
@@ -13,6 +14,7 @@ import {ConstantsService} from '../constants.service';
 import {defaultChatState} from '../chat/ngxs/chat.state';
 import {IIntegrationMasterListItem} from '../../interfaces/integration-option';
 import {IProfilePermission} from '../../interfaces/profile-action-permission';
+import {stringify} from 'querystring';
 
 
 export interface IAppState /*extends INavigationState, IAuthState */
@@ -24,7 +26,8 @@ export interface IAppState /*extends INavigationState, IAuthState */
     value: number
   },
   masterIntegrationList: IIntegrationMasterListItem[],
-  masterProfilePermissions: IProfilePermission[]
+  masterProfilePermissions: IProfilePermission[],
+  backendUrlRoot:string
 }
 
 const appDefaultState = {
@@ -42,7 +45,8 @@ const appDefaultState = {
       value: 0
     },
     masterIntegrationList: null,
-    masterProfilePermissions:null
+    masterProfilePermissions:null,
+    backendUrlRoot:'https://dev.imibot.ai/'
   }
 })//same as reducer
 export class AppStateReducer {
@@ -76,6 +80,16 @@ export class AppStateReducer {
   @Action(SetMasterProfilePermissions)
   setMasterProfilePermissions({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetMasterProfilePermissions) {
     patchState({masterProfilePermissions: payload.payload.masterProfilePermissions});
+  }
+
+
+  @Action(SetBackendURlRoot)
+  setBackendURlRoot({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetBackendURlRoot) {
+    patchState({backendUrlRoot: payload.payload.url});
+  }
+  @Action(ResetAppState)
+  resetAppState({patchState, setState, getState, dispatch,}: StateContext<any>, payload: ResetAppState) {
+    setState({});
   }
 
 }

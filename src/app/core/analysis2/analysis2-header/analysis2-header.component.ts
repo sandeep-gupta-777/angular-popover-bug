@@ -129,7 +129,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
               let responseCopy: IChannelWiseAverageSessionTimeResponseBody = response;
               this.store.dispatch(new SetChannelWiseAverageSessionTime({data: responseCopy.objects[0].output.channelWiseAverageSessionTime}));
             }
-            debugger;
+            ;
             if (headerData.type === EAnalysis2TypesEnum.totalFlows) {
               let responseCopy: ITotalFlowsResponseBody = response;
               this.store.dispatch(new SetTotalFlows({data: responseCopy.objects[0].output.totalFlows}));
@@ -138,7 +138,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
               let responseCopy: ITotalFlowsResponseBody = response;
               this.store.dispatch(new SetTotalFlows({data: responseCopy.objects[0].output.totalFlows}));
             }
-            
+
             if (headerData.type === EAnalysis2TypesEnum.flowsPerRoom) {
               let responseCopy: IFlowsPerRoomResponseBody = response;
               this.store.dispatch(new SetFlowsPerRoom({data: responseCopy.objects[0].output.flowsPerRoom}));
@@ -158,12 +158,12 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
               let responseCopy: IChannelWiseSessionsResponseBody = response;
               this.store.dispatch(new SetChannelWiseSessions({data: responseCopy.objects[0].output.channelWiseSessions}));
             }
-            
+
             if (headerData.type === EAnalysis2TypesEnum.channelWiseUsers) {
               let responseCopy: IChannelWiseUsersResponseBody = response;
               this.store.dispatch(new SetChannelWiseUsers({data: responseCopy.objects[0].output.channelWiseUsers}));
             }
-            
+
           });
       } catch (e) {
         this.utilityService.showErrorToaster(e);

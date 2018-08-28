@@ -52,7 +52,7 @@ export class Analysis2PerformanceComponent implements OnInit {
         analysisHeaderData:{type:EAnalysis2TypesEnum.topgenerationtemplates}
       }));
     }
-    debugger;
+    ;
     if(this.activeTab==='flows'){
       this.store.dispatch(new SetAnalysis2HeaderData({
         analysisHeaderData:{type:EAnalysis2TypesEnum.totalFlows}
@@ -83,7 +83,7 @@ export class Analysis2PerformanceComponent implements OnInit {
       if(value.topgenerationtemplates){
         this.series_template  = this.u.convert(value.topgenerationtemplates,"labels","Date") ;
       }
-      debugger;
+      ;
       if(value.totalFlows){
         this.series_flows  = this.u.convert(value.totalFlows,"labels","Date");
       }

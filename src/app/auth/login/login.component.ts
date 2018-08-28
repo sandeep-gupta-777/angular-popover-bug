@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit(){
     let loginData = this.f.value;
-    let loginUrl = this.constantsService.BACKEND_URL_LOGIN
+    let loginUrl = this.constantsService.getLoginUrl();
     // let headerData:IHeaderData = {'api-key': '54asdkj1209nksnda',"content-type":'application/x-www-f-urlencoded'};
     // let body = {
     //
@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
     //   "password": "Botwoman@123!"
     // };
     let body;
-    debugger;
+    ;
     if(this.f.valid){
 
       body = this.f.value;
