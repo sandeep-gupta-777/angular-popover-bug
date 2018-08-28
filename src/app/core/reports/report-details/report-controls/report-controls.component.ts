@@ -73,7 +73,7 @@ export class ReportControlsComponent implements OnInit {
           let url = this.constantsService.getReportsEditInfo(_id);
           this.serverService.makeGetReq<IReportItem>({url})
             .subscribe((value: IReportItem) => {
-              debugger;
+              ;
               let formDataSerialized = {
                 ...value,
                 delivery: {

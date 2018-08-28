@@ -54,4 +54,19 @@ export class SetMasterProfilePermissions {
   }) {}
 }
 
+export class SetBackendURlRoot {
+  static readonly type = '[app] set SetBackendURlRoot';
+
+  constructor(public payload: {
+    url:string
+  }) {}
+}
+
+export class ResetAppState {
+  static readonly type = '[app] set ReSetAppState';
+
+  constructor() {}
+}
+
+
 

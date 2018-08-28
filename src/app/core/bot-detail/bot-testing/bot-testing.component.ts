@@ -56,7 +56,7 @@ export class BotTestingComponent implements OnInit {
     //   });
     // })
       .subscribe((value) => {
-        debugger;
+        ;
         if (value.objects.length === 0) {
           this.isData = false;
         }
@@ -76,7 +76,7 @@ export class BotTestingComponent implements OnInit {
   }
 
   createTC() {
-    debugger;
+    ;
     console.log(this.testCaseData);
     this.serverService.makePostReq<{ meta: any, objects: ITestcases[] }>({
       url:this.testCasesUrl ,

@@ -16,6 +16,7 @@ export class ConstantsService {
 
   static state: any;
   loggedUser: IUser;
+  @Select() app$:Observable<IAppState>;
 
   public BACKEND_URL = 'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
   public BACKEND_URL_LOGIN = `${this.BACKEND_URL}` + 'api/v1/user/login/';
@@ -44,8 +45,14 @@ export class ConstantsService {
   });
 
   constructor() {
+    this.app$.subscribe((value)=>{
+      this.BACKEND_URL = (value && value.backendUrlRoot) || 'https://dev.imibot.ai/';
+    });
   }
 
+  getLoginUrl(){
+    return this.BACKEND_URL + 'api/v1/user/login/';
+  }
 
   setLoggedUser(loggedUser: IUser) {
     this.loggedUser = loggedUser;
@@ -64,16 +71,19 @@ export class ConstantsService {
   }
 
   getPipelinebasedBotListUrl() {
-    return this.BACKEND_USER_PIPELINE_BASED_BOT_LIST;
+    // return this.BACKEND_USER_PIPELINE_BASED_BOT_LIST + 'api/v1/bot/';
+    return this.BACKEND_URL+ 'api/v1/bot/';
   }
 
   getMasterIntegrationsList() {
     return this.BACKEND_URL + 'api/v1/integrations/';
   }
 
-  getCodebasedBotListUrl() {
-    return this.BACKEND_USER_CODE_BASED_BOT_LIST;
-  }
+  // getCodebasedBotListUrl() {
+  //   return this.BACKEND_USER_CODE_BASED_BOT_LIST;
+  //   return this.BACKEND_URL + 'api/v1/integrations/';
+  //
+  // }
 
   getOverViewInfoUrl() {
     return this.BACKEND_URL + 'analytics/overviewinfo'; //https://dev.imibot.ai/analytics/overviewinfo;

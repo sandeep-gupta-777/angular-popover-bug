@@ -111,7 +111,7 @@ export class CodeInputComponent implements OnInit {
     *at this point some changes have been made to selected version's codeText
     *if the new codeText is same as old codeText
     * */
-    debugger;
+    ;
     let selectedVersion_pristine = this.bot.store_bot_versions.find((version) => version.id === this.selectedVersion.id);
     let codeTextPristine = selectedVersion_pristine[this.activeTab];
     if(this.selectedVersion.updated_fields[this.activeTab]===true) return;/*If field is dirty from server, nothing can change it*/
@@ -127,7 +127,7 @@ export class CodeInputComponent implements OnInit {
       'bot-access-token': this.bot.bot_access_token
     };
     let url = this.constantsService.getSaveVersionByBotId(this.bot.id);
-    debugger;
+    ;
     this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
       .subscribe((value) => {
         this.utilityService.showSuccessToaster('new version saved successfully!');

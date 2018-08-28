@@ -40,7 +40,7 @@ export class ReportDetailsComponent implements OnInit {
   }
 
   submitSubscriptionForm(template: TemplateRef<any>) {
-    debugger;
+    ;
     this.reportFormData = this.reportControlsComponent.reportFormData;
     let timeNow = (new Date()).toString();
     this.reportFormData.id = Number(this.activatedRoute.snapshot.paramMap.get('_id'));
@@ -60,6 +60,12 @@ export class ReportDetailsComponent implements OnInit {
     this.reportFormData.updated_at = new Date().toISOString();
     let url = this.constantsService.getSaveReportsEditInfo(this.reportFormData.id);
     let body = this.reportFormData;
+    delete body.created_at;
+    delete body.updated_at;
+    delete body.delivery;
+    // let body1 = {
+    //   filetype:'csv'
+    // };
     this.serverService.makePutReq({url, body})
       .subscribe((value) => {
         this.modalRef = this.modalService.show(template, {class: 'modal-md'});

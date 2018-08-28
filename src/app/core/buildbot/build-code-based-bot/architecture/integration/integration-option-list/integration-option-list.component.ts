@@ -30,6 +30,8 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   myObject = Object;
   routeParent;
   masterIntegrationList: IIntegrationMasterListItem[];
+  masterIntegrationListSerialized = [];
+
   constructor(
     private store: Store,
     private activatedRoute: ActivatedRoute,
@@ -38,7 +40,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.app$.subscribe((value)=>{
+    this.app$.subscribe((value) => {
       this.masterIntegrationList = value.masterIntegrationList;
     });
 
@@ -53,27 +55,47 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
 
     // this.formValueFinal = this.constantsService.integrationOptionListTemplate;
     // this.formValueFinal =  this.bot.integrations;
-    this.formValueFinal =  {
-      channels:{
-        ...this.constantsService.integrationOptionListTemplate.channels,
+
+    this.masterIntegrationList.forEach((integrationItem) => {
+      let integration_type = integrationItem.integration_type;
+      let key = integrationItem.key;
+      let tempObj = {};
+      tempObj[key] = integrationItem.inputs.reduce((aggregate, value: { 'display_text': string, 'param_name': string }) => {
+        let obj = {};
+        obj[value.param_name] = '';
+        return {...aggregate, ...obj};
+      }, {});
+      if (this.masterIntegrationListSerialized[integration_type]) {
+        this.masterIntegrationListSerialized[integration_type] = {
+          ...this.masterIntegrationListSerialized[integration_type],
+          ...tempObj
+        };
+      } else {
+        this.masterIntegrationListSerialized[integration_type] = {...tempObj};
+      }
+    });
+    this.formValue =
+    this.formValueFinal = {
+      channels: {
+        ...this.masterIntegrationListSerialized['channels'],
         ...this.formValue.channels
       },
-      ccsp_details:{
-        ...this.constantsService.integrationOptionListTemplate.ccsp_details,
+      ccsp_details: {
+        ...this.masterIntegrationListSerialized['ccsp_details'],
         ...this.formValue.ccsp_details
       },
-      fulfillment_provider_details:{
-        ...this.constantsService.integrationOptionListTemplate.fulfillment_provider_details,
+      fulfillment_provider_details: {
+        ...this.masterIntegrationListSerialized['fulfillment_provider_details'],
         ...this.formValue.fulfillment_provider_details
       }
     };
 
 
-
   }
-  getLogo(key){
-    let matchedMasterIntegration = this.masterIntegrationList.find((masterIntegrationItem)=>{
-      return masterIntegrationItem.key===key;
+
+  getLogo(key) {
+    let matchedMasterIntegration = this.masterIntegrationList.find((masterIntegrationItem) => {
+      return masterIntegrationItem.key === key;
     });
     return matchedMasterIntegration.icon;
 
@@ -86,6 +108,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   click() {
     // console.log(this.formValue);
   }
+
   test = false;
 
   ngAfterViewInit(): void {
@@ -109,12 +132,12 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
     // })
   }
 
-  onSwitchChange(obj){
+  onSwitchChange(obj) {
     obj.enabled = !obj.enabled;
   }
 
 
-  click1(){
+  click1() {
     console.log(this.f_new.value);
     console.log(this.formValueFinal);
   }

@@ -127,7 +127,7 @@
         </div>
       </div>
       <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos|async)|slice:0:5)"
-           [src]="'https://imibot.ai'+integrationsMasterListItem.icon"
+           [src]="'https://imibot.ai'+integrationsMasterListItem?.icon"
            class="logo-image"
            style="width: 16px;height: 16px"
            alt="">

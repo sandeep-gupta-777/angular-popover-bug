@@ -43,7 +43,7 @@ export class EnterpriseprofileComponent implements OnInit {
       let enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(this.enterpriseId);
       this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
         .subscribe((value: IEnterpriseProfileInfo) => {
-          debugger;
+          ;
           this.store.dispatch([
             new SetEnterpriseInfoAction({enterpriseInfo: value})
           ]);
@@ -52,7 +52,7 @@ export class EnterpriseprofileComponent implements OnInit {
         let enterpriseUsersUrl = this.constantsService.getEnterpriseUsersUrl();
         this.serverService.makeGetReq<{ objects: IEnterpriseUser[] }>({url: enterpriseUsersUrl})
           .subscribe((value) => {
-            debugger;
+            ;
             this.store.dispatch([
               new SetEnterpriseUsersAction({enterpriseUsers: value.objects})
             ]);
