@@ -123,7 +123,6 @@ export class BotSessionsComponent implements OnInit {
       this.indexOfCurrentRowSelected = currentIndex;
     }
     else {
-      // ;
       this.smartTableComponent.goToPrevPage();
       this.selectedRow_number = 9;
       this.indexOfCurrentRowSelected = 9;

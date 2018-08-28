@@ -28,10 +28,46 @@
         <label for="alterEgo">Session Close Time [mins]</label>
         <input ngModel="{{bot.room_persistence_time}}" name="room_persistence_time" type="text" class="form-control" placeholder="Time until Session Closes (in minutes)" id="alterEgo">
       </div>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="alterEgo">Is Manager Bot</label>
         <input ngModel="{{bot.room_persistence_time}}" name="room_persistence_time" type="text" class="form-control" placeholder="Time until Session Closes (in minutes)" id="alterEgo">
+      </div> -->
+      <div class="form-group">
+        <div class="form-control d-flex align-items-center justify-content-between pr-5">
+          <label class="pr-2">Is Manager Bot?</label>
+          <ui-switch class="pt-2" [(ngModel)]="isManager"  name="is_manager" style="border:none" size="small"></ui-switch>
+        </div>
       </div>
+
+      <!-- <div class="form-group m-0 mr-4 ml-auto">
+        <label for="">Bot</label>
+        <select class="concept1" [ngModel] required validate name="botId">
+          <option *ngFor="let bot of (allbotList$ | async); let i = index;" [selected]="i===0" type="button" [value]="bot.id">{{bot.name}}</option>
+        </select>
+      </div> -->
+
+      <div class="btn-group" dropdown *ngIf = "isManager">
+          <button id="button-basic" dropdownToggle type="button" 
+          class="btn dropdown-toggle"
+          aria-controls="dropdown-basic">
+            Bot List<span class="caret"></span>
+          </button>
+          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+              role="menu" aria-labelledby="button-basic">
+            <li role="menuitem" *ngFor="let bot of (allbotList$ | async); let i = index;">
+              <a class="dropdown-item" (click)="addChildBot(bot)"
+              *ngIf = "!wannaDisable(bot.id)"
+              >{{bot.name}}</a>
+            </li>
+          </ul>
+        </div>
+        <!-- <p>{{bot.child_bots|json}}</p> -->
+        <div *ngIf = "isManager">
+            <span *ngFor="let childBotId of bot.child_bots"
+            class="badge badge-pill badge-info inline m-1">{{childBotId | botIdToName | async}}
+              <span class="fa fa-remove cursor-pointer" (click)="removeChildBot(childBotId)"></span>
+            </span>
+        </div>
     </div>
   </div>
 

@@ -242,7 +242,9 @@ export class ConstantsService {
       'created_by',
       'enterprise_id',
       'id',
-      'store_bot_versions'
+      'store_bot_versions',
+      'updated_at',
+      'updated_by'
     ];
     not_keys.forEach((key) => {
       delete clone[key];
@@ -262,9 +264,9 @@ export class ConstantsService {
       id: {//
         title: 'ID'
       },
-      // name: {//
-      //   title: 'Name'
-      // },
+      name: {//
+        title: 'Name'
+      },
       phone: {//
         title: 'Phone'
       },
@@ -302,18 +304,15 @@ export class ConstantsService {
       consumer_id: {
         title: 'Consumer Id'
       },
-      // 'messages.length': {
-      //   title: 'Messages'
-      // },
+      total_message_count: {
+        title: 'Messages'
+      },
       last_updated_job_id: {
         title: 'Last Updated Job Id'
       },
-      agent_handover: {
+      sendtoagent: {
         title: 'Sent to Agent'
-      },
-      bot_id: {
-        title: 'Bot Id'
-      },
+      }
 
     },
     // hideSubHeader: true

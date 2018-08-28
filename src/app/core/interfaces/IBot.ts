@@ -13,7 +13,7 @@ export interface IBot {
   "bot_access_token": string,
   "bot_type": string,
   "bot_unique_name": string,
-  "child_bots": string,
+  "child_bots": Array<number>,
   "consent_categories": string,
   "consent_message": string,
   "created_at": string,

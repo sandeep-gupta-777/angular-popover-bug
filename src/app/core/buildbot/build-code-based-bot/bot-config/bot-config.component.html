@@ -39,6 +39,8 @@
     <!--todo: make this row independent-->
     <div class="row pl-3">
       <div class="col-12" *ngIf="activeTab === 'basic'">
+          
+
         <app-basic-info-form (datachanged$)="datachanged$.emit($event)" [bot]="bot"></app-basic-info-form>
       </div>
       <div class="col-12" *ngIf="activeTab === 'data'">

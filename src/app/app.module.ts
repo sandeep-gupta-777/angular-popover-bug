@@ -128,6 +128,7 @@ import { IntegrationImageCountPipe } from './integration-image-count.pipe';
 import { IntegrationInputKeysFilterPipe } from './integration-input-keys-filter.pipe';
 import { ProfilePermissionIdToNamePipe } from './core/profile/profile-permission-id-to-name.pipe';
 import {ClickOutsideModule} from 'ng2-click-outside';
+import { BotIdToNamePipe } from './bot-id-to-name.pipe';
 
 const routes: Route[] = [
   {
@@ -300,7 +301,8 @@ const routes: Route[] = [
     IntegrationLogosPipe,
     IntegrationImageCountPipe,
     IntegrationInputKeysFilterPipe,
-    ProfilePermissionIdToNamePipe
+    ProfilePermissionIdToNamePipe,
+    BotIdToNamePipe
   ],
   imports: [
     BrowserModule,
