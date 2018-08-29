@@ -18,7 +18,9 @@ export class ViewCodeBasedBotComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.codeBasedBotList$ = this.botlist$.map((value) => value.allBotList.filter((bot) => bot.bot_type === 'chatbot'));
+    this.codeBasedBotList$ = this.botlist$
+      .do((value)=>{;return value})
+      .map((value) => value.allBotList && value.allBotList.filter((bot) => bot.bot_type === 'chatbot'));
   }
 
   ngOnDestroy(): void {

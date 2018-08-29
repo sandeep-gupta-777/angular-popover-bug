@@ -68,7 +68,7 @@ export class ChatSessionStateReducer {
     let bot_name: string;
     let botId: number = payload.bot_id;
     let bot_logo:string;
-    debugger;
+    ;
     /*find token for a given timePeriod*/
     if (!payload.bot) {
       state.rooms.forEach((room) => {

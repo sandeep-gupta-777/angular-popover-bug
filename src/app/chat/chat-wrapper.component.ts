@@ -78,7 +78,7 @@ export class ChatWrapperComponent implements OnInit {
 
     this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
 
-      debugger;
+      ;
       try{
         this.windowOpen = chatSessionState.opened;
         if (!chatSessionState || !chatSessionState.opened) return;
@@ -112,7 +112,7 @@ export class ChatWrapperComponent implements OnInit {
     * open the chat window
     * */
 
-    debugger;
+    ;
     // ;
     let new_uid = this.utilityService.createRandomString(12);
     this.store.dispatch([

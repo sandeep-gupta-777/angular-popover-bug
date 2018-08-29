@@ -1,0 +1,7 @@
+@import '~src/sass/main';
+
+input{
+  @include hide-borders();
+  border: 1px solid #ced4da;
+  padding-left: 8px;
+}

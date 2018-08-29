@@ -136,7 +136,7 @@ export class BotSessionsComponent implements OnInit {
       /*download the conversation for the record*/
       this.loadSessionById(data.data.id)
         .subscribe((value: any) => {
-          debugger;
+          ;
           let dataToDownload = value.objects;
           if (dataToDownload.length === 0) {
             dataToDownload = [{name:'No Data'}];

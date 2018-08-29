@@ -14,7 +14,7 @@ export class ProfilePermissionIdToNamePipe implements PipeTransform {
 
     return this.app$.map((appState) => {
       let masterPermissions = appState.masterProfilePermissions;
-
+      if(!permissionIds || !masterPermissions) return;
       if (permissionIds.length === 0) {
         return masterPermissions.map((permission) => {
           return permission.name;;

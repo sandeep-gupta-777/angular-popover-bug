@@ -63,6 +63,7 @@ export class ConstantsService {
   }
 
   getEnterpriseUrl(enterpriseId: number) {
+    // return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`;// + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
     return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`;// + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
   }
 
@@ -177,7 +178,7 @@ export class ConstantsService {
   }
 
   getBotConsumerUrl(limit: number, offset: number) {
-    return this.BACKEND_URL + `api/v1/consumer/?limit=${limit}&offset=${offset}/`; //https://localhost:8000/api/v1/consumer/?limit=1&offset=0
+    return this.BACKEND_URL + `api/v1/consumer/?limit=${limit}&offset=${offset}`; //https://localhost:8000/api/v1/consumer/?limit=1&offset=0
   }
 
   getAllActionsUrl() {

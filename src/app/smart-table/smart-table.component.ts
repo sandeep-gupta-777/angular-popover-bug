@@ -10,7 +10,7 @@ import {Observable} from 'rxjs';
 export class SmartTableComponent implements OnInit {
 
   @Input() set data(value){
-    debugger;
+    ;
     this._data = value;
     // this.totalPageCount = Math.ceil((this.totalRecords) / this.recordsPerPage);
     this.source.load(this._data);

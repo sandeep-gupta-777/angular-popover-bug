@@ -43,7 +43,6 @@ export class EnterpriseprofileComponent implements OnInit {
       let enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(this.enterpriseId);
       this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
         .subscribe((value: IEnterpriseProfileInfo) => {
-          ;
           this.store.dispatch([
             new SetEnterpriseInfoAction({enterpriseInfo: value})
           ]);
@@ -52,7 +51,6 @@ export class EnterpriseprofileComponent implements OnInit {
         let enterpriseUsersUrl = this.constantsService.getEnterpriseUsersUrl();
         this.serverService.makeGetReq<{ objects: IEnterpriseUser[] }>({url: enterpriseUsersUrl})
           .subscribe((value) => {
-            ;
             this.store.dispatch([
               new SetEnterpriseUsersAction({enterpriseUsers: value.objects})
             ]);
@@ -93,7 +91,6 @@ export class EnterpriseprofileComponent implements OnInit {
   saveForm() {
     let formData = this.f.value;
     let body: IEnterpriseProfileInfo = {...this.loggeduserenterpriseinfo, ...formData};
-    debugger;
     let url = this.constantsService.getEnterpriseUrl(this.enterpriseId);
     let headerData: IHeaderData = {'content-type': 'application/json'};
     this.serverService.makePutReq({url, body, headerData})

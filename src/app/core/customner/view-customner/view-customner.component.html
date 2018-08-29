@@ -1,10 +1,10 @@
 <div class="row m-0 mt-3 p-3 bg-white">
-  <div class="col-12 mt-4 mb-3">
+  <div class="col-12 mt-4">
     <h4>Concepts</h4>
   </div>
   <div class="col-12" style="min-height: 100px">
     <app-knowledge-base
-      [data]="enterpriseNerData"
+      [custumNerDataForSmartTable]="enterpriseNerData"
       (pageChanged$)="pageChanged$($event)"
     ></app-knowledge-base>
   </div>

@@ -39,7 +39,7 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
     this.f.valueChanges.debounceTime(1000).subscribe((data:Partial<IBot>) => {
       console.log(this.f);
       if(!this.f.dirty) return;
-      debugger;
+      ;
       this.datachanged$.emit(data);
     });
   }

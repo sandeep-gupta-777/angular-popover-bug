@@ -134,6 +134,7 @@ import { BackendDevComponent } from './backend-dev/backend-dev.component';
 import { EnabledIntegrationsCountPipe } from './enabled-integrations-count.pipe';
 import { SortObjectArrayPipe } from './sort-object-array.pipe';
 import { SerializeEnterpriseprofileDataPipe } from './core/enterpriseprofile/serialize-enterpriseprofile-data.pipe';
+import { KnowledgeBasePresentationComponent } from './core/buildbot/build-code-based-bot/architecture/knowledge-base/knowledge-base-presentation/knowledge-base-presentation.component';
 
 const routes: Route[] = [
   {
@@ -312,7 +313,8 @@ const routes: Route[] = [
     BackendDevComponent,
     EnabledIntegrationsCountPipe,
     SortObjectArrayPipe,
-    SerializeEnterpriseprofileDataPipe
+    SerializeEnterpriseprofileDataPipe,
+    KnowledgeBasePresentationComponent
   ],
   imports: [
     BrowserModule,

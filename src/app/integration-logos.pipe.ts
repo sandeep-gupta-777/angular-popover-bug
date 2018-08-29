@@ -16,7 +16,7 @@ export class IntegrationLogosPipe implements PipeTransform {
       ...integrationOption.fulfillment_provider_details,
       ...integrationOption.ccsp_details,
     };
-    debugger;
+    ;
     /*remove the integration key if its not enabled*/
     for (let key in integrations) {
 
@@ -39,7 +39,7 @@ export class IntegrationLogosPipe implements PipeTransform {
       // }
     }
 
-    debugger;
+    ;
     if(!Object.keys(integrations) || Object.keys(integrations).length ===0) return;
     return this.app$.map((value)=>{
       let integrationsMasterList = value.masterIntegrationList;

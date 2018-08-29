@@ -11,6 +11,7 @@ import {ConstantsService} from '../../constants.service';
 import {ServerService} from '../../server.service';
 import {ResetEnterpriseUsersAction} from '../enterpriseprofile/ngxs/enterpriseprofile.action';
 import {ResetBuildBotToDefault} from '../buildbot/ngxs/buildbot.action';
+import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
 
 @Component({
   selector: 'app-header',
@@ -20,6 +21,8 @@ import {ResetBuildBotToDefault} from '../buildbot/ngxs/buildbot.action';
 export class HeaderComponent implements OnInit {
 
   @Select() loggeduser$: Observable<{user:IUser}>;
+  @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
+  logoSrc = 'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg';
   constructor(
     private store: Store,
     private serverService: ServerService,
@@ -28,7 +31,10 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.loggeduser$.subscribe((value)=>{
-    })
+    });
+    this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo)=>{
+      this.logoSrc = enterpriseProfileInfo.logo || this.logoSrc;
+    });
   }
 
   logout(){

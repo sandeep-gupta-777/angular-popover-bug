@@ -2,6 +2,7 @@ import {IUser} from '../core/interfaces/user';
 import {IAppState} from './app.state';
 import {IIntegrationMasterListItem} from '../../interfaces/integration-option';
 import {IProfilePermission} from '../../interfaces/profile-action-permission';
+import {ICustomNerItem} from '../../interfaces/custom-ners';
 
 export class SetStateFromLocalStorageAction {
   static readonly type = '[app] set state from localstorage';
@@ -59,6 +60,14 @@ export class SetBackendURlRoot {
 
   constructor(public payload: {
     url:string
+  }) {}
+}
+
+export class SetEnterpriseNerData {
+  static readonly type = '[app] set SetEnterpriseNERs';
+
+  constructor(public payload: {
+    enterpriseNerData:ICustomNerItem[]
   }) {}
 }
 

@@ -1,7 +1,7 @@
 import {Action, NgxsOnInit, Selector, State, StateContext, Store} from '@ngxs/store';
 import {
   ResetAppState,
-  ResetStoreToDefault, SetBackendURlRoot,
+  ResetStoreToDefault, SetBackendURlRoot, SetEnterpriseNerData,
   SetLastSateUpdatedTimeAction,
   SetMasterIntegrationsList,
   SetMasterProfilePermissions,
@@ -15,6 +15,7 @@ import {defaultChatState} from '../chat/ngxs/chat.state';
 import {IIntegrationMasterListItem} from '../../interfaces/integration-option';
 import {IProfilePermission} from '../../interfaces/profile-action-permission';
 import {stringify} from 'querystring';
+import {ICustomNerItem} from '../../interfaces/custom-ners';
 
 
 export interface IAppState /*extends INavigationState, IAuthState */
@@ -27,7 +28,8 @@ export interface IAppState /*extends INavigationState, IAuthState */
   },
   masterIntegrationList: IIntegrationMasterListItem[],
   masterProfilePermissions: IProfilePermission[],
-  backendUrlRoot:string
+  backendUrlRoot:string,
+  enterpriseNerData:ICustomNerItem[]
 }
 
 const appDefaultState = {
@@ -39,7 +41,8 @@ const appDefaultState = {
   },
   masterIntegrationList: null,
   masterProfilePermissions:null,
-  backendUrlRoot:'https://dev.imibot.ai/'
+  backendUrlRoot:'https://dev.imibot.ai/',
+  enterpriseNerData:[]
 };
 
 @State<IAppState>({
@@ -84,6 +87,12 @@ export class AppStateReducer {
   setBackendURlRoot({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetBackendURlRoot) {
     patchState({backendUrlRoot: payload.payload.url});
   }
+
+  @Action(SetEnterpriseNerData)
+  setEnterpriseNerData({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetEnterpriseNerData) {
+    patchState({enterpriseNerData: payload.payload.enterpriseNerData});
+  }
+
   @Action(ResetAppState)
   resetAppState({patchState, setState, getState, dispatch,}: StateContext<any>, payload: ResetAppState) {
     patchState(appDefaultState);
