@@ -31,23 +31,20 @@ export interface IAppState /*extends INavigationState, IAuthState */
 }
 
 const appDefaultState = {
-  chatsessionstate: defaultChatState
-
+  lastUpdated: 0,
+  progressbar: {
+    show: false,
+    loading: false,
+    value: 0
+  },
+  masterIntegrationList: null,
+  masterProfilePermissions:null,
+  backendUrlRoot:'https://dev.imibot.ai/'
 };
 
 @State<IAppState>({
   name: 'app',
-  defaults: {
-    lastUpdated: 0,
-    progressbar: {
-      show: false,
-      loading: false,
-      value: 0
-    },
-    masterIntegrationList: null,
-    masterProfilePermissions:null,
-    backendUrlRoot:'https://dev.imibot.ai/'
-  }
+  defaults: appDefaultState
 })//same as reducer
 export class AppStateReducer {
 
@@ -59,11 +56,11 @@ export class AppStateReducer {
     console.log('resetting state', getState());
   }
 
-  @Action(ResetStoreToDefault)
-  resetStoreToDefault({patchState, setState, getState, dispatch,}: StateContext<any>) {
-    this.store.reset(appDefaultState);
-    console.log('resetting state', getState());
-  }
+  // @Action(ResetStoreToDefault)
+  // resetStoreToDefault({patchState, setState, getState, dispatch,}: StateContext<any>) {
+  //   this.store.reset(appDefaultState);
+  //   console.log('resetting state', getState());
+  // }
 
   @Action(SetProgressValue)
   SetProgressValue({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetProgressValue) {
@@ -89,7 +86,7 @@ export class AppStateReducer {
   }
   @Action(ResetAppState)
   resetAppState({patchState, setState, getState, dispatch,}: StateContext<any>, payload: ResetAppState) {
-    setState({});
+    patchState(appDefaultState);
   }
 
 }

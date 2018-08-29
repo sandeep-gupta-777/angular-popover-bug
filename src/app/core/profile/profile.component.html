@@ -35,7 +35,7 @@
       <label for="" class="pl-5 ml-5 pr-4 pt-1">Bot Permission:</label>
       <div class="" style="flex-grow: 1">
         <span
-          class="text-info"><strong>{{loggedUser.user.role.permissions.actions.length}}</strong> bot permissions</span>
+          class="text-info"><strong>{{loggedUser?.user?.role?.permissions?.actions?.length===0?'All':loggedUser?.user?.role?.permissions?.actions?.length}}</strong> Action permissions</span>
         <div class="permissions-box p-2 ">
         <span class="badge badge-secondary mr-1 mb-2"
               *ngFor="let perm of (loggedUser.user.role.permissions.actions|profilePermissionIdToName|async)">{{perm}}

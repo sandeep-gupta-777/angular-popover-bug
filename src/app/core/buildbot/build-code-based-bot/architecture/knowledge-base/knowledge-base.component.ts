@@ -26,18 +26,17 @@ export class KnowledgeBaseComponent implements OnInit {
   @Output() pageChanged$ = new EventEmitter();
   @Output() updateOrSaveParentNers$ = new EventEmitter();
   loggeduser: { user: IUser };
-  settings;
+  settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;
   codeTextOutPutFromCodeEditor: string;
   codeTextInputToCodeEditor: string;
   showTable = true;
-  /*new concept*/
   key;
-  nerType;
+  ner_type;
   conflict_policy;
   modalRef: BsModalRef;
-  handontable_column;
-  handontable_colHeaders;
-  handontableData = [];
+  handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
+  handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
+  handontableData = [["","",""]];
   selectedRowData: ICustomNerItem;
 
   /*TODO: use model instead of ngif;else*/
@@ -50,38 +49,50 @@ export class KnowledgeBaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;
-    this.handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
-    this.handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
+    // this.handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
+    // this.handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
     if (this.bot) {
-      /*this block should not run in case this compoment is called by parent component: view-customner.component*/
+      /*this block should not run in case this component is called by parent component: view-customner.component*/
       let url = this.constantsService.getCustomBotNER(this.bot.id);
       let headerData: IHeaderData = {'bot-access-token': this.bot.bot_access_token};
       this.serverService.makeGetReq({url, headerData})
         .subscribe((value: { objects: [ICustomNerItem] }) => {
           this.data = value.objects;
-          // ;
         });
     }
     this.loggeduser$.subscribe((value) => this.loggeduser = value);
   }
 
-  textChanged(codeText){
+  textChanged(codeText) {
     this.codeTextOutPutFromCodeEditor = codeText;
   }
 
   updateOrSaveConcept() {
-
-    let body:ICustomNerItem;
-    // ;
-    if (this.nerType === 'single_match' || this.nerType === 'double_match' || this.nerType === 'with_metadata') {
+    debugger;
+    let body: ICustomNerItem;
+    if (this.ner_type === 'single_match' || this.ner_type === 'double_match' || this.ner_type === 'with_metadata' || this.ner_type === 'regex') {
       body = {values: this.codeTextOutPutFromCodeEditor.split(',')};
-    } else if (this.nerType === 'database') {
-      // body =
-      /*TODO: implement for databse*/
+    } else if (this.ner_type === 'database') {
+      let handontableDataClone = JSON.parse(JSON.stringify(this.handontableData));
+      let column_headers = handontableDataClone[0];
+      handontableDataClone.shift();
+      let handsontableDataSerialized = handontableDataClone.map((row) => {
+        let obj = {};
+        row.forEach((str, index) => {
+          let key = column_headers[index];
+          obj[key] = str;
+        });
+        return obj;
+      });
+
+      body = {"column_headers": column_headers,values: handsontableDataSerialized};
     }
 
-    if(this.bot){
+    if (this.selectedRowData && this.selectedRowData.id) {/*if there is not id, this means we are creating new customner*/
+      Object.assign(this.selectedRowData, body);
+    }
+
+    if (this.bot) {
       this.data.push(this.f.value);
       console.log(this.data);
       let headerData: IHeaderData = {'bot-access-token': this.bot.bot_access_token};
@@ -91,6 +102,7 @@ export class KnowledgeBaseComponent implements OnInit {
         this.serverService.makePutReq({url, body: body, headerData})
           .subscribe((value) => {
             console.log(value);
+            this.utilityService.showSuccessToaster("Successfully saved");
           });
       } else {
         /*create a new customner*/
@@ -105,9 +117,9 @@ export class KnowledgeBaseComponent implements OnInit {
           // 'created_by': this.loggeduser.user.id,
           'enterprise_id': this.loggeduser.user.enterprise_id,
           'key': this.key,
-          'ner_type': this.nerType,
+          'ner_type': this.ner_type,
           // "process_raw_text": false,
-          'type': 'bot',
+          'type': 'enterprise',
           // 'updated_at': new Date().toISOString(),
           // "updated_by": 0,
           // "values"?: any[]
@@ -118,14 +130,15 @@ export class KnowledgeBaseComponent implements OnInit {
             console.log(value);
           });
       }
-    }else {
-      this.data.push(this.f.value);
+    } else {
+      ;
+      this.data.push(this.f.value);//?????what is this line doing
       if (this.selectedRowData && this.selectedRowData.id) {
         /*update customner*/
         let url = this.constantsService.updateEnterpriseNer(this.selectedRowData.id);
         this.serverService.makePutReq({url, body: body})
           .subscribe((value) => {
-            console.log(value);
+            this.utilityService.showSuccessToaster("Successfully saved");
           });
       } else {
         /*create a new customner*/
@@ -140,9 +153,9 @@ export class KnowledgeBaseComponent implements OnInit {
           'created_by': this.loggeduser.user.id,
           'enterprise_id': this.loggeduser.user.enterprise_id,
           'key': this.key,
-          'ner_type': this.nerType,
+          'ner_type': this.ner_type,
           // "process_raw_text": false,
-          'type': 'bot',
+          'type': 'enterprise',
           'updated_at': new Date().toISOString(),
           // "updated_by": 0,
           // "values"?: any[]
@@ -151,6 +164,7 @@ export class KnowledgeBaseComponent implements OnInit {
         this.serverService.makePostReq({url, body: body})
           .subscribe((value) => {
             console.log(value);
+            // this.handontableData.push(body);
           });
       }
     }
@@ -163,21 +177,28 @@ export class KnowledgeBaseComponent implements OnInit {
   rowClicked($event) {
     // this.f.form.disabled(true);
     // ;
+
+    ;
     this.selectedRowData = $event.data;
     this.showTable = false;
     this.codeTextInputToCodeEditor = this.selectedRowData.values && this.selectedRowData.values.join();
-    this.nerType = this.selectedRowData.ner_type;
+    this.ner_type = this.selectedRowData.ner_type;
     this.key = this.selectedRowData.key;
     this.conflict_policy = this.selectedRowData.conflict_policy;
     // this.handontableData = data.values;
 
-    if (this.nerType === 'database') {
-      let arr: { key: string, payload: string, title: string }[] = this.selectedRowData.values;
-      this.handontableData = arr.map((value) => {
-        return [value.key, value.payload, value.title];
+    if (this.ner_type === 'database') {
+      // let arr: { key: string, payload: string, title: string }[] = this.selectedRowData.values;
+      let valueKeys = this.selectedRowData.column_headers;
+
+      this.handontableData = this.selectedRowData.values.map((value) => {
+        return valueKeys.map((valueKey) => {
+          return value[valueKey];
+        });
       });
-      this.codeTextInputToCodeEditor = null;
-      console.log(arr);
+      this.handontableData.unshift(valueKeys);
+      // this.codeTextInputToCodeEditor = null;
+      // console.log(arr);
     } else {
       this.handontableData = null;
     }
@@ -185,7 +206,7 @@ export class KnowledgeBaseComponent implements OnInit {
 
   reinitialise() {
     /*reinitialize class variable*/
-    this.nerType = 'single_match';
+    this.ner_type = 'single_match';
     this.key = '';
     this.conflict_policy = 'override';
     this.codeTextInputToCodeEditor = '';

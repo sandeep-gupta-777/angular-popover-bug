@@ -34,3 +34,8 @@ export class SaveIntegrationInfo {
   static readonly type = '[build-bots] set Integration info';
   constructor(public payload: { data: IIntegration }) {}
 }
+
+export class ResetBuildBotToDefault {
+  static readonly type = '[build-bots] set Integration info';
+  constructor() {}
+}

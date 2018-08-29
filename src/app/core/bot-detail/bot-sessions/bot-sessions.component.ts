@@ -4,11 +4,12 @@ import {IConsumer} from '../../../../interfaces/consumer';
 import {ServerService} from '../../../server.service';
 import {Observable} from 'rxjs';
 import {ConstantsService} from '../../../constants.service';
-import {ISessionItem, ISessions} from '../../../../interfaces/sessions';
+import {ISessionItem, ISessionMessage, ISessions} from '../../../../interfaces/sessions';
 import {of} from 'rxjs';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {IBot} from '../../interfaces/IBot';
 import {SmartTableComponent} from '../../../smart-table/smart-table.component';
+import {UtilityService} from '../../../utility.service';
 
 @Component({
   selector: 'app-bot-sessions',
@@ -37,6 +38,7 @@ export class BotSessionsComponent implements OnInit {
 
   constructor(
     private serverService: ServerService,
+    private utilityService: UtilityService,
     private constantsService: ConstantsService,
     private store: Store,
     private modalService: BsModalService
@@ -127,6 +129,37 @@ export class BotSessionsComponent implements OnInit {
       this.selectedRow_number = 9;
       this.indexOfCurrentRowSelected = 9;
     }
+  }
+
+  customActionEventsTriggeredInSessionsTable(data: { action: string, data: ISessionItem, source: any }) {
+    if (data.action === 'download') {
+      /*download the conversation for the record*/
+      this.loadSessionById(data.data.id)
+        .subscribe((value: any) => {
+          debugger;
+          let dataToDownload = value.objects;
+          if (dataToDownload.length === 0) {
+            dataToDownload = [{name:'No Data'}];
+            this.utilityService.downloadArrayAsCSV(dataToDownload, {name:'No Data'});
+          }else {
+            this.utilityService.downloadArrayAsCSV(dataToDownload);
+          }
+        });
+
+    }
+    if (data.action === 'dcrypt') {
+      /*use dcrypt api*/
+    }
+  }
+
+  sessionMessageData$;
+
+  loadSessionById(id) {
+    this.url = this.constantsService.getSessionsMessageUrl(id);
+    return this.serverService.makeGetReq<ISessionMessage>({
+      url: this.url,
+      headerData: {'bot-access-token': this.bot.bot_access_token}
+    });
   }
 
 }

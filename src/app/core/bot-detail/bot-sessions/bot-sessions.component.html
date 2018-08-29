@@ -1,6 +1,7 @@
 <div *ngIf="sessions">
   <app-smart-table [data]="sessions"
                    [totalRecords]="totalSessionRecords"
+                   (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
                    (rowClicked$)="goToReportEditComponent($event, template)"
                    (pageChanged$)="sessionTablePageChanged($event)"
                    [settings]="smartTableSettings_Sessions"></app-smart-table>

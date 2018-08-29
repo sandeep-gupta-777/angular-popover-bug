@@ -1,4 +1,4 @@
 
-<div class="grid-bot-preview" *ngIf="(codeBasedBotList$|async) as codeBasedBotList">
-  <app-bot-preview-card *ngFor="let bot of codeBasedBotList" [bot] = bot></app-bot-preview-card>
+<div class="grid-bot-preview" style="min-height: 80vh" *ngIf="(codeBasedBotList$|async|sortObjectArray) as codeBasedBotList">
+  <app-bot-preview-card *ngFor="let bot of codeBasedBotList|sortObjectArray" [bot] = bot></app-bot-preview-card>
 </div>

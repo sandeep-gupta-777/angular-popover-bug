@@ -23,7 +23,7 @@
                [(ngModel)]="key" name="key">
         <span>Concept Type</span>
         <!--<input type="text" class="concept" placeholder="Concept Type" [(ngModel)]="nerType"  name="nerType">-->
-        <select required [(ngModel)]="nerType" name="nerType" [disabled]="selectedRowData.created_at">
+        <select required [(ngModel)]="ner_type" name="ner_type" [disabled]="selectedRowData.created_at">
           <option value="single_match">Single Match</option>
           <option value="double_match">Double Match</option>
           <option value="with_metadata">With Metadata</option>
@@ -52,7 +52,7 @@
     </div>
 
     <div class="col-12 mt-2">
-      <div *ngIf="nerType==='single_match' ||nerType==='double_match' ||nerType==='with_metadata'; else table">
+      <div *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata'; else table">
         <div class="d-flex justify-content-end">
           <label for="uploadInput" class="btn btn-theme-primary-outline">Upload File
             <input type="file" hidden id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)'

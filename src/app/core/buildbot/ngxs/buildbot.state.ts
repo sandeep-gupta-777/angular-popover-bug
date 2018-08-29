@@ -15,25 +15,26 @@ import {
   SaveCodeInfo,
   SaveCustomnersInfo,
   SaveIntegrationInfo,
-  SavePipeLineInfo, SaveNewBotInfo_PipelineBased,
+  SavePipeLineInfo, SaveNewBotInfo_PipelineBased, ResetBuildBotToDefault,
 } from './buildbot.action';
 import {ConstantsService} from '../../../constants.service';
 import {buildPath} from 'selenium-webdriver/http';
 import {IAIModule} from '../../../../interfaces/ai-module';
-import { IBot, IBotCreation } from '../../interfaces/IBot';
+import {IBot, IBotCreation} from '../../interfaces/IBot';
 
 
 export interface IBotCreationState {
   codeBased: IBotCreation,
   pipeLineBased: IBotCreation
 }
+const defaultBuildBotState = {
+  codeBased: null,
+  pipeLineBased: null
+};
 
 @State<IBotCreationState>({
   name: 'botcreationstate',
-  defaults: {
-    codeBased: null,
-    pipeLineBased: null
-  }
+  defaults: defaultBuildBotState
 })
 
 export class BotCreationStateReducer {
@@ -67,8 +68,8 @@ export class BotCreationStateReducer {
     setState(x);
   }
 
-@Action(SaveDataManagment)
-saveDataManagment({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveDataManagment) {
+  @Action(SaveDataManagment)
+  saveDataManagment({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveDataManagment) {
     let state: IBotCreationState = getState();
     let x = {
       ...state,
@@ -120,7 +121,7 @@ saveDataManagment({patchState, setState, getState, dispatch}: StateContext<IBotC
           ...state.codeBased.code
           , ...payload.data.code
 
-      }
+        }
       }
     });
   }
@@ -137,8 +138,11 @@ saveDataManagment({patchState, setState, getState, dispatch}: StateContext<IBotC
     // setState({...state});
   }
 
-
-
+  @Action(ResetBuildBotToDefault)
+  resetBuildBotToDefault({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>) {
+    let state: IBotCreationState = getState();
+    patchState(defaultBuildBotState);
+  }
 
 
 }

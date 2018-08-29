@@ -3,13 +3,14 @@ import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {IUser} from '../interfaces/user';
 import {Router} from '@angular/router';
-import {ResetStoreToDefault} from '../../ngxs/app.action';
+import {ResetAppState, ResetStoreToDefault} from '../../ngxs/app.action';
 import {ResetChatState} from '../../chat/ngxs/chat.action';
 import {ResetBotListAction} from '../view-bots/ngxs/view-bot.action';
 import {ResetAuthToDefaultState} from '../../auth/ngxs/auth.action';
 import {ConstantsService} from '../../constants.service';
 import {ServerService} from '../../server.service';
 import {ResetEnterpriseUsersAction} from '../enterpriseprofile/ngxs/enterpriseprofile.action';
+import {ResetBuildBotToDefault} from '../buildbot/ngxs/buildbot.action';
 
 @Component({
   selector: 'app-header',
@@ -37,7 +38,9 @@ export class HeaderComponent implements OnInit {
       new ResetChatState(),
       new ResetBotListAction(),
       new ResetAuthToDefaultState(),
-      new ResetEnterpriseUsersAction()
+      new ResetEnterpriseUsersAction(),
+      new ResetBuildBotToDefault(),
+      new ResetAppState()
     ]);
     this.serverService.removeTokens();
     this.router.navigate(['auth','login']);

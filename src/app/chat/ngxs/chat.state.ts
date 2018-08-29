@@ -60,12 +60,15 @@ export class ChatSessionStateReducer {
   }
 
   @Action(SetCurrentBotID)
-  setCurrentBotID({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: SetCurrentBotID) {
+  setCurrentBotID(
+    {patchState, setState, getState, dispatch}: StateContext<IChatSessionState>,
+                  {payload}: SetCurrentBotID) {
     let state = getState();
     let bot_token: string;
     let bot_name: string;
     let botId: number = payload.bot_id;
     let bot_logo:string;
+    debugger;
     /*find token for a given timePeriod*/
     if (!payload.bot) {
       state.rooms.forEach((room) => {

@@ -11,12 +11,17 @@
   right: 0;
 
   .header-nav{
-    @include typography(13px, $line-height-normal, $font-weight-300, $color-text-normal);
+    @include typography(13px, $line-height-normal, $font-weight-300, $color-secondary);
+    text-decoration: none;
     .fa{
       font-size: 15px;
+      color: inherit!important;
     }
-
+    &:hover{
+      color: $color-primary !important;
+    }
   }
+
   .box-logo {
     width: 180px;
     border-right: solid 1px #e0e0e0;;

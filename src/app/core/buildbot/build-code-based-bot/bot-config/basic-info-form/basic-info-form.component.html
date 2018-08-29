@@ -3,17 +3,17 @@
     <div class="col-5 ">
       <div class="form-group">
         <label for="alterEgo">Bot Name</label>
-        <input ngModel="{{bot.name}}" name="name" type="text" class="form-control" placeholder="A display name for the bot" id="alterEgo">
+        <input [ngModel]="bot.name" name="name" type="text" class="form-control" placeholder="A display name for the bot" id="alterEgo">
       </div>
 
       <div class="form-group">
         <label for="alterEgo">Description</label>
-        <input ngModel="{{bot.description}}" name="description" type="text" class="form-control" placeholder="A description for the Bot" id="alterEgo">
+        <input [ngModel]="bot.description" name="description" type="text" class="form-control" placeholder="A description for the Bot" id="alterEgo">
       </div>
 
       <div class="form-group">
         <label for="alterEgo">Bot Logo Url</label>
-        <input ngModel="{{bot.logo}}" name="logo" type="text" class="form-control" placeholder="URL for the Bot Logo/Brand Image" id="alterEgo">
+        <input [ngModel]="bot.logo" name="logo" type="text" class="form-control" placeholder="URL for the Bot Logo/Brand Image" id="alterEgo">
       </div>
 
     </div>
@@ -26,7 +26,7 @@
 
       <div class="form-group">
         <label for="alterEgo">Session Close Time [mins]</label>
-        <input ngModel="{{bot.room_persistence_time}}" name="room_persistence_time" type="text" class="form-control" placeholder="Time until Session Closes (in minutes)" id="alterEgo">
+        <input [ngModel]="bot.room_persistence_time" name="room_persistence_time" type="number" class="form-control" placeholder="Time until Session Closes (in minutes)" id="alterEgo">
       </div>
       <!-- <div class="form-group">
         <label for="alterEgo">Is Manager Bot</label>
@@ -46,14 +46,14 @@
         </select>
       </div> -->
 
-      <div class="btn-group" dropdown *ngIf = "isManager">
-          <button id="button-basic" dropdownToggle type="button" 
-          class="btn dropdown-toggle"
+      <div class="btn-group mb-1" dropdown *ngIf = "isManager">
+          <button id="button-basic" dropdownToggle type="button"
+          class="btn dropdown-toggle btn-theme-success-sm-outline"
           aria-controls="dropdown-basic">
             Bot List<span class="caret"></span>
           </button>
           <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
-              role="menu" aria-labelledby="button-basic">
+              role="menu" aria-labelledby="button-basic" style="max-height: 200px; overflow-y: scroll">
             <li role="menuitem" *ngFor="let bot of (allbotList$ | async); let i = index;">
               <a class="dropdown-item" (click)="addChildBot(bot)"
               *ngIf = "!wannaDisable(bot.id)"
@@ -62,7 +62,7 @@
           </ul>
         </div>
         <!-- <p>{{bot.child_bots|json}}</p> -->
-        <div *ngIf = "isManager">
+        <div *ngIf = "isManager" class="permissions-box">
             <span *ngFor="let childBotId of bot.child_bots"
             class="badge badge-pill badge-info inline m-1">{{childBotId | botIdToName | async}}
               <span class="fa fa-remove cursor-pointer" (click)="removeChildBot(childBotId)"></span>

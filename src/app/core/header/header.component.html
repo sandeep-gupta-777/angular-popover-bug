@@ -53,7 +53,8 @@
         <span dropdownToggle class="box-details__dropdown d-flex align-items-center"><i class="fa fa-chevron-down"></i></span>
         <ul *dropdownMenu  class="dropdown-menu dropdown-menu-right" role="menu">
           <li role="menuitem"><a class="dropdown-item" [routerLink]="['profile']">Profile</a></li>
-          <li role="menuitem"><a class="dropdown-item" (click)="logout()">Signout</a></li>
+          <li role="menuitem"><a class="dropdown-item cursor-pointer" (click)="logout()">Signout</a></li>
+          <li class="divider dropdown-divider"></li>
           <li role="menuitem"><a class="dropdown-item" [routerLink]="['enterpriseprofile']">Enterprise Profile</a></li>
         </ul>
       </div>

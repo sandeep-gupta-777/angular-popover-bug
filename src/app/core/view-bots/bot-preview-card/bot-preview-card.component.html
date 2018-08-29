@@ -86,7 +86,7 @@
     </div>
     <div class="d-flex flex-column">
       <div class="heading">{{bot.name}}</div>
-      <div class="description">{{bot.description}}
+      <div class="description limit-oneline">{{bot.description}}
       </div>
     </div>
     <i class="fa fa-users ml-auto" [hidden]="bot.child_bots.length===0" style="color: #9b9b9b"></i>
@@ -121,7 +121,7 @@
     <div class="date-protection mb-3">Advance Data Protection :
       <strong>{{bot.advanced_data_protection?"ON":"OFF"}}</strong></div>
     <div class="d-flex bot-strip align-items-center">
-      <div class="pr-1 border-right">
+      <div class="pr-1 " [ngClass]="{'border-right':(bot.integrations|integrationImageCount)>0}">
         <div class="active-button px-1 border-right d-flex justify-content-center align-items-center">Active
           ({{bot.active_version_id}})
         </div>
@@ -132,7 +132,8 @@
            style="width: 16px;height: 16px"
            alt="">
 
-      <span *ngIf="(bot.integrations|integrationImageCount)>4" class="more ml-auto">+{{(bot.integrations|integrationImageCount)}} More</span>
+      <span *ngIf="(bot.integrations|integrationImageCount)>4"
+            class="more ml-auto">+{{(bot.integrations|integrationImageCount)-4}} More</span>
     </div>
   </div>
   <!---->

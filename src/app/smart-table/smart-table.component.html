@@ -1,4 +1,9 @@
-<ng2-smart-table class="" [settings]="settings" [source]="source" (userRowSelect)="onUserRowSelect($event)"></ng2-smart-table>
+<ng2-smart-table
+  class=""
+  [settings]="settings"
+  [source]="source"
+  (custom)="customActionEvents.emit($event)"
+  (userRowSelect)="onUserRowSelect($event)"></ng2-smart-table>
 
 <ul class="pagination pagination-sm justify-content-center my-2" *ngIf="paginationArr && paginationArr.length>=2">
   <li class="page-item" [ngClass]="{'text-muted':currentPage<=1}"><a class="page-link" (click)="goToPrevPage()">Previous</a></li>

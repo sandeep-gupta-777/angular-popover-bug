@@ -18,6 +18,8 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   @Input() columns: any[];
   @ViewChild('handsontable') hotTableComponentTest: ElementRef;
   @Input() set testData(value) {
+    debugger;
+    this._data = value;
     if (value && value.length>0 && this.hot) {
       this.hot.getInstance().loadData(value);
       this.hot.getInstance().render();
@@ -26,7 +28,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
 
 
   hot: any;
-  _data: [string[]] = [["","",""]];
+  _data: [string[]] = [["blank","",""]];
 
   public options: any;
 

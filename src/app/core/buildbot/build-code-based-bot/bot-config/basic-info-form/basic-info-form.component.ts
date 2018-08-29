@@ -31,7 +31,7 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
     }
     this.allbotList$ = this.botlist$.map((botlist)=>{
       return botlist.allBotList;
-    }) 
+    })
   }
 
   ngAfterViewInit(): void {
@@ -39,7 +39,7 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
     this.f.valueChanges.debounceTime(1000).subscribe((data:Partial<IBot>) => {
       console.log(this.f);
       if(!this.f.dirty) return;
-      // this.store.dispatch(new SaveBasicInfo({data:data}));
+      debugger;
       this.datachanged$.emit(data);
     });
   }
@@ -48,7 +48,7 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
     this.bot.child_bots.push(childBot.id);
   }
 
-  removeChildBot(childBotId): void{  
+  removeChildBot(childBotId): void{
     for(let i=0; i<this.bot.child_bots.length;i++){
       if(this.bot.child_bots[i] === childBotId){
         this.bot.child_bots.splice(i,1);

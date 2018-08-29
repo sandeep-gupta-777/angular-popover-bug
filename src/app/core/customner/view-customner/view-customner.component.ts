@@ -34,7 +34,7 @@ export class ViewCustomnerComponent implements OnInit {
     this.getNers(10, pageNumber);
   }
 
-  getNers(limit: number = 10, offset: number = 0) {
+  getNers(limit: number = 100, offset: number = 0) {
     let getEnterpriseNerUrl = this.constantsService.getEnterpriseNer(limit, offset);
     this.serverService.makeGetReq<{ meta: any, objects: ICustomNerItem[] }>({url: getEnterpriseNerUrl})
       .subscribe((value) => {
