@@ -222,7 +222,7 @@ export class ConstantsService {
 
   /*Pipeline*/
   getAllPipelineModuleUrl() {
-    return this.BACKEND_URL + `api/v1/pipelinemodule/`; //https://dev.imibot.ai/api/v1/pipelinemodule/
+    return this.BACKEND_URL + `api/v1/pipelinemodule/?limit=200&offset=0`; //https://dev.imibot.ai/api/v1/pipelinemodule/
   }
 
   /*Enterprise NER*/

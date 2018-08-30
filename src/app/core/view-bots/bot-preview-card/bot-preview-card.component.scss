@@ -1,31 +1,91 @@
 @import '~src/sass/main';
 
-.grid-bot-preview {
+.grid-bot-preview-two{
   display: grid;
   width: 100%;
-  height: 176px;
-  grid-template-columns: 56px 1fr 14px 36px;
-  grid-template-rows: 1fr 1fr;
-  grid-template-areas:
-    'ct ct ct ct'
-    'cb cb cb cb';
+  height: 184px;
+  grid-template-columns: 56px 1fr 36px;
+  grid-template-rows: auto 1fr 38px auto;
+  grid-row-gap: 3px;
+  font-family: Helvetica;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border: solid 2px #ffffff;
+    border-radius:2px;
+  &:hover{
+    border: solid 2px #e0e0e0;
+    border-radius:2px; 
+  }
+  
+}
+.grid-bot-preview-second-row{
+  grid-row: 2 / 3;
+}
+.grid-bot-preview-version{
+  grid-column: 1 / 4;
+  border-bottom: solid 2px #e0e0e0;
+  font-family: Helvetica;
+  .fa-circle{
+    color: #34bc6e;
+    align-self: end;
+  }
+}
+.grid-bot-preview-img{
+  grid-column: 1 / 2;
+  
+}
+.grid-bot-preview-details{
+  grid-column: 2 / 4;
+  font-size: 11px ;
+  color: #474747;
+  div{
+    font-size: 11px ;
+  }
+}
+.grid-bot-preview-name{
+  grid-column: 2 / 3;
+  overflow: hidden;
+}
+.grid-bot-preview-third-row{
+  grid-row: 3 / 4;
+}
+.grid-bot-preview-forth-row{
+  grid-row: 4 / 5;
+  grid-column: 1 / 5;
+  button{
+    height: 24px !important;
+  }
+  div{
+    @include typography(13px, $line-height-normal, $font-weight-300, #00abd3);
+  }
 }
 
-.top {
-  grid-area: ct;
-  padding: 16px 16px 0 16px;
+// .grid-bot-preview {
+//   display: grid;
+//   width: 100%;
+//   height: 176px;
+//   grid-template-columns: 56px 1fr 14px 36px;
+//   grid-template-rows: 1fr 1fr;
+//   grid-template-areas:
+//     'ct ct ct ct'
+//     'cb cb cb cb';
+// }
 
-}
+// .top {
+//   grid-area: ct;
+//   padding: 16px 16px 0 16px;
 
-.bot {
-  grid-area: cb;
-  padding: 0 16px 16px 16px;
+// }
 
-}
+// .bot {
+//   grid-area: cb;
+//   padding: 0 16px 16px 16px;
 
-.heading {
-  margin-bottom: 4px;
-}
+// }
+
+// .heading {
+//   margin-bottom: 4px;
+// }
 
 .description, .unique-name, .date-protection,.active-button {
   @include typography(11px, 1.45, $font-weight-300, $color-text-normal);
@@ -72,6 +132,12 @@
 .logo-image{
   margin-right: 2px;
   margin-left: 2px;
+}
+
+
+
+.dropdown-menu{
+  position:absolute;left: -164px !important;;
 }
 .limit-oneline{
   max-width: 185px;//override

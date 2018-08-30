@@ -12,8 +12,7 @@ export class BotIdToNamePipe implements PipeTransform {
   transform(id: any, args?: any): any {
     return this.botlist$.map((botlist)=>{
       return botlist.allBotList.find((bot)=>bot.id === id).name;
-    })
-    // return null;
+    });
   }
 
 }
