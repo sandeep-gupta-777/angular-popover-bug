@@ -15,6 +15,7 @@ import {IBot, IBotResult} from './core/interfaces/IBot';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SetMasterIntegrationsList, SetProgressValue} from './ngxs/app.action';
 import {IIntegrationMasterListItem, IIntegrationOption} from '../interfaces/integration-option';
+import {ICustomNerItem} from '../interfaces/custom-ners';
 
 @Injectable({
   providedIn: 'root'
@@ -180,4 +181,24 @@ export class ServerService {
     ]);
 
   }
-};
+
+  updateOrSaveCustomNer(selectedOrNewRowData: ICustomNerItem, bot?:IBot) {
+    let body: ICustomNerItem;
+    let headerData: IHeaderData = {'bot-access-token': bot && bot.bot_access_token};
+    let url, methodStr;
+    if (selectedOrNewRowData && selectedOrNewRowData.id) {/*update customner*/
+      url = this.constantsService.updateCustomBotNER(selectedOrNewRowData.id);
+      methodStr = 'makePutReq';
+      body = {
+        values: selectedOrNewRowData.values,
+        column_headers: selectedOrNewRowData.column_headers
+      };
+    } else {/*create a new customner*/
+      url = this.constantsService.createNewCustomBotNER();
+      methodStr = 'makePostReq';
+      body = selectedOrNewRowData;
+    }
+    return this[methodStr]({url, body, headerData});
+  }
+
+}

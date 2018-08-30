@@ -7,7 +7,7 @@ import {EChatFrame} from '../../../../interfaces/chat-session-state';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Store} from '@ngxs/store';
-import {ChangeFrameAction, SetCurrentBotID, ToggleChatWindow} from '../../../chat/ngxs/chat.action';
+import {ChangeFrameAction, DeleteChatRoomsByBotId, SetCurrentBotID, ToggleChatWindow} from '../../../chat/ngxs/chat.action';
 import {ConstantsService} from '../../../constants.service';
 import {ServerService} from '../../../server.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
@@ -68,6 +68,10 @@ export class BotPreviewCardComponent implements OnInit {
       .subscribe((value)=>{
         this.serverService.getNSetBotList()
           .subscribe(()=>{
+            this.utilityService.showSuccessToaster("Bot successfully deleted!");
+            this.store.dispatch([
+              new DeleteChatRoomsByBotId({id: this.bot.id})
+            ])
           })
       })
   }

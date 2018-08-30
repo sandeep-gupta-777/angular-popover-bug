@@ -4,8 +4,11 @@
   </div>
   <div class="col-12" style="min-height: 100px">
     <app-knowledge-base
-      [custumNerDataForSmartTable]="enterpriseNerData"
+      [custumNerDataForSmartTable]="custumNerDataForSmartTable"
+      (updateOrSaveParentNers$)="updateOrSaveCustomNer($event)"
       (pageChanged$)="pageChanged$($event)"
+      [totalRecords]="totalRecords"
+      [currentPageNumber]="currentPageNumber"
     ></app-knowledge-base>
   </div>
 </div>

@@ -8,7 +8,7 @@ import {
   SetCurrentBotID,
   SetCurrentUId,
   SetCurrentRoomID,
-  ToggleChatWindow, AttachRoomIdToRoomByUId, SetLastTemplateKeyToRoomByUId
+  ToggleChatWindow, AttachRoomIdToRoomByUId, SetLastTemplateKeyToRoomByUId, DeleteChatRoomsByBotId
 } from './chat.action';
 import {EChatFrame, IChatSessionState, IRoomData} from '../../../interfaces/chat-session-state';
 import {isNullOrUndefined} from 'util';
@@ -159,6 +159,19 @@ export class ChatSessionStateReducer {
   resetChatState({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>) {
     let state: IChatSessionState = getState();
     setState({...defaultChatState});
+  }
+
+  @Action(DeleteChatRoomsByBotId)
+  deleteRoomsByBotId({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: DeleteChatRoomsByBotId) {
+    let state = getState();
+    let rooms = state.rooms;
+    let botId =payload.id;
+    rooms && (rooms.forEach((room, index) => {
+      if(room.id=== botId){
+        rooms.splice(index, 1);
+      }
+    }));
+    setState({...state});
   }
 
 

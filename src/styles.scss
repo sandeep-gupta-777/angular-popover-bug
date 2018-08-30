@@ -77,6 +77,10 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
   background-color: $color-primary;
 }
 
+.bg-theme-secondary {
+  background-color: $color-secondary;
+}
+
 .shadow-theme-hover:hover {
   box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.2);
 }
@@ -526,4 +530,8 @@ progressbar {
 .text-highlight{
   background-color: yellow;
   color: #474747;
+}
+
+.hightlight-created-row{
+  background-color: greenyellow;
 }

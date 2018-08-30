@@ -4,10 +4,12 @@
     <button class="btn-theme-primary" (click)="reinitialise()">Create Concept</button>
   </div>
   <div class="col-12">
-    <app-smart-table *ngIf="custumNerDataForSmartTable"
-                     [data]="custumNerDataForSmartTable"
+    <app-smart-table *ngIf="_custumNerDataForSmartTable"
+                     [data]="_custumNerDataForSmartTable"
                      [settings]="settings"
+                     [totalRecords]="totalRecords"
                      (pageChanged$)="pageChanged($event)"
+                     [currentPage]="currentPageNumber"
                      (rowClicked$)="rowClicked($event)"></app-smart-table>
   </div>
 </div>
@@ -16,7 +18,7 @@
 <app-knowledge-base-presentation
   [selectedRowData]="selectedRowData"
   [handsontableData]="handontableData"
-  (showTable$)="showTable=true"
+  (showTable$)="showNerSmartTable()"
   (updateOrSaveConcept$)="updateOrSaveConcept($event)"
 ></app-knowledge-base-presentation>
 </ng-template>
