@@ -16,6 +16,30 @@ export class IntegrationLogosPipe implements PipeTransform {
       ...integrationOption.fulfillment_provider_details,
       ...integrationOption.ccsp_details,
     };
+    ;
+    /*remove the integration key if its not enabled*/
+    for (let key in integrations) {
+
+        try{
+          if(!integrations[key].enabled){
+            delete integrations[key]
+          }
+        }catch (e) {
+          console.log(e);
+        }
+
+      // for (let key in integrations[integration]){
+      //   try{
+      //     if(!integrations[integration][key].enabled){
+      //       delete integrations[integration][key]
+      //     }
+      //   }catch (e) {
+      //     console.log(e);
+      //   }
+      // }
+    }
+
+    ;
     if(!Object.keys(integrations) || Object.keys(integrations).length ===0) return;
     return this.app$.map((value)=>{
       let integrationsMasterList = value.masterIntegrationList;

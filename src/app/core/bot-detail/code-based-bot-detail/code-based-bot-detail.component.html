@@ -91,14 +91,14 @@
              queryParamsHandling="merge"
              replaceUrl="true"
              (click)="tabChanged('sessions')"
-             [queryParams]="{build:'sessions'}"><strong>Session</strong></a>
+             [queryParams]="{build:'sessions'}"><strong>Sessions</strong></a>
         </li>
         <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='consumer'}">
           <a class="nav-link heading" [routerLink]="['.']"
              queryParamsHandling="merge"
              replaceUrl="true"
              (click)="tabChanged('consumer')"
-             [queryParams]="{build:'consumer'}"><strong>Consumer</strong></a>
+             [queryParams]="{build:'consumer'}"><strong>Consumers</strong></a>
         </li>
       </ul>
 

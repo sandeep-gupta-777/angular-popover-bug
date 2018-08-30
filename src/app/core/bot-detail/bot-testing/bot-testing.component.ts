@@ -19,7 +19,7 @@ export class BotTestingComponent implements OnInit {
   testCases$: Observable<[string, string, string][]>;
   handontable_colHeaders;
   handontable_column;
-  testCaseData: [string, string, string][] = [];
+  testCaseData: [string, string, string][] = [["","",""]];
   testCasesUrl = this.constantsService.getBotTestingUrl();
   testCaseId: number;
   isData: boolean = false;
@@ -43,7 +43,6 @@ export class BotTestingComponent implements OnInit {
   }
 
   ngOnInit() {
-    // ;
     this.serverService.makeGetReq<{ meta: any, objects: ITestcases[] }>(
       {
         url: this.testCasesUrl,
@@ -56,20 +55,21 @@ export class BotTestingComponent implements OnInit {
     //   });
     // })
       .subscribe((value) => {
-        ;
-        if (value.objects.length === 0) {
-          this.isData = false;
-        }
-        else {
-          this.isData = true;
+        // if (value.objects.length === 0) {
+        //   this.isData = false;
+        // }
+        // else {
+        //   this.isData = true;
           // let testCaseData = value.objects[0].data;
           let testCaseDataForBot: ITestcases = value.objects.find((testcase)=>{
             return testcase.bot_id === this.bot.id
           });
-          this.testCaseData = (testCaseDataForBot && testCaseDataForBot.data && testCaseDataForBot.data.length>0)?testCaseDataForBot.data:  [['hi', 'hi', '']];
+          debugger;
+          this.testCaseData =
+            (testCaseDataForBot && testCaseDataForBot.data && testCaseDataForBot.data.length>0)?testCaseDataForBot.data:  [['NO_TEST_DATA', 'NO_TEST_DATA', 'NO_TEST_DATA']];
           // this.testCaseId = value.objects[0].id;
-          this.testCaseId = testCaseDataForBot && testCaseDataForBot.id;
-        }
+          this.testCaseId = testCaseDataForBot && testCaseDataForBot.id ;
+        // }
       });
     this.handontable_colHeaders = this.constantsService.HANDSON_TABLE_BOT_TESTING_colHeaders;
     this.handontable_column = this.constantsService.HANDSON_TABLE_BOT_TESTING_columns;

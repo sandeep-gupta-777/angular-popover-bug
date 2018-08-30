@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {IBot} from '../../interfaces/IBot';
-import {ViewBotStateReducer} from '../ngxs/view-bot.state';
+import {ViewBotStateModel, ViewBotStateReducer} from '../ngxs/view-bot.state';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -11,13 +11,16 @@ import {Observable} from 'rxjs';
 })
 export class ViewCodeBasedBotComponent implements OnInit, OnDestroy {
 
-  @Select(ViewBotStateReducer.getCodeBased)  codeBasedBotList$ : Observable<IBot>;
+  @Select() botlist$: Observable<ViewBotStateModel>;
+  codeBasedBotList$: Observable<IBot[]>;
+
   constructor(private store: Store) {
   }
 
-  ngOnInit(){
-    this.codeBasedBotList$.subscribe((value)=>{
-    });
+  ngOnInit() {
+    this.codeBasedBotList$ = this.botlist$
+      .do((value)=>{;return value})
+      .map((value) => value.allBotList && value.allBotList.filter((bot) => bot.bot_type === 'chatbot'));
   }
 
   ngOnDestroy(): void {

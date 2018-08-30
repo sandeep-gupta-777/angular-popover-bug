@@ -177,6 +177,25 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
   width: 70px;
 }
 
+.btn-theme-success-sm-outline {
+  background-color: white !important;
+  border-radius: 2px;
+  border: 1px solid;
+  font-size: $font-size-xs;
+  color: $color-primary;
+
+  padding: 1px 5px;
+  height: 23px !important;
+  font-size: $font-size-xs;
+  width: 70px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 h4 {
   @include typography($font-size-lg, $line-height-md, $font-weight-700, $color-text-grey);
 }
@@ -199,9 +218,9 @@ h4 {
   border: none;
 }
 
-.table td, .table th {
-  vertical-align: middle !important;
-}
+//.table td, .table th {
+//  vertical-align: middle !important;
+//}
 
 th, td {
   text-align: center;

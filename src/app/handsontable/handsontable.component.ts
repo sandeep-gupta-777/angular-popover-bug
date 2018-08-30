@@ -17,7 +17,11 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   @Input() colHeaders: string[];
   @Input() columns: any[];
   @ViewChild('handsontable') hotTableComponentTest: ElementRef;
+  @ViewChild('handsontable_search_field') hotTableSearchField: ElementRef;
+  HandsontableComponent = this;
   @Input() set testData(value) {
+    ;
+    this._data = value;
     if (value && value.length>0 && this.hot) {
       this.hot.getInstance().loadData(value);
       this.hot.getInstance().render();
@@ -26,7 +30,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
 
 
   hot: any;
-  _data: [string[]] = [["","",""]];
+  _data: [string[]] = [["blank","",""]];
 
   public options: any;
 
@@ -43,12 +47,22 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.hot = new Handsontable(this.hotTableComponentTest.nativeElement, {
+    let searchField = this.hotTableSearchField.nativeElement;
+    let hot = this.hot = new Handsontable(this.hotTableComponentTest.nativeElement, {
       data: this._data   ,
       rowHeaders: true,
       ...this.options,
       colHeaders: this.colHeaders,
-      contextMenu: true
+      contextMenu: true,
+      search: true
+    });
+
+    (<any>Handsontable.dom).addEvent(searchField, 'keyup', function (event) {
+      let search = hot.getPlugin('search');
+      let queryResult = (<any>search).query(this.value);
+
+      console.log(queryResult);
+      hot.render();
     });
   }
 }

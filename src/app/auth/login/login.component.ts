@@ -9,6 +9,8 @@ import {IHeaderData} from '../../../interfaces/header-data';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {UtilityService} from '../../utility.service';
+import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
+import {SetEnterpriseInfoAction} from '../../core/enterpriseprofile/ngxs/enterpriseprofile.action';
 
 @Component({
   selector: 'app-login',
@@ -17,22 +19,24 @@ import {UtilityService} from '../../utility.service';
 })
 export class LoginComponent implements OnInit {
 
-  panelActive ='login';
-  errorMessage = "";
+  panelActive = 'login';
+  errorMessage = '';
+
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
     private router: Router,
-    private utilityService:UtilityService,
-    private store: Store) { }
+    private utilityService: UtilityService,
+    private store: Store) {
+  }
 
 
-  @ViewChild('heroForm') f : HTMLFormElement;
+  @ViewChild('heroForm') f: HTMLFormElement;
 
   ngOnInit() {
   }
 
-  onSubmit(){
+  onSubmit() {
     let loginData = this.f.value;
     let loginUrl = this.constantsService.getLoginUrl();
     // let headerData:IHeaderData = {'api-key': '54asdkj1209nksnda',"content-type":'application/x-www-f-urlencoded'};
@@ -45,28 +49,36 @@ export class LoginComponent implements OnInit {
     // };
     let body;
     ;
-    if(this.f.valid){
+    if (this.f.valid) {
 
       body = this.f.value;
-    }else{
-      this.errorMessage = "Details not valid";
-      setTimeout(()=>{this.errorMessage = ""},3000);
+    } else {
+      this.errorMessage = 'Details not valid';
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 3000);
       return;
     }
 
 
-    this.serverService.makePostReq<IUser>({url:loginUrl, body})
-      .subscribe((user)=>{
-        this.store.dispatch([
-          new SetUserAction({user}),
-          // new NavigateAction({route:'/'})
-        ]);
+    this.serverService.makePostReq<IUser>({url: loginUrl, body})
+      .subscribe((user) => {
+          this.store.dispatch([
+            new SetUserAction({user}),
+          ]);
           this.router.navigate(['/']);
-      }
-      )
+          let enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(user.enterprise_id);
+          this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
+          .subscribe((value: IEnterpriseProfileInfo) => {
+            this.store.dispatch([
+              new SetEnterpriseInfoAction({enterpriseInfo: value})
+            ]);
+          });
+        }
+      );
   }
 
-  showPanel(panel){
+  showPanel(panel) {
     this.panelActive = panel;
   }
 

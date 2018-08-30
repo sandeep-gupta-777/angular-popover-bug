@@ -6,6 +6,7 @@ import {SetBackendURlRoot} from '../ngxs/app.action';
 import {Observable} from 'rxjs';
 import {IAuthState} from '../auth/ngxs/auth.state';
 import {IAppState} from '../ngxs/app.state';
+import {UtilityService} from '../utility.service';
 
 @Component({
   selector: 'app-backend-dev',
@@ -16,6 +17,7 @@ export class BackendDevComponent implements OnInit {
 
   constructor(
     private modalService: BsModalService,
+    private utilityService: UtilityService,
     private store: Store,
   ) { }
   modalRef: BsModalRef;
@@ -24,7 +26,6 @@ export class BackendDevComponent implements OnInit {
   @Select() app$:Observable<IAppState>;
   ngOnInit() {
     this.app$.subscribe((value)=>{
-      ;
       this.backend_root_url = value.backendUrlRoot;
     });
   }
@@ -37,6 +38,10 @@ export class BackendDevComponent implements OnInit {
     this.store.dispatch([
       new SetBackendURlRoot({url:this.backend_root_url})
     ])
+      .subscribe((value)=>{
+        this.utilityService.showSuccessToaster("Backend root url changed!");
+        this.modalRef.hide();
+      });
   }
 
 }

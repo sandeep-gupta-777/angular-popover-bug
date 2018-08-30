@@ -2,74 +2,74 @@
   <h4 class="m-0">Create Bot</h4>
   <button class="btn btn-theme-primary" (click)="createBot()">Create Bot</button>
 </div>
-<app-bot-config  (datachanged$)="datachanged($event)" [bot]="bot"></app-bot-config>
-
-<div class="row m-0 mt-3 p-3 bg-white shadow-theme" >
-  <div class="col-12">
-    <ul class="nav nav-tabs theme-tabbing mb-2">
-      <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='architecture'}">
-        <a class="nav-link heading" [routerLink]="['.']"
-           queryParamsHandling="merge"
-           replaceUrl="true"
-           (click)="tabChanged('architecture')"
-           [queryParams]="{build:'architecture'}"><strong>Bot Architecture</strong></a>
-      </li>
-    </ul>
-
-  </div>
-  <!---->
-  <!-- tab end -->
-  <!-- architr start -->
-  <div class="col-12 architeture-body">
-    <div class="d-flex row-body bg-white mt-2">
-
-      <div class="side-bar  border-right">
-        <div class="sidebar-content">
-          <a routerLink="."
-             [queryParams]="{'build-tab':'pipeline'}"
-             queryParamsHandling="merge"
-             [ngClass]="{'font-weight-bold':selectedSideBarTab==='pipeline'}"
-             (click)="selectedSideBarTab='pipeline'"
-             class="tab-theme font-weight-bold">Pipeline
-          </a>
-          <div routerLink="."
-               [queryParams]="{'build-tab':'knowledge'}"
-               queryParamsHandling="merge"
-               [ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"
-               (click)="selectedSideBarTab='knowledge'"
-               class="tab-theme">Knowledge base
-          </div>
-          <div routerLink="."
-               [queryParams]="{'build-tab':'code'}"
-               queryParamsHandling="merge"
-               [ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"
-               (click)="selectedSideBarTab='code'"
-               class="tab-theme">Code
-          </div>
-          <div routerLink="."
-               [queryParams]="{'build-tab':'integration'}"
-               queryParamsHandling="merge"
-               [ngClass]="{'font-weight-bold':selectedSideBarTab==='integration'}"
-               (click)="selectedSideBarTab='integration'"
-               class="tab-theme">Integration
-          </div>
-        </div>
-      </div>
-      <div class="p-2" style="width: 85%;">
-        <app-pipeline *ngIf="selectedSideBarTab==='pipeline'"></app-pipeline>
-        <!--<app-knowledge-base *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base>-->
-        <div class="d-flex justify-content-center align-items-center"
-             style="height: 100%"
-             *ngIf="selectedSideBarTab==='knowledge' || selectedSideBarTab==='code'">
-            <h4 class="text-muted">Please create the bot to enable this section</h4>
-        </div>
-
-        <!--<app-code-input *ngIf="selectedSideBarTab==='code'"></app-code-input>-->
-        <app-integration-option-list (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='integration'"></app-integration-option-list>
-      </div>
-
-    </div>
-
-  </div>
-
+<div class="shadow-theme">
+  <app-bot-config  (datachanged$)="datachanged($event)" [bot]="bot"></app-bot-config>
 </div>
+<!--<div class="row m-0 mt-3 p-3 bg-white shadow-theme" >-->
+  <!--<div class="col-12">-->
+    <!--<ul class="nav nav-tabs theme-tabbing mb-2">-->
+      <!--<li class="nav-item" [ngClass]="{'tab-active':selectedTab==='architecture'}">-->
+        <!--<a class="nav-link heading" [routerLink]="['.']"-->
+           <!--queryParamsHandling="merge"-->
+           <!--replaceUrl="true"-->
+           <!--(click)="tabChanged('architecture')"-->
+           <!--[queryParams]="{build:'architecture'}"><strong>Bot Architecture</strong></a>-->
+      <!--</li>-->
+    <!--</ul>-->
+
+  <!--</div>-->
+  <!--&lt;!&ndash; tab end &ndash;&gt;-->
+  <!--&lt;!&ndash; architr start &ndash;&gt;-->
+  <!--<div class="col-12 architeture-body">-->
+    <!--<div class="d-flex row-body bg-white mt-2">-->
+
+      <!--<div class="side-bar  border-right">-->
+        <!--<div class="sidebar-content">-->
+          <!--<a routerLink="."-->
+             <!--[queryParams]="{'build-tab':'pipeline'}"-->
+             <!--queryParamsHandling="merge"-->
+             <!--[ngClass]="{'font-weight-bold':selectedSideBarTab==='pipeline'}"-->
+             <!--(click)="selectedSideBarTab='pipeline'"-->
+             <!--class="tab-theme font-weight-bold">Pipeline-->
+          <!--</a>-->
+          <!--<div routerLink="."-->
+               <!--[queryParams]="{'build-tab':'knowledge'}"-->
+               <!--queryParamsHandling="merge"-->
+               <!--[ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"-->
+               <!--(click)="selectedSideBarTab='knowledge'"-->
+               <!--class="tab-theme">Knowledge base-->
+          <!--</div>-->
+          <!--<div routerLink="."-->
+               <!--[queryParams]="{'build-tab':'code'}"-->
+               <!--queryParamsHandling="merge"-->
+               <!--[ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"-->
+               <!--(click)="selectedSideBarTab='code'"-->
+               <!--class="tab-theme">Code-->
+          <!--</div>-->
+          <!--<div routerLink="."-->
+               <!--[queryParams]="{'build-tab':'integration'}"-->
+               <!--queryParamsHandling="merge"-->
+               <!--[ngClass]="{'font-weight-bold':selectedSideBarTab==='integration'}"-->
+               <!--(click)="selectedSideBarTab='integration'"-->
+               <!--class="tab-theme">Integration-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="p-2" style="width: 85%;">-->
+        <!--<app-pipeline *ngIf="selectedSideBarTab==='pipeline'"></app-pipeline>-->
+        <!--&lt;!&ndash;<app-knowledge-base *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base>&ndash;&gt;-->
+        <!--<div class="d-flex justify-content-center align-items-center"-->
+             <!--style="height: 100%"-->
+             <!--*ngIf="selectedSideBarTab==='knowledge' || selectedSideBarTab==='code'">-->
+            <!--<h4 class="text-muted">Please create the bot to enable this section</h4>-->
+        <!--</div>-->
+
+        <!--&lt;!&ndash;<app-code-input *ngIf="selectedSideBarTab==='code'"></app-code-input>&ndash;&gt;-->
+        <!--<app-integration-option-list (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='integration'"></app-integration-option-list>-->
+      <!--</div>-->
+
+    <!--</div>-->
+
+  <!--</div>-->
+
+<!--</div>-->

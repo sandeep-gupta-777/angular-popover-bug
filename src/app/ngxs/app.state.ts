@@ -1,7 +1,7 @@
 import {Action, NgxsOnInit, Selector, State, StateContext, Store} from '@ngxs/store';
 import {
   ResetAppState,
-  ResetStoreToDefault, SetBackendURlRoot,
+  ResetStoreToDefault, SetBackendURlRoot, SetEnterpriseNerData,
   SetLastSateUpdatedTimeAction,
   SetMasterIntegrationsList,
   SetMasterProfilePermissions,
@@ -15,6 +15,7 @@ import {defaultChatState} from '../chat/ngxs/chat.state';
 import {IIntegrationMasterListItem} from '../../interfaces/integration-option';
 import {IProfilePermission} from '../../interfaces/profile-action-permission';
 import {stringify} from 'querystring';
+import {ICustomNerItem} from '../../interfaces/custom-ners';
 
 
 export interface IAppState /*extends INavigationState, IAuthState */
@@ -27,27 +28,26 @@ export interface IAppState /*extends INavigationState, IAuthState */
   },
   masterIntegrationList: IIntegrationMasterListItem[],
   masterProfilePermissions: IProfilePermission[],
-  backendUrlRoot:string
+  backendUrlRoot:string,
+  enterpriseNerData:ICustomNerItem[]
 }
 
 const appDefaultState = {
-  chatsessionstate: defaultChatState
-
+  lastUpdated: 0,
+  progressbar: {
+    show: false,
+    loading: false,
+    value: 0
+  },
+  masterIntegrationList: null,
+  masterProfilePermissions:null,
+  backendUrlRoot:'https://dev.imibot.ai/',
+  enterpriseNerData:[]
 };
 
 @State<IAppState>({
   name: 'app',
-  defaults: {
-    lastUpdated: 0,
-    progressbar: {
-      show: false,
-      loading: false,
-      value: 0
-    },
-    masterIntegrationList: null,
-    masterProfilePermissions:null,
-    backendUrlRoot:'https://dev.imibot.ai/'
-  }
+  defaults: appDefaultState
 })//same as reducer
 export class AppStateReducer {
 
@@ -59,11 +59,11 @@ export class AppStateReducer {
     console.log('resetting state', getState());
   }
 
-  @Action(ResetStoreToDefault)
-  resetStoreToDefault({patchState, setState, getState, dispatch,}: StateContext<any>) {
-    this.store.reset(appDefaultState);
-    console.log('resetting state', getState());
-  }
+  // @Action(ResetStoreToDefault)
+  // resetStoreToDefault({patchState, setState, getState, dispatch,}: StateContext<any>) {
+  //   this.store.reset(appDefaultState);
+  //   console.log('resetting state', getState());
+  // }
 
   @Action(SetProgressValue)
   SetProgressValue({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetProgressValue) {
@@ -87,9 +87,15 @@ export class AppStateReducer {
   setBackendURlRoot({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetBackendURlRoot) {
     patchState({backendUrlRoot: payload.payload.url});
   }
+
+  @Action(SetEnterpriseNerData)
+  setEnterpriseNerData({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetEnterpriseNerData) {
+    patchState({enterpriseNerData: payload.payload.enterpriseNerData});
+  }
+
   @Action(ResetAppState)
   resetAppState({patchState, setState, getState, dispatch,}: StateContext<any>, payload: ResetAppState) {
-    setState({});
+    patchState(appDefaultState);
   }
 
 }

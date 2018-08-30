@@ -10,6 +10,7 @@ import {Observable} from 'rxjs';
 export class SmartTableComponent implements OnInit {
 
   @Input() set data(value){
+    ;
     this._data = value;
     // this.totalPageCount = Math.ceil((this.totalRecords) / this.recordsPerPage);
     this.source.load(this._data);
@@ -28,6 +29,7 @@ export class SmartTableComponent implements OnInit {
   recordsPerPage: number = 10;
   totalPageCount;
   math = Math;
+  @Output() customActionEvents = new EventEmitter();
 
   constructor(private _iterableDiffers: IterableDiffers) {
     this.iterableDiffer = this._iterableDiffers.find([]).create(null);
@@ -92,6 +94,10 @@ export class SmartTableComponent implements OnInit {
     for (let i = start; i <= end; ++i) {
       this.paginationArr.push(i);
     }
+  }
+
+  onCustom($event){
+    console.log($event);
   }
 
 

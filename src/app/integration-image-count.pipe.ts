@@ -12,6 +12,11 @@ export class IntegrationImageCountPipe implements PipeTransform {
       ...integrationOption.fulfillment_provider_details,
       ...integrationOption.ccsp_details,
     };
+    for(let key in integrations){
+      if(!integrations[key].enabled){
+        delete integrations[key];
+      }
+    }
     return Object.keys(integrations).length;
   }
 

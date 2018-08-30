@@ -78,19 +78,26 @@ export class ChatWrapperComponent implements OnInit {
 
     this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
 
-      this.windowOpen = chatSessionState.opened;
-      if (!chatSessionState || !chatSessionState.opened) return;
-      let currentBot = this.currentBot = this.allBotList.find((value)=>value.id===chatSessionState.currentBotDetails.id);
-      this.frameEnabled = chatSessionState.frameEnabled;
-      this.currentRoom = chatSessionState.rooms.find((room) => room.uid === chatSessionState.currentUId);
-      if(this.currentRoom && this.currentBot){
-        this.messageData = this.currentRoom && this.currentRoom.messageList;
-        this.selectedAvatar = this.currentRoom && this.currentRoom.selectedAvatar;
-        this.bot_access_token = this.currentBot.bot_access_token;//this.currentRoom && this.currentRoom.bot_access_token || currentBot.bot_access_token;
-        this.currentBotId = this.currentBot.id;//chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.id || currentBot.id;
-        // this.currentBot = this.allBotList.find((bot) => bot.id === this.currentBotId);
-        this.chatWindowTitle = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.name;
-        this.current_uid =chatSessionState.currentUId;
+      ;
+      try{
+        this.windowOpen = chatSessionState.opened;
+        if (!chatSessionState || !chatSessionState.opened) return;
+        this.currentBot = this.allBotList.find((value)=>value.id===chatSessionState.currentBotDetails.id);
+        this.frameEnabled = chatSessionState.frameEnabled;
+        this.currentRoom = chatSessionState.rooms.find((room) => room.uid === chatSessionState.currentUId);
+        if(this.currentBot){
+          this.currentBotId = this.currentBot.id;//chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.id || currentBot.id;
+          this.bot_access_token = this.currentBot.bot_access_token;//this.currentRoom && this.currentRoom.bot_access_token || currentBot.bot_access_token;
+          this.chatWindowTitle = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.name;
+        }
+        if(this.currentRoom && this.currentBot){
+          this.messageData = this.currentRoom && this.currentRoom.messageList;
+          this.selectedAvatar = this.currentRoom && this.currentRoom.selectedAvatar;
+          // this.currentBot = this.allBotList.find((bot) => bot.id === this.currentBotId);
+          this.current_uid =chatSessionState.currentUId;
+        }
+      }catch (e) {
+        console.error(e);
       }
     });
 
@@ -105,13 +112,14 @@ export class ChatWrapperComponent implements OnInit {
     * open the chat window
     * */
 
+    ;
     // ;
     let new_uid = this.utilityService.createRandomString(12);
     this.store.dispatch([
       new AddNewRoom({
         uid: new_uid,
-        bot_id: this.currentBotId,
-        bot_access_token: this.bot_access_token,
+        bot_id: this.currentBot.id,
+        bot_access_token: this.currentBot.bot_access_token,
         id: null,
         messageList: [
           {

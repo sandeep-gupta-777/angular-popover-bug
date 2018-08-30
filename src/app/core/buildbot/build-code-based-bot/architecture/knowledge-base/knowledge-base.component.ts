@@ -20,24 +20,24 @@ import {IUser} from '../../../../interfaces/user';
 export class KnowledgeBaseComponent implements OnInit {
 
   @Input() bot: IBot;
-  @ViewChild('form') f: NgForm;
+  @ViewChild('form') f1: NgForm;
   @Select() loggeduser$: Observable<{ user: IUser }>;
-  @Input() data = [];
+  @Input() custumNerDataForSmartTable = [];
   @Output() pageChanged$ = new EventEmitter();
   @Output() updateOrSaveParentNers$ = new EventEmitter();
   loggeduser: { user: IUser };
-  settings;
+  settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;
   codeTextOutPutFromCodeEditor: string;
   codeTextInputToCodeEditor: string;
   showTable = true;
-  /*new concept*/
-  key;
-  nerType;
-  conflict_policy;
+  key1;
+  ner_type1;
+  conflict_policy1;
+  type:string;
   modalRef: BsModalRef;
-  handontable_column;
-  handontable_colHeaders;
-  handontableData = [];
+  handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
+  handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
+  handontableData = [["","",""]];
   selectedRowData: ICustomNerItem;
 
   /*TODO: use model instead of ngif;else*/
@@ -50,40 +50,53 @@ export class KnowledgeBaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;
-    this.handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
-    this.handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
+    // this.handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
+    // this.handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
     if (this.bot) {
-      /*this block should not run in case this compoment is called by parent component: view-customner.component*/
+      /*this block should not run in case this component is called by parent component: view-customner.component*/
       let url = this.constantsService.getCustomBotNER(this.bot.id);
       let headerData: IHeaderData = {'bot-access-token': this.bot.bot_access_token};
       this.serverService.makeGetReq({url, headerData})
         .subscribe((value: { objects: [ICustomNerItem] }) => {
-          this.data = value.objects;
-          // ;
+          this.custumNerDataForSmartTable = value.objects;
         });
     }
     this.loggeduser$.subscribe((value) => this.loggeduser = value);
   }
 
-  textChanged(codeText){
+  textChanged(codeText) {
     this.codeTextOutPutFromCodeEditor = codeText;
   }
 
-  updateOrSaveConcept() {
+  updateOrSaveConcept(data:{key:string, ner_type:string, conflict_policy:string, codeTextOutPutFromCodeEditor:string,handsontableData:any}) {
+    let body: ICustomNerItem;
+    this.type = this.bot?'bot':'enterprise';
+    ;
+    if (data.ner_type === 'single_match' || data.ner_type === 'double_match' || data.ner_type === 'with_metadata' || data.ner_type === 'regex') {
+      body = {values: data.codeTextOutPutFromCodeEditor.split(',')};
+    } else if (data.ner_type === 'database') {
+      let handontableDataClone = JSON.parse(JSON.stringify(data.handsontableData));
+      let column_headers = handontableDataClone[0] || ["","",""];
+      handontableDataClone.shift();
+      let handsontableDataSerialized = handontableDataClone.map((row) => {
+        let obj = {};
+        row.forEach((str, index) => {
+          let key = column_headers[index];
+          obj[key] = str;
+        });
+        return obj;
+      });
 
-    let body:ICustomNerItem;
-    // ;
-    if (this.nerType === 'single_match' || this.nerType === 'double_match' || this.nerType === 'with_metadata') {
-      body = {values: this.codeTextOutPutFromCodeEditor.split(',')};
-    } else if (this.nerType === 'database') {
-      // body =
-      /*TODO: implement for databse*/
+      body = {"column_headers": column_headers,values: handsontableDataSerialized};;
     }
 
-    if(this.bot){
-      this.data.push(this.f.value);
-      console.log(this.data);
+    if (this.selectedRowData && this.selectedRowData.id) {/*if there is not id, this means we are creating new customner*/
+      Object.assign(this.selectedRowData, body);
+    }
+
+    if (this.bot) {
+      // this.custumNerDataForSmartTable.push(data);
+      console.log(this.custumNerDataForSmartTable);
       let headerData: IHeaderData = {'bot-access-token': this.bot.bot_access_token};
       if (this.selectedRowData && this.selectedRowData.id) {
         /*update customner*/
@@ -91,6 +104,7 @@ export class KnowledgeBaseComponent implements OnInit {
         this.serverService.makePutReq({url, body: body, headerData})
           .subscribe((value) => {
             console.log(value);
+            this.utilityService.showSuccessToaster("Successfully saved");
           });
       } else {
         /*create a new customner*/
@@ -99,15 +113,15 @@ export class KnowledgeBaseComponent implements OnInit {
           'bot_id': this.bot.id,
           // "column_headers": any[],
           'column_nermap': {},
-          'conflict_policy': this.conflict_policy,
+          'conflict_policy': data.conflict_policy,
           /*change date format*/
           // 'created_at': new Date().toISOString(),
           // 'created_by': this.loggeduser.user.id,
           'enterprise_id': this.loggeduser.user.enterprise_id,
-          'key': this.key,
-          'ner_type': this.nerType,
+          'key': data.key,
+          'ner_type': data.ner_type,
           // "process_raw_text": false,
-          'type': 'bot',
+          'type': this.type,
           // 'updated_at': new Date().toISOString(),
           // "updated_by": 0,
           // "values"?: any[]
@@ -115,17 +129,17 @@ export class KnowledgeBaseComponent implements OnInit {
         let url = this.constantsService.createNewCustomBotNER();
         this.serverService.makePostReq({url, body: body, headerData})
           .subscribe((value) => {
-            console.log(value);
+            this.utilityService.showSuccessToaster("Successfully saved");
           });
       }
-    }else {
-      this.data.push(this.f.value);
+    } else {
+      // this.custumNerDataForSmartTable.push(data);//?????what is this line doing
       if (this.selectedRowData && this.selectedRowData.id) {
         /*update customner*/
         let url = this.constantsService.updateEnterpriseNer(this.selectedRowData.id);
         this.serverService.makePutReq({url, body: body})
           .subscribe((value) => {
-            console.log(value);
+            this.utilityService.showSuccessToaster("Successfully saved");
           });
       } else {
         /*create a new customner*/
@@ -134,23 +148,24 @@ export class KnowledgeBaseComponent implements OnInit {
           // 'bot_id': this.bot.id,
           // "column_headers": any[],
           'column_nermap': {},
-          'conflict_policy': this.conflict_policy,
+          'conflict_policy': data.conflict_policy,
           /*change date format*/
           'created_at': new Date().toISOString(),
           'created_by': this.loggeduser.user.id,
           'enterprise_id': this.loggeduser.user.enterprise_id,
-          'key': this.key,
-          'ner_type': this.nerType,
+          'key': data.key,
+          'ner_type': data.ner_type,
           // "process_raw_text": false,
-          'type': 'bot',
+          'type': this.type,
           'updated_at': new Date().toISOString(),
           // "updated_by": 0,
           // "values"?: any[]
         };
+        this.custumNerDataForSmartTable.push(body)
         let url = this.constantsService.createNewCustomBotNER();
         this.serverService.makePostReq({url, body: body})
           .subscribe((value) => {
-            console.log(value);
+            this.utilityService.showSuccessToaster("Successfully saved");
           });
       }
     }
@@ -161,36 +176,39 @@ export class KnowledgeBaseComponent implements OnInit {
   }
 
   rowClicked($event) {
-    // this.f.form.disabled(true);
-    // ;
+    ;
     this.selectedRowData = $event.data;
     this.showTable = false;
     this.codeTextInputToCodeEditor = this.selectedRowData.values && this.selectedRowData.values.join();
-    this.nerType = this.selectedRowData.ner_type;
+/*    this.ner_type = this.selectedRowData.ner_type;
     this.key = this.selectedRowData.key;
     this.conflict_policy = this.selectedRowData.conflict_policy;
-    // this.handontableData = data.values;
+*/
+    if (this.selectedRowData.ner_type === 'database') {
+      // let arr: { key: string, payload: string, title: string }[] = this.selectedRowData.values;
+      let valueKeys = this.selectedRowData.column_headers;
 
-    if (this.nerType === 'database') {
-      let arr: { key: string, payload: string, title: string }[] = this.selectedRowData.values;
-      this.handontableData = arr.map((value) => {
-        return [value.key, value.payload, value.title];
+      this.handontableData = this.selectedRowData.values.map((value) => {
+        return valueKeys.map((valueKey) => {
+          return value[valueKey];
+        });
       });
-      this.codeTextInputToCodeEditor = null;
-      console.log(arr);
+      this.handontableData.unshift(valueKeys);
+      // this.codeTextInputToCodeEditor = null;
+      // console.log(arr);
     } else {
       this.handontableData = null;
     }
   }
 
   reinitialise() {
-    /*reinitialize class variable*/
-    this.nerType = 'single_match';
-    this.key = '';
-    this.conflict_policy = 'override';
-    this.codeTextInputToCodeEditor = '';
+    // /*reinitialize class variable*/
+    // this.ner_type = 'single_match';
+    // this.key = '';
+    // this.conflict_policy = 'override';
+    // this.codeTextInputToCodeEditor = '';
     this.selectedRowData = {};
-
+    this.handontableData = [["","",""]];
     /*show create ner stuff*/
     this.showTable = false;
   }

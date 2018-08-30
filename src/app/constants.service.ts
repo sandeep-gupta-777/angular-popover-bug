@@ -20,7 +20,7 @@ export class ConstantsService {
 
   public BACKEND_URL = 'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
   public BACKEND_URL_LOGIN = `${this.BACKEND_URL}` + 'api/v1/user/login/';
-  private BACKEND_URL_ENTERPRISE_USERS = `${this.BACKEND_URL}` + 'users/enterprise';
+  private BACKEND_URL_ENTERPRISE_USERS = `${this.BACKEND_URL}` + 'users/enterprise/';
   private BACKEND_USER_UPDATE_URL = `${this.BACKEND_URL}` + 'user/';//https://dev.imibot.ai/user/5a030aa9b050705bd0ca5a45
   private BACKEND_USER_CODE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'integrations';//https://dev.imibot.ai/integrations
   public BACKEND_USER_PIPELINE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'api/v1/bot/';//https://dev.imibot.ai/bots
@@ -63,7 +63,8 @@ export class ConstantsService {
   }
 
   getEnterpriseUrl(enterpriseId: number) {
-    return this.BACKEND_URL + 'api/v1/enterprise/' + enterpriseId; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
+    // return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`;// + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
+    return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`;// + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
   }
 
   getEnterpriseUsersUrl() {
@@ -86,68 +87,68 @@ export class ConstantsService {
   // }
 
   getOverViewInfoUrl() {
-    return this.BACKEND_URL + 'analytics/overviewinfo'; //https://dev.imibot.ai/analytics/overviewinfo;
+    return this.BACKEND_URL + 'analytics/overviewinfo/'; //https://dev.imibot.ai/analytics/overviewinfo;
   }
 
   getUserAcquisitionUrl() {
-    return this.BACKEND_URL + 'analytics/userAcquisition'; //https://dev.imibot.ai/analytics/userAcquisition
+    return this.BACKEND_URL + 'analytics/userAcquisition/'; //https://dev.imibot.ai/analytics/userAcquisition
   }
 
   getAverageRoomTimeUrl() {
-    return this.BACKEND_URL + 'analytics/averageRoomTime'; //https://dev.imibot.ai/analytics/averageRoomTime
+    return this.BACKEND_URL + 'analytics/averageRoomTime/'; //https://dev.imibot.ai/analytics/averageRoomTime
   }
 
   getTotalFlowsUrl() {
-    return this.BACKEND_URL + 'analytics/totalFlows'; //https://dev.imibot.ai/analytics/totalFlows
+    return this.BACKEND_URL + 'analytics/totalFlows/'; //https://dev.imibot.ai/analytics/totalFlows
   }
 
   getTotalSessionsUrl() {
-    return this.BACKEND_URL + 'analytics/totalSessions'; //https://dev.imibot.ai/analytics/totalSessions
+    return this.BACKEND_URL + 'analytics/totalSessions/'; //https://dev.imibot.ai/analytics/totalSessions
   }
 
   getSessionsMessageUrl(room_id: number) {
-    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}`; //https://dev.imibot.ai/api/v1/message/?room_id=60
+    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}/`; //https://dev.imibot.ai/api/v1/message/?room_id=60
   }
 
   getTotalMessagesUrl() {
-    return this.BACKEND_URL + 'analytics/totalMessages'; //https://dev.imibot.ai/analytics/totalMessages
+    return this.BACKEND_URL + 'analytics/totalMessages/'; //https://dev.imibot.ai/analytics/totalMessages
   }
 
   getMessagesByTemplateKeyUrl() {
-    return this.BACKEND_URL + 'analytics/messagesByTemplateKey'; //https://dev.imibot.ai/analytics/messagesByTemplateKey
+    return this.BACKEND_URL + 'analytics/messagesByTemplateKey/'; //https://dev.imibot.ai/analytics/messagesByTemplateKey
   }
 
   /*analytics channel urls below*/
   getChannelWiseUsersUrl() {
-    return this.BACKEND_URL + 'analytics/channelWiseUsers'; //https://dev.imibot.ai/analytics/channelWiseUsers
+    return this.BACKEND_URL + 'analytics/channelWiseUsers/'; //https://dev.imibot.ai/analytics/channelWiseUsers
   }
 
   getChannelWiseSessionsUrl() {
-    return this.BACKEND_URL + 'analytics/channelWiseSessions'; //https://dev.imibot.ai/analytics/channelWiseSessions
+    return this.BACKEND_URL + 'analytics/channelWiseSessions/'; //https://dev.imibot.ai/analytics/channelWiseSessions
   }
 
   getChannelWiseFlowsPerSessionUrl() {
-    return this.BACKEND_URL + 'analytics/channelWiseFlowsPerSession'; //https://dev.imibot.ai/analytics/channelWiseFlowsPerSession
+    return this.BACKEND_URL + 'analytics/channelWiseFlowsPerSession/'; //https://dev.imibot.ai/analytics/channelWiseFlowsPerSession
   }
 
   getChannelWiseAverageSessionTimeUrl() {
-    return this.BACKEND_URL + 'analytics/channelWiseAverageSessionTime'; //https://dev.imibot.ai/analytics/channelWiseAverageSessionTime
+    return this.BACKEND_URL + 'analytics/channelWiseAverageSessionTime/'; //https://dev.imibot.ai/analytics/channelWiseAverageSessionTime
   }
 
   getReportUrl(page = 1, pageSize = 10) {
-    return this.BACKEND_URL + `api/v1/reports?page=${page}&pageSize=${pageSize}`; //{{url}}/reports?page=1&pageSize=10
+    return this.BACKEND_URL + `api/v1/reports?page=${page}&pageSize=${pageSize}/`; //{{url}}/reports?page=1&pageSize=10
   }
 
   getReportHistoryUrl(page = 1, pageSize = 10) {
-    return this.BACKEND_URL + `api/v1/reporthistory?page=${page}&pageSize=${pageSize}`; //https://dev.imibot.ai/reporthistory?page=1&pageSize=10
+    return this.BACKEND_URL + `api/v1/reporthistory?page=${page}&pageSize=${pageSize}/`; //https://dev.imibot.ai/reporthistory?page=1&pageSize=10
   }
 
   geReportTypesUrl() {
-    return this.BACKEND_URL + 'api/v1/reporttypes'; // http://dev.imibot.ai/api/v1/reporttypes
+    return this.BACKEND_URL + 'api/v1/reporttypes/'; // http://dev.imibot.ai/api/v1/reporttypes
   }
 
   getReportsEditInfo(_id) {
-    return this.BACKEND_URL + 'api/v1/reports/' + _id; //  https://dev.imibot.ai/reports/5b335b127c15580059c13fc5
+    return this.BACKEND_URL + 'api/v1/reports/' + _id+'/'; //  https://dev.imibot.ai/reports/5b335b127c15580059c13fc5
   }
 
   getSaveReportsEditInfo(_id) {
@@ -188,7 +189,7 @@ export class ConstantsService {
   }
 
   getSpecificBotByBotTokenUrl(){
-    return this.BACKEND_URL + `api/v1/bot`; //https://dev.imibot.ai/api/v1/bot/
+    return this.BACKEND_URL + `api/v1/bot/`; //https://dev.imibot.ai/api/v1/bot/
   }
 
   getBotSessionsUrl(limit: number, offset: number) {
@@ -204,7 +205,7 @@ export class ConstantsService {
   }
 
   getCustomBotNER(bot_id) {
-    return this.BACKEND_URL + `api/v1/customner`; //https://dev.imibot.ai/api/v1/customner/
+    return this.BACKEND_URL + `api/v1/customner/`; //https://dev.imibot.ai/api/v1/customner/
   }
 
   updateCustomBotNER(custom_ner_id) {
@@ -226,7 +227,7 @@ export class ConstantsService {
 
   /*Enterprise NER*/
   getEnterpriseNer(limit: number = 10, offset: number = 0) {
-    return this.BACKEND_URL + `api/v1/customner/?limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/api/v1/customner/
+    return this.BACKEND_URL + `api/v1/customner/?type=enterprise&limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/api/v1/customner/
   }
 
   getAnalyticsUrl() {
@@ -272,36 +273,46 @@ export class ConstantsService {
   readonly SMART_TABLE_CONSUMER_SETTING = {
     columns: {
       id: {//
-        title: 'ID'
+        title: 'ID',
+        width:'120px'
       },
       name: {//
         title: 'Name'
       },
-      phone: {//
+      phone: {
         title: 'Phone'
       },
       facebook_id: {//
-        title: 'Facebook Id'
+        title: 'Facebook Id',
+        width:'120px'
       },
       skype_id: {//
-        title: 'Skype Id'
+        title: 'Skype Id',
+        width:'120px'
       },
       bot_id: {
-        title: 'U Id'
+        title: 'U Id',
+        width:'120px'
       },
       email: {//
-        title: 'Email'
+        title: 'Email',
       },
       updated_at: {//
-        title: 'Updated At'
+        title: 'Updated At',
+        width:'150px'
+
       },
 
     },
     // hideSubHeader: true
     actions: {
-      add: false,
       edit: false,
-      delete: false
+      add: false,
+      delete:false,
+      position: 'right',
+      custom: [
+        { name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>` }
+      ],
     },
   };
 
@@ -309,13 +320,16 @@ export class ConstantsService {
 
     columns: {
       id: {
-        title: 'Room ID'
+        title: 'Room ID',
+        width:'150px'
       },
       consumer_id: {
-        title: 'Consumer Id'
+        title: 'Consumer Id',
+        width:'150px'
       },
       total_message_count: {
-        title: 'Messages'
+        title: 'Messages',
+        width:'150px'
       },
       last_updated_job_id: {
         title: 'Last Updated Job Id'
@@ -326,10 +340,20 @@ export class ConstantsService {
 
     },
     // hideSubHeader: true
+    // actions: {
+    //   add: true,
+    //   edit: true,
+    //   delete: false
+    // },
     actions: {
-      add: false,
       edit: false,
-      delete: false
+        add: false,
+      delete:false,
+      position: 'right',
+      custom: [{name: 'download', title: `<i  class="fa fa-download pr-2 text-dark"></i>` },
+        { name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>` }
+      ],
+
     },
     pager: {
       display: false,
@@ -348,7 +372,13 @@ export class ConstantsService {
       // 'messages.length': {
       //   title: 'Messages'
       // },
-      created_at: {
+      "role": {
+        title: 'Role'
+      },
+      "permissions": {
+        title: 'Permissions'
+      }
+      ,created_at: {
         title: 'Created At'
       },
       updated_at: {
