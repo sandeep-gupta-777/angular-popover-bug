@@ -78,7 +78,7 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 }
 
 .bg-theme-secondary {
-  background-color: $color-secondary;
+  background-color: #d7d7d7;
 }
 
 .shadow-theme-hover:hover {
@@ -124,6 +124,7 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
   height: 32px !important;
   font-size: $font-size-xs;
   color: $color-primary;
+  cursor: pointer;
 }
 
 .btn-theme-secondary-outline {
