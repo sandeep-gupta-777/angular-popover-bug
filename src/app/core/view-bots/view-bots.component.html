@@ -1,21 +1,25 @@
 
 
-<ul class="nav nav-tabs mb-2 d-flex align-items-center my-4">
-  <li class="nav-item">
-    <a class="nav-link" [routerLink]="['/core','viewbots','codebased']" routerLinkActive="tab-active"><strong>CODE BASED
-      BOTS</strong></a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" [routerLink]="['/core','viewbots','intelligent']" routerLinkActive="tab-active"><strong>PIPELINE
-      BASED BOTS</strong></a>
-  </li>
+<div style="margin: 0px 80px">
+  <ul class="nav nav-tabs mb-2 d-flex align-items-center my-4">
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/core','viewbots','codebased']" routerLinkActive="tab-active"><strong>CODE BASED
+        BOTS</strong></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/core','viewbots','intelligent']" routerLinkActive="tab-active"><strong>PIPELINE
+        BASED BOTS</strong></a>
+    </li>
 
-  <!--<div class="d-flex justify-content-end mt-4 ml-auto">-->
+    <!--<div class="d-flex justify-content-end mt-4 ml-auto">-->
     <button class="btn btn-theme-primary ml-auto" (click)="openCreateBotModal(Primarytemplate)"><i class="fa fa-plus pr-1"></i>New Bot</button>
-  <!--</div>-->
-</ul>
+    <!--</div>-->
+  </ul>
 
-<router-outlet></router-outlet>
+  <div class="px-4">
+    <router-outlet></router-outlet>
+  </div>
+</div>
 <!--<app-view-code-based-bot [hidden]="activeTab==='pipeline_based'"></app-view-code-based-bot>-->
 <!--<app-view-pipeline-based-bots [hidden]="activeTab==='code_based'"></app-view-pipeline-based-bots>-->
 
