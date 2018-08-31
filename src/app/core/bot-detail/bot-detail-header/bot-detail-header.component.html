@@ -1,20 +1,24 @@
 <!--<p>{{bot|json}}</p>-->
 
 <div class="row-bot-detail-header d-flex align-items-center my-3">
-  <img style="width: 32px;height: 32px" class="rounded-circle" [src]="bot.logo" alt="">
+  <img style="width: 40px;height: 40px" class="rounded-circle" [src]="bot.logo" alt="">
   <div class="name">
-    <div class="heading">{{bot.name}}</div>
+    <div class="heading mb-0">{{bot.name}}</div>
+  </div>
+  <div class="d-flex align-items-center">
+    <i class="fa fa-circle dark-green"></i>
+    <div>Active(v{{bot.active_version_id}})</div>
   </div>
   <i class="fa fa-users" *ngIf="bot.child_bots.length>0" style="font-size: 20px"></i>
   <div class="text-theme-normal">
-    Created by : <strong>{{bot.created_by}}</strong> on <strong> {{bot.created_at|date}}</strong>
+    <span class="text-muted">Created by :</span> {{bot.created_by}} <span class="text-muted">on</span> {{bot.created_at|date}}
   </div>
   <div class="text-theme-normal">
-    Last Updated By :<strong>{{bot.updated_by}}</strong> on <strong>{{bot.updated_at|date}}</strong>
+    <span class="text-muted">Last Updated By :</span>{{bot.updated_by}} <span class="text-muted" > on </span>{{bot.updated_at|date}}
   </div>
-  <div class="active-button px-1 border-right d-flex justify-content-center align-items-center">
-    Active({{bot.active_version_id}})
-  </div>
+  <!--<div class="active-button px-1 border-right d-flex justify-content-center align-items-center">-->
+    <!--Active({{bot.active_version_id}})-->
+  <!--</div>-->
   <div class="ml-auto"></div>
   <!--<img *ngFor="let keys of myObject.keys(bot.integrations)" style="width: 28px;height: 28px"-->
        <!--src="http://www.pngmart.com/files/3/Weather-PNG-HD.png" alt="">-->
@@ -30,10 +34,14 @@
     +{{myObject.keys(bot.integrations).length-4}} More
   </span>
   <div class="headerDivider mx-2"></div>
-  <i class="fa fa-refresh px-2" (click)="refreshBotDetails$.emit()"></i>
+  <div class="d-flex preview-box" (click)="openBot()">
+    <i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>
+    <span class="action">Preview</span>
+  </div>
+  <i class="fa fa-refresh px-2 cursor-pointer" (click)="refreshBotDetails$.emit()"></i>
   <button class="btn btn-theme-primary" (click)="updateBot()">Update Bot</button>
   <div class="btn-group p-2" dropdown placement="top left" >
-    <i dropdownToggle class="fa fa-ellipsis-v p-1"></i>
+    <i dropdownToggle class="fa fa-ellipsis-v cursor-pointer p-1" style="font-size: 20px"></i>
     <ul *dropdownMenu class="dropdown-menu" role="menu">
       <li role="menuitem">
         <a class="dropdown-item cursor-pointer" (click)="utilityService.copyToClipboard(bot.bot_access_token)" >Copy Access Token</a>

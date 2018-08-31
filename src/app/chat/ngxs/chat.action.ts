@@ -50,3 +50,8 @@ export class ResetChatState {
   constructor() {}
 }
 
+export class DeleteChatRoomsByBotId {
+  static readonly type = '[chat-widdow] delete deleteRoomsByBotId';
+  constructor(public payload:{id: number}) {}
+}
+

@@ -3,6 +3,7 @@ import {ICustomNerItem} from '../../../../../../../interfaces/custom-ners';
 import {NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../../utility.service';
 import {ConstantsService} from '../../../../../../constants.service';
+import {ActivatedRoute, ParamMap} from '@angular/router';
 
 @Component({
   selector: 'app-knowledge-base-presentation',
@@ -13,7 +14,6 @@ export class KnowledgeBasePresentationComponent implements OnInit {
   _selectedRowData:ICustomNerItem = {};
   @Input() set selectedRowData(value:ICustomNerItem){
     if(!value) return;
-    ;
     this._selectedRowData = value;
     this.key = value.key ;
     this.ner_type = value.ner_type;
@@ -24,6 +24,7 @@ export class KnowledgeBasePresentationComponent implements OnInit {
   @Output() updateOrSaveConcept$ = new EventEmitter();
   @Output() showTable$ = new EventEmitter();
   @ViewChild('form') form:NgForm;
+  ner_id:string;
   key:string;
   ner_type:string;
   conflict_policy:string;
@@ -35,9 +36,13 @@ export class KnowledgeBasePresentationComponent implements OnInit {
   constructor(
     private utilityService: UtilityService,
     private constantsService: ConstantsService,
+    private activatedRoute: ActivatedRoute,
   ) {}
 
   ngOnInit() {
+    this.activatedRoute.queryParamMap.subscribe((queryParamMap:ParamMap)=>{
+      this.ner_id = (<any>queryParamMap).params['ner_id'];
+    })
   }
   async openFile(inputEl) {
     this.codeTextInputToCodeEditor = await this.utilityService.readInputFileAsText(inputEl);
@@ -48,7 +53,6 @@ export class KnowledgeBasePresentationComponent implements OnInit {
   }
 
   updateOrSaveConcept(){
-    ;
     let outputData = {
       key:this.key,
       ner_type:this.ner_type,

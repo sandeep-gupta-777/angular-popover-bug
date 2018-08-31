@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, IterableDiffers, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, IterableDiffers, OnChanges, OnInit, Output} from '@angular/core';
 import {LocalDataSource} from 'ng2-smart-table';
 import {Observable} from 'rxjs';
 
@@ -10,7 +10,6 @@ import {Observable} from 'rxjs';
 export class SmartTableComponent implements OnInit {
 
   @Input() set data(value){
-    ;
     this._data = value;
     // this.totalPageCount = Math.ceil((this.totalRecords) / this.recordsPerPage);
     this.source.load(this._data);
@@ -23,9 +22,19 @@ export class SmartTableComponent implements OnInit {
   @Output() rowClicked$ = new EventEmitter();
   @Output() pageChanged$ = new EventEmitter();
   source: LocalDataSource = new LocalDataSource();
-  @Input() totalRecords: number = 10;
+  // @Input() totalRecords: number = 10;
+  x;
+  @Input() set totalRecords(value){
+    debugger;
+    this.x = value;
+    // this.source.load(this._data);
+    this.totalPageCount = Math.ceil(value / this.recordsPerPage);
+    let start = 1;
+    let end = Math.min(this.totalPageCount, 5);
+    this.createPaginationArray(start, end);
+  }
   paginationArr = [];
-  currentPage: number = 1;
+  @Input() currentPage: number = 1;
   recordsPerPage: number = 10;
   totalPageCount;
   math = Math;
@@ -36,13 +45,13 @@ export class SmartTableComponent implements OnInit {
   }
 
   ngOnInit() {
+    debugger;
+    console.log(this.x);
     this.source.load(this._data);
-    this.totalPageCount = Math.ceil((this.totalRecords) / this.recordsPerPage);
-    let start = 1;
-    let end = Math.min(this.totalPageCount, 5);
-    this.createPaginationArray(start, end);
-
-
+    // this.totalPageCount = Math.ceil((this.totalRecords) / this.recordsPerPage);
+    // let start = 1;
+    // let end = Math.min(this.totalPageCount, 5);
+    // this.createPaginationArray(start, end);
   }
 
   ngDoCheck() {
@@ -72,7 +81,7 @@ export class SmartTableComponent implements OnInit {
     // ;
 
     this.currentPage = currentPage;
-    this.totalPageCount = Math.ceil(this.totalRecords / this.recordsPerPage);
+    // this.totalPageCount = Math.ceil(this.totalRecords / this.recordsPerPage);
     let start = 0, end = 0;
     if (currentPage <= 3) {
       start = 1;
@@ -90,6 +99,7 @@ export class SmartTableComponent implements OnInit {
   }
 
   createPaginationArray(start, end) {
+    ;
     this.paginationArr.length = 0;
     for (let i = start; i <= end; ++i) {
       this.paginationArr.push(i);

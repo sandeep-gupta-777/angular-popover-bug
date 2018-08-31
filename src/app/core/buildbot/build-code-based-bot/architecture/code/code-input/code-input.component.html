@@ -1,6 +1,6 @@
 
 <div class="row my-2 m-0" style="position: relative" (clickOutside)="showVersionList = false">
-  <div class="col-6 p-0" >
+  <div class="col-6 p-0" [ngClass]="{'bg-theme-secondary':!selectedVersion}" >
     <div *ngIf="selectedVersion" class="d-flex align-items-center justify-content-between flex-bot-versioning-toaster border-theme-secondary">
       <button *ngIf="selectedVersion.id === activeVersion.id" class="btn btn-theme-primary mr-1"
               style="flex-basis: 56px">Active

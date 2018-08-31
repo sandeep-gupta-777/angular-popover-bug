@@ -4,6 +4,7 @@ import {st} from '@angular/core/src/render3';
 
 // import import downloadCsv from 'download-csv'; from 'download-csv';
 import downloadCsv from 'download-csv';
+import {ActivatedRoute, Router} from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
@@ -11,6 +12,8 @@ export class UtilityService {
 
   constructor(
     private toastr: ToastrService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
   ) { }
 
   readInputFileAsText(inputElement):Promise<string>{
@@ -95,6 +98,7 @@ export class UtilityService {
       document.body.appendChild(textarea);
       textarea.select();
       try {
+        this.showSuccessToaster("Copied!");
         return document.execCommand("copy");  // Security exception may be thrown by some browsers.
       } catch (ex) {
         console.warn("Copy to clipboard failed.", ex);
@@ -218,6 +222,10 @@ export class UtilityService {
         return false
     }
     return true;
+  }
+
+  addQueryParamsInCurrentRoute(queryParamObj:object){
+    this.router.navigate(['.'], {queryParams:queryParamObj, relativeTo:this.activatedRoute});
   }
 
 }

@@ -89,6 +89,7 @@ $table-border-color: #e9ebec;
   //::placeholder{
   //  color: transparent;
   //}
+
   line-height: 0px;
   * div {
     @include typography(12px, $line-height-normal, $font-weight-300, #666666);

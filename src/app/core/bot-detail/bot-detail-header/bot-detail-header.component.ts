@@ -6,6 +6,8 @@ import {ConstantsService} from '../../../constants.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {UtilityService} from '../../../utility.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {ChangeFrameAction, SetCurrentBotID, ToggleChatWindow} from '../../../chat/ngxs/chat.action';
+import {EChatFrame} from '../../../../interfaces/chat-session-state';
 
 @Component({
   selector: 'app-bot-detail-header',
@@ -29,6 +31,13 @@ export class BotDetailHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+  openBot() {
+    this.store.dispatch([
+      new SetCurrentBotID({bot_id: this.bot.id, bot: this.bot}),
+      new ToggleChatWindow({open: true}),
+      new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX})
+    ]);
   }
 
   updateBot() {

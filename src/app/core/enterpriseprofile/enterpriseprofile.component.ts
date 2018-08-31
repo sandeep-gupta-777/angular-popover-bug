@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {ConstantsService} from '../../constants.service';
 import {ServerService} from '../../server.service';

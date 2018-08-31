@@ -77,6 +77,10 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
   background-color: $color-primary;
 }
 
+.bg-theme-secondary {
+  background-color: #d7d7d7;
+}
+
 .shadow-theme-hover:hover {
   box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.2);
 }
@@ -85,8 +89,9 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
   background-color: #00abd3 !important;
   border: none;
   border-radius: 2px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  line-height: 0px;
   height: 32px !important;
   font-size: $font-size-xs;
   color: white !important;
@@ -120,6 +125,7 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
   height: 32px !important;
   font-size: $font-size-xs;
   color: $color-primary;
+  cursor: pointer;
 }
 
 .btn-theme-secondary-outline {
@@ -527,4 +533,8 @@ progressbar {
 .text-highlight{
   background-color: yellow;
   color: #474747;
+}
+
+.hightlight-created-row{
+  background-color: greenyellow;
 }

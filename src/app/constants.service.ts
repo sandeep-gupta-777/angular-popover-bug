@@ -204,8 +204,8 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/botversioning/?bot_id=${bot_id}`; //http://localhost:8000/api/v1/botversioning/?bot_id=2
   }
 
-  getCustomBotNER(bot_id) {
-    return this.BACKEND_URL + `api/v1/customner/`; //https://dev.imibot.ai/api/v1/customner/
+  getCustomBotNER(limit, offset) {
+    return this.BACKEND_URL + `api/v1/customner/?limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/api/v1/customner/
   }
 
   updateCustomBotNER(custom_ner_id) {
@@ -420,6 +420,15 @@ export class ConstantsService {
       edit: false,
       delete: false
     },
+    rowClassFunction: (row) => {
+      if (row.data.highlight) {
+        return 'hightlight-created-row';
+      //   return 'score negative'; // Color from row with negative in score
+      // } else if (row.data.type === '(+)') {
+      //   return 'score positive';
+      }
+      return '';
+    }
   };
 
   readonly HANDSON_TABLE_BOT_TESTING_colHeaders = ['Message', 'Template', 'Status'];

@@ -67,10 +67,10 @@
 
   <!--============= REDESIGN=================-->
 
-  <div class="row shadow-theme bg-white p-4 my-5 " style="min-height: 300px;">
+  <div class="row shadow-theme bg-white p-4 my-5 align-content-start " style="min-height: 300px;">
 
     <!--tabs start-->
-    <div class="col-12 px-4">
+    <div class="col-12  px-4">
       <ul class="nav nav-tabs theme-tabbing mb-2">
         <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='architecture'}">
           <a class="nav-link heading" [routerLink]="['.']"
@@ -144,8 +144,10 @@
         <div class="p-2" style="width: 85%;">
           <app-pipeline (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"
                         [bot]="bot"></app-pipeline>
-          <app-knowledge-base (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='knowledge'"
-                              [bot]="bot"></app-knowledge-base>
+          <!--<app-knowledge-base (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='knowledge'"-->
+                              <!--[bot]="bot"></app-knowledge-base>-->
+          <app-knowledge-base-wrapper [bot]="bot" *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base-wrapper>
+
           <app-code-input (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='code'"
                           [bot]="bot"></app-code-input>
           <app-integration-option-list (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='integration'"
