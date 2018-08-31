@@ -10,6 +10,7 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {IBot} from '../../interfaces/IBot';
 import {SmartTableComponent} from '../../../smart-table/smart-table.component';
 import {UtilityService} from '../../../utility.service';
+import {IHeaderData} from '../../../../interfaces/header-data';
 
 @Component({
   selector: 'app-bot-sessions',
@@ -82,11 +83,13 @@ export class BotSessionsComponent implements OnInit {
 
     this.pageNumberOfCurrentRowSelected = pageNumber;
     this.url = this.constantsService.getBotSessionsUrl(10, (pageNumber - 1) * 10);
-    this.serverService.makeGetReq<ISessions>({url: this.url})
+    let headerData: IHeaderData = {
+      "bot-access-token":this.bot.bot_access_token
+    };
+    this.serverService.makeGetReq<ISessions>({url: this.url, headerData})
       .subscribe((value) => {
         this.totalSessionRecords = value.meta.total_count;
         this.selectedRow_Session = value.objects[this.selectedRow_number || 0];
-        ;
         this.sessions = value.objects;
       });
   }
@@ -136,7 +139,6 @@ export class BotSessionsComponent implements OnInit {
       /*download the conversation for the record*/
       this.loadSessionById(data.data.id)
         .subscribe((value: any) => {
-          ;
           let dataToDownload = value.objects;
           if (dataToDownload.length === 0) {
             dataToDownload = [{name:'No Data'}];

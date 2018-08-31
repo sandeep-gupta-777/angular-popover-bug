@@ -107,7 +107,7 @@ export class ConstantsService {
   }
 
   getSessionsMessageUrl(room_id: number) {
-    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}/`; //https://dev.imibot.ai/api/v1/message/?room_id=60
+    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}`; //https://dev.imibot.ai/api/v1/message/?room_id=60
   }
 
   getTotalMessagesUrl() {
@@ -136,11 +136,11 @@ export class ConstantsService {
   }
 
   getReportUrl(page = 1, pageSize = 10) {
-    return this.BACKEND_URL + `api/v1/reports?page=${page}&pageSize=${pageSize}/`; //{{url}}/reports?page=1&pageSize=10
+    return this.BACKEND_URL + `api/v1/reports?page=${page}&pageSize=${pageSize}`; //{{url}}/reports?page=1&pageSize=10
   }
 
   getReportHistoryUrl(page = 1, pageSize = 10) {
-    return this.BACKEND_URL + `api/v1/reporthistory?page=${page}&pageSize=${pageSize}/`; //https://dev.imibot.ai/reporthistory?page=1&pageSize=10
+    return this.BACKEND_URL + `api/v1/reporthistory?page=${page}&pageSize=${pageSize}`; //https://dev.imibot.ai/reporthistory?page=1&pageSize=10
   }
 
   geReportTypesUrl() {
@@ -152,7 +152,7 @@ export class ConstantsService {
   }
 
   getSaveReportsEditInfo(_id) {
-    return this.BACKEND_URL + `api/v1/reports/${_id}/`; //  http://dev.imibot.ai/api/v1/reports/1/
+    return this.BACKEND_URL + `api/v1/reports/${_id}`; //  http://dev.imibot.ai/api/v1/reports/1/
   }
 
 
@@ -161,7 +161,7 @@ export class ConstantsService {
   }
 
   getSaveVersionByBotId(id) {
-    return this.BACKEND_URL + `api/v1/botversioning/${id}/`; //https://dev.imibot.ai/api/v1/botversioning/9/
+    return this.BACKEND_URL + `api/v1/botversioning/${id}`; //https://dev.imibot.ai/api/v1/botversioning/9/
   }
 
   getCreateNewVersionByBotId(id) {
@@ -209,11 +209,11 @@ export class ConstantsService {
   }
 
   updateCustomBotNER(custom_ner_id) {
-    return this.BACKEND_URL + `api/v1/customner/${custom_ner_id}/`; //https://dev.imibot.ai/api/v1/customner/13/
+    return this.BACKEND_URL + `api/v1/customner/${custom_ner_id}`; //https://dev.imibot.ai/api/v1/customner/13/
   }
 
   updateBotUrl(bot_id: number) {
-    return this.BACKEND_URL + `api/v1/bot/${bot_id}/`;//https://dev.imibot.ai/api/v1/bot/13/
+    return this.BACKEND_URL + `api/v1/bot/${bot_id}`;//https://dev.imibot.ai/api/v1/bot/13/
   }
 
   createNewCustomBotNER() {
@@ -235,7 +235,7 @@ export class ConstantsService {
   }
 
   updateEnterpriseNer(id) {/*TODO: is it enterprise id??*/
-    return this.BACKEND_URL + `api/v1/customner/${id}/`; //https://dev.imibot.ai/api/v1/customner/12/
+    return this.BACKEND_URL + `api/v1/customner/${id}`; //https://dev.imibot.ai/api/v1/customner/12/
   }
 
   createEnterpriseNer() {
