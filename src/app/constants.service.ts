@@ -107,7 +107,7 @@ export class ConstantsService {
   }
 
   getSessionsMessageUrl(room_id: number) {
-    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}/`; //https://dev.imibot.ai/api/v1/message/?room_id=60
+    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}`; //https://dev.imibot.ai/api/v1/message/?room_id=60
   }
 
   getTotalMessagesUrl() {
@@ -193,7 +193,7 @@ export class ConstantsService {
   }
 
   getBotSessionsUrl(limit: number, offset: number) {
-    return this.BACKEND_URL + `api/v1/room/?limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/aip/v1/room
+    return this.BACKEND_URL + `api/v1/room/?limit=${limit}&offset=${offset}&order_by=-id`; //https://dev.imibot.ai/aip/v1/room
   }
 
   getStartNewChatLoginUrl() {
