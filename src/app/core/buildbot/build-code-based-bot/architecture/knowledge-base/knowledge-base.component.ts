@@ -128,7 +128,7 @@ export class KnowledgeBaseComponent implements OnInit {
     }else {
       let bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
       let type = bot_id?'bot':'enterprise';
-      debugger;
+
       let newRowData:ICustomNerItem = output ={
         'bot_id': bot_id ,//this.bot.id,
         // "column_headers": any[],

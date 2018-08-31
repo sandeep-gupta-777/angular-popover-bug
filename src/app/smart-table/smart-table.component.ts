@@ -25,7 +25,7 @@ export class SmartTableComponent implements OnInit {
   // @Input() totalRecords: number = 10;
   x;
   @Input() set totalRecords(value){
-    debugger;
+
     this.x = value;
     // this.source.load(this._data);
     this.totalPageCount = Math.ceil(value / this.recordsPerPage);
@@ -45,7 +45,7 @@ export class SmartTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    debugger;
+
     console.log(this.x);
     this.source.load(this._data);
     // this.totalPageCount = Math.ceil((this.totalRecords) / this.recordsPerPage);

@@ -9,7 +9,7 @@
                [ngClass]="{invisible:indexOfCurrentRowSelected<=0 && pageNumberOfCurrentRowSelected<=1}"
                (click)="selectPrevRow.emit()"></i>
             <!-- <i class="fa fa-angle-right cursor-pointer" [ngClass]="{invisible:showNextButton}" -->
-            <i class="fa fa-angle-right cursor-pointer" 
+            <i class="fa fa-angle-right cursor-pointer"
                (click)="selectNextRow.emit()"></i>
           </div>
 
@@ -58,6 +58,8 @@
                          style="height: 32px;border-radius: 2px!important;position: relative">
                       <input class="form-control py-2 border-0" [ngModel]="messageSearchKeyword"
                              (ngModelChange)=performSearch($event)
+                             (keyup.enter)="goToNextSearchResult(messageSearchKeyword)"
+                             (keyup.shift.enter)="goToPreviousSearchResult(messageSearchKeyword)"
                              id="search-session-model" type="search"
                              placeholder="search">
                       <i class="fa fa-angle-down text-dark"
@@ -70,11 +72,11 @@
                 <!--search input ends-->
                 <div class="row m-0 my-2 align-items-start align-content-start"
                      style="height: 65vh;overflow-y: scroll;overflow-x: hidden;">
-                  <div class="col-12"
-                       *ngFor="let message of sessionMessageDataCopy|filterObjectArray:messageSearchKeyword"
-                       [ngClass]="{'border-selected-txn':message.transaction_id === transactionIdSelectedInModel,
-                        'border-unselected-txn':message.transaction_id !== transactionIdSelectedInModel}">
-                    <app-session-message [sessionMessageData]="message"
+                  <div class="col-12 px-0 border-hover-txn"
+                       *ngFor="let txnConversationItems of sessionMessageDataCopy|serializeSessionMessage|filterObjectArray:messageSearchKeyword; let i=index"
+                       [ngClass]="{'border-selected-txn':txnConversationItems.transaction_id === transactionIdSelectedInModel,
+                        'border-unselected-txn':txnConversationItems.transaction_id !== transactionIdSelectedInModel}">
+                    <app-session-message [txnConversationItems]="txnConversationItems"
                                          (messageClickedEvent$)="transactionIdChangedInModel($event)"></app-session-message>
                   </div>
                   <div *ngIf="!sessionMessageDataCopy || sessionMessageData.length===0" class="col-12 align-self-stretch d-flex justify-content-center align-items-center">
@@ -108,7 +110,10 @@
               <!--{{codeText|json}}-->
               <!--</pre>-->
               <!--</div>-->
-              <app-code-editor [text]="codeText?(codeText|json):''"></app-code-editor>
+              <!--<app-code-editor [text]="codeText?(codeText|json):''"></app-code-editor>-->
+              <!--<app-code-editor [text]="codeText?(codeText|json):''"></app-code-editor>-->
+              <!--<textarea [value]="codeText?(codeText|json):''" style="width: 100%; height: 100%"></textarea>-->
+              <pre class="p-2" style="width: 100%; height: 100%; background-color: #000055; color: white">{{codeText?(codeText|json):''}}</pre>
             </div>
           </div>
         </div>

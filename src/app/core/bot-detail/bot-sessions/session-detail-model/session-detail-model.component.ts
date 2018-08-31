@@ -5,6 +5,8 @@ import {ServerService} from '../../../../server.service';
 import {IBot} from '../../../interfaces/IBot';
 import {Observable} from 'rxjs';
 import {st} from '@angular/core/src/render3';
+import {element} from 'protractor';
+import {UtilityService} from '../../../../utility.service';
 
 @Component({
   selector: 'app-session-detail-model',
@@ -20,12 +22,10 @@ export class SessionDetailModelComponent implements OnInit {
           this.loadSessionById(_session.id);
         }
       );
-    ;
-
   };
 
   _session: ISessionItem;
-
+  searchEnterPressedCount = 0;
   @Input() bot: IBot;
   @Input() finalDfState: {};
   @Input() sessionDataStore: {};
@@ -55,6 +55,7 @@ export class SessionDetailModelComponent implements OnInit {
 
   constructor(
     private constantsService: ConstantsService,
+    private utilityService: UtilityService,
     private serverService: ServerService
   ) {
   }
@@ -94,8 +95,6 @@ export class SessionDetailModelComponent implements OnInit {
       'message': messageDataForGiveTxnId.message, /*user message*/
     };
     this.activeBotPanelData = messageDataForGiveTxnId.message_store;
-    // this.dataStorePanelData = this.sessionData.dataStore;
-    // this.finalDFPanelData = this.sessionData.dfState;
     this.tabClicked(this.activeTab);
 
   }
@@ -127,17 +126,62 @@ export class SessionDetailModelComponent implements OnInit {
 
   }
 
-  scroll(txnId) {
+  scroll(txnId):boolean {
     let ele = document.getElementsByClassName(txnId)[0];
-    ele.scrollIntoView();
+    console.log(ele);
+    if(!ele && this.searchEnterPressedCount>0){
+      this.utilityService.showSuccessToaster("Reached end of list");
+    }
+    if(ele){
+      ele.scrollIntoView();
+      return true
+    }
+    return false;
+  }
+
+  goToNextSearchResult(messageSearchKeyword){
+    ++this.searchEnterPressedCount;
+    if(this.searchEnterPressedCount<0) this.searchEnterPressedCount=0;
+    let elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, this.searchEnterPressedCount);
+    if(!elementDataToScroll) {
+      --this.searchEnterPressedCount;
+      return;
+    }
+    let txnId = elementDataToScroll.transaction_id;
+    if(elementDataToScroll ){
+      let didScrollOccur = this.scroll(txnId);
+      if(!didScrollOccur)--this.searchEnterPressedCount;
+      this.transactionIdChangedInModel(txnId);
+    }
+  }
+
+  goToPreviousSearchResult(messageSearchKeyword){
+    debugger;
+    --this.searchEnterPressedCount;
+    let elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, this.searchEnterPressedCount);
+    if(!elementDataToScroll) {
+      --this.searchEnterPressedCount;
+      return;
+    }
+    if(this.searchEnterPressedCount<0) this.searchEnterPressedCount=0;
+    if(elementDataToScroll ){
+      let didScrollOccur = this.scroll(elementDataToScroll.transaction_id);
+      this.transactionIdChangedInModel(elementDataToScroll.transaction_id);
+    }
   }
 
   performSearch(messageSearchKeyword) {
+    this.searchEnterPressedCount = 0;
     this.messageSearchKeyword = messageSearchKeyword = messageSearchKeyword.trim();
     if (messageSearchKeyword === '') return;
     this.sessionMessageDataCopy = [...this.sessionMessageData];
     /*find transaction id of first matched text*/
-    let elementDataToScroll = this.sessionMessageData.find((objItem: ISessionMessageItem) => {
+    let elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, 0);
+    elementDataToScroll && this.scroll(elementDataToScroll.transaction_id);
+  }
+
+  findElementDataBySearchKeyWord(messageSearchKeyword, index){
+    let elementsDataToScroll = this.sessionMessageData.filter((objItem: ISessionMessageItem) => {
       /*find if messageSearchKeyword exists in message or message[0].text as substring */
       return objItem.message
         && objItem.message.includes(messageSearchKeyword)
@@ -145,7 +189,7 @@ export class SessionDetailModelComponent implements OnInit {
         && objItem.message[0].text
         && objItem.message[0].text.includes(messageSearchKeyword);
     });
-    this.scroll(elementDataToScroll.transaction_id);
+    return elementsDataToScroll[index]
   }
 
 }

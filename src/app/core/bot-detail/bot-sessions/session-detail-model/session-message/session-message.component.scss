@@ -40,3 +40,7 @@
     color: #474747;
   }
 }
+
+.meta-text{
+  @include typography(9px, $line-height-normal, $font-weight-300, $color-text-normal);
+}

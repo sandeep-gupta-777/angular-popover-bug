@@ -1,38 +1,45 @@
 
 
+<div class="cursor-pointer" (click)="messageClickedEvent$.emit(txnConversationItems.transaction_id)">
+  <i class="meta-text cursor-pointer pl-1" (click)="utilityService.copyToClipboard(txnConversationItems.transaction_id)">
+    {{txnConversationItems.transaction_id}}
+  </i>
+  <div *ngFor="let sessionMessage of sessionMessageItems">
 
-<div  *ngIf="sessionMessageData && sessionMessageData.user_type==='human'" >
-  <div class="row reverse-flex-row my-1" [ngClass]="sessionMessageData.transaction_id"
-       (click)="messageClickedEvent$.emit(sessionMessageData.transaction_id)">
-    <!--<div class="col-1 text-left p-0">-->
-      <!--<img class="" src="http://logok.org/wp-content/uploads/2014/04/Citi-logo-880x660.png"-->
-           <!--style="width: 32px;height: 32px" alt="">-->
-    <!--</div>-->
-    <div class="col-10 text-left p-0 text-right">
-      <div class="message p-2 bg-message-human" style="display: inline-block">
-        <!--<span class="message-text ">{{sessionMessageData.message}}</span>-->
-        <span class="message-text" [innerHtml]="sessionMessageData.message"></span>
-        <div class="time text-right">10:42 PM</div>
+    <div  *ngIf="sessionMessage && sessionMessage.user_type==='human'" >
+      <div class="row reverse-flex-row my-1" [ngClass]="sessionMessage.transaction_id">
+        <!--<div class="col-1 text-left p-0">-->
+        <!--<img class="" src="http://logok.org/wp-content/uploads/2014/04/Citi-logo-880x660.png"-->
+        <!--style="width: 32px;height: 32px" alt="">-->
+        <!--</div>-->
+        <div class="col-10 text-left p-0 text-right">
+          <div class="message p-2 bg-message-human" style="display: inline-block">
+            <!--<span class="message-text ">{{sessionMessageData.message}}</span>-->
+            <span class="message-text" [innerHtml]="sessionMessage.message"></span>
+            <div class="time text-right">10:42 PM</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!---->
+    <!---->
 
-<div  *ngIf="sessionMessageData && sessionMessageData.user_type==='bot'"
-      (click)="messageClickedEvent$.emit(sessionMessageData.transaction_id)">
-  <div class="row" *ngFor="let message of sessionMessageData.message">
-    <!--<div class="col-1 text-left p-0">-->
-      <!--<img class="" src="http://logok.org/wp-content/uploads/2014/04/Citi-logo-880x660.png"-->
-           <!--style="width: 32px;height: 32px" alt="">-->
-    <!--</div>-->
-    <div class="col-10 p-1 text-left p-0">
-      <div class="message p-2 bg-message-bot" style="display: inline-block">
-        <span class="message-text" [innerHtml]="message.text"></span>
-        <div class="time text-right">10:42 PM</div>
+    <div  *ngIf="sessionMessage && sessionMessage.user_type==='bot'">
+      <div class="row" *ngFor="let message of sessionMessage.message">
+        <!--<div class="col-1 text-left p-0">-->
+        <!--<img class="" src="http://logok.org/wp-content/uploads/2014/04/Citi-logo-880x660.png"-->
+        <!--style="width: 32px;height: 32px" alt="">-->
+        <!--</div>-->
+        <div class="col-10 p-1 text-left p-0">
+          <div class="message p-2 bg-message-bot" style="display: inline-block">
+            <span class="message-text" [innerHtml]="message.text"></span>
+            <div class="time text-right">10:42 PM</div>
+          </div>
+        </div>
       </div>
     </div>
+    <!---->
+
   </div>
+
 </div>
-<!---->

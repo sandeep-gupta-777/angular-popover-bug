@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ISessionItem, ISessionMessageItem} from '../../../../../../interfaces/sessions';
+import {ITxnSessionMessagesItem} from '../../../../../serialize-session-message.pipe';
+import {UtilityService} from '../../../../../utility.service';
 
 @Component({
   selector: 'app-session-message',
@@ -8,12 +10,15 @@ import {ISessionItem, ISessionMessageItem} from '../../../../../../interfaces/se
 })
 export class SessionMessageComponent implements OnInit {
 
-  @Input() sessionMessageData: ISessionMessageItem;
+  // @Input() sessionMessageData: ISessionMessageItem;
+  @Input() txnConversationItems: ITxnSessionMessagesItem;
   @Output() messageClickedEvent$: EventEmitter<string> = new EventEmitter();
-  constructor() { }
+  sessionMessageItems: ISessionMessageItem[];
+  constructor(public utilityService:UtilityService) { }
 
   ngOnInit() {
-    this.sessionMessageData.user_type;
+    this.sessionMessageItems = this.txnConversationItems.convoList;
+    // this.sessionMessageData.user_type;
   }
 
 }
