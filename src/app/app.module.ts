@@ -14,7 +14,7 @@ import {AppStateReducer} from './ngxs/app.state';
 import {AuthStateReducer} from './auth/ngxs/auth.state';
 import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
 import {AuthModule} from './auth/auth.module';
-import {CoreModule} from './core/core.module';
+// import {CoreModule} from './core/core.module';
 import {BackendDevComponent} from './backend-dev/backend-dev.component';
 // import {AnalysisStateReducer2} from './core/analysis2/ngxs/analysis.state';
 
@@ -229,7 +229,7 @@ import {BackendDevComponent} from './backend-dev/backend-dev.component';
     //
     /*custom modules*/
     AuthModule,
-    CoreModule
+    // CoreModule
   ],
   providers: [DragService, AimService],
   bootstrap: [AppComponent]
