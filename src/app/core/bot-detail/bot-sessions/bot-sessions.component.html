@@ -15,6 +15,7 @@
         [session]="selectedRow_Session"
         [bot]="bot"
         (selectNextRow)="selectNextRow()"
+        (closeModel$)="modalRef.hide()"
         (selectPrevRow)="selectPrevRow()"
         [pageNumberOfCurrentRowSelected]="pageNumberOfCurrentRowSelected"
         [indexOfCurrentRowSelected]="indexOfCurrentRowSelected"
@@ -24,3 +25,4 @@
     </div>
   </div>
 </ng-template>
+<!---->

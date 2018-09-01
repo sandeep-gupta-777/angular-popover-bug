@@ -31,6 +31,7 @@ export class SessionDetailModelComponent implements OnInit {
   @Input() sessionDataStore: {};
   @Output() selectNextRow = new EventEmitter();
   @Output() selectPrevRow = new EventEmitter();
+  @Output() closeModel$ = new EventEmitter();
   @Input() showPrevButton: boolean = false;
   @Input() pageNumberOfCurrentRowSelected: number;
   @Input() indexOfCurrentRowSelected: number;
