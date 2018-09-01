@@ -27,7 +27,11 @@ export class FilterObjectArrayPipe implements PipeTransform {
           sessionMessageItem.message[0].text = sessionMessageItem.message[0].text.replace(messageSearchKeyword, `<span class="text-highlight">${messageSearchKeyword}</span>`);
         }
         return sessionMessageItem;
-      })
+      });
+
+      if(txnSessionMessagesItem.transaction_id.includes(messageSearchKeyword)){
+        txnSessionMessagesItem.transaction_id_highlighting = txnSessionMessagesItem.transaction_id.replace(messageSearchKeyword, `<span class="text-highlight">${messageSearchKeyword}</span>`);
+      }
       return txnSessionMessagesItem;
     });
     return modifiedarr;

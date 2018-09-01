@@ -1,13 +1,12 @@
 
 
-<div class="cursor-pointer" (click)="messageClickedEvent$.emit(txnConversationItems.transaction_id)">
-  <i class="meta-text cursor-pointer pl-1" (click)="utilityService.copyToClipboard(txnConversationItems.transaction_id)">
-    {{txnConversationItems.transaction_id}}
+<div class="cursor-pointer" [ngClass]="txnId" (click)="messageClickedEvent$.emit(txnId)">
+  <i class="meta-text cursor-pointer pl-1" (click)="utilityService.copyToClipboard(txnId)" [innerHtml]="'txnId:'+ txnId_highlighting">
   </i>
   <div *ngFor="let sessionMessage of sessionMessageItems">
 
     <div  *ngIf="sessionMessage && sessionMessage.user_type==='human'" >
-      <div class="row reverse-flex-row my-1" [ngClass]="sessionMessage.transaction_id">
+      <div class="row reverse-flex-row my-1">
         <!--<div class="col-1 text-left p-0">-->
         <!--<img class="" src="http://logok.org/wp-content/uploads/2014/04/Citi-logo-880x660.png"-->
         <!--style="width: 32px;height: 32px" alt="">-->

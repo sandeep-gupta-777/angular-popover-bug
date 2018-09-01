@@ -14,10 +14,15 @@ export class SessionMessageComponent implements OnInit {
   @Input() txnConversationItems: ITxnSessionMessagesItem;
   @Output() messageClickedEvent$: EventEmitter<string> = new EventEmitter();
   sessionMessageItems: ISessionMessageItem[];
+  txnId:string;
+  txnId_highlighting:string;
   constructor(public utilityService:UtilityService) { }
 
   ngOnInit() {
+
     this.sessionMessageItems = this.txnConversationItems.convoList;
+    this.txnId = this.txnConversationItems.transaction_id;
+    this.txnId_highlighting = this.txnConversationItems.transaction_id_highlighting || this.txnId;
     // this.sessionMessageData.user_type;
   }
 

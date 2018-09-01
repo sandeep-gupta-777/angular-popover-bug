@@ -37,7 +37,7 @@ export class SessionDetailModelComponent implements OnInit {
   sessionMessageData$: Observable<ISessionMessage>;
   sessionMessageData: ISessionMessageItem[];
   sessionMessageDataCopy: ISessionMessageItem[];
-  transactionIdSelectedInModel:string;
+  transactionIdSelectedInModel: string;
   messageSearchKeyword: string = '';
   activeTab: string = 'manager_bot';  // = 'manager_bot' | 'active_bot'|'final_df'|'datastore';
   codeText;
@@ -83,6 +83,7 @@ export class SessionDetailModelComponent implements OnInit {
 
 
   transactionIdChangedInModel(txnId) {
+    debugger;
     this.transactionIdSelectedInModel = txnId;
     /*This data will show under Manager Bot*/
     let messageDataForGiveTxnId = this.sessionMessageData.find((message) => {
@@ -126,45 +127,51 @@ export class SessionDetailModelComponent implements OnInit {
 
   }
 
-  scroll(txnId):boolean {
+  scroll(txnId): boolean {
     let ele = document.getElementsByClassName(txnId)[0];
     console.log(ele);
-    if(!ele && this.searchEnterPressedCount>0){
-      this.utilityService.showSuccessToaster("Reached end of list");
+    if (!ele && this.searchEnterPressedCount > 0) {
+      this.utilityService.showSuccessToaster('Reached end of list');
     }
-    if(ele){
+    if (ele) {
       ele.scrollIntoView();
-      return true
+      return true;
     }
     return false;
   }
 
-  goToNextSearchResult(messageSearchKeyword){
-    ++this.searchEnterPressedCount;
-    if(this.searchEnterPressedCount<0) this.searchEnterPressedCount=0;
+  goToNextSearchResult(messageSearchKeyword) {
+
+    if (this.searchEnterPressedCount !== 0) {
+      ++this.searchEnterPressedCount;
+    }
+    if (this.searchEnterPressedCount < 0) this.searchEnterPressedCount = 0;
     let elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, this.searchEnterPressedCount);
-    if(!elementDataToScroll) {
+    if (!elementDataToScroll) {
       --this.searchEnterPressedCount;
       return;
     }
     let txnId = elementDataToScroll.transaction_id;
-    if(elementDataToScroll ){
+    if (elementDataToScroll) {
       let didScrollOccur = this.scroll(txnId);
-      if(!didScrollOccur)--this.searchEnterPressedCount;
+      if (!didScrollOccur) --this.searchEnterPressedCount;
       this.transactionIdChangedInModel(txnId);
+    }
+    if (this.searchEnterPressedCount === 0) {
+      ++this.searchEnterPressedCount;
     }
   }
 
-  goToPreviousSearchResult(messageSearchKeyword){
-    debugger;
+  goToPreviousSearchResult(messageSearchKeyword) {
+
     --this.searchEnterPressedCount;
     let elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, this.searchEnterPressedCount);
-    if(!elementDataToScroll) {
+    if (!elementDataToScroll) {
       --this.searchEnterPressedCount;
       return;
     }
-    if(this.searchEnterPressedCount<0) this.searchEnterPressedCount=0;
-    if(elementDataToScroll ){
+    if (this.searchEnterPressedCount < 0) this.searchEnterPressedCount = 0;
+    if (elementDataToScroll) {
       let didScrollOccur = this.scroll(elementDataToScroll.transaction_id);
       this.transactionIdChangedInModel(elementDataToScroll.transaction_id);
     }
@@ -180,16 +187,35 @@ export class SessionDetailModelComponent implements OnInit {
     elementDataToScroll && this.scroll(elementDataToScroll.transaction_id);
   }
 
-  findElementDataBySearchKeyWord(messageSearchKeyword, index){
+
+  findElementDataBySearchKeyWord(messageSearchKeyword, index) {
+
     let elementsDataToScroll = this.sessionMessageData.filter((objItem: ISessionMessageItem) => {
       /*find if messageSearchKeyword exists in message or message[0].text as substring */
-      return objItem.message
-        && objItem.message.includes(messageSearchKeyword)
-        || objItem.message
-        && objItem.message[0].text
-        && objItem.message[0].text.includes(messageSearchKeyword);
+      console.log(this.messageSearchKeyword);
+      let isMatch;
+      try{
+        /*searching for txn id match*/
+        isMatch = objItem.transaction_id.toUpperCase().includes(messageSearchKeyword.toUpperCase());
+        if(isMatch) return isMatch
+      }catch (e) {}
+
+      try {
+        /*searching for human message match*/
+        isMatch = objItem.message.toUpperCase().includes(messageSearchKeyword.toUpperCase());
+        if (isMatch) return isMatch;
+      } catch (e) {}
+
+      try {
+        /*searching for bot messages match*/
+        for(let msg of objItem.message){
+          isMatch = msg.text.toUpperCase().includes(messageSearchKeyword.toUpperCase());
+          if (isMatch) return isMatch;
+        }
+      } catch (e) {}
     });
-    return elementsDataToScroll[index]
+    return elementsDataToScroll[index];
   }
 
 }
+

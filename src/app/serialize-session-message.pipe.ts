@@ -3,6 +3,7 @@ import {ISessionMessageItem} from '../interfaces/sessions';
 
 export interface ITxnSessionMessagesItem {
   transaction_id: string,
+  transaction_id_highlighting?: string,/*to be used for highlighting purposes*/
   convoList: ISessionMessageItem[]
 }
 
