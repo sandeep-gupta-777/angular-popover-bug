@@ -45,6 +45,9 @@ export interface ISessionItem {
       "imageUrl": string,
       "name": string
   }
+
+  /*for smart table*/
+  highlight?:boolean
 }
 
 

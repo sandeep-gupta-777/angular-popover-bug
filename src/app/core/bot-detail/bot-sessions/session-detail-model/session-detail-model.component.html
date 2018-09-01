@@ -70,7 +70,7 @@
                   </div>
                 </div>
                 <!--search input ends-->
-                <div class="row m-0 my-2 align-items-start align-content-start"
+                <div class="row m-0 my-2 pr-1 align-items-start align-content-start"
                      style="height: 65vh;overflow-y: scroll;overflow-x: hidden;">
                   <div class="col-12 px-0 border-hover-txn"
                        *ngFor="let txnConversationItems of sessionMessageDataCopy|serializeSessionMessage|filterObjectArray:messageSearchKeyword; let i=index"
@@ -88,7 +88,8 @@
             <!--</div>-->
             <div class="col-6 d-flex flex-column">
               <ul class="nav nav-tabs my-2 pb-0">
-                <li class="nav-item px-0">
+                <!--TODO: *ngIf="bot.child_bots && bot.child_bots.length>0" below-->
+                <li class="nav-item px-0" >
                   <a class="nav-link p-0 mr-2" [ngClass]="{'tab-active':activeTab==='manager_bot'}"
                      (click)="tabClicked('manager_bot')"><strong>MANAGER BOT</strong></a>
                 </li>

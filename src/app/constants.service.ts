@@ -358,6 +358,15 @@ export class ConstantsService {
     pager: {
       display: false,
       perPage: 5
+    },
+    rowClassFunction: (row) => {
+      if (row.data.highlight) {
+        return 'hightlight-created-row';
+        //   return 'score negative'; // Color from row with negative in score
+        // } else if (row.data.type === '(+)') {
+        //   return 'score positive';
+      }
+      return '';
     }
   };
   readonly SMART_TABLE_ENTERPISE_USERS_SETTING = {

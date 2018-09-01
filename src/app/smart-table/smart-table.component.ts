@@ -78,7 +78,6 @@ export class SmartTableComponent implements OnInit {
   }
 
   goToPage(currentPage) {
-    // ;
 
     this.currentPage = currentPage;
     // this.totalPageCount = Math.ceil(this.totalRecords / this.recordsPerPage);
@@ -99,7 +98,6 @@ export class SmartTableComponent implements OnInit {
   }
 
   createPaginationArray(start, end) {
-    ;
     this.paginationArr.length = 0;
     for (let i = start; i <= end; ++i) {
       this.paginationArr.push(i);

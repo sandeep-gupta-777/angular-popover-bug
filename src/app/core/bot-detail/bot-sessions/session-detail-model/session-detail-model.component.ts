@@ -101,7 +101,6 @@ export class SessionDetailModelComponent implements OnInit {
   }
 
   tabClicked(active: string) {
-    // ;
     this.activeTab = active;
     switch (active) {
       case 'manager_bot': {

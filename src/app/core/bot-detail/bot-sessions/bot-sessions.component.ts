@@ -27,7 +27,7 @@ export class BotSessionsComponent implements OnInit {
   refreshSessions$: Observable<ISessions>;
   url: string;
   modalRef: BsModalRef;
-  smartTableSettings_Sessions;
+  smartTableSettings_Sessions = this.constantsService.SMART_TABLE_SESSIONS_SETTING;
   selectedRow_Session: ISessionItem;
   selectedRow_number: number = 0;
   totalSessionRecords: number = 0;
@@ -54,8 +54,6 @@ export class BotSessionsComponent implements OnInit {
       this.totalSessionRecords = value.meta.total_count;
       this.sessions = value.objects;
     });
-
-    this.smartTableSettings_Sessions = this.constantsService.SMART_TABLE_SESSIONS_SETTING;
   }
 
   /*todo: implement it better way*/
@@ -67,11 +65,16 @@ export class BotSessionsComponent implements OnInit {
   }
 
   goToReportEditComponent($event, template) {
-    // ;
+    // if(this.selectedRow_Session)(<any>this.selectedRow_Session).highlight = false;
     this.selectedRow_Session = $event.data;
+    // (<any>this.selectedRow_Session).highlight = true;
+    if(this.indexOfCurrentRowSelected !== undefined)
+      this.sessions[this.indexOfCurrentRowSelected].highlight = false;
     this.indexOfCurrentRowSelected = this.sessions.findIndex((session) => {
       return this.selectedRow_Session.id === session.id;
     });
+    this.sessions[this.indexOfCurrentRowSelected].highlight = true;
+    debugger;
     this.openModal(template);
   }
 
@@ -91,13 +94,17 @@ export class BotSessionsComponent implements OnInit {
         this.totalSessionRecords = value.meta.total_count;
         this.selectedRow_Session = value.objects[this.selectedRow_number || 0];
         this.sessions = value.objects;
+        if(this.indexOfCurrentRowSelected !== undefined)
+          this.sessions[this.indexOfCurrentRowSelected].highlight = true;
       });
   }
 
   selectNextRow() {
-    // ;
     // this.selectedRow_Session
 
+    debugger;
+    if(this.indexOfCurrentRowSelected !== undefined)
+      this.sessions[this.indexOfCurrentRowSelected].highlight = false;
 
     let currentIndex = this.sessions.findIndex((session) => {
       return this.selectedRow_Session.id === session.id;
@@ -108,15 +115,18 @@ export class BotSessionsComponent implements OnInit {
 
     }
     else {
-      // ;
       this.smartTableComponent.goToNextPage();
       this.selectedRow_number = 0;
       this.indexOfCurrentRowSelected = 0;
     }
+
+    if(this.indexOfCurrentRowSelected !== undefined)
+      this.sessions[this.indexOfCurrentRowSelected].highlight = true;
   }
 
   selectPrevRow() {
-    // ;
+    if(this.indexOfCurrentRowSelected !== undefined)
+      this.sessions[this.indexOfCurrentRowSelected].highlight = false;
     let currentIndex = this.sessions.findIndex((session) => {
       return this.selectedRow_Session.id === session.id;
     });
@@ -132,6 +142,9 @@ export class BotSessionsComponent implements OnInit {
       this.selectedRow_number = 9;
       this.indexOfCurrentRowSelected = 9;
     }
+    if(this.indexOfCurrentRowSelected !== undefined)
+      this.sessions[this.indexOfCurrentRowSelected].highlight = true;
+
   }
 
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: ISessionItem, source: any }) {
@@ -153,8 +166,6 @@ export class BotSessionsComponent implements OnInit {
       /*use dcrypt api*/
     }
   }
-
-  sessionMessageData$;
 
   loadSessionById(id) {
     this.url = this.constantsService.getSessionsMessageUrl(id);
