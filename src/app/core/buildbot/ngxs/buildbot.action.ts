@@ -1,5 +1,5 @@
 import {IAvatarList, IBasicInfo, ICustomners, IIntegration, IPipeline, ISaveDataManagment} from '../../../../interfaces/bot-creation';
-import {IAIModule} from '../../../../interfaces/ai-module';
+import {IPipelineItem} from '../../../../interfaces/ai-module';
 import {IBot, ICodeData} from '../../interfaces/IBot';
 
 export class SaveNewBotInfo_CodeBased {
@@ -20,7 +20,7 @@ export class SaveAvatorInfo {
 }
 export class SavePipeLineInfo {
   static readonly type = '[build-bots] set PipeLine info';
-  constructor(public payload: { data: {pipeline:IAIModule[], unselectedPipeline:IAIModule[]} }) {}
+  constructor(public payload: { data: {pipeline:IPipelineItem[], unselectedPipeline:IPipelineItem[]} }) {}
 }
 export class SaveCustomnersInfo {
   static readonly type = '[build-bots] set Customners info';

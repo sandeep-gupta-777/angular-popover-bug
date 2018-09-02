@@ -15,13 +15,13 @@ export class ViewPipelineBasedBotsComponent implements OnInit, OnDestroy {
   //intelligent
 
   @Select() botlist$: Observable<ViewBotStateModel>;
-  codeBasedBotList$: Observable<IBot[]>;
+  pipelineBasedBotList$: Observable<IBot[]>;
 
   constructor(private store: Store) {
   }
 
   ngOnInit() {
-    this.codeBasedBotList$ = this.botlist$
+    this.pipelineBasedBotList$ = this.botlist$
       .do((value)=>{return value})
       .map((value) => value.allBotList && value.allBotList.filter((bot) => bot.bot_type === 'intelligent'));
   }

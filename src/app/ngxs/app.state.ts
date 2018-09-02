@@ -1,10 +1,10 @@
-import {Action, NgxsOnInit, Selector, State, StateContext, Store} from '@ngxs/store';
+import {Action, State, StateContext, Store} from '@ngxs/store';
 import {
   ResetAppState,
   ResetStoreToDefault, SetBackendURlRoot, SetEnterpriseNerData,
   SetLastSateUpdatedTimeAction,
   SetMasterIntegrationsList,
-  SetMasterProfilePermissions,
+  SetMasterProfilePermissions, SetPipelineModuleMasterData,
   SetProgressValue,
   SetStateFromLocalStorageAction
 } from './app.action';
@@ -16,6 +16,7 @@ import {IIntegrationMasterListItem} from '../../interfaces/integration-option';
 import {IProfilePermission} from '../../interfaces/profile-action-permission';
 import {stringify} from 'querystring';
 import {ICustomNerItem} from '../../interfaces/custom-ners';
+import {IPipelineItem} from '../../interfaces/ai-module';
 
 
 export interface IAppState /*extends INavigationState, IAuthState */
@@ -28,11 +29,12 @@ export interface IAppState /*extends INavigationState, IAuthState */
   },
   masterIntegrationList: IIntegrationMasterListItem[],
   masterProfilePermissions: IProfilePermission[],
+  masterPipelineItems: IPipelineItem[],
   backendUrlRoot:string,
   enterpriseNerData:ICustomNerItem[]
 }
 
-const appDefaultState = {
+const appDefaultState: IAppState = {
   lastUpdated: 0,
   progressbar: {
     show: false,
@@ -42,7 +44,8 @@ const appDefaultState = {
   masterIntegrationList: null,
   masterProfilePermissions:null,
   backendUrlRoot:'https://dev.imibot.ai/',
-  enterpriseNerData:[]
+  enterpriseNerData:[],
+  masterPipelineItems: null
 };
 
 @State<IAppState>({
@@ -91,6 +94,11 @@ export class AppStateReducer {
   @Action(SetEnterpriseNerData)
   setEnterpriseNerData({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetEnterpriseNerData) {
     patchState({enterpriseNerData: payload.payload.enterpriseNerData});
+  }
+
+  @Action(SetPipelineModuleMasterData)
+  setPipelineModuleMasterData({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetPipelineModuleMasterData) {
+    patchState({masterPipelineItems:payload.payload.masterPipelineItems});
   }
 
   @Action(ResetAppState)

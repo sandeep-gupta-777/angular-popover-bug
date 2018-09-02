@@ -21,6 +21,8 @@ import {ChatSessionStateReducer} from './chat/ngxs/chat.state';
 import {BotCreationStateReducer} from './core/buildbot/ngxs/buildbot.state';
 import {AnalysisStateReducer2} from './core/analysis2/ngxs/analysis.state';
 import {ReportsStateReducer} from './core/reports/ngxs/reports.state';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 // import {IntegrationLogosPipe} from './integration-logos.pipe';
 // const routes: Route[] = []
 const routes: Route[] = [
@@ -74,7 +76,8 @@ const routes: Route[] = [
     //
 
     ToastrModule.forRoot(), // ToastrModule added,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
     /*custom modules*/
     // AuthModule,
     // CoreModule

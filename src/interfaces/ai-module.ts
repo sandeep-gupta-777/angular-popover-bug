@@ -11,7 +11,7 @@
 //
 // }
 
-export interface IAIModule {
+export interface IPipelineItem {
   "contextual": boolean,
   "created_at": string,
   "default": boolean,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {IAIModule} from '../interfaces/ai-module';
+import {IPipelineItem} from '../interfaces/ai-module';
 
 @Injectable({
   providedIn: 'root'
