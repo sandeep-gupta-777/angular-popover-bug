@@ -139,19 +139,19 @@ export class ServerService {
   }
 
   getNSetBotList() {
-    let url = this.constantsService.getPipelinebasedBotListUrl();
+    let url = this.constantsService.getBotListUrl();
     let headerData: IHeaderData = {'content-type': 'application/json'};
     return this.makeGetReq<IBotResult>({url, headerData})
       .do((botResult) => {
-        let codeBasedBotList: IBot[] = [];
-        let pipelineBasedBotList: IBot[] = [];
+        // let codeBasedBotList: IBot[] = [];
+        // let pipelineBasedBotList: IBot[] = [];
 
-        botResult.objects.forEach((bot) => {
-          bot.bot_type !== 'genbot' ? codeBasedBotList.push(bot) : pipelineBasedBotList.push(bot);
-        });
+        // botResult.objects.forEach((bot) => {
+        //   bot.bot_type !== 'genbot' ? codeBasedBotList.push(bot) : pipelineBasedBotList.push(bot);
+        // });
         this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
-        this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
-        this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
+        // this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
+        // this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
       });
 
   }

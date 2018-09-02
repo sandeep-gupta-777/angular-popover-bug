@@ -1,13 +1,9 @@
 import {LoginComponent} from './login/login.component';
 import {Route, RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
-import {AuthStateReducer} from './ngxs/auth.state';
 import {NgModule} from '@angular/core';
 import {AuthWrapperComponent} from './auth-wrapper.component';
 import {CommonModule} from '@angular/common';
-import {ConstantsService} from '../constants.service';
-import {UtilityService} from '../utility.service';
-import { NgxsModule } from '@ngxs/store';
 import { HttpClientModule } from '@angular/common/http';
 
 const routes: Route[] = [
@@ -23,9 +19,9 @@ const routes: Route[] = [
     CommonModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,
-    NgxsModule.forFeature([
-      AuthStateReducer,
-    ]),
+    // NgxsModule.forFeature([
+    //   AuthStateReducer,
+    // ]),
     HttpClientModule,
 
   ],

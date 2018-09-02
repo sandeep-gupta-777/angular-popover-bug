@@ -1,5 +1,4 @@
 import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {getAdvancedData, getBasicData} from '../data';
 import {ConstantsService} from '../constants.service';
 // import * as Handsontable from 'handsontable';
 declare var Handsontable: any;
@@ -19,7 +18,6 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   @ViewChild('handsontable_search_field') hotTableSearchField: ElementRef;
   HandsontableComponent = this;
   @Input() set testData(value) {
-    ;
     this._data = value;
     if (value && value.length>0 && this.hot) {
       this.hot.getInstance().loadData(value);

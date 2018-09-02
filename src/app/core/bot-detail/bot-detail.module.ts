@@ -4,10 +4,10 @@ import {CommonModule} from '@angular/common';
 import {BsDropdownModule, ModalModule, TabsModule} from 'ngx-bootstrap';
 import {FormsModule} from '@angular/forms';
 import {DragAndDropModule} from 'angular-draggable-droppable';
-import {NgxsModule} from '@ngxs/store';
-import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
-import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
-import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
+// import {NgxsModule} from '@ngxs/store';
+// import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
+// import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
+// import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
 import {HttpClientModule} from '@angular/common/http';
 import {Ng2CompleterModule} from 'ng2-completer';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
@@ -75,7 +75,7 @@ const routes: Route[] = [
     TabsModule.forRoot(),
     FormsModule,
     DragAndDropModule.forRoot(),
-    NgxsModule.forFeature([]),
+    // NgxsModule.forFeature([]),
     SharedModule,
     HttpClientModule,
     Ng2SmartTableModule,

@@ -39,16 +39,16 @@ import {FooterComponent} from '../footer/footer.component';
 import {BsDatepickerModule, BsDropdownModule, ModalModule, ProgressbarModule, TabsModule, TooltipModule} from 'ngx-bootstrap';
 import {FormsModule} from '@angular/forms';
 import {DragAndDropModule} from 'angular-draggable-droppable';
-import {NgxsModule} from '@ngxs/store';
-import {AuthStateReducer} from '../auth/ngxs/auth.state';
-import {NavigationStateReducer} from '../ngxs/navigation.state';
-import {AppStateReducer} from '../ngxs/app.state';
-import {EnterpriseprofileStateReducer} from './enterpriseprofile/ngxs/enterpriseprofile.state';
-import {ViewBotStateReducer} from './view-bots/ngxs/view-bot.state';
-import {ChatSessionStateReducer} from '../chat/ngxs/chat.state';
-import {BotCreationStateReducer} from './buildbot/ngxs/buildbot.state';
-import {ReportsStateReducer} from './reports/ngxs/reports.state';
-import {AnalysisStateReducer2} from './analysis2/ngxs/analysis.state';
+// import {NgxsModule} from '@ngxs/store';
+// import {AuthStateReducer} from '../auth/ngxs/auth.state';
+// import {NavigationStateReducer} from '../ngxs/navigation.state';
+// import {AppStateReducer} from '../ngxs/app.state';
+// import {EnterpriseprofileStateReducer} from './enterpriseprofile/ngxs/enterpriseprofile.state';
+// import {ViewBotStateReducer} from './view-bots/ngxs/view-bot.state';
+// import {ChatSessionStateReducer} from '../chat/ngxs/chat.state';
+// import {BotCreationStateReducer} from './buildbot/ngxs/buildbot.state';
+// import {ReportsStateReducer} from './reports/ngxs/reports.state';
+// import {AnalysisStateReducer2} from './analysis2/ngxs/analysis.state';
 import {HttpClientModule} from '@angular/common/http';
 import {ClickOutsideModule} from 'ng2-click-outside';
 import {AimService} from '../aim.service';
@@ -169,16 +169,9 @@ const routes: Route[] = [
     // AceEditorModule,
     FormsModule,
     DragAndDropModule.forRoot(),
-    NgxsModule.forFeature([
-      AuthStateReducer,
-      NavigationStateReducer,
-      AppStateReducer,
-      EnterpriseprofileStateReducer,
-      ViewBotStateReducer,
-      ChatSessionStateReducer,
-      BotCreationStateReducer,
-      ReportsStateReducer,
-    ]),
+    // NgxsModule.forFeature([
+    //
+    // ]),
     // NgxsStoragePluginModule.forRoot(),
     // NgxsReduxDevtoolsPluginModule.forRoot(),
     // NgxsLoggerPluginModule.forRoot(),

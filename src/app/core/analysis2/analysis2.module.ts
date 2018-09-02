@@ -4,7 +4,7 @@ import {CommonModule} from '@angular/common';
 import {BsDatepickerModule, BsDropdownModule, ModalModule, TabsModule, TooltipModule} from 'ngx-bootstrap';
 import {FormsModule} from '@angular/forms';
 import {DragAndDropModule} from 'angular-draggable-droppable';
-import {NgxsModule} from '@ngxs/store';
+// import {NgxsModule} from '@ngxs/store';
 import {HttpClientModule} from '@angular/common/http';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {DragService} from '../../drag.service';
@@ -17,7 +17,7 @@ import {Analysis2OverviewComponent} from './analysis2-overview/analysis2-overvie
 import {Analysis2EngagementComponent} from './analysis2-engagement/analysis2-engagement.component';
 import {Analysis2HeaderComponent} from './analysis2-header/analysis2-header.component';
 import {Analysis2BodyComponent} from './analysis2-body/analysis2-body.component';
-import {AnalysisStateReducer2} from './ngxs/analysis.state';
+// import {AnalysisStateReducer2} from './ngxs/analysis.state';
 
 const routes: Route[] = [
   {
@@ -49,9 +49,9 @@ const routes: Route[] = [
     TabsModule.forRoot(),
     FormsModule,
     DragAndDropModule.forRoot(),
-    NgxsModule.forFeature([
-      AnalysisStateReducer2
-    ]),
+    // NgxsModule.forFeature([
+    //   AnalysisStateReducer2
+    // ]),
     SharedModule,
     HttpClientModule,
     // Ng2SmartTableModule,

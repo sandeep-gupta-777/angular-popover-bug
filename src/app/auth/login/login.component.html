@@ -19,10 +19,10 @@
         <div class="col-12 d-flex justify-content-center align-items-center">
           <form class="login-form" (ngSubmit)="onSubmit()" #heroForm="ngForm">
             <div class="form-group">
-              <input type="email" required email class="form-control" [(ngModel)] = "emailE" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+              <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp" placeholder="Enter email">
             </div>
             <div class="form-group">
-              <input type="password" class="form-control" name="password" [(ngModel)] = "passwordP" required placeholder="Password">
+              <input type="password" class="form-control" name="password" ngModel required placeholder="Password">
             </div>
             <div class="d-flex justify-content-between">
               <!--<label for=""><input type="checkbox2"> Remember Me</label>-->
@@ -33,7 +33,7 @@
               <div hidden class="cursor-pointer" (click)="showPanel('forgot')">Forgot Password?</div>
             </div>
             <button type="submit" class="btn-block btn-theme-primary mt-3">Submit</button>
-            <p  class="text-danger my-2">{{errorMessage}}</p>
+            <p  class="text-danger my-2" style="height: 15px" [ngClass]="{'visible':errorMessage}">{{errorMessage}}</p>
           </form>
         </div>
       </div>

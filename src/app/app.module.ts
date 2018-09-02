@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
-import {Route, RouterModule} from '@angular/router';
+import {PreloadAllModules, Route, RouterModule} from '@angular/router';
 import { ProgressbarModule } from 'ngx-bootstrap';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
 import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
@@ -13,6 +13,14 @@ import {ToastrModule} from 'ngx-toastr';
 import {NgxsModule} from '@ngxs/store';
 import {NotFoundComponent} from './core/not-found/not-found.component';
 import {DragService} from './drag.service';
+import {AuthStateReducer} from './auth/ngxs/auth.state';
+import {NavigationStateReducer} from './ngxs/navigation.state';
+import {EnterpriseprofileStateReducer} from './core/enterpriseprofile/ngxs/enterpriseprofile.state';
+import {ViewBotStateReducer} from './core/view-bots/ngxs/view-bot.state';
+import {ChatSessionStateReducer} from './chat/ngxs/chat.state';
+import {BotCreationStateReducer} from './core/buildbot/ngxs/buildbot.state';
+import {AnalysisStateReducer2} from './core/analysis2/ngxs/analysis.state';
+import {ReportsStateReducer} from './core/reports/ngxs/reports.state';
 // import {IntegrationLogosPipe} from './integration-logos.pipe';
 // const routes: Route[] = []
 const routes: Route[] = [
@@ -29,7 +37,7 @@ const routes: Route[] = [
   ],
   imports: [
     // BrowserModule,
-    RouterModule.forRoot(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
+    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     // BsDropdownModule.forRoot(),
     // TabsModule.forRoot(),
     // AceEditorModule,
@@ -38,16 +46,15 @@ const routes: Route[] = [
     // DragAndDropModule.forRoot(),
     // ChartModule,
     NgxsModule.forRoot([
-      // AuthStateReducer,
-      // NavigationStateReducer,
+      AuthStateReducer,
+      NavigationStateReducer,
       AppStateReducer,
-      // EnterpriseprofileStateReducer,
-      // ViewBotStateReducer,
-      // ChatSessionStateReducer,
-      // BotCreationStateReducer,
-      // AnalysisStateReducer,
-      // ReportsStateReducer,
-      // AnalysisStateReducer2
+      EnterpriseprofileStateReducer,
+      ViewBotStateReducer,
+      ChatSessionStateReducer,
+      BotCreationStateReducer,
+      AnalysisStateReducer2,
+      ReportsStateReducer,
     ]),
     NgxsStoragePluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),

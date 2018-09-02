@@ -10,7 +10,7 @@ import 'rxjs/add/operator/map';
   templateUrl: './view-code-based-bot.component.html',
   styleUrls: ['./view-code-based-bot.component.scss']
 })
-export class ViewCodeBasedBotComponent implements OnInit, OnDestroy {
+export class ViewCodeBasedBotComponent implements OnInit{
 
   @Select() botlist$: Observable<ViewBotStateModel>;
   codeBasedBotList$: Observable<IBot[]>;
@@ -23,8 +23,4 @@ export class ViewCodeBasedBotComponent implements OnInit, OnDestroy {
       .do((value)=>{return value})
       .map((value) => value.allBotList && value.allBotList.filter((bot) => bot.bot_type === 'chatbot'));
   }
-
-  ngOnDestroy(): void {
-  }
-
 }
