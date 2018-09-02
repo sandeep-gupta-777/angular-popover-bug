@@ -67,6 +67,8 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
         console.log(value);
         // this.custumNerDataForSmartTable.push(value);
         (<any>this.custumNerDataForSmartTable).push({...value,highlight:true});
+        /*Routing should happen here*/
+        this.addQueryParamsInCurrentRoute({ner_id:value.id});
         this.utilityService.showSuccessToaster('Successfully saved');
       });
   }
@@ -91,4 +93,13 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
   //       this.utilityService.showSuccessToaster('Successfully saved');
   //     });
   // }
+
+  addQueryParamsInCurrentRoute(queryParamObj:object){
+    this.router.navigate(['.'], {
+      queryParams:queryParamObj,
+      relativeTo:this.activatedRoute,
+      // skipLocationChange: true,/*not working*/
+      queryParamsHandling:"merge"
+    });
+  }
 }

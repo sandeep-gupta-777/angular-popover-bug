@@ -169,10 +169,18 @@ export class BotSessionsComponent implements OnInit {
 
   loadSessionById(id) {
     this.url = this.constantsService.getSessionsMessageUrl(id);
-    return this.serverService.makeGetReq<ISessionMessage>({
+    return this.serverService.makeGetReq<{objects: ISessionItem[]}>({
       url: this.url,
       headerData: {'bot-access-token': this.bot.bot_access_token}
     });
+  }
+
+  performSearchInDbForSession(data){
+    this.loadSessionById(data["Room ID"])
+      .subscribe((value:{objects: ISessionItem[]})=>{
+        debugger;
+          this.sessions = [...this.sessions, ...value.objects];
+      });
   }
 
 }

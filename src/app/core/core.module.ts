@@ -57,6 +57,7 @@ import {BackendDevComponent} from '../backend-dev/backend-dev.component';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from '../shared.module';
 import {ViewCustomnerComponent} from './customner/view-customner/view-customner.component';
+import {AuthGaurdService} from '../auth-gaurd.service';
 
 const routes: Route[] = [
   {
@@ -67,10 +68,10 @@ const routes: Route[] = [
         path: 'viewbots', loadChildren: './view-bots/view-bots.module#ViewBotsModule'
       },
       {
-        path: 'botdetail', loadChildren: './bot-detail/bot-detail.module#BotDetailModule',
+        path: 'botdetail', loadChildren: './bot-detail/bot-detail.module#BotDetailModule', canLoad:[AuthGaurdService]
       },
       {
-        path: 'analytics2', loadChildren: './analysis2/analysis2.module#Analysis2Module'
+        path: 'analytics2', loadChildren: './analysis2/analysis2.module#Analysis2Module', canLoad:[AuthGaurdService]
       },
       // {
       //   path: 'analytics', component: WrapperComponent, children:

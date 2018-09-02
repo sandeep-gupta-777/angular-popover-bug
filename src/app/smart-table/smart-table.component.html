@@ -1,9 +1,13 @@
+<div class="d-flex justify-content-end mb-1">
+  <button class="btn btn-theme-secondary-outline" [disabled]="totalRows>0" (click)="performSearchInDB()">Search in DB</button>
+</div>
 <ng2-smart-table
   class=""
   [settings]="settings"
   [source]="source"
   (custom)="customActionEvents.emit($event)"
-  (userRowSelect)="onUserRowSelect($event)"></ng2-smart-table>
+  (userRowSelect)="onUserRowSelect($event)">
+</ng2-smart-table>
 
 <ul class="pagination pagination-sm justify-content-center my-2" *ngIf="paginationArr && paginationArr.length>1">
   <li class="page-item" [ngClass]="{'text-muted':currentPage<=1}"><a class="page-link" (click)="goToPrevPage()">Previous</a></li>
@@ -11,4 +15,6 @@
   <li class="page-item" [ngClass]="{'text-muted':currentPage>=totalPageCount}"><a class="page-link" (click)="goToNextPage()">Next</a></li>
 </ul>
 
-
+<div *ngIf="totalRows">
+  <label>Number of rows: {{totalRows}}</label>
+</div>

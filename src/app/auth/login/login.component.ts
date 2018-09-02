@@ -4,10 +4,8 @@ import {ConstantsService} from '../../constants.service';
 import {IUser} from '../../core/interfaces/user';
 import {Store} from '@ngxs/store';
 import {SetUserAction} from '../ngxs/auth.action';
-import {NavigateAction} from '../../ngxs/navigation.action';
 import {IHeaderData} from '../../../interfaces/header-data';
 import {Router} from '@angular/router';
-import {ToastrService} from 'ngx-toastr';
 import {UtilityService} from '../../utility.service';
 import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
 import {SetEnterpriseInfoAction} from '../../core/enterpriseprofile/ngxs/enterpriseprofile.action';
@@ -70,15 +68,16 @@ export class LoginComponent implements OnInit {
     };
     this.serverService.makePostReq<IUser>({url: loginUrl, body, headerData})
       .subscribe((user) => {
-          this.store.dispatch([
+        this.flashErrorMessage("Logged in. Taking you to home page");
+        this.store.dispatch([
             new SetUserAction({user}),
-          ]);
-          this.router.navigate(['/']);
+          ]).subscribe(()=>{
+            this.router.navigate(['/']);
+          });
           let enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(user.enterprise_id);
           this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
           .subscribe((value: IEnterpriseProfileInfo) => {
             debugger;
-            this.flashErrorMessage("Logged in. Taking you to home page");
             this.store.dispatch([
               new SetEnterpriseInfoAction({enterpriseInfo: value})
             ]);

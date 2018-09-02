@@ -30,6 +30,7 @@ import {EnabledIntegrationsCountPipe} from './enabled-integrations-count.pipe';
 import {SerializeEnterpriseprofileDataPipe} from './core/enterpriseprofile/serialize-enterpriseprofile-data.pipe';
 import {DragulaModule} from 'ng2-dragula';
 import {BsDatepickerModule, ModalModule, TooltipModule} from 'ngx-bootstrap';
+import {SerializeSessionMessagePipe} from './serialize-session-message.pipe';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import {BsDatepickerModule, ModalModule, TooltipModule} from 'ngx-bootstrap';
     ProfilePermissionIdToNamePipe,
     EnabledIntegrationsCountPipe,
     SerializeEnterpriseprofileDataPipe,
+    SerializeSessionMessagePipe
 
   ],
   imports: [
@@ -94,6 +96,7 @@ import {BsDatepickerModule, ModalModule, TooltipModule} from 'ngx-bootstrap';
     FilterObjectArrayPipe,
     FilterActiveBotPipe,
     FilterArrayPipe,
+    SerializeSessionMessagePipe,
     IntegrationImageCountPipe,
     IntegrationInputKeysFilterPipe,
     ProfilePermissionIdToNamePipe,

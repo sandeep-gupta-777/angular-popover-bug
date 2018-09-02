@@ -137,6 +137,7 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
   height: 32px !important;
   font-size: $font-size-xs;
   color: $color-primary;
+  cursor: pointer;
 }
 
 .btn-theme-success {
@@ -148,6 +149,7 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
   height: 32px !important;
   font-size: $font-size-xs;
   color: white;
+  cursor: pointer;
 }
 
 .btn-theme-danger {

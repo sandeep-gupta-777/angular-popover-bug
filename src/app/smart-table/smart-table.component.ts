@@ -10,16 +10,20 @@ import {Observable} from 'rxjs';
 export class SmartTableComponent implements OnInit {
 
   @Input() set data(value){
+    debugger;
     this._data = value;
     // this.totalPageCount = Math.ceil((this.totalRecords) / this.recordsPerPage);
     this.source.load(this._data);
     this.source.refresh();
   };
+  totalRows
+
 
   _data: any;
   iterableDiffer;
   @Input() settings: any;
   @Output() rowClicked$ = new EventEmitter();
+  @Output() performSearchInDB$ = new EventEmitter();
   @Output() pageChanged$ = new EventEmitter();
   source: LocalDataSource = new LocalDataSource();
   // @Input() totalRecords: number = 10;
@@ -62,6 +66,20 @@ export class SmartTableComponent implements OnInit {
     //   console.log('Changes in data detected!');
     //   this.source.refresh();
     // }
+    this.totalRows = this.source != null ? this.source.count() : 0;
+
+  }
+  performSearchInDB(){
+    if(this.totalRows===0){
+      let inputs = document.querySelectorAll(".ng2-smart-filter input");
+      let inputsCount = document.querySelectorAll(".ng2-smart-filter input").length;
+      let obj = {};
+      for(let i=0; i<inputs.length;++i){
+        let input$:any =  inputs[i];
+        obj[input$.placeholder] = input$.value;
+      }
+      this.performSearchInDB$.emit(obj);
+    }
   }
 
   onUserRowSelect(event): void {

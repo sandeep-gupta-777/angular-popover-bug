@@ -43,7 +43,6 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.loggeduser$.subscribe((loggeduser) => {
       this.loggeduser = loggeduser.user;
-      ;
     });
 
     let allActionsUrl = this.constantsService.getAllActionsUrl();
@@ -53,6 +52,10 @@ export class ProfileComponent implements OnInit {
           new SetMasterProfilePermissions({masterProfilePermissions: objects})
         ]);
       })
+
+    this.modalService.onHidden.subscribe((reason: string) => {
+      this.old_password = this.new_password = this.new_password_confirm = "";
+    })
   }
 
   updateProfile() {
@@ -67,6 +70,7 @@ export class ProfileComponent implements OnInit {
     this.serverService.makePutReq({url, body})
       .subscribe((value: IUser) => {
         let updatedUser: IUser = {...this.loggeduser, ...value};
+        this.utilityService.showSuccessToaster("Successfully updated!");
         this.store.dispatch([
           new SetUserAction({user: updatedUser})
         ]);
@@ -75,7 +79,6 @@ export class ProfileComponent implements OnInit {
 
   openChangePasswordModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'modal-md'});
-
   }
 
   changePassword() {

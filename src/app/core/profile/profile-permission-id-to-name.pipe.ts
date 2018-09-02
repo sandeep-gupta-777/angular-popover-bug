@@ -2,6 +2,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 import {Select} from '@ngxs/store';
 import {IAppState} from '../../ngxs/app.state';
 import {Observable} from 'rxjs';
+import 'rxjs/add/operator/map';
 
 @Pipe({
   name: 'profilePermissionIdToName'

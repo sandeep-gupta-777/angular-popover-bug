@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
           setTimeout(() => {
             this.showProgressbar = false;
           }, 500);
-        }, 1000);
+        }, 0);
       }
 
     });

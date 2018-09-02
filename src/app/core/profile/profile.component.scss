@@ -94,3 +94,17 @@
   border-radius: 2px;
   align-content: start;
 }
+
+.profile-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 10fr;
+  grid-template-areas:
+  'heading1 heading1 heading1 heading1'
+  '. label1 .      value1'
+  '. label2 .      value2'
+  '. label3 .      value3'
+  'heading2 heading2 heading2 heading2'
+  '. label4 .      value4'
+  '. label5 .      value5'
+  '. label6 .      value6'
+}

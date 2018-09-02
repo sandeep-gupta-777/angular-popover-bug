@@ -71,7 +71,12 @@ export class ViewCustomnerComponent implements OnInit {
   }
 
   addQueryParamsInCurrentRoute(queryParamObj:object){
-    this.router.navigate(['.'], {queryParams:queryParamObj, relativeTo:this.activatedRoute});
+    this.router.navigate(['.'], {
+      queryParams:queryParamObj,
+      relativeTo:this.activatedRoute,
+      // skipLocationChange: true,
+      // queryParamsHandling:"merge"
+    });
   }
 
 }
