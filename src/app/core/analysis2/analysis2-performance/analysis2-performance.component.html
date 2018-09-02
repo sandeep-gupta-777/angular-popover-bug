@@ -1,7 +1,7 @@
 <!--TODO: create a directive for tabbing-->
 <!--Tabbing starts-->
 <ul class="nav nav-tabs my-2 theme-tabbing">
-  <li class="nav-item ml-3">
+  <!-- <li class="nav-item ml-3">
     <a class="nav-link" [routerLink]="['.']"
        queryParamsHandling="merge"
        replaceUrl="true"
@@ -40,6 +40,14 @@
        [queryParams]="{perf:'room_duration'}"
        (click)="tabClicked('room_duration')"
        [ngClass]="{'tab-active':activeTab==='room_duration'}"><strong>Room Duration</strong></a>
+  </li> -->
+  <!-- added now -->
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true"
+       [queryParams]="{vol:'Messages'}"
+       (click)="tabClicked('Messages')"
+       [ngClass]="{'tab-active':activeTab==='Messages'}">
+       <strong>Messages</strong></a>
   </li>
 </ul>
 <!--Tabbing ends-->
@@ -72,4 +80,10 @@
 <app-chart *ngIf="activeTab==='room_duration'" [data]="series_room_duration"
 [chartValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_ENGAGEMENT"
 [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
+</app-chart>
+
+<!-- added now -->
+<app-chart *ngIf="activeTab==='Messages'" [data]="series_Messages"
+           [chartValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_ENGAGEMENT"
+           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
 </app-chart>
