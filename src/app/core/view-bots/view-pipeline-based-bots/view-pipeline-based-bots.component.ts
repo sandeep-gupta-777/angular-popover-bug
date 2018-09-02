@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {Select} from '@ngxs/store';
-import {ViewBotStateReducer} from '../ngxs/view-bot.state';
+import {Select, Store} from '@ngxs/store';
+import {ViewBotStateModel, ViewBotStateReducer} from '../ngxs/view-bot.state';
 import {Observable} from 'rxjs';
 import {IBot} from '../../interfaces/IBot';
 
@@ -12,13 +12,18 @@ import {IBot} from '../../interfaces/IBot';
 export class ViewPipelineBasedBotsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
   }
+  //intelligent
 
-  @Select(ViewBotStateReducer.getPipelineBased)  pipelineBasedBotList$ : Observable<IBot>;
-  constructor() { }
+  @Select() botlist$: Observable<ViewBotStateModel>;
+  pipelineBasedBotList$: Observable<IBot[]>;
+
+  constructor(private store: Store) {
+  }
 
   ngOnInit() {
-    this.pipelineBasedBotList$.subscribe((value)=>{
-    });
+    this.pipelineBasedBotList$ = this.botlist$
+      .do((value)=>{return value})
+      .map((value) => value.allBotList && value.allBotList.filter((bot) => bot.bot_type === 'intelligent'));
   }
 
 }

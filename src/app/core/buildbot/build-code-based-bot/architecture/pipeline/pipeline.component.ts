@@ -1,13 +1,17 @@
 import {Component, EventEmitter, Input, IterableDiffers, OnInit, Output} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {IBot} from '../../../../interfaces/IBot';
-import {IAIModule} from '../../../../../../interfaces/ai-module';
+import {IPipelineItem} from '../../../../../../interfaces/ai-module';
 import {AimService} from '../../../../../aim.service';
 import {ObjectArrayCrudService} from '../../../../../object-array-crud.service';
 import {SaveNewBotInfo_CodeBased, SavePipeLineInfo} from '../../../ngxs/buildbot.action';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
 import {IBotCreationState} from '../../../ngxs/buildbot.state';
+import {IAppState} from '../../../../../ngxs/app.state';
+import {ConstantsService} from '../../../../../constants.service';
+import {ServerService} from '../../../../../server.service';
+import {SetPipelineModuleMasterData} from '../../../../../ngxs/app.action';
 
 @Component({
   selector: 'app-pipeline',
@@ -19,15 +23,15 @@ export class PipelineComponent implements OnInit {
   // @Input() bot: IBot;
   _bot: IBot;
   @Input() set bot(botData: IBot) {
-    // ;
     this._bot = botData;
     this.pipeLine = this._bot && this._bot.pipelines || [];
   }
 
   @Select() botcreationstate$: Observable<IBotCreationState>;
+  @Select() app$: Observable<IAppState>;
   iterableDiffer;
   pipeLine: any[] = [];
-  aiModules: IAIModule[] = [];
+  aiModules: IPipelineItem[] = [];
   searchKeyword: string;
   buildBotType: any;
   @Output() datachanged$ = new EventEmitter();
@@ -37,6 +41,8 @@ export class PipelineComponent implements OnInit {
     private objectArrayCrudService: ObjectArrayCrudService,
     private _iterableDiffers: IterableDiffers,
     private activatedRoute: ActivatedRoute,
+    private constantsService: ConstantsService,
+    private serverService: ServerService,
     private store: Store) {
     this.iterableDiffer = this._iterableDiffers.find([]).create(null);
   }
@@ -45,11 +51,21 @@ export class PipelineComponent implements OnInit {
     this.buildBotType = this.activatedRoute.snapshot.data['buildBot'];
     this.pipeLine = this._bot && this._bot.pipelines || [];
 
-
-    this.aimService.getModules()
-      .subscribe((value: IAIModule[]) => {
-        this.aiModules = value;
+    let url = this.constantsService.getAllPipelineModuleUrl();
+    this.serverService.makeGetReq<{objects:IPipelineItem[]}>({url})
+      .subscribe(value => {
+        this.store.dispatch([
+          new SetPipelineModuleMasterData({masterPipelineItems: value.objects})
+        ]);
       });
+
+    this.app$.subscribe((appState:IAppState)=>{
+      this.aiModules = appState.masterPipelineItems;
+    });
+    // this.aimService.getModules()
+    //   .subscribe((value: IPipelineItem[]) => {
+    //     this.aiModules = value;
+    //   });
     if (this.buildBotType) {
       this.botcreationstate$.subscribe((botcreationstate) => {
         this.pipeLine = botcreationstate &&

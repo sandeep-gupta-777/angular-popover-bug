@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, RoutesRecognized} from '@angular/router';
-import {BrowserDomAdapter} from '@angular/platform-browser/src/browser/browser_adapter';
 import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {IAppState} from './ngxs/app.state';
@@ -22,23 +21,11 @@ export class AppComponent implements OnInit {
   isFullScreenPreview: boolean;
   progressVal: number = 0;
   showProgressbar: boolean = false;
-  dom: BrowserDomAdapter;
   editor: any;
   currentIntervalRef;
 
   ngOnInit() {
     this.app$.subscribe((app) => {
-      // ;
-      // this.showProgressbar = app.progressbar.loading;
-      // if(this.progressVal===100){
-      //   setTimeout(()=>{
-      //     this.showProgressbar=false
-      //   },1000)
-      // }
-      // else {
-      //   // this.showProgressbar=true;
-      // }
-
       if (app.progressbar.loading) {
         this.showProgressbar = true;
         this.currentIntervalRef && clearInterval(this.currentIntervalRef);
@@ -64,12 +51,12 @@ export class AppComponent implements OnInit {
     });
 
 
-    this.router.events.subscribe((data) => {
-      if (data instanceof RoutesRecognized) {
-        this.isFullScreenPreview = data.state.root.firstChild.data.isFullScreenPreview;
-        ;
-      }
-    });
+    // this.router.events.subscribe((data) => {
+    //   if (data instanceof RoutesRecognized) {
+    //     this.isFullScreenPreview = data.state.root.firstChild.data.isFullScreenPreview;
+    //     ;
+    //   }
+    // });
   }
 
 }

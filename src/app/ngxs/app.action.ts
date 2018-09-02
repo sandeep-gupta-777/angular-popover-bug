@@ -3,6 +3,8 @@ import {IAppState} from './app.state';
 import {IIntegrationMasterListItem} from '../../interfaces/integration-option';
 import {IProfilePermission} from '../../interfaces/profile-action-permission';
 import {ICustomNerItem} from '../../interfaces/custom-ners';
+import {IPipeline} from '../../interfaces/bot-creation';
+import {IPipelineItem} from '../../interfaces/ai-module';
 
 export class SetStateFromLocalStorageAction {
   static readonly type = '[app] set state from localstorage';
@@ -68,6 +70,14 @@ export class SetEnterpriseNerData {
 
   constructor(public payload: {
     enterpriseNerData:ICustomNerItem[]
+  }) {}
+}
+
+export class SetPipelineModuleMasterData{
+  static readonly type = '[app] set SetPipelineModuleMasterData';
+
+  constructor(public payload: {
+    masterPipelineItems:IPipelineItem[]
   }) {}
 }
 

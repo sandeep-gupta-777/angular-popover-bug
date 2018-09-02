@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
-import {st} from '@angular/core/src/render3';
 import {IAppState} from './ngxs/app.state';
-import {IAuthState} from './auth/ngxs/auth.state';
 import {IUser} from './core/interfaces/user';
 import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
@@ -71,9 +69,9 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/user/enterpriseusers/'; //https://dev.imibot.ai/api/v1/user/enterpriseusers/
   }
 
-  getPipelinebasedBotListUrl() {
+  getBotListUrl() {
     // return this.BACKEND_USER_PIPELINE_BASED_BOT_LIST + 'api/v1/bot/';
-    return this.BACKEND_URL+ 'api/v1/bot/';
+    return this.BACKEND_URL+ 'api/v1/bot/?limit=1000';
   }
 
   getMasterIntegrationsList() {

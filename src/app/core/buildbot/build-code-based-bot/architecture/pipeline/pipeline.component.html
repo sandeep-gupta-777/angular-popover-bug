@@ -14,8 +14,12 @@
     <h4 class="heading mt-3 mb-4 ">Available Intelligence Modules</h4>
     <ul class="aim-list  px-3 pt-3 d-flex align-items-start align-content-start flex-row flex-wrap"
         [dragula]='"first-bag"' [dragulaModel]='aiModules'>
-      <li class="border py-2 px-3 mb-2 mr-3 d-flex justify-content-center align-items-start cursor-pointer"
-          *ngFor="let aiModule of (aiModules|pipelineFilter:searchKeyword); let i of index">{{aiModule.unique_name}}
+      <li class="border module-box mb-2 px-2 mr-3"
+          *ngFor="let aiModule of (aiModules|pipelineFilter:searchKeyword); let i of index">
+        {{aiModule.unique_name}}
+        <div>
+          <i class="fa fa-cog pl-1" aria-hidden="true"></i>
+        </div>
       </li>
     </ul>
   </div>
@@ -24,9 +28,12 @@
       <h4 class="heading mt-3 mb-4">Bot Intelligence Pipeline</h4>
       <div class="flex-grow-1"  [dragula]='"first-bag"' [dragulaModel]='pipeLine'>
         <div *ngFor="let aiModule of (pipeLine|pipelineFilter:searchKeyword);let targetIndexNew = index">
-          <div class="border mb-2 mr-3 module-box cursor-pointer"
+          <div class="border mb-2 mr-3 module-box"
                [ngClass]="{'bg-grey':aiModule.$$hashKey==='PLACE_HOLDER'}">
             {{aiModule.unique_name||aiModule.id}}
+            <div>
+              <i class="fa fa-cog pl-1" aria-hidden="true"></i>
+            </div>
           </div>
         </div>
       </div>

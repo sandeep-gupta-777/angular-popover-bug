@@ -19,7 +19,7 @@ import {
 } from './buildbot.action';
 import {ConstantsService} from '../../../constants.service';
 import {buildPath} from 'selenium-webdriver/http';
-import {IAIModule} from '../../../../interfaces/ai-module';
+import {IPipelineItem} from '../../../../interfaces/ai-module';
 import {IBot, IBotCreation} from '../../interfaces/IBot';
 
 

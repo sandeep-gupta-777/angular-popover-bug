@@ -24,7 +24,8 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.json"
             ],
             "styles": [
               "src/styles.scss",
@@ -33,7 +34,6 @@
               "node_modules/codemirror/lib/codemirror.css"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.js",
               "node_modules/codemirror/lib/codemirror.js",
               "node_modules/codemirror/mode/python/python.js"
             ]
@@ -54,7 +54,8 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": true,
+              "serviceWorker": true
             }
           }
         },
@@ -88,7 +89,8 @@
             "scripts": [],
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.json"
             ]
           }
         },

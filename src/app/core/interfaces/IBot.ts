@@ -1,6 +1,6 @@
 import { IMeta } from "./meta";
 import { IAvatar } from "../../../interfaces/bot-creation";
-import {IAIModule} from '../../../interfaces/ai-module';
+import {IPipelineItem} from '../../../interfaces/ai-module';
 import {IIntegrationOption} from '../../../interfaces/integration-option';
 
 /*TODO: what is the key for industry*/
@@ -72,7 +72,7 @@ export interface IBot {
   "logo": string,
   "name": string,
   "parent_bots": string,
-  "pipelines": IAIModule[],
+  "pipelines": IPipelineItem[],
   "room_persistence_time": number,
   "transactions_per_pricing_unit": number,
   "updated_at": string,

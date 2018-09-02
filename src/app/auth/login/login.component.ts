@@ -36,6 +36,13 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
+  flashErrorMessage(message:string){
+    this.errorMessage = message;
+    setTimeout(() => {
+      this.errorMessage = '';
+    }, 3000);
+  }
+
   onSubmit() {
     let loginData = this.f.value;
     let loginUrl = this.constantsService.getLoginUrl();
@@ -48,20 +55,20 @@ export class LoginComponent implements OnInit {
     //   "password": "Botwoman@123!"
     // };
     let body;
-    ;
     if (this.f.valid) {
 
       body = this.f.value;
     } else {
-      this.errorMessage = 'Details not valid';
-      setTimeout(() => {
-        this.errorMessage = '';
-      }, 3000);
+      this.flashErrorMessage("Details not valid");
       return;
     }
 
 
-    this.serverService.makePostReq<IUser>({url: loginUrl, body})
+    let headerData: IHeaderData ={
+      "auth-token":null,
+      'user-access-token':null
+    };
+    this.serverService.makePostReq<IUser>({url: loginUrl, body, headerData})
       .subscribe((user) => {
           this.store.dispatch([
             new SetUserAction({user}),
@@ -70,6 +77,8 @@ export class LoginComponent implements OnInit {
           let enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(user.enterprise_id);
           this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
           .subscribe((value: IEnterpriseProfileInfo) => {
+            debugger;
+            this.flashErrorMessage("Logged in. Taking you to home page");
             this.store.dispatch([
               new SetEnterpriseInfoAction({enterpriseInfo: value})
             ]);
@@ -81,5 +90,4 @@ export class LoginComponent implements OnInit {
   showPanel(panel) {
     this.panelActive = panel;
   }
-
 };
