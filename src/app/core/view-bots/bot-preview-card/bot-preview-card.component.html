@@ -143,7 +143,7 @@
   <div class="grid-bot-preview-two bg-white shadow-theme">
     <div class="header-border-bottom"></div><!--just for border-->
     <!--header starts-->
-    <div class="grid-bot-preview-version header header-border-bottom pl-2 d-flex">
+    <div class="grid-bot-preview-version header header-border-bottom  d-flex">
       <!--<div class="header">-->
         <div class="span-wrapper">
           <i class="fa fa-circle"></i>
@@ -180,9 +180,9 @@
       <div class="heading">{{bot.name}}</div>
       <div class="description">{{bot.description}}</div>
     </div>
-    <div class="grid-bot-preview-details grid-bot-preview-third-row details2" style="align-self: end">
+    <div class="grid-bot-preview-details grid-bot-preview-third-row details2 pl-2" style="align-self: center">
       <div class="">Unique Name : {{bot.bot_unique_name}}</div>
-      <div class="">Last Updated : {{bot.bot_unique_name}}</div>
+      <div class="">Last Updated : {{bot.updated_at|date:'mediumDate'}}</div>
     </div>
 
     <div class="grid-bot-preview-forth-row d-flex flex-row-reverse bot-strip align-items-center p-2 footer">

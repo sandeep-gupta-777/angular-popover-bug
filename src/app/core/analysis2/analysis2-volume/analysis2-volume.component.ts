@@ -40,6 +40,7 @@ export class Analysis2VolumeComponent implements OnInit {
     name: 'Triggered',
     data: [5, 3, 4, 7, 2]
   }];
+  series_flows:any[];
 
   constructor(
     public constantsService: ConstantsService,
@@ -69,6 +70,12 @@ export class Analysis2VolumeComponent implements OnInit {
     if(this.activeTab === 'Time'){
       this.store.dispatch(new SetAnalysis2HeaderData({
         analysisHeaderData:{type:EAnalysis2TypesEnum.averageRoomTime}
+      }));
+    }
+    //adding new now 
+    if(this.activeTab==='flows'){
+      this.store.dispatch(new SetAnalysis2HeaderData({
+        analysisHeaderData:{type:EAnalysis2TypesEnum.totalFlows}
       }));
     }
   }
@@ -102,6 +109,10 @@ export class Analysis2VolumeComponent implements OnInit {
         }
         if(value.averageRoomTime  ){
           this.series_Time  = this.u.convert(value.averageRoomTime,"labels","Date") ;
+        }
+        //addeing extra to anylisis now
+        if(value.totalFlows){
+          this.series_flows  = this.u.convert(value.totalFlows,"labels","Date");
         }
       })
 

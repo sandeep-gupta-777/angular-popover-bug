@@ -1,33 +1,41 @@
 <!---->
 <!--Tabbing starts-->
 <ul class="nav nav-tabs my-2 theme-tabbing">
-  <li class="nav-item ml-3">
+  <!-- <li class="nav-item ml-3">
     <a class="nav-link" [routerLink]="['.']"
        queryParamsHandling="merge"
        replaceUrl="true"
        [queryParams]="{vol:'Users'}"
        (click)="tabClicked('Users')"
        [ngClass]="{'tab-active':activeTab==='Users'}"><strong>Users</strong></a>
-  </li>
+  </li> -->
   <li class="nav-item">
     <a class="nav-link" [routerLink]="['.']"
        queryParamsHandling="merge"
        replaceUrl="true"
        [queryParams]="{vol:'Sessions'}"
        (click)="tabClicked('Sessions')"
-       [ngClass]="{'tab-active':activeTab==='Sessions'}"><strong>Sessions</strong></a>
+       [ngClass]="{'tab-active':activeTab==='Sessions'}"><strong>Sessions Analysis</strong></a>
   </li>
-  <li class="nav-item">
+  <!-- for now -->
+  <!-- <li class="nav-item">
     <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true"
        [queryParams]="{vol:'Messages'}"
        (click)="tabClicked('Messages')"
-       [ngClass]="{'tab-active':activeTab==='Messages'}"><strong>Messages</strong></a>
-  </li>
+       [ngClass]="{'tab-active':activeTab==='Messages'}">
+       <strong>Messages</strong></a>
+  </li> -->
   <li class="nav-item">
     <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true"
        [queryParams]="{vol:'Time'}"
        (click)="tabClicked('Time')"
-       [ngClass]="{'tab-active':activeTab==='Time'}"><strong>Session Time</strong></a>
+       [ngClass]="{'tab-active':activeTab==='Time'}"><strong>Session Duration</strong></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true"
+       [queryParams]="{perf:'flows'}"
+       (click)="tabClicked('flows')"
+       [ngClass]="{'tab-active':activeTab==='flows'}"><strong>Active Flows</strong></a>
   </li>
 </ul>
 <!--Tabbing ends-->
@@ -50,4 +58,8 @@
 <app-chart *ngIf="activeTab==='Users'" [data]="series_Users"
            [chartValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_ENGAGEMENT"
            [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
+          </app-chart>
+<app-chart *ngIf="activeTab==='flows'" [data]="series_flows"
+          [chartValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_ENGAGEMENT"
+          [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
           </app-chart>

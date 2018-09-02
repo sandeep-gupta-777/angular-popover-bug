@@ -37,7 +37,10 @@ export class Analysis2PerformanceComponent implements OnInit {
   series_room_duration:any[];
   series_flows:any[];
   series_total_rooms:any[];
-
+  series_Messages: any[] = [{
+    name: 'Triggered',
+    data: [5, 3, 4, 7, 2]
+  }];
   constructor(
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
@@ -73,10 +76,16 @@ export class Analysis2PerformanceComponent implements OnInit {
         analysisHeaderData:{type:EAnalysis2TypesEnum.roomDuration}
       }));
     }
+    //added now
+    if(this.activeTab === 'Messages'){
+      this.store.dispatch(new SetAnalysis2HeaderData({
+        analysisHeaderData:{type:EAnalysis2TypesEnum.totalMessages}
+      }));
+    }
   }
 
   ngOnInit() {
-    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('perf') || 'sessions';
+    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('perf') || 'Messages';
     this.analysisstate2$
     .subscribe((value)=>{
       // ;
@@ -95,6 +104,10 @@ export class Analysis2PerformanceComponent implements OnInit {
       }
       if(value.roomDuration){
         this.series_room_duration  = this.u.convert(value.roomDuration,"labels","String");
+      }
+      //added now
+      if(value.totalMessages){
+        this.series_Messages = this.u.convert(value.totalMessages,"labels","Date") ;
       }
     });
   }

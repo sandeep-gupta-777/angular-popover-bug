@@ -35,6 +35,10 @@ export class Analysis2EngagementComponent implements OnInit {
   series_ChannelWiseSessions: any[];
   series_ChannelWiseUsers: any[];
   series_Time: any[];
+  series_Users: any[] = [{
+    name: 'Triggered',
+    data: [5, 3, 4, 7, 2]
+  }];
 
   constructor(
     public constantsService: ConstantsService,
@@ -66,11 +70,16 @@ export class Analysis2EngagementComponent implements OnInit {
         analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseUsers}
       }));
     }
-
+    // added now
+    if(this.activeTab === 'Users'){
+      this.store.dispatch(new SetAnalysis2HeaderData({
+        analysisHeaderData:{type:EAnalysis2TypesEnum.userAcquisition}
+      }));
+    }
   }
 
   ngOnInit() {
-    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('perf') || 'Sessions';
+    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('perf') || 'Users';
     this.analysisstate2$
       .subscribe((value)=>{
         // ;
@@ -88,6 +97,10 @@ export class Analysis2EngagementComponent implements OnInit {
 
         if(value.channelWiseUsers){
           this.series_ChannelWiseUsers  = this.u.convert(value.channelWiseUsers,"labels","Date") ;
+        }
+        // added now
+        if(value.userAcquisition){
+          this.series_Users  = this.u.convert(value.userAcquisition,"labels","Date") ;
         }
       })
   }

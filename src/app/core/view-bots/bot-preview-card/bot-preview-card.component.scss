@@ -11,15 +11,15 @@
 .grid-bot-preview-two{
   display: grid;
   width: 100%;
-  height: 184px;
+  height: 176px;
   grid-template-columns: 16px 56px 1fr 36px 10px;
-  grid-template-rows: 28px 8fr 4fr 3fr;
+  grid-template-rows: 28px 64px 1fr 48px;
   //grid-row-gap: 10px;
   font-family: Helvetica;
   grid-template-areas:
   'mlt header1 header1 header1 mrt'
   'ml icon1 details1 icon2 mr'
-  'ml .     details2 details2 mr'
+  'ml details2 details2 details2 mr'
   'ml footer footer footer mr'
 ;
   border-radius:2px;
@@ -52,7 +52,6 @@
   .details1{
     grid-area: details1;
     padding-top: 12px;
-    padding-left: 5px;
   }
   .details2{
     grid-area: details2;
@@ -147,8 +146,12 @@
 // .heading {
 //   margin-bottom: 4px;
 // }
-
-.description, .unique-name, .date-protection,.active-button {
+.description{
+  @include typography(11px, 1.09, $font-weight-300, $color-secondary);
+  overflow: hidden;
+  height: 23px;
+}
+ .unique-name, .date-protection,.active-button {
   @include typography(11px, 1.45, $font-weight-300, $color-text-normal);
   strong{
     font-weight: bold;
