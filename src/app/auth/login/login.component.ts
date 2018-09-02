@@ -48,7 +48,6 @@ export class LoginComponent implements OnInit {
     //   "password": "Botwoman@123!"
     // };
     let body;
-    ;
     if (this.f.valid) {
 
       body = this.f.value;
@@ -61,7 +60,11 @@ export class LoginComponent implements OnInit {
     }
 
 
-    this.serverService.makePostReq<IUser>({url: loginUrl, body})
+    let headerData: IHeaderData ={
+      "auth-token":null,
+      'user-access-token':null
+    };
+    this.serverService.makePostReq<IUser>({url: loginUrl, body, headerData})
       .subscribe((user) => {
           this.store.dispatch([
             new SetUserAction({user}),

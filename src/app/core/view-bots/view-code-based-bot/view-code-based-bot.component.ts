@@ -3,7 +3,8 @@ import {Select, Store} from '@ngxs/store';
 import {IBot} from '../../interfaces/IBot';
 import {ViewBotStateModel, ViewBotStateReducer} from '../ngxs/view-bot.state';
 import {Observable} from 'rxjs';
-
+// import { map } from 'rxjs/operators';
+import 'rxjs/add/operator/map';
 @Component({
   selector: 'app-view-code-based-bot',
   templateUrl: './view-code-based-bot.component.html',
@@ -19,7 +20,7 @@ export class ViewCodeBasedBotComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.codeBasedBotList$ = this.botlist$
-      .do((value)=>{;return value})
+      .do((value)=>{return value})
       .map((value) => value.allBotList && value.allBotList.filter((bot) => bot.bot_type === 'chatbot'));
   }
 

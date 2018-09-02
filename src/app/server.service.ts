@@ -8,7 +8,6 @@ import {IHeaderData} from '../interfaces/header-data';
 import {IOverviewInfoResponse, IOverviewInfoPostBody} from '../interfaces/Analytics2/overview-info';
 import {_throw} from 'rxjs/observable/throw';
 import 'rxjs/add/operator/do';
-import {ToastrService} from 'ngx-toastr';
 import {UtilityService} from './utility.service';
 import {SetAllBotListAction, SetCodeBasedBotListAction, SetPipeLineBasedBotListAction} from './core/view-bots/ngxs/view-bot.action';
 import {IBot, IBotResult} from './core/interfaces/IBot';
@@ -16,6 +15,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {SetMasterIntegrationsList, SetProgressValue} from './ngxs/app.action';
 import {IIntegrationMasterListItem, IIntegrationOption} from '../interfaces/integration-option';
 import {ICustomNerItem} from '../interfaces/custom-ners';
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/do';
+
 
 @Injectable({
   providedIn: 'root'
@@ -160,7 +163,6 @@ export class ServerService {
         // this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
       })
       .subscribe((value)=>{
-        ;
         this.store.dispatch([
           new SetMasterIntegrationsList({
             masterIntegrationList: value.objects

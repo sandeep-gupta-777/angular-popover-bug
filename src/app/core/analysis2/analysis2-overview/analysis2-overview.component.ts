@@ -1,15 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {IOverviewInfo, IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
-import {IAnalysisState} from '../../analysis/ngxs/analysis.state';
+import {IOverviewInfo} from '../../../../interfaces/Analytics2/overview-info';
 import {Select, Store} from '@ngxs/store';
 import {ServerService} from '../../../server.service';
 import {ConstantsService} from '../../../constants.service';
-import {IHeaderData} from '../../../../interfaces/header-data';
-import {IUser} from '../../interfaces/user';
 import {UtilityService} from '../../../utility.service';
 import {IAnalysis2State} from '../ngxs/analysis.state';
-import {SetAnalysis2HeaderData, SetOverviewInfoData} from '../ngxs/analysis.action';
+import {SetAnalysis2HeaderData} from '../ngxs/analysis.action';
 import {EAnalysis2TypesEnum} from '../../../../interfaces/Analytics2/analysis2-types';
 
 @Component({
@@ -38,6 +35,6 @@ export class Analysis2OverviewComponent implements OnInit {
     this.data$ = this.analysisstate2$.map((analysisState) => {
       return analysisState.overviewInfo;
     });
-  } 
+  }
 
 }

@@ -1,9 +1,8 @@
 import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {getAdvancedData, getBasicData} from '../data';
 import {ConstantsService} from '../constants.service';
-// import {HotTableComponent} from 'ng2-handsontable';
-import * as Handsontable from 'handsontable';
-import set = Reflect.set;
+// import * as Handsontable from 'handsontable';
+declare var Handsontable: any;
 
 @Component({
   selector: 'app-handsontable',

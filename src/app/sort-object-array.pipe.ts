@@ -7,6 +7,7 @@ import {IBot} from './core/interfaces/IBot';
 export class SortObjectArrayPipe implements PipeTransform {
 /*TODO: make it more generic, as of now its just sorting by created by*/
   transform(botList: IBot[], args?: any): any {
+    if(!botList) return;
     return botList.sort((bot1, bot2)=>{
       return bot1.created_at > bot2.created_at ?-1:1
     });
