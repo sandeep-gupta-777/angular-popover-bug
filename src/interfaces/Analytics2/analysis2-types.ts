@@ -1,10 +1,10 @@
 export enum EAnalysis2TypesEnum {
-  averageRoomTime="averageRoomTime",//done
-  usagetracking="usagetracking",//data not comming 
+  averageRoomTime="averageRoomTime",//===============
+  usagetracking="usagetracking",//data not comming
   medianConversationLengthOfRooms="medianConversationLengthOfRooms",
-  totalFlows="totalFlows",//done
+  totalFlows="totalFlows",//=================
   flowsPerRoom="flowsPerRoom",//done
-  totalRooms="totalRooms",//done
+  totalRooms="totalRooms",//========================================
   totalTimeOfRooms="totalTimeOfRooms", //data not comming
   overviewinfo="overviewinfo",//done
   transactioninfo="transactioninfo",//data not comming

@@ -153,6 +153,10 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/reports/${_id}`; //  http://dev.imibot.ai/api/v1/reports/1/
   }
 
+  getCreateReportUrl() {
+    return this.BACKEND_URL + `api/v1/reports`; //  http://dev.imibot.ai/api/v1/reports
+  }
+
 
   getAllVersionsByBotId() {
     return this.BACKEND_URL + 'api/v1/botversioning/?limit=1000'; //"http://localhost:8000/api/v1/botversioning"
@@ -206,7 +210,7 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/customner/?limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/api/v1/customner/
   }
 
-  updateCustomBotNER(custom_ner_id) {
+  updateOrDeleteCustomBotNER(custom_ner_id) {
     return this.BACKEND_URL + `api/v1/customner/${custom_ner_id}`; //https://dev.imibot.ai/api/v1/customner/13/
   }
 
@@ -288,8 +292,8 @@ export class ConstantsService {
         title: 'Skype Id',
         width:'120px'
       },
-      bot_id: {
-        title: 'U Id',
+      uid: {
+        title: 'UId',
         width:'120px'
       },
       email: {//

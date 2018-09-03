@@ -1,5 +1,5 @@
 <div class="row" *ngIf="showTable; else rowDetails">
-<!--<div class="row">-->
+  <!--<div class="row">-->
   <div class="col-12 pb-2 d-flex justify-content-end">
     <button class="btn-theme-primary" (click)="reinitialise()">Create Concept</button>
   </div>
@@ -15,69 +15,70 @@
 </div>
 <ng-template #rowDetails>
 
-<app-knowledge-base-presentation
-  [selectedRowData]="selectedRowData"
-  [handsontableData]="handontableData"
-  (showTable$)="showNerSmartTable()"
-  (updateOrSaveConcept$)="updateOrSaveConcept($event)"
-></app-knowledge-base-presentation>
+  <app-knowledge-base-presentation
+    [selectedRowData]="selectedRowData"
+    [handsontableData]="handontableData"
+    (showTable$)="showNerSmartTable()"
+    (deleteNer$)="deleteNer$.emit($event)"
+    (updateOrSaveConcept$)="updateOrSaveConcept($event)"
+  ></app-knowledge-base-presentation>
 </ng-template>
 <!--<ng-template #rowDetails>-->
-  <!--<div class="row create-concept-row">-->
-    <!--<div class="col-12 d-flex justify-content-between">-->
-      <!--<button class="btn-theme-primary-outline" (click)="showTable=true; selectedRowData = []">Go back</button>-->
-      <!--<form class="options d-flex align-items-center" #form="ngForm">-->
-        <!--<span>Concept Key</span>-->
-        <!--<input [disabled]="selectedRowData.created_at" type="text" class="concept" placeholder="Concept Key"-->
-               <!--[(ngModel)]="key" name="key">-->
-        <!--<span>Concept Type</span>-->
-        <!--&lt;!&ndash;<input type="text" class="concept" placeholder="Concept Type" [(ngModel)]="nerType"  name="nerType">&ndash;&gt;-->
-        <!--<select required [(ngModel)]="ner_type" name="ner_type" [disabled]="selectedRowData.created_at">-->
-          <!--<option value="single_match">Single Match</option>-->
-          <!--<option value="double_match">Double Match</option>-->
-          <!--<option value="with_metadata">With Metadata</option>-->
-          <!--<option value="database">Database</option>-->
-          <!--<option value="regex">Regex</option>-->
-        <!--</select>-->
+<!--<div class="row create-concept-row">-->
+<!--<div class="col-12 d-flex justify-content-between">-->
+<!--<button class="btn-theme-primary-outline" (click)="showTable=true; selectedRowData = []">Go back</button>-->
+<!--<form class="options d-flex align-items-center" #form="ngForm">-->
+<!--<span>Concept Key</span>-->
+<!--<input [disabled]="selectedRowData.created_at" type="text" class="concept" placeholder="Concept Key"-->
+<!--[(ngModel)]="key" name="key">-->
+<!--<span>Concept Type</span>-->
+<!--&lt;!&ndash;<input type="text" class="concept" placeholder="Concept Type" [(ngModel)]="nerType"  name="nerType">&ndash;&gt;-->
+<!--<select required [(ngModel)]="ner_type" name="ner_type" [disabled]="selectedRowData.created_at">-->
+<!--<option value="single_match">Single Match</option>-->
+<!--<option value="double_match">Double Match</option>-->
+<!--<option value="with_metadata">With Metadata</option>-->
+<!--<option value="database">Database</option>-->
+<!--<option value="regex">Regex</option>-->
+<!--</select>-->
 
-        <!--<span>Override Policy</span>-->
-        <!--<fieldset [disabled]="selectedRowData.created_at">-->
+<!--<span>Override Policy</span>-->
+<!--<fieldset [disabled]="selectedRowData.created_at">-->
 
-          <!--<div class="form-check-inline align-items-start">-->
-            <!--<label class="form-check-label" for="radio1">-->
-              <!--<input type="radio" class="form-check-input" id="radio1" name="conflict_policy"-->
-                     <!--[(ngModel)]="conflict_policy" value="override" checked>Override-->
-            <!--</label>-->
-          <!--</div>-->
-          <!--<div class="form-check-inline">-->
-            <!--<label class="form-check-label" for="radio2">-->
-              <!--<input type="radio" class="form-check-input" id="radio2" name="conflict_policy"-->
-                     <!--[(ngModel)]="conflict_policy" value="merge">Merge-->
-            <!--</label>-->
-          <!--</div>-->
-        <!--</fieldset>-->
-        <!--<button class="btn-theme-primary" (click)="updateOrSaveConcept()"> Save Concept</button>-->
-      <!--</form>-->
-    <!--</div>-->
+<!--<div class="form-check-inline align-items-start">-->
+<!--<label class="form-check-label" for="radio1">-->
+<!--<input type="radio" class="form-check-input" id="radio1" name="conflict_policy"-->
+<!--[(ngModel)]="conflict_policy" value="override" checked>Override-->
+<!--</label>-->
+<!--</div>-->
+<!--<div class="form-check-inline">-->
+<!--<label class="form-check-label" for="radio2">-->
+<!--<input type="radio" class="form-check-input" id="radio2" name="conflict_policy"-->
+<!--[(ngModel)]="conflict_policy" value="merge">Merge-->
+<!--</label>-->
+<!--</div>-->
+<!--</fieldset>-->
+<!--<button class="btn-theme-primary" (click)="updateOrSaveConcept()"> Save Concept</button>-->
+<!--</form>-->
+<!--</div>-->
 
-    <!--<div class="col-12 mt-2">-->
-      <!--<div *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata'; else table">-->
-        <!--<div class="d-flex justify-content-end">-->
-          <!--<label for="uploadInput" class="btn btn-theme-primary-outline">Upload File-->
-            <!--<input type="file" hidden id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)'-->
-                   <!--#uploadInput>-->
-          <!--</label>-->
-          <!--&lt;!&ndash;<input type="file" id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)' #uploadInput>&ndash;&gt;-->
-        <!--</div>-->
-        <!--<app-code-editor (textChangedEvent)="textChanged($event)" [text]="codeTextInputToCodeEditor"></app-code-editor>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
+<!--<div class="col-12 mt-2">-->
+<!--<div *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata'; else table">-->
+<!--<div class="d-flex justify-content-end">-->
+<!--<label for="uploadInput" class="btn btn-theme-primary-outline">Upload File-->
+<!--<input type="file" hidden id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)'-->
+<!--#uploadInput>-->
+<!--</label>-->
+<!--&lt;!&ndash;<input type="file" id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)' #uploadInput>&ndash;&gt;-->
+<!--</div>-->
+<!--<app-code-editor (textChangedEvent)="textChanged($event)" [text]="codeTextInputToCodeEditor"></app-code-editor>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
 <!--</ng-template>-->
 
 
 <!--<ng-template #table>-->
-  <!--<div class="pb-2"><input type="search" placeholder="search table"></div>-->
-  <!--<app-handsontable [testData]="handontableData" [columns]="handontable_column"-->
-                    <!--[colHeaders]="handontable_colHeaders"></app-handsontable>-->
+<!--<div class="pb-2"><input type="search" placeholder="search table"></div>-->
+<!--<app-handsontable [testData]="handontableData" [columns]="handontable_column"-->
+<!--[colHeaders]="handontable_colHeaders"></app-handsontable>-->
 <!--</ng-template>-->

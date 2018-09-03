@@ -57,7 +57,7 @@ export class ReportsComponent implements OnInit {
 
             /*Making reportItem$ data*/
             reports.objects.forEach(report => {
-              report.bot_id=29;//todo: temporary stuff, remove it later//
+              // report.bot_id=29;//todo: temporary stuff, remove it later////
               this.botlist$.subscribe((value) => {
                 let listOfAllBots = value.allBotList;
                 // ;
@@ -113,6 +113,10 @@ export class ReportsComponent implements OnInit {
     this.store.dispatch(new SetCurrentEditedReportAction({reportItem:eventData.data}));
     this.tempVariableService.reportRowClicked = eventData.data;
     this.router.navigate(['/core', 'reports', 'edit', eventData.data.id]);
+  }
+
+  navigateTocreateNewReport(){
+    this.router.navigate(['core','reports','create']);
   }
 
 }

@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
           let enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(user.enterprise_id);
           this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
           .subscribe((value: IEnterpriseProfileInfo) => {
-            debugger;
+
             this.store.dispatch([
               new SetEnterpriseInfoAction({enterpriseInfo: value})
             ]);

@@ -189,7 +189,7 @@ export class ServerService {
     let headerData: IHeaderData = {'bot-access-token': bot && bot.bot_access_token};
     let url, methodStr;
     if (selectedOrNewRowData && selectedOrNewRowData.id) {/*update customner*/
-      url = this.constantsService.updateCustomBotNER(selectedOrNewRowData.id);
+      url = this.constantsService.updateOrDeleteCustomBotNER(selectedOrNewRowData.id);
       methodStr = 'makePutReq';
       body = {
         values: selectedOrNewRowData.values,
@@ -201,6 +201,18 @@ export class ServerService {
       body = selectedOrNewRowData;
     }
     return this[methodStr]({url, body, headerData});
+  }
+
+  deleteNer(ner_id: number, bot?:IBot) {
+    let body: ICustomNerItem;
+    let url, headerData:IHeaderData;
+    url = this.constantsService.updateOrDeleteCustomBotNER(ner_id);
+    if(bot){
+      headerData = {
+        "bot-access-token":bot.bot_access_token
+      }
+    }
+    return this.makeDeleteReq({url,headerData})
   }
 
 }

@@ -33,6 +33,7 @@ export class KnowledgeBaseComponent implements OnInit {
   };
   @Output() pageChanged$ = new EventEmitter();//
   @Output() updateOrSaveParentNers$ = new EventEmitter();//
+  @Output() deleteNer$ = new EventEmitter();//deleteNer$.emit()
   @Input() currentPageNumber=1;
   @Input() totalRecords = 10;
   loggeduser: { user: IUser };

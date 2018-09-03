@@ -4,6 +4,7 @@
                    (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
                    (rowClicked$)="goToReportEditComponent($event, template)"
                    (pageChanged$)="sessionTablePageChanged($event)"
+                   [showSearchInDB]="true"
                    (performSearchInDB$)="performSearchInDbForSession($event)"
                    [settings]="smartTableSettings_Sessions"></app-smart-table>
 </div>

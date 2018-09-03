@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Store, Select} from '@ngxs/store';
-import {IConsumer} from '../../../../interfaces/consumer';
+import {IConsumerResults} from '../../../../interfaces/consumer';
 import {ServerService} from '../../../server.service';
 import {Observable} from 'rxjs';
 import {ConstantsService} from '../../../constants.service';
@@ -74,7 +74,7 @@ export class BotSessionsComponent implements OnInit {
       return this.selectedRow_Session.id === session.id;
     });
     this.sessions[this.indexOfCurrentRowSelected].highlight = true;
-    debugger;
+
     this.openModal(template);
   }
 
@@ -102,7 +102,7 @@ export class BotSessionsComponent implements OnInit {
   selectNextRow() {
     // this.selectedRow_Session
 
-    debugger;
+
     if(this.indexOfCurrentRowSelected !== undefined)
       this.sessions[this.indexOfCurrentRowSelected].highlight = false;
 
@@ -178,7 +178,7 @@ export class BotSessionsComponent implements OnInit {
   performSearchInDbForSession(data){
     this.loadSessionById(data["Room ID"])
       .subscribe((value:{objects: ISessionItem[]})=>{
-        debugger;
+
           this.sessions = [...this.sessions, ...value.objects];
       });
   }

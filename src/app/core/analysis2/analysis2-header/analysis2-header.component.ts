@@ -84,7 +84,6 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
 
     this.analytics2HeaderData$.subscribe((analytics2HeaderData) => {
       /*TODO: for some reason, angular form validation is not working. This is a hack*/
-      // ;
       if (!this.f.valid || Object.keys(this.f.value).length !== 4) return;
       try {
         let url = this.constantsService.getAnalyticsUrl();
@@ -98,6 +97,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
         if (!this.utilityService.areAllValesDefined(headerData)) return;
         this.serverService.makeGetReq({url, headerData})
           .subscribe((response: any) => {
+            ;
             if (headerData.type === EAnalysis2TypesEnum.overviewinfo) {
               let responseCopy: IOverviewInfoResponse = response;
               this.store.dispatch(new SetOverviewInfoData({data: responseCopy.objects[0].output}));
@@ -115,6 +115,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
               this.store.dispatch(new SetTotalMessages({data: responseCopy.objects[0].output.messagesinfo}));
             }
             if (headerData.type === EAnalysis2TypesEnum.averageRoomTime) {
+              ;
               let responseCopy: IAverageRoomTimeResponseBody = response;
               this.store.dispatch(new SetAverageRoomTime({data: responseCopy.objects[0].output.averageRoomTime}));
             }
@@ -126,7 +127,6 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
               let responseCopy: IChannelWiseAverageSessionTimeResponseBody = response;
               this.store.dispatch(new SetChannelWiseAverageSessionTime({data: responseCopy.objects[0].output.channelWiseAverageSessionTime}));
             }
-            ;
             if (headerData.type === EAnalysis2TypesEnum.totalFlows) {
               let responseCopy: ITotalFlowsResponseBody = response;
               this.store.dispatch(new SetTotalFlows({data: responseCopy.objects[0].output.totalFlows}));

@@ -34,6 +34,8 @@ import {IntegrationItemComponent} from '../buildbot/build-code-based-bot/archite
 import {DraggableDirective} from '../../draggable.directive';
 import {DropTargetDirective} from '../../drop-target.directive';
 import {KnowledgeBaseWrapperComponent} from '../buildbot/build-code-based-bot/architecture/knowledge-base-wrapper/knowledge-base-wrapper.component';
+import { LimitObjectArraysStringPipe } from './consumers/limit-object-arrays-string.pipe';
+import { ConsumerFullscreenWrapperComponent } from './consumers/consumer-fullscreen-wrapper/consumer-fullscreen-wrapper.component';
 
 const routes: Route[] = [
   {
@@ -41,6 +43,7 @@ const routes: Route[] = [
       [
         {path: 'codebased/:id', component: CodeBasedBotDetailComponent},
         {path: 'intelligent/:id', component: PipelineBasedBotDetailComponent},
+        {path: ':id/consumer', component: ConsumerFullscreenWrapperComponent, data:{isFullscreen:true}},
       ]
   }
 ];
@@ -66,7 +69,9 @@ const routes: Route[] = [
     IntegrationItemComponent,
     DraggableDirective,
     DropTargetDirective,
-    KnowledgeBaseWrapperComponent
+    KnowledgeBaseWrapperComponent,
+    LimitObjectArraysStringPipe,
+    ConsumerFullscreenWrapperComponent
   ],
   imports: [
     CommonModule,

@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-end mb-1">
+<div *ngIf="showSearchInDB" class="d-flex justify-content-end mb-1">
   <button class="btn btn-theme-secondary-outline" [disabled]="totalRows>0" (click)="performSearchInDB()">Search in DB</button>
 </div>
 <ng2-smart-table
@@ -15,6 +15,6 @@
   <li class="page-item" [ngClass]="{'text-muted':currentPage>=totalPageCount}"><a class="page-link" (click)="goToNextPage()">Next</a></li>
 </ul>
 
-<div *ngIf="totalRows">
-  <label>Number of rows: {{totalRows}}</label>
-</div>
+<!--<div *ngIf="totalRows">-->
+  <!--<label>Number of rows: {{totalRows}}</label>-->
+<!--</div>-->

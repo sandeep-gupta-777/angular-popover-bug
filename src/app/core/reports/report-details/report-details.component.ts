@@ -22,7 +22,7 @@ export class ReportDetailsComponent implements OnInit {
   @ViewChild(ReportControlsComponent) reportControlsComponent: ReportControlsComponent;
   @Select() reportItem$: Observable<ReportStateModel>;
   reportFormData: IReportItem;
-
+  report_id:number;
   modalRef: BsModalRef;
 
   constructor(
@@ -34,43 +34,47 @@ export class ReportDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.report_id = Number(this.activatedRoute.snapshot.paramMap.get('_id'));
+
     // this.reportItem$.subscribe((value)=>{
     //   this.reportFormData = value.formData;
     // })
   }
 
-  submitSubscriptionForm(template: TemplateRef<any>) {
+  updateReport(template: TemplateRef<any>) {
     ;
-    this.reportFormData = this.reportControlsComponent.reportFormData;
+    this.reportFormData = JSON.parse(JSON.stringify(this.reportControlsComponent.getReportControlFormData()));
     let timeNow = (new Date()).toString();
     this.reportFormData.id = Number(this.activatedRoute.snapshot.paramMap.get('_id'));
-    this.reportFormData.startdate = (new Date(this.reportFormData.startdate)).toISOString();
-    // if(!this.reportFormData._id) {
-    //   /*create uuid*/
-    //   this.reportFormData.created_at = timeNow;
-    // }
-    // this.reportFormData.updated_at = timeNow;
-    // console.log(this.reportFormData);
+    this.reportFormData.startdate = (new Date(this.reportFormData.startdate)).getTime();
     this.reportFormData.delivery = <any>[{
         ...this.reportFormData.delivery['sftp'],
       delivery_type: 'sftp'
+      },
+      {
+        ...this.reportFormData.delivery['email'],
+        delivery_type: 'email'
       }
     ];
 
     this.reportFormData.updated_at = new Date().toISOString();
-    let url = this.constantsService.getSaveReportsEditInfo(this.reportFormData.id);
-    let body = this.reportFormData;
+    let url;
+    this.report_id?
+      url =  this.constantsService.getSaveReportsEditInfo(this.reportFormData.id)
+      : url = this.constantsService.getCreateReportUrl();
+    let body = {...this.reportFormData};
     delete body.created_at;
     delete body.updated_at;
-    delete body.delivery;
-    // let body1 = {
-    //   filetype:'csv'
-    // };
+    delete body.botName;
+    delete body.id;
+    body.isactive = true;
+    body.reporttype_id= 1;
+    // delete body.delivery;
+    // delete body.startdate;/*TODO: temporary; since date is not working*/
     this.serverService.makePutReq({url, body})
       .subscribe((value) => {
         this.modalRef = this.modalService.show(template, {class: 'modal-md'});
       });
-    //opening model with sucss messsage
 
   }
 

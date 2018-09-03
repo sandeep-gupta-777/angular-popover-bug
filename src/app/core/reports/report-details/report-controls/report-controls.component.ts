@@ -62,7 +62,7 @@ export class ReportControlsComponent implements OnInit {
     let _id = this.activatedRoute.snapshot.paramMap.get('_id');
 
     this.botlist$.subscribe((value: ViewBotStateModel) => {
-      this.botlist = [...value.codeBasedBotList, ...value.pipelineBasedBotList];
+      this.botlist = [...value.allBotList];
       setTimeout(() => {
 
 
@@ -96,6 +96,7 @@ export class ReportControlsComponent implements OnInit {
 
     this.f.valueChanges.debounceTime(1000).subscribe((data: any) => {
       // if (!this.f.dirty) return;
+      ;
       /*TODO: VERY BAD FIX; USE REACTIVE FORM INSTEAD*/
       // data.delivery = [data.delivery];
       data = {
@@ -111,6 +112,11 @@ export class ReportControlsComponent implements OnInit {
 
   selectedBotChanged(bot) {
 
+  }
+
+  getReportControlFormData(){/*to be called by parent*/
+    this.reportFormData.botName = this.botlist.find((bot)=>bot.id==this.reportFormData.bot_id).name;
+    return this.reportFormData;
   }
 
   click() {

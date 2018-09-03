@@ -93,6 +93,7 @@ const routes: Route[] = [
       {path: 'profile', component: ProfileComponent},
       {path: 'reports', component: ReportsComponent},
       {path: 'reports/edit/:_id', component: ReportDetailsComponent},
+      {path: 'reports/create', component: ReportDetailsComponent},
       {path: 'documentation', component: DocumentationComponent},
       // {path: 'buildbot/codebased', component: BuildCodeBasedBotComponent},
       // {path: 'buildbot/intelligent', component: BuildPipelineBasedBotComponent},

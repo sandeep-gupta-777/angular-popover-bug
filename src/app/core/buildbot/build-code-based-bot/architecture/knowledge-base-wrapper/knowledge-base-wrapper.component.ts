@@ -62,12 +62,13 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
   }
 
   updateOrSaveCustomNer(selectedOrNewRowData: ICustomNerItem) {
+    debugger;
     this.serverService.updateOrSaveCustomNer(selectedOrNewRowData, this.bot)
       .subscribe((value) => {
-        console.log(value);
-        // this.custumNerDataForSmartTable.push(value);
+        debugger;
+        let doesNerExistsInSmartTable = this.custumNerDataForSmartTable.find((nerObj)=>nerObj.id===value.id);
+        if(!doesNerExistsInSmartTable)
         (<any>this.custumNerDataForSmartTable).push({...value,highlight:true});
-        /*Routing should happen here*/
         this.addQueryParamsInCurrentRoute({ner_id:value.id});
         this.utilityService.showSuccessToaster('Successfully saved');
       });
@@ -101,5 +102,16 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
       // skipLocationChange: true,/*not working*/
       queryParamsHandling:"merge"
     });
+  }
+
+  deleteNer(ner_id:number){
+    this.serverService.deleteNer(ner_id, this.bot)
+      .subscribe(()=>{
+        debugger;
+        let indexToBeDeleted = this.custumNerDataForSmartTable.findIndex((nerObj)=>nerObj.id==ner_id);
+        if(indexToBeDeleted) this.custumNerDataForSmartTable.splice(indexToBeDeleted,1);
+        this.router.navigate([`/core/botdetail/codebased/${this.bot.id}`], {queryParams:{'build-tab':'knowledge'}});
+        this.utilityService.showSuccessToaster("Successfully deleted!");
+      })
   }
 }

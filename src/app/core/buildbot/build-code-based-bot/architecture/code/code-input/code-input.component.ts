@@ -111,11 +111,11 @@ export class CodeInputComponent implements OnInit {
     *at this point some changes have been made to selected version's codeText
     *if the new codeText is same as old codeText
     * */
-    ;
+    debugger;
     let selectedVersion_pristine = this.bot.store_bot_versions.find((version) => version.id === this.selectedVersion.id);
     let codeTextPristine = selectedVersion_pristine[this.activeTab];
-    if(this.selectedVersion.updated_fields[this.activeTab]===true) return;/*If field is dirty from server, nothing can change it*/
-    this.selectedVersion.updated_fields[this.activeTab] = codeStr !== codeTextPristine;
+    if(!this.selectedVersion.updated_fields[this.activeTab])/*If field is dirty from server, nothing can change it*/
+      this.selectedVersion.updated_fields[this.activeTab] = codeStr !== codeTextPristine;
     this.selectedVersion[this.activeTab] = codeStr;
     /*comparing old code text to new*/
 

@@ -84,7 +84,7 @@ export class SessionDetailModelComponent implements OnInit {
 
 
   transactionIdChangedInModel(txnId) {
-    debugger;
+
     this.transactionIdSelectedInModel = txnId;
     /*This data will show under Manager Bot*/
     let messageDataForGiveTxnId = this.sessionMessageData.find((message) => {

@@ -22,6 +22,7 @@ export class KnowledgeBasePresentationComponent implements OnInit {
   }
   @Input() handsontableData = ["", "", ""];
   @Output() updateOrSaveConcept$ = new EventEmitter();
+  @Output() deleteNer$ = new EventEmitter();
   @Output() showTable$ = new EventEmitter();
   @ViewChild('form') form:NgForm;
   ner_id:string;
@@ -60,6 +61,9 @@ export class KnowledgeBasePresentationComponent implements OnInit {
       codeTextOutPutFromCodeEditor:this.codeTextOutPutFromCodeEditor,
       handsontableData:this.handsontableData
     };
+    let ner_id_str  = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
+    if(ner_id_str)
+      outputData['id'] = Number(ner_id_str);
     this.updateOrSaveConcept$.emit(outputData)
   }
 

@@ -1,0 +1,20 @@
+<!--Tabbing starts-->
+<ul class="nav nav-tabs my-2 theme-tabbing">
+  <li class="nav-item ml-3">
+    <a class="nav-link" [routerLink]="['.']"
+       queryParamsHandling="merge"
+       replaceUrl="true"
+       [queryParams]="{activeTab:myEAnalysis2TypesEnum.totalRooms}"
+       (click)="tabClicked(myEAnalysis2TypesEnum.totalRooms)"
+       [ngClass]="{'tab-active':activeTab===myEAnalysis2TypesEnum.totalRooms}"><strong>(MESSAGE ANALYSIS)
+    </strong></a>
+  </li>
+</ul>
+<!--Tabbing ends-->
+
+
+<app-chart *ngIf="activeTab===myEAnalysis2TypesEnum.totalRooms"
+           [data]="highchartData"
+           [chartValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_ENGAGEMENT"
+           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
+</app-chart>

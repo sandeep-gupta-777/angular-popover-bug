@@ -4,11 +4,11 @@
       <button class="btn-theme-primary-outline" (click)="showTable$.emit(); _selectedRowData = {}">Go back</button>
       <form class="options d-flex align-items-center" #form="ngForm">
         <span>Concept Key</span>
-        <input [disabled]="ner_id" type="text" class="concept" placeholder="Concept Key"
+        <input type="text" class="concept" placeholder="Concept Key"
                [(ngModel)]="key" name="key">
         <span>Concept Type</span>
         <!--<input type="text" class="concept" placeholder="Concept Type" [(ngModel)]="nerType"  name="nerType">-->
-        <select required [(ngModel)]="ner_type" name="ner_type" [disabled]="ner_id">
+        <select required [(ngModel)]="ner_type" name="ner_type">
           <option value="single_match">Single Match</option>
           <option value="double_match">Double Match</option>
           <option value="with_metadata">With Metadata</option>
@@ -17,7 +17,7 @@
         </select>
 
         <span>Override Policy</span>
-        <fieldset [disabled]="ner_id">
+        <fieldset>
 
           <div class="form-check-inline align-items-start">
             <label class="form-check-label" for="radio1">
@@ -32,12 +32,13 @@
             </label>
           </div>
         </fieldset>
-        <button class="btn-theme-primary" (click)="updateOrSaveConcept()"> Save Concept</button>
+        <button class="btn-theme-primary" (click)="updateOrSaveConcept()"> {{ner_id?"Update": "Save" }}</button>
+        <div (click)="deleteNer$.emit(ner_id)"><i class="fa fa-trash cursor-pointer"></i></div>
       </form>
     </div>
 
     <div class="col-12 mt-2">
-      <div *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata'; else table">
+      <div *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata' ||ner_type==='regex'; else table">
         <div class="d-flex justify-content-end">
           <label for="uploadInput" class="btn btn-theme-primary-outline">Upload File
             <input type="file" hidden id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)'

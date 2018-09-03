@@ -72,7 +72,7 @@ export class Analysis2VolumeComponent implements OnInit {
         analysisHeaderData:{type:EAnalysis2TypesEnum.averageRoomTime}
       }));
     }
-    //adding new now 
+    //adding new now
     if(this.activeTab==='flows'){
       this.store.dispatch(new SetAnalysis2HeaderData({
         analysisHeaderData:{type:EAnalysis2TypesEnum.totalFlows}
@@ -82,22 +82,12 @@ export class Analysis2VolumeComponent implements OnInit {
 
   ngOnInit() {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('vol') || 'Sessions';
-// <<<<<<< HEAD
-      // ;
       this.store.dispatch(new SetAnalysis2HeaderData({
         analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseFlowsPerSession}
       }));
 
       this.analysisstate2$
       .subscribe((value)=>{
-        // ;
-        // let x  = this.u.convert(value.channelWiseFlowsPerSession,"labels") ;
-// =======
-//       ;
-
-      // this.analysisstate2$
-      // .subscribe((value)=>{
-      //   ;
         if(value.channelWiseFlowsPerSession){
           this.series_Sessions  = this.u.convert(value.channelWiseFlowsPerSession,"labels","Date") ;
         }

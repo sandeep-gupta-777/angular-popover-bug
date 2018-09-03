@@ -9,17 +9,18 @@ import {Observable} from 'rxjs';
 })
 export class SmartTableComponent implements OnInit {
 
-  @Input() set data(value){
-    debugger;
+  @Input() set data(value) {
+    if (!value) return;
     this._data = value;
     // this.totalPageCount = Math.ceil((this.totalRecords) / this.recordsPerPage);
     this.source.load(this._data);
     this.source.refresh();
   };
-  totalRows
+
+  totalRows;
 
 
-  _data: any;
+  _data: any = [{}];
   iterableDiffer;
   @Input() settings: any;
   @Output() rowClicked$ = new EventEmitter();
@@ -28,7 +29,9 @@ export class SmartTableComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
   // @Input() totalRecords: number = 10;
   x;
-  @Input() set totalRecords(value){
+
+  @Input() showSearchInDB:boolean = false;
+  @Input() set totalRecords(value) {
 
     this.x = value;
     // this.source.load(this._data);
@@ -37,6 +40,7 @@ export class SmartTableComponent implements OnInit {
     let end = Math.min(this.totalPageCount, 5);
     this.createPaginationArray(start, end);
   }
+
   paginationArr = [];
   @Input() currentPage: number = 1;
   recordsPerPage: number = 10;
@@ -69,13 +73,14 @@ export class SmartTableComponent implements OnInit {
     this.totalRows = this.source != null ? this.source.count() : 0;
 
   }
-  performSearchInDB(){
-    if(this.totalRows===0){
-      let inputs = document.querySelectorAll(".ng2-smart-filter input");
-      let inputsCount = document.querySelectorAll(".ng2-smart-filter input").length;
+
+  performSearchInDB() {
+    if (this.totalRows === 0) {
+      let inputs = document.querySelectorAll('.ng2-smart-filter input');
+      let inputsCount = document.querySelectorAll('.ng2-smart-filter input').length;
       let obj = {};
-      for(let i=0; i<inputs.length;++i){
-        let input$:any =  inputs[i];
+      for (let i = 0; i < inputs.length; ++i) {
+        let input$: any = inputs[i];
         obj[input$.placeholder] = input$.value;
       }
       this.performSearchInDB$.emit(obj);
@@ -86,13 +91,15 @@ export class SmartTableComponent implements OnInit {
     console.log('row clicked');
     this.rowClicked$.emit(event);
   }
-  goToNextPage(){
-    if(this.currentPage<this.totalPageCount)
-    this.goToPage(Math.min(this.totalPageCount,this.currentPage+1));
+
+  goToNextPage() {
+    if (this.currentPage < this.totalPageCount)
+      this.goToPage(Math.min(this.totalPageCount, this.currentPage + 1));
   }
-  goToPrevPage(){
-    if(this.currentPage>=2)
-    this.goToPage(Math.max(0,this.currentPage-1));
+
+  goToPrevPage() {
+    if (this.currentPage >= 2)
+      this.goToPage(Math.max(0, this.currentPage - 1));
   }
 
   goToPage(currentPage) {
@@ -122,7 +129,7 @@ export class SmartTableComponent implements OnInit {
     }
   }
 
-  onCustom($event){
+  onCustom($event) {
     console.log($event);
   }
 

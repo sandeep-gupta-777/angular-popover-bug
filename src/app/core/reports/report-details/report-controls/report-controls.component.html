@@ -3,7 +3,7 @@
   <div class="col-6">
     <div class="select-theme-primary">
       <label for="" class="Bot">Bot</label>
-      <select class="concept1" ngModel required name="bot_id">
+      <select class="concept1" ngModel required name="bot_id" #select>
         <option type="button" *ngFor="let bot of botlist" [value]="bot.id">
           <button (click)="selectedBotChanged(bot)">{{bot.name}}</button>
         </option>
@@ -23,10 +23,10 @@
     <div class="btn-group" role="group">
       <label (click)="filetype='csv'"
              [ngClass]="{'btn-theme-primary': filetype==='csv', 'btn-theme-secondary-outline':filetype==='pdf'}"
-             for="csv" class="btn ">CSV</label>
+             for="csv" class="btn d-flex align-items-center ">CSV</label>
       <label (click)="filetype='pdf'"
              [ngClass]="{'btn-theme-primary': filetype==='pdf', 'btn-theme-secondary-outline':filetype==='csv'}"
-             for="pdf" class="btn ">PDF</label>
+             for="pdf" class="btn d-flex align-items-center">PDF</label>
       <input type="radio" ngModel id="csv" name="filetype" value="csv" hidden>
       <input type="radio" ngModel id="pdf" name="filetype" value="pdf" hidden>
     </div>

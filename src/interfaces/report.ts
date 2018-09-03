@@ -12,6 +12,7 @@ export interface IReportTypeItem {
 
 export interface IReportItem {
   'bot_id': number,
+  'botName': string,/*custom field*/
   'created_at': string,
   'delivery': [
     {
@@ -34,7 +35,7 @@ export interface IReportItem {
   'nextreportgenerated': string,
   'reporttype_id': number,
   'resource_uri': string,
-  'startdate': string,
+  'startdate': number,
   'updated_at': string
 }
 
