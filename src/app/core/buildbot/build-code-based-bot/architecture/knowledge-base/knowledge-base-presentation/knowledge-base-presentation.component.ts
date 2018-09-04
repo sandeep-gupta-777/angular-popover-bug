@@ -16,6 +16,7 @@ export class KnowledgeBasePresentationComponent implements OnInit {
     if(!value) return;
     this._selectedRowData = value;
     this.key = value.key ;
+    if(value.ner_type)
     this.ner_type = value.ner_type;
     this.conflict_policy = value.conflict_policy ;
     this.codeTextInputToCodeEditor = value.values && value.values.join(',');
@@ -27,7 +28,8 @@ export class KnowledgeBasePresentationComponent implements OnInit {
   @ViewChild('form') form:NgForm;
   ner_id:string;
   key:string;
-  ner_type:string;
+  routeName:string;
+  ner_type:string = 'double_match';
   conflict_policy:string;
   codeTextInputToCodeEditor: string;
   codeTextOutPutFromCodeEditor: string;
@@ -41,6 +43,7 @@ export class KnowledgeBasePresentationComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.routeName = this.activatedRoute.snapshot.data['routeName'];
     this.activatedRoute.queryParamMap.subscribe((queryParamMap:ParamMap)=>{
       this.ner_id = (<any>queryParamMap).params['ner_id'];
     })

@@ -4,7 +4,7 @@ import {
   SetCodeBasedBotListAction,
   SetPipeLineBasedBotListAction,
   SaveVersionInfoInBot,
-  SaveInfoInBotInBotList, SetAllBotListAction
+  UpdateBotInfoByIdInBotInBotList, SetAllBotListAction, AddNewBotInAllBotList
 } from './view-bot.action';
 import {IBot} from '../../interfaces/IBot';
 import {ActivatedRoute} from '@angular/router';
@@ -37,6 +37,15 @@ export class ViewBotStateReducer {
     patchState({
       // codeBasedBotList: payload.botList,
       allBotList: [...payload.botList]
+    });
+  }
+
+  @Action(AddNewBotInAllBotList)
+  addNewBotInAllBotList({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>, {payload}: AddNewBotInAllBotList) {
+    let state = getState();
+    let allBotList = state.allBotList.push(payload.bot);
+    patchState({
+      allBotList: [...state.allBotList]
     });
   }
 
@@ -78,9 +87,9 @@ export class ViewBotStateReducer {
     setState({...state});
   }
 
-  @Action(SaveInfoInBotInBotList)
-  SaveVersionInfoInBot({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>,
-                       {payload}: SaveInfoInBotInBotList) {
+  @Action(UpdateBotInfoByIdInBotInBotList)
+  updateBotInfoByIdInBotInBotList({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>,
+                       {payload}: UpdateBotInfoByIdInBotInBotList) {
     let state: ViewBotStateModel = getState();
     state.allBotList = state.allBotList.map((bot) => {
       if(bot.id === payload.botId){

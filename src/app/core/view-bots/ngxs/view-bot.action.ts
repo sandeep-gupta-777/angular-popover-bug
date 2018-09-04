@@ -11,6 +11,11 @@ export class SetAllBotListAction {
   constructor(public payload:{botList:IBot[] }){}
 }
 
+export class AddNewBotInAllBotList {
+  static readonly type = '[view-bots] set AddNewBotInAllBotList';
+  constructor(public payload:{bot:IBot }){}
+}
+
 export class SetPipeLineBasedBotListAction {
   static readonly type = '[view-bots] set pipeline-based-list';
   constructor(public payload:{botList:IBot[] }){}
@@ -26,7 +31,7 @@ export class SaveVersionInfoInBot {
   constructor(public payload: { data: IBotVersionData[], botId:number }) {}
 }
 
-export class SaveInfoInBotInBotList {
+export class UpdateBotInfoByIdInBotInBotList {
   static readonly type = '[build-bots] set info in bot inj botlist';
   constructor(public payload: { data: IBot, botId:number }) {}
 }

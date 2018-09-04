@@ -33,7 +33,7 @@ const routes: Route[] = [
       {path: 'overview', component: Analysis2OverviewComponent},
       {path: 'volume', component: Analysis2VolumeComponent},
       {path: 'performance', component: Analysis2PerformanceComponent},
-      {path: 'engagement', component: Analysis2EngagementComponent},
+      {path: 'engagement', component: Analysis2Engagement1Component},
 
       /*Analytics2: According to old UI*/
       {path: 'users', component: Analytics2UsersComponent},

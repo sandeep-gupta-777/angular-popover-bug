@@ -101,6 +101,22 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
   }
 }
 
+.btn-theme-dark{
+  background-color: black !important;
+  border: none;
+  border-radius: 2px;
+  padding-left: 20px;
+  padding-right: 20px;
+  line-height: 0px;
+  height: 32px !important;
+  font-size: $font-size-xs;
+  color: white !important;
+  cursor: pointer;
+  &:hover {
+    background-color: black !important;
+  }
+}
+
 .btn-theme-danger {
   background-color: #e85656 !important;
   border: none;

@@ -15,7 +15,7 @@ import { IChannelWiseSessionsItem } from '../../../../interfaces/Analytics2/enga
 import { IChannelWiseUsersItem } from '../../../../interfaces/Analytics2/engagement-channelWiseUsers';
 
 export class SetAnalysis2HeaderData {
-  static readonly type = '[analytics2] SetOverViewInfo2';
+  static readonly type = '[analytics2] SetAnalysis2HeaderData';
   constructor(public payload: { analysisHeaderData: Partial<IAnalysis2HeaderData> }) {
   }
 }

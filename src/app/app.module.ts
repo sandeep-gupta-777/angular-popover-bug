@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {PreloadAllModules, Route, RouterModule} from '@angular/router';
-import { ProgressbarModule } from 'ngx-bootstrap';
+import {BsDropdownModule, ProgressbarModule} from 'ngx-bootstrap';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
 import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
 import {HttpClientModule} from '@angular/common/http';
@@ -74,7 +74,7 @@ const routes: Route[] = [
     ProgressbarModule.forRoot(),
     // ClickOutsideModule,
     //
-
+    BsDropdownModule.forRoot(),
     ToastrModule.forRoot(), // ToastrModule added,
     BrowserAnimationsModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })

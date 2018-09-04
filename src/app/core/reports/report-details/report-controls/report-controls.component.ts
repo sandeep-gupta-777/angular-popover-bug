@@ -15,14 +15,15 @@ import {ConstantsService} from '../../../../constants.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BsDatepickerConfig} from 'ngx-bootstrap/datepicker';
 
+declare var $: any;
 
 @Component({
   selector: 'app-report-controls',
   templateUrl: './report-controls.component.html',
   styleUrls: ['./report-controls.component.scss']
 })
-export class ReportControlsComponent implements OnInit {
-
+export class ReportControlsComponent implements OnInit, AfterViewInit {
+  start_time;
   @Select() botlist$: Observable<ViewBotStateModel>;
   datePickerConfig: Partial<BsDatepickerConfig>;
   @ViewChild('form') f: NgForm;
@@ -53,6 +54,12 @@ export class ReportControlsComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit(){
+    $(document).ready(function(){
+      $('input.time-input1').timepicker({defaultTime: '9', scrollbar: true, timeFormat: 'HH:mm'});
+    });
+  }
+
   ngOnInit() {
 
     this.activatedRoute.queryParamMap.subscribe((queryParams: any) => {
@@ -73,7 +80,6 @@ export class ReportControlsComponent implements OnInit {
           let url = this.constantsService.getReportsEditInfo(_id);
           this.serverService.makeGetReq<IReportItem>({url})
             .subscribe((value: IReportItem) => {
-              ;
               let formDataSerialized = {
                 ...value,
                 delivery: {
@@ -121,6 +127,7 @@ export class ReportControlsComponent implements OnInit {
 
   click() {
     console.log(this.f.value);
+    console.log(this.start_time);
   }
 
   navigate(deliveryMode) {

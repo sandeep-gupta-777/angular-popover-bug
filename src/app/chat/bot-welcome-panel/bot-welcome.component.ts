@@ -33,7 +33,8 @@ export class BotWelcomeComponent implements OnInit {
     this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
       this.bot_id = chatSessionState.currentBotDetails.id;
       this.botlist$.subscribe((value) => {
-        this.currentBot = value.codeBasedBotList.find(value => value.id === this.bot_id) || value.pipelineBasedBotList.find(value => value.id === this.bot_id);
+        debugger;
+        this.currentBot = value.allBotList.find(value => value.id === this.bot_id);
       });
     });
 

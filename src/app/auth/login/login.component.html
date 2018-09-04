@@ -19,10 +19,10 @@
         <div class="col-12 d-flex justify-content-center align-items-center">
           <form class="login-form" (ngSubmit)="onSubmit()" #heroForm="ngForm">
             <div class="form-group">
-              <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp" placeholder="Enter email">
+              <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp" placeholder="Enter Email">
             </div>
             <div class="form-group">
-              <input type="password" class="form-control" name="password" ngModel required placeholder="Password">
+              <input type="password" class="form-control" name="password" ngModel required placeholder="Enter Password">
             </div>
             <div class="d-flex justify-content-between">
               <!--<label for=""><input type="checkbox2"> Remember Me</label>-->
@@ -49,7 +49,7 @@
         <div class="col-12 d-flex justify-content-center align-items-center">
           <form class="login-form " (ngSubmit)="onSubmit()" #heroForm="ngForm">
             <div class="form-group">
-              <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp" placeholder="Enter email">
+              <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp" placeholder="Enter Email">
             </div>
             <button type="submit" class="btn-block btn-theme-primary my-3">Request Reset Link</button>
             <div class="text-center cursor-pointer" (click)="panelActive='login'">back to sign in</div>

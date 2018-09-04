@@ -1,7 +1,6 @@
 
 
 <div class="d-flex justify-content-center flex-wrap align-content-center" style="height: 100%">
-<!---->
   <h4 class="welcome-heading w-100">{{currentBot.heading|| 'I dont have a heading' }}</h4>
   <p class="welcome-title w-100">{{currentBot.description}}</p>
   <button class="btn-theme-primary cursor-pointer" (click)="startnewchat$.emit(myEChatFrame.CHAT_BOX)">Start a new chat

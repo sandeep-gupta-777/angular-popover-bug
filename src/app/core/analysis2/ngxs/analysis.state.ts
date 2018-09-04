@@ -57,8 +57,6 @@ export interface IAnalysis2State {
 })
 
 export class AnalysisStateReducer2 {
-
-
   @Action(SetAnalysis2HeaderData)
   setAnalysis2HeaderData({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetAnalysis2HeaderData) {
     let state:IAnalysis2State = getState();
@@ -141,9 +139,15 @@ export class AnalysisStateReducer2 {
     let state:IAnalysis2State = getState();
     patchState({channelWiseUsers:payload.data});
   }
-  
+
   static getAnalytics2HeaderData(state){
     return state.analysisstate2.analysisHeaderData;
+  }
+  static getAnalytics2GraphData(state){/*this is not observe headerData*/
+    return {
+      ...state.analysisstate2,
+      headerData:null
+    };
   }
 
 }

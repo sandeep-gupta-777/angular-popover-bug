@@ -3,7 +3,7 @@ import {ConstantsService} from '../../../../constants.service';
 import {Observable} from 'rxjs';
 import {UtilityService} from '../../../../utility.service';
 import {EAnalysis2TypesEnum} from '../../../../../interfaces/Analytics2/analysis2-types';
-import {IAnalysis2State} from '../../ngxs/analysis.state';
+import {AnalysisStateReducer2, IAnalysis2State} from '../../ngxs/analysis.state';
 import {Select, Store} from '@ngxs/store';
 import {ActivatedRoute} from '@angular/router';
 import {SetAnalysis2HeaderData} from '../../ngxs/analysis.action';
@@ -15,7 +15,8 @@ import {SetAnalysis2HeaderData} from '../../ngxs/analysis.action';
 })
 export class Analysis2PlatformComponent implements OnInit {
 
-  @Select() analysisstate2$: Observable<IAnalysis2State>;
+  // @Select() analysisstate2$: Observable<IAnalysis2State>;
+  @Select(AnalysisStateReducer2.getAnalytics2GraphData) analytics2GraphData$: Observable<IAnalysis2State>;
   myEAnalysis2TypesEnum = EAnalysis2TypesEnum;
   activeTab: string = EAnalysis2TypesEnum.channelWiseSessions;
   highchartData: any[] = [{
@@ -60,7 +61,8 @@ export class Analysis2PlatformComponent implements OnInit {
   ngOnInit() {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || this.activeTab;
     this.tabClicked(this.activeTab);
-    this.analysisstate2$
+    // this.analysisstate2$
+    this.analytics2GraphData$
       .subscribe((value)=>{
 
         try{

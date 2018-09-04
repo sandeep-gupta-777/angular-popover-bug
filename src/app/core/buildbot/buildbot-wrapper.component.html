@@ -1,18 +1,16 @@
-<!--<div class="row mt-3 shadow-theme">-->
-  <!--<div class="col-12">-->
-    <!--<div class="card">-->
-      <!--<div-->
-        <!--class="card-header pt-4 mb-4 pb-0 d-flex justify-content-between justify-content-center align-items-center">-->
-        <!--<h4>Bot Creation Wizard</h4>-->
-        <!--<div>-->
-          <!--<button class="btn-theme-primary ">Create</button>-->
-        <!--</div>-->
-      <!--</div>-->
-      <!--<app-build-code-based-timePeriod></app-build-code-based-timePeriod>-->
-      <div class="my-3">
-        <router-outlet class="my-5"></router-outlet>
-      </div>
-    <!--</div>-->
-  <!--</div>-->
+<!--<div class="my-3">-->
+  <!--<router-outlet class="my-5"></router-outlet>-->
 <!--</div>-->
 
+
+
+
+<div class="my-3">
+  <div class="d-flex justify-content-between bg-white align-items-center my-2 shadow-theme" style="padding: 16px 36px;">
+    <h4 class="m-0">Create Bot</h4>
+    <button class="btn btn-theme-primary" (click)="createBot()">Create Bot</button>
+  </div>
+  <div class="shadow-theme">
+    <app-bot-config  (datachanged$)="datachanged($event)" [bot]="bot"></app-bot-config>
+  </div>
+</div>

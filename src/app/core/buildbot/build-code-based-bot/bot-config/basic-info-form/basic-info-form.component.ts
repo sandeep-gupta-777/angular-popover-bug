@@ -6,6 +6,7 @@ import {SaveNewBotInfo_CodeBased} from '../../../ngxs/buildbot.action';
 import {IBasicInfo} from '../../../../../../interfaces/bot-creation';
 import { Observable } from 'rxjs';
 import { ViewBotStateModel } from '../../../../view-bots/ngxs/view-bot.state';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-basic-info-form',
@@ -17,29 +18,23 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
   allbotList$:Observable<IBot[]>;
   @Input() bot:IBot;
   @Output() datachanged$ = new EventEmitter<Partial<IBot>>();
-  @ViewChild('form') f:HTMLFormElement;
+  @ViewChild('form') f:NgForm;
   isManager:boolean;
   constructor(private store:Store) {}
 
 
   ngOnInit() {
-    if(this.bot.child_bots.length === 0){
-      this.isManager = false;
-    }
-    else{
-      this.isManager = true;
-    }
+    this.isManager = this.bot && this.bot.child_bots.length === 0;
     this.allbotList$ = this.botlist$.map((botlist)=>{
       return botlist.allBotList;
     })
   }
 
   ngAfterViewInit(): void {
-    console.log(this.bot);
+    if(this.bot) setTimeout(()=>{this.f.form.patchValue(this.bot)},0);
     this.f.valueChanges.debounceTime(1000).subscribe((data:Partial<IBot>) => {
       console.log(this.f);
       if(!this.f.dirty) return;
-      ;
       this.datachanged$.emit(data);
     });
   }

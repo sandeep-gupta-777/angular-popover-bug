@@ -31,16 +31,16 @@
 
 <app-chart *ngIf="activeTab===myEAnalysis2TypesEnum.channelWiseSessions"
            [data]="highchartData"
-           [chartValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_ENGAGEMENT"
+           [chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
            [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
 </app-chart>
 <app-chart *ngIf="activeTab===myEAnalysis2TypesEnum.channelWiseAverageSessionTime"
            [data]="highchartData"
-           [chartValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_ENGAGEMENT"
+           [chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
            [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
 </app-chart>
 <app-chart *ngIf="activeTab===myEAnalysis2TypesEnum.channelWiseFlowsPerSession"
            [data]="highchartData"
-           [chartValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_ENGAGEMENT"
+           [chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
            [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
 </app-chart>

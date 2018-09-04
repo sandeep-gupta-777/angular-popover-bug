@@ -78,7 +78,8 @@ export interface IBot {
   "updated_at": string,
   "updated_by": number,
   // these r store properties and will not come from server...delete it before updating the bot
-  "store_bot_versions" : IBotVersionData[]
+  "store_bot_versions" : Partial<IBotVersionData>[];
+  store_selected_version:number
 }
 
 export interface IBotResult {
@@ -92,26 +93,26 @@ export interface IBotVersionResult {
 }
 
 export interface IBotVersionData  {
-  "bot_id": number,
-  "comment" : string,
-  "created_at" : string,
-  "df_rules" : string,
-  "df_template" : string,
-  "generation_rules" : string,
-  "generation_templates" : string,
-  "id": number,
-  "resource_uri" : string,
-  "updated_at" : string,
-  "version": number,
-  "workflow" : string,
-  "updated_fields": {
-    "df_template": false,
-    "df_rules": false,
-    "generation_rules": false,
-    "generation_template": false,
-    "workflows": false
+  "bot_id"?: number,
+  "comment" ?: string,
+  "created_at" ?: string,
+  "df_rules" ?: string,
+  "df_template" ?: string,
+  "generation_rules" ?: string,
+  "generation_templates" ?: string,
+  "id"?: number,
+  "resource_uri" ?: string,
+  "updated_at" ?: string,
+  "version"?: number,
+  "workflow" ?: string,
+  "updated_fields"?: {
+    "df_template"?: boolean,
+    "df_rules"?: boolean,
+    "generation_rules"?: boolean,
+    "generation_template"?: boolean,
+    "workflows"?: boolean
   },
-  "forked_from": number,
+  "forked_from"?: number,
 }
 
 

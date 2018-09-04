@@ -3,7 +3,7 @@ import {ConstantsService} from '../../../../constants.service';
 import {Observable} from 'rxjs';
 import {UtilityService} from '../../../../utility.service';
 import {EAnalysis2TypesEnum} from '../../../../../interfaces/Analytics2/analysis2-types';
-import {IAnalysis2State} from '../../ngxs/analysis.state';
+import {AnalysisStateReducer2, IAnalysis2State} from '../../ngxs/analysis.state';
 import {Select, Store} from '@ngxs/store';
 import {ActivatedRoute} from '@angular/router';
 import {SetAnalysis2HeaderData} from '../../ngxs/analysis.action';
@@ -15,9 +15,11 @@ import {SetAnalysis2HeaderData} from '../../ngxs/analysis.action';
 })
 export class Analytics2SessionsComponent implements OnInit {
 
-  @Select() analysisstate2$: Observable<IAnalysis2State>;
+  // @Select() analysisstate2$: Observable<IAnalysis2State>;
+  @Select(AnalysisStateReducer2.getAnalytics2GraphData) analytics2GraphData$: Observable<IAnalysis2State>;
   myEAnalysis2TypesEnum = EAnalysis2TypesEnum;
   activeTab: string = EAnalysis2TypesEnum.totalRooms;
+  chartValue;
   highchartData: any[] = [{
     name: 'Maximum',
     data: [4, 5, 8, 12, 10, 6, 22, 3]
@@ -44,7 +46,7 @@ export class Analytics2SessionsComponent implements OnInit {
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
     private store: Store,
-    private u:UtilityService
+    private utilityService:UtilityService
   ) {
   }
 
@@ -60,11 +62,16 @@ export class Analytics2SessionsComponent implements OnInit {
   ngOnInit() {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || this.activeTab;
     this.tabClicked(this.activeTab);
-    this.analysisstate2$
+    // this.analysisstate2$
+    this.analytics2GraphData$
       .subscribe((value)=>{
-
+        debugger;
         try{
-          this.highchartData = this.u.convert(value[this.activeTab],"labels","Date");
+          // this.highchartData = this.utilityService.convert(value[this.activeTab],"labels","Date");
+          // if(this.activeTab === this.myEAnalysis2TypesEnum.totalRooms){labelType = "Time"}
+          this.highchartData = <any>this.utilityService.convert_xAxisText(value[this.activeTab],"labels") ;
+          this.chartValue
+            = this.utilityService.appendChartValueAndSeries(this.highchartData,this.constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT);
         }catch (e) {
           console.log(e);
         }

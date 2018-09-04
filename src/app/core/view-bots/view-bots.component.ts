@@ -6,7 +6,7 @@ import {IBot} from '../interfaces/IBot';
 import {IHeaderData} from '../../../interfaces/header-data';
 import {Store} from '@ngxs/store';
 import {SetCodeBasedBotListAction, SetPipeLineBasedBotListAction} from './ngxs/view-bot.action';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 
@@ -25,14 +25,13 @@ export class ViewBotsComponent implements OnInit {
     private serverService: ServerService,
     private constantsService: ConstantsService,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private modalService: BsModalService,
     private store: Store) {
   }
 
   ngOnInit() {
-
-
-    this.serverService.getNSetIntegrationList()
+    this.serverService.getNSetIntegrationList();
     this.serverService.getNSetBotList()
       .subscribe(()=>{
       })
@@ -42,8 +41,9 @@ export class ViewBotsComponent implements OnInit {
     this.modalRef = this.modalService.show(template, {class: 'modal-md'});
   }
 
-  navigate(arr){
+  navigate(bot_type){
     this.modalRef.hide();
-    this.router.navigate(arr);
+    /*['core','buildbot','codebased']*/
+    this.router.navigate(['core','buildbot'], {queryParams:{bot_type:bot_type}});
   }
 }

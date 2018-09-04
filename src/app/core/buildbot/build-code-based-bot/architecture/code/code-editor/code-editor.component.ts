@@ -10,12 +10,16 @@ export class CodeEditorComponent implements OnInit {
 
   editor;
   _text;
+  editorCodeObjRef:{text:string} = {text:""};
   @ViewChild('f') codeEditor:ElementRef;
   constructor() { }
-  @Input() set text(value){
-    if(this._text===value) return;
-    this._text = value;
-    this.editor && this.editor.setValue(value);
+  @Input() set text(editorCodeObj:{text:string}){
+    debugger;
+    if(!editorCodeObj) return;
+    this.editorCodeObjRef = editorCodeObj;
+    // if(this._text===editorCodeObj.text) return;
+    this._text = editorCodeObj.text;
+    this.editor && this.editor.setValue(editorCodeObj.text);
   }
   @Output() textChangedEvent:EventEmitter<string> = new EventEmitter<string>();
   ngOnInit() {
@@ -29,6 +33,7 @@ export class CodeEditorComponent implements OnInit {
       moveInputWithCursor:false
     });
     this.editor.on('change', editor => {
+      this.editorCodeObjRef.text = editor.getValue();
       this.textChangedEvent.emit(editor.getValue())
     });
     this._text && this.editor.setValue(this._text);
@@ -36,8 +41,9 @@ export class CodeEditorComponent implements OnInit {
 
   options:any = {maxLines: 20, printMargin: false};
 
-  onChange1(code) {
-    this.textChangedEvent.emit(code);
-  }
+  // onChange1(code) {
+  //   this.editorCodeObjRef
+  //   this.textChangedEvent.emit(code);
+  // }
 
 }

@@ -46,7 +46,7 @@ export class SmartTableSettingsService {
         title: 'Report Type'
       },
       created_at: {
-        title: 'Genarated Date'
+        title: 'Generated Date'
       }
     },
     actions: {

@@ -84,6 +84,7 @@ const routes: Route[] = [
     SharedModule,
     HttpClientModule,
     Ng2SmartTableModule,
+    BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
   ],
   providers: [DragService, AimService]

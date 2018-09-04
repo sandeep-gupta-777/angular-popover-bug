@@ -133,3 +133,40 @@
 
 
 }
+
+.primary-modal {
+  @include classic-modal(#00abd3);
+}
+
+.primary-modal {
+  .modal-body {
+    .fa {
+      font-size: 48px;
+      color: #00abd3;
+      padding: 10px 0px;
+    }
+  }
+}
+
+.danger-modal {
+  @include classic-modal(#b14250);
+}
+
+.modal-body {
+  padding: 25px 20px !important;
+  label {
+    //width: 120px;
+    font-size: 11px;
+  }
+  input {
+    border-radius: 2px;
+    border: solid 1px #e0e0e0;
+    height: 28px;
+    width: 150px;
+    padding: 0px 8px;
+  }
+  hr {
+    //border: 1px solid
+    border-color: #e0e0e0;
+  }
+}

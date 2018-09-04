@@ -1,4 +1,4 @@
-<!--<button (click)="click()">click1</button>-->
+<button (click)="click()">click1</button>
 <form class="row report-detail-row" #form="ngForm">
   <div class="col-6">
     <div class="select-theme-primary">
@@ -47,9 +47,12 @@
   <div class="col-5 mt-4">
     <div class="select-theme-primary">
       <label for="" class="">Time</label>
-      <select class="concept1">
-        <option value="time">Select</option>
-      </select>
+      <input type="text"
+             placeholder="Timepicker"
+             class="form-control time-input1 date-input"
+             name="start_time"
+             [(ngModel)]="start_time"
+      >
     </div>
 
   </div>

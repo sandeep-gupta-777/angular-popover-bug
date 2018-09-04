@@ -9,7 +9,7 @@ import { IOverviewInfoResponse } from '../../../../interfaces/Analytics2/overvie
 import { ServerService } from '../../../server.service';
 import { UtilityService } from '../../../utility.service';
 import { BotSessionsComponent } from '../bot-sessions/bot-sessions.component';
-import {SaveInfoInBotInBotList, SaveVersionInfoInBot} from '../../view-bots/ngxs/view-bot.action';
+import {UpdateBotInfoByIdInBotInBotList, SaveVersionInfoInBot} from '../../view-bots/ngxs/view-bot.action';
 import {ConstantsService} from '../../../constants.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 
@@ -69,7 +69,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
     this.serverService.makeGetReq<{objects:IBot[]}>({url:getBotById, headerData})
       .subscribe((val)=>{
         this.store.dispatch([
-          new SaveInfoInBotInBotList({data:val.objects[0], botId:this.bot.id})
+          new UpdateBotInfoByIdInBotInBotList({data:val.objects[0], botId:this.bot.id})
         ]);
       })
   }
@@ -108,7 +108,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
   datachanged(data:IBot){
     ;
     this.store.dispatch([
-      new SaveInfoInBotInBotList({data, botId:this.bot_id})
+      new UpdateBotInfoByIdInBotInBotList({data, botId:this.bot_id})
     ]);
   }
 

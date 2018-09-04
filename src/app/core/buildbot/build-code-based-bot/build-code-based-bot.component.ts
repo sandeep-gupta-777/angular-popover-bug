@@ -50,7 +50,6 @@ export class BuildCodeBasedBotComponent implements OnInit {
     // ;
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('tab') || 'basic'; //todo: not a robust code
     this.botcreationstate$.subscribe((value)=>{
-      // console.log('test');
       if(!value || !value.codeBased) return;
       this.bot = value.codeBased;
     });

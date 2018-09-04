@@ -63,27 +63,27 @@
 </app-chart>
 
 <app-chart *ngIf="activeTab==='flows'" [data]="series_flows"
-[chartValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_ENGAGEMENT"
+[chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
 [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
 </app-chart>
 
 <app-chart *ngIf="activeTab==='flows_per_room'" [data]="series_flows_per_room"
-[chartValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_ENGAGEMENT"
+[chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
 [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
 </app-chart>
 
 <app-chart *ngIf="activeTab==='total_rooms'" [data]="series_total_rooms"
-[chartValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_ENGAGEMENT"
+[chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
 [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
 </app-chart>
 
 <app-chart *ngIf="activeTab==='room_duration'" [data]="series_room_duration"
-[chartValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_ENGAGEMENT"
+[chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
 [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
 </app-chart>
 
 <!-- added now -->
 <app-chart *ngIf="activeTab==='Messages'" [data]="series_Messages"
-           [chartValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_ENGAGEMENT"
+           [chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
            [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
 </app-chart>

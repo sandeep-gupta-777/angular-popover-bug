@@ -16,9 +16,8 @@
           <option value="regex">Regex</option>
         </select>
 
-        <span>Override Policy</span>
-        <fieldset>
-
+        <span *ngIf="!routeName">Override Policy</span>
+        <fieldset *ngIf="!routeName">
           <div class="form-check-inline align-items-start">
             <label class="form-check-label" for="radio1">
               <input type="radio" class="form-check-input" id="radio1" name="conflict_policy"
@@ -32,8 +31,8 @@
             </label>
           </div>
         </fieldset>
-        <button class="btn-theme-primary" (click)="updateOrSaveConcept()"> {{ner_id?"Update": "Save" }}</button>
-        <div (click)="deleteNer$.emit(ner_id)"><i class="fa fa-trash cursor-pointer"></i></div>
+        <button class="btn-theme-primary mx-1" (click)="updateOrSaveConcept()"> {{ner_id?"Update": "Save" }}</button>
+        <div *ngIf="ner_id" (click)="deleteNer$.emit(ner_id)"><i class="fa fa-trash cursor-pointer"></i></div>
       </form>
     </div>
 

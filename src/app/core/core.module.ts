@@ -36,7 +36,15 @@ import {ReportControlsComponent} from './reports/report-details/report-controls/
 import {TestComponent} from '../test/test.component';
 import {ChatPreviewNewPageComponent} from '../chat/chat-preview-new-page/chat-preview-new-page.component';
 import {FooterComponent} from '../footer/footer.component';
-import {BsDatepickerModule, BsDropdownModule, ModalModule, ProgressbarModule, TabsModule, TooltipModule} from 'ngx-bootstrap';
+import {
+  BsDatepickerModule,
+  BsDropdownModule,
+  ModalModule,
+  ProgressbarModule,
+  TabsModule,
+  TimepickerModule,
+  TooltipModule
+} from 'ngx-bootstrap';
 import {FormsModule} from '@angular/forms';
 import {DragAndDropModule} from 'angular-draggable-droppable';
 // import {NgxsModule} from '@ngxs/store';
@@ -87,7 +95,7 @@ const routes: Route[] = [
       //     ]
       // },
 
-      {path: 'customner', component: ViewCustomnerComponent},
+      {path: 'customner', component: ViewCustomnerComponent, data:{routeName:'customner'}},
       {path: 'customner/create', component: CreateCustomnerComponent},
       {path: 'enterpriseprofile', component: EnterpriseprofileComponent},
       {path: 'profile', component: ProfileComponent},
@@ -178,6 +186,7 @@ const routes: Route[] = [
     // NgxsReduxDevtoolsPluginModule.forRoot(),
     // NgxsLoggerPluginModule.forRoot(),
     HttpClientModule,
+    TimepickerModule.forRoot(),
     // HotTableModule,
 
     // BrowserAnimationsModule, // required animations module

@@ -1,30 +1,36 @@
-
 <div class="row my-2 m-0" style="position: relative" (clickOutside)="showVersionList = false">
-  <div class="col-6 p-0" [ngClass]="{'bg-theme-secondary':!selectedVersion}" >
-    <div *ngIf="selectedVersion" class="d-flex align-items-center justify-content-between flex-bot-versioning-toaster border-theme-secondary">
-      <button *ngIf="selectedVersion.id === activeVersion.id" class="btn btn-theme-primary mr-1"
+  <div class="col-6 p-0" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
+    <div *ngIf="selectedVersion"
+         class="d-flex align-items-center justify-content-between flex-bot-versioning-toaster border-theme-secondary">
+      <button *ngIf="selectedVersion?.id === activeVersion?.id" class="btn btn-theme-primary mr-1"
               style="flex-basis: 56px">Active
-            </button>
-      <button *ngIf="selectedVersion.id !== activeVersion.id" class="btn btn-theme-primary mr-1"
-            style="flex-basis: 56px">Inactive
-            </button>
+      </button>
+      <button
+        *ngIf="selectedVersion?.id !== activeVersion?.id" class="btn btn-theme-dark mr-1"
+              style="flex-basis: 56px">Inactive
+      </button>
       <div class="count mr-1" style="width: 30px">{{selectedVersion.version}}</div>
       <div class="forked mr-1">Forked from version {{selectedVersion.forked_from}}</div>
       <div class="update d-flex flex-column mr-1 justify-content-center">
         <div>Last update</div>
         <div class="d-flex justify-content-center">
-            <i class="fa fa-circle" [ngClass]="{'text-danger':selectedVersion.updated_fields['df_template'], 'dark-green':activeTab==='df_template'}"></i>
-            <i class="fa fa-circle" [ngClass]="{'text-danger':selectedVersion.updated_fields['df_rules'], 'dark-green':activeTab==='df_rules'}"></i>
-            <i class="fa fa-circle" [ngClass]="{'text-danger':selectedVersion.updated_fields['generation_rules'], 'dark-green':activeTab==='generation_rules'}"></i>
-            <i class="fa fa-circle" [ngClass]="{'text-danger':selectedVersion.updated_fields['generation_templates'], 'dark-green':activeTab==='generation_templates'}"></i>
-            <i class="fa fa-circle" [ngClass]="{'text-danger':selectedVersion.updated_fields['workflows'], 'dark-green':activeTab==='workflows'}"></i>
+          <i class="fa fa-circle"
+             [ngClass]="{'text-danger':selectedVersion.updated_fields['df_template'], 'dark-green':activeTab==='df_template'}"></i>
+          <i class="fa fa-circle"
+             [ngClass]="{'text-danger':selectedVersion.updated_fields['df_rules'], 'dark-green':activeTab==='df_rules'}"></i>
+          <i class="fa fa-circle"
+             [ngClass]="{'text-danger':selectedVersion.updated_fields['generation_rules'], 'dark-green':activeTab==='generation_rules'}"></i>
+          <i class="fa fa-circle"
+             [ngClass]="{'text-danger':selectedVersion.updated_fields['generation_templates'], 'dark-green':activeTab==='generation_templates'}"></i>
+          <i class="fa fa-circle"
+             [ngClass]="{'text-danger':selectedVersion.updated_fields['workflows'], 'dark-green':activeTab==='workflows'}"></i>
         </div>
         <!--<form class="d-flex">-->
-          <!--<input type="radio" name="optradio" checked>-->
-          <!--<input type="radio" name="optradio">-->
-          <!--<input type="radio" name="optradio">-->
-          <!--<input type="radio" name="optradio">-->
-          <!--<input type="radio" name="optradio">-->
+        <!--<input type="radio" name="optradio" checked>-->
+        <!--<input type="radio" name="optradio">-->
+        <!--<input type="radio" name="optradio">-->
+        <!--<input type="radio" name="optradio">-->
+        <!--<input type="radio" name="optradio">-->
         <!--</form>-->
       </div>
       <div class="insert mr-1">{{selectedVersion.comment}}
@@ -32,16 +38,22 @@
       <!---->
       <i (click)="showVersionList= !showVersionList"
          class="fa py-2 px-3 bg-theme-primary text-white"
-         [ngClass]="{'fa-angle-down':showVersionList, 'fa-angle-up':!showVersionList}"
+         [ngClass]="{'fa-angle-up':showVersionList, 'fa-angle-down':!showVersionList}"
          style="height: 100%"></i>
     </div>
   </div>
   <div class="col-6">
-    <button class="btn btn-theme-primary-outline mr-1" (click)="saveSelectedVersion()">Save Version</button>
-    <button class="btn btn-theme-primary-outline" (click)="forkNewVersionFromSelectedVersion()">Fork new version</button>
+    <button [disabled]="!selectedVersion"
+            class="btn btn-theme-primary-outline mr-1"
+            (click)="saveSelectedVersion()">
+      {{(!bot.store_bot_versions || !bot.store_bot_versions.length || bot.store_bot_versions.length>0)?"Save":"Create"}} Version
+    </button>
+    <button class="btn btn-theme-primary-outline" [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0" (click)="openForkNewVersionModal(Primarytemplate)">
+      Fork new version
+    </button>
   </div>
   <div class="row row-flex-bot-versioning-toaster border-theme-secondary  border-top-0 mx-0"
-       *ngIf="showVersionList"  style="max-height: 50vh; overflow-y: scroll">
+       *ngIf="showVersionList" style="max-height: 50vh; overflow-y: scroll">
     <div class="col-12 py-2 border-bottom-theme-secondary"
          *ngFor="let version of bot.store_bot_versions | filterActiveBot:selectedVersion.id">
       <div class="d-flex align-items-center justify-content-between flex-bot-versioning-toaster"
@@ -52,19 +64,24 @@
         <div class="update d-flex flex-column mr-1 justify-content-center">
           <div class="mr-1">Last update</div>
           <div>
-            <i class="fa fa-circle" [ngClass]="{'text-danger':version.updated_fields['df_template'], 'dark-green':activeTab==='df_template'}"></i>
-            <i class="fa fa-circle" [ngClass]="{'text-danger':version.updated_fields['df_rules'], 'dark-green':activeTab==='df_rules'}"></i>
-            <i class="fa fa-circle" [ngClass]="{'text-danger':version.updated_fields['generation_rules'], 'dark-green':activeTab==='generation_rules'}"></i>
-            <i class="fa fa-circle" [ngClass]="{'text-danger':version.updated_fields['generation_templates'], 'dark-green':activeTab==='generation_templates'}"></i>
-            <i class="fa fa-circle" [ngClass]="{'text-danger':version.updated_fields['workflows'], 'dark-green':activeTab==='workflows'}"></i>
+            <i class="fa fa-circle"
+               [ngClass]="{'text-danger':version.updated_fields['df_template'], 'dark-green':activeTab==='df_template'}"></i>
+            <i class="fa fa-circle"
+               [ngClass]="{'text-danger':version.updated_fields['df_rules'], 'dark-green':activeTab==='df_rules'}"></i>
+            <i class="fa fa-circle"
+               [ngClass]="{'text-danger':version.updated_fields['generation_rules'], 'dark-green':activeTab==='generation_rules'}"></i>
+            <i class="fa fa-circle"
+               [ngClass]="{'text-danger':version.updated_fields['generation_templates'], 'dark-green':activeTab==='generation_templates'}"></i>
+            <i class="fa fa-circle"
+               [ngClass]="{'text-danger':version.updated_fields['workflows'], 'dark-green':activeTab==='workflows'}"></i>
 
           </div>
           <!--<form>-->
-            <!--<input type="radio" [checked]="false">-->
-            <!--<input type="radio">-->
-            <!--<input type="radio">-->
-            <!--<input type="radio">-->
-            <!--<input type="radio">-->
+          <!--<input type="radio" [checked]="false">-->
+          <!--<input type="radio">-->
+          <!--<input type="radio">-->
+          <!--<input type="radio">-->
+          <!--<input type="radio">-->
           <!--</form>-->
         </div>
         <div class="insert mr-1">{{version.comment}}
@@ -76,7 +93,48 @@
 
 </div>
 
+<!--fork new version modal starts-->
+<ng-template #Primarytemplate>
+  <div class="primary-modal">
+    <div class="top-dec"></div>
+    <div class="modal-header" style="display: block!important;">
+      <h4 class="modal-title mb-2"> Fork to a new version</h4>
+      <p>It will not be made active by default but saved. You need to update changes to make it active</p>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
 
+    <div class="modal-body">
+      <form class="row" #fork_new_version_form="ngForm">
+
+        <div class="col-md-3 d-flex justify-content-end">
+          <label for="">Fork from</label>
+        </div>
+        <!---->
+        <div class="col-md-9 px-0 d-flex justify-content-start">
+          <!--<input type="password" [(ngModel)]="forked_From" name="old_password">-->
+          <select class="concept1" [(ngModel)]="forked_version_id" required type="number" name="version_id" #select>
+            <option type="button" *ngFor="let version of bot.store_bot_versions"><button>{{version.id}}</button></option>
+          </select>
+        </div>
+        <div class="col-md-3 my-2">
+          <label for="">Comments on the new version</label>
+        </div>
+        <div class="col-md-9 px-0 d-flex justify-content-start my-2">
+          <textarea type="text" style="width: 100%" [(ngModel)]="forked_comments" name="comment"></textarea>
+        </div>
+        <div class="col-md-12">
+          <p *ngIf="errorMessage" class="text-danger">{{errorMessage}}</p>
+          <button class="btn btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>
+          <button class="btn btn-theme-primary" (click)="forkNewVersion()">Create</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</ng-template>
+<!--fork new version modal end-->
 
 
 <div class="row">
@@ -92,7 +150,7 @@
                (click)="tabClicked('df_template')">DF Template</a>
           </li>
           <li class="nav-item" [ngClass]="{'tab-active': activeTab==='df_rules'}">
-            <a class="nav-link text-theme-normal"  (click)="tabClicked('df_rules')">DF
+            <a class="nav-link text-theme-normal" (click)="tabClicked('df_rules')">DF
               Rules</a>
           </li>
           <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab==='generation_rules'}">
@@ -115,15 +173,16 @@
         <div class="row pl-3 genTempGrid pt-2" *ngIf="activeTab === 'generationTemplates'">
           <div class="genTempGridItem intent-header">
             <div class="text-bold">Intent Header</div>
-            <input type="text" placeholder="Search Intent" >
+            <input type="text" placeholder="Search Intent">
 
             <!-- these div's will come from *ngFor -->
-            <div class = "p-1" *ngFor="let x of intentList">{{x.name}}</div>
+            <div class="p-1" *ngFor="let x of intentList">{{x.name}}</div>
           </div>
           <div class="genTempGridItem">
             <div class="col-12 pt-2 d-flex justify-content-end">
               <label for="uploadInput" class="btn btn-theme-primary-outline">Upload File
-                <input type="file" hidden id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)' #uploadInput>
+                <input type="file" hidden id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)'
+                       #uploadInput>
               </label>
             </div>
             <div class="col-12">
@@ -132,37 +191,37 @@
           </div>
           <div class="genTempGridItem bot-templates">
             <ul>
-              <li class = "bot-template-heading">
-                  <div class= "text-bold">Bot Response Template</div>
-                  <div class= "text-lite">Drag & Drop elements to add to response</div>
+              <li class="bot-template-heading">
+                <div class="text-bold">Bot Response Template</div>
+                <div class="text-lite">Drag & Drop elements to add to response</div>
               </li>
               <li>
-                  <i class="fa fa-users"></i>
-                  Textie
+                <i class="fa fa-users"></i>
+                Textie
               </li>
               <li>
-                  <i class="fa fa-users"></i>
-                  Textie
+                <i class="fa fa-users"></i>
+                Textie
               </li>
               <li>
-                  <i class="fa fa-users"></i>
-                  Textie
+                <i class="fa fa-users"></i>
+                Textie
               </li>
               <li>
-                  <i class="fa fa-users"></i>
-                  Textie
+                <i class="fa fa-users"></i>
+                Textie
               </li>
               <li>
-                  <i class="fa fa-users"></i>
-                  Textie
+                <i class="fa fa-users"></i>
+                Textie
               </li>
               <li>
-                  <i class="fa fa-users"></i>
-                  Textie
+                <i class="fa fa-users"></i>
+                Textie
               </li>
               <li>
-                  <i class="fa fa-users"></i>
-                  Textie
+                <i class="fa fa-users"></i>
+                Textie
               </li>
             </ul>
             <!-- <div class="template-heading">
@@ -182,14 +241,15 @@
           </div>
         </div>
         <!--todo: make this row independent-->
-          <div class="row pl-3" *ngIf="activeTab !== 'generationTemplates'">
+        <div class="row pl-3" *ngIf="activeTab !== 'generationTemplates'">
           <div class="col-12 pt-2 d-flex justify-content-end">
             <label for="uploadInput" class="btn btn-theme-primary-outline">Upload File
-              <input type="file" hidden id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)' #uploadInput>
+              <input type="file" hidden id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)'
+                     #uploadInput>
             </label>
           </div>
           <div class="col-12">
-            <app-code-editor [text]="editorCode" (textChangedEvent)="saveText($event)"></app-code-editor>
+            <app-code-editor [text]="editorCodeObj" (textChangedEvent)="saveText($event)"></app-code-editor>
           </div>
         </div>
         <!--code editor ends-->

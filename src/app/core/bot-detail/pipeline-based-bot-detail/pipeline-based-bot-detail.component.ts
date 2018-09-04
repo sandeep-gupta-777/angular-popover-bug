@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {SaveInfoInBotInBotList} from '../../view-bots/ngxs/view-bot.action';
+import {UpdateBotInfoByIdInBotInBotList} from '../../view-bots/ngxs/view-bot.action';
 import {IBot} from '../../interfaces/IBot';
 import {UtilityService} from '../../../utility.service';
 import {BotSessionsComponent} from '../bot-sessions/bot-sessions.component';
@@ -91,7 +91,7 @@ export class PipelineBasedBotDetailComponent implements OnInit {
   datachanged(data:IBot){
     // ;
     this.store.dispatch([
-      new SaveInfoInBotInBotList({data, botId:this.bot_id})
+      new UpdateBotInfoByIdInBotInBotList({data, botId:this.bot_id})
     ]);
   }
 

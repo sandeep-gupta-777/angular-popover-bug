@@ -154,7 +154,7 @@ export class ConstantsService {
   }
 
   getCreateReportUrl() {
-    return this.BACKEND_URL + `api/v1/reports`; //  http://dev.imibot.ai/api/v1/reports
+    return this.BACKEND_URL + `api/v1/reports/`; //  http://dev.imibot.ai/api/v1/reports
   }
 
 
@@ -285,15 +285,15 @@ export class ConstantsService {
         title: 'Phone'
       },
       facebook_id: {//
-        title: 'Facebook Id',
+        title: 'Facebook ID',
         width:'120px'
       },
       skype_id: {//
-        title: 'Skype Id',
+        title: 'Skype ID',
         width:'120px'
       },
       uid: {
-        title: 'UId',
+        title: 'UID',
         width:'120px'
       },
       email: {//
@@ -326,7 +326,7 @@ export class ConstantsService {
         width:'150px'
       },
       consumer_id: {
-        title: 'Consumer Id',
+        title: 'Consumer ID',
         width:'150px'
       },
       total_message_count: {
@@ -334,7 +334,7 @@ export class ConstantsService {
         width:'150px'
       },
       last_updated_job_id: {
-        title: 'Last Updated Job Id'
+        title: 'Last Updated Job ID'
       },
       sendtoagent: {
         title: 'Sent to Agent'
@@ -486,6 +486,15 @@ export class ConstantsService {
     }
   };
 
+  readonly HIGHCHART_THEMEVALUE_ANALYTICS_USER_LOYALTY = {
+    chart: {
+      style: {
+        fontFamily: 'helvetica'
+      }
+    },
+    colors: ['#5392ff', '#71cddd', '#34bc6e', '#95d13c', '#ffb000', '#fe8500', '#ff509e', '#9b82f3']
+  };
+
   readonly HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE = {
     chart: {
       style: {
@@ -537,7 +546,7 @@ export class ConstantsService {
     colors: ['#5392ff', '#71cddd', '#34bc6e', '#95d13c', '#ffb000', '#fe8500', '#ff509e', '#9b82f3']
   };
 
-  readonly HIGHCHART_THEMEVALUE_ANALYTICS_ENGAGEMENT = {
+  readonly HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT = {
 
     title: {
       text: ''
@@ -546,9 +555,9 @@ export class ConstantsService {
     subtitle: {
       text: ''
     },
-    xAxis: {
-      type: 'datetime'
-    },
+    // xAxis: {
+    //   type: 'datetime'
+    // },
 
     yAxis: {
       title: {
@@ -569,43 +578,95 @@ export class ConstantsService {
       shared: true
     },
 
-    plotOptions: {
-      series: {
-        pointStart: Date.UTC(2018, 6, 20),
-        pointInterval: 24 * 3600 * 1000, // one day
-        marker: {
-          symbol: 'circle',
-          /* fillColor: '#ffffff' , */
-          lineWidth: 0,
-          radius: 4,
-          lineColor: null, // inherit from series
-        },
-        lineWidth: 3,
-        label: {
-          enabled: false,
-          style: {
-            fontFamily: 'sans-serif',
-            fontWeight: 'regular',
-            fontSize: 11
-          }
+    // plotOptions: {
+    //   series: {
+    //     pointStart: Date.UTC(2018, 6, 20),
+    //     pointInterval: 24 * 3600 * 1000, // one day
+    //     marker: {
+    //       symbol: 'circle',
+    //       /* fillColor: '#ffffff' , */
+    //       lineWidth: 0,
+    //       radius: 4,
+    //       lineColor: null, // inherit from series
+    //     },
+    //     lineWidth: 3,
+    //     label: {
+    //       enabled: false,
+    //       style: {
+    //         fontFamily: 'sans-serif',
+    //         fontWeight: 'regular',
+    //         fontSize: 11
+    //       }
+    //     }
+    //   }
+    // },
+    // responsive: {
+    //   rules: [{
+    //     condition: {
+    //       maxWidth: 1200
+    //     },
+    //     chartOptions: {
+    //       legend: {
+    //         layout: 'horizontal',
+    //         align: 'center',
+    //         verticalAlign: 'bottom'
+    //       }
+    //     }
+    //   }]
+    // }
+
+  };
+  readonly HIGHCHART_CHARTVALUE_USER_LOYALTY = {
+    chart: {
+      type: 'column'
+    },
+    title: {
+      text: 'Stacked column chart'
+    },
+    xAxis: {
+      categories: ['Apples1', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+    },
+    yAxis: {
+      min: 0,
+      title: {
+        text: 'Total fruit consumption'
+      },
+      stackLabels: {
+        enabled: true,
+        style: {
+          fontWeight: 'bold',
+          color: 'gray'
         }
       }
     },
-    responsive: {
-      rules: [{
-        condition: {
-          maxWidth: 1200
-        },
-        chartOptions: {
-          legend: {
-            layout: 'horizontal',
-            align: 'center',
-            verticalAlign: 'bottom'
-          }
+    legend: {
+      align: 'right',
+      x: -30,
+      verticalAlign: 'top',
+      y: 25,
+      floating: true,
+      backgroundColor: 'white',
+      borderColor: '#CCC',
+      borderWidth: 1,
+      shadow: false
+    },
+    tooltip: {
+      headerFormat: '<b>{point.x}</b><br/>',
+      pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+    },
+    plotOptions: {
+      column: {
+        stacking: 'normal',
+        dataLabels: {
+          enabled: true,
+          color: 'white'
         }
-      }]
-    }
-
+      }
+    },
+    series: [{
+      name: 'John',
+      data: [5, 3, 4, 7, 2]
+    }]
   };
 
   readonly integrationOptionListTemplate: IIntegrationOption = {
