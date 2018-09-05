@@ -442,7 +442,7 @@ export class ConstantsService {
     }
   };
 
-  readonly HANDSON_TABLE_BOT_TESTING_colHeaders = ['Message', 'Template', 'Status'];
+  readonly HANDSON_TABLE_BOT_TESTING_colHeaders = ['Message', 'Template', 'Status','Temp. Gen.','RoomId','TransactionId'];
   readonly HANDSON_TABLE_BOT_TESTING_columns = [
     {data: 0, type: 'text'},
     {data: 1, type: 'text'},

@@ -55,12 +55,12 @@ export class BotTestingComponent implements OnInit {
     //   });
     // })
       .subscribe((value) => {
-        // if (value.objects.length === 0) {
-        //   this.isData = false;
-        // }
-        // else {
-        //   this.isData = true;
-          // let testCaseData = value.objects[0].data;
+        if (value.objects.length === 0) {
+          this.isData = false;
+        }
+        else {
+          this.isData = true;
+          let testCaseData = value.objects[0].data;
           let testCaseDataForBot: ITestcases = value.objects.find((testcase)=>{
             return testcase.bot_id === this.bot.id
           });
@@ -93,7 +93,7 @@ export class BotTestingComponent implements OnInit {
         // })
       }
     }).subscribe((value)=>{
-
+      this.isData = true;
     })
   }
 
@@ -108,6 +108,7 @@ export class BotTestingComponent implements OnInit {
       }
     }).subscribe((value) => {
       console.log('Updated Test cases Successfully');
+      this.isData = true;
     });
   }
 
