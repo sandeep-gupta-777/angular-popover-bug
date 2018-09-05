@@ -64,7 +64,10 @@ export class ConstantsService {
     // return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`;// + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
     return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`;// + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
   }
-
+  stopTestUrl(){
+    return this.BACKEND_URL + `api/v1/bottestcases/canceltesting/`;// https://dev.imibot.ai/api/v1/bottestcases/canceltesting/
+    
+  }
   getEnterpriseUsersUrl() {
     return this.BACKEND_URL + 'api/v1/user/enterpriseusers/'; //https://dev.imibot.ai/api/v1/user/enterpriseusers/
   }
@@ -73,7 +76,10 @@ export class ConstantsService {
     // return this.BACKEND_USER_PIPELINE_BASED_BOT_LIST + 'api/v1/bot/';
     return this.BACKEND_URL+ 'api/v1/bot/?limit=1000';
   }
-
+  getLogoutUrl() {
+    // http://localhost:8000/api/v1/logout/;
+    return this.BACKEND_URL+ 'api/v1/logout/';
+  }
   getMasterIntegrationsList() {
     return this.BACKEND_URL + 'api/v1/integrations/';
   }
@@ -188,6 +194,9 @@ export class ConstantsService {
   }
   getDeleteBotUrl(id: number) {
     return this.BACKEND_URL + `api/v1/bot/${id}`; //http://localhost:8000/api/v1/bot/66/
+  }
+  getDecryptUrl() {
+    return this.BACKEND_URL + `api/v1/decrypt_audit/`; ///api/v1/decrypt_audit/
   }
 
   getSpecificBotByBotTokenUrl(){
@@ -333,8 +342,8 @@ export class ConstantsService {
         title: 'Messages',
         width:'150px'
       },
-      last_updated_job_id: {
-        title: 'Last Updated Job ID'
+      updated_at: {
+        title: 'Updated At'
       },
       sendtoagent: {
         title: 'Sent to Agent'

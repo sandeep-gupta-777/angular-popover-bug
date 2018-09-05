@@ -22,6 +22,7 @@ export class BotSessionsComponent implements OnInit {
   @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
   @Input() id: string;
   @Input() bot: IBot;
+  sessionItemToBeDecrypted:ISessionItem
   @ViewChild(SmartTableComponent) smartTableComponent: SmartTableComponent;
   sessions$: Observable<ISessions>;
   refreshSessions$: Observable<ISessions>;
@@ -36,6 +37,7 @@ export class BotSessionsComponent implements OnInit {
   showPrevButton: boolean;
   pageNumberOfCurrentRowSelected: number = 1;
   indexOfCurrentRowSelected: number;
+  decryptReason: string;
 
   constructor(
     private serverService: ServerService,
@@ -147,7 +149,8 @@ export class BotSessionsComponent implements OnInit {
 
   }
 
-  customActionEventsTriggeredInSessionsTable(data: { action: string, data: ISessionItem, source: any }) {
+  customActionEventsTriggeredInSessionsTable(data: { action: string, data: ISessionItem, source: any },Primarytemplat) {
+    debugger;
     if (data.action === 'download') {
       /*download the conversation for the record*/
       this.loadSessionById(data.data.id)
@@ -162,11 +165,30 @@ export class BotSessionsComponent implements OnInit {
         });
 
     }
-    if (data.action === 'dcrypt') {
+    if (data.action === 'decrypt') {
       /*use dcrypt api*/
+      debugger;
+      this.sessionItemToBeDecrypted = data.data;
+      this.openCreateBotModal(Primarytemplat);
+    
     }
   }
+  decryptSubmit(){
 
+    let headerData: IHeaderData = {
+      "bot-access-token": this.bot.bot_access_token
+    };
+    let body ={"room_id":this.sessionItemToBeDecrypted.id,"decrypt_audit_type":"room","message":this.decryptReason};
+    let url = this.constantsService.getDecryptUrl();
+    this.serverService.makePostReq({headerData,body,url})
+    .subscribe(()=>{
+      //
+    })
+
+  }
+  openCreateBotModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+  }
   loadSessionById(id) {
     this.url = this.constantsService.getSessionsMessageUrl(id);
     return this.serverService.makeGetReq<{objects: ISessionItem[]}>({

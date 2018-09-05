@@ -5,7 +5,7 @@
     <button class="btn-theme-primary-outline mr-2" (click)="exportToCSV()">Export to CSV</button>
     <button class="btn-theme-primary mr-2" (click)="updateTC()" *ngIf = "isData">Update test Case</button>
     <button class="btn-theme-primary mr-2" (click)="createTC()" *ngIf = "!isData">Create test Case</button>
-    <button class="btn-theme-primary" (click)="beginTest()">Begin Test</button>
+    <button class="btn-theme-primary" (click)="beginTest(Primarytemplat)">Begin Test</button>
   </div>
 </div>
 
@@ -19,3 +19,24 @@
   <!--<app-handsontable [columns]="handontable_column" [colHeaders]="handontable_colHeaders"></app-handsontable>-->
 </div>
 <!--<app-handsontable [columns]="handontable_column" [colHeaders]="handontable_colHeaders"></app-handsontable>-->
+
+<ng-template #Primarytemplat>
+  <div class="danger-modal">
+    <div class="top-dec"></div>
+    <div class="modal-header">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Test is already running</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+    </div>
+
+    <div class="modal-body pt-0">
+     <div>
+       <p>Do you want to stop the Testing process?</p>
+       <button class="btn-theme-primary" (click)="stopTest();modalRef.hide()">Stop Test</button>
+     </div>
+      
+    </div>
+  </div>
+</ng-template>

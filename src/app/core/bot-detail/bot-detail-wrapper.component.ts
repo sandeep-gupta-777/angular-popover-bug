@@ -11,5 +11,5 @@ export class BotDetailWrapperComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  decryptReason
 }

@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit {
   @Select() loggeduser$: Observable<{user:IUser}>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   logoSrc = 'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg';
+  url:string;
   constructor(
     private store: Store,
     private serverService: ServerService,
@@ -40,6 +41,9 @@ export class HeaderComponent implements OnInit {
   logout(){
     localStorage.clear();
     // this.store.reset({});
+    this.url = this.constantsService.getLogoutUrl();
+    this.serverService.makeGetReq({url: this.url})
+    .subscribe((v)=>{debugger;});
     this.store.dispatch([
       new ResetChatState(),
       new ResetBotListAction(),
