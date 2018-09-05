@@ -55,7 +55,7 @@ export class ReportDetailsComponent implements OnInit {
     let _id_str = this.activatedRoute.snapshot.paramMap.get('_id');
     this.reportFormData.id = _id_str? Number(_id_str):null;
     this.reportFormData.startdate = (new Date(this.reportFormData.startdate)).getTime();
-debugger;
+
     this.reportFormData.delivery = <any>[{
       ...this.reportFormData.delivery['sftp'],
       delivery_type: 'sftp'

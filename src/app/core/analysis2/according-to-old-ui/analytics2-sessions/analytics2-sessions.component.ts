@@ -67,7 +67,7 @@ export class Analytics2SessionsComponent implements OnInit {
         try{
           let granularity =  value.analysisHeaderData.granularity;
           let granularity_ms:number = this.utilityService.convertGranularityStrToMs(granularity);
-          debugger;
+
           this.chartValue =
             <any>this.utilityService.convertDateTime(
               value[this.activeTab],

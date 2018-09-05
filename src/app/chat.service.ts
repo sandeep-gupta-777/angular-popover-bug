@@ -52,7 +52,7 @@ export class ChatService {
             type: 'bot'
           };
         });
-        debugger;
+
         this.store.dispatch([
           new AddMessagesToRoomByRoomId({
             id: response.room.id,

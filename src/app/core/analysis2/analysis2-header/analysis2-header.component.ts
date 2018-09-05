@@ -6,7 +6,23 @@ import {NgForm} from '@angular/forms';
 import {ConstantsService} from '../../../constants.service';
 import {BsDatepickerConfig} from 'ngx-bootstrap';
 import {Select, Store} from '@ngxs/store';
-import {SetAnalysis2HeaderData, SetOverviewInfoData, SetChannelWiseFlowsPerSession, SetUserAcquisition, SetTotalMessages, SetAverageRoomTime, SetUserLoyalty, SetChannelWiseAverageSessionTime, SetTotalFlows, SetFlowsPerRoom, SetTotalRooms, SetRoomDuration, SetChannelWiseSessions, SetChannelWiseUsers} from '../ngxs/analysis.action';
+import {
+  SetAnalysis2HeaderData,
+  SetOverviewInfoData,
+  SetChannelWiseFlowsPerSession,
+  SetUserAcquisition,
+  SetTotalMessages,
+  SetAverageRoomTime,
+  SetUserLoyalty,
+  SetChannelWiseAverageSessionTime,
+  SetTotalFlows,
+  SetFlowsPerRoom,
+  SetTotalRooms,
+  SetRoomDuration,
+  SetChannelWiseSessions,
+  SetChannelWiseUsers,
+  ResetAnalytics2Data
+} from '../ngxs/analysis.action';
 import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
 import {UtilityService} from '../../../utility.service';
@@ -78,9 +94,12 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
           platform: 'web',
           ...formData
         };
-        this.store.dispatch([
-          new SetAnalysis2HeaderData({analysisHeaderData})
-        ]);
+        this.store.dispatch([new ResetAnalytics2Data()])
+          .subscribe(()=>{
+            this.store.dispatch([
+              new SetAnalysis2HeaderData({analysisHeaderData})
+            ]);
+          })
       });
 
     /*

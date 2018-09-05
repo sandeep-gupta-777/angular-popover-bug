@@ -1,4 +1,4 @@
-<button (click)="click()">click1</button>
+<!--<button (click)="click()">click1</button>-->
 <form class="row report-detail-row" #form="ngForm">
   <div class="col-6">
     <div class="select-theme-primary">
@@ -27,8 +27,8 @@
       <label (click)="filetype='pdf'"
              [ngClass]="{'btn-theme-primary': filetype==='pdf', 'btn-theme-secondary-outline':filetype==='csv'}"
              for="pdf" class="btn d-flex align-items-center">PDF</label>
-      <input type="radio" ngModel id="csv" name="filetype" value="csv" hidden>
-      <input type="radio" ngModel id="pdf" name="filetype" value="pdf" hidden>
+      <input type="radio" [ngModel]="filetype" id="csv" name="filetype" value="csv" hidden>
+      <input type="radio" [ngModel]="filetype" id="pdf" name="filetype" value="pdf" hidden>
     </div>
   </div>
 

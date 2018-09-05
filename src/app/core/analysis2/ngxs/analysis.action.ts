@@ -94,3 +94,9 @@ export class SetChannelWiseUsers {
   constructor(public payload: { data: IChannelWiseUsersItem[]}) {
   }
 }
+
+export class ResetAnalytics2Data {
+  static readonly type = '[analytics2] ResetAnalytics2Data';
+  constructor() {
+  }
+}

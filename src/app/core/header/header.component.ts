@@ -45,7 +45,7 @@ export class HeaderComponent implements OnInit {
     // this.store.reset({});
     this.url = this.constantsService.getLogoutUrl();
     this.serverService.makeGetReq({url: this.url})
-    .subscribe((v)=>{debugger;});
+    .subscribe((v)=>{});
     this.store.dispatch([
 
       new ResetBotListAction(),

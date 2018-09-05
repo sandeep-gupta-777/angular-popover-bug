@@ -1,5 +1,21 @@
 import {Action, State, StateContext} from '@ngxs/store';
-import {SetAnalysis2HeaderData, SetOverviewInfoData, SetChannelWiseFlowsPerSession, SetUserAcquisition, SetTotalMessages, SetAverageRoomTime, SetUserLoyalty, SetChannelWiseAverageSessionTime, SetTotalFlows, SetFlowsPerRoom, SetTotalRooms, SetRoomDuration, SetChannelWiseSessions, SetChannelWiseUsers} from './analysis.action';
+import {
+  SetAnalysis2HeaderData,
+  SetOverviewInfoData,
+  SetChannelWiseFlowsPerSession,
+  SetUserAcquisition,
+  SetTotalMessages,
+  SetAverageRoomTime,
+  SetUserLoyalty,
+  SetChannelWiseAverageSessionTime,
+  SetTotalFlows,
+  SetFlowsPerRoom,
+  SetTotalRooms,
+  SetRoomDuration,
+  SetChannelWiseSessions,
+  SetChannelWiseUsers,
+  ResetAnalytics2Data
+} from './analysis.action';
 import {IOverviewInfo, IOverviewInfoPostBody} from '../../../../interfaces/Analytics2/overview-info';
 import {IAnalysis2HeaderData} from '../../../../interfaces/Analytics2/analytics2-header';
 import {  IChannelWiseFlowsPerSessionResponseBody, IChannelWiseFlowsPerSessionItem } from '../../../../interfaces/Analytics2/volume-sessions';
@@ -34,26 +50,26 @@ export interface IAnalysis2State {
   channelWiseSessions : IChannelWiseSessionsItem[],
   channelWiseUsers : IChannelWiseUsersItem[]
 }
-
+const defaultAnalytics2 = {
+  analysisHeaderData:null,
+  overviewInfo:null,
+  channelWiseFlowsPerSession : null,
+  userAcquisition : null,
+  totalMessages : null,
+  averageRoomTime : null,
+  totalFlows : null,
+  userLoyalty : null,
+  channelWiseAverageSessionTime : null,
+  topgenerationtemplates :null,
+  flowsPerRoom : null,
+  totalRooms : null,
+  roomDuration : null,
+  channelWiseSessions : null,
+  channelWiseUsers: null
+};
 @State<IAnalysis2State>({
   name: 'analysisstate2',
-  defaults: {
-    analysisHeaderData:null,
-    overviewInfo:null,
-    channelWiseFlowsPerSession : null,
-    userAcquisition : null,
-    totalMessages : null,
-    averageRoomTime : null,
-    totalFlows : null,
-    userLoyalty : null,
-    channelWiseAverageSessionTime : null,
-    topgenerationtemplates :null,
-    flowsPerRoom : null,
-    totalRooms : null,
-    roomDuration : null,
-    channelWiseSessions : null,
-    channelWiseUsers: null
-  }
+  defaults: defaultAnalytics2
 })
 
 export class AnalysisStateReducer2 {
@@ -138,6 +154,12 @@ export class AnalysisStateReducer2 {
   setChannelWiseUsers({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetChannelWiseUsers) {
     let state:IAnalysis2State = getState();
     patchState({channelWiseUsers:payload.data});
+  }
+
+  @Action(ResetAnalytics2Data)
+  resetAnalytics2Data({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>) {
+    let state = getState();
+    patchState({...defaultAnalytics2,analysisHeaderData:state.analysisHeaderData});
   }
 
   static getAnalytics2HeaderData(state){

@@ -157,7 +157,7 @@ export class UtilityService {
     startTime_ms: number= Date.UTC(2010, 0, 2),//Date.UTC(2010, 0, 2),
     granularity_Ms: number =24*3600*1000  // one day
     ){
-    debugger;
+
 
     let template = {
       xAxis: {

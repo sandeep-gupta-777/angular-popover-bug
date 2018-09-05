@@ -39,7 +39,7 @@ export class ChartComponent implements OnInit {
 
 
   init(_chartValue) {
-    debugger;
+
     // if(!_chartValue)return;
     /*
     * https://stackoverflow.com/questions/15804426/how-to-set-xaxis-pointintervalupdate-tickinterval-in-highcharts
@@ -50,6 +50,9 @@ export class ChartComponent implements OnInit {
         credits: false,
         xAxis: {
           type: 'datetime'
+        },
+        title: {
+          text: ''
         },
 
         plotOptions: {

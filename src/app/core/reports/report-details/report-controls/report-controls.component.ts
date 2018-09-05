@@ -130,17 +130,18 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
   }
 
   getReportControlFormData(){/*to be called by parent*/
+    debugger;
     this.reportFormData.botName = this.botlist.find((bot)=>bot.id==this.reportFormData.bot_id).name;
     this.reportFormData = {...this.reportFormData};
     let start_time:string  = (<any>document).getElementById("start_time").value;
     let start_time_arr =  start_time.split(':');
     let hh = Number(start_time_arr[0]);
     let mm = Number(start_time_arr[1]);
-    debugger;
+
     this.reportFormData.startdate
       = new Date(this.reportFormData.startdate).setHours(hh,mm,0,0);
 
-    debugger;
+
     return this.reportFormData;
   }
 

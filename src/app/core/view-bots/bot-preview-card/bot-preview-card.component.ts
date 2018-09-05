@@ -66,7 +66,7 @@ export class BotPreviewCardComponent implements OnInit {
   }
 
   openBot() {
-    debugger;
+
     /*if a new bot is being opened=> clear previous chat state*/
     if(this.currentChatPreviewBotId && this.bot.id!==this.currentChatPreviewBotId){
       this.store.dispatch([

@@ -151,7 +151,7 @@ export class BotSessionsComponent implements OnInit {
   }
 
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: ISessionItem, source: any },Primarytemplat) {
-    debugger;
+
     if (data.action === 'download') {
       /*download the conversation for the record*/
       this.loadSessionById(data.data.id)
@@ -168,10 +168,10 @@ export class BotSessionsComponent implements OnInit {
     }
     if (data.action === 'decrypt') {
       /*use dcrypt api*/
-      debugger;
+
       this.sessionItemToBeDecrypted = data.data;
       this.openCreateBotModal(Primarytemplat);
-    
+
     }
   }
   decryptSubmit(){

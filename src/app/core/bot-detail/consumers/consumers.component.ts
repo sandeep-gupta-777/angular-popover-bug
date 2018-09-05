@@ -79,14 +79,14 @@ export class ConsumersComponent implements OnInit {
     // http://localhost:4200/core/botdetail/27/consumer
   }
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: IConsumerResults, source: any },Primarytemplat) {
-    debugger;
-    
+
+
     if (data.action === 'decrypt') {
       /*use dcrypt api*/
-      debugger;
+
       this.consumerItemToBeDecrypted = data.data;
       this.openCreateBotModal(Primarytemplat);
-    
+
     }
   }
   decryptSubmit(){
