@@ -20,7 +20,8 @@ export class KnowledgeBasePresentationComponent implements OnInit {
     this.ner_type = value.ner_type;
     this.conflict_policy = value.conflict_policy ;
     // this.codeTextInputToCodeEditor = value.values && value.values.join(',');
-    this.codeTextInputToCodeEditorObj.text = value.values && value.values.join(',');
+    // this.codeTextInputToCodeEditorObj.text = value.values && value.values.join(',');
+    this.codeTextInputToCodeEditorObj.text = value.values && JSON.stringify(value.values);
   }
   @Input() handsontableData = ["", "", ""];
   @Output() updateOrSaveConcept$ = new EventEmitter();

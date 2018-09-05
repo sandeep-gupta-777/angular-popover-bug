@@ -29,7 +29,8 @@ import { Analysis2Engagement1Component } from './according-to-old-ui/analysis2-e
 const routes: Route[] = [
   {
     path: '', component: Analysis2WrapperComponent, children: [
-      {path: '', redirectTo: 'overview', pathMatch: 'full'},
+      {path: '', redirectTo: 'users', pathMatch: 'full'},
+      // {path: 'overview', component: Analysis2OverviewComponent},
       {path: 'overview', component: Analysis2OverviewComponent},
       {path: 'volume', component: Analysis2VolumeComponent},
       {path: 'performance', component: Analysis2PerformanceComponent},

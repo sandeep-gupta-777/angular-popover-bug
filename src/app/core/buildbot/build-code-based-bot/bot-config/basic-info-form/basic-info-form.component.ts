@@ -19,12 +19,12 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
   @Input() bot:IBot;
   @Output() datachanged$ = new EventEmitter<Partial<IBot>>();
   @ViewChild('form') f:NgForm;
-  isManager:boolean;
+  isManager:boolean = false;
   constructor(private store:Store) {}
 
 
   ngOnInit() {
-    this.isManager = this.bot && this.bot.child_bots.length === 0;
+    this.isManager = this.bot && this.bot.child_bots.length !== 0;
     this.allbotList$ = this.botlist$.map((botlist)=>{
       return botlist.allBotList;
     })

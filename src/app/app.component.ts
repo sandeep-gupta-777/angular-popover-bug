@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
           if (this.progressVal < 80)
             ++this.progressVal;
           else {
-            this.showProgressbar = false;
+            this.progressVal = this.progressVal + 0.2;
           }
         }, 200);
       } else {

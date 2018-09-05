@@ -80,7 +80,6 @@ export class BotTestingComponent implements OnInit {
   }
 
   createTC() {
-    ;
     console.log(this.testCaseData);
     this.serverService.makePostReq<{ meta: any, objects: ITestcases[] }>({
       url: this.testCasesUrl,
@@ -97,6 +96,7 @@ export class BotTestingComponent implements OnInit {
         // })
       }
     }).subscribe((value) => {
+      this.utilityService.showSuccessToaster('Test cases created successfully');
       this.isData = true;
     })
   }
@@ -111,7 +111,7 @@ export class BotTestingComponent implements OnInit {
         'data': this.testCaseData
       }
     }).subscribe((value) => {
-      console.log('Updated Test cases Successfully');
+      this.utilityService.showSuccessToaster('Test cases updated successfully');
       this.isData = true;
     });
   }

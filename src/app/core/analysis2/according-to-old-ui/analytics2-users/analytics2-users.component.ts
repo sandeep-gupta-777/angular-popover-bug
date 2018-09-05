@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {UtilityService} from '../../../../utility.service';
 import {EAnalysis2TypesEnum} from '../../../../../interfaces/Analytics2/analysis2-types';
 import {Select, Store} from '@ngxs/store';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AnalysisStateReducer2, IAnalysis2State} from '../../ngxs/analysis.state';
 import {SetAnalysis2HeaderData} from '../../ngxs/analysis.action';
 
@@ -45,6 +45,7 @@ export class Analytics2UsersComponent implements OnInit {
   constructor(
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
+    private route: Router,
     private store: Store,
     private utilityService:UtilityService
   ) {
@@ -52,6 +53,7 @@ export class Analytics2UsersComponent implements OnInit {
 
   tabClicked(activeTab: string) {
     this.activeTab = activeTab;
+    // this.route.ac/
     if(this.activeTab){
       this.store.dispatch(new SetAnalysis2HeaderData({
         analysisHeaderData:{type:this.activeTab}

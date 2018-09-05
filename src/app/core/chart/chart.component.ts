@@ -47,6 +47,7 @@ export class ChartComponent implements OnInit {
 
 
       let chart = new Chart( {
+        credits: false,
         xAxis: {
           type: 'datetime'
         },
