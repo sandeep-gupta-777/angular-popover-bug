@@ -36,13 +36,14 @@ import {DropTargetDirective} from '../../drop-target.directive';
 import {KnowledgeBaseWrapperComponent} from '../buildbot/build-code-based-bot/architecture/knowledge-base-wrapper/knowledge-base-wrapper.component';
 import { LimitObjectArraysStringPipe } from './consumers/limit-object-arrays-string.pipe';
 import { ConsumerFullscreenWrapperComponent } from './consumers/consumer-fullscreen-wrapper/consumer-fullscreen-wrapper.component';
+import {EBotType} from '../view-bots/view-bots.component';
 
 const routes: Route[] = [
   {
     path: '', component: BotDetailWrapperComponent, children:
       [
-        {path: 'codebased/:id', component: CodeBasedBotDetailComponent},
-        {path: 'intelligent/:id', component: PipelineBasedBotDetailComponent},
+        {path: `${EBotType.chatbot}/:id`, component: CodeBasedBotDetailComponent},
+        {path: `${EBotType.intelligent}/:id`, component: PipelineBasedBotDetailComponent},
         {path: ':id/consumer', component: ConsumerFullscreenWrapperComponent, data:{isFullscreen:true}},
       ]
   }

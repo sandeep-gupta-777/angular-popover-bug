@@ -6,7 +6,7 @@
        replaceUrl="true"
        [queryParams]="{activeTab:myEAnalysis2TypesEnum.totalRooms}"
        (click)="tabClicked(myEAnalysis2TypesEnum.totalRooms)"
-       [ngClass]="{'tab-active':activeTab===myEAnalysis2TypesEnum.totalRooms}"><strong>(MESSAGE ANALYSIS)
+       [ngClass]="{'tab-active':activeTab===myEAnalysis2TypesEnum.totalRooms}"><strong>MESSAGE ANALYSIS
     </strong></a>
   </li>
 </ul>
@@ -14,7 +14,6 @@
 
 
 <app-chart *ngIf="activeTab===myEAnalysis2TypesEnum.totalRooms"
-           [data]="highchartData"
-           [chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
+           [chartValue]="chartValue"
            [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
 </app-chart>

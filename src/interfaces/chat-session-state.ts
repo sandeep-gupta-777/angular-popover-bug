@@ -1,3 +1,5 @@
+import {IConsumerDetails} from '../app/chat/ngxs/chat.state';
+
 export enum EChatFrame {
   WELCOME_BOX, CHAT_LIST,CHAT_BOX,
 }
@@ -10,8 +12,8 @@ export interface IMessageData {
 
 export interface IRoomData{
   id:number,
-  bot_id: number,
-  bot_access_token:string,
+  bot_id?: number,
+  bot_access_token?:string,
   'messageList': IMessageData[],
   uid?:string,
   "selectedAvatar"?: {
@@ -19,7 +21,7 @@ export interface IRoomData{
     "imageUrl": string,
     "name"?: string
   },
-  lastTemplateKey:string
+  lastTemplateKey?:string
 }
 export interface IChatSessionState {
 
@@ -29,9 +31,10 @@ export interface IChatSessionState {
   currentBotDetails: {
     id:number,
     name?:string,
-    logo:string,
-    token:string
+    logo?:string,
+    token?:string
   },
   currentUId:string,
-  rooms:IRoomData[]
+  rooms:IRoomData[],
+  consumerDetails:IConsumerDetails
 }

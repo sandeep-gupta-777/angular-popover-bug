@@ -9,6 +9,10 @@ import {SetCodeBasedBotListAction, SetPipeLineBasedBotListAction} from './ngxs/v
 import {ActivatedRoute, Router} from '@angular/router';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
+export enum EBotType {
+  chatbot="chatbot",
+  intelligent="intelligent"
+}
 
 @Component({
   selector: 'app-view-bots',
@@ -17,8 +21,9 @@ import {BsModalService} from 'ngx-bootstrap/modal';
 })
 export class ViewBotsComponent implements OnInit {
 
+  myEBotType = EBotType;
   botList$: Observable<IBot[]>;
-  activeTab:string = "codebased";
+  activeTab:string = EBotType.chatbot;
   modalRef: BsModalRef;
 
   constructor(

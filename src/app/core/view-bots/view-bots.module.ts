@@ -1,7 +1,7 @@
 import {Route, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ViewBotsComponent} from './view-bots.component';
+import {EBotType, ViewBotsComponent} from './view-bots.component';
 import {ViewCodeBasedBotComponent} from './view-code-based-bot/view-code-based-bot.component';
 import {ViewPipelineBasedBotsComponent} from './view-pipeline-based-bots/view-pipeline-based-bots.component';
 import {BsDropdownModule, ModalModule, TabsModule} from 'ngx-bootstrap';
@@ -26,8 +26,8 @@ const routes: Route[] = [
 
     path: '', component: ViewBotsComponent, children:
       [
-        {path: 'codebased', component: ViewCodeBasedBotComponent, data: {route: 'codebased'}},
-        {path: 'intelligent', component: ViewPipelineBasedBotsComponent, data: {route: 'intelligent'}},
+        {path: EBotType.chatbot, component: ViewCodeBasedBotComponent, data: {route: EBotType.chatbot}},
+        {path: EBotType.intelligent, component: ViewPipelineBasedBotsComponent, data: {route: EBotType.intelligent}},
       ]
   }
 ];

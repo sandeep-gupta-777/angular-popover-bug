@@ -38,7 +38,7 @@ export class ConsumersComponent implements OnInit {
   ngOnInit() {
     this.bot_id =
       Number(this.activatedRoute.snapshot.paramMap.get('id'));
-    debugger;
+
     this.isFullscreen = this.activatedRoute.snapshot.data['isFullscreen'];
     this.botlist$.subscribe((viewBotState) => {
       this.bot = viewBotState.allBotList.find(bot => bot.id === this.bot_id);

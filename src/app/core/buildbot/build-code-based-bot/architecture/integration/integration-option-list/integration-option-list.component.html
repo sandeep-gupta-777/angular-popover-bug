@@ -418,7 +418,7 @@
       <div class="d-flex justify-content-center align-items-center" style="height: 90px">
         <img
              style="height: 16px; width: 16px"
-             [src]="'https://imibot.ai/'+ getLogo(integration_keys)"
+             [src]="getLogo(integration_keys)"
              alt="">
         <div class="heading my-0 mx-2">{{integration_keys.toUpperCase()}}</div>
         <ui-switch size="small" ngModel name="enabled" (change)="onSwitchChange(formValueFinal[form_value_key][integration_keys])"></ui-switch>

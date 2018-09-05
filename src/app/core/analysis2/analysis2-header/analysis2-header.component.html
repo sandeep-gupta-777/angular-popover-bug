@@ -37,7 +37,12 @@
            [bsConfig]="datePickerConfig">
   </div>
 
-  <!---->
+  <div class="form-group m-0 mr-4 ">
+    <label for="">Granularity</label>
+    <select  [(ngModel)]="granularity" required validate name="granularity">
+      <option *ngFor="let granularity of granularityList"  type="button" [value]="granularity">{{granularity}}</option>
+    </select>
+  </div>
 </form>
 
 

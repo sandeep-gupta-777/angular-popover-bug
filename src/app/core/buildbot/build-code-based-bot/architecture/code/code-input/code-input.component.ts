@@ -14,6 +14,7 @@ import {IBotCreationState} from '../../../../ngxs/buildbot.state';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {CodeEditorComponent} from '../code-editor/code-editor.component';
+import {EBotType} from '../../../../../view-bots/view-bots.component';
 
 
 @Component({
@@ -76,7 +77,7 @@ export class CodeInputComponent implements OnInit {
     let botId = this.bot.id;
     this.serverService.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
       .subscribe((botVersionResult) => {
-        debugger;
+
         this.store.dispatch([
           new SaveVersionInfoInBot({data: botVersionResult.objects, botId: this.bot.id})
         ]);
@@ -121,7 +122,7 @@ export class CodeInputComponent implements OnInit {
       this.editorCodeObj.text = this.code[this.activeTab];
       this.editorCodeObj = {...this.editorCodeObj};
     }
-    this.router.navigate(['core/botdetail/codebased/', this.bot.id], {
+    this.router.navigate([`core/botdetail/${EBotType.chatbot}/`, this.bot.id], {
       queryParams: {'code-tab': activeTab},
       queryParamsHandling: 'merge',
       replaceUrl: true
@@ -133,7 +134,7 @@ export class CodeInputComponent implements OnInit {
     *at this point some changes have been made to selected version's codeText
     *if the new codeText is same as old codeText
     * */
-    debugger;
+
     if (this.selectedVersion && this.selectedVersion.id) {
       let selectedVersion_pristine = this.bot.store_bot_versions && this.bot.store_bot_versions.find((version) => version.id === this.selectedVersion.id);
       let codeTextPristine = selectedVersion_pristine[this.activeTab];
@@ -179,7 +180,7 @@ export class CodeInputComponent implements OnInit {
   }
 
   saveSelectedVersion() {
-    debugger;
+
     let headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
@@ -233,7 +234,7 @@ export class CodeInputComponent implements OnInit {
   }
 
   forkNewVersion() {
-    debugger;
+
     if (!this.forked_version_id) {
       this.flashErrorMessage('Please select version id');
       return;

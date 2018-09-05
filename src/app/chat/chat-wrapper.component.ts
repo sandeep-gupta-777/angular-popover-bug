@@ -3,12 +3,12 @@ import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {EChatFrame, IChatSessionState, IMessageData, IRoomData} from '../../interfaces/chat-session-state';
 import {
-  AddMessagesToRoomByUId,
+  // AddMessagesToRoomByUId,
   ChangeFrameAction,
-  SetCurrentUId,
+  // SetCurrentUId,
   SetCurrentRoomID,
   ToggleChatWindow,
-  AddNewRoom
+  AddNewRoom, AddMessagesToRoomByRoomId, SetConsumerDetail
 } from './ngxs/chat.action';
 import {ServerService} from '../server.service';
 import {ConstantsService} from '../constants.service';
@@ -20,6 +20,46 @@ import {ActivatedRoute, Route, Router, RoutesRecognized} from '@angular/router';
 import {UtilityService} from '../utility.service';
 import {IBot} from '../core/interfaces/IBot';
 import {ViewBotStateModel} from '../core/view-bots/ngxs/view-bot.state';
+import {IConsumerDetails} from './ngxs/chat.state';
+
+export interface IBotPreviewFirstMessage {
+  'generated_msg': [
+    {
+      'text': 'lkjlksdmfasd'
+    },
+    {
+      'text': 'Test consent message'
+    }
+    ],
+  'room': {
+    'agent_handover': false,
+    'allow_anonymization': false,
+    'bot_id': 27,
+    'consent_permissions': any[],
+    'consumer_id': 3602,
+    'created_at': 1536148813000,
+    'cross_retention_period': false,
+    'data_store': {},
+    'df_state': {
+      'answer': null,
+      'question': null
+    },
+    'id': 11924,
+    'imichat_agent': {},
+    'is_anonymized': false,
+    'last_updated_job_id': '5b8fc54d7364530005872f08',
+    'manager_bot_room_id': 0,
+    'resource_uri': '/api/v1/room/11924/',
+    'room_state_closed': false,
+    'selected_avatar': {
+      'id': 0,
+      'imageUrl': 'https://www.gstatic.com/webp/gallery3/2_webp_a.png',
+      'name': 'StarBot'
+    },
+    'updated_at': 1536148813000
+  },
+  'transaction_id': '1cba048e58684206b8c3912b7f7e1887'
+}
 
 @Component({
   selector: 'app-chat-wrapper',
@@ -37,9 +77,10 @@ export class ChatWrapperComponent implements OnInit {
   windowOpen: boolean = false;
   messageData: IMessageData[] = null;
   selectedAvatar: any;
-  loggeduser:IAuthState;
+  loggeduser: IAuthState;
   currentRoom: IRoomData;
   current_uid: string;
+  customConsumerDetails:IConsumerDetails;
   bot_access_token: string;
   currentBotId: number;
   currentBot: IBot;
@@ -59,9 +100,9 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loggeduser$.subscribe((loggeduser)=>{
+    this.loggeduser$.subscribe((loggeduser) => {
       this.loggeduser = loggeduser;
-    })
+    });
     this.botlist$.subscribe((value) => {
       this.allBotList = value.allBotList;
     });
@@ -77,26 +118,29 @@ export class ChatWrapperComponent implements OnInit {
     });
 
     this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
-
-      ;
-      try{
+      try {
         this.windowOpen = chatSessionState.opened;
-        if (!chatSessionState || !chatSessionState.opened) return;
-        this.currentBot = this.allBotList.find((value)=>value.id===chatSessionState.currentBotDetails.id);
-        this.frameEnabled = chatSessionState.frameEnabled;
-        this.currentRoom = chatSessionState.rooms.find((room) => room.uid === chatSessionState.currentUId);
-        if(this.currentBot){
+        if (!chatSessionState) return;
+        if(chatSessionState.currentBotDetails){
+          this.currentBot = this.allBotList.find((value) => value.id === chatSessionState.currentBotDetails.id);
           this.currentBotId = this.currentBot.id;//chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.id || currentBot.id;
           this.bot_access_token = this.currentBot.bot_access_token;//this.currentRoom && this.currentRoom.bot_access_token || currentBot.bot_access_token;
           this.chatWindowTitle = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.name;
         }
-        if(this.currentRoom && this.currentBot){
+        if(chatSessionState.currentRoomId){
+          this.currentRoom = chatSessionState.rooms.find((room) => room.id === chatSessionState.currentRoomId);
           this.messageData = this.currentRoom && this.currentRoom.messageList;
           this.selectedAvatar = this.currentRoom && this.currentRoom.selectedAvatar;
-          // this.currentBot = this.allBotList.find((bot) => bot.id === this.currentBotId);
-          this.current_uid =chatSessionState.currentUId;
+
         }
-      }catch (e) {
+        this.frameEnabled = chatSessionState.frameEnabled;
+        if (this.frameEnabled!==2 && chatSessionState.consumerDetails && chatSessionState.consumerDetails.uid) {
+          this.customConsumerDetails = chatSessionState.consumerDetails;
+          this.current_uid = chatSessionState.consumerDetails.uid;
+        }else {
+          this.current_uid = chatSessionState.currentUId;
+        }
+      } catch (e) {
         console.error(e);
       }
     });
@@ -111,43 +155,91 @@ export class ChatWrapperComponent implements OnInit {
     * add first message of bot into the room
     * open the chat window
     * */
+    /*
+    * 1. Post send api to server with first message=> will get back consent message and room id
+    * 2. create a new room with room id
+    * */
 
-    ;
-    // ;
-    let new_uid = this.utilityService.createRandomString(12);
+
+    let url = this.constantsService.getStartNewChatLoginUrl();
+    let headerData: IHeaderData = {
+      'bot-access-token': this.currentBot.bot_access_token,
+      'auth-token': null,
+      'user-access-token': null,
+      'content-type': 'application/json'
+    };
+    let body /*: ISendApiRequestPayload */ = {
+      'type': 'bot',
+      'msg': 'hi',
+      'platform': 'web',
+      'consumer': {
+        'uid': this.current_uid,
+      },
+    };
+
+    this.serverService.makePostReq({url, body, headerData})
+      .subscribe((value: IBotPreviewFirstMessage) => {
+
+        /*1. create a new room with roomid
+         *2. add message to the room: consent message */
+        let roomMessages: IMessageData[] = value.generated_msg.map((item: { text: string }) => {
+          return {
+            text: item.text,
+            type: 'bot',
+            time: '10:44PM'
+          };
+        });
+        this.store.dispatch([
+          new AddNewRoom({
+            id: value.room.id,
+            messageList: roomMessages,
+            bot_access_token: this.currentBot.bot_access_token,
+            uid: this.current_uid,
+            selectedAvatar: value.room.selected_avatar,
+            bot_id: this.currentBot.id
+          }),
+          new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX}),
+          new SetCurrentRoomID({id:value.room.id})
+        ]);
+      });
+    // let new_uid = this.utilityService.createRandomString(12);
+    // this.store.dispatch([
+    //   new AddNewRoom({
+    //     uid: new_uid,
+    //     bot_id: this.currentBot.id,
+    //     bot_access_token: this.currentBot.bot_access_token,
+    //     id: null,
+    //     messageList: [
+    //       {
+    //         text: this.currentBot.first_message||'I have no first message',
+    //         time: this.utilityService.getCurrentTimeInHHMM(),
+    //         type: 'bot'
+    //       }
+    //     ],
+    //     selectedAvatar:{
+    //       // "id": number,
+    //       "imageUrl": this.currentBot.logo,
+    //       "name": this.currentBot.name
+    //     },
+    //     lastTemplateKey:"none"
+    //   }),
+    //   new ChangeFrameAction({frameEnabled:EChatFrame.CHAT_BOX})
+    // ]).subscribe(()=>{
+    //   this.store.dispatch([
+    //     new SetCurrentUId({uid: new_uid})
+    //   ])
+    // })
+
+  }
+
+  logForm(consumerFormValue){
+    console.log(consumerFormValue);
     this.store.dispatch([
-      new AddNewRoom({
-        uid: new_uid,
-        bot_id: this.currentBot.id,
-        bot_access_token: this.currentBot.bot_access_token,
-        id: null,
-        messageList: [
-          {
-            text: this.currentBot.first_message||'I have no first message',
-            time: this.utilityService.getCurrentTimeInHHMM(),
-            type: 'bot'
-          }
-        ],
-        selectedAvatar:{
-          // "id": number,
-          "imageUrl": this.currentBot.logo,
-          "name": this.currentBot.name
-        },
-        lastTemplateKey:"none"
-      }),
-      new ChangeFrameAction({frameEnabled:EChatFrame.CHAT_BOX})
-    ]).subscribe(()=>{
-      this.store.dispatch([
-        new SetCurrentUId({uid: new_uid})
-      ])
-    })
-    // this.chatService.startNewChat(
-    //   {
-    //     bot_access_token:this.bot_access_token, id:this.currentBotId
-    //   },
-    //   current_uid,
-    //   messageByHuman,
-    //   frameEnabled);
+      new SetConsumerDetail(consumerFormValue)
+    ]);
+    // if(consumerFormValue.uid){
+    //   this.store.dispatch([new SetCurrentUId(consumerFormValue.uid)])
+    // }
   }
 
   navigate(frame) {
@@ -159,24 +251,24 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   sendMessageByHuman(messageByHuman: string) {
+
     if (messageByHuman.trim() === '') return;
-    this.store.dispatch(new AddMessagesToRoomByUId({
+    this.store.dispatch(new AddMessagesToRoomByRoomId({
       id: this.currentRoom.id,
-      uid: this.current_uid,
       messageList: [{
         text: messageByHuman,
         type: 'human',
         time: this.utilityService.getCurrentTimeInHHMM()
       }],
-      bot_id: this.currentRoom.bot_id,
-      bot_access_token: this.bot_access_token,
-      lastTemplateKey:'none'
+      // bot_id: this.currentRoom.bot_id,
+      // bot_access_token: this.bot_access_token,
+      // lastTemplateKey: 'none'
     }))
-      .subscribe(()=>{
+      .subscribe(() => {
         // ;
         this.chatService.startNewChat(
           {
-            bot_access_token:this.bot_access_token, id:this.currentBotId
+            bot_access_token: this.bot_access_token, id: this.currentBotId
           },
           this.current_uid,
           messageByHuman,
@@ -200,5 +292,12 @@ export class ChatWrapperComponent implements OnInit {
     this.store.dispatch([
       new ToggleChatWindow({open: true})
     ]);
+  }
+  saveConsumerDetails(value){
+    this.store.dispatch([new SetConsumerDetail(value)])
+      .subscribe(()=>{
+        this.utilityService.showSuccessToaster("Saved!");
+        this.store.dispatch([new ChangeFrameAction({frameEnabled:1})])
+      })
   }
 }

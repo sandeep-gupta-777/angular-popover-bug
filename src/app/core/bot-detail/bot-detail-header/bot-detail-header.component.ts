@@ -6,7 +6,7 @@ import {ConstantsService} from '../../../constants.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {UtilityService} from '../../../utility.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {ChangeFrameAction, SetCurrentBotID, ToggleChatWindow} from '../../../chat/ngxs/chat.action';
+import {ChangeFrameAction, SetCurrentBotDetails, ToggleChatWindow} from '../../../chat/ngxs/chat.action';
 import {EChatFrame} from '../../../../interfaces/chat-session-state';
 import {AddNewBotInAllBotList, UpdateBotInfoByIdInBotInBotList} from '../../view-bots/ngxs/view-bot.action';
 import {Router} from '@angular/router';
@@ -37,14 +37,14 @@ export class BotDetailHeaderComponent implements OnInit {
   }
   openBot() {
     this.store.dispatch([
-      new SetCurrentBotID({bot_id: this.bot.id, bot: this.bot}),
+      new SetCurrentBotDetails({id: this.bot.id, logo:this.bot.logo, token:this.bot.bot_access_token, name:this.bot.name}),
       new ToggleChatWindow({open: true}),
       new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX})
     ]);
   }
 
   updateBot() {
-    debugger;
+
     let url = this.constantsService.updateBotUrl(this.bot.id);
     let headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
@@ -56,7 +56,7 @@ export class BotDetailHeaderComponent implements OnInit {
     let body = this.constantsService.updateBotSerializer(this.bot);
     this.serverService.makePutReq({url, body, headerData})
       .subscribe((updatedBot:IBot) => {
-        debugger;
+
         this.store.dispatch([
           new UpdateBotInfoByIdInBotInBotList({botId:this.bot.id, data:updatedBot})
         ]);
@@ -78,7 +78,7 @@ export class BotDetailHeaderComponent implements OnInit {
       .subscribe((value)=>{
         this.serverService.getNSetBotList()
           .subscribe(()=>{
-            this.router.navigate(['/core/viewbots/codebased']);
+            this.router.navigate(['']);
             this.utilityService.showSuccessToaster("Bot Successfully deleted");
           })
       })

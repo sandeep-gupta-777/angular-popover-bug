@@ -14,7 +14,6 @@
 
 
 <app-chart *ngIf="activeTab===myEAnalysis2TypesEnum.topgenerationtemplates"
-           [data]="highchartData"
-           [chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
+           [chartValue]="chartValue"
            [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
 </app-chart>

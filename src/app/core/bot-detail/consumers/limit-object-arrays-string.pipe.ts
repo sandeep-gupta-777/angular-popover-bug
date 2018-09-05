@@ -9,7 +9,7 @@ export class LimitObjectArraysStringPipe implements PipeTransform {
   transform(consumerResults: IConsumerResults[], args?: any): any {
     if(!consumerResults) return;
     consumerResults = JSON.parse(JSON.stringify(consumerResults));
-    debugger;
+
     let x =consumerResults.map((consumer)=>{
       for(let key in consumer){
         if(consumer[key] && consumer[key].length &&  consumer[key].length>20)

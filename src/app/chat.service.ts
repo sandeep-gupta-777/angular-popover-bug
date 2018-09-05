@@ -4,11 +4,11 @@ import {ServerService} from './server.service';
 import {IHeaderData} from '../interfaces/header-data';
 import {EChatFrame, IMessageData} from '../interfaces/chat-session-state';
 import {
-  AddMessagesToRoomByUId,
-  AttachRoomIdToRoomByUId,
+  AddMessagesToRoomByRoomId,
+  // AddMessagesToRoomByUId,
   ChangeFrameAction,
-  SetCurrentBotID,
-  SetCurrentRoomID, SetLastTemplateKeyToRoomByUId,
+  SetCurrentBotDetails,
+  SetCurrentRoomID, SetLastTemplateKeyToRoomByRoomId,
   ToggleChatWindow
 } from './chat/ngxs/chat.action';
 import {ISendApiRequestPayload, ISendApiResponsePayload} from '../interfaces/send-api-request-payload';
@@ -52,22 +52,22 @@ export class ChatService {
             type: 'bot'
           };
         });
-        // ;
+        debugger;
         this.store.dispatch([
-          new AddMessagesToRoomByUId({
+          new AddMessagesToRoomByRoomId({
             id: response.room.id,
             messageList: editedMessages,
-            uid,
-            bot_id: response.room.bot_id,
-            selectedAvatar: response.room.selected_avatar,
-            bot_access_token: botDetails.bot_access_token,
-            lastTemplateKey: response.templateKey/*TODO: NOT NEEDED*/
+            // uid,
+            // bot_id: response.room.bot_id,
+            // selectedAvatar: response.room.selected_avatar,
+            // bot_access_token: botDetails.bot_access_token,
+            // lastTemplateKey: response.templateKey/*TODO: NOT NEEDED*/
           }),
-          new AttachRoomIdToRoomByUId({room_id: response.room.id, uid})
+          // new AttachRoomIdToRoomByUId({room_id: response.room.id, uid})
         ]);
-        this.store.dispatch(new SetLastTemplateKeyToRoomByUId({lastTemplateKey:response.templateKey ,uid:uid}));
-        this.store.dispatch(new SetCurrentRoomID({id: response.room.id}));
-        this.store.dispatch(new SetCurrentBotID({bot_id: response.room.bot_id}));
+        this.store.dispatch(new SetLastTemplateKeyToRoomByRoomId({lastTemplateKey:response.templateKey ,room_id:response.room.id}));
+        // this.store.dispatch(new SetCurrentRoomID({id: response.room.id}));
+        // this.store.dispatch(new SetCurrentBotID({bot_id: response.room.bot_id}));
       });
 
     this.store.dispatch(new ToggleChatWindow({open: true}));

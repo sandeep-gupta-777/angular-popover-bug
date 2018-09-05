@@ -3,11 +3,11 @@
 <div style="margin: 0px 80px">
   <ul class="nav nav-tabs mb-2 d-flex align-items-center my-4">
     <li class="nav-item">
-      <a class="nav-link" [routerLink]="['/core','viewbots','codebased']" routerLinkActive="tab-active">Code based
+      <a class="nav-link" [routerLink]="['/core','viewbots', myEBotType.chatbot]" routerLinkActive="tab-active">Code based
         bots</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" [routerLink]="['/core','viewbots','intelligent']" routerLinkActive="tab-active">Pipeline based bots</a>
+      <a class="nav-link" [routerLink]="['/core','viewbots', myEBotType.intelligent]" routerLinkActive="tab-active">Pipeline based bots</a>
     </li>
 
     <!--<div class="d-flex justify-content-end mt-4 ml-auto">-->
@@ -34,7 +34,7 @@
     </div>
 
     <div class="modal-body pt-0">
-      <div class="action d-flex cursor-pointer p-2" (click)="navigate('code')" style="height: 40px">
+      <div class="action d-flex cursor-pointer p-2" (click)="navigate(myEBotType.chatbot)" style="height: 40px">
         <div class="d-flex" style="padding-right: 20px">
           <i class="fa fa-angle-left pr-1"></i>
           <i class="fa fa-angle-right"></i>
@@ -45,7 +45,7 @@
         </div>
       </div>
 
-      <div class="action d-flex mt-2 cursor-pointer p-2" (click)="navigate('intelligent')" style="height: 40px">
+      <div class="action d-flex mt-2 cursor-pointer p-2" (click)="navigate(myEBotType.intelligent)" style="height: 40px">
         <div class="d-flex" style="padding-right: 20px">
           <i class="fa fa-server"></i>
         </div>

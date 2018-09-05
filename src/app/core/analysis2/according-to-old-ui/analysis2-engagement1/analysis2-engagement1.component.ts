@@ -22,6 +22,7 @@ export class Analysis2Engagement1Component implements OnInit {
   myEAnalysis2TypesEnum = EAnalysis2TypesEnum;
   activeTab: string = EAnalysis2TypesEnum.userLoyalty;
   highchartData: any;
+  chartValue;
   series_Messages: any[] = [{
     name: 'Triggered',
     data: [5, 3, 4, 7, 2]
@@ -55,17 +56,22 @@ export class Analysis2Engagement1Component implements OnInit {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || this.activeTab;
     this.tabClicked(this.activeTab);
     this.analytics2GraphData$
-      .subscribe((value) => {
-        debugger;
-        try {
-          this.highchartData
-            = this.utilityService.createChartValueForBarGraph(value[this.activeTab], this.constantsService.HIGHCHART_CHARTVALUE_USER_LOYALTY);
-          // this.highchartData = value[this.activeTab];
-        } catch (e) {
+      .subscribe((value: IAnalysis2State)=>{
+        try{
+          let granularity =  value.analysisHeaderData.granularity;
+          let granularity_ms:number = this.utilityService.convertGranularityStrToMs(granularity);
+          debugger;
+          this.chartValue =
+            <any>this.utilityService.convertDateTime(
+              value[this.activeTab],
+              "labels",
+              new Date(value.analysisHeaderData.startdate).getTime(),
+              granularity_ms) ;
+        }catch (e) {
           console.log(e);
         }
 
-      });
+      })
   }
 
 

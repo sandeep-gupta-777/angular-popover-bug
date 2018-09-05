@@ -66,6 +66,7 @@ import {CommonModule} from '@angular/common';
 import {SharedModule} from '../shared.module';
 import {ViewCustomnerComponent} from './customner/view-customner/view-customner.component';
 import {AuthGaurdService} from '../auth-gaurd.service';
+import {EBotType} from './view-bots/view-bots.component';
 
 const routes: Route[] = [
   {
@@ -108,7 +109,7 @@ const routes: Route[] = [
       {
         path: 'buildbot', component: BuildbotWrapperComponent, children:
           [
-            {path: 'codebased', component: BuildCodeBasedBotComponent, data: {buildBot: 'codeBased'}},
+            {path: EBotType.chatbot, component: BuildCodeBasedBotComponent, data: {buildBot: EBotType.chatbot}},
             {path: 'intelligent', component: BuildPipelineBasedBotComponent, data: {buildBot: 'pipeLineBased'}},
             // {path: '', component: ViewCodeBasedBotComponent}
           ]
@@ -120,7 +121,7 @@ const routes: Route[] = [
   },
 
   {path: 'preview', component: ChatWrapperComponent, data: {isFullScreenPreview: true}},
-  {path: '', redirectTo: 'core/viewbots/codebased', pathMatch: 'full'},
+  {path: '', redirectTo: `core/viewbots/${EBotType.chatbot}`, pathMatch: 'full'},
 ];
 
 @NgModule({

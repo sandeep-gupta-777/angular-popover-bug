@@ -249,8 +249,9 @@ export class KnowledgeBaseComponent implements OnInit {
     this.showTable = false;
     this.codeTextInputToCodeEditor = selectedRowData.values && selectedRowData.values.join();
     if (selectedRowData.ner_type === 'database') {
-      let valueKeys = selectedRowData.column_headers;
-
+      // let valueKeys = selectedRowData.column_headers;
+      let valueKeys = Object.keys(selectedRowData.values[0]);
+// debugger;
       this.handontableData = selectedRowData.values.map((value) => {
         return valueKeys.map((valueKey) => {
           return value[valueKey];

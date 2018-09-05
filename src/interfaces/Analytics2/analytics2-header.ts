@@ -5,5 +5,6 @@ export interface IAnalysis2HeaderData {
   type:string,
   'auth-token': string,
   'bot-access-token':string,
-  "user-access-token":string
+  "user-access-token":string,
+  granularity:string
 }

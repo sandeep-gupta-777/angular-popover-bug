@@ -60,26 +60,46 @@ export class Analytics2UsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    // alert();
-    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || EAnalysis2TypesEnum.userAcquisition;
+    // // alert();
+    // this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || EAnalysis2TypesEnum.userAcquisition;
+    // this.tabClicked(this.activeTab);
+    // // this.analysisstate2$
+    // this.analytics2GraphData$
+    //   // .debounceTime(1000)/*TODO: this is a fix; because can't stop listing to header*/
+    //   .subscribe((value)=>{
+    //     //
+    //     // this.series_Sessions = this.utilityService.convert(value.userAcquisition,"labels","Date") ;
+    //     // this.chartValue
+    //     //   = this.utilityService.appendChartValueAndSeries(this.series_Sessions,this.constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT);
+    //     try{
+    //       // this.highchartData = this.utilityService.convert(value[this.activeTab],"labels","Date");
+    //       // if(this.activeTab === this.myEAnalysis2TypesEnum.totalRooms){labelType = "Time"}
+    //       this.highchartData = <any>this.utilityService.convert_xAxisText(value[this.activeTab],"labels") ;
+    //       this.chartValue
+    //         = this.utilityService.appendChartValueAndSeries(this.highchartData,this.constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT);
+    //     }catch (e) {
+    //       console.log(e);
+    //     }
+    //   })
+
+    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || this.activeTab;
     this.tabClicked(this.activeTab);
-    // this.analysisstate2$
     this.analytics2GraphData$
-      // .debounceTime(1000)/*TODO: this is a fix; because can't stop listing to header*/
-      .subscribe((value)=>{
-        // debugger;
-        // this.series_Sessions = this.utilityService.convert(value.userAcquisition,"labels","Date") ;
-        // this.chartValue
-        //   = this.utilityService.appendChartValueAndSeries(this.series_Sessions,this.constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT);
+      .subscribe((value: IAnalysis2State)=>{
         try{
-          // this.highchartData = this.utilityService.convert(value[this.activeTab],"labels","Date");
-          // if(this.activeTab === this.myEAnalysis2TypesEnum.totalRooms){labelType = "Time"}
-          this.highchartData = <any>this.utilityService.convert_xAxisText(value[this.activeTab],"labels") ;
-          this.chartValue
-            = this.utilityService.appendChartValueAndSeries(this.highchartData,this.constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT);
+          let granularity =  value.analysisHeaderData.granularity;
+          let granularity_ms:number = this.utilityService.convertGranularityStrToMs(granularity);
+          debugger;
+          this.chartValue =
+            <any>this.utilityService.convertDateTime(
+              value[this.activeTab],
+              "labels",
+              new Date(value.analysisHeaderData.startdate).getTime(),
+              granularity_ms) ;
         }catch (e) {
           console.log(e);
         }
+
       })
   }
 

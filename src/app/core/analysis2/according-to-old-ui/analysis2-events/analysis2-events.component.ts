@@ -19,6 +19,7 @@ export class Analysis2EventsComponent implements OnInit {
   @Select(AnalysisStateReducer2.getAnalytics2GraphData) analytics2GraphData$: Observable<IAnalysis2State>;
   myEAnalysis2TypesEnum = EAnalysis2TypesEnum;
   activeTab: string = EAnalysis2TypesEnum.topgenerationtemplates;
+  chartValue;
   highchartData: any[] = [{
     name: 'Maximum',
     data: [4, 5, 8, 12, 10, 6, 22, 3]
@@ -45,7 +46,7 @@ export class Analysis2EventsComponent implements OnInit {
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
     private store: Store,
-    private u:UtilityService
+    private utilityService:UtilityService
   ) {
   }
 
@@ -61,11 +62,18 @@ export class Analysis2EventsComponent implements OnInit {
   ngOnInit() {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || this.activeTab;
     this.tabClicked(this.activeTab);
-    // this.analysisstate2$
     this.analytics2GraphData$
-      .subscribe((value)=>{
+      .subscribe((value: IAnalysis2State)=>{
         try{
-          this.highchartData = this.u.convert(value[this.activeTab],"labels","Date");
+          let granularity =  value.analysisHeaderData.granularity;
+          let granularity_ms:number = this.utilityService.convertGranularityStrToMs(granularity);
+          debugger;
+          this.chartValue =
+            <any>this.utilityService.convertDateTime(
+              value[this.activeTab],
+              "labels",
+              new Date(value.analysisHeaderData.startdate).getTime(),
+              granularity_ms) ;
         }catch (e) {
           console.log(e);
         }

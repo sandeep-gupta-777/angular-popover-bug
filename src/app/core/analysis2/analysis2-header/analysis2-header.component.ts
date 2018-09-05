@@ -27,6 +27,8 @@ import { ITotalRoomsResponseBody } from '../../../../interfaces/Analytics2/perfo
 import { IRoomDurationResponseBody } from '../../../../interfaces/Analytics2/performance-roomDuration';
 import { IChannelWiseSessionsResponseBody } from '../../../../interfaces/Analytics2/engagement-channelWiseSessions';
 import { IChannelWiseUsersResponseBody } from '../../../../interfaces/Analytics2/engagement-channelWiseUsers';
+import {ActivatedRoute, Router} from '@angular/router';
+import {query} from '@angular/animations';
 
 @Component({
   selector: 'app-analysis2-header',
@@ -36,11 +38,15 @@ import { IChannelWiseUsersResponseBody } from '../../../../interfaces/Analytics2
 export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
 
   @Input() allbotList: IBot[];
+  granularityList = [
+    'hour', 'day', 'month', 'year'
+  ];
   @ViewChild('form') f: NgForm;
   @Select(AnalysisStateReducer2.getAnalytics2HeaderData) analytics2HeaderData$: Observable<IAnalysis2HeaderData>;
   @Select() loggeduser$: Observable<{ user: IUser }>;
-  startdate = new Date();
+  startdate = new Date(new Date().setDate(new Date().getDate() - 30));
   enddate = new Date();
+  granularity='day';
   datePickerConfig: Partial<BsDatepickerConfig> = this.constantsService.DATE_PICKER_CONFIG;
   channelList = this.constantsService.CHANNEL_LIST;
   loggeduser: IAuthState;
@@ -49,6 +55,8 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
     private store: Store,
     private serverService: ServerService,
     private constantsService: ConstantsService,
+    private route: Router,
+    private activatedRoute: ActivatedRoute,
     private utilityService: UtilityService
   ) {
   }
@@ -64,6 +72,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
       .subscribe((formData) => {
         if (!this.f.valid) return;
         let selectedBot: IBot = this.allbotList.find((bot) => bot.id === Number(this.f.value.botId));
+        // this.route.navigate(["." ], {queryParams:{granularity:this.f.value.granularity} , relativeTo: this.activatedRoute});
         let analysisHeaderData: IAnalysis2HeaderData = {
           'bot-access-token': selectedBot.bot_access_token,
           platform: 'web',
@@ -84,7 +93,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
 
     this.analytics2HeaderData$.subscribe((analytics2HeaderData) => {
       /*TODO: for some reason, angular form validation is not working. This is a hack*/
-      if (!this.f.valid || Object.keys(this.f.value).length !== 4) return;
+      if (!this.f.valid || Object.keys(this.f.value).length < 4) return;
       try {
         let url = this.constantsService.getAnalyticsUrl();
         let headerData: IAnalysis2HeaderData = {

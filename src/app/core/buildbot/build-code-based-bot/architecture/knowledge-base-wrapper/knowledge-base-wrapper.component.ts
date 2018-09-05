@@ -9,6 +9,7 @@ import {Observable} from 'rxjs';
 import {IHeaderData} from '../../../../../../interfaces/header-data';
 import {IBot} from '../../../../interfaces/IBot';
 import {UtilityService} from '../../../../../utility.service';
+import {EBotType} from '../../../../view-bots/view-bots.component';
 
 @Component({
   selector: 'app-knowledge-base-wrapper',
@@ -62,10 +63,10 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
   }
 
   updateOrSaveCustomNer(selectedOrNewRowData: ICustomNerItem) {
-    debugger;
+
     this.serverService.updateOrSaveCustomNer(selectedOrNewRowData, this.bot)
       .subscribe((value) => {
-        debugger;
+
         let doesNerExistsInSmartTable = this.custumNerDataForSmartTable.find((nerObj)=>nerObj.id===value.id);
         if(!doesNerExistsInSmartTable)
         (<any>this.custumNerDataForSmartTable).push({...value,highlight:true});
@@ -107,10 +108,10 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
   deleteNer(ner_id:number){
     this.serverService.deleteNer(ner_id, this.bot)
       .subscribe(()=>{
-        debugger;
+
         let indexToBeDeleted = this.custumNerDataForSmartTable.findIndex((nerObj)=>nerObj.id==ner_id);
         if(indexToBeDeleted) this.custumNerDataForSmartTable.splice(indexToBeDeleted,1);
-        this.router.navigate([`/core/botdetail/codebased/${this.bot.id}`], {queryParams:{'build-tab':'knowledge'}});
+        this.router.navigate([`/core/botdetail/${EBotType.chatbot}/${this.bot.id}`], {queryParams:{'build-tab':'knowledge'}});
         this.utilityService.showSuccessToaster("Successfully deleted!");
       })
   }

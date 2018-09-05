@@ -19,7 +19,8 @@ export class KnowledgeBasePresentationComponent implements OnInit {
     if(value.ner_type)
     this.ner_type = value.ner_type;
     this.conflict_policy = value.conflict_policy ;
-    this.codeTextInputToCodeEditor = value.values && value.values.join(',');
+    // this.codeTextInputToCodeEditor = value.values && value.values.join(',');
+    this.codeTextInputToCodeEditorObj.text = value.values && value.values.join(',');
   }
   @Input() handsontableData = ["", "", ""];
   @Output() updateOrSaveConcept$ = new EventEmitter();
@@ -32,6 +33,7 @@ export class KnowledgeBasePresentationComponent implements OnInit {
   ner_type:string = 'double_match';
   conflict_policy:string;
   codeTextInputToCodeEditor: string;
+  codeTextInputToCodeEditorObj:{text:string} = {text:""};
   codeTextOutPutFromCodeEditor: string;
   handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
   handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
@@ -49,7 +51,8 @@ export class KnowledgeBasePresentationComponent implements OnInit {
     })
   }
   async openFile(inputEl) {
-    this.codeTextInputToCodeEditor = await this.utilityService.readInputFileAsText(inputEl);
+    // this.codeTextInputToCodeEditor = await this.utilityService.readInputFileAsText(inputEl);
+    this.codeTextInputToCodeEditorObj.text = await this.utilityService.readInputFileAsText(inputEl);
   }
 
   textChanged(codeText) {

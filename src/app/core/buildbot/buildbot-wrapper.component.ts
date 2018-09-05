@@ -46,7 +46,7 @@ export class BuildbotWrapperComponent implements OnInit {
     if(!this.bot){
       console.error("there is no bot type in url");
     }
-    debugger;
+
     this.bot.bot_type = bot_type;
     this.serverService.makePostReq({url: url, body: this.bot})
       .subscribe((createdBot: IBot) => {
@@ -54,7 +54,7 @@ export class BuildbotWrapperComponent implements OnInit {
         this.store.dispatch([
           new AddNewBotInAllBotList({bot: createdBot})
         ]).subscribe(() => {
-          this.router.navigate([`/core/botdetail/codebased/${createdBot.id}`]);
+          this.router.navigate([`/core/botdetail/${bot_type}/${createdBot.id}`]);
         });
         this.utilityService.showSuccessToaster('Bot Created!');
       });

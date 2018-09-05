@@ -23,12 +23,10 @@
 
 
 <app-chart *ngIf="activeTab===myEAnalysis2TypesEnum.userLoyalty"
-           [data]="[]"
-           [chartValue]="highchartData"
+           [chartValue]="chartValue"
            [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_USER_LOYALTY">
 </app-chart>
 <app-chart *ngIf="activeTab===myEAnalysis2TypesEnum.roomDuration"
-           [data]="[]"
-           [chartValue]="highchartData"
+           [chartValue]="chartValue"
            [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_USER_LOYALTY">
 </app-chart>

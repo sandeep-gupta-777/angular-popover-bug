@@ -5,6 +5,7 @@ import {st} from '@angular/core/src/render3';
 // import import downloadCsv from 'download-csv'; from 'download-csv';
 import downloadCsv from 'download-csv';
 import {ActivatedRoute, Router} from '@angular/router';
+import {start} from 'repl';
 
 @Injectable({
   providedIn: 'root'
@@ -126,7 +127,7 @@ export class UtilityService {
   }
 
   createChartValueForBarGraph(rawData: { labels: string, result: number }[], chartValue: { xAxis: { categories: string[] }, series: { name: string, data: number[] }[] }) {
-    debugger;
+
     /*
     * example output:
     * [{
@@ -147,6 +148,60 @@ export class UtilityService {
       ...chartValue,
       ...xAndYValues
     };
+  }
+
+
+  convertDateTime(
+    rawData: { activesessions: number, labels: string, totalsessions: number }[],
+    xAxisLabel: string,
+    startTime_ms: number= Date.UTC(2010, 0, 2),//Date.UTC(2010, 0, 2),
+    granularity_Ms: number =24*3600*1000  // one day
+    ){
+    debugger;
+
+    let template = {
+      xAxis: {
+        type: 'datetime'
+      },
+
+      plotOptions: {
+        series: {
+          pointStart: startTime_ms,//Date.UTC(2010, 0, 2),
+          pointInterval: granularity_Ms//24*3600*1000  // one day
+        }
+      },
+
+      series: [{
+        name:'sandeep',
+        data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+      }, {
+        name:'gupta',
+        data: [144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4, 29.9, 71.5, 106.4, 129.2]
+      }]
+    };
+
+    // let categoriesString = rawData.map((dataItem) => dataItem.labels);
+    let seriesArr = [];
+    /*initialize the seriesArr*/
+    Object.keys(rawData[0]).forEach((value) => {
+      if (value === 'labels') return;
+      seriesArr.push({
+        name: value,//y1
+        data: []//[(xi,y1i)]
+      });
+    });
+    /*now loop over rawData and fill convertedData's data array*/
+    rawData.forEach((obj) => {
+      Object.keys(obj).forEach((key) => {
+        if (key === xAxisLabel) return;
+        let data = this.findDataByName(seriesArr, key);
+        // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
+        data.push(obj[key]);//pushing a new coordinate
+      });
+    });
+
+    template.series = seriesArr;
+    return template;
   }
 
   convert_xAxisText(rawData: { activesessions: 0, labels: '03:00', totalsessions: 0 }[], xAxisLabel: string) {
@@ -183,8 +238,6 @@ export class UtilityService {
     };
 
     return template;
-
-
   }
 
   convert(rawData, xAxisLabel: string, labelType: string) {
@@ -255,6 +308,24 @@ export class UtilityService {
 
   showSuccessToaster(message) {
     this.toastr.success(message, null, {positionClass: 'toast-bottom-left', timeOut: 2000});
+  }
+
+  convertGranularityStrToMs(granularity:string):number{
+    if(granularity==='hour'){
+      return 3600*1000;
+    }
+    if(granularity==='day'){
+      return 24*3600*1000;
+    }
+    if(granularity==='month'){
+      return 30*24*3600*1000;
+    }
+    if(granularity==='year'){
+      return 365*24*3600*1000;
+    }
+    // if(granularity==='day'){
+    //   return 24*3600*1000;
+    // }
   }
 
   createRandomString(length: number = 10) {

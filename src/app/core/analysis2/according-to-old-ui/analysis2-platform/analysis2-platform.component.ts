@@ -17,6 +17,7 @@ export class Analysis2PlatformComponent implements OnInit {
 
   // @Select() analysisstate2$: Observable<IAnalysis2State>;
   @Select(AnalysisStateReducer2.getAnalytics2GraphData) analytics2GraphData$: Observable<IAnalysis2State>;
+  chartValue;
   myEAnalysis2TypesEnum = EAnalysis2TypesEnum;
   activeTab: string = EAnalysis2TypesEnum.channelWiseSessions;
   highchartData: any[] = [{
@@ -45,7 +46,7 @@ export class Analysis2PlatformComponent implements OnInit {
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
     private store: Store,
-    private u:UtilityService
+    private utilityService:UtilityService
   ) {
   }
 
@@ -61,12 +62,18 @@ export class Analysis2PlatformComponent implements OnInit {
   ngOnInit() {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || this.activeTab;
     this.tabClicked(this.activeTab);
-    // this.analysisstate2$
     this.analytics2GraphData$
-      .subscribe((value)=>{
-
+      .subscribe((value: IAnalysis2State)=>{
         try{
-          this.highchartData = this.u.convert(value[this.activeTab],"labels","Date");
+          let granularity =  value.analysisHeaderData.granularity;
+          let granularity_ms:number = this.utilityService.convertGranularityStrToMs(granularity);
+          debugger;
+          this.chartValue =
+            <any>this.utilityService.convertDateTime(
+              value[this.activeTab],
+              "labels",
+              new Date(value.analysisHeaderData.startdate).getTime(),
+              granularity_ms) ;
         }catch (e) {
           console.log(e);
         }

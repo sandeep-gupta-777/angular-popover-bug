@@ -39,23 +39,34 @@ export class ChartComponent implements OnInit {
 
 
   init(_chartValue) {
-    if(!_chartValue)return;
+    debugger;
+    // if(!_chartValue)return;
     /*
     * https://stackoverflow.com/questions/15804426/how-to-set-xaxis-pointintervalupdate-tickinterval-in-highcharts
     * */
-    // if(this._data.length>0){
-    debugger;
-      // let chart = new Chart({
-      //   ...this.chartValue,
-      //   series: this._data
-      // });
-    // }else{
-      let chart = new Chart({
-        ..._chartValue,
+
+
+      let chart = new Chart( {
+        xAxis: {
+          type: 'datetime'
+        },
+
+        plotOptions: {
+          series: {
+            pointStart: Date.UTC(2010, 0, 2),
+            pointInterval:24*3600*1000  // one day
+          }
+        },
+
+        // series: [{
+        //   name:'sandeep',
+        //   data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+        // }, {
+        //   name:'gupta',
+        //   data: [144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4, 29.9, 71.5, 106.4, 129.2]
+        // }],
+        ..._chartValue
       });
-    // }
-
-
     (<any>Highcharts).theme = this.highChartThemeValue;
 
 // Apply the theme

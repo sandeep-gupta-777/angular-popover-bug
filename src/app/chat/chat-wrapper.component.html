@@ -14,35 +14,35 @@
       <div class="btn-group p-2" [autoClose]="false" dropdown>
         <div dropdownToggle class="user cursor-pointer"><i class="fa fa-user"></i></div>
 
-        <form *dropdownMenu class="dropdown-menu dropdown-menu-left p-3" role="menu" #heroForm="ngForm"
+        <form *dropdownMenu class="dropdown-menu dropdown-menu-left p-3" role="menu" #form="ngForm" (ngSubmit)="saveConsumerDetails(form.value)"
               style="width: 240px">
           <p class="heading mb-2">Edit Customer</p>
           <div class="form-group">
             <label>UserName</label>
-            <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp"
+            <input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.username" name="username" aria-describedby="emailHelp"
                    placeholder="Enter Email">
           </div>
           <div class="form-group">
             <label>Phone</label>
-            <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp"
+            <input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.phone" name="phone" aria-describedby="emailHelp"
                    placeholder="Enter Email">
           </div>
           <div class="form-group">
             <label>Email</label>
-            <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp"
+            <input type="email" required email class="form-control" [ngModel]="customConsumerDetails?.email" name="email" aria-describedby="emailHelp"
                    placeholder="Enter Email">
           </div>
           <div class="form-group">
             <label>Facebook ID</label>
-            <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp"
+            <input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.facebook_id" name="facebook_id" aria-describedby="emailHelp"
                    placeholder="Enter Email">
           </div>
           <div class="form-group">
             <label>UID</label>
-            <input type="email" required email class="form-control" ngModel name="email" aria-describedby="emailHelp"
+            <input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.uid"  name="uid" aria-describedby="emailHelp"
                    placeholder="Enter Email">
           </div>
-          <button type="submit" class="btn-block btn-theme-primary my-3">Save Changes</button>
+          <button type="submit" class="btn-block btn-theme-primary my-3" >Save Changes</button>
         </form>
       </div>
 

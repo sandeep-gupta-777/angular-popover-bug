@@ -21,6 +21,7 @@ export class BotSessionsComponent implements OnInit {
 
   @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
   @Input() id: string;
+  test="asdasdsd";
   @Input() bot: IBot;
   @ViewChild(SmartTableComponent) smartTableComponent: SmartTableComponent;
   sessions$: Observable<ISessions>;

@@ -146,7 +146,7 @@ export class AnalysisStateReducer2 {
   static getAnalytics2GraphData(state){/*this is not observe headerData*/
     return {
       ...state.analysisstate2,
-      headerData:null
+      // headerData:null
     };
   }
 

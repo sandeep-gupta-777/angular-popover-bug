@@ -83,12 +83,19 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
               let formDataSerialized = {
                 ...value,
                 delivery: {
-                  sftp: value.delivery[0]
+                  sftp: value.delivery.find((item:any)=>item.delivery_type==='sftp'),
+                  email: value.delivery.find((item:any)=>item.delivery_type==='email')
                 }
               };
               // delete value.startdate;
               if (value) this.f.form.patchValue(formDataSerialized);
               this.startdate = new Date(value.startdate);
+              // let start_time:string  = (<any>document).getElementById("start_time").value;
+              let hh:string = new Date(value.startdate).getHours().toString();
+              let mm:string = new Date(value.startdate).getMinutes().toString();
+              if(mm.length===1) mm= '0'+mm;
+              if(hh.length===1) hh= '0'+hh;
+              (<any>document).getElementById("start_time").value = hh+':'+mm;
               // this.f.f.patchValue({startdate:value.startdate});
               // this.f.f.patchValue({startdate:value.startdate});//This will only accept mmddyyyy format...
             });
@@ -105,11 +112,13 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
       ;
       /*TODO: VERY BAD FIX; USE REACTIVE FORM INSTEAD*/
       // data.delivery = [data.delivery];
+
+
       data = {
         ...this.servervalue,
         ...data
       };
-      this.reportFormData = data;
+      this.reportFormData = {...data};
 
       /*if its not a new subscription, dont store in store*/
       // if(_id==='new') this.store.dispatch(new SetReportFormAction({reportItem: data}));
@@ -122,6 +131,16 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
 
   getReportControlFormData(){/*to be called by parent*/
     this.reportFormData.botName = this.botlist.find((bot)=>bot.id==this.reportFormData.bot_id).name;
+    this.reportFormData = {...this.reportFormData};
+    let start_time:string  = (<any>document).getElementById("start_time").value;
+    let start_time_arr =  start_time.split(':');
+    let hh = Number(start_time_arr[0]);
+    let mm = Number(start_time_arr[1]);
+    debugger;
+    this.reportFormData.startdate
+      = new Date(this.reportFormData.startdate).setHours(hh,mm,0,0);
+
+    debugger;
     return this.reportFormData;
   }
 

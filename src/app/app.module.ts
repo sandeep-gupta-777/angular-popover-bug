@@ -29,7 +29,7 @@ import {AuthGaurdService} from './auth-gaurd.service';
 const routes: Route[] = [
   {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
   {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad:[AuthGaurdService]},
-  {path: '', redirectTo:"core/viewbots/codebased", pathMatch:"full"},
+  {path: '', redirectTo:"core/viewbots/chatbot", pathMatch:"full"},
 ];
 
 @NgModule({

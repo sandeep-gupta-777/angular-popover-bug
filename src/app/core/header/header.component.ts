@@ -12,6 +12,7 @@ import {ServerService} from '../../server.service';
 import {ResetEnterpriseUsersAction} from '../enterpriseprofile/ngxs/enterpriseprofile.action';
 import {ResetBuildBotToDefault} from '../buildbot/ngxs/buildbot.action';
 import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
+import {EBotType} from '../view-bots/view-bots.component';
 
 @Component({
   selector: 'app-header',
@@ -23,6 +24,7 @@ export class HeaderComponent implements OnInit {
   @Select() loggeduser$: Observable<{user:IUser}>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   logoSrc = 'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg';
+  myEBotType = EBotType;
   constructor(
     private store: Store,
     private serverService: ServerService,
@@ -41,13 +43,15 @@ export class HeaderComponent implements OnInit {
     localStorage.clear();
     // this.store.reset({});
     this.store.dispatch([
-      new ResetChatState(),
+
       new ResetBotListAction(),
       new ResetAuthToDefaultState(),
       new ResetEnterpriseUsersAction(),
       new ResetBuildBotToDefault(),
       new ResetAppState()
-    ]);
+    ]).subscribe(()=>{
+      this.store.dispatch([new ResetChatState()])
+    });
     this.serverService.removeTokens();
     this.router.navigate(['auth','login']);
 

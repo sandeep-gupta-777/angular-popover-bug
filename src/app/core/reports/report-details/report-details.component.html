@@ -4,7 +4,7 @@
       <a class="p-0 h4 cursor-pointer" [routerLink]="['/core','reports']" ><i class="fa fa-angle-left pr-2"></i></a>
       <a class="p-0 h4 ">Subscribe to Report</a>
       <button class="btn btn-theme-primary-outline ml-auto mr-3" routerLink="/core/reports">Cancel</button>
-      <button class="btn btn-theme-primary" *ngIf="!report_id" (click)="updateReport(Primarytemplate)">Create</button>
+      <button class="btn btn-theme-primary" *ngIf="!report_id" (click)="updateReport(Primarytemplate, Dangertemplate)">Create</button>
       <button class="btn btn-theme-primary" *ngIf="report_id" (click)="updateReport(Primarytemplate)">Update</button>
     </div>
   </div>
@@ -36,18 +36,20 @@
         <div class="col-md-12">
           You have subscribed to <strong>messages</strong> report for
           <strong>{{reportFormData.botName}}</strong> bot in a <strong>{{reportFormData.filetype}}</strong> format,which is scheduled
-          <strong>{{reportFormData.frequency}}</strong> at <strong>9:00 AM </strong>via
-          <strong>{{reportFormData?.delivery[0]?.delivery_type}}</strong>
+          <strong>{{reportFormData.frequency}}</strong> at <strong>{{reportFormData.startdate|date:'shortTime'}} </strong>via
+          <strong *ngIf="!reportFormData?.delivery[1].enabled">{{reportFormData?.delivery[0]?.delivery_type}}</strong>
+          <strong *ngIf="reportFormData?.delivery[1].enabled">{{reportFormData?.delivery[1]?.delivery_type}}</strong>
         </div>
         <div class  = "col-md-12">
           <i class="fa fa-check-circle" ></i>
         </div>
         <div class = "col-md-12 light-text">The next delivery is scheduled on</div>
-        <div class="col-md-12"><strong>13 July, 2018</strong></div>
-        <div class="col-md-12">9:00 AM</div>
+        <div class="col-md-12"><strong>{{reportFormData.startdate|date:'mediumDate'}}</strong></div>
+        <div class="col-md-12">{{reportFormData.startdate|date:'shortTime'}}</div>
       </div>
     </div>
   </div>
+  <!---->
 </ng-template>
 
 <ng-template #Dangertemplate>
@@ -63,7 +65,11 @@
     <div class="modal-body">
       <div class ="row">
         <div class="col-md-12 mb-2">You have subscribed to <strong>messages</strong> report for
-          <strong>Weathery</strong> bot in a <strong>csv</strong> format,which is scheduled  <strong>weekly</strong> at <strong>9:00 AM </strong>via <strong>email</strong>
+          <strong>{{reportFormData.botName}}</strong> bot in a <strong>{{reportFormData.filetype}}</strong>
+          format,which is scheduled  <strong>{{reportFormData.frequency}}</strong> at <strong>
+            {{reportFormData.startdate|date:'shortTime'}} </strong>via
+          <strong *ngIf="!reportFormData?.delivery[1].enabled">{{reportFormData?.delivery[0]?.delivery_type}}</strong>
+          <strong *ngIf="reportFormData?.delivery[1].enabled">{{reportFormData?.delivery[1]?.delivery_type}}</strong>
         </div>
         <div class="col-md-12">You can subscribe to it later if you need from configure tab later</div>
       </div>

@@ -14,7 +14,7 @@ export class CodeEditorComponent implements OnInit {
   @ViewChild('f') codeEditor:ElementRef;
   constructor() { }
   @Input() set text(editorCodeObj:{text:string}){
-    debugger;
+
     if(!editorCodeObj) return;
     this.editorCodeObjRef = editorCodeObj;
     // if(this._text===editorCodeObj.text) return;
