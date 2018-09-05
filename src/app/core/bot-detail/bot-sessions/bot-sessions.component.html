@@ -1,7 +1,7 @@
 <div *ngIf="sessions">
   <app-smart-table [data]="sessions"
                    [totalRecords]="totalSessionRecords"
-                   (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
+                   (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,Primarytemplat)"
                    (rowClicked$)="goToReportEditComponent($event, template)"
                    (pageChanged$)="sessionTablePageChanged($event)"
                    [showSearchInDB]="true"
@@ -28,4 +28,23 @@
   </div>
 </ng-template>
 <!---->
+<ng-template #Primarytemplat>
+  <div class="danger-modal">
+    <div class="top-dec"></div>
+    <div class="modal-header">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Test is already running</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
 
+    </div>
+
+    <div class="modal-body pt-0">
+     <div>
+       <input type="text" [(ngModel)] = "decryptReason">
+       <button class="btn-theme-primary" (click)="decryptSubmit();modalRef.hide()">Submit</button>
+     </div>
+
+    </div>
+  </div>
+</ng-template>

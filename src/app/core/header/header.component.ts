@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit {
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   logoSrc = 'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg';
   myEBotType = EBotType;
+  url:string;
   constructor(
     private store: Store,
     private serverService: ServerService,
@@ -42,6 +43,9 @@ export class HeaderComponent implements OnInit {
   logout(){
     localStorage.clear();
     // this.store.reset({});
+    this.url = this.constantsService.getLogoutUrl();
+    this.serverService.makeGetReq({url: this.url})
+    .subscribe((v)=>{debugger;});
     this.store.dispatch([
 
       new ResetBotListAction(),
