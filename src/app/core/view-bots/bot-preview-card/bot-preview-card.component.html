@@ -189,7 +189,7 @@
     <div class="grid-bot-preview-forth-row d-flex flex-row-reverse bot-strip align-items-center p-2 footer">
       <!-- <span *ngIf="(bot.integrations|integrationImageCount)>4" class="more ml-auto">+{{(bot.integrations|integrationImageCount)}} More</span> -->
 
-      <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos|async))" [src]="'https://imibot.ai'+integrationsMasterListItem?.icon"
+      <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos|async))" [src]="integrationsMasterListItem?.icon"
            class="logo-image" style="width: 16px;height: 16px" alt="">
       <div (click)="openBot()" class="mr-auto cursor-pointer text-sm">Preview</div>
       <button (click)="router.navigate(['core/botdetail/'+parentRoute+'/'+ bot.id])" class="btn btn-theme-primary px-3 mr-2 ">Edit

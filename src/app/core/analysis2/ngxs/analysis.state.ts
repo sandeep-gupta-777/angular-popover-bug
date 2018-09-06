@@ -14,7 +14,7 @@ import {
   SetRoomDuration,
   SetChannelWiseSessions,
   SetChannelWiseUsers,
-  ResetAnalytics2Data
+  ResetAnalytics2Data, SetUsagetrackingInfo, Topgenerationtemplates
 } from './analysis.action';
 import {IOverviewInfo, IOverviewInfoPostBody} from '../../../../interfaces/Analytics2/overview-info';
 import {IAnalysis2HeaderData} from '../../../../interfaces/Analytics2/analytics2-header';
@@ -48,7 +48,8 @@ export interface IAnalysis2State {
   totalRooms : ITotalRoomsItem[],
   roomDuration : IRoomDurationItem[],
   channelWiseSessions : IChannelWiseSessionsItem[],
-  channelWiseUsers : IChannelWiseUsersItem[]
+  channelWiseUsers : IChannelWiseUsersItem[],
+  usagetracking: any
 }
 const defaultAnalytics2 = {
   analysisHeaderData:null,
@@ -65,7 +66,8 @@ const defaultAnalytics2 = {
   totalRooms : null,
   roomDuration : null,
   channelWiseSessions : null,
-  channelWiseUsers: null
+  channelWiseUsers: null,
+  usagetracking:null
 };
 @State<IAnalysis2State>({
   name: 'analysisstate2',
@@ -150,10 +152,23 @@ export class AnalysisStateReducer2 {
     let state:IAnalysis2State = getState();
     patchState({channelWiseSessions:payload.data});
   }
+
   @Action(SetChannelWiseUsers)
   setChannelWiseUsers({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetChannelWiseUsers) {
     let state:IAnalysis2State = getState();
     patchState({channelWiseUsers:payload.data});
+  }
+
+  @Action(SetUsagetrackingInfo)
+  setUsagetrackingInfo({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetUsagetrackingInfo) {
+    let state:IAnalysis2State = getState();
+    patchState({usagetracking:payload.data});
+  }
+
+  @Action(Topgenerationtemplates)
+  topgenerationtemplates({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: Topgenerationtemplates) {
+    let state:IAnalysis2State = getState();
+    patchState({topgenerationtemplates:payload.data});
   }
 
   @Action(ResetAnalytics2Data)

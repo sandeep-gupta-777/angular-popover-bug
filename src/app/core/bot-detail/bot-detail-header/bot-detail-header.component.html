@@ -24,7 +24,7 @@
        <!--src="http://www.pngmart.com/files/3/Weather-PNG-HD.png" alt="">-->
 
   <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos|async))"
-       [src]="'https://imibot.ai'+integrationsMasterListItem?.icon"
+       [src]="integrationsMasterListItem?.icon"
        class="logo-image"
        style="width: 18px;height: 18px"
        alt="">

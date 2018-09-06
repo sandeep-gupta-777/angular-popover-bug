@@ -62,7 +62,7 @@ export class Analysis2Engagement1Component implements OnInit {
           let granularity_ms:number = this.utilityService.convertGranularityStrToMs(granularity);
 
           this.chartValue =
-            <any>this.utilityService.convertDateTime(
+            <any>this.utilityService.convertDateTimeGraph(
               value[this.activeTab],
               "labels",
               new Date(value.analysisHeaderData.startdate).getTime(),

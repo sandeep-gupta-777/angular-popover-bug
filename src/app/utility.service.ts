@@ -126,7 +126,7 @@ export class UtilityService {
     }
   }
 
-  createChartValueForBarGraph(rawData: { labels: string, result: number }[], chartValue: { xAxis: { categories: string[] }, series: { name: string, data: number[] }[] }) {
+  createChartValueForBarGraph(rawData: { labels: string, result: number }[], chartValue?: { xAxis: { categories: string[] }, series: { name: string, data: number[] }[] }) {
 
     /*
     * example output:
@@ -135,12 +135,66 @@ export class UtilityService {
   data: [5, 3, 4, 7, 2]
 }]
     * */
-    let categories = rawData.map(dataItem => dataItem.labels);
-    let seriesData = rawData.map(dataItem => dataItem.result);
-    chartValue.xAxis.categories = categories;
-    chartValue.series[0].data = seriesData;
-    chartValue.series[0].name = 'test';
-    return chartValue;
+    let template = {
+      chart: {
+        type: 'column'
+      },
+      title: {
+        text: 'Stacked column chart'
+      },
+      xAxis: {
+        categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+      },
+      yAxis: {
+        min: 0,
+          title: {
+          text: 'Total fruit consumption'
+        },
+        stackLabels: {
+          enabled: true,
+            style: {
+            fontWeight: 'bold',
+              color: 'gray'
+          }
+        }
+      },
+      legend: {
+        align: 'right',
+          x: -30,
+          verticalAlign: 'top',
+          y: 25,
+          floating: true,
+          backgroundColor: 'white',
+          borderColor: '#CCC',
+          borderWidth: 1,
+          shadow: false
+      },
+      tooltip: {
+        headerFormat: '<b>{point.x}</b><br/>',
+          pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+      },
+      plotOptions: {
+        column: {
+          stacking: 'normal',
+            dataLabels: {
+            enabled: true,
+              color: 'white'
+          }
+        }
+      },
+      series: [{
+        name: 'John',
+        data: [5, 3, 4, 7, 2]
+      }]
+    }
+
+    let categories :string[] = rawData.map(dataItem => dataItem.labels);
+    let seriesData:number[] = rawData.map(dataItem => dataItem.result);
+    template.xAxis.categories = categories;
+    template.series[0].data = seriesData;
+    template.series[0].name = 'test';
+    debugger;
+    return template;
   }
 
   appendChartValueAndSeries(xAndYValues: any, chartValue) {
@@ -151,7 +205,7 @@ export class UtilityService {
   }
 
 
-  convertDateTime(
+  convertDateTimeGraph(
     rawData: { activesessions: number, labels: string, totalsessions: number }[],
     xAxisLabel: string,
     startTime_ms: number= Date.UTC(2010, 0, 2),//Date.UTC(2010, 0, 2),

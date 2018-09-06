@@ -67,11 +67,12 @@ export class Analysis2UsageComponent implements OnInit {
     this.analytics2GraphData$
       .subscribe((value: IAnalysis2State)=>{
         try{
+
           let granularity =  value.analysisHeaderData.granularity;
           let granularity_ms:number = this.utilityService.convertGranularityStrToMs(granularity);
 
           this.chartValue =
-            <any>this.utilityService.convertDateTime(
+            <any>this.utilityService.convertDateTimeGraph(
               value[this.activeTab],
               "labels",
               new Date(value.analysisHeaderData.startdate).getTime(),

@@ -21,7 +21,7 @@ import {
   SetRoomDuration,
   SetChannelWiseSessions,
   SetChannelWiseUsers,
-  ResetAnalytics2Data
+  ResetAnalytics2Data, SetUsagetrackingInfo, Topgenerationtemplates
 } from '../ngxs/analysis.action';
 import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
@@ -113,6 +113,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
     this.analytics2HeaderData$.subscribe((analytics2HeaderData) => {
       /*TODO: for some reason, angular form validation is not working. This is a hack*/
       if (!this.f.valid || Object.keys(this.f.value).length < 4) return;
+
       try {
         let url = this.constantsService.getAnalyticsUrl();
         let headerData: IAnalysis2HeaderData = {
@@ -122,74 +123,86 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
           startdate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.startdate),
           enddate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.enddate),
         };
+        debugger;
         if (!this.utilityService.areAllValesDefined(headerData)) return;
-        this.serverService.makeGetReq({url, headerData})
-          .subscribe((response: any) => {
-            ;
-            if (headerData.type === EAnalysis2TypesEnum.overviewinfo) {
-              let responseCopy: IOverviewInfoResponse = response;
-              this.store.dispatch(new SetOverviewInfoData({data: responseCopy.objects[0].output}));
-            }
-            if (headerData.type === EAnalysis2TypesEnum.channelWiseFlowsPerSession) {
-              let responseCopy: IChannelWiseFlowsPerSessionResponseBody = response;
-              this.store.dispatch(new SetChannelWiseFlowsPerSession({data: responseCopy.objects[0].output.channelWiseFlowsPerSession}));
-            }
-            if (headerData.type === EAnalysis2TypesEnum.userAcquisition) {
-              let responseCopy: IUserAcquisitionResponseBody = response;
-              this.store.dispatch(new SetUserAcquisition({data: responseCopy.objects[0].output.userAcquisition}));
-            }
-            if (headerData.type === EAnalysis2TypesEnum.totalMessages) {
-              let responseCopy: ITotalMessagesResponseBody = response;
-              this.store.dispatch(new SetTotalMessages({data: responseCopy.objects[0].output.messagesinfo}));
-            }
-            if (headerData.type === EAnalysis2TypesEnum.averageRoomTime) {
-              ;
-              let responseCopy: IAverageRoomTimeResponseBody = response;
-              this.store.dispatch(new SetAverageRoomTime({data: responseCopy.objects[0].output.averageRoomTime}));
-            }
-            if (headerData.type === EAnalysis2TypesEnum.userLoyalty) {
-              let responseCopy: IUserLoyaltyResponseBody = response;
-              this.store.dispatch(new SetUserLoyalty({data: responseCopy.objects[0].output.userLoyalty}));
-            }
-            if (headerData.type === EAnalysis2TypesEnum.channelWiseAverageSessionTime) {
-              let responseCopy: IChannelWiseAverageSessionTimeResponseBody = response;
-              this.store.dispatch(new SetChannelWiseAverageSessionTime({data: responseCopy.objects[0].output.channelWiseAverageSessionTime}));
-            }
-            if (headerData.type === EAnalysis2TypesEnum.totalFlows) {
-              let responseCopy: ITotalFlowsResponseBody = response;
-              this.store.dispatch(new SetTotalFlows({data: responseCopy.objects[0].output.totalFlows}));
-            }
-            if (headerData.type === EAnalysis2TypesEnum.totalFlows) {
-              let responseCopy: ITotalFlowsResponseBody = response;
-              this.store.dispatch(new SetTotalFlows({data: responseCopy.objects[0].output.totalFlows}));
-            }
+        this.store.dispatch([new ResetAnalytics2Data()])
+          .subscribe(()=>{
+            this.serverService.makeGetReq({url, headerData})
+              .subscribe((response: any) => {
+                if (headerData.type === EAnalysis2TypesEnum.overviewinfo) {
+                  let responseCopy: IOverviewInfoResponse = response;
+                  this.store.dispatch(new SetOverviewInfoData({data: responseCopy.objects[0].output}));
+                }
+                if (headerData.type === EAnalysis2TypesEnum.channelWiseFlowsPerSession) {
+                  let responseCopy: IChannelWiseFlowsPerSessionResponseBody = response;
+                  this.store.dispatch(new SetChannelWiseFlowsPerSession({data: responseCopy.objects[0].output.channelWiseFlowsPerSession}));
+                }
+                if (headerData.type === EAnalysis2TypesEnum.userAcquisition) {
+                  let responseCopy: IUserAcquisitionResponseBody = response;
+                  this.store.dispatch(new SetUserAcquisition({data: responseCopy.objects[0].output.userAcquisition}));
+                }
+                if (headerData.type === EAnalysis2TypesEnum.totalMessages) {
+                  let responseCopy: ITotalMessagesResponseBody = response;
+                  this.store.dispatch(new SetTotalMessages({data: responseCopy.objects[0].output.messagesinfo}));
+                }
+                if (headerData.type === EAnalysis2TypesEnum.averageRoomTime) {
+                  ;
+                  let responseCopy: IAverageRoomTimeResponseBody = response;
+                  this.store.dispatch(new SetAverageRoomTime({data: responseCopy.objects[0].output.averageRoomTime}));
+                }
+                if (headerData.type === EAnalysis2TypesEnum.userLoyalty) {
+                  let responseCopy: IUserLoyaltyResponseBody = response;
+                  this.store.dispatch(new SetUserLoyalty({data: responseCopy.objects[0].output.userLoyalty}));
+                }
+                if (headerData.type === EAnalysis2TypesEnum.channelWiseAverageSessionTime) {
+                  let responseCopy: IChannelWiseAverageSessionTimeResponseBody = response;
+                  this.store.dispatch(new SetChannelWiseAverageSessionTime({data: responseCopy.objects[0].output.channelWiseAverageSessionTime}));
+                }
+                if (headerData.type === EAnalysis2TypesEnum.totalFlows) {
+                  let responseCopy: ITotalFlowsResponseBody = response;
+                  this.store.dispatch(new SetTotalFlows({data: responseCopy.objects[0].output.totalFlows}));
+                }
+                if (headerData.type === EAnalysis2TypesEnum.totalFlows) {
+                  let responseCopy: ITotalFlowsResponseBody = response;
+                  this.store.dispatch(new SetTotalFlows({data: responseCopy.objects[0].output.totalFlows}));
+                }
 
-            if (headerData.type === EAnalysis2TypesEnum.flowsPerRoom) {
-              let responseCopy: IFlowsPerRoomResponseBody = response;
-              this.store.dispatch(new SetFlowsPerRoom({data: responseCopy.objects[0].output.flowsPerRoom}));
-            }
+                if (headerData.type === EAnalysis2TypesEnum.flowsPerRoom) {
+                  let responseCopy: IFlowsPerRoomResponseBody = response;
+                  this.store.dispatch(new SetFlowsPerRoom({data: responseCopy.objects[0].output.flowsPerRoom}));
+                }
 
-            if (headerData.type === EAnalysis2TypesEnum.totalRooms) {
-              let responseCopy: ITotalRoomsResponseBody = response;
-              this.store.dispatch(new SetTotalRooms({data: responseCopy.objects[0].output.totalRooms}));
-            }
+                if (headerData.type === EAnalysis2TypesEnum.totalRooms) {
+                  let responseCopy: ITotalRoomsResponseBody = response;
+                  this.store.dispatch(new SetTotalRooms({data: responseCopy.objects[0].output.totalRooms}));
+                }
 
-            if (headerData.type === EAnalysis2TypesEnum.roomDuration) {
-              let responseCopy: IRoomDurationResponseBody = response;
-              this.store.dispatch(new SetRoomDuration({data: responseCopy.objects[0].output.roomDuration}));
-            }
+                if (headerData.type === EAnalysis2TypesEnum.roomDuration) {
+                  let responseCopy: IRoomDurationResponseBody = response;
+                  this.store.dispatch(new SetRoomDuration({data: responseCopy.objects[0].output.roomDuration}));
+                }
 
-            if (headerData.type === EAnalysis2TypesEnum.channelWiseSessions) {
-              let responseCopy: IChannelWiseSessionsResponseBody = response;
-              this.store.dispatch(new SetChannelWiseSessions({data: responseCopy.objects[0].output.channelWiseSessions}));
-            }
+                if (headerData.type === EAnalysis2TypesEnum.channelWiseSessions) {
+                  let responseCopy: IChannelWiseSessionsResponseBody = response;
+                  this.store.dispatch(new SetChannelWiseSessions({data: responseCopy.objects[0].output.channelWiseSessions}));
+                }
 
-            if (headerData.type === EAnalysis2TypesEnum.channelWiseUsers) {
-              let responseCopy: IChannelWiseUsersResponseBody = response;
-              this.store.dispatch(new SetChannelWiseUsers({data: responseCopy.objects[0].output.channelWiseUsers}));
-            }
+                if (headerData.type === EAnalysis2TypesEnum.channelWiseUsers) {
+                  let responseCopy: IChannelWiseUsersResponseBody = response;
+                  this.store.dispatch(new SetChannelWiseUsers({data: responseCopy.objects[0].output.channelWiseUsers}));
+                }
 
-          });
+                if (headerData.type === EAnalysis2TypesEnum.usagetracking) {
+                  let responseCopy: IChannelWiseUsersResponseBody = response;
+                  this.store.dispatch(new SetUsagetrackingInfo({data: responseCopy.objects[0].output[EAnalysis2TypesEnum.usagetracking]}));
+                }
+                if (headerData.type === EAnalysis2TypesEnum.topgenerationtemplates) {
+                  let responseCopy: IChannelWiseUsersResponseBody = response;
+                  this.store.dispatch(new Topgenerationtemplates({data: responseCopy.objects[0].output[EAnalysis2TypesEnum.topgenerationtemplates]}));
+                }
+              });
+          })
+
       } catch (e) {
         this.utilityService.showErrorToaster(e);
       }

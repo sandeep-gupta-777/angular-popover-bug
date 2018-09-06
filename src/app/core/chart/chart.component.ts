@@ -48,19 +48,19 @@ export class ChartComponent implements OnInit {
 
       let chart = new Chart( {
         credits: false,
-        xAxis: {
-          type: 'datetime'
-        },
+        // xAxis: {
+        //   type: 'datetime'
+        // },
         title: {
           text: ''
         },
-
-        plotOptions: {
-          series: {
-            pointStart: Date.UTC(2010, 0, 2),
-            pointInterval:24*3600*1000  // one day
-          }
-        },
+        //
+        // plotOptions: {
+        //   series: {
+        //     pointStart: Date.UTC(2010, 0, 2),
+        //     pointInterval:24*3600*1000  // one day
+        //   }
+        // },
 
         // series: [{
         //   name:'sandeep',

@@ -16,7 +16,6 @@ export class IntegrationLogosPipe implements PipeTransform {
       ...integrationOption.fulfillment_provider_details,
       ...integrationOption.ccsp_details,
     };
-    ;
     /*remove the integration key if its not enabled*/
     for (let key in integrations) {
 

@@ -50,6 +50,7 @@ export class ReportDetailsComponent implements OnInit {
   }
 
   updateReport(subscribeTemplate: TemplateRef<any>, unsubscribeTemplate:TemplateRef<any>) {
+    //
     this.reportFormData = JSON.parse(JSON.stringify(this.reportControlsComponent.getReportControlFormData()));
     // let timeNow = (new Date()).toString();
     let _id_str = this.activatedRoute.snapshot.paramMap.get('_id');
@@ -83,6 +84,7 @@ export class ReportDetailsComponent implements OnInit {
     // delete body.delivery;
     // delete body.startdate;/*TODO: temporary; since date is not working*/
     if (body.id) {
+      //
       this.serverService.makePutReq({url, body})
         .subscribe((value:IReportItem) => {
           if(value.isactive)
@@ -92,7 +94,7 @@ export class ReportDetailsComponent implements OnInit {
           }
         });
     }else {
-      delete body.id
+      delete body.id;
       let report_bot:IBot = this.allBotList.find((bot)=>bot.id==body.bot_id);
       let headerData:IHeaderData = {"bot-access-token": report_bot.bot_access_token};
       this.serverService.makePostReq({url, body, headerData})

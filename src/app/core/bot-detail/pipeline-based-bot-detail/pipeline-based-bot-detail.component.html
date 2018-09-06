@@ -80,27 +80,27 @@
            (click)="tabChanged('architecture')"
            [queryParams]="{build:'architecture'}"><strong>Architecture</strong></a>
       </li>
-      <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='testing'}">
-        <a class="nav-link heading" [routerLink]="['.']"
-           queryParamsHandling="merge"
-           replaceUrl="true"
-           (click)="tabChanged('testing')"
-           [queryParams]="{build:'testing'}"><strong>Testing</strong></a>
-      </li>
-      <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='sessions'}">
-        <a class="nav-link heading" [routerLink]="['.']"
-           queryParamsHandling="merge"
-           replaceUrl="true"
-           (click)="tabChanged('sessions')"
-           [queryParams]="{build:'sessions'}"><strong>Session</strong></a>
-      </li>
-      <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='consumer'}">
-        <a class="nav-link heading" [routerLink]="['.']"
-           queryParamsHandling="merge"
-           replaceUrl="true"
-           (click)="tabChanged('consumer')"
-           [queryParams]="{build:'consumer'}"><strong>Consumer</strong></a>
-      </li>
+      <!--<li class="nav-item" [ngClass]="{'tab-active':selectedTab==='testing'}">-->
+        <!--<a class="nav-link heading" [routerLink]="['.']"-->
+           <!--queryParamsHandling="merge"-->
+           <!--replaceUrl="true"-->
+           <!--(click)="tabChanged('testing')"-->
+           <!--[queryParams]="{build:'testing'}"><strong>Testing</strong></a>-->
+      <!--</li>-->
+      <!--<li class="nav-item" [ngClass]="{'tab-active':selectedTab==='sessions'}">-->
+        <!--<a class="nav-link heading" [routerLink]="['.']"-->
+           <!--queryParamsHandling="merge"-->
+           <!--replaceUrl="true"-->
+           <!--(click)="tabChanged('sessions')"-->
+           <!--[queryParams]="{build:'sessions'}"><strong>Session</strong></a>-->
+      <!--</li>-->
+      <!--<li class="nav-item" [ngClass]="{'tab-active':selectedTab==='consumer'}">-->
+        <!--<a class="nav-link heading" [routerLink]="['.']"-->
+           <!--queryParamsHandling="merge"-->
+           <!--replaceUrl="true"-->
+           <!--(click)="tabChanged('consumer')"-->
+           <!--[queryParams]="{build:'consumer'}"><strong>Consumer</strong></a>-->
+      <!--</li>-->
     </ul>
 
   </div>
@@ -145,6 +145,7 @@
       <div class="p-2" style="width: 85%;">
         <app-pipeline (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'" [bot]="bot"></app-pipeline>
         <!--<app-knowledge-base (datachanged$)="datachanged($event)"  *ngIf="selectedSideBarTab==='knowledge'" [bot]="(bot$|async)"></app-knowledge-base>-->
+        <app-knowledge-base-wrapper [bot]="bot" *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base-wrapper>
         <!--<app-code-input (datachanged$)="datachanged($event)"  *ngIf="selectedSideBarTab==='code'" [bot]="(bot$|async)"></app-code-input>-->
         <!--<app-integration-option-list (datachanged$)="datachanged($event)"  *ngIf="selectedSideBarTab==='integration'"-->
                                      <!--[bot]="(bot$|async)"></app-integration-option-list>-->
@@ -155,16 +156,16 @@
   </div>
   <!--architeture ends-->
 
-  <div class="col-12" *ngIf="selectedTab==='testing'">
-    <app-bot-testing [bot]="bot$|async"></app-bot-testing>
-  </div>
+  <!--<div class="col-12" *ngIf="selectedTab==='testing'">-->
+    <!--<app-bot-testing [bot]="bot$|async"></app-bot-testing>-->
+  <!--</div>-->
 
-  <div class="col-12" *ngIf="selectedTab==='sessions'">
-    <app-bot-sessions [id]="(bot$|async).id" [bot]="(bot$|async)"></app-bot-sessions>
-  </div>
+  <!--<div class="col-12" *ngIf="selectedTab==='sessions'">-->
+    <!--<app-bot-sessions [id]="(bot$|async).id" [bot]="(bot$|async)"></app-bot-sessions>-->
+  <!--</div>-->
 
-  <div class="col-12" *ngIf="selectedTab==='consumer'">
-    <app-consumers [id]="(bot$|async).id" [bot]="(bot$|async)"></app-consumers>
-  </div>
+  <!--<div class="col-12" *ngIf="selectedTab==='consumer'">-->
+    <!--<app-consumers [id]="(bot$|async).id" [bot]="(bot$|async)"></app-consumers>-->
+  <!--</div>-->
 
 </div>

@@ -46,7 +46,7 @@
         </form>
       </div>
 
-      <i class="fa fa-times cursor-pointer" (click)="closeChatWindow()"></i>
+      <i class="fa fa-window-minimize cursor-pointer" (click)="closeChatWindow()"></i>
     </div>
     <div class="body p-0 border-left border-right" [ngClass]="{'make-body-occupy-footer':frameEnabled!==myEChatFrame.CHAT_BOX}">
       <app-bot-welcome (startnewchat$)="startNewChat()" [bot_id]="currentBotId" *ngIf="frameEnabled === myEChatFrame.WELCOME_BOX"></app-bot-welcome>
@@ -109,9 +109,13 @@
         <div>Room ID:</div>
         <div class="font-11">{{currentRoom.id}}</div>
       </div>
-      <div *ngIf="currentRoom.lastTemplateKey" class="d-flex flex-column align-items-end text-white">
+      <div *ngIf="currentRoom.lastTemplateKey" class="d-flex mr-3 flex-column align-items-end text-white">
         <div>Last template triggered::</div>
         <div class="font-11">{{currentRoom.lastTemplateKey}}</div>
+      </div>
+    <div *ngIf="currentRoom.uid" class="d-flex  flex-column align-items-end text-white">
+        <div>Room uid::</div>
+        <div class="font-11">{{currentRoom.uid}}</div>
       </div>
   </div>
   <div class="chat-rooms">
