@@ -35,7 +35,7 @@
   <div class="col-5 mt-3">
     <div class="d-flex align-items-center">
       <label for="" class="m-0 pr-3">Status</label>
-      <ui-switch class="m-0" ngModel name="isactive" class="pt-2" style="border:none" size="small"></ui-switch>
+      <ui-switch class="m-0" [(ngModel)]="isactive" name="isactive" class="pt-2" style="border:none" size="small"></ui-switch>
     </div>
   </div>
 
@@ -44,8 +44,8 @@
       <label for="" class="">Frequency</label>
       <select class="concept1" ngModel required name="frequency">
         <option value="daily">Daily</option>
-        <option value="weely">Weekly</option>
-        <option value="biweekly">Bi-weekly</option>
+        <option value="weekly">Weekly</option>
+        <option value="bi-weekly">Bi-weekly</option>
         <option value="monthly">Monthly</option>
       </select>
     </div>

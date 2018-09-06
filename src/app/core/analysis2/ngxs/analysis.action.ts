@@ -95,6 +95,19 @@ export class SetChannelWiseUsers {
   }
 }
 
+export class SetUsagetrackingInfo {
+  static readonly type = '[analytics2] SetUsagetrackingInfo';
+  constructor(public payload: { data: any}) {
+  }
+}
+
+export class Topgenerationtemplates {
+  static readonly type = '[analytics2] Topgenerationtemplates';
+  constructor(public payload: { data: any}) {
+  }
+}
+
+
 export class ResetAnalytics2Data {
   static readonly type = '[analytics2] ResetAnalytics2Data';
   constructor() {

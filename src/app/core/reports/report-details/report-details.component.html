@@ -5,7 +5,7 @@
       <a class="p-0 h4 ">Subscribe to Report</a>
       <button class="btn btn-theme-primary-outline ml-auto mr-3" routerLink="/core/reports">Cancel</button>
       <button class="btn btn-theme-primary" *ngIf="!report_id" (click)="updateReport(Primarytemplate, Dangertemplate)">Create</button>
-      <button class="btn btn-theme-primary" *ngIf="report_id" (click)="updateReport(Primarytemplate)">Update</button>
+      <button class="btn btn-theme-primary" *ngIf="report_id" (click)="updateReport(Primarytemplate, Dangertemplate)">Update</button>
     </div>
   </div>
 

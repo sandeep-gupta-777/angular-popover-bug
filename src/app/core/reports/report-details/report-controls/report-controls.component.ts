@@ -24,6 +24,7 @@ declare var $: any;
 })
 export class ReportControlsComponent implements OnInit, AfterViewInit {
   start_time;
+  isactive=false;
   @Select() botlist$: Observable<ViewBotStateModel>;
   datePickerConfig: Partial<BsDatepickerConfig>;
   @ViewChild('form') f: NgForm;
@@ -130,7 +131,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
   }
 
   getReportControlFormData(){/*to be called by parent*/
-    debugger;
+
     this.reportFormData.botName = this.botlist.find((bot)=>bot.id==this.reportFormData.bot_id).name;
     this.reportFormData = {...this.reportFormData};
     let start_time:string  = (<any>document).getElementById("start_time").value;
