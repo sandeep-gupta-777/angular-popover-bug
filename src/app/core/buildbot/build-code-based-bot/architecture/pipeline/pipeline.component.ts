@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, IterableDiffers, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, IterableDiffers, OnInit, Output, TemplateRef} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {IBot} from '../../../../interfaces/IBot';
 import {IPipelineItem} from '../../../../../../interfaces/ai-module';
@@ -12,6 +12,7 @@ import {IAppState} from '../../../../../ngxs/app.state';
 import {ConstantsService} from '../../../../../constants.service';
 import {ServerService} from '../../../../../server.service';
 import {SetPipelineModuleMasterData} from '../../../../../ngxs/app.action';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-pipeline',
@@ -20,6 +21,7 @@ import {SetPipelineModuleMasterData} from '../../../../../ngxs/app.action';
 })
 export class PipelineComponent implements OnInit {
 
+  myObject = Object;
   // @Input() bot: IBot;
   _bot: IBot;
   @Input() set bot(botData: IBot) {
@@ -32,8 +34,11 @@ export class PipelineComponent implements OnInit {
   iterableDiffer;
   pipeLine: any[] = [];
   aiModules: IPipelineItem[] = [];
+  selectedPipeline: IPipelineItem;
   searchKeyword: string;
   buildBotType: any;
+  modalRef: BsModalRef;
+  
   @Output() datachanged$ = new EventEmitter();
 
   constructor(
@@ -43,6 +48,7 @@ export class PipelineComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private constantsService: ConstantsService,
     private serverService: ServerService,
+    private modalService: BsModalService,
     private store: Store) {
     this.iterableDiffer = this._iterableDiffers.find([]).create(null);
   }
@@ -90,5 +96,9 @@ export class PipelineComponent implements OnInit {
       //   new SavePipeLineInfo({data: {pipeline: this.pipeLine, unselectedPipeline: this.aiModules}})
       // ]);
     }
+  }
+  openCreateBotModal(template: TemplateRef<any>,pipeline:IPipelineItem) {
+    this.selectedPipeline = pipeline;
+    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
   }
 }
