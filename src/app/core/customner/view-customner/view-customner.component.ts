@@ -58,6 +58,21 @@ export class ViewCustomnerComponent implements OnInit {
         this.store.dispatch([
           new SetEnterpriseNerData({enterpriseNerData: this.custumNerDataForSmartTable})
         ]);
+
+        /*For selected ner*/
+        let selectedNerId = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
+        if(!selectedNerId)return;
+        let getNerByIdUrl = this.constantsService.getCustomNerById(selectedNerId);
+        let doesSelectedNerExistsIn_custumNerDataForSmartTable =
+        this.custumNerDataForSmartTable.find(item=>item.id===Number(selectedNerId));
+        if(doesSelectedNerExistsIn_custumNerDataForSmartTable) return;
+        this.serverService.makeGetReq({url: getNerByIdUrl})
+          .subscribe((values:{objects:ICustomNerItem[]})=>{
+            if(values.objects.length>0){
+              this.custumNerDataForSmartTable.push(values.objects[0]);
+              this.custumNerDataForSmartTable = [...this.custumNerDataForSmartTable];
+            }
+          });
       });
   }
 

@@ -13,6 +13,7 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 export class KnowledgeBasePresentationComponent implements OnInit {
   _selectedRowData:ICustomNerItem = {};
   @Input() set selectedRowData(value:ICustomNerItem){
+
     if(!value) return;
     this._selectedRowData = value;
     this.key = value.key ;
@@ -22,6 +23,7 @@ export class KnowledgeBasePresentationComponent implements OnInit {
     // this.codeTextInputToCodeEditor = value.values && value.values.join(',');
     // this.codeTextInputToCodeEditorObj.text = value.values && value.values.join(',');
     this.codeTextInputToCodeEditorObj.text = value.values && JSON.stringify(value.values);
+    this.codeTextInputToCodeEditorObj = {...this.codeTextInputToCodeEditorObj};
   }
   @Input() handsontableData = ["", "", ""];
   @Output() updateOrSaveConcept$ = new EventEmitter();
@@ -61,11 +63,19 @@ export class KnowledgeBasePresentationComponent implements OnInit {
   }
 
   updateOrSaveConcept(){
+
+    let codeTextFromEditor;
+    try{
+      codeTextFromEditor = JSON.parse(this.codeTextOutPutFromCodeEditor);
+    }catch (e) {
+      // codeTextFromEditor = this.codeTextOutPutFromCodeEditor;
+      console.log("must be valid array");
+    }
     let outputData = {
       key:this.key,
       ner_type:this.ner_type,
       conflict_policy:this.conflict_policy,
-      codeTextOutPutFromCodeEditor:this.codeTextOutPutFromCodeEditor,
+      codeTextOutPutFromCodeEditor:codeTextFromEditor,
       handsontableData:this.handsontableData
     };
     let ner_id_str  = this.activatedRoute.snapshot.queryParamMap.get('ner_id');

@@ -25,6 +25,7 @@ import {ReportsStateReducer} from './core/reports/ngxs/reports.state';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import {AuthGaurdService} from './auth-gaurd.service';
+// import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 
 const routes: Route[] = [
   {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
@@ -36,6 +37,7 @@ const routes: Route[] = [
   declarations: [
     AppComponent,
     NotFoundComponent,
+    // CodeEditorComponent
   ],
   imports: [
     // BrowserModule,

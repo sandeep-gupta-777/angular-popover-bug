@@ -24,7 +24,8 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
   settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;
   totalRecords: number = 10;
   currentPageNumber = 1;
-  custumNerDataForSmartTable = [];
+  // custumNerDataForSmartTable = [];
+  custumNerDataForSmartTable: ICustomNerItem[];
 
   constructor(
     private store: Store,
@@ -59,11 +60,24 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
       .subscribe((value: { meta: { total_count: number }, objects: [ICustomNerItem] }) => {
         this.totalRecords = value.meta.total_count;
         this.custumNerDataForSmartTable = value.objects;
+        /*For selected ner*/
+        let selectedNerId = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
+        if(!selectedNerId)return;
+        let getNerByIdUrl = this.constantsService.getCustomNerById(selectedNerId);
+        let doesSelectedNerExistsIn_custumNerDataForSmartTable =
+          this.custumNerDataForSmartTable.find(item=>item.id===Number(selectedNerId));
+        if(doesSelectedNerExistsIn_custumNerDataForSmartTable) return;
+        this.serverService.makeGetReq({url: getNerByIdUrl})
+          .subscribe((values:ICustomNerItem[])=>{
+            if(values.length>0){
+              this.custumNerDataForSmartTable.push(values[0]);
+            }
+          });
       });
   }
 
   updateOrSaveCustomNer(selectedOrNewRowData: ICustomNerItem) {
-
+;
     this.serverService.updateOrSaveCustomNer(selectedOrNewRowData, this.bot)
       .subscribe((value) => {
 

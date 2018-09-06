@@ -412,6 +412,7 @@
   <div *ngFor="let form_value_key of myObject.keys(formValue)"
        class="grid-integration-groups px-4 mb-3"
        ngModelGroup="{{form_value_key}}">
+    <div class="integration-heading">{{form_value_key|integrationNameFormatter|titlecase}}</div>
     <div
       *ngFor="let integration_keys of myObject.keys(formValue[form_value_key])" ngModelGroup="{{integration_keys}}"
       class="border px-3">
@@ -426,7 +427,7 @@
       <div [hidden]="!formValueFinal[form_value_key][integration_keys]['enabled']" >
         <div *ngFor="let integration_input_keys of formValue[form_value_key][integration_keys]|integrationInputKeysFilter">
           <div class="form-group">
-            <label>{{integration_input_keys}}</label>
+            <label>{{integration_input_keys|integrationNameFormatter|titlecase}}</label>
             <input ngModel type="text"
                    class="form-control"
                    [name]="integration_input_keys">

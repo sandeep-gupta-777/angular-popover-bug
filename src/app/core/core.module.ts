@@ -67,6 +67,7 @@ import {SharedModule} from '../shared.module';
 import {ViewCustomnerComponent} from './customner/view-customner/view-customner.component';
 import {AuthGaurdService} from '../auth-gaurd.service';
 import {EBotType} from './view-bots/view-bots.component';
+// import { IntegrationNameFormatterPipe } from './buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-name-formatter.pipe';
 
 const routes: Route[] = [
   {
@@ -169,7 +170,8 @@ const routes: Route[] = [
     TestComponent,
     ChatPreviewNewPageComponent,
     FooterComponent,
-    BackendDevComponent
+    BackendDevComponent,
+    // IntegrationNameFormatterPipe
 
   ],
   imports: [

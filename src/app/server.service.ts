@@ -193,7 +193,8 @@ export class ServerService {
       methodStr = 'makePutReq';
       body = {
         values: selectedOrNewRowData.values,
-        column_headers: selectedOrNewRowData.column_headers
+        column_headers: selectedOrNewRowData.column_headers,
+        ...selectedOrNewRowData
       };
     } else {/*create a new customner*/
       url = this.constantsService.createNewCustomBotNER();

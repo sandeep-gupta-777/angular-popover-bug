@@ -12,6 +12,7 @@ import {ICustomners} from '../../../../../../interfaces/bot-creation';
 import {Observable} from 'rxjs';
 import {IUser} from '../../../../interfaces/user';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {b} from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-knowledge-base',
@@ -27,6 +28,7 @@ export class KnowledgeBaseComponent implements OnInit {
   // @Input() _custumNerDataForSmartTable = [];
   _custumNerDataForSmartTable:ICustomNerItem[] = [];
   @Input() set custumNerDataForSmartTable(value:ICustomNerItem[]){
+    debugger;
     this._custumNerDataForSmartTable = value;
     let ner_id = Number(this.activatedRoute.snapshot.queryParamMap.get('ner_id'));
     ner_id && this.updateSelectedRowDataByNer_Id(ner_id)
@@ -103,11 +105,17 @@ export class KnowledgeBaseComponent implements OnInit {
   }
 
   updateOrSaveConcept(data:{key:string, ner_type:string, conflict_policy:string, codeTextOutPutFromCodeEditor:string,handsontableData:any}) {
-    let body: ICustomNerItem;
+    let body: ICustomNerItem = data;
+
     // this.type = this.bot?'bot':'enterprise';
-    if (data.ner_type === 'single_match' || data.ner_type === 'double_match' || data.ner_type === 'with_metadata' || data.ner_type === 'regex') {
-      body = {values: data.codeTextOutPutFromCodeEditor.split(',')};
-    } else if (data.ner_type === 'database') {
+    if (data.ner_type === 'single_match' || data.ner_type === 'with_metadata' || data.ner_type === 'regex' || data.ner_type === 'double_match') {
+      // body = {values: data.codeTextOutPutFromCodeEditor.split(',')};
+      body = {values: data.codeTextOutPutFromCodeEditor, ...body};
+    }
+    // else if (data.ner_type === 'double_match'){
+    //   body = {values: JSON.parse(data.codeTextOutPutFromCodeEditor)};
+    // }
+    else if (data.ner_type === 'database') {
       let handontableDataClone = JSON.parse(JSON.stringify(data.handsontableData));
       let column_headers = handontableDataClone[0] || ["","",""];
       handontableDataClone.shift();
@@ -120,7 +128,7 @@ export class KnowledgeBaseComponent implements OnInit {
         return obj;
       });
 
-      body = {"column_headers": column_headers,values: handsontableDataSerialized};
+      body = {"column_headers": column_headers,values: handsontableDataSerialized, ...body};
     }
 
     let output:ICustomNerItem;
@@ -247,7 +255,7 @@ export class KnowledgeBaseComponent implements OnInit {
       queryParamsHandling: "merge",
       relativeTo:this.activatedRoute});
     this.showTable = false;
-    this.codeTextInputToCodeEditor = selectedRowData.values && selectedRowData.values.join();
+    this.codeTextInputToCodeEditor = selectedRowData.values && selectedRowData.values;
     if (selectedRowData.ner_type === 'database') {
       // let valueKeys = selectedRowData.column_headers;
       let valueKeys = Object.keys(selectedRowData.values[0]);

@@ -193,7 +193,7 @@ export class UtilityService {
     template.xAxis.categories = categories;
     template.series[0].data = seriesData;
     template.series[0].name = 'test';
-    debugger;
+
     return template;
   }
 
