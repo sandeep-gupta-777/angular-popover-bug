@@ -37,6 +37,7 @@
       </div>
       <!---->
       <i (click)="showVersionList= !showVersionList"
+        *ngIf="bot.store_bot_versions.length > 1"
          class="fa py-2 px-3 bg-theme-primary text-white"
          [ngClass]="{'fa-angle-up':showVersionList, 'fa-angle-down':!showVersionList}"
          style="height: 100%"></i>

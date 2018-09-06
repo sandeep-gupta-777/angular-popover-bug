@@ -21,7 +21,7 @@ export interface IConsumerResults{
   "updated_at" : string
 }
 
-export interface IConsumerResults {
+export interface IConsumerResultsFromServer {
   'objects': IConsumerResults[],
   'meta': IMeta,
 }

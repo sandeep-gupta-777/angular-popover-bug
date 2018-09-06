@@ -4,3 +4,7 @@
 .fa{
   color: $color-secondary;
 }
+
+.danger-modal{
+    @include classic-modal(#b14250);
+  }

@@ -1,12 +1,12 @@
-import {Component, Input, OnInit, TemplateRef} from '@angular/core';
-import {Select, Store} from '@ngxs/store';
-import {ServerService} from '../../../server.service';
-import {Observable} from 'rxjs';
-import {ConstantsService} from '../../../constants.service';
-import {IConsumerResults} from '../../../../interfaces/consumer';
-import {IBot} from '../../interfaces/IBot';
-import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
-import {ActivatedRoute, Route, Router} from '@angular/router';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
+import { ServerService } from '../../../server.service';
+import { Observable } from 'rxjs';
+import { ConstantsService } from '../../../constants.service';
+import { IConsumerResults, IConsumerResultsFromServer } from '../../../../interfaces/consumer';
+import { IBot } from '../../interfaces/IBot';
+import { ViewBotStateModel } from '../../view-bots/ngxs/view-bot.state';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ISessionItem } from '../../../../interfaces/sessions';
 import { IHeaderData } from '../../../../interfaces/header-data';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
@@ -23,10 +23,11 @@ export class ConsumersComponent implements OnInit {
   bot_id: number;
   totalRecords: number;
   @Select() botlist$: Observable<ViewBotStateModel>;
-  consumers$: Observable<IConsumerResults>;
+  consumerTableData: IConsumerResults[];
+  consumersDecrypted: IConsumerResults ;//IConsumerItem
   smartTableSettings_Consumers = this.constantsService.SMART_TABLE_CONSUMER_SETTING;
-  isFullscreen:false;
-  consumerItemToBeDecrypted:IConsumerResults;
+  isFullscreen: false;
+  consumerItemToBeDecrypted: IConsumerResults;
   decryptReason: string;
   modalRef: BsModalRef;
   constructor(
@@ -59,26 +60,28 @@ export class ConsumersComponent implements OnInit {
 
   loadConsumerData(limit: number = 10, offset: number = 0) {
     let url = this.constantsService.getBotConsumerUrl(limit, offset);
-    this.consumers$ =
       this.serverService
-        .makeGetReq<IConsumerResults>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
+        .makeGetReq<IConsumerResultsFromServer>({ url, headerData: { 'bot-access-token': this.bot.bot_access_token } })
         .map((value) => {
           this.totalRecords = value.meta.total_count;
           return {
             ...value,
             objects: value.objects.map((result) => {
               let modified_update_at = (new Date(result.updated_at)).toDateString();
-              return {...result, updated_at: modified_update_at};
+              return { ...result, updated_at: modified_update_at };
             })
           };
+        }).subscribe((value)=>{
+          this.consumerTableData = value.objects;
         });
   }
+  
 
-  goFullScreen(){
+  goFullScreen() {
     this.router.navigate([`core/botdetail/${this.bot_id}/consumer`])
     // http://localhost:4200/core/botdetail/27/consumer
   }
-  customActionEventsTriggeredInSessionsTable(data: { action: string, data: IConsumerResults, source: any },Primarytemplat) {
+  customActionEventsTriggeredInSessionsTable(data: { action: string, data: IConsumerResults, source: any }, Primarytemplat) {
 
 
     if (data.action === 'decrypt') {
@@ -89,21 +92,32 @@ export class ConsumersComponent implements OnInit {
 
     }
   }
-  decryptSubmit(){
+  decryptSubmit() {
 
     let headerData: IHeaderData = {
       "bot-access-token": this.bot.bot_access_token
     };
-    let body ={"room_id":this.consumerItemToBeDecrypted.id,"decrypt_audit_type":"room","message":this.decryptReason};
+    let body = { "consumer_id": this.consumerItemToBeDecrypted.id, "decrypt_audit_type": "consumer", "message": this.decryptReason };
     let url = this.constantsService.getDecryptUrl();
-    this.serverService.makePostReq({headerData,body,url})
-    .subscribe(()=>{
-      //
-    })
+    this.serverService.makePostReq({ headerData, body, url })
+      .subscribe(() => {
+        debugger;
+        let url = this.constantsService.getBotConsumerByIdUrl(this.consumerItemToBeDecrypted.id);
+          this.serverService
+            .makeGetReq<IConsumerResults>({ url, headerData: { 'bot-access-token': this.bot.bot_access_token } })
+            .subscribe((value) => {
+              debugger;
+              this.consumersDecrypted = value;
+              let index = this.consumerTableData.findIndex((value)=>value.id === this.consumerItemToBeDecrypted.id)
+              this.consumerTableData[index] = this.consumersDecrypted;
+              this.consumerTableData = [...this.consumerTableData];
+            });
+      })
 
   }
+  
   openCreateBotModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: 'modal-md' });
   }
-
+  
 }

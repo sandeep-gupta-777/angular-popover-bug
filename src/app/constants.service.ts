@@ -188,7 +188,10 @@ export class ConstantsService {
   getBotConsumerUrl(limit: number, offset: number) {
     return this.BACKEND_URL + `api/v1/consumer/?limit=${limit}&offset=${offset}`; //https://localhost:8000/api/v1/consumer/?limit=1&offset=0
   }
-
+  getBotConsumerByIdUrl(id: number) {
+    return this.BACKEND_URL + `api/v1/consumer/${id}`; //https://dev.imibot.ai/api/v1/consumer/2320/
+  }
+  
   getAllActionsUrl() {
     return this.BACKEND_URL + `api/v1/actions/?limit=100`; //https://dev.imibot.ai/api/v1/actions/
   }
@@ -451,7 +454,7 @@ export class ConstantsService {
     }
   };
 
-  readonly HANDSON_TABLE_BOT_TESTING_colHeaders = ['Message', 'Template', 'Status','Temp. Gen.','RoomId','TransactionId'];
+  readonly HANDSON_TABLE_BOT_TESTING_colHeaders = ['Message', 'Expected Template', 'Status','Generated Template','RoomId','TransactionId'];
   readonly HANDSON_TABLE_BOT_TESTING_columns = [
     {data: 0, type: 'text'},
     {data: 1, type: 'text'},
