@@ -52,7 +52,17 @@ export class BotSessionsComponent implements OnInit {
   ngOnInit() {
     this.url = this.constantsService.getBotSessionsUrl(10, 0);
     this.sessions$ = this.serverService.makeGetReq<ISessions>({url: this.url, headerData: {'bot-access-token': this.bot.bot_access_token}});
-    this.sessions$.subscribe((value) => {
+    this.sessions$
+    .map((value) => {
+      return {
+        ...value,
+        objects: value.objects.map((result) => {
+          let modified_update_at = (new Date(result.updated_at)).toDateString();
+          return { ...result, updated_at: modified_update_at };
+        })
+      };
+    })
+    .subscribe((value) => {
       if (!value) return;
       this.totalSessionRecords = value.meta.total_count;
       this.sessions = value.objects;

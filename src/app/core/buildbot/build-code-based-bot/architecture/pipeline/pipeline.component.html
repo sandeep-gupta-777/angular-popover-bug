@@ -18,7 +18,7 @@
           *ngFor="let aiModule of (aiModules|pipelineFilter:searchKeyword); let i of index">
         {{aiModule.unique_name}}
         <div>
-          <i class="fa fa-cog pl-1" aria-hidden="true"></i>
+          <i *ngIf="myObject.keys(aiModule.input_params).length>0" (click) = "openCreateBotModal(Primarytemplat,aiModule);" class="fa fa-cog pl-1" aria-hidden="true"></i>
         </div>
       </li>
     </ul>
@@ -32,7 +32,7 @@
                [ngClass]="{'bg-grey':aiModule.$$hashKey==='PLACE_HOLDER'}">
             {{aiModule.unique_name||aiModule.id}}
             <div>
-              <i class="fa fa-cog pl-1" aria-hidden="true"></i>
+              <i (click) = "openCreateBotModal(Primarytemplat,aiModule);" class="fa fa-cog pl-1" aria-hidden="true"></i>
             </div>
           </div>
         </div>
@@ -41,6 +41,27 @@
   </div>
 </div>
 
+<ng-template #Primarytemplat>
+  <div class="primary-modal">
+    <div class="top-dec"></div>
+    <div class="modal-header">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">{{selectedPipeline.unique_name}}</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+    </div>
+
+    <div class="modal-body pt-0">
+     <div *ngFor="let Key of myObject.keys(selectedPipeline.input_params) ">
+       <div>{{Key}}</div>
+       <input type="text" [(ngModel)] = "selectedPipeline.input_params[Key]">
+       <button class="btn-theme-primary" (click)="modalRef.hide()">Submit</button>
+     </div>
+      
+    </div>
+  </div>
+</ng-template>
 
 
 <!--<div appDraggable appDropTarget="{zone:'another'}" (myDrop)="onDrop($event)"> drag me </div>-->

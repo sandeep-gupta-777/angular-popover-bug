@@ -1,6 +1,9 @@
 @import "~src/sass/mixins";
 @import "~src/sass/variables";
-
+@import "~src/sass/main";
+.primary-modal{
+  @include classic-modal(#00abd3);
+}
 #search-aim{
   //width: 260px;
   //height: 30px;

@@ -105,9 +105,14 @@ export class ConsumersComponent implements OnInit {
         let url = this.constantsService.getBotConsumerByIdUrl(this.consumerItemToBeDecrypted.id);
           this.serverService
             .makeGetReq<IConsumerResults>({ url, headerData: { 'bot-access-token': this.bot.bot_access_token } })
+            .map((result) => {
+              let modified_update_at = (new Date(result.updated_at)).toDateString();
+              return { ...result, updated_at: modified_update_at };
+            })
             .subscribe((value) => {
               debugger;
               this.consumersDecrypted = value;
+
               let index = this.consumerTableData.findIndex((value)=>value.id === this.consumerItemToBeDecrypted.id)
               this.consumerTableData[index] = this.consumersDecrypted;
               this.consumerTableData = [...this.consumerTableData];
