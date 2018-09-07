@@ -76,3 +76,11 @@
     color: #9e9e9e !important;
   }
 }
+.btn-group {
+  >ul>li{
+    :hover{
+      color: $color-primary !important;
+      }
+  }
+  
+}

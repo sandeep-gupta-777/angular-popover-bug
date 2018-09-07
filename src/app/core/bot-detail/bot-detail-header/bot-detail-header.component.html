@@ -34,7 +34,7 @@
     +{{myObject.keys(bot.integrations).length-4}} More
   </span>
   <div class="headerDivider mx-2"></div>
-  <div class="d-flex preview-box" (click)="openBot()">
+  <div class="d-flex preview-box" (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'">
     <i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>
     <span class="action">Preview</span>
   </div>

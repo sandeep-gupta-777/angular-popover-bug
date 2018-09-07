@@ -160,9 +160,9 @@
             <li role="menuitem">
               <a class="dropdown-item cursor-pointer" (click)="utilityService.copyToClipboard(bot.enterprise_id)">Copy Enterprise ID</a>
             </li>
-            <li role="menuitem">
+            <!-- <li role="menuitem">
               <a class="dropdown-item">Make Bot Active</a>
-            </li>
+            </li> -->
             <li role="menuitem">
               <a class="dropdown-item" (click)="openModal(template)">Delete</a>
             </li>
@@ -191,8 +191,8 @@
 
       <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos|async))" [src]="integrationsMasterListItem?.icon"
            class="logo-image" style="width: 16px;height: 16px" alt="">
-      <div (click)="openBot()" class="mr-auto cursor-pointer text-sm">Preview</div>
-      <button (click)="router.navigate(['core/botdetail/'+parentRoute+'/'+ bot.id])" class="btn btn-theme-primary px-3 mr-2 ">Edit
+      <div *ngIf="bot.bot_type == 'chatbot'" (click)="openBot()" class="mr-auto cursor-pointer text-sm">Preview</div>
+      <button (click)="router.navigate(['core/botdetail/'+parentRoute+'/'+ bot.id])" class="btn btn-theme-primary px-3 mr-2 "  [ngClass]="{'mr-auto': bot.bot_type !== 'chatbot'}">Edit
       </button>
 
     </div>

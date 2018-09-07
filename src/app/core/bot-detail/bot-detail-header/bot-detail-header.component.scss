@@ -10,6 +10,9 @@
       color: #474747 !important;
     }
   }
+  .fa-refresh{
+    color: $color-primary !important;
+  }
   * {
     margin-right: 5px;;
   }
@@ -30,7 +33,7 @@
     color: white;
   }
 
-  .fa:not(.fa-circle) {
+  .fa:not(.fa-circle ) {
     color: #9b9b9b;
   }
   .dark-green {

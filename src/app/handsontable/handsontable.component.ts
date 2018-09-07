@@ -51,6 +51,8 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
       ...this.options,
       colHeaders: this.colHeaders,
       contextMenu: true,
+      wordWrap: true,
+      autoRowSize: true,
       search: true
     });
 
