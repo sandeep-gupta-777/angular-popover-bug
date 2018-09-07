@@ -75,7 +75,7 @@ export class ConsumersComponent implements OnInit {
           this.consumerTableData = value.objects;
         });
   }
-  
+
 
   goFullScreen() {
     this.router.navigate([`core/botdetail/${this.bot_id}/consumer`])
@@ -101,7 +101,7 @@ export class ConsumersComponent implements OnInit {
     let url = this.constantsService.getDecryptUrl();
     this.serverService.makePostReq({ headerData, body, url })
       .subscribe(() => {
-        debugger;
+
         let url = this.constantsService.getBotConsumerByIdUrl(this.consumerItemToBeDecrypted.id);
           this.serverService
             .makeGetReq<IConsumerResults>({ url, headerData: { 'bot-access-token': this.bot.bot_access_token } })
@@ -110,7 +110,7 @@ export class ConsumersComponent implements OnInit {
               return { ...result, updated_at: modified_update_at };
             })
             .subscribe((value) => {
-              debugger;
+
               this.consumersDecrypted = value;
 
               let index = this.consumerTableData.findIndex((value)=>value.id === this.consumerItemToBeDecrypted.id)
@@ -120,9 +120,9 @@ export class ConsumersComponent implements OnInit {
       })
 
   }
-  
+
   openCreateBotModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: 'modal-md' });
   }
-  
+
 }

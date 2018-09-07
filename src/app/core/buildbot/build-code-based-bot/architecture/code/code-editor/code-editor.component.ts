@@ -19,6 +19,7 @@ export class CodeEditorComponent implements OnInit {
     this.editorCodeObjRef = editorCodeObj;
     // if(this._text===editorCodeObj.text) return;
     this._text = editorCodeObj.text;
+
     this.editor && this.editor.setValue(editorCodeObj.text);
   }
   @Output() textChangedEvent:EventEmitter<string> = new EventEmitter<string>();

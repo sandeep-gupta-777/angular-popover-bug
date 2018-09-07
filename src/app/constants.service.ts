@@ -66,7 +66,7 @@ export class ConstantsService {
   }
   stopTestUrl(){
     return this.BACKEND_URL + `api/v1/bottestcases/canceltesting/`;// https://dev.imibot.ai/api/v1/bottestcases/canceltesting/
-    
+
   }
   getEnterpriseUsersUrl() {
     return this.BACKEND_URL + 'api/v1/user/enterpriseusers/'; //https://dev.imibot.ai/api/v1/user/enterpriseusers/
@@ -191,7 +191,7 @@ export class ConstantsService {
   getBotConsumerByIdUrl(id: number) {
     return this.BACKEND_URL + `api/v1/consumer/${id}`; //https://dev.imibot.ai/api/v1/consumer/2320/
   }
-  
+
   getAllActionsUrl() {
     return this.BACKEND_URL + `api/v1/actions/?limit=100`; //https://dev.imibot.ai/api/v1/actions/
   }
@@ -242,6 +242,13 @@ export class ConstantsService {
   /*Enterprise NER*/
   getEnterpriseNer(limit: number = 10, offset: number = 0) {
     return this.BACKEND_URL + `api/v1/customner/?type=enterprise&limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/api/v1/customner/
+  }
+
+  getEnterpriseNerById(id) {
+    return this.BACKEND_URL + `api/v1/customner/?type=enterprise&id=${id}`; //https://dev.imibot.ai/api/v1/customner/
+  }
+  getCustomNerById(id) {
+    return this.BACKEND_URL + `api/v1/customner/?id=${id}`; //dev.imibot.ai/api/v1/customner/?id=13
   }
 
   getAnalyticsUrl() {

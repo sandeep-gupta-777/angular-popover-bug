@@ -123,7 +123,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
           startdate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.startdate),
           enddate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.enddate),
         };
-        debugger;
+
         if (!this.utilityService.areAllValesDefined(headerData)) return;
         this.store.dispatch([new ResetAnalytics2Data()])
           .subscribe(()=>{
