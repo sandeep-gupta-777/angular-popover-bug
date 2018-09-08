@@ -13,6 +13,7 @@ import {ConstantsService} from '../../../../../constants.service';
 import {ServerService} from '../../../../../server.service';
 import {SetPipelineModuleMasterData} from '../../../../../ngxs/app.action';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'app-pipeline',
@@ -27,6 +28,7 @@ export class PipelineComponent implements OnInit {
   @Input() set bot(botData: IBot) {
     this._bot = botData;
     this.pipeLine = this._bot && this._bot.pipelines || [];
+    this.filterAiModules();
   }
 
   @Select() botcreationstate$: Observable<IBotCreationState>;
@@ -38,7 +40,7 @@ export class PipelineComponent implements OnInit {
   searchKeyword: string;
   buildBotType: any;
   modalRef: BsModalRef;
-  
+
   @Output() datachanged$ = new EventEmitter();
 
   constructor(
@@ -58,6 +60,10 @@ export class PipelineComponent implements OnInit {
     this.pipeLine = this._bot && this._bot.pipelines || [];
 
     let url = this.constantsService.getAllPipelineModuleUrl();
+    this.app$.subscribe((appState:IAppState)=>{
+      this.aiModules = appState.masterPipelineItems;
+      this.filterAiModules()
+    });
     this.serverService.makeGetReq<{objects:IPipelineItem[]}>({url})
       .subscribe(value => {
         this.store.dispatch([
@@ -65,9 +71,7 @@ export class PipelineComponent implements OnInit {
         ]);
       });
 
-    this.app$.subscribe((appState:IAppState)=>{
-      this.aiModules = appState.masterPipelineItems;
-    });
+
     // this.aimService.getModules()
     //   .subscribe((value: IPipelineItem[]) => {
     //     this.aiModules = value;
@@ -80,6 +84,14 @@ export class PipelineComponent implements OnInit {
       });
     }
   };
+
+  filterAiModules(){
+    if(!this.pipeLine || !this.aiModules) return;
+    this.aiModules = this.aiModules.filter((aiModule)=>{
+      let x= !this.pipeLine.find(pipelineItem=>pipelineItem.id===aiModule.id);
+      return x;
+    });
+  }
 
   ngDoCheck() {
     // if (!this.pipeLine || this.pipeLine.length === 0) return;
@@ -96,6 +108,11 @@ export class PipelineComponent implements OnInit {
       //   new SavePipeLineInfo({data: {pipeline: this.pipeLine, unselectedPipeline: this.aiModules}})
       // ]);
     }
+  }
+
+  printArr(){
+    console.log(this.pipeLine);
+    console.log(this.aiModules);
   }
   openCreateBotModal(template: TemplateRef<any>,pipeline:IPipelineItem) {
     this.selectedPipeline = pipeline;

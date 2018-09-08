@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {Router, RoutesRecognized} from '@angular/router';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {NavigationEnd, Router, RoutesRecognized} from '@angular/router';
 import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {IAppState} from './ngxs/app.state';
@@ -14,7 +14,7 @@ declare var CodeMirror: any;
 export class AppComponent implements OnInit {
 
   @Select() app$: Observable<IAppState>;
-
+  @ViewChild('carousel') carousel:ElementRef;
   constructor(private router: Router) {
   }
 

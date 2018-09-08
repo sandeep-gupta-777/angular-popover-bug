@@ -139,7 +139,7 @@
 <!---->
 <!-- </div> -->
 <!--===============New New Design ==========================-->
-<div class="wrapper">
+<div class="wrapper cursor-pointer" (click)="navigateToBotDetailPage($event)">
   <div class="grid-bot-preview-two bg-white shadow-theme">
     <div class="header-border-bottom"></div><!--just for border-->
     <!--header starts-->
@@ -151,20 +151,20 @@
         <div class = "ml-1 " style="align-self: center">
           Active(v{{bot.active_version_id}})
         </div>
-        <div class="btn-group  ml-auto" dropdown style="align-self: center; font-size: 18px">
-          <i dropdownToggle class="fa fa-ellipsis-v"></i>
-          <ul *dropdownMenu class="dropdown-menu" role="menu">
+        <div class="btn-group click-save-wrapper  ml-auto" dropdown style="align-self: center; font-size: 18px">
+          <i dropdownToggle class="fa fa-ellipsis-v click-save-wrapper"></i>
+          <ul *dropdownMenu class="dropdown-menu click-save-wrapper" role="menu">
             <li role="menuitem">
-              <a class="dropdown-item cursor-pointer" (click)="utilityService.copyToClipboard(bot.bot_access_token)" >Copy Access Token</a>
+              <a class="dropdown-item cursor-pointer click-save-wrapper" (click)="utilityService.copyToClipboard(bot.bot_access_token)" >Copy Access Token</a>
             </li>
             <li role="menuitem">
-              <a class="dropdown-item cursor-pointer" (click)="utilityService.copyToClipboard(bot.enterprise_id)">Copy Enterprise ID</a>
+              <a class="dropdown-item cursor-pointer click-save-wrapper" (click)="utilityService.copyToClipboard(bot.enterprise_id)">Copy Enterprise ID</a>
             </li>
             <!-- <li role="menuitem">
               <a class="dropdown-item">Make Bot Active</a>
             </li> -->
             <li role="menuitem">
-              <a class="dropdown-item" (click)="openModal(template)">Delete</a>
+              <a class="dropdown-item click-save-wrapper" (click)="openModal(template)">Delete</a>
             </li>
           </ul>
         </div>
@@ -189,12 +189,14 @@
     <div class="grid-bot-preview-forth-row d-flex flex-row-reverse bot-strip align-items-center p-2 footer">
       <!-- <span *ngIf="(bot.integrations|integrationImageCount)>4" class="more ml-auto">+{{(bot.integrations|integrationImageCount)}} More</span> -->
 
-      <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos|async))" [src]="integrationsMasterListItem?.icon"
-           class="logo-image" style="width: 16px;height: 16px" alt="">
-      <div *ngIf="bot.bot_type == 'chatbot'" (click)="openBot()" class="mr-auto cursor-pointer text-sm">Preview</div>
-      <button (click)="router.navigate(['core/botdetail/'+parentRoute+'/'+ bot.id])" class="btn btn-theme-primary px-3 mr-2 "  [ngClass]="{'mr-auto': bot.bot_type !== 'chatbot'}">Edit
+      <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'no_channel'|async))" [src]="integrationsMasterListItem?.icon"
+           class="logo-image no-channel-integrations" style="width: 16px;height: 16px" alt="">
+      <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async))" [src]="integrationsMasterListItem?.icon"
+           class="logo-image " style="width: 16px;height: 16px" alt="">
+      <div *ngIf="bot.bot_type == 'chatbot'" (click)="openBot()" class="show-on-parent-hover mr-auto click-save-wrapper cursor-pointer text-sm">Preview</div>
+      <button (click)="router.navigate(['core/botdetail/'+parentRoute+'/'+ bot.id])" class="show-on-parent-hover  btn btn-theme-primary px-3 mr-2 "  [ngClass]="{'mr-auto': bot.bot_type !== 'chatbot'}">Edit
       </button>
-
+<!---->
     </div>
 
   </div>

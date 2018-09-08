@@ -52,6 +52,7 @@
         </select>
       </div> -->
 
+
       <div class="btn-group mb-1" dropdown *ngIf="isManager">
         <button id="button-basic" dropdownToggle type="button"
                 class="btn dropdown-toggle btn-theme-success-sm-outline"
@@ -60,13 +61,14 @@
         </button>
         <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
             role="menu" aria-labelledby="button-basic" style="max-height: 200px; overflow-y: scroll">
-          <li role="menuitem" *ngFor="let bot of (allbotList$ | async); let i = index;">
+          <li role="menuitem" *ngFor="let bot of allbotList; let i = index;">
             <a class="dropdown-item" (click)="addChildBot(bot)"
                *ngIf="!wannaDisable(bot.id)"
             >{{bot.name}}</a>
           </li>
         </ul>
       </div>
+      <!--<p>{{(allbotList|json)}}</p>-->
       <!-- <p>{{bot.child_bots|json}}</p> -->
       <div *ngIf="isManager" class="permissions-box">
             <span *ngFor="let childBotId of bot.child_bots"

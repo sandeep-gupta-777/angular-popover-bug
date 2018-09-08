@@ -23,7 +23,7 @@ export class BotSessionsComponent implements OnInit {
   @Input() id: string;
   test="asdasdsd";
   @Input() bot: IBot;
-  sessionItemToBeDecrypted:ISessionItem
+  sessionItemToBeDecrypted:ISessionItem;
   @ViewChild(SmartTableComponent) smartTableComponent: SmartTableComponent;
   sessions$: Observable<ISessions>;
   refreshSessions$: Observable<ISessions>;
@@ -174,7 +174,6 @@ export class BotSessionsComponent implements OnInit {
             this.utilityService.downloadArrayAsCSV(dataToDownload);
           }
         });
-
     }
     if (data.action === 'decrypt') {
       /*use dcrypt api*/
@@ -185,7 +184,6 @@ export class BotSessionsComponent implements OnInit {
     }
   }
   decryptSubmit(){
-
     let headerData: IHeaderData = {
       "bot-access-token": this.bot.bot_access_token
     };

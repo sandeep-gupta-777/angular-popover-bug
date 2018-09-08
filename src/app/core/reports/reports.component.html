@@ -8,18 +8,22 @@
       <ul class="nav nav-tabs my-2">
         <li class="nav-item">
           <a class="nav-link"
+             [routerLink]="['/core/reports']"
+             [queryParams]="{activeTab:'configure'}"
              (click)="tabClicked('configure')"
              [ngClass]="{'active' : activeTab ==='configure'}"><strong>Configure</strong></a>
         </li>
         <li class="nav-item">
           <a class="nav-link"
+             [routerLink]="['/core/reports']"
+             [queryParams]="{activeTab:'history'}"
              (click)="tabClicked('history')"
              [ngClass]="{'active' : activeTab ==='history'}"><strong>History</strong></a>
         </li>
       </ul>
     </div>
   </div>
-
+<!---->
   <div class="col-12" [hidden]="activeTab==='history'">
     <div class="col-12 d-flex justify-content-end pb-2">
       <button class="btn btn-theme-primary" (click)="navigateTocreateNewReport()">New Report</button>
@@ -29,6 +33,8 @@
       <app-smart-table
         [data]="reportSmartTableData"
         (rowClicked$)="goToReportEditComponent($event)"
+        [totalRecords]="totalReportRecords"
+        (pageChanged$)="reportTablePageChanged($event)"
         [settings]="SMART_TABLE_REPORTS_SETTING">
       </app-smart-table>
     </div>
@@ -38,7 +44,10 @@
     <div class="col-12">
       <app-smart-table
         [data]="reportHistorySmartTableData"
-        [settings]="SMART_TABLE_REPORT_HISORY_SETTING"></app-smart-table>
+        (pageChanged$)="reportHistoryTablePageChanged($event)"
+        [totalRecords]="totalReportRecords"
+        (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
+        [settings]="SMART_TABLE_REPORT_HISTORY_SETTING"></app-smart-table>
     </div>
   </div>
 </div>

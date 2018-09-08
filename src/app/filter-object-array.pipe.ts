@@ -21,7 +21,7 @@ export class FilterObjectArrayPipe implements PipeTransform {
     let modifiedarr =  arr.map((txnSessionMessagesItem: ITxnSessionMessagesItem) => {
       txnSessionMessagesItem.convoList = txnSessionMessagesItem.convoList.map((sessionMessageItem:ISessionMessageItem)=>{
         if(sessionMessageItem.message && sessionMessageItem.message.includes(messageSearchKeyword)){
-          sessionMessageItem.message = sessionMessageItem.message.replace(messageSearchKeyword, `<span class="text-highlight">${messageSearchKeyword}</span>`);
+          sessionMessageItem.messageByHuman = sessionMessageItem.message.replace(messageSearchKeyword, `<span class="text-highlight">${messageSearchKeyword}</span>`);
         }
         if(sessionMessageItem.message && sessionMessageItem.message[0].text && sessionMessageItem.message[0].text.includes(messageSearchKeyword)){
           sessionMessageItem.message[0].text = sessionMessageItem.message[0].text.replace(messageSearchKeyword, `<span class="text-highlight">${messageSearchKeyword}</span>`);

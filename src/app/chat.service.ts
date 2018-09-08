@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Store} from '@ngxs/store';
 import {ServerService} from './server.service';
 import {IHeaderData} from '../interfaces/header-data';
-import {EChatFrame, IMessageData} from '../interfaces/chat-session-state';
+import {EBotMessageMediaType, EChatFrame, IMessageData} from '../interfaces/chat-session-state';
 import {
   AddMessagesToRoomByRoomId,
   // AddMessagesToRoomByUId,
@@ -11,10 +11,11 @@ import {
   SetCurrentRoomID, SetLastTemplateKeyToRoomByRoomId,
   ToggleChatWindow
 } from './chat/ngxs/chat.action';
-import {ISendApiRequestPayload, ISendApiResponsePayload} from '../interfaces/send-api-request-payload';
+import {IGeneratedMessageItem, ISendApiRequestPayload, ISendApiResponsePayload} from '../interfaces/send-api-request-payload';
 import {ConstantsService} from './constants.service';
 import {IBot} from './core/interfaces/IBot';
 import {UtilityService} from './utility.service';
+import {IConsumerDetails} from './chat/ngxs/chat.state';
 
 @Injectable({
   providedIn: 'root'
@@ -28,12 +29,10 @@ export class ChatService {
     private constantsService: ConstantsService) {
   }
 
-  startNewChat(botDetails: { id: number, bot_access_token: string }, uid: string, messageByHuman: string, frameEnabled: EChatFrame) {
+  sendHumanMessageToBotServer(botDetails: { id: number, bot_access_token: string }, consumerDetails: IConsumerDetails, messageByHuman: string, frameEnabled: EChatFrame) {
     let url = this.constantsService.getStartNewChatLoginUrl();
     let body/*: ISendApiRequestPayload */ = {
-      'consumer': {
-        'uid': uid,
-      },
+      'consumer': consumerDetails,
       'type': 'human',
       'msg': messageByHuman || 'hi',
       'platform': 'web'
@@ -45,17 +44,35 @@ export class ChatService {
     };
     this.serverService.makePostReq({url, body, headerData})
       .subscribe((response: ISendApiResponsePayload) => {
-        let editedMessages: IMessageData[] = response.generated_msg.map((messgage: { text: string }) => {
+        let generatedMessage = response.generated_msg;
+        /*response from bot server*/
+        let editedMessages: IMessageData[] = generatedMessage.map((message: IGeneratedMessageItem) => {
+          /*check if media is the key
+          * if yes, return {message_type:media[0].type, ...message}
+          * else return it as tet
+          * */
+          if(Object.keys(message)[0] === "media"){
+            return {
+              messageMediatype:message.media[0].type,//
+              ...message,
+              time: this.utilityService.getCurrentTimeInHHMM(),
+              text:EBotMessageMediaType.image,//this is for preview of last message in chat room list
+              sourceType: 'bot'
+            }
+          }
+
           return {
-            ...messgage,
+            text: message.text,
             time: this.utilityService.getCurrentTimeInHHMM(),
-            type: 'bot'
+            sourceType: 'bot',
+            messageMediatype:EBotMessageMediaType.text
           };
         });
 
         this.store.dispatch([
           new AddMessagesToRoomByRoomId({
             id: response.room.id,
+            consumer_id: response.room.consumer_id,
             messageList: editedMessages,
             // uid,
             // bot_id: response.room.bot_id,

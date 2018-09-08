@@ -1,3 +1,5 @@
+import {EBotMessageMediaType} from './chat-session-state';
+
 export interface ISendApiRequestPayload {
   'bot_id': string,
   'consumer': {
@@ -23,10 +25,28 @@ export interface ISendApiRequestPayload {
   'platform': string
 }
 
+export interface IGeneratedMessageItem {
+  'text'?: string ,
+  "media"?: [
+    {
+      "buttons": [
+        {
+          "title": "URL Button",
+          "type": "web_url",//title
+          "url": "https://www.messenger.com/"/*TODO: we are not getting payload*/
+        }
+        ],
+      "title": "this is sample text for image ,it is optional",//use this
+      "type": EBotMessageMediaType//"image",//use this
+      "url": "https://wallpaperbrowse.com/media/images/soap-bubble-1958650_960_720.jpg"//use this
+    }
+    ],
+
+}
 export interface ISendApiResponsePayload {
   'TimeStamp': 1533902788.0,
-  'bot_msg': '',
-  'generated_msg': [{ 'text': 'gg{\'tag\': 8}working' }],
+  'bot_msg': string,
+  'generated_msg': IGeneratedMessageItem[],
   'messageStore': { 'endflow': true, 'templateKey': 'A1' },
   'room': {
     'agent_handover': false,

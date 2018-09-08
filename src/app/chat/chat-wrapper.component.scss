@@ -39,11 +39,10 @@
 
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 56px 1fr 56px;
+  grid-template-rows: 56px 1fr;
   grid-template-areas:
     'h'
-    'b'
-    'f';
+    'b';
 
   .header {
     grid-area: h;
@@ -70,26 +69,6 @@
     grid-area: b;
     background-color: white;
     overflow-y: hidden;
-  }
-  .footer {
-    grid-area: f;
-    //grid-row: 2/span2;
-    border-top: 1px solid $color-primary;
-    position: relative;
-    height: 100% !important;
-    background-color: rgb(236, 236, 236);;
-
-    input {
-      height: 80%;
-      width: 90%;
-      @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-secondary);
-      border-radius: 4px;
-      @include hide-borders();
-    }
-    .icon {
-      color: $color-primary;
-      font-size: 25px;
-    }
   }
 
 }
@@ -123,7 +102,10 @@ form {
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-template-rows: 60px 1fr 60px;
-  grid-template-areas: 'h1 h2' 'room chat' 'room  inputbox';
+  grid-template-areas:
+    'h1 h2'
+    'room chat'
+    'room  chat';
 
   .chat-rooms {
     grid-area: room;
@@ -139,23 +121,23 @@ form {
     max-height: 90vh;
     overflow-y: hidden;
   }
-  .footer {
-    grid-area: inputbox;
-    height: 100%;
-    background-color: rgba(200, 200, 200, 0.3);;
-    input {
-      height: 70%;
-      width: 95%;
-      @include typography(15px, $line-height-normal, $font-weight-400, $color-secondary);
-      @include hide-borders();
-      border-radius: 4px;
-      padding: 0 10px;
-    }
-    .icon {
-      font-size: 25px;
-      color: $color-primary;
-    }
-  }
+  //.footer {
+  //  grid-area: inputbox;
+  //  height: 100%;
+  //  background-color: rgba(200, 200, 200, 0.3);;
+  //  input {
+  //    height: 70%;
+  //    width: 95%;
+  //    @include typography(15px, $line-height-normal, $font-weight-400, $color-secondary);
+  //    @include hide-borders();
+  //    border-radius: 4px;
+  //    padding: 0 10px;
+  //  }
+  //  .icon {
+  //    font-size: 25px;
+  //    color: $color-primary;
+  //  }
+  //}
 
 }
 

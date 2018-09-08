@@ -1,40 +1,50 @@
 import {IConsumerDetails} from '../app/chat/ngxs/chat.state';
+import {IGeneratedMessageItem} from './send-api-request-payload';
 
 export enum EChatFrame {
-  WELCOME_BOX, CHAT_LIST,CHAT_BOX,
+  WELCOME_BOX, CHAT_LIST, CHAT_BOX,
 }
 
-export interface IMessageData {
-  'text': string,
-  type: string,//TODO: "timePeriod" ||"human", gives error, see why
-  time:string
+export enum EBotMessageMediaType{
+  image="image",
+  text="text"
 }
 
-export interface IRoomData{
-  id:number,
+export interface IMessageData extends IGeneratedMessageItem{
+  /*custom fields*/
+  sourceType: string,//TODO: "timePeriod" ||"human", gives error, see why
+  time: string,
+  messageMediatype:EBotMessageMediaType
+}
+
+export interface IRoomData {
+  id: number,
+  consumer_id?: number,
+  consumerDetails?: IConsumerDetails,
   bot_id?: number,
-  bot_access_token?:string,
+  bot_access_token?: string,
   'messageList': IMessageData[],
-  uid?:string,
-  "selectedAvatar"?: {
-    "id"?: number,
-    "imageUrl": string,
-    "name"?: string
+  uid?: string,
+  'selectedAvatar'?: {
+    'id'?: number,
+    'imageUrl': string,
+    'name'?: string
   },
-  lastTemplateKey?:string
+  lastTemplateKey?: string
 }
+
 export interface IChatSessionState {
 
   opened: boolean;
   frameEnabled: EChatFrame,
   currentRoomId: number,
   currentBotDetails: {
-    id:number,
-    name?:string,
-    logo?:string,
-    token?:string
+    id: number,
+    name?: string,
+    logo?: string,
+    token?: string
   },
-  currentUId:string,
-  rooms:IRoomData[],
-  consumerDetails:IConsumerDetails
+  currentUId: string,
+  rooms: IRoomData[],
+  consumerDetails: IConsumerDetails
 }

@@ -147,6 +147,10 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/reporthistory?page=${page}&pageSize=${pageSize}`; //https://dev.imibot.ai/reporthistory?page=1&pageSize=10
   }
 
+  getDownloadReportHistoryByIdUrl(id:number) {
+    return this.BACKEND_URL + `api/v1/reporthistory/downloadreports/?id=${id}`; //http://localhost:8000/api/v1/reporthistory/downloadreports/?id=10
+  }
+
   geReportTypesUrl() {
     return this.BACKEND_URL + 'api/v1/reporttypes/'; // http://dev.imibot.ai/api/v1/reporttypes
   }
@@ -255,7 +259,7 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/analytics/';//https://dev.imibot.ai/api/v1/analytics/
   }
 
-  updateEnterpriseNer(id) {/*TODO: is it enterprise id??*/
+  updateOrDeleteEnterpriseNer(id) {/*TODO: is it enterprise id??*/
     return this.BACKEND_URL + `api/v1/customner/${id}`; //https://dev.imibot.ai/api/v1/customner/12/
   }
 

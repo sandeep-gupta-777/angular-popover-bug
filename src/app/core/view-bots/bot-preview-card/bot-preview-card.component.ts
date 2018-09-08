@@ -67,13 +67,15 @@ export class BotPreviewCardComponent implements OnInit {
 
   openBot() {
 
+    this.router.navigate(['/core/viewbots/chatbot'], {queryParams:{preview:this.bot.id}});
+
     /*if a new bot is being opened=> clear previous chat state*/
     if(this.currentChatPreviewBotId && this.bot.id!==this.currentChatPreviewBotId){
       this.store.dispatch([
         new ResetChatState()
       ]).subscribe(()=>{
         this.store.dispatch([
-          new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX}),
+          // new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX}),
           new ToggleChatWindow({open: true}),
         ]).subscribe(() => {
           this.store.dispatch([
@@ -108,14 +110,20 @@ export class BotPreviewCardComponent implements OnInit {
     };
     this.serverService.makeDeleteReq({url, headerData})
       .subscribe((value) => {
-        this.serverService.getNSetBotList()
-          .subscribe(() => {
+        this.serverService.getNSetBotList().subscribe(() => {
             this.utilityService.showSuccessToaster('Bot successfully deleted!');
             this.store.dispatch([
               new DeleteChatRoomsByBotId({id: this.bot.id})
             ]);
           });
+
       });
+  }
+
+  navigateToBotDetailPage(event){//preview-button
+    if(!event.target.classList.contains('click-save-wrapper')){
+      this.router.navigate(['core/botdetail/'+this.parentRoute+'/'+ this.bot.id])/*TODO:improve it*/
+    }
   }
 
 

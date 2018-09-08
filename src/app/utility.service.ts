@@ -147,38 +147,38 @@ export class UtilityService {
       },
       yAxis: {
         min: 0,
-          title: {
+        title: {
           text: 'Total fruit consumption'
         },
         stackLabels: {
           enabled: true,
-            style: {
+          style: {
             fontWeight: 'bold',
-              color: 'gray'
+            color: 'gray'
           }
         }
       },
       legend: {
         align: 'right',
-          x: -30,
-          verticalAlign: 'top',
-          y: 25,
-          floating: true,
-          backgroundColor: 'white',
-          borderColor: '#CCC',
-          borderWidth: 1,
-          shadow: false
+        x: -30,
+        verticalAlign: 'top',
+        y: 25,
+        floating: true,
+        backgroundColor: 'white',
+        borderColor: '#CCC',
+        borderWidth: 1,
+        shadow: false
       },
       tooltip: {
         headerFormat: '<b>{point.x}</b><br/>',
-          pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
       },
       plotOptions: {
         column: {
           stacking: 'normal',
-            dataLabels: {
+          dataLabels: {
             enabled: true,
-              color: 'white'
+            color: 'white'
           }
         }
       },
@@ -186,10 +186,10 @@ export class UtilityService {
         name: 'John',
         data: [5, 3, 4, 7, 2]
       }]
-    }
+    };
 
-    let categories :string[] = rawData.map(dataItem => dataItem.labels);
-    let seriesData:number[] = rawData.map(dataItem => dataItem.result);
+    let categories: string[] = rawData.map(dataItem => dataItem.labels);
+    let seriesData: number[] = rawData.map(dataItem => dataItem.result);
     template.xAxis.categories = categories;
     template.series[0].data = seriesData;
     template.series[0].name = 'test';
@@ -208,9 +208,9 @@ export class UtilityService {
   convertDateTimeGraph(
     rawData: { activesessions: number, labels: string, totalsessions: number }[],
     xAxisLabel: string,
-    startTime_ms: number= Date.UTC(2010, 0, 2),//Date.UTC(2010, 0, 2),
-    granularity_Ms: number =24*3600*1000  // one day
-    ){
+    startTime_ms: number = Date.UTC(2010, 0, 2),//Date.UTC(2010, 0, 2),
+    granularity_Ms: number = 24 * 3600 * 1000  // one day
+  ) {
 
 
     let template = {
@@ -226,10 +226,10 @@ export class UtilityService {
       },
 
       series: [{
-        name:'sandeep',
+        name: 'sandeep',
         data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
       }, {
-        name:'gupta',
+        name: 'gupta',
         data: [144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4, 29.9, 71.5, 106.4, 129.2]
       }]
     };
@@ -356,26 +356,33 @@ export class UtilityService {
     return convertedData;
   }
 
-  showErrorToaster(error) {
-    this.toastr.error(error.message, error.name, {positionClass: 'toast-bottom-left', timeOut: 2000});
+  showErrorToaster(message) {
+    if (typeof message === 'string') {
+      this.toastr.error(message, null, {positionClass: 'toast-bottom-left', timeOut: 2000});
+      return;
+    } else {
+      this.toastr.error(message.message, null, {positionClass: 'toast-bottom-left', timeOut: 2000});
+    }
   }
 
   showSuccessToaster(message) {
     this.toastr.success(message, null, {positionClass: 'toast-bottom-left', timeOut: 2000});
   }
-
-  convertGranularityStrToMs(granularity:string):number{
-    if(granularity==='hour'){
-      return 3600*1000;
+  createRandomUid(){
+    return Date.now();
+  }
+  convertGranularityStrToMs(granularity: string): number {
+    if (granularity === 'hour') {
+      return 3600 * 1000;
     }
-    if(granularity==='day'){
-      return 24*3600*1000;
+    if (granularity === 'day') {
+      return 24 * 3600 * 1000;
     }
-    if(granularity==='month'){
-      return 30*24*3600*1000;
+    if (granularity === 'month') {
+      return 30 * 24 * 3600 * 1000;
     }
-    if(granularity==='year'){
-      return 365*24*3600*1000;
+    if (granularity === 'year') {
+      return 365 * 24 * 3600 * 1000;
     }
     // if(granularity==='day'){
     //   return 24*3600*1000;

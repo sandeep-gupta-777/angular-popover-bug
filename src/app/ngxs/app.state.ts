@@ -5,16 +5,12 @@ import {
   SetLastSateUpdatedTimeAction,
   SetMasterIntegrationsList,
   SetMasterProfilePermissions, SetPipelineModuleMasterData,
-  SetProgressValue,
+  SetProgressValue, SetShowBackendURlRoot,
   SetStateFromLocalStorageAction
 } from './app.action';
-import {INavigationState} from './navigation.state';
-import {IAuthState} from '../auth/ngxs/auth.state';
 import {ConstantsService} from '../constants.service';
-import {defaultChatState} from '../chat/ngxs/chat.state';
 import {IIntegrationMasterListItem} from '../../interfaces/integration-option';
 import {IProfilePermission} from '../../interfaces/profile-action-permission';
-import {stringify} from 'querystring';
 import {ICustomNerItem} from '../../interfaces/custom-ners';
 import {IPipelineItem} from '../../interfaces/ai-module';
 
@@ -31,6 +27,7 @@ export interface IAppState /*extends INavigationState, IAuthState */
   masterProfilePermissions: IProfilePermission[],
   masterPipelineItems: IPipelineItem[],
   backendUrlRoot:string,
+  showBackendUrlRootButton:boolean,
   enterpriseNerData:ICustomNerItem[]
 }
 
@@ -44,6 +41,7 @@ const appDefaultState: IAppState = {
   masterIntegrationList: null,
   masterProfilePermissions:null,
   backendUrlRoot:'https://dev.imibot.ai/',
+  showBackendUrlRootButton:false,
   enterpriseNerData:[],
   masterPipelineItems: null
 };
@@ -89,6 +87,11 @@ export class AppStateReducer {
   @Action(SetBackendURlRoot)
   setBackendURlRoot({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetBackendURlRoot) {
     patchState({backendUrlRoot: payload.payload.url});
+  }
+
+  @Action(SetShowBackendURlRoot)
+  setShowBackendURlRoot({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetShowBackendURlRoot) {
+    patchState({showBackendUrlRootButton: payload.payload.showBackendURlRoot});
   }
 
   @Action(SetEnterpriseNerData)

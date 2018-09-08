@@ -29,7 +29,7 @@ export class AuthGaurdService implements CanActivate, CanActivateChild, CanLoad 
   }
 
   canActivateChild() {
-    // return true;
+
 
     return this.loggeduser$.map((value: IAuthState) => {
       if (value.user != null) {
@@ -41,9 +41,9 @@ export class AuthGaurdService implements CanActivate, CanActivateChild, CanLoad 
     });
   }
 
-  // canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
-  canLoad(route: Route):any{
+  canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
     // return true;
+
 
     return this.loggeduser$.map((value: IAuthState) => {
       if (value.user != null) {
