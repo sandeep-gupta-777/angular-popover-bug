@@ -32,7 +32,7 @@
 <!--Template for modal-->
 <ng-template #template>
   <div class="modal-header bg-danger">
-    <h4 class="modal-title heading pull-left text-white">Really delete: <strong>{{bot.name}}</strong>?</h4>
+    <h4 class="modal-title heading pull-left text-white">Delete: <strong>{{bot.name}}</strong>?</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true" class="text-white">&times;</span>
     </button>
@@ -182,7 +182,7 @@
     </div>
     <div class="grid-bot-preview-details grid-bot-preview-third-row details2 pl-2" style="align-self: center">
       <div class="">Unique Name : {{bot.bot_unique_name}}</div>
-      <div class="">Last Updated : {{bot.updated_at|date:'mediumDate'}}</div>
+      <div class="">Last Updated : {{bot.updated_by}}, {{bot.updated_at|date:'mediumDate'}}</div>
     </div>
     <i class="fa fa-users icon2" *ngIf="bot.child_bots.length>0"></i>
 
