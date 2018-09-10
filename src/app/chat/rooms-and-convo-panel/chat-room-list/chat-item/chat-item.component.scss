@@ -10,7 +10,7 @@
   @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-text-normal);
   border-radius: 1px;
   .message-text{
-
+    font-size:11px;
   }
   .time{
     @include typography(9px, $line-height-normal, $font-weight-400, $color-text-normal);

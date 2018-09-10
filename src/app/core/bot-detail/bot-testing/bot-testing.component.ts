@@ -64,6 +64,7 @@ export class BotTestingComponent implements OnInit {
         else {
           this.isData = true;
           let testCaseData = value.objects[0].data;
+          
           let testCaseDataForBot: ITestcases = value.objects.find((testcase) => {
             return testcase.bot_id === this.bot.id
           });
