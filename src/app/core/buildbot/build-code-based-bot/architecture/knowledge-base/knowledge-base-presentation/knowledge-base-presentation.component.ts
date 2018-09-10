@@ -54,8 +54,9 @@ export class KnowledgeBasePresentationComponent implements OnInit {
     })
   }
   async openFile(inputEl) {
-    // this.codeTextInputToCodeEditor = await this.utilityService.readInputFileAsText(inputEl);
+
     this.codeTextInputToCodeEditorObj.text = await this.utilityService.readInputFileAsText(inputEl);
+    this.codeTextInputToCodeEditorObj = {...this.codeTextInputToCodeEditorObj};
   }
 
   textChanged(codeText) {

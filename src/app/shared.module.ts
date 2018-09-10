@@ -32,7 +32,7 @@ import {DragulaModule} from 'ng2-dragula';
 import {
   BsDatepickerModule,
   BsDropdownModule,
-  ModalModule,
+  ModalModule, PopoverModule,
   ProgressbarModule,
   TabsModule,
   TimepickerModule,
@@ -85,6 +85,7 @@ import {ClickOutsideModule} from 'ng2-click-outside';
     ProgressbarModule,
     TabsModule.forRoot(),
     ClickOutsideModule,
+    PopoverModule.forRoot()
 
   ],
   exports:[
@@ -128,7 +129,9 @@ import {ClickOutsideModule} from 'ng2-click-outside';
     TabsModule,
     TimepickerModule,
     TooltipModule,
-    ClickOutsideModule
+    ClickOutsideModule,
+    PopoverModule
+
 
 
   ]

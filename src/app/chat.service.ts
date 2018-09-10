@@ -51,12 +51,22 @@ export class ChatService {
           * if yes, return {message_type:media[0].type, ...message}
           * else return it as tet
           * */
+
+          debugger;
           if(Object.keys(message)[0] === "media"){
             return {
               messageMediatype:message.media[0].type,//
               ...message,
               time: this.utilityService.getCurrentTimeInHHMM(),
               text:EBotMessageMediaType.image,//this is for preview of last message in chat room list
+              sourceType: 'bot'
+            }
+          }else if(Object.keys(message)[0] === "quick_reply"){
+            return {
+              messageMediatype:EBotMessageMediaType.quickReply,//
+              ...message,
+              time: this.utilityService.getCurrentTimeInHHMM(),
+              text:EBotMessageMediaType.quickReply,//this is for preview of last message in chat room list
               sourceType: 'bot'
             }
           }

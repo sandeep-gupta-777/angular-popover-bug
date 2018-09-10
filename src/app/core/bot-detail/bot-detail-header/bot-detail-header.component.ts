@@ -20,6 +20,7 @@ export class BotDetailHeaderComponent implements OnInit {
 
   @Input() bot: IBot;
   myObject = Object;
+  showSpinIcon =false;
   @Output() refreshBotDetails$ = new EventEmitter();
   modalRef: BsModalRef;
 
@@ -45,18 +46,23 @@ export class BotDetailHeaderComponent implements OnInit {
 
   updateBot() {
 
+    let bot = this.utilityService.performFormValidationBeforeSaving(this.bot);
+    if(!bot) return;
+
     let url = this.constantsService.updateBotUrl(this.bot.id);
     let headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-    if(this.bot.store_selected_version!== this.bot.active_version_id){
+    if(this.bot.store_selected_version && this.bot.store_selected_version!== this.bot.active_version_id){
       if(!confirm("active version has been changed")) return;
       this.bot.active_version_id = this.bot.store_selected_version;
     }
     let body = this.constantsService.updateBotSerializer(this.bot);
+    if(!body.logo){
+      body.logo = 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png';
+    }
     this.serverService.makePutReq({url, body, headerData})
       .subscribe((updatedBot:IBot) => {
-
         this.store.dispatch([
           new UpdateBotInfoByIdInBotInBotList({botId:this.bot.id, data:updatedBot})
         ]);
@@ -65,7 +71,11 @@ export class BotDetailHeaderComponent implements OnInit {
   }
 
   refreshBotDetails() {
-
+    this.showSpinIcon =true;
+    setTimeout(()=>{
+     this.showSpinIcon = false;
+    },2000);
+    this.refreshBotDetails$.emit()
   }
 
   deleteBot(){

@@ -5,6 +5,7 @@ import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {IBot} from './core/interfaces/IBot';
 import {IIntegrationOption} from '../interfaces/integration-option';
+import {DatePipe} from '@angular/common';
 
 // import {IGlobalState} from '../interfaces/global-state';
 @Injectable({
@@ -42,7 +43,7 @@ export class ConstantsService {
     'dateInputFormat': 'DD/MM/YYYY',
   });
 
-  constructor() {
+  constructor( private datePipe: DatePipe) {
     this.app$.subscribe((value)=>{
       this.BACKEND_URL = (value && value.backendUrlRoot) || 'https://dev.imibot.ai/';
     });
@@ -110,6 +111,10 @@ export class ConstantsService {
     return this.BACKEND_URL + 'analytics/totalSessions/'; //https://dev.imibot.ai/analytics/totalSessions
   }
 
+  getSessionsByIdUrl(id) {
+    return this.BACKEND_URL + `api/v1/room/${id}/`; //https://dev.imibot.ai/api/v1/room/9913/
+  }
+
   getSessionsMessageUrl(room_id: number) {
     return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}`; //https://dev.imibot.ai/api/v1/message/?room_id=60
   }
@@ -139,12 +144,12 @@ export class ConstantsService {
     return this.BACKEND_URL + 'analytics/channelWiseAverageSessionTime/'; //https://dev.imibot.ai/analytics/channelWiseAverageSessionTime
   }
 
-  getReportUrl(page = 1, pageSize = 10) {
-    return this.BACKEND_URL + `api/v1/reports?page=${page}&pageSize=${pageSize}`; //{{url}}/reports?page=1&pageSize=10
+  getReportUrl(limit = 1, offset = 10) {//limit: number, offset: number
+    return this.BACKEND_URL + `api/v1/reports?limit=${limit}&offset=${offset}`; //{{url}}/reports?limit=1&offset=10
   }
 
-  getReportHistoryUrl(page = 1, pageSize = 10) {
-    return this.BACKEND_URL + `api/v1/reporthistory?page=${page}&pageSize=${pageSize}`; //https://dev.imibot.ai/reporthistory?page=1&pageSize=10
+  getReportHistoryUrl(limit = 1, offset = 10) {
+    return this.BACKEND_URL + `api/v1/reporthistory?limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/reporthistory?limit=1&offset=10
   }
 
   getDownloadReportHistoryByIdUrl(id:number) {
@@ -357,7 +362,12 @@ export class ConstantsService {
         width:'150px'
       },
       updated_at: {
-        title: 'Updated At'
+        title: 'Updated At',
+        valuePrepareFunction: (date) => {
+          var raw = new Date(date);
+          var formatted = this.datePipe.transform(raw, 'medium');
+          return formatted;
+        }
       },
       sendtoagent: {
         title: 'Sent to Agent'
@@ -467,9 +477,12 @@ export class ConstantsService {
 
   readonly HANDSON_TABLE_BOT_TESTING_colHeaders = ['Message', 'Expected Template', 'Status','Generated Template','RoomId','TransactionId'];
   readonly HANDSON_TABLE_BOT_TESTING_columns = [
-    {data: 0, type: 'text'},
-    {data: 1, type: 'text'},
-    {data: 2, type: 'text'},
+    {data: 0, type: 'text', },
+    {data: 1, type: 'text', },
+    {data: 2, type: 'text', readOnly: true},
+    {data: 3, type: 'text'},
+    {data: 4, type: 'text'},
+    {data: 5, type: 'text'},
   ];
   readonly HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders = ['Key', 'Title', 'Payload'];
   readonly HANDSON_TABLE_KNOWLEDGE_BASE_columns = [

@@ -6,7 +6,6 @@
     <div class="search-theme-input-with-search">
       <span class="fa fa-search"></span>
       <input type="search" placeholder="Filter Modules" [(ngModel)]="searchKeyword" class="border">
-
     </div>
   </div>
 
@@ -28,8 +27,8 @@
       <h4 class="heading mt-3 mb-4">Bot Intelligence Pipeline</h4>
       <div class="flex-grow-1"  [dragula]='"first-bag"' [dragulaModel]='pipeLine'>
         <div *ngFor="let aiModule of (pipeLine|pipelineFilter:searchKeyword);let targetIndexNew = index">
-          <div class="border mb-2 mr-3 module-box"
-               [ngClass]="{'bg-grey':aiModule.$$hashKey==='PLACE_HOLDER'}">
+          <div class="border mb-2 mr-3 module-box border-danger"
+               [ngClass]="{'bg-grey':aiModule.$$hashKey==='PLACE_HOLDER', 'border-danger':!utilityService.checkIfAllPipelineInputParamsArePopulated([aiModule])}">
             {{aiModule.unique_name||aiModule.id}}
             <div>
               <i *ngIf=" aiModule && aiModule.input_params && myObject.keys(aiModule.input_params).length>0" (click) = "openCreateBotModal(Primarytemplat,aiModule);" class="fa fa-cog pl-1" aria-hidden="true"></i>

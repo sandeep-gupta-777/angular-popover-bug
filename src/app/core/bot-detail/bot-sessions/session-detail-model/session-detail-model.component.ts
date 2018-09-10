@@ -67,7 +67,9 @@ export class SessionDetailModelComponent implements OnInit {
     // this.loadSessionById(this._session.id);
   }
 
+  showSpinIcon:boolean = false;
   loadSessionById(id) {
+    this.showSpinIcon = true;
     this.url = this.constantsService.getSessionsMessageUrl(id);
     this.sessionMessageData$ = this.serverService.makeGetReq<ISessionMessage>({
       url: this.url,
@@ -78,6 +80,7 @@ export class SessionDetailModelComponent implements OnInit {
       this.totalMessagesCount = value.meta.total_count;
       this.sessionMessageData = value.objects;
       this.sessionMessageDataCopy = [...this.sessionMessageData];
+      this.showSpinIcon = false;
     });
     this.tabClicked(this.activeTab);
   }

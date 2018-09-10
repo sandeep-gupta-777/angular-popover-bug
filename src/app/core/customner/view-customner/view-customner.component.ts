@@ -80,7 +80,7 @@ export class ViewCustomnerComponent implements OnInit {
   }
 
   updateOrSaveCustomNer(selectedOrNewRowData: ICustomNerItem) {
-    debugger;
+
     this.serverService.updateOrSaveCustomNer(selectedOrNewRowData)
       .subscribe((value: ICustomNerItem) => {
         // (<any>this.custumNerDataForSmartTable).push({...value,highlight:true});
@@ -109,7 +109,7 @@ export class ViewCustomnerComponent implements OnInit {
   deleteNer(ner_id: number) {
     this.serverService.deleteNer(ner_id)
       .subscribe(() => {
-        debugger;
+
         this.utilityService.showSuccessToaster('Successfully deleted!');
         this.router.navigate([`/core/customner`]);
         let indexToBeDeleted = this.custumNerDataForSmartTable.findIndex((nerObj) => nerObj.id == ner_id);

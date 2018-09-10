@@ -38,6 +38,7 @@ import { LimitObjectArraysStringPipe } from './consumers/limit-object-arrays-str
 import { ConsumerFullscreenWrapperComponent } from './consumers/consumer-fullscreen-wrapper/consumer-fullscreen-wrapper.component';
 import {EBotType} from '../view-bots/view-bots.component';
 import {AuthGaurdService} from '../../auth-gaurd.service';
+import {RequiredIfOneFilledValidator} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/requiredIfOneFilledValidator.directive';
 
 const routes: Route[] = [
   {
@@ -52,6 +53,7 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [
+
     CodeBasedBotDetailComponent,
     PipelineBasedBotDetailComponent,
     BotDetailHeaderComponent,
@@ -73,7 +75,9 @@ const routes: Route[] = [
     DropTargetDirective,
     KnowledgeBaseWrapperComponent,
     LimitObjectArraysStringPipe,
-    ConsumerFullscreenWrapperComponent
+    ConsumerFullscreenWrapperComponent,
+/*after lazy loading*/
+    RequiredIfOneFilledValidator
   ],
   imports: [
     CommonModule,

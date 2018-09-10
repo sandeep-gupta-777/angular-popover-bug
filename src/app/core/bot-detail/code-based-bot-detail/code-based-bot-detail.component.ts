@@ -48,12 +48,13 @@ export class CodeBasedBotDetailComponent implements OnInit {
     /*TODO: replace this code by writing proper selector*/
     this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || "architecture";
     /*this.bot$ = */
-    this.botlist$.map((botListState) => {
+    this.botlist$.subscribe((botListState) => {
+
       if(botListState.allBotList)
       return this.bot =  botListState.allBotList.find((bot) => {
         return bot.id === this.bot_id;
       });
-    }).subscribe(()=>{});
+    })
     this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab')||'pipeline';
 
     this.start_date = this.utilityService.getPriorDate(0);

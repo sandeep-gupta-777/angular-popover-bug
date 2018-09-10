@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {Store, Select} from '@ngxs/store';
 import {IBot, IBotVersionData, IBotVersionResult, ICode} from '../../../../../interfaces/IBot';
 import {ServerService} from '../../../../../../server.service';
@@ -6,7 +6,7 @@ import {ConstantsService} from '../../../../../../constants.service';
 import {SaveVersionInfoInBot} from '../../../../../view-bots/ngxs/view-bot.action';
 import {SaveCodeInfo} from '../../../../ngxs/buildbot.action';
 import {ViewBotStateModel} from '../../../../../view-bots/ngxs/view-bot.state';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {IHeaderData} from '../../../../../../../interfaces/header-data';
 import {UtilityService} from '../../../../../../utility.service';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -22,10 +22,11 @@ import {EBotType} from '../../../../../view-bots/view-bots.component';
   templateUrl: './code-input.component.html',
   styleUrls: ['./code-input.component.scss']
 })
-export class CodeInputComponent implements OnInit {
+export class CodeInputComponent implements OnInit, OnDestroy {
 
   activeTab: string = 'df_template';
   @Select() botlist$: Observable<ViewBotStateModel>;
+  botlist$_sub:Subscription;
   @Select() botcreationstate$: Observable<IBotCreationState>;
   @Input() bot: IBot;
   @Output() datachanged$ = new EventEmitter();
@@ -33,7 +34,7 @@ export class CodeInputComponent implements OnInit {
   forked_From: number;
   forked_comments: string;
   errorMessage: string;
-  forked_version_id: number;
+  forked_version_number: number;
   // @ViewChild('fork_new_version_form') fork_new_version_form: HTMLFormElement;
 
   editorCode;
@@ -73,6 +74,7 @@ export class CodeInputComponent implements OnInit {
 
   ngOnInit() {
     // this.workflows = this.timePeriod.workflows;
+
     let url = this.constantsService.getAllVersionsByBotId();//comperror
     let botId = this.bot.id;
     this.serverService.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
@@ -82,7 +84,7 @@ export class CodeInputComponent implements OnInit {
           new SaveVersionInfoInBot({data: botVersionResult.objects, botId: this.bot.id})
         ]);
       });
-    this.botlist$.subscribe((value) => {
+    this.botlist$_sub = this.botlist$.subscribe((value) => {
       let activeVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.find((BotVersion) => {
         return this.bot.active_version_id === BotVersion.id;
       });
@@ -97,9 +99,9 @@ export class CodeInputComponent implements OnInit {
       if (!this.selectedVersion) {
         this.selectedVersion = activeVersion;
         this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab') || 'df_template';
-        this.tabClicked(this.activeTab);
       }
       this.bot.store_selected_version = this.selectedVersion && this.selectedVersion.id;
+      this.tabClicked(this.activeTab);
 
     }, (err) => {
       console.log(err);
@@ -110,6 +112,7 @@ export class CodeInputComponent implements OnInit {
 
   async openFile(inputEl) {
     this.editorCodeObj.text= await this.utilityService.readInputFileAsText(inputEl);
+    this.editorCodeObj = {...this.editorCodeObj};
   }
 
   @ViewChild(CodeEditorComponent) codeEditorComponent:ElementRef;
@@ -235,15 +238,15 @@ export class CodeInputComponent implements OnInit {
 
   forkNewVersion() {
 
-    if (!this.forked_version_id) {
+    if (!this.forked_version_number) {
       this.flashErrorMessage('Please select version id');
       return;
     }
     this.modalRef.hide();
-    let forkedVersionInfo = this.bot.store_bot_versions.find((versions) => versions.id == this.forked_version_id);
+    let forkedVersionInfo = this.bot.store_bot_versions.find((versions) => versions.version == this.forked_version_number);
     forkedVersionInfo = {...forkedVersionInfo};
     forkedVersionInfo.comment = this.forked_comments;
-    forkedVersionInfo.forked_from = this.forked_version_id;
+    forkedVersionInfo.forked_from = this.forked_version_number;
     let headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
@@ -277,5 +280,9 @@ export class CodeInputComponent implements OnInit {
     setTimeout(() => {
       this.errorMessage = '';
     }, 3000);
+  }
+
+  ngOnDestroy(): void {
+    this.botlist$_sub && this.botlist$_sub.unsubscribe();
   }
 }

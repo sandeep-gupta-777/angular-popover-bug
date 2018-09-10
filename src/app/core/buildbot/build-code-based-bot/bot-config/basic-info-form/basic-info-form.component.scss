@@ -1,36 +1,36 @@
 @import "~src/sass/mixins";
 @import "~src/sass/variables";
 
-.bot-creation-form{
-  .form-group{
+.bot-creation-form {
+  .form-group {
     height: 46px;
   }
-  label{
-    @include typography(11px,1.45,$font-weight-normal,$color-secondary);
+  label {
+    @include typography(11px, 1.45, $font-weight-normal, $color-secondary);
     padding-bottom: 0;
     margin-bottom: 4px;
   }
-  input{
+  input {
     padding: 0;
     padding-bottom: 8px;
     margin-top: 0;
-    margin-left:  1px;
+    margin-left: 1px;
     @include hide-borders();
     border-bottom: solid 1px #e0e0e0;
     border-radius: 0;
-    @include typography($font-size-normal,$line-height-normal,$font-weight-normal,$color-text-normal);
+    @include typography($font-size-normal, $line-height-normal, $font-weight-normal, $color-text-normal);
 
   }
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   opacity: 1; /* Firefox */
-  @include typography($font-size-xs,$line-height-md,$font-weight-normal,$color-secondary);
+  @include typography($font-size-xs, $line-height-md, $font-weight-normal, $color-secondary);
   padding: 0;
 
 }
 
-ui-switch{
+ui-switch {
   padding-right: 100px;
 }
 
@@ -45,4 +45,6 @@ ui-switch{
   border-radius: 2px;
   align-content: start;
 }
+
+
 

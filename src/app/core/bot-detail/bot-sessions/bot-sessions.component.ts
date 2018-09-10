@@ -164,7 +164,7 @@ export class BotSessionsComponent implements OnInit {
 
     if (data.action === 'download') {
       /*download the conversation for the record*/
-      this.loadSessionById(data.data.id)
+      this.loadSessionMessagesById(data.data.id)
         .subscribe((value: any) => {
           let dataToDownload = value.objects;
           if (dataToDownload.length === 0) {
@@ -198,9 +198,17 @@ export class BotSessionsComponent implements OnInit {
   openCreateBotModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: 'modal-md' });
   }
-  loadSessionById(id) {
+  loadSessionMessagesById(id) {
     this.url = this.constantsService.getSessionsMessageUrl(id);
-    return this.serverService.makeGetReq<{objects: ISessionItem[]}>({
+    return this.serverService.makeGetReq<ISessionItem>({
+      url: this.url,
+      headerData: {'bot-access-token': this.bot.bot_access_token}
+    });
+  }
+  loadSessionById(id) {
+    // this.url = this.constantsService.getSessionsMessageUrl(id);
+    this.url = this.constantsService.getSessionsByIdUrl(id);
+    return this.serverService.makeGetReq<ISessionItem>({
       url: this.url,
       headerData: {'bot-access-token': this.bot.bot_access_token}
     });
@@ -208,9 +216,9 @@ export class BotSessionsComponent implements OnInit {
 
   performSearchInDbForSession(data){
     this.loadSessionById(data["Room ID"])
-      .subscribe((value:{objects: ISessionItem[]})=>{
-
-          this.sessions = [...this.sessions, ...value.objects];
+      .subscribe((session:ISessionItem)=>{
+        this.sessions.push(session);
+          this.sessions = [...this.sessions];
       });
   }
 

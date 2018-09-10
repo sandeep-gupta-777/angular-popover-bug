@@ -24,8 +24,8 @@ import {IBot, IBotCreation} from '../../interfaces/IBot';
 
 
 export interface IBotCreationState {
-  codeBased: IBotCreation,
-  pipeLineBased: IBotCreation
+  codeBased: IBot,
+  pipeLineBased: IBot
 }
 const defaultBuildBotState = {
   codeBased: null,
@@ -110,21 +110,21 @@ export class BotCreationStateReducer {
     setState({...state});
   }
 
-  @Action(SaveCodeInfo)
-  saveCodeInfo({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveCodeInfo) {
-    // ;
-    let state: IBotCreationState = getState();
-    patchState({
-      codeBased: {
-        ...state.codeBased,
-        code: {
-          ...state.codeBased.code
-          , ...payload.data.code
-
-        }
-      }
-    });
-  }
+  // @Action(SaveCodeInfo)
+  // saveCodeInfo({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveCodeInfo) {
+  //   // ;
+  //   let state: IBotCreationState = getState();
+  //   patchState({
+  //     codeBased: {
+  //       ...state.codeBased,
+  //       code: {
+  //         ...state.codeBased.code
+  //         , ...payload.data.code
+  //
+  //       }
+  //     }
+  //   });
+  // }
 
   @Action(SaveIntegrationInfo)
   SaveIntegrationInfo({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveIntegrationInfo) {

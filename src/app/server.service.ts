@@ -51,10 +51,10 @@ export class ServerService {
 
   createHeaders(headerData?: any): HttpHeaders {
     let headers = new HttpHeaders();
-    let tokenData = {};
+    let tokenData:IHeaderData = {};
     tokenData = {'user-access-token': this.X_AXIS_TOKEN};
     tokenData = {...tokenData, 'auth-token': this.AUTH_TOKEN};
-    tokenData = {...tokenData, 'Content-Type': 'application/json'};
+    tokenData = {...tokenData, 'content-type': 'application/json'};
 
     headerData = {
       ...tokenData,
@@ -78,6 +78,23 @@ export class ServerService {
         this.changeProgressBar(false, 100);
       })
       .catch((e: any, caught: Observable<T>) => {
+        console.log(e);
+        this.changeProgressBar(false, 100);
+
+        this.utilityService.showErrorToaster(e);
+        return _throw('error');
+      });
+  }
+
+  makeGetReqToDownloadFiles(reqObj: { url: string, headerData?: any }){
+    let headers = this.createHeaders(reqObj.headerData);
+
+    this.changeProgressBar(true, 0);
+    return this.httpClient.get(reqObj.url, {headers: headers, responseType:'text'})
+      .do((value) => {
+        this.changeProgressBar(false, 100);
+      })
+      .catch((e: any) => {
         console.log(e);
         this.changeProgressBar(false, 100);
 

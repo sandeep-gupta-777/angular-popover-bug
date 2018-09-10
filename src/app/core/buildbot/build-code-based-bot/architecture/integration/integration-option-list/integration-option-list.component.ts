@@ -9,6 +9,7 @@ import {ConstantsService} from '../../../../../../constants.service';
 import {Observable} from 'rxjs';
 import {IBotCreationState} from '../../../../ngxs/buildbot.state';
 import {IAppState} from '../../../../../../ngxs/app.state';
+import {EFormValidationErrors} from '../../../../../../utility.service';
 
 @Component({
   selector: 'app-integration-option-list',
@@ -118,7 +119,10 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
 
     this.f_new.valueChanges.debounceTime(1000).subscribe((integrationInfo: IIntegrationOption) => {
       if (!this.f_new.dirty) return;
-      this.datachanged$.emit({integrations: integrationInfo});
+      let formValidityObj =  {};
+      formValidityObj[EFormValidationErrors.form_validation_integration] = this.f_new && this.f_new.valid;
+
+      this.datachanged$.emit({integrations: integrationInfo,...formValidityObj});
       // if (this.routeParent['buildBot'])
       //   this.store.dispatch([
       //     new SaveBasicInfo({data: {integrations: integrationInfo}})

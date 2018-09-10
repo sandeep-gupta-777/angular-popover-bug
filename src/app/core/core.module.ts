@@ -38,6 +38,7 @@ import {ViewCustomnerComponent} from './customner/view-customner/view-customner.
 import {AuthGaurdService} from '../auth-gaurd.service';
 import {EBotType} from './view-bots/view-bots.component';
 import {CardCarouselComponent} from '../chat/carousel/card-carousel/card-carousel.component';
+import {QuickReplyComponent} from '../chat/carousel/quick-reply/quick-reply.component';
 // import { IntegrationNameFormatterPipe } from './buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-name-formatter.pipe';
 
 const routes: Route[] = [
@@ -74,7 +75,7 @@ const routes: Route[] = [
       {path: 'profile', component: ProfileComponent, canActivate:[AuthGaurdService]},
       {path: 'reports', component: ReportsComponent, canActivate:[AuthGaurdService]},
       {path: 'reports/edit/:_id', component: ReportDetailsComponent, canActivate:[AuthGaurdService]},
-      {path: 'reports/create', component: ReportDetailsComponent, canActivate:[AuthGaurdService]},
+      {path: 'reports/create', component: ReportDetailsComponent, canActivate:[AuthGaurdService], data:{name:"create_report"}},
       {path: 'documentation', component: DocumentationComponent, canActivate:[AuthGaurdService]},
       // {path: 'buildbot/codebased', component: BuildCodeBasedBotComponent, canActivate:[AuthGaurdService]},
       // {path: 'buildbot/intelligent', component: BuildPipelineBasedBotComponent, canActivate:[AuthGaurdService]},
@@ -130,6 +131,7 @@ const routes: Route[] = [
 
     /*added after lazy loading*/
     CardCarouselComponent,
+    QuickReplyComponent
 
   ],
   imports: [
