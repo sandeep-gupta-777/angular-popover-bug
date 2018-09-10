@@ -21,6 +21,7 @@ import {UtilityService} from '../utility.service';
 import {IBot} from '../core/interfaces/IBot';
 import {ViewBotStateModel} from '../core/view-bots/ngxs/view-bot.state';
 import {IConsumerDetails} from './ngxs/chat.state';
+import { IEnterpriseProfileInfo } from '../../interfaces/enterprise-profile';
 
 export interface IBotPreviewFirstMessage {
   'generated_msg': [
@@ -71,6 +72,7 @@ export class ChatWrapperComponent implements OnInit {
   @Select() chatsessionstate$: Observable<IChatSessionState>;
   @Select() loggeduser$: Observable<IAuthState>;
   @Select() botlist$: Observable<ViewBotStateModel>;
+  @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   @ViewChild('scrollMe') myScrollContainer: ElementRef;
   frameEnabled: EChatFrame = EChatFrame.WELCOME_BOX;
   myEChatFrame = EChatFrame;//This is required to use enums in template, we can't use enums direactly in templates
@@ -83,13 +85,13 @@ export class ChatWrapperComponent implements OnInit {
   customConsumerDetails:IConsumerDetails;
   bot_access_token: string;
   currentBotId: number;
-  currentBot: IBot;
+  currentBot: any;
   allBotList: IBot[];
   chatWindowTitle: string = 'Start Chat';
   messageByHuman: string = '';
   isFullScreenPreview;
   welcomeScreenBotId:number;
-
+  logoSrc = 'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg';
   constructor(private store: Store,
               private serverService: ServerService,
               private constantsService: ConstantsService,
@@ -115,7 +117,9 @@ export class ChatWrapperComponent implements OnInit {
         this.frameEnabled = EChatFrame.WELCOME_BOX;
       }
     });
-
+    this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo)=>{
+      this.logoSrc = enterpriseProfileInfo.logo || this.logoSrc;
+    });
     this.isFullScreenPreview = this.activatedRoute.snapshot.data.isFullScreenPreview;
     /*This is to access route data from non-subtree component
     * see: https://github.com/angular/angular/issues/11812

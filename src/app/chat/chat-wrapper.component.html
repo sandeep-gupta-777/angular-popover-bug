@@ -41,7 +41,7 @@
         </form>
       </div>
 
-      <i class="fa fa-window-minimize cursor-pointer" (click)="closeChatWindow()"></i>
+      <i class="fa fa-minus cursor-pointer" (click)="closeChatWindow()"></i>
     </div>
     <div class="body p-0 border-left border-right" [ngClass]="{'make-body-occupy-footer':frameEnabled!==myEChatFrame.CHAT_BOX}">
       <app-bot-welcome (startnewchat$)="startNewChat($event)" [bot_id]="welcomeScreenBotId" *ngIf="frameEnabled === myEChatFrame.WELCOME_BOX"></app-bot-welcome>
@@ -78,7 +78,7 @@
 <!--===============FULL SCREEN BELOW===================-->
 <div *ngIf="isFullScreenPreview" class="grid-chat-preview-full-screen">
   <div class="header1 bg-theme-primary px-3 d-flex align-items-center">
-    <img class="logo-md mr-2" src="https://image.flaticon.com/icons/svg/17/17004.svg" alt="">
+    <img class="logo-md mr-2 border-radius" src="{{logoSrc}}" alt="" style="border-radius: 50%;">
     <div class="d-flex flex-column text-white">
       <div>{{loggeduser.user.first_name}}</div>
       <div class="font-11">{{loggeduser.user.email}}</div>
@@ -88,7 +88,7 @@
     <!--<img class="logo-md" src="https://image.flaticon.com/icons/svg/17/17004.svg" alt="">-->
     <img class="logo-md mr-2" [src]="selectedAvatar.imageUrl||'https://image.flaticon.com/icons/svg/17/17004.svg'">
     <div class="d-flex flex-column text-white">
-      <div>Weathery</div>
+      <div>{{currentBot.name}}</div>
       <div class="font-11">Description</div>
     </div>
     <!---->
@@ -98,11 +98,11 @@
         <div class="font-11">{{currentRoom.id}}</div>
       </div>
       <div *ngIf="currentRoom.lastTemplateKey" class="d-flex mr-3 flex-column align-items-end text-white">
-        <div>Last template triggered::</div>
+        <div>Last template triggered:</div>
         <div class="font-11">{{currentRoom.lastTemplateKey}}</div>
       </div>
     <div *ngIf="currentRoom.uid" class="d-flex  flex-column align-items-end text-white">
-        <div>Room uid::</div>
+        <div>Room uid:</div>
         <div class="font-11">{{currentRoom.uid}}</div>
       </div>
   </div>

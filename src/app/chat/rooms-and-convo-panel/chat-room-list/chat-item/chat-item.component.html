@@ -1,15 +1,15 @@
 <div class="row mb-1 mt-1" [ngClass]="{'bg-theme-primary':currentUid === room.uid}">
-  <div class="p-0 m-2" style="width: 40px">
+  <div class="p-2" style="width: 50px">
     <img [src]="room.selectedAvatar.imageUrl"
          style="width: 32px;height: 32px" alt="">
   </div>
-  <div class="col-10 p-1 text-left p-0 message-wrapper" >
+  <div class="col-10 p-1 text-left message-wrapper" >
     <div class="message p-2 cursor-pointer" (click)="openChatRoom()">
       <div class="d-flex justify-content-between ">
         <div class="message-text ">{{room.selectedAvatar.name}}</div>
         <div class="time">{{room.messageList[room.messageList.length-1].time}}</div>
       </div>
-      <div class="time limit-oneline">{{room.messageList[room.messageList.length-1].text}}</div>
+      <div class="message-text limit-oneline">{{room.messageList[room.messageList.length-1].text}}</div>
     </div>
   </div>
 </div>
