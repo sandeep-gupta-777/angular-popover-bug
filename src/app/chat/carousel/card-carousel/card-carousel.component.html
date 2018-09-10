@@ -17,8 +17,10 @@
             </div>
             <!--<div class="card-body"></div>-->
             <ul class="list-group list-group-flush">
-              <li class="list-group-item p-2">{{mediaItem.title}}</li>
-              <li (click)="sendMessageToBotServer$.emit(mediaItem.butto)" class="list-group-item p-2">{{mediaItem.buttons[0].title}}</li>
+              <li class="list-group-item p-2 limit-oneline">{{mediaItem.title|| "No_Title"}}</li>
+              <li (click)="sendMessageToBotServer$.emit(mediaItem.buttons)" class="list-group-item p-2">
+                {{mediaItem.buttons && mediaItem.buttons[0].title || "No_Title"}}
+              </li>
             </ul>
           </div>
         </div>
@@ -32,3 +34,4 @@
     </div>
   </div>
 </div>
+

@@ -12,9 +12,9 @@ export class CardCarouselComponent implements OnInit, AfterViewInit {
 
   @Input() isFullScreenPreview =false;
   @Input() messageData:IMessageData;
+  @Output() sendMessageToBotServer$ = new EventEmitter();
   carasolItemShownInOneScreen = 2;
   totalItemsInCarasol:number;
-  @Output() sendMessageToBotServer$ = new EventEmitter();
   constructor(
     private activatedRoute: ActivatedRoute
   ) { }
@@ -42,16 +42,13 @@ export class CardCarouselComponent implements OnInit, AfterViewInit {
 
       ResCarouselSize();
 
-
-
-
       $(window).resize(function () {
         ResCarouselSize();
       });
 
       //this function define the size of the items
       function ResCarouselSize() {
-        debugger;
+
         var incno = 0;
         var dataItems = ("data-items");
         var itemClass = ('.item');
