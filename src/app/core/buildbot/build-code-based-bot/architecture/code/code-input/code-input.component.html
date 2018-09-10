@@ -1,7 +1,7 @@
 <div class="row my-2 m-0" style="position: relative" (clickOutside)="showVersionList = false">
   <div class="col-6 p-0" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
     <div *ngIf="selectedVersion"
-         class="d-flex align-items-center justify-content-between flex-bot-versioning-toaster border-theme-secondary">
+         class="d-flex align-items-center flex-bot-versioning-toaster border-theme-secondary">
       <button *ngIf="selectedVersion?.id === activeVersion?.id" class="btn btn-theme-primary mr-1"
               style="flex-basis: 56px">Active
       </button>
@@ -9,9 +9,9 @@
         *ngIf="selectedVersion?.id !== activeVersion?.id" class="btn btn-theme-dark mr-1"
               style="flex-basis: 56px">Inactive
       </button>
-      <div class="count mr-1" style="width: 30px">{{selectedVersion.version}}</div>
-      <div class="forked mr-1">Forked from version {{selectedVersion.forked_from}}</div>
-      <div class="update d-flex flex-column mr-1 justify-content-center">
+      <div class="count mx-1 flex-shrink-0 flex-grow-0">{{selectedVersion.version}}</div>
+      <div class="forked mr-1 flex-shrink-0 flex-grow-0" style="flex-basis: 50px" [style.visibility]="selectedVersion.forked_from>0 ? 'visible' : 'hidden'">Forked from version {{selectedVersion.forked_from}}</div>
+      <div class="update d-flex flex-column mr-1 justify-content-center flex-shrink-0 flex-grow-0" style="flex-basis: 80px" >
         <div>Last update</div>
         <div class="d-flex justify-content-center">
           <i class="fa fa-circle"
@@ -33,12 +33,13 @@
         <!--<input type="radio" name="optradio">-->
         <!--</form>-->
       </div>
-      <div class="insert mr-1">{{selectedVersion.comment}}
+      <div class="insert mr-1">{{selectedVersion.comment.length>70?(((selectedVersion.comment)|slice:0:100) +"..."):selectedVersion?.comment}}
+      <!--<div class="insert mr-1">{{(selectedVersion.comment)|slice:0:100}}-->
       </div>
       <!---->
       <i (click)="showVersionList= !showVersionList"
         *ngIf="bot.store_bot_versions.length > 1"
-         class="fa py-2 px-3 bg-theme-primary text-white"
+         class="fa py-2 px-3 bg-theme-primary text-white ml-auto"
          [ngClass]="{'fa-angle-up':showVersionList, 'fa-angle-down':!showVersionList}"
          style="height: 100%"></i>
     </div>
@@ -57,11 +58,12 @@
        *ngIf="showVersionList" style="max-height: 50vh; overflow-y: scroll">
     <div class="col-12 py-2 border-bottom-theme-secondary"
          *ngFor="let version of bot.store_bot_versions | filterActiveBot:selectedVersion.id">
-      <div class="d-flex align-items-center justify-content-between flex-bot-versioning-toaster"
+      <div class="d-flex align-items-center flex-bot-versioning-toaster"
            (click)="changeSelectedVersion(version); showVersionList = false; tabClicked('df_template');">
-        <div class="active-label-text">{{version.id === activeVersion.id?'Active':'Inactive'}}</div>
+        <div class="active-label-text">{{(version.id === (activeVersion && activeVersion.id))?'Active':'Inactive'}}</div>
+        <!--<div class="active-label-text">{{version.id +""+activeVersion.id }}</div>-->
         <div class="count mr-1">{{version.version}}</div>
-        <div class="forked mr-1">Forked from version {{version.forked_from}}</div>
+        <div class="forked mr-1" [style.visibility]="version.forked_from>0 ? 'visible' : 'hidden'">Forked from version {{version.forked_from}}</div>
         <div class="update d-flex flex-column mr-1 justify-content-center">
           <div class="mr-1">Last update</div>
           <div>
@@ -116,7 +118,7 @@
         <div class="col-md-9 px-0 d-flex justify-content-start">
           <!--<input type="password" [(ngModel)]="forked_From" name="old_password">-->
           <select class="concept1" [(ngModel)]="forked_version_id" required type="number" name="version_id" #select>
-            <option type="button" *ngFor="let version of bot.store_bot_versions"><button>{{version.id}}</button></option>
+            <option type="button" *ngFor="let version of bot.store_bot_versions"><button>{{version.version}}</button></option>
           </select>
         </div>
         <div class="col-md-3 my-2">

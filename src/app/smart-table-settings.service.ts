@@ -1,12 +1,15 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {IReportList} from '../interfaces/report';
+import {DatePipe} from '@angular/common';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SmartTableSettingsService {
 
-  constructor() { }
+  constructor(    private datePipe: DatePipe
+  ) {
+  }
 
   readonly SMART_TABLE_REPORTS_SETTING = {
 
@@ -35,6 +38,10 @@ export class SmartTableSettingsService {
       edit: false,
       delete: false
     },
+    pager: {
+      display: false,
+      perPage: 10
+    }
   };
   readonly SMART_TABLE_REPORTS_HISTORY_SETTING = {
 
@@ -46,13 +53,27 @@ export class SmartTableSettingsService {
         title: 'Report Type'
       },
       created_at: {
-        title: 'Generated Date'
+        title: 'Generated Date',
+        valuePrepareFunction: (date) => {
+          var raw = new Date(date);
+
+          var formatted = this.datePipe.transform(raw, 'fullDate');
+          return formatted;
+        }
       }
     },
     actions: {
       add: false,
       edit: false,
-      delete: false
+      delete: false,
+      position: 'right',
+      custom: [
+        {name: 'download', title: `<i class="fa fa-download text-dark"></i>`}
+      ],
+    },
+    pager: {
+      display: false,
+      perPage: 10
     },
   };
 

@@ -1,7 +1,7 @@
 import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {EChatFrame, IChatSessionState, IMessageData, IRoomData} from '../../interfaces/chat-session-state';
+import {EBotMessageMediaType, EChatFrame, IChatSessionState, IMessageData, IRoomData} from '../../interfaces/chat-session-state';
 import {
   // AddMessagesToRoomByUId,
   ChangeFrameAction,
@@ -36,7 +36,7 @@ export interface IBotPreviewFirstMessage {
     'allow_anonymization': false,
     'bot_id': 27,
     'consent_permissions': any[],
-    'consumer_id': 3602,
+    'consumer_id': number,
     'created_at': 1536148813000,
     'cross_retention_period': false,
     'data_store': {},
@@ -88,6 +88,7 @@ export class ChatWrapperComponent implements OnInit {
   chatWindowTitle: string = 'Start Chat';
   messageByHuman: string = '';
   isFullScreenPreview;
+  welcomeScreenBotId:number;
 
   constructor(private store: Store,
               private serverService: ServerService,
@@ -106,6 +107,15 @@ export class ChatWrapperComponent implements OnInit {
     this.botlist$.subscribe((value) => {
       this.allBotList = value.allBotList;
     });
+
+    this.activatedRoute.queryParamMap.subscribe((queryparam)=>{
+      let welcomeScreenBotIdStr = queryparam.get('preview');
+      if(welcomeScreenBotIdStr){
+        this.welcomeScreenBotId =Number(welcomeScreenBotIdStr);
+        this.frameEnabled = EChatFrame.WELCOME_BOX;
+      }
+    });
+
     this.isFullScreenPreview = this.activatedRoute.snapshot.data.isFullScreenPreview;
     /*This is to access route data from non-subtree component
     * see: https://github.com/angular/angular/issues/11812
@@ -131,10 +141,10 @@ export class ChatWrapperComponent implements OnInit {
           this.currentRoom = chatSessionState.rooms.find((room) => room.id === chatSessionState.currentRoomId);
           this.messageData = this.currentRoom && this.currentRoom.messageList;
           this.selectedAvatar = this.currentRoom && this.currentRoom.selectedAvatar;
-
         }
+
         this.frameEnabled = chatSessionState.frameEnabled;
-        if (this.frameEnabled!==2 && chatSessionState.consumerDetails && chatSessionState.consumerDetails.uid) {
+        if (chatSessionState.consumerDetails) {
           this.customConsumerDetails = chatSessionState.consumerDetails;
           this.current_uid = chatSessionState.consumerDetails.uid;
         }else {
@@ -149,8 +159,26 @@ export class ChatWrapperComponent implements OnInit {
     });
   }
 
+  createCustomRoom(){
+      let doesAtleastOneConsumerKeyHasValue = false;
+      if(!this.customConsumerDetails){
+        this.utilityService.showErrorToaster("Please set custom Consumer details");
+        return;
+      }
+      for(let key in this.customConsumerDetails){
+          doesAtleastOneConsumerKeyHasValue = doesAtleastOneConsumerKeyHasValue || this.customConsumerDetails[key]
+      }
+      if(!doesAtleastOneConsumerKeyHasValue){
+        this.utilityService.showErrorToaster("Please set custom Consumer details");
+      }else{
+        this.startNewChat({consumerDetails:this.customConsumerDetails, bot:this.currentBot});
+      }
 
-  startNewChat() {
+  }
+
+
+  /*this is called when bot preview button or create a custom room button is clicked*/
+  startNewChat(startNewChatData:{consumerDetails:IConsumerDetails, bot:IBot}) {
     /*create a new chat room with a uid and without room id
     * add first message of bot into the room
     * open the chat window
@@ -160,10 +188,9 @@ export class ChatWrapperComponent implements OnInit {
     * 2. create a new room with room id
     * */
 
-
     let url = this.constantsService.getStartNewChatLoginUrl();
     let headerData: IHeaderData = {
-      'bot-access-token': this.currentBot.bot_access_token,
+      'bot-access-token': startNewChatData.bot.bot_access_token,
       'auth-token': null,
       'user-access-token': null,
       'content-type': 'application/json'
@@ -172,9 +199,10 @@ export class ChatWrapperComponent implements OnInit {
       'type': 'bot',
       'msg': 'hi',
       'platform': 'web',
-      'consumer': {
-        'uid': this.current_uid,
-      },
+      // 'consumer': {
+      //   'uid': this.current_uid,
+      // },
+      'consumer': startNewChatData.consumerDetails
     };
 
     this.serverService.makePostReq({url, body, headerData})
@@ -185,16 +213,19 @@ export class ChatWrapperComponent implements OnInit {
         let roomMessages: IMessageData[] = value.generated_msg.map((item: { text: string }) => {
           return {
             text: item.text,
-            type: 'bot',
-            time: '10:44PM'
+            sourceType: 'bot',
+            messageMediatype: EBotMessageMediaType.text,
+            time: this.utilityService.getCurrentTimeInHHMM()/*todo: change it to real time*/
           };
         });
         this.store.dispatch([
           new AddNewRoom({
             id: value.room.id,
+            consumer_id:value.room.consumer_id,
+            consumerDetails: startNewChatData.consumerDetails,
             messageList: roomMessages,
             bot_access_token: this.currentBot.bot_access_token,
-            uid: this.current_uid,
+            uid: startNewChatData.consumerDetails.uid,//this.current_uid,
             selectedAvatar: value.room.selected_avatar,
             bot_id: this.currentBot.id
           }),
@@ -250,34 +281,52 @@ export class ChatWrapperComponent implements OnInit {
     this.store.dispatch(new ToggleChatWindow({open: false}));
   }
 
-  sendMessageByHuman(messageByHuman: string) {
+  // sendMessageByHuman(messageByHuman: string) {
+  sendMessageByHuman(messageData:{messageByHuman:string, room:IRoomData}) {
 
+    let messageByHuman = messageData.messageByHuman;
+    let room:IRoomData = messageData.room;
     if (messageByHuman.trim() === '') return;
     this.store.dispatch(new AddMessagesToRoomByRoomId({
-      id: this.currentRoom.id,
+      id: room.id,
       messageList: [{
         text: messageByHuman,
-        type: 'human',
+        sourceType: 'human',
+        messageMediatype:EBotMessageMediaType.text,
         time: this.utilityService.getCurrentTimeInHHMM()
       }],
-      // bot_id: this.currentRoom.bot_id,
-      // bot_access_token: this.bot_access_token,
-      // lastTemplateKey: 'none'
     }))
       .subscribe(() => {
-        // ;
-        this.chatService.startNewChat(
+        this.chatService.sendHumanMessageToBotServer(
           {
-            bot_access_token: this.bot_access_token, id: this.currentBotId
+            bot_access_token: room.bot_access_token,
+            id: room.id
           },
-          this.current_uid,
+          messageData.room.consumerDetails,
           messageByHuman,
           EChatFrame.CHAT_BOX);
       });
+    // let messageByHuman = messageData.messageByHuman;
+    // if (messageByHuman.trim() === '') return;
+    // this.store.dispatch(new AddMessagesToRoomByRoomId({
+    //   id: this.currentRoom.id,
+    //   messageList: [{
+    //     text: messageByHuman,
+    //     type: 'human',
+    //     time: this.utilityService.getCurrentTimeInHHMM()
+    //   }],
+    // }))
+    //   .subscribe(() => {
+    //     // ;
+    //     this.chatService.startNewChat(
+    //       {
+    //         bot_access_token: this.bot_access_token, id: this.currentBotId
+    //       },
+    //       this.current_uid,
+    //       messageByHuman,
+    //       EChatFrame.CHAT_BOX);
+    //   });
 
-    console.log('sending messgae by human');
-    // this.startNewChat(messageByHuman, null);
-    this.messageByHuman = '';
   }
 
   scrollToBottom(): void {
@@ -299,5 +348,9 @@ export class ChatWrapperComponent implements OnInit {
         this.utilityService.showSuccessToaster("Saved!");
         this.store.dispatch([new ChangeFrameAction({frameEnabled:1})])
       })
+  }
+
+  closeConsumerDropdown(){
+    alert();
   }
 }

@@ -1,15 +1,5 @@
 import {Route, RouterModule} from '@angular/router';
 import {CoreWrapperComponent} from './core-wrapper.component';
-// import {WrapperComponent} from './analysis/wrapper.component';
-// import {OverviewComponent} from './analysis/overview/overview.component';
-// import {UsersComponent} from './analysis/users/users.component';
-// import {SessionsComponent} frosm './analysis/sessions/sessions.component';
-// import {MessagesComponent} from './analysis/messages/messages.component';
-// import {PlatformsComponent} from './analysis/platforms/platforms.component';
-// import {EventsComponent} from './analysis/events/events.component';
-// import {EngagementComponent} from './analysis/engagement/engagement.component';
-// import {UsageComponent} from './analysis/usage/usage.component';
-// import {ViewCustomnerComponent} from './customner/view-customner/view-customner.component';
 import {CreateCustomnerComponent} from './customner/create-customner/create-customner.component';
 import {EnterpriseprofileComponent} from './enterpriseprofile/enterpriseprofile.component';
 import {ProfileComponent} from './profile/profile.component';
@@ -36,29 +26,9 @@ import {ReportControlsComponent} from './reports/report-details/report-controls/
 import {TestComponent} from '../test/test.component';
 import {ChatPreviewNewPageComponent} from '../chat/chat-preview-new-page/chat-preview-new-page.component';
 import {FooterComponent} from '../footer/footer.component';
-import {
-  BsDatepickerModule,
-  BsDropdownModule,
-  ModalModule,
-  ProgressbarModule,
-  TabsModule,
-  TimepickerModule,
-  TooltipModule
-} from 'ngx-bootstrap';
 import {FormsModule} from '@angular/forms';
 import {DragAndDropModule} from 'angular-draggable-droppable';
-// import {NgxsModule} from '@ngxs/store';
-// import {AuthStateReducer} from '../auth/ngxs/auth.state';
-// import {NavigationStateReducer} from '../ngxs/navigation.state';
-// import {AppStateReducer} from '../ngxs/app.state';
-// import {EnterpriseprofileStateReducer} from './enterpriseprofile/ngxs/enterpriseprofile.state';
-// import {ViewBotStateReducer} from './view-bots/ngxs/view-bot.state';
-// import {ChatSessionStateReducer} from '../chat/ngxs/chat.state';
-// import {BotCreationStateReducer} from './buildbot/ngxs/buildbot.state';
-// import {ReportsStateReducer} from './reports/ngxs/reports.state';
-// import {AnalysisStateReducer2} from './analysis2/ngxs/analysis.state';
 import {HttpClientModule} from '@angular/common/http';
-import {ClickOutsideModule} from 'ng2-click-outside';
 import {AimService} from '../aim.service';
 import {HeaderComponent} from './header/header.component';
 import {BackendDevComponent} from '../backend-dev/backend-dev.component';
@@ -67,6 +37,7 @@ import {SharedModule} from '../shared.module';
 import {ViewCustomnerComponent} from './customner/view-customner/view-customner.component';
 import {AuthGaurdService} from '../auth-gaurd.service';
 import {EBotType} from './view-bots/view-bots.component';
+import {CardCarouselComponent} from '../chat/carousel/card-carousel/card-carousel.component';
 // import { IntegrationNameFormatterPipe } from './buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-name-formatter.pipe';
 
 const routes: Route[] = [
@@ -75,7 +46,7 @@ const routes: Route[] = [
     path: '',
     component: CoreWrapperComponent, children: [
       {
-        path: 'viewbots', loadChildren: './view-bots/view-bots.module#ViewBotsModule'
+        path: 'viewbots', loadChildren: './view-bots/view-bots.module#ViewBotsModule',canLoad:[AuthGaurdService]
       },
       {
         path: 'botdetail', loadChildren: './bot-detail/bot-detail.module#BotDetailModule', canLoad:[AuthGaurdService]
@@ -97,16 +68,16 @@ const routes: Route[] = [
       //     ]
       // },
 
-      {path: 'customner', component: ViewCustomnerComponent, data:{routeName:'customner'}},
-      {path: 'customner/create', component: CreateCustomnerComponent},
-      {path: 'enterpriseprofile', component: EnterpriseprofileComponent},
-      {path: 'profile', component: ProfileComponent},
-      {path: 'reports', component: ReportsComponent},
-      {path: 'reports/edit/:_id', component: ReportDetailsComponent},
-      {path: 'reports/create', component: ReportDetailsComponent},
-      {path: 'documentation', component: DocumentationComponent},
-      // {path: 'buildbot/codebased', component: BuildCodeBasedBotComponent},
-      // {path: 'buildbot/intelligent', component: BuildPipelineBasedBotComponent},
+      {path: 'customner', component: ViewCustomnerComponent, data:{routeName:'customner'}, canActivate:[AuthGaurdService]},
+      {path: 'customner/create', component: CreateCustomnerComponent, canActivate:[AuthGaurdService]},
+      {path: 'enterpriseprofile', component: EnterpriseprofileComponent, canActivate:[AuthGaurdService]},
+      {path: 'profile', component: ProfileComponent, canActivate:[AuthGaurdService]},
+      {path: 'reports', component: ReportsComponent, canActivate:[AuthGaurdService]},
+      {path: 'reports/edit/:_id', component: ReportDetailsComponent, canActivate:[AuthGaurdService]},
+      {path: 'reports/create', component: ReportDetailsComponent, canActivate:[AuthGaurdService]},
+      {path: 'documentation', component: DocumentationComponent, canActivate:[AuthGaurdService]},
+      // {path: 'buildbot/codebased', component: BuildCodeBasedBotComponent, canActivate:[AuthGaurdService]},
+      // {path: 'buildbot/intelligent', component: BuildPipelineBasedBotComponent, canActivate:[AuthGaurdService]},
       {
         path: 'buildbot', component: BuildbotWrapperComponent, children:
           [
@@ -121,42 +92,27 @@ const routes: Route[] = [
     ],
   },
 
-  {path: 'preview', component: ChatWrapperComponent, data: {isFullScreenPreview: true}},
+  {path: 'preview', component: ChatWrapperComponent, data: {isFullScreenPreview: true}, canActivate:[AuthGaurdService]},
   {path: '', redirectTo: `core/viewbots/${EBotType.chatbot}`, pathMatch: 'full'},
 ];
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    // ViewBotsComponent,
-    // ViewCodeBasedBotComponent,
-    // ViewPipelineBasedBotsComponent,
-    // BotPreviewCardComponent,
-    // NotFoundComponent,
     BuildCodeBasedBotComponent,
     BuildPipelineBasedBotComponent,
     RouterFragmentActiveDirective,
     DocumentationComponent,
     ViewCustomnerComponent,
     CreateCustomnerComponent,
-    // OverviewComponent,
-    // UsersComponent,
-    // SessionsComponent,
-    // MessagesComponent,
-    // PlatformsComponent,
-    // EventsComponent,
-    // EngagementComponent,
-    // UsageComponent,
     ProfileComponent,
     EnterpriseprofileComponent,
-    // WrapperComponent,
     ReportsComponent,
     CoreWrapperComponent,
     BuildbotWrapperComponent,
     SignupComponent,
     PipelineTestComponent,
     ChatWrapperComponent,
-
     ChatWindowComponent,
     ChatMessageComponent,
     BotWelcomeComponent,
@@ -171,35 +127,18 @@ const routes: Route[] = [
     ChatPreviewNewPageComponent,
     FooterComponent,
     BackendDevComponent,
-    // IntegrationNameFormatterPipe
+
+    /*added after lazy loading*/
+    CardCarouselComponent,
 
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
-    BsDropdownModule.forRoot(),
-    TabsModule.forRoot(),
-    // AceEditorModule,
     FormsModule,
     DragAndDropModule.forRoot(),
-    // NgxsModule.forFeature([
-    //
-    // ]),
-    // NgxsStoragePluginModule.forRoot(),
-    // NgxsReduxDevtoolsPluginModule.forRoot(),
-    // NgxsLoggerPluginModule.forRoot(),
     HttpClientModule,
-    TimepickerModule.forRoot(),
-    // HotTableModule,
-
-    // BrowserAnimationsModule, // required animations module
-    // ToastrModule.forRoot(), // ToastrModule added,
-    ProgressbarModule.forRoot(),
-    ClickOutsideModule,
     SharedModule,
-    BsDatepickerModule.forRoot(),
-    ModalModule.forRoot(),
-    TooltipModule.forRoot()
 
   ],
   providers: [AimService]

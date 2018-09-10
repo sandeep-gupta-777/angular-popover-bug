@@ -1,6 +1,6 @@
-<div class="d-flex">
+<div class="d-flex" *ngIf="showBackendRootUrlButton">
   <button class="btn btn-theme-primary ml-auto mr-1"
-          (click)="openChangePasswordModal(Primarytemplate)">Change Backend root url</button>
+          (click)="openChangePasswordModal(Primarytemplate)">Change Backend root url (git test)</button>
 </div>
 
 <ng-template #Primarytemplate>

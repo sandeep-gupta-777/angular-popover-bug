@@ -20,11 +20,12 @@ import {AimService} from '../../aim.service';
 import {SortObjectArrayPipe} from '../../sort-object-array.pipe';
 import {BotPreviewCardComponent} from './bot-preview-card/bot-preview-card.component';
 import {SharedModule} from '../../shared.module';
+import {AuthGaurdService} from '../../auth-gaurd.service';
 
 const routes: Route[] = [
   {
 
-    path: '', component: ViewBotsComponent, children:
+    path: '', component: ViewBotsComponent, canActivateChild:[AuthGaurdService], children:
       [
         {path: EBotType.chatbot, component: ViewCodeBasedBotComponent, data: {route: EBotType.chatbot}},
         {path: EBotType.intelligent, component: ViewPipelineBasedBotsComponent, data: {route: EBotType.intelligent}},

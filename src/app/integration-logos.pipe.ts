@@ -10,12 +10,20 @@ import {IAppState} from './ngxs/app.state';
 export class IntegrationLogosPipe implements PipeTransform {
 
   @Select() app$:Observable<IAppState>;
-  transform(integrationOption: IIntegrationOption, args?: any): any {
-    let integrations = {
-      ...integrationOption.channels,
-      ...integrationOption.fulfillment_provider_details,
-      ...integrationOption.ccsp_details,
-    };
+  transform(integrationOption: IIntegrationOption, no_channel_or_only_channel: string): any {
+    let integrations;
+    if(no_channel_or_only_channel==='no_channel'){
+      integrations = {
+        // ...integrationOption.channels,
+        ...integrationOption.fulfillment_provider_details,
+        ...integrationOption.ccsp_details,
+      };
+    }else if(no_channel_or_only_channel==='only_channel'){
+      integrations = {
+        ...integrationOption.channels,
+      };
+    }
+
     /*remove the integration key if its not enabled*/
     for (let key in integrations) {
 
@@ -26,19 +34,8 @@ export class IntegrationLogosPipe implements PipeTransform {
         }catch (e) {
           console.log(e);
         }
-
-      // for (let key in integrations[integration]){
-      //   try{
-      //     if(!integrations[integration][key].enabled){
-      //       delete integrations[integration][key]
-      //     }
-      //   }catch (e) {
-      //     console.log(e);
-      //   }
-      // }
     }
 
-    ;
     if(!Object.keys(integrations) || Object.keys(integrations).length ===0) return;
     return this.app$.map((value)=>{
       let integrationsMasterList = value.masterIntegrationList;

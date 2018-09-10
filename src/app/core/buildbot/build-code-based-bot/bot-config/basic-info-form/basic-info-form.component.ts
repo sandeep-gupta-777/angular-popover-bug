@@ -16,6 +16,7 @@ import {NgForm} from '@angular/forms';
 export class BasicInfoFormComponent implements OnInit, AfterViewInit {
   @Select() botlist$: Observable<ViewBotStateModel>;
   allbotList$:Observable<IBot[]>;
+  allbotList:IBot[];
   @Input() bot:IBot;
   @Output() datachanged$ = new EventEmitter<Partial<IBot>>();
   @ViewChild('form') f:NgForm;
@@ -24,10 +25,16 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
-    this.isManager = this.bot && this.bot.child_bots.length !== 0;
-    this.allbotList$ = this.botlist$.map((botlist)=>{
-      return botlist.allBotList;
+    try {
+      this.isManager = this.bot.child_bots.length !== 0;
+    }catch (e) {
+      this.isManager = false;
+    }
+    this.botlist$.subscribe((botlist)=>{
+
+      this.allbotList =  botlist.allBotList;
     })
+
   }
 
   ngAfterViewInit(): void {
@@ -40,6 +47,9 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
   }
 
   addChildBot(childBot): void {
+    if(!this.bot.child_bots){
+      this.bot.child_bots = [];
+    }
     this.bot.child_bots.push(childBot.id);
   }
 
@@ -51,6 +61,7 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
     }
   }
   wannaDisable(childBotId): boolean{
+    if(!this.bot || !this.bot.child_bots || !this.bot.child_bots.length) return false;
     for(let i=0; i<this.bot.child_bots.length;i++){
       if(this.bot.child_bots[i] === childBotId){
         return true;

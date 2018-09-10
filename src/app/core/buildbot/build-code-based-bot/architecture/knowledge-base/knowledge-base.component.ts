@@ -28,10 +28,10 @@ export class KnowledgeBaseComponent implements OnInit {
   // @Input() _custumNerDataForSmartTable = [];
   _custumNerDataForSmartTable:ICustomNerItem[] = [];
   @Input() set custumNerDataForSmartTable(value:ICustomNerItem[]){
-    debugger;
+
     this._custumNerDataForSmartTable = value;
-    let ner_id = Number(this.activatedRoute.snapshot.queryParamMap.get('ner_id'));
-    ner_id && this.updateSelectedRowDataByNer_Id(ner_id)
+    let ner_id = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
+    ner_id && this.updateSelectedRowDataByNer_Id(Number(ner_id));
   };
   @Output() pageChanged$ = new EventEmitter();//
   @Output() updateOrSaveParentNers$ = new EventEmitter();//
@@ -66,6 +66,7 @@ export class KnowledgeBaseComponent implements OnInit {
 
   updateSelectedRowDataByNer_Id(ner_id:number){
       this.showTable = !ner_id;
+
       this.selectedRowData = this._custumNerDataForSmartTable.find((custumNerData)=>{
         return custumNerData.id === ner_id
       });

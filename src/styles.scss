@@ -203,6 +203,17 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
   width: 70px;
 }
 
+.btn-theme-success-sm {
+  background-color: $color-primary !important;
+  border: none;
+  border-radius: 2px;
+  padding: 1px 5px;
+  height: 23px !important;
+  font-size: $font-size-xs;
+  color: white;
+  width: 70px;
+}
+
 .btn-theme-success-sm-outline {
   background-color: white !important;
   border-radius: 2px;
@@ -556,7 +567,7 @@ progressbar {
 }
 
 .hightlight-created-row{
-  background-color: greenyellow;
+  background-color: #ededed;
 }
 
 

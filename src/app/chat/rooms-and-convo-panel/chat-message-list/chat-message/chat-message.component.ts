@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {IMessageData} from '../../../../../interfaces/chat-session-state';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {EBotMessageMediaType, IMessageData} from '../../../../../interfaces/chat-session-state';
 
 @Component({
   selector: 'app-chat-message',
@@ -8,15 +8,19 @@ import {IMessageData} from '../../../../../interfaces/chat-session-state';
 })
 export class ChatMessageComponent implements OnInit {
 
+  myEBotMessageMediaType = EBotMessageMediaType
   @Input()selectedAvatar;
   @Input() messageData:IMessageData = {
     text:'this is a test',
-    time:"10:L20PM",
-    type:"bot"
+    time:"10:20PM",
+    sourceType:"bot",
+    messageMediatype:null
   };
+  @Output() sendMessageToBotServer$ = new EventEmitter();
   constructor() { }
 
   ngOnInit() {
+
   }
 
 }

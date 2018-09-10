@@ -1,6 +1,20 @@
-
-
-<div #scrollMe class="px-2"  style="overflow-y: scroll;overflow-x: hidden; height: 100%">
-    <app-chat-message [selectedAvatar]="selectedAvatar"  *ngFor="let messageData of _messageDataArray" [messageData]="messageData"></app-chat-message>
+<div #scrollMe style="overflow-y: scroll;overflow-x: hidden; height: 87%;position: relative">
+  <app-chat-message
+    (sendMessageToBotServer$)="sendMessageByHuman($event)"
+    class="mx-2"
+    [selectedAvatar]="selectedAvatar"
+    *ngFor="let messageData of _messageDataArray"
+    [messageData]="messageData">
+  </app-chat-message>
 </div>
-
+<!--<div class="footer px-3 py-1 d-flex align-items-center justify-content-between text-muted" style="height: 13%">-->
+<!--<input class="px-2" placeholder="say something..." type="text">-->
+<!--<span class="icon"><i class="fa fa-send cursor-pointer"></i></span>-->
+<!--</div>-->
+<!--text input starts-->
+<div class="footer d-flex align-items-center justify-content-between text-muted" style="height: 13%">
+  <input class="px-2" placeholder="say something..." [(ngModel)]="messageByHuman" type="text"
+         (keyup.enter)="sendMessageByHuman(messageByHuman)">
+  <span class="icon"><i class="fa fa-send cursor-pointer" (click)="sendMessageByHuman(messageByHuman)"></i></span>
+</div>
+<!--text input ends-->

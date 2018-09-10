@@ -85,6 +85,7 @@ export class ServerService {
         return _throw('error');
       });
   }
+
   makeDeleteReq<T>(reqObj: { url: string, headerData?: any }): Observable<T> {
     let headers = this.createHeaders(reqObj.headerData);
 
@@ -155,20 +156,21 @@ export class ServerService {
       });
 
   }
-  getNSetIntegrationList(){
+
+  getNSetIntegrationList() {
     let url = this.constantsService.getMasterIntegrationsList();
-    return this.makeGetReq<{meta:any, objects:IIntegrationMasterListItem[]}>({url})
+    return this.makeGetReq<{ meta: any, objects: IIntegrationMasterListItem[] }>({url})
       .do((value) => {
         // this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
         // this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
       })
-      .subscribe((value)=>{
+      .subscribe((value) => {
         this.store.dispatch([
           new SetMasterIntegrationsList({
             masterIntegrationList: value.objects
           })
-        ])
-      })
+        ]);
+      });
   }
 
   changeProgressBar(loading: boolean, value: number) {
@@ -184,7 +186,7 @@ export class ServerService {
 
   }
 
-  updateOrSaveCustomNer(selectedOrNewRowData: ICustomNerItem, bot?:IBot) {
+  updateOrSaveCustomNer(selectedOrNewRowData: ICustomNerItem, bot?: IBot) {
     let body: ICustomNerItem;
     let headerData: IHeaderData = {'bot-access-token': bot && bot.bot_access_token};
     let url, methodStr;
@@ -204,16 +206,18 @@ export class ServerService {
     return this[methodStr]({url, body, headerData});
   }
 
-  deleteNer(ner_id: number, bot?:IBot) {
+  deleteNer(ner_id: number, bot?: IBot) {
     let body: ICustomNerItem;
-    let url, headerData:IHeaderData;
-    url = this.constantsService.updateOrDeleteCustomBotNER(ner_id);
-    if(bot){
+    let url, headerData: IHeaderData;
+    if (bot) {
+      url = this.constantsService.updateOrDeleteCustomBotNER(ner_id);
       headerData = {
-        "bot-access-token":bot.bot_access_token
-      }
+        'bot-access-token': (bot && bot.bot_access_token) || null
+      };
+    }else {
+      url = this.constantsService.updateOrDeleteEnterpriseNer(ner_id);
     }
-    return this.makeDeleteReq({url,headerData})
+    return this.makeDeleteReq({url, headerData});
   }
 
 }

@@ -67,3 +67,10 @@
   }
   cursor: pointer;
 }
+
+.no-channel-integrations:first-child{
+  border-left: $border-normal;
+  padding-left: 4px;
+  width: 20px!important;
+}
+

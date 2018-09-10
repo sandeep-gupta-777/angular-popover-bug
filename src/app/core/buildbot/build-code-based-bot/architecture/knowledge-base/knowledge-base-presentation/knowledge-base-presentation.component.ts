@@ -64,12 +64,18 @@ export class KnowledgeBasePresentationComponent implements OnInit {
 
   updateOrSaveConcept(){
 
+
     let codeTextFromEditor;
     try{
       codeTextFromEditor = JSON.parse(this.codeTextOutPutFromCodeEditor);
     }catch (e) {
       // codeTextFromEditor = this.codeTextOutPutFromCodeEditor;
-      console.log("must be valid array");
+      try {
+        codeTextFromEditor = eval(this.codeTextOutPutFromCodeEditor);
+      }catch (e) {
+        this.utilityService.showErrorToaster("Syntax is not valid. Must be an an Array literal");
+        return;
+      }
     }
     let outputData = {
       key:this.key,

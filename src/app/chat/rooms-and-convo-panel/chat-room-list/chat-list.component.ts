@@ -15,6 +15,7 @@ export class ChatListComponent implements OnInit {
 
   @Select() chatsessionstate$: Observable<IChatSessionState>;
   @Output() navigateEvent: EventEmitter<string> = new EventEmitter();
+  @Output() createCustomRoom$: EventEmitter<string> = new EventEmitter();
 
   ngOnInit() {
   }
@@ -22,5 +23,4 @@ export class ChatListComponent implements OnInit {
   navigate(frame) {
     this.navigateEvent.emit(frame);
   }
-
 }

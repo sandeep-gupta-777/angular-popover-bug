@@ -5,9 +5,10 @@ import {NgModule} from '@angular/core';
 import {AuthWrapperComponent} from './auth-wrapper.component';
 import {CommonModule} from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import {LoginGaurdService} from '../login-gaurd.service';
 
 const routes: Route[] = [
-      {path: 'login', component: LoginComponent},
+      {path: 'login', component: LoginComponent, canActivate:[LoginGaurdService]},
 ];
 
 @NgModule({
@@ -25,7 +26,7 @@ const routes: Route[] = [
     HttpClientModule,
 
   ],
-  providers:  [],
+  providers:  [LoginGaurdService],
 })
 export class AuthModule {
 

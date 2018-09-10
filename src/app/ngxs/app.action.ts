@@ -1,9 +1,7 @@
-import {IUser} from '../core/interfaces/user';
 import {IAppState} from './app.state';
 import {IIntegrationMasterListItem} from '../../interfaces/integration-option';
 import {IProfilePermission} from '../../interfaces/profile-action-permission';
 import {ICustomNerItem} from '../../interfaces/custom-ners';
-import {IPipeline} from '../../interfaces/bot-creation';
 import {IPipelineItem} from '../../interfaces/ai-module';
 
 export class SetStateFromLocalStorageAction {
@@ -62,6 +60,14 @@ export class SetBackendURlRoot {
 
   constructor(public payload: {
     url:string
+  }) {}
+}
+
+export class SetShowBackendURlRoot {
+  static readonly type = '[app] set SetShowBackendURlRoot ';
+
+  constructor(public payload: {
+    showBackendURlRoot:boolean
   }) {}
 }
 

@@ -5,7 +5,14 @@
   &:hover{
     border: solid 2px #e0e0e0;
     border-radius:2px;
+    .show-on-parent-hover{
+      display: inline-block;
+    }
   }
+}
+
+.show-on-parent-hover{
+  display: none;
 }
 
 .grid-bot-preview-two{
@@ -53,7 +60,7 @@
     grid-area: icon2;
     font-size: 17px;
     padding-top: 10px;
-    color: $color-secondary!important;
+    color: #474747;
   }
   .details1{
     grid-area: details1;
@@ -69,7 +76,8 @@
 
   .fa-ellipsis-v{
     color: $color-secondary;
-    padding-right: 10px;
+    //padding-right: 10px;
+    padding: 0px 8px ;
   }
 
 }
@@ -212,3 +220,14 @@
 .limit-oneline{
   max-width: 185px;//override
 }
+
+.no-channel-integrations:first-child{
+  border-left: $border-normal;
+  padding-left: 4px;
+  width: 20px!important;
+}
+
+.click-save-wrapper{
+  padding: 10px;
+}
+

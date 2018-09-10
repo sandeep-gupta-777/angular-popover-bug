@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {IUser} from '../../../../interfaces/user';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -10,6 +10,7 @@ import {IHeaderData} from '../../../../../../interfaces/header-data';
 import {IBot} from '../../../../interfaces/IBot';
 import {UtilityService} from '../../../../../utility.service';
 import {EBotType} from '../../../../view-bots/view-bots.component';
+import {KnowledgeBaseComponent} from '../knowledge-base/knowledge-base.component';
 
 @Component({
   selector: 'app-knowledge-base-wrapper',
@@ -20,6 +21,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
 
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Input() bot: IBot;
+  @ViewChild(KnowledgeBaseComponent) knowledgeBaseComponent: KnowledgeBaseComponent;
   enterpriseNerData: ICustomNerItem[];
   settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;
   totalRecords: number = 10;
@@ -45,8 +47,9 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
   pageChanged(currentPageNumber) {
     this.router.navigate(['.'], {
       queryParams: {page: currentPageNumber},
-      queryParamsHandling: "merge",
-      relativeTo: this.activatedRoute});
+      queryParamsHandling: 'merge',
+      relativeTo: this.activatedRoute
+    });
     this.currentPageNumber = currentPageNumber;
     this.fetchNers(10, currentPageNumber - 1);
   }
@@ -62,14 +65,14 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
         this.custumNerDataForSmartTable = value.objects;
         /*For selected ner*/
         let selectedNerId = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
-        if(!selectedNerId)return;
+        if (!selectedNerId) return;
         let getNerByIdUrl = this.constantsService.getCustomNerById(selectedNerId);
         let doesSelectedNerExistsIn_custumNerDataForSmartTable =
-          this.custumNerDataForSmartTable.find(item=>item.id===Number(selectedNerId));
-        if(doesSelectedNerExistsIn_custumNerDataForSmartTable) return;
+          this.custumNerDataForSmartTable.find(item => item.id === Number(selectedNerId));
+        if (doesSelectedNerExistsIn_custumNerDataForSmartTable) return;
         this.serverService.makeGetReq({url: getNerByIdUrl})
-          .subscribe((values:ICustomNerItem[])=>{
-            if(values.length>0){
+          .subscribe((values: ICustomNerItem[]) => {
+            if (values.length > 0) {
               this.custumNerDataForSmartTable.push(values[0]);
             }
           });
@@ -77,17 +80,18 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
   }
 
   updateOrSaveCustomNer(selectedOrNewRowData: ICustomNerItem) {
-;
+
     this.serverService.updateOrSaveCustomNer(selectedOrNewRowData, this.bot)
       .subscribe((value) => {
 
-        let doesNerExistsInSmartTable = this.custumNerDataForSmartTable.find((nerObj)=>nerObj.id===value.id);
-        if(!doesNerExistsInSmartTable)
-        (<any>this.custumNerDataForSmartTable).push({...value,highlight:true});
-        this.addQueryParamsInCurrentRoute({ner_id:value.id});
+        let doesNerExistsInSmartTable = this.custumNerDataForSmartTable.find((nerObj) => nerObj.id === value.id);
+        if (!doesNerExistsInSmartTable)
+          (<any>this.custumNerDataForSmartTable).push({...value, highlight: true});
+        this.addQueryParamsInCurrentRoute({ner_id: value.id});
         this.utilityService.showSuccessToaster('Successfully saved');
       });
   }
+
   //   let body: ICustomNerItem;
   //   let headerData: IHeaderData = {'bot-access-token': this.bot.bot_access_token};
   //   let url, methodStr;
@@ -110,23 +114,30 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
   //     });
   // }
 
-  addQueryParamsInCurrentRoute(queryParamObj:object){
+  addQueryParamsInCurrentRoute(queryParamObj: object) {
     this.router.navigate(['.'], {
-      queryParams:queryParamObj,
-      relativeTo:this.activatedRoute,
+      queryParams: queryParamObj,
+      relativeTo: this.activatedRoute,
       // skipLocationChange: true,/*not working*/
-      queryParamsHandling:"merge"
+      queryParamsHandling: 'merge'
     });
   }
 
-  deleteNer(ner_id:number){
+  deleteNer(ner_id: number) {
     this.serverService.deleteNer(ner_id, this.bot)
-      .subscribe(()=>{
+      .subscribe(() => {
 
-        let indexToBeDeleted = this.custumNerDataForSmartTable.findIndex((nerObj)=>nerObj.id==ner_id);
-        if(indexToBeDeleted) this.custumNerDataForSmartTable.splice(indexToBeDeleted,1);
-        this.router.navigate([`/core/botdetail/${EBotType.chatbot}/${this.bot.id}`], {queryParams:{'build-tab':'knowledge'}});
-        this.utilityService.showSuccessToaster("Successfully deleted!");
-      })
+        this.utilityService.showSuccessToaster('Successfully deleted!');
+        this.router.navigate([`/core/botdetail/${EBotType.chatbot}/${this.bot.id}`], {
+          queryParams: {
+            'build-tab': 'knowledge',
+            'showNerTable': true
+          }
+        });
+        let indexToBeDeleted = this.custumNerDataForSmartTable.findIndex((nerObj) => nerObj.id == ner_id);
+        if (indexToBeDeleted!==-1) this.custumNerDataForSmartTable.splice(indexToBeDeleted, 1);
+        this.knowledgeBaseComponent.showNerSmartTable();
+        this.custumNerDataForSmartTable = [...this.custumNerDataForSmartTable];
+      });
   }
 }

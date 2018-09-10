@@ -37,10 +37,11 @@ import {KnowledgeBaseWrapperComponent} from '../buildbot/build-code-based-bot/ar
 import { LimitObjectArraysStringPipe } from './consumers/limit-object-arrays-string.pipe';
 import { ConsumerFullscreenWrapperComponent } from './consumers/consumer-fullscreen-wrapper/consumer-fullscreen-wrapper.component';
 import {EBotType} from '../view-bots/view-bots.component';
+import {AuthGaurdService} from '../../auth-gaurd.service';
 
 const routes: Route[] = [
   {
-    path: '', component: BotDetailWrapperComponent, children:
+    path: '', component: BotDetailWrapperComponent, canActivateChild:[AuthGaurdService], children:
       [
         {path: `${EBotType.chatbot}/:id`, component: CodeBasedBotDetailComponent},
         {path: `${EBotType.intelligent}/:id`, component: PipelineBasedBotDetailComponent},

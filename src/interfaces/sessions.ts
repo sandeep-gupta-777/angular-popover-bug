@@ -17,6 +17,9 @@ export interface ISessionMessageItem{
   "transaction_id": string,
   "updated_at": string,
   "user_type": string
+
+  /*custom fields*/
+  messageByHuman:string
 }
 
 export interface ISessionMessage {

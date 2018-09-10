@@ -36,6 +36,7 @@ export class ViewBotsComponent implements OnInit {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.serverService.getNSetIntegrationList();
     this.serverService.getNSetBotList()
       .subscribe(()=>{

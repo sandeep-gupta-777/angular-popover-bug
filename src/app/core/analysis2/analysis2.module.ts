@@ -24,11 +24,12 @@ import { Analysis2PlatformComponent } from './according-to-old-ui/analysis2-plat
 import { Analysis2EventsComponent } from './according-to-old-ui/analysis2-events/analysis2-events.component';
 import { Analysis2UsageComponent } from './according-to-old-ui/analysis2-usage/analysis2-usage.component';
 import { Analysis2Engagement1Component } from './according-to-old-ui/analysis2-engagement1/analysis2-engagement1.component';
+import {AuthGaurdService} from '../../auth-gaurd.service';
 // import {AnalysisStateReducer2} from './ngxs/analysis.state';
 
 const routes: Route[] = [
   {
-    path: '', component: Analysis2WrapperComponent, children: [
+    path: '', component: Analysis2WrapperComponent,canActivateChild:[AuthGaurdService], children: [
       {path: '', redirectTo: 'users', pathMatch: 'full'},
       // {path: 'overview', component: Analysis2OverviewComponent},
       {path: 'overview', component: Analysis2OverviewComponent},
