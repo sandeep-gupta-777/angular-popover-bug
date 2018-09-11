@@ -2,11 +2,11 @@
 
   <app-bot-detail-header [bot]="bot"></app-bot-detail-header>
 
-  <div class="row shadow-theme bg-white py-4 mb-3">
+  <div class="row shadow-theme bg-white pt-3 pb-2">
     <!---->
     <div class="col-12 text-theme-normal">
-      <div class="col-12 d-flex justify-content-between px-4 py-2">
-        <h4 class="heading">Bot Configuration</h4>
+      <div class="col-12 d-flex justify-content-between px-3 pb-2">
+        <h4 class="heading m-0">Bot Configuration</h4>
         <div *ngIf="!showConfig" class="d-flex mx-4 justify-content-between align-items-center flex-grow-1">
           <div>Bot Unique Name : <strong>Botuniquename</strong></div>
           <div>Session Time : <strong>240 </strong>min</div>
@@ -68,11 +68,11 @@
 
 <!--============= REDESIGN=================-->
 
-<div class="row shadow-theme bg-white p-4 my-5">
+<div class="row shadow-theme bg-white p-2 my-3">
 
   <!--tabs start-->
   <div class="col-12 px-4">
-    <ul class="nav nav-tabs theme-tabbing mb-2">
+    <ul class="nav nav-tabs theme-tabbing mb-1">
       <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='architecture'}">
         <a class="nav-link heading" [routerLink]="['.']"
            queryParamsHandling="merge"
@@ -108,7 +108,7 @@
 
   <!--architeture starts-->
   <div class="col-12 architeture-body" *ngIf="selectedTab==='architecture' && (bot$|async) as bot ">
-    <div class="d-flex row-body bg-white mt-2">
+    <div class="d-flex row-body bg-white">
 
       <div class="side-bar  border-right">
         <div class="sidebar-content">
