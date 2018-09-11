@@ -3,15 +3,6 @@
   <div class="row" >
     <div class="col-5 ">
       <div class="form-group">
-<<<<<<< HEAD
-        <label for="alterEgo">Bot Name</label>
-        <input ngModel name="name" type="text" class="form-control" placeholder="A display name for the bot" id="alterEgo">
-      </div>
-
-      <div class="form-group">
-        <label for="alterEgo">Description</label>
-        <input ngModel name="description" type="text" class="form-control" placeholder="A description for the Bot" id="alterEgo">
-=======
         <label class="required" for="alterEgo">Bot Name</label>
         <label [hidden]="name.valid || name.pristine" class="text-danger pl-1" for="alterEgo"><i>Name is required</i></label>
         <input
@@ -35,29 +26,19 @@
           #description="ngModel"
           type="text" class="form-control"
                placeholder="A description for the Bot" id="alterEgo">
->>>>>>> 025c0a2f5277e5289da4ba439d6c2cea9463ff68
       </div>
 
       <div class="form-group">
         <label for="alterEgo">Bot Logo Url</label>
-<<<<<<< HEAD
-        <input ngModel name="logo" type="text" class="form-control" placeholder="URL for the Bot Logo/Brand Image" id="alterEgo">
-=======
         <input
           [(ngModel)]="_default_logo"
           name="logo" type="text" class="form-control"
                placeholder="URL for the Bot Logo/Brand Image" id="alterEgo">
->>>>>>> 025c0a2f5277e5289da4ba439d6c2cea9463ff68
       </div>
 
     </div>
     <div class="col-5">
       <div class="form-group">
-<<<<<<< HEAD
-        <label for="name">Unique Name</label>
-        <input ngModel name="bot_unique_name" type="text" class="form-control" placeholder="Bot Unique Name (non-editable after Bot creation)"
-          id="name" required>
-=======
         <label class="required" for="name">Unique Name</label>
         <label [hidden]="bot_unique_name.valid || bot_unique_name.pristine" class="text-danger pl-1" for="alterEgo"><i>Bot Unique Name is required</i></label>
         <input
@@ -68,23 +49,17 @@
           #bot_unique_name="ngModel"
           class="form-control"
                placeholder="Bot Unique Name (non-editable after Bot creation)" id="name">
->>>>>>> 025c0a2f5277e5289da4ba439d6c2cea9463ff68
       </div>
 
 
       <div class="form-group">
         <label for="alterEgo">Session Close Time [mins]</label>
-<<<<<<< HEAD
-        <input ngModel name="room_persistence_time" type="number" class="form-control" placeholder="Time until Session Closes (in minutes)"
-          id="alterEgo">
-=======
         <input
                name="room_persistence_time"
                [(ngModel)]="_default_room_persistence_time"
                type="number" class="form-control"
                placeholder="Time until Session Closes (in minutes)" id="alterEgo">
 
->>>>>>> 025c0a2f5277e5289da4ba439d6c2cea9463ff68
       </div>
       <!-- <div class="form-group">
         <label for="alterEgo">Is Manager Bot</label>
@@ -133,17 +108,10 @@
       <!--<p>{{(allbotList|json)}}</p>-->
       <!-- <p>{{bot.child_bots|json}}</p> -->
       <div *ngIf="isManager" class="permissions-box">
-<<<<<<< HEAD
-        <span *ngFor="let childBotId of bot.child_bots" class="badge badge-pill badge-info inline m-1">{{childBotId | botIdToName
-          | async}}
-          <span class="fa fa-remove cursor-pointer" (click)="removeChildBot(childBotId)"></span>
-        </span>
-=======
             <span *ngFor="let childBotId of _bot.child_bots"
                   class="badge badge-pill badge-info inline m-1">{{childBotId | botIdToName | async}}
               <span class="fa fa-remove cursor-pointer" (click)="removeChildBot(childBotId)"></span>
             </span>
->>>>>>> 025c0a2f5277e5289da4ba439d6c2cea9463ff68
       </div>
     </div>
   </div>
