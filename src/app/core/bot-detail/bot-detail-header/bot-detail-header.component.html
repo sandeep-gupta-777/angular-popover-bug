@@ -47,10 +47,14 @@
     <i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>
     <span class="action">Preview</span>
   </div>
+<<<<<<< HEAD
   <div class="d-flex preview-box" (click)="refreshBotDetails$.emit()">
       <i class="fa fa-refresh cursor-pointer" style="font-size: 15px"   ></i>
       <span class="action">Cancel</span>
     </div>
+=======
+  <i class="fa fa-refresh px-2 cursor-pointer" [ngClass]="{'fa-spin':showSpinIcon}" (click)="refreshBotDetails()"></i>
+>>>>>>> 025c0a2f5277e5289da4ba439d6c2cea9463ff68
   <button class="btn btn-theme-primary" (click)="updateBot()">Update Bot</button>
   <div class="btn-group p-2" dropdown placement="top left">
     <i dropdownToggle class="fa fa-ellipsis-v cursor-pointer p-1" style="font-size: 20px"></i>

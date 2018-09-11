@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
 import {IBasicInfo, ISaveDataManagment} from '../../../../../../interfaces/bot-creation';
-import { SaveDataManagment} from '../../../ngxs/buildbot.action';
+import {SaveDataManagment} from '../../../ngxs/buildbot.action';
 import {Store} from '@ngxs/store';
+import {UtilityService} from '../../../../../utility.service';
 
 @Component({
   selector: 'app-data-manage-form',
@@ -12,25 +13,35 @@ import {Store} from '@ngxs/store';
 })
 export class DataManageFormComponent implements OnInit {
 
-  @Input() bot:IBot;
-  @ViewChild('form') f:HTMLFormElement;
+  _bot: Partial<IBot> = {};
+  @Input() set bot(_bot: IBot) {
+    if (this.f && _bot) {
+      this._bot = _bot;
+      this.f.form.patchValue(this._bot);
+    }
+  }
+
+  @ViewChild('form') f: HTMLFormElement;
   @Output() datachanged$ = new EventEmitter<Partial<IBot>>();
 
-  constructor(private store:Store) {}
+  formData: any;
+
+  constructor(private store: Store, private utilityService: UtilityService) {
+  }
 
 
   ngOnInit() {
     // this.bot
     //
   }
+
   //
   ngAfterViewInit(): void {
-    console.log(this.bot);
-    this.f.valueChanges.debounceTime(1000).subscribe((data:ISaveDataManagment) => {
-      // ;
-      console.log(this.f);
-      if(!this.f.dirty) return;
-      // this.store.dispatch(new SaveDataManagment({data}));
+    console.log(this._bot);
+    this.f.valueChanges.debounceTime(3000).subscribe((data: ISaveDataManagment) => {
+      if (this.utilityService.compareTwoJavaObjects(this.formData, data)) return;
+      if (!this.f.dirty) return;
+      this.formData = data;
       this.datachanged$.emit(data);
     });
   }

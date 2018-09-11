@@ -2,13 +2,13 @@
   <div class="row create-concept-row">
     <div class="col-12 d-flex justify-content-between">
       <button class="btn-theme-primary-outline" (click)="showTable$.emit(); _selectedRowData = {}">Go back</button>
-      <form class="options d-flex align-items-center" #form="ngForm">
-        <span>Concept Key</span>
-        <input type="text" class="concept" placeholder="Concept Key"
+      <form ngNativeValidate class="options d-flex align-items-center" #form="ngForm">
+        <span class="required">Concept Key</span>
+        <input type="text" class="concept" placeholder="Concept Key" required
                [(ngModel)]="key" name="key">
-        <span>Concept Type</span>
+        <span class="required">Concept Type</span>
         <!--<input type="text" class="concept" placeholder="Concept Type" [(ngModel)]="nerType"  name="nerType">-->
-        <select required [(ngModel)]="ner_type" name="ner_type">
+        <select [(ngModel)]="ner_type" required name="ner_type">
           <option value="single_match">Single Match</option>
           <option value="double_match">Double Match</option>
           <option value="with_metadata">With Metadata</option>
@@ -16,33 +16,37 @@
           <option value="regex">Regex</option>
         </select>
 
-        <span *ngIf="!routeName">Override Policy</span>
+        <span *ngIf="!routeName" class="required">Override Policy</span>
         <fieldset *ngIf="!routeName">
           <div class="form-check-inline align-items-start">
             <label class="form-check-label" for="radio1">
-              <input type="radio" class="form-check-input" id="radio1" name="conflict_policy"
+              <input type="radio" class="form-check-input" id="radio1" required name="conflict_policy"
                      [(ngModel)]="conflict_policy" value="override" checked>Override
             </label>
           </div>
           <div class="form-check-inline">
             <label class="form-check-label" for="radio2">
-              <input type="radio" class="form-check-input" id="radio2" name="conflict_policy"
+              <input type="radio" class="form-check-input" id="radio2" required name="conflict_policy"
                      [(ngModel)]="conflict_policy" value="merge">Merge
             </label>
           </div>
         </fieldset>
-        <button class="btn-theme-primary mx-1" (click)="updateOrSaveConcept()"> {{ner_id?"Update": "Save" }}</button>
+        <button class="btn-theme-primary mx-1" [disabled]="!form.valid" (click)="updateOrSaveConcept()"> {{ner_id?"Update": "Save" }}</button>
         <div *ngIf="ner_id" (click)="deleteNer$.emit(ner_id)"><i class="fa fa-trash cursor-pointer"></i></div>
       </form>
     </div>
-
+<!---->
     <div class="col-12 mt-2">
       <div *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata' ||ner_type==='regex'; else table">
         <div class="d-flex justify-content-end">
           <label for="uploadInput" class="btn btn-theme-primary-outline">Upload File
-            <input type="file" hidden id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)'
+            <input hidden type="file"
+                   id="uploadInput"
+                   accept='text/plain' multiple
+                   (change)='openFile(uploadInput);uploadInput.value=null'
                    #uploadInput>
           </label>
+          <!---->
           <!--<input type="file" id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)' #uploadInput>-->
         </div>
         <app-code-editor (textChangedEvent)="textChanged($event)" [text]="codeTextInputToCodeEditorObj"></app-code-editor>

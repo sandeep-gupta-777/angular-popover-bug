@@ -1,11 +1,20 @@
 import {Injectable} from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
-import {st} from '@angular/core/src/render3';
-
+export enum EFormValidationErrors {
+  form_validation_basic_info="form_validation_basic_info",
+  form_validation_integration="form_validation_integration",
+  form_validation_pipeline="form_validation_pipeline",
+  form_validation_avator="form_validation_avator",
+}
 // import import downloadCsv from 'download-csv'; from 'download-csv';
 import downloadCsv from 'download-csv';
 import {ActivatedRoute, Router} from '@angular/router';
 import {start} from 'repl';
+import {T} from '@angular/core/src/render3';
+import {IBot} from './core/interfaces/IBot';
+import {IPipelineItem} from '../interfaces/ai-module';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +27,24 @@ export class UtilityService {
     private activatedRoute: ActivatedRoute,
   ) {
   }
+
+  readonly RANDOM_IMAGE_URLS= [
+    "https://robohash.org/StarDroid.png",
+    "https://cdn-images-1.medium.com/max/327/1*paQ7E6f2VyTKXHpR-aViFg.png",
+    "https://robohash.org/SmartDroid.png",
+    "https://robohash.org/SilverDroid.png",
+    "https://robohash.org/IntelliBot.png",
+    "https://robohash.org/SmartBot.png",
+    "https://robohash.org/SilverDroid.png",
+    "https://robohash.org/SilverDroid.png",
+  ];
+
+  getRandomAvatorUrl(){
+    let avatorArrLength = this.RANDOM_IMAGE_URLS.length;
+    let randomNumber = Math.floor(Math.random() * avatorArrLength);
+    return this.RANDOM_IMAGE_URLS[randomNumber];
+  }
+
 
   readInputFileAsText(inputElement): Promise<string> {
     return new Promise<string>((resolve, reject) => {
@@ -356,12 +383,12 @@ export class UtilityService {
     return convertedData;
   }
 
-  showErrorToaster(message) {
+  showErrorToaster(message, sec=2) {
     if (typeof message === 'string') {
-      this.toastr.error(message, null, {positionClass: 'toast-bottom-left', timeOut: 2000});
+      this.toastr.error(message, null, {positionClass: 'toast-bottom-left', timeOut: sec*1000});
       return;
     } else {
-      this.toastr.error(message.message, null, {positionClass: 'toast-bottom-left', timeOut: 2000});
+      this.toastr.error(message.message, null, {positionClass: 'toast-bottom-left', timeOut: sec*1000});
     }
   }
 
@@ -421,7 +448,7 @@ export class UtilityService {
 
   areAllValesDefined(obj: object) {
     for (let key in obj) {
-      if (!obj[key])
+      if (obj[key] ==null || obj[key] ==="")//0!==null but 0==""
         return false;
     }
     return true;
@@ -429,6 +456,53 @@ export class UtilityService {
 
   addQueryParamsInCurrentRoute(queryParamObj: object) {
     this.router.navigate(['.'], {queryParams: queryParamObj, relativeTo: this.activatedRoute});
+  }
+
+  compareTwoJavaObjects(obj1, obj2){
+    return JSON.stringify(obj1) === JSON.stringify(obj2);
+  }
+
+  getGlobalErrorMap(){
+    let errorObj = {};
+    errorObj[EFormValidationErrors.form_validation_basic_info] = "Basic info form is not valid";
+    errorObj[EFormValidationErrors.form_validation_integration] = "Integration form is not valid";
+    errorObj[EFormValidationErrors.form_validation_pipeline] = "Pipeline is not valid";
+    errorObj[EFormValidationErrors.form_validation_avator] = "Avators are either invalid or empty";
+    return errorObj;
+  }
+  getErrorMessageForValidationKey(key){
+    let errorMap = this.getGlobalErrorMap();
+    return errorMap[key]
+  }
+
+  checkIfAllPipelineInputParamsArePopulated(pipeline:IPipelineItem[]):boolean{
+
+    let inputParamsObj:object = pipeline.reduce((inputParamsObj, pipelineItem)=>{
+      return {...inputParamsObj, ...pipelineItem.input_params};
+    },{});
+
+    for(let param in inputParamsObj){
+      if(!inputParamsObj[param]){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  performFormValidationBeforeSaving(obj:IBot):IBot{
+    let objShallowClone = {...obj};
+    let validation_Keys:string[] = Object.keys(objShallowClone).filter((key)=>{
+      return key.includes('form_validation_')
+    });
+    for(let key of validation_Keys){
+      if(!objShallowClone[key]){
+        let errorMessage = this.getErrorMessageForValidationKey(key);
+        this.showErrorToaster(errorMessage);
+        return null;
+      }
+      delete  objShallowClone[key];
+    }
+    return objShallowClone;
   }
 
 }

@@ -569,7 +569,15 @@ progressbar {
 .hightlight-created-row{
   background-color: #ededed;
 }
+.required:after { content:" *"; }
 
+[disabled] {
+  cursor: not-allowed !important;
+}
+
+.ui-corner-all{
+  text-align: start;
+}
 
 //==========================
 .cm-s-cobalt.CodeMirror { background: #002240; color: white; }
@@ -599,6 +607,3 @@ progressbar {
 .cm-s-cobalt .CodeMirror-matchingbracket { outline:1px solid grey;color:white !important; }
 
 
-.highcharts-credits{
-  color: white !important;
-}

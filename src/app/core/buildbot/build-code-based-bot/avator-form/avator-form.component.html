@@ -9,22 +9,25 @@
 
   <div class="avator-item border py-2 px-3 d-flex flex-column"
        *ngFor="let avatorItem of avatorList; let i = index">
-    <i class="fa fa-trash cursor-pointer" (click)="avatorList.splice(i,1)"></i>
-    <img class="logo-md rounded-circle align-self-center" src="http://www.pngmart.com/files/3/Weather-PNG-HD.png">
+    <i class="fa fa-trash cursor-pointer" (click)="deleteAvator()"></i>
+    <img class="logo-md rounded-circle align-self-center"
+         [src]="avatorItem.avator.imageUrl || 'http://www.pngmart.com/files/3/Weather-PNG-HD.png'">
     <div class="form-group">
-      <label for="alterEgo">Avatar Name</label>
+      <label for="alterEgo" class="required">Avatar Name</label>
       <input type="text" class="form-control"
              [(ngModel)]="avatorItem.avator.name"
              (ngModelChange) = "saveChangesInStore()"
              [name]="'name'+i"
+             required
              placeholder="name" id="avator_name">
     </div>
     <div class="form-group">
-      <label for="alterEgo">Image Url</label>
+      <label for="alterEgo" class="required">Image Url</label>
       <input type="text" class="form-control"
              [name]="'url'+i"
              [(ngModel)]="avatorItem.avator.imageUrl"
              (ngModelChange) = "saveChangesInStore()"
+             required
              placeholder="Image Url" id="alterEgo">
     </div>
   </div>

@@ -71,7 +71,7 @@ export class BuildPipelineBasedBotComponent implements OnInit {
       .subscribe((value)=>{
       })
   }
-  datachanged(data:Partial<IBot>){
+  datachanged(data:IBot){
     // ;
     this.store.dispatch([
       new SaveNewBotInfo_PipelineBased({data:data})

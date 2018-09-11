@@ -105,7 +105,9 @@ export interface IIntegrationOption {
       serviceKey: string,
       streamName: string
     }
-  }
+  },
+  /*custom fields*/
+  form_validation_integration?:boolean
 }
 
 

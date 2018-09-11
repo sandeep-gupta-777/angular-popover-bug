@@ -17,12 +17,15 @@ export interface IPipelineItem {
   "default": boolean,
   "display_values": {},
   "id": number,
-  "input_params": {},
+  "input_params": object,
   "library": string,
   "module": string,
   "resource_uri": string,
   "unique_name": string,
   "updated_at": string,
+
+  /*custom fields*/
+  form_validation_pipeline?:boolean;
 }
 
 

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ConstantsService} from '../../constants.service';
 import {ServerService} from '../../server.service';
 import {
@@ -10,7 +10,7 @@ import {
 } from '../../../interfaces/report';
 import {ObjectArrayCrudService} from '../../object-array-crud.service';
 import {Select, Store} from '@ngxs/store';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {ViewBotStateModel} from '../view-bots/ngxs/view-bot.state';
 import {IBot} from '../interfaces/IBot';
 import {SmartTableSettingsService} from '../../smart-table-settings.service';
@@ -27,7 +27,7 @@ import {UtilityService} from '../../utility.service';
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.scss']
 })
-export class ReportsComponent implements OnInit {
+export class ReportsComponent implements OnInit, OnDestroy {
 
   reportSmartTableData: ISmartTableReportDataItem[] = [];
   reportHistorySmartTableData: ISmartTableReportHisoryDataItem[] = [];
@@ -53,6 +53,7 @@ export class ReportsComponent implements OnInit {
   totalReportRecords: number;
   totalHistoryReportRecords: number;
   reportTypes;
+  botlist$_sub:Subscription;
 
   ngOnInit() {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || this.activeTab;
@@ -60,15 +61,15 @@ export class ReportsComponent implements OnInit {
     this.serverService.makeGetReq<{ meta: any, objects: IReportTypeItem[] }>({url: reportTypeUrl})
       .subscribe((reportTypes) => {
         this.reportTypes = reportTypes;
-        this.loadReports(1, 10);
-        this.loadReportHistory(1, 10);
+        this.loadReports(10, 0);
+        this.loadReportHistory(10, 0);
 
       });
   }
 
-  loadReportHistory(page: number, pageSize: number) {
+  loadReportHistory(limit: number, offset: number) {
 
-    let reportHistoryUrl = this.constantsService.getReportHistoryUrl(page, pageSize);
+    let reportHistoryUrl = this.constantsService.getReportHistoryUrl(limit, offset);
     this.serverService.makeGetReq<IReportHistory>({url: reportHistoryUrl})
       .subscribe((reportHistory: IReportHistory) => {
         this.totalHistoryReportRecords = reportHistory.meta.total_count;
@@ -90,30 +91,48 @@ export class ReportsComponent implements OnInit {
   }
 
   reportHistoryTablePageChanged(page){
-    this.reportSmartTableData = [];
-    this.loadReportHistory(page,10);
+    this.reportHistorySmartTableData = [];
+    this.loadReportHistory(10,(page-1)*10 );
   }
-  customActionEventsTriggeredInSessionsTable(data: { action: string, data: IReportHistoryItem, source: any }){
+  customActionEventsTriggeredInSessionsTable(smartTableCustomEventData: { action: string, data: IReportHistoryItem, source: any }){
 
-    let url = this.constantsService.getDownloadReportHistoryByIdUrl(data.data.id);
-    this.serverService.makeGetReq({url})
-      .subscribe((value:IReportHistory)=>{
+    let url = this.constantsService.getDownloadReportHistoryByIdUrl(smartTableCustomEventData.data.id);
+    this.serverService.makeGetReqToDownloadFiles({url})
+      .subscribe((value:any)=>{
 
+        /*To download the blob: https://stackoverflow.com/questions/19327749/javascript-blob-filename-without-link*/
+        var saveData = (function () {
+          var a:any = document.createElement("a");
+          document.body.appendChild(a);
+          a.style = "display: none";
+          return function (data, fileName) {
+            var blob = new Blob([value], {type: "octet/stream"}),
+              url = window.URL.createObjectURL(blob);
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            window.URL.revokeObjectURL(url);
+          };
+        }());
+
+        // var data = { x: 42, s: "hello, world", d: new Date() },
+         var fileName = "report_history_for_bot_id_"+smartTableCustomEventData.data.bot_id + ".csv";
+
+        saveData(null, fileName);
         console.log(value);
         // this.utilityService.downloadArrayAsCSV(value, "asdsad");
       });
   }
 
-  loadReports(page: number, pageSize: number) {
-    let reportUrl = this.constantsService.getReportUrl(page, pageSize);
+  loadReports(limit: number, offset: number) {
+    let reportUrl = this.constantsService.getReportUrl(limit, offset);
     this.serverService.makeGetReq<IReportList>({url: reportUrl})
       .subscribe((results) => {
         this.totalReportRecords = results.meta.total_count;
         /*Making reportItem$ data*/
         results.objects.forEach(report => {
-          this.botlist$.subscribe((value) => {
+          this.botlist$_sub = this.botlist$.subscribe((value) => {
             let listOfAllBots = value.allBotList;
-            // ;
             try {
               this.reportSmartTableData.push({
                 ...report,
@@ -127,6 +146,7 @@ export class ReportsComponent implements OnInit {
               });
             } catch (e) {
               console.log(e);
+              // this.utilityService.showErrorToaster(`Can't show the report for botid: ${report.bot_id}. This bot is either deleted or your access maybe been revoked.`,5 );
             }
             this.reportSmartTableData = [
               ...this.reportSmartTableData
@@ -139,7 +159,7 @@ export class ReportsComponent implements OnInit {
 
   reportTablePageChanged(page) {
     this.reportSmartTableData = [];
-    this.loadReports(1, 10);
+    this.loadReports(10,(page-1)*10);
   }
 
   tabClicked(activeTab: string) {
@@ -155,6 +175,10 @@ export class ReportsComponent implements OnInit {
 
   navigateTocreateNewReport() {
     this.router.navigate(['core', 'reports', 'create']);
+  }
+
+  ngOnDestroy(): void {
+    this.botlist$_sub && this.botlist$_sub.unsubscribe();
   }
 
 }

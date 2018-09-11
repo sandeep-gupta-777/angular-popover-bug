@@ -7,7 +7,8 @@ export enum EChatFrame {
 
 export enum EBotMessageMediaType{
   image="image",
-  text="text"
+  text="text",
+  quickReply="quickReply"
 }
 
 export interface IMessageData extends IGeneratedMessageItem{

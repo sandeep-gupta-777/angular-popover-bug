@@ -1,5 +1,6 @@
 <!--chat bubbles for text message started-->
-<div class="row mt-2" [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}" *ngIf="messageData.sourceType!=='session_expired' && messageData.messageMediatype === myEBotMessageMediaType.text">
+<div class="row mt-2" [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}"
+     *ngIf="messageData.messageMediatype === myEBotMessageMediaType.text">
   <div class="p-0 text-center" style="width: 40px">
     <img class=""
          [src]="messageData?.sourceType==='bot'?selectedAvatar?.imageUrl:'https://image.flaticon.com/icons/svg/17/17004.svg'"
@@ -9,21 +10,49 @@
     <div class="message p-2"
          [ngClass]="{'bg-message-bot':messageData?.sourceType==='bot','bg-message-human':messageData?.sourceType==='human'}"
          style="display: inline-block">
-      <span class="message-text">{{messageData?.text}}</span>
+      <span class="message-text" [innerHtml]="messageData?.text"></span>
       <div class="time text-right">{{messageData?.time||'no time info'}}</div>
     </div>
   </div>
 </div>
 <!--chat bubbles for text message ends-->
 
+<div class="row mt-2"
+     *ngIf="messageData.messageMediatype === myEBotMessageMediaType.image">
+  <div class="p-0 text-center" style="width: 40px">
+    <img class=""
+         [src]="messageData?.sourceType==='bot'?selectedAvatar?.imageUrl:'https://image.flaticon.com/icons/svg/17/17004.svg'"
+         style="width: 32px;height: 32px" alt="">
+  </div>
+  <div class="col-10 text-left p-0"
+       *ngIf="messageData.messageMediatype===myEBotMessageMediaType.image">
+    <app-card-carousel
+    [messageData]="messageData"
+    (sendMessageToBotServer$)="sendMessageToBotServer$.emit($event)"
+    ></app-card-carousel>
+  </div>
+  <div class="col-10 text-left p-0"
+       *ngIf="messageData.messageMediatype===myEBotMessageMediaType.quickReply">
+    <app-quick-reply
+      [messageData]="messageData"
+      (sendMessageToBotServer$)="sendMessageToBotServer$.emit($event)"
+    ></app-quick-reply>
+
+  </div>
+</div>
 
 <!--chat bubbles for media message started-->
-<app-card-carousel
-  *ngIf="messageData.messageMediatype===myEBotMessageMediaType.image"
-  [messageData]="messageData"
-  (sendMessageToBotServer$)="sendMessageToBotServer$.emit($event)"
+<!--<app-card-carousel-->
+  <!--*ngIf="messageData.messageMediatype===myEBotMessageMediaType.image"-->
+  <!--[messageData]="messageData"-->
+  <!--(sendMessageToBotServer$)="sendMessageToBotServer$.emit($event)"-->
+<!--&gt;</app-card-carousel>-->
 
-></app-card-carousel>
+<!--<app-quick-reply-->
+  <!--*ngIf="messageData.messageMediatype===myEBotMessageMediaType.quickReply"-->
+  <!--[messageData]="messageData"-->
+  <!--(sendMessageToBotServer$)="sendMessageToBotServer$.emit($event)"-->
+<!--&gt;</app-quick-reply>-->
 
 
 <!--chat bubbles for media message ends-->

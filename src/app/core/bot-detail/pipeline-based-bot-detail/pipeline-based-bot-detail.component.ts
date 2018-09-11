@@ -89,7 +89,6 @@ export class PipelineBasedBotDetailComponent implements OnInit {
   }
 
   datachanged(data:IBot){
-    // ;
     this.store.dispatch([
       new UpdateBotInfoByIdInBotInBotList({data, botId:this.bot_id})
     ]);

@@ -14,6 +14,7 @@ import {ServerService} from '../../../../../server.service';
 import {SetPipelineModuleMasterData} from '../../../../../ngxs/app.action';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import {first} from 'rxjs/operators';
+import {EFormValidationErrors, UtilityService} from '../../../../../utility.service';
 
 @Component({
   selector: 'app-pipeline',
@@ -51,6 +52,7 @@ export class PipelineComponent implements OnInit {
     private constantsService: ConstantsService,
     private serverService: ServerService,
     private modalService: BsModalService,
+    private utilityService: UtilityService,
     private store: Store) {
     this.iterableDiffer = this._iterableDiffers.find([]).create(null);
   }
@@ -70,6 +72,10 @@ export class PipelineComponent implements OnInit {
           new SetPipelineModuleMasterData({masterPipelineItems: value.objects})
         ]);
       });
+
+    this.modalService.onHidden.subscribe((reason: string) => {
+      this.prepareAndDispatch();
+    });
 
 
     // this.aimService.getModules()
@@ -94,20 +100,19 @@ export class PipelineComponent implements OnInit {
   }
 
   ngDoCheck() {
-    // if (!this.pipeLine || this.pipeLine.length === 0) return;
     let changes = this.iterableDiffer.diff(this.pipeLine);
     if (changes) {
-      // if(this.buildBotType){
-      //   this.store.dispatch([
-      //     new SaveNewBotInfo_CodeBased({data: {pipelines: this.pipeLine}})
-      //   ]);
-      //   return;
-      // }
-      this.datachanged$.emit({pipelines: this.pipeLine});
-      // this.store.dispatch([
-      //   new SavePipeLineInfo({data: {pipeline: this.pipeLine, unselectedPipeline: this.aiModules}})
-      // ]);
+      this.prepareAndDispatch();
     }
+  }
+
+  prepareAndDispatch(){
+    let isAllPipelineModulesInputParamsArePopulated = this.utilityService.checkIfAllPipelineInputParamsArePopulated(this.pipeLine);
+    let isPipelineValidObj = {};
+    isPipelineValidObj[EFormValidationErrors.form_validation_pipeline] =isAllPipelineModulesInputParamsArePopulated;
+    /*if there is change: check if all settings are populated*/
+
+    this.datachanged$.emit({pipelines: this.pipeLine,isAllPipelineModulesInputParamsArePopulated, ...isPipelineValidObj});
   }
 
   printArr(){
@@ -118,4 +123,6 @@ export class PipelineComponent implements OnInit {
     this.selectedPipeline = pipeline;
     this.modalRef = this.modalService.show(template, { class: 'modal-md' });
   }
+
+
 }

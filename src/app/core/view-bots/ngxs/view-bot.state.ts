@@ -80,7 +80,6 @@ export class ViewBotStateReducer {
   saveVersionInfoInBot({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>,
                        {payload}: SaveVersionInfoInBot) {
     let state: ViewBotStateModel = getState();
-    // ;
     let bot: IBot = state.allBotList.find((bot) => bot.id === payload.botId);
 
     bot.store_bot_versions = payload.data;

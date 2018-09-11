@@ -28,7 +28,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
   botlist: IBot[] = [];
   selectedBot: IBot;
   reportItem: IReportItem;
-  filetype = 'pdf';
+  filetype = 'csv';
   // @Input()
   reportFormData: IReportItem;
   servervalue;
@@ -56,6 +56,12 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
     $(document).ready(function(){
       $('input.time-input1').timepicker({defaultTime: '9', scrollbar: true, timeFormat: 'HH:mm'});
     });
+
+    if(this.activatedRoute.snapshot.data["name"]==='create_report'){
+      setTimeout(() => {
+        this.f.form.patchValue({bot_id: this.botlist[0].id, frequency:'daily'});
+      }, 0);
+    }
   }
 
   ngOnInit() {
@@ -78,22 +84,26 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
           let url = this.constantsService.getReportsEditInfo(_id);
           this.serverService.makeGetReq<IReportItem>({url})
             .subscribe((value: IReportItem) => {
-              let formDataSerialized = {
-                ...value,
-                delivery: {
-                  sftp: value.delivery.find((item:any)=>item.delivery_type==='sftp'),
-                  email: value.delivery.find((item:any)=>item.delivery_type==='email')
-                }
-              };
-              // delete value.startdate;
-              if (value) this.f.form.patchValue(formDataSerialized);
-              this.startdate = new Date(value.startdate);
-              // let start_time:string  = (<any>document).getElementById("start_time").value;
-              let hh:string = new Date(value.startdate).getHours().toString();
-              let mm:string = new Date(value.startdate).getMinutes().toString();
-              if(mm.length===1) mm= '0'+mm;
-              if(hh.length===1) hh= '0'+hh;
-              (<any>document).getElementById("start_time").value = hh+':'+mm;
+              try {
+                let formDataSerialized = {
+                  ...value,
+                  delivery: {
+                    sftp: value.delivery.find((item:any)=>item.delivery_type==='sftp'),
+                    email: value.delivery.find((item:any)=>item.delivery_type==='email')
+                  }
+                };
+                // delete value.startdate;
+                if (value) this.f.form.patchValue(formDataSerialized);
+                this.startdate = new Date(value.startdate);
+                // let start_time:string  = (<any>document).getElementById("start_time").value;
+                let hh:string = new Date(value.startdate).getHours().toString();
+                let mm:string = new Date(value.startdate).getMinutes().toString();
+                if(mm.length===1) mm= '0'+mm;
+                if(hh.length===1) hh= '0'+hh;
+                (<any>document).getElementById("start_time").value = hh+':'+mm;
+              }catch (e) {
+                console.log(e);
+              }
               // this.f.f.patchValue({startdate:value.startdate});
               // this.f.f.patchValue({startdate:value.startdate});//This will only accept mmddyyyy format...
             });
@@ -147,9 +157,14 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
     console.log(this.f.value);
     console.log(this.start_time);
   }
+  privateKey;
+  async openFile(inputEl) {
+    this.privateKey= await this.utilityService.readInputFileAsText(inputEl);
+  }
 
   navigate(deliveryMode) {
     this.router.navigate([], {queryParams: {deliveryMode}});
     // deliveryMode='email'
   }
+
 }

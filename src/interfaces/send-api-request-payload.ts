@@ -26,23 +26,33 @@ export interface ISendApiRequestPayload {
 }
 
 export interface IGeneratedMessageItem {
-  'text'?: string ,
-  "media"?: [
+  'text'?: string,
+  'media'?: [
     {
-      "buttons": [
+      'buttons': [
         {
-          "title": "URL Button",
-          "type": "web_url",//title
-          "url": "https://www.messenger.com/"/*TODO: we are not getting payload*/
+          'title': 'URL Button',
+          'type': 'web_url',//title
+          'url': 'https://www.messenger.com/'/*TODO: we are not getting payload*/
         }
         ],
-      "title": "this is sample text for image ,it is optional",//use this
-      "type": EBotMessageMediaType//"image",//use this
-      "url": "https://wallpaperbrowse.com/media/images/soap-bubble-1958650_960_720.jpg"//use this
+      'title': 'this is sample text for image ,it is optional',//use this
+      'type': EBotMessageMediaType//"image",//use this
+      'url': 'https://wallpaperbrowse.com/media/images/soap-bubble-1958650_960_720.jpg'//use this
     }
     ],
+  quick_reply?: {
+    'quick_replies': [
+      {
+        'content_type': 'text',
+        'payload': 'Play Game',
+        'title': 'Play Game'
+      }],
+    'text': 'Do you want to play game or validate coupon?<br>Select any'
+  }
 
 }
+
 export interface ISendApiResponsePayload {
   'TimeStamp': 1533902788.0,
   'bot_msg': string,

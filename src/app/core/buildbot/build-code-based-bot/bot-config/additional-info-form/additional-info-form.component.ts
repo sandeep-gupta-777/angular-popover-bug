@@ -3,6 +3,7 @@ import {IBot} from '../../../../interfaces/IBot';
 import {IBasicInfo} from '../../../../../../interfaces/bot-creation';
 import {SaveNewBotInfo_CodeBased} from '../../../ngxs/buildbot.action';
 import {Store} from '@ngxs/store';
+import {UtilityService} from '../../../../../utility.service';
 
 @Component({
   selector: 'app-additional-info-form',
@@ -12,24 +13,32 @@ import {Store} from '@ngxs/store';
 })
 export class AdditionalInfoFormComponent implements OnInit {
 
-  @Input() bot: IBot;
+  _bot: Partial<IBot> = {};
+
+  @Input() set bot(_bot: IBot) {
+    if (this.f && _bot) {
+      this._bot = _bot;
+      this.f.form.patchValue(_bot);
+    }
+  }
+
   @ViewChild('form') f: HTMLFormElement;
   @Output() datachanged$ = new EventEmitter<Partial<IBot>>();
 
+  formData: any;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private utilityService: UtilityService) {
   }
-
 
   ngOnInit() {
   }
 
   ngAfterViewInit(): void {
-    console.log(this.bot);
+    console.log(this._bot);
     this.f.valueChanges.debounceTime(1000).subscribe((data: IBasicInfo) => {
-      console.log(this.f);
+      if (this.utilityService.compareTwoJavaObjects(this.formData, data)) return;
       if (!this.f.dirty) return;
-      // this.store.dispatch(new SaveBasicInfo({data}));
+      this.formData = data;
       this.datachanged$.emit(data);
     });
   }

@@ -404,8 +404,8 @@
 
 <!--<p>{{formValueFinal|json}}</p>-->
 
-<!--<button (click)="click1()">click</button>-->
 
+<!--<button (click)="click1()">click</button>-->
 
 <form class="grid-integrations form-theme" #form_new="ngForm">
 
@@ -414,7 +414,9 @@
        ngModelGroup="{{form_value_key}}">
     <div class="integration-heading">{{form_value_key|integrationNameFormatter|titlecase}}</div>
     <div
-      *ngFor="let integration_keys of myObject.keys(formValue[form_value_key])" ngModelGroup="{{integration_keys}}"
+      *ngFor="let integration_keys of myObject.keys(formValue[form_value_key])"
+      requiredIfOneFilledValidator
+      ngModelGroup="{{integration_keys}}"
       class="border px-3">
       <div class="d-flex justify-content-center align-items-center" style="height: 90px">
         <img
@@ -427,7 +429,7 @@
       <div [hidden]="!formValueFinal[form_value_key][integration_keys]['enabled']" >
         <div *ngFor="let integration_input_keys of formValue[form_value_key][integration_keys]|integrationInputKeysFilter">
           <div class="form-group">
-            <label>{{integration_input_keys|integrationNameFormatter|titlecase}}</label>
+            <label class="required">{{integration_input_keys|integrationNameFormatter|titlecase}}</label>
             <input ngModel type="text"
                    class="form-control"
                    [name]="integration_input_keys">

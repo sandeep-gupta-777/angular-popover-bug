@@ -32,23 +32,28 @@ export class BuildbotWrapperComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('tab') || 'basic'; //todo: not a robust code
     this.botcreationstate$.subscribe((value) => {
+      /*TODO: this is a  hack to avoid loops*/
       if (!value || !value.codeBased) return;
       this.bot = value.codeBased;
     });
-    // this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab')||'pipeline';
   }
 
   createBot() {
+    let bot:IBot = this.utilityService.performFormValidationBeforeSaving(this.bot);
+    // delete this.bot.form_validation_basic_info;
+    if(!bot) return;
     let url = this.constantsService.getCreateNewBot();
     let bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type');
-    if(!this.bot){
+    if(!bot){
       console.error("there is no bot type in url");
     }
 
-    this.bot.bot_type = bot_type;
-    this.serverService.makePostReq({url: url, body: this.bot})
+    bot.bot_type = bot_type;
+    if(!this.bot.logo){
+      this.bot.logo = "https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png";
+    }
+    this.serverService.makePostReq({url: url, body: bot})
       .subscribe((createdBot: IBot) => {
         console.log();
         this.store.dispatch([
@@ -61,11 +66,14 @@ export class BuildbotWrapperComponent implements OnInit {
   }
 
 
-  datachanged(data: Partial<IBot>) {
-    // ;
+  datachanged(data: IBot) {
+
     this.store.dispatch([
       new SaveNewBotInfo_CodeBased({data: data})
     ]);
   }
 
+  navigateToDashboard(){
+    this.router.navigate([""]);
+  }
 }

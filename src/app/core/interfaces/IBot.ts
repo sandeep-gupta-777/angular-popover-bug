@@ -79,7 +79,12 @@ export interface IBot {
   "updated_by": number,
   // these r store properties and will not come from server...delete it before updating the bot
   "store_bot_versions" : Partial<IBotVersionData>[];
-  store_selected_version:number
+  store_selected_version:number,
+
+  /*Form validations*/
+  form_validation_basic_info?:boolean,
+  form_validation_avator?:boolean,
+  form_validation_integration?:boolean,
 }
 
 export interface IBotResult {
@@ -215,6 +220,6 @@ export interface ICode {
   "workflow"? : string
 }
 
-export interface IBotCreation extends IBot,ICodeData {
+export interface IBotCreation extends Partial<IBot>/*,ICodeData */{
 
 }

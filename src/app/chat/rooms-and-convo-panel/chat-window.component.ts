@@ -31,7 +31,7 @@ export class ChatWindowComponent implements OnInit {
     } catch(err) { }
   }
   sendMessageByHuman(message){
-    debugger;
+
     this.sendMessageByHuman$.emit({messageByHuman:message, room:this.room});
     this.messageByHuman ="";
   }

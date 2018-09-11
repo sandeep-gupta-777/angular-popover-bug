@@ -1,5 +1,8 @@
 @import '~src/sass/main';
 
+[requiredifonefilledvalidator].ng-invalid{
+  border: 1px solid red !important;
+}
 
 .ngModelGroup-border{
   padding: 1px;
