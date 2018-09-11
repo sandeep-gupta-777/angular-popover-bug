@@ -73,4 +73,7 @@ export class BuildbotWrapperComponent implements OnInit {
     ]);
   }
 
+  navigateToDashboard(){
+    this.router.navigate([""]);
+  }
 }

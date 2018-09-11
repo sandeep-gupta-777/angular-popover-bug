@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {IBot} from '../../interfaces/IBot';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
@@ -40,6 +40,7 @@ export class BuildCodeBasedBotComponent implements OnInit {
     private serverService: ServerService,
     private utilityService: UtilityService,
     private constantsService: ConstantsService,
+    private router: Router,
     private store:Store
 
   ) { }
@@ -80,5 +81,7 @@ export class BuildCodeBasedBotComponent implements OnInit {
     //   new SaveNewBotInfo_CodeBased({data:data})
     // ]);
   }
+
+
 
 }
