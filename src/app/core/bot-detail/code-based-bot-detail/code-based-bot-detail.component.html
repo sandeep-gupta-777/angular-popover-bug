@@ -6,7 +6,7 @@
     <div class="row bg-white pb-2 pt-3 shadow-theme">
       <!---->
       <div class="col-12 text-theme-normal">
-        <div class="col-12 d-flex justify-content-between px-3 pb-2">
+        <div class="col-12 d-flex justify-content-between px-3 pb-1">
           <div class="heading" style="font-size: 14px !important;">Bot Configuration</div>
           <div *ngIf="!showConfig" class="d-flex mx-4 justify-content-between align-items-center flex-grow-1">
             <div>Bot Unique Name : <strong>{{bot.bot_unique_name}}</strong></div>
@@ -67,7 +67,7 @@
 
   <!--============= REDESIGN=================-->
 
-  <div class="row shadow-theme bg-white p-2 my-3 align-content-start " style="min-height: 300px;">
+  <div class="row shadow-theme bg-white p-2 my-3 align-content-start " style="height: 300px;">
 
     <!--tabs start-->
     <div class="col-12  px-2">
@@ -141,7 +141,7 @@
             </div>
           </div>
         </div>
-        <div class="p-2" style="width: 85%;">
+        <div class="px-2 pt-2 pb-0" style="width: 85%;">
           <app-pipeline (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"
                         [bot]="bot"></app-pipeline>
           <!--<app-knowledge-base (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='knowledge'"-->
