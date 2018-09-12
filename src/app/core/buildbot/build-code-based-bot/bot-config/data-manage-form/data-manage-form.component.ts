@@ -4,6 +4,7 @@ import {IBasicInfo, ISaveDataManagment} from '../../../../../../interfaces/bot-c
 import {SaveDataManagment} from '../../../ngxs/buildbot.action';
 import {Store} from '@ngxs/store';
 import {UtilityService} from '../../../../../utility.service';
+import {ConstantsService, ETabNames} from '../../../../../constants.service';
 
 @Component({
   selector: 'app-data-manage-form',
@@ -14,6 +15,7 @@ import {UtilityService} from '../../../../../utility.service';
 export class DataManageFormComponent implements OnInit {
 
   _bot: Partial<IBot> = {};
+  myETabNames = ETabNames;
   @Input() set bot(_bot: IBot) {
     if (this.f && _bot) {
       this._bot = _bot;
@@ -26,7 +28,10 @@ export class DataManageFormComponent implements OnInit {
 
   formData: any;
 
-  constructor(private store: Store, private utilityService: UtilityService) {
+  constructor(
+    private store: Store,
+    public constantsService: ConstantsService,
+    private utilityService: UtilityService) {
   }
 
 
@@ -38,12 +43,16 @@ export class DataManageFormComponent implements OnInit {
   //
   ngAfterViewInit(): void {
     console.log(this._bot);
-    this.f.valueChanges.debounceTime(3000).subscribe((data: ISaveDataManagment) => {
-      if (this.utilityService.compareTwoJavaObjects(this.formData, data)) return;
+    this.f.valueChanges.debounceTime(200).subscribe((data: ISaveDataManagment) => {
+      if (this.utilityService.areTwoJSObjectSame(this.formData, data)) return;
       if (!this.f.dirty) return;
       this.formData = data;
       this.datachanged$.emit(data);
     });
+  }
+
+  click(){
+    console.log(this._bot);
   }
 
 }

@@ -1,7 +1,9 @@
+<!--<button (click)="click()">click</button>-->
+
 <form #form="ngForm" class="bot-creation-form ">
 
   <div class="row">
-    <div class="col-5">
+    <fieldset class="col-5" readonlyselectedroles>
       <div class="form-group">
         <label for="name">Data retention period [days]</label>
         <input [ngModel]="_bot.data_persistence_period||30" name="data_persistence_period" type="number" class="form-control"
@@ -17,17 +19,17 @@
       <div class="form-group">
         <div class="form-control d-flex align-items-center justify-content-between pr-5">
           <label class="pr-2">Advanced Data Protection</label>
-          <ui-switch class="pt-2" [ngModel]="_bot.advanced_data_protection" name="advanced_data_protection"
+          <ui-switch [disabled]="constantsService.isTabAccessDenied(myETabNames.UI_SWITCH)" class="pt-2" [ngModel]="_bot.advanced_data_protection" name="advanced_data_protection"
                      style="border:none" size="small"></ui-switch>
         </div>
       </div>
       <!---->
-    </div>
-    <div class="col-5">
+    </fieldset >
+    <fieldset class="col-5" readonlyselectedroles>
       <div class="form-group">
         <div class="form-control d-flex align-items-center justify-content-between pr-5">
           <label class="pr-2">Allow anonymization?</label>
-          <ui-switch class="pt-2" [ngModel]="_bot.allow_anonymization" name="allow_anonymization" style="border:none"
+          <ui-switch [disabled]="constantsService.isTabAccessDenied(myETabNames.UI_SWITCH)" class="pt-2" [ngModel]="_bot.allow_anonymization" name="allow_anonymization" style="border:none"
                      size="small"></ui-switch>
         </div>
       </div>
@@ -35,18 +37,18 @@
       <div class="form-group">
         <div class="form-control d-flex align-items-center justify-content-between pr-5">
           <label class="pr-2">Blanket consent for all consumers</label>
-          <ui-switch class="pt-2" [ngModel]="_bot.blanket_consent" name="blanket_consent" style="border:none"
+          <ui-switch [disabled]="constantsService.isTabAccessDenied(myETabNames.UI_SWITCH)" class="pt-2" [ngModel]="_bot.blanket_consent" name="blanket_consent" style="border:none"
                      size="small"></ui-switch>
         </div>
       </div>
       <div class="form-group">
         <div class="form-control d-flex align-items-center justify-content-between pr-5">
           <label class="pr-2">Room Close Callback</label>
-          <ui-switch class="pt-2" [ngModel]="_bot.room_close_callback" name="room_close_callback" style="border:none"
+          <ui-switch [disabled]="constantsService.isTabAccessDenied(myETabNames.UI_SWITCH)"  class="pt-2" [ngModel]="_bot.room_close_callback" name="room_close_callback" style="border:none"
                      size="small"></ui-switch>
         </div>
       </div>
-    </div>
+    </fieldset>
   </div>
 
 </form>

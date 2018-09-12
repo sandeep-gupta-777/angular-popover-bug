@@ -1,3 +1,3 @@
-<div class="grid-bot-preview" *ngIf="(pipelineBasedBotList$|async) as codeBasedBotList">
-  <app-bot-preview-card *ngFor="let bot of codeBasedBotList" [bot] = bot></app-bot-preview-card>
+<div class="grid-bot-preview" *ngIf="(pipelineBasedBotList$|async) as pipelineBasedBotList">
+  <app-bot-preview-card *ngFor="let bot of pipelineBasedBotList|sortObjectArray" [bot] = bot></app-bot-preview-card>
 </div>

@@ -39,13 +39,19 @@ import {AuthGaurdService} from '../auth-gaurd.service';
 import {EBotType} from './view-bots/view-bots.component';
 import {CardCarouselComponent} from '../chat/carousel/card-carousel/card-carousel.component';
 import {QuickReplyComponent} from '../chat/carousel/quick-reply/quick-reply.component';
+import {AccessGaurdService} from '../access-gaurd.service';
+import {ERouteNames} from '../constants.service';
+// import {HighlightDirective} from '../readonly-selected-permission.directive';
 // import { IntegrationNameFormatterPipe } from './buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-name-formatter.pipe';
 
 const routes: Route[] = [
   {
 
     path: '',
-    component: CoreWrapperComponent, children: [
+    component: CoreWrapperComponent,
+    canActivate:[AuthGaurdService],
+    canActivateChild:[AuthGaurdService,AccessGaurdService],
+    children: [
       {
         path: 'viewbots', loadChildren: './view-bots/view-bots.module#ViewBotsModule',canLoad:[AuthGaurdService]
       },
@@ -55,41 +61,21 @@ const routes: Route[] = [
       {
         path: 'analytics2', loadChildren: './analysis2/analysis2.module#Analysis2Module', canLoad:[AuthGaurdService]
       },
-      // {
-      //   path: 'analytics', component: WrapperComponent, children:
-      //     [
-      //       {path: 'overview', component: OverviewComponent},
-      //       {path: 'users', component: UsersComponent},
-      //       {path: 'sessions', component: SessionsComponent},
-      //       {path: 'messages', component: MessagesComponent},
-      //       {path: 'platforms', component: PlatformsComponent},
-      //       {path: 'events', component: EventsComponent},
-      //       {path: 'engagement', component: EngagementComponent},
-      //       {path: 'usage', component: UsageComponent}
-      //     ]
-      // },
-
-      {path: 'customner', component: ViewCustomnerComponent, data:{routeName:'customner'}, canActivate:[AuthGaurdService]},
-      {path: 'customner/create', component: CreateCustomnerComponent, canActivate:[AuthGaurdService]},
-      {path: 'enterpriseprofile', component: EnterpriseprofileComponent, canActivate:[AuthGaurdService]},
-      {path: 'profile', component: ProfileComponent, canActivate:[AuthGaurdService]},
-      {path: 'reports', component: ReportsComponent, canActivate:[AuthGaurdService]},
-      {path: 'reports/edit/:_id', component: ReportDetailsComponent, canActivate:[AuthGaurdService]},
-      {path: 'reports/create', component: ReportDetailsComponent, canActivate:[AuthGaurdService], data:{name:"create_report"}},
-      {path: 'documentation', component: DocumentationComponent, canActivate:[AuthGaurdService]},
-      // {path: 'buildbot/codebased', component: BuildCodeBasedBotComponent, canActivate:[AuthGaurdService]},
-      // {path: 'buildbot/intelligent', component: BuildPipelineBasedBotComponent, canActivate:[AuthGaurdService]},
+      {path: 'customner', component: ViewCustomnerComponent, data:{routeName:ERouteNames.customner}, canActivate:[]},
+      {path: 'customner/create', component: CreateCustomnerComponent, canActivate:[]},
+      {path: 'enterpriseprofile', component: EnterpriseprofileComponent, data:{routeName:ERouteNames.enterprise_profile}, canActivate:[]},
+      {path: 'profile', component: ProfileComponent},
+      {path: 'reports', component: ReportsComponent, data:{routeName:ERouteNames.report}},
+      {path: 'reports/edit/:_id', component: ReportDetailsComponent, data:{routeName:ERouteNames.report}},
+      {path: 'reports/create', component: ReportDetailsComponent, data:{name:ERouteNames.create_report}},
+      {path: 'documentation', component: DocumentationComponent, canActivate:[]},
       {
         path: 'buildbot', component: BuildbotWrapperComponent, children:
           [
             {path: EBotType.chatbot, component: BuildCodeBasedBotComponent, data: {buildBot: EBotType.chatbot}},
             {path: 'intelligent', component: BuildPipelineBasedBotComponent, data: {buildBot: 'pipeLineBased'}},
-            // {path: '', component: ViewCodeBasedBotComponent}
           ]
       },
-      // {path: 'viewbots/codebased', component: ViewCodeBasedBotComponent},
-      // {path: 'viewbots/intelligent', component: ViewPipelineBasedBotsComponent},
-      // {path: '**', component: NotFoundComponent}
     ],
   },
 
@@ -131,7 +117,8 @@ const routes: Route[] = [
 
     /*added after lazy loading*/
     CardCarouselComponent,
-    QuickReplyComponent
+    QuickReplyComponent,
+    // HighlightDirective
 
   ],
   imports: [

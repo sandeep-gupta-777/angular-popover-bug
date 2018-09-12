@@ -5,29 +5,29 @@ import {IIntegrationOption} from '../../../interfaces/integration-option';
 
 /*TODO: what is the key for industry*/
 export interface IBot {
-  "active_version_id": number,
-  "advanced_data_protection": boolean,
-  "allow_anonymization": boolean,
-  "avatars": IAvatar[],
-  "blanket_consent": boolean,
-  "bot_access_token": string,
-  "bot_type": string,
-  "bot_unique_name": string,
-  "child_bots": Array<number>,
-  "consent_categories": string,
-  "consent_message": string,
-  "created_at": string,
-  "created_by": number,
-  "data_persistence_period": number,
-  "description": string,
-  "enterprise_id": number,
-  "error_message": string,
-  "first_message": string,
-  room_close_callback:boolean,
-  "heading": string,
-  "id": number,
+  "active_version_id"?: number,
+  "advanced_data_protection"?: boolean,
+  "allow_anonymization"?: boolean,
+  "avatars"?: IAvatar[],
+  "blanket_consent"?: boolean,
+  "bot_access_token"?: string,
+  "bot_type"?: string,
+  "bot_unique_name"?: string,
+  "child_bots"?: Array<number>,
+  "consent_categories"?: string,
+  "consent_message"?: string,
+  "created_at"?: string,
+  "created_by"?: number,
+  "data_persistence_period"?: number,
+  "description"?: string,
+  "enterprise_id"?: number,
+  "error_message"?: string,
+  "first_message"?: string,
+  room_close_callback?:boolean,
+  "heading"?: string,
+  "id"?: number,
   /*TODO: Queries:Integration should be array*/
-  integrations: IIntegrationOption
+  integrations?: IIntegrationOption
   //   {
   //   ccsp_details: {
   //     debug: {
@@ -69,17 +69,17 @@ export interface IBot {
   //   }
   // }
   ,
-  "logo": string,
-  "name": string,
-  "parent_bots": string,
-  "pipelines": IPipelineItem[],
-  "room_persistence_time": number,
-  "transactions_per_pricing_unit": number,
-  "updated_at": string,
-  "updated_by": number,
+  "logo"?: string,
+  "name"?: string,
+  "parent_bots"?: string,
+  "pipelines"?: IPipelineItem[],
+  "room_persistence_time"?: number,
+  "transactions_per_pricing_unit"?: number,
+  "updated_at"?: string,
+  "updated_by"?: number,
   // these r store properties and will not come from server...delete it before updating the bot
-  "store_bot_versions" : Partial<IBotVersionData>[];
-  store_selected_version:number,
+  "store_bot_versions" ?: Partial<IBotVersionData>[];
+  store_selected_version?:number,
 
   /*Form validations*/
   form_validation_basic_info?:boolean,

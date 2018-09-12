@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {EBotMessageMediaType, IMessageData} from '../../../../../interfaces/chat-session-state';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-chat-message',
@@ -16,11 +17,13 @@ export class ChatMessageComponent implements OnInit {
     sourceType:"bot",
     messageMediatype:null
   };
+  isFullScreenPreview:boolean = false;
   @Output() sendMessageToBotServer$ = new EventEmitter();
-  constructor() { }
+  constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-
+    console.log(this.messageData);
+    this.isFullScreenPreview = this.activatedRoute.snapshot.data['isFullScreenPreview'];
   }
 
 }

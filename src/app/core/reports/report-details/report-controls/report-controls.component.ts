@@ -27,15 +27,17 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
   @ViewChild('form') f: NgForm;
   botlist: IBot[] = [];
   selectedBot: IBot;
+  today = new Date();
   reportItem: IReportItem;
   filetype = 'csv';
   // @Input()
   reportFormData: IReportItem;
   servervalue;
-  deliveryMode: string = 'email';
+  deliveryMode: string = 'sftp';
   startdate = new Date();
-
+// test = false;
   // start_date = new Date();
+  isSftpReportEnabled=false;
 
   constructor(
     private store: Store,
@@ -159,7 +161,12 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
   }
   privateKey;
   async openFile(inputEl) {
-    this.privateKey= await this.utilityService.readInputFileAsText(inputEl);
+    debugger;
+    try {
+      this.privateKey= await this.utilityService.readInputFileAsText(inputEl);
+    }catch (e) {
+      console.error(e);
+    }
   }
 
   navigate(deliveryMode) {

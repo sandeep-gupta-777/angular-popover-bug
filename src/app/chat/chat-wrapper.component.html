@@ -78,7 +78,7 @@
 <!--===============FULL SCREEN BELOW===================-->
 <div *ngIf="isFullScreenPreview" class="grid-chat-preview-full-screen">
   <div class="header1 bg-theme-primary px-3 d-flex align-items-center">
-    <img class="logo-md mr-2 border-radius" src="{{logoSrc}}" alt="" style="border-radius: 50%;">
+    <img class="logo-md mr-2 rounded-circle" src="{{logoSrc}}" alt="" style="border-radius: 50%;">
     <div class="d-flex flex-column text-white">
       <div>{{loggeduser.user.first_name}}</div>
       <div class="font-11">{{loggeduser.user.email}}</div>
@@ -86,7 +86,7 @@
   </div>
   <div class="header2 px-3 bg-theme-primary d-flex align-items-center">
     <!--<img class="logo-md" src="https://image.flaticon.com/icons/svg/17/17004.svg" alt="">-->
-    <img class="logo-md mr-2" [src]="selectedAvatar.imageUrl||'https://image.flaticon.com/icons/svg/17/17004.svg'">
+    <img class="logo-md mr-2 rounded-circle" [src]="selectedAvatar.imageUrl||'https://image.flaticon.com/icons/svg/17/17004.svg'">
     <div class="d-flex flex-column text-white">
       <div>{{currentBot.name}}</div>
       <div class="font-11">{{currentBot.description}}</div>

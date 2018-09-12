@@ -17,7 +17,6 @@ export class AuthGaurdService implements CanActivate, CanActivateChild, CanLoad 
   @Select() loggeduser$: Observable<IAuthState>;
 
   canActivate() {
-    // return true;
     return this.loggeduser$.map((value: IAuthState) => {
       if (value && value.user != null) {
         return true;
@@ -29,7 +28,6 @@ export class AuthGaurdService implements CanActivate, CanActivateChild, CanLoad 
   }
 
   canActivateChild() {
-
 
     return this.loggeduser$.map((value: IAuthState) => {
       if (value.user != null) {
@@ -43,8 +41,6 @@ export class AuthGaurdService implements CanActivate, CanActivateChild, CanLoad 
 
   canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
     // return true;
-
-
     return this.loggeduser$.map((value: IAuthState) => {
       if (value.user != null) {
         return true;

@@ -108,8 +108,14 @@ export class Topgenerationtemplates {
 }
 
 
-export class ResetAnalytics2Data {
+export class ResetAnalytics2GraphData {
   static readonly type = '[analytics2] ResetAnalytics2Data';
+  constructor() {
+  }
+}
+
+export class ResetAnalytics2HeaderData {
+  static readonly type = '[analytics2] ResetAnalytics2HeaderData';
   constructor() {
   }
 }

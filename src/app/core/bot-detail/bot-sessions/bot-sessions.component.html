@@ -40,10 +40,13 @@
     </div>
 
     <div class="modal-body pt-0">
-     <div>
-       <input type="text" [(ngModel)] = "decryptReason">
-       <button class="btn-theme-primary" (click)="decryptSubmit();modalRef.hide()">Submit</button>
-     </div>
+     <form #form="ngForm">
+       <div class="text-center my-1">
+         <label for="" class="mr-1">Reason</label>
+         <input type="text" required style="border-radius: 0px !important;" [(ngModel)] = "decryptReason" name="decryptReason">
+       </div>
+       <button [disabled]="!form.valid" class=" btn btn-theme-success-sm" (click)="decryptSubmit();modalRef.hide()">Submit</button>
+     </form>
 
     </div>
   </div>

@@ -13,6 +13,7 @@ export class SessionMessageComponent implements OnInit {
   // @Input() sessionMessageData: ISessionMessageItem;
   @Input() txnConversationItems: ITxnSessionMessagesItem;
   @Output() messageClickedEvent$: EventEmitter<string> = new EventEmitter();
+  myArray = Array;
   sessionMessageItems: ISessionMessageItem[];
   txnId:string;
   txnId_highlighting:string;

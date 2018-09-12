@@ -18,10 +18,10 @@
       <!--</ul>-->
     <!--</div>-->
     <a class="header-nav" [routerLink]="'/core/viewbots/'+myEBotType.chatbot"><i class="fa fa-home"></i>Bot Dashboard</a>
-    <a class="header-nav" routerLink="customner"><i class="fa fa-graduation-cap"></i>Knowledge Base</a>
+    <a class="header-nav" routerLink="customner" *myIf="myETabNames.enterprise_profile"><i class="fa fa-graduation-cap"></i>Knowledge Base</a>
     <!--<a class="header-nav" routerLink="documentation"><i class="fa fa-file"></i>Documentation</a>-->
 
-    <div class="btn-group" dropdown>
+    <!--<div class="btn-group" dropdown>-->
       <a class="header-nav" routerLink="analytics2"><i dropdownToggle class="fa fa-bar-chart"></i>Analytics</a>
       <!--<i dropdownToggle class="fa fa-bar-chart"></i>-->
       <!--<ul *dropdownMenu class="dropdown-menu" role="menu">-->
@@ -34,8 +34,8 @@
         <!--<li role="menuitem"><a class="dropdown-item" [routerLink]="['analytics','engagement']">Engagement</a></li>-->
         <!--<li role="menuitem"><a class="dropdown-item" [routerLink]="['analytics','usage']">Usage</a></li>-->
       <!--</ul>-->
-    </div>
-    <a class="header-nav" routerLink="reports"><i class="fa fa-list"></i>Reports</a>
+    <!--</div>-->
+    <a *myIf="myETabNames.report" class="header-nav" routerLink="reports"><i class="fa fa-list"></i>Reports</a>
   </div>
 
   <div class="d-flex header-container__right align-items-center ml-auto ">
@@ -54,8 +54,8 @@
         <ul *dropdownMenu  class="dropdown-menu dropdown-menu-right" role="menu">
           <li role="menuitem"><a class="dropdown-item" [routerLink]="['profile']">Profile</a></li>
           <li role="menuitem"><a class="dropdown-item cursor-pointer" (click)="logout()">Signout</a></li>
-          <li class="divider dropdown-divider"></li>
-          <li role="menuitem"><a class="dropdown-item" [routerLink]="['enterpriseprofile']">Enterprise Profile</a></li>
+          <li class="divider dropdown-divider" *myIf="myETabNames.enterprise_profile"></li>
+          <li role="menuitem"><a class="dropdown-item" *myIf="myETabNames.enterprise_profile" [routerLink]="['enterpriseprofile']">Enterprise Profile</a></li>
         </ul>
       </div>
     </div>

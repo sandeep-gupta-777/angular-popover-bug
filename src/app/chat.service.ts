@@ -52,7 +52,7 @@ export class ChatService {
           * else return it as tet
           * */
 
-          debugger;
+
           if(Object.keys(message)[0] === "media"){
             return {
               messageMediatype:message.media[0].type,//

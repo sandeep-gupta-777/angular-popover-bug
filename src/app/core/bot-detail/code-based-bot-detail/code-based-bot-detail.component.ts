@@ -10,7 +10,7 @@ import { ServerService } from '../../../server.service';
 import { UtilityService } from '../../../utility.service';
 import { BotSessionsComponent } from '../bot-sessions/bot-sessions.component';
 import {UpdateBotInfoByIdInBotInBotList, SaveVersionInfoInBot} from '../../view-bots/ngxs/view-bot.action';
-import {ConstantsService} from '../../../constants.service';
+import {ConstantsService, ETabNames} from '../../../constants.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 
 @Component({
@@ -19,6 +19,8 @@ import {IHeaderData} from '../../../../interfaces/header-data';
   styleUrls: ['./code-based-bot-detail.component.scss']
 })
 export class CodeBasedBotDetailComponent implements OnInit {
+
+  myETabNames = ETabNames
 
   @Select() botlist$: Observable<ViewBotStateModel>;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;

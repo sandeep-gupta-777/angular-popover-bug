@@ -574,6 +574,9 @@ progressbar {
 [disabled] {
   cursor: not-allowed !important;
 }
+.form-control:disabled, .form-control[readonly]{
+  background-color: transparent;
+}
 
 .ui-corner-all{
   text-align: start;

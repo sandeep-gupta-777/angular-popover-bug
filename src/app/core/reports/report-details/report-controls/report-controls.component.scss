@@ -93,6 +93,7 @@ textarea {
     margin-left: 1px;
     @include hide-borders();
     border-bottom: $border-normal;
+    background-color: transparent;
     border-radius: 0;
     &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
       opacity: 1; /* Firefox */
