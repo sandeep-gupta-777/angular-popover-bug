@@ -2,7 +2,7 @@
   <app-smart-table [data]="sessions"
                    [totalRecords]="totalSessionRecords"
                    (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,Primarytemplat)"
-                   (rowClicked$)="goToReportEditComponent($event, template)"
+                   (rowClicked$)="goToReportEditComponent($event, template, Primarytemplat)"
                    (pageChanged$)="sessionTablePageChanged($event)"
                    [showSearchInDB]="true"
                    (performSearchInDB$)="performSearchInDbForSession($event)"
@@ -42,7 +42,7 @@
     <div class="modal-body pt-0">
      <div>
        <input type="text" [(ngModel)] = "decryptReason">
-       <button class="btn-theme-primary" (click)="decryptSubmit();modalRef.hide()">Submit</button>
+       <button class="btn-theme-primary" (click)="decryptSubmit(); modalRef.hide()">Submit</button>
      </div>
 
     </div>

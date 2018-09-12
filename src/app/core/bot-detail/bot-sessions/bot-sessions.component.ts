@@ -1,16 +1,16 @@
-import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {Store, Select} from '@ngxs/store';
-import {IConsumerResults} from '../../../../interfaces/consumer';
-import {ServerService} from '../../../server.service';
-import {Observable} from 'rxjs';
-import {ConstantsService} from '../../../constants.service';
-import {ISessionItem, ISessionMessage, ISessions} from '../../../../interfaces/sessions';
-import {of} from 'rxjs';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {IBot} from '../../interfaces/IBot';
-import {SmartTableComponent} from '../../../smart-table/smart-table.component';
-import {UtilityService} from '../../../utility.service';
-import {IHeaderData} from '../../../../interfaces/header-data';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Store, Select } from '@ngxs/store';
+import { IConsumerResults } from '../../../../interfaces/consumer';
+import { ServerService } from '../../../server.service';
+import { Observable } from 'rxjs';
+import { ConstantsService } from '../../../constants.service';
+import { ISessionItem, ISessionMessage, ISessions } from '../../../../interfaces/sessions';
+import { of } from 'rxjs';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { IBot } from '../../interfaces/IBot';
+import { SmartTableComponent } from '../../../smart-table/smart-table.component';
+import { UtilityService } from '../../../utility.service';
+import { IHeaderData } from '../../../../interfaces/header-data';
 
 @Component({
   selector: 'app-bot-sessions',
@@ -21,9 +21,9 @@ export class BotSessionsComponent implements OnInit {
 
   @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
   @Input() id: string;
-  test="asdasdsd";
+  test = "asdasdsd";
   @Input() bot: IBot;
-  sessionItemToBeDecrypted:ISessionItem;
+  sessionItemToBeDecrypted: ISessionItem;
   @ViewChild(SmartTableComponent) smartTableComponent: SmartTableComponent;
   sessions$: Observable<ISessions>;
   refreshSessions$: Observable<ISessions>;
@@ -51,48 +51,62 @@ export class BotSessionsComponent implements OnInit {
 
   ngOnInit() {
     this.url = this.constantsService.getBotSessionsUrl(10, 0);
-    this.sessions$ = this.serverService.makeGetReq<ISessions>({url: this.url, headerData: {'bot-access-token': this.bot.bot_access_token}});
+    this.sessions$ = this.serverService.makeGetReq<ISessions>({ url: this.url, headerData: { 'bot-access-token': this.bot.bot_access_token } });
     this.sessions$
-    .map((value) => {
-      return {
-        ...value,
-        objects: value.objects.map((result) => {
-          let modified_update_at = (new Date(result.updated_at)).toDateString();
-          return { ...result, updated_at: modified_update_at };
-        })
-      };
-    })
-    .subscribe((value) => {
-      if (!value) return;
-      this.totalSessionRecords = value.meta.total_count;
-      this.sessions = value.objects;
-    });
+      .map((value) => {
+        return {
+          ...value,
+          objects: value.objects.map((result) => {
+            let modified_update_at = (new Date(result.updated_at)).toDateString();
+            return { ...result, updated_at: modified_update_at };
+          })
+        };
+      })
+      .subscribe((value) => {
+        if (!value) return;
+        this.totalSessionRecords = value.meta.total_count;
+        this.sessions = value.objects;
+      });
   }
 
   /*todo: implement it better way*/
   refreshSession() {
-    this.refreshSessions$ = this.serverService.makeGetReq<ISessions>({url: this.url});
+    this.refreshSessions$ = this.serverService.makeGetReq<ISessions>({ url: this.url });
     this.refreshSessions$.subscribe((value) => {
       this.sessions$ = of(value);
     });
   }
 
-  goToReportEditComponent($event, template) {
+  goToReportEditComponent($event, template, Primarytemplat) {
     // if(this.selectedRow_Session)(<any>this.selectedRow_Session).highlight = false;
-    this.selectedRow_Session = $event.data;
-    // (<any>this.selectedRow_Session).highlight = true;
-    if(this.indexOfCurrentRowSelected !== undefined)
-      this.sessions[this.indexOfCurrentRowSelected].highlight = false;
-    this.indexOfCurrentRowSelected = this.sessions.findIndex((session) => {
-      return this.selectedRow_Session.id === session.id;
-    });
-    this.sessions[this.indexOfCurrentRowSelected].highlight = true;
+    let isEncrypted: boolean;
+    this.loadSessionMessagesById($event.data.id)
+      .subscribe((value: any) => {
+        isEncrypted = value.objects[0].data_encrypted;
+        if (isEncrypted) {
+          this.sessionItemToBeDecrypted = $event.data;
+          this.openCreateBotModal(Primarytemplat);
+        }
+        else {
+          this.selectedRow_Session = $event.data;
+          // (<any>this.selectedRow_Session).highlight = true;
+          if (this.indexOfCurrentRowSelected !== undefined)
+            this.sessions[this.indexOfCurrentRowSelected].highlight = false;
+          this.indexOfCurrentRowSelected = this.sessions.findIndex((session) => {
+            return this.selectedRow_Session.id === session.id;
+          });
+          this.sessions[this.indexOfCurrentRowSelected].highlight = true;
+    
+          this.openModal(template);
+        }
+      });
 
-    this.openModal(template);
+    
+
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-lg'});
+    this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
   }
 
   sessionTablePageChanged(pageNumber) {
@@ -100,14 +114,14 @@ export class BotSessionsComponent implements OnInit {
     this.pageNumberOfCurrentRowSelected = pageNumber;
     this.url = this.constantsService.getBotSessionsUrl(10, (pageNumber - 1) * 10);
     let headerData: IHeaderData = {
-      "bot-access-token":this.bot.bot_access_token
+      "bot-access-token": this.bot.bot_access_token
     };
-    this.serverService.makeGetReq<ISessions>({url: this.url, headerData})
+    this.serverService.makeGetReq<ISessions>({ url: this.url, headerData })
       .subscribe((value) => {
         this.totalSessionRecords = value.meta.total_count;
         this.selectedRow_Session = value.objects[this.selectedRow_number || 0];
         this.sessions = value.objects;
-        if(this.indexOfCurrentRowSelected !== undefined)
+        if (this.indexOfCurrentRowSelected !== undefined)
           this.sessions[this.indexOfCurrentRowSelected].highlight = true;
       });
   }
@@ -116,7 +130,7 @@ export class BotSessionsComponent implements OnInit {
     // this.selectedRow_Session
 
 
-    if(this.indexOfCurrentRowSelected !== undefined)
+    if (this.indexOfCurrentRowSelected !== undefined)
       this.sessions[this.indexOfCurrentRowSelected].highlight = false;
 
     let currentIndex = this.sessions.findIndex((session) => {
@@ -133,12 +147,12 @@ export class BotSessionsComponent implements OnInit {
       this.indexOfCurrentRowSelected = 0;
     }
 
-    if(this.indexOfCurrentRowSelected !== undefined)
+    if (this.indexOfCurrentRowSelected !== undefined)
       this.sessions[this.indexOfCurrentRowSelected].highlight = true;
   }
 
   selectPrevRow() {
-    if(this.indexOfCurrentRowSelected !== undefined)
+    if (this.indexOfCurrentRowSelected !== undefined)
       this.sessions[this.indexOfCurrentRowSelected].highlight = false;
     let currentIndex = this.sessions.findIndex((session) => {
       return this.selectedRow_Session.id === session.id;
@@ -155,12 +169,12 @@ export class BotSessionsComponent implements OnInit {
       this.selectedRow_number = 9;
       this.indexOfCurrentRowSelected = 9;
     }
-    if(this.indexOfCurrentRowSelected !== undefined)
+    if (this.indexOfCurrentRowSelected !== undefined)
       this.sessions[this.indexOfCurrentRowSelected].highlight = true;
 
   }
 
-  customActionEventsTriggeredInSessionsTable(data: { action: string, data: ISessionItem, source: any },Primarytemplat) {
+  customActionEventsTriggeredInSessionsTable(data: { action: string, data: ISessionItem, source: any }, Primarytemplat) {
 
     if (data.action === 'download') {
       /*download the conversation for the record*/
@@ -168,9 +182,9 @@ export class BotSessionsComponent implements OnInit {
         .subscribe((value: any) => {
           let dataToDownload = value.objects;
           if (dataToDownload.length === 0) {
-            dataToDownload = [{name:'No Data'}];
-            this.utilityService.downloadArrayAsCSV(dataToDownload, {name:'No Data'});
-          }else {
+            dataToDownload = [{ name: 'No Data' }];
+            this.utilityService.downloadArrayAsCSV(dataToDownload, { name: 'No Data' });
+          } else {
             this.utilityService.downloadArrayAsCSV(dataToDownload);
           }
         });
@@ -183,16 +197,16 @@ export class BotSessionsComponent implements OnInit {
 
     }
   }
-  decryptSubmit(){
+  decryptSubmit() {
     let headerData: IHeaderData = {
       "bot-access-token": this.bot.bot_access_token
     };
-    let body ={"room_id":this.sessionItemToBeDecrypted.id,"decrypt_audit_type":"room","message":this.decryptReason};
+    let body = { "room_id": this.sessionItemToBeDecrypted.id, "decrypt_audit_type": "room", "message": this.decryptReason };
     let url = this.constantsService.getDecryptUrl();
-    this.serverService.makePostReq({headerData,body,url})
-    .subscribe(()=>{
-      //
-    })
+    this.serverService.makePostReq({ headerData, body, url })
+      .subscribe(() => {
+        this.decryptReason = null;
+      })
 
   }
   openCreateBotModal(template: TemplateRef<any>) {
@@ -202,7 +216,7 @@ export class BotSessionsComponent implements OnInit {
     this.url = this.constantsService.getSessionsMessageUrl(id);
     return this.serverService.makeGetReq<ISessionItem>({
       url: this.url,
-      headerData: {'bot-access-token': this.bot.bot_access_token}
+      headerData: { 'bot-access-token': this.bot.bot_access_token }
     });
   }
   loadSessionById(id) {
@@ -210,15 +224,15 @@ export class BotSessionsComponent implements OnInit {
     this.url = this.constantsService.getSessionsByIdUrl(id);
     return this.serverService.makeGetReq<ISessionItem>({
       url: this.url,
-      headerData: {'bot-access-token': this.bot.bot_access_token}
+      headerData: { 'bot-access-token': this.bot.bot_access_token }
     });
   }
 
-  performSearchInDbForSession(data){
+  performSearchInDbForSession(data) {
     this.loadSessionById(data["Room ID"])
-      .subscribe((session:ISessionItem)=>{
+      .subscribe((session: ISessionItem) => {
         this.sessions.push(session);
-          this.sessions = [...this.sessions];
+        this.sessions = [...this.sessions];
       });
   }
 
