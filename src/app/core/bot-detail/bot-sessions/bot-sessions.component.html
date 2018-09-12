@@ -2,7 +2,7 @@
   <app-smart-table [data]="sessions"
                    [totalRecords]="totalSessionRecords"
                    (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,Primarytemplat)"
-                   (rowClicked$)="goToReportEditComponent($event, template)"
+                   (rowClicked$)="goToReportEditComponent($event, template, Primarytemplat)"
                    (pageChanged$)="sessionTablePageChanged($event)"
                    [showSearchInDB]="true"
                    (performSearchInDB$)="performSearchInDbForSession($event)"
@@ -47,7 +47,6 @@
        </div>
        <button [disabled]="!form.valid" class=" btn btn-theme-success-sm" (click)="decryptSubmit();modalRef.hide()">Submit</button>
      </form>
-
     </div>
   </div>
 </ng-template>

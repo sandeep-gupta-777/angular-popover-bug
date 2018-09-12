@@ -3,10 +3,10 @@
 
     <app-bot-detail-header [bot]="bot" (refreshBotDetails$)="refreshBotDetails()"></app-bot-detail-header>
 
-    <div class="row bg-white py-4 mb-3 shadow-theme">
+    <div class="row bg-white pb-2 pt-3 shadow-theme">
       <!---->
       <div class="col-12 text-theme-normal">
-        <div class="col-12 d-flex justify-content-between px-4 py-2">
+        <div class="col-12 d-flex justify-content-between px-3 pb-1">
           <div class="heading" style="font-size: 14px !important;">Bot Configuration</div>
           <div *ngIf="!showConfig" class="d-flex mx-4 justify-content-between align-items-center flex-grow-1">
             <div>Bot Unique Name : <strong>{{bot.bot_unique_name}}</strong></div>
@@ -17,7 +17,7 @@
           </div>
           <div class="cursor-pointer"
                (click)="showConfig=!showConfig">
-            <i class="fa" [ngClass]="{'fa-angle-down':showConfig, 'fa-angle-up':!showConfig}" style="font-size: 20px; line-height: 12px"></i>
+            <i class="fa" [ngClass]="{'fa-angle-up':showConfig, 'fa-angle-down':!showConfig}" style="font-size: 20px; line-height: 12px"></i>
           </div>
         </div>
 
@@ -68,10 +68,9 @@
   <!--============= REDESIGN=================-->
 
   <div class="row shadow-theme bg-white p-4 my-5 align-content-start " style="min-height: 300px;" *myIf="myETabNames.architecture">
-
     <!--tabs start-->
-    <div class="col-12  px-4">
-      <ul class="nav nav-tabs theme-tabbing mb-2">
+    <div class="col-12  px-2">
+      <ul class="nav nav-tabs theme-tabbing mb-1">
         <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='architecture'}">
           <a class="nav-link heading" [routerLink]="['.']"
              queryParamsHandling="merge"
@@ -107,7 +106,7 @@
 
     <!--architeture starts-->
     <div class="col-12 architeture-body" *ngIf="selectedTab==='architecture' &&  bot ">
-      <div class="d-flex row-body bg-white mt-2">
+      <div class="d-flex row-body bg-white ">
 
         <div class="side-bar  border-right">
           <div class="sidebar-content">
@@ -141,7 +140,7 @@
             </div>
           </div>
         </div>
-        <div class="p-2" style="width: 85%;">
+        <div class="px-2 pt-2 pb-0" style="width: 85%;">
           <app-pipeline (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"
                         [bot]="bot"></app-pipeline>
           <!--<app-knowledge-base (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='knowledge'"-->
