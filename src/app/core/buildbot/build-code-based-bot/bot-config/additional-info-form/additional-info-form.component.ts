@@ -35,11 +35,14 @@ export class AdditionalInfoFormComponent implements OnInit {
 
   ngAfterViewInit(): void {
     console.log(this._bot);
-    this.f.valueChanges.debounceTime(1000).subscribe((data: IBasicInfo) => {
-      if (this.utilityService.compareTwoJavaObjects(this.formData, data)) return;
+    this.f.valueChanges.debounceTime(200).subscribe((data: IBasicInfo) => {
+      if (this.utilityService.areTwoJSObjectSame(this.formData, data)) return;
       if (!this.f.dirty) return;
       this.formData = data;
       this.datachanged$.emit(data);
     });
+  }
+  click(){
+    console.log(this.f.value);
   }
 }

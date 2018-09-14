@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ServerService} from '../../server.service';
-import {ConstantsService} from '../../constants.service';
+import {ConstantsService, ERoleName} from '../../constants.service';
 import {IUser} from '../../core/interfaces/user';
 import {Store} from '@ngxs/store';
 import {SetUserAction} from '../ngxs/auth.action';
@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {UtilityService} from '../../utility.service';
 import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
 import {SetEnterpriseInfoAction} from '../../core/enterpriseprofile/ngxs/enterpriseprofile.action';
+import {SetBackendURlRoot} from '../../ngxs/app.action';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +33,14 @@ export class LoginComponent implements OnInit {
   @ViewChild('heroForm') f: HTMLFormElement;
 
   ngOnInit() {
+    // this.store.dispatch()
+    this.serverService.makeGetReq({url:'/static/config.json'})
+      .subscribe(((value:{"backend_url":string,"version":string})=>{
+        // {"backend_url":"https://dev.imibot.ai/","version":"1.0.0"}
+        this.store.dispatch([
+          new SetBackendURlRoot({url: value.backend_url})
+        ]);
+      }));
   }
 
   flashErrorMessage(message:string){
@@ -42,6 +51,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+
     let loginData = this.f.value;
     let loginUrl = this.constantsService.getLoginUrl();
     // let headerData:IHeaderData = {'api-key': '54asdkj1209nksnda',"content-type":'application/x-www-f-urlencoded'};
@@ -68,11 +78,20 @@ export class LoginComponent implements OnInit {
     };
     this.serverService.makePostReq<IUser>({url: loginUrl, body, headerData})
       .subscribe((user) => {
+        //
         this.flashErrorMessage("Logged in. Taking you to home page");
         this.store.dispatch([
             new SetUserAction({user}),
           ]).subscribe(()=>{
-            this.router.navigate(['/']);
+          this.serverService.getNSetIntegrationList();
+          this.serverService.getNSetBotList()
+            .subscribe(()=>{"bot list fetched from login page"});
+            if(user.role.name===ERoleName.Analyst){
+              this.router.navigate(['/core/analytics2/users']);
+            }else {
+              this.router.navigate(['.']);
+            }
+
           });
           let enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(user.enterprise_id);
           this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})

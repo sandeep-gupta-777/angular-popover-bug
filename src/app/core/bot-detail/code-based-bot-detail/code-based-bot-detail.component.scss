@@ -1,5 +1,26 @@
 @import "~src/sass/main";
 
+.bot-detail-grid{
+  display: grid;
+  height: 88vh;
+  grid-template-columns: 1fr;
+  grid-template-rows: 8vh auto minmax(60vh, 1fr);
+  grid-gap: 2px;
+  grid-template-areas:
+    'header'
+    'config'
+    'architecture'
+;
+  .header{
+    grid-area: header;
+  }.config{
+    grid-area: config;
+  }.architecture{
+    grid-area: architecture;
+  }
+}
+
+
 .row-details {
   .fa {
     font-size: 30px;
@@ -66,4 +87,21 @@
     }
   }
 
+}
+
+.scroll-wrapper{
+  overflow-y: scroll;
+  height: 90%;
+}
+
+app-knowledge-base-wrapper,app-code-input,app-integration-option-list{
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  display: flex;
+}
+app-integration-option-list{
+  //overflow-y: scroll;
+  display: flex;
 }

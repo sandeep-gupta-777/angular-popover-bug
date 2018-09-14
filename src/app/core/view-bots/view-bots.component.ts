@@ -37,9 +37,10 @@ export class ViewBotsComponent implements OnInit {
 
   ngOnInit() {
     window.scrollTo(0, 0);
-    this.serverService.getNSetIntegrationList();
+    // this.serverService.getNSetIntegrationList();
     this.serverService.getNSetBotList()
       .subscribe(()=>{
+        console.log("bot list fetched from view bots page");
       })
   }
 
@@ -49,8 +50,6 @@ export class ViewBotsComponent implements OnInit {
 
   navigate(bot_type){
     this.modalRef.hide();
-    console.info(":::::::::::navigating to bot details:::::::::::")
-    /*['core','buildbot','codebased']*/
     this.router.navigate(['core','buildbot'], {queryParams:{bot_type:bot_type}});
   }
 }

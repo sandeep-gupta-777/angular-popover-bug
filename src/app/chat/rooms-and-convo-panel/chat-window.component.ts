@@ -12,6 +12,7 @@ export class ChatWindowComponent implements OnInit {
   @Input() selectedAvatar;
   @Input() room:IRoomData;
   @Input() set messageDataArray(value){
+
     this._messageDataArray = value;
     console.log('scrolling');
     setTimeout(()=>this.scrollToBottom(),0);

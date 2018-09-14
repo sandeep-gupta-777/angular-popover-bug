@@ -7,12 +7,13 @@ import {ResetAppState, ResetStoreToDefault} from '../../ngxs/app.action';
 import {ResetChatState} from '../../chat/ngxs/chat.action';
 import {ResetBotListAction} from '../view-bots/ngxs/view-bot.action';
 import {ResetAuthToDefaultState} from '../../auth/ngxs/auth.action';
-import {ConstantsService} from '../../constants.service';
+import {ConstantsService, ETabNames} from '../../constants.service';
 import {ServerService} from '../../server.service';
 import {ResetEnterpriseUsersAction} from '../enterpriseprofile/ngxs/enterpriseprofile.action';
 import {ResetBuildBotToDefault} from '../buildbot/ngxs/buildbot.action';
 import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
 import {EBotType} from '../view-bots/view-bots.component';
+import {ResetAnalytics2GraphData, ResetAnalytics2HeaderData} from '../analysis2/ngxs/analysis.action';
 
 @Component({
   selector: 'app-header',
@@ -25,6 +26,7 @@ export class HeaderComponent implements OnInit {
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   logoSrc = 'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg';
   myEBotType = EBotType;
+  myETabNames = ETabNames;
   url:string;
   constructor(
     private store: Store,
@@ -52,6 +54,8 @@ export class HeaderComponent implements OnInit {
       new ResetAuthToDefaultState(),
       new ResetEnterpriseUsersAction(),
       new ResetBuildBotToDefault(),
+      new ResetAnalytics2GraphData(),
+      new ResetAnalytics2HeaderData(),
       new ResetAppState()
     ]).subscribe(()=>{
       this.store.dispatch([new ResetChatState()])

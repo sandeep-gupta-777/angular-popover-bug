@@ -5,7 +5,8 @@ import {IBot} from '../../../interfaces/IBot';
 import {Store} from '@ngxs/store';
 import {SaveAvatorInfo} from '../../ngxs/buildbot.action';
 import {NgForm} from '@angular/forms';
-import {UtilityService} from '../../../../utility.service';
+import {EFormValidationErrors, UtilityService} from '../../../../utility.service';
+import {ETabNames} from '../../../../constants.service';
 
 @Component({
   selector: 'app-avator-form',
@@ -15,6 +16,7 @@ import {UtilityService} from '../../../../utility.service';
 export class AvatorFormComponent implements OnInit, AfterViewInit {
 
   _bot: IBot;
+  myETabNames = ETabNames;
   @Input() set bot(_bot: IBot) {
 
     this._bot = _bot;
@@ -36,11 +38,10 @@ export class AvatorFormComponent implements OnInit, AfterViewInit {
   };
 
   avatorList: { avator: IAvatar, editMode: boolean }[] = [];
-;
 
   ngOnInit() {
     this.loadAvatorList();
-    debugger;
+
   }
 
   loadAvatorList() {
@@ -61,15 +62,15 @@ export class AvatorFormComponent implements OnInit, AfterViewInit {
       return {...value.avator};
     });
     let avatarValidationObj = {};
-    avatarValidationObj['form_validation_avator'] = true;
-    // avatarValidationObj['form_validation_avator'] = this.f && this.f.valid;//TODO: doesn't work
+    avatarValidationObj[EFormValidationErrors.form_validation_avator] = true;
+    // avatarValidationObj[EFormValidationErrors.form_validation_avator'] = this.f && this.f.valid;//TODO: doesn't work
     for (let obj of avatorListToBeSaved) {
       if (!this.utilityService.areAllValesDefined(obj)) {
-        avatarValidationObj['form_validation_avator'] = false;
+        avatarValidationObj[EFormValidationErrors.form_validation_avator] = false;
       }
     }
     if (this.avatorList.length < 1) {
-      avatarValidationObj['form_validation_avator'] = false;
+      avatarValidationObj[EFormValidationErrors.form_validation_avator] = false;
     }
     this.datachanged$.emit({avatars: avatorListToBeSaved, ...avatarValidationObj});
   }
@@ -135,8 +136,19 @@ export class AvatorFormComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+
+    if (this.f) {
+      setTimeout(() => {
+        this.saveChangesInStore();
+          // this.datachanged$.emit({
+          //   form_validation_avator: this.f.valid
+          //   }
+          // );
+        }
+        , 100);
+    }
     this.f.valueChanges.debounceTime(1000).subscribe((data: any) => {
-      debugger;
+
       this.saveChangesInStore();
     });
   }

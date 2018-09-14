@@ -14,6 +14,7 @@ export class SerializeSessionMessagePipe implements PipeTransform {
 
   /*this pipe will create new array for each txn id which will be storing convo for that txn id*/
   transform(sessionMessages: ISessionMessageItem[], args?: any): ITxnSessionMessagesItem[] {
+
     if (!sessionMessages) return;
     let txnConversationItems: ITxnSessionMessagesItem[] = [];
     sessionMessages.forEach((sessionMessage) => {

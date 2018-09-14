@@ -1,6 +1,6 @@
 <!--<p>{{_bot|json}}</p>-->
-<div class="row m-0" style="max-height: 249px; overflow-y: hidden">
-  <div class="col-12 mb-1 d-flex p-0 justify-content-between">
+<div class="row m-0" style="height: 100%;">
+  <div style="height: 10%" class="col-12 mb-1 d-flex p-0 justify-content-between">
     <p class="text-theme-secondary my-2">Drag and drop modules from 'Available Intelligence Modules' to 'Bot Intelligence
       Pipeline' and vice versa</p>
     <div class="search-theme-input-with-search">
@@ -9,7 +9,7 @@
     </div>
   </div>
 
-  <div class="col-8 border" style="height: 205px; overflow-y: scroll">
+  <div class="col-8" style="height:90%;overflow-y: scroll">
     <h4 class="heading my-2 ">Available Intelligence Modules</h4>
     <ul class="aim-list  px-0 d-flex align-items-start align-content-start flex-row flex-wrap"
         [dragula]='"first-bag"' [dragulaModel]='aiModules'>
@@ -22,8 +22,8 @@
       </li>
     </ul>
   </div>
-  <div class="col-4 pipeline-wrapper" style="height: 205px; ">
-    <div class="col-12 border pr-0 pipeline d-flex flex-column" style="height: 205px; overflow-y: scroll">
+  <div class="col-4 pipeline-wrapper " style="height: 90%;overflow-y: scroll">
+    <!--<div class="col-12 border pr-0 pipeline d-flex flex-column" style="height: 90%;overflow-y: scroll">-->
       <h4 class="heading my-2">Bot Intelligence Pipeline</h4>
       <div class="flex-grow-1"  [dragula]='"first-bag"' [dragulaModel]='pipeLine'>
         <div *ngFor="let aiModule of (pipeLine|pipelineFilter:searchKeyword);let targetIndexNew = index">
@@ -37,7 +37,7 @@
         </div>
       </div>
     </div>
-  </div>
+  <!--</div>-->
 </div>
 
 <ng-template #Primarytemplat>
@@ -53,7 +53,7 @@
 
     <div class="modal-body pt-0">
      <div *ngFor="let Key of myObject.keys(selectedPipeline.input_params)" class="d-flex align-items-center justify-content-center my-1">
-       <label class="mb-0">{{Key}}</label>
+       <label class="mb-0">{{Key|integrationNameFormatter|titlecase }}</label>
        <input type="text" class="input-material" [(ngModel)] = "selectedPipeline.input_params[Key]">
      </div>
       <button class="btn btn-theme-success-sm" (click)="modalRef.hide()">Submit</button>
@@ -61,9 +61,3 @@
     </div>
   </div>
 </ng-template>
-
-
-<!--<div appDraggable appDropTarget="{zone:'another'}" (myDrop)="onDrop($event)"> drag me </div>-->
-<!--<div appDropTarget="{zone:'another'}" appDraggable (myDrop)="onDrop($event)" class="drop-target">Accepts Draggable A or B</div>-->
-
-<!---->

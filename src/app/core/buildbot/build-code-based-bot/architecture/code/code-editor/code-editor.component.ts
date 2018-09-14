@@ -1,12 +1,16 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 declare var CodeMirror: any;
 
 @Component({
   selector: 'app-code-editor',
   templateUrl: './code-editor.component.html',
-  styleUrls: ['./code-editor.component.scss']
+  styleUrls: ['./code-editor.component.scss'],
+  host: {
+    // "[style.display]": "'inline-block'",
+    // "[style.height.percent]": "100",
+  }
 })
-export class CodeEditorComponent implements OnInit {
+export class CodeEditorComponent implements OnInit,AfterViewInit {
 
   editor;
   _text;
@@ -21,6 +25,7 @@ export class CodeEditorComponent implements OnInit {
     this._text = editorCodeObj.text;
 
     this.editor && this.editor.setValue(editorCodeObj.text);
+    this.editor && this.editor.setSize("100%", "100%");
   }
   @Output() textChangedEvent:EventEmitter<string> = new EventEmitter<string>();
   ngOnInit() {
@@ -38,7 +43,14 @@ export class CodeEditorComponent implements OnInit {
       this.textChangedEvent.emit(editor.getValue())
     });
     this._text && this.editor.setValue(this._text);
+    // this._text && this.editor.setValue(this._text);
   }
+
+  ngAfterViewInit(){
+    this.editor && this.editor.setSize("100%", "100%");
+    this.editor && this.editor.refresh();
+  }
+
 
   options:any = {maxLines: 20, printMargin: false};
 

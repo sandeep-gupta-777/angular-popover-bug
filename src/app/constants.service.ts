@@ -6,6 +6,37 @@ import {Observable} from 'rxjs';
 import {IBot} from './core/interfaces/IBot';
 import {IIntegrationOption} from '../interfaces/integration-option';
 import {DatePipe} from '@angular/common';
+import {environment} from '../environments/environment.prod';
+import {IAuthState} from './auth/ngxs/auth.state';
+
+export enum ERouteNames {
+  customner = 'customner',
+  report = 'report',
+  create_report = 'create_report',
+  enterprise_profile = 'enterprise_profile',
+}
+
+export enum ETabNames {
+  customner = 'customner',
+  knowledgeBase = 'knowledgeBase',
+  enterprise_profile = 'enterprise_profile',
+  architecture = 'architecture',
+  update_bot_button = 'update_bot_button',
+  bot_header_ellipsis = 'bot_header_ellipsis',
+  bot_header_reset = 'bot_header_reset',
+  integration_icons = 'integration_icons',
+  action_items = 'fa_action_icons',
+  forms = 'forms',
+  UI_SWITCH = 'UI_SWITCH',
+  report = 'report',
+}
+
+export enum ERoleName {
+  Admin = 'Admin',
+  botdev = 'botdev',
+  Analyst = 'Analyst',
+  Tester = 'Tester',
+}
 
 // import {IGlobalState} from '../interfaces/global-state';
 @Injectable({
@@ -13,11 +44,94 @@ import {DatePipe} from '@angular/common';
 })
 export class ConstantsService {
 
+  permissionsDeniedMap = {
+    'Admin': {
+      route: [],
+      module: [],
+      tab: [],//tab, hyperlink, button
+    },
+    'Analyst': {
+      route: [ERouteNames.customner,
+        ERouteNames.enterprise_profile,
+        ERouteNames.report,
+        ERouteNames.create_report,
+      ],
+      module: [],
+      tab: [// =  tab, hyperlink, button
+        ETabNames.enterprise_profile,
+        ETabNames.customner,
+        ETabNames.architecture,
+        ETabNames.bot_header_ellipsis,
+        ETabNames.knowledgeBase,
+        ETabNames.update_bot_button,
+        ETabNames.bot_header_reset,
+        ETabNames.integration_icons,
+        ETabNames.forms,
+        ETabNames.action_items,
+        ETabNames.UI_SWITCH,
+        ETabNames.report
+      ],
+    },
+    'Botdev': {
+      route: [
+        ERouteNames.enterprise_profile,
+      ],
+      module: [],
+      tab: [
+        ETabNames.enterprise_profile
+      ],//tab, hyperlink, button
+    },
+    'Tester': {
+      route: [
+        ERouteNames.enterprise_profile
+      ],
+      module: [],
+      tab: [
+        ETabNames.enterprise_profile,
+        ETabNames.report,
+      ],//tab, hyperlink, button
+    }
+  };
+
+
+
+  constructor(private datePipe: DatePipe) {
+    this.app$.subscribe((value) => {
+      this.BACKEND_URL = (value && value.backendUrlRoot) || 'https://dev.imibot.ai/';
+    });
+    this.loggeduser$.subscribe((loggedUser: IAuthState) => {
+      if (loggedUser && loggedUser.user)
+        this.loggedUser = loggedUser.user;
+    });
+  }
+
   static state: any;
   loggedUser: IUser;
-  @Select() app$:Observable<IAppState>;
+  @Select() app$: Observable<IAppState>;
+  @Select() loggeduser$: Observable<{ user: IUser }>;
 
-  public BACKEND_URL = 'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
+
+
+  isRouteAccessDenied(routeName: string) {
+    let role = this.loggedUser.role.name;
+    let deniedRoutes = this.permissionsDeniedMap[role].route;
+    let isRouteAccessDenied = deniedRoutes.find((route) => {
+      return route === routeName;
+    });
+    return isRouteAccessDenied;
+  }
+
+  isTabAccessDenied(tabName: string) {
+    if(!tabName) return false;
+    let role = this.loggedUser.role.name;
+    let deniedTabs = this.permissionsDeniedMap[role].tab;
+    let isTabAccessDenied = deniedTabs.find((route) => {
+      return route === tabName;
+    });
+    return !!isTabAccessDenied;
+  }
+
+  public BACKEND_URL = environment.url;//'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
   public BACKEND_URL_LOGIN = `${this.BACKEND_URL}` + 'api/v1/user/login/';
   private BACKEND_URL_ENTERPRISE_USERS = `${this.BACKEND_URL}` + 'users/enterprise/';
   private BACKEND_USER_UPDATE_URL = `${this.BACKEND_URL}` + 'user/';//https://dev.imibot.ai/user/5a030aa9b050705bd0ca5a45
@@ -43,13 +157,8 @@ export class ConstantsService {
     'dateInputFormat': 'DD/MM/YYYY',
   });
 
-  constructor( private datePipe: DatePipe) {
-    this.app$.subscribe((value)=>{
-      this.BACKEND_URL = (value && value.backendUrlRoot) || 'https://dev.imibot.ai/';
-    });
-  }
 
-  getLoginUrl(){
+  getLoginUrl() {
     return this.BACKEND_URL + 'api/v1/user/login/';
   }
 
@@ -65,22 +174,26 @@ export class ConstantsService {
     // return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`;// + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
     return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`;// + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
   }
-  stopTestUrl(){
+
+  stopTestUrl() {
     return this.BACKEND_URL + `api/v1/bottestcases/canceltesting/`;// https://dev.imibot.ai/api/v1/bottestcases/canceltesting/
 
   }
+
   getEnterpriseUsersUrl() {
     return this.BACKEND_URL + 'api/v1/user/enterpriseusers/'; //https://dev.imibot.ai/api/v1/user/enterpriseusers/
   }
 
   getBotListUrl() {
     // return this.BACKEND_USER_PIPELINE_BASED_BOT_LIST + 'api/v1/bot/';
-    return this.BACKEND_URL+ 'api/v1/bot/?limit=1000';
+    return this.BACKEND_URL + 'api/v1/bot/?limit=1000';
   }
+
   getLogoutUrl() {
     // http://localhost:8000/api/v1/logout/;
-    return this.BACKEND_URL+ 'api/v1/logout/';
+    return this.BACKEND_URL + 'api/v1/logout/';
   }
+
   getMasterIntegrationsList() {
     return this.BACKEND_URL + 'api/v1/integrations/';
   }
@@ -152,7 +265,7 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/reporthistory?limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/reporthistory?limit=1&offset=10
   }
 
-  getDownloadReportHistoryByIdUrl(id:number) {
+  getDownloadReportHistoryByIdUrl(id: number) {
     return this.BACKEND_URL + `api/v1/reporthistory/downloadreports/?id=${id}`; //http://localhost:8000/api/v1/reporthistory/downloadreports/?id=10
   }
 
@@ -161,7 +274,7 @@ export class ConstantsService {
   }
 
   getReportsEditInfo(_id) {
-    return this.BACKEND_URL + 'api/v1/reports/' + _id+'/'; //  https://dev.imibot.ai/reports/5b335b127c15580059c13fc5
+    return this.BACKEND_URL + 'api/v1/reports/' + _id + '/'; //  https://dev.imibot.ai/reports/5b335b127c15580059c13fc5
   }
 
   getSaveReportsEditInfo(_id) {
@@ -197,6 +310,7 @@ export class ConstantsService {
   getBotConsumerUrl(limit: number, offset: number) {
     return this.BACKEND_URL + `api/v1/consumer/?limit=${limit}&offset=${offset}`; //https://localhost:8000/api/v1/consumer/?limit=1&offset=0
   }
+
   getBotConsumerByIdUrl(id: number) {
     return this.BACKEND_URL + `api/v1/consumer/${id}`; //https://dev.imibot.ai/api/v1/consumer/2320/
   }
@@ -204,15 +318,17 @@ export class ConstantsService {
   getAllActionsUrl() {
     return this.BACKEND_URL + `api/v1/actions/?limit=100`; //https://dev.imibot.ai/api/v1/actions/
   }
+
   getDeleteBotUrl(id: number) {
     return this.BACKEND_URL + `api/v1/bot/${id}`; //http://localhost:8000/api/v1/bot/66/
   }
+
   getDecryptUrl() {
     return this.BACKEND_URL + `api/v1/decrypt_audit/`; ///api/v1/decrypt_audit/
   }
 
-  getSpecificBotByBotTokenUrl(){
-    return this.BACKEND_URL + `api/v1/bot/`; //https://dev.imibot.ai/api/v1/bot/
+  getSpecificBotByBotTokenUrl() {
+    return this.BACKEND_URL + `api/v1/bot/?limit=1000`; //https://dev.imibot.ai/api/v1/bot/
   }
 
   getBotSessionsUrl(limit: number, offset: number) {
@@ -256,6 +372,7 @@ export class ConstantsService {
   getEnterpriseNerById(id) {
     return this.BACKEND_URL + `api/v1/customner/?type=enterprise&id=${id}`; //https://dev.imibot.ai/api/v1/customner/
   }
+
   getCustomNerById(id) {
     return this.BACKEND_URL + `api/v1/customner/?id=${id}`; //dev.imibot.ai/api/v1/customner/?id=13
   }
@@ -271,7 +388,7 @@ export class ConstantsService {
   createEnterpriseNer() {
   }
 
-  updatePassword(){
+  updatePassword() {
     return this.BACKEND_URL + 'api/v1/user/updatepassword/'; //https:dev.imibot.ai/api/v1/user/updatepassword///
   }
 
@@ -304,7 +421,7 @@ export class ConstantsService {
     columns: {
       id: {//
         title: 'ID',
-        width:'120px'
+        width: '120px'
       },
       name: {//
         title: 'Name'
@@ -314,22 +431,22 @@ export class ConstantsService {
       },
       facebook_id: {//
         title: 'Facebook ID',
-        width:'120px'
+        width: '120px'
       },
       skype_id: {//
         title: 'Skype ID',
-        width:'120px'
+        width: '120px'
       },
       uid: {
         title: 'UID',
-        width:'120px'
+        width: '120px'
       },
       email: {//
         title: 'Email',
       },
       updated_at: {//
         title: 'Updated At',
-        width:'150px'
+        width: '150px'
 
       },
 
@@ -338,10 +455,10 @@ export class ConstantsService {
     actions: {
       edit: false,
       add: false,
-      delete:false,
+      delete: false,
       position: 'right',
       custom: [
-        { name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>` }
+        {name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>`}
       ],
     },
   };
@@ -351,15 +468,15 @@ export class ConstantsService {
     columns: {
       id: {
         title: 'Room ID',
-        width:'150px'
+        width: '150px'
       },
       consumer_id: {
         title: 'Consumer ID',
-        width:'150px'
+        width: '150px'
       },
       total_message_count: {
         title: 'Messages',
-        width:'150px'
+        width: '150px'
       },
       updated_at: {
         title: 'Updated At',
@@ -382,11 +499,12 @@ export class ConstantsService {
     // },
     actions: {
       edit: false,
-        add: false,
-      delete:false,
+      add: false,
+      delete: false,
       position: 'right',
-      custom: [{name: 'download', title: `<i  class="fa fa-download pr-2 text-dark"></i>` },
-        { name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>` }
+      custom: [
+        {name: 'download', title: `<i  class="fa fa-download pr-2 text-dark"></i>`},
+        {name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>`},
       ],
 
     },
@@ -416,13 +534,13 @@ export class ConstantsService {
       // 'messages.length': {
       //   title: 'Messages'
       // },
-      "role": {
+      'role': {
         title: 'Role'
       },
-      "permissions": {
+      'permissions': {
         title: 'Permissions'
       }
-      ,created_at: {
+      , created_at: {
         title: 'Created At'
       },
       updated_at: {
@@ -442,7 +560,6 @@ export class ConstantsService {
   };
 
 
-
   readonly SMART_TABLE_KNOWLEDGEBASE_SETTING = {
 
     columns: {
@@ -456,8 +573,8 @@ export class ConstantsService {
         title: 'Override Policy'
       },
     },
-    pager:{
-      display:false
+    pager: {
+      display: false
     },
     actions: {
       add: false,
@@ -467,18 +584,18 @@ export class ConstantsService {
     rowClassFunction: (row) => {
       if (row.data.highlight) {
         return 'hightlight-created-row';
-      //   return 'score negative'; // Color from row with negative in score
-      // } else if (row.data.type === '(+)') {
-      //   return 'score positive';
+        //   return 'score negative'; // Color from row with negative in score
+        // } else if (row.data.type === '(+)') {
+        //   return 'score positive';
       }
       return '';
     }
   };
 
-  readonly HANDSON_TABLE_BOT_TESTING_colHeaders = ['Message', 'Expected Template', 'Status','Generated Template','RoomId','TransactionId'];
+  readonly HANDSON_TABLE_BOT_TESTING_colHeaders = ['Message', 'Expected Template', 'Status', 'Generated Template', 'RoomId', 'TransactionId'];
   readonly HANDSON_TABLE_BOT_TESTING_columns = [
-    {data: 0, type: 'text', },
-    {data: 1, type: 'text', },
+    {data: 0, type: 'text',},
+    {data: 1, type: 'text',},
     {data: 2, type: 'text', readOnly: true},
     {data: 3, type: 'text'},
     {data: 4, type: 'text'},
@@ -748,7 +865,7 @@ export class ConstantsService {
       },
       'line': {
         'enabled': false,
-        skillId:''
+        skillId: ''
       }
     },
     fulfillment_provider_details: {

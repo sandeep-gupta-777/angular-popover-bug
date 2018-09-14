@@ -21,7 +21,7 @@ import {
   SetRoomDuration,
   SetChannelWiseSessions,
   SetChannelWiseUsers,
-  ResetAnalytics2Data, SetUsagetrackingInfo, Topgenerationtemplates
+  ResetAnalytics2GraphData, SetUsagetrackingInfo, Topgenerationtemplates
 } from '../ngxs/analysis.action';
 import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
@@ -31,18 +31,18 @@ import {AnalysisStateReducer2} from '../ngxs/analysis.state';
 import {EAnalysis2TypesEnum} from '../../../../interfaces/Analytics2/analysis2-types';
 import {IAnalysis2HeaderData} from '../../../../interfaces/Analytics2/analytics2-header';
 import {IAuthState} from '../../../auth/ngxs/auth.state';
-import { IChannelWiseFlowsPerSessionResponseBody } from '../../../../interfaces/Analytics2/volume-sessions';
-import { IUserAcquisitionResponseBody } from '../../../../interfaces/Analytics2/volume-users';
-import { ITotalMessagesResponseBody } from '../../../../interfaces/Analytics2/volume-messages';
-import { IAverageRoomTimeResponseBody } from '../../../../interfaces/Analytics2/volume-time';
-import { IUserLoyaltyResponseBody } from '../../../../interfaces/Analytics2/engagement-userLoyalty';
-import { IChannelWiseAverageSessionTimeResponseBody } from '../../../../interfaces/Analytics2/engagement-averageSessionTime';
-import { ITotalFlowsResponseBody } from '../../../../interfaces/Analytics2/performance-flows';
-import { IFlowsPerRoomResponseBody } from '../../../../interfaces/Analytics2/performance-flowsPerRoom';
-import { ITotalRoomsResponseBody } from '../../../../interfaces/Analytics2/performance-totalRooms';
-import { IRoomDurationResponseBody } from '../../../../interfaces/Analytics2/performance-roomDuration';
-import { IChannelWiseSessionsResponseBody } from '../../../../interfaces/Analytics2/engagement-channelWiseSessions';
-import { IChannelWiseUsersResponseBody } from '../../../../interfaces/Analytics2/engagement-channelWiseUsers';
+import {IChannelWiseFlowsPerSessionResponseBody} from '../../../../interfaces/Analytics2/volume-sessions';
+import {IUserAcquisitionResponseBody} from '../../../../interfaces/Analytics2/volume-users';
+import {ITotalMessagesResponseBody} from '../../../../interfaces/Analytics2/volume-messages';
+import {IAverageRoomTimeResponseBody} from '../../../../interfaces/Analytics2/volume-time';
+import {IUserLoyaltyResponseBody} from '../../../../interfaces/Analytics2/engagement-userLoyalty';
+import {IChannelWiseAverageSessionTimeResponseBody} from '../../../../interfaces/Analytics2/engagement-averageSessionTime';
+import {ITotalFlowsResponseBody} from '../../../../interfaces/Analytics2/performance-flows';
+import {IFlowsPerRoomResponseBody} from '../../../../interfaces/Analytics2/performance-flowsPerRoom';
+import {ITotalRoomsResponseBody} from '../../../../interfaces/Analytics2/performance-totalRooms';
+import {IRoomDurationResponseBody} from '../../../../interfaces/Analytics2/performance-roomDuration';
+import {IChannelWiseSessionsResponseBody} from '../../../../interfaces/Analytics2/engagement-channelWiseSessions';
+import {IChannelWiseUsersResponseBody} from '../../../../interfaces/Analytics2/engagement-channelWiseUsers';
 import {ActivatedRoute, Router} from '@angular/router';
 import {query} from '@angular/animations';
 
@@ -53,7 +53,14 @@ import {query} from '@angular/animations';
 })
 export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
 
-  @Input() allbotList: IBot[];
+  _allbotList: IBot[];
+
+  @Input() set allbotList(_allbotList: IBot[]) {
+    this._allbotList =_allbotList;
+    if(this.f)
+    this.f.form.patchValue({botId: this._allbotList[0].id, platform: this.channelList[0].name});
+  }
+
   granularityList = [
     'hour', 'day', 'month', 'year'
   ];
@@ -62,10 +69,11 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
   @Select() loggeduser$: Observable<{ user: IUser }>;
   startdate = new Date(new Date().setDate(new Date().getDate() - 30));
   enddate = new Date();
-  granularity='day';
+  granularity = 'day';
   datePickerConfig: Partial<BsDatepickerConfig> = this.constantsService.DATE_PICKER_CONFIG;
   channelList = this.constantsService.CHANNEL_LIST;
   loggeduser: IAuthState;
+  errorMessage: string = null;
 
   constructor(
     private store: Store,
@@ -76,7 +84,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
     private utilityService: UtilityService
   ) {
   }
-
+  formData;
   ngOnInit() {
 
     /*
@@ -86,20 +94,22 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
     this.f.form.valueChanges
       .debounceTime(1000)
       .subscribe((formData) => {
+        if(this.utilityService.areTwoJSObjectSame(this.formData, formData)) return;
+        this.formData = formData;
         if (!this.f.valid) return;
-        let selectedBot: IBot = this.allbotList.find((bot) => bot.id === Number(this.f.value.botId));
+        let selectedBot: IBot = this._allbotList.find((bot) => bot.id === Number(this.f.value.botId));
         // this.route.navigate(["." ], {queryParams:{granularity:this.f.value.granularity} , relativeTo: this.activatedRoute});
         let analysisHeaderData: IAnalysis2HeaderData = {
           'bot-access-token': selectedBot.bot_access_token,
           platform: 'web',
           ...formData
         };
-        this.store.dispatch([new ResetAnalytics2Data()])
-          .subscribe(()=>{
+        this.store.dispatch([new ResetAnalytics2GraphData()])
+          .subscribe(() => {
             this.store.dispatch([
               new SetAnalysis2HeaderData({analysisHeaderData})
             ]);
-          })
+          });
       });
 
     /*
@@ -112,9 +122,10 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
 
     this.analytics2HeaderData$.subscribe((analytics2HeaderData) => {
       /*TODO: for some reason, angular form validation is not working. This is a hack*/
-      if (!this.f.valid || Object.keys(this.f.value).length < 4) return;
-
+      // if (!this.f.valid || Object.keys(this.f.value).length < 4) return;
       try {
+        debugger;
+        this.f.form.patchValue(analytics2HeaderData);
         let url = this.constantsService.getAnalyticsUrl();
         let headerData: IAnalysis2HeaderData = {
           ...analytics2HeaderData,
@@ -125,8 +136,11 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
         };
 
         if (!this.utilityService.areAllValesDefined(headerData)) return;
-        this.store.dispatch([new ResetAnalytics2Data()])
-          .subscribe(()=>{
+        this.store.dispatch([new ResetAnalytics2GraphData()])
+          .subscribe(() => {
+            let isHeaderValid = this.isHeaderValid(analytics2HeaderData.startdate, analytics2HeaderData.enddate, analytics2HeaderData.granularity);
+            if (!isHeaderValid) return;
+            this.store.dispatch([new ResetAnalytics2GraphData()]);
             this.serverService.makeGetReq({url, headerData})
               .subscribe((response: any) => {
                 if (headerData.type === EAnalysis2TypesEnum.overviewinfo) {
@@ -201,7 +215,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
                   this.store.dispatch(new Topgenerationtemplates({data: responseCopy.objects[0].output[EAnalysis2TypesEnum.topgenerationtemplates]}));
                 }
               });
-          })
+          });
 
       } catch (e) {
         this.utilityService.showErrorToaster(e);
@@ -210,9 +224,30 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
 
   }
 
+  isHeaderValid(startDate, endDate, granularity) {
+    var startDate: any = new Date(startDate);
+    var endDate: any = new Date(endDate);
+    var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    if (startDate > endDate) {
+      this.errorMessage = 'start date is larger than end date';
+      return false;
+    }
+    if (diffDays > 30 && granularity === 'hour') {
+      this.errorMessage = 'Granularity hour is not allowed for time range higher than 1 month';
+      return false;
+    }
+    this.errorMessage = null;
+    return true;
+  }
+
   ngAfterViewInit() {
     setTimeout(() => {
-      this.f.form.patchValue({botId: this.allbotList[0].id, platform: this.channelList[0].name});
+      this.f.form.patchValue({botId: this._allbotList[0].id, platform: this.channelList[0].name});
     }, 0);
+  }
+
+  click1() {
+    console.log(this.f);
   }
 }

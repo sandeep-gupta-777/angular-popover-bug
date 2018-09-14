@@ -5,7 +5,7 @@
   <div class="name">
     <div class="heading mb-0">{{bot.name}}</div>
   </div>
-  <i class="fa fa-users" *ngIf="bot.child_bots.length>0" style="font-size: 16px"></i>
+  <i class="fa fa-users" *ngIf="bot && bot.child_bots && bot.child_bots.length>0" style="font-size: 16px"></i>
   <div class="d-flex align-items-center">
     <i class="fa fa-circle dark-green"></i>
     <div>Active(v{{bot.active_version_id}})</div>
@@ -30,28 +30,31 @@
   <!--alt="">-->
 
 
-  <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async))"
-       [src]="integrationsMasterListItem?.icon"
-       class="logo-image " style="width: 16px;height: 16px" alt="">
-  <img id="id" *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'no_channel'|async))"
-       [src]="integrationsMasterListItem?.icon"
-       class="logo-image " style="width: 16px;height: 16px" alt="">
+  <span *myIf="myETabNames.integration_icons">
+    <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async))"
+         [src]="integrationsMasterListItem?.icon"
+         class="logo-image " style="width: 16px;height: 16px" alt="">
+    <img id="id" *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'no_channel'|async))"
+         [src]="integrationsMasterListItem?.icon"
+         class="logo-image " style="width: 16px;height: 16px" alt="">
+  </span>
   <span
     *ngIf="myObject.keys(bot.integrations).length>4"
     class="more">
     +{{myObject.keys(bot.integrations).length-4}} More
   </span>
   <div class="headerDivider mx-2"></div>
-  <div class="d-flex preview-box" (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'">
+  <div class="d-flex preview-box align-items-center" (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'">
     <i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>
     <span class="action">Preview</span>
   </div>
-  <div class="d-flex preview-box" (click)="refreshBotDetails$.emit()">
-      <i class="fa fa-refresh cursor-pointer" style="font-size: 15px"   ></i>
+  <div class="d-flex preview-box align-items-center" (click)="refreshBotDetails()" *myIf="myETabNames.update_bot_button">
+      <i class="fa fa-refresh cursor-pointer" style="font-size: 15px" [ngClass]="{'fa-spin':showSpinIcon}"></i>
       <span class="action">Cancel</span>
+    <!---->
     </div>
-  <button class="btn btn-theme-primary" (click)="updateBot()">Update Bot</button>
-  <div class="btn-group p-2" dropdown placement="top left">
+  <button class="btn btn-theme-primary" (click)="updateBot()" *myIf="myETabNames.update_bot_button">Update Bot</button>
+  <div class="btn-group p-2" dropdown placement="top left" *myIf="myETabNames.bot_header_ellipsis">
     <i dropdownToggle class="fa fa-ellipsis-v cursor-pointer p-1" style="font-size: 20px"></i>
     <ul *dropdownMenu class="dropdown-menu" role="menu">
       <li role="menuitem">

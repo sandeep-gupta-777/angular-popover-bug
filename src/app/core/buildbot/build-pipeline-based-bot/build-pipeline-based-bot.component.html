@@ -1,75 +1,75 @@
-<div class="d-flex justify-content-between bg-white align-items-center my-2" style="padding: 16px 36px;">
-  <h4 class="m-0">Create Bot</h4>
-  <button class="btn btn-theme-primary" (click)="createBot()">Create Bot</button>
-</div>
-<app-bot-config (datachanged$)="datachanged($event)" [bot]="bot"></app-bot-config>
-
-<!--<div class="row m-0 mt-3 p-3 bg-white">-->
-  <!--<div class="col-12">-->
-    <!--<ul class="nav nav-tabs theme-tabbing mb-2">-->
-      <!--<li class="nav-item" [ngClass]="{'tab-active':selectedTab==='architecture'}">-->
-        <!--<a class="nav-link heading" [routerLink]="['.']"-->
-           <!--queryParamsHandling="merge"-->
-           <!--replaceUrl="true"-->
-           <!--(click)="tabChanged('architecture')"-->
-           <!--[queryParams]="{build:'architecture'}"><strong>Bot Architecture</strong></a>-->
-      <!--</li>-->
-    <!--</ul>-->
-
-  <!--</div>-->
-  <!--&lt;!&ndash; tab end &ndash;&gt;-->
-  <!--&lt;!&ndash; architr start &ndash;&gt;-->
-  <!--<div class="col-12 architeture-body">-->
-    <!--<div class="d-flex row-body bg-white mt-2">-->
-
-      <!--<div class="side-bar  border-right">-->
-        <!--<div class="sidebar-content">-->
-          <!--<a routerLink="."-->
-             <!--[queryParams]="{'build-tab':'pipeline'}"-->
-             <!--queryParamsHandling="merge"-->
-             <!--[ngClass]="{'font-weight-bold':selectedSideBarTab==='pipeline'}"-->
-             <!--(click)="selectedSideBarTab='pipeline'"-->
-             <!--class="tab-theme font-weight-bold">Pipeline-->
-          <!--</a>-->
-          <!--<div routerLink="."-->
-               <!--[queryParams]="{'build-tab':'knowledge'}"-->
-               <!--queryParamsHandling="merge"-->
-               <!--[ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"-->
-               <!--(click)="selectedSideBarTab='knowledge'"-->
-               <!--class="tab-theme">Knowledge base-->
-          <!--</div>-->
-          <!--&lt;!&ndash;<div routerLink="."&ndash;&gt;-->
-               <!--&lt;!&ndash;[queryParams]="{'build-tab':'code'}"&ndash;&gt;-->
-               <!--&lt;!&ndash;queryParamsHandling="merge"&ndash;&gt;-->
-               <!--&lt;!&ndash;[ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"&ndash;&gt;-->
-               <!--&lt;!&ndash;(click)="selectedSideBarTab='code'"&ndash;&gt;-->
-               <!--&lt;!&ndash;class="tab-theme">Code&ndash;&gt;-->
-          <!--&lt;!&ndash;</div>&ndash;&gt;-->
-          <!--&lt;!&ndash;<div routerLink="."&ndash;&gt;-->
-               <!--&lt;!&ndash;[queryParams]="{'build-tab':'integration'}"&ndash;&gt;-->
-               <!--&lt;!&ndash;queryParamsHandling="merge"&ndash;&gt;-->
-               <!--&lt;!&ndash;[ngClass]="{'font-weight-bold':selectedSideBarTab==='integration'}"&ndash;&gt;-->
-               <!--&lt;!&ndash;(click)="selectedSideBarTab='integration'"&ndash;&gt;-->
-               <!--&lt;!&ndash;class="tab-theme">Integration&ndash;&gt;-->
-          <!--&lt;!&ndash;</div>&ndash;&gt;-->
-        <!--</div>-->
-      <!--</div>-->
-
-      <!--<div class="p-2" style="width: 85%; min-height: 250px">-->
-        <!--<app-pipeline (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"></app-pipeline>-->
-        <!--<app-knowledge-base *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base>-->
-        <!--&lt;!&ndash;<div class="d-flex justify-content-center align-items-center"&ndash;&gt;-->
-             <!--&lt;!&ndash;style="height: 100%"&ndash;&gt;-->
-             <!--&lt;!&ndash;*ngIf="selectedSideBarTab==='knowledge' || selectedSideBarTab==='code'">&ndash;&gt;-->
-          <!--&lt;!&ndash;<h4 class="text-muted">Please create the bot to enable this section</h4>&ndash;&gt;-->
-        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-        <!--&lt;!&ndash;<app-code-input *ngIf="selectedSideBarTab==='code'"></app-code-input>&ndash;&gt;-->
-        <!--&lt;!&ndash;<app-integration-option-list (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='integration'"></app-integration-option-list>&ndash;&gt;-->
-      <!--</div>-->
-
-    <!--</div>-->
-
-  <!--</div>-->
-
+<!--<div class="d-flex justify-content-between bg-white align-items-center my-2" style="padding: 16px 36px;">-->
+  <!--<h4 class="m-0">Create Bot</h4>-->
+  <!--<button class="btn btn-theme-primary" (click)="createBot()">Create Bot</button>-->
 <!--</div>-->
+<!--<app-bot-config (datachanged$)="datachanged($event)" [bot]="bot"></app-bot-config>-->
+
+<!--&lt;!&ndash;<div class="row m-0 mt-3 p-3 bg-white">&ndash;&gt;-->
+  <!--&lt;!&ndash;<div class="col-12">&ndash;&gt;-->
+    <!--&lt;!&ndash;<ul class="nav nav-tabs theme-tabbing mb-2">&ndash;&gt;-->
+      <!--&lt;!&ndash;<li class="nav-item" [ngClass]="{'tab-active':selectedTab==='architecture'}">&ndash;&gt;-->
+        <!--&lt;!&ndash;<a class="nav-link heading" [routerLink]="['.']"&ndash;&gt;-->
+           <!--&lt;!&ndash;queryParamsHandling="merge"&ndash;&gt;-->
+           <!--&lt;!&ndash;replaceUrl="true"&ndash;&gt;-->
+           <!--&lt;!&ndash;(click)="tabChanged('architecture')"&ndash;&gt;-->
+           <!--&lt;!&ndash;[queryParams]="{build:'architecture'}"><strong>Bot Architecture</strong></a>&ndash;&gt;-->
+      <!--&lt;!&ndash;</li>&ndash;&gt;-->
+    <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+
+  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+  <!--&lt;!&ndash;&lt;!&ndash; tab end &ndash;&gt;&ndash;&gt;-->
+  <!--&lt;!&ndash;&lt;!&ndash; architr start &ndash;&gt;&ndash;&gt;-->
+  <!--&lt;!&ndash;<div class="col-12 architeture-body">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="d-flex row-body bg-white mt-2">&ndash;&gt;-->
+
+      <!--&lt;!&ndash;<div class="side-bar  border-right">&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="sidebar-content">&ndash;&gt;-->
+          <!--&lt;!&ndash;<a routerLink="."&ndash;&gt;-->
+             <!--&lt;!&ndash;[queryParams]="{'build-tab':'pipeline'}"&ndash;&gt;-->
+             <!--&lt;!&ndash;queryParamsHandling="merge"&ndash;&gt;-->
+             <!--&lt;!&ndash;[ngClass]="{'font-weight-bold':selectedSideBarTab==='pipeline'}"&ndash;&gt;-->
+             <!--&lt;!&ndash;(click)="selectedSideBarTab='pipeline'"&ndash;&gt;-->
+             <!--&lt;!&ndash;class="tab-theme font-weight-bold">Pipeline&ndash;&gt;-->
+          <!--&lt;!&ndash;</a>&ndash;&gt;-->
+          <!--&lt;!&ndash;<div routerLink="."&ndash;&gt;-->
+               <!--&lt;!&ndash;[queryParams]="{'build-tab':'knowledge'}"&ndash;&gt;-->
+               <!--&lt;!&ndash;queryParamsHandling="merge"&ndash;&gt;-->
+               <!--&lt;!&ndash;[ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"&ndash;&gt;-->
+               <!--&lt;!&ndash;(click)="selectedSideBarTab='knowledge'"&ndash;&gt;-->
+               <!--&lt;!&ndash;class="tab-theme">Knowledge base&ndash;&gt;-->
+          <!--&lt;!&ndash;</div>&ndash;&gt;-->
+          <!--&lt;!&ndash;&lt;!&ndash;<div routerLink="."&ndash;&gt;&ndash;&gt;-->
+               <!--&lt;!&ndash;&lt;!&ndash;[queryParams]="{'build-tab':'code'}"&ndash;&gt;&ndash;&gt;-->
+               <!--&lt;!&ndash;&lt;!&ndash;queryParamsHandling="merge"&ndash;&gt;&ndash;&gt;-->
+               <!--&lt;!&ndash;&lt;!&ndash;[ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"&ndash;&gt;&ndash;&gt;-->
+               <!--&lt;!&ndash;&lt;!&ndash;(click)="selectedSideBarTab='code'"&ndash;&gt;&ndash;&gt;-->
+               <!--&lt;!&ndash;&lt;!&ndash;class="tab-theme">Code&ndash;&gt;&ndash;&gt;-->
+          <!--&lt;!&ndash;&lt;!&ndash;</div>&ndash;&gt;&ndash;&gt;-->
+          <!--&lt;!&ndash;&lt;!&ndash;<div routerLink="."&ndash;&gt;&ndash;&gt;-->
+               <!--&lt;!&ndash;&lt;!&ndash;[queryParams]="{'build-tab':'integration'}"&ndash;&gt;&ndash;&gt;-->
+               <!--&lt;!&ndash;&lt;!&ndash;queryParamsHandling="merge"&ndash;&gt;&ndash;&gt;-->
+               <!--&lt;!&ndash;&lt;!&ndash;[ngClass]="{'font-weight-bold':selectedSideBarTab==='integration'}"&ndash;&gt;&ndash;&gt;-->
+               <!--&lt;!&ndash;&lt;!&ndash;(click)="selectedSideBarTab='integration'"&ndash;&gt;&ndash;&gt;-->
+               <!--&lt;!&ndash;&lt;!&ndash;class="tab-theme">Integration&ndash;&gt;&ndash;&gt;-->
+          <!--&lt;!&ndash;&lt;!&ndash;</div>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+      <!--&lt;!&ndash;<div class="p-2" style="width: 85%; min-height: 250px">&ndash;&gt;-->
+        <!--&lt;!&ndash;<app-pipeline (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"></app-pipeline>&ndash;&gt;-->
+        <!--&lt;!&ndash;<app-knowledge-base *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base>&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<div class="d-flex justify-content-center align-items-center"&ndash;&gt;&ndash;&gt;-->
+             <!--&lt;!&ndash;&lt;!&ndash;style="height: 100%"&ndash;&gt;&ndash;&gt;-->
+             <!--&lt;!&ndash;&lt;!&ndash;*ngIf="selectedSideBarTab==='knowledge' || selectedSideBarTab==='code'">&ndash;&gt;&ndash;&gt;-->
+          <!--&lt;!&ndash;&lt;!&ndash;<h4 class="text-muted">Please create the bot to enable this section</h4>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</div>&ndash;&gt;&ndash;&gt;-->
+
+        <!--&lt;!&ndash;&lt;!&ndash;<app-code-input *ngIf="selectedSideBarTab==='code'"></app-code-input>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<app-integration-option-list (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='integration'"></app-integration-option-list>&ndash;&gt;&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;</div>&ndash;&gt;-->

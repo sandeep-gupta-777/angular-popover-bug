@@ -21,6 +21,10 @@ export class BotConfigComponent implements OnInit {
   ngOnInit() {
     this.activeTab  =  this.activatedRoute.snapshot.queryParamMap.get('config') ||  'basic';
     this.bot_type  =  this.activatedRoute.snapshot.queryParamMap.get('bot_type');
+    if(!this.bot_type){
+
+      this.bot_type  =  this.activatedRoute.snapshot.data['bot_type'];
+    }
     this.id  =  this.activatedRoute.snapshot.queryParamMap.get('id');
   }
 

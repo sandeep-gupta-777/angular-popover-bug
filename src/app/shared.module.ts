@@ -41,6 +41,8 @@ import {
 import {SerializeSessionMessagePipe} from './serialize-session-message.pipe';
 import {IntegrationNameFormatterPipe} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-name-formatter.pipe';
 import {ClickOutsideModule} from 'ng2-click-outside';
+import {MyIfDirective} from './ngIf-permission.directive';
+import {HighlightDirective} from './readonly-selected-permission.directive';
 
 @NgModule({
   declarations: [
@@ -67,8 +69,9 @@ import {ClickOutsideModule} from 'ng2-click-outside';
     EnabledIntegrationsCountPipe,
     SerializeEnterpriseprofileDataPipe,
     SerializeSessionMessagePipe,
-    IntegrationNameFormatterPipe
-
+    MyIfDirective,
+    IntegrationNameFormatterPipe,
+    HighlightDirective,
   ],
   imports: [
     UiSwitchModule,
@@ -85,10 +88,11 @@ import {ClickOutsideModule} from 'ng2-click-outside';
     ProgressbarModule,
     TabsModule.forRoot(),
     ClickOutsideModule,
-    PopoverModule.forRoot()
-
+    PopoverModule.forRoot(),
   ],
   exports:[
+    MyIfDirective,
+    HighlightDirective,
     ChartModule,
     IntegrationLogosPipe,
     DataManageFormComponent,

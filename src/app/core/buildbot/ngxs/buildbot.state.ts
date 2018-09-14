@@ -21,15 +21,27 @@ import {ConstantsService} from '../../../constants.service';
 import {buildPath} from 'selenium-webdriver/http';
 import {IPipelineItem} from '../../../../interfaces/ai-module';
 import {IBot, IBotCreation} from '../../interfaces/IBot';
+import {EFormValidationErrors} from '../../../utility.service';
 
 
 export interface IBotCreationState {
   codeBased: IBot,
   pipeLineBased: IBot
 }
+
+
+let defaultCodeBasedBotState = {
+  logo:'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png',
+  room_persistence_time:240,
+  data_persistence_period:30
+};
+defaultCodeBasedBotState[EFormValidationErrors.form_validation_basic_info]=false;
+defaultCodeBasedBotState[EFormValidationErrors.form_validation_avator]=false;
+let defaultPipeLineBasedBotState={...defaultCodeBasedBotState};
+delete defaultPipeLineBasedBotState[EFormValidationErrors.form_validation_avator]
 const defaultBuildBotState = {
-  codeBased: null,
-  pipeLineBased: null
+  codeBased: defaultCodeBasedBotState,
+  pipeLineBased: defaultPipeLineBasedBotState
 };
 
 @State<IBotCreationState>({

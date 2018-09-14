@@ -206,3 +206,26 @@
     background-color: #ededed;
   }
 }
+
+app-code-editor {
+  //height: 30vh !important;
+  height: 100%;
+  width: 80vw;
+  display: flex;
+}
+
+.container-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto 1fr;
+  grid-template-areas: 'version' 'tabs' 'editor';
+  .row-version {
+    grid-area: version;
+  }
+  .row-tabs {
+    grid-area: tabs;
+  }
+  .code-editor-row {
+    grid-area: editor;
+  }
+}

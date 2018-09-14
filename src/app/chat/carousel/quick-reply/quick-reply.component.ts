@@ -15,11 +15,9 @@ export class QuickReplyComponent implements OnInit {
   carasolItemShownInOneScreen = 2;
   totalItemsInCarasol:number;
   constructor(
-    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-
   }
 
 }

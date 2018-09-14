@@ -14,7 +14,7 @@ import {
   SetRoomDuration,
   SetChannelWiseSessions,
   SetChannelWiseUsers,
-  ResetAnalytics2Data, SetUsagetrackingInfo, Topgenerationtemplates
+  ResetAnalytics2GraphData, SetUsagetrackingInfo, Topgenerationtemplates, ResetAnalytics2HeaderData
 } from './analysis.action';
 import {IOverviewInfo, IOverviewInfoPostBody} from '../../../../interfaces/Analytics2/overview-info';
 import {IAnalysis2HeaderData} from '../../../../interfaces/Analytics2/analytics2-header';
@@ -171,10 +171,16 @@ export class AnalysisStateReducer2 {
     patchState({topgenerationtemplates:payload.data});
   }
 
-  @Action(ResetAnalytics2Data)
+  @Action(ResetAnalytics2GraphData)
   resetAnalytics2Data({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>) {
     let state = getState();
     patchState({...defaultAnalytics2,analysisHeaderData:state.analysisHeaderData});
+  }
+
+  @Action(ResetAnalytics2HeaderData)/*only for logout*/
+  resetAnalytics2HeaderData({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>) {
+    let state = getState();
+    patchState({analysisHeaderData:null});
   }
 
   static getAnalytics2HeaderData(state){

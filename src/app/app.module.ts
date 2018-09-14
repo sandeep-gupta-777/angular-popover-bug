@@ -26,12 +26,14 @@ import { environment } from '../environments/environment';
 import {AuthGaurdService} from './auth-gaurd.service';
 import {DatePipe} from '@angular/common';
 import {LoginGaurdService} from './login-gaurd.service';
+import {NotAuthorisedComponent} from './not-authorised/not-authorised.component';
 // import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 
 const routes: Route[] = [
   {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
   {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad:[AuthGaurdService]},
   {path: '', redirectTo:"core/viewbots/chatbot", pathMatch:"full"},
+  {path: 'denied', component: NotAuthorisedComponent},
   {path: '**', component: NotFoundComponent}
 ];
 
@@ -39,6 +41,7 @@ const routes: Route[] = [
   declarations: [
     AppComponent,
     NotFoundComponent,
+    NotAuthorisedComponent
     // CodeEditorComponent
   ],
   imports: [

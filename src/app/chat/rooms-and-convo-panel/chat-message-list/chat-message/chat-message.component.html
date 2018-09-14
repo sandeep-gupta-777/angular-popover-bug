@@ -1,8 +1,9 @@
 <!--chat bubbles for text message started-->
-<div class="row mt-2" [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}"
+<div class="row mt-2"
+     [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}"
      *ngIf="messageData.messageMediatype === myEBotMessageMediaType.text">
   <div class="p-0 text-center" style="width: 40px">
-    <img class=""
+    <img class="rounded-circle"
          [src]="messageData?.sourceType==='bot'?selectedAvatar?.imageUrl:'https://image.flaticon.com/icons/svg/17/17004.svg'"
          style="width: 32px;height: 32px" alt="">
   </div>
@@ -17,23 +18,24 @@
 </div>
 <!--chat bubbles for text message ends-->
 
-<div class="row mt-2"
-     *ngIf="messageData.messageMediatype === myEBotMessageMediaType.image">
+<div class="row mt-2" *ngIf="messageData.messageMediatype !== myEBotMessageMediaType.text">
   <div class="p-0 text-center" style="width: 40px">
-    <img class=""
+    <img class="rounded-circle"
          [src]="messageData?.sourceType==='bot'?selectedAvatar?.imageUrl:'https://image.flaticon.com/icons/svg/17/17004.svg'"
          style="width: 32px;height: 32px" alt="">
   </div>
   <div class="col-10 text-left p-0"
        *ngIf="messageData.messageMediatype===myEBotMessageMediaType.image">
     <app-card-carousel
-    [messageData]="messageData"
+      [isFullScreenPreview]="isFullScreenPreview"
+      [messageData]="messageData"
     (sendMessageToBotServer$)="sendMessageToBotServer$.emit($event)"
     ></app-card-carousel>
   </div>
   <div class="col-10 text-left p-0"
        *ngIf="messageData.messageMediatype===myEBotMessageMediaType.quickReply">
     <app-quick-reply
+      [isFullScreenPreview]="isFullScreenPreview"
       [messageData]="messageData"
       (sendMessageToBotServer$)="sendMessageToBotServer$.emit($event)"
     ></app-quick-reply>

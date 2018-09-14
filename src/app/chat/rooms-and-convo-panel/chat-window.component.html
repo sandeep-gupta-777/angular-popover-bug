@@ -13,7 +13,7 @@
 <!--</div>-->
 <!--text input starts-->
 <div class="footer d-flex align-items-center justify-content-between text-muted" style="height: 10%">
-  <input class="px-2" placeholder="say something..." [(ngModel)]="messageByHuman" type="text"
+  <input class="px-2" placeholder="say something..." autofocus [(ngModel)]="messageByHuman" type="text"
          (keyup.enter)="sendMessageByHuman(messageByHuman)">
   <span class="icon"><i class="fa fa-send cursor-pointer" (click)="sendMessageByHuman(messageByHuman)"></i></span>
 </div>
