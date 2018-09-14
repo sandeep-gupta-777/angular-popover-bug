@@ -4,8 +4,8 @@
   display: grid;
   height: 88vh;
   grid-template-columns: 1fr;
-  grid-template-rows: 8vh auto minmax(60vh, 1fr);
-  grid-gap: 2px;
+  grid-template-rows: 40px auto minmax(60vh, 1fr);
+  grid-gap: 8px;
   grid-template-areas:
     'header'
     'config'
@@ -73,7 +73,7 @@
   .side-bar {
     width: 10.5%;
     // padding-left: 10px;
-    padding-right: 14px;
+    padding-right: 0px;
   }
   .tab {
     height: 32px;
