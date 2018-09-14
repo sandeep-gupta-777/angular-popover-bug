@@ -14,10 +14,12 @@ import {
   SetCurrentBotDetails, SetCurrentUId,
   ToggleChatWindow
 } from '../../../chat/ngxs/chat.action';
-import {ConstantsService} from '../../../constants.service';
+import {ConstantsService, ERoleName} from '../../../constants.service';
 import {ServerService} from '../../../server.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {IConsumerDetails} from '../../../chat/ngxs/chat.state';
+import {IUser} from '../../interfaces/user';
+import {IAuthState} from '../../../auth/ngxs/auth.state';
 
 @Component({
   selector: 'app-bot-preview-card',
@@ -27,6 +29,7 @@ import {IConsumerDetails} from '../../../chat/ngxs/chat.state';
 export class BotPreviewCardComponent implements OnInit {
 
   @Input() bot: IBot;
+  @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() chatsessionstate$:Observable<IChatSessionState>;
   modalRef: BsModalRef;
   myObject = Object;
@@ -35,6 +38,7 @@ export class BotPreviewCardComponent implements OnInit {
   currentChatPreviewBotId:number;
   currentUid:string;
   customConsumerDetails:IConsumerDetails;
+  role:string;
 
   constructor(
     public utilityService: UtilityService,
@@ -56,6 +60,10 @@ export class BotPreviewCardComponent implements OnInit {
       this.currentUid = chatSessionState.currentUId;
       this.customConsumerDetails = chatSessionState.consumerDetails;
     });
+
+    this.loggeduser$.subscribe((authState:IAuthState)=>{
+        this.role = authState.user.role.name;
+    })
   }
 
   copy(text: string, element) {
@@ -65,9 +73,10 @@ export class BotPreviewCardComponent implements OnInit {
     }, 1000);
   }
 
-  openBot() {
 
-    this.router.navigate(['/core/viewbots/chatbot'], {queryParams:{preview:this.bot.id}});
+  previewBot() {
+      this.router.navigate(['/core/viewbots/chatbot'], {queryParams:{preview:this.bot.id, }});
+    // if(log)http://localhost:4200/core/botdetail/chatbot/20?build=testing
 
     /*if a new bot is being opened=> clear previous chat state*/
     if(this.currentChatPreviewBotId && this.bot.id!==this.currentChatPreviewBotId){
@@ -123,7 +132,21 @@ export class BotPreviewCardComponent implements OnInit {
   navigateToBotDetailPage(event){//preview-button
     if(!event.target.classList.contains('click-save-wrapper')){
       this.router.navigate(['core/botdetail/'+this.parentRoute+'/'+ this.bot.id])/*TODO:improve it*/
+
+      if(ERoleName.Tester===this.role){
+        // this.router.navigate(['/core/viewbots/chatbot'], {queryParams:{preview:this.bot.id,build:"testing"}});
+        this.router.navigate(['core/botdetail/'+this.parentRoute+'/'+ this.bot.id],{queryParams:{preview:this.bot.id,build:"testing"}})/*TODO:improve it*/
+
+      }else {
+        this.router.navigate(['core/botdetail/'+this.parentRoute+'/'+ this.bot.id])/*TODO:improve it*/
+      }
     }
+  }
+
+  openBotDetailsPage(){
+    // this.router.navigate(['core/botdetail/'+parentRoute+'/'+ bot.id])
+    ;
+
   }
 
 

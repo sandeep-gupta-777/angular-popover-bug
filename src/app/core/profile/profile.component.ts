@@ -3,7 +3,7 @@ import {IUser} from '../interfaces/user';
 import {Observable} from 'rxjs';
 import {Select, Store} from '@ngxs/store';
 import {ServerService} from '../../server.service';
-import {ConstantsService} from '../../constants.service';
+import {ConstantsService, ETabNames} from '../../constants.service';
 import {IHeaderData} from '../../../interfaces/header-data';
 import {SetUserAction} from '../../auth/ngxs/auth.action';
 import {UtilityService} from '../../utility.service';
@@ -20,6 +20,7 @@ import {IProfilePermission} from '../../../interfaces/profile-action-permission'
 })
 export class ProfileComponent implements OnInit {
 
+  myETabNames = ETabNames;
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @ViewChild('form') f: HTMLFormElement;
   @ViewChild('password_form') passwordForm: NgForm;
@@ -46,16 +47,16 @@ export class ProfileComponent implements OnInit {
     });
 
     let allActionsUrl = this.constantsService.getAllActionsUrl();
-    this.serverService.makeGetReq<{meta:any, objects:IProfilePermission[]}>({url:allActionsUrl})
-      .subscribe(({objects})=>{
+    this.serverService.makeGetReq<{ meta: any, objects: IProfilePermission[] }>({url: allActionsUrl})
+      .subscribe(({objects}) => {
         this.store.dispatch([
           new SetMasterProfilePermissions({masterProfilePermissions: objects})
         ]);
-      })
+      });
 
     this.modalService.onHidden.subscribe((reason: string) => {
-      this.old_password = this.new_password = this.new_password_confirm = "";
-    })
+      this.old_password = this.new_password = this.new_password_confirm = '';
+    });
   }
 
   updateProfile() {
@@ -70,7 +71,7 @@ export class ProfileComponent implements OnInit {
     this.serverService.makePutReq({url, body})
       .subscribe((value: IUser) => {
         let updatedUser: IUser = {...this.loggeduser, ...value};
-        this.utilityService.showSuccessToaster("Successfully updated!");
+        this.utilityService.showSuccessToaster('Successfully updated!');
         this.store.dispatch([
           new SetUserAction({user: updatedUser})
         ]);

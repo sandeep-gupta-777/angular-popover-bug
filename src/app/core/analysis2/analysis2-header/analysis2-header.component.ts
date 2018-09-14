@@ -124,7 +124,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
       /*TODO: for some reason, angular form validation is not working. This is a hack*/
       // if (!this.f.valid || Object.keys(this.f.value).length < 4) return;
       try {
-        debugger;
+
         this.f.form.patchValue(analytics2HeaderData);
         let url = this.constantsService.getAnalyticsUrl();
         let headerData: IAnalysis2HeaderData = {

@@ -14,13 +14,18 @@ export enum ERouteNames {
   report = 'report',
   create_report = 'create_report',
   enterprise_profile = 'enterprise_profile',
+  analytics2 = 'analytics2',
+  consumer = 'consumer',
+  sessions= 'sessions',
 }
 
 export enum ETabNames {
   customner = 'customner',
   knowledgeBase = 'knowledgeBase',
   enterprise_profile = 'enterprise_profile',
-  architecture = 'architecture',
+  architecture_tab = 'architecture_tab',
+  architecture_items = 'architecture_items',
+  architecture_panel_pipeline = 'architecture_panel',
   update_bot_button = 'update_bot_button',
   bot_header_ellipsis = 'bot_header_ellipsis',
   bot_header_reset = 'bot_header_reset',
@@ -29,6 +34,13 @@ export enum ETabNames {
   forms = 'forms',
   UI_SWITCH = 'UI_SWITCH',
   report = 'report',
+  analytics2 = 'analytics2',
+  pipeline = 'pipeline',
+  knowledgebase = 'knowledgebase',
+  botversion = 'botversion',
+  sessions = 'sessions',
+  consumers = 'consumers',
+  update_profile="update_profile"
 }
 
 export enum ERoleName {
@@ -60,7 +72,7 @@ export class ConstantsService {
       tab: [// =  tab, hyperlink, button
         ETabNames.enterprise_profile,
         ETabNames.customner,
-        ETabNames.architecture,
+        ETabNames.architecture_tab,
         ETabNames.bot_header_ellipsis,
         ETabNames.knowledgeBase,
         ETabNames.update_bot_button,
@@ -69,7 +81,12 @@ export class ConstantsService {
         ETabNames.forms,
         ETabNames.action_items,
         ETabNames.UI_SWITCH,
-        ETabNames.report
+        ETabNames.report,
+        ETabNames.analytics2,
+        ETabNames.pipeline,
+        ETabNames.knowledgebase,
+        ETabNames.botversion,
+        ETabNames.update_profile
       ],
     },
     'Botdev': {
@@ -78,18 +95,42 @@ export class ConstantsService {
       ],
       module: [],
       tab: [
-        ETabNames.enterprise_profile
+        ETabNames.enterprise_profile,
+        ETabNames.update_profile,
+
       ],//tab, hyperlink, button
     },
     'Tester': {
       route: [
-        ERouteNames.enterprise_profile
+        ERouteNames.customner,
+        ERouteNames.enterprise_profile,
+        ERouteNames.report,
+        ERouteNames.sessions,
+        ERouteNames.consumer,
+        ERouteNames.analytics2,
       ],
       module: [],
-      tab: [
+      tab: [// =  tab, hyperlink, button
         ETabNames.enterprise_profile,
+        ETabNames.customner,
+        ETabNames.architecture_tab,
+        ETabNames.architecture_items,
+        ETabNames.architecture_panel_pipeline,
+        ETabNames.bot_header_ellipsis,
+        ETabNames.knowledgeBase,
+        ETabNames.update_bot_button,
+        ETabNames.bot_header_reset,
+        ETabNames.consumers,
+        ETabNames.sessions,
+        // ETabNames.integration_icons,
+        ETabNames.forms,
+        ETabNames.action_items,
+        ETabNames.UI_SWITCH,
         ETabNames.report,
-      ],//tab, hyperlink, button
+        ETabNames.analytics2,
+        ETabNames.update_profile
+
+      ],
     }
   };
 

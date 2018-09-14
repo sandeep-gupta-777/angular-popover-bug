@@ -18,7 +18,7 @@ export class MyIfDirective {
   @Input()
   set myIf(tabName) {
     let isDenied:boolean =  this.constantsService.isTabAccessDenied(tabName);
-
+    debugger;
     if(!isDenied) {
       this.viewContainer.createEmbeddedView(this.templateRef);
     } else {
