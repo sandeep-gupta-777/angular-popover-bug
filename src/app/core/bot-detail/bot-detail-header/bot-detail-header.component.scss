@@ -56,6 +56,11 @@
 
 .dropdown-menu {
   left: -100px !important;
+  >li{
+    >.dropdown-item{
+      font-size : 13px;
+    }
+  }
 }
 
 .preview-box {

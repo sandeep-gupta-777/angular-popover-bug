@@ -1,6 +1,7 @@
 $fa-font-path: "../node_modules/font-awesome/fonts";
 @import "../node_modules/font-awesome/scss/font-awesome.scss";
 @import "./sass/main.scss";
+
 //@import '~handsontable/dist/handsontable.full.css';
 
 * div {
@@ -232,7 +233,9 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
+.modal-xlg{
+  max-width: 1000px;
+}
 h4 {
   @include typography($font-size-lg, $line-height-md, $font-weight-700, $color-text-grey);
 }
@@ -280,7 +283,8 @@ th, td {
 }
 
 .dropdown-menu {
-  font-size: 14px;
+  font-size: 13px;
+  font-family: "Helvetica", sans-serif ;
   border-radius: 2px;
 }
 

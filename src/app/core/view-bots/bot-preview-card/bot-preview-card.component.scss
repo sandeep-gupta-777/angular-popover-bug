@@ -24,7 +24,7 @@
   //grid-row-gap: 10px;
   font-family: Helvetica;
   grid-template-areas:
-  'mlt header1 header1 header1 mrt'
+  'mlt header1 header1 header1 header1'
   'ml icon1 details1 icon2 mr'
   'ml details2 details2 details2 mr'
   'ml footer footer footer mr'
@@ -59,7 +59,7 @@
   .icon2{
     grid-area: icon2;
     font-size: 17px;
-    padding-top: 10px;
+    padding-top: 16px;
     color: #474747;
   }
   .details1{
@@ -229,6 +229,6 @@
 
 .click-save-wrapper{
   padding: 6px;
-  font-size: 11px !important;
+  font-size: 13px !important;
 }
 

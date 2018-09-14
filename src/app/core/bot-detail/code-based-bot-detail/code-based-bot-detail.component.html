@@ -8,7 +8,9 @@
   <div class="row config bg-white pb-2 pt-3 shadow-theme">
     <!---->
     <div class="col-12 text-theme-normal cursor-pointer">
-      <div class="col-12 d-flex justify-content-between px-3 pb-1" (click)="showConfig=!showConfig">
+      <!-- <div class="col-12 d-flex justify-content-between px-3 pb-1" (click)="showConfig=!showConfig"> -->
+      <div class="col-12 d-flex justify-content-between px-3 pb-1" >
+
         <div class="heading" style="font-size: 14px !important;">Bot Configuration</div>
         <div *ngIf="!showConfig" class="d-flex mx-4 justify-content-between align-items-center flex-grow-1">
           <div>Bot Unique Name : <strong>{{bot.bot_unique_name}}</strong></div>
