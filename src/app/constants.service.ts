@@ -56,83 +56,83 @@ export enum ERoleName {
 })
 export class ConstantsService {
 
-  permissionsDeniedMap = {
-    'Admin': {
-      route: [],
-      module: [],
-      tab: [],//tab, hyperlink, button
-    },
-    'Analyst': {
-      route: [ERouteNames.customner,
-        ERouteNames.enterprise_profile,
-        ERouteNames.report,
-        ERouteNames.create_report,
-      ],
-      module: [],
-      tab: [// =  tab, hyperlink, button
-        ETabNames.enterprise_profile,
-        ETabNames.customner,
-        ETabNames.architecture_tab,
-        ETabNames.bot_header_ellipsis,
-        ETabNames.knowledgeBase,
-        ETabNames.update_bot_button,
-        ETabNames.bot_header_reset,
-        ETabNames.integration_icons,
-        ETabNames.forms,
-        ETabNames.action_items,
-        ETabNames.UI_SWITCH,
-        ETabNames.report,
-        ETabNames.analytics2,
-        ETabNames.pipeline,
-        ETabNames.knowledgebase,
-        ETabNames.botversion,
-        ETabNames.update_profile
-      ],
-    },
-    'Botdev': {
-      route: [
-        ERouteNames.enterprise_profile,
-      ],
-      module: [],
-      tab: [
-        ETabNames.enterprise_profile,
-        ETabNames.update_profile,
+    permissionsDeniedMap = {
+      'Admin': {
+        route: [],
+        module: [],
+        tab: [],//tab, hyperlink, button
+      },
+      'Analyst': {
+        route: [ERouteNames.customner,
+          ERouteNames.enterprise_profile,
+          ERouteNames.report,
+          ERouteNames.create_report,
+        ],
+        module: [],
+        tab: [// =  tab, hyperlink, button
+          ETabNames.enterprise_profile,
+          ETabNames.customner,
+          ETabNames.architecture_tab,
+          ETabNames.bot_header_ellipsis,
+          ETabNames.knowledgeBase,
+          ETabNames.update_bot_button,
+          ETabNames.bot_header_reset,
+          ETabNames.integration_icons,
+          ETabNames.forms,
+          ETabNames.action_items,
+          ETabNames.UI_SWITCH,
+          ETabNames.report,
+          ETabNames.analytics2,
+          ETabNames.pipeline,
+          ETabNames.knowledgebase,
+          ETabNames.botversion,
+          ETabNames.update_profile
+        ],
+      },
+      'Botdev': {
+        route: [
+          ERouteNames.enterprise_profile,
+        ],
+        module: [],
+        tab: [
+          ETabNames.enterprise_profile,
+          ETabNames.update_profile,
 
-      ],//tab, hyperlink, button
-    },
-    'Tester': {
-      route: [
-        ERouteNames.customner,
-        ERouteNames.enterprise_profile,
-        ERouteNames.report,
-        ERouteNames.sessions,
-        ERouteNames.consumer,
-        ERouteNames.analytics2,
-      ],
-      module: [],
-      tab: [// =  tab, hyperlink, button
-        ETabNames.enterprise_profile,
-        ETabNames.customner,
-        ETabNames.architecture_tab,
-        ETabNames.architecture_items,
-        ETabNames.architecture_panel_pipeline,
-        ETabNames.bot_header_ellipsis,
-        ETabNames.knowledgeBase,
-        ETabNames.update_bot_button,
-        ETabNames.bot_header_reset,
-        ETabNames.consumers,
-        ETabNames.sessions,
-        // ETabNames.integration_icons,
-        ETabNames.forms,
-        ETabNames.action_items,
-        ETabNames.UI_SWITCH,
-        ETabNames.report,
-        ETabNames.analytics2,
-        ETabNames.update_profile
+        ],//tab, hyperlink, button
+      },
+      'Tester': {
+        route: [
+          ERouteNames.customner,
+          ERouteNames.enterprise_profile,
+          ERouteNames.report,
+          ERouteNames.sessions,
+          ERouteNames.consumer,
+          ERouteNames.analytics2,
+        ],
+        module: [],
+        tab: [// =  tab, hyperlink, button
+          ETabNames.enterprise_profile,
+          ETabNames.customner,
+          ETabNames.architecture_tab,
+          ETabNames.architecture_items,
+          ETabNames.architecture_panel_pipeline,
+          ETabNames.bot_header_ellipsis,
+          ETabNames.knowledgeBase,
+          ETabNames.update_bot_button,
+          ETabNames.bot_header_reset,
+          ETabNames.consumers,
+          ETabNames.sessions,
+          // ETabNames.integration_icons,
+          ETabNames.forms,
+          ETabNames.action_items,
+          ETabNames.UI_SWITCH,
+          ETabNames.report,
+          ETabNames.analytics2,
+          ETabNames.update_profile
 
-      ],
-    }
-  };
+        ],
+      }
+    };
 
 
 

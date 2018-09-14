@@ -2,7 +2,8 @@
 
 .bot-detail-grid{
   display: grid;
-  height: 88vh;
+  height: 100vh;
+  //border: 1px solid red;
   grid-template-columns: 1fr;
   grid-template-rows: 8vh auto minmax(60vh, 1fr);
   grid-gap: 2px;
@@ -94,12 +95,12 @@
   height: 90%;
 }
 
-app-knowledge-base-wrapper,app-code-input,app-integration-option-list{
+app-knowledge-base-wrapper,app-code-input,app-integration-option-list, app-bot-testing{
   height: 100%;
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
   width: 100%;
-  display: flex;
+  display: block;
 }
 app-integration-option-list{
   //overflow-y: scroll;

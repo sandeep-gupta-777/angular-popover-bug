@@ -67,11 +67,11 @@
 
     </div>
     <!--tabs end-->
-
+<!---->
     <!--architeture starts-->
-<div class="col-12 p-0" *myIf="myETabNames.architecture_items">
-  <div class="col-12 architeture-body" style="overflow-y: auto" *ngIf="selectedTab==='architecture' &&  bot ">
-    <div class="d-flex row-body bg-white " style="height: 100%">
+<div class="col-12 p-0" style="height: 90%" *ngIf="selectedTab==='architecture' &&  bot " >
+  <div class="col-12 architeture-body" style="overflow-y: auto;height: 100%" *myIf="myETabNames.architecture_items  ">
+    <div class="d-flex row-body bg-white " style="height: 98%"><!--TODO: 98% to avoid scroll bar; use grid instead-->
       <!--side bar starts-->
       <div class="side-bar  border-right">
         <div class="sidebar-content">
@@ -127,7 +127,7 @@
 </div>
     <!--architeture ends-->
 
-    <div class="col-12 scroll-wrapper" *ngIf="selectedTab==='testing'">
+    <div class="col-12 p-0 scroll-wrapper " *ngIf="selectedTab==='testing'">
       <app-bot-testing [bot]="bot"></app-bot-testing>
     </div>
 

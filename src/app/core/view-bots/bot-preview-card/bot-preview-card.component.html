@@ -163,7 +163,7 @@
       <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async))" [src]="integrationsMasterListItem?.icon"
            class="logo-image " style="width: 16px;height: 16px" alt="">
       <div *ngIf="bot.bot_type == 'chatbot'" (click)="previewBot()" class="show-on-parent-hover mr-auto click-save-wrapper cursor-pointer text-sm">Preview</div>
-      <button (click)="navigateToBotDetailPage()" class="show-on-parent-hover  btn btn-theme-primary px-3 mr-2 "  [ngClass]="{'mr-auto': bot.bot_type !== 'chatbot'}">Edit
+      <button (click)="navigateToBotDetailPage($event)" class="show-on-parent-hover  btn btn-theme-primary px-3 mr-2 "  [ngClass]="{'mr-auto': bot.bot_type !== 'chatbot'}">Edit
       </button>
 <!---->
     </div>

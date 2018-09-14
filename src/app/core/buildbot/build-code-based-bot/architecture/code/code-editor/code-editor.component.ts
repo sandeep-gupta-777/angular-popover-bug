@@ -36,7 +36,7 @@ export class CodeEditorComponent implements OnInit,AfterViewInit {
       theme:'cobalt',
       rtlMoveVisually:false,
       direction: "ltr",
-      moveInputWithCursor:false
+      moveInputWithCursor:false,
     });
     this.editor.on('change', editor => {
       this.editorCodeObjRef.text = editor.getValue();
