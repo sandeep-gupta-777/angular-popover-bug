@@ -20,7 +20,8 @@ import {EBotType} from '../../../../../view-bots/view-bots.component';
 @Component({
   selector: 'app-code-input',
   templateUrl: './code-input.component.html',
-  styleUrls: ['./code-input.component.scss']
+  styleUrls: ['./code-input.component.scss'],
+
 })
 export class CodeInputComponent implements OnInit, OnDestroy {
 

@@ -65,14 +65,20 @@ export class CodeBasedBotDetailComponent implements OnInit {
   }
 
   refreshBotDetails(){
-    let getBotById = this.constantsService.getSpecificBotByBotTokenUrl();
+    debugger;
+    let getBotByTokenUrl = this.constantsService.getSpecificBotByBotTokenUrl();
     let headerData: IHeaderData  = {
       'bot-access-token': this.bot.bot_access_token
     };
-    this.serverService.makeGetReq<{objects:IBot[]}>({url:getBotById, headerData})
+    this.serverService.makeGetReq<{objects:IBot[]}>({url:getBotByTokenUrl, headerData})
       .subscribe((val)=>{
+        debugger;
+        let bot:IBot = val.objects.find((bot)=>{
+          debugger;
+          return bot.id === this.bot.id
+        });
         this.store.dispatch([
-          new UpdateBotInfoByIdInBotInBotList({data:val.objects[0], botId:this.bot.id})
+          new UpdateBotInfoByIdInBotInBotList({data:bot, botId:this.bot.id})
         ]);
       })
   }

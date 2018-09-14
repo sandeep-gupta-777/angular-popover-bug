@@ -35,7 +35,7 @@ export enum ERoleName {
   Admin = 'Admin',
   botdev = 'botdev',
   Analyst = 'Analyst',
-  qa = 'qa',
+  Tester = 'Tester',
 }
 
 // import {IGlobalState} from '../interfaces/global-state';
@@ -73,14 +73,23 @@ export class ConstantsService {
       ],
     },
     'Botdev': {
-      route: [],
+      route: [
+        ERouteNames.enterprise_profile,
+      ],
       module: [],
-      tab: [],//tab, hyperlink, button
+      tab: [
+        ETabNames.enterprise_profile
+      ],//tab, hyperlink, button
     },
-    'QA': {
-      route: [],
+    'Tester': {
+      route: [
+        ERouteNames.enterprise_profile
+      ],
       module: [],
-      tab: [],//tab, hyperlink, button
+      tab: [
+        ETabNames.enterprise_profile,
+        ETabNames.report,
+      ],//tab, hyperlink, button
     }
   };
 
@@ -319,7 +328,7 @@ export class ConstantsService {
   }
 
   getSpecificBotByBotTokenUrl() {
-    return this.BACKEND_URL + `api/v1/bot/`; //https://dev.imibot.ai/api/v1/bot/
+    return this.BACKEND_URL + `api/v1/bot/?limit=1000`; //https://dev.imibot.ai/api/v1/bot/
   }
 
   getBotSessionsUrl(limit: number, offset: number) {

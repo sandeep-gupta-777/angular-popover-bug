@@ -1,76 +1,41 @@
-<div *ngIf="bot">
+<div class="bot-detail-grid" *ngIf="bot">
   <!--<div >-->
 
+  <div class="header">
     <app-bot-detail-header [bot]="bot" (refreshBotDetails$)="refreshBotDetails()"></app-bot-detail-header>
+  </div>
 
-    <div class="row bg-white pb-2 pt-3 shadow-theme">
-      <!---->
-      <div class="col-12 text-theme-normal">
-        <div class="col-12 d-flex justify-content-between px-3 pb-1">
-          <div class="heading" style="font-size: 14px !important;">Bot Configuration</div>
-          <div *ngIf="!showConfig" class="d-flex mx-4 justify-content-between align-items-center flex-grow-1">
-            <div>Bot Unique Name : <strong>{{bot.bot_unique_name}}</strong></div>
-            <div>Session Time : <strong>{{bot.room_persistence_time}} min</strong></div>
-            <div>Advance Data Protection : <strong>{{bot.advanced_data_protection}}</strong></div>
-            <div>Data Retention Period : <strong>{{bot.data_persistence_period}} Days</strong></div>
-            <div>Blank Consent : <strong>{{bot.blanket_consent}}</strong></div>
-          </div>
-          <div class="cursor-pointer"
-               (click)="showConfig=!showConfig">
-            <i class="fa" [ngClass]="{'fa-angle-up':showConfig, 'fa-angle-down':!showConfig}" style="font-size: 20px; line-height: 12px"></i>
-          </div>
+  <div class="row config bg-white pb-2 pt-3 shadow-theme">
+    <!---->
+    <div class="col-12 text-theme-normal cursor-pointer">
+      <div class="col-12 d-flex justify-content-between px-3 pb-1" (click)="showConfig=!showConfig">
+        <div class="heading" style="font-size: 14px !important;">Bot Configuration</div>
+        <div *ngIf="!showConfig" class="d-flex mx-4 justify-content-between align-items-center flex-grow-1">
+          <div>Bot Unique Name : <strong>{{bot.bot_unique_name}}</strong></div>
+          <div>Session Time : <strong>{{bot.room_persistence_time}} min</strong></div>
+          <div>Advance Data Protection : <strong>{{bot.advanced_data_protection}}</strong></div>
+          <div>Data Retention Period : <strong>{{bot.data_persistence_period}} Days</strong></div>
+          <div>Blank Consent : <strong>{{bot.blanket_consent}}</strong></div>
         </div>
-
-        <app-bot-config (datachanged$)="datachanged($event)" *ngIf="showConfig" [bot]="(bot)"></app-bot-config>
-
+        <div class="cursor-pointer"
+             (click)="showConfig=!showConfig">
+          <i class="fa" [ngClass]="{'fa-angle-up':showConfig, 'fa-angle-down':!showConfig}"
+             style="font-size: 20px; line-height: 12px"></i>
+        </div>
       </div>
+
+      <app-bot-config (datachanged$)="datachanged($event)" *ngIf="showConfig" [bot]="(bot)"></app-bot-config>
+
     </div>
-
-
-    <!--============================ngtemplate============================-->
-    <ng-template #placeholder>
-      <div class="row row-details">
-        <div class="col-2  d-flex flex-column align-items-center justify-content-start">
-          <i class="fa fa-area-chart p-0"></i>
-          <span class="number">0</span>
-          <span class="description">Total Session</span>
-        </div>
-        <div class="col-2 pb-5 d-flex flex-column align-items-center">
-          <i class="fa fa-users"></i>
-          <span class="number">0</span>
-          <span class="description">Total Users</span>
-        </div>
-        <div class="col-2 d-flex flex-column align-items-center">
-          <i class="fa fa-envelope"></i>
-          <span class="number">0</span>
-          <span class="description">Total Messages</span>
-        </div>
-        <div class="col-2 d-flex flex-column align-items-center">
-          <i class="fa fa-exchange"></i>
-          <span class="number">0</span>
-          <span class="description">Average Message Per Session</span>
-        </div>
-        <div class="col-2 d-flex flex-column align-items-center">
-          <i class="fa fa-clock-o"></i>
-          <span class="number">0</span>
-          <span class="description">Total Time Spent(hh:mm)</span>
-        </div>
-        <div class="col-2 d-flex flex-column align-items-center">
-          <i class="fa fa-hourglass"></i>
-          <span class="number">0</span>
-          <span class="description">Time Spent Per Session (hh:mm)</span>
-        </div>
-      </div>
-    </ng-template>
-
-  <!--</div>-->
+  </div>
 
   <!--============= REDESIGN=================-->
 
-  <div class="row shadow-theme bg-white p-4 my-5 align-content-start " style="min-height: 300px;" *myIf="myETabNames.architecture">
+  <div class="row shadow-theme architecture bg-white p-1 px-2 my align-content-start"
+       *myIf="myETabNames.architecture">
     <!--tabs start-->
     <div class="col-12  px-2">
-      <ul class="nav nav-tabs theme-tabbing mb-1">
+      <ul class="nav nav-tabs theme-tabbing mb-1 bg-white" >
         <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='architecture'}">
           <a class="nav-link heading" [routerLink]="['.']"
              queryParamsHandling="merge"
@@ -105,9 +70,9 @@
     <!--tabs end-->
 
     <!--architeture starts-->
-    <div class="col-12 architeture-body" *ngIf="selectedTab==='architecture' &&  bot ">
-      <div class="d-flex row-body bg-white ">
-
+    <div class="col-12 architeture-body " style="overflow-y: scroll" *ngIf="selectedTab==='architecture' &&  bot ">
+      <div class="d-flex row-body bg-white " style="height: 100%">
+        <!--side bar starts-->
         <div class="side-bar  border-right">
           <div class="sidebar-content">
             <a routerLink="."
@@ -140,11 +105,13 @@
             </div>
           </div>
         </div>
-        <div class="px-2 pt-2 pb-0" style="width: 85%;">
+        <!--side bar ends-->
+
+        <div class="px-2 pt-2 pb-0 d-flex  w-100">
           <app-pipeline (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"
                         [bot]="bot"></app-pipeline>
           <!--<app-knowledge-base (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='knowledge'"-->
-                              <!--[bot]="bot"></app-knowledge-base>-->
+          <!--[bot]="bot"></app-knowledge-base>-->
           <app-knowledge-base-wrapper [bot]="bot" *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base-wrapper>
 
           <app-code-input (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='code'"
@@ -158,18 +125,53 @@
     </div>
     <!--architeture ends-->
 
-    <div class="col-12" *ngIf="selectedTab==='testing'">
+    <div class="col-12 scroll-wrapper" *ngIf="selectedTab==='testing'">
       <app-bot-testing [bot]="bot"></app-bot-testing>
     </div>
 
-    <div class="col-12" *ngIf="selectedTab==='sessions'">
+    <div class="col-12 scroll-wrapper" *ngIf="selectedTab==='sessions'">
       <app-bot-sessions [id]="bot.id" [bot]="bot"></app-bot-sessions>
     </div>
 
-    <div class="col-12" *ngIf="selectedTab==='consumer'">
+    <div class="col-12 scroll-wrapper" *ngIf="selectedTab==='consumer'">
       <app-consumers [id]="bot.id" [bot]="bot"></app-consumers>
     </div>
 
   </div>
 
 </div>
+
+<ng-template #placeholder>
+  <div class="row row-details">
+    <div class="col-2  d-flex flex-column align-items-center justify-content-start">
+      <i class="fa fa-area-chart p-0"></i>
+      <span class="number">0</span>
+      <span class="description">Total Session</span>
+    </div>
+    <div class="col-2 pb-5 d-flex flex-column align-items-center">
+      <i class="fa fa-users"></i>
+      <span class="number">0</span>
+      <span class="description">Total Users</span>
+    </div>
+    <div class="col-2 d-flex flex-column align-items-center">
+      <i class="fa fa-envelope"></i>
+      <span class="number">0</span>
+      <span class="description">Total Messages</span>
+    </div>
+    <div class="col-2 d-flex flex-column align-items-center">
+      <i class="fa fa-exchange"></i>
+      <span class="number">0</span>
+      <span class="description">Average Message Per Session</span>
+    </div>
+    <div class="col-2 d-flex flex-column align-items-center">
+      <i class="fa fa-clock-o"></i>
+      <span class="number">0</span>
+      <span class="description">Total Time Spent(hh:mm)</span>
+    </div>
+    <div class="col-2 d-flex flex-column align-items-center">
+      <i class="fa fa-hourglass"></i>
+      <span class="number">0</span>
+      <span class="description">Time Spent Per Session (hh:mm)</span>
+    </div>
+  </div>
+</ng-template>

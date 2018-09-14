@@ -5,7 +5,7 @@
   <div class="name">
     <div class="heading mb-0">{{bot.name}}</div>
   </div>
-  <i class="fa fa-users" *ngIf="bot.child_bots.length>0" style="font-size: 16px"></i>
+  <i class="fa fa-users" *ngIf="bot && bot.child_bots && bot.child_bots.length>0" style="font-size: 16px"></i>
   <div class="d-flex align-items-center">
     <i class="fa fa-circle dark-green"></i>
     <div>Active(v{{bot.active_version_id}})</div>

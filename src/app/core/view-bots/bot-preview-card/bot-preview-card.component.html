@@ -153,7 +153,7 @@
       <div class="">Unique Name : {{bot.bot_unique_name}}</div>
       <div class="">Last Updated : {{bot.updated_by}}, {{bot.updated_at|date:'mediumDate'}}</div>
     </div>
-    <i class="fa fa-users icon2" *ngIf="bot.child_bots.length>0"></i>
+    <i class="fa fa-users icon2" *ngIf="bot.child_bots && bot.child_bots.length>0"></i>
 
     <div class="grid-bot-preview-forth-row d-flex flex-row-reverse bot-strip align-items-center p-2 footer">
       <!-- <span *ngIf="(bot.integrations|integrationImageCount)>4" class="more ml-auto">+{{(bot.integrations|integrationImageCount)}} More</span> -->

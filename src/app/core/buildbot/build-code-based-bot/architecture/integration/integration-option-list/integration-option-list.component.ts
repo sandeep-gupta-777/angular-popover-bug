@@ -14,7 +14,12 @@ import {EFormValidationErrors} from '../../../../../../utility.service';
 @Component({
   selector: 'app-integration-option-list',
   templateUrl: './integration-option-list.component.html',
-  styleUrls: ['./integration-option-list.component.scss']
+  styleUrls: ['./integration-option-list.component.scss'],
+  host: {
+    "[style.display]": "'block'",
+    "[style.height.percent]": "100",
+    "[style.overflow]": "scroll",
+  }
 })
 export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
 
