@@ -590,12 +590,13 @@ progressbar {
 .CodeMirror {
   border: 1px solid #eee;
   height: auto;
-  max-height:500px;
+  //max-height:250px;
+  max-height:200px;
 }
 
 .CodeMirror-scroll {
   height: auto;
-  max-height:250px;
+  max-height:200px;
 }
 .cm-s-cobalt.CodeMirror { background: #002240; color: white; }
 .cm-s-cobalt div.CodeMirror-selected { background: #b36539; }
