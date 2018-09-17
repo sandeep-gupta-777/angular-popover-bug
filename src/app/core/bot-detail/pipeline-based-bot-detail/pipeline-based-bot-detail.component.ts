@@ -9,6 +9,7 @@ import {Observable} from 'rxjs';
 import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ActivatedRoute} from '@angular/router';
 import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
+import {ETabNames} from '../../../constants.service';
 
 @Component({
   selector: 'app-pipeline-based-bot-detail',
@@ -16,7 +17,7 @@ import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
   styleUrls: ['./pipeline-based-bot-detail.component.scss']
 })
 export class PipelineBasedBotDetailComponent implements OnInit {
-
+myETabNames = ETabNames
 
   @Select() botlist$: Observable<ViewBotStateModel>;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;

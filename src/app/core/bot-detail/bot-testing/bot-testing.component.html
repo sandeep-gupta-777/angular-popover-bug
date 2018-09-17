@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<div [hidden]="!testCaseData" (change)="onTableChange()">
+<div [hidden]="!testCaseData" (change)="onTableChange()" tyle="width: 100%">
   <app-handsontable [testData]="testCaseData"
                     [columns]="handontable_column"
                     [colHeaders]="handontable_colHeaders"
@@ -36,7 +36,7 @@
        <p>Do you want to stop the Testing process?</p>
        <button class="btn-theme-primary" (click)="stopTest();modalRef.hide()">Stop Test</button>
      </div>
-      
+
     </div>
   </div>
 </ng-template>

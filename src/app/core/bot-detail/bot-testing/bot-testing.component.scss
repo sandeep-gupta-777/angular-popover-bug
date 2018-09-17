@@ -3,3 +3,8 @@
 .danger-modal{
     @include classic-modal(#b14250);
   }
+
+.app-handsontable{
+  display: block;
+  overflow-y: auto;
+}

@@ -161,7 +161,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
   }
   privateKey;
   async openFile(inputEl) {
-    debugger;
+
     try {
       this.privateKey= await this.utilityService.readInputFileAsText(inputEl);
     }catch (e) {

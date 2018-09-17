@@ -4,7 +4,7 @@
     <button class="btn btn-theme-primary ml-auto mr-1" (click)="openChangePasswordModal(Primarytemplate)">Change
       Password
     </button>
-    <button class="btn-theme-primary" (click)="updateProfile()">Update</button>
+    <button class="btn-theme-primary" *myIf="myETabNames.update_profile" (click)="updateProfile()">Update</button>
   </div>
 
   <form class="row" #form="ngForm">

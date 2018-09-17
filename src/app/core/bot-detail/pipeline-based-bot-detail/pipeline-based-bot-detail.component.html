@@ -16,7 +16,7 @@
         </div>
         <div class="cursor-pointer"
              (click)="showConfig=!showConfig">
-          <i class="fa fa-angle-down"style="font-size: 20px; line-height: 12px"></i>
+          <i class="fa fa-angle-down" style="font-size: 20px; line-height: 12px"></i>
         </div>
       </div>
 
@@ -24,8 +24,6 @@
 
     </div>
   </div>
-
-
 
 
   <!--============================ngtemplate============================-->
@@ -68,7 +66,7 @@
 
 <!--============= REDESIGN=================-->
 
-<div class="row shadow-theme bg-white p-2 my-3">
+<div class="row shadow-theme bg-white p-2 my-3" *myIf="myETabNames.architecture_panel_pipeline">
 
   <!--tabs start-->
   <div class="col-12 px-4">
@@ -81,91 +79,96 @@
            [queryParams]="{build:'architecture'}"><strong>Architecture</strong></a>
       </li>
       <!--<li class="nav-item" [ngClass]="{'tab-active':selectedTab==='testing'}">-->
-        <!--<a class="nav-link heading" [routerLink]="['.']"-->
-           <!--queryParamsHandling="merge"-->
-           <!--replaceUrl="true"-->
-           <!--(click)="tabChanged('testing')"-->
-           <!--[queryParams]="{build:'testing'}"><strong>Testing</strong></a>-->
+      <!--<a class="nav-link heading" [routerLink]="['.']"-->
+      <!--queryParamsHandling="merge"-->
+      <!--replaceUrl="true"-->
+      <!--(click)="tabChanged('testing')"-->
+      <!--[queryParams]="{build:'testing'}"><strong>Testing</strong></a>-->
       <!--</li>-->
       <!--<li class="nav-item" [ngClass]="{'tab-active':selectedTab==='sessions'}">-->
-        <!--<a class="nav-link heading" [routerLink]="['.']"-->
-           <!--queryParamsHandling="merge"-->
-           <!--replaceUrl="true"-->
-           <!--(click)="tabChanged('sessions')"-->
-           <!--[queryParams]="{build:'sessions'}"><strong>Session</strong></a>-->
+      <!--<a class="nav-link heading" [routerLink]="['.']"-->
+      <!--queryParamsHandling="merge"-->
+      <!--replaceUrl="true"-->
+      <!--(click)="tabChanged('sessions')"-->
+      <!--[queryParams]="{build:'sessions'}"><strong>Session</strong></a>-->
       <!--</li>-->
       <!--<li class="nav-item" [ngClass]="{'tab-active':selectedTab==='consumer'}">-->
-        <!--<a class="nav-link heading" [routerLink]="['.']"-->
-           <!--queryParamsHandling="merge"-->
-           <!--replaceUrl="true"-->
-           <!--(click)="tabChanged('consumer')"-->
-           <!--[queryParams]="{build:'consumer'}"><strong>Consumer</strong></a>-->
+      <!--<a class="nav-link heading" [routerLink]="['.']"-->
+      <!--queryParamsHandling="merge"-->
+      <!--replaceUrl="true"-->
+      <!--(click)="tabChanged('consumer')"-->
+      <!--[queryParams]="{build:'consumer'}"><strong>Consumer</strong></a>-->
       <!--</li>-->
     </ul>
 
   </div>
   <!--tabs end-->
-
+  <!---->
   <!--architeture starts-->
-  <div class="col-12 architeture-body" *ngIf="selectedTab==='architecture' && (bot$|async) as bot ">
-    <div class="d-flex row-body bg-white">
+  <div class="col-12">
+    <div class="col-12 architeture-body" *ngIf="selectedTab==='architecture' && (bot$|async) as bot ">
+      <div class="d-flex row-body bg-white">
 
-      <div class="side-bar  border-right">
-        <div class="sidebar-content">
-          <a routerLink="."
-             [queryParams]="{'build-tab':'pipeline'}"
-             queryParamsHandling="merge"
-             [ngClass]="{'font-weight-bold':selectedSideBarTab==='pipeline'}"
-             (click)="selectedSideBarTab='pipeline'"
-             class="tab-theme font-weight-bold">Pipeline
-          </a>
-          <div routerLink="."
-               [queryParams]="{'build-tab':'knowledge'}"
+        <div class="side-bar  border-right">
+          <div class="sidebar-content">
+            <a routerLink="."
+               [queryParams]="{'build-tab':'pipeline'}"
                queryParamsHandling="merge"
-               [ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"
-               (click)="selectedSideBarTab='knowledge'"
-               class="tab-theme">Knowledge base
+               [ngClass]="{'font-weight-bold':selectedSideBarTab==='pipeline'}"
+               (click)="selectedSideBarTab='pipeline'"
+               class="tab-theme font-weight-bold">Pipeline
+            </a>
+            <div routerLink="."
+                 [queryParams]="{'build-tab':'knowledge'}"
+                 queryParamsHandling="merge"
+                 [ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"
+                 (click)="selectedSideBarTab='knowledge'"
+                 class="tab-theme">Knowledge base
+            </div>
+            <!--<div routerLink="."-->
+            <!--[queryParams]="{'build-tab':'code'}"-->
+            <!--queryParamsHandling="merge"-->
+            <!--[ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"-->
+            <!--(click)="selectedSideBarTab='code'"-->
+            <!--class="tab-theme">Code-->
+            <!--</div>-->
+            <!--<div routerLink="."-->
+            <!--[queryParams]="{'build-tab':'integration'}"-->
+            <!--queryParamsHandling="merge"-->
+            <!--[ngClass]="{'font-weight-bold':selectedSideBarTab==='integration'}"-->
+            <!--(click)="selectedSideBarTab='integration'"-->
+            <!--class="tab-theme">Integrations-->
+            <!--</div>-->
           </div>
-          <!--<div routerLink="."-->
-               <!--[queryParams]="{'build-tab':'code'}"-->
-               <!--queryParamsHandling="merge"-->
-               <!--[ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"-->
-               <!--(click)="selectedSideBarTab='code'"-->
-               <!--class="tab-theme">Code-->
-          <!--</div>-->
-          <!--<div routerLink="."-->
-               <!--[queryParams]="{'build-tab':'integration'}"-->
-               <!--queryParamsHandling="merge"-->
-               <!--[ngClass]="{'font-weight-bold':selectedSideBarTab==='integration'}"-->
-               <!--(click)="selectedSideBarTab='integration'"-->
-               <!--class="tab-theme">Integrations-->
-          <!--</div>-->
         </div>
-      </div>
-      <div class="p-2" style="width: 85%;">
-        <app-pipeline (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'" [bot]="bot"></app-pipeline>
-        <!--<app-knowledge-base (datachanged$)="datachanged($event)"  *ngIf="selectedSideBarTab==='knowledge'" [bot]="(bot$|async)"></app-knowledge-base>-->
-        <app-knowledge-base-wrapper [bot]="bot" *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base-wrapper>
-        <!--<app-code-input (datachanged$)="datachanged($event)"  *ngIf="selectedSideBarTab==='code'" [bot]="(bot$|async)"></app-code-input>-->
-        <!--<app-integration-option-list (datachanged$)="datachanged($event)"  *ngIf="selectedSideBarTab==='integration'"-->
-                                     <!--[bot]="(bot$|async)"></app-integration-option-list>-->
+        <div class="p-2" style="width: 85%;">
+          <app-pipeline (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"
+                        [bot]="bot"></app-pipeline>
+          <!--<app-knowledge-base (datachanged$)="datachanged($event)"  *ngIf="selectedSideBarTab==='knowledge'" [bot]="(bot$|async)"></app-knowledge-base>-->
+          <app-knowledge-base-wrapper [bot]="bot" *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base-wrapper>
+          <!--<app-code-input (datachanged$)="datachanged($event)"  *ngIf="selectedSideBarTab==='code'" [bot]="(bot$|async)"></app-code-input>-->
+          <!--<app-integration-option-list (datachanged$)="datachanged($event)"  *ngIf="selectedSideBarTab==='integration'"-->
+          <!--[bot]="(bot$|async)"></app-integration-option-list>-->
+        </div>
+
       </div>
 
     </div>
 
   </div>
+
   <!--architeture ends-->
 
   <!--<div class="col-12" *ngIf="selectedTab==='testing'">-->
-    <!--<app-bot-testing [bot]="bot$|async"></app-bot-testing>-->
+  <!--<app-bot-testing [bot]="bot$|async"></app-bot-testing>-->
   <!--</div>-->
 
   <!--<div class="col-12" *ngIf="selectedTab==='sessions'">-->
-    <!--<app-bot-sessions [id]="(bot$|async).id" [bot]="(bot$|async)"></app-bot-sessions>-->
+  <!--<app-bot-sessions [id]="(bot$|async).id" [bot]="(bot$|async)"></app-bot-sessions>-->
   <!--</div>-->
 
   <!--<div class="col-12" *ngIf="selectedTab==='consumer'">-->
-    <!--<app-consumers [id]="(bot$|async).id" [bot]="(bot$|async)"></app-consumers>-->
+  <!--<app-consumers [id]="(bot$|async).id" [bot]="(bot$|async)"></app-consumers>-->
   <!--</div>-->
 
 </div>
