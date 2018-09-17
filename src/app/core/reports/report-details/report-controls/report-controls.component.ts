@@ -147,6 +147,9 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
     let start_time_arr =  start_time.split(':');
     let hh = Number(start_time_arr[0]);
     let mm = Number(start_time_arr[1]);
+    if(!this.reportFormData.filetype){
+      this.reportFormData.filetype = 'csv'
+    }
 
     this.reportFormData.startdate
       = new Date(this.reportFormData.startdate).setHours(hh,mm,0,0);

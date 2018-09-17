@@ -8,6 +8,7 @@ import {IIntegrationOption} from '../interfaces/integration-option';
 import {DatePipe} from '@angular/common';
 import {environment} from '../environments/environment.prod';
 import {IAuthState} from './auth/ngxs/auth.state';
+declare var Handsontable: any;
 
 export enum ERouteNames {
   customner = 'customner',
@@ -17,6 +18,11 @@ export enum ERouteNames {
   analytics2 = 'analytics2',
   consumer = 'consumer',
   sessions= 'sessions',
+}
+
+export enum EAPINames {
+  integration_master = 'api/v1/integrations/',
+  enterprise = 'enterprise/',
 }
 
 export enum ETabNames {
@@ -61,6 +67,7 @@ export class ConstantsService {
         route: [],
         module: [],
         tab: [],//tab, hyperlink, button
+        api: [],//tab, hyperlink, button
       },
       'Analyst': {
         route: [ERouteNames.customner,
@@ -86,8 +93,14 @@ export class ConstantsService {
           ETabNames.pipeline,
           ETabNames.knowledgebase,
           ETabNames.botversion,
-          ETabNames.update_profile
+          ETabNames.update_profile,
+          ETabNames.architecture_items,
+
         ],
+        api: [
+          EAPINames.integration_master,
+          EAPINames.enterprise,
+        ]
       },
       'Botdev': {
         route: [
@@ -99,6 +112,7 @@ export class ConstantsService {
           ETabNames.update_profile,
 
         ],//tab, hyperlink, button
+        api: []
       },
       'Tester': {
         route: [
@@ -131,6 +145,7 @@ export class ConstantsService {
           ETabNames.update_profile
 
         ],
+        api: []
       }
     };
 
@@ -172,6 +187,17 @@ export class ConstantsService {
     return !!isTabAccessDenied;
   }
 
+  isApiAccessDenied(apiUrl: string) {
+    if(!apiUrl) return false;
+    let role = this.loggedUser.role.name;
+    let deniedApi = this.permissionsDeniedMap[role].api;
+    let isApiAccessDenied = deniedApi.find((route) => {
+      return apiUrl.includes(route);
+    });
+    let x=  !!isApiAccessDenied;
+    return x;
+  }
+
   public BACKEND_URL = environment.url;//'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
   public BACKEND_URL_LOGIN = `${this.BACKEND_URL}` + 'api/v1/user/login/';
   private BACKEND_URL_ENTERPRISE_USERS = `${this.BACKEND_URL}` + 'users/enterprise/';
@@ -180,7 +206,7 @@ export class ConstantsService {
   public BACKEND_USER_PIPELINE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'api/v1/bot/';//https://dev.imibot.ai/bots
 
   public readonly CHANNEL_LIST = [
-    {name: 'all', displayName: 'All channels'},
+    {name: 'all', displayName: 'All Channels'},
     {name: 'facebook', displayName: 'Facebook'},
     {name: 'web', displayName: 'WebChat'},
     {name: 'alexa', displayName: 'Alexa'}];
@@ -643,11 +669,30 @@ export class ConstantsService {
     {data: 5, type: 'text'},
   ];
   readonly HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders = ['Key', 'Title', 'Payload'];
+  readonly HANDSON_TABLE_KNOWLEDGE_BASE_SETTING = {
+    cells: function (row, col) {
+
+      /*To make first row highlighted*/
+      /*https://docs.handsontable.com/5.0.2/demo-conditional-formatting.html*/
+      var cellProperties = {};
+      var data = this.instance.getData();
+
+
+      if (row === 0) {
+        cellProperties["renderer"] = function(instance, td, row, col, prop, value, cellProperties) {
+          Handsontable.renderers.TextRenderer.apply(this, arguments);
+          td.style.fontWeight = 'bold';
+        }; // uses function directly
+      }
+      return cellProperties;
+    }
+  };
   readonly HANDSON_TABLE_KNOWLEDGE_BASE_columns = [
     {data: 0, type: 'text'},
     {data: 1, type: 'text'},
     {data: 2, type: 'text'},
   ];
+
 
   readonly HIGHCHART_CHARTVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE = {
     chart: {

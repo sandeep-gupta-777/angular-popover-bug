@@ -1,12 +1,14 @@
-  <div class="d-flex justify-content-end align-items-center my-2">
-    <div><i class="fa fa-refresh pr-2 cursor-pointer" style="font-size: 19px" (click)="reloadData()"></i></div>
-    <!-- <div *ngIf="!isFullscreen"><i class="fa fa-external-link pr-2 cursor-pointer" style="font-size: 19px" (click)="goFullScreen()"></i></div> -->
-  </div>
+  <!--<div class="d-flex justify-content-end align-items-center my-2">-->
+    <!--<div><i class="fa fa-refresh pr-2 cursor-pointer" style="font-size: 19px" (click)="reloadData()"></i></div>-->
+    <!--&lt;!&ndash; <div *ngIf="!isFullscreen"><i class="fa fa-external-link pr-2 cursor-pointer" style="font-size: 19px" (click)="goFullScreen()"></i></div> &ndash;&gt;-->
+  <!--</div>-->
 
   <app-smart-table
     [totalRecords]="totalRecords"
     (pageChanged$)="pageChanged($event)"
     [data]="(consumerTableData)|limitObjectArraysString"
+    [showRefreshButton]="true"
+    (refreshData$)="reloadData()"
     [settings]="smartTableSettings_Consumers"
     (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,Primarytemplat)"
     >

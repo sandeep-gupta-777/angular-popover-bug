@@ -16,6 +16,7 @@
 <ng-template #rowDetails>
 
   <app-knowledge-base-presentation
+    class="h-100"
     [selectedRowData]="selectedRowData"
     [handsontableData]="handontableData"
     (showTable$)="showNerSmartTable()"
@@ -26,7 +27,7 @@
 <!--<ng-template #rowDetails>-->
 <!--<div class="row create-concept-row">-->
 <!--<div class="col-12 d-flex justify-content-between">-->
-<!--<button class="btn-theme-primary-outline" (click)="showTable=true; selectedRowData = []">Go back</button>-->
+<!--<button class="btn-theme-primary-outline" (click)="showTable=true; selectedRowData = []">Go Back</button>-->
 <!--<form class="options d-flex align-items-center" #form="ngForm">-->
 <!--<span>Concept Key</span>-->
 <!--<input [disabled]="selectedRowData.created_at" type="text" class="concept" placeholder="Concept Key"-->

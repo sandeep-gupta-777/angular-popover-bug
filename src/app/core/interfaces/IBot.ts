@@ -5,6 +5,19 @@ import {IIntegrationOption} from '../../../interfaces/integration-option';
 
 /*TODO: what is the key for industry*/
 export interface IBot {
+  active_version?: {
+    bot_id: 13,
+    comment: 'code version check',
+    id: 12,
+    version: 3
+  },
+  latest_version?: {
+    _id: 13,
+    bot_id: 13,
+    comment: 'code version check',
+    id: 12,
+    version: 3
+  }
   "active_version_id"?: number,
   "advanced_data_protection"?: boolean,
   "allow_anonymization"?: boolean,

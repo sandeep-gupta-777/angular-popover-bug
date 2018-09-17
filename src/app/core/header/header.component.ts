@@ -14,6 +14,7 @@ import {ResetBuildBotToDefault} from '../buildbot/ngxs/buildbot.action';
 import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
 import {EBotType} from '../view-bots/view-bots.component';
 import {ResetAnalytics2GraphData, ResetAnalytics2HeaderData} from '../analysis2/ngxs/analysis.action';
+import {UtilityService} from '../../utility.service';
 
 @Component({
   selector: 'app-header',
@@ -32,6 +33,7 @@ export class HeaderComponent implements OnInit {
     private store: Store,
     private serverService: ServerService,
     private constantsService: ConstantsService,
+    private utilityService: UtilityService,
     private router:Router) { }
 
   ngOnInit() {
@@ -47,7 +49,9 @@ export class HeaderComponent implements OnInit {
     // this.store.reset({});
     this.url = this.constantsService.getLogoutUrl();
     this.serverService.makeGetReq({url: this.url})
-    .subscribe((v)=>{});
+    .subscribe((v)=>{
+      this.utilityService.showSuccessToaster("Successfully Logged Out");
+    });
     this.store.dispatch([
 
       new ResetBotListAction(),

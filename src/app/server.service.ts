@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {ConstantsService} from './constants.service';
 import {Select, Selector, Store} from '@ngxs/store';
 import {IUser} from './core/interfaces/user';
@@ -9,7 +9,12 @@ import {IOverviewInfoResponse, IOverviewInfoPostBody} from '../interfaces/Analyt
 import {_throw} from 'rxjs/observable/throw';
 import 'rxjs/add/operator/do';
 import {UtilityService} from './utility.service';
-import {SetAllBotListAction, SetCodeBasedBotListAction, SetPipeLineBasedBotListAction} from './core/view-bots/ngxs/view-bot.action';
+import {
+  SetAllBotListAction,
+  SetCodeBasedBotListAction,
+  SetPipeLineBasedBotListAction,
+  UpdateBotInfoByIdInBotInBotList
+} from './core/view-bots/ngxs/view-bot.action';
 import {IBot, IBotResult} from './core/interfaces/IBot';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SetMasterIntegrationsList, SetProgressValue} from './ngxs/app.action';
@@ -18,7 +23,7 @@ import {ICustomNerItem} from '../interfaces/custom-ners';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
-
+import 'rxjs/add/operator/filter';
 
 @Injectable({
   providedIn: 'root'
@@ -51,7 +56,7 @@ export class ServerService {
 
   createHeaders(headerData?: any): HttpHeaders {
     let headers = new HttpHeaders();
-    let tokenData:IHeaderData = {};
+    let tokenData: IHeaderData = {};
     tokenData = {'user-access-token': this.X_AXIS_TOKEN};
     tokenData = {...tokenData, 'auth-token': this.AUTH_TOKEN};
     tokenData = {...tokenData, 'content-type': 'application/json'};
@@ -69,11 +74,29 @@ export class ServerService {
     return headers;
   }
 
+  showErrorMessageForErrorTrue(errorObj: { 'error': true, 'message': string, 'transaction_id': string }) {
+    this.utilityService.showErrorToaster(errorObj.message);
+  }
+
   makeGetReq<T>(reqObj: { url: string, headerData?: any }): Observable<T> {
+    if(this.constantsService.isApiAccessDenied(reqObj.url)){
+      return throwError("api access not allowed");
+    }
     let headers = this.createHeaders(reqObj.headerData);
 
     this.changeProgressBar(true, 0);
     return this.httpClient.get<T>(reqObj.url, {headers: headers})
+    // .pipe((
+    //   mergeMap((value:T) => value.error ? throwError(value) : of(value))
+    // ))
+      .map((value: any) => {
+        if (value && value.error) {
+          this.showErrorMessageForErrorTrue(value);
+          return throwError(value);
+        } else {
+          return value;
+        }
+      })
       .do((value) => {
         this.changeProgressBar(false, 100);
       })
@@ -86,11 +109,11 @@ export class ServerService {
       });
   }
 
-  makeGetReqToDownloadFiles(reqObj: { url: string, headerData?: any }){
+  makeGetReqToDownloadFiles(reqObj: { url: string, headerData?: any }) {
     let headers = this.createHeaders(reqObj.headerData);
 
     this.changeProgressBar(true, 0);
-    return this.httpClient.get(reqObj.url, {headers: headers, responseType:'text'})
+    return this.httpClient.get(reqObj.url, {headers: headers, responseType: 'text'})
       .do((value) => {
         this.changeProgressBar(false, 100);
       })
@@ -120,13 +143,15 @@ export class ServerService {
       });
   }
 
-  makePostReq<T>(reqObj: { url: string, body: any, headerData?: any }): Observable<T> {
+  makePostReq<T>(reqObj: { url: string, body: any, headerData?: any, dontShowProgressBar?: boolean }): Observable<T> {
     let headers = this.createHeaders(reqObj.headerData);
-
-    this.changeProgressBar(true, 0);
+    if (!reqObj.dontShowProgressBar) {
+      this.changeProgressBar(true, 0);
+    }
     return this.httpClient.post<T>(reqObj.url, reqObj.body, {headers: headers})
       .do((value) => {
-        this.changeProgressBar(false, 100);
+        if (!reqObj.dontShowProgressBar)
+          this.changeProgressBar(false, 100);
       })
       .catch((e: any, caught: Observable<T>) => {
         console.log(e);
@@ -148,6 +173,25 @@ export class ServerService {
         this.utilityService.showErrorToaster(e);
         this.changeProgressBar(false, 100);
         return _throw('error');
+      });
+  }
+
+
+  fetchSpecificBotFromServerAndUpdateBotList(bot){
+    let getBotByTokenUrl = this.constantsService.getSpecificBotByBotTokenUrl();
+    let headerData: IHeaderData = {
+      'bot-access-token': bot.bot_access_token
+    };
+    this.makeGetReq<{ objects: IBot[] }>({url: getBotByTokenUrl, headerData})
+      .subscribe((val) => {
+
+        let bot: IBot = val.objects.find((bot) => {
+
+          return bot.id === bot.id;
+        });
+        this.store.dispatch([
+          new UpdateBotInfoByIdInBotInBotList({data: bot, botId: bot.id})
+        ]);
       });
   }
 
@@ -231,7 +275,7 @@ export class ServerService {
       headerData = {
         'bot-access-token': (bot && bot.bot_access_token) || null
       };
-    }else {
+    } else {
       url = this.constantsService.updateOrDeleteEnterpriseNer(ner_id);
     }
     return this.makeDeleteReq({url, headerData});

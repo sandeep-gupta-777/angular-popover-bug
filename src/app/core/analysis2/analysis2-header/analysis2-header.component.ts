@@ -1,7 +1,7 @@
-import {AfterViewInit, Component, Input, NgZone, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {BotConfigComponent} from '../../buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {IBot} from '../../interfaces/IBot';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {NgForm} from '@angular/forms';
 import {ConstantsService} from '../../../constants.service';
 import {BsDatepickerConfig} from 'ngx-bootstrap';
@@ -51,9 +51,13 @@ import {query} from '@angular/animations';
   templateUrl: './analysis2-header.component.html',
   styleUrls: ['./analysis2-header.component.scss']
 })
-export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
+export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   _allbotList: IBot[];
+  formChangesSub:Subscription;
+  storeSub:Subscription;
+  loggeduserSub:Subscription;
+  analytics2HeaderDataSub:Subscription;
 
   @Input() set allbotList(_allbotList: IBot[]) {
     this._allbotList =_allbotList;
@@ -91,7 +95,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
     * form contains the header data, Whenever form changes,
     * update the header data in store
     * */
-    this.f.form.valueChanges
+    this.formChangesSub = this.f.form.valueChanges
       .debounceTime(1000)
       .subscribe((formData) => {
         if(this.utilityService.areTwoJSObjectSame(this.formData, formData)) return;
@@ -116,15 +120,13 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
     *Whenever the header data changes, make get request for analytics data
     * and when analytics data arrives, save in store again its "type"
     * */
-    this.loggeduser$.subscribe((loggeduser) => {
+    this.loggeduserSub = this.loggeduser$.subscribe((loggeduser) => {
       this.loggeduser = loggeduser;
     });
 
-    this.analytics2HeaderData$.subscribe((analytics2HeaderData) => {
-      /*TODO: for some reason, angular form validation is not working. This is a hack*/
-      // if (!this.f.valid || Object.keys(this.f.value).length < 4) return;
+    this.analytics2HeaderDataSub = this.analytics2HeaderData$.subscribe((analytics2HeaderData) => {
+      /*move this code to dedicated service*/
       try {
-
         this.f.form.patchValue(analytics2HeaderData);
         let url = this.constantsService.getAnalyticsUrl();
         let headerData: IAnalysis2HeaderData = {
@@ -249,5 +251,11 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit {
 
   click1() {
     console.log(this.f);
+  }
+
+  ngOnDestroy(): void {
+    this.analytics2HeaderDataSub && this.analytics2HeaderDataSub.unsubscribe();
+    this.loggeduser && this.loggeduserSub.unsubscribe();
+    this.formChangesSub && this.formChangesSub.unsubscribe();
   }
 }

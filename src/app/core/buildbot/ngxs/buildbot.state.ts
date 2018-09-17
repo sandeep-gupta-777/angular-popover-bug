@@ -33,7 +33,8 @@ export interface IBotCreationState {
 let defaultCodeBasedBotState = {
   logo:'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png',
   room_persistence_time:240,
-  data_persistence_period:30
+  data_persistence_period:30,
+  transactions_per_pricing_unit:30
 };
 defaultCodeBasedBotState[EFormValidationErrors.form_validation_basic_info]=false;
 defaultCodeBasedBotState[EFormValidationErrors.form_validation_avator]=false;

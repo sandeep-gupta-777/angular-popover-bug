@@ -111,7 +111,7 @@
       </div> -->
       <!--<p>{{(allbotList|json)}}</p>-->
       <!-- <p>{{bot.child_bots|json}}</p> -->
-      <label *ngIf="isManager && (_bot.child_bots.length<1)" class="text-danger pl-1" for="alterEgo"><i>Atleast one childbot is requred</i></label>
+      <label *ngIf="isManager && (_bot.child_bots.length<1)" class="text-danger pl-1" for="alterEgo"><i>Atleast one childbot is required</i></label>
 
       <div *ngIf="isManager" class="permissions-box">
             <span *ngFor="let childBotId of _bot.child_bots"

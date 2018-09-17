@@ -1,5 +1,46 @@
 @import "~src/sass/main";
 
+//::ng-deep app-code-editor {
+//}
+
+::ng-deep .code-editor-row-min {
+  .CodeMirror {
+    border: 1px solid #eee;
+    height: auto;
+    //max-height:250px;
+    max-height: 200px;
+  }
+
+  .CodeMirror-scroll {
+    //height: auto;
+    max-height: 200px;;
+  }
+}
+
+::ng-deep .code-editor-row-max {
+  .CodeMirror {
+    border: 1px solid #eee;
+    height: auto;
+    max-height:320px;
+    //max-height: 220px;
+  }
+
+  .CodeMirror-scroll {
+    //height: auto;
+    max-height: 320px;
+  }
+}
+//::ng-deep .code-editor-row-mix {
+//  .CodeMirror {
+//    border: 1px solid #eee;
+//    height: auto;
+//    //max-height:250px;
+//    max-height: 350px;
+//  }
+//}
+
+//::ng-deep
+
 .card {
   border: none;
 }

@@ -26,7 +26,7 @@
     text-align: center;
   }
 
-  span{
+  span, label{
     @include typography($font-size-xs, $line-height-normal, $font-weight-normal, $color-text-normal);
     padding-left: 10px;
     padding-right: 10px;

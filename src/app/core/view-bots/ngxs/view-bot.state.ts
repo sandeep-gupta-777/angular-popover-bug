@@ -4,7 +4,7 @@ import {
   SetCodeBasedBotListAction,
   SetPipeLineBasedBotListAction,
   SaveVersionInfoInBot,
-  UpdateBotInfoByIdInBotInBotList, SetAllBotListAction, AddNewBotInAllBotList
+  UpdateBotInfoByIdInBotInBotList, SetAllBotListAction, AddNewBotInAllBotList, UpdateVersionInfoByIdInBot
 } from './view-bot.action';
 import {IBot} from '../../interfaces/IBot';
 import {ActivatedRoute} from '@angular/router';
@@ -83,6 +83,19 @@ export class ViewBotStateReducer {
     let bot: IBot = state.allBotList.find((bot) => bot.id === payload.botId);
 
     bot.store_bot_versions = payload.data;
+    setState({...state});
+  }
+
+  @Action(UpdateVersionInfoByIdInBot)
+  updateVersionInfoByIdInBot({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>,
+                       {payload}: UpdateVersionInfoByIdInBot) {
+    let state: ViewBotStateModel = getState();
+    let bot: IBot = state.allBotList.find((bot) => bot.id === payload.botId);
+
+    let store_bot_versions = bot.store_bot_versions || (bot.store_bot_versions = []);
+    let index =  store_bot_versions.findIndex((version)=>version.id===payload.data.id);
+    index =  index===-1?0:index;
+    store_bot_versions[index] = {...store_bot_versions[index], ...payload.data};
     setState({...state});
   }
 

@@ -1,16 +1,18 @@
 <div *ngIf="sessions">
   <app-smart-table [data]="sessions"
                    [totalRecords]="totalSessionRecords"
-                   (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,Primarytemplat)"
-                   (rowClicked$)="goToReportEditComponent($event, template, Primarytemplat)"
-                   (pageChanged$)="sessionTablePageChanged($event)"
-                   [showSearchInDB]="true"
+                   (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,reasonForDecryptionTemplate)"
+                   (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate, reasonForDecryptionTemplate)"
+                   (pageChanged$)="loadSessionTableDataForGivenPage($event)"
+                   [showSearchInDbButton]="true"
+                   (refreshData$)="loadSmartTableSessionData()"
+                   [showRefreshButton]="true"
                    (performSearchInDB$)="performSearchInDbForSession($event)"
                    [settings]="smartTableSettings_Sessions"></app-smart-table>
 </div>
 
 
-<ng-template #template>
+<ng-template #sessionDetailTemplate>
   <div class="row" style="width: 100%">
     <div class="col-12">
       <app-session-detail-model
@@ -28,7 +30,7 @@
   </div>
 </ng-template>
 <!---->
-<ng-template #Primarytemplat>
+<ng-template #reasonForDecryptionTemplate>
   <div class="danger-modal">
     <div class="top-dec"></div>
     <div class="modal-header">

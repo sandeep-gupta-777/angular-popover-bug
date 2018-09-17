@@ -1,7 +1,7 @@
 <form class="grid-avator" #form="ngForm" >
-  <div class="d-flex flex-column align-items-center justify-content-center border" *myIf="myETabNames.action_items">
+  <div class="d-flex flex-column align-items-center justify-content-center border" readonlyselectedroles>
     <i class="fa fa-plus text-info cursor-pointer"></i>
-    <div class="text-info cursor-pointer my-3" (click)="createPrebuiltAvatarRow(true)">Create</div>
+    <div class="text-info cursor-pointer my-3"  (click)="createPrebuiltAvatarRow(true)">Create</div>
     <div class="text-info cursor-pointer" (click)="createPrebuiltAvatarRow(false)">Generate</div>
   </div>
 
@@ -9,7 +9,7 @@
 
   <fieldset class="avator-item border py-2 px-3 d-flex flex-column" readonlyselectedroles
        *ngFor="let avatorItem of avatorList; let i = index">
-    <i class="fa fa-trash cursor-pointer" (click)="deleteAvator()" *myIf="myETabNames.action_items"></i>
+    <i class="fa fa-trash cursor-pointer" (click)="deleteAvator(i)" *myIf="myETabNames.action_items"></i>
     <img class="logo-md rounded-circle align-self-center"
          [src]="avatorItem.avator.imageUrl || 'http://www.pngmart.com/files/3/Weather-PNG-HD.png'">
     <div class="form-group">

@@ -18,19 +18,20 @@ export class SmartTableComponent implements OnInit {
   };
 
   totalRows;
-
+@Input() showRefreshButton:boolean = false;
 
   _data: any = [{}];
   iterableDiffer;
   @Input() settings: any;
   @Output() rowClicked$ = new EventEmitter();
+  @Output() refreshData$ = new EventEmitter();
   @Output() performSearchInDB$ = new EventEmitter();
   @Output() pageChanged$ = new EventEmitter();
   source: LocalDataSource = new LocalDataSource();
   // @Input() totalRecords: number = 10;
   x;
 
-  @Input() showSearchInDB:boolean = false;
+  @Input() showSearchInDbButton:boolean = false;
   @Input() set totalRecords(value) {
 
     this.x = value;

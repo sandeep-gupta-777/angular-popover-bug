@@ -1,4 +1,5 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {EventService} from '../../../../../../event.service';
 declare var CodeMirror: any;
 
 @Component({
@@ -16,7 +17,9 @@ export class CodeEditorComponent implements OnInit,AfterViewInit {
   _text;
   editorCodeObjRef:{text:string} = {text:""};
   @ViewChild('f') codeEditor:ElementRef;
-  constructor() { }
+  constructor(private eventService:EventService) {
+    console.log('editor constructor');
+  }
   @Input() set text(editorCodeObj:{text:string}){
 
     if(!editorCodeObj) return;
@@ -25,6 +28,11 @@ export class CodeEditorComponent implements OnInit,AfterViewInit {
     this._text = editorCodeObj.text;
 
     this.editor && this.editor.setValue(editorCodeObj.text);
+
+    setTimeout(()=>{
+      /*https://github.com/codemirror/CodeMirror/issues/2469*/
+      this.editor && this.editor.refresh();
+    },0);
     this.editor && this.editor.setSize("100%", "100%");
   }
   @Output() textChangedEvent:EventEmitter<string> = new EventEmitter<string>();
@@ -43,7 +51,6 @@ export class CodeEditorComponent implements OnInit,AfterViewInit {
       this.textChangedEvent.emit(editor.getValue())
     });
     this._text && this.editor.setValue(this._text);
-    // this._text && this.editor.setValue(this._text);
   }
 
   ngAfterViewInit(){

@@ -3,7 +3,11 @@ import {Store, Select} from '@ngxs/store';
 import {IBot, IBotVersionData, IBotVersionResult, ICode} from '../../../../../interfaces/IBot';
 import {ServerService} from '../../../../../../server.service';
 import {ConstantsService} from '../../../../../../constants.service';
-import {SaveVersionInfoInBot} from '../../../../../view-bots/ngxs/view-bot.action';
+import {
+  SaveVersionInfoInBot,
+  UpdateBotInfoByIdInBotInBotList,
+  UpdateVersionInfoByIdInBot
+} from '../../../../../view-bots/ngxs/view-bot.action';
 import {SaveCodeInfo} from '../../../../ngxs/buildbot.action';
 import {ViewBotStateModel} from '../../../../../view-bots/ngxs/view-bot.state';
 import {Observable, Subscription} from 'rxjs';
@@ -15,7 +19,15 @@ import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {CodeEditorComponent} from '../code-editor/code-editor.component';
 import {EBotType} from '../../../../../view-bots/view-bots.component';
+import {EventService} from '../../../../../../event.service';
 
+export enum EBotVersionTabs {
+  df_template = 'df_template',
+  df_rules = 'df_rules',
+  generation_rules = 'generation_rules',
+  generation_templates = 'generation_templates',
+  workflow = 'workflow'
+}
 
 @Component({
   selector: 'app-code-input',
@@ -25,9 +37,11 @@ import {EBotType} from '../../../../../view-bots/view-bots.component';
 })
 export class CodeInputComponent implements OnInit, OnDestroy {
 
+  showConfig = true;
+  myEBotVersionTabs = EBotVersionTabs;
   activeTab: string = 'df_template';
   @Select() botlist$: Observable<ViewBotStateModel>;
-  botlist$_sub:Subscription;
+  botlist$_sub: Subscription;
   @Select() botcreationstate$: Observable<IBotCreationState>;
   @Input() bot: IBot;
   @Output() datachanged$ = new EventEmitter();
@@ -39,33 +53,24 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   // @ViewChild('fork_new_version_form') fork_new_version_form: HTMLFormElement;
 
   editorCode;
-  editorCodeObj:{text:string} = {text:""};
+  // editorCodeObj:{text:string} = {text:""};
+  editorCodeObj = {
+    'df_template': {text: ''},
+    'df_rules': {text: ''},
+    'generation_rules': {text: ''},
+    'generation_templates': {text: ''},
+    'workflow': {text: ''},
+  };
   showVersionList = false;
   activeVersion;
   selectedVersion: IBotVersionData;
   code: ICode;
-  intentList: any[] = [
-    {
-      'name': 'Douglas  Pace'
-    },
-    {
-      'name': 'Mcleod  Mueller'
-    },
-    {
-      'name': 'Day  Meyers'
-    },
-    {
-      'name': 'Aguirre  Ellis'
-    },
-    {
-      'name': 'Cook  Tyson'
-    }
-  ];
 
   constructor(
     private store: Store,
     private serverService: ServerService,
     private constantsService: ConstantsService,
+    private eventService: EventService,
     private utilityService: UtilityService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -75,12 +80,16 @@ export class CodeInputComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // this.workflows = this.timePeriod.workflows;
+    this.activatedRoute.queryParams.subscribe((queryParam)=>{
+
+      let showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');;
+      this.showConfig = (showConfigStr === 'true' || showConfigStr == undefined);
+    });
 
     let url = this.constantsService.getAllVersionsByBotId();//comperror
     let botId = this.bot.id;
     this.serverService.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
       .subscribe((botVersionResult) => {
-
         this.store.dispatch([
           new SaveVersionInfoInBot({data: botVersionResult.objects, botId: this.bot.id})
         ]);
@@ -89,17 +98,17 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       let activeVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.find((BotVersion) => {
         return this.bot.active_version_id === BotVersion.id;
       });
-      if(!activeVersion){
+      if (!activeVersion) {
         try {
           this.selectedVersion = this.bot.store_bot_versions[0];
-        }catch (e) {
+        } catch (e) {
           console.log(e);
         }
       }
-      this.activeVersion = activeVersion;
+      this.activeVersion = activeVersion;;
       if (!this.selectedVersion) {
         this.selectedVersion = activeVersion;
-        this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab') || 'df_template';
+        this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab') || EBotVersionTabs.df_template;
       }
       this.bot.store_selected_version = this.selectedVersion && this.selectedVersion.id;
       this.tabClicked(this.activeTab);
@@ -112,19 +121,20 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   }
 
   async openFile(inputEl) {
-    this.editorCodeObj.text= await this.utilityService.readInputFileAsText(inputEl);
-    this.editorCodeObj = {...this.editorCodeObj};
+    this.editorCodeObj[this.activeTab].text = await this.utilityService.readInputFileAsText(inputEl);
+    this.editorCodeObj[this.activeTab] = {...this.editorCodeObj[this.activeTab]};
   }
 
-  @ViewChild(CodeEditorComponent) codeEditorComponent:ElementRef;
+  @ViewChild(CodeEditorComponent) codeEditorComponent: ElementRef;
 
   tabClicked(activeTab: string) {
+    // this.eventService.emitRemoveCodeMirrorHistoryEvent('code-input.component.ts');
     this.activeTab = activeTab;
     this.code = this.selectedVersion;
     /*TODO: We dont need code here... just replace it with selectedVersion. Also we dont need ICode interface*/
     if (this.code) {
-      this.editorCodeObj.text = this.code[this.activeTab];
-      this.editorCodeObj = {...this.editorCodeObj};
+      this.editorCodeObj[this.activeTab].text = this.code[this.activeTab];
+      this.editorCodeObj[this.activeTab] = {...this.editorCodeObj[this.activeTab]};
     }
     this.router.navigate([`core/botdetail/${EBotType.chatbot}/`, this.bot.id], {
       queryParams: {'code-tab': activeTab},
@@ -151,27 +161,27 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       let new_version: Partial<IBotVersionData> = this.bot.store_bot_versions && this.bot.store_bot_versions.find((version) => version.id === -1);
       if (!new_version) {
         new_version = {
-          "bot_id": this.bot.id,
-          "comment" : "",
-          "df_rules" : "",
-          "df_template" : "",
-          "generation_rules" : "",
-          "generation_templates" : "",
-          "id": -1,
-          "workflow" : "",
-          "updated_fields": {
-            "df_template": false,
-            "df_rules": false,
-            "generation_rules": false,
-            "generation_template": false,
-            "workflows": false
+          'bot_id': this.bot.id,
+          'comment': '',
+          'df_rules': '',
+          'df_template': '',
+          'generation_rules': '',
+          'generation_templates': '',
+          'id': -1,
+          'workflow': '',
+          'updated_fields': {
+            'df_template': false,
+            'df_rules': false,
+            'generation_rules': false,
+            'generation_template': false,
+            'workflows': false
           },
-          "forked_from": -1,
+          'forked_from': -1,
         };
         this.selectedVersion = new_version;
         this.selectedVersion[this.activeTab] = codeStr;
-        if(!this.bot.store_bot_versions){
-          this.bot.store_bot_versions = []
+        if (!this.bot.store_bot_versions) {
+          this.bot.store_bot_versions = [];
         }
         this.bot.store_bot_versions.push(this.selectedVersion);
       }
@@ -188,13 +198,18 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     let headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-    if(this.selectedVersion.id && this.selectedVersion.id!==-1){
+    if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
       let url = this.constantsService.getSaveVersionByBotId(this.bot.id);
       this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
-        .subscribe((value) => {
+        .subscribe((value:IBotVersionData) => {
+          this.selectedVersion = Object.assign(this.selectedVersion, value);
+          console.log(this.bot.store_bot_versions);
+          this.store.dispatch([
+            new UpdateVersionInfoByIdInBot({data: value, botId: this.bot.id})
+          ]);
           this.utilityService.showSuccessToaster('new version saved successfully!');
         });
-    }else {
+    } else {
       let url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
       let body = this.selectedVersion;
       delete body.id;
@@ -261,6 +276,8 @@ export class CodeInputComponent implements OnInit, OnDestroy {
         console.log(forkedVersion);
         this.selectedVersion = forkedVersion;
         this.utilityService.showSuccessToaster('new version forked successfully!');
+        this.forked_comments = "";
+        this.forked_version_number = null;
         this.ngOnInit();
         /*TODO: implement it correctly*/
       });

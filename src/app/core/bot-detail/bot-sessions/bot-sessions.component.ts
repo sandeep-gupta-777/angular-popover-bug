@@ -50,45 +50,70 @@ export class BotSessionsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.url = this.constantsService.getBotSessionsUrl(10, 0);
-    this.sessions$ = this.serverService.makeGetReq<ISessions>({ url: this.url, headerData: { 'bot-access-token': this.bot.bot_access_token } });
-    this.sessions$
-      .map((value) => {
-        return {
-          ...value,
-          objects: value.objects.map((result) => {
-            let modified_update_at = (new Date(result.updated_at)).toDateString();
-            return { ...result, updated_at: modified_update_at };
-          })
-        };
-      })
-      .subscribe((value) => {
-        if (!value) return;
-        this.totalSessionRecords = value.meta.total_count;
-        this.sessions = value.objects;
-      });
+    this.loadSmartTableSessionData();
+    this.loadSessionTableDataForGivenPage(1);
+    // this.sessions$ = this.serverService.makeGetReq<ISessions>({ url: this.url, headerData: { 'bot-access-token': this.bot.bot_access_token } });
+    // this.sessions$
+    //   .map((value) => {
+    //     return {
+    //       ...value,
+    //       objects: value.objects.map((result) => {
+    //         let modified_update_at = (new Date(result.updated_at)).toDateString();
+    //         return { ...result, updated_at: modified_update_at };
+    //       })
+    //     };
+    //   })
+    //   .subscribe((value) => {
+    //     if (!value) return;
+    //     this.totalSessionRecords = value.meta.total_count;
+    //     this.sessions = value.objects;
+    //   });
   }
 
   /*todo: implement it better way*/
   refreshSession() {
+    this.url = this.constantsService.getBotSessionsUrl(10, 0);
     this.refreshSessions$ = this.serverService.makeGetReq<ISessions>({ url: this.url });
     this.refreshSessions$.subscribe((value) => {
       this.sessions$ = of(value);
     });
   }
 
-  goToReportEditComponent($event, template, Primarytemplat) {
-    // if(this.selectedRow_Session)(<any>this.selectedRow_Session).highlight = false;
+  loadSmartTableSessionData(){
+    this.loadSessionTableDataForGivenPage(this.pageNumberOfCurrentRowSelected);
+    // this.sessions$ = this.serverService.makeGetReq<ISessions>({ url: this.url, headerData: { 'bot-access-token': this.bot.bot_access_token } });
+    // this.sessions$
+    //   .map((value) => {
+    //     return {
+    //       ...value,
+    //       objects: value.objects.map((result) => {
+    //         let modified_update_at = (new Date(result.updated_at)).toDateString();
+    //         return { ...result, updated_at: modified_update_at };
+    //       })
+    //     };
+    //   })
+    //   .subscribe((value) => {
+    //     if (!value) return;
+    //     this.totalSessionRecords = value.meta.total_count;
+    //     this.sessions = value.objects;
+    //   });
+  }
+
+  sessionTableRowClicked(eventData:{data:ISessionItem}, template, reasonForDecryptionTemplate) {
     let isEncrypted: boolean;
-    this.loadSessionMessagesById($event.data.id)
+    /*
+    * TODO: there is a data_encrypted key it the row itself. Can we use it?
+    * Why do we need to go fetch first message to see if its decrypted or not?
+    * */
+    this.loadSessionMessagesById(eventData.data.id)
       .subscribe((value: any) => {
         isEncrypted = value.objects[0].data_encrypted;
         if (isEncrypted) {
-          this.sessionItemToBeDecrypted = $event.data;
-          this.openCreateBotModal(Primarytemplat);
+          this.sessionItemToBeDecrypted = eventData.data;
+          this.openCreateBotModal(reasonForDecryptionTemplate);
         }
         else {
-          this.selectedRow_Session = $event.data;
+          this.selectedRow_Session = eventData.data;
           // (<any>this.selectedRow_Session).highlight = true;
           if (this.indexOfCurrentRowSelected !== undefined)
             this.sessions[this.indexOfCurrentRowSelected].highlight = false;
@@ -96,12 +121,12 @@ export class BotSessionsComponent implements OnInit {
             return this.selectedRow_Session.id === session.id;
           });
           this.sessions[this.indexOfCurrentRowSelected].highlight = true;
-    
+
           this.openModal(template);
         }
       });
 
-    
+
 
   }
 
@@ -109,7 +134,7 @@ export class BotSessionsComponent implements OnInit {
     this.modalRef = this.modalService.show(template, { class: 'modal-xlg' });
   }
 
-  sessionTablePageChanged(pageNumber) {
+  loadSessionTableDataForGivenPage(pageNumber) {
 
     this.pageNumberOfCurrentRowSelected = pageNumber;
     this.url = this.constantsService.getBotSessionsUrl(10, (pageNumber - 1) * 10);

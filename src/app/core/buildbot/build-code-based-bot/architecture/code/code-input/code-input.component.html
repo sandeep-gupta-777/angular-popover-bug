@@ -122,25 +122,25 @@
         <!--tabs start-->
         <div class="card-body p-0 mr-2">
           <ul class="nav nav-tabs theme-tabbing">
-            <li class="nav-item" [ngClass]="{'tab-active': activeTab==='df_template'}">
+            <li class="nav-item" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.df_template}">
               <a class="nav-link text-theme-normal"
-                 (click)="tabClicked('df_template')">DF Template</a>
+                 (click)="tabClicked(myEBotVersionTabs.df_template)">DF Template</a>
             </li>
-            <li class="nav-item" [ngClass]="{'tab-active': activeTab==='df_rules'}">
-              <a class="nav-link text-theme-normal" (click)="tabClicked('df_rules')">DF
+            <li class="nav-item" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.df_rules}">
+              <a class="nav-link text-theme-normal" (click)="tabClicked(myEBotVersionTabs.df_rules)">DF
                 Rules</a>
             </li>
-            <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab==='generation_rules'}">
+            <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.generation_rules}">
               <a class="nav-link"
-                 (click)="tabClicked('generation_rules')">Generation Rules</a>
+                 (click)="tabClicked(myEBotVersionTabs.generation_rules)">Generation Rules</a>
             </li>
-            <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab==='generation_templates'}">
+            <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.generation_templates}">
               <a class="nav-link"
-                 (click)="tabClicked('generation_templates')">Generation Template</a>
+                 (click)="tabClicked(myEBotVersionTabs.generation_templates)">Generation Template</a>
             </li>
-            <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab==='workflow'}">
+            <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.workflow}">
               <a class="nav-link"
-                 (click)="tabClicked('workflow')">Workflows</a>
+                 (click)="tabClicked(myEBotVersionTabs.workflow)">Workflows</a>
             </li>
           </ul>
 
@@ -229,22 +229,19 @@
     </div>
   </div>
 
-  <div class="code-editor-row position-relative">
-    <!--code starts ends-->
-    <!--todo: make this row independent-->
-    <!--<div class="row pl-3" *ngIf="activeTab !== 'generationTemplates'">-->
-      <!--<div class="col-12 pt-2 d-flex justify-content-end">-->
-        <!--<label for="uploadInput" class="btn btn-theme-primary-outline">Upload File-->
-          <!--<input type="file" hidden id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)'-->
-                 <!--#uploadInput>-->
-        <!--</label>-->
-      <!--</div>-->
-      <!--<div class="col-12 " style="position: relative">-->
-        <app-code-editor [text]="editorCodeObj" (textChangedEvent)="saveText($event)"></app-code-editor>
-        <!--<div class="app-code-editor " style="position: absolute; top: 0; bottom: 0">hello</div>-->
-      <!--</div>-->
-    <!--</div>-->
-    <!--code editor ends-->
+  <div class="code-editor-row code-editor-row-min position-relative" *ngIf="showConfig">
+        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_template" [text]="editorCodeObj[myEBotVersionTabs.df_template]" (textChangedEvent)="saveText($event)"></app-code-editor>
+        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_rules" [text]="editorCodeObj[myEBotVersionTabs.df_rules]" (textChangedEvent)="saveText($event)"></app-code-editor>
+        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_rules" [text]="editorCodeObj[myEBotVersionTabs.generation_rules]" (textChangedEvent)="saveText($event)"></app-code-editor>
+        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates" [text]="editorCodeObj[myEBotVersionTabs.generation_templates]" (textChangedEvent)="saveText($event)"></app-code-editor>
+        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.workflow" [text]="editorCodeObj[myEBotVersionTabs.workflow]" (textChangedEvent)="saveText($event)"></app-code-editor>
+  </div>
+  <div class="code-editor-row code-editor-row-max position-relative" *ngIf="!showConfig">
+        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_template" [text]="editorCodeObj[myEBotVersionTabs.df_template]" (textChangedEvent)="saveText($event)"></app-code-editor>
+        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_rules" [text]="editorCodeObj[myEBotVersionTabs.df_rules]" (textChangedEvent)="saveText($event)"></app-code-editor>
+        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_rules" [text]="editorCodeObj[myEBotVersionTabs.generation_rules]" (textChangedEvent)="saveText($event)"></app-code-editor>
+        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates" [text]="editorCodeObj[myEBotVersionTabs.generation_templates]" (textChangedEvent)="saveText($event)"></app-code-editor>
+        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.workflow" [text]="editorCodeObj[myEBotVersionTabs.workflow]" (textChangedEvent)="saveText($event)"></app-code-editor>
   </div>
 
 
@@ -255,11 +252,14 @@
   <div class="primary-modal">
     <div class="top-dec"></div>
     <div class="modal-header" style="display: block!important;">
-      <h4 class="modal-title mb-2"> Fork to a new version</h4>
+      <div class="d-flex">
+        <h4 class="modal-title mb-2"> Fork to a new version</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
       <p>It will not be made active by default but saved. You need to update changes to make it active</p>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-      </button>
+
     </div>
 
     <div class="modal-body">

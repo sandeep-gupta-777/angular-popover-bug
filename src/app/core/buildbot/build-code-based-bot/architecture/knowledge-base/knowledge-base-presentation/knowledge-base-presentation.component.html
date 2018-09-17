@@ -1,7 +1,7 @@
 <!--<ng-template #rowDetails>-->
-  <div class="row create-concept-row">
+  <div class="row create-concept-row h-100 ">
     <div class="col-12 d-flex justify-content-between">
-      <button class="btn-theme-primary-outline" (click)="showTable$.emit(); _selectedRowData = {}">Go back</button>
+      <button class="btn-theme-primary-outline" (click)="showTable$.emit(); _selectedRowData = {}">Go Back</button>
       <form ngNativeValidate class="options d-flex align-items-center" #form="ngForm">
         <span class="required">Concept Key</span>
         <input type="text" class="concept" placeholder="Concept Key" required
@@ -18,7 +18,7 @@
 
         <span *ngIf="!routeName" class="required">Override Policy</span>
         <fieldset *ngIf="!routeName">
-          <div class="form-check-inline align-items-start">
+          <div class="form-check-inline align-items-start mr-0">
             <label class="form-check-label" for="radio1">
               <input type="radio" class="form-check-input" id="radio1" required name="conflict_policy"
                      [(ngModel)]="conflict_policy" value="override" checked>Override
@@ -36,8 +36,8 @@
       </form>
     </div>
 <!---->
-    <div class="col-12 mt-2">
-      <div *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata' ||ner_type==='regex'; else table">
+    <div class="col-12 mt-2 h-100">
+      <div class="h-100" *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata' ||ner_type==='regex'; else table">
         <div class="d-flex justify-content-end">
           <label for="uploadInput" class="btn btn-theme-primary-outline">Upload File
             <input hidden type="file"
@@ -49,7 +49,7 @@
           <!---->
           <!--<input type="file" id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)' #uploadInput>-->
         </div>
-        <app-code-editor (textChangedEvent)="textChanged($event)" [text]="codeTextInputToCodeEditorObj"></app-code-editor>
+        <app-code-editor class="h-100  d-block" (textChangedEvent)="textChanged($event)" [text]="codeTextInputToCodeEditorObj"></app-code-editor>
       </div>
     </div>
   </div>
@@ -58,6 +58,8 @@
 
 <ng-template #table>
   <!--<div class="pb-2"><input type="search" placeholder="search table"></div>-->
-  <app-handsontable [testData]="handsontableData" [columns]="handontable_column"
+  <app-handsontable [testData]="handsontableData"
+                    [columns]="handontable_column"
+                    [setting]="constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_SETTING"
                     [colHeaders]="handontable_colHeaders"></app-handsontable>
 </ng-template>

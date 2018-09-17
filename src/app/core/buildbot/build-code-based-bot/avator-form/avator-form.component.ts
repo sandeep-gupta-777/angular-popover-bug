@@ -65,7 +65,7 @@ export class AvatorFormComponent implements OnInit, AfterViewInit {
     avatarValidationObj[EFormValidationErrors.form_validation_avator] = true;
     // avatarValidationObj[EFormValidationErrors.form_validation_avator'] = this.f && this.f.valid;//TODO: doesn't work
     for (let obj of avatorListToBeSaved) {
-      if (!this.utilityService.areAllValesDefined(obj)) {
+      if (!this.utilityService.areAllAvatorValesDefined(obj)) {
         avatarValidationObj[EFormValidationErrors.form_validation_avator] = false;
       }
     }
@@ -106,7 +106,7 @@ export class AvatorFormComponent implements OnInit, AfterViewInit {
         editMode: false,
         avator: {
           imageUrl: this.utilityService.getRandomAvatorUrl(),
-          name: 'StarBot',
+          name: 'StarBot' + Math.floor(Math.random()*100),
           id: 0
         }
       };
@@ -126,11 +126,11 @@ export class AvatorFormComponent implements OnInit, AfterViewInit {
   }
 
   deleteAvator(index: number) {
-    this.newAvator = {
-      imageUrl: '',
-      name: '',
-      id: 0
-    };
+    // this.newAvator = {
+    //   imageUrl: '',
+    //   name: '',
+    //   id: 0
+    // };
     this.avatorList.splice(index, 1);
     /*make request to server*/
   }
