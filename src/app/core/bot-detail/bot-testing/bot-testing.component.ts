@@ -26,6 +26,7 @@ export class BotTestingComponent implements OnInit {
   testCaseId: number;
   isData: boolean = false;
   modalRef: BsModalRef;
+  tableChanged: boolean;
 
   constructor(
     private serverService: ServerService,
@@ -79,7 +80,10 @@ export class BotTestingComponent implements OnInit {
     this.handontable_colHeaders = this.constantsService.HANDSON_TABLE_BOT_TESTING_colHeaders;
     this.handontable_column = this.constantsService.HANDSON_TABLE_BOT_TESTING_columns;
   }
-
+  onTableChange() {
+    this.tableChanged = true;
+    console.log("changed----------")
+  }
   createTC() {
     console.log(this.testCaseData);
     this.serverService.makePostReq<{ meta: any, objects: ITestcases[] }>({

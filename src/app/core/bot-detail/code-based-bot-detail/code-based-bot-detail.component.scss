@@ -4,12 +4,13 @@
   display: grid;
   height: 88vh;
   grid-template-columns: 1fr;
-  grid-template-rows: 40px auto minmax(60vh, 1fr);
+  grid-template-rows: 40px auto minmax(60vh, 1fr) 20px;
   grid-gap: 8px;
   grid-template-areas:
     'header'
     'config'
     'architecture'
+    'footer'
 ;
   .header{
     grid-area: header;
