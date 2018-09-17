@@ -1,4 +1,9 @@
 @import '~src/sass/main';
+
+.danger-modal{
+    @include classic-modal(#b14250);
+  }
+
 .wrapper{
   border: solid 2px transparent;
   border-radius:2px;

@@ -664,9 +664,9 @@ export class ConstantsService {
     {data: 0, type: 'text',},
     {data: 1, type: 'text',},
     {data: 2, type: 'text', readOnly: true},
-    {data: 3, type: 'text'},
-    {data: 4, type: 'text'},
-    {data: 5, type: 'text'},
+    {data: 3, type: 'text', readOnly: true},
+    {data: 4, type: 'text', readOnly: true},
+    {data: 5, type: 'text', readOnly: true},
   ];
   readonly HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders = ['Key', 'Title', 'Payload'];
   readonly HANDSON_TABLE_KNOWLEDGE_BASE_SETTING = {

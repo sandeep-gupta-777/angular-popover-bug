@@ -21,7 +21,7 @@ import {IHeaderData} from '../../../../interfaces/header-data';
 export class CodeBasedBotDetailComponent implements OnInit {
 
   myETabNames = ETabNames;
-
+  isArchitectureFullScreen = false;
   @Select() botlist$: Observable<ViewBotStateModel>;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
   selectedTab = 'architecture';
@@ -47,6 +47,8 @@ export class CodeBasedBotDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    let isArchitectureFullScreen = this.activatedRoute.snapshot.queryParamMap.get('isArchitectureFullScreen');
+    this.isArchitectureFullScreen = isArchitectureFullScreen==='true';
     let showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
     this.showConfig = (showConfigStr === 'true' || showConfigStr == undefined);
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
@@ -65,6 +67,10 @@ export class CodeBasedBotDetailComponent implements OnInit {
     this.start_date = this.utilityService.getPriorDate(0);
     this.end_date = this.utilityService.getPriorDate(30);
     this.getOverviewInfo();
+    this.activatedRoute.queryParams.subscribe((queryParams)=>{
+      debugger;
+      this.isArchitectureFullScreen= queryParams['isArchitectureFullScreen']==='true'
+    })
   }
 
   refreshBotDetails() {

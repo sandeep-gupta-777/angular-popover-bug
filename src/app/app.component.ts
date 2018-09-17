@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.app$.subscribe((app) => {
+
       if (app.progressbar.loading) {
         this.showProgressbar = true;
         this.currentIntervalRef && clearInterval(this.currentIntervalRef);
@@ -57,6 +58,11 @@ export class AppComponent implements OnInit {
     //     ;
     //   }
     // });
+    this.router.events.subscribe((data) => {
+      if (data instanceof RoutesRecognized) {
+        this.isFullScreenPreview = data.state.root.firstChild.data.isFullScreenPreview;
+      }
+    });
   }
 
 }

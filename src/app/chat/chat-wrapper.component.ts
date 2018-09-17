@@ -8,7 +8,7 @@ import {
   // SetCurrentUId,
   SetCurrentRoomID,
   ToggleChatWindow,
-  AddNewRoom, AddMessagesToRoomByRoomId, SetConsumerDetail
+  AddNewRoom, AddMessagesToRoomByRoomId, SetConsumerDetail, SetCurrentBotDetails, ResetChatState
 } from './ngxs/chat.action';
 import {ServerService} from '../server.service';
 import {ConstantsService} from '../constants.service';
@@ -21,7 +21,7 @@ import {UtilityService} from '../utility.service';
 import {IBot} from '../core/interfaces/IBot';
 import {ViewBotStateModel} from '../core/view-bots/ngxs/view-bot.state';
 import {IConsumerDetails} from './ngxs/chat.state';
-import { IEnterpriseProfileInfo } from '../../interfaces/enterprise-profile';
+import {IEnterpriseProfileInfo} from '../../interfaces/enterprise-profile';
 
 export interface IBotPreviewFirstMessage {
   'generated_msg': [
@@ -82,7 +82,7 @@ export class ChatWrapperComponent implements OnInit {
   loggeduser: IAuthState;
   currentRoom: IRoomData;
   current_uid: string;
-  customConsumerDetails:IConsumerDetails;
+  customConsumerDetails: IConsumerDetails;
   bot_access_token: string;
   currentBotId: number;
   currentBot: any;
@@ -90,8 +90,9 @@ export class ChatWrapperComponent implements OnInit {
   chatWindowTitle: string = 'Start Chat';
   messageByHuman: string = '';
   isFullScreenPreview;
-  welcomeScreenBotId:number;
+  welcomeScreenBotId: number;
   logoSrc = 'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg';
+
   constructor(private store: Store,
               private serverService: ServerService,
               private constantsService: ConstantsService,
@@ -103,6 +104,7 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.loggeduser$.subscribe((loggeduser) => {
       this.loggeduser = loggeduser;
     });
@@ -110,14 +112,15 @@ export class ChatWrapperComponent implements OnInit {
       this.allBotList = value.allBotList;
     });
 
-    this.activatedRoute.queryParamMap.subscribe((queryparam)=>{
+    this.activatedRoute.queryParamMap.subscribe((queryparam) => {
       let welcomeScreenBotIdStr = queryparam.get('preview');
-      if(welcomeScreenBotIdStr){
-        this.welcomeScreenBotId =Number(welcomeScreenBotIdStr);
+      if (welcomeScreenBotIdStr) {
+        this.welcomeScreenBotId = Number(welcomeScreenBotIdStr);
+        if(this.welcomeScreenBotId!==this.currentBot.id)
         this.frameEnabled = EChatFrame.WELCOME_BOX;
       }
     });
-    this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo)=>{
+    this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
       this.logoSrc = enterpriseProfileInfo.logo || this.logoSrc;
     });
     this.isFullScreenPreview = this.activatedRoute.snapshot.data.isFullScreenPreview;
@@ -135,13 +138,13 @@ export class ChatWrapperComponent implements OnInit {
       try {
         this.windowOpen = chatSessionState.opened;
         if (!chatSessionState) return;
-        if(chatSessionState.currentBotDetails){
+        if (chatSessionState.currentBotDetails) {
           this.currentBot = this.allBotList.find((value) => value.id === chatSessionState.currentBotDetails.id);
           this.currentBotId = this.currentBot.id;//chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.id || currentBot.id;
           this.bot_access_token = this.currentBot.bot_access_token;//this.currentRoom && this.currentRoom.bot_access_token || currentBot.bot_access_token;
           this.chatWindowTitle = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.name;
         }
-        if(chatSessionState.currentRoomId){
+        if (chatSessionState.currentRoomId) {
           this.currentRoom = chatSessionState.rooms.find((room) => room.id === chatSessionState.currentRoomId);
           this.messageData = this.currentRoom && this.currentRoom.messageList;
           this.selectedAvatar = this.currentRoom && this.currentRoom.selectedAvatar;
@@ -151,7 +154,7 @@ export class ChatWrapperComponent implements OnInit {
         if (chatSessionState.consumerDetails) {
           this.customConsumerDetails = chatSessionState.consumerDetails;
           this.current_uid = chatSessionState.consumerDetails.uid;
-        }else {
+        } else {
           this.current_uid = chatSessionState.currentUId;
         }
       } catch (e) {
@@ -161,28 +164,49 @@ export class ChatWrapperComponent implements OnInit {
 
     this.store.subscribe((state) => {
     });
+
+    // if(this.isFullScreenPreview){
+    //   let fullScreenPreviewBotId = this.activatedRoute.snapshot.params['id'];
+    //   this.startNewChat({bot:{id:Number(fullScreenPreviewBotId)},consumerDetails:{uid:Date.now().toString()}})
+    //   setTimeout(()=>{
+    //     if (fullScreenPreviewBotId) {
+    //       let fullScreenBot = this.allBotList.find((bot) => bot.id == fullScreenPreviewBotId);
+    //       if (fullScreenBot.id != (this.currentBot && this.currentBot.id)) {
+    //         this.store.dispatch([
+    //           new ResetChatState(),
+    //           new SetCurrentBotDetails({
+    //             id: fullScreenBot.id,
+    //             name: fullScreenBot.name,
+    //             token: fullScreenBot.bot_access_token,
+    //             logo: fullScreenBot.logo
+    //           })
+    //         ]);
+    //       }
+    //     }
+    //   },100);
+    // }
   }
 
-  createCustomRoom(){
-      let doesAtleastOneConsumerKeyHasValue = false;
-      if(!this.customConsumerDetails){
-        this.utilityService.showErrorToaster("Please set custom Consumer details");
-        return;
-      }
-      for(let key in this.customConsumerDetails){
-          doesAtleastOneConsumerKeyHasValue = doesAtleastOneConsumerKeyHasValue || this.customConsumerDetails[key]
-      }
-      if(!doesAtleastOneConsumerKeyHasValue){
-        this.utilityService.showErrorToaster("Please set custom Consumer details");
-      }else{
-        this.startNewChat({consumerDetails:this.customConsumerDetails, bot:this.currentBot});
-      }
+  createCustomRoom() {
+    let doesAtleastOneConsumerKeyHasValue = false;
+    if (!this.customConsumerDetails) {
+      this.utilityService.showErrorToaster('Please set custom Consumer details');
+      return;
+    }
+    for (let key in this.customConsumerDetails) {
+      doesAtleastOneConsumerKeyHasValue = doesAtleastOneConsumerKeyHasValue || this.customConsumerDetails[key];
+    }
+    if (!doesAtleastOneConsumerKeyHasValue) {
+      this.utilityService.showErrorToaster('Please set custom Consumer details');
+    } else {
+      this.startNewChat({consumerDetails: this.customConsumerDetails, bot: this.currentBot});
+    }
 
   }
 
 
   /*this is called when bot preview button or create a custom room button is clicked*/
-  startNewChat(startNewChatData:{consumerDetails:IConsumerDetails, bot:IBot}) {
+  startNewChat(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot }) {
     /*create a new chat room with a uid and without room id
     * add first message of bot into the room
     * open the chat window
@@ -191,7 +215,6 @@ export class ChatWrapperComponent implements OnInit {
     * 1. Post send api to server with first message=> will get back consent message and room id
     * 2. create a new room with room id
     * */
-
     let url = this.constantsService.getStartNewChatLoginUrl();
     let headerData: IHeaderData = {
       'bot-access-token': startNewChatData.bot.bot_access_token,
@@ -225,7 +248,7 @@ export class ChatWrapperComponent implements OnInit {
         this.store.dispatch([
           new AddNewRoom({
             id: value.room.id,
-            consumer_id:value.room.consumer_id,
+            consumer_id: value.room.consumer_id,
             consumerDetails: startNewChatData.consumerDetails,
             messageList: roomMessages,
             bot_access_token: this.currentBot.bot_access_token,
@@ -234,7 +257,7 @@ export class ChatWrapperComponent implements OnInit {
             bot_id: this.currentBot.id
           }),
           new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX}),
-          new SetCurrentRoomID({id:value.room.id})
+          new SetCurrentRoomID({id: value.room.id})
         ]);
       });
     // let new_uid = this.utilityService.createRandomString(12);
@@ -267,7 +290,7 @@ export class ChatWrapperComponent implements OnInit {
 
   }
 
-  logForm(consumerFormValue){
+  logForm(consumerFormValue) {
     console.log(consumerFormValue);
     this.store.dispatch([
       new SetConsumerDetail(consumerFormValue)
@@ -286,17 +309,17 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   // sendMessageByHuman(messageByHuman: string) {
-  sendMessageByHuman(messageData:{messageByHuman:string, room:IRoomData}) {
+  sendMessageByHuman(messageData: { messageByHuman: string, room: IRoomData }) {
 
     let messageByHuman = messageData.messageByHuman;
-    let room:IRoomData = messageData.room;
+    let room: IRoomData = messageData.room;
     if (messageByHuman.trim() === '') return;
     this.store.dispatch(new AddMessagesToRoomByRoomId({
       id: room.id,
       messageList: [{
         text: messageByHuman,
         sourceType: 'human',
-        messageMediatype:EBotMessageMediaType.text,
+        messageMediatype: EBotMessageMediaType.text,
         time: this.utilityService.getCurrentTimeInHHMM()
       }],
     }))
@@ -346,15 +369,17 @@ export class ChatWrapperComponent implements OnInit {
       new ToggleChatWindow({open: true})
     ]);
   }
-  saveConsumerDetails(value){
+
+  saveConsumerDetails(value) {
     this.store.dispatch([new SetConsumerDetail(value)])
-      .subscribe(()=>{
-        this.utilityService.showSuccessToaster("Saved!");
-        this.store.dispatch([new ChangeFrameAction({frameEnabled:1})])
-      })
+      .subscribe(() => {
+        this.utilityService.showSuccessToaster('Saved!');
+        this.createCustomRoom();
+        // this.store.dispatch([new ChangeFrameAction({frameEnabled: 1})]);
+      });
   }
 
-  closeConsumerDropdown(){
+  closeConsumerDropdown() {
     alert();
   }
 }

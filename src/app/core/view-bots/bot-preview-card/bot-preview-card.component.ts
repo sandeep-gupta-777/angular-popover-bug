@@ -108,7 +108,7 @@ export class BotPreviewCardComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+    this.modalRef = this.modalService.show(template);
   }
 
   deleteBot() {

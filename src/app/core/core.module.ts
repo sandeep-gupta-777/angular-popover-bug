@@ -9,17 +9,17 @@ import {DocumentationComponent} from './documentation/documentation.component';
 import {BuildbotWrapperComponent} from './buildbot/buildbot-wrapper.component';
 import {BuildCodeBasedBotComponent} from './buildbot/build-code-based-bot/build-code-based-bot.component';
 import {BuildPipelineBasedBotComponent} from './buildbot/build-pipeline-based-bot/build-pipeline-based-bot.component';
-import {ChatWrapperComponent} from '../chat/chat-wrapper.component';
 import {NgModule} from '@angular/core';
 import {RouterFragmentActiveDirective} from '../router-fragment-active.directive';
 import {SignupComponent} from '../auth/signup/signup.component';
+// import {BotWelcomeComponent} from '../chat/bot-welcome-panel/bot-welcome.component';
 import {PipelineTestComponent} from '../pipeline-test/pipeline-test.component';
-import {ChatWindowComponent} from '../chat/rooms-and-convo-panel/chat-window.component';
-import {ChatMessageComponent} from '../chat/rooms-and-convo-panel/chat-message-list/chat-message/chat-message.component';
-import {BotWelcomeComponent} from '../chat/bot-welcome-panel/bot-welcome.component';
-import {ChatListComponent} from '../chat/rooms-and-convo-panel/chat-room-list/chat-list.component';
-import {ChatItemComponent} from '../chat/rooms-and-convo-panel/chat-room-list/chat-item/chat-item.component';
-import {ChatroomComponent} from '../chat/rooms-and-convo-panel/chat-message-list/chatroom.component';
+// import {ChatWindowComponent} from '../chat/rooms-and-convo-panel/chat-window.component';
+// import {ChatWrapperComponent} from '../chat/chat-wrapper.component';
+// import {ChatMessageComponent} from '../chat/rooms-and-convo-panel/chat-message-list/chat-message/chat-message.component';
+// import {ChatListComponent} from '../chat/rooms-and-convo-panel/chat-room-list/chat-list.component';
+// import {ChatItemComponent} from '../chat/rooms-and-convo-panel/chat-room-list/chat-item/chat-item.component';
+// import {ChatroomComponent} from '../chat/rooms-and-convo-panel/chat-message-list/chatroom.component';
 import {ScrollerDirective} from '../scroller.directive';
 import {ReportDisplayComponent} from './reports/report-details/report-display/report-display.component';
 import {ReportControlsComponent} from './reports/report-details/report-controls/report-controls.component';
@@ -37,8 +37,8 @@ import {SharedModule} from '../shared.module';
 import {ViewCustomnerComponent} from './customner/view-customner/view-customner.component';
 import {AuthGaurdService} from '../auth-gaurd.service';
 import {EBotType} from './view-bots/view-bots.component';
-import {CardCarouselComponent} from '../chat/carousel/card-carousel/card-carousel.component';
-import {QuickReplyComponent} from '../chat/carousel/quick-reply/quick-reply.component';
+// import {CardCarouselComponent} from '../chat/carousel/card-carousel/card-carousel.component';
+// import {QuickReplyComponent} from '../chat/carousel/quick-reply/quick-reply.component';
 import {AccessGaurdService} from '../access-gaurd.service';
 import {ERouteNames} from '../constants.service';
 // import {HighlightDirective} from '../readonly-selected-permission.directive';
@@ -79,7 +79,7 @@ const routes: Route[] = [
     ],
   },
 
-  {path: 'preview', component: ChatWrapperComponent, data: {isFullScreenPreview: true}, canActivate:[AuthGaurdService]},
+  // {path: 'preview/:id', component: ChatWrapperComponent, data: {isFullScreenPreview: true}, canActivate:[AuthGaurdService]},
   {path: '', redirectTo: `core/viewbots/${EBotType.chatbot}`, pathMatch: 'full'},
 ];
 
@@ -99,15 +99,10 @@ const routes: Route[] = [
     BuildbotWrapperComponent,
     SignupComponent,
     PipelineTestComponent,
-    ChatWrapperComponent,
-    ChatWindowComponent,
-    ChatMessageComponent,
-    BotWelcomeComponent,
-    ChatListComponent,
-    ChatItemComponent,
-    ChatroomComponent,
+
     ScrollerDirective,
     ReportDetailsComponent,
+    // BotWelcomeComponent,
     ReportDisplayComponent,
     ReportControlsComponent,
     TestComponent,
@@ -116,8 +111,7 @@ const routes: Route[] = [
     BackendDevComponent,
 
     /*added after lazy loading*/
-    CardCarouselComponent,
-    QuickReplyComponent,
+
     // HighlightDirective
 
   ],

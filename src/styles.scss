@@ -377,12 +377,16 @@ th, td {
   }
   .fa-search {
     position: absolute;
-    top: 50%;
+    top: 15px;
     left: 4%;
     transform: translate(0%, -50%)
   }
 }
-
+.hover-under-line{
+  &:hover{
+    text-decoration: underline;
+  }
+}
 .logo-md {
   height: 40px;
   width: 40px;
@@ -579,11 +583,11 @@ th, td {
   }
 }
 
-.CodeMirror {
-  border: 1px solid #eee;
-  //height: auto !important;
-  //height: 50%;
-}
+//.CodeMirror {
+//  border: 1px solid #eee;
+//  height: auto !important;
+//  height: 50%;
+//}
 
 progressbar {
   border-radius: 0 !important;
@@ -625,12 +629,12 @@ progressbar {
   border: 1px solid #eee;
   height: auto;
   //max-height:250px;
-  max-height: 350px;
+  //max-height: 350px;
 }
 
 .CodeMirror-scroll {
   height: auto;
-  max-height: 350px;
+  //max-height: 350px;
 }
 
 .cm-s-cobalt.CodeMirror {

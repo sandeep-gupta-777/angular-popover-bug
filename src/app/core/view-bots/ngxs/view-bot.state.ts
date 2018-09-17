@@ -94,8 +94,12 @@ export class ViewBotStateReducer {
 
     let store_bot_versions = bot.store_bot_versions || (bot.store_bot_versions = []);
     let index =  store_bot_versions.findIndex((version)=>version.id===payload.data.id);
-    index =  index===-1?0:index;
-    store_bot_versions[index] = {...store_bot_versions[index], ...payload.data};
+    // index =  index===-1?0:index;
+    if(index!==-1){
+      store_bot_versions[index] = {...store_bot_versions[index], ...payload.data};
+    }else {
+      store_bot_versions.push(payload.data);
+    }
     setState({...state});
   }
 

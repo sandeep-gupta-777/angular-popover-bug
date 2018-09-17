@@ -79,10 +79,8 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.workflows = this.timePeriod.workflows;
     this.activatedRoute.queryParams.subscribe((queryParam)=>{
-
-      let showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');;
+      let showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
       this.showConfig = (showConfigStr === 'true' || showConfigStr == undefined);
     });
 
@@ -95,6 +93,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
         ]);
       });
     this.botlist$_sub = this.botlist$.subscribe((value) => {
+      debugger;
       let activeVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.find((BotVersion) => {
         return this.bot.active_version_id === BotVersion.id;
       });
@@ -221,7 +220,10 @@ export class CodeInputComponent implements OnInit, OnDestroy {
           console.log(forkedVersion);
           this.selectedVersion = forkedVersion;
           this.utilityService.showSuccessToaster('new version forked successfully!');
-          this.ngOnInit();
+          this.store.dispatch([
+            new UpdateVersionInfoByIdInBot({data:forkedVersion, botId:this.bot.id})
+          ]);
+          // this.ngOnInit();
           /*TODO: implement it correctly*/
         });
     }
@@ -274,11 +276,15 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     this.serverService.makePostReq({url, body: forkedVersionInfo, headerData})
       .subscribe((forkedVersion: IBotVersionData) => {
         console.log(forkedVersion);
+        this.bot.store_bot_versions.push(forkedVersion);
         this.selectedVersion = forkedVersion;
         this.utilityService.showSuccessToaster('new version forked successfully!');
         this.forked_comments = "";
         this.forked_version_number = null;
-        this.ngOnInit();
+        this.store.dispatch([
+          new UpdateVersionInfoByIdInBot({botId:this.bot.id, data:forkedVersion})
+        ]);
+        // this.ngOnInit();
         /*TODO: implement it correctly*/
       });
   }

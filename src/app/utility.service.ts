@@ -46,6 +46,19 @@ export class UtilityService {
     return this.RANDOM_IMAGE_URLS[randomNumber];
   }
 
+  getSmartTableRowCountPerPageByViewportHeight():number{
+    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    debugger;
+    if(h<700){
+      return 10;
+    }else if(h>700&&h<1000){
+      return 15;
+    } else if(h>1000){
+      return 20;
+    }
+    return 10;
+  }
+
 
   readInputFileAsText(inputElement): Promise<string> {
     return new Promise<string>((resolve, reject) => {

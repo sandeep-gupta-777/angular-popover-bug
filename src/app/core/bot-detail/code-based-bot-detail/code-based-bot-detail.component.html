@@ -1,14 +1,10 @@
-<div class="bot-detail-grid" *ngIf="bot">
-  <!--<div >-->
+<div  [ngClass]="{'bot-detail-grid-architecture-full-screen':isArchitectureFullScreen,'bot-detail-grid':!isArchitectureFullScreen}" *ngIf="bot">
 
-  <div class="header">
+  <div class="header" *ngIf="!isArchitectureFullScreen">
     <app-bot-detail-header [bot]="bot" (refreshBotDetails$)="refreshBotDetails()"></app-bot-detail-header>
   </div>
-
-  <div class="row config bg-white pb-2 pt-3 shadow-theme">
-    <!---->
+  <div class="row config bg-white pb-2 pt-3 shadow-theme" *ngIf="!isArchitectureFullScreen">
     <div class="col-12 text-theme-normal">
-      <!-- <div class="col-12 d-flex justify-content-between px-3 pb-1" (click)="showConfig=!showConfig"> -->
       <div class="col-12 d-flex justify-content-between px-3 pb-1" >
 
         <div class="heading" style="font-size: 14px !important;">Bot Configuration</div>
@@ -36,7 +32,7 @@
   <div class="row shadow-theme architecture bg-white p-1 px-2 my align-content-start" *myIf="myETabNames.architecture_items">
     <!--tabs start-->
     <div class="col-12  px-2">
-      <ul class="nav nav-tabs theme-tabbing mb-1 bg-white" >
+      <ul class="nav nav-tabs border-none theme-tabbing mb-1 bg-white" >
         <li *myIf="myETabNames.architecture_tab" class="nav-item" [ngClass]="{'tab-active':selectedTab==='architecture'}">
           <a class="nav-link heading" [routerLink]="['.']"
              queryParamsHandling="merge"
@@ -64,6 +60,15 @@
              replaceUrl="true"
              (click)="tabChanged('consumer')"
              [queryParams]="{build:'consumer'}"><strong>Consumers</strong></a>
+        </li>
+        <li *myIf="myETabNames.consumers" class="nav-item ml-auto">
+          <a class="nav-link heading"
+             [routerLink]="['.']"
+             queryParamsHandling="merge"
+             replaceUrl="true"
+             [queryParams]="{isArchitectureFullScreen:!isArchitectureFullScreen}">
+            <i class="fa" [ngClass]="{'fa-window-restore':isArchitectureFullScreen, 'fa-expand':!isArchitectureFullScreen}"></i>
+          </a>
         </li>
       </ul>
 

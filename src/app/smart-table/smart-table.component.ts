@@ -44,7 +44,7 @@ export class SmartTableComponent implements OnInit {
 
   paginationArr = [];
   @Input() currentPage: number = 1;
-  recordsPerPage: number = 10;
+  @Input() recordsPerPage: number = 10;
   totalPageCount;
   math = Math;
   @Output() customActionEvents = new EventEmitter();

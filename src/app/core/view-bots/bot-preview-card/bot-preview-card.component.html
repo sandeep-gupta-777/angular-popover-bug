@@ -1,5 +1,28 @@
 <!--Template for modal-->
 <ng-template #template>
+    <div class="danger-modal">
+      <div class="top-dec"></div>
+      <div class="modal-header">
+        <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete: <strong>{{bot.name }}</strong>
+          ?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body pt-0">
+        <form #form="ngForm">
+          <div class="text-center my-1">
+            <p class="mb-3">Do you confirm the Deletion? This is a permanent and irreversible change</p>
+
+          </div>
+          <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+          <button class=" btn btn-theme-danger" (click)="deleteBot()">Delete</button>
+        </form>
+      </div>
+    </div>
+  </ng-template>
+<!-- <ng-template #template>
   <div class="modal-header bg-danger">
     <h4 class="modal-title heading pull-left text-white">Delete: <strong>{{bot.name}}</strong>?</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
@@ -11,7 +34,8 @@
     <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
     <button class="btn btn-theme-danger" (click)="deleteBot()">Delete</button>
   </div>
-</ng-template>
+</ng-template> -->
+
 <!--============================== Following is unbinded html for css tests ==============================-->
 <!---->
 <!--<div class="card mb-2">-->
@@ -117,8 +141,11 @@
         <div class="span-wrapper">
           <i class="fa fa-circle"></i>
         </div>
-        <div class = "ml-1 " style="align-self: center">
-          Active(v{{bot.active_version.version}})
+        <div class = "ml-1 " style="align-self: center" *ngIf="bot.bot_type === 'intelligent'">
+            Active
+          </div>
+        <div class = "ml-1 " style="align-self: center" *ngIf="bot.bot_type === 'chatbot'">
+          Active(v{{bot.active_version_id}})
         </div>
       <div class = "ml-1 ml-auto" style="align-self: center">
         Latest(v{{bot.latest_version.version}})

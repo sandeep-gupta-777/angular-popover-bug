@@ -1,4 +1,4 @@
-<div #scrollMe style="overflow-y: scroll;overflow-x: hidden; height: 90%;position: relative">
+<div #scrollMe style="overflow-y: scroll;overflow-x: hidden; height: calc(100% - 45px);position: relative">
   <app-chat-message
     (sendMessageToBotServer$)="sendMessageByHuman($event)"
     class="mx-2"
@@ -12,9 +12,11 @@
 <!--<span class="icon"><i class="fa fa-send cursor-pointer"></i></span>-->
 <!--</div>-->
 <!--text input starts-->
-<div class="footer d-flex align-items-center justify-content-between text-muted" style="height: 10%">
-  <input class="px-2" placeholder="say something..." autofocus [(ngModel)]="messageByHuman" type="text"
+<div class="footer d-flex align-items-center text-muted" style="height: 45px">
+  <input class="px-2 flex-grow-1" placeholder="start new chat" autofocus [(ngModel)]="messageByHuman" type="text"
          (keyup.enter)="sendMessageByHuman(messageByHuman)">
-  <span class="icon"><i class="fa fa-send cursor-pointer" (click)="sendMessageByHuman(messageByHuman)"></i></span>
+  <div class="d-flex justify-content-center px-2">
+    <span class="icon"><i class="fa fa-send cursor-pointer" (click)="sendMessageByHuman(messageByHuman)"></i></span>
+  </div>
 </div>
 <!--text input ends-->

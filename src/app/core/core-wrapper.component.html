@@ -14,13 +14,10 @@
 <!--<progressbar [value]="55" [animate]="true"></progressbar>-->
 
 <div class="grid-container ">
-  <app-header class="grid-header shadow-theme"></app-header>
+  <app-header class="grid-header"></app-header>
   <div class="grid-body ">
     <router-outlet></router-outlet>
   </div>
-</div>
-<div *ngIf="!isFullScreenPreview" style="position: fixed; right: 0px; bottom: 0px;z-index:100">
-  <app-chat-wrapper></app-chat-wrapper>
 </div>
 <div class="mt-2">
   <app-footer></app-footer>

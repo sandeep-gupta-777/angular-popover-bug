@@ -1,7 +1,7 @@
 import {Action, State, StateContext, Store} from '@ngxs/store';
 import {
   ResetAppState,
-  ResetStoreToDefault, SetBackendURlRoot, SetEnterpriseNerData,
+  ResetStoreToDefault, SetAutoLogoutTime, SetBackendURlRoot, SetEnterpriseNerData,
   SetLastSateUpdatedTimeAction,
   SetMasterIntegrationsList,
   SetMasterProfilePermissions, SetPipelineModuleMasterData,
@@ -26,9 +26,10 @@ export interface IAppState /*extends INavigationState, IAuthState */
   masterIntegrationList: IIntegrationMasterListItem[],
   masterProfilePermissions: IProfilePermission[],
   masterPipelineItems: IPipelineItem[],
-  backendUrlRoot:string,
-  showBackendUrlRootButton:boolean,
-  enterpriseNerData:ICustomNerItem[]
+  backendUrlRoot: string,
+  showBackendUrlRootButton: boolean,
+  enterpriseNerData: ICustomNerItem[],
+  autoLogoutTime: number
 }
 
 const appDefaultState: IAppState = {
@@ -39,11 +40,12 @@ const appDefaultState: IAppState = {
     value: 0
   },
   masterIntegrationList: null,
-  masterProfilePermissions:null,
-  backendUrlRoot:'https://dev.imibot.ai/',
-  showBackendUrlRootButton:false,
-  enterpriseNerData:[],
-  masterPipelineItems: null
+  masterProfilePermissions: null,
+  backendUrlRoot: 'https://dev.imibot.ai/',
+  showBackendUrlRootButton: false,
+  enterpriseNerData: [],
+  masterPipelineItems: null,
+  autoLogoutTime: Date.now() + 3600 * 1000
 };
 
 @State<IAppState>({
@@ -101,7 +103,12 @@ export class AppStateReducer {
 
   @Action(SetPipelineModuleMasterData)
   setPipelineModuleMasterData({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetPipelineModuleMasterData) {
-    patchState({masterPipelineItems:payload.payload.masterPipelineItems});
+    patchState({masterPipelineItems: payload.payload.masterPipelineItems});
+  }
+
+  @Action(SetAutoLogoutTime)
+  setAutoLogoutTime({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetAutoLogoutTime) {
+    patchState({autoLogoutTime: payload.payload.time});
   }
 
   @Action(ResetAppState)

@@ -2,7 +2,9 @@ import {IConsumerDetails} from '../app/chat/ngxs/chat.state';
 import {IGeneratedMessageItem} from './send-api-request-payload';
 
 export enum EChatFrame {
-  WELCOME_BOX, CHAT_LIST, CHAT_BOX,
+  WELCOME_BOX="WELCOME_BOX",
+  CHAT_LIST="CHAT_LIST",
+  CHAT_BOX="CHAT_BOX",
 }
 
 export enum EBotMessageMediaType{

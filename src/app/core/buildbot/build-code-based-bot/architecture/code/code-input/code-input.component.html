@@ -15,13 +15,13 @@
         <!--style="flex-basis: 56px">Inactive-->
         <!--</button>-->
         <div class="count mx-1 flex-shrink-0 flex-grow-0">{{selectedVersion.version}}</div>
-        <div class="forked mr-1"
+        <div class="forked mr-1 pl-1"
              [style.visibility]="selectedVersion.forked_from>0 ? 'visible' : 'hidden'">Forked from version
           {{selectedVersion.forked_from}}
         </div>
         <div class="update d-flex flex-column mr-1 justify-content-center">
           <div>Last update</div>
-          <div class="d-flex justify-content-center">
+          <div class="d-flex justify-content-left pt-1">
             <i class="fa fa-circle"
                [ngClass]="{'text-danger':selectedVersion.updated_fields['df_template'], 'dark-green':activeTab==='df_template'}"></i>
             <i class="fa fa-circle"
@@ -80,22 +80,22 @@
           </div>
           <!--<div class="active-label-text">{{version.id +""+activeVersion.id }}</div>-->
           <div class="count mr-1">{{version.version}}</div>
-          <div class="forked mr-1" [style.visibility]="version.forked_from>0 ? 'visible' : 'hidden'">Forked from version
+          <div class="forked mr-1 pl-1" [style.visibility]="version.forked_from>0 ? 'visible' : 'hidden'">Forked from version
             {{version.forked_from}}
           </div>
           <div class="update d-flex flex-column mr-1 justify-content-center">
             <div class="mr-1">Last update</div>
-            <div>
+            <div class = "justify-content-left pt-1">
               <i class="fa fa-circle"
-                 [ngClass]="{'text-danger':version.updated_fields['df_template'], 'dark-green':activeTab==='df_template'}"></i>
+                 [ngClass]="{'dark-green':version.updated_fields['df_template']}"></i>
               <i class="fa fa-circle"
-                 [ngClass]="{'text-danger':version.updated_fields['df_rules'], 'dark-green':activeTab==='df_rules'}"></i>
+                 [ngClass]="{'dark-green':version.updated_fields['df_rules']}"></i>
               <i class="fa fa-circle"
-                 [ngClass]="{'text-danger':version.updated_fields['generation_rules'], 'dark-green':activeTab==='generation_rules'}"></i>
+                 [ngClass]="{'dark-green':version.updated_fields['generation_rules']}"></i>
               <i class="fa fa-circle"
-                 [ngClass]="{'text-danger':version.updated_fields['generation_templates'], 'dark-green':activeTab==='generation_templates'}"></i>
+                 [ngClass]="{'dark-green':version.updated_fields['generation_templates']}"></i>
               <i class="fa fa-circle"
-                 [ngClass]="{'text-danger':version.updated_fields['workflows'], 'dark-green':activeTab==='workflows'}"></i>
+                 [ngClass]="{'dark-green':version.updated_fields['workflows']}"></i>
 
             </div>
             <!--<form>-->
@@ -229,14 +229,14 @@
     </div>
   </div>
 
-  <div class="code-editor-row code-editor-row-min position-relative" *ngIf="showConfig">
-        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_template" [text]="editorCodeObj[myEBotVersionTabs.df_template]" (textChangedEvent)="saveText($event)"></app-code-editor>
-        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_rules" [text]="editorCodeObj[myEBotVersionTabs.df_rules]" (textChangedEvent)="saveText($event)"></app-code-editor>
-        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_rules" [text]="editorCodeObj[myEBotVersionTabs.generation_rules]" (textChangedEvent)="saveText($event)"></app-code-editor>
-        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates" [text]="editorCodeObj[myEBotVersionTabs.generation_templates]" (textChangedEvent)="saveText($event)"></app-code-editor>
-        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.workflow" [text]="editorCodeObj[myEBotVersionTabs.workflow]" (textChangedEvent)="saveText($event)"></app-code-editor>
-  </div>
-  <div class="code-editor-row code-editor-row-max position-relative" *ngIf="!showConfig">
+  <!--<div class="code-editor-row code-editor-row-min position-relative" *ngIf="showConfig">-->
+        <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_template" [text]="editorCodeObj[myEBotVersionTabs.df_template]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
+        <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_rules" [text]="editorCodeObj[myEBotVersionTabs.df_rules]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
+        <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_rules" [text]="editorCodeObj[myEBotVersionTabs.generation_rules]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
+        <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates" [text]="editorCodeObj[myEBotVersionTabs.generation_templates]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
+        <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.workflow" [text]="editorCodeObj[myEBotVersionTabs.workflow]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
+  <!--</div>-->
+  <div class="code-editor-row code-editor-row-max position-relative">
         <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_template" [text]="editorCodeObj[myEBotVersionTabs.df_template]" (textChangedEvent)="saveText($event)"></app-code-editor>
         <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_rules" [text]="editorCodeObj[myEBotVersionTabs.df_rules]" (textChangedEvent)="saveText($event)"></app-code-editor>
         <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_rules" [text]="editorCodeObj[myEBotVersionTabs.generation_rules]" (textChangedEvent)="saveText($event)"></app-code-editor>
@@ -259,6 +259,12 @@
         </button>
       </div>
       <p>It will not be made active by default but saved. You need to update changes to make it active</p>
+
+        <!--<button type="button" class="close pull-right p-2" aria-label="Close" (click)="modalRef.hide()">-->
+            <!--<span aria-hidden="true">&times;</span>-->
+          <!--</button>-->
+      <!--<h4 class="modal-title mb-2"> Fork to a new version</h4>-->
+      <!--<p>It will not be made active by default but saved. You need to update changes to make it active</p>-->
 
     </div>
 

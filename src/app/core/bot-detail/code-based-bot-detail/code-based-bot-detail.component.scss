@@ -1,26 +1,36 @@
 @import "~src/sass/main";
 
-.bot-detail-grid{
+.bot-detail-grid {
   display: grid;
   height: 100vh;
   //border: 1px solid red;
   grid-template-columns: 1fr;
-  grid-template-rows: 40px auto minmax(60vh, 1fr);
+  grid-template-rows: 40px auto minmax(60vh, 1fr) 20px;
   grid-gap: 8px;
-  grid-template-areas:
-    'header'
-    'config'
-    'architecture'
-;
-  .header{
+  grid-template-areas: 'header' 'config' 'architecture' 'footer';
+  .header {
     grid-area: header;
-  }.config{
+  }
+  .config {
     grid-area: config;
-  }.architecture{
+  }
+  .architecture {
     grid-area: architecture;
   }
 }
 
+.bot-detail-grid-architecture-full-screen {
+  display: grid;
+  height: calc(100vh - 76px);
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(60vh, 1fr);
+  grid-gap: 8px;
+  margin-top: 10px;
+  grid-template-areas: 'architecture';
+  .architecture {
+    grid-area: architecture;
+  }
+}
 
 .row-details {
   .fa {
@@ -48,7 +58,6 @@
 #channel-selector {
   @include typography($font-size-normal, $line-height-normal, $font-weight-300, $color-text-normal);
 }
-
 
 //
 //a{//bootstrap override
@@ -83,26 +92,27 @@
     padding: 6px;
     @include typography(13px, $line-height-normal, $font-weight-300, $color-text-normal);
     cursor: pointer;
-    &:hover{
+    &:hover {
       background-color: #f7f7f7;
     }
   }
 
 }
 
-.scroll-wrapper{
-  overflow-y: scroll;
+.scroll-wrapper {
+  overflow-y: auto;
   height: 90%;
 }
 
-app-knowledge-base-wrapper,app-code-input,app-integration-option-list, app-bot-testing{
+app-knowledge-base-wrapper, app-code-input, app-integration-option-list, app-bot-testing {
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   width: 100%;
   display: block;
 }
-app-integration-option-list{
+
+app-integration-option-list {
   //overflow-y: scroll;
   display: flex;
 }

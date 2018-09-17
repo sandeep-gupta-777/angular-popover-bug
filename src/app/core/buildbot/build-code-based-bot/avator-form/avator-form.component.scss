@@ -25,10 +25,10 @@ form {
 
 .grid-avator{
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(auto-fill, 120px);
   grid-column-gap: 10px;
-  grid-row-gap: 10px;
-  grid-auto-rows: 170px;
+  // grid-row-gap: 10px;
+  grid-auto-rows: 162px;
 }
 
 .avator-item{
