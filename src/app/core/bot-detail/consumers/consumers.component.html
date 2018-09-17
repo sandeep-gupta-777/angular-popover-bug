@@ -9,6 +9,8 @@
     [data]="(consumerTableData)|limitObjectArraysString"
     [settings]="smartTableSettings_Consumers"
     (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,Primarytemplat)"
+    [showSearchInDB]="true"
+    (performSearchInDB$)="performSearchInDbForConsumer($event)"
     >
   </app-smart-table>
 
