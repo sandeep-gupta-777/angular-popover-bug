@@ -120,7 +120,17 @@ export class ConsumersComponent implements OnInit {
       })
 
   }
-
+  performSearchInDbForConsumer(data){
+    debugger;
+    let url = this.constantsService.getBotConsumerByIdUrl(data["ID"]);
+    this.serverService
+      .makeGetReq<IConsumerResults>({ url, headerData: { 'bot-access-token': this.bot.bot_access_token } })
+      .subscribe((consumer: IConsumerResults) => {
+        this.consumerTableData.push(consumer);
+        this.consumerTableData = [...this.consumerTableData];
+      });
+  }
+  
   openCreateBotModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: 'modal-md' });
   }

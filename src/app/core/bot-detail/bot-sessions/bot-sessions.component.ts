@@ -11,6 +11,7 @@ import { IBot } from '../../interfaces/IBot';
 import { SmartTableComponent } from '../../../smart-table/smart-table.component';
 import { UtilityService } from '../../../utility.service';
 import { IHeaderData } from '../../../../interfaces/header-data';
+import { findIndex } from 'rxjs/operators';
 
 @Component({
   selector: 'app-bot-sessions',
@@ -113,7 +114,12 @@ export class BotSessionsComponent implements OnInit {
           this.openCreateBotModal(reasonForDecryptionTemplate);
         }
         else {
+// <<<<<<< HEAD
           this.selectedRow_Session = eventData.data;
+// =======
+
+          // this.selectedRow_Session = this.sessions.find(session => session.id === $event.data.id);
+// >>>>>>> 1591abf003ca30718d1cab97df031a587d1a1cd3
           // (<any>this.selectedRow_Session).highlight = true;
           if (this.indexOfCurrentRowSelected !== undefined)
             this.sessions[this.indexOfCurrentRowSelected].highlight = false;
@@ -231,8 +237,13 @@ export class BotSessionsComponent implements OnInit {
     this.serverService.makePostReq({ headerData, body, url })
       .subscribe(() => {
         this.decryptReason = null;
-      })
-
+      });
+    let surl = this.constantsService.getSessionsByIdUrl(this.sessionItemToBeDecrypted.id);
+    this.serverService.makeGetReq({url : surl, headerData})
+      .subscribe((newSession : ISessionItem)=>{
+        let del = this.sessions.findIndex((session) => session.id === this.sessionItemToBeDecrypted.id);
+        this.sessions[del] = {  ...newSession};
+      });
   }
   openCreateBotModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: 'modal-md' });
