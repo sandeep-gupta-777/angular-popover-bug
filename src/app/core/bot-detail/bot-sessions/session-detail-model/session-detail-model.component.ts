@@ -27,8 +27,8 @@ export class SessionDetailModelComponent implements OnInit {
   _session: ISessionItem;
   searchEnterPressedCount = 0;
   @Input() bot: IBot;
-  @Input() finalDfState: {};
-  @Input() sessionDataStore: {};
+  @Input() finalDfState: any;
+  @Input() sessionDataStore: any;
   @Output() selectNextRow = new EventEmitter();
   @Output() selectPrevRow = new EventEmitter();
   @Output() closeModel$ = new EventEmitter();
