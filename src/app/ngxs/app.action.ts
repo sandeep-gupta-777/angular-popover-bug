@@ -93,5 +93,11 @@ export class ResetAppState {
   constructor() {}
 }
 
+export class SetAutoLogoutTime {
+  static readonly type = '[app] set setAutoLogoutTime';
+
+  constructor(public payload:{time:number}) {}
+}
+
 
 

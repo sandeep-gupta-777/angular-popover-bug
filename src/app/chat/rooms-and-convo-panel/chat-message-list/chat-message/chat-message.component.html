@@ -1,5 +1,5 @@
 <!--chat bubbles for text message started-->
-<div class="row mt-2"
+<div class="row mt-1"
      [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}"
      *ngIf="messageData.messageMediatype === myEBotMessageMediaType.text">
   <div class="p-0 text-center" style="width: 40px">
@@ -18,7 +18,7 @@
 </div>
 <!--chat bubbles for text message ends-->
 
-<div class="row mt-2" *ngIf="messageData.messageMediatype !== myEBotMessageMediaType.text">
+<div class="row mt-1" *ngIf="messageData.messageMediatype !== myEBotMessageMediaType.text">
   <div class="p-0 text-center" style="width: 40px">
     <img class="rounded-circle"
          [src]="messageData?.sourceType==='bot'?selectedAvatar?.imageUrl:'https://image.flaticon.com/icons/svg/17/17004.svg'"

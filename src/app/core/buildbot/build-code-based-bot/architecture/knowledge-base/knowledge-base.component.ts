@@ -24,6 +24,7 @@ export class KnowledgeBaseComponent implements OnInit {
   // @Input() bot: IBot;
   @ViewChild('form') f1: NgForm;
   @Select() loggeduser$: Observable<{ user: IUser }>;
+  @Input() recordsPerPage=10;
 
   // @Input() _custumNerDataForSmartTable = [];
   _custumNerDataForSmartTable:ICustomNerItem[] = [];

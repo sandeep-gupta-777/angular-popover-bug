@@ -13,6 +13,7 @@ import {start} from 'repl';
 import {T} from '@angular/core/src/render3';
 import {IBot} from './core/interfaces/IBot';
 import {IPipelineItem} from '../interfaces/ai-module';
+import {IAnalysis2HeaderData} from '../interfaces/Analytics2/analytics2-header';
 
 
 
@@ -43,6 +44,19 @@ export class UtilityService {
     let avatorArrLength = this.RANDOM_IMAGE_URLS.length;
     let randomNumber = Math.floor(Math.random() * avatorArrLength);
     return this.RANDOM_IMAGE_URLS[randomNumber];
+  }
+
+  getSmartTableRowCountPerPageByViewportHeight():number{
+    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    debugger;
+    if(h<700){
+      return 10;
+    }else if(h>700&&h<1000){
+      return 15;
+    } else if(h>1000){
+      return 20;
+    }
+    return 10;
   }
 
 
@@ -383,17 +397,25 @@ export class UtilityService {
     return convertedData;
   }
 
+  createDeepClone(obj){
+    return JSON.parse(JSON.stringify(obj));
+  }
+
   showErrorToaster(message, sec=2) {
     if (typeof message === 'string') {
-      this.toastr.error(message, null, {positionClass: 'toast-bottom-left', timeOut: sec*1000});
+      this.toastr.error(message, null, {positionClass: 'toast-top-right', timeOut: sec*1000});
       return;
     } else {
-      this.toastr.error(message.message, null, {positionClass: 'toast-bottom-left', timeOut: sec*1000});
+      this.toastr.error(message.message, null, {positionClass: 'toast-top-right', timeOut: sec*1000});
     }
   }
 
+  showInfoToaster(message) {
+    this.toastr.info(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
+  }
+
   showSuccessToaster(message) {
-    this.toastr.success(message, null, {positionClass: 'toast-bottom-left', timeOut: 2000});
+    this.toastr.success(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
   }
   createRandomUid(){
     return Date.now();
@@ -446,9 +468,27 @@ export class UtilityService {
     downloadCsv(data, columns);
   }
 
-  areAllValesDefined(obj: object) {
-    for (let key in obj) {
-      if (obj[key] ==null || obj[key] ==="")//0!==null but 0==""
+  areAllAvatorValesDefined(headerObj: object) {
+    for (let key in headerObj) {
+      if (headerObj[key] ==null || headerObj[key] ==="")//0!==null but 0==""
+        return false;
+    }
+    return true;
+  }
+
+  areAllValesDefined(headerObj: object) {
+    let headerDataTemplate:IAnalysis2HeaderData = {
+      "bot-access-token":null,
+      type:null,
+      enddate:null,
+      startdate:null,
+      "auth-token":null,
+      "user-access-token":null,
+      granularity:null
+    };
+    headerObj = {...headerDataTemplate,...headerObj};
+    for (let key in headerObj) {
+      if (headerObj[key] ==null || headerObj[key] ==="")//0!==null but 0==""
         return false;
     }
     return true;

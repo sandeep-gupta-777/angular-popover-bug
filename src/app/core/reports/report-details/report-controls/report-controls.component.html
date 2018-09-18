@@ -29,7 +29,7 @@
         disabled
         [ngClass]="{'btn-theme-primary': filetype==='pdf', 'btn-theme-secondary-outline':filetype==='csv'}"
         for="pdf" class="btn d-flex align-items-center">PDF</label>
-      <input type="radio" [ngModel]="filetype" required id="csv" name="filetype" value="csv" hidden>
+      <input type="radio" [ngModel]="filetype" required [checked]="true" id="csv" name="filetype" value="csv" hidden>
       <input disabled type="radio" [ngModel]="filetype" required id="pdf" name="filetype" value="pdf" hidden>
     </div>
   </div>
@@ -59,6 +59,7 @@
       <label for="" class="required ">Time</label>
       <input type="text"
              placeholder="Timepicker"
+             autocomplete="off"
              class="form-control time-input1 date-input"
              name="start_time"
              id="start_time" required

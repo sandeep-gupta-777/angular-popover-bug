@@ -2,12 +2,14 @@
   <div class="col-12 mt-4">
     <h4 >Concepts</h4>
   </div>
-  <div class="col-12" style="min-height: 100px">
+  <div class="col-12" style="min-height: 450px">
     <app-knowledge-base
+      class="h-100"
       [custumNerDataForSmartTable]="custumNerDataForSmartTable"
       (updateOrSaveParentNers$)="updateOrSaveCustomNer($event)"
       (pageChanged$)="pageChanged$($event)"
       [totalRecords]="totalRecords"
+      [recordsPerPage]="recordsPerPage"
       (deleteNer$)="deleteNer($event)"
       [currentPageNumber]="currentPageNumber"
     ></app-knowledge-base>

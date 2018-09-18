@@ -1,5 +1,27 @@
 @import "~src/sass/main";
 
+.bot-detail-grid{
+  display: grid;
+  height: 100vh;
+  //border: 1px solid red;
+  grid-template-columns: 1fr;
+  grid-template-rows: 40px auto minmax(60vh, 1fr);
+  grid-gap: 8px;
+  grid-template-areas:
+    'header'
+    'config'
+    'architecture'
+;
+  .header{
+    grid-area: header;
+  }.config{
+     grid-area: config;
+   }.architecture{
+      grid-area: architecture;
+    }
+}
+
+
 .row-details {
   .fa {
     font-size: 30px;
@@ -50,7 +72,7 @@
 .architeture-body {
   height: 85%;
   .side-bar {
-    width: 10.5%;
+    width: 12.5%;
     // padding-left: 10px;
     padding-right: 0px;
   }
@@ -66,4 +88,21 @@
     }
   }
 
+}
+
+.scroll-wrapper{
+  overflow-y: scroll;
+  height: 90%;
+}
+
+app-knowledge-base-wrapper,app-code-input,app-integration-option-list, app-bot-testing{
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 100%;
+  display: block;
+}
+app-integration-option-list{
+  //overflow-y: scroll;
+  display: flex;
 }

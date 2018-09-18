@@ -7,7 +7,7 @@ import {ServerService} from '../../../server.service';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
 import {ETabNames} from '../../../constants.service';
 
@@ -23,6 +23,7 @@ myETabNames = ETabNames
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
   selectedTab = "architecture";
   bot$: Observable<IBot>;
+  bot: IBot;
   bot_id: number;
   showConfig:boolean =true;
   overviewInfo$: Observable<IOverviewInfoResponse>;
@@ -34,6 +35,7 @@ myETabNames = ETabNames
   selectedSideBarTab: string = 'pipeline';
 
   constructor(
+    private router: Router,
     private activatedRoute: ActivatedRoute,
     private serverService: ServerService,
     private store: Store,
@@ -45,11 +47,10 @@ myETabNames = ETabNames
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
     this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || "architecture";
-    this.bot$ = this.botlist$.map((botlist) => {
-      return botlist.allBotList.find((bot) => {
+    this.botlist$.subscribe((botlist) => {
+      this.bot = botlist.allBotList.find((bot) => {
         return bot.id === this.bot_id;//
-      });
-      // return bot[0];
+      })
     });
     this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab')||'pipeline';
 
@@ -95,5 +96,21 @@ myETabNames = ETabNames
     ]);
   }
 
+  refreshBotDetails(){
+    this.serverService.fetchSpecificBotFromServerAndUpdateBotList(this.bot);
+  }
+
+  togglePanel(){
+    /*TODO: this code is repeated in code-based-bot-detail.component.ts, put it in a service*/
+    this.showConfig = !this.showConfig;
+    // this.router.navigate(['.'], {queryParams:{'show-config':this.showConfig}});
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        ...this.activatedRoute.snapshot.queryParams,
+        'show-config': this.showConfig
+      }
+    });
+  }
 
 }

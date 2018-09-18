@@ -11,48 +11,51 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
   styleUrls: ['./knowledge-base-presentation.component.scss']
 })
 export class KnowledgeBasePresentationComponent implements OnInit {
-  _selectedRowData:ICustomNerItem = {};
-  @Input() set selectedRowData(value:ICustomNerItem){
+  _selectedRowData: ICustomNerItem = {};
+  @Input() set selectedRowData(value: ICustomNerItem) {
 
-    if(!value) return;
+    if (!value) return;
     this._selectedRowData = value;
-    this.key = value.key ;
-    if(value.ner_type)
-    this.ner_type = value.ner_type;
-    this.conflict_policy = value.conflict_policy ;
+    this.key = value.key;
+    if (value.ner_type)
+      this.ner_type = value.ner_type;
+    this.conflict_policy = value.conflict_policy;
     // this.codeTextInputToCodeEditor = value.values && value.values.join(',');
     // this.codeTextInputToCodeEditorObj.text = value.values && value.values.join(',');
     this.codeTextInputToCodeEditorObj.text = value.values && JSON.stringify(value.values);
     this.codeTextInputToCodeEditorObj = {...this.codeTextInputToCodeEditorObj};
   }
-  @Input() handsontableData = ["", "", ""];
+
+  @Input() handsontableData = ['', '', ''];
   @Output() updateOrSaveConcept$ = new EventEmitter();
   @Output() deleteNer$ = new EventEmitter();
   @Output() showTable$ = new EventEmitter();
-  @ViewChild('form') form:NgForm;
-  ner_id:string;
-  key:string;
-  routeName:string;
-  ner_type:string = 'double_match';
-  conflict_policy:string;
+  @ViewChild('form') form: NgForm;
+  ner_id: string;
+  key: string;
+  routeName: string;
+  ner_type: string = 'double_match';
+  conflict_policy: string;
   codeTextInputToCodeEditor: string;
-  codeTextInputToCodeEditorObj:{text:string} = {text:""};
+  codeTextInputToCodeEditorObj: { text: string } = {text: ''};
   codeTextOutPutFromCodeEditor: string;
   handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
   handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
 
   constructor(
     private utilityService: UtilityService,
-    private constantsService: ConstantsService,
+    public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.routeName = this.activatedRoute.snapshot.data['routeName'];
-    this.activatedRoute.queryParamMap.subscribe((queryParamMap:ParamMap)=>{
+    this.activatedRoute.queryParamMap.subscribe((queryParamMap: ParamMap) => {
       this.ner_id = (<any>queryParamMap).params['ner_id'];
-    })
+    });
   }
+
   async openFile(inputEl) {
 
     this.codeTextInputToCodeEditorObj.text = await this.utilityService.readInputFileAsText(inputEl);
@@ -63,32 +66,33 @@ export class KnowledgeBasePresentationComponent implements OnInit {
     this.codeTextOutPutFromCodeEditor = codeText;
   }
 
-  updateOrSaveConcept(){
-
+  updateOrSaveConcept() {
 
     let codeTextFromEditor;
-    try{
-      codeTextFromEditor = JSON.parse(this.codeTextOutPutFromCodeEditor);
-    }catch (e) {
-      // codeTextFromEditor = this.codeTextOutPutFromCodeEditor;
+    if (this.ner_type !=='database') {
       try {
-        codeTextFromEditor = eval(this.codeTextOutPutFromCodeEditor);
-      }catch (e) {
-        this.utilityService.showErrorToaster("Syntax is not valid. Must be an an Array literal");
-        return;
+        codeTextFromEditor = JSON.parse(this.codeTextOutPutFromCodeEditor);
+      } catch (e) {
+        // codeTextFromEditor = this.codeTextOutPutFromCodeEditor;
+        try {
+          codeTextFromEditor = eval(this.codeTextOutPutFromCodeEditor);
+        } catch (e) {
+          this.utilityService.showErrorToaster('Syntax is not valid. Must be an an Array literal');
+          return;
+        }
       }
     }
     let outputData = {
-      key:this.key,
-      ner_type:this.ner_type,
-      conflict_policy:this.conflict_policy,
-      codeTextOutPutFromCodeEditor:codeTextFromEditor,
-      handsontableData:this.handsontableData
+      key: this.key,
+      ner_type: this.ner_type,
+      conflict_policy: this.conflict_policy,
+      codeTextOutPutFromCodeEditor: codeTextFromEditor,
+      handsontableData: this.handsontableData
     };
-    let ner_id_str  = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
-    if(ner_id_str)
+    let ner_id_str = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
+    if (ner_id_str)
       outputData['id'] = Number(ner_id_str);
-    this.updateOrSaveConcept$.emit(outputData)
+    this.updateOrSaveConcept$.emit(outputData);
   }
 
 }

@@ -15,6 +15,7 @@ export class HighlightDirective {
     let isDenied: boolean = this.constantsService.isTabAccessDenied(ETabNames.forms);
     if (isDenied) {
       el.nativeElement.disabled = true;
+      el.nativeElement.classList.add("cursor-pointer-event-none");
     }
   }
 }

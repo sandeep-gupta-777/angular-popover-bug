@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {ConstantsService} from '../constants.service';
+import {ActivatedRoute} from '@angular/router';
 // import * as Handsontable from 'handsontable';
 declare var Handsontable: any;
 
@@ -14,6 +15,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
 
   @Input() colHeaders: string[];
   @Input() columns: any[];
+  @Input() setting = {};
   @ViewChild('handsontable') hotTableComponentTest: ElementRef;
   @ViewChild('handsontable_search_field') hotTableSearchField: ElementRef;
   HandsontableComponent = this;
@@ -31,7 +33,10 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
 
   public options: any;
 
-  constructor(private constantsService: ConstantsService) {
+  constructor(
+    private constantsService: ConstantsService,
+    private activatedRoute: ActivatedRoute
+  ) {
     this.options = {
       rowHeaders: true,
       colHeaders: true,
@@ -44,17 +49,36 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    let routeName = this.activatedRoute.snapshot.data['routeName'];
+
     let searchField = this.hotTableSearchField.nativeElement;
     let hot = this.hot = new Handsontable(this.hotTableComponentTest.nativeElement, {
+
       data: this._data   ,
-      rowHeaders: true,
+      // rowHeaders: true,
       ...this.options,
       colHeaders: this.colHeaders,
       columns:this.columns,
       contextMenu: true,
       wordWrap: true,
       autoRowSize: true,
-      search: true
+      search: true,
+      ...this.setting
+
+      /*https://jsfiddle.net/epjettq1/*/
+      // allowHtml: true,
+      // readOnly: true,
+      // colHeaders: data.columns,
+      // stretchH: 'all',
+      // sortIndicator: true,
+      // columnSorting: {
+      //   column: 0,
+      //   sortOrder: true
+      // },
+      // disableVisualSelection: true,
+      // fixedColumnsLeft: 1,
+      // wordWrap: true,
+      // autoRowSize: true
     });
 
     (<any>Handsontable.dom).addEvent(searchField, 'keyup', function (event) {

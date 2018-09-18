@@ -42,7 +42,7 @@ export class ChatService {
       'auth-token': null,
       'user-access-token': null
     };
-    this.serverService.makePostReq({url, body, headerData})
+    this.serverService.makePostReq({url, body, headerData, dontShowProgressBar:true})
       .subscribe((response: ISendApiResponsePayload) => {
         let generatedMessage = response.generated_msg;
         /*response from bot server*/

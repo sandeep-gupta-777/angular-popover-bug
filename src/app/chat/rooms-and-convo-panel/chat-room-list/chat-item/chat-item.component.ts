@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Select, Store} from '@ngxs/store';
-import {EChatFrame, IRoomData} from '../../../../../interfaces/chat-session-state';
+import {EChatFrame, IChatSessionState, IRoomData} from '../../../../../interfaces/chat-session-state';
 import {ChangeFrameAction, SetConsumerDetail, SetCurrentBotDetails, SetCurrentRoomID, SetCurrentUId} from '../../../ngxs/chat.action';
 
 @Component({
@@ -13,11 +13,16 @@ export class ChatItemComponent implements OnInit {
 
   @Input() room: IRoomData;
   @Input() currentUid:string;
+  @Input() currentRoomId:number;
+  @Select() chatsessionstate$: Observable<IChatSessionState>;
 
   constructor(private store: Store) {
   }
 
   ngOnInit() {
+    this.chatsessionstate$.subscribe((chatSessionState)=>{
+      this.currentRoomId =  chatSessionState.currentRoomId;
+    });
   }
 
   openChatRoom() {

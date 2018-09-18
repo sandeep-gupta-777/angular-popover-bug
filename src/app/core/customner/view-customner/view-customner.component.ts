@@ -23,6 +23,7 @@ export class ViewCustomnerComponent implements OnInit {
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() app$: Observable<IAppState>;
   custumNerDataForSmartTable: ICustomNerItem[];
+  recordsPerPage:number=15;
   settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;
   totalRecords: number = 10;
   currentPageNumber = 1;
@@ -40,20 +41,21 @@ export class ViewCustomnerComponent implements OnInit {
 
   ngOnInit() {
     this.currentPageNumber = Number(this.activatedRoute.snapshot.queryParamMap.get('page') || '1');
-    this.fetchNers(10, this.currentPageNumber - 1);
     this.app$.subscribe((value) => {
       this.custumNerDataForSmartTable = value.enterpriseNerData;
     });
+    this.recordsPerPage = this.utilityService.getSmartTableRowCountPerPageByViewportHeight();
+    this.fetchNers(this.recordsPerPage, this.currentPageNumber - 1);
   }
 
   pageChanged$(currentPageNumber) {
     this.router.navigate(['.'], {queryParams: {page: currentPageNumber}, relativeTo: this.activatedRoute});
     this.currentPageNumber = currentPageNumber;
-    this.fetchNers(10, currentPageNumber - 1);
+    this.fetchNers(this.recordsPerPage, currentPageNumber - 1);
   }
 
   fetchNers(limit: number = 10, offset: number = 0) {
-    let getEnterpriseNerUrl = this.constantsService.getEnterpriseNer(limit, (offset * 10));
+    let getEnterpriseNerUrl = this.constantsService.getEnterpriseNer(limit, (offset * this.recordsPerPage));
     this.serverService.makeGetReq<{ meta: { total_count: number }, objects: ICustomNerItem[] }>({url: getEnterpriseNerUrl})
       .subscribe((value) => {
         this.totalRecords = value.meta.total_count;

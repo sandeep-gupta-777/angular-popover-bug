@@ -1,5 +1,57 @@
 @import "~src/sass/main";
 
+//::ng-deep app-code-editor {
+//}
+
+::ng-deep .code-editor-row-min {
+  //.CodeMirror {
+  //  border: 1px solid #eee;
+  //  //height: auto;
+  //  //max-height:250px;
+  //  max-height: 40vh;
+  //  //maxh
+  //}
+  //
+  //  .CodeMirror-scroll {
+  //    //height: auto;
+  //    max-height: 40vh;;
+  //  }
+
+  .CodeMirror,.CodeMirror-scroll  {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
+::ng-deep .code-editor-row-max {
+
+  .CodeMirror,.CodeMirror-scroll  {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  //.CodeMirror {
+  //  border: 1px solid #eee;
+  //  height: auto;
+  //  max-height:320px;
+  //  //max-height: 220px;
+  //}
+  //
+  //.CodeMirror-scroll {
+  //  //height: auto;
+  //  max-height: 320px;
+  //}
+}
+//::ng-deep .code-editor-row-mix {
+//  .CodeMirror {
+//    border: 1px solid #eee;
+//    height: auto;
+//    //max-height:250px;
+//    max-height: 350px;
+//  }
+//}
+
+//::ng-deep
+
 .card {
   border: none;
 }
@@ -131,7 +183,7 @@
   }
   .forked {
     flex-basis: 84px;
-    
+
   }
 
   .update {
