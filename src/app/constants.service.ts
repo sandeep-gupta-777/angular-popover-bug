@@ -96,7 +96,7 @@ export class ConstantsService {
           ETabNames.knowledgebase,
           ETabNames.botversion,
           ETabNames.update_profile,
-          ETabNames.architecture_items,
+          // ETabNames.architecture_items,
 
         ],
         api: [
