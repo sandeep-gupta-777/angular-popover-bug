@@ -26,8 +26,9 @@ export interface IBot {
   room_close_callback?:boolean,
   "heading"?: string,
   "id"?: number,
+  is_manager? :boolean,
   /*TODO: Queries:Integration should be array*/
-  integrations?: IIntegrationOption
+  integrations?: IIntegrationOption,
   //   {
   //   ccsp_details: {
   //     debug: {
@@ -68,7 +69,6 @@ export interface IBot {
   //     }
   //   }
   // }
-  ,
   "logo"?: string,
   "name"?: string,
   "parent_bots"?: string,

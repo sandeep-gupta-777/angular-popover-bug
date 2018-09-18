@@ -37,7 +37,7 @@
       </div>
 
     </fieldset>
-    <fieldset class="col-5" readonlyselectedroles>
+    <fieldset class="col-7" readonlyselectedroles>
       <div class="form-group">
         <label class="required" for="name">Unique Name</label>
         <label [hidden]="bot_unique_name.valid || bot_unique_name.pristine" class="text-danger pl-1" for="alterEgo"><i>Bot Unique Name is required</i></label>
@@ -66,12 +66,11 @@
         <input ngModel="{{bot.room_persistence_time}}" name="room_persistence_time" type="text" class="form-control" placeholder="Time until Session Closes (in minutes)" id="alterEgo">
       </div> -->
       <div class="">
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-top">
           <label class="pr-2">Is Manager Bot?</label>
-          <!--<button (click)="isManager=!isManager">click me</button>-->
-          <!--<p>{{isManager}}</p>-->
-          <ui-switch [disabled]="constantsService.isTabAccessDenied(myETabNames.UI_SWITCH)" [(ngModel)]="isManager" name="is_manager" style="border:none;padding: 0;" size="small"></ui-switch>
-          <div class="btn-group mb-1" dropdown *ngIf="isManager">
+          
+          <ui-switch [disabled]="constantsService.isTabAccessDenied(myETabNames.UI_SWITCH)" [(ngModel)]="_bot.is_manager" name="is_manager" style="border:none;padding: 0;" size="small"></ui-switch>
+          <div class="btn-group mb-1" dropdown *ngIf="_bot.is_manager">
             <button id="button-basic" dropdownToggle type="button" class="btn dropdown-toggle btn-theme-success-sm-outline ml-1" aria-controls="dropdown-basic">
               Bot List<span class="caret"></span>
             </button>
@@ -111,9 +110,9 @@
       </div> -->
       <!--<p>{{(allbotList|json)}}</p>-->
       <!-- <p>{{bot.child_bots|json}}</p> -->
-      <label *ngIf="isManager && (_bot.child_bots.length<1)" class="text-danger pl-1" for="alterEgo"><i>Atleast one childbot is requred</i></label>
+      <label *ngIf="_bot.is_manager && (_bot.child_bots.length<1)" class="text-danger pl-1" for="alterEgo"><i>Atleast one childbot is requred</i></label>
 
-      <div *ngIf="isManager" class="permissions-box">
+      <div *ngIf="_bot.is_manager" class="permissions-box">
             <span *ngFor="let childBotId of _bot.child_bots"
                   class="badge badge-pill badge-info inline m-1">{{childBotId | botIdToName | async}}
               <span class="fa fa-remove cursor-pointer" (click)="removeChildBot(childBotId)"></span>

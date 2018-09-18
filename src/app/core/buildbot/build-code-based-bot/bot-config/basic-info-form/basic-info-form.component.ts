@@ -50,11 +50,11 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
-    try {
-      this.isManager = this._bot.child_bots.length !== 0;
-    } catch (e) {
-      this.isManager = false;
-    }
+    // try {
+    //   this.isManager = this._bot.child_bots.length !== 0;
+    // } catch (e) {
+    //   this.isManager = false;
+    // }
     this.botlist$.subscribe((botlist) => {
 
       this.allbotList = botlist.allBotList;

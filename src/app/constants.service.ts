@@ -40,7 +40,8 @@ export enum ETabNames {
   botversion = 'botversion',
   sessions = 'sessions',
   consumers = 'consumers',
-  update_profile="update_profile"
+  update_profile="update_profile",
+  testing = "testing"
 }
 
 export enum ERoleName {
@@ -82,7 +83,8 @@ export class ConstantsService {
           ETabNames.action_items,
           ETabNames.UI_SWITCH,
           ETabNames.report,
-          ETabNames.analytics2,
+          // ETabNames.analytics2,
+          ETabNames.testing,
           ETabNames.pipeline,
           ETabNames.knowledgebase,
           ETabNames.botversion,
@@ -105,9 +107,9 @@ export class ConstantsService {
           ERouteNames.customner,
           ERouteNames.enterprise_profile,
           ERouteNames.report,
-          ERouteNames.sessions,
-          ERouteNames.consumer,
-          ERouteNames.analytics2,
+          // ERouteNames.sessions,
+          // ERouteNames.consumer,
+          // ERouteNames.analytics2,
         ],
         module: [],
         tab: [// =  tab, hyperlink, button
