@@ -51,6 +51,7 @@ export class KnowledgeBaseComponent implements OnInit {
   modalRef: BsModalRef;
   handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
   handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
+  
   handontableData = [["","",""]];
   selectedRowData: ICustomNerItem;
 

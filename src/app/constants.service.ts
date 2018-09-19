@@ -670,29 +670,33 @@ export class ConstantsService {
     {data: 4, type: 'text', readOnly: true},
     {data: 5, type: 'text', readOnly: true},
   ];
-  readonly HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders = ['Key', 'Title', 'Payload'];
+  
   readonly HANDSON_TABLE_KNOWLEDGE_BASE_SETTING = {
     cells: function (row, col) {
 
       /*To make first row highlighted*/
       /*https://docs.handsontable.com/5.0.2/demo-conditional-formatting.html*/
       var cellProperties = {};
-      var data = this.instance.getData();
+      // var data = this.instance.getData();
 
 
-      if (row === 0) {
-        cellProperties["renderer"] = function(instance, td, row, col, prop, value, cellProperties) {
-          Handsontable.renderers.TextRenderer.apply(this, arguments);
-          td.style.fontWeight = 'bold';
-        }; // uses function directly
-      }
+      // if (row === 0) {
+      //   cellProperties["renderer"] = function(instance, td, row, col, prop, value, cellProperties) {
+      //     Handsontable.renderers.TextRenderer.apply(this, arguments);
+      //     td.style.fontWeight = 'bold';
+      //   }; // uses function directly
+      // }
       return cellProperties;
     }
   };
+  readonly HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders = ['', '', '',"","",'','','',''];
   readonly HANDSON_TABLE_KNOWLEDGE_BASE_columns = [
     {data: 0, type: 'text'},
     {data: 1, type: 'text'},
     {data: 2, type: 'text'},
+    {data: 3, type: 'text'},
+    {data: 4, type: 'text'},
+    {data: 5, type: 'text'}
   ];
 
 

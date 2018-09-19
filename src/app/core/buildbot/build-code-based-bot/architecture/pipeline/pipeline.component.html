@@ -44,7 +44,7 @@
   <div class="primary-modal">
     <div class="top-dec"></div>
     <div class="modal-header">
-      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">{{selectedPipeline.unique_name}}</h4>
+      <h4 class="modal-title" style="display: flex;justify-content: start;">{{selectedPipeline.unique_name}}</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -52,8 +52,8 @@
     </div>
 
     <div class="modal-body pt-0">
-     <div *ngFor="let Key of myObject.keys(selectedPipeline.input_params)" class="d-flex align-items-center justify-content-center my-1">
-       <label class="mb-0">{{Key|integrationNameFormatter|titlecase }}</label>
+     <div *ngFor="let Key of myObject.keys(selectedPipeline.input_params)" class="d-flex align-items-center justify-content-center my-2">
+       <label class="mb-0 mr-1">{{Key|integrationNameFormatter|titlecase }}</label>
        <input type="text" class="input-material" [(ngModel)] = "selectedPipeline.input_params[Key]">
      </div>
       <button class="btn btn-theme-success-sm" (click)="modalRef.hide()">Submit</button>

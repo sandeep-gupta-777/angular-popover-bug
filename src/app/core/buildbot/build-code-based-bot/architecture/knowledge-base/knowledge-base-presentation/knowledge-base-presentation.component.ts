@@ -10,12 +10,14 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
   templateUrl: './knowledge-base-presentation.component.html',
   styleUrls: ['./knowledge-base-presentation.component.scss']
 })
+
 export class KnowledgeBasePresentationComponent implements OnInit {
   _selectedRowData: ICustomNerItem = {};
   @Input() set selectedRowData(value: ICustomNerItem) {
 
     if (!value) return;
     this._selectedRowData = value;
+    debugger;
     this.key = value.key;
     if (value.ner_type)
       this.ner_type = value.ner_type;
@@ -24,6 +26,12 @@ export class KnowledgeBasePresentationComponent implements OnInit {
     // this.codeTextInputToCodeEditorObj.text = value.values && value.values.join(',');
     this.codeTextInputToCodeEditorObj.text = value.values && JSON.stringify(value.values);
     this.codeTextInputToCodeEditorObj = {...this.codeTextInputToCodeEditorObj};
+    this.handontable_colHeaders = Object.keys(value.values[0]);
+    for (let index = 0; index < this.handontable_colHeaders.length; index++) {
+      this.handontable_column[index] = {
+        data: index, type: 'text'
+      } 
+    }
   }
 
   @Input() handsontableData = ['', '', ''];
@@ -39,9 +47,18 @@ export class KnowledgeBasePresentationComponent implements OnInit {
   codeTextInputToCodeEditor: string;
   codeTextInputToCodeEditorObj: { text: string } = {text: ''};
   codeTextOutPutFromCodeEditor: string;
-  handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
+  // handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
   handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
-
+  // readonly HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders = ['', '', '',"","",'','','',''];
+  handontable_column = [];
+  // readonly HANDSON_TABLE_KNOWLEDGE_BASE_columns = [
+  //   {data: 0, type: 'text'},
+  //   {data: 1, type: 'text'},
+  //   {data: 2, type: 'text'},
+  //   {data: 3, type: 'text'},
+  //   {data: 4, type: 'text'},
+  //   {data: 5, type: 'text'}
+  // ];
   constructor(
     private utilityService: UtilityService,
     public constantsService: ConstantsService,
