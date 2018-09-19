@@ -691,12 +691,12 @@ export class ConstantsService {
   };
   readonly HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders = ['', '', '',"","",'','','',''];
   readonly HANDSON_TABLE_KNOWLEDGE_BASE_columns = [
-    {data: 0, type: 'text'},
-    {data: 1, type: 'text'},
-    {data: 2, type: 'text'},
-    {data: 3, type: 'text'},
-    {data: 4, type: 'text'},
-    {data: 5, type: 'text'}
+    // {data: 0, type: 'text'},
+    // {data: 1, type: 'text'},
+    // {data: 2, type: 'text'},
+    // {data: 3, type: 'text'},
+    // {data: 4, type: 'text'},
+    // {data: 5, type: 'text'}
   ];
 
 

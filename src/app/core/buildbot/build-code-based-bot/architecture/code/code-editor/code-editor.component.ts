@@ -40,6 +40,7 @@ export class CodeEditorComponent implements OnInit,AfterViewInit {
     let editor = this.codeEditor.nativeElement;
     this.editor = new CodeMirror.fromTextArea(editor, {
       lineNumbers: true,
+      lineWrapping: true,
       mode: "python",
       theme:'cobalt',
       rtlMoveVisually:false,
