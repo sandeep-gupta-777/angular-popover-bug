@@ -10,7 +10,10 @@ export interface ISessionMessageItem{
   "generated_msg_string": string,
   "id": number,
   "message": any//Array<any>| string,
-  "message_store": {},
+  "message_store": {
+    activeBotId?:any;
+    activeBotRoomId?:any;
+  },
   "platform": string,
   "resource_uri": string,
   "room_id": number,

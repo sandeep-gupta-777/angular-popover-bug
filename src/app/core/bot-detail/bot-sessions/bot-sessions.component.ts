@@ -114,12 +114,12 @@ export class BotSessionsComponent implements OnInit {
           this.openCreateBotModal(reasonForDecryptionTemplate);
         }
         else {
-// <<<<<<< HEAD
-          this.selectedRow_Session = eventData.data;
-// =======
 
-          // this.selectedRow_Session = this.sessions.find(session => session.id === $event.data.id);
-// >>>>>>> 1591abf003ca30718d1cab97df031a587d1a1cd3
+          // this.selectedRow_Session = eventData.data;
+
+
+          this.selectedRow_Session = this.sessions.find(session => session.id === eventData.data.id);
+
           // (<any>this.selectedRow_Session).highlight = true;
           if (this.indexOfCurrentRowSelected !== undefined)
             this.sessions[this.indexOfCurrentRowSelected].highlight = false;
