@@ -52,7 +52,7 @@ export class BotSessionsComponent implements OnInit {
 
   ngOnInit() {
     this.loadSmartTableSessionData();
-    this.loadSessionTableDataForGivenPage(1);
+    // this.loadSessionTableDataForGivenPage(1);
     // this.sessions$ = this.serverService.makeGetReq<ISessions>({ url: this.url, headerData: { 'bot-access-token': this.bot.bot_access_token } });
     // this.sessions$
     //   .map((value) => {

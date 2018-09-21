@@ -99,7 +99,7 @@ export class Analytics2UsersComponent implements OnInit {
               new Date(value.analysisHeaderData.startdate).getTime(),
               granularity_ms) ;
         }catch (e) {
-          console.log(e);
+          // console.log(e);
         }
 
       })
