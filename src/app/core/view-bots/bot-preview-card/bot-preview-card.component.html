@@ -147,25 +147,27 @@
         <div class = "ml-1 " style="align-self: center" *ngIf="bot.bot_type === 'chatbot'">
           Active(v{{bot.active_version.version || 0}})
         </div>
-      <div class = "ml-1 ml-auto" style="align-self: center">
-        Latest(v{{bot.latest_version.version || 0}})
+      <div class="ml-auto" style="align-self: center">
+        <div class = " show-on-parent-hover" style="align-self: center">
+          Latest(v{{bot.latest_version.version || 0}})
+        </div>
+          <div class="btn-group click-save-wrapper" dropdown style="align-self: center; font-size: 18px;padding:0;">
+            <i dropdownToggle class="fa fa-ellipsis-v click-save-wrapper px-2"></i>
+            <ul *dropdownMenu class="dropdown-menu click-save-wrapper" role="menu">
+              <li role="menuitem">
+                <a class="dropdown-item cursor-pointer click-save-wrapper" (click)="utilityService.copyToClipboard(bot.bot_access_token)" >Copy Access Token</a>
+              </li>
+              <li role="menuitem">
+                <a class="dropdown-item cursor-pointer click-save-wrapper" (click)="utilityService.copyToClipboard(bot.enterprise_id)">Copy Enterprise ID</a>
+              </li>
+              <!-- <li role="menuitem">
+                <a class="dropdown-item">Make Bot Active</a>
+              </li> -->
+              <li role="menuitem">
+                <a class="dropdown-item click-save-wrapper" (click)="openModal(template)">Delete</a>
+              </li>
+            </ul>
       </div>
-        <div class="btn-group click-save-wrapper" dropdown style="align-self: center; font-size: 18px;padding:0;">
-          <i dropdownToggle class="fa fa-ellipsis-v click-save-wrapper px-2"></i>
-          <ul *dropdownMenu class="dropdown-menu click-save-wrapper" role="menu">
-            <li role="menuitem">
-              <a class="dropdown-item cursor-pointer click-save-wrapper" (click)="utilityService.copyToClipboard(bot.bot_access_token)" >Copy Access Token</a>
-            </li>
-            <li role="menuitem">
-              <a class="dropdown-item cursor-pointer click-save-wrapper" (click)="utilityService.copyToClipboard(bot.enterprise_id)">Copy Enterprise ID</a>
-            </li>
-            <!-- <li role="menuitem">
-              <a class="dropdown-item">Make Bot Active</a>
-            </li> -->
-            <li role="menuitem">
-              <a class="dropdown-item click-save-wrapper" (click)="openModal(template)">Delete</a>
-            </li>
-          </ul>
         </div>
       <!--</div>-->
     </div>
