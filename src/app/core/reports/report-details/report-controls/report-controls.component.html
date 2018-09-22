@@ -35,7 +35,8 @@
   </div>
 
   <div class="col-5 mt-3 d-flex align-items-center ">
-    <div class="d-flex mt-2 align-items-center">
+    <!--<p>{{report_id}}</p>-->
+    <div class="d-flex mt-2 align-items-center" *ngIf="report_id">
       <label for="" class="required m-0 pr-3">Status</label>
       <ui-switch class="m-0 pt-2" [(ngModel)]="isactive" required name="isactive" style="border:none"
                  size="small"></ui-switch>

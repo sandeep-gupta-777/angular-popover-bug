@@ -42,8 +42,13 @@ export class ChatService {
       'auth-token': null,
       'user-access-token': null
     };
-    this.serverService.makePostReq({url, body, headerData, dontShowProgressBar:true})
-      .subscribe((response: ISendApiResponsePayload) => {
+
+    this.store.dispatch(new ToggleChatWindow({open: true}));
+
+    if (frameEnabled)
+      this.navigate(frameEnabled);
+    return this.serverService.makePostReq({url, body, headerData, dontShowProgressBar:true})
+      .do((response: ISendApiResponsePayload) => {
         let generatedMessage = response.generated_msg;
         /*response from bot server*/
         let editedMessages: IMessageData[] = generatedMessage.map((message: IGeneratedMessageItem) => {
@@ -96,11 +101,6 @@ export class ChatService {
         // this.store.dispatch(new SetCurrentRoomID({id: response.room.id}));
         // this.store.dispatch(new SetCurrentBotID({bot_id: response.room.bot_id}));
       });
-
-    this.store.dispatch(new ToggleChatWindow({open: true}));
-
-    if (frameEnabled)
-      this.navigate(frameEnabled);
   }
 
   navigate(frameEnabled: EChatFrame) {

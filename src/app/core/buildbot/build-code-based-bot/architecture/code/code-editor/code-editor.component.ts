@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {EventService} from '../../../../../../event.service';
+import {UtilityService} from '../../../../../../utility.service';
 declare var CodeMirror: any;
 
 @Component({
@@ -17,9 +18,7 @@ export class CodeEditorComponent implements OnInit,AfterViewInit {
   _text;
   editorCodeObjRef:{text:string} = {text:""};
   @ViewChild('f') codeEditor:ElementRef;
-  constructor(private eventService:EventService) {
-    console.log('editor constructor');
-  }
+  constructor(private utilityService:UtilityService) {}
   @Input() set text(editorCodeObj:{text:string}){
 
     if(!editorCodeObj) return;
@@ -53,9 +52,18 @@ export class CodeEditorComponent implements OnInit,AfterViewInit {
     this._text && this.editor.setValue(this._text);
   }
 
+  downloadCodeText(){
+    this.utilityService.downloadText(this.editorCodeObjRef.text,"code.txt");
+  }
+
   ngAfterViewInit(){
-    this.editor && this.editor.setSize("100%", "100%");
+    this.editor && this.editor.setSize("100%", "100%");//TODO: codemirror is exceeding its parent width by 30px
     this.editor && this.editor.refresh();
+  }
+
+  async openFile(inputEl) {
+    let codeText = await this.utilityService.readInputFileAsText(inputEl);
+    this.editor && this.editor.setValue(codeText);
   }
 
 

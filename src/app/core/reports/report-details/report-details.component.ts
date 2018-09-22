@@ -14,6 +14,7 @@ import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
 import {IBot} from '../../interfaces/IBot';
+import {UtilityService} from '../../../utility.service';
 
 @Component({
   selector: 'app-report-details',
@@ -32,6 +33,7 @@ export class ReportDetailsComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private utilityService: UtilityService,
     private router: Router,
     private serverService: ServerService,
     private constantsService: ConstantsService,
@@ -47,6 +49,18 @@ export class ReportDetailsComponent implements OnInit {
     // this.reportItem$.subscribe((value)=>{
     //   this.reportFormData = value.formData;
     // })
+  }
+  showReportDeleteModel(unsubscribeTemplate:TemplateRef<any>) {
+    this.modalRef = this.modalService.show(unsubscribeTemplate,{class: 'center-modal'});
+  }
+  deleteReport() {
+    let deleteReportUrl = this.constantsService.getReportDeleteUrl(this.report_id);
+    this.serverService.makeDeleteReq({url:deleteReportUrl})
+      .subscribe(()=>{
+        this.utilityService.showSuccessToaster("Report deleted Successfully!");
+        this.modalRef.hide();
+        this.router.navigate(['/core/reports']);
+      });
   }
 
   updateReport(subscribeTemplate: TemplateRef<any>, unsubscribeTemplate:TemplateRef<any>) {

@@ -39,7 +39,7 @@ export class BotDetailHeaderComponent implements OnInit {
   }
   openBot() {
     this.store.dispatch([
-      new SetCurrentBotDetails({id: this.bot.id, logo:this.bot.logo, token:this.bot.bot_access_token, name:this.bot.name}),
+      new SetCurrentBotDetails({id: this.bot.id, logo:this.bot.logo, bot_access_token:this.bot.bot_access_token, name:this.bot.name}),
       new ToggleChatWindow({open: true}),
       new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX})
     ]);
@@ -96,6 +96,6 @@ export class BotDetailHeaderComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+    this.modalRef = this.modalService.show(template,{class: 'center-modal'});
   }
 }

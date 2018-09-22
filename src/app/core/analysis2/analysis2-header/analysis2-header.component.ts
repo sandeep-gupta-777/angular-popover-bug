@@ -58,10 +58,11 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   storeSub:Subscription;
   loggeduserSub:Subscription;
   analytics2HeaderDataSub:Subscription;
+  makeGetReqSub:Subscription;
 
   @Input() set allbotList(_allbotList: IBot[]) {
     this._allbotList =_allbotList;
-    if(this.f)
+    if(this.f && _allbotList)
     this.f.form.patchValue({botId: this._allbotList[0].id, platform: this.channelList[0].name});
   }
 
@@ -143,7 +144,9 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
             let isHeaderValid = this.isHeaderValid(analytics2HeaderData.startdate, analytics2HeaderData.enddate, analytics2HeaderData.granularity);
             if (!isHeaderValid) return;
             this.store.dispatch([new ResetAnalytics2GraphData()]);
-            this.serverService.makeGetReq({url, headerData})
+            // this.makeGetReqSub && this.makeGetReqSub.unsubscribe();//todo: better use .
+            this.makeGetReqSub = this.serverService.makeGetReq({url, headerData})
+              .take(1)
               .subscribe((response: any) => {
                 if (headerData.type === EAnalysis2TypesEnum.overviewinfo) {
                   let responseCopy: IOverviewInfoResponse = response;
@@ -220,7 +223,8 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
           });
 
       } catch (e) {
-        this.utilityService.showErrorToaster(e);
+        console.log(e);
+        // this.utilityService.showErrorToaster(e);
       }
     });
 
@@ -245,6 +249,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
 
   ngAfterViewInit() {
     setTimeout(() => {
+      if(this._allbotList)
       this.f.form.patchValue({botId: this._allbotList[0].id, platform: this.channelList[0].name});
     }, 0);
   }
@@ -257,5 +262,6 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     this.analytics2HeaderDataSub && this.analytics2HeaderDataSub.unsubscribe();
     this.loggeduser && this.loggeduserSub.unsubscribe();
     this.formChangesSub && this.formChangesSub.unsubscribe();
+    this.makeGetReqSub && this.makeGetReqSub.unsubscribe();
   }
 }

@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     // this.store.dispatch()
-    this.serverService.makeGetReq({url:'/static/config.json'})
+    this.serverService.makeGetReq({url:'/static/config.json', noValidateUser:true})
       .subscribe(((value:{"backend_url":string,"version":string})=>{
         // {"backend_url":"https://dev.imibot.ai/","version":"1.0.0"}
         this.store.dispatch([
@@ -43,11 +43,11 @@ export class LoginComponent implements OnInit {
       }));
   }
 
-  flashErrorMessage(message:string){
+  flashErrorMessage(message:string, time_ms:number=3000){
     this.errorMessage = message;
     setTimeout(() => {
       this.errorMessage = '';
-    }, 3000);
+    }, time_ms);
   }
 
   onSubmit() {

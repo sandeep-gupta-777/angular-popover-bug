@@ -31,6 +31,8 @@ export enum ETabNames {
   enterprise_profile = 'enterprise_profile',
   architecture_tab = 'architecture_tab',
   architecture_items = 'architecture_items',
+  lower_panel_bot_detail = 'lower_panel_bot_detail',
+  lower_panel_tabs = 'lower_panel_tabs',
   architecture_panel_pipeline = 'architecture_panel',
   update_bot_button = 'update_bot_button',
   bot_header_ellipsis = 'bot_header_ellipsis',
@@ -51,7 +53,7 @@ export enum ETabNames {
 
 export enum ERoleName {
   Admin = 'Admin',
-  botdev = 'botdev',
+  'Bot Developer' = 'Bot Developer',
   Analyst = 'Analyst',
   Tester = 'Tester',
 }
@@ -84,6 +86,7 @@ export class ConstantsService {
           ETabNames.knowledgeBase,
           ETabNames.update_bot_button,
           ETabNames.bot_header_reset,
+          ETabNames.architecture_items,
           ETabNames.integration_icons,
           ETabNames.forms,
           ETabNames.action_items,
@@ -94,7 +97,7 @@ export class ConstantsService {
           ETabNames.knowledgebase,
           ETabNames.botversion,
           ETabNames.update_profile,
-          ETabNames.architecture_items,
+          // ETabNames.architecture_items,
 
         ],
         api: [
@@ -102,7 +105,7 @@ export class ConstantsService {
           EAPINames.enterprise,
         ]
       },
-      'Botdev': {
+      'Bot Developer': {
         route: [
           ERouteNames.enterprise_profile,
         ],
@@ -128,7 +131,7 @@ export class ConstantsService {
           ETabNames.enterprise_profile,
           ETabNames.customner,
           ETabNames.architecture_tab,
-          ETabNames.architecture_items,
+          ETabNames.lower_panel_bot_detail,
           ETabNames.architecture_panel_pipeline,
           ETabNames.bot_header_ellipsis,
           ETabNames.knowledgeBase,
@@ -332,6 +335,10 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/reporthistory?limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/reporthistory?limit=1&offset=10
   }
 
+  getReportDeleteUrl(report_id:number) {
+    return this.BACKEND_URL + `api/v1/reports/${report_id}/`; //http://dev.imibot.ai/api/v1/reports/1/
+  }
+
   getDownloadReportHistoryByIdUrl(id: number) {
     return this.BACKEND_URL + `api/v1/reporthistory/downloadreports/?id=${id}`; //http://localhost:8000/api/v1/reporthistory/downloadreports/?id=10
   }
@@ -488,33 +495,53 @@ export class ConstantsService {
     columns: {
       id: {//
         title: 'ID',
-        width: '120px'
+        width: '120px',
+        /*
+        https://github.com/akveo/ng2-smart-table/blob/master/src/app/pages/examples/filter/advanced-example-filters.component.ts#L69-L79
+        filter: {
+          type: 'list',
+          config: {
+            selectText: 'Select...',
+            list: [
+              { value: 'Glenna Reichert', title: 'Glenna Reichert' },
+              { value: 'Kurtis Weissnat', title: 'Kurtis Weissnat' },
+              { value: 'Chelsey Dietrich', title: 'Chelsey Dietrich' },
+            ],
+          },
+        },
+        */
       },
       name: {//
-        title: 'Name'
+        title: 'Name',
+        filter: false
       },
       phone: {
-        title: 'Phone'
+        title: 'Phone',
+        filter: false
       },
       facebook_id: {//
         title: 'Facebook ID',
-        width: '120px'
+        width: '120px',
+        filter: false
       },
       skype_id: {//
         title: 'Skype ID',
-        width: '120px'
+        width: '120px',
+        filter: false
       },
       uid: {
         title: 'UID',
-        width: '120px'
+        width: '120px',
+        filter: false
       },
       email: {//
         title: 'Email',
+        filter: false
       },
       updated_at: {//
         title: 'Updated At',
-        width: '150px'
-
+        width: '150px',
+        filter: false
       },
 
     },

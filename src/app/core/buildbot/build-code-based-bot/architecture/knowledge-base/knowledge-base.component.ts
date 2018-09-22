@@ -108,14 +108,13 @@ export class KnowledgeBaseComponent implements OnInit {
 
   updateOrSaveConcept(data:{key:string, ner_type:string, conflict_policy:string, codeTextOutPutFromCodeEditor:string,handsontableData:any}) {
     let body: ICustomNerItem = data;
-
     // this.type = this.bot?'bot':'enterprise';
-    if (data.ner_type === 'single_match' || data.ner_type === 'with_metadata' || data.ner_type === 'regex' || data.ner_type === 'double_match') {
+    if (data.ner_type === 'single_match' || data.ner_type === 'with_metadata' || data.ner_type === 'double_match'||data.ner_type === 'regex') {
       // body = {values: data.codeTextOutPutFromCodeEditor.split(',')};
       body = {values: data.codeTextOutPutFromCodeEditor, ...body};
     }
-    // else if (data.ner_type === 'double_match'){
-    //   body = {values: JSON.parse(data.codeTextOutPutFromCodeEditor)};
+    // else if (data.ner_type === 'regex'){
+    //   body = {values: data.codeTextOutPutFromCodeEditor};
     // }
     else if (data.ner_type === 'database') {
       let handontableDataClone = JSON.parse(JSON.stringify(data.handsontableData));
@@ -157,7 +156,7 @@ export class KnowledgeBaseComponent implements OnInit {
         // "updated_by": 0,
         // "values"?: any[],
         "column_headers" : [],
-        "process_raw_text" : false,
+        // "process_raw_text" : false,
         ...body
       }
       // this.custumNerDataForSmartTable.push(newRowData);

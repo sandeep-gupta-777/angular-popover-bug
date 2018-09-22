@@ -1,13 +1,14 @@
-<!--<ng-template #rowDetails>-->
-  <div class="row create-concept-row h-100 ">
-    <div class="col-12 d-flex justify-content-between">
-      <button class="btn-theme-primary-outline" (click)="showTable$.emit(); _selectedRowData = {}">Go Back</button>
-      <form ngNativeValidate class="options d-flex align-items-center" #form="ngForm">
-        <span class="required">Concept Key</span>
+<div class="row create-concept-row h-100 ">
+  <div class="col-12 d-flex justify-content-between">
+    <button class="btn-theme-primary-outline" (click)="showTable$.emit(); _selectedRowData = {}">Go Back</button>
+    <form ngNativeValidate class="options d-flex align-items-end" #form="ngForm">
+      <div class="d-flex flex-column">
+        <span class="required p-0 mb-1">Concept Key</span>
         <input type="text" class="concept" placeholder="Concept Key" required
                [(ngModel)]="key" name="key">
-        <span class="required">Concept Type</span>
-        <!--<input type="text" class="concept" placeholder="Concept Type" [(ngModel)]="nerType"  name="nerType">-->
+      </div>
+      <div class="d-flex flex-column mx-2">
+        <span class="required p-0 mb-1">Concept Type</span>
         <select [(ngModel)]="ner_type" required name="ner_type">
           <option value="single_match">Single Match</option>
           <option value="double_match">Double Match</option>
@@ -16,43 +17,83 @@
           <option value="regex">Regex</option>
         </select>
 
-        <span *ngIf="!routeName" class="required">Override Policy</span>
-        <fieldset *ngIf="!routeName">
-          <div class="form-check-inline align-items-start mr-0">
-            <label class="form-check-label" for="radio1">
-              <input type="radio" class="form-check-input" id="radio1" required name="conflict_policy"
-                     [(ngModel)]="conflict_policy" value="override" checked>Override
-            </label>
-          </div>
-          <div class="form-check-inline">
-            <label class="form-check-label" for="radio2">
-              <input type="radio" class="form-check-input" id="radio2" required name="conflict_policy"
-                     [(ngModel)]="conflict_policy" value="merge">Merge
-            </label>
-          </div>
-        </fieldset>
-        <button class="btn-theme-primary mx-1" [disabled]="!form.valid" (click)="updateOrSaveConcept()"> {{ner_id?"Update": "Save" }}</button>
-        <div *ngIf="ner_id" (click)="deleteNer$.emit(ner_id)"><i class="fa fa-trash cursor-pointer"></i></div>
-      </form>
-    </div>
-<!---->
-    <div class="col-12 mt-2 h-100">
-      <div class="h-100" *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata' ||ner_type==='regex'; else table">
-        <div class="d-flex justify-content-end">
-          <label for="uploadInput" class="btn btn-theme-primary-outline">Upload File
-            <input hidden type="file"
-                   id="uploadInput"
-                   accept='text/plain' multiple
-                   (change)='openFile(uploadInput);uploadInput.value=null'
-                   #uploadInput>
-          </label>
-          <!---->
-          <!--<input type="file" id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)' #uploadInput>-->
-        </div>
-        <app-code-editor class="h-100  d-block" (textChangedEvent)="textChanged($event)" [text]="codeTextInputToCodeEditorObj"></app-code-editor>
       </div>
+
+      <div class="d-flex flex-column mx-2">
+        <label for="" class="m-0 p-0 mb-1">Process Raw Text</label>
+        <div style="height: 26px;">
+          <ui-switch name="process_raw_text" [(ngModel)]="process_raw_text" class="d-flex align-items-center mx-1"
+                     style="border:none;padding: 0;" size="small"></ui-switch>
+        </div>
+<!---->
+      </div>
+      <div class="d-flex flex-column mx-2" *ngIf="!routeName">
+        <span class="required p-0 mb-1">Override Policy</span>
+        <div class="d-flex" style="height: 26px;">
+          <!---->
+          <label
+            [ngClass]="{'label-selected':conflict_policy==='override','label-unselected': conflict_policy==='merge'}"
+            class="p-0 px-2 m-0"
+                 for="radio1">Override</label>
+          <input hidden type="radio" class="form-check-input" id="radio1" required name="conflict_policy"
+          [(ngModel)]="conflict_policy" value="override" checked>
+          <label
+            [ngClass]="{'label-unselected':conflict_policy==='override','label-selected': conflict_policy==='merge'}"
+            class="p-0 px-2 m-0" for="radio2">Merge</label>
+          <input hidden type="radio"  class="form-check-input" id="radio2" required name="conflict_policy"
+          [(ngModel)]="conflict_policy" value="merge">
+
+</div>
+
+</div>
+
+<!--<fieldset *ngIf="!routeName">-->
+        <!--<div>-->
+          <!--<span *ngIf="!routeName" class="required p-0">Override Policy</span>-->
+        <!--</div>-->
+        <!--<div class="label-wrapper d-flex" style="height: 26px">-->
+          <!--<label class="form-check-label" for="radio1">-->
+            <!--Override-->
+          <!--</label>-->
+          <!--<input hidden type="radio" class="form-check-input" id="radio1" required name="conflict_policy"-->
+                 <!--[(ngModel)]="conflict_policy" value="override" checked>-->
+          <!--<label class="form-check-label" for="radio2">-->
+            <!--<input hidden type="radio" class="form-check-input" id="radio2" required name="conflict_policy"-->
+                   <!--[(ngModel)]="conflict_policy" value="merge">Merge-->
+          <!--</label>-->
+        <!--</div>-->
+      <!--</fieldset>-->
+      <button class="btn-theme-primary mx-1" [disabled]="!form.valid" (click)="updateOrSaveConcept()">
+        {{ner_id?"Update": "Save" }}
+      </button>
+      <div *ngIf="ner_id" (click)="deleteNer$.emit(ner_id)"><i class="fa fa-trash cursor-pointer"></i></div>
+      <!--<label class="p-0 m-0 mx-2" *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata' ||ner_type==='regex'; "-->
+           <!--for="uploadInput"><i class="fa fa-upload cursor-pointer"></i></label>-->
+      <!--<input hidden type="file"-->
+             <!--id="uploadInput"-->
+             <!--accept='text/plain' multiple-->
+             <!--(change)='openFile(uploadInput);uploadInput.value=null'-->
+             <!--#uploadInput>-->
+    </form>
+  </div>
+  <!---->
+  <div class="col-12 mt-2" style="min-height: 90% !important;">
+    <div class="h-100"
+         *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata' ||ner_type==='regex'; else table">
+      <!--<div class="d-flex justify-content-end">-->
+        <!--<label for="uploadInput" class="btn btn-theme-primary-outline">Upload File-->
+          <!--<input hidden type="file"-->
+                 <!--id="uploadInput"-->
+                 <!--accept='text/plain' multiple-->
+                 <!--(change)='openFile(uploadInput);uploadInput.value=null'-->
+                 <!--#uploadInput>-->
+        <!--</label>-->
+      <!--</div>-->
+      <app-code-editor  class="h-100  d-block" (textChangedEvent)="textChanged($event)"
+                       [text]="codeTextInputToCodeEditorObj"></app-code-editor>
     </div>
   </div>
+</div>
 <!--</ng-template>-->
 
 

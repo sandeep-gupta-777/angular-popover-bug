@@ -78,9 +78,9 @@ export class ServerService {
     this.utilityService.showErrorToaster(errorObj.message);
   }
 
-  makeGetReq<T>(reqObj: { url: string, headerData?: any,noValidateUser?:boolean }): Observable<T> {
-    if(!reqObj.noValidateUser && this.constantsService.isApiAccessDenied(reqObj.url)){
-      return throwError("api access not allowed");
+  makeGetReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<T> {
+    if (!reqObj.noValidateUser && this.constantsService.isApiAccessDenied(reqObj.url)) {
+      return throwError('api access not allowed');
     }
     let headers = this.createHeaders(reqObj.headerData);
 
@@ -99,7 +99,7 @@ export class ServerService {
       })
       .do((value) => {
         this.changeProgressBar(false, 100);
-        this.IncreaseAutoLogoutTime()
+        this.IncreaseAutoLogoutTime();
       })
       .catch((e: any, caught: Observable<T>) => {
         console.log(e);
@@ -182,7 +182,7 @@ export class ServerService {
   }
 
 
-  fetchSpecificBotFromServerAndUpdateBotList(bot){
+  fetchSpecificBotFromServerAndUpdateBotList(bot) {
     let getBotByTokenUrl = this.constantsService.getSpecificBotByBotTokenUrl();
     let headerData: IHeaderData = {
       'bot-access-token': bot.bot_access_token
@@ -205,10 +205,10 @@ export class ServerService {
     return this.makePostReq<IOverviewInfoResponse>({url, body});
   }
 
-  IncreaseAutoLogoutTime(){
-    let autoLogoutInterval = 3600*1000;
+  IncreaseAutoLogoutTime() {
+    let autoLogoutInterval = 3600 * 1000;
     this.store.dispatch([
-      new SetAutoLogoutTime({time:Date.now()+autoLogoutInterval})
+      new SetAutoLogoutTime({time: Date.now() + autoLogoutInterval})
     ]);
   }
 

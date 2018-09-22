@@ -93,7 +93,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
         ]);
       });
     this.botlist$_sub = this.botlist$.subscribe((value) => {
-      debugger;
+      ;
       let activeVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.find((BotVersion) => {
         return this.bot.active_version_id === BotVersion.id;
       });

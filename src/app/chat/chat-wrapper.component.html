@@ -9,7 +9,9 @@
       <i class="fa fa-arrow-left cursor-pointer" (click)="navigate(myEChatFrame.CHAT_LIST)"
          [hidden]="frameEnabled===myEChatFrame.CHAT_LIST"></i>
       <span class="center-absolute">{{chatWindowTitle}}</span>
-      <a class="ml-auto" [routerLink]="['/preview',currentBot.id]" target="_blank"><i
+      <a class="ml-auto" [routerLink]="['/preview']"
+         [queryParams]="{bot_unique_name:currentBot.bot_unique_name,enterprise_unique_name:enterprise_unique_name}"
+         target="_blank"><i
         class="fa fa-external-link"></i></a>
 
       <div class="btn-group p-2" #dropdown="bs-dropdown" [autoClose]="false" dropdown (clickOutside)="dropdown.hide()">
@@ -63,6 +65,7 @@
       <app-chat-window *ngIf="frameEnabled===myEChatFrame.CHAT_BOX && this.messageData"
                        [selectedAvatar]="selectedAvatar"
                        [room]="currentRoom"
+                       [showBotIsThinking]="showBotIsThinking"
                        (sendMessageByHuman$)="sendMessageByHuman($event)"
                        [messageDataArray]="messageData"></app-chat-window>
     </div>
@@ -91,37 +94,13 @@
 
 <!--===============FULL SCREEN BELOW===================-->
 <div *ngIf="isFullScreenPreview" class="grid-chat-preview-full-screen">
-  <div *ngIf="loggeduser && loggeduser.user" class="header1 bg-theme-primary px-3 d-flex align-items-center">
-    <img class="logo-md mr-2 rounded-circle" src="{{logoSrc}}" alt="" style="border-radius: 50%;">
+  <div class="header1 bg-theme-primary px-3 d-flex align-items-center">
+    <img class="logo-md mr-2 rounded-circle" src="{{enterprise_logo||'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg'}}" alt="" style="border-radius: 50%;">
     <div class="d-flex flex-column text-white">
-      <div>{{loggeduser.user.first_name}}</div>
-      <div class="font-11">{{loggeduser.user.email}}</div>
+      <div>{{user_first_name}}</div>
+      <div class="font-11">{{user_email}}</div>
     </div>
-  </div>
-  <div class="header2 px-3 bg-theme-primary d-flex align-items-center">
-    <!--<img class="logo-md" src="https://image.flaticon.com/icons/svg/17/17004.svg" alt="">-->
-    <img *ngIf="currentBot" class="logo-md mr-2 rounded-circle"
-         [src]="currentBot.logo||'https://image.flaticon.com/icons/svg/17/17004.svg'">
-    <div *ngIf="currentBot" class="d-flex flex-column text-white">
-      <div>{{currentBot.name}}</div>
-      <div class="font-11">{{currentBot.description}}</div>
-    </div>
-    <!---->
-    <!--<div class="room-details ml-auto">-->
-    <div *ngIf="currentRoom" [style.visibility]="currentRoom.id?'visible':'hidden'"
-         class="d-flex flex-column align-items-end ml-auto mr-4 text-white">
-      <div>Room ID:</div>
-      <div class="font-11">{{currentRoom.id}}</div>
-    </div>
-    <div *ngIf="currentRoom && currentRoom.lastTemplateKey" class="d-flex mr-3 flex-column align-items-end text-white">
-      <div>Last template triggered:</div>
-      <div class="font-11">{{currentRoom.lastTemplateKey}}</div>
-    </div>
-    <div *ngIf="currentRoom && currentRoom.uid" class="d-flex  flex-column align-items-end text-white">
-      <div>Room uid:</div>
-      <div class="font-11">{{currentRoom.uid}}</div>
-    </div>
-    <div class="btn-group p-2" #dropdown="bs-dropdown" [autoClose]="false" dropdown (clickOutside)="dropdown.hide()">
+    <div class="btn-group p-2 ml-auto" #dropdown="bs-dropdown" [autoClose]="false" dropdown (clickOutside)="dropdown.hide()">
       <div dropdownToggle class="user cursor-pointer text-white" ><i class="fa fa-user"></i></div>
 
       <form *dropdownMenu class="dropdown-menu dropdown-menu-left p-3" role="menu" #form="ngForm" (ngSubmit)="saveConsumerDetails(form.value)"
@@ -152,14 +131,40 @@
     </div>
 
   </div>
+  <div class="header2 px-3 bg-theme-primary d-flex align-items-center">
+    <!--<img class="logo-md" src="https://image.flaticon.com/icons/svg/17/17004.svg" alt="">-->
+    <img *ngIf="currentBot" class="logo-md mr-2 rounded-circle"
+         [src]="currentBot.logo||'https://image.flaticon.com/icons/svg/17/17004.svg'">
+    <div *ngIf="currentBot" class="d-flex flex-column text-white">
+      <div>{{currentBot.name}}</div>
+      <div class="font-11">{{currentBot.description}}</div>
+    </div>
+    <!---->
+    <!--<div class="room-details ml-auto">-->
+    <div *ngIf="currentRoom" [style.visibility]="currentRoom.id?'visible':'hidden'"
+         class="d-flex flex-column align-items-end ml-auto mr-4 text-white">
+      <div>Room ID:</div>
+      <div class="font-11">{{currentRoom.id}}</div>
+    </div>
+    <div *ngIf="currentRoom && currentRoom.lastTemplateKey" class="d-flex mr-3 flex-column align-items-end text-white">
+      <div>Last template triggered:</div>
+      <div class="font-11">{{currentRoom.lastTemplateKey}}</div>
+    </div>
+    <div *ngIf="currentRoom && currentRoom.uid" class="d-flex  flex-column align-items-end text-white">
+      <div>Room uid:</div>
+      <div class="font-11">{{currentRoom.uid}}</div>
+    </div>
+
+  </div>
   <div class="chat-rooms">
     <app-chat-list class="mt-4"
                    (createCustomRoom$)="createCustomRoom()"
                    (createNewRoom$)="startNewChat($event)"></app-chat-list>
   </div>
   <div class="chat">
-    <app-chat-window *ngIf="frameEnabled===myEChatFrame.CHAT_BOX && this.messageData"
+    <app-chat-window
                      [selectedAvatar]="selectedAvatar"
+                     [showBotIsThinking]="showBotIsThinking"
                      [room]="currentRoom"
                      (sendMessageByHuman$)="sendMessageByHuman($event)"
                      [messageDataArray]="messageData">

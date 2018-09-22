@@ -101,25 +101,26 @@ export class ReportsComponent implements OnInit, OnDestroy {
       .subscribe((value:any)=>{
 
         /*To download the blob: https://stackoverflow.com/questions/19327749/javascript-blob-filename-without-link*/
-        var saveData = (function () {
-          var a:any = document.createElement("a");
-          document.body.appendChild(a);
-          a.style = "display: none";
-          return function (data, fileName) {
-            var blob = new Blob([value], {type: "octet/stream"}),
-              url = window.URL.createObjectURL(blob);
-            a.href = url;
-            a.download = fileName;
-            a.click();
-            window.URL.revokeObjectURL(url);
-          };
-        }());
-
-        // var data = { x: 42, s: "hello, world", d: new Date() },
          var fileName = "report_history_for_bot_id_"+smartTableCustomEventData.data.bot_id + ".csv";
-
-        saveData(null, fileName);
-        console.log(value);
+        this.utilityService.downloadText(value,fileName);
+        // var saveData = (function () {
+        //   var a:any = document.createElement("a");
+        //   document.body.appendChild(a);
+        //   a.style = "display: none";
+        //   return function (data, fileName) {
+        //     var blob = new Blob([value], {type: "octet/stream"}),
+        //       url = window.URL.createObjectURL(blob);
+        //     a.href = url;
+        //     a.download = fileName;
+        //     a.click();
+        //     window.URL.revokeObjectURL(url);
+        //   };
+        // }());
+        //
+        // // var data = { x: 42, s: "hello, world", d: new Date() },
+        //
+        // saveData(null, fileName);
+        // console.log(value);
         // this.utilityService.downloadArrayAsCSV(value, "asdsad");
       });
   }

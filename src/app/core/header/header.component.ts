@@ -49,10 +49,11 @@ export class HeaderComponent implements OnInit {
           try {
             this.logoutSetTimeoutRef && clearTimeout(this.logoutSetTimeoutRef);
           }catch (e) {
-            debugger;
+            ;
           }
           this.logoutSetTimeoutRef = setTimeout(() => {
             this.logout();
+            this.logoutSetTimeoutRef && clearTimeout(this.logoutSetTimeoutRef);
           }, (autoLogOutTime-Date.now()));
         }
       }
@@ -63,7 +64,7 @@ export class HeaderComponent implements OnInit {
       this.logoSrc = enterpriseProfileInfo.logo || this.logoSrc;
     });
     // this.activatedRoute.queryParams.subscribe((queryParams)=>{
-    //   debugger;
+    //   ;
     //   this.isFullScreen = queryParams['isArchitectureFullScreen']==='true'
     // })
   }

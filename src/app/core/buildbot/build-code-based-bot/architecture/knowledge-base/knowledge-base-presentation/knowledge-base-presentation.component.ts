@@ -12,6 +12,7 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 })
 export class KnowledgeBasePresentationComponent implements OnInit {
   _selectedRowData: ICustomNerItem = {};
+  process_raw_text = false;
   @Input() set selectedRowData(value: ICustomNerItem) {
 
     if (!value) return;
@@ -19,10 +20,16 @@ export class KnowledgeBasePresentationComponent implements OnInit {
     this.key = value.key;
     if (value.ner_type)
       this.ner_type = value.ner_type;
-    this.conflict_policy = value.conflict_policy;
+    this.conflict_policy = value.conflict_policy|| this.conflict_policy;
+    this.process_raw_text = value.process_raw_text;
     // this.codeTextInputToCodeEditor = value.values && value.values.join(',');
     // this.codeTextInputToCodeEditorObj.text = value.values && value.values.join(',');
-    this.codeTextInputToCodeEditorObj.text = value.values && JSON.stringify(value.values);
+    if (value.ner_type === 'regex') {
+      this.codeTextInputToCodeEditorObj.text = value.values && value.values[0];
+    } else {
+      this.codeTextInputToCodeEditorObj.text = value.values && JSON.stringify(value.values);
+    }
+
     this.codeTextInputToCodeEditorObj = {...this.codeTextInputToCodeEditorObj};
   }
 
@@ -35,7 +42,7 @@ export class KnowledgeBasePresentationComponent implements OnInit {
   key: string;
   routeName: string;
   ner_type: string = 'double_match';
-  conflict_policy: string;
+  conflict_policy: string="override";
   codeTextInputToCodeEditor: string;
   codeTextInputToCodeEditorObj: { text: string } = {text: ''};
   codeTextOutPutFromCodeEditor: string;
@@ -69,8 +76,20 @@ export class KnowledgeBasePresentationComponent implements OnInit {
   updateOrSaveConcept() {
 
     let codeTextFromEditor;
-    if (this.ner_type !=='database') {
+    if (this.ner_type === 'regex') {
+      if (!this.codeTextOutPutFromCodeEditor){
+        this.utilityService.showErrorToaster(`Syntax is not valid. ${this.ner_type} only accepts String`);
+        return;
+      }
+      codeTextFromEditor = [this.codeTextOutPutFromCodeEditor];
+    }
+    else if (this.ner_type !== 'database') {
       try {
+        if (!this.codeTextOutPutFromCodeEditor) {
+          this.utilityService.showErrorToaster(`Syntax is not valid. ${this.ner_type} only accespts Array literal`);
+          return;
+        }
+
         codeTextFromEditor = JSON.parse(this.codeTextOutPutFromCodeEditor);
       } catch (e) {
         // codeTextFromEditor = this.codeTextOutPutFromCodeEditor;
@@ -87,12 +106,17 @@ export class KnowledgeBasePresentationComponent implements OnInit {
       ner_type: this.ner_type,
       conflict_policy: this.conflict_policy,
       codeTextOutPutFromCodeEditor: codeTextFromEditor,
-      handsontableData: this.handsontableData
+      handsontableData: this.handsontableData,
+      process_raw_text:this.process_raw_text
     };
     let ner_id_str = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
     if (ner_id_str)
       outputData['id'] = Number(ner_id_str);
     this.updateOrSaveConcept$.emit(outputData);
+  }
+
+  click(){
+    console.log(this.form.value)
   }
 
 }

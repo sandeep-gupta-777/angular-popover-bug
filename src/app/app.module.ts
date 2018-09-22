@@ -38,14 +38,16 @@ import {BotWelcomeComponent} from './chat/bot-welcome-panel/bot-welcome.componen
 import {QuickReplyComponent} from './chat/carousel/quick-reply/quick-reply.component';
 import {CardCarouselComponent} from './chat/carousel/card-carousel/card-carousel.component';
 import {ClickOutsideModule} from 'ng2-click-outside';
+import {BotThinkingBubbleComponent} from './chat/carousel/bot-thinking-bubble/bot-thinking-bubble.component';
 // import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 
 const routes: Route[] = [
   {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
   {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad:[AuthGaurdService]},
-  {path: '', redirectTo:"core/viewbots/chatbot", pathMatch:"full"},
-  {path: 'preview/:id', component: ChatWrapperComponent, data: {isFullScreenPreview: true}},
+  {path: 'preview', component: ChatWrapperComponent, data: {isFullScreenPreview: true}},
+  // {path: 'preview', component: NotFoundComponent, data: {isFullScreenPreview: true}},
   {path: 'denied', component: NotAuthorisedComponent},
+  {path: '', redirectTo:"core/viewbots/chatbot", pathMatch:"full"},
   {path: '**', component: NotFoundComponent}
 ];
 
@@ -61,6 +63,7 @@ const routes: Route[] = [
     ChatListComponent,
     ChatItemComponent,
     ChatroomComponent,
+    BotThinkingBubbleComponent,
     BotWelcomeComponent,
     CardCarouselComponent,
     QuickReplyComponent,

@@ -4,8 +4,9 @@
       <a class="p-0 h4 cursor-pointer" [routerLink]="['/core','reports']" ><i class="fa fa-angle-left pr-2"></i></a>
       <a class="p-0 h4 ">Subscribe to Report</a>
       <button class="btn btn-theme-primary-outline ml-auto mr-3" routerLink="/core/reports">Cancel</button>
-      <button class="btn btn-theme-primary" *ngIf="!report_id" (click)="updateReport(Primarytemplate, Dangertemplate)">Create</button>
-      <button class="btn btn-theme-primary" *ngIf="report_id" (click)="updateReport(Primarytemplate, Dangertemplate)">Update</button>
+      <button class="btn btn-theme-primary" *ngIf="!report_id" (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Create</button>
+      <button class="btn btn-theme-primary" *ngIf="report_id" (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Update</button>
+      <i class="fa fa-trash cursor-pointer" (click)="showReportDeleteModel(reportDeleteTemplate)"></i>
     </div>
   </div>
 
@@ -52,7 +53,35 @@
   <!---->
 </ng-template>
 
-<ng-template #Dangertemplate>
+
+
+<ng-template #reportDeleteTemplate>
+
+  <div class="danger-modal center-modal">
+    <div class="top-dec"></div>
+    <div class="modal-header">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete Report?</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body pt-0">
+      <form #form="ngForm">
+        <div class="text-center my-1">
+          <p class="mb-3">This will delete the report and all it’s instances from history
+            will also be removed. Are you sure you want to delete it?</p>
+        </div>
+        <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button class=" btn btn-theme-danger" (click)="deleteReport()">Delete</button>
+      </form>
+    </div>
+  </div>
+
+
+</ng-template>
+
+<ng-template #unsubscribeTemplate>
   <div class="danger-modal">
     <div class = "top-dec"></div>
     <div class="modal-header" >

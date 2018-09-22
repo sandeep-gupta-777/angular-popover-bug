@@ -10,7 +10,8 @@ export enum EChatFrame {
 export enum EBotMessageMediaType{
   image="image",
   text="text",
-  quickReply="quickReply"
+  quickReply="quickReply",
+  bot_thinking="bot_thinking"
 }
 
 export interface IMessageData extends IGeneratedMessageItem{
@@ -45,7 +46,7 @@ export interface IChatSessionState {
     id: number,
     name?: string,
     logo?: string,
-    token?: string
+    bot_access_token?: string
   },
   currentUId: string,
   rooms: IRoomData[],

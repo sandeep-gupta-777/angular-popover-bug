@@ -68,7 +68,6 @@ export class CodeBasedBotDetailComponent implements OnInit {
     this.end_date = this.utilityService.getPriorDate(30);
     this.getOverviewInfo();
     this.activatedRoute.queryParams.subscribe((queryParams)=>{
-      debugger;
       this.isArchitectureFullScreen= queryParams['isArchitectureFullScreen']==='true'
     })
   }

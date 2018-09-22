@@ -90,12 +90,16 @@ export interface IBot {
   "transactions_per_pricing_unit"?: number,
   "updated_at"?: string,
   "updated_by"?: number,
+
+  enterprise_name?:string,
+  enterprise_logo?:string,
   // these r store properties and will not come from server...delete it before updating the bot
   "store_bot_versions" ?: Partial<IBotVersionData>[];
   store_selected_version?:number,
 
   /*Form validations*/
   form_validation_basic_info?:boolean,
+  form_validation_data_management?:boolean,
   form_validation_avator?:boolean,
   form_validation_integration?:boolean,
 }

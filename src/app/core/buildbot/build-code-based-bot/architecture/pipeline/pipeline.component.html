@@ -10,7 +10,7 @@
   </div>
 
   <div class="col-8" style="height:90%;overflow-y: scroll">
-    <h4 class="heading my-2 ">Available Intelligence Modules</h4>
+    <h4 class="heading mb-2 mt-3">Available Intelligence Modules</h4>
     <ul class="aim-list  px-0 d-flex align-items-start align-content-start flex-row flex-wrap"
         [dragula]='"first-bag"' [dragulaModel]='aiModules'>
       <li class="border module-box mb-2 px-2 mr-1"
@@ -24,7 +24,7 @@
   </div>
   <div class="col-4 pipeline-wrapper d-flex flex-column" style="height: 90%;overflow-y: auto">
     <!--<div class="col-12 border pr-0 pipeline d-flex flex-column" style="height: 90%;overflow-y: scroll">-->
-      <h4 class="heading my-2">Bot Intelligence Pipeline</h4>
+      <h4 class="heading mb-2 mt-3">Bot Intelligence Pipeline</h4>
       <div class="flex-grow-1"  [dragula]='"first-bag"' [dragulaModel]='pipeLine'>
         <div *ngFor="let aiModule of (pipeLine|pipelineFilter:searchKeyword);let targetIndexNew = index">
           <div class="border mb-2 mr-3 module-box border-danger"
@@ -53,7 +53,7 @@
 
     <div class="modal-body pt-0">
      <div *ngFor="let Key of myObject.keys(selectedPipeline.input_params)" class="d-flex align-items-center justify-content-center my-1">
-       <label class="mb-0">{{Key|integrationNameFormatter|titlecase }}</label>
+       <label class="mb-0" style="width: 100px; text-align: right">{{Key|integrationNameFormatter|titlecase }}</label>
        <input type="text" class="input-material" [(ngModel)] = "selectedPipeline.input_params[Key]">
      </div>
       <button class="btn btn-theme-success-sm" (click)="modalRef.hide()">Submit</button>
