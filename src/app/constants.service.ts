@@ -114,7 +114,7 @@ export class ConstantsService {
           ETabNames.update_profile,
 
         ],//tab, hyperlink, button
-        api: []
+        api: [EAPINames.enterprise]
       },
       'Tester': {
         route: [

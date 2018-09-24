@@ -13,7 +13,7 @@
 <!--</div>-->
 <!--text input starts-->
 <div class="footer d-flex align-items-center text-muted" style="height: 45px">
-  <input class="px-2 flex-grow-1" placeholder="start new chat" autofocus [(ngModel)]="messageByHuman" type="text"
+  <input class="px-2 flex-grow-1" placeholder="Type a message" autofocus [(ngModel)]="messageByHuman" type="text"
          (keyup.enter)="sendMessageByHuman(messageByHuman)">
   <div class="d-flex justify-content-center px-2">
     <span class="icon"><i class="fa fa-send cursor-pointer" (click)="sendMessageByHuman(messageByHuman)"></i></span>
