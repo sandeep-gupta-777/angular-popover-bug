@@ -48,7 +48,8 @@ export enum ETabNames {
   botversion = 'botversion',
   sessions = 'sessions',
   consumers = 'consumers',
-  update_profile="update_profile"
+  update_profile="update_profile",
+  testing = "testing"
 }
 
 export enum ERoleName {
@@ -92,7 +93,8 @@ export class ConstantsService {
           ETabNames.action_items,
           ETabNames.UI_SWITCH,
           ETabNames.report,
-          ETabNames.analytics2,
+          // ETabNames.analytics2,
+          ETabNames.testing,
           ETabNames.pipeline,
           ETabNames.knowledgebase,
           ETabNames.botversion,
@@ -122,9 +124,9 @@ export class ConstantsService {
           ERouteNames.customner,
           ERouteNames.enterprise_profile,
           ERouteNames.report,
-          ERouteNames.sessions,
-          ERouteNames.consumer,
-          ERouteNames.analytics2,
+          // ERouteNames.sessions,
+          // ERouteNames.consumer,
+          // ERouteNames.analytics2,
         ],
         module: [],
         tab: [// =  tab, hyperlink, button
@@ -719,29 +721,33 @@ export class ConstantsService {
     {data: 4, type: 'text', readOnly: true},
     {data: 5, type: 'text', readOnly: true},
   ];
-  readonly HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders = ['Key', 'Title', 'Payload'];
+  
   readonly HANDSON_TABLE_KNOWLEDGE_BASE_SETTING = {
     cells: function (row, col) {
 
       /*To make first row highlighted*/
       /*https://docs.handsontable.com/5.0.2/demo-conditional-formatting.html*/
       var cellProperties = {};
-      var data = this.instance.getData();
+      // var data = this.instance.getData();
 
 
-      if (row === 0) {
-        cellProperties["renderer"] = function(instance, td, row, col, prop, value, cellProperties) {
-          Handsontable.renderers.TextRenderer.apply(this, arguments);
-          td.style.fontWeight = 'bold';
-        }; // uses function directly
-      }
+      // if (row === 0) {
+      //   cellProperties["renderer"] = function(instance, td, row, col, prop, value, cellProperties) {
+      //     Handsontable.renderers.TextRenderer.apply(this, arguments);
+      //     td.style.fontWeight = 'bold';
+      //   }; // uses function directly
+      // }
       return cellProperties;
     }
   };
+  readonly HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders = ['', '', '',"","",'','','',''];
   readonly HANDSON_TABLE_KNOWLEDGE_BASE_columns = [
-    {data: 0, type: 'text'},
-    {data: 1, type: 'text'},
-    {data: 2, type: 'text'},
+    // {data: 0, type: 'text'},
+    // {data: 1, type: 'text'},
+    // {data: 2, type: 'text'},
+    // {data: 3, type: 'text'},
+    // {data: 4, type: 'text'},
+    // {data: 5, type: 'text'}
   ];
 
 

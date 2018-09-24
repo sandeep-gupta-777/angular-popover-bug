@@ -27,7 +27,7 @@ export class BotTestingComponent implements OnInit {
   isData: boolean = false;
   modalRef: BsModalRef;
   tableChanged: boolean;
-
+  cancelTestFlag:boolean;
   constructor(
     private serverService: ServerService,
     private modalService: BsModalService,
@@ -122,6 +122,7 @@ export class BotTestingComponent implements OnInit {
   }
 
   beginTest(Primarytemplat) {
+    this.cancelTestFlag = true;
     this.serverService.makeGetReq<{ meta: any, objects: ITestcases[] }>(
       {
         url: this.testCasesUrl,
@@ -129,6 +130,7 @@ export class BotTestingComponent implements OnInit {
       }
     ).subscribe((value) => {
       if (value.objects[0].status === 'RUNNING') {
+        this.cancelTestFlag = true;
         this.openCreateBotModal(Primarytemplat);
       }
       else {
@@ -140,8 +142,10 @@ export class BotTestingComponent implements OnInit {
         )
           .subscribe((value) => {
             this.testCaseData = value.data;
+            this.cancelTestFlag = false;
           });
       }
+      
     });
 
   }
@@ -159,7 +163,8 @@ export class BotTestingComponent implements OnInit {
       }
     )
       .subscribe((value) => {
-
+        this.cancelTestFlag = false;
+        
       });
   }
 }

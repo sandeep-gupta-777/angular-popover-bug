@@ -5,7 +5,8 @@
     <button class="btn-theme-primary-outline mr-2" (click)="exportToCSV()">Export to CSV</button>
     <button class="btn-theme-primary mr-2" (click)="updateTC()" *ngIf = "isData && tableChanged">Update test Case</button>
     <button class="btn-theme-primary mr-2" (click)="createTC()" *ngIf = "!isData && tableChanged">Create test Case</button>
-    <button class="btn-theme-primary" (click)="beginTest(Primarytemplat)">Begin Test</button>
+    <button class="btn-theme-danger" (click)="beginTest(Primarytemplat)" *ngIf="cancelTestFlag">Cancel Test</button>
+    <button class="btn-theme-primary" (click)="beginTest(Primarytemplat)" *ngIf="!cancelTestFlag">Begin Test</button>
   </div>
 </div>
 

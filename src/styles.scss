@@ -135,9 +135,9 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
   font-size: $font-size-xs;
   color: white;
   cursor: pointer;
-  &:hover {
-    background-color: #0291d2 !important;
-  }
+  // &:hover {
+  //   background-color: #0291d2 !important;
+  // }
 }
 
 .btn-theme-primary-outline {
@@ -353,6 +353,10 @@ th, td {
   font-family: "Helvetica", sans-serif;
   font-weight: bold;
   color: #474747;
+}
+
+.handsontable{
+  position: absolute;
 }
 
 .search-theme-input-with-search {

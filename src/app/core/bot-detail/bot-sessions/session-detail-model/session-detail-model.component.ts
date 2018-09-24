@@ -7,6 +7,10 @@ import {Observable} from 'rxjs';
 import {st} from '@angular/core/src/render3';
 import {element} from 'protractor';
 import {UtilityService} from '../../../../utility.service';
+import { ViewBotStateModel } from '../../../view-bots/ngxs/view-bot.state';
+import { Select } from '@ngxs/store';
+import { IHeaderData } from '../../../../../interfaces/header-data';
+import { IMessageData } from '../../../../../interfaces/chat-session-state';
 
 @Component({
   selector: 'app-session-detail-model',
@@ -35,6 +39,8 @@ export class SessionDetailModelComponent implements OnInit {
   @Input() showPrevButton: boolean = false;
   @Input() pageNumberOfCurrentRowSelected: number;
   @Input() indexOfCurrentRowSelected: number;
+  @Select() botlist$: Observable<ViewBotStateModel>;
+  allBotList: IBot[];
   sessionMessageData$: Observable<ISessionMessage>;
   sessionMessageData: ISessionMessageItem[];
   sessionMessageDataCopy: ISessionMessageItem[];
@@ -48,7 +54,7 @@ export class SessionDetailModelComponent implements OnInit {
     'generatedDf': {},
     'generatedMsg': Array<any>, /*bot message*/
     'message': { 'text': string }[], /*user message*/
-
+    'messageStore': {}
   };
   activeBotPanelData;
   // finalDFPanelData;
@@ -63,7 +69,9 @@ export class SessionDetailModelComponent implements OnInit {
 
 
   ngOnInit() {
-
+    this.botlist$.subscribe((value) => {
+      this.allBotList = value.allBotList;
+    });
     // this.loadSessionById(this._session.id);
   }
 
@@ -87,19 +95,46 @@ export class SessionDetailModelComponent implements OnInit {
 
 
   transactionIdChangedInModel(txnId) {
-
+    debugger;
     this.transactionIdSelectedInModel = txnId;
     /*This data will show under Manager Bot*/
     let messageDataForGiveTxnId = this.sessionMessageData.find((message) => {
       return message.transaction_id === txnId;
+    });
+    let botMessageDataForGiveTxnId = this.sessionMessageData.find((message) => {
+      return (message.transaction_id === txnId && message.user_type === "bot" ) ;
     });
     this.sessionMessageDataCopy = [...this.sessionMessageData];
     this.managerPanelData = {
       'generatedDf': messageDataForGiveTxnId.generated_df,
       'generatedMsg': messageDataForGiveTxnId.generated_msg, /*bot message*/
       'message': messageDataForGiveTxnId.message, /*user message*/
+      'messageStore':botMessageDataForGiveTxnId.message_store
     };
-    this.activeBotPanelData = messageDataForGiveTxnId.message_store;
+    let activeBotId = botMessageDataForGiveTxnId.message_store.activeBotId;
+    let activeBotRoomId = botMessageDataForGiveTxnId.message_store.activeBotRoomId;
+    this.activeBotPanelData = botMessageDataForGiveTxnId.message_store;
+    
+    if(activeBotId){
+      let activeBotAccessTokenId = this.allBotList.find(bot => bot.id === activeBotId).bot_access_token;
+      let headerData: IHeaderData = {
+        "bot-access-token": activeBotAccessTokenId
+      };
+      let surl = this.constantsService.getSessionsByIdUrl(activeBotRoomId);
+      this.serverService.makeGetReq({url : surl, headerData})
+      .subscribe((newSession : ISessionItem)=>{
+        let murl = this.constantsService.getSessionsMessageUrl(newSession.id);
+        this.serverService.makeGetReq({url : surl, headerData})
+        .subscribe((value : ISessionMessage)=>{
+          let activeBotMessage = value.objects.find(message => message.transaction_id === this.transactionIdSelectedInModel);
+          this.activeBotPanelData = {
+            'generatedDf': activeBotMessage.generated_df,
+            'generatedMsg': activeBotMessage.generated_msg, /*bot message*/
+            'message': activeBotMessage.message,
+          }
+        });
+      });
+    }
     this.tabClicked(this.activeTab);
 
   }

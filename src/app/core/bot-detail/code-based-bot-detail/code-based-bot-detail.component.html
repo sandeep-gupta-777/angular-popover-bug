@@ -44,7 +44,7 @@
              (click)="tabChanged('architecture')"
              [queryParams]="{build:'architecture'}"><strong>Architecture</strong></a>
         </li>
-        <li class="nav-item" [ngClass]="{'tab-active':selectedTab==='testing'}">
+        <li *myIf="myETabNames.testing" class="nav-item" [ngClass]="{'tab-active':selectedTab==='testing'}">
           <a class="nav-link heading" [routerLink]="['.']"
              queryParamsHandling="merge"
              replaceUrl="true"

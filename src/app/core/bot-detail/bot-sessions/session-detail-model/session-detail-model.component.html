@@ -91,11 +91,11 @@
                 <!--TODO: *ngIf="bot.child_bots && bot.child_bots.length>0" below-->
                 <li class="nav-item px-0" >
                   <a class="nav-link p-0 mr-2" [ngClass]="{'tab-active':activeTab==='manager_bot'}"
-                     (click)="tabClicked('manager_bot')"><strong>MANAGER BOT</strong></a>
+                     (click)="tabClicked('manager_bot')"><strong>TRANSACTION INFO</strong></a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link p-0" [ngClass]="{'tab-active':activeTab==='active_bot'}"
-                     (click)="tabClicked('active_bot')"><strong>ACTIVE BOT</strong></a>
+                     (click)="tabClicked('active_bot')" *ngIf="bot.is_manager"><strong>ACTIVE BOT</strong></a>
                 </li>
                 <li class="nav-item ml-auto">
                   <a class="nav-link p-0 mr-2" [ngClass]="{'tab-active':activeTab==='final_df'}"

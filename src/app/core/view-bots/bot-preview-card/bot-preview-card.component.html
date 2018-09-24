@@ -3,7 +3,7 @@
     <div class="danger-modal">
       <div class="top-dec"></div>
       <div class="modal-header">
-        <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete: <strong>{{bot.name }}</strong>
+        <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete bot&nbsp;<strong>{{bot.name}}&nbsp;</strong>
           ?</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
           <span aria-hidden="true">&times;</span>
@@ -145,28 +145,37 @@
             Active
           </div>
         <div class = "ml-1 " style="align-self: center" *ngIf="bot.bot_type === 'chatbot'">
-          Active(v{{bot.active_version.version}})
+<!--<<<<<<< HEAD-->
+          <!--Active(v{{bot.active_version.version}})-->
+        <!--</div>-->
+      <!--<div class="ml-auto"></div>-->
+      <!--<div [hidden]="bot.bot_type !== 'chatbot'" class = "ml-1" style="align-self: center">-->
+        <!--Latest(v{{bot.latest_version.version}})-->
+<!--=======-->
+          Active(v{{bot.active_version.version || 0}})
         </div>
-      <div class="ml-auto"></div>
-      <div [hidden]="bot.bot_type !== 'chatbot'" class = "ml-1" style="align-self: center">
-        Latest(v{{bot.latest_version.version}})
+      <div class="ml-auto" style="align-self: center">
+        <div class = " show-on-parent-hover" style="align-self: center">
+          Latest(v{{bot.latest_version.version || 0}})
+        </div>
+          <div class="btn-group click-save-wrapper" dropdown style="align-self: center; font-size: 18px;padding:0;">
+            <i dropdownToggle class="fa fa-ellipsis-v click-save-wrapper px-2"></i>
+            <ul *dropdownMenu class="dropdown-menu click-save-wrapper" role="menu">
+              <li role="menuitem">
+                <a class="dropdown-item cursor-pointer click-save-wrapper" (click)="utilityService.copyToClipboard(bot.bot_access_token)" >Copy Access Token</a>
+              </li>
+              <li role="menuitem">
+                <a class="dropdown-item cursor-pointer click-save-wrapper" (click)="utilityService.copyToClipboard(bot.enterprise_id)">Copy Enterprise ID</a>
+              </li>
+              <!-- <li role="menuitem">
+                <a class="dropdown-item">Make Bot Active</a>
+              </li> -->
+              <li role="menuitem">
+                <a class="dropdown-item click-save-wrapper" (click)="openModal(template)">Delete</a>
+              </li>
+            </ul>
+<!--&gt;>>>>>> b57d07d44a83fa8a33cad4ce66dff433fb840a27-->
       </div>
-        <div class="btn-group click-save-wrapper" dropdown style="align-self: center; font-size: 18px;padding:0;">
-          <i dropdownToggle class="fa fa-ellipsis-v click-save-wrapper px-2"></i>
-          <ul *dropdownMenu class="dropdown-menu click-save-wrapper" role="menu">
-            <li role="menuitem">
-              <a class="dropdown-item cursor-pointer click-save-wrapper" (click)="utilityService.copyToClipboard(bot.bot_access_token)" >Copy Access Token</a>
-            </li>
-            <li role="menuitem">
-              <a class="dropdown-item cursor-pointer click-save-wrapper" (click)="utilityService.copyToClipboard(bot.enterprise_id)">Copy Enterprise ID</a>
-            </li>
-            <!-- <li role="menuitem">
-              <a class="dropdown-item">Make Bot Active</a>
-            </li> -->
-            <li role="menuitem">
-              <a class="dropdown-item click-save-wrapper" (click)="openModal(template)">Delete</a>
-            </li>
-          </ul>
         </div>
       <!--</div>-->
     </div>

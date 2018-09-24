@@ -53,6 +53,7 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
+// <<<<<<< HEAD
     this.bot_type  =  this.activatedRoute.snapshot.queryParamMap.get('bot_type')|| this.activatedRoute.snapshot.data['bot_type'];
 
     try {
@@ -60,6 +61,13 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
     } catch (e) {
       this.isManager = false;
     }
+// =======
+    // try {
+    //   this.isManager = this._bot.child_bots.length !== 0;
+    // } catch (e) {
+    //   this.isManager = false;
+    // }
+// >>>>>>> b57d07d44a83fa8a33cad4ce66dff433fb840a27
     this.botlist$.subscribe((botlist) => {
 
       this.allbotList = botlist.allBotList;
