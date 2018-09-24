@@ -13,7 +13,7 @@ import {ConstantsService} from '../../../../../constants.service';
 import {ServerService} from '../../../../../server.service';
 import {SetPipelineModuleMasterData} from '../../../../../ngxs/app.action';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import {first} from 'rxjs/operators';
+// import {first} from 'rxjs/operators';
 import {EFormValidationErrors, UtilityService} from '../../../../../utility.service';
 
 @Component({
@@ -100,6 +100,7 @@ export class PipelineComponent implements OnInit {
   }
 
   ngDoCheck() {
+    console.log('do check');
     let changes = this.iterableDiffer.diff(this.pipeLine);
     if (changes) {
       this.prepareAndDispatch();

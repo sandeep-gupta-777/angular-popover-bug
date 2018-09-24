@@ -1,4 +1,5 @@
-<!--<p>{{_bot|json}}</p>-->
+<!--<p>{{pipeLine|json}}</p>-->
+
 <div class="row m-0" style="height: 100%;">
   <div style="height: 10%" class="col-12 mb-1 d-flex p-0 justify-content-between">
     <p class="text-theme-secondary my-2">Drag and drop modules from 'Available Intelligence Modules' to 'Bot Intelligence
@@ -10,7 +11,7 @@
   </div>
 
   <div class="col-8" style="height:90%;overflow-y: scroll">
-    <h4 class="heading mb-2 mt-3">Available Intelligence Modules</h4>
+    <h4 class="heading mb-2 mt-3">Available Intelligence Modules({{aiModules.length}})</h4>
     <ul class="aim-list  px-0 d-flex align-items-start align-content-start flex-row flex-wrap"
         [dragula]='"first-bag"' [dragulaModel]='aiModules'>
       <li class="border module-box mb-2 px-2 mr-1"
@@ -24,7 +25,7 @@
   </div>
   <div class="col-4 pipeline-wrapper d-flex flex-column" style="height: 90%;overflow-y: auto">
     <!--<div class="col-12 border pr-0 pipeline d-flex flex-column" style="height: 90%;overflow-y: scroll">-->
-      <h4 class="heading mb-2 mt-3">Bot Intelligence Pipeline</h4>
+      <h4 class="heading mb-2 mt-3">Bot Intelligence Pipeline ({{pipeLine.length}})</h4>
       <div class="flex-grow-1"  [dragula]='"first-bag"' [dragulaModel]='pipeLine'>
         <div *ngFor="let aiModule of (pipeLine|pipelineFilter:searchKeyword);let targetIndexNew = index">
           <div class="border mb-2 mr-3 module-box border-danger"

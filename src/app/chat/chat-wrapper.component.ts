@@ -172,7 +172,7 @@ export class ChatWrapperComponent implements OnInit {
     });
 
     let bot_unique_name = this.activatedRoute.snapshot.queryParams['bot_unique_name'];//testingbot
-    if (this.currentBot.bot_unique_name !== bot_unique_name) {
+    if (this.currentBot && this.currentBot.bot_unique_name !== bot_unique_name) {
       let enterprise_unique_name = this.activatedRoute.snapshot.queryParams['enterprise_unique_name'];//testingbot
       if (!bot_unique_name) return;
       let url = `https://dev.imibot.ai/api/v1/bot/preview/?bot_unique_name=${bot_unique_name}&enterprise_unique_name=${enterprise_unique_name}`;
