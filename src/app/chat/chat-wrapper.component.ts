@@ -222,35 +222,35 @@ export class ChatWrapperComponent implements OnInit {
 
   /*this is called when bot preview button or create a custom room button is clicked*/
   startNewChat(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot }) {
-    if (!startNewChatData.bot) {
-      startNewChatData.bot = this.currentBot;
-    }
-    /*create a new chat room with a uid and without room id
-    * add first message of bot into the room
-    * open the chat window
-    * */
-    /*
-    * 1. Post send api to server with first message=> will get back consent message and room id
-    * 2. create a new room with room id
-    * */
-    let url = this.constantsService.getStartNewChatLoginUrl();
-    let headerData: IHeaderData = {
-      'bot-access-token': startNewChatData.bot.bot_access_token,
-      'auth-token': null,
-      'user-access-token': null,
-      'content-type': 'application/json'
-    };
-    let body /*: ISendApiRequestPayload */ = {
-      'type': 'bot',
-      'msg': 'hi',
-      'platform': 'web',
-      // 'consumer': {
-      //   'uid': this.current_uid,
-      // },
-      'consumer': startNewChatData.consumerDetails
-    };
 
-    this.serverService.makePostReq({url, body, headerData})
+    startNewChatData.bot = startNewChatData.bot?startNewChatData.bot: this.currentBot;//todo: is it really required?
+
+    /*
+    * Before starting a new chat, we need to check if the currentBot has imiconnect
+    * integration is on or not, its not on=> use send API
+    * if its on => use IMI connect
+    * */
+    let shouldStartChatViaImiConnectSDK = false;
+    try {
+      let botImiConnectIntegrationInfo = startNewChatData.bot.integrations.fulfillment_provider_details.imiconnect;
+      shouldStartChatViaImiConnectSDK = botImiConnectIntegrationInfo && botImiConnectIntegrationInfo.enabled && (!!botImiConnectIntegrationInfo.send_via_connect);
+    }catch (e) {
+      console.log(e);
+    }
+
+    /*========================Creation of chat room using IMI CONNECT===============================*/
+    if(shouldStartChatViaImiConnectSDK){
+      this.serverService.startANewChatUsingImiConnectSdk(startNewChatData);
+      return;
+    }
+
+    /*========================Creation of chat room using Send API===============================*/
+
+    /*FLOW:
+    * 1. Post send api to server with first message=> will get back consent message and room id
+    * 2. create a new room using room id
+    * */
+    this.serverService.startANewChatUsingSendApi(startNewChatData)
       .subscribe((value: IBotPreviewFirstMessage) => {
 
         /*1. create a new room with roomid
@@ -403,4 +403,5 @@ export class ChatWrapperComponent implements OnInit {
   closeConsumerDropdown() {
     alert();
   }
+
 }

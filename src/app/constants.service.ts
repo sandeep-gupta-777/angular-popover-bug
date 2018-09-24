@@ -164,6 +164,30 @@ export class ConstantsService {
     });
   }
 
+   NEW_BOT_VERSION_TEMPLATE = {
+    'bot_id': 0,
+    'comment': '',
+    'df_rules': '',
+    'df_template': '',
+    'generation_rules': '',
+    'generation_templates': '',
+    'id': -1,
+    'workflow': '',
+    'updated_fields': {
+      'df_template': false,
+      'df_rules': false,
+      'generation_rules': false,
+      'generation_template': false,
+      'workflows': false
+    },
+    'forked_from': -1,
+  };
+
+  getNewBotVersionTemplate(botId:number){
+    this.NEW_BOT_VERSION_TEMPLATE.bot_id = botId;
+    return this.NEW_BOT_VERSION_TEMPLATE;
+  }
+
   static state: any;
   loggedUser: IUser;
   @Select() app$: Observable<IAppState>;
@@ -987,7 +1011,8 @@ export class ConstantsService {
         appSecret: '',
         enabled: false,
         serviceKey: '',
-        streamName: ''
+        streamName: '',
+        send_via_connect:""
       }
     }
 

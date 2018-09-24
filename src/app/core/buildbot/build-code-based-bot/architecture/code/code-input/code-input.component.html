@@ -75,6 +75,7 @@
         <div class="d-flex align-items-center flex-bot-versioning-toaster"
              (click)="changeSelectedVersion(version); showVersionList = false; tabClicked('df_template');">
           <!--<div class="active-label-text">{{(version.id === (activeVersion && activeVersion.id))?'Active':'Inactive'}}</div>-->
+          <!--<p>{{activeVersion|json}}</p>-->
           <div class="version-active-label">
             <div>{{version.id === (activeVersion && activeVersion.id)?'Active':'Inactive'}}</div>
           </div>

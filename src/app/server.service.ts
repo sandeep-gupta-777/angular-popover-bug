@@ -10,12 +10,13 @@ import {_throw} from 'rxjs/observable/throw';
 import 'rxjs/add/operator/do';
 import {UtilityService} from './utility.service';
 import {
+  SaveVersionInfoInBot,
   SetAllBotListAction,
   SetCodeBasedBotListAction,
   SetPipeLineBasedBotListAction,
   UpdateBotInfoByIdInBotInBotList
 } from './core/view-bots/ngxs/view-bot.action';
-import {IBot, IBotResult} from './core/interfaces/IBot';
+import {IBot, IBotResult, IBotVersionResult} from './core/interfaces/IBot';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SetAutoLogoutTime, SetMasterIntegrationsList, SetProgressValue} from './ngxs/app.action';
 import {IIntegrationMasterListItem, IIntegrationOption} from '../interfaces/integration-option';
@@ -24,6 +25,9 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/filter';
+import {IConsumerDetails} from './chat/ngxs/chat.state';
+declare var IMI: any;
+declare var $: any;
 
 @Injectable({
   providedIn: 'root'
@@ -291,6 +295,140 @@ export class ServerService {
       url = this.constantsService.updateOrDeleteEnterpriseNer(ner_id);
     }
     return this.makeDeleteReq({url, headerData});
+  }
+
+  getAllVersionOfBotFromServerAndStoreInBotInBotList(botId,bot_access_token){
+    let url = this.constantsService.getAllVersionsByBotId();
+    // let botId = this.bot.id;
+    this.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': bot_access_token}})
+      .subscribe((botVersionResult) => {
+        this.store.dispatch([
+          new SaveVersionInfoInBot({data: botVersionResult.objects, botId: botId})
+        ]);
+      });
+  }
+
+
+
+
+  startANewChatUsingImiConnectSdk(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot }){
+    var appId = "IM20051444";
+    var appSecret = "aD69OwcY";
+    var streamName = "bot";
+    var serviceKey = "f6e50f7b-2bfd-11e8-bf0b-0213261164bb";
+    var userId ="123456789";
+
+    var config = new IMI.ICConfig(appId, appSecret);
+    var messaging = IMI.ICMessaging.getInstance();
+
+
+    function  prepareMessage(message) {
+
+    }
+
+    var msgCallBack = {//messaging.setICMessagingReceiver(msgCallBack);
+      onConnectionStatusChanged: function (statuscode) {
+        var statusMessage = null;
+        if (statuscode == 2) {
+          statusMessage = "Connected";
+        } else if (statuscode == 6) {
+          statusMessage = "Error while connecting";
+        } else {
+          statusMessage = "Not Connected";
+        }
+
+      },
+      onMessageReceived: function (message) {
+
+        prepareMessage(message);
+
+        if (message.getType() === IMI.ICMessageType.Message) {
+          var callback = {
+            onFailure: function (err) {
+              console.log("failed to get topics:");
+              //handleFailure(err);
+            }
+          };
+          messaging.setMessageAsRead(message.getTransactionId(), callback);
+        }
+      }
+    };
+
+
+    messaging.setICMessagingReceiver(msgCallBack);
+    var deviceId = IMI.ICDeviceProfile.getDefaultDeviceId();
+    IMI.IMIconnect.startup(config);
+    IMI.IMIconnect.registerListener(
+      {
+        onFailure: function () {
+          console.log("token got expired...");
+        }});
+
+
+    var regcallback = {
+      onSuccess: function (msg) {
+
+        try {
+          messaging.connect();
+          console.log("onSuccess: reg");
+        } catch (ex) {
+          console.log(ex);
+        }
+
+      },
+      onFailure: function (err) {
+        console.log("Registration failed");
+
+      }
+    };
+    var deviceProfile = new IMI.ICDeviceProfile(deviceId, userId);
+    console.log("IMI.IMIconnect.isRegistered()"+IMI.IMIconnect.isRegistered());
+    IMI.IMIconnect.register(deviceProfile, regcallback);
+
+
+//send message
+    var pubcallback = {
+      onSuccess: function () {
+        console.log("message sent");
+
+      },
+      onFailure: function (errormsg) {
+        console.log("failed to send message");
+      }
+
+    };
+
+    var message = new IMI.ICMessage();
+    message.setMessage("Hello this is sample message");
+
+    var thread = new IMI.ICThread();
+    thread.setId("bot");
+    thread.setTitle("bot");
+    thread.setStreamName(streamName);
+
+    message.setThread(thread);
+    messaging.publishMessage(message, pubcallback);
+
+  }
+  startANewChatUsingSendApi(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot }){
+    let url = this.constantsService.getStartNewChatLoginUrl();
+    let headerData: IHeaderData = {
+      'bot-access-token': startNewChatData.bot.bot_access_token,
+      'auth-token': null,
+      'user-access-token': null,
+      'content-type': 'application/json'
+    };
+    let body /*: ISendApiRequestPayload */ = {
+      'type': 'bot',
+      'msg': 'hi',
+      'platform': 'web',
+      // 'consumer': {
+      //   'uid': this.current_uid,
+      // },
+      'consumer': startNewChatData.consumerDetails
+    };
+
+    return this.makePostReq({url, body, headerData})
   }
 
 }

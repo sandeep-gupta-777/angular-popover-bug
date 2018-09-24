@@ -20,6 +20,7 @@ import {BsModalService} from 'ngx-bootstrap/modal';
 import {CodeEditorComponent} from '../code-editor/code-editor.component';
 import {EBotType} from '../../../../../view-bots/view-bots.component';
 import {EventService} from '../../../../../../event.service';
+import {take} from 'rxjs/operators';
 
 export enum EBotVersionTabs {
   df_template = 'df_template',
@@ -79,36 +80,43 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe((queryParam)=>{
+    this.activatedRoute.queryParams.subscribe((queryParam) => {
+      /*when upper panel minimizes or maximizes, change lower panel height accordingly*/
       let showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
       this.showConfig = (showConfigStr === 'true' || showConfigStr == undefined);
     });
 
-    let url = this.constantsService.getAllVersionsByBotId();//comperror
-    let botId = this.bot.id;
-    this.serverService.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
-      .subscribe((botVersionResult) => {
-        this.store.dispatch([
-          new SaveVersionInfoInBot({data: botVersionResult.objects, botId: this.bot.id})
-        ]);
-      });
+    // let url = this.constantsService.getAllVersionsByBotId();
+    // let botId = this.bot.id;
+    // this.serverService.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
+    //   .subscribe((botVersionResult) => {
+    //     this.store.dispatch([
+    //       new SaveVersionInfoInBot({data: botVersionResult.objects, botId: this.bot.id})
+    //     ]);
+    //   });
+    this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
     this.botlist$_sub = this.botlist$.subscribe((value) => {
-      ;
-      let activeVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.find((BotVersion) => {
-        return this.bot.active_version_id === BotVersion.id;
-      });
-      if (!activeVersion) {
-        try {
-          this.selectedVersion = this.bot.store_bot_versions[0];
-        } catch (e) {
-          console.log(e);
-        }
-      }
-      this.activeVersion = activeVersion;;
-      if (!this.selectedVersion) {
-        this.selectedVersion = activeVersion;
-        this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab') || EBotVersionTabs.df_template;
-      }
+      this.utilityService.getActiveVersionInBot(this.bot);
+      // let activeVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.find((BotVersion) => {
+      //   return this.bot.active_version_id === BotVersion.id;
+      // });
+      /*
+      * if active version exists, selected version =active version
+      * otherwise, selected version = first version, if that exists
+      * */
+      let activeVersion = this.activeVersion = this.utilityService.getActiveVersionInBot(this.bot);
+      this.selectedVersion = activeVersion ? activeVersion : (this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions[0]);
+      // if (!activeVersion) {
+      //   try {
+      //     this.selectedVersion = this.bot.store_bot_versions[0];
+      //   } catch (e) {
+      //     console.log(e);
+      //   }
+      // }
+      // if (!this.selectedVersion) {
+      // this.selectedVersion = activeVersion;
+      this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab') || EBotVersionTabs.df_template;
+      // }
       this.bot.store_selected_version = this.selectedVersion && this.selectedVersion.id;
       this.tabClicked(this.activeTab);
 
@@ -126,13 +134,12 @@ export class CodeInputComponent implements OnInit, OnDestroy {
 
   @ViewChild(CodeEditorComponent) codeEditorComponent: ElementRef;
 
+
   tabClicked(activeTab: string) {
-    // this.eventService.emitRemoveCodeMirrorHistoryEvent('code-input.component.ts');
     this.activeTab = activeTab;
-    this.code = this.selectedVersion;
     /*TODO: We dont need code here... just replace it with selectedVersion. Also we dont need ICode interface*/
-    if (this.code) {
-      this.editorCodeObj[this.activeTab].text = this.code[this.activeTab];
+    if (this.selectedVersion) {
+      this.editorCodeObj[this.activeTab].text = this.selectedVersion[this.activeTab];
       this.editorCodeObj[this.activeTab] = {...this.editorCodeObj[this.activeTab]};
     }
     this.router.navigate([`core/botdetail/${EBotType.chatbot}/`, this.bot.id], {
@@ -145,7 +152,6 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   saveText(codeStr: string) {
     /*
     *at this point some changes have been made to selected version's codeText
-    *if the new codeText is same as old codeText
     * */
 
     if (this.selectedVersion && this.selectedVersion.id) {
@@ -159,33 +165,14 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       /*find bot version with id = -1*/
       let new_version: Partial<IBotVersionData> = this.bot.store_bot_versions && this.bot.store_bot_versions.find((version) => version.id === -1);
       if (!new_version) {
-        new_version = {
-          'bot_id': this.bot.id,
-          'comment': '',
-          'df_rules': '',
-          'df_template': '',
-          'generation_rules': '',
-          'generation_templates': '',
-          'id': -1,
-          'workflow': '',
-          'updated_fields': {
-            'df_template': false,
-            'df_rules': false,
-            'generation_rules': false,
-            'generation_template': false,
-            'workflows': false
-          },
-          'forked_from': -1,
-        };
-        this.selectedVersion = new_version;
-        this.selectedVersion[this.activeTab] = codeStr;
+        new_version = this.constantsService.getNewBotVersionTemplate(this.bot.id);
         if (!this.bot.store_bot_versions) {
           this.bot.store_bot_versions = [];
         }
-        this.bot.store_bot_versions.push(this.selectedVersion);
+        this.bot.store_bot_versions.push(new_version);
       }
       this.selectedVersion = new_version;
-      new_version[this.activeTab] = codeStr;
+      this.selectedVersion[this.activeTab] = codeStr;
     }
     /*comparing old code text to new*/
 
@@ -200,7 +187,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
       let url = this.constantsService.getSaveVersionByBotId(this.bot.id);
       this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
-        .subscribe((value:IBotVersionData) => {
+        .subscribe((value: IBotVersionData) => {
           this.selectedVersion = Object.assign(this.selectedVersion, value);
           console.log(this.bot.store_bot_versions);
           this.store.dispatch([
@@ -214,14 +201,15 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       delete body.id;
       delete body.resource_uri;
       delete body.forked_from;
-
+      /*remove version id = -1, from store*/
+      this.bot.store_bot_versions.length = 0;
       this.serverService.makePostReq({url, body, headerData})
         .subscribe((forkedVersion: IBotVersionData) => {
           console.log(forkedVersion);
           this.selectedVersion = forkedVersion;
           this.utilityService.showSuccessToaster('new version forked successfully!');
           this.store.dispatch([
-            new UpdateVersionInfoByIdInBot({data:forkedVersion, botId:this.bot.id})
+            new UpdateVersionInfoByIdInBot({data: forkedVersion, botId: this.bot.id})
           ]);
           // this.ngOnInit();
           /*TODO: implement it correctly*/
@@ -277,13 +265,14 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       .subscribe((forkedVersion: IBotVersionData) => {
         console.log(forkedVersion);
         this.bot.store_bot_versions.push(forkedVersion);
-        this.selectedVersion = forkedVersion;
         this.utilityService.showSuccessToaster('new version forked successfully!');
-        this.forked_comments = "";
+        this.forked_comments = '';
         this.forked_version_number = null;
         this.store.dispatch([
-          new UpdateVersionInfoByIdInBot({botId:this.bot.id, data:forkedVersion})
-        ]);
+          new UpdateVersionInfoByIdInBot({botId: this.bot.id, data: forkedVersion})
+        ]).subscribe(() => {
+          this.selectedVersion = forkedVersion;
+        });
         // this.ngOnInit();
         /*TODO: implement it correctly*/
       });

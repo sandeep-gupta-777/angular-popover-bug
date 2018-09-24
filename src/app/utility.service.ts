@@ -60,6 +60,12 @@ export class UtilityService {
     return 10;
   }
 
+  getActiveVersionInBot(bot:IBot){
+    return bot.store_bot_versions && bot.store_bot_versions.find((BotVersion) => {
+      return bot.active_version_id === BotVersion.id;
+    });
+  }
+
 
   readInputFileAsText(inputElement): Promise<string> {
     return new Promise<string>((resolve, reject) => {
@@ -403,7 +409,6 @@ export class UtilityService {
   }
 
   showErrorToaster(message, sec=2) {
-    debugger;
     if (typeof message === 'string') {
       this.toastr.error(message, null, {positionClass: 'toast-top-right', timeOut: sec*1000});
       return;
