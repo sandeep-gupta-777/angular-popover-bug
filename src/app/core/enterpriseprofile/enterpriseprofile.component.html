@@ -58,7 +58,7 @@
           <div class="col-5">
             <div class="form-group">
               <label for="name">Enterprise Unique Name</label>
-              <input type="text" class="form-control" required [ngModel]="loggeduserenterpriseinfo.enterprise_unique_name" name="enterpriseUniqueName">
+              <input type="text" class="form-control" required [ngModel]="loggeduserenterpriseinfo.enterprise_unique_name" name="enterpriseUniqueName" readonly>
             </div>
 
           </div>
@@ -66,12 +66,6 @@
             <div class="form-group">
               <label for="alterEgo">Tier Group</label>
               <input type="number" class="form-control" [ngModel]="loggeduserenterpriseinfo.tier_group" name="tier_group" >
-            </div>
-          </div>
-          <div class="col-5">
-            <div class="form-group">
-              <label for="alterEgo">Log Retention Period</label>
-              <input type="text" class="form-control" [ngModel]="loggeduserenterpriseinfo.log_retention_period" name="log_retention_period">
             </div>
           </div>
           <div class="col-5">
