@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "git": "git add . && git commit -m 'some-message' && git push --all",
+    "git": "git add . && git commit -m",
+    "postgit": "git push ui-redesign",
     "bundle-report": "webpack-bundle-analyzer dist/botPlateformFE/stats.json"
   },
   "private": true,
