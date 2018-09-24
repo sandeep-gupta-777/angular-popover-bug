@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "git": "git add . && git commit -m",
-    "postgit": "git push ui-redesign",
+    "postgit": "git push origin ui-redesign",
     "bundle-report": "webpack-bundle-analyzer dist/botPlateformFE/stats.json"
   },
   "private": true,
