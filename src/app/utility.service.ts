@@ -5,6 +5,7 @@ export enum EFormValidationErrors {
   form_validation_integration="form_validation_integration",
   form_validation_pipeline="form_validation_pipeline",
   form_validation_avator="form_validation_avator",
+  form_validation_data_management="form_validation_data_management",
 }
 // import import downloadCsv from 'download-csv'; from 'download-csv';
 import downloadCsv from 'download-csv';
@@ -48,7 +49,7 @@ export class UtilityService {
 
   getSmartTableRowCountPerPageByViewportHeight():number{
     var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    debugger;
+    ;
     if(h<700){
       return 10;
     }else if(h>700&&h<1000){
@@ -57,6 +58,12 @@ export class UtilityService {
       return 20;
     }
     return 10;
+  }
+
+  getActiveVersionInBot(bot:IBot){
+    return bot.store_bot_versions && bot.store_bot_versions.find((BotVersion) => {
+      return bot.active_version_id === BotVersion.id;
+    });
   }
 
 
@@ -253,7 +260,7 @@ export class UtilityService {
     granularity_Ms: number = 24 * 3600 * 1000  // one day
   ) {
 
-
+    if(!rawData) return;
     let template = {
       xAxis: {
         type: 'datetime'
@@ -455,6 +462,26 @@ export class UtilityService {
     return hours + ':' + minutes;
   };
 
+  downloadText(text,filename){
+    var saveData = (function () {
+      var a:any = document.createElement("a");
+      document.body.appendChild(a);
+      a.style = "display: none";
+      return function (data, fileName) {
+        var blob = new Blob([text], {type: "octet/stream"}),
+          url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      };
+    }());
+
+    // var data = { x: 42, s: "hello, world", d: new Date() },
+    saveData(null, filename);
+    // console.log(value);
+  }
+
   downloadArrayAsCSV(data: any[] = [], columns: object = {}) {
     // data = [
     //  { name: 'test1', score: 1, level: 'Z' },
@@ -508,6 +535,7 @@ export class UtilityService {
     errorObj[EFormValidationErrors.form_validation_integration] = "Integration form is not valid";
     errorObj[EFormValidationErrors.form_validation_pipeline] = "Pipeline is not valid";
     errorObj[EFormValidationErrors.form_validation_avator] = "Avators are either invalid or empty";
+    errorObj[EFormValidationErrors.form_validation_data_management] = "Data Management form is invalid";
     return errorObj;
   }
   getErrorMessageForValidationKey(key){
@@ -522,7 +550,7 @@ export class UtilityService {
     },{});
 
     for(let param in inputParamsObj){
-      if(!inputParamsObj[param]){
+      if(inputParamsObj[param]==null){
         return false;
       }
     }

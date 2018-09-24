@@ -3,7 +3,7 @@ import {IEnterpriseUser} from '../app/core/interfaces/enterprise-users';
 export interface IEnterpriseProfileInfo {
   'id': string
   'created_at': string
-  'enterprise_unique_name': string
+    'enterprise_unique_name': string
   'logo': string
   'name': string
   'updated_at': string

@@ -239,9 +239,6 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-.modal-xlg {
-  max-width: 1000px;
-}
 
 h4 {
   @include typography($font-size-lg, $line-height-md, $font-weight-700, $color-text-grey);
@@ -628,6 +625,35 @@ progressbar {
   text-align: start;
 }
 
+
+//.modal.fade {
+//  display: flex !important;
+//  justify-content: center;
+//  align-items: center;
+//}
+//.modal-dialog {
+//  vertical-align:middle;
+//  height:18em;
+//  //background-color: rgba(0,0,0,0.5);
+//}
+
+.modal-xlg {
+  max-width: 1000px;
+  width: 80vw;
+}
+//.center-modal{
+  .modal.fade {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+  }
+  //.modal-dialog {
+  //  vertical-align:middle;
+  //  height:18em;
+  //  background-color: rgba(0,0,0,0.5);
+  //}
+//}
+
 //==========================
 .CodeMirror {
   border: 1px solid #eee;
@@ -644,6 +670,7 @@ progressbar {
 .cm-s-cobalt.CodeMirror {
   background: #002240;
   color: white;
+  position: absolute;
 }
 
 .cm-s-cobalt div.CodeMirror-selected {

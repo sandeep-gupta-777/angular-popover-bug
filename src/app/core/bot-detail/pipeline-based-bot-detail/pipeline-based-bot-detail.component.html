@@ -33,7 +33,7 @@
 
   <!--============= REDESIGN=================-->
 
-  <div class="row shadow-theme architecture bg-white p-1 px-2 my align-content-start" *myIf="myETabNames.architecture_items">
+  <div class="row shadow-theme architecture bg-white p-1 px-2 my align-content-start" *myIf="myETabNames.lower_panel_bot_detail">
     <!--tabs start-->
     <div class="col-12  px-2">
       <ul class="nav nav-tabs theme-tabbing mb-1 bg-white" >
@@ -51,7 +51,7 @@
 
     <!--architeture starts-->
     <div class="col-12 p-0" style="height: 90%" *ngIf="selectedTab==='architecture' &&  bot " >
-      <div class="col-12 architeture-body" style="overflow-y: auto;height: 100%" *myIf="myETabNames.architecture_items">
+      <div class="col-12 architeture-body" style="overflow-y: auto;height: 100%" *myIf="myETabNames.lower_panel_bot_detail">
         <div class="d-flex row-body bg-white " style="height: 98%"><!--TODO: 98% to avoid scroll bar; use grid instead-->
           <!--side bar starts-->
           <div class="side-bar  border-right">

@@ -1,6 +1,7 @@
 import {EChatFrame, IMessageData, IRoomData} from '../../../interfaces/chat-session-state';
 import {IBot} from '../../core/interfaces/IBot';
 import {IConsumerDetails} from './chat.state';
+import {st} from '@angular/core/src/render3';
 
 export class ToggleChatWindow {
   static readonly type = '[chat-widdow] set toggle';
@@ -68,9 +69,10 @@ export class SetCurrentBotDetails {
 
   constructor(public payload: {
     id: number,
-    token?: string,
+    bot_access_token?: string,
     name?: string,
-    logo?: string
+    logo?: string,
+    bot_unique_name?:string
   }) {
   }
 }

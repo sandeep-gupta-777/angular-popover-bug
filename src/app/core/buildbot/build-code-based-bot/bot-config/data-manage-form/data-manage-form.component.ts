@@ -48,7 +48,12 @@ export class DataManageFormComponent implements OnInit {
       if (!this.f.dirty) return;
       this.formData = data;
       this.datachanged$.emit(data);
+      this.emitFormValidationEvent();
     });
+  }
+
+  emitFormValidationEvent(){
+    setTimeout(()=>{this.datachanged$.emit({form_validation_data_management: this.f.valid});},0)
   }
 
   click(){

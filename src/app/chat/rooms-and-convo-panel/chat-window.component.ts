@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {EChatFrame, IMessageData, IRoomData} from '../../../interfaces/chat-session-state';
+import {EBotMessageMediaType, EChatFrame, IMessageData, IRoomData} from '../../../interfaces/chat-session-state';
 
 @Component({
   selector: 'app-chat-window',
@@ -9,8 +9,16 @@ import {EChatFrame, IMessageData, IRoomData} from '../../../interfaces/chat-sess
 export class ChatWindowComponent implements OnInit {
 
   @Input() _messageDataArray:IMessageData[];
+  botIsThinkingMessageDataArray:IMessageData[] = [
+    {
+      sourceType:'bot',
+      messageMediatype:EBotMessageMediaType.bot_thinking,
+      time:null
+    }
+  ]
   @Input() selectedAvatar;
   @Input() room:IRoomData;
+  @Input() showBotIsThinking:boolean=false;
   @Input() set messageDataArray(value){
 
     this._messageDataArray = value;

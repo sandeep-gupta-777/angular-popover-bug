@@ -9,7 +9,6 @@
           ngModel
           name="name"
           required
-          maxlength="35"
           #name="ngModel"
           type="text" class="form-control required"
                placeholder="A display name for the bot" id="alterEgo">
@@ -52,7 +51,7 @@
       </div>
 
 
-      <div class="form-group">
+      <div class="form-group" *ngIf="!(bot_type===myEBotType.intelligent)">
         <label for="alterEgo">Session Close Time [mins]</label>
         <input
                name="room_persistence_time"
@@ -65,10 +64,15 @@
         <label for="alterEgo">Is Manager Bot</label>
         <input ngModel="{{bot.room_persistence_time}}" name="room_persistence_time" type="text" class="form-control" placeholder="Time until Session Closes (in minutes)" id="alterEgo">
       </div> -->
-      <div class="" >
-        <div class="d-flex align-items-top">
+<!--<<<<<<< HEAD-->
+      <div class="" *ngIf="!(bot_type===myEBotType.intelligent)">
+        <div class="d-flex align-items-center">
+<!--=======-->
+      <!--<div class="">-->
+        <!--<div class="d-flex align-items-top">-->
+<!--&gt;>>>>>> b57d07d44a83fa8a33cad4ce66dff433fb840a27-->
           <label class="pr-2">Is Manager Bot?</label>
-          
+
           <ui-switch [disabled]="constantsService.isTabAccessDenied(myETabNames.UI_SWITCH)" [(ngModel)]="_bot.is_manager" name="is_manager" style="border:none;padding: 0;" size="small"></ui-switch>
           <div class="btn-group mb-1" dropdown *ngIf="_bot.is_manager">
             <button id="button-basic" dropdownToggle type="button" class="btn dropdown-toggle btn-theme-success-sm-outline ml-1" aria-controls="dropdown-basic">

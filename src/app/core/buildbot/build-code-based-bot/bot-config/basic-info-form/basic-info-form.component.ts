@@ -9,6 +9,8 @@ import {ViewBotStateModel} from '../../../../view-bots/ngxs/view-bot.state';
 import {NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../utility.service';
 import {ConstantsService, ETabNames} from '../../../../../constants.service';
+import {ActivatedRoute} from '@angular/router';
+import {EBotType} from '../../../../view-bots/view-bots.component';
 
 @Component({
   selector: 'app-basic-info-form',
@@ -38,23 +40,34 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
   @Output() datachanged$ = new EventEmitter<Partial<IBot>>();
   @ViewChild('form') f: NgForm;
   isManager: boolean = false;
-
+  bot_type;
   formData: Partial<IBot>;
   myETabNames = ETabNames;
-
+  myEBotType = EBotType;
   constructor(private store: Store,
               private utilityService: UtilityService,
-              public constantsService: ConstantsService
+              public constantsService: ConstantsService,
+              public activatedRoute: ActivatedRoute
   ) {
   }
 
 
   ngOnInit() {
+// <<<<<<< HEAD
+    this.bot_type  =  this.activatedRoute.snapshot.queryParamMap.get('bot_type')|| this.activatedRoute.snapshot.data['bot_type'];
+
+    try {
+      this.isManager = this._bot.child_bots.length !== 0;
+    } catch (e) {
+      this.isManager = false;
+    }
+// =======
     // try {
     //   this.isManager = this._bot.child_bots.length !== 0;
     // } catch (e) {
     //   this.isManager = false;
     // }
+// >>>>>>> b57d07d44a83fa8a33cad4ce66dff433fb840a27
     this.botlist$.subscribe((botlist) => {
 
       this.allbotList = botlist.allBotList;

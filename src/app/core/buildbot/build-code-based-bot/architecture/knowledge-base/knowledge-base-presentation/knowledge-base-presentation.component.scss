@@ -49,8 +49,18 @@
 
 }
 
-.fa-trash{
+.fa-trash, .fa-upload {
   font-size: 22px;
   color: $color-primary;
   padding-left: 5px;
+}
+
+
+.label-selected{
+  background-color: $color-primary;
+  color: white !important;
+}
+.label-unselected{
+  border: $border-normal;
+  //color: white;
 }

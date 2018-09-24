@@ -38,7 +38,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
 // test = false;
   // start_date = new Date();
   isSftpReportEnabled=false;
-
+  report_id;
   constructor(
     private store: Store,
     private utilityService: UtilityService,
@@ -72,7 +72,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
       this.deliveryMode = queryParams.params['deliveryMode'] || 'email';
     });
 
-    let _id = this.activatedRoute.snapshot.paramMap.get('_id');
+    let _id = this.report_id = this.activatedRoute.snapshot.paramMap.get('_id');
 
     this.botlist$.subscribe((value: ViewBotStateModel) => {
       this.botlist = [...value.allBotList];

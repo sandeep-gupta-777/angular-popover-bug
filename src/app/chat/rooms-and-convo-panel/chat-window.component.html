@@ -1,4 +1,4 @@
-<div #scrollMe style="overflow-y: scroll;overflow-x: hidden; height: calc(100% - 45px);position: relative">
+<div #scrollMe class="d-flex flex-column mb-1" style="overflow-y: scroll;overflow-x: hidden; height: calc(100% - 50px);position: relative">
   <app-chat-message
     (sendMessageToBotServer$)="sendMessageByHuman($event)"
     class="mx-2"
@@ -6,14 +6,26 @@
     *ngFor="let messageData of _messageDataArray"
     [messageData]="messageData">
   </app-chat-message>
+  <div *ngIf="!_messageDataArray" class="w-100 h-100 d-flex align-items-center justify-content-center">
+    <p class="text-muted">Click start a new Room to start conversation</p>
+  </div>
+  <div *ngIf="showBotIsThinking" class="mt-auto">
+    <app-chat-message
+      (sendMessageToBotServer$)="sendMessageByHuman($event)"
+      class="mx-2"
+      [selectedAvatar]="selectedAvatar"
+      *ngFor="let messageData of botIsThinkingMessageDataArray"
+      [messageData]="messageData">
+    </app-chat-message>
+  </div>
 </div>
 <!--<div class="footer px-3 py-1 d-flex align-items-center justify-content-between text-muted" style="height: 13%">-->
 <!--<input class="px-2" placeholder="say something..." type="text">-->
 <!--<span class="icon"><i class="fa fa-send cursor-pointer"></i></span>-->
 <!--</div>-->
 <!--text input starts-->
-<div class="footer d-flex align-items-center text-muted" style="height: 45px">
-  <input class="px-2 flex-grow-1" placeholder="Type a message" autofocus [(ngModel)]="messageByHuman" type="text"
+<div *ngIf="_messageDataArray" class="footer d-flex align-items-center text-muted" style="height: 45px">
+  <input class="px-2 flex-grow-1" placeholder="start new chat" autofocus [(ngModel)]="messageByHuman" type="text"
          (keyup.enter)="sendMessageByHuman(messageByHuman)">
   <div class="d-flex justify-content-center px-2">
     <span class="icon"><i class="fa fa-send cursor-pointer" (click)="sendMessageByHuman(messageByHuman)"></i></span>

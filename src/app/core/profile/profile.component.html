@@ -91,9 +91,10 @@
         <div class="col-md-12 p-0 m-0" style="height: 25px">
           <p class="text-danger text-secondary m-0">{{passwordErrorStr?passwordErrorStr:''}}</p>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12 d-flex flex-row-reverse justify-content-center"><!--todo: hack-->
+          <button type="submit" class="btn btn-theme-primary" (click)="changePassword()">Modify</button>
           <button class="btn btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>
-          <button class="btn btn-theme-primary" (click)="changePassword()">Submit</button>
+          <!--<button class="btn btn-theme-primary" (click)="changePassword()">Submit</button>-->
         </div>
 
       </form>

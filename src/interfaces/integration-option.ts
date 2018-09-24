@@ -103,7 +103,8 @@ export interface IIntegrationOption {
       appSecret: string,
       enabled: boolean,
       serviceKey: string,
-      streamName: string
+      streamName: string,
+      send_via_connect:string
     }
   },
   /*custom fields*/

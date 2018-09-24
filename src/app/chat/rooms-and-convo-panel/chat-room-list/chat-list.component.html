@@ -2,7 +2,7 @@
   <app-chat-item
     *ngFor="let room of chatsessionstate.rooms;" [room]="room" [currentUid]="chatsessionstate.currentUId"></app-chat-item>
   <div class="d-flex justify-content-center pb-1" style="position: absolute; bottom: 0; left: 0; right: 0;z-index: 10">
-    <button class="btn btn-theme-secondary-outline mr-1" (click)="createCustomRoom()" >Create Custom Room</button>
+    <!--<button class="btn btn-theme-secondary-outline mr-1" (click)="createCustomRoom()" >Create Custom Room</button>-->
     <button class="btn btn-theme-secondary-outline" (click)="startNewRoom()" >Start New Room</button>
   </div>
 </div>

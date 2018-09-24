@@ -2,9 +2,25 @@
 @import "~src/sass/mixins";
 @import '~src/sass/main';
 
-.danger-modal{
-    @include classic-modal(#b14250);
-  }
+.danger-modal {
+  @include classic-modal(#b14250);
+}
+
+//.center-modal {
+//  vertical-align: middle;
+//  height: 18em;
+
+  //.modal.fade {
+  //    display: flex !important;
+  //    justify-content: center;
+  //    align-items: center;
+  //  }
+    //.modal-dialog {
+    //  vertical-align: middle;
+    //  height: 18em;
+    //  //background-color: rgba(0,0,0,0.5);
+    //}
+//}
 
 .row-bot-detail-header {
   height: 40px;
@@ -15,6 +31,8 @@
       color: #474747 !important;
     }
   }
+  //.fa-refresh {
+
   .fa-undo{
     color: $color-primary !important;
   }
@@ -61,9 +79,9 @@
 
 .dropdown-menu {
   left: -100px !important;
-  >li{
-    >.dropdown-item{
-      font-size : 13px;
+  > li {
+    > .dropdown-item {
+      font-size: 13px;
     }
   }
 }
@@ -78,9 +96,9 @@
   cursor: pointer;
 }
 
-.no-channel-integrations:first-child{
+.no-channel-integrations:first-child {
   border-left: $border-normal;
   padding-left: 4px;
-  width: 20px!important;
+  width: 20px !important;
 }
 

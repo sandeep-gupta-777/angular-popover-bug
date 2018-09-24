@@ -5,9 +5,9 @@
   height: 100vh;
   //border: 1px solid red;
   grid-template-columns: 1fr;
-  grid-template-rows: 40px auto minmax(60vh, 1fr) 20px;
+  grid-template-rows: 40px auto 1fr;
   grid-gap: 8px;
-  grid-template-areas: 'header' 'config' 'architecture' 'footer';
+  grid-template-areas: 'header' 'config' 'architecture';
   .header {
     grid-area: header;
   }
@@ -16,6 +16,7 @@
   }
   .architecture {
     grid-area: architecture;
+    overflow-y: auto;
   }
 }
 
@@ -101,7 +102,7 @@
 
 .scroll-wrapper {
   overflow-y: auto;
-  height: 90%;
+  height: 85%;
 }
 
 app-knowledge-base-wrapper, app-code-input, app-integration-option-list, app-bot-testing {
