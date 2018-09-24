@@ -6,7 +6,7 @@ import {ViewCodeBasedBotComponent} from './view-code-based-bot/view-code-based-b
 import {ViewPipelineBasedBotsComponent} from './view-pipeline-based-bots/view-pipeline-based-bots.component';
 import {BsDropdownModule, ModalModule, TabsModule} from 'ngx-bootstrap';
 import {FormsModule} from '@angular/forms';
-import {DragAndDropModule} from 'angular-draggable-droppable';
+// import {DragAndDropModule} from 'angular-draggable-droppable';
 // import {NgxsModule} from '@ngxs/store';
 // import {ViewBotStateReducer} from './ngxs/view-bot.state';
 // import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
@@ -48,7 +48,7 @@ const routes: Route[] = [
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     FormsModule,
-    DragAndDropModule.forRoot(),
+    // DragAndDropModule.forRoot(),
     // NgxsModule.forFeature([
     //   ViewBotStateReducer,
     // ]),

@@ -27,7 +27,7 @@ import {TestComponent} from '../test/test.component';
 import {ChatPreviewNewPageComponent} from '../chat/chat-preview-new-page/chat-preview-new-page.component';
 import {FooterComponent} from '../footer/footer.component';
 import {FormsModule} from '@angular/forms';
-import {DragAndDropModule} from 'angular-draggable-droppable';
+// import {DragAndDropModule} from 'angular-draggable-droppable';
 import {HttpClientModule} from '@angular/common/http';
 import {AimService} from '../aim.service';
 import {HeaderComponent} from './header/header.component';
@@ -119,7 +119,7 @@ const routes: Route[] = [
     CommonModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,
-    DragAndDropModule.forRoot(),
+    // DragAndDropModule.forRoot(),
     HttpClientModule,
     SharedModule,
 

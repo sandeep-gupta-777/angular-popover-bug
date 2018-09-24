@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {BsDropdownModule, ModalModule, TabsModule} from 'ngx-bootstrap';
 import {FormsModule} from '@angular/forms';
-import {DragAndDropModule} from 'angular-draggable-droppable';
+// import {DragAndDropModule} from 'angular-draggable-droppable';
 // import {NgxsModule} from '@ngxs/store';
 // import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
 // import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
@@ -39,6 +39,7 @@ import { ConsumerFullscreenWrapperComponent } from './consumers/consumer-fullscr
 import {EBotType} from '../view-bots/view-bots.component';
 import {AuthGaurdService} from '../../auth-gaurd.service';
 import {RequiredIfOneFilledValidator} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/requiredIfOneFilledValidator.directive';
+import {DragulaModule} from 'ng2-dragula';
 
 const routes: Route[] = [
   {
@@ -80,12 +81,13 @@ const routes: Route[] = [
     RequiredIfOneFilledValidator
   ],
   imports: [
+    DragulaModule,
     CommonModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     FormsModule,
-    DragAndDropModule.forRoot(),
+    // DragAndDropModule.forRoot(),
     // NgxsModule.forFeature([]),
     SharedModule,
     HttpClientModule,
@@ -93,7 +95,7 @@ const routes: Route[] = [
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
   ],
-  providers: [DragService, AimService]
+  providers: [AimService]
 })
 export class BotDetailModule {
 

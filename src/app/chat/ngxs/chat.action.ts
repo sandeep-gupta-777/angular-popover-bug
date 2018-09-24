@@ -2,6 +2,7 @@ import {EChatFrame, IMessageData, IRoomData} from '../../../interfaces/chat-sess
 import {IBot} from '../../core/interfaces/IBot';
 import {IConsumerDetails} from './chat.state';
 import {st} from '@angular/core/src/render3';
+import {IIntegrationOption} from '../../../interfaces/integration-option';
 
 export class ToggleChatWindow {
   static readonly type = '[chat-widdow] set toggle';
@@ -64,15 +65,17 @@ export class SetConsumerDetail {
   }
 }
 
-export class SetCurrentBotDetails {
+export class SetCurrentBotDetailsAndResetChatStateIfBotMismatch {
   static readonly type = '[chat-widdow] set SetCurrentBotID';
 
   constructor(public payload: {
-    id: number,
-    bot_access_token?: string,
-    name?: string,
-    logo?: string,
-    bot_unique_name?:string
+    bot:IBot
+    // id: number,
+    // bot_access_token?: string,
+    // name?: string,
+    // logo?: string,
+    // bot_unique_name?:string,
+    // integrations:IIntegrationOption
   }) {
   }
 }

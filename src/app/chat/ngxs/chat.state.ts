@@ -5,7 +5,7 @@ import {
   // AddMessagesToRoomByUId,
   ChangeFrameAction,
   ResetChatState,
-  SetCurrentBotDetails,
+  SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
   SetCurrentUId,
   SetCurrentRoomID,
   ToggleChatWindow,
@@ -80,12 +80,22 @@ export class ChatSessionStateReducer {
     patchState({...state, currentUId: payload.uid});
   }
 
-  @Action(SetCurrentBotDetails)
-  setCurrentBotID(
+  @Action(SetCurrentBotDetailsAndResetChatStateIfBotMismatch)
+  setCurrentBotDetailsAndResetIfBotMismatch(
     {patchState, setState, getState, dispatch}: StateContext<IChatSessionState>,
-    {payload}: SetCurrentBotDetails) {
+    {payload}: SetCurrentBotDetailsAndResetChatStateIfBotMismatch) {
 
-    patchState({currentBotDetails: payload});
+    let currentBot = getState().currentBotDetails;
+    if(payload.bot.id!==(currentBot && currentBot.id)){
+     dispatch([
+       new ResetChatState()
+     ]).subscribe(()=>{
+       patchState({currentBotDetails: payload.bot});
+     })
+    }else {
+      patchState({currentBotDetails: payload.bot});
+    }
+
   }
 
   @Action(AddNewRoom)

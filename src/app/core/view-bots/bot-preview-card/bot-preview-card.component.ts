@@ -11,7 +11,7 @@ import {
   ChangeFrameAction,
   DeleteChatRoomsByBotId,
   ResetChatState,
-  SetCurrentBotDetails, SetCurrentUId,
+  SetCurrentBotDetailsAndResetChatStateIfBotMismatch, SetCurrentUId,
   ToggleChatWindow
 } from '../../../chat/ngxs/chat.action';
 import {ConstantsService, ERoleName} from '../../../constants.service';
@@ -20,6 +20,7 @@ import {IHeaderData} from '../../../../interfaces/header-data';
 import {IConsumerDetails} from '../../../chat/ngxs/chat.state';
 import {IUser} from '../../interfaces/user';
 import {IAuthState} from '../../../auth/ngxs/auth.state';
+import {IEnterpriseProfileInfo} from '../../../../interfaces/enterprise-profile';
 
 @Component({
   selector: 'app-bot-preview-card',
@@ -31,6 +32,7 @@ export class BotPreviewCardComponent implements OnInit {
   @Input() bot: IBot;
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() chatsessionstate$: Observable<IChatSessionState>;
+  @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   modalRef: BsModalRef;
   myObject = Object;
   message: string;
@@ -39,6 +41,7 @@ export class BotPreviewCardComponent implements OnInit {
   currentUid: string;
   customConsumerDetails: IConsumerDetails;
   role: string;
+  enterprise_unique_name: string;
 
   constructor(
     public utilityService: UtilityService,
@@ -53,6 +56,9 @@ export class BotPreviewCardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
+      this.enterprise_unique_name = enterpriseProfileInfo.enterprise_unique_name;
+    });
     this.parentRoute = this.activatedRoute.snapshot.data.route;
     this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
       if (chatSessionState && chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.id)
@@ -75,48 +81,62 @@ export class BotPreviewCardComponent implements OnInit {
 
 
   previewBot() {
+    console.log("Bot Preview clicked");
     // if(log)http://localhost:4200/core/botdetail/chatbot/20?build=testing
     /*if a new bot is being opened=> clear previous chat state*/
-    if (this.currentChatPreviewBotId && this.bot.id !== this.currentChatPreviewBotId) {
-      this.store.dispatch([
-        new ResetChatState()
-      ]).subscribe(() => {
-        /*TODO: code repeat; refactor the code*/
-        this.store.dispatch([
-          // new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX}),
-          new ToggleChatWindow({open: true}),
-        ]).subscribe(() => {
-          this.store.dispatch([
-            new SetCurrentBotDetails({
-              id: this.bot.id,
-              name: this.bot.name,
-              bot_access_token: this.bot.bot_access_token,
-              logo: this.bot.logo,
-              bot_unique_name: this.bot.bot_unique_name
-            }),
-            new SetCurrentUId({uid: (this.customConsumerDetails && this.customConsumerDetails.uid) || String(Date.now())}),
-          ]).subscribe(() => {
-            this.router.navigate(['/core/viewbots/chatbot'], {queryParams: {preview: this.bot.id,}});
+    if (this.bot.id !== (this.currentChatPreviewBotId && this.currentChatPreviewBotId)) {
+      // this.store.dispatch([
+        // new ToggleChatWindow({open: true}),
+        // new SetCurrentUId({uid: (this.customConsumerDetails && this.customConsumerDetails.uid) || String(Date.now())}),
+      // ]).subscribe(() => {
+        this.router.navigate(['/core/viewbots/chatbot'], {
+            queryParams: {preview: true, bot_unique_name: this.bot.bot_unique_name, enterprise_unique_name: this.enterprise_unique_name}
           });
-        });
-      });
-    } else {
-      this.store.dispatch([
-        new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX}),
-        new ToggleChatWindow({open: true}),
-      ]).subscribe(() => {
-        this.store.dispatch([
-          new SetCurrentBotDetails({
-            id: this.bot.id,
-            name: this.bot.name,
-            bot_access_token: this.bot.bot_access_token,
-            bot_unique_name: this.bot.bot_unique_name,
-            logo: this.bot.logo
-          }),
-          new SetCurrentUId({uid: (this.customConsumerDetails && this.customConsumerDetails.uid) || String(Date.now())}),
-        ]);
-      });
+      // });
     }
+    // if (this.currentChatPreviewBotId && this.bot.id !== this.currentChatPreviewBotId) {
+    //   this.store.dispatch([
+    //     new ResetChatState()
+    //   ]).subscribe(() => {
+    //     /*TODO: code repeat; refactor the code*/
+    //     this.store.dispatch([
+    //       // new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX}),
+    //       new ToggleChatWindow({open: true}),
+    //     ]).subscribe(() => {
+    //       this.store.dispatch([
+    //         new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
+    //           id: this.bot.id,
+    //           name: this.bot.name,
+    //           bot_access_token: this.bot.bot_access_token,
+    //           logo: this.bot.logo,
+    //           bot_unique_name: this.bot.bot_unique_name,
+    //           integrations:this.bot.integrations
+    //         }),
+    //         new SetCurrentUId({uid: (this.customConsumerDetails && this.customConsumerDetails.uid) || String(Date.now())}),
+    //       ]).subscribe(() => {
+    //         this.router.navigate(['/core/viewbots/chatbot'],
+    //           {queryParams: {preview: true,bot_unique_name:this.bot.bot_unique_name,enterprise_unique_name:this.enterprise_unique_name}});
+    //       });
+    //     });
+    //   });
+    // } else {
+    //   this.store.dispatch([
+    //     new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX}),
+    //     new ToggleChatWindow({open: true}),
+    //   ]).subscribe(() => {
+    //     this.store.dispatch([
+    //       new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
+    //         id: this.bot.id,
+    //         name: this.bot.name,
+    //         bot_access_token: this.bot.bot_access_token,
+    //         bot_unique_name: this.bot.bot_unique_name,
+    //         logo: this.bot.logo,
+    //         integrations:this.bot.integrations
+    //       }),
+    //       new SetCurrentUId({uid: (this.customConsumerDetails && this.customConsumerDetails.uid) || String(Date.now())}),
+    //     ]);
+    //   });
+    // }
 
   }
 

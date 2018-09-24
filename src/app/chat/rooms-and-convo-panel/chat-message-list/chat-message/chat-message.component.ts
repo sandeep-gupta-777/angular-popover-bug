@@ -22,7 +22,7 @@ export class ChatMessageComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    console.log(this.messageData);
+    // console.log(this.messageData);
     this.isFullScreenPreview = this.activatedRoute.snapshot.data['isFullScreenPreview'];
   }
 

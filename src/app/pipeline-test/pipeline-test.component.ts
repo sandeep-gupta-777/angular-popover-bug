@@ -8,9 +8,9 @@ import {DragulaService} from 'ng2-dragula';
 })
 export class PipelineTestComponent implements OnInit {
   constructor(private dragulaService: DragulaService) {
-    dragulaService.setOptions('third-bag', {
-      removeOnSpill: true
-    });
+    // dragulaService.setOptions('third-bag', {
+    //   removeOnSpill: true
+    // });
   }
 
   ngOnInit() {

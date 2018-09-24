@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {BsDatepickerModule, BsDropdownModule, ModalModule, TabsModule, TooltipModule} from 'ngx-bootstrap';
 import {FormsModule} from '@angular/forms';
-import {DragAndDropModule} from 'angular-draggable-droppable';
+// import {DragAndDropModule} from 'angular-draggable-droppable';
 // import {NgxsModule} from '@ngxs/store';
 import {HttpClientModule} from '@angular/common/http';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
@@ -73,7 +73,7 @@ const routes: Route[] = [
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     FormsModule,
-    DragAndDropModule.forRoot(),
+    // DragAndDropModule.forRoot(),
     // NgxsModule.forFeature([
     //   AnalysisStateReducer2
     // ]),

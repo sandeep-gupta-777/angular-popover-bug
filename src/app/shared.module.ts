@@ -124,8 +124,6 @@ import {HighlightDirective} from './readonly-selected-permission.directive';
     SerializeEnterpriseprofileDataPipe,
     DragulaModule,
     IntegrationNameFormatterPipe,
-
-
     BsDatepickerModule,
     BsDropdownModule,
     ModalModule,

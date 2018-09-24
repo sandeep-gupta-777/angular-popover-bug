@@ -15,6 +15,8 @@ import {T} from '@angular/core/src/render3';
 import {IBot} from './core/interfaces/IBot';
 import {IPipelineItem} from '../interfaces/ai-module';
 import {IAnalysis2HeaderData} from '../interfaces/Analytics2/analytics2-header';
+import {EBotMessageMediaType, IMessageData} from '../interfaces/chat-session-state';
+import {IBotPreviewFirstMessage} from './chat/chat-wrapper.component';
 
 
 
@@ -571,6 +573,18 @@ export class UtilityService {
       delete  objShallowClone[key];
     }
     return objShallowClone;
+  }
+
+  serializeServerValueToChatRoomMessages(value:IBotPreviewFirstMessage){
+    let roomMessages: IMessageData[] = value.generated_msg.map((item: { text: string }) => {
+      return {
+        text: item.text,
+        sourceType: 'bot',
+        messageMediatype: EBotMessageMediaType.text,
+        time: this.getCurrentTimeInHHMM()/*todo: change it to real time*/
+      };
+    });
+    return roomMessages;
   }
 
 }

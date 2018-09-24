@@ -79,7 +79,7 @@
   <!---->
   <div class="col-12 mt-2" style="min-height: 90% !important;">
     <div class="h-100"
-         *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata' ||ner_type==='regex'; else table">
+         *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata' ||ner_type==='regex';">
       <!--<div class="d-flex justify-content-end">-->
         <!--<label for="uploadInput" class="btn btn-theme-primary-outline">Upload File-->
           <!--<input hidden type="file"-->
@@ -92,15 +92,23 @@
       <app-code-editor  class="h-100  d-block" (textChangedEvent)="textChanged($event)"
                        [text]="codeTextInputToCodeEditorObj"></app-code-editor>
     </div>
+    <!--<div class="col-12 mt-2 p-0" style="min-height: 90% !important;">-->
+      <div class="h-100" style="overflow: scroll"
+           *ngIf="ner_type==='database'">
+        <app-handsontable class="h-100" style="overflow: scroll; display: block" [testData]="handsontableData"
+                          [columns]="handontable_column"
+                          [setting]="constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_SETTING"
+                          [colHeaders]="handontable_colHeaders"></app-handsontable>
+      </div>
+    <!--</div>-->
+
   </div>
 </div>
 <!--</ng-template>-->
 
 
-<ng-template #table>
+<!--<ng-template #table>-->
   <!--<div class="pb-2"><input type="search" placeholder="search table"></div>-->
-  <app-handsontable [testData]="handsontableData"
-                    [columns]="handontable_column"
-                    [setting]="constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_SETTING"
-                    [colHeaders]="handontable_colHeaders"></app-handsontable>
-</ng-template>
+
+<!--</ng-template>-->
+

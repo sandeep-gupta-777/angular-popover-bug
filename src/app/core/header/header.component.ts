@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {IUser} from '../interfaces/user';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResetAppState, ResetStoreToDefault} from '../../ngxs/app.action';
@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit {
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   @Select() app$: Observable<IAppState>;
+  @Select() app$Subscription: Subscription;
   logoSrc = 'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg';
   myEBotType = EBotType;
   myETabNames = ETabNames;
@@ -43,7 +44,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.app$.subscribe((app) => {
+    this.app$Subscription =this.app$.subscribe((app) => {
         let autoLogOutTime = app.autoLogoutTime;
         if (autoLogOutTime) {
           try {
@@ -54,6 +55,8 @@ export class HeaderComponent implements OnInit {
           this.logoutSetTimeoutRef = setTimeout(() => {
             this.logout();
             this.logoutSetTimeoutRef && clearTimeout(this.logoutSetTimeoutRef);
+            this.app$Subscription.unsubscribe();
+            document.location.reload();
           }, (autoLogOutTime-Date.now()));
         }
       }
