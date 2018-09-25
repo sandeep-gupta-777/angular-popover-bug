@@ -85,12 +85,14 @@ export class ChatSessionStateReducer {
     {patchState, setState, getState, dispatch}: StateContext<IChatSessionState>,
     {payload}: SetCurrentBotDetailsAndResetChatStateIfBotMismatch) {
 
+    let state = getState();
+    let isOpened = state.opened;
     let currentBot = getState().currentBotDetails;
     if(payload.bot.id!==(currentBot && currentBot.id)){
      dispatch([
        new ResetChatState()
      ]).subscribe(()=>{
-       patchState({currentBotDetails: payload.bot});
+       patchState({currentBotDetails: payload.bot, opened:isOpened});//restoring bot opened state
      })
     }else {
       patchState({currentBotDetails: payload.bot});

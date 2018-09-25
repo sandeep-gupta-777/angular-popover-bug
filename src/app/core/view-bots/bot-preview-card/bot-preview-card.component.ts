@@ -81,19 +81,30 @@ export class BotPreviewCardComponent implements OnInit {
 
 
   previewBot() {
+
     console.log("Bot Preview clicked");
     // if(log)http://localhost:4200/core/botdetail/chatbot/20?build=testing
     /*if a new bot is being opened=> clear previous chat state*/
-    if (this.bot.id !== (this.currentChatPreviewBotId && this.currentChatPreviewBotId)) {
+    // if (this.bot.id !== (this.currentChatPreviewBotId && this.currentChatPreviewBotId)) {
       // this.store.dispatch([
-        // new ToggleChatWindow({open: true}),
+        // nezw ToggleChatWindow({open: true}),
         // new SetCurrentUId({uid: (this.customConsumerDetails && this.customConsumerDetails.uid) || String(Date.now())}),
       // ]).subscribe(() => {
-        this.router.navigate(['/core/viewbots/chatbot'], {
-            queryParams: {preview: true, bot_unique_name: this.bot.bot_unique_name, enterprise_unique_name: this.enterprise_unique_name}
-          });
+    this.store.dispatch([
+      new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
+        bot:{...this.bot,enterprise_unique_name:this.enterprise_unique_name}
+      }),
+      new ToggleChatWindow({open: true}),
+      new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX})
+    ])
+      // .subscribe(()=>{
+      // this.router.navigate(['/core/viewbots/chatbot'], {
+      //   queryParams: {preview: true, bot_unique_name: this.bot.bot_unique_name, enterprise_unique_name: this.enterprise_unique_name}
       // });
-    }
+    // });
+
+      // });
+    // }
     // if (this.currentChatPreviewBotId && this.bot.id !== this.currentChatPreviewBotId) {
     //   this.store.dispatch([
     //     new ResetChatState()

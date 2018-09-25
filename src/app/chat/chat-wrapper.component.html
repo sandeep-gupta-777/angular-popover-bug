@@ -1,9 +1,5 @@
-<!--<h1>hello</h1>-->
-<!--<h1>{{windowOpen}}</h1>-->
-<!--<h1>{{!!((loggeduser$|async).user)}}</h1>-->
-<!--<h1>{{frameEnabled}}</h1>-->
-<!--<h1>hello</h1>-->
-<div *ngIf="!isFullScreenPreview">
+<!--corner chat box started-->
+<div *ngIf="!isFullScreenPreview && currentBot">
   <div class="chat-grid text-center" *ngIf="(windowOpen && (loggeduser$|async).user)">
     <div class="header d-flex align-items-center px-3 position-relative">
       <i class="fa fa-arrow-left cursor-pointer" (click)="navigate(myEChatFrame.CHAT_LIST)"
@@ -83,9 +79,11 @@
   </div>
 
 </div>
+<!--corner chat box ends-->
 
+<!--tool tip starts-->
 <div class="d-flex justify-content-end cursor-pointer" (click)="toggleChatWindow()"
-     *ngIf="!windowOpen && !isFullScreenPreview && (loggeduser$|async).user && current_uid">
+     *ngIf="!windowOpen && currentBot">
   <div class="speech-bubble float-on-hover-animation">
     <div class="stick-wrapper">
       <div class="stick"></div>
@@ -94,6 +92,7 @@
     </div>
   </div>
 </div>
+<!--tool tip ends-->
 
 <!--===============FULL SCREEN BELOW===================-->
 <div *ngIf="isFullScreenPreview" class="grid-chat-preview-full-screen">
@@ -182,16 +181,6 @@
       [messageDataArray]="messageData">
     </app-chat-window>
   </div>
-  <!--<div class="inputBox">-->
-
-  <!--&lt;!&ndash;text input starts&ndash;&gt;-->
-  <!--<div class="footer px-2 d-flex align-items-center text-muted"-->
-  <!--[hidden]="frameEnabled!==myEChatFrame.CHAT_BOX">-->
-  <!--<input class="mr-2" placeholder="say something..." type="text" [(ngModel)]="messageByHuman" (keyup.enter)="sendMessageByHuman(messageByHuman)">-->
-  <!--<span class="icon"><i class="fa fa-send cursor-pointer" (click)="sendMessageByHuman(messageByHuman)"></i></span>-->
-  <!--</div>-->
-  <!--&lt;!&ndash;text input ends&ndash;&gt;-->
-  <!--</div>-->
 </div>
 
 

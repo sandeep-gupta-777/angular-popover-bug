@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
 import {IBot} from '../../interfaces/IBot';
 import {ServerService} from '../../../server.service';
-import {Store} from '@ngxs/store';
+import {Select, Store} from '@ngxs/store';
 import {ConstantsService, ETabNames} from '../../../constants.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {UtilityService} from '../../../utility.service';
@@ -10,6 +10,8 @@ import {ChangeFrameAction, SetCurrentBotDetailsAndResetChatStateIfBotMismatch, T
 import {EChatFrame} from '../../../../interfaces/chat-session-state';
 import {AddNewBotInAllBotList, UpdateBotInfoByIdInBotInBotList} from '../../view-bots/ngxs/view-bot.action';
 import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {IEnterpriseProfileInfo} from '../../../../interfaces/enterprise-profile';
 
 @Component({
   selector: 'app-bot-detail-header',
@@ -24,7 +26,8 @@ export class BotDetailHeaderComponent implements OnInit {
   showSpinIcon =false;
   @Output() refreshBotDetails$ = new EventEmitter();
   modalRef: BsModalRef;
-
+  enterprise_unique_name;
+  @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
 
   constructor(
     private store: Store,
@@ -36,15 +39,30 @@ export class BotDetailHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
+      this.enterprise_unique_name = enterpriseProfileInfo.enterprise_unique_name;
+    });
   }
+
   openBot() {
     this.store.dispatch([
       new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
-        bot:this.bot
+        bot:{...this.bot,enterprise_unique_name:this.enterprise_unique_name}
       }),
       new ToggleChatWindow({open: true}),
       new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX})
-    ]);
+    ])
+    // this.store.dispatch([
+    //   // new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
+    //   //   bot:this.bot
+    //   // }),
+    //   new ToggleChatWindow({open: true}),
+    //   // new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX})
+    // ]).subscribe(()=>{
+    //   this.router.navigate(['/core/botdetail/chatbot/',this.bot.id], {
+    //     queryParams: {preview: true, bot_unique_name: this.bot.bot_unique_name, enterprise_unique_name: this.enterprise_unique_name}
+    //   });
+    // })
   }
 
   updateBot() {

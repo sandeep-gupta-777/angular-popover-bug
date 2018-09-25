@@ -289,6 +289,10 @@ export class ConstantsService {
     // http://localhost:8000/api/v1/logout/;
     return this.BACKEND_URL + 'api/v1/logout/';
   }
+  getNSetChatPreviewBotUrl(bot_unique_name,enterprise_unique_name) {
+    // http://localhost:8000/api/v1/logout/;
+    return this.BACKEND_URL + `api/v1/bot/preview/?bot_unique_name=${bot_unique_name}&enterprise_unique_name=${enterprise_unique_name}`;
+  }
 
   getMasterIntegrationsList() {
     return this.BACKEND_URL + 'api/v1/integrations/';
@@ -721,7 +725,7 @@ export class ConstantsService {
     {data: 4, type: 'text', readOnly: true},
     {data: 5, type: 'text', readOnly: true},
   ];
-  
+
   readonly HANDSON_TABLE_KNOWLEDGE_BASE_SETTING = {
     cells: function (row, col) {
 

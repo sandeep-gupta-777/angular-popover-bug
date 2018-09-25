@@ -111,29 +111,32 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   ngOnInit() {
+    debugger;
     console.log('inside chat-wrapper');
     this.serverService.initializeIMIConnect();
     this.loggeduser$.subscribe((loggeduser) => {
       try {
-        this.user_first_name = this.loggeduser.user.first_name || 'Anonymous User';
-        this.user_email = this.loggeduser.user.email;
+        this.user_first_name = loggeduser.user.first_name || 'Anonymous User';
+        this.user_email = loggeduser.user.email;
       } catch (e) {
         this.user_first_name = 'Anonymous User';
         console.log(e);
       }
     });
 
-    this.activatedRoute.queryParamMap.subscribe((queryparam) => {
-      let welcomeScreenBotIdStr = queryparam.get('preview');
-      let enterprise_unique_name = queryparam.get('enterprise_unique_name');
-      let bot_unique_name = queryparam.get('bot_unique_name');
-      if (!bot_unique_name || !enterprise_unique_name) return;
-      this.enterprise_unique_name = enterprise_unique_name;
-      if (enterprise_unique_name && bot_unique_name && bot_unique_name !== (this.currentBot && this.currentBot.bot_unique_name)) {
-        this.serverService.getNSetChatPreviewBot(bot_unique_name, enterprise_unique_name);
-      }
-    });
     this.isFullScreenPreview = this.activatedRoute.snapshot.data.isFullScreenPreview;
+    if(this.isFullScreenPreview){
+      this.activatedRoute.queryParamMap.subscribe((queryparam) => {
+        let welcomeScreenBotIdStr = queryparam.get('preview');
+        let enterprise_unique_name = queryparam.get('enterprise_unique_name');
+        let bot_unique_name = queryparam.get('bot_unique_name');
+        if (!bot_unique_name || !enterprise_unique_name) return;
+        this.enterprise_unique_name = enterprise_unique_name;
+        if (enterprise_unique_name && bot_unique_name && bot_unique_name) {
+          this.serverService.getNSetChatPreviewBot(bot_unique_name, enterprise_unique_name);
+        }
+      });
+    }
     this.route.events.subscribe((data) => {
       /*This is to access route data from non-subtree component
       * see: https://github.com/angular/angular/issues/11812
@@ -149,6 +152,7 @@ export class ChatWrapperComponent implements OnInit {
         if (!chatSessionState) return;
         if (chatSessionState.currentBotDetails) {
           this.currentBot = chatSessionState.currentBotDetails;
+          this.enterprise_unique_name = this.currentBot.enterprise_unique_name;
           this.bot_access_token = this.currentBot.bot_access_token;//this.currentRoom && this.currentRoom.bot_access_token || currentBot.bot_access_token;
           this.chatWindowTitle = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.name;
         }

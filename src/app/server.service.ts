@@ -257,7 +257,7 @@ export class ServerService {
     // if (!this.currentBot || (this.currentBot && this.currentBot.bot_unique_name !== this.bot_unique_name)) {
     //   let enterprise_unique_name = this.activatedRoute.snapshot.queryParams['enterprise_unique_name'];//testingbot
     //   if (!this.bot_unique_name) return;
-    let url = `https://dev.imibot.ai/api/v1/bot/preview/?bot_unique_name=${bot_unique_name}&enterprise_unique_name=${enterprise_unique_name}`;
+    let url = this.constantsService.getNSetChatPreviewBotUrl(bot_unique_name, enterprise_unique_name);
     this.makeGetReq({url, noValidateUser: true})
       .subscribe((bot: IBot) => {
         // this.user_first_name = bot.enterprise_name;
@@ -265,7 +265,7 @@ export class ServerService {
         // this.user_email =bot.enterprise_name;
         this.store.dispatch([
           new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({bot}),
-          new ToggleChatWindow({open:true})
+          // new ToggleChatWindow({open:true})
         ]);
       });
   }

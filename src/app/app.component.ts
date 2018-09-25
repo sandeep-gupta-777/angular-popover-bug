@@ -19,6 +19,8 @@ export class AppComponent implements OnInit {
   }
 
   isFullScreenPreview: boolean;
+  enterprise_unique_name: string;
+  bot_unique_name: string;
   progressVal: number = 0;
   showProgressbar: boolean = false;
   editor: any;
@@ -60,7 +62,10 @@ export class AppComponent implements OnInit {
     // });
     this.router.events.subscribe((data) => {
       if (data instanceof RoutesRecognized) {
+
         this.isFullScreenPreview = data.state.root.firstChild.data.isFullScreenPreview;
+        this.bot_unique_name = data.state.root.firstChild.queryParamMap.get('bot_unique_name');
+        this.enterprise_unique_name = data.state.root.firstChild.queryParamMap.get('enterprise_unique_name');
       }
     });
   }
