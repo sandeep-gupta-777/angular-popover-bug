@@ -18,7 +18,7 @@ export class KnowledgeBasePresentationComponent implements OnInit {
 
     if (!value) return;
     this._selectedRowData = value;
-    debugger;
+
     this.key = value.key;
     if (value.ner_type)
       this.ner_type = value.ner_type;
@@ -33,11 +33,15 @@ export class KnowledgeBasePresentationComponent implements OnInit {
     }
 
     this.codeTextInputToCodeEditorObj = {...this.codeTextInputToCodeEditorObj};
-    this.handontable_colHeaders = Object.keys(value.values[0]);
+    try {
+      this.handontable_colHeaders = Object.keys(value.values[0]);
+    }catch (e) {
+      console.log(e);
+    }
     for (let index = 0; index < this.handontable_colHeaders.length; index++) {
       this.handontable_column[index] = {
         data: index, type: 'text'
-      } 
+      }
     }
   }
 

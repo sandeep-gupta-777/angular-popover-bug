@@ -55,9 +55,12 @@
     <div class="body p-0 border-left border-right"
          [ngClass]="{'make-body-occupy-footer':frameEnabled!==myEChatFrame.CHAT_BOX}">
       <!--<p>{{frameEnabled}}</p>-->
-      <app-bot-welcome (startnewchat$)="startNewChat($event)" [bot_id]="welcomeScreenBotId"
-                       *ngIf="frameEnabled === myEChatFrame.WELCOME_BOX"></app-bot-welcome>
+      <app-bot-welcome
+        [currentBot]="currentBot"
+        (startnewchat$)="startNewChat($event)" [bot_id]="welcomeScreenBotId"
+        *ngIf="frameEnabled === myEChatFrame.WELCOME_BOX"></app-bot-welcome>
       <app-chat-list class="mt-4"
+                     [currentBot]="currentBot"
                      *ngIf="frameEnabled===myEChatFrame.CHAT_LIST"
                      (createCustomRoom$)="createCustomRoom()"
                      (createNewRoom$)="startNewChat($event)"
@@ -95,38 +98,47 @@
 <!--===============FULL SCREEN BELOW===================-->
 <div *ngIf="isFullScreenPreview" class="grid-chat-preview-full-screen">
   <div class="header1 bg-theme-primary px-3 d-flex align-items-center">
-    <img class="logo-md mr-2 rounded-circle" src="{{enterprise_logo||'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg'}}" alt="" style="border-radius: 50%;">
+    <img class="logo-md mr-2 rounded-circle"
+         src="{{enterprise_logo||'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg'}}" alt=""
+         style="border-radius: 50%;">
     <div class="d-flex flex-column text-white">
       <div>{{user_first_name}}</div>
       <div class="font-11">{{user_email}}</div>
     </div>
-    <div class="btn-group p-2 ml-auto" #dropdown="bs-dropdown" [autoClose]="false" dropdown (clickOutside)="dropdown.hide()">
-      <div dropdownToggle class="user cursor-pointer text-white" ><i class="fa fa-user"></i></div>
+    <div class="btn-group p-2 ml-auto" #dropdown="bs-dropdown" [autoClose]="false" dropdown
+         (clickOutside)="dropdown.hide()">
+      <div dropdownToggle class="user cursor-pointer text-white"><i class="fa fa-user"></i></div>
 
-      <form *dropdownMenu class="dropdown-menu dropdown-menu-left p-3" role="menu" #form="ngForm" (ngSubmit)="saveConsumerDetails(form.value)"
+      <form *dropdownMenu class="dropdown-menu dropdown-menu-left p-3" role="menu" #form="ngForm"
+            (ngSubmit)="saveConsumerDetails(form.value)"
             style="width: 240px">
         <p class="heading mb-2">Edit Customer</p>
         <div class="form-group">
           <label>UserName</label>
-          <input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.username" name="username" aria-describedby="emailHelp" >
+          <input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.username"
+                 name="username" aria-describedby="emailHelp">
         </div>
         <div class="form-group">
           <label>Phone</label>
-          <input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.phone" name="phone" aria-describedby="emailHelp" >
+          <input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.phone" name="phone"
+                 aria-describedby="emailHelp">
         </div>
         <div class="form-group">
           <label>Email</label>
-          <input type="email" required email class="form-control" [ngModel]="customConsumerDetails?.email" name="email" aria-describedby="emailHelp" >
+          <input type="email" required email class="form-control" [ngModel]="customConsumerDetails?.email" name="email"
+                 aria-describedby="emailHelp">
         </div>
         <div class="form-group">
           <label>Facebook ID</label>
-          <input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.facebook_id" name="facebook_id" aria-describedby="emailHelp" >
+          <input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.facebook_id"
+                 name="facebook_id" aria-describedby="emailHelp">
         </div>
         <div class="form-group">
           <label>UID</label>
-          <input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.uid"  name="uid" aria-describedby="emailHelp" >
+          <input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.uid" name="uid"
+                 aria-describedby="emailHelp">
         </div>
-        <button type="submit" class="btn-block btn-theme-primary my-3" (click)="dropdown.hide()" >Save Changes</button>
+        <button type="submit" class="btn-block btn-theme-primary my-3" (click)="dropdown.hide()">Save Changes</button>
       </form>
     </div>
 
@@ -137,7 +149,7 @@
          [src]="currentBot.logo||'https://image.flaticon.com/icons/svg/17/17004.svg'">
     <div *ngIf="currentBot" class="d-flex flex-column text-white">
       <div>{{currentBot.name}}</div>
-      <div class="font-11">{{currentBot.description}}</div>
+      <!--<div class="font-11">{{currentBot.description}}</div>-->
     </div>
     <!---->
     <!--<div class="room-details ml-auto">-->
@@ -163,11 +175,11 @@
   </div>
   <div class="chat">
     <app-chat-window
-                     [selectedAvatar]="selectedAvatar"
-                     [showBotIsThinking]="showBotIsThinking"
-                     [room]="currentRoom"
-                     (sendMessageByHuman$)="sendMessageByHuman($event)"
-                     [messageDataArray]="messageData">
+      [selectedAvatar]="selectedAvatar"
+      [showBotIsThinking]="showBotIsThinking"
+      [room]="currentRoom"
+      (sendMessageByHuman$)="sendMessageByHuman($event)"
+      [messageDataArray]="messageData">
     </app-chat-window>
   </div>
   <!--<div class="inputBox">-->

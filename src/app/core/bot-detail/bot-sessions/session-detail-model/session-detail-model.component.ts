@@ -95,7 +95,7 @@ export class SessionDetailModelComponent implements OnInit {
 
 
   transactionIdChangedInModel(txnId) {
-    debugger;
+
     this.transactionIdSelectedInModel = txnId;
     /*This data will show under Manager Bot*/
     let messageDataForGiveTxnId = this.sessionMessageData.find((message) => {
@@ -114,7 +114,7 @@ export class SessionDetailModelComponent implements OnInit {
     let activeBotId = botMessageDataForGiveTxnId.message_store.activeBotId;
     let activeBotRoomId = botMessageDataForGiveTxnId.message_store.activeBotRoomId;
     this.activeBotPanelData = botMessageDataForGiveTxnId.message_store;
-    
+
     if(activeBotId){
       let activeBotAccessTokenId = this.allBotList.find(bot => bot.id === activeBotId).bot_access_token;
       let headerData: IHeaderData = {

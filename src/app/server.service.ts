@@ -26,6 +26,17 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/filter';
 import {IConsumerDetails} from './chat/ngxs/chat.state';
+import {EBotMessageMediaType, EChatFrame, IRoomData} from '../interfaces/chat-session-state';
+import {
+  AddMessagesToRoomByRoomId,
+  AddNewRoom,
+  ChangeFrameAction,
+  ResetChatState,
+  SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
+  SetCurrentRoomID, ToggleChatWindow
+} from './chat/ngxs/chat.action';
+import {b} from '@angular/core/src/render3';
+
 declare var IMI: any;
 declare var $: any;
 
@@ -156,6 +167,14 @@ export class ServerService {
       this.changeProgressBar(true, 0);
     }
     return this.httpClient.post<T>(reqObj.url, reqObj.body, {headers: headers})
+      .map((value: any) => {
+        if (value && value.error) {
+          this.showErrorMessageForErrorTrue(value);
+          return throwError(value);
+        } else {
+          return value;
+        }
+      })
       .do((value) => {
         this.IncreaseAutoLogoutTime();
         if (!reqObj.dontShowProgressBar)
@@ -234,6 +253,24 @@ export class ServerService {
 
   }
 
+  getNSetChatPreviewBot(bot_unique_name: string, enterprise_unique_name: string) {
+    // if (!this.currentBot || (this.currentBot && this.currentBot.bot_unique_name !== this.bot_unique_name)) {
+    //   let enterprise_unique_name = this.activatedRoute.snapshot.queryParams['enterprise_unique_name'];//testingbot
+    //   if (!this.bot_unique_name) return;
+    let url = `https://dev.imibot.ai/api/v1/bot/preview/?bot_unique_name=${bot_unique_name}&enterprise_unique_name=${enterprise_unique_name}`;
+    this.makeGetReq({url, noValidateUser: true})
+      .subscribe((bot: IBot) => {
+        // this.user_first_name = bot.enterprise_name;
+        // this.enterprise_logo = bot.enterprise_logo;
+        // this.user_email =bot.enterprise_name;
+        this.store.dispatch([
+          new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({bot}),
+          new ToggleChatWindow({open:true})
+        ]);
+      });
+  }
+
+
   getNSetIntegrationList() {
     let url = this.constantsService.getMasterIntegrationsList();
     return this.makeGetReq<{ meta: any, objects: IIntegrationMasterListItem[] }>({url})
@@ -297,7 +334,7 @@ export class ServerService {
     return this.makeDeleteReq({url, headerData});
   }
 
-  getAllVersionOfBotFromServerAndStoreInBotInBotList(botId,bot_access_token){
+  getAllVersionOfBotFromServerAndStoreInBotInBotList(botId, bot_access_token) {
     let url = this.constantsService.getAllVersionsByBotId();
     // let botId = this.bot.id;
     this.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': bot_access_token}})
@@ -309,43 +346,57 @@ export class ServerService {
   }
 
 
+  messaging;
 
-
-  startANewChatUsingImiConnectSdk(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot }){
-    var appId = "IM20051444";
-    var appSecret = "aD69OwcY";
-    var streamName = "bot";
-    var serviceKey = "f6e50f7b-2bfd-11e8-bf0b-0213261164bb";
-    var userId ="123456789";
+  initializeIMIConnect() {
+    var appId = 'IM20051444';
+    var appSecret = 'aD69OwcY';
+    // var streamName = "bot";
+    var serviceKey = 'f6e50f7b-2bfd-11e8-bf0b-0213261164bb';
+    var userId = '123456789sadasd';
 
     var config = new IMI.ICConfig(appId, appSecret);
     var messaging = IMI.ICMessaging.getInstance();
 
 
-    function  prepareMessage(message) {
-
-    }
+    let prepareMessage = (messageObj) => {
+      this.store.dispatch([
+        new AddMessagesToRoomByRoomId({
+          id: this.currentRoom.id,
+          messageList: [{
+            sourceType: 'bot',
+            time: '10:10AM',
+            messageMediatype: EBotMessageMediaType.text,
+            'text': messageObj.message,
+          }]
+        }),
+        // new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX}),
+        // new SetCurrentRoomID({id: 123456789.room.id})
+      ]);
+    };
 
     var msgCallBack = {//messaging.setICMessagingReceiver(msgCallBack);
       onConnectionStatusChanged: function (statuscode) {
         var statusMessage = null;
         if (statuscode == 2) {
-          statusMessage = "Connected";
+          statusMessage = 'Connected';
         } else if (statuscode == 6) {
-          statusMessage = "Error while connecting";
+          statusMessage = 'Error while connecting';
         } else {
-          statusMessage = "Not Connected";
+          statusMessage = 'Not Connected';
         }
 
       },
       onMessageReceived: function (message) {
+
 
         prepareMessage(message);
 
         if (message.getType() === IMI.ICMessageType.Message) {
           var callback = {
             onFailure: function (err) {
-              console.log("failed to get topics:");
+              console.log('failed to get topics:');
+
               //handleFailure(err);
             }
           };
@@ -361,8 +412,9 @@ export class ServerService {
     IMI.IMIconnect.registerListener(
       {
         onFailure: function () {
-          console.log("token got expired...");
-        }});
+          console.log('token got expired...');
+        }
+      });
 
 
     var regcallback = {
@@ -370,47 +422,80 @@ export class ServerService {
 
         try {
           messaging.connect();
-          console.log("onSuccess: reg");
+          console.log('onSuccess: reg');
         } catch (ex) {
           console.log(ex);
         }
 
       },
       onFailure: function (err) {
-        console.log("Registration failed");
+        console.log('Registration failed');
 
       }
     };
     var deviceProfile = new IMI.ICDeviceProfile(deviceId, userId);
-    console.log("IMI.IMIconnect.isRegistered()"+IMI.IMIconnect.isRegistered());
+    console.log('IMI.IMIconnect.isRegistered()' + IMI.IMIconnect.isRegistered());
     IMI.IMIconnect.register(deviceProfile, regcallback);
 
 
+// //send message
+//     var pubcallback = {
+//       onSuccess: function () {
+//         console.log("message sent");
+//
+//       },
+//       onFailure: function (errormsg) {
+//         console.log("failed to send message");
+//       }
+//
+//     };
+//
+//     var message = new IMI.ICMessage();
+//     message.setMessage("Hello this is sample message");
+//
+//     var thread = new IMI.ICThread();
+//     thread.setId("bot");
+//     thread.setTitle("bot");
+//     thread.setStreamName(streamName);
+//
+//     message.setThread(thread);
+//     messaging.publishMessage(message, pubcallback);
+
+    this.messaging = messaging;
+  }
+
+  currentRoom: IRoomData;
+
+  sendHumanMessageViaImiConnect(currentRoom, messageByHuman: string) {
+
+    var streamName = 'bot';
+    this.currentRoom = currentRoom;
 //send message
     var pubcallback = {
       onSuccess: function () {
-        console.log("message sent");
+        console.log('message sent');
 
       },
       onFailure: function (errormsg) {
-        console.log("failed to send message");
+        console.log('failed to send message');
       }
 
     };
 
     var message = new IMI.ICMessage();
-    message.setMessage("Hello this is sample message");
+    message.setMessage(messageByHuman);
 
     var thread = new IMI.ICThread();
-    thread.setId("bot");
-    thread.setTitle("bot");
+    thread.setId('bot');
+    thread.setTitle('bot');
     thread.setStreamName(streamName);
 
     message.setThread(thread);
-    messaging.publishMessage(message, pubcallback);
-
+    this.messaging.publishMessage(message, pubcallback);
   }
-  startANewChatUsingSendApi(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot }){
+
+
+  startANewChatUsingSendApi(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot }) {
     let url = this.constantsService.getStartNewChatLoginUrl();
     let headerData: IHeaderData = {
       'bot-access-token': startNewChatData.bot.bot_access_token,
@@ -428,7 +513,7 @@ export class ServerService {
       'consumer': startNewChatData.consumerDetails
     };
 
-    return this.makePostReq({url, body, headerData})
+    return this.makePostReq({url, body, headerData});
   }
 
 }

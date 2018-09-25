@@ -6,7 +6,7 @@ import {ConstantsService, ETabNames} from '../../../constants.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {UtilityService} from '../../../utility.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {ChangeFrameAction, SetCurrentBotDetails, ToggleChatWindow} from '../../../chat/ngxs/chat.action';
+import {ChangeFrameAction, SetCurrentBotDetailsAndResetChatStateIfBotMismatch, ToggleChatWindow} from '../../../chat/ngxs/chat.action';
 import {EChatFrame} from '../../../../interfaces/chat-session-state';
 import {AddNewBotInAllBotList, UpdateBotInfoByIdInBotInBotList} from '../../view-bots/ngxs/view-bot.action';
 import {Router} from '@angular/router';
@@ -39,7 +39,9 @@ export class BotDetailHeaderComponent implements OnInit {
   }
   openBot() {
     this.store.dispatch([
-      new SetCurrentBotDetails({id: this.bot.id, logo:this.bot.logo, bot_access_token:this.bot.bot_access_token, name:this.bot.name}),
+      new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
+        bot:this.bot
+      }),
       new ToggleChatWindow({open: true}),
       new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX})
     ]);

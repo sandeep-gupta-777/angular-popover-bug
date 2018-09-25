@@ -19,7 +19,7 @@ export class BotWelcomeComponent implements OnInit {
   @Output() startnewchat$ = new EventEmitter();
   myEChatFrame = EChatFrame;
 
-  currentBot: IBot;
+  @Input() currentBot: IBot;
 
   constructor(private utilityService: UtilityService) {
   }
@@ -28,13 +28,13 @@ export class BotWelcomeComponent implements OnInit {
   @Input() bot_id: number;
 
   ngOnInit() {
-    this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
-      this.bot_id = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.id;
-      if (!this.bot_id) return;
-      this.botlist$.subscribe((value) => {
-        this.currentBot = value.allBotList.find(value => value.id === this.bot_id);
-      });
-    });
+    // this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
+    //   this.bot_id = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.id;
+    //   if (!this.bot_id) return;
+    //   this.botlist$.subscribe((value) => {
+    //     this.currentBot = value.allBotList.find(value => value.id === this.bot_id);
+    //   });
+    // });
   }
 
   startNewChat() {

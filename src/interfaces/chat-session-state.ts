@@ -1,5 +1,7 @@
 import {IConsumerDetails} from '../app/chat/ngxs/chat.state';
 import {IGeneratedMessageItem} from './send-api-request-payload';
+import {IIntegrationOption} from './integration-option';
+import {IBot} from '../app/core/interfaces/IBot';
 
 export enum EChatFrame {
   WELCOME_BOX="WELCOME_BOX",
@@ -42,12 +44,7 @@ export interface IChatSessionState {
   opened: boolean;
   frameEnabled: EChatFrame,
   currentRoomId: number,
-  currentBotDetails: {
-    id: number,
-    name?: string,
-    logo?: string,
-    bot_access_token?: string
-  },
+  currentBotDetails: IBot,
   currentUId: string,
   rooms: IRoomData[],
   consumerDetails: IConsumerDetails

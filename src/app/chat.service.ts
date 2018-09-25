@@ -7,7 +7,7 @@ import {
   AddMessagesToRoomByRoomId,
   // AddMessagesToRoomByUId,
   ChangeFrameAction,
-  SetCurrentBotDetails,
+  SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
   SetCurrentRoomID, SetLastTemplateKeyToRoomByRoomId,
   ToggleChatWindow
 } from './chat/ngxs/chat.action';

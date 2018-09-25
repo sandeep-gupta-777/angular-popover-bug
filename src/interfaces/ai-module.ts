@@ -13,7 +13,7 @@
 
 export interface IPipelineItem {
   "contextual": boolean,
-  "created_at": string,
+  "created_at": number,
   "default": boolean,
   "display_values": {},
   "id": number,
@@ -22,7 +22,7 @@ export interface IPipelineItem {
   "module": string,
   "resource_uri": string,
   "unique_name": string,
-  "updated_at": string,
+  "updated_at": number,
 
   /*custom fields*/
   form_validation_pipeline?:boolean;
