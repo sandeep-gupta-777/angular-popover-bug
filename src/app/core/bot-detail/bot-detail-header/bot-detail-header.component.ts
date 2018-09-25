@@ -87,7 +87,7 @@ export class BotDetailHeaderComponent implements OnInit {
         this.store.dispatch([
           new UpdateBotInfoByIdInBotInBotList({botId:this.bot.id, data:updatedBot})
         ]);
-        this.utilityService.showSuccessToaster("Bot Successfully updated!");
+        this.utilityService.showSuccessToaster("Bot updated");
       });
   }
 
@@ -110,7 +110,7 @@ export class BotDetailHeaderComponent implements OnInit {
         this.serverService.getNSetBotList()
           .subscribe(()=>{
             this.router.navigate(['']);
-            this.utilityService.showSuccessToaster("Bot Successfully deleted");
+            this.utilityService.showSuccessToaster("Bot deleted");
           })
       })
   }

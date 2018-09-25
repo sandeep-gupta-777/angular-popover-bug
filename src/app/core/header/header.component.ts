@@ -78,7 +78,7 @@ export class HeaderComponent implements OnInit {
     this.url = this.constantsService.getLogoutUrl();
     this.serverService.makeGetReq({url: this.url})
       .subscribe((v) => {
-        this.utilityService.showSuccessToaster('Successfully Logged Out');
+        this.utilityService.showSuccessToaster('Logged Out');
       });
     this.store.dispatch([
 

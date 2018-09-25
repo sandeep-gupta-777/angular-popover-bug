@@ -61,7 +61,7 @@ export class ProfileComponent implements OnInit {
 
   updateProfile() {
     if (!this.f.valid) {
-      this.utilityService.showErrorToaster(new Error('please fill valid values'));
+      this.utilityService.showErrorToaster(new Error('Please fill valid values'));
       return;
     }
     let url: string = this.constantsService.getUserUpdateUrl(this.loggeduser.id);
@@ -71,7 +71,7 @@ export class ProfileComponent implements OnInit {
     this.serverService.makePutReq({url, body})
       .subscribe((value: IUser) => {
         let updatedUser: IUser = {...this.loggeduser, ...value};
-        this.utilityService.showSuccessToaster('Successfully updated!');
+        this.utilityService.showSuccessToaster('Updated profile');
         this.store.dispatch([
           new SetUserAction({user: updatedUser})
         ]);

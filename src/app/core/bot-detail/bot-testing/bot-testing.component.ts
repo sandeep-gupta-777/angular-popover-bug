@@ -101,7 +101,7 @@ export class BotTestingComponent implements OnInit {
         // })
       }
     }).subscribe((value) => {
-      this.utilityService.showSuccessToaster('Test cases created successfully');
+      this.utilityService.showSuccessToaster('Test cases created');
       this.isData = true;
     })
   }
@@ -116,7 +116,7 @@ export class BotTestingComponent implements OnInit {
         'data': this.testCaseData
       }
     }).subscribe((value) => {
-      this.utilityService.showSuccessToaster('Test cases updated successfully');
+      this.utilityService.showSuccessToaster('Test cases updated');
       this.isData = true;
     });
   }

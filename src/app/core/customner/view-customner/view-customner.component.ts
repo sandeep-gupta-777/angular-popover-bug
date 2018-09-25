@@ -24,7 +24,35 @@ export class ViewCustomnerComponent implements OnInit {
   @Select() app$: Observable<IAppState>;
   custumNerDataForSmartTable: ICustomNerItem[];
   recordsPerPage:number=15;
-  settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;
+  settings = {
+    columns: {
+    key: {
+      title: 'Concept Key'
+    },
+    ner_type: {
+      title: 'Type'
+    },
+    // conflict_policy: {
+    //   title: 'Override Policy'
+    // },
+  },
+  pager: {
+    display: false
+  },
+  actions: {
+    add: false,
+    edit: false,
+    delete: false
+  },
+  rowClassFunction: (row) => {
+    if (row.data.highlight) {
+      return 'hightlight-created-row';
+      //   return 'score negative'; // Color from row with negative in score
+      // } else if (row.data.type === '(+)') {
+      //   return 'score positive';
+    }
+    return '';
+  }};
   totalRecords: number = 10;
   currentPageNumber = 1;
   @ViewChild(KnowledgeBaseComponent) knowledgeBaseComponent: KnowledgeBaseComponent;
@@ -95,7 +123,7 @@ export class ViewCustomnerComponent implements OnInit {
           this.custumNerDataForSmartTable.push({...value, highlight: true});
         }
         this.addQueryParamsInCurrentRoute({ner_id: value.id});
-        this.utilityService.showSuccessToaster('Successfully saved');
+        this.utilityService.showSuccessToaster('Saved customner');
       });
   }
 
@@ -112,7 +140,7 @@ export class ViewCustomnerComponent implements OnInit {
     this.serverService.deleteNer(ner_id)
       .subscribe(() => {
 
-        this.utilityService.showSuccessToaster('Successfully deleted!');
+        this.utilityService.showSuccessToaster('Deleted customner');
         this.router.navigate([`/core/customner`]);
         let indexToBeDeleted = this.custumNerDataForSmartTable.findIndex((nerObj) => nerObj.id == ner_id);
         if (indexToBeDeleted !== -1) this.custumNerDataForSmartTable.splice(indexToBeDeleted, 1);

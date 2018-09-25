@@ -95,7 +95,7 @@ export class EnterpriseprofileComponent implements OnInit {
     let headerData: IHeaderData = {'content-type': 'application/json'};
     this.serverService.makePutReq({url, body, headerData})
       .subscribe(() => {
-        this.utilityService.showSuccessToaster('Successfully Updated!');
+        this.utilityService.showSuccessToaster('Updated enterprise profile');
         this.store.dispatch([
           new SetEnterpriseInfoAction({enterpriseInfo: body})
         ]);
