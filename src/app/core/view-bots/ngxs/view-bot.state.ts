@@ -1,4 +1,4 @@
-import {Action, Selector, State, StateContext} from '@ngxs/store';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
 import {
   ResetBotListAction,
   SetCodeBasedBotListAction,
@@ -6,8 +6,8 @@ import {
   SaveVersionInfoInBot,
   UpdateBotInfoByIdInBotInBotList, SetAllBotListAction, AddNewBotInAllBotList, UpdateVersionInfoByIdInBot
 } from './view-bot.action';
-import {IBot} from '../../interfaces/IBot';
-import {ActivatedRoute} from '@angular/router';
+import { IBot } from '../../interfaces/IBot';
+import { ActivatedRoute } from '@angular/router';
 
 
 export interface ViewBotStateModel {
@@ -32,7 +32,7 @@ export class ViewBotStateReducer {
   }
 
   @Action(SetAllBotListAction)
-  setAllBotListAction({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>, {payload}: SetAllBotListAction) {
+  setAllBotListAction({ patchState, setState, getState, dispatch }: StateContext<ViewBotStateModel>, { payload }: SetAllBotListAction) {
     let state = getState();
     patchState({
       // codeBasedBotList: payload.botList,
@@ -41,7 +41,7 @@ export class ViewBotStateReducer {
   }
 
   @Action(AddNewBotInAllBotList)
-  addNewBotInAllBotList({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>, {payload}: AddNewBotInAllBotList) {
+  addNewBotInAllBotList({ patchState, setState, getState, dispatch }: StateContext<ViewBotStateModel>, { payload }: AddNewBotInAllBotList) {
     let state = getState();
     let allBotList = state.allBotList.push(payload.bot);
     patchState({
@@ -50,7 +50,7 @@ export class ViewBotStateReducer {
   }
 
   @Action(SetCodeBasedBotListAction)
-  setCodebasedBotList({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>, {payload}: SetCodeBasedBotListAction) {
+  setCodebasedBotList({ patchState, setState, getState, dispatch }: StateContext<ViewBotStateModel>, { payload }: SetCodeBasedBotListAction) {
     let state = getState();
     patchState({
       codeBasedBotList: payload.botList,
@@ -59,7 +59,7 @@ export class ViewBotStateReducer {
   }
 
   @Action(SetPipeLineBasedBotListAction)
-  setPipelineBasedBotList({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>, {payload}: SetPipeLineBasedBotListAction) {
+  setPipelineBasedBotList({ patchState, setState, getState, dispatch }: StateContext<ViewBotStateModel>, { payload }: SetPipeLineBasedBotListAction) {
     let state = getState();
     patchState({
       pipelineBasedBotList: payload.botList,
@@ -68,7 +68,7 @@ export class ViewBotStateReducer {
   }
 
   @Action(ResetBotListAction)
-  resetBotList({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>) {
+  resetBotList({ patchState, setState, getState, dispatch }: StateContext<ViewBotStateModel>) {
     setState({
       codeBasedBotList: null,
       pipelineBasedBotList: null,
@@ -77,45 +77,63 @@ export class ViewBotStateReducer {
   }
 
   @Action(SaveVersionInfoInBot)
-  saveVersionInfoInBot({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>,
-                       {payload}: SaveVersionInfoInBot) {
+  saveVersionInfoInBot({ patchState, setState, getState, dispatch }: StateContext<ViewBotStateModel>,
+    { payload }: SaveVersionInfoInBot) {
     let state: ViewBotStateModel = getState();
     let bot: IBot = state.allBotList.find((bot) => bot.id === payload.botId);
+    // "updated_fields"?: {
+    //   "df_template"?: boolean,
+    //   "df_rules"?: boolean,
+    //   "generation_rules"?: boolean,
+    //   "generation_template"?: boolean,
+    //   "workflows"?: boolean
+    // }
+    let versionList = payload.data;
+    // versionList.forEach(version => {
+    //   version.store_updated_fields = {
+    //     "df_template": false,
+    //     "df_rules": false,
+    //     "generation_rules": false,
+    //     "generation_template": false,
+    //     "workflows": false
+    //   }
+    // });
+    // versionList = {...versionList}
+    bot.store_bot_versions = versionList;
 
-    bot.store_bot_versions = payload.data;
-    setState({...state});
+    setState({ ...state });
   }
 
   @Action(UpdateVersionInfoByIdInBot)
-  updateVersionInfoByIdInBot({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>,
-                       {payload}: UpdateVersionInfoByIdInBot) {
+  updateVersionInfoByIdInBot({ patchState, setState, getState, dispatch }: StateContext<ViewBotStateModel>,
+    { payload }: UpdateVersionInfoByIdInBot) {
     let state: ViewBotStateModel = getState();
     let bot: IBot = state.allBotList.find((bot) => bot.id === payload.botId);
 
     let store_bot_versions = bot.store_bot_versions || (bot.store_bot_versions = []);
-    let index =  store_bot_versions.findIndex((version)=>version.id===payload.data.id);
+    let index = store_bot_versions.findIndex((version) => version.id === payload.data.id);
     // index =  index===-1?0:index;
-    if(index!==-1){
-      store_bot_versions[index] = {...store_bot_versions[index], ...payload.data};
-    }else {
+    if (index !== -1) {
+      store_bot_versions[index] = { ...store_bot_versions[index], ...payload.data };
+    } else {
       store_bot_versions.push(payload.data);
     }
-    setState({...state});
+    setState({ ...state });
   }
 
   @Action(UpdateBotInfoByIdInBotInBotList)
-  updateBotInfoByIdInBotInBotList({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>,
-                       {payload}: UpdateBotInfoByIdInBotInBotList) {
+  updateBotInfoByIdInBotInBotList({ patchState, setState, getState, dispatch }: StateContext<ViewBotStateModel>,
+    { payload }: UpdateBotInfoByIdInBotInBotList) {
     let state: ViewBotStateModel = getState();
     state.allBotList = state.allBotList.map((bot) => {
-      if(bot.id === payload.botId){
-        return {...bot, ...payload.data}
-      }else {
+      if (bot.id === payload.botId) {
+        return { ...bot, ...payload.data }
+      } else {
         return bot;
       }
       // return  ? {...bot, ...payload.data} : bot;
     });
-    setState({...state});
+    setState({ ...state });
   }
 
   static getCodeBased(x) {

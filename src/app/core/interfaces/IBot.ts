@@ -135,6 +135,13 @@ export interface IBotVersionData  {
     "generation_template"?: boolean,
     "workflows"?: boolean
   },
+  "changed_fields"?: {
+    "df_template"?: boolean,
+    "df_rules"?: boolean,
+    "generation_rules"?: boolean,
+    "generation_template"?: boolean,
+    "workflows"?: boolean
+  },
   "forked_from"?: number,
 }
 

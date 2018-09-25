@@ -325,7 +325,7 @@ export class ConstantsService {
   }
 
   getSessionsMessageUrl(room_id: number) {
-    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}`; //https://dev.imibot.ai/api/v1/message/?room_id=60
+    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}&limit=1000`; //https://dev.imibot.ai/api/v1/message/?room_id=60
   }
 
   getTotalMessagesUrl() {
@@ -740,7 +740,7 @@ export class ConstantsService {
       return cellProperties;
     }
   };
-  readonly HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders = ['', '', '',"","",'','','',''];
+  readonly HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders = ['', '', ''];
   readonly HANDSON_TABLE_KNOWLEDGE_BASE_columns = [
     // {data: 0, type: 'text'},
     // {data: 1, type: 'text'},
