@@ -40,7 +40,7 @@ export class KnowledgeBaseComponent implements OnInit {
   @Input() currentPageNumber=1;
   @Input() totalRecords = 10;
   loggeduser: { user: IUser };
-  settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;
+  @Input() settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;
   codeTextOutPutFromCodeEditor: string;
   codeTextInputToCodeEditor: string;
   showTable = true;

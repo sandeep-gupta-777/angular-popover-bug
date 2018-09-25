@@ -47,7 +47,7 @@ export class BackendDevComponent implements OnInit {
       new SetBackendURlRoot({url:this.backend_root_url})
     ])
       .subscribe((value)=>{
-        this.utilityService.showSuccessToaster("Backend root url changed!");
+        this.utilityService.showSuccessToaster("Backend root url changed");
         this.modalRef.hide();
       });
   }

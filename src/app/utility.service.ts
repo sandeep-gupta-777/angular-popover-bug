@@ -155,7 +155,7 @@ export class UtilityService {
       document.body.appendChild(textarea);
       textarea.select();
       try {
-        this.showSuccessToaster('Copied!');
+        this.showSuccessToaster('Copied');
         return document.execCommand('copy');  // Security exception may be thrown by some browsers.
       } catch (ex) {
         console.warn('Copy to clipboard failed.', ex);

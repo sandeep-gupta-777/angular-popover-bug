@@ -193,7 +193,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
           this.store.dispatch([
             new UpdateVersionInfoByIdInBot({data: value, botId: this.bot.id})
           ]);
-          this.utilityService.showSuccessToaster('new version saved successfully!');
+          this.utilityService.showSuccessToaster('New version saved');
         });
     } else {
       let url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
@@ -207,7 +207,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
         .subscribe((forkedVersion: IBotVersionData) => {
           console.log(forkedVersion);
           this.selectedVersion = forkedVersion;
-          this.utilityService.showSuccessToaster('new version forked successfully!');
+          this.utilityService.showSuccessToaster('New version forked');
           this.store.dispatch([
             new UpdateVersionInfoByIdInBot({data: forkedVersion, botId: this.bot.id})
           ]);
@@ -265,7 +265,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       .subscribe((forkedVersion: IBotVersionData) => {
         console.log(forkedVersion);
         this.bot.store_bot_versions.push(forkedVersion);
-        this.utilityService.showSuccessToaster('new version forked successfully!');
+        this.utilityService.showSuccessToaster('New version forked');
         this.forked_comments = '';
         this.forked_version_number = null;
         this.store.dispatch([

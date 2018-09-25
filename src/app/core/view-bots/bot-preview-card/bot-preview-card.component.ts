@@ -133,7 +133,7 @@ export class BotPreviewCardComponent implements OnInit {
     this.serverService.makeDeleteReq({url, headerData})
       .subscribe((value) => {
         this.serverService.getNSetBotList().subscribe(() => {
-          this.utilityService.showSuccessToaster('Bot successfully deleted!');
+          this.utilityService.showSuccessToaster('Bot deleted');
           this.store.dispatch([
             new DeleteChatRoomsByBotId({id: this.bot.id})
           ]);

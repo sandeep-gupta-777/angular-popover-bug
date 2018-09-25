@@ -53,10 +53,9 @@ export class CodeBasedBotDetailComponent implements OnInit {
     this.showConfig = (showConfigStr === 'true' || showConfigStr == undefined);
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
-    this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || 'sessions';
+    this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || 'architecture';
     /*this.bot$ = */
     this.botlist$.subscribe((botListState) => {
-
       if (botListState.allBotList)
         return this.bot = botListState.allBotList.find((bot) => {
           return bot.id === this.bot_id;

@@ -88,7 +88,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
         if (!doesNerExistsInSmartTable)
           (<any>this.custumNerDataForSmartTable).push({...value, highlight: true});
         this.addQueryParamsInCurrentRoute({ner_id: value.id});
-        this.utilityService.showSuccessToaster('Successfully saved');
+        this.utilityService.showSuccessToaster('Customner saved');
       });
   }
 
@@ -127,7 +127,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
     this.serverService.deleteNer(ner_id, this.bot)
       .subscribe(() => {
 
-        this.utilityService.showSuccessToaster('Successfully deleted!');
+        this.utilityService.showSuccessToaster('Customner deleted');
         this.router.navigate([`/core/botdetail/${EBotType.chatbot}/${this.bot.id}`], {
           queryParams: {
             'build-tab': 'knowledge',

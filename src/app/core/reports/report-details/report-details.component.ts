@@ -57,7 +57,7 @@ export class ReportDetailsComponent implements OnInit {
     let deleteReportUrl = this.constantsService.getReportDeleteUrl(this.report_id);
     this.serverService.makeDeleteReq({url:deleteReportUrl})
       .subscribe(()=>{
-        this.utilityService.showSuccessToaster("Report deleted Successfully!");
+        this.utilityService.showSuccessToaster("Report deleted");
         this.modalRef.hide();
         this.router.navigate(['/core/reports']);
       });
