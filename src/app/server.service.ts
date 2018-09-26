@@ -333,12 +333,21 @@ export class ServerService {
     }
     return this.makeDeleteReq({url, headerData});
   }
-
+  
   getAllVersionOfBotFromServerAndStoreInBotInBotList(botId, bot_access_token) {
     let url = this.constantsService.getAllVersionsByBotId();
     // let botId = this.bot.id;
     this.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': bot_access_token}})
       .subscribe((botVersionResult) => {
+        botVersionResult.objects.forEach((version)=>{
+          version.changed_fields = {
+            "df_template" : false,
+            "df_rules" : false,
+            "generation_rules" : false,
+            "generation_template" : false,
+            "workflows" : false
+          }
+        });
         this.store.dispatch([
           new SaveVersionInfoInBot({data: botVersionResult.objects, botId: botId})
         ]);

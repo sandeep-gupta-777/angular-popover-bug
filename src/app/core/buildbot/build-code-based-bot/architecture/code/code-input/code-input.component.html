@@ -22,16 +22,18 @@
         <div class="update d-flex flex-column mr-1 justify-content-center">
           <div>Last update</div>
           <div class="d-flex justify-content-left pt-1">
+            <!-- <i class="fa fa-circle"
+               [ngClass]="{'text-danger':selectedVersion.updated_fields['df_template'], 'dark-green':activeTab==='df_template'}"></i> -->
+               <i class="fa fa-circle"
+               [ngClass]="{'text-danger':selectedVersion.changed_fields['df_template'], 'dark-green':selectedVersion.updated_fields['df_template']}"></i>
             <i class="fa fa-circle"
-               [ngClass]="{'text-danger':selectedVersion.updated_fields['df_template'], 'dark-green':activeTab==='df_template'}"></i>
+               [ngClass]="{'text-danger':selectedVersion.changed_fields['df_rules'], 'dark-green':selectedVersion.updated_fields['df_rules']}"></i>
             <i class="fa fa-circle"
-               [ngClass]="{'text-danger':selectedVersion.updated_fields['df_rules'], 'dark-green':activeTab==='df_rules'}"></i>
+               [ngClass]="{'text-danger':selectedVersion.changed_fields['generation_rules'], 'dark-green':selectedVersion.updated_fields['generation_rules']}"></i>
             <i class="fa fa-circle"
-               [ngClass]="{'text-danger':selectedVersion.updated_fields['generation_rules'], 'dark-green':activeTab==='generation_rules'}"></i>
+               [ngClass]="{'text-danger':selectedVersion.changed_fields['generation_templates'], 'dark-green':selectedVersion.updated_fields['generation_templates']}"></i>
             <i class="fa fa-circle"
-               [ngClass]="{'text-danger':selectedVersion.updated_fields['generation_templates'], 'dark-green':activeTab==='generation_templates'}"></i>
-            <i class="fa fa-circle"
-               [ngClass]="{'text-danger':selectedVersion.updated_fields['workflows'], 'dark-green':activeTab==='workflows'}"></i>
+               [ngClass]="{'text-danger':selectedVersion.changed_fields['workflows'], 'dark-green':selectedVersion.updated_fields['workflows']}"></i>
           </div>
           <!--<form class="d-flex">-->
           <!--<input type="radio" name="optradio" checked>-->
@@ -60,12 +62,14 @@
               class="btn btn-theme-primary-outline mr-1"
               (click)="saveSelectedVersion()">
         {{(!bot.store_bot_versions || !bot.store_bot_versions.length || bot.store_bot_versions.length>0)?"Save":"Create"}}
-        Version
+        version
       </button>
       <button class="btn btn-theme-primary-outline"
               [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
               (click)="openForkNewVersionModal(Primarytemplate)">
-        Fork new version
+              {{(selectedVersion.changed_fields['df_template'] || selectedVersion.changed_fields['df_rules']  ||
+               selectedVersion.changed_fields['generation_rules'] || selectedVersion.changed_fields['generation_templates'] || 
+               selectedVersion.changed_fields['workflows'])?"Save as new version":"Create new version"}}
       </button>
     </div>
     <div class="row row-flex-bot-versioning-toaster border-theme-secondary  border-top-0 mx-0"
