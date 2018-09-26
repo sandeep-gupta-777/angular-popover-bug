@@ -11,19 +11,26 @@ import {UtilityService} from '../../../../../utility.service';
 export class SessionMessageComponent implements OnInit {
 
   // @Input() sessionMessageData: ISessionMessageItem;
-  @Input() txnConversationItems: ITxnSessionMessagesItem;
+   _txnConversationItems: ITxnSessionMessagesItem;
+  @Input()  set txnConversationItems (txnConversationItemsValue: ITxnSessionMessagesItem){
+
+    this._txnConversationItems = txnConversationItemsValue;
+  }
   @Output() messageClickedEvent$: EventEmitter<string> = new EventEmitter();
   myArray = Array;
   sessionMessageItems: ISessionMessageItem[];
   txnId:string;
+  myObject = Object;
   txnId_highlighting:string;
   constructor(public utilityService:UtilityService) { }
 
   ngOnInit() {
 
-    this.sessionMessageItems = this.txnConversationItems.convoList;
-    this.txnId = this.txnConversationItems.transaction_id;
-    this.txnId_highlighting = this.txnConversationItems.transaction_id_highlighting || this.txnId;
+    this.sessionMessageItems = this._txnConversationItems.convoList;
+    console.clear()
+    console.log(this.sessionMessageItems);
+    this.txnId = this._txnConversationItems.transaction_id;
+    this.txnId_highlighting = this._txnConversationItems.transaction_id_highlighting || this.txnId;
     // this.sessionMessageData.user_type;
   }
 

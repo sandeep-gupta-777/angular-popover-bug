@@ -51,7 +51,7 @@ export class KnowledgeBaseComponent implements OnInit {
   modalRef: BsModalRef;
   handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
   handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
-  
+
   handontableData = [["","",""]];
   selectedRowData: ICustomNerItem;
 
@@ -261,7 +261,6 @@ export class KnowledgeBaseComponent implements OnInit {
     if (selectedRowData.ner_type === 'database') {
       // let valueKeys = selectedRowData.column_headers;
       let valueKeys = Object.keys(selectedRowData.values[0]);
-//
       this.handontableData = selectedRowData.values.map((value) => {
         return valueKeys.map((valueKey) => {
           return value[valueKey];

@@ -1,17 +1,17 @@
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { Store, Select } from '@ngxs/store';
-import { IConsumerResults } from '../../../../interfaces/consumer';
-import { ServerService } from '../../../server.service';
-import { Observable } from 'rxjs';
-import { ConstantsService } from '../../../constants.service';
-import { ISessionItem, ISessionMessage, ISessions } from '../../../../interfaces/sessions';
-import { of } from 'rxjs';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { IBot } from '../../interfaces/IBot';
-import { SmartTableComponent } from '../../../smart-table/smart-table.component';
-import { UtilityService } from '../../../utility.service';
-import { IHeaderData } from '../../../../interfaces/header-data';
-import { findIndex } from 'rxjs/operators';
+import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Store, Select} from '@ngxs/store';
+import {IConsumerResults} from '../../../../interfaces/consumer';
+import {ServerService} from '../../../server.service';
+import {Observable} from 'rxjs';
+import {ConstantsService} from '../../../constants.service';
+import {ISessionItem, ISessionMessage, ISessions} from '../../../../interfaces/sessions';
+import {of} from 'rxjs';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {IBot} from '../../interfaces/IBot';
+import {SmartTableComponent} from '../../../smart-table/smart-table.component';
+import {UtilityService} from '../../../utility.service';
+import {IHeaderData} from '../../../../interfaces/header-data';
+import {findIndex} from 'rxjs/operators';
 
 @Component({
   selector: 'app-bot-sessions',
@@ -22,7 +22,7 @@ export class BotSessionsComponent implements OnInit {
 
   @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
   @Input() id: string;
-  test = "asdasdsd";
+  test = 'asdasdsd';
   @Input() bot: IBot;
   sessionItemToBeDecrypted: ISessionItem;
   @ViewChild(SmartTableComponent) smartTableComponent: SmartTableComponent;
@@ -74,13 +74,13 @@ export class BotSessionsComponent implements OnInit {
   /*todo: implement it better way*/
   refreshSession() {
     this.url = this.constantsService.getBotSessionsUrl(10, 0);
-    this.refreshSessions$ = this.serverService.makeGetReq<ISessions>({ url: this.url });
+    this.refreshSessions$ = this.serverService.makeGetReq<ISessions>({url: this.url});
     this.refreshSessions$.subscribe((value) => {
       this.sessions$ = of(value);
     });
   }
 
-  loadSmartTableSessionData(){
+  loadSmartTableSessionData() {
     this.loadSessionTableDataForGivenPage(this.pageNumberOfCurrentRowSelected);
     // this.sessions$ = this.serverService.makeGetReq<ISessions>({ url: this.url, headerData: { 'bot-access-token': this.bot.bot_access_token } });
     // this.sessions$
@@ -100,10 +100,10 @@ export class BotSessionsComponent implements OnInit {
     //   });
   }
 
-  sessionTableRowClicked(eventData:{data:ISessionItem}, template, reasonForDecryptionTemplate) {
+  sessionTableRowClicked(eventData: { data: ISessionItem }, template, reasonForDecryptionTemplate) {
     let isEncrypted: boolean;
     /*
-    * TODO: there is a data_encrypted key it the row itself. Can we use it?
+      * TODO: there is a data_encrypted key it the row itself. Can we use it?
     * Why do we need to go fetch first message to see if its decrypted or not?
     * */
     this.loadSessionMessagesById(eventData.data.id)
@@ -133,11 +133,10 @@ export class BotSessionsComponent implements OnInit {
       });
 
 
-
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { class: 'modal-xlg' });
+    this.modalRef = this.modalService.show(template, {class: 'modal-xlg'});
   }
 
   loadSessionTableDataForGivenPage(pageNumber) {
@@ -145,9 +144,9 @@ export class BotSessionsComponent implements OnInit {
     this.pageNumberOfCurrentRowSelected = pageNumber;
     this.url = this.constantsService.getBotSessionsUrl(10, (pageNumber - 1) * 10);
     let headerData: IHeaderData = {
-      "bot-access-token": this.bot.bot_access_token
+      'bot-access-token': this.bot.bot_access_token
     };
-    this.serverService.makeGetReq<ISessions>({ url: this.url, headerData })
+    this.serverService.makeGetReq<ISessions>({url: this.url, headerData})
       .subscribe((value) => {
         this.totalSessionRecords = value.meta.total_count;
         this.selectedRow_Session = value.objects[this.selectedRow_number || 0];
@@ -213,8 +212,8 @@ export class BotSessionsComponent implements OnInit {
         .subscribe((value: any) => {
           let dataToDownload = value.objects;
           if (dataToDownload.length === 0) {
-            dataToDownload = [{ name: 'No Data' }];
-            this.utilityService.downloadArrayAsCSV(dataToDownload, { name: 'No Data' });
+            dataToDownload = [{name: 'No Data'}];
+            this.utilityService.downloadArrayAsCSV(dataToDownload, {name: 'No Data'});
           } else {
             this.utilityService.downloadArrayAsCSV(dataToDownload);
           }
@@ -228,44 +227,48 @@ export class BotSessionsComponent implements OnInit {
 
     }
   }
+
   decryptSubmit() {
     let headerData: IHeaderData = {
-      "bot-access-token": this.bot.bot_access_token
+      'bot-access-token': this.bot.bot_access_token
     };
-    let body = { "room_id": this.sessionItemToBeDecrypted.id, "decrypt_audit_type": "room", "message": this.decryptReason };
+    let body = {'room_id': this.sessionItemToBeDecrypted.id, 'decrypt_audit_type': 'room', 'message': this.decryptReason};
     let url = this.constantsService.getDecryptUrl();
-    this.serverService.makePostReq({ headerData, body, url })
+    this.serverService.makePostReq({headerData, body, url})
       .subscribe(() => {
         this.decryptReason = null;
       });
     let surl = this.constantsService.getSessionsByIdUrl(this.sessionItemToBeDecrypted.id);
-    this.serverService.makeGetReq({url : surl, headerData})
-      .subscribe((newSession : ISessionItem)=>{
+    this.serverService.makeGetReq({url: surl, headerData})
+      .subscribe((newSession: ISessionItem) => {
         let del = this.sessions.findIndex((session) => session.id === this.sessionItemToBeDecrypted.id);
-        this.sessions[del] = {  ...newSession};
+        this.sessions[del] = {...newSession, isEncrypted: true};
       });
   }
+
   openCreateBotModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
   }
+
   loadSessionMessagesById(id) {
     this.url = this.constantsService.getSessionsMessageUrl(id);
     return this.serverService.makeGetReq<ISessionItem>({
       url: this.url,
-      headerData: { 'bot-access-token': this.bot.bot_access_token }
+      headerData: {'bot-access-token': this.bot.bot_access_token}
     });
   }
+
   loadSessionById(id) {
     // this.url = this.constantsService.getSessionsMessageUrl(id);
     this.url = this.constantsService.getSessionsByIdUrl(id);
     return this.serverService.makeGetReq<ISessionItem>({
       url: this.url,
-      headerData: { 'bot-access-token': this.bot.bot_access_token }
+      headerData: {'bot-access-token': this.bot.bot_access_token}
     });
   }
 
   performSearchInDbForSession(data) {
-    this.loadSessionById(data["Room ID"])
+    this.loadSessionById(data['Room ID'])
       .subscribe((session: ISessionItem) => {
         this.sessions.push(session);
         this.sessions = [...this.sessions];

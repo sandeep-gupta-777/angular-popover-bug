@@ -18,18 +18,19 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   @Input() setting = {};
   @ViewChild('handsontable') hotTableComponentTest: ElementRef;
   @ViewChild('handsontable_search_field') hotTableSearchField: ElementRef;
-  HandsontableComponent = this;
+  hot: any;
+
+  // HandsontableComponent = this;
   @Input() set testData(value) {
     this._data = value;
-    if (value && value.length>0 && this.hot) {
+    if (value && value.length > 0 && this.hot) {
       this.hot.getInstance().loadData(value);
       this.hot.getInstance().render();
     }
   };
 
 
-  hot: any;
-  _data: [string[]] = [["blank","",""]];
+  _data: [string[]] = [['blank', '', '']];
 
   public options: any;
 
@@ -52,13 +53,19 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
     let routeName = this.activatedRoute.snapshot.data['routeName'];
 
     let searchField = this.hotTableSearchField.nativeElement;
+    let colObject = {};
+    if (this.colHeaders && this.columns){
+      colObject = {
+        colHeaders: this.colHeaders,
+        columns: this.columns,
+      };
+    }
     let hot = this.hot = new Handsontable(this.hotTableComponentTest.nativeElement, {
-
-      data: this._data   ,
+      data: this._data,
       // rowHeaders: true,
       ...this.options,
-      colHeaders: this.colHeaders,
-      columns:this.columns,
+      // colHeaders: this.columns,
+      ...colObject,
       contextMenu: true,
       wordWrap: true,
       autoRowSize: true,

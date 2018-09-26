@@ -121,7 +121,8 @@
           <!--side bar ends-->
 
           <div class="px-2 pt-2 pb-0 d-flex  w-100">
-            <app-pipeline (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"
+            <app-pipeline
+              (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"
                           [bot]="bot"></app-pipeline>
             <!--<app-knowledge-base (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='knowledge'"-->
             <!--[bot]="bot"></app-knowledge-base>-->

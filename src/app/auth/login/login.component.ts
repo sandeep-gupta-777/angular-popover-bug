@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
   panelActive = 'login';
   errorMessage = '';
 
+  disabeLoginButton = false;
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
@@ -78,8 +79,8 @@ export class LoginComponent implements OnInit {
     };
     this.serverService.makePostReq<IUser>({url: loginUrl, body, headerData})
       .subscribe((user) => {
-        //
-        this.flashErrorMessage("Logged in. Taking you to home page");
+        this.disabeLoginButton =true;
+        this.flashErrorMessage("Logged in. Taking you to home page", 100000);
         this.store.dispatch([
             new SetUserAction({user}),
           ]).subscribe(()=>{

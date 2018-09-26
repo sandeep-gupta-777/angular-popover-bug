@@ -55,7 +55,8 @@ export interface ISessionItem {
   "total_message_count":number,
   "updated_at":any,
   /*for smart table*/
-  highlight?:boolean
+  highlight?:boolean,
+  isEncrypted:boolean
 }
 
 

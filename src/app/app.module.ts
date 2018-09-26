@@ -39,6 +39,7 @@ import {QuickReplyComponent} from './chat/carousel/quick-reply/quick-reply.compo
 import {CardCarouselComponent} from './chat/carousel/card-carousel/card-carousel.component';
 import {ClickOutsideModule} from 'ng2-click-outside';
 import {BotThinkingBubbleComponent} from './chat/carousel/bot-thinking-bubble/bot-thinking-bubble.component';
+import {RichMediaModule} from './rich-media.module';
 // import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 
 const routes: Route[] = [
@@ -65,12 +66,17 @@ const routes: Route[] = [
     ChatroomComponent,
     BotThinkingBubbleComponent,
     BotWelcomeComponent,
-    CardCarouselComponent,
-    QuickReplyComponent,
+    // CardCarouselComponent,
+    // QuickReplyComponent,
     // CodeEditorComponent
   ],
+  // exports:[
+  //   CardCarouselComponent,
+  //   QuickReplyComponent,
+  // ],
   imports: [
     CarouselModule.forRoot(),
+    RichMediaModule,
     // BrowserModule,
     RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     // BsDropdownModule.forRoot(),

@@ -287,7 +287,8 @@ export class CodeInputComponent implements OnInit, OnDestroy {
         this.store.dispatch([
           new UpdateVersionInfoByIdInBot({botId: this.bot.id, data: forkedVersion})
         ]).subscribe(() => {
-          this.selectedVersion = forkedVersion;
+          this.changeSelectedVersion(forkedVersion)
+          // this.selectedVersion = forkedVersion;
         });
         // this.ngOnInit();
         /*TODO: implement it correctly*/

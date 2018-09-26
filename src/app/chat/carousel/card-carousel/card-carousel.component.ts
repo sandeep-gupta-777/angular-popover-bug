@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {IMessageData} from '../../../../interfaces/chat-session-state';
 import {ActivatedRoute} from '@angular/router';
 
@@ -9,10 +9,14 @@ declare var $: any;
   templateUrl: './card-carousel.component.html',
   styleUrls: ['./card-carousel.component.scss']
 })
-export class CardCarouselComponent implements OnInit, AfterViewInit {
+export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() isFullScreenPreview = false;
-  @Input() messageData: IMessageData;
+  _messageData: IMessageData;
+  @Input() set messageData(messageDataValue: IMessageData){
+
+    this._messageData = messageDataValue;
+  }
   @Output() sendMessageToBotServer$ = new EventEmitter();
   carasolItemShownInOneScreen = 2;
   totalItemsInCarasol: number;
@@ -23,9 +27,10 @@ export class CardCarouselComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.isFullScreenPreview = this.activatedRoute.snapshot.data.isFullScreenPreview;
+
+    // this.isFullScreenPreview = this.activatedRoute.snapshot.data.isFullScreenPreview;
     this.carasolItemShownInOneScreen = this.isFullScreenPreview ? 4 : 2;
-    this.totalItemsInCarasol = this.messageData.media.length;
+    this.totalItemsInCarasol = this._messageData.media.length;
   }
 
   sendMessageToBotServer(mediaItem: { title: string, type: string, url: string, buttons: { payload: string, title: string, type: string }[] }) {
@@ -37,20 +42,30 @@ export class CardCarouselComponent implements OnInit, AfterViewInit {
     }
   }
 
+  @ViewChild('leftLst') leftLstElementRef:ElementRef;
+  @ViewChild('rightLst') rightLstElementRef:ElementRef;
   ngAfterViewInit() {
+
     $(document).ready(() => {
       let CardCarouselComponent_this = this;
       var itemsMainDiv = ('.MultiCarousel');
       var itemsDiv = ('.MultiCarousel-inner');
       var itemWidth: any = '';
 
-      $('.leftLst, .rightLst').click(function () {
-        var condition = $(this).hasClass('leftLst');
+      // $('.leftLst, .rightLst').click(function () {
+
+      let sideControlsClickHandler = function ($event) {
+        let condition = $(this).hasClass('leftLst');
         if (condition)
           click(0, this);
         else
           click(1, this);
-      });
+
+        $event.stopPropagation();
+      };
+
+      this.rightLstElementRef && $(this.rightLstElementRef.nativeElement).click(sideControlsClickHandler);
+      this.leftLstElementRef && $(this.leftLstElementRef.nativeElement).click(sideControlsClickHandler);
 
       ResCarouselSize();
 
@@ -70,11 +85,13 @@ export class CardCarouselComponent implements OnInit, AfterViewInit {
         var sampwidth = $(itemsMainDiv).width();
         var bodyWidth = $('body').width();
         $(itemsDiv).each(function () {
+
           id = id + 1;
           var itemNumbers = $(this).find(itemClass).length;
           btnParentSb = $(this).parent().attr(dataItems);
           itemsSplit = btnParentSb.split(',');
           $(this).parent().attr('id', 'MultiCarousel' + id);
+
 
 
           if (bodyWidth >= 1200) {
@@ -143,6 +160,10 @@ export class CardCarouselComponent implements OnInit, AfterViewInit {
       }
 
     });
+  }
+
+  ngOnDestroy(): void {
+
   }
 
 }

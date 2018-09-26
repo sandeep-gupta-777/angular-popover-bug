@@ -12,7 +12,7 @@ export enum EChatFrame {
 export enum EBotMessageMediaType{
   image="image",
   text="text",
-  quickReply="quickReply",
+  quickReply= "quickReply",
   bot_thinking="bot_thinking"
 }
 
