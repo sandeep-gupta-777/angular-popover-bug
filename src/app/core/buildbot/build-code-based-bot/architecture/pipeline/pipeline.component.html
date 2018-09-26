@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <div class="col-8" style="height:90%;overflow-y: scroll">
+  <div class="col-8" style="height:90%;overflow-y: scroll" *ngIf="aiModules">
     <h4 class="heading mb-2 mt-3">Available Intelligence Modules({{aiModules && aiModules.length}})</h4>
     <ul class="aim-list  px-0 d-flex align-items-start align-content-start flex-row flex-wrap"
         [dragula]='"first-bag"' [(dragulaModel)]='aiModules'>
@@ -23,7 +23,7 @@
       </li>
     </ul>
   </div>
-  <div class="col-4 pipeline-wrapper d-flex flex-column" style="height: 90%;overflow-y: auto">
+  <div class="col-4 pipeline-wrapper d-flex flex-column" *ngIf="aiModules" style="height: 90%;overflow-y: auto">
     <!--<div class="col-12 border pr-0 pipeline d-flex flex-column" style="height: 90%;overflow-y: scroll">-->
       <h4 class="heading mb-2 mt-3">Bot Intelligence Pipeline ({{pipeLine && pipeLine.length}})</h4>
       <div class="flex-grow-1"  [dragula]='"first-bag"' [(dragulaModel)]='pipeLine'>

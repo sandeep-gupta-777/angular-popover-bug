@@ -32,13 +32,15 @@
       (sendMessageToBotServer$)="sendMessageToBotServer$.emit($event)"
     ></app-card-carousel>
   </div>
-  <div class="col-10 text-left p-0"
+  <div class="col-10 text-left px-0"
        *ngIf="messageData.messageMediatype===myEBotMessageMediaType.quickReply">
-    <app-quick-reply
-      [isFullScreenPreview]="isFullScreenPreview"
-      [messageData]="messageData"
-      (sendMessageToBotServer$)="sendMessageToBotServer$.emit($event)"
-    ></app-quick-reply>
+    <!--<div class="d-inline-block">-->
+      <app-quick-reply
+        [isFullScreenPreview]="isFullScreenPreview"
+        [messageData]="messageData"
+        (sendMessageToBotServer$)="sendMessageToBotServer$.emit($event)"
+      ></app-quick-reply>
+    <!--</div>-->
   </div>
   <div class="col-10 text-left p-0 d-flex"
        *ngIf="messageData.messageMediatype===myEBotMessageMediaType.bot_thinking">

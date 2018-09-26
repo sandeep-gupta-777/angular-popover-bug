@@ -584,7 +584,14 @@ export class ConstantsService {
       custom: [
         {name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>`}
       ],
+      width: '150px',
     },
+    rowClassFunction: (row) => {
+      if(row.data.data_encrypted===false){
+        return 'hightlight-decrypted';;
+      }
+      return '';
+    }
   };
 
   readonly SMART_TABLE_SESSIONS_SETTING = {
@@ -642,6 +649,9 @@ export class ConstantsService {
         //   return 'score negative'; // Color from row with negative in score
         // } else if (row.data.type === '(+)') {
         //   return 'score positive';
+      }
+      if(row.data.data_encrypted===false){
+        return 'hightlight-decrypted';;
       }
       return '';
     }
@@ -735,12 +745,12 @@ export class ConstantsService {
       // var data = this.instance.getData();
 
 
-      // if (row === 0) {
-      //   cellProperties["renderer"] = function(instance, td, row, col, prop, value, cellProperties) {
-      //     Handsontable.renderers.TextRenderer.apply(this, arguments);
-      //     td.style.fontWeight = 'bold';
-      //   }; // uses function directly
-      // }
+      if (row === 0) {
+        cellProperties["renderer"] = function(instance, td, row, col, prop, value, cellProperties) {
+          Handsontable.renderers.TextRenderer.apply(this, arguments);
+          td.style.fontWeight = 'bold';
+        }; // uses function directly
+      }
       return cellProperties;
     }
   };

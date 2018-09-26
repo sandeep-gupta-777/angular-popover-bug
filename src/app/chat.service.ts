@@ -67,11 +67,12 @@ export class ChatService {
               sourceType: 'bot'
             }
           }else if(Object.keys(message)[0] === "quick_reply"){
+            debugger;
             return {
               messageMediatype:EBotMessageMediaType.quickReply,//
               ...message,
               time: this.utilityService.getCurrentTimeInHHMM(),
-              text:EBotMessageMediaType.quickReply,//this is for preview of last message in chat room list
+              text:(<any>message).quick_reply.text || EBotMessageMediaType.quickReply,//this is for preview of last message in chat room list
               sourceType: 'bot'
             }
           }

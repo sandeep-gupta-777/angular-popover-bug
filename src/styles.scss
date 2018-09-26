@@ -609,6 +609,14 @@ progressbar {
   background-color: #ededed;
 }
 
+.hightlight-decrypted{
+  //background-color: black;
+  .fa-lock{
+    //color: #f1f1f1 !important;
+    display: none;
+  }
+}
+
 .required:after {
   content: " *";
 }
@@ -763,4 +771,7 @@ progressbar {
   color: white !important;
 }
 
+.bg-message-bot {
+  background-color: #f7f7f7;
+}
 

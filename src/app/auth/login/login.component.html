@@ -32,8 +32,8 @@
               </label>
               <div hidden class="cursor-pointer" (click)="showPanel('forgot')">Forgot Password?</div>
             </div>
-            <button type="submit" class="btn-block btn-theme-primary mt-3">Submit</button>
-            <p  class="text-danger my-2" style="height: 15px" [ngClass]="{'visible':errorMessage}">{{errorMessage}}</p>
+            <button type="submit"  [disabled]="disabeLoginButton" class="btn-block btn-theme-primary mt-3 mb-2">Submit</button>
+            <i  class="text-danger my-2" style="height: 15px" [ngClass]="{'visible':errorMessage}">{{errorMessage}}</i>
           </form>
         </div>
       </div>

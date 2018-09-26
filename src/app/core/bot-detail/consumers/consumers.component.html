@@ -12,8 +12,7 @@
     [settings]="smartTableSettings_Consumers"
     (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,Primarytemplat)"
     [showSearchInDbButton]="true"
-    (performSearchInDB$)="performSearchInDbForConsumer($event)"
-    >
+    (performSearchInDB$)="performSearchInDbForConsumer($event)">
   </app-smart-table>
 
   <ng-template #Primarytemplat>

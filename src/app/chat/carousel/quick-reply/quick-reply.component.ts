@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {IMessageData} from '../../../../interfaces/chat-session-state';
+import {EBotMessageMediaType, IMessageData} from '../../../../interfaces/chat-session-state';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
@@ -9,15 +9,19 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class QuickReplyComponent implements OnInit {
 
-  @Input() isFullScreenPreview =false;
-  @Input() messageData:IMessageData;
+  @Input() isFullScreenPreview = false;
+  @Input() messageData: IMessageData;
+  myEBotMessageMediaType = EBotMessageMediaType;
   @Output() sendMessageToBotServer$ = new EventEmitter();
   carasolItemShownInOneScreen = 2;
-  totalItemsInCarasol:number;
-  constructor(
-  ) { }
+  totalItemsInCarasol: number;
+
+  constructor() {
+  }
 
   ngOnInit(): void {
+    debugger;
+    console.log(this.messageData)
   }
 
 }

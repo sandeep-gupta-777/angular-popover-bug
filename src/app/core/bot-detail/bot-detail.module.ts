@@ -40,6 +40,8 @@ import {EBotType} from '../view-bots/view-bots.component';
 import {AuthGaurdService} from '../../auth-gaurd.service';
 import {RequiredIfOneFilledValidator} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/requiredIfOneFilledValidator.directive';
 import {DragulaModule} from 'ng2-dragula';
+import {RichMediaModule} from '../../rich-media.module';
+import {SessionDataToRichMediaSerializerPipe} from '../../session-data-to-rich-media-serializer.pipe';
 
 const routes: Route[] = [
   {
@@ -54,7 +56,7 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [
-
+    SessionDataToRichMediaSerializerPipe,
     CodeBasedBotDetailComponent,
     PipelineBasedBotDetailComponent,
     BotDetailHeaderComponent,
@@ -81,6 +83,7 @@ const routes: Route[] = [
     RequiredIfOneFilledValidator
   ],
   imports: [
+    RichMediaModule,
     DragulaModule,
     CommonModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module

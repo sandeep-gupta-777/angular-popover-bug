@@ -12,7 +12,7 @@ export class LimitObjectArraysStringPipe implements PipeTransform {
 
     let x =consumerResults.map((consumer)=>{
       for(let key in consumer){
-        if(consumer[key] && consumer[key].length &&  consumer[key].length>20)
+        if(consumer[key] && consumer[key].length &&  consumer[key].length>120)
         consumer[key] = consumer[key].substring(1,15)+'...'
       }
       return consumer;

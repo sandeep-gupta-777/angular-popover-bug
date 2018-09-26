@@ -64,7 +64,7 @@
         <!--</div>-->
       <!--</fieldset>-->
       <button class="btn-theme-primary mx-1" [disabled]="!form.valid" (click)="updateOrSaveConcept()">
-        {{ner_id?"Update": "Save" }}
+        {{ner_id?"Update": "Create" }}
       </button>
       <div *ngIf="ner_id" (click)="deleteNer$.emit(ner_id)"><i class="fa fa-trash cursor-pointer"></i></div>
       <!--<label class="p-0 m-0 mx-2" *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata' ||ner_type==='regex'; "-->
@@ -96,9 +96,14 @@
       <div class="h-100" style="overflow: scroll"
            *ngIf="ner_type==='database'">
         <app-handsontable class="h-100" style="overflow: scroll; display: block" [testData]="handsontableData"
-                          [columns]="handontable_column"
-                          [setting]="constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_SETTING"
-                          [colHeaders]="handontable_colHeaders"></app-handsontable>
+                          [setting]="constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_SETTING">
+        </app-handsontable>
+
+          <!--Following is table with column header data-->
+        <!--<app-handsontable class="h-100" style="overflow: scroll; display: block" [testData]="handsontableData"-->
+                          <!--[columns]="handontable_column"-->
+                          <!--[setting]="constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_SETTING"-->
+                          <!--[colHeaders]="handontable_colHeaders"></app-handsontable>-->
       </div>
     <!--</div>-->
 

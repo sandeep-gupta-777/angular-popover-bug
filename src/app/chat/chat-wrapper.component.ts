@@ -111,7 +111,6 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   ngOnInit() {
-    debugger;
     console.log('inside chat-wrapper');
     this.serverService.initializeIMIConnect();
     this.loggeduser$.subscribe((loggeduser) => {
@@ -125,7 +124,7 @@ export class ChatWrapperComponent implements OnInit {
     });
 
     this.isFullScreenPreview = this.activatedRoute.snapshot.data.isFullScreenPreview;
-    if(this.isFullScreenPreview){
+    if (this.isFullScreenPreview) {
       this.activatedRoute.queryParamMap.subscribe((queryparam) => {
         let welcomeScreenBotIdStr = queryparam.get('preview');
         let enterprise_unique_name = queryparam.get('enterprise_unique_name');
@@ -150,11 +149,11 @@ export class ChatWrapperComponent implements OnInit {
       try {
         this.windowOpen = chatSessionState.opened;
         if (!chatSessionState) return;
-        if (chatSessionState.currentBotDetails) {
-          this.currentBot = chatSessionState.currentBotDetails;
+        this.currentBot = chatSessionState.currentBotDetails;/**/
+        if (this.currentBot) {
           this.enterprise_unique_name = this.currentBot.enterprise_unique_name;
           this.bot_access_token = this.currentBot.bot_access_token;//this.currentRoom && this.currentRoom.bot_access_token || currentBot.bot_access_token;
-          this.chatWindowTitle = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.name;
+          this.chatWindowTitle =  chatSessionState.currentBotDetails.name;
         }
         if (chatSessionState.currentRoomId) {
           this.currentRoom = chatSessionState.rooms.find((room) => room.id === chatSessionState.currentRoomId);
@@ -293,7 +292,7 @@ export class ChatWrapperComponent implements OnInit {
           EChatFrame.CHAT_BOX)
           .subscribe(() => {
             this.showBotIsThinking = false;
-          },(error)=>{
+          }, (error) => {
             this.showBotIsThinking = false;
           });
       });

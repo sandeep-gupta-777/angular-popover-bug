@@ -96,6 +96,7 @@ export class SessionDetailModelComponent implements OnInit {
 
   transactionIdChangedInModel(txnId) {
 
+
     this.transactionIdSelectedInModel = txnId;
     /*This data will show under Manager Bot*/
     let messageDataForGiveTxnId = this.sessionMessageData.find((message) => {
@@ -104,13 +105,14 @@ export class SessionDetailModelComponent implements OnInit {
     let botMessageDataForGiveTxnId = this.sessionMessageData.find((message) => {
       return (message.transaction_id === txnId && message.user_type === "bot" ) ;
     });
-    this.sessionMessageDataCopy = [...this.sessionMessageData];
+    // this.sessionMessageDataCopy = [...this.sessionMessageData];
+    this.sessionMessageDataCopy = this.sessionMessageData;
     this.managerPanelData = {
       'generatedDf': messageDataForGiveTxnId.generated_df,
       'generatedMsg': messageDataForGiveTxnId.generated_msg, /*bot message*/
       'message': messageDataForGiveTxnId.message, /*user message*/
       'messageStore':botMessageDataForGiveTxnId.message_store
-    };
+    };;
     let activeBotId = botMessageDataForGiveTxnId.message_store.activeBotId;
     let activeBotRoomId = botMessageDataForGiveTxnId.message_store.activeBotRoomId;
     this.activeBotPanelData = botMessageDataForGiveTxnId.message_store;

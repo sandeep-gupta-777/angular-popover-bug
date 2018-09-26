@@ -54,11 +54,13 @@ import {query} from '@angular/animations';
 export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   _allbotList: IBot[];
+  // selectedBot: IBot;
   formChangesSub:Subscription;
   storeSub:Subscription;
   loggeduserSub:Subscription;
   analytics2HeaderDataSub:Subscription;
   makeGetReqSub:Subscription;
+  maxDate = new Date();
 
   @Input() set allbotList(_allbotList: IBot[]) {
     this._allbotList =_allbotList;
@@ -99,6 +101,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     this.formChangesSub = this.f.form.valueChanges
       .debounceTime(1000)
       .subscribe((formData) => {
+        console.log(this.f);
         if(this.utilityService.areTwoJSObjectSame(this.formData, formData)) return;
         this.formData = formData;
         if (!this.f.valid) return;
@@ -248,7 +251,30 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   ngAfterViewInit() {
+
     setTimeout(() => {
+      this.f.controls.botId.valueChanges.subscribe((data)=>{
+        if(!this.f.value.botId)return;
+        let selectedBot: IBot = this._allbotList.find((bot) => bot.id === Number(this.f.value.botId));
+        if(selectedBot){
+          this.channelList =
+            Object.keys(selectedBot.integrations.channels).filter((integrationKey:any)=>{
+              return selectedBot.integrations.channels[integrationKey].enabled
+            }).map((integrationKey)=>{
+              return {
+                name: integrationKey,
+                displayName: integrationKey
+              }
+            });
+          this.channelList.push({
+            name: 'web',
+            displayName: 'web'
+          })
+          this.channelList.unshift({name: 'all', displayName: 'All Channels'})
+
+        }
+      });
+
       if(this._allbotList)
       this.f.form.patchValue({botId: this._allbotList[0].id, platform: this.channelList[0].name});
     }, 0);

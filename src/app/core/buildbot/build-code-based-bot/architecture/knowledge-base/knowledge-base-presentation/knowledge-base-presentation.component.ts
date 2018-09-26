@@ -4,6 +4,7 @@ import {NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../../utility.service';
 import {ConstantsService} from '../../../../../../constants.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
+import {HandsontableComponent} from '../../../../../../handsontable/handsontable.component';
 
 @Component({
   selector: 'app-knowledge-base-presentation',
@@ -14,6 +15,7 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 export class KnowledgeBasePresentationComponent implements OnInit {
   _selectedRowData: ICustomNerItem = {};
   process_raw_text = false;
+  @ViewChild(HandsontableComponent)handsontableComponent:HandsontableComponent;
   @Input() set selectedRowData(value: ICustomNerItem) {
 
     if (!value) return;
@@ -38,11 +40,13 @@ export class KnowledgeBasePresentationComponent implements OnInit {
     }catch (e) {
       console.log(e);
     }
-    for (let index = 0; index < this.handontable_colHeaders.length; index++) {
-      this.handontable_column[index] = {
-        data: index, type: 'text'
-      }
-    }
+    // for (let index = 0; index < this.handontable_colHeaders.length; index++) {
+      // this.handontable_column[index] = {
+      //   data: index, type: 'text'
+      // }
+    // }
+
+    this.handontable_column =this.handontable_colHeaders;
   }
 
   @Input() handsontableData = ['', '', ''];
@@ -123,11 +127,13 @@ export class KnowledgeBasePresentationComponent implements OnInit {
       }
     }
     let outputData = {
+      mode:this.ner_id?"Update": "Create",
       key: this.key,
       ner_type: this.ner_type,
       conflict_policy: this.conflict_policy,
       codeTextOutPutFromCodeEditor: codeTextFromEditor,
       handsontableData: this.handsontableData,
+      //   ...this.handsontableComponent.getHotTableData(),
       process_raw_text:this.process_raw_text
     };
     let ner_id_str = this.activatedRoute.snapshot.queryParamMap.get('ner_id');

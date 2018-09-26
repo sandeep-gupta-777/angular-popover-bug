@@ -57,9 +57,11 @@ export class CodeBasedBotDetailComponent implements OnInit {
     /*this.bot$ = */
     this.botlist$.subscribe((botListState) => {
       if (botListState.allBotList)
-        return this.bot = botListState.allBotList.find((bot) => {
+        this.bot = botListState.allBotList.find((bot) => {
           return bot.id === this.bot_id;
         });
+      console.log("Bot Opened", this.bot);
+      return this.bot;
     });
     this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab') || 'pipeline';
 
