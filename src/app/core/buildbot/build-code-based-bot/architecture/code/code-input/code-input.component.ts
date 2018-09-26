@@ -105,7 +105,10 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       * otherwise, selected version = first version, if that exists
       * */
       let activeVersion = this.activeVersion = this.utilityService.getActiveVersionInBot(this.bot);
-      this.selectedVersion = activeVersion ? activeVersion : (this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions[0]);
+      if(this.selectedVersion)
+        this.selectedVersion = this.selectedVersion;
+      else
+        this.selectedVersion = activeVersion ? activeVersion : (this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions[0]);
       // if (!activeVersion) {
       //   try {
       //     this.selectedVersion = this.bot.store_bot_versions[0];

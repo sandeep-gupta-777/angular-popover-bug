@@ -15,9 +15,10 @@
         <!--style="flex-basis: 56px">Inactive-->
         <!--</button>-->
         <div class="count mx-1 flex-shrink-0 flex-grow-0">{{selectedVersion.version}}</div>
-        <div class="forked mr-1 pl-1"
-             [style.visibility]="selectedVersion.forked_from>0 ? 'visible' : 'hidden'">Forked from version
+        <div class="forked mr-1 pl-1" *ngIf="selectedVersion.forked_from !== 0">Forked from version
           {{selectedVersion.forked_from}}
+        </div>
+        <div class="forked mr-1 pl-1" *ngIf="selectedVersion.forked_from === 0">Default created version
         </div>
         <div class="update d-flex flex-column mr-1 justify-content-center">
           <div>Last update</div>
@@ -85,9 +86,14 @@
           </div>
           <!--<div class="active-label-text">{{version.id +""+activeVersion.id }}</div>-->
           <div class="count mr-1">{{version.version}}</div>
-          <div class="forked mr-1 pl-1" [style.visibility]="version.forked_from>0 ? 'visible' : 'hidden'">Forked from version
+          <div class="forked mr-1 pl-1" *ngIf="version.forked_from !== 0">Forked from version
             {{version.forked_from}}
           </div>
+          <div class="forked mr-1 pl-1" *ngIf="version.forked_from === 0">Default created version
+          </div>
+          <!-- <div class="forked mr-1 pl-1" [style.visibility]="version.forked_from>0 ? 'visible' : 'hidden'">Forked from version
+            {{version.forked_from}}
+          </div> -->
           <div class="update d-flex flex-column mr-1 justify-content-center">
             <div class="mr-1">Last update</div>
             <div class = "justify-content-left pt-1">

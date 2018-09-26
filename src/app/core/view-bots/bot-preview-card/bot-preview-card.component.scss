@@ -7,17 +7,22 @@
 .wrapper{
   border: solid 2px transparent;
   border-radius:2px;
+  transition: .4s;
   &:hover{
     border: solid 2px #e0e0e0;
     border-radius:2px;
     .show-on-parent-hover{
       display: inline-block;
+      opacity: 1;
+      
     }
   }
 }
 
 .show-on-parent-hover{
-  display: none;
+  display: inline-block;
+  opacity: 0;
+  transition: .4s;
 }
 
 .grid-bot-preview-two{

@@ -51,6 +51,7 @@ export interface ISessionItem {
       "imageUrl": string,
       "name": string
   }
+  "data_encrypted":boolean,
   "sendtoagent":boolean,
   "total_message_count":number,
   "updated_at":any,
