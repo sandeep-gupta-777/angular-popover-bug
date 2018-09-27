@@ -9,13 +9,14 @@
 }
 
 .bg-message-bot{
-  background-color: #f7f7f7;
-}
-.bg-message-human{
   background-color: $color-primary;
   .time,.message-text{
     color: white !important;
   }
+}
+
+.bg-message-human{
+  background-color: #f7f7f7;
 }
 
 .message{

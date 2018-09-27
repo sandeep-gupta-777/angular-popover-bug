@@ -15,23 +15,26 @@
         <!--style="flex-basis: 56px">Inactive-->
         <!--</button>-->
         <div class="count mx-1 flex-shrink-0 flex-grow-0">{{selectedVersion.version}}</div>
-        <div class="forked mr-1 pl-1"
-             [style.visibility]="selectedVersion.forked_from>0 ? 'visible' : 'hidden'">Forked from version
+        <div class="forked mr-1 pl-1" *ngIf="selectedVersion.forked_from !== 0">Forked from version
           {{selectedVersion.forked_from}}
+        </div>
+        <div class="forked mr-1 pl-1" *ngIf="selectedVersion.forked_from === 0">Default created version
         </div>
         <div class="update d-flex flex-column mr-1 justify-content-center">
           <div>Last update</div>
           <div class="d-flex justify-content-left pt-1">
+            <!-- <i class="fa fa-circle"
+               [ngClass]="{'text-danger':selectedVersion.updated_fields['df_template'], 'dark-green':activeTab==='df_template'}"></i> -->
+               <i class="fa fa-circle"
+               [ngClass]="{'text-danger':selectedVersion.changed_fields['df_template'], 'dark-green':selectedVersion.updated_fields['df_template']}"></i>
             <i class="fa fa-circle"
-               [ngClass]="{'text-danger':selectedVersion.updated_fields['df_template'], 'dark-green':activeTab==='df_template'}"></i>
+               [ngClass]="{'text-danger':selectedVersion.changed_fields['df_rules'], 'dark-green':selectedVersion.updated_fields['df_rules']}"></i>
             <i class="fa fa-circle"
-               [ngClass]="{'text-danger':selectedVersion.updated_fields['df_rules'], 'dark-green':activeTab==='df_rules'}"></i>
+               [ngClass]="{'text-danger':selectedVersion.changed_fields['generation_rules'], 'dark-green':selectedVersion.updated_fields['generation_rules']}"></i>
             <i class="fa fa-circle"
-               [ngClass]="{'text-danger':selectedVersion.updated_fields['generation_rules'], 'dark-green':activeTab==='generation_rules'}"></i>
+               [ngClass]="{'text-danger':selectedVersion.changed_fields['generation_templates'], 'dark-green':selectedVersion.updated_fields['generation_templates']}"></i>
             <i class="fa fa-circle"
-               [ngClass]="{'text-danger':selectedVersion.updated_fields['generation_templates'], 'dark-green':activeTab==='generation_templates'}"></i>
-            <i class="fa fa-circle"
-               [ngClass]="{'text-danger':selectedVersion.updated_fields['workflows'], 'dark-green':activeTab==='workflows'}"></i>
+               [ngClass]="{'text-danger':selectedVersion.changed_fields['workflows'], 'dark-green':selectedVersion.updated_fields['workflows']}"></i>
           </div>
           <!--<form class="d-flex">-->
           <!--<input type="radio" name="optradio" checked>-->
@@ -60,12 +63,14 @@
               class="btn btn-theme-primary-outline mr-1"
               (click)="saveSelectedVersion()">
         {{(!bot.store_bot_versions || !bot.store_bot_versions.length || bot.store_bot_versions.length>0)?"Save":"Create"}}
-        Version
+        version
       </button>
       <button class="btn btn-theme-primary-outline"
               [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
               (click)="openForkNewVersionModal(Primarytemplate)">
-        Fork new version
+              {{(selectedVersion.changed_fields['df_template'] || selectedVersion.changed_fields['df_rules']  ||
+               selectedVersion.changed_fields['generation_rules'] || selectedVersion.changed_fields['generation_templates'] || 
+               selectedVersion.changed_fields['workflows'])?"Save as new version":"Create new version"}}
       </button>
     </div>
     <div class="row row-flex-bot-versioning-toaster border-theme-secondary  border-top-0 mx-0"
@@ -81,9 +86,14 @@
           </div>
           <!--<div class="active-label-text">{{version.id +""+activeVersion.id }}</div>-->
           <div class="count mr-1">{{version.version}}</div>
-          <div class="forked mr-1 pl-1" [style.visibility]="version.forked_from>0 ? 'visible' : 'hidden'">Forked from version
+          <div class="forked mr-1 pl-1" *ngIf="version.forked_from !== 0">Forked from version
             {{version.forked_from}}
           </div>
+          <div class="forked mr-1 pl-1" *ngIf="version.forked_from === 0">Default created version
+          </div>
+          <!-- <div class="forked mr-1 pl-1" [style.visibility]="version.forked_from>0 ? 'visible' : 'hidden'">Forked from version
+            {{version.forked_from}}
+          </div> -->
           <div class="update d-flex flex-column mr-1 justify-content-center">
             <div class="mr-1">Last update</div>
             <div class = "justify-content-left pt-1">
@@ -121,7 +131,7 @@
 
 
         <!--tabs start-->
-        <div class="card-body p-0 mr-2">
+        <div class="card-body p-0 mr-4">
           <ul class="nav nav-tabs theme-tabbing">
             <li class="nav-item" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.df_template}">
               <a class="nav-link text-theme-normal"

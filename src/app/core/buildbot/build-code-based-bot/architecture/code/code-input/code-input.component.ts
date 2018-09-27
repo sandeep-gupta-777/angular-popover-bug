@@ -105,7 +105,10 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       * otherwise, selected version = first version, if that exists
       * */
       let activeVersion = this.activeVersion = this.utilityService.getActiveVersionInBot(this.bot);
-      this.selectedVersion = activeVersion ? activeVersion : (this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions[0]);
+      if(this.selectedVersion)
+        this.selectedVersion = this.selectedVersion;
+      else
+        this.selectedVersion = activeVersion ? activeVersion : (this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions[0]);
       // if (!activeVersion) {
       //   try {
       //     this.selectedVersion = this.bot.store_bot_versions[0];
@@ -157,8 +160,8 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     if (this.selectedVersion && this.selectedVersion.id) {
       let selectedVersion_pristine = this.bot.store_bot_versions && this.bot.store_bot_versions.find((version) => version.id === this.selectedVersion.id);
       let codeTextPristine = selectedVersion_pristine[this.activeTab];
-      if (!this.selectedVersion.updated_fields[this.activeTab])/*If field is dirty from server, nothing can change it*/
-        this.selectedVersion.updated_fields[this.activeTab] = codeStr !== codeTextPristine;
+      if (!this.selectedVersion.changed_fields[this.activeTab])/*If field is dirty from server, nothing can change it*/
+        this.selectedVersion.changed_fields[this.activeTab] = codeStr !== codeTextPristine;
       this.selectedVersion[this.activeTab] = codeStr;
     } else {
       /*we are creating a new version*/
@@ -184,6 +187,14 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     let headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
+    this.selectedVersion.updated_fields = this.selectedVersion.changed_fields;
+    this.selectedVersion.changed_fields = {
+      "df_template" : false,
+      "df_rules" : false,
+      "generation_rules" : false,
+      "generation_template" : false,
+      "workflows" : false
+    }
     if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
       let url = this.constantsService.getSaveVersionByBotId(this.bot.id);
       this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
@@ -251,6 +262,14 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     this.modalRef.hide();
     let forkedVersionInfo = this.bot.store_bot_versions.find((versions) => versions.version == this.forked_version_number);
     forkedVersionInfo = {...forkedVersionInfo};
+    forkedVersionInfo.updated_fields = forkedVersionInfo.changed_fields;
+    forkedVersionInfo.changed_fields = {
+      "df_template" : false,
+      "df_rules" : false,
+      "generation_rules" : false,
+      "generation_template" : false,
+      "workflows" : false
+    }
     forkedVersionInfo.comment = this.forked_comments;
     forkedVersionInfo.forked_from = this.forked_version_number;
     let headerData: IHeaderData = {
