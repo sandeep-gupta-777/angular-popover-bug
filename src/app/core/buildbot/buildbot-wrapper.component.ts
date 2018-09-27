@@ -68,6 +68,7 @@ export class BuildbotWrapperComponent implements OnInit {
           this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`]);
         });
         this.utilityService.showSuccessToaster('Bot Created');
+        console.log("test");
       });
   }
 

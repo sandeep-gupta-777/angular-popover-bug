@@ -14,7 +14,7 @@ import {
   SetCurrentBotDetailsAndResetChatStateIfBotMismatch, SetCurrentUId,
   ToggleChatWindow
 } from '../../../chat/ngxs/chat.action';
-import {ConstantsService, ERoleName} from '../../../constants.service';
+import {ConstantsService, ERoleName, ETabNames} from '../../../constants.service';
 import {ServerService} from '../../../server.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {IConsumerDetails} from '../../../chat/ngxs/chat.state';
@@ -42,6 +42,7 @@ export class BotPreviewCardComponent implements OnInit {
   customConsumerDetails: IConsumerDetails;
   role: string;
   enterprise_unique_name: string;
+  myETabNames=ETabNames;
 
   constructor(
     public utilityService: UtilityService,

@@ -91,7 +91,11 @@ export class ServerService {
   }
 
   showErrorMessageForErrorTrue(errorObj: { 'error': true, 'message': string, 'transaction_id': string }) {
-    this.utilityService.showErrorToaster(errorObj.message);
+    if(errorObj.error){
+      this.utilityService.showErrorToaster(errorObj.message);
+      return true;
+    }
+    return false;
   }
 
   makeGetReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<T> {
@@ -119,6 +123,7 @@ export class ServerService {
       })
       .catch((e: any, caught: Observable<T>) => {
         console.log(e);
+        this.showErrorMessageForErrorTrue(e);
         this.changeProgressBar(false, 100);
 
         this.utilityService.showErrorToaster(e);
@@ -131,6 +136,14 @@ export class ServerService {
 
     this.changeProgressBar(true, 0);
     return this.httpClient.get(reqObj.url, {headers: headers, responseType: 'text'})
+      .map((value: any) => {
+        if (value && value.error) {
+          this.showErrorMessageForErrorTrue(value);
+          return throwError(value);
+        } else {
+          return value;
+        }
+      })
       .do((value) => {
         this.changeProgressBar(false, 100);
         this.IncreaseAutoLogoutTime();
@@ -149,12 +162,21 @@ export class ServerService {
 
     this.changeProgressBar(true, 0);
     return this.httpClient.delete<T>(reqObj.url, {headers: headers})
+      .map((value: any) => {
+        if (value && value.error) {
+          this.showErrorMessageForErrorTrue(value);
+          return throwError(value);
+        } else {
+          return value;
+        }
+      })
       .do((value) => {
         this.changeProgressBar(false, 100);
         this.IncreaseAutoLogoutTime();
       })
       .catch((e: any, caught: Observable<T>) => {
         console.log(e);
+        this.showErrorMessageForErrorTrue(e)
         this.changeProgressBar(false, 100);
 
         this.utilityService.showErrorToaster(e);
@@ -183,6 +205,7 @@ export class ServerService {
       })
       .catch((e: any, caught: Observable<T>) => {
         console.log(e);
+        this.showErrorMessageForErrorTrue(e);
         this.changeProgressBar(false, 100);
         this.utilityService.showErrorToaster(e);
         return _throw('error');
@@ -194,12 +217,21 @@ export class ServerService {
     this.changeProgressBar(true, 0);
 
     return this.httpClient.put<T>(reqObj.url, JSON.stringify(reqObj.body), {headers: headers})
+      .map((value: any) => {
+        if (value && value.error) {
+          this.showErrorMessageForErrorTrue(value);
+          return throwError(value);
+        } else {
+          return value;
+        }
+      })
       .do((value) => {
         this.IncreaseAutoLogoutTime();
         this.changeProgressBar(false, 100);
       })
       .catch((e: any, caught: Observable<T>) => {
-        this.utilityService.showErrorToaster(e);
+        this.showErrorMessageForErrorTrue(e);// || this.utilityService.showErrorToaster(e);
+
         this.changeProgressBar(false, 100);
         return _throw('error');
       });
@@ -230,7 +262,7 @@ export class ServerService {
   }
 
   IncreaseAutoLogoutTime() {
-    let autoLogoutInterval = 3600 * 1000;
+    let autoLogoutInterval = 3600 * 1000;//3600*1000
     this.store.dispatch([
       new SetAutoLogoutTime({time: Date.now() + autoLogoutInterval})
     ]);
@@ -334,7 +366,7 @@ export class ServerService {
     }
     return this.makeDeleteReq({url, headerData});
   }
-  
+
   getAllVersionOfBotFromServerAndStoreInBotInBotList(botId, bot_access_token) {
     let url = this.constantsService.getAllVersionsByBotId();
     // let botId = this.bot.id;
@@ -370,11 +402,11 @@ export class ServerService {
       }catch (e) {
         console.log(e);
       }
-      debugger;
+
     }
     this.currentRoomId = currentRoomId;
     this.currentPreviewBot = previewBot;
-    debugger;
+
     // this.currentPreviewBot = previewBot;
     /*TODO: make initialization happen only once*/
     let imiConnectIntegrationDetails;
@@ -406,13 +438,15 @@ export class ServerService {
 
 
     let prepareMessage = (messageObj) => {
-      console.log('message from IMICONNECT Has been recieved', messageObj);
+      console.info('============================message from IMICONNECT Has been recieved============================', messageObj);
       let generatedMessagesStr = messageObj.message;
       let generatedMessages: IGeneratedMessageItem[];
       try {
         generatedMessages = JSON.parse(generatedMessagesStr);
       } catch (e) {
         console.error('Unable to parse json from IMIConnect callback', generatedMessagesStr);
+        console.error('Assuming its a string');
+        generatedMessages = [{text:generatedMessagesStr}]
       }
       let serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages);
       this.store.dispatch([

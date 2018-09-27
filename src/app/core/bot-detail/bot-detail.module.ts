@@ -42,6 +42,8 @@ import {RequiredIfOneFilledValidator} from '../buildbot/build-code-based-bot/arc
 import {DragulaModule} from 'ng2-dragula';
 import {RichMediaModule} from '../../rich-media.module';
 import {SessionDataToRichMediaSerializerPipe} from '../../session-data-to-rich-media-serializer.pipe';
+import {DisplayNameForKeyIntegrationPipe} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/display-name-for-key-integration.pipe';
+
 
 const routes: Route[] = [
   {
@@ -77,6 +79,7 @@ const routes: Route[] = [
     DraggableDirective,
     DropTargetDirective,
     KnowledgeBaseWrapperComponent,
+    DisplayNameForKeyIntegrationPipe,
     LimitObjectArraysStringPipe,
     ConsumerFullscreenWrapperComponent,
 /*after lazy loading*/

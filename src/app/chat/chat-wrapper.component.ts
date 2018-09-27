@@ -261,7 +261,9 @@ export class ChatWrapperComponent implements OnInit {
         let shouldStartChatViaImiConnectSDK = false;
         try {
           let botImiConnectIntegrationInfo = this.currentBot.integrations.fulfillment_provider_details.imiconnect;
-          shouldStartChatViaImiConnectSDK = botImiConnectIntegrationInfo && botImiConnectIntegrationInfo.enabled && (!!botImiConnectIntegrationInfo.send_via_connect);
+          shouldStartChatViaImiConnectSDK = botImiConnectIntegrationInfo &&
+            botImiConnectIntegrationInfo.enabled &&
+            (botImiConnectIntegrationInfo.send_via_connect==="true");
         } catch (e) {
           console.log(e);
         }

@@ -64,7 +64,7 @@
       <!--<li role="menuitem">-->
       <!--<a class="dropdown-item">Make Bot Active</a>-->
       <!--</li>-->
-      <li role="menuitem">
+      <li role="menuitem" *myIf="myETabNames.delete_bot">
         <a class="dropdown-item cursor-pointer" (click)="openModal(template)">Delete</a>
       </li>
     </ul>
@@ -90,7 +90,7 @@
   <div class="danger-modal center-modal">
     <div class="top-dec"></div>
     <div class="modal-header">
-      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete bot&nbsp;<strong>{{ bot.name}}&nbsp;</strong>
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete bot&nbsp;{{ bot.name}}&nbsp;
         ?</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>

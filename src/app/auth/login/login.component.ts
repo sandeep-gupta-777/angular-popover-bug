@@ -78,9 +78,11 @@ export class LoginComponent implements OnInit {
       'user-access-token':null
     };
     this.serverService.makePostReq<IUser>({url: loginUrl, body, headerData})
-      .subscribe((user) => {
+      .subscribe((user:IUser) => {
+
         this.disabeLoginButton =true;
         this.flashErrorMessage("Logged in. Taking you to home page", 100000);
+        // this.constantsService.setPermissionsDeniedMap(user.role.permissions.actions);
         this.store.dispatch([
             new SetUserAction({user}),
           ]).subscribe(()=>{

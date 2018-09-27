@@ -238,7 +238,7 @@ export class BotSessionsComponent implements OnInit {
         let surl = this.constantsService.getSessionsByIdUrl(this.sessionItemToBeDecrypted.id);
         this.serverService.makeGetReq({ url: surl, headerData })
           .subscribe((newSession: ISessionItem) => {
-            debugger;
+
             let del = this.sessions.findIndex((session) => session.id === this.sessionItemToBeDecrypted.id);
             this.sessions[del] = { ...newSession};
             this.sessions = [...this.sessions]

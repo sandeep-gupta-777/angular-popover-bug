@@ -18,6 +18,7 @@ import {IAnalysis2HeaderData} from '../interfaces/Analytics2/analytics2-header';
 import {EBotMessageMediaType, IMessageData} from '../interfaces/chat-session-state';
 import {IBotPreviewFirstMessage} from './chat/chat-wrapper.component';
 import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
+import {StoreVariableService} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
 
 
 
@@ -30,6 +31,7 @@ export class UtilityService {
     private toastr: ToastrService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private storeVariableService: StoreVariableService,
   ) {
   }
 
@@ -61,6 +63,22 @@ export class UtilityService {
       return 20;
     }
     return 10;
+  }
+
+  masterIntegration_IntegrationKeyDisplayNameMap = null;
+  getDisplayNameForKey_Integration(key:string){
+
+    let masterIntegrationList = this.storeVariableService.masterIntegrationList;
+    if(!this.masterIntegration_IntegrationKeyDisplayNameMap){
+      this.masterIntegration_IntegrationKeyDisplayNameMap = masterIntegrationList.reduce((accumulator, currentVal)=>{
+        let x = currentVal.inputs.reduce((accObj, currObj)=>{
+          accObj[currObj.param_name] = currObj.display_text;
+          return accObj;
+        },{});
+        return {...accumulator, ...x};
+      }, {})
+    }
+    return this.masterIntegration_IntegrationKeyDisplayNameMap[key];
   }
 
   getActiveVersionInBot(bot:IBot){

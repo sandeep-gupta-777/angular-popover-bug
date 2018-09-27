@@ -67,8 +67,8 @@ export class ConsumersComponent implements OnInit {
           return {
             ...value,
             objects: value.objects.map((result) => {
-              let modified_update_at = (new Date(result.updated_at)).toDateString();
-              return { ...result, updated_at: modified_update_at };
+              // let modified_update_at = (new Date(result.updated_at)).toDateString();
+              return { ...result };
             })
           };
         }).subscribe((value)=>{

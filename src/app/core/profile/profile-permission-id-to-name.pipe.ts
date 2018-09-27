@@ -15,14 +15,12 @@ export class ProfilePermissionIdToNamePipe implements PipeTransform {
 
     return this.app$.map((appState) => {
       let masterPermissions = appState.masterProfilePermissions;
-      if(!permissionIds || !masterPermissions) return;
+      if (!permissionIds || !masterPermissions) return;
       if (permissionIds.length === 0) {
         return masterPermissions.map((permission) => {
-          return permission.name;;
-          
+          return permission.name;
         });
       }
-
       return permissionIds.map((permissionId) => {
         let matchedPermissionObject = masterPermissions.find((permission) => permissionId === permission.id);
         return matchedPermissionObject ? matchedPermissionObject.name : `${permissionId}:not_in_backend`;
