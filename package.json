@@ -11,7 +11,8 @@
     "fe_build": "cd C:/Users/sandeepkumar.g/Desktop/nodebook/bot_platform-fe && ng build --prod",
     "postgit": "git push origin ui-redesign",
     "server":"cd C:/Users/sandeepkumar.g/Desktop/nodebook/imibot_app_server/static && git pull && cd C:/Users/sandeepkumar.g/Desktop/nodebook/bot_platform-fe && npm run fe_build",
-    "bundle-report": "webpack-bundle-analyzer dist/botPlateformFE/stats.json"
+    "bundle-report": "webpack-bundle-analyzer dist/botPlateformFE/stats.json",
+    "heroku":"ng build --prod && cd C:/Users/shoaib.m/Documents/ang-frontend/bot_platform-fe/heroku && git add . && git commit -m 'heroku-deploy' && git push heroku master"
   },
   "private": true,
   "dependencies": {
