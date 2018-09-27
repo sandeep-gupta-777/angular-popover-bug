@@ -34,33 +34,8 @@ export interface IBotPreviewFirstMessage {
       'text': 'Test consent message'
     }
     ],
-  'room': {
-    'agent_handover': false,
-    'allow_anonymization': false,
-    'bot_id': 27,
-    'consent_permissions': any[],
-    'consumer_id': number,
-    'created_at': 1536148813000,
-    'cross_retention_period': false,
-    'data_store': {},
-    'df_state': {
-      'answer': null,
-      'question': null
-    },
-    'id': 11924,
-    'imichat_agent': {},
-    'is_anonymized': false,
-    'last_updated_job_id': '5b8fc54d7364530005872f08',
-    'manager_bot_room_id': 0,
-    'resource_uri': '/api/v1/room/11924/',
-    'room_state_closed': false,
-    'selected_avatar': {
-      'id': 0,
-      'imageUrl': 'https://www.gstatic.com/webp/gallery3/2_webp_a.png',
-      'name': 'StarBot'
-    },
-    'updated_at': 1536148813000
-  },
+  'room': IRoomData,
+
   'transaction_id': '1cba048e58684206b8c3912b7f7e1887'
 }
 
@@ -112,7 +87,6 @@ export class ChatWrapperComponent implements OnInit {
 
   ngOnInit() {
     console.log('inside chat-wrapper');
-    this.serverService.initializeIMIConnect();
     this.loggeduser$.subscribe((loggeduser) => {
       try {
         this.user_first_name = loggeduser.user.first_name || 'Anonymous User';
@@ -149,6 +123,16 @@ export class ChatWrapperComponent implements OnInit {
       try {
         this.windowOpen = chatSessionState.opened;
         if (!chatSessionState) return;
+
+        let hasPreviewBotChanged = chatSessionState.currentBotDetails &&
+          (!this.currentBot || this.currentBot.id!==chatSessionState.currentBotDetails.id);
+        let hasPreviewRoomChanged = chatSessionState.currentRoomId &&
+          (!this.currentRoom || (this.currentRoom.id!==chatSessionState.currentRoomId));
+
+        if(hasPreviewRoomChanged || hasPreviewBotChanged){
+          this.serverService.initializeIMIConnect(chatSessionState.currentBotDetails, chatSessionState.currentRoomId);
+        }
+
         this.currentBot = chatSessionState.currentBotDetails;/**/
         if (this.currentBot) {
           this.enterprise_unique_name = this.currentBot.enterprise_unique_name;
@@ -211,7 +195,12 @@ export class ChatWrapperComponent implements OnInit {
     this.serverService.startANewChatUsingSendApi(startNewChatData)
       .subscribe((value: IBotPreviewFirstMessage) => {
 
-        /*1. create a new room with roomid
+        /*
+        *A new room has been created. Now if the room belongs to IMI Connect bot,
+        *initialize IMI Connect integration
+        * */
+        this.serverService.initializeIMIConnect(startNewChatData.bot, value.room.id);
+        /*1. create a new room with room id
          *2. add message to the room: consent message */
         let roomMessages = this.utilityService.serializeServerValueToChatRoomMessages(value);
 
@@ -279,7 +268,7 @@ export class ChatWrapperComponent implements OnInit {
 
         /*========================Creation of chat room using IMI CONNECT===============================*/
         if (shouldStartChatViaImiConnectSDK) {
-          this.serverService.sendHumanMessageViaImiConnect(this.currentRoom, messageByHuman);
+          this.serverService.sendHumanMessageViaImiConnect(this.currentRoom,this.currentBot, messageByHuman);
           return;
         }
         this.chatService.sendHumanMessageToBotServer(

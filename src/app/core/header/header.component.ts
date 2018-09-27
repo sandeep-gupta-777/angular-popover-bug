@@ -55,7 +55,7 @@ export class HeaderComponent implements OnInit {
           this.logoutSetTimeoutRef = setTimeout(() => {
             this.logout();
             this.logoutSetTimeoutRef && clearTimeout(this.logoutSetTimeoutRef);
-            this.app$Subscription.unsubscribe();
+            this.app$Subscription && this.app$Subscription.unsubscribe();
             document.location.reload();
           }, (autoLogOutTime-Date.now()));
         }

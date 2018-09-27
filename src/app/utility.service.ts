@@ -17,6 +17,7 @@ import {IPipelineItem} from '../interfaces/ai-module';
 import {IAnalysis2HeaderData} from '../interfaces/Analytics2/analytics2-header';
 import {EBotMessageMediaType, IMessageData} from '../interfaces/chat-session-state';
 import {IBotPreviewFirstMessage} from './chat/chat-wrapper.component';
+import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 
 
 
@@ -65,6 +66,44 @@ export class UtilityService {
   getActiveVersionInBot(bot:IBot){
     return bot.store_bot_versions && bot.store_bot_versions.find((BotVersion) => {
       return bot.active_version_id === BotVersion.id;
+    });
+  }
+
+  serializeGeneratedMessagesToPreviewMessages(  generatedMessage:IGeneratedMessageItem[]):IMessageData[]{
+    return generatedMessage.map((message: IGeneratedMessageItem) => {
+      /*check if media is the key
+      * if yes, return {message_type:media[0].type, ...message}
+      * else return it as tet
+      * */
+
+      // this.utilityService.getActiveVersionInBot()
+
+      if(Object.keys(message)[0] === "media"){
+        return {
+          messageMediatype:message.media[0].type,//
+          ...message,
+          time: this.getCurrentTimeInHHMM(),
+          text:EBotMessageMediaType.image,//this is for preview of last message in chat room list
+          sourceType: 'bot'
+        }
+      }else if(Object.keys(message)[0] === "quick_reply"){
+
+        return {
+          messageMediatype:EBotMessageMediaType.quickReply,//
+          ...message,
+          time: this.getCurrentTimeInHHMM(),
+          text:(<any>message).quick_reply.text || EBotMessageMediaType.quickReply,//this is for preview of last message in chat room list
+          sourceType: 'bot'
+        }
+      }
+
+      /*if message type = text*/
+      return {
+        text: message.text,
+        time: this.getCurrentTimeInHHMM(),
+        sourceType: 'bot',
+        messageMediatype:EBotMessageMediaType.text
+      };
     });
   }
 

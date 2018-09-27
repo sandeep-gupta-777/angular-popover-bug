@@ -617,6 +617,33 @@ progressbar {
   }
 }
 
+.style-children-scrollbar-x{
+  /*TODO: make this for [overflow-x="auto"]*/
+  /*scrollbar styles start*/
+  /* width */
+  /* width */
+  ::-webkit-scrollbar {
+    height: 5px !important;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #d2d2d2;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+  /*scrollbar styles end*/
+
+}
+
 .required:after {
   content: " *";
 }

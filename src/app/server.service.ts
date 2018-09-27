@@ -26,7 +26,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/filter';
 import {IConsumerDetails} from './chat/ngxs/chat.state';
-import {EBotMessageMediaType, EChatFrame, IRoomData} from '../interfaces/chat-session-state';
+import {EBotMessageMediaType, EChatFrame, IMessageData, IRoomData} from '../interfaces/chat-session-state';
 import {
   AddMessagesToRoomByRoomId,
   AddNewRoom,
@@ -35,7 +35,8 @@ import {
   SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
   SetCurrentRoomID, ToggleChatWindow
 } from './chat/ngxs/chat.action';
-import {b} from '@angular/core/src/render3';
+import {b, st} from '@angular/core/src/render3';
+import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 
 declare var IMI: any;
 declare var $: any;
@@ -357,27 +358,67 @@ export class ServerService {
 
   messaging;
 
-  initializeIMIConnect() {
-    var appId = 'IM20051444';
-    var appSecret = 'aD69OwcY';
+  currentPreviewBot: IBot;
+  currentRoomId: number;
+
+  initializeIMIConnect(previewBot: IBot, currentRoomId: number) {
+    if(this.currentRoomId === currentRoomId && this.currentPreviewBot === previewBot){
+      return;
+    }else {
+      try {
+        IMI.IMIconnect.shutdown();
+      }catch (e) {
+        console.log(e);
+      }
+      debugger;
+    }
+    this.currentRoomId = currentRoomId;
+    this.currentPreviewBot = previewBot;
+    debugger;
+    // this.currentPreviewBot = previewBot;
+    /*TODO: make initialization happen only once*/
+    let imiConnectIntegrationDetails;
+    try {
+      imiConnectIntegrationDetails = previewBot.integrations.fulfillment_provider_details.imiconnect;
+      if (!imiConnectIntegrationDetails.enabled || !imiConnectIntegrationDetails.send_via_connect) {
+        console.log('this is not an imiconnect bot...');
+        return;
+      }
+    } catch (e) {
+      console.log('this is not an imiconnect bot');
+      return;
+    }
+    var appId = imiConnectIntegrationDetails.appId;//'GS23064017';
+    var appSecret = imiConnectIntegrationDetails.appSecret;//'uZi6B5Zg';
     // var streamName = "bot";
-    var serviceKey = 'f6e50f7b-2bfd-11e8-bf0b-0213261164bb';
-    var userId = '123456789sadasd';
+    var serviceKey = imiConnectIntegrationDetails.serviceKey;//'3b8f6470-5e56-11e8-bf0b-0213261164bb';//'f6e50f7b-2bfd-11e8-bf0b-0213261164bb';
+    var userId = currentRoomId + 'hellothisissandeep1231312';
 
     var config = new IMI.ICConfig(appId, appSecret);
     var messaging = IMI.ICMessaging.getInstance();
 
+    console.info("========initializing connection with imiconnect with following details")
+    console.log(
+      'appId= ' + appId+'\n',
+      'appSecret= ' + appSecret+'\n',
+      'serviceKey= ' + serviceKey+'\n',
+      'userId= ' + userId+'\n');
+
 
     let prepareMessage = (messageObj) => {
+      console.log('message from IMICONNECT Has been recieved', messageObj);
+      let generatedMessagesStr = messageObj.message;
+      let generatedMessages: IGeneratedMessageItem[];
+      try {
+        generatedMessages = JSON.parse(generatedMessagesStr);
+      } catch (e) {
+        console.error('Unable to parse json from IMIConnect callback', generatedMessagesStr);
+      }
+      let serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages);
       this.store.dispatch([
         new AddMessagesToRoomByRoomId({
-          id: this.currentRoom.id,
-          messageList: [{
-            sourceType: 'bot',
-            time: '10:10AM',
-            messageMediatype: EBotMessageMediaType.text,
-            'text': messageObj.message,
-          }]
+          id: currentRoomId,
+          messageList: serializedMessages
         }),
         // new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX}),
         // new SetCurrentRoomID({id: 123456789.room.id})
@@ -386,6 +427,7 @@ export class ServerService {
 
     var msgCallBack = {//messaging.setICMessagingReceiver(msgCallBack);
       onConnectionStatusChanged: function (statuscode) {
+        console.log("msgCallBack,onConnectionStatusChanged", statuscode)
         var statusMessage = null;
         if (statuscode == 2) {
           statusMessage = 'Connected';
@@ -473,12 +515,18 @@ export class ServerService {
     this.messaging = messaging;
   }
 
+
   currentRoom: IRoomData;
 
-  sendHumanMessageViaImiConnect(currentRoom, messageByHuman: string) {
+  sendHumanMessageViaImiConnect(currentRoom, currentBot: IBot, messageByHuman: string) {
 
-    var streamName = 'bot';
-    this.currentRoom = currentRoom;
+    var streamName:string;//'gsureg';
+    try {
+      streamName = currentBot.integrations.fulfillment_provider_details.imiconnect.streamName;
+    }catch (e) {
+      console.log(e)
+    }
+    // this.currentRoom = currentRoom;
 //send message
     var pubcallback = {
       onSuccess: function () {

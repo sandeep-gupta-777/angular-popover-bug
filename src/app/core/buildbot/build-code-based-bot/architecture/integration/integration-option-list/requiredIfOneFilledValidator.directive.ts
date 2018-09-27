@@ -12,7 +12,6 @@ import { Validator, FormGroup, NG_VALIDATORS, AbstractControl, ValidationErrors 
 export class RequiredIfOneFilledValidator implements Validator {
   validate(group: AbstractControl): ValidationErrors | null {
     const controls = (group as FormGroup).controls;
-    console.log(group.value);
     let formData = group.value;
     if(formData.enabled){
       for(let key in formData) {

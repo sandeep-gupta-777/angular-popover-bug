@@ -37,6 +37,30 @@ export interface IRoomData {
     'name'?: string
   },
   lastTemplateKey?: string
+
+  /*added later...entries from server*/
+    'agent_handover'?: false,
+    'allow_anonymization'?: false,
+    'consent_permissions'?: any[],
+    'created_at'?: number,
+    'cross_retention_period'?: false,
+    'data_store'?: {},
+    'df_state'?: {
+      'answer': null,
+      'question': null
+    },
+    'imichat_agent'?: {},
+    'is_anonymized'?: false,
+    'last_updated_job_id'?: '5b8fc54d7364530005872f08',
+    'manager_bot_room_id'?: 0,
+    'resource_uri'?: '/api/v1/room/11924/',
+    'room_state_closed'?: false,
+    'selected_avatar'?: {
+      'id': 0,
+      'imageUrl': 'https?://www.gstatic.com/webp/gallery3/2_webp_a.png',
+      'name': 'StarBot'
+    },
+    'updated_at'?: number
 }
 
 export interface IChatSessionState {

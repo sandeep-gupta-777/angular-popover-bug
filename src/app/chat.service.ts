@@ -49,47 +49,50 @@ export class ChatService {
       this.navigate(frameEnabled);
     return this.serverService.makePostReq({url, body, headerData, dontShowProgressBar:true})
       .do((response: ISendApiResponsePayload) => {
-        let generatedMessage = response.generated_msg;
-        /*response from bot server*/
-        let editedMessages: IMessageData[] = generatedMessage.map((message: IGeneratedMessageItem) => {
-          /*check if media is the key
-          * if yes, return {message_type:media[0].type, ...message}
-          * else return it as tet
-          * */
-
-
-          if(Object.keys(message)[0] === "media"){
-            return {
-              messageMediatype:message.media[0].type,//
-              ...message,
-              time: this.utilityService.getCurrentTimeInHHMM(),
-              text:EBotMessageMediaType.image,//this is for preview of last message in chat room list
-              sourceType: 'bot'
-            }
-          }else if(Object.keys(message)[0] === "quick_reply"){
-            debugger;
-            return {
-              messageMediatype:EBotMessageMediaType.quickReply,//
-              ...message,
-              time: this.utilityService.getCurrentTimeInHHMM(),
-              text:(<any>message).quick_reply.text || EBotMessageMediaType.quickReply,//this is for preview of last message in chat room list
-              sourceType: 'bot'
-            }
-          }
-
-          return {
-            text: message.text,
-            time: this.utilityService.getCurrentTimeInHHMM(),
-            sourceType: 'bot',
-            messageMediatype:EBotMessageMediaType.text
-          };
-        });
+        let generatedMessages = response.generated_msg;
+        let serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages);
+        // let serializedMessages: IMessageData[] = generatedMessages.map((message: IGeneratedMessageItem) => {
+        //   /*check if media is the key
+        //   * if yes, return {message_type:media[0].type, ...message}
+        //   * else return it as tet
+        //   * */
+        //
+        //   // this.utilityService.getActiveVersionInBot()
+        //
+        //
+        //   if(Object.keys(message)[0] === "media"){
+        //     return {
+        //       messageMediatype:message.media[0].type,//
+        //       ...message,
+        //       time: this.utilityService.getCurrentTimeInHHMM(),
+        //       text:EBotMessageMediaType.image,//this is for preview of last message in chat room list
+        //       sourceType: 'bot'
+        //     }
+        //   }else if(Object.keys(message)[0] === "quick_reply"){
+        //
+        //     return {
+        //       messageMediatype:EBotMessageMediaType.quickReply,//
+        //       ...message,
+        //       time: this.utilityService.getCurrentTimeInHHMM(),
+        //       text:(<any>message).quick_reply.text || EBotMessageMediaType.quickReply,//this is for preview of last message in chat room list
+        //       sourceType: 'bot'
+        //     }
+        //   }
+        //
+        //   /*if message type = text*/
+        //   return {
+        //     text: message.text,
+        //     time: this.utilityService.getCurrentTimeInHHMM(),
+        //     sourceType: 'bot',
+        //     messageMediatype:EBotMessageMediaType.text
+        //   };
+        // });
 
         this.store.dispatch([
           new AddMessagesToRoomByRoomId({
             id: response.room.id,
             consumer_id: response.room.consumer_id,
-            messageList: editedMessages,
+            messageList: serializedMessages,
             // uid,
             // bot_id: response.room.bot_id,
             // selectedAvatar: response.room.selected_avatar,
