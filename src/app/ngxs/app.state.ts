@@ -46,7 +46,7 @@ const appDefaultState: IAppState = {
   enterpriseNerData: [],
   masterPipelineItems: null,
   autoLogoutTime: Date.now() + 3600 * 1000
-};
+};;
 
 @State<IAppState>({
   name: 'app',
