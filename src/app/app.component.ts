@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
   currentIntervalRef;
 
   ngOnInit() {
+    console.log("tesging 1");
     this.app$.subscribe((app) => {
 
       if (app.progressbar.loading) {
