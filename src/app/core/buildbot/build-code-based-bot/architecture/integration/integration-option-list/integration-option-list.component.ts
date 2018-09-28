@@ -23,6 +23,7 @@ import {EFormValidationErrors} from '../../../../../../utility.service';
 })
 export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
 
+  test:boolean;
   isActive: boolean;
   enable = false;
   formValue: IIntegrationOption;
@@ -30,6 +31,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   @Input() bot: IBot;
   @ViewChild('form') f: NgForm;
   @ViewChild('form_new') f_new: NgForm;
+  @ViewChild('test') test_new: NgForm;
   @Select() botcreationstate$: Observable<IBotCreationState>;
   @Output() datachanged$ = new EventEmitter();
   @Select() app$: Observable<IAppState>;
@@ -63,21 +65,21 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
     // this.formValueFinal =  this.bot.integrations;
 
     this.masterIntegrationList.forEach((integrationItem) => {
-      let integration_type = integrationItem.integration_type;
-      let key = integrationItem.key;
+      let integration_type_key = integrationItem.integration_type;
+      let integration_name_key = integrationItem.key;
       let tempObj = {};
-      tempObj[key] = integrationItem.inputs.reduce((aggregate, value: { 'display_text': string, 'param_name': string }) => {
+      tempObj[integration_name_key] = integrationItem.inputs.reduce((aggregate, value: { 'display_text': string, 'param_name': string }) => {
         let obj = {};
         obj[value.param_name] = '';
         return {...aggregate, ...obj};
-      }, {});
-      if (this.masterIntegrationListSerialized[integration_type]) {
-        this.masterIntegrationListSerialized[integration_type] = {
-          ...this.masterIntegrationListSerialized[integration_type],
+      }, {enabled:false});
+      if (this.masterIntegrationListSerialized[integration_type_key]) {
+        this.masterIntegrationListSerialized[integration_type_key] = {
+          ...this.masterIntegrationListSerialized[integration_type_key],
           ...tempObj
         };
       } else {
-        this.masterIntegrationListSerialized[integration_type] = {...tempObj};
+        this.masterIntegrationListSerialized[integration_type_key] = {...tempObj};
       }
     });
     this.formValue =
@@ -112,20 +114,24 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   }
 
   click() {
-    // console.log(this.formValue);
+    console.log(this.formValue);
+    console.log(this.test);
+    console.log(this.test_new.value);
   }
 
-  test = false;
+  // test = false;
 
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.f_new.form.patchValue(this.formValueFinal);
     });
 
+
     this.f_new.valueChanges.debounceTime(1000).subscribe((integrationInfo: IIntegrationOption) => {
       if (!this.f_new.dirty) return;
       let formValidityObj =  {};
       formValidityObj[EFormValidationErrors.form_validation_integration] = this.f_new && this.f_new.valid;
+
 
       this.datachanged$.emit({integrations: integrationInfo,...formValidityObj});
       // if (this.routeParent['buildBot'])

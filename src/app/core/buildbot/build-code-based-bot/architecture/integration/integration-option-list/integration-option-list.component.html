@@ -1,3 +1,7 @@
+<button (click)="click()">click()</button>
+<form #test="ngForm">
+  <ui-switch type="checkbox" size="small" ngModel [checked]="false"  name="enabled" ></ui-switch>
+</form>
 <form class="grid-integrations form-theme" style="width: 100%; overflow-y: auto" #form_new="ngForm">
 
   <div *ngFor="let form_value_key of myObject.keys(formValue)"
@@ -15,12 +19,12 @@
              [src]="getLogo(integration_keys)"
              alt="">
         <div class="heading my-0 mx-2">{{integration_keys.toUpperCase()}}</div>
-        <ui-switch size="small" ngModel name="enabled" (change)="onSwitchChange(formValueFinal[form_value_key][integration_keys])"></ui-switch>
+        <ui-switch size="small" [checked]="false" ngModel name="enabled" (change)="onSwitchChange(formValueFinal[form_value_key][integration_keys])"></ui-switch>
       </div>
       <div [hidden]="!formValueFinal[form_value_key][integration_keys]['enabled']" >
         <div *ngFor="let integration_input_keys of formValue[form_value_key][integration_keys]|integrationInputKeysFilter">
           <div class="form-group">
-            <label class="required">{{integration_input_keys|integrationNameFormatter|titlecase}}</label>
+            <label class="required">{{integration_input_keys|displayNameForKeyIntegration}}</label>
             <input ngModel type="text"
                    class="form-control"
                    [name]="integration_input_keys">

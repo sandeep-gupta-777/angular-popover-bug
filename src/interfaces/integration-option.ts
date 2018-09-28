@@ -51,6 +51,8 @@
 //   }
 // }
 
+import {st} from '@angular/core/src/render3';
+
 export interface IIntegrationOption {
   ccsp_details: {
     debug: {
@@ -119,37 +121,18 @@ export interface IMasterIntegration {
 
 
 export interface IIntegrationMasterListItem {
-  'created_at': '2018-08-06T11:26:46.702000',
-  'icon': '/assets/img/app/integrations/imiconnect.png',
-  'id': 1,
+  'created_at':string,
+  'icon': string,
+  'id': number,
   'inputs': [
     {
-      'display_text': 'App Id',
-      'param_name': 'appId'
-    },
-    {
-      'display_text': 'App Secret',
-      'param_name': 'appSecret'
-    },
-    {
-      'display_text': 'Stream Name',
-      'param_name': 'streamName'
-    },
-    {
-      'display_text': 'Service Key',
-      'param_name': 'serviceKey'
-    },
-    {
-      'display_text': 'Send request via Connect',
-      'param_name': 'send_via_connect'
-    }
-    ],
-  'integration_type': 'fulfillment_provider_details',
-  'key': 'imiconnect',
-  'resource_uri': '/api/v1/integrations/1/',
-  'type': 'fulfillment',
-  'unique_name': string,// 'IMIConnect',
-  'updated_at': '2018-08-06T11:26:46.703000'
+      'display_text': string,
+      'param_name': string,
+    }],
+  'integration_type': string,
+  'key': string,
+  'resource_uri': string,
+  'type': string,
+  'unique_name': string,
+  'updated_at': string,
 }
-
-//aasdasda

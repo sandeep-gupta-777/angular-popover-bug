@@ -7,7 +7,7 @@ import {ResetAppState, ResetStoreToDefault} from '../../ngxs/app.action';
 import {ResetChatState} from '../../chat/ngxs/chat.action';
 import {ResetBotListAction} from '../view-bots/ngxs/view-bot.action';
 import {ResetAuthToDefaultState} from '../../auth/ngxs/auth.action';
-import {ConstantsService, ETabNames} from '../../constants.service';
+import {ConstantsService, EAPermissionsDynamic, ETabNames} from '../../constants.service';
 import {ServerService} from '../../server.service';
 import {ResetEnterpriseUsersAction} from '../enterpriseprofile/ngxs/enterpriseprofile.action';
 import {ResetBuildBotToDefault} from '../buildbot/ngxs/buildbot.action';
@@ -31,9 +31,12 @@ export class HeaderComponent implements OnInit {
   logoSrc = 'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg';
   myEBotType = EBotType;
   myETabNames = ETabNames;
+  myEAPermissionsDynamic = EAPermissionsDynamic;
   isFullScreen = false;
   url: string;
   logoutSetTimeoutRef;
+  autoLogOutTime: number;
+
   constructor(
     private store: Store,
     private serverService: ServerService,
@@ -44,20 +47,30 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.app$Subscription =this.app$.subscribe((app) => {
+    this.app$Subscription = this.app$.subscribe((app) => {
+        /*every time this callback runs remove all previous setTimeOuts*/
         let autoLogOutTime = app.autoLogoutTime;
         if (autoLogOutTime) {
-          try {
-            this.logoutSetTimeoutRef && clearTimeout(this.logoutSetTimeoutRef);
-          }catch (e) {
-            ;
-          }
+
+          /*If autoLogOutTime hasn't changed, return
+          * else clear previous timeouts, and create a new one
+          * */
+          if (this.autoLogOutTime === autoLogOutTime) return;
+          this.autoLogOutTime = autoLogOutTime;
+          this.logoutSetTimeoutRef && clearTimeout(this.logoutSetTimeoutRef);
+
+          /*creating a new Timeout*/
           this.logoutSetTimeoutRef = setTimeout(() => {
-            this.logout();
             this.logoutSetTimeoutRef && clearTimeout(this.logoutSetTimeoutRef);
-            this.app$Subscription && this.app$Subscription.unsubscribe();
-            document.location.reload();
-          }, (autoLogOutTime-Date.now()));
+            try {
+              this.app$Subscription && this.app$Subscription.unsubscribe();
+            }catch (e) {
+              console.log(e);/*TODO: find out whats wrong with app$Subscription*/
+            }
+            console.log('============================autologout============================');
+            this.logout();
+            document.location.reload();/*To destroy all timeouts just in case*/
+          }, (autoLogOutTime - Date.now()));
         }
       }
     );

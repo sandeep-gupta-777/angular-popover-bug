@@ -1,6 +1,6 @@
 import { Directive, Input, ElementRef, TemplateRef, ViewContainerRef } from '@angular/core';
 import {UtilityService} from './utility.service';
-import {ConstantsService} from './constants.service';
+import {ConstantsService, EAPermissionsDynamic} from './constants.service';
 
 @Directive({
   selector: '[myIf]'
@@ -16,7 +16,8 @@ export class MyIfDirective {
   }
 
   @Input()
-  set myIf(tabName) {
+  set myIf(tabName:EAPermissionsDynamic) {
+    // let isDenied:boolean =  this.constantsService.isAccessDeniedDynamic(tabName);
     let isDenied:boolean =  this.constantsService.isTabAccessDenied(tabName);
     if(!isDenied) {
       this.viewContainer.createEmbeddedView(this.templateRef);

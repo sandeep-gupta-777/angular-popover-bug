@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {Router, RoutesRecognized} from '@angular/router';
+import {IProfilePermission} from '../../interfaces/profile-action-permission';
+import {SetMasterProfilePermissions} from '../ngxs/app.action';
+import {ServerService} from '../server.service';
+import {ConstantsService} from '../constants.service';
+import {Store} from '@ngxs/store';
 
 @Component({
   selector: 'app-core-wrapper',
@@ -9,7 +14,12 @@ import {Router, RoutesRecognized} from '@angular/router';
 export class CoreWrapperComponent implements OnInit {
 
   isFullScreenPreview: boolean;
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private serverService:ServerService,
+    private store:Store,
+    private constantsService:ConstantsService
+  ) { }
 
   ngOnInit() {
 
@@ -18,6 +28,14 @@ export class CoreWrapperComponent implements OnInit {
         this.isFullScreenPreview = data.state.root.firstChild.data.isFullScreenPreview;
       }
     });
+    let allActionsUrl = this.constantsService.getAllActionsUrl();
+    this.serverService.makeGetReq<{ meta: any, objects: IProfilePermission[] }>({url: allActionsUrl})
+      .subscribe((value:{objects:IProfilePermission[]}) => {
+        this.store.dispatch([
+          new SetMasterProfilePermissions({masterProfilePermissions: value.objects})
+        ]);
+        this.constantsService.setPermissionsDeniedMap(value.objects)
+      });
   }
 
 }

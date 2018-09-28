@@ -46,13 +46,13 @@ export class ProfileComponent implements OnInit {
       this.loggeduser = loggeduser.user;
     });
 
-    let allActionsUrl = this.constantsService.getAllActionsUrl();
-    this.serverService.makeGetReq<{ meta: any, objects: IProfilePermission[] }>({url: allActionsUrl})
-      .subscribe(({objects}) => {
-        this.store.dispatch([
-          new SetMasterProfilePermissions({masterProfilePermissions: objects})
-        ]);
-      });
+    // let allActionsUrl = this.constantsService.getAllActionsUrl();
+    // this.serverService.makeGetReq<{ meta: any, objects: IProfilePermission[] }>({url: allActionsUrl})
+    //   .subscribe(({objects}) => {
+    //     this.store.dispatch([
+    //       new SetMasterProfilePermissions({masterProfilePermissions: objects})
+    //     ]);
+    //   });
 
     this.modalService.onHidden.subscribe((reason: string) => {
       this.old_password = this.new_password = this.new_password_confirm = '';

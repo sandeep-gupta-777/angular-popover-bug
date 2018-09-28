@@ -10,8 +10,10 @@ import {ServerService} from '../../../server.service';
 import {UtilityService} from '../../../utility.service';
 import {BotSessionsComponent} from '../bot-sessions/bot-sessions.component';
 import {UpdateBotInfoByIdInBotInBotList, SaveVersionInfoInBot} from '../../view-bots/ngxs/view-bot.action';
-import {ConstantsService, ETabNames} from '../../../constants.service';
+import {ConstantsService, ERoleName, ETabNames} from '../../../constants.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
+import {IUser} from '../../interfaces/user';
+import {IAuthState} from '../../../auth/ngxs/auth.state';
 
 @Component({
   selector: 'app-code-based-bot-detail',
@@ -24,6 +26,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
   isArchitectureFullScreen = false;
   @Select() botlist$: Observable<ViewBotStateModel>;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
+  @Select() loggeduser$: Observable<{ user: IUser }>;
   selectedTab = 'architecture';
   bot$: Observable<IBot>;
   bot_id: number;
@@ -47,13 +50,24 @@ export class CodeBasedBotDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    // this.loggeduser$.take(1).subscribe((loggedUserState:IAuthState)=>{
+      let roleName = this.constantsService.loggedUser.role.name;
+      if(roleName===ERoleName.Admin || roleName===ERoleName['Bot Developer']){
+        this.selectedTab = 'architecture'
+      }else if(roleName===ERoleName.Tester){
+        this.selectedTab = 'testing'
+      }else{
+        this.selectedTab = 'sessions'
+      }
+    // });
+
     let isArchitectureFullScreen = this.activatedRoute.snapshot.queryParamMap.get('isArchitectureFullScreen');
     this.isArchitectureFullScreen = isArchitectureFullScreen==='true';
     let showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
     this.showConfig = (showConfigStr === 'true' || showConfigStr == undefined);
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
-    this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || 'architecture';
+    this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || this.selectedTab;
     /*this.bot$ = */
     this.botlist$.subscribe((botListState) => {
       if (botListState.allBotList)

@@ -8,6 +8,8 @@ import {IIntegrationOption} from '../interfaces/integration-option';
 import {DatePipe} from '@angular/common';
 import {environment} from '../environments/environment.prod';
 import {IAuthState} from './auth/ngxs/auth.state';
+import {IProfilePermission} from '../interfaces/profile-action-permission';
+
 declare var Handsontable: any;
 
 export enum ERouteNames {
@@ -17,7 +19,7 @@ export enum ERouteNames {
   enterprise_profile = 'enterprise_profile',
   analytics2 = 'analytics2',
   consumer = 'consumer',
-  sessions= 'sessions',
+  sessions = 'sessions',
 }
 
 export enum EAPINames {
@@ -27,9 +29,11 @@ export enum EAPINames {
 
 export enum ETabNames {
   customner = 'customner',
+  create_bot = 'create_bot',
   knowledgeBase = 'knowledgeBase',
   enterprise_profile = 'enterprise_profile',
   architecture_tab = 'architecture_tab',
+  delete_bot = 'delete_bot',
   architecture_items = 'architecture_items',
   lower_panel_bot_detail = 'lower_panel_bot_detail',
   lower_panel_tabs = 'lower_panel_tabs',
@@ -46,10 +50,10 @@ export enum ETabNames {
   pipeline = 'pipeline',
   knowledgebase = 'knowledgebase',
   botversion = 'botversion',
-  sessions = 'sessions',
+  sessions = 'sessions',/*everyone should get sessions*/
   consumers = 'consumers',
-  update_profile="update_profile",
-  testing = "testing"
+  update_profile = 'update_profile',
+  testing = 'testing'
 }
 
 export enum ERoleName {
@@ -59,114 +63,284 @@ export enum ERoleName {
   Tester = 'Tester',
 }
 
+export enum EAPermissionsDynamic {
+  'Get Bots'='Get Bots',
+  'Create Bots'='Create Bots',
+  'Update Bots'='Update Bots',
+  'Delete Bots'='Delete Bots',
+  'Get Bots Anonymous'='Get Bots Anonymous',
+  'Get Enterpise Knowledge base'='Get Enterpise Knowledge base',
+  'Create Enterprise Knowledge base'='Create Enterprise Knowledge base',
+  'Update Enterprise Knowledge base'='Update Enterprise Knowledge base',
+  'Delete Enterprise Knowledge base'='Delete Enterprise Knowledge base',
+  'Create Bot Versioning'='Create Bot Versioning',
+  'GET Bot Versioning'='GET Bot Versioning',
+  'Update Bot Versioning'='Update Bot Versioning',
+  'Delete Bot Versioning'='Delete Bot Versioning',
+  'Create Role'='Create Role',
+  'Get Role'='Get Role',
+  'Update Role'='Update Role',
+  'Delete Role'='Delete Role',
+  'Create User'='Create User',
+  'Get User'='Get User',
+  'Update User'='Update User',
+  'Get Consumers'='Get Consumers',
+  'Get Sessions'='Get Sessions',
+  'Analytics'='Analytics',
+  'Get Bot Testcases'='Get Bot Testcases',
+  'Create Bot Testcases'='Create Bot Testcases',
+  'Update Bot Testcases'='Update Bot Testcases',
+  'Delete Bot Testcases'='Delete Bot Testcases',
+  'Get Integrations'='Get Integrations',
+  'Get Pipeline Module'='Get Pipeline Module',
+  'Create Reports'='Create Reports',
+  'Get Reports'='Get Reports',
+  'Update Reports'='Update Reports',
+  'Delete Reports'='Delete Reports',
+  'Get Report History'='Get Report History',
+  'Get Enterprise'='Get Enterprise',
+  'Update Enterprise'='Update Enterprise',
+  'Delete User'='Delete User',
+  'Get Report Types'='Get Report Types',
+  'Send API'='Send API',
+  'Get Messages'='Get Messages',
+  'Get Actions'='Get Actions',
+  'Close Room'='Close Room',
+  'agent_close'='agent_close',
+  'Anonymize Conversation'='Anonymize Conversation',
+  'Post dfRules Debug'='Post dfRules Debug',
+  'Post genRules Debug'='Post genRules Debug',
+  'Post genTemplate Debug'='Post genTemplate Debug',
+  'Post Workflow Debug'='Post Workflow Debug',
+  'Workflow Webhook'='Workflow Webhook',
+  'Facebook Webhook'='Facebook Webhook',
+  'Backward Compatible Message API'='Backward Compatible Message API',
+  'Intelligence API Webhook'='Intelligence API Webhook',
+  'Delete Consumer'='Delete Consumer',
+  'Create Decrypt Audit'='Create Decrypt Audit',
+  'erase consumer'='erase consumer',
+  'Exec Reports'='Exec Reports',
+  'Download Reports'='Download Reports',
+  'Skype API'='Skype API',
+  'Update Password'='Update Password',
+  'Get Bot Knowledge base'='Get Bot Knowledge base',
+  'Create Bot Knowledge base'='Create Bot Knowledge base',
+  'Update Bot Knowledge base'='Update Bot Knowledge base',
+  'Delete Bot Knowledge base'='Delete Bot Knowledge base'
+}
+
+
 // import {IGlobalState} from '../interfaces/global-state';
 @Injectable({
   providedIn: 'root'
 })
 export class ConstantsService {
 
-    permissionsDeniedMap = {
-      'Admin': {
-        route: [],
-        module: [],
-        tab: [],//tab, hyperlink, button
-        api: [],//tab, hyperlink, button
-      },
-      'Analyst': {
-        route: [ERouteNames.customner,
-          ERouteNames.enterprise_profile,
-          ERouteNames.report,
-          ERouteNames.create_report,
-        ],
-        module: [],
-        tab: [// =  tab, hyperlink, button
-          ETabNames.enterprise_profile,
-          ETabNames.customner,
-          ETabNames.architecture_tab,
-          ETabNames.bot_header_ellipsis,
-          ETabNames.knowledgeBase,
-          ETabNames.update_bot_button,
-          ETabNames.bot_header_reset,
-          ETabNames.architecture_items,
-          ETabNames.integration_icons,
-          ETabNames.forms,
-          ETabNames.action_items,
-          ETabNames.UI_SWITCH,
-          ETabNames.report,
-          // ETabNames.analytics2,
-          ETabNames.testing,
-          ETabNames.pipeline,
-          ETabNames.knowledgebase,
-          ETabNames.botversion,
-          ETabNames.update_profile,
-          // ETabNames.architecture_items,
 
-        ],
-        api: [
-          EAPINames.integration_master,
-          EAPINames.enterprise,
-        ]
-      },
-      'Bot Developer': {
-        route: [
-          ERouteNames.enterprise_profile,
-        ],
-        module: [],
-        tab: [
-          ETabNames.enterprise_profile,
-          ETabNames.update_profile,
+  allPermissions: { id?: string, name?: number } = {};
+  //   [
+  //   'Get Bots',
+  //   'Create Bots',
+  //   'Update Bots',
+  //   'Delete Bots',
+  //   'Get Bots Anonymous',
+  //   'Get Enterpise Knowledge base',
+  //   'Create Enterprise Knowledge base',
+  //   'Update Enterprise Knowledge base',
+  //   'Delete Enterprise Knowledge base',
+  //   'Create Bot Versioning',
+  //   'GET Bot Versioning',
+  //   'Update Bot Versioning',
+  //   'Delete Bot Versioning',
+  //   'Create Role',
+  //   'Get Role',
+  //   'Update Role',
+  //   'Delete Role',
+  //   'Create User',
+  //   'Get User',
+  //   'Update User',
+  //   'Get Consumers',
+  //   'Get Sessions',
+  //   'Analytics',
+  //   'Get Bot Testcases',
+  //   'Create Bot Testcases',
+  //   'Update Bot Testcases',
+  //   'Delete Bot Testcases',
+  //   'Get Integrations',
+  //   'Get Pipeline Module',
+  //   'Create Reports',
+  //   'Get Reports',
+  //   'Update Reports',
+  //   'Delete Reports',
+  //   'Get Report History',
+  //   'Get Enterprise',
+  //   'Update Enterprise',
+  //   'Delete User',
+  //   'Get Report Types',
+  //   'Send API',
+  //   'Get Messages',
+  //   'Get Actions',
+  //   'Close Room',
+  //   'agent_close',
+  //   'Anonymize Conversation',
+  //   'Post dfRules Debug',
+  //   'Post genRules Debug',
+  //   'Post genTemplate Debug',
+  //   'Post Workflow Debug',
+  //   'Workflow Webhook',
+  //   'Facebook Webhook',
+  //   'Backward Compatible Message API',
+  //   'Intelligence API Webhook',
+  //   'Delete Consumer',
+  //   'Create Decrypt Audit',
+  //   'Anonymize Conversation',
+  //   'erase consumer',
+  //   'Exec Reports',
+  //   'Download Reports',
+  //   'Skype API',
+  //   'Update Password',
+  //   'Get Bot Knowledge base',
+  //   'Create Bot Knowledge base',
+  //   'Update Bot Knowledge base',
+  //   'Delete Bot Knowledge base'
+  // ];
 
-        ],//tab, hyperlink, button
-        api: [EAPINames.enterprise]
-      },
-      'Tester': {
-        route: [
-          ERouteNames.customner,
-          ERouteNames.enterprise_profile,
-          ERouteNames.report,
-          // ERouteNames.sessions,
-          // ERouteNames.consumer,
-          // ERouteNames.analytics2,
-        ],
-        module: [],
-        tab: [// =  tab, hyperlink, button
-          ETabNames.enterprise_profile,
-          ETabNames.customner,
-          ETabNames.architecture_tab,
-          ETabNames.lower_panel_bot_detail,
-          ETabNames.architecture_panel_pipeline,
-          ETabNames.bot_header_ellipsis,
-          ETabNames.knowledgeBase,
-          ETabNames.update_bot_button,
-          ETabNames.bot_header_reset,
-          ETabNames.consumers,
-          ETabNames.sessions,
-          // ETabNames.integration_icons,
-          ETabNames.forms,
-          ETabNames.action_items,
-          ETabNames.UI_SWITCH,
-          ETabNames.report,
-          ETabNames.analytics2,
-          ETabNames.update_profile
+  permissionsDeniedMap = {
+    'Admin': {
+      route: [],
+      module: [],
+      tab: [],//tab, hyperlink, button
+      api: [],//tab, hyperlink, button
+    },
+    'Analyst': {
+      route: [ERouteNames.customner,
+        ERouteNames.enterprise_profile,
+        ERouteNames.report,
+        ERouteNames.create_report,
+      ],
+      module: [],
+      tab: [// =  tab, hyperlink, button
+        ETabNames.enterprise_profile,
+        ETabNames.customner,
+        ETabNames.architecture_tab,
+        ETabNames.bot_header_ellipsis,
+        ETabNames.knowledgeBase,
+        ETabNames.update_bot_button,
+        ETabNames.bot_header_reset,
+        ETabNames.architecture_items,
+        ETabNames.integration_icons,
+        ETabNames.forms,
+        ETabNames.action_items,
+        ETabNames.UI_SWITCH,
+        ETabNames.report,
+        // ETabNames.analytics2,
+        ETabNames.testing,
+        ETabNames.pipeline,
+        ETabNames.knowledgebase,
+        ETabNames.botversion,
+        ETabNames.update_profile,
+        // ETabNames.architecture_items,
 
-        ],
-        api: []
+      ],
+      api: [
+        EAPINames.integration_master,
+        EAPINames.enterprise,
+      ]
+    },
+    'Bot Developer': {
+      route: [
+        ERouteNames.enterprise_profile,
+      ],
+      module: [],
+      tab: [
+        ETabNames.enterprise_profile,
+        ETabNames.update_profile,
+
+      ],//tab, hyperlink, button
+      api: [EAPINames.enterprise]
+    },
+    'Tester': {
+      route: [
+        ERouteNames.customner,
+        ERouteNames.enterprise_profile,
+        ERouteNames.report,
+
+        // ERouteNames.consumer,
+        // ERouteNames.analytics2,
+      ],
+      module: [],
+      tab: [// =  tab, hyperlink, button
+        ETabNames.enterprise_profile,
+        ETabNames.customner,
+        ETabNames.create_bot,
+        ETabNames.architecture_tab,
+        ETabNames.delete_bot,
+        // ETabNames.lower_panel_bot_detail,
+        ETabNames.architecture_panel_pipeline,
+        ETabNames.bot_header_ellipsis,
+        ETabNames.knowledgeBase,
+        ETabNames.update_bot_button,
+        ETabNames.bot_header_reset,
+        ETabNames.consumers,
+        // ETabNames.integration_icons,
+        ETabNames.forms,
+        ETabNames.action_items,
+        ETabNames.UI_SWITCH,
+        ETabNames.report,
+        ETabNames.analytics2,
+        ETabNames.update_profile
+
+      ],
+      api: [
+        EAPINames.integration_master,
+        EAPINames.enterprise,
+      ]
+    }
+  };
+
+  forbiddenPermsDynamic:{id?:string,name?:number};
+  setPermissionsDeniedMap(allPermissions: IProfilePermission[]) {
+
+    try {
+      if(this.allowedPermissionIdsToCurrentRole.length === 0){/*exception for admin*/
+        this.forbiddenPermsDynamic = {};
+        return;
       }
-    };
+    }catch (e) {
+      console.log(e);
+    }
 
-
-
-  constructor(private datePipe: DatePipe) {
-    this.app$.subscribe((value) => {
-      this.BACKEND_URL = (value && value.backendUrlRoot) || 'https://dev.imibot.ai/';
+    /*initializing allPermissions*/
+    allPermissions.forEach((perm) => {
+      this.allPermissions[perm.id] = perm.name;
+      this.allPermissions[perm.name] = perm.id;
     });
-    this.loggeduser$.subscribe((loggedUser: IAuthState) => {
-      if (loggedUser && loggedUser.user)
-        this.loggedUser = loggedUser.user;
+    this.forbiddenPermsDynamic = this.allPermissions;
+    this.allowedPermissionIdsToCurrentRole.forEach((currentPermId) => {
+      /*remove allowed permission from all permissions*/
+      let permName = this.allPermissions[currentPermId];
+      delete this.forbiddenPermsDynamic[currentPermId];
+      delete this.forbiddenPermsDynamic[permName];
     });
   }
 
-   NEW_BOT_VERSION_TEMPLATE = {
+
+  allowedPermissionIdsToCurrentRole: number[];
+
+  constructor(private datePipe: DatePipe) {
+    this.app$.subscribe((value) => {
+      if (!value) return;
+      this.BACKEND_URL = (value && value.backendUrlRoot) || 'https://dev.imibot.ai/';
+    });
+    this.loggeduser$.subscribe((loggedUser: IAuthState) => {
+      if (loggedUser && loggedUser.user) {
+        this.loggedUser = loggedUser.user;
+        this.allowedPermissionIdsToCurrentRole = this.loggedUser.role.permissions.actions;
+      }
+    });
+  }
+
+  NEW_BOT_VERSION_TEMPLATE = {
     'bot_id': 0,
     'comment': '',
     'df_rules': '',
@@ -185,7 +359,7 @@ export class ConstantsService {
     'forked_from': -1,
   };
 
-  getNewBotVersionTemplate(botId:number){
+  getNewBotVersionTemplate(botId: number) {
     this.NEW_BOT_VERSION_TEMPLATE.bot_id = botId;
     return this.NEW_BOT_VERSION_TEMPLATE;
   }
@@ -194,7 +368,6 @@ export class ConstantsService {
   loggedUser: IUser;
   @Select() app$: Observable<IAppState>;
   @Select() loggeduser$: Observable<{ user: IUser }>;
-
 
 
   isRouteAccessDenied(routeName: string) {
@@ -207,7 +380,7 @@ export class ConstantsService {
   }
 
   isTabAccessDenied(tabName: string) {
-    if(!tabName) return false;
+    if (!tabName) return false;
     let role = this.loggedUser.role.name;
     let deniedTabs = this.permissionsDeniedMap[role].tab;
     let isTabAccessDenied = deniedTabs.find((route) => {
@@ -216,14 +389,24 @@ export class ConstantsService {
     return !!isTabAccessDenied;
   }
 
+  isAccessDeniedDynamic(tabName: EAPermissionsDynamic) {
+    if (!tabName || !this.forbiddenPermsDynamic) return false;
+    // let role = this.loggedUser.role.name;
+    // let deniedTabs = this.permissionsDeniedMap[role].tab;
+    let isTabAccessDenied = Object.keys(this.forbiddenPermsDynamic).find((perm) => {
+      return perm === tabName;
+    });
+    return !!isTabAccessDenied;
+  }
+
   isApiAccessDenied(apiUrl: string) {
-    if(!apiUrl) return false;
+    if (!apiUrl) return false;
     let role = this.loggedUser.role.name;
     let deniedApi = this.permissionsDeniedMap[role].api;
     let isApiAccessDenied = deniedApi.find((route) => {
       return apiUrl.includes(route);
     });
-    let x=  !!isApiAccessDenied;
+    let x = !!isApiAccessDenied;
     return x;
   }
 
@@ -289,7 +472,8 @@ export class ConstantsService {
     // http://localhost:8000/api/v1/logout/;
     return this.BACKEND_URL + 'api/v1/logout/';
   }
-  getNSetChatPreviewBotUrl(bot_unique_name,enterprise_unique_name) {
+
+  getNSetChatPreviewBotUrl(bot_unique_name, enterprise_unique_name) {
     // http://localhost:8000/api/v1/logout/;
     return this.BACKEND_URL + `api/v1/bot/preview/?bot_unique_name=${bot_unique_name}&enterprise_unique_name=${enterprise_unique_name}`;
   }
@@ -365,7 +549,7 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/reporthistory?limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/reporthistory?limit=1&offset=10
   }
 
-  getReportDeleteUrl(report_id:number) {
+  getReportDeleteUrl(report_id: number) {
     return this.BACKEND_URL + `api/v1/reports/${report_id}/`; //http://dev.imibot.ai/api/v1/reports/1/
   }
 
@@ -571,7 +755,13 @@ export class ConstantsService {
       updated_at: {//
         title: 'Updated At',
         width: '150px',
-        filter: false
+        filter: false,
+        valuePrepareFunction: (date) => {
+
+          // var raw = new Date(date);
+          var formatted = new Date(date).toJSON().slice(0, 10).split('-').reverse().join('/'); //this.datePipe.transform(raw, 'd/m/yy');
+          return formatted;
+        }
       },
 
     },
@@ -587,8 +777,9 @@ export class ConstantsService {
       width: '150px',
     },
     rowClassFunction: (row) => {
-      if(row.data.data_encrypted===false){
-        return 'hightlight-decrypted';;
+      if (row.data.data_encrypted === false) {
+        return 'hightlight-decrypted';
+        ;
       }
       return '';
     }
@@ -644,14 +835,17 @@ export class ConstantsService {
       perPage: 5
     },
     rowClassFunction: (row) => {
-      if (row.data.highlight) {
+      if (row.data.highlight && !row.data.data_encrypted === false) {
         return 'hightlight-created-row';
         //   return 'score negative'; // Color from row with negative in score
         // } else if (row.data.type === '(+)') {
         //   return 'score positive';
       }
-      if(row.data.data_encrypted===false){
-        return 'hightlight-decrypted';;
+      if (row.data.highlight && row.data.data_encrypted === false) {
+        return 'hightlight-created-row hightlight-decrypted';
+      }
+      if (!row.data.highlight && row.data.data_encrypted === false) {
+        return 'hightlight-decrypted';
       }
       return '';
     }
@@ -746,7 +940,7 @@ export class ConstantsService {
 
 
       if (row === 0) {
-        cellProperties["renderer"] = function(instance, td, row, col, prop, value, cellProperties) {
+        cellProperties['renderer'] = function (instance, td, row, col, prop, value, cellProperties) {
           Handsontable.renderers.TextRenderer.apply(this, arguments);
           td.style.fontWeight = 'bold';
         }; // uses function directly
@@ -1032,7 +1226,7 @@ export class ConstantsService {
         enabled: false,
         serviceKey: '',
         streamName: '',
-        send_via_connect:""
+        send_via_connect: ''
       }
     }
 

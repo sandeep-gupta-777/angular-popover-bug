@@ -64,3 +64,7 @@
   border: $border-normal;
   //color: white;
 }
+
+.danger-modal{
+  @include classic-modal(#b14250);
+}

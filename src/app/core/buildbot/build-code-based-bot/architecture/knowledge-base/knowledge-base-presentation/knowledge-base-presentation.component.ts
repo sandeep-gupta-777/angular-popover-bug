@@ -1,10 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {ICustomNerItem} from '../../../../../../../interfaces/custom-ners';
 import {NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../../utility.service';
 import {ConstantsService} from '../../../../../../constants.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {HandsontableComponent} from '../../../../../../handsontable/handsontable.component';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-knowledge-base-presentation',
@@ -15,6 +16,7 @@ import {HandsontableComponent} from '../../../../../../handsontable/handsontable
 export class KnowledgeBasePresentationComponent implements OnInit {
   _selectedRowData: ICustomNerItem = {};
   process_raw_text = false;
+  modalRef: BsModalRef;
   @ViewChild(HandsontableComponent)handsontableComponent:HandsontableComponent;
   @Input() set selectedRowData(value: ICustomNerItem) {
 
@@ -78,6 +80,7 @@ export class KnowledgeBasePresentationComponent implements OnInit {
     private utilityService: UtilityService,
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
+    private modalService: BsModalService,
   ) {
   }
 
@@ -86,6 +89,10 @@ export class KnowledgeBasePresentationComponent implements OnInit {
     this.activatedRoute.queryParamMap.subscribe((queryParamMap: ParamMap) => {
       this.ner_id = (<any>queryParamMap).params['ner_id'];
     });
+  }
+
+  openDeleteModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 
   async openFile(inputEl) {

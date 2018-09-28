@@ -26,6 +26,7 @@
            name="startdate"
            [(ngModel)]="startdate"
            required
+           readonly
            bsDatepicker
            [bsConfig]="datePickerConfig">
   </div>
@@ -36,6 +37,7 @@
            name="enddate"
            [(ngModel)]="enddate"
            bsDatepicker
+           readonly
            [maxDate]="maxDate"
            [bsConfig]="datePickerConfig">
   </div>

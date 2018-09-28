@@ -66,7 +66,7 @@
       <button class="btn-theme-primary mx-1" [disabled]="!form.valid" (click)="updateOrSaveConcept()">
         {{ner_id?"Update": "Create" }}
       </button>
-      <div *ngIf="ner_id" (click)="deleteNer$.emit(ner_id)"><i class="fa fa-trash cursor-pointer"></i></div>
+      <div *ngIf="ner_id" (click)="openDeleteModal(deleteTemplate)"><i class="fa fa-trash cursor-pointer"></i></div>
       <!--<label class="p-0 m-0 mx-2" *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata' ||ner_type==='regex'; "-->
            <!--for="uploadInput"><i class="fa fa-upload cursor-pointer"></i></label>-->
       <!--<input hidden type="file"-->
@@ -116,4 +116,28 @@
   <!--<div class="pb-2"><input type="search" placeholder="search table"></div>-->
 
 <!--</ng-template>-->
+
+
+<ng-template #deleteTemplate>
+  <div class="danger-modal">
+    <div class="top-dec"></div>
+    <div class="modal-header">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete NER?</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body pt-0">
+      <form #form="ngForm">
+        <div class="text-center my-1">
+          <p class="mb-3">Do you confirm the Deletion? This is a permanent and irreversible change</p>
+
+        </div>
+        <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button class=" btn btn-theme-danger" (click)="deleteNer$.emit(ner_id);modalRef.hide()">Delete</button>
+      </form>
+    </div>
+  </div>
+</ng-template>
 

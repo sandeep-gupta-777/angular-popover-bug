@@ -1,7 +1,7 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import {Observable} from 'rxjs';
 import {ServerService} from '../../server.service';
-import {ConstantsService} from '../../constants.service';
+import {ConstantsService, ETabNames} from '../../constants.service';
 import {IBot} from '../interfaces/IBot';
 import {IHeaderData} from '../../../interfaces/header-data';
 import {Store} from '@ngxs/store';
@@ -9,9 +9,10 @@ import {SetCodeBasedBotListAction, SetPipeLineBasedBotListAction} from './ngxs/v
 import {ActivatedRoute, Router} from '@angular/router';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
+
 export enum EBotType {
-  chatbot="chatbot",
-  intelligent="intelligent"
+  chatbot = 'chatbot',
+  intelligent = 'intelligent'
 }
 
 @Component({
@@ -23,8 +24,9 @@ export class ViewBotsComponent implements OnInit {
 
   myEBotType = EBotType;
   botList$: Observable<IBot[]>;
-  activeTab:string = EBotType.chatbot;
+  activeTab: string = EBotType.chatbot;
   modalRef: BsModalRef;
+  myETabNames = ETabNames;
 
   constructor(
     private serverService: ServerService,
@@ -39,17 +41,17 @@ export class ViewBotsComponent implements OnInit {
     window.scrollTo(0, 0);
     // this.serverService.getNSetIntegrationList();
     this.serverService.getNSetBotList()
-      .subscribe(()=>{
-        console.log("bot list fetched from view bots page");
-      })
+      .subscribe(() => {
+        console.log('bot list fetched from view bots page');
+      });
   }
 
   openCreateBotModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'modal-md'});
   }
 
-  navigate(bot_type){
+  navigate(bot_type) {
     this.modalRef.hide();
-    this.router.navigate(['core','buildbot'], {queryParams:{bot_type:bot_type}});
+    this.router.navigate(['core', 'buildbot'], {queryParams: {bot_type: bot_type}});
   }
 }
