@@ -26,7 +26,7 @@ export class BotTestingComponent implements OnInit {
   testCaseId: number;
   isData: boolean = false;
   modalRef: BsModalRef;
-  tableChanged: boolean;
+  tableChanged: boolean = false;
   cancelTestFlag:boolean;
   constructor(
     private serverService: ServerService,
@@ -82,7 +82,6 @@ export class BotTestingComponent implements OnInit {
   }
   onTableChange() {
     this.tableChanged = true;
-    console.log("changed----------")
   }
   createTC() {
     console.log(this.testCaseData);
@@ -103,6 +102,7 @@ export class BotTestingComponent implements OnInit {
     }).subscribe((value) => {
       this.utilityService.showSuccessToaster('Test cases created');
       this.isData = true;
+      this.tableChanged = false;
     })
   }
 
@@ -118,6 +118,7 @@ export class BotTestingComponent implements OnInit {
     }).subscribe((value) => {
       this.utilityService.showSuccessToaster('Test cases updated');
       this.isData = true;
+      this.tableChanged = false;
     });
   }
 

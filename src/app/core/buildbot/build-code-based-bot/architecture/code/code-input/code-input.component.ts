@@ -50,7 +50,8 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   forked_From: number;
   forked_comments: string;
   errorMessage: string;
-  forked_version_number: number;
+  activeVersion:IBotVersionData;
+  forked_version_number: number ;
   // @ViewChild('fork_new_version_form') fork_new_version_form: HTMLFormElement;
 
   editorCode;
@@ -63,7 +64,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     'workflow': {text: ''},
   };
   showVersionList = false;
-  activeVersion;
+  
   selectedVersion: IBotVersionData;
   code: ICode;
 
@@ -109,6 +110,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
         this.selectedVersion = this.selectedVersion;
       else
         this.selectedVersion = activeVersion ? activeVersion : (this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions[0]);
+      this.forked_version_number = this.selectedVersion.version;
       // if (!activeVersion) {
       //   try {
       //     this.selectedVersion = this.bot.store_bot_versions[0];
@@ -301,6 +303,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   changeSelectedVersion(version) {
     this.bot.store_selected_version = version.id;
     this.selectedVersion = version;
+    this.forked_version_number = this.selectedVersion.version;
     this.tabClicked(this.activeTab);
   }
 

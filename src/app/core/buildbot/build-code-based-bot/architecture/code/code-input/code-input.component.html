@@ -34,7 +34,7 @@
             <i class="fa fa-circle"
                [ngClass]="{'text-danger':selectedVersion.changed_fields['generation_templates'], 'dark-green':selectedVersion.updated_fields['generation_templates']}"></i>
             <i class="fa fa-circle"
-               [ngClass]="{'text-danger':selectedVersion.changed_fields['workflows'], 'dark-green':selectedVersion.updated_fields['workflows']}"></i>
+               [ngClass]="{'text-danger':selectedVersion.changed_fields['workflow'], 'dark-green':selectedVersion.updated_fields['workflow']}"></i>
           </div>
           <!--<form class="d-flex">-->
           <!--<input type="radio" name="optradio" checked>-->
@@ -70,7 +70,7 @@
               (click)="openForkNewVersionModal(Primarytemplate)">
               {{(selectedVersion.changed_fields['df_template'] || selectedVersion.changed_fields['df_rules']  ||
                selectedVersion.changed_fields['generation_rules'] || selectedVersion.changed_fields['generation_templates'] || 
-               selectedVersion.changed_fields['workflows'])?"Save as new version":"Create new version"}}
+               selectedVersion.changed_fields['workflow'])?"Save as new version":"Create new version"}}
       </button>
     </div>
     <div class="row row-flex-bot-versioning-toaster border-theme-secondary  border-top-0 mx-0"
@@ -106,7 +106,7 @@
               <i class="fa fa-circle"
                  [ngClass]="{'dark-green':version.updated_fields['generation_templates']}"></i>
               <i class="fa fa-circle"
-                 [ngClass]="{'dark-green':version.updated_fields['workflows']}"></i>
+                 [ngClass]="{'dark-green':version.updated_fields['workflow']}"></i>
 
             </div>
             <!--<form>-->
@@ -303,7 +303,11 @@
         <div class="col-md-12">
           <p *ngIf="errorMessage" class="text-danger">{{errorMessage}}</p>
           <button class="btn btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>
-          <button class="btn btn-theme-primary" (click)="forkNewVersion()">Create</button>
+          <button class="btn btn-theme-primary" (click)="forkNewVersion()">
+            {{(selectedVersion.changed_fields['df_template'] || selectedVersion.changed_fields['df_rules']  ||
+               selectedVersion.changed_fields['generation_rules'] || selectedVersion.changed_fields['generation_templates'] || 
+               selectedVersion.changed_fields['workflow'])?"Save as new version":"Create new version"}}
+          </button>
         </div>
 
       </form>

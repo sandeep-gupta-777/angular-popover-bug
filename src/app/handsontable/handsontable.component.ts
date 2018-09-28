@@ -1,6 +1,6 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {ConstantsService} from '../constants.service';
-import {ActivatedRoute} from '@angular/router';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { ConstantsService } from '../constants.service';
+import { ActivatedRoute } from '@angular/router';
 // import * as Handsontable from 'handsontable';
 declare var Handsontable: any;
 
@@ -16,6 +16,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   @Input() colHeaders: string[];
   @Input() columns: any[];
   @Input() setting = {};
+  @Output() rowChanged$ = new EventEmitter();
   @ViewChild('handsontable') hotTableComponentTest: ElementRef;
   @ViewChild('handsontable_search_field') hotTableSearchField: ElementRef;
   hot: any;
@@ -54,7 +55,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
 
     let searchField = this.hotTableSearchField.nativeElement;
     let colObject = {};
-    if (this.colHeaders && this.columns){
+    if (this.colHeaders && this.columns) {
       colObject = {
         colHeaders: this.colHeaders,
         columns: this.columns,
@@ -70,6 +71,12 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
       wordWrap: true,
       autoRowSize: true,
       search: true,
+      afterRemoveRow: () => {
+        this.rowChanged$.emit();
+      },
+      afterCreateRow: () => {
+        this.rowChanged$.emit();
+      },
       ...this.setting
 
       /*https://jsfiddle.net/epjettq1/*/

@@ -14,6 +14,7 @@
   <app-handsontable [testData]="testCaseData"
                     [columns]="handontable_column"
                     [colHeaders]="handontable_colHeaders"
+                    (rowChanged$)="onTableChange()"
                     >
   </app-handsontable>
 
