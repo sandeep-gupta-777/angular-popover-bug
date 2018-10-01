@@ -17,6 +17,12 @@ export class ChangeFrameAction {
   constructor(public payload: { frameEnabled: EChatFrame }) {
   }
 }
+export class ChangeBotIsThinkingDisplayByRoomId {
+  static readonly type = '[chat-widdow] set ShowBotIsThinkingInRoomId';
+
+  constructor(public payload: { roomId:number, shouldShowBotIsThinking:boolean}) {
+  }
+}
 
 export class AddNewRoom {
   static readonly type = '[chat-widdow] update AddNewRoom';

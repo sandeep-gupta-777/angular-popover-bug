@@ -8,7 +8,12 @@ import {
   // SetCurrentUId,
   SetCurrentRoomID,
   ToggleChatWindow,
-  AddNewRoom, AddMessagesToRoomByRoomId, SetConsumerDetail, SetCurrentBotDetailsAndResetChatStateIfBotMismatch, ResetChatState
+  AddNewRoom,
+  AddMessagesToRoomByRoomId,
+  SetConsumerDetail,
+  SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
+  ResetChatState,
+  ChangeBotIsThinkingDisplayByRoomId
 } from './ngxs/chat.action';
 import {ServerService} from '../server.service';
 import {ConstantsService} from '../constants.service';
@@ -129,6 +134,8 @@ export class ChatWrapperComponent implements OnInit {
         let hasPreviewRoomChanged = chatSessionState.currentRoomId &&
           (!this.currentRoom || (this.currentRoom.id!==chatSessionState.currentRoomId));
 
+        this.showBotIsThinking = this.currentRoom && this.currentRoom.showBotIsThinking;
+
         if(hasPreviewRoomChanged || hasPreviewBotChanged){
           this.serverService.initializeIMIConnect(chatSessionState.currentBotDetails, chatSessionState.currentRoomId);
         }
@@ -216,7 +223,8 @@ export class ChatWrapperComponent implements OnInit {
             bot_id: this.currentBot.id
           }),
           new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX}),
-          new SetCurrentRoomID({id: value.room.id})
+          new SetCurrentRoomID({id: value.room.id}),
+          new ChangeBotIsThinkingDisplayByRoomId({roomId: value.room.id,shouldShowBotIsThinking:false}),
         ]);
       });
   }
@@ -239,11 +247,11 @@ export class ChatWrapperComponent implements OnInit {
   // sendMessageByHuman(messageByHuman: string) {
   sendMessageByHuman(messageData: { messageByHuman: string, room: IRoomData }) {
     console.log('sending message by human');
-    this.showBotIsThinking = true;
+    // this.showBotIsThinking = true;
     let messageByHuman = messageData.messageByHuman;
     let room: IRoomData = messageData.room;
     if (messageByHuman.trim() === '') return;
-    this.store.dispatch(new AddMessagesToRoomByRoomId({
+    this.store.dispatch([new AddMessagesToRoomByRoomId({
       id: room.id,
       messageList: [{
         text: messageByHuman,
@@ -251,7 +259,10 @@ export class ChatWrapperComponent implements OnInit {
         messageMediatype: EBotMessageMediaType.text,
         time: this.utilityService.getCurrentTimeInHHMM()
       }],
-    }))
+    }),
+      new ChangeBotIsThinkingDisplayByRoomId({shouldShowBotIsThinking:true, roomId:messageData.room.id})
+      ]
+    )
       .subscribe(() => {
         /*
  * Before starting a new chat, we need to check if the currentBot has imiconnect

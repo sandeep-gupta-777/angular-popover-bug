@@ -3,7 +3,7 @@
     <div class="col-6 p-0" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
       <div *ngIf="selectedVersion"
            class="d-flex align-items-center flex-bot-versioning-toaster border-theme-secondary">
-        <div class="version-active-label"
+        <div class="version-active-label" *ngIf="selectedVersion"
              [ngClass]="{'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-label-inactive':selectedVersion?.id !== activeVersion?.id}">
           <div>{{selectedVersion.id === (activeVersion && activeVersion.id)?'Active':'Inactive'}}</div>
         </div>
@@ -22,7 +22,7 @@
         </div>
         <div class="update d-flex flex-column mr-1 justify-content-center">
           <div>Last update</div>
-          <div class="d-flex justify-content-left pt-1">
+          <div class="d-flex justify-content-left pt-1" *ngIf="selectedVersion">
             <!-- <i class="fa fa-circle"
                [ngClass]="{'text-danger':selectedVersion.updated_fields['df_template'], 'dark-green':activeTab==='df_template'}"></i> -->
                <i class="fa fa-circle"
@@ -65,11 +65,11 @@
         {{(!bot.store_bot_versions || !bot.store_bot_versions.length || bot.store_bot_versions.length>0)?"Save":"Create"}}
         version
       </button>
-      <button class="btn btn-theme-primary-outline"
+      <button class="btn btn-theme-primary-outline" *ngIf="selectedVersion"
               [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
               (click)="openForkNewVersionModal(Primarytemplate)">
               {{(selectedVersion.changed_fields['df_template'] || selectedVersion.changed_fields['df_rules']  ||
-               selectedVersion.changed_fields['generation_rules'] || selectedVersion.changed_fields['generation_templates'] || 
+               selectedVersion.changed_fields['generation_rules'] || selectedVersion.changed_fields['generation_templates'] ||
                selectedVersion.changed_fields['workflow'])?"Save as new version":"Create new version"}}
       </button>
     </div>
@@ -94,7 +94,7 @@
           <!-- <div class="forked mr-1 pl-1" [style.visibility]="version.forked_from>0 ? 'visible' : 'hidden'">Forked from version
             {{version.forked_from}}
           </div> -->
-          <div class="update d-flex flex-column mr-1 justify-content-center">
+          <div class="update d-flex flex-column mr-1 justify-content-center" *ngIf="version">
             <div class="mr-1">Last update</div>
             <div class = "justify-content-left pt-1">
               <i class="fa fa-circle"
@@ -305,7 +305,7 @@
           <button class="btn btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>
           <button class="btn btn-theme-primary" (click)="forkNewVersion()">
             {{(selectedVersion.changed_fields['df_template'] || selectedVersion.changed_fields['df_rules']  ||
-               selectedVersion.changed_fields['generation_rules'] || selectedVersion.changed_fields['generation_templates'] || 
+               selectedVersion.changed_fields['generation_rules'] || selectedVersion.changed_fields['generation_templates'] ||
                selectedVersion.changed_fields['workflow'])?"Save as new version":"Create new version"}}
           </button>
         </div>

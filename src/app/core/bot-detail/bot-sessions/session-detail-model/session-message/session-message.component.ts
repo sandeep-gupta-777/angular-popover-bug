@@ -27,7 +27,6 @@ export class SessionMessageComponent implements OnInit {
   ngOnInit() {
 
     this.sessionMessageItems = this._txnConversationItems.convoList;
-    console.clear()
     console.log(this.sessionMessageItems);
     this.txnId = this._txnConversationItems.transaction_id;
     this.txnId_highlighting = this._txnConversationItems.transaction_id_highlighting || this.txnId;

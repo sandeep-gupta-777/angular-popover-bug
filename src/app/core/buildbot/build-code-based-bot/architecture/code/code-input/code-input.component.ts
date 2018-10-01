@@ -64,7 +64,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     'workflow': {text: ''},
   };
   showVersionList = false;
-  
+
   selectedVersion: IBotVersionData;
   code: ICode;
 
@@ -110,7 +110,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
         this.selectedVersion = this.selectedVersion;
       else
         this.selectedVersion = activeVersion ? activeVersion : (this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions[0]);
-      this.forked_version_number = this.selectedVersion.version;
+      this.forked_version_number = this.selectedVersion && this.selectedVersion.version;
       // if (!activeVersion) {
       //   try {
       //     this.selectedVersion = this.bot.store_bot_versions[0];

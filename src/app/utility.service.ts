@@ -68,7 +68,7 @@ export class UtilityService {
   masterIntegration_IntegrationKeyDisplayNameMap = null;
   getDisplayNameForKey_Integration(key:string){
 
-    let masterIntegrationList = this.storeVariableService.masterIntegrationList;
+    let masterIntegrationList = this.storeVariableService.getApp().masterIntegrationList;
     if(!this.masterIntegration_IntegrationKeyDisplayNameMap){
       this.masterIntegration_IntegrationKeyDisplayNameMap = masterIntegrationList.reduce((accumulator, currentVal)=>{
         let x = currentVal.inputs.reduce((accObj, currObj)=>{

@@ -60,7 +60,10 @@ export interface IRoomData {
       'imageUrl': 'https?://www.gstatic.com/webp/gallery3/2_webp_a.png',
       'name': 'StarBot'
     },
-    'updated_at'?: number
+    'updated_at'?: number,
+
+  /*custom fields*/
+  showBotIsThinking?:boolean
 }
 
 export interface IChatSessionState {

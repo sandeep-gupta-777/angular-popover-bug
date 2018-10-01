@@ -45,6 +45,7 @@ import {IChannelWiseSessionsResponseBody} from '../../../../interfaces/Analytics
 import {IChannelWiseUsersResponseBody} from '../../../../interfaces/Analytics2/engagement-channelWiseUsers';
 import {ActivatedRoute, Router} from '@angular/router';
 import {query} from '@angular/animations';
+import {EBotType} from '../../view-bots/view-bots.component';
 
 @Component({
   selector: 'app-analysis2-header',
@@ -54,6 +55,7 @@ import {query} from '@angular/animations';
 export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   _allbotList: IBot[];
+  codebasedBotList: IBot[];
   // selectedBot: IBot;
   formChangesSub:Subscription;
   storeSub:Subscription;
@@ -63,7 +65,9 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   maxDate = new Date();
 
   @Input() set allbotList(_allbotList: IBot[]) {
+    if(!_allbotList)return;
     this._allbotList =_allbotList;
+    this.codebasedBotList = this._allbotList.filter((bot)=>bot.bot_type===EBotType.chatbot)
     if(this.f && _allbotList)
     this.f.form.patchValue({botId: this._allbotList[0].id, platform: this.channelList[0].name});
   }
@@ -93,7 +97,6 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   }
   formData;
   ngOnInit() {
-
     /*
     * form contains the header data, Whenever form changes,
     * update the header data in store
@@ -289,5 +292,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     this.loggeduser && this.loggeduserSub.unsubscribe();
     this.formChangesSub && this.formChangesSub.unsubscribe();
     this.makeGetReqSub && this.makeGetReqSub.unsubscribe();
+    this.store.dispatch([new ResetAnalytics2GraphData()]);
+
   }
 }

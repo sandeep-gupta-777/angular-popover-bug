@@ -29,7 +29,7 @@ import {IConsumerDetails} from './chat/ngxs/chat.state';
 import {EBotMessageMediaType, EChatFrame, IMessageData, IRoomData} from '../interfaces/chat-session-state';
 import {
   AddMessagesToRoomByRoomId,
-  AddNewRoom,
+  AddNewRoom, ChangeBotIsThinkingDisplayByRoomId,
   ChangeFrameAction,
   ResetChatState,
   SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
@@ -424,7 +424,7 @@ export class ServerService {
     var appSecret = imiConnectIntegrationDetails.appSecret;//'uZi6B5Zg';
     // var streamName = "bot";
     var serviceKey = imiConnectIntegrationDetails.serviceKey;//'3b8f6470-5e56-11e8-bf0b-0213261164bb';//'f6e50f7b-2bfd-11e8-bf0b-0213261164bb';
-    var userId = currentRoomId + 'hellothisissandeep1231312';
+    var userId = currentRoomId + '_hellothisissandeep1231312';
 
     var config = new IMI.ICConfig(appId, appSecret);
     var messaging = IMI.ICMessaging.getInstance();
@@ -454,7 +454,7 @@ export class ServerService {
           id: currentRoomId,
           messageList: serializedMessages
         }),
-        // new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX}),
+        new ChangeBotIsThinkingDisplayByRoomId({roomId:currentRoomId, shouldShowBotIsThinking:false}),
         // new SetCurrentRoomID({id: 123456789.room.id})
       ]);
     };

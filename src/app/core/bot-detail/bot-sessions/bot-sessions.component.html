@@ -45,7 +45,7 @@
          <label for="" class="mr-1">Reason</label>
          <input type="text" required style="border-radius: 0px !important;" [(ngModel)] = "decryptReason" name="decryptReason">
        </div>
-       <button [disabled]="!form.valid" class=" btn btn-theme-success-sm" (click)="decryptSubmit();modalRef.hide()">Submit</button>
+       <button [disabled]="!form.valid" class=" btn btn-theme-success-sm" (click)="decryptSubmit(sessionItemToBeDecrypted.id);modalRef.hide()">Submit</button>
      </form>
     </div>
   </div>

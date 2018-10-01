@@ -1,22 +1,38 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Select} from '@ngxs/store';
+import {Select, Store} from '@ngxs/store';
 import {IAppState} from '../../../../../../ngxs/app.state';
 import {IIntegrationMasterListItem} from '../../../../../../../interfaces/integration-option';
+
+export interface IStore {
+  reportItem: any,
+  botcreationstate: any,
+  chatsessionstate: any,
+  analysisstate2: any,
+  app: any,
+  botlist: any,
+  loggeduser: any,
+  loggeduserenterpriseinfo: any,
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class StoreVariableService {
-  @Select() private app$: Observable<IAppState>;
-  masterIntegrationList:IIntegrationMasterListItem[];
-  masterIntegration_IntegrationKeyDisplayNameMap;
-  constructor() {
-    this.app$.take(4).subscribe((value) => {/*TODO: why its not working for take(2)??*/
-      if(!value)return;
-      this.masterIntegrationList = value.masterIntegrationList;
-    });
+  storeState: IStore=null;
+
+  constructor(private store: Store) {
+    this.store
+      .subscribe((state) => {
+          this.storeState = state;
+        }
+      );
   }
 
-
+  getApp(){
+    if(this.storeState){
+      return this.storeState.app;
+    }
+    return null;
+  }
 }

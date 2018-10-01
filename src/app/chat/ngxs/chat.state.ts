@@ -13,7 +13,7 @@ import {
   // SetLastTemplateKeyToRoomByUId,
   DeleteChatRoomsByBotId,
   AddMessagesToRoomByRoomId,
-  SetLastTemplateKeyToRoomByRoomId, SetConsumerDetail
+  SetLastTemplateKeyToRoomByRoomId, SetConsumerDetail, ChangeBotIsThinkingDisplayByRoomId
 } from './chat.action';
 import {EChatFrame, IChatSessionState, IRoomData} from '../../../interfaces/chat-session-state';
 import {UtilityService} from '../../utility.service';
@@ -53,6 +53,13 @@ export class ChatSessionStateReducer {
   closeChatWindow({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: ToggleChatWindow) {
     let state: IChatSessionState = getState();
     setState({...state, opened: payload.open});
+  }
+  @Action(ChangeBotIsThinkingDisplayByRoomId)
+  showBotIsThinkingInRoomId({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: ChangeBotIsThinkingDisplayByRoomId) {
+    let state: IChatSessionState = getState();
+    let room  = state.rooms.find((room)=>room.id===payload.roomId);
+    room.showBotIsThinking = payload.shouldShowBotIsThinking
+    setState({...state});
   }
 
   @Action(SetConsumerDetail)
