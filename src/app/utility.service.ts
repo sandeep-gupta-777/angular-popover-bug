@@ -362,6 +362,7 @@ export class UtilityService {
     });
 
     template.series = seriesArr;
+    console.log(template,'========================================');
     return template;
   }
 
