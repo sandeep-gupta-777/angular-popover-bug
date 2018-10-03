@@ -5,9 +5,9 @@
   <div class="header" *ngIf="!isArchitectureFullScreen">
     <app-bot-detail-header [bot]="bot" (refreshBotDetails$)="refreshBotDetails()"></app-bot-detail-header>
   </div>
-  <div class="row config bg-white pb-2 pt-3 shadow-theme" *ngIf="!isArchitectureFullScreen">
-    <div class="col-12 text-theme-normal">
-      <div class="col-12 d-flex justify-content-between px-3 pb-1">
+  <div class="d-flex-column-last-child-flex-grow-1 config bg-white px-3 py-3 shadow-theme" *ngIf="!isArchitectureFullScreen">
+    <div class="d-flex-column-last-child-flex-grow-1 text-theme-normal justify-content-center">
+      <div class="d-flex justify-content-between px-3">
 
         <div class="heading" style="font-size: 14px !important;">Bot Configuration</div>
         <div *ngIf="!showConfig" class="d-flex mx-4 justify-content-between align-items-center flex-grow-1">
@@ -31,10 +31,10 @@
 
   <!--============= REDESIGN=================-->
 
-  <div class="row shadow-theme architecture bg-white p-1 px-2 my align-content-start"
+  <div class="flex-column shadow-theme architecture bg-white p-1 px-2 my align-content-start"
        *myIf="myETabNames.lower_panel_bot_detail">
     <!--tabs start-->
-    <div class="col-12  px-2">
+    <div class="px-2">
       <ul class="nav nav-tabs border-none theme-tabbing mb-1 bg-white">
         <li *myIf="myETabNames.architecture_tab" class="nav-item"
             [ngClass]="{'tab-active':selectedTab==='architecture'}">
@@ -65,7 +65,7 @@
              (click)="tabChanged('consumer')"
              [queryParams]="{build:'consumer'}"><strong>Consumers</strong></a>
         </li>
-        <li *myIf="myETabNames.consumers" class="nav-item ml-auto">
+        <li class="nav-item ml-auto">
           <a class="nav-link heading"
              [routerLink]="['.']"
              queryParamsHandling="merge"
@@ -142,16 +142,16 @@
     </div>
     <!--architeture ends-->
 
-    <div class="col-12 p-0 scroll-wrapper " *ngIf="selectedTab==='testing'">
-      <app-bot-testing [bot]="bot"></app-bot-testing>
+    <div class="p-0 d-flex d-flex-column-custom  flex-grow-1"  *ngIf="selectedTab==='testing'">
+      <app-bot-testing class=" d-flex-column-custom flex-grow-1" [bot]="bot"></app-bot-testing>
     </div>
 
     <div class="col-12 scroll-wrapper" *ngIf="selectedTab==='sessions'">
       <app-bot-sessions [id]="bot.id" [bot]="bot"></app-bot-sessions>
     </div>
 
-    <div class="col-12 scroll-wrapper" *ngIf="selectedTab==='consumer'">
-      <app-consumers [id]="bot.id" [bot]="bot"></app-consumers>
+    <div class="d-flex-column-last-child-flex-grow-1 scroll-wrapper" *ngIf="selectedTab==='consumer'">
+      <app-consumers class="d-flex-column-last-child-flex-grow-1 " [id]="bot.id" [bot]="bot"></app-consumers>
     </div>
 
   </div>

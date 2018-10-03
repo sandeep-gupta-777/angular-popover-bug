@@ -20,6 +20,7 @@ export class PipelineBasedBotDetailComponent implements OnInit {
 myETabNames = ETabNames
 
   @Select() botlist$: Observable<ViewBotStateModel>;
+  isArchitectureFullScreen = false;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
   selectedTab = "architecture";
   bot$: Observable<IBot>;
@@ -43,7 +44,9 @@ myETabNames = ETabNames
   }
 
   ngOnInit() {
-    // ;
+    let isArchitectureFullScreen = this.activatedRoute.snapshot.queryParamMap.get('isArchitectureFullScreen');
+    this.isArchitectureFullScreen = isArchitectureFullScreen==='true';
+
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
     this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || "architecture";
@@ -52,11 +55,16 @@ myETabNames = ETabNames
         return bot.id === this.bot_id;//
       })
     });
+
     this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab')||'pipeline';
 
     this.start_date = this.utilityService.getPriorDate(0);
     this.end_date = this.utilityService.getPriorDate(30);
     this.getOverviewInfo();
+    this.activatedRoute.queryParams.subscribe((queryParams)=>{
+      this.isArchitectureFullScreen= queryParams['isArchitectureFullScreen']==='true'
+    })
+
   }
 
   selectedChannelChanged(channel: string, name: string) {

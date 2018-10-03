@@ -11,6 +11,7 @@ import {ServerService} from '../../../../server.service';
 import {ConstantsService} from '../../../../constants.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BsDatepickerConfig} from 'ngx-bootstrap/datepicker';
+import {EBotType} from '../../../view-bots/view-bots.component';
 
 declare var $: any;
 
@@ -27,6 +28,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
   @ViewChild('form') f: NgForm;
   botlist: IBot[] = [];
   selectedBot: IBot;
+  codebasedBotList:IBot[];
   today = new Date();
   reportItem: IReportItem;
   filetype = 'csv';
@@ -69,13 +71,15 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
   ngOnInit() {
 
     this.activatedRoute.queryParamMap.subscribe((queryParams: any) => {
-      this.deliveryMode = queryParams.params['deliveryMode'] || 'email';
+      this.deliveryMode = queryParams.params['deliveryMode'] || this.deliveryMode;
     });
 
     let _id = this.report_id = this.activatedRoute.snapshot.paramMap.get('_id');
 
     this.botlist$.subscribe((value: ViewBotStateModel) => {
       this.botlist = [...value.allBotList];
+      this.codebasedBotList = this.botlist.filter((bot)=>bot.bot_type===EBotType.chatbot);
+
       setTimeout(() => {
 
 

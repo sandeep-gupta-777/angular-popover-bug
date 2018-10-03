@@ -82,9 +82,10 @@
 <!--corner chat box ends-->
 
 <!--tool tip starts-->
-<div class="d-flex justify-content-end cursor-pointer" (click)="toggleChatWindow()"
+<div class="d-flex justify-content-end cursor-pointer float-on-hover-animation" (click)="toggleChatWindow()"
+     style="height: 45px; width: 60px"
      *ngIf="!windowOpen && currentBot">
-  <div class="speech-bubble float-on-hover-animation">
+  <div class="speech-bubble">
     <div class="stick-wrapper">
       <div class="stick"></div>
       <div class="stick"></div>

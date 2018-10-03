@@ -63,7 +63,8 @@ export interface IRoomData {
     'updated_at'?: number,
 
   /*custom fields*/
-  showBotIsThinking?:boolean
+  showBotIsThinking?:boolean,
+  isCustomRoom?:boolean
 }
 
 export interface IChatSessionState {

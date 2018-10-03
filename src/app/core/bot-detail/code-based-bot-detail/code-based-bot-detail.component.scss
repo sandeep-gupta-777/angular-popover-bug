@@ -102,16 +102,28 @@
 
 .scroll-wrapper {
   overflow-y: auto;
-  height: 85%;
+  //height: 85%;
+}
+.scroll-wrapper-testing {
+  //overflow-y: auto;
+  //height: 65%;
 }
 
-app-knowledge-base-wrapper, app-code-input, app-integration-option-list, app-bot-testing {
+app-knowledge-base-wrapper, app-code-input, app-integration-option-list {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   width: 100%;
   display: block;
 }
+
+//app-bot-testing {
+//  height: 100%;
+//  overflow-y: hidden;
+//  overflow-x: hidden;
+//  width: 100%;
+//  display: block;
+//}
 
 app-integration-option-list {
   //overflow-y: scroll;

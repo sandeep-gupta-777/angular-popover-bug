@@ -521,6 +521,9 @@ export class UtilityService {
     return hours + ':' + minutes;
   };
 
+
+
+
   downloadText(text,filename){
     var saveData = (function () {
       var a:any = document.createElement("a");

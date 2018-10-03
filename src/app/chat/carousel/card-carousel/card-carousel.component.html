@@ -17,7 +17,7 @@
             </div>
             <!--<div class="card-body"></div>-->
             <ul class="list-group list-group-flush">
-              <li class="list-group-item p-2 limit-oneline">{{mediaItem.title|| "No_Title"}}</li>
+              <li class="list-group-item p-2 limit-three-lines">{{mediaItem.title|| "No_Title"}}</li>
               <li (click)="sendMessageToBotServer(mediaItem)" class="list-group-item p-2 cursor-pointer">
                 {{mediaItem.buttons && mediaItem.buttons[0].title || "No_Title"}}
               </li>

@@ -182,14 +182,18 @@ export class ChatWrapperComponent implements OnInit {
     if (!doesAtleastOneConsumerKeyHasValue) {
       this.utilityService.showErrorToaster('Please set custom Consumer details');
     } else {
-      this.startNewChat({consumerDetails: this.customConsumerDetails, bot: this.currentBot});
+      this.startNewChat({
+        consumerDetails: this.customConsumerDetails,
+        bot: this.currentBot,
+        isCustomRoom:true
+      });
     }
 
   }
 
 
   /*this is called when bot preview button or create a custom room button is clicked*/
-  startNewChat(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot }) {
+  startNewChat(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot,isCustomRoom?:boolean }) {
 
     startNewChatData.bot = startNewChatData.bot ? startNewChatData.bot : this.currentBot;//todo: is it really required?
 
@@ -220,7 +224,9 @@ export class ChatWrapperComponent implements OnInit {
             bot_access_token: this.currentBot.bot_access_token,
             uid: startNewChatData.consumerDetails.uid,//this.current_uid,
             selectedAvatar: value.room.selected_avatar,
-            bot_id: this.currentBot.id
+            bot_id: this.currentBot.id,
+            created_at:value.room.created_at,
+            isCustomRoom: startNewChatData.isCustomRoom
           }),
           new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX}),
           new SetCurrentRoomID({id: value.room.id}),

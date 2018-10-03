@@ -138,12 +138,12 @@
     <!--header starts-->
     <div class="grid-bot-preview-version header header-border-bottom  d-flex">
       <!--<div class="header">-->
-        <div class="span-wrapper">
+        <div class="span-wrapper" *ngIf="bot.bot_type === 'chatbot'">
           <i class="fa fa-circle"></i>
         </div>
-        <div class = "ml-1 " style="align-self: center" *ngIf="bot.bot_type === 'intelligent'">
-            Active
-          </div>
+        <!--<div class = "ml-1 " style="align-self: center" *ngIf="bot.bot_type !== 'intelligent'">-->
+            <!--Active-->
+          <!--</div>-->
         <div class = "ml-1 " style="align-self: center" *ngIf="bot.bot_type === 'chatbot'">
 <!--<<<<<<< HEAD-->
           <!--Active(v{{bot.active_version.version}})-->
@@ -154,8 +154,8 @@
 <!--=======-->
           Active(v{{bot.active_version.version || 0}})
         </div>
-      <div class="ml-auto" style="align-self: center">
-        <div class = " show-on-parent-hover" style="align-self: center">
+      <div class="ml-auto" style="align-self: center" >
+        <div class = " show-on-parent-hover" style="align-self: center" *ngIf="bot.bot_type === 'chatbot'">
           Latest(v{{bot.latest_version.version || 0}})
         </div>
           <div class="btn-group click-save-wrapper" dropdown style="align-self: center; font-size: 18px;padding:0;">
