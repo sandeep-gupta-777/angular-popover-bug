@@ -82,7 +82,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   enddate = new Date();
   granularity = 'day';
   datePickerConfig: Partial<BsDatepickerConfig> = this.constantsService.DATE_PICKER_CONFIG;
-  channelList = [];//this.constantsService.CHANNEL_LIST;
+  channelList = this.constantsService.CHANNEL_LIST;
   loggeduser: IAuthState;
   analytics2HeaderData;
   errorMessage: string = null;
