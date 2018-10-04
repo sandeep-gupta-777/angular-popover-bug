@@ -21,6 +21,7 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
   @Select() botlist$: Observable<ViewBotStateModel>;
   allbotList$: Observable<IBot[]>;
   allbotList: IBot[];
+  codebasedBotList: IBot[];
   _bot: Partial<IBot> = {};
   childBotlength:number =0;
   _default_logo = 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png';
@@ -53,7 +54,6 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
-// <<<<<<< HEAD
     this.bot_type  =  this.activatedRoute.snapshot.queryParamMap.get('bot_type')|| this.activatedRoute.snapshot.data['bot_type'];
 
     try {
@@ -61,16 +61,15 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
     } catch (e) {
       this.isManager = false;
     }
-// =======
     // try {
     //   this.isManager = this._bot.child_bots.length !== 0;
     // } catch (e) {
     //   this.isManager = false;
     // }
-// >>>>>>> b57d07d44a83fa8a33cad4ce66dff433fb840a27
     this.botlist$.subscribe((botlist) => {
 
       this.allbotList = botlist.allBotList;
+      this.codebasedBotList = botlist.allBotList.filter((bot)=>bot.bot_type === EBotType.chatbot);
     });
 
   }
@@ -90,7 +89,7 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) return;
       if (!this.f.dirty) return;
       this.formData = data; /*this.formData is used for compareTwoJavaObjects, no other purpose*/
-      if(this.isManager && this._bot.child_bots.length<1){
+      if(this.bot_type === EBotType.chatbot && this._bot.child_bots.length<1 && this.isManager){
         /*TODO: ui-switch is not working on so many levels, fix it*/
         this.datachanged$.emit({...this.formData, form_validation_basic_info: false});
         return;
@@ -121,7 +120,7 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
   }
 
   emitFormValidationEvent(){
-    if(this.isManager && this._bot.child_bots.length<1){
+    if(this.bot_type===EBotType.chatbot && this._bot.is_manager && this._bot.child_bots.length<1){
       setTimeout(()=>{this.datachanged$.emit({form_validation_basic_info: false});},0);
       return;
     }

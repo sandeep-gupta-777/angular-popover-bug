@@ -13,7 +13,7 @@ export class ChatMessageComponent implements OnInit {
   @Input()selectedAvatar;
   @Input() messageData:IMessageData = {
     text:'this is a test',
-    time:"10:20PM",
+    time:Date.now(),
     sourceType:"bot",
     messageMediatype:null
   };

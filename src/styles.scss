@@ -109,6 +109,24 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
   }
 }
 
+.btn-theme-disabled {
+  background-color: $color-secondary !important;
+  opacity: .5;
+  border: none;
+  border-radius: 2px;
+  padding-left: 20px;
+  padding-right: 20px;
+  line-height: 0px;
+  height: 32px !important;
+  font-size: $font-size-xs;
+  color: white !important;
+  cursor: pointer;
+  //&:hover {
+  //  background-color: #0291d2 !important;
+  //}
+}
+
+
 .btn-theme-dark {
   background-color: black !important;
   border: none;
@@ -404,7 +422,7 @@ th, td {
   .fa-search {
     position: absolute;
     top: 15px;
-    left: 8%;
+    left: 25px;
     transform: translate(0%, -50%)
   }
 }
@@ -836,7 +854,15 @@ progressbar {
   color: white !important;
 }
 
-.bg-message-bot {
+.bg-message-bot{
   background-color: #f7f7f7;
+  .time,.message-text{
+    color: #474747 !important;
+  }
 }
-
+.bg-message-human {
+  background-color: $color-primary;
+  .time,.message-text{
+    color: white !important;
+  }
+}

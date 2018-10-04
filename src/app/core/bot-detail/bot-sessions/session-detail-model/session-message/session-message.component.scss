@@ -1,47 +1,47 @@
 @import "~src/sass/main.scss";
 
-.reverse-flex-row{
+.reverse-flex-row {
   display: flex;
   flex-direction: row-reverse;
 }
-.row{
+
+.row {
   margin: 0; /*overriding bootstrap*/
 }
 
-.bg-message-bot{
-  background-color: $color-primary;
-  .time,.message-text{
-    color: white !important;
-  }
-}
+//.bg-message-bot {
+//  background-color: #f7f7f7;
+//  .time, .message-text {
+//    color: white !important;
+//  }
+//}
 
-.bg-message-human{
-  background-color: #f7f7f7;
-}
 
-.message{
+
+.message {
   @include typography($font-size-normal, $line-height-lg, $font-weight-400, $color-text-normal);
   border-radius: 2px;
-  .message-text{
+  .message-text {
 
   }
-  .time{
+  .time {
     @include typography(9px, $line-height-normal, $font-weight-400, $color-text-normal);
   }
 
 }
 
-.text-highlight{
+.text-highlight {
   background-color: yellow;
   color: #474747;
 }
-.message-text{
-  .text-highlight{
+
+.message-text {
+  .text-highlight {
     background-color: yellow;
     color: #474747;
   }
 }
 
-.meta-text{
+.meta-text {
   @include typography(9px, $line-height-normal, $font-weight-300, $color-text-normal);
 }

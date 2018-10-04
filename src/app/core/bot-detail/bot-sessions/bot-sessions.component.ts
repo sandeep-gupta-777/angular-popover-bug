@@ -150,7 +150,7 @@ export class BotSessionsComponent implements OnInit {
         this.totalSessionRecords = value.meta.total_count;
         this.selectedRow_Session = value.objects[this.selectedRow_number || 0];
         this.sessions = value.objects;
-        debugger;
+
         // if (this.indexOfCurrentRowSelected !== undefined && this.sessions[this.indexOfCurrentRowSelected].isEncrypted === false) {
         //   this.sessions[this.indexOfCurrentRowSelected].highlight = true;
         // } else {

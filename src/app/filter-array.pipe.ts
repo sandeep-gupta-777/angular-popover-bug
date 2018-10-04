@@ -5,8 +5,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterArrayPipe implements PipeTransform {
 
-  transform(value: any, args?: any): any {
-    return null;
+  transform(arr: any[], key: string): any {
+
+    return arr.sort((obj1,obj2)=>{
+      return obj2[key]-obj1[key];
+    });
   }
 
 }

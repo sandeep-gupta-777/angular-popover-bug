@@ -23,7 +23,7 @@ export class BotDetailHeaderComponent implements OnInit {
   @Input() bot: IBot;
   myObject = Object;
   myETabNames = ETabNames;
-  showSpinIcon =false;
+  showSpinIcon = false;
   @Output() refreshBotDetails$ = new EventEmitter();
   modalRef: BsModalRef;
   enterprise_unique_name;
@@ -47,11 +47,11 @@ export class BotDetailHeaderComponent implements OnInit {
   openBot() {
     this.store.dispatch([
       new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
-        bot:{...this.bot,enterprise_unique_name:this.enterprise_unique_name}
+        bot: {...this.bot, enterprise_unique_name: this.enterprise_unique_name}
       }),
       new ToggleChatWindow({open: true}),
       new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX})
-    ])
+    ]);
     // this.store.dispatch([
     //   // new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
     //   //   bot:this.bot
@@ -66,56 +66,70 @@ export class BotDetailHeaderComponent implements OnInit {
   }
 
   updateBot() {
-
+    try {
+      this.modalRef.hide();
+    }catch (e) {
+      console.log(e);
+    }
+    this.bot.active_version_id = this.bot.store_selected_version;
     let bot = this.utilityService.performFormValidationBeforeSaving(this.bot);
-    if(!bot) return;
+    if (!bot) return;
 
     let url = this.constantsService.updateBotUrl(this.bot.id);
     let headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-    if(this.bot.store_selected_version && this.bot.store_selected_version!== this.bot.active_version_id){
-      if(!confirm("active version has been changed")) return;
+    if (this.bot.store_selected_version && this.bot.store_selected_version !== this.bot.active_version_id) {
+      if (!confirm('active version has been changed')) return;
       this.bot.active_version_id = this.bot.store_selected_version;
     }
     let body = this.constantsService.updateBotSerializer(this.bot);
-    if(!body.logo){
+    if (!body.logo) {
       body.logo = 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png';
     }
     this.serverService.makePutReq({url, body, headerData})
-      .subscribe((updatedBot:IBot) => {
+      .subscribe((updatedBot: IBot) => {
         this.store.dispatch([
-          new UpdateBotInfoByIdInBotInBotList({botId:this.bot.id, data:updatedBot})
+          new UpdateBotInfoByIdInBotInBotList({botId: this.bot.id, data: updatedBot})
         ]);
-        this.utilityService.showSuccessToaster("Bot updated");
+        this.utilityService.showSuccessToaster('Bot updated');
       });
   }
 
   refreshBotDetails() {
-    this.showSpinIcon =true;
-    setTimeout(()=>{
-     this.showSpinIcon = false;
-    },2000);
-    this.refreshBotDetails$.emit()
+    this.showSpinIcon = true;
+    setTimeout(() => {
+      this.showSpinIcon = false;
+    }, 2000);
+    this.refreshBotDetails$.emit();
   }
 
-  deleteBot(){
+  deleteBot() {
     this.modalRef.hide();
     let url = this.constantsService.getDeleteBotUrl(this.bot.id);
-    let headerData:IHeaderData = {
-      "bot-access-token": this.bot.bot_access_token
+    let headerData: IHeaderData = {
+      'bot-access-token': this.bot.bot_access_token
     };
     this.serverService.makeDeleteReq({url, headerData})
-      .subscribe((value)=>{
+      .subscribe((value) => {
         this.serverService.getNSetBotList()
-          .subscribe(()=>{
+          .subscribe(() => {
             this.router.navigate(['']);
-            this.utilityService.showSuccessToaster("Bot deleted");
-          })
-      })
+            this.utilityService.showSuccessToaster('Bot deleted');
+          });
+      });
+  }
+
+  openActiveBotChangedModal(template: TemplateRef<any>) {
+    if (this.bot.store_selected_version && this.bot.store_selected_version !== this.bot.active_version_id) {
+      // if (!confirm('active version has been changed')) return;
+      this.modalRef = this.modalService.show(template, {class: 'center-modal'});
+    }else {
+      this.updateBot();
+    }
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template,{class: 'center-modal'});
+    this.modalRef = this.modalService.show(template, {class: 'center-modal'});
   }
 }

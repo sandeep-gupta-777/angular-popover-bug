@@ -141,6 +141,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
 
 
   tabClicked(activeTab: string) {
+
     this.activeTab = activeTab;
     /*TODO: We dont need code here... just replace it with selectedVersion. Also we dont need ICode interface*/
     if (this.selectedVersion) {

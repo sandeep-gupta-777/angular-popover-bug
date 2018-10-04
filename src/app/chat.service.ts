@@ -84,7 +84,7 @@ export class ChatService {
         //   return {
         //     text: message.text,
         //     time: this.utilityService.getCurrentTimeInHHMM(),
-        //     sourceType: 'bot',
+        //     sourceType: 'bot',,
         //     messageMediatype:EBotMessageMediaType.text
         //   };
         // });

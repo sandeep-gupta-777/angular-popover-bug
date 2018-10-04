@@ -5,6 +5,7 @@ export enum EAnalysis2TypesEnum {
   totalFlows="totalFlows",//=================
   flowsPerRoom="flowsPerRoom",//done
   totalRooms="totalRooms",//========================================
+  totalSessions ="totalSessions", //data not comming
   totalTimeOfRooms="totalTimeOfRooms", //data not comming
   overviewinfo="overviewinfo",//done
   transactioninfo="transactioninfo",//data not comming

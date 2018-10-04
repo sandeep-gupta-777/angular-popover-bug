@@ -21,7 +21,7 @@ import {
   SetRoomDuration,
   SetChannelWiseSessions,
   SetChannelWiseUsers,
-  ResetAnalytics2GraphData, SetUsagetrackingInfo, Topgenerationtemplates, ResetAnalytics2HeaderData
+  ResetAnalytics2GraphData, SetUsagetrackingInfo, Topgenerationtemplates, ResetAnalytics2HeaderData, TotalSessions
 } from '../ngxs/analysis.action';
 import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
@@ -155,7 +155,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
             let isHeaderValid = this.isHeaderValid(analytics2HeaderData.startdate, analytics2HeaderData.enddate, analytics2HeaderData.granularity);
             if (!isHeaderValid) return;
             this.analytics2HeaderData = analytics2HeaderData;
-            ;
+
             this.store.dispatch([new ResetAnalytics2GraphData()]);
             // this.makeGetReqSub && this.makeGetReqSub.unsubscribe();//todo: better use .
             this.makeGetReqSub = this.serverService.makeGetReq({url, headerData})
@@ -231,6 +231,10 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
                 if (headerData.type === EAnalysis2TypesEnum.topgenerationtemplates) {
                   let responseCopy: IChannelWiseUsersResponseBody = response;
                   this.store.dispatch(new Topgenerationtemplates({data: responseCopy.objects[0].output[EAnalysis2TypesEnum.topgenerationtemplates]}));
+                }
+                if (headerData.type === EAnalysis2TypesEnum.totalSessions) {
+                  let responseCopy: IChannelWiseUsersResponseBody = response;;
+                  this.store.dispatch(new TotalSessions({data: responseCopy.objects[0].output['messagesinfo']}));
                 }
               });
           });

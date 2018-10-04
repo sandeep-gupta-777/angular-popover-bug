@@ -153,11 +153,12 @@
     </div>
     <!---->
     <!--<div class="room-details ml-auto">-->
-    <div *ngIf="currentRoom" [style.visibility]="currentRoom.id?'visible':'hidden'"
-         class="d-flex flex-column align-items-end ml-auto mr-4 text-white">
-      <div>Room ID:</div>
-      <div class="font-11">{{currentRoom.id}}</div>
-    </div>
+    <!--<div *ngIf="currentRoom" [style.visibility]="currentRoom.id?'visible':'hidden'"-->
+         <!--class="d-flex flex-column align-items-end ml-auto mr-4 text-white">-->
+      <!--<div>Room ID:</div>-->
+      <!--<div class="font-11">{{currentRoom.id}}</div>-->
+    <!--</div>-->
+    <div class="ml-auto"></div>
     <div *ngIf="currentRoom && currentRoom.lastTemplateKey" class="d-flex mr-3 flex-column align-items-end text-white">
       <div>Last template triggered:</div>
       <div class="font-11">{{currentRoom.lastTemplateKey}}</div>

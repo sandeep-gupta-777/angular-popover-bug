@@ -191,7 +191,7 @@ export class ServerService {
     }
     return this.httpClient.post<T>(reqObj.url, reqObj.body, {headers: headers})
       .map((value: any) => {
-        debugger;
+
         if (value && value.error) {
           this.showErrorMessageForErrorTrue(value);
           return throwError(value);
@@ -219,7 +219,7 @@ export class ServerService {
 
     return this.httpClient.put<T>(reqObj.url, JSON.stringify(reqObj.body), {headers: headers})
       .map((value: any) => {
-        debugger;;
+        ;
         if (value && value.error) {
           this.showErrorMessageForErrorTrue(value);
           return throwError(value);
@@ -232,7 +232,7 @@ export class ServerService {
         this.changeProgressBar(false, 100);
       })
       .catch((e: any, caught: Observable<T>) => {
-        debugger;
+
         this.showErrorMessageForErrorTrue(e.error) || this.showErrorMessageForErrorTrue(e);
 
         this.changeProgressBar(false, 100);

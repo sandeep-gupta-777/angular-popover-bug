@@ -35,7 +35,7 @@
          <form #form="ngForm">
           <div class="text-center my-1">
             <label for="" class="mr-1">Reason</label>
-            <input type="text" required style="border-radius: 0px !important;" [(ngModel)] = "decryptReason" name="decryptReason">
+            <input autofocus type="text" required style="border-radius: 0px !important;" [(ngModel)] = "decryptReason" name="decryptReason">
           </div>
           <button [disabled]="!form.valid" class=" btn btn-theme-success-sm" (click)="decryptSubmit();modalRef.hide()">Submit</button>
         </form>

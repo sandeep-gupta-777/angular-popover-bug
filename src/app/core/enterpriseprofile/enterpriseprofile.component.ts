@@ -88,7 +88,7 @@ export class EnterpriseprofileComponent implements OnInit {
     //   });
   }
 
-  saveForm() {
+  updateEnterpriseProfile() {
     let formData = this.f.value;
     let body: IEnterpriseProfileInfo = {...this.loggeduserenterpriseinfo, ...formData};
     let url = this.constantsService.getEnterpriseUrl(this.enterpriseId);
@@ -97,7 +97,7 @@ export class EnterpriseprofileComponent implements OnInit {
       .subscribe(() => {
         this.utilityService.showSuccessToaster('Updated enterprise profile');
         this.store.dispatch([
-          new SetEnterpriseInfoAction({enterpriseInfo: body})
+          new SetEnterpriseInfoAction({enterpriseInfo: body}),
         ]);
       });
   }

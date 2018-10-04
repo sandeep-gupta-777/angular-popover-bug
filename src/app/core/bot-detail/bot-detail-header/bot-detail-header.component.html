@@ -49,7 +49,7 @@
     <span class="action">Cancel</span>
     <!---->
   </div>
-  <button class="btn btn-theme-primary" (click)="updateBot()" *myIf="myETabNames.update_bot_button">Update Bot</button>
+  <button class="btn btn-theme-primary" (click)="openActiveBotChangedModal(activeVersionChangedTemplate)" *myIf="myETabNames.update_bot_button">Update Bot</button>
   <div class="btn-group p-2" dropdown placement="top left" *myIf="myETabNames.bot_header_ellipsis">
     <i dropdownToggle class="fa fa-ellipsis-v cursor-pointer p-1" style="font-size: 20px"></i>
     <ul *dropdownMenu class="dropdown-menu" role="menu">
@@ -109,3 +109,28 @@
     </div>
   </div>
 </ng-template>
+
+
+<ng-template #activeVersionChangedTemplate>
+  <div class="danger-modal">
+    <div class="top-dec"></div>
+    <div class="modal-header">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Active version changed</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body pt-0">
+      <form #form="ngForm">
+        <div class="text-center my-1">
+          <p class="mb-3">If you update the bot your currently selected version will be the new Active version.</p>
+
+        </div>
+        <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button class=" btn btn-theme-danger" (click)="updateBot()">Update</button>
+      </form>
+    </div>
+  </div>
+</ng-template>
+

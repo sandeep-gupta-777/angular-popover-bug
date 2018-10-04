@@ -65,12 +65,18 @@
         {{(!bot.store_bot_versions || !bot.store_bot_versions.length || bot.store_bot_versions.length>0)?"Save":"Create"}}
         version
       </button>
+      <!--SHOAIB, I DONT UNDERSTAND WHY FOLLOWING WAS DONE-->
+      <!--<button class="btn btn-theme-primary-outline" *ngIf="selectedVersion"-->
+              <!--[disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"-->
+              <!--(click)="openForkNewVersionModal(Primarytemplate)">-->
+              <!--{{(selectedVersion.changed_fields['df_template'] || selectedVersion.changed_fields['df_rules']  ||-->
+               <!--selectedVersion.changed_fields['generation_rules'] || selectedVersion.changed_fields['generation_templates'] ||-->
+               <!--selectedVersion.changed_fields['workflow'])?"Save as new version":"Create new version"}}-->
+      <!--</button>-->
       <button class="btn btn-theme-primary-outline" *ngIf="selectedVersion"
               [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
               (click)="openForkNewVersionModal(Primarytemplate)">
-              {{(selectedVersion.changed_fields['df_template'] || selectedVersion.changed_fields['df_rules']  ||
-               selectedVersion.changed_fields['generation_rules'] || selectedVersion.changed_fields['generation_templates'] ||
-               selectedVersion.changed_fields['workflow'])?"Save as new version":"Create new version"}}
+        Fork new version
       </button>
     </div>
     <div class="row row-flex-bot-versioning-toaster border-theme-secondary  border-top-0 mx-0"
@@ -303,10 +309,14 @@
         <div class="col-md-12">
           <p *ngIf="errorMessage" class="text-danger">{{errorMessage}}</p>
           <button class="btn btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>
+          <!--<button class="btn btn-theme-primary" (click)="forkNewVersion()">-->
+            <!--{{(selectedVersion.changed_fields['df_template'] || selectedVersion.changed_fields['df_rules']  ||-->
+               <!--selectedVersion.changed_fields['generation_rules'] || selectedVersion.changed_fields['generation_templates'] ||-->
+               <!--selectedVersion.changed_fields['workflow'])?"Save as new version":"Create new version"}}-->
+          <!--</button>-->
+
           <button class="btn btn-theme-primary" (click)="forkNewVersion()">
-            {{(selectedVersion.changed_fields['df_template'] || selectedVersion.changed_fields['df_rules']  ||
-               selectedVersion.changed_fields['generation_rules'] || selectedVersion.changed_fields['generation_templates'] ||
-               selectedVersion.changed_fields['workflow'])?"Save as new version":"Create new version"}}
+            Fork
           </button>
         </div>
 

@@ -47,7 +47,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.app$Subscription = this.app$.subscribe((app) => {
+    /*this.app$Subscription = */this.app$.subscribe((app) => {
         /*every time this callback runs remove all previous setTimeOuts*/
         let autoLogOutTime = app.autoLogoutTime;
         if (autoLogOutTime) {
@@ -77,6 +77,7 @@ export class HeaderComponent implements OnInit {
     this.loggeduser$.subscribe((value) => {
     });
     this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
+      ;
       this.logoSrc = enterpriseProfileInfo.logo || this.logoSrc;
     });
     // this.activatedRoute.queryParams.subscribe((queryParams)=>{

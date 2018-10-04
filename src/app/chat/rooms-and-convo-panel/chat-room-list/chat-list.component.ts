@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Select} from '@ngxs/store';
-import {IChatSessionState} from '../../../../interfaces/chat-session-state';
+import {IChatSessionState, IRoomData} from '../../../../interfaces/chat-session-state';
 import {IBot} from '../../../core/interfaces/IBot';
 import {ViewBotStateModel} from '../../../core/view-bots/ngxs/view-bot.state';
 import {IConsumerDetails} from '../../ngxs/chat.state';
@@ -23,16 +23,25 @@ export class ChatListComponent implements OnInit {
   @Output() navigateEvent: EventEmitter<string> = new EventEmitter();
   @Output() createCustomRoom$= new EventEmitter();
   @Output() createNewRoom$ = new EventEmitter();
+  chatsessionstate:IChatSessionState;
+  rooms:IRoomData[];
 
   ngOnInit() {
 
-    // this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
-    //   this.bot_id = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.id;
-    //   if (!this.bot_id) return;
-    //   this.botlist$.subscribe((value) => {
-    //     this.currentBot = value.allBotList.find(value => value.id === this.bot_id);
-    //   });
-    // });
+    this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
+      if(!chatSessionState || !chatSessionState.rooms) return;
+      this.chatsessionstate = chatSessionState;
+
+      let x = this.rooms = chatSessionState.rooms.sort((obj1,obj2)=>{
+        return obj2.messageList[obj2.messageList.length-1].time-obj1.messageList[obj1.messageList.length-1].time;
+      });
+      this.rooms = [...this.rooms];
+      // this.bot_id = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.id;
+      // if (!this.bot_id) return;
+      // this.botlist$.subscribe((value) => {
+      //   this.currentBot = value.allBotList.find(value => value.id === this.bot_id);
+      // });
+    });
   }
 
   createCustomRoom(){

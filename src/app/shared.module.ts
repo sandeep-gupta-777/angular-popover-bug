@@ -22,7 +22,6 @@ import {HandsontableComponent} from './handsontable/handsontable.component';
 import {ChartModule} from 'angular-highcharts';
 import {FilterObjectArrayPipe} from './filter-object-array.pipe';
 import {FilterActiveBotPipe} from './filter-active-bot.pipe';
-import {FilterArrayPipe} from './filter-array.pipe';
 import {IntegrationImageCountPipe} from './integration-image-count.pipe';
 import {IntegrationInputKeysFilterPipe} from './integration-input-keys-filter.pipe';
 import {ProfilePermissionIdToNamePipe} from './core/profile/profile-permission-id-to-name.pipe';
@@ -62,7 +61,6 @@ import {HighlightDirective} from './readonly-selected-permission.directive';
     HandsontableComponent,
     FilterObjectArrayPipe,
     FilterActiveBotPipe,
-    FilterArrayPipe,
     IntegrationImageCountPipe,
     IntegrationInputKeysFilterPipe,
     ProfilePermissionIdToNamePipe,
@@ -115,7 +113,6 @@ import {HighlightDirective} from './readonly-selected-permission.directive';
     HandsontableComponent,
     FilterObjectArrayPipe,
     FilterActiveBotPipe,
-    FilterArrayPipe,
     SerializeSessionMessagePipe,
     IntegrationImageCountPipe,
     IntegrationInputKeysFilterPipe,

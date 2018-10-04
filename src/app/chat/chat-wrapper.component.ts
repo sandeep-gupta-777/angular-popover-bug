@@ -263,7 +263,7 @@ export class ChatWrapperComponent implements OnInit {
         text: messageByHuman,
         sourceType: 'human',
         messageMediatype: EBotMessageMediaType.text,
-        time: this.utilityService.getCurrentTimeInHHMM()
+        time: Date.now()//this.utilityService.getCurrentTimeInHHMM()
       }],
     }),
       new ChangeBotIsThinkingDisplayByRoomId({shouldShowBotIsThinking:true, roomId:messageData.room.id})

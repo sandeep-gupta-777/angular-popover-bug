@@ -100,7 +100,7 @@ export class UtilityService {
         return {
           messageMediatype:message.media[0].type,//
           ...message,
-          time: this.getCurrentTimeInHHMM(),
+          time: Date.now(),//this.getCurrentTimeInHHMM(),
           text:EBotMessageMediaType.image,//this is for preview of last message in chat room list
           sourceType: 'bot'
         }
@@ -109,7 +109,7 @@ export class UtilityService {
         return {
           messageMediatype:EBotMessageMediaType.quickReply,//
           ...message,
-          time: this.getCurrentTimeInHHMM(),
+          time: Date.now(),
           text:(<any>message).quick_reply.text || EBotMessageMediaType.quickReply,//this is for preview of last message in chat room list
           sourceType: 'bot'
         }
@@ -118,7 +118,7 @@ export class UtilityService {
       /*if message type = text*/
       return {
         text: message.text,
-        time: this.getCurrentTimeInHHMM(),
+        time: Date.now(),//this.getCurrentTimeInHHMM(),
         sourceType: 'bot',
         messageMediatype:EBotMessageMediaType.text
       };
@@ -139,7 +139,6 @@ export class UtilityService {
         };
         reader.readAsText(input.files[index]);
       }
-      ;
     });
   }
 
@@ -642,7 +641,7 @@ export class UtilityService {
         text: item.text,
         sourceType: 'bot',
         messageMediatype: EBotMessageMediaType.text,
-        time: this.getCurrentTimeInHHMM()/*todo: change it to real time*/
+        time: Date.now()//this.getCurrentTimeInHHMM()/*todo: change it to real time*/
       };
     });
     return roomMessages;

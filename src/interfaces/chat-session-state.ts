@@ -19,7 +19,7 @@ export enum EBotMessageMediaType{
 export interface IMessageData extends IGeneratedMessageItem{
   /*custom fields*/
   sourceType: string,//TODO: "timePeriod" ||"human", gives error, see why
-  time: string,
+  time: number,
   messageMediatype:EBotMessageMediaType
 }
 

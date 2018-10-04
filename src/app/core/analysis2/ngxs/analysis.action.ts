@@ -107,6 +107,12 @@ export class Topgenerationtemplates {
   }
 }
 
+export class TotalSessions {
+  static readonly type = '[analytics2] TotalSessions';
+  constructor(public payload: { data: any}) {
+  }
+}
+
 
 export class ResetAnalytics2GraphData {
   static readonly type = '[analytics2] ResetAnalytics2Data';
