@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import set = Reflect.set;
 
 @Component({
@@ -9,7 +9,11 @@ import set = Reflect.set;
 export class BotThinkingBubbleComponent implements OnInit {
 
   constructor() { }
-
+  @Input() selectedAvatar:{
+  "id": number,
+  "imageUrl": string,
+  "name": string
+};
   randomNumber = 1;
   ngOnInit() {
     setInterval(()=>{

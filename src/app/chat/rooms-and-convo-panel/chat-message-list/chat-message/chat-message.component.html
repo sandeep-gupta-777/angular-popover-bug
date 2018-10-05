@@ -51,7 +51,7 @@
   <div class="col-10 text-left p-0 d-flex"
        *ngIf="messageData.messageMediatype===myEBotMessageMediaType.bot_thinking">
     <div class="bg-message-bot d-flex align-items-center px-2">
-      <app-bot-thinking-bubble class="d-block"></app-bot-thinking-bubble>
+      <app-bot-thinking-bubble [selectedAvatar]="selectedAvatar" class="d-block"></app-bot-thinking-bubble>
     </div>
   </div>
 </div>

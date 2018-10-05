@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {EventService} from '../../../../../../event.service';
 import {UtilityService} from '../../../../../../utility.service';
+import {ActivatedRoute} from '@angular/router';
 
 declare var CodeMirror: any;
 
@@ -25,7 +26,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
   editorCodeObjRef: { text: string } = {text: ''};
   @ViewChild('f') codeEditor: ElementRef;
 
-  constructor(private utilityService: UtilityService) {
+  constructor(private utilityService: UtilityService, private activatedRoute:ActivatedRoute) {
   }
 
   @Input() set text(editorCodeObj: { text: string }) {
@@ -65,7 +66,19 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
   }
 
   downloadCodeText() {
-    this.utilityService.downloadText(this.editorCodeObjRef.text, 'code.txt');
+    let fileName = "code.txt"
+    let codeTab =      this.activatedRoute.snapshot.queryParamMap.get("code-tab");
+    let buildTab =      this.activatedRoute.snapshot.queryParamMap.get("build-tab");
+    let botId =      this.activatedRoute.snapshot.params['id'];
+    if(buildTab=== 'code' && codeTab && botId){
+      fileName = `${codeTab} for bot id ${botId}.txt`
+    }
+
+    let nerId =      this.activatedRoute.snapshot.queryParamMap.get("ner_id");
+    if(buildTab=== 'knowledge' &&botId && nerId){
+      fileName = `code for nerid ${nerId} for bot id ${botId}.txt`
+    }
+    this.utilityService.downloadText(this.editorCodeObjRef.text, fileName);
   }
 
   ngAfterViewInit() {
