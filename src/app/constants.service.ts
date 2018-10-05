@@ -1,14 +1,14 @@
-import {Injectable} from '@angular/core';
-import {IAppState} from './ngxs/app.state';
-import {IUser} from './core/interfaces/user';
-import {Select} from '@ngxs/store';
-import {Observable} from 'rxjs';
-import {IBot} from './core/interfaces/IBot';
-import {IIntegrationOption} from '../interfaces/integration-option';
-import {DatePipe} from '@angular/common';
-import {environment} from '../environments/environment.prod';
-import {IAuthState} from './auth/ngxs/auth.state';
-import {IProfilePermission} from '../interfaces/profile-action-permission';
+import { Injectable } from '@angular/core';
+import { IAppState } from './ngxs/app.state';
+import { IUser } from './core/interfaces/user';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { IBot } from './core/interfaces/IBot';
+import { IIntegrationOption } from '../interfaces/integration-option';
+import { DatePipe } from '@angular/common';
+import { environment } from '../environments/environment.prod';
+import { IAuthState } from './auth/ngxs/auth.state';
+import { IProfilePermission } from '../interfaces/profile-action-permission';
 
 declare var Handsontable: any;
 
@@ -64,69 +64,69 @@ export enum ERoleName {
 }
 
 export enum EAPermissionsDynamic {
-  'Get Bots'='Get Bots',
-  'Create Bots'='Create Bots',
-  'Update Bots'='Update Bots',
-  'Delete Bots'='Delete Bots',
-  'Get Bots Anonymous'='Get Bots Anonymous',
-  'Get Enterpise Knowledge base'='Get Enterpise Knowledge base',
-  'Create Enterprise Knowledge base'='Create Enterprise Knowledge base',
-  'Update Enterprise Knowledge base'='Update Enterprise Knowledge base',
-  'Delete Enterprise Knowledge base'='Delete Enterprise Knowledge base',
-  'Create Bot Versioning'='Create Bot Versioning',
-  'GET Bot Versioning'='GET Bot Versioning',
-  'Update Bot Versioning'='Update Bot Versioning',
-  'Delete Bot Versioning'='Delete Bot Versioning',
-  'Create Role'='Create Role',
-  'Get Role'='Get Role',
-  'Update Role'='Update Role',
-  'Delete Role'='Delete Role',
-  'Create User'='Create User',
-  'Get User'='Get User',
-  'Update User'='Update User',
-  'Get Consumers'='Get Consumers',
-  'Get Sessions'='Get Sessions',
-  'Analytics'='Analytics',
-  'Get Bot Testcases'='Get Bot Testcases',
-  'Create Bot Testcases'='Create Bot Testcases',
-  'Update Bot Testcases'='Update Bot Testcases',
-  'Delete Bot Testcases'='Delete Bot Testcases',
-  'Get Integrations'='Get Integrations',
-  'Get Pipeline Module'='Get Pipeline Module',
-  'Create Reports'='Create Reports',
-  'Get Reports'='Get Reports',
-  'Update Reports'='Update Reports',
-  'Delete Reports'='Delete Reports',
-  'Get Report History'='Get Report History',
-  'Get Enterprise'='Get Enterprise',
-  'Update Enterprise'='Update Enterprise',
-  'Delete User'='Delete User',
-  'Get Report Types'='Get Report Types',
-  'Send API'='Send API',
-  'Get Messages'='Get Messages',
-  'Get Actions'='Get Actions',
-  'Close Room'='Close Room',
-  'agent_close'='agent_close',
-  'Anonymize Conversation'='Anonymize Conversation',
-  'Post dfRules Debug'='Post dfRules Debug',
-  'Post genRules Debug'='Post genRules Debug',
-  'Post genTemplate Debug'='Post genTemplate Debug',
-  'Post Workflow Debug'='Post Workflow Debug',
-  'Workflow Webhook'='Workflow Webhook',
-  'Facebook Webhook'='Facebook Webhook',
-  'Backward Compatible Message API'='Backward Compatible Message API',
-  'Intelligence API Webhook'='Intelligence API Webhook',
-  'Delete Consumer'='Delete Consumer',
-  'Create Decrypt Audit'='Create Decrypt Audit',
-  'erase consumer'='erase consumer',
-  'Exec Reports'='Exec Reports',
-  'Download Reports'='Download Reports',
-  'Skype API'='Skype API',
-  'Update Password'='Update Password',
-  'Get Bot Knowledge base'='Get Bot Knowledge base',
-  'Create Bot Knowledge base'='Create Bot Knowledge base',
-  'Update Bot Knowledge base'='Update Bot Knowledge base',
-  'Delete Bot Knowledge base'='Delete Bot Knowledge base'
+  'Get Bots' = 'Get Bots',
+  'Create Bots' = 'Create Bots',
+  'Update Bots' = 'Update Bots',
+  'Delete Bots' = 'Delete Bots',
+  'Get Bots Anonymous' = 'Get Bots Anonymous',
+  'Get Enterpise Knowledge base' = 'Get Enterpise Knowledge base',
+  'Create Enterprise Knowledge base' = 'Create Enterprise Knowledge base',
+  'Update Enterprise Knowledge base' = 'Update Enterprise Knowledge base',
+  'Delete Enterprise Knowledge base' = 'Delete Enterprise Knowledge base',
+  'Create Bot Versioning' = 'Create Bot Versioning',
+  'GET Bot Versioning' = 'GET Bot Versioning',
+  'Update Bot Versioning' = 'Update Bot Versioning',
+  'Delete Bot Versioning' = 'Delete Bot Versioning',
+  'Create Role' = 'Create Role',
+  'Get Role' = 'Get Role',
+  'Update Role' = 'Update Role',
+  'Delete Role' = 'Delete Role',
+  'Create User' = 'Create User',
+  'Get User' = 'Get User',
+  'Update User' = 'Update User',
+  'Get Consumers' = 'Get Consumers',
+  'Get Sessions' = 'Get Sessions',
+  'Analytics' = 'Analytics',
+  'Get Bot Testcases' = 'Get Bot Testcases',
+  'Create Bot Testcases' = 'Create Bot Testcases',
+  'Update Bot Testcases' = 'Update Bot Testcases',
+  'Delete Bot Testcases' = 'Delete Bot Testcases',
+  'Get Integrations' = 'Get Integrations',
+  'Get Pipeline Module' = 'Get Pipeline Module',
+  'Create Reports' = 'Create Reports',
+  'Get Reports' = 'Get Reports',
+  'Update Reports' = 'Update Reports',
+  'Delete Reports' = 'Delete Reports',
+  'Get Report History' = 'Get Report History',
+  'Get Enterprise' = 'Get Enterprise',
+  'Update Enterprise' = 'Update Enterprise',
+  'Delete User' = 'Delete User',
+  'Get Report Types' = 'Get Report Types',
+  'Send API' = 'Send API',
+  'Get Messages' = 'Get Messages',
+  'Get Actions' = 'Get Actions',
+  'Close Room' = 'Close Room',
+  'agent_close' = 'agent_close',
+  'Anonymize Conversation' = 'Anonymize Conversation',
+  'Post dfRules Debug' = 'Post dfRules Debug',
+  'Post genRules Debug' = 'Post genRules Debug',
+  'Post genTemplate Debug' = 'Post genTemplate Debug',
+  'Post Workflow Debug' = 'Post Workflow Debug',
+  'Workflow Webhook' = 'Workflow Webhook',
+  'Facebook Webhook' = 'Facebook Webhook',
+  'Backward Compatible Message API' = 'Backward Compatible Message API',
+  'Intelligence API Webhook' = 'Intelligence API Webhook',
+  'Delete Consumer' = 'Delete Consumer',
+  'Create Decrypt Audit' = 'Create Decrypt Audit',
+  'erase consumer' = 'erase consumer',
+  'Exec Reports' = 'Exec Reports',
+  'Download Reports' = 'Download Reports',
+  'Skype API' = 'Skype API',
+  'Update Password' = 'Update Password',
+  'Get Bot Knowledge base' = 'Get Bot Knowledge base',
+  'Create Bot Knowledge base' = 'Create Bot Knowledge base',
+  'Update Bot Knowledge base' = 'Update Bot Knowledge base',
+  'Delete Bot Knowledge base' = 'Delete Bot Knowledge base'
 }
 
 
@@ -205,6 +205,15 @@ export class ConstantsService {
   //   'Delete Bot Knowledge base'
   // ];
 
+  // export inteface IBackEndPermissionsToFrontEndMappingItem {
+  //   [key: EAPermissionsDynamic]: {
+  //   route: [],
+  //   module: [],
+  //   tab: [],//tab, hyperlink, button
+  //   api: [],//tab, hyperlink, button
+  // };
+
+
   permissionsDeniedMap = {
     'Admin': {
       route: [],
@@ -213,7 +222,8 @@ export class ConstantsService {
       api: [],//tab, hyperlink, button
     },
     'Analyst': {
-      route: [ERouteNames.customner,
+      route: [
+        ERouteNames.customner,
         ERouteNames.enterprise_profile,
         ERouteNames.report,
         ERouteNames.create_report,
@@ -299,15 +309,15 @@ export class ConstantsService {
     }
   };
 
-  forbiddenPermsDynamic:{id?:string,name?:number};
+  forbiddenPermsDynamic: { id?: string, name?: number };
   setPermissionsDeniedMap(allPermissions: IProfilePermission[]) {
 
     try {
-      if(this.allowedPermissionIdsToCurrentRole.length === 0){/*exception for admin*/
+      if (this.allowedPermissionIdsToCurrentRole.length === 0) {/*exception for admin*/
         this.forbiddenPermsDynamic = {};
         return;
       }
-    }catch (e) {
+    } catch (e) {
       console.log(e);
     }
 
@@ -419,17 +429,17 @@ export class ConstantsService {
   public BACKEND_USER_PIPELINE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'api/v1/bot/';//https://dev.imibot.ai/bots
 
   public readonly CHANNEL_LIST = [
-    {name: 'all', displayName: 'All Channels'},
-    {name: 'facebook', displayName: 'Facebook'},
-    {name: 'web', displayName: 'WebChat'},
-    {name: 'alexa', displayName: 'Alexa'}];
+    { name: 'all', displayName: 'All Channels' },
+    { name: 'facebook', displayName: 'Facebook' },
+    { name: 'web', displayName: 'WebChat' },
+    { name: 'alexa', displayName: 'Alexa' }];
 
   public readonly TIME_GRANULARITY_LIST = [
-    {name: 'hour', displayName: 'Hour'},
-    {name: 'day', displayName: 'Day'},
-    {name: 'week', displayName: 'Week'},
-    {name: 'month', displayName: 'Month'},
-    {name: 'year', displayName: 'Year'}
+    { name: 'hour', displayName: 'Hour' },
+    { name: 'day', displayName: 'Day' },
+    { name: 'week', displayName: 'Week' },
+    { name: 'month', displayName: 'Month' },
+    { name: 'year', displayName: 'Year' }
   ];
 
   public readonly DATE_PICKER_CONFIG = Object.assign({}, {
@@ -682,7 +692,7 @@ export class ConstantsService {
   }
 
   updateBotSerializer(bot: IBot) {
-    let clone = {...bot};
+    let clone = { ...bot };
     let not_keys = [
       'bot_access_token',
       'created_at',
@@ -773,7 +783,7 @@ export class ConstantsService {
       delete: false,
       position: 'right',
       custom: [
-        {name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>`}
+        { name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>` }
       ],
       width: '150px',
     },
@@ -826,8 +836,8 @@ export class ConstantsService {
       delete: false,
       position: 'right',
       custom: [
-        {name: 'download', title: `<i  class="fa fa-download pr-2 text-dark"></i>`},
-        {name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>`},
+        { name: 'download', title: `<i  class="fa fa-download pr-2 text-dark"></i>` },
+        { name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>` },
       ],
 
     },
@@ -923,12 +933,12 @@ export class ConstantsService {
 
   readonly HANDSON_TABLE_BOT_TESTING_colHeaders = ['Message', 'Expected Template', 'Status', 'Generated Template', 'RoomId', 'TransactionId'];
   readonly HANDSON_TABLE_BOT_TESTING_columns = [
-    {data: 0, type: 'text',},
-    {data: 1, type: 'text',},
-    {data: 2, type: 'text', readOnly: true},
-    {data: 3, type: 'text', readOnly: true},
-    {data: 4, type: 'text', readOnly: true},
-    {data: 5, type: 'text', readOnly: true},
+    { data: 0, type: 'text', },
+    { data: 1, type: 'text', },
+    { data: 2, type: 'text', readOnly: true },
+    { data: 3, type: 'text', readOnly: true },
+    { data: 4, type: 'text', readOnly: true },
+    { data: 5, type: 'text', readOnly: true },
   ];
 
   readonly HANDSON_TABLE_KNOWLEDGE_BASE_SETTING = {
