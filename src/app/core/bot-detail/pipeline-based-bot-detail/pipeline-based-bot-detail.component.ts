@@ -106,6 +106,7 @@ myETabNames = ETabNames
 
   refreshBotDetails(){
     this.serverService.fetchSpecificBotFromServerAndUpdateBotList(this.bot);
+    this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
   }
 
   togglePanel(){

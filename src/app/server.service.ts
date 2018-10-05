@@ -383,7 +383,7 @@ export class ServerService {
             "generation_template" : false,
             "workflows" : false
           }
-        });
+        });;
         this.store.dispatch([
           new SaveVersionInfoInBot({data: botVersionResult.objects, botId: botId})
         ]);

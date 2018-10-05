@@ -19,7 +19,9 @@
              [src]="getLogo(integration_keys)"
              alt="">
         <div class="heading my-0 mx-2">{{integration_keys.toUpperCase()}}</div>
-        <ui-switch size="small" [checked]="false" ngModel name="enabled" (change)="onSwitchChange(formValueFinal[form_value_key][integration_keys])"></ui-switch>
+        <!--<p>{{formValueFinal[form_value_key][integration_keys].enabled}}</p>-->
+        <!--<p>{{formValue[form_value_key][integration_keys].enabled}}</p>-->
+        <ui-switch size="small" [checked]="false" [(ngModel)]="formValueFinal[form_value_key][integration_keys]['enabled']" name="enabled"></ui-switch>
       </div>
       <div [hidden]="!formValueFinal[form_value_key][integration_keys]['enabled']" >
         <div *ngFor="let integration_input_keys of formValue[form_value_key][integration_keys]|integrationInputKeysFilter">

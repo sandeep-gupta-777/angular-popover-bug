@@ -95,6 +95,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     //       new SaveVersionInfoInBot({data: botVersionResult.objects, botId: this.bot.id})
     //     ]);
     //   });
+
     this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
     this.botlist$_sub = this.botlist$.subscribe((value) => {
       this.utilityService.getActiveVersionInBot(this.bot);
@@ -105,11 +106,19 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       * if active version exists, selected version =active version
       * otherwise, selected version = first version, if that exists
       * */
+
       let activeVersion = this.activeVersion = this.utilityService.getActiveVersionInBot(this.bot);
-      if(this.selectedVersion)
-        this.selectedVersion = this.selectedVersion;
-      else
+      // if(!this.selectedVersion)
+      //   this.selectedVersion = activeVersion;
+      // else
+      if(!this.selectedVersion)
         this.selectedVersion = activeVersion ? activeVersion : (this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions[0]);
+      else {
+        /*updating selected version*/
+        this.selectedVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions.find((version)=>version.id===this.selectedVersion.id)
+      }
+
+
       this.forked_version_number = this.selectedVersion && this.selectedVersion.version;
       // if (!activeVersion) {
       //   try {

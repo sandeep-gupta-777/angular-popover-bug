@@ -9,7 +9,7 @@ import {ConstantsService} from '../../../../../../constants.service';
 import {Observable} from 'rxjs';
 import {IBotCreationState} from '../../../../ngxs/buildbot.state';
 import {IAppState} from '../../../../../../ngxs/app.state';
-import {EFormValidationErrors} from '../../../../../../utility.service';
+import {EFormValidationErrors, UtilityService} from '../../../../../../utility.service';
 
 @Component({
   selector: 'app-integration-option-list',
@@ -28,7 +28,11 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   enable = false;
   formValue: IIntegrationOption;
   formValueFinal: IIntegrationOption;
-  @Input() bot: IBot;
+  @Input() _bot: IBot;
+  @Input() set bot(bot:IBot){
+    this._bot = bot;
+    this.generateIntegrationFormValue();
+  }
   @ViewChild('form') f: NgForm;
   @ViewChild('form_new') f_new: NgForm;
   @ViewChild('test') test_new: NgForm;
@@ -43,7 +47,8 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   constructor(
     private store: Store,
     private activatedRoute: ActivatedRoute,
-    private constantsService: ConstantsService
+    private constantsService: ConstantsService,
+    private utilityService: UtilityService
   ) {
   }
 
@@ -53,17 +58,22 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
     });
 
     this.routeParent = this.activatedRoute.snapshot.data;
-    if (this.bot) {
-      this.formValue = this.bot.integrations;
-    } else if (this.routeParent['buildBot']) {
-      this.botcreationstate$.subscribe((botCreationState: IBotCreationState) => {
-        this.formValue = botCreationState.codeBased.integrations;
-      });
-    }
+    // else if (this.routeParent['buildBot']) {
+    //   this.botcreationstate$.subscribe((botCreationState: IBotCreationState) => {
+    //     this.formValue = botCreationState.codeBased.integrations;
+    //   });
+    // }
 
     // this.formValueFinal = this.constantsService.integrationOptionListTemplate;
     // this.formValueFinal =  this.bot.integrations;
 
+
+    this.generateIntegrationFormValue();
+
+  }
+
+  generateIntegrationFormValue(){
+    if(!this.masterIntegrationList) return;
     this.masterIntegrationList.forEach((integrationItem) => {
       let integration_type_key = integrationItem.integration_type;
       let integration_name_key = integrationItem.key;
@@ -82,23 +92,22 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
         this.masterIntegrationListSerialized[integration_type_key] = {...tempObj};
       }
     });
+    this.formValue = this._bot.integrations;
     this.formValue =
-    this.formValueFinal = {
-      channels: {
-        ...this.masterIntegrationListSerialized['channels'],
-        ...this.formValue.channels
-      },
-      ccsp_details: {
-        ...this.masterIntegrationListSerialized['ccsp_details'],
-        ...this.formValue.ccsp_details
-      },
-      fulfillment_provider_details: {
-        ...this.masterIntegrationListSerialized['fulfillment_provider_details'],
-        ...this.formValue.fulfillment_provider_details
-      }
-    };
-
-
+      this.formValueFinal = {
+        channels: {
+          ...this.masterIntegrationListSerialized['channels'],
+          ...this.formValue.channels
+        },
+        ccsp_details: {
+          ...this.masterIntegrationListSerialized['ccsp_details'],
+          ...this.formValue.ccsp_details
+        },
+        fulfillment_provider_details: {
+          ...this.masterIntegrationListSerialized['fulfillment_provider_details'],
+          ...this.formValue.fulfillment_provider_details
+        }
+      };
   }
 
   getLogo(key) {
@@ -116,7 +125,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   click() {
     console.log(this.formValue);
     console.log(this.test);
-    console.log(this.test_new.value);
+    console.log(this.test_new.form.patchValue({enabled:true}));
   }
 
   // test = false;
@@ -129,6 +138,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
 
     this.f_new.valueChanges.debounceTime(1000).subscribe((integrationInfo: IIntegrationOption) => {
       if (!this.f_new.dirty) return;
+      if(this.utilityService.areTwoJSObjectSame(this.formValue,this.f_new.value))return;
       let formValidityObj =  {};
       formValidityObj[EFormValidationErrors.form_validation_integration] = this.f_new && this.f_new.valid;
 
