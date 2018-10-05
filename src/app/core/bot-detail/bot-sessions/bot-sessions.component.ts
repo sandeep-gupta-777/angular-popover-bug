@@ -1,17 +1,17 @@
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { Store, Select } from '@ngxs/store';
-import { IConsumerResults } from '../../../../interfaces/consumer';
-import { ServerService } from '../../../server.service';
-import { Observable } from 'rxjs';
-import { ConstantsService } from '../../../constants.service';
-import { ISessionItem, ISessionMessage, ISessions } from '../../../../interfaces/sessions';
-import { of } from 'rxjs';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { IBot } from '../../interfaces/IBot';
-import { SmartTableComponent } from '../../../smart-table/smart-table.component';
-import { UtilityService } from '../../../utility.service';
-import { IHeaderData } from '../../../../interfaces/header-data';
-import { findIndex } from 'rxjs/operators';
+import {Component, ElementRef, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Store, Select} from '@ngxs/store';
+import {IConsumerResults} from '../../../../interfaces/consumer';
+import {ServerService} from '../../../server.service';
+import {Observable} from 'rxjs';
+import {ConstantsService} from '../../../constants.service';
+import {ISessionItem, ISessionMessage, ISessions} from '../../../../interfaces/sessions';
+import {of} from 'rxjs';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {IBot} from '../../interfaces/IBot';
+import {SmartTableComponent} from '../../../smart-table/smart-table.component';
+import {UtilityService} from '../../../utility.service';
+import {IHeaderData} from '../../../../interfaces/header-data';
+import {findIndex} from 'rxjs/operators';
 
 @Component({
   selector: 'app-bot-sessions',
@@ -74,7 +74,7 @@ export class BotSessionsComponent implements OnInit {
   /*todo: implement it better way*/
   refreshSession() {
     this.url = this.constantsService.getBotSessionsUrl(10, 0);
-    this.refreshSessions$ = this.serverService.makeGetReq<ISessions>({ url: this.url });
+    this.refreshSessions$ = this.serverService.makeGetReq<ISessions>({url: this.url});
     this.refreshSessions$.subscribe((value) => {
       this.sessions$ = of(value);
     });
@@ -100,7 +100,7 @@ export class BotSessionsComponent implements OnInit {
     //   });
   }
 
-  sessionTableRowClicked(eventData: { data: ISessionItem }, template, reasonForDecryptionTemplate) {
+  sessionTableRowClicked(eventData: { data: ISessionItem }, template?, reasonForDecryptionTemplate?) {
     let isEncrypted: boolean;
     /*
       * TODO: there is a data_encrypted key it the row itself. Can we use it?
@@ -108,8 +108,9 @@ export class BotSessionsComponent implements OnInit {
     * */
     if (eventData.data.data_encrypted) {
 
-      this.sessionItemToBeDecrypted = eventData.data;
-      this.openCreateBotModal(reasonForDecryptionTemplate);
+      // this.sessionItemToBeDecrypted = eventData.data;
+      // this.openSessionRowDecryptModal(reasonForDecryptionTemplate);
+      this.openSessionRowDecryptModal(this.reasonForDecryptionTemplate, eventData.data);
     }
     else {
       this.loadSessionMessagesById(eventData.data.id)
@@ -124,17 +125,17 @@ export class BotSessionsComponent implements OnInit {
           });
           this.sessions[this.indexOfCurrentRowSelected].highlight = true;
 
-          this.openModal(template);
+          // this.openModal(template);
+          this.openModal(this.sessionDetailTemplate);
 
         });
     }
 
 
-
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { class: 'modal-xlg' });
+    this.modalRef = this.modalService.show(template, {class: 'modal-xlg'});
   }
 
   loadSessionTableDataForGivenPage(pageNumber) {
@@ -144,39 +145,65 @@ export class BotSessionsComponent implements OnInit {
     let headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-    this.serverService.makeGetReq<ISessions>({ url: this.url, headerData })
+    this.serverService.makeGetReq<ISessions>({url: this.url, headerData})
       .subscribe((value) => {
         this.totalSessionRecords = value.meta.total_count;
         this.selectedRow_Session = value.objects[this.selectedRow_number || 0];
         this.sessions = value.objects;
-        if (this.indexOfCurrentRowSelected !== undefined)
-          this.sessions[this.indexOfCurrentRowSelected].highlight = true;
+
+        // if (this.indexOfCurrentRowSelected !== undefined && this.sessions[this.indexOfCurrentRowSelected].isEncrypted === false) {
+        //   this.sessions[this.indexOfCurrentRowSelected].highlight = true;
+        // } else {
+        //   try {
+        //     this.modalRef.hide();
+        //   } catch (e) {
+        //     console.error(e);
+        //   }
+        //   // this.sessionTableRowClicked({data: this.sessions[this.indexOfCurrentRowSelected]});
+        // }
       });
   }
 
+  @ViewChild('reasonForDecryptionTemplate') reasonForDecryptionTemplate: TemplateRef<any>;
+  @ViewChild('sessionDetailTemplate') sessionDetailTemplate: TemplateRef<any>;
+
   selectNextRow() {
     // this.selectedRow_Session
+    let newSelectedRow_Session: ISessionItem;// = {...this.selectedRow_Session};
 
-
-    if (this.indexOfCurrentRowSelected !== undefined)
+    if (this.indexOfCurrentRowSelected !== undefined)/*removing the highlighted color from the old selected table row*/
       this.sessions[this.indexOfCurrentRowSelected].highlight = false;
 
-    let currentIndex = this.sessions.findIndex((session) => {
+    let currentIndex = this.sessions.findIndex((session) => {/*old selected row index*/
+      // return this.selectedRow_Session.id === session.id;
       return this.selectedRow_Session.id === session.id;
     });
     if (currentIndex <= this.sessions.length - 2) {
-      this.selectedRow_Session = this.sessions[++currentIndex];
+      newSelectedRow_Session = this.sessions[++currentIndex];
       this.indexOfCurrentRowSelected = currentIndex;
-
+      this.sessions[this.indexOfCurrentRowSelected].highlight = true;
+      if (newSelectedRow_Session.data_encrypted) {
+        // this.customActionEventsTriggeredInSessionsTable({data:selectedRow_SessionClone,action:'decrypt',source:null});
+        this.preOpenDecryptionModal();
+      }else {
+        this.selectedRow_Session=  newSelectedRow_Session;
+      }
     }
-    else {
+    else {/*new page is needed to be loaded*/
       this.smartTableComponent.goToNextPage();
       this.selectedRow_number = 0;
       this.indexOfCurrentRowSelected = 0;
     }
 
-    if (this.indexOfCurrentRowSelected !== undefined)
-      this.sessions[this.indexOfCurrentRowSelected].highlight = true;
+    // if (this.indexOfCurrentRowSelected !== undefined)
+    //   this.sessions[this.indexOfCurrentRowSelected].highlight = true;
+  }
+
+  preOpenDecryptionModal(){
+    this.modalRef.hide();
+    let sessionToBeDecrypted = this.sessions[this.indexOfCurrentRowSelected];
+    this.openSessionRowDecryptModal(this.reasonForDecryptionTemplate, sessionToBeDecrypted);
+    return;
   }
 
   selectPrevRow() {
@@ -187,10 +214,18 @@ export class BotSessionsComponent implements OnInit {
     });
 
     this.indexOfCurrentRowSelected = currentIndex;
+    let newSelectedRow_Session:ISessionItem;
 
     if (currentIndex >= 1) {
-      this.selectedRow_Session = this.sessions[--currentIndex];
+      newSelectedRow_Session = this.sessions[--currentIndex];
       this.indexOfCurrentRowSelected = currentIndex;
+      this.sessions[this.indexOfCurrentRowSelected].highlight = true;
+      if (newSelectedRow_Session.data_encrypted) {
+        // this.customActionEventsTriggeredInSessionsTable({data:selectedRow_SessionClone,action:'decrypt',source:null});
+        this.preOpenDecryptionModal();
+      }else {
+        this.selectedRow_Session=  newSelectedRow_Session;
+      }
     }
     else {
       this.smartTableComponent.goToPrevPage();
@@ -202,7 +237,7 @@ export class BotSessionsComponent implements OnInit {
 
   }
 
-  customActionEventsTriggeredInSessionsTable(data: { action: string, data: ISessionItem, source: any }, Primarytemplat) {
+  customActionEventsTriggeredInSessionsTable(data: { action: string, data: ISessionItem, source: any }, Primarytemplate) {
 
     if (data.action === 'download') {
       /*download the conversation for the record*/
@@ -210,8 +245,8 @@ export class BotSessionsComponent implements OnInit {
         .subscribe((value: any) => {
           let dataToDownload = value.objects;
           if (dataToDownload.length === 0) {
-            dataToDownload = [{ name: 'No Data' }];
-            this.utilityService.downloadArrayAsCSV(dataToDownload, { name: 'No Data' });
+            dataToDownload = [{name: 'No Data'}];
+            this.utilityService.downloadArrayAsCSV(dataToDownload, {name: 'No Data'});
           } else {
             this.utilityService.downloadArrayAsCSV(dataToDownload);
           }
@@ -220,42 +255,43 @@ export class BotSessionsComponent implements OnInit {
     if (data.action === 'decrypt') {
       /*use dcrypt api*/
 
-      this.sessionItemToBeDecrypted = data.data;
-      this.openCreateBotModal(Primarytemplat);
+      let sessionItemToBeDecrypted = data.data;
+      this.openSessionRowDecryptModal(Primarytemplate, sessionItemToBeDecrypted);
 
     }
   }
 
-  decryptSubmit() {
+  decryptSubmit(sessionTobeDecryptedId: number) {
     let headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-    let body = { 'room_id': this.sessionItemToBeDecrypted.id, 'decrypt_audit_type': 'room', 'message': this.decryptReason };
+    let body = {'room_id': sessionTobeDecryptedId, 'decrypt_audit_type': 'room', 'message': this.decryptReason};
     let url = this.constantsService.getDecryptUrl();
-    this.serverService.makePostReq({ headerData, body, url })
+    this.serverService.makePostReq({headerData, body, url})
       .subscribe(() => {
         this.decryptReason = null;
-        let surl = this.constantsService.getSessionsByIdUrl(this.sessionItemToBeDecrypted.id);
-        this.serverService.makeGetReq({ url: surl, headerData })
+        let surl = this.constantsService.getSessionsByIdUrl(sessionTobeDecryptedId);
+        this.serverService.makeGetReq({url: surl, headerData})
           .subscribe((newSession: ISessionItem) => {
 
-            let del = this.sessions.findIndex((session) => session.id === this.sessionItemToBeDecrypted.id);
-            this.sessions[del] = { ...newSession};
-            this.sessions = [...this.sessions]
+            let del = this.sessions.findIndex((session) => session.id === sessionTobeDecryptedId);
+            this.sessions[del] = {...newSession};
+            this.sessions = [...this.sessions];
           });
       });
 
   }
 
-  openCreateBotModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+  openSessionRowDecryptModal(template: TemplateRef<any>, sessionToBeDecrypted: ISessionItem) {
+    this.sessionItemToBeDecrypted = sessionToBeDecrypted;
+    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
   }
 
   loadSessionMessagesById(id) {
     this.url = this.constantsService.getSessionsMessageUrl(id);
     return this.serverService.makeGetReq<ISessionItem>({
       url: this.url,
-      headerData: { 'bot-access-token': this.bot.bot_access_token }
+      headerData: {'bot-access-token': this.bot.bot_access_token}
     });
   }
 
@@ -264,7 +300,7 @@ export class BotSessionsComponent implements OnInit {
     this.url = this.constantsService.getSessionsByIdUrl(id);
     return this.serverService.makeGetReq<ISessionItem>({
       url: this.url,
-      headerData: { 'bot-access-token': this.bot.bot_access_token }
+      headerData: {'bot-access-token': this.bot.bot_access_token}
     });
   }
 

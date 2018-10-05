@@ -40,6 +40,9 @@ import {CardCarouselComponent} from './chat/carousel/card-carousel/card-carousel
 import {ClickOutsideModule} from 'ng2-click-outside';
 import {BotThinkingBubbleComponent} from './chat/carousel/bot-thinking-bubble/bot-thinking-bubble.component';
 import {RichMediaModule} from './rich-media.module';
+import {FilterArrayPipe} from './filter-array.pipe';
+import {MsToHhMmPipe} from './ms-to-hh-mm.pipe';
+import {BackendDevComponent} from './backend-dev/backend-dev.component';
 // import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 
 const routes: Route[] = [
@@ -57,15 +60,18 @@ const routes: Route[] = [
     AppComponent,
     NotFoundComponent,
     NotAuthorisedComponent,
-    // ChatWrapperComponent
+    // ChatWrapperComponent,
+    MsToHhMmPipe,
     ChatWrapperComponent,
     ChatWindowComponent,
     ChatMessageComponent,
     ChatListComponent,
     ChatItemComponent,
     ChatroomComponent,
+    FilterArrayPipe,
     BotThinkingBubbleComponent,
     BotWelcomeComponent,
+    BackendDevComponent,
     // CardCarouselComponent,
     // QuickReplyComponent,
     // CodeEditorComponent

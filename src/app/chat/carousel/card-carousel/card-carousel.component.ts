@@ -13,6 +13,8 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() isFullScreenPreview = false;
   _messageData: IMessageData;
+  @Input() isParentSessionsModal = false;
+  itemCountIsNotCausingOverflow = false;
   @Input() set messageData(messageDataValue: IMessageData){
 
     this._messageData = messageDataValue;

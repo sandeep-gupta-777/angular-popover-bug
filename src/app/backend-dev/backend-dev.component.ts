@@ -7,7 +7,7 @@ import {Observable} from 'rxjs';
 import {IAuthState} from '../auth/ngxs/auth.state';
 import {IAppState} from '../ngxs/app.state';
 import {UtilityService} from '../utility.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouteConfigLoadEnd, RouteConfigLoadStart, Router, RoutesRecognized} from '@angular/router';
 
 @Component({
   selector: 'app-backend-dev',
@@ -17,21 +17,27 @@ import {ActivatedRoute} from '@angular/router';
 export class BackendDevComponent implements OnInit {
 
   constructor(
-    private modalService: BsModalService,
+    // private modalService: BsModalService,
     private utilityService: UtilityService,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private store: Store,
   ) { }
-  modalRef: BsModalRef;
+  // modalRef: BsModalRef;
   backend_root_url:string;
   showBackendRootUrlButton:boolean = false;
 
   @Select() app$:Observable<IAppState>;
   ngOnInit() {
-    let showBackendRootUrlButton = !!this.activatedRoute.snapshot.queryParamMap.get('burl');
-    if(showBackendRootUrlButton){
-      this.store.dispatch([new SetShowBackendURlRoot({showBackendURlRoot:true})])
-    }
+    this.router.events.subscribe((data) => {
+      if (data instanceof RoutesRecognized) {
+
+        this.showBackendRootUrlButton= !!data.state.root.firstChild.queryParamMap.get('burl');
+        this.store.dispatch([
+          new SetShowBackendURlRoot({showBackendURlRoot:this.showBackendRootUrlButton})
+        ])
+      }
+    });
     this.app$.subscribe((value)=>{
       this.showBackendRootUrlButton = value.showBackendUrlRootButton;
       this.backend_root_url = value.backendUrlRoot;
@@ -39,7 +45,7 @@ export class BackendDevComponent implements OnInit {
   }
 
   openChangePasswordModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
   }
 
   changeUrl(){
@@ -48,7 +54,7 @@ export class BackendDevComponent implements OnInit {
     ])
       .subscribe((value)=>{
         this.utilityService.showSuccessToaster("Backend root url changed");
-        this.modalRef.hide();
+        // this.modalRef.hide();
       });
   }
 

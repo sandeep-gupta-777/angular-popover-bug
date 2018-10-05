@@ -82,9 +82,10 @@
 <!--corner chat box ends-->
 
 <!--tool tip starts-->
-<div class="d-flex justify-content-end cursor-pointer" (click)="toggleChatWindow()"
+<div class="d-flex justify-content-end cursor-pointer float-on-hover-animation" (click)="toggleChatWindow()"
+     style="height: 45px; width: 60px"
      *ngIf="!windowOpen && currentBot">
-  <div class="speech-bubble float-on-hover-animation">
+  <div class="speech-bubble">
     <div class="stick-wrapper">
       <div class="stick"></div>
       <div class="stick"></div>
@@ -152,11 +153,12 @@
     </div>
     <!---->
     <!--<div class="room-details ml-auto">-->
-    <div *ngIf="currentRoom" [style.visibility]="currentRoom.id?'visible':'hidden'"
-         class="d-flex flex-column align-items-end ml-auto mr-4 text-white">
-      <div>Room ID:</div>
-      <div class="font-11">{{currentRoom.id}}</div>
-    </div>
+    <!--<div *ngIf="currentRoom" [style.visibility]="currentRoom.id?'visible':'hidden'"-->
+         <!--class="d-flex flex-column align-items-end ml-auto mr-4 text-white">-->
+      <!--<div>Room ID:</div>-->
+      <!--<div class="font-11">{{currentRoom.id}}</div>-->
+    <!--</div>-->
+    <div class="ml-auto"></div>
     <div *ngIf="currentRoom && currentRoom.lastTemplateKey" class="d-flex mr-3 flex-column align-items-end text-white">
       <div>Last template triggered:</div>
       <div class="font-11">{{currentRoom.lastTemplateKey}}</div>

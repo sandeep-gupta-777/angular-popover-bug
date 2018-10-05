@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-
+    this.flashErrorMessage("Reaching out to the server", 100000);
     let headerData: IHeaderData ={
       "auth-token":null,
       'user-access-token':null
@@ -86,16 +86,16 @@ export class LoginComponent implements OnInit {
         this.store.dispatch([
             new SetUserAction({user}),
           ]).subscribe(()=>{
-          this.serverService.getNSetIntegrationList();
           this.serverService.getNSetBotList()
             .subscribe(()=>{"bot list fetched from login page"});
-            if(user.role.name===ERoleName.Analyst){
+          this.serverService.getNSetIntegrationList();
+          if(user.role.name===ERoleName.Analyst){
               this.router.navigate(['/core/analytics2/users']);
             }else {
               this.router.navigate(['.']);
             }
-
           });
+
           let enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(user.enterprise_id);
           this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
           .subscribe((value: IEnterpriseProfileInfo) => {
@@ -104,6 +104,9 @@ export class LoginComponent implements OnInit {
               new SetEnterpriseInfoAction({enterpriseInfo: value})
             ]);
           });
+        },
+        ()=>{
+          this.flashErrorMessage("Login failed. Please try again", 100000);
         }
       );
   }

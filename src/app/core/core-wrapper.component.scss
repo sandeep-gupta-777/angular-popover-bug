@@ -1,6 +1,6 @@
 .grid-container{
   display: grid;
-  grid-template-columns: 3% repeat(12, 1fr) 3%;
+  grid-template-columns: 1% repeat(12, 1fr) 1%;
   grid-template-rows: 56px minmax(80vh, 1fr);//1fr
   //grid-template-rows: 56px 90vh;
 }

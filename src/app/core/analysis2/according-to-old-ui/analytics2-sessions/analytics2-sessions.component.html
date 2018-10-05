@@ -4,9 +4,9 @@
     <a class="nav-link" [routerLink]="['.']"
        queryParamsHandling="merge"
        replaceUrl="true"
-         [queryParams]="{activeTab:myEAnalysis2TypesEnum.totalRooms}"
-       (click)="tabClicked(myEAnalysis2TypesEnum.totalRooms)"
-       [ngClass]="{'tab-active':activeTab===myEAnalysis2TypesEnum.totalRooms}"><strong>SESSION ANALYSIS
+         [queryParams]="{activeTab:myEAnalysis2TypesEnum.totalSessions}"
+       (click)="tabClicked(myEAnalysis2TypesEnum.totalSessions)"
+       [ngClass]="{'tab-active':activeTab===myEAnalysis2TypesEnum.totalSessions}"><strong>SESSION ANALYSIS
     </strong></a>
   </li>
   <li class="nav-item ml-3">
@@ -29,7 +29,7 @@
 <!--Tabbing ends-->
 
 
-<!--<app-chart *ngIf="activeTab===myEAnalysis2TypesEnumAnalysis2TypesEnum.totalRooms"-->
+<!--<app-chart *ngIf="activeTab===myEAnalysis2TypesEnumAnalysis2TypesEnum.totalSessions"-->
            <!--[data]="highchartData"-->
            <!--[chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"-->
            <!--[highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">-->
@@ -45,7 +45,7 @@
            <!--[highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">-->
 <!--</app-chart>-->
 
-<app-chart *ngIf="activeTab===myEAnalysis2TypesEnum.totalRooms"
+<app-chart *ngIf="activeTab===myEAnalysis2TypesEnum.totalSessions"
            [chartValue]="chartValue"
            [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
 </app-chart>

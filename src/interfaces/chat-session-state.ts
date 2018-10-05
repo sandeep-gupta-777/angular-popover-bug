@@ -19,7 +19,7 @@ export enum EBotMessageMediaType{
 export interface IMessageData extends IGeneratedMessageItem{
   /*custom fields*/
   sourceType: string,//TODO: "timePeriod" ||"human", gives error, see why
-  time: string,
+  time: number,
   messageMediatype:EBotMessageMediaType
 }
 
@@ -60,7 +60,11 @@ export interface IRoomData {
       'imageUrl': 'https?://www.gstatic.com/webp/gallery3/2_webp_a.png',
       'name': 'StarBot'
     },
-    'updated_at'?: number
+    'updated_at'?: number,
+
+  /*custom fields*/
+  showBotIsThinking?:boolean,
+  isCustomRoom?:boolean
 }
 
 export interface IChatSessionState {

@@ -18,7 +18,7 @@ export class Analysis2MessagesComponent implements OnInit {
   // @Select() analysisstate2$: Observable<IAnalysis2State>;
   @Select(AnalysisStateReducer2.getAnalytics2GraphData) analytics2GraphData$: Observable<IAnalysis2State>;
   myEAnalysis2TypesEnum = EAnalysis2TypesEnum;
-  activeTab: string = EAnalysis2TypesEnum.totalRooms;
+  activeTab: string = EAnalysis2TypesEnum.totalMessages;
   chartValue;
   highchartData: any[] = [{
     name: 'Maximum',

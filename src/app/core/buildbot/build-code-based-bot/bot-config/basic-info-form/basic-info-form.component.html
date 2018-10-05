@@ -21,7 +21,6 @@
           ngModel
           name="description"
           required
-          maxlength="80"
           #description="ngModel"
           type="text" class="form-control"
                placeholder="A description for the Bot" id="alterEgo">
@@ -79,7 +78,7 @@
               Bot List<span class="caret"></span>
             </button>
             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic" style="max-height: 200px; overflow-y: scroll">
-              <li role="menuitem" *ngFor="let bot of allbotList; let i = index;">
+              <li role="menuitem" *ngFor="let bot of codebasedBotList; let i = index;">
                 <a class="dropdown-item" (click)="addChildBot(bot)" *ngIf="!wannaDisable(bot.id)">{{bot.name}}</a>
               </li>
             </ul>

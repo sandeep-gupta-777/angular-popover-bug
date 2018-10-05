@@ -21,7 +21,7 @@ import {
   SetRoomDuration,
   SetChannelWiseSessions,
   SetChannelWiseUsers,
-  ResetAnalytics2GraphData, SetUsagetrackingInfo, Topgenerationtemplates
+  ResetAnalytics2GraphData, SetUsagetrackingInfo, Topgenerationtemplates, ResetAnalytics2HeaderData, TotalSessions
 } from '../ngxs/analysis.action';
 import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
@@ -45,6 +45,7 @@ import {IChannelWiseSessionsResponseBody} from '../../../../interfaces/Analytics
 import {IChannelWiseUsersResponseBody} from '../../../../interfaces/Analytics2/engagement-channelWiseUsers';
 import {ActivatedRoute, Router} from '@angular/router';
 import {query} from '@angular/animations';
+import {EBotType} from '../../view-bots/view-bots.component';
 
 @Component({
   selector: 'app-analysis2-header',
@@ -54,18 +55,21 @@ import {query} from '@angular/animations';
 export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   _allbotList: IBot[];
+  codebasedBotList: IBot[] = [];
   // selectedBot: IBot;
-  formChangesSub:Subscription;
-  storeSub:Subscription;
-  loggeduserSub:Subscription;
-  analytics2HeaderDataSub:Subscription;
-  makeGetReqSub:Subscription;
+  formChangesSub: Subscription;
+  storeSub: Subscription;
+  loggeduserSub: Subscription;
+  analytics2HeaderDataSub: Subscription;
+  makeGetReqSub: Subscription;
   maxDate = new Date();
 
   @Input() set allbotList(_allbotList: IBot[]) {
-    this._allbotList =_allbotList;
-    if(this.f && _allbotList)
-    this.f.form.patchValue({botId: this._allbotList[0].id, platform: this.channelList[0].name});
+    if (!_allbotList) return;
+    this._allbotList = _allbotList;
+    this.codebasedBotList = this._allbotList.filter((bot) => bot.bot_type === EBotType.chatbot);
+    if (this.f && _allbotList && _allbotList.length>0)
+      this.f.form.patchValue({botId: this._allbotList[0].id, platform: this.channelList[0].name});
   }
 
   granularityList = [
@@ -80,6 +84,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   datePickerConfig: Partial<BsDatepickerConfig> = this.constantsService.DATE_PICKER_CONFIG;
   channelList = this.constantsService.CHANNEL_LIST;
   loggeduser: IAuthState;
+  analytics2HeaderData;
   errorMessage: string = null;
 
   constructor(
@@ -91,9 +96,10 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     private utilityService: UtilityService
   ) {
   }
-  formData;
-  ngOnInit() {
 
+  formData;
+
+  ngOnInit() {
     /*
     * form contains the header data, Whenever form changes,
     * update the header data in store
@@ -102,7 +108,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
       .debounceTime(1000)
       .subscribe((formData) => {
         console.log(this.f);
-        if(this.utilityService.areTwoJSObjectSame(this.formData, formData)) return;
+        if (this.utilityService.areTwoJSObjectSame(this.formData, formData)) return;
         this.formData = formData;
         if (!this.f.valid) return;
         let selectedBot: IBot = this._allbotList.find((bot) => bot.id === Number(this.f.value.botId));
@@ -119,7 +125,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
             ]);
           });
       });
-
+    //
     /*
     *Whenever the header data changes, make get request for analytics data
     * and when analytics data arrives, save in store again its "type"
@@ -140,12 +146,16 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
           startdate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.startdate),
           enddate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.enddate),
         };
-
+        //asdas
         if (!this.utilityService.areAllValesDefined(headerData)) return;
+        if (this.utilityService.areTwoJSObjectSame(this.analytics2HeaderData, analytics2HeaderData)) return;
         this.store.dispatch([new ResetAnalytics2GraphData()])
+          .debounceTime(1000)
           .subscribe(() => {
             let isHeaderValid = this.isHeaderValid(analytics2HeaderData.startdate, analytics2HeaderData.enddate, analytics2HeaderData.granularity);
             if (!isHeaderValid) return;
+            this.analytics2HeaderData = analytics2HeaderData;
+
             this.store.dispatch([new ResetAnalytics2GraphData()]);
             // this.makeGetReqSub && this.makeGetReqSub.unsubscribe();//todo: better use .
             this.makeGetReqSub = this.serverService.makeGetReq({url, headerData})
@@ -222,6 +232,10 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
                   let responseCopy: IChannelWiseUsersResponseBody = response;
                   this.store.dispatch(new Topgenerationtemplates({data: responseCopy.objects[0].output[EAnalysis2TypesEnum.topgenerationtemplates]}));
                 }
+                if (headerData.type === EAnalysis2TypesEnum.totalSessions) {
+                  let responseCopy: IChannelWiseUsersResponseBody = response;;
+                  this.store.dispatch(new TotalSessions({data: responseCopy.objects[0].output['messagesinfo']}));
+                }
               });
           });
 
@@ -253,30 +267,30 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   ngAfterViewInit() {
 
     setTimeout(() => {
-      this.f.controls.botId.valueChanges.subscribe((data)=>{
-        if(!this.f.value.botId)return;
+      this.f.controls.botId.valueChanges.subscribe((data) => {
+        if (!this.f.value.botId) return;
         let selectedBot: IBot = this._allbotList.find((bot) => bot.id === Number(this.f.value.botId));
-        if(selectedBot){
+        if (selectedBot) {
           this.channelList =
-            Object.keys(selectedBot.integrations.channels).filter((integrationKey:any)=>{
-              return selectedBot.integrations.channels[integrationKey].enabled
-            }).map((integrationKey)=>{
+            Object.keys(selectedBot.integrations.channels).filter((integrationKey: any) => {
+              return selectedBot.integrations.channels[integrationKey].enabled;
+            }).map((integrationKey) => {
               return {
                 name: integrationKey,
                 displayName: integrationKey
-              }
+              };
             });
           this.channelList.push({
             name: 'web',
             displayName: 'web'
-          })
-          this.channelList.unshift({name: 'all', displayName: 'All Channels'})
+          });
+          this.channelList.unshift({name: 'all', displayName: 'All Channels'});
 
         }
       });
 
-      if(this._allbotList)
-      this.f.form.patchValue({botId: this._allbotList[0].id, platform: this.channelList[0].name});
+      if (this._allbotList)
+        this.f.form.patchValue({botId: this._allbotList[0].id, platform: this.channelList[0].name});
     }, 0);
   }
 
@@ -289,5 +303,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     this.loggeduser && this.loggeduserSub.unsubscribe();
     this.formChangesSub && this.formChangesSub.unsubscribe();
     this.makeGetReqSub && this.makeGetReqSub.unsubscribe();
+    this.store.dispatch([new ResetAnalytics2HeaderData(), new ResetAnalytics2GraphData()]);
+    // this.store.dispatch([]);
   }
 }

@@ -101,7 +101,7 @@ export class ConsumersComponent implements OnInit {
     let url = this.constantsService.getDecryptUrl();
     this.serverService.makePostReq({ headerData, body, url })
       .subscribe(() => {
-
+        this.decryptReason = "";
         let url = this.constantsService.getBotConsumerByIdUrl(this.consumerItemToBeDecrypted.id);
           this.serverService
             .makeGetReq<IConsumerResults>({ url, headerData: { 'bot-access-token': this.bot.bot_access_token } })

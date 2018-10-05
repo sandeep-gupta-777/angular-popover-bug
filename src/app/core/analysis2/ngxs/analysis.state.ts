@@ -14,7 +14,7 @@ import {
   SetRoomDuration,
   SetChannelWiseSessions,
   SetChannelWiseUsers,
-  ResetAnalytics2GraphData, SetUsagetrackingInfo, Topgenerationtemplates, ResetAnalytics2HeaderData
+  ResetAnalytics2GraphData, SetUsagetrackingInfo, Topgenerationtemplates, ResetAnalytics2HeaderData, TotalSessions
 } from './analysis.action';
 import {IOverviewInfo, IOverviewInfoPostBody} from '../../../../interfaces/Analytics2/overview-info';
 import {IAnalysis2HeaderData} from '../../../../interfaces/Analytics2/analytics2-header';
@@ -44,6 +44,7 @@ export interface IAnalysis2State {
   userLoyalty : IUserLoyaltyItem[],
   channelWiseAverageSessionTime : IChannelWiseAverageSessionTimeItem[],
   topgenerationtemplates : ITopgenerationtemplatesItem[],
+  totalSessions : any[],
   flowsPerRoom : IFlowsPerRoomItem[],
   totalRooms : ITotalRoomsItem[],
   roomDuration : IRoomDurationItem[],
@@ -62,6 +63,7 @@ const defaultAnalytics2 = {
   userLoyalty : null,
   channelWiseAverageSessionTime : null,
   topgenerationtemplates :null,
+  totalSessions :null,
   flowsPerRoom : null,
   totalRooms : null,
   roomDuration : null,
@@ -169,6 +171,13 @@ export class AnalysisStateReducer2 {
   topgenerationtemplates({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: Topgenerationtemplates) {
     let state:IAnalysis2State = getState();
     patchState({topgenerationtemplates:payload.data});
+  }
+
+  @Action(TotalSessions)
+  TotalSessions({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: TotalSessions) {
+    let state:IAnalysis2State = getState();
+
+    patchState({totalSessions:payload.data});
   }
 
   @Action(ResetAnalytics2GraphData)

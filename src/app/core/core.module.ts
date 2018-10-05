@@ -31,7 +31,6 @@ import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {AimService} from '../aim.service';
 import {HeaderComponent} from './header/header.component';
-import {BackendDevComponent} from '../backend-dev/backend-dev.component';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from '../shared.module';
 import {ViewCustomnerComponent} from './customner/view-customner/view-customner.component';
@@ -108,7 +107,6 @@ const routes: Route[] = [
     TestComponent,
     ChatPreviewNewPageComponent,
     FooterComponent,
-    BackendDevComponent,
     // DisplayNameForKeyIntegrationPipe,
 
     /*added after lazy loading*/

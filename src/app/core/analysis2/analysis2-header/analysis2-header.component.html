@@ -1,5 +1,7 @@
 <!--<button (click)="click1()">click</button>-->
-<form ngNativeValidate [ngClass]="{'border1':errorMessage}"  class=" d-flex align-items-center analysis2-header-row position-relative" #form="ngForm">
+<form ngNativeValidate
+      [ngClass]="{'':errorMessage}"
+      class=" d-flex align-items-center analysis2-header-row position-relative" #form="ngForm">
 
 
   <div class="heading ml-4">Filter Data</div>
@@ -7,7 +9,7 @@
   <div class="form-group m-0 mr-4 ml-auto">
     <label for="">Bot</label>
     <select class="concept1" [ngModel] required name="botId">
-      <option *ngFor="let bot of _allbotList; let i = index;" [selected]="i===0" type="button" [value]="bot.id">{{bot.name}}</option>
+      <option *ngFor="let bot of codebasedBotList; let i = index;" [selected]="i===0" type="button" [value]="bot.id">{{bot.name}}</option>
     </select>
   </div>
 

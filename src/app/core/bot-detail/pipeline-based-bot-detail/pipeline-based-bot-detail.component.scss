@@ -106,3 +106,16 @@ app-integration-option-list{
   //overflow-y: scroll;
   display: flex;
 }
+
+.bot-detail-grid-architecture-full-screen {
+  display: grid;
+  height: calc(100vh - 76px);
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(60vh, 1fr);
+  grid-gap: 8px;
+  margin-top: 10px;
+  grid-template-areas: 'architecture';
+  .architecture {
+    grid-area: architecture;
+  }
+}

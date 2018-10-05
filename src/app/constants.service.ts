@@ -238,7 +238,8 @@ export class ConstantsService {
         ETabNames.pipeline,
         ETabNames.knowledgebase,
         ETabNames.botversion,
-        ETabNames.update_profile,
+        // ETabNames.update_profile,
+        ETabNames.create_bot,
         // ETabNames.architecture_items,
 
       ],
@@ -254,7 +255,7 @@ export class ConstantsService {
       module: [],
       tab: [
         ETabNames.enterprise_profile,
-        ETabNames.update_profile,
+        // ETabNames.update_profile,
 
       ],//tab, hyperlink, button
       api: [EAPINames.enterprise]
@@ -288,7 +289,7 @@ export class ConstantsService {
         ETabNames.UI_SWITCH,
         ETabNames.report,
         ETabNames.analytics2,
-        ETabNames.update_profile
+        // ETabNames.update_profile
 
       ],
       api: [

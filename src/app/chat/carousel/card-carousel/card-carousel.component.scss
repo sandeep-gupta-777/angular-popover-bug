@@ -22,3 +22,13 @@
   background-position:center center;
   background-repeat:no-repeat;
 }
+.limit-three-lines{
+  //border:1px solid red;
+  box-sizing:content-box;
+  overflow: hidden;
+  height: 60px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

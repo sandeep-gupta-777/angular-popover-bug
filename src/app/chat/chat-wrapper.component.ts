@@ -8,7 +8,12 @@ import {
   // SetCurrentUId,
   SetCurrentRoomID,
   ToggleChatWindow,
-  AddNewRoom, AddMessagesToRoomByRoomId, SetConsumerDetail, SetCurrentBotDetailsAndResetChatStateIfBotMismatch, ResetChatState
+  AddNewRoom,
+  AddMessagesToRoomByRoomId,
+  SetConsumerDetail,
+  SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
+  ResetChatState,
+  ChangeBotIsThinkingDisplayByRoomId
 } from './ngxs/chat.action';
 import {ServerService} from '../server.service';
 import {ConstantsService} from '../constants.service';
@@ -129,6 +134,8 @@ export class ChatWrapperComponent implements OnInit {
         let hasPreviewRoomChanged = chatSessionState.currentRoomId &&
           (!this.currentRoom || (this.currentRoom.id!==chatSessionState.currentRoomId));
 
+        this.showBotIsThinking = this.currentRoom && this.currentRoom.showBotIsThinking;
+
         if(hasPreviewRoomChanged || hasPreviewBotChanged){
           this.serverService.initializeIMIConnect(chatSessionState.currentBotDetails, chatSessionState.currentRoomId);
         }
@@ -175,14 +182,18 @@ export class ChatWrapperComponent implements OnInit {
     if (!doesAtleastOneConsumerKeyHasValue) {
       this.utilityService.showErrorToaster('Please set custom Consumer details');
     } else {
-      this.startNewChat({consumerDetails: this.customConsumerDetails, bot: this.currentBot});
+      this.startNewChat({
+        consumerDetails: this.customConsumerDetails,
+        bot: this.currentBot,
+        isCustomRoom:true
+      });
     }
 
   }
 
 
   /*this is called when bot preview button or create a custom room button is clicked*/
-  startNewChat(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot }) {
+  startNewChat(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot,isCustomRoom?:boolean }) {
 
     startNewChatData.bot = startNewChatData.bot ? startNewChatData.bot : this.currentBot;//todo: is it really required?
 
@@ -213,10 +224,13 @@ export class ChatWrapperComponent implements OnInit {
             bot_access_token: this.currentBot.bot_access_token,
             uid: startNewChatData.consumerDetails.uid,//this.current_uid,
             selectedAvatar: value.room.selected_avatar,
-            bot_id: this.currentBot.id
+            bot_id: this.currentBot.id,
+            created_at:value.room.created_at,
+            isCustomRoom: startNewChatData.isCustomRoom
           }),
           new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX}),
-          new SetCurrentRoomID({id: value.room.id})
+          new SetCurrentRoomID({id: value.room.id}),
+          new ChangeBotIsThinkingDisplayByRoomId({roomId: value.room.id,shouldShowBotIsThinking:false}),
         ]);
       });
   }
@@ -239,19 +253,22 @@ export class ChatWrapperComponent implements OnInit {
   // sendMessageByHuman(messageByHuman: string) {
   sendMessageByHuman(messageData: { messageByHuman: string, room: IRoomData }) {
     console.log('sending message by human');
-    this.showBotIsThinking = true;
+    // this.showBotIsThinking = true;
     let messageByHuman = messageData.messageByHuman;
     let room: IRoomData = messageData.room;
     if (messageByHuman.trim() === '') return;
-    this.store.dispatch(new AddMessagesToRoomByRoomId({
+    this.store.dispatch([new AddMessagesToRoomByRoomId({
       id: room.id,
       messageList: [{
         text: messageByHuman,
         sourceType: 'human',
         messageMediatype: EBotMessageMediaType.text,
-        time: this.utilityService.getCurrentTimeInHHMM()
+        time: Date.now()//this.utilityService.getCurrentTimeInHHMM()
       }],
-    }))
+    }),
+      new ChangeBotIsThinkingDisplayByRoomId({shouldShowBotIsThinking:true, roomId:messageData.room.id})
+      ]
+    )
       .subscribe(() => {
         /*
  * Before starting a new chat, we need to check if the currentBot has imiconnect

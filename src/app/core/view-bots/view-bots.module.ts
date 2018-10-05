@@ -21,6 +21,7 @@ import {SortObjectArrayPipe} from '../../sort-object-array.pipe';
 import {BotPreviewCardComponent} from './bot-preview-card/bot-preview-card.component';
 import {SharedModule} from '../../shared.module';
 import {AuthGaurdService} from '../../auth-gaurd.service';
+import {RichMediaModule} from '../../rich-media.module';
 
 const routes: Route[] = [
   {
@@ -43,6 +44,7 @@ const routes: Route[] = [
 
   ],
   imports: [
+
     CommonModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     BsDropdownModule.forRoot(),
@@ -56,6 +58,7 @@ const routes: Route[] = [
     // NgxsReduxDevtoolsPluginModule.forRoot(),
     // NgxsLoggerPluginModule.forRoot(),
     SharedModule,
+    RichMediaModule,
     HttpClientModule,
     Ng2CompleterModule,
     Ng2SmartTableModule,

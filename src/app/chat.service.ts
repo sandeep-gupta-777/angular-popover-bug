@@ -8,7 +8,7 @@ import {
   // AddMessagesToRoomByUId,
   ChangeFrameAction,
   SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
-  SetCurrentRoomID, SetLastTemplateKeyToRoomByRoomId,
+  SetCurrentRoomID, SetLastTemplateKeyToRoomByRoomId, ChangeBotIsThinkingDisplayByRoomId,
   ToggleChatWindow
 } from './chat/ngxs/chat.action';
 import {IGeneratedMessageItem, ISendApiRequestPayload, ISendApiResponsePayload} from '../interfaces/send-api-request-payload';
@@ -49,6 +49,7 @@ export class ChatService {
       this.navigate(frameEnabled);
     return this.serverService.makePostReq({url, body, headerData, dontShowProgressBar:true})
       .do((response: ISendApiResponsePayload) => {
+        /*recieved chat reply from bot*/
         let generatedMessages = response.generated_msg;
         let serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages);
         // let serializedMessages: IMessageData[] = generatedMessages.map((message: IGeneratedMessageItem) => {
@@ -83,7 +84,7 @@ export class ChatService {
         //   return {
         //     text: message.text,
         //     time: this.utilityService.getCurrentTimeInHHMM(),
-        //     sourceType: 'bot',
+        //     sourceType: 'bot',,
         //     messageMediatype:EBotMessageMediaType.text
         //   };
         // });
@@ -99,6 +100,7 @@ export class ChatService {
             // bot_access_token: botDetails.bot_access_token,
             // lastTemplateKey: response.templateKey/*TODO: NOT NEEDED*/
           }),
+          new ChangeBotIsThinkingDisplayByRoomId({roomId:response.room.id, shouldShowBotIsThinking:false})
           // new AttachRoomIdToRoomByUId({room_id: response.room.id, uid})
         ]);
         this.store.dispatch(new SetLastTemplateKeyToRoomByRoomId({lastTemplateKey:response.templateKey ,room_id:response.room.id}));

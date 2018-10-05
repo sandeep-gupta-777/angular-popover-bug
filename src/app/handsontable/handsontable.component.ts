@@ -7,7 +7,11 @@ declare var Handsontable: any;
 @Component({
   selector: 'app-handsontable',
   templateUrl: './handsontable.component.html',
-  styleUrls: ['./handsontable.component.scss']
+  styleUrls: ['./handsontable.component.scss'],
+  host: {
+    //https://stackoverflow.com/questions/34636661/how-do-i-change-the-body-class-via-a-typescript-class-angular2
+    '[class.d-flex-column-last-child-flex-grow-1]': 'true'
+  }
 })
 export class HandsontableComponent implements OnInit, AfterViewInit {
 

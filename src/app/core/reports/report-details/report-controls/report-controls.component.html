@@ -4,7 +4,7 @@
     <div class="select-theme-primary">
       <label for="" class="Bot required">Bot</label>
       <select class="concept1" type="number" [ngModel] required name="bot_id" #select>
-        <option *ngFor="let bot of botlist let i = index;" [selected]="i===0" [value]="bot.id">
+        <option *ngFor="let bot of codebasedBotList let i = index;" [selected]="i===0" [value]="bot.id">
           {{bot.name}}
         </option>
       </select>
