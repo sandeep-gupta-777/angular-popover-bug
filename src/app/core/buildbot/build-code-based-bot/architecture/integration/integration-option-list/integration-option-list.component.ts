@@ -108,6 +108,12 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
           ...this.formValue.fulfillment_provider_details
         }
       };
+    this.formValue = {...this.formValue};
+
+    this.f_new.form.patchValue(this.formValue);
+    /*TODO: this should not be required to form but removing it doesnt patch
+    * the form when reset is clicked in bot header. Not sure why.
+    * */
   }
 
   getLogo(key) {
@@ -124,8 +130,9 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
 
   click() {
     console.log(this.formValue);
-    console.log(this.test);
-    console.log(this.test_new.form.patchValue({enabled:true}));
+    console.log(this.f_new.value);
+    this.f_new.form.patchValue(this.formValue);
+    // console.log(this.test_new.form.patchValue({enabled:true}));
   }
 
   // test = false;
@@ -137,7 +144,8 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
 
 
     this.f_new.valueChanges.debounceTime(1000).subscribe((integrationInfo: IIntegrationOption) => {
-      if (!this.f_new.dirty) return;
+      // if (!this.f_new.dirty) return;
+
       if(this.utilityService.areTwoJSObjectSame(this.formValue,this.f_new.value))return;
       let formValidityObj =  {};
       formValidityObj[EFormValidationErrors.form_validation_integration] = this.f_new && this.f_new.valid;
