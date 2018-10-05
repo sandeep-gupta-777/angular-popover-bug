@@ -89,7 +89,7 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) return;
       if (!this.f.dirty) return;
       this.formData = data; /*this.formData is used for compareTwoJavaObjects, no other purpose*/
-      if(this.bot_type === EBotType.chatbot && this._bot.child_bots.length<1 && this.isManager){
+      if(this.bot_type === EBotType.chatbot && this._bot.child_bots && this._bot.child_bots.length<1 && this.isManager){
         /*TODO: ui-switch is not working on so many levels, fix it*/
         this.datachanged$.emit({...this.formData, form_validation_basic_info: false});
         return;

@@ -113,9 +113,9 @@
       </div> -->
       <!--<p>{{(allbotList|json)}}</p>-->
       <!-- <p>{{bot.child_bots|json}}</p> -->
-      <label *ngIf="_bot.is_manager && (_bot.child_bots.length<1)" class="text-danger pl-1" for="alterEgo"><i>Atleast one childbot is requred</i></label>
+      <label *ngIf="_bot.is_manager && (_bot.child_bots  && _bot.child_bots.length<1)" class="text-danger pl-1" for="alterEgo"><i>Atleast one childbot is requred</i></label>
 
-      <div *ngIf="_bot.is_manager" class="permissions-box">
+      <div *ngIf="_bot.is_manager && _bot.child_bots" class="permissions-box">
             <span *ngFor="let childBotId of _bot.child_bots"
                   class="badge badge-pill badge-info inline m-1">{{childBotId | botIdToName | async}}
               <span class="fa fa-remove cursor-pointer" (click)="removeChildBot(childBotId)"></span>

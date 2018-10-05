@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-
+    this.disabeLoginButton =true;
     let loginData = this.f.value;
     let loginUrl = this.constantsService.getLoginUrl();
     // let headerData:IHeaderData = {'api-key': '54asdkj1209nksnda',"content-type":'application/x-www-f-urlencoded'};
@@ -80,7 +80,6 @@ export class LoginComponent implements OnInit {
     this.serverService.makePostReq<IUser>({url: loginUrl, body, headerData})
       .subscribe((user:IUser) => {
 
-        this.disabeLoginButton =true;
         this.flashErrorMessage("Logged in. Taking you to home page", 100000);
         // this.constantsService.setPermissionsDeniedMap(user.role.permissions.actions);
         this.store.dispatch([
@@ -106,6 +105,7 @@ export class LoginComponent implements OnInit {
           });
         },
         ()=>{
+          this.disabeLoginButton =false;
           this.flashErrorMessage("Login failed. Please try again", 100000);
         }
       );
