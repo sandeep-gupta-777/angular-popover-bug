@@ -2,7 +2,7 @@
 <form #form="ngForm" class="bot-creation-form ">
   <div class="row">
 
-    <fieldset class="col-5" readonlyselectedroles>
+    <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
 
       <div class="form-group">
         <label for="alterEgo">Heading</label>
@@ -22,7 +22,7 @@
       </div>
 
     </fieldset>
-    <fieldset class="col-5" readonlyselectedroles>
+    <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
 
       <div class="form-group">
         <label for="alterEgo">Industry</label>

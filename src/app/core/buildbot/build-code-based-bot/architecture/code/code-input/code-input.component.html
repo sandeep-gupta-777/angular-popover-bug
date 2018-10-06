@@ -25,7 +25,7 @@
           <div class="d-flex justify-content-left pt-1" *ngIf="selectedVersion">
             <!-- <i class="fa fa-circle"
                [ngClass]="{'text-danger':selectedVersion.updated_fields['df_template'], 'dark-green':activeTab==='df_template'}"></i> -->
-               <i class="fa fa-circle"
+            <i class="fa fa-circle"
                [ngClass]="{'text-danger':selectedVersion.changed_fields['df_template'], 'dark-green':selectedVersion.updated_fields['df_template']}"></i>
             <i class="fa fa-circle"
                [ngClass]="{'text-danger':selectedVersion.changed_fields['df_rules'], 'dark-green':selectedVersion.updated_fields['df_rules']}"></i>
@@ -47,7 +47,9 @@
         <div class="insert mr-1"
              [popover]="selectedVersion && selectedVersion.comment"
              placement="bottom"
-             triggers="mouseenter:mouseleave">{{selectedVersion.comment.length>70?(((selectedVersion.comment)|slice:0:100) +"..."):selectedVersion?.comment}}
+             triggers="mouseenter:mouseleave">
+          {{selectedVersion.comment.length>70?(((selectedVersion.comment)|slice:0:100)
+          +"..."):selectedVersion?.comment}}
           <!--<div class="insert mr-1">{{(selectedVersion.comment)|slice:0:100}}-->
         </div>
         <!---->
@@ -61,23 +63,28 @@
     <div class="col-6">
       <button [disabled]="!selectedVersion"
               class="btn btn-theme-primary-outline mr-1"
+              *myIf="myEAllActions['Update Bot Versioning']"
               (click)="saveSelectedVersion()">
-        {{(!bot.store_bot_versions || !bot.store_bot_versions.length || bot.store_bot_versions.length>0)?"Save":"Create"}}
+        {{(!bot.store_bot_versions || !bot.store_bot_versions.length ||
+        bot.store_bot_versions.length>0)?"Save":"Create"}}
         version
       </button>
       <!--SHOAIB, I DONT UNDERSTAND WHY FOLLOWING WAS DONE-->
       <!--<button class="btn btn-theme-primary-outline" *ngIf="selectedVersion"-->
-              <!--[disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"-->
-              <!--(click)="openForkNewVersionModal(Primarytemplate)">-->
-              <!--{{(selectedVersion.changed_fields['df_template'] || selectedVersion.changed_fields['df_rules']  ||-->
-               <!--selectedVersion.changed_fields['generation_rules'] || selectedVersion.changed_fields['generation_templates'] ||-->
-               <!--selectedVersion.changed_fields['workflow'])?"Save as new version":"Create new version"}}-->
+      <!--[disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"-->
+      <!--(click)="openForkNewVersionModal(Primarytemplate)">-->
+      <!--{{(selectedVersion.changed_fields['df_template'] || selectedVersion.changed_fields['df_rules']  ||-->
+      <!--selectedVersion.changed_fields['generation_rules'] || selectedVersion.changed_fields['generation_templates'] ||-->
+      <!--selectedVersion.changed_fields['workflow'])?"Save as new version":"Create new version"}}-->
       <!--</button>-->
-      <button class="btn btn-theme-primary-outline" *ngIf="selectedVersion"
-              [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
-              (click)="openForkNewVersionModal(Primarytemplate)">
-        Fork new version
-      </button>
+      <div *ngIf="selectedVersion" class="d-inline-block">
+        <button class="btn btn-theme-primary-outline"
+                [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
+                *myIf="myEAllActions['Create Bot Versioning']"
+                (click)="openForkNewVersionModal(Primarytemplate)">
+          Fork new version
+        </button>
+      </div>
     </div>
     <div class="row row-flex-bot-versioning-toaster border-theme-secondary  border-top-0 mx-0"
          *ngIf="showVersionList" style="max-height: 50vh; overflow-y: scroll">
@@ -102,7 +109,7 @@
           </div> -->
           <div class="update d-flex flex-column mr-1 justify-content-center" *ngIf="version">
             <div class="mr-1">Last update</div>
-            <div class = "justify-content-left pt-1">
+            <div class="justify-content-left pt-1">
               <i class="fa fa-circle"
                  [ngClass]="{'dark-green':version.updated_fields['df_template']}"></i>
               <i class="fa fa-circle"
@@ -123,7 +130,8 @@
             <!--<input type="radio">-->
             <!--</form>-->
           </div>
-          <div class="insert mr-1" >{{version.comment.length>70?(((version.comment)|slice:0:100) +"..."):version?.comment}}
+          <div class="insert mr-1">{{version.comment.length>70?(((version.comment)|slice:0:100)
+            +"..."):version?.comment}}
           </div>
           <i class=" py-2 px-3 "></i>
         </div>
@@ -147,11 +155,13 @@
               <a class="nav-link text-theme-normal" (click)="tabClicked(myEBotVersionTabs.df_rules)">DF
                 Rules</a>
             </li>
-            <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.generation_rules}">
+            <li class="nav-item text-theme-normal"
+                [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.generation_rules}">
               <a class="nav-link"
                  (click)="tabClicked(myEBotVersionTabs.generation_rules)">Generation Rules</a>
             </li>
-            <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.generation_templates}">
+            <li class="nav-item text-theme-normal"
+                [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.generation_templates}">
               <a class="nav-link"
                  (click)="tabClicked(myEBotVersionTabs.generation_templates)">Generation Template</a>
             </li>
@@ -166,79 +176,79 @@
           <!--code editor starts-->
           <!--todo: make this row independent-->
           <!--<div class="row pl-3 genTempGrid pt-2" *ngIf="activeTab === 'generationTemplates'">-->
-            <!--<div class="genTempGridItem intent-header">-->
-              <!--<div class="text-bold">Intent Header</div>-->
-              <!--<input type="text" placeholder="Search Intent">-->
+          <!--<div class="genTempGridItem intent-header">-->
+          <!--<div class="text-bold">Intent Header</div>-->
+          <!--<input type="text" placeholder="Search Intent">-->
 
-              <!--&lt;!&ndash; these div's will come from *ngFor &ndash;&gt;-->
-              <!--<div class="p-1" *ngFor="let x of intentList">{{x.name}}</div>-->
-            <!--</div>-->
-            <!--<div class="genTempGridItem">-->
-              <!--<div class="col-12 pt-2 d-flex justify-content-end">-->
-                <!--<label for="uploadInput" class="btn btn-theme-primary-outline">Upload File-->
-                  <!--<input type="file"-->
-                         <!--hidden-->
-                         <!--id="uploadInput"-->
-                         <!--accept='text/plain' multiple-->
-                         <!--(change)='openFile(uploadInput);uploadInput.value=null'-->
-                         <!--#uploadInput>-->
-                <!--</label>-->
-              <!--</div>-->
-              <!--&lt;!&ndash;&ndash;&gt;-->
-              <!--<div class="col-12 ">-->
-                <!--<app-code-editor [text]="editorCode" (textChangedEvent)="saveText($event)"></app-code-editor>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="genTempGridItem bot-templates">-->
-              <!--<ul>-->
-                <!--<li class="bot-template-heading">-->
-                  <!--<div class="text-bold">Bot Response Template</div>-->
-                  <!--<div class="text-lite">Drag & Drop elements to add to response</div>-->
-                <!--</li>-->
-                <!--<li>-->
-                  <!--<i class="fa fa-users"></i>-->
-                  <!--Textie-->
-                <!--</li>-->
-                <!--<li>-->
-                  <!--<i class="fa fa-users"></i>-->
-                  <!--Textie-->
-                <!--</li>-->
-                <!--<li>-->
-                  <!--<i class="fa fa-users"></i>-->
-                  <!--Textie-->
-                <!--</li>-->
-                <!--<li>-->
-                  <!--<i class="fa fa-users"></i>-->
-                  <!--Textie-->
-                <!--</li>-->
-                <!--<li>-->
-                  <!--<i class="fa fa-users"></i>-->
-                  <!--Textie-->
-                <!--</li>-->
-                <!--<li>-->
-                  <!--<i class="fa fa-users"></i>-->
-                  <!--Textie-->
-                <!--</li>-->
-                <!--<li>-->
-                  <!--<i class="fa fa-users"></i>-->
-                  <!--Textie-->
-                <!--</li>-->
-              <!--</ul>-->
-              <!--&lt;!&ndash; <div class="template-heading">-->
-                <!--<div>Bot Response Templates</div>-->
-              <!--</div>-->
-              <!--<div class="bot-templates">-->
-                <!--<i class="fa fa-users" style="font-size: 12px"></i>-->
-                <!--dasdasd das das da sda-->
-              <!--</div>-->
-              <!--<div class="bot-templates"></div>-->
-              <!--<div class="bot-templates"></div>-->
-              <!--<div class="bot-templates"></div>-->
-              <!--<div class="bot-templates"></div>-->
-              <!--<div class="bot-templates"></div>-->
-              <!--<div class="bot-templates"></div> &ndash;&gt;-->
+          <!--&lt;!&ndash; these div's will come from *ngFor &ndash;&gt;-->
+          <!--<div class="p-1" *ngFor="let x of intentList">{{x.name}}</div>-->
+          <!--</div>-->
+          <!--<div class="genTempGridItem">-->
+          <!--<div class="col-12 pt-2 d-flex justify-content-end">-->
+          <!--<label for="uploadInput" class="btn btn-theme-primary-outline">Upload File-->
+          <!--<input type="file"-->
+          <!--hidden-->
+          <!--id="uploadInput"-->
+          <!--accept='text/plain' multiple-->
+          <!--(change)='openFile(uploadInput);uploadInput.value=null'-->
+          <!--#uploadInput>-->
+          <!--</label>-->
+          <!--</div>-->
+          <!--&lt;!&ndash;&ndash;&gt;-->
+          <!--<div class="col-12 ">-->
+          <!--<app-code-editor [text]="editorCode" (textChangedEvent)="saveText($event)"></app-code-editor>-->
+          <!--</div>-->
+          <!--</div>-->
+          <!--<div class="genTempGridItem bot-templates">-->
+          <!--<ul>-->
+          <!--<li class="bot-template-heading">-->
+          <!--<div class="text-bold">Bot Response Template</div>-->
+          <!--<div class="text-lite">Drag & Drop elements to add to response</div>-->
+          <!--</li>-->
+          <!--<li>-->
+          <!--<i class="fa fa-users"></i>-->
+          <!--Textie-->
+          <!--</li>-->
+          <!--<li>-->
+          <!--<i class="fa fa-users"></i>-->
+          <!--Textie-->
+          <!--</li>-->
+          <!--<li>-->
+          <!--<i class="fa fa-users"></i>-->
+          <!--Textie-->
+          <!--</li>-->
+          <!--<li>-->
+          <!--<i class="fa fa-users"></i>-->
+          <!--Textie-->
+          <!--</li>-->
+          <!--<li>-->
+          <!--<i class="fa fa-users"></i>-->
+          <!--Textie-->
+          <!--</li>-->
+          <!--<li>-->
+          <!--<i class="fa fa-users"></i>-->
+          <!--Textie-->
+          <!--</li>-->
+          <!--<li>-->
+          <!--<i class="fa fa-users"></i>-->
+          <!--Textie-->
+          <!--</li>-->
+          <!--</ul>-->
+          <!--&lt;!&ndash; <div class="template-heading">-->
+          <!--<div>Bot Response Templates</div>-->
+          <!--</div>-->
+          <!--<div class="bot-templates">-->
+          <!--<i class="fa fa-users" style="font-size: 12px"></i>-->
+          <!--dasdasd das das da sda-->
+          <!--</div>-->
+          <!--<div class="bot-templates"></div>-->
+          <!--<div class="bot-templates"></div>-->
+          <!--<div class="bot-templates"></div>-->
+          <!--<div class="bot-templates"></div>-->
+          <!--<div class="bot-templates"></div>-->
+          <!--<div class="bot-templates"></div> &ndash;&gt;-->
 
-            <!--</div>-->
+          <!--</div>-->
           <!--</div>-->
 
         </div>
@@ -247,18 +257,28 @@
   </div>
 
   <!--<div class="code-editor-row code-editor-row-min position-relative" *ngIf="showConfig">-->
-        <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_template" [text]="editorCodeObj[myEBotVersionTabs.df_template]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
-        <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_rules" [text]="editorCodeObj[myEBotVersionTabs.df_rules]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
-        <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_rules" [text]="editorCodeObj[myEBotVersionTabs.generation_rules]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
-        <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates" [text]="editorCodeObj[myEBotVersionTabs.generation_templates]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
-        <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.workflow" [text]="editorCodeObj[myEBotVersionTabs.workflow]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
+  <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_template" [text]="editorCodeObj[myEBotVersionTabs.df_template]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
+  <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_rules" [text]="editorCodeObj[myEBotVersionTabs.df_rules]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
+  <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_rules" [text]="editorCodeObj[myEBotVersionTabs.generation_rules]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
+  <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates" [text]="editorCodeObj[myEBotVersionTabs.generation_templates]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
+  <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.workflow" [text]="editorCodeObj[myEBotVersionTabs.workflow]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
   <!--</div>-->
   <div class="code-editor-row code-editor-row-max position-relative">
-        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_template" [text]="editorCodeObj[myEBotVersionTabs.df_template]" (textChangedEvent)="saveText($event)"></app-code-editor>
-        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_rules" [text]="editorCodeObj[myEBotVersionTabs.df_rules]" (textChangedEvent)="saveText($event)"></app-code-editor>
-        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_rules" [text]="editorCodeObj[myEBotVersionTabs.generation_rules]" (textChangedEvent)="saveText($event)"></app-code-editor>
-        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates" [text]="editorCodeObj[myEBotVersionTabs.generation_templates]" (textChangedEvent)="saveText($event)"></app-code-editor>
-        <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.workflow" [text]="editorCodeObj[myEBotVersionTabs.workflow]" (textChangedEvent)="saveText($event)"></app-code-editor>
+    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_template"
+                     [text]="editorCodeObj[myEBotVersionTabs.df_template]"
+                     (textChangedEvent)="saveText($event)"></app-code-editor>
+    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_rules"
+                     [text]="editorCodeObj[myEBotVersionTabs.df_rules]"
+                     (textChangedEvent)="saveText($event)"></app-code-editor>
+    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_rules"
+                     [text]="editorCodeObj[myEBotVersionTabs.generation_rules]"
+                     (textChangedEvent)="saveText($event)"></app-code-editor>
+    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates"
+                     [text]="editorCodeObj[myEBotVersionTabs.generation_templates]"
+                     (textChangedEvent)="saveText($event)"></app-code-editor>
+    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.workflow"
+                     [text]="editorCodeObj[myEBotVersionTabs.workflow]"
+                     (textChangedEvent)="saveText($event)"></app-code-editor>
   </div>
 
 
@@ -277,9 +297,9 @@
       </div>
       <p>By default it will be saved and not be made active. You need to update changes to make it active.</p>
 
-        <!--<button type="button" class="close pull-right p-2" aria-label="Close" (click)="modalRef.hide()">-->
-            <!--<span aria-hidden="true">&times;</span>-->
-          <!--</button>-->
+      <!--<button type="button" class="close pull-right p-2" aria-label="Close" (click)="modalRef.hide()">-->
+      <!--<span aria-hidden="true">&times;</span>-->
+      <!--</button>-->
       <!--<h4 class="modal-title mb-2"> Fork to a new version</h4>-->
       <!--<p>It will not be made active by default but saved. You need to update changes to make it active</p>-->
 
@@ -310,9 +330,9 @@
           <p *ngIf="errorMessage" class="text-danger">{{errorMessage}}</p>
           <button class="btn btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>
           <!--<button class="btn btn-theme-primary" (click)="forkNewVersion()">-->
-            <!--{{(selectedVersion.changed_fields['df_template'] || selectedVersion.changed_fields['df_rules']  ||-->
-               <!--selectedVersion.changed_fields['generation_rules'] || selectedVersion.changed_fields['generation_templates'] ||-->
-               <!--selectedVersion.changed_fields['workflow'])?"Save as new version":"Create new version"}}-->
+          <!--{{(selectedVersion.changed_fields['df_template'] || selectedVersion.changed_fields['df_rules']  ||-->
+          <!--selectedVersion.changed_fields['generation_rules'] || selectedVersion.changed_fields['generation_templates'] ||-->
+          <!--selectedVersion.changed_fields['workflow'])?"Save as new version":"Create new version"}}-->
           <!--</button>-->
 
           <button class="btn btn-theme-primary" (click)="forkNewVersion()">

@@ -2,7 +2,7 @@ import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, V
 import {Store, Select} from '@ngxs/store';
 import {IBot, IBotVersionData, IBotVersionResult, ICode} from '../../../../../interfaces/IBot';
 import {ServerService} from '../../../../../../server.service';
-import {ConstantsService} from '../../../../../../constants.service';
+import {ConstantsService, EAllActions} from '../../../../../../constants.service';
 import {
   SaveVersionInfoInBot,
   UpdateBotInfoByIdInBotInBotList,
@@ -41,6 +41,8 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   showConfig = true;
   myEBotVersionTabs = EBotVersionTabs;
   activeTab: string = 'df_template';
+
+  myEAllActions = EAllActions;
   @Select() botlist$: Observable<ViewBotStateModel>;
   botlist$_sub: Subscription;
   @Select() botcreationstate$: Observable<IBotCreationState>;

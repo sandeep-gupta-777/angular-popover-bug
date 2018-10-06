@@ -1,27 +1,27 @@
 <!--Template for modal-->
 <ng-template #template>
-    <div class="danger-modal">
-      <div class="top-dec"></div>
-      <div class="modal-header">
-        <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete bot&nbsp;{{bot.name}}&nbsp;
-          ?</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-body pt-0">
-        <form #form="ngForm">
-          <div class="text-center my-1">
-            <p class="mb-3">Do you confirm the Deletion? This is a permanent and irreversible change</p>
-
-          </div>
-          <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
-          <button class=" btn btn-theme-danger" (click)="deleteBot()">Delete</button>
-        </form>
-      </div>
+  <div class="danger-modal">
+    <div class="top-dec"></div>
+    <div class="modal-header">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete bot&nbsp;{{bot.name}}&nbsp;
+        ?</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-  </ng-template>
+
+    <div class="modal-body pt-0">
+      <form #form="ngForm">
+        <div class="text-center my-1">
+          <p class="mb-3">Do you confirm the Deletion? This is a permanent and irreversible change</p>
+
+        </div>
+        <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button class=" btn btn-theme-danger" (click)="deleteBot()">Delete</button>
+      </form>
+    </div>
+  </div>
+</ng-template>
 <!-- <ng-template #template>
   <div class="modal-header bg-danger">
     <h4 class="modal-title heading pull-left text-white">Delete: <strong>{{bot.name}}</strong>?</h4>
@@ -138,45 +138,48 @@
     <!--header starts-->
     <div class="grid-bot-preview-version header header-border-bottom  d-flex">
       <!--<div class="header">-->
-        <div class="span-wrapper" *ngIf="bot.bot_type === 'chatbot'">
-          <i class="fa fa-circle"></i>
-        </div>
-        <!--<div class = "ml-1 " style="align-self: center" *ngIf="bot.bot_type !== 'intelligent'">-->
-            <!--Active-->
-          <!--</div>-->
-        <div class = "ml-1 " style="align-self: center" *ngIf="bot.bot_type === 'chatbot'">
-<!--<<<<<<< HEAD-->
-          <!--Active(v{{bot.active_version.version}})-->
+      <div class="span-wrapper" *ngIf="bot.bot_type === 'chatbot'">
+        <i class="fa fa-circle"></i>
+      </div>
+      <!--<div class = "ml-1 " style="align-self: center" *ngIf="bot.bot_type !== 'intelligent'">-->
+      <!--Active-->
+      <!--</div>-->
+      <div class="ml-1 " style="align-self: center" *ngIf="bot.bot_type === 'chatbot'">
+        <!--<<<<<<< HEAD-->
+        <!--Active(v{{bot.active_version.version}})-->
         <!--</div>-->
-      <!--<div class="ml-auto"></div>-->
-      <!--<div [hidden]="bot.bot_type !== 'chatbot'" class = "ml-1" style="align-self: center">-->
+        <!--<div class="ml-auto"></div>-->
+        <!--<div [hidden]="bot.bot_type !== 'chatbot'" class = "ml-1" style="align-self: center">-->
         <!--Latest(v{{bot.latest_version.version}})-->
-<!--=======-->
-          Active(v{{bot.active_version.version || 0}})
-        </div>
-      <div class="ml-auto" style="align-self: center" >
-        <div class = " show-on-parent-hover" style="align-self: center" *ngIf="bot.bot_type === 'chatbot'">
+        <!--=======-->
+        Active(v{{bot.active_version.version || 0}})
+      </div>
+      <div class="ml-auto" style="align-self: center">
+        <div class=" show-on-parent-hover" style="align-self: center" *ngIf="bot.bot_type === 'chatbot'">
           Latest(v{{bot.latest_version.version || 0}})
         </div>
-          <div class="btn-group click-save-wrapper" dropdown style="align-self: center; font-size: 18px;padding:0;">
-            <i dropdownToggle class="fa fa-ellipsis-v click-save-wrapper px-2"></i>
-            <ul *dropdownMenu class="dropdown-menu click-save-wrapper" role="menu">
-              <li role="menuitem">
-                <a class="dropdown-item cursor-pointer click-save-wrapper" (click)="utilityService.copyToClipboard(bot.bot_access_token)" >Copy Access Token</a>
-              </li>
-              <li role="menuitem">
-                <a class="dropdown-item cursor-pointer click-save-wrapper" (click)="utilityService.copyToClipboard(bot.enterprise_id)">Copy Enterprise ID</a>
-              </li>
-              <!-- <li role="menuitem">
-                <a class="dropdown-item">Make Bot Active</a>
-              </li> -->
-              <li role="menuitem" *myIf="myETabNames.architecture_tab">
-                <a class="dropdown-item click-save-wrapper" (click)="openModal(template)">Delete</a>
-              </li>
-            </ul>
-<!--&gt;>>>>>> b57d07d44a83fa8a33cad4ce66dff433fb840a27-->
-      </div>
+        <div class="btn-group click-save-wrapper" dropdown style="align-self: center; font-size: 18px;padding:0;">
+          <i dropdownToggle class="fa fa-ellipsis-v click-save-wrapper px-2"></i>
+          <ul *dropdownMenu class="dropdown-menu click-save-wrapper" role="menu">
+            <li role="menuitem">
+              <a class="dropdown-item cursor-pointer click-save-wrapper"
+                 (click)="utilityService.copyToClipboard(bot.bot_access_token)">Copy Access Token</a>
+            </li>
+            <li role="menuitem">
+              <a class="dropdown-item cursor-pointer click-save-wrapper"
+                 (click)="utilityService.copyToClipboard(bot.enterprise_id)">Copy Enterprise ID</a>
+            </li>
+            <!-- <li role="menuitem">
+              <a class="dropdown-item">Make Bot Active</a>
+            </li> -->
+            <li role="menuitem"
+                *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]">
+              <a class="dropdown-item click-save-wrapper" (click)="openModal(template)">Delete</a>
+            </li>
+          </ul>
+          <!--&gt;>>>>>> b57d07d44a83fa8a33cad4ce66dff433fb840a27-->
         </div>
+      </div>
       <!--</div>-->
     </div>
     <!--header ends-->
@@ -200,14 +203,21 @@
     <div class="grid-bot-preview-forth-row d-flex flex-row-reverse bot-strip align-items-center p-2 footer">
       <!-- <span *ngIf="(bot.integrations|integrationImageCount)>4" class="more ml-auto">+{{(bot.integrations|integrationImageCount)}} More</span> -->
 
-      <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'no_channel'|async))" [src]="integrationsMasterListItem?.icon"
+      <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'no_channel'|async))"
+           [src]="integrationsMasterListItem?.icon"
            class="logo-image no-channel-integrations" style="width: 16px;height: 16px" alt="">
-      <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async))" [src]="integrationsMasterListItem?.icon"
+      <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async))"
+           [src]="integrationsMasterListItem?.icon"
            class="logo-image " style="width: 16px;height: 16px" alt="">
-      <div *ngIf="bot.bot_type == 'chatbot'" (click)="previewBot()" class="show-on-parent-hover mr-auto click-save-wrapper cursor-pointer text-sm">Preview</div>
-      <button (click)="navigateToBotDetailPage($event)" class="show-on-parent-hover  btn btn-theme-primary px-3 mr-2 "  [ngClass]="{'mr-auto': bot.bot_type !== 'chatbot'}">Edit
+      <div *myIf="myEAllActions['Send API']" class="mr-auto show-on-parent-hover click-save-wrapper" (click)="previewBot()">
+        <div *ngIf="bot.bot_type == 'chatbot'"
+             class="text-sm click-save-wrapper  ">Preview
+        </div>
+      </div>
+      <button (click)="navigateToBotDetailPage($event)" class="show-on-parent-hover  btn btn-theme-primary px-3 mr-2 "
+              [ngClass]="{'mr-auto': bot.bot_type !== 'chatbot'}">Edit
       </button>
-<!---->
+      <!---->
     </div>
 
   </div>

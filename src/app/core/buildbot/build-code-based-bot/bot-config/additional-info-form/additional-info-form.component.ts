@@ -4,6 +4,7 @@ import {IBasicInfo} from '../../../../../../interfaces/bot-creation';
 import {SaveNewBotInfo_CodeBased} from '../../../ngxs/buildbot.action';
 import {Store} from '@ngxs/store';
 import {UtilityService} from '../../../../../utility.service';
+import {EAllActions} from '../../../../../constants.service';
 
 @Component({
   selector: 'app-additional-info-form',
@@ -14,6 +15,7 @@ import {UtilityService} from '../../../../../utility.service';
 export class AdditionalInfoFormComponent implements OnInit {
 
   _bot: Partial<IBot> = {};
+  myEAllActions = EAllActions;
 
   @Input() set bot(_bot: IBot) {
     if (this.f && _bot) {

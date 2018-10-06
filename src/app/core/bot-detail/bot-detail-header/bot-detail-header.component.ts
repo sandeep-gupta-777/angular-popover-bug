@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angu
 import {IBot} from '../../interfaces/IBot';
 import {ServerService} from '../../../server.service';
 import {Select, Store} from '@ngxs/store';
-import {ConstantsService, ETabNames} from '../../../constants.service';
+import {ConstantsService, EAllActions} from '../../../constants.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {UtilityService} from '../../../utility.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
@@ -22,7 +22,7 @@ export class BotDetailHeaderComponent implements OnInit {
 
   @Input() bot: IBot;
   myObject = Object;
-  myETabNames = ETabNames;
+  myEAllActions = EAllActions;
   showSpinIcon = false;
   @Output() refreshBotDetails$ = new EventEmitter();
   modalRef: BsModalRef;
