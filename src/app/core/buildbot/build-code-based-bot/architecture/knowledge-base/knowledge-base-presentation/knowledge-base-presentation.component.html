@@ -27,7 +27,7 @@
         </div>
         <!---->
       </div>
-      <div class="d-flex flex-column mx-2" *ngIf="routeName!==myERouteNames.customner">
+      <div class="d-flex flex-column mx-2" *ngIf="routeName!==myERouteNames['Get Enterpise Knowledge base']">
         <span class="required p-0 mb-1">Override Policy</span>
         <div class="d-flex" style="height: 26px;">
           <!---->
@@ -65,7 +65,7 @@
       <!--</fieldset>-->
 
       <!--update/create button starts-->
-      <div *ngIf="routeName===myERouteNames.customner">
+      <div *ngIf="routeName===myERouteNames['Get Enterpise Knowledge base']">
         <button class="btn-theme-primary mx-1" [disabled]="!form.valid" (click)="updateOrSaveConcept()"
                 *myIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
         >
@@ -73,7 +73,7 @@
         </button>
       </div>
 
-      <div *ngIf="routeName!==myERouteNames.customner">
+      <div *ngIf="routeName!==myERouteNames['Get Enterpise Knowledge base']">
         <button class="btn-theme-primary mx-1" [disabled]="!form.valid" (click)="updateOrSaveConcept()"
                 *myIf="[myEAllActions['Create Bot Knowledge base'],myEAllActions['Update Bot Knowledge base']]"
         >
@@ -82,11 +82,11 @@
       </div>
       <!--update/create button ends-->
 
-      <div *ngIf="ner_id && routeName===myERouteNames.customner">
+      <div *ngIf="ner_id && routeName===myERouteNames['Get Enterpise Knowledge base']">
         <div *myIf="myEAllActions['Delete Enterprise Knowledge base']"
              (click)="openDeleteModal(deleteTemplate)"><i class="fa fa-trash cursor-pointer"></i></div>
       </div>
-      <div *ngIf="ner_id && routeName!==myERouteNames.customner">
+      <div *ngIf="ner_id && routeName!==myERouteNames['Get Enterpise Knowledge base']">
         <div *myIf="myEAllActions['Delete Bot Knowledge base']"
              (click)="openDeleteModal(deleteTemplate)"><i class="fa fa-trash cursor-pointer"></i></div>
       </div>

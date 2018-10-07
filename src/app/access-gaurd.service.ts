@@ -16,6 +16,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
 import { take } from 'rxjs/operators';
 import {ConstantsService} from './constants.service';
+import {PermissionService} from './permission.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,7 @@ export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoa
   constructor(
     private router: Router,
     private constantsService:ConstantsService,
+    private permissionService:PermissionService,
     private activatedRoute:ActivatedRoute
     ) {
   }
@@ -34,15 +36,15 @@ export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoa
     // return true;
 
     return this.loggeduser$.map((value: IAuthState) => {
-      return this.shouldAllowAccess(value,route);
+      return this.doAllowAccess(value,route);
     });
   }
 
-  shouldAllowAccess(value,route:ActivatedRouteSnapshot){
+  doAllowAccess(value, route:ActivatedRouteSnapshot){
     if (value && value.user != null) {
 
       let routeName = route.data["routeName"];
-      if(!this.constantsService.isRouteAccessDenied(routeName)){
+      if(!this.permissionService.isRouteAccessDenied(routeName)){
         return true;
       }else {
         this.router.navigate(['/denied']);
@@ -55,7 +57,8 @@ export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoa
 
   canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.loggeduser$.map((value: IAuthState) => {
-     return this.shouldAllowAccess(value, route)
+      debugger;
+     return this.doAllowAccess(value, route)
     });
   }
 

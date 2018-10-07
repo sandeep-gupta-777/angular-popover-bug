@@ -69,7 +69,7 @@ export class BotPreviewCardComponent implements OnInit {
     });
 
     this.loggeduser$.subscribe((authState: IAuthState) => {
-      this.role = authState.user.role.name;
+      this.role = authState.user && authState.user.role.name;
     });
   }
 

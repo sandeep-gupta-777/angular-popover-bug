@@ -53,17 +53,9 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-
+    this.disabeLoginButton = true;
     let loginData = this.f.value;
     let loginUrl = this.constantsService.getLoginUrl();
-    // let headerData:IHeaderData = {'api-key': '54asdkj1209nksnda',"content-type":'application/x-www-f-urlencoded'};
-    // let body = {
-    //
-    //   // "email":"ayeshreddy.k@imimobile.com",
-    //   // "password":"Botwoman@123!"
-    //   "email": "imibotadmin@imimobile.com",
-    //   "password": "Botwoman@123!"
-    // };
     let body;
     if (this.f.valid) {
 
@@ -80,35 +72,32 @@ export class LoginComponent implements OnInit {
     };
     this.serverService.makePostReq<IUser>({url: loginUrl, body, headerData})
       .subscribe((user: IUser) => {
+          this.flashErrorMessage('Logged in. Fetching permissions', 100000);
           this.store.dispatch([
             new SetUser({user}),
           ]).subscribe(() => {
-              this.disabeLoginButton = true;
-              this.flashErrorMessage('Logged in. Taking you to home page', 100000);
-              // this.store.dispatch([
-              //   new SetUser({user}),
-              // ])
-              this.serverService.getNSetMasterPermissionsList()
-                .subscribe(() => {
-                this.serverService.getNSetBotList().subscribe(() => {});
-                this.serverService.getNSetIntegrationList();
-
+            this.serverService.getNSetMasterPermissionsList()
+              .subscribe(() => {
+                this.flashErrorMessage('Taking you to homepage', 100000);
                 /*after login, route to appropriate page according to user role*/
                 if (user.role.name === ERoleName.Analyst) {
                   this.router.navigate(['/core/analytics2/users']);
                 } else {
                   this.router.navigate(['.']);
                 }
+                this.serverService.getNSetBotList().subscribe(() => {});
+                this.serverService.getNSetIntegrationList();
+
               });
 
-              let enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(user.enterprise_id);
-              this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
-                .subscribe((value: IEnterpriseProfileInfo) => {
-                  this.store.dispatch([
-                    new SetEnterpriseInfoAction({enterpriseInfo: value})
-                  ]);
-                });
-            });
+            let enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(user.enterprise_id);
+            this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
+              .subscribe((value: IEnterpriseProfileInfo) => {
+                this.store.dispatch([
+                  new SetEnterpriseInfoAction({enterpriseInfo: value})
+                ]);
+              });
+          });
         },
         () => {
           this.flashErrorMessage('Login failed. Please try again', 100000);

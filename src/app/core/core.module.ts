@@ -60,16 +60,16 @@ const routes: Route[] = [
       {
         path: 'analytics2', loadChildren: './analysis2/analysis2.module#Analysis2Module', canLoad:[AuthGaurdService]
       },
-      {path: 'customner', component: ViewCustomnerComponent, data:{routeName:ERouteNames.customner}, canActivate:[]},
-      {path: 'customner/create', component: CreateCustomnerComponent, canActivate:[]},
-      {path: 'enterpriseprofile', component: EnterpriseprofileComponent, data:{routeName:ERouteNames.enterprise_profile}, canActivate:[]},
-      {path: 'profile', component: ProfileComponent},
-      {path: 'reports', component: ReportsComponent, data:{routeName:ERouteNames.report}},
-      {path: 'reports/edit/:_id', component: ReportDetailsComponent, data:{routeName:ERouteNames.report}},
-      {path: 'reports/create', component: ReportDetailsComponent, data:{name:ERouteNames.create_report}},
+      {path: 'customner', component: ViewCustomnerComponent, data:{routeName:ERouteNames['Get Enterprise Knowledge base']}, canActivate:[]},
+      {path: 'customner/create', component: CreateCustomnerComponent, data:{routeName:ERouteNames['Create Enterprise Knowledge base']}},
+      {path: 'enterpriseprofile', component: EnterpriseprofileComponent, data:{routeName:ERouteNames['Get Enterprise']}, canActivate:[]},
+      {path: 'profile', component: ProfileComponent,data:{routeName:ERouteNames['Get User']}},
+      {path: 'reports', component: ReportsComponent, data:{routeName:ERouteNames['Get Reports']}},
+      {path: 'reports/edit/:_id', component: ReportDetailsComponent, data:{routeName:ERouteNames['Update Reports']}},
+      {path: 'reports/create', component: ReportDetailsComponent, data:{name:ERouteNames['Create Reports']}},
       {path: 'documentation', component: DocumentationComponent, canActivate:[]},
       {
-        path: 'buildbot', component: BuildbotWrapperComponent, children:
+        path: 'buildbot', component: BuildbotWrapperComponent,data:{name:ERouteNames['Create Bots']}, children:
           [
             {path: EBotType.chatbot, component: BuildCodeBasedBotComponent, data: {buildBot: EBotType.chatbot}},
             {path: 'intelligent', component: BuildPipelineBasedBotComponent, data: {buildBot: 'pipeLineBased'}},

@@ -21,7 +21,7 @@ export class MyIfDirective {
     // let isDenied:boolean =  this.constantsService.isAccessDeniedDynamic(tabName);
     // let isDenied:boolean =  this.constantsService.isTabAccessDenied(tabName);
     let isDenied: boolean = true;
-    // debugger;
+    // ;
 
     if (Array.isArray(tabNameInfo)) {
       tabNameInfo.forEach((tab) => {

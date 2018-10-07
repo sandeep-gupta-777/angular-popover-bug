@@ -12,15 +12,17 @@ import { IProfilePermission } from '../interfaces/profile-action-permission';
 
 declare var Handsontable: any;
 
-export enum ERouteNames {
-  customner = 'customner',
-  report = 'report',
-  create_report = 'create_report',
-  enterprise_profile = 'enterprise_profile',
-  analytics2 = 'analytics2',
-  consumer = 'consumer',
-  sessions = 'sessions',
-}
+
+// {
+//   // customner = 'customner',
+//   'Get Enterpise Knowledge base'='Get Enterpise Knowledge base',
+//   report = 'report',
+//   create_report = 'create_report',
+//   enterprise_profile = 'enterprise_profile',
+//   analytics2 = 'analytics2',
+//   consumer = 'consumer',
+//   sessions = 'sessions',
+// }
 
 export enum EAPINames {
   integration_master = 'api/v1/integrations/',
@@ -196,6 +198,9 @@ export enum EAllActions {
   'Update Bot Knowledge base' = 'Update Bot Knowledge base',
   'Delete Bot Knowledge base' = 'Delete Bot Knowledge base'
 }
+
+export const ERouteNames = EAllActions;
+
 
 
 // import {IGlobalState} from '../interfaces/global-state';
