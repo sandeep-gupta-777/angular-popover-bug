@@ -44,7 +44,7 @@ export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoa
       let routeName = route.data["routeName"];
       if(!this.constantsService.isRouteAccessDenied(routeName)){
         return true;
-      }else {
+      }else {f
         this.router.navigate(['/denied']);
       }
     } else {
