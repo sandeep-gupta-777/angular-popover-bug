@@ -1,7 +1,7 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import {Observable} from 'rxjs';
 import {ServerService} from '../../server.service';
-import {ConstantsService, ETabNames} from '../../constants.service';
+import {ConstantsService, EAllActions} from '../../constants.service';
 import {IBot} from '../interfaces/IBot';
 import {IHeaderData} from '../../../interfaces/header-data';
 import {Store} from '@ngxs/store';
@@ -26,7 +26,7 @@ export class ViewBotsComponent implements OnInit {
   botList$: Observable<IBot[]>;
   activeTab: string = EBotType.chatbot;
   modalRef: BsModalRef;
-  myETabNames = ETabNames;
+  myEAllActions = EAllActions;
 
   constructor(
     private serverService: ServerService,

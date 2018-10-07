@@ -10,7 +10,7 @@ import {ServerService} from '../../../server.service';
 import {UtilityService} from '../../../utility.service';
 import {BotSessionsComponent} from '../bot-sessions/bot-sessions.component';
 import {UpdateBotInfoByIdInBotInBotList, SaveVersionInfoInBot} from '../../view-bots/ngxs/view-bot.action';
-import {ConstantsService, ERoleName, ETabNames} from '../../../constants.service';
+import {ConstantsService, ERoleName, EAllActions} from '../../../constants.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {IUser} from '../../interfaces/user';
 import {IAuthState} from '../../../auth/ngxs/auth.state';
@@ -22,7 +22,7 @@ import {IAuthState} from '../../../auth/ngxs/auth.state';
 })
 export class CodeBasedBotDetailComponent implements OnInit {
 
-  myETabNames = ETabNames;
+  myEAllActions = EAllActions;
   isArchitectureFullScreen = false;
   @Select() botlist$: Observable<ViewBotStateModel>;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;

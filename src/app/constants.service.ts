@@ -1,60 +1,130 @@
-import {Injectable} from '@angular/core';
-import {IAppState} from './ngxs/app.state';
-import {IUser} from './core/interfaces/user';
-import {Select} from '@ngxs/store';
-import {Observable} from 'rxjs';
-import {IBot} from './core/interfaces/IBot';
-import {IIntegrationOption} from '../interfaces/integration-option';
-import {DatePipe} from '@angular/common';
-import {environment} from '../environments/environment.prod';
-import {IAuthState} from './auth/ngxs/auth.state';
-import {IProfilePermission} from '../interfaces/profile-action-permission';
+import { Injectable } from '@angular/core';
+import { IAppState } from './ngxs/app.state';
+import { IUser } from './core/interfaces/user';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { IBot } from './core/interfaces/IBot';
+import { IIntegrationOption } from '../interfaces/integration-option';
+import { DatePipe } from '@angular/common';
+import { environment } from '../environments/environment.prod';
+import { IAuthState } from './auth/ngxs/auth.state';
+import { IProfilePermission } from '../interfaces/profile-action-permission';
 
 declare var Handsontable: any;
 
-export enum ERouteNames {
-  customner = 'customner',
-  report = 'report',
-  create_report = 'create_report',
-  enterprise_profile = 'enterprise_profile',
-  analytics2 = 'analytics2',
-  consumer = 'consumer',
-  sessions = 'sessions',
-}
+
+// {
+//   // customner = 'customner',
+//   'Get Enterpise Knowledge base'='Get Enterpise Knowledge base',
+//   report = 'report',
+//   create_report = 'create_report',
+//   enterprise_profile = 'enterprise_profile',
+//   analytics2 = 'analytics2',
+//   consumer = 'consumer',
+//   sessions = 'sessions',
+// }
 
 export enum EAPINames {
   integration_master = 'api/v1/integrations/',
   enterprise = 'enterprise/',
 }
 
-export enum ETabNames {
-  customner = 'customner',
-  create_bot = 'create_bot',
-  knowledgeBase = 'knowledgeBase',
-  enterprise_profile = 'enterprise_profile',
-  architecture_tab = 'architecture_tab',
-  delete_bot = 'delete_bot',
-  architecture_items = 'architecture_items',
-  lower_panel_bot_detail = 'lower_panel_bot_detail',
-  lower_panel_tabs = 'lower_panel_tabs',
-  architecture_panel_pipeline = 'architecture_panel',
-  update_bot_button = 'update_bot_button',
-  bot_header_ellipsis = 'bot_header_ellipsis',
-  bot_header_reset = 'bot_header_reset',
-  integration_icons = 'integration_icons',
-  action_items = 'fa_action_icons',
-  forms = 'forms',
-  UI_SWITCH = 'UI_SWITCH',
-  report = 'report',
-  analytics2 = 'analytics2',
-  pipeline = 'pipeline',
-  knowledgebase = 'knowledgebase',
-  botversion = 'botversion',
-  sessions = 'sessions',/*everyone should get sessions*/
-  consumers = 'consumers',
-  update_profile = 'update_profile',
-  testing = 'testing'
-}
+// export enum ETabNames {
+//
+//   /*custom tab names*/
+//   customner = 'customner',
+//   create_bot = 'create_bot',
+//   knowledgeBase = 'knowledgeBase',
+//   enterprise_profile = 'enterprise_profile',
+//   architecture_tab = 'architecture_tab',
+//   delete_bot = 'delete_bot',
+//   architecture_items = 'architecture_items',
+//   lower_panel_bot_detail = 'lower_panel_bot_detail',
+//   lower_panel_tabs = 'lower_panel_tabs',
+//   architecture_panel_pipeline = 'architecture_panel',
+//   update_bot_button = 'update_bot_button',
+//   bot_header_ellipsis = 'bot_header_ellipsis',
+//   bot_header_reset = 'bot_header_reset',
+//   integration_icons = 'integration_icons',
+//   action_items = 'fa_action_icons',
+//   forms = 'forms',
+//   UI_SWITCH = 'UI_SWITCH',
+//   report = 'report',
+//   analytics2 = 'analytics2',
+//   pipeline = 'pipeline',
+//   knowledgebase = 'knowledgebase',
+//   botversion = 'botversion',
+//   sessions = 'sessions',/*everyone should get sessions*/
+//   consumers = 'consumers',
+//   update_profile = 'update_profile',
+//   testing = 'testing',
+//
+//
+//   /*actions based tab names*/
+//   'Get Bots' = 'Get Bots',
+//   'Create Bots' = 'Create Bots',
+//   'Update Bots' = 'Update Bots',
+//   'Delete Bots' = 'Delete Bots',
+//   'Get Bots Anonymous' = 'Get Bots Anonymous',
+//   'Get Enterprise Knowledge base' = 'Get Enterprise Knowledge base',
+//   'Create Enterprise Knowledge base' = 'Create Enterprise Knowledge base',
+//   'Update Enterprise Knowledge base' = 'Update Enterprise Knowledge base',
+//   'Delete Enterprise Knowledge base' = 'Delete Enterprise Knowledge base',
+//   'Create Bot Versioning' = 'Create Bot Versioning',
+//   'GET Bot Versioning' = 'GET Bot Versioning',
+//   'Update Bot Versioning' = 'Update Bot Versioning',
+//   'Delete Bot Versioning' = 'Delete Bot Versioning',
+//   'Create Role' = 'Create Role',
+//   'Get Role' = 'Get Role',
+//   'Update Role' = 'Update Role',
+//   'Delete Role' = 'Delete Role',
+//   'Create User' = 'Create User',
+//   'Get User' = 'Get User',
+//   'Update User' = 'Update User',
+//   'Get Consumers' = 'Get Consumers',
+//   'Get Sessions' = 'Get Sessions',
+//   'Analytics' = 'Analytics',
+//   'Get Bot Testcases' = 'Get Bot Testcases',
+//   'Create Bot Testcases' = 'Create Bot Testcases',
+//   'Update Bot Testcases' = 'Update Bot Testcases',
+//   'Delete Bot Testcases' = 'Delete Bot Testcases',
+//   'Get Integrations' = 'Get Integrations',
+//   'Get Pipeline Module' = 'Get Pipeline Module',
+//   'Create Reports' = 'Create Reports',
+//   'Get Reports' = 'Get Reports',
+//   'Update Reports' = 'Update Reports',
+//   'Delete Reports' = 'Delete Reports',
+//   'Get Report History' = 'Get Report History',
+//   'Get Enterprise' = 'Get Enterprise',
+//   'Update Enterprise' = 'Update Enterprise',
+//   'Delete User' = 'Delete User',
+//   'Get Report Types' = 'Get Report Types',
+//   'Send API' = 'Send API',
+//   'Get Messages' = 'Get Messages',
+//   'Get Actions' = 'Get Actions',
+//   'Close Room' = 'Close Room',
+//   'agent_close' = 'agent_close',
+//   'Anonymize Conversation' = 'Anonymize Conversation',
+//   'Post dfRules Debug' = 'Post dfRules Debug',
+//   'Post genRules Debug' = 'Post genRules Debug',
+//   'Post genTemplate Debug' = 'Post genTemplate Debug',
+//   'Post Workflow Debug' = 'Post Workflow Debug',
+//   'Workflow Webhook' = 'Workflow Webhook',
+//   'Facebook Webhook' = 'Facebook Webhook',
+//   'Backward Compatible Message API' = 'Backward Compatible Message API',
+//   'Intelligence API Webhook' = 'Intelligence API Webhook',
+//   'Delete Consumer' = 'Delete Consumer',
+//   'Create Decrypt Audit' = 'Create Decrypt Audit',
+//   'erase consumer' = 'erase consumer',
+//   'Exec Reports' = 'Exec Reports',
+//   'Download Reports' = 'Download Reports',
+//   'Skype API' = 'Skype API',
+//   'Update Password' = 'Update Password',
+//   'Get Bot Knowledge base' = 'Get Bot Knowledge base',
+//   'Create Bot Knowledge base' = 'Create Bot Knowledge base',
+//   'Update Bot Knowledge base' = 'Update Bot Knowledge base',
+//   'Delete Bot Knowledge base' = 'Delete Bot Knowledge base'
+// }
 
 export enum ERoleName {
   Admin = 'Admin',
@@ -63,71 +133,74 @@ export enum ERoleName {
   Tester = 'Tester',
 }
 
-export enum EAPermissionsDynamic {
-  'Get Bots'='Get Bots',
-  'Create Bots'='Create Bots',
-  'Update Bots'='Update Bots',
-  'Delete Bots'='Delete Bots',
-  'Get Bots Anonymous'='Get Bots Anonymous',
-  'Get Enterpise Knowledge base'='Get Enterpise Knowledge base',
-  'Create Enterprise Knowledge base'='Create Enterprise Knowledge base',
-  'Update Enterprise Knowledge base'='Update Enterprise Knowledge base',
-  'Delete Enterprise Knowledge base'='Delete Enterprise Knowledge base',
-  'Create Bot Versioning'='Create Bot Versioning',
-  'GET Bot Versioning'='GET Bot Versioning',
-  'Update Bot Versioning'='Update Bot Versioning',
-  'Delete Bot Versioning'='Delete Bot Versioning',
-  'Create Role'='Create Role',
-  'Get Role'='Get Role',
-  'Update Role'='Update Role',
-  'Delete Role'='Delete Role',
-  'Create User'='Create User',
-  'Get User'='Get User',
-  'Update User'='Update User',
-  'Get Consumers'='Get Consumers',
-  'Get Sessions'='Get Sessions',
-  'Analytics'='Analytics',
-  'Get Bot Testcases'='Get Bot Testcases',
-  'Create Bot Testcases'='Create Bot Testcases',
-  'Update Bot Testcases'='Update Bot Testcases',
-  'Delete Bot Testcases'='Delete Bot Testcases',
-  'Get Integrations'='Get Integrations',
-  'Get Pipeline Module'='Get Pipeline Module',
-  'Create Reports'='Create Reports',
-  'Get Reports'='Get Reports',
-  'Update Reports'='Update Reports',
-  'Delete Reports'='Delete Reports',
-  'Get Report History'='Get Report History',
-  'Get Enterprise'='Get Enterprise',
-  'Update Enterprise'='Update Enterprise',
-  'Delete User'='Delete User',
-  'Get Report Types'='Get Report Types',
-  'Send API'='Send API',
-  'Get Messages'='Get Messages',
-  'Get Actions'='Get Actions',
-  'Close Room'='Close Room',
-  'agent_close'='agent_close',
-  'Anonymize Conversation'='Anonymize Conversation',
-  'Post dfRules Debug'='Post dfRules Debug',
-  'Post genRules Debug'='Post genRules Debug',
-  'Post genTemplate Debug'='Post genTemplate Debug',
-  'Post Workflow Debug'='Post Workflow Debug',
-  'Workflow Webhook'='Workflow Webhook',
-  'Facebook Webhook'='Facebook Webhook',
-  'Backward Compatible Message API'='Backward Compatible Message API',
-  'Intelligence API Webhook'='Intelligence API Webhook',
-  'Delete Consumer'='Delete Consumer',
-  'Create Decrypt Audit'='Create Decrypt Audit',
-  'erase consumer'='erase consumer',
-  'Exec Reports'='Exec Reports',
-  'Download Reports'='Download Reports',
-  'Skype API'='Skype API',
-  'Update Password'='Update Password',
-  'Get Bot Knowledge base'='Get Bot Knowledge base',
-  'Create Bot Knowledge base'='Create Bot Knowledge base',
-  'Update Bot Knowledge base'='Update Bot Knowledge base',
-  'Delete Bot Knowledge base'='Delete Bot Knowledge base'
+export enum EAllActions {
+  'Get Bots' = 'Get Bots',
+  'Create Bots' = 'Create Bots',
+  'Update Bots' = 'Update Bots',
+  'Delete Bots' = 'Delete Bots',
+  'Get Bots Anonymous' = 'Get Bots Anonymous',
+  'Get Enterprise Knowledge base' = 'Get Enterprise Knowledge base',
+  'Create Enterprise Knowledge base' = 'Create Enterprise Knowledge base',
+  'Update Enterprise Knowledge base' = 'Update Enterprise Knowledge base',
+  'Delete Enterprise Knowledge base' = 'Delete Enterprise Knowledge base',
+  'Create Bot Versioning' = 'Create Bot Versioning',
+  'GET Bot Versioning' = 'GET Bot Versioning',
+  'Update Bot Versioning' = 'Update Bot Versioning',
+  'Delete Bot Versioning' = 'Delete Bot Versioning',
+  'Create Role' = 'Create Role',
+  'Get Role' = 'Get Role',
+  'Update Role' = 'Update Role',
+  'Delete Role' = 'Delete Role',
+  'Create User' = 'Create User',
+  'Get User' = 'Get User',
+  'Update User' = 'Update User',
+  'Get Consumers' = 'Get Consumers',
+  'Get Sessions' = 'Get Sessions',
+  'Analytics' = 'Analytics',
+  'Get Bot Testcases' = 'Get Bot Testcases',
+  'Create Bot Testcases' = 'Create Bot Testcases',
+  'Update Bot Testcases' = 'Update Bot Testcases',
+  'Delete Bot Testcases' = 'Delete Bot Testcases',
+  'Get Integrations' = 'Get Integrations',
+  'Get Pipeline Module' = 'Get Pipeline Module',
+  'Create Reports' = 'Create Reports',
+  'Get Reports' = 'Get Reports',
+  'Update Reports' = 'Update Reports',
+  'Delete Reports' = 'Delete Reports',
+  'Get Report History' = 'Get Report History',
+  'Get Enterprise' = 'Get Enterprise',
+  'Update Enterprise' = 'Update Enterprise',
+  'Delete User' = 'Delete User',
+  'Get Report Types' = 'Get Report Types',
+  'Send API' = 'Send API',
+  'Get Messages' = 'Get Messages',
+  'Get Actions' = 'Get Actions',
+  'Close Room' = 'Close Room',
+  'agent_close' = 'agent_close',
+  'Anonymize Conversation' = 'Anonymize Conversation',
+  'Post dfRules Debug' = 'Post dfRules Debug',
+  'Post genRules Debug' = 'Post genRules Debug',
+  'Post genTemplate Debug' = 'Post genTemplate Debug',
+  'Post Workflow Debug' = 'Post Workflow Debug',
+  'Workflow Webhook' = 'Workflow Webhook',
+  'Facebook Webhook' = 'Facebook Webhook',
+  'Backward Compatible Message API' = 'Backward Compatible Message API',
+  'Intelligence API Webhook' = 'Intelligence API Webhook',
+  'Delete Consumer' = 'Delete Consumer',
+  'Create Decrypt Audit' = 'Create Decrypt Audit',
+  'erase consumer' = 'erase consumer',
+  'Exec Reports' = 'Exec Reports',
+  'Download Reports' = 'Download Reports',
+  'Skype API' = 'Skype API',
+  'Update Password' = 'Update Password',
+  'Get Bot Knowledge base' = 'Get Bot Knowledge base',
+  'Create Bot Knowledge base' = 'Create Bot Knowledge base',
+  'Update Bot Knowledge base' = 'Update Bot Knowledge base',
+  'Delete Bot Knowledge base' = 'Delete Bot Knowledge base'
 }
+
+export const ERouteNames = EAllActions;
+
 
 
 // import {IGlobalState} from '../interfaces/global-state';
@@ -144,7 +217,7 @@ export class ConstantsService {
   //   'Update Bots',
   //   'Delete Bots',
   //   'Get Bots Anonymous',
-  //   'Get Enterpise Knowledge base',
+  //   'Get Enterprise Knowledge base',
   //   'Create Enterprise Knowledge base',
   //   'Update Enterprise Knowledge base',
   //   'Delete Enterprise Knowledge base',
@@ -205,109 +278,119 @@ export class ConstantsService {
   //   'Delete Bot Knowledge base'
   // ];
 
-  permissionsDeniedMap = {
-    'Admin': {
-      route: [],
-      module: [],
-      tab: [],//tab, hyperlink, button
-      api: [],//tab, hyperlink, button
-    },
-    'Analyst': {
-      route: [ERouteNames.customner,
-        ERouteNames.enterprise_profile,
-        ERouteNames.report,
-        ERouteNames.create_report,
-      ],
-      module: [],
-      tab: [// =  tab, hyperlink, button
-        ETabNames.enterprise_profile,
-        ETabNames.customner,
-        ETabNames.architecture_tab,
-        ETabNames.bot_header_ellipsis,
-        ETabNames.knowledgeBase,
-        ETabNames.update_bot_button,
-        ETabNames.bot_header_reset,
-        ETabNames.architecture_items,
-        ETabNames.integration_icons,
-        ETabNames.forms,
-        ETabNames.action_items,
-        ETabNames.UI_SWITCH,
-        ETabNames.report,
-        // ETabNames.analytics2,
-        ETabNames.testing,
-        ETabNames.pipeline,
-        ETabNames.knowledgebase,
-        ETabNames.botversion,
-        // ETabNames.update_profile,
-        ETabNames.create_bot,
-        // ETabNames.architecture_items,
+  // export inteface IBackEndPermissionsToFrontEndMappingItem {
+  //   [key: EAPermissionsDynamic]: {
+  //   route: [],
+  //   module: [],
+  //   tab: [],//tab, hyperlink, button
+  //   api: [],//tab, hyperlink, button
+  // };
 
-      ],
-      api: [
-        EAPINames.integration_master,
-        EAPINames.enterprise,
-      ]
-    },
-    'Bot Developer': {
-      route: [
-        ERouteNames.enterprise_profile,
-      ],
-      module: [],
-      tab: [
-        ETabNames.enterprise_profile,
-        // ETabNames.update_profile,
 
-      ],//tab, hyperlink, button
-      api: [EAPINames.enterprise]
-    },
-    'Tester': {
-      route: [
-        ERouteNames.customner,
-        ERouteNames.enterprise_profile,
-        ERouteNames.report,
+  // permissionsDeniedMap = {
+  //   'Admin': {
+  //     route: [],
+  //     module: [],
+  //     tab: [],//tab, hyperlink, button
+  //     api: [],//tab, hyperlink, button
+  //   },
+  //   'Analyst': {
+  //     route: [
+  //       ERouteNames.customner,
+  //       ERouteNames.enterprise_profile,
+  //       ERouteNames.report,
+  //       ERouteNames.create_report,
+  //     ],
+  //     module: [],
+  //     tab: [// =  tab, hyperlink, button
+  //       ETabNames.enterprise_profile,
+  //       ETabNames.customner,
+  //       ETabNames.architecture_tab,
+  //       ETabNames.bot_header_ellipsis,
+  //       ETabNames.knowledgeBase,
+  //       ETabNames.update_bot_button,
+  //       ETabNames.bot_header_reset,
+  //       ETabNames.architecture_items,
+  //       ETabNames.integration_icons,
+  //       ETabNames.forms,
+  //       ETabNames.action_items,
+  //       ETabNames.UI_SWITCH,
+  //       ETabNames.report,
+  //       // ETabNames.analytics2,
+  //       ETabNames.testing,
+  //       ETabNames.pipeline,
+  //       ETabNames.knowledgebase,
+  //       ETabNames.botversion,
+  //       // ETabNames.update_profile,
+  //       ETabNames.create_bot,
+  //       // ETabNames.architecture_items,
+  //
+  //     ],
+  //     api: [
+  //       EAPINames.integration_master,
+  //       EAPINames.enterprise,
+  //     ]
+  //   },
+  //   'Bot Developer': {
+  //     route: [
+  //       ERouteNames.enterprise_profile,
+  //     ],
+  //     module: [],
+  //     tab: [
+  //       ETabNames.enterprise_profile,
+  //       // ETabNames.update_profile,
+  //
+  //     ],//tab, hyperlink, button
+  //     api: [EAPINames.enterprise]
+  //   },
+  //   'Tester': {
+  //     route: [
+  //       ERouteNames.customner,
+  //       ERouteNames.enterprise_profile,
+  //       ERouteNames.report,
+  //
+  //       // ERouteNames.consumer,
+  //       // ERouteNames.analytics2,
+  //     ],
+  //     module: [],
+  //     tab: [// =  tab, hyperlink, button
+  //       ETabNames.enterprise_profile,
+  //       ETabNames.customner,
+  //       ETabNames.create_bot,
+  //       ETabNames.architecture_tab,
+  //       ETabNames.delete_bot,
+  //       // ETabNames.lower_panel_bot_detail,
+  //       ETabNames.architecture_panel_pipeline,
+  //       ETabNames.bot_header_ellipsis,
+  //       ETabNames.knowledgeBase,
+  //       ETabNames.update_bot_button,
+  //       ETabNames.bot_header_reset,
+  //       ETabNames.consumers,
+  //       // ETabNames.integration_icons,
+  //       ETabNames.forms,
+  //       ETabNames.action_items,
+  //       ETabNames.UI_SWITCH,
+  //       ETabNames.report,
+  //       ETabNames.analytics2,
+  //       // ETabNames.update_profile
+  //
+  //     ],
+  //     api: [
+  //       EAPINames.integration_master,
+  //       EAPINames.enterprise,
+  //     ]
+  //   }
+  // };
 
-        // ERouteNames.consumer,
-        // ERouteNames.analytics2,
-      ],
-      module: [],
-      tab: [// =  tab, hyperlink, button
-        ETabNames.enterprise_profile,
-        ETabNames.customner,
-        ETabNames.create_bot,
-        ETabNames.architecture_tab,
-        ETabNames.delete_bot,
-        // ETabNames.lower_panel_bot_detail,
-        ETabNames.architecture_panel_pipeline,
-        ETabNames.bot_header_ellipsis,
-        ETabNames.knowledgeBase,
-        ETabNames.update_bot_button,
-        ETabNames.bot_header_reset,
-        ETabNames.consumers,
-        // ETabNames.integration_icons,
-        ETabNames.forms,
-        ETabNames.action_items,
-        ETabNames.UI_SWITCH,
-        ETabNames.report,
-        ETabNames.analytics2,
-        // ETabNames.update_profile
-
-      ],
-      api: [
-        EAPINames.integration_master,
-        EAPINames.enterprise,
-      ]
-    }
-  };
-
-  forbiddenPermsDynamic:{id?:string,name?:number};
+  forbiddenPermsDynamic: { id?: string, name?: number };
   setPermissionsDeniedMap(allPermissions: IProfilePermission[]) {
 
     try {
-      if(this.allowedPermissionIdsToCurrentRole.length === 0){/*exception for admin*/
+      if (this.allowedPermissionIdsToCurrentRole.length === 0) {/*exception for admin*/
         this.forbiddenPermsDynamic = {};
         return;
       }
-    }catch (e) {
+    } catch (e) {
       console.log(e);
     }
 
@@ -372,25 +455,25 @@ export class ConstantsService {
 
 
   isRouteAccessDenied(routeName: string) {
-    let role = this.loggedUser.role.name;
-    let deniedRoutes = this.permissionsDeniedMap[role].route;
-    let isRouteAccessDenied = deniedRoutes.find((route) => {
-      return route === routeName;
-    });
-    return isRouteAccessDenied;
+    // let role = this.loggedUser.role.name;
+    // let deniedRoutes = this.permissionsDeniedMap[role].route;
+    // let isRouteAccessDenied = deniedRoutes.find((route) => {
+    //   return route === routeName;
+    // });
+    return false;// isRouteAccessDenied;
   }
 
-  isTabAccessDenied(tabName: string) {
-    if (!tabName) return false;
-    let role = this.loggedUser.role.name;
-    let deniedTabs = this.permissionsDeniedMap[role].tab;
-    let isTabAccessDenied = deniedTabs.find((route) => {
-      return route === tabName;
-    });
-    return !!isTabAccessDenied;
-  }
+  // isTabAccessDenied(tabName: string) {
+  //   if (!tabName) return false;
+  //   let role = this.loggedUser.role.name;
+  //   let deniedTabs = this.permissionsDeniedMap[role].tab;
+  //   let isTabAccessDenied = deniedTabs.find((route) => {
+  //     return route === tabName;
+  //   });
+  //   return !!isTabAccessDenied;
+  // }
 
-  isAccessDeniedDynamic(tabName: EAPermissionsDynamic) {
+  isAccessDeniedDynamic(tabName: EAllActions) {
     if (!tabName || !this.forbiddenPermsDynamic) return false;
     // let role = this.loggedUser.role.name;
     // let deniedTabs = this.permissionsDeniedMap[role].tab;
@@ -401,14 +484,15 @@ export class ConstantsService {
   }
 
   isApiAccessDenied(apiUrl: string) {
-    if (!apiUrl) return false;
-    let role = this.loggedUser.role.name;
-    let deniedApi = this.permissionsDeniedMap[role].api;
-    let isApiAccessDenied = deniedApi.find((route) => {
-      return apiUrl.includes(route);
-    });
-    let x = !!isApiAccessDenied;
-    return x;
+    return false;
+    // if (!apiUrl) return false;
+    // let role = this.loggedUser.role.name;
+    // let deniedApi = this.permissionsDeniedMap[role].api;
+    // let isApiAccessDenied = deniedApi.find((route) => {
+    //   return apiUrl.includes(route);
+    // });
+    // let x = !!isApiAccessDenied;
+    // return x;
   }
 
   public BACKEND_URL = environment.url;//'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
@@ -419,17 +503,17 @@ export class ConstantsService {
   public BACKEND_USER_PIPELINE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'api/v1/bot/';//https://dev.imibot.ai/bots
 
   public readonly CHANNEL_LIST = [
-    {name: 'all', displayName: 'All Channels'},
-    {name: 'facebook', displayName: 'Facebook'},
-    {name: 'web', displayName: 'WebChat'},
-    {name: 'alexa', displayName: 'Alexa'}];
+    { name: 'all', displayName: 'All Channels' },
+    { name: 'facebook', displayName: 'Facebook' },
+    { name: 'web', displayName: 'WebChat' },
+    { name: 'alexa', displayName: 'Alexa' }];
 
   public readonly TIME_GRANULARITY_LIST = [
-    {name: 'hour', displayName: 'Hour'},
-    {name: 'day', displayName: 'Day'},
-    {name: 'week', displayName: 'Week'},
-    {name: 'month', displayName: 'Month'},
-    {name: 'year', displayName: 'Year'}
+    { name: 'hour', displayName: 'Hour' },
+    { name: 'day', displayName: 'Day' },
+    { name: 'week', displayName: 'Week' },
+    { name: 'month', displayName: 'Month' },
+    { name: 'year', displayName: 'Year' }
   ];
 
   public readonly DATE_PICKER_CONFIG = Object.assign({}, {
@@ -682,7 +766,7 @@ export class ConstantsService {
   }
 
   updateBotSerializer(bot: IBot) {
-    let clone = {...bot};
+    let clone = { ...bot };
     let not_keys = [
       'bot_access_token',
       'created_at',
@@ -773,7 +857,7 @@ export class ConstantsService {
       delete: false,
       position: 'right',
       custom: [
-        {name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>`}
+        { name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>` }
       ],
       width: '150px',
     },
@@ -826,8 +910,8 @@ export class ConstantsService {
       delete: false,
       position: 'right',
       custom: [
-        {name: 'download', title: `<i  class="fa fa-download pr-2 text-dark"></i>`},
-        {name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>`},
+        { name: 'download', title: `<i  class="fa fa-download pr-2 text-dark"></i>` },
+        { name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>` },
       ],
 
     },
@@ -923,12 +1007,12 @@ export class ConstantsService {
 
   readonly HANDSON_TABLE_BOT_TESTING_colHeaders = ['Message', 'Expected Template', 'Status', 'Generated Template', 'RoomId', 'TransactionId'];
   readonly HANDSON_TABLE_BOT_TESTING_columns = [
-    {data: 0, type: 'text',},
-    {data: 1, type: 'text',},
-    {data: 2, type: 'text', readOnly: true},
-    {data: 3, type: 'text', readOnly: true},
-    {data: 4, type: 'text', readOnly: true},
-    {data: 5, type: 'text', readOnly: true},
+    { data: 0, type: 'text', },
+    { data: 1, type: 'text', },
+    { data: 2, type: 'text', readOnly: true },
+    { data: 3, type: 'text', readOnly: true },
+    { data: 4, type: 'text', readOnly: true },
+    { data: 5, type: 'text', readOnly: true },
   ];
 
   readonly HANDSON_TABLE_KNOWLEDGE_BASE_SETTING = {

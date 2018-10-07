@@ -26,7 +26,7 @@ export class EnterpriseprofileComponent implements OnInit {
   role: string;
   enterpriseId: number;
   loggeduserenterpriseinfo: IEnterpriseProfileInfo;
-  smartTableSettings_Enterpise_profiles = this.constantsService.SMART_TABLE_ENTERPISE_USERS_SETTING;
+  smartTableSettings_Enterprise_profiles = this.constantsService.SMART_TABLE_ENTERPISE_USERS_SETTING;
 
   constructor(
     private store: Store,

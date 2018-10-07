@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild} 
 import {ICustomNerItem} from '../../../../../../../interfaces/custom-ners';
 import {NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../../utility.service';
-import {ConstantsService} from '../../../../../../constants.service';
+import {ConstantsService, EAllActions, ERouteNames} from '../../../../../../constants.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {HandsontableComponent} from '../../../../../../handsontable/handsontable.component';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
@@ -16,7 +16,10 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 export class KnowledgeBasePresentationComponent implements OnInit {
   _selectedRowData: ICustomNerItem = {};
   process_raw_text = false;
+  myEAllActions = EAllActions;
+  myERouteNames = ERouteNames;
   modalRef: BsModalRef;
+
   @ViewChild(HandsontableComponent)handsontableComponent:HandsontableComponent;
   @Input() set selectedRowData(value: ICustomNerItem) {
 

@@ -3,9 +3,14 @@
     <!-- <i class="fa fa-plus pr-4"></i>
     <i class="fa fa-minus pr-4"></i> -->
     <button class="btn-theme-primary-outline mr-2" (click)="exportToCSV()">Export to CSV</button>
-    <button class="btn-theme-primary mr-2" (click)="updateTC()" *ngIf="isData && tableChanged">Update test Case</button>
-    <button class="btn-theme-primary mr-2" (click)="createTC()" *ngIf="!isData && tableChanged">Create test Case
-    </button>
+    <div *myIf="myEAllActions['Update Bot Testcases']" class="d-inline-block">
+      <button class="btn-theme-primary mr-2" (click)="updateTC()" *ngIf="isData && tableChanged">Update test Case
+      </button>
+    </div>
+    <div *myIf="myEAllActions['Create Bot Testcases']" class="d-inline-block">
+      <button class="btn-theme-primary mr-2" (click)="createTC()" *ngIf="!isData && tableChanged">Create test Case
+      </button>
+    </div>
     <button class="btn-theme-danger mr-2" (click)="beginTest(Primarytemplat)" *ngIf="cancelTestFlag">Cancel Test
     </button>
     <button class="btn-theme-primary mr-2" (click)="beginTest(Primarytemplat)" *ngIf="!cancelTestFlag">Begin Test

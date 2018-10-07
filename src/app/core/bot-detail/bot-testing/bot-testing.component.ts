@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { ServerService } from '../../../server.service';
-import { ConstantsService } from '../../../constants.service';
+import {ConstantsService, EAllActions} from '../../../constants.service';
 import { ITestcases } from '../../../../interfaces/testcases';
 import { Observable } from 'rxjs';
 import { IBot } from '../../interfaces/IBot';
@@ -18,6 +18,7 @@ export class BotTestingComponent implements OnInit {
 
   @Input() bot: IBot;
   testCases$: Observable<[string, string, string][]>;
+  myEAllActions = EAllActions;
   handontable_colHeaders;
   handontable_column;
   testCaseData: [string, string, string][] = [["", "", ""]];
@@ -65,7 +66,7 @@ export class BotTestingComponent implements OnInit {
         else {
           this.isData = true;
           let testCaseData = value.objects[0].data;
-          
+
           let testCaseDataForBot: ITestcases = value.objects.find((testcase) => {
             return testcase.bot_id === this.bot.id
           });
@@ -146,7 +147,7 @@ export class BotTestingComponent implements OnInit {
             this.cancelTestFlag = false;
           });
       }
-      
+
     });
 
   }
@@ -165,7 +166,7 @@ export class BotTestingComponent implements OnInit {
     )
       .subscribe((value) => {
         this.cancelTestFlag = false;
-        
+
       });
   }
 }

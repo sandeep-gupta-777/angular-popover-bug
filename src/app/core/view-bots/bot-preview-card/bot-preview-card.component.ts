@@ -14,7 +14,7 @@ import {
   SetCurrentBotDetailsAndResetChatStateIfBotMismatch, SetCurrentUId,
   ToggleChatWindow
 } from '../../../chat/ngxs/chat.action';
-import {ConstantsService, ERoleName, ETabNames} from '../../../constants.service';
+import {ConstantsService, ERoleName, EAllActions} from '../../../constants.service';
 import {ServerService} from '../../../server.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {IConsumerDetails} from '../../../chat/ngxs/chat.state';
@@ -42,7 +42,7 @@ export class BotPreviewCardComponent implements OnInit {
   customConsumerDetails: IConsumerDetails;
   role: string;
   enterprise_unique_name: string;
-  myETabNames=ETabNames;
+  myEAllActions=EAllActions;
 
   constructor(
     public utilityService: UtilityService,
@@ -69,7 +69,7 @@ export class BotPreviewCardComponent implements OnInit {
     });
 
     this.loggeduser$.subscribe((authState: IAuthState) => {
-      this.role = authState.user.role.name;
+      this.role = authState.user && authState.user.role.name;
     });
   }
 
@@ -175,6 +175,7 @@ export class BotPreviewCardComponent implements OnInit {
   }
 
   navigateToBotDetailPage(event) {//preview-button
+    ;
     if (!event.target.classList.contains('click-save-wrapper')) {
       this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id]);
       /*TODO:improve it*/

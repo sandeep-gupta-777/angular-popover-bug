@@ -18,7 +18,7 @@ import {
 } from './core/view-bots/ngxs/view-bot.action';
 import {IBot, IBotResult, IBotVersionResult} from './core/interfaces/IBot';
 import {ActivatedRoute, Router} from '@angular/router';
-import {SetAutoLogoutTime, SetMasterIntegrationsList, SetProgressValue} from './ngxs/app.action';
+import {SetAutoLogoutTime, SetMasterIntegrationsList, SetMasterProfilePermissions, SetProgressValue} from './ngxs/app.action';
 import {IIntegrationMasterListItem, IIntegrationOption} from '../interfaces/integration-option';
 import {ICustomNerItem} from '../interfaces/custom-ners';
 import 'rxjs/add/observable/throw';
@@ -37,6 +37,7 @@ import {
 } from './chat/ngxs/chat.action';
 import {b, st} from '@angular/core/src/render3';
 import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
+import {IProfilePermission} from '../interfaces/profile-action-permission';
 
 declare var IMI: any;
 declare var $: any;
@@ -608,6 +609,17 @@ export class ServerService {
     };
 
     return this.makePostReq({url, body, headerData});
+  }
+
+  getNSetMasterPermissionsList(){
+    let allActionsUrl = this.constantsService.getAllActionsUrl();
+    return this.makeGetReq<{ meta: any, objects: IProfilePermission[] }>({url: allActionsUrl})
+      .map((value:{objects:IProfilePermission[]}) => {
+        this.store.dispatch([
+          new SetMasterProfilePermissions({masterProfilePermissions: value.objects})
+        ]);
+        // this.constantsService.setPermissionsDeniedMap(value.objects)
+      });
   }
 
 }

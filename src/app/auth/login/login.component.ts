@@ -3,13 +3,13 @@ import {ServerService} from '../../server.service';
 import {ConstantsService, ERoleName} from '../../constants.service';
 import {IUser} from '../../core/interfaces/user';
 import {Store} from '@ngxs/store';
-import {SetUserAction} from '../ngxs/auth.action';
 import {IHeaderData} from '../../../interfaces/header-data';
 import {Router} from '@angular/router';
 import {UtilityService} from '../../utility.service';
 import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
 import {SetEnterpriseInfoAction} from '../../core/enterpriseprofile/ngxs/enterpriseprofile.action';
 import {SetBackendURlRoot} from '../../ngxs/app.action';
+import {SetUser} from '../ngxs/auth.action';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
 
   disabeLoginButton = false;
+
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
@@ -35,8 +36,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     // this.store.dispatch()
-    this.serverService.makeGetReq({url:'/static/config.json', noValidateUser:true})
-      .subscribe(((value:{"backend_url":string,"version":string})=>{
+    this.serverService.makeGetReq({url: '/static/config.json', noValidateUser: true})
+      .subscribe(((value: { 'backend_url': string, 'version': string }) => {
         // {"backend_url":"https://dev.imibot.ai/","version":"1.0.0"}
         this.store.dispatch([
           new SetBackendURlRoot({url: value.backend_url})
@@ -44,7 +45,7 @@ export class LoginComponent implements OnInit {
       }));
   }
 
-  flashErrorMessage(message:string, time_ms:number=3000){
+  flashErrorMessage(message: string, time_ms: number = 3000) {
     this.errorMessage = message;
     setTimeout(() => {
       this.errorMessage = '';
@@ -52,61 +53,55 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    this.disabeLoginButton =true;
+    this.disabeLoginButton = true;
     let loginData = this.f.value;
     let loginUrl = this.constantsService.getLoginUrl();
-    // let headerData:IHeaderData = {'api-key': '54asdkj1209nksnda',"content-type":'application/x-www-f-urlencoded'};
-    // let body = {
-    //
-    //   // "email":"ayeshreddy.k@imimobile.com",
-    //   // "password":"Botwoman@123!"
-    //   "email": "imibotadmin@imimobile.com",
-    //   "password": "Botwoman@123!"
-    // };
     let body;
     if (this.f.valid) {
 
       body = this.f.value;
     } else {
-      this.flashErrorMessage("Details not valid");
+      this.flashErrorMessage('Details not valid');
       return;
     }
 
-    this.flashErrorMessage("Reaching out to the server", 100000);
-    let headerData: IHeaderData ={
-      "auth-token":null,
-      'user-access-token':null
+    this.flashErrorMessage('Reaching out to the server', 100000);
+    let headerData: IHeaderData = {
+      'auth-token': null,
+      'user-access-token': null
     };
     this.serverService.makePostReq<IUser>({url: loginUrl, body, headerData})
-      .subscribe((user:IUser) => {
+      .subscribe((user: IUser) => {
+          this.flashErrorMessage('Logged in. Fetching permissions', 100000);
+          this.store.dispatch([
+            new SetUser({user}),
+          ]).subscribe(() => {
+            this.serverService.getNSetMasterPermissionsList()
+              .subscribe(() => {
+                this.flashErrorMessage('Taking you to homepage', 100000);
+                /*after login, route to appropriate page according to user role*/
+                if (user.role.name === ERoleName.Analyst) {
+                  this.router.navigate(['/core/analytics2/users']);
+                } else {
+                  this.router.navigate(['.']);
+                }
+                this.serverService.getNSetBotList().subscribe(() => {
+                });
+                this.serverService.getNSetIntegrationList();
+              });
 
-        this.flashErrorMessage("Logged in. Taking you to home page", 100000);
-        // this.constantsService.setPermissionsDeniedMap(user.role.permissions.actions);
-        this.store.dispatch([
-            new SetUserAction({user}),
-          ]).subscribe(()=>{
-          this.serverService.getNSetBotList()
-            .subscribe(()=>{"bot list fetched from login page"});
-          this.serverService.getNSetIntegrationList();
-          if(user.role.name===ERoleName.Analyst){
-              this.router.navigate(['/core/analytics2/users']);
-            }else {
-              this.router.navigate(['.']);
-            }
-          });
-
-          let enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(user.enterprise_id);
-          this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
-          .subscribe((value: IEnterpriseProfileInfo) => {
-
-            this.store.dispatch([
-              new SetEnterpriseInfoAction({enterpriseInfo: value})
-            ]);
+            let enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(user.enterprise_id);
+            this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
+              .subscribe((value: IEnterpriseProfileInfo) => {
+                this.store.dispatch([
+                  new SetEnterpriseInfoAction({enterpriseInfo: value})
+                ]);
+              });
           });
         },
-        ()=>{
-          this.disabeLoginButton =false;
-          this.flashErrorMessage("Login failed. Please try again", 100000);
+        () => {
+          this.disabeLoginButton = false;
+          this.flashErrorMessage('Login failed. Please try again', 100000);
         }
       );
   }

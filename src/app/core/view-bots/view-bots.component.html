@@ -11,7 +11,9 @@
     </li>
 
     <!--<div class="d-flex justify-content-end mt-4 ml-auto">-->
-    <button *myIf="myETabNames.create_bot" class="btn btn-theme-primary ml-auto" (click)="openCreateBotModal(Primarytemplate)"><i class="fa fa-plus pr-1"></i>New Bot</button>
+    <button *myIf="myEAllActions['Create Bots']" class="btn btn-theme-primary ml-auto" (click)="openCreateBotModal(Primarytemplate)">
+      <i class="fa fa-plus pr-1"></i>New Bot
+    </button>
     <!--</div>-->
   </ul>
 

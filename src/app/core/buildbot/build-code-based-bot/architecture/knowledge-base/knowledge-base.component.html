@@ -1,7 +1,16 @@
 <div class="row" *ngIf="showTable; else rowDetails">
   <!--<div class="row">-->
-  <div class="col-12 pb-2 d-flex justify-content-end">
-    <button class="btn-theme-primary" (click)="reinitialise()">Create Concept</button>
+  <div class="col-12 pb-2 d-flex justify-content-end" *ngIf="routeName===myERouteNames['Get Enterpise Knowledge base']">
+    <button class="btn-theme-primary"
+            (click)="reinitialise()"
+            *myIf="myEAllActions['Create Enterprise Knowledge base']"
+    >Create Concept</button>
+  </div>
+  <div class="col-12 pb-2 d-flex justify-content-end" *ngIf="routeName!==myERouteNames['Get Enterpise Knowledge base']">
+    <button class="btn-theme-primary"
+            (click)="reinitialise()"
+            *myIf="myEAllActions['Create Bot Knowledge base']"
+    >Create Concept</button>
   </div>
   <div class="col-12">
     <app-smart-table *ngIf="_custumNerDataForSmartTable"
