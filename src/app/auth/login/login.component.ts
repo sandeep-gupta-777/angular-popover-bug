@@ -117,7 +117,7 @@ export class LoginComponent implements OnInit {
   }
 
   showPanel(panel) {
-    this.panelActive = panel;;
+    this.panelActive = panel;
   }
 
 
