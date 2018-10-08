@@ -15,7 +15,7 @@ declare var Handsontable: any;
 
 // {
 //   // customner = 'customner',
-//   'Get Enterpise Knowledge base'='Get Enterpise Knowledge base',
+//   'Get Enterprise Knowledge base'='Get Enterprise Knowledge base',
 //   report = 'report',
 //   create_report = 'create_report',
 //   enterprise_profile = 'enterprise_profile',
@@ -139,7 +139,7 @@ export enum EAllActions {
   'Update Bots' = 'Update Bots',
   'Delete Bots' = 'Delete Bots',
   'Get Bots Anonymous' = 'Get Bots Anonymous',
-  'Get Enterprise Knowledge base' = 'Get Enterprise Knowledge base',
+  'Get Enterprise Knowledge base' = 'Get Enterprise Knowledge base',//Get Enterprise Knowledge base
   'Create Enterprise Knowledge base' = 'Create Enterprise Knowledge base',
   'Update Enterprise Knowledge base' = 'Update Enterprise Knowledge base',
   'Delete Enterprise Knowledge base' = 'Delete Enterprise Knowledge base',
