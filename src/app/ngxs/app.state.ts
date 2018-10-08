@@ -31,7 +31,7 @@ export interface IAppState /*extends INavigationState, IAuthState */
   enterpriseNerData: ICustomNerItem[],
   autoLogoutTime: number
 }
-
+//
 const appDefaultState: IAppState = {
   lastUpdated: 0,
   progressbar: {
@@ -46,7 +46,7 @@ const appDefaultState: IAppState = {
   enterpriseNerData: [],
   masterPipelineItems: null,
   autoLogoutTime: Date.now() + 3600 * 1000
-};;
+};
 
 @State<IAppState>({
   name: 'app',

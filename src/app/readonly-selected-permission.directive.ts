@@ -1,21 +1,34 @@
-import {Directive, ElementRef} from '@angular/core';
+import {Directive, ElementRef, Input} from '@angular/core';
 import {UtilityService} from './utility.service';
-import {ConstantsService, ETabNames} from './constants.service';
+import {ConstantsService, EAllActions} from './constants.service';
+import {PermissionService} from './permission.service';
 
 @Directive({
   selector: '[readonlyselectedroles]'
 })
 export class HighlightDirective {
   constructor(
-    el: ElementRef,
-    private constantsService: ConstantsService
-  ) {
+    private el: ElementRef,
+    private constantsService: ConstantsService,
+    private permissionService: PermissionService
+  ) {}
 
+  @Input() set readonlyselectedroles(tabNameInfo: any/*EAllActions|EAllActions[]*/) {/*tabNameInfo can be one tabname string or array of tabname strings*/
+    ;
+    if(!tabNameInfo) console.error("tabNameInfo is null or undefined");
+    let isDenied: boolean = true;
 
-    let isDenied: boolean = this.constantsService.isTabAccessDenied(ETabNames.forms);
+    if (Array.isArray(tabNameInfo)) {
+      tabNameInfo.forEach((tab) => {
+        isDenied = isDenied && this.permissionService.isTabAccessDenied(tab);
+      });
+    } else {
+      isDenied = this.permissionService.isTabAccessDenied(tabNameInfo);//false;//this.constantsService.isTabAccessDenied(tabName);
+    }
+
     if (isDenied) {
-      el.nativeElement.disabled = true;
-      el.nativeElement.classList.add("cursor-pointer-event-none");
+      this.el.nativeElement.disabled = true;
+      this.el.nativeElement.classList.add("cursor-pointer-event-none");
     }
   }
 }

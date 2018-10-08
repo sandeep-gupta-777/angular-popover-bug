@@ -32,11 +32,18 @@
   <!--============= REDESIGN=================-->
 
   <div class="flex-column shadow-theme architecture bg-white p-1 px-2 my align-content-start"
-       *myIf="myETabNames.lower_panel_bot_detail">
+       *myIf="[
+       myEAllActions['Get Pipeline Module'],
+       myEAllActions['Get Integrations'],
+       myEAllActions['Get Bot Knowledge base'],
+       myEAllActions['Get Bot Testcases'],
+       myEAllActions['Get Sessions'],
+       myEAllActions['Get Consumers']
+       ]">
     <!--tabs start-->
     <div class="px-2">
       <ul class="nav nav-tabs border-none theme-tabbing mb-1 bg-white">
-        <li *myIf="myETabNames.architecture_tab" class="nav-item"
+        <li *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]" class="nav-item"
             [ngClass]="{'tab-active':selectedTab==='architecture'}">
           <a class="nav-link heading" [routerLink]="['.']"
              queryParamsHandling="merge"
@@ -44,21 +51,21 @@
              (click)="tabChanged('architecture')"
              [queryParams]="{build:'architecture'}"><strong>Architecture</strong></a>
         </li>
-        <li *myIf="myETabNames.testing" class="nav-item" [ngClass]="{'tab-active':selectedTab==='testing'}">
+        <li *myIf="myEAllActions['Get Bot Testcases']" class="nav-item" [ngClass]="{'tab-active':selectedTab==='testing'}">
           <a class="nav-link heading" [routerLink]="['.']"
              queryParamsHandling="merge"
              replaceUrl="true"
              (click)="tabChanged('testing')"
              [queryParams]="{build:'testing'}"><strong>Testing</strong></a>
         </li>
-        <li *myIf="myETabNames.sessions" class="nav-item" [ngClass]="{'tab-active':selectedTab==='sessions'}">
+        <li *myIf="myEAllActions['Get Sessions']" class="nav-item" [ngClass]="{'tab-active':selectedTab==='sessions'}">
           <a class="nav-link heading" [routerLink]="['.']"
              queryParamsHandling="merge"
              replaceUrl="true"
              (click)="tabChanged('sessions')"
              [queryParams]="{build:'sessions'}"><strong>Sessions</strong></a>
         </li>
-        <li *myIf="myETabNames.consumers" class="nav-item" [ngClass]="{'tab-active':selectedTab==='consumer'}">
+        <li *myIf="myEAllActions['Get Consumers']" class="nav-item" [ngClass]="{'tab-active':selectedTab==='consumer'}">
           <a class="nav-link heading" [routerLink]="['.']"
              queryParamsHandling="merge"
              replaceUrl="true"
@@ -82,7 +89,8 @@
     <!---->
     <!--architeture starts-->
     <div class="col-12 p-0" style="height: 85%" *ngIf="selectedTab==='architecture' &&  bot ">
-      <div class="col-12 architeture-body" style="overflow-y: auto;height: 100%" *myIf="myETabNames.architecture_items">
+      <div class="col-12 architeture-body" style="overflow-y: auto;height: 100%"
+           *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]">
         <div class="d-flex row-body bg-white " style="height: 98%">
           <!--TODO: 98% to avoid scroll bar; use grid instead-->
           <!--side bar starts-->
@@ -136,7 +144,7 @@
           </div>
 
         </div>
-
+<!---->
       </div>
 
     </div>

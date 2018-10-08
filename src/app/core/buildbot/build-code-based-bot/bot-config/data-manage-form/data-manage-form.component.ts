@@ -4,7 +4,8 @@ import {IBasicInfo, ISaveDataManagment} from '../../../../../../interfaces/bot-c
 import {SaveDataManagment} from '../../../ngxs/buildbot.action';
 import {Store} from '@ngxs/store';
 import {UtilityService} from '../../../../../utility.service';
-import {ConstantsService, ETabNames} from '../../../../../constants.service';
+import {ConstantsService, EAllActions} from '../../../../../constants.service';
+import {PermissionService} from '../../../../../permission.service';
 
 @Component({
   selector: 'app-data-manage-form',
@@ -15,7 +16,7 @@ import {ConstantsService, ETabNames} from '../../../../../constants.service';
 export class DataManageFormComponent implements OnInit {
 
   _bot: Partial<IBot> = {};
-  myETabNames = ETabNames;
+  myEAllActions = EAllActions;
   @Input() set bot(_bot: IBot) {
     if (this.f && _bot) {
       this._bot = _bot;
@@ -31,6 +32,7 @@ export class DataManageFormComponent implements OnInit {
   constructor(
     private store: Store,
     public constantsService: ConstantsService,
+    public permissionService: PermissionService,
     private utilityService: UtilityService) {
   }
 

@@ -3,9 +3,9 @@ import {IUser} from '../interfaces/user';
 import {Observable} from 'rxjs';
 import {Select, Store} from '@ngxs/store';
 import {ServerService} from '../../server.service';
-import {ConstantsService, ETabNames} from '../../constants.service';
+import {ConstantsService, EAllActions} from '../../constants.service';
 import {IHeaderData} from '../../../interfaces/header-data';
-import {SetUserAction} from '../../auth/ngxs/auth.action';
+import {SetUser} from '../../auth/ngxs/auth.action';
 import {UtilityService} from '../../utility.service';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
@@ -20,7 +20,7 @@ import {IProfilePermission} from '../../../interfaces/profile-action-permission'
 })
 export class ProfileComponent implements OnInit {
 
-  myETabNames = ETabNames;
+  myEAllActions = EAllActions;
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @ViewChild('form') f: HTMLFormElement;
   @ViewChild('password_form') passwordForm: NgForm;
@@ -73,7 +73,7 @@ export class ProfileComponent implements OnInit {
         let updatedUser: IUser = {...this.loggeduser, ...value};
         this.utilityService.showSuccessToaster('Updated profile');
         this.store.dispatch([
-          new SetUserAction({user: updatedUser})
+          new SetUser({user: updatedUser})
         ]);
       });
   }

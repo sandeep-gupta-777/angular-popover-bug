@@ -32,8 +32,10 @@
               </label>
               <div hidden class="cursor-pointer" (click)="showPanel('forgot')">Forgot Password?</div>
             </div>
-            <button type="submit" class="btn-block  mt-3 mb-2" [disabled]="disabeLoginButton" [ngClass]="{'btn-theme-primary':!disabeLoginButton, 'btn-theme-disabled':disabeLoginButton}" >Submit</button>
-            <i  class="text-danger my-2" style="height: 15px" [ngClass]="{'visible':errorMessage}">{{errorMessage}}</i>
+            <button type="submit" class="btn-block  mt-3 mb-2"
+                    [disabled]="disabeLoginButton"
+                    [ngClass]="{'btn-theme-primary':!disabeLoginButton, 'btn-theme-disabled':disabeLoginButton}" >Submit (test)</button>
+            <i  class="notification-text my-2" style="height: 15px" [ngClass]="{'visible':errorMessage}">{{errorMessage}}</i>
           </form>
         </div>
       </div>
@@ -99,4 +101,8 @@
     </div>
   </div>
 
+</div>
+
+<div *ngIf="showCustomEmails">
+<div *ngFor="let email of loginEmails" (click)="loginWithCustomEmail(email)">{{email}}</div>
 </div>

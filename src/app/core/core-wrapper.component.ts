@@ -28,14 +28,6 @@ export class CoreWrapperComponent implements OnInit {
         this.isFullScreenPreview = data.state.root.firstChild.data.isFullScreenPreview;
       }
     });
-    let allActionsUrl = this.constantsService.getAllActionsUrl();
-    this.serverService.makeGetReq<{ meta: any, objects: IProfilePermission[] }>({url: allActionsUrl})
-      .subscribe((value:{objects:IProfilePermission[]}) => {
-        this.store.dispatch([
-          new SetMasterProfilePermissions({masterProfilePermissions: value.objects})
-        ]);
-        this.constantsService.setPermissionsDeniedMap(value.objects)
-      });
   }
 
 }

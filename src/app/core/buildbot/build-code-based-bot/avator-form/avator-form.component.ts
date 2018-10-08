@@ -6,7 +6,7 @@ import {Store} from '@ngxs/store';
 import {SaveAvatorInfo} from '../../ngxs/buildbot.action';
 import {NgForm} from '@angular/forms';
 import {EFormValidationErrors, UtilityService} from '../../../../utility.service';
-import {ETabNames} from '../../../../constants.service';
+import {EAllActions} from '../../../../constants.service';
 
 @Component({
   selector: 'app-avator-form',
@@ -16,7 +16,7 @@ import {ETabNames} from '../../../../constants.service';
 export class AvatorFormComponent implements OnInit, AfterViewInit {
 
   _bot: IBot;
-  myETabNames = ETabNames;
+  myEAllActions = EAllActions;
   @Input() set bot(_bot: IBot) {
 
     this._bot = _bot;

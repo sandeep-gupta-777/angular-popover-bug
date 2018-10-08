@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
-import {ETabNames} from '../../../constants.service';
+import {EAllActions} from '../../../constants.service';
 
 @Component({
   selector: 'app-pipeline-based-bot-detail',
@@ -17,7 +17,7 @@ import {ETabNames} from '../../../constants.service';
   styleUrls: ['./pipeline-based-bot-detail.component.scss']
 })
 export class PipelineBasedBotDetailComponent implements OnInit {
-myETabNames = ETabNames
+myEAllActions = EAllActions
 
   @Select() botlist$: Observable<ViewBotStateModel>;
   isArchitectureFullScreen = false;
@@ -106,6 +106,7 @@ myETabNames = ETabNames
 
   refreshBotDetails(){
     this.serverService.fetchSpecificBotFromServerAndUpdateBotList(this.bot);
+    this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
   }
 
   togglePanel(){

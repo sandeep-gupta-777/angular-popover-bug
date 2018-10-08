@@ -3,6 +3,7 @@ import {NavigationEnd, RouteConfigLoadEnd, RouteConfigLoadStart, Router, RoutesR
 import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {IAppState} from './ngxs/app.state';
+import {PermissionService} from './permission.service';
 
 declare var CodeMirror: any;
 
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit {
   loadingRouteConfig;
   @Select() app$: Observable<IAppState>;
   @ViewChild('carousel') carousel:ElementRef;
-  constructor(private router: Router) {
+  constructor(private router: Router, private permissionService:PermissionService) {
   }
 
   isFullScreenPreview: boolean;

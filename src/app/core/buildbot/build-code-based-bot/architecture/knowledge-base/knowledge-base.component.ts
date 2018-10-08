@@ -3,7 +3,7 @@ import {Select, Store} from '@ngxs/store';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {IBot} from '../../../../interfaces/IBot';
 import {ServerService} from '../../../../../server.service';
-import {ConstantsService} from '../../../../../constants.service';
+import {ConstantsService, EAllActions, ERouteNames} from '../../../../../constants.service';
 import {UtilityService} from '../../../../../utility.service';
 import {IHeaderData} from '../../../../../../interfaces/header-data';
 import {ICustomNerItem} from '../../../../../../interfaces/custom-ners';
@@ -23,6 +23,9 @@ export class KnowledgeBaseComponent implements OnInit {
 
   // @Input() bot: IBot;
   @ViewChild('form') f1: NgForm;
+  myEAllActions = EAllActions;
+  myERouteNames = ERouteNames;
+  routeName: string;
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Input() recordsPerPage=10;
 
@@ -76,6 +79,8 @@ export class KnowledgeBaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.routeName = this.activatedRoute.snapshot.data['routeName'];
+
     this.activatedRoute.queryParamMap
       .subscribe((value:ParamMap)=>{
         if(value.get('ner_id') ){

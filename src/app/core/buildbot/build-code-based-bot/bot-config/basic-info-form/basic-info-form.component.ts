@@ -8,9 +8,10 @@ import {Observable} from 'rxjs';
 import {ViewBotStateModel} from '../../../../view-bots/ngxs/view-bot.state';
 import {NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../utility.service';
-import {ConstantsService, ETabNames} from '../../../../../constants.service';
+import {ConstantsService, EAllActions} from '../../../../../constants.service';
 import {ActivatedRoute} from '@angular/router';
 import {EBotType} from '../../../../view-bots/view-bots.component';
+import {PermissionService} from '../../../../../permission.service';
 
 @Component({
   selector: 'app-basic-info-form',
@@ -43,11 +44,12 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
   isManager: boolean = false;
   bot_type;
   formData: Partial<IBot>;
-  myETabNames = ETabNames;
+  myEAllActions = EAllActions;
   myEBotType = EBotType;
   constructor(private store: Store,
               private utilityService: UtilityService,
               public constantsService: ConstantsService,
+              public permissionService: PermissionService,
               public activatedRoute: ActivatedRoute
   ) {
   }
@@ -67,9 +69,9 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
     //   this.isManager = false;
     // }
     this.botlist$.subscribe((botlist) => {
-
+      if(!botlist) return;
       this.allbotList = botlist.allBotList;
-      this.codebasedBotList = botlist.allBotList.filter((bot)=>bot.bot_type === EBotType.chatbot);
+      this.codebasedBotList = this.allbotList && botlist.allBotList.filter((bot)=>bot.bot_type === EBotType.chatbot);
     });
 
   }
@@ -89,7 +91,7 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) return;
       if (!this.f.dirty) return;
       this.formData = data; /*this.formData is used for compareTwoJavaObjects, no other purpose*/
-      if(this.bot_type === EBotType.chatbot && this._bot.child_bots.length<1 && this.isManager){
+      if(this.bot_type === EBotType.chatbot && this._bot.child_bots && this._bot.child_bots.length<1 && this.isManager){
         /*TODO: ui-switch is not working on so many levels, fix it*/
         this.datachanged$.emit({...this.formData, form_validation_basic_info: false});
         return;

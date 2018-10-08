@@ -26,7 +26,6 @@ export class ViewPipelineBasedBotsComponent implements OnInit, OnDestroy {
       .do((value)=>{return value})
       .map((value) => {
         let x =  value.allBotList && value.allBotList.filter((bot) => bot.bot_type === EBotType.intelligent);
-        debugger;
         return x;
       });
   }

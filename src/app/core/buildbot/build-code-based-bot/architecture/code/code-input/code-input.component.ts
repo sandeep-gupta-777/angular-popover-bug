@@ -2,7 +2,7 @@ import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, V
 import {Store, Select} from '@ngxs/store';
 import {IBot, IBotVersionData, IBotVersionResult, ICode} from '../../../../../interfaces/IBot';
 import {ServerService} from '../../../../../../server.service';
-import {ConstantsService} from '../../../../../../constants.service';
+import {ConstantsService, EAllActions} from '../../../../../../constants.service';
 import {
   SaveVersionInfoInBot,
   UpdateBotInfoByIdInBotInBotList,
@@ -41,6 +41,8 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   showConfig = true;
   myEBotVersionTabs = EBotVersionTabs;
   activeTab: string = 'df_template';
+
+  myEAllActions = EAllActions;
   @Select() botlist$: Observable<ViewBotStateModel>;
   botlist$_sub: Subscription;
   @Select() botcreationstate$: Observable<IBotCreationState>;
@@ -95,6 +97,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     //       new SaveVersionInfoInBot({data: botVersionResult.objects, botId: this.bot.id})
     //     ]);
     //   });
+
     this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
     this.botlist$_sub = this.botlist$.subscribe((value) => {
       this.utilityService.getActiveVersionInBot(this.bot);
@@ -105,11 +108,19 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       * if active version exists, selected version =active version
       * otherwise, selected version = first version, if that exists
       * */
+
       let activeVersion = this.activeVersion = this.utilityService.getActiveVersionInBot(this.bot);
-      if(this.selectedVersion)
-        this.selectedVersion = this.selectedVersion;
-      else
+      // if(!this.selectedVersion)
+      //   this.selectedVersion = activeVersion;
+      // else
+      if(!this.selectedVersion)
         this.selectedVersion = activeVersion ? activeVersion : (this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions[0]);
+      else {
+        /*updating selected version*/
+        this.selectedVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions.find((version)=>version.id===this.selectedVersion.id)
+      }
+
+
       this.forked_version_number = this.selectedVersion && this.selectedVersion.version;
       // if (!activeVersion) {
       //   try {
