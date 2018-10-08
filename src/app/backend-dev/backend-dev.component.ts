@@ -58,4 +58,9 @@ export class BackendDevComponent implements OnInit {
       });
   }
 
+    clearLocalstorageAndReload(){
+    localStorage.clear();
+    location.reload();
+  }
+
 }
