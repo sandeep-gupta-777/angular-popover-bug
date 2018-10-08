@@ -125,4 +125,4 @@ export class LoginComponent implements OnInit {
     this.f.form.patchValue({email:email,password:'Botwoman@123!'});
     this.onSubmit();
   }
-};
+}
