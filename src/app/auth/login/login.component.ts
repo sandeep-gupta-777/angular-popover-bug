@@ -4,12 +4,13 @@ import {ConstantsService, ERoleName} from '../../constants.service';
 import {IUser} from '../../core/interfaces/user';
 import {Store} from '@ngxs/store';
 import {IHeaderData} from '../../../interfaces/header-data';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {UtilityService} from '../../utility.service';
 import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
 import {SetEnterpriseInfoAction} from '../../core/enterpriseprofile/ngxs/enterpriseprofile.action';
 import {SetBackendURlRoot} from '../../ngxs/app.action';
 import {SetUser} from '../ngxs/auth.action';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -27,14 +28,23 @@ export class LoginComponent implements OnInit {
     private serverService: ServerService,
     private constantsService: ConstantsService,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private utilityService: UtilityService,
     private store: Store) {
   }
 
+  loginEmails=  [
+    'ayeshreddy.k@imimobile.com',
+    'qa.analyst_1537783720606@imimobile.com',
+    'qa.dev_1537783640111@imimobile.com',
+    'qa.tester_1537783698819@imimobile.com',
+  ];
 
-  @ViewChild('heroForm') f: HTMLFormElement;
 
+  @ViewChild('heroForm') f: NgForm;
+  showCustomEmails:boolean =false;
   ngOnInit() {
+    this.showCustomEmails = !!this.activatedRoute.snapshot.queryParamMap.get('burl');
     // this.store.dispatch()
     this.serverService.makeGetReq({url: '/static/config.json', noValidateUser: true})
       .subscribe(((value: { 'backend_url': string, 'version': string }) => {
@@ -108,5 +118,11 @@ export class LoginComponent implements OnInit {
 
   showPanel(panel) {
     this.panelActive = panel;
+  }
+
+
+  loginWithCustomEmail(email){
+    this.f.form.patchValue({email:email,password:'Botwoman@123!'});
+    this.onSubmit();
   }
 };
