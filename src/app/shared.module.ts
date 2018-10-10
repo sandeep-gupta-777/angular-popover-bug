@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {IntegrationLogosPipe} from './integration-logos.pipe';
 import {DataManageFormComponent} from './core/buildbot/build-code-based-bot/bot-config/data-manage-form/data-manage-form.component';
 import {BasicInfoFormComponent} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/basic-info-form.component';
-import {AvatorFormComponent} from './core/buildbot/build-code-based-bot/avator-form/avator-form.component';
 import {BotConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {BotArchitetureComponent} from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -44,6 +43,7 @@ import {MyIfDirective} from './ngIf-permission.directive';
 import {HighlightDirective} from './readonly-selected-permission.directive';
 import {BotConfigInputComponent} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/bot-config-input/bot-config-input.component';
 import {UiSwitchWrapperComponent} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/ui-switch/ui-switch-wrapper.component';
+import {AvatorFormComponent} from './core/buildbot/build-code-based-bot/bot-config/avator-form/avator-form.component';
 
 @NgModule({
   declarations: [

@@ -23,9 +23,7 @@ export class AvatorFormComponent implements OnInit, AfterViewInit {
 
     this._bot = _bot;
     // this.formArray && this.formArray.controls.splice(0);
-    debugger
     if (this.formArray) {
-      debugger;
       this.formArray.controls.splice(0);
       this.initializeFormArray();
     }
