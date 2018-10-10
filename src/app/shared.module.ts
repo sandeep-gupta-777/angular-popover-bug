@@ -5,7 +5,7 @@ import {BasicInfoFormComponent} from './core/buildbot/build-code-based-bot/bot-c
 import {AvatorFormComponent} from './core/buildbot/build-code-based-bot/avator-form/avator-form.component';
 import {BotConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {BotArchitetureComponent} from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {UiSwitchModule} from 'ngx-toggle-switch';
 import {CommonModule} from '@angular/common';
 import {BotIdToNamePipe} from './bot-id-to-name.pipe';
@@ -50,6 +50,8 @@ import {UiSwitchWrapperComponent} from './core/buildbot/build-code-based-bot/bot
     IntegrationLogosPipe,
     DataManageFormComponent,
     BasicInfoFormComponent,
+    BotConfigInputComponent,
+    UiSwitchWrapperComponent,
     AvatorFormComponent,
     BotConfigComponent,
     BotArchitetureComponent,
@@ -76,6 +78,7 @@ import {UiSwitchWrapperComponent} from './core/buildbot/build-code-based-bot/bot
   imports: [
     UiSwitchModule,
     FormsModule,
+    ReactiveFormsModule,
     CommonModule,
     RouterModule,
     Ng2CompleterModule,

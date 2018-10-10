@@ -1,12 +1,14 @@
 import {Injectable} from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
+
 export enum EFormValidationErrors {
-  form_validation_basic_info="form_validation_basic_info",
-  form_validation_integration="form_validation_integration",
-  form_validation_pipeline="form_validation_pipeline",
-  form_validation_avator="form_validation_avator",
-  form_validation_data_management="form_validation_data_management",
+  form_validation_basic_info = 'form_validation_basic_info',
+  form_validation_integration = 'form_validation_integration',
+  form_validation_pipeline = 'form_validation_pipeline',
+  form_validation_avator = 'form_validation_avator',
+  form_validation_data_management = 'form_validation_data_management',
 }
+
 // import import downloadCsv from 'download-csv'; from 'download-csv';
 import downloadCsv from 'download-csv';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -19,7 +21,7 @@ import {EBotMessageMediaType, IMessageData} from '../interfaces/chat-session-sta
 import {IBotPreviewFirstMessage} from './chat/chat-wrapper.component';
 import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 import {StoreVariableService} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
-
+import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 
 
 @Injectable({
@@ -35,59 +37,60 @@ export class UtilityService {
   ) {
   }
 
-  readonly RANDOM_IMAGE_URLS= [
-    "https://robohash.org/StarDroid.png",
-    "https://cdn-images-1.medium.com/max/327/1*paQ7E6f2VyTKXHpR-aViFg.png",
-    "https://robohash.org/SmartDroid.png",
-    "https://robohash.org/SilverDroid.png",
-    "https://robohash.org/IntelliBot.png",
-    "https://robohash.org/SmartBot.png",
-    "https://robohash.org/SilverDroid.png",
-    "https://robohash.org/SilverDroid.png",
+  readonly RANDOM_IMAGE_URLS = [
+    'https://robohash.org/StarDroid.png',
+    'https://cdn-images-1.medium.com/max/327/1*paQ7E6f2VyTKXHpR-aViFg.png',
+    'https://robohash.org/SmartDroid.png',
+    'https://robohash.org/SilverDroid.png',
+    'https://robohash.org/IntelliBot.png',
+    'https://robohash.org/SmartBot.png',
+    'https://robohash.org/SilverDroid.png',
+    'https://robohash.org/SilverDroid.png',
   ];
 
-  getRandomAvatorUrl(){
+  getRandomAvatorUrl() {
     let avatorArrLength = this.RANDOM_IMAGE_URLS.length;
     let randomNumber = Math.floor(Math.random() * avatorArrLength);
     return this.RANDOM_IMAGE_URLS[randomNumber];
   }
 
-  getSmartTableRowCountPerPageByViewportHeight():number{
+  getSmartTableRowCountPerPageByViewportHeight(): number {
     var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     ;
-    if(h<700){
+    if (h < 700) {
       return 10;
-    }else if(h>700&&h<1000){
+    } else if (h > 700 && h < 1000) {
       return 15;
-    } else if(h>1000){
+    } else if (h > 1000) {
       return 20;
     }
     return 10;
   }
 
   masterIntegration_IntegrationKeyDisplayNameMap = null;
-  getDisplayNameForKey_Integration(key:string){
+
+  getDisplayNameForKey_Integration(key: string) {
 
     let masterIntegrationList = this.storeVariableService.getApp().masterIntegrationList;
-    if(!this.masterIntegration_IntegrationKeyDisplayNameMap){
-      this.masterIntegration_IntegrationKeyDisplayNameMap = masterIntegrationList.reduce((accumulator, currentVal)=>{
-        let x = currentVal.inputs.reduce((accObj, currObj)=>{
+    if (!this.masterIntegration_IntegrationKeyDisplayNameMap) {
+      this.masterIntegration_IntegrationKeyDisplayNameMap = masterIntegrationList.reduce((accumulator, currentVal) => {
+        let x = currentVal.inputs.reduce((accObj, currObj) => {
           accObj[currObj.param_name] = currObj.display_text;
           return accObj;
-        },{});
+        }, {});
         return {...accumulator, ...x};
-      }, {})
+      }, {});
     }
     return this.masterIntegration_IntegrationKeyDisplayNameMap[key];
   }
 
-  getActiveVersionInBot(bot:IBot){
+  getActiveVersionInBot(bot: IBot) {
     return bot.store_bot_versions && bot.store_bot_versions.find((BotVersion) => {
       return bot.active_version_id === BotVersion.id;
     });
   }
 
-  serializeGeneratedMessagesToPreviewMessages(  generatedMessage:IGeneratedMessageItem[]):IMessageData[]{
+  serializeGeneratedMessagesToPreviewMessages(generatedMessage: IGeneratedMessageItem[]): IMessageData[] {
     return generatedMessage.map((message: IGeneratedMessageItem) => {
       /*check if media is the key
       * if yes, return {message_type:media[0].type, ...message}
@@ -96,23 +99,23 @@ export class UtilityService {
 
       // this.utilityService.getActiveVersionInBot()
 
-      if(Object.keys(message)[0] === "media"){
+      if (Object.keys(message)[0] === 'media') {
         return {
-          messageMediatype:message.media[0].type,//
+          messageMediatype: message.media[0].type,//
           ...message,
           time: Date.now(),//this.getCurrentTimeInHHMM(),
-          text:EBotMessageMediaType.image,//this is for preview of last message in chat room list
+          text: EBotMessageMediaType.image,//this is for preview of last message in chat room list
           sourceType: 'bot'
-        }
-      }else if(Object.keys(message)[0] === "quick_reply"){
+        };
+      } else if (Object.keys(message)[0] === 'quick_reply') {
 
         return {
-          messageMediatype:EBotMessageMediaType.quickReply,//
+          messageMediatype: EBotMessageMediaType.quickReply,//
           ...message,
           time: Date.now(),
-          text:(<any>message).quick_reply.text || EBotMessageMediaType.quickReply,//this is for preview of last message in chat room list
+          text: (<any>message).quick_reply.text || EBotMessageMediaType.quickReply,//this is for preview of last message in chat room list
           sourceType: 'bot'
-        }
+        };
       }
 
       /*if message type = text*/
@@ -120,7 +123,7 @@ export class UtilityService {
         text: message.text,
         time: Date.now(),//this.getCurrentTimeInHHMM(),
         sourceType: 'bot',
-        messageMediatype:EBotMessageMediaType.text
+        messageMediatype: EBotMessageMediaType.text
       };
     });
   }
@@ -318,7 +321,7 @@ export class UtilityService {
     granularity_Ms: number = 24 * 3600 * 1000  // one day
   ) {
 
-    if(!rawData) return;
+    if (!rawData) return;
     let template = {
       xAxis: {
         type: 'datetime'
@@ -361,7 +364,7 @@ export class UtilityService {
     });
 
     template.series = seriesArr;
-    console.log(template,'========================================');
+    console.log(template, '========================================');
     return template;
   }
 
@@ -463,16 +466,16 @@ export class UtilityService {
     return convertedData;
   }
 
-  createDeepClone(obj){
+  createDeepClone(obj) {
     return JSON.parse(JSON.stringify(obj));
   }
 
-  showErrorToaster(message, sec=2) {
+  showErrorToaster(message, sec = 2) {
     if (typeof message === 'string') {
-      this.toastr.error(message, null, {positionClass: 'toast-top-right', timeOut: sec*1000});
+      this.toastr.error(message, null, {positionClass: 'toast-top-right', timeOut: sec * 1000});
       return;
     } else {
-      this.toastr.error(message.message, null, {positionClass: 'toast-top-right', timeOut: sec*1000});
+      this.toastr.error(message.message, null, {positionClass: 'toast-top-right', timeOut: sec * 1000});
     }
   }
 
@@ -483,9 +486,26 @@ export class UtilityService {
   showSuccessToaster(message) {
     this.toastr.success(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
   }
-  createRandomUid(){
+
+  isManagerValidator(formGroup: FormGroup) {
+    let formValue = formGroup.value;
+    let is_manager = formValue['is_manager'];
+    let child_bots = formValue['child_bots'];
+    /*if is_manager = true, child_bots should have at least one value*/
+    return (!is_manager || is_manager && (child_bots.length > 0)) ? null : {'isManagerError': true};
+  }
+
+  pushFormControlItemInFormArray(formArray:FormArray,formBuilder:FormBuilder, item:any){
+    formArray.push(formBuilder.control(item));
+  }
+  pushFormGroupItemInFormArray(formArray:FormArray,formBuilder:FormBuilder, item:any){
+    formArray.push(formBuilder.group(item));
+  }
+
+  createRandomUid() {
     return Date.now();
   }
+
   convertGranularityStrToMs(granularity: string): number {
     if (granularity === 'hour') {
       return 3600 * 1000;
@@ -522,15 +542,13 @@ export class UtilityService {
   };
 
 
-
-
-  downloadText(text,filename){
+  downloadText(text, filename) {
     var saveData = (function () {
-      var a:any = document.createElement("a");
+      var a: any = document.createElement('a');
       document.body.appendChild(a);
-      a.style = "display: none";
+      a.style = 'display: none';
       return function (data, fileName) {
-        var blob = new Blob([text], {type: "octet/stream"}),
+        var blob = new Blob([text], {type: 'octet/stream'}),
           url = window.URL.createObjectURL(blob);
         a.href = url;
         a.download = fileName;
@@ -559,25 +577,25 @@ export class UtilityService {
 
   areAllAvatorValesDefined(headerObj: object) {
     for (let key in headerObj) {
-      if (headerObj[key] ==null || headerObj[key] ==="")//0!==null but 0==""
+      if (headerObj[key] == null || headerObj[key] === '')//0!==null but 0==""
         return false;
     }
     return true;
   }
 
   areAllValesDefined(headerObj: object) {
-    let headerDataTemplate:IAnalysis2HeaderData = {
-      "bot-access-token":null,
-      type:null,
-      enddate:null,
-      startdate:null,
-      "auth-token":null,
-      "user-access-token":null,
-      granularity:null
+    let headerDataTemplate: IAnalysis2HeaderData = {
+      'bot-access-token': null,
+      type: null,
+      enddate: null,
+      startdate: null,
+      'auth-token': null,
+      'user-access-token': null,
+      granularity: null
     };
-    headerObj = {...headerDataTemplate,...headerObj};
+    headerObj = {...headerDataTemplate, ...headerObj};
     for (let key in headerObj) {
-      if (headerObj[key] ==null || headerObj[key] ==="")//0!==null but 0==""
+      if (headerObj[key] == null || headerObj[key] === '')//0!==null but 0==""
         return false;
     }
     return true;
@@ -587,45 +605,62 @@ export class UtilityService {
     this.router.navigate(['.'], {queryParams: queryParamObj, relativeTo: this.activatedRoute});
   }
 
-  areTwoJSObjectSame(obj1, obj2){
+  findFormControlIndexInFormArrayByValue(formArray:FormArray, value): number {
+    let i = 0;
+    for (let control of formArray.controls) {
+      if (control instanceof FormControl) {
+        if (control.value === value) return i;
+      }
+      if (control instanceof FormGroup) {
+        // is a FormGroup
+      }
+      if (control instanceof FormArray) {
+        // is a FormArray
+      }
+      ++i;
+    }
+  }
+
+  areTwoJSObjectSame(obj1, obj2) {
     return JSON.stringify(obj1) === JSON.stringify(obj2);
   }
 
-  getGlobalErrorMap(){
+  getGlobalErrorMap() {
     let errorObj = {};
-    errorObj[EFormValidationErrors.form_validation_basic_info] = "Basic info form is not valid";
-    errorObj[EFormValidationErrors.form_validation_integration] = "Integration form is not valid";
-    errorObj[EFormValidationErrors.form_validation_pipeline] = "Pipeline is not valid";
-    errorObj[EFormValidationErrors.form_validation_avator] = "Avators are either invalid or empty";
-    errorObj[EFormValidationErrors.form_validation_data_management] = "Data Management form is invalid";
+    errorObj[EFormValidationErrors.form_validation_basic_info] = 'Basic info form is not valid';
+    errorObj[EFormValidationErrors.form_validation_integration] = 'Integration form is not valid';
+    errorObj[EFormValidationErrors.form_validation_pipeline] = 'Pipeline is not valid';
+    errorObj[EFormValidationErrors.form_validation_avator] = 'Avators are either invalid or empty';
+    errorObj[EFormValidationErrors.form_validation_data_management] = 'Data Management form is invalid';
     return errorObj;
   }
-  getErrorMessageForValidationKey(key){
+
+  getErrorMessageForValidationKey(key) {
     let errorMap = this.getGlobalErrorMap();
-    return errorMap[key]
+    return errorMap[key];
   }
 
-  checkIfAllPipelineInputParamsArePopulated(pipeline:IPipelineItem[]):boolean{
+  checkIfAllPipelineInputParamsArePopulated(pipeline: IPipelineItem[]): boolean {
 
-    let inputParamsObj:object = pipeline.reduce((inputParamsObj, pipelineItem)=>{
+    let inputParamsObj: object = pipeline.reduce((inputParamsObj, pipelineItem) => {
       return {...inputParamsObj, ...pipelineItem.input_params};
-    },{});
+    }, {});
 
-    for(let param in inputParamsObj){
-      if(inputParamsObj[param]==null){
+    for (let param in inputParamsObj) {
+      if (inputParamsObj[param] == null) {
         return false;
       }
     }
     return true;
   }
 
-  performFormValidationBeforeSaving(obj:IBot):IBot{
+  performFormValidationBeforeSaving(obj: IBot): IBot {
     let objShallowClone = {...obj};
-    let validation_Keys:string[] = Object.keys(objShallowClone).filter((key)=>{
-      return key.includes('form_validation_')
+    let validation_Keys: string[] = Object.keys(objShallowClone).filter((key) => {
+      return key.includes('form_validation_');
     });
-    for(let key of validation_Keys){
-      if(!objShallowClone[key]){
+    for (let key of validation_Keys) {
+      if (!objShallowClone[key]) {
         let errorMessage = this.getErrorMessageForValidationKey(key);
         this.showErrorToaster(errorMessage);
         return null;
@@ -635,7 +670,7 @@ export class UtilityService {
     return objShallowClone;
   }
 
-  serializeServerValueToChatRoomMessages(value:IBotPreviewFirstMessage){
+  serializeServerValueToChatRoomMessages(value: IBotPreviewFirstMessage) {
     let roomMessages: IMessageData[] = value.generated_msg.map((item: { text: string }) => {
       return {
         text: item.text,
