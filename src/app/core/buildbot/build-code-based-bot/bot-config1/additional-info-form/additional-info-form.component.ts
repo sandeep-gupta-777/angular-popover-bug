@@ -5,7 +5,6 @@ import {SaveNewBotInfo_CodeBased} from '../../../ngxs/buildbot.action';
 import {Store} from '@ngxs/store';
 import {UtilityService} from '../../../../../utility.service';
 import {EAllActions} from '../../../../../constants.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-additional-info-form',
@@ -17,39 +16,35 @@ export class AdditionalInfoFormComponent implements OnInit {
 
   _bot: Partial<IBot> = {};
   myEAllActions = EAllActions;
-  formGroup: FormGroup;
 
   @Input() set bot(_bot: IBot) {
-    if (_bot) {
+    if (this.f && _bot) {
       this._bot = _bot;
-      this.formGroup && this.formGroup.patchValue(_bot);
+      this.f.form.patchValue(_bot);
     }
   }
 
+  @ViewChild('form') f: HTMLFormElement;
   @Output() datachanged$ = new EventEmitter<Partial<IBot>>();
 
   formData: any;
 
-  constructor(
-    private store: Store,
-    private utilityService: UtilityService,
-    private formBuilder: FormBuilder) {
+  constructor(private store: Store, private utilityService: UtilityService) {
   }
 
   ngOnInit() {
-    this.formGroup = this.formBuilder.group({
-      heading: [this._bot.heading],
-      transactions_per_pricing_unit: [this._bot.transactions_per_pricing_unit],
-      error_message: [this._bot.error_message],
-      first_message: [this._bot.first_message],
-    });
-    this.formGroup.valueChanges.debounceTime(200).subscribe((data: IBasicInfo) => {
+  }
+
+  ngAfterViewInit(): void {
+    console.log(this._bot);
+    this.f.valueChanges.debounceTime(200).subscribe((data: IBasicInfo) => {
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) return;
+      if (!this.f.dirty) return;
       this.formData = data;
       this.datachanged$.emit(data);
     });
-
   }
-
-  click(){}
+  click(){
+    console.log(this.f.value);
+  }
 }

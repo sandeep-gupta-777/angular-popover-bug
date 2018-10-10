@@ -42,6 +42,8 @@ import {IntegrationNameFormatterPipe} from './core/buildbot/build-code-based-bot
 import {ClickOutsideModule} from 'ng2-click-outside';
 import {MyIfDirective} from './ngIf-permission.directive';
 import {HighlightDirective} from './readonly-selected-permission.directive';
+import {BotConfigInputComponent} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/bot-config-input/bot-config-input.component';
+import {UiSwitchWrapperComponent} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/ui-switch/ui-switch-wrapper.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +97,8 @@ import {HighlightDirective} from './readonly-selected-permission.directive';
     IntegrationLogosPipe,
     DataManageFormComponent,
     BasicInfoFormComponent,
+    BotConfigInputComponent,
+    UiSwitchWrapperComponent,
     AvatorFormComponent,
     BotConfigComponent,
     BotArchitetureComponent,
