@@ -13,7 +13,7 @@ import {EAllActions} from '../../../../../constants.service';
   templateUrl: './avator-form.component.html',
   styleUrls: ['./avator-form.component.scss']
 })
-export class AvatorFormComponent implements OnInit, AfterViewInit {
+export class AvatorFormComponent implements OnInit {
 
   _bot: IBot;
   myEAllActions = EAllActions;
@@ -22,10 +22,7 @@ export class AvatorFormComponent implements OnInit, AfterViewInit {
   @Input() set bot(_bot: IBot) {
 
     this._bot = _bot;
-    // this.formArray && this.formArray.controls.splice(0);
-    debugger
     if (this.formArray) {
-      debugger;
       this.formArray.controls.splice(0);
       this.initializeFormArray();
     }
@@ -63,7 +60,7 @@ export class AvatorFormComponent implements OnInit, AfterViewInit {
     console.log(this.formArray);
 
     this.formGroup.valueChanges.debounceTime(200).subscribe((data: any) => {
-      debugger;
+
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) return;
       this.formData = this.formGroup.value;
       let avatarValidationObj = {};
@@ -74,51 +71,11 @@ export class AvatorFormComponent implements OnInit, AfterViewInit {
 
   initializeFormArray() {
     this._bot.avatars.forEach((avatar) => {
-      // this.utilityService.pushFormGroupItemInFormArray(this.formArray, this.formBuilder, avatar);
       this.formArray.push(this.formBuilder.group({
         'name': [avatar.name, Validators.required],
         'imageUrl': [avatar.imageUrl, Validators.required],
       }));
-
     });
-  }
-  //
-  ngDoCheck() {
-    let changes = this.iterableDiffer.diff(this.avatorList);
-    if (changes) {
-      // this.saveChangesInStore();
-    }
-  }
-
-  saveChangesInStore() {
-    // let avatorListToBeSaved: IAvatar[] = this.avatorList.map((value) => {
-    //   return {...value.avator};
-    // });
-    // let avatarValidationObj = {};
-    // avatarValidationObj[EFormValidationErrors.form_validation_avator] = true;
-    // // avatarValidationObj[EFormValidationErrors.form_validation_avator'] = this.f && this.f.valid;//TODO: doesn't work
-    // for (let obj of avatorListToBeSaved) {
-    //   if (!this.utilityService.areAllAvatorValesDefined(obj)) {
-    //     avatarValidationObj[EFormValidationErrors.form_validation_avator] = false;
-    //   }
-    // }
-    // if (this.avatorList.length < 1) {
-    //   avatarValidationObj[EFormValidationErrors.form_validation_avator] = false;
-    // }
-    // this.datachanged$.emit({avatars: avatorListToBeSaved, ...avatarValidationObj});
-  }
-
-
-  //
-  addNewAvatorRow() {
-    // this.avatorList.push({
-    //   editMode: true,
-    //   avator: {
-    //     imageUrl: '',
-    //     name: '',
-    //     id: 0
-    //   }
-    // });
   }
 
   createPrebuiltAvatarRow(empty?: boolean) {
@@ -140,48 +97,10 @@ export class AvatorFormComponent implements OnInit, AfterViewInit {
     }
 
     this.utilityService.pushFormGroupItemInFormArray(this.formArray, this.formBuilder, newAvator);
-
-    // this.avatorList.push(newAvator);
-    // this.avatorList = [...this.avatorList];
-  }
-
-  saveAvatorRow(index: string) {
-    this.avatorList[index].editMode = false;
-    /*toggle edit mode*/
-    /*make req to server*/
-  }
-
-  editRow(index: number) {
-    // this.avatorList[index].editMode = true;
   }
 
   deleteAvator(index: number) {
-    // this.newAvator = {
-    //   imageUrl: '',
-    //   name: '',
-    //   id: 0
-    // };
     this.avatorList.splice(index, 1);
     this.formArray.removeAt(index);
-    /*make request to server*/
   }
-
-  ngAfterViewInit(): void {
-
-    // if (this.f) {
-    //   setTimeout(() => {
-    //       this.saveChangesInStore();
-    //       // this.datachanged$.emit({
-    //       //   form_validation_avator: this.f.valid
-    //       //   }
-    //       // );
-    //     }
-    //     , 100);
-    // }
-    // this.f.valueChanges.debounceTime(1000).subscribe((data: any) => {
-    //
-    //   this.saveChangesInStore();
-    // });
-  }
-
 }

@@ -61,7 +61,7 @@ export class AvatorFormComponent implements OnInit, AfterViewInit {
     console.log(this.formArray);
 
     this.formGroup.valueChanges.debounceTime(200).subscribe((data: any) => {
-      debugger;
+
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) return;
       this.formData = this.formGroup.value;
       let avatarValidationObj = {};

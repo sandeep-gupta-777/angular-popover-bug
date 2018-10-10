@@ -30,7 +30,6 @@ export class BasicInfoFormComponent implements OnInit, AfterViewInit {
 
   @Input() set bot(_bot: IBot) {
     if (this.f && _bot) {
-      //
       this._bot = _bot;
       this.childBotlength = this._bot.child_bots && this._bot.child_bots.length;
       if (!this._bot.logo) this._bot.logo = this._default_logo;

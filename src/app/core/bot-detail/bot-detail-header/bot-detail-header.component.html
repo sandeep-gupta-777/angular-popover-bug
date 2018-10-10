@@ -31,27 +31,32 @@
 
 
   <span *myIf="myEAllActions['Get Integrations']">
-    <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async))" [src]="integrationsMasterListItem?.icon"
-      class="logo-image " style="width: 16px;height: 16px" alt="">
+    <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async))"
+         [src]="integrationsMasterListItem?.icon"
+         class="logo-image " style="width: 16px;height: 16px" alt="">
     <img id="id" *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'no_channel'|async))"
-      [src]="integrationsMasterListItem?.icon" class="logo-image " style="width: 16px;height: 16px" alt="">
+         [src]="integrationsMasterListItem?.icon" class="logo-image " style="width: 16px;height: 16px" alt="">
   </span>
   <span *ngIf="myObject.keys(bot.integrations).length>4" class="more">
     +{{myObject.keys(bot.integrations).length-4}} More
   </span>
   <div class="headerDivider mx-2"></div>
-  <div class="d-flex preview-box align-items-center" (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'">
-    <i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>
-    <span class="action">Preview</span>
+  <div *myIf="myEAllActions['Send API']">
+    <div class="d-flex preview-box align-items-center" (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'">
+      <i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>
+      <span class="action">Preview</span>
+    </div>
   </div>
 
-  <div class="d-flex preview-box align-items-center" (click)="refreshBotDetails()" *myIf="myEAllActions['Update Bots']">
+  <div *myIf="myEAllActions['Update Bots']" class="d-flex preview-box align-items-center"
+       (click)="refreshBotDetails()">
     <i class="fa fa-refresh cursor-pointer" style="font-size: 15px" [ngClass]="{'fa-spin':showSpinIcon}"></i>
     <span class="action">Cancel</span>
     <!---->
   </div>
   <button class="btn btn-theme-primary" (click)="openActiveBotChangedModal(activeVersionChangedTemplate)"
-          *myIf="myEAllActions['Update Bots']">Update Bot</button>
+          *myIf="myEAllActions['Update Bots']">Update Bot
+  </button>
   <div class="btn-group p-2" dropdown placement="top left">
     <i dropdownToggle class="fa fa-ellipsis-v cursor-pointer p-1" style="font-size: 20px"></i>
     <ul *dropdownMenu class="dropdown-menu" role="menu">

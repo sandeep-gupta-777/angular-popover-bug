@@ -38,6 +38,7 @@ import {
 import {b, st} from '@angular/core/src/render3';
 import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 import {IProfilePermission} from '../interfaces/profile-action-permission';
+import {EHttpVerbs, PermissionService} from './permission.service';
 
 declare var IMI: any;
 declare var $: any;
@@ -58,6 +59,7 @@ export class ServerService {
     private utilityService: UtilityService,
     private store: Store,
     private router: Router,
+    private permissionService: PermissionService,
     private constantsService: ConstantsService) {
     this.loggeduser$.subscribe((value) => {
       if (!value || !value.user) return;
@@ -100,8 +102,9 @@ export class ServerService {
   }
 
   makeGetReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<T> {
-    if (!reqObj.noValidateUser && this.constantsService.isApiAccessDenied(reqObj.url)) {
-      return throwError('api access not allowed');
+    let isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
+    if (!reqObj.noValidateUser && isApiAccessDenied) {
+      return throwError(`api access not allowed:${reqObj.url}`);
     }
     let headers = this.createHeaders(reqObj.headerData);
 
@@ -132,7 +135,11 @@ export class ServerService {
       });
   }
 
-  makeGetReqToDownloadFiles(reqObj: { url: string, headerData?: any }) {
+  makeGetReqToDownloadFiles(reqObj: { url: string, headerData?: any,noValidateUser?:boolean }) {
+    let isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
+    if (!reqObj.noValidateUser && isApiAccessDenied) {
+      return throwError(`api access not allowed:${reqObj.url}`);
+    }
     let headers = this.createHeaders(reqObj.headerData);
 
     this.changeProgressBar(true, 0);
@@ -158,7 +165,13 @@ export class ServerService {
       });
   }
 
-  makeDeleteReq<T>(reqObj: { url: string, headerData?: any }): Observable<T> {
+  makeDeleteReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?:boolean }): Observable<T> {
+
+    let isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.DELETE);
+    if (!reqObj.noValidateUser && isApiAccessDenied) {
+      return throwError(`api access not allowed:${reqObj.url}`);
+    }
+
     let headers = this.createHeaders(reqObj.headerData);
 
     this.changeProgressBar(true, 0);
@@ -185,7 +198,13 @@ export class ServerService {
       });
   }
 
-  makePostReq<T>(reqObj: { url: string, body: any, headerData?: any, dontShowProgressBar?: boolean }): Observable<T> {
+  makePostReq<T>(reqObj: { url: string, body: any, headerData?: any, dontShowProgressBar?: boolean,noValidateUser?:boolean }): Observable<T> {
+
+    let isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.POST);
+    if (!reqObj.noValidateUser && isApiAccessDenied) {
+      return throwError(`api access not allowed:${reqObj.url}`);
+    }
+
     let headers = this.createHeaders(reqObj.headerData);
     if (!reqObj.dontShowProgressBar) {
       this.changeProgressBar(true, 0);
