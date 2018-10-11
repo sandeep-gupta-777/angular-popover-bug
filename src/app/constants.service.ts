@@ -186,7 +186,7 @@ export class ConstantsService {
     // let x = !!isApiAccessDenied;
     // return x;
   }
-
+  //
   public BACKEND_URL = environment.url;//'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
   public BACKEND_URL_LOGIN = `${this.BACKEND_URL}` + 'api/v1/user/login/';
   private BACKEND_URL_ENTERPRISE_USERS = `${this.BACKEND_URL}` + 'users/enterprise/';

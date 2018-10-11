@@ -20996,7 +20996,7 @@ var CompleterCmp = (function () {
         enumerable: true,
         configurable: true
     });
-    
+
     Object.defineProperty(CompleterCmp.prototype, "searchStr", {
         get: /**
          * @return {?}
@@ -24751,7 +24751,7 @@ var LocalDataSource = /** @class */ (function (_super) {
     };
     // TODO: refactor?
     // TODO: refactor?
-    LocalDataSource.prototype.filter = 
+    LocalDataSource.prototype.filter =
     // TODO: refactor?
     function (data) {
         if (this.filterConf.filters) {
@@ -25242,7 +25242,7 @@ var Grid = /** @class */ (function () {
     };
     // TODO: move to selectable? Separate directive
     // TODO: move to selectable? Separate directive
-    Grid.prototype.determineRowToSelect = 
+    Grid.prototype.determineRowToSelect =
     // TODO: move to selectable? Separate directive
     function (changes) {
         if (['load', 'page', 'filter', 'sort', 'refresh'].indexOf(changes['action']) !== -1) {
@@ -26954,15 +26954,15 @@ var KnowledgeBaseComponent = /** @class */ (function () {
         else {
             var bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
             var type = bot_id ? 'bot' : 'enterprise';
-            var newRowData = output = __assign({ 'bot_id': bot_id, 
+            var newRowData = output = __assign({ 'bot_id': bot_id,
                 // "column_headers": any[],
-                'column_nermap': {}, 'conflict_policy': data.conflict_policy, 
+                'column_nermap': {}, 'conflict_policy': data.conflict_policy,
                 /*change date format*/
                 // 'created_at': new Date().toISOString(),
                 // 'created_by': this.loggeduser.user.id,
-                'enterprise_id': this.loggeduser.user.enterprise_id, 'key': data.key, 'ner_type': data.ner_type, 
+                'enterprise_id': this.loggeduser.user.enterprise_id, 'key': data.key, 'ner_type': data.ner_type,
                 // "process_raw_text": false,
-                'type': type, 
+                'type': type,
                 // 'updated_at': new Date().toISOString(),
                 // "updated_by": 0,
                 // "values"?: any[],
@@ -27994,7 +27994,7 @@ var ChartComponent = /** @class */ (function () {
         /*
         * https://stackoverflow.com/questions/15804426/how-to-set-xaxis-pointintervalupdate-tickinterval-in-highcharts
         * */
-        var chart = new angular_highcharts__WEBPACK_IMPORTED_MODULE_1__["Chart"](__assign({ credits: false, 
+        var chart = new angular_highcharts__WEBPACK_IMPORTED_MODULE_1__["Chart"](__assign({ credits: false,
             // xAxis: {
             //   type: 'datetime'
             // },
@@ -29327,3 +29327,4 @@ var SmartTableComponent = /** @class */ (function () {
 
 }]);
 //# sourceMappingURL=analysis2-analysis2-module~bot-detail-bot-detail-module~core-core-module~view-bots-view-bots-module.js.map
+
