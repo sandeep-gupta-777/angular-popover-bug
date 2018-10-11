@@ -24,20 +24,20 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
   codebasedBotList: IBot[];
   isDisabled: boolean;
   _bot: Partial<IBot> = {};
-  _default_logo = 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png';
+  // _default_logo = 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png';
   _default_room_persistence_time: number = 240;
 
   @Input() set bot(_bot: IBot) {
     if (_bot) {
       this._bot = _bot;
-      if (!this._bot.logo) this._bot.logo = this._default_logo;
+      // if (!this._bot.logo) this._bot.logo = this._default_logo;
       if (!this._bot.room_persistence_time) this._bot.room_persistence_time = this._default_room_persistence_time;
       /*TODO: implement eventEmitter instead of always listening to store*/
       try {
         this.formGroup.patchValue(this._bot);
         let formArray = this.formGroup.get('child_bots') as FormArray;
         formArray.controls.splice(0);
-        debugger;
+
         this.initializeChildBotFormArray();
       }catch (e) {
         console.log(e);
@@ -51,6 +51,9 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
   myEAllActions = EAllActions;
   myEBotType = EBotType;
   formGroup: FormGroup;
+  logoErrorObj = [
+    {name:'imageExnError',description:'Invalid Extension'},
+    {name:'imageHttpsError',description:'Only Https urls allowed'}]
 
   constructor(private store: Store,
               private utilityService: UtilityService,
@@ -65,7 +68,7 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
     this.formGroup = this.formBuilder.group({
       name: [this._bot.name, Validators.required],
       description: [this._bot.description, Validators.required],
-      logo: [this._bot.logo],
+      logo: [this._bot.logo, [Validators.required, this.utilityService.isImageUrlHavingValidExtn,this.utilityService.isImageUrlHttps]],
       bot_unique_name: [this._bot.bot_unique_name, Validators.required],
       room_persistence_time: [this._bot.room_persistence_time, Validators.required],
       is_manager: [this._bot.is_manager||false],

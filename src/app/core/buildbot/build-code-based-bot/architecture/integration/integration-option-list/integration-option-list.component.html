@@ -4,12 +4,12 @@
 <!--</form>-->
 <form class="grid-integrations form-theme" style="width: 100%; overflow-y: auto" #form_new="ngForm">
 
-  <div *ngFor="let form_value_key of myObject.keys(formValue)"
+  <div *ngFor="let integration_type of myObject.keys(formValue)"
        class="grid-integration-groups px-4 mb-3"
-       ngModelGroup="{{form_value_key}}">
-    <div class="integration-heading">{{form_value_key|integrationNameFormatter|titlecase}}</div>
+       ngModelGroup="{{integration_type}}">
+    <div class="integration-heading">{{integration_type|integrationNameFormatter|titlecase}}</div>
     <div
-      *ngFor="let integration_keys of myObject.keys(formValue[form_value_key])"
+      *ngFor="let integration_keys of myObject.keys(formValue[integration_type])"
       requiredIfOneFilledValidator
       ngModelGroup="{{integration_keys}}"
       class="border px-3">
@@ -21,10 +21,10 @@
         <div class="heading my-0 mx-2">{{integration_keys.toUpperCase()}}</div>
         <!--<p>{{formValueFinal[form_value_key][integration_keys].enabled}}</p>-->
         <!--<p>{{formValue[form_value_key][integration_keys].enabled}}</p>-->
-        <ui-switch size="small" [checked]="false" [(ngModel)]="formValueFinal[form_value_key][integration_keys]['enabled']" name="enabled"></ui-switch>
+        <ui-switch size="small" [checked]="false" [(ngModel)]="formValueFinal[integration_type][integration_keys]['enabled']" name="enabled"></ui-switch>
       </div>
-      <div [hidden]="!formValueFinal[form_value_key][integration_keys]['enabled']" >
-        <div *ngFor="let integration_input_keys of formValue[form_value_key][integration_keys]|integrationInputKeysFilter">
+      <div [hidden]="!formValueFinal[integration_type][integration_keys]['enabled']" >
+        <div *ngFor="let integration_input_keys of formValue[integration_type][integration_keys]|integrationInputKeysFilter">
           <div class="form-group">
             <label class="required">{{integration_input_keys|displayNameForKeyIntegration}}</label>
             <input ngModel type="text"

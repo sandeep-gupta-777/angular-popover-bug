@@ -45,9 +45,9 @@ export class SmartTableComponent implements OnInit {
   paginationArr = [];
   @Input() currentPage: number = 1;
   @Input() recordsPerPage: number = 10;
+  @Output() customActionEvents = new EventEmitter();
   totalPageCount;
   math = Math;
-  @Output() customActionEvents = new EventEmitter();
 
   constructor(private _iterableDiffers: IterableDiffers) {
     this.iterableDiffer = this._iterableDiffers.find([]).create(null);

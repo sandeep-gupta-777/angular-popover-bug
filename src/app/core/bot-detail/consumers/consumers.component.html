@@ -4,6 +4,7 @@
   <!--</div>-->
 
   <app-smart-table
+    [ngClass]="{'disable-decrypt-lock-icon':isDeCryptAuditAccessDenied}"
     class="d-flex-column-last-child-flex-grow-1"
     [totalRecords]="totalRecords"
     (pageChanged$)="pageChanged($event)"

@@ -44,6 +44,7 @@ import {BotConfigInputComponent} from './core/buildbot/build-code-based-bot/bot-
 import {UiSwitchWrapperComponent} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/ui-switch/ui-switch-wrapper.component';
 import {AvatorFormComponent} from './core/buildbot/build-code-based-bot/bot-config/avator-form/avator-form.component';
 import {MyIfDirective} from './ngIf-permission.directive';
+import {ErrorDescriptionPipe} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/bot-config-input/error-description.pipe';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import {MyIfDirective} from './ngIf-permission.directive';
     DataManageFormComponent,
     BasicInfoFormComponent,
     BotConfigInputComponent,
+    ErrorDescriptionPipe,
     UiSwitchWrapperComponent,
     AvatorFormComponent,
     BotConfigComponent,
@@ -101,6 +103,7 @@ import {MyIfDirective} from './ngIf-permission.directive';
     DataManageFormComponent,
     BasicInfoFormComponent,
     BotConfigInputComponent,
+    ErrorDescriptionPipe,
     UiSwitchWrapperComponent,
     AvatorFormComponent,
     BotConfigComponent,

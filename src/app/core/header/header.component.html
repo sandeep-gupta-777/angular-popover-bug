@@ -25,15 +25,15 @@
         <!--</li>-->
         <!--</ul>-->
         <!--</div>-->
-        <a class="header-nav" [routerLink]="'/core/viewbots/'+myEBotType.chatbot"><i class="fa fa-home"></i>Bot Dashboard</a>
-        <a class="header-nav" routerLink="customner" *myIf="myEAllActions['Get Enterprise Knowledge base']">
+        <a class="header-nav" [routerLink]="'/core/viewbots/'+myEBotType.chatbot" routerLinkActive="highlight-text-on-route-match"><i class="fa fa-home"></i>Bot Dashboard</a>
+        <a class="header-nav" routerLink="customner" routerLinkActive="highlight-text-on-route-match" *myIf="myEAllActions['Get Enterprise Knowledge base']" >
           <i class="fa fa-graduation-cap"></i>
           Knowledge Base
         </a>
         <!--<a class="header-nav" routerLink="documentation"><i class="fa fa-file"></i>Documentation</a>-->
 
         <!--<div class="btn-group" dropdown>-->
-        <a class="header-nav" routerLink="analytics2" *myIf="myEAllActions['Analytics']"><i dropdownToggle class="fa fa-bar-chart"></i>Analytics</a>
+        <a class="header-nav" routerLink="analytics2" routerLinkActive="highlight-text-on-route-match" *myIf="myEAllActions['Analytics']"><i dropdownToggle class="fa fa-bar-chart"></i>Analytics</a>
         <!--<i dropdownToggle class="fa fa-bar-chart"></i>-->
         <!--<ul *dropdownMenu class="dropdown-menu" role="menu">-->
         <!--<li role="menuitem"><a class="dropdown-item" [routerLink]="['analytics','overview']">Overview</a></li>-->
@@ -46,7 +46,7 @@
         <!--<li role="menuitem"><a class="dropdown-item" [routerLink]="['analytics','usage']">Usage</a></li>-->
         <!--</ul>-->
         <!--</div>-->
-        <a *myIf="myEAllActions['Get Reports']" class="header-nav" routerLink="reports"><i class="fa fa-list"></i>Reports</a>
+        <a *myIf="myEAllActions['Get Reports']" routerLinkActive="highlight-text-on-route-match" class="header-nav" routerLink="reports"><i class="fa fa-list"></i>Reports</a>
       </div>
     </div>
 
@@ -65,10 +65,10 @@
           <div class="btn-group" dropdown>
             <span dropdownToggle class="box-details__dropdown d-flex align-items-center"><i class="fa fa-chevron-down"></i></span>
             <ul *dropdownMenu  class="dropdown-menu dropdown-menu-right" role="menu">
-              <li role="menuitem"><a class="dropdown-item" [routerLink]="['profile']">Profile</a></li>
+              <li role="menuitem"><a class="dropdown-item" [routerLink]="['profile']" routerLinkActive="highlight-text-on-route-match">Profile</a></li>
               <li role="menuitem"><a class="dropdown-item cursor-pointer" (click)="logout()">Signout</a></li>
               <li class="divider dropdown-divider" *myIf="myEAllActions['Get Enterprise']"></li>
-              <li role="menuitem"><a class="dropdown-item" *myIf="myEAllActions['Get Enterprise']" [routerLink]="['enterpriseprofile']">Enterprise Profile</a></li>
+              <li role="menuitem"><a class="dropdown-item" *myIf="myEAllActions['Get Enterprise']" [routerLink]="['enterpriseprofile']" routerLinkActive="highlight-text-on-route-match">Enterprise Profile</a></li>
             </ul>
           </div>
         </div>

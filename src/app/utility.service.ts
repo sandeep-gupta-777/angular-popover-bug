@@ -237,65 +237,67 @@ export class UtilityService {
 
   createChartValueForBarGraph(rawData: { labels: string, result: number }[], chartValue?: { xAxis: { categories: string[] }, series: { name: string, data: number[] }[] }) {
 
+    let template:any ={};
     /*
     * example output:
     * [{
   name: 'John',
   data: [5, 3, 4, 7, 2]
 }]
+
     * */
-    let template = {
-      chart: {
-        type: 'column'
-      },
-      title: {
-        text: 'Stacked column chart'
-      },
-      xAxis: {
-        categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
-      },
-      yAxis: {
-        min: 0,
-        title: {
-          text: 'Total fruit consumption'
-        },
-        stackLabels: {
-          enabled: true,
-          style: {
-            fontWeight: 'bold',
-            color: 'gray'
-          }
-        }
-      },
-      legend: {
-        align: 'right',
-        x: -30,
-        verticalAlign: 'top',
-        y: 25,
-        floating: true,
-        backgroundColor: 'white',
-        borderColor: '#CCC',
-        borderWidth: 1,
-        shadow: false
-      },
-      tooltip: {
-        headerFormat: '<b>{point.x}</b><br/>',
-        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
-      },
-      plotOptions: {
-        column: {
-          stacking: 'normal',
-          dataLabels: {
-            enabled: true,
-            color: 'white'
-          }
-        }
-      },
-      series: [{
-        name: 'John',
-        data: [5, 3, 4, 7, 2]
-      }]
-    };
+    // let template = {
+    //   chart: {
+    //     type: 'column'
+    //   },
+    //   title: {
+    //     text: 'Stacked column chart'
+    //   },
+    //   xAxis: {
+    //     categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+    //   },
+    //   yAxis: {
+    //     min: 0,
+    //     title: {
+    //       text: 'Total fruit consumption'
+    //     },
+    //     stackLabels: {
+    //       enabled: true,
+    //       style: {
+    //         fontWeight: 'bold',
+    //         color: 'gray'
+    //       }
+    //     }
+    //   },
+    //   legend: {
+    //     align: 'right',
+    //     x: -30,
+    //     verticalAlign: 'top',
+    //     y: 25,
+    //     floating: true,
+    //     backgroundColor: 'white',
+    //     borderColor: '#CCC',
+    //     borderWidth: 1,
+    //     shadow: false
+    //   },
+    //   tooltip: {
+    //     headerFormat: '<b>{point.x}</b><br/>',
+    //     pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+    //   },
+    //   plotOptions: {
+    //     column: {
+    //       stacking: 'normal',
+    //       dataLabels: {
+    //         enabled: true,
+    //         color: 'white'
+    //       }
+    //     }
+    //   },
+    //   series: [{
+    //     name: 'John',
+    //     data: [5, 3, 4, 7, 2]
+    //   }]
+    // };
 
     let categories: string[] = rawData.map(dataItem => dataItem.labels);
     let seriesData: number[] = rawData.map(dataItem => dataItem.result);
@@ -485,6 +487,19 @@ export class UtilityService {
 
   showSuccessToaster(message) {
     this.toastr.success(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
+  }
+
+  isImageUrlHttps(formControl: FormControl){
+    let url:string = formControl.value;
+    let pattern = /^((https):\/\/)/;
+    console.log()
+    return pattern.test(url)? null : {'imageHttpsError': true};
+  }
+
+  isImageUrlHavingValidExtn(formControl: FormControl){
+    let url:string = formControl.value;
+    let pattern = /\.(gif|jpg|jpeg|tiff|png)$/i
+    return pattern.test(url)? null : {'imageExnError': true};
   }
 
   isManagerValidator(formGroup: FormGroup) {

@@ -91,3 +91,10 @@
   }
 
 }
+
+
+.highlight-text-on-route-match{
+  //:not(.fa){
+    color: $color-primary !important;
+  //}
+}
