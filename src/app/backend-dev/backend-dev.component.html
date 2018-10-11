@@ -1,32 +1,6 @@
 <div class="d-flex justify-content-end" *ngIf="showBackendRootUrlButton">
-  <input type="text" [(ngModel)]="backend_root_url" name="x">
-  <button class="btn btn-theme-primary mx-1"
-          (click)="changeUrl()">Change Backend root url</button>
+  <input type="text" [(ngModel)]="backend_root_url" (keyup.enter)="changeUrl()" name="x">
+  <button class="btn btn-theme-primary mx-1" (click)="changeUrl()">Change Backend root url</button>
+  <button class="btn btn-theme-primary mx-1" (click)="clearLocalstorageAndReload()">Clear Local Storage And Reload</button>
 </div>
-
-<!--<ng-template #Primarytemplate>-->
-  <!--<div class="primary-modal">-->
-    <!--<div class="top-dec"></div>-->
-    <!--<div class="modal-header">-->
-      <!--<h4 class="modal-title mb-2"> Change Backend Root</h4>-->
-      <!--<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">-->
-        <!--<span aria-hidden="true">&times;</span>-->
-      <!--</button>-->
-
-    <!--</div>-->
-
-    <!--<div class="modal-body">-->
-      <!--<form class="row" #password_form="ngForm">-->
-
-        <!--<div class="col-md-12">-->
-          <!--<label for="" class="mr-1">Url</label>-->
-          <!--<input type="text" [(ngModel)]="backend_root_url" name="x">-->
-        <!--</div>-->
-
-        <!--<div class="col-md-12">-->
-         <!--<button class="btn btn-theme-primary" (click)="changeUrl()">Save</button>-->
-        <!--</div>-->
-      <!--</form>-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</ng-template>-->
+<!---->

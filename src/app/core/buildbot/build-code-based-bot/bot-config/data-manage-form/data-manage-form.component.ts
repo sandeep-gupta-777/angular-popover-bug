@@ -6,6 +6,7 @@ import {Store} from '@ngxs/store';
 import {UtilityService} from '../../../../../utility.service';
 import {ConstantsService, EAllActions} from '../../../../../constants.service';
 import {PermissionService} from '../../../../../permission.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-data-manage-form',
@@ -17,14 +18,15 @@ export class DataManageFormComponent implements OnInit {
 
   _bot: Partial<IBot> = {};
   myEAllActions = EAllActions;
+  formGroup: FormGroup;
+
   @Input() set bot(_bot: IBot) {
-    if (this.f && _bot) {
+    if (_bot) {
       this._bot = _bot;
-      this.f.form.patchValue(this._bot);
+      this.formGroup && this.formGroup.patchValue(this._bot);
     }
   }
 
-  @ViewChild('form') f: HTMLFormElement;
   @Output() datachanged$ = new EventEmitter<Partial<IBot>>();
 
   formData: any;
@@ -33,33 +35,27 @@ export class DataManageFormComponent implements OnInit {
     private store: Store,
     public constantsService: ConstantsService,
     public permissionService: PermissionService,
+    public formBuilder: FormBuilder,
     private utilityService: UtilityService) {
   }
 
-
   ngOnInit() {
-    // this.bot
-    //
-  }
 
-  //
-  ngAfterViewInit(): void {
-    console.log(this._bot);
-    this.f.valueChanges.debounceTime(200).subscribe((data: ISaveDataManagment) => {
-      if (this.utilityService.areTwoJSObjectSame(this.formData, data)) return;
-      if (!this.f.dirty) return;
-      this.formData = data;
-      this.datachanged$.emit(data);
-      this.emitFormValidationEvent();
+    this.formGroup = this.formBuilder.group({
+      data_persistence_period: [this._bot.data_persistence_period, Validators.required],
+      consent_message: [this._bot.consent_message, Validators.required],
+      advanced_data_protection: [this._bot.advanced_data_protection],
+      allow_anonymization: [this._bot.allow_anonymization],
+      blanket_consent: [this._bot.blanket_consent],
+      room_close_callback: [this._bot.room_close_callback],
     });
-  }
 
-  emitFormValidationEvent(){
-    setTimeout(()=>{this.datachanged$.emit({form_validation_data_management: this.f.valid});},0)
-  }
 
-  click(){
-    console.log(this._bot);
+    this.formGroup.valueChanges.debounceTime(200).subscribe((data: ISaveDataManagment) => {
+      if (this.utilityService.areTwoJSObjectSame(this.formData, data)) return;
+      this.formData = data;
+      this.datachanged$.emit({...data, form_validation_data_management: this.formGroup.valid});
+    });
   }
 
 }

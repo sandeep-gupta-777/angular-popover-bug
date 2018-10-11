@@ -208,7 +208,8 @@
       <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async))"
            [src]="integrationsMasterListItem?.icon"
            class="logo-image " style="width: 16px;height: 16px" alt="">
-      <div *myIf="myEAllActions['Send API']" class="mr-auto show-on-parent-hover click-save-wrapper" (click)="previewBot()">
+      <div class="mr-auto"></div>
+      <div *myIf="myEAllActions['Send API']" class="show-on-parent-hover click-save-wrapper" (click)="previewBot()">
         <div *ngIf="bot.bot_type == 'chatbot'"
              class="text-sm click-save-wrapper  ">Preview
         </div>

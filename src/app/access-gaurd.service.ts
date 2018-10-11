@@ -57,7 +57,7 @@ export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoa
 
   canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.loggeduser$.map((value: IAuthState) => {
-      debugger;
+
      return this.doAllowAccess(value, route)
     });
   }

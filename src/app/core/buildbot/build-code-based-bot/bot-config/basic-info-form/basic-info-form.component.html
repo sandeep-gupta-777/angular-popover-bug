@@ -1,121 +1,83 @@
 <!--<button (click)="click()">Click</button>-->
-<form #form="ngForm" ngNativeValidate class="bot-creation-form ngNativeValidate">
-  <div class="row" >
+<form [formGroup]="formGroup" class="bot-creation-form">
+  <div class="row">
     <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
       <div class="form-group">
-        <label class="required" for="alterEgo">Bot Name</label>
-        <label [hidden]="name.valid || name.pristine" class="text-danger pl-1" for="alterEgo"><i>Name is required</i></label>
-        <input
-          ngModel
-          name="name"
-          required
-          #name="ngModel"
-          type="text" class="form-control required"
-               placeholder="A display name for the bot" id="alterEgo">
+        <app-bot-config-input
+          displayName="Bot Name"
+          placeholder="A display name for the bot"
+          formControlName="name"></app-bot-config-input>
       </div>
 
       <div class="form-group">
-        <label class="required" for="alterEgo">Description</label>
-        <label [hidden]="description.valid || description.pristine" class=" text-danger pl-1" for="alterEgo"><i>Description is required</i></label>
-        <input
-          ngModel
-          name="description"
-          required
-          #description="ngModel"
-          type="text" class="form-control"
-               placeholder="A description for the Bot" id="alterEgo">
+        <app-bot-config-input
+          displayName="Description"
+          formControlName="description"
+          placeholder=" description for the Bot"></app-bot-config-input>
       </div>
 
       <div class="form-group">
-        <label for="alterEgo">Bot Logo Url</label>
-        <input
-          [(ngModel)]="_default_logo"
-          name="logo" type="text" class="form-control"
-               placeholder="URL for the Bot Logo/Brand Image" id="alterEgo">
+        <app-bot-config-input
+          displayName="Description"
+          formControlName="logo"
+          placeholder="URL for the Bot Logo/Brand Image"></app-bot-config-input>
       </div>
 
     </fieldset>
     <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
       <div class="form-group">
-        <label class="required" for="name">Unique Name</label>
-        <label [hidden]="bot_unique_name.valid || bot_unique_name.pristine" class="text-danger pl-1" for="alterEgo"><i>Bot Unique Name is required</i></label>
-        <input
-          ngModel
-          name="bot_unique_name"
-          type="text"
-          required
-          #bot_unique_name="ngModel"
-          class="form-control"
-               placeholder="Bot Unique Name (non-editable after Bot creation)" id="name">
+        <app-bot-config-input
+          displayName="Unique Name"
+          formControlName="bot_unique_name"
+          placeholder="Bot Unique Name (non-editable after Bot creation)"></app-bot-config-input>
       </div>
 
 
       <div class="form-group" *ngIf="!(bot_type===myEBotType.intelligent)">
-        <label for="alterEgo">Session Close Time [mins]</label>
-        <input
-               name="room_persistence_time"
-               [(ngModel)]="_default_room_persistence_time"
-               type="number" class="form-control"
-               placeholder="Time until Session Closes (in minutes)" id="alterEgo">
-
+        <app-bot-config-input
+          displayName="Session Close Time [mins]"
+          formControlName="room_persistence_time"
+          placeholder="Time until Session Closes (in minutes)"></app-bot-config-input>
       </div>
-      <!-- <div class="form-group">
-        <label for="alterEgo">Is Manager Bot</label>
-        <input ngModel="{{bot.room_persistence_time}}" name="room_persistence_time" type="text" class="form-control" placeholder="Time until Session Closes (in minutes)" id="alterEgo">
-      </div> -->
+
       <div class="" *ngIf="!(bot_type===myEBotType.intelligent)">
         <div class="d-flex align-items-center">
           <label class="pr-2">Is Manager Bot?</label>
+          <app-ui-switch formControlName="is_manager"></app-ui-switch>
+          <!--<app-is-manager-form-control hidden formArrayName="child_bots"></app-is-manager-form-control>-->
 
-          <ui-switch [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])" [(ngModel)]="_bot.is_manager" name="is_manager" style="border:none;padding: 0;" size="small"></ui-switch>
-          <div class="btn-group mb-1" dropdown *ngIf="_bot.is_manager">
-            <button id="button-basic" dropdownToggle type="button" class="btn dropdown-toggle btn-theme-success-sm-outline ml-1" aria-controls="dropdown-basic">
+          <!--bots dropdown starts-->
+          <div class="btn-group mb-1" dropdown *ngIf="formGroup.get('is_manager').value">
+            <button id="button-basic" dropdownToggle type="button"
+                    class="btn dropdown-toggle btn-theme-success-sm-outline ml-1" aria-controls="dropdown-basic">
               Bot List<span class="caret"></span>
             </button>
-            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic" style="max-height: 200px; overflow-y: scroll">
+            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic"
+                style="max-height: 200px; overflow-y: scroll">
               <li role="menuitem" *ngFor="let bot of codebasedBotList; let i = index;">
-                <a class="dropdown-item" (click)="addChildBot(bot)" *ngIf="!wannaDisable(bot.id)">{{bot.name}}</a>
+                <a class="dropdown-item" (click)="pushChildBot(bot.id)" *ngIf="!isBotIdPresentInChildBotList(bot.id)">{{bot.name}}</a>
               </li>
             </ul>
-            <!--<input type="number" required min="1" [ngModel]="childBotlength" name="delete_me">-->
-
           </div>
+          <!--bot dropdown ends-->
         </div>
       </div>
 
-      <!-- <div class="form-group m-0 mr-4 ml-auto">
-        <label for="">Bot</label>
-        <select class="concept1" [ngModel] required validate name="botId">
-          <option *ngFor="let bot of (allbotList$ | async); let i = index;" [selected]="i===0" type="button" [value]="bot.id">{{bot.name}}</option>
-        </select>
-      </div> -->
+      <ng-template #isManagerError>
+        <label class="text-danger pl-1"
+               for="alterEgo"><i>At least one childbot is requred</i></label>
+      </ng-template>
 
-
-      <!-- <div class="btn-group mb-1" dropdown *ngIf="isManager">
-        <button id="button-basic" dropdownToggle type="button"
-                class="btn dropdown-toggle btn-theme-success-sm-outline"
-                aria-controls="dropdown-basic">
-          Bot List<span class="caret"></span>
-        </button>
-        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
-            role="menu" aria-labelledby="button-basic" style="max-height: 200px; overflow-y: scroll">
-          <li role="menuitem" *ngFor="let bot of allbotList; let i = index;">
-            <a class="dropdown-item" (click)="addChildBot(bot)"
-               *ngIf="!wannaDisable(bot.id)"
-            >{{bot.name}}</a>
-          </li>
-        </ul>
-      </div> -->
-      <!--<p>{{(allbotList|json)}}</p>-->
-      <!-- <p>{{bot.child_bots|json}}</p> -->
-      <label *ngIf="_bot.is_manager && (_bot.child_bots  && _bot.child_bots.length<1)" class="text-danger pl-1" for="alterEgo"><i>Atleast one childbot is requred</i></label>
-
-      <div *ngIf="_bot.is_manager && _bot.child_bots" class="permissions-box">
-            <span *ngFor="let childBotId of _bot.child_bots"
+      <!--list of child bots starts-->
+      <div *ngIf="formGroup.get('is_manager').value">
+        <div *ngIf="!formGroup.hasError('isManagerError');else isManagerError" class="permissions-box">
+            <span *ngFor="let childBotId of formGroup.get('child_bots').value"
                   class="badge badge-pill badge-info inline m-1">{{childBotId | botIdToName | async}}
               <span class="fa fa-remove cursor-pointer" (click)="removeChildBot(childBotId)"></span>
             </span>
+        </div>
       </div>
+      <!--list of child bots ends-->
     </fieldset>
   </div>
 

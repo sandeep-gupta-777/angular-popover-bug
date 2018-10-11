@@ -26,7 +26,7 @@ import {ReportControlsComponent} from './reports/report-details/report-controls/
 import {TestComponent} from '../test/test.component';
 import {ChatPreviewNewPageComponent} from '../chat/chat-preview-new-page/chat-preview-new-page.component';
 import {FooterComponent} from '../footer/footer.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 // import {DragAndDropModule} from 'angular-draggable-droppable';
 import {HttpClientModule} from '@angular/common/http';
 import {AimService} from '../aim.service';
@@ -121,6 +121,7 @@ const routes: Route[] = [
     // DragAndDropModule.forRoot(),
     HttpClientModule,
     SharedModule,
+    ReactiveFormsModule
 
   ],
   providers: [AimService]

@@ -2,10 +2,9 @@ import {NgModule} from '@angular/core';
 import {IntegrationLogosPipe} from './integration-logos.pipe';
 import {DataManageFormComponent} from './core/buildbot/build-code-based-bot/bot-config/data-manage-form/data-manage-form.component';
 import {BasicInfoFormComponent} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/basic-info-form.component';
-import {AvatorFormComponent} from './core/buildbot/build-code-based-bot/avator-form/avator-form.component';
 import {BotConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {BotArchitetureComponent} from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {UiSwitchModule} from 'ngx-toggle-switch';
 import {CommonModule} from '@angular/common';
 import {BotIdToNamePipe} from './bot-id-to-name.pipe';
@@ -42,12 +41,17 @@ import {IntegrationNameFormatterPipe} from './core/buildbot/build-code-based-bot
 import {ClickOutsideModule} from 'ng2-click-outside';
 import {MyIfDirective} from './ngIf-permission.directive';
 import {HighlightDirective} from './readonly-selected-permission.directive';
+import {BotConfigInputComponent} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/bot-config-input/bot-config-input.component';
+import {UiSwitchWrapperComponent} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/ui-switch/ui-switch-wrapper.component';
+import {AvatorFormComponent} from './core/buildbot/build-code-based-bot/bot-config/avator-form/avator-form.component';
 
 @NgModule({
   declarations: [
     IntegrationLogosPipe,
     DataManageFormComponent,
     BasicInfoFormComponent,
+    BotConfigInputComponent,
+    UiSwitchWrapperComponent,
     AvatorFormComponent,
     BotConfigComponent,
     BotArchitetureComponent,
@@ -74,6 +78,7 @@ import {HighlightDirective} from './readonly-selected-permission.directive';
   imports: [
     UiSwitchModule,
     FormsModule,
+    ReactiveFormsModule,
     CommonModule,
     RouterModule,
     Ng2CompleterModule,
@@ -95,6 +100,8 @@ import {HighlightDirective} from './readonly-selected-permission.directive';
     IntegrationLogosPipe,
     DataManageFormComponent,
     BasicInfoFormComponent,
+    BotConfigInputComponent,
+    UiSwitchWrapperComponent,
     AvatorFormComponent,
     BotConfigComponent,
     BotArchitetureComponent,

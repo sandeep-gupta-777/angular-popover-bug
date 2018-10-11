@@ -4,7 +4,7 @@
 .bot-creation-form {
   .form-group {
     height: 46px;
-    margin-bottom: 8px; 
+    margin-bottom: 8px;
   }
   label {
     @include typography(11px, 1.45, $font-weight-normal, $color-secondary);
@@ -28,7 +28,6 @@
   opacity: 1; /* Firefox */
   @include typography($font-size-xs, $line-height-md, $font-weight-normal, $color-secondary);
   padding: 0;
-
 }
 
 ui-switch {
