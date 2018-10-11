@@ -172,7 +172,7 @@ export class PermissionService {
     if (roleName === ERoleName.Admin) {
       logMessage = "All APIs are allowed for Admin user";
       isAllowed = true;
-    } else if (pathName === '/api/v1/actions/') {
+    } else if (pathName === '/api/v1/actions/' || pathName === '/api/v1/user/login/') {
       logMessage = "get actions api is allowed for all user";
       /*explicitly allowing get action route for all the users, since we can't create allowedApiHttpVerbPPathToActionNamesMapping without it*/
       isAllowed = true;
