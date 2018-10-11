@@ -128,13 +128,31 @@ export class KnowledgeBaseComponent implements OnInit {
       handontableDataClone.shift();
       let handsontableDataSerialized = handontableDataClone.map((row) => {
         let obj = {};
+        let isRow : boolean = false;
         row.forEach((str, index) => {
-          let key = column_headers[index];
-          obj[key] = str;
+          isRow = isRow || ((str !== null) && (str !== ""));
         });
-        return obj;
+        if(isRow){
+          row.forEach((str, index) => {
+            let key = column_headers[index];
+            obj[key] = str;
+          });
+          return obj;
+        }
+        else{
+          return ;
+        }
+        // let obj = {};
+        // row.forEach((str, index) => {
+        //   let key = column_headers[index];
+        //   obj[key] = str;
+        // });
+        // return obj;
       });
-
+      console.log("shoaib sadas",handsontableDataSerialized);
+      handsontableDataSerialized = handsontableDataSerialized.filter(function (el) {
+        return el != null;
+      });
       body = {"column_headers": column_headers,values: handsontableDataSerialized, ...body};
     }
 
