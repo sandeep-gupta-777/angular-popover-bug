@@ -40,7 +40,7 @@ export class CodeInputComponent implements OnInit {
     // this.generationTemplates = this.bot.generationTemplates;
 
     // this.workflows = this.timePeriod.workflows;
-    let url = this.constantsService.getAllVersionsByBotId("f");//comperror
+    let url = this.constantsService.getAllVersionsByBotId();//comperror
     let botId = this.bot.id;
     this.serverService.makeGetReq<IBotVersionResult>({ url, headerData: { "bot-access-token": this.bot.bot_access_token } })
       .subscribe((value) => {
