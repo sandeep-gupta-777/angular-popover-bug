@@ -186,7 +186,7 @@ export class ConstantsService {
     // let x = !!isApiAccessDenied;
     // return x;
   }
-
+  //
   public BACKEND_URL = environment.url;//'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
   public BACKEND_URL_LOGIN = `${this.BACKEND_URL}` + 'api/v1/user/login/';
   private BACKEND_URL_ENTERPRISE_USERS = `${this.BACKEND_URL}` + 'users/enterprise/';
@@ -346,13 +346,9 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/reports/${_id}`; //  http://dev.imibot.ai/api/v1/reports/1/
   }
 
-<<<<<<< HEAD
-  getAllVersionsByBotId(g:string) {
-    return this.BACKEND_URL + 'api/v1/botversioning/'; //"http://localhost:8000/api/v1/botversioning/"
-=======
+
   getCreateReportUrl() {
     return this.BACKEND_URL + `api/v1/reports/`; //  http://dev.imibot.ai/api/v1/reports
->>>>>>> ui-redesign
   }
 
 
