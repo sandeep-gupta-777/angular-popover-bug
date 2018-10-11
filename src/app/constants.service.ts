@@ -194,7 +194,7 @@ export class ConstantsService {
   private BACKEND_USER_CODE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'integrations';//https://dev.imibot.ai/integrations
   public BACKEND_USER_PIPELINE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'api/v1/bot/';//https://dev.imibot.ai/bots
 
-  public readonly CHANNEL_LIST = [code-input.component.ts
+  public readonly CHANNEL_LIST = [
     { name: 'all', displayName: 'All Channels' },
     { name: 'facebook', displayName: 'Facebook' },
     { name: 'web', displayName: 'WebChat' },
