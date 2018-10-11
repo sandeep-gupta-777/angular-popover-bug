@@ -1,0 +1,79 @@
+<!---->
+<!--Tabbing starts-->
+<ul class="nav nav-tabs my-2 theme-tabbing">
+  <!-- <li class="nav-item ml-3">
+    <a class="nav-link" [routerLink]="['.']"
+       queryParamsHandling="merge"
+       replaceUrl="true"
+       [queryParams]="{eng:'Sessions'}"
+       (click)="tabClicked('Sessions')"
+       [ngClass]="{'tab-active':activeTab==='Sessions'}"><strong>Sessions per user</strong></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['.']"
+       queryParamsHandling="merge"
+       replaceUrl="true"
+       [queryParams]="{eng:'Messages'}"
+       (click)="tabClicked('Messages')"
+       [ngClass]="{'tab-active':activeTab==='Messages'}"><strong>Messages per session</strong></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true"
+       [queryParams]="{eng:'Time'}"
+       (click)="tabClicked('Time')"
+       [ngClass]="{'tab-active':activeTab==='Time'}"><strong>Time per session</strong></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true"
+       [queryParams]="{eng:'channel_Wise_Sessions'}"
+       (click)="tabClicked('channel_Wise_Sessions')"
+       [ngClass]="{'tab-active':activeTab==='channel_Wise_Sessions'}"><strong>ChannelWise Sessions</strong></a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true"
+       [queryParams]="{eng:'channel_Wise_Users'}"
+       (click)="tabClicked('channel_Wise_Users')"
+       [ngClass]="{'tab-active':activeTab==='channel_Wise_Users'}"><strong>ChannelWise Users</strong></a>
+  </li> -->
+
+  <!-- added now -->
+  <li class="nav-item ml-3">
+    <a class="nav-link" [routerLink]="['.']"
+       queryParamsHandling="merge"
+       replaceUrl="true"
+       [queryParams]="{vol:'Users'}"
+       (click)="tabClicked('Users')"
+       [ngClass]="{'tab-active':activeTab==='Users'}"><strong>Users</strong></a>
+  </li>
+</ul>
+<!--Tabbing ends-->
+
+
+<app-chart *ngIf="activeTab==='Sessions'" [data]="series_Sessions"
+           [chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
+           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE"></app-chart>
+
+<app-chart *ngIf="activeTab==='Messages'" [data]="series_Messages"
+           [chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
+           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED">
+</app-chart>
+
+<app-chart *ngIf="activeTab==='Time'" [data]="series_Time"
+           [chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
+           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED">
+</app-chart>
+
+<app-chart *ngIf="activeTab==='channel_Wise_Sessions'" [data]="series_ChannelWiseSessions"
+           [chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
+           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED">
+</app-chart>
+<app-chart *ngIf="activeTab==='channel_Wise_Users'" [data]="series_ChannelWiseUsers"
+           [chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
+           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED">
+</app-chart>
+<!-- added now -->
+<app-chart *ngIf="activeTab==='Users'" [data]="series_Users"
+           [chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
+           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
+          </app-chart>

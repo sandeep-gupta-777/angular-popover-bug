@@ -1,10 +1,16 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {IBot} from '../../interfaces/IBot';
-import {Select} from '@ngxs/store';
+import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {IBotConfig} from '../../../../interfaces/bot-creation';
 import {IBotCreationState} from '../ngxs/buildbot.state';
+import { ServerService } from '../../../server.service';
+import { UtilityService } from '../../../utility.service';
+import { IOverviewInfoResponse } from '../../../../interfaces/Analytics2/overview-info';
+import { BotSessionsComponent } from '../../bot-detail/bot-sessions/bot-sessions.component';
+import {ConstantsService} from '../../../constants.service';
+import {ResetBuildBotToDefault, SaveNewBotInfo_CodeBased} from '../ngxs/buildbot.action';
 
 @Component({
   selector: 'app-build-code-based-bot',
@@ -14,32 +20,69 @@ import {IBotCreationState} from '../ngxs/buildbot.state';
 export class BuildCodeBasedBotComponent implements OnInit {
 
   @Select() botcreationstate$: Observable<IBotCreationState>;
-  constructor(private activatedRoute:ActivatedRoute) { }
+  @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
+  @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
+  selectedTab = "architecture";
+  bot$: Observable<IBot>;
+  bot_id: number;
+  showConfig:boolean =true;
+  overviewInfo$: Observable<IOverviewInfoResponse>;
+  selectedChannel: string = 'all';
+  start_date: string;
+  end_date: string;
+  selectedChannelDisplayName: string;
+  selectedDurationDisplayName: string = 'Monthly';
+  selectedSideBarTab: string = 'pipeline';
+
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private serverService: ServerService,
+    private utilityService: UtilityService,
+    private constantsService: ConstantsService,
+    private router: Router,
+    private store:Store
+
+  ) { }
   activeTab:string = 'basic';
   @Input() bot = {};
 
   ngOnInit() {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('tab') || 'basic'; //todo: not a robust code
     this.botcreationstate$.subscribe((value)=>{
-      // console.log('test');
-      if(!value.codeBased) return;
-      this.bot = {
-        ...value.codeBased.basicInfo,
-        avatars: value.codeBased.avatars,
-        pipeline: value.codeBased.pipeline,
-        unselected_pipeline: value.codeBased.unselected_pipeline,
-        ...value.codeBased.customners,
-        ...value.codeBased.code,
-        ...value.codeBased.integration,
-        ...value.codeBased.botConfig,
-      };
-    })
+      if(!value || !value.codeBased) return;
+      this.bot = value.codeBased;
+    });
+
+    this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab')||'pipeline';
+
   }
 
   tabClicked(activeTab:string){
     this.activeTab = activeTab;
     console.log(this.activeTab);
-
   }
+
+  tabChanged(tab: string) {
+    this.selectedTab = tab;
+  }
+  createBot(){
+    let url = this.constantsService.getCreateNewBot();
+    this.serverService.makePostReq({url:url, body:this.bot})
+      .subscribe((value)=>{
+        console.log();
+
+        this.store.dispatch([new ResetBuildBotToDefault()]);
+      })
+  }
+  datachanged(data:IBot){
+
+    console.log("::::::::::::::::::");
+    // this.store.dispatch([
+    //   new SaveNewBotInfo_CodeBased({data:data})
+    // ]);
+  }
+
+
 
 }

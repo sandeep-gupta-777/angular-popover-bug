@@ -1,52 +1,110 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {getAdvancedData, getBasicData} from '../data';
-import {ConstantsService} from '../constants.service';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { ConstantsService } from '../constants.service';
+import { ActivatedRoute } from '@angular/router';
+// import * as Handsontable from 'handsontable';
+declare var Handsontable: any;
 
 @Component({
   selector: 'app-handsontable',
   templateUrl: './handsontable.component.html',
-  styleUrls: ['./handsontable.component.scss']
+  styleUrls: ['./handsontable.component.scss'],
+  host: {
+    //https://stackoverflow.com/questions/34636661/how-do-i-change-the-body-class-via-a-typescript-class-angular2
+    '[class.d-flex-column-last-child-flex-grow-1]': 'true'
+  }
 })
-export class HandsontableComponent implements OnInit {
+export class HandsontableComponent implements OnInit, AfterViewInit {
 
   public data: any[];
-  @Input() testData:[string,string][];
+
   @Input() colHeaders: string[];
   @Input() columns: any[];
+  @Input() setting = {};
+  @Output() rowChanged$ = new EventEmitter();
+  @ViewChild('handsontable') hotTableComponentTest: ElementRef;
+  @ViewChild('handsontable_search_field') hotTableSearchField: ElementRef;
+  hot: any;
+
+  // HandsontableComponent = this;
+  @Input() set testData(value) {
+    this._data = value;
+    if (value && value.length > 0 && this.hot) {
+      this.hot.getInstance().loadData(value);
+      this.hot.getInstance().render();
+    }
+  };
+
+
+  _data: [string[]] = [['blank', '', '']];
+
   public options: any;
 
-  constructor(private constantsService:ConstantsService) {
-    // this.testData = getAdvancedData();
-    // this.colHeaders = ['Key', 'Title', 'Payload'];
-    // this.columns = [
-    //   {data: 0, type: 'text'},
-    //   {data: 1, type: 'text'},
-    //   {data: 2, type: 'text'},
-    // ];
+  constructor(
+    private constantsService: ConstantsService,
+    private activatedRoute: ActivatedRoute
+  ) {
     this.options = {
-      // height: 396,
       rowHeaders: true,
+      colHeaders: true,
       stretchH: 'all',
-      columnSorting: true,
-      colWidths: 100,
-      contextMenu: true,
-      className: 'htCenter htMiddle',
-      readOnly: true,
-      autoRowSize: true,
+      minRows: 5
     };
   }
-  dataset: any[] = [
-    {id: 1, name: 'Ted Right', address: 'Wall Street'},
-    {id: 2, name: 'Frank Honest', address: 'Pennsylvania Avenue'},
-    {id: 3, name: 'Joan Well', address: 'Broadway'},
-    {id: 4, name: 'Gail Polite', address: 'Bourbon Street'},
-    {id: 5, name: 'Michael Fair', address: 'Lombard Street'},
-    {id: 6, name: 'Mia Fair', address: 'Rodeo Drive'},
-    {id: 7, name: 'Cora Fair', address: 'Sunset Boulevard'},
-    {id: 8, name: 'Jack Right', address: 'Michigan Avenue'},
-  ];
 
   ngOnInit(): void {
   }
 
+  ngAfterViewInit(): void {
+    let routeName = this.activatedRoute.snapshot.data['routeName'];
+
+    let searchField = this.hotTableSearchField.nativeElement;
+    let colObject = {};
+    if (this.colHeaders && this.columns) {
+      colObject = {
+        colHeaders: this.colHeaders,
+        columns: this.columns,
+      };
+    }
+    let hot = this.hot = new Handsontable(this.hotTableComponentTest.nativeElement, {
+      data: this._data,
+      // rowHeaders: true,
+      ...this.options,
+      // colHeaders: this.columns,
+      ...colObject,
+      contextMenu: true,
+      wordWrap: true,
+      autoRowSize: true,
+      search: true,
+      afterRemoveRow: () => {
+        this.rowChanged$.emit();
+      },
+      afterCreateRow: () => {
+        this.rowChanged$.emit();
+      },
+      ...this.setting
+
+      /*https://jsfiddle.net/epjettq1/*/
+      // allowHtml: true,
+      // readOnly: true,
+      // colHeaders: data.columns,
+      // stretchH: 'all',
+      // sortIndicator: true,
+      // columnSorting: {
+      //   column: 0,
+      //   sortOrder: true
+      // },
+      // disableVisualSelection: true,
+      // fixedColumnsLeft: 1,
+      // wordWrap: true,
+      // autoRowSize: true
+    });
+
+    (<any>Handsontable.dom).addEvent(searchField, 'keyup', function (event) {
+      let search = hot.getPlugin('search');
+      let queryResult = (<any>search).query(this.value);
+
+      console.log(queryResult);
+      hot.render();
+    });
+  }
 }

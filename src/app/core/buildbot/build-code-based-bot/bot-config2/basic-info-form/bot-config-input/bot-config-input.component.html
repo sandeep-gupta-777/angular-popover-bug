@@ -1,0 +1,9 @@
+<label class="required" for="alterEgo">{{displayName}}</label>
+<label [hidden]="!ngControl.hasError('required')" class="text-danger pl-1" for="alterEgo"><i>This is
+  required</i></label>
+<input type="text" id="alterEgo"
+       class="form-control"
+       [placeholder]="placeholder"
+       [ngModel]="value"
+       [disabled]="isDisabled"
+       (ngModelChange)="valueChanged($event)">

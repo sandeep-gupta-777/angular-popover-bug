@@ -1,0 +1,24 @@
+<!--Tabbing starts-->
+<ul class="nav nav-tabs my-2 theme-tabbing">
+  <li class="nav-item ml-3">
+    <a class="nav-link" [routerLink]="['.']"
+       queryParamsHandling="merge"
+       replaceUrl="true"
+       [queryParams]="{activeTab:myEAnalysis2TypesEnum.userAcquisition}"
+       (click)="tabClicked(myEAnalysis2TypesEnum.userAcquisition)"
+       [ngClass]="{'tab-active':activeTab===myEAnalysis2TypesEnum.userAcquisition}"><strong>USER ACQUISITION</strong></a>
+  </li>
+</ul>
+<!--Tabbing ends-->
+
+
+<!--<app-chart *ngIf="activeTab===myEAnalysis2TypesEnum.userAcquisition"-->
+           <!--[data]="series_Sessions"-->
+           <!--[chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"-->
+           <!--[highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">-->
+<!--</app-chart>-->
+<!---->
+<app-chart *ngIf="activeTab===myEAnalysis2TypesEnum.userAcquisition"
+           [chartValue]="chartValue"
+           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
+</app-chart>

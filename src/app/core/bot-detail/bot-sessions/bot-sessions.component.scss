@@ -1,0 +1,9 @@
+@import '~src/sass/main';
+
+.danger-modal{
+    @include classic-modal(#b14250);
+  }
+  
+.primary-modal{
+  @include classic-modal($color-primary);
+}
