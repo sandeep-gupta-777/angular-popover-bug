@@ -15,11 +15,7 @@ import {
   SaveCodeInfo,
   SaveCustomnersInfo,
   SaveIntegrationInfo,
-<<<<<<< HEAD
-  SavePipeLineInfo,
-=======
   SavePipeLineInfo, SaveNewBotInfo_PipelineBased, ResetBuildBotToDefault,
->>>>>>> ui-redesign
 } from './buildbot.action';
 import {ConstantsService} from '../../../constants.service';
 import {buildPath} from 'selenium-webdriver/http';
@@ -29,34 +25,8 @@ import {EFormValidationErrors} from '../../../utility.service';
 
 
 export interface IBotCreationState {
-<<<<<<< HEAD
-  codeBased?: {
-    basicInfo?: IBasicInfo,
-    avatars?: IAvatar[],
-    pipeline?: IAIModule[],
-    /*TODO?: change the intgerface here*/
-    unselected_pipeline?: IAIModule[]
-    customners?: ICustomners,
-    code?: ICode,
-    integration?: IIntegration,
-    botConfig?: IBotConfig,
-  }
-  pipeLineBased?: {
-    botCreationState?: IBotCreationState,
-    basicInfo?: IBasicInfo,
-    avatar?: IAvatar,
-    avatarList?: IAvatarList,
-    pipeline?: IPipeline,
-    ipelineData?: pipelineData,
-    customners?: ICustomners,
-    code?: ICode,
-    integration?: IIntegration,
-    botConfig?: IBotConfig,
-  }
-=======
   codeBased: IBot,
   pipeLineBased: IBot
->>>>>>> ui-redesign
 }
 
 
@@ -77,14 +47,7 @@ const defaultBuildBotState = {
 
 @State<IBotCreationState>({
   name: 'botcreationstate',
-<<<<<<< HEAD
-  defaults: {
-    codeBased: {},
-    pipeLineBased: {}
-  }
-=======
   defaults: defaultBuildBotState
->>>>>>> ui-redesign
 })
 
 export class BotCreationStateReducer {

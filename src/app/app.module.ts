@@ -21,15 +21,6 @@ import {BotCreationStateReducer} from './core/buildbot/ngxs/buildbot.state';
 import {AnalysisStateReducer2} from './core/analysis2/ngxs/analysis.state';
 
 import {ReportsStateReducer} from './core/reports/ngxs/reports.state';
-<<<<<<< HEAD
-import {SessionDetailModelComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-detail-model.component';
-import {SessionTabsDetailsComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-tabs-details/session-tabs-details.component';
-import {SessionMessageComponent} from './core/bot-detail/bot-sessions/session-detail-model/session-message/session-message.component';
-import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
-import { FilterActiveBotPipe } from './filter-active-bot.pipe';
-import { LoadingComponent } from './loading/loading.component';
-import { NgIfLoadingDirective } from './ng-if-loading.directive';
-=======
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import {AuthGaurdService} from './auth-gaurd.service';
@@ -53,7 +44,6 @@ import {FilterArrayPipe} from './filter-array.pipe';
 import {MsToHhMmPipe} from './ms-to-hh-mm.pipe';
 import {BackendDevComponent} from './backend-dev/backend-dev.component';
 // import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
->>>>>>> ui-redesign
 
 const routes: Route[] = [
   {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
@@ -78,19 +68,6 @@ const routes: Route[] = [
     ChatListComponent,
     ChatItemComponent,
     ChatroomComponent,
-<<<<<<< HEAD
-    ScrollerDirective,
-    ReportDetailsComponent,
-    ReportDisplayComponent,
-    ReportControlsComponent,
-    TestComponent,
-    SessionDetailModelComponent,
-    SessionTabsDetailsComponent,
-    SessionMessageComponent,
-    FilterActiveBotPipe,
-    LoadingComponent,
-    NgIfLoadingDirective
-=======
     FilterArrayPipe,
     BotThinkingBubbleComponent,
     BotWelcomeComponent,
@@ -98,7 +75,6 @@ const routes: Route[] = [
     // CardCarouselComponent,
     // QuickReplyComponent,
     // CodeEditorComponent
->>>>>>> ui-redesign
   ],
   // exports:[
   //   CardCarouselComponent,
