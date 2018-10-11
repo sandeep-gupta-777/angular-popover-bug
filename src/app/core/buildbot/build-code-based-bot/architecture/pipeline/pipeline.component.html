@@ -1,0 +1,75 @@
+<!--<p>{{pipeLine|json}}</p>-->
+<!--<button (click)="test()">test</button>-->
+<div class="row m-0" style="height: 100%;">
+  <div style="height: 10%" class="col-12 mb-1 d-flex p-0 justify-content-between">
+    <p class="text-theme-secondary my-2 col-8">Drag and drop modules from 'Available Intelligence Modules' to 'Bot Intelligence
+      Pipeline' and vice versa</p>
+    <div class="search-theme-input-with-search col-4">
+      <span class="fa fa-search"></span>
+      <input type="search" placeholder="Filter Modules" [(ngModel)]="searchKeyword" class="border">
+    </div>
+  </div>
+
+  <div class="col-8" style="height:90%;overflow-y: scroll" *ngIf="aiModules">
+    <h4 class="heading mb-2 mt-3">Available Intelligence Modules({{aiModules && aiModules.length}})</h4>
+    <ul class="aim-list  px-0 d-flex align-items-start align-content-start flex-row flex-wrap"
+        [dragula]='"first-bag"' [(dragulaModel)]='aiModules'>
+      <li class="border module-box mb-2 px-2 mr-1"
+          *ngFor="let aiModule of (aiModules|pipelineFilter:searchKeyword); let i of index">
+        {{aiModule.unique_name}}
+        <div>
+          <i *ngIf="aiModule && aiModule.input_params && myObject.keys(aiModule.input_params).length>0" (click) = "openCreateBotModal(Primarytemplat,aiModule);" class="fa fa-cog pl-1" aria-hidden="true"></i>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="col-4 pipeline-wrapper d-flex flex-column" *ngIf="aiModules" style="height: 90%;overflow-y: auto">
+    <!--<div class="col-12 border pr-0 pipeline d-flex flex-column" style="height: 90%;overflow-y: scroll">-->
+      <h4 class="heading mb-2 mt-3">Bot Intelligence Pipeline ({{pipeLine && pipeLine.length}})</h4>
+      <div class="flex-grow-1"  [dragula]='"first-bag"' [(dragulaModel)]='pipeLine'>
+        <div *ngFor="let aiModule of (pipeLine|pipelineFilter:searchKeyword);let targetIndexNew = index">
+          <div class="border mb-2 mr-3 module-box border-danger"
+               [ngClass]="{'bg-grey':aiModule.$$hashKey==='PLACE_HOLDER', 'border-danger':!utilityService.checkIfAllPipelineInputParamsArePopulated([aiModule])}">
+            {{aiModule.unique_name||aiModule.id}}
+            <div>
+              <i *ngIf=" aiModule && aiModule.input_params && myObject.keys(aiModule.input_params).length>0" (click) = "openCreateBotModal(Primarytemplat,aiModule);" class="fa fa-cog pl-1" aria-hidden="true"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!--</div>-->
+</div>
+
+<ng-template #Primarytemplat>
+  <div class="primary-modal">
+    <div class="top-dec"></div>
+    <div class="modal-header">
+      <h4 class="modal-title" style="display: flex;justify-content: start;">{{selectedPipeline.unique_name}}</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+    </div>
+
+    <div class="modal-body pt-0">
+     <div *ngFor="let Key of myObject.keys(selectedPipeline.input_params)" class="d-flex align-items-center justify-content-center my-2">
+       <label class="mb-0 mr-1">{{Key|integrationNameFormatter|titlecase }}</label>
+       <input type="text" class="input-material" [(ngModel)] = "selectedPipeline.input_params[Key]">
+     </div>
+      <button class="btn btn-theme-success-sm" (click)="modalRef.hide()">Submit</button>
+
+    </div>
+  </div>
+</ng-template>
+
+
+<!--<div class="flex">-->
+  <!--<div class="container " dragula="VAMPIRES" [(dragulaModel)]="vamps">-->
+    <!--<div class="vamp" *ngFor="let vamp of vamps">{{ vamp.name }}</div>-->
+  <!--</div>-->
+
+  <!--<div class="container " dragula="VAMPIRES" [(dragulaModel)]="vamps2">-->
+    <!--<div class="vamp" *ngFor="let vamp of vamps2">{{ vamp.name }}</div>-->
+  <!--</div>-->
+<!--</div>-->

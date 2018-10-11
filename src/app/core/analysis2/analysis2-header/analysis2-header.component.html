@@ -1,0 +1,60 @@
+<!--<button (click)="click1()">click</button>-->
+<form ngNativeValidate
+      [ngClass]="{'':errorMessage}"
+      class=" d-flex align-items-center analysis2-header-row position-relative" #form="ngForm">
+
+
+  <div class="heading ml-4">Filter Data</div>
+
+  <div class="form-group m-0 mr-4 ml-auto">
+    <label for="">Bot</label>
+    <select class="concept1" [ngModel] required name="botId">
+      <option *ngFor="let bot of codebasedBotList; let i = index;" [selected]="i===0" type="button" [value]="bot.id">{{bot.name}}</option>
+    </select>
+  </div>
+
+  <div class="form-group m-0 mr-4 ">
+    <label for="">Channel</label>
+    <select  [ngModel] required name="platform">
+      <option *ngFor="let channel of channelList"  type="button" [value]="channel.name">{{channel.displayName}}</option>
+    </select>
+  </div>
+
+  <div class="form-group m-0 mr-4">
+      <label for="">Time Range</label>
+    <input type="text"
+           placeholder="Start Date"
+           style="width: 100px;"
+           name="startdate"
+           [(ngModel)]="startdate"
+           required
+           readonly
+           bsDatepicker
+           [bsConfig]="datePickerConfig">
+  </div>
+  <div class="form-group m-0 mr-4">
+    <input type="text"
+           style="width: 100px;"
+           placeholder="End Date"
+           name="enddate"
+           [(ngModel)]="enddate"
+           bsDatepicker
+           readonly
+           [maxDate]="maxDate"
+           [bsConfig]="datePickerConfig">
+  </div>
+
+  <div class="form-group m-0 mr-4">
+    <label for="">Granularity</label>
+    <select  [(ngModel)]="granularity" required name="granularity">
+      <option *ngFor="let granularity of granularityList"  type="button" [value]="granularity">{{granularity}}</option>
+    </select>
+  </div>
+
+  <div class="text-right" style="position: absolute; left: 0;right: 0; bottom: 0">
+    <i  *ngIf="errorMessage" class="text-danger mr-4" style="font-size: 11px">{{errorMessage}}</i>
+  </div>
+
+</form>
+
+

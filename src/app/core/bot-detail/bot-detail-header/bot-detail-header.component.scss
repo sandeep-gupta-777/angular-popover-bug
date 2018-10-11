@@ -1,0 +1,128 @@
+@import "~src/sass/variables";
+@import "~src/sass/mixins";
+@import '~src/sass/main';
+
+.danger-modal {
+  @include classic-modal(#b14250);
+}
+
+//.center-modal {
+//  vertical-align: middle;
+//  height: 18em;
+
+  //.modal.fade {
+  //    display: flex !important;
+  //    justify-content: center;
+  //    align-items: center;
+  //  }
+    //.modal-dialog {
+    //  vertical-align: middle;
+    //  height: 18em;
+    //  //background-color: rgba(0,0,0,0.5);
+    //}
+//}
+
+.row-bot-detail-header {
+  height: 40px;
+  *:not(.fa) {
+    @include typography(11px, 1.45, $font-weight-400, black);
+    strong {
+      font-weight: bold;
+      color: #474747 !important;
+    }
+  }
+  //.fa-refresh {
+
+  .fa-undo{
+    color: $color-primary !important;
+  }
+  * {
+    margin-right: 5px;;
+  }
+  .name {
+    div {
+      color: #474747;
+      font-weight: bold;
+    }
+  }
+  strong {
+    color: #4a4a4a !important;
+  }
+  .active-button {
+    height: 24px;
+    border-radius: 2px;
+    background-color: #509005;
+    @include typography(11px, 1.45, $font-weight-300, $color-text-normal);
+    color: white;
+  }
+
+  .fa:not(.fa-circle ) {
+    color: #9b9b9b;
+  }
+  .dark-green {
+    color: #8cd82f;
+  }
+  .more {
+    @include typography(13px, $line-height-normal, $font-weight-300, #00abd3);
+  }
+
+  .headerDivider {
+    border-left: 1px solid #9e9e9e;;
+    height: 85%;
+  }
+}
+
+.logo-image {
+  margin-right: 2px;
+  margin-left: 2px;
+}
+
+.dropdown-menu {
+  left: -100px !important;
+  > li {
+    > .dropdown-item {
+      font-size: 13px;
+    }
+  }
+}
+
+.preview-box {
+  * {
+    color: $color-primary !important;
+  }
+  .action {
+    font-size: 13px;
+  }
+  cursor: pointer;
+}
+
+.no-channel-integrations:first-child {
+  border-left: $border-normal;
+  padding-left: 4px;
+  width: 20px !important;
+}
+
+.fa-spin-reverse {
+  -webkit-animation: fa-spin-reverse 2s infinite linear;
+  animation: fa-spin-reverse 2s infinite linear;
+}
+@-webkit-keyframes fa-spin-reverse {
+  100% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  0% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@keyframes fa-spin-reverse {
+  100% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  0% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}

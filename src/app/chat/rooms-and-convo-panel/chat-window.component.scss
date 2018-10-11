@@ -1,0 +1,60 @@
+@import "~src/sass/main.scss";
+.footer {
+  grid-area: f;
+  //grid-row: 2/span2;
+  //border-top: 1px solid $color-primary;
+  position: relative;
+  padding: 3px 10px ;
+  //height: 50px !important;
+  background-color: rgb(236, 236, 236);;
+
+  input {
+    height: 80%;
+    width: 90%;
+    @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-secondary);
+    border-radius: 4px;
+    @include hide-borders();
+    &::placeholder{
+      color: #dadada !important;
+    }
+
+  }
+  .icon {
+    color: $color-primary;
+    font-size: 25px;
+  }
+}
+
+app-chat-message{
+  display: block;
+}
+
+.chat-input{
+
+}
+
+//.card{
+//  height: 410px;
+//  width: 320px;
+//}
+//.card-header{
+//  background-color: $color-primary;
+//  color: white;
+//}
+//
+//.card-footer{
+//  height: 45px;
+//  border-top: 1px solid $color-primary;
+//  position: relative;
+//  input{
+//    height: 80%;
+//    width: 100%;
+//    @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-secondary);
+//    @include hide-borders();
+//  }
+//  .icon{
+//    color: $color-primary;
+//    //position: absolute;
+//    //right: 20px;
+//  }
+//}

@@ -1,9 +1,12 @@
 <div class="container px-5 pb-5 my-3 bg-white shadow-theme">
   <div class="row">
     <div class="col-12 mb-4 py-3 d-flex align-items-center " style="border-bottom: solid 2px #e0e0e0;">
-      <div class="p-0 h4" ><i class="fa fa-angle-left pr-2"></i>Subscribe to Report</div>
+      <a class="p-0 h4 cursor-pointer" [routerLink]="['/core','reports']" ><i class="fa fa-angle-left pr-2"></i></a>
+      <a class="p-0 h4 ">Subscribe to Report</a>
       <button class="btn btn-theme-primary-outline ml-auto mr-3" routerLink="/core/reports">Cancel</button>
-      <button class="btn btn-theme-primary" (click)="submitSubscriptionForm(Primarytemplate)">Create</button>
+      <button class="btn btn-theme-primary" *ngIf="!report_id" (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Create</button>
+      <button class="btn btn-theme-primary" *ngIf="report_id" (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Update</button>
+      <i class="fa fa-trash cursor-pointer" *ngIf="report_id" (click)="showReportDeleteModel(reportDeleteTemplate)"></i>
     </div>
   </div>
 
@@ -12,8 +15,8 @@
       <!--<app-report-controls [reportFormData]="reportFormData"></app-report-controls>-->
       <app-report-controls ></app-report-controls>
     </div>
-    <div class="col-7">
-      <app-report-display></app-report-display>
+    <div class="col-7 d-flex">
+      <app-report-display class="d-flex" style="width: 100%"></app-report-display>
     </div>
   </div>
 </div>
@@ -33,20 +36,52 @@
       <div class ="row">
         <div class="col-md-12">
           You have subscribed to <strong>messages</strong> report for
-          <strong>Weathery</strong> bot in a <strong>csv</strong> format,which is scheduled <strong>weekly</strong> at <strong>9:00 AM </strong>via <strong>email</strong>
+          <strong>{{reportFormData.botName}}</strong> bot in a <strong>{{reportFormData.filetype}}</strong> format,which is scheduled
+          <strong>{{reportFormData.frequency}}</strong> at <strong>{{reportFormData.startdate|date:'shortTime'}} </strong>via
+          <strong *ngIf="!reportFormData?.delivery[1].enabled">{{reportFormData?.delivery[0]?.delivery_type}}</strong>
+          <strong *ngIf="reportFormData?.delivery[1].enabled">{{reportFormData?.delivery[1]?.delivery_type}}</strong>
         </div>
         <div class  = "col-md-12">
           <i class="fa fa-check-circle" ></i>
         </div>
         <div class = "col-md-12 light-text">The next delivery is scheduled on</div>
-        <div class="col-md-12"><strong>13 July, 2018</strong></div>
-        <div class="col-md-12">9:00 AM</div>
+        <div class="col-md-12"><strong>{{reportFormData.startdate|date:'mediumDate'}}</strong></div>
+        <div class="col-md-12">{{reportFormData.startdate|date:'shortTime'}}</div>
       </div>
     </div>
   </div>
+  <!---->
 </ng-template>
 
-<ng-template #Dangertemplate>
+
+
+<ng-template #reportDeleteTemplate>
+
+  <div class="danger-modal center-modal">
+    <div class="top-dec"></div>
+    <div class="modal-header">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete Report?</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body pt-0">
+      <form #form="ngForm">
+        <div class="text-center my-1">
+          <p class="mb-3">This will delete the report and all it’s instances from history
+            will also be removed. Are you sure you want to delete it?</p>
+        </div>
+        <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button class=" btn btn-theme-danger" (click)="deleteReport()">Delete</button>
+      </form>
+    </div>
+  </div>
+
+
+</ng-template>
+
+<ng-template #unsubscribeTemplate>
   <div class="danger-modal">
     <div class = "top-dec"></div>
     <div class="modal-header" >
@@ -59,7 +94,11 @@
     <div class="modal-body">
       <div class ="row">
         <div class="col-md-12 mb-2">You have subscribed to <strong>messages</strong> report for
-          <strong>Weathery</strong> bot in a <strong>csv</strong> format,which is scheduled  <strong>weekly</strong> at <strong>9:00 AM </strong>via <strong>email</strong>
+          <strong>{{reportFormData.botName}}</strong> bot in a <strong>{{reportFormData.filetype}}</strong>
+          format,which is scheduled  <strong>{{reportFormData.frequency}}</strong> at <strong>
+            {{reportFormData.startdate|date:'shortTime'}} </strong>via
+          <strong *ngIf="!reportFormData?.delivery[1].enabled">{{reportFormData?.delivery[0]?.delivery_type}}</strong>
+          <strong *ngIf="reportFormData?.delivery[1].enabled">{{reportFormData?.delivery[1]?.delivery_type}}</strong>
         </div>
         <div class="col-md-12">You can subscribe to it later if you need from configure tab later</div>
       </div>

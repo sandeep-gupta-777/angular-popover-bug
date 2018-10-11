@@ -1,7 +1,40 @@
 @import "~src/sass/main";
 
-.row-details{
-  .fa{
+.bot-detail-grid {
+  display: grid;
+  height: 100vh;
+  //border: 1px solid red;
+  grid-template-columns: 1fr;
+  grid-template-rows: 40px auto 1fr;
+  grid-gap: 8px;
+  grid-template-areas: 'header' 'config' 'architecture';
+  .header {
+    grid-area: header;
+  }
+  .config {
+    grid-area: config;
+  }
+  .architecture {
+    grid-area: architecture;
+    overflow-y: auto;
+  }
+}
+
+.bot-detail-grid-architecture-full-screen {
+  display: grid;
+  height: calc(100vh - 76px);
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(60vh, 1fr);
+  grid-gap: 8px;
+  margin-top: 10px;
+  grid-template-areas: 'architecture';
+  .architecture {
+    grid-area: architecture;
+  }
+}
+
+.row-details {
+  .fa {
     font-size: 30px;
     //line-height: 50px;
     font-weight: 400;
@@ -10,68 +43,89 @@
   }
 }
 
-.label{
+.label {
   @include typography($font-size-normal, $line-height-normal, $font-weight-400, #56627c);
 }
 
-.title{
+.title {
   @include typography($font-size-md, $line-height-md, $font-weight-700, #56627c);
 }
 
-.description{
-  @include  typography($font-size-xs, $line-height-normal, $font-weight-300, $color-text-normal);
+.description {
+  @include typography($font-size-xs, $line-height-normal, $font-weight-300, $color-text-normal);
   text-align: center;
 }
 
-#channel-selector{
-  @include  typography($font-size-normal, $line-height-normal, $font-weight-300, $color-text-normal);
+#channel-selector {
+  @include typography($font-size-normal, $line-height-normal, $font-weight-300, $color-text-normal);
 }
 
 //
-///*code for card. TODO: to be removed later*/
-//@import "~src/sass/variables";
-//@import "~src/sass/mixins";
-//
-//p{
-//  @include margin-padding-0()
+//a{//bootstrap override
+//  text-decoration: none !important;
+//  font-size: $font-size-sm;
+//  color: black;
+//  @include typography($font-size-sm,$line-height-normal, $font-weight-300 , $color-text-grey)
 //}
-//
-//.card, .card-header,.card-body, .card-footer{
-//  background-color: white;
-//  border: none;
-//  @include margin-padding-0();
-//  padding-top: 7px;
+
+//.heading {
+//  font-family: Helvetica;
+//  font-size: 16px;
+//  font-weight: bold;
+//  font-style: normal;
+//  font-stretch: normal;
+//  line-height: 1;
+//  letter-spacing: normal;
+//  color: #474747;
 //}
-//.card{
-//  padding-left: 15px;
-//  padding-right: 15px;
-//  .card-header{
-//    .timePeriod-logo{
-//      height: 30px;
-//      width: 30px;
-//    }
-//  }
-//
-//  .timePeriod-name{
-//    @include typography($font-size-sm, $line-height-normal, $font-weight-normal, $color-text-normal)
-//  }
-//  .timePeriod-title{
-//    @include typography($font-size-xs, $line-height-normal, $font-weight-normal, $color-secondary)
-//  }
-//  .timePeriod-created,.timePeriod-updated{
-//    font-size: $font-size-xs;
-//    @include typography($font-size-xs, $line-height-normal, $font-weight-300, $color-text-normal)
-//
-//  }
-//  .card-footer{
-//    padding-bottom: 10px;
-//    .fa{
-//      padding-right: 2px;
-//    }
-//    .copy{
-//      font-size: $font-size-xs !important;
-//      color: $color-secondary;
-//    }
-//  }
+
+.architeture-body {
+  height: 85%;
+  .side-bar {
+    width: 12.5%;
+    // padding-left: 10px;
+    padding-right: 0px;
+  }
+  .tab {
+    height: 32px;
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    @include typography(13px, $line-height-normal, $font-weight-300, $color-text-normal);
+    cursor: pointer;
+    &:hover {
+      background-color: #f7f7f7;
+    }
+  }
+
+}
+
+.scroll-wrapper {
+  overflow-y: auto;
+  //height: 85%;
+}
+.scroll-wrapper-testing {
+  //overflow-y: auto;
+  //height: 65%;
+}
+
+app-knowledge-base-wrapper, app-code-input, app-integration-option-list {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  display: block;
+}
+
+//app-bot-testing {
+//  height: 100%;
+//  overflow-y: hidden;
+//  overflow-x: hidden;
+//  width: 100%;
+//  display: block;
 //}
-//
+
+app-integration-option-list {
+  //overflow-y: scroll;
+  display: flex;
+}

@@ -1,5 +1,55 @@
-<!--<div *ngIf="(testCases$|async) as testCases" class="border1">-->
-  <!--&lt;!&ndash;<app-handsontable [testData] = "testCases.data" [columns]="handontable_column" [colHeaders]="handontable_colHeaders"></app-handsontable>&ndash;&gt;-->
-  <!--<app-handsontable [columns]="handontable_column" [colHeaders]="handontable_colHeaders"></app-handsontable>-->
+<div class="d-flex-column-custom justify-content-end mb-3">
+  <div class="d-flex align-items-center justify-content-end">
+    <!-- <i class="fa fa-plus pr-4"></i>
+    <i class="fa fa-minus pr-4"></i> -->
+    <button class="btn-theme-primary-outline mr-2" (click)="exportToCSV()">Export to CSV</button>
+    <div *myIf="myEAllActions['Update Bot Testcases']" class="d-inline-block">
+      <button class="btn-theme-primary mr-2" (click)="updateTC()" *ngIf="isData && tableChanged">Update test Case
+      </button>
+    </div>
+    <div *myIf="myEAllActions['Create Bot Testcases']" class="d-inline-block">
+      <button class="btn-theme-primary mr-2" (click)="createTC()" *ngIf="!isData && tableChanged">Create test Case
+      </button>
+    </div>
+    <button class="btn-theme-danger mr-2" (click)="beginTest(Primarytemplat)" *ngIf="cancelTestFlag">Cancel Test
+    </button>
+    <button class="btn-theme-primary mr-2" (click)="beginTest(Primarytemplat)" *ngIf="!cancelTestFlag">Begin Test
+    </button>
+  </div>
+</div>
+
+<!--<div [hidden]="!testCaseData" (change)="onTableChange()" class="d-flex-column-custom flex-grow-1">-->
+<app-handsontable
+  [hidden]="!testCaseData"
+  (change)="onTableChange()"
+  [testData]="testCaseData"
+  [columns]="handontable_column"
+  [colHeaders]="handontable_colHeaders"
+  (rowChanged$)="onTableChange()"
+>
+</app-handsontable>
+
+<!--<app-handsontable [columns]="handontable_column" [colHeaders]="handontable_colHeaders"></app-handsontable>-->
 <!--</div>-->
-<app-handsontable [columns]="handontable_column" [colHeaders]="handontable_colHeaders"></app-handsontable>
+<!--<app-handsontable [columns]="handontable_column" [colHeaders]="handontable_colHeaders"></app-handsontable>-->
+
+<ng-template #Primarytemplat>
+  <div class="danger-modal">
+    <div class="top-dec"></div>
+    <div class="modal-header">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Test is already running</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+    </div>
+
+    <div class="modal-body pt-0">
+      <div>
+        <p>Do you want to stop the Testing process?</p>
+        <button class="btn-theme-primary" (click)="stopTest();modalRef.hide()">Stop Test</button>
+      </div>
+
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,35 @@
+@import "~src/sass/main.scss";
+
+.header{
+  height: 47px;
+}
+
+.heading{
+  @include typography(16px, $line-height-md, $font-weight-700, $color-text-normal);
+}
+
+.display-data-row{
+  padding-right: 23px;
+  padding-left: 23px;
+  padding-top: 23px;
+  padding-bottom: 23px;
+}
+
+.q3,.q4{
+  padding-top: 23px;
+}
+.font-26{
+  @include typography(20px, $line-height-md, $font-weight-400, $color-text-normal);
+  //margin-bottom: 32px;
+}
+.font-20{
+  @include typography(20px, $line-height-md, $font-weight-300, $color-text-normal);
+}
+
+.mb-32{
+  margin-bottom: 32px !important;
+}
+
+.mb-12{
+  margin-bottom: 12px !important;
+}

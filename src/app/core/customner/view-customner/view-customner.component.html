@@ -1,32 +1,18 @@
-
-<!--<div class="row">-->
-  <!--<div class="col-12">-->
-    <!--<h4>CONCEPTS</h4>-->
-  <!--</div>-->
-
-  <!--<div class="col-12 d-flex justify-content-end">-->
-    <!--<a  class="btn btn-primary" [routerLink]="['/customner','create']">Create Concept</a>-->
-  <!--</div>-->
-
-  <!--<div class="col-12">-->
-    <!--<app-knowledge-base></app-knowledge-base>-->
-  <!--</div>-->
-
-<!--</div>-->
-
-<div class="row mt-3 bg-white">
-  <div class="col-12">
-    <div class="card">
-
-      <div class="card-header pb-0 bg-white d-flex justify-content-between justify-content-center align-items-center">
-        <h4>Concepts</h4>
-      </div>
-      <!--<app-build-code-based-timePeriod></app-build-code-based-timePeriod>-->
-      <router-outlet></router-outlet>
-    </div>
+<div class="row m-0 mt-3 p-1 bg-white">
+  <div class="col-12 mt-4">
+    <h4> Enterprise Customner </h4>
   </div>
-  <div class="col-12">
-    <app-knowledge-base></app-knowledge-base>
+  <div class="col-12" style="min-height: 450px">
+    <app-knowledge-base
+      class="h-100"
+      [custumNerDataForSmartTable]="custumNerDataForSmartTable"
+      (updateOrSaveParentNers$)="updateOrSaveCustomNer($event)"
+      (pageChanged$)="pageChanged$($event)"
+      [totalRecords]="totalRecords"
+      [recordsPerPage]="recordsPerPage"
+      (deleteNer$)="deleteNer($event)"
+      [currentPageNumber]="currentPageNumber"
+      [settings]="settings"
+    ></app-knowledge-base>
   </div>
 </div>
-

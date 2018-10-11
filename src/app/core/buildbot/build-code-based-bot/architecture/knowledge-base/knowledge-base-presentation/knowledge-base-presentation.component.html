@@ -1,0 +1,163 @@
+<div class="d-flex-column-last-child-flex-grow-1 create-concept-row">
+  <div class="child d-flex justify-content-between">
+    <button class="btn-theme-primary-outline" (click)="showTable$.emit(); _selectedRowData = {}">Go Back</button>
+    <form ngNativeValidate class="options d-flex align-items-end" #form="ngForm">
+      <div class="d-flex flex-column">
+        <span class="required p-0 mb-1">Concept Key</span>
+        <input type="text" class="concept" placeholder="Concept Key" required
+               [(ngModel)]="key" name="key">
+      </div>
+      <div class="d-flex flex-column mx-2">
+        <span class="required p-0 mb-1">Concept Type</span>
+        <select [(ngModel)]="ner_type" required name="ner_type">
+          <option value="single_match">Single Match</option>
+          <option value="double_match">Double Match</option>
+          <option value="with_metadata">With Metadata</option>
+          <option value="database">Database</option>
+          <option value="regex">Regex</option>
+        </select>
+
+      </div>
+
+      <div class="d-flex flex-column mx-2">
+        <label for="" class="m-0 p-0 mb-1">Process Raw Text</label>
+        <div style="height: 26px;">
+          <ui-switch name="process_raw_text" [(ngModel)]="process_raw_text" class="d-flex align-items-center mx-1"
+                     style="border:none;padding: 0;" size="small"></ui-switch>
+        </div>
+        <!---->
+      </div>
+      <div class="d-flex flex-column mx-2" *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']">
+        <span class="required p-0 mb-1">Override Policy</span>
+        <div class="d-flex" style="height: 26px;">
+          <!---->
+          <label
+            [ngClass]="{'label-selected':conflict_policy==='override','label-unselected': conflict_policy==='merge'}"
+            class="p-0 px-2 m-0"
+            for="radio1">Override</label>
+          <input hidden type="radio" class="form-check-input" id="radio1" required name="conflict_policy"
+                 [(ngModel)]="conflict_policy" value="override" checked>
+          <label
+            [ngClass]="{'label-unselected':conflict_policy==='override','label-selected': conflict_policy==='merge'}"
+            class="p-0 px-2 m-0" for="radio2">Merge</label>
+          <input hidden type="radio" class="form-check-input" id="radio2" required name="conflict_policy"
+                 [(ngModel)]="conflict_policy" value="merge">
+
+        </div>
+
+      </div>
+
+      <!--<fieldset *ngIf="!routeName">-->
+      <!--<div>-->
+      <!--<span *ngIf="!routeName" class="required p-0">Override Policy</span>-->
+      <!--</div>-->
+      <!--<div class="label-wrapper d-flex" style="height: 26px">-->
+      <!--<label class="form-check-label" for="radio1">-->
+      <!--Override-->
+      <!--</label>-->
+      <!--<input hidden type="radio" class="form-check-input" id="radio1" required name="conflict_policy"-->
+      <!--[(ngModel)]="conflict_policy" value="override" checked>-->
+      <!--<label class="form-check-label" for="radio2">-->
+      <!--<input hidden type="radio" class="form-check-input" id="radio2" required name="conflict_policy"-->
+      <!--[(ngModel)]="conflict_policy" value="merge">Merge-->
+      <!--</label>-->
+      <!--</div>-->
+      <!--</fieldset>-->
+
+      <!--update/create button starts-->
+      <div *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']">
+        <button class="btn-theme-primary mx-1" [disabled]="!form.valid" (click)="updateOrSaveConcept()"
+                *myIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
+        >
+          {{ner_id?"Update": "Create" }}
+        </button>
+      </div>
+
+      <div *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']">
+        <button class="btn-theme-primary mx-1" [disabled]="!form.valid" (click)="updateOrSaveConcept()"
+                *myIf="[myEAllActions['Create Bot Knowledge base'],myEAllActions['Update Bot Knowledge base']]"
+        >
+          {{ner_id?"Update": "Create" }}
+        </button>
+      </div>
+      <!--update/create button ends-->
+
+      <div *ngIf="ner_id && routeName===myERouteNames['Get Enterprise Knowledge base']">
+        <div *myIf="myEAllActions['Delete Enterprise Knowledge base']"
+             (click)="openDeleteModal(deleteTemplate)"><i class="fa fa-trash cursor-pointer"></i></div>
+      </div>
+      <div *ngIf="ner_id && routeName!==myERouteNames['Get Enterprise Knowledge base']">
+        <div *myIf="myEAllActions['Delete Bot Knowledge base']"
+             (click)="openDeleteModal(deleteTemplate)"><i class="fa fa-trash cursor-pointer"></i></div>
+      </div>
+    </form>
+  </div>
+  <!---->
+  <div class="mt-2 d-flex-column-last-child-flex-grow-1 child">
+    <div class="d-flex-column-last-child-flex-grow-1"
+         *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata' ||ner_type==='regex';">
+      <!--<div class="d-flex justify-content-end">-->
+      <!--<label for="uploadInput" class="btn btn-theme-primary-outline">Upload File-->
+      <!--<input hidden type="file"-->
+      <!--id="uploadInput"-->
+      <!--accept='text/plain' multiple-->
+      <!--(change)='openFile(uploadInput);uploadInput.value=null'-->
+      <!--#uploadInput>-->
+      <!--</label>-->
+      <!--</div>-->
+      <app-code-editor class="" (textChangedEvent)="textChanged($event)"
+                       [text]="codeTextInputToCodeEditorObj"></app-code-editor>
+    </div>
+    <!--<div class="col-12 mt-2 p-0" style="min-height: 90% !important;">-->
+    <!--<div class="" style="overflow: scroll"-->
+    <!--*ngIf="ner_type==='database'">-->
+    <app-handsontable
+      *ngIf="ner_type==='database'"
+      class="d-flex-column-last-child-flex-grow-1"
+      style="overflow: scroll;"
+      [testData]="handsontableData"
+      [setting]="constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_SETTING">
+    </app-handsontable>
+
+    <!--Following is table with column header data-->
+    <!--<app-handsontable class="h-100" style="overflow: scroll; display: block" [testData]="handsontableData"-->
+    <!--[columns]="handontable_column"-->
+    <!--[setting]="constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_SETTING"-->
+    <!--[colHeaders]="handontable_colHeaders"></app-handsontable>-->
+    <!--</div>-->
+    <!--</div>-->
+
+  </div>
+</div>
+<!--</ng-template>-->
+
+
+<!--<ng-template #table>-->
+<!--<div class="pb-2"><input type="search" placeholder="search table"></div>-->
+
+<!--</ng-template>-->
+
+
+<ng-template #deleteTemplate>
+  <div class="danger-modal">
+    <div class="top-dec"></div>
+    <div class="modal-header">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete NER?</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body pt-0">
+      <form #form="ngForm">
+        <div class="text-center my-1">
+          <p class="mb-3">Do you confirm the Deletion? This is a permanent and irreversible change</p>
+
+        </div>
+        <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button class=" btn btn-theme-danger" (click)="deleteNer$.emit(ner_id);modalRef.hide()">Delete</button>
+      </form>
+    </div>
+  </div>
+</ng-template>
+

@@ -1,10 +1,18 @@
-import {IAvatarList, IBasicInfo, ICode, ICustomners, IIntegration, IPipeline} from '../../../../interfaces/bot-creation';
-import {IAIModule} from '../../../../interfaces/ai-module';
-import { IBotVersionData } from '../../interfaces/IBot';
+import {IAvatarList, IBasicInfo, ICustomners, IIntegration, IPipeline, ISaveDataManagment} from '../../../../interfaces/bot-creation';
+import {IPipelineItem} from '../../../../interfaces/ai-module';
+import {IBot, ICodeData} from '../../interfaces/IBot';
 
-export class SaveBasicInfo {
-  static readonly type = '[build-bots] set basic info';
-  constructor(public payload: { data: IBasicInfo }) {}
+export class SaveNewBotInfo_CodeBased {
+  static readonly type = '[build-bots] set new codebased bot info1';
+  constructor(public payload: { data: IBot }) {}
+}
+export class SaveNewBotInfo_PipelineBased {
+  static readonly type = '[build-bots] set new pipeline based bot info';
+  constructor(public payload: { data: IBot }) {}
+}
+export class SaveDataManagment {
+  static readonly type = '[build-bots] set data management info';
+  constructor(public payload: { data: ISaveDataManagment }) {}
 }
 export class SaveAvatorInfo {
   static readonly type = '[build-bots] set Avator info';
@@ -12,7 +20,7 @@ export class SaveAvatorInfo {
 }
 export class SavePipeLineInfo {
   static readonly type = '[build-bots] set PipeLine info';
-  constructor(public payload: { data: {pipeline:IAIModule[], unselectedPipeline:IAIModule[]} }) {}
+  constructor(public payload: { data: {pipeline:IPipelineItem[], unselectedPipeline:IPipelineItem[]} }) {}
 }
 export class SaveCustomnersInfo {
   static readonly type = '[build-bots] set Customners info';
@@ -20,10 +28,14 @@ export class SaveCustomnersInfo {
 }
 export class SaveCodeInfo {
   static readonly type = '[build-bots] set Code info';
-  constructor(public payload: { data: ICode }) {}
+  constructor(public payload: { data: ICodeData }) {}
 }
 export class SaveIntegrationInfo {
   static readonly type = '[build-bots] set Integration info';
   constructor(public payload: { data: IIntegration }) {}
 }
 
+export class ResetBuildBotToDefault {
+  static readonly type = '[build-bots] set Integration info';
+  constructor() {}
+}

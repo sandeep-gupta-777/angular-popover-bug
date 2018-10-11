@@ -1,79 +1,146 @@
 @import "~src/sass/main.scss";
-
-::ng-deep .consumers-smart-table {
-  font-size: 12px;
-  color: #666666 !important;
-  text-align: center;
-  >.table {
-    border-radius: 2px;
-    border: solid 1px #e0e0e0;
-    >thead {
-      >tr:first-child {
-        th {
-          font-family: Helvetica;
-          font-size: 13px;
-          font-weight: bold;
-          color: #56627c !important;
-          text-align: center;
-        }
-      }
-      tr {
-        th {
-          input {
-            border-radius: 2px;
-            margin-left: 4px;
-          }
-        }
-      }
-    }
-    >tbody {
-      color: #474747;
-      font-size: 13px;
-      font-family: Helvetica;
-      tr {
-        td {
-          padding: 0 15px;
-          text-align: left;
-          font-size: 12px;
-          color: #666666;
-          .fa-download {
-            color: #9e9e9e;
-            margin-left: 15px;
-            margin-right: 15px;
-          }
-          .ion-ios-unlocked {
-            color: #9e9e9e;
-            margin-left: 15px;
-            margin-right: 15px;
-          }
-        }
-      }
-    }
-  }
-
+.fa{
+  color: $color-secondary;
 }
 
- ::ng-deep .ng2-smart-title{
-  a{
+//::ng-deep .consumers-smart-table {
+//  font-size: 12px;
+//  color: #666666 !important;
+//  //text-align: center;
+//  > .table {
+//    border-radius: 2px;
+//    border: solid 1px #e0e0e0;
+//    > thead {
+//      > tr:first-child {
+//        th {
+//          font-family: Helvetica;
+//          font-size: 13px;
+//          font-weight: bold;
+//          color: #56627c !important;
+//          //text-align: center;
+//        }
+//      }
+//      tr {
+//        th {
+//          input {
+//            border-radius: 2px;
+//            margin-left: 4px;
+//          }
+//        }
+//      }
+//    }
+//    > tbody {
+//      color: #474747;
+//      font-size: 13px;
+//      font-family: Helvetica;
+//      tr {
+//        td {
+//          padding: 0 15px;
+//          text-align: left;
+//          font-size: 12px;
+//          //color: #666666;
+//          .fa-download {
+//            color: #9e9e9e;
+//            margin-left: 15px;
+//            margin-right: 15px;
+//          }
+//          .ion-ios-unlocked {
+//            color: #9e9e9e;
+//            margin-left: 15px;
+//            margin-right: 15px;
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//}
+
+::ng-deep .ng2-smart-title {
+  a {
     color: #56627c !important;
     @include typography($font-size-normal, $line-height-lg, $font-weight-700, $color-text-normal);
   }
 
-
-};
-
-::ng-deep tr{
-  border: 1px solid #ced4da;
-  @include typography($font-size-normal, 35px, $font-weight-300, $color-text-grey);;
 }
-::ng-deep input{
+
+$table-font-color: #606c71;
+$table-border-color: #e9ebec;
+
+//::ng-deep tr {
+//  height: 37px;
+//  border: 1px solid #e0e0e0;
+//  border-radius: 2px;
+//  input{
+//    border: 1px solid #e0e0e0;
+//  }
+//  @include typography($font-size-normal, 35px, $font-weight-300, $color-text-grey);;
+//}
+
+::ng-deep input {
   outline: none;
-  border: 1px solid #ced4da;
+  //border: 1px solid #ced4da;
   border-radius: 2px !important;
 }
 
-
-.page-link:hover{
-  background-color: $primary;
+.page-link:hover {
+  background-color: $color-primary;
   color: white !important;
+}
+
+:host /deep/ ng2-smart-table {
+  //::placeholder{
+  //  color: transparent;
+  //}
+
+  line-height: 0px;
+  * div {
+    @include typography(12px, $line-height-normal, $font-weight-300, #666666);
+    line-height: 0px;
+    strong {
+      font-weight: 700;
+    };
+    text-align: start;
+    padding-left: 5px;
+  }
+  tr:hover{
+    background-color: #ededed;
+  }
+  tr{
+
+    height: 30px;
+    //border: ;
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    input{
+      border: 1px solid #e0e0e0;
+    }
+    @include typography($font-size-normal, 35px, $font-weight-300, $color-text-grey);;
+    line-height: 0px;
+    th, td{
+      border: none !important;
+    }
+  }
+
+}
+
+
+
+:host {
+  /deep/ {
+
+    table {
+      color: $table-font-color !important;
+
+      tr {
+        td, th ,input {
+          border: 1px solid $table-border-color;
+        }
+        input{
+          //@include hide-borders();
+        }
+      }
+
+    }
+  }
 }

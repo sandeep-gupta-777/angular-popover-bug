@@ -1,15 +1,54 @@
-@import "~src/sass/variables";
+@import '~src/sass/main';
+
 
 .nav-link{
   border: none;
 }
 
 .nav{
-  border-bottom: $border-normal;
+  //border-bottom: $border-normal;
+}
+.nav-tabs{
+  border-bottom: 0;
 }
 
 a{
   text-decoration: none !important;
   font-size: $font-size-sm;
   color: black;
+}
+
+.primary-modal{
+  @include classic-modal(#00abd3);
+}
+.primary-modal{
+  .modal-header{
+    border: none;
+  }
+  .modal-body{
+    .fa{
+      font-size:26px;
+      color: #474747;
+      //padding: 10px 0px;
+    }
+    .action:hover{
+      background-color: #dcdcdc;
+    }
+    .action{
+      border-radius: 2px;
+    }
+
+
+    .new-bot-heading{
+      @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-text-normal);
+    }
+
+    .new-bot-text{
+      @include typography($font-size-xs, $line-height-normal, $font-weight-300, $color-text-normal);
+    }
+  }
+}
+
+.danger-modal{
+  @include classic-modal(#b14250);
 }

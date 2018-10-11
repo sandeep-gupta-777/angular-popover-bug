@@ -1,7 +1,8 @@
 .grid-container{
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 56px auto 56px;
+  grid-template-columns: 1% repeat(12, 1fr) 1%;
+  grid-template-rows: 56px minmax(80vh, 1fr);//1fr
+  //grid-template-rows: 56px 90vh;
 }
 
 .grid-header{

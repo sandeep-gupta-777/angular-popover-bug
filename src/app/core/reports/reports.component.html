@@ -1,6 +1,6 @@
-<div class="row  mt-2 pb-5 bg-white shadow-theme">
+<div class="row mx-0  mt-2 pb-5 bg-white shadow-theme">
   <div class="col-12 py-2 border-bottom">
-    <h4 class="pl-2">Reports</h4>
+    <div class="pl-2 font-weight-bold" style="font-size: 20px; color: #474747">Reports</div>
   </div>
 
   <div class="col-12">
@@ -8,34 +8,48 @@
       <ul class="nav nav-tabs my-2">
         <li class="nav-item">
           <a class="nav-link"
+             [routerLink]="['/core/reports']"
+             [queryParams]="{activeTab:'configure'}"
              (click)="tabClicked('configure')"
              [ngClass]="{'active' : activeTab ==='configure'}"><strong>Configure</strong></a>
         </li>
         <li class="nav-item">
           <a class="nav-link"
+             [routerLink]="['/core/reports']"
+             [queryParams]="{activeTab:'history'}"
              (click)="tabClicked('history')"
              [ngClass]="{'active' : activeTab ==='history'}"><strong>History</strong></a>
         </li>
       </ul>
-
     </div>
-
   </div>
-
+<!---->
   <div class="col-12" [hidden]="activeTab==='history'">
     <div class="col-12 d-flex justify-content-end pb-2">
-      <button class="btn btn-theme-primary">New Report</button>
+      <button class="btn btn-theme-primary" (click)="navigateTocreateNewReport()">New Report</button>
     </div>
 
     <div class="col-12">
-      <app-smart-table [data]="reportSmartTableData" (rowClicked$)="goToReportEditComponent($event)" [settings]="SMART_TABLE_REPORTS_SETTING"></app-smart-table>
+      <app-smart-table
+        [data]="reportSmartTableData"
+        (rowClicked$)="goToReportEditComponent($event)"
+        [totalRecords]="totalReportRecords"
+        (pageChanged$)="reportTablePageChanged($event)"
+        [settings]="SMART_TABLE_REPORTS_SETTING">
+      </app-smart-table>
     </div>
   </div>
 
   <div class="col-12 mt-2" [hidden]="activeTab==='configure'">
     <div class="col-12">
-      <app-smart-table [data]="reportHistorySmartTableData"
-                       [settings]="SMART_TABLE_REPORT_HISORY_SETTING"></app-smart-table>
+      <app-smart-table
+        [data]="reportHistorySmartTableData"
+        (pageChanged$)="reportHistoryTablePageChanged($event)"
+        [totalRecords]="totalReportRecords"
+        (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
+        [settings]="SMART_TABLE_REPORT_HISTORY_SETTING"></app-smart-table>
     </div>
   </div>
 </div>
+
+<!--<p>{{reportSmartTableData|json}}</p>-->

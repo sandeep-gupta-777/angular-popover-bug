@@ -1,0 +1,41 @@
+@import "~src/sass/main.scss";
+
+.reverse-flex-row {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.row {
+  margin: 0; /*overriding bootstrap*/
+}
+
+
+
+.bg-message-human {
+  background-color: $color-primary;
+  .time, .message-text {
+    color: white !important;
+  }
+}
+
+.message {
+  @include typography($font-size-normal, $line-height-lg, $font-weight-400, $color-text-normal);
+  border-radius: 1px;
+  .message-text {
+
+  }
+  .time {
+    @include typography(9px, $line-height-normal, $font-weight-400, $color-text-normal);
+  }
+}
+
+.session-expire-info-row {
+  hr {
+    flex-grow: 1;
+  }
+  * {
+    color: $color-secondary;
+  }
+
+}
+

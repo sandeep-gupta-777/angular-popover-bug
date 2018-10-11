@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {Select} from '@ngxs/store';
-import {ViewBotStateReducer} from '../ngxs/view-bot.state';
+import {Select, Store} from '@ngxs/store';
+import {ViewBotStateModel, ViewBotStateReducer} from '../ngxs/view-bot.state';
 import {Observable} from 'rxjs';
 import {IBot} from '../../interfaces/IBot';
+import {EBotType} from '../view-bots.component';
 
 @Component({
   selector: 'app-view-pipeline-based-bots',
@@ -11,17 +12,22 @@ import {IBot} from '../../interfaces/IBot';
 })
 export class ViewPipelineBasedBotsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
-    console.log('pipelineBasedBotList');
+  }
+  //intelligent
+
+  @Select() botlist$: Observable<ViewBotStateModel>;
+  pipelineBasedBotList$: Observable<IBot[]>;
+
+  constructor(private store: Store) {
   }
 
-  @Select(ViewBotStateReducer.getPipelineBased)  pipelineBasedBotList$ : Observable<IBot>;
-  constructor() { }
-
   ngOnInit() {
-    console.log('pipelineBasedBotList');
-    this.pipelineBasedBotList$.subscribe((value)=>{
-      console.log(value)
-    });
+    this.pipelineBasedBotList$ = this.botlist$
+      .do((value)=>{return value})
+      .map((value) => {
+        let x =  value.allBotList && value.allBotList.filter((bot) => bot.bot_type === EBotType.intelligent);
+        return x;
+      });
   }
 
 }
