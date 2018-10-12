@@ -80,7 +80,7 @@ export class Analytics2UsersComponent implements OnInit {
     //       this.chartValue
     //         = this.utilityService.appendChartValueAndSeries(this.highchartData,this.constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT);
     //     }catch (e) {
-    //       console.log(e);
+    //       LoggingService.error(e);
     //     }
     //   })
 
@@ -99,7 +99,7 @@ export class Analytics2UsersComponent implements OnInit {
               new Date(value.analysisHeaderData.startdate).getTime(),
               granularity_ms) ;
         }catch (e) {
-          // console.log(e);
+          // LoggingService.error(e);
         }
 
       })

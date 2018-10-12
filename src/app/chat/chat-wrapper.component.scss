@@ -51,7 +51,7 @@
     color: white;
     .user {
       height: 32px;
-      width: 32px;
+      //width: 32px;
       border-radius: 50%;
       // background-color: #0291b2;
       display: flex;
@@ -153,4 +153,22 @@ form {
   font-size: 11px;
   line-height: 5px;
   margin-top: 4px;
+}
+
+.hover-parent{
+  //d-flex align-items-center justify-content-center
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  //width: 32px;
+  height: 32px;
+  padding: 5px 10px ;
+  cursor: pointer;
+  &:hover{
+    background-color: darken($color-primary,10%);
+  }
+}
+
+.selected{
+  background-color: darken($color-primary,3%);
 }

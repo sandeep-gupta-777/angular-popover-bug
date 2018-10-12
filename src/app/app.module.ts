@@ -104,7 +104,7 @@ const routes: Route[] = [
     ]),
     NgxsStoragePluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot({disabled:true}),//disable for prod mode
     HttpClientModule,
     ClickOutsideModule,
     // DragulaModule,

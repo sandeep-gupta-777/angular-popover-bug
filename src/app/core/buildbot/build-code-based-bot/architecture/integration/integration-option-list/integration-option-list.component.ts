@@ -10,6 +10,7 @@ import {Observable} from 'rxjs';
 import {IBotCreationState} from '../../../../ngxs/buildbot.state';
 import {IAppState} from '../../../../../../ngxs/app.state';
 import {EFormValidationErrors, UtilityService} from '../../../../../../utility.service';
+import {LoggingService} from '../../../../../../logging.service';
 
 @Component({
   selector: 'app-integration-option-list',
@@ -129,10 +130,10 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   }
 
   click() {
-    console.log(this.formValue);
-    console.log(this.f_new.value);
+    LoggingService.log(this.formValue);
+    LoggingService.log(this.f_new.value);
     this.f_new.form.patchValue(this.formValue);
-    // console.log(this.test_new.form.patchValue({enabled:true}));
+    // LoggingService.log(this.test_new.form.patchValue({enabled:true}));
   }
 
   // test = false;
@@ -171,8 +172,8 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
 
 
   click1() {
-    console.log(this.f_new.value);
-    console.log(this.formValueFinal);
+    LoggingService.log(this.f_new.value);
+    LoggingService.log(this.formValueFinal);
   }
 
 }

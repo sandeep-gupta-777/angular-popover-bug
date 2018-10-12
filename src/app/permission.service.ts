@@ -7,6 +7,7 @@ import {IProfilePermission} from '../interfaces/profile-action-permission';
 import {IUser} from './core/interfaces/user';
 import {IAuthState} from './auth/ngxs/auth.state';
 import {st} from '@angular/core/src/render3';
+import {ELogType, LoggingService} from './logging.service';
 
 @Injectable({
   providedIn: 'root'
@@ -90,6 +91,9 @@ export class PermissionService {
       }
       this.app$.subscribe((appState) => {
         try {
+          if(!loggeduser.user){
+            return;
+          }
           let masterActionList = appState.masterProfilePermissions;
           if (loggeduser.user.role.name === 'Admin') {
             this.forbiddenActionsToFrontEndMapping = [];
@@ -135,7 +139,7 @@ export class PermissionService {
           });
 
         } catch (e) {
-          console.log(e);
+          LoggingService.error(e);
         }
       });
     });
@@ -154,7 +158,7 @@ export class PermissionService {
   isTabAccessDenied(tabName: string, accessType="") {//route,tab
     if (!tabName) return false;
     let isDenied = !!this.forbiddenActionsToFrontEndMapping[tabName];
-    console.info(`checking ${accessType} access for tabName = ${tabName} and the access was ${isDenied ? 'Denied' : 'Allowed'}. Following is forbiddenActionsToFrontEndMapping`, this.forbiddenActionsToFrontEndMapping );
+    LoggingService.logMultiple(`checking ${accessType} access for tabName = ${tabName} and the access was ${isDenied ? 'Denied' : 'Allowed'}. Following is forbiddenActionsToFrontEndMapping`, this.forbiddenActionsToFrontEndMapping );
     return isDenied;
   }
 
@@ -181,7 +185,7 @@ export class PermissionService {
       isAllowed = !!this.allowedApiHttpVerbPPathToActionNamesMapping[httpVerbAndPathKey];
     }
 
-    console.info(`${logMessage} role = ${roleName}. Checked Api access for ${httpVerbAndPathKey} and the access was ${isAllowed ? 'Allowed' : 'Denied'}. This is forbiddenApiToActionNamesMapping:`, this.allowedApiHttpVerbPPathToActionNamesMapping);
+    LoggingService.logMultiple(`${logMessage} role = ${roleName}. Checked Api access for ${httpVerbAndPathKey} and the access was ${isAllowed ? 'Allowed' : 'Denied'}. This is forbiddenApiToActionNamesMapping:`, this.allowedApiHttpVerbPPathToActionNamesMapping);
     return !isAllowed;
   }
 

@@ -1,6 +1,6 @@
 var config = {
 apiKey: 'IM20051444',
-messagingSenderId: 'IM20051444' 
+messagingSenderId: 'IM20051444'
 }
 var imipush = {
 safariWebPushId: 'web.com.imiconnect.safari.webpush'
@@ -549,7 +549,7 @@ var timeStampInterval = 30000;//in milliseconds
                 for (j = 0; j < iterations; j += 3) {
                     endloop = looping[j + 1];
                     loopinc = looping[j + 2];
-                    //now go through and perform the encryption or decryption  
+                    //now go through and perform the encryption or decryption
                     for (i = looping[j]; i != endloop; i += loopinc) { //for efficiency
                         right1 = right ^ keys[i];
                         right2 = ((right >>> 4) | (right << 28)) ^ keys[i + 1];
@@ -684,7 +684,7 @@ var timeStampInterval = 30000;//in milliseconds
                     right &= -0xf;
                     //now apply PC-2, in such a way that E is easier when encrypting or decrypting
                     //this conversion will look like PC-2 except only the last 6 bits of each byte are used
-                    //rather than 48 consecutive bits and the order of lines will be according to 
+                    //rather than 48 consecutive bits and the order of lines will be according to
                     //how the S selection functions will be applied: S2, S4, S6, S8, S1, S3, S5, S7
                     lefttemp = pc2bytes0[left >>> 28] | pc2bytes1[(left >>> 24) & 0xf]
                             | pc2bytes2[(left >>> 20) & 0xf] | pc2bytes3[(left >>> 16) & 0xf]
@@ -874,8 +874,8 @@ var timeStampInterval = 30000;//in milliseconds
                     if (_messagingInstance && _messagingInstance.isConnected()) {
                         _messagingInstance.disconnect();
                     }
-                    //deregister                            
-                    //removing push subscription for chrome and firefox(for safari browser compatability is not there 
+                    //deregister
+                    //removing push subscription for chrome and firefox(for safari browser compatability is not there
                     if (_imiconnect.webpush) {
                         _imiconnect.webpush.unsubscribe();
                     }
@@ -971,7 +971,7 @@ var timeStampInterval = 30000;//in milliseconds
                 }
             },
             registerWithServer: function (deviceProfile, callback) {
-                //regiter     
+                //regiter
                 var self = this;
                 _deviceId = deviceProfile.deviceId;
                 _db.set("DeviceId", _deviceId);
@@ -1109,7 +1109,7 @@ var timeStampInterval = 30000;//in milliseconds
                     data: requestData,
                     success: function (respObj) {
                         if (respObj.status === "Success") {
-                            //actions after update userId                       
+                            //actions after update userId
 
                             if (callback && callback.onSuccess) {
                                 callback.onSuccess(respObj);
@@ -1464,7 +1464,7 @@ var timeStampInterval = 30000;//in milliseconds
                         } else if (respObj && respObj.code != "0") {
                             _imiconnect._invokeFailureCallBack(callback, respObj);
                         } else {
-                            //failed to degister                           
+                            //failed to degister
                             if (callback && callback.onFailure && IMI.isFunction(callback.onFailure)) {
                                 callback.onFailure();
                             }
@@ -1493,7 +1493,7 @@ var timeStampInterval = 30000;//in milliseconds
                     var broker = updatedData.broker || {};
                     var appType = updatedData.appType || "";
                     _imiconnect.appType = appType;
-                    //checking rt 
+                    //checking rt
                     if (features.realtimemessaging === undefined) {
                         features.realtimemessaging = "1";
                         if (protocol === "https:") {
@@ -1558,7 +1558,7 @@ var timeStampInterval = 30000;//in milliseconds
                                 _messagingInstance.disconnect();
                             }
 
-                            //removing push subscription for chrome and firefox(for safari browser compatability is not there 
+                            //removing push subscription for chrome and firefox(for safari browser compatability is not there
                             if (_imiconnect.webpush) {
                                 _imiconnect.webpush.unsubscribe();
                             }
@@ -1691,7 +1691,7 @@ var timeStampInterval = 30000;//in milliseconds
         function init() {
 
             var messagingInstanceObj = {
-                //define public methods and variable.. 
+                //define public methods and variable..
                 messagecallback: new IMI.ICMessagingReceiver(),
                 isDisconnected: false,
                 _unloaded: false,
@@ -1843,7 +1843,7 @@ var timeStampInterval = 30000;//in milliseconds
                         if (self.messagecallback && self.messagecallback.onConnectionStatusChanged && IMI.isFunction(self.messagecallback.onConnectionStatusChanged)) {
                             self.messagecallback.onConnectionStatusChanged(self.connectionStatus);
                         }
-                        //if connection lost try to re connect to server 
+                        //if connection lost try to re connect to server
                         if (!self.isDisconnected) {
                             setTimeout(function () {
                                 self._connect.call(self);
@@ -1864,7 +1864,7 @@ var timeStampInterval = 30000;//in milliseconds
                 messagearrived: function (message) {
                     var self = this;
                     try {
-                        //decrypt message if encription enabled    
+                        //decrypt message if encription enabled
                         var payLoadStr = _imiconnect._decryptMsg(message.payloadString);
                         payLoadStr = JSON.parse(payLoadStr);
                         IMI.log(payLoadStr);
@@ -1882,7 +1882,7 @@ var timeStampInterval = 30000;//in milliseconds
                             }
 
                         } else {
-                            //sending DR   
+                            //sending DR
                             var deviceId = msgObj.getDeviceId();
 
                             if ((msgObj.getType() === IMI.ICMessageType.Republish
@@ -2052,7 +2052,7 @@ var timeStampInterval = 30000;//in milliseconds
                         var mycallback = {
                             onSuccess: function (cratedThreadResp) {
                                 if (callback && callback.onSuccess && IMI.isFunction(callback.onSuccess)) {
-                                    //passing data back                                 
+                                    //passing data back
                                     if (cratedThreadResp && cratedThreadResp.thread) {
                                         var threadResp = IMI.ICThread.fromJSON(cratedThreadResp.thread);
                                         callback.onSuccess(threadResp);
@@ -2164,7 +2164,7 @@ var timeStampInterval = 30000;//in milliseconds
                         var mycallback = {
                             onSuccess: function (fetchMessagesResp) {
                                 if (callback && callback.onSuccess && IMI.isFunction(callback.onSuccess)) {
-                                    //passing data back 
+                                    //passing data back
                                     if (fetchMessagesResp && fetchMessagesResp.code == "0") {
                                         var messagesJson = fetchMessagesResp.messages;
                                         var messagesArrayRsp = [];
@@ -2212,7 +2212,7 @@ var timeStampInterval = 30000;//in milliseconds
                 publishMessage: function (msg, callback) {
                     var self = this;
                     try {
-                        //verifying instance 
+                        //verifying instance
                         if (!(msg instanceof IMI.ICMessage)) {
                             throw IMI.ICErrorCodes.PublishFailed;
                         }
@@ -2334,7 +2334,7 @@ var timeStampInterval = 30000;//in milliseconds
                         var mycallback = {
                             onSuccess: function (subTopicResp) {
                                 if (callback && callback.onSuccess && IMI.isFunction(callback.onSuccess)) {
-                                    //passing data back                                
+                                    //passing data back
                                     if (subTopicResp.code === 0) {
                                         callback.onSuccess();
 
@@ -2467,7 +2467,7 @@ var timeStampInterval = 30000;//in milliseconds
                 _publishMessage: function (messagePaylod, callback) {
                     try {
                         var self = this;
-                        //calling api update 
+                        //calling api update
                         messagePaylod = self._getPayLoadMsg(messagePaylod);
                         var deliveryUpdateURL = rtmsAPIURL + "/" + _imiconnect.appName + "/deliveryupdate";
                         var reqData = "secretKey=" + _imiconnect.appSecret + "&input=" + messagePaylod;
@@ -2531,7 +2531,7 @@ var timeStampInterval = 30000;//in milliseconds
                     var self = this;
 
 
-                    //update flag  
+                    //update flag
                     if (_isConnected) {
                         _db.set("isConnectionOpened", false);
                         _db.remove("lastupdatedtimestamp");
@@ -3486,7 +3486,7 @@ var timeStampInterval = 30000;//in milliseconds
                                                 .then(function (pushId) {
                                                     IMI.log("cur token :: " + pushId);
                                                     if (pushId) {
-                                                        //update 
+                                                        //update
                                                         var data = {
                                                             "tenant": "1",
                                                             "event": "ProfileUpdate",
@@ -3519,7 +3519,7 @@ var timeStampInterval = 30000;//in milliseconds
                                                         self.onMessageHandler();
 
                                                     } else {
-                                                        // Show permission request.                                                      
+                                                        // Show permission request.
                                                         IMI.log('No Instance ID token available. Request permission to generate one.');
 
                                                     }
@@ -3542,7 +3542,7 @@ var timeStampInterval = 30000;//in milliseconds
                         messaging.onTokenRefresh(function () {
                             messaging.getToken()
                                     .then(function (pushId) {
-                                        //update 
+                                        //update
                                         var data = {
                                             "tenant": "1",
                                             "event": "ProfileUpdate",
@@ -3679,7 +3679,7 @@ var timeStampInterval = 30000;//in milliseconds
                     IMI.log("defualt called...");
                     // This is a new web service URL and its validity is unknown.
                     window.safari.pushNotification.requestPermission(
-                            safariRegisterURL, // The web service URL.//                            
+                            safariRegisterURL, // The web service URL.//
                             imipush.safariWebPushId, // The Website Push ID.
                             {}, // Data used to help you identify the user.
                             self.checkRemotePermission          // The callback function.

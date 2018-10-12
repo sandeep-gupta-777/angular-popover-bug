@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
 
 export enum EFormValidationErrors {
@@ -22,6 +22,7 @@ import {IBotPreviewFirstMessage} from './chat/chat-wrapper.component';
 import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 import {StoreVariableService} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {LoggingService} from './logging.service';
 
 
 @Injectable({
@@ -37,6 +38,7 @@ export class UtilityService {
   ) {
   }
 
+  refreshCodeEditor$ = new EventEmitter();
   readonly RANDOM_IMAGE_URLS = [
     'https://robohash.org/StarDroid.png',
     'https://cdn-images-1.medium.com/max/327/1*paQ7E6f2VyTKXHpR-aViFg.png',
@@ -366,7 +368,6 @@ export class UtilityService {
     });
 
     template.series = seriesArr;
-    console.log(template, '========================================');
     return template;
   }
 
@@ -492,14 +493,14 @@ export class UtilityService {
   isImageUrlHttps(formControl: FormControl){
     let url:string = formControl.value;
     let pattern = /^((https):\/\/)/;
-    console.log()
-    return pattern.test(url)? null : {'imageHttpsError': true};
+
+    return pattern.test(url)? null : {'Must be Https Url': true};
   }
 
   isImageUrlHavingValidExtn(formControl: FormControl){
     let url:string = formControl.value;
     let pattern = /\.(gif|jpg|jpeg|tiff|png)$/i
-    return pattern.test(url)? null : {'imageExnError': true};
+    return pattern.test(url)? null : {'Image Extension is not correct': true};
   }
 
   isManagerValidator(formGroup: FormGroup) {
@@ -574,7 +575,7 @@ export class UtilityService {
 
     // var data = { x: 42, s: "hello, world", d: new Date() },
     saveData(null, filename);
-    // console.log(value);
+    // LoggingService.log(value);
   }
 
   downloadArrayAsCSV(data: any[] = [], columns: object = {}) {

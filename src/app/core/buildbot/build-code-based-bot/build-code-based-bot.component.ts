@@ -60,7 +60,6 @@ export class BuildCodeBasedBotComponent implements OnInit {
 
   tabClicked(activeTab:string){
     this.activeTab = activeTab;
-    console.log(this.activeTab);
   }
 
   tabChanged(tab: string) {
@@ -70,14 +69,11 @@ export class BuildCodeBasedBotComponent implements OnInit {
     let url = this.constantsService.getCreateNewBot();
     this.serverService.makePostReq({url:url, body:this.bot})
       .subscribe((value)=>{
-        console.log();
-
         this.store.dispatch([new ResetBuildBotToDefault()]);
       })
   }
   datachanged(data:IBot){
 
-    console.log("::::::::::::::::::");
     // this.store.dispatch([
     //   new SaveNewBotInfo_CodeBased({data:data})
     // ]);

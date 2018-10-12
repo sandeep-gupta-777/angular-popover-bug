@@ -109,7 +109,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
   //   }
   //   this.serverService[methodStr]({url, body, headerData})
   //     .subscribe((value) => {
-  //       console.log(value);
+  //       LoggingService.log(value);
   //       this.utilityService.showSuccessToaster('Successfully saved');
   //     });
   // }

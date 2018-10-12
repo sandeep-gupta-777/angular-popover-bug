@@ -14,6 +14,7 @@ import {ConstantsService, ERoleName, EAllActions} from '../../../constants.servi
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {IUser} from '../../interfaces/user';
 import {IAuthState} from '../../../auth/ngxs/auth.state';
+import {LoggingService} from '../../../logging.service';
 
 @Component({
   selector: 'app-code-based-bot-detail',
@@ -74,7 +75,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
         this.bot = botListState.allBotList.find((bot) => {
           return bot.id === this.bot_id;
         });
-      console.log("Bot Opened", this.bot);
+      LoggingService.log("Bot Opened"+ this.bot);
       return this.bot;
     });
     this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab') || 'pipeline';
@@ -85,6 +86,12 @@ export class CodeBasedBotDetailComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe((queryParams)=>{
       this.isArchitectureFullScreen= queryParams['isArchitectureFullScreen']==='true'
     })
+  }
+
+
+  refreshCodeEditor(){
+    /*codemirror needs to be refreshed after being visible; otherwise its content wont show*/
+    setTimeout(()=>this.utilityService.refreshCodeEditor$.emit());
   }
 
   refreshBotDetails() {

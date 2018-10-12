@@ -7,7 +7,7 @@ import {NgControl} from '@angular/forms';
 export class ErrorDescriptionPipe implements PipeTransform {
 
   transform(ngControl: NgControl, args?: any): any {
-    debugger;
+
     return null;
   }
 

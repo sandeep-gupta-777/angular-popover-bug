@@ -43,6 +43,7 @@ import {DragulaModule} from 'ng2-dragula';
 import {RichMediaModule} from '../../rich-media.module';
 import {SessionDataToRichMediaSerializerPipe} from '../../session-data-to-rich-media-serializer.pipe';
 import {DisplayNameForKeyIntegrationPipe} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/display-name-for-key-integration.pipe';
+import {UnderscroreToSpaceDelimitorPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/underscrore-to-space-delimitor.pipe';
 
 
 const routes: Route[] = [
@@ -71,6 +72,7 @@ const routes: Route[] = [
     SessionTabsDetailsComponent,
     SessionMessageComponent,
     PipelineComponent,
+    UnderscroreToSpaceDelimitorPipe,
     PipelineFilterPipe,
     SessionComponent,
     CodeInputComponent,

@@ -11,6 +11,7 @@ import { ViewBotStateModel } from '../../../view-bots/ngxs/view-bot.state';
 import { Select } from '@ngxs/store';
 import { IHeaderData } from '../../../../../interfaces/header-data';
 import { IMessageData } from '../../../../../interfaces/chat-session-state';
+import {LoggingService} from '../../../../logging.service';
 
 @Component({
   selector: 'app-session-detail-model',
@@ -169,7 +170,7 @@ export class SessionDetailModelComponent implements OnInit {
 
   scroll(txnId): boolean {
     let ele = document.getElementsByClassName(txnId)[0];
-    console.log(ele);
+    LoggingService.log(ele);
     if (!ele && this.searchEnterPressedCount > 0) {
       this.utilityService.showSuccessToaster('Reached end of list');
     }
@@ -232,7 +233,7 @@ export class SessionDetailModelComponent implements OnInit {
 
     let elementsDataToScroll = this.sessionMessageData.filter((objItem: ISessionMessageItem) => {
       /*find if messageSearchKeyword exists in message or message[0].text as substring */
-      console.log(this.messageSearchKeyword);
+      LoggingService.log(this.messageSearchKeyword);
       let isMatch;
       try{
         /*searching for txn id match*/

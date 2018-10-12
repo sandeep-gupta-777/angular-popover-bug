@@ -12,6 +12,7 @@ import {ConstantsService, EAllActions} from '../../../../../constants.service';
 import {ActivatedRoute} from '@angular/router';
 import {EBotType} from '../../../../view-bots/view-bots.component';
 import {PermissionService} from '../../../../../permission.service';
+import {ELogType, LoggingService} from '../../../../../logging.service';
 
 @Component({
   selector: 'app-basic-info-form',
@@ -40,7 +41,7 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
 
         this.initializeChildBotFormArray();
       }catch (e) {
-        console.log(e);
+        LoggingService.error(e);
       }
     }
   }
@@ -78,7 +79,7 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
     this.initializeChildBotFormArray();
     /*TODO: initialization must be done with initialization of formGroup*/
     this.formGroup.valueChanges.debounceTime(200).subscribe((data: Partial<IBot>) => {
-      console.log(this.formGroup);
+      LoggingService.log(this.formGroup);
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) return;
       this.formData = data;
       /*this.formData is used for compareTwoJavaObjects, no other purpose*/
@@ -112,7 +113,7 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
   removeChildBot(childBotId): void {
     let formArray = this.formGroup.get('child_bots') as FormArray;
     let formControlIndex = this.utilityService.findFormControlIndexInFormArrayByValue(formArray, childBotId);
-    console.log(`removing bot at index ${formControlIndex}`);
+    LoggingService.log(`removing bot at index ${formControlIndex}`);
     if (formControlIndex != undefined) formArray.removeAt(formControlIndex);
   }
 
@@ -133,7 +134,7 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
 
   click() {
     this.formGroup.get('name').patchValue(Date.now());
-    console.log(this.formGroup);
+    LoggingService.log(this.formGroup);
   }
 
   registerOnChange(fn: any): void {

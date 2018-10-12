@@ -114,7 +114,7 @@
                    [queryParams]="{'build-tab':'code'}"
                    queryParamsHandling="merge"
                    [ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"
-                   (click)="selectedSideBarTab='code'"
+                   (click)="selectedSideBarTab='code'; refreshCodeEditor()"
                    class="tab-theme">Code
               </div>
               <div routerLink="."

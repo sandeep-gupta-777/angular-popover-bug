@@ -2,6 +2,7 @@ import {Component, Injector, Input, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl} from '@angular/forms';
 import {UiSwitchWrapperComponent} from '../ui-switch/ui-switch-wrapper.component';
 import {ObjectKeyMap} from '@ngxs/store/src/internals';
+import {LoggingService} from '../../../../../../logging.service';
 
 @Component({
   selector: 'app-bot-config-input',
@@ -29,7 +30,7 @@ export class BotConfigInputComponent implements OnInit,ControlValueAccessor {
     this.ngControl = this.injector && this.injector.get(NgControl);
   }
   valueChanged(isOn:boolean){
-    console.log(this.ngControl.errors);
+    LoggingService.log(this.ngControl.errors);
 
     this.onChanges(isOn);
   }

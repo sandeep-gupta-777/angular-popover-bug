@@ -10,6 +10,7 @@ import {ActivatedRoute, Route, Router} from '@angular/router';
 import {UtilityService} from '../../utility.service';
 import {AddNewBotInAllBotList, SetAllBotListAction} from '../view-bots/ngxs/view-bot.action';
 import {EBotType} from '../view-bots/view-bots.component';
+import {LoggingService} from '../../logging.service';
 
 @Component({
   selector: 'app-buildbot-wrapper',
@@ -68,7 +69,6 @@ export class BuildbotWrapperComponent implements OnInit {
           this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`]);
         });
         this.utilityService.showSuccessToaster('Bot Created');
-        console.log("test");
       });
   }
 

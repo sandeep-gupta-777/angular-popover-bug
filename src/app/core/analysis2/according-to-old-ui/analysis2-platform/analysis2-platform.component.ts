@@ -7,6 +7,7 @@ import {AnalysisStateReducer2, IAnalysis2State} from '../../ngxs/analysis.state'
 import {Select, Store} from '@ngxs/store';
 import {ActivatedRoute} from '@angular/router';
 import {SetAnalysis2HeaderData} from '../../ngxs/analysis.action';
+import {ELogType, LoggingService} from '../../../../logging.service';
 
 @Component({
   selector: 'app-analysis2-platform',
@@ -75,7 +76,7 @@ export class Analysis2PlatformComponent implements OnInit {
               new Date(value.analysisHeaderData.startdate).getTime(),
               granularity_ms) ;
         }catch (e) {
-          console.log(e);
+          LoggingService.error(e);
         }
 
       })

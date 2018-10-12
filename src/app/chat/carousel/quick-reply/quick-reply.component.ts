@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {EBotMessageMediaType, IMessageData} from '../../../../interfaces/chat-session-state';
 import {ActivatedRoute} from '@angular/router';
+import {LoggingService} from '../../../logging.service';
 
 @Component({
   selector: 'app-quick-reply',
@@ -22,7 +23,7 @@ export class QuickReplyComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log(this.messageData)
+    LoggingService.log(this.messageData)
   }
 
 }

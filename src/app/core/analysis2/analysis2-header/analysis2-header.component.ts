@@ -46,6 +46,7 @@ import {IChannelWiseUsersResponseBody} from '../../../../interfaces/Analytics2/e
 import {ActivatedRoute, Router} from '@angular/router';
 import {query} from '@angular/animations';
 import {EBotType} from '../../view-bots/view-bots.component';
+import {ELogType, LoggingService} from '../../../logging.service';
 
 @Component({
   selector: 'app-analysis2-header',
@@ -107,7 +108,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     this.formChangesSub = this.f.form.valueChanges
       .debounceTime(1000)
       .subscribe((formData) => {
-        console.log(this.f);
+        LoggingService.log(this.f);
         if (this.utilityService.areTwoJSObjectSame(this.formData, formData)) return;
         this.formData = formData;
         if (!this.f.valid) return;
@@ -240,7 +241,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
           });
 
       } catch (e) {
-        console.log(e);
+        LoggingService.error(e);
         // this.utilityService.showErrorToaster(e);
       }
     });
@@ -295,7 +296,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   click1() {
-    console.log(this.f);
+    LoggingService.log(this.f);
   }
 
   ngOnDestroy(): void {

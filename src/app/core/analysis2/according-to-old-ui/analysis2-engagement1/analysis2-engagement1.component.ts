@@ -8,6 +8,7 @@ import {Observable} from 'rxjs';
 import {UtilityService} from '../../../../utility.service';
 import {SetAnalysis2HeaderData} from '../../ngxs/analysis.action';
 import {IAnalysis2HeaderData} from '../../../../../interfaces/Analytics2/analytics2-header';
+import {ELogType, LoggingService} from '../../../../logging.service';
 
 @Component({
   selector: 'app-analysis2-engagement1',
@@ -68,7 +69,7 @@ export class Analysis2Engagement1Component implements OnInit {
               new Date(value.analysisHeaderData.startdate).getTime(),
               granularity_ms) ;
         }catch (e) {
-          console.log(e);
+          LoggingService.error(e);
         }
 
       })

@@ -7,6 +7,7 @@ import {SaveAvatorInfo} from '../../../ngxs/buildbot.action';
 import {FormArray, FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
 import {EFormValidationErrors, UtilityService} from '../../../../../utility.service';
 import {EAllActions} from '../../../../../constants.service';
+import {LoggingService} from '../../../../../logging.service';
 
 @Component({
   selector: 'app-avator-form',
@@ -57,10 +58,11 @@ export class AvatorFormComponent implements OnInit {
     });
     this.formArray = this.formGroup.get('avatars') as FormArray;
     this.initializeFormArray();
-    console.log(this.formArray);
+    LoggingService.log(this.formArray);
 
     this.formGroup.valueChanges.debounceTime(200).subscribe((data: any) => {
 
+      debugger;
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) return;
       this.formData = this.formGroup.value;
       let avatarValidationObj = {};
@@ -70,7 +72,7 @@ export class AvatorFormComponent implements OnInit {
   }
 
   initializeFormArray() {
-    this._bot.avatars.forEach((avatar) => {
+    this._bot.avatars && this._bot.avatars.forEach((avatar) => {
       this.formArray.push(this.formBuilder.group({
         'name': [avatar.name, Validators.required],
         'imageUrl': [avatar.imageUrl, Validators.required],
