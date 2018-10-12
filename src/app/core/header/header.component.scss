@@ -14,7 +14,7 @@
   .header-container__left{
     padding-bottom: 15px;
     padding-top: 9px;
-    padding-right: 28px;
+    //padding-right: 28px;
   }
 
   .header-nav{
@@ -97,4 +97,11 @@
   //:not(.fa){
     color: $color-primary !important;
   //}
+}
+
+.nav-dropdown-menu{
+  li{
+    padding: 3px 10px;
+
+  }
 }
