@@ -87,7 +87,8 @@
 
 .genTempGrid {
   display: grid;
-  grid-template-columns: 1fr 2.5fr 1fr;
+  width: 80vw;
+  grid-template-columns: 20% 60% 20%;
   background-color: #f7f7f7;
 }
 
