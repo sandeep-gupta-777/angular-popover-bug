@@ -1,9 +1,16 @@
 <label class="required" for="alterEgo">{{displayName}}</label>
-<label [hidden]="!ngControl.hasError('required')" class="text-danger pl-1" for="alterEgo"><i>This is
-  required</i></label>
+<label
+  *ngIf="this.ngControl.errors && myObject.keys(this.ngControl.errors)[0]"
+  [hidden]="!ngControl.hasError(myObject.keys(this.ngControl.errors)[0])" class="text-danger pl-1" for="alterEgo">
+  <i>{{myObject.keys(this.ngControl.errors)[0]}}</i>
+</label>
+<!--<label *ngIf="ngControl|errorDescription as errorObj"-->
+       <!--[hidden]="!ngControl.hasError(errorObj.name)"-->
+       <!--class="text-danger pl-1" for="alterEgo"><i>{{errorObj.description}}</i></label>-->
 <input type="text" id="alterEgo"
        class="form-control"
        [placeholder]="placeholder"
        [ngModel]="value"
        [disabled]="isDisabled"
        (ngModelChange)="valueChanged($event)">
+<!--<p>{{errors|json}}</p>-->

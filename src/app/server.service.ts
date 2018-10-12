@@ -39,6 +39,7 @@ import {b, st} from '@angular/core/src/render3';
 import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 import {IProfilePermission} from '../interfaces/profile-action-permission';
 import {EHttpVerbs, PermissionService} from './permission.service';
+import {ELogType, LoggingService} from './logging.service';
 
 declare var IMI: any;
 declare var $: any;
@@ -126,7 +127,7 @@ export class ServerService {
         this.IncreaseAutoLogoutTime();
       })
       .catch((e: any, caught: Observable<T>) => {
-        console.log(e);
+        LoggingService.error(e);
         this.showErrorMessageForErrorTrue(e);
         this.changeProgressBar(false, 100);
 
@@ -157,7 +158,7 @@ export class ServerService {
         this.IncreaseAutoLogoutTime();
       })
       .catch((e: any) => {
-        console.log(e);
+        LoggingService.error(e);
         this.changeProgressBar(false, 100);
 
         this.utilityService.showErrorToaster(e);
@@ -189,7 +190,7 @@ export class ServerService {
         this.IncreaseAutoLogoutTime();
       })
       .catch((e: any, caught: Observable<T>) => {
-        console.log(e);
+        LoggingService.error(e);
         this.showErrorMessageForErrorTrue(e)
         this.changeProgressBar(false, 100);
 
@@ -225,7 +226,7 @@ export class ServerService {
           this.changeProgressBar(false, 100);
       })
       .catch((e: any, caught: Observable<T>) => {
-        console.log(e);
+        LoggingService.error(e);
         this.showErrorMessageForErrorTrue(e);
         this.changeProgressBar(false, 100);
         this.utilityService.showErrorToaster(e);
@@ -423,7 +424,7 @@ export class ServerService {
       try {
         IMI.IMIconnect.shutdown();
       }catch (e) {
-        console.log(e);
+        LoggingService.error(e);
       }
 
     }
@@ -436,11 +437,11 @@ export class ServerService {
     try {
       imiConnectIntegrationDetails = previewBot.integrations.fulfillment_provider_details.imiconnect;
       if (!imiConnectIntegrationDetails.enabled || !imiConnectIntegrationDetails.send_via_connect) {
-        console.log('this is not an imiconnect bot...');
+        LoggingService.log('this is not an imiconnect bot...');
         return;
       }
     } catch (e) {
-      console.log('this is not an imiconnect bot');
+      LoggingService.log('this is not an imiconnect bot');
       return;
     }
     var appId = imiConnectIntegrationDetails.appId;//'GS23064017';
@@ -453,10 +454,10 @@ export class ServerService {
     var messaging = IMI.ICMessaging.getInstance();
 
     console.info("========initializing connection with imiconnect with following details")
-    console.log(
-      'appId= ' + appId+'\n',
-      'appSecret= ' + appSecret+'\n',
-      'serviceKey= ' + serviceKey+'\n',
+    LoggingService.log(
+      'appId= ' + appId+'\n'+
+      'appSecret= ' + appSecret+'\n'+
+      'serviceKey= ' + serviceKey+'\n'+
       'userId= ' + userId+'\n');
 
 
@@ -484,7 +485,7 @@ export class ServerService {
 
     var msgCallBack = {//messaging.setICMessagingReceiver(msgCallBack);
       onConnectionStatusChanged: function (statuscode) {
-        console.log("msgCallBack,onConnectionStatusChanged", statuscode)
+        LoggingService.log("msgCallBack,onConnectionStatusChanged", statuscode)
         var statusMessage = null;
         if (statuscode == 2) {
           statusMessage = 'Connected';
@@ -503,7 +504,7 @@ export class ServerService {
         if (message.getType() === IMI.ICMessageType.Message) {
           var callback = {
             onFailure: function (err) {
-              console.log('failed to get topics:');
+              LoggingService.log('failed to get topics:');
 
               //handleFailure(err);
             }
@@ -520,7 +521,7 @@ export class ServerService {
     IMI.IMIconnect.registerListener(
       {
         onFailure: function () {
-          console.log('token got expired...');
+          LoggingService.log('token got expired...');
         }
       });
 
@@ -530,30 +531,30 @@ export class ServerService {
 
         try {
           messaging.connect();
-          console.log('onSuccess: reg');
+          LoggingService.log('onSuccess: reg');
         } catch (ex) {
-          console.log(ex);
+          LoggingService.log(ex);
         }
 
       },
       onFailure: function (err) {
-        console.log('Registration failed');
+        LoggingService.log('Registration failed');
 
       }
     };
     var deviceProfile = new IMI.ICDeviceProfile(deviceId, userId);
-    console.log('IMI.IMIconnect.isRegistered()' + IMI.IMIconnect.isRegistered());
+    LoggingService.log('IMI.IMIconnect.isRegistered()' + IMI.IMIconnect.isRegistered());
     IMI.IMIconnect.register(deviceProfile, regcallback);
 
 
 // //send message
 //     var pubcallback = {
 //       onSuccess: function () {
-//         console.log("message sent");
+//         LoggingService.log("message sent");
 //
 //       },
 //       onFailure: function (errormsg) {
-//         console.log("failed to send message");
+//         LoggingService.log("failed to send message");
 //       }
 //
 //     };
@@ -581,17 +582,17 @@ export class ServerService {
     try {
       streamName = currentBot.integrations.fulfillment_provider_details.imiconnect.streamName;
     }catch (e) {
-      console.log(e)
+      LoggingService.log(e)
     }
     // this.currentRoom = currentRoom;
 //send message
     var pubcallback = {
       onSuccess: function () {
-        console.log('message sent');
+        LoggingService.log('message sent');
 
       },
       onFailure: function (errormsg) {
-        console.log('failed to send message');
+        LoggingService.log('failed to send message');
       }
 
     };

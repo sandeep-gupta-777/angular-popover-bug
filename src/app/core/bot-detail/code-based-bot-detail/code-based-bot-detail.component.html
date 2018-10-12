@@ -88,7 +88,7 @@
     <!--tabs end-->
     <!---->
     <!--architeture starts-->
-    <div class="col-12 p-0" style="height: 85%" *ngIf="selectedTab==='architecture' &&  bot ">
+    <div class="col-12 p-0" style="height: 85%" [hidden]="selectedTab!=='architecture' &&  bot ">
       <div class="col-12 architeture-body" style="overflow-y: auto;height: 100%"
            *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]">
         <div class="d-flex row-body bg-white " style="height: 98%">
@@ -114,7 +114,7 @@
                    [queryParams]="{'build-tab':'code'}"
                    queryParamsHandling="merge"
                    [ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"
-                   (click)="selectedSideBarTab='code'"
+                   (click)="selectedSideBarTab='code'; refreshCodeEditor()"
                    class="tab-theme">Code
               </div>
               <div routerLink="."
@@ -137,7 +137,7 @@
             <app-knowledge-base-wrapper [bot]="bot"
                                         *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base-wrapper>
 
-            <app-code-input (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='code'"
+            <app-code-input (datachanged$)="datachanged($event)" [hidden]="selectedSideBarTab!=='code'"
                             [bot]="bot"></app-code-input>
             <app-integration-option-list (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='integration'"
                                          [bot]="bot"></app-integration-option-list>

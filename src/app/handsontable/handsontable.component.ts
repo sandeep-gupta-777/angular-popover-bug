@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ConstantsService } from '../constants.service';
 import { ActivatedRoute } from '@angular/router';
+import {LoggingService} from '../logging.service';
 // import * as Handsontable from 'handsontable';
 declare var Handsontable: any;
 
@@ -103,7 +104,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
       let search = hot.getPlugin('search');
       let queryResult = (<any>search).query(this.value);
 
-      console.log(queryResult);
+      LoggingService.log(queryResult);
       hot.render();
     });
   }

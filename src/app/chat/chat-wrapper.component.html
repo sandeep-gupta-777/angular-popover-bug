@@ -2,15 +2,25 @@
 <div *ngIf="!isFullScreenPreview && currentBot">
   <div class="chat-grid text-center" *ngIf="(windowOpen && (loggeduser$|async).user)">
     <div class="header d-flex align-items-center px-3 position-relative">
-      <i class="fa fa-arrow-left cursor-pointer" (click)="navigate(myEChatFrame.CHAT_LIST)"
-         [hidden]="frameEnabled===myEChatFrame.CHAT_LIST"></i>
-      <span class="center-absolute">{{chatWindowTitle}}</span>
-      <a class="ml-auto" [routerLink]="['/preview']"
+      <span title="Go to room list" class="hover-parent" (click)="navigate(myEChatFrame.CHAT_LIST)" [hidden]="frameEnabled===myEChatFrame.CHAT_LIST">
+        <i  class="fa fa-arrow-left cursor-pointer"></i>
+      </span>
+      <a class="center-absolute text-white hover-parent"
+         [title]="'Open '+ chatWindowTitle"
+         style="text-decoration: none"
+         [routerLink]="['/core/botdetail/chatbot/', currentBot.id]"
+         routerLinkActive="selected"
+      >{{chatWindowTitle}}</a>
+      <a class="ml-auto hover-parent" [routerLink]="['/preview']"
+         title="Open bot preview in a new Tab"
          [queryParams]="{bot_unique_name:currentBot.bot_unique_name,enterprise_unique_name:enterprise_unique_name}"
          target="_blank"><i
         class="fa fa-external-link"></i></a>
 
-      <div class="btn-group p-2" #dropdown="bs-dropdown" [autoClose]="false" dropdown (clickOutside)="dropdown.hide()">
+      <!--consumer dropdown starts-->
+      <div class="btn-group hover-parent"
+           title="Consumer options"
+           #dropdown="bs-dropdown" [autoClose]="false" dropdown (clickOutside)="dropdown.hide()">
         <div dropdownToggle class="user cursor-pointer"><i class="fa fa-user"></i></div>
 
         <form *dropdownMenu class="dropdown-menu dropdown-menu-left p-3" role="menu" #form="ngForm"
@@ -45,8 +55,9 @@
           <button type="submit" class="btn-block btn-theme-primary my-3" (click)="dropdown.hide()">Save Changes</button>
         </form>
       </div>
+      <!--consumer dropdown ends-->
 
-      <i class="fa fa-minus cursor-pointer" (click)="closeChatWindow()"></i>
+      <i class="fa fa-minus cursor-pointer hover-parent" [title]="'Minimize preview window'" (click)="closeChatWindow()"></i>
     </div>
     <div class="body p-0 border-left border-right"
          [ngClass]="{'make-body-occupy-footer':frameEnabled!==myEChatFrame.CHAT_BOX}">

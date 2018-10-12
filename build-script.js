@@ -4,7 +4,7 @@ var cmd=require('node-cmd');
 cmd.get(
   'ng build --prod',
   function(err, data, stderr){
-    console.log('the current working dir is : ',data, err)
+    LoggingService.log('the current working dir is : ',data, err)
   }
 );
 

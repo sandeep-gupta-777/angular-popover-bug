@@ -1,58 +1,131 @@
 @import '~src/sass/main';
+/*new design starts*/
+.login-grid {
+  display: grid;
+  height: 100vh;
+  background-color: white;
+  width: 100vw;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 60% 1fr;
+  grid-template-areas: '. .' 'left right' '. .';
 
-.login-row{
-
-  height: 90vh;
-  @include center-vertical-horizontal();
-  .imi-logo-box{
-    //border: 1px solid red;
-    height: 70vh;
-    //@include center-vertical-horizontal();
+  .left {
+    grid-area: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-right: 2px solid #e0e0e0;
-    .imi-logo{
+    .imi-logo-box {
+      //d-flex ml-auto mr-5 flex-column justify-content-center align-items-center
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-left: auto;
+      margin-right: 3rem;
+    }
+  }
+
+  .right {
+    grid-area: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    //d-flex justify-content-center flex-wrap
+    .login-box {
+      margin-right: auto;
+      margin-left: 3rem;
+    }
+  }
+
+  @media screen and (max-width: 780px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 65%;
+    grid-template-areas: 'left' 'right';
+    grid-gap: 10px;
+    .left {
+      margin-left: auto;
+      margin-right: auto;
+      border: none;
+      .imi-logo-box {
+        margin-right: 0px;
+        margin-top: auto;
+        .imi-logo {
+          height: 65px;
+          width: auto;
+          margin-bottom: 20px;
+        }
+      }
+    }
+
+    .right {
+      display: flex;
+      align-items: start;
+      justify-content: center;
+      .login-box {
+        margin-right: auto;
+        margin-left: auto;
+      }
+    }
+  }
+
+}
+
+/*new design ends*/
+
+.login-grid {
+
+  //height: 90vh;
+  //@include center-vertical-horizontal();
+  .imi-logo-box {
+    //border: 1px solid red;
+    //@include center-vertical-horizontal();
+    .imi-logo {
       height: 70px;
-      width : 241px;
+      width: 241px;
       margin-bottom: 20px;
     }
-    .tagline{
+    .tagline {
       @include typography(20px, 22px, $font-weight-300, #56627c);
     }
   }
 
-  .login-form{
-    width: 80%;
+  .login-form {
+    width: 100%;
     @include typography($font-size-normal, $line-height-normal, $font-weight-300, $color-secondary);;
   }
 
-  .title{
+  .title {
     @include typography(24px, $line-height-normal, $font-weight-300, #00abd3);
     text-align: center;
   }
 
-  .form-control{
+  .form-control {
     @include hide-borders();
     border-bottom: $border-normal;
     border-radius: 0;
   }
 
-  .btn-theme-primary{
+  .btn-theme-primary {
     height: 34px !important;
     font-size: 14px;
     background-color: #00abd3 !important;
   }
 }
-.hero-text{
+
+.hero-text {
   @include typography(24px, $line-height-md, $font-weight-300, #00abd3);;
   margin-bottom: 8px;
 }
 
-.forgot-password-container{
+.forgot-password-container {
   @include typography($font-size-normal, $line-height-md, $font-weight-300, $color-secondary);;
-  strong{
+  strong {
     font-weight: 700;
     color: #4a4a4a;
   }
-  .checkmark{
+  .checkmark {
     width: 48px;
     height: 48px;
     display: flex;
@@ -61,7 +134,7 @@
     justify-content: center;
     border: 1px solid #c9e16a;
     margin-bottom: 27px;
-    .fa{
+    .fa {
       color: #9dc406;
       font-size: 20px;
     }
@@ -69,16 +142,15 @@
 
 }
 
-.disabled-button{
+.disabled-button {
   opacity: 0.5;
-  background-color: $color-secondary!important;
+  background-color: $color-secondary !important;
 }
 
-
-.container-fluid{
+.container-fluid {
   height: 100vh;
 }
 
-.notification-text{
+.notification-text {
   color: $color-primary;
 }

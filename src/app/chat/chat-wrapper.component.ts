@@ -29,6 +29,7 @@ import {IConsumerDetails} from './ngxs/chat.state';
 import {IEnterpriseProfileInfo} from '../../interfaces/enterprise-profile';
 import {UpdateBotInfoByIdInBotInBotList} from '../core/view-bots/ngxs/view-bot.action';
 import {IIntegrationOption} from '../../interfaces/integration-option';
+import {ELogType, LoggingService} from '../logging.service';
 
 export interface IBotPreviewFirstMessage {
   'generated_msg': [
@@ -91,14 +92,15 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('inside chat-wrapper');
+    LoggingService.log('inside chat-wrapper');
     this.loggeduser$.subscribe((loggeduser) => {
       try {
+        if(!this.loggeduser) return;
         this.user_first_name = loggeduser.user.first_name || 'Anonymous User';
         this.user_email = loggeduser.user.email;
       } catch (e) {
         this.user_first_name = 'Anonymous User';
-        console.log(e);
+        LoggingService.error(e);
       }
     });
 
@@ -160,7 +162,7 @@ export class ChatWrapperComponent implements OnInit {
           this.current_uid = chatSessionState.currentUId;
         }
       } catch (e) {
-        console.error(e);
+        LoggingService.log(e,ELogType.error);
       }
     });
 
@@ -236,7 +238,7 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   logForm(consumerFormValue) {
-    console.log(consumerFormValue);
+    LoggingService.log(consumerFormValue);
     this.store.dispatch([
       new SetConsumerDetail(consumerFormValue)
     ]);
@@ -252,7 +254,7 @@ export class ChatWrapperComponent implements OnInit {
 
   // sendMessageByHuman(messageByHuman: string) {
   sendMessageByHuman(messageData: { messageByHuman: string, room: IRoomData }) {
-    console.log('sending message by human');
+    LoggingService.log('sending message by human');
     // this.showBotIsThinking = true;
     let messageByHuman = messageData.messageByHuman;
     let room: IRoomData = messageData.room;
@@ -282,7 +284,7 @@ export class ChatWrapperComponent implements OnInit {
             botImiConnectIntegrationInfo.enabled &&
             (botImiConnectIntegrationInfo.send_via_connect==="true");
         } catch (e) {
-          console.log(e);
+          LoggingService.error(e);
         }
 
         /*========================Creation of chat room using IMI CONNECT===============================*/
@@ -310,7 +312,7 @@ export class ChatWrapperComponent implements OnInit {
     try {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     } catch (err) {
-      console.log(err);
+      LoggingService.log(err);
     }
   }
 

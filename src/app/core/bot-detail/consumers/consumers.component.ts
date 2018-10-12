@@ -2,7 +2,7 @@ import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { ServerService } from '../../../server.service';
 import { Observable } from 'rxjs';
-import { ConstantsService } from '../../../constants.service';
+import {ConstantsService, EAllActions} from '../../../constants.service';
 import { IConsumerResults, IConsumerResultsFromServer } from '../../../../interfaces/consumer';
 import { IBot } from '../../interfaces/IBot';
 import { ViewBotStateModel } from '../../view-bots/ngxs/view-bot.state';
@@ -10,6 +10,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ISessionItem } from '../../../../interfaces/sessions';
 import { IHeaderData } from '../../../../interfaces/header-data';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import {PermissionService} from '../../../permission.service';
 
 @Component({
   selector: 'app-consumers',
@@ -23,6 +24,7 @@ export class ConsumersComponent implements OnInit {
   bot_id: number;
   totalRecords: number;
   @Select() botlist$: Observable<ViewBotStateModel>;
+  isDeCryptAuditAccessDenied:boolean = false
   consumerTableData: IConsumerResults[];
   consumersDecrypted: IConsumerResults ;//IConsumerItem
   smartTableSettings_Consumers = this.constantsService.SMART_TABLE_CONSUMER_SETTING;
@@ -34,6 +36,7 @@ export class ConsumersComponent implements OnInit {
     private serverService: ServerService,
     private constantsService: ConstantsService,
     private router: Router,
+    private permissionService: PermissionService,
     private activatedRoute: ActivatedRoute,
     private modalService: BsModalService,
     private store: Store) {
@@ -44,9 +47,9 @@ export class ConsumersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.bot_id =
-      Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.isDeCryptAuditAccessDenied = this.permissionService.isTabAccessDenied(EAllActions['Create Decrypt Audit']);
 
+    this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     this.isFullscreen = this.activatedRoute.snapshot.data['isFullscreen'];
     this.botlist$.subscribe((viewBotState) => {
       this.bot = viewBotState.allBotList.find(bot => bot.id === this.bot_id);

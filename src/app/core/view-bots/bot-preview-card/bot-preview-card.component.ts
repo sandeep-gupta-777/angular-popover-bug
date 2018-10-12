@@ -21,6 +21,7 @@ import {IConsumerDetails} from '../../../chat/ngxs/chat.state';
 import {IUser} from '../../interfaces/user';
 import {IAuthState} from '../../../auth/ngxs/auth.state';
 import {IEnterpriseProfileInfo} from '../../../../interfaces/enterprise-profile';
+import {LoggingService} from '../../../logging.service';
 
 @Component({
   selector: 'app-bot-preview-card',
@@ -83,7 +84,7 @@ export class BotPreviewCardComponent implements OnInit {
 
   previewBot() {
 
-    console.log("Bot Preview clicked");
+    LoggingService.log("Bot Preview clicked");
     // if(log)http://localhost:4200/core/botdetail/chatbot/20?build=testing
     /*if a new bot is being opened=> clear previous chat state*/
     // if (this.bot.id !== (this.currentChatPreviewBotId && this.currentChatPreviewBotId)) {

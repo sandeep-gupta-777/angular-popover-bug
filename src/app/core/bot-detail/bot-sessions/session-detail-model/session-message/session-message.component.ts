@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ISessionItem, ISessionMessageItem} from '../../../../../../interfaces/sessions';
 import {ITxnSessionMessagesItem} from '../../../../../serialize-session-message.pipe';
 import {UtilityService} from '../../../../../utility.service';
+import {LoggingService} from '../../../../../logging.service';
 
 @Component({
   selector: 'app-session-message',
@@ -27,7 +28,7 @@ export class SessionMessageComponent implements OnInit {
   ngOnInit() {
 
     this.sessionMessageItems = this._txnConversationItems.convoList;
-    console.log(this.sessionMessageItems);
+    LoggingService.log(this.sessionMessageItems);
     this.txnId = this._txnConversationItems.transaction_id;
     this.txnId_highlighting = this._txnConversationItems.transaction_id_highlighting || this.txnId;
     // this.sessionMessageData.user_type;

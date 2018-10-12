@@ -9,13 +9,13 @@
 // * */
 // export function persistPlugin(state, action, next) {
 
-//   console.log('entering plugin=================');
+//   LoggingService.log('entering plugin=================');
 //   // After every refresh first action fired will be @@INIT
 //   if (getActionTypeFromInstance(action) === '@@INIT') {
 
 //     // reading from local storage and writing into state, when app is refreshed
 //     let storedStateStr = localStorage.getItem('LOCALSTORAGE_APP_STATE');
-//     console.log('ngxs init');
+//     LoggingService.log('ngxs init');
 //     let storedState = JSON.parse(storedStateStr);
 //     state = {...state, ...storedState};
 //     ConstantsService.state = state;
@@ -24,7 +24,7 @@
 
 //   return next(state, action).pipe(tap(result => {
 //     ConstantsService.state = state;
-//     console.log('Action happened!', result);
+//     LoggingService.log('Action happened!', result);
 //     localStorage.setItem('LOCALSTORAGE_APP_STATE', JSON.stringify(result));;
 //   }));
 // }

@@ -1,5 +1,6 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {EBotMessageMediaType, EChatFrame, IMessageData, IRoomData} from '../../../interfaces/chat-session-state';
+import {LoggingService} from '../../logging.service';
 
 @Component({
   selector: 'app-chat-window',
@@ -22,7 +23,6 @@ export class ChatWindowComponent implements OnInit {
   @Input() set messageDataArray(value){
 
     this._messageDataArray = value;
-    console.log('scrolling');
     setTimeout(()=>this.scrollToBottom(),0);
   }
   @Output() sendMessageByHuman$ = new EventEmitter();
@@ -35,9 +35,10 @@ export class ChatWindowComponent implements OnInit {
   }
   scrollToBottom(): void {
     try {
-      console.log(this.myScrollContainer);
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch(err) { }
+    } catch(err) {
+      LoggingService.error(err);
+    }
   }
   sendMessageByHuman(message){
     this.sendMessageByHuman$.emit({messageByHuman:message, room:this.room});

@@ -4,6 +4,7 @@ import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {IAppState} from './ngxs/app.state';
 import {PermissionService} from './permission.service';
+import {ELogType, LoggingService} from './logging.service';
 
 declare var CodeMirror: any;
 
@@ -29,9 +30,7 @@ export class AppComponent implements OnInit {
   currentIntervalRef;
 
   ngOnInit() {
-    console.log("tesging 1");
-    this.app$.subscribe((app) => {
-
+      this.app$.subscribe((app) => {
       if (app.progressbar.loading) {
         this.showProgressbar = true;
         this.currentIntervalRef && clearInterval(this.currentIntervalRef);

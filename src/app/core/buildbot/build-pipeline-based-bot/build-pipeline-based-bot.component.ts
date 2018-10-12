@@ -49,7 +49,7 @@ export class BuildPipelineBasedBotComponent implements OnInit {
     // ;
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('tab') || 'basic'; //todo: not a robust code
     this.botcreationstate$.subscribe((value)=>{
-      // console.log('test');
+      // LoggingService.log('test');
       if(!value || !value.pipeLineBased) return;
       this.bot = value.pipeLineBased;
     });
