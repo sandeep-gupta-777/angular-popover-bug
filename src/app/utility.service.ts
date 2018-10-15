@@ -306,6 +306,86 @@ export class UtilityService {
     return template;
   }
 
+  createTemplateKeyArr(generation_templates) {
+    let str = generation_templates;
+
+    // let regex = /e?l?if.+?:/g;
+    let regex = /e?l?if\s?\(.+?:/g;
+
+    let match = regex.exec(str);
+
+    let templateKeys = [];
+    while (match) {
+      let templateKey, matchedStr = match[0];
+      let matchedStrSplitArr = matchedStr.split('==');
+      if (matchedStrSplitArr[0].includes('variables')) {
+        templateKey = matchedStrSplitArr[1].replace(')',"").replace(':',"").trim();
+      } else {
+        templateKey = matchedStrSplitArr[0].replace(')',"").replace(':',"").trim();
+      }
+      templateKeys.push(eval(templateKey));
+      match = regex.exec(str);
+    }
+    return templateKeys;
+  }
+
+  createOutputArr(generation_templates) {
+    let str = generation_templates;
+
+    // let regex = /output\s=\s([\s\S]*?)\selif/g;
+    // let regex = /output[\s\S]*?]$/gm;
+    let regex = /output\s=([\s\S]*?])$/gm;
+
+    let match = regex.exec(str);
+
+    let outputsKeys = [];
+    while (match) {
+      let output, matchedStr = match[1];
+      let matchedAndProcessedStr = matchedStr.trim();
+      outputsKeys.push(matchedAndProcessedStr);
+      match = regex.exec(str);
+    }
+    return outputsKeys;
+  }
+
+
+  parseGenTemplateCodeStrToObject(generation_templates: string) {
+    let templateKeyOutputObj = {};
+    try {
+      debugger;
+      let templates: string[] = this.createTemplateKeyArr(generation_templates);
+      let outputs: string[] = this.createOutputArr(generation_templates);
+      for (let i = 0; i < templates.length; ++i) {
+        templateKeyOutputObj[templates[i]] = eval(outputs[i]);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+    return templateKeyOutputObj;
+
+  }
+
+  parseGenTemplateUiDictionaryToIfElseCode(uiDictionary: object) {
+    debugger;
+    let genTemplateCodeStr = '';
+    Object.keys(uiDictionary).forEach((templateKey, index) => {
+      // let templateKey = Object.keys(templateKeys);
+      let elIfStr = '';
+      if (index === 0) {
+        elIfStr = `if(variables['templateKey'] == '${templateKey}'):\n`;
+      } else {
+        elIfStr = `\nelif(variables['templateKey'] == '${templateKey}'):\n`;
+      }
+      let outputValues = uiDictionary[templateKey];
+      let outPutStr = `  output = ${JSON.stringify(outputValues)}`;
+      genTemplateCodeStr += elIfStr + outPutStr;
+    });
+    return genTemplateCodeStr;
+
+  }
+
+
   appendChartValueAndSeries(xAndYValues: any, chartValue) {
     return {
       ...chartValue,
@@ -495,10 +575,11 @@ export class UtilityService {
     return (!is_manager || is_manager && (child_bots.length > 0)) ? null : {'isManagerError': true};
   }
 
-  pushFormControlItemInFormArray(formArray:FormArray,formBuilder:FormBuilder, item:any){
+  pushFormControlItemInFormArray(formArray: FormArray, formBuilder: FormBuilder, item: any) {
     formArray.push(formBuilder.control(item));
   }
-  pushFormGroupItemInFormArray(formArray:FormArray,formBuilder:FormBuilder, item:any){
+
+  pushFormGroupItemInFormArray(formArray: FormArray, formBuilder: FormBuilder, item: any) {
     formArray.push(formBuilder.group(item));
   }
 
@@ -605,7 +686,7 @@ export class UtilityService {
     this.router.navigate(['.'], {queryParams: queryParamObj, relativeTo: this.activatedRoute});
   }
 
-  findFormControlIndexInFormArrayByValue(formArray:FormArray, value): number {
+  findFormControlIndexInFormArrayByValue(formArray: FormArray, value): number {
     let i = 0;
     for (let control of formArray.controls) {
       if (control instanceof FormControl) {

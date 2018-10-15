@@ -7,17 +7,24 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class TextGentemplateComponent implements OnInit {
 
+  // @Input() variants : string[] ;
+   _variants : string[] ;
+  @Input() set variants (variantsVal: string[]){
+    this._variants = variantsVal;
+    this.variantsIter = [...this._variants];
+  }
   constructor() { }
-  @Input() variants : string[] ;
+  variantsIter: string[] ;
   deleteVariant(index){
-    this.variants.splice(index,1);
+    this._variants.splice(index,1);
     console.log("sdasdas das das dadas",index);
-    console.log(this.variants);
+    console.log(this._variants);
   }
   addVarient(index){
-    this.variants.push("");
+    this._variants.push("");
+    this.variantsIter = [...this._variants];
   }
   ngOnInit() {
   }
-  
+
 }

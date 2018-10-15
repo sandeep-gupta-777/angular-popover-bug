@@ -2,14 +2,18 @@
   <div class="p-1 pl-2 tem-heading">
     <i class="fa fa-align-left heading-icon pr-1"></i>Text Input
   </div>
-  <div *ngFor="let variant of variants; let i = index" class="p-2">
+  <div *ngFor="let variant of variantsIter; let i = index" class="p-2">
     <div class="d-flex">
       <div class="name">Variant {{i + 1}}</div>
-      <i class="fa fa-trash ml-auto cursor-pointer" (click) = "deleteVariant(i)"></i>
+      <i class="fa fa-trash ml-auto cursor-pointer" (click)="deleteVariant(i)"></i>
     </div>
-    <textarea class="classic-textarea" placeholder='Write your text here ...' rows="3">{{variant}}</textarea>
+    <!--<textarea class="classic-textarea" placeholder='Write your text here ...' rows="3">{{variant}}</textarea>-->
+    <textarea
+      [(ngModel)]="_variants[i]"
+      class="classic-textarea"
+      placeholder='Write your text here ...' rows="3"></textarea>
   </div>
-  <div class="text-primary cursor-pointer pl-2" (click) = "addVarient()">
+  <div class="text-primary cursor-pointer pl-2" (click)="addVarient()">
     <i class="fa fa-plus pr-1 my-auto"></i>Add a new variant
   </div>
   <div class="p-1 icon-footer">
