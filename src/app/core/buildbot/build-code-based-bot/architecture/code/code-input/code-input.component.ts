@@ -56,9 +56,9 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   forked_version_number: number;
   selectedIntentTab: string = "ask_date_book1";
   myObject = Object;
-  newIntentName :string;
-  showGenTempUi : boolean = true;
-  selectedChannelOfGenTemplate:string = "";
+  newIntentName: string;
+  showGenTempUi: boolean = true;
+  selectedChannelOfGenTemplate: string = "";
   intents = {
     "ask_date_book1": [{
       "include": ["facebook", "web"],
@@ -82,8 +82,8 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     "ask_date_book2": [{
       "include": ["facebook", "web"],
       "text": ["1When would you like to visit us? Please provide the date and time.11",
-      "1When would you like to visit us? Please provide the date and time.22",
-      "1When would you like to visit us? Please provide the date and time.33"]
+        "1When would you like to visit us? Please provide the date and time.22",
+        "1When would you like to visit us? Please provide the date and time.33"]
     }],
 
 
@@ -108,36 +108,54 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     }]
 
   }
-  channelList = ["facebook", "web","imiconnect","imichat","skype"];
+  channelList = ["facebook", "web", "imiconnect", "imichat", "skype"];
   openNewIntentModal(template) {
     this.modalRef = this.modalService.show(template, { class: 'modal-md' });
     return;
   }
-  newIntent(){
+  newIntent() {
     let intentUnit = {}
     intentUnit[this.newIntentName] = [];
-    this.intents = {...this.intents , ...intentUnit};
+    this.intents = { ...this.intents, ...intentUnit };
   }
-  addTextUnit(){
+  addTextUnit() {
     let textUnit = {
       "include": ["facebook", "web"],
       "text": [""]
     }
     this.intents[this.selectedIntentTab].push(textUnit);
   }
-  addCodeUnit(){
+  addCodeUnit() {
     let codeUnit = {
       "include": ["facebook", "web"],
       "code": ["Write ur text here ....."]
     }
     this.intents[this.selectedIntentTab].push(codeUnit);
   }
-  addQReplyUnit(){
+  addQReplyUnit() {
     let qReplyUnit = {
       "include": ["facebook", "web"],
       "text": ["Write ur text here ....."]
     }
     this.intents[this.selectedIntentTab].push(qReplyUnit);
+  }
+  deleteGentemplate(e) {
+    this.intents[this.selectedIntentTab].splice(e, 1);
+    console.log(this.intents[this.selectedIntentTab]);
+  }
+  moveUpGentempate(e) {
+    var temp = this.intents[this.selectedIntentTab][e];
+    this.intents[this.selectedIntentTab][e] = this.intents[this.selectedIntentTab][e-1];
+    this.intents[this.selectedIntentTab][e-1] = temp;
+  }
+  moveDownGentempate(e) {
+    if(this.intents[this.selectedIntentTab].length == e+1){
+      console.log("just dot do that , U know Y");
+      return;
+    }
+    var temp = this.intents[this.selectedIntentTab][e];
+    this.intents[this.selectedIntentTab][e] = this.intents[this.selectedIntentTab][e+1];
+    this.intents[this.selectedIntentTab][e+1] = temp;
   }
   // selectedIntent(SIntent){
   //   this.selectedIntentTab = SIntent;

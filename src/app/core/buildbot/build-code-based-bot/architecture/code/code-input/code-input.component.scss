@@ -127,6 +127,9 @@
   .fa{
     color: #9b9b9b;
   } 
+  &:hover{
+    border: 1px solid $color-primary;
+  }
 }
 .intent-header {
   background-color: #ffffff;

@@ -1,4 +1,4 @@
-<p> fsdfsdfsd  sdf sd {{selectedChannelOfGenTemplate}}</p>
+<p> fsdfsdfsd sdf sd {{selectedChannelOfGenTemplate}}</p>
 <div class="container-grid">
   <div class="row row-version my-2 m-0" style="position: relative" (clickOutside)="showVersionList = false">
     <div class="col-6 p-0" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
@@ -141,10 +141,10 @@
               <a class="nav-link" (click)="tabClicked(myEBotVersionTabs.workflow)">Workflows</a>
             </li>
             <li>
-                <button [hidden]="activeTab!==myEBotVersionTabs.generation_templates" (click) = "showGenTempUi = !showGenTempUi">button</button>
+              <button [hidden]="activeTab!==myEBotVersionTabs.generation_templates" (click)="showGenTempUi = !showGenTempUi">button</button>
             </li>
           </ul>
-          
+
           <!--tabs end-->
 
           <!--code editor starts-->
@@ -194,9 +194,9 @@
         </div>
         <div class="form-group m-0 channel-drop">
           <label for="" class="px-2">Channel</label>
-          <select [ngModel] = "selectedChannelOfGenTemplate" required name="platform">
+          <select [ngModel]="selectedChannelOfGenTemplate" required name="platform">
             <option type="button" [value]="">All</option>
-            <option *ngFor="let channel of channelList"  type="button" [value]="channel">{{channel}}</option>
+            <option *ngFor="let channel of channelList" type="button" [value]="channel">{{channel}}</option>
             <!-- <option type="button" [value]="facebook">Facebook</option>
             <option type="button" [value]="imichat">Imichat</option>
             <option type="button" [value]="channel">Channel</option>
@@ -204,10 +204,13 @@
           </select>
         </div>
         <div class="intentItems">
-          
-          <div class="py-1 px-0" *ngFor="let intentItem of intents[selectedIntentTab]" >
-            <app-text-gentemplate *ngIf="intentItem.text" [variants]=intentItem.text></app-text-gentemplate>
-            <app-code-gentemplate [intentCode] = "intentItem" *ngIf="!intentItem.text"[hidden]="activeTab!==myEBotVersionTabs.generation_templates" ></app-code-gentemplate>
+
+          <div class="py-1 px-0" *ngFor="let intentItem of intents[selectedIntentTab]; let i = index">
+            <app-text-gentemplate *ngIf="intentItem.text" [variants]=intentItem.text [myIndex]=i (deleteTemplate)="deleteGentemplate($event)"
+              (moveTempUp)="moveUpGentempate($event)" (moveTempDown)="moveDownGentempate($event)"></app-text-gentemplate>
+            <app-code-gentemplate [intentCode]="intentItem" *ngIf="!intentItem.text" [myIndex]=i (deleteTemplate)="deleteGentemplate($event)"
+              [hidden]="activeTab!==myEBotVersionTabs.generation_templates" (moveTempUp)="moveUpGentempate($event)"
+              (moveTempDown)="moveDownGentempate($event)"></app-code-gentemplate>
           </div>
         </div>
       </div>
@@ -236,8 +239,8 @@
       </div>
     </div>
 
-    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates || showGenTempUi"  [text]="{'text' : intents | json}"
-        (textChangedEvent)="saveText($event)"></app-code-editor>
+    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates || showGenTempUi" [text]="{'text' : intents | json}"
+      (textChangedEvent)="saveText($event)"></app-code-editor>
 
     <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.workflow " [text]="editorCodeObj[myEBotVersionTabs.workflow]"
       (textChangedEvent)="saveText($event)"></app-code-editor>
@@ -317,7 +320,7 @@
     <div class="modal-body">
       <div class="d-flex align-items-center justify-content-center my-2">
         <label class="mb-0 mr-1">Name the template</label>
-        <input class="input-material" type="text" [(ngModel)] = "newIntentName"></div>
+        <input class="input-material" type="text" [(ngModel)]="newIntentName"></div>
       <button class="btn btn-theme-success-sm close" (click)="newIntent();modalRef.hide()">Submit</button>
     </div>
   </div>
