@@ -22,6 +22,7 @@ import {EBotType} from '../../../../../view-bots/view-bots.component';
 import {EventService} from '../../../../../../event.service';
 import {take} from 'rxjs/operators';
 import {LoggingService} from '../../../../../../logging.service';
+import {DebugBase} from '../../../../../../debug-base';
 
 export enum EBotVersionTabs {
   df_template = 'df_template',
@@ -37,7 +38,7 @@ export enum EBotVersionTabs {
   styleUrls: ['./code-input.component.scss'],
 
 })
-export class CodeInputComponent implements OnInit, OnDestroy {
+export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   showConfig = true;
   myEBotVersionTabs = EBotVersionTabs;
@@ -81,6 +82,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private modalService: BsModalService,
   ) {
+    super();
   }
 
   ngOnInit() {

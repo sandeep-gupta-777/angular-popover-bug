@@ -1,3 +1,6 @@
+<div *ngIf="me" class="debug-small" (click)="log()">{{me}}</div>
+
+
 <div class="container-grid">
   <div class="row row-version my-2 m-0" style="position: relative" (clickOutside)="showVersionList = false">
     <div class="col-6 p-0" [ngClass]="{'bg-theme-secondary':!selectedVersion}">

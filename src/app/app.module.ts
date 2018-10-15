@@ -43,7 +43,6 @@ import {RichMediaModule} from './rich-media.module';
 import {FilterArrayPipe} from './filter-array.pipe';
 import {MsToHhMmPipe} from './ms-to-hh-mm.pipe';
 import {BackendDevComponent} from './backend-dev/backend-dev.component';
-import {ChatModule} from './chat/chat.module';
 import {ChatService} from './chat.service';
 import {ObjectArrayCrudService} from './object-array-crud.service';
 // import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
