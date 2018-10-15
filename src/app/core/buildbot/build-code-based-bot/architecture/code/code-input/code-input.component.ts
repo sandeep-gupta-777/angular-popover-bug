@@ -57,8 +57,9 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   selectedIntentTab: string = "ask_date_book1";
   myObject = Object;
   newIntentName :string;
+  showGenTempUi : boolean = true;
+  selectedChannelOfGenTemplate:string = "";
   intents = {
-
     "ask_date_book1": [{
       "include": ["facebook", "web"],
       "text": ["1When would you like to visit us? Please provide the date and time.11",
@@ -67,6 +68,12 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     {
       "include": ["facebook", "web"],
       "text": ["1When would you like to visit us? Please provide the date and time.21",
+        "1When would you like to visit us? Please provide the date and time.22",
+        "1When would you like to visit us? Please provide the date and time.23"]
+    }
+    {
+      "include": ["facebook", "web"],
+      "sdas": ["1When would you like to visit us? Please provide the date and time.21",
         "1When would you like to visit us? Please provide the date and time.22",
         "1When would you like to visit us? Please provide the date and time.23"]
     }
@@ -101,6 +108,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     }]
 
   }
+  channelList = ["facebook", "web","imiconnect","imichat","skype"];
   openNewIntentModal(template) {
     this.modalRef = this.modalService.show(template, { class: 'modal-md' });
     return;
@@ -113,14 +121,14 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   addTextUnit(){
     let textUnit = {
       "include": ["facebook", "web"],
-      "text": ["Write ur text here ....."]
+      "text": [""]
     }
     this.intents[this.selectedIntentTab].push(textUnit);
   }
   addCodeUnit(){
     let codeUnit = {
       "include": ["facebook", "web"],
-      "text": ["Write ur text here ....."]
+      "code": ["Write ur text here ....."]
     }
     this.intents[this.selectedIntentTab].push(codeUnit);
   }

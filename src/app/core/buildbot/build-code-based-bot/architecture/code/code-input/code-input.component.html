@@ -1,3 +1,4 @@
+<p> fsdfsdfsd  sdf sd {{selectedChannelOfGenTemplate}}</p>
 <div class="container-grid">
   <div class="row row-version my-2 m-0" style="position: relative" (clickOutside)="showVersionList = false">
     <div class="col-6 p-0" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
@@ -139,8 +140,11 @@
             <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.workflow}">
               <a class="nav-link" (click)="tabClicked(myEBotVersionTabs.workflow)">Workflows</a>
             </li>
+            <li>
+                <button [hidden]="activeTab!==myEBotVersionTabs.generation_templates" (click) = "showGenTempUi = !showGenTempUi">button</button>
+            </li>
           </ul>
-
+          
           <!--tabs end-->
 
           <!--code editor starts-->
@@ -172,7 +176,7 @@
     <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_rules" [text]="editorCodeObj[myEBotVersionTabs.generation_rules]"
       (textChangedEvent)="saveText($event)"></app-code-editor>
 
-    <div class="row pl-3 genTempGrid pt-2" [hidden]="activeTab!==myEBotVersionTabs.generation_templates">
+    <div class="row pl-3 genTempGrid pt-2" [hidden]="activeTab!==myEBotVersionTabs.generation_templates || !showGenTempUi">
       <div class="genTempGridItem intent-header ml-1">
         <div class="d-flex" style="align-items:center;">
           <div class="text-bold">Intent Header</div>
@@ -190,20 +194,20 @@
         </div>
         <div class="form-group m-0 channel-drop">
           <label for="" class="px-2">Channel</label>
-          <select [ngModel] required name="platform">
-            <!-- <option *ngFor="let channel of channelList"  type="button" [value]="channel.name">{{channel.displayName}}</option> -->
-            <option type="button" [value]="Channel">All</option>
-            <option type="button" [value]="Channel">Facebook</option>
-            <option type="button" [value]="Channel">Imichat</option>
-            <option type="button" [value]="Channel">Channel</option>
+          <select [ngModel] = "selectedChannelOfGenTemplate" required name="platform">
+            <option type="button" [value]="">All</option>
+            <option *ngFor="let channel of channelList"  type="button" [value]="channel">{{channel}}</option>
+            <!-- <option type="button" [value]="facebook">Facebook</option>
+            <option type="button" [value]="imichat">Imichat</option>
+            <option type="button" [value]="channel">Channel</option>
+            <option type="button" [value]="wed">Channel</option> -->
           </select>
         </div>
         <div class="intentItems">
-
-          <div class="py-1 px-0" *ngFor="let intentItem of intents[selectedIntentTab]">
+          
+          <div class="py-1 px-0" *ngFor="let intentItem of intents[selectedIntentTab]" >
             <app-text-gentemplate *ngIf="intentItem.text" [variants]=intentItem.text></app-text-gentemplate>
-    <!-- <app-code-gentemplate [intentCode] = "intents[selectedIntentTab]" [hidden]="activeTab!==myEBotVersionTabs.generation_templates" ></app-code-gentemplate> -->
-
+            <app-code-gentemplate [intentCode] = "intentItem" *ngIf="!intentItem.text"[hidden]="activeTab!==myEBotVersionTabs.generation_templates" ></app-code-gentemplate>
           </div>
         </div>
       </div>
@@ -225,17 +229,17 @@
           <li class="bot-template cursor-pointer">
             <i class="fa fa-users"></i>Quick Reply
           </li>
-          <li class="bot-template cursor-pointer">
+          <li class="bot-template cursor-pointer" (click)="addCodeUnit();">
             <i class="fa fa-code"></i>Code Input
           </li>
         </ul>
       </div>
     </div>
 
-    <!-- <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates" [text]="editorCodeObj[myEBotVersionTabs.generation_templates]"
-        (textChangedEvent)="saveText($event)"></app-code-editor> -->
+    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates || showGenTempUi"  [text]="{'text' : intents | json}"
+        (textChangedEvent)="saveText($event)"></app-code-editor>
 
-    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.workflow" [text]="editorCodeObj[myEBotVersionTabs.workflow]"
+    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.workflow " [text]="editorCodeObj[myEBotVersionTabs.workflow]"
       (textChangedEvent)="saveText($event)"></app-code-editor>
   </div>
 

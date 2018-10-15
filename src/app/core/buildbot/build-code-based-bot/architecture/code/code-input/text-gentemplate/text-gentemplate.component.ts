@@ -9,10 +9,13 @@ export class TextGentemplateComponent implements OnInit {
 
   constructor() { }
   @Input() variants : string[] ;
-  deleteText(index){
+  deleteVariant(index){
     this.variants.splice(index,1);
     console.log("sdasdas das das dadas",index);
     console.log(this.variants);
+  }
+  addVarient(index){
+    this.variants.push("");
   }
   ngOnInit() {
   }
