@@ -140,8 +140,10 @@
             <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.workflow}">
               <a class="nav-link" (click)="tabClicked(myEBotVersionTabs.workflow)">Workflows</a>
             </li>
-            <li>
-              <button [hidden]="activeTab!==myEBotVersionTabs.generation_templates" (click)="showGenTempUi = !showGenTempUi">button</button>
+            <li class="ml-auto gen-templet-toggle">
+              <!-- <button [hidden]="activeTab!==myEBotVersionTabs.generation_templates" (click)="showGenTempUi = !showGenTempUi">button</button> -->
+              <ui-switch name="toggle_gen_templet" [(ngModel)]="showGenTempUi" class="d-flex align-items-center mx-1 "
+                     style="border:none;padding: 0;" size="small" title="Toggle UI view"></ui-switch>
             </li>
           </ul>
 
@@ -221,7 +223,7 @@
             <div class="text-lite">Drag & Drop elements to add to response</div>
           </li>
           <li class="bot-template cursor-pointer" (click)="addTextUnit();">
-            <i class="fa fa-users"></i>Text
+            <i class="fa fa-align-left"></i>Text
           </li>
           <li class="bot-template cursor-pointer">
             <i class=" fa fa-image"></i>Image corousel
