@@ -10,10 +10,10 @@
     <i class="fa fa-circle dark-green"></i>
     <div>Active(v{{bot.active_version.version}})</div>
   </div>
-  <div class="text-theme-normal mr-3">
+  <div class="text-theme-normal mr-3 d-none d-md-block">
     <span class="text-muted">Created by :</span>{{bot.created_by}} <span class="text-muted">on</span>{{bot.created_at|date}}
   </div>
-  <div class="text-theme-normal ">
+  <div class="text-theme-normal d-none d-lg-block">
     <span class="text-muted">Last Updated By :</span>{{bot.updated_by}} <span class="text-muted">on</span>{{bot.updated_at|date}}
   </div>
   <!--<div class="active-button px-1 border-right d-flex justify-content-center align-items-center">-->

@@ -214,6 +214,8 @@
              class="text-sm click-save-wrapper  ">Preview
         </div>
       </div>
+
+      <a [routerLink]="['.',{outlets: {preview: 'preview'}}]">preview</a>
       <button (click)="navigateToBotDetailPage($event)" class="show-on-parent-hover  btn btn-theme-primary px-3 mr-2 "
               [ngClass]="{'mr-auto': bot.bot_type !== 'chatbot'}">Edit
       </button>

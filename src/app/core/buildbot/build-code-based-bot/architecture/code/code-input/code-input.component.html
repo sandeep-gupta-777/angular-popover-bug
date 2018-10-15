@@ -92,8 +92,7 @@
            *ngFor="let version of bot.store_bot_versions | filterActiveBot:selectedVersion.id">
         <div class="d-flex align-items-center flex-bot-versioning-toaster"
              (click)="changeSelectedVersion(version); showVersionList = false; tabClicked('df_template');">
-          <!--<div class="active-label-text">{{(version.id === (activeVersion && activeVersion.id))?'Active':'Inactive'}}</div>-->
-          <!--<p>{{activeVersion|json}}</p>-->
+
           <div class="version-active-label">
             <div>{{version.id === (activeVersion && activeVersion.id)?'Active':'Inactive'}}</div>
           </div>
@@ -104,9 +103,8 @@
           </div>
           <div class="forked mr-1 pl-1" *ngIf="version.forked_from === 0">Default created version
           </div>
-          <!-- <div class="forked mr-1 pl-1" [style.visibility]="version.forked_from>0 ? 'visible' : 'hidden'">Forked from version
-            {{version.forked_from}}
-          </div> -->
+
+          <!--change dot start-->
           <div class="update d-flex flex-column mr-1 justify-content-center" *ngIf="version">
             <div class="mr-1">Last update</div>
             <div class="justify-content-left pt-1">
@@ -122,14 +120,9 @@
                  [ngClass]="{'dark-green':version.updated_fields['workflow']}"></i>
 
             </div>
-            <!--<form>-->
-            <!--<input type="radio" [checked]="false">-->
-            <!--<input type="radio">-->
-            <!--<input type="radio">-->
-            <!--<input type="radio">-->
-            <!--<input type="radio">-->
-            <!--</form>-->
           </div>
+          <!--change dot end-->
+
           <div class="insert mr-1">{{version.comment.length>70?(((version.comment)|slice:0:100)
             +"..."):version?.comment}}
           </div>
@@ -142,7 +135,6 @@
   <div class="row row-tabs">
     <div class="col-12">
       <div class="card ">
-
 
         <!--tabs start-->
         <div class="card-body p-0 mr-4">
@@ -170,99 +162,13 @@
                  (click)="tabClicked(myEBotVersionTabs.workflow)">Workflows</a>
             </li>
           </ul>
-
           <!--tabs end-->
-
-          <!--code editor starts-->
-          <!--todo: make this row independent-->
-          <!--<div class="row pl-3 genTempGrid pt-2" *ngIf="activeTab === 'generationTemplates'">-->
-          <!--<div class="genTempGridItem intent-header">-->
-          <!--<div class="text-bold">Intent Header</div>-->
-          <!--<input type="text" placeholder="Search Intent">-->
-
-          <!--&lt;!&ndash; these div's will come from *ngFor &ndash;&gt;-->
-          <!--<div class="p-1" *ngFor="let x of intentList">{{x.name}}</div>-->
-          <!--</div>-->
-          <!--<div class="genTempGridItem">-->
-          <!--<div class="col-12 pt-2 d-flex justify-content-end">-->
-          <!--<label for="uploadInput" class="btn btn-theme-primary-outline">Upload File-->
-          <!--<input type="file"-->
-          <!--hidden-->
-          <!--id="uploadInput"-->
-          <!--accept='text/plain' multiple-->
-          <!--(change)='openFile(uploadInput);uploadInput.value=null'-->
-          <!--#uploadInput>-->
-          <!--</label>-->
-          <!--</div>-->
-          <!--&lt;!&ndash;&ndash;&gt;-->
-          <!--<div class="col-12 ">-->
-          <!--<app-code-editor [text]="editorCode" (textChangedEvent)="saveText($event)"></app-code-editor>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--<div class="genTempGridItem bot-templates">-->
-          <!--<ul>-->
-          <!--<li class="bot-template-heading">-->
-          <!--<div class="text-bold">Bot Response Template</div>-->
-          <!--<div class="text-lite">Drag & Drop elements to add to response</div>-->
-          <!--</li>-->
-          <!--<li>-->
-          <!--<i class="fa fa-users"></i>-->
-          <!--Textie-->
-          <!--</li>-->
-          <!--<li>-->
-          <!--<i class="fa fa-users"></i>-->
-          <!--Textie-->
-          <!--</li>-->
-          <!--<li>-->
-          <!--<i class="fa fa-users"></i>-->
-          <!--Textie-->
-          <!--</li>-->
-          <!--<li>-->
-          <!--<i class="fa fa-users"></i>-->
-          <!--Textie-->
-          <!--</li>-->
-          <!--<li>-->
-          <!--<i class="fa fa-users"></i>-->
-          <!--Textie-->
-          <!--</li>-->
-          <!--<li>-->
-          <!--<i class="fa fa-users"></i>-->
-          <!--Textie-->
-          <!--</li>-->
-          <!--<li>-->
-          <!--<i class="fa fa-users"></i>-->
-          <!--Textie-->
-          <!--</li>-->
-          <!--</ul>-->
-          <!--&lt;!&ndash; <div class="template-heading">-->
-          <!--<div>Bot Response Templates</div>-->
-          <!--</div>-->
-          <!--<div class="bot-templates">-->
-          <!--<i class="fa fa-users" style="font-size: 12px"></i>-->
-          <!--dasdasd das das da sda-->
-          <!--</div>-->
-          <!--<div class="bot-templates"></div>-->
-          <!--<div class="bot-templates"></div>-->
-          <!--<div class="bot-templates"></div>-->
-          <!--<div class="bot-templates"></div>-->
-          <!--<div class="bot-templates"></div>-->
-          <!--<div class="bot-templates"></div> &ndash;&gt;-->
-
-          <!--</div>-->
-          <!--</div>-->
 
         </div>
       </div>
     </div>
   </div>
 
-  <!--<div class="code-editor-row code-editor-row-min position-relative" *ngIf="showConfig">-->
-  <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_template" [text]="editorCodeObj[myEBotVersionTabs.df_template]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
-  <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_rules" [text]="editorCodeObj[myEBotVersionTabs.df_rules]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
-  <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_rules" [text]="editorCodeObj[myEBotVersionTabs.generation_rules]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
-  <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates" [text]="editorCodeObj[myEBotVersionTabs.generation_templates]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
-  <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.workflow" [text]="editorCodeObj[myEBotVersionTabs.workflow]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
-  <!--</div>-->
   <div class="code-editor-row code-editor-row-max position-relative">
     <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_template"
                      [text]="editorCodeObj[myEBotVersionTabs.df_template]"
@@ -297,12 +203,6 @@
       </div>
       <p>By default it will be saved and not be made active. You need to update changes to make it active.</p>
 
-      <!--<button type="button" class="close pull-right p-2" aria-label="Close" (click)="modalRef.hide()">-->
-      <!--<span aria-hidden="true">&times;</span>-->
-      <!--</button>-->
-      <!--<h4 class="modal-title mb-2"> Fork to a new version</h4>-->
-      <!--<p>It will not be made active by default but saved. You need to update changes to make it active</p>-->
-
     </div>
 
     <div class="modal-body">
@@ -311,9 +211,7 @@
         <div class="col-md-3 d-flex justify-content-end">
           <label for="">Fork from</label>
         </div>
-        <!---->
         <div class="col-md-9 px-0 d-flex justify-content-start">
-          <!--<input type="password" [(ngModel)]="forked_From" name="old_password">-->
           <select class="concept1" [(ngModel)]="forked_version_number" required type="number" name="version_id" #select>
             <option type="button" *ngFor="let version of bot.store_bot_versions">
               <button>{{version.version}}</button>
@@ -329,11 +227,6 @@
         <div class="col-md-12">
           <p *ngIf="errorMessage" class="text-danger">{{errorMessage}}</p>
           <button class="btn btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>
-          <!--<button class="btn btn-theme-primary" (click)="forkNewVersion()">-->
-          <!--{{(selectedVersion.changed_fields['df_template'] || selectedVersion.changed_fields['df_rules']  ||-->
-          <!--selectedVersion.changed_fields['generation_rules'] || selectedVersion.changed_fields['generation_templates'] ||-->
-          <!--selectedVersion.changed_fields['workflow'])?"Save as new version":"Create new version"}}-->
-          <!--</button>-->
 
           <button class="btn btn-theme-primary" (click)="forkNewVersion()">
             Fork

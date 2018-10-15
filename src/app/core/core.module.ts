@@ -40,6 +40,7 @@ import {EBotType} from './view-bots/view-bots.component';
 // import {QuickReplyComponent} from '../chat/carousel/quick-reply/quick-reply.component';
 import {AccessGaurdService} from '../access-gaurd.service';
 import {ERouteNames} from '../constants.service';
+import {ChatModule} from '../chat/chat.module';
 // import {HighlightDirective} from '../readonly-selected-permission.directive';
 // import { IntegrationNameFormatterPipe } from './buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-name-formatter.pipe';
 
@@ -78,7 +79,7 @@ const routes: Route[] = [
     ],
   },
 
-  // {path: 'preview/:id', component: ChatWrapperComponent, data: {isFullScreenPreview: true}, canActivate:[AuthGaurdService]},
+  // {path: 'preview', component: ChatModule},
   {path: '', redirectTo: `core/viewbots/${EBotType.chatbot}`, pathMatch: 'full'},
 ];
 
@@ -115,6 +116,7 @@ const routes: Route[] = [
 
   ],
   imports: [
+    ChatModule,
     CommonModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,
