@@ -43,7 +43,8 @@ import {DragulaModule} from 'ng2-dragula';
 import {RichMediaModule} from '../../rich-media.module';
 import {SessionDataToRichMediaSerializerPipe} from '../../session-data-to-rich-media-serializer.pipe';
 import {DisplayNameForKeyIntegrationPipe} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/display-name-for-key-integration.pipe';
-
+import { CodeGentemplateComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate/code-gentemplate.component';
+import { TextGentemplateComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/text-gentemplate/text-gentemplate.component';
 
 const routes: Route[] = [
   {
@@ -74,6 +75,8 @@ const routes: Route[] = [
     PipelineFilterPipe,
     SessionComponent,
     CodeInputComponent,
+    CodeGentemplateComponent,
+    TextGentemplateComponent,
     IntegrationOptionListComponent,
     IntegrationItemComponent,
     DraggableDirective,

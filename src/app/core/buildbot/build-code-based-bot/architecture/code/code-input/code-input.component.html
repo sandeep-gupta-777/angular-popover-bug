@@ -145,7 +145,7 @@
 
           <!--code editor starts-->
           <!--todo: make this row independent-->
-          
+
 
         </div>
       </div>
@@ -159,7 +159,7 @@
   <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates" [text]="editorCodeObj[myEBotVersionTabs.generation_templates]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
   <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.workflow" [text]="editorCodeObj[myEBotVersionTabs.workflow]" (textChangedEvent)="saveText($event)"></app-code-editor>-->
   <!--</div>-->
-  
+
 
   <div class="code-editor-row code-editor-row-max position-relative">
 
@@ -172,10 +172,68 @@
     <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_rules" [text]="editorCodeObj[myEBotVersionTabs.generation_rules]"
       (textChangedEvent)="saveText($event)"></app-code-editor>
 
-     
+    <div class="row pl-3 genTempGrid pt-2" [hidden]="activeTab!==myEBotVersionTabs.generation_templates">
+      <div class="genTempGridItem intent-header ml-1">
+        <div class="d-flex" style="align-items:center;">
+          <div class="text-bold">Intent Header</div>
+          <div class="ml-auto text-primary pr-2 new-intent-btn cursor-pointer" (click)="openNewIntentModal(IntentModal)">
+            <i class="fa fa-plus pr-1 my-auto"></i>Add New
+          </div>
+        </div>
+        <input type="text" placeholder="Search Intent">
+        <div class="pl-2 p-1 m-1 col-10 tab-theme" *ngFor="let tempKey of myObject.keys(intents)" [ngClass]="{'font-weight-bold':selectedIntentTab === tempKey}"
+          (click)="selectedIntentTab = tempKey">{{tempKey}}</div>
+      </div>
+      <div class="genTempGridItemGrid">
+        <div class="response-test px-2">
+          Response Flow
+        </div>
+        <div class="form-group m-0 channel-drop">
+          <label for="" class="px-2">Channel</label>
+          <select [ngModel] required name="platform">
+            <!-- <option *ngFor="let channel of channelList"  type="button" [value]="channel.name">{{channel.displayName}}</option> -->
+            <option type="button" [value]="Channel">All</option>
+            <option type="button" [value]="Channel">Facebook</option>
+            <option type="button" [value]="Channel">Imichat</option>
+            <option type="button" [value]="Channel">Channel</option>
+          </select>
+        </div>
+        <div class="intentItems">
 
-    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates" [text]="editorCodeObj[myEBotVersionTabs.generation_templates]"
-      (textChangedEvent)="saveText($event)"></app-code-editor>
+          <div class="py-1 px-0" *ngFor="let intentItem of intents[selectedIntentTab]">
+            <app-text-gentemplate *ngIf="intentItem.text" [variants]=intentItem.text></app-text-gentemplate>
+    <!-- <app-code-gentemplate [intentCode] = "intents[selectedIntentTab]" [hidden]="activeTab!==myEBotVersionTabs.generation_templates" ></app-code-gentemplate> -->
+
+          </div>
+        </div>
+      </div>
+      <div class="genTempGridItem bot-templates">
+        <ul>
+          <li class="bot-template-heading">
+            <div class="text-bold">Bot Response Template</div>
+            <div class="text-lite">Drag & Drop elements to add to response</div>
+          </li>
+          <li class="bot-template cursor-pointer" (click)="addTextUnit();">
+            <i class="fa fa-users"></i>Text
+          </li>
+          <li class="bot-template cursor-pointer">
+            <i class=" fa fa-image"></i>Image corousel
+          </li>
+          <li class="bot-template cursor-pointer">
+            <i class="fa fa-users"></i>Text Corousel
+          </li>
+          <li class="bot-template cursor-pointer">
+            <i class="fa fa-users"></i>Quick Reply
+          </li>
+          <li class="bot-template cursor-pointer">
+            <i class="fa fa-code"></i>Code Input
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates" [text]="editorCodeObj[myEBotVersionTabs.generation_templates]"
+        (textChangedEvent)="saveText($event)"></app-code-editor> -->
 
     <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.workflow" [text]="editorCodeObj[myEBotVersionTabs.workflow]"
       (textChangedEvent)="saveText($event)"></app-code-editor>
@@ -241,6 +299,22 @@
         </div>
 
       </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #IntentModal>
+  <div class="primary-modal">
+    <div class="top-dec"></div>
+    <div class="modal-header">
+      <h4 class="modal-title" style="display: flex;justify-content: start;">Add a new template</h4><button aria-label="Close"
+        class="close pull-right" type="button" (click)="modalRef.hide()"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="modal-body">
+      <div class="d-flex align-items-center justify-content-center my-2">
+        <label class="mb-0 mr-1">Name the template</label>
+        <input class="input-material" type="text" [(ngModel)] = "newIntentName"></div>
+      <button class="btn btn-theme-success-sm close" (click)="newIntent();modalRef.hide()">Submit</button>
     </div>
   </div>
 </ng-template>
