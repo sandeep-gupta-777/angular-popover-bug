@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {DragulaService} from 'ng2-dragula';
+import {LoggingService} from '../logging.service';
 
 @Component({
   selector: 'app-pipeline-test',
@@ -24,6 +25,5 @@ export class PipelineTestComponent implements OnInit {
   }
 
   click(){
-    console.log(this.items1, this.items2);
   }
 }

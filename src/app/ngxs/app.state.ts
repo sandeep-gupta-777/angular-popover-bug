@@ -13,6 +13,7 @@ import {IIntegrationMasterListItem} from '../../interfaces/integration-option';
 import {IProfilePermission} from '../../interfaces/profile-action-permission';
 import {ICustomNerItem} from '../../interfaces/custom-ners';
 import {IPipelineItem} from '../../interfaces/ai-module';
+import {LoggingService} from '../logging.service';
 
 
 export interface IAppState /*extends INavigationState, IAuthState */
@@ -59,19 +60,19 @@ export class AppStateReducer {
 
   @Action(SetStateFromLocalStorageAction)
   setUsername({patchState, setState, getState, dispatch,}: StateContext<any>, {payload}: SetStateFromLocalStorageAction) {
-    console.log('resetting state', getState());
+    LoggingService.log('resetting state', getState());
   }
 
   // @Action(ResetStoreToDefault)
   // resetStoreToDefault({patchState, setState, getState, dispatch,}: StateContext<any>) {
   //   this.store.reset(appDefaultState);
-  //   console.log('resetting state', getState());
+  //   LoggingService.log('resetting state', getState());
   // }
 
   @Action(SetProgressValue)
   SetProgressValue({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetProgressValue) {
     // this.store.reset(appDefaultState);
-    // console.log('resetting state', getState());
+    // LoggingService.log('resetting state', getState());
     patchState({progressbar: payload.payload.progressbar});
   }
 

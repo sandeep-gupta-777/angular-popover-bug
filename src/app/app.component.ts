@@ -4,6 +4,8 @@ import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {IAppState} from './ngxs/app.state';
 import {PermissionService} from './permission.service';
+import {ELogType, LoggingService} from './logging.service';
+import {DebugBase} from './debug-base';
 
 declare var CodeMirror: any;
 
@@ -12,12 +14,13 @@ declare var CodeMirror: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent extends DebugBase implements OnInit {
 
   loadingRouteConfig;
   @Select() app$: Observable<IAppState>;
   @ViewChild('carousel') carousel:ElementRef;
   constructor(private router: Router, private permissionService:PermissionService) {
+    super();
   }
 
   isFullScreenPreview: boolean;
@@ -29,9 +32,7 @@ export class AppComponent implements OnInit {
   currentIntervalRef;
 
   ngOnInit() {
-    console.log("tesging 1");
-    this.app$.subscribe((app) => {
-
+      this.app$.subscribe((app) => {
       if (app.progressbar.loading) {
         this.showProgressbar = true;
         this.currentIntervalRef && clearInterval(this.currentIntervalRef);

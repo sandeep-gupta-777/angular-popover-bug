@@ -21,6 +21,8 @@ import {CodeEditorComponent} from '../code-editor/code-editor.component';
 import {EBotType} from '../../../../../view-bots/view-bots.component';
 import {EventService} from '../../../../../../event.service';
 import {take} from 'rxjs/operators';
+import {LoggingService} from '../../../../../../logging.service';
+import {DebugBase} from '../../../../../../debug-base';
 
 export enum EBotVersionTabs {
   df_template = 'df_template',
@@ -36,7 +38,7 @@ export enum EBotVersionTabs {
   styleUrls: ['./code-input.component.scss'],
 
 })
-export class CodeInputComponent implements OnInit, OnDestroy {
+export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   showConfig = true;
   myEBotVersionTabs = EBotVersionTabs;
@@ -80,6 +82,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private modalService: BsModalService,
   ) {
+    super();
   }
 
   ngOnInit() {
@@ -126,7 +129,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       //   try {
       //     this.selectedVersion = this.bot.store_bot_versions[0];
       //   } catch (e) {
-      //     console.log(e);
+      //     LoggingService.error(e);
       //   }
       // }
       // if (!this.selectedVersion) {
@@ -137,7 +140,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       this.tabClicked(this.activeTab);
 
     }, (err) => {
-      console.log(err);
+      LoggingService.log(err);
     });
 
 
@@ -214,7 +217,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
         .subscribe((value: IBotVersionData) => {
           this.selectedVersion = Object.assign(this.selectedVersion, value);
-          console.log(this.bot.store_bot_versions);
+          LoggingService.log(this.bot.store_bot_versions);
           this.store.dispatch([
             new UpdateVersionInfoByIdInBot({data: value, botId: this.bot.id})
           ]);
@@ -230,7 +233,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       this.bot.store_bot_versions.length = 0;
       this.serverService.makePostReq({url, body, headerData})
         .subscribe((forkedVersion: IBotVersionData) => {
-          console.log(forkedVersion);
+          LoggingService.log(forkedVersion);
           this.selectedVersion = forkedVersion;
           this.utilityService.showSuccessToaster('New version forked');
           this.store.dispatch([
@@ -258,7 +261,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     //
     // this.serverService.makePostReq({url, body: this.selectedVersion, headerData})
     //   .subscribe((forkedVersion: IBotVersionData) => {
-    //     console.log(forkedVersion);
+    //     LoggingService.log(forkedVersion);
     //     this.selectedVersion = forkedVersion;
     //     this.utilityService.showSuccessToaster('new version forked successfully!')
     //     ;
@@ -296,7 +299,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
 
     this.serverService.makePostReq({url, body: forkedVersionInfo, headerData})
       .subscribe((forkedVersion: IBotVersionData) => {
-        console.log(forkedVersion);
+        LoggingService.log(forkedVersion);
         this.bot.store_bot_versions.push(forkedVersion);
         this.utilityService.showSuccessToaster('New version forked');
         this.forked_comments = '';
@@ -331,6 +334,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+
     this.botlist$_sub && this.botlist$_sub.unsubscribe();
   }
 }

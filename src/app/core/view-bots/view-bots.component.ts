@@ -9,6 +9,7 @@ import {SetCodeBasedBotListAction, SetPipeLineBasedBotListAction} from './ngxs/v
 import {ActivatedRoute, Router} from '@angular/router';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
+import {LoggingService} from '../../logging.service';
 
 export enum EBotType {
   chatbot = 'chatbot',
@@ -42,7 +43,7 @@ export class ViewBotsComponent implements OnInit {
     // this.serverService.getNSetIntegrationList();
     this.serverService.getNSetBotList()
       .subscribe(() => {
-        console.log('bot list fetched from view bots page');
+        LoggingService.log('bot list fetched from view bots page');
       });
   }
 

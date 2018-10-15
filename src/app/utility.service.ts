@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
 
 export enum EFormValidationErrors {
@@ -22,6 +22,7 @@ import {IBotPreviewFirstMessage} from './chat/chat-wrapper.component';
 import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 import {StoreVariableService} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {LoggingService} from './logging.service';
 
 
 @Injectable({
@@ -37,6 +38,7 @@ export class UtilityService {
   ) {
   }
 
+  refreshCodeEditor$ = new EventEmitter();
   readonly RANDOM_IMAGE_URLS = [
     'https://robohash.org/StarDroid.png',
     'https://cdn-images-1.medium.com/max/327/1*paQ7E6f2VyTKXHpR-aViFg.png',
@@ -237,65 +239,67 @@ export class UtilityService {
 
   createChartValueForBarGraph(rawData: { labels: string, result: number }[], chartValue?: { xAxis: { categories: string[] }, series: { name: string, data: number[] }[] }) {
 
+    let template:any ={};
     /*
     * example output:
     * [{
   name: 'John',
   data: [5, 3, 4, 7, 2]
 }]
+
     * */
-    let template = {
-      chart: {
-        type: 'column'
-      },
-      title: {
-        text: 'Stacked column chart'
-      },
-      xAxis: {
-        categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
-      },
-      yAxis: {
-        min: 0,
-        title: {
-          text: 'Total fruit consumption'
-        },
-        stackLabels: {
-          enabled: true,
-          style: {
-            fontWeight: 'bold',
-            color: 'gray'
-          }
-        }
-      },
-      legend: {
-        align: 'right',
-        x: -30,
-        verticalAlign: 'top',
-        y: 25,
-        floating: true,
-        backgroundColor: 'white',
-        borderColor: '#CCC',
-        borderWidth: 1,
-        shadow: false
-      },
-      tooltip: {
-        headerFormat: '<b>{point.x}</b><br/>',
-        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
-      },
-      plotOptions: {
-        column: {
-          stacking: 'normal',
-          dataLabels: {
-            enabled: true,
-            color: 'white'
-          }
-        }
-      },
-      series: [{
-        name: 'John',
-        data: [5, 3, 4, 7, 2]
-      }]
-    };
+    // let template = {
+    //   chart: {
+    //     type: 'column'
+    //   },
+    //   title: {
+    //     text: 'Stacked column chart'
+    //   },
+    //   xAxis: {
+    //     categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+    //   },
+    //   yAxis: {
+    //     min: 0,
+    //     title: {
+    //       text: 'Total fruit consumption'
+    //     },
+    //     stackLabels: {
+    //       enabled: true,
+    //       style: {
+    //         fontWeight: 'bold',
+    //         color: 'gray'
+    //       }
+    //     }
+    //   },
+    //   legend: {
+    //     align: 'right',
+    //     x: -30,
+    //     verticalAlign: 'top',
+    //     y: 25,
+    //     floating: true,
+    //     backgroundColor: 'white',
+    //     borderColor: '#CCC',
+    //     borderWidth: 1,
+    //     shadow: false
+    //   },
+    //   tooltip: {
+    //     headerFormat: '<b>{point.x}</b><br/>',
+    //     pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+    //   },
+    //   plotOptions: {
+    //     column: {
+    //       stacking: 'normal',
+    //       dataLabels: {
+    //         enabled: true,
+    //         color: 'white'
+    //       }
+    //     }
+    //   },
+    //   series: [{
+    //     name: 'John',
+    //     data: [5, 3, 4, 7, 2]
+    //   }]
+    // };
 
     let categories: string[] = rawData.map(dataItem => dataItem.labels);
     let seriesData: number[] = rawData.map(dataItem => dataItem.result);
@@ -364,7 +368,6 @@ export class UtilityService {
     });
 
     template.series = seriesArr;
-    console.log(template, '========================================');
     return template;
   }
 
@@ -487,6 +490,19 @@ export class UtilityService {
     this.toastr.success(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
   }
 
+  isImageUrlHttps(formControl: FormControl){
+    let url:string = formControl.value;
+    let pattern = /^((https):\/\/)/;
+
+    return pattern.test(url)? null : {'Must be Https Url': true};
+  }
+
+  isImageUrlHavingValidExtn(formControl: FormControl){
+    let url:string = formControl.value;
+    let pattern = /\.(gif|jpg|jpeg|tiff|png)$/i
+    return pattern.test(url)? null : {'Image Extension is not correct': true};
+  }
+
   isManagerValidator(formGroup: FormGroup) {
     let formValue = formGroup.value;
     let is_manager = formValue['is_manager'];
@@ -559,7 +575,7 @@ export class UtilityService {
 
     // var data = { x: 42, s: "hello, world", d: new Date() },
     saveData(null, filename);
-    // console.log(value);
+    // LoggingService.log(value);
   }
 
   downloadArrayAsCSV(data: any[] = [], columns: object = {}) {

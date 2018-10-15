@@ -16,6 +16,7 @@ import {EBotType} from '../view-bots/view-bots.component';
 import {ResetAnalytics2GraphData, ResetAnalytics2HeaderData} from '../analysis2/ngxs/analysis.action';
 import {UtilityService} from '../../utility.service';
 import {IAppState} from '../../ngxs/app.state';
+import {ELogType, LoggingService} from '../../logging.service';
 
 @Component({
   selector: 'app-header',
@@ -65,9 +66,9 @@ export class HeaderComponent implements OnInit {
             try {
               this.app$Subscription && this.app$Subscription.unsubscribe();
             }catch (e) {
-              console.log(e);/*TODO: find out whats wrong with app$Subscription*/
+              LoggingService.error(e);/*TODO: find out whats wrong with app$Subscription*/
             }
-            console.log('============================autologout============================');
+            LoggingService.log('============================autologout============================');
             this.logout();
             document.location.reload();/*To destroy all timeouts just in case*/
           }, (autoLogOutTime - Date.now()));

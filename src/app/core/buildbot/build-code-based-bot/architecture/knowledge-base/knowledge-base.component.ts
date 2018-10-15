@@ -190,14 +190,14 @@ export class KnowledgeBaseComponent implements OnInit {
 
     // if (this.bot) {
     //   // this.custumNerDataForSmartTable.push(data);
-    //   console.log(this.custumNerDataForSmartTable);
+    //   LoggingService.log(this.custumNerDataForSmartTable);
     //   let headerData: IHeaderData = {'bot-access-token': this.bot.bot_access_token};
     //   if (this.selectedRowData && this.selectedRowData.id) {
     //     /*update customner*/
     //     let url = this.constantsService.updateCustomBotNER(this.selectedRowData.id);
     //     this.serverService.makePutReq({url, body: body, headerData})
     //       .subscribe((value) => {
-    //         console.log(value);
+    //         LoggingService.log(value);
     //         this.utilityService.showSuccessToaster("Successfully saved");
     //       });
     //   } else {

@@ -6,6 +6,7 @@ import {ConstantsService, EAllActions, ERouteNames} from '../../../../../../cons
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {HandsontableComponent} from '../../../../../../handsontable/handsontable.component';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {ELogType, LoggingService} from '../../../../../../logging.service';
 
 @Component({
   selector: 'app-knowledge-base-presentation',
@@ -43,7 +44,7 @@ export class KnowledgeBasePresentationComponent implements OnInit {
     try {
       this.handontable_colHeaders = Object.keys(value.values[0]);
     }catch (e) {
-      console.log(e);
+      LoggingService.error(e);
     }
     // for (let index = 0; index < this.handontable_colHeaders.length; index++) {
       // this.handontable_column[index] = {
@@ -153,7 +154,7 @@ export class KnowledgeBasePresentationComponent implements OnInit {
   }
 
   click(){
-    console.log(this.form.value)
+    LoggingService.log(this.form.value)
   }
 
 }

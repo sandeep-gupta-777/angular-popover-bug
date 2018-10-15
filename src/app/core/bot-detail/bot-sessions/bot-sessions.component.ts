@@ -157,7 +157,7 @@ export class BotSessionsComponent implements OnInit {
         //   try {
         //     this.modalRef.hide();
         //   } catch (e) {
-        //     console.error(e);
+        //     LoggingService.log(e,ELogType.error);
         //   }
         //   // this.sessionTableRowClicked({data: this.sessions[this.indexOfCurrentRowSelected]});
         // }

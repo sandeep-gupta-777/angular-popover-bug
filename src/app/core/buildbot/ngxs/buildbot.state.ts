@@ -84,6 +84,8 @@ export class BotCreationStateReducer {
   @Action(SaveDataManagment)
   saveDataManagment({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveDataManagment) {
     let state: IBotCreationState = getState();
+    if(!state) return;
+    // TODO: Later
     let x = {
       ...state,
       codeBased: {

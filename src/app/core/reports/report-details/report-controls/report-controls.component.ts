@@ -12,6 +12,7 @@ import {ConstantsService} from '../../../../constants.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BsDatepickerConfig} from 'ngx-bootstrap/datepicker';
 import {EBotType} from '../../../view-bots/view-bots.component';
+import {ELogType, LoggingService} from '../../../../logging.service';
 
 declare var $: any;
 
@@ -70,6 +71,9 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
+    LoggingService.log(this);
+    console.log(this);
+
     this.activatedRoute.queryParamMap.subscribe((queryParams: any) => {
       this.deliveryMode = queryParams.params['deliveryMode'] || this.deliveryMode;
     });
@@ -108,7 +112,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
                 if(hh.length===1) hh= '0'+hh;
                 (<any>document).getElementById("start_time").value = hh+':'+mm;
               }catch (e) {
-                console.log(e);
+                LoggingService.error(e);
               }
               // this.f.f.patchValue({startdate:value.startdate});
               // this.f.f.patchValue({startdate:value.startdate});//This will only accept mmddyyyy format...
@@ -163,8 +167,6 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
   }
 
   click() {
-    console.log(this.f.value);
-    console.log(this.start_time);
   }
   privateKey;
   async openFile(inputEl) {
@@ -172,7 +174,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
     try {
       this.privateKey= await this.utilityService.readInputFileAsText(inputEl);
     }catch (e) {
-      console.error(e);
+      LoggingService.log(e,ELogType.error);
     }
   }
 

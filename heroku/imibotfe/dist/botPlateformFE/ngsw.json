@@ -17,11 +17,11 @@
         "/common.653279cfd01e584b5097.js",
         "/favicon.ico",
         "/index.html",
-        "/main.c9b55c4f052a8cd225b6.js",
+        "/main.84e5a950a4adaf8f5f56.js",
         "/polyfills.34e6a2b6cdc0929d4530.js",
         "/runtime.9d90942c9f77fa1ff108.js",
         "/scripts.3af8bf49d802296d8ab1.js",
-        "/styles.2af4e5e81077374f553c.css"
+        "/styles.9dd7c08e512ea5b634ab.css"
       ],
       "patterns": [
         "https:\\/\\/stackpath\\.bootstrapcdn\\.com\\/bootstrap\\/4\\.1\\.1\\/css\\/bootstrap\\.min\\.css",
@@ -73,12 +73,12 @@
     "/assets/test.js": "1e599fa0af46deece67cedbc06851ed81213e014",
     "/common.653279cfd01e584b5097.js": "0d749c716ee80e505aee9eda2fff122de4e8a8fa",
     "/favicon.ico": "be629f0dd1c1a16a04c036aba4753fcb13eb8e07",
-    "/index.html": "b0611306c63f16885f61ac0b64a22128ee5a82cb",
-    "/main.c9b55c4f052a8cd225b6.js": "f68557089de9677642c81b4e9df4f0da02edf8a3",
+    "/index.html": "58df166d6f1b4eeab3e0cd3649c48548a704852a",
+    "/main.84e5a950a4adaf8f5f56.js": "5f8a959ceb2ff560a98244017e0c3be8a39eff94",
     "/polyfills.34e6a2b6cdc0929d4530.js": "f9272c3eec49ed9246e3b4e646903aeba7d6c86c",
     "/runtime.9d90942c9f77fa1ff108.js": "9376581430129505ab2fbc3228bbfc05681a473a",
     "/scripts.3af8bf49d802296d8ab1.js": "a52de0089456b13e537c1afd21c94aac535cfdf2",
-    "/styles.2af4e5e81077374f553c.css": "247296174e2c1dc82ff1c9071e0f059d7478f83a"
+    "/styles.9dd7c08e512ea5b634ab.css": "7f7ccdb05982a24253541f62d24278521f2185cf"
   },
   "navigationUrls": [
     {

@@ -14,6 +14,7 @@ import {ConstantsService, ERoleName, EAllActions} from '../../../constants.servi
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {IUser} from '../../interfaces/user';
 import {IAuthState} from '../../../auth/ngxs/auth.state';
+import {LoggingService} from '../../../logging.service';
 
 @Component({
   selector: 'app-code-based-bot-detail',
@@ -30,7 +31,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
   selectedTab = 'architecture';
   bot$: Observable<IBot>;
   bot_id: number;
-  showConfig: boolean = true;
+  showConfig: boolean = false;
   overviewInfo$: Observable<IOverviewInfoResponse>;
   selectedChannel: string = 'all';
   start_date: string;
@@ -64,7 +65,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
     let isArchitectureFullScreen = this.activatedRoute.snapshot.queryParamMap.get('isArchitectureFullScreen');
     this.isArchitectureFullScreen = isArchitectureFullScreen==='true';
     let showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
-    this.showConfig = (showConfigStr === 'true' || showConfigStr == undefined);
+    this.showConfig = showConfigStr==='true';//(showConfigStr === 'true' || showConfigStr == undefined);
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
     this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || this.selectedTab;
@@ -74,7 +75,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
         this.bot = botListState.allBotList.find((bot) => {
           return bot.id === this.bot_id;
         });
-      console.log("Bot Opened", this.bot);
+      LoggingService.log("Bot Opened"+ this.bot);
       return this.bot;
     });
     this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab') || 'pipeline';
@@ -85,6 +86,12 @@ export class CodeBasedBotDetailComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe((queryParams)=>{
       this.isArchitectureFullScreen= queryParams['isArchitectureFullScreen']==='true'
     })
+  }
+
+
+  refreshCodeEditor(){
+    /*codemirror needs to be refreshed after being visible; otherwise its content wont show*/
+    setTimeout(()=>this.utilityService.refreshCodeEditor$.emit());
   }
 
   refreshBotDetails() {

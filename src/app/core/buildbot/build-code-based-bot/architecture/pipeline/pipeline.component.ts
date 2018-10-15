@@ -15,6 +15,7 @@ import {SetPipelineModuleMasterData} from '../../../../../ngxs/app.action';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import {EFormValidationErrors, UtilityService} from '../../../../../utility.service';
 import {DragulaService} from 'ng2-dragula';
+import {LoggingService} from '../../../../../logging.service';
 
 @Component({
   selector: 'app-pipeline',
@@ -80,7 +81,7 @@ export class PipelineComponent implements OnInit {
     // });
     //
     // this.dragulaService.dropModel("VAMPIRES").subscribe(args => {
-    //   console.log(args);
+    //   LoggingService.log(args);
     // });
 
     this.buildBotType = this.activatedRoute.snapshot.data['buildBot'];
@@ -126,8 +127,6 @@ export class PipelineComponent implements OnInit {
   }
 
   ngDoCheck() {
-    //
-    console.log('do check', this.pipeLine);
     let changes = this.iterableDiffer.diff(this.pipeLine);
     if (changes) {
       this.prepareAndDispatch();
@@ -144,8 +143,8 @@ export class PipelineComponent implements OnInit {
   }
 
   printArr(){
-    console.log(this.pipeLine);
-    console.log(this.aiModules);
+    LoggingService.log(this.pipeLine);
+    LoggingService.log(this.aiModules);
   }
   openCreateBotModal(template: TemplateRef<any>,pipeline:IPipelineItem) {
     this.selectedPipeline = pipeline;
@@ -153,7 +152,7 @@ export class PipelineComponent implements OnInit {
   }
 
   test(){
-    console.log(this.pipeLine);
+    LoggingService.log(this.pipeLine);
   }
 
 

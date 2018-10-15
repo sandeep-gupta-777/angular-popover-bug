@@ -48,6 +48,11 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
   @Output() textChangedEvent: EventEmitter<string> = new EventEmitter<string>();
 
   ngOnInit() {
+
+    this.utilityService.refreshCodeEditor$.subscribe(()=>{
+      this.editor && this.editor.refresh();
+    });
+
     let editor = this.codeEditor.nativeElement;
     this.editor = new CodeMirror.fromTextArea(editor, {
       lineNumbers: true,
@@ -63,6 +68,10 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
       this.textChangedEvent.emit(editor.getValue());
     });
     this._text && this.editor.setValue(this._text);
+    setTimeout(() => {
+      /*https://github.com/codemirror/CodeMirror/issues/2469*/
+      this.editor && this.editor.refresh();
+    }, 0);
   }
 
   downloadCodeText() {

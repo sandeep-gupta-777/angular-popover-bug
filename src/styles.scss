@@ -363,6 +363,7 @@ th, td {
   &:hover {
     background-color: #f7f7f7;
   }
+  outline: none;
   text-decoration: none;
 }
 
@@ -865,4 +866,23 @@ progressbar {
   .time,.message-text{
     color: white !important;
   }
+}
+
+/*centering*/
+.flex-theme-vertical-center{
+  display: flex;
+  justify-content: center;
+}
+.flex-theme-horizontal-center{
+  display: flex;
+  align-items: center;
+}
+.flex-theme-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.debug-small{
+  font-size: 6px;
 }

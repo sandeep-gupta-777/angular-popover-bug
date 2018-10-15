@@ -12,6 +12,7 @@ import {ConstantsService, EAllActions} from '../../../../../constants.service';
 import {ActivatedRoute} from '@angular/router';
 import {EBotType} from '../../../../view-bots/view-bots.component';
 import {PermissionService} from '../../../../../permission.service';
+import {ELogType, LoggingService} from '../../../../../logging.service';
 
 @Component({
   selector: 'app-basic-info-form',
@@ -24,23 +25,23 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
   codebasedBotList: IBot[];
   isDisabled: boolean;
   _bot: Partial<IBot> = {};
-  _default_logo = 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png';
+  // _default_logo = 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png';
   _default_room_persistence_time: number = 240;
 
   @Input() set bot(_bot: IBot) {
     if (_bot) {
       this._bot = _bot;
-      if (!this._bot.logo) this._bot.logo = this._default_logo;
+      // if (!this._bot.logo) this._bot.logo = this._default_logo;
       if (!this._bot.room_persistence_time) this._bot.room_persistence_time = this._default_room_persistence_time;
       /*TODO: implement eventEmitter instead of always listening to store*/
       try {
         this.formGroup.patchValue(this._bot);
         let formArray = this.formGroup.get('child_bots') as FormArray;
         formArray.controls.splice(0);
-        debugger;
+
         this.initializeChildBotFormArray();
       }catch (e) {
-        console.log(e);
+        LoggingService.error(e);
       }
     }
   }
@@ -51,6 +52,9 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
   myEAllActions = EAllActions;
   myEBotType = EBotType;
   formGroup: FormGroup;
+  logoErrorObj = [
+    {name:'imageExnError',description:'Invalid Extension'},
+    {name:'imageHttpsError',description:'Only Https urls allowed'}]
 
   constructor(private store: Store,
               private utilityService: UtilityService,
@@ -65,7 +69,7 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
     this.formGroup = this.formBuilder.group({
       name: [this._bot.name, Validators.required],
       description: [this._bot.description, Validators.required],
-      logo: [this._bot.logo],
+      logo: [this._bot.logo, [Validators.required, this.utilityService.isImageUrlHavingValidExtn,this.utilityService.isImageUrlHttps]],
       bot_unique_name: [this._bot.bot_unique_name, Validators.required],
       room_persistence_time: [this._bot.room_persistence_time, Validators.required],
       is_manager: [this._bot.is_manager||false],
@@ -75,7 +79,7 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
     this.initializeChildBotFormArray();
     /*TODO: initialization must be done with initialization of formGroup*/
     this.formGroup.valueChanges.debounceTime(200).subscribe((data: Partial<IBot>) => {
-      console.log(this.formGroup);
+      LoggingService.log(this.formGroup);
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) return;
       this.formData = data;
       /*this.formData is used for compareTwoJavaObjects, no other purpose*/
@@ -109,7 +113,7 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
   removeChildBot(childBotId): void {
     let formArray = this.formGroup.get('child_bots') as FormArray;
     let formControlIndex = this.utilityService.findFormControlIndexInFormArrayByValue(formArray, childBotId);
-    console.log(`removing bot at index ${formControlIndex}`);
+    LoggingService.log(`removing bot at index ${formControlIndex}`);
     if (formControlIndex != undefined) formArray.removeAt(formControlIndex);
   }
 
@@ -130,7 +134,7 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
 
   click() {
     this.formGroup.get('name').patchValue(Date.now());
-    console.log(this.formGroup);
+    LoggingService.log(this.formGroup);
   }
 
   registerOnChange(fn: any): void {
