@@ -1,3 +1,4 @@
+<p> fsdfsdfsd sdf sd {{selectedChannelOfGenTemplate}}</p>
 <div class="container-grid">
   <div class="row row-version my-2 m-0" style="position: relative" (clickOutside)="showVersionList = false">
     <div class="col-6 p-0" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
@@ -142,6 +143,10 @@
               <button [hidden]="activeTab!==myEBotVersionTabs.generation_templates"
                       (click)="showGenTempUi = !showGenTempUi; convertUiDictToGenTemplateCode()">button123
               </button>
+            <li class="ml-auto gen-templet-toggle">
+              <!-- <button [hidden]="activeTab!==myEBotVersionTabs.generation_templates" (click)="showGenTempUi = !showGenTempUi">button</button> -->
+              <ui-switch name="toggle_gen_templet" [(ngModel)]="showGenTempUi" class="d-flex align-items-center mx-1 "
+                     style="border:none;padding: 0;" size="small" title="Toggle UI view"></ui-switch>
             </li>
           </ul>
 
@@ -170,7 +175,6 @@
                      [text]="editorCodeObj[myEBotVersionTabs.generation_rules]"
                      (textChangedEvent)="saveText($event)"></app-code-editor>
 
-    <p>{{intents|json}}</p>
     <!--generation template UI starts-->
     <div class="row pl-3 genTempGrid pt-2"
          [hidden]="activeTab!==myEBotVersionTabs.generation_templates || !showGenTempUi">
@@ -183,6 +187,7 @@
           </div>
         </div>
         <input type="text" placeholder="Search Intent">
+        <!--<p>{{intents|json}}</p>-->
         <div class="pl-2 p-1 m-1 col-10 tab-theme" *ngFor="let tempKey of myObject.keys(intents)"
              [ngClass]="{'font-weight-bold':selectedIntentTab === tempKey}"
              (click)="selectedIntentTab = tempKey">{{tempKey}}
@@ -204,11 +209,20 @@
           </select>
         </div>
         <div class="intentItems">
-
-          <div class="py-1 px-0" *ngFor="let intentItem of intents[selectedIntentTab]">
-            <app-text-gentemplate *ngIf="intentItem.text" [variants]=intentItem.text></app-text-gentemplate>
-            <app-code-gentemplate [intentCode]="intentItem" *ngIf="!intentItem.text"
-                                  [hidden]="activeTab!==myEBotVersionTabs.generation_templates"></app-code-gentemplate>
+<!-- TODO: merge it tomorrow -->
+<!-- <<<<<<< HEAD -->
+          <!-- <div class="py-1 px-0" *ngFor="let intentItem of intents[selectedIntentTab]"> -->
+            <!-- <app-text-gentemplate *ngIf="intentItem.text" [variants]=intentItem.text></app-text-gentemplate> -->
+            <!-- <app-code-gentemplate [intentCode]="intentItem" *ngIf="!intentItem.text" -->
+                                  <!-- [hidden]="activeTab!==myEBotVersionTabs.generation_templates"></app-code-gentemplate> -->
+<!-- ======= -->
+          <div class="py-1 px-0" *ngFor="let intentItem of intents[selectedIntentTab]; let i = index">
+            <app-text-gentemplate *ngIf="intentItem.text" [variants]=intentItem.text [myIndex]=i (deleteTemplate)="deleteGentemplate($event)"
+              (moveTempUp)="moveUpGentempate($event)" (moveTempDown)="moveDownGentempate($event)"></app-text-gentemplate>
+            <app-code-gentemplate [intentCode]="intentItem" *ngIf="!intentItem.text" [myIndex]=i (deleteTemplate)="deleteGentemplate($event)"
+              [hidden]="activeTab!==myEBotVersionTabs.generation_templates" (moveTempUp)="moveUpGentempate($event)"
+              (moveTempDown)="moveDownGentempate($event)"></app-code-gentemplate>
+<!-- >>>>>>> 11714e2f3e007c6ae17b59c74a20eeb3b21fe2fd -->
           </div>
         </div>
       </div>
@@ -219,7 +233,7 @@
             <div class="text-lite">Drag & Drop elements to add to response</div>
           </li>
           <li class="bot-template cursor-pointer" (click)="addTextUnit();">
-            <i class="fa fa-users"></i>Text
+            <i class="fa fa-align-left"></i>Text
           </li>
           <li class="bot-template cursor-pointer">
             <i class=" fa fa-image"></i>Image corousel
@@ -238,6 +252,8 @@
     </div>
     <!--generation template UI starts-->
 
+    <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates || showGenTempUi" [text]="{'text' : intents | json}"-->
+      <!--(textChangedEvent)="saveText($event)"></app-code-editor>-->
 
     <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates || showGenTempUi"-->
                      <!--[text]="{'text' : intents | json}"-->

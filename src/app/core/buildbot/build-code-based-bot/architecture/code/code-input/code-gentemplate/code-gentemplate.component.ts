@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
 
 @Component({
   selector: 'app-code-gentemplate',
@@ -9,7 +10,19 @@ export class CodeGentemplateComponent implements OnInit {
 
   constructor() { }
   @Input() intentCode : object ;
-  
+  @Input() myIndex : number;
+  @Output() deleteTemplate: EventEmitter<string> = new EventEmitter<string>();
+  @Output() moveTempUp: EventEmitter<string> = new EventEmitter<string>();
+  @Output() moveTempDown: EventEmitter<string> = new EventEmitter<string>();
+  delete(i){
+    this.deleteTemplate.emit(i);
+  }
+  moveUp(i){
+    this.moveTempUp.emit(i);
+  }
+  moveDown(i){
+    this.moveTempDown.emit(i);
+  }
   ngOnInit() {
   }
 
