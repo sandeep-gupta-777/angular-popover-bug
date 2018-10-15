@@ -45,12 +45,13 @@ import {MsToHhMmPipe} from './ms-to-hh-mm.pipe';
 import {BackendDevComponent} from './backend-dev/backend-dev.component';
 import {ChatModule} from './chat/chat.module';
 import {ChatService} from './chat.service';
+import {ObjectArrayCrudService} from './object-array-crud.service';
 // import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 
 const routes: Route[] = [
   {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
   {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad:[AuthGaurdService]},
-  // {path: 'preview', loadChildren: './chat/chat.module#ChatModule'},
+  {path: 'preview', loadChildren: './chat/chat.module#ChatModule'},
   {path: 'denied', component: NotAuthorisedComponent},
   {path: '', redirectTo:"core/viewbots/chatbot", pathMatch:"full"},
   {path: '**', component: NotFoundComponent}

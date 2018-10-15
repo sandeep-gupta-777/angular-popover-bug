@@ -29,8 +29,8 @@ import {ServerService} from '../server.service';
 import {ChatService} from '../chat.service';
 
 const routes: Route[] = [
-  {path: 'preview',outlet: 'preview', component: ChatWrapperComponent},
-  {path: 'preview', component: ChatWrapperComponent, data: {isFullScreenPreview: true}},
+  // {path: 'preview',outlet: 'preview', component: ChatWrapperComponent},
+  {path: '', component: ChatWrapperComponent, data: {isFullScreenPreview: true}},
 ];
 
 @NgModule({
@@ -55,6 +55,17 @@ const routes: Route[] = [
     ClickOutsideModule,
     BsDropdownModule.forRoot(),
     // ToastrModule.forRoot(), // ToastrModule added,
+  ],
+  exports: [
+    MsToHhMmPipe,
+    ChatWrapperComponent,
+    ChatWindowComponent,
+    ChatMessageComponent,
+    ChatListComponent,
+    ChatItemComponent,
+    ChatroomComponent,
+    BotThinkingBubbleComponent,
+    BotWelcomeComponent,
   ],
   providers: [DatePipe, ChatService],
 })

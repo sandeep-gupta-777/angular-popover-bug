@@ -41,6 +41,7 @@ import {EBotType} from './view-bots/view-bots.component';
 import {AccessGaurdService} from '../access-gaurd.service';
 import {ERouteNames} from '../constants.service';
 import {ChatModule} from '../chat/chat.module';
+import {ChatWrapperComponent} from '../chat/chat-wrapper.component';
 // import {HighlightDirective} from '../readonly-selected-permission.directive';
 // import { IntegrationNameFormatterPipe } from './buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-name-formatter.pipe';
 
@@ -79,7 +80,6 @@ const routes: Route[] = [
     ],
   },
 
-  // {path: 'preview', component: ChatModule},
   {path: '', redirectTo: `core/viewbots/${EBotType.chatbot}`, pathMatch: 'full'},
 ];
 
