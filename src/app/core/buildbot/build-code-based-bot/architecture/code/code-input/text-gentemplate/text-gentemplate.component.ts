@@ -7,8 +7,20 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 })
 export class TextGentemplateComponent implements OnInit {
 
+  // @Input() variants : string[] ;
+   _variants : string[] ;
+  @Input() set variants (variantsVal: string[]){
+    this._variants = variantsVal;
+    this.variantsIter = [...this._variants];
+  }
   constructor() { }
-  @Input() variants : string[];
+  variantsIter: string[] ;
+  deleteVariant(index){
+    this._variants.splice(index,1);
+    console.log("sdasdas das das dadas",index);
+    console.log(this._variants);
+  }
+  // @Input() variants : string[];
   @Input() myIndex : number;
   @Output() deleteTemplate: EventEmitter<string> = new EventEmitter<string>();
   @Output() moveTempUp: EventEmitter<string> = new EventEmitter<string>();
@@ -23,14 +35,15 @@ export class TextGentemplateComponent implements OnInit {
   moveDown(i){
     this.moveTempDown.emit(i);
   }
-  deleteVariant(index){
-    this.variants.splice(index,1);
-  }
+  // deleteVariant(index){
+  //   this.variants.splice(index,1);
+  // }
   addVarient(index){
-    this.variants.push("");
+    this._variants.push("");
+    this.variantsIter = [...this._variants];
   }
-  
+
   ngOnInit() {
   }
-  
+
 }

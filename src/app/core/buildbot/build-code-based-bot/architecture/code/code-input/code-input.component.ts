@@ -56,10 +56,10 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   forked_version_number: number;
   selectedIntentTab: string = "ask_date_book1";
   myObject = Object;
-  newIntentName: string;
-  showGenTempUi: boolean = true;
-  selectedChannelOfGenTemplate: string = "";
-  intents = {
+  newIntentName :string;
+  showGenTempUi : boolean = true;
+  selectedChannelOfGenTemplate:string = "";
+  intents /*= {
     "ask_date_book1": [{
       "include": ["facebook", "web"],
       "text": ["1When would you like to visit us? Please provide the date and time.11",
@@ -70,7 +70,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       "text": ["1When would you like to visit us? Please provide the date and time.21",
         "1When would you like to visit us? Please provide the date and time.22",
         "1When would you like to visit us? Please provide the date and time.23"]
-    }
+    },
     {
       "include": ["facebook", "web"],
       "sdas": ["1When would you like to visit us? Please provide the date and time.21",
@@ -108,15 +108,22 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     }]
 
   }
-  channelList = ["facebook", "web", "imiconnect", "imichat", "skype"];
+  */
+  channelList = ["facebook", "web","imiconnect","imichat","skype"];
   openNewIntentModal(template) {
     this.modalRef = this.modalService.show(template, { class: 'modal-md' });
     return;
   }
   newIntent() {
     let intentUnit = {}
-    intentUnit[this.newIntentName] = [];
-    this.intents = { ...this.intents, ...intentUnit };
+    intentUnit[this.newIntentName] = [{
+      "text": [
+        ""
+      ],
+      "include": [
+      ]
+    }];
+    this.intents = {...this.intents , ...intentUnit};
   }
   addTextUnit() {
     let textUnit = {
@@ -266,6 +273,11 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       this.editorCodeObj[this.activeTab].text = this.selectedVersion[this.activeTab];
       this.editorCodeObj[this.activeTab] = { ...this.editorCodeObj[this.activeTab] };
     }
+
+    if(activeTab === EBotVersionTabs.generation_templates){
+      debugger;
+      this.intents = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[this.activeTab])
+    }
     this.router.navigate([`core/botdetail/${EBotType.chatbot}/`, this.bot.id], {
       queryParams: { 'code-tab': activeTab },
       queryParamsHandling: 'merge',
@@ -347,6 +359,11 @@ export class CodeInputComponent implements OnInit, OnDestroy {
           /*TODO: implement it correctly*/
         });
     }
+  }
+
+  convertUiDictToGenTemplateCode(){
+    this.selectedVersion.generation_templates = this.utilityService.parseGenTemplateUiDictionaryToIfElseCode(this.intents);
+    this.editorCodeObj = {...this.editorCodeObj, generation_templates: {text:this.selectedVersion.generation_templates}};
   }
 
   openForkNewVersionModal(template) {
