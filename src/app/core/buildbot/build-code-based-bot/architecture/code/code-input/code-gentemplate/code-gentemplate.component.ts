@@ -26,4 +26,8 @@ export class CodeGentemplateComponent implements OnInit {
   ngOnInit() {
   }
 
+  codeEditorTextCHanged(data){
+    this.intentCode = Object.assign(this.intentCode, JSON.parse(data));
+  }
+
 }

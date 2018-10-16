@@ -1,4 +1,4 @@
-<p> fsdfsdfsd sdf sd {{selectedChannelOfGenTemplate}}</p>
+<p>  {{me}}</p>
 <div class="container-grid">
   <div class="row row-version my-2 m-0" style="position: relative" (clickOutside)="showVersionList = false">
     <div class="col-6 p-0" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
@@ -145,7 +145,10 @@
               </button>
             <li class="ml-auto gen-templet-toggle">
               <!-- <button [hidden]="activeTab!==myEBotVersionTabs.generation_templates" (click)="showGenTempUi = !showGenTempUi">button</button> -->
-              <ui-switch name="toggle_gen_templet" [(ngModel)]="showGenTempUi" class="d-flex align-items-center mx-1 "
+              <ui-switch
+                (change)="convertUiDictToGenTemplateCode()"
+                name="toggle_gen_templet"
+                         [(ngModel)]="showGenTempUi" class="d-flex align-items-center mx-1 "
                      style="border:none;padding: 0;" size="small" title="Toggle UI view"></ui-switch>
             </li>
           </ul>
@@ -250,7 +253,7 @@
         </ul>
       </div>
     </div>
-    <!--generation template UI starts-->
+    <!--generation template UI ends-->
 
     <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates || showGenTempUi" [text]="{'text' : intents | json}"-->
       <!--(textChangedEvent)="saveText($event)"></app-code-editor>-->
