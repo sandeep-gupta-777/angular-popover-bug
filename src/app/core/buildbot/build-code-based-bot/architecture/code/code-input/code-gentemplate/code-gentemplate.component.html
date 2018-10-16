@@ -1,9 +1,10 @@
 <div class="code-gentemplate">
-  <div class="p-1 pl-2 tem-heading d-flex">
-    <i class="fa fa-code heading-icon" ></i> Code Input {{myIndex}}
+  <div class="p-1 tem-heading d-flex">
+    <i class="fa fa-code heading-icon" ></i> Code Input 
     <i class="fa fa-trash ml-auto m-1 cursor-pointer heading-icon" (click)="delete(myIndex);"></i>
     <i class="fa fa-chevron-up m-1 cursor-pointer heading-icon" *ngIf="myIndex != 0" (click) = "moveUp(myIndex);"></i>
     <i class="fa fa-chevron-down m-1 cursor-pointer heading-icon" (click) = "moveDown(myIndex);"></i>
+    <i><strong> {{ myIndex}}</strong></i>
   </div>
   <app-code-editor style="height:80%;" [text]="{text: intentCode|json}"></app-code-editor>
   <div class="p-1 icon-footer">

@@ -1,9 +1,10 @@
 <div class="text-gentemplate">
   <div class="p-1 pl-2 tem-heading d-flex">
-    <i class="fa fa-align-left heading-icon pr-1"></i>Text Input {{myIndex}}
+    <i class="fa fa-align-left heading-icon pr-1"></i>Text Input
     <i class="fa fa-trash ml-auto m-1 cursor-pointer heading-icon" (click)="delete(myIndex);"></i>
     <i class="fa fa-chevron-up m-1 cursor-pointer heading-icon" *ngIf="myIndex != 0" (click)="moveUp(myIndex);"></i>
     <i class="fa fa-chevron-down m-1 cursor-pointer heading-icon" (click)="moveDown(myIndex);"></i>
+    <i><strong> {{ myIndex}}</strong></i>
   </div>
   <div *ngFor="let variant of variants; let i = index" class="p-2">
     <div class="d-flex">
