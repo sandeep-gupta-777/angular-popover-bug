@@ -56,9 +56,11 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   forked_version_number: number;
   selectedIntentTab: string = "ask_date_book1";
   myObject = Object;
-  newIntentName :string;
-  showGenTempUi : boolean = true;
-  selectedChannelOfGenTemplate:string = "";
+  newIntentName: string;
+  showGenTempUi: boolean = true;
+  selectedChannelOfGenTemplate: string = "";
+  selectedGenTempList: number[] = [];
+  selectedIntentList: string[] = ['A2', 'A3', 'A4']
   intents /*= {
     "ask_date_book1": [{
       "include": ["facebook", "web"],
@@ -109,7 +111,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
 
   }
   */
-  channelList = ["facebook", "web","imiconnect","imichat","skype"];
+  channelList = ["facebook", "web", "imiconnect", "imichat", "skype"];
   openNewIntentModal(template) {
     this.modalRef = this.modalService.show(template, { class: 'modal-md' });
     return;
@@ -123,7 +125,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       "include": [
       ]
     }];
-    this.intents = {...this.intents , ...intentUnit};
+    this.intents = { ...this.intents, ...intentUnit };
   }
   addTextUnit() {
     let textUnit = {
@@ -152,17 +154,57 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   }
   moveUpGentempate(e) {
     var temp = this.intents[this.selectedIntentTab][e];
-    this.intents[this.selectedIntentTab][e] = this.intents[this.selectedIntentTab][e-1];
-    this.intents[this.selectedIntentTab][e-1] = temp;
+    this.intents[this.selectedIntentTab][e] = this.intents[this.selectedIntentTab][e - 1];
+    this.intents[this.selectedIntentTab][e - 1] = temp;
   }
   moveDownGentempate(e) {
-    if(this.intents[this.selectedIntentTab].length == e+1){
+    if (this.intents[this.selectedIntentTab].length == e + 1) {
       console.log("just dot do that , U know Y");
       return;
     }
     var temp = this.intents[this.selectedIntentTab][e];
-    this.intents[this.selectedIntentTab][e] = this.intents[this.selectedIntentTab][e+1];
-    this.intents[this.selectedIntentTab][e+1] = temp;
+    this.intents[this.selectedIntentTab][e] = this.intents[this.selectedIntentTab][e + 1];
+    this.intents[this.selectedIntentTab][e + 1] = temp;
+  }
+  // functins on selected gen temp list 
+  selectGentempate(e) {
+    let i = JSON.parse(e);
+    console.log(i, "sdasddasd asd sad as d sd a s sa d asd ");
+    if (i.select) {
+      this.selectedGenTempList.push(i.index);
+    }
+    if (!(i.select)) {
+      var index = this.selectedGenTempList.indexOf(i.index);
+      if (index > -1) {
+        this.selectedGenTempList.splice(index, 1);
+      }
+    }
+  }
+  selectedListDelete() {
+    for (let i of this.selectedGenTempList) {
+      this.intents[this.selectedIntentTab].splice(i, 1);
+    }
+    this.selectedGenTempList = [];
+  }
+  selectedListDuplicate() {
+    for (let i of this.selectedGenTempList) {
+      this.intents[this.selectedIntentTab].push(this.intents[this.selectedIntentTab][i]);
+    }
+    this.selectedGenTempList = [];
+  }
+  selectedListCopyModel(IntentSelectionModal) {
+    this.modalRef = this.modalService.show(IntentSelectionModal, { class: 'modal-md' });
+    return;
+  }
+  selectedListCopy() {
+    let selectedGenTempObjList = [];
+    for (let i of this.selectedGenTempList) {
+      selectedGenTempObjList.push(this.intents[this.selectedIntentTab][i]);
+    }
+    for (let i of this.selectedIntentList) {
+      this.intents[i].push(...selectedGenTempObjList);
+    }
+    this.selectedGenTempList = [];
   }
   // selectedIntent(SIntent){
   //   this.selectedIntentTab = SIntent;
@@ -274,7 +316,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       this.editorCodeObj[this.activeTab] = { ...this.editorCodeObj[this.activeTab] };
     }
 
-    if(activeTab === EBotVersionTabs.generation_templates){
+    if (activeTab === EBotVersionTabs.generation_templates) {
       debugger;
       this.intents = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[this.activeTab])
     }
@@ -361,9 +403,9 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     }
   }
 
-  convertUiDictToGenTemplateCode(){
+  convertUiDictToGenTemplateCode() {
     this.selectedVersion.generation_templates = this.utilityService.parseGenTemplateUiDictionaryToIfElseCode(this.intents);
-    this.editorCodeObj = {...this.editorCodeObj, generation_templates: {text:this.selectedVersion.generation_templates}};
+    this.editorCodeObj = { ...this.editorCodeObj, generation_templates: { text: this.selectedVersion.generation_templates } };
   }
 
   openForkNewVersionModal(template) {

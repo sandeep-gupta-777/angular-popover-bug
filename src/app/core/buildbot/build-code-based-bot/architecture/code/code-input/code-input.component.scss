@@ -51,7 +51,12 @@
 //}
 
 //::ng-deep
-
+.color-primary{
+  color : $color-primary;
+}
+.color-danger{
+  color: $color-danger;
+}
 .card {
   border: none;
 }
@@ -103,11 +108,12 @@
 .genTempGridItemGrid{
   display: grid;
   // grid-template-columns: 20% 60% 20%;
-  grid-template-rows: auto 1fr; 
+  grid-template-rows: auto 1fr auto; 
   grid-template-columns: repeat(6, 1fr);
   grid-template-areas : 
   "x x y y z z"
-  "a intentItem intentItem intentItem intentItem c";
+  "a intentItem intentItem intentItem intentItem c"
+  "f f f f f f";
   .intentItems{
     grid-area: intentItem;
   }
@@ -116,6 +122,18 @@
   }
   .response-test{
     grid-area: x;
+  }
+  .selected-templates{
+    grid-area: f;
+    height: 42px;
+    background-color: #ffffff;
+    // width: 100%;
+    align-items: center;
+    div{
+      padding-left: 4px;
+      padding-right: 4px; 
+    }
+    border-radius: 2px;
   }
 }
 
