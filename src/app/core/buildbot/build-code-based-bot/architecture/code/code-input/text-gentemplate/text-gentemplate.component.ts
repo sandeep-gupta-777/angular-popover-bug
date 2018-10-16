@@ -25,7 +25,8 @@ export class TextGentemplateComponent implements OnInit {
   @Output() deleteTemplate: EventEmitter<string> = new EventEmitter<string>();
   @Output() moveTempUp: EventEmitter<string> = new EventEmitter<string>();
   @Output() moveTempDown: EventEmitter<string> = new EventEmitter<string>();
-
+  @Output() selectionChanged: EventEmitter<string> = new EventEmitter<string>();
+  selected: boolean;
   delete(i){
     this.deleteTemplate.emit(i);
   }
@@ -35,14 +36,16 @@ export class TextGentemplateComponent implements OnInit {
   moveDown(i){
     this.moveTempDown.emit(i);
   }
-  // deleteVariant(index){
-  //   this.variants.splice(index,1);
-  // }
-  addVarient(index){
+  addVarient(){
     this._variants.push("");
     this.variantsIter = [...this._variants];
   }
-
+  onSelected(b) {
+    this.selectionChanged.emit(JSON.stringify({
+      select: b,
+      index: this.myIndex
+    }));
+  }
   ngOnInit() {
   }
 
