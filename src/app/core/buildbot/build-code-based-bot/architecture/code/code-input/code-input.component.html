@@ -183,12 +183,13 @@
                      [text]="editorCodeObj[myEBotVersionTabs.generation_rules]"
                      (textChangedEvent)="saveText($event)"></app-code-editor>
 
+    <p>{{showGenTempUi}}</p>
     <!--generation template UI starts-->
     <div class="row pl-3 genTempGrid pt-2 child-expand"
-         *ngIf="activeTab===myEBotVersionTabs.generation_templates || !showGenTempUi">
+         [hidden]="activeTab!==myEBotVersionTabs.generation_templates || !showGenTempUi">
       <!--left sidebar starts-->
       <div class="genTempGridItem intent-header ml-1 position-relative" >
-        <div style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; overflow-y: auto">
+        <div style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; overflow-y: auto; overflow-x: hidden">
           <div class="d-flex" style="align-items:center;">
             <div class="text-bold">Intent Header</div>
             <div class="ml-auto text-primary pr-2 new-intent-btn cursor-pointer"
@@ -221,7 +222,7 @@
           </select>
         </div>
         <div class="intentItems position-relative">
-          <div style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; overflow-y: auto">
+          <div style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; overflow-y: auto; overflow-x: hidden">
             <div class="py-1 px-0 mb-3" *ngFor="let intentItem of intents[selectedIntentTab]; let i = index">
               <app-text-gentemplate *ngIf="intentItem.text" [intentCode]="intentItem" [variants]=intentItem.text
                                     [myIndex]=i (deleteTemplate)="deleteGentemplate($event)"
@@ -253,7 +254,7 @@
       </div>
 
       <div class="genTempGridItem bot-templates position-relative">
-        <div style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; overflow-y: auto">
+        <div style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; overflow-y: auto; overflow-x: hidden">
 
         <ul>
           <li class="bot-template-heading">
