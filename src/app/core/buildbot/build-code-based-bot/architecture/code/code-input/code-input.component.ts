@@ -339,7 +339,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     }
 
     if (activeTab === EBotVersionTabs.generation_templates) {
-      debugger;
+
       this.intents = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[this.activeTab])
     }
     this.router.navigate([`core/botdetail/${EBotType.chatbot}/`, this.bot.id], {
@@ -523,6 +523,6 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   }
 
   selectedChannelChanged(selectedChannel){
-    debugger;
+
   }
 }

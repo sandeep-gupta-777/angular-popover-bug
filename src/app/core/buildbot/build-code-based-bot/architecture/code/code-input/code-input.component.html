@@ -1,5 +1,5 @@
-<div class="container-grid">
-  <div class="row row-version my-2 m-0" style="position: relative" (clickOutside)="showVersionList = false">
+<div class="d-flex-column-last-child-flex-grow-1">
+  <div class="row row-version my-2 m-0 child-no-expand-shrink " style="position: relative" (clickOutside)="showVersionList = false">
     <div class="col-6 p-0" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
       <div *ngIf="selectedVersion" class="d-flex align-items-center flex-bot-versioning-toaster border-theme-secondary">
         <div class="version-active-label" *ngIf="selectedVersion" [ngClass]="{'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-label-inactive':selectedVersion?.id !== activeVersion?.id}">
@@ -100,7 +100,7 @@
     </div>
   </div>
 
-  <div class="row row-tabs">
+  <div class="row row-tabs child-no-expand-shrink ">
     <div class="col-12">
       <div class="card ">
 
@@ -153,9 +153,9 @@
     </div>
   </div>
 
-  <div class="code-editor-row code-editor-row-max position-relative ">
+  <div class="code-editor-row code-editor-row-max position-relative child-expand border1 d-flex-column-last-child-flex-grow-1">
 
-    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_template" [text]="editorCodeObj[myEBotVersionTabs.df_template]"
+    <app-code-editor class="child-expand" [hidden]="activeTab!==myEBotVersionTabs.df_template" [text]="editorCodeObj[myEBotVersionTabs.df_template]"
       (textChangedEvent)="saveText($event)"></app-code-editor>
 
     <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_rules" [text]="editorCodeObj[myEBotVersionTabs.df_rules]"
@@ -165,7 +165,7 @@
       (textChangedEvent)="saveText($event)"></app-code-editor>
 
     <!--generation template UI starts-->
-    <div class="row pl-3 genTempGrid pt-2" [hidden]="activeTab!==myEBotVersionTabs.generation_templates || !showGenTempUi">
+    <div class="row pl-3 genTempGrid pt-2 child-expand" *ngIf="activeTab===myEBotVersionTabs.generation_templates || !showGenTempUi">
       <!--left sidebar starts-->
       <div class="genTempGridItem intent-header ml-1">
         <div class="d-flex" style="align-items:center;">
@@ -176,7 +176,7 @@
         </div>
         <input type="text" placeholder="Search Intent" [(ngModel)]="templateKeySearchKeyword">
         <!--<p>{{intents|json}}</p>-->
-        <div class="pl-2 p-1 m-1 col-10 tab-theme" *ngFor="let tempKey of myObject.keys(intents)|filterTemplateLeyList:templateKeySearchKeyword" [ngClass]="{'font-weight-bold':selectedIntentTab === tempKey}"
+        <div class="pl-2 p-1 m-1 col-10 tab-theme" *ngFor="let tempKey of myObject.keys(intents||{})|filterTemplateLeyList:templateKeySearchKeyword" [ngClass]="{'font-weight-bold':selectedIntentTab === tempKey}"
           (click)="selectedIntentTab = tempKey;selectedGenTempList = [];">{{tempKey}}
         </div>
       </div>

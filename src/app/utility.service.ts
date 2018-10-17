@@ -352,7 +352,7 @@ export class UtilityService {
   parseGenTemplateCodeStrToObject(generation_templates: string) {
     let templateKeyOutputObj = {};
     try {
-      debugger;
+
       let templates: string[] = this.createTemplateKeyArr(generation_templates);
       let outputs: string[] = this.createOutputArr(generation_templates);
       for (let i = 0; i < templates.length; ++i) {
@@ -367,7 +367,7 @@ export class UtilityService {
   }
 
   parseGenTemplateUiDictionaryToIfElseCode(uiDictionary: object) {
-    debugger;
+
     let genTemplateCodeStr = '';
     Object.keys(uiDictionary).forEach((templateKey, index) => {
       // let templateKey = Object.keys(templateKeys);

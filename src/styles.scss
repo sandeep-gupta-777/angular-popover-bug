@@ -126,7 +126,6 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
   //}
 }
 
-
 .btn-theme-dark {
   background-color: black !important;
   border: none;
@@ -381,22 +380,14 @@ th, td {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  //justify-content: center;
-  //flex-wrap: wrap;
-  /*align-content: start;*/
-  //border: 1px solid green;
-  //height: 50vh;
-
   .child-no-expand {
-    //align-self: stretch;
-    //border: 1px solid red;
-    //width: 100%;
-    //&:not(:last-child) {
-      //align-self: start;
-      flex-grow: 0;
-    //}
+    flex-grow: 0;
   }
-  .child-expand{
+  .child-no-expand-shrink {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+  .child-expand {
     flex-grow: 1;
   }
 
@@ -854,15 +845,24 @@ progressbar {
   color: white !important;
 }
 
-.bg-message-bot{
+.bg-message-bot {
   background-color: #f7f7f7;
-  .time,.message-text{
+  .time, .message-text {
     color: #474747 !important;
   }
 }
+
 .bg-message-human {
   background-color: $color-primary;
-  .time,.message-text{
+  .time, .message-text {
     color: white !important;
   }
+}
+
+.genTempGrid {
+  display: grid;
+  width: 80vw;
+  grid-template-columns: 20% 60% 20%;
+  grid-template-rows: 100%;
+  background-color: #f7f7f7;
 }
