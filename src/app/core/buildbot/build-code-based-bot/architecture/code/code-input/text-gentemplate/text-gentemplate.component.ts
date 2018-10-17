@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import {IIntentItem} from '../code-input.component';
 
 @Component({
   selector: 'app-text-gentemplate',
@@ -9,6 +10,7 @@ export class TextGentemplateComponent implements OnInit {
 
   // @Input() variants : string[] ;
    _variants : string[] ;
+   @Input() intentCode:IIntentItem;
   @Input() set variants (variantsVal: string[]){
     this._variants = variantsVal;
     this.variantsIter = [...this._variants];

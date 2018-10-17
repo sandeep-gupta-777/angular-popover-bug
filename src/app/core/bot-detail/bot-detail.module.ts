@@ -45,6 +45,8 @@ import {SessionDataToRichMediaSerializerPipe} from '../../session-data-to-rich-m
 import {DisplayNameForKeyIntegrationPipe} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/display-name-for-key-integration.pipe';
 import { CodeGentemplateComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate/code-gentemplate.component';
 import { TextGentemplateComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/text-gentemplate/text-gentemplate.component';
+import {FilterTemplateLeyListPipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/filter-template-ley-list.pipe';
+import {LogosByIntegrationNamePipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/text-gentemplate/logos-by-integration-name.pipe';
 
 const routes: Route[] = [
   {
@@ -75,6 +77,8 @@ const routes: Route[] = [
     PipelineFilterPipe,
     SessionComponent,
     CodeInputComponent,
+    LogosByIntegrationNamePipe,
+    FilterTemplateLeyListPipe,
     CodeGentemplateComponent,
     TextGentemplateComponent,
     IntegrationOptionListComponent,

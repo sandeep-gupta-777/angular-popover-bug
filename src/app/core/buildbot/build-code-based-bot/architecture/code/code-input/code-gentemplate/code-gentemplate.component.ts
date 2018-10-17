@@ -9,6 +9,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class CodeGentemplateComponent implements OnInit {
 
   constructor() { }
+  intentCodeObjClone:object;
   @Input() intentCode: object;
   @Input() myIndex: number;
   @Output() deleteTemplate: EventEmitter<string> = new EventEmitter<string>();
@@ -33,6 +34,7 @@ export class CodeGentemplateComponent implements OnInit {
     }));
   }
   ngOnInit() {
+    this.intentCodeObjClone = {...this.intentCode};
   }
 
   codeEditorTextCHanged(data){

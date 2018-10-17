@@ -21,6 +21,7 @@ import { CodeEditorComponent } from '../code-editor/code-editor.component';
 import { EBotType } from '../../../../../view-bots/view-bots.component';
 import { EventService } from '../../../../../../event.service';
 import { take } from 'rxjs/operators';
+import {st} from '@angular/core/src/render3';
 
 export enum EBotVersionTabs {
   df_template = 'df_template',
@@ -28,6 +29,11 @@ export enum EBotVersionTabs {
   generation_rules = 'generation_rules',
   generation_templates = 'generation_templates',
   workflow = 'workflow'
+}
+
+export interface IIntentItem{
+  text?:string[],
+  include: string[]
 }
 
 @Component({
@@ -39,6 +45,7 @@ export enum EBotVersionTabs {
 export class CodeInputComponent implements OnInit, OnDestroy {
 
   showConfig = true;
+  templateKeySearchKeyword:string="";
   myEBotVersionTabs = EBotVersionTabs;
   activeTab: string = 'df_template';
 
@@ -58,7 +65,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   myObject = Object;
   newIntentName: string;
   showGenTempUi: boolean = true;
-  selectedChannelOfGenTemplate: string = "";
+  selectedChannelOfGenTemplate:{name: string, displayName: string};
   selectedGenTempList: number[] = [];
   selectedIntentList: string[] = ['A2', 'A3', 'A4']
   intents /*= {
@@ -111,7 +118,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
 
   }
   */
-  channelList = ["facebook", "web", "imiconnect", "imichat", "skype"];
+  channelList:{name: string, displayName: string}[];// = ["facebook", "web", "imiconnect", "imichat", "skype"];
   openNewIntentModal(template) {
     this.modalRef = this.modalService.show(template, { class: 'modal-md' });
     return;
@@ -166,7 +173,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     this.intents[this.selectedIntentTab][e] = this.intents[this.selectedIntentTab][e + 1];
     this.intents[this.selectedIntentTab][e + 1] = temp;
   }
-  // functins on selected gen temp list 
+  // functins on selected gen temp list
   selectGentempate(e) {
     let i = JSON.parse(e);
     console.log(i, "sdasddasd asd sad as d sd a s sa d asd ");
@@ -257,6 +264,21 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
     this.botlist$_sub = this.botlist$.subscribe((value) => {
       this.utilityService.getActiveVersionInBot(this.bot);
+      if (this.bot) {
+        this.channelList =
+          Object.keys(this.bot.integrations.channels).filter((integrationKey: any) => {
+            return this.bot.integrations.channels[integrationKey].enabled;
+          }).map((integrationKey) => {
+            return {
+              name: integrationKey,
+              displayName: integrationKey
+            };
+          });
+        this.channelList.unshift({name: 'all', displayName: 'All Channels'});
+        this.selectedChannelOfGenTemplate = this.channelList[0];
+
+      }
+
       // let activeVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.find((BotVersion) => {
       //   return this.bot.active_version_id === BotVersion.id;
       // });
@@ -498,5 +520,9 @@ export class CodeInputComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.botlist$_sub && this.botlist$_sub.unsubscribe();
+  }
+
+  selectedChannelChanged(selectedChannel){
+    debugger;
   }
 }

@@ -1,30 +1,44 @@
-<div class="text-gentemplate">
-  <div class="p-1 pl-2 tem-heading d-flex">
-    <i class="fa fa-align-left heading-icon pr-1"></i>Text Input
-    <i class="fa fa-trash ml-auto m-1 cursor-pointer heading-icon" (click)="delete(myIndex);"></i>
-    <i class="fa fa-chevron-up m-1 cursor-pointer heading-icon" *ngIf="myIndex != 0" (click)="moveUp(myIndex);"></i>
-    <i class="fa fa-chevron-down m-1 cursor-pointer heading-icon" (click)="moveDown(myIndex);"></i>
-    <i><strong> {{ myIndex}}</strong></i>
+<div class=" d-flex">
+  <div class="controls  d-flex flex-column justify-content-between align-items-center">
+    <!--<input type="checkbox">-->
     <input type="checkbox" [(ngModel)]="selected" (ngModelChange)="onSelected($event)" >
-  </div>
-  <div *ngFor="let variant of variantsIter; let i = index" class="p-2">
-    <div class="d-flex">
-      <div class="name">Variant {{i + 1}}</div>
-      <i class="fa fa-trash ml-auto cursor-pointer" (click)="deleteVariant()"></i>
+
+    <div class="d-flex flex-column">
+      <!--<i class="fa fa-angle-up"></i>-->
+      <i class="fa fa-chevron-up m-1 cursor-pointer heading-icon" *ngIf="myIndex != 0" (click)="moveUp(myIndex);"></i>
+      <i class="fa fa-chevron-down m-1 cursor-pointer heading-icon" (click)="moveDown(myIndex);"></i>
+      <!--<i class="fa fa-angle-down"></i>-->
     </div>
-    <!--<textarea class="classic-textarea" placeholder='Write your text here ...' rows="3">{{variant}}</textarea>-->
-    <textarea
-      [(ngModel)]="_variants[i]"
-      class="classic-textarea"
-      placeholder='Write your text here ...' rows="3"></textarea>
+    <i class="fa fa-trash ml-auto m-1 cursor-pointer heading-icon" (click)="delete(myIndex);"></i>
+
   </div>
-  <div class="text-primary cursor-pointer pl-2" (click)="addVarient()">
-    <i class="fa fa-plus pr-1 my-auto"></i>Add a new variant
-  </div>
-  <div class="p-1 icon-footer">
+  <div class="text-gentemplate flex-grow-1">
+    <div class="p-1 pl-2 tem-heading d-flex">
+      <i class="fa fa-align-left heading-icon pr-1"></i>Text Input
+      <!--<i class="fa fa-trash ml-auto m-1 cursor-pointer heading-icon" (click)="delete(myIndex);"></i>-->
+      <!--<i class="fa fa-chevron-up m-1 cursor-pointer heading-icon" *ngIf="myIndex != 0" (click)="moveUp(myIndex);"></i>-->
+      <!--<i class="fa fa-chevron-down m-1 cursor-pointer heading-icon" (click)="moveDown(myIndex);"></i>-->
+      <!--<i><strong> {{ myIndex}}</strong></i>-->
+    </div>
+    <div *ngFor="let variant of variantsIter; let i = index" class="p-2">
+      <div class="d-flex">
+        <div class="name">Variant {{i + 1}}</div>
+        <i class="fa fa-trash ml-auto cursor-pointer" (click)="deleteVariant()"></i>
+      </div>
+      <!--<textarea class="classic-textarea" placeholder='Write your text here ...' rows="3">{{variant}}</textarea>-->
+      <textarea
+        [(ngModel)]="_variants[i]"
+        class="classic-textarea"
+        placeholder='Write your text here ...' rows="3"></textarea>
+    </div>
+    <div class="text-primary cursor-pointer pl-2" (click)="addVarient()">
+      <i class="fa fa-plus pr-1 my-auto"></i>Add a new variant
+    </div>
+    <div class="p-1 icon-footer">
     <span>
-      <img class="logo-image mx-1" src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/facebook.png">
-      <img class="logo-image mx-1" src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/skype.png">
+      <img *ngFor="let channel of intentCode.include" class="logo-image mx-1" [src]="(channel|logosByIntegrationName)?.icon">
     </span>
+    </div>
   </div>
+
 </div>

@@ -1,4 +1,3 @@
-<p>  {{me}}</p>
 <div class="container-grid">
   <div class="row row-version my-2 m-0" style="position: relative" (clickOutside)="showVersionList = false">
     <div class="col-6 p-0" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
@@ -126,16 +125,21 @@
               <a class="nav-link" (click)="tabClicked(myEBotVersionTabs.workflow)">Workflows</a>
             </li>
             <li>
-              <button [hidden]="activeTab!==myEBotVersionTabs.generation_templates" (click)="showGenTempUi = !showGenTempUi; convertUiDictToGenTemplateCode()">button123
-              </button>
-            <li class="ml-auto gen-templet-toggle">
+              <!--<button [hidden]="activeTab!==myEBotVersionTabs.generation_templates" (click)="showGenTempUi = !showGenTempUi; convertUiDictToGenTemplateCode()">button123-->
+              <!--</button>-->
+            <li class="ml-auto gen-templet-toggle d-flex align-items-center">
               <!-- <button [hidden]="activeTab!==myEBotVersionTabs.generation_templates" (click)="showGenTempUi = !showGenTempUi">button</button> -->
+              <span>Interface</span>
               <ui-switch
                 (change)="convertUiDictToGenTemplateCode()"
+                color="black"
+                switchColor="white"
                 name="toggle_gen_templet"
                          [(ngModel)]="showGenTempUi" class="d-flex align-items-center mx-1 "
                      style="border:none;padding: 0;" size="small" title="Toggle UI view"></ui-switch>
-            </li>
+            <span>Code</span>
+
+          </li>
           </ul>
 
           <!--tabs end-->
@@ -149,7 +153,7 @@
     </div>
   </div>
 
-  <div class="code-editor-row code-editor-row-max position-relative">
+  <div class="code-editor-row code-editor-row-max position-relative ">
 
     <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_template" [text]="editorCodeObj[myEBotVersionTabs.df_template]"
       (textChangedEvent)="saveText($event)"></app-code-editor>
@@ -162,6 +166,7 @@
 
     <!--generation template UI starts-->
     <div class="row pl-3 genTempGrid pt-2" [hidden]="activeTab!==myEBotVersionTabs.generation_templates || !showGenTempUi">
+      <!--left sidebar starts-->
       <div class="genTempGridItem intent-header ml-1">
         <div class="d-flex" style="align-items:center;">
           <div class="text-bold">Intent Header</div>
@@ -169,36 +174,33 @@
             <i class="fa fa-plus pr-1 my-auto"></i>Add New
           </div>
         </div>
-        <input type="text" placeholder="Search Intent">
+        <input type="text" placeholder="Search Intent" [(ngModel)]="templateKeySearchKeyword">
         <!--<p>{{intents|json}}</p>-->
-        <div class="pl-2 p-1 m-1 col-10 tab-theme" *ngFor="let tempKey of myObject.keys(intents)" [ngClass]="{'font-weight-bold':selectedIntentTab === tempKey}"
+        <div class="pl-2 p-1 m-1 col-10 tab-theme" *ngFor="let tempKey of myObject.keys(intents)|filterTemplateLeyList:templateKeySearchKeyword" [ngClass]="{'font-weight-bold':selectedIntentTab === tempKey}"
           (click)="selectedIntentTab = tempKey;selectedGenTempList = [];">{{tempKey}}
         </div>
       </div>
-      <div class="genTempGridItemGrid">
+      <!--left sidebar ends-->
+
+      <div class="genTempGridItemGrid ">
         <div class="response-test px-2">
           Response Flow
         </div>
         <div class="form-group m-0 channel-drop">
           <label for="" class="px-2">Channel</label>
-          <select [ngModel]="selectedChannelOfGenTemplate" required name="platform">
+          <select [ngModel]="selectedChannelOfGenTemplate.displayName" (ngModelChange)="selectedChannelChanged($event)" required name="platform">
             <option type="button" [value]="">All</option>
-            <option *ngFor="let channel of channelList" type="button" [value]="channel">{{channel}}</option>
-            <!-- <option type="button" [value]="facebook">Facebook</option>
-            <option type="button" [value]="imichat">Imichat</option>
-            <option type="button" [value]="channel">Channel</option>
-            <option type="button" [value]="wed">Channel</option> -->
+            <option *ngFor="let channel of channelList" type="button" [value]="channel.name">{{channel.displayName}}</option>
           </select>
         </div>
-        <div class="intentItems">
-          <div class="py-1 px-0" *ngFor="let intentItem of intents[selectedIntentTab]; let i = index">
-            <app-text-gentemplate *ngIf="intentItem.text" [variants]=intentItem.text [myIndex]=i (deleteTemplate)="deleteGentemplate($event)"
+        <div class="intentItems ">
+          <div class="py-1 px-0 mb-3" *ngFor="let intentItem of intents[selectedIntentTab]; let i = index">
+            <app-text-gentemplate *ngIf="intentItem.text" [intentCode]="intentItem" [variants]=intentItem.text [myIndex]=i (deleteTemplate)="deleteGentemplate($event)"
               (moveTempUp)="moveUpGentempate($event)" (moveTempDown)="moveDownGentempate($event)" (selectionChanged)="selectGentempate($event)"></app-text-gentemplate>
 
             <app-code-gentemplate [intentCode]="intentItem" *ngIf="!intentItem.text" [myIndex]=i [hidden]="activeTab!==myEBotVersionTabs.generation_templates"
               (deleteTemplate)="deleteGentemplate($event)" (moveTempUp)="moveUpGentempate($event)" (moveTempDown)="moveDownGentempate($event)"
               (selectionChanged)="selectGentempate($event)"></app-code-gentemplate>
-            <!-- >>>>>>> 11714e2f3e007c6ae17b59c74a20eeb3b21fe2fd -->
           </div>
         </div>
         <div class="selected-templates d-flex m-2 px-2">

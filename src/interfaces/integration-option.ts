@@ -114,7 +114,7 @@ export interface IIntegrationOption {
 }
 
 
-export interface IMasterIntegration {
+export interface IMasterIntegrationResult {
   meta: any,
   objects: IIntegrationMasterListItem[]
 }
