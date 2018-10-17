@@ -149,6 +149,20 @@
     border: 1px solid $color-primary;
   }
 }
+.modelGridGenTempNames{
+  display: grid;
+  grid-template-columns: repeat(4,150px);
+  justify-content: center;
+  align-items: center;
+  label{
+    text-align: left;
+    input{
+      width:13px;
+      height: 13px;
+    }
+  }
+}
+
 .intent-header {
   background-color: #ffffff;
   .text-bold {

@@ -193,7 +193,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     this.selectedGenTempList = [];
   }
   selectedListCopyModel(IntentSelectionModal) {
-    this.modalRef = this.modalService.show(IntentSelectionModal, { class: 'modal-md' });
+    this.modalRef = this.modalService.show(IntentSelectionModal, { class: 'modal-lg' });
     return;
   }
   selectedListCopy() {
@@ -317,7 +317,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     }
 
     if (activeTab === EBotVersionTabs.generation_templates) {
-      debugger;
+      // debugger;
       this.intents = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[this.activeTab])
     }
     this.router.navigate([`core/botdetail/${EBotType.chatbot}/`, this.bot.id], {

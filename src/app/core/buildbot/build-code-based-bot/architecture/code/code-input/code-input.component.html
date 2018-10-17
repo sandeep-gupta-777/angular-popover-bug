@@ -200,7 +200,8 @@
         </div>
         <div class="selected-templates d-flex m-2 px-2">
           <div>{{selectedGenTempList.length}} response selected</div>
-          <div class="ml-auto color-primary cursor-pointer" (click)="selectedListCopyModel(IntentSelectionModal)"><i class="fa f0c5 fa-upload">
+          <div class="ml-auto color-primary cursor-pointer" (click)="selectedListCopyModel(IntentSelectionModal)"><i
+              class="fa f0c5 fa-upload">
             </i> Copy to</div>
           <div class="color-primary ml-2 cursor-pointer" (click)="selectedListDuplicate()"><i class="fa fa-copy "> </i>
             Duplicate</div>
@@ -330,19 +331,52 @@
 <ng-template #IntentSelectionModal>
   <div class="primary-modal">
     <div class="top-dec"></div>
-    <div class="modal-header">
-      <h4 class="modal-title" style="display: flex;justify-content: start;">Select Intents in which you wanna duplicate</h4>
+    <div class="modal-header" style="border: none !important;">
+      <h4 class="modal-title" style="display: flex;justify-content: start;">Copy response templates to</h4>
       <button aria-label="Close" class="close pull-right" type="button" (click)="modalRef.hide()"><span aria-hidden="true">×</span>
       </button>
+      <br>
+    </div>
+    <div class="d-flex w-100 mb-3 col-12" style="align-items: center;padding-left: 27px;">
+      <div>No response selected</div>
+      <div class="cursor-pointer color-primary ml-auto mr-3">
+        Select all
+      </div>
+      <div>
+        <input type="text" style="width: 120px;border: 1px solid #e0e0e0;margin-right: 60px; padding: 3px">
+      </div>
     </div>
     <div class="modal-body">
       <div class="d-flex flex-column align-items-center justify-content-center m-2" id="checkboxes">
-        <label *ngFor="let x of myObject.keys(intents)">
-          <input type="checkbox"name="{{x}}" style="    height: 13px;"> 
-          {{x}}
-        </label>
-        <button class="btn btn-theme-success-sm close" (click)="selectedListCopy();modalRef.hide()">Submit</button>
+
+        <div class="modelGridGenTempNames">
+          <label *ngFor="let x of myObject.keys(intents)">
+            <input type="checkbox" name="{{x}}">
+            {{x}}
+          </label>
+          <label *ngFor="let x of myObject.keys(intents)">
+            <input type="checkbox" name="{{x}}">
+            {{x}}
+          </label>
+          <label *ngFor="let x of myObject.keys(intents)">
+            <input type="checkbox" name="{{x}}">
+            {{x}}
+          </label>
+          <label *ngFor="let x of myObject.keys(intents)">
+            <input type="checkbox" name="{{x}}">
+            {{x}}
+          </label>
+          <label *ngFor="let x of myObject.keys(intents)">
+            <input type="checkbox" name="{{x}}">
+            {{x}}
+          </label>
+        </div>
+        <div class="d-flex w-100">
+          <button class="btn btn-theme-primary-outline ml-auto mr-2" (click)="modalRef.hide()">Cancel</button>
+          <button class="btn btn-theme-primary  d-inline-block mr-2" (click)="selectedListCopy();modalRef.hide()">Copy
+            now</button>
+        </div>
       </div>
     </div>
-    </div>
+  </div>
 </ng-template>
