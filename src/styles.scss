@@ -377,7 +377,8 @@ th, td {
 }
 
 .d-flex-column-last-child-flex-grow-1 {
-  flex-grow: 1;
+  flex: 1;
+  //min-(dimension): 0;
   display: flex;
   flex-direction: column;
   .child-no-expand {
@@ -388,7 +389,7 @@ th, td {
     flex-shrink: 0;
   }
   .child-expand {
-    flex-grow: 1;
+    flex: 1;
   }
 
 }

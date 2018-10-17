@@ -176,7 +176,6 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   // functins on selected gen temp list
   selectGentempate(e) {
     let i = JSON.parse(e);
-    console.log(i, "sdasddasd asd sad as d sd a s sa d asd ");
     if (i.select) {
       this.selectedGenTempList.push(i.index);
     }

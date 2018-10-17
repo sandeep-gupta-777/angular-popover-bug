@@ -1,8 +1,10 @@
 <div class="d-flex-column-last-child-flex-grow-1">
-  <div class="row row-version my-2 m-0 child-no-expand-shrink " style="position: relative" (clickOutside)="showVersionList = false">
+  <div class="row row-version my-2 m-0 child-no-expand-shrink " style="position: relative"
+       (clickOutside)="showVersionList = false">
     <div class="col-6 p-0" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
       <div *ngIf="selectedVersion" class="d-flex align-items-center flex-bot-versioning-toaster border-theme-secondary">
-        <div class="version-active-label" *ngIf="selectedVersion" [ngClass]="{'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-label-inactive':selectedVersion?.id !== activeVersion?.id}">
+        <div class="version-active-label" *ngIf="selectedVersion"
+             [ngClass]="{'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-label-inactive':selectedVersion?.id !== activeVersion?.id}">
           <div>{{selectedVersion.id === (activeVersion && activeVersion.id)?'Active':'Inactive'}}</div>
         </div>
         <!--<button *ngIf="selectedVersion?.id === activeVersion?.id" class="btn btn-theme-primary mr-1"-->
@@ -23,11 +25,16 @@
           <div class="d-flex justify-content-left pt-1" *ngIf="selectedVersion">
             <!-- <i class="fa fa-circle"
                [ngClass]="{'text-danger':selectedVersion.updated_fields['df_template'], 'dark-green':activeTab==='df_template'}"></i> -->
-            <i class="fa fa-circle" [ngClass]="{'text-danger':selectedVersion.changed_fields['df_template'], 'dark-green':selectedVersion.updated_fields['df_template']}"></i>
-            <i class="fa fa-circle" [ngClass]="{'text-danger':selectedVersion.changed_fields['df_rules'], 'dark-green':selectedVersion.updated_fields['df_rules']}"></i>
-            <i class="fa fa-circle" [ngClass]="{'text-danger':selectedVersion.changed_fields['generation_rules'], 'dark-green':selectedVersion.updated_fields['generation_rules']}"></i>
-            <i class="fa fa-circle" [ngClass]="{'text-danger':selectedVersion.changed_fields['generation_templates'], 'dark-green':selectedVersion.updated_fields['generation_templates']}"></i>
-            <i class="fa fa-circle" [ngClass]="{'text-danger':selectedVersion.changed_fields['workflow'], 'dark-green':selectedVersion.updated_fields['workflow']}"></i>
+            <i class="fa fa-circle"
+               [ngClass]="{'text-danger':selectedVersion.changed_fields['df_template'], 'dark-green':selectedVersion.updated_fields['df_template']}"></i>
+            <i class="fa fa-circle"
+               [ngClass]="{'text-danger':selectedVersion.changed_fields['df_rules'], 'dark-green':selectedVersion.updated_fields['df_rules']}"></i>
+            <i class="fa fa-circle"
+               [ngClass]="{'text-danger':selectedVersion.changed_fields['generation_rules'], 'dark-green':selectedVersion.updated_fields['generation_rules']}"></i>
+            <i class="fa fa-circle"
+               [ngClass]="{'text-danger':selectedVersion.changed_fields['generation_templates'], 'dark-green':selectedVersion.updated_fields['generation_templates']}"></i>
+            <i class="fa fa-circle"
+               [ngClass]="{'text-danger':selectedVersion.changed_fields['workflow'], 'dark-green':selectedVersion.updated_fields['workflow']}"></i>
           </div>
           <!--<form class="d-flex">-->
           <!--<input type="radio" name="optradio" checked>-->
@@ -37,34 +44,40 @@
           <!--<input type="radio" name="optradio">-->
           <!--</form>-->
         </div>
-        <div class="insert mr-1" [popover]="selectedVersion && selectedVersion.comment" placement="bottom" triggers="mouseenter:mouseleave">
+        <div class="insert mr-1" [popover]="selectedVersion && selectedVersion.comment" placement="bottom"
+             triggers="mouseenter:mouseleave">
           {{selectedVersion.comment.length>70?(((selectedVersion.comment)|slice:0:100)
           +"..."):selectedVersion?.comment}}
           <!--<div class="insert mr-1">{{(selectedVersion.comment)|slice:0:100}}-->
         </div>
         <!---->
-        <i (click)="showVersionList= !showVersionList" *ngIf="bot.store_bot_versions.length > 1" class="fa py-2 px-3 bg-theme-primary text-white ml-auto cursor-pointer"
-          [ngClass]="{'fa-angle-up':showVersionList, 'fa-angle-down':!showVersionList}" style="height: 100%"></i>
+        <i (click)="showVersionList= !showVersionList" *ngIf="bot.store_bot_versions.length > 1"
+           class="fa py-2 px-3 bg-theme-primary text-white ml-auto cursor-pointer"
+           [ngClass]="{'fa-angle-up':showVersionList, 'fa-angle-down':!showVersionList}" style="height: 100%"></i>
       </div>
     </div>
     <div class="col-6">
-      <button [disabled]="!selectedVersion" class="btn btn-theme-primary-outline mr-1" *myIf="myEAllActions['Update Bot Versioning']"
-        (click)="saveSelectedVersion()">
+      <button [disabled]="!selectedVersion" class="btn btn-theme-primary-outline mr-1"
+              *myIf="myEAllActions['Update Bot Versioning']"
+              (click)="saveSelectedVersion()">
         {{(!bot.store_bot_versions || !bot.store_bot_versions.length ||
         bot.store_bot_versions.length>0)?"Save":"Create"}}
         version
       </button>
       <div *ngIf="selectedVersion" class="d-inline-block">
-        <button class="btn btn-theme-primary-outline" [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
-          *myIf="myEAllActions['Create Bot Versioning']" (click)="openForkNewVersionModal(Primarytemplate)">
+        <button class="btn btn-theme-primary-outline"
+                [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
+                *myIf="myEAllActions['Create Bot Versioning']" (click)="openForkNewVersionModal(Primarytemplate)">
           Fork new version
         </button>
       </div>
     </div>
     <div class="row row-flex-bot-versioning-toaster border-theme-secondary  border-top-0 mx-0" *ngIf="showVersionList"
-      style="max-height: 50vh; overflow-y: scroll">
-      <div class="col-12 py-1 px-0 cursor-pointer hover-change-background border-bottom-theme-secondary" *ngFor="let version of bot.store_bot_versions | filterActiveBot:selectedVersion.id">
-        <div class="d-flex align-items-center flex-bot-versioning-toaster" (click)="changeSelectedVersion(version); showVersionList = false; tabClicked('df_template');">
+         style="max-height: 50vh; overflow-y: scroll">
+      <div class="col-12 py-1 px-0 cursor-pointer hover-change-background border-bottom-theme-secondary"
+           *ngFor="let version of bot.store_bot_versions | filterActiveBot:selectedVersion.id">
+        <div class="d-flex align-items-center flex-bot-versioning-toaster"
+             (click)="changeSelectedVersion(version); showVersionList = false; tabClicked('df_template');">
           <!--<div class="active-label-text">{{(version.id === (activeVersion && activeVersion.id))?'Active':'Inactive'}}</div>-->
           <!--<p>{{activeVersion|json}}</p>-->
           <div class="version-active-label">
@@ -115,10 +128,12 @@
               <a class="nav-link text-theme-normal" (click)="tabClicked(myEBotVersionTabs.df_rules)">DF
                 Rules</a>
             </li>
-            <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.generation_rules}">
+            <li class="nav-item text-theme-normal"
+                [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.generation_rules}">
               <a class="nav-link" (click)="tabClicked(myEBotVersionTabs.generation_rules)">Generation Rules</a>
             </li>
-            <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.generation_templates}">
+            <li class="nav-item text-theme-normal"
+                [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.generation_templates}">
               <a class="nav-link" (click)="tabClicked(myEBotVersionTabs.generation_templates)">Generation Template</a>
             </li>
             <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.workflow}">
@@ -135,11 +150,11 @@
                 color="black"
                 switchColor="white"
                 name="toggle_gen_templet"
-                         [(ngModel)]="showGenTempUi" class="d-flex align-items-center mx-1 "
-                     style="border:none;padding: 0;" size="small" title="Toggle UI view"></ui-switch>
-            <span>Code</span>
+                [(ngModel)]="showGenTempUi" class="d-flex align-items-center mx-1 "
+                style="border:none;padding: 0;" size="small" title="Toggle UI view"></ui-switch>
+              <span>Code</span>
 
-          </li>
+            </li>
           </ul>
 
           <!--tabs end-->
@@ -153,31 +168,41 @@
     </div>
   </div>
 
-  <div class="code-editor-row code-editor-row-max position-relative child-expand border1 d-flex-column-last-child-flex-grow-1">
+  <div
+    class="code-editor-row code-editor-row-max position-relative child-expand  d-flex-column-last-child-flex-grow-1">
 
-    <app-code-editor class="child-expand" [hidden]="activeTab!==myEBotVersionTabs.df_template" [text]="editorCodeObj[myEBotVersionTabs.df_template]"
-      (textChangedEvent)="saveText($event)"></app-code-editor>
+    <app-code-editor class="child-expand" [hidden]="activeTab!==myEBotVersionTabs.df_template"
+                     [text]="editorCodeObj[myEBotVersionTabs.df_template]"
+                     (textChangedEvent)="saveText($event)"></app-code-editor>
 
-    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_rules" [text]="editorCodeObj[myEBotVersionTabs.df_rules]"
-      (textChangedEvent)="saveText($event)"></app-code-editor>
+    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_rules"
+                     [text]="editorCodeObj[myEBotVersionTabs.df_rules]"
+                     (textChangedEvent)="saveText($event)"></app-code-editor>
 
-    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_rules" [text]="editorCodeObj[myEBotVersionTabs.generation_rules]"
-      (textChangedEvent)="saveText($event)"></app-code-editor>
+    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_rules"
+                     [text]="editorCodeObj[myEBotVersionTabs.generation_rules]"
+                     (textChangedEvent)="saveText($event)"></app-code-editor>
 
     <!--generation template UI starts-->
-    <div class="row pl-3 genTempGrid pt-2 child-expand" *ngIf="activeTab===myEBotVersionTabs.generation_templates || !showGenTempUi">
+    <div class="row pl-3 genTempGrid pt-2 child-expand"
+         *ngIf="activeTab===myEBotVersionTabs.generation_templates || !showGenTempUi">
       <!--left sidebar starts-->
-      <div class="genTempGridItem intent-header ml-1">
-        <div class="d-flex" style="align-items:center;">
-          <div class="text-bold">Intent Header</div>
-          <div class="ml-auto text-primary pr-2 new-intent-btn cursor-pointer" (click)="openNewIntentModal(IntentModal)">
-            <i class="fa fa-plus pr-1 my-auto"></i>Add New
+      <div class="genTempGridItem intent-header ml-1 position-relative" >
+        <div style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; overflow-y: auto">
+          <div class="d-flex" style="align-items:center;">
+            <div class="text-bold">Intent Header</div>
+            <div class="ml-auto text-primary pr-2 new-intent-btn cursor-pointer"
+                 (click)="openNewIntentModal(IntentModal)">
+              <i class="fa fa-plus pr-1 my-auto"></i>Add New
+            </div>
           </div>
-        </div>
-        <input type="text" placeholder="Search Intent" [(ngModel)]="templateKeySearchKeyword">
-        <!--<p>{{intents|json}}</p>-->
-        <div class="pl-2 p-1 m-1 col-10 tab-theme" *ngFor="let tempKey of myObject.keys(intents||{})|filterTemplateLeyList:templateKeySearchKeyword" [ngClass]="{'font-weight-bold':selectedIntentTab === tempKey}"
-          (click)="selectedIntentTab = tempKey;selectedGenTempList = [];">{{tempKey}}
+          <input type="text" placeholder="Search Intent" [(ngModel)]="templateKeySearchKeyword">
+          <!--<p>{{intents|json}}</p>-->
+          <div class="pl-2 p-1 m-1 col-10 tab-theme"
+               *ngFor="let tempKey of myObject.keys(intents||{})|filterTemplateLeyList:templateKeySearchKeyword"
+               [ngClass]="{'font-weight-bold':selectedIntentTab === tempKey}"
+               (click)="selectedIntentTab = tempKey;selectedGenTempList = [];">{{tempKey}}
+          </div>
         </div>
       </div>
       <!--left sidebar ends-->
@@ -188,64 +213,48 @@
         </div>
         <div class="form-group m-0 channel-drop">
           <label for="" class="px-2">Channel</label>
-          <select [ngModel]="selectedChannelOfGenTemplate.displayName" (ngModelChange)="selectedChannelChanged($event)" required name="platform">
+          <select [ngModel]="selectedChannelOfGenTemplate.displayName" (ngModelChange)="selectedChannelChanged($event)"
+                  required name="platform">
             <option type="button" [value]="">All</option>
-            <option *ngFor="let channel of channelList" type="button" [value]="channel.name">{{channel.displayName}}</option>
+            <option *ngFor="let channel of channelList" type="button" [value]="channel.name">{{channel.displayName}}
+            </option>
           </select>
         </div>
         <div class="intentItems position-relative">
-          <div style="position: absolute; top: 0; left: 0; right: 0; overflow-y: auto">
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <div>hello</div>
-            <!--<div class="py-1 px-0 mb-3" *ngFor="let intentItem of intents[selectedIntentTab]; let i = index">-->
-              <!--<app-text-gentemplate *ngIf="intentItem.text" [intentCode]="intentItem" [variants]=intentItem.text [myIndex]=i (deleteTemplate)="deleteGentemplate($event)"-->
-                                    <!--(moveTempUp)="moveUpGentempate($event)" (moveTempDown)="moveDownGentempate($event)" (selectionChanged)="selectGentempate($event)"></app-text-gentemplate>-->
-
-              <!--<app-code-gentemplate [intentCode]="intentItem" *ngIf="!intentItem.text" [myIndex]=i [hidden]="activeTab!==myEBotVersionTabs.generation_templates"-->
-                                    <!--(deleteTemplate)="deleteGentemplate($event)" (moveTempUp)="moveUpGentempate($event)" (moveTempDown)="moveDownGentempate($event)"-->
-                                    <!--(selectionChanged)="selectGentempate($event)"></app-code-gentemplate>-->
-            <!--</div>-->
+          <div style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; overflow-y: auto">
+            <div class="py-1 px-0 mb-3" *ngFor="let intentItem of intents[selectedIntentTab]; let i = index">
+              <app-text-gentemplate *ngIf="intentItem.text" [intentCode]="intentItem" [variants]=intentItem.text
+                                    [myIndex]=i (deleteTemplate)="deleteGentemplate($event)"
+                                    (moveTempUp)="moveUpGentempate($event)" (moveTempDown)="moveDownGentempate($event)"
+                                    (selectionChanged)="selectGentempate($event)"></app-text-gentemplate>
+              <app-code-gentemplate [intentCode]="intentItem" *ngIf="!intentItem.text" [myIndex]=i
+                                    [hidden]="activeTab!==myEBotVersionTabs.generation_templates"
+                                    (deleteTemplate)="deleteGentemplate($event)" (moveTempUp)="moveUpGentempate($event)"
+                                    (moveTempDown)="moveDownGentempate($event)"
+                                    (selectionChanged)="selectGentempate($event)"></app-code-gentemplate>
+            </div>
           </div>
         </div>
 
         <!--fixed at bottom-->
-        <div class="selected-templates d-flex m-2 px-2" style="position: absolute; bottom: 0; left: 0; right: 0">
+        <div *ngIf="selectedGenTempList.length>0" class="selected-templates d-flex m-2 px-2" style="position: absolute; bottom: 0; left: 0; right: 0">
           <div>{{selectedGenTempList.length}} response selected</div>
-          <div class="ml-auto color-primary cursor-pointer" (click)="selectedListCopyModel(IntentSelectionModal)"><i class="fa f0c5 fa-upload">
-            </i> Copy to</div>
+          <div class="ml-auto color-primary cursor-pointer" (click)="selectedListCopyModel(IntentSelectionModal)"><i
+            class="fa f0c5 fa-upload">
+          </i> Copy to
+          </div>
           <div class="color-primary ml-2 cursor-pointer" (click)="selectedListDuplicate()"><i class="fa fa-copy "> </i>
-            Duplicate</div>
+            Duplicate
+          </div>
           <div class="ml-auto color-danger cursor-pointer" (click)="selectedListDelete()">Delete</div>
         </div>
         <!--fixed at bottom-->
 
       </div>
-      <div class="genTempGridItem bot-templates">
+
+      <div class="genTempGridItem bot-templates position-relative">
+        <div style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; overflow-y: auto">
+
         <ul>
           <li class="bot-template-heading">
             <div class="text-bold">Bot Response Template</div>
@@ -267,6 +276,7 @@
             <i class="fa fa-code"></i>Code Input
           </li>
         </ul>
+        </div>
       </div>
     </div>
     <!--generation template UI ends-->
@@ -277,11 +287,13 @@
     <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates || showGenTempUi"-->
     <!--[text]="{'text' : intents | json}"-->
     <!--(textChangedEvent)="saveText($event)"></app-code-editor>-->
-    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates || showGenTempUi" [text]="editorCodeObj[myEBotVersionTabs.generation_templates]"
-      (textChangedEvent)="saveText($event)"></app-code-editor>
+    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates || showGenTempUi"
+                     [text]="editorCodeObj[myEBotVersionTabs.generation_templates]"
+                     (textChangedEvent)="saveText($event)"></app-code-editor>
 
-    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.workflow " [text]="editorCodeObj[myEBotVersionTabs.workflow]"
-      (textChangedEvent)="saveText($event)"></app-code-editor>
+    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.workflow "
+                     [text]="editorCodeObj[myEBotVersionTabs.workflow]"
+                     (textChangedEvent)="saveText($event)"></app-code-editor>
   </div>
 
 
@@ -353,7 +365,8 @@
     <div class="top-dec"></div>
     <div class="modal-header">
       <h4 class="modal-title" style="display: flex;justify-content: start;">Add a new template</h4>
-      <button aria-label="Close" class="close pull-right" type="button" (click)="modalRef.hide()"><span aria-hidden="true">×</span>
+      <button aria-label="Close" class="close pull-right" type="button" (click)="modalRef.hide()"><span
+        aria-hidden="true">×</span>
       </button>
     </div>
     <div class="modal-body">
@@ -369,18 +382,20 @@
   <div class="primary-modal">
     <div class="top-dec"></div>
     <div class="modal-header">
-      <h4 class="modal-title" style="display: flex;justify-content: start;">Select Intents in which you wanna duplicate</h4>
-      <button aria-label="Close" class="close pull-right" type="button" (click)="modalRef.hide()"><span aria-hidden="true">×</span>
+      <h4 class="modal-title" style="display: flex;justify-content: start;">Select Intents in which you wanna
+        duplicate</h4>
+      <button aria-label="Close" class="close pull-right" type="button" (click)="modalRef.hide()"><span
+        aria-hidden="true">×</span>
       </button>
     </div>
     <div class="modal-body">
       <div class="d-flex flex-column align-items-center justify-content-center m-2" id="checkboxes">
         <label *ngFor="let x of myObject.keys(intents)">
-          <input type="checkbox"name="{{x}}" style="    height: 13px;">
+          <input type="checkbox" name="{{x}}" style="    height: 13px;">
           {{x}}
         </label>
         <button class="btn btn-theme-success-sm close" (click)="selectedListCopy();modalRef.hide()">Submit</button>
       </div>
     </div>
-    </div>
+  </div>
 </ng-template>
