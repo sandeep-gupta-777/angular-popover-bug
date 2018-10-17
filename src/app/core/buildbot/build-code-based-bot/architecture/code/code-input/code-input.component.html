@@ -183,13 +183,13 @@
                      [text]="editorCodeObj[myEBotVersionTabs.generation_rules]"
                      (textChangedEvent)="saveText($event)"></app-code-editor>
 
-    <p>{{showGenTempUi}}</p>
     <!--generation template UI starts-->
     <div class="row pl-3 genTempGrid pt-2 child-expand"
          [hidden]="activeTab!==myEBotVersionTabs.generation_templates || !showGenTempUi">
       <!--left sidebar starts-->
-      <div class="genTempGridItem intent-header ml-1 position-relative" >
-        <div style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; overflow-y: auto; overflow-x: hidden">
+      <div class="genTempGridItem intent-header ml-1 position-relative">
+        <div
+          style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; overflow-y: auto; overflow-x: hidden">
           <div class="d-flex" style="align-items:center;">
             <div class="text-bold">Intent Header</div>
             <div class="ml-auto text-primary pr-2 new-intent-btn cursor-pointer"
@@ -210,35 +210,60 @@
 
       <div class="genTempGridItemGrid" style="position: relative">
         <div class="response-test px-2">
-          Response Flow
+          Response Flow {{intents && selectedIntentTab && intents[selectedIntentTab] && (dataType(intents[selectedIntentTab])!=='string') ?
+          ('('+intents[selectedIntentTab].length+')'):""}}
         </div>
         <div class="form-group m-0 channel-drop">
           <label for="" class="px-2">Channel</label>
-          <select [ngModel]="selectedChannelOfGenTemplate.displayName" (ngModelChange)="selectedChannelChanged($event)"
+          <select [ngModel]="selectedChannelOfGenTemplate?.displayName" (ngModelChange)="selectedChannelChanged($event)"
                   required name="platform">
             <option type="button" [value]="">All</option>
             <option *ngFor="let channel of channelList" type="button" [value]="channel.name">{{channel.displayName}}
             </option>
           </select>
         </div>
-        <div class="intentItems position-relative">
-          <div style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; overflow-y: auto; overflow-x: hidden">
-            <div class="py-1 px-0 mb-3" *ngFor="let intentItem of intents[selectedIntentTab]; let i = index">
-              <app-text-gentemplate *ngIf="intentItem.text" [intentCode]="intentItem" [variants]=intentItem.text
-                                    [myIndex]=i (deleteTemplate)="deleteGentemplate($event)"
-                                    (moveTempUp)="moveUpGentempate($event)" (moveTempDown)="moveDownGentempate($event)"
-                                    (selectionChanged)="selectGentempate($event)"></app-text-gentemplate>
-              <app-code-gentemplate [intentCode]="intentItem" *ngIf="!intentItem.text" [myIndex]=i
-                                    [hidden]="activeTab!==myEBotVersionTabs.generation_templates"
-                                    (deleteTemplate)="deleteGentemplate($event)" (moveTempUp)="moveUpGentempate($event)"
-                                    (moveTempDown)="moveDownGentempate($event)"
-                                    (selectionChanged)="selectGentempate($event)"></app-code-gentemplate>
-            </div>
+
+        <!--if the value of template key is unpasable, we will show response components-->
+        <!--response components list start-->
+        <div class="intentItems position-relative ">
+          <div #scrollMe
+               style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; overflow-y: auto; overflow-x: hidden">
+            <ng-container *ngIf="intents && dataType(intents[selectedIntentTab])!=='string'">
+              <div class="py-1 px-0 mb-3" *ngFor="let intentItem of intents[selectedIntentTab]; let i = index">
+                <app-text-gentemplate *ngIf="intentItem.text" [intentCode]="intentItem" [variants]=intentItem.text
+                                      [myIndex]=i
+                                      [totalResponseTemplateComponentCount]="myObject.keys(intents[selectedIntentTab]).length"
+                                      (deleteTemplate)="deleteGentemplate($event)"
+                                      (moveTempUp)="moveUpGentempate($event)"
+                                      (moveTempDown)="moveDownGentempate($event)"
+                                      (selectionChanged)="selectGentempate($event)"></app-text-gentemplate>
+                <app-code-gentemplate [intentCode]="intentItem"
+                                      *ngIf="!intentItem.text  && dataType(intentItem)!=='string'" [myIndex]=i
+                                      [hidden]="activeTab!==myEBotVersionTabs.generation_templates"
+                                      (deleteTemplate)="deleteGentemplate($event)"
+                                      (moveTempUp)="moveUpGentempate($event)"
+                                      (moveTempDown)="moveDownGentempate($event)"
+                                      (selectionChanged)="selectGentempate($event)"></app-code-gentemplate>
+              </div>
+            </ng-container>
           </div>
         </div>
+        <!--response components list ends-->
 
+        <!--if the value of template key is unpasable, we will show code editor-->
+        <ng-container *ngIf="intents && dataType(intents[selectedIntentTab])==='string'">
+          <div class="intentItems d-flex-column-last-child-flex-grow-1">
+            <div class="d-flex-column-last-child-flex-grow-1 child-expand">
+              <app-code-editor class="d-flex-column-last-child-flex-grow-1 child-expand"
+                               [text]="{text:intentsClone[selectedIntentTab]}"
+                               *ngIf="(activeTab!==myEBotVersionTabs.generation_templates || showGenTempUi)"
+                               (textChangedEvent)="updateSelectedTemplateKeyValue($event)"></app-code-editor>
+            </div>
+          </div>
+        </ng-container>
         <!--fixed at bottom-->
-        <div *ngIf="selectedGenTempList.length>0" class="selected-templates d-flex m-2 px-2" style="position: absolute; bottom: 0; left: 0; right: 0">
+        <div *ngIf="selectedGenTempList.length>0" class="selected-templates d-flex m-2 px-2"
+             style="position: absolute; bottom: 0; left: 0; right: 0">
           <div>{{selectedGenTempList.length}} response selected</div>
           <div class="ml-auto color-primary cursor-pointer" (click)="selectedListCopyModel(IntentSelectionModal)"><i
             class="fa f0c5 fa-upload">
@@ -254,29 +279,30 @@
       </div>
 
       <div class="genTempGridItem bot-templates position-relative">
-        <div style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; overflow-y: auto; overflow-x: hidden">
+        <div
+          style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; overflow-y: auto; overflow-x: hidden">
 
-        <ul>
-          <li class="bot-template-heading">
-            <div class="text-bold">Bot Response Template</div>
-            <div class="text-lite">Drag & Drop elements to add to response</div>
-          </li>
-          <li class="bot-template cursor-pointer" (click)="addTextUnit();">
-            <i class="fa fa-align-left"></i>Text
-          </li>
-          <li class="bot-template cursor-pointer">
-            <i class=" fa fa-image"></i>Image corousel
-          </li>
-          <li class="bot-template cursor-pointer">
-            <i class="fa fa-users"></i>Text Corousel
-          </li>
-          <li class="bot-template cursor-pointer">
-            <i class="fa fa-users"></i>Quick Reply
-          </li>
-          <li class="bot-template cursor-pointer" (click)="addCodeUnit();">
-            <i class="fa fa-code"></i>Code Input
-          </li>
-        </ul>
+          <ul>
+            <li class="bot-template-heading">
+              <div class="text-bold">Bot Response Template</div>
+              <div class="text-lite">Drag & Drop elements to add to response</div>
+            </li>
+            <li class="bot-template cursor-pointer" (click)="addTextUnit();">
+              <i class="fa fa-align-left"></i>Text
+            </li>
+            <li class="bot-template cursor-pointer">
+              <i class=" fa fa-image"></i>Image corousel
+            </li>
+            <li class="bot-template cursor-pointer">
+              <i class="fa fa-users"></i>Text Corousel
+            </li>
+            <li class="bot-template cursor-pointer">
+              <i class="fa fa-users"></i>Quick Reply
+            </li>
+            <li class="bot-template cursor-pointer" (click)="addCodeUnit();">
+              <i class="fa fa-code"></i>Code Input
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -382,20 +408,53 @@
 <ng-template #IntentSelectionModal>
   <div class="primary-modal">
     <div class="top-dec"></div>
-    <div class="modal-header">
-      <h4 class="modal-title" style="display: flex;justify-content: start;">Select Intents in which you wanna
-        duplicate</h4>
+    <div class="modal-header" style="border: none !important;">
+      <h4 class="modal-title" style="display: flex;justify-content: start;">Copy response templates to</h4>
       <button aria-label="Close" class="close pull-right" type="button" (click)="modalRef.hide()"><span
         aria-hidden="true">×</span>
       </button>
+      <br>
+    </div>
+    <div class="d-flex w-100 mb-3 col-12" style="align-items: center;padding-left: 27px;">
+      <div>No response selected</div>
+      <div class="cursor-pointer color-primary ml-auto mr-3">
+        Select all
+      </div>
+      <div>
+        <input type="text" style="width: 120px;border: 1px solid #e0e0e0;margin-right: 60px; padding: 3px">
+      </div>
     </div>
     <div class="modal-body">
       <div class="d-flex flex-column align-items-center justify-content-center m-2" id="checkboxes">
-        <label *ngFor="let x of myObject.keys(intents)">
-          <input type="checkbox" name="{{x}}" style="    height: 13px;">
-          {{x}}
-        </label>
-        <button class="btn btn-theme-success-sm close" (click)="selectedListCopy();modalRef.hide()">Submit</button>
+
+        <div class="modelGridGenTempNames">
+          <label *ngFor="let x of myObject.keys(intents)">
+            <input type="checkbox" name="{{x}}">
+            {{x}}
+          </label>
+          <!--<label *ngFor="let x of myObject.keys(intents)">-->
+          <!--<input type="checkbox" name="{{x}}">-->
+          <!--{{x}}-->
+          <!--</label>-->
+          <!--<label *ngFor="let x of myObject.keys(intents)">-->
+          <!--<input type="checkbox" name="{{x}}">-->
+          <!--{{x}}-->
+          <!--</label>-->
+          <!--<label *ngFor="let x of myObject.keys(intents)">-->
+          <!--<input type="checkbox" name="{{x}}">-->
+          <!--{{x}}-->
+          <!--</label>-->
+          <!--<label *ngFor="let x of myObject.keys(intents)">-->
+          <!--<input type="checkbox" name="{{x}}">-->
+          <!--{{x}}-->
+          <!--</label>-->
+        </div>
+        <div class="d-flex w-100">
+          <button class="btn btn-theme-primary-outline ml-auto mr-2" (click)="modalRef.hide()">Cancel</button>
+          <button class="btn btn-theme-primary  d-inline-block mr-2" (click)="selectedListCopy();modalRef.hide()">Copy
+            now
+          </button>
+        </div>
       </div>
     </div>
   </div>

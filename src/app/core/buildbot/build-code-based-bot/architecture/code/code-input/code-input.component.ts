@@ -67,7 +67,9 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   showGenTempUi: boolean = true;
   selectedChannelOfGenTemplate:{name: string, displayName: string};
   selectedGenTempList: number[] = [];
-  selectedIntentList: string[] = ['A2', 'A3', 'A4']
+  selectedIntentList: string[] = ['A2', 'A3', 'A4'];
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+  intentsClone;
   intents /*= {
     "ask_date_book1": [{
       "include": ["facebook", "web"],
@@ -138,15 +140,19 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     let textUnit = {
       "include": ["facebook", "web"],
       "text": [""]
-    }
+    };
     this.intents[this.selectedIntentTab].push(textUnit);
+    setTimeout(()=>this.scrollToBottom());
+
   }
   addCodeUnit() {
+
     let codeUnit = {
       "include": ["facebook", "web"],
       "code": ["Write ur text here ....."]
     }
     this.intents[this.selectedIntentTab].push(codeUnit);
+    setTimeout(()=>this.scrollToBottom());
   }
   addQReplyUnit() {
     let qReplyUnit = {
@@ -154,6 +160,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       "text": ["Write ur text here ....."]
     }
     this.intents[this.selectedIntentTab].push(qReplyUnit);
+    setTimeout(()=>this.scrollToBottom());
   }
   deleteGentemplate(e) {
     this.intents[this.selectedIntentTab].splice(e, 1);
@@ -199,7 +206,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     this.selectedGenTempList = [];
   }
   selectedListCopyModel(IntentSelectionModal) {
-    this.modalRef = this.modalService.show(IntentSelectionModal, { class: 'modal-md' });
+    this.modalRef = this.modalService.show(IntentSelectionModal, { class: 'modal-lg' });
     return;
   }
   selectedListCopy() {
@@ -338,14 +345,23 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     }
 
     if (activeTab === EBotVersionTabs.generation_templates) {
-
       this.intents = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[this.activeTab])
+      this.intentsClone = {...this.intents};
     }
     this.router.navigate([`core/botdetail/${EBotType.chatbot}/`, this.bot.id], {
       queryParams: { 'code-tab': activeTab },
       queryParamsHandling: 'merge',
       replaceUrl: true
     });
+  }
+
+  dataType(item:any){
+    return typeof item;
+  }
+
+  updateSelectedTemplateKeyValue(codeStr:string){
+    debugger;
+    this.intents[this.selectedIntentTab] = codeStr;
   }
 
   saveText(codeStr: string) {
@@ -519,6 +535,13 @@ export class CodeInputComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.botlist$_sub && this.botlist$_sub.unsubscribe();
+  }
+
+  scrollToBottom(): void {
+    try {
+      console.log(this.myScrollContainer);
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch(err) { }
   }
 
   selectedChannelChanged(selectedChannel){

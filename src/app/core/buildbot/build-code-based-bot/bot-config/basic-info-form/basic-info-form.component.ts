@@ -37,7 +37,6 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
         this.formGroup.patchValue(this._bot);
         let formArray = this.formGroup.get('child_bots') as FormArray;
         formArray.controls.splice(0);
-
         this.initializeChildBotFormArray();
       }catch (e) {
         console.log(e);

@@ -350,13 +350,17 @@ export class UtilityService {
 
 
   parseGenTemplateCodeStrToObject(generation_templates: string) {
+    debugger;
     let templateKeyOutputObj = {};
     try {
-
       let templates: string[] = this.createTemplateKeyArr(generation_templates);
       let outputs: string[] = this.createOutputArr(generation_templates);
       for (let i = 0; i < templates.length; ++i) {
-        templateKeyOutputObj[templates[i]] = eval(outputs[i]);
+        try {
+          templateKeyOutputObj[templates[i]] = eval(outputs[i]);
+        }catch (e) {
+          templateKeyOutputObj[templates[i]] = outputs[i];
+        }
       }
     } catch (e) {
       console.log(e);
@@ -367,7 +371,6 @@ export class UtilityService {
   }
 
   parseGenTemplateUiDictionaryToIfElseCode(uiDictionary: object) {
-
     let genTemplateCodeStr = '';
     Object.keys(uiDictionary).forEach((templateKey, index) => {
       // let templateKey = Object.keys(templateKeys);
@@ -378,7 +381,12 @@ export class UtilityService {
         elIfStr = `\nelif(variables['templateKey'] == '${templateKey}'):\n`;
       }
       let outputValues = uiDictionary[templateKey];
-      let outPutStr = `  output = ${JSON.stringify(outputValues)}`;
+      let outPutStr;
+      if(typeof outputValues === 'string'){
+        outPutStr = outputValues;
+      }else {
+        outPutStr = `  output = ${JSON.stringify(outputValues)}`;
+      }
       genTemplateCodeStr += elIfStr + outPutStr;
     });
     return genTemplateCodeStr;

@@ -24,6 +24,7 @@ export class TextGentemplateComponent implements OnInit {
   }
   // @Input() variants : string[];
   @Input() myIndex : number;
+  @Input() totalResponseTemplateComponentCount : number;
   @Output() deleteTemplate: EventEmitter<string> = new EventEmitter<string>();
   @Output() moveTempUp: EventEmitter<string> = new EventEmitter<string>();
   @Output() moveTempDown: EventEmitter<string> = new EventEmitter<string>();

@@ -114,7 +114,6 @@ export class PermissionService {
           * 2. check if that action is allowed
           * */
 
-
           let actionToHttpVerbPPathNameMap = {};
           masterActionList.forEach((action: IProfilePermission) => {
             // actionToHttpVerbPPathNameMap[action.permissions.method + '+' + action.permissions.endpoint] = action.name;

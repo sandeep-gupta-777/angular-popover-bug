@@ -4,9 +4,8 @@
     <input type="checkbox" [(ngModel)]="selected" (ngModelChange)="onSelected($event)" >
 
     <div class="d-flex flex-column">
-      <!--<i class="fa fa-angle-up"></i>-->
       <i class="fa fa-chevron-up m-1 cursor-pointer heading-icon" *ngIf="myIndex != 0" (click)="moveUp(myIndex);"></i>
-      <i class="fa fa-chevron-down m-1 cursor-pointer heading-icon" (click)="moveDown(myIndex);"></i>
+      <i class="fa fa-chevron-down m-1 cursor-pointer heading-icon" *ngIf="myIndex != (totalResponseTemplateComponentCount-1)" (click)="moveDown(myIndex);"></i>
       <!--<i class="fa fa-angle-down"></i>-->
     </div>
     <i class="fa fa-trash ml-auto m-1 cursor-pointer heading-icon" (click)="delete(myIndex);"></i>
@@ -23,7 +22,7 @@
     <div *ngFor="let variant of variantsIter; let i = index" class="p-2">
       <div class="d-flex">
         <div class="name">Variant {{i + 1}}</div>
-        <i class="fa fa-trash ml-auto cursor-pointer" (click)="deleteVariant()"></i>
+        <!--<i class="fa fa-trash ml-auto cursor-pointer" (click)="deleteVariant()"></i>-->
       </div>
       <!--<textarea class="classic-textarea" placeholder='Write your text here ...' rows="3">{{variant}}</textarea>-->
       <textarea
