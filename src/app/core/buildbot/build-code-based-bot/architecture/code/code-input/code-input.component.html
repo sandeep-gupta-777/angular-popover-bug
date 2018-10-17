@@ -182,7 +182,7 @@
       </div>
       <!--left sidebar ends-->
 
-      <div class="genTempGridItemGrid ">
+      <div class="genTempGridItemGrid" style="position: relative">
         <div class="response-test px-2">
           Response Flow
         </div>
@@ -193,17 +193,48 @@
             <option *ngFor="let channel of channelList" type="button" [value]="channel.name">{{channel.displayName}}</option>
           </select>
         </div>
-        <div class="intentItems ">
-          <div class="py-1 px-0 mb-3" *ngFor="let intentItem of intents[selectedIntentTab]; let i = index">
-            <app-text-gentemplate *ngIf="intentItem.text" [intentCode]="intentItem" [variants]=intentItem.text [myIndex]=i (deleteTemplate)="deleteGentemplate($event)"
-              (moveTempUp)="moveUpGentempate($event)" (moveTempDown)="moveDownGentempate($event)" (selectionChanged)="selectGentempate($event)"></app-text-gentemplate>
+        <div class="intentItems position-relative">
+          <div style="position: absolute; top: 0; left: 0; right: 0; overflow-y: auto">
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <div>hello</div>
+            <!--<div class="py-1 px-0 mb-3" *ngFor="let intentItem of intents[selectedIntentTab]; let i = index">-->
+              <!--<app-text-gentemplate *ngIf="intentItem.text" [intentCode]="intentItem" [variants]=intentItem.text [myIndex]=i (deleteTemplate)="deleteGentemplate($event)"-->
+                                    <!--(moveTempUp)="moveUpGentempate($event)" (moveTempDown)="moveDownGentempate($event)" (selectionChanged)="selectGentempate($event)"></app-text-gentemplate>-->
 
-            <app-code-gentemplate [intentCode]="intentItem" *ngIf="!intentItem.text" [myIndex]=i [hidden]="activeTab!==myEBotVersionTabs.generation_templates"
-              (deleteTemplate)="deleteGentemplate($event)" (moveTempUp)="moveUpGentempate($event)" (moveTempDown)="moveDownGentempate($event)"
-              (selectionChanged)="selectGentempate($event)"></app-code-gentemplate>
+              <!--<app-code-gentemplate [intentCode]="intentItem" *ngIf="!intentItem.text" [myIndex]=i [hidden]="activeTab!==myEBotVersionTabs.generation_templates"-->
+                                    <!--(deleteTemplate)="deleteGentemplate($event)" (moveTempUp)="moveUpGentempate($event)" (moveTempDown)="moveDownGentempate($event)"-->
+                                    <!--(selectionChanged)="selectGentempate($event)"></app-code-gentemplate>-->
+            <!--</div>-->
           </div>
         </div>
-        <div class="selected-templates d-flex m-2 px-2">
+
+        <!--fixed at bottom-->
+        <div class="selected-templates d-flex m-2 px-2" style="position: absolute; bottom: 0; left: 0; right: 0">
           <div>{{selectedGenTempList.length}} response selected</div>
           <div class="ml-auto color-primary cursor-pointer" (click)="selectedListCopyModel(IntentSelectionModal)"><i class="fa f0c5 fa-upload">
             </i> Copy to</div>
@@ -211,6 +242,8 @@
             Duplicate</div>
           <div class="ml-auto color-danger cursor-pointer" (click)="selectedListDelete()">Delete</div>
         </div>
+        <!--fixed at bottom-->
+
       </div>
       <div class="genTempGridItem bot-templates">
         <ul>
