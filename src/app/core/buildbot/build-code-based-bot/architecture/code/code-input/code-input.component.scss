@@ -94,7 +94,7 @@
 
 .genTempGrid {
   display: grid;
-  width: 80vw;
+  //width: 80vw;
   grid-template-columns: 20% 60% 20%;
   grid-template-rows: 100%;
   background-color: #f7f7f7;
@@ -352,4 +352,15 @@ app-code-editor {
   .code-editor-row {
     grid-area: editor;
   }
+}
+
+
+#gentemplate-channel-selector{
+  height: 32px;
+  width: 130px;
+  border-radius: 2px;
+  padding-left: 20px;
+  border: solid 1px #e0e0e0;
+  @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-text-normal);
+  outline: none;
 }

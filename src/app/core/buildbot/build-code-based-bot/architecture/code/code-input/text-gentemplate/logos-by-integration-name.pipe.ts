@@ -19,9 +19,15 @@ export class LogosByIntegrationNamePipe implements PipeTransform {
 
   transform(integrationName: string): any {
 
-    let x = this.masterIntegrationList.find((integrationMasterListItem)=>{
-      return integrationMasterListItem.unique_name.toUpperCase() === integrationName.toUpperCase();
-    });
+
+    let x;
+    try {
+      x =  this.masterIntegrationList.find((integrationMasterListItem)=>{
+        return integrationMasterListItem.unique_name.toUpperCase() === integrationName.toUpperCase();
+      });
+    }catch (e) {
+      console.log(e);
+    }
 
     return x;
   }

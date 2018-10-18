@@ -4,7 +4,8 @@
     <input type="checkbox" [(ngModel)]="selected" (ngModelChange)="onSelected($event)">
     <div class="d-flex flex-column">
       <i class="fa fa-chevron-up m-1 cursor-pointer heading-icon" *ngIf="myIndex != 0" (click)="moveUp(myIndex);"></i>
-      <i class="fa fa-chevron-down m-1 cursor-pointer heading-icon" (click)="moveDown(myIndex);"></i>
+      <i class="fa fa-chevron-down m-1 cursor-pointer heading-icon"
+         *ngIf="myIndex != (totalResponseTemplateComponentCount-1)" (click)="moveDown(myIndex);"></i>
     </div>
     <i class="fa fa-trash ml-auto m-1 cursor-pointer heading-icon" (click)="delete(myIndex);"></i>
   </div>
@@ -12,19 +13,22 @@
 
   <div class="code-gentemplate flex-grow-1 d-flex-column-last-child-flex-grow-1">
     <!--<div class="p-1 tem-heading d-flex">-->
-      <!--<i class="fa fa-code heading-icon"></i> Code Input-->
-      <!--<i class="fa fa-trash ml-auto m-1 cursor-pointer heading-icon" (click)="delete(myIndex);"></i>-->
-      <!--<i class="fa fa-chevron-up m-1 cursor-pointer heading-icon" *ngIf="myIndex != 0" (click)="moveUp(myIndex);"></i>-->
-      <!--<i class="fa fa-chevron-down m-1 cursor-pointer heading-icon" (click)="moveDown(myIndex);"></i>-->
-      <!--<i><strong> {{ myIndex}}</strong></i>-->
-      <!--<input type="checkbox" [(ngModel)]="selected" (ngModelChange)="onSelected($event)">-->
+    <!--<i class="fa fa-code heading-icon"></i> Code Input-->
+    <!--<i class="fa fa-trash ml-auto m-1 cursor-pointer heading-icon" (click)="delete(myIndex);"></i>-->
+    <!--<i class="fa fa-chevron-up m-1 cursor-pointer heading-icon" *ngIf="myIndex != 0" (click)="moveUp(myIndex);"></i>-->
+    <!--<i class="fa fa-chevron-down m-1 cursor-pointer heading-icon" (click)="moveDown(myIndex);"></i>-->
+    <!--<i><strong> {{ myIndex}}</strong></i>-->
+    <!--<input type="checkbox" [(ngModel)]="selected" (ngModelChange)="onSelected($event)">-->
     <!--</div>-->
-    <app-code-editor class="child-expand"  [text]="{text: intentCodeObjClone|json}"
+    <app-code-editor class="child-expand" [text]="{text: intentCodeObjClone|json}"
                      (textChangedEvent)="codeEditorTextCHanged($event)"></app-code-editor>
     <div class="p-1 icon-footer">
     <span class="child-no-expand">
-      <img class="logo-image mx-1" src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/facebook.png">
-      <img class="logo-image mx-1" src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/skype.png">
+            <img *ngFor="let channel of intentCodeObjClone.include" class="logo-image mx-1"
+                 [src]="(channel|logosByIntegrationName)?.icon">
+
+      <!--<img class="logo-image mx-1" src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/facebook.png">-->
+      <!--<img class="logo-image mx-1" src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/skype.png">-->
     </span>
     </div>
   </div>

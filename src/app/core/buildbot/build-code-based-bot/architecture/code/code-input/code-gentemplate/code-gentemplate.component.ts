@@ -9,9 +9,10 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class CodeGentemplateComponent implements OnInit {
 
   constructor() { }
-  intentCodeObjClone:object;
-  @Input() intentCode: object;
+  intentCodeObjClone:{include:string[],text:string[]};
+  @Input() intentCode: {include:string[],text:string[]};
   @Input() myIndex: number;
+  @Input() totalResponseTemplateComponentCount: number;
   @Output() deleteTemplate: EventEmitter<string> = new EventEmitter<string>();
   @Output() moveTempUp: EventEmitter<string> = new EventEmitter<string>();
   @Output() moveTempDown: EventEmitter<string> = new EventEmitter<string>();

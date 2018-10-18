@@ -1,3 +1,5 @@
+<!--<p>{{channelList|json}}</p>-->
+
 <div class="d-flex-column-last-child-flex-grow-1">
   <div class="row row-version my-2 m-0 child-no-expand-shrink " style="position: relative"
        (clickOutside)="showVersionList = false">
@@ -142,15 +144,15 @@
             <li>
               <!--<button [hidden]="activeTab!==myEBotVersionTabs.generation_templates" (click)="showGenTempUi = !showGenTempUi; convertUiDictToGenTemplateCode()">button123-->
               <!--</button>-->
-            <li class="ml-auto gen-templet-toggle d-flex align-items-center">
+            <li class="ml-auto gen-templet-toggle d-flex align-items-center" *ngIf="activeTab===myEBotVersionTabs.generation_templates">
               <!-- <button [hidden]="activeTab!==myEBotVersionTabs.generation_templates" (click)="showGenTempUi = !showGenTempUi">button</button> -->
               <span>Interface</span>
               <ui-switch
-                (change)="convertUiDictToGenTemplateCode()"
+                (change)="genTemplateViewChange($event)"
                 color="black"
                 switchColor="white"
                 name="toggle_gen_templet"
-                [(ngModel)]="showGenTempUi" class="d-flex align-items-center mx-1 "
+                [(ngModel)]="showGenTempEditorAndHideGenTempUi" class="d-flex align-items-center mx-1 "
                 style="border:none;padding: 0;" size="small" title="Toggle UI view"></ui-switch>
               <span>Code</span>
 
@@ -185,7 +187,7 @@
 
     <!--generation template UI starts-->
     <div class="row pl-3 genTempGrid pt-2 child-expand"
-         [hidden]="activeTab!==myEBotVersionTabs.generation_templates || !showGenTempUi">
+         *ngIf="activeTab===myEBotVersionTabs.generation_templates && !showGenTempEditorAndHideGenTempUi">
       <!--left sidebar starts-->
       <div class="genTempGridItem intent-header ml-1 position-relative">
         <div
@@ -210,17 +212,24 @@
 
       <div class="genTempGridItemGrid" style="position: relative">
         <div class="response-test px-2">
-          Response Flow {{intents && selectedIntentTab && intents[selectedIntentTab] && (dataType(intents[selectedIntentTab])!=='string') ?
+          Response Flow {{intents && selectedIntentTab && intents[selectedIntentTab] &&
+          (dataType(intents[selectedIntentTab])!=='string') ?
           ('('+intents[selectedIntentTab].length+')'):""}}
         </div>
-        <div class="form-group m-0 channel-drop">
-          <label for="" class="px-2">Channel</label>
-          <select [ngModel]="selectedChannelOfGenTemplate?.displayName" (ngModelChange)="selectedChannelChanged($event)"
-                  required name="platform">
-            <option type="button" [value]="">All</option>
-            <option *ngFor="let channel of channelList" type="button" [value]="channel.name">{{channel.displayName}}
-            </option>
-          </select>
+        <div class="form-group m-0 channel-drop d-flex align-items-center">
+          <label for="" class="px-2 my-0">Channel</label>
+          <div class="position-relative ">
+            <img style="position: absolute; width: 15px; height: 15px; top: 50%; transform: translate(5px, -50%)"
+                 [src]="(selectedChannelOfGenTemplate?.name|logosByIntegrationName)?.icon" alt="">
+            <select id="gentemplate-channel-selector"
+                    [ngModel]="selectedChannelOfGenTemplate?.displayName" (ngModelChange)="selectedChannelChanged($event)"
+                    required name="platform">
+              <option *ngFor="let channel of channelList" type="button" [value]="channel.name">{{channel.displayName}}</option>
+              <!--<option type="button" value="all">All</option>-->
+              <!--<option type="button" value="facebook">facebook</option>-->
+              <!--<option type="button" value="skype">skype</option>-->
+            </select>
+          </div>
         </div>
 
         <!--if the value of template key is unpasable, we will show response components-->
@@ -229,7 +238,7 @@
           <div #scrollMe
                style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; overflow-y: auto; overflow-x: hidden">
             <ng-container *ngIf="intents && dataType(intents[selectedIntentTab])!=='string'">
-              <div class="py-1 px-0 mb-3" *ngFor="let intentItem of intents[selectedIntentTab]; let i = index">
+              <div class="py-1 px-0 mb-3" *ngFor="let intentItem of intents[selectedIntentTab]|filterResponseComponentByChannelName:selectedChannelOfGenTemplate?.name; let i = index">
                 <app-text-gentemplate *ngIf="intentItem.text" [intentCode]="intentItem" [variants]=intentItem.text
                                       [myIndex]=i
                                       [totalResponseTemplateComponentCount]="myObject.keys(intents[selectedIntentTab]).length"
@@ -238,7 +247,9 @@
                                       (moveTempDown)="moveDownGentempate($event)"
                                       (selectionChanged)="selectGentempate($event)"></app-text-gentemplate>
                 <app-code-gentemplate [intentCode]="intentItem"
-                                      *ngIf="!intentItem.text  && dataType(intentItem)!=='string'" [myIndex]=i
+                                      *ngIf="!intentItem.text  && dataType(intentItem)!=='string'"
+                                      [myIndex]=i
+                                      [totalResponseTemplateComponentCount]="myObject.keys(intents[selectedIntentTab]).length"
                                       [hidden]="activeTab!==myEBotVersionTabs.generation_templates"
                                       (deleteTemplate)="deleteGentemplate($event)"
                                       (moveTempUp)="moveUpGentempate($event)"
@@ -250,20 +261,20 @@
         </div>
         <!--response components list ends-->
 
-        <!--if the value of template key is unpasable, we will show code editor-->
+        <!--if the value of template key is unparsable, we will show code editor-->
         <ng-container *ngIf="intents && dataType(intents[selectedIntentTab])==='string'">
           <div class="intentItems d-flex-column-last-child-flex-grow-1">
             <div class="d-flex-column-last-child-flex-grow-1 child-expand">
               <app-code-editor class="d-flex-column-last-child-flex-grow-1 child-expand"
                                [text]="{text:intentsClone[selectedIntentTab]}"
-                               *ngIf="(activeTab!==myEBotVersionTabs.generation_templates || showGenTempUi)"
+                               *ngIf="(activeTab!==myEBotVersionTabs.generation_templates || showGenTempEditorAndHideGenTempUi)"
                                (textChangedEvent)="updateSelectedTemplateKeyValue($event)"></app-code-editor>
             </div>
           </div>
         </ng-container>
         <!--fixed at bottom-->
         <div *ngIf="selectedGenTempList.length>0" class="selected-templates d-flex m-2 px-2"
-             style="position: absolute; bottom: 0; left: 0; right: 0">
+             style="position: absolute; bottom: 0; left: 0; right: 0; z-index: 200">
           <div>{{selectedGenTempList.length}} response selected</div>
           <div class="ml-auto color-primary cursor-pointer" (click)="selectedListCopyModel(IntentSelectionModal)"><i
             class="fa f0c5 fa-upload">
@@ -285,7 +296,7 @@
           <ul>
             <li class="bot-template-heading">
               <div class="text-bold">Bot Response Template</div>
-              <div class="text-lite">Drag & Drop elements to add to response</div>
+              <div class="text-lite">Click on elements to add to response</div>
             </li>
             <li class="bot-template cursor-pointer" (click)="addTextUnit();">
               <i class="fa fa-align-left"></i>Text
@@ -314,7 +325,7 @@
     <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates || showGenTempUi"-->
     <!--[text]="{'text' : intents | json}"-->
     <!--(textChangedEvent)="saveText($event)"></app-code-editor>-->
-    <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates || showGenTempUi"
+    <app-code-editor *ngIf="activeTab===myEBotVersionTabs.generation_templates && showGenTempEditorAndHideGenTempUi"
                      [text]="editorCodeObj[myEBotVersionTabs.generation_templates]"
                      (textChangedEvent)="saveText($event)"></app-code-editor>
 
@@ -356,11 +367,23 @@
         <!---->
         <div class="col-md-9 px-0 d-flex justify-content-start">
           <!--<input type="password" [(ngModel)]="forked_From" name="old_password">-->
-          <select class="concept1" [(ngModel)]="forked_version_number" required type="number" name="version_id" #select>
+          <!--<select class="concept1" [(ngModel)]="forked_version_number" required type="number" name="version_id" #select>-->
+          <!--<option type="button" *ngFor="let version of bot.store_bot_versions">-->
+          <!--<button>{{version.version}}</button>-->
+          <!--</option>-->
+          <!--</select>-->
+
+          <!--<div class="form-group m-0 mr-4 ml-auto">-->
+          <select class="concept1"
+                  [(ngModel)]="forked_version_number" required type="number" name="version_id" #select>
+            <img style="height: 20px; width: 20px; position: absolute;left: 5px"
+                 src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/facebook.png" alt="">
             <option type="button" *ngFor="let version of bot.store_bot_versions">
               <button>{{version.version}}</button>
             </option>
           </select>
+          <!--</div>-->
+
         </div>
         <div class="col-md-3 my-2">
           <label for="">Comments on the new version</label>

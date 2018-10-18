@@ -1,26 +1,26 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { Store, Select } from '@ngxs/store';
-import { IBot, IBotVersionData, IBotVersionResult, ICode } from '../../../../../interfaces/IBot';
-import { ServerService } from '../../../../../../server.service';
-import { ConstantsService, EAllActions } from '../../../../../../constants.service';
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Store, Select} from '@ngxs/store';
+import {IBot, IBotVersionData, IBotVersionResult, ICode} from '../../../../../interfaces/IBot';
+import {ServerService} from '../../../../../../server.service';
+import {ConstantsService, EAllActions} from '../../../../../../constants.service';
 import {
   SaveVersionInfoInBot,
   UpdateBotInfoByIdInBotInBotList,
   UpdateVersionInfoByIdInBot
 } from '../../../../../view-bots/ngxs/view-bot.action';
-import { SaveCodeInfo } from '../../../../ngxs/buildbot.action';
-import { ViewBotStateModel } from '../../../../../view-bots/ngxs/view-bot.state';
-import { Observable, Subscription } from 'rxjs';
-import { IHeaderData } from '../../../../../../../interfaces/header-data';
-import { UtilityService } from '../../../../../../utility.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { IBotCreationState } from '../../../../ngxs/buildbot.state';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { CodeEditorComponent } from '../code-editor/code-editor.component';
-import { EBotType } from '../../../../../view-bots/view-bots.component';
-import { EventService } from '../../../../../../event.service';
-import { take } from 'rxjs/operators';
+import {SaveCodeInfo} from '../../../../ngxs/buildbot.action';
+import {ViewBotStateModel} from '../../../../../view-bots/ngxs/view-bot.state';
+import {Observable, Subscription} from 'rxjs';
+import {IHeaderData} from '../../../../../../../interfaces/header-data';
+import {UtilityService} from '../../../../../../utility.service';
+import {Router, ActivatedRoute} from '@angular/router';
+import {IBotCreationState} from '../../../../ngxs/buildbot.state';
+import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import {CodeEditorComponent} from '../code-editor/code-editor.component';
+import {EBotType} from '../../../../../view-bots/view-bots.component';
+import {EventService} from '../../../../../../event.service';
+import {take} from 'rxjs/operators';
 import {st} from '@angular/core/src/render3';
 
 export enum EBotVersionTabs {
@@ -31,8 +31,8 @@ export enum EBotVersionTabs {
   workflow = 'workflow'
 }
 
-export interface IIntentItem{
-  text?:string[],
+export interface IIntentItem {
+  text?: string[],
   include: string[]
 }
 
@@ -45,7 +45,7 @@ export interface IIntentItem{
 export class CodeInputComponent implements OnInit, OnDestroy {
 
   showConfig = true;
-  templateKeySearchKeyword:string="";
+  templateKeySearchKeyword: string = '';
   myEBotVersionTabs = EBotVersionTabs;
   activeTab: string = 'df_template';
 
@@ -61,125 +61,133 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   errorMessage: string;
   activeVersion: IBotVersionData;
   forked_version_number: number;
-  selectedIntentTab: string = "ask_date_book1";
+  selectedIntentTab: string = 'ask_date_book1';
   myObject = Object;
   newIntentName: string;
-  showGenTempUi: boolean = true;
-  selectedChannelOfGenTemplate:{name: string, displayName: string};
+  showGenTempEditorAndHideGenTempUi: boolean = false;
+  selectedChannelOfGenTemplate: { name: string, displayName: string };
   selectedGenTempList: number[] = [];
   selectedIntentList: string[] = ['A2', 'A3', 'A4'];
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   intentsClone;
-  intents /*= {
-    "ask_date_book1": [{
-      "include": ["facebook", "web"],
-      "text": ["1When would you like to visit us? Please provide the date and time.11",
-        "1When would you like to visit us? Please provide the date and time.12"]
-    },
-    {
-      "include": ["facebook", "web"],
-      "text": ["1When would you like to visit us? Please provide the date and time.21",
-        "1When would you like to visit us? Please provide the date and time.22",
-        "1When would you like to visit us? Please provide the date and time.23"]
-    },
-    {
-      "include": ["facebook", "web"],
-      "sdas": ["1When would you like to visit us? Please provide the date and time.21",
-        "1When would you like to visit us? Please provide the date and time.22",
-        "1When would you like to visit us? Please provide the date and time.23"]
-    }
-    ],
+  intents;
+  /*= {
+     "ask_date_book1": [{
+       "include": ["facebook", "web"],
+       "text": ["1When would you like to visit us? Please provide the date and time.11",
+         "1When would you like to visit us? Please provide the date and time.12"]
+     },
+     {
+       "include": ["facebook", "web"],
+       "text": ["1When would you like to visit us? Please provide the date and time.21",
+         "1When would you like to visit us? Please provide the date and time.22",
+         "1When would you like to visit us? Please provide the date and time.23"]
+     },
+     {
+       "include": ["facebook", "web"],
+       "sdas": ["1When would you like to visit us? Please provide the date and time.21",
+         "1When would you like to visit us? Please provide the date and time.22",
+         "1When would you like to visit us? Please provide the date and time.23"]
+     }
+     ],
 
-    "ask_date_book2": [{
-      "include": ["facebook", "web"],
-      "text": ["1When would you like to visit us? Please provide the date and time.11",
-        "1When would you like to visit us? Please provide the date and time.22",
-        "1When would you like to visit us? Please provide the date and time.33"]
-    }],
+     "ask_date_book2": [{
+       "include": ["facebook", "web"],
+       "text": ["1When would you like to visit us? Please provide the date and time.11",
+         "1When would you like to visit us? Please provide the date and time.22",
+         "1When would you like to visit us? Please provide the date and time.33"]
+     }],
 
 
-    "ask_date_book3": [{
-      "include": ["facebook", "web"],
-      "text": ["3When would you like to visit us? Please provide the date and time."]
-    }],
+     "ask_date_book3": [{
+       "include": ["facebook", "web"],
+       "text": ["3When would you like to visit us? Please provide the date and time."]
+     }],
 
-    "ask_date_book4": [{
-      "include": ["facebook", "web"],
-      "text": ["4When would you like to visit us? Please provide the date and time."]
-    }],
+     "ask_date_book4": [{
+       "include": ["facebook", "web"],
+       "text": ["4When would you like to visit us? Please provide the date and time."]
+     }],
 
-    "ask_date_book5": [{
-      "include": ["facebook", "web"],
-      "text": ["5When would you like to visit us? Please provide the date and time."]
-    }],
+     "ask_date_book5": [{
+       "include": ["facebook", "web"],
+       "text": ["5When would you like to visit us? Please provide the date and time."]
+     }],
 
-    "ask_date_book6": [{
-      "include": ["facebook", "web"],
-      "text": ["6When would you like to visit us? Please provide the date and time."]
-    }]
+     "ask_date_book6": [{
+       "include": ["facebook", "web"],
+       "text": ["6When would you like to visit us? Please provide the date and time."]
+     }]
 
-  }
-  */
-  channelList:{name: string, displayName: string}[];// = ["facebook", "web", "imiconnect", "imichat", "skype"];
+   }
+   */
+  channelList: { name: string, displayName: string }[];// = ["facebook", "web", "imiconnect", "imichat", "skype"];
   openNewIntentModal(template) {
-    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
     return;
   }
+
   newIntent() {
-    let intentUnit = {}
+    let intentUnit = {};
     intentUnit[this.newIntentName] = [{
-      "text": [
-        ""
+      'text': [
+        ''
       ],
-      "include": [
-      ]
+      'include': []
     }];
-    this.intents = { ...this.intents, ...intentUnit };
+    this.intents = {...this.intents, ...intentUnit};
   }
+
   addTextUnit() {
     let textUnit = {
-      "include": ["facebook", "web"],
-      "text": [""]
+      'include': ['facebook', 'web'],
+      'text': ['']
     };
     this.intents[this.selectedIntentTab].push(textUnit);
-    setTimeout(()=>this.scrollToBottom());
+    setTimeout(() => this.scrollToBottom());
 
   }
+
   addCodeUnit() {
 
     let codeUnit = {
-      "include": ["facebook", "web"],
-      "code": ["Write ur text here ....."]
-    }
+      'include': ['facebook', 'web'],
+      'code': ['Write ur text here .....']
+    };
     this.intents[this.selectedIntentTab].push(codeUnit);
-    setTimeout(()=>this.scrollToBottom());
+    setTimeout(() => this.scrollToBottom());
   }
+
   addQReplyUnit() {
     let qReplyUnit = {
-      "include": ["facebook", "web"],
-      "text": ["Write ur text here ....."]
-    }
+      'include': ['facebook', 'web'],
+      'text': ['Write ur text here .....']
+    };
     this.intents[this.selectedIntentTab].push(qReplyUnit);
-    setTimeout(()=>this.scrollToBottom());
+    setTimeout(() => this.scrollToBottom());
   }
+
   deleteGentemplate(e) {
     this.intents[this.selectedIntentTab].splice(e, 1);
     console.log(this.intents[this.selectedIntentTab]);
   }
+
   moveUpGentempate(e) {
     var temp = this.intents[this.selectedIntentTab][e];
     this.intents[this.selectedIntentTab][e] = this.intents[this.selectedIntentTab][e - 1];
     this.intents[this.selectedIntentTab][e - 1] = temp;
   }
+
   moveDownGentempate(e) {
     if (this.intents[this.selectedIntentTab].length == e + 1) {
-      console.log("just dot do that , U know Y");
+      console.log('just dot do that , U know Y');
       return;
     }
     var temp = this.intents[this.selectedIntentTab][e];
     this.intents[this.selectedIntentTab][e] = this.intents[this.selectedIntentTab][e + 1];
     this.intents[this.selectedIntentTab][e + 1] = temp;
   }
+
   // functins on selected gen temp list
   selectGentempate(e) {
     let i = JSON.parse(e);
@@ -193,22 +201,26 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       }
     }
   }
+
   selectedListDelete() {
     for (let i of this.selectedGenTempList) {
       this.intents[this.selectedIntentTab].splice(i, 1);
     }
     this.selectedGenTempList = [];
   }
+
   selectedListDuplicate() {
     for (let i of this.selectedGenTempList) {
       this.intents[this.selectedIntentTab].push(this.intents[this.selectedIntentTab][i]);
     }
     this.selectedGenTempList = [];
   }
+
   selectedListCopyModel(IntentSelectionModal) {
-    this.modalRef = this.modalService.show(IntentSelectionModal, { class: 'modal-lg' });
+    this.modalRef = this.modalService.show(IntentSelectionModal, {class: 'modal-lg'});
     return;
   }
+
   selectedListCopy() {
     let selectedGenTempObjList = [];
     for (let i of this.selectedGenTempList) {
@@ -219,6 +231,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     }
     this.selectedGenTempList = [];
   }
+
   // selectedIntent(SIntent){
   //   this.selectedIntentTab = SIntent;
   // }
@@ -228,11 +241,11 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   editorCode;
   // editorCodeObj:{text:string} = {text:""};
   editorCodeObj = {
-    'df_template': { text: '' },
-    'df_rules': { text: '' },
-    'generation_rules': { text: '' },
-    'generation_templates': { text: '' },
-    'workflow': { text: '' },
+    'df_template': {text: ''},
+    'df_rules': {text: ''},
+    'generation_rules': {text: ''},
+    'generation_templates': {text: ''},
+    'workflow': {text: ''},
   };
   showVersionList = false;
 
@@ -258,31 +271,34 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       this.showConfig = (showConfigStr === 'true' || showConfigStr == undefined);
     });
 
-    // let url = this.constantsService.getAllVersionsByBotId();
-    // let botId = this.bot.id;
-    // this.serverService.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
-    //   .subscribe((botVersionResult) => {
-    //     this.store.dispatch([
-    //       new SaveVersionInfoInBot({data: botVersionResult.objects, botId: this.bot.id})
-    //     ]);
-    //   });
-
     this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
-    this.botlist$_sub = this.botlist$.subscribe((value) => {
-      this.utilityService.getActiveVersionInBot(this.bot);
-      if (this.bot) {
-        this.channelList =
-          Object.keys(this.bot.integrations.channels).filter((integrationKey: any) => {
-            return this.bot.integrations.channels[integrationKey].enabled;
-          }).map((integrationKey) => {
-            return {
-              name: integrationKey,
-              displayName: integrationKey
-            };
-          });
-        this.channelList.unshift({name: 'all', displayName: 'All Channels'});
-        this.selectedChannelOfGenTemplate = this.channelList[0];
+    this.botlist$_sub = this.botlist$.subscribe(() => {
+      debugger;
+      try {
+        this.utilityService.getActiveVersionInBot(this.bot);
+        this.channelList = Object.keys(this.bot.integrations.channels)
+          .map((integrationKey) => {
+          return {
+            name: integrationKey,
+            displayName: integrationKey
+          };
+        });
+        this.channelList.unshift({name: 'all', displayName: 'All'});
+        this.selectedChannelOfGenTemplate = {name: 'all', displayName: 'All'};
 
+        setTimeout(() => {
+          if (this.selectedVersion) {
+            this.intents = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
+            if (this.intents) {
+              this.intentsClone = {...this.intents};
+              this.selectedIntentTab = Object.keys(this.intents)[0];
+            }
+          }
+        });
+
+
+      } catch (e) {
+        console.log(e);
       }
 
       // let activeVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.find((BotVersion) => {
@@ -301,22 +317,12 @@ export class CodeInputComponent implements OnInit, OnDestroy {
         this.selectedVersion = activeVersion ? activeVersion : (this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions[0]);
       else {
         /*updating selected version*/
-        this.selectedVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions.find((version) => version.id === this.selectedVersion.id)
+        this.selectedVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions.find((version) => version.id === this.selectedVersion.id);
       }
 
 
       this.forked_version_number = this.selectedVersion && this.selectedVersion.version;
-      // if (!activeVersion) {
-      //   try {
-      //     this.selectedVersion = this.bot.store_bot_versions[0];
-      //   } catch (e) {
-      //     console.log(e);
-      //   }
-      // }
-      // if (!this.selectedVersion) {
-      // this.selectedVersion = activeVersion;
       this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab') || EBotVersionTabs.df_template;
-      // }
       this.bot.store_selected_version = this.selectedVersion && this.selectedVersion.id;
       this.tabClicked(this.activeTab);
 
@@ -329,7 +335,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
 
   async openFile(inputEl) {
     this.editorCodeObj[this.activeTab].text = await this.utilityService.readInputFileAsText(inputEl);
-    this.editorCodeObj[this.activeTab] = { ...this.editorCodeObj[this.activeTab] };
+    this.editorCodeObj[this.activeTab] = {...this.editorCodeObj[this.activeTab]};
   }
 
   @ViewChild(CodeEditorComponent) codeEditorComponent: ElementRef;
@@ -341,26 +347,30 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     /*TODO: We dont need code here... just replace it with selectedVersion. Also we dont need ICode interface*/
     if (this.selectedVersion) {
       this.editorCodeObj[this.activeTab].text = this.selectedVersion[this.activeTab];
-      this.editorCodeObj[this.activeTab] = { ...this.editorCodeObj[this.activeTab] };
+      this.editorCodeObj[this.activeTab] = {...this.editorCodeObj[this.activeTab]};
     }
 
     if (activeTab === EBotVersionTabs.generation_templates) {
-      this.intents = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[this.activeTab])
-      this.intentsClone = {...this.intents};
+      this.convertGenTemplateCodeStringIntoUiComponents();
     }
     this.router.navigate([`core/botdetail/${EBotType.chatbot}/`, this.bot.id], {
-      queryParams: { 'code-tab': activeTab },
+      queryParams: {'code-tab': activeTab},
       queryParamsHandling: 'merge',
       replaceUrl: true
     });
   }
 
-  dataType(item:any){
+  convertGenTemplateCodeStringIntoUiComponents() {
+    this.intents = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
+    this.intentsClone = {...this.intents};
+  }
+
+  dataType(item: any) {
     return typeof item;
   }
 
-  updateSelectedTemplateKeyValue(codeStr:string){
-    debugger;
+  updateSelectedTemplateKeyValue(codeStr: string) {
+
     this.intents[this.selectedIntentTab] = codeStr;
   }
 
@@ -396,25 +406,27 @@ export class CodeInputComponent implements OnInit, OnDestroy {
 
   saveSelectedVersion() {
 
+    this.convertUiDictToGenTemplateCode();
+
     let headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
     this.selectedVersion.updated_fields = this.selectedVersion.changed_fields;
     this.selectedVersion.changed_fields = {
-      "df_template": false,
-      "df_rules": false,
-      "generation_rules": false,
-      "generation_template": false,
-      "workflows": false
-    }
+      'df_template': false,
+      'df_rules': false,
+      'generation_rules': false,
+      'generation_template': false,
+      'workflows': false
+    };
     if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
       let url = this.constantsService.getSaveVersionByBotId(this.bot.id);
-      this.serverService.makePutReq({ url, body: this.selectedVersion, headerData })
+      this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
         .subscribe((value: IBotVersionData) => {
           this.selectedVersion = Object.assign(this.selectedVersion, value);
           console.log(this.bot.store_bot_versions);
           this.store.dispatch([
-            new UpdateVersionInfoByIdInBot({ data: value, botId: this.bot.id })
+            new UpdateVersionInfoByIdInBot({data: value, botId: this.bot.id})
           ]);
           this.utilityService.showSuccessToaster('New version saved');
         });
@@ -426,13 +438,13 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       delete body.forked_from;
       /*remove version id = -1, from store*/
       this.bot.store_bot_versions.length = 0;
-      this.serverService.makePostReq({ url, body, headerData })
+      this.serverService.makePostReq({url, body, headerData})
         .subscribe((forkedVersion: IBotVersionData) => {
           console.log(forkedVersion);
           this.selectedVersion = forkedVersion;
           this.utilityService.showSuccessToaster('New version forked');
           this.store.dispatch([
-            new UpdateVersionInfoByIdInBot({ data: forkedVersion, botId: this.bot.id })
+            new UpdateVersionInfoByIdInBot({data: forkedVersion, botId: this.bot.id})
           ]);
           // this.ngOnInit();
           /*TODO: implement it correctly*/
@@ -441,12 +453,15 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   }
 
   convertUiDictToGenTemplateCode() {
-    this.selectedVersion.generation_templates = this.utilityService.parseGenTemplateUiDictionaryToIfElseCode(this.intents);
-    this.editorCodeObj = { ...this.editorCodeObj, generation_templates: { text: this.selectedVersion.generation_templates } };
+    let parseUiDict = this.utilityService.parseGenTemplateUiDictionaryToIfElseCode(this.intents);
+    if (parseUiDict) {
+      this.selectedVersion.generation_templates = parseUiDict;
+    }
+    this.editorCodeObj = {...this.editorCodeObj, generation_templates: {text: this.selectedVersion.generation_templates}};
   }
 
   openForkNewVersionModal(template) {
-    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
     return;
 
     // let headerData: IHeaderData = {
@@ -478,15 +493,15 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     }
     this.modalRef.hide();
     let forkedVersionInfo = this.bot.store_bot_versions.find((versions) => versions.version == this.forked_version_number);
-    forkedVersionInfo = { ...forkedVersionInfo };
+    forkedVersionInfo = {...forkedVersionInfo};
     forkedVersionInfo.updated_fields = forkedVersionInfo.changed_fields;
     forkedVersionInfo.changed_fields = {
-      "df_template": false,
-      "df_rules": false,
-      "generation_rules": false,
-      "generation_template": false,
-      "workflows": false
-    }
+      'df_template': false,
+      'df_rules': false,
+      'generation_rules': false,
+      'generation_template': false,
+      'workflows': false
+    };
     forkedVersionInfo.comment = this.forked_comments;
     forkedVersionInfo.forked_from = this.forked_version_number;
     let headerData: IHeaderData = {
@@ -497,7 +512,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     delete forkedVersionInfo.resource_uri;
     delete forkedVersionInfo.resource_uri;
 
-    this.serverService.makePostReq({ url, body: forkedVersionInfo, headerData })
+    this.serverService.makePostReq({url, body: forkedVersionInfo, headerData})
       .subscribe((forkedVersion: IBotVersionData) => {
         console.log(forkedVersion);
         this.bot.store_bot_versions.push(forkedVersion);
@@ -505,9 +520,9 @@ export class CodeInputComponent implements OnInit, OnDestroy {
         this.forked_comments = '';
         this.forked_version_number = null;
         this.store.dispatch([
-          new UpdateVersionInfoByIdInBot({ botId: this.bot.id, data: forkedVersion })
+          new UpdateVersionInfoByIdInBot({botId: this.bot.id, data: forkedVersion})
         ]).subscribe(() => {
-          this.changeSelectedVersion(forkedVersion)
+          this.changeSelectedVersion(forkedVersion);
           // this.selectedVersion = forkedVersion;
         });
         // this.ngOnInit();
@@ -541,10 +556,19 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     try {
       console.log(this.myScrollContainer);
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch(err) { }
+    } catch (err) {
+    }
   }
 
-  selectedChannelChanged(selectedChannel){
+  selectedChannelChanged(selectedChannel: string) {
+    this.selectedChannelOfGenTemplate = this.channelList.find((channel) => channel.name === selectedChannel);
+  }
 
+  genTemplateViewChange(showGenTempEditorAndHideGenTempUi) {
+    if (showGenTempEditorAndHideGenTempUi) {
+      this.convertUiDictToGenTemplateCode();
+    } else {
+      this.convertGenTemplateCodeStringIntoUiComponents();
+    }
   }
 }
