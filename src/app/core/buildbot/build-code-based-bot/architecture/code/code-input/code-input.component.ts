@@ -67,7 +67,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   selectedIntentTab: string = 'ask_date_book1';
   myObject = Object;
   newIntentName: string;
-  showGenTempEditorAndHideGenTempUi: boolean = false;
+  showGenTempEditorAndHideGenTempUi: boolean = true;
   selectedChannelOfGenTemplate: { name: string, displayName: string };
   selectedGenTempList: number[] = [];
   selectedIntentList: string[] = ['A2', 'A3', 'A4'];
