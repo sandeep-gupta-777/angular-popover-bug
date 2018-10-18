@@ -22,6 +22,7 @@ import {EBotType} from '../../../../../view-bots/view-bots.component';
 import {EventService} from '../../../../../../event.service';
 import {take} from 'rxjs/operators';
 import {LoggingService} from '../../../../../../logging.service';
+import {NgForm} from '@angular/forms';
 
 export enum EBotVersionTabs {
   df_template = 'df_template',
@@ -29,6 +30,11 @@ export enum EBotVersionTabs {
   generation_rules = 'generation_rules',
   generation_templates = 'generation_templates',
   workflow = 'workflow'
+}
+
+export interface IIntentItem {
+  text?: string[],
+  include: string[]
 }
 
 @Component({
@@ -40,8 +46,11 @@ export enum EBotVersionTabs {
 export class CodeInputComponent implements OnInit, OnDestroy {
 
   showConfig = true;
+  templateKeySearchKeyword: string = '';
   myEBotVersionTabs = EBotVersionTabs;
   activeTab: string = 'df_template';
+
+  @ViewChild('modelGenTempNameForm') modelGenTempNameForm:NgForm;
 
   myEAllActions = EAllActions;
   @Select() botlist$: Observable<ViewBotStateModel>;
@@ -53,8 +62,192 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   forked_From: number;
   forked_comments: string;
   errorMessage: string;
-  activeVersion:IBotVersionData;
-  forked_version_number: number ;
+  activeVersion: IBotVersionData;
+  forked_version_number: number;
+  selectedIntentTab: string = 'ask_date_book1';
+  myObject = Object;
+  newIntentName: string;
+  showGenTempEditorAndHideGenTempUi: boolean = false;
+  selectedChannelOfGenTemplate: { name: string, displayName: string };
+  selectedGenTempList: number[] = [];
+  selectedIntentList: string[] = ['A2', 'A3', 'A4'];
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+  intentsClone;
+  intents;
+
+  onSubmit(modelGridGenTempNames){
+    console.log(modelGridGenTempNames);
+  }
+  copyModalTemplateSearchKeyword:string="";
+  /*= {
+     "ask_date_book1": [{
+       "include": ["facebook", "web"],
+       "text": ["1When would you like to visit us? Please provide the date and time.11",
+         "1When would you like to visit us? Please provide the date and time.12"]
+     },
+     {
+       "include": ["facebook", "web"],
+       "text": ["1When would you like to visit us? Please provide the date and time.21",
+         "1When would you like to visit us? Please provide the date and time.22",
+         "1When would you like to visit us? Please provide the date and time.23"]
+     },
+     {
+       "include": ["facebook", "web"],
+       "sdas": ["1When would you like to visit us? Please provide the date and time.21",
+         "1When would you like to visit us? Please provide the date and time.22",
+         "1When would you like to visit us? Please provide the date and time.23"]
+     }
+     ],
+
+     "ask_date_book2": [{
+       "include": ["facebook", "web"],
+       "text": ["1When would you like to visit us? Please provide the date and time.11",
+         "1When would you like to visit us? Please provide the date and time.22",
+         "1When would you like to visit us? Please provide the date and time.33"]
+     }],
+
+
+     "ask_date_book3": [{
+       "include": ["facebook", "web"],
+       "text": ["3When would you like to visit us? Please provide the date and time."]
+     }],
+
+     "ask_date_book4": [{
+       "include": ["facebook", "web"],
+       "text": ["4When would you like to visit us? Please provide the date and time."]
+     }],
+
+     "ask_date_book5": [{
+       "include": ["facebook", "web"],
+       "text": ["5When would you like to visit us? Please provide the date and time."]
+     }],
+
+     "ask_date_book6": [{
+       "include": ["facebook", "web"],
+       "text": ["6When would you like to visit us? Please provide the date and time."]
+     }]
+
+   }
+   */
+  channelList: { name: string, displayName: string }[];// = ["facebook", "web", "imiconnect", "imichat", "skype"];
+  openNewIntentModal(template) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-w-30vw'});
+    return;
+  }
+
+  newIntent() {
+    let intentUnit = {};
+    intentUnit[this.newIntentName] = [{
+      'text': [
+        ''
+      ],
+      'include': []
+    }];
+    this.intents = {...this.intents, ...intentUnit};
+  }
+
+  addTextUnit() {
+    let textUnit = {
+      'include': ['facebook', 'web'],
+      'text': ['']
+    };
+    this.intents[this.selectedIntentTab].push(textUnit);
+    setTimeout(() => this.scrollToBottom());
+
+  }
+
+  addCodeUnit() {
+
+    let codeUnit = {
+      'include': ['facebook', 'web'],
+      'code': ['Write ur text here .....']
+    };
+    this.intents[this.selectedIntentTab].push(codeUnit);
+    setTimeout(() => this.scrollToBottom());
+  }
+
+  addQReplyUnit() {
+    let qReplyUnit = {
+      'include': ['facebook', 'web'],
+      'text': ['Write ur text here .....']
+    };
+    this.intents[this.selectedIntentTab].push(qReplyUnit);
+    setTimeout(() => this.scrollToBottom());
+  }
+
+  deleteGentemplate(e) {
+    this.intents[this.selectedIntentTab].splice(e, 1);
+    console.log(this.intents[this.selectedIntentTab]);
+  }
+
+  moveUpGentempate(e) {
+    var temp = this.intents[this.selectedIntentTab][e];
+    this.intents[this.selectedIntentTab][e] = this.intents[this.selectedIntentTab][e - 1];
+    this.intents[this.selectedIntentTab][e - 1] = temp;
+  }
+
+  moveDownGentempate(e) {
+    if (this.intents[this.selectedIntentTab].length == e + 1) {
+      console.log('just dot do that , U know Y');
+      return;
+    }
+    var temp = this.intents[this.selectedIntentTab][e];
+    this.intents[this.selectedIntentTab][e] = this.intents[this.selectedIntentTab][e + 1];
+    this.intents[this.selectedIntentTab][e + 1] = temp;
+  }
+
+  // functins on selected gen temp list
+  selectGentempate(e) {
+    let i = JSON.parse(e);
+    if (i.select) {
+      this.selectedGenTempList.push(i.index);
+    }
+    if (!(i.select)) {
+      var index = this.selectedGenTempList.indexOf(i.index);
+      if (index > -1) {
+        this.selectedGenTempList.splice(index, 1);
+      }
+    }
+  }
+
+  selectedListDelete() {
+    for (let i of this.selectedGenTempList) {
+      this.intents[this.selectedIntentTab].splice(i, 1);
+    }
+    this.selectedGenTempList = [];
+  }
+
+  selectedListDuplicate() {
+    for (let i of this.selectedGenTempList) {
+      this.intents[this.selectedIntentTab].push(this.intents[this.selectedIntentTab][i]);
+    }
+    this.selectedGenTempList = [];
+  }
+
+  selectedListCopyModel(IntentSelectionModal) {
+    this.modalRef = this.modalService.show(IntentSelectionModal, {class: 'modal-lg'});
+  }
+
+  selectedListCopy(modelGenTempNameForm:NgForm) {
+
+    let selectedTemplateKeyObject = modelGenTempNameForm.value; /*Example: selectedTemplateKeyObject  = {A1:true, A2:false}*/
+    let selectedGenTempObjList = [];
+    for (let i of this.selectedGenTempList) {
+      selectedGenTempObjList.push(this.intents[this.selectedIntentTab][i]);
+    }
+
+    let selectedIntentDestinationKeys = Object.keys(selectedTemplateKeyObject).filter((key)=>selectedTemplateKeyObject[key]);
+    for (let key of selectedIntentDestinationKeys) {
+      this.intents[key].push(...selectedGenTempObjList);
+    }
+    this.selectedGenTempList = [];
+    this.modalRef.hide();
+  }
+
+  // selectedIntent(SIntent){
+  //   this.selectedIntentTab = SIntent;
+  // }
+
   // @ViewChild('fork_new_version_form') fork_new_version_form: HTMLFormElement;
 
   editorCode;
@@ -90,18 +283,35 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       this.showConfig = (showConfigStr === 'true' || showConfigStr == undefined);
     });
 
-    // let url = this.constantsService.getAllVersionsByBotId();
-    // let botId = this.bot.id;
-    // this.serverService.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
-    //   .subscribe((botVersionResult) => {
-    //     this.store.dispatch([
-    //       new SaveVersionInfoInBot({data: botVersionResult.objects, botId: this.bot.id})
-    //     ]);
-    //   });
-
     this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
-    this.botlist$_sub = this.botlist$.subscribe((value) => {
-      this.utilityService.getActiveVersionInBot(this.bot);
+    this.botlist$_sub = this.botlist$.subscribe(() => {
+      try {
+        this.utilityService.getActiveVersionInBot(this.bot);
+        this.channelList = Object.keys(this.bot.integrations.channels)
+          .map((integrationKey) => {
+          return {
+            name: integrationKey,
+            displayName: integrationKey
+          };
+        });
+        this.channelList.unshift({name: 'all', displayName: 'All'});
+        this.selectedChannelOfGenTemplate = {name: 'all', displayName: 'All'};
+
+        setTimeout(() => {
+          if (this.selectedVersion) {
+            this.intents = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
+            if (this.intents) {
+              this.intentsClone = {...this.intents};
+              this.selectedIntentTab = Object.keys(this.intents)[0];
+            }
+          }
+        });
+
+
+      } catch (e) {
+        console.log(e);
+      }
+
       // let activeVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.find((BotVersion) => {
       //   return this.bot.active_version_id === BotVersion.id;
       // });
@@ -114,26 +324,16 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       // if(!this.selectedVersion)
       //   this.selectedVersion = activeVersion;
       // else
-      if(!this.selectedVersion)
+      if (!this.selectedVersion)
         this.selectedVersion = activeVersion ? activeVersion : (this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions[0]);
       else {
         /*updating selected version*/
-        this.selectedVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions.find((version)=>version.id===this.selectedVersion.id)
+        this.selectedVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions.find((version) => version.id === this.selectedVersion.id);
       }
 
 
       this.forked_version_number = this.selectedVersion && this.selectedVersion.version;
-      // if (!activeVersion) {
-      //   try {
-      //     this.selectedVersion = this.bot.store_bot_versions[0];
-      //   } catch (e) {
-      //     LoggingService.error(e);
-      //   }
-      // }
-      // if (!this.selectedVersion) {
-      // this.selectedVersion = activeVersion;
       this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab') || EBotVersionTabs.df_template;
-      // }
       this.bot.store_selected_version = this.selectedVersion && this.selectedVersion.id;
       this.tabClicked(this.activeTab);
 
@@ -160,11 +360,29 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       this.editorCodeObj[this.activeTab].text = this.selectedVersion[this.activeTab];
       this.editorCodeObj[this.activeTab] = {...this.editorCodeObj[this.activeTab]};
     }
+
+    if (activeTab === EBotVersionTabs.generation_templates) {
+      this.convertGenTemplateCodeStringIntoUiComponents();
+    }
     this.router.navigate([`core/botdetail/${EBotType.chatbot}/`, this.bot.id], {
       queryParams: {'code-tab': activeTab},
       queryParamsHandling: 'merge',
       replaceUrl: true
     });
+  }
+
+  convertGenTemplateCodeStringIntoUiComponents() {
+    this.intents = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
+    this.intentsClone = {...this.intents};
+  }
+
+  dataType(item: any) {
+    return typeof item;
+  }
+
+  updateSelectedTemplateKeyValue(codeStr: string) {
+
+    this.intents[this.selectedIntentTab] = codeStr;
   }
 
   saveText(codeStr: string) {
@@ -199,17 +417,19 @@ export class CodeInputComponent implements OnInit, OnDestroy {
 
   saveSelectedVersion() {
 
+    this.convertUiDictToGenTemplateCode();
+
     let headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
     this.selectedVersion.updated_fields = this.selectedVersion.changed_fields;
     this.selectedVersion.changed_fields = {
-      "df_template" : false,
-      "df_rules" : false,
-      "generation_rules" : false,
-      "generation_template" : false,
-      "workflows" : false
-    }
+      'df_template': false,
+      'df_rules': false,
+      'generation_rules': false,
+      'generation_template': false,
+      'workflows': false
+    };
     if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
       let url = this.constantsService.getSaveVersionByBotId(this.bot.id);
       this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
@@ -241,6 +461,14 @@ export class CodeInputComponent implements OnInit, OnDestroy {
           /*TODO: implement it correctly*/
         });
     }
+  }
+
+  convertUiDictToGenTemplateCode() {
+    let parseUiDict = this.utilityService.parseGenTemplateUiDictionaryToIfElseCode(this.intents);
+    if (parseUiDict) {
+      this.selectedVersion.generation_templates = parseUiDict;
+    }
+    this.editorCodeObj = {...this.editorCodeObj, generation_templates: {text: this.selectedVersion.generation_templates}};
   }
 
   openForkNewVersionModal(template) {
@@ -279,12 +507,12 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     forkedVersionInfo = {...forkedVersionInfo};
     forkedVersionInfo.updated_fields = forkedVersionInfo.changed_fields;
     forkedVersionInfo.changed_fields = {
-      "df_template" : false,
-      "df_rules" : false,
-      "generation_rules" : false,
-      "generation_template" : false,
-      "workflows" : false
-    }
+      'df_template': false,
+      'df_rules': false,
+      'generation_rules': false,
+      'generation_template': false,
+      'workflows': false
+    };
     forkedVersionInfo.comment = this.forked_comments;
     forkedVersionInfo.forked_from = this.forked_version_number;
     let headerData: IHeaderData = {
@@ -305,7 +533,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
         this.store.dispatch([
           new UpdateVersionInfoByIdInBot({botId: this.bot.id, data: forkedVersion})
         ]).subscribe(() => {
-          this.changeSelectedVersion(forkedVersion)
+          this.changeSelectedVersion(forkedVersion);
           // this.selectedVersion = forkedVersion;
         });
         // this.ngOnInit();
@@ -334,5 +562,25 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
 
     this.botlist$_sub && this.botlist$_sub.unsubscribe();
+  }
+
+  scrollToBottom(): void {
+    try {
+      console.log(this.myScrollContainer);
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch (err) {
+    }
+  }
+
+  selectedChannelChanged(selectedChannel: string) {
+    this.selectedChannelOfGenTemplate = this.channelList.find((channel) => channel.name === selectedChannel);
+  }
+
+  genTemplateViewChange(showGenTempEditorAndHideGenTempUi) {
+    if (showGenTempEditorAndHideGenTempUi) {
+      this.convertUiDictToGenTemplateCode();
+    } else {
+      this.convertGenTemplateCodeStringIntoUiComponents();
+    }
   }
 }
