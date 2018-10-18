@@ -40,9 +40,6 @@ import {EBotType} from './view-bots/view-bots.component';
 // import {QuickReplyComponent} from '../chat/carousel/quick-reply/quick-reply.component';
 import {AccessGaurdService} from '../access-gaurd.service';
 import {ERouteNames} from '../constants.service';
-import { NumberOfTrueKeysPipe } from './buildbot/build-code-based-bot/architecture/code/code-input/number-of-true-keys.pipe';
-// import {HighlightDirective} from '../readonly-selected-permission.directive';
-// import { IntegrationNameFormatterPipe } from './buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-name-formatter.pipe';
 
 const routes: Route[] = [
   {

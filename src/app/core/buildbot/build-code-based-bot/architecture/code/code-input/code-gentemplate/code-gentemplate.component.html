@@ -24,11 +24,11 @@
     <!--<i><strong> {{ myIndex}}</strong></i>-->
     <!--<input type="checkbox" [(ngModel)]="selected" (ngModelChange)="onSelected($event)">-->
     <!--</div>-->
-    <app-code-editor class="child-expand" [text]="{text: intentCodeObjClone|json}"
+    <app-code-editor class="child-expand" [text]="{text: outputItemClone|json}"
                      (textChangedEvent)="codeEditorTextCHanged($event)"></app-code-editor>
     <div class="p-1 icon-footer">
     <span class="child-no-expand">
-            <img *ngFor="let channel of intentCodeObjClone.include" class="logo-image mx-1"
+            <img *ngFor="let channel of outputItemClone.include" class="logo-image mx-1"
                  [src]="(channel|logosByIntegrationName)?.icon">
 
       <!--<img class="logo-image mx-1" src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/facebook.png">-->

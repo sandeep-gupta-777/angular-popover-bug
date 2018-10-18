@@ -387,7 +387,7 @@ export class UtilityService {
       let outputValues = uiDictionary[templateKey];
       let outPutStr;
       if(typeof outputValues === 'string'){
-        outPutStr = outputValues;
+        outPutStr = `  output = ${outputValues}`;
       }else {
         outPutStr = `  output = ${JSON.stringify(outputValues)}`;
       }

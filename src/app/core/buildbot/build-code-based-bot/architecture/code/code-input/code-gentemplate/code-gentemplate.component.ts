@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {IOutputItem} from '../code-input.component';
 
 
 @Component({
@@ -9,8 +10,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class CodeGentemplateComponent implements OnInit {
 
   constructor() { }
-  intentCodeObjClone:{include:string[],text:string[]};
-  @Input() intentCode: {include:string[],text:string[]};
+  @Input() outputItem: IOutputItem;
+  outputItemClone: IOutputItem;
   @Input() myIndex: number;
   @Input() totalResponseTemplateComponentCount: number;
   @Output() deleteTemplate: EventEmitter<string> = new EventEmitter<string>();
@@ -34,12 +35,14 @@ export class CodeGentemplateComponent implements OnInit {
       index: this.myIndex
     }));
   }
+
+
   ngOnInit() {
-    this.intentCodeObjClone = {...this.intentCode};
+    this.outputItemClone = {...this.outputItem}
   }
 
   codeEditorTextCHanged(data){
-    this.intentCode = Object.assign(this.intentCode, JSON.parse(data));
+    this.outputItem = Object.assign(this.outputItem, JSON.parse(data));
   }
 
 }

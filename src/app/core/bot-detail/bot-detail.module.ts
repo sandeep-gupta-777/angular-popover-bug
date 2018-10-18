@@ -51,6 +51,7 @@ import {FilterTemplateLeyListPipe} from '../buildbot/build-code-based-bot/archit
 import {LogosByIntegrationNamePipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/text-gentemplate/logos-by-integration-name.pipe';
 import {FilterResponseComponentByChannelNamePipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/filter-response-component-by-channel-name.pipe';
 import {NumberOfTrueKeysPipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/number-of-true-keys.pipe';
+import {DataTypePipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/data-type.pipe';
 
 const routes: Route[] = [
   {
@@ -82,6 +83,7 @@ const routes: Route[] = [
     PipelineFilterPipe,
     SessionComponent,
     CodeInputComponent,
+    DataTypePipe,
     NumberOfTrueKeysPipe,
     FilterResponseComponentByChannelNamePipe,
     LogosByIntegrationNamePipe,

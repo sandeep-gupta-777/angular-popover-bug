@@ -32,7 +32,7 @@ export enum EBotVersionTabs {
   workflow = 'workflow'
 }
 
-export interface IIntentItem {
+export interface IOutputItem {
   text?: string[],
   include: string[]
 }
@@ -50,7 +50,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   myEBotVersionTabs = EBotVersionTabs;
   activeTab: string = 'df_template';
 
-  @ViewChild('modelGenTempNameForm') modelGenTempNameForm:NgForm;
+  @ViewChild('modelGenTempNameForm') modelGenTempNameForm: NgForm;
 
   myEAllActions = EAllActions;
   @Select() botlist$: Observable<ViewBotStateModel>;
@@ -64,21 +64,22 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   errorMessage: string;
   activeVersion: IBotVersionData;
   forked_version_number: number;
-  selectedIntentTab: string = 'ask_date_book1';
+  selectedTemplateKeyInLeftSideBar: string = '';
   myObject = Object;
-  newIntentName: string;
+  newTemplateKey: string;
   showGenTempEditorAndHideGenTempUi: boolean = true;
   selectedChannelOfGenTemplate: { name: string, displayName: string };
-  selectedGenTempList: number[] = [];
+  selectedTemplateKeyOutputIndex: number[] = [];
   selectedIntentList: string[] = ['A2', 'A3', 'A4'];
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
-  intentsClone;
-  intents;
+  templateKeyDictClone;
+  templateKeyDict;
 
-  onSubmit(modelGridGenTempNames){
+  onSubmit(modelGridGenTempNames) {
     console.log(modelGridGenTempNames);
   }
-  copyModalTemplateSearchKeyword:string="";
+
+  copyModalTemplateSearchKeyword: string = '';
   /*= {
      "ask_date_book1": [{
        "include": ["facebook", "web"],
@@ -135,15 +136,24 @@ export class CodeInputComponent implements OnInit, OnDestroy {
     return;
   }
 
-  newIntent() {
+  templateKeyCreationError = '';
+
+  createNewTemplatekey() {
+    let isTemplateKeyUnique = !Object.keys(this.templateKeyDict).find((key) => key === this.newTemplateKey);
+    if (!isTemplateKeyUnique) {
+      this.templateKeyCreationError = 'This template key already exists';
+      return;
+    }
     let intentUnit = {};
-    intentUnit[this.newIntentName] = [{
+    intentUnit[this.newTemplateKey] = [{
       'text': [
         ''
       ],
       'include': []
     }];
-    this.intents = {...this.intents, ...intentUnit};
+    this.templateKeyDict = {...this.templateKeyDict, ...intentUnit};
+    this.modalRef.hide();
+    this.newTemplateKey = '';
   }
 
   addTextUnit() {
@@ -151,7 +161,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       'include': ['facebook', 'web'],
       'text': ['']
     };
-    this.intents[this.selectedIntentTab].push(textUnit);
+    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(textUnit);
     setTimeout(() => this.scrollToBottom());
 
   }
@@ -162,7 +172,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       'include': ['facebook', 'web'],
       'code': ['Write ur text here .....']
     };
-    this.intents[this.selectedIntentTab].push(codeUnit);
+    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(codeUnit);
     setTimeout(() => this.scrollToBottom());
   }
 
@@ -171,76 +181,78 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       'include': ['facebook', 'web'],
       'text': ['Write ur text here .....']
     };
-    this.intents[this.selectedIntentTab].push(qReplyUnit);
+    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(qReplyUnit);
     setTimeout(() => this.scrollToBottom());
   }
 
   deleteGentemplate(e) {
-    this.intents[this.selectedIntentTab].splice(e, 1);
-    console.log(this.intents[this.selectedIntentTab]);
+    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].splice(e, 1);
+    console.log(this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar]);
   }
 
   moveUpGentempate(e) {
-    var temp = this.intents[this.selectedIntentTab][e];
-    this.intents[this.selectedIntentTab][e] = this.intents[this.selectedIntentTab][e - 1];
-    this.intents[this.selectedIntentTab][e - 1] = temp;
+    var temp = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e];
+    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e] = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e - 1];
+    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e - 1] = temp;
   }
 
   moveDownGentempate(e) {
-    if (this.intents[this.selectedIntentTab].length == e + 1) {
+    if (this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].length == e + 1) {
       console.log('just dot do that , U know Y');
       return;
     }
-    var temp = this.intents[this.selectedIntentTab][e];
-    this.intents[this.selectedIntentTab][e] = this.intents[this.selectedIntentTab][e + 1];
-    this.intents[this.selectedIntentTab][e + 1] = temp;
+    var temp = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e];
+    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e] = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e + 1];
+    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e + 1] = temp;
   }
 
   // functins on selected gen temp list
   selectGentempate(e) {
     let i = JSON.parse(e);
     if (i.select) {
-      this.selectedGenTempList.push(i.index);
+      this.selectedTemplateKeyOutputIndex.push(i.index);
     }
     if (!(i.select)) {
-      var index = this.selectedGenTempList.indexOf(i.index);
+      var index = this.selectedTemplateKeyOutputIndex.indexOf(i.index);
       if (index > -1) {
-        this.selectedGenTempList.splice(index, 1);
+        this.selectedTemplateKeyOutputIndex.splice(index, 1);
       }
     }
   }
 
   selectedListDelete() {
-    for (let i of this.selectedGenTempList) {
-      this.intents[this.selectedIntentTab].splice(i, 1);
+    for (let i of this.selectedTemplateKeyOutputIndex) {
+      this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].splice(i, 1);
     }
-    this.selectedGenTempList = [];
+    this.selectedTemplateKeyOutputIndex = [];
   }
 
   selectedListDuplicate() {
-    for (let i of this.selectedGenTempList) {
-      this.intents[this.selectedIntentTab].push(this.intents[this.selectedIntentTab][i]);
+    debugger;
+    for (let i of this.selectedTemplateKeyOutputIndex) {
+      this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(JSON.parse(JSON.stringify(this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][i])));
     }
-    this.selectedGenTempList = [];
+    this.selectedTemplateKeyOutputIndex = [];
   }
 
   selectedListCopyModel(IntentSelectionModal) {
     this.modalRef = this.modalService.show(IntentSelectionModal, {class: 'modal-lg'});
   }
 
-  selectedListCopy(modelGenTempNameForm:NgForm) {
+  selectedListCopy(modelGenTempNameForm: NgForm) {
 
-    let selectedTemplateKeyObject = modelGenTempNameForm.value; /*Example: selectedTemplateKeyObject  = {A1:true, A2:false}*/
+    let selectedTemplateKeyObject = modelGenTempNameForm.value;
+    /*Example: selectedTemplateKeyObject  = {A1:true, A2:false}*/
     let selectedGenTempObjList = [];
-    for (let i of this.selectedGenTempList) {
-      selectedGenTempObjList.push(this.intents[this.selectedIntentTab][i]);
+    for (let i of this.selectedTemplateKeyOutputIndex) {
+      selectedGenTempObjList.push(this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][i]);
     }
 
-    let selectedIntentDestinationKeys = Object.keys(selectedTemplateKeyObject).filter((key)=>selectedTemplateKeyObject[key]);
+    let selectedIntentDestinationKeys = Object.keys(selectedTemplateKeyObject).filter((key) => selectedTemplateKeyObject[key]);
     for (let key of selectedIntentDestinationKeys) {
-      this.intents[key].push(...selectedGenTempObjList);
+      this.templateKeyDict[key].push(...selectedGenTempObjList);
     }
-    this.selectedGenTempList = [];
+    this.selectedTemplateKeyOutputIndex = [];
     this.modalRef.hide();
   }
 
@@ -249,6 +261,10 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   // }
 
   // @ViewChild('fork_new_version_form') fork_new_version_form: HTMLFormElement;
+
+  get getTemplateKeyDictClone() {
+    return {...this.templateKeyDict};
+  }
 
   editorCode;
   // editorCodeObj:{text:string} = {text:""};
@@ -289,20 +305,20 @@ export class CodeInputComponent implements OnInit, OnDestroy {
         this.utilityService.getActiveVersionInBot(this.bot);
         this.channelList = Object.keys(this.bot.integrations.channels)
           .map((integrationKey) => {
-          return {
-            name: integrationKey,
-            displayName: integrationKey
-          };
-        });
+            return {
+              name: integrationKey,
+              displayName: integrationKey
+            };
+          });
         this.channelList.unshift({name: 'all', displayName: 'All'});
         this.selectedChannelOfGenTemplate = {name: 'all', displayName: 'All'};
 
         setTimeout(() => {
           if (this.selectedVersion) {
-            this.intents = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
-            if (this.intents) {
-              this.intentsClone = {...this.intents};
-              this.selectedIntentTab = Object.keys(this.intents)[0];
+            this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
+            if (this.templateKeyDict) {
+              this.templateKeyDictClone = {...this.templateKeyDict};
+              if(!this.selectedTemplateKeyInLeftSideBar )  this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
             }
           }
         });
@@ -372,8 +388,8 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   }
 
   convertGenTemplateCodeStringIntoUiComponents() {
-    this.intents = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
-    this.intentsClone = {...this.intents};
+    this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
+    this.templateKeyDictClone = {...this.templateKeyDict};
   }
 
   dataType(item: any) {
@@ -382,7 +398,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
 
   updateSelectedTemplateKeyValue(codeStr: string) {
 
-    this.intents[this.selectedIntentTab] = codeStr;
+    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar] = codeStr;
   }
 
   saveText(codeStr: string) {
@@ -464,7 +480,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   }
 
   convertUiDictToGenTemplateCode() {
-    let parseUiDict = this.utilityService.parseGenTemplateUiDictionaryToIfElseCode(this.intents);
+    let parseUiDict = this.utilityService.parseGenTemplateUiDictionaryToIfElseCode(this.templateKeyDict);
     if (parseUiDict) {
       this.selectedVersion.generation_templates = parseUiDict;
     }
@@ -581,6 +597,17 @@ export class CodeInputComponent implements OnInit, OnDestroy {
       this.convertUiDictToGenTemplateCode();
     } else {
       this.convertGenTemplateCodeStringIntoUiComponents();
+      if (!this.selectedTemplateKeyInLeftSideBar && this.templateKeyDict && Array.isArray(Object.keys(this.templateKeyDict))) {
+        this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
+      }
     }
+  }
+
+  selectAllCheckBoxesInCopyTemplateForm(form:NgForm) {
+    let formVal = form.value;
+    for(let key in formVal){
+      formVal[key] = true;
+    }
+    form.form.patchValue(formVal);
   }
 }

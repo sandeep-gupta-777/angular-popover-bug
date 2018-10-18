@@ -696,6 +696,9 @@ progressbar {
 [disabled] {
   cursor: not-allowed !important;
 }
+.disabled {
+  cursor: not-allowed !important;
+}
 
 .form-control:disabled, .form-control[readonly] {
   background-color: transparent;
