@@ -350,7 +350,7 @@ export class UtilityService {
 
 
   parseGenTemplateCodeStrToObject(generation_templates: string) {
-    debugger;
+
     let templateKeyOutputObj = {};
     try {
       let templates: string[] = this.createTemplateKeyArr(generation_templates);

@@ -47,6 +47,7 @@ import { CodeGentemplateComponent } from '../buildbot/build-code-based-bot/archi
 import { TextGentemplateComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/text-gentemplate/text-gentemplate.component';
 import {FilterTemplateLeyListPipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/filter-template-ley-list.pipe';
 import {LogosByIntegrationNamePipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/text-gentemplate/logos-by-integration-name.pipe';
+import {FilterResponseComponentByChannelNamePipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/filter-response-component-by-channel-name.pipe';
 
 const routes: Route[] = [
   {
@@ -77,6 +78,7 @@ const routes: Route[] = [
     PipelineFilterPipe,
     SessionComponent,
     CodeInputComponent,
+    FilterResponseComponentByChannelNamePipe,
     LogosByIntegrationNamePipe,
     FilterTemplateLeyListPipe,
     CodeGentemplateComponent,
