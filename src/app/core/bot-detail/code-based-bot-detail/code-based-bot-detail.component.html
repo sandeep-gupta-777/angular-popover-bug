@@ -31,7 +31,7 @@
 
   <!--============= REDESIGN=================-->
 
-  <div class="flex-column shadow-theme architecture bg-white p-1 px-2 my align-content-start"
+  <div class="flex-column shadow-theme  d-flex-column-last-child-flex-grow-1 architecture bg-white p-1 px-2 my align-content-start"
        *myIf="[
        myEAllActions['Get Pipeline Module'],
        myEAllActions['Get Integrations'],
@@ -120,12 +120,12 @@
 
     </div>
     <!--tabs end-->
-    <!---->
+
     <!--architeture starts-->
-    <div class="col-12 p-0" style="height: 85%" [hidden]="selectedTab!=='architecture' &&  bot ">
-      <div class="col-12 architeture-body" style="overflow-y: auto;height: 100%"
+    <div class="p-0 child-expand d-flex-column-last-child-flex-grow-1"  *ngIf="selectedTab==='architecture' &&  bot ">
+      <div class="d-flex-column-last-child-flex-grow-1 architeture-body child-expand" style="overflow-y: auto;"
            *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]">
-        <div class="d-flex" style="height: 98%">
+        <div class="d-flex row-body bg-white child-expand" >
           <!--TODO: 98% to avoid scroll bar; use grid instead-->
           <!--side bar starts-->
           <div class="side-bar  border-right d-none d-md-block">
@@ -167,12 +167,10 @@
             <app-pipeline
               (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"
                           [bot]="bot"></app-pipeline>
-            <!--<app-knowledge-base (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='knowledge'"-->
-            <!--[bot]="bot"></app-knowledge-base>-->
             <app-knowledge-base-wrapper [bot]="bot"
                                         *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base-wrapper>
 
-            <app-code-input (datachanged$)="datachanged($event)" [hidden]="selectedSideBarTab!=='code'"
+            <app-code-input class=" d-flex-column-last-child-flex-grow-1" (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='code'"
                             [bot]="bot"></app-code-input>
             <app-integration-option-list (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='integration'"
                                          [bot]="bot"></app-integration-option-list>

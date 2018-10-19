@@ -45,6 +45,13 @@ import {SessionDataToRichMediaSerializerPipe} from '../../session-data-to-rich-m
 import {DisplayNameForKeyIntegrationPipe} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/display-name-for-key-integration.pipe';
 import {UnderscroreToSpaceDelimitorPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/underscrore-to-space-delimitor.pipe';
 
+import { CodeGentemplateComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate/code-gentemplate.component';
+import { TextGentemplateComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/text-gentemplate/text-gentemplate.component';
+import {FilterTemplateLeyListPipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/filter-template-ley-list.pipe';
+import {LogosByIntegrationNamePipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/text-gentemplate/logos-by-integration-name.pipe';
+import {FilterResponseComponentByChannelNamePipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/filter-response-component-by-channel-name.pipe';
+import {NumberOfTrueKeysPipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/number-of-true-keys.pipe';
+import {DataTypePipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/data-type.pipe';
 
 const routes: Route[] = [
   {
@@ -76,6 +83,13 @@ const routes: Route[] = [
     PipelineFilterPipe,
     SessionComponent,
     CodeInputComponent,
+    DataTypePipe,
+    NumberOfTrueKeysPipe,
+    FilterResponseComponentByChannelNamePipe,
+    LogosByIntegrationNamePipe,
+    FilterTemplateLeyListPipe,
+    CodeGentemplateComponent,
+    TextGentemplateComponent,
     IntegrationOptionListComponent,
     IntegrationItemComponent,
     DraggableDirective,
