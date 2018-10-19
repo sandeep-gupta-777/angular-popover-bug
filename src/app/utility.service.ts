@@ -578,6 +578,14 @@ export class UtilityService {
     this.toastr.success(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
   }
 
+  renameKeyInObject(o, old_key, new_key ){
+    if (old_key !== new_key) {
+      Object.defineProperty(o, new_key,
+        Object.getOwnPropertyDescriptor(o, old_key));
+      delete o[old_key];
+    }
+  }
+
   isImageUrlHttps(formControl: FormControl){
     let url:string = formControl.value;
     let pattern = /^((https):\/\/)/;

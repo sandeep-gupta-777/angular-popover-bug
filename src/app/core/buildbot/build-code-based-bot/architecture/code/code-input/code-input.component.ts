@@ -67,7 +67,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   selectedTemplateKeyInLeftSideBar: string = '';
   myObject = Object;
   newTemplateKey: string;
-  showGenTempEditorAndHideGenTempUi: boolean = true;
+  showGenTempEditorAndHideGenTempUi: boolean = false;
   selectedChannelOfGenTemplate: { name: string, displayName: string };
   selectedTemplateKeyOutputIndex: number[] = [];
   selectedIntentList: string[] = ['A2', 'A3', 'A4'];
@@ -228,7 +228,6 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   }
 
   selectedListDuplicate() {
-    debugger;
     for (let i of this.selectedTemplateKeyOutputIndex) {
       this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(JSON.parse(JSON.stringify(this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][i])));
     }
@@ -314,7 +313,7 @@ export class CodeInputComponent implements OnInit, OnDestroy {
         this.selectedChannelOfGenTemplate = {name: 'all', displayName: 'All'};
 
         setTimeout(() => {
-          if (this.selectedVersion) {
+          if (this.selectedVersion && this.selectedVersion[EBotVersionTabs.generation_templates]) {
             this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
             if (this.templateKeyDict) {
               this.templateKeyDictClone = {...this.templateKeyDict};
@@ -388,8 +387,13 @@ export class CodeInputComponent implements OnInit, OnDestroy {
   }
 
   convertGenTemplateCodeStringIntoUiComponents() {
-    this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
-    this.templateKeyDictClone = {...this.templateKeyDict};
+
+    try {
+      this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
+      this.templateKeyDictClone = {...this.templateKeyDict};
+    }catch (e) {
+      console.log(e);
+    }
   }
 
   dataType(item: any) {
@@ -601,6 +605,27 @@ export class CodeInputComponent implements OnInit, OnDestroy {
         this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
       }
     }
+  }
+
+  openDeleteTemplateKeyModal(deleteTemplateKeyModal){
+    this.modalRef = this.modalService.show(deleteTemplateKeyModal);
+  }
+  openEditTemplateKeyModal(EditTemplateKeyModal){
+    this.modalRef = this.modalService.show(EditTemplateKeyModal);
+  }
+
+  deleteTemplateKey(tempKey){
+    delete this.templateKeyDict[tempKey];
+    this.utilityService.showSuccessToaster("Template key deleted!");
+    this.modalRef.hide();
+  }
+
+  editTemplateKey(templateKeyEditForm){
+    debugger;
+    let {old_key, new_key} = templateKeyEditForm.value;
+    this.utilityService.renameKeyInObject(this.templateKeyDict,old_key, new_key);
+    this.selectedTemplateKeyInLeftSideBar = new_key;
+    this.modalRef.hide();
   }
 
   selectAllCheckBoxesInCopyTemplateForm(form:NgForm) {

@@ -201,12 +201,16 @@
               <i class="fa fa-plus pr-1 my-auto"></i>Add New
             </div>
           </div>
-          <input *ngIf="templateKeyDict && myObject.keys(templateKeyDict) && myObject.keys(templateKeyDict).length>0" type="text" placeholder="Search Intent" [(ngModel)]="templateKeySearchKeyword">
-          <div class="pl-2 p-1 m-1 col-10 tab-theme"
-               *ngFor="let tempKey of myObject.keys(templateKeyDict)|filterTemplateLeyList:templateKeySearchKeyword"
-               [ngClass]="{'font-weight-bold':selectedTemplateKeyInLeftSideBar === tempKey}"
-               (click)="selectedTemplateKeyInLeftSideBar = tempKey;selectedTemplateKeyOutputIndex = [];">{{tempKey}}
+          <input *ngIf="templateKeyDict && myObject.keys(templateKeyDict) && myObject.keys(templateKeyDict).length>0;" type="text" placeholder="Search Intent" [(ngModel)]="templateKeySearchKeyword">
+          <div class="d-flex align-items-center" *ngFor="let tempKey of myObject.keys(templateKeyDict||{})|filterTemplateLeyList:templateKeySearchKeyword">
+            <div class="pl-2 p-1 tab-theme"
+                 [ngClass]="{'font-weight-bold':selectedTemplateKeyInLeftSideBar === tempKey}"
+                 (click)="selectedTemplateKeyInLeftSideBar = tempKey;selectedTemplateKeyOutputIndex = [];">{{tempKey}}
+            </div>
+            <i class="fa fa-edit ml-auto mr-1 cursor-pointer" style="color: #9e9e9e" (click)="templateKeyToBeDeleted.value= tempKey; openEditTemplateKeyModal(EditTemplateKeyModal);"></i>
+            <i class="fa fa-trash mx-2 cursor-pointer" style="color: #9e9e9e" (click)="templateKeyToBeDeleted.value= tempKey;openDeleteTemplateKeyModal(deleteTemplateKeyModal)"></i>
           </div>
+
         </div>
 
         <div *ngIf="!(templateKeyDict && myObject.keys(templateKeyDict) && myObject.keys(templateKeyDict).length>0)" class="d-flex align-items-center" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
@@ -495,5 +499,74 @@
         </div>
       </div>
     </div>
+  </div>
+</ng-template>
+
+
+<ng-template #deleteTemplateKeyModal>
+  <div class="danger-modal">
+    <div class="top-dec"></div>
+    <div class="modal-header">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete Template key?</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body pt-0">
+      <form #form="ngForm">
+        <div class="text-center my-1">
+          <p class="mb-3">Do you confirm the Deletion? This is a permanent and irreversible change</p>
+
+        </div>
+        <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button class=" btn btn-theme-danger" (click)="deleteTemplateKey(templateKeyToBeDeleted.value)">Delete</button>
+      </form>
+    </div>
+  </div>
+</ng-template>
+<!--<ng-template >-->
+  <!--<div class="danger-modal">-->
+    <!--<div class="top-dec"></div>-->
+    <!--<div class="modal-header">-->
+      <!--<h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Edit Template key?</h4>-->
+      <!--<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">-->
+        <!--<span aria-hidden="true">&times;</span>-->
+      <!--</button>-->
+    <!--</div>-->
+
+    <!--<div class="modal-body pt-0">-->
+      <!--<form #templateKeyEditForm="ngForm">-->
+        <!--<div class="text-center my-1">-->
+          <!--&lt;!&ndash;<p class="mb-3">Do you confirm the Deletion? This is a permanent and irreversible change</p>&ndash;&gt;-->
+          <!--<input ngModel name="old_key" hidden type="text" [ngModel]="templateKeyToBeDeleted.value">-->
+          <!--<input ngModel name="new_key"type="text">-->
+        <!--</div>-->
+        <!--<button class="btn btn-theme-primary" (click)="editTemplateKey(templateKeyEditForm)">Submit</button>-->
+      <!--</form>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</ng-template>-->
+
+<input type="text" hidden #templateKeyToBeDeleted>
+
+<ng-template #EditTemplateKeyModal>
+  <div class="primary-modal">
+    <div class="top-dec"></div>
+    <div class="modal-body" style="text-align: left">
+      <div class="text-bold">Edit Template key</div>
+      <form #templateKeyEditForm="ngForm" class="d-flex align-items-center flex-wrap mt-2">
+        <!--<input class="input-material" style="width: 100%" placeholder="Enter template key name" type="text"-->
+               <!--[(ngModel)]="newTemplateKey">-->
+        <input ngModel name="old_key" hidden type="text" [ngModel]="templateKeyToBeDeleted.value">
+        <input ngModel name="new_key" style="width: 100%" required  type="text" [ngModel]="templateKeyToBeDeleted.value">
+        <!--<p *ngIf="templateKeyCreationError" class="text-danger">{{templateKeyCreationError}}</p>-->
+        <div class="d-flex justify-content-end w-100 mt-2">
+          <button class="btn btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>
+          <button class="btn btn-theme-primary" [disabled]="!templateKeyEditForm.valid" (click)="editTemplateKey(templateKeyEditForm)">Create</button>
+        </div>
+      </form>
+    </div>
+
   </div>
 </ng-template>
