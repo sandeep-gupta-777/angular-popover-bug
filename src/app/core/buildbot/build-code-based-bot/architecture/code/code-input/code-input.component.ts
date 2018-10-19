@@ -73,7 +73,6 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   selectedTemplateKeyOutputIndex: number[] = [];
   selectedIntentList: string[] = ['A2', 'A3', 'A4'];
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
-  templateKeyDictClone;
   templateKeyDict;
 
   onSubmit(modelGridGenTempNames) {
@@ -154,6 +153,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     }];
     this.templateKeyDict = {...this.templateKeyDict, ...intentUnit};
     this.modalRef.hide();
+    this.selectedTemplateKeyInLeftSideBar = this.newTemplateKey;
     this.newTemplateKey = '';
   }
 
@@ -262,8 +262,11 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   // @ViewChild('fork_new_version_form') fork_new_version_form: HTMLFormElement;
 
-  get getTemplateKeyDictClone() {
-    return {...this.templateKeyDict};
+  templateKeyDictClone = null;
+  getTemplateKeyDictClone() {
+    debugger;
+    if(!this.templateKeyDictClone) this.templateKeyDictClone = {...this.templateKeyDict};
+    return this.templateKeyDictClone;
   }
 
   editorCode;
@@ -636,5 +639,15 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
       formVal[key] = true;
     }
     form.form.patchValue(formVal);
+  }
+
+
+  isTemplateKeyOutputUnparsable(){
+
+    debugger;
+    return  this.activeTab===this.myEBotVersionTabs.generation_templates &&
+      !this.showGenTempEditorAndHideGenTempUi &&
+      this.templateKeyDict &&
+      typeof this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar]==='string';
   }
 }

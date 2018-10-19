@@ -314,7 +314,7 @@ export class UtilityService {
     let str = generation_templates;
 
     // let regex = /e?l?if.+?:/g;
-    let regex = /e?l?if\s?\(.+?:/g;
+      let regex = /e?l?if\s?.+?:/g;
 
     let match = regex.exec(str);
 
@@ -357,6 +357,7 @@ export class UtilityService {
 
     let templateKeyOutputObj = {};
     try {
+      debugger;
       let templates: string[] = this.createTemplateKeyArr(generation_templates);
       let outputs: string[] = this.createOutputArr(generation_templates);
       for (let i = 0; i < templates.length; ++i) {
