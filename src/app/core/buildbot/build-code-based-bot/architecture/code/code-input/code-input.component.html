@@ -46,7 +46,7 @@
           <!--<input type="radio" name="optradio">-->
           <!--</form>-->
         </div>
-        <div class="insert mr-1" [popover]="selectedVersion && selectedVersion.comment" placement="bottom"
+        <div class="insert mr-1" *ngIf="selectedVersion && selectedVersion.comment" [popover]="selectedVersion.comment" placement="bottom"
              triggers="mouseenter:mouseleave">
           {{selectedVersion.comment.length>70?(((selectedVersion.comment)|slice:0:100)
           +"..."):selectedVersion?.comment}}

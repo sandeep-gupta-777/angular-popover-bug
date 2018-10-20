@@ -796,4 +796,34 @@ export class UtilityService {
     return roomMessages;
   }
 
+  /* View in fullscreen */
+  openFullscreen() {
+    debugger;
+    let elem:any = document.documentElement;
+    if (elem.requestFullscreen) {
+      let x = elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) { /* Firefox */
+      let x = elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+      let x = elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE/Edge */
+      let x = elem.msRequestFullscreen();
+    }
+  }
+
+  /* Close fullscreen */
+  closeFullscreen() {
+    let myDocument:any = document;
+    if (myDocument.exitFullscreen) {
+      let x = myDocument.exitFullscreen();
+    } else if (myDocument.mozCancelFullScreen) { /* Firefox */
+      let x = myDocument.mozCancelFullScreen();
+    } else if (myDocument.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+      let x = myDocument.webkitExitFullscreen();
+    } else if (myDocument.msExitFullscreen) { /* IE/Edge */
+      let x = myDocument.msExitFullscreen();
+    }
+
+  }
+
 }
