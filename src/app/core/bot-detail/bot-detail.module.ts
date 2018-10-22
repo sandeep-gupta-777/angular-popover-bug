@@ -13,7 +13,7 @@ import {Ng2CompleterModule} from 'ng2-completer';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {DragService} from '../../drag.service';
 import {AimService} from '../../aim.service';
-import {SortObjectArrayPipe} from '../../sort-object-array.pipe';
+import {SortBotsPipe} from '../../sort-bots.pipe';
 import {SharedModule} from '../../shared.module';
 import {PipelineBasedBotDetailComponent} from './pipeline-based-bot-detail/pipeline-based-bot-detail.component';
 import {CodeBasedBotDetailComponent} from './code-based-bot-detail/code-based-bot-detail.component';

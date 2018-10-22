@@ -22,6 +22,7 @@ import {IUser} from '../../interfaces/user';
 import {IAuthState} from '../../../auth/ngxs/auth.state';
 import {IEnterpriseProfileInfo} from '../../../../interfaces/enterprise-profile';
 import {LoggingService} from '../../../logging.service';
+import {UpdateBotInfoByIdInBotInBotList} from '../ngxs/view-bot.action';
 
 @Component({
   selector: 'app-bot-preview-card',
@@ -35,6 +36,7 @@ export class BotPreviewCardComponent implements OnInit {
   @Select() chatsessionstate$: Observable<IChatSessionState>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   modalRef: BsModalRef;
+  doStartBlinking:boolean = false;
   myObject = Object;
   message: string;
   parentRoute: string;
@@ -91,6 +93,17 @@ export class BotPreviewCardComponent implements OnInit {
       new ToggleChatWindow({open: true}),
       new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX})
     ])
+
+  }
+
+  togglePinBotCard(bot, doPin){
+    this.store.dispatch([
+      new UpdateBotInfoByIdInBotInBotList({botId:bot.id, data:{store_isPinned:doPin}})
+    ]).subscribe(()=>{
+      if(doPin){
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    })
 
   }
 

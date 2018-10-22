@@ -122,7 +122,8 @@
     <!--tabs end-->
 
     <!--architeture starts-->
-    <div class="p-0 child-expand d-flex-column-last-child-flex-grow-1"  *ngIf="selectedTab==='architecture' &&  bot ">
+    <div class="p-0 child-expand d-flex-column-last-child-flex-grow-1"
+         [hidden]="selectedTab !=='architecture'">
       <div class="d-flex-column-last-child-flex-grow-1 architeture-body child-expand" style="overflow-y: auto;"
            *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]">
         <div class="d-flex row-body bg-white child-expand" >
@@ -167,13 +168,20 @@
             <app-pipeline
               (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"
                           [bot]="bot"></app-pipeline>
-            <app-knowledge-base-wrapper [bot]="bot"
-                                        *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base-wrapper>
+            <app-knowledge-base-wrapper
+              [bot]="bot"
+              *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base-wrapper>
 
-            <app-code-input class=" d-flex-column-last-child-flex-grow-1" (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='code'"
-                            [bot]="bot"></app-code-input>
-            <app-integration-option-list (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='integration'"
-                                         [bot]="bot"></app-integration-option-list>
+            <app-code-input
+              class=" d-flex-column-last-child-flex-grow-1"
+              (datachanged$)="datachanged($event)"
+              [hidden]="selectedSideBarTab!=='code'"
+              [bot]="bot"></app-code-input>
+
+            <app-integration-option-list
+              (datachanged$)="datachanged($event)"
+              *ngIf="selectedSideBarTab==='integration'"
+              [bot]="bot"></app-integration-option-list>
           </div>
 
         </div>

@@ -264,7 +264,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   templateKeyDictClone = null;
   getTemplateKeyDictClone() {
-    debugger;
+
     if(!this.templateKeyDictClone) this.templateKeyDictClone = {...this.templateKeyDict};
     return this.templateKeyDictClone;
   }
@@ -626,7 +626,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   editTemplateKey(templateKeyEditForm){
-    debugger;
+
     let {old_key, new_key} = templateKeyEditForm.value;
     this.utilityService.renameKeyInObject(this.templateKeyDict,old_key, new_key);
     this.selectedTemplateKeyInLeftSideBar = new_key;
@@ -644,7 +644,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   isTemplateKeyOutputUnparsable(){
 
-    debugger;
+
     return  this.activeTab===this.myEBotVersionTabs.generation_templates &&
       !this.showGenTempEditorAndHideGenTempUi &&
       this.templateKeyDict &&

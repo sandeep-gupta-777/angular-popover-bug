@@ -357,7 +357,7 @@ export class UtilityService {
 
     let templateKeyOutputObj = {};
     try {
-      debugger;
+
       let templates: string[] = this.createTemplateKeyArr(generation_templates);
       let outputs: string[] = this.createOutputArr(generation_templates);
       for (let i = 0; i < templates.length; ++i) {
@@ -798,7 +798,7 @@ export class UtilityService {
 
   /* View in fullscreen */
   openFullscreen() {
-    debugger;
+
     let elem:any = document.documentElement;
     if (elem.requestFullscreen) {
       let x = elem.requestFullscreen();

@@ -29,6 +29,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   enable = false;
   formValue: IIntegrationOption;
   formValueFinal: IIntegrationOption;
+  formDataClone = {};
   @Input() _bot: IBot;
   @Input() set bot(bot:IBot){
     this._bot = bot;
@@ -144,11 +145,13 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
     });
 
 
-    this.f_new.valueChanges.debounceTime(1000).subscribe((integrationInfo: IIntegrationOption) => {
+    this.f_new.valueChanges.debounceTime(200).subscribe((integrationInfo: IIntegrationOption) => {
       // if (!this.f_new.dirty) return;
 
-      if(this.utilityService.areTwoJSObjectSame(this.formValue,this.f_new.value))return;
+      debugger;
+      if(this.utilityService.areTwoJSObjectSame(this.formDataClone,this.f_new.value))return;
       let formValidityObj =  {};
+      this.formDataClone  = this.utilityService.createDeepClone(this.f_new.value);
       formValidityObj[EFormValidationErrors.form_validation_integration] = this.f_new && this.f_new.valid;
 
 
