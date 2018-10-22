@@ -22,9 +22,7 @@ import {EBotType} from '../../../../../view-bots/view-bots.component';
 import {EventService} from '../../../../../../event.service';
 import {take} from 'rxjs/operators';
 import {LoggingService} from '../../../../../../logging.service';
-
 import {DebugBase} from '../../../../../../debug-base';
-
 import {NgForm} from '@angular/forms';
 
 export enum EBotVersionTabs {
@@ -75,7 +73,6 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   selectedTemplateKeyOutputIndex: number[] = [];
   selectedIntentList: string[] = ['A2', 'A3', 'A4'];
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
-  templateKeyDictClone;
   templateKeyDict;
 
   onSubmit(modelGridGenTempNames) {
@@ -156,6 +153,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     }];
     this.templateKeyDict = {...this.templateKeyDict, ...intentUnit};
     this.modalRef.hide();
+    this.selectedTemplateKeyInLeftSideBar = this.newTemplateKey;
     this.newTemplateKey = '';
   }
 
@@ -264,8 +262,11 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   // @ViewChild('fork_new_version_form') fork_new_version_form: HTMLFormElement;
 
-  get getTemplateKeyDictClone() {
-    return {...this.templateKeyDict};
+  templateKeyDictClone = null;
+  getTemplateKeyDictClone() {
+
+    if(!this.templateKeyDictClone) this.templateKeyDictClone = {...this.templateKeyDict};
+    return this.templateKeyDictClone;
   }
 
   editorCode;
@@ -626,6 +627,10 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   editTemplateKey(templateKeyEditForm){
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0f83b1c88369f3cbca02ce0f03a950c8ddfd720e
     let {old_key, new_key} = templateKeyEditForm.value;
     this.utilityService.renameKeyInObject(this.templateKeyDict,old_key, new_key);
     this.selectedTemplateKeyInLeftSideBar = new_key;
@@ -638,5 +643,15 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
       formVal[key] = true;
     }
     form.form.patchValue(formVal);
+  }
+
+
+  isTemplateKeyOutputUnparsable(){
+
+
+    return  this.activeTab===this.myEBotVersionTabs.generation_templates &&
+      !this.showGenTempEditorAndHideGenTempUi &&
+      this.templateKeyDict &&
+      typeof this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar]==='string';
   }
 }

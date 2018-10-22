@@ -456,7 +456,7 @@ th, td {
   }
 }
 
-.text-theme-primary{
+.text-theme-primary {
   color: #00abd3;
 }
 
@@ -697,6 +697,7 @@ progressbar {
 [disabled] {
   cursor: not-allowed !important;
 }
+
 .disabled {
   cursor: not-allowed !important;
 }
@@ -707,6 +708,26 @@ progressbar {
 
 .ui-corner-all {
   text-align: start;
+}
+
+.blinking {
+  animation: blinkingText 0.8s 0s;
+  animation-iteration-count: 2;
+  color: black;
+}
+
+@keyframes blinkingText {
+  0% {
+    opacity: 1.0;
+    color: #000000 !important;
+  }
+  50% {
+    opacity: 0.0;
+  }
+  100% {
+    opacity: 1.0;
+    color: #000000 !important;
+  }
 }
 
 //.modal.fade {
@@ -731,7 +752,7 @@ progressbar {
   width: 80vw;
 }
 
-.modal-w-30vw{
+.modal-w-30vw {
   width: 30vw;
 }
 
@@ -873,20 +894,22 @@ progressbar {
 }
 
 /*centering*/
-.flex-theme-vertical-center{
+.flex-theme-vertical-center {
   display: flex;
   justify-content: center;
 }
-.flex-theme-horizontal-center{
+
+.flex-theme-horizontal-center {
   display: flex;
   align-items: center;
 }
-.flex-theme-center{
+
+.flex-theme-center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.debug-small{
+.debug-small {
   font-size: 6px;
 }

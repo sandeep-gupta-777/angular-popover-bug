@@ -94,10 +94,14 @@ export class ServerService {
     return headers;
   }
 
-  showErrorMessageForErrorTrue(errorObj: { 'error': true, 'message': string, 'transaction_id': string }) {
-    if(errorObj.error){
-      this.utilityService.showErrorToaster(errorObj.message);
-      return true;
+  showErrorMessageForErrorTrue({error}) {
+    try {
+      if(error.error){
+        this.utilityService.showErrorToaster(error.message);
+        return true;
+      }
+    }catch (e) {
+      console.log(e);
     }
     return false;
   }
@@ -226,6 +230,7 @@ export class ServerService {
           this.changeProgressBar(false, 100);
       })
       .catch((e: any, caught: Observable<T>) => {
+        debugger;
         LoggingService.error(e);
         this.showErrorMessageForErrorTrue(e);
         this.changeProgressBar(false, 100);

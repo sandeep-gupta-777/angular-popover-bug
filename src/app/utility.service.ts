@@ -314,7 +314,7 @@ export class UtilityService {
     let str = generation_templates;
 
     // let regex = /e?l?if.+?:/g;
-    let regex = /e?l?if\s?\(.+?:/g;
+      let regex = /e?l?if\s?.+?:/g;
 
     let match = regex.exec(str);
 
@@ -357,6 +357,7 @@ export class UtilityService {
 
     let templateKeyOutputObj = {};
     try {
+
       let templates: string[] = this.createTemplateKeyArr(generation_templates);
       let outputs: string[] = this.createOutputArr(generation_templates);
       for (let i = 0; i < templates.length; ++i) {
@@ -793,6 +794,36 @@ export class UtilityService {
       };
     });
     return roomMessages;
+  }
+
+  /* View in fullscreen */
+  openFullscreen() {
+
+    let elem:any = document.documentElement;
+    if (elem.requestFullscreen) {
+      let x = elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) { /* Firefox */
+      let x = elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+      let x = elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE/Edge */
+      let x = elem.msRequestFullscreen();
+    }
+  }
+
+  /* Close fullscreen */
+  closeFullscreen() {
+    let myDocument:any = document;
+    if (myDocument.exitFullscreen) {
+      let x = myDocument.exitFullscreen();
+    } else if (myDocument.mozCancelFullScreen) { /* Firefox */
+      let x = myDocument.mozCancelFullScreen();
+    } else if (myDocument.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+      let x = myDocument.webkitExitFullscreen();
+    } else if (myDocument.msExitFullscreen) { /* IE/Edge */
+      let x = myDocument.msExitFullscreen();
+    }
+
   }
 
 }

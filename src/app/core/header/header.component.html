@@ -35,6 +35,10 @@
         </a>
 
       </div>
+      <a class="header-nav" (click)="toggleDocumentFullScreen();"
+         [title]="isDocumentFullScreenModeOn?'Go to fullscreen mode':'Exit fullscreen mode'">
+        <i class="fa" [ngClass]="{'fa-television':!isDocumentFullScreenModeOn, 'fa-compress':isDocumentFullScreenModeOn}"></i>
+      </a>
     </div>
 
     <div class="col-4 px-0 col-md-3 d-flex align-items-center">

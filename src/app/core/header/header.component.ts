@@ -37,18 +37,28 @@ export class HeaderComponent implements OnInit {
   url: string;
   logoutSetTimeoutRef;
   autoLogOutTime: number;
-  isOnline = true
+  isOnline = true;
+  isDocumentFullScreenModeOn = false;
 
   constructor(
     private store: Store,
     private serverService: ServerService,
     private activatedRoute: ActivatedRoute,
     private constantsService: ConstantsService,
-    private utilityService: UtilityService,
+    public utilityService: UtilityService,
     private router: Router) {
   }
 
   ngOnInit() {
+    document.addEventListener("mozfullscreenchange", ()=>{
+      this.isDocumentFullScreenModeOn = !this.isDocumentFullScreenModeOn;
+    });
+    document.addEventListener("webkitfullscreenchange", ($event)=>{
+      this.isDocumentFullScreenModeOn = !this.isDocumentFullScreenModeOn;
+    });
+    document.addEventListener("msfullscreenchange", ()=>{
+      this.isDocumentFullScreenModeOn = !this.isDocumentFullScreenModeOn;
+    });
 
     /*this.app$Subscription = */this.app$.subscribe((app) => {
         /*every time this callback runs remove all previous setTimeOuts*/
@@ -114,4 +124,7 @@ export class HeaderComponent implements OnInit {
 
   }
 
+  toggleDocumentFullScreen(){
+    this.isDocumentFullScreenModeOn? this.utilityService.closeFullscreen() :this.utilityService.openFullscreen();
+  }
 }

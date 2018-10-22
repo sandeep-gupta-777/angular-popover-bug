@@ -1,7 +1,8 @@
 <!--<p>{{channelList|json}}</p>-->
 
 <div class="d-flex-column-last-child-flex-grow-1">
-  <div class="row row-version my-2 m-0 child-no-expand-shrink " style="position: relative" (clickOutside)="showVersionList = false">
+  <div class="row row-version my-2 m-0 child-no-expand-shrink " style="position: relative"
+       (clickOutside)="showVersionList = false">
     <div class="col-6 p-0" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
       <div *ngIf="selectedVersion" class="d-flex align-items-center flex-bot-versioning-toaster border-theme-secondary">
         <div class="version-active-label" *ngIf="selectedVersion" [ngClass]="{'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-label-inactive':selectedVersion?.id !== activeVersion?.id}">
@@ -39,7 +40,8 @@
           <!--<input type="radio" name="optradio">-->
           <!--</form>-->
         </div>
-        <div class="insert mr-1" [popover]="selectedVersion && selectedVersion.comment" placement="bottom" triggers="mouseenter:mouseleave">
+        <div class="insert mr-1" *ngIf="selectedVersion && selectedVersion.comment" [popover]="selectedVersion.comment" placement="bottom"
+             triggers="mouseenter:mouseleave">
           {{selectedVersion.comment.length>70?(((selectedVersion.comment)|slice:0:100)
           +"..."):selectedVersion?.comment}}
           <!--<div class="insert mr-1">{{(selectedVersion.comment)|slice:0:100}}-->
@@ -108,7 +110,7 @@
       <div class="card ">
 
         <!--tabs start-->
-        <div class="card-body p-0 mr-4">
+        <div class="card-body p-0 mr-0">
           <ul class="nav nav-tabs theme-tabbing">
             <li class="nav-item" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.df_template}">
               <a class="nav-link text-theme-normal" (click)="tabClicked(myEBotVersionTabs.df_template)">DF Template</a>
@@ -141,19 +143,17 @@
           </ul>
           <!--tabs end-->
 
-          <!--code editor starts-->
-          <!--todo: make this row independent-->
-
-
         </div>
       </div>
     </div>
   </div>
 
-  <div class="code-editor-row code-editor-row-max position-relative child-expand  d-flex-column-last-child-flex-grow-1">
+  <div
+    class="code-editor-row code-editor-row-max position-relative child-expand  d-flex-column-last-child-flex-grow-1">
 
-    <app-code-editor class="child-expand" [hidden]="activeTab!==myEBotVersionTabs.df_template" [text]="editorCodeObj[myEBotVersionTabs.df_template]"
-      (textChangedEvent)="saveText($event)"></app-code-editor>
+    <app-code-editor class="child-expand" [hidden]="activeTab!==myEBotVersionTabs.df_template"
+                     [text]="editorCodeObj[myEBotVersionTabs.df_template]"
+                     (textChangedEvent)="saveText($event)"></app-code-editor>
 
     <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_rules" [text]="editorCodeObj[myEBotVersionTabs.df_rules]"
       (textChangedEvent)="saveText($event)"></app-code-editor>
@@ -162,7 +162,8 @@
       (textChangedEvent)="saveText($event)"></app-code-editor>
 
     <!--generation template UI starts-->
-    <div class="row pl-3 genTempGrid pt-2 child-expand" *ngIf="activeTab===myEBotVersionTabs.generation_templates && !showGenTempEditorAndHideGenTempUi">
+    <div class="row mx-0 pl-3 genTempGrid pt-2 child-expand"
+         *ngIf="activeTab===myEBotVersionTabs.generation_templates && !showGenTempEditorAndHideGenTempUi">
       <!--left sidebar starts-->
       <div class="genTempGridItem intent-header ml-1 position-relative">
         <div style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; z-index: 10; overflow-y: auto; overflow-x: hidden">
@@ -253,11 +254,12 @@
         <!--response components list ends-->
 
         <!--if the value of template key is unparsable, we will show code editor-->
-        <ng-container *ngIf="activeTab===myEBotVersionTabs.generation_templates && !showGenTempEditorAndHideGenTempUi && templateKeyDict && ((templateKeyDict[selectedTemplateKeyInLeftSideBar]|dataType)==='string')">
+        <ng-container *ngIf="isTemplateKeyOutputUnparsable()">
           <div class="intentItems d-flex-column-last-child-flex-grow-1">
             <div class="d-flex-column-last-child-flex-grow-1 child-expand">
-              <app-code-editor class="d-flex-column-last-child-flex-grow-1 child-expand" [text]="{text:getTemplateKeyDictClone[selectedTemplateKeyInLeftSideBar]}"
-                (textChangedEvent)="updateSelectedTemplateKeyValue($event)"></app-code-editor>
+              <app-code-editor class="d-flex-column-last-child-flex-grow-1 child-expand"
+                               [text]="{text:getTemplateKeyDictClone()[selectedTemplateKeyInLeftSideBar]}"
+                               (textChangedEvent)="updateSelectedTemplateKeyValue($event)"></app-code-editor>
             </div>
           </div>
         </ng-container>
@@ -278,13 +280,14 @@
       </div>
 
       <div class="genTempGridItem bot-templates position-relative disabled" [ngClass]="{'cursor-pointer-event-none':!selectedTemplateKeyInLeftSideBar, 'disabled':!selectedTemplateKeyInLeftSideBar}">
-        <div style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; overflow-y: auto; overflow-x: hidden">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; max-height: 100%; overflow-y: auto; overflow-x: hidden">
 
-          <ul>
-            <li class="pl-2 bot-template-heading">
-              <div class="text-bold">Bot Response Template</div>
-              <div class="text-lite">Click on elements to add to response</div>
-            </li>
+          <div class="text-center mb-2 bot-template-heading">
+            <div class="text-bold">Bot Response Template</div>
+            <div class="text-lite">Click on elements to add to response</div>
+          </div>
+          <ul *ngIf="!isTemplateKeyOutputUnparsable(); else templateKeyIsUnparsableMessage">
+
             <li class="pl-2 bot-template cursor-pointer" (click)="addTextUnit();">
               <i class="fa fa-align-left"></i>Text
             </li>
@@ -301,6 +304,10 @@
               <i class="fa fa-code"></i>Code Input
             </li>
           </ul>
+
+          <ng-template #templateKeyIsUnparsableMessage>
+            <div class="text-center" style="font-size: 11px; color: #9e9e9e; position: absolute; top: 50%;right: 0; left: 0">Template key output is unparsable</div>
+          </ng-template>
         </div>
       </div>
     </div>
@@ -352,9 +359,10 @@
           <!--</select>-->
 
           <!--<div class="form-group m-0 mr-4 ml-auto">-->
-          <select class="concept1" [(ngModel)]="forked_version_number" required type="number" name="version_id" #select>
-            <img style="height: 20px; width: 20px; position: absolute;left: 5px" src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/facebook.png"
-              alt="">
+          <select class="concept1"
+                  [(ngModel)]="forked_version_number" required type="number" name="version_id" #select>
+            <img style="height: 20px; width: 20px; position: absolute;left: 5px"
+                 src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/facebook.png" alt="">
             <option type="button" *ngFor="let version of bot.store_bot_versions">
               <button>{{version.version}}</button>
             </option>
@@ -394,7 +402,9 @@
     <div class="modal-body" style="text-align: left">
       <div class="text-bold">Create new template key</div>
       <div class="d-flex align-items-center flex-wrap mt-2">
-        <input class="input-material" style="width: 100%" placeholder="Enter template key name" type="text" [(ngModel)]="newTemplateKey">
+        <input class="input-material" style="width: 100%" placeholder="Enter template key name" type="text"
+               (keyup.enter)="createNewTemplatekey()"
+               [(ngModel)]="newTemplateKey">
         <p *ngIf="templateKeyCreationError" class="text-danger">{{templateKeyCreationError}}</p>
         <div class="d-flex justify-content-end w-100 mt-2">
           <button class="btn btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>
@@ -459,14 +469,16 @@
       </button>
     </div>
 
-    <div class="modal-body pt-0">
+    <div class="modal-body pt-0" style="padding:10px !important;">
       <form #form="ngForm">
         <div class="text-center my-1">
           <p class="mb-3">Do you confirm the Deletion? This is a permanent and irreversible change</p>
 
         </div>
-        <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
-        <button class=" btn btn-theme-danger" (click)="deleteTemplateKey(templateKeyToBeDeleted.value)">Delete</button>
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+          <button class=" btn btn-theme-danger" (click)="deleteTemplateKey(templateKeyToBeDeleted.value)">Delete</button>
+        </div>
       </form>
     </div>
   </div>
@@ -505,7 +517,7 @@
         <!--<input class="input-material" style="width: 100%" placeholder="Enter template key name" type="text"-->
         <!--[(ngModel)]="newTemplateKey">-->
         <input ngModel name="old_key" hidden type="text" [ngModel]="templateKeyToBeDeleted.value">
-        <input ngModel name="new_key" style="width: 100%" required type="text" [ngModel]="templateKeyToBeDeleted.value">
+        <input ngModel name="new_key" style="width: 100%" required  type="text" [ngModel]="templateKeyToBeDeleted.value" (keyup.enter)="editTemplateKey(templateKeyEditForm)">
         <!--<p *ngIf="templateKeyCreationError" class="text-danger">{{templateKeyCreationError}}</p>-->
         <div class="d-flex justify-content-end w-100 mt-2">
           <button class="btn btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>
