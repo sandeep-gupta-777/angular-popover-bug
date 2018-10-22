@@ -19,7 +19,7 @@ import {NgForm} from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-  panelActive = 'login';
+  panelActive = 'reset-via-email';
   // panelActive==='reset-via-email'
   errorMessage = '';
 
