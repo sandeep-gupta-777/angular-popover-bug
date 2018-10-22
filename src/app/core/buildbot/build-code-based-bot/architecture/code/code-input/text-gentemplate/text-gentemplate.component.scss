@@ -60,3 +60,13 @@
   width: 16px;
   height: 16px;
 }
+
+.hide-it{
+  visibility: hidden;
+}
+
+.show-on-hover:hover{
+  .hide-it{
+    visibility: visible;
+  }
+}
