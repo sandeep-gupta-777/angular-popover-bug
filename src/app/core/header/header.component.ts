@@ -37,6 +37,7 @@ export class HeaderComponent implements OnInit {
   url: string;
   logoutSetTimeoutRef;
   autoLogOutTime: number;
+  isOnline = true
 
   constructor(
     private store: Store,
@@ -48,6 +49,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+
     /*this.app$Subscription = */this.app$.subscribe((app) => {
         /*every time this callback runs remove all previous setTimeOuts*/
         let autoLogOutTime = app.autoLogoutTime;
