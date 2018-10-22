@@ -149,7 +149,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     let intentUnit = {};
     intentUnit[this.newTemplateKey] = [{
       'text': [''],
-      'include': this.channelNameList,
+      'include': ['web', ...this.channelNameList],
     }];
     this.templateKeyDict = {...this.templateKeyDict, ...intentUnit};
     this.modalRef.hide();
@@ -627,10 +627,6 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   editTemplateKey(templateKeyEditForm){
-<<<<<<< HEAD
-=======
-
->>>>>>> 0f83b1c88369f3cbca02ce0f03a950c8ddfd720e
     let {old_key, new_key} = templateKeyEditForm.value;
     this.utilityService.renameKeyInObject(this.templateKeyDict,old_key, new_key);
     this.selectedTemplateKeyInLeftSideBar = new_key;
