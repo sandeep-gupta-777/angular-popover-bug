@@ -1,13 +1,13 @@
-import {Injectable} from '@angular/core';
-import {EAllActions, ERoleName} from './constants.service';
-import {IAppState} from './ngxs/app.state';
-import {Observable} from 'rxjs';
-import {actionMatcher, Select} from '@ngxs/store';
-import {IProfilePermission} from '../interfaces/profile-action-permission';
-import {IUser} from './core/interfaces/user';
-import {IAuthState} from './auth/ngxs/auth.state';
-import {st} from '@angular/core/src/render3';
-import {ELogType, LoggingService} from './logging.service';
+import { Injectable } from '@angular/core';
+import { EAllActions, ERoleName } from './constants.service';
+import { IAppState } from './ngxs/app.state';
+import { Observable } from 'rxjs';
+import { actionMatcher, Select } from '@ngxs/store';
+import { IProfilePermission } from '../interfaces/profile-action-permission';
+import { IUser } from './core/interfaces/user';
+import { IAuthState } from './auth/ngxs/auth.state';
+import { st } from '@angular/core/src/render3';
+import { ELogType, LoggingService } from './logging.service';
 
 @Injectable({
   providedIn: 'root'
@@ -83,7 +83,12 @@ export class PermissionService {
   };
   forbiddenActionsToFrontEndMapping = {};
   allowedApiHttpVerbPPathToActionNamesMapping = {};
-
+  ApiAccessAllowedUrlList: string[] = [
+    '/api/v1/actions/',
+    '/api/v1/user/login/',
+    '/api/v1/user/resetpasswordurl/',
+    '/api/v1/user/resetpassword/'
+  ];
   constructor() {
     this.loggeduser$.subscribe((loggeduser) => {
       if (loggeduser && loggeduser.user) {
@@ -91,7 +96,7 @@ export class PermissionService {
       }
       this.app$.subscribe((appState) => {
         try {
-          if(!loggeduser.user){
+          if (!loggeduser.user) {
             return;
           }
           let masterActionList = appState.masterProfilePermissions;
@@ -101,7 +106,7 @@ export class PermissionService {
           }
 
           /*for non admin roles*/
-          this.forbiddenActionsToFrontEndMapping = {...this.allBackEndActionsToFrontEndTabMapping2};
+          this.forbiddenActionsToFrontEndMapping = { ...this.allBackEndActionsToFrontEndTabMapping2 };
           /*remove all allowed perms*/
           loggeduser.user.role.permissions.actions.forEach((permId: number) => {
             /*find action name for given permission id*/
@@ -144,7 +149,11 @@ export class PermissionService {
     });
 
   }
-
+  isInApiAccessAllowedUrlList(pathName){
+    let check = this.ApiAccessAllowedUrlList.find(x => x === pathName );
+    if(check)  return true;
+    else return false;
+  }
   findKeyForValueInObject(obj: object, value): string {
     if (!obj || !value) {
       console.error('non valid arguments for findKeyForValueInObject()');
@@ -154,10 +163,10 @@ export class PermissionService {
     return key;
   }
 
-  isTabAccessDenied(tabName: string, accessType="") {//route,tab
+  isTabAccessDenied(tabName: string, accessType = "") {//route,tab
     if (!tabName) return false;
     let isDenied = !!this.forbiddenActionsToFrontEndMapping[tabName];
-    LoggingService.logMultiple(`checking ${accessType} access for tabName = ${tabName} and the access was ${isDenied ? 'Denied' : 'Allowed'}. Following is forbiddenActionsToFrontEndMapping`, this.forbiddenActionsToFrontEndMapping );
+    LoggingService.logMultiple(`checking ${accessType} access for tabName = ${tabName} and the access was ${isDenied ? 'Denied' : 'Allowed'}. Following is forbiddenActionsToFrontEndMapping`, this.forbiddenActionsToFrontEndMapping);
     return isDenied;
   }
 
@@ -166,7 +175,7 @@ export class PermissionService {
   }
 
   isApiAccessDenied(url: string, httpVerb: EHttpVerbs) {
-    let isAllowed:boolean, httpVerbAndPathKey:string, logMessage:string = "", pathName = this.getPathNameFromUrl(url);
+    let isAllowed: boolean, httpVerbAndPathKey: string, logMessage: string = "", pathName = this.getPathNameFromUrl(url);
     let roleName = this.loggedUser && this.loggedUser.role.name;
     if (!url || !httpVerb) {
       console.error('invalid args for isApiAccessDenied');
@@ -175,7 +184,7 @@ export class PermissionService {
     if (roleName === ERoleName.Admin) {
       logMessage = "All APIs are allowed for Admin user";
       isAllowed = true;
-    } else if (pathName === '/api/v1/actions/' || pathName === '/api/v1/user/login/') {
+    } else if (this.isInApiAccessAllowedUrlList(pathName)) {
       logMessage = "get actions api is allowed for all user";
       /*explicitly allowing get action route for all the users, since we can't create allowedApiHttpVerbPPathToActionNamesMapping without it*/
       isAllowed = true;
