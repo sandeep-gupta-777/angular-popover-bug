@@ -94,10 +94,10 @@ export class ServerService {
     return headers;
   }
 
-  showErrorMessageForErrorTrue({error}) {
+  showErrorMessageForErrorTrue({error, message}) {
     try {
-      if(error.error){
-        this.utilityService.showErrorToaster(error.message);
+      if(error.error===true || error){
+        this.utilityService.showErrorToaster(error.message||message);
         return true;
       }
     }catch (e) {
@@ -218,7 +218,7 @@ export class ServerService {
       .map((value: any) => {
 
         if (value && value.error) {
-          this.showErrorMessageForErrorTrue(value);
+          this.showErrorMessageForErrorTrue(value); //{error: true, message: "Error"};
           return throwError(value);
         } else {
           return value;

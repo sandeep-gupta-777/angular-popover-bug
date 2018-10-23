@@ -68,7 +68,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   selectedTemplateKeyInLeftSideBar: string = '';
   myObject = Object;
   newTemplateKey: string;
-  showGenTempEditorAndHideGenTempUi: boolean = false;
+  showGenTempEditorAndHideGenTempUi: boolean = true;
   selectedChannelOfGenTemplate: { name: string, displayName: string };
   selectedTemplateKeyOutputIndex: number[] = [];
   selectedIntentList: string[] = ['A2', 'A3', 'A4'];
@@ -222,6 +222,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   selectedListDelete() {
+    this.selectedTemplateKeyOutputIndex.sort((a,b)=>b-a);
     for (let i of this.selectedTemplateKeyOutputIndex) {
       this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].splice(i, 1);
     }
@@ -280,7 +281,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   };
   showVersionList = false;
 
-  selectedVersion: IBotVersionData;
+  selectedVersion: IBotVersionData = null;
   code: ICode;
 
   constructor(
@@ -307,14 +308,17 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     this.botlist$_sub = this.botlist$.subscribe(() => {
       try {
         this.utilityService.getActiveVersionInBot(this.bot);
-        this.channelList = Object.keys(this.bot.integrations.channels)
-          .map((integrationKey) => {
-            return {
-              name: integrationKey,
-              displayName: integrationKey
-            };
-          });
-        this.channelList.unshift({name: 'all', displayName: 'All'});
+        if(this.bot.integrations && this.bot.integrations.channels){
+          this.channelList = Object.keys(this.bot.integrations.channels)
+            .map((integrationKey) => {
+              return {
+                name: integrationKey,
+                displayName: integrationKey
+              };
+            });
+          this.channelList.unshift({name: 'all', displayName: 'All'});
+        }
+
         this.selectedChannelOfGenTemplate = {name: 'all', displayName: 'All'};
 
         setTimeout(() => {
@@ -326,31 +330,27 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
             }
           }
         });
-
-
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
 
-      // let activeVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.find((BotVersion) => {
-      //   return this.bot.active_version_id === BotVersion.id;
-      // });
       /*
       * if active version exists, selected version =active version
       * otherwise, selected version = first version, if that exists
       * */
 
       let activeVersion = this.activeVersion = this.utilityService.getActiveVersionInBot(this.bot);
-      // if(!this.selectedVersion)
-      //   this.selectedVersion = activeVersion;
-      // else
-      if (!this.selectedVersion)
+      if (!this.selectedVersion || this.selectedVersion.id === -1)
         this.selectedVersion = activeVersion ? activeVersion : (this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions[0]);
       else {
         /*updating selected version*/
         this.selectedVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions.find((version) => version.id === this.selectedVersion.id);
       }
 
+
+      if(!this.selectedVersion){
+        this.selectedVersion = this.constantsService.getSelectedVersionTemplate(this.bot.id);
+      }
 
       this.forked_version_number = this.selectedVersion && this.selectedVersion.version;
       this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab') || EBotVersionTabs.df_template;
@@ -360,8 +360,6 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     }, (err) => {
       LoggingService.log(err);
     });
-
-
   }
 
   async openFile(inputEl) {
@@ -394,6 +392,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   convertGenTemplateCodeStringIntoUiComponents() {
 
     try {
+      debugger;
       this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
       this.templateKeyDictClone = {...this.templateKeyDict};
     }catch (e) {
@@ -411,13 +410,13 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   saveText(codeStr: string) {
+    debugger;
     /*
     *at this point some changes have been made to selected version's codeText
     * */
-
     if (this.selectedVersion && this.selectedVersion.id) {
       let selectedVersion_pristine = this.bot.store_bot_versions && this.bot.store_bot_versions.find((version) => version.id === this.selectedVersion.id);
-      let codeTextPristine = selectedVersion_pristine[this.activeTab];
+      let codeTextPristine = selectedVersion_pristine && selectedVersion_pristine[this.activeTab];
       if (!this.selectedVersion.changed_fields[this.activeTab])/*If field is dirty from server, nothing can change it*/
         this.selectedVersion.changed_fields[this.activeTab] = codeStr !== codeTextPristine;
       this.selectedVersion[this.activeTab] = codeStr;
@@ -442,7 +441,9 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   saveSelectedVersion() {
 
-    this.convertUiDictToGenTemplateCode();
+    if(this.showGenTempEditorAndHideGenTempUi === false){
+      this.convertUiDictToGenTemplateCode();
+    }
 
     let headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
@@ -482,8 +483,6 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
           this.store.dispatch([
             new UpdateVersionInfoByIdInBot({data: forkedVersion, botId: this.bot.id})
           ]);
-          // this.ngOnInit();
-          /*TODO: implement it correctly*/
         });
     }
   }
@@ -649,5 +648,10 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
       !this.showGenTempEditorAndHideGenTempUi &&
       this.templateKeyDict &&
       typeof this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar]==='string';
+  }
+
+  test(){
+    console.log(this.selectedVersion);
+    console.log(this.bot.store_bot_versions);
   }
 }

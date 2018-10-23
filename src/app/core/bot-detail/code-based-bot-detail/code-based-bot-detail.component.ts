@@ -16,6 +16,11 @@ import {IUser} from '../../interfaces/user';
 import {IAuthState} from '../../../auth/ngxs/auth.state';
 import {LoggingService} from '../../../logging.service';
 
+export enum EArchitectureTabs{
+  pipeline,
+
+}
+
 @Component({
   selector: 'app-code-based-bot-detail',
   templateUrl: './code-based-bot-detail.component.html',
@@ -31,10 +36,11 @@ export class CodeBasedBotDetailComponent implements OnInit {
   selectedTab = 'architecture';
   bot$: Observable<IBot>;
   bot_id: number;
-  showConfig: boolean = false;
+  showConfig: boolean = true;
   overviewInfo$: Observable<IOverviewInfoResponse>;
   selectedChannel: string = 'all';
   start_date: string;
+  isAdmin = false;
   end_date: string;
   selectedChannelDisplayName: string;
   selectedDurationDisplayName: string = 'Monthly';
@@ -53,6 +59,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
   ngOnInit() {
     // this.loggeduser$.take(1).subscribe((loggedUserState:IAuthState)=>{
       let roleName = this.constantsService.loggedUser.role.name;
+      this.showConfig = roleName!==ERoleName.Admin;//if its admin don't expand bot config by default
       if(roleName===ERoleName.Admin || roleName===ERoleName['Bot Developer']){
         this.selectedTab = 'architecture'
       }else if(roleName===ERoleName.Tester){
@@ -65,7 +72,9 @@ export class CodeBasedBotDetailComponent implements OnInit {
     let isArchitectureFullScreen = this.activatedRoute.snapshot.queryParamMap.get('isArchitectureFullScreen');
     this.isArchitectureFullScreen = isArchitectureFullScreen==='true';
     let showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
-    this.showConfig = showConfigStr==='true';//(showConfigStr === 'true' || showConfigStr == undefined);
+    if(showConfigStr){
+      this.showConfig = showConfigStr==='true';//(showConfigStr === 'true' || showConfigStr == undefined);;
+    }
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
     this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || this.selectedTab;
@@ -78,7 +87,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
       LoggingService.log("Bot Opened"+ this.bot);
       return this.bot;
     });
-    this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab') || 'pipeline';
+    this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab') || this.selectedSideBarTab;
 
     this.start_date = this.utilityService.getPriorDate(0);
     this.end_date = this.utilityService.getPriorDate(30);
