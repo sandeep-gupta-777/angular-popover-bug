@@ -1,6 +1,6 @@
 
-<div class=" d-flex">
-  <div class="controls  d-flex flex-column justify-content-between align-items-start" style="flex-basis: 18px;">
+<div class=" d-flex show-on-hover">
+  <div class="controls  d-flex flex-column justify-content-between align-items-start hide-it"  style="flex-basis: 18px;">
     <!--<input type="checkbox">-->
     <!--<input type="checkbox" [(ngModel)]="selected" (ngModelChange)="onSelected($event)" >-->
 
@@ -41,7 +41,9 @@
     </div>
     <div class="p-1 icon-footer">
     <span>
-      <img *ngFor="let channel of outputItem.include" class="logo-image mx-1" [src]="(channel|logosByIntegrationName)?.icon">
+      <img *ngFor="let channel of channelNameList" class="logo-image mx-1 cursor-pointer" 
+      (click)="removeThisChannel(channel)" [src]="(channel|logosByIntegrationName)?.icon"
+      [ngStyle]="{'opacity': imgOpacity(channel) ? 1 : 0.3 }">
     </span>
     </div>
   </div>

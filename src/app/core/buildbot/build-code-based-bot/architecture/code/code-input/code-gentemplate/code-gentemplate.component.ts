@@ -13,6 +13,7 @@ export class CodeGentemplateComponent implements OnInit {
   }
 
   @Input() outputItem: IOutputItem;
+  @Input() channelNameList : string[];
   outputItemClone: IOutputItem;
   @Input() myIndex: number;
 
@@ -57,6 +58,24 @@ export class CodeGentemplateComponent implements OnInit {
 
   codeEditorTextCHanged(data) {
     this.outputItem = Object.assign(this.outputItem, JSON.parse(data));
+  }
+  removeThisChannel(channel:string){
+    let isChannelPresent = this.outputItemClone.include.find(e => e === channel);
+    if(isChannelPresent){
+      this.outputItemClone.include = this.outputItemClone.include.filter(e => e !== channel);
+    }
+    else{
+      this.outputItemClone.include.push(channel);
+    }
+  }
+  imgOpacity(channel : string) {
+    let isChannelPresent = this.outputItemClone.include.find(e => e === channel);
+    if(isChannelPresent){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 
 }

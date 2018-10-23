@@ -130,8 +130,10 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
    }
    */
-  channelList: { name: string, displayName: string }[];// = ["facebook", "web", "imiconnect", "imichat", "skype"];
-  openNewIntentModal(template) {
+
+   channelList: { name: string, displayName: string }[];// = ["facebook", "web", "imiconnect", "imichat", "skype"];
+  channelNameList: string[];
+   openNewIntentModal(template) {
     this.modalRef = this.modalService.show(template, {class: 'modal-w-30vw'});
     return;
   }
@@ -146,10 +148,8 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     }
     let intentUnit = {};
     intentUnit[this.newTemplateKey] = [{
-      'text': [
-        ''
-      ],
-      'include': []
+      'text': [''],
+      'include': ['web', ...this.channelNameList],
     }];
     this.templateKeyDict = {...this.templateKeyDict, ...intentUnit};
     this.modalRef.hide();
@@ -159,7 +159,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   addTextUnit() {
     let textUnit = {
-      'include': ['facebook', 'web'],
+      'include': ['web', ...this.channelNameList],
       'text': ['']
     };
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(textUnit);
@@ -170,7 +170,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   addCodeUnit() {
 
     let codeUnit = {
-      'include': ['facebook', 'web'],
+      'include': ['web', ...this.channelNameList],
       'code': ['Write ur text here .....']
     };
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(codeUnit);
@@ -179,7 +179,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   addQReplyUnit() {
     let qReplyUnit = {
-      'include': ['facebook', 'web'],
+      'include': ['web', ...this.channelNameList],
       'text': ['Write ur text here .....']
     };
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(qReplyUnit);
@@ -188,7 +188,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   deleteGentemplate(e) {
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].splice(e, 1);
-    console.log(this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar]);
+    // console.log(this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar]);
   }
 
   moveUpGentempate(e) {
@@ -320,7 +320,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
         }
 
         this.selectedChannelOfGenTemplate = {name: 'all', displayName: 'All'};
-
+        this.channelNameList = this.channelList.map(channel => {return channel.name}).filter(e => e !== 'all');
         setTimeout(() => {
           if (this.selectedVersion && this.selectedVersion[EBotVersionTabs.generation_templates]) {
             this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
@@ -625,7 +625,6 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   editTemplateKey(templateKeyEditForm){
-
     let {old_key, new_key} = templateKeyEditForm.value;
     this.utilityService.renameKeyInObject(this.templateKeyDict,old_key, new_key);
     this.selectedTemplateKeyInLeftSideBar = new_key;

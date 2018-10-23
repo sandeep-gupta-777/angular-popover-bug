@@ -29,6 +29,7 @@ export class TextGentemplateComponent implements OnInit {
   }
   // @Input() variants : string[];
   @Input() myIndex : number;
+  @Input() channelNameList : string[];
   @Input() totalResponseTemplateComponentCount : number;
   @Output() deleteTemplate: EventEmitter<string> = new EventEmitter<string>();
   @Output() moveTempUp: EventEmitter<string> = new EventEmitter<string>();
@@ -53,6 +54,24 @@ export class TextGentemplateComponent implements OnInit {
       select: b,
       index: this.myIndex
     }));
+  }
+  removeThisChannel(channel:string){
+    let isChannelPresent = this.outputItem.include.find(e => e === channel);
+    if(isChannelPresent){
+      this.outputItem.include = this.outputItem.include.filter(e => e !== channel);
+    }
+    else{
+      this.outputItem.include.push(channel);
+    }
+  }
+  imgOpacity(channel : string) {
+    let isChannelPresent = this.outputItem.include.find(e => e === channel);
+    if(isChannelPresent){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
   ngOnInit() {
   }
