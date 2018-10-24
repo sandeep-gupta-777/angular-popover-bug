@@ -68,7 +68,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   selectedTemplateKeyInLeftSideBar: string = '';
   myObject = Object;
   newTemplateKey: string;
-  showGenTempEditorAndHideGenTempUi: boolean = true;
+  showGenTempEditorAndHideGenTempUi: boolean = false;
   selectedChannelOfGenTemplate: { name: string, displayName: string };
   selectedTemplateKeyOutputIndex: number[] = [];
   selectedIntentList: string[] = ['A2', 'A3', 'A4'];
@@ -392,7 +392,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   convertGenTemplateCodeStringIntoUiComponents() {
 
     try {
-      debugger;
+
       this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
       this.templateKeyDictClone = {...this.templateKeyDict};
     }catch (e) {
@@ -410,7 +410,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   saveText(codeStr: string) {
-    debugger;
+
     /*
     *at this point some changes have been made to selected version's codeText
     * */

@@ -18,7 +18,7 @@ export class CodeGentemplateComponent implements OnInit {
   @Input() myIndex: number;
 
   @Input() set selectedTemplateKeyOutputIndex(selectedTemplateKeyOutputIndex: number[]) {
-    debugger;
+
     if (this.selectedTemplateKeyOutputIndex && this.selectedTemplateKeyOutputIndex.length === 0) {
       this.selected = false;
     }

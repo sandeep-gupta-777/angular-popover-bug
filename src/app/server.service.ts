@@ -230,7 +230,7 @@ export class ServerService {
           this.changeProgressBar(false, 100);
       })
       .catch((e: any, caught: Observable<T>) => {
-        debugger;
+
         LoggingService.error(e);
         this.showErrorMessageForErrorTrue(e);
         this.changeProgressBar(false, 100);
