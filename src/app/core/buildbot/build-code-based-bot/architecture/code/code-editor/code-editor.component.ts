@@ -1,7 +1,9 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {EventService} from '../../../../../../event.service';
-import {UtilityService} from '../../../../../../utility.service';
-import {ActivatedRoute} from '@angular/router';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { EventService } from '../../../../../../event.service';
+import { UtilityService } from '../../../../../../utility.service';
+import { ActivatedRoute } from '@angular/router';
+import { ConstantsService } from 'src/app/constants.service';
+import { ServerService } from 'src/app/server.service';
 
 declare var CodeMirror: any;
 
@@ -23,10 +25,12 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
 
   editor;
   _text;
-  editorCodeObjRef: { text: string } = {text: ''};
+  editorCodeObjRef: { text: string } = { text: '' };
+  @Output() validateClick =  new EventEmitter();
   @ViewChild('f') codeEditor: ElementRef;
-
-  constructor(private utilityService: UtilityService, private activatedRoute:ActivatedRoute) {
+  constructor(
+    private utilityService: UtilityService,
+    private activatedRoute: ActivatedRoute) {
   }
 
   @Input() set text(editorCodeObj: { text: string }) {
@@ -49,7 +53,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
-    this.utilityService.refreshCodeEditor$.subscribe(()=>{
+    this.utilityService.refreshCodeEditor$.subscribe(() => {
       this.editor && this.editor.refresh();
     });
 
@@ -76,18 +80,22 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
 
   downloadCodeText() {
     let fileName = "code.txt"
-    let codeTab =      this.activatedRoute.snapshot.queryParamMap.get("code-tab");
-    let buildTab =      this.activatedRoute.snapshot.queryParamMap.get("build-tab");
-    let botId =      this.activatedRoute.snapshot.params['id'];
-    if(buildTab=== 'code' && codeTab && botId){
+    let codeTab = this.activatedRoute.snapshot.queryParamMap.get("code-tab");
+    let buildTab = this.activatedRoute.snapshot.queryParamMap.get("build-tab");
+    let botId = this.activatedRoute.snapshot.params['id'];
+    if (buildTab === 'code' && codeTab && botId) {
       fileName = `${codeTab} for bot id ${botId}.txt`
     }
 
-    let nerId =      this.activatedRoute.snapshot.queryParamMap.get("ner_id");
-    if(buildTab=== 'knowledge' &&botId && nerId){
+    let nerId = this.activatedRoute.snapshot.queryParamMap.get("ner_id");
+    if (buildTab === 'knowledge' && botId && nerId) {
       fileName = `code for nerid ${nerId} for bot id ${botId}.txt`
     }
     this.utilityService.downloadText(this.editorCodeObjRef.text, fileName);
+  }
+
+  validateCodeTest() {
+    this.validateClick.emit(this.editorCodeObjRef.text);
   }
 
   ngAfterViewInit() {
@@ -101,7 +109,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
   }
 
 
-  options: any = {maxLines: 20, printMargin: false};
+  options: any = { maxLines: 20, printMargin: false };
 
   // onChange1(code) {
   //   this.editorCodeObjRef

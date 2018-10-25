@@ -409,6 +409,13 @@ export class ServerService {
             "generation_template" : false,
             "workflows" : false
           }
+          version.validation = {
+            'df_template': { error: false },
+            'df_rules': { error: false },
+            'generation_rules': { error: false },
+            'generation_templates': { error: false },
+            'workflow': { error: false },
+          }
         });;
         this.store.dispatch([
           new SaveVersionInfoInBot({data: botVersionResult.objects, botId: botId})
