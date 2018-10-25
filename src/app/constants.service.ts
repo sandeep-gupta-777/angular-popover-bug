@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { IAppState } from './ngxs/app.state';
-import { IUser } from './core/interfaces/user';
-import { Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { IBot } from './core/interfaces/IBot';
-import { IIntegrationOption } from '../interfaces/integration-option';
-import { DatePipe } from '@angular/common';
-import { environment } from '../environments/environment.prod';
-import { IAuthState } from './auth/ngxs/auth.state';
-import { IProfilePermission } from '../interfaces/profile-action-permission';
+import {Injectable} from '@angular/core';
+import {IAppState} from './ngxs/app.state';
+import {IUser} from './core/interfaces/user';
+import {Select} from '@ngxs/store';
+import {Observable} from 'rxjs';
+import {IBot} from './core/interfaces/IBot';
+import {IIntegrationOption} from '../interfaces/integration-option';
+import {DatePipe} from '@angular/common';
+import {environment} from '../environments/environment.prod';
+import {IAuthState} from './auth/ngxs/auth.state';
+import {IProfilePermission} from '../interfaces/profile-action-permission';
 
 declare var Handsontable: any;
 
@@ -186,6 +186,7 @@ export class ConstantsService {
     // let x = !!isApiAccessDenied;
     // return x;
   }
+
   //
   public BACKEND_URL;// = environment.url;//'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
   public BACKEND_URL_LOGIN = `${this.BACKEND_URL}` + 'api/v1/user/login/';
@@ -195,17 +196,17 @@ export class ConstantsService {
   public BACKEND_USER_PIPELINE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'api/v1/bot/';//https://dev.imibot.ai/bots
 
   public readonly CHANNEL_LIST = [
-    { name: 'all', displayName: 'All Channels' },
-    { name: 'facebook', displayName: 'Facebook' },
-    { name: 'web', displayName: 'WebChat' },
-    { name: 'alexa', displayName: 'Alexa' }];
+    {name: 'all', displayName: 'All Channels'},
+    {name: 'facebook', displayName: 'Facebook'},
+    {name: 'web', displayName: 'WebChat'},
+    {name: 'alexa', displayName: 'Alexa'}];
 
   public readonly TIME_GRANULARITY_LIST = [
-    { name: 'hour', displayName: 'Hour' },
-    { name: 'day', displayName: 'Day' },
-    { name: 'week', displayName: 'Week' },
-    { name: 'month', displayName: 'Month' },
-    { name: 'year', displayName: 'Year' }
+    {name: 'hour', displayName: 'Hour'},
+    {name: 'day', displayName: 'Day'},
+    {name: 'week', displayName: 'Week'},
+    {name: 'month', displayName: 'Month'},
+    {name: 'year', displayName: 'Year'}
   ];
 
   public readonly DATE_PICKER_CONFIG = Object.assign({}, {
@@ -225,6 +226,38 @@ export class ConstantsService {
   }
   setLoggedUser(loggedUser: IUser) {
     this.loggedUser = loggedUser;
+  }
+
+  getSelectedVersionTemplate(botId) {
+    return {
+      'bot_id' : botId,
+      'comment'  : "",
+      'created_at'  : "",
+      'df_rules'  : "",
+      'df_template'  : "#####DF Template Goes here####",
+      'generation_rules'  : "",
+      'generation_templates'  : "",
+      'id' : -1,
+      'resource_uri'  : "",
+      'updated_at'  : "",
+      'version' : null,
+      'workflow'  : "",
+      'updated_fields' : {
+        'df_template' : false,
+        'df_rules' : false,
+        'generation_rules' : false,
+        'generation_template' : false,
+        'workflows' : false
+      },
+      'changed_fields' : {
+        'df_template' : false,
+        'df_rules' : false,
+        'generation_rules' : false,
+        'generation_template' : false,
+        'workflows' : false
+      },
+      'forked_from' : null,
+    };
   }
 
   getUserUpdateUrl(enterprise_UserId: number) {
@@ -464,7 +497,7 @@ export class ConstantsService {
   }
 
   updateBotSerializer(bot: IBot) {
-    let clone = { ...bot };
+    let clone = {...bot};
     let not_keys = [
       'bot_access_token',
       'created_at',
@@ -555,7 +588,7 @@ export class ConstantsService {
       delete: false,
       position: 'right',
       custom: [
-        { name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>` }
+        {name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>`}
       ],
       width: '150px',
     },
@@ -608,8 +641,8 @@ export class ConstantsService {
       delete: false,
       position: 'right',
       custom: [
-        { name: 'download', title: `<i  class="fa fa-download pr-2 text-dark"></i>` },
-        { name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>` },
+        {name: 'download', title: `<i  class="fa fa-download pr-2 text-dark"></i>`},
+        {name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>`},
       ],
 
     },
@@ -705,12 +738,12 @@ export class ConstantsService {
 
   readonly HANDSON_TABLE_BOT_TESTING_colHeaders = ['Message', 'Expected Template', 'Status', 'Generated Template', 'RoomId', 'TransactionId'];
   readonly HANDSON_TABLE_BOT_TESTING_columns = [
-    { data: 0, type: 'text', },
-    { data: 1, type: 'text', },
-    { data: 2, type: 'text', readOnly: true },
-    { data: 3, type: 'text', readOnly: true },
-    { data: 4, type: 'text', readOnly: true },
-    { data: 5, type: 'text', readOnly: true },
+    {data: 0, type: 'text',},
+    {data: 1, type: 'text',},
+    {data: 2, type: 'text', readOnly: true},
+    {data: 3, type: 'text', readOnly: true},
+    {data: 4, type: 'text', readOnly: true},
+    {data: 5, type: 'text', readOnly: true},
   ];
 
   readonly HANDSON_TABLE_KNOWLEDGE_BASE_SETTING = {

@@ -1,4 +1,5 @@
-<!--<p>{{channelList|json}}</p>-->
+<!--<p>{{selectedVersion|json}}</p>-->
+<!--<button (click)="test()">==>{{selectedVersion.changed_fields['df_template']}} </button>-->
 
 <div class="d-flex-column-last-child-flex-grow-1">
   <div class="row row-version my-2 m-0 child-no-expand-shrink " style="position: relative"
@@ -47,8 +48,9 @@
           <!--<div class="insert mr-1">{{(selectedVersion.comment)|slice:0:100}}-->
         </div>
         <!---->
-        <i (click)="showVersionList= !showVersionList" *ngIf="bot.store_bot_versions.length > 1" class="fa py-2 px-3 bg-theme-primary text-white ml-auto cursor-pointer"
-          [ngClass]="{'fa-angle-up':showVersionList, 'fa-angle-down':!showVersionList}" style="height: 100%"></i>
+        <i (click)="showVersionList= !showVersionList" *ngIf="bot.store_bot_versions && bot.store_bot_versions.length > 1"
+           class="fa py-2 px-3 bg-theme-primary text-white ml-auto cursor-pointer"
+           [ngClass]="{'fa-angle-up':showVersionList, 'fa-angle-down':!showVersionList}" style="height: 100%"></i>
       </div>
     </div>
     <div class="col-6">
@@ -237,16 +239,22 @@
             <ng-container *ngIf="templateKeyDict && (templateKeyDict[selectedTemplateKeyInLeftSideBar]|dataType)!=='string'">
               <div class="py-1 px-0 mb-3" *ngFor="let outputItem of templateKeyDict[selectedTemplateKeyInLeftSideBar]|filterResponseComponentByChannelName:selectedChannelOfGenTemplate?.name; let i = index">
                 <app-text-gentemplate *ngIf="outputItem.text" [outputItem]="outputItem" [variants]="outputItem.text"
-                  [channelNameList] = "channelNameList" [myIndex]=i  
-                  [totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"
-                  (deleteTemplate)="deleteGentemplate($event)" (moveTempUp)="moveUpGentempate($event)" (moveTempDown)="moveDownGentempate($event)"
-                  (selectionChanged)="selectGentempate($event)"></app-text-gentemplate>
-                <app-code-gentemplate [outputItem]="outputItem" *ngIf="!outputItem.text  && ((outputItem|dataType)!=='string')"
-                  [channelNameList] = "channelNameList" [myIndex]=i 
-                  [totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"
-                  [hidden]="activeTab!==myEBotVersionTabs.generation_templates" (deleteTemplate)="deleteGentemplate($event)"
-                  (moveTempUp)="moveUpGentempate($event)" (moveTempDown)="moveDownGentempate($event)"
-                  (selectionChanged)="selectGentempate($event)"></app-code-gentemplate>
+                                      [myIndex]=i
+                                      [totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"
+                                      [selectedTemplateKeyOutputIndex]="selectedTemplateKeyOutputIndex"
+                                      (deleteTemplate)="deleteGentemplate($event)"
+                                      (moveTempUp)="moveUpGentempate($event)"
+                                      (moveTempDown)="moveDownGentempate($event)"
+                                      (selectionChanged)="selectGentempate($event)"></app-text-gentemplate>
+                <app-code-gentemplate [outputItem]="outputItem"
+                                      *ngIf="!outputItem.text  && ((outputItem|dataType)!=='string')"
+                                      [myIndex]=i
+                                      [totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"
+                                      [hidden]="activeTab!==myEBotVersionTabs.generation_templates"
+                                      (deleteTemplate)="deleteGentemplate($event)"
+                                      (moveTempUp)="moveUpGentempate($event)"
+                                      (moveTempDown)="moveDownGentempate($event)"
+                                      (selectionChanged)="selectGentempate($event)"></app-code-gentemplate>
               </div>
             </ng-container>
           </div>

@@ -1,4 +1,4 @@
-import {EventEmitter, Injectable} from '@angular/core';
+import {EventEmitter, Injectable, isDevMode} from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
 
 export enum EFormValidationErrors {
@@ -314,7 +314,7 @@ export class UtilityService {
     let str = generation_templates;
 
     // let regex = /e?l?if.+?:/g;
-      let regex = /e?l?if\s?.+?:/g;
+      let regex = /e?l?s?e?if\s?.+?:/g;
 
     let match = regex.exec(str);
 
@@ -338,7 +338,7 @@ export class UtilityService {
 
     // let regex = /output\s=\s([\s\S]*?)\selif/g;
     // let regex = /output[\s\S]*?]$/gm;
-    let regex = /output\s=([\s\S]*?])$/gm;
+      let regex = /output\s=([\s\S]*?])$/gm;
 
     let match = regex.exec(str);
 
@@ -376,25 +376,29 @@ export class UtilityService {
   }
 
   parseGenTemplateUiDictionaryToIfElseCode(uiDictionary: object) {
-    let genTemplateCodeStr = '';
-    Object.keys(uiDictionary).forEach((templateKey, index) => {
-      // let templateKey = Object.keys(templateKeys);
-      let elIfStr = '';
-      if (index === 0) {
-        elIfStr = `if(variables['templateKey'] == '${templateKey}'):\n`;
-      } else {
-        elIfStr = `\nelif(variables['templateKey'] == '${templateKey}'):\n`;
-      }
-      let outputValues = uiDictionary[templateKey];
-      let outPutStr;
-      if(typeof outputValues === 'string'){
-        outPutStr = `  output = ${outputValues}`;
-      }else {
-        outPutStr = `  output = ${JSON.stringify(outputValues)}`;
-      }
-      genTemplateCodeStr += elIfStr + outPutStr;
-    });
-    return genTemplateCodeStr;
+    try {
+      let genTemplateCodeStr = '';
+      Object.keys(uiDictionary).forEach((templateKey, index) => {
+        // let templateKey = Object.keys(templateKeys);
+        let elIfStr = '';
+        if (index === 0) {
+          elIfStr = `if(variables['templateKey'] == '${templateKey}'):\n`;
+        } else {
+          elIfStr = `\nelif(variables['templateKey'] == '${templateKey}'):\n`;
+        }
+        let outputValues = uiDictionary[templateKey];
+        let outPutStr;
+        if(typeof outputValues === 'string'){
+          outPutStr = `  output = ${outputValues}`;
+        }else {
+          outPutStr = `  output = ${JSON.stringify(outputValues)}`;
+        }
+        genTemplateCodeStr += elIfStr + outPutStr;
+      });
+      return genTemplateCodeStr;
+    }catch (e) {
+      console.log(e);
+    }
 
   }
 
@@ -563,6 +567,7 @@ export class UtilityService {
   }
 
   showErrorToaster(message, sec = 2) {
+    if(!isDevMode()) return;/*not showing any error message in prod*/
     if (typeof message === 'string') {
       this.toastr.error(message, null, {positionClass: 'toast-top-right', timeOut: sec * 1000});
       return;
@@ -617,7 +622,7 @@ export class UtilityService {
   }
 
   createRandomUid() {
-    return Date.now();
+    return Date.now().toString();
   }
 
   convertGranularityStrToMs(granularity: string): number {

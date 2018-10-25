@@ -327,7 +327,6 @@ export class ChatWrapperComponent implements OnInit {
       .subscribe(() => {
         this.utilityService.showSuccessToaster('Saved');
         this.createCustomRoom();
-        // this.store.dispatch([new ChangeFrameAction({frameEnabled: 1})]);
       });
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {IOutputItem} from '../code-input.component';
 
 
@@ -9,11 +9,21 @@ import {IOutputItem} from '../code-input.component';
 })
 export class CodeGentemplateComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
+
   @Input() outputItem: IOutputItem;
   @Input() channelNameList : string[];
   outputItemClone: IOutputItem;
   @Input() myIndex: number;
+
+  @Input() set selectedTemplateKeyOutputIndex(selectedTemplateKeyOutputIndex: number[]) {
+    debugger;
+    if (this.selectedTemplateKeyOutputIndex && this.selectedTemplateKeyOutputIndex.length === 0) {
+      this.selected = false;
+    }
+  }
+
   @Input() totalResponseTemplateComponentCount: number;
   @Output() deleteTemplate: EventEmitter<string> = new EventEmitter<string>();
   @Output() moveTempUp: EventEmitter<string> = new EventEmitter<string>();
@@ -21,28 +31,32 @@ export class CodeGentemplateComponent implements OnInit {
   @Output() selectionChanged: EventEmitter<string> = new EventEmitter<string>();
 
   selected: boolean;
+
   delete(i) {
     this.deleteTemplate.emit(i);
   }
+
   moveUp(i) {
     this.moveTempUp.emit(i);
   }
+
   moveDown(i) {
     this.moveTempDown.emit(i);
   }
-  onSelected(b) {
+
+  onSelected(data) {
     this.selectionChanged.emit(JSON.stringify({
-      select: b,
+      select: data,
       index: this.myIndex
     }));
   }
 
 
   ngOnInit() {
-    this.outputItemClone = {...this.outputItem}
+    this.outputItemClone = {...this.outputItem};
   }
 
-  codeEditorTextCHanged(data){
+  codeEditorTextCHanged(data) {
     this.outputItem = Object.assign(this.outputItem, JSON.parse(data));
   }
   removeThisChannel(channel:string){

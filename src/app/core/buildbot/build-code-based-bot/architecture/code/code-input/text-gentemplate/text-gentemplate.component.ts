@@ -15,6 +15,11 @@ export class TextGentemplateComponent implements OnInit {
     this._variants = variantsVal;
     this.variantsIter = [...this._variants];
   }
+  @Input() set selectedTemplateKeyOutputIndex(selectedTemplateKeyOutputIndex: number[]) {
+    if (selectedTemplateKeyOutputIndex && selectedTemplateKeyOutputIndex.length === 0) {
+      this.selected = false;
+    }
+  }
   constructor() { }
   variantsIter: string[] ;
   deleteVariant(index){
