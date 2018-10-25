@@ -913,3 +913,20 @@ progressbar {
 .debug-small {
   font-size: 6px;
 }
+
+
+.show-on-hover-wrapper{
+  .show-on-hover-item{
+    visibility: hidden;
+  }
+  &:hover{
+    .show-on-hover-item{
+      visibility: visible;
+    }
+  }
+}
+
+#button-configure-dropdown{
+  top: -180px !important;
+}
+

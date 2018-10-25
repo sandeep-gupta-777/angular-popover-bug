@@ -34,7 +34,9 @@
           </label>
           <div class="cursor-pointer" (click)="panelActive='reset-via-email'">Forgot Password?</div>
         </div>
-        <button type="submit" class="btn-block  mt-3 mb-2" [disabled]="disabeLoginButton" [ngClass]="{'btn-theme-primary':!disabeLoginButton, 'btn-theme-disabled':disabeLoginButton}">Submit1223
+        <button type="submit" class="btn-block  mt-3 mb-2"
+                [disabled]="disabeLoginButton"
+                [ngClass]="{'btn-theme-primary':!disabeLoginButton, 'btn-theme-disabled':disabeLoginButton}">Submit
         </button>
         <i class="notification-text my-2" style="height: 15px" [ngClass]="{'visible':errorMessage}">{{errorMessage}}</i>
       </form>

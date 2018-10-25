@@ -148,7 +148,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
     this.f_new.valueChanges.debounceTime(200).subscribe((integrationInfo: IIntegrationOption) => {
       // if (!this.f_new.dirty) return;
 
-      debugger;
+
       if(this.utilityService.areTwoJSObjectSame(this.formDataClone,this.f_new.value))return;
       let formValidityObj =  {};
       this.formDataClone  = this.utilityService.createDeepClone(this.f_new.value);
