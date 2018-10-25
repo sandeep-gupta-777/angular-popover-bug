@@ -29,7 +29,8 @@
 
     <div #MultiCarousel class="MultiCarousel  w-100 ml-1" data-items="2,2,2,2" data-slide="1" id="MultiCarousel" data-interval="1000">
       <!--TODO: ngclass below is a hack; improve it-->
-      <div #MultiCarouselInner class="MultiCarousel-inner flex-grow-1 d-flex"
+      <div #MultiCarouselInner  class="MultiCarousel-inner  flex-grow-1 d-flex"
+           style="min-width: 100%"
            [ngClass]="{'float-right':isParentSessionsModal && (totalItemsInCarasol<carasolItemShownInOneScreen)}">
         <!--carasol item starts-->
         <div class="item flex-shrink-0 p-1" *ngFor="let carousalItem of outputItem.generic_template[0].elements; let i = index"

@@ -91,7 +91,10 @@ export class CodeInputCaraosalComponent implements OnInit {
     let carasolItems = this.outputItem.generic_template[0].elements;
     if (index === carasolItems.length - 1) {
       // --this.controlsClickedCount;
-      this.slideCarousel(ECarasoulMoveDirection.left);;
+      this.slideCarousel(ECarasoulMoveDirection.left);
+    }
+    if(carasolItems.length  === 1){
+      this.bringAddNewCarasolPlaceholderAtCenter()
     }
     carasolItems.splice(index, 1);
 
@@ -128,9 +131,7 @@ export class CodeInputCaraosalComponent implements OnInit {
   }
 
   bringAddNewCarasolPlaceholderAtCenter() {
-    let addNewCarasolPlaceholderWidth = $(this.addNewCarasolPlaceholder.nativeElement).width('20');
-    $('.MultiCarousel-inner').width("30");
-    $('.MultiCarousel-inner').css('transform', 'translateX(' + ((this.MultiCarouselWidth - addNewCarasolPlaceholderWidth) / 2) + 'px)');
+    $('.MultiCarousel-inner').css('transform', 'translateX(' + ((this.MultiCarouselWidth-(this.itemWidth/3)) / 2) + 'px)');
   }
 
   delete(i) {
