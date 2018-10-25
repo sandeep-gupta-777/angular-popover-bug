@@ -85,7 +85,7 @@
               <input type="password" required password class="form-control" ngModel name="confirm" aria-describedby="passwordHelp"
                 placeholder="Confirm password">
             </div>
-            <button type="submit" class="btn-block btn-theme-primary my-3" (click) = "resetPassword()" >Reset</button>
+            <button type="submit" [disabled]="!resetPasswordForm.valid" class="btn-block btn-theme-primary my-3" (click) = "resetPassword()" >Reset</button>
           </form>
         </div>
       </div>
