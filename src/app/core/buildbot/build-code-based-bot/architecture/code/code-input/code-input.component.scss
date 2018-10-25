@@ -156,9 +156,7 @@
 .show-on-hover:hover .hide-it{
   visibility: visible;
 }
-.hide-it{
-  visibility: hidden;
-}
+
 .modelGridGenTempNames{
   display: grid;
   grid-template-columns: repeat(4,150px);

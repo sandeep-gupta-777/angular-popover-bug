@@ -1,4 +1,4 @@
-<!--<p>{{selectedVersion|json}}</p>-->
+<!--<p>{{this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar]|json}}</p>-->
 <!--<button (click)="test()">==>{{selectedVersion.changed_fields['df_template']}} </button>-->
 
 <div class="d-flex-column-last-child-flex-grow-1">
@@ -261,14 +261,15 @@
 
         <!--if the value of template key is unpasable, we will show response components-->
         <!--response components list start-->
-        <div class="intentItems position-relative bg-white">
-          <div #scrollMe class=" d-flex border1"
+        <div class="intentItems position-relative">
+          <div #scrollMe class="d-flex flex-column "
                style="position: absolute; top: 0; left: 0; right: 0; min-height: 100%; max-height: 100%; overflow-y: auto; overflow-x: hidden">
             <ng-container
               *ngIf="templateKeyDict && (templateKeyDict[selectedTemplateKeyInLeftSideBar]|dataType)!=='string'">
-              <div class="py-1 px-0  d-flex w-100" *ngFor="let outputItem of [1]; let i = index">
-              <!--<div class="py-1 px-0  d-flex w-100" *ngFor="let outputItem of templateKeyDict[selectedTemplateKeyInLeftSideBar]|filterResponseComponentByChannelName:selectedChannelOfGenTemplate?.name; let i = index">-->
-                <app-text-gentemplate *ngIf="false && outputItem.text" [outputItem]="outputItem" [variants]="outputItem.text"
+              <!--<div class="py-1 px-0  d-flex w-100" *ngFor="let outputItem of [1]; let i = index">-->
+              <div class="py-1 px-0  w-100"
+                   *ngFor="let outputItem of templateKeyDict[selectedTemplateKeyInLeftSideBar]|filterResponseComponentByChannelName:selectedChannelOfGenTemplate?.name; let i = index">
+                <app-text-gentemplate *ngIf="outputItem.text" [outputItem]="outputItem" [variants]="outputItem.text"
                                       [myIndex]=i
                                       [totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"
                                       [selectedTemplateKeyOutputIndex]="selectedTemplateKeyOutputIndex"
@@ -276,7 +277,7 @@
                                       (moveTempUp)="moveUpGentempate($event)"
                                       (moveTempDown)="moveDownGentempate($event)"
                                       (selectionChanged)="selectGentempate($event)"></app-text-gentemplate>
-                <app-code-gentemplate *ngIf="false && !outputItem.text  && ((outputItem|dataType)!=='string')"
+                <app-code-gentemplate *ngIf="outputItem.code  && ((outputItem|dataType)!=='string')"
                                       [outputItem]="outputItem"
                                       [myIndex]=i
                                       [totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"
@@ -285,7 +286,15 @@
                                       (moveTempUp)="moveUpGentempate($event)"
                                       (moveTempDown)="moveDownGentempate($event)"
                                       (selectionChanged)="selectGentempate($event)"></app-code-gentemplate>
-                <app-code-input-caraosal class="d-flex w-100  "></app-code-input-caraosal>
+                <app-code-input-caraosal *ngIf="outputItem.generic_template  && ((outputItem|dataType)!=='string')" class="d-flex w-100"
+                                         [outputItem]="outputItem"
+                                         [myIndex]=i
+                                         [totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"
+                                         [hidden]="activeTab!==myEBotVersionTabs.generation_templates"
+                                         (deleteTemplate)="deleteGentemplate($event)"
+                                         (moveTempUp)="moveUpGentempate($event)"
+                                         (moveTempDown)="moveDownGentempate($event)"
+                                         (selectionChanged)="selectGentempate($event)"></app-code-input-caraosal>
               </div>
             </ng-container>
           </div>
@@ -333,7 +342,7 @@
             <li class="pl-2 bot-template cursor-pointer" (click)="addTextUnit();">
               <i class="fa fa-align-left"></i>Text
             </li>
-            <li class="pl-2 bot-template cursor-pointer">
+            <li class="pl-2 bot-template cursor-pointer" (click)="addImageCaraosalUnit();">
               <i class=" fa fa-image"></i>Image corousel
             </li>
             <li class="pl-2 bot-template cursor-pointer">

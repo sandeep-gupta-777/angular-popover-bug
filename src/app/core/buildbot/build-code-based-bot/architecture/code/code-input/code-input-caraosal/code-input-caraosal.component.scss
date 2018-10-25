@@ -94,3 +94,23 @@
   }
 }
 
+.bg-overlay-grey{
+  background-color: rgba(216, 216, 216, 0.26);
+  &:hover{
+    background-color: rgba(87, 87, 87, 0.26);
+    .fa{
+      color: #474747 !important;
+    }
+  }
+}
+
+
+.carasol-item-control{
+  color: #e0e0e0;
+  font-size: 11px;
+}
+
+.heading-icon {
+  color: #9b9b9b;
+  font-size: 13px;
+}

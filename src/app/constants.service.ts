@@ -390,7 +390,7 @@ export class ConstantsService {
   }
 
   getSaveVersionByBotId(id) {
-    return this.BACKEND_URL + `api/v1/botversioning/${id}`; //https://dev.imibot.ai/api/v1/botversioning/9/
+    return this.BACKEND_URL + `api/v1/botversioning/${id}/`; //https://dev.imibot.ai/api/v1/botversioning/9/
   }
 
   getCreateNewVersionByBotId(id) {

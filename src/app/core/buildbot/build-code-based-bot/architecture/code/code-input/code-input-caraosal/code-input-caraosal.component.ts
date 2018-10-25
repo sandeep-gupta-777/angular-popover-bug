@@ -2,12 +2,14 @@ import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} f
 import {IMessageData} from '../../../../../../../../interfaces/chat-session-state';
 import {LoggingService} from '../../../../../../../logging.service';
 import {ActivatedRoute} from '@angular/router';
+import {ICarousalItem, IOutputItem} from '../code-input.component';
+import {init} from 'protractor/built/launcher';
 
 declare var $: any;
 
-enum ECarasoulMoveDirection{
-  left = "left",
-  right = "right",
+enum ECarasoulMoveDirection {
+  left = 'left',
+  right = 'right',
 }
 
 @Component({
@@ -17,20 +19,35 @@ enum ECarasoulMoveDirection{
 })
 export class CodeInputCaraosalComponent implements OnInit {
 
-    myECarasoulMoveDirection = ECarasoulMoveDirection;
+  @Input() outputItem: IOutputItem;
+  myECarasoulMoveDirection = ECarasoulMoveDirection;
   @Input() isFullScreenPreview = false;
   _messageData: IMessageData;
   @Input() isParentSessionsModal = false;
-  itemCountIsNotCausingOverflow = false;
+  /*taken from text-gentemplate.component.ts*/
+  selected: boolean;
+  @Input() myIndex: number;
+  @Input() channelNameList: string[];
+  @Input() totalResponseTemplateComponentCount: number;
+  @Output() deleteTemplate: EventEmitter<string> = new EventEmitter<string>();
+  @Output() moveTempUp: EventEmitter<string> = new EventEmitter<string>();
+  @Output() moveTempDown: EventEmitter<string> = new EventEmitter<string>();
+  @Output() selectionChanged: EventEmitter<string> = new EventEmitter<string>();
+  @Output() sendMessageToBotServer$ = new EventEmitter();
+
+  @Input() set selectedTemplateKeyOutputIndex(selectedTemplateKeyOutputIndex: number[]) {
+    if (selectedTemplateKeyOutputIndex && selectedTemplateKeyOutputIndex.length === 0) {
+      this.selected = false;
+    }
+  }
 
   @Input() set messageData(messageDataValue: IMessageData) {
-
     this._messageData = messageDataValue;
   }
 
-  @Output() sendMessageToBotServer$ = new EventEmitter();
   carasolItemShownInOneScreen: number;
   totalItemsInCarasol: number;
+  MultiCarouselWidth: number;
   controlsClickedCount: number = 0;
 
   constructor(
@@ -38,10 +55,26 @@ export class CodeInputCaraosalComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  removeThisChannel(channel: string) {
+    let isChannelPresent = this.outputItem.include.find(e => e === channel);
+    if (isChannelPresent) {
+      this.outputItem.include = this.outputItem.include.filter(e => e !== channel);
+    }
+    else {
+      this.outputItem.include.push(channel);
+    }
+  }
 
-    // this.isFullScreenPreview = this.activatedRoute.snapshot.data.isFullScreenPreview;
-    this.carasolItemShownInOneScreen = 1;//this.isFullScreenPreview ? 4 : 2;
+  moveUp(i) {
+    this.moveTempUp.emit(i);
+  }
+
+  moveDown(i) {
+    this.moveTempDown.emit(i);
+  }
+
+  ngOnInit() {
+    this.carasolItemShownInOneScreen = 1.5;//this.isFullScreenPreview ? 4 : 2;
     this.totalItemsInCarasol = 2;//this._messageData.media.length;
   }
 
@@ -54,8 +87,68 @@ export class CodeInputCaraosalComponent implements OnInit {
     }
   }
 
+  deleteCarasolItem(index) {
+    let carasolItems = this.outputItem.generic_template[0].elements;
+    if (index === carasolItems.length - 1) {
+      // --this.controlsClickedCount;
+      this.slideCarousel(ECarasoulMoveDirection.left);;
+    }
+    carasolItems.splice(index, 1);
+
+    return;
+    // setTimeout(() => {
+    //   if(index===0) {//============================================================
+    //
+    //     this.slideCarousel(ECarasoulMoveDirection.right);
+    //     return;
+    //   }
+    //   this.slideCarousel(ECarasoulMoveDirection.left);
+    // });
+  }
+
+  duplicateCarasolItem(index) {
+    let carasolItems = this.outputItem.generic_template[0].elements;
+    let itemToBeDuplicated = carasolItems[index];
+    carasolItems.splice(index, 0, itemToBeDuplicated);
+    this.recalculateWidthForCaraousalItems();
+  }
+
+  recalculateWidthForCaraousalItems() {
+    let self = this;
+    setTimeout(() => {/*first add item, then in next tick force .item with recalculation*/
+      $(this.MultiCarouselInner.nativeElement).find(('.item')).each(function () {
+        $(this).outerWidth(self.itemWidth);
+      });
+      this.slideCarousel(ECarasoulMoveDirection.right);
+    });
+  }
+
+  resetCarasolSlide() {
+    $('.MultiCarousel-inner').css('transform', 'translateX(' + ((this.MultiCarouselWidth - this.itemWidth) / 2) + 'px)');
+  }
+
+  bringAddNewCarasolPlaceholderAtCenter() {
+    let addNewCarasolPlaceholderWidth = $(this.addNewCarasolPlaceholder.nativeElement).width('20');
+    $('.MultiCarousel-inner').width("30");
+    $('.MultiCarousel-inner').css('transform', 'translateX(' + ((this.MultiCarouselWidth - addNewCarasolPlaceholderWidth) / 2) + 'px)');
+  }
+
+  delete(i) {
+    this.deleteTemplate.emit(i);
+  }
+
+  onSelected(b) {
+    this.selectionChanged.emit(JSON.stringify({
+      select: b,
+      index: this.myIndex
+    }));
+  }
+
   @ViewChild('leftLst') leftLstElementRef: ElementRef;
   @ViewChild('rightLst') rightLstElementRef: ElementRef;
+  @ViewChild('MultiCarousel') MultiCarousel: ElementRef;
+  @ViewChild('MultiCarouselInner') MultiCarouselInner: ElementRef;
+  @ViewChild('addNewCarasolPlaceholder') addNewCarasolPlaceholder: ElementRef;
   itemWidth;
 
   ngAfterViewInit() {
@@ -63,8 +156,8 @@ export class CodeInputCaraosalComponent implements OnInit {
 
     $(document).ready(() => {
       let CardCarouselComponent_this = this;
-      var itemsMainDiv = ('.MultiCarousel');
-      var itemsDiv = ('.MultiCarousel-inner');
+      var MultiCarousel = this.MultiCarousel.nativeElement;//('.MultiCarousel');
+      var MultiCarouselInner = this.MultiCarouselInner.nativeElement;//('.MultiCarousel-inner');
       var itemWidth: any = '';
       var itemNumbers: any = '';
       var sampwidth: any = '';
@@ -99,9 +192,10 @@ export class CodeInputCaraosalComponent implements OnInit {
         var id = 0;
         var btnParentSb = '';
         var itemsSplit: any = '';
-        sampwidth = $(itemsMainDiv).width();
+        self.MultiCarouselWidth = sampwidth = $(MultiCarousel).width();
+
         var bodyWidth = $('body').width();
-        $(itemsDiv).each(function () {
+        $(MultiCarouselInner).each(function () {
 
           id = id + 1;
           itemNumbers = $(this).find(itemClass).length;
@@ -126,7 +220,6 @@ export class CodeInputCaraosalComponent implements OnInit {
             itemWidth = sampwidth / CardCarouselComponent_this.carasolItemShownInOneScreen;
           }
           self.itemWidth = itemWidth;
-          itemWidth = itemWidth * 0.5;//
           console.log(sampwidth, itemWidth);
           $(this).css({'transform': 'translateX(0px)', 'width': 10 + itemWidth * itemNumbers});
           /*TODO; 10 is a hack; remove it*/
@@ -143,20 +236,29 @@ export class CodeInputCaraosalComponent implements OnInit {
 
 
       //this function used to move the items
-      self.moveCarasol = function ResCarousel(direction:ECarasoulMoveDirection) {
+      self.slideCarousel = function slideCarousel(direction: ECarasoulMoveDirection) {
+
+        if (self.outputItem.generic_template[0].elements.length === 1) {
+          self.resetCarasolSlide();
+          self.controlsClickedCount = 0;
+          return;
+        } else if (self.outputItem.generic_template[0].elements.length === 0) {
+          self.bringAddNewCarasolPlaceholderAtCenter();
+        }
+
         if (direction == ECarasoulMoveDirection.left) {
-          $(itemsDiv).css('transform', 'translateX(' + (currentSlideLength() + itemWidth) + 'px)');
+          $(MultiCarouselInner).css('transform', 'translateX(' + (currentSlideLength() + itemWidth) + 'px)');
           --self.controlsClickedCount;
         }
         if (direction === ECarasoulMoveDirection.right) {
-          $(itemsDiv).css('transform', 'translateX(' + (currentSlideLength() - itemWidth) + 'px)');
+          $(MultiCarouselInner).css('transform', 'translateX(' + (currentSlideLength() - itemWidth) + 'px)');
           ++self.controlsClickedCount;
         }
-      }
+      };
 
 
       function currentSlideLength() {
-        var divStyle = $(itemsDiv).css('transform');
+        var divStyle = $(MultiCarouselInner).css('transform');
         var values = divStyle.match(/-?[\d\.]+/g);
         var slideLength: number = parseFloat(values[4]);//xds = length by which carousal has been moved
         console.log(slideLength);
@@ -166,8 +268,29 @@ export class CodeInputCaraosalComponent implements OnInit {
     });
   }
 
-  moveCarasol:Function;
+  slideCarousel: Function;
+
+  swapCarasolItems(initialIndex, finalIndex) {
+    let carasolItems = this.outputItem.generic_template[0].elements;
+    [carasolItems[initialIndex], carasolItems[finalIndex]] = [carasolItems[finalIndex], carasolItems[initialIndex]];
+  }
+
   ngOnDestroy(): void {
+
+  }
+
+  pushNewCarasolItem() {
+    let carasolItems = this.outputItem.generic_template[0].elements;
+    let emptyCaraosalItem: ICarousalItem = {
+      'image_url': 'https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg',
+      'button': [{'type': 'postback', 'title': 'Renew Now', 'payload': 'expire'}],
+      'title': 'Contract Renewal'
+    };
+    carasolItems.push(emptyCaraosalItem);
+    this.recalculateWidthForCaraousalItems();
+  }
+
+  saveButtonConfig(btnConfigForm, i) {
 
   }
 
