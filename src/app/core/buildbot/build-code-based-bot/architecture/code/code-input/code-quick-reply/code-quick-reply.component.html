@@ -1,0 +1,108 @@
+<form #quickReplyForm="ngForm" class="p-3 bg-white" id="quickReplyForm" (submit)="saveQuickReplyForm(quickReplyForm)">
+  <ul class="nav nav-tabs theme-tabbing mb-1 bg-white">
+    <li class="nav-item" (click)="tabChanged(myEQuickReplyTypes.text)"
+        [ngClass]="{'tab-active':selectedTab===myEQuickReplyTypes.text}">
+      <a class="nav-link" [routerLink]="['.']"
+         queryParamsHandling="merge"
+         replaceUrl="true"
+         [queryParams]="{build:'architecture'}">Text</a>
+    </li>
+    <li class="nav-item" (click)="tabChanged(myEQuickReplyTypes.location)"
+        [ngClass]="{'tab-active':selectedTab===myEQuickReplyTypes.location}">
+      <a class="nav-link" [routerLink]="['.']"
+         queryParamsHandling="merge"
+         replaceUrl="true"
+         [queryParams]="{build:'architecture'}">Location</a>
+    </li>
+    <li class="nav-item" (click)="tabChanged(myEQuickReplyTypes.email)"
+        [ngClass]="{'tab-active':selectedTab===myEQuickReplyTypes.email}">
+      <a class="nav-link" [routerLink]="['.']"
+         queryParamsHandling="merge"
+         replaceUrl="true"
+         [queryParams]="{build:'architecture'}">Email</a>
+    </li>
+    <li class="nav-item" (click)="tabChanged(myEQuickReplyTypes.phone)"
+        [ngClass]="{'tab-active':selectedTab===myEQuickReplyTypes.phone}">
+      <a class="nav-link" [routerLink]="['.']"
+         queryParamsHandling="merge"
+         replaceUrl="true"
+         [queryParams]="{build:'architecture'}">Phone</a>
+    </li>
+
+  </ul>
+
+  <!--text details start-->
+  <div *ngIf="selectedTab===myEQuickReplyTypes.text">
+    <label class="required">Reply Label</label>
+    <input type="text" ngModel name="reply"
+           class="form-control">
+
+    <ul class="nav nav-tabs pb-1 border-0 theme-tabbing my-1 bg-white">
+      <li class="nav-item" (click)="subTabChanged(myEQuickReplySubTabsType.payload)"
+          [ngClass]="{'tab-active':selectedSubTab===myEQuickReplySubTabsType.payload}">
+        <a class="nav-link" [routerLink]="['.']"
+           queryParamsHandling="merge"
+           replaceUrl="true"
+           [queryParams]="{build:'architecture'}">Payload</a>
+      </li>
+      <li class="nav-item" (click)="subTabChanged(myEQuickReplySubTabsType.url)"
+          [ngClass]="{'tab-active':selectedSubTab===myEQuickReplySubTabsType.url}">
+        <a class="nav-link" [routerLink]="['.']"
+           queryParamsHandling="merge"
+           replaceUrl="true"
+           [queryParams]="{build:'architecture'}">Url</a>
+      </li>
+
+    </ul>
+
+    <div *ngIf="selectedSubTab === myEQuickReplySubTabsType.payload">
+      <label class="required">Payload Text</label>
+      <input type="text" ngModel name="payload"
+             class="form-control">
+    </div>
+
+    <div *ngIf="selectedSubTab === myEQuickReplySubTabsType.url">
+      <label class="required">Url</label>
+      <input type="text" ngModel name="url"
+             class="form-control">
+    </div>
+
+  </div>
+  <!--text details end-->
+
+
+  <!--Location details start-->
+  <div *ngIf="selectedTab===myEQuickReplyTypes.location">
+    <label class="required">Reply Label</label>
+    <input type="text" ngModel name="reply"
+           class="form-control">
+
+    <label class="required">Icon (optional)</label>
+    <input type="text" ngModel name="icon"
+           class="form-control">
+  </div>
+  <!--Location details end-->
+
+  <!--email details start-->
+  <div *ngIf="selectedTab===myEQuickReplyTypes.email">
+    <label class="required">Email Reply</label>
+    <input type="text" ngModel name="reply"
+           class="form-control">
+  </div>
+  <!--email details end-->
+
+  <!--phone details start-->
+  <div *ngIf="selectedTab===myEQuickReplyTypes.phone">
+    <label class="required">Phone  Reply</label>
+    <input type="text" ngModel name="reply"
+           class="form-control">
+  </div>
+  <!--phone details end-->
+
+
+  <div class="d-flex" style="margin-top: 10px">
+    <span class="text-primary mr-1" (click)="saveQuickReplyForm(quickReplyForm)">Done</span>
+    <span class="text-primary">Cancel</span>
+  </div>
+
+</form>

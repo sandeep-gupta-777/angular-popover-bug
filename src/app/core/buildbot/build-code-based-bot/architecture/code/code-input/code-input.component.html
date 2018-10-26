@@ -282,35 +282,36 @@
                  style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; overflow-y: auto; overflow-x: hidden">
               <ng-container
                 *ngIf="templateKeyDict && (templateKeyDict[selectedTemplateKeyInLeftSideBar]|dataType)!=='string'">
-                <div class="py-1 px-0 mb-3"
-                     *ngFor="let outputItem of templateKeyDict[selectedTemplateKeyInLeftSideBar]|filterResponseComponentByChannelName:selectedChannelOfGenTemplate?.name; let i = index">
-                  <app-text-gentemplate *ngIf="outputItem.text" [outputItem]="outputItem" [variants]="outputItem.text"
-                                        [myIndex]=i
-                                        [totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"
-                                        [selectedTemplateKeyOutputIndex]="selectedTemplateKeyOutputIndex"
-                                        (deleteTemplate)="deleteGentemplate($event)"
-                                        (moveTempUp)="moveUpGentempate($event)"
-                                        (moveTempDown)="moveDownGentempate($event)"
-                                        (selectionChanged)="selectGentempate($event)"></app-text-gentemplate>
-                  <app-code-gentemplate *ngIf="outputItem.code  && ((outputItem|dataType)!=='string')"
-                                        [outputItem]="outputItem"
-                                        [myIndex]=i
-                                        [totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"
-                                        [hidden]="activeTab!==myEBotVersionTabs.generation_templates"
-                                        (deleteTemplate)="deleteGentemplate($event)"
-                                        (moveTempUp)="moveUpGentempate($event)"
-                                        (moveTempDown)="moveDownGentempate($event)"
-                                        (selectionChanged)="selectGentempate($event)"></app-code-gentemplate>
-                  <app-code-input-caraosal *ngIf="outputItem.generic_template  && ((outputItem|dataType)!=='string')"
-                                           class="d-flex w-100"
-                                           [outputItem]="outputItem"
-                                           [myIndex]=i
-                                           [totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"
-                                           [hidden]="activeTab!==myEBotVersionTabs.generation_templates"
-                                           (deleteTemplate)="deleteGentemplate($event)"
-                                           (moveTempUp)="moveUpGentempate($event)"
-                                           (moveTempDown)="moveDownGentempate($event)"
-                                           (selectionChanged)="selectGentempate($event)"></app-code-input-caraosal>
+                <!--<div class="py-1 px-0 mb-3" *ngFor="let outputItem of templateKeyDict[selectedTemplateKeyInLeftSideBar]|filterResponseComponentByChannelName:selectedChannelOfGenTemplate?.name; let i = index">-->
+                <div class="py-1 px-0 mb-3" *ngFor="let outputItem of [1]">
+                  <!--<app-text-gentemplate *ngIf="outputItem.text" [outputItem]="outputItem" [variants]="outputItem.text"-->
+                                        <!--[myIndex]=i-->
+                                        <!--[totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"-->
+                                        <!--[selectedTemplateKeyOutputIndex]="selectedTemplateKeyOutputIndex"-->
+                                        <!--(deleteTemplate)="deleteGentemplate($event)"-->
+                                        <!--(moveTempUp)="moveUpGentempate($event)"-->
+                                        <!--(moveTempDown)="moveDownGentempate($event)"-->
+                                        <!--(selectionChanged)="selectGentempate($event)"></app-text-gentemplate>-->
+                  <!--<app-code-gentemplate *ngIf="outputItem.code  && ((outputItem|dataType)!=='string')"-->
+                                        <!--[outputItem]="outputItem"-->
+                                        <!--[myIndex]=i-->
+                                        <!--[totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"-->
+                                        <!--[hidden]="activeTab!==myEBotVersionTabs.generation_templates"-->
+                                        <!--(deleteTemplate)="deleteGentemplate($event)"-->
+                                        <!--(moveTempUp)="moveUpGentempate($event)"-->
+                                        <!--(moveTempDown)="moveDownGentempate($event)"-->
+                                        <!--(selectionChanged)="selectGentempate($event)"></app-code-gentemplate>-->
+                  <!--<app-code-input-caraosal *ngIf="outputItem.generic_template  && ((outputItem|dataType)!=='string')"-->
+                                           <!--class="d-flex w-100"-->
+                                           <!--[outputItem]="outputItem"-->
+                                           <!--[myIndex]=i-->
+                                           <!--[totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"-->
+                                           <!--[hidden]="activeTab!==myEBotVersionTabs.generation_templates"-->
+                                           <!--(deleteTemplate)="deleteGentemplate($event)"-->
+                                           <!--(moveTempUp)="moveUpGentempate($event)"-->
+                                           <!--(moveTempDown)="moveDownGentempate($event)"-->
+                                           <!--(selectionChanged)="selectGentempate($event)"></app-code-input-caraosal>-->
+                  <app-code-quick-reply-wrapper></app-code-quick-reply-wrapper>
 
                 </div>
               </ng-container>

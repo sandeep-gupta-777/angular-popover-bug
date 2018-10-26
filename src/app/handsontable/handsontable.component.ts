@@ -74,7 +74,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
       ...colObject,
       contextMenu: true,
       wordWrap: true,
-      autoRowSize: true,
+      // autoRowSize: true,
       search: true,
       afterRemoveRow: () => {
         this.rowChanged$.emit();
