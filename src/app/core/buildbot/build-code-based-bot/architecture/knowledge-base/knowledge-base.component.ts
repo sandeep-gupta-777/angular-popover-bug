@@ -72,7 +72,8 @@ export class KnowledgeBaseComponent implements OnInit {
   updateSelectedRowDataByNer_Id(ner_id:number){
       this.showTable = !ner_id;
 
-      this.selectedRowData = this._custumNerDataForSmartTable.find((custumNerData)=>{
+
+      this.selectedRowData = this._custumNerDataForSmartTable && this._custumNerDataForSmartTable.find((custumNerData)=>{
         return custumNerData.id === ner_id
       });
       if(this.selectedRowData)this.prepareDataForDetailedViewAndChangeParams(this.selectedRowData);

@@ -14,7 +14,7 @@ export interface ICustomNerItem {
   "type"?: string,//"bot",
   "updated_at"?: string,//"2018-07-31T10?:19?:59.597000",
   "updated_by"?: number//0,
-  "values"?: any
+  "values"?: any|any[]
 
   /*custom fields*/
   highlight?:boolean
