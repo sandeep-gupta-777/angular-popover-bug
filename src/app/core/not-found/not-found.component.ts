@@ -5,6 +5,7 @@ import {UtilityService} from '../../utility.service';
 import {Store} from '@ngxs/store';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ConstantsService} from '../../constants.service';
+import {LoggingService} from '../../logging.service';
 
 @Component({
   selector: 'app-not-found',
@@ -19,7 +20,7 @@ export class NotFoundComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.activatedRoute);
+    LoggingService.log(this.activatedRoute);
   }
 
 }

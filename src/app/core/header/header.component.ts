@@ -16,6 +16,7 @@ import {EBotType} from '../view-bots/view-bots.component';
 import {ResetAnalytics2GraphData, ResetAnalytics2HeaderData} from '../analysis2/ngxs/analysis.action';
 import {UtilityService} from '../../utility.service';
 import {IAppState} from '../../ngxs/app.state';
+import {ELogType, LoggingService} from '../../logging.service';
 
 @Component({
   selector: 'app-header',
@@ -36,17 +37,29 @@ export class HeaderComponent implements OnInit {
   url: string;
   logoutSetTimeoutRef;
   autoLogOutTime: number;
+  isOnline = true;
+  isDocumentFullScreenModeOn = false;
 
   constructor(
     private store: Store,
     private serverService: ServerService,
     private activatedRoute: ActivatedRoute,
     private constantsService: ConstantsService,
-    private utilityService: UtilityService,
+    public utilityService: UtilityService,
     private router: Router) {
   }
 
   ngOnInit() {
+    document.addEventListener("mozfullscreenchange", ()=>{
+      this.isDocumentFullScreenModeOn = !this.isDocumentFullScreenModeOn;
+    });
+    document.addEventListener("webkitfullscreenchange", ($event)=>{
+      this.isDocumentFullScreenModeOn = !this.isDocumentFullScreenModeOn;
+    });
+    document.addEventListener("msfullscreenchange", ()=>{
+      this.isDocumentFullScreenModeOn = !this.isDocumentFullScreenModeOn;
+    });
+
     /*this.app$Subscription = */this.app$.subscribe((app) => {
         /*every time this callback runs remove all previous setTimeOuts*/
         let autoLogOutTime = app.autoLogoutTime;
@@ -65,9 +78,9 @@ export class HeaderComponent implements OnInit {
             try {
               this.app$Subscription && this.app$Subscription.unsubscribe();
             }catch (e) {
-              console.log(e);/*TODO: find out whats wrong with app$Subscription*/
+              LoggingService.error(e);/*TODO: find out whats wrong with app$Subscription*/
             }
-            console.log('============================autologout============================');
+            LoggingService.log('============================autologout============================');
             this.logout();
             document.location.reload();/*To destroy all timeouts just in case*/
           }, (autoLogOutTime - Date.now()));
@@ -111,4 +124,7 @@ export class HeaderComponent implements OnInit {
 
   }
 
+  toggleDocumentFullScreen(){
+    this.isDocumentFullScreenModeOn? this.utilityService.closeFullscreen() :this.utilityService.openFullscreen();
+  }
 }

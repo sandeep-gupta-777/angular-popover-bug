@@ -126,7 +126,6 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
   //}
 }
 
-
 .btn-theme-dark {
   background-color: black !important;
   border: none;
@@ -363,6 +362,7 @@ th, td {
   &:hover {
     background-color: #f7f7f7;
   }
+  outline: none;
   text-decoration: none;
 }
 
@@ -378,26 +378,19 @@ th, td {
 }
 
 .d-flex-column-last-child-flex-grow-1 {
-  flex-grow: 1;
+  flex: 1;
+  //min-(dimension): 0;
   display: flex;
   flex-direction: column;
-  //justify-content: center;
-  //flex-wrap: wrap;
-  /*align-content: start;*/
-  //border: 1px solid green;
-  //height: 50vh;
-
   .child-no-expand {
-    //align-self: stretch;
-    //border: 1px solid red;
-    //width: 100%;
-    //&:not(:last-child) {
-      //align-self: start;
-      flex-grow: 0;
-    //}
+    flex-grow: 0;
   }
-  .child-expand{
-    flex-grow: 1;
+  .child-no-expand-shrink {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+  .child-expand {
+    flex: 1;
   }
 
 }
@@ -461,6 +454,10 @@ th, td {
       }
     }
   }
+}
+
+.text-theme-primary {
+  color: #00abd3;
 }
 
 /* Hide the browser's default checkbox */
@@ -701,12 +698,36 @@ progressbar {
   cursor: not-allowed !important;
 }
 
+.disabled {
+  cursor: not-allowed !important;
+}
+
 .form-control:disabled, .form-control[readonly] {
   background-color: transparent;
 }
 
 .ui-corner-all {
   text-align: start;
+}
+
+.blinking {
+  animation: blinkingText 0.8s 0s;
+  animation-iteration-count: 2;
+  color: black;
+}
+
+@keyframes blinkingText {
+  0% {
+    opacity: 1.0;
+    color: #000000 !important;
+  }
+  50% {
+    opacity: 0.0;
+  }
+  100% {
+    opacity: 1.0;
+    color: #000000 !important;
+  }
 }
 
 //.modal.fade {
@@ -729,6 +750,10 @@ progressbar {
 .modal-xlg {
   max-width: 1000px;
   width: 80vw;
+}
+
+.modal-w-30vw {
+  width: 30vw;
 }
 
 //.center-modal{
@@ -854,30 +879,37 @@ progressbar {
   color: white !important;
 }
 
-.bg-message-bot{
+.bg-message-bot {
   background-color: #f7f7f7;
-  .time,.message-text{
+  .time, .message-text {
     color: #474747 !important;
   }
 }
+
 .bg-message-human {
   background-color: $color-primary;
-  .time,.message-text{
+  .time, .message-text {
     color: white !important;
   }
 }
 
 /*centering*/
-.flex-theme-vertical-center{
+.flex-theme-vertical-center {
   display: flex;
   justify-content: center;
 }
-.flex-theme-horizontal-center{
+
+.flex-theme-horizontal-center {
   display: flex;
   align-items: center;
 }
-.flex-theme-center{
+
+.flex-theme-center {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.debug-small {
+  font-size: 6px;
 }

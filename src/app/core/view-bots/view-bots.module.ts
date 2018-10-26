@@ -17,7 +17,7 @@ import {Ng2CompleterModule} from 'ng2-completer';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {DragService} from '../../drag.service';
 import {AimService} from '../../aim.service';
-import {SortObjectArrayPipe} from '../../sort-object-array.pipe';
+import {SortBotsPipe} from '../../sort-bots.pipe';
 import {BotPreviewCardComponent} from './bot-preview-card/bot-preview-card.component';
 import {SharedModule} from '../../shared.module';
 import {AuthGaurdService} from '../../auth-gaurd.service';
@@ -40,7 +40,7 @@ const routes: Route[] = [
     ViewCodeBasedBotComponent,
     ViewPipelineBasedBotsComponent,
     BotPreviewCardComponent,
-    SortObjectArrayPipe,
+    SortBotsPipe,
 
   ],
   imports: [

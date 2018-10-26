@@ -12,6 +12,7 @@ import {AddNewBotInAllBotList, UpdateBotInfoByIdInBotInBotList} from '../../view
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {IEnterpriseProfileInfo} from '../../../../interfaces/enterprise-profile';
+import {ELogType, LoggingService} from '../../../logging.service';
 
 @Component({
   selector: 'app-bot-detail-header',
@@ -69,7 +70,7 @@ export class BotDetailHeaderComponent implements OnInit {
     try {
       this.modalRef.hide();
     }catch (e) {
-      console.log(e);
+      LoggingService.error(e);
     }
     this.bot.active_version_id = this.bot.store_selected_version;
     let bot = this.utilityService.performFormValidationBeforeSaving(this.bot);

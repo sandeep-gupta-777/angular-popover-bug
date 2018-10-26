@@ -8,6 +8,7 @@ import { IBot } from '../../interfaces/IBot';
 import { IHeaderData } from '../../../../interfaces/header-data';
 import { UtilityService } from '../../../utility.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import {LoggingService} from '../../../logging.service';
 
 @Component({
   selector: 'app-bot-testing',
@@ -85,7 +86,7 @@ export class BotTestingComponent implements OnInit {
     this.tableChanged = true;
   }
   createTC() {
-    console.log(this.testCaseData);
+    LoggingService.log(this.testCaseData);
     this.serverService.makePostReq<{ meta: any, objects: ITestcases[] }>({
       url: this.testCasesUrl,
       headerData: { 'bot-access-token': this.bot.bot_access_token },

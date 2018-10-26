@@ -1,19 +1,16 @@
 
-
 <progressbar
   *ngIf="showProgressbar"
   [value]="progressVal"
   [animate]="true"
   style="position: fixed; right: 0px; top: 0px;z-index:300000000"></progressbar>
 <router-outlet></router-outlet>
-<div *ngIf="!isFullScreenPreview" style="position: fixed; right: 0px; bottom: 0px;z-index:102">
-  <app-chat-wrapper></app-chat-wrapper>
-</div>
+
 
 
 <!--<ng-container *ngIf="loadingRouteConfig">-->
-  <!--&lt;!&ndash;<app-imi-loader></app-imi-loader>&ndash;&gt;-->
-  <!--<i class="fa fa-spin"></i>-->
+<!--&lt;!&ndash;<app-imi-loader></app-imi-loader>&ndash;&gt;-->
+<!--<i class="fa fa-spin"></i>-->
 <!--</ng-container>-->
 
 <app-backend-dev></app-backend-dev>

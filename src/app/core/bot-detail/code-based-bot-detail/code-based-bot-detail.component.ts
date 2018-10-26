@@ -14,6 +14,12 @@ import {ConstantsService, ERoleName, EAllActions} from '../../../constants.servi
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {IUser} from '../../interfaces/user';
 import {IAuthState} from '../../../auth/ngxs/auth.state';
+import {LoggingService} from '../../../logging.service';
+
+export enum EArchitectureTabs{
+  pipeline,
+
+}
 
 @Component({
   selector: 'app-code-based-bot-detail',
@@ -34,6 +40,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
   overviewInfo$: Observable<IOverviewInfoResponse>;
   selectedChannel: string = 'all';
   start_date: string;
+  isAdmin = false;
   end_date: string;
   selectedChannelDisplayName: string;
   selectedDurationDisplayName: string = 'Monthly';
@@ -52,6 +59,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
   ngOnInit() {
     // this.loggeduser$.take(1).subscribe((loggedUserState:IAuthState)=>{
       let roleName = this.constantsService.loggedUser.role.name;
+      this.showConfig = roleName!==ERoleName.Admin;//if its admin don't expand bot config by default
       if(roleName===ERoleName.Admin || roleName===ERoleName['Bot Developer']){
         this.selectedTab = 'architecture'
       }else if(roleName===ERoleName.Tester){
@@ -64,7 +72,9 @@ export class CodeBasedBotDetailComponent implements OnInit {
     let isArchitectureFullScreen = this.activatedRoute.snapshot.queryParamMap.get('isArchitectureFullScreen');
     this.isArchitectureFullScreen = isArchitectureFullScreen==='true';
     let showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
-    this.showConfig = (showConfigStr === 'true' || showConfigStr == undefined);
+    if(showConfigStr){
+      this.showConfig = showConfigStr==='true';//(showConfigStr === 'true' || showConfigStr == undefined);;
+    }
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
     this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || this.selectedTab;
@@ -74,10 +84,10 @@ export class CodeBasedBotDetailComponent implements OnInit {
         this.bot = botListState.allBotList.find((bot) => {
           return bot.id === this.bot_id;
         });
-      console.log("Bot Opened", this.bot);
+      LoggingService.log("Bot Opened"+ this.bot);
       return this.bot;
     });
-    this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab') || 'pipeline';
+    this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab') || this.selectedSideBarTab;
 
     this.start_date = this.utilityService.getPriorDate(0);
     this.end_date = this.utilityService.getPriorDate(30);
@@ -85,6 +95,12 @@ export class CodeBasedBotDetailComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe((queryParams)=>{
       this.isArchitectureFullScreen= queryParams['isArchitectureFullScreen']==='true'
     })
+  }
+
+
+  refreshCodeEditor(){
+    /*codemirror needs to be refreshed after being visible; otherwise its content wont show*/
+    setTimeout(()=>this.utilityService.refreshCodeEditor$.emit());
   }
 
   refreshBotDetails() {

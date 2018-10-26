@@ -26,7 +26,7 @@ myEAllActions = EAllActions
   bot$: Observable<IBot>;
   bot: IBot;
   bot_id: number;
-  showConfig:boolean =true;
+  showConfig:boolean =false;
   overviewInfo$: Observable<IOverviewInfoResponse>;
   selectedChannel: string = 'all';
   start_date: string;
@@ -46,7 +46,8 @@ myEAllActions = EAllActions
   ngOnInit() {
     let isArchitectureFullScreen = this.activatedRoute.snapshot.queryParamMap.get('isArchitectureFullScreen');
     this.isArchitectureFullScreen = isArchitectureFullScreen==='true';
-
+    let showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
+    this.showConfig = showConfigStr === 'true';
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
     this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || "architecture";

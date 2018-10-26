@@ -13,7 +13,7 @@ import {Ng2CompleterModule} from 'ng2-completer';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {DragService} from '../../drag.service';
 import {AimService} from '../../aim.service';
-import {SortObjectArrayPipe} from '../../sort-object-array.pipe';
+import {SortBotsPipe} from '../../sort-bots.pipe';
 import {SharedModule} from '../../shared.module';
 import {PipelineBasedBotDetailComponent} from './pipeline-based-bot-detail/pipeline-based-bot-detail.component';
 import {CodeBasedBotDetailComponent} from './code-based-bot-detail/code-based-bot-detail.component';
@@ -43,7 +43,15 @@ import {DragulaModule} from 'ng2-dragula';
 import {RichMediaModule} from '../../rich-media.module';
 import {SessionDataToRichMediaSerializerPipe} from '../../session-data-to-rich-media-serializer.pipe';
 import {DisplayNameForKeyIntegrationPipe} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/display-name-for-key-integration.pipe';
+import {UnderscroreToSpaceDelimitorPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/underscrore-to-space-delimitor.pipe';
 
+import { CodeGentemplateComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate/code-gentemplate.component';
+import { TextGentemplateComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/text-gentemplate/text-gentemplate.component';
+import {FilterTemplateLeyListPipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/filter-template-ley-list.pipe';
+import {LogosByIntegrationNamePipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/text-gentemplate/logos-by-integration-name.pipe';
+import {FilterResponseComponentByChannelNamePipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/filter-response-component-by-channel-name.pipe';
+import {NumberOfTrueKeysPipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/number-of-true-keys.pipe';
+import {DataTypePipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/data-type.pipe';
 
 const routes: Route[] = [
   {
@@ -71,9 +79,17 @@ const routes: Route[] = [
     SessionTabsDetailsComponent,
     SessionMessageComponent,
     PipelineComponent,
+    UnderscroreToSpaceDelimitorPipe,
     PipelineFilterPipe,
     SessionComponent,
     CodeInputComponent,
+    DataTypePipe,
+    NumberOfTrueKeysPipe,
+    FilterResponseComponentByChannelNamePipe,
+    LogosByIntegrationNamePipe,
+    FilterTemplateLeyListPipe,
+    CodeGentemplateComponent,
+    TextGentemplateComponent,
     IntegrationOptionListComponent,
     IntegrationItemComponent,
     DraggableDirective,

@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IBot} from '../../../interfaces/IBot';
 import {ActivatedRoute} from '@angular/router';
 import {EBotType} from '../../../view-bots/view-bots.component';
+import {LoggingService} from '../../../../logging.service';
 
 @Component({
   selector: 'app-bot-config',
@@ -31,7 +32,7 @@ export class BotConfigComponent implements OnInit {
 
   tabClicked(activeTab:string){
     this.activeTab = activeTab;
-    console.log(this.activeTab);
+    LoggingService.log(this.activeTab);
   }
 
 }

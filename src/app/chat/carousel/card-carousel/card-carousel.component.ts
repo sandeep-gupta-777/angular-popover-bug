@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {IMessageData} from '../../../../interfaces/chat-session-state';
 import {ActivatedRoute} from '@angular/router';
+import {ELogType, LoggingService} from '../../../logging.service';
 
 declare var $: any;
 
@@ -40,7 +41,7 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
       this.sendMessageToBotServer$.emit(mediaItem.buttons[0].payload||'NO_PAYLOAD');
     }catch (e) {
       this.sendMessageToBotServer$.emit('NO_PAYLOAD');
-      console.log(e);
+      LoggingService.error(e);
     }
   }
 

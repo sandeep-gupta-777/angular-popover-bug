@@ -18,8 +18,9 @@
 
       <div class="form-group">
         <app-bot-config-input
-          displayName="Description"
+          displayName="Bot Logo"
           formControlName="logo"
+          [errors] = "logoErrorObj"
           placeholder="URL for the Bot Logo/Brand Image"></app-bot-config-input>
       </div>
 

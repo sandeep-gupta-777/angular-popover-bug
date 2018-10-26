@@ -21,6 +21,7 @@ import {SetCurrentEditedReportAction} from './ngxs/reports.action';
 import {DatePipe} from '@angular/common';
 import {ISessionItem} from '../../../interfaces/sessions';
 import {UtilityService} from '../../utility.service';
+import {ELogType, LoggingService} from '../../logging.service';
 
 @Component({
   selector: 'app-reports',
@@ -120,7 +121,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
         // // var data = { x: 42, s: "hello, world", d: new Date() },
         //
         // saveData(null, fileName);
-        // console.log(value);
+        // LoggingService.log(value);
         // this.utilityService.downloadArrayAsCSV(value, "asdsad");
       });
   }
@@ -146,7 +147,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
                 isactive: report.isactive
               });
             } catch (e) {
-              console.log(e);
+              LoggingService.error(e);
               // this.utilityService.showErrorToaster(`Can't show the report for botid: ${report.bot_id}. This bot is either deleted or your access maybe been revoked.`,5 );
             }
             this.reportSmartTableData = [

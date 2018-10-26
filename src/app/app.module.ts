@@ -43,13 +43,14 @@ import {RichMediaModule} from './rich-media.module';
 import {FilterArrayPipe} from './filter-array.pipe';
 import {MsToHhMmPipe} from './ms-to-hh-mm.pipe';
 import {BackendDevComponent} from './backend-dev/backend-dev.component';
+import {ChatService} from './chat.service';
+import {ObjectArrayCrudService} from './object-array-crud.service';
 // import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 
 const routes: Route[] = [
   {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
   {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad:[AuthGaurdService]},
-  {path: 'preview', component: ChatWrapperComponent, data: {isFullScreenPreview: true}},
-  // {path: 'preview', component: NotFoundComponent, data: {isFullScreenPreview: true}},
+  {path: 'preview', loadChildren: './chat/chat.module#ChatModule'},
   {path: 'denied', component: NotAuthorisedComponent},
   {path: '', redirectTo:"core/viewbots/chatbot", pathMatch:"full"},
   {path: '**', component: NotFoundComponent}
@@ -60,38 +61,24 @@ const routes: Route[] = [
     AppComponent,
     NotFoundComponent,
     NotAuthorisedComponent,
-    // ChatWrapperComponent,
-    MsToHhMmPipe,
-    ChatWrapperComponent,
-    ChatWindowComponent,
-    ChatMessageComponent,
-    ChatListComponent,
-    ChatItemComponent,
-    ChatroomComponent,
-    FilterArrayPipe,
-    BotThinkingBubbleComponent,
-    BotWelcomeComponent,
+      FilterArrayPipe,
     BackendDevComponent,
-    // CardCarouselComponent,
-    // QuickReplyComponent,
-    // CodeEditorComponent
+    // MsToHhMmPipe,
+    // ChatWrapperComponent,
+    // ChatWindowComponent,
+    // ChatMessageComponent,
+    // ChatListComponent,
+    // ChatItemComponent,
+    // ChatroomComponent,
+    // BotThinkingBubbleComponent,
+    // BotWelcomeComponent,
   ],
-  // exports:[
-  //   CardCarouselComponent,
-  //   QuickReplyComponent,
-  // ],
   imports: [
+    // ChatModule,
     CarouselModule.forRoot(),
     RichMediaModule,
-    // BrowserModule,
     RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
-    // BsDropdownModule.forRoot(),
-    // TabsModule.forRoot(),
-    // AceEditorModule,
-    // UiSwitchModule,
     FormsModule,
-    // DragAndDropModule.forRoot(),
-    // ChartModule,asdsads
     NgxsModule.forRoot([
       AuthStateReducer,
       AppStateReducer,
@@ -104,7 +91,7 @@ const routes: Route[] = [
     ]),
     NgxsStoragePluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot({disabled:true}),//disable for prod mode
     HttpClientModule,
     ClickOutsideModule,
     // DragulaModule,
@@ -122,7 +109,8 @@ const routes: Route[] = [
     BsDropdownModule.forRoot(),
     ToastrModule.forRoot(), // ToastrModule added,
     BrowserAnimationsModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
+    // ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('/ngsw-worker.js')
     /*custom modules*/
     // AuthModule,
     // CoreModule

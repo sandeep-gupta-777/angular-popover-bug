@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {ELogType, LoggingService} from '../../../../../../logging.service';
 
 @Component({
   selector: 'app-ui-switch',
@@ -22,7 +23,7 @@ export class UiSwitchWrapperComponent implements OnInit, ControlValueAccessor {
     try {
       this.onChanges(isOn);
     }catch (e) {
-      console.error(e);
+      LoggingService.log(e,ELogType.error);
     }
   }
 

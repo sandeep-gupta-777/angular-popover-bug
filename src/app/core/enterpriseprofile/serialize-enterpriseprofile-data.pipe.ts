@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import {ELogType, LoggingService} from '../../logging.service';
 
 @Pipe({
   name: 'serializeEnterpriseprofileData'
@@ -12,7 +13,7 @@ export class SerializeEnterpriseprofileDataPipe implements PipeTransform {
       try{
         permissionLength = enterpriseUser.role.permissions.actions.length;
       }catch (e) {
-        console.log(e);
+        LoggingService.error(e);
       }
       return {
         ...enterpriseUser,

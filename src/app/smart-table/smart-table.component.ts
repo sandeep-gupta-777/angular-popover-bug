@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, IterableDiffers, OnChanges, OnInit, Output} from '@angular/core';
 import {LocalDataSource} from 'ng2-smart-table';
 import {Observable} from 'rxjs';
+import {LoggingService} from '../logging.service';
 
 @Component({
   selector: 'app-smart-table',
@@ -45,9 +46,9 @@ export class SmartTableComponent implements OnInit {
   paginationArr = [];
   @Input() currentPage: number = 1;
   @Input() recordsPerPage: number = 10;
+  @Output() customActionEvents = new EventEmitter();
   totalPageCount;
   math = Math;
-  @Output() customActionEvents = new EventEmitter();
 
   constructor(private _iterableDiffers: IterableDiffers) {
     this.iterableDiffer = this._iterableDiffers.find([]).create(null);
@@ -55,7 +56,7 @@ export class SmartTableComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log(this.x);
+    LoggingService.log(this.x);
     this.source.load(this._data);
     // this.totalPageCount = Math.ceil((this.totalRecords) / this.recordsPerPage);
     // let start = 1;
@@ -68,7 +69,7 @@ export class SmartTableComponent implements OnInit {
     // if (changes) {
     //   ;
     //   this.source.load(this._data);
-    //   console.log('Changes in data detected!');
+    //   LoggingService.log('Changes in data detected!');
     //   this.source.refresh();
     // }
     this.totalRows = this.source != null ? this.source.count() : 0;
@@ -89,7 +90,7 @@ export class SmartTableComponent implements OnInit {
   }
 
   onUserRowSelect(event): void {
-    console.log('row clicked');
+    LoggingService.log('row clicked');
     this.rowClicked$.emit(event);
   }
 
@@ -131,7 +132,7 @@ export class SmartTableComponent implements OnInit {
   }
 
   onCustom($event) {
-    console.log($event);
+    LoggingService.log($event);
   }
 
 

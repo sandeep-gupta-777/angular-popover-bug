@@ -21,6 +21,8 @@ import {IConsumerDetails} from '../../../chat/ngxs/chat.state';
 import {IUser} from '../../interfaces/user';
 import {IAuthState} from '../../../auth/ngxs/auth.state';
 import {IEnterpriseProfileInfo} from '../../../../interfaces/enterprise-profile';
+import {LoggingService} from '../../../logging.service';
+import {UpdateBotInfoByIdInBotInBotList} from '../ngxs/view-bot.action';
 
 @Component({
   selector: 'app-bot-preview-card',
@@ -34,6 +36,7 @@ export class BotPreviewCardComponent implements OnInit {
   @Select() chatsessionstate$: Observable<IChatSessionState>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   modalRef: BsModalRef;
+  doStartBlinking:boolean = false;
   myObject = Object;
   message: string;
   parentRoute: string;
@@ -82,15 +85,7 @@ export class BotPreviewCardComponent implements OnInit {
 
 
   previewBot() {
-
-    console.log("Bot Preview clicked");
-    // if(log)http://localhost:4200/core/botdetail/chatbot/20?build=testing
-    /*if a new bot is being opened=> clear previous chat state*/
-    // if (this.bot.id !== (this.currentChatPreviewBotId && this.currentChatPreviewBotId)) {
-      // this.store.dispatch([
-        // nezw ToggleChatWindow({open: true}),
-        // new SetCurrentUId({uid: (this.customConsumerDetails && this.customConsumerDetails.uid) || String(Date.now())}),
-      // ]).subscribe(() => {
+    this.router.navigate(['',{outlets: {preview: 'preview'}}]);
     this.store.dispatch([
       new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
         bot:{...this.bot,enterprise_unique_name:this.enterprise_unique_name}
@@ -98,57 +93,17 @@ export class BotPreviewCardComponent implements OnInit {
       new ToggleChatWindow({open: true}),
       new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX})
     ])
-      // .subscribe(()=>{
-      // this.router.navigate(['/core/viewbots/chatbot'], {
-      //   queryParams: {preview: true, bot_unique_name: this.bot.bot_unique_name, enterprise_unique_name: this.enterprise_unique_name}
-      // });
-    // });
 
-      // });
-    // }
-    // if (this.currentChatPreviewBotId && this.bot.id !== this.currentChatPreviewBotId) {
-    //   this.store.dispatch([
-    //     new ResetChatState()
-    //   ]).subscribe(() => {
-    //     /*TODO: code repeat; refactor the code*/
-    //     this.store.dispatch([
-    //       // new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX}),
-    //       new ToggleChatWindow({open: true}),
-    //     ]).subscribe(() => {
-    //       this.store.dispatch([
-    //         new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
-    //           id: this.bot.id,
-    //           name: this.bot.name,
-    //           bot_access_token: this.bot.bot_access_token,
-    //           logo: this.bot.logo,
-    //           bot_unique_name: this.bot.bot_unique_name,
-    //           integrations:this.bot.integrations
-    //         }),
-    //         new SetCurrentUId({uid: (this.customConsumerDetails && this.customConsumerDetails.uid) || String(Date.now())}),
-    //       ]).subscribe(() => {
-    //         this.router.navigate(['/core/viewbots/chatbot'],
-    //           {queryParams: {preview: true,bot_unique_name:this.bot.bot_unique_name,enterprise_unique_name:this.enterprise_unique_name}});
-    //       });
-    //     });
-    //   });
-    // } else {
-    //   this.store.dispatch([
-    //     new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX}),
-    //     new ToggleChatWindow({open: true}),
-    //   ]).subscribe(() => {
-    //     this.store.dispatch([
-    //       new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
-    //         id: this.bot.id,
-    //         name: this.bot.name,
-    //         bot_access_token: this.bot.bot_access_token,
-    //         bot_unique_name: this.bot.bot_unique_name,
-    //         logo: this.bot.logo,
-    //         integrations:this.bot.integrations
-    //       }),
-    //       new SetCurrentUId({uid: (this.customConsumerDetails && this.customConsumerDetails.uid) || String(Date.now())}),
-    //     ]);
-    //   });
-    // }
+  }
+
+  togglePinBotCard(bot, doPin){
+    this.store.dispatch([
+      new UpdateBotInfoByIdInBotInBotList({botId:bot.id, data:{store_isPinned:doPin}})
+    ]).subscribe(()=>{
+      if(doPin){
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    })
 
   }
 

@@ -11,11 +11,11 @@
 
         <div class="heading" style="font-size: 14px !important;">Bot Configuration</div>
         <div *ngIf="!showConfig" class="d-flex mx-4 justify-content-between align-items-center flex-grow-1">
-          <div>Bot Unique Name : <strong>{{bot.bot_unique_name}}</strong></div>
-          <div>Session Time : <strong>{{bot.room_persistence_time}} min</strong></div>
-          <div>Advance Data Protection : <strong>{{bot.advanced_data_protection}}</strong></div>
-          <div>Data Retention Period : <strong>{{bot.data_persistence_period}} Days</strong></div>
-          <div>Blank Consent : <strong>{{bot.blanket_consent}}</strong></div>
+          <div class="">Bot Unique Name : <strong>{{bot.bot_unique_name}}</strong></div>
+          <div class="">Session Time : <strong>{{bot.room_persistence_time}} min</strong></div>
+          <div class="d-none d-md-inline">Advance Data Protection : <strong>{{bot.advanced_data_protection}}</strong></div>
+          <div class="d-none d-md-inline">Data Retention Period : <strong>{{bot.data_persistence_period}} Days</strong></div>
+          <div class="d-none d-md-inline">Blank Consent : <strong>{{bot.blanket_consent}}</strong></div>
         </div>
         <div class="cursor-pointer"
              (click)="togglePanel()">
@@ -31,7 +31,7 @@
 
   <!--============= REDESIGN=================-->
 
-  <div class="flex-column shadow-theme architecture bg-white p-1 px-2 my align-content-start"
+  <div class="flex-column shadow-theme  d-flex-column-last-child-flex-grow-1 architecture bg-white p-1 px-2 my align-content-start"
        *myIf="[
        myEAllActions['Get Pipeline Module'],
        myEAllActions['Get Integrations'],
@@ -84,25 +84,61 @@
         </li>
       </ul>
 
+      <ul class="nav nav-tabs border-none theme-tabbing mb-1 bg-white d-flex d-md-none">
+        <li routerLink="."
+             [queryParams]="{'build-tab':'pipeline'}"
+             queryParamsHandling="merge"
+             [ngClass]="{'font-weight-bold':selectedSideBarTab==='pipeline'}"
+             (click)="selectedSideBarTab='pipeline'"
+             class="tab-theme ml-auto">Pipeline
+        </li>
+        <!---->
+        <li routerLink="."
+             [queryParams]="{'build-tab':'knowledge'}"
+             queryParamsHandling="merge"
+             [ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"
+             (click)="selectedSideBarTab='knowledge'"
+             class="tab-theme">Knowledge base
+        </li>
+        <li routerLink="."
+             [queryParams]="{'build-tab':'code'}"
+             queryParamsHandling="merge"
+             [ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"
+             (click)="selectedSideBarTab='code'; refreshCodeEditor()"
+             class="tab-theme">Code
+        </li>
+        <li routerLink="."
+             [queryParams]="{'build-tab':'integration'}"
+             queryParamsHandling="merge"
+             [ngClass]="{'font-weight-bold':selectedSideBarTab==='integration'}"
+             (click)="selectedSideBarTab='integration'"
+             class="tab-theme">Integrations
+        </li>
+
+
+      </ul>
+
     </div>
     <!--tabs end-->
-    <!---->
+
     <!--architeture starts-->
-    <div class="col-12 p-0" style="height: 85%" *ngIf="selectedTab==='architecture' &&  bot ">
-      <div class="col-12 architeture-body" style="overflow-y: auto;height: 100%"
+    <div class="p-0 child-expand d-flex-column-last-child-flex-grow-1"
+         [hidden]="selectedTab !=='architecture'">
+      <div class="d-flex-column-last-child-flex-grow-1 architeture-body child-expand" style="overflow-y: auto;"
            *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]">
-        <div class="d-flex row-body bg-white " style="height: 98%">
+        <div class="d-flex row-body bg-white child-expand" >
           <!--TODO: 98% to avoid scroll bar; use grid instead-->
           <!--side bar starts-->
-          <div class="side-bar  border-right">
-            <div class="sidebar-content">
-              <a routerLink="."
+          <div class="side-bar  border-right d-none d-md-block">
+            <div class="">
+              <div routerLink="."
                  [queryParams]="{'build-tab':'pipeline'}"
                  queryParamsHandling="merge"
                  [ngClass]="{'font-weight-bold':selectedSideBarTab==='pipeline'}"
                  (click)="selectedSideBarTab='pipeline'"
-                 class="tab-theme font-weight-bold">Pipeline
-              </a>
+                 class="tab-theme">Pipeline
+              </div>
+              <!---->
               <div routerLink="."
                    [queryParams]="{'build-tab':'knowledge'}"
                    queryParamsHandling="merge"
@@ -114,7 +150,7 @@
                    [queryParams]="{'build-tab':'code'}"
                    queryParamsHandling="merge"
                    [ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"
-                   (click)="selectedSideBarTab='code'"
+                   (click)="selectedSideBarTab='code'; refreshCodeEditor()"
                    class="tab-theme">Code
               </div>
               <div routerLink="."
@@ -132,19 +168,23 @@
             <app-pipeline
               (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"
                           [bot]="bot"></app-pipeline>
-            <!--<app-knowledge-base (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='knowledge'"-->
-            <!--[bot]="bot"></app-knowledge-base>-->
-            <app-knowledge-base-wrapper [bot]="bot"
-                                        *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base-wrapper>
+            <app-knowledge-base-wrapper
+              [bot]="bot"
+              *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base-wrapper>
 
-            <app-code-input (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='code'"
-                            [bot]="bot"></app-code-input>
-            <app-integration-option-list (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='integration'"
-                                         [bot]="bot"></app-integration-option-list>
+            <app-code-input
+              class=" d-flex-column-last-child-flex-grow-1"
+              (datachanged$)="datachanged($event)"
+              [hidden]="selectedSideBarTab!=='code'"
+              [bot]="bot"></app-code-input>
+
+            <app-integration-option-list
+              (datachanged$)="datachanged($event)"
+              *ngIf="selectedSideBarTab==='integration'"
+              [bot]="bot"></app-integration-option-list>
           </div>
 
         </div>
-<!---->
       </div>
 
     </div>

@@ -80,9 +80,9 @@
 //}
 
 .architeture-body {
-  height: 85%;
   .side-bar {
     width: 12.5%;
+    min-width: 130px;
     // padding-left: 10px;
     padding-right: 0px;
   }
@@ -110,11 +110,10 @@
 }
 
 app-knowledge-base-wrapper, app-code-input, app-integration-option-list {
-  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   width: 100%;
-  display: block;
+  display: flex;
 }
 
 //app-bot-testing {
