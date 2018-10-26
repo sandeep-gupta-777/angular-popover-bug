@@ -343,7 +343,7 @@ export class ConstantsService {
   }
 
   getSaveReportsEditInfo(_id) {
-    return this.BACKEND_URL + `api/v1/reports/${_id}`; //  http://dev.imibot.ai/api/v1/reports/1/
+    return this.BACKEND_URL + `api/v1/reports/${_id}/`; //  http://dev.imibot.ai/api/v1/reports/1/
   }
 
 
@@ -357,7 +357,7 @@ export class ConstantsService {
   }
 
   getSaveVersionByBotId(id) {
-    return this.BACKEND_URL + `api/v1/botversioning/${id}`; //https://dev.imibot.ai/api/v1/botversioning/9/
+    return this.BACKEND_URL + `api/v1/botversioning/${id}/`; //https://dev.imibot.ai/api/v1/botversioning/9/
   }
 
   getCreateNewVersionByBotId(id) {
@@ -378,7 +378,7 @@ export class ConstantsService {
   }
 
   getBotConsumerByIdUrl(id: number) {
-    return this.BACKEND_URL + `api/v1/consumer/${id}`; //https://dev.imibot.ai/api/v1/consumer/2320/
+    return this.BACKEND_URL + `api/v1/consumer/${id}/`; //https://dev.imibot.ai/api/v1/consumer/2320/
   }
 
   getAllActionsUrl() {
@@ -386,7 +386,7 @@ export class ConstantsService {
   }
 
   getDeleteBotUrl(id: number) {
-    return this.BACKEND_URL + `api/v1/bot/${id}`; //http://localhost:8000/api/v1/bot/66/
+    return this.BACKEND_URL + `api/v1/bot/${id}/`; //http://localhost:8000/api/v1/bot/66/
   }
 
   getDecryptUrl() {
@@ -414,11 +414,11 @@ export class ConstantsService {
   }
 
   updateOrDeleteCustomBotNER(custom_ner_id) {
-    return this.BACKEND_URL + `api/v1/customner/${custom_ner_id}`; //https://dev.imibot.ai/api/v1/customner/13/
+    return this.BACKEND_URL + `api/v1/customner/${custom_ner_id}/`; //https://dev.imibot.ai/api/v1/customner/13/
   }
 
   updateBotUrl(bot_id: number) {
-    return this.BACKEND_URL + `api/v1/bot/${bot_id}`;//https://dev.imibot.ai/api/v1/bot/13/
+    return this.BACKEND_URL + `api/v1/bot/${bot_id}/`;//https://dev.imibot.ai/api/v1/bot/13/
   }
 
   createNewCustomBotNER() {
@@ -448,7 +448,7 @@ export class ConstantsService {
   }
 
   updateOrDeleteEnterpriseNer(id) {/*TODO: is it enterprise id??*/
-    return this.BACKEND_URL + `api/v1/customner/${id}`; //https://dev.imibot.ai/api/v1/customner/12/
+    return this.BACKEND_URL + `api/v1/customner/${id}/`; //https://dev.imibot.ai/api/v1/customner/12/
   }
 
   createEnterpriseNer() {
