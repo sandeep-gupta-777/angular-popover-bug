@@ -112,20 +112,25 @@
         <div class="card-body p-0 mr-0">
           <ul class="nav nav-tabs theme-tabbing">
             <li class="nav-item" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.df_template}">
-              <a class="nav-link text-theme-normal" (click)="tabClicked(myEBotVersionTabs.df_template)">DF Template</a>
+              <i class="fa fa-exclamation-triangle color-danger" *ngIf="!!selectedVersion.validation[myEBotVersionTabs.df_template].error"></i>
+              <a class="nav-link text-theme-normal d-inline-block" (click)="tabClicked(myEBotVersionTabs.df_template)">DF Template</a>
             </li>
             <li class="nav-item" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.df_rules}">
-              <a class="nav-link text-theme-normal" (click)="tabClicked(myEBotVersionTabs.df_rules)">DF
+              <i class="fa fa-exclamation-triangle color-danger" *ngIf="!!selectedVersion.validation[myEBotVersionTabs.df_rules].error"></i>
+              <a class="nav-link text-theme-normal d-inline-block" (click)="tabClicked(myEBotVersionTabs.df_rules)">DF
                 Rules</a>
             </li>
             <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.generation_rules}">
-              <a class="nav-link" (click)="tabClicked(myEBotVersionTabs.generation_rules)">Generation Rules</a>
+              <i class="fa fa-exclamation-triangle color-danger" *ngIf="!!selectedVersion.validation[myEBotVersionTabs.generation_rules].error"></i>
+              <a class="nav-link d-inline-block" (click)="tabClicked(myEBotVersionTabs.generation_rules)">Generation Rules</a>
             </li>
             <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.generation_templates}">
-              <a class="nav-link" (click)="tabClicked(myEBotVersionTabs.generation_templates)">Generation Template</a>
+              <i class="fa fa-exclamation-triangle color-danger" *ngIf="!!selectedVersion.validation[myEBotVersionTabs.generation_templates].error"></i>
+              <a class="nav-link d-inline-block" (click)="tabClicked(myEBotVersionTabs.generation_templates)">Generation Template</a>
             </li>
             <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.workflow}">
-              <a class="nav-link" (click)="tabClicked(myEBotVersionTabs.workflow)">Workflows</a>
+              <i class="fa fa-exclamation-triangle color-danger" *ngIf="!!selectedVersion.validation[myEBotVersionTabs.workflow].error"></i>
+              <a class="nav-link d-inline-block" (click)="tabClicked(myEBotVersionTabs.workflow)">Workflows</a>
             </li>
             <li>
               <!--<button [hidden]="activeTab!==myEBotVersionTabs.generation_templates" (click)="showGenTempUi = !showGenTempUi; convertUiDictToGenTemplateCode()">button123-->
@@ -151,13 +156,13 @@
     <div class="code-editor-row code-editor-row-max position-relative child-expand  d-flex-column-last-child-flex-grow-1">
 
       <app-code-editor class="child-expand" [hidden]="activeTab!==myEBotVersionTabs.df_template" [text]="editorCodeObj[myEBotVersionTabs.df_template]"
-        (textChangedEvent)="saveText($event)" (validateClick) = "validateCodeTest($event)"></app-code-editor>
+        (textChangedEvent)="saveText($event)" (validateClick)="validateCodeTest($event)"></app-code-editor>
 
       <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_rules" [text]="editorCodeObj[myEBotVersionTabs.df_rules]"
-        (textChangedEvent)="saveText($event)"  (validateClick) = "validateCodeTest($event)"></app-code-editor>
+        (textChangedEvent)="saveText($event)" (validateClick)="validateCodeTest($event)"></app-code-editor>
 
       <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_rules" [text]="editorCodeObj[myEBotVersionTabs.generation_rules]"
-        (textChangedEvent)="saveText($event)" (validateClick) = "validateCodeTest($event)"></app-code-editor>
+        (textChangedEvent)="saveText($event)" (validateClick)="validateCodeTest($event)"></app-code-editor>
 
       <!--generation template UI starts-->
       <div class="row mx-0 pl-3 genTempGrid pt-2 child-expand" *ngIf="activeTab===myEBotVersionTabs.generation_templates && !showGenTempEditorAndHideGenTempUi">
@@ -254,7 +259,7 @@
             <div class="intentItems d-flex-column-last-child-flex-grow-1">
               <div class="d-flex-column-last-child-flex-grow-1 child-expand">
                 <app-code-editor class="d-flex-column-last-child-flex-grow-1 child-expand" [text]="{text:getTemplateKeyDictClone()[selectedTemplateKeyInLeftSideBar]}"
-                  (textChangedEvent)="updateSelectedTemplateKeyValue($event)"  (validateClick) = "validateCodeTest($event)"></app-code-editor>
+                  (textChangedEvent)="updateSelectedTemplateKeyValue($event)" (validateClick)="validateCodeTest($event)"></app-code-editor>
               </div>
             </div>
           </ng-container>
@@ -317,11 +322,12 @@
       <!--[text]="{'text' : intents | json}"-->
       <!--(textChangedEvent)="saveText($event)"></app-code-editor>-->
       <app-code-editor *ngIf="activeTab===myEBotVersionTabs.generation_templates && showGenTempEditorAndHideGenTempUi"
-        [text]="editorCodeObj[myEBotVersionTabs.generation_templates]" (textChangedEvent)="saveText($event)"  (validateClick) = "validateCodeTest($event)">
+        [text]="editorCodeObj[myEBotVersionTabs.generation_templates]" (textChangedEvent)="saveText($event)"
+        (validateClick)="validateCodeTest($event)">
       </app-code-editor>
 
       <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.workflow " [text]="editorCodeObj[myEBotVersionTabs.workflow]"
-        (textChangedEvent)="saveText($event)"  (validateClick) = "validateCodeTest($event)"></app-code-editor>
+        (textChangedEvent)="saveText($event)" (validateClick)="validateCodeTest($event)"></app-code-editor>
     </div>
     <div class="validation-bar">
       <div class="dot-indicator">
@@ -330,8 +336,8 @@
 
       </div>
       <div class="validation-toggle cursor-pointer" (click)="validationMessageToggle = !validationMessageToggle">
-        <i class="fa fa-arrow-circle-right" *ngIf='validationMessageToggle'></i>
-        <i class="fa fa-arrow-circle-left" *ngIf='!validationMessageToggle'></i>
+        <i class="fa fa-angle-double-right" *ngIf='validationMessageToggle'></i>
+        <i class="fa fa-angle-double-left" *ngIf='!validationMessageToggle'></i>
       </div>
     </div>
     <div class="validation-message" *ngIf="validationMessageToggle">
