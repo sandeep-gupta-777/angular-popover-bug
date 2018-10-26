@@ -33,9 +33,19 @@ export enum EBotVersionTabs {
   workflow = 'workflow'
 }
 
+export interface ICarousalItem {
+  'image_url': string,
+  'button': [{ 'type': string, 'title': string, 'payload': string }],
+  'title': string,
+  /*custom added*/
+  description?: string,
+}
+
 export interface IOutputItem {
   text?: string[],
-  include: string[]
+  include?: string[],
+  generic_template?: { 'elements': ICarousalItem[] }[]
+
 }
 
 @Component({
@@ -68,7 +78,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   selectedTemplateKeyInLeftSideBar: string = '';
   myObject = Object;
   newTemplateKey: string;
-  showGenTempEditorAndHideGenTempUi: boolean = true;
+  showGenTempEditorAndHideGenTempUi: boolean = false;
   selectedChannelOfGenTemplate: { name: string, displayName: string };
   selectedTemplateKeyOutputIndex: number[] = [];
   selectedIntentList: string[] = ['A2', 'A3', 'A4'];
@@ -134,8 +144,14 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   channelList: { name: string, displayName: string }[];// = ["facebook", "web", "imiconnect", "imichat", "skype"];
   channelNameList: string[];
+<<<<<<< HEAD
   openNewIntentModal(template) {
     this.modalRef = this.modalService.show(template, { class: 'modal-w-30vw' });
+=======
+
+  openNewIntentModal(template) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-w-30vw'});
+>>>>>>> f830075eaf67556fa30189e81bb41d773ae0c5b8
     return;
   }
 
@@ -164,6 +180,21 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
       'text': ['']
     };
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(textUnit);
+    setTimeout(() => this.scrollToBottom());
+
+  }
+
+  addImageCaraosalUnit() {
+    let caraosalUnit = {
+      'generic_template': [{
+        'elements': [{
+          'image_url': 'https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg',
+          'button': [{'type': 'postback', 'title': 'Renew Now', 'payload': 'expire'}],
+          'title': 'Contract Renewal'
+        }]
+      }]
+    };
+    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(caraosalUnit);
     setTimeout(() => this.scrollToBottom());
 
   }
@@ -265,9 +296,14 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   // @ViewChild('fork_new_version_form') fork_new_version_form: HTMLFormElement;
 
   templateKeyDictClone = null;
+
   getTemplateKeyDictClone() {
 
+<<<<<<< HEAD
     if (!this.templateKeyDictClone) this.templateKeyDictClone = { ...this.templateKeyDict };
+=======
+    if (!this.templateKeyDictClone) this.templateKeyDictClone = {...this.templateKeyDict};
+>>>>>>> f830075eaf67556fa30189e81bb41d773ae0c5b8
     return this.templateKeyDictClone;
   }
 
@@ -320,13 +356,24 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
           this.channelList.unshift({ name: 'all', displayName: 'All' });
         }
 
+<<<<<<< HEAD
         this.selectedChannelOfGenTemplate = { name: 'all', displayName: 'All' };
         this.channelNameList = this.channelList.map(channel => { return channel.name }).filter(e => e !== 'all');
+=======
+        this.selectedChannelOfGenTemplate = {name: 'all', displayName: 'All'};
+        this.channelNameList = this.channelList.map(channel => {
+          return channel.name;
+        }).filter(e => e !== 'all');
+>>>>>>> f830075eaf67556fa30189e81bb41d773ae0c5b8
         setTimeout(() => {
           if (this.selectedVersion && this.selectedVersion[EBotVersionTabs.generation_templates]) {
             this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
             if (this.templateKeyDict) {
+<<<<<<< HEAD
               this.templateKeyDictClone = { ...this.templateKeyDict };
+=======
+              this.templateKeyDictClone = {...this.templateKeyDict};
+>>>>>>> f830075eaf67556fa30189e81bb41d773ae0c5b8
               if (!this.selectedTemplateKeyInLeftSideBar) this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
             }
           }
@@ -393,9 +440,13 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   convertGenTemplateCodeStringIntoUiComponents() {
 
     try {
-      debugger;
+
       this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
+<<<<<<< HEAD
       this.templateKeyDictClone = { ...this.templateKeyDict };
+=======
+      this.templateKeyDictClone = {...this.templateKeyDict};
+>>>>>>> f830075eaf67556fa30189e81bb41d773ae0c5b8
     } catch (e) {
       console.log(e);
     }
@@ -411,7 +462,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   saveText(codeStr: string) {
-    debugger;
+
     /*
     *at this point some changes have been made to selected version's codeText
     * */
@@ -677,18 +728,26 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   openDeleteTemplateKeyModal(deleteTemplateKeyModal) {
     this.modalRef = this.modalService.show(deleteTemplateKeyModal);
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> f830075eaf67556fa30189e81bb41d773ae0c5b8
   openEditTemplateKeyModal(EditTemplateKeyModal) {
     this.modalRef = this.modalService.show(EditTemplateKeyModal);
   }
 
   deleteTemplateKey(tempKey) {
     delete this.templateKeyDict[tempKey];
-    this.utilityService.showSuccessToaster("Template key deleted!");
+    this.utilityService.showSuccessToaster('Template key deleted!');
     this.modalRef.hide();
   }
 
   editTemplateKey(templateKeyEditForm) {
+<<<<<<< HEAD
     let { old_key, new_key } = templateKeyEditForm.value;
+=======
+    let {old_key, new_key} = templateKeyEditForm.value;
+>>>>>>> f830075eaf67556fa30189e81bb41d773ae0c5b8
     this.utilityService.renameKeyInObject(this.templateKeyDict, old_key, new_key);
     this.selectedTemplateKeyInLeftSideBar = new_key;
     this.modalRef.hide();

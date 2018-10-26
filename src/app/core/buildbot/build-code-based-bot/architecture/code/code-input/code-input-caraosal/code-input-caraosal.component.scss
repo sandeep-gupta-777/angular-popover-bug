@@ -1,0 +1,116 @@
+@import "~src/sass/main.scss";
+
+.MultiCarousel {
+  float: left;
+  overflow: hidden;
+  padding: 15px;
+  width: 100%;
+  position: relative;
+}
+
+.MultiCarousel .MultiCarousel-inner {
+  transition: 300ms ease all;
+  float: left;
+}
+
+//.MultiCarousel .MultiCarousel-inner { float: left; }
+.MultiCarousel .MultiCarousel-inner .item {
+  float: left;
+  position: relative;
+}
+
+.MultiCarousel .MultiCarousel-inner .item > div {
+  text-align: center;
+  margin: 5px;
+  color: #666;
+}
+
+.MultiCarousel .leftLst, .MultiCarousel .rightLst {
+  position: absolute;
+  //top:calc(50% - 20px);
+  top: 0;
+  bottom: 0;
+  background-color: $color-primary;
+  border: none;
+}
+
+.MultiCarousel .leftLst {
+  left: 0;
+  right: 100% -50px;
+}
+
+.MultiCarousel .rightLst {
+  left: 100% -50px;
+  right: 0;
+}
+
+.MultiCarousel .leftLst.over, .MultiCarousel .rightLst.over {
+  pointer-events: none;
+  background: #ccc;
+}
+
+.card-img-top {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.limit-three-lines {
+  //border:1px solid red;
+  box-sizing: content-box;
+  overflow: hidden;
+  height: 60px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.list-group-item {
+  //padding:0;
+  height: auto;
+  margin: 0px 0px 8px 0px;
+  padding: 0 5px;
+  border: none;
+}
+.faded-text{
+  font-size: 11px;
+  line-height: 13px;
+  color: #e0e0e0
+}
+
+.MultiCarousel-inner {
+  .card-img-top {
+    height: 100px !important;
+  }
+  input, textarea {
+    border: 1px solid #e0e0e0 !important;
+    padding: 3px;
+    border-radius: 2px;
+    &::placeholder{
+      color: #e0e0e0 !important;
+      font-size: 11px !important;
+    }
+  }
+}
+
+.bg-overlay-grey{
+  background-color: rgba(216, 216, 216, 0.26);
+  &:hover{
+    background-color: rgba(87, 87, 87, 0.26);
+    .fa{
+      color: #474747 !important;
+    }
+  }
+}
+
+
+.carasol-item-control{
+  color: #e0e0e0;
+  font-size: 11px;
+}
+
+.heading-icon {
+  color: #9b9b9b;
+  font-size: 13px;
+}
