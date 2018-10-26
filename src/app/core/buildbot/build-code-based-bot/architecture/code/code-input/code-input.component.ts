@@ -144,14 +144,9 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   channelList: { name: string, displayName: string }[];// = ["facebook", "web", "imiconnect", "imichat", "skype"];
   channelNameList: string[];
-<<<<<<< HEAD
-  openNewIntentModal(template) {
-    this.modalRef = this.modalService.show(template, { class: 'modal-w-30vw' });
-=======
 
   openNewIntentModal(template) {
     this.modalRef = this.modalService.show(template, {class: 'modal-w-30vw'});
->>>>>>> f830075eaf67556fa30189e81bb41d773ae0c5b8
     return;
   }
 
@@ -299,11 +294,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   getTemplateKeyDictClone() {
 
-<<<<<<< HEAD
-    if (!this.templateKeyDictClone) this.templateKeyDictClone = { ...this.templateKeyDict };
-=======
     if (!this.templateKeyDictClone) this.templateKeyDictClone = {...this.templateKeyDict};
->>>>>>> f830075eaf67556fa30189e81bb41d773ae0c5b8
     return this.templateKeyDictClone;
   }
 
@@ -356,24 +347,13 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
           this.channelList.unshift({ name: 'all', displayName: 'All' });
         }
 
-<<<<<<< HEAD
         this.selectedChannelOfGenTemplate = { name: 'all', displayName: 'All' };
         this.channelNameList = this.channelList.map(channel => { return channel.name }).filter(e => e !== 'all');
-=======
-        this.selectedChannelOfGenTemplate = {name: 'all', displayName: 'All'};
-        this.channelNameList = this.channelList.map(channel => {
-          return channel.name;
-        }).filter(e => e !== 'all');
->>>>>>> f830075eaf67556fa30189e81bb41d773ae0c5b8
         setTimeout(() => {
           if (this.selectedVersion && this.selectedVersion[EBotVersionTabs.generation_templates]) {
             this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
             if (this.templateKeyDict) {
-<<<<<<< HEAD
               this.templateKeyDictClone = { ...this.templateKeyDict };
-=======
-              this.templateKeyDictClone = {...this.templateKeyDict};
->>>>>>> f830075eaf67556fa30189e81bb41d773ae0c5b8
               if (!this.selectedTemplateKeyInLeftSideBar) this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
             }
           }
@@ -442,11 +422,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     try {
 
       this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
-<<<<<<< HEAD
       this.templateKeyDictClone = { ...this.templateKeyDict };
-=======
-      this.templateKeyDictClone = {...this.templateKeyDict};
->>>>>>> f830075eaf67556fa30189e81bb41d773ae0c5b8
     } catch (e) {
       console.log(e);
     }
@@ -728,10 +704,6 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   openDeleteTemplateKeyModal(deleteTemplateKeyModal) {
     this.modalRef = this.modalService.show(deleteTemplateKeyModal);
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> f830075eaf67556fa30189e81bb41d773ae0c5b8
   openEditTemplateKeyModal(EditTemplateKeyModal) {
     this.modalRef = this.modalService.show(EditTemplateKeyModal);
   }
@@ -743,11 +715,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   editTemplateKey(templateKeyEditForm) {
-<<<<<<< HEAD
     let { old_key, new_key } = templateKeyEditForm.value;
-=======
-    let {old_key, new_key} = templateKeyEditForm.value;
->>>>>>> f830075eaf67556fa30189e81bb41d773ae0c5b8
     this.utilityService.renameKeyInObject(this.templateKeyDict, old_key, new_key);
     this.selectedTemplateKeyInLeftSideBar = new_key;
     this.modalRef.hide();
