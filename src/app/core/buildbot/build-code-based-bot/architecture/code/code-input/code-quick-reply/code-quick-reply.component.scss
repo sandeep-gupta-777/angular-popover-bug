@@ -1,14 +1,14 @@
 @import "~src/sass/mixins";
 @import "~src/sass/variables";
 
-*{
-  font-size: 11px;
+* {
+  font-size: 11px !important;
 }
 
 label {
-  @include typography(11px, 1.45, $font-weight-normal, $color-secondary);
+  @include typography(9px, 1.45, $font-weight-normal, $color-secondary);
   padding-bottom: 0;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 input, input:focus {
@@ -27,4 +27,11 @@ input, input:focus {
   opacity: 1; /* Firefox */
   @include typography($font-size-xs, $line-height-md, $font-weight-normal, $color-secondary);
   padding: 0;
+}
+
+.theme-tabbing { /*overriding*/
+  margin-right: 4px;
+  .nav-link {
+    padding: 4px;
+  }
 }

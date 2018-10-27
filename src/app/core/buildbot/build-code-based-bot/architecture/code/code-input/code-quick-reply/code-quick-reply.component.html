@@ -1,4 +1,8 @@
-<form #quickReplyForm="ngForm" class="p-3 bg-white" id="quickReplyForm" (submit)="saveQuickReplyForm(quickReplyForm)">
+<form #quickReplyForm="ngForm"
+      id="quickReplyForm"
+      class="p-3 bg-white shadow-theme"
+      style="width: 200px"
+      (submit)="saveQuickReplyForm(quickReplyForm)">
   <ul class="nav nav-tabs theme-tabbing mb-1 bg-white">
     <li class="nav-item" (click)="tabChanged(myEQuickReplyTypes.text)"
         [ngClass]="{'tab-active':selectedTab===myEQuickReplyTypes.text}">
@@ -31,13 +35,16 @@
 
   </ul>
 
-  <!--text details start-->
-  <div *ngIf="selectedTab===myEQuickReplyTypes.text">
+  <div>
     <label class="required">Reply Label</label>
-    <input type="text" ngModel name="reply"
+    <input type="text" ngModel name="title"
            class="form-control">
+  </div>
 
-    <ul class="nav nav-tabs pb-1 border-0 theme-tabbing my-1 bg-white">
+  <!--text specific details start-->
+  <div *ngIf="selectedTab===myEQuickReplyTypes.text">
+
+    <ul class="nav nav-tabs border-0 theme-tabbing my-1 bg-white">
       <li class="nav-item" (click)="subTabChanged(myEQuickReplySubTabsType.payload)"
           [ngClass]="{'tab-active':selectedSubTab===myEQuickReplySubTabsType.payload}">
         <a class="nav-link" [routerLink]="['.']"
@@ -68,41 +75,21 @@
     </div>
 
   </div>
-  <!--text details end-->
+  <!--text specific details end-->
 
 
   <!--Location details start-->
-  <div *ngIf="selectedTab===myEQuickReplyTypes.location">
-    <label class="required">Reply Label</label>
-    <input type="text" ngModel name="reply"
-           class="form-control">
-
+  <div class="mt-1" *ngIf="selectedTab===myEQuickReplyTypes.location">
     <label class="required">Icon (optional)</label>
     <input type="text" ngModel name="icon"
            class="form-control">
   </div>
   <!--Location details end-->
 
-  <!--email details start-->
-  <div *ngIf="selectedTab===myEQuickReplyTypes.email">
-    <label class="required">Email Reply</label>
-    <input type="text" ngModel name="reply"
-           class="form-control">
-  </div>
-  <!--email details end-->
-
-  <!--phone details start-->
-  <div *ngIf="selectedTab===myEQuickReplyTypes.phone">
-    <label class="required">Phone  Reply</label>
-    <input type="text" ngModel name="reply"
-           class="form-control">
-  </div>
-  <!--phone details end-->
-
 
   <div class="d-flex" style="margin-top: 10px">
     <span class="text-primary mr-1" (click)="saveQuickReplyForm(quickReplyForm)">Done</span>
-    <span class="text-primary">Cancel</span>
+    <span class="text-primary" (click)="hideQuickReplyDropdown$.emit()">Cancel</span>
   </div>
 
 </form>

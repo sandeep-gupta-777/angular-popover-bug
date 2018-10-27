@@ -20,12 +20,8 @@ enum ECarasoulMoveDirection {
 export class CodeInputCaraosalComponent implements OnInit {
 
   @Input() outputItem: IOutputItem;
-  myECarasoulMoveDirection = ECarasoulMoveDirection;
   @Input() isFullScreenPreview = false;
-  _messageData: IMessageData;
   @Input() isParentSessionsModal = false;
-  /*taken from text-gentemplate.component.ts*/
-  selected: boolean;
   @Input() myIndex: number;
   @Input() channelNameList: string[];
   @Input() totalResponseTemplateComponentCount: number;
@@ -34,6 +30,9 @@ export class CodeInputCaraosalComponent implements OnInit {
   @Output() moveTempDown: EventEmitter<string> = new EventEmitter<string>();
   @Output() selectionChanged: EventEmitter<string> = new EventEmitter<string>();
   @Output() sendMessageToBotServer$ = new EventEmitter();
+  _messageData: IMessageData;
+  myECarasoulMoveDirection = ECarasoulMoveDirection;
+  selected: boolean;
 
   @Input() set selectedTemplateKeyOutputIndex(selectedTemplateKeyOutputIndex: number[]) {
     if (selectedTemplateKeyOutputIndex && selectedTemplateKeyOutputIndex.length === 0) {
