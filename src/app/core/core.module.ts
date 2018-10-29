@@ -36,15 +36,9 @@ import {SharedModule} from '../shared.module';
 import {ViewCustomnerComponent} from './customner/view-customner/view-customner.component';
 import {AuthGaurdService} from '../auth-gaurd.service';
 import {EBotType} from './view-bots/view-bots.component';
-// import {CardCarouselComponent} from '../chat/carousel/card-carousel/card-carousel.component';
-// import {QuickReplyComponent} from '../chat/carousel/quick-reply/quick-reply.component';
 import {AccessGaurdService} from '../access-gaurd.service';
 import {ERouteNames} from '../constants.service';
 import {ChatModule} from '../chat/chat.module';
-import {ChatWrapperComponent} from '../chat/chat-wrapper.component';
-// import {HighlightDirective} from '../readonly-selected-permission.directive';
-// import { IntegrationNameFormatterPipe } from './buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-name-formatter.pipe';
-
 const routes: Route[] = [
   {
 

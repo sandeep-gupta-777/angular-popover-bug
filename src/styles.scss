@@ -68,7 +68,9 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 .tab-active {
   border-bottom: 2px solid $color-primary !important;
   background-color: transparent; //important is required to override bootstrap active
-  font-weight: 400 !important;
+  .nav-link{
+    font-weight: 700;
+  }
 }
 
 .dropdown-item-active {
@@ -448,7 +450,10 @@ th, td {
       border: none;
       text-decoration: none !important;
       font-size: $font-size-sm;
-      @include typography($font-size-sm, $line-height-normal, $font-weight-300, $color-text-grey);
+      //@include typography($font-size-sm, $line-height-normal, $font-weight-300, $color-text-grey);
+      line-height: $line-height-normal;
+      color: $color-text-grey;
+      font-family: "Helvetica", sans-serif;
       &:hover {
         border: none;
       }

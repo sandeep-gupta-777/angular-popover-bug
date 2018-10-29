@@ -53,6 +53,9 @@ import {FilterResponseComponentByChannelNamePipe} from '../buildbot/build-code-b
 import {NumberOfTrueKeysPipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/number-of-true-keys.pipe';
 import {DataTypePipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/data-type.pipe';
 import {CodeInputCaraosalComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-input-caraosal/code-input-caraosal.component';
+import {CodeQuickReplyComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-quick-reply/code-quick-reply.component';
+import {CodeQuickReplyWrapperComponent} from '../../code-quick-reply-wrapper/code-quick-reply-wrapper.component';
+import {CodeQuickReplyButtonWrapperComponent} from '../../code-quick-reply-button-wrapper/code-quick-reply-button-wrapper.component';
 
 const routes: Route[] = [
   {
@@ -86,6 +89,9 @@ const routes: Route[] = [
     CodeInputComponent,
     FilterTemplateLeyListPipe,
     CodeInputCaraosalComponent,
+    CodeQuickReplyWrapperComponent,
+    CodeQuickReplyComponent,
+    CodeQuickReplyButtonWrapperComponent,
     DataTypePipe,
     NumberOfTrueKeysPipe,
     FilterResponseComponentByChannelNamePipe,
