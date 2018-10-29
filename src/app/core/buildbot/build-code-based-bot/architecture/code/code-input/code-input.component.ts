@@ -142,8 +142,8 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
    }
    */
 
-  channelList: { name: string, displayName: string }[];// = ["facebook", "web", "imiconnect", "imichat", "skype"];
-  channelNameList: string[];
+  channelList: { name: string, displayName: string }[] = [];// = ["facebook", "web", "imiconnect", "imichat", "skype"];
+  channelNameList: string[] = [];
 
   openNewIntentModal(template) {
     this.modalRef = this.modalService.show(template, {class: 'modal-w-30vw'});
@@ -343,12 +343,18 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
                 name: integrationKey,
                 displayName: integrationKey
               };
-            });
+            })
+            .filter((enabledIntegrations)=> this.bot.integrations.channels[enabledIntegrations.name].enabled);
           this.channelList.unshift({ name: 'all', displayName: 'All' });
         }
 
         this.selectedChannelOfGenTemplate = { name: 'all', displayName: 'All' };
-        this.channelNameList = this.channelList.map(channel => { return channel.name }).filter(e => e !== 'all');
+        this.channelNameList = this.channelList
+          .map(channel => { return channel.name })
+          .filter(e => e !== 'all');
+
+        
+
         setTimeout(() => {
           if (this.selectedVersion && this.selectedVersion[EBotVersionTabs.generation_templates]) {
             this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);

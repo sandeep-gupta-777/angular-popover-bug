@@ -288,6 +288,7 @@
                                         [myIndex]=i
                                         [totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"
                                         [selectedTemplateKeyOutputIndex]="selectedTemplateKeyOutputIndex"
+                                        [channelNameList]="channelNameList"
                                         (deleteTemplate)="deleteGentemplate($event)"
                                         (moveTempUp)="moveUpGentempate($event)"
                                         (moveTempDown)="moveDownGentempate($event)"
@@ -296,6 +297,7 @@
                                         [outputItem]="outputItem"
                                         [myIndex]=i
                                         [totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"
+                                        [channelNameList]="channelNameList"
                                         [hidden]="activeTab!==myEBotVersionTabs.generation_templates"
                                         (deleteTemplate)="deleteGentemplate($event)"
                                         (moveTempUp)="moveUpGentempate($event)"
@@ -306,6 +308,7 @@
                                            [outputItem]="outputItem"
                                            [myIndex]=i
                                            [totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"
+                                           [channelNameList]="channelNameList"
                                            [hidden]="activeTab!==myEBotVersionTabs.generation_templates"
                                            (deleteTemplate)="deleteGentemplate($event)"
                                            (moveTempUp)="moveUpGentempate($event)"
