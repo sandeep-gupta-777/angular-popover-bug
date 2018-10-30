@@ -84,7 +84,7 @@ export class LoginComponent implements OnInit {
       })
   }
   resetPassword() {
-    debugger;
+
     let resetPasswordUrl = this.constantsService.resetPasswordUrl();
     let body;
     if (this.r.valid) {
