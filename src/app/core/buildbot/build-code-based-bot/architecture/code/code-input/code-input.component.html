@@ -161,13 +161,13 @@
             <li class="ml-auto gen-templet-toggle d-flex align-items-center"
                 *ngIf="activeTab===myEBotVersionTabs.generation_templates">
               <!-- <button [hidden]="activeTab!==myEBotVersionTabs.generation_templates" (click)="showGenTempUi = !showGenTempUi">button</button> -->
-              <span>Interface</span>
-              <ui-switch (change)="genTemplateViewChange($event)" color="rgb(0, 34, 64)" switchColor="white"
-                         name="toggle_gen_templet"
-                         [(ngModel)]="showGenTempEditorAndHideGenTempUi" class="d-flex align-items-center mx-1 "
-                         style="border:none;padding: 0;"
-                         size="small" title="Toggle UI view"></ui-switch>
-              <span>Code</span>
+              <!--<span>Interface</span>-->
+              <!--<ui-switch (change)="genTemplateViewChange($event)" color="rgb(0, 34, 64)" switchColor="white"-->
+                         <!--name="toggle_gen_templet"-->
+                         <!--[(ngModel)]="showGenTempEditorAndHideGenTempUi" class="d-flex align-items-center mx-1 "-->
+                         <!--style="border:none;padding: 0;"-->
+                         <!--size="small" title="Toggle UI view"></ui-switch>-->
+              <!--<span>Code</span>-->
 
             </li>
           </ul>
@@ -414,38 +414,38 @@
                        (textChangedEvent)="saveText($event)"
                        (validateClick)="validateCodeTest($event)"></app-code-editor>
     </div>
-    <div class="validation-bar">
-      <div class="dot-indicator">
-        <i class="fa fa-check-circle color-primary" *ngIf="!selectedVersion.validation[activeTab].error"></i>
-        <i class="fa fa-exclamation-triangle color-danger" *ngIf="!!selectedVersion.validation[activeTab].error"></i>
+    <!--<div class="validation-bar">-->
+      <!--<div class="dot-indicator">-->
+        <!--<i class="fa fa-check-circle color-primary" *ngIf="!selectedVersion.validation[activeTab].error"></i>-->
+        <!--<i class="fa fa-exclamation-triangle color-danger" *ngIf="!!selectedVersion.validation[activeTab].error"></i>-->
 
-      </div>
-      <div class="validation-toggle cursor-pointer" (click)="validationMessageToggle = !validationMessageToggle">
-        <i class="fa fa-angle-double-right" *ngIf='validationMessageToggle'></i>
-        <i class="fa fa-angle-double-left" *ngIf='!validationMessageToggle'></i>
-      </div>
-    </div>
-    <div class="validation-message" *ngIf="validationMessageToggle">
-      <div class="validation-message-heading" *ngIf="!!selectedVersion.validation[activeTab].error">
-        Issues found
-      </div>
-      <div class="validation-message-heading" *ngIf="!selectedVersion.validation[activeTab].error">
-        No issues found
-      </div>
-      <div class="validation-message-data my-1" *ngIf="!!selectedVersion.validation[activeTab].error">
-        error_line = {{ selectedVersion.validation[activeTab].error_line}} <br>
-        error_msg = {{ selectedVersion.validation[activeTab].error_msg}} <br>
-      </div>
-      <div class="validation-message-data my-1" *ngIf="!selectedVersion.validation[activeTab].error">
-        Validation was successfull. You can validated again if you need.
-      </div>
-      <!-- <div class="validation-message-data my-1">
-          Validations was successfull.You can validate again if you need.
-        </div>
-      <div class="validation-message-data my-1">
-          Validations was successfull.You can validate again if you need.
-        </div> -->
-    </div>
+      <!--</div>-->
+      <!--<div class="validation-toggle cursor-pointer" (click)="validationMessageToggle = !validationMessageToggle">-->
+        <!--<i class="fa fa-angle-double-right" *ngIf='validationMessageToggle'></i>-->
+        <!--<i class="fa fa-angle-double-left" *ngIf='!validationMessageToggle'></i>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="validation-message" *ngIf="validationMessageToggle">-->
+      <!--<div class="validation-message-heading" *ngIf="!!selectedVersion.validation[activeTab].error">-->
+        <!--Issues found-->
+      <!--</div>-->
+      <!--<div class="validation-message-heading" *ngIf="!selectedVersion.validation[activeTab].error">-->
+        <!--No issues found-->
+      <!--</div>-->
+      <!--<div class="validation-message-data my-1" *ngIf="!!selectedVersion.validation[activeTab].error">-->
+        <!--error_line = {{ selectedVersion.validation[activeTab].error_line}} <br>-->
+        <!--error_msg = {{ selectedVersion.validation[activeTab].error_msg}} <br>-->
+      <!--</div>-->
+      <!--<div class="validation-message-data my-1" *ngIf="!selectedVersion.validation[activeTab].error">-->
+        <!--Validation was successfull. You can validated again if you need.-->
+      <!--</div>-->
+      <!--&lt;!&ndash; <div class="validation-message-data my-1">-->
+          <!--Validations was successfull.You can validate again if you need.-->
+        <!--</div>-->
+      <!--<div class="validation-message-data my-1">-->
+          <!--Validations was successfull.You can validate again if you need.-->
+        <!--</div> &ndash;&gt;-->
+    <!--</div>-->
   </div>
 
 </div>

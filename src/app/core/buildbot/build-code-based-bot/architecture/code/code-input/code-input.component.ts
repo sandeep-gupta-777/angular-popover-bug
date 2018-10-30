@@ -89,7 +89,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   selectedTemplateKeyInLeftSideBar: string = '';
   myObject = Object;
   newTemplateKey: string;
-  showGenTempEditorAndHideGenTempUi: boolean = false;
+  showGenTempEditorAndHideGenTempUi: boolean = true;
   selectedChannelOfGenTemplate: { name: string, displayName: string };
   selectedTemplateKeyOutputIndex: number[] = [];
   selectedIntentList: string[] = ['A2', 'A3', 'A4'];
