@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
+import {Component, OnInit, Input, EventEmitter, Output, AfterViewInit, ViewChild, ElementRef} from '@angular/core';
 import {IOutputItem} from '../code-input.component';
 
 @Component({
@@ -6,7 +6,7 @@ import {IOutputItem} from '../code-input.component';
   templateUrl: './text-gentemplate.component.html',
   styleUrls: ['./text-gentemplate.component.scss']
 })
-export class TextGentemplateComponent implements OnInit {
+export class TextGentemplateComponent implements OnInit, AfterViewInit {
 
   // @Input() variants : string[] ;
   _variants: string[];
@@ -18,13 +18,18 @@ export class TextGentemplateComponent implements OnInit {
   @Output() moveTempUp: EventEmitter<string> = new EventEmitter<string>();
   @Output() moveTempDown: EventEmitter<string> = new EventEmitter<string>();
   @Output() selectionChanged: EventEmitter<string> = new EventEmitter<string>();
+  @ViewChild('textarea') textarea:ElementRef;
 
   @Input() set variants(variantsVal: string[]) {
     this._variants = variantsVal;
     this.variantsIter = [...this._variants];
   }
 
+
   @Input() set selectedTemplateKeyOutputIndex(selectedTemplateKeyOutputIndex: number[]) {
+    /*when parent components empty selectedTemplateKeyOutputIndex array,
+     *we should turn this.selected to false
+     */
     if (selectedTemplateKeyOutputIndex && selectedTemplateKeyOutputIndex.length === 0) {
       this.selected = false;
     }
@@ -70,7 +75,6 @@ export class TextGentemplateComponent implements OnInit {
   }
 
 
-
   removeThisChannel(channel: string) {
     let isChannelPresent = this.outputItem.include.find(e => e === channel);
     if (isChannelPresent) {
@@ -92,6 +96,10 @@ export class TextGentemplateComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit(): void {
+    this.textarea.nativeElement.focus();
   }
 
 }

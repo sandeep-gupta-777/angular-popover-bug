@@ -931,6 +931,19 @@ progressbar {
   }
 }
 
+.always-show{
+  .show-on-hover-item{
+    visibility: visible;
+  }
+  &:hover{
+    .show-on-hover-item{
+      visibility: visible;
+    }
+  }
+}
+
+
+
 #button-configure-dropdown{
   top: -180px !important;
 }

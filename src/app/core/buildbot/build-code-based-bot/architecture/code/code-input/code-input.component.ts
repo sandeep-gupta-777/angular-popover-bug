@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {Store, Select} from '@ngxs/store';
 import {IBot, IBotVersionData, IBotVersionResult, ICode} from '../../../../../interfaces/IBot';
 import {ServerService} from '../../../../../../server.service';
@@ -45,6 +45,8 @@ export interface IQuickReplyItem {
   'content_type': 'text',
   'title': string,
   'payload': string
+  /*custom fields*/
+  textType?:string;//payload, url
 }
 
 export interface IOutputItem {
@@ -94,7 +96,8 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   selectedTemplateKeyOutputIndex: number[] = [];
   selectedIntentList: string[] = ['A2', 'A3', 'A4'];
   validationMessageToggle: boolean = false;
-  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+  // @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+  @ViewChildren('gentemplateItem') private gentemplateItems: QueryList<ElementRef>;
   templateKeyDict;
 
   onSubmit(modelGridGenTempNames) {
@@ -423,6 +426,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   @ViewChild(CodeEditorComponent) codeEditorComponent: ElementRef;
+  @ViewChild('genTempGridItemGrid') genTempGridItemGrid: ElementRef;
 
 
   tabClicked(activeTab: string) {
@@ -705,10 +709,23 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   scrollToBottom(): void {
+    debugger;
     try {
-      console.log(this.myScrollContainer);
-      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+      /*TODO: use ViewChildren instead of class name.
+      * TODO: put animation here*/
+      // this.genTempGridItemGrid.nativeElement.scrollTop = this.genTempGridItemGrid.nativeElement.scrollHeight -500;
+      // let arr = this.gentemplateItems.toArray();
+      // let lastItem = arr[arr.length-1]
+      // lastItem.nativeElement.scrollIntoView();
+      // console.log(lastItem.nativeElement);
+
+      let arr1 = document.getElementsByClassName('gentemplateItem')
+      let x = arr1[arr1.length-1];
+      x.scrollIntoView();
+
+
     } catch (err) {
+      console.log(err);
     }
   }
 

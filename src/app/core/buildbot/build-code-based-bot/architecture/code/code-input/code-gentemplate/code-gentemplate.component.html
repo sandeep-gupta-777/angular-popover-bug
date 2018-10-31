@@ -21,7 +21,6 @@
     </div>
     <app-code-editor class="child-expand" [text]="{text: outputItemClone|json}" (textChangedEvent)="codeEditorTextCHanged($event)"></app-code-editor>
     <div class="p-1 icon-footer">
-      <p>{{(channelNameList||{})|json}}</p>
       <span class="child-no-expand cursor-pointer">
         <img *ngFor="let channel of channelNameList" class="logo-image mx-1" [src]="(channel|logosByIntegrationName)?.icon"
           (click)="removeThisChannel(channel)" [ngStyle]="{'opacity': imgOpacity(channel) ? 1 : 0.3 }">

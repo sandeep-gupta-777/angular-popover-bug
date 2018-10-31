@@ -1,10 +1,22 @@
-import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {IMessageData} from '../../../../../../../../interfaces/chat-session-state';
 import {LoggingService} from '../../../../../../../logging.service';
 import {ActivatedRoute} from '@angular/router';
 import {ICarousalItem, IOutputItem} from '../code-input.component';
 import {init} from 'protractor/built/launcher';
 import set = Reflect.set;
+import {NgForm} from '@angular/forms';
 
 declare var $: any;
 
@@ -19,7 +31,7 @@ enum ECarasoulMoveDirection {
   styleUrls: ['./code-input-caraosal.component.scss']
 })
 export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
-
+  @ViewChild('mainInput') mainInput: ElementRef;
   @Input() outputItem: IOutputItem;
   @Input() isFullScreenPreview = false;
   @Input() isParentSessionsModal = false;
@@ -44,6 +56,9 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   selected: boolean;
 
   @Input() set selectedTemplateKeyOutputIndex(selectedTemplateKeyOutputIndex: number[]) {
+    /*when parent components empty selectedTemplateKeyOutputIndex array,
+   *we should turn this.selected to false
+   */
     if (selectedTemplateKeyOutputIndex && selectedTemplateKeyOutputIndex.length === 0) {
       this.selected = false;
     }
@@ -105,7 +120,8 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
     return;
   }
 
-   x = 0;
+  x = 0;
+
   duplicateCarasolItem(index) {
     let carasolItems = this.outputItem.generic_template[0].elements;
     let itemToBeDuplicated = carasolItems[index];
@@ -154,9 +170,13 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
       index: this.myIndex
     }));
   }
+
   ResCarouselSize1;
 
   ngAfterViewInit() {
+
+    this.mainInput.nativeElement.focus();
+
     let self = this;
     self.carasolItems = self.caraosalItem.toArray();
 
@@ -187,9 +207,9 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
 
       $(window).resize(function () {
         self.x = 1;
-        setTimeout(()=>{
+        setTimeout(() => {
           ResCarouselSize();
-        })
+        });
       });
 
       //this function define the size of the items
@@ -204,10 +224,10 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
         // var btnParentSb = '';
         // var itemsSplit: any = '';
         self.MultiCarouselWidth = sampwidth = $(MultiCarousel).width();
-        if(!sampwidth){
+        if (!sampwidth) {
           debugger;
         }
-        console.log(sampwidth,'=============')
+        console.log(sampwidth, '=============');
 
         // var bodyWidth = $('body').width();
         $(MultiCarouselInner).each(function () {
@@ -314,17 +334,28 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
     this.recalculateWidthForCaraousalItems();
   }
 
-  saveButtonConfig(btnConfigForm, i) {
-
+  saveButtonConfig(btnConfigForm: NgForm, i: number, buttonIndex: number) {
+    console.log(btnConfigForm.value);
+    this.outputItem.generic_template[0].elements[i].button[buttonIndex] = btnConfigForm.value;
   }
 
-  ngAfterViewChecked(){
+  ngAfterViewChecked() {
     console.log('=================ngAfterViewChecked====================');
-    if(this.x){
+    if (this.x) {
       debugger;
       this.ResCarouselSize1();
       this.x = 0;
     }
   }
+
+  addNewButtonToCarasol(carasolItemIndex) {
+    this.outputItem.generic_template[0].elements[carasolItemIndex].button.push({
+      'type': 'postback',
+      'title': 'BUTTON_NAME',
+      'payload': 'expire'
+    });
+    console.log(this.outputItem.generic_template[0].elements[carasolItemIndex]);
+  }
+
 
 }

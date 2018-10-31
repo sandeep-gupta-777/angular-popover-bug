@@ -22,8 +22,8 @@ export enum EQuickReplySubTabsType {
 export class CodeQuickReplyComponent implements OnInit, AfterViewInit {
   myEQuickReplyTypes = EQuickReplyTypes;
   myEQuickReplySubTabsType = EQuickReplySubTabsType;
-  selectedSubTab:string = EQuickReplySubTabsType.payload;
-  selectedTab: string = EQuickReplyTypes.text;
+  textType:string = EQuickReplySubTabsType.payload;
+  content_type: string;
   @Input() quick_reply:IQuickReplyItem;
   @ViewChild('quickReplyForm') quickReplyForm: NgForm;
   @Output() hideQuickReplyDropdown$ = new EventEmitter();
@@ -32,16 +32,19 @@ export class CodeQuickReplyComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    debugger;
+    this.content_type = this.quick_reply.content_type;
+    this.textType = this.quick_reply.textType|| EQuickReplySubTabsType.payload;
   }
 
   tabChanged(selectedTab) {
-    this.selectedTab = selectedTab;
+    this.content_type = selectedTab;
     this.quickReplyForm.form.patchValue(this.quick_reply);
 
   }
 
   subTabChanged(selectedSubTab) {
-    this.selectedSubTab = selectedSubTab;
+    this.textType = selectedSubTab;
     this.quickReplyForm.form.patchValue(this.quick_reply);
   }
 

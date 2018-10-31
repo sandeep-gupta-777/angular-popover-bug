@@ -96,8 +96,25 @@
   display: grid;
   //width: 80vw;
   grid-template-columns: 20% 60% 20%;
-  grid-template-rows: 100%;
+  grid-template-rows: 30px calc(100% - 30px);
+  grid-template-areas :
+  'left centerHeader bot-templates'
+  'left genTempGridItem bot-templates'
+;
   background-color: #f7f7f7;
+
+  .center-header{
+    grid-area: centerHeader;
+  }
+  .left-sidebar{
+    grid-area: left;
+  }
+  .genTempGridItemGrid{
+    grid-area: genTempGridItem;
+  }
+  .bot-templates{
+    grid-area: bot-templates;
+  }
 }
 
 .genTempGridItem {
@@ -187,7 +204,6 @@
 }
 
 .bot-templates {
-  border-left: solid 1px #e0e0e0;
   ul {
     list-style-type: none;
     padding: 0;

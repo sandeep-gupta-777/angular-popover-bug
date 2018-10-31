@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IOutputItem} from '../core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component';
 
 @Component({
@@ -6,13 +6,20 @@ import {IOutputItem} from '../core/buildbot/build-code-based-bot/architecture/co
   templateUrl: './code-quick-reply-wrapper.component.html',
   styleUrls: ['./code-quick-reply-wrapper.component.scss']
 })
-export class CodeQuickReplyWrapperComponent implements OnInit {
+export class CodeQuickReplyWrapperComponent implements OnInit, AfterViewInit {
 
   constructor() { }
   @Input() outputItem: IOutputItem;
   @Input() isFullScreenPreview = false;
   @Input() isParentSessionsModal = false;
-  @Input() selectedTemplateKeyOutputIndex:number;
+  @Input() set selectedTemplateKeyOutputIndex(val:number[]){
+    /*when parent components empty selectedTemplateKeyOutputIndex array,
+     *we should turn this.selected to false
+     */
+    if(val.length===0){
+      this.selected = false;
+    }
+  }
   @Input() myIndex: number;
   @Input() channelNameList: string[];
   @Input() totalResponseTemplateComponentCount: number;
@@ -22,6 +29,7 @@ export class CodeQuickReplyWrapperComponent implements OnInit {
   @Output() selectionChanged: EventEmitter<string> = new EventEmitter<string>();
   @Output() sendMessageToBotServer$ = new EventEmitter();
 
+  @ViewChild('mainInput') mainInput: ElementRef;
   selected;
   moveUp(i) {
     this.moveTempUp.emit(i);
@@ -47,6 +55,10 @@ export class CodeQuickReplyWrapperComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit(): void {
+    this.mainInput.nativeElement.focus();
   }
 
 }
