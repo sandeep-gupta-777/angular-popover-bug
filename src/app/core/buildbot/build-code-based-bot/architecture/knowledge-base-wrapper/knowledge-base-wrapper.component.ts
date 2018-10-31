@@ -81,6 +81,20 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
 
   updateOrSaveCustomNer(selectedOrNewRowData: ICustomNerItem) {
 
+    try {
+      /*TODO: this is temporary fix to remove copy paste from excel issue*/
+      selectedOrNewRowData.values.forEach((obj, index, array)=>{
+        if(obj){
+          for (let key in obj){
+            obj[key] = obj[key] && obj[key].trim();
+          }
+        }
+      });
+    }catch (e) {
+      console.log(e);
+    }
+
+
     this.serverService.updateOrSaveCustomNer(selectedOrNewRowData, this.bot)
       .subscribe((value) => {
 
