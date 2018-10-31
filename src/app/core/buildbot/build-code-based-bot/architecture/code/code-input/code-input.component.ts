@@ -8,22 +8,22 @@ import {
   UpdateBotInfoByIdInBotInBotList,
   UpdateVersionInfoByIdInBot
 } from '../../../../../view-bots/ngxs/view-bot.action';
-import {SaveCodeInfo} from '../../../../ngxs/buildbot.action';
-import {ViewBotStateModel} from '../../../../../view-bots/ngxs/view-bot.state';
-import {Observable, Subscription} from 'rxjs';
-import {IHeaderData} from '../../../../../../../interfaces/header-data';
-import {UtilityService} from '../../../../../../utility.service';
-import {Router, ActivatedRoute} from '@angular/router';
-import {IBotCreationState} from '../../../../ngxs/buildbot.state';
-import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {BsModalService} from 'ngx-bootstrap/modal';
-import {CodeEditorComponent} from '../code-editor/code-editor.component';
-import {EBotType} from '../../../../../view-bots/view-bots.component';
-import {EventService} from '../../../../../../event.service';
-import {take} from 'rxjs/operators';
-import {LoggingService} from '../../../../../../logging.service';
-import {DebugBase} from '../../../../../../debug-base';
-import {NgForm} from '@angular/forms';
+import { SaveCodeInfo } from '../../../../ngxs/buildbot.action';
+import { ViewBotStateModel } from '../../../../../view-bots/ngxs/view-bot.state';
+import { Observable, Subscription } from 'rxjs';
+import { IHeaderData } from '../../../../../../../interfaces/header-data';
+import { UtilityService } from '../../../../../../utility.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { IBotCreationState } from '../../../../ngxs/buildbot.state';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { CodeEditorComponent } from '../code-editor/code-editor.component';
+import { EBotType } from '../../../../../view-bots/view-bots.component';
+import { EventService } from '../../../../../../event.service';
+import { take } from 'rxjs/operators';
+import { LoggingService } from '../../../../../../logging.service';
+import { DebugBase } from '../../../../../../debug-base';
+import { NgForm } from '@angular/forms';
 
 export enum EBotVersionTabs {
   df_template = 'df_template',
@@ -57,7 +57,8 @@ export interface IOutputItem {
     'text': string,
     'quick_replies': [
       IQuickReplyItem
-  ]}]
+    ]
+  }]
 
 }
 
@@ -156,11 +157,11 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
    }
    */
 
-  channelList: { name: string, displayName: string }[];// = ["facebook", "web", "imiconnect", "imichat", "skype"];
-  channelNameList: string[];
+  channelList: { name: string, displayName: string }[] = [];// = ["facebook", "web", "imiconnect", "imichat", "skype"];
+  channelNameList: string[] = [];
 
   openNewIntentModal(template) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-w-30vw'});
+    this.modalRef = this.modalService.show(template, { class: 'modal-w-30vw' });
     return;
   }
 
@@ -177,7 +178,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
       'text': [''],
       'include': ['web', ...this.channelNameList],
     }];
-    this.templateKeyDict = {...this.templateKeyDict, ...intentUnit};
+    this.templateKeyDict = { ...this.templateKeyDict, ...intentUnit };
     this.modalRef.hide();
     this.selectedTemplateKeyInLeftSideBar = this.newTemplateKey;
     this.newTemplateKey = '';
@@ -198,7 +199,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
       'generic_template': [{
         'elements': [{
           'image_url': 'https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg',
-          'button': [{'type': 'postback', 'title': 'Renew Now', 'payload': 'expire'}],
+          'button': [{ 'type': 'postback', 'title': 'Renew Now', 'payload': 'expire' }],
           'title': 'Contract Renewal'
         }]
       }]
@@ -213,8 +214,8 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
       'include': ['facebook', 'skype', 'line', 'viber'],
       'quick_reply': [{
         'text': 'Would you like us to activate this ?',
-        'quick_replies': [{'content_type': 'text', 'title': 'Yes', 'payload': 'yes'},
-          {'content_type': 'text', 'title': 'No', 'payload': 'no'}]
+        'quick_replies': [{ 'content_type': 'text', 'title': 'Yes', 'payload': 'yes' },
+        { 'content_type': 'text', 'title': 'No', 'payload': 'no' }]
       }]
     };
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(quickReplyUnit);
@@ -292,7 +293,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   selectedListCopyModel(IntentSelectionModal) {
-    this.modalRef = this.modalService.show(IntentSelectionModal, {class: 'modal-lg'});
+    this.modalRef = this.modalService.show(IntentSelectionModal, { class: 'modal-lg' });
   }
 
   selectedListCopy(modelGenTempNameForm: NgForm) {
@@ -322,18 +323,18 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   getTemplateKeyDictClone() {
 
-    if (!this.templateKeyDictClone) this.templateKeyDictClone = {...this.templateKeyDict};
+    if (!this.templateKeyDictClone) this.templateKeyDictClone = { ...this.templateKeyDict };
     return this.templateKeyDictClone;
   }
 
   editorCode;
   // editorCodeObj:{text:string} = {text:""};
   editorCodeObj = {
-    'df_template': {text: ''},
-    'df_rules': {text: ''},
-    'generation_rules': {text: ''},
-    'generation_templates': {text: ''},
-    'workflow': {text: ''},
+    'df_template': { text: '' },
+    'df_rules': { text: '' },
+    'generation_rules': { text: '' },
+    'generation_templates': { text: '' },
+    'workflow': { text: '' },
   };
   showVersionList = false;
 
@@ -371,19 +372,19 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
                 name: integrationKey,
                 displayName: integrationKey
               };
-            });
-          this.channelList.unshift({name: 'all', displayName: 'All'});
+            })
+            .filter((enabledIntegrations) => this.bot.integrations.channels[enabledIntegrations.name].enabled);
+          this.channelList.unshift({ name: 'all', displayName: 'All' });
         }
 
-        this.selectedChannelOfGenTemplate = {name: 'all', displayName: 'All'};
-        this.channelNameList = this.channelList.map(channel => {
-          return channel.name;
-        }).filter(e => e !== 'all');
+        this.selectedChannelOfGenTemplate = { name: 'all', displayName: 'All' };
+        this.channelNameList = this.channelList.map(channel => { return channel.name }).filter(e => e !== 'all');
+
         setTimeout(() => {
           if (this.selectedVersion && this.selectedVersion[EBotVersionTabs.generation_templates]) {
             this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
             if (this.templateKeyDict) {
-              this.templateKeyDictClone = {...this.templateKeyDict};
+              this.templateKeyDictClone = { ...this.templateKeyDict };
               if (!this.selectedTemplateKeyInLeftSideBar) this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
             }
           }
@@ -422,7 +423,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   async openFile(inputEl) {
     this.editorCodeObj[this.activeTab].text = await this.utilityService.readInputFileAsText(inputEl);
-    this.editorCodeObj[this.activeTab] = {...this.editorCodeObj[this.activeTab]};
+    this.editorCodeObj[this.activeTab] = { ...this.editorCodeObj[this.activeTab] };
   }
 
   @ViewChild(CodeEditorComponent) codeEditorComponent: ElementRef;
@@ -435,14 +436,14 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     /*TODO: We dont need code here... just replace it with selectedVersion. Also we dont need ICode interface*/
     if (this.selectedVersion) {
       this.editorCodeObj[this.activeTab].text = this.selectedVersion[this.activeTab];
-      this.editorCodeObj[this.activeTab] = {...this.editorCodeObj[this.activeTab]};
+      this.editorCodeObj[this.activeTab] = { ...this.editorCodeObj[this.activeTab] };
     }
 
     if (activeTab === EBotVersionTabs.generation_templates) {
       this.convertGenTemplateCodeStringIntoUiComponents();
     }
     this.router.navigate([`core/botdetail/${EBotType.chatbot}/`, this.bot.id], {
-      queryParams: {'code-tab': activeTab},
+      queryParams: { 'code-tab': activeTab },
       queryParamsHandling: 'merge',
       replaceUrl: true
     });
@@ -453,7 +454,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     try {
 
       this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
-      this.templateKeyDictClone = {...this.templateKeyDict};
+      this.templateKeyDictClone = { ...this.templateKeyDict };
     } catch (e) {
       console.log(e);
     }
@@ -515,7 +516,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
     let codeValidationUrl = this.constantsService.codeValidationUrl();
 
-    this.serverService.makePostReq<any>({headerData, body, url: codeValidationUrl})
+    this.serverService.makePostReq<any>({ headerData, body, url: codeValidationUrl })
       .subscribe((validationResult) => {
         console.log('validation resulted ');
         this.selectedVersion.validation[this.activeTab] = validationResult[this.activeTab];
@@ -531,7 +532,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
       });
   }
 
-  saveSelectedVersion() {
+  saveSelectedVersion(validationWarningModal) {
 
     if (this.showGenTempEditorAndHideGenTempUi === false) {
       this.convertUiDictToGenTemplateCode();
@@ -552,7 +553,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     };
     let codeValidationUrl = this.constantsService.codeValidationUrl();
 
-    this.serverService.makePostReq<any>({headerData, body: validatinBody, url: codeValidationUrl})
+    this.serverService.makePostReq<any>({ headerData, body: validatinBody, url: codeValidationUrl })
       .subscribe((validationResult) => {
         this.selectedVersion.validation = validationResult;
         if (!this.selectedVersion.validation.df_template.error &&
@@ -571,12 +572,12 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
           };
           if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
             let url = this.constantsService.getSaveVersionByBotId(this.bot.id);
-            this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
+            this.serverService.makePutReq({ url, body: this.selectedVersion, headerData })
               .subscribe((value: IBotVersionData) => {
                 this.selectedVersion = Object.assign(this.selectedVersion, value);
                 LoggingService.log(this.bot.store_bot_versions);
                 this.store.dispatch([
-                  new UpdateVersionInfoByIdInBot({data: value, botId: this.bot.id})
+                  new UpdateVersionInfoByIdInBot({ data: value, botId: this.bot.id })
                 ]);
                 this.utilityService.showSuccessToaster('New version saved');
               });
@@ -588,19 +589,64 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
             delete body.forked_from;
             /*remove version id = -1, from store*/
             this.bot.store_bot_versions.length = 0;
-            this.serverService.makePostReq({url, body, headerData})
+            this.serverService.makePostReq({ url, body, headerData })
               .subscribe((forkedVersion: IBotVersionData) => {
                 LoggingService.log(forkedVersion);
                 this.selectedVersion = forkedVersion;
                 this.utilityService.showSuccessToaster('New version forked');
                 this.store.dispatch([
-                  new UpdateVersionInfoByIdInBot({data: forkedVersion, botId: this.bot.id})
+                  new UpdateVersionInfoByIdInBot({ data: forkedVersion, botId: this.bot.id })
                 ]);
               });
           }
         }
         else {
-          this.utilityService.showErrorToaster('Your code has error. Please correct it before saving');
+          if (this.bot.active_version_id === this.selectedVersion.id) {
+            this.modalRef = this.modalService.show(validationWarningModal, { class: 'modal-md' });
+          }
+          else {
+            this.utilityService.showErrorToaster('Your code has error. But it will be save as its not active');
+
+            this.selectedVersion.updated_fields = this.selectedVersion.changed_fields;
+            this.selectedVersion.changed_fields = {
+              'df_template': false,
+              'df_rules': false,
+              'generation_rules': false,
+              'generation_template': false,
+              'workflows': false
+            };
+            if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
+              let url = this.constantsService.getSaveVersionByBotId(this.bot.id);
+              this.serverService.makePutReq({ url, body: this.selectedVersion, headerData })
+                .subscribe((value: IBotVersionData) => {
+                  this.selectedVersion = Object.assign(this.selectedVersion, value);
+                  LoggingService.log(this.bot.store_bot_versions);
+                  this.store.dispatch([
+                    new UpdateVersionInfoByIdInBot({ data: value, botId: this.bot.id })
+                  ]);
+                  this.utilityService.showSuccessToaster('New version saved');
+                });
+            } else {
+              let url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
+              let body = this.selectedVersion;
+              delete body.id;
+              delete body.resource_uri;
+              delete body.forked_from;
+              /*remove version id = -1, from store*/
+              this.bot.store_bot_versions.length = 0;
+              this.serverService.makePostReq({ url, body, headerData })
+                .subscribe((forkedVersion: IBotVersionData) => {
+                  LoggingService.log(forkedVersion);
+                  this.selectedVersion = forkedVersion;
+                  this.utilityService.showSuccessToaster('New version forked');
+                  this.store.dispatch([
+                    new UpdateVersionInfoByIdInBot({ data: forkedVersion, botId: this.bot.id })
+                  ]);
+                });
+            }
+
+          }
+
         }
       });
 
@@ -612,11 +658,11 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     if (parseUiDict) {
       this.selectedVersion.generation_templates = parseUiDict;
     }
-    this.editorCodeObj = {...this.editorCodeObj, generation_templates: {text: this.selectedVersion.generation_templates}};
+    this.editorCodeObj = { ...this.editorCodeObj, generation_templates: { text: this.selectedVersion.generation_templates } };
   }
 
   openForkNewVersionModal(template) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
     return;
 
     // let headerData: IHeaderData = {
@@ -648,7 +694,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     }
     this.modalRef.hide();
     let forkedVersionInfo = this.bot.store_bot_versions.find((versions) => versions.version == this.forked_version_number);
-    forkedVersionInfo = {...forkedVersionInfo};
+    forkedVersionInfo = { ...forkedVersionInfo };
     forkedVersionInfo.updated_fields = forkedVersionInfo.changed_fields;
     forkedVersionInfo.changed_fields = {
       'df_template': false,
@@ -667,7 +713,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     delete forkedVersionInfo.resource_uri;
     delete forkedVersionInfo.resource_uri;
 
-    this.serverService.makePostReq({url, body: forkedVersionInfo, headerData})
+    this.serverService.makePostReq({ url, body: forkedVersionInfo, headerData })
       .subscribe((forkedVersion: IBotVersionData) => {
         LoggingService.log(forkedVersion);
         this.bot.store_bot_versions.push(forkedVersion);
@@ -675,7 +721,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
         this.forked_comments = '';
         this.forked_version_number = null;
         this.store.dispatch([
-          new UpdateVersionInfoByIdInBot({botId: this.bot.id, data: forkedVersion})
+          new UpdateVersionInfoByIdInBot({ botId: this.bot.id, data: forkedVersion })
         ]).subscribe(() => {
           this.changeSelectedVersion(forkedVersion);
           // this.selectedVersion = forkedVersion;
@@ -759,7 +805,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   editTemplateKey(templateKeyEditForm) {
-    let {old_key, new_key} = templateKeyEditForm.value;
+    let { old_key, new_key } = templateKeyEditForm.value;
     this.utilityService.renameKeyInObject(this.templateKeyDict, old_key, new_key);
     this.selectedTemplateKeyInLeftSideBar = new_key;
     this.modalRef.hide();
