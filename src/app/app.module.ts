@@ -45,6 +45,7 @@ import {MsToHhMmPipe} from './ms-to-hh-mm.pipe';
 import {BackendDevComponent} from './backend-dev/backend-dev.component';
 import {ChatService} from './chat.service';
 import {ObjectArrayCrudService} from './object-array-crud.service';
+import {SplashScreenComponent} from './splash-screen/splash-screen.component';
 // import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 
 const routes: Route[] = [

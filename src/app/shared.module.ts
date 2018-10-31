@@ -46,10 +46,12 @@ import {AvatorFormComponent} from './core/buildbot/build-code-based-bot/bot-conf
 import {MyIfDirective} from './ngIf-permission.directive';
 import {ErrorDescriptionPipe} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/bot-config-input/error-description.pipe';
 import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
+import {SplashScreenComponent} from './splash-screen/splash-screen.component';
 
 @NgModule({
   declarations: [
     IntegrationLogosPipe,
+    SplashScreenComponent,
     DataManageFormComponent,
     BasicInfoFormComponent,
     BotConfigInputComponent,
@@ -98,6 +100,7 @@ import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
   ],
   exports:[
     MyIfDirective,
+    SplashScreenComponent,
     HighlightDirective,
     ChartModule,
     IntegrationLogosPipe,

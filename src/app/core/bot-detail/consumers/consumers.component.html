@@ -3,7 +3,7 @@
     <!--&lt;!&ndash; <div *ngIf="!isFullscreen"><i class="fa fa-external-link pr-2 cursor-pointer" style="font-size: 19px" (click)="goFullScreen()"></i></div> &ndash;&gt;-->
   <!--</div>-->
 
-  <app-smart-table
+  <app-smart-table *ngIf="consumerTableData && consumerTableData.length>0"
     [ngClass]="{'disable-decrypt-lock-icon':isDeCryptAuditAccessDenied}"
     class="d-flex-column-last-child-flex-grow-1"
     [totalRecords]="totalRecords"
@@ -43,3 +43,11 @@
         </div>
       </div>
     </ng-template>
+
+
+  <app-splash-screen *ngIf="consumerTableData && consumerTableData.length===0"
+                     [imageHRef]="myESplashScreens.consumers"
+                     class="d-flex justify-content-center align-items-center"
+                     style="position: absolute; left: 0; right: 0;bottom: 0; top: 0;"
+  ></app-splash-screen>
+

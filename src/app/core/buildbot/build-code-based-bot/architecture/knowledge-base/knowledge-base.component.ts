@@ -13,6 +13,7 @@ import {Observable} from 'rxjs';
 import {IUser} from '../../../../interfaces/user';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {b} from '@angular/core/src/render3';
+import {ESplashScreens} from '../../../../../splash-screen/splash-screen.component';
 
 @Component({
   selector: 'app-knowledge-base',
@@ -22,6 +23,8 @@ import {b} from '@angular/core/src/render3';
 export class KnowledgeBaseComponent implements OnInit {
 
   // @Input() bot: IBot;
+
+  myESplashScreens = ESplashScreens;
   @ViewChild('form') f1: NgForm;
   myEAllActions = EAllActions;
   myERouteNames = ERouteNames;

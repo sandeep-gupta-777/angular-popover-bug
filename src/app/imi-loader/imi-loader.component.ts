@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-imi-loader',
@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./imi-loader.component.scss']
 })
 export class ImiLoaderComponent implements OnInit {
-
   constructor() { }
 
   ngOnInit() {

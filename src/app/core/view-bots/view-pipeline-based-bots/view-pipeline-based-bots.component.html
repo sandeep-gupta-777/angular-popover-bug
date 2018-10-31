@@ -1,3 +1,21 @@
-<div class="grid-bot-preview" *ngIf="(pipelineBasedBotList$|async) as pipelineBasedBotList">
-  <app-bot-preview-card *ngFor="let bot of pipelineBasedBotList|sortBots" [bot] = bot></app-bot-preview-card>
+<!--<div class="grid-bot-preview" *ngIf="pipelineBasedBotList">-->
+  <!--<app-bot-preview-card *ngFor="let bot of pipelineBasedBotList|sortBots" [bot] = bot></app-bot-preview-card>-->
+<!--</div>-->
+
+
+<div class="grid-bot-preview" style="min-height: 70vh; position: relative" *ngIf="pipelineBasedBotList; else loaderTemplate">
+  <ng-container *ngIf="pipelineBasedBotList.length>0">
+    <app-bot-preview-card *ngFor="let bot of pipelineBasedBotList|sortBots" [bot]=bot></app-bot-preview-card>
+  </ng-container>
+
+  <app-splash-screen *ngIf="pipelineBasedBotList.length===0"
+                     [imageHRef]="myESplashScreens.pipeline_bots_empty"
+                     class="d-flex justify-content-center align-items-center"
+                     style="position: absolute; left: 0; right: 0;bottom: 0; top: 0;"
+  ></app-splash-screen>
+
 </div>
+
+<ng-template #loaderTemplate>
+  <app-imi-loader></app-imi-loader>
+</ng-template>

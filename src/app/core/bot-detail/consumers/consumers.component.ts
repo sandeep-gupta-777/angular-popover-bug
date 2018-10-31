@@ -11,6 +11,7 @@ import { ISessionItem } from '../../../../interfaces/sessions';
 import { IHeaderData } from '../../../../interfaces/header-data';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import {PermissionService} from '../../../permission.service';
+import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 
 @Component({
   selector: 'app-consumers',
@@ -23,6 +24,7 @@ export class ConsumersComponent implements OnInit {
   @Input() bot: IBot;
   bot_id: number;
   totalRecords: number;
+  myESplashScreens = ESplashScreens;
   @Select() botlist$: Observable<ViewBotStateModel>;
   isDeCryptAuditAccessDenied:boolean = false
   consumerTableData: IConsumerResults[];
@@ -41,6 +43,7 @@ export class ConsumersComponent implements OnInit {
     private modalService: BsModalService,
     private store: Store) {
   }
+
 
   reloadData() {
     this.loadConsumerData();

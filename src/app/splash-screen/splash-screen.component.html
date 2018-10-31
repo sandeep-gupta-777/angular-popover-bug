@@ -1,0 +1,4 @@
+<div class="d-flex flex-column align-items-center justify-content-center">
+  <img [src]="'/assets/splashscreens/'+imageHRef" alt="">
+  <button *ngIf="buttonText" style="min-width: 100px!important;" class="btn btn-theme-success-sm mt-2" (click)="buttonClicked.emit()">{{buttonText}}</button>
+</div>

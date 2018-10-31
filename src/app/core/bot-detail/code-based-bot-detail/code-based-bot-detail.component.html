@@ -190,16 +190,16 @@
     </div>
     <!--architeture ends-->
 
-    <div class="p-0 d-flex d-flex-column-custom  flex-grow-1"  *ngIf="selectedTab==='testing'">
-      <app-bot-testing class=" d-flex-column-custom flex-grow-1" [bot]="bot"></app-bot-testing>
+    <div class="p-0 d-flex d-flex-column-custom flex-grow-1"  *ngIf="selectedTab==='testing'">
+      <app-bot-testing style="position: relative" class="child-expand d-flex-column-custom flex-grow-1" [bot]="bot"></app-bot-testing>
     </div>
 
-    <div class="col-12 scroll-wrapper" *ngIf="selectedTab==='sessions'">
-      <app-bot-sessions [id]="bot.id" [bot]="bot"></app-bot-sessions>
+    <div class="scroll-wrapper d-flex-column-last-child-flex-grow-1" *ngIf="selectedTab==='sessions'">
+      <app-bot-sessions class="child-expand d-flex-column-last-child-flex-grow-1" style="position: relative" [id]="bot.id" [bot]="bot"></app-bot-sessions>
     </div>
 
     <div class="d-flex-column-last-child-flex-grow-1 scroll-wrapper" *ngIf="selectedTab==='consumer'">
-      <app-consumers class="d-flex-column-last-child-flex-grow-1 " [id]="bot.id" [bot]="bot"></app-consumers>
+      <app-consumers style="position: relative" class="child-expand d-flex-column-last-child-flex-grow-1 " [id]="bot.id" [bot]="bot"></app-consumers>
     </div>
 
   </div>

@@ -1,4 +1,4 @@
-<div class="d-flex-column-custom justify-content-end mb-3">
+<div class="d-flex-column-custom justify-content-end mb-3" *ngIf="!showSplashScreen">
   <div class="d-flex align-items-center justify-content-end">
     <!-- <i class="fa fa-plus pr-4"></i>
     <i class="fa fa-minus pr-4"></i> -->
@@ -20,7 +20,7 @@
 
 <!--<div [hidden]="!testCaseData" (change)="onTableChange()" class="d-flex-column-custom flex-grow-1">-->
 <app-handsontable
-  [hidden]="!testCaseData"
+  *ngIf="testCaseData && !showSplashScreen"
   (change)="onTableChange()"
   [testData]="testCaseData"
   [columns]="handontable_column"
@@ -29,9 +29,14 @@
 >
 </app-handsontable>
 
-<!--<app-handsontable [columns]="handontable_column" [colHeaders]="handontable_colHeaders"></app-handsontable>-->
-<!--</div>-->
-<!--<app-handsontable [columns]="handontable_column" [colHeaders]="handontable_colHeaders"></app-handsontable>-->
+<app-splash-screen *ngIf="showSplashScreen"
+                   [imageHRef]="myESplashScreens.testing"
+                   class="d-flex justify-content-center align-items-center"
+                   (buttonClicked)="showSplashScreen=false"
+                   [buttonText]="'Create test cases'"
+                   style="position: absolute; top: 0; left: 0; right: 0; bottom: 0"
+></app-splash-screen>
+
 
 <ng-template #Primarytemplat>
   <div class="danger-modal">
