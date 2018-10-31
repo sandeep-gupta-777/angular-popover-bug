@@ -56,6 +56,8 @@ import {CodeInputCaraosalComponent} from '../buildbot/build-code-based-bot/archi
 import {CodeQuickReplyComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-quick-reply/code-quick-reply.component';
 import {CodeQuickReplyWrapperComponent} from '../../code-quick-reply-wrapper/code-quick-reply-wrapper.component';
 import {CodeQuickReplyButtonWrapperComponent} from '../../code-quick-reply-button-wrapper/code-quick-reply-button-wrapper.component';
+import {TypeForIntegrationTypePipe} from '../../type-for-integration-type.pipe';
+import {IntegrationItemForTypePipe} from '../../integration-item-for-type.pipe';
 
 const routes: Route[] = [
   {
@@ -99,6 +101,8 @@ const routes: Route[] = [
     CodeGentemplateComponent,
     TextGentemplateComponent,
     IntegrationOptionListComponent,
+    TypeForIntegrationTypePipe,
+    IntegrationItemForTypePipe,
     IntegrationItemComponent,
     DraggableDirective,
     DropTargetDirective,

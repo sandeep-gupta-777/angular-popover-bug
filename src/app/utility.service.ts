@@ -831,4 +831,8 @@ export class UtilityService {
 
   }
 
+  deDupPrimitiveArray(arr:any[]){
+    return Array.from(new Set(arr));
+  }
+
 }

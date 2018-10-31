@@ -1,39 +1,74 @@
 <!--<button (click)="click()">click()</button>-->
 <!--<form #test="ngForm">-->
-  <!--<ui-switch type="checkbox" size="small" ngModel [checked]="false"  name="enabled" ></ui-switch>-->
+<!--<ui-switch type="checkbox" size="small" ngModel [checked]="false"  name="enabled" ></ui-switch>-->
 <!--</form>-->
 <form class="grid-integrations form-theme" style="width: 100%; overflow-y: auto" #form_new="ngForm">
 
-  <div *ngFor="let integration_type of myObject.keys(formValue)"
-       class="grid-integration-groups px-4 mb-3"
+  <div *ngFor="let integration_type of integration_types"
        ngModelGroup="{{integration_type}}">
-    <div class="integration-heading">{{integration_type|integrationNameFormatter|titlecase}}</div>
-    <div
-      *ngFor="let integration_keys of myObject.keys(formValue[integration_type])"
-      requiredIfOneFilledValidator
-      ngModelGroup="{{integration_keys}}"
-      class="border px-3">
-      <div class="d-flex justify-content-center align-items-center" style="height: 90px">
-        <img
-             style="height: 16px; width: 16px"
-             [src]="getLogo(integration_keys)"
-             alt="">
-        <div class="heading my-0 mx-2">{{integration_keys.toUpperCase()}}</div>
-        <!--<p>{{formValueFinal[form_value_key][integration_keys].enabled}}</p>-->
-        <!--<p>{{formValue[form_value_key][integration_keys].enabled}}</p>-->
-        <ui-switch size="small" [checked]="false" [(ngModel)]="formValueFinal[integration_type][integration_keys]['enabled']" name="enabled"></ui-switch>
-      </div>
-      <div [hidden]="!formValueFinal[integration_type][integration_keys]['enabled']" >
-        <div *ngFor="let integration_input_keys of formValue[integration_type][integration_keys]|integrationInputKeysFilter">
-          <div class="form-group">
-            <label class="required">{{integration_input_keys|displayNameForKeyIntegration}}</label>
-            <input ngModel type="text"
-                   class="form-control"
-                   [name]="integration_input_keys">
+    <div class="grid-integration-groups" *ngFor="let type of integration_type|typeForIntegrationType">
+      <div class="integration-heading my-1">{{type|titlecase}}</div>
+      <div *ngFor="let key of type|integrationItemForType" class="mb-3">
+        <!--<div *ngFor="let integration_keys of myObject.keys(formValue[integration_type])"-->
+        <div
+          requiredIfOneFilledValidator
+          ngModelGroup="{{key}}"
+          class="border px-3">
+          <div class="d-flex justify-content-center align-items-center" style="height: 90px">
+            <img
+              style="height: 16px; width: 16px"
+              [src]="getLogo(key)"
+              alt="">
+            <div class="heading my-0 mx-2">{{key.toUpperCase()}}</div>
+            <ui-switch size="small" [checked]="false"
+                       [(ngModel)]="formValueFinal[integration_type][key]['enabled']"
+                       name="enabled"></ui-switch>
+          </div>
+          <div [hidden]="!formValueFinal[integration_type][key]['enabled']">
+            <div
+              *ngFor="let integration_input_keys of formValue[integration_type][key]|integrationInputKeysFilter">
+              <div class="form-group">
+                <label class="required">{{integration_input_keys|displayNameForKeyIntegration}}</label>
+                <input ngModel type="text"
+                       class="form-control"
+                       [name]="integration_input_keys">
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
+
+    <!--<div-->
+      <!--*ngFor="let integration_keys of myObject.keys(formValue[integration_type])"-->
+      <!--requiredIfOneFilledValidator-->
+      <!--ngModelGroup="{{integration_keys}}"-->
+      <!--class="border px-3">-->
+      <!--<div class="d-flex justify-content-center align-items-center" style="height: 90px">-->
+        <!--<img-->
+          <!--style="height: 16px; width: 16px"-->
+          <!--[src]="getLogo(integration_keys)"-->
+          <!--alt="">-->
+        <!--<div class="heading my-0 mx-2">{{integration_keys.toUpperCase()}}</div>-->
+        <!--&lt;!&ndash;<p>{{formValueFinal[form_value_key][integration_keys].enabled}}</p>&ndash;&gt;-->
+        <!--&lt;!&ndash;<p>{{formValue[form_value_key][integration_keys].enabled}}</p>&ndash;&gt;-->
+        <!--<ui-switch size="small" [checked]="false"-->
+                   <!--[(ngModel)]="formValueFinal[integration_type][integration_keys]['enabled']"-->
+                   <!--name="enabled"></ui-switch>-->
+      <!--</div>-->
+      <!--<div [hidden]="!formValueFinal[integration_type][integration_keys]['enabled']">-->
+        <!--<div-->
+          <!--*ngFor="let integration_input_keys of formValue[integration_type][integration_keys]|integrationInputKeysFilter">-->
+          <!--<div class="form-group">-->
+            <!--<label class="required">{{integration_input_keys|displayNameForKeyIntegration}}</label>-->
+            <!--<input ngModel type="text"-->
+                   <!--class="form-control"-->
+                   <!--[name]="integration_input_keys">-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
 
   </div>
 </form>
