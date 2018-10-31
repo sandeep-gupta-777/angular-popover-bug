@@ -1,14 +1,25 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Select} from '@ngxs/store';
-import {ViewBotStateReducer} from '../../view-bots/ngxs/view-bot.state';
+import {Select, Store} from '@ngxs/store';
+import {ViewBotStateModel, ViewBotStateReducer} from '../../view-bots/ngxs/view-bot.state';
 import {Observable} from 'rxjs';
 import {IBot} from '../../interfaces/IBot';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Route, Router} from '@angular/router';
 import 'rxjs/add/operator/map';
-import {IOverviewInfoResponse} from '../../../../interfaces/overview-info';
+import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
 import {UtilityService} from '../../../utility.service';
 import {BotSessionsComponent} from '../bot-sessions/bot-sessions.component';
+import {UpdateBotInfoByIdInBotInBotList, SaveVersionInfoInBot} from '../../view-bots/ngxs/view-bot.action';
+import {ConstantsService, ERoleName, EAllActions} from '../../../constants.service';
+import {IHeaderData} from '../../../../interfaces/header-data';
+import {IUser} from '../../interfaces/user';
+import {IAuthState} from '../../../auth/ngxs/auth.state';
+import {LoggingService} from '../../../logging.service';
+
+export enum EArchitectureTabs{
+  pipeline,
+
+}
 
 @Component({
   selector: 'app-code-based-bot-detail',
@@ -17,35 +28,101 @@ import {BotSessionsComponent} from '../bot-sessions/bot-sessions.component';
 })
 export class CodeBasedBotDetailComponent implements OnInit {
 
-  @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
+  myEAllActions = EAllActions;
+  isArchitectureFullScreen = false;
+  @Select() botlist$: Observable<ViewBotStateModel>;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
+  @Select() loggeduser$: Observable<{ user: IUser }>;
+  selectedTab = 'architecture';
   bot$: Observable<IBot>;
   bot_id: number;
+  showConfig: boolean = true;
   overviewInfo$: Observable<IOverviewInfoResponse>;
   selectedChannel: string = 'all';
   start_date: string;
+  isAdmin = false;
   end_date: string;
   selectedChannelDisplayName: string;
   selectedDurationDisplayName: string = 'Monthly';
+  selectedSideBarTab: string = 'pipeline';
+  bot: IBot;
 
-  constructor(private activatedRoute: ActivatedRoute, private serverService: ServerService, private utilityService: UtilityService) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private serverService: ServerService,
+    private store: Store,
+    private constantsService: ConstantsService,
+    private utilityService: UtilityService) {
   }
 
   ngOnInit() {
+    // this.loggeduser$.take(1).subscribe((loggedUserState:IAuthState)=>{
+      let roleName = this.constantsService.loggedUser.role.name;
+      this.showConfig = roleName!==ERoleName.Admin;//if its admin don't expand bot config by default
+      if(roleName===ERoleName.Admin || roleName===ERoleName['Bot Developer']){
+        this.selectedTab = 'architecture'
+      }else if(roleName===ERoleName.Tester){
+        this.selectedTab = 'testing'
+      }else{
+        this.selectedTab = 'sessions'
+      }
+    // });
+
+    let isArchitectureFullScreen = this.activatedRoute.snapshot.queryParamMap.get('isArchitectureFullScreen');
+    this.isArchitectureFullScreen = isArchitectureFullScreen==='true';
+    let showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
+    if(showConfigStr){
+      this.showConfig = showConfigStr==='true';//(showConfigStr === 'true' || showConfigStr == undefined);;
+    }
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
-    // let id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.bot$ = this.codeBasedBotList$.map((codeBasedBotList: IBot[]) => {
-      let bot = codeBasedBotList.filter((bot) => {
-        return bot.id === this.bot_id;//
-      });
-      console.log("view detailed bot", bot[0]);
-      return bot[0];
+    this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || this.selectedTab;
+    /*this.bot$ = */
+    this.botlist$.subscribe((botListState) => {
+      if (botListState.allBotList)
+        this.bot = botListState.allBotList.find((bot) => {
+          return bot.id === this.bot_id;
+        });
+      LoggingService.log("Bot Opened"+ this.bot);
+      return this.bot;
     });
+    this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab') || this.selectedSideBarTab;
 
     this.start_date = this.utilityService.getPriorDate(0);
     this.end_date = this.utilityService.getPriorDate(30);
     this.getOverviewInfo();
+    this.activatedRoute.queryParams.subscribe((queryParams)=>{
+      this.isArchitectureFullScreen= queryParams['isArchitectureFullScreen']==='true'
+    })
+  }
+
+
+  refreshCodeEditor(){
+    /*codemirror needs to be refreshed after being visible; otherwise its content wont show*/
+    setTimeout(()=>this.utilityService.refreshCodeEditor$.emit());
+  }
+
+  refreshBotDetails() {
+    this.serverService.fetchSpecificBotFromServerAndUpdateBotList(this.bot);
+    this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
+
+
+    // let getBotByTokenUrl = this.constantsService.getSpecificBotByBotTokenUrl();
+    // let headerData: IHeaderData = {
+    //   'bot-access-token': this.bot.bot_access_token
+    // };
+    // this.serverService.makeGetReq<{ objects: IBot[] }>({url: getBotByTokenUrl, headerData})
+    //   .subscribe((val) => {
+    //
+    //     let bot: IBot = val.objects.find((bot) => {
+    //
+    //       return bot.id === this.bot.id;
+    //     });
+    //     this.store.dispatch([
+    //       new UpdateBotInfoByIdInBotInBotList({data: bot, botId: this.bot.id})
+    //     ]);
+    //   });
   }
 
   selectedChannelChanged(channel: string, name: string) {
@@ -71,8 +148,32 @@ export class CodeBasedBotDetailComponent implements OnInit {
     });
   }
 
-  refreshSession(){
+  refreshSession() {
     this.sessionChild.refreshSession();
   }
+
+  tabChanged(tab: string) {
+    this.selectedTab = tab;
+  }
+
+  datachanged(data: IBot) {
+    ;
+    this.store.dispatch([
+      new UpdateBotInfoByIdInBotInBotList({data, botId: this.bot_id})
+    ]);
+  }
+
+  togglePanel() {
+    this.showConfig = !this.showConfig;
+    // this.router.navigate(['.'], {queryParams:{'show-config':this.showConfig}});
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        ...this.activatedRoute.snapshot.queryParams,
+        'show-config': this.showConfig
+      }
+    });
+  }
+
 
 }

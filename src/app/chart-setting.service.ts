@@ -235,7 +235,7 @@ export class ChartSettingService {
 
   createSeriesDataFromArray(array: any[],xAxisLabel){
     // return this.utilityService.convert(this.test,"labels");
-    return this.utilityService.convert(array,xAxisLabel);
+    return this.utilityService.convert(array,xAxisLabel,'Users');
   }
 
 

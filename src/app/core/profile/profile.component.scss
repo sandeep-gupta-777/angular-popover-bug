@@ -1,42 +1,111 @@
 @import '~src/sass/main';
 
-
-.profile-row{
-  label{
+.profile-row {
+  padding: 20px 32px;
+  label {
     @include typography($font-size-normal, $line-height-normal, $font-weight-700, $color-text-normal);
-    width: 180px;
+    width: 220px;
+  }
+  .profile-header {
+    border-bottom: $border-normal;
+    margin-bottom: 40px;
   }
 
-  .value{
-    @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-text-muted);
+  .value {
+    //@include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-text-muted);
   }
 
-  .non-editable{
-    @include typography($font-size-normal, $line-height-normal, $font-weight-400, #ddd);
+  .non-editable {
+    @include typography($font-size-normal, $line-height-normal, $font-weight-400, #949494);
   }
 
-  input.value{
+  input.value {
     @include hide-borders();
+    border-bottom: 1px solid #e0e0e0;
   }
 }
-.perm-list{
+
+.perm-list {
   padding: 6px;
   margin-left: 200px;
   background-color: #e0e0e0;
   font-size: 14px;
-  .badge-secondary{
+  .badge-secondary {
     margin: 3px;
     padding: 4px;
   }
 }
 
-
-.password-row{
-.label{
-  @include typography($font-size-xs, $line-height-normal, $font-weight-300, $color-text-border-e0);
-}
-  input{
-    @include hide-borders();
-    border-bottom:$border-normal ;
+.password-row {
+  .label {
+    @include typography($font-size-xs, $line-height-normal, $font-weight-300, $color-text-normal);
   }
+  input {
+    @include hide-borders();
+    border-bottom: $border-normal;
+  }
+}
+
+.profile-heading-text {
+  @include typography(20px, $line-height-normal, $font-weight-700, $color-text-normal);
+}
+
+.primary-modal {
+  @include classic-modal(#00abd3);
+}
+
+.primary-modal {
+  .modal-body {
+    .fa {
+      font-size: 48px;
+      color: #00abd3;
+      padding: 10px 0px;
+    }
+  }
+}
+
+.danger-modal {
+  @include classic-modal(#b14250);
+}
+
+.modal-body {
+  label {
+    width: 120px;
+  }
+  input {
+    border-radius: 2px;
+    border: solid 1px #e0e0e0;
+    height: 28px;
+    width: 150px;
+    padding: 0px 8px;
+  }
+  hr {
+    //border: 1px solid
+    border-color: #e0e0e0;
+  }
+}
+
+.permissions-box {
+  display: flex;
+  align-items: start;
+  flex-wrap: wrap;
+  background-color: #e0e0e0;
+  height: 200px;
+  width: 100%;
+  border-radius: 2px;
+  align-content: start;
+}
+
+.profile-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 10fr;
+  grid-template-areas:
+  'heading1 heading1 heading1 heading1'
+  '. label1 .      value1'
+  '. label2 .      value2'
+  '. label3 .      value3'
+  'heading2 heading2 heading2 heading2'
+  '. label4 .      value4'
+  '. label5 .      value5'
+  '. label6 .      value6'
 }

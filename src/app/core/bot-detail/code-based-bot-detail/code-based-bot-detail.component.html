@@ -1,180 +1,213 @@
-<div class="row shadow-theme my-2 p-3 bg-white d-flex align-items-center">
-  <div class="col-3 ">
-    <!--TODO: make implementation of this more flexible-->
-    <div class="p-1">
-      <app-bot-preview-card [bot]="(bot$|async)"></app-bot-preview-card>
-    </div>
+<div
+  [ngClass]="{'bot-detail-grid-architecture-full-screen':isArchitectureFullScreen,'bot-detail-grid':!isArchitectureFullScreen}"
+  *ngIf="bot">
+
+  <div class="header" *ngIf="!isArchitectureFullScreen">
+    <app-bot-detail-header [bot]="bot" (refreshBotDetails$)="refreshBotDetails()"></app-bot-detail-header>
   </div>
-  <div class="col-9 pt-4">
-    <!---->
-    <div class="row  mb-4 d-flex align-items-center">
-      <div class="col-4">
-        <h4 class="title">Analysis Overview</h4>
-      </div>
-      <div class="col-4 d-flex align-items-center">
-        <span class="mr-2 text-muted label">Channels</span>
-        <div class="btn-group" dropdown>
-          <button id="button-disabled-item" dropdownToggle type="button" class="btn-theme-primary-outline dropdown-toggle"
-                  aria-controls="dropdown-disabled-item">{{selectedChannelDisplayName||'All Channels'}}<span class="caret"></span>
-          </button>
-          <ul id="dropdown-disabled-item" *dropdownMenu class="dropdown-menu"
-              role="menu" aria-labelledby="button-disabled-item">
-            <li role="menuitem"><a class="dropdown-item" (click)="selectedChannelChanged('all', 'All Channels')">All Channels</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="selectedChannelChanged('facebook', 'Facebook')">Facebook</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="selectedChannelChanged('web', 'Webchat')">Webchat</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="selectedChannelChanged('alexa', 'Alexa')">Alexa</a></li>
-          </ul>
+  <div class="d-flex-column-last-child-flex-grow-1 config bg-white px-3 py-3 shadow-theme" *ngIf="!isArchitectureFullScreen">
+    <div class="d-flex-column-last-child-flex-grow-1 text-theme-normal justify-content-center">
+      <div class="d-flex justify-content-between px-3">
+
+        <div class="heading" style="font-size: 14px !important;">Bot Configuration</div>
+        <div *ngIf="!showConfig" class="d-flex mx-4 justify-content-between align-items-center flex-grow-1">
+          <div class="">Bot Unique Name : <strong>{{bot.bot_unique_name}}</strong></div>
+          <div class="">Session Time : <strong>{{bot.room_persistence_time}} min</strong></div>
+          <div class="d-none d-md-inline">Advance Data Protection : <strong>{{bot.advanced_data_protection}}</strong></div>
+          <div class="d-none d-md-inline">Data Retention Period : <strong>{{bot.data_persistence_period}} Days</strong></div>
+          <div class="d-none d-md-inline">Blank Consent : <strong>{{bot.blanket_consent}}</strong></div>
+        </div>
+        <div class="cursor-pointer"
+             (click)="togglePanel()">
+          <i class="fa" [ngClass]="{'fa-angle-up':showConfig, 'fa-angle-down':!showConfig}"
+             style="font-size: 20px; line-height: 12px"></i>
         </div>
       </div>
 
-      <div class="col-4 d-flex align-items-center">
-        <span class="mr-2 text-muted label">Duration</span>
-        <div class="btn-group" dropdown>
-          <button id="button-disabled-item1" dropdownToggle type="button" class="btn-theme-primary-outline dropdown-toggle"
-                  aria-controls="dropdown-disabled-item">
-            {{selectedDurationDisplayName||'All Channels'}} <span class="caret"></span>
-          </button>
-          <ul id="dropdown-disabled-item1" *dropdownMenu class="dropdown-menu"
-              role="menu" aria-labelledby="button-disabled-item">
-            <li role="menuitem"><a class="dropdown-item" (click)="selectedDurationChanged(7, 'Weekly')">Weekly</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="selectedDurationChanged(30, 'Monthly')">Monthly</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="selectedDurationChanged(15, 'Bi-Monthly')">Bi-Monthly</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="selectedDurationChanged(365, 'Yearly')">Yearly</a></li>
-          </ul>
+      <app-bot-config (datachanged$)="datachanged($event)" *ngIf="showConfig" [bot]="(bot)"></app-bot-config>
+
+    </div>
+  </div>
+
+  <!--============= REDESIGN=================-->
+
+  <div class="flex-column shadow-theme  d-flex-column-last-child-flex-grow-1 architecture bg-white p-1 px-2 my align-content-start"
+       *myIf="[
+       myEAllActions['Get Pipeline Module'],
+       myEAllActions['Get Integrations'],
+       myEAllActions['Get Bot Knowledge base'],
+       myEAllActions['Get Bot Testcases'],
+       myEAllActions['Get Sessions'],
+       myEAllActions['Get Consumers']
+       ]">
+    <!--tabs start-->
+    <div class="px-2">
+      <ul class="nav nav-tabs border-none theme-tabbing mb-1 bg-white">
+        <li *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]" class="nav-item"
+            [ngClass]="{'tab-active':selectedTab==='architecture'}">
+          <a class="nav-link heading" [routerLink]="['.']"
+             queryParamsHandling="merge"
+             replaceUrl="true"
+             (click)="tabChanged('architecture')"
+             [queryParams]="{build:'architecture'}"><strong>Architecture</strong></a>
+        </li>
+        <li *myIf="myEAllActions['Get Bot Testcases']" class="nav-item" [ngClass]="{'tab-active':selectedTab==='testing'}">
+          <a class="nav-link heading" [routerLink]="['.']"
+             queryParamsHandling="merge"
+             replaceUrl="true"
+             (click)="tabChanged('testing')"
+             [queryParams]="{build:'testing'}"><strong>Testing</strong></a>
+        </li>
+        <li *myIf="myEAllActions['Get Sessions']" class="nav-item" [ngClass]="{'tab-active':selectedTab==='sessions'}">
+          <a class="nav-link heading" [routerLink]="['.']"
+             queryParamsHandling="merge"
+             replaceUrl="true"
+             (click)="tabChanged('sessions')"
+             [queryParams]="{build:'sessions'}"><strong>Sessions</strong></a>
+        </li>
+        <li *myIf="myEAllActions['Get Consumers']" class="nav-item" [ngClass]="{'tab-active':selectedTab==='consumer'}">
+          <a class="nav-link heading" [routerLink]="['.']"
+             queryParamsHandling="merge"
+             replaceUrl="true"
+             (click)="tabChanged('consumer')"
+             [queryParams]="{build:'consumer'}"><strong>Consumers</strong></a>
+        </li>
+        <li class="nav-item ml-auto">
+          <a class="nav-link heading"
+             [routerLink]="['.']"
+             queryParamsHandling="merge"
+             replaceUrl="true"
+             [queryParams]="{isArchitectureFullScreen:!isArchitectureFullScreen}">
+            <i class="fa"
+               [ngClass]="{'fa-window-restore':isArchitectureFullScreen, 'fa-expand':!isArchitectureFullScreen}"></i>
+          </a>
+        </li>
+      </ul>
+
+      <ul class="nav nav-tabs border-none theme-tabbing mb-1 bg-white d-flex d-md-none">
+        <li routerLink="."
+             [queryParams]="{'build-tab':'pipeline'}"
+             queryParamsHandling="merge"
+             [ngClass]="{'font-weight-bold':selectedSideBarTab==='pipeline'}"
+             (click)="selectedSideBarTab='pipeline'"
+             class="tab-theme ml-auto">Pipeline
+        </li>
+        <!---->
+        <li routerLink="."
+             [queryParams]="{'build-tab':'knowledge'}"
+             queryParamsHandling="merge"
+             [ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"
+             (click)="selectedSideBarTab='knowledge'"
+             class="tab-theme">Knowledge base
+        </li>
+        <li routerLink="."
+             [queryParams]="{'build-tab':'code'}"
+             queryParamsHandling="merge"
+             [ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"
+             (click)="selectedSideBarTab='code'; refreshCodeEditor()"
+             class="tab-theme">Code
+        </li>
+        <li routerLink="."
+             [queryParams]="{'build-tab':'integration'}"
+             queryParamsHandling="merge"
+             [ngClass]="{'font-weight-bold':selectedSideBarTab==='integration'}"
+             (click)="selectedSideBarTab='integration'"
+             class="tab-theme">Integrations
+        </li>
+
+
+      </ul>
+
+    </div>
+    <!--tabs end-->
+
+    <!--architeture starts-->
+    <div class="p-0 child-expand d-flex-column-last-child-flex-grow-1"
+         [hidden]="selectedTab !=='architecture'">
+      <div class="d-flex-column-last-child-flex-grow-1 architeture-body child-expand" style="overflow-y: auto;"
+           *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]">
+        <div class="d-flex row-body bg-white child-expand" >
+          <!--TODO: 98% to avoid scroll bar; use grid instead-->
+          <!--side bar starts-->
+          <div class="side-bar  border-right d-none d-md-block flex-shrink-0">
+            <div class="">
+              <div routerLink="."
+                 [queryParams]="{'build-tab':'pipeline'}"
+                 queryParamsHandling="merge"
+                 [ngClass]="{'font-weight-bold':selectedSideBarTab==='pipeline'}"
+                 (click)="selectedSideBarTab='pipeline'"
+                 class="tab-theme">Pipeline
+              </div>
+              <!---->
+              <div routerLink="."
+                   [queryParams]="{'build-tab':'knowledge'}"
+                   queryParamsHandling="merge"
+                   [ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"
+                   (click)="selectedSideBarTab='knowledge'"
+                   class="tab-theme">Knowledge base
+              </div>
+              <div routerLink="."
+                   [queryParams]="{'build-tab':'code'}"
+                   queryParamsHandling="merge"
+                   [ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"
+                   (click)="selectedSideBarTab='code'; refreshCodeEditor()"
+                   class="tab-theme">Code
+              </div>
+              <div routerLink="."
+                   [queryParams]="{'build-tab':'integration'}"
+                   queryParamsHandling="merge"
+                   [ngClass]="{'font-weight-bold':selectedSideBarTab==='integration'}"
+                   (click)="selectedSideBarTab='integration'"
+                   class="tab-theme">Integrations
+              </div>
+            </div>
+          </div>
+          <!--side bar ends-->
+
+          <div class="px-2 pt-2 pb-0 d-flex  w-100">
+            <app-pipeline
+              (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"
+                          [bot]="bot"></app-pipeline>
+            <app-knowledge-base-wrapper
+              [bot]="bot"
+              *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base-wrapper>
+
+            <app-code-input
+              class=" d-flex-column-last-child-flex-grow-1"
+              (datachanged$)="datachanged($event)"
+              [hidden]="selectedSideBarTab!=='code'"
+              [bot]="bot"></app-code-input>
+
+            <app-integration-option-list
+              (datachanged$)="datachanged($event)"
+              *ngIf="selectedSideBarTab==='integration'"
+              [bot]="bot"></app-integration-option-list>
+          </div>
+
         </div>
       </div>
+
     </div>
-    <div class="row row-details" *ngIf="(overviewInfo$ | async) as overviewInfo; else placeholder">
-      <div class="col-2  d-flex flex-column align-items-center justify-content-start">
-        <i class="fa fa-area-chart p-0"></i>
-        <span class="number">{{overviewInfo.totalSessionsData || '0'}}</span>
-        <span class="description">Total Session</span>
-      </div>
-      <div class="col-2 pb-5 d-flex flex-column align-items-center">
-        <i class="fa fa-users"></i>
-        <span class="number">{{overviewInfo.totalUsers || '0'}}</span>
-        <span class="description">Total Users</span>
-      </div>
-      <div class="col-2 d-flex flex-column align-items-center">
-        <i class="fa fa-envelope"></i>
-        <span class="number">{{overviewInfo.totalMessages || '0'}}</span>
-        <span class="description">Total Messages</span>
-      </div>
-      <div class="col-2 d-flex flex-column align-items-center">
-        <i class="fa fa-exchange"></i>
-        <span class="number">{{overviewInfo.averageMessages || '0'}}</span>
-        <span class="description">Average Message Per Session</span>
-      </div>
-      <div class="col-2 d-flex flex-column align-items-center">
-        <i class="fa fa-clock-o"></i>
-        <span class="number">{{overviewInfo.totalTime.hours + ':'+ overviewInfo.totalTime.minutes || '0'}}</span>
-        <span class="description">Total Time Spent(hh:mm)</span>
-      </div>
-      <div class="col-2 d-flex flex-column align-items-center">
-        <i class="fa fa-hourglass"></i>
-        <span class="number">{{(overviewInfo).averageTime.hours + ':'+ overviewInfo.averageTime.minutes || '0'}}</span>
-        <span class="description">Time Spent Per Session (hh:mm)</span>
-      </div>
+    <!--architeture ends-->
+
+    <div class="p-0 d-flex d-flex-column-custom  flex-grow-1"  *ngIf="selectedTab==='testing'">
+      <app-bot-testing class=" d-flex-column-custom flex-grow-1" [bot]="bot"></app-bot-testing>
     </div>
+
+    <div class="col-12 scroll-wrapper" *ngIf="selectedTab==='sessions'">
+      <app-bot-sessions [id]="bot.id" [bot]="bot"></app-bot-sessions>
+    </div>
+
+    <div class="d-flex-column-last-child-flex-grow-1 scroll-wrapper" *ngIf="selectedTab==='consumer'">
+      <app-consumers class="d-flex-column-last-child-flex-grow-1 " [id]="bot.id" [bot]="bot"></app-consumers>
+    </div>
+
   </div>
+
 </div>
 
-<div class="row shadow-theme bg-white py-4 my-5">
+<app-imi-loader *ngIf="!bot"></app-imi-loader>
 
-  <div class="col-12">
-    <div class="col-12 d-flex justify-content-between px-4 pb-3">
-      <h4>Bot Configuration</h4>
-      <button class="btn-theme-primary">Update Changes</button>
-    </div>
-    <app-build-code-based-bot [bot]="(bot$|async)"></app-build-code-based-bot>
-  </div>
-</div>
-
-<div class="row shadow-theme bg-white p-3 my-5">
-  <div class="col-12 d-flex justify-content-between mb-3">
-    <h4>Testing</h4>
-    <div class="d-flex align-items-center">
-      <i class="fa fa-plus pr-4"></i>
-      <i class="fa fa-minus pr-4"></i>
-      <button class="btn-theme-primary-outline mr-4">Export to CSV</button>
-      <button class="btn-theme-primary pr-4">Begin Test</button>
-    </div>
-  </div>
-
-  <div class="col-12">
-    <!--<app-handsontable></app-handsontable>-->
-    <app-bot-testing [id]="(bot$|async).id" ></app-bot-testing>
-  </div>
-</div>
-
-<div class="row bg-white p-3 my-3 shadow-theme">
-  <div class="col-12 d-flex justify-content-between mb-3">
-    <h4>CONSUMERS</h4>
-    <div class="d-flex align-items-center">
-      <i class="fa fa-expand"></i>
-    </div>
-  </div>
-
-  <div class="col-12 d-flex justify-content-end">
-    <button class="btn-theme-primary-outline mr-3" (click)="refreshSession()">Refresh Sessions</button>
-    <div class="btn-group " dropdown style="width: 150px">
-      <div dropdownToggle>
-        <!--<input type="text" placeholder="Select timePeriod" style="width: 100%; position: relative">-->
-        <button class="btn-theme-primary-outline" >Row per page<i class="fa fa-angle-down pl-1"></i></button>
-      </div>
-      <ul *dropdownMenu class="dropdown-menu" role="menu" style="width: 100%">
-        <li role="menuitem"><a class="dropdown-item">5</a></li>
-        <li role="menuitem"><a class="dropdown-item">10</a></li>
-        <li role="menuitem"><a class="dropdown-item">15</a></li>
-        <li role="menuitem"><a class="dropdown-item">20</a></li>
-        <li role="menuitem"><a class="dropdown-item">25</a></li>
-      </ul>
-    </div>
-    <!---->
-  </div>
-  <!--<div class="col-12 d-flex justify-content-end">-->
-    <!--<button class="btn-theme-primary-outline mr-3">Refresh Sessions</button>-->
-    <!--<button class="btn-theme-primary-outline mr-3">Rows on page</button>-->
-    <!--&lt;!&ndash;TODO: insert dropdown here&ndash;&gt;-->
-    <!--<button class="btn-theme-primary-outline">Rows on page</button>-->
-  <!--</div>-->
-  <div class="col-12 mt-3">
-    <!--<app-consumers [id]="(bot$|async)._id"></app-consumers>-->
-    <app-consumers></app-consumers>
-  </div>
-</div>
-
-
-<div class="row bg-white p-3 shadow-theme">
-  <div class="col-12 d-flex justify-content-between mb-3">
-    <h4>SESSIONS</h4>
-    <div class="d-flex align-items-center">
-      <i class="fa fa-expand"></i>
-    </div>
-  </div>
-  <div class="col-12 d-flex justify-content-end">
-    <button class="btn-theme-primary-outline mr-3" (click)="refreshSession()">Refresh Sessions</button>
-    <div class="btn-group " dropdown style="width: 150px">
-      <div dropdownToggle>
-        <!--<input type="text" placeholder="Select timePeriod" style="width: 100%; position: relative">-->
-        <button class="btn-theme-primary-outline" >Row per page<i class="fa fa-angle-down pl-1"></i></button>
-      </div>
-      <ul *dropdownMenu class="dropdown-menu" role="menu" style="width: 100%">
-        <li role="menuitem"><a class="dropdown-item">5</a></li>
-        <li role="menuitem"><a class="dropdown-item">10</a></li>
-        <li role="menuitem"><a class="dropdown-item">15</a></li>
-        <li role="menuitem"><a class="dropdown-item">20</a></li>
-        <li role="menuitem"><a class="dropdown-item">25</a></li>
-      </ul>
-    </div>
-    <!---->
-  </div>
-  <div class="col-12 mt-3">
-    <app-bot-sessions [id]="(bot$|async)._id"></app-bot-sessions>
-  </div>
-</div>
-
-<!--============================ngtemplate============================-->
 <ng-template #placeholder>
   <div class="row row-details">
     <div class="col-2  d-flex flex-column align-items-center justify-content-start">
@@ -208,7 +241,4 @@
       <span class="description">Time Spent Per Session (hh:mm)</span>
     </div>
   </div>
-
-
-
 </ng-template>

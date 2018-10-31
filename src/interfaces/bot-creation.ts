@@ -3,6 +3,7 @@
 
 
 import {IIntegrationOption} from './integration-option';
+import { ICodeData } from '../app/core/interfaces/IBot';
 
 export interface IBasicInfo {
   'botUniqueName': string,
@@ -12,16 +13,18 @@ export interface IBasicInfo {
   'firstMessage': string,
   'error_message': null,
   'isManager': boolean,
-  'botLogo': string,
   'industry': string,
   'description': string,
   'room_persistence_time': number,
   'countpertransaction': number,
+  "logo": string,
+}
+export interface ISaveDataManagment{
   'data_persistence_period': number,
-  'consentEnabled': boolean,
-  'consentMessage': string,
-  'allowAnonymization': boolean,
-  'blanketConsent': boolean,
+  "consent_message": string,
+  "advanced_data_protection": boolean,
+  "allow_anonymization": boolean,
+  "blanket_consent": boolean,
 }
 
 export interface IAvatar {
@@ -73,12 +76,12 @@ export interface ICustomners {
   }],
 }
 
-export interface ICode {
-  'dfRules'?: string,
-  'dfTemplate'?: string
-  'generationRules'?: string
-  'generationTemplates'?: string
-}
+// export interface ICode {
+//   'dfRules'?: string,
+//   'dfTemplate'?: string
+//   'generationRules'?: string
+//   'generationTemplates'?: string
+// }
 
 export interface IIntegration {
 
@@ -92,7 +95,7 @@ export interface IIntegration {
   // }
 }
 
-export interface IBotConfig extends IBasicInfo, IAvatarList, ICode, ICustomners, IPipeline, IIntegration {
+export interface IBotConfig extends IBasicInfo, IAvatarList, ICodeData, ICustomners, IPipeline, IIntegration {
   '_id': string,
   'activeVersionId': string,
   'agentDetails': {

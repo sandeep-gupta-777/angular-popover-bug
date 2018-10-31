@@ -22,3 +22,9 @@
 .danger-modal{
   @include classic-modal(#b14250);
 }
+
+.fa-trash{
+  font-size: 22px;
+  color: $color-primary;
+  padding-left: 5px;
+}

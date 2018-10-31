@@ -1,12 +1,20 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {Observable} from 'rxjs';
 import {ServerService} from '../../server.service';
-import {ConstantsService} from '../../constants.service';
+import {ConstantsService, EAllActions} from '../../constants.service';
 import {IBot} from '../interfaces/IBot';
 import {IHeaderData} from '../../../interfaces/header-data';
 import {Store} from '@ngxs/store';
 import {SetCodeBasedBotListAction, SetPipeLineBasedBotListAction} from './ngxs/view-bot.action';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import {LoggingService} from '../../logging.service';
+
+export enum EBotType {
+  chatbot = 'chatbot',
+  intelligent = 'intelligent'
+}
 
 @Component({
   selector: 'app-view-bots',
@@ -15,40 +23,36 @@ import {Router} from '@angular/router';
 })
 export class ViewBotsComponent implements OnInit {
 
+  myEBotType = EBotType;
   botList$: Observable<IBot[]>;
-  activeTab:string = "codebased";
+  activeTab: string = EBotType.chatbot;
+  modalRef: BsModalRef;
+  myEAllActions = EAllActions;
 
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
-    private router:Router,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private modalService: BsModalService,
     private store: Store) {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
+    // this.serverService.getNSetIntegrationList();
     this.serverService.getNSetBotList()
-      .subscribe(()=>{
-        console.log("bot list is set in store");
-      })
-    // let url = this.constantsService.getPipelinebasedBotListUrl();
-    // let headerData: IHeaderData = {'content-type': 'application/json'};
-    // this.botList$ = this.serverService.makeGetReq<IBot[]>({url, headerData});
-    // this.botList$
-    //   .subscribe((botList: IBot[]) => {
-    //     let codeBasedBotList: IBot[] = [];
-    //     let pipelineBasedBotList: IBot[] = [];
-    //
-    //     botList.forEach((bot) => {
-    //       bot.botType !== 'intelligent' ? codeBasedBotList.push(bot) : pipelineBasedBotList.push(bot);
-    //     });
-    //     this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
-    //     this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
-    //   });
+      .subscribe(() => {
+        LoggingService.log('bot list fetched from view bots page');
+      });
   }
-  // changeActiveTab(activeTab){
-  //   console.log("hi");
-  //   this.router.navigate(['core','viewbots',activeTab]);
-  //   this.activeTab =activeTab
-  //
-  // }
+
+  openCreateBotModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+  }
+
+  navigate(bot_type) {
+    this.modalRef.hide();
+    this.router.navigate(['core', 'buildbot'], {queryParams: {bot_type: bot_type}});
+  }
 }

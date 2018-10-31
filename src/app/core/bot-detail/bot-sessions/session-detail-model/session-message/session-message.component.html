@@ -1,35 +1,72 @@
+<div class="cursor-pointer" [ngClass]="txnId" (click)="messageClickedEvent$.emit(txnId)">
+  <!--<div class="cursor-pointer" [ngClass]="txnId">-->
+  <i class="meta-text cursor-pointer pl-1" (click)="utilityService.copyToClipboard(txnId)"
+     [innerHtml]="'txnId:'+ txnId_highlighting">
+  </i>
+  <div *ngFor="let sessionMessage of sessionMessageItems">
 
-
-
-<div *ngIf="sessionMessageData && sessionMessageData.userType==='human'">
-  <div class="row reverse-flex-row my-1" (click)="messageClickedEvent$.emit(sessionMessageData.transaction_id)">
-    <div class="col-1 text-left p-0">
-      <img class="" src="http://logok.org/wp-content/uploads/2014/04/Citi-logo-880x660.png"
-           style="width: 32px;height: 32px" alt="">
-    </div>
-    <div class="col-10 text-left p-0 text-right">
-      <div class="message p-2 bg-message-human" style="display: inline-block">
-        <span class="message-text ">{{sessionMessageData.message}}</span>
-        <div class="time text-right">10:42 PM</div>
+    <div *ngIf="sessionMessage && sessionMessage.user_type==='human'">
+      <!--<div class="row reverse-flex-row my-1">-->
+      <div class="row my-1">
+        <!--<div class="col-1 text-left p-0">-->
+        <!--<img class="" src="http://logok.org/wp-content/uploads/2014/04/Citi-logo-880x660.png"-->
+        <!--style="width: 32px;height: 32px" alt="">-->
+        <!--</div>-->
+        <div class="col-10 p-0">
+          <div class="message p-2 bg-message-human" style="display: inline-block">
+            <!--<span class="message-text ">{{sessionMessageData.message}}</span>-->
+            <span class="message-text" [innerHtml]="sessionMessage.message"></span>
+            <div class="time text-right">10:42 PM</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
+    <div *ngIf="sessionMessage && sessionMessage.user_type==='bot'">
+      <div *ngIf="myArray.isArray(sessionMessage.message); else messageIsStringNotObjectTemplate">
+        <!--TODO:HACK:: sometimes data from backend is not {text:"hi"} but just "hi"-->
+        <div class="row flex-row-reverse" *ngFor="let message of sessionMessage.message">
+          <!--bot text reply starts-->
+          <div class="col-10 p-0 pb-1 text-right" *ngIf="message.text">
+            <!--<div class="col-12 p-1 text-right p-0" *ngIf="message.text">-->
+            <div class="message p-2 bg-message-bot" style="display: inline-block">
+              <span class="message-text" [innerHtml]="message.text"></span>
+              <div class="time text-right">10:42 PM</div>
+            </div>
+          </div>
+          <!--bot text reply ends-->
 
+          <!--bot rich media reply starts-->
+          <app-card-carousel
+            [isParentSessionsModal]="true"
+            style="width: 100%!important;"
+            [messageData]="message"
+            *ngIf="message && message.media">
+          </app-card-carousel>
+          <app-quick-reply
+            [isParentSessionsModal]="true"
+            [messageData]="message"
+            *ngIf="message && message.quick_reply">
+          </app-quick-reply>
+          <!--bot rich media reply ends-->
 
-<div *ngIf="sessionMessageData && sessionMessageData.userType==='bot'">
-  <div class="row" *ngFor="let message of sessionMessageData.message">
-    <div class="col-1 text-left p-0">
-      <img class="" src="http://logok.org/wp-content/uploads/2014/04/Citi-logo-880x660.png"
-           style="width: 32px;height: 32px" alt="">
-    </div>
-    <div class="col-10 p-1 text-left p-0">
-      <div class="message p-2 bg-message-bot" style="display: inline-block">
-        <span class="message-text">{{message.text}}</span>
-        <div class="time text-right">10:42 PM</div>
+        </div>
       </div>
+      <ng-template #messageIsStringNotObjectTemplate>
+        <div class="col-12 p-1 text-right p-0">
+          <div class="message p-2 bg-message-bot" style="display: inline-block">
+            <span class="message-text" [innerHtml]="'hi'"></span>
+            <div class="time text-right">10:42 PM</div>
+          </div>
+        </div>
+      </ng-template>
+
     </div>
+
+    <!--<p>{{(sessionMessage|json)}}</p>-->
+    <!--<app-card-carousel  [messageData]="sessionMessage|sessionDataToRichMediaSerializer"></app-card-carousel>-->
+
   </div>
+
 </div>
-<!---->
+

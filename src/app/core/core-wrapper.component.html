@@ -1,22 +1,19 @@
-
-
-<!--<div class="shadow-theme">-->
-<!--<app-header></app-header>-->
-<!--</div>-->
-<!---->
-
-<!--<div class="container">-->
-  <!--<div class="row">-->
-    <!--<div class="col-12">-->
-      <!--<router-outlet></router-outlet>-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</div>-->
-
-
 <div class="grid-container">
-  <app-header class="grid-header shadow-theme"></app-header>
-  <div class="grid-body">
-    <router-outlet ></router-outlet>
+  <app-header class="grid-header"></app-header>
+  <div class="grid-body" >
+    <router-outlet></router-outlet>
   </div>
+</div>
+<div class="mt-2">
+  <app-footer></app-footer>
+</div>
+
+<!--<div style="position: fixed; right: 0px; bottom: 0px;z-index:102">-->
+  <!--&lt;!&ndash;<router-outlet name="preview"></router-outlet>&ndash;&gt;-->
+  <!--<router-outlet name="aux"></router-outlet>-->
+
+<!--</div>-->
+
+<div *ngIf="!isFullScreenPreview" style="position: fixed; right: 0px; bottom: 0px;z-index:102">
+  <app-chat-wrapper></app-chat-wrapper>
 </div>

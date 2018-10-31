@@ -1,0 +1,89 @@
+<!--TODO: create a directive for tabbing-->
+<!--Tabbing starts-->
+<ul class="nav nav-tabs my-2 theme-tabbing">
+  <!-- <li class="nav-item ml-3">
+    <a class="nav-link" [routerLink]="['.']"
+       queryParamsHandling="merge"
+       replaceUrl="true"
+       [queryParams]="{perf:'sessions'}"
+       (click)="tabClicked('sessions')"
+       [ngClass]="{'tab-active':activeTab==='sessions'}"><strong>Sessions wise</strong></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['.']"
+       queryParamsHandling="merge"
+       replaceUrl="true"
+       [queryParams]="{perf:'template'}"
+       (click)="tabClicked('template')"
+       [ngClass]="{'tab-active':activeTab==='template'}"><strong>Template key</strong></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true"
+       [queryParams]="{perf:'flows'}"
+       (click)="tabClicked('flows')"
+       [ngClass]="{'tab-active':activeTab==='flows'}"><strong>Flows triggered</strong></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true"
+       [queryParams]="{perf:'flows_per_room'}"
+       (click)="tabClicked('flows_per_room')"
+       [ngClass]="{'tab-active':activeTab==='flows_per_room'}"><strong>Flows Per Room</strong></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true"
+       [queryParams]="{perf:'total_rooms'}"
+       (click)="tabClicked('total_rooms')"
+       [ngClass]="{'tab-active':activeTab==='total_rooms'}"><strong>Total Rooms</strong></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true"
+       [queryParams]="{perf:'room_duration'}"
+       (click)="tabClicked('room_duration')"
+       [ngClass]="{'tab-active':activeTab==='room_duration'}"><strong>Room Duration</strong></a>
+  </li> -->
+  <!-- added now -->
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true"
+       [queryParams]="{vol:'Messages'}"
+       (click)="tabClicked('Messages')"
+       [ngClass]="{'tab-active':activeTab==='Messages'}">
+       <strong>Messages</strong></a>
+  </li>
+</ul>
+<!--Tabbing ends-->
+
+
+<app-chart *ngIf="activeTab==='sessions'" [data]="series_sessions"
+           [chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE"
+           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE"></app-chart>
+
+<app-chart *ngIf="activeTab==='template'" [data]="series_template"
+           [chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED"
+           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED">
+</app-chart>
+
+<app-chart *ngIf="activeTab==='flows'" [data]="series_flows"
+[chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
+[highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
+</app-chart>
+
+<app-chart *ngIf="activeTab==='flows_per_room'" [data]="series_flows_per_room"
+[chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
+[highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
+</app-chart>
+
+<app-chart *ngIf="activeTab==='total_rooms'" [data]="series_total_rooms"
+[chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
+[highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
+</app-chart>
+
+<app-chart *ngIf="activeTab==='room_duration'" [data]="series_room_duration"
+[chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
+[highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
+</app-chart>
+
+<!-- added now -->
+<app-chart *ngIf="activeTab==='Messages'" [data]="series_Messages"
+           [chartValue]="constantsService.HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT"
+           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
+</app-chart>

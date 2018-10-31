@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {Router, RoutesRecognized} from '@angular/router';
+import {IProfilePermission} from '../../interfaces/profile-action-permission';
+import {SetMasterProfilePermissions} from '../ngxs/app.action';
+import {ServerService} from '../server.service';
+import {ConstantsService} from '../constants.service';
+import {Store} from '@ngxs/store';
 
 @Component({
   selector: 'app-core-wrapper',
@@ -7,9 +13,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CoreWrapperComponent implements OnInit {
 
-  constructor() { }
+  isFullScreenPreview: boolean;
+  constructor(
+    private router: Router,
+    private serverService:ServerService,
+    private store:Store,
+    private constantsService:ConstantsService
+  ) { }
 
   ngOnInit() {
+
+    this.router.events.subscribe((data) => {
+      if (data instanceof RoutesRecognized) {
+        this.isFullScreenPreview = data.state.root.firstChild.data.isFullScreenPreview;
+      }
+    });
   }
 
 }

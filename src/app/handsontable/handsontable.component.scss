@@ -1,0 +1,22 @@
+@import '~src/sass/main';
+
+input{
+  @include hide-borders();
+  border: 1px solid #ced4da;
+  padding-left: 8px;
+}
+
+::ng-deep td,th {
+  //max-width: 100px;
+  text-align: left;
+  &>div{
+    text-align: left;
+  }
+}
+
+
+//#example1 {
+//  width: 90%;
+//  height: 300px;
+//  overflow: hidden;
+//}

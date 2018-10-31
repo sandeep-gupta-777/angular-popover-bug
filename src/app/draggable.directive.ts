@@ -16,7 +16,6 @@ export class DraggableDirective {
 
   @Input()
   set appDraggable(options: DraggableOptions) {
-    console.log('directive set');
     if (options) {
       this.options = options;
     }
@@ -26,7 +25,6 @@ export class DraggableDirective {
 
   @HostListener('dragstart', ['$event'])
   onDragStart(event) {
-    console.log('startttttttt')
     const { zone = 'zone', data = {} } = this.options;
 
     this.dragService.startDrag(zone);
