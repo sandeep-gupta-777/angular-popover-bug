@@ -536,69 +536,108 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     let headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
+    
 
-    let validatinBody = {
-      'df_template': this.selectedVersion.df_template,
-      'df_rules': this.selectedVersion.df_rules,
-      'workflow': this.selectedVersion.workflow,
-      'generation_rules': this.selectedVersion.generation_rules,
-      'generation_templates': this.selectedVersion.generation_templates,
-      'version': this.selectedVersion.version,
-      'comment': this.selectedVersion.comment
-    };
-    let codeValidationUrl = this.constantsService.codeValidationUrl();
+      this.selectedVersion.updated_fields = this.selectedVersion.changed_fields;
+      this.selectedVersion.changed_fields = {
+        'df_template': false,
+        'df_rules': false,
+        'generation_rules': false,
+        'generation_template': false,
+        'workflows': false
+      };
+      if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
+        let url = this.constantsService.getSaveVersionByBotId(this.bot.id);
+        this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
+          .subscribe((value: IBotVersionData) => {
+            this.selectedVersion = Object.assign(this.selectedVersion, value);
+            LoggingService.log(this.bot.store_bot_versions);
+            this.store.dispatch([
+              new UpdateVersionInfoByIdInBot({data: value, botId: this.bot.id})
+            ]);
+            this.utilityService.showSuccessToaster('New version saved');
+          });
+      } else {
+        let url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
+        let body = this.selectedVersion;
+        delete body.id;
+        delete body.resource_uri;
+        delete body.forked_from;
+        /*remove version id = -1, from store*/
+        this.bot.store_bot_versions.length = 0;
+        this.serverService.makePostReq({url, body, headerData})
+          .subscribe((forkedVersion: IBotVersionData) => {
+            LoggingService.log(forkedVersion);
+            this.selectedVersion = forkedVersion;
+            this.utilityService.showSuccessToaster('New version forked');
+            this.store.dispatch([
+              new UpdateVersionInfoByIdInBot({data: forkedVersion, botId: this.bot.id})
+            ]);
+          });
+      }
+    
+    // let validatinBody = {
+    //   'df_template': this.selectedVersion.df_template,
+    //   'df_rules': this.selectedVersion.df_rules,
+    //   'workflow': this.selectedVersion.workflow,
+    //   'generation_rules': this.selectedVersion.generation_rules,
+    //   'generation_templates': this.selectedVersion.generation_templates,
+    //   'version': this.selectedVersion.version,
+    //   'comment': this.selectedVersion.comment
+    // };
+    // let codeValidationUrl = this.constantsService.codeValidationUrl();
 
-    this.serverService.makePostReq<any>({headerData, body: validatinBody, url: codeValidationUrl})
-      .subscribe((validationResult) => {
-        this.selectedVersion.validation = validationResult;
-        if (!this.selectedVersion.validation.df_template.error &&
-          !this.selectedVersion.validation.df_rules.error &&
-          !this.selectedVersion.validation.workflow.error &&
-          !this.selectedVersion.validation.generation_rules.error &&
-          !this.selectedVersion.validation.generation_templates.error) {
+    // this.serverService.makePostReq<any>({headerData, body: validatinBody, url: codeValidationUrl})
+    //   .subscribe((validationResult) => {
+    //     this.selectedVersion.validation = validationResult;
+    //     if (!this.selectedVersion.validation.df_template.error &&
+    //       !this.selectedVersion.validation.df_rules.error &&
+    //       !this.selectedVersion.validation.workflow.error &&
+    //       !this.selectedVersion.validation.generation_rules.error &&
+    //       !this.selectedVersion.validation.generation_templates.error) {
 
-          this.selectedVersion.updated_fields = this.selectedVersion.changed_fields;
-          this.selectedVersion.changed_fields = {
-            'df_template': false,
-            'df_rules': false,
-            'generation_rules': false,
-            'generation_template': false,
-            'workflows': false
-          };
-          if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
-            let url = this.constantsService.getSaveVersionByBotId(this.bot.id);
-            this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
-              .subscribe((value: IBotVersionData) => {
-                this.selectedVersion = Object.assign(this.selectedVersion, value);
-                LoggingService.log(this.bot.store_bot_versions);
-                this.store.dispatch([
-                  new UpdateVersionInfoByIdInBot({data: value, botId: this.bot.id})
-                ]);
-                this.utilityService.showSuccessToaster('New version saved');
-              });
-          } else {
-            let url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
-            let body = this.selectedVersion;
-            delete body.id;
-            delete body.resource_uri;
-            delete body.forked_from;
-            /*remove version id = -1, from store*/
-            this.bot.store_bot_versions.length = 0;
-            this.serverService.makePostReq({url, body, headerData})
-              .subscribe((forkedVersion: IBotVersionData) => {
-                LoggingService.log(forkedVersion);
-                this.selectedVersion = forkedVersion;
-                this.utilityService.showSuccessToaster('New version forked');
-                this.store.dispatch([
-                  new UpdateVersionInfoByIdInBot({data: forkedVersion, botId: this.bot.id})
-                ]);
-              });
-          }
-        }
-        else {
-          this.utilityService.showErrorToaster('Your code has error. Please correct it before saving');
-        }
-      });
+    //       this.selectedVersion.updated_fields = this.selectedVersion.changed_fields;
+    //       this.selectedVersion.changed_fields = {
+    //         'df_template': false,
+    //         'df_rules': false,
+    //         'generation_rules': false,
+    //         'generation_template': false,
+    //         'workflows': false
+    //       };
+    //       if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
+    //         let url = this.constantsService.getSaveVersionByBotId(this.bot.id);
+    //         this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
+    //           .subscribe((value: IBotVersionData) => {
+    //             this.selectedVersion = Object.assign(this.selectedVersion, value);
+    //             LoggingService.log(this.bot.store_bot_versions);
+    //             this.store.dispatch([
+    //               new UpdateVersionInfoByIdInBot({data: value, botId: this.bot.id})
+    //             ]);
+    //             this.utilityService.showSuccessToaster('New version saved');
+    //           });
+    //       } else {
+    //         let url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
+    //         let body = this.selectedVersion;
+    //         delete body.id;
+    //         delete body.resource_uri;
+    //         delete body.forked_from;
+    //         /*remove version id = -1, from store*/
+    //         this.bot.store_bot_versions.length = 0;
+    //         this.serverService.makePostReq({url, body, headerData})
+    //           .subscribe((forkedVersion: IBotVersionData) => {
+    //             LoggingService.log(forkedVersion);
+    //             this.selectedVersion = forkedVersion;
+    //             this.utilityService.showSuccessToaster('New version forked');
+    //             this.store.dispatch([
+    //               new UpdateVersionInfoByIdInBot({data: forkedVersion, botId: this.bot.id})
+    //             ]);
+    //           });
+    //       }
+    //     }
+    //     else {
+    //       this.utilityService.showErrorToaster('Your code has error. Please correct it before saving');
+    //     }
+    //   });
 
 
   }
