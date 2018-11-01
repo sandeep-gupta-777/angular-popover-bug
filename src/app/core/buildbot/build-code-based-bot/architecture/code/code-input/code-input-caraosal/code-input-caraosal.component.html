@@ -2,9 +2,8 @@
 <!--<p>{{controlsClickedCount}}</p>-->
 <!--<div>{{itemWidth}}</div>-->
 <div class="d-flex show-on-hover-wrapper w-100">
-  <div class="controls d-flex flex-column justify-content-between align-items-start"
-       style="flex-basis: 18px;"
-       [ngClass]="{'always-show':selected, 'show-on-hover-item':!selected}">
+  <div class="controls d-flex flex-column justify-content-between align-items-start" style="flex-basis: 18px;"
+    [ngClass]="{'always-show':selected, 'show-on-hover-item':!selected}">
 
     <label class="container-chekbox text-dark p-0">
       <input type="checkbox" class="" [(ngModel)]="selected" (ngModelChange)="onSelected($event)">
@@ -13,8 +12,8 @@
 
     <div class="d-flex flex-column">
       <i class="fa fa-chevron-up m-1 cursor-pointer heading-icon" *ngIf="myIndex != 0" (click)="moveUp(myIndex);"></i>
-      <i class="fa fa-chevron-down m-1 cursor-pointer heading-icon"
-         *ngIf="myIndex != (totalResponseTemplateComponentCount-1)" (click)="moveDown(myIndex);"></i>
+      <i class="fa fa-chevron-down m-1 cursor-pointer heading-icon" *ngIf="myIndex != (totalResponseTemplateComponentCount-1)"
+        (click)="moveDown(myIndex);"></i>
     </div>
     <i class="fa fa-trash ml-auto m-1 cursor-pointer heading-icon" (click)="delete(myIndex);"></i>
 
@@ -30,51 +29,39 @@
     </div>
 
     <div #MultiCarousel class="MultiCarousel  w-100 ml-1" data-items="2,2,2,2" data-slide="1" id="MultiCarousel"
-         data-interval="1000">
+      data-interval="1000">
       <!--TODO: ngclass below is a hack; improve it-->
-      <div #MultiCarouselInner class="MultiCarousel-inner  flex-grow-1 d-flex"
-           style="min-width: 100%"
-           [ngClass]="{'float-right':isParentSessionsModal && (totalItemsInCarasol<carasolItemShownInOneScreen)}">
+      <div #MultiCarouselInner class="MultiCarousel-inner  flex-grow-1 d-flex" style="min-width: 100%" [ngClass]="{'float-right':isParentSessionsModal && (totalItemsInCarasol<carasolItemShownInOneScreen)}">
         <!--carasol item starts-->
-        <div class="item flex-shrink-0 p-1"
-             #caraosalItem
-             *ngFor="let carousalItem of outputItem?.generic_template[0]?.elements; let i = index"
-             style="border-radius: 2px">
-          <div [style.visibility]="controlsClickedCount===i ? 'visible' : 'hidden'"
-               class="w-100 controls show-on-hover-item d-flex justify-content-between align-items-start hide-it"
-               style="flex-basis: 18px;">
+        <div class="item flex-shrink-0 p-1" #caraosalItem *ngFor="let carousalItem of outputItem?.generic_template[0]?.elements; let i = index"
+          style="border-radius: 2px">
+          <div [style.visibility]="controlsClickedCount===i ? 'visible' : 'hidden'" class="w-100 controls show-on-hover-item d-flex justify-content-between align-items-start hide-it"
+            style="flex-basis: 18px;">
 
 
             <i class="fa fa-copy carasol-item-control cursor-pointer" (click)="duplicateCarasolItem(i);"></i>
             <div class="d-flex ">
-              <i *ngIf="i>=1" class="fa fa-chevron-left m-1 cursor-pointer heading-icon carasol-item-control"
-                 (click)="swapCarasolItems(i,i-1)"></i>
-              <i *ngIf="i< outputItem?.generic_template[0]?.elements.length-1"
-                 class="fa fa-chevron-right m-1 cursor-pointer heading-icon carasol-item-control"
-                 (click)="swapCarasolItems(i,i+1)"></i>
+              <i *ngIf="i>=1" class="fa fa-chevron-left m-1 cursor-pointer heading-icon carasol-item-control" (click)="swapCarasolItems(i,i-1)"></i>
+              <i *ngIf="i< outputItem?.generic_template[0]?.elements.length-1" class="fa fa-chevron-right m-1 cursor-pointer heading-icon carasol-item-control"
+                (click)="swapCarasolItems(i,i+1)"></i>
             </div>
-            <i class="fa fa-trash m-1 cursor-pointer heading-icon carasol-item-control"
-               (click)="deleteCarasolItem(i);"></i>
+            <i class="fa fa-trash m-1 cursor-pointer heading-icon carasol-item-control" (click)="deleteCarasolItem(i);"></i>
 
           </div>
           <div class="card m-0 shadow-theme position-relative">
             <ng-container *ngIf="i === controlsClickedCount+1">
               <div class="item-before cursor-pointer bg-overlay-grey d-flex align-items-center justify-content-center "
-                   #rightLst
-                   (click)="slideCarousel(myECarasoulMoveDirection.right)"
-                   style="position: absolute; top: 0;bottom: 0;right: 0; left: 0; z-index: 100">
+                #rightLst (click)="slideCarousel(myECarasoulMoveDirection.right)" style="position: absolute; top: 0;bottom: 0;right: 0; left: 0; z-index: 100">
                 <i class="fa fa-arrow-right" style="position: absolute; top: 50%; left: 12.5%; z-index: 110"></i>
               </div>
             </ng-container>
             <!--carasol content starts-->
-            <div
-              [ngStyle]="{'background-image': 'url('+ carousalItem.image_url +')'}"
-              class="card-img-top">
+            <div [ngStyle]="{'background-image': 'url('+ carousalItem.image_url +')'}" class="card-img-top">
             </div>
             <ul class="list-group list-group-flush">
               <li class="list-group-item limit-three-lines cursor-pointer mt-2">
                 <input #mainInput type="text" class="border" autofocus placeholder="title" [(ngModel)]="carousalItem.title"
-                       style="width: 100%">
+                  style="width: 100%">
               </li>
               <li class="list-group-item limit-three-lines flex-column align-items-start cursor-pointer">
                 <input type="text" placeholder="image URL" [(ngModel)]="carousalItem.image_url" style="width: 100%">
@@ -93,36 +80,30 @@
               <!--style="margin-top: 6px;" *ngFor="let button of carousalItem.button">-->
               <!--{{button.title}}-->
               <!--</li>-->
-              <li
-                *ngFor="let button of carousalItem.button; let buttonIndex = index;"
-                (clickOutside)="dropdown.hide()"
-                class="list-group-item limit-three-lines w-100 px-0 py-0 border cursor-pointer"
-                style="margin-top: 6px; overflow: visible">
+              <li *ngFor="let button of carousalItem.button; let buttonIndex = index;" (clickOutside)="dropdown.hide()"
+                class="list-group-item limit-three-lines w-100 px-0 py-0 border cursor-pointer" style="margin-top: 6px; overflow: visible">
                 <form #btnConfigForm="ngForm" class="btn-group w-100" #dropdown="bs-dropdown" [autoClose]="false"
-                      dropdown (clickOutside)="dropdown.hide()">
+                  dropdown (clickOutside)="dropdown.hide()">
                   <!--caraosal button starts-->
                   <div dropdownToggle class="text-center w-100 py-1">{{button.title}}</div>
                   <!--caraosal button ends-->
-                  <ul *dropdownMenu class="dropdown-menu dropdown-menu-right p-1" id="button-configure-dropdown"
-                      role="menu">
+                  <ul *dropdownMenu class="dropdown-menu dropdown-menu-right p-1" id="button-configure-dropdown" role="menu">
                     <li>
                       <div class="faded-text text-dark text-bold text-center">Configure button options</div>
                     </li>
                     <li role="menuitem" class="mb-1">
                       <label class="faded-text mb-0"> Title</label>
-                      <input type="text" name="title" [ngModel]="button.title" placeholder="title"
-                             style="width: 100%">
+                      <input type="text" name="title" [ngModel]="button.title" placeholder="title" style="width: 100%">
                     </li>
                     <li role="menuitem" class="mb-1">
                       <label class="faded-text mb-0"> Payload</label>
-                      <input type="text" name="payload" [ngModel]="button.payload" placeholder="payload"
-                             style="width: 100%">
+                      <input type="text" name="payload" [ngModel]="button.payload" placeholder="payload" style="width: 100%">
                     </li>
                     <li role="menuitem" class="mb-1">
                       <label class="faded-text mb-0">Type</label>
                       <input type="text" name="type" [ngModel]="button.type" placeholder="type" style="width: 100%">
                     </li>
-                    <li class="d-flex" style="margin-top: 10px; font-size: 11px" >
+                    <li class="d-flex" style="margin-top: 10px; font-size: 11px">
                       <!--<button class="btn btn-theme-success-sm-outline mx-1" (click)="dropdown.hide()">Cancel</button>-->
                       <!--<button class="btn btn-theme-success-sm">Save</button>-->
                       <span class="text-primary mr-1 cursor-pointer" (click)="saveButtonConfig(btnConfigForm, i, buttonIndex)">Done</span>
@@ -132,9 +113,8 @@
                 </form>
               </li>
 
-              <li *ngIf="this.outputItem.generic_template[0].elements[i].button.length<=2"
-                  class="list-group-item limit-three-lines w-100 px-0 py-1 border cursor-pointer"
-                  style="margin-top: 6px;">
+              <li *ngIf="this.outputItem.generic_template[0].elements[i].button.length<=2" class="list-group-item limit-three-lines w-100 px-0 py-1 border cursor-pointer"
+                style="margin-top: 6px;">
                 <div class="text-center w-100" (click)="addNewButtonToCarasol(i)">+ Add New</div>
               </li>
 
@@ -144,9 +124,7 @@
 
             <ng-container *ngIf="i === controlsClickedCount-1">
               <div class="item-after cursor-pointer bg-overlay-grey d-flex align-items-center justify-content-center "
-                   #leftLst
-                   (click)="slideCarousel(myECarasoulMoveDirection.left)"
-                   style="position: absolute; top: 0; right: 0; left: 0; bottom: 0; z-index: 100">
+                #leftLst (click)="slideCarousel(myECarasoulMoveDirection.left)" style="position: absolute; top: 0; right: 0; left: 0; bottom: 0; z-index: 100">
                 <i class="fa fa-arrow-left" style="position: absolute; top: 50%; right: 12.5%; z-index: 110"></i>
               </div>
             </ng-container>
@@ -155,16 +133,24 @@
         </div>
         <!--carasol item ends-->
 
-        <div #addNewCarasolPlaceholder
-             title="Add new carousal item"
-             [style.width]="(itemWidth/3)+'px'"
-             (click)="pushNewCarasolItem()"
-             class="p-1 flex-shrink-0 d-flex align-items-center justify-content-center bg-overlay-grey">
+        <div #addNewCarasolPlaceholder title="Add new carousal item" [style.width]="(itemWidth/3)+'px'" (click)="pushNewCarasolItem()"
+          class="p-1 flex-shrink-0 d-flex align-items-center justify-content-center bg-overlay-grey">
           <i class="fa fa-plus" style="font-size: 20px; color: #9e9e9e"></i>
         </div>
 
       </div>
     </div>
+
+    <div class="pb-1"> 
+      <span class="child-no-expand cursor-pointer pb-1">
+        <!-- <img *ngFor="let channel of channelNameList" class="logo-image mx-1" 
+          [src]="(channel|logosByIntegrationName)?.icon" (click)="removeThisChannel(channel)" 
+          [ngStyle]="{'opacity': imgOpacity(channel) ? 1 : 0.3 }"> -->
+        <img *ngFor="let channel of channelNameList" class="logo-image mx-1" [src]="(channel|logosByIntegrationName)?.icon"
+          [ngStyle]="{'opacity': true ? 1 : 0.3 }">
+        <!-- <img class="logo-image mx-1" [src]="('facebook'|logosByIntegrationName)?.icon" [ngStyle]="{'opacity': imgOpacity('facebook') ? 1 : 0.3 }"> <img class="logo-image mx-1" src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/skype.png"> -->
+      </span> 
+    </div>
+
   </div>
 </div>
-
