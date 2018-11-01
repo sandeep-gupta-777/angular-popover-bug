@@ -592,14 +592,14 @@ export class UtilityService {
     }
   }
 
-  isImageUrlHttps(formControl: FormControl){
+  imageUrlHttpsError(formControl: FormControl){
     let url:string = formControl.value;
     let pattern = /^((https):\/\/)/;
 
     return pattern.test(url)? null : {'Must be Https Url': true};
   }
 
-  isImageUrlHavingValidExtn(formControl: FormControl){
+  imageUrlHavingValidExtnError(formControl: FormControl){
     let url:string = formControl.value;
     let pattern = /\.(gif|jpg|jpeg|tiff|png)$/i
     return pattern.test(url)? null : {'Image Extension is not correct': true};

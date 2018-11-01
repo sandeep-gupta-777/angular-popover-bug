@@ -1,4 +1,4 @@
-import {Component, Injector, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Injector, Input, OnInit, Output} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl} from '@angular/forms';
 import {UiSwitchWrapperComponent} from '../ui-switch/ui-switch-wrapper.component';
 import {ObjectKeyMap} from '@ngxs/store/src/internals';
@@ -19,19 +19,22 @@ export class BotConfigInputComponent implements OnInit,ControlValueAccessor {
   @Input() displayName:string;
   @Input() placeholder:string;
   @Input() errors:{name:string, description:string}[] = [];
+  @Output() keyDown$ = new EventEmitter();
   myObject = Object;
   isDisabled = false;
   onChanges:Function;
   ngControl:NgControl;
-  constructor(private injector: Injector) {
-  }
+  constructor(private injector: Injector) {}
 
   ngOnInit() {
     this.ngControl = this.injector && this.injector.get(NgControl);
   }
+
+  keyDown(data){
+    this.keyDown$.emit(data);
+  }
   valueChanged(isOn:boolean){
     LoggingService.log(this.ngControl.errors);
-
     this.onChanges(isOn);
   }
 
@@ -50,6 +53,13 @@ export class BotConfigInputComponent implements OnInit,ControlValueAccessor {
 
   registerOnTouched(fn: any): void {
 
+  }
+
+  keyPressed($event){
+    this.keyDown$.emit($event);
+    setTimeout(()=>{
+      this.valueChanged(this.value);
+    })
   }
 
 }

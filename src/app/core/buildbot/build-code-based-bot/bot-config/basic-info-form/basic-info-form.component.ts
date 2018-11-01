@@ -40,7 +40,7 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
         formArray.controls.splice(0);
 
         this.initializeChildBotFormArray();
-      }catch (e) {
+      } catch (e) {
         LoggingService.error(e);
       }
     }
@@ -53,8 +53,8 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
   myEBotType = EBotType;
   formGroup: FormGroup;
   logoErrorObj = [
-    {name:'imageExnError',description:'Invalid Extension'},
-    {name:'imageHttpsError',description:'Only Https urls allowed'}]
+    {name: 'imageExnError', description: 'Invalid Extension'},
+    {name: 'imageHttpsError', description: 'Only Https urls allowed'}];
 
   constructor(private store: Store,
               private utilityService: UtilityService,
@@ -69,10 +69,10 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
     this.formGroup = this.formBuilder.group({
       name: [this._bot.name, Validators.required],
       description: [this._bot.description, Validators.required],
-      logo: [this._bot.logo, [Validators.required, this.utilityService.isImageUrlHavingValidExtn,this.utilityService.isImageUrlHttps]],
+      logo: [this._bot.logo, [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
       bot_unique_name: [this._bot.bot_unique_name, Validators.required],
       room_persistence_time: [this._bot.room_persistence_time, Validators.required],
-      is_manager: [this._bot.is_manager||false],
+      is_manager: [this._bot.is_manager || false],
       child_bots: this.formBuilder.array([]),
     }, {validator: this.utilityService.isManagerValidator});
 
@@ -104,10 +104,15 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
     }
   }
 
+  setBotUniqueName(botName: string) {
+    let uniqueName = botName.split('').join();
+    this.formGroup.patchValue({'Unique Name': uniqueName});
+  }
+
   pushChildBot(childBotId): void {
     let formArray = this.formGroup.get('child_bots') as FormArray;
     // formArray.push(this.formBuilder.control(childBotid));
-    this.utilityService.pushFormControlItemInFormArray(formArray, this.formBuilder,childBotId)
+    this.utilityService.pushFormControlItemInFormArray(formArray, this.formBuilder, childBotId);
   }
 
   removeChildBot(childBotId): void {
@@ -127,9 +132,9 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
   }
 
   isBotIdPresentInChildBotList(childBotId): boolean {
-    let childBots:number[] = this.formGroup.get('child_bots').value || [];
-    let indexOfMatchingChildBot:number = childBots.findIndex((botId)=>botId===childBotId);
-    return indexOfMatchingChildBot !==-1;
+    let childBots: number[] = this.formGroup.get('child_bots').value || [];
+    let indexOfMatchingChildBot: number = childBots.findIndex((botId) => botId === childBotId);
+    return indexOfMatchingChildBot !== -1;
   }
 
   click() {
@@ -151,6 +156,16 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
 
   writeValue(obj: IBot): void {
     this.value = obj;
+  }
+
+  nameChangeByUser($event) {
+    setTimeout(() => {
+      let name = this.formGroup.value.name;
+      if (name) {
+
+        this.formGroup.patchValue({bot_unique_name: name.trim().split(' ').join("").toLowerCase()});
+      }
+    }, 1000);
   }
 }
 

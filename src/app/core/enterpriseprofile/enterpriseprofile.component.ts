@@ -9,6 +9,7 @@ import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
 import {IHeaderData} from '../../../interfaces/header-data';
 import {IEnterpriseUser} from '../interfaces/enterprise-users';
 import {UtilityService} from '../../utility.service';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-enterpriseprofile',
@@ -27,12 +28,19 @@ export class EnterpriseprofileComponent implements OnInit {
   enterpriseId: number;
   loggeduserenterpriseinfo: IEnterpriseProfileInfo;
   smartTableSettings_Enterprise_profiles = this.constantsService.SMART_TABLE_ENTERPISE_USERS_SETTING;
+  logoError;
 
   constructor(
     private store: Store,
     private constantsService: ConstantsService,
     private utilityService: UtilityService,
     private serverService: ServerService) {
+  }
+  validateLogo(logo){
+    debugger;
+    let formControl = new FormControl(logo)
+    let logoErrorObj = this.utilityService.imageUrlHttpsError(formControl) || this.utilityService.imageUrlHavingValidExtnError(formControl);
+    this.logoError = logoErrorObj && Object.keys(logoErrorObj)[0]||null;
   }
 
   ngOnInit() {

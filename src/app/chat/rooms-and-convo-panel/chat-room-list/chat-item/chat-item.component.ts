@@ -3,6 +3,7 @@ import {Observable} from 'rxjs';
 import {Select, Store} from '@ngxs/store';
 import {EChatFrame, IChatSessionState, IRoomData} from '../../../../../interfaces/chat-session-state';
 import {ChangeFrameAction, SetConsumerDetail, SetCurrentBotDetailsAndResetChatStateIfBotMismatch, SetCurrentRoomID, SetCurrentUId} from '../../../ngxs/chat.action';
+import {IConsumerDetails} from '../../../ngxs/chat.state';
 
 @Component({
   selector: 'app-chat-item',
@@ -15,13 +16,14 @@ export class ChatItemComponent implements OnInit {
   @Input() currentUid:string;
   @Input() currentRoomId:number;
   @Select() chatsessionstate$: Observable<IChatSessionState>;
-
+  customConsumerDetails: IConsumerDetails;
   constructor(private store: Store) {
   }
 
   ngOnInit() {
     this.chatsessionstate$.subscribe((chatSessionState)=>{
       this.currentRoomId =  chatSessionState.currentRoomId;
+      this.customConsumerDetails = chatSessionState.rooms.find((room)=>room.id===this.currentRoomId).consumerDetails;
     });
   }
 

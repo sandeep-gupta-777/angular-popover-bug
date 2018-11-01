@@ -634,6 +634,21 @@ export class ConstantsService {
           return formatted;
         }
       },
+      channels: {
+        title: 'Channels',
+        type: 'html',
+        valuePrepareFunction: (channels:string[]) => {
+          let imageStr = "";
+          channels.forEach((value)=>{
+            imageStr +=
+              `
+<img width="16px" src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/${value}.png" />
+<span hidden>${value}</span>
+`;
+          });
+           return imageStr;
+          },
+      },
       sendtoagent: {
         title: 'Sent to Agent'
       }

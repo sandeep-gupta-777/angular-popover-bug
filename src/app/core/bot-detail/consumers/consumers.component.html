@@ -47,6 +47,8 @@
 
   <app-splash-screen *ngIf="consumerTableData && consumerTableData.length===0"
                      [imageHRef]="myESplashScreens.consumers"
+                     headingText="No consumers found"
+                     descriptionText="Integrate or deploy your bot to see the captured consumer details"
                      class="d-flex justify-content-center align-items-center"
                      style="position: absolute; left: 0; right: 0;bottom: 0; top: 0;"
   ></app-splash-screen>

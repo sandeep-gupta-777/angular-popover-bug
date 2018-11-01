@@ -37,8 +37,8 @@
             </div>
             <!---->
             <div class="form-group">
-              <label for="alterEgo">Logo Url</label>
-              <input type="text" class="form-control" [ngModel]="loggeduserenterpriseinfo.logo" name="logo">
+              <label for="alterEgo">Logo Url</label><i class="text-danger pl-1" style="font-size: 11px" >{{logoError}}</i>
+              <input type="text" class="form-control" [ngModel]="loggeduserenterpriseinfo.logo" (ngModelChange)="validateLogo($event)" name="logo">
             </div>
           </div>
           <div class="col-5">
