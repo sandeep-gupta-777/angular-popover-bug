@@ -56,6 +56,7 @@ export class BotConfigInputComponent implements OnInit,ControlValueAccessor {
   }
 
   keyPressed($event){
+    debugger;
     this.keyDown$.emit($event);
     setTimeout(()=>{
       this.valueChanged(this.value);

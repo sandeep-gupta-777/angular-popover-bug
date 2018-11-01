@@ -11,6 +11,6 @@
        class="form-control"
        [placeholder]="placeholder"
        [(ngModel)]="value"
-       (keypress)="keyPressed($event)"
+       (keydown)="keyPressed($event)"
        [disabled]="isDisabled">
 <!--<p>{{errors|json}}</p>-->
