@@ -278,6 +278,7 @@
                   <app-text-gentemplate *ngIf="outputItem.text" [outputItem]="outputItem" [variants]="outputItem.text"
                                         #gentemplateItem class="gentemplateItem"
                                         [myIndex]=i
+                                        [channelNameList]="channelNameList"
                                         [totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"
                                         [selectedTemplateKeyOutputIndex]="selectedTemplateKeyOutputIndex"
                                         (deleteTemplate)="deleteGentemplate($event)"
@@ -288,6 +289,7 @@
                                         #gentemplateItem class="gentemplateItem"
                                         [outputItem]="outputItem"
                                         [myIndex]=i
+                                        [channelNameList]="channelNameList"
                                         [totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"
                                         [hidden]="activeTab!==myEBotVersionTabs.generation_templates"
                                         (deleteTemplate)="deleteGentemplate($event)"
@@ -299,6 +301,7 @@
                                            class="d-flex w-100 gentemplateItem"
                                            [outputItem]="outputItem"
                                            [myIndex]=i
+                                           [channelNameList]="channelNameList"
                                            [totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"
                                            [hidden]="activeTab!==myEBotVersionTabs.generation_templates"
                                            (deleteTemplate)="deleteGentemplate($event)"
@@ -309,6 +312,7 @@
                                                 #gentemplateItem class="gentemplateItem"
                                                 [outputItem]="outputItem"
                                                 [myIndex]=i
+                                                [channelNameList]="channelNameList"
                                                 [totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"
                                                 [selectedTemplateKeyOutputIndex]="selectedTemplateKeyOutputIndex"
                                                 (deleteTemplate)="deleteGentemplate($event)"
@@ -604,8 +608,8 @@
       <div class="mx-3 mb-3" style="text-align: left !important;">
         <form #form="ngForm">
           <div class="my-1">
-            <p class="mb-3">the current active version has error which need to be rectified defore daving the version.
-              You can resolve the errors in the active versin to save it right now.
+            <p class="mb-3">the current active version has error which need to be rectified before saving the version.
+              You can resolve the errors in the active version to save it right now.
             </p>
             <p>
               You can fork this version to an inactive version with these errors and you can save it,
