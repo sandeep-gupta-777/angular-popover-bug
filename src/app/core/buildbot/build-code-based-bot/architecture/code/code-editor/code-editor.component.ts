@@ -28,6 +28,8 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
   editorCodeObjRef: { text: string } = { text: '' };
   @Output() validateClick =  new EventEmitter();
   @ViewChild('f') codeEditor: ElementRef;
+  @Input() doShowUploadDownloadButton: boolean = true;
+  @Input() doValidationsIcon: boolean = true;
   constructor(
     private utilityService: UtilityService,
     private activatedRoute: ActivatedRoute) {

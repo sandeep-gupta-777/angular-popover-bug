@@ -37,7 +37,7 @@ export class EnterpriseprofileComponent implements OnInit {
     private serverService: ServerService) {
   }
   validateLogo(logo){
-    debugger;
+
     let formControl = new FormControl(logo)
     let logoErrorObj = this.utilityService.imageUrlHttpsError(formControl) || this.utilityService.imageUrlHavingValidExtnError(formControl);
     this.logoError = logoErrorObj && Object.keys(logoErrorObj)[0]||null;
