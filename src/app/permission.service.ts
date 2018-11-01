@@ -87,7 +87,8 @@ export class PermissionService {
     '/api/v1/actions/',
     '/api/v1/user/login/',
     '/api/v1/user/resetpasswordurl/',
-    '/api/v1/user/resetpassword/'
+    '/api/v1/user/resetpassword/',
+    '/api/v1/webhook/web/'
   ];
   constructor() {
     this.loggeduser$.subscribe((loggeduser) => {
