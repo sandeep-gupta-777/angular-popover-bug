@@ -46,6 +46,7 @@ import {BackendDevComponent} from './backend-dev/backend-dev.component';
 import {ChatService} from './chat.service';
 import {ObjectArrayCrudService} from './object-array-crud.service';
 import {SplashScreenComponent} from './splash-screen/splash-screen.component';
+import { DebounceClickDirective } from './debounce-click.directive';
 // import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 
 const routes: Route[] = [
@@ -64,6 +65,7 @@ const routes: Route[] = [
     NotAuthorisedComponent,
       FilterArrayPipe,
     BackendDevComponent,
+    DebounceClickDirective,
     // MsToHhMmPipe,
     // ChatWrapperComponent,
     // ChatWindowComponent,
@@ -80,6 +82,7 @@ const routes: Route[] = [
     RichMediaModule,
     RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,
+    
     NgxsModule.forRoot([
       AuthStateReducer,
       AppStateReducer,
