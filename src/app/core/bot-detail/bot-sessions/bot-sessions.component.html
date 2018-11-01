@@ -14,6 +14,8 @@
 
 <app-splash-screen *ngIf="sessions && sessions.length===0"
                    [imageHRef]="myESplashScreens.sessions"
+                   [headingText]="'No sessions found'"
+                   [descriptionText]="'Integrate or deploy your bot to see all conversations bot was involved in'"
                    class="d-flex justify-content-center align-items-center"
                    style="position: absolute; left: 0; right: 0;bottom: 0; top: 0;"
 ></app-splash-screen>

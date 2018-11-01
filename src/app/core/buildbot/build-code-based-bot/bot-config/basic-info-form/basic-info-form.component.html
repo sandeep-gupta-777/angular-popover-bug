@@ -4,8 +4,10 @@
     <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
       <div class="form-group">
         <app-bot-config-input
+          #NameInput
           displayName="Bot Name"
           placeholder="A display name for the bot"
+          (keyDown$)="nameChangeByUser($event)"
           formControlName="name"></app-bot-config-input>
       </div>
 

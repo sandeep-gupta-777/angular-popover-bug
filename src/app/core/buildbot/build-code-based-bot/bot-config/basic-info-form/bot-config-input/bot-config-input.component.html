@@ -10,7 +10,7 @@
 <input type="text" id="alterEgo"
        class="form-control"
        [placeholder]="placeholder"
-       [ngModel]="value"
-       [disabled]="isDisabled"
-       (ngModelChange)="valueChanged($event)">
+       [(ngModel)]="value"
+       (keydown)="keyPressed($event)"
+       [disabled]="isDisabled">
 <!--<p>{{errors|json}}</p>-->

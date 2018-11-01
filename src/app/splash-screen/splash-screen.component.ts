@@ -17,6 +17,9 @@ export enum ESplashScreens {
 export class SplashScreenComponent implements OnInit {
 
   @Input() imageHRef;
+  @Input() headingText:string;
+  @Input() descriptionText:string;
+
   myESplashScreens = ESplashScreens;
   @Output() buttonClicked = new EventEmitter();
   @Input() buttonText;
