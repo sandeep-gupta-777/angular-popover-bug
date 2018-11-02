@@ -6,7 +6,7 @@ import {IOutputItem} from '../core/buildbot/build-code-based-bot/architecture/co
   templateUrl: './code-quick-reply-wrapper.component.html',
   styleUrls: ['./code-quick-reply-wrapper.component.scss']
 })
-export class CodeQuickReplyWrapperComponent implements OnInit, AfterViewInit {
+export class CodeQuickReplyWrapperComponent implements OnInit {
 
   constructor() { }
   @Input() outputItem: IOutputItem;
@@ -31,13 +31,6 @@ export class CodeQuickReplyWrapperComponent implements OnInit, AfterViewInit {
 
   @ViewChild('mainInput') mainInput: ElementRef;
   selected;
-  moveUp(i) {
-    this.moveTempUp.emit(i);
-  }
-
-  moveDown(i) {
-    this.moveTempDown.emit(i);
-  }
 
   onSelected(data) {
     this.selectionChanged.emit(JSON.stringify({
@@ -57,28 +50,5 @@ export class CodeQuickReplyWrapperComponent implements OnInit, AfterViewInit {
   ngOnInit() {
   }
 
-  ngAfterViewInit(): void {
-    this.mainInput.nativeElement.focus();
-  }
-
-  removeThisChannel(channel: string) {
-    let isChannelPresent = this.outputItem.include.find(e => e === channel);
-    if (isChannelPresent) {
-      this.outputItem.include = this.outputItem.include.filter(e => e !== channel);
-    }
-    else {
-      this.outputItem.include.push(channel);
-    }
-  }
-
-  imgOpacity(channel : string) {
-    let isChannelPresent = this.outputItem.include.find(e => e === channel);
-    if(isChannelPresent){
-      return true;
-    }
-    else{
-      return false;
-    }
-  }
 
 }
