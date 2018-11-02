@@ -33,4 +33,11 @@ form {
     @include typography(13px, $line-height-normal, $font-weight-300,#474747);
   }
 
+
+
+}
+.dropdown-menu{/*override*/
+  left: auto !important;
+  right: 0 !important;
+  top: 90%!important;
 }
