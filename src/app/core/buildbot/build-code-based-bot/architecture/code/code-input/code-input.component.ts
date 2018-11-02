@@ -64,6 +64,7 @@ export interface IQuickReplyItem {
 
 export interface IOutputItem {
   text?: string[],
+  code?: string,
   include?: string[],
   generic_template?: { 'elements': ICarousalItem[] }[],
   'quick_reply': [{

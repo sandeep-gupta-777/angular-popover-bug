@@ -102,6 +102,7 @@ const routes: Route[] = [
     TestComponent,
     ChatPreviewNewPageComponent,
     FooterComponent,
+
     // DisplayNameForKeyIntegrationPipe,
 
     /*added after lazy loading*/
