@@ -43,10 +43,10 @@
     <div class = "pb-1">
       <span class="child-no-expand cursor-pointer pb-1">
       
-        <!-- <img *ngFor="let channel of channelNameList" class="logo-image mx-1" [src]="(channel|logosByIntegrationName)?.icon"
-          (click)="removeThisChannel(channel)" [ngStyle]="{'opacity': imgOpacity(channel) ? 1 : 0.3 }"> -->
-          <img *ngFor="let channel of channelNameList" class="logo-image mx-1" [src]="(channel|logosByIntegrationName)?.icon"
-           [ngStyle]="{'opacity': true ? 1 : 0.3 }">
+        <img *ngFor="let channel of channelNameList" class="logo-image mx-1" [src]="(channel|logosByIntegrationName)?.icon"
+          (click)="removeThisChannel(channel)" [ngStyle]="{'opacity': imgOpacity(channel) ? 1 : 0.3 }">
+          <!-- <img *ngFor="let channel of channelNameList" class="logo-image mx-1" [src]="(channel|logosByIntegrationName)?.icon"
+           [ngStyle]="{'opacity': true ? 1 : 0.3 }"> -->
   
         <!-- <img class="logo-image mx-1" [src]="('facebook'|logosByIntegrationName)?.icon" 
           [ngStyle]="{'opacity': imgOpacity('facebook') ? 1 : 0.3 }">

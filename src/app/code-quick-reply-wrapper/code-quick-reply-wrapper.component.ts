@@ -61,4 +61,24 @@ export class CodeQuickReplyWrapperComponent implements OnInit, AfterViewInit {
     this.mainInput.nativeElement.focus();
   }
 
+  removeThisChannel(channel: string) {
+    let isChannelPresent = this.outputItem.include.find(e => e === channel);
+    if (isChannelPresent) {
+      this.outputItem.include = this.outputItem.include.filter(e => e !== channel);
+    }
+    else {
+      this.outputItem.include.push(channel);
+    }
+  }
+
+  imgOpacity(channel : string) {
+    let isChannelPresent = this.outputItem.include.find(e => e === channel);
+    if(isChannelPresent){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
 }

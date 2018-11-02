@@ -83,6 +83,16 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
     }
   }
 
+  imgOpacity(channel : string) {
+    let isChannelPresent = this.outputItem.include.find(e => e === channel);
+    if(isChannelPresent){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
   moveUp(i) {
     this.moveTempUp.emit(i);
   }
@@ -356,6 +366,6 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
     });
     console.log(this.outputItem.generic_template[0].elements[carasolItemIndex]);
   }
-
+  
 
 }
