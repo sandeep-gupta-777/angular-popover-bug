@@ -141,7 +141,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
 
   recalculateWidthForCaraousalItems() {
     let self = this;
-    debugger;
+
     setTimeout(() => {/*first add item, then in next tick force .item with recalculation*/
       $(this.MultiCarouselInner.nativeElement).find(('.item')).each(function () {
         $(this).outerWidth(self.itemWidth);
@@ -235,7 +235,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
         // var itemsSplit: any = '';
         self.MultiCarouselWidth = sampwidth = $(MultiCarousel).width();
         if (!sampwidth) {
-          debugger;
+
         }
         console.log(sampwidth, '=============');
 
@@ -352,7 +352,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   ngAfterViewChecked() {
     console.log('=================ngAfterViewChecked====================');
     if (this.x) {
-      debugger;
+
       this.ResCarouselSize1();
       this.x = 0;
     }

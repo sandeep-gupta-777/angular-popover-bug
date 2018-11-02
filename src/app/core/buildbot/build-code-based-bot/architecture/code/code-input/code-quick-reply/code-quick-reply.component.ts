@@ -32,7 +32,7 @@ export class CodeQuickReplyComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    debugger;
+
     this.content_type = this.quick_reply.content_type;
     this.textType = this.quick_reply.textType|| EQuickReplySubTabsType.payload;
   }

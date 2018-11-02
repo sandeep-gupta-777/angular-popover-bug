@@ -19,14 +19,16 @@
     <div class="p-1 tem-heading d-flex">
       <i class="fa fa-code heading-icon"></i> Code Input
     </div>
-    <app-code-editor class="child-expand" [text]="{text: outputItemClone|json}" (textChangedEvent)="codeEditorTextCHanged($event)"></app-code-editor>
+    <app-code-editor [doShowUploadDownloadButton]="false"
+                     [doValidationsIcon]="false"
+                     class="child-expand" [text]="{text: outputItemClone|json}" (textChangedEvent)="codeEditorTextCHanged($event)"></app-code-editor>
     <div class="p-1 icon-footer">
       <span class="child-no-expand cursor-pointer">
-        
+
         <img *ngFor="let channel of channelNameList" class="logo-image mx-1" [src]="(channel|logosByIntegrationName)?.icon"
           (click)="removeThisChannel(channel)" [ngStyle]="{'opacity': imgOpacity(channel) ? 1 : 0.3 }">
 
-        <!-- <img class="logo-image mx-1" [src]="('facebook'|logosByIntegrationName)?.icon" 
+        <!-- <img class="logo-image mx-1" [src]="('facebook'|logosByIntegrationName)?.icon"
         (click)="removeThisChannel('facebook')" [ngStyle]="{'opacity': imgOpacity('facebook') ? 1 : 0.3 }">
 
         <img class="logo-image mx-1" src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/skype.png"> -->
