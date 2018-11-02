@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, isDevMode, OnInit, Output} from '@angular/core';
 
 export enum ESplashScreens {
   consumers='consumers.svg',
@@ -23,9 +23,11 @@ export class SplashScreenComponent implements OnInit {
   myESplashScreens = ESplashScreens;
   @Output() buttonClicked = new EventEmitter();
   @Input() buttonText;
+  root = "";
   constructor() { }
 
   ngOnInit() {
+    this.root = isDevMode() ? '':'static';
   }
 
 }
