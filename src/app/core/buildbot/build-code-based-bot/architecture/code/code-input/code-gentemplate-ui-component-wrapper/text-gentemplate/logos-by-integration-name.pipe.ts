@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {IAppState} from '../../../../../../../ngxs/app.state';
-import {IIntegrationMasterListItem, IMasterIntegrationResult} from '../../../../../../../../interfaces/integration-option';
+import {IAppState} from '../../../../../../../../ngxs/app.state';
+import {IIntegrationMasterListItem, IMasterIntegrationResult} from '../../../../../../../../../interfaces/integration-option';
 
 @Pipe({
   name: 'logosByIntegrationName'

@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {IQuickReplyItem} from '../code-input.component';
+import {IQuickReplyItem} from '../../code-input.component';
 import {NgForm} from '@angular/forms';
 
 export enum EQuickReplyTypes {

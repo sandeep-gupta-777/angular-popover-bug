@@ -1,0 +1,8 @@
+<div class="code-gentemplate flex-grow-1 d-flex-column-last-child-flex-grow-1">
+  <div class="p-1 tem-heading d-flex">
+    <i class="fa fa-code heading-icon"></i> Code Input
+  </div>
+  <app-code-editor [doShowUploadDownloadButton]="false"
+                   [doValidationsIcon]="false"
+                   class="child-expand" [text]="{text: outputItemClone|json}" (textChangedEvent)="codeEditorTextCHanged($event)"></app-code-editor>
+</div>

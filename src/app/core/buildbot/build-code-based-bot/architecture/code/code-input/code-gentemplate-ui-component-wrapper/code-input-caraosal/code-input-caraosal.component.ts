@@ -10,10 +10,10 @@ import {
   ViewChild,
   ViewChildren
 } from '@angular/core';
-import {IMessageData} from '../../../../../../../../interfaces/chat-session-state';
-import {LoggingService} from '../../../../../../../logging.service';
+import {IMessageData} from '../../../../../../../../../interfaces/chat-session-state';
+import {LoggingService} from '../../../../../../../../logging.service';
 import {ActivatedRoute} from '@angular/router';
-import {ICarousalItem, IOutputItem} from '../code-input.component';
+import {ICarousalItem, IOutputItem} from '../../code-input.component';
 import {init} from 'protractor/built/launcher';
 import set = Reflect.set;
 import {NgForm} from '@angular/forms';
@@ -366,6 +366,6 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
     });
     console.log(this.outputItem.generic_template[0].elements[carasolItemIndex]);
   }
-  
+
 
 }
