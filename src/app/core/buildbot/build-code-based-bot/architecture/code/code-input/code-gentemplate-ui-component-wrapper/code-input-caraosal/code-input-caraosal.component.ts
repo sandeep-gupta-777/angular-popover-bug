@@ -12,11 +12,8 @@ import {
 } from '@angular/core';
 import {IMessageData} from '../../../../../../../../../interfaces/chat-session-state';
 import {LoggingService} from '../../../../../../../../logging.service';
-import {ActivatedRoute} from '@angular/router';
-import {ICarousalItem, IOutputItem} from '../../code-input.component';
-import {init} from 'protractor/built/launcher';
-import set = Reflect.set;
 import {NgForm} from '@angular/forms';
+import {ICarousalItem, IOutputItem} from '../../code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
 
 declare var $: any;
 

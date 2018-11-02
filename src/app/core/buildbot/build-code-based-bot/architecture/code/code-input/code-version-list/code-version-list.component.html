@@ -57,12 +57,29 @@
          style="height: 100%"></i>
     </div>
   </div>
+  <div class="col-6">
+    <button [disabled]="!selectedVersion" class="btn btn-theme-primary-outline mr-1"
+            *myIf="myEAllActions['Update Bot Versioning']"
+            (click)="saveSelectedVersion$.emit()">
+      {{(!bot.store_bot_versions || !bot.store_bot_versions.length ||
+      bot.store_bot_versions.length>0)?"Save":"Create"}}
+      version
+    </button>
+    <div *ngIf="selectedVersion" class="d-inline-block">
+      <button class="btn btn-theme-primary-outline"
+              [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
+              *myIf="myEAllActions['Create Bot Versioning']"
+              (click)="openForkNewVersionModal$.emit()">
+        Fork new version
+      </button>
+    </div>
+  </div>
   <div class="row row-flex-bot-versioning-toaster border-theme-secondary  border-top-0 mx-0" *ngIf="showVersionList"
        style="max-height: 50vh; overflow-y: scroll">
     <div class="col-12 py-1 px-0 cursor-pointer hover-change-background border-bottom-theme-secondary"
          *ngFor="let version of bot.store_bot_versions | filterActiveBot:selectedVersion.id">
       <div class="d-flex align-items-center flex-bot-versioning-toaster"
-           (click)="changeSelectedVersion(version); showVersionList = false;">
+           (click)="changeSelectedVersion$.emit(version); showVersionList = false; ">
 
         <div class="version-active-label">
           <div>{{version.id === (activeVersion && activeVersion.id)?'Active':'Inactive'}}</div>
@@ -96,5 +113,3 @@
     </div>
   </div>
 </div>
-
-

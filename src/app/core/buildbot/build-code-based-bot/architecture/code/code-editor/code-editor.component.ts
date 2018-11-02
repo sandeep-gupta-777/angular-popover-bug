@@ -4,6 +4,7 @@ import { UtilityService } from '../../../../../../utility.service';
 import { ActivatedRoute } from '@angular/router';
 import { ConstantsService } from 'src/app/constants.service';
 import { ServerService } from 'src/app/server.service';
+import set = Reflect.set;
 
 declare var CodeMirror: any;
 
@@ -69,9 +70,11 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
       direction: 'ltr',
       moveInputWithCursor: false,
     });
-    this.editor.on('change', editor => {
-      this.editorCodeObjRef.text = editor.getValue();
-      this.textChangedEvent.emit(editor.getValue());
+    this.editor.on('keydown', editor => {
+      setTimeout(()=>{
+        this.editorCodeObjRef.text = editor.getValue();
+        this.textChangedEvent.emit(editor.getValue());
+      });
     });
     this._text && this.editor.setValue(this._text);
     setTimeout(() => {

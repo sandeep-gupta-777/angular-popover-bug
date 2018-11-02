@@ -1,121 +1,13 @@
-<!--<p>{{selectedVersion|json}}</p>-->
-<!--<button (click)="test()">==>{{selectedVersion.changed_fields['df_template']}} </button>-->
-
 <div class="d-flex-column-last-child-flex-grow-1">
-  <div class="row row-version my-2 m-0 child-no-expand-shrink " style="position: relative"
-       (clickOutside)="showVersionList = false">
-    <div class="col-6 p-0" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
-      <div *ngIf="selectedVersion" class="d-flex align-items-center flex-bot-versioning-toaster border-theme-secondary">
-        <div class="version-active-label" *ngIf="selectedVersion"
-             [ngClass]="{'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-label-inactive':selectedVersion?.id !== activeVersion?.id}">
-          <div>{{selectedVersion.id === (activeVersion && activeVersion.id)?'Active':'Inactive'}}</div>
-        </div>
-        <!--<button *ngIf="selectedVersion?.id === activeVersion?.id" class="btn btn-theme-primary mr-1"-->
-        <!--style="flex-basis: 56px">Active-->
-        <!--</button>-->
-        <!--<button-->
-        <!--*ngIf="selectedVersion?.id !== activeVersion?.id" class="btn btn-theme-dark mr-1"-->
-        <!--style="flex-basis: 56px">Inactive-->
-        <!--</button>-->
-        <div class="count mx-1 flex-shrink-0 flex-grow-0">{{selectedVersion.version}}</div>
-        <div class="forked mr-1 pl-1" *ngIf="selectedVersion.forked_from !== 0">Forked from version
-          {{selectedVersion.forked_from}}
-        </div>
-        <div class="forked mr-1 pl-1" *ngIf="selectedVersion.forked_from === 0">Default created version
-        </div>
-        <div class="update d-flex flex-column mr-1 justify-content-center">
-          <div>Last update</div>
-          <div class="d-flex justify-content-left pt-1" *ngIf="selectedVersion">
-            <!-- <i class="fa fa-circle"
-               [ngClass]="{'text-danger':selectedVersion.updated_fields['df_template'], 'dark-green':activeTab==='df_template'}"></i> -->
-            <i class="fa fa-circle"
-               [ngClass]="{'text-danger':selectedVersion.changed_fields['df_template'], 'dark-green':selectedVersion.updated_fields['df_template']}"></i>
-            <i class="fa fa-circle"
-               [ngClass]="{'text-danger':selectedVersion.changed_fields['df_rules'], 'dark-green':selectedVersion.updated_fields['df_rules']}"></i>
-            <i class="fa fa-circle"
-               [ngClass]="{'text-danger':selectedVersion.changed_fields['generation_rules'], 'dark-green':selectedVersion.updated_fields['generation_rules']}"></i>
-            <i class="fa fa-circle"
-               [ngClass]="{'text-danger':selectedVersion.changed_fields['generation_templates'], 'dark-green':selectedVersion.updated_fields['generation_templates']}"></i>
-            <i class="fa fa-circle"
-               [ngClass]="{'text-danger':selectedVersion.changed_fields['workflow'], 'dark-green':selectedVersion.updated_fields['workflow']}"></i>
-          </div>
-          <!--<form class="d-flex">-->
-          <!--<input type="radio" name="optradio" checked>-->
-          <!--<input type="radio" name="optradio">-->
-          <!--<input type="radio" name="optradio">-->
-          <!--<input type="radio" name="optradio">-->
-          <!--<input type="radio" name="optradio">-->
-          <!--</form>-->
-        </div>
-        <div class="insert mr-1" *ngIf="selectedVersion && selectedVersion.comment" [popover]="selectedVersion.comment"
-             placement="bottom" triggers="mouseenter:mouseleave">
-          {{selectedVersion.comment.length>70?(((selectedVersion.comment)|slice:0:100)
-          +"..."):selectedVersion?.comment}}
-          <!--<div class="insert mr-1">{{(selectedVersion.comment)|slice:0:100}}-->
-        </div>
-        <!---->
-        <i (click)="showVersionList= !showVersionList"
-           *ngIf="bot.store_bot_versions && bot.store_bot_versions.length > 1"
-           class="fa py-2 px-3 bg-theme-primary text-white ml-auto cursor-pointer"
-           [ngClass]="{'fa-angle-up':showVersionList, 'fa-angle-down':!showVersionList}"
-           style="height: 100%"></i>
-      </div>
-    </div>
-    <div class="col-6">
-      <button [disabled]="!selectedVersion" class="btn btn-theme-primary-outline mr-1"
-              *myIf="myEAllActions['Update Bot Versioning']"
-              (click)="saveSelectedVersion(validationWarningModal)">
-        {{(!bot.store_bot_versions || !bot.store_bot_versions.length ||
-        bot.store_bot_versions.length>0)?"Save":"Create"}}
-        version
-      </button>
-      <div *ngIf="selectedVersion" class="d-inline-block">
-        <button class="btn btn-theme-primary-outline"
-                [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
-                *myIf="myEAllActions['Create Bot Versioning']" (click)="openForkNewVersionModal(Primarytemplate)">
-          Fork new version
-        </button>
-      </div>
-    </div>
-    <div class="row row-flex-bot-versioning-toaster border-theme-secondary  border-top-0 mx-0" *ngIf="showVersionList"
-         style="max-height: 50vh; overflow-y: scroll">
-      <div class="col-12 py-1 px-0 cursor-pointer hover-change-background border-bottom-theme-secondary"
-           *ngFor="let version of bot.store_bot_versions | filterActiveBot:selectedVersion.id">
-        <div class="d-flex align-items-center flex-bot-versioning-toaster"
-             (click)="changeSelectedVersion(version); showVersionList = false; tabClicked('df_template');">
+  <app-code-version-list
+    [selectedVersion]="selectedVersion"
+    [activeVersion]="activeVersion"
+    [bot]="bot"
+    (changeSelectedVersion$)="changeSelectedVersion($event)"
+    (saveSelectedVersion$)="saveSelectedVersion(validationWarningModal)"
+    (openForkNewVersionModal$)="openForkNewVersionModal(Primarytemplate)"
+  ></app-code-version-list>
 
-          <div class="version-active-label">
-            <div>{{version.id === (activeVersion && activeVersion.id)?'Active':'Inactive'}}</div>
-          </div>
-          <!--<div class="active-label-text">{{version.id +""+activeVersion.id }}</div>-->
-          <div class="count mr-1">{{version.version}}</div>
-          <div class="forked mr-1 pl-1" *ngIf="version.forked_from !== 0">Forked from version
-            {{version.forked_from}}
-          </div>
-          <div class="forked mr-1 pl-1" *ngIf="version.forked_from === 0">Default created version
-          </div>
-
-          <!--change dot start-->
-          <div class="update d-flex flex-column mr-1 justify-content-center" *ngIf="version">
-            <div class="mr-1">Last update</div>
-            <div class="justify-content-left pt-1">
-              <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['df_template']}"></i>
-              <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['df_rules']}"></i>
-              <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['generation_rules']}"></i>
-              <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['generation_templates']}"></i>
-              <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['workflow']}"></i>
-            </div>
-          </div>
-          <!--change dot end-->
-
-          <div class="insert mr-1">{{version.comment.length>70?(((version.comment)|slice:0:100)
-            +"..."):version?.comment}}
-          </div>
-          <i class=" py-2 px-3 "></i>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <div class="row row-tabs child-no-expand-shrink ">
     <div class="col-12">
@@ -162,7 +54,7 @@
                 *ngIf="activeTab===myEBotVersionTabs.generation_templates">
               <!-- <button [hidden]="activeTab!==myEBotVersionTabs.generation_templates" (click)="showGenTempUi = !showGenTempUi">button</button> -->
               <span>Interface</span>
-              <ui-switch *ngIf="showViewChangeToggle" (change)="genTemplateViewChange($event)" color="rgb(0, 34, 64)"
+              <ui-switch *ngIf="showViewChangeToggle" color="rgb(0, 34, 64)"
                          switchColor="white" name="toggle_gen_templet"
                          [(ngModel)]="showGenTempEditorAndHideGenTempUi" class="d-flex align-items-center mx-1 "
                          style="border:none;padding: 0;"
@@ -196,216 +88,18 @@
                        [text]="editorCodeObj[myEBotVersionTabs.generation_rules]"
                        (textChangedEvent)="saveText($event)"
                        (validateClick)="validateCodeTest($event)"></app-code-editor>
-
       <!--generation template UI starts-->
-      <div class="row mx-0 pl-3 genTempGrid pt-2 child-expand"
-           *ngIf="activeTab===myEBotVersionTabs.generation_templates && !showGenTempEditorAndHideGenTempUi">
-        <!--left sidebar starts-->
-        <div class="genTempGridItem left-sidebar intent-header ml-1 position-relative">
-          <div
-            style="position: absolute; top: 0; left: 0; right: 0; max-height: 100%; z-index: 10; overflow-y: auto; overflow-x: hidden">
-            <div class="d-flex" style="align-items:center;">
-              <div class="text-bold">Templates</div>
-              <div class="ml-auto text-theme-primary pr-2 new-intent-btn cursor-pointer d-flex align-item-center"
-                   style="color: #00abd3;"
-                   (click)="openNewIntentModal(IntentModal)">
-                <i class="fa fa-plus pr-1 my-auto"></i>Add New
-              </div>
-            </div>
-            <input *ngIf="templateKeyDict && myObject.keys(templateKeyDict) && myObject.keys(templateKeyDict).length>0;"
-                   type="text" placeholder="Search Intent" [(ngModel)]="templateKeySearchKeyword">
-            <div class="d-flex align-items-center show-on-hover"
-                 *ngFor="let tempKey of myObject.keys(templateKeyDict||{})|filterTemplateLeyList:templateKeySearchKeyword">
-              <div class="pl-2 p-1 tab-theme limit-oneline"
-                   [ngClass]="{'font-weight-bold':selectedTemplateKeyInLeftSideBar === tempKey}"
-                   (click)="selectedTemplateKeyInLeftSideBar = tempKey;selectedTemplateKeyOutputIndex = [];">{{tempKey}}
-              </div>
-              <i class="fa fa-edit ml-auto mr-1 cursor-pointer hide-it" style="color: #9e9e9e"
-                 (click)="templateKeyToBeDeleted.value= tempKey; openEditTemplateKeyModal(EditTemplateKeyModal);"></i>
-              <i class="fa fa-trash mx-2 cursor-pointer hide-it" style="color: #9e9e9e"
-                 (click)="templateKeyToBeDeleted.value= tempKey;openDeleteTemplateKeyModal(deleteTemplateKeyModal)"></i>
-            </div>
-
-          </div>
-
-          <div *ngIf="!(templateKeyDict && myObject.keys(templateKeyDict) && myObject.keys(templateKeyDict).length>0)"
-               class="d-flex align-items-center" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
-            <div class="align-self-center mx-2 text-center" style="color: #9e9e9e;">
-              Add new template key to start adding responses
-            </div>
-          </div>
-        </div>
-        <!--left sidebar ends-->
-
-        <div class="center-header d-flex justify-content-between align-items-center">
-          <div class="response-test px-2">
-            Response Flow {{templateKeyDict && selectedTemplateKeyInLeftSideBar &&
-            templateKeyDict[selectedTemplateKeyInLeftSideBar] &&
-            ((templateKeyDict[selectedTemplateKeyInLeftSideBar]|dataType)!=='string') ?
-            ('('+templateKeyDict[selectedTemplateKeyInLeftSideBar].length+')'):""}}
-          </div>
-          <div class="form-group m-0 channel-drop d-flex align-items-center">
-            <label for="" class="px-2 my-0">Channel</label>
-            <form #channelSelectorForm="ngForm" class="position-relative"
-                  *ngIf="bot?.integrations?.channels && myObject.keys(bot.integrations.channels)?.length>0; else noChannelsMessageTemplate">
-              <img style="position: absolute; width: 15px; height: 15px; top: 50%; transform: translate(5px, -50%)"
-                   [src]="(selectedChannelOfGenTemplate?.name|logosByIntegrationName)?.icon" alt="">
-              <select id="gentemplate-channel-selector" required name="name" ngModel>
-                <option *ngFor="let channel of channelListClone" type="button" [value]="channel.name">
-                  {{channel.displayName}}
-                </option>
-              </select>
-            </form>
-            <ng-template #noChannelsMessageTemplate>
-              <i class="text-danger" style="font-size: 11px">No Channels</i>
-            </ng-template>
-          </div>
-        </div>
-
-
-        <div #genTempGridItemGrid class="genTempGridItemGrid " style="position: relative">
-
-          <div *ngIf="!(templateKeyDict && myObject.keys(templateKeyDict) && myObject.keys(templateKeyDict).length>0)"
-               class="d-flex align-items-center justify-content-center mx-5 px-5"
-               style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
-            <div class="text-center d-flex flex-wrap justify-content-center mx-5 px-5" style="color: #9e9e9e;">
-              <div class="bg-white d-flex justify-content-center align-items-center"
-                   style="height: 56px; width: 56px; border-radius: 28px">
-                <!--<i class="fa fa-cloud" style="color: #00abd3"></i>-->
-                <i class="fa fa-commenting" style="color: #00abd3; font-size: 25px"></i>
-              </div>
-              <div class="w-100">Start configuring responses by adding a new template key from the left panel</div>
-            </div>
-          </div>
-
-          <!--<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;">-->
-          <!--<div class="response-test px-2">-->
-          <!--Response Flow {{templateKeyDict && selectedTemplateKeyInLeftSideBar &&-->
-          <!--templateKeyDict[selectedTemplateKeyInLeftSideBar] &&-->
-          <!--((templateKeyDict[selectedTemplateKeyInLeftSideBar]|dataType)!=='string') ?-->
-          <!--('('+templateKeyDict[selectedTemplateKeyInLeftSideBar].length+')'):""}}-->
-          <!--</div>-->
-          <!--<div class="form-group m-0 channel-drop d-flex align-items-center">-->
-          <!--<label for="" class="px-2 my-0">Channel</label>-->
-          <!--<div class="position-relative"-->
-          <!--*ngIf="bot?.integrations?.channels && myObject.keys(bot.integrations.channels)?.length>0; else noChannelsMessageTemplate">-->
-          <!--<img style="position: absolute; width: 15px; height: 15px; top: 50%; transform: translate(5px, -50%)"-->
-          <!--[src]="(selectedChannelOfGenTemplate?.name|logosByIntegrationName)?.icon" alt="">-->
-          <!--<select id="gentemplate-channel-selector" [ngModel]="selectedChannelOfGenTemplate?.displayName"-->
-          <!--(ngModelChange)="selectedChannelChanged($event)" required name="platform">-->
-          <!--<option *ngFor="let channel of channelList" type="button" [value]="channel.name">{{channel.displayName}}-->
-          <!--</option>-->
-          <!--</select>-->
-          <!--</div>-->
-          <!--<ng-template #noChannelsMessageTemplate>-->
-          <!--<i class="text-danger" style="font-size: 11px">No Channels</i>-->
-          <!--</ng-template>-->
-          <!--</div>-->
-          <!--</div>-->
-
-          <!--if the value of template key is unpasable, we will show response components-->
-          <!--response components list start-->
-          <div class="intentItems position-relative ">
-            <!--<div #scrollMe class="" style="position: absolute; top: 0; left: 0; right: 0; min-height: 100%; max-height: 100%; overflow-y: auto; overflow-x: hidden">-->
-            <div class="" id="template-output-scroll-container">
-              <ng-container
-                *ngIf="templateKeyDict && (templateKeyDict[selectedTemplateKeyInLeftSideBar]|dataType)!=='string'">
-                <div class="py-1 px-0 mb-3"
-                     *ngFor="let outputItem of templateKeyDict[selectedTemplateKeyInLeftSideBar]|filterResponseComponentByChannelName:selectedChannelOfGenTemplate?.name; let i = index">
-                  <app-code-gentemplate-ui-component-wrapper
-                    [outputItem]="outputItem"
-                    #gentemplateItem class="gentemplateItem"
-                    [myIndex]=i
-                    [channelNameList]="channelNameList"
-                    [totalResponseTemplateComponentCount]="myObject.keys(templateKeyDict[selectedTemplateKeyInLeftSideBar]).length"
-                    [selectedTemplateKeyOutputIndex]="selectedTemplateKeyOutputIndex"
-                    (deleteTemplate)="deleteGentemplate($event)"
-                    (moveTempUp)="moveUpGentempate($event)"
-                    (moveTempDown)="moveDownGentempate($event)"
-                    (selectionChanged)="selectGentempate($event)">
-                  </app-code-gentemplate-ui-component-wrapper>
-
-                </div>
-              </ng-container>
-              <div style="height: 150px; visibility: hidden"></div>
-            </div>
-          </div>
-          <!--response components list ends-->
-
-          <!--if the value of template key is unparsable, we will show code editor-->
-          <ng-container *ngIf="isTemplateKeyOutputUnparsable()">
-            <div class="intentItems d-flex-column-last-child-flex-grow-1">
-              <div class="d-flex-column-last-child-flex-grow-1 child-expand">
-                <app-code-editor class="d-flex-column-last-child-flex-grow-1 child-expand"
-                                 [text]="{text:getTemplateKeyDictClone()[selectedTemplateKeyInLeftSideBar]}"
-                                 (textChangedEvent)="updateSelectedTemplateKeyValue($event)"
-                                 (validateClick)="validateCodeTest($event)"></app-code-editor>
-              </div>
-            </div>
-          </ng-container>
-          <!--fixed at bottom-->
-          <div *ngIf="selectedTemplateKeyOutputIndex.length>0" class="selected-templates d-flex m-2 px-2"
-               style="position: absolute; bottom: 0; left: 0; right: 0; z-index: 200">
-            <div>{{selectedTemplateKeyOutputIndex.length}} response selected</div>
-            <div class="ml-auto color-primary cursor-pointer" (click)="selectedListCopyModel(IntentSelectionModal)"><i
-              class="fa f0c5 fa-upload">
-            </i> Copy to
-            </div>
-            <div class="color-primary ml-2 cursor-pointer" (click)="selectedListDuplicate()"><i class="fa fa-copy ">
-            </i>
-              Duplicate
-            </div>
-            <div class="ml-auto color-danger cursor-pointer" (click)="selectedListDelete()">Delete</div>
-          </div>
-          <!--fixed at bottom-->
-
-        </div>
-
-        <div class="genTempGridItem bot-templates position-relative disabled"
-             [ngClass]="{'cursor-pointer-event-none':!selectedTemplateKeyInLeftSideBar, 'disabled':!selectedTemplateKeyInLeftSideBar}">
-          <div
-            style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; max-height: 100%; overflow-y: auto; overflow-x: hidden">
-
-            <div class="text-center mb-2 bot-template-heading">
-              <div class="text-bold">Bot Response Template</div>
-              <div class="text-lite">Click on elements to add to response</div>
-            </div>
-            <ul *ngIf="!isTemplateKeyOutputUnparsable(); else templateKeyIsUnparsableMessage">
-
-              <li class="pl-2 bot-template cursor-pointer" (click)="addTextUnit();">
-                <i class="fa fa-align-left"></i>Text
-              </li>
-              <li class="pl-2 bot-template cursor-pointer" (click)="addImageCaraosalUnit()">
-                <i class=" fa fa-image"></i>Image corousel
-              </li>
-              <li class="pl-2 bot-template cursor-pointer" style="opacity: .3; pointer-events: none">
-                <i class="fa fa-users"></i>Text Corousel
-              </li>
-              <li class="pl-2 bot-template cursor-pointer" (click)="addQuickReplyUnit()">
-                <i class="fa fa-users"></i>Quick Reply
-              </li>
-              <li class="pl-2 bot-template cursor-pointer" (click)="addCodeUnit();">
-                <i class="fa fa-code"></i>Code Input
-              </li>
-            </ul>
-
-            <ng-template #templateKeyIsUnparsableMessage>
-              <div class="text-center"
-                   style="font-size: 11px; color: #9e9e9e; position: absolute; top: 50%;right: 0; left: 0">Template
-                key output is unparsable
-              </div>
-            </ng-template>
-          </div>
-        </div>
-      </div>
+      <app-code-gentemplate-ui-wrapper
+        *ngIf="activeTab===myEBotVersionTabs.generation_templates && !showGenTempEditorAndHideGenTempUi"
+        class="row mx-0 px-0 child-expand"
+        [activeTab]="activeTab"
+        [channelList]="channelListClone"
+        [bot]="bot"
+        [templateKeyDict]="templateKeyDict"
+        (convertUiDictToGenTemplateCode$)="convertUiDictToGenTemplateCode($event)"
+      ></app-code-gentemplate-ui-wrapper>
       <!--generation template UI ends-->
 
-      <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates || showGenTempUi" [text]="{'text' : intents | json}"-->
-      <!--(textChangedEvent)="saveText($event)"></app-code-editor>-->
-
-      <!--<app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_templates || showGenTempUi"-->
-      <!--[text]="{'text' : intents | json}"-->
-      <!--(textChangedEvent)="saveText($event)"></app-code-editor>-->
       <app-code-editor *ngIf="activeTab===myEBotVersionTabs.generation_templates && showGenTempEditorAndHideGenTempUi"
                        [text]="editorCodeObj[myEBotVersionTabs.generation_templates]"
                        (textChangedEvent)="saveText($event)"
@@ -442,18 +136,12 @@
       <div class="validation-message-data my-1" *ngIf="!selectedVersion.validation[activeTab].error">
         Validation was successful. You can validate again if you need.
       </div>
-      <!-- <div class="validation-message-data my-1">
-          Validations was successfull.You can validate again if you need.
-        </div>
-      <div class="validation-message-data my-1">
-          Validations was successfull.You can validate again if you need.
-        </div> -->
     </div>
   </div>
 
 </div>
 
-<!--fork new version modal starts-->
+<!--modals starts-->
 <ng-template #Primarytemplate>
   <div class="primary-modal">
     <div class="top-dec"></div>
@@ -514,31 +202,6 @@
   </div>
 </ng-template>
 
-<ng-template #IntentModal>
-  <div class="primary-modal">
-    <div class="top-dec"></div>
-    <!--<div class="modal-header">-->
-    <!--<h4 class="modal-title" style="display: flex;justify-content: start;">Create new template key</h4>-->
-    <!--<button aria-label="Close" class="close pull-right" type="button" (click)="modalRef.hide()"><span-->
-    <!--aria-hidden="true">×</span>-->
-    <!--</button>-->
-    <!--</div>-->
-    <div class="modal-body" style="text-align: left">
-      <div class="text-bold">Create new template key</div>
-      <div class="d-flex align-items-center flex-wrap mt-2">
-        <input class="input-material" style="width: 100%" placeholder="Enter template key name" type="text"
-               (keyup.enter)="createNewTemplatekey()" [(ngModel)]="newTemplateKey">
-        <p *ngIf="templateKeyCreationError" class="text-danger">{{templateKeyCreationError}}</p>
-        <div class="d-flex justify-content-end w-100 mt-2">
-          <button class="btn btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>
-          <button class="btn btn-theme-primary" [disabled]="!newTemplateKey" (click)="createNewTemplatekey();">Create
-          </button>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</ng-template>
 
 <ng-template #IntentSelectionModal>
   <div class="primary-modal">
@@ -589,32 +252,6 @@
 </ng-template>
 
 
-<ng-template #deleteTemplateKeyModal>
-  <div class="danger-modal">
-    <div class="top-dec"></div>
-    <div class="modal-header">
-      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete Template key?</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-    <div class="modal-body pt-0" style="padding:10px !important;">
-      <form #form="ngForm">
-        <div class="text-center my-1">
-          <p class="mb-3">Do you confirm the Deletion? This is a permanent and irreversible change</p>
-
-        </div>
-        <div class="d-flex justify-content-end">
-          <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
-          <button class=" btn btn-theme-danger" (click)="deleteTemplateKey(templateKeyToBeDeleted.value)">Delete
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</ng-template>
-
 <ng-template #validationWarningModal>
   <div class="danger-modal">
     <div class="top-dec"></div>
@@ -646,51 +283,5 @@
     </div>
   </div>
 </ng-template>
-<!--<ng-template >-->
-<!--<div class="danger-modal">-->
-<!--<div class="top-dec"></div>-->
-<!--<div class="modal-header">-->
-<!--<h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Edit Template key?</h4>-->
-<!--<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">-->
-<!--<span aria-hidden="true">&times;</span>-->
-<!--</button>-->
-<!--</div>-->
 
-<!--<div class="modal-body pt-0">-->
-<!--<form #templateKeyEditForm="ngForm">-->
-<!--<div class="text-center my-1">-->
-<!--&lt;!&ndash;<p class="mb-3">Do you confirm the Deletion? This is a permanent and irreversible change</p>&ndash;&gt;-->
-<!--<input ngModel name="old_key" hidden type="text" [ngModel]="templateKeyToBeDeleted.value">-->
-<!--<input ngModel name="new_key"type="text">-->
-<!--</div>-->
-<!--<button class="btn btn-theme-primary" (click)="editTemplateKey(templateKeyEditForm)">Submit</button>-->
-<!--</form>-->
-<!--</div>-->
-<!--</div>-->
-<!--</ng-template>-->
 
-<input type="text" hidden #templateKeyToBeDeleted>
-
-<ng-template #EditTemplateKeyModal>
-  <div class="primary-modal">
-    <div class="top-dec"></div>
-    <div class="modal-body" style="text-align: left">
-      <div class="text-bold">Edit Template key</div>
-      <form #templateKeyEditForm="ngForm" class="d-flex align-items-center flex-wrap mt-2">
-        <!--<input class="input-material" style="width: 100%" placeholder="Enter template key name" type="text"-->
-        <!--[(ngModel)]="newTemplateKey">-->
-        <input ngModel name="old_key" hidden type="text" [ngModel]="templateKeyToBeDeleted.value">
-        <input ngModel name="new_key" style="width: 100%" required type="text" [ngModel]="templateKeyToBeDeleted.value"
-               (keyup.enter)="editTemplateKey(templateKeyEditForm)">
-        <!--<p *ngIf="templateKeyCreationError" class="text-danger">{{templateKeyCreationError}}</p>-->
-        <div class="d-flex justify-content-end w-100 mt-2">
-          <button class="btn btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>
-          <button class="btn btn-theme-primary" [disabled]="!templateKeyEditForm.valid"
-                  (click)="editTemplateKey(templateKeyEditForm)">Create
-          </button>
-        </div>
-      </form>
-    </div>
-
-  </div>
-</ng-template>

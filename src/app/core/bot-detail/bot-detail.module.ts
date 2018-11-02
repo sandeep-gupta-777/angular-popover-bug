@@ -60,6 +60,7 @@ import {TypeForIntegrationTypePipe} from '../../type-for-integration-type.pipe';
 import {IntegrationItemForTypePipe} from '../../integration-item-for-type.pipe';
 import {CodeGentemplateUiComponentWrapperComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-gentemplate-ui-component-wrapper.component';
 import {CodeVersionListComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-version-list/code-version-list.component';
+import {CodeGentemplateUiWrapperComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
 
 const routes: Route[] = [
   {
@@ -93,6 +94,7 @@ const routes: Route[] = [
     CodeInputComponent,
     CodeGentemplateUiComponentWrapperComponent,
     CodeVersionListComponent,
+    CodeGentemplateUiWrapperComponent,
     FilterTemplateLeyListPipe,
     CodeInputCaraosalComponent,
     CodeQuickReplyWrapperComponent,

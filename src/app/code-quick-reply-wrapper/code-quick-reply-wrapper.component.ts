@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {IOutputItem} from '../core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component';
+import {IOutputItem} from '../core/buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
 
 @Component({
   selector: 'app-code-quick-reply-wrapper',

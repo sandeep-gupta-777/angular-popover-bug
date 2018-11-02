@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {IOutputItem} from '../code-input.component';
+import {IOutputItem} from '../code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
 
 @Component({
   selector: 'app-code-gentemplate-ui-component-wrapper',
@@ -9,9 +9,10 @@ import {IOutputItem} from '../code-input.component';
 export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
 
   _variants: string[];
+  channelNameList:string[];
   @Input() outputItem: IOutputItem;
   @Input() myIndex: number;
-  @Input() channelNameList: string[];
+  @Input() channelList: {name:string}[];
   @Input() totalResponseTemplateComponentCount: number;
   @Output() deleteTemplate: EventEmitter<string> = new EventEmitter<string>();
   @Output() moveTempUp: EventEmitter<string> = new EventEmitter<string>();
@@ -64,19 +65,15 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
     else {
       this.outputItem.include.push(channel);
     }
+    this.outputItem = {...this.outputItem};
   }
 
   imgOpacity(channel: string) {
-    let isChannelPresent = this.outputItem.include.find(e => e === channel);
-    if (isChannelPresent) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return this.outputItem.include.find(e => e === channel);
   }
 
   ngOnInit() {
+    this.channelNameList = this.channelList.filter(e=>e.name!=='all').map(e=>e.name)
   }
 
 }

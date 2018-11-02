@@ -46,35 +46,6 @@ export enum EBotVersionTabs {
   workflow = 'workflow'
 }
 
-export interface ICarousalItem {
-  'image_url': string,
-  'button': [{ 'type': string, 'title': string, 'payload': string }],
-  'title': string,
-  /*custom added*/
-  description?: string,
-}
-
-export interface IQuickReplyItem {
-  'content_type': 'text',
-  'title': string,
-  'payload': string
-  /*custom fields*/
-  textType?: string;//payload, url
-}
-
-export interface IOutputItem {
-  text?: string[],
-  code?: string,
-  include?: string[],
-  generic_template?: { 'elements': ICarousalItem[] }[],
-  'quick_reply': [{
-    'text': string,
-    'quick_replies': [
-      IQuickReplyItem
-      ]
-  }]
-
-}
 
 @Component({
   selector: 'app-code-input',
@@ -82,7 +53,7 @@ export interface IOutputItem {
   styleUrls: ['./code-input.component.scss'],
 
 })
-export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy, AfterViewInit {
+export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   showConfig = true;
   templateKeySearchKeyword: string = '';
@@ -124,174 +95,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy, 
   channelListClone: { name: string, displayName: string }[] = [];// = ["facebook", "web", "imiconnect", "imichat", "skype"];
   channelNameList: string[] = [];
 
-  openNewIntentModal(template) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-w-30vw'});
-    return;
-  }
-
-  templateKeyCreationError = '';
-
-  createNewTemplatekey() {
-    let isTemplateKeyUnique = !Object.keys(this.templateKeyDict).find((key) => key === this.newTemplateKey);
-    if (!isTemplateKeyUnique) {
-      this.templateKeyCreationError = 'This template key already exists';
-      return;
-    }
-    let intentUnit = {};
-    intentUnit[this.newTemplateKey] = [{
-      'text': [''],
-      'include': ['web', ...this.channelNameList],
-    }];
-    this.templateKeyDict = {...this.templateKeyDict, ...intentUnit};
-    this.modalRef.hide();
-    this.selectedTemplateKeyInLeftSideBar = this.newTemplateKey;
-    this.newTemplateKey = '';
-  }
-
-  addTextUnit() {
-    let textUnit = {
-      'include': ['web', ...this.channelNameList],
-      'text': ['']
-    };
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(textUnit);
-    setTimeout(() => this.scrollToBottom());
-
-  }
-
-  addImageCaraosalUnit() {
-    let caraosalUnit = {
-      'include': ['web', ...this.channelNameList],
-      'generic_template': [{
-        'elements': [{
-          'image_url': 'https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg',
-          'button': [{'type': 'postback', 'title': 'Renew Now', 'payload': 'expire'}],
-          'title': 'Contract Renewal'
-        }]
-      }]
-    };
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(caraosalUnit);
-    setTimeout(() => this.scrollToBottom());
-
-  }
-
-  addQuickReplyUnit() {
-    let quickReplyUnit = {
-      'include': ['web', ...this.channelNameList],
-      'quick_reply': [{
-        'text': 'Would you like us to activate this ?',
-        'quick_replies': [{'content_type': 'text', 'title': 'Yes', 'payload': 'yes'},
-          {'content_type': 'text', 'title': 'No', 'payload': 'no'}]
-      }]
-    };
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(quickReplyUnit);
-    setTimeout(() => this.scrollToBottom());
-
-  }
-
-  addCodeUnit() {
-
-    let codeUnit = {
-      'include': ['web', ...this.channelNameList],
-      'code': ['Write ur text here .....']
-    };
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(codeUnit);
-    setTimeout(() => this.scrollToBottom());
-  }
-
-
-  deleteGentemplate(e) {
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].splice(e, 1);
-    // console.log(this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar]);
-  }
-
-  moveUpGentempate(e) {
-    var temp = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e];
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e] = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e - 1];
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e - 1] = temp;
-  }
-
-  moveDownGentempate(e) {
-    if (this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].length == e + 1) {
-      console.log('just dot do that , U know Y');
-      return;
-    }
-    var temp = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e];
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e] = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e + 1];
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e + 1] = temp;
-  }
-
-  // functins on selected gen temp list
-  selectGentempate(e) {
-    let i = JSON.parse(e);
-    if (i.select) {
-      this.selectedTemplateKeyOutputIndex.push(i.index);
-    }
-    if (!(i.select)) {
-      var index = this.selectedTemplateKeyOutputIndex.indexOf(i.index);
-      if (index > -1) {
-        this.selectedTemplateKeyOutputIndex.splice(index, 1);
-      }
-    }
-  }
-
-  selectedListDelete() {
-    this.selectedTemplateKeyOutputIndex.sort((a, b) => b - a);
-    for (let i of this.selectedTemplateKeyOutputIndex) {
-      this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].splice(i, 1);
-    }
-    this.selectedTemplateKeyOutputIndex = [];
-  }
-
-  selectedListDuplicate() {
-    for (let i of this.selectedTemplateKeyOutputIndex) {
-      this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(JSON.parse(JSON.stringify(this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][i])));
-    }
-    this.selectedTemplateKeyOutputIndex = [];
-  }
-
-  selectedListCopyModel(IntentSelectionModal) {
-    this.modalRef = this.modalService.show(IntentSelectionModal, {class: 'modal-lg'});
-  }
-
-  ngAfterViewInit(){
-    this.channelSelectorForm.form.valueChanges.subscribe((value)=>{
-      this.selectedChannelOfGenTemplate = value;
-    });
-  }
-
-  selectedListCopy(modelGenTempNameForm: NgForm) {
-
-    let selectedTemplateKeyObject = modelGenTempNameForm.value;
-    /*Example: selectedTemplateKeyObject  = {A1:true, A2:false}*/
-    let selectedGenTempObjList = [];
-    for (let i of this.selectedTemplateKeyOutputIndex) {
-      selectedGenTempObjList.push(this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][i]);
-    }
-
-    let selectedIntentDestinationKeys = Object.keys(selectedTemplateKeyObject).filter((key) => selectedTemplateKeyObject[key]);
-    for (let key of selectedIntentDestinationKeys) {
-      this.templateKeyDict[key].push(...selectedGenTempObjList);
-    }
-    this.selectedTemplateKeyOutputIndex = [];
-    this.modalRef.hide();
-  }
-
-  // selectedIntent(SIntent){
-  //   this.selectedIntentTab = SIntent;
-  // }
-
-  // @ViewChild('fork_new_version_form') fork_new_version_form: HTMLFormElement;
-
   templateKeyDictClone = null;
-
-  getTemplateKeyDictClone() {
-
-    if (!this.templateKeyDictClone) this.templateKeyDictClone = {...this.templateKeyDict};
-    return this.templateKeyDictClone;
-  }
-
-  editorCode;
-  // editorCodeObj:{text:string} = {text:""};
   editorCodeObj = {
     'df_template': {text: ''},
     'df_rules': {text: ''},
@@ -316,7 +120,6 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy, 
   ) {
     super();
   }
-  @ViewChild('channelSelectorForm') channelSelectorForm:NgForm;
   role:string;
   @Select() loggeduser$: Observable<{ user: IUser }>;
   showViewChangeToggle:boolean = true;
@@ -408,7 +211,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy, 
   tabClicked(activeTab: string) {
 
     if (this.activeTab===EBotVersionTabs.generation_templates && this.showGenTempEditorAndHideGenTempUi === false) {
-      this.convertUiDictToGenTemplateCode();
+      this.convertUiDictToGenTemplateCode(this.templateKeyDict);
     }
 
     this.activeTab = activeTab;
@@ -429,7 +232,6 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy, 
   }
 
   convertGenTemplateCodeStringIntoUiComponents() {
-
     try {
 
       this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
@@ -437,10 +239,6 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy, 
     } catch (e) {
       console.log(e);
     }
-  }
-
-  dataType(item: any) {
-    return typeof item;
   }
 
   updateSelectedTemplateKeyValue(codeStr: string) {
@@ -473,8 +271,6 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy, 
       this.selectedVersion = new_version;
       this.selectedVersion[this.activeTab] = codeStr;
     }
-    /*comparing old code text to new*/
-
 
   }
 
@@ -482,15 +278,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy, 
     let headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-    let body = {
-      // "df_template": this.editorCodeObjRef.text,
-      // "df_rules": "",
-      // "workflow": "",
-      // "generation_rules": "",
-      // "generation_templates": "",
-      // "version": 4,
-      // "comment": ""
-    };
+    let body = {};
     body[this.activeTab] = code;
 
     let codeValidationUrl = this.constantsService.codeValidationUrl();
@@ -499,22 +287,13 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy, 
       .subscribe((validationResult) => {
         console.log('validation resulted ');
         this.selectedVersion.validation[this.activeTab] = validationResult[this.activeTab];
-        // response is of form
-        // bot_id: 245
-        // comment: "Default active version"
-        // df_rules: { error: true, error_line: "  print "aaa"↵", error_msg: "Missing parentheses in call to 'print'. Did you mean print("aaa")? at line number - 7" }
-        // df_template: { msg: "No Errors" }
-        // generation_rules: { msg: "No Errors" }
-        // generation_templates: { msg: "No Errors" }
-        // version: 4
-        // workflow: { msg: "No Errors" }
       });
   }
 
   saveSelectedVersion(validationWarningModal) {
 
     if (this.showGenTempEditorAndHideGenTempUi === false) {
-      this.convertUiDictToGenTemplateCode();
+      this.convertUiDictToGenTemplateCode(this.templateKeyDict);
     }
 
     let headerData: IHeaderData = {
@@ -632,8 +411,8 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy, 
 
   }
 
-  convertUiDictToGenTemplateCode() {
-    let parseUiDict = this.utilityService.parseGenTemplateUiDictionaryToIfElseCode(this.templateKeyDict);
+  convertUiDictToGenTemplateCode(templateKeyDict) {
+    let parseUiDict = this.utilityService.parseGenTemplateUiDictionaryToIfElseCode(templateKeyDict);
     if (parseUiDict!=undefined) {
       this.selectedVersion.generation_templates = parseUiDict;
     }
@@ -642,27 +421,6 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy, 
 
   openForkNewVersionModal(template) {
     this.modalRef = this.modalService.show(template, {class: 'modal-md'});
-    return;
-
-    // let headerData: IHeaderData = {
-    //   'bot-access-token': this.bot.bot_access_token
-    // };
-    // let url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
-    // // this.selectedVersion.version=12;
-    //
-    // delete this.selectedVersion.id;
-    // delete this.selectedVersion.resource_uri;
-    // delete this.selectedVersion.resource_uri;
-    //
-    // this.serverService.makePostReq({url, body: this.selectedVersion, headerData})
-    //   .subscribe((forkedVersion: IBotVersionData) => {
-    //     LoggingService.log(forkedVersion);
-    //     this.selectedVersion = forkedVersion;
-    //     this.utilityService.showSuccessToaster('new version forked successfully!')
-    //     ;
-    //     this.ngOnInit();
-    //     /*TODO: implement it correctly*/
-    //   });
   }
 
   forkNewVersion() {
@@ -729,38 +487,13 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy, 
   }
 
   ngOnDestroy(): void {
-
     this.botlist$_sub && this.botlist$_sub.unsubscribe();
   }
 
-  scrollToBottom(): void {
-
-    try {
-      /*TODO: use ViewChildren instead of class name.
-      * TODO: put animation here*/
-      // this.genTempGridItemGrid.nativeElement.scrollTop = this.genTempGridItemGrid.nativeElement.scrollHeight -500;
-      // let arr = this.gentemplateItems.toArray();
-      // let lastItem = arr[arr.length-1]
-      // lastItem.nativeElement.scrollIntoView();
-      // console.log(lastItem.nativeElement);
-
-      let arr1 = document.getElementsByClassName('gentemplateItem');
-      let x = arr1[arr1.length - 1];
-      x.scrollIntoView();
-
-
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  selectedChannelChanged(selectedChannel: string) {
-    this.selectedChannelOfGenTemplate = this.channelListClone.find((channel) => channel.name === selectedChannel);
-  }
 
   genTemplateViewChange(showGenTempEditorAndHideGenTempUi) {
     if (showGenTempEditorAndHideGenTempUi) {
-      this.convertUiDictToGenTemplateCode();
+      this.convertUiDictToGenTemplateCode(this.templateKeyDict);
     } else {
       this.convertGenTemplateCodeStringIntoUiComponents();
       if (!this.selectedTemplateKeyInLeftSideBar && this.templateKeyDict && Array.isArray(Object.keys(this.templateKeyDict))) {
@@ -769,39 +502,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy, 
     }
   }
 
-  openDeleteTemplateKeyModal(deleteTemplateKeyModal) {
-    this.modalRef = this.modalService.show(deleteTemplateKeyModal);
-  }
-
-  openEditTemplateKeyModal(EditTemplateKeyModal) {
-    this.modalRef = this.modalService.show(EditTemplateKeyModal);
-  }
-
-  deleteTemplateKey(tempKey) {
-    delete this.templateKeyDict[tempKey];
-    this.utilityService.showSuccessToaster('Template key deleted!');
-    this.modalRef.hide();
-  }
-
-  editTemplateKey(templateKeyEditForm) {
-    let {old_key, new_key} = templateKeyEditForm.value;
-    this.utilityService.renameKeyInObject(this.templateKeyDict, old_key, new_key);
-    this.selectedTemplateKeyInLeftSideBar = new_key;
-    this.modalRef.hide();
-  }
-
-  selectAllCheckBoxesInCopyTemplateForm(form: NgForm) {
-    let formVal = form.value;
-    for (let key in formVal) {
-      formVal[key] = true;
-    }
-    form.form.patchValue(formVal);
-  }
-
-
   isTemplateKeyOutputUnparsable() {
-
-
     return this.activeTab === this.myEBotVersionTabs.generation_templates &&
       !this.showGenTempEditorAndHideGenTempUi &&
       this.templateKeyDict &&

@@ -17,7 +17,7 @@
 
   </div>
 
-  <div class="flex-grow-1 d-flex flex-column bg-white ">
+  <div class="d-flex flex-column bg-white" style="width: 90% ">
     <!--TODO: do we need variants?-->
     <app-text-gentemplate
       *ngIf="outputItem.text"
@@ -26,7 +26,7 @@
       [variants]="outputItem.text"></app-text-gentemplate>
     <app-code-gentemplate *ngIf="outputItem.code  && ((outputItem|dataType)!=='string')"
                           #gentemplateItem class="gentemplateItem flex-grow-1"
-                          [outputItem]="outputItem"
+                          [_outputItem]="outputItem"
                           [myIndex]=i
                           [channelNameList]="channelNameList"
     ></app-code-gentemplate>
