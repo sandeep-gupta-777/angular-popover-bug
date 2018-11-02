@@ -1,5 +1,5 @@
 import {Component, OnInit, Input, EventEmitter, Output, AfterViewInit, ViewChild, ElementRef} from '@angular/core';
-import {IOutputItem} from '../../code-input.component';
+import {IOutputItem} from '../../code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
 
 @Component({
   selector: 'app-text-gentemplate',
