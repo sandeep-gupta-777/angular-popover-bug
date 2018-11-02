@@ -63,7 +63,7 @@ const routes: Route[] = [
     AppComponent,
     NotFoundComponent,
     NotAuthorisedComponent,
-      FilterArrayPipe,
+    FilterArrayPipe,
     BackendDevComponent,
     DebounceClickDirective,
     // MsToHhMmPipe,

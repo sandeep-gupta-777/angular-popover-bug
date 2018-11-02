@@ -159,6 +159,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy, 
 
   addImageCaraosalUnit() {
     let caraosalUnit = {
+      'include': ['web', ...this.channelNameList],
       'generic_template': [{
         'elements': [{
           'image_url': 'https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg',
@@ -174,7 +175,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy, 
 
   addQuickReplyUnit() {
     let quickReplyUnit = {
-      'include': ['facebook', 'skype', 'line', 'viber'],
+      'include': ['web', ...this.channelNameList],
       'quick_reply': [{
         'text': 'Would you like us to activate this ?',
         'quick_replies': [{'content_type': 'text', 'title': 'Yes', 'payload': 'yes'},
@@ -196,14 +197,6 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy, 
     setTimeout(() => this.scrollToBottom());
   }
 
-  addQReplyUnit() {
-    let qReplyUnit = {
-      'include': ['web', ...this.channelNameList],
-      'text': ['Write ur text here .....']
-    };
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(qReplyUnit);
-    setTimeout(() => this.scrollToBottom());
-  }
 
   deleteGentemplate(e) {
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].splice(e, 1);
