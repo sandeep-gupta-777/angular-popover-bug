@@ -406,6 +406,10 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy, 
 
   tabClicked(activeTab: string) {
 
+    if (this.activeTab===EBotVersionTabs.generation_templates && this.showGenTempEditorAndHideGenTempUi === false) {
+      this.convertUiDictToGenTemplateCode();
+    }
+
     this.activeTab = activeTab;
     /*TODO: We dont need code here... just replace it with selectedVersion. Also we dont need ICode interface*/
     if (this.selectedVersion) {
