@@ -6,11 +6,11 @@
            [ngClass]="{'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-label-inactive':selectedVersion?.id !== activeVersion?.id}">
         <div>{{selectedVersion.id === (activeVersion && activeVersion.id)?'Active':'Inactive'}}</div>
       </div>
-      <!--<button *ngIf="selectedVersion?.id === activeVersion?.id" class="btn btn-theme-primary mr-1"-->
+      <!--<button *ngIf="selectedVersion?.id === activeVersion?.id" class="btn-theme btn-theme-primary mr-1"-->
       <!--style="flex-basis: 56px">Active-->
       <!--</button>-->
       <!--<button-->
-      <!--*ngIf="selectedVersion?.id !== activeVersion?.id" class="btn btn-theme-dark mr-1"-->
+      <!--*ngIf="selectedVersion?.id !== activeVersion?.id" class="btn-theme btn-theme-dark mr-1"-->
       <!--style="flex-basis: 56px">Inactive-->
       <!--</button>-->
       <div class="count mx-1 flex-shrink-0 flex-grow-0">{{selectedVersion.version}}</div>
@@ -58,7 +58,7 @@
     </div>
   </div>
   <div class="col-6">
-    <button [disabled]="!selectedVersion" class="btn btn-theme-primary-outline mr-1"
+    <button [disabled]="!selectedVersion" class="btn-theme btn-theme-primary-outline mr-1"
             *myIf="myEAllActions['Update Bot Versioning']"
             (click)="saveSelectedVersion$.emit()">
       {{(!bot.store_bot_versions || !bot.store_bot_versions.length ||
@@ -66,7 +66,7 @@
       version
     </button>
     <div *ngIf="selectedVersion" class="d-inline-block">
-      <button class="btn btn-theme-primary-outline"
+      <button class="btn-theme btn-theme-primary-outline"
               [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
               *myIf="myEAllActions['Create Bot Versioning']"
               (click)="openForkNewVersionModal$.emit()">

@@ -227,6 +227,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     this.router.navigate([`core/botdetail/${EBotType.chatbot}/`, this.bot.id], {
       queryParams: {'code-tab': activeTab},
       queryParamsHandling: 'merge',
+      preserveFragment:true,
       replaceUrl: true
     });
   }

@@ -18,7 +18,13 @@ import {
 } from './core/view-bots/ngxs/view-bot.action';
 import {IBot, IBotResult, IBotVersionResult} from './core/interfaces/IBot';
 import {ActivatedRoute, Router} from '@angular/router';
-import {SetAutoLogoutTime, SetMasterIntegrationsList, SetMasterProfilePermissions, SetProgressValue} from './ngxs/app.action';
+import {
+  SetAutoLogoutTime,
+  SetBackendURlRoot,
+  SetMasterIntegrationsList,
+  SetMasterProfilePermissions,
+  SetProgressValue
+} from './ngxs/app.action';
 import {IIntegrationMasterListItem, IIntegrationOption} from '../interfaces/integration-option';
 import {ICustomNerItem} from '../interfaces/custom-ners';
 import 'rxjs/add/observable/throw';
@@ -40,6 +46,7 @@ import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 import {IProfilePermission} from '../interfaces/profile-action-permission';
 import {EHttpVerbs, PermissionService} from './permission.service';
 import {ELogType, LoggingService} from './logging.service';
+import {tap} from 'rxjs/operators';
 
 declare var IMI: any;
 declare var $: any;
@@ -585,6 +592,15 @@ export class ServerService {
     this.messaging = messaging;
   }
 
+
+  getNSetConfigData$(){
+    return this.makeGetReq({ url: '/static/config.json', noValidateUser: true })
+      .pipe(tap(((value: { 'backend_url': string, 'version': string }) => {
+        this.store.dispatch([
+          new SetBackendURlRoot({ url: value.backend_url })
+        ]);
+      })));
+  }
 
   currentRoom: IRoomData;
 

@@ -1,0 +1,18 @@
+%fixed-top-left{
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+%centered-flex-row{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+%centered-flex-column{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}

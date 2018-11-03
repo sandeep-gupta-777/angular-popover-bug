@@ -11,6 +11,7 @@
       <div *ngFor="let key of type|integrationItemForType" class="mb-3">
         <!--<div *ngFor="let integration_keys of myObject.keys(formValue[integration_type])"-->
         <div
+          [id]="key"
           requiredIfOneFilledValidator
           ngModelGroup="{{key}}"
           class="border px-3">

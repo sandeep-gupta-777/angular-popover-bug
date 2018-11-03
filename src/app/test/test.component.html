@@ -10,11 +10,11 @@
              <!--[ngClass]="{'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-label-inactive':selectedVersion?.id !== activeVersion?.id}">-->
           <!--<div>{{selectedVersion.id === (activeVersion && activeVersion.id)?'Active':'Inactive'}}</div>-->
         <!--</div>-->
-        <!--&lt;!&ndash;<button *ngIf="selectedVersion?.id === activeVersion?.id" class="btn btn-theme-primary mr-1"&ndash;&gt;-->
+        <!--&lt;!&ndash;<button *ngIf="selectedVersion?.id === activeVersion?.id" class="btn-theme btn-theme-primary mr-1"&ndash;&gt;-->
         <!--&lt;!&ndash;style="flex-basis: 56px">Active&ndash;&gt;-->
         <!--&lt;!&ndash;</button>&ndash;&gt;-->
         <!--&lt;!&ndash;<button&ndash;&gt;-->
-        <!--&lt;!&ndash;*ngIf="selectedVersion?.id !== activeVersion?.id" class="btn btn-theme-dark mr-1"&ndash;&gt;-->
+        <!--&lt;!&ndash;*ngIf="selectedVersion?.id !== activeVersion?.id" class="btn-theme btn-theme-dark mr-1"&ndash;&gt;-->
         <!--&lt;!&ndash;style="flex-basis: 56px">Inactive&ndash;&gt;-->
         <!--&lt;!&ndash;</button>&ndash;&gt;-->
         <!--<div class="count mx-1 flex-shrink-0 flex-grow-0">{{selectedVersion.version}}</div>-->
@@ -62,7 +62,7 @@
       <!--</div>-->
     <!--</div>-->
     <!--<div class="col-6">-->
-      <!--<button [disabled]="!selectedVersion" class="btn btn-theme-primary-outline mr-1"-->
+      <!--<button [disabled]="!selectedVersion" class="btn-theme btn-theme-primary-outline mr-1"-->
               <!--*myIf="myEAllActions['Update Bot Versioning']"-->
               <!--(click)="saveSelectedVersion()">-->
         <!--{{(!bot.store_bot_versions || !bot.store_bot_versions.length ||-->
@@ -70,7 +70,7 @@
         <!--version-->
       <!--</button>-->
       <!--<div *ngIf="selectedVersion" class="d-inline-block">-->
-        <!--<button class="btn btn-theme-primary-outline"-->
+        <!--<button class="btn-theme btn-theme-primary-outline"-->
                 <!--[disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"-->
                 <!--*myIf="myEAllActions['Create Bot Versioning']" (click)="openForkNewVersionModal(Primarytemplate)">-->
           <!--Fork new version-->
@@ -428,9 +428,9 @@
         <!--</div>-->
         <!--<div class="col-md-12">-->
           <!--<p *ngIf="errorMessage" class="text-danger">{{errorMessage}}</p>-->
-          <!--<button class="btn btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>-->
+          <!--<button class="btn-theme btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>-->
 
-          <!--<button class="btn btn-theme-primary" (click)="forkNewVersion()">-->
+          <!--<button class="btn-theme btn-theme-primary" (click)="forkNewVersion()">-->
             <!--Fork-->
           <!--</button>-->
         <!--</div>-->
@@ -457,8 +457,8 @@
                <!--[(ngModel)]="newTemplateKey">-->
         <!--<p *ngIf="templateKeyCreationError" class="text-danger">{{templateKeyCreationError}}</p>-->
         <!--<div class="d-flex justify-content-end w-100 mt-2">-->
-          <!--<button class="btn btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>-->
-          <!--<button class="btn btn-theme-primary" [disabled]="!newTemplateKey" (click)="createNewTemplatekey();">Create-->
+          <!--<button class="btn-theme btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>-->
+          <!--<button class="btn-theme btn-theme-primary" [disabled]="!newTemplateKey" (click)="createNewTemplatekey();">Create-->
           <!--</button>-->
         <!--</div>-->
       <!--</div>-->
@@ -503,8 +503,8 @@
           <!--</label>-->
         <!--</form>-->
         <!--<div class="d-flex w-100">-->
-          <!--<button class="btn btn-theme-primary-outline ml-auto mr-2" (click)="modalRef.hide()">Cancel</button>-->
-          <!--<button class="btn btn-theme-primary  d-inline-block mr-2"-->
+          <!--<button class="btn-theme btn-theme-primary-outline ml-auto mr-2" (click)="modalRef.hide()">Cancel</button>-->
+          <!--<button class="btn-theme btn-theme-primary  d-inline-block mr-2"-->
                   <!--[disabled]="(modelGenTempNameForm.value|numberOfTrueKeys)<1"-->
                   <!--form="modelGenTempNameForm">Copy-->
             <!--now-->
@@ -533,7 +533,7 @@
 
         <!--</div>-->
         <!--<div class="d-flex justify-content-end">-->
-          <!--<button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>-->
+          <!--<button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>-->
           <!--<button class=" btn btn-theme-danger" (click)="deleteTemplateKey(templateKeyToBeDeleted.value)">Delete-->
           <!--</button>-->
         <!--</div>-->
@@ -558,7 +558,7 @@
 <!--&lt;!&ndash;<input ngModel name="old_key" hidden type="text" [ngModel]="templateKeyToBeDeleted.value">&ndash;&gt;-->
 <!--&lt;!&ndash;<input ngModel name="new_key"type="text">&ndash;&gt;-->
 <!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;<button class="btn btn-theme-primary" (click)="editTemplateKey(templateKeyEditForm)">Submit</button>&ndash;&gt;-->
+<!--&lt;!&ndash;<button class="btn-theme btn-theme-primary" (click)="editTemplateKey(templateKeyEditForm)">Submit</button>&ndash;&gt;-->
 <!--&lt;!&ndash;</form>&ndash;&gt;-->
 <!--&lt;!&ndash;</div>&ndash;&gt;-->
 <!--&lt;!&ndash;</div>&ndash;&gt;-->
@@ -579,8 +579,8 @@
                <!--(keyup.enter)="editTemplateKey(templateKeyEditForm)">-->
         <!--&lt;!&ndash;<p *ngIf="templateKeyCreationError" class="text-danger">{{templateKeyCreationError}}</p>&ndash;&gt;-->
         <!--<div class="d-flex justify-content-end w-100 mt-2">-->
-          <!--<button class="btn btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>-->
-          <!--<button class="btn btn-theme-primary" [disabled]="!templateKeyEditForm.valid"-->
+          <!--<button class="btn-theme btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>-->
+          <!--<button class="btn-theme btn-theme-primary" [disabled]="!templateKeyEditForm.valid"-->
                   <!--(click)="editTemplateKey(templateKeyEditForm)">Create-->
           <!--</button>-->
         <!--</div>-->

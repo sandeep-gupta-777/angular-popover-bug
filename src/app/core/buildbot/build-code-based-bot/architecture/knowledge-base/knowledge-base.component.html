@@ -3,7 +3,7 @@
   <!-- <div class="pl-2 font-weight-bold" style="font-size: 20px; color: #474747">Knowledge Base</div> -->
   <div class="col-12 pb-2 d-flex justify-content-end"
        *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']">
-    <button class="btn-theme-primary"
+    <button class="btn-theme btn-theme-primary"
             (click)="reinitialise()"
             *myIf="myEAllActions['Create Enterprise Knowledge base']"
     >Create Concept
@@ -11,7 +11,7 @@
   </div>
   <div class="col-12 pb-2 d-flex justify-content-end"
        *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']">
-    <button class="btn-theme-primary"
+    <button class="btn-theme btn-theme-primary"
             (click)="reinitialise()"
             *myIf="myEAllActions['Create Bot Knowledge base']"
     >Create Concept
