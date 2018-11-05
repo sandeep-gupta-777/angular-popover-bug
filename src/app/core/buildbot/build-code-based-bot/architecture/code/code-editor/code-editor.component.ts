@@ -1,11 +1,6 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { EventService } from '../../../../../../event.service';
 import { UtilityService } from '../../../../../../utility.service';
 import { ActivatedRoute } from '@angular/router';
-import { ConstantsService } from 'src/app/constants.service';
-import { ServerService } from 'src/app/server.service';
-import set = Reflect.set;
-
 declare var CodeMirror: any;
 
 @Component({
@@ -13,14 +8,8 @@ declare var CodeMirror: any;
   templateUrl: './code-editor.component.html',
   styleUrls: ['./code-editor.component.scss'],
   host: {
-    //https://stackoverflow.com/questions/34636661/how-do-i-change-the-body-class-via-a-typescript-class-angular2
     '[class.d-flex-column-last-child-flex-grow-1]': 'true'
   }
-  // host: {
-
-  // "[style.display]": "'inline-block'",
-  // "[style.height.percent]": "100",
-  // }
 })
 export class CodeEditorComponent implements OnInit, AfterViewInit {
 

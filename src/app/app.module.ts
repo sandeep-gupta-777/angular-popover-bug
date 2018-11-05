@@ -48,6 +48,8 @@ import {ObjectArrayCrudService} from './object-array-crud.service';
 import {SplashScreenComponent} from './splash-screen/splash-screen.component';
 import { DebounceClickDirective } from './debounce-click.directive';
 import {ThemeComponent} from './theme/theme.component';
+import {SafeHtml} from '@angular/platform-browser';
+import {SafeUrlPipe} from './href-sanitizer.pipe';
 // import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 
 const routes: Route[] = [
