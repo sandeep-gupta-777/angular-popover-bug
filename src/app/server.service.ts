@@ -429,7 +429,7 @@ export class ServerService {
             'workflow': {error: false},
           };
         });
-        debugger;
+
         this.store.dispatch([
           new SaveVersionInfoInBot({data: botVersionResult.objects, botId: botId})
         ]);

@@ -137,10 +137,11 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
       this.showConfig = (showConfigStr === 'true' || showConfigStr == undefined);
     });
 
-    this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
+    if(!this.bot.store_bot_versions ){
+      this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
+    }
     this.botlist$_sub = this.botlist$.subscribe(() => {
-      debugger;
-      console.log(22222222222222222222222222222)
+
       // try {
       //   let newTemplateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
       //   if(this.utilityService.areTwoJSObjectSame(this.templateKeyDict, newTemplateKeyDict)) return;
@@ -160,6 +161,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
             })
             .filter((enabledIntegrations) => this.bot.integrations.channels[enabledIntegrations.name].enabled);
           this.channelListClone = [...this.channelList];
+          if(this.channelListClone.length>0)
           this.channelListClone.unshift({name: 'all', displayName: 'All'});
         }
 
@@ -232,6 +234,8 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   tabClicked(activeTab: string) {
 
     if (this.activeTab===EBotVersionTabs.generation_templates && this.showGenTempEditorAndHideGenTempUi === false) {
+      this.convertGenTemplateCodeStringIntoUiComponents();
+    }else if(this.activeTab===EBotVersionTabs.generation_templates && this.showGenTempEditorAndHideGenTempUi === true){
       this.convertUiDictToGenTemplateCode(this.templateKeyDict);
     }
 
@@ -255,7 +259,6 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   convertGenTemplateCodeStringIntoUiComponents() {
     try {
-
       this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
       this.templateKeyDictClone = {...this.templateKeyDict};
     } catch (e) {
@@ -491,9 +494,20 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   changeSelectedVersion(version) {
+    /*we are moving away from old version and going to new version
+    * for old version => if view is UI view. covert ui view to code, if its code view don't do anything
+    * for new version => if view is UI view. covert code to ui view, if its code view don't do anything
+    * */
+    if(this.showGenTempEditorAndHideGenTempUi===false){
+      this.convertUiDictToGenTemplateCode(this.templateKeyDict);
+    }
+    console.log('selected version changed');
     this.bot.store_selected_version = version.id;
     this.selectedVersion = version;
     this.forked_version_number = this.selectedVersion.version;
+    if(this.showGenTempEditorAndHideGenTempUi===false){
+      this.convertGenTemplateCodeStringIntoUiComponents();
+    }
     this.tabClicked(this.activeTab);
   }
 

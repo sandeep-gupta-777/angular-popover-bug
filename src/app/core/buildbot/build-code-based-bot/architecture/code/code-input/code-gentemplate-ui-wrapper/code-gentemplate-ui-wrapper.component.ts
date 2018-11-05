@@ -66,7 +66,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   @Output() openDeleteTemplateKeyModal$ = new EventEmitter();
   @Output() convertUiDictToGenTemplateCode$ = new EventEmitter();
   templateKeySearchKeyword: string;
-
+  templateKeyDictClone;
   constructor(
     private modalService: BsModalService,
     private utilityService: UtilityService,
@@ -75,7 +75,9 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     try {
-      this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0]
+      this.templateKeyDictClone = this.utilityService.createDeepClone(this.templateKeyDict);
+      this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
+      this.channelSelectorForm.form.patchValue({name:'all'});
     }catch (e) {
       console.log(e);
     }
@@ -91,7 +93,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
 
   updateSelectedTemplateKeyValue(codeStr: string) {
-
+    console.log("sadasads");
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar] = codeStr;
   }
 
@@ -151,8 +153,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   createIncludesArray(){
-    return Array.isArray(this.channelNameList)? ['web', ...this.channelNameList]: ['web'];
-
+    return Array.isArray(this.channelNameList)? ['web', ...this.channelNameList]: ['web'];;
   }
 
   scrollToBottom(): void {

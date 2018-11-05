@@ -1,5 +1,4 @@
 <!--<a class="vscode-opener" [title]="myNameDebug()" [href]="logDebug()|safeUrl">x</a>-->
-
 <div class="d-flex show-on-hover-wrapper flex-wrap">
   <div class="controls d-flex flex-column justify-content-between align-items-start"
        [ngClass]="{'always-show':selected, 'show-on-hover-item':!selected}"
@@ -47,6 +46,7 @@
                                   [myIndex]=i
                                   [channelNameList]="channelNameList"
     ></app-code-quick-reply-wrapper>
+
     <div class="pb-1 pl-1">
       <img *ngFor="let channel of channelNameList" class="logo-image mx-1 cursor-pointer"
            (click)="removeThisChannel(channel)" [src]="(channel|logosByIntegrationName)?.icon"

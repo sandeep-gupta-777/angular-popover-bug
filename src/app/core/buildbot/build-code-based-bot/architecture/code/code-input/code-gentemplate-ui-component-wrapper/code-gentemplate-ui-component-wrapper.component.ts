@@ -73,7 +73,12 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.channelNameList = this.channelList.filter(e=>e.name!=='all').map(e=>e.name)
+  }
+
+  isTemplateKeyOutputUnparsable() {
+    return typeof this.outputItem === 'string';
   }
 
 }

@@ -27,7 +27,7 @@ export class SplashScreenComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.root = isDevMode() ? '/':'/static';
+    this.root = isDevMode() ? '/':'/';
   }
 
 }

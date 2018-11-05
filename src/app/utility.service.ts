@@ -338,7 +338,8 @@ export class UtilityService {
 
     // let regex = /output\s=\s([\s\S]*?)\selif/g;
     // let regex = /output[\s\S]*?]$/gm;
-      let regex = /output\s=([\s\S]*?])$/gm;
+    //   let regex = /output\s=([\s\S]*?])$/gm;
+      let regex = /output[\s]*=[\s]*([\s\S]*?[\s\S]$)/gm;//https://regex101.com/r/moAq3A/1/
 
     let match = regex.exec(str);
 
