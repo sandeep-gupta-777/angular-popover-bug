@@ -1,31 +1,52 @@
 <div class="row" *ngIf="showTable; else rowDetails">
   <!--<div class="row">-->
-    <!-- <div class="pl-2 font-weight-bold" style="font-size: 20px; color: #474747">Knowledge Base</div> -->
-  <div class="col-12 pb-2 d-flex justify-content-end" *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']">
-    <button class="btn-theme-primary"
+  <!-- <div class="pl-2 font-weight-bold" style="font-size: 20px; color: #474747">Knowledge Base</div> -->
+  <div class="col-12 pb-2 d-flex justify-content-end"
+       *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']">
+    <button class="btn-theme btn-theme-primary"
             (click)="reinitialise()"
             *myIf="myEAllActions['Create Enterprise Knowledge base']"
-    >Create Concept</button>
+    >Create Concept
+    </button>
   </div>
-
-
-  <div class="col-12 pb-2 d-flex justify-content-end" *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']">
-    <button class="btn-theme-primary"
+  <div class="col-12 pb-2 d-flex justify-content-end"
+       *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']">
+    <button class="btn-theme btn-theme-primary"
             (click)="reinitialise()"
             *myIf="myEAllActions['Create Bot Knowledge base']"
-    >Create Concept</button>
+    >Create Concept
+    </button>
   </div>
-  <div class="col-12">
-    <app-smart-table *ngIf="_custumNerDataForSmartTable"
-                     [data]="_custumNerDataForSmartTable"
-                     [settings]="settings"
-                     [totalRecords]="totalRecords"
-                     [recordsPerPage]="recordsPerPage"
-                     (pageChanged$)="pageChanged($event)"
-                     [currentPage]="currentPageNumber"
-                     (rowClicked$)="rowClicked($event)"></app-smart-table>
-  </div>
+
 </div>
+
+<ng-container *ngIf="_custumNerDataForSmartTable.length!==0">
+  <div class="row" *ngIf="showTable; else rowDetails">
+    <div class="col-12">
+      <app-smart-table *ngIf="_custumNerDataForSmartTable"
+                       [data]="_custumNerDataForSmartTable"
+                       [settings]="settings"
+                       [totalRecords]="totalRecords"
+                       [recordsPerPage]="recordsPerPage"
+                       (pageChanged$)="pageChanged($event)"
+                       [currentPage]="currentPageNumber"
+                       (rowClicked$)="rowClicked($event)"></app-smart-table>
+    </div>
+  </div>
+</ng-container>
+
+<!--<ng-template #splash>-->
+
+  <app-splash-screen *ngIf="_custumNerDataForSmartTable.length===0"
+                     [imageHRef]="myESplashScreens.knowledge_base"
+                      [descriptionText]="'Knowledge base concepts are collections which can be recognized by the bot in user messages. Different ways of capturing these concepts exists like exact match(single match), partial match(double match) regex parsers, database or entity access along with metadata'"
+                     [headingText]="'No concepts in knowledge base'"
+                     class="d-flex justify-content-center align-items-center w-100 h-75"
+  ></app-splash-screen>
+
+<!--</ng-template>-->
+
+
 <ng-template #rowDetails>
 
   <app-knowledge-base-presentation
@@ -37,62 +58,3 @@
     (updateOrSaveConcept$)="updateOrSaveConcept($event)"
   ></app-knowledge-base-presentation>
 </ng-template>
-<!--<ng-template #rowDetails>-->
-<!--<div class="row create-concept-row">-->
-<!--<div class="col-12 d-flex justify-content-between">-->
-<!--<button class="btn-theme-primary-outline" (click)="showTable=true; selectedRowData = []">Go Back</button>-->
-<!--<form class="options d-flex align-items-center" #form="ngForm">-->
-<!--<span>Concept Key</span>-->
-<!--<input [disabled]="selectedRowData.created_at" type="text" class="concept" placeholder="Concept Key"-->
-<!--[(ngModel)]="key" name="key">-->
-<!--<span>Concept Type</span>-->
-<!--&lt;!&ndash;<input type="text" class="concept" placeholder="Concept Type" [(ngModel)]="nerType"  name="nerType">&ndash;&gt;-->
-<!--<select required [(ngModel)]="ner_type" name="ner_type" [disabled]="selectedRowData.created_at">-->
-<!--<option value="single_match">Single Match</option>-->
-<!--<option value="double_match">Double Match</option>-->
-<!--<option value="with_metadata">With Metadata</option>-->
-<!--<option value="database">Database</option>-->
-<!--<option value="regex">Regex</option>-->
-<!--</select>-->
-
-<!--<span>Override Policy</span>-->
-<!--<fieldset [disabled]="selectedRowData.created_at">-->
-
-<!--<div class="form-check-inline align-items-start">-->
-<!--<label class="form-check-label" for="radio1">-->
-<!--<input type="radio" class="form-check-input" id="radio1" name="conflict_policy"-->
-<!--[(ngModel)]="conflict_policy" value="override" checked>Override-->
-<!--</label>-->
-<!--</div>-->
-<!--<div class="form-check-inline">-->
-<!--<label class="form-check-label" for="radio2">-->
-<!--<input type="radio" class="form-check-input" id="radio2" name="conflict_policy"-->
-<!--[(ngModel)]="conflict_policy" value="merge">Merge-->
-<!--</label>-->
-<!--</div>-->
-<!--</fieldset>-->
-<!--<button class="btn-theme-primary" (click)="updateOrSaveConcept()"> Save Concept</button>-->
-<!--</form>-->
-<!--</div>-->
-
-<!--<div class="col-12 mt-2">-->
-<!--<div *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata'; else table">-->
-<!--<div class="d-flex justify-content-end">-->
-<!--<label for="uploadInput" class="btn btn-theme-primary-outline">Upload File-->
-<!--<input type="file" hidden id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)'-->
-<!--#uploadInput>-->
-<!--</label>-->
-<!--&lt;!&ndash;<input type="file" id="uploadInput" accept='text/plain' multiple (change)='openFile(uploadInput)' #uploadInput>&ndash;&gt;-->
-<!--</div>-->
-<!--<app-code-editor (textChangedEvent)="textChanged($event)" [text]="codeTextInputToCodeEditor"></app-code-editor>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</ng-template>-->
-
-
-<!--<ng-template #table>-->
-<!--<div class="pb-2"><input type="search" placeholder="search table"></div>-->
-<!--<app-handsontable [testData]="handontableData" [columns]="handontable_column"-->
-<!--[colHeaders]="handontable_colHeaders"></app-handsontable>-->
-<!--</ng-template>-->

@@ -1,0 +1,115 @@
+<div class="row row-version my-2 m-0 child-no-expand-shrink " style="position: relative"
+     (clickOutside)="showVersionList = false">
+  <div class="col-6 p-0" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
+    <div *ngIf="selectedVersion" class="d-flex align-items-center flex-bot-versioning-toaster border-theme-secondary">
+      <div class="version-active-label" *ngIf="selectedVersion"
+           [ngClass]="{'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-label-inactive':selectedVersion?.id !== activeVersion?.id}">
+        <div>{{selectedVersion.id === (activeVersion && activeVersion.id)?'Active':'Inactive'}}</div>
+      </div>
+      <!--<button *ngIf="selectedVersion?.id === activeVersion?.id" class="btn-theme btn-theme-primary mr-1"-->
+      <!--style="flex-basis: 56px">Active-->
+      <!--</button>-->
+      <!--<button-->
+      <!--*ngIf="selectedVersion?.id !== activeVersion?.id" class="btn-theme btn-theme-dark mr-1"-->
+      <!--style="flex-basis: 56px">Inactive-->
+      <!--</button>-->
+      <div class="count mx-1 flex-shrink-0 flex-grow-0">{{selectedVersion.version}}</div>
+      <div class="forked mr-1 pl-1" *ngIf="selectedVersion.forked_from !== 0">Forked from version
+        {{selectedVersion.forked_from}}
+      </div>
+      <div class="forked mr-1 pl-1" *ngIf="selectedVersion.forked_from === 0">Default created version
+      </div>
+      <div class="update d-flex flex-column mr-1 justify-content-center">
+        <div>Last update</div>
+        <div class="d-flex justify-content-left pt-1" *ngIf="selectedVersion">
+          <!-- <i class="fa fa-circle"
+             [ngClass]="{'text-danger':selectedVersion.updated_fields['df_template'], 'dark-green':activeTab==='df_template'}"></i> -->
+          <i class="fa fa-circle"
+             [ngClass]="{'text-danger':selectedVersion.changed_fields['df_template'], 'dark-green':selectedVersion.updated_fields['df_template']}"></i>
+          <i class="fa fa-circle"
+             [ngClass]="{'text-danger':selectedVersion.changed_fields['df_rules'], 'dark-green':selectedVersion.updated_fields['df_rules']}"></i>
+          <i class="fa fa-circle"
+             [ngClass]="{'text-danger':selectedVersion.changed_fields['generation_rules'], 'dark-green':selectedVersion.updated_fields['generation_rules']}"></i>
+          <i class="fa fa-circle"
+             [ngClass]="{'text-danger':selectedVersion.changed_fields['generation_templates'], 'dark-green':selectedVersion.updated_fields['generation_templates']}"></i>
+          <i class="fa fa-circle"
+             [ngClass]="{'text-danger':selectedVersion.changed_fields['workflow'], 'dark-green':selectedVersion.updated_fields['workflow']}"></i>
+        </div>
+        <!--<form class="d-flex">-->
+        <!--<input type="radio" name="optradio" checked>-->
+        <!--<input type="radio" name="optradio">-->
+        <!--<input type="radio" name="optradio">-->
+        <!--<input type="radio" name="optradio">-->
+        <!--<input type="radio" name="optradio">-->
+        <!--</form>-->
+      </div>
+      <div class="insert mr-1" *ngIf="selectedVersion && selectedVersion.comment" [popover]="selectedVersion.comment"
+           placement="bottom" triggers="mouseenter:mouseleave">
+        {{selectedVersion.comment.length>70?(((selectedVersion.comment)|slice:0:100)
+        +"..."):selectedVersion?.comment}}
+        <!--<div class="insert mr-1">{{(selectedVersion.comment)|slice:0:100}}-->
+      </div>
+      <!---->
+      <i (click)="showVersionList= !showVersionList"
+         *ngIf="bot.store_bot_versions && bot.store_bot_versions.length > 1"
+         class="fa py-2 px-3 bg-theme-primary text-white ml-auto cursor-pointer"
+         [ngClass]="{'fa-angle-up':showVersionList, 'fa-angle-down':!showVersionList}"
+         style="height: 100%"></i>
+    </div>
+  </div>
+  <div class="col-6">
+    <button [disabled]="!selectedVersion" class="btn-theme btn-theme-primary-outline mr-1"
+            *myIf="myEAllActions['Update Bot Versioning']"
+            (click)="saveSelectedVersion$.emit()">
+      {{(!bot.store_bot_versions || !bot.store_bot_versions.length ||
+      bot.store_bot_versions.length>0)?"Save":"Create"}}
+      version
+    </button>
+    <div *ngIf="selectedVersion" class="d-inline-block">
+      <button class="btn-theme btn-theme-primary-outline"
+              [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
+              *myIf="myEAllActions['Create Bot Versioning']"
+              (click)="openForkNewVersionModal$.emit()">
+        Fork new version
+      </button>
+    </div>
+  </div>
+  <div class="row row-flex-bot-versioning-toaster border-theme-secondary  border-top-0 mx-0" *ngIf="showVersionList"
+       style="max-height: 50vh; overflow-y: scroll">
+    <div class="col-12 py-1 px-0 cursor-pointer hover-change-background border-bottom-theme-secondary"
+         *ngFor="let version of bot.store_bot_versions | filterActiveBot:selectedVersion.id">
+      <div class="d-flex align-items-center flex-bot-versioning-toaster"
+           (click)="changeSelectedVersion$.emit(version); showVersionList = false; ">
+
+        <div class="version-active-label">
+          <div>{{version.id === (activeVersion && activeVersion.id)?'Active':'Inactive'}}</div>
+        </div>
+        <!--<div class="active-label-text">{{version.id +""+activeVersion.id }}</div>-->
+        <div class="count mr-1">{{version.version}}</div>
+        <div class="forked mr-1 pl-1" *ngIf="version.forked_from !== 0">Forked from version
+          {{version.forked_from}}
+        </div>
+        <div class="forked mr-1 pl-1" *ngIf="version.forked_from === 0">Default created version
+        </div>
+
+        <!--change dot start-->
+        <div class="update d-flex flex-column mr-1 justify-content-center" *ngIf="version">
+          <div class="mr-1">Last update</div>
+          <div class="justify-content-left pt-1">
+            <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['df_template']}"></i>
+            <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['df_rules']}"></i>
+            <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['generation_rules']}"></i>
+            <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['generation_templates']}"></i>
+            <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['workflow']}"></i>
+          </div>
+        </div>
+        <!--change dot end-->
+
+        <div class="insert mr-1">{{version.comment.length>70?(((version.comment)|slice:0:100)
+          +"..."):version?.comment}}
+        </div>
+        <i class=" py-2 px-3 "></i>
+      </div>
+    </div>
+  </div>
+</div>

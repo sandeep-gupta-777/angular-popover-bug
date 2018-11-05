@@ -68,6 +68,7 @@
 
 .nav-link {
   font-size: 12px;
+  padding-left: .5rem;
 }
 
 .row-flex-bot-versioning-toaster {
@@ -96,8 +97,25 @@
   display: grid;
   //width: 80vw;
   grid-template-columns: 20% 60% 20%;
-  grid-template-rows: 100%;
+  grid-template-rows: 30px calc(100% - 30px);
+  grid-template-areas :
+  'left centerHeader bot-templates'
+  'left genTempGridItem bot-templates'
+;
   background-color: #f7f7f7;
+
+  .center-header{
+    grid-area: centerHeader;
+  }
+  .left-sidebar{
+    grid-area: left;
+  }
+  .genTempGridItemGrid{
+    grid-area: genTempGridItem;
+  }
+  .bot-templates{
+    grid-area: bot-templates;
+  }
 }
 
 .genTempGridItem {
@@ -156,9 +174,7 @@
 .show-on-hover:hover .hide-it{
   visibility: visible;
 }
-.hide-it{
-  visibility: hidden;
-}
+
 .modelGridGenTempNames{
   display: grid;
   grid-template-columns: repeat(4,150px);
@@ -189,7 +205,6 @@
 }
 
 .bot-templates {
-  border-left: solid 1px #e0e0e0;
   ul {
     list-style-type: none;
     padding: 0;
@@ -337,6 +352,56 @@
     background-color: #ededed;
   }
 }
+.validation-bar{
+  width: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-left: 4px;
+  border: solid 1px #e0e0e0;
+  background-color: #f7f7f7;
+  align-items: center;
+  justify-content: center;
+  .dot-indicator{
+    height: max-content;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom:  solid 1px #e0e0e0;
+    .fa{
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+
+  }
+  .validation-toggle{
+    display: flex;
+    flex: 1 1 auto;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+}
+.validation-message{
+  width: 200px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: solid 1px #e0e0e0;
+  background-color: #f7f7f7;
+  padding: 5px;
+  overflow-y: scroll;
+  .validation-message-heading{
+    font-size: 13px;
+  }
+  .validation-message-data{
+    font-size: 11px;
+  }
+  // align-items: center;
+  // justify-content: center;
+}
 
 app-code-editor {
   //height: 30vh !important;
@@ -372,6 +437,4 @@ app-code-editor {
   outline: none;
 }
 
-.input-material{
 
-}

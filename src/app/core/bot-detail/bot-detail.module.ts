@@ -45,13 +45,22 @@ import {SessionDataToRichMediaSerializerPipe} from '../../session-data-to-rich-m
 import {DisplayNameForKeyIntegrationPipe} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/display-name-for-key-integration.pipe';
 import {UnderscroreToSpaceDelimitorPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/underscrore-to-space-delimitor.pipe';
 
-import { CodeGentemplateComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate/code-gentemplate.component';
-import { TextGentemplateComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/text-gentemplate/text-gentemplate.component';
+import { CodeGentemplateComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-gentemplate/code-gentemplate.component';
+import { TextGentemplateComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/text-gentemplate/text-gentemplate.component';
 import {FilterTemplateLeyListPipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/filter-template-ley-list.pipe';
-import {LogosByIntegrationNamePipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/text-gentemplate/logos-by-integration-name.pipe';
+import {LogosByIntegrationNamePipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/text-gentemplate/logos-by-integration-name.pipe';
 import {FilterResponseComponentByChannelNamePipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/filter-response-component-by-channel-name.pipe';
 import {NumberOfTrueKeysPipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/number-of-true-keys.pipe';
 import {DataTypePipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/data-type.pipe';
+import {CodeInputCaraosalComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-input-caraosal/code-input-caraosal.component';
+import {CodeQuickReplyComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-quick-reply/code-quick-reply.component';
+import {CodeQuickReplyWrapperComponent} from '../../code-quick-reply-wrapper/code-quick-reply-wrapper.component';
+import {CodeQuickReplyButtonWrapperComponent} from '../../code-quick-reply-button-wrapper/code-quick-reply-button-wrapper.component';
+import {TypeForIntegrationTypePipe} from '../../type-for-integration-type.pipe';
+import {IntegrationItemForTypePipe} from '../../integration-item-for-type.pipe';
+import {CodeGentemplateUiComponentWrapperComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-gentemplate-ui-component-wrapper.component';
+import {CodeVersionListComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-version-list/code-version-list.component';
+import {CodeGentemplateUiWrapperComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
 
 const routes: Route[] = [
   {
@@ -83,14 +92,23 @@ const routes: Route[] = [
     PipelineFilterPipe,
     SessionComponent,
     CodeInputComponent,
+    CodeGentemplateUiComponentWrapperComponent,
+    CodeVersionListComponent,
+    CodeGentemplateUiWrapperComponent,
+    FilterTemplateLeyListPipe,
+    CodeInputCaraosalComponent,
+    CodeQuickReplyWrapperComponent,
+    CodeQuickReplyComponent,
+    CodeQuickReplyButtonWrapperComponent,
     DataTypePipe,
     NumberOfTrueKeysPipe,
     FilterResponseComponentByChannelNamePipe,
     LogosByIntegrationNamePipe,
-    FilterTemplateLeyListPipe,
     CodeGentemplateComponent,
     TextGentemplateComponent,
     IntegrationOptionListComponent,
+    TypeForIntegrationTypePipe,
+    IntegrationItemForTypePipe,
     IntegrationItemComponent,
     DraggableDirective,
     DropTargetDirective,

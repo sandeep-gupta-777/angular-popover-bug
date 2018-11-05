@@ -1,4 +1,4 @@
-<div *ngIf="sessions">
+<div *ngIf="sessions && sessions.length>0">
   <app-smart-table [data]="sessions"
                    [totalRecords]="totalSessionRecords"
                    (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,reasonForDecryptionTemplate)"
@@ -10,6 +10,15 @@
                    (performSearchInDB$)="performSearchInDbForSession($event)"
                    [settings]="smartTableSettings_Sessions"></app-smart-table>
 </div>
+
+
+<app-splash-screen *ngIf="sessions && sessions.length===0"
+                   [imageHRef]="myESplashScreens.sessions"
+                   [headingText]="'No sessions found'"
+                   [descriptionText]="'Integrate or deploy your bot to see all conversations bot was involved in'"
+                   class="d-flex justify-content-center align-items-center"
+                   style="position: absolute; left: 0; right: 0;bottom: 0; top: 0;"
+></app-splash-screen>
 
 
 <ng-template #sessionDetailTemplate>
@@ -40,13 +49,16 @@
       </button>
     </div>
     <div class="modal-body pt-0">
-     <form #form="ngForm">
-       <div class="text-center my-1">
-         <label for="" class="mr-1">Reason</label>
-         <input type="text" required style="border-radius: 0px !important;" [(ngModel)] = "decryptReason" name="decryptReason">
-       </div>
-       <button [disabled]="!form.valid" class=" btn btn-theme-success-sm" (click)="decryptSubmit(sessionItemToBeDecrypted.id);modalRef.hide()">Submit</button>
-     </form>
+      <form #form="ngForm">
+        <div class="text-center my-1">
+          <label for="" class="mr-1">Reason</label>
+          <input type="text" required style="border-radius: 0px !important;" [(ngModel)]="decryptReason"
+                 name="decryptReason">
+        </div>
+        <button [disabled]="!form.valid" class=" btn-theme btn-theme-success-sm"
+                (click)="decryptSubmit(sessionItemToBeDecrypted.id);modalRef.hide()">Submit
+        </button>
+      </form>
     </div>
   </div>
 </ng-template>

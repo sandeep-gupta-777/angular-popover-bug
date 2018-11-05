@@ -54,7 +54,7 @@
     <span class="action">Cancel</span>
     <!---->
   </div>
-  <button class="btn btn-theme-primary" (click)="openActiveBotChangedModal(activeVersionChangedTemplate)"
+  <button class="btn-theme btn-theme-primary" (click)="openActiveBotChangedModal(activeVersionChangedTemplate)"
           *myIf="myEAllActions['Update Bots']">Update Bot
   </button>
   <div class="btn-group p-2" dropdown placement="top left">
@@ -88,8 +88,8 @@
   </div>
   <div class="modal-body bg-white text-dark">
     <p class="mb-3">Do you confirm the Deletion? This is a permanent and irreversible change</p>
-    <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
-    <button class="btn btn-theme-danger" (click)="deleteBot()">Delete</button>
+    <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+    <button class="btn-theme btn-theme-danger" (click)="deleteBot()">Delete</button>
   </div>
 </ng-template> -->
 
@@ -110,8 +110,8 @@
           <p class="mb-3">Do you confirm the Deletion? This is a permanent and irreversible change</p>
 
         </div>
-        <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
-        <button class=" btn btn-theme-danger" (click)="deleteBot()">Delete</button>
+        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button class=" btn-theme btn-theme-danger" (click)="deleteBot()">Delete</button>
       </form>
     </div>
   </div>
@@ -134,8 +134,8 @@
           <p class="mb-3">If you update the bot your currently selected version will be the new Active version.</p>
 
         </div>
-        <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
-        <button class=" btn btn-theme-danger" (click)="updateBot()">Update</button>
+        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button class=" btn-theme btn-theme-danger" (click)="updateBot()">Update</button>
       </form>
     </div>
   </div>

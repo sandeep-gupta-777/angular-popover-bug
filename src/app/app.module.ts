@@ -45,6 +45,11 @@ import {MsToHhMmPipe} from './ms-to-hh-mm.pipe';
 import {BackendDevComponent} from './backend-dev/backend-dev.component';
 import {ChatService} from './chat.service';
 import {ObjectArrayCrudService} from './object-array-crud.service';
+import {SplashScreenComponent} from './splash-screen/splash-screen.component';
+import { DebounceClickDirective } from './debounce-click.directive';
+import {ThemeComponent} from './theme/theme.component';
+import {SafeHtml} from '@angular/platform-browser';
+import {SafeUrlPipe} from './href-sanitizer.pipe';
 // import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 
 const routes: Route[] = [
@@ -52,6 +57,7 @@ const routes: Route[] = [
   {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad:[AuthGaurdService]},
   {path: 'preview', loadChildren: './chat/chat.module#ChatModule'},
   {path: 'denied', component: NotAuthorisedComponent},
+  {path: 'theme', component: ThemeComponent},
   {path: '', redirectTo:"core/viewbots/chatbot", pathMatch:"full"},
   {path: '**', component: NotFoundComponent}
 ];
@@ -59,10 +65,12 @@ const routes: Route[] = [
 @NgModule({
   declarations: [
     AppComponent,
+    ThemeComponent,
     NotFoundComponent,
     NotAuthorisedComponent,
-      FilterArrayPipe,
+    FilterArrayPipe,
     BackendDevComponent,
+    DebounceClickDirective,
     // MsToHhMmPipe,
     // ChatWrapperComponent,
     // ChatWindowComponent,
@@ -79,6 +87,7 @@ const routes: Route[] = [
     RichMediaModule,
     RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,
+
     NgxsModule.forRoot([
       AuthStateReducer,
       AppStateReducer,

@@ -89,6 +89,7 @@ export class ViewBotStateReducer {
   @Action(SaveVersionInfoInBot)
   saveVersionInfoInBot({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>,
                        {payload}: SaveVersionInfoInBot) {
+
     let state: ViewBotStateModel = getState();
     let bot: IBot = state.allBotList.find((bot) => bot.id === payload.botId);
     // "updated_fields"?: {
@@ -109,6 +110,7 @@ export class ViewBotStateReducer {
     //   }
     // });
     // versionList = {...versionList}
+
     bot.store_bot_versions = versionList;
 
     setState({...state});

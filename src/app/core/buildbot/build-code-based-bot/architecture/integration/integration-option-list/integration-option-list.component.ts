@@ -45,6 +45,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   routeParent;
   masterIntegrationList: IIntegrationMasterListItem[];
   masterIntegrationListSerialized = [];
+  integration_types: string[];
 
   constructor(
     private store: Store,
@@ -57,21 +58,10 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.app$.subscribe((value) => {
       this.masterIntegrationList = value.masterIntegrationList;
+      this.integration_types =  Array.from(new Set(this.masterIntegrationList.map(item=>item.integration_type)));
     });
-
     this.routeParent = this.activatedRoute.snapshot.data;
-    // else if (this.routeParent['buildBot']) {
-    //   this.botcreationstate$.subscribe((botCreationState: IBotCreationState) => {
-    //     this.formValue = botCreationState.codeBased.integrations;
-    //   });
-    // }
-
-    // this.formValueFinal = this.constantsService.integrationOptionListTemplate;
-    // this.formValueFinal =  this.bot.integrations;
-
-
     this.generateIntegrationFormValue();
-
   }
 
   generateIntegrationFormValue(){
@@ -144,11 +134,16 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
       this.f_new.form.patchValue(this.formValueFinal);
     });
 
+    try {
+      let fragment = this.activatedRoute.snapshot.fragment;
+      document.getElementById(fragment).scrollIntoView();
+    }catch (e) {
+      console.log(e);
+    }
 
     this.f_new.valueChanges.debounceTime(200).subscribe((integrationInfo: IIntegrationOption) => {
       // if (!this.f_new.dirty) return;
 
-      debugger;
       if(this.utilityService.areTwoJSObjectSame(this.formDataClone,this.f_new.value))return;
       let formValidityObj =  {};
       this.formDataClone  = this.utilityService.createDeepClone(this.f_new.value);

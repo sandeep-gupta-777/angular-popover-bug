@@ -9,20 +9,19 @@ import { UtilityService } from '../../utility.service';
 import { IEnterpriseProfileInfo } from '../../../interfaces/enterprise-profile';
 import { SetEnterpriseInfoAction } from '../../core/enterpriseprofile/ngxs/enterpriseprofile.action';
 import { SetBackendURlRoot } from '../../ngxs/app.action';
-import { SetUser } from '../ngxs/auth.action';
+import {ResetAuthToDefaultState, SetUser} from '../ngxs/auth.action';
 import { NgForm } from '@angular/forms';
+import {TestComponent} from '../../test/test.component';
+import {MessageDisplayBase} from './messageDisplayBase';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent extends MessageDisplayBase implements OnInit {
 
   panelActive = 'login';
-  // panelActive==='reset-via-email'
-  errorMessage = '';
-
   disabeLoginButton = false;
   changePasswordToken;
   changePasswordExpireTime;
@@ -33,6 +32,7 @@ export class LoginComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private utilityService: UtilityService,
     private store: Store) {
+    super();
   }
 
   loginEmails = [
@@ -41,39 +41,23 @@ export class LoginComponent implements OnInit {
     'qa.dev_1537783640111@imimobile.com',
     'qa.tester_1537783698819@imimobile.com',
   ];
-
-  @ViewChild('heroForm') f: NgForm;
-  @ViewChild('emailForm') e: NgForm;
+  isConfigDataSet =false;
+  @ViewChild('loginForm') loginForm: NgForm;
+  @ViewChild('emailForPasswordResetForm') emailForPasswordResetForm: NgForm;
   @ViewChild('resetPasswordForm') r: NgForm;
   showCustomEmails: boolean = false;
   ngOnInit() {
     this.showCustomEmails = !!this.activatedRoute.snapshot.queryParamMap.get('burl');
-    this.changePasswordToken = this.activatedRoute.snapshot.queryParamMap.get('token');
+    this.panelActive = this.activatedRoute.snapshot.queryParamMap.get('token')?'reset-password':this.panelActive;
     this.changePasswordExpireTime = this.activatedRoute.snapshot.queryParamMap.get('timestamp');
-    if (this.changePasswordToken) {
-      this.panelActive = 'reset-password'
-    }
-    // this.store.dispatch()
-    this.serverService.makeGetReq({ url: '/static/config.json', noValidateUser: true })
-      .subscribe(((value: { 'backend_url': string, 'version': string }) => {
-        // {"backend_url":"https://dev.imibot.ai/","version":"1.0.0"}
-        this.store.dispatch([
-          new SetBackendURlRoot({ url: value.backend_url })
-        ]);
-      }));
+    this.serverService.getNSetConfigData$().subscribe(()=> this.isConfigDataSet = true);
   }
 
-  flashErrorMessage(message: string, time_ms: number = 3000) {
-    this.errorMessage = message;
-    setTimeout(() => {
-      this.errorMessage = '';
-    }, time_ms);
-  }
   sendEmailForReset() {
     let sendEmailUrl = this.constantsService.sendEmailUrl();
     let body;
-    if (this.e.valid) {
-      body = this.e.value;
+    if (this.emailForPasswordResetForm.valid) {
+      body = this.emailForPasswordResetForm.value;
     } else {
       this.flashErrorMessage('Details not valid');
       return;
@@ -84,7 +68,7 @@ export class LoginComponent implements OnInit {
       })
   }
   resetPassword() {
-    debugger;
+
     let resetPasswordUrl = this.constantsService.resetPasswordUrl();
     let body;
     if (this.r.valid) {
@@ -109,18 +93,17 @@ export class LoginComponent implements OnInit {
       })
   }
   onSubmit() {
-    this.disabeLoginButton = true;
-    let loginData = this.f.value;
+    let loginData = this.loginForm.value;
     let loginUrl = this.constantsService.getLoginUrl();
     let body;
-    if (this.f.valid) {
-      body = this.f.value;
+    if (this.loginForm.valid) {
+      body = this.loginForm.value;
     } else {
       this.flashErrorMessage('Details not valid');
       return;
     }
-
-    this.flashErrorMessage('Reaching out to the server', 100000);
+    this.disabeLoginButton = true;
+    this.flashInfoMessage('Reaching out to the server', 100000);
     let headerData: IHeaderData = {
       'auth-token': null,
       'user-access-token': null
@@ -128,13 +111,13 @@ export class LoginComponent implements OnInit {
 
     this.serverService.makePostReq<IUser>({ url: loginUrl, body, headerData })
       .subscribe((user: IUser) => {
-        this.flashErrorMessage('Logged in. Fetching permissions', 100000);
+        this.flashInfoMessage('Logged in. Fetching permissions', 100000);
         this.store.dispatch([
           new SetUser({ user }),
         ]).subscribe(() => {
           this.serverService.getNSetMasterPermissionsList()
             .subscribe(() => {
-              this.flashErrorMessage('Taking you to homepage', 100000);
+              this.flashInfoMessage('Taking you to homepage', 100000);
               /*after login, route to appropriate page according to user role*/
               if (user.role.name === ERoleName.Analyst) {
                 this.router.navigate(['/core/analytics2/users']);
@@ -144,7 +127,13 @@ export class LoginComponent implements OnInit {
               this.serverService.getNSetBotList().subscribe(() => {
               });
               this.serverService.getNSetIntegrationList();
-            });
+            },()=>{
+                this.disabeLoginButton = false;
+                this.store.dispatch([
+                  new ResetAuthToDefaultState()
+                ]);
+                this.flashErrorMessage('Could not fetch permission. Please try again', 100000);
+              });
 
           let enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(user.enterprise_id);
           this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
@@ -157,7 +146,7 @@ export class LoginComponent implements OnInit {
       },
         () => {
           this.disabeLoginButton = false;
-          this.flashErrorMessage('Login failed. Please try again', 100000);
+          this.flashErrorMessage('Login failed. Please try again', 10000);
         }
       );
   }
@@ -168,7 +157,7 @@ export class LoginComponent implements OnInit {
 
 
   loginWithCustomEmail(email) {
-    this.f.form.patchValue({ email: email, password: 'Botwoman@123!' });
+    this.loginForm.form.patchValue({ email: email, password: 'Botwoman@123!' });
     this.onSubmit();
   }
 }

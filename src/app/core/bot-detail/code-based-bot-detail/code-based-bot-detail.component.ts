@@ -104,8 +104,11 @@ export class CodeBasedBotDetailComponent implements OnInit {
   }
 
   refreshBotDetails() {
-    this.serverService.fetchSpecificBotFromServerAndUpdateBotList(this.bot);
-    this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
+    this.serverService.fetchSpecificBotFromServerAndUpdateBotList(this.bot)
+      .subscribe(()=>{
+        this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
+      })
+    // this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
 
 
     // let getBotByTokenUrl = this.constantsService.getSpecificBotByBotTokenUrl();
@@ -157,7 +160,6 @@ export class CodeBasedBotDetailComponent implements OnInit {
   }
 
   datachanged(data: IBot) {
-    ;
     this.store.dispatch([
       new UpdateBotInfoByIdInBotInBotList({data, botId: this.bot_id})
     ]);

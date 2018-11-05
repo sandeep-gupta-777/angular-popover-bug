@@ -32,6 +32,7 @@ import {UpdateBotInfoByIdInBotInBotList} from '../ngxs/view-bot.action';
 export class BotPreviewCardComponent implements OnInit {
 
   @Input() bot: IBot;
+  showLoader =false;
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() chatsessionstate$: Observable<IChatSessionState>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
@@ -130,9 +131,10 @@ export class BotPreviewCardComponent implements OnInit {
   }
 
   navigateToBotDetailPage(event) {//preview-button
-    ;
     if (!event.target.classList.contains('click-save-wrapper')) {
       this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id]);
+      this.showLoader = true;
+
       /*TODO:improve it*/
 
       if (ERoleName.Tester === this.role) {
@@ -158,5 +160,8 @@ export class BotPreviewCardComponent implements OnInit {
 
   }
 
+  test(channelName){
+    this.router.navigateByUrl(`core/botdetail/chatbot/${this.bot.id}?build-tab=integration&code-tab=df_template#${channelName}`)
+  }
 
 }

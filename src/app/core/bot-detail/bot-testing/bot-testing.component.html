@@ -1,26 +1,26 @@
-<div class="d-flex-column-custom justify-content-end mb-3">
+<div class="d-flex-column-custom justify-content-end mb-3" *ngIf="!showSplashScreen">
   <div class="d-flex align-items-center justify-content-end">
     <!-- <i class="fa fa-plus pr-4"></i>
     <i class="fa fa-minus pr-4"></i> -->
-    <button class="btn-theme-primary-outline mr-2" (click)="exportToCSV()">Export to CSV</button>
+    <button class="btn-theme btn-theme-primary-outline mr-2" (click)="exportToCSV()">Export to CSV</button>
     <div *myIf="myEAllActions['Update Bot Testcases']" class="d-inline-block">
-      <button class="btn-theme-primary mr-2" (click)="updateTC()" *ngIf="isData && tableChanged">Update test Case
+      <button class="btn-theme btn-theme-primary mr-2" (click)="updateTC()" *ngIf="isData && tableChanged">Update test Case
       </button>
     </div>
     <div *myIf="myEAllActions['Create Bot Testcases']" class="d-inline-block">
-      <button class="btn-theme-primary mr-2" (click)="createTC()" *ngIf="!isData && tableChanged">Create test Case
+      <button class="btn-theme btn-theme-primary mr-2" (click)="createTC()" *ngIf="!isData && tableChanged">Create test Case
       </button>
     </div>
     <button class="btn-theme-danger mr-2" (click)="beginTest(Primarytemplat)" *ngIf="cancelTestFlag">Cancel Test
     </button>
-    <button class="btn-theme-primary mr-2" (click)="beginTest(Primarytemplat)" *ngIf="!cancelTestFlag">Begin Test
+    <button class="btn-theme btn-theme-primary mr-2" (click)="beginTest(Primarytemplat)" *ngIf="!cancelTestFlag">Begin Test
     </button>
   </div>
 </div>
 
 <!--<div [hidden]="!testCaseData" (change)="onTableChange()" class="d-flex-column-custom flex-grow-1">-->
 <app-handsontable
-  [hidden]="!testCaseData"
+  *ngIf="testCaseData && !showSplashScreen"
   (change)="onTableChange()"
   [testData]="testCaseData"
   [columns]="handontable_column"
@@ -29,9 +29,16 @@
 >
 </app-handsontable>
 
-<!--<app-handsontable [columns]="handontable_column" [colHeaders]="handontable_colHeaders"></app-handsontable>-->
-<!--</div>-->
-<!--<app-handsontable [columns]="handontable_column" [colHeaders]="handontable_colHeaders"></app-handsontable>-->
+<app-splash-screen *ngIf="showSplashScreen"
+                   [imageHRef]="myESplashScreens.testing"
+                   class="d-flex justify-content-center align-items-center"
+                   (buttonClicked)="showSplashScreen=false"
+                   [buttonText]="'Create test cases'"
+                   [headingText]="'One click testing'"
+                   [descriptionText]="'Create cases to test the bot. The user message to test the bot for and the  expected bot response template name are the properties needed to create new test case'"
+                   style="position: absolute; top: 0; left: 0; right: 0; bottom: 0"
+></app-splash-screen>
+
 
 <ng-template #Primarytemplat>
   <div class="danger-modal">
@@ -47,7 +54,7 @@
     <div class="modal-body pt-0">
       <div>
         <p>Do you want to stop the Testing process?</p>
-        <button class="btn-theme-primary" (click)="stopTest();modalRef.hide()">Stop Test</button>
+        <button class="btn-theme btn-theme-primary" (click)="stopTest();modalRef.hide()">Stop Test</button>
       </div>
 
     </div>

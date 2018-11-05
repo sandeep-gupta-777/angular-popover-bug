@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {IIntegrationOption, IMasterIntegrationResult} from '../interfaces/integration-option';
+import {IIntegrationMasterListItem, IIntegrationOption, IMasterIntegrationResult} from '../interfaces/integration-option';
 import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {IAppState} from './ngxs/app.state';
@@ -11,7 +11,7 @@ import {ELogType, LoggingService} from './logging.service';
 export class IntegrationLogosPipe implements PipeTransform {
 
   @Select() app$:Observable<IAppState>;
-  transform(integrationOption: IIntegrationOption, no_channel_or_only_channel: string): any {
+  transform(integrationOption: IIntegrationOption, no_channel_or_only_channel: string): Observable<IIntegrationMasterListItem[]> {
     let integrations;
     if(no_channel_or_only_channel==='no_channel'){
       integrations = {

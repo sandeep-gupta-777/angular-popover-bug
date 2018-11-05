@@ -224,6 +224,9 @@ export class ConstantsService {
   resetPasswordUrl(){
     return this.BACKEND_URL + 'api/v1/user/resetpassword/';
   }
+  codeValidationUrl(){
+    return this.BACKEND_URL + 'api/v1/botversioning/codevalidation/';
+  }
   setLoggedUser(loggedUser: IUser) {
     this.loggedUser = loggedUser;
   }
@@ -255,6 +258,13 @@ export class ConstantsService {
         'generation_rules' : false,
         'generation_template' : false,
         'workflows' : false
+      },
+      "validation": {
+        "df_rules": {"msg":"You can validate your code"},
+        "df_template": {"msg":"You can validate your code"},
+        "generation_rules": {"msg":"You can validate your code"},
+        "generation_templates": {"msg":"You can validate your code"},
+        "workflow": {"msg":"You can validate your code"},
       },
       'forked_from' : null,
     };
@@ -623,6 +633,21 @@ export class ConstantsService {
           var formatted = this.datePipe.transform(raw, 'medium');
           return formatted;
         }
+      },
+      channels: {
+        title: 'Channels',
+        type: 'html',
+        valuePrepareFunction: (channels:string[]) => {
+          let imageStr = "";
+          channels.forEach((value)=>{
+            imageStr +=
+              `
+<img width="16px" src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/${value}.png" />
+<span hidden>${value}</span>
+`;
+          });
+           return imageStr;
+          },
       },
       sendtoagent: {
         title: 'Sent to Agent'

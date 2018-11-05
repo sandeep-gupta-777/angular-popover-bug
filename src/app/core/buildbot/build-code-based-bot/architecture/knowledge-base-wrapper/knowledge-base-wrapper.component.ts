@@ -11,6 +11,7 @@ import {IBot} from '../../../../interfaces/IBot';
 import {UtilityService} from '../../../../../utility.service';
 import {EBotType} from '../../../../view-bots/view-bots.component';
 import {KnowledgeBaseComponent} from '../knowledge-base/knowledge-base.component';
+import {ESplashScreens} from '../../../../../splash-screen/splash-screen.component';
 
 @Component({
   selector: 'app-knowledge-base-wrapper',
@@ -21,6 +22,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
 
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Input() bot: IBot;
+  myESplashScreens = ESplashScreens;
   @ViewChild(KnowledgeBaseComponent) knowledgeBaseComponent: KnowledgeBaseComponent;
   enterpriseNerData: ICustomNerItem[];
   settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;

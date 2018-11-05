@@ -1,5 +1,5 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {IOutputItem} from '../code-input.component';
+import {IOutputItem} from '../../code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
 
 
 @Component({
@@ -12,13 +12,17 @@ export class CodeGentemplateComponent implements OnInit {
   constructor() {
   }
 
-  @Input() outputItem: IOutputItem;
+  outputItem: IOutputItem;
+  @Input() set _outputItem(val){
+    this.outputItem =   val;
+    this.outputItemClone = {...val};
+  }
   @Input() channelNameList : string[];
   outputItemClone: IOutputItem;
   @Input() myIndex: number;
 
   @Input() set selectedTemplateKeyOutputIndex(selectedTemplateKeyOutputIndex: number[]) {
-    debugger;
+
     if (this.selectedTemplateKeyOutputIndex && this.selectedTemplateKeyOutputIndex.length === 0) {
       this.selected = false;
     }
@@ -57,6 +61,7 @@ export class CodeGentemplateComponent implements OnInit {
   }
 
   codeEditorTextCHanged(data) {
+    console.log("helloosadasdasdas");
     this.outputItem = Object.assign(this.outputItem, JSON.parse(data));
   }
   removeThisChannel(channel:string){

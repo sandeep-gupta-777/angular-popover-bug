@@ -1,0 +1,19 @@
+@mixin set-background-focus-hover($color){
+  background-color: $color;
+  &:hover{
+    background-color: lighten($color,5);
+  }
+  &:focus{
+    background-color: lighten($color,10);
+  }
+}
+
+
+@mixin typography($size, $line-height, $weight, $color){
+  font-size: $size;
+  line-height: $line-height;
+  font-weight: $weight;
+  color: $color;
+  font-family: "Helvetica", sans-serif;
+}
+

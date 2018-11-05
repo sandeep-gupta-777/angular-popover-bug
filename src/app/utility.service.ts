@@ -338,7 +338,8 @@ export class UtilityService {
 
     // let regex = /output\s=\s([\s\S]*?)\selif/g;
     // let regex = /output[\s\S]*?]$/gm;
-      let regex = /output\s=([\s\S]*?])$/gm;
+    //   let regex = /output\s=([\s\S]*?])$/gm;
+      let regex = /output[\s]*=[\s]*([\s\S]*?[\s\S]$)/gm;//https://regex101.com/r/moAq3A/1/
 
     let match = regex.exec(str);
 
@@ -567,7 +568,6 @@ export class UtilityService {
   }
 
   showErrorToaster(message, sec = 2) {
-    if(!isDevMode()) return;/*not showing any error message in prod*/
     if (typeof message === 'string') {
       this.toastr.error(message, null, {positionClass: 'toast-top-right', timeOut: sec * 1000});
       return;
@@ -592,14 +592,14 @@ export class UtilityService {
     }
   }
 
-  isImageUrlHttps(formControl: FormControl){
+  imageUrlHttpsError(formControl: FormControl){
     let url:string = formControl.value;
     let pattern = /^((https):\/\/)/;
 
     return pattern.test(url)? null : {'Must be Https Url': true};
   }
 
-  isImageUrlHavingValidExtn(formControl: FormControl){
+  imageUrlHavingValidExtnError(formControl: FormControl){
     let url:string = formControl.value;
     let pattern = /\.(gif|jpg|jpeg|tiff|png)$/i
     return pattern.test(url)? null : {'Image Extension is not correct': true};
@@ -741,7 +741,21 @@ export class UtilityService {
   }
 
   areTwoJSObjectSame(obj1, obj2) {
-    return JSON.stringify(obj1) === JSON.stringify(obj2);
+    try {
+      return JSON.stringify(obj1) === JSON.stringify(obj2);
+    }catch (e) {
+      return false;
+    }
+  }
+
+  emptyObjectWithoutChaningRef(obj){
+    try {
+      for (let key in obj){
+        delete obj[key];
+      }
+    }catch (e) {
+      console.log(e)
+    }
   }
 
   getGlobalErrorMap() {
@@ -829,6 +843,10 @@ export class UtilityService {
       let x = myDocument.msExitFullscreen();
     }
 
+  }
+
+  deDupPrimitiveArray(arr:any[]){
+    return Array.from(new Set(arr));
   }
 
 }

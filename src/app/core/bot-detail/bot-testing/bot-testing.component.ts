@@ -9,6 +9,7 @@ import { IHeaderData } from '../../../../interfaces/header-data';
 import { UtilityService } from '../../../utility.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import {LoggingService} from '../../../logging.service';
+import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 
 @Component({
   selector: 'app-bot-testing',
@@ -22,7 +23,7 @@ export class BotTestingComponent implements OnInit {
   myEAllActions = EAllActions;
   handontable_colHeaders;
   handontable_column;
-  testCaseData: [string, string, string][] = [["", "", ""]];
+  testCaseData: [string, string, string][] = [];
   testCasesUrl = this.constantsService.getBotTestingUrl();
   stopTestUrl = this.constantsService.stopTestUrl();
   testCaseId: number;
@@ -30,6 +31,8 @@ export class BotTestingComponent implements OnInit {
   modalRef: BsModalRef;
   tableChanged: boolean = false;
   cancelTestFlag:boolean;
+  myESplashScreens = ESplashScreens;
+  showSplashScreen = true;
   constructor(
     private serverService: ServerService,
     private modalService: BsModalService,
@@ -63,8 +66,10 @@ export class BotTestingComponent implements OnInit {
       .subscribe((value) => {
         if (value.objects.length === 0) {
           this.isData = false;
+          this.showSplashScreen = true;
         }
         else {
+          this.showSplashScreen = false;
           this.isData = true;
           let testCaseData = value.objects[0].data;
 

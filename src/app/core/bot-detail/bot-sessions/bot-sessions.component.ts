@@ -12,6 +12,7 @@ import {SmartTableComponent} from '../../../smart-table/smart-table.component';
 import {UtilityService} from '../../../utility.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {findIndex} from 'rxjs/operators';
+import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 
 @Component({
   selector: 'app-bot-sessions',
@@ -19,7 +20,7 @@ import {findIndex} from 'rxjs/operators';
   styleUrls: ['./bot-sessions.component.scss']
 })
 export class BotSessionsComponent implements OnInit {
-
+  myESplashScreens = ESplashScreens;
   @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
   @Input() id: string;
   test = 'asdasdsd';

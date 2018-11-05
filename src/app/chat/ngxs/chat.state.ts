@@ -29,7 +29,7 @@ export const defaultChatState: IChatSessionState = {
 };
 
 export interface IConsumerDetails {
-  username?: string,
+  name?: string,
   phone?: string,
   email?: string,
   facebook_id?: string,

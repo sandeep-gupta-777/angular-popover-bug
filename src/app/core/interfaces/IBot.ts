@@ -1,7 +1,7 @@
 import { IMeta } from "./meta";
 import { IAvatar } from "../../../interfaces/bot-creation";
-import {IPipelineItem} from '../../../interfaces/ai-module';
-import {IIntegrationOption} from '../../../interfaces/integration-option';
+import { IPipelineItem } from '../../../interfaces/ai-module';
+import { IIntegrationOption } from '../../../interfaces/integration-option';
 
 /*TODO: what is the key for industry*/
 export interface IBot {
@@ -36,10 +36,10 @@ export interface IBot {
   "enterprise_id"?: number,
   "error_message"?: string,
   "first_message"?: string,
-  room_close_callback?:boolean,
+  room_close_callback?: boolean,
   "heading"?: string,
   "id"?: number,
-  is_manager? :boolean,
+  is_manager?: boolean,
   /*TODO: Queries:Integration should be array*/
   integrations?: IIntegrationOption,
   //   {
@@ -91,19 +91,19 @@ export interface IBot {
   "updated_at"?: string,
   "updated_by"?: number,
 
-  enterprise_name?:string,
-  enterprise_logo?:string,
-  enterprise_unique_name?:string,
+  enterprise_name?: string,
+  enterprise_logo?: string,
+  enterprise_unique_name?: string,
   // these r store properties and will not come from server...delete it before updating the bot
-  "store_bot_versions" ?: Partial<IBotVersionData>[];
-  store_selected_version?:number,
-  store_isPinned?:boolean,
+  "store_bot_versions"?: Partial<IBotVersionData>[];
+  store_selected_version?: number,
+  store_isPinned?: boolean,
 
   /*Form validations*/
-  form_validation_basic_info?:boolean,
-  form_validation_data_management?:boolean,
-  form_validation_avator?:boolean,
-  form_validation_integration?:boolean,
+  form_validation_basic_info?: boolean,
+  form_validation_data_management?: boolean,
+  form_validation_avator?: boolean,
+  form_validation_integration?: boolean,
 }
 
 export interface IBotResult {
@@ -116,19 +116,19 @@ export interface IBotVersionResult {
   "objects": IBotVersionData[]
 }
 
-export interface IBotVersionData  {
+export interface IBotVersionData {
   "bot_id"?: number,
-  "comment" ?: string,
-  "created_at" ?: string,
-  "df_rules" ?: string,
-  "df_template" ?: string,
-  "generation_rules" ?: string,
-  "generation_templates" ?: string,
+  "comment"?: string,
+  "created_at"?: string,
+  "df_rules"?: string,
+  "df_template"?: string,
+  "generation_rules"?: string,
+  "generation_templates"?: string,
   "id"?: number,
-  "resource_uri" ?: string,
-  "updated_at" ?: string,
+  "resource_uri"?: string,
+  "updated_at"?: string,
   "version"?: number,
-  "workflow" ?: string,
+  "workflow"?: string,
   "updated_fields"?: {
     "df_template"?: boolean,
     "df_rules"?: boolean,
@@ -144,8 +144,21 @@ export interface IBotVersionData  {
     "workflows"?: boolean
   },
   "forked_from"?: number,
-}
+  "validation"?: {
+    "df_rules"?: IValidationTabItem,
+    "df_template"?: IValidationTabItem,
+    "generation_rules"?: IValidationTabItem,
+    "generation_templates"?: IValidationTabItem,
+    "workflow"?: IValidationTabItem,
+  }
 
+}
+export interface IValidationTabItem{
+  error?: boolean,
+  error_line?: string,
+  error_msg?: string,
+  msg?:string
+}
 
 // export interface IBot {
 //   '_id': string,
@@ -237,15 +250,15 @@ export interface ICodeData {
 
 export interface ICode {
   // "bot_id": number,
-  "comment"? : string,
-  "df_rules"? : string,
-  "df_template"? : string,
-  "generation_rules"? : string,
-  "generation_templates" ?: string,
+  "comment"?: string,
+  "df_rules"?: string,
+  "df_template"?: string,
+  "generation_rules"?: string,
+  "generation_templates"?: string,
   "version"?: number,
-  "workflow"? : string
+  "workflow"?: string
 }
 
-export interface IBotCreation extends Partial<IBot>/*,ICodeData */{
+export interface IBotCreation extends Partial<IBot>/*,ICodeData */ {
 
 }

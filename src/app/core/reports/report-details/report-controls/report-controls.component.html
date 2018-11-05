@@ -24,11 +24,11 @@
     <div class="btn-group" role="group">
       <label (click)="filetype='csv'"
              [ngClass]="{'btn-theme-primary': filetype==='csv', 'btn-theme-secondary-outline':filetype==='pdf'}"
-             for="csv" class="btn d-flex align-items-center ">CSV</label>
+             for="csv" class="btn-theme d-flex align-items-center ">CSV</label>
       <label
         disabled
         [ngClass]="{'btn-theme-primary': filetype==='pdf', 'btn-theme-secondary-outline':filetype==='csv'}"
-        for="pdf" class="btn d-flex align-items-center">PDF</label>
+        for="pdf" class="btn-theme d-flex align-items-center">PDF</label>
       <input type="radio" [ngModel]="filetype" required [checked]="true" id="csv" name="filetype" value="csv" hidden>
       <input disabled type="radio" [ngModel]="filetype" required id="pdf" name="filetype" value="pdf" hidden>
     </div>
@@ -137,8 +137,8 @@
           <input class="input-material mb-3" type="text" ngModel name="username">
           <input class="input-material mb-3" type="password" name="password">
           <label for="" class=" m-0">Upload directory</label>
-          <!--<button class="btn btn-theme-primary-outline upload-private-key-button">Upload private key</button>-->
-          <label for="uploadInput" class="btn btn-theme-secondary-outline upload-private-key-button">Upload File
+          <!--<button class="btn-theme btn-theme-primary-outline upload-private-key-button">Upload private key</button>-->
+          <label for="uploadInput" class="btn-theme btn-theme-secondary-outline upload-private-key-button">Upload File
             <input type="file"
                    hidden
                    id="uploadInput"

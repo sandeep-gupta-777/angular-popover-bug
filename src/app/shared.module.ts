@@ -45,10 +45,14 @@ import {UiSwitchWrapperComponent} from './core/buildbot/build-code-based-bot/bot
 import {AvatorFormComponent} from './core/buildbot/build-code-based-bot/bot-config/avator-form/avator-form.component';
 import {MyIfDirective} from './ngIf-permission.directive';
 import {ErrorDescriptionPipe} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/bot-config-input/error-description.pipe';
+import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
+import {SplashScreenComponent} from './splash-screen/splash-screen.component';
+import {SafeUrlPipe} from './href-sanitizer.pipe';
 
 @NgModule({
   declarations: [
     IntegrationLogosPipe,
+    SplashScreenComponent,
     DataManageFormComponent,
     BasicInfoFormComponent,
     BotConfigInputComponent,
@@ -76,6 +80,7 @@ import {ErrorDescriptionPipe} from './core/buildbot/build-code-based-bot/bot-con
     MyIfDirective,
     IntegrationNameFormatterPipe,
     HighlightDirective,
+    SafeUrlPipe,
   ],
   imports: [
     UiSwitchModule,
@@ -97,7 +102,9 @@ import {ErrorDescriptionPipe} from './core/buildbot/build-code-based-bot/bot-con
   ],
   exports:[
     MyIfDirective,
+    SplashScreenComponent,
     HighlightDirective,
+    SafeUrlPipe,
     ChartModule,
     IntegrationLogosPipe,
     DataManageFormComponent,

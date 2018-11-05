@@ -27,7 +27,7 @@
         <!--TODO:HACK:: sometimes data from backend is not {text:"hi"} but just "hi"-->
         <div class="row flex-row-reverse" *ngFor="let message of sessionMessage.message">
           <!--bot text reply starts-->
-          <div class="col-10 p-0 pb-1 text-right" *ngIf="message.text">
+          <div class="col-10 p-0 pb-1 d-flex justify-content-end" *ngIf="message.text">
             <!--<div class="col-12 p-1 text-right p-0" *ngIf="message.text">-->
             <div class="message p-2 bg-message-bot" style="display: inline-block">
               <span class="message-text" [innerHtml]="message.text"></span>

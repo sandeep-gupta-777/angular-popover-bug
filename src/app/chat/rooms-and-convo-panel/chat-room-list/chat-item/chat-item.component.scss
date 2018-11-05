@@ -16,3 +16,28 @@
     @include typography(9px, $line-height-normal, $font-weight-400, $color-text-normal);
   }
 }
+
+form {
+  .form-group{
+    margin-bottom: 8px;
+  }
+  border-radius: 2px;
+  label {
+    @include typography(11px, $line-height-normal, $font-weight-300, $color-secondary);
+    margin: 0;
+  }
+  .form-control {
+    @include hide-borders();
+    border-radius: 0;
+    padding: 0 !important;
+    @include typography(13px, $line-height-normal, $font-weight-300,#474747);
+  }
+
+
+
+}
+.dropdown-menu{/*override*/
+  left: auto !important;
+  right: 0 !important;
+  top: 90%!important;
+}
