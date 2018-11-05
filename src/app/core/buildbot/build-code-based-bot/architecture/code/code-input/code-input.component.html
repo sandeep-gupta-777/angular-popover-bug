@@ -1,4 +1,4 @@
-<div class="d-flex-column-last-child-flex-grow-1">
+<div class="p-1 d-flex-column-last-child-flex-grow-1">
   <app-code-version-list
     [selectedVersion]="selectedVersion"
     [activeVersion]="activeVersion"
@@ -7,7 +7,6 @@
     (saveSelectedVersion$)="saveSelectedVersion(validationWarningModal)"
     (openForkNewVersionModal$)="openForkNewVersionModal(Primarytemplate)"
   ></app-code-version-list>
-
 
   <div class="row row-tabs child-no-expand-shrink ">
     <div class="col-12">
@@ -56,7 +55,9 @@
               <span>Interface</span>
               <ui-switch *ngIf="showViewChangeToggle" color="rgb(0, 34, 64)"
                          switchColor="white" name="toggle_gen_templet"
-                         [(ngModel)]="showGenTempEditorAndHideGenTempUi" class="d-flex align-items-center mx-1 "
+                         (change)="viewChanged($event)"
+                         [(ngModel)]="showGenTempEditorAndHideGenTempUi"
+                         class="d-flex align-items-center mx-1 "
                          style="border:none;padding: 0;"
                          size="small" title="Toggle UI view"></ui-switch>
               <span>Code</span>
@@ -89,12 +90,15 @@
                        (textChangedEvent)="saveText($event)"
                        (validateClick)="validateCodeTest($event)"></app-code-editor>
       <!--generation template UI starts-->
+      <!--<p>{{templateKeyDict|json}}</p>-->
+      <!--<p>{{selectedVersion|json}}</p>-->
       <app-code-gentemplate-ui-wrapper
-        *ngIf="activeTab===myEBotVersionTabs.generation_templates && !showGenTempEditorAndHideGenTempUi"
+        *ngIf="activeTab===myEBotVersionTabs.generation_templates && buildTab==='code' && !showGenTempEditorAndHideGenTempUi"
         class="row mx-0 px-0 child-expand"
         [activeTab]="activeTab"
         [channelList]="channelListClone"
         [bot]="bot"
+        [selectedTemplateKeyOutputIndex]="selectedTemplateKeyOutputIndex"
         [templateKeyDict]="templateKeyDict"
         (convertUiDictToGenTemplateCode$)="convertUiDictToGenTemplateCode($event)"
       ></app-code-gentemplate-ui-wrapper>

@@ -146,7 +146,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       },
         () => {
           this.disabeLoginButton = false;
-          this.flashErrorMessage('Login failed. Please try again', 100000);
+          this.flashErrorMessage('Login failed. Please try again', 10000);
         }
       );
   }

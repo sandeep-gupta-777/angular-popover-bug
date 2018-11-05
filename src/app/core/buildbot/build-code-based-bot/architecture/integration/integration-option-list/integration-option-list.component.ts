@@ -134,12 +134,15 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
       this.f_new.form.patchValue(this.formValueFinal);
     });
 
-    let fragment = this.activatedRoute.snapshot.fragment;
-    document.getElementById(fragment).scrollIntoView();
+    try {
+      let fragment = this.activatedRoute.snapshot.fragment;
+      document.getElementById(fragment).scrollIntoView();
+    }catch (e) {
+      console.log(e);
+    }
 
     this.f_new.valueChanges.debounceTime(200).subscribe((integrationInfo: IIntegrationOption) => {
       // if (!this.f_new.dirty) return;
-
 
       if(this.utilityService.areTwoJSObjectSame(this.formDataClone,this.f_new.value))return;
       let formValidityObj =  {};

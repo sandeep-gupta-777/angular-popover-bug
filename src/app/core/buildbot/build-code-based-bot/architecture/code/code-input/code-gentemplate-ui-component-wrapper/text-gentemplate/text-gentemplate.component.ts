@@ -46,7 +46,7 @@ export class TextGentemplateComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.textarea.nativeElement.focus();
+    // this.textarea.nativeElement.focus();
   }
 
 }

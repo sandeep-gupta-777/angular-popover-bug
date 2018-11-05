@@ -567,7 +567,6 @@ export class UtilityService {
   }
 
   showErrorToaster(message, sec = 2) {
-    if(!isDevMode()) return;/*not showing any error message in prod*/
     if (typeof message === 'string') {
       this.toastr.error(message, null, {positionClass: 'toast-top-right', timeOut: sec * 1000});
       return;
@@ -741,7 +740,21 @@ export class UtilityService {
   }
 
   areTwoJSObjectSame(obj1, obj2) {
-    return JSON.stringify(obj1) === JSON.stringify(obj2);
+    try {
+      return JSON.stringify(obj1) === JSON.stringify(obj2);
+    }catch (e) {
+      return false;
+    }
+  }
+
+  emptyObjectWithoutChaningRef(obj){
+    try {
+      for (let key in obj){
+        delete obj[key];
+      }
+    }catch (e) {
+      console.log(e)
+    }
   }
 
   getGlobalErrorMap() {

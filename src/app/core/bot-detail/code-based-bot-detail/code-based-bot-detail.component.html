@@ -175,9 +175,8 @@
             <app-code-input
               class=" d-flex-column-last-child-flex-grow-1"
               (datachanged$)="datachanged($event)"
-              [hidden]="selectedSideBarTab!=='code'"
+              *ngIf="selectedSideBarTab==='code'"
               [bot]="bot"></app-code-input>
-
             <app-integration-option-list
               (datachanged$)="datachanged($event)"
               *ngIf="selectedSideBarTab==='integration'"

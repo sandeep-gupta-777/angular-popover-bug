@@ -59,6 +59,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   templateKeySearchKeyword: string = '';
   myEBotVersionTabs = EBotVersionTabs;
   activeTab: string = 'df_template';
+  buildTab: string ;
 
   @ViewChild('modelGenTempNameForm') modelGenTempNameForm: NgForm;
 
@@ -138,6 +139,15 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
     this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
     this.botlist$_sub = this.botlist$.subscribe(() => {
+      debugger;
+      console.log(22222222222222222222222222222)
+      // try {
+      //   let newTemplateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
+      //   if(this.utilityService.areTwoJSObjectSame(this.templateKeyDict, newTemplateKeyDict)) return;
+      // }catch (e) {
+      //   console.log(e);
+      // }
+
       try {
         this.utilityService.getActiveVersionInBot(this.bot);
         if (this.bot.integrations && this.bot.integrations.channels) {
@@ -158,15 +168,6 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
           return channel.name;
         }).filter(e => e !== 'all');
 
-        setTimeout(() => {
-          if (this.selectedVersion && this.selectedVersion[EBotVersionTabs.generation_templates]) {
-            this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
-            if (this.templateKeyDict) {
-              this.templateKeyDictClone = {...this.templateKeyDict};
-              if (!this.selectedTemplateKeyInLeftSideBar) this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
-            }
-          }
-        });
       } catch (e) {
         console.error(e);
       }
@@ -191,7 +192,27 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
       this.forked_version_number = this.selectedVersion && this.selectedVersion.version;
       this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab') || EBotVersionTabs.df_template;
+      // if(this.activeTab===EBotVersionTabs.generation_templates){
+      //   this.activeTab = EBotVersionTabs.df_template;
+      // }
+      this.buildTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab');
       this.bot.store_selected_version = this.selectedVersion && this.selectedVersion.id;
+
+      try {
+        if (this.selectedVersion && this.selectedVersion[EBotVersionTabs.generation_templates]) {
+          let newTemplateKeyDict = this.utilityService.createDeepClone(this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]));
+          if(this.utilityService.areTwoJSObjectSame(this.templateKeyDict, newTemplateKeyDict)) return;
+          this.utilityService.emptyObjectWithoutChaningRef(this.templateKeyDict);
+          Object.assign(this.templateKeyDict, newTemplateKeyDict);
+          if (this.templateKeyDict) {
+            this.templateKeyDictClone = {...this.templateKeyDict};
+            if (!this.selectedTemplateKeyInLeftSideBar) this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
+          }
+        }
+      }catch (e) {
+        console.log(e);
+      }
+
       this.tabClicked(this.activeTab);
 
     }, (err) => {
@@ -511,7 +532,17 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   test() {
-    console.log(this.selectedVersion);
-    console.log(this.bot.store_bot_versions);
+    // console.log(this.selectedVersion);
+    // console.log(this.bot.store_bot_versions);
+    console.log(this.templateKeyDict);
   }
+
+  viewChanged(showGenTempEditorAndHideGenTempUi){
+    if(showGenTempEditorAndHideGenTempUi===false){
+      this.convertGenTemplateCodeStringIntoUiComponents()
+    }else {
+      this.convertGenTemplateCodeStringIntoUiComponents();
+    }
+  }
+
 }

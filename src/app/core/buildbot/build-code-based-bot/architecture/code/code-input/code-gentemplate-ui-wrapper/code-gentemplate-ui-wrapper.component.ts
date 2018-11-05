@@ -55,7 +55,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   @Input() bot;
   @Input() templateKeyDict;
   channelNameList;
-  selectedTemplateKeyOutputIndex;
+  @Input() selectedTemplateKeyOutputIndex;
   selectedTemplateKeyInLeftSideBar;
   // @Output() deleteGentemplate = new EventEmitter;
   // @Output() moveUpGentempate = new EventEmitter;
@@ -101,8 +101,9 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   addCodeUnit() {
 
+    debugger
     let codeUnit = {
-      'include': ['web', ...this.channelNameList],
+      'include': this.createIncludesArray(),
       'code': ['Write ur text here .....']
     };
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(codeUnit);
@@ -111,7 +112,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   addQuickReplyUnit() {
     let quickReplyUnit = {
-      'include': ['web', ...this.channelNameList],
+      'include': this.createIncludesArray(),
       'quick_reply': [{
         'text': 'Would you like us to activate this ?',
         'quick_replies': [{'content_type': 'text', 'title': 'Yes', 'payload': 'yes'},
@@ -125,7 +126,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   addImageCaraosalUnit() {
     let caraosalUnit = {
-      'include': ['web', ...this.channelNameList],
+      'include': this.createIncludesArray(),
       'generic_template': [{
         'elements': [{
           'image_url': 'https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg',
@@ -141,11 +142,16 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   addTextUnit() {
     let textUnit = {
-      'include': ['web', ...this.channelNameList],
+      'include': this.createIncludesArray(),
       'text': ['']
     };
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(textUnit);
     setTimeout(() => this.scrollToBottom());
+
+  }
+
+  createIncludesArray(){
+    return Array.isArray(this.channelNameList)? ['web', ...this.channelNameList]: ['web'];
 
   }
 
@@ -245,9 +251,10 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     let intentUnit = {};
     intentUnit[this.newTemplateKey] = [{
       'text': [''],
-      'include': ['web', ...this.channelNameList],
+      'include': this.createIncludesArray(),
     }];
-    this.templateKeyDict = {...this.templateKeyDict, ...intentUnit};
+    // this.templateKeyDict = {...this.templateKeyDict, ...intentUnit};
+    this.templateKeyDict =  Object.assign(this.templateKeyDict, intentUnit);
     this.modalRef.hide();
     this.selectedTemplateKeyInLeftSideBar = this.newTemplateKey;
     this.newTemplateKey = '';
@@ -300,5 +307,10 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     this.channelSelectorForm.form.valueChanges.subscribe((value)=>{
       this.selectedChannelOfGenTemplate = value;
     });
+  }
+  test() {
+    // console.log(this.selectedVersion);
+    // console.log(this.bot.store_bot_versions);
+    console.log(this.templateKeyDict);
   }
 }

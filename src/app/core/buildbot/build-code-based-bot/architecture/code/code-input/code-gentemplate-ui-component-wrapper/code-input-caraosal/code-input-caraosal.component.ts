@@ -182,7 +182,8 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
 
   ngAfterViewInit() {
 
-    this.mainInput.nativeElement.focus();
+    console.log('===================ngAfterViewInit===============================================');
+    // this.mainInput.nativeElement.focus();
 
     let self = this;
     self.carasolItems = self.caraosalItem.toArray();
@@ -210,7 +211,9 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
       // this.rightLstElementRef && $(this.rightLstElementRef.nativeElement).click(sideControlsClickHandler);
       // this.leftLstElementRef && $(this.leftLstElementRef.nativeElement).click(sideControlsClickHandler);
 
-      ResCarouselSize();
+      setTimeout(() => {
+        ResCarouselSize();
+      });
 
       $(window).resize(function () {
         self.x = 1;
@@ -347,7 +350,8 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewChecked() {
-    console.log('=================ngAfterViewChecked====================');
+    //TODO: this is being called many times, check it
+    // console.log('=================ngAfterViewChecked====================');
     if (this.x) {
 
       this.ResCarouselSize1();

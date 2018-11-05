@@ -85,7 +85,7 @@ const routes: Route[] = [
     // ChatModule,
     CarouselModule.forRoot(),
     RichMediaModule,
-    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules, enableTracing:true}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
+    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,
 
     NgxsModule.forRoot([
