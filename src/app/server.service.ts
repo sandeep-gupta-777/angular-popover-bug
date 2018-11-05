@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, isDevMode} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {ConstantsService} from './constants.service';
@@ -205,6 +205,7 @@ export class ServerService {
 
   makePostReq<T>(reqObj: { url: string, body: any, headerData?: any, dontShowProgressBar?: boolean,noValidateUser?:boolean }): Observable<T> {
 
+    debugger;
     let isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.POST);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
       return throwError(`api access not allowed:${reqObj.url}`);
@@ -231,10 +232,12 @@ export class ServerService {
       })
       .catch((e: any, caught: Observable<T>) => {
 
-        LoggingService.error(e);
         this.showErrorMessageForErrorTrue(e);
         this.changeProgressBar(false, 100);
-        this.utilityService.showErrorToaster(e);
+        if(isDevMode()){
+          this.utilityService.showErrorToaster(e);;
+          LoggingService.error(e);//dev only
+        }
         return _throw('error');
       });
   }
@@ -245,9 +248,8 @@ export class ServerService {
 
     return this.httpClient.put<T>(reqObj.url, JSON.stringify(reqObj.body), {headers: headers})
       .map((value: any) => {
-        ;
         if (value && value.error) {
-          this.showErrorMessageForErrorTrue(value);
+          this.showErrorMessageForErrorTrue(value);;
           return throwError(value);
         } else {
           return value;
@@ -258,9 +260,7 @@ export class ServerService {
         this.changeProgressBar(false, 100);
       })
       .catch((e: any, caught: Observable<T>) => {
-
         this.showErrorMessageForErrorTrue(e.error) || this.showErrorMessageForErrorTrue(e);
-
         this.changeProgressBar(false, 100);
         return _throw('error');
       });

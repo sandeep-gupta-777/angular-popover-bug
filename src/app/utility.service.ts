@@ -567,7 +567,6 @@ export class UtilityService {
   }
 
   showErrorToaster(message, sec = 2) {
-    if(!isDevMode()) return;/*not showing any error message in prod*/
     if (typeof message === 'string') {
       this.toastr.error(message, null, {positionClass: 'toast-top-right', timeOut: sec * 1000});
       return;
