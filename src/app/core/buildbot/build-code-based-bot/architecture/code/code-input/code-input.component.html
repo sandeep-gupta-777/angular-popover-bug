@@ -404,7 +404,7 @@
       <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.workflow " [text]="editorCodeObj[myEBotVersionTabs.workflow]"
         (textChangedEvent)="saveText($event)" (validateClick)="validateCodeTest($event)"></app-code-editor>
     </div>
-    <div class="validation-bar">
+    <div class="validation-bar" *ngIf="activeTab!==myEBotVersionTabs.generation_templates || showGenTempEditorAndHideGenTempUi">
       <div class="dot-indicator">
         <i class="fa fa-check-circle color-primary" *ngIf="!selectedVersion.validation[activeTab].error"></i>
         <i class="fa fa-exclamation-triangle color-danger" *ngIf="!!selectedVersion.validation[activeTab].error"></i>
