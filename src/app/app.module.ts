@@ -119,7 +119,7 @@ const routes: Route[] = [
     ToastrModule.forRoot(), // ToastrModule added,
     BrowserAnimationsModule,
     // ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
-    ServiceWorkerModule.register('/ngsw-worker.js')
+    ServiceWorkerModule.register('/static/ngsw-worker.js')
     /*custom modules*/
     // AuthModule,
     // CoreModule
