@@ -10,13 +10,10 @@ import {
   ViewChild,
   ViewChildren
 } from '@angular/core';
-import {IMessageData} from '../../../../../../../../interfaces/chat-session-state';
-import {LoggingService} from '../../../../../../../logging.service';
-import {ActivatedRoute} from '@angular/router';
-import {ICarousalItem, IOutputItem} from '../code-input.component';
-import {init} from 'protractor/built/launcher';
-import set = Reflect.set;
+import {IMessageData} from '../../../../../../../../../interfaces/chat-session-state';
+import {LoggingService} from '../../../../../../../../logging.service';
 import {NgForm} from '@angular/forms';
+import {ICarousalItem, IOutputItem} from '../../code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
 
 declare var $: any;
 
@@ -185,7 +182,8 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
 
   ngAfterViewInit() {
 
-    this.mainInput.nativeElement.focus();
+    console.log('===================ngAfterViewInit===============================================');
+    // this.mainInput.nativeElement.focus();
 
     let self = this;
     self.carasolItems = self.caraosalItem.toArray();
@@ -213,7 +211,9 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
       // this.rightLstElementRef && $(this.rightLstElementRef.nativeElement).click(sideControlsClickHandler);
       // this.leftLstElementRef && $(this.leftLstElementRef.nativeElement).click(sideControlsClickHandler);
 
-      ResCarouselSize();
+      setTimeout(() => {
+        ResCarouselSize();
+      });
 
       $(window).resize(function () {
         self.x = 1;
@@ -350,7 +350,8 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewChecked() {
-    console.log('=================ngAfterViewChecked====================');
+    //TODO: this is being called many times, check it
+    // console.log('=================ngAfterViewChecked====================');
     if (this.x) {
 
       this.ResCarouselSize1();
@@ -366,6 +367,6 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
     });
     console.log(this.outputItem.generic_template[0].elements[carasolItemIndex]);
   }
-  
+
 
 }

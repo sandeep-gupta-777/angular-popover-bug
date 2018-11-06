@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, isDevMode} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {ConstantsService} from './constants.service';
@@ -18,7 +18,13 @@ import {
 } from './core/view-bots/ngxs/view-bot.action';
 import {IBot, IBotResult, IBotVersionResult} from './core/interfaces/IBot';
 import {ActivatedRoute, Router} from '@angular/router';
-import {SetAutoLogoutTime, SetMasterIntegrationsList, SetMasterProfilePermissions, SetProgressValue} from './ngxs/app.action';
+import {
+  SetAutoLogoutTime,
+  SetBackendURlRoot,
+  SetMasterIntegrationsList,
+  SetMasterProfilePermissions,
+  SetProgressValue
+} from './ngxs/app.action';
 import {IIntegrationMasterListItem, IIntegrationOption} from '../interfaces/integration-option';
 import {ICustomNerItem} from '../interfaces/custom-ners';
 import 'rxjs/add/observable/throw';
@@ -40,6 +46,7 @@ import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 import {IProfilePermission} from '../interfaces/profile-action-permission';
 import {EHttpVerbs, PermissionService} from './permission.service';
 import {ELogType, LoggingService} from './logging.service';
+import {tap} from 'rxjs/operators';
 
 declare var IMI: any;
 declare var $: any;
@@ -96,11 +103,11 @@ export class ServerService {
 
   showErrorMessageForErrorTrue({error, message}) {
     try {
-      if(error.error===true || error){
-        this.utilityService.showErrorToaster(error.message||message);
+      if (error.error === true || error) {
+        this.utilityService.showErrorToaster(error.message || message);
         return true;
       }
-    }catch (e) {
+    } catch (e) {
       console.log(e);
     }
     return false;
@@ -115,9 +122,6 @@ export class ServerService {
 
     this.changeProgressBar(true, 0);
     return this.httpClient.get<T>(reqObj.url, {headers: headers})
-    // .pipe((
-    //   mergeMap((value:T) => value.error ? throwError(value) : of(value))
-    // ))
       .map((value: any) => {
         if (value && value.error) {
           this.showErrorMessageForErrorTrue(value);
@@ -131,16 +135,21 @@ export class ServerService {
         this.IncreaseAutoLogoutTime();
       })
       .catch((e: any, caught: Observable<T>) => {
-        LoggingService.error(e);
-        this.showErrorMessageForErrorTrue(e);
-        this.changeProgressBar(false, 100);
-
-        this.utilityService.showErrorToaster(e);
-        return _throw('error');
+        return this.handleErrorFromServer(e);
       });
   }
 
-  makeGetReqToDownloadFiles(reqObj: { url: string, headerData?: any,noValidateUser?:boolean }) {
+  handleErrorFromServer(e) {
+    this.showErrorMessageForErrorTrue(e);
+    this.changeProgressBar(false, 100);
+    if (isDevMode()) {
+      LoggingService.error(e);
+      this.utilityService.showErrorToaster(e);
+    }
+    return _throw('error');
+  }
+
+  makeGetReqToDownloadFiles(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }) {
     let isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
       return throwError(`api access not allowed:${reqObj.url}`);
@@ -162,15 +171,16 @@ export class ServerService {
         this.IncreaseAutoLogoutTime();
       })
       .catch((e: any) => {
-        LoggingService.error(e);
-        this.changeProgressBar(false, 100);
-
-        this.utilityService.showErrorToaster(e);
-        return _throw('error');
+        return this.handleErrorFromServer(e);
+        // LoggingService.error(e);
+        // this.changeProgressBar(false, 100);
+        //
+        // this.utilityService.showErrorToaster(e);
+        // return _throw('error');
       });
   }
 
-  makeDeleteReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?:boolean }): Observable<T> {
+  makeDeleteReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<T> {
 
     let isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.DELETE);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
@@ -194,16 +204,17 @@ export class ServerService {
         this.IncreaseAutoLogoutTime();
       })
       .catch((e: any, caught: Observable<T>) => {
-        LoggingService.error(e);
-        this.showErrorMessageForErrorTrue(e)
-        this.changeProgressBar(false, 100);
-
-        this.utilityService.showErrorToaster(e);
-        return _throw('error');
+        return this.handleErrorFromServer(e);
+        // LoggingService.error(e);
+        // this.showErrorMessageForErrorTrue(e)
+        // this.changeProgressBar(false, 100);
+        //
+        // this.utilityService.showErrorToaster(e);
+        // return _throw('error');
       });
   }
 
-  makePostReq<T>(reqObj: { url: string, body: any, headerData?: any, dontShowProgressBar?: boolean,noValidateUser?:boolean }): Observable<T> {
+  makePostReq<T>(reqObj: { url: string, body: any, headerData?: any, dontShowProgressBar?: boolean, noValidateUser?: boolean }): Observable<T> {
 
     let isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.POST);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
@@ -230,12 +241,13 @@ export class ServerService {
           this.changeProgressBar(false, 100);
       })
       .catch((e: any, caught: Observable<T>) => {
-
-        LoggingService.error(e);
-        this.showErrorMessageForErrorTrue(e);
-        this.changeProgressBar(false, 100);
-        this.utilityService.showErrorToaster(e);
-        return _throw('error');
+        return this.handleErrorFromServer(e);
+        //
+        // LoggingService.error(e);
+        // this.showErrorMessageForErrorTrue(e);
+        // this.changeProgressBar(false, 100);
+        // this.utilityService.showErrorToaster(e);
+        // return _throw('error');
       });
   }
 
@@ -258,11 +270,11 @@ export class ServerService {
         this.changeProgressBar(false, 100);
       })
       .catch((e: any, caught: Observable<T>) => {
-
-        this.showErrorMessageForErrorTrue(e.error) || this.showErrorMessageForErrorTrue(e);
-
-        this.changeProgressBar(false, 100);
-        return _throw('error');
+        return this.handleErrorFromServer(e);
+        // this.showErrorMessageForErrorTrue(e.error) || this.showErrorMessageForErrorTrue(e);
+        //
+        // this.changeProgressBar(false, 100);
+        // return _throw('error');
       });
   }
 
@@ -272,14 +284,14 @@ export class ServerService {
     let headerData: IHeaderData = {
       'bot-access-token': bot.bot_access_token
     };
-    this.makeGetReq<{ objects: IBot[] }>({url: getBotByTokenUrl, headerData})
-      .subscribe((val) => {
+    return this.makeGetReq<{ objects: IBot[] }>({url: getBotByTokenUrl, headerData})
+      .map((val) => {
 
         let bot: IBot = val.objects.find((bot) => {
 
           return bot.id === bot.id;
         });
-        this.store.dispatch([
+        return this.store.dispatch([
           new UpdateBotInfoByIdInBotInBotList({data: bot, botId: bot.id})
         ]);
       });
@@ -401,22 +413,23 @@ export class ServerService {
     // let botId = this.bot.id;
     this.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': bot_access_token}})
       .subscribe((botVersionResult) => {
-        botVersionResult.objects.forEach((version)=>{
+        botVersionResult.objects.forEach((version) => {
           version.changed_fields = {
-            "df_template" : false,
-            "df_rules" : false,
-            "generation_rules" : false,
-            "generation_template" : false,
-            "workflows" : false
-          }
+            'df_template': false,
+            'df_rules': false,
+            'generation_rules': false,
+            'generation_template': false,
+            'workflows': false
+          };
           version.validation = {
-            'df_template': { error: false },
-            'df_rules': { error: false },
-            'generation_rules': { error: false },
-            'generation_templates': { error: false },
-            'workflow': { error: false },
-          }
-        });;
+            'df_template': {error: false},
+            'df_rules': {error: false},
+            'generation_rules': {error: false},
+            'generation_templates': {error: false},
+            'workflow': {error: false},
+          };
+        });
+
         this.store.dispatch([
           new SaveVersionInfoInBot({data: botVersionResult.objects, botId: botId})
         ]);
@@ -430,12 +443,12 @@ export class ServerService {
   currentRoomId: number;
 
   initializeIMIConnect(previewBot: IBot, currentRoomId: number) {
-    if(this.currentRoomId === currentRoomId && this.currentPreviewBot === previewBot){
+    if (this.currentRoomId === currentRoomId && this.currentPreviewBot === previewBot) {
       return;
-    }else {
+    } else {
       try {
         IMI.IMIconnect.shutdown();
-      }catch (e) {
+      } catch (e) {
         LoggingService.error(e);
       }
 
@@ -465,12 +478,12 @@ export class ServerService {
     var config = new IMI.ICConfig(appId, appSecret);
     var messaging = IMI.ICMessaging.getInstance();
 
-    console.info("========initializing connection with imiconnect with following details")
+    console.info('========initializing connection with imiconnect with following details');
     LoggingService.log(
-      'appId= ' + appId+'\n'+
-      'appSecret= ' + appSecret+'\n'+
-      'serviceKey= ' + serviceKey+'\n'+
-      'userId= ' + userId+'\n');
+      'appId= ' + appId + '\n' +
+      'appSecret= ' + appSecret + '\n' +
+      'serviceKey= ' + serviceKey + '\n' +
+      'userId= ' + userId + '\n');
 
 
     let prepareMessage = (messageObj) => {
@@ -482,7 +495,7 @@ export class ServerService {
       } catch (e) {
         console.error('Unable to parse json from IMIConnect callback', generatedMessagesStr);
         console.error('Assuming its a string');
-        generatedMessages = [{text:generatedMessagesStr}]
+        generatedMessages = [{text: generatedMessagesStr}];
       }
       let serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages);
       this.store.dispatch([
@@ -490,14 +503,14 @@ export class ServerService {
           id: currentRoomId,
           messageList: serializedMessages
         }),
-        new ChangeBotIsThinkingDisplayByRoomId({roomId:currentRoomId, shouldShowBotIsThinking:false}),
+        new ChangeBotIsThinkingDisplayByRoomId({roomId: currentRoomId, shouldShowBotIsThinking: false}),
         // new SetCurrentRoomID({id: 123456789.room.id})
       ]);
     };
 
     var msgCallBack = {//messaging.setICMessagingReceiver(msgCallBack);
       onConnectionStatusChanged: function (statuscode) {
-        LoggingService.log("msgCallBack,onConnectionStatusChanged", statuscode)
+        LoggingService.log('msgCallBack,onConnectionStatusChanged', statuscode);
         var statusMessage = null;
         if (statuscode == 2) {
           statusMessage = 'Connected';
@@ -586,15 +599,24 @@ export class ServerService {
   }
 
 
+  getNSetConfigData$() {
+    return this.makeGetReq({url: '/static/config.json', noValidateUser: true})
+      .pipe(tap(((value: { 'backend_url': string, 'version': string }) => {
+        this.store.dispatch([
+          new SetBackendURlRoot({url: value.backend_url})
+        ]);
+      })));
+  }
+
   currentRoom: IRoomData;
 
   sendHumanMessageViaImiConnect(currentRoom, currentBot: IBot, messageByHuman: string) {
 
-    var streamName:string;//'gsureg';
+    var streamName: string;//'gsureg';
     try {
       streamName = currentBot.integrations.fulfillment_provider_details.imiconnect.streamName;
-    }catch (e) {
-      LoggingService.log(e)
+    } catch (e) {
+      LoggingService.log(e);
     }
     // this.currentRoom = currentRoom;
 //send message
@@ -643,10 +665,10 @@ export class ServerService {
     return this.makePostReq({url, body, headerData});
   }
 
-  getNSetMasterPermissionsList(){
+  getNSetMasterPermissionsList() {
     let allActionsUrl = this.constantsService.getAllActionsUrl();
     return this.makeGetReq<{ meta: any, objects: IProfilePermission[] }>({url: allActionsUrl})
-      .map((value:{objects:IProfilePermission[]}) => {
+      .map((value: { objects: IProfilePermission[] }) => {
         this.store.dispatch([
           new SetMasterProfilePermissions({masterProfilePermissions: value.objects})
         ]);

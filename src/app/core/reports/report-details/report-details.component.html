@@ -3,9 +3,9 @@
     <div class="col-12 mb-4 py-3 d-flex align-items-center " style="border-bottom: solid 2px #e0e0e0;">
       <a class="p-0 h4 cursor-pointer" [routerLink]="['/core','reports']" ><i class="fa fa-angle-left pr-2"></i></a>
       <a class="p-0 h4 ">Subscribe to Report</a>
-      <button class="btn btn-theme-primary-outline ml-auto mr-3" routerLink="/core/reports">Cancel</button>
-      <button class="btn btn-theme-primary" *ngIf="!report_id" (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Create</button>
-      <button class="btn btn-theme-primary" *ngIf="report_id" (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Update</button>
+      <button class="btn-theme btn-theme-primary-outline ml-auto mr-3" routerLink="/core/reports">Cancel</button>
+      <button class="btn-theme btn-theme-primary" *ngIf="!report_id" (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Create</button>
+      <button class="btn-theme btn-theme-primary" *ngIf="report_id" (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Update</button>
       <i class="fa fa-trash cursor-pointer" *ngIf="report_id" (click)="showReportDeleteModel(reportDeleteTemplate)"></i>
     </div>
   </div>
@@ -72,8 +72,8 @@
           <p class="mb-3">This will delete the report and all it’s instances from history
             will also be removed. Are you sure you want to delete it?</p>
         </div>
-        <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
-        <button class=" btn btn-theme-danger" (click)="deleteReport()">Delete</button>
+        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button class=" btn-theme btn-theme-danger" (click)="deleteReport()">Delete</button>
       </form>
     </div>
   </div>

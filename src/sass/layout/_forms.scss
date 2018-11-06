@@ -1,0 +1,34 @@
+
+@import "../abstract/variables";
+
+.form-theme{
+  border-radius: 2px;
+  label {
+    @include typography(12px, $line-height-normal, $font-weight-300, $color-secondary);
+    margin: 0;
+  }
+  .form-theme-control {
+    @include hide-borders();
+    border-bottom: $border-normal;
+    border-radius: 0;
+    width: 100%;
+    padding: 0.5rem;
+  }
+  .form-theme-error{
+    color: $color-danger;
+  }
+  .form-theme-info{
+    color: $color-primary;
+  }
+
+  .form-theme-error,.form-theme-info{
+    height: 1rem;
+    font-size: 11px;
+  }
+}
+
+.form-theme-with-md-controls {
+  .form-theme-control {
+    @include typography($font-size-md, $line-height-normal, $font-weight-300, $color-text-normal);
+  }
+}

@@ -1,0 +1,9 @@
+@import "../abstract/variables";
+
+%text-xl{
+  font-size: $font-size-xl;
+  line-height: $line-height-normal;
+  font-weight: $font-size-normal;
+  color: $color-primary;
+  font-family: "Helvetica", sans-serif;
+}

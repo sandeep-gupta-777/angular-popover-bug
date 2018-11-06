@@ -161,8 +161,7 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
   nameChangeByUser($event) {
     setTimeout(() => {
       let name = this.formGroup.value.name;
-      if (name) {
-
+      if (name && !this._bot.id) {
         this.formGroup.patchValue({bot_unique_name: name.trim().split(' ').join("").toLowerCase()});
       }
     }, 1000);

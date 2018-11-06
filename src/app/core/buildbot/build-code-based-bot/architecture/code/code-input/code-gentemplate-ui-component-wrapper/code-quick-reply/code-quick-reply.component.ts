@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {IQuickReplyItem} from '../code-input.component';
 import {NgForm} from '@angular/forms';
+import {IQuickReplyItem} from '../../code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
 
 export enum EQuickReplyTypes {
   text = 'text',

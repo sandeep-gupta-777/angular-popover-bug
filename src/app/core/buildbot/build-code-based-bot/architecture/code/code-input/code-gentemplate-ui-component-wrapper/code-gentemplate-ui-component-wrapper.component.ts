@@ -1,30 +1,28 @@
-import {Component, OnInit, Input, EventEmitter, Output, AfterViewInit, ViewChild, ElementRef} from '@angular/core';
-import {IOutputItem} from '../code-input.component';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {IOutputItem} from '../code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
 
 @Component({
-  selector: 'app-text-gentemplate',
-  templateUrl: './text-gentemplate.component.html',
-  styleUrls: ['./text-gentemplate.component.scss']
+  selector: 'app-code-gentemplate-ui-component-wrapper',
+  templateUrl: './code-gentemplate-ui-component-wrapper.component.html',
+  styleUrls: ['./code-gentemplate-ui-component-wrapper.component.scss']
 })
-export class TextGentemplateComponent implements OnInit, AfterViewInit {
+export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
 
-  // @Input() variants : string[] ;
   _variants: string[];
+  channelNameList:string[];
   @Input() outputItem: IOutputItem;
   @Input() myIndex: number;
-  @Input() channelNameList: string[];
+  @Input() channelList: {name:string}[];
   @Input() totalResponseTemplateComponentCount: number;
   @Output() deleteTemplate: EventEmitter<string> = new EventEmitter<string>();
   @Output() moveTempUp: EventEmitter<string> = new EventEmitter<string>();
   @Output() moveTempDown: EventEmitter<string> = new EventEmitter<string>();
   @Output() selectionChanged: EventEmitter<string> = new EventEmitter<string>();
-  @ViewChild('textarea') textarea:ElementRef;
+  variantsIter: string[];
+  selected: boolean;
 
-  @Input() set variants(variantsVal: string[]) {
-    this._variants = variantsVal;
-    this.variantsIter = [...this._variants];
+  constructor() {
   }
-
 
   @Input() set selectedTemplateKeyOutputIndex(selectedTemplateKeyOutputIndex: number[]) {
     /*when parent components empty selectedTemplateKeyOutputIndex array,
@@ -34,21 +32,6 @@ export class TextGentemplateComponent implements OnInit, AfterViewInit {
       this.selected = false;
     }
   }
-
-  constructor() {
-  }
-
-  variantsIter: string[];
-
-  deleteVariant(index) {
-    this._variants.splice(index, 1);
-    console.log('sdasdas das das dadas', index);
-    console.log(this._variants);
-  }
-
-  // @Input() variants : string[];
-
-  selected: boolean;
 
   delete(i) {
     this.deleteTemplate.emit(i);
@@ -74,7 +57,6 @@ export class TextGentemplateComponent implements OnInit, AfterViewInit {
     }));
   }
 
-
   removeThisChannel(channel: string) {
     let isChannelPresent = this.outputItem.include.find(e => e === channel);
     if (isChannelPresent) {
@@ -83,23 +65,20 @@ export class TextGentemplateComponent implements OnInit, AfterViewInit {
     else {
       this.outputItem.include.push(channel);
     }
+    this.outputItem = {...this.outputItem};
   }
 
   imgOpacity(channel: string) {
-    let isChannelPresent = this.outputItem.include.find(e => e === channel);
-    if (isChannelPresent) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return this.outputItem.include.find(e => e === channel);
   }
 
   ngOnInit() {
+
+    this.channelNameList = this.channelList.filter(e=>e.name!=='all').map(e=>e.name)
   }
 
-  ngAfterViewInit(): void {
-    this.textarea.nativeElement.focus();
+  isTemplateKeyOutputUnparsable() {
+    return typeof this.outputItem === 'string';
   }
 
 }

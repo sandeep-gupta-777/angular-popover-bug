@@ -14,7 +14,10 @@
     "server": "cd C:/Users/sandeepkumar.g/Desktop/nodebook/imibot_app_server/static && git pull && cd C:/Users/sandeepkumar.g/Desktop/nodebook/bot_platform-fe && npm run fe_build",
     "bundle-report": "webpack-bundle-analyzer dist/botPlateformFE/stats.json",
     "heroku": "ng build --prod && cd heroku/imibotfe && git add . && git commit -m 'heroku-deploy' && git pull && git push",
-    "heroku-nobuild": "cd heroku/imibotfe && git add . && git commit -m 'heroku-deploy' && git pull && git push"
+    "heroku-nobuild": "cd heroku/imibotfe && git add . && git commit -m 'heroku-deploy' && git pull && git push",
+    "build-old":"ng build --prod && ",
+    "index":"node file-index-script.js"
+
   },
   "private": true,
   "dependencies": {
