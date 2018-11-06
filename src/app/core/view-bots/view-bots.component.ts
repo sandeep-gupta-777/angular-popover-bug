@@ -52,9 +52,10 @@ export class ViewBotsComponent implements OnInit {
         LoggingService.log('bot list fetched from view bots page');
       });
     this.botlist$
-      .subscribe((allBotList) => {
-        this.codeBasedBotList = allBotList.allBotList.filter(bot => bot.bot_type === EBotType.chatbot);
-        this.pipelineBasedBotList = allBotList.allBotList.filter(bot => bot.bot_type === EBotType.intelligent);
+      .subscribe((allBotListState) => {
+        if(!allBotListState.allBotList)return;
+        this.codeBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.chatbot);
+        this.pipelineBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.intelligent);
       });
   }
 
