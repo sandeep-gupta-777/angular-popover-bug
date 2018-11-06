@@ -69,7 +69,11 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
   }
 
   imgOpacity(channel: string) {
-    return this.outputItem.include.find(e => e === channel);
+    try {
+      return this.outputItem.include.find(e => e === channel);
+    }catch (e) {
+      console.log(e);
+    }
   }
 
   ngOnInit() {
