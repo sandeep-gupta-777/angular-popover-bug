@@ -40,7 +40,7 @@ export class BotPreviewCardComponent implements OnInit {
   doStartBlinking:boolean = false;
   myObject = Object;
   message: string;
-  parentRoute: string;
+  @Input() parentRoute: string;
   currentChatPreviewBotId: number;
   currentUid: string;
   customConsumerDetails: IConsumerDetails;
@@ -64,7 +64,7 @@ export class BotPreviewCardComponent implements OnInit {
     this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
       this.enterprise_unique_name = enterpriseProfileInfo.enterprise_unique_name;
     });
-    this.parentRoute = this.activatedRoute.snapshot.data.route;
+
     this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
       if (chatSessionState && chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.id)
         this.currentChatPreviewBotId = chatSessionState.currentBotDetails.id;
@@ -131,6 +131,7 @@ export class BotPreviewCardComponent implements OnInit {
   }
 
   navigateToBotDetailPage(event) {//preview-button
+    debugger;
     if (!event.target.classList.contains('click-save-wrapper')) {
       this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id]);
       this.showLoader = true;
@@ -152,12 +153,6 @@ export class BotPreviewCardComponent implements OnInit {
         /*TODO:improve it*/
       }
     }
-  }
-
-  openBotDetailsPage() {
-    // this.router.navigate(['core/botdetail/'+parentRoute+'/'+ bot.id])
-    ;
-
   }
 
   test(channelName){

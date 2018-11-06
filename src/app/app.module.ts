@@ -58,7 +58,7 @@ const routes: Route[] = [
   {path: 'preview', loadChildren: './chat/chat.module#ChatModule'},
   {path: 'denied', component: NotAuthorisedComponent},
   {path: 'theme', component: ThemeComponent},
-  {path: '', redirectTo:"core/viewbots/chatbot", pathMatch:"full"},
+  {path: '', redirectTo:"core/viewbots", pathMatch:"full"},
   {path: '**', component: NotFoundComponent}
 ];
 

@@ -1,3 +1,5 @@
+<!--<p>{{selectedVersion.generation_templates|json}}</p>-->
+<!--<p>{{editorCodeObj.generation_templates|json}}</p>-->
 <div class="p-1 d-flex-column-last-child-flex-grow-1">
   <app-code-version-list
     [selectedVersion]="selectedVersion"
@@ -92,17 +94,25 @@
       <!--generation template UI starts-->
       <!--<p>{{templateKeyDict|json}}</p>-->
       <!--<p>{{selectedVersion|json}}</p>-->
-      <app-code-gentemplate-ui-wrapper
-        *ngIf="activeTab===myEBotVersionTabs.generation_templates && buildTab==='code' && !showGenTempEditorAndHideGenTempUi"
-        class="row mx-0 px-0 child-expand"
-        [activeTab]="activeTab"
-        [channelList]="channelListClone"
-        [bot]="bot"
-        [selectedTemplateKeyOutputIndex]="selectedTemplateKeyOutputIndex"
-        [templateKeyDict]="templateKeyDict"
-        (convertUiDictToGenTemplateCode$)="convertUiDictToGenTemplateCode($event)"
-      ></app-code-gentemplate-ui-wrapper>
+      <ng-container *ngIf="isGentemplateCodeParsable; else cantParseGenTemplateCodeTemplate">
+        <app-code-gentemplate-ui-wrapper
+          *ngIf="activeTab===myEBotVersionTabs.generation_templates && buildTab==='code' && !showGenTempEditorAndHideGenTempUi"
+          class="row mx-0 px-0 child-expand"
+          [activeTab]="activeTab"
+          [channelList]="channelListClone"
+          [bot]="bot"
+          [selectedTemplateKeyOutputIndex]="selectedTemplateKeyOutputIndex"
+          [templateKeyDict]="templateKeyDict"
+          (convertUiDictToGenTemplateCode$)="convertUiDictToGenTemplateCode($event)"
+        ></app-code-gentemplate-ui-wrapper>
+      </ng-container>
       <!--generation template UI ends-->
+
+      <ng-template #cantParseGenTemplateCodeTemplate>
+        <div  class="d-flex justify-content-center align-items-center" style="position:absolute; left: 0; right: 0; bottom: 0;top: 0">
+          <i>Can't parse gentemplate code</i>
+        </div>
+      </ng-template>
 
       <app-code-editor *ngIf="activeTab===myEBotVersionTabs.generation_templates && showGenTempEditorAndHideGenTempUi"
                        [text]="editorCodeObj[myEBotVersionTabs.generation_templates]"
