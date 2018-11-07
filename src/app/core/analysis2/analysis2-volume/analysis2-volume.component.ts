@@ -17,8 +17,8 @@ import { UtilityService } from '../../../utility.service';
 export class Analysis2VolumeComponent implements OnInit {
   @Select() analysisstate2$: Observable<IAnalysis2State>;
   // data$: Observable<IChannelWiseFlowsPerSessionItem[]>;
-  activeTab: string = 'Sessions';
-  series_Sessions: {name:string, data:number[]}[] = [{
+  activeTab = 'Sessions';
+  series_Sessions: {name: string, data: number[]}[] = [{
     name: 'Maximum',
     data: [4, 5, 8, 12, 10, 6, 22, 3]
   }, {
@@ -40,42 +40,42 @@ export class Analysis2VolumeComponent implements OnInit {
     name: 'Triggered',
     data: [5, 3, 4, 7, 2]
   }];
-  series_flows:any[];
+  series_flows: any[];
 
   constructor(
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
     private store: Store,
-    private u:UtilityService
+    private u: UtilityService
   ) {
   }
 
   tabClicked(activeTab: string) {
     this.activeTab = activeTab;
-    if(this.activeTab==='Sessions'){
+    if (this.activeTab === 'Sessions') {
     this.store.dispatch(new SetAnalysis2HeaderData({
-      analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseFlowsPerSession}
+      analysisHeaderData: {type: EAnalysis2TypesEnum.channelWiseFlowsPerSession}
     }));
     }
-    if(this.activeTab === 'Users'){
+    if (this.activeTab === 'Users') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.userAcquisition}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.userAcquisition}
       }));
     }
-    if(this.activeTab === 'Messages'){
+    if (this.activeTab === 'Messages') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.totalMessages}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.totalMessages}
       }));
     }
-    if(this.activeTab === 'Time'){
+    if (this.activeTab === 'Time') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.averageRoomTime}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.averageRoomTime}
       }));
     }
     //adding new now
-    if(this.activeTab==='flows'){
+    if (this.activeTab === 'flows') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.totalFlows}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.totalFlows}
       }));
     }
   }
@@ -83,28 +83,28 @@ export class Analysis2VolumeComponent implements OnInit {
   ngOnInit() {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('vol') || 'Sessions';
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseFlowsPerSession}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.channelWiseFlowsPerSession}
       }));
 
       this.analysisstate2$
-      .subscribe((value)=>{
-        if(value.channelWiseFlowsPerSession){
-          this.series_Sessions  = this.u.convert(value.channelWiseFlowsPerSession,"labels","Date") ;
+      .subscribe((value) => {
+        if (value.channelWiseFlowsPerSession) {
+          this.series_Sessions  = this.u.convert(value.channelWiseFlowsPerSession, 'labels', 'Date') ;
         }
-        if(value.userAcquisition){
-          this.series_Users  = this.u.convert(value.userAcquisition,"labels","Date") ;
+        if (value.userAcquisition) {
+          this.series_Users  = this.u.convert(value.userAcquisition, 'labels', 'Date') ;
         }
-        if(value.totalMessages){
-          this.series_Messages = this.u.convert(value.totalMessages,"labels","Date") ;
+        if (value.totalMessages) {
+          this.series_Messages = this.u.convert(value.totalMessages, 'labels', 'Date') ;
         }
-        if(value.averageRoomTime  ){
-          this.series_Time  = this.u.convert(value.averageRoomTime,"labels","Date") ;
+        if (value.averageRoomTime  ) {
+          this.series_Time  = this.u.convert(value.averageRoomTime, 'labels', 'Date') ;
         }
         //addeing extra to anylisis now
-        if(value.totalFlows){
-          this.series_flows  = this.u.convert(value.totalFlows,"labels","Date");
+        if (value.totalFlows) {
+          this.series_flows  = this.u.convert(value.totalFlows, 'labels', 'Date');
         }
-      })
+      });
 
       // this.analysisstate2$
       // .subscribe((value)=>{

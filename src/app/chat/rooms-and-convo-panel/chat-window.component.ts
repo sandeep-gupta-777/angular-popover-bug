@@ -9,24 +9,24 @@ import {LoggingService} from '../../logging.service';
 })
 export class ChatWindowComponent implements OnInit {
 
-  @Input() _messageDataArray:IMessageData[];
-  botIsThinkingMessageDataArray:IMessageData[] = [
+  @Input() _messageDataArray: IMessageData[];
+  botIsThinkingMessageDataArray: IMessageData[] = [
     {
-      sourceType:'bot',
-      messageMediatype:EBotMessageMediaType.bot_thinking,
-      time:null
+      sourceType: 'bot',
+      messageMediatype: EBotMessageMediaType.bot_thinking,
+      time: null
     }
-  ]
+  ];
   @Input() selectedAvatar;
-  @Input() room:IRoomData;
-  @Input() showBotIsThinking:boolean=false;
-  @Input() set messageDataArray(value){
+  @Input() room: IRoomData;
+  @Input() showBotIsThinking = false;
+  @Input() set messageDataArray(value) {
 
     this._messageDataArray = value;
-    setTimeout(()=>this.scrollToBottom(),0);
+    setTimeout(() => this.scrollToBottom(), 0);
   }
   @Output() sendMessageByHuman$ = new EventEmitter();
-  messageByHuman:string;
+  messageByHuman: string;
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   myEChatFrame = EChatFrame;
 
@@ -36,13 +36,13 @@ export class ChatWindowComponent implements OnInit {
   scrollToBottom(): void {
     try {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch(err) {
+    } catch (err) {
       LoggingService.error(err);
     }
   }
-  sendMessageByHuman(message){
-    this.sendMessageByHuman$.emit({messageByHuman:message, room:this.room});
-    this.messageByHuman ="";
+  sendMessageByHuman(message) {
+    this.sendMessageByHuman$.emit({messageByHuman: message, room: this.room});
+    this.messageByHuman = '';
   }
 
 }

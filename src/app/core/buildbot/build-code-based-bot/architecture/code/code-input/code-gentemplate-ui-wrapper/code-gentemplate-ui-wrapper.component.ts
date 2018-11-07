@@ -5,32 +5,32 @@ import {NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../../../utility.service';
 
 export interface ICarousalItem {
-  'image_url': string,
-  'button': [{ 'type': string, 'title': string, 'payload': string }],
-  'title': string,
+  'image_url': string;
+  'button': [{ 'type': string, 'title': string, 'payload': string }];
+  'title': string;
   /*custom added*/
-  description?: string,
+  description?: string;
 }
 
 export interface IQuickReplyItem {
-  'content_type': 'text',
-  'title': string,
-  'payload': string
+  'content_type': 'text';
+  'title': string;
+  'payload': string;
   /*custom fields*/
-  textType?: string;//payload, url
+  textType?: string; //payload, url
 }
 
 export interface IOutputItem {
-  text?: string[],
-  code?: string,
-  include?: string[],
-  generic_template?: { 'elements': ICarousalItem[] }[],
+  text?: string[];
+  code?: string;
+  include?: string[];
+  generic_template?: { 'elements': ICarousalItem[] }[];
   'quick_reply': [{
     'text': string,
     'quick_replies': [
       IQuickReplyItem
       ]
-  }]
+  }];
 
 }
 
@@ -48,7 +48,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   @Input() channelList;
   newTemplateKey: string;
   templateKeyCreationError = '';
-  @ViewChild('channelSelectorForm') channelSelectorForm:NgForm;
+  @ViewChild('channelSelectorForm') channelSelectorForm: NgForm;
 
   modalRef;
   selectedChannelOfGenTemplate;
@@ -77,8 +77,8 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     try {
       this.templateKeyDictClone = this.utilityService.createDeepClone(this.templateKeyDict);
       this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
-      this.channelSelectorForm.form.patchValue({name:'all'});
-    }catch (e) {
+      this.channelSelectorForm.form.patchValue({name: 'all'});
+    } catch (e) {
       console.log(e);
     }
   }
@@ -93,7 +93,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
 
   updateSelectedTemplateKeyValue(codeStr: string) {
-    console.log("sadasads");
+    console.log('sadasads');
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar] = codeStr;
   }
 
@@ -103,8 +103,8 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   addCodeUnit() {
 
-    debugger
-    let codeUnit = {
+    debugger;
+    const codeUnit = {
       'include': this.createIncludesArray(),
       'code': ['Write ur text here .....']
     };
@@ -113,7 +113,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   addQuickReplyUnit() {
-    let quickReplyUnit = {
+    const quickReplyUnit = {
       'include': this.createIncludesArray(),
       'quick_reply': [{
         'text': 'Would you like us to activate this ?',
@@ -127,7 +127,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   addImageCaraosalUnit() {
-    let caraosalUnit = {
+    const caraosalUnit = {
       'include': this.createIncludesArray(),
       'generic_template': [{
         'elements': [{
@@ -143,7 +143,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   addTextUnit() {
-    let textUnit = {
+    const textUnit = {
       'include': this.createIncludesArray(),
       'text': ['']
     };
@@ -152,8 +152,8 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   }
 
-  createIncludesArray(){
-    return Array.isArray(this.channelNameList)? ['web', ...this.channelNameList]: ['web'];;
+  createIncludesArray() {
+    return Array.isArray(this.channelNameList) ? ['web', ...this.channelNameList] : ['web'];
   }
 
   scrollToBottom(): void {
@@ -167,8 +167,8 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
       // lastItem.nativeElement.scrollIntoView();
       // console.log(lastItem.nativeElement);
 
-      let arr1 = document.getElementsByClassName('gentemplateItem');
-      let x = arr1[arr1.length - 1];
+      const arr1 = document.getElementsByClassName('gentemplateItem');
+      const x = arr1[arr1.length - 1];
       x.scrollIntoView();
 
 
@@ -180,7 +180,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   selectedListDelete() {
     this.selectedTemplateKeyOutputIndex.sort((a, b) => b - a);
-    for (let i of this.selectedTemplateKeyOutputIndex) {
+    for (const i of this.selectedTemplateKeyOutputIndex) {
       this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].splice(i, 1);
     }
     this.selectedTemplateKeyOutputIndex = [];
@@ -189,15 +189,15 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   selectedListCopy(modelGenTempNameForm: NgForm) {
 
-    let selectedTemplateKeyObject = modelGenTempNameForm.value;
+    const selectedTemplateKeyObject = modelGenTempNameForm.value;
     /*Example: selectedTemplateKeyObject  = {A1:true, A2:false}*/
-    let selectedGenTempObjList = [];
-    for (let i of this.selectedTemplateKeyOutputIndex) {
+    const selectedGenTempObjList = [];
+    for (const i of this.selectedTemplateKeyOutputIndex) {
       selectedGenTempObjList.push(this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][i]);
     }
 
-    let selectedIntentDestinationKeys = Object.keys(selectedTemplateKeyObject).filter((key) => selectedTemplateKeyObject[key]);
-    for (let key of selectedIntentDestinationKeys) {
+    const selectedIntentDestinationKeys = Object.keys(selectedTemplateKeyObject).filter((key) => selectedTemplateKeyObject[key]);
+    for (const key of selectedIntentDestinationKeys) {
       this.templateKeyDict[key].push(...selectedGenTempObjList);
     }
     this.selectedTemplateKeyOutputIndex = [];
@@ -206,17 +206,17 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
 
   selectedListDuplicate() {
-    for (let i of this.selectedTemplateKeyOutputIndex) {
+    for (const i of this.selectedTemplateKeyOutputIndex) {
       this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(JSON.parse(JSON.stringify(this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][i])));
     }
     this.selectedTemplateKeyOutputIndex = [];
   }
 
-  copyModalTemplateSearchKeyword: string = '';
+  copyModalTemplateSearchKeyword = '';
 
   selectAllCheckBoxesInCopyTemplateForm(form: NgForm) {
-    let formVal = form.value;
-    for (let key in formVal) {
+    const formVal = form.value;
+    for (const key in formVal) {
       formVal[key] = true;
     }
     form.form.patchValue(formVal);
@@ -228,7 +228,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   moveUpGentempate(e) {
-    var temp = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e];
+    const temp = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e];
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e] = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e - 1];
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e - 1] = temp;
   }
@@ -238,18 +238,18 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
       console.log('just dot do that , U know Y');
       return;
     }
-    var temp = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e];
+    const temp = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e];
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e] = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e + 1];
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e + 1] = temp;
   }
 
   createNewTemplatekey() {
-    let isTemplateKeyUnique = !Object.keys(this.templateKeyDict).find((key) => key === this.newTemplateKey);
+    const isTemplateKeyUnique = !Object.keys(this.templateKeyDict).find((key) => key === this.newTemplateKey);
     if (!isTemplateKeyUnique) {
       this.templateKeyCreationError = 'This template key already exists';
       return;
     }
-    let intentUnit = {};
+    const intentUnit = {};
     intentUnit[this.newTemplateKey] = [{
       'text': [''],
       'include': this.createIncludesArray(),
@@ -262,12 +262,12 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   selectGentempate(e) {
-    let i = JSON.parse(e);
+    const i = JSON.parse(e);
     if (i.select) {
       this.selectedTemplateKeyOutputIndex.push(i.index);
     }
     if (!(i.select)) {
-      var index = this.selectedTemplateKeyOutputIndex.indexOf(i.index);
+      const index = this.selectedTemplateKeyOutputIndex.indexOf(i.index);
       if (index > -1) {
         this.selectedTemplateKeyOutputIndex.splice(index, 1);
       }
@@ -275,7 +275,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   editTemplateKey(templateKeyEditForm) {
-    let {old_key, new_key} = templateKeyEditForm.value;
+    const {old_key, new_key} = templateKeyEditForm.value;
     this.utilityService.renameKeyInObject(this.templateKeyDict, old_key, new_key);
     this.selectedTemplateKeyInLeftSideBar = new_key;
     this.modalRef.hide();
@@ -304,8 +304,8 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     this.convertUiDictToGenTemplateCode$.emit(this.templateKeyDict);
   }
 
-  ngAfterViewInit(){
-    this.channelSelectorForm.form.valueChanges.subscribe((value)=>{
+  ngAfterViewInit() {
+    this.channelSelectorForm.form.valueChanges.subscribe((value) => {
       this.selectedChannelOfGenTemplate = value;
     });
   }

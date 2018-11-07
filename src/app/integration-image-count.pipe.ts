@@ -7,13 +7,13 @@ import {IIntegrationOption} from '../interfaces/integration-option';
 export class IntegrationImageCountPipe implements PipeTransform {
 
   transform(integrationOption: IIntegrationOption, args?: any): any {
-    let integrations = {
+    const integrations = {
       ...integrationOption.channels,
       ...integrationOption.fulfillment_provider_details,
       ...integrationOption.ccsp_details,
     };
-    for(let key in integrations){
-      if(!integrations[key].enabled){
+    for (const key in integrations) {
+      if (!integrations[key].enabled) {
         delete integrations[key];
       }
     }

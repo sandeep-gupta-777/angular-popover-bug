@@ -32,7 +32,7 @@ export enum EAllActions {
   'Update Bots' = 'Update Bots',
   'Delete Bots' = 'Delete Bots',
   'Get Bots Anonymous' = 'Get Bots Anonymous',
-  'Get Enterprise Knowledge base' = 'Get Enterprise Knowledge base',//Get Enterprise Knowledge base
+  'Get Enterprise Knowledge base' = 'Get Enterprise Knowledge base', //Get Enterprise Knowledge base
   'Create Enterprise Knowledge base' = 'Create Enterprise Knowledge base',
   'Update Enterprise Knowledge base' = 'Update Enterprise Knowledge base',
   'Delete Enterprise Knowledge base' = 'Delete Enterprise Knowledge base',
@@ -105,7 +105,7 @@ export class ConstantsService {
 
   constructor(private datePipe: DatePipe) {
     this.app$.subscribe((value) => {
-      if (!value) return;
+      if (!value) { return; }
       this.BACKEND_URL = (value && value.backendUrlRoot) || 'https://dev.imibot.ai/';
     });
     this.loggeduser$.subscribe((loggedUser: IAuthState) => {
@@ -152,7 +152,7 @@ export class ConstantsService {
     // let isRouteAccessDenied = deniedRoutes.find((route) => {
     //   return route === routeName;
     // });
-    return false;// isRouteAccessDenied;
+    return false; // isRouteAccessDenied;
   }
 
   // isTabAccessDenied(tabName: string) {
@@ -166,10 +166,10 @@ export class ConstantsService {
   // }
 
   isAccessDeniedDynamic(tabName: EAllActions) {
-    if (!tabName || !this.forbiddenPermsDynamic) return false;
+    if (!tabName || !this.forbiddenPermsDynamic) { return false; }
     // let role = this.loggedUser.role.name;
     // let deniedTabs = this.permissionsDeniedMap[role].tab;
-    let isTabAccessDenied = Object.keys(this.forbiddenPermsDynamic).find((perm) => {
+    const isTabAccessDenied = Object.keys(this.forbiddenPermsDynamic).find((perm) => {
       return perm === tabName;
     });
     return !!isTabAccessDenied;
@@ -188,12 +188,12 @@ export class ConstantsService {
   }
 
   //
-  public BACKEND_URL;// = environment.url;//'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
+  public BACKEND_URL; // = environment.url;//'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
   public BACKEND_URL_LOGIN = `${this.BACKEND_URL}` + 'api/v1/user/login/';
   private BACKEND_URL_ENTERPRISE_USERS = `${this.BACKEND_URL}` + 'users/enterprise/';
-  private BACKEND_USER_UPDATE_URL = `${this.BACKEND_URL}` + 'user/';//https://dev.imibot.ai/user/5a030aa9b050705bd0ca5a45
-  private BACKEND_USER_CODE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'integrations';//https://dev.imibot.ai/integrations
-  public BACKEND_USER_PIPELINE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'api/v1/bot/';//https://dev.imibot.ai/bots
+  private BACKEND_USER_UPDATE_URL = `${this.BACKEND_URL}` + 'user/'; //https://dev.imibot.ai/user/5a030aa9b050705bd0ca5a45
+  private BACKEND_USER_CODE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'integrations'; //https://dev.imibot.ai/integrations
+  public BACKEND_USER_PIPELINE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'api/v1/bot/'; //https://dev.imibot.ai/bots
 
   public readonly CHANNEL_LIST = [
     {name: 'all', displayName: 'All Channels'},
@@ -221,10 +221,10 @@ export class ConstantsService {
   sendEmailUrl() {
     return this.BACKEND_URL + 'api/v1/user/resetpasswordurl/';
   }
-  resetPasswordUrl(){
+  resetPasswordUrl() {
     return this.BACKEND_URL + 'api/v1/user/resetpassword/';
   }
-  codeValidationUrl(){
+  codeValidationUrl() {
     return this.BACKEND_URL + 'api/v1/botversioning/codevalidation/';
   }
   setLoggedUser(loggedUser: IUser) {
@@ -234,17 +234,17 @@ export class ConstantsService {
   getSelectedVersionTemplate(botId) {
     return {
       'bot_id' : botId,
-      'comment'  : "",
-      'created_at'  : "",
-      'df_rules'  : "",
-      'df_template'  : "#####DF Template Goes here####",
-      'generation_rules'  : "",
-      'generation_templates'  : "",
+      'comment'  : '',
+      'created_at'  : '',
+      'df_rules'  : '',
+      'df_template'  : '#####DF Template Goes here####',
+      'generation_rules'  : '',
+      'generation_templates'  : '',
       'id' : -1,
-      'resource_uri'  : "",
-      'updated_at'  : "",
+      'resource_uri'  : '',
+      'updated_at'  : '',
       'version' : null,
-      'workflow'  : "",
+      'workflow'  : '',
       'updated_fields' : {
         'df_template' : false,
         'df_rules' : false,
@@ -259,28 +259,28 @@ export class ConstantsService {
         'generation_template' : false,
         'workflows' : false
       },
-      "validation": {
-        "df_rules": {"msg":"You can validate your code"},
-        "df_template": {"msg":"You can validate your code"},
-        "generation_rules": {"msg":"You can validate your code"},
-        "generation_templates": {"msg":"You can validate your code"},
-        "workflow": {"msg":"You can validate your code"},
+      'validation': {
+        'df_rules': {'msg': 'You can validate your code'},
+        'df_template': {'msg': 'You can validate your code'},
+        'generation_rules': {'msg': 'You can validate your code'},
+        'generation_templates': {'msg': 'You can validate your code'},
+        'workflow': {'msg': 'You can validate your code'},
       },
       'forked_from' : null,
     };
   }
 
   getUserUpdateUrl(enterprise_UserId: number) {
-    return this.BACKEND_URL + `api/v1/user/${enterprise_UserId}/`;//{{url}}/user/{{Enterprise_UserId}}
+    return this.BACKEND_URL + `api/v1/user/${enterprise_UserId}/`; //{{url}}/user/{{Enterprise_UserId}}
   }
 
   getEnterpriseUrl(enterpriseId: number) {
     // return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`;// + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
-    return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`;// + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
+    return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`; // + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
   }
 
   stopTestUrl() {
-    return this.BACKEND_URL + `api/v1/bottestcases/canceltesting/`;// https://dev.imibot.ai/api/v1/bottestcases/canceltesting/
+    return this.BACKEND_URL + `api/v1/bottestcases/canceltesting/`; // https://dev.imibot.ai/api/v1/bottestcases/canceltesting/
 
   }
 
@@ -450,7 +450,7 @@ export class ConstantsService {
   }
 
   getStartNewChatLoginUrl() {
-    return this.BACKEND_URL + 'api/v1/webhook/web/';//'send';
+    return this.BACKEND_URL + 'api/v1/webhook/web/'; //'send';
   }
 
   getAllBotVersionByBotIdUrl(bot_id) {
@@ -466,7 +466,7 @@ export class ConstantsService {
   }
 
   updateBotUrl(bot_id: number) {
-    return this.BACKEND_URL + `api/v1/bot/${bot_id}/`;//https://dev.imibot.ai/api/v1/bot/13/
+    return this.BACKEND_URL + `api/v1/bot/${bot_id}/`; //https://dev.imibot.ai/api/v1/bot/13/
   }
 
   createNewCustomBotNER() {
@@ -492,7 +492,7 @@ export class ConstantsService {
   }
 
   getAnalyticsUrl() {
-    return this.BACKEND_URL + 'api/v1/analytics/';//https://dev.imibot.ai/api/v1/analytics/
+    return this.BACKEND_URL + 'api/v1/analytics/'; //https://dev.imibot.ai/api/v1/analytics/
   }
 
   updateOrDeleteEnterpriseNer(id) {/*TODO: is it enterprise id??*/
@@ -507,8 +507,8 @@ export class ConstantsService {
   }
 
   updateBotSerializer(bot: IBot) {
-    let clone = {...bot};
-    let not_keys = [
+    const clone = {...bot};
+    const not_keys = [
       'bot_access_token',
       'created_at',
       'created_by',
@@ -526,8 +526,8 @@ export class ConstantsService {
 
 
   //localstorage keys
-  LOCALSTORAGE_APP_STATE: string = 'LOCALSTORAGE_APP_STATE';
-  LOCALSTORAGE_LAST_STATE_UPDATED: string = 'LOCALSTORAGE_LAST_STATE_UPDATED';
+  LOCALSTORAGE_APP_STATE = 'LOCALSTORAGE_APP_STATE';
+  LOCALSTORAGE_LAST_STATE_UPDATED = 'LOCALSTORAGE_LAST_STATE_UPDATED';
 
 
   //settings for smart table
@@ -585,7 +585,7 @@ export class ConstantsService {
         valuePrepareFunction: (date) => {
 
           // var raw = new Date(date);
-          var formatted = new Date(date).toJSON().slice(0, 10).split('-').reverse().join('/'); //this.datePipe.transform(raw, 'd/m/yy');
+          const formatted = new Date(date).toJSON().slice(0, 10).split('-').reverse().join('/'); //this.datePipe.transform(raw, 'd/m/yy');
           return formatted;
         }
       },
@@ -605,7 +605,7 @@ export class ConstantsService {
     rowClassFunction: (row) => {
       if (row.data.data_encrypted === false) {
         return 'hightlight-decrypted';
-        ;
+
       }
       return '';
     }
@@ -629,17 +629,17 @@ export class ConstantsService {
       updated_at: {
         title: 'Updated At',
         valuePrepareFunction: (date) => {
-          var raw = new Date(date);
-          var formatted = this.datePipe.transform(raw, 'medium');
+          const raw = new Date(date);
+          const formatted = this.datePipe.transform(raw, 'medium');
           return formatted;
         }
       },
       channels: {
         title: 'Channels',
         type: 'html',
-        valuePrepareFunction: (channels:string[]) => {
-          let imageStr = "";
-          channels.forEach((value)=>{
+        valuePrepareFunction: (channels: string[]) => {
+          let imageStr = '';
+          channels.forEach((value) => {
             imageStr +=
               `
 <img width="16px" src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/${value}.png" />
@@ -763,8 +763,8 @@ export class ConstantsService {
 
   readonly HANDSON_TABLE_BOT_TESTING_colHeaders = ['Message', 'Expected Template', 'Status', 'Generated Template', 'RoomId', 'TransactionId'];
   readonly HANDSON_TABLE_BOT_TESTING_columns = [
-    {data: 0, type: 'text',},
-    {data: 1, type: 'text',},
+    {data: 0, type: 'text', },
+    {data: 1, type: 'text', },
     {data: 2, type: 'text', readOnly: true},
     {data: 3, type: 'text', readOnly: true},
     {data: 4, type: 'text', readOnly: true},
@@ -776,7 +776,7 @@ export class ConstantsService {
 
       /*To make first row highlighted*/
       /*https://docs.handsontable.com/5.0.2/demo-conditional-formatting.html*/
-      var cellProperties = {};
+      const cellProperties = {};
       // var data = this.instance.getData();
 
 

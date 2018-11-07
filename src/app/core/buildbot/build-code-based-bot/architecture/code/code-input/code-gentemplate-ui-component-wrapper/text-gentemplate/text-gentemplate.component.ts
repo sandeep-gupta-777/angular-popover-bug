@@ -13,7 +13,7 @@ export class TextGentemplateComponent implements OnInit, AfterViewInit {
   selected: boolean;
 
   @Input() outputItem: IOutputItem;
-  @ViewChild('textarea') textarea:ElementRef;
+  @ViewChild('textarea') textarea: ElementRef;
   @Input() set variants(variantsVal: string[]) {
     this._variants = variantsVal;
     this.variantsIter = [...this._variants];

@@ -12,20 +12,20 @@
 // }
 
 export interface IPipelineItem {
-  "contextual": boolean,
-  "created_at": number,
-  "default": boolean,
-  "display_values": {},
-  "id": number,
-  "input_params": object,
-  "library": string,
-  "module": string,
-  "resource_uri": string,
-  "unique_name": string,
-  "updated_at": number,
+  'contextual': boolean;
+  'created_at': number;
+  'default': boolean;
+  'display_values': {};
+  'id': number;
+  'input_params': object;
+  'library': string;
+  'module': string;
+  'resource_uri': string;
+  'unique_name': string;
+  'updated_at': number;
 
   /*custom fields*/
-  form_validation_pipeline?:boolean;
+  form_validation_pipeline?: boolean;
 }
 
 

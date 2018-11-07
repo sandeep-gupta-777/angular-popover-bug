@@ -29,7 +29,7 @@ import {AuthGaurdService} from '../../auth-gaurd.service';
 
 const routes: Route[] = [
   {
-    path: '', component: Analysis2WrapperComponent,canActivateChild:[AuthGaurdService], children: [
+    path: '', component: Analysis2WrapperComponent, canActivateChild: [AuthGaurdService], children: [
       {path: '', redirectTo: 'users', pathMatch: 'full'},
       // {path: 'overview', component: Analysis2OverviewComponent},
       {path: 'overview', component: Analysis2OverviewComponent},

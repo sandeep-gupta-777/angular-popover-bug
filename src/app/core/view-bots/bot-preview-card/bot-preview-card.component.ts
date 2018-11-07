@@ -32,12 +32,12 @@ import {UpdateBotInfoByIdInBotInBotList} from '../ngxs/view-bot.action';
 export class BotPreviewCardComponent implements OnInit {
 
   @Input() bot: IBot;
-  showLoader =false;
+  showLoader = false;
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() chatsessionstate$: Observable<IChatSessionState>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   modalRef: BsModalRef;
-  doStartBlinking:boolean = false;
+  doStartBlinking = false;
   myObject = Object;
   message: string;
   @Input() parentRoute: string;
@@ -46,7 +46,7 @@ export class BotPreviewCardComponent implements OnInit {
   customConsumerDetails: IConsumerDetails;
   role: string;
   enterprise_unique_name: string;
-  myEAllActions=EAllActions;
+  myEAllActions = EAllActions;
 
   constructor(
     public utilityService: UtilityService,
@@ -66,8 +66,9 @@ export class BotPreviewCardComponent implements OnInit {
     });
 
     this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
-      if (chatSessionState && chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.id)
+      if (chatSessionState && chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.id) {
         this.currentChatPreviewBotId = chatSessionState.currentBotDetails.id;
+      }
       this.currentUid = chatSessionState.currentUId;
       this.customConsumerDetails = chatSessionState.consumerDetails;
     });
@@ -86,25 +87,25 @@ export class BotPreviewCardComponent implements OnInit {
 
 
   previewBot() {
-    this.router.navigate(['',{outlets: {preview: 'preview'}}]);
+    this.router.navigate(['', {outlets: {preview: 'preview'}}]);
     this.store.dispatch([
       new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
-        bot:{...this.bot,enterprise_unique_name:this.enterprise_unique_name}
+        bot: {...this.bot, enterprise_unique_name: this.enterprise_unique_name}
       }),
       new ToggleChatWindow({open: true}),
       new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX})
-    ])
+    ]);
 
   }
 
-  togglePinBotCard(bot, doPin){
+  togglePinBotCard(bot, doPin) {
     this.store.dispatch([
-      new UpdateBotInfoByIdInBotInBotList({botId:bot.id, data:{store_isPinned:doPin}})
-    ]).subscribe(()=>{
-      if(doPin){
-        window.scrollTo({ top: 0, behavior: 'smooth' })
+      new UpdateBotInfoByIdInBotInBotList({botId: bot.id, data: {store_isPinned: doPin}})
+    ]).subscribe(() => {
+      if (doPin) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
-    })
+    });
 
   }
 
@@ -114,8 +115,8 @@ export class BotPreviewCardComponent implements OnInit {
 
   deleteBot() {
     this.modalRef.hide();
-    let url = this.constantsService.getDeleteBotUrl(this.bot.id);
-    let headerData: IHeaderData = {
+    const url = this.constantsService.getDeleteBotUrl(this.bot.id);
+    const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
     this.serverService.makeDeleteReq({url, headerData})
@@ -155,8 +156,8 @@ export class BotPreviewCardComponent implements OnInit {
     }
   }
 
-  test(channelName){
-    this.router.navigateByUrl(`core/botdetail/chatbot/${this.bot.id}?build-tab=integration&code-tab=df_template#${channelName}`)
+  test(channelName) {
+    this.router.navigateByUrl(`core/botdetail/chatbot/${this.bot.id}?build-tab=integration&code-tab=df_template#${channelName}`);
   }
 
 }

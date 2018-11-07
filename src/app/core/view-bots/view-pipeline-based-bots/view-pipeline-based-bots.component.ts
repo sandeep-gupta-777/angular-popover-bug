@@ -22,9 +22,9 @@ export class ViewPipelineBasedBotsComponent implements OnInit {
 
   ngOnInit() {
     this.botlist$
-      .do((value)=>{return value})
+      .do((value) => value)
       .map((value) => value.allBotList && value.allBotList.filter((bot) => bot.bot_type === EBotType.intelligent))
-      .subscribe((value)=>this.pipelineBasedBotList = value)
+      .subscribe((value) => this.pipelineBasedBotList = value);
   }
 
 }

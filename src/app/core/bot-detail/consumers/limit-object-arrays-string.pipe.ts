@@ -7,13 +7,14 @@ import {IConsumerResults} from '../../../../interfaces/consumer';
 export class LimitObjectArraysStringPipe implements PipeTransform {
 
   transform(consumerResults: IConsumerResults[], args?: any): any {
-    if(!consumerResults) return;
+    if (!consumerResults) { return; }
     consumerResults = JSON.parse(JSON.stringify(consumerResults));
 
-    let x =consumerResults.map((consumer)=>{
-      for(let key in consumer){
-        if(consumer[key] && consumer[key].length &&  consumer[key].length>32)
-        consumer[key] = consumer[key].substring(1,15)+'...'
+    const x = consumerResults.map((consumer) => {
+      for (const key in consumer) {
+        if (consumer[key] && consumer[key].length &&  consumer[key].length > 32) {
+        consumer[key] = consumer[key].substring(1, 15) + '...';
+        }
       }
       return consumer;
     });

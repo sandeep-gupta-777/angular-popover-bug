@@ -14,21 +14,21 @@ export class HighlightDirective {
   ) {}
 
   @Input() set readonlyselectedroles(tabNameInfo: any/*EAllActions|EAllActions[]*/) {/*tabNameInfo can be one tabname string or array of tabname strings*/
-    ;
-    if(!tabNameInfo) console.error("tabNameInfo is null or undefined");
-    let isDenied: boolean = true;
+    
+    if (!tabNameInfo) { console.error('tabNameInfo is null or undefined'); }
+    let isDenied = true;
 
     if (Array.isArray(tabNameInfo)) {
       tabNameInfo.forEach((tab) => {
         isDenied = isDenied && this.permissionService.isTabAccessDenied(tab);
       });
     } else {
-      isDenied = this.permissionService.isTabAccessDenied(tabNameInfo);//false;//this.constantsService.isTabAccessDenied(tabName);
+      isDenied = this.permissionService.isTabAccessDenied(tabNameInfo); //false;//this.constantsService.isTabAccessDenied(tabName);
     }
 
     if (isDenied) {
       this.el.nativeElement.disabled = true;
-      this.el.nativeElement.classList.add("cursor-pointer-event-none");
+      this.el.nativeElement.classList.add('cursor-pointer-event-none');
     }
   }
 }

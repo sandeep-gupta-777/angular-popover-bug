@@ -68,5 +68,5 @@ const routes: Route[] = [
   ],
   providers: [DragService, AimService]
 })
-export class ViewBotsModule{
+export class ViewBotsModule {
 }

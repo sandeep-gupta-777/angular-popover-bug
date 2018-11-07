@@ -10,17 +10,17 @@ import {IAppState} from './ngxs/app.state';
 })
 export class IntegrationItemForTypePipe implements PipeTransform {
 
-  masterIntegrationList:IIntegrationMasterListItem[];
+  masterIntegrationList: IIntegrationMasterListItem[];
   @Select() app$: Observable<IAppState>;
-  constructor(private utilityService:UtilityService){
-    this.app$.subscribe((appState)=>{
+  constructor(private utilityService: UtilityService) {
+    this.app$.subscribe((appState) => {
       this.masterIntegrationList = appState.masterIntegrationList;
-    })
+    });
   }
   transform(type: string): any {
-    let integrationItems:string[] =   this.masterIntegrationList
-      .filter((masterIntegrationItem)=>masterIntegrationItem.type===type)
-      .map(masterIntegrationItem=>masterIntegrationItem.key)
+    const integrationItems: string[] =   this.masterIntegrationList
+      .filter((masterIntegrationItem) => masterIntegrationItem.type === type)
+      .map(masterIntegrationItem => masterIntegrationItem.key);
 
     return integrationItems;
   }

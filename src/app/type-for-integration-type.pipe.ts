@@ -10,17 +10,17 @@ import {UtilityService} from './utility.service';
 })
 export class TypeForIntegrationTypePipe implements PipeTransform {
 
-  masterIntegrationList:IIntegrationMasterListItem[];
+  masterIntegrationList: IIntegrationMasterListItem[];
   @Select() app$: Observable<IAppState>;
-  constructor(private utilityService:UtilityService){
-    this.app$.subscribe((appState)=>{
+  constructor(private utilityService: UtilityService) {
+    this.app$.subscribe((appState) => {
       this.masterIntegrationList = appState.masterIntegrationList;
-    })
+    });
   }
   transform(integration_type: any, args?: any): any {
-    let types:string[] =   this.masterIntegrationList
-      .filter((masterIntegrationItem)=>masterIntegrationItem.integration_type===integration_type)
-      .map((masterIntegrationItem)=>masterIntegrationItem.type);
+    const types: string[] =   this.masterIntegrationList
+      .filter((masterIntegrationItem) => masterIntegrationItem.integration_type === integration_type)
+      .map((masterIntegrationItem) => masterIntegrationItem.type);
 
     return this.utilityService.deDupPrimitiveArray(types);
 

@@ -15,8 +15,9 @@
     <!--<div class="d-flex justify-content-end mt-4 ml-auto">-->
     <button *myIf="myEAllActions['Create Bots']"
             class="btn-theme btn-theme-primary ml-auto"
-            popover="You can also get started by creating your own first bot from here."
+            [popover]="'You can also get started by creating your own first bot from here.'"
             placement="bottom"
+            triggers=""
             #pop="bs-popover"
             (click)="openCreateBotModal(Primarytemplate)">
       <i class="fa fa-plus pr-1"></i>New Bot

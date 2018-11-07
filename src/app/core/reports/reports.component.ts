@@ -50,15 +50,15 @@ export class ReportsComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  activeTab: string = 'configure';
+  activeTab = 'configure';
   totalReportRecords: number;
   totalHistoryReportRecords: number;
   reportTypes;
-  botlist$_sub:Subscription;
+  botlist$_sub: Subscription;
 
   ngOnInit() {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || this.activeTab;
-    let reportTypeUrl = this.constantsService.geReportTypesUrl();
+    const reportTypeUrl = this.constantsService.geReportTypesUrl();
     this.serverService.makeGetReq<{ meta: any, objects: IReportTypeItem[] }>({url: reportTypeUrl})
       .subscribe((reportTypes) => {
         this.reportTypes = reportTypes;
@@ -70,14 +70,14 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
   loadReportHistory(limit: number, offset: number) {
 
-    let reportHistoryUrl = this.constantsService.getReportHistoryUrl(limit, offset);
+    const reportHistoryUrl = this.constantsService.getReportHistoryUrl(limit, offset);
     this.serverService.makeGetReq<IReportHistory>({url: reportHistoryUrl})
       .subscribe((reportHistory: IReportHistory) => {
         this.totalHistoryReportRecords = reportHistory.meta.total_count;
         /*Making reportItem$ history data*/
-        reportHistory.objects.forEach((reportHistoryItem:IReportHistoryItem) => {
+        reportHistory.objects.forEach((reportHistoryItem: IReportHistoryItem) => {
           this.botlist$.subscribe((botList) => {
-            let listOfAllBots = botList.allBotList;
+            const listOfAllBots = botList.allBotList;
             this.reportHistorySmartTableData.push({
               ...reportHistoryItem,
               bot: this.objectArrayCrudService.getObjectItemByKeyValuePair(listOfAllBots, {id: reportHistoryItem.bot_id}).name,
@@ -91,19 +91,19 @@ export class ReportsComponent implements OnInit, OnDestroy {
       });
   }
 
-  reportHistoryTablePageChanged(page){
+  reportHistoryTablePageChanged(page) {
     this.reportHistorySmartTableData = [];
-    this.loadReportHistory(10,(page-1)*10 );
+    this.loadReportHistory(10, (page - 1) * 10 );
   }
-  customActionEventsTriggeredInSessionsTable(smartTableCustomEventData: { action: string, data: IReportHistoryItem, source: any }){
+  customActionEventsTriggeredInSessionsTable(smartTableCustomEventData: { action: string, data: IReportHistoryItem, source: any }) {
 
-    let url = this.constantsService.getDownloadReportHistoryByIdUrl(smartTableCustomEventData.data.id);
+    const url = this.constantsService.getDownloadReportHistoryByIdUrl(smartTableCustomEventData.data.id);
     this.serverService.makeGetReqToDownloadFiles({url})
-      .subscribe((value:any)=>{
+      .subscribe((value: any) => {
 
         /*To download the blob: https://stackoverflow.com/questions/19327749/javascript-blob-filename-without-link*/
-         var fileName = "report_history_for_bot_id_"+smartTableCustomEventData.data.bot_id + ".csv";
-        this.utilityService.downloadText(value,fileName);
+         const fileName = 'report_history_for_bot_id_' + smartTableCustomEventData.data.bot_id + '.csv';
+        this.utilityService.downloadText(value, fileName);
         // var saveData = (function () {
         //   var a:any = document.createElement("a");
         //   document.body.appendChild(a);
@@ -127,14 +127,14 @@ export class ReportsComponent implements OnInit, OnDestroy {
   }
 
   loadReports(limit: number, offset: number) {
-    let reportUrl = this.constantsService.getReportUrl(limit, offset);
+    const reportUrl = this.constantsService.getReportUrl(limit, offset);
     this.serverService.makeGetReq<IReportList>({url: reportUrl})
       .subscribe((results) => {
         this.totalReportRecords = results.meta.total_count;
         /*Making reportItem$ data*/
         results.objects.forEach(report => {
           this.botlist$_sub = this.botlist$.subscribe((value) => {
-            let listOfAllBots = value.allBotList;
+            const listOfAllBots = value.allBotList;
             try {
               this.reportSmartTableData.push({
                 ...report,
@@ -156,12 +156,12 @@ export class ReportsComponent implements OnInit, OnDestroy {
           });
         });
       });
-    ;
+
   }
 
   reportTablePageChanged(page) {
     this.reportSmartTableData = [];
-    this.loadReports(10,(page-1)*10);
+    this.loadReports(10, (page - 1) * 10);
   }
 
   tabClicked(activeTab: string) {

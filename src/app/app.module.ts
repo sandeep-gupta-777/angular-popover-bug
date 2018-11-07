@@ -54,11 +54,11 @@ import {SafeUrlPipe} from './href-sanitizer.pipe';
 
 const routes: Route[] = [
   {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
-  {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad:[AuthGaurdService]},
+  {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad: [AuthGaurdService]},
   {path: 'preview', loadChildren: './chat/chat.module#ChatModule'},
   {path: 'denied', component: NotAuthorisedComponent},
   {path: 'theme', component: ThemeComponent},
-  {path: '', redirectTo:"core/viewbots", pathMatch:"full"},
+  {path: '', redirectTo: 'core/viewbots', pathMatch: 'full'},
   {path: '**', component: NotFoundComponent}
 ];
 
@@ -100,7 +100,7 @@ const routes: Route[] = [
     ]),
     NgxsStoragePluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot({disabled:true}),//disable for prod mode
+    NgxsLoggerPluginModule.forRoot({disabled: true}), //disable for prod mode
     HttpClientModule,
     ClickOutsideModule,
     // DragulaModule,

@@ -13,11 +13,11 @@ export class CodeGentemplateComponent implements OnInit {
   }
 
   outputItem: IOutputItem;
-  @Input() set _outputItem(val){
+  @Input() set _outputItem(val) {
     this.outputItem =   val;
     this.outputItemClone = {...val};
   }
-  @Input() channelNameList : string[];
+  @Input() channelNameList: string[];
   outputItemClone: IOutputItem;
   @Input() myIndex: number;
 
@@ -61,24 +61,22 @@ export class CodeGentemplateComponent implements OnInit {
   }
 
   codeEditorTextCHanged(data) {
-    console.log("helloosadasdasdas");
+    console.log('helloosadasdasdas');
     this.outputItem = Object.assign(this.outputItem, JSON.parse(data));
   }
-  removeThisChannel(channel:string){
-    let isChannelPresent = this.outputItemClone.include.find(e => e === channel);
-    if(isChannelPresent){
+  removeThisChannel(channel: string) {
+    const isChannelPresent = this.outputItemClone.include.find(e => e === channel);
+    if (isChannelPresent) {
       this.outputItemClone.include = this.outputItemClone.include.filter(e => e !== channel);
-    }
-    else{
+    } else {
       this.outputItemClone.include.push(channel);
     }
   }
-  imgOpacity(channel : string) {
-    let isChannelPresent = this.outputItemClone.include.find(e => e === channel);
-    if(isChannelPresent){
+  imgOpacity(channel: string) {
+    const isChannelPresent = this.outputItemClone.include.find(e => e === channel);
+    if (isChannelPresent) {
       return true;
-    }
-    else{
+    } else {
       return false;
     }
   }

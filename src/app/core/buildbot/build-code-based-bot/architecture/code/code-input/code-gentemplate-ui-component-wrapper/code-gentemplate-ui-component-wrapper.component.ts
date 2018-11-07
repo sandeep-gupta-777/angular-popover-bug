@@ -9,10 +9,10 @@ import {IOutputItem} from '../code-gentemplate-ui-wrapper/code-gentemplate-ui-wr
 export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
 
   _variants: string[];
-  channelNameList:string[];
+  channelNameList: string[];
   @Input() outputItem: IOutputItem;
   @Input() myIndex: number;
-  @Input() channelList: {name:string}[];
+  @Input() channelList: {name: string}[];
   @Input() totalResponseTemplateComponentCount: number;
   @Output() deleteTemplate: EventEmitter<string> = new EventEmitter<string>();
   @Output() moveTempUp: EventEmitter<string> = new EventEmitter<string>();
@@ -58,11 +58,10 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
   }
 
   removeThisChannel(channel: string) {
-    let isChannelPresent = this.outputItem.include.find(e => e === channel);
+    const isChannelPresent = this.outputItem.include.find(e => e === channel);
     if (isChannelPresent) {
       this.outputItem.include = this.outputItem.include.filter(e => e !== channel);
-    }
-    else {
+    } else {
       this.outputItem.include.push(channel);
     }
     this.outputItem = {...this.outputItem};
@@ -71,14 +70,14 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
   imgOpacity(channel: string) {
     try {
       return this.outputItem.include.find(e => e === channel);
-    }catch (e) {
+    } catch (e) {
       console.log(e);
     }
   }
 
   ngOnInit() {
 
-    this.channelNameList = this.channelList.filter(e=>e.name!=='all').map(e=>e.name)
+    this.channelNameList = this.channelList.filter(e => e.name !== 'all').map(e => e.name);
   }
 
   isTemplateKeyOutputUnparsable() {

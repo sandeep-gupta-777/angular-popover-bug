@@ -1,5 +1,5 @@
 import {Action, Selector, State, StateContext} from '@ngxs/store';
-import {SetCurrentEditedReportAction, SetReportFormAction,} from './reports.action';
+import {SetCurrentEditedReportAction, SetReportFormAction, } from './reports.action';
 import {IReportItem} from '../../../../interfaces/report';
 
 
@@ -9,24 +9,24 @@ export interface ReportStateModel {
 }
 
 @State<ReportStateModel>({
-  name:'reportItem',
-  defaults:{
-    formData:null,
-    currentEditedReport:null
+  name: 'reportItem',
+  defaults: {
+    formData: null,
+    currentEditedReport: null
   }
 })
 
 //same as reducer
-export class ReportsStateReducer{
+export class ReportsStateReducer {
 
   @Action(SetCurrentEditedReportAction)
-  setCodebasedBotList({patchState, setState, getState,dispatch}:StateContext<ReportStateModel>, {payload} : SetCurrentEditedReportAction){
-    patchState({formData:payload.reportItem});
+  setCodebasedBotList({patchState, setState, getState, dispatch}: StateContext<ReportStateModel>, {payload}: SetCurrentEditedReportAction) {
+    patchState({formData: payload.reportItem});
   }
 
   @Action(SetCurrentEditedReportAction)
-  setCurrentEditedReportAction({patchState, setState, getState,dispatch}:StateContext<ReportStateModel>, {payload} : SetCurrentEditedReportAction){
-    patchState({currentEditedReport:payload.reportItem});
+  setCurrentEditedReportAction({patchState, setState, getState, dispatch}: StateContext<ReportStateModel>, {payload}: SetCurrentEditedReportAction) {
+    patchState({currentEditedReport: payload.reportItem});
   }
 
 }

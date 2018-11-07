@@ -30,7 +30,7 @@ export class Analysis2OverviewComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new SetAnalysis2HeaderData({
-      analysisHeaderData:{type:EAnalysis2TypesEnum.overviewinfo}
+      analysisHeaderData: {type: EAnalysis2TypesEnum.overviewinfo}
     }));
     this.data$ = this.analysisstate2$.map((analysisState) => {
       return analysisState.overviewInfo;

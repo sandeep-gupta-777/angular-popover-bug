@@ -22,9 +22,9 @@ export enum EQuickReplySubTabsType {
 export class CodeQuickReplyComponent implements OnInit, AfterViewInit {
   myEQuickReplyTypes = EQuickReplyTypes;
   myEQuickReplySubTabsType = EQuickReplySubTabsType;
-  textType:string = EQuickReplySubTabsType.payload;
+  textType: string = EQuickReplySubTabsType.payload;
   content_type: string;
-  @Input() quick_reply:IQuickReplyItem;
+  @Input() quick_reply: IQuickReplyItem;
   @ViewChild('quickReplyForm') quickReplyForm: NgForm;
   @Output() hideQuickReplyDropdown$ = new EventEmitter();
 
@@ -34,7 +34,7 @@ export class CodeQuickReplyComponent implements OnInit, AfterViewInit {
   ngOnInit() {
 
     this.content_type = this.quick_reply.content_type;
-    this.textType = this.quick_reply.textType|| EQuickReplySubTabsType.payload;
+    this.textType = this.quick_reply.textType || EQuickReplySubTabsType.payload;
   }
 
   tabChanged(selectedTab) {
@@ -48,16 +48,16 @@ export class CodeQuickReplyComponent implements OnInit, AfterViewInit {
     this.quickReplyForm.form.patchValue(this.quick_reply);
   }
 
-  saveQuickReplyForm(quickReplyForm){
+  saveQuickReplyForm(quickReplyForm) {
     console.log(quickReplyForm.value);
     Object.assign(this.quick_reply, quickReplyForm.value);
-    setTimeout(()=>{
-      this.hideQuickReplyDropdown$.emit()
+    setTimeout(() => {
+      this.hideQuickReplyDropdown$.emit();
     });
   }
 
-  ngAfterViewInit(){
-    setTimeout(()=>{
+  ngAfterViewInit() {
+    setTimeout(() => {
       this.quickReplyForm.form.patchValue(this.quick_reply);
     });
   }

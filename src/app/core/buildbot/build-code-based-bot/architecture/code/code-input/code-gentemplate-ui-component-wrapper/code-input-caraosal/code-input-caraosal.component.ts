@@ -68,24 +68,22 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   carasolItemShownInOneScreen: number;
   totalItemsInCarasol: number;
   MultiCarouselWidth: number;
-  controlsClickedCount: number = 0;
+  controlsClickedCount = 0;
 
   removeThisChannel(channel: string) {
-    let isChannelPresent = this.outputItem.include.find(e => e === channel);
+    const isChannelPresent = this.outputItem.include.find(e => e === channel);
     if (isChannelPresent) {
       this.outputItem.include = this.outputItem.include.filter(e => e !== channel);
-    }
-    else {
+    } else {
       this.outputItem.include.push(channel);
     }
   }
 
-  imgOpacity(channel : string) {
-    let isChannelPresent = this.outputItem.include.find(e => e === channel);
-    if(isChannelPresent){
+  imgOpacity(channel: string) {
+    const isChannelPresent = this.outputItem.include.find(e => e === channel);
+    if (isChannelPresent) {
       return true;
-    }
-    else{
+    } else {
       return false;
     }
   }
@@ -99,8 +97,8 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.carasolItemShownInOneScreen = 1.5;//this.isFullScreenPreview ? 4 : 2;
-    this.totalItemsInCarasol = 2;//this._messageData.media.length;
+    this.carasolItemShownInOneScreen = 1.5; //this.isFullScreenPreview ? 4 : 2;
+    this.totalItemsInCarasol = 2; //this._messageData.media.length;
 
   }
 
@@ -114,7 +112,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   }
 
   deleteCarasolItem(index) {
-    let carasolItems = this.outputItem.generic_template[0].elements;
+    const carasolItems = this.outputItem.generic_template[0].elements;
     if (index === carasolItems.length - 1) {
       // --this.controlsClickedCount;
       this.slideCarousel(ECarasoulMoveDirection.left);
@@ -130,14 +128,14 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   x = 0;
 
   duplicateCarasolItem(index) {
-    let carasolItems = this.outputItem.generic_template[0].elements;
-    let itemToBeDuplicated = carasolItems[index];
+    const carasolItems = this.outputItem.generic_template[0].elements;
+    const itemToBeDuplicated = carasolItems[index];
     carasolItems.splice(index, 0, itemToBeDuplicated);
     this.recalculateWidthForCaraousalItems();
   }
 
   recalculateWidthForCaraousalItems() {
-    let self = this;
+    const self = this;
 
     setTimeout(() => {/*first add item, then in next tick force .item with recalculation*/
       $(this.MultiCarouselInner.nativeElement).find(('.item')).each(function () {
@@ -185,16 +183,16 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
     console.log('===================ngAfterViewInit===============================================');
     // this.mainInput.nativeElement.focus();
 
-    let self = this;
+    const self = this;
     self.carasolItems = self.caraosalItem.toArray();
 
     $(document).ready(() => {
-      let CardCarouselComponent_this = this;
-      var MultiCarousel = this.MultiCarousel.nativeElement;//('.MultiCarousel');
-      var MultiCarouselInner = this.MultiCarouselInner.nativeElement;//('.MultiCarousel-inner');
-      var itemWidth: any = '';
-      var itemNumbers: any = '';
-      var sampwidth: any = '';
+      const CardCarouselComponent_this = this;
+      const MultiCarousel = this.MultiCarousel.nativeElement; //('.MultiCarousel');
+      const MultiCarouselInner = this.MultiCarouselInner.nativeElement; //('.MultiCarousel-inner');
+      let itemWidth: any = '';
+      let itemNumbers: any = '';
+      let sampwidth: any = '';
 
       // $('.leftLst, .rightLst').click(function () {
 
@@ -230,7 +228,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
         console.log(self.caraosalItem.toArray());
 
         // var itemClass = ('.item');
-        var id = 0;
+        let id = 0;
         // var btnParentSb = '';
         // var itemsSplit: any = '';
         self.MultiCarouselWidth = sampwidth = $(MultiCarousel).width();
@@ -312,9 +310,9 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
 
 
       function currentSlideLength() {
-        var divStyle = $(MultiCarouselInner).css('transform');
-        var values = divStyle.match(/-?[\d\.]+/g);
-        var slideLength: number = parseFloat(values[4]);//xds = length by which carousal has been moved
+        const divStyle = $(MultiCarouselInner).css('transform');
+        const values = divStyle.match(/-?[\d\.]+/g);
+        const slideLength: number = parseFloat(values[4]); //xds = length by which carousal has been moved
         console.log(slideLength);
         return slideLength;
       }
@@ -325,7 +323,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   slideCarousel: Function;
 
   swapCarasolItems(initialIndex, finalIndex) {
-    let carasolItems = this.outputItem.generic_template[0].elements;
+    const carasolItems = this.outputItem.generic_template[0].elements;
     [carasolItems[initialIndex], carasolItems[finalIndex]] = [carasolItems[finalIndex], carasolItems[initialIndex]];
   }
 
@@ -334,8 +332,8 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   }
 
   pushNewCarasolItem() {
-    let carasolItems = this.outputItem.generic_template[0].elements;
-    let emptyCaraosalItem: ICarousalItem = {
+    const carasolItems = this.outputItem.generic_template[0].elements;
+    const emptyCaraosalItem: ICarousalItem = {
       'image_url': 'https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg',
       'button': [{'type': 'postback', 'title': 'Renew Now', 'payload': 'expire'}],
       'title': 'Contract Renewal'

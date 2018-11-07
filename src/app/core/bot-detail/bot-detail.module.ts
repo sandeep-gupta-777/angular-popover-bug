@@ -64,11 +64,11 @@ import {CodeGentemplateUiWrapperComponent} from '../buildbot/build-code-based-bo
 
 const routes: Route[] = [
   {
-    path: '', component: BotDetailWrapperComponent, canActivateChild:[AuthGaurdService], children:
+    path: '', component: BotDetailWrapperComponent, canActivateChild: [AuthGaurdService], children:
       [
         {path: `${EBotType.chatbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.chatbot}},
         {path: `${EBotType.intelligent}/:id`, component: PipelineBasedBotDetailComponent, data: {bot_type: EBotType.intelligent}},
-        {path: ':id/consumer', component: ConsumerFullscreenWrapperComponent, data:{isFullscreen:true}},
+        {path: ':id/consumer', component: ConsumerFullscreenWrapperComponent, data: {isFullscreen: true}},
       ]
   }
 ];

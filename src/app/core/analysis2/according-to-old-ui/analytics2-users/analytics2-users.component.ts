@@ -19,7 +19,7 @@ export class Analytics2UsersComponent implements OnInit {
   myEAnalysis2TypesEnum = EAnalysis2TypesEnum;
   activeTab: string = EAnalysis2TypesEnum.userAcquisition;
   highchartData: any[];
-  chartValue:any;
+  chartValue: any;
   //   = [{
   //   name: 'Maximum',
   //   data: [4, 5, 8, 12, 10, 6, 22, 3]
@@ -47,16 +47,16 @@ export class Analytics2UsersComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private route: Router,
     private store: Store,
-    private utilityService:UtilityService
+    private utilityService: UtilityService
   ) {
   }
 
   tabClicked(activeTab: string) {
     this.activeTab = activeTab;
     // this.route.ac/
-    if(this.activeTab){
+    if (this.activeTab) {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:this.activeTab}
+        analysisHeaderData: {type: this.activeTab}
       }));
     }
   }
@@ -87,22 +87,22 @@ export class Analytics2UsersComponent implements OnInit {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || this.activeTab;
     this.tabClicked(this.activeTab);
     this.analytics2GraphData$
-      .subscribe((value: IAnalysis2State)=>{
-        try{
-          let granularity =  value.analysisHeaderData.granularity;
-          let granularity_ms:number = this.utilityService.convertGranularityStrToMs(granularity);
+      .subscribe((value: IAnalysis2State) => {
+        try {
+          const granularity =  value.analysisHeaderData.granularity;
+          const granularity_ms: number = this.utilityService.convertGranularityStrToMs(granularity);
 
           this.chartValue =
             <any>this.utilityService.convertDateTimeGraph(
               value[this.activeTab],
-              "labels",
+              'labels',
               new Date(value.analysisHeaderData.startdate).getTime(),
               granularity_ms) ;
-        }catch (e) {
+        } catch (e) {
           // LoggingService.error(e);
         }
 
-      })
+      });
   }
 
 

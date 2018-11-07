@@ -20,7 +20,7 @@ export class SaveAvatorInfo {
 }
 export class SavePipeLineInfo {
   static readonly type = '[build-bots] set PipeLine info';
-  constructor(public payload: { data: {pipeline:IPipelineItem[], unselectedPipeline:IPipelineItem[]} }) {}
+  constructor(public payload: { data: {pipeline: IPipelineItem[], unselectedPipeline: IPipelineItem[]} }) {}
 }
 export class SaveCustomnersInfo {
   static readonly type = '[build-bots] set Customners info';

@@ -13,17 +13,17 @@ import {IConsumerDetails} from '../../../ngxs/chat.state';
 export class ChatItemComponent implements OnInit {
 
   @Input() room: IRoomData;
-  @Input() currentUid:string;
-  @Input() currentRoomId:number;
+  @Input() currentUid: string;
+  @Input() currentRoomId: number;
   @Select() chatsessionstate$: Observable<IChatSessionState>;
   customConsumerDetails: IConsumerDetails;
   constructor(private store: Store) {
   }
 
   ngOnInit() {
-    this.chatsessionstate$.subscribe((chatSessionState)=>{
+    this.chatsessionstate$.subscribe((chatSessionState) => {
       this.currentRoomId =  chatSessionState.currentRoomId;
-      this.customConsumerDetails = chatSessionState.rooms.find((room)=>room.id===this.currentRoomId).consumerDetails;
+      this.customConsumerDetails = chatSessionState.rooms.find((room) => room.id === this.currentRoomId).consumerDetails;
     });
   }
 

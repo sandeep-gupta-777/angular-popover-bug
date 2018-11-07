@@ -22,7 +22,7 @@ export class BuildbotWrapperComponent implements OnInit {
   @Select() botcreationstate$: Observable<IBotCreationState>;
   @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
   bot: IBot = {};
-  bot_type:string;
+  bot_type: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -38,10 +38,10 @@ export class BuildbotWrapperComponent implements OnInit {
     this.bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type');
     this.botcreationstate$.subscribe((value) => {
       /*TODO: this is a  hack to avoid loops*/
-      if (!value) return;
-      if(this.bot_type===EBotType.chatbot && value.codeBased){
+      if (!value) { return; }
+      if (this.bot_type === EBotType.chatbot && value.codeBased) {
         this.bot = value.codeBased;
-      }else if(this.bot_type===EBotType.intelligent && value.pipeLineBased){
+      } else if (this.bot_type === EBotType.intelligent && value.pipeLineBased) {
         this.bot = value.pipeLineBased;
       }
     });
@@ -49,16 +49,16 @@ export class BuildbotWrapperComponent implements OnInit {
 
   createBot() {
 
-    let bot:IBot = this.utilityService.performFormValidationBeforeSaving(this.bot);
-    if(!bot) return;
-    let url = this.constantsService.getCreateNewBot();
-    if(!bot){
-      console.error("there is no bot type in url");
+    const bot: IBot = this.utilityService.performFormValidationBeforeSaving(this.bot);
+    if (!bot) { return; }
+    const url = this.constantsService.getCreateNewBot();
+    if (!bot) {
+      console.error('there is no bot type in url');
     }
 
     bot.bot_type = this.bot_type;
-    if(!this.bot.logo){
-      this.bot.logo = "https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png";
+    if (!this.bot.logo) {
+      this.bot.logo = 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png';
     }
     this.serverService.makePostReq({url: url, body: bot})
       .subscribe((createdBot: IBot) => {
@@ -74,19 +74,19 @@ export class BuildbotWrapperComponent implements OnInit {
 
 
   datachanged(data: IBot) {
-    let bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type');
-    if(bot_type === EBotType.chatbot){
+    const bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type');
+    if (bot_type === EBotType.chatbot) {
       this.store.dispatch([
         new SaveNewBotInfo_CodeBased({data: data})
       ]);
-    }else {
+    } else {
       this.store.dispatch([
         new SaveNewBotInfo_PipelineBased({data: data})
       ]);
     }
   }
 
-  navigateToDashboard(){
-    this.router.navigate([""]);
+  navigateToDashboard() {
+    this.router.navigate(['']);
   }
 }

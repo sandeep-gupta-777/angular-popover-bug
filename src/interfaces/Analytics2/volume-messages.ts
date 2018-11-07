@@ -1,25 +1,25 @@
 import { IBot } from '../../app/core/interfaces/IBot';
 
 export interface ITotalMessagesResponseBody {
-    meta: any,
+    meta: any;
     objects: [
         {
             output: {
-                "messagesinfo": ITotalMessagesItem[],
+                'messagesinfo': ITotalMessagesItem[],
             }
-            "total": {
-                "bothandled": number,
-                "nonbothandled": number,
-                "total": number
+            'total': {
+                'bothandled': number,
+                'nonbothandled': number,
+                'total': number
             }
         }
-    ]
+    ];
 }
 export interface ITotalMessagesItem {
-    "bothandled": number,
-    "labels": string,
-    "nonbothandled": number,
-    "total": number
+    'bothandled': number;
+    'labels': string;
+    'nonbothandled': number;
+    'total': number;
 }
 //  ============= New api ================
 // {

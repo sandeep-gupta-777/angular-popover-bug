@@ -41,20 +41,20 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     'qa.dev_1537783640111@imimobile.com',
     'qa.tester_1537783698819@imimobile.com',
   ];
-  isConfigDataSet =false;
+  isConfigDataSet = false;
   @ViewChild('loginForm') loginForm: NgForm;
   @ViewChild('emailForPasswordResetForm') emailForPasswordResetForm: NgForm;
   @ViewChild('resetPasswordForm') r: NgForm;
-  showCustomEmails: boolean = false;
+  showCustomEmails = false;
   ngOnInit() {
     this.showCustomEmails = !!this.activatedRoute.snapshot.queryParamMap.get('burl');
-    this.panelActive = this.activatedRoute.snapshot.queryParamMap.get('token')?'reset-password':this.panelActive;
+    this.panelActive = this.activatedRoute.snapshot.queryParamMap.get('token') ? 'reset-password' : this.panelActive;
     this.changePasswordExpireTime = this.activatedRoute.snapshot.queryParamMap.get('timestamp');
-    this.serverService.getNSetConfigData$().subscribe(()=> this.isConfigDataSet = true);
+    this.serverService.getNSetConfigData$().subscribe(() => this.isConfigDataSet = true);
   }
 
   sendEmailForReset() {
-    let sendEmailUrl = this.constantsService.sendEmailUrl();
+    const sendEmailUrl = this.constantsService.sendEmailUrl();
     let body;
     if (this.emailForPasswordResetForm.valid) {
       body = this.emailForPasswordResetForm.value;
@@ -64,21 +64,20 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     }
     this.serverService.makePostReq<IUser>({ url: sendEmailUrl, body })
       .subscribe(() => {
-        this.panelActive = 'email-reset-link-notify'
-      })
+        this.panelActive = 'email-reset-link-notify';
+      });
   }
   resetPassword() {
 
-    let resetPasswordUrl = this.constantsService.resetPasswordUrl();
+    const resetPasswordUrl = this.constantsService.resetPasswordUrl();
     let body;
     if (this.r.valid) {
       if (this.r.value.password === this.r.value.confirm) {
         body = {
-          "password": this.r.value.password,
-          "token": this.changePasswordToken
-        }
-      }
-      else{
+          'password': this.r.value.password,
+          'token': this.changePasswordToken
+        };
+      } else {
         this.flashErrorMessage('Passwords dont match');
         return;
       }
@@ -89,12 +88,12 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     }
     this.serverService.makePostReq<IUser>({ url: resetPasswordUrl, body })
       .subscribe(() => {
-        this.panelActive = 'password-reset-notify'
-      })
+        this.panelActive = 'password-reset-notify';
+      });
   }
   onSubmit() {
-    let loginData = this.loginForm.value;
-    let loginUrl = this.constantsService.getLoginUrl();
+    const loginData = this.loginForm.value;
+    const loginUrl = this.constantsService.getLoginUrl();
     let body;
     if (this.loginForm.valid) {
       body = this.loginForm.value;
@@ -104,7 +103,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     }
     this.disabeLoginButton = true;
     this.flashInfoMessage('Reaching out to the server', 100000);
-    let headerData: IHeaderData = {
+    const headerData: IHeaderData = {
       'auth-token': null,
       'user-access-token': null
     };
@@ -127,7 +126,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
               this.serverService.getNSetBotList().subscribe(() => {
               });
               this.serverService.getNSetIntegrationList();
-            },()=>{
+            }, () => {
                 this.disabeLoginButton = false;
                 this.store.dispatch([
                   new ResetAuthToDefaultState()
@@ -135,7 +134,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
                 this.flashErrorMessage('Could not fetch permission. Please try again', 100000);
               });
 
-          let enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(user.enterprise_id);
+          const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(user.enterprise_id);
           this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
             .subscribe((value: IEnterpriseProfileInfo) => {
               this.store.dispatch([

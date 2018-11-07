@@ -26,9 +26,9 @@ export class ConsumersComponent implements OnInit {
   totalRecords: number;
   myESplashScreens = ESplashScreens;
   @Select() botlist$: Observable<ViewBotStateModel>;
-  isDeCryptAuditAccessDenied:boolean = false
+  isDeCryptAuditAccessDenied = false;
   consumerTableData: IConsumerResults[];
-  consumersDecrypted: IConsumerResults ;//IConsumerItem
+  consumersDecrypted: IConsumerResults ; //IConsumerItem
   smartTableSettings_Consumers = this.constantsService.SMART_TABLE_CONSUMER_SETTING;
   isFullscreen: false;
   consumerItemToBeDecrypted: IConsumerResults;
@@ -65,7 +65,7 @@ export class ConsumersComponent implements OnInit {
   }
 
   loadConsumerData(limit: number = 10, offset: number = 0) {
-    let url = this.constantsService.getBotConsumerUrl(limit, offset);
+    const url = this.constantsService.getBotConsumerUrl(limit, offset);
       this.serverService
         .makeGetReq<IConsumerResultsFromServer>({ url, headerData: { 'bot-access-token': this.bot.bot_access_token } })
         .map((value) => {
@@ -77,14 +77,14 @@ export class ConsumersComponent implements OnInit {
               return { ...result };
             })
           };
-        }).subscribe((value)=>{
+        }).subscribe((value) => {
           this.consumerTableData = value.objects;
         });
   }
 
 
   goFullScreen() {
-    this.router.navigate([`core/botdetail/${this.bot_id}/consumer`])
+    this.router.navigate([`core/botdetail/${this.bot_id}/consumer`]);
     // http://localhost:4200/core/botdetail/27/consumer
   }
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: IConsumerResults, source: any }, Primarytemplat) {
@@ -100,35 +100,35 @@ export class ConsumersComponent implements OnInit {
   }
   decryptSubmit() {
 
-    let headerData: IHeaderData = {
-      "bot-access-token": this.bot.bot_access_token
+    const headerData: IHeaderData = {
+      'bot-access-token': this.bot.bot_access_token
     };
-    let body = { "consumer_id": this.consumerItemToBeDecrypted.id, "decrypt_audit_type": "consumer", "message": this.decryptReason };
-    let url = this.constantsService.getDecryptUrl();
+    const body = { 'consumer_id': this.consumerItemToBeDecrypted.id, 'decrypt_audit_type': 'consumer', 'message': this.decryptReason };
+    const url = this.constantsService.getDecryptUrl();
     this.serverService.makePostReq({ headerData, body, url })
       .subscribe(() => {
-        this.decryptReason = "";
-        let url = this.constantsService.getBotConsumerByIdUrl(this.consumerItemToBeDecrypted.id);
+        this.decryptReason = '';
+        const url = this.constantsService.getBotConsumerByIdUrl(this.consumerItemToBeDecrypted.id);
           this.serverService
             .makeGetReq<IConsumerResults>({ url, headerData: { 'bot-access-token': this.bot.bot_access_token } })
             .map((result) => {
-              let modified_update_at = (new Date(result.updated_at)).toDateString();
+              const modified_update_at = (new Date(result.updated_at)).toDateString();
               return { ...result, updated_at: modified_update_at };
             })
             .subscribe((value) => {
 
               this.consumersDecrypted = value;
 
-              let index = this.consumerTableData.findIndex((value)=>value.id === this.consumerItemToBeDecrypted.id)
+              const index = this.consumerTableData.findIndex((value) => value.id === this.consumerItemToBeDecrypted.id);
               this.consumerTableData[index] = this.consumersDecrypted;
               this.consumerTableData = [...this.consumerTableData];
             });
-      })
+      });
 
   }
-  performSearchInDbForConsumer(data){
-    ;
-    let url = this.constantsService.getBotConsumerByIdUrl(data["ID"]);
+  performSearchInDbForConsumer(data) {
+
+    const url = this.constantsService.getBotConsumerByIdUrl(data['ID']);
     this.serverService
       .makeGetReq<IConsumerResults>({ url, headerData: { 'bot-access-token': this.bot.bot_access_token } })
       .subscribe((consumer: IConsumerResults) => {

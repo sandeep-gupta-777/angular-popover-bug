@@ -1,20 +1,20 @@
 import { IBot } from '../../app/core/interfaces/IBot';
 
 export interface IChannelWiseAverageSessionTimeResponseBody {
-    meta: any,
+    meta: any;
     objects: [
         {
             output: {
-                "channelWiseAverageSessionTime": IChannelWiseAverageSessionTimeItem[],
+                'channelWiseAverageSessionTime': IChannelWiseAverageSessionTimeItem[],
             }
         }
-    ]
+    ];
 }
 export interface IChannelWiseAverageSessionTimeItem {
-    "alexa": number,
-    "facebook": number,
-    "labels": string,
-    "web": number
+    'alexa': number;
+    'facebook': number;
+    'labels': string;
+    'web': number;
 }
 // {
 //     "meta": {

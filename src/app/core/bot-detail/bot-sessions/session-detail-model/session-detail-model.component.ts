@@ -22,12 +22,13 @@ export class SessionDetailModelComponent implements OnInit {
 
   @Input() set session(_session) {
     this._session = _session;
-    if (_session && _session.id)
+    if (_session && _session.id) {
       setTimeout(() => {
           this.loadSessionById(_session.id);
         }
       );
-  };
+    }
+  }
 
   _session: ISessionItem;
   searchEnterPressedCount = 0;
@@ -37,7 +38,7 @@ export class SessionDetailModelComponent implements OnInit {
   @Output() selectNextRow = new EventEmitter();
   @Output() selectPrevRow = new EventEmitter();
   @Output() closeModel$ = new EventEmitter();
-  @Input() showPrevButton: boolean = false;
+  @Input() showPrevButton = false;
   @Input() pageNumberOfCurrentRowSelected: number;
   @Input() indexOfCurrentRowSelected: number;
   @Select() botlist$: Observable<ViewBotStateModel>;
@@ -46,8 +47,8 @@ export class SessionDetailModelComponent implements OnInit {
   sessionMessageData: ISessionMessageItem[];
   sessionMessageDataCopy: ISessionMessageItem[];
   transactionIdSelectedInModel: string;
-  messageSearchKeyword: string = '';
-  activeTab: string = 'manager_bot';  // = 'manager_bot' | 'active_bot'|'final_df'|'datastore';
+  messageSearchKeyword = '';
+  activeTab = 'manager_bot';  // = 'manager_bot' | 'active_bot'|'final_df'|'datastore';
   codeText;
   totalMessagesCount: number;
   url: string;
@@ -76,7 +77,7 @@ export class SessionDetailModelComponent implements OnInit {
     // this.loadSessionById(this._session.id);
   }
 
-  showSpinIcon:boolean = false;
+  showSpinIcon = false;
   loadSessionById(id) {
     this.showSpinIcon = true;
     this.url = this.constantsService.getSessionsMessageUrl(id);
@@ -85,7 +86,7 @@ export class SessionDetailModelComponent implements OnInit {
       headerData: {'bot-access-token': this.bot.bot_access_token}
     });
     this.sessionMessageData$.subscribe((value) => {
-      if (!value) return;
+      if (!value) { return; }
       this.totalMessagesCount = value.meta.total_count;
       this.sessionMessageData = value.objects;
       this.sessionMessageDataCopy = [...this.sessionMessageData];
@@ -100,11 +101,11 @@ export class SessionDetailModelComponent implements OnInit {
 
     this.transactionIdSelectedInModel = txnId;
     /*This data will show under Manager Bot*/
-    let messageDataForGiveTxnId = this.sessionMessageData.find((message) => {
+    const messageDataForGiveTxnId = this.sessionMessageData.find((message) => {
       return message.transaction_id === txnId;
     });
-    let botMessageDataForGiveTxnId = this.sessionMessageData.find((message) => {
-      return (message.transaction_id === txnId && message.user_type === "bot" ) ;
+    const botMessageDataForGiveTxnId = this.sessionMessageData.find((message) => {
+      return (message.transaction_id === txnId && message.user_type === 'bot' ) ;
     });
     // this.sessionMessageDataCopy = [...this.sessionMessageData];
     this.sessionMessageDataCopy = this.sessionMessageData;
@@ -112,29 +113,29 @@ export class SessionDetailModelComponent implements OnInit {
       'generatedDf': messageDataForGiveTxnId.generated_df,
       'generatedMsg': messageDataForGiveTxnId.generated_msg, /*bot message*/
       'message': messageDataForGiveTxnId.message, /*user message*/
-      'messageStore':botMessageDataForGiveTxnId.message_store
-    };;
-    let activeBotId = botMessageDataForGiveTxnId.message_store.activeBotId;
-    let activeBotRoomId = botMessageDataForGiveTxnId.message_store.activeBotRoomId;
+      'messageStore': botMessageDataForGiveTxnId.message_store
+    };
+    const activeBotId = botMessageDataForGiveTxnId.message_store.activeBotId;
+    const activeBotRoomId = botMessageDataForGiveTxnId.message_store.activeBotRoomId;
     this.activeBotPanelData = botMessageDataForGiveTxnId.message_store;
 
-    if(activeBotId){
-      let activeBotAccessTokenId = this.allBotList.find(bot => bot.id === activeBotId).bot_access_token;
-      let headerData: IHeaderData = {
-        "bot-access-token": activeBotAccessTokenId
+    if (activeBotId) {
+      const activeBotAccessTokenId = this.allBotList.find(bot => bot.id === activeBotId).bot_access_token;
+      const headerData: IHeaderData = {
+        'bot-access-token': activeBotAccessTokenId
       };
-      let surl = this.constantsService.getSessionsByIdUrl(activeBotRoomId);
+      const surl = this.constantsService.getSessionsByIdUrl(activeBotRoomId);
       this.serverService.makeGetReq({url : surl, headerData})
-      .subscribe((newSession : ISessionItem)=>{
-        let murl = this.constantsService.getSessionsMessageUrl(newSession.id);
+      .subscribe((newSession: ISessionItem) => {
+        const murl = this.constantsService.getSessionsMessageUrl(newSession.id);
         this.serverService.makeGetReq({url : surl, headerData})
-        .subscribe((value : ISessionMessage)=>{
-          let activeBotMessage = value.objects.find(message => message.transaction_id === this.transactionIdSelectedInModel);
+        .subscribe((value: ISessionMessage) => {
+          const activeBotMessage = value.objects.find(message => message.transaction_id === this.transactionIdSelectedInModel);
           this.activeBotPanelData = {
             'generatedDf': activeBotMessage.generated_df,
             'generatedMsg': activeBotMessage.generated_msg, /*bot message*/
             'message': activeBotMessage.message,
-          }
+          };
         });
       });
     }
@@ -169,7 +170,7 @@ export class SessionDetailModelComponent implements OnInit {
   }
 
   scroll(txnId): boolean {
-    let ele = document.getElementsByClassName(txnId)[0];
+    const ele = document.getElementsByClassName(txnId)[0];
     LoggingService.log(ele);
     if (!ele && this.searchEnterPressedCount > 0) {
       this.utilityService.showSuccessToaster('Reached end of list');
@@ -186,16 +187,16 @@ export class SessionDetailModelComponent implements OnInit {
     if (this.searchEnterPressedCount !== 0) {
       ++this.searchEnterPressedCount;
     }
-    if (this.searchEnterPressedCount < 0) this.searchEnterPressedCount = 0;
-    let elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, this.searchEnterPressedCount);
+    if (this.searchEnterPressedCount < 0) { this.searchEnterPressedCount = 0; }
+    const elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, this.searchEnterPressedCount);
     if (!elementDataToScroll) {
       --this.searchEnterPressedCount;
       return;
     }
-    let txnId = elementDataToScroll.transaction_id;
+    const txnId = elementDataToScroll.transaction_id;
     if (elementDataToScroll) {
-      let didScrollOccur = this.scroll(txnId);
-      if (!didScrollOccur) --this.searchEnterPressedCount;
+      const didScrollOccur = this.scroll(txnId);
+      if (!didScrollOccur) { --this.searchEnterPressedCount; }
       this.transactionIdChangedInModel(txnId);
     }
     if (this.searchEnterPressedCount === 0) {
@@ -206,14 +207,14 @@ export class SessionDetailModelComponent implements OnInit {
   goToPreviousSearchResult(messageSearchKeyword) {
 
     --this.searchEnterPressedCount;
-    let elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, this.searchEnterPressedCount);
+    const elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, this.searchEnterPressedCount);
     if (!elementDataToScroll) {
       --this.searchEnterPressedCount;
       return;
     }
-    if (this.searchEnterPressedCount < 0) this.searchEnterPressedCount = 0;
+    if (this.searchEnterPressedCount < 0) { this.searchEnterPressedCount = 0; }
     if (elementDataToScroll) {
-      let didScrollOccur = this.scroll(elementDataToScroll.transaction_id);
+      const didScrollOccur = this.scroll(elementDataToScroll.transaction_id);
       this.transactionIdChangedInModel(elementDataToScroll.transaction_id);
     }
   }
@@ -221,37 +222,37 @@ export class SessionDetailModelComponent implements OnInit {
   performSearch(messageSearchKeyword) {
     this.searchEnterPressedCount = 0;
     this.messageSearchKeyword = messageSearchKeyword = messageSearchKeyword.trim();
-    if (messageSearchKeyword === '') return;
+    if (messageSearchKeyword === '') { return; }
     this.sessionMessageDataCopy = [...this.sessionMessageData];
     /*find transaction id of first matched text*/
-    let elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, 0);
+    const elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, 0);
     elementDataToScroll && this.scroll(elementDataToScroll.transaction_id);
   }
 
 
   findElementDataBySearchKeyWord(messageSearchKeyword, index) {
 
-    let elementsDataToScroll = this.sessionMessageData.filter((objItem: ISessionMessageItem) => {
+    const elementsDataToScroll = this.sessionMessageData.filter((objItem: ISessionMessageItem) => {
       /*find if messageSearchKeyword exists in message or message[0].text as substring */
       LoggingService.log(this.messageSearchKeyword);
       let isMatch;
-      try{
+      try {
         /*searching for txn id match*/
         isMatch = objItem.transaction_id.toUpperCase().includes(messageSearchKeyword.toUpperCase());
-        if(isMatch) return isMatch
-      }catch (e) {}
+        if (isMatch) { return isMatch; }
+      } catch (e) {}
 
       try {
         /*searching for human message match*/
         isMatch = objItem.message.toUpperCase().includes(messageSearchKeyword.toUpperCase());
-        if (isMatch) return isMatch;
+        if (isMatch) { return isMatch; }
       } catch (e) {}
 
       try {
         /*searching for bot messages match*/
-        for(let msg of objItem.message){
+        for (const msg of objItem.message) {
           isMatch = msg.text.toUpperCase().includes(messageSearchKeyword.toUpperCase());
-          if (isMatch) return isMatch;
+          if (isMatch) { return isMatch; }
         }
       } catch (e) {}
     });

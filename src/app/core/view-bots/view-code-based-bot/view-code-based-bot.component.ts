@@ -12,12 +12,12 @@ import {EBotType} from '../view-bots.component';
   templateUrl: './view-code-based-bot.component.html',
   styleUrls: ['./view-code-based-bot.component.scss']
 })
-export class ViewCodeBasedBotComponent implements OnInit{
+export class ViewCodeBasedBotComponent implements OnInit {
 
   myEBotType = EBotType;
   @Input() botType;
   myESplashScreens = ESplashScreens;
-  @Input() codeBasedBotList:IBot[];
+  @Input() codeBasedBotList: IBot[];
   constructor(private store: Store) {
   }
 

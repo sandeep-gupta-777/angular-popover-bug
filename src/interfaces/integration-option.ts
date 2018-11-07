@@ -65,7 +65,7 @@ export interface IIntegrationOption {
       enabled: boolean,
       'service-key': string
     }
-  },
+  };
   channels: {
     alexa: {
       enabled: boolean,
@@ -98,7 +98,7 @@ export interface IIntegrationOption {
       'speech_tts'?: string,
       'speech_url'?: string
     }
-  },
+  };
   fulfillment_provider_details: {
     imiconnect: {
       appId: string,
@@ -106,33 +106,33 @@ export interface IIntegrationOption {
       enabled: boolean,
       serviceKey: string,
       streamName: string,
-      send_via_connect:string
+      send_via_connect: string
     }
-  },
+  };
   /*custom fields*/
-  form_validation_integration?:boolean
+  form_validation_integration?: boolean;
 }
 
 
 export interface IMasterIntegrationResult {
-  meta: any,
-  objects: IIntegrationMasterListItem[]
+  meta: any;
+  objects: IIntegrationMasterListItem[];
 }
 
 
 export interface IIntegrationMasterListItem {
-  'created_at':string,
-  'icon': string,
-  'id': number,
+  'created_at': string;
+  'icon': string;
+  'id': number;
   'inputs': [
     {
       'display_text': string,
       'param_name': string,
-    }],
-  'integration_type': string,
-  'key': string,
-  'resource_uri': string,
-  'type': string,
-  'unique_name': string,
-  'updated_at': string,
+    }];
+  'integration_type': string;
+  'key': string;
+  'resource_uri': string;
+  'type': string;
+  'unique_name': string;
+  'updated_at': string;
 }

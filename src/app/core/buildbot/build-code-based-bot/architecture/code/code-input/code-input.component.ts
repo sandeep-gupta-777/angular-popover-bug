@@ -56,11 +56,11 @@ export enum EBotVersionTabs {
 export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   showConfig = true;
-  templateKeySearchKeyword: string = '';
+  templateKeySearchKeyword = '';
   myEBotVersionTabs = EBotVersionTabs;
-  activeTab: string = 'df_template';
+  activeTab = 'df_template';
   buildTab: string;
-  isGentemplateCodeParsable: boolean = false;
+  isGentemplateCodeParsable = false;
   @ViewChild('modelGenTempNameForm') modelGenTempNameForm: NgForm;
 
   myEAllActions = EAllActions;
@@ -75,14 +75,14 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   errorMessage: string;
   activeVersion: IBotVersionData;
   forked_version_number: number;
-  selectedTemplateKeyInLeftSideBar: string = '';
+  selectedTemplateKeyInLeftSideBar = '';
   myObject = Object;
   newTemplateKey: string;
-  showGenTempEditorAndHideGenTempUi: boolean = false;
+  showGenTempEditorAndHideGenTempUi = false;
   selectedChannelOfGenTemplate: { name: string, displayName: string };
   selectedTemplateKeyOutputIndex: number[] = [];
   selectedIntentList: string[] = ['A2', 'A3', 'A4'];
-  validationMessageToggle: boolean = false;
+  validationMessageToggle = false;
   // @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   @ViewChildren('gentemplateItem') private gentemplateItems: QueryList<ElementRef>;
   templateKeyDict;
@@ -91,9 +91,9 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     console.log(modelGridGenTempNames);
   }
 
-  copyModalTemplateSearchKeyword: string = '';
-  channelList: { name: string, displayName: string }[] = [];// = ["facebook", "web", "imiconnect", "imichat", "skype"];
-  channelListClone: { name: string, displayName: string }[] = [];// = ["facebook", "web", "imiconnect", "imichat", "skype"];
+  copyModalTemplateSearchKeyword = '';
+  channelList: { name: string, displayName: string }[] = []; // = ["facebook", "web", "imiconnect", "imichat", "skype"];
+  channelListClone: { name: string, displayName: string }[] = []; // = ["facebook", "web", "imiconnect", "imichat", "skype"];
   channelNameList: string[] = [];
 
   templateKeyDictClone = null;
@@ -124,7 +124,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   role: string;
   @Select() loggeduser$: Observable<{ user: IUser }>;
-  showViewChangeToggle: boolean = true;
+  showViewChangeToggle = true;
 
   ngOnInit() {
 
@@ -135,7 +135,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
     this.activatedRoute.queryParams.subscribe((queryParam) => {
       /*when upper panel minimizes or maximizes, change lower panel height accordingly*/
-      let showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
+      const showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
       this.showConfig = (showConfigStr === 'true' || showConfigStr == undefined);
     });
 
@@ -164,8 +164,9 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
             })
             .filter((enabledIntegrations) => this.bot.integrations.channels[enabledIntegrations.name].enabled);
           this.channelListClone = [...this.channelList];
-          if (this.channelListClone.length > 0)
+          if (this.channelListClone.length > 0) {
             this.channelListClone.unshift({name: 'all', displayName: 'All'});
+          }
         }
 
         this.selectedChannelOfGenTemplate = {name: 'all', displayName: 'All'};
@@ -182,10 +183,10 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
       * otherwise, selected version = first version, if that exists
       * */
 
-      let activeVersion = this.activeVersion = this.utilityService.getActiveVersionInBot(this.bot);
-      if (!this.selectedVersion || this.selectedVersion.id === -1)
+      const activeVersion = this.activeVersion = this.utilityService.getActiveVersionInBot(this.bot);
+      if (!this.selectedVersion || this.selectedVersion.id === -1) {
         this.selectedVersion = activeVersion ? activeVersion : (this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions[0]);
-      else {
+      } else {
         /*updating selected version*/
         this.selectedVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions.find((version) => version.id === this.selectedVersion.id);
       }
@@ -205,7 +206,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
       try {
         if (this.selectedVersion && this.selectedVersion[EBotVersionTabs.generation_templates]) {
-          let newTemplateKeyDict = this.utilityService.createDeepClone(this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]));
+          const newTemplateKeyDict = this.utilityService.createDeepClone(this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]));
           if (!this.utilityService.areTwoJSObjectSame(this.templateKeyDict, newTemplateKeyDict)) {
             this.utilityService.emptyObjectWithoutChaningRef(this.templateKeyDict);
             if (this.templateKeyDict) {
@@ -215,14 +216,14 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
             }
             if (this.templateKeyDict) {
               this.templateKeyDictClone = {...this.templateKeyDict};
-              if (!this.selectedTemplateKeyInLeftSideBar) this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
+              if (!this.selectedTemplateKeyInLeftSideBar) { this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0]; }
             }
           }
 
         }
       } catch (e) {
         console.log(e);
-        ;
+
       }
 
       this.tabClicked(this.activeTab);
@@ -279,9 +280,9 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   isGentemplateCodeParsableCheck(genTemplateCode) {
-    let countOf_templateKey_stringInGenTemplateCodeStr = genTemplateCode.split('templateKey').length - 1;
-    let countOf_output_stringInGenTemplateCodeStr = genTemplateCode.split('output').length - 1;
-    let countOfTemplateKeyFoundByParser = Object.keys(this.templateKeyDict).length;
+    const countOf_templateKey_stringInGenTemplateCodeStr = genTemplateCode.split('templateKey').length - 1;
+    const countOf_output_stringInGenTemplateCodeStr = genTemplateCode.split('output').length - 1;
+    const countOfTemplateKeyFoundByParser = Object.keys(this.templateKeyDict).length;
 
     return countOf_templateKey_stringInGenTemplateCodeStr === countOfTemplateKeyFoundByParser &&
       countOf_output_stringInGenTemplateCodeStr === countOfTemplateKeyFoundByParser;
@@ -297,10 +298,11 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     *at this point some changes have been made to selected version's codeText
     * */
     if (this.selectedVersion && this.selectedVersion.id) {
-      let selectedVersion_pristine = this.bot.store_bot_versions && this.bot.store_bot_versions.find((version) => version.id === this.selectedVersion.id);
-      let codeTextPristine = selectedVersion_pristine && selectedVersion_pristine[this.activeTab];
-      if (!this.selectedVersion.changed_fields[this.activeTab])/*If field is dirty from server, nothing can change it*/
+      const selectedVersion_pristine = this.bot.store_bot_versions && this.bot.store_bot_versions.find((version) => version.id === this.selectedVersion.id);
+      const codeTextPristine = selectedVersion_pristine && selectedVersion_pristine[this.activeTab];
+      if (!this.selectedVersion.changed_fields[this.activeTab]) {/*If field is dirty from server, nothing can change it*/
         this.selectedVersion.changed_fields[this.activeTab] = codeStr !== codeTextPristine;
+      }
       this.selectedVersion[this.activeTab] = codeStr;
     } else {
       /*we are creating a new version*/
@@ -320,13 +322,13 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   validateCodeTest(code: string) {
-    let headerData: IHeaderData = {
+    const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-    let body = {};
+    const body = {};
     body[this.activeTab] = code;
 
-    let codeValidationUrl = this.constantsService.codeValidationUrl();
+    const codeValidationUrl = this.constantsService.codeValidationUrl();
 
     this.serverService.makePostReq<any>({headerData, body, url: codeValidationUrl})
       .subscribe((validationResult) => {
@@ -341,11 +343,11 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
       this.convertUiDictToGenTemplateCode(this.templateKeyDict);
     }
 
-    let headerData: IHeaderData = {
+    const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
 
-    let validatinBody = {
+    const validatinBody = {
       'df_template': this.selectedVersion.df_template,
       'df_rules': this.selectedVersion.df_rules,
       'workflow': this.selectedVersion.workflow,
@@ -354,7 +356,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
       'version': this.selectedVersion.version,
       'comment': this.selectedVersion.comment
     };
-    let codeValidationUrl = this.constantsService.codeValidationUrl();
+    const codeValidationUrl = this.constantsService.codeValidationUrl();
 
     this.serverService.makePostReq<any>({headerData, body: validatinBody, url: codeValidationUrl})
       .subscribe((validationResult) => {
@@ -374,7 +376,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
             'workflows': false
           };
           if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
-            let url = this.constantsService.getSaveVersionByBotId(this.bot.id);
+            const url = this.constantsService.getSaveVersionByBotId(this.bot.id);
             this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
               .subscribe((value: IBotVersionData) => {
                 this.selectedVersion = Object.assign(this.selectedVersion, value);
@@ -385,8 +387,8 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
                 this.utilityService.showSuccessToaster('New version saved');
               });
           } else {
-            let url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
-            let body = this.selectedVersion;
+            const url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
+            const body = this.selectedVersion;
             delete body.id;
             delete body.resource_uri;
             delete body.forked_from;
@@ -402,12 +404,10 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
                 ]);
               });
           }
-        }
-        else {
+        } else {
           if (this.bot.active_version_id === this.selectedVersion.id) {
             this.modalRef = this.modalService.show(validationWarningModal, {class: 'modal-md'});
-          }
-          else {
+          } else {
             this.utilityService.showErrorToaster('Your code has error. But it will be save as its not active');
 
             this.selectedVersion.updated_fields = this.selectedVersion.changed_fields;
@@ -419,7 +419,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
               'workflows': false
             };
             if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
-              let url = this.constantsService.getSaveVersionByBotId(this.bot.id);
+              const url = this.constantsService.getSaveVersionByBotId(this.bot.id);
               this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
                 .subscribe((value: IBotVersionData) => {
                   this.selectedVersion = Object.assign(this.selectedVersion, value);
@@ -430,8 +430,8 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
                   this.utilityService.showSuccessToaster('New version saved');
                 });
             } else {
-              let url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
-              let body = this.selectedVersion;
+              const url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
+              const body = this.selectedVersion;
               delete body.id;
               delete body.resource_uri;
               delete body.forked_from;
@@ -457,7 +457,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   convertUiDictToGenTemplateCode(templateKeyDict) {
-    let parseUiDict = this.utilityService.parseGenTemplateUiDictionaryToIfElseCode(templateKeyDict);
+    const parseUiDict = this.utilityService.parseGenTemplateUiDictionaryToIfElseCode(templateKeyDict);
     if (parseUiDict != undefined) {
       this.selectedVersion.generation_templates = parseUiDict;
     }
@@ -487,10 +487,10 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     };
     forkedVersionInfo.comment = this.forked_comments;
     forkedVersionInfo.forked_from = this.forked_version_number;
-    let headerData: IHeaderData = {
+    const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-    let url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
+    const url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
     delete forkedVersionInfo.id;
     delete forkedVersionInfo.resource_uri;
     delete forkedVersionInfo.resource_uri;

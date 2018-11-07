@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {LoginGaurdService} from '../login-gaurd.service';
 
 const routes: Route[] = [
-      {path: 'login', component: LoginComponent, canActivate:[LoginGaurdService]},
+      {path: 'login', component: LoginComponent, canActivate: [LoginGaurdService]},
 ];
 
 @NgModule({

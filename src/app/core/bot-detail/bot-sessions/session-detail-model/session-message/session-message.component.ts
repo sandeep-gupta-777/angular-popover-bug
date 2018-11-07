@@ -13,17 +13,17 @@ export class SessionMessageComponent implements OnInit {
 
   // @Input() sessionMessageData: ISessionMessageItem;
    _txnConversationItems: ITxnSessionMessagesItem;
-  @Input()  set txnConversationItems (txnConversationItemsValue: ITxnSessionMessagesItem){
+  @Input()  set txnConversationItems (txnConversationItemsValue: ITxnSessionMessagesItem) {
 
     this._txnConversationItems = txnConversationItemsValue;
   }
   @Output() messageClickedEvent$: EventEmitter<string> = new EventEmitter();
   myArray = Array;
   sessionMessageItems: ISessionMessageItem[];
-  txnId:string;
+  txnId: string;
   myObject = Object;
-  txnId_highlighting:string;
-  constructor(public utilityService:UtilityService) { }
+  txnId_highlighting: string;
+  constructor(public utilityService: UtilityService) { }
 
   ngOnInit() {
 

@@ -12,10 +12,10 @@ import { Validator, FormGroup, NG_VALIDATORS, AbstractControl, ValidationErrors 
 export class RequiredIfOneFilledValidator implements Validator {
   validate(group: AbstractControl): ValidationErrors | null {
     const controls = (group as FormGroup).controls;
-    let formData = group.value;
-    if(formData.enabled){
-      for(let key in formData) {
-        if(!formData[key])return { required: true };
+    const formData = group.value;
+    if (formData.enabled) {
+      for (const key in formData) {
+        if (!formData[key]) {return { required: true }; }
       }
     }
     return null;

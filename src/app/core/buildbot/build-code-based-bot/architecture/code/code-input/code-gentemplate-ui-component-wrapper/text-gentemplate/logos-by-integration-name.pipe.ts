@@ -9,11 +9,11 @@ import {IIntegrationMasterListItem, IMasterIntegrationResult} from '../../../../
 })
 export class LogosByIntegrationNamePipe implements PipeTransform {
 
-  @Select() app$:Observable<IAppState>;
-  masterIntegrationList:IIntegrationMasterListItem[];
-  constructor(){
-    this.app$.subscribe((appState)=> {
-      this.masterIntegrationList = appState.masterIntegrationList
+  @Select() app$: Observable<IAppState>;
+  masterIntegrationList: IIntegrationMasterListItem[];
+  constructor() {
+    this.app$.subscribe((appState) => {
+      this.masterIntegrationList = appState.masterIntegrationList;
     });
   }
 
@@ -22,10 +22,10 @@ export class LogosByIntegrationNamePipe implements PipeTransform {
 
     let x;
     try {
-      x =  this.masterIntegrationList.find((integrationMasterListItem)=>{
+      x =  this.masterIntegrationList.find((integrationMasterListItem) => {
         return integrationMasterListItem.unique_name.toUpperCase() === integrationName.toUpperCase();
       });
-    }catch (e) {
+    } catch (e) {
       console.log(e);
     }
 

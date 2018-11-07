@@ -16,9 +16,9 @@ export class CoreWrapperComponent implements OnInit {
   isFullScreenPreview: boolean;
   constructor(
     private router: Router,
-    private serverService:ServerService,
-    private store:Store,
-    private constantsService:ConstantsService
+    private serverService: ServerService,
+    private store: Store,
+    private constantsService: ConstantsService
   ) { }
 
   ngOnInit() {

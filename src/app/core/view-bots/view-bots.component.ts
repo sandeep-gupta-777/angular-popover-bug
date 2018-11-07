@@ -53,7 +53,7 @@ export class ViewBotsComponent implements OnInit {
       });
     this.botlist$
       .subscribe((allBotListState) => {
-        if(!allBotListState.allBotList)return;
+        if (!allBotListState.allBotList) {return; }
         this.codeBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.chatbot);
         this.pipelineBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.intelligent);
       });
@@ -68,13 +68,13 @@ export class ViewBotsComponent implements OnInit {
     this.router.navigate(['core', 'buildbot'], {queryParams: {bot_type: bot_type}});
   }
 
-  @ViewChild('pop') pop
+  @ViewChild('pop') pop;
   tabClicked(activeTab) {
     this.activeTab = activeTab;
     debugger;
     this.showPopover = activeTab === EBotType.chatbot && this.codeBasedBotList && this.codeBasedBotList.length === 0
       || (activeTab === EBotType.intelligent && this.pipelineBasedBotList && this.pipelineBasedBotList.length === 0);
 
-    this.showPopover ? this.pop.show(): this.pop.hide();
+    this.showPopover ? this.pop.show() : this.pop.hide();
   }
 }

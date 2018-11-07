@@ -59,7 +59,7 @@ export class ServerService {
   @Select() loggeduser$: Observable<{ user: IUser }>;
   private X_AXIS_TOKEN: string = null;
   private AUTH_TOKEN: string = null;
-  private isLoggedIn: boolean = false;
+  private isLoggedIn = false;
 
 
   constructor(
@@ -70,11 +70,11 @@ export class ServerService {
     private permissionService: PermissionService,
     private constantsService: ConstantsService) {
     this.loggeduser$.subscribe((value) => {
-      if (!value || !value.user) return;
+      if (!value || !value.user) { return; }
       this.AUTH_TOKEN = value.user.auth_token && value.user.auth_token;
       this.X_AXIS_TOKEN = value.user.user_access_token && value.user.user_access_token;
     });
-  };
+  }
 
   removeTokens() {
     this.X_AXIS_TOKEN = null;
@@ -93,11 +93,12 @@ export class ServerService {
       ...headerData,
     };
 
-    if (headerData)
-      for (let key in headerData) {
+    if (headerData) {
+      for (const key in headerData) {
         /*don't set header data for undefined values*/
         headerData[key] && (headers = headers.set(key, headerData[key]));
       }
+    }
     return headers;
   }
 
@@ -114,11 +115,11 @@ export class ServerService {
   }
 
   makeGetReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<T> {
-    let isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
+    const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
       return throwError(`api access not allowed:${reqObj.url}`);
     }
-    let headers = this.createHeaders(reqObj.headerData);
+    const headers = this.createHeaders(reqObj.headerData);
 
     this.changeProgressBar(true, 0);
     return this.httpClient.get<T>(reqObj.url, {headers: headers})
@@ -150,11 +151,11 @@ export class ServerService {
   }
 
   makeGetReqToDownloadFiles(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }) {
-    let isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
+    const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
       return throwError(`api access not allowed:${reqObj.url}`);
     }
-    let headers = this.createHeaders(reqObj.headerData);
+    const headers = this.createHeaders(reqObj.headerData);
 
     this.changeProgressBar(true, 0);
     return this.httpClient.get(reqObj.url, {headers: headers, responseType: 'text'})
@@ -182,12 +183,12 @@ export class ServerService {
 
   makeDeleteReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<T> {
 
-    let isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.DELETE);
+    const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.DELETE);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
       return throwError(`api access not allowed:${reqObj.url}`);
     }
 
-    let headers = this.createHeaders(reqObj.headerData);
+    const headers = this.createHeaders(reqObj.headerData);
 
     this.changeProgressBar(true, 0);
     return this.httpClient.delete<T>(reqObj.url, {headers: headers})
@@ -216,12 +217,12 @@ export class ServerService {
 
   makePostReq<T>(reqObj: { url: string, body: any, headerData?: any, dontShowProgressBar?: boolean, noValidateUser?: boolean }): Observable<T> {
 
-    let isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.POST);
+    const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.POST);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
       return throwError(`api access not allowed:${reqObj.url}`);
     }
 
-    let headers = this.createHeaders(reqObj.headerData);
+    const headers = this.createHeaders(reqObj.headerData);
     if (!reqObj.dontShowProgressBar) {
       this.changeProgressBar(true, 0);
     }
@@ -237,8 +238,9 @@ export class ServerService {
       })
       .do((value) => {
         this.IncreaseAutoLogoutTime();
-        if (!reqObj.dontShowProgressBar)
+        if (!reqObj.dontShowProgressBar) {
           this.changeProgressBar(false, 100);
+        }
       })
       .catch((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
@@ -252,12 +254,12 @@ export class ServerService {
   }
 
   makePutReq<T>(reqObj: { url: string, body: any, headerData?: IHeaderData }): Observable<T> {
-    let headers = this.createHeaders(reqObj.headerData);
+    const headers = this.createHeaders(reqObj.headerData);
     this.changeProgressBar(true, 0);
 
     return this.httpClient.put<T>(reqObj.url, JSON.stringify(reqObj.body), {headers: headers})
       .map((value: any) => {
-        ;
+
         if (value && value.error) {
           this.showErrorMessageForErrorTrue(value);
           return throwError(value);
@@ -280,14 +282,14 @@ export class ServerService {
 
 
   fetchSpecificBotFromServerAndUpdateBotList(bot) {
-    let getBotByTokenUrl = this.constantsService.getSpecificBotByBotTokenUrl();
-    let headerData: IHeaderData = {
+    const getBotByTokenUrl = this.constantsService.getSpecificBotByBotTokenUrl();
+    const headerData: IHeaderData = {
       'bot-access-token': bot.bot_access_token
     };
     return this.makeGetReq<{ objects: IBot[] }>({url: getBotByTokenUrl, headerData})
       .map((val) => {
 
-        let bot: IBot = val.objects.find((bot) => {
+        const bot: IBot = val.objects.find((bot) => {
 
           return bot.id === bot.id;
         });
@@ -298,20 +300,20 @@ export class ServerService {
   }
 
   getOverviewInfo<T>(body: any): Observable<IOverviewInfoResponse> {
-    let url = this.constantsService.getOverViewInfoUrl();
+    const url = this.constantsService.getOverViewInfoUrl();
     return this.makePostReq<IOverviewInfoResponse>({url, body});
   }
 
   IncreaseAutoLogoutTime() {
-    let autoLogoutInterval = 3600 * 1000;//3600*1000
+    const autoLogoutInterval = 3600 * 1000; //3600*1000
     this.store.dispatch([
       new SetAutoLogoutTime({time: Date.now() + autoLogoutInterval})
     ]);
   }
 
   getNSetBotList(noValidateUser?) {
-    let url = this.constantsService.getBotListUrl();
-    let headerData: IHeaderData = {'content-type': 'application/json'};
+    const url = this.constantsService.getBotListUrl();
+    const headerData: IHeaderData = {'content-type': 'application/json'};
     return this.makeGetReq<IBotResult>({url, headerData, noValidateUser})
       .do((botResult) => {
         // let codeBasedBotList: IBot[] = [];
@@ -331,7 +333,7 @@ export class ServerService {
     // if (!this.currentBot || (this.currentBot && this.currentBot.bot_unique_name !== this.bot_unique_name)) {
     //   let enterprise_unique_name = this.activatedRoute.snapshot.queryParams['enterprise_unique_name'];//testingbot
     //   if (!this.bot_unique_name) return;
-    let url = this.constantsService.getNSetChatPreviewBotUrl(bot_unique_name, enterprise_unique_name);
+    const url = this.constantsService.getNSetChatPreviewBotUrl(bot_unique_name, enterprise_unique_name);
     this.makeGetReq({url, noValidateUser: true})
       .subscribe((bot: IBot) => {
         // this.user_first_name = bot.enterprise_name;
@@ -346,7 +348,7 @@ export class ServerService {
 
 
   getNSetIntegrationList() {
-    let url = this.constantsService.getMasterIntegrationsList();
+    const url = this.constantsService.getMasterIntegrationsList();
     return this.makeGetReq<{ meta: any, objects: IIntegrationMasterListItem[] }>({url})
       .do((value) => {
         // this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
@@ -376,7 +378,7 @@ export class ServerService {
 
   updateOrSaveCustomNer(selectedOrNewRowData: ICustomNerItem, bot?: IBot) {
     let body: ICustomNerItem;
-    let headerData: IHeaderData = {'bot-access-token': bot && bot.bot_access_token};
+    const headerData: IHeaderData = {'bot-access-token': bot && bot.bot_access_token};
     let url, methodStr;
     if (selectedOrNewRowData && selectedOrNewRowData.id) {/*update customner*/
       url = this.constantsService.updateOrDeleteCustomBotNER(selectedOrNewRowData.id);
@@ -410,7 +412,7 @@ export class ServerService {
 
   getAllVersionOfBotFromServerAndStoreInBotInBotList(botId, bot_access_token) {
     debugger;
-    let url = this.constantsService.getAllVersionsByBotId();
+    const url = this.constantsService.getAllVersionsByBotId();
     // let botId = this.bot.id;
     this.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': bot_access_token}})
       .subscribe((botVersionResult) => {
@@ -470,14 +472,14 @@ export class ServerService {
       LoggingService.log('this is not an imiconnect bot');
       return;
     }
-    var appId = imiConnectIntegrationDetails.appId;//'GS23064017';
-    var appSecret = imiConnectIntegrationDetails.appSecret;//'uZi6B5Zg';
+    const appId = imiConnectIntegrationDetails.appId; //'GS23064017';
+    const appSecret = imiConnectIntegrationDetails.appSecret; //'uZi6B5Zg';
     // var streamName = "bot";
-    var serviceKey = imiConnectIntegrationDetails.serviceKey;//'3b8f6470-5e56-11e8-bf0b-0213261164bb';//'f6e50f7b-2bfd-11e8-bf0b-0213261164bb';
-    var userId = currentRoomId + '_hellothisissandeep1231312';
+    const serviceKey = imiConnectIntegrationDetails.serviceKey; //'3b8f6470-5e56-11e8-bf0b-0213261164bb';//'f6e50f7b-2bfd-11e8-bf0b-0213261164bb';
+    const userId = currentRoomId + '_hellothisissandeep1231312';
 
-    var config = new IMI.ICConfig(appId, appSecret);
-    var messaging = IMI.ICMessaging.getInstance();
+    const config = new IMI.ICConfig(appId, appSecret);
+    const messaging = IMI.ICMessaging.getInstance();
 
     console.info('========initializing connection with imiconnect with following details');
     LoggingService.log(
@@ -487,9 +489,9 @@ export class ServerService {
       'userId= ' + userId + '\n');
 
 
-    let prepareMessage = (messageObj) => {
+    const prepareMessage = (messageObj) => {
       console.info('============================message from IMICONNECT Has been recieved============================', messageObj);
-      let generatedMessagesStr = messageObj.message;
+      const generatedMessagesStr = messageObj.message;
       let generatedMessages: IGeneratedMessageItem[];
       try {
         generatedMessages = JSON.parse(generatedMessagesStr);
@@ -498,7 +500,7 @@ export class ServerService {
         console.error('Assuming its a string');
         generatedMessages = [{text: generatedMessagesStr}];
       }
-      let serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages);
+      const serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages);
       this.store.dispatch([
         new AddMessagesToRoomByRoomId({
           id: currentRoomId,
@@ -509,10 +511,10 @@ export class ServerService {
       ]);
     };
 
-    var msgCallBack = {//messaging.setICMessagingReceiver(msgCallBack);
+    const msgCallBack = {//messaging.setICMessagingReceiver(msgCallBack);
       onConnectionStatusChanged: function (statuscode) {
         LoggingService.log('msgCallBack,onConnectionStatusChanged', statuscode);
-        var statusMessage = null;
+        let statusMessage = null;
         if (statuscode == 2) {
           statusMessage = 'Connected';
         } else if (statuscode == 6) {
@@ -528,7 +530,7 @@ export class ServerService {
         prepareMessage(message);
 
         if (message.getType() === IMI.ICMessageType.Message) {
-          var callback = {
+          const callback = {
             onFailure: function (err) {
               LoggingService.log('failed to get topics:');
 
@@ -542,7 +544,7 @@ export class ServerService {
 
 
     messaging.setICMessagingReceiver(msgCallBack);
-    var deviceId = IMI.ICDeviceProfile.getDefaultDeviceId();
+    const deviceId = IMI.ICDeviceProfile.getDefaultDeviceId();
     IMI.IMIconnect.startup(config);
     IMI.IMIconnect.registerListener(
       {
@@ -552,7 +554,7 @@ export class ServerService {
       });
 
 
-    var regcallback = {
+    const regcallback = {
       onSuccess: function (msg) {
 
         try {
@@ -568,7 +570,7 @@ export class ServerService {
 
       }
     };
-    var deviceProfile = new IMI.ICDeviceProfile(deviceId, userId);
+    const deviceProfile = new IMI.ICDeviceProfile(deviceId, userId);
     LoggingService.log('IMI.IMIconnect.isRegistered()' + IMI.IMIconnect.isRegistered());
     IMI.IMIconnect.register(deviceProfile, regcallback);
 
@@ -613,7 +615,7 @@ export class ServerService {
 
   sendHumanMessageViaImiConnect(currentRoom, currentBot: IBot, messageByHuman: string) {
 
-    var streamName: string;//'gsureg';
+    let streamName: string; //'gsureg';
     try {
       streamName = currentBot.integrations.fulfillment_provider_details.imiconnect.streamName;
     } catch (e) {
@@ -621,7 +623,7 @@ export class ServerService {
     }
     // this.currentRoom = currentRoom;
 //send message
-    var pubcallback = {
+    const pubcallback = {
       onSuccess: function () {
         LoggingService.log('message sent');
 
@@ -632,10 +634,10 @@ export class ServerService {
 
     };
 
-    var message = new IMI.ICMessage();
+    const message = new IMI.ICMessage();
     message.setMessage(messageByHuman);
 
-    var thread = new IMI.ICThread();
+    const thread = new IMI.ICThread();
     thread.setId('bot');
     thread.setTitle('bot');
     thread.setStreamName(streamName);
@@ -646,14 +648,14 @@ export class ServerService {
 
 
   startANewChatUsingSendApi(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot }) {
-    let url = this.constantsService.getStartNewChatLoginUrl();
-    let headerData: IHeaderData = {
+    const url = this.constantsService.getStartNewChatLoginUrl();
+    const headerData: IHeaderData = {
       'bot-access-token': startNewChatData.bot.bot_access_token,
       'auth-token': null,
       'user-access-token': null,
       'content-type': 'application/json'
     };
-    let body /*: ISendApiRequestPayload */ = {
+    const body /*: ISendApiRequestPayload */ = {
       'type': 'bot',
       'msg': 'hi',
       'platform': 'web',
@@ -667,7 +669,7 @@ export class ServerService {
   }
 
   getNSetMasterPermissionsList() {
-    let allActionsUrl = this.constantsService.getAllActionsUrl();
+    const allActionsUrl = this.constantsService.getAllActionsUrl();
     return this.makeGetReq<{ meta: any, objects: IProfilePermission[] }>({url: allActionsUrl})
       .map((value: { objects: IProfilePermission[] }) => {
         this.store.dispatch([

@@ -7,7 +7,7 @@ export class UnderscroreToSpaceDelimitorPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
 
-    return value.split('_').join(" ");
+    return value.split('_').join(' ');
   }
 
 }

@@ -24,9 +24,9 @@ import {PermissionService} from './permission.service';
 export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoad {
   constructor(
     private router: Router,
-    private constantsService:ConstantsService,
-    private permissionService:PermissionService,
-    private activatedRoute:ActivatedRoute
+    private constantsService: ConstantsService,
+    private permissionService: PermissionService,
+    private activatedRoute: ActivatedRoute
     ) {
   }
 
@@ -36,21 +36,21 @@ export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoa
     // return true;
 
     return this.loggeduser$.map((value: IAuthState) => {
-      return this.doAllowAccess(value,route);
+      return this.doAllowAccess(value, route);
     });
   }
 
-  doAllowAccess(value, route:ActivatedRouteSnapshot){
+  doAllowAccess(value, route: ActivatedRouteSnapshot) {
     if (value && value.user != null) {
 
-      let routeName = route.data["routeName"];
-      if(!this.permissionService.isRouteAccessDenied(routeName)){
+      const routeName = route.data['routeName'];
+      if (!this.permissionService.isRouteAccessDenied(routeName)) {
         return true;
-      }else {
+      } else {
         this.router.navigate(['/denied']);
       }
     } else {
-      this.router.navigate(['auth','login']);
+      this.router.navigate(['auth', 'login']);
       return false;
     }
   }
@@ -58,7 +58,7 @@ export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoa
   canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.loggeduser$.map((value: IAuthState) => {
 
-     return this.doAllowAccess(value, route)
+     return this.doAllowAccess(value, route);
     });
   }
 
@@ -70,7 +70,7 @@ export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoa
         this.router.navigate(['auth', 'login']);
         return false;
       }
-    }).take(1)
+    }).take(1);
     /*OMG:
     *What does it means for an observable to complete
     * https://github.com/angular/angular/issues/9613*/

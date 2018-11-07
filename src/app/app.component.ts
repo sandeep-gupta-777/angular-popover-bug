@@ -18,16 +18,16 @@ export class AppComponent extends DebugBase implements OnInit {
 
   loadingRouteConfig;
   @Select() app$: Observable<IAppState>;
-  @ViewChild('carousel') carousel:ElementRef;
-  constructor(private router: Router, private permissionService:PermissionService) {
+  @ViewChild('carousel') carousel: ElementRef;
+  constructor(private router: Router, private permissionService: PermissionService) {
     super();
   }
 
   isFullScreenPreview: boolean;
   enterprise_unique_name: string;
   bot_unique_name: string;
-  progressVal: number = 0;
-  showProgressbar: boolean = false;
+  progressVal = 0;
+  showProgressbar = false;
   editor: any;
   currentIntervalRef;
 
@@ -39,9 +39,9 @@ export class AppComponent extends DebugBase implements OnInit {
         this.progressVal = app.progressbar.value;
         // this.progressVal = 0;
         this.currentIntervalRef = setInterval(() => {
-          if (this.progressVal < 80)
+          if (this.progressVal < 80) {
             ++this.progressVal;
-          else {
+          } else {
             this.progressVal = this.progressVal + 0.2;
           }
         }, 200);

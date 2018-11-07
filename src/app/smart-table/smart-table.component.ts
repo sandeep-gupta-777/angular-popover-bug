@@ -11,15 +11,15 @@ import {LoggingService} from '../logging.service';
 export class SmartTableComponent implements OnInit {
 
   @Input() set data(value) {
-    if (!value) return;
+    if (!value) { return; }
     this._data = value;
     // this.totalPageCount = Math.ceil((this.totalRecords) / this.recordsPerPage);
     this.source.load(this._data);
     this.source.refresh();
-  };
+  }
 
   totalRows;
-@Input() showRefreshButton:boolean = false;
+@Input() showRefreshButton = false;
 
   _data: any = [{}];
   iterableDiffer;
@@ -32,20 +32,20 @@ export class SmartTableComponent implements OnInit {
   // @Input() totalRecords: number = 10;
   x;
 
-  @Input() showSearchInDbButton:boolean = false;
+  @Input() showSearchInDbButton = false;
   @Input() set totalRecords(value) {
 
     this.x = value;
     // this.source.load(this._data);
     this.totalPageCount = Math.ceil(value / this.recordsPerPage);
-    let start = 1;
-    let end = Math.min(this.totalPageCount, 5);
+    const start = 1;
+    const end = Math.min(this.totalPageCount, 5);
     this.createPaginationArray(start, end);
   }
 
   paginationArr = [];
-  @Input() currentPage: number = 1;
-  @Input() recordsPerPage: number = 10;
+  @Input() currentPage = 1;
+  @Input() recordsPerPage = 10;
   @Output() customActionEvents = new EventEmitter();
   totalPageCount;
   math = Math;
@@ -78,11 +78,11 @@ export class SmartTableComponent implements OnInit {
 
   performSearchInDB() {
     if (this.totalRows === 0) {
-      let inputs = document.querySelectorAll('.ng2-smart-filter input');
-      let inputsCount = document.querySelectorAll('.ng2-smart-filter input').length;
-      let obj = {};
+      const inputs = document.querySelectorAll('.ng2-smart-filter input');
+      const inputsCount = document.querySelectorAll('.ng2-smart-filter input').length;
+      const obj = {};
       for (let i = 0; i < inputs.length; ++i) {
-        let input$: any = inputs[i];
+        const input$: any = inputs[i];
         obj[input$.placeholder] = input$.value;
       }
       this.performSearchInDB$.emit(obj);
@@ -95,13 +95,15 @@ export class SmartTableComponent implements OnInit {
   }
 
   goToNextPage() {
-    if (this.currentPage < this.totalPageCount)
+    if (this.currentPage < this.totalPageCount) {
       this.goToPage(Math.min(this.totalPageCount, this.currentPage + 1));
+    }
   }
 
   goToPrevPage() {
-    if (this.currentPage >= 2)
+    if (this.currentPage >= 2) {
       this.goToPage(Math.max(0, this.currentPage - 1));
+    }
   }
 
   goToPage(currentPage) {

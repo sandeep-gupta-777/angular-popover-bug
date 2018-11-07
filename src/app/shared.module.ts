@@ -63,9 +63,9 @@ import {SafeUrlPipe} from './href-sanitizer.pipe';
     BotArchitetureComponent,
     BotIdToNamePipe,
     AdditionalInfoFormComponent,
-    SmartTableComponent,//
-    CodeEditorComponent,//
-    KnowledgeBaseComponent,//
+    SmartTableComponent, //
+    CodeEditorComponent, //
+    KnowledgeBaseComponent, //
     KnowledgeBasePresentationComponent,
     ChartComponent,
     HandsontableComponent,
@@ -100,7 +100,7 @@ import {SafeUrlPipe} from './href-sanitizer.pipe';
     ClickOutsideModule,
     PopoverModule.forRoot(),
   ],
-  exports:[
+  exports: [
     MyIfDirective,
     SplashScreenComponent,
     HighlightDirective,
@@ -120,9 +120,9 @@ import {SafeUrlPipe} from './href-sanitizer.pipe';
     BotIdToNamePipe,
     RouterModule,
     UiSwitchModule,
-    SmartTableComponent,//
-    CodeEditorComponent,//
-    KnowledgeBaseComponent,//
+    SmartTableComponent, //
+    CodeEditorComponent, //
+    KnowledgeBaseComponent, //
     Ng2CompleterModule,
     Ng2SmartTableModule,
     KnowledgeBasePresentationComponent,
@@ -152,6 +152,6 @@ import {SafeUrlPipe} from './href-sanitizer.pipe';
 
   ]
 })
-export class SharedModule{
+export class SharedModule {
 
 }

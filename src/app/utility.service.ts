@@ -51,14 +51,14 @@ export class UtilityService {
   ];
 
   getRandomAvatorUrl() {
-    let avatorArrLength = this.RANDOM_IMAGE_URLS.length;
-    let randomNumber = Math.floor(Math.random() * avatorArrLength);
+    const avatorArrLength = this.RANDOM_IMAGE_URLS.length;
+    const randomNumber = Math.floor(Math.random() * avatorArrLength);
     return this.RANDOM_IMAGE_URLS[randomNumber];
   }
 
   getSmartTableRowCountPerPageByViewportHeight(): number {
-    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    ;
+    const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
     if (h < 700) {
       return 10;
     } else if (h > 700 && h < 1000) {
@@ -73,10 +73,10 @@ export class UtilityService {
 
   getDisplayNameForKey_Integration(key: string) {
 
-    let masterIntegrationList = this.storeVariableService.getApp().masterIntegrationList;
+    const masterIntegrationList = this.storeVariableService.getApp().masterIntegrationList;
     if (!this.masterIntegration_IntegrationKeyDisplayNameMap) {
       this.masterIntegration_IntegrationKeyDisplayNameMap = masterIntegrationList.reduce((accumulator, currentVal) => {
-        let x = currentVal.inputs.reduce((accObj, currObj) => {
+        const x = currentVal.inputs.reduce((accObj, currObj) => {
           accObj[currObj.param_name] = currObj.display_text;
           return accObj;
         }, {});
@@ -103,19 +103,19 @@ export class UtilityService {
 
       if (Object.keys(message)[0] === 'media') {
         return {
-          messageMediatype: message.media[0].type,//
+          messageMediatype: message.media[0].type, //
           ...message,
-          time: Date.now(),//this.getCurrentTimeInHHMM(),
-          text: EBotMessageMediaType.image,//this is for preview of last message in chat room list
+          time: Date.now(), //this.getCurrentTimeInHHMM(),
+          text: EBotMessageMediaType.image, //this is for preview of last message in chat room list
           sourceType: 'bot'
         };
       } else if (Object.keys(message)[0] === 'quick_reply') {
 
         return {
-          messageMediatype: EBotMessageMediaType.quickReply,//
+          messageMediatype: EBotMessageMediaType.quickReply, //
           ...message,
           time: Date.now(),
-          text: (<any>message).quick_reply.text || EBotMessageMediaType.quickReply,//this is for preview of last message in chat room list
+          text: (<any>message).quick_reply.text || EBotMessageMediaType.quickReply, //this is for preview of last message in chat room list
           sourceType: 'bot'
         };
       }
@@ -123,7 +123,7 @@ export class UtilityService {
       /*if message type = text*/
       return {
         text: message.text,
-        time: Date.now(),//this.getCurrentTimeInHHMM(),
+        time: Date.now(), //this.getCurrentTimeInHHMM(),
         sourceType: 'bot',
         messageMediatype: EBotMessageMediaType.text
       };
@@ -133,12 +133,12 @@ export class UtilityService {
 
   readInputFileAsText(inputElement): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-      let input = inputElement;//event.target;
+      const input = inputElement; //event.target;
       for (let index = 0; index < input.files.length; index++) {
-        let reader = new FileReader();
+        const reader = new FileReader();
         reader.onload = () => {
           // this 'text' is the content of the file
-          let text = reader.result;
+          const text = reader.result;
           // this.editorCode= text;
           resolve(text);
         };
@@ -151,7 +151,7 @@ export class UtilityService {
     let today: any = new Date(Date.now() - days_before * 24 * 3600 * 1000);
     let dd: any = today.getDate();
     let mm: any = today.getMonth() + 1; //January is 0!
-    let yyyy: any = today.getFullYear();
+    const yyyy: any = today.getFullYear();
 
     if (dd < 10) {
       dd = '0' + dd;
@@ -169,7 +169,7 @@ export class UtilityService {
 
     let dd: any = today.getDate();
     let mm: any = today.getMonth() + 1; //January is 0!
-    let yyyy: any = today.getFullYear();
+    const yyyy: any = today.getFullYear();
 
     if (dd < 10) {
       dd = '0' + dd;
@@ -188,7 +188,7 @@ export class UtilityService {
 
     let dd: any = today.getDate();
     let mm: any = today.getMonth() + 1; //January is 0!
-    let yyyy: any = today.getFullYear();
+    const yyyy: any = today.getFullYear();
 
     if (dd < 10) {
       dd = '0' + dd;
@@ -212,7 +212,7 @@ export class UtilityService {
       return (<any>window).clipboardData.setData('Text', text);
 
     } else if (document.queryCommandSupported && document.queryCommandSupported('copy')) {
-      var textarea = document.createElement('textarea');
+      const textarea = document.createElement('textarea');
       textarea.textContent = text;
       textarea.style.position = 'fixed';  // Prevent scrolling to bottom of page in MS Edge.
       document.body.appendChild(textarea);
@@ -232,14 +232,15 @@ export class UtilityService {
 
   findDataByName(convertedData, name) {
     for (let i = 0; i < convertedData.length; ++i) {
-      if (convertedData[i].name === name)
+      if (convertedData[i].name === name) {
         return convertedData[i].data;
+      }
     }
   }
 
   createChartValueForBarGraph(rawData: { labels: string, result: number }[], chartValue?: { xAxis: { categories: string[] }, series: { name: string, data: number[] }[] }) {
 
-    let template: any = {};
+    const template: any = {};
     /*
     * example output:
     * [{
@@ -301,8 +302,8 @@ export class UtilityService {
     //   }]
     // };
 
-    let categories: string[] = rawData.map(dataItem => dataItem.labels);
-    let seriesData: number[] = rawData.map(dataItem => dataItem.result);
+    const categories: string[] = rawData.map(dataItem => dataItem.labels);
+    const seriesData: number[] = rawData.map(dataItem => dataItem.result);
     template.xAxis.categories = categories;
     template.series[0].data = seriesData;
     template.series[0].name = 'test';
@@ -311,18 +312,18 @@ export class UtilityService {
   }
 
   createTemplateKeyArr(generation_templates) {
-    let str = generation_templates;
+    const str = generation_templates;
 
     // let regex = /e?l?if.+?:/g;
     // let regex = /e?l?s?e?if\s?.+?:/g;
-    let regex = /e?l?s?e?if[\s]*?\(\s?.+?:/g;
+    const regex = /e?l?s?e?if[\s]*?\(\s?.+?:/g;
 
     let match = regex.exec(str);
 
-    let templateKeys = [];
+    const templateKeys = [];
     while (match) {
       let templateKey, matchedStr = match[0];
-      let matchedStrSplitArr = matchedStr.split('==');
+      const matchedStrSplitArr = matchedStr.split('==');
       if (matchedStrSplitArr[0].includes('variables')) {
         templateKey = matchedStrSplitArr[1].replace(')', '').replace(':', '').trim();
       } else {
@@ -335,21 +336,21 @@ export class UtilityService {
   }
 
   createOutputArr(generation_templates) {
-    let str = generation_templates + 'elif';//TODO: adding elif is a hack
+    const str = generation_templates + 'elif'; //TODO: adding elif is a hack
 
     // let regex = /output\s=\s([\s\S]*?)\selif/g;
     // let regex = /output[\s\S]*?]$/gm;
     //   let regex = /output\s=([\s\S]*?])$/gm;
     //   let regex = /output[\s]*=[\s]*([\s\S]*?[\s\S]$)/gm;//https://regex101.com/r/moAq3A/1/
     // let regex = /output[\s]*=([\s]*\[.*?\].*?\n|[\s\S]*?[\s\S]$)/gms;//https://regex101.com/r/WXGF5J/4
-    let regex = /output[\s]*?=[\s]*?([\s\S]*?)els?e?if/gm;
+    const regex = /output[\s]*?=[\s]*?([\s\S]*?)els?e?if/gm;
 
     let match = regex.exec(str);
 
-    let outputsKeys = [];
+    const outputsKeys = [];
     while (match) {
       let output, matchedStr = match[1];
-      let matchedAndProcessedStr = matchedStr.trim();
+      const matchedAndProcessedStr = matchedStr.trim();
       outputsKeys.push(matchedAndProcessedStr);
       match = regex.exec(str);
     }
@@ -359,12 +360,12 @@ export class UtilityService {
 
   parseGenTemplateCodeStrToObject(generation_templates: string) {
 
-    let templateKeyOutputObj = {};
+    const templateKeyOutputObj = {};
     // let countOf_templateKey_stringInGenTemplateCodeStr = gener
     try {
 
-      let templates: string[] = this.createTemplateKeyArr(generation_templates);
-      let outputs: string[] = this.createOutputArr(generation_templates);
+      const templates: string[] = this.createTemplateKeyArr(generation_templates);
+      const outputs: string[] = this.createOutputArr(generation_templates);
       for (let i = 0; i < templates.length; ++i) {
         try {
           templateKeyOutputObj[templates[i]] = eval(outputs[i]);
@@ -391,7 +392,7 @@ export class UtilityService {
         } else {
           elIfStr = `\nelif(variables['templateKey'] == '${templateKey}'):\n`;
         }
-        let outputValues = uiDictionary[templateKey];
+        const outputValues = uiDictionary[templateKey];
         let outPutStr;
         if (typeof outputValues === 'string') {
           outPutStr = `  output = ${outputValues}`;
@@ -419,19 +420,19 @@ export class UtilityService {
   convertDateTimeGraph(
     rawData: { activesessions: number, labels: string, totalsessions: number }[],
     xAxisLabel: string,
-    startTime_ms: number = Date.UTC(2010, 0, 2),//Date.UTC(2010, 0, 2),
+    startTime_ms: number = Date.UTC(2010, 0, 2), //Date.UTC(2010, 0, 2),
     granularity_Ms: number = 24 * 3600 * 1000  // one day
   ) {
 
-    if (!rawData) return;
-    let template = {
+    if (!rawData) { return; }
+    const template = {
       xAxis: {
         type: 'datetime'
       },
 
       plotOptions: {
         series: {
-          pointStart: startTime_ms,//Date.UTC(2010, 0, 2),
+          pointStart: startTime_ms, //Date.UTC(2010, 0, 2),
           pointInterval: granularity_Ms//24*3600*1000  // one day
         }
       },
@@ -446,22 +447,22 @@ export class UtilityService {
     };
 
     // let categoriesString = rawData.map((dataItem) => dataItem.labels);
-    let seriesArr = [];
+    const seriesArr = [];
     /*initialize the seriesArr*/
     Object.keys(rawData[0]).forEach((value) => {
-      if (value === 'labels') return;
+      if (value === 'labels') { return; }
       seriesArr.push({
-        name: value,//y1
+        name: value, //y1
         data: []//[(xi,y1i)]
       });
     });
     /*now loop over rawData and fill convertedData's data array*/
     rawData.forEach((obj) => {
       Object.keys(obj).forEach((key) => {
-        if (key === xAxisLabel) return;
-        let data = this.findDataByName(seriesArr, key);
+        if (key === xAxisLabel) { return; }
+        const data = this.findDataByName(seriesArr, key);
         // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
-        data.push(obj[key]);//pushing a new coordinate
+        data.push(obj[key]); //pushing a new coordinate
       });
     });
 
@@ -471,29 +472,29 @@ export class UtilityService {
 
   convert_xAxisText(rawData: { activesessions: 0, labels: '03:00', totalsessions: 0 }[], xAxisLabel: string) {
 
-    let categoriesString = rawData.map((dataItem) => dataItem.labels);
-    let seriesArr = [];
+    const categoriesString = rawData.map((dataItem) => dataItem.labels);
+    const seriesArr = [];
     /*initialize the convertedData*/
     Object.keys(rawData[0]).forEach((value) => {
-      if (value === 'labels') return;
+      if (value === 'labels') { return; }
       seriesArr.push({
-        name: value,//y1
+        name: value, //y1
         data: []//[(xi,y1i)]
       });
     });
     /*now loop over rawData and fill convertedData's data array*/
     rawData.forEach((obj) => {
       Object.keys(obj).forEach((key) => {
-        if (key === xAxisLabel) return;
-        let data = this.findDataByName(seriesArr, key);
+        if (key === xAxisLabel) { return; }
+        const data = this.findDataByName(seriesArr, key);
         // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
-        data.push(obj[key]);//pushing a new coordinate
+        data.push(obj[key]); //pushing a new coordinate
       });
     });
 
-    let template = {
+    const template = {
       xAxis: {
-        categories: categoriesString,//['apple', 'orange', 'mango'],
+        categories: categoriesString, //['apple', 'orange', 'mango'],
         tickInterval: 1,
         labels: {
           enabled: true
@@ -506,12 +507,12 @@ export class UtilityService {
   }
 
   convert(rawData, xAxisLabel: string, labelType: string) {
-    let convertedData = [];
+    const convertedData = [];
     /*initialize the convertedData*/
     Object.keys(rawData[0]).forEach((value) => {
-      if (value === 'labels') return;
+      if (value === 'labels') { return; }
       convertedData.push({
-        name: value,//y1
+        name: value, //y1
         data: []//[(xi,y1i)]
       });
     });
@@ -519,15 +520,16 @@ export class UtilityService {
       /*now loop over rawData and fill convertedData's data array*/
       rawData.forEach((obj) => {
         Object.keys(obj).forEach((key) => {
-          if (key === xAxisLabel) return;
-          let data = this.findDataByName(convertedData, key);
+          if (key === xAxisLabel) { return; }
+          const data = this.findDataByName(convertedData, key);
           // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
-          let dateStr_ddmmyyyy = obj[xAxisLabel];
-          let hh = dateStr_ddmmyyyy.split(':')[1];
-          let mm = dateStr_ddmmyyyy.split(':')[0];
-          let ms = hh * 3600 * 1000 + mm * 60 * 1000;
-          if (data)/*This fix is done for new keys which were not in rawdata[0]. They will be ignored*/
-            data.push([ms, obj[key]]);//pushing a new coordinate
+          const dateStr_ddmmyyyy = obj[xAxisLabel];
+          const hh = dateStr_ddmmyyyy.split(':')[1];
+          const mm = dateStr_ddmmyyyy.split(':')[0];
+          const ms = hh * 3600 * 1000 + mm * 60 * 1000;
+          if (data) {/*This fix is done for new keys which were not in rawdata[0]. They will be ignored*/
+            data.push([ms, obj[key]]);
+          }//pushing a new coordinate
         });
       });
     }
@@ -535,32 +537,34 @@ export class UtilityService {
       /*now loop over rawData and fill convertedData's data array*/
       rawData.forEach((obj) => {
         Object.keys(obj).forEach((key) => {
-          if (key === xAxisLabel) return;
-          let data = this.findDataByName(convertedData, key);
+          if (key === xAxisLabel) { return; }
+          const data = this.findDataByName(convertedData, key);
           // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
-          let dateStr_ddmmyyyy = obj[xAxisLabel];
-          let dd = dateStr_ddmmyyyy.split('-')[2];
-          let mm = dateStr_ddmmyyyy.split('-')[1];
-          let yyyy = dateStr_ddmmyyyy.split('-')[0];
-          let dateStr_mmddyyyy = `${mm}/${dd}/${yyyy}`;
-          let ms = Date.parse(dateStr_mmddyyyy);
-          if (data)/*This fix is done for new keys which were not in rawdata[0]. They will be ignored*/
-            data.push([ms, obj[key]]);//pushing a new coordinate
+          const dateStr_ddmmyyyy = obj[xAxisLabel];
+          const dd = dateStr_ddmmyyyy.split('-')[2];
+          const mm = dateStr_ddmmyyyy.split('-')[1];
+          const yyyy = dateStr_ddmmyyyy.split('-')[0];
+          const dateStr_mmddyyyy = `${mm}/${dd}/${yyyy}`;
+          const ms = Date.parse(dateStr_mmddyyyy);
+          if (data) {/*This fix is done for new keys which were not in rawdata[0]. They will be ignored*/
+            data.push([ms, obj[key]]);
+          }//pushing a new coordinate
         });
       });
     }
     if (labelType === 'String') {
       rawData.forEach((obj) => {
         Object.keys(obj).forEach((key) => {
-          if (key === xAxisLabel) return;
-          let data = this.findDataByName(convertedData, key);
+          if (key === xAxisLabel) { return; }
+          const data = this.findDataByName(convertedData, key);
           // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
           // let dateStr_ddmmyyyy = obj[xAxisLabel];
           // let hh = dateStr_ddmmyyyy.split(':')[1];
           // let mm = dateStr_ddmmyyyy.split(':')[0];
           // let ms = hh*3600*1000 + mm*60*1000;
-          if (data)/*This fix is done for new keys which were not in rawdata[0]. They will be ignored*/
-            data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
+          if (data) {/*This fix is done for new keys which were not in rawdata[0]. They will be ignored*/
+            data.push([obj[xAxisLabel], obj[key]]);
+          }//pushing a new coordinate
         });
       });
     }
@@ -597,22 +601,22 @@ export class UtilityService {
   }
 
   imageUrlHttpsError(formControl: FormControl) {
-    let url: string = formControl.value;
-    let pattern = /^((https):\/\/)/;
+    const url: string = formControl.value;
+    const pattern = /^((https):\/\/)/;
 
     return pattern.test(url) ? null : {'Must be Https Url': true};
   }
 
   imageUrlHavingValidExtnError(formControl: FormControl) {
-    let url: string = formControl.value;
-    let pattern = /\.(gif|jpg|jpeg|tiff|png)$/i;
+    const url: string = formControl.value;
+    const pattern = /\.(gif|jpg|jpeg|tiff|png)$/i;
     return pattern.test(url) ? null : {'Image Extension is not correct': true};
   }
 
   isManagerValidator(formGroup: FormGroup) {
-    let formValue = formGroup.value;
-    let is_manager = formValue['is_manager'];
-    let child_bots = formValue['child_bots'];
+    const formValue = formGroup.value;
+    const is_manager = formValue['is_manager'];
+    const child_bots = formValue['child_bots'];
     /*if is_manager = true, child_bots should have at least one value*/
     return (!is_manager || is_manager && (child_bots.length > 0)) ? null : {'isManagerError': true};
   }
@@ -648,30 +652,31 @@ export class UtilityService {
   }
 
   createRandomString(length: number = 10) {
-    var text = '';
-    var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let text = '';
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-    for (var i = 0; i < length; i++)
+    for (let i = 0; i < length; i++) {
       text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
 
     return text;
   }
 
   getCurrentTimeInHHMM() {
-    var date = new Date();
-    var hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
-    var minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+    const date = new Date();
+    const hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+    const minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
     return hours + ':' + minutes;
-  };
+  }
 
 
   downloadText(text, filename) {
-    var saveData = (function () {
-      var a: any = document.createElement('a');
+    const saveData = (function () {
+      const a: any = document.createElement('a');
       document.body.appendChild(a);
       a.style = 'display: none';
       return function (data, fileName) {
-        var blob = new Blob([text], {type: 'octet/stream'}),
+        const blob = new Blob([text], {type: 'octet/stream'}),
           url = window.URL.createObjectURL(blob);
         a.href = url;
         a.download = fileName;
@@ -699,15 +704,16 @@ export class UtilityService {
   }
 
   areAllAvatorValesDefined(headerObj: object) {
-    for (let key in headerObj) {
-      if (headerObj[key] == null || headerObj[key] === '')//0!==null but 0==""
+    for (const key in headerObj) {
+      if (headerObj[key] == null || headerObj[key] === '') {//0!==null but 0==""
         return false;
+      }
     }
     return true;
   }
 
   areAllValesDefined(headerObj: object) {
-    let headerDataTemplate: IAnalysis2HeaderData = {
+    const headerDataTemplate: IAnalysis2HeaderData = {
       'bot-access-token': null,
       type: null,
       enddate: null,
@@ -717,9 +723,10 @@ export class UtilityService {
       granularity: null
     };
     headerObj = {...headerDataTemplate, ...headerObj};
-    for (let key in headerObj) {
-      if (headerObj[key] == null || headerObj[key] === '')//0!==null but 0==""
+    for (const key in headerObj) {
+      if (headerObj[key] == null || headerObj[key] === '') {//0!==null but 0==""
         return false;
+      }
     }
     return true;
   }
@@ -730,9 +737,9 @@ export class UtilityService {
 
   findFormControlIndexInFormArrayByValue(formArray: FormArray, value): number {
     let i = 0;
-    for (let control of formArray.controls) {
+    for (const control of formArray.controls) {
       if (control instanceof FormControl) {
-        if (control.value === value) return i;
+        if (control.value === value) { return i; }
       }
       if (control instanceof FormGroup) {
         // is a FormGroup
@@ -754,7 +761,7 @@ export class UtilityService {
 
   emptyObjectWithoutChaningRef(obj) {
     try {
-      for (let key in obj) {
+      for (const key in obj) {
         delete obj[key];
       }
     } catch (e) {
@@ -763,7 +770,7 @@ export class UtilityService {
   }
 
   getGlobalErrorMap() {
-    let errorObj = {};
+    const errorObj = {};
     errorObj[EFormValidationErrors.form_validation_basic_info] = 'Basic info form is not valid';
     errorObj[EFormValidationErrors.form_validation_integration] = 'Integration form is not valid';
     errorObj[EFormValidationErrors.form_validation_pipeline] = 'Pipeline is not valid';
@@ -773,17 +780,17 @@ export class UtilityService {
   }
 
   getErrorMessageForValidationKey(key) {
-    let errorMap = this.getGlobalErrorMap();
+    const errorMap = this.getGlobalErrorMap();
     return errorMap[key];
   }
 
   checkIfAllPipelineInputParamsArePopulated(pipeline: IPipelineItem[]): boolean {
 
-    let inputParamsObj: object = pipeline.reduce((inputParamsObj, pipelineItem) => {
+    const inputParamsObj: object = pipeline.reduce((inputParamsObj, pipelineItem) => {
       return {...inputParamsObj, ...pipelineItem.input_params};
     }, {});
 
-    for (let param in inputParamsObj) {
+    for (const param in inputParamsObj) {
       if (inputParamsObj[param] == null) {
         return false;
       }
@@ -792,13 +799,13 @@ export class UtilityService {
   }
 
   performFormValidationBeforeSaving(obj: IBot): IBot {
-    let objShallowClone = {...obj};
-    let validation_Keys: string[] = Object.keys(objShallowClone).filter((key) => {
+    const objShallowClone = {...obj};
+    const validation_Keys: string[] = Object.keys(objShallowClone).filter((key) => {
       return key.includes('form_validation_');
     });
-    for (let key of validation_Keys) {
+    for (const key of validation_Keys) {
       if (!objShallowClone[key]) {
-        let errorMessage = this.getErrorMessageForValidationKey(key);
+        const errorMessage = this.getErrorMessageForValidationKey(key);
         this.showErrorToaster(errorMessage);
         return null;
       }
@@ -808,7 +815,7 @@ export class UtilityService {
   }
 
   serializeServerValueToChatRoomMessages(value: IBotPreviewFirstMessage) {
-    let roomMessages: IMessageData[] = value.generated_msg.map((item: { text: string }) => {
+    const roomMessages: IMessageData[] = value.generated_msg.map((item: { text: string }) => {
       return {
         text: item.text,
         sourceType: 'bot',
@@ -822,29 +829,29 @@ export class UtilityService {
   /* View in fullscreen */
   openFullscreen() {
 
-    let elem: any = document.documentElement;
+    const elem: any = document.documentElement;
     if (elem.requestFullscreen) {
-      let x = elem.requestFullscreen();
+      const x = elem.requestFullscreen();
     } else if (elem.mozRequestFullScreen) { /* Firefox */
-      let x = elem.mozRequestFullScreen();
+      const x = elem.mozRequestFullScreen();
     } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-      let x = elem.webkitRequestFullscreen();
+      const x = elem.webkitRequestFullscreen();
     } else if (elem.msRequestFullscreen) { /* IE/Edge */
-      let x = elem.msRequestFullscreen();
+      const x = elem.msRequestFullscreen();
     }
   }
 
   /* Close fullscreen */
   closeFullscreen() {
-    let myDocument: any = document;
+    const myDocument: any = document;
     if (myDocument.exitFullscreen) {
-      let x = myDocument.exitFullscreen();
+      const x = myDocument.exitFullscreen();
     } else if (myDocument.mozCancelFullScreen) { /* Firefox */
-      let x = myDocument.mozCancelFullScreen();
+      const x = myDocument.mozCancelFullScreen();
     } else if (myDocument.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-      let x = myDocument.webkitExitFullscreen();
+      const x = myDocument.webkitExitFullscreen();
     } else if (myDocument.msExitFullscreen) { /* IE/Edge */
-      let x = myDocument.msExitFullscreen();
+      const x = myDocument.msExitFullscreen();
     }
 
   }

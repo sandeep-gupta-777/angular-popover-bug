@@ -9,16 +9,16 @@ import set = Reflect.set;
 export class BotThinkingBubbleComponent implements OnInit {
 
   constructor() { }
-  @Input() selectedAvatar:{
-  "id": number,
-  "imageUrl": string,
-  "name": string
+  @Input() selectedAvatar: {
+  'id': number,
+  'imageUrl': string,
+  'name': string
 };
   randomNumber = 1;
   ngOnInit() {
-    setInterval(()=>{
-      this.randomNumber = this.randomNumber>3?1:this.randomNumber+1;
-    },400);
+    setInterval(() => {
+      this.randomNumber = this.randomNumber > 3 ? 1 : this.randomNumber + 1;
+    }, 400);
   }
 
 }

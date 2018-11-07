@@ -48,7 +48,7 @@ export class AuthGaurdService implements CanActivate, CanActivateChild, CanLoad 
         this.router.navigate(['auth', 'login']);
         return false;
       }
-    }).take(1)
+    }).take(1);
     /*OMG:
     *What does it means for an observable to complete
     * https://github.com/angular/angular/issues/9613*/

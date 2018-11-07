@@ -47,15 +47,15 @@ export class Analysis2EventsComponent implements OnInit {
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
     private store: Store,
-    private utilityService:UtilityService
+    private utilityService: UtilityService
   ) {
   }
 
   tabClicked(activeTab: string) {
     this.activeTab = activeTab;
-    if(this.activeTab){
+    if (this.activeTab) {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:this.activeTab}
+        analysisHeaderData: {type: this.activeTab}
       }));
     }
   }
@@ -64,10 +64,10 @@ export class Analysis2EventsComponent implements OnInit {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || this.activeTab;
     this.tabClicked(this.activeTab);
     this.analytics2GraphData$
-      .subscribe((value: IAnalysis2State)=>{
-        try{
-          let granularity =  value.analysisHeaderData.granularity;
-          let granularity_ms:number = this.utilityService.convertGranularityStrToMs(granularity);
+      .subscribe((value: IAnalysis2State) => {
+        try {
+          const granularity =  value.analysisHeaderData.granularity;
+          const granularity_ms: number = this.utilityService.convertGranularityStrToMs(granularity);
           this.chartValue =
             <any>this.utilityService.createChartValueForBarGraph(
               value[this.activeTab],
@@ -75,11 +75,11 @@ export class Analysis2EventsComponent implements OnInit {
               // new Date(value.analysisHeaderData.startdate).getTime(),
               // granularity_ms
             ) ;
-        }catch (e) {
+        } catch (e) {
           LoggingService.error(e);
         }
 
-      })
+      });
   }
 
 }

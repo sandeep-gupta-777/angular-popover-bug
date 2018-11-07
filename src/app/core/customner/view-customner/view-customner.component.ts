@@ -23,7 +23,7 @@ export class ViewCustomnerComponent implements OnInit {
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() app$: Observable<IAppState>;
   custumNerDataForSmartTable: ICustomNerItem[];
-  recordsPerPage:number=15;
+  recordsPerPage = 15;
   settings = {
     columns: {
     key: {
@@ -53,7 +53,7 @@ export class ViewCustomnerComponent implements OnInit {
     }
     return '';
   }};
-  totalRecords: number = 10;
+  totalRecords = 10;
   currentPageNumber = 1;
   @ViewChild(KnowledgeBaseComponent) knowledgeBaseComponent: KnowledgeBaseComponent;
 
@@ -83,7 +83,7 @@ export class ViewCustomnerComponent implements OnInit {
   }
 
   fetchNers(limit: number = 10, offset: number = 0) {
-    let getEnterpriseNerUrl = this.constantsService.getEnterpriseNer(limit, (offset * this.recordsPerPage));
+    const getEnterpriseNerUrl = this.constantsService.getEnterpriseNer(limit, (offset * this.recordsPerPage));
     this.serverService.makeGetReq<{ meta: { total_count: number }, objects: ICustomNerItem[] }>({url: getEnterpriseNerUrl})
       .subscribe((value) => {
         this.totalRecords = value.meta.total_count;
@@ -93,12 +93,12 @@ export class ViewCustomnerComponent implements OnInit {
         ]);
 
         /*For selected ner*/
-        let selectedNerId = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
-        if (!selectedNerId) return;
-        let getNerByIdUrl = this.constantsService.getCustomNerById(selectedNerId);
-        let doesSelectedNerExistsIn_custumNerDataForSmartTable =
+        const selectedNerId = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
+        if (!selectedNerId) { return; }
+        const getNerByIdUrl = this.constantsService.getCustomNerById(selectedNerId);
+        const doesSelectedNerExistsIn_custumNerDataForSmartTable =
           this.custumNerDataForSmartTable.find(item => item.id === Number(selectedNerId));
-        if (doesSelectedNerExistsIn_custumNerDataForSmartTable) return;
+        if (doesSelectedNerExistsIn_custumNerDataForSmartTable) { return; }
         this.serverService.makeGetReq({url: getNerByIdUrl})
           .subscribe((values: { objects: ICustomNerItem[] }) => {
             if (values.objects.length > 0) {
@@ -115,11 +115,12 @@ export class ViewCustomnerComponent implements OnInit {
       .subscribe((value: ICustomNerItem) => {
         // (<any>this.custumNerDataForSmartTable).push({...value,highlight:true});
         let indexToUpdate;
-        if (value && value.id)
+        if (value && value.id) {
           indexToUpdate = this.custumNerDataForSmartTable.findIndex((custumNerDataForSmartTableItem) => custumNerDataForSmartTableItem.id === value.id);
-        if (indexToUpdate >= 0)
+        }
+        if (indexToUpdate >= 0) {
           this.custumNerDataForSmartTable[indexToUpdate] = {...this.custumNerDataForSmartTable[indexToUpdate], ...value, highlight: true};
-        else {
+        } else {
           this.custumNerDataForSmartTable.push({...value, highlight: true});
         }
         this.addQueryParamsInCurrentRoute({ner_id: value.id});
@@ -142,8 +143,8 @@ export class ViewCustomnerComponent implements OnInit {
 
         this.utilityService.showSuccessToaster('Deleted customner');
         this.router.navigate([`/core/customner`]);
-        let indexToBeDeleted = this.custumNerDataForSmartTable.findIndex((nerObj) => nerObj.id == ner_id);
-        if (indexToBeDeleted !== -1) this.custumNerDataForSmartTable.splice(indexToBeDeleted, 1);
+        const indexToBeDeleted = this.custumNerDataForSmartTable.findIndex((nerObj) => nerObj.id == ner_id);
+        if (indexToBeDeleted !== -1) { this.custumNerDataForSmartTable.splice(indexToBeDeleted, 1); }
         this.knowledgeBaseComponent.showNerSmartTable();
         this.custumNerDataForSmartTable = [...this.custumNerDataForSmartTable];
       });
