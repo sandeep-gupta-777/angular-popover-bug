@@ -20,7 +20,7 @@
 
 </div>
 
-<ng-container *ngIf="_custumNerDataForSmartTable.length!==0">
+<ng-container *ngIf="_custumNerDataForSmartTable && _custumNerDataForSmartTable.length!==0">
   <div class="row" *ngIf="showTable; else rowDetails">
     <div class="col-12">
       <app-smart-table *ngIf="_custumNerDataForSmartTable"
@@ -37,7 +37,7 @@
 
 <!--<ng-template #splash>-->
 
-  <app-splash-screen *ngIf="_custumNerDataForSmartTable.length===0"
+  <app-splash-screen *ngIf="_custumNerDataForSmartTable && _custumNerDataForSmartTable.length===0"
                      [imageHRef]="myESplashScreens.knowledge_base"
                       [descriptionText]="'Knowledge base concepts are collections which can be recognized by the bot in user messages. Different ways of capturing these concepts exists like exact match(single match), partial match(double match) regex parsers, database or entity access along with metadata'"
                      [headingText]="'No concepts in knowledge base'"
