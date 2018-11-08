@@ -4,11 +4,11 @@
     <i class="fa fa-minus pr-4"></i> -->
     <button class="btn-theme btn-theme-primary-outline mr-2" (click)="exportToCSV()">Export to CSV</button>
     <div *myIf="myEAllActions['Update Bot Testcases']" class="d-inline-block">
-      <button class="btn-theme btn-theme-primary mr-2" (click)="updateTC()" *ngIf="isData && tableChanged">Update test Case
+      <button class="btn-theme btn-theme-primary mr-2" (click)="updateTC()" *ngIf="isData && tableChanged">Update Test
       </button>
     </div>
     <div *myIf="myEAllActions['Create Bot Testcases']" class="d-inline-block">
-      <button class="btn-theme btn-theme-primary mr-2" (click)="createTC()" *ngIf="!isData && tableChanged">Create test Case
+      <button class="btn-theme btn-theme-primary mr-2" (click)="createTC()" *ngIf="!isData && tableChanged">Create Test
       </button>
     </div>
     <button class="btn-theme-danger mr-2" (click)="beginTest(Primarytemplat)" *ngIf="cancelTestFlag">Cancel Test
@@ -33,7 +33,7 @@
                    [imageHRef]="myESplashScreens.testing"
                    class="d-flex justify-content-center align-items-center"
                    (buttonClicked)="showSplashScreen=false"
-                   [buttonText]="'Create test cases'"
+                   [buttonText]="'Create Test'"
                    [headingText]="'One click testing'"
                    [descriptionText]="'Create cases to test the bot. The user message to test the bot for and the  expected bot response template name are the properties needed to create new test case'"
                    style="position: absolute; top: 0; left: 0; right: 0; bottom: 0"
