@@ -142,7 +142,7 @@
   <div class="danger-modal">
     <div class="top-dec"></div>
     <div class="modal-header">
-      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete NER?</h4>
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete Concept?</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -155,7 +155,7 @@
 
         </div>
         <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
-        <button class=" btn btn-theme-danger" (click)="deleteNer$.emit(ner_id);modalRef.hide()">Delete</button>
+        <button class=" btn-theme btn-theme-danger" (click)="deleteNer$.emit(ner_id);modalRef.hide()">Delete</button>
       </form>
     </div>
   </div>

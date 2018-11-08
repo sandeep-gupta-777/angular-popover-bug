@@ -580,12 +580,10 @@ export class ConstantsService {
       },
       updated_at: {//
         title: 'Updated At',
-        width: '150px',
         filter: false,
         valuePrepareFunction: (date) => {
-
-          // var raw = new Date(date);
-          var formatted = new Date(date).toJSON().slice(0, 10).split('-').reverse().join('/'); //this.datePipe.transform(raw, 'd/m/yy');
+          var raw = new Date(date);
+          var formatted = this.datePipe.transform(raw, 'medium');
           return formatted;
         }
       },
