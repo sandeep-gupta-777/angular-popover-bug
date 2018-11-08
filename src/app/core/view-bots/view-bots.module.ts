@@ -2,8 +2,8 @@ import {Route, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {EBotType, ViewBotsComponent} from './view-bots.component';
-import {ViewCodeBasedBotComponent} from './view-code-based-bot/view-code-based-bot.component';
-import {ViewPipelineBasedBotsComponent} from './view-pipeline-based-bots/view-pipeline-based-bots.component';
+// import {ViewCodeBasedBotComponent} from './view-code-based-bot/view-code-based-bot.component';
+// import {ViewPipelineBasedBotsComponent} from './view-pipeline-based-bots/view-pipeline-based-bots.component';
 import {BsDropdownModule, ModalModule, PopoverModule, TabsModule} from 'ngx-bootstrap';
 import {FormsModule} from '@angular/forms';
 // import {DragAndDropModule} from 'angular-draggable-droppable';
@@ -22,6 +22,7 @@ import {BotPreviewCardComponent} from './bot-preview-card/bot-preview-card.compo
 import {SharedModule} from '../../shared.module';
 import {AuthGaurdService} from '../../auth-gaurd.service';
 import {RichMediaModule} from '../../rich-media.module';
+import {BotPreviewCardListComponent} from './bot-preview-card-list/bot-preview-card-list.component';
 
 const routes: Route[] = [
   {
@@ -39,8 +40,9 @@ const routes: Route[] = [
 @NgModule({
   declarations: [
     ViewBotsComponent,
-    ViewCodeBasedBotComponent,
-    ViewPipelineBasedBotsComponent,
+    BotPreviewCardListComponent,
+    // ViewCodeBasedBotComponent,
+    // ViewPipelineBasedBotsComponent,
     BotPreviewCardComponent,
     SortBotsPipe,
 

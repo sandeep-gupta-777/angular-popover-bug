@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewCodeBasedBotComponent } from './view-code-based-bot.component';
+import { BotPreviewCardListComponent } from './bot-preview-card-list.component';
 
-describe('ViewCodeBasedBotComponent', () => {
-  let component: ViewCodeBasedBotComponent;
-  let fixture: ComponentFixture<ViewCodeBasedBotComponent>;
+describe('BotPreviewCardListComponent', () => {
+  let component: BotPreviewCardListComponent;
+  let fixture: ComponentFixture<BotPreviewCardListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewCodeBasedBotComponent ]
+      declarations: [ BotPreviewCardListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ViewCodeBasedBotComponent);
+    fixture = TestBed.createComponent(BotPreviewCardListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

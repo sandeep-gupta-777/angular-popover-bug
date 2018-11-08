@@ -12,23 +12,20 @@
         Pipeline based bots</a>
     </li>
 
-    <!--<div class="d-flex justify-content-end mt-4 ml-auto">-->
     <button *myIf="myEAllActions['Create Bots']"
             class="btn-theme btn-theme-primary ml-auto"
             popover="You can also get started by creating your own first bot from here."
             placement="bottom"
             #pop="bs-popover"
+            triggers=""
             (click)="openCreateBotModal(Primarytemplate)">
       <i class="fa fa-plus pr-1"></i>New Bot
     </button>
-    <!--</div>-->
   </ul>
-  <!--<p>{{(activeTab===myEBotType.chatbot?codeBasedBotList:pipelineBasedBotList)|json}}</p>-->
   <div class="px-4">
-    <!--<router-outlet></router-outlet>-->
-    <app-view-code-based-bot
+    <app-bot-preview-card-list
       [botType]="activeTab"
-      [codeBasedBotList]="activeTab===myEBotType.chatbot?codeBasedBotList:pipelineBasedBotList"></app-view-code-based-bot>
+      [codeBasedBotList]="activeTab===myEBotType.chatbot?codeBasedBotList:pipelineBasedBotList"></app-bot-preview-card-list>
   </div>
 </div>
 
