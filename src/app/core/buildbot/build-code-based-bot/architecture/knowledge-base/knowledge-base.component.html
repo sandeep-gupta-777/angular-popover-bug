@@ -1,6 +1,4 @@
 <div class="row" *ngIf="showTable; else rowDetails">
-  <!--<div class="row">-->
-  <!-- <div class="pl-2 font-weight-bold" style="font-size: 20px; color: #474747">Knowledge Base</div> -->
   <div class="col-12 pb-2 d-flex justify-content-end"
        *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']">
     <button class="btn-theme btn-theme-primary"
@@ -21,7 +19,7 @@
 </div>
 
 <ng-container *ngIf="_custumNerDataForSmartTable && _custumNerDataForSmartTable.length!==0">
-  <div class="row" *ngIf="showTable; else rowDetails">
+  <div class="row" *ngIf="showTable">
 
     <div class="col-12">
       <app-smart-table *ngIf="_custumNerDataForSmartTable"
@@ -39,12 +37,12 @@
 <!--<ng-template #splash>-->
 
 
-  <app-splash-screen *ngIf="_custumNerDataForSmartTable && _custumNerDataForSmartTable.length===0 && showTable"
-                     [imageHRef]="myESplashScreens.knowledge_base"
-                      [descriptionText]="'Knowledge base concepts are collections which can be recognized by the bot in user messages. Different ways of capturing these concepts exists like exact match(single match), partial match(double match) regex parsers, database or entity access along with metadata'"
-                     [headingText]="'No concepts in knowledge base'"
-                     class="d-flex justify-content-center align-items-center w-100 h-75"
-  ></app-splash-screen>
+<app-splash-screen *ngIf="_custumNerDataForSmartTable && _custumNerDataForSmartTable.length===0 && showTable"
+                   [imageHRef]="myESplashScreens.knowledge_base"
+                   [descriptionText]="'Knowledge base concepts are collections which can be recognized by the bot in user messages. Different ways of capturing these concepts exists like exact match(single match), partial match(double match) regex parsers, database or entity access along with metadata'"
+                   [headingText]="'No concepts in knowledge base'"
+                   class="d-flex justify-content-center align-items-center w-100 h-75"
+></app-splash-screen>
 
 <!--</ng-template>-->
 

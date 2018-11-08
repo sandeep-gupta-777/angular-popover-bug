@@ -3,13 +3,13 @@
     <li class="nav-item">
       <a class="nav-link" (click)="tabClicked(activeTab=myEBotType.chatbot)"
          [ngClass]="{'tab-active':activeTab === myEBotType.chatbot}">
-        Code based bot</a>
+        Code Based</a>
     </li>
     <li class="nav-item">
       <a class="nav-link"
          (click)="tabClicked(activeTab=myEBotType.intelligent)"
          [ngClass]="{'tab-active':activeTab === myEBotType.intelligent}">
-        Pipeline based bots</a>
+        Pipeline Based</a>
     </li>
 
     <button *myIf="myEAllActions['Create Bots']"

@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs';
 import {ServerService} from '../../server.service';
 import {ConstantsService, EAllActions} from '../../constants.service';
@@ -12,6 +12,7 @@ import {BsModalService} from 'ngx-bootstrap/modal';
 import {LoggingService} from '../../logging.service';
 import {ViewBotStateModel} from './ngxs/view-bot.state';
 import {E} from '@angular/core/src/render3';
+import {RouteHelperService} from '../../route-helper.service';
 
 export enum EBotType {
   chatbot = 'chatbot',
@@ -23,11 +24,11 @@ export enum EBotType {
   templateUrl: './view-bots.component.html',
   styleUrls: ['./view-bots.component.scss']
 })
-export class ViewBotsComponent implements OnInit {
+export class ViewBotsComponent implements OnInit, AfterViewInit {
 
   myEBotType = EBotType;
   botList$: Observable<IBot[]>;
-  activeTab: string = EBotType.chatbot;
+  activeTab: string;
   showPopover = false;
   modalRef: BsModalRef;
   myEAllActions = EAllActions;
@@ -46,14 +47,16 @@ export class ViewBotsComponent implements OnInit {
   pipelineBasedBotList: IBot[];
 
   ngOnInit() {
+    this.activeTab = RouteHelperService.getQueryParams(this.activatedRoute, 'type') || EBotType.chatbot;
     window.scrollTo(0, 0);
     this.serverService.getNSetBotList()
       .subscribe(() => {
         LoggingService.log('bot list fetched from view bots page');
+        ;
       });
     this.botlist$
       .subscribe((allBotListState) => {
-        if(!allBotListState.allBotList)return;
+        if (!allBotListState.allBotList) return;
         this.codeBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.chatbot);
         this.pipelineBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.intelligent);
       });
@@ -65,16 +68,23 @@ export class ViewBotsComponent implements OnInit {
 
   navigate(bot_type) {
     this.modalRef.hide();
-    this.router.navigate(['core', 'buildbot'], {queryParams: {bot_type: bot_type}});
+    RouteHelperService.navigateToUrl(this.router, {url: 'core/buildbot', queryParams: {bot_type: bot_type}});
   }
 
-  @ViewChild('pop') pop
+  @ViewChild('pop') pop;
+
   tabClicked(activeTab) {
     this.activeTab = activeTab;
-    debugger;
-    this.showPopover = activeTab === EBotType.chatbot && this.codeBasedBotList && this.codeBasedBotList.length === 0
-      || (activeTab === EBotType.intelligent && this.pipelineBasedBotList && this.pipelineBasedBotList.length === 0);
+    RouteHelperService.navigateToUrl(this.router, {url: '/core/viewbots', queryParams: {'type': activeTab}});
+    this.doShowPopover(activeTab) ? this.pop.show() : this.pop.hide();
+  }
 
-    this.showPopover ? this.pop.show(): this.pop.hide();
+  ngAfterViewInit(){
+    if (this.doShowPopover(this.activeTab)) this.pop.show();
+  }
+
+  doShowPopover(activeTab) {
+    return activeTab === EBotType.chatbot && this.codeBasedBotList && this.codeBasedBotList.length === 0
+      || (activeTab === EBotType.intelligent && this.pipelineBasedBotList && this.pipelineBasedBotList.length === 0);
   }
 }
