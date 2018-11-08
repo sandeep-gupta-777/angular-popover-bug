@@ -59,8 +59,8 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   templateKeySearchKeyword: string = '';
   myEBotVersionTabs = EBotVersionTabs;
   activeTab: string = 'df_template';
-  buildTab: string ;
-
+  buildTab: string;
+  isGentemplateCodeParsable: boolean = false;
   @ViewChild('modelGenTempNameForm') modelGenTempNameForm: NgForm;
 
   myEAllActions = EAllActions;
@@ -121,14 +121,16 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   ) {
     super();
   }
-  role:string;
+
+  role: string;
   @Select() loggeduser$: Observable<{ user: IUser }>;
-  showViewChangeToggle:boolean = true;
+  showViewChangeToggle: boolean = true;
+
   ngOnInit() {
 
-    this.loggeduser$.subscribe((loggeduserState)=>{
+    this.loggeduser$.subscribe((loggeduserState) => {
       this.role = loggeduserState.user.role.name;
-      this.showViewChangeToggle = this.role===ERoleName.Admin || this.role===ERoleName['Bot Developer'];
+      this.showViewChangeToggle = this.role === ERoleName.Admin || this.role === ERoleName['Bot Developer'];
     });
 
     this.activatedRoute.queryParams.subscribe((queryParam) => {
@@ -137,11 +139,12 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
       this.showConfig = (showConfigStr === 'true' || showConfigStr == undefined);
     });
 
-    if(!this.bot.store_bot_versions ){
+    if (!this.bot.store_bot_versions) {
       this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
     }
     this.botlist$_sub = this.botlist$.subscribe(() => {
 
+      debugger;
       // try {
       //   let newTemplateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
       //   if(this.utilityService.areTwoJSObjectSame(this.templateKeyDict, newTemplateKeyDict)) return;
@@ -161,8 +164,8 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
             })
             .filter((enabledIntegrations) => this.bot.integrations.channels[enabledIntegrations.name].enabled);
           this.channelListClone = [...this.channelList];
-          if(this.channelListClone.length>0)
-          this.channelListClone.unshift({name: 'all', displayName: 'All'});
+          if (this.channelListClone.length > 0)
+            this.channelListClone.unshift({name: 'all', displayName: 'All'});
         }
 
         this.selectedChannelOfGenTemplate = {name: 'all', displayName: 'All'};
@@ -203,16 +206,23 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
       try {
         if (this.selectedVersion && this.selectedVersion[EBotVersionTabs.generation_templates]) {
           let newTemplateKeyDict = this.utilityService.createDeepClone(this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]));
-          if(this.utilityService.areTwoJSObjectSame(this.templateKeyDict, newTemplateKeyDict)) return;
-          this.utilityService.emptyObjectWithoutChaningRef(this.templateKeyDict);
-          Object.assign(this.templateKeyDict, newTemplateKeyDict);
-          if (this.templateKeyDict) {
-            this.templateKeyDictClone = {...this.templateKeyDict};
-            if (!this.selectedTemplateKeyInLeftSideBar) this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
+          if (!this.utilityService.areTwoJSObjectSame(this.templateKeyDict, newTemplateKeyDict)) {
+            this.utilityService.emptyObjectWithoutChaningRef(this.templateKeyDict);
+            if (this.templateKeyDict) {
+              Object.assign(this.templateKeyDict, newTemplateKeyDict);
+            } else {
+              this.templateKeyDict = newTemplateKeyDict;
+            }
+            if (this.templateKeyDict) {
+              this.templateKeyDictClone = {...this.templateKeyDict};
+              if (!this.selectedTemplateKeyInLeftSideBar) this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
+            }
           }
+
         }
-      }catch (e) {
+      } catch (e) {
         console.log(e);
+        ;
       }
 
       this.tabClicked(this.activeTab);
@@ -233,11 +243,11 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   tabClicked(activeTab: string) {
 
-    if (this.activeTab===EBotVersionTabs.generation_templates && this.showGenTempEditorAndHideGenTempUi === false) {
-      this.convertGenTemplateCodeStringIntoUiComponents();
-    }else if(this.activeTab===EBotVersionTabs.generation_templates && this.showGenTempEditorAndHideGenTempUi === true){
-      this.convertUiDictToGenTemplateCode(this.templateKeyDict);
-    }
+    // if (this.activeTab===EBotVersionTabs.generation_templates && this.showGenTempEditorAndHideGenTempUi === false) {
+    //   this.convertGenTemplateCodeStringIntoUiComponents();
+    // }else if(this.activeTab===EBotVersionTabs.generation_templates && this.showGenTempEditorAndHideGenTempUi === false){
+    //   this.convertUiDictToGenTemplateCode(this.templateKeyDict);
+    // }
 
     this.activeTab = activeTab;
     /*TODO: We dont need code here... just replace it with selectedVersion. Also we dont need ICode interface*/
@@ -252,22 +262,32 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     this.router.navigate([`core/botdetail/${EBotType.chatbot}/`, this.bot.id], {
       queryParams: {'code-tab': activeTab},
       queryParamsHandling: 'merge',
-      preserveFragment:true,
+      preserveFragment: true,
       replaceUrl: true
     });
   }
 
   convertGenTemplateCodeStringIntoUiComponents() {
     try {
+      console.log('convertGenTemplateCodeStringIntoUiComponents');
       this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
+      this.isGentemplateCodeParsable = this.isGentemplateCodeParsableCheck(this.selectedVersion[EBotVersionTabs.generation_templates]);
       this.templateKeyDictClone = {...this.templateKeyDict};
     } catch (e) {
       console.log(e);
     }
   }
 
-  updateSelectedTemplateKeyValue(codeStr: string) {
+  isGentemplateCodeParsableCheck(genTemplateCode) {
+    let countOf_templateKey_stringInGenTemplateCodeStr = genTemplateCode.split('templateKey').length - 1;
+    let countOf_output_stringInGenTemplateCodeStr = genTemplateCode.split('output').length - 1;
+    let countOfTemplateKeyFoundByParser = Object.keys(this.templateKeyDict).length;
 
+    return countOf_templateKey_stringInGenTemplateCodeStr === countOfTemplateKeyFoundByParser &&
+      countOf_output_stringInGenTemplateCodeStr === countOfTemplateKeyFoundByParser;
+  }
+
+  updateSelectedTemplateKeyValue(codeStr: string) {
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar] = codeStr;
   }
 
@@ -317,7 +337,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   saveSelectedVersion(validationWarningModal) {
 
-    if (this.showGenTempEditorAndHideGenTempUi === false) {
+    if (this.showGenTempEditorAndHideGenTempUi === false && this.isGentemplateCodeParsable) {
       this.convertUiDictToGenTemplateCode(this.templateKeyDict);
     }
 
@@ -438,7 +458,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
   convertUiDictToGenTemplateCode(templateKeyDict) {
     let parseUiDict = this.utilityService.parseGenTemplateUiDictionaryToIfElseCode(templateKeyDict);
-    if (parseUiDict!=undefined) {
+    if (parseUiDict != undefined) {
       this.selectedVersion.generation_templates = parseUiDict;
     }
     this.editorCodeObj = {...this.editorCodeObj, generation_templates: {text: this.selectedVersion.generation_templates}};
@@ -498,14 +518,14 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     * for old version => if view is UI view. covert ui view to code, if its code view don't do anything
     * for new version => if view is UI view. covert code to ui view, if its code view don't do anything
     * */
-    if(this.showGenTempEditorAndHideGenTempUi===false){
+    if (this.showGenTempEditorAndHideGenTempUi === false) {
       this.convertUiDictToGenTemplateCode(this.templateKeyDict);
     }
     console.log('selected version changed');
     this.bot.store_selected_version = version.id;
     this.selectedVersion = version;
     this.forked_version_number = this.selectedVersion.version;
-    if(this.showGenTempEditorAndHideGenTempUi===false){
+    if (this.showGenTempEditorAndHideGenTempUi === false) {
       this.convertGenTemplateCodeStringIntoUiComponents();
     }
     this.tabClicked(this.activeTab);
@@ -551,10 +571,10 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     console.log(this.templateKeyDict);
   }
 
-  viewChanged(showGenTempEditorAndHideGenTempUi){
-    if(showGenTempEditorAndHideGenTempUi===false){
-      this.convertGenTemplateCodeStringIntoUiComponents()
-    }else {
+  viewChanged(showGenTempEditorAndHideGenTempUi) {
+    if (showGenTempEditorAndHideGenTempUi === false) {
+      this.convertGenTemplateCodeStringIntoUiComponents();
+    } else {
       this.convertGenTemplateCodeStringIntoUiComponents();
     }
   }

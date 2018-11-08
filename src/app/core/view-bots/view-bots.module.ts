@@ -4,7 +4,7 @@ import {CommonModule} from '@angular/common';
 import {EBotType, ViewBotsComponent} from './view-bots.component';
 import {ViewCodeBasedBotComponent} from './view-code-based-bot/view-code-based-bot.component';
 import {ViewPipelineBasedBotsComponent} from './view-pipeline-based-bots/view-pipeline-based-bots.component';
-import {BsDropdownModule, ModalModule, TabsModule} from 'ngx-bootstrap';
+import {BsDropdownModule, ModalModule, PopoverModule, TabsModule} from 'ngx-bootstrap';
 import {FormsModule} from '@angular/forms';
 // import {DragAndDropModule} from 'angular-draggable-droppable';
 // import {NgxsModule} from '@ngxs/store';
@@ -26,11 +26,13 @@ import {RichMediaModule} from '../../rich-media.module';
 const routes: Route[] = [
   {
 
-    path: '', component: ViewBotsComponent, canActivateChild:[AuthGaurdService], children:
-      [
-        {path: EBotType.chatbot, component: ViewCodeBasedBotComponent, data: {route: EBotType.chatbot}},
-        {path: EBotType.intelligent, component: ViewPipelineBasedBotsComponent, data: {route: EBotType.intelligent}},
-      ]
+    path: '', component: ViewBotsComponent,
+    // canActivateChild:[AuthGaurdService],
+    // children:
+    //   [
+    //     {path: EBotType.chatbot, component: ViewCodeBasedBotComponent, data: {route: EBotType.chatbot}},
+    //     {path: EBotType.intelligent, component: ViewPipelineBasedBotsComponent, data: {route: EBotType.intelligent}},
+    //   ]
   }
 ];
 

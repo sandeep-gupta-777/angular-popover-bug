@@ -239,7 +239,7 @@ export class UtilityService {
 
   createChartValueForBarGraph(rawData: { labels: string, result: number }[], chartValue?: { xAxis: { categories: string[] }, series: { name: string, data: number[] }[] }) {
 
-    let template:any ={};
+    let template: any = {};
     /*
     * example output:
     * [{
@@ -314,7 +314,8 @@ export class UtilityService {
     let str = generation_templates;
 
     // let regex = /e?l?if.+?:/g;
-      let regex = /e?l?s?e?if\s?.+?:/g;
+    // let regex = /e?l?s?e?if\s?.+?:/g;
+    let regex = /e?l?s?e?if[\s]*?\(\s?.+?:/g;
 
     let match = regex.exec(str);
 
@@ -323,9 +324,9 @@ export class UtilityService {
       let templateKey, matchedStr = match[0];
       let matchedStrSplitArr = matchedStr.split('==');
       if (matchedStrSplitArr[0].includes('variables')) {
-        templateKey = matchedStrSplitArr[1].replace(')',"").replace(':',"").trim();
+        templateKey = matchedStrSplitArr[1].replace(')', '').replace(':', '').trim();
       } else {
-        templateKey = matchedStrSplitArr[0].replace(')',"").replace(':',"").trim();
+        templateKey = matchedStrSplitArr[0].replace(')', '').replace(':', '').trim();
       }
       templateKeys.push(eval(templateKey));
       match = regex.exec(str);
@@ -334,12 +335,14 @@ export class UtilityService {
   }
 
   createOutputArr(generation_templates) {
-    let str = generation_templates;
+    let str = generation_templates + 'elif';//TODO: adding elif is a hack
 
     // let regex = /output\s=\s([\s\S]*?)\selif/g;
     // let regex = /output[\s\S]*?]$/gm;
     //   let regex = /output\s=([\s\S]*?])$/gm;
-      let regex = /output[\s]*=[\s]*([\s\S]*?[\s\S]$)/gm;//https://regex101.com/r/moAq3A/1/
+    //   let regex = /output[\s]*=[\s]*([\s\S]*?[\s\S]$)/gm;//https://regex101.com/r/moAq3A/1/
+    // let regex = /output[\s]*=([\s]*\[.*?\].*?\n|[\s\S]*?[\s\S]$)/gms;//https://regex101.com/r/WXGF5J/4
+    let regex = /output[\s]*?=[\s]*?([\s\S]*?)els?e?if/gm;
 
     let match = regex.exec(str);
 
@@ -357,6 +360,7 @@ export class UtilityService {
   parseGenTemplateCodeStrToObject(generation_templates: string) {
 
     let templateKeyOutputObj = {};
+    // let countOf_templateKey_stringInGenTemplateCodeStr = gener
     try {
 
       let templates: string[] = this.createTemplateKeyArr(generation_templates);
@@ -364,7 +368,7 @@ export class UtilityService {
       for (let i = 0; i < templates.length; ++i) {
         try {
           templateKeyOutputObj[templates[i]] = eval(outputs[i]);
-        }catch (e) {
+        } catch (e) {
           templateKeyOutputObj[templates[i]] = outputs[i];
         }
       }
@@ -389,15 +393,15 @@ export class UtilityService {
         }
         let outputValues = uiDictionary[templateKey];
         let outPutStr;
-        if(typeof outputValues === 'string'){
+        if (typeof outputValues === 'string') {
           outPutStr = `  output = ${outputValues}`;
-        }else {
+        } else {
           outPutStr = `  output = ${JSON.stringify(outputValues)}`;
         }
         genTemplateCodeStr += elIfStr + outPutStr;
       });
       return genTemplateCodeStr;
-    }catch (e) {
+    } catch (e) {
       console.log(e);
     }
 
@@ -584,7 +588,7 @@ export class UtilityService {
     this.toastr.success(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
   }
 
-  renameKeyInObject(o, old_key, new_key ){
+  renameKeyInObject(o, old_key, new_key) {
     if (old_key !== new_key) {
       Object.defineProperty(o, new_key,
         Object.getOwnPropertyDescriptor(o, old_key));
@@ -592,17 +596,17 @@ export class UtilityService {
     }
   }
 
-  imageUrlHttpsError(formControl: FormControl){
-    let url:string = formControl.value;
+  imageUrlHttpsError(formControl: FormControl) {
+    let url: string = formControl.value;
     let pattern = /^((https):\/\/)/;
 
-    return pattern.test(url)? null : {'Must be Https Url': true};
+    return pattern.test(url) ? null : {'Must be Https Url': true};
   }
 
-  imageUrlHavingValidExtnError(formControl: FormControl){
-    let url:string = formControl.value;
-    let pattern = /\.(gif|jpg|jpeg|tiff|png)$/i
-    return pattern.test(url)? null : {'Image Extension is not correct': true};
+  imageUrlHavingValidExtnError(formControl: FormControl) {
+    let url: string = formControl.value;
+    let pattern = /\.(gif|jpg|jpeg|tiff|png)$/i;
+    return pattern.test(url) ? null : {'Image Extension is not correct': true};
   }
 
   isManagerValidator(formGroup: FormGroup) {
@@ -743,18 +747,18 @@ export class UtilityService {
   areTwoJSObjectSame(obj1, obj2) {
     try {
       return JSON.stringify(obj1) === JSON.stringify(obj2);
-    }catch (e) {
+    } catch (e) {
       return false;
     }
   }
 
-  emptyObjectWithoutChaningRef(obj){
+  emptyObjectWithoutChaningRef(obj) {
     try {
-      for (let key in obj){
+      for (let key in obj) {
         delete obj[key];
       }
-    }catch (e) {
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -818,7 +822,7 @@ export class UtilityService {
   /* View in fullscreen */
   openFullscreen() {
 
-    let elem:any = document.documentElement;
+    let elem: any = document.documentElement;
     if (elem.requestFullscreen) {
       let x = elem.requestFullscreen();
     } else if (elem.mozRequestFullScreen) { /* Firefox */
@@ -832,7 +836,7 @@ export class UtilityService {
 
   /* Close fullscreen */
   closeFullscreen() {
-    let myDocument:any = document;
+    let myDocument: any = document;
     if (myDocument.exitFullscreen) {
       let x = myDocument.exitFullscreen();
     } else if (myDocument.mozCancelFullScreen) { /* Firefox */
@@ -845,7 +849,7 @@ export class UtilityService {
 
   }
 
-  deDupPrimitiveArray(arr:any[]){
+  deDupPrimitiveArray(arr: any[]) {
     return Array.from(new Set(arr));
   }
 

@@ -409,6 +409,7 @@ export class ServerService {
   }
 
   getAllVersionOfBotFromServerAndStoreInBotInBotList(botId, bot_access_token) {
+    debugger;
     let url = this.constantsService.getAllVersionsByBotId();
     // let botId = this.bot.id;
     this.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': bot_access_token}})

@@ -1,7 +1,8 @@
 @import "~src/sass/main";
 
-//::ng-deep app-code-editor {
-//}
+:host{
+  position: relative;
+}
 
 ::ng-deep .code-editor-row-min {
   //.CodeMirror {
