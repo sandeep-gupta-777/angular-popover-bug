@@ -111,6 +111,7 @@ export class ConstantsService {
     this.loggeduser$.subscribe((loggedUser: IAuthState) => {
       if (loggedUser && loggedUser.user) {
         this.loggedUser = loggedUser.user;
+        ConstantsService.loggedUser_static = loggedUser.user;
         this.allowedPermissionIdsToCurrentRole = this.loggedUser.role.permissions.actions;
       }
     });
@@ -142,53 +143,11 @@ export class ConstantsService {
 
   static state: any;
   loggedUser: IUser;
+  static loggedUser_static:IUser;/*Todo: remove this.logged user and rename it*/
   @Select() app$: Observable<IAppState>;
   @Select() loggeduser$: Observable<{ user: IUser }>;
 
-
-  isRouteAccessDenied(routeName: string) {
-    // let role = this.loggedUser.role.name;
-    // let deniedRoutes = this.permissionsDeniedMap[role].route;
-    // let isRouteAccessDenied = deniedRoutes.find((route) => {
-    //   return route === routeName;
-    // });
-    return false; // isRouteAccessDenied;
-  }
-
-  // isTabAccessDenied(tabName: string) {
-  //   if (!tabName) return false;
-  //   let role = this.loggedUser.role.name;
-  //   let deniedTabs = this.permissionsDeniedMap[role].tab;
-  //   let isTabAccessDenied = deniedTabs.find((route) => {
-  //     return route === tabName;
-  //   });
-  //   return !!isTabAccessDenied;
-  // }
-
-  isAccessDeniedDynamic(tabName: EAllActions) {
-    if (!tabName || !this.forbiddenPermsDynamic) { return false; }
-    // let role = this.loggedUser.role.name;
-    // let deniedTabs = this.permissionsDeniedMap[role].tab;
-    const isTabAccessDenied = Object.keys(this.forbiddenPermsDynamic).find((perm) => {
-      return perm === tabName;
-    });
-    return !!isTabAccessDenied;
-  }
-
-  isApiAccessDenied(apiUrl: string) {
-    return false;
-    // if (!apiUrl) return false;
-    // let role = this.loggedUser.role.name;
-    // let deniedApi = this.permissionsDeniedMap[role].api;
-    // let isApiAccessDenied = deniedApi.find((route) => {
-    //   return apiUrl.includes(route);
-    // });
-    // let x = !!isApiAccessDenied;
-    // return x;
-  }
-
-  //
-  public BACKEND_URL; // = environment.url;//'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
+  public BACKEND_URL;// = environment.url;//'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
   public BACKEND_URL_LOGIN = `${this.BACKEND_URL}` + 'api/v1/user/login/';
   private BACKEND_URL_ENTERPRISE_USERS = `${this.BACKEND_URL}` + 'users/enterprise/';
   private BACKEND_USER_UPDATE_URL = `${this.BACKEND_URL}` + 'user/'; //https://dev.imibot.ai/user/5a030aa9b050705bd0ca5a45
@@ -306,12 +265,6 @@ export class ConstantsService {
   getMasterIntegrationsList() {
     return this.BACKEND_URL + 'api/v1/integrations/';
   }
-
-  // getCodebasedBotListUrl() {
-  //   return this.BACKEND_USER_CODE_BASED_BOT_LIST;
-  //   return this.BACKEND_URL + 'api/v1/integrations/';
-  //
-  // }
 
   getOverViewInfoUrl() {
     return this.BACKEND_URL + 'analytics/overviewinfo/'; //https://dev.imibot.ai/analytics/overviewinfo;
@@ -580,12 +533,10 @@ export class ConstantsService {
       },
       updated_at: {//
         title: 'Updated At',
-        width: '150px',
         filter: false,
         valuePrepareFunction: (date) => {
-
-          // var raw = new Date(date);
-          const formatted = new Date(date).toJSON().slice(0, 10).split('-').reverse().join('/'); //this.datePipe.transform(raw, 'd/m/yy');
+          var raw = new Date(date);
+          var formatted = this.datePipe.transform(raw, 'medium');
           return formatted;
         }
       },
