@@ -55,7 +55,8 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   @Input() bot;
   @Input() templateKeyDict;
   channelNameList;
-  @Input() selectedTemplateKeyOutputIndex;
+  // @Input() selectedTemplateKeyOutputIndex;
+  selectedTemplateKeyOutputIndex = [];
   selectedTemplateKeyInLeftSideBar;
   // @Output() deleteGentemplate = new EventEmitter;
   // @Output() moveUpGentempate = new EventEmitter;
@@ -124,6 +125,13 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(quickReplyUnit);
     setTimeout(() => this.scrollToBottom());
 
+  }
+
+  clearNewTemplateKeyData(){
+    debugger;
+    this.modalRef.hide();
+    this.newTemplateKey='';
+    this.templateKeyCreationError="";
   }
 
   addImageCaraosalUnit() {
@@ -198,7 +206,8 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
     const selectedIntentDestinationKeys = Object.keys(selectedTemplateKeyObject).filter((key) => selectedTemplateKeyObject[key]);
     for (const key of selectedIntentDestinationKeys) {
-      this.templateKeyDict[key].push(...selectedGenTempObjList);
+      // this.templateKeyDict[key].push(...selectedGenTempObjList);
+      this.templateKeyDict[key].push(...JSON.parse(JSON.stringify(selectedGenTempObjList)));
     }
     this.selectedTemplateKeyOutputIndex = [];
     this.modalRef.hide();
@@ -206,7 +215,8 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
 
   selectedListDuplicate() {
-    for (const i of this.selectedTemplateKeyOutputIndex) {
+    debugger;
+    for (let i of this.selectedTemplateKeyOutputIndex) {
       this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(JSON.parse(JSON.stringify(this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][i])));
     }
     this.selectedTemplateKeyOutputIndex = [];
@@ -244,11 +254,13 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   createNewTemplatekey() {
+    this.newTemplateKey = this.newTemplateKey.trim();
     const isTemplateKeyUnique = !Object.keys(this.templateKeyDict).find((key) => key === this.newTemplateKey);
-    if (!isTemplateKeyUnique) {
+    if (!isTemplateKeyUnique || !this.newTemplateKey) {
       this.templateKeyCreationError = 'This template key already exists';
       return;
     }
+    this.templateKeyCreationError = "";
     const intentUnit = {};
     intentUnit[this.newTemplateKey] = [{
       'text': [''],
@@ -276,6 +288,14 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   editTemplateKey(templateKeyEditForm) {
     const {old_key, new_key} = templateKeyEditForm.value;
+    let doesNewKeyAlreadyExistsInTemplateKeyDict = Object.keys(this.templateKeyDict).find(key=>new_key===key);
+    if(doesNewKeyAlreadyExistsInTemplateKeyDict){
+      this.templateKeyCreationError = "Template Key name already exists";
+      return;
+    }else if(!new_key.trim()){
+      this.templateKeyCreationError = "Template Key can't be empty";
+      return;
+    }
     this.utilityService.renameKeyInObject(this.templateKeyDict, old_key, new_key);
     this.selectedTemplateKeyInLeftSideBar = new_key;
     this.modalRef.hide();
@@ -302,6 +322,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.convertUiDictToGenTemplateCode$.emit(this.templateKeyDict);
+    this.selectedTemplateKeyOutputIndex = []
   }
 
   ngAfterViewInit() {

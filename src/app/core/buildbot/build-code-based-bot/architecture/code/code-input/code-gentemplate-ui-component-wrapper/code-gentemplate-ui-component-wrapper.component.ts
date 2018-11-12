@@ -11,6 +11,7 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
   _variants: string[];
   channelNameList: string[];
   @Input() outputItem: IOutputItem;
+  outputItemClone: IOutputItem;
   @Input() myIndex: number;
   @Input() channelList: {name: string}[];
   @Input() totalResponseTemplateComponentCount: number;
@@ -35,14 +36,34 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
 
   delete(i) {
     this.deleteTemplate.emit(i);
+    this.selectionChanged.emit(JSON.stringify({
+      select: false,
+      index: this.myIndex
+    }));
   }
 
   moveUp(i) {
     this.moveTempUp.emit(i);
+    this.selectionChanged.emit(JSON.stringify({
+      select: false,
+      index: this.myIndex
+    }));
+    this.selectionChanged.emit(JSON.stringify({
+      select: true,
+      index: this.myIndex+1
+    }));
   }
 
   moveDown(i) {
     this.moveTempDown.emit(i);
+    this.selectionChanged.emit(JSON.stringify({
+      select: false,
+      index: this.myIndex
+    }));
+    this.selectionChanged.emit(JSON.stringify({
+      select: true,
+      index: this.myIndex-1
+    }));
   }
 
   addVarient() {
@@ -50,9 +71,10 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
     this.variantsIter = [...this._variants];
   }
 
-  onSelected(b) {
+  onSelected(isSelected:boolean) {
+    debugger;
     this.selectionChanged.emit(JSON.stringify({
-      select: b,
+      select: isSelected,
       index: this.myIndex
     }));
   }
@@ -64,7 +86,7 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
     } else {
       this.outputItem.include.push(channel);
     }
-    this.outputItem = {...this.outputItem};
+    this.outputItemClone = {...this.outputItem};
   }
 
   imgOpacity(channel: string) {

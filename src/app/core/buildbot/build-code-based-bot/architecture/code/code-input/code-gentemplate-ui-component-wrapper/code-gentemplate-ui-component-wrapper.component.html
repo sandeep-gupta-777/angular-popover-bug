@@ -27,7 +27,7 @@
       [variants]="outputItem.text"></app-text-gentemplate>
     <app-code-gentemplate *ngIf="outputItem.code  && ((outputItem|dataType)!=='string')"
                           #gentemplateItem class="gentemplateItem flex-grow-1"
-                          [_outputItem]="outputItem"
+                          [_outputItem]="outputItemClone|| outputItem"
                           [myIndex]=i
                           [channelNameList]="channelNameList"
     ></app-code-gentemplate>

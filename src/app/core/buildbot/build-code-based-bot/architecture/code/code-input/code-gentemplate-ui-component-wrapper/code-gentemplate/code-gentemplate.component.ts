@@ -18,7 +18,7 @@ export class CodeGentemplateComponent implements OnInit {
     this.outputItemClone = {...val};
   }
   @Input() channelNameList: string[];
-  outputItemClone: IOutputItem;
+  outputItemClone: IOutputItem = null;
   @Input() myIndex: number;
 
   @Input() set selectedTemplateKeyOutputIndex(selectedTemplateKeyOutputIndex: number[]) {

@@ -45,9 +45,9 @@
     <input type="text" ngModel name="title"
            class="form-control">
   </div>
-
+<!---->
   <!--text specific details start-->
-  <div *ngIf="content_type===myEQuickReplyTypes.text">
+  <div [hidden]="content_type!==myEQuickReplyTypes.text">
     <input type="text" [ngModel]="textType" name="textType" hidden>
     <ul class="nav nav-tabs border-0 theme-tabbing my-1 bg-white">
       <li class="nav-item" (click)="subTabChanged(myEQuickReplySubTabsType.payload)"
@@ -67,13 +67,14 @@
 
     </ul>
 
-    <div *ngIf="textType === myEQuickReplySubTabsType.payload">
+    <div [hidden]="textType !== myEQuickReplySubTabsType.payload">
+    <!--<div>-->
       <label class="required">Payload Text</label>
       <input type="text" ngModel name="payload"
              class="form-control">
     </div>
 
-    <div *ngIf="textType === myEQuickReplySubTabsType.url">
+    <div [hidden]="textType !== myEQuickReplySubTabsType.url">
       <label class="required">Url</label>
       <input type="text" ngModel name="url"
              class="form-control">
@@ -84,7 +85,7 @@
 
 
   <!--Location details start-->
-  <div class="mt-1" *ngIf="content_type===myEQuickReplyTypes.location">
+  <div class="mt-1" [hidden]="content_type!==myEQuickReplyTypes.location">
     <label class="required">Icon (optional)</label>
     <input type="text" ngModel name="icon"
            class="form-control">

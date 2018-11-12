@@ -17,7 +17,7 @@ export enum EQuickReplySubTabsType {
 @Component({
   selector: 'app-code-quick-reply',
   templateUrl: './code-quick-reply.component.html',
-  styleUrls: ['./code-quick-reply.component.scss']
+  styleUrls: ['./code-quick-reply.component.scss'],
 })
 export class CodeQuickReplyComponent implements OnInit, AfterViewInit {
   myEQuickReplyTypes = EQuickReplyTypes;
@@ -39,18 +39,54 @@ export class CodeQuickReplyComponent implements OnInit, AfterViewInit {
 
   tabChanged(selectedTab) {
     this.content_type = selectedTab;
-    this.quickReplyForm.form.patchValue(this.quick_reply);
+    // this.quickReplyForm.form.patchValue(this.quick_reply);
 
   }
 
   subTabChanged(selectedSubTab) {
     this.textType = selectedSubTab;
-    this.quickReplyForm.form.patchValue(this.quick_reply);
+    setTimeout(()=>{
+      // this.quickReplyForm.form.patchValue(this.quick_reply);;
+    });
+  }
+
+  removeAllKeysFromObjectUnlessMentioned(newQuickReplyFormValue, excludedKeys:string[]){
+    for(let key in newQuickReplyFormValue){
+      let doesKeyExistsInExcludedArr = excludedKeys.findIndex(value => key===value) !== -1;
+      if(!doesKeyExistsInExcludedArr ){
+        delete newQuickReplyFormValue[key];
+      }
+    }
+    return newQuickReplyFormValue;
   }
 
   saveQuickReplyForm(quickReplyForm) {
-    console.log(quickReplyForm.value);
-    Object.assign(this.quick_reply, quickReplyForm.value);
+    debugger;
+    let {textType,content_type} = quickReplyForm.value;
+    let excludedKeys:string[] = [];
+    let newQuickReplyFormValue = JSON.parse(JSON.stringify(quickReplyForm.value));
+    if(content_type===EQuickReplyTypes.phone || content_type=== EQuickReplyTypes.email){
+      excludedKeys = ['content_type','title'];
+    }else if(content_type===EQuickReplyTypes.text){
+      excludedKeys = ['content_type','title','payload', 'url', ''];
+    }else if(content_type===EQuickReplyTypes.location){
+      excludedKeys = ['content_type','title','icon'];
+    }
+    newQuickReplyFormValue = this.removeAllKeysFromObjectUnlessMentioned(newQuickReplyFormValue, excludedKeys);
+
+    // if(textType === EQuickReplySubTabsType.payload){
+    //   newQuickReplyFormValue = {...quickReplyForm.value, url:""};
+    // }else if(textType === EQuickReplySubTabsType.url) {
+    //   newQuickReplyFormValue = {...quickReplyForm.value, payload:""};
+    // }
+
+    // if(content_type !== EQuickReplyTypes.location){
+    //   newQuickReplyFormValue.icon = "";
+    // }
+
+    this.removeAllKeysFromObjectUnlessMentioned(this.quick_reply,[]);
+    Object.assign(this.quick_reply, newQuickReplyFormValue);
+    this.quickReplyForm.form.patchValue(newQuickReplyFormValue);
     setTimeout(() => {
       this.hideQuickReplyDropdown$.emit();
     });

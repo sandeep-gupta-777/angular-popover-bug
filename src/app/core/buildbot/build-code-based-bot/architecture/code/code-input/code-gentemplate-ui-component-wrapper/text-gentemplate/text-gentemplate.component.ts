@@ -11,6 +11,7 @@ export class TextGentemplateComponent implements OnInit, AfterViewInit {
   _variants: string[];
   variantsIter: string[];
   selected: boolean;
+  userErrorMessage:string = "";
 
   @Input() outputItem: IOutputItem;
   @ViewChild('textarea') textarea: ElementRef;
@@ -37,7 +38,17 @@ export class TextGentemplateComponent implements OnInit, AfterViewInit {
   }
 
 
-  addVarient() {
+  addVariant() {
+    this.userErrorMessage = "";
+    let isAnyVarientIsEmpty = this._variants.findIndex((val)=>val.trim()==='') !== -1;
+    /*TODO: implement it using form validator*/
+    if(isAnyVarientIsEmpty){
+      this.userErrorMessage = "Some variants are empty";
+      setTimeout(()=>{
+        this.userErrorMessage = "";
+      },3000);
+      return;
+    }
     this._variants.push('');
     this.variantsIter = [...this._variants];
   }

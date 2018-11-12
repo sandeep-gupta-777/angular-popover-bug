@@ -80,8 +80,6 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   newTemplateKey: string;
   showGenTempEditorAndHideGenTempUi = false;
   selectedChannelOfGenTemplate: { name: string, displayName: string };
-  selectedTemplateKeyOutputIndex: number[] = [];
-  selectedIntentList: string[] = ['A2', 'A3', 'A4'];
   validationMessageToggle = false;
   // @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   @ViewChildren('gentemplateItem') private gentemplateItems: QueryList<ElementRef>;

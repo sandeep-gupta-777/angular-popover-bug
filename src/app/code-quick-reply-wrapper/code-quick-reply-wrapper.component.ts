@@ -40,7 +40,7 @@ export class CodeQuickReplyWrapperComponent implements OnInit {
   }
 
   pushNewQuickReply() {
-    this.outputItem.quick_reply[0].quick_replies.push({'content_type': 'text', 'title': 'No', 'payload': 'no'});
+    this.outputItem.quick_reply[0].quick_replies.push({'content_type': 'text', 'title': 'New Reply', 'payload': 'New Reply Payload'});
   }
 
   delete(i) {
