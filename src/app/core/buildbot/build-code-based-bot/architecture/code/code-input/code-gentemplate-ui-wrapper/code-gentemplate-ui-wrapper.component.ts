@@ -104,7 +104,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   addCodeUnit() {
 
-    debugger;
+
     const codeUnit = {
       'include': this.createIncludesArray(),
       'code': ['Write ur text here .....']
@@ -127,7 +127,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   clearNewTemplateKeyData(){
-    debugger;
+
     this.modalRef.hide();
     this.newTemplateKey='';
     this.templateKeyCreationError="";
@@ -214,7 +214,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
 
   selectedListDuplicate() {
-    debugger;
+
     for (let i of this.selectedTemplateKeyOutputIndex) {
       this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(JSON.parse(JSON.stringify(this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][i])));
     }

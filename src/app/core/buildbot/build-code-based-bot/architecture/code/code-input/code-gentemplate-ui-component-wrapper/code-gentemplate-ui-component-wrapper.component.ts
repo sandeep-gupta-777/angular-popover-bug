@@ -72,7 +72,7 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
   }
 
   onSelected(isSelected:boolean) {
-    debugger;
+
     this.selectionChanged.emit(JSON.stringify({
       select: isSelected,
       index: this.myIndex

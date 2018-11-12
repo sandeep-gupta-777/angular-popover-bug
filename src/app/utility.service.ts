@@ -408,6 +408,14 @@ export class UtilityService {
 
   }
 
+  doesStringIncludesSubstring(string, subString){
+    try {
+      return !string || !subString ? false : string.includes(subString);
+    }catch (e) {
+      return false;
+    }
+  }
+
 
   appendChartValueAndSeries(xAndYValues: any, chartValue) {
     return {

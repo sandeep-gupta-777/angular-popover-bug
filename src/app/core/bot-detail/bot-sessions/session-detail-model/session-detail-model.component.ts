@@ -176,7 +176,7 @@ export class SessionDetailModelComponent implements OnInit {
       this.utilityService.showSuccessToaster('Reached end of list');
     }
     if (ele) {
-      ele.scrollIntoView();
+        ele.scrollIntoView();
       return true;
     }
     return false;
@@ -219,14 +219,17 @@ export class SessionDetailModelComponent implements OnInit {
     }
   }
 
-  performSearch(messageSearchKeyword) {
+  scrollToFirstKeywordMatch(messageSearchKeyword) {
+
     this.searchEnterPressedCount = 0;
     this.messageSearchKeyword = messageSearchKeyword = messageSearchKeyword.trim();
     if (messageSearchKeyword === '') { return; }
     this.sessionMessageDataCopy = [...this.sessionMessageData];
     /*find transaction id of first matched text*/
     const elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, 0);
-    elementDataToScroll && this.scroll(elementDataToScroll.transaction_id);
+    setTimeout(()=>{
+      elementDataToScroll && this.scroll(elementDataToScroll.transaction_id);
+    },0);
   }
 
 

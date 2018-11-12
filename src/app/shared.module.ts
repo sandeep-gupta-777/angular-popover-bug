@@ -19,7 +19,7 @@ import {KnowledgeBasePresentationComponent} from './core/buildbot/build-code-bas
 import {ChartComponent} from './core/chart/chart.component';
 import {HandsontableComponent} from './handsontable/handsontable.component';
 import {ChartModule} from 'angular-highcharts';
-import {FilterObjectArrayPipe} from './filter-object-array.pipe';
+import {HighlightSessionTexts} from './highlight-session-texts.pipe';
 import {FilterActiveBotPipe} from './filter-active-bot.pipe';
 import {IntegrationImageCountPipe} from './integration-image-count.pipe';
 import {IntegrationInputKeysFilterPipe} from './integration-input-keys-filter.pipe';
@@ -69,7 +69,7 @@ import {SafeUrlPipe} from './href-sanitizer.pipe';
     KnowledgeBasePresentationComponent,
     ChartComponent,
     HandsontableComponent,
-    FilterObjectArrayPipe,
+    HighlightSessionTexts,
     FilterActiveBotPipe,
     IntegrationImageCountPipe,
     IntegrationInputKeysFilterPipe,
@@ -128,7 +128,7 @@ import {SafeUrlPipe} from './href-sanitizer.pipe';
     KnowledgeBasePresentationComponent,
     ChartComponent,
     HandsontableComponent,
-    FilterObjectArrayPipe,
+    HighlightSessionTexts,
     FilterActiveBotPipe,
     SerializeSessionMessagePipe,
     IntegrationImageCountPipe,

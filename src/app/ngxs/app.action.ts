@@ -35,7 +35,7 @@ export class SetProgressValue {
       loading: boolean,
       value: number
     }
-  }) {debugger;}
+  }) {}
 }
 
 export class SetMasterIntegrationsList {

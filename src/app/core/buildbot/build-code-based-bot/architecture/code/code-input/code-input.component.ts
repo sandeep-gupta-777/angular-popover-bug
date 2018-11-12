@@ -142,7 +142,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     }
     this.botlist$_sub = this.botlist$.subscribe(() => {
 
-      debugger;
+
       // try {
       //   let newTemplateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
       //   if(this.utilityService.areTwoJSObjectSame(this.templateKeyDict, newTemplateKeyDict)) return;

@@ -62,7 +62,7 @@ export class CodeQuickReplyComponent implements OnInit, AfterViewInit {
   }
 
   saveQuickReplyForm(quickReplyForm) {
-    debugger;
+
     let {textType,content_type} = quickReplyForm.value;
     let excludedKeys:string[] = [];
     let newQuickReplyFormValue = JSON.parse(JSON.stringify(quickReplyForm.value));

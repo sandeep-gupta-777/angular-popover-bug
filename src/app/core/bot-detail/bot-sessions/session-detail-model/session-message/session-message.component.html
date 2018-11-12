@@ -1,3 +1,4 @@
+<!--<p>{{sessionMessageItems|json}}</p>-->
 <div class="cursor-pointer" [ngClass]="txnId" (click)="messageClickedEvent$.emit(txnId)">
   <!--<div class="cursor-pointer" [ngClass]="txnId">-->
   <i class="meta-text cursor-pointer pl-1" (click)="utilityService.copyToClipboard(txnId)"
@@ -15,7 +16,7 @@
         <div class="col-10 p-0">
           <div class="message p-2 bg-message-human" style="display: inline-block">
             <!--<span class="message-text ">{{sessionMessageData.message}}</span>-->
-            <span class="message-text" [innerHtml]="sessionMessage.message"></span>
+            <span class="message-text" [innerHtml]="sessionMessage.messageByHuman|| sessionMessage.message"></span>
             <div class="time text-right">10:42 PM</div>
           </div>
         </div>
