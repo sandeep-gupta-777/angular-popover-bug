@@ -50,5 +50,9 @@ export class CodeQuickReplyWrapperComponent implements OnInit {
   ngOnInit() {
   }
 
+  deleteQuickReply(index){
+    this.outputItem.quick_reply[0].quick_replies.splice(index,1);
+  }
+
 
 }

@@ -49,8 +49,8 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
       index: this.myIndex
     }));
     this.selectionChanged.emit(JSON.stringify({
-      select: true,
-      index: this.myIndex+1
+      select: false,
+      index: this.myIndex-1
     }));
   }
 
@@ -61,8 +61,8 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
       index: this.myIndex
     }));
     this.selectionChanged.emit(JSON.stringify({
-      select: true,
-      index: this.myIndex-1
+      select: false,
+      index: this.myIndex+1
     }));
   }
 

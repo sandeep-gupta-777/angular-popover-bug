@@ -144,12 +144,12 @@ export class CodeBasedBotDetailComponent implements OnInit {
 
   getOverviewInfo() {
     /*TODO: improve below by adding all the fields*/
-    this.overviewInfo$ = this.serverService.getOverviewInfo({
-      bot_id: this.bot_id,
-      platform: this.selectedChannel,
-      start_date: this.start_date,
-      end_date: this.end_date
-    });
+    // this.overviewInfo$ = this.serverService.getOverviewInfo({
+    //   bot_id: this.bot_id,
+    //   platform: this.selectedChannel,
+    //   start_date: this.start_date,
+    //   end_date: this.end_date
+    // });
   }
 
   refreshSession() {

@@ -27,6 +27,7 @@ export class CodeQuickReplyComponent implements OnInit, AfterViewInit {
   @Input() quick_reply: IQuickReplyItem;
   @ViewChild('quickReplyForm') quickReplyForm: NgForm;
   @Output() hideQuickReplyDropdown$ = new EventEmitter();
+  @Output() deleteQuickReply$ = new EventEmitter();
 
   constructor() {
   }

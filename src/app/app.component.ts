@@ -33,6 +33,7 @@ export class AppComponent extends DebugBase implements OnInit {
 
   ngOnInit() {
       this.app$.subscribe((app) => {
+        debugger;
       if (app.progressbar.loading) {
         this.showProgressbar = true;
         this.currentIntervalRef && clearInterval(this.currentIntervalRef);

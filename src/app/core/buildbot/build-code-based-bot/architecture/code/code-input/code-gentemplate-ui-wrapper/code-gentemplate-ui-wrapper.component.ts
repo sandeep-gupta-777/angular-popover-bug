@@ -118,8 +118,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
       'include': this.createIncludesArray(),
       'quick_reply': [{
         'text': 'Would you like us to activate this ?',
-        'quick_replies': [{'content_type': 'text', 'title': 'Yes', 'payload': 'yes'},
-          {'content_type': 'text', 'title': 'No', 'payload': 'no'}]
+        'quick_replies': []
       }]
     };
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(quickReplyUnit);
