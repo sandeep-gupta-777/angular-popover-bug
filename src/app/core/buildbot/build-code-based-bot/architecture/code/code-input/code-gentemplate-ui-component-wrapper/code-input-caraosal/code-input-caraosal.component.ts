@@ -48,6 +48,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   @ViewChild('MultiCarouselInner') MultiCarouselInner: ElementRef;
   @ViewChild('addNewCarasolPlaceholder') addNewCarasolPlaceholder: ElementRef;
   itemWidth;
+  disableAddNewCarasolItem = false;
   _messageData: IMessageData;
   myECarasoulMoveDirection = ECarasoulMoveDirection;
   selected: boolean;
@@ -306,6 +307,12 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
           $(MultiCarouselInner).css('transform', 'translateX(' + (currentSlideLength() - itemWidth) + 'px)');
           ++self.controlsClickedCount;
         }
+
+        self.disableAddNewCarasolItem = false;
+
+        // if(self.controlsClickedCount === self.outputItem.generic_template[0].elements.length){
+        //   --self.controlsClickedCount;;
+        // }
       };
 
 
@@ -332,6 +339,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   }
 
   pushNewCarasolItem() {
+    this.disableAddNewCarasolItem =true;
     const carasolItems = this.outputItem.generic_template[0].elements;
     const emptyCaraosalItem: ICarousalItem = {
       'image_url': 'https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg',

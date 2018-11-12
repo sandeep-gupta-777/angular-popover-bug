@@ -46,7 +46,6 @@ import {BackendDevComponent} from './backend-dev/backend-dev.component';
 import {ChatService} from './chat.service';
 import {ObjectArrayCrudService} from './object-array-crud.service';
 import {SplashScreenComponent} from './splash-screen/splash-screen.component';
-import { DebounceClickDirective } from './debounce-click.directive';
 import {ThemeComponent} from './theme/theme.component';
 import {SafeHtml} from '@angular/platform-browser';
 import {SafeUrlPipe} from './href-sanitizer.pipe';
@@ -70,7 +69,6 @@ const routes: Route[] = [
     NotAuthorisedComponent,
     FilterArrayPipe,
     BackendDevComponent,
-    DebounceClickDirective,
     // MsToHhMmPipe,
     // ChatWrapperComponent,
     // ChatWindowComponent,
