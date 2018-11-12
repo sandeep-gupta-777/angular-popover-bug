@@ -16,6 +16,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import {EFormValidationErrors, UtilityService} from '../../../../../utility.service';
 import {DragulaService} from 'ng2-dragula';
 import {LoggingService} from '../../../../../logging.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-pipeline',
@@ -38,12 +39,11 @@ export class PipelineComponent implements OnInit {
   @Select() app$: Observable<IAppState>;
   iterableDiffer;
   pipeLine: IPipelineItem[] = [];
-  @Input() aiModules: IPipelineItem[] = null;
+  aiModules: IPipelineItem[] = null;
   selectedPipeline: IPipelineItem;
   searchKeyword: string;
   buildBotType: any;
   modalRef: BsModalRef;
-
   @Output() datachanged$ = new EventEmitter();
 
   constructor(
@@ -89,8 +89,7 @@ export class PipelineComponent implements OnInit {
 
     let url = this.constantsService.getAllPipelineModuleUrl();
     this.app$.subscribe((appState:IAppState)=>{
-      this.aiModules =
-      appState.masterPipelineItems;
+      this.aiModules = this.utilityService.createDeepClone(appState.masterPipelineItems);
       this.filterAiModules()
     });
     this.serverService.makeGetReq<{objects:IPipelineItem[]}>({url})
@@ -154,6 +153,11 @@ export class PipelineComponent implements OnInit {
   test(){
     LoggingService.log(this.pipeLine);
   }
-
+  submitPipeline(Pipelineform:NgForm){
+    if (Pipelineform.valid) {
+      console.log(Pipelineform.value);
+      this.selectedPipeline.input_params = Pipelineform.value;  
+    }
+  }
 
 }

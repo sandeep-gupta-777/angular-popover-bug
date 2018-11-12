@@ -54,7 +54,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   selectedChannelOfGenTemplate;
   @Input() bot;
   @Input() templateKeyDict;
-  channelNameList;
+  channelNameList : string[];
   @Input() selectedTemplateKeyOutputIndex;
   selectedTemplateKeyInLeftSideBar;
   // @Output() deleteGentemplate = new EventEmitter;
@@ -78,6 +78,9 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
       this.templateKeyDictClone = this.utilityService.createDeepClone(this.templateKeyDict);
       this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
       this.channelSelectorForm.form.patchValue({name:'all'});
+      this.channelNameList = this.channelList.map((channel)=>{
+        return channel.name;
+      }).filter(e => e !== 'all');
     }catch (e) {
       console.log(e);
     }
@@ -153,6 +156,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   createIncludesArray(){
+    debugger
     return Array.isArray(this.channelNameList)? ['web', ...this.channelNameList]: ['web'];;
   }
 

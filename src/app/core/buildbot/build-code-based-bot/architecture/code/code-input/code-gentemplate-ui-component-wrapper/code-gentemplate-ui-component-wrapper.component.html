@@ -49,7 +49,7 @@
 
     <div class="pb-1 pl-1">
       <img *ngFor="let channel of channelNameList" class="logo-image mx-1 cursor-pointer"
-           (click)="removeThisChannel(channel)" [src]="(channel|logosByIntegrationName)?.icon"
+           (click)="removeThisChannel(channel,$event)" [src]="(channel|logosByIntegrationName)?.icon"
            [ngStyle]="{'opacity': imgOpacity(channel) ? 1 : 0.2 }">
     </div>
   </div>
