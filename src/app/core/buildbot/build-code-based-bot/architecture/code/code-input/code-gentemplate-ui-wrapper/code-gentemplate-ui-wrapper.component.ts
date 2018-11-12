@@ -162,7 +162,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   }
 
-  createIncludesArray(){
+  createIncludesArray(){  
     return Array.isArray(this.channelNameList)? ['web', ...this.channelNameList]: ['web'];;
   }
 
