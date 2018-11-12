@@ -224,6 +224,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
       //this function define the size of the items
       function ResCarouselSize() {
 
+        self.controlsClickedCount = 0;
         // var incno = 0;
         // var dataItems = ('data-items');
         console.log(self.caraosalItem.toArray());
@@ -372,6 +373,14 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
       'payload': 'expire'
     });
     console.log(this.outputItem.generic_template[0].elements[carasolItemIndex]);
+  }
+
+  deleteCaraousalButton(carouselIndex, buttonIndex){
+    try {
+      this.outputItem.generic_template[0].elements[carouselIndex].button.splice(buttonIndex,1);
+    }catch (e) {
+      console.log(e);
+    }
   }
 
 

@@ -2,7 +2,7 @@
   <div class="d-flex w-100">
     <div class="d-flex align-items-center">
       <i class="fa fa-picture-o mr-1" style="font-size: 15px; color: #9b9b9b"></i>
-      <span>Image Carousal ({{outputItem?.generic_template[0]?.elements?.length}})</span>
+      <span>Image Carousel ({{outputItem?.generic_template[0]?.elements?.length}})</span>
     </div>
   </div>
 
@@ -13,23 +13,23 @@
     <!--TODO: ngclass below is a hack; improve it-->
     <div #MultiCarouselInner class="MultiCarousel-inner  flex-grow-1 d-flex" style="min-width: 100%" [ngClass]="{'float-right':isParentSessionsModal && (totalItemsInCarasol<carasolItemShownInOneScreen)}">
       <!--carasol item starts-->
-      <div class="item flex-shrink-0 p-1" #caraosalItem *ngFor="let carousalItem of outputItem?.generic_template[0]?.elements; let i = index"
+      <div class="item flex-shrink-0 p-1" #caraosalItem *ngFor="let carousalItem of outputItem?.generic_template[0]?.elements; let carouselIndex = index"
            style="border-radius: 2px">
-        <div [style.visibility]="controlsClickedCount===i ? 'visible' : 'hidden'" class="w-100 controls show-on-hover-item d-flex justify-content-between align-items-start hide-it"
+        <div [style.visibility]="controlsClickedCount===carouselIndex ? 'visible' : 'hidden'" class="w-100 controls show-on-hover-item d-flex justify-content-between align-items-start hide-it"
              style="flex-basis: 18px;">
 
 
-          <i class="fa fa-copy carasol-item-control cursor-pointer" (click)="duplicateCarasolItem(i);"></i>
+          <i class="fa fa-copy carasol-item-control cursor-pointer" (click)="duplicateCarasolItem(carouselIndex);"></i>
           <div class="d-flex ">
-            <i *ngIf="i>=1" class="fa fa-chevron-left m-1 cursor-pointer heading-icon carasol-item-control" (click)="swapCarasolItems(i,i-1)"></i>
-            <i *ngIf="i< outputItem?.generic_template[0]?.elements.length-1" class="fa fa-chevron-right m-1 cursor-pointer heading-icon carasol-item-control"
-               (click)="swapCarasolItems(i,i+1)"></i>
+            <i *ngIf="carouselIndex>=1" class="fa fa-chevron-left m-1 cursor-pointer heading-icon carasol-item-control" (click)="swapCarasolItems(carouselIndex,carouselIndex-1)"></i>
+            <i *ngIf="carouselIndex< outputItem?.generic_template[0]?.elements.length-1" class="fa fa-chevron-right m-1 cursor-pointer heading-icon carasol-item-control"
+               (click)="swapCarasolItems(carouselIndex,carouselIndex+1)"></i>
           </div>
-          <i class="fa fa-trash m-1 cursor-pointer heading-icon carasol-item-control" (click)="deleteCarasolItem(i);"></i>
+          <i class="fa fa-trash m-1 cursor-pointer heading-icon carasol-item-control" (click)="deleteCarasolItem(carouselIndex);"></i>
 
         </div>
         <div class="card m-0 shadow-theme position-relative">
-          <ng-container *ngIf="i === controlsClickedCount+1">
+          <ng-container *ngIf="carouselIndex === controlsClickedCount+1">
             <div class="item-before cursor-pointer bg-overlay-grey d-flex align-items-center justify-content-center "
                  #rightLst (click)="slideCarousel(myECarasoulMoveDirection.right)" style="position: absolute; top: 0;bottom: 0;right: 0; left: 0; z-index: 100">
               <i class="fa fa-arrow-right" style="position: absolute; top: 50%; left: 12.5%; z-index: 110"></i>
@@ -73,8 +73,9 @@
                   </li>
                   <li role="menuitem" class="mb-1">
                     <label class="faded-text mb-0"> Title</label>
-                    <input type="text" name="title" [ngModel]="button.title" placeholder="title" style="width: 100%">
+                    <input type="text" name="title" #titleEl required [ngModel]="button.title" placeholder="title" style="width: 100%">
                   </li>
+                  <!--<p>{{titleEl.valid}}</p>-->
                   <li role="menuitem" class="mb-1">
                     <label class="faded-text mb-0"> Payload</label>
                     <input type="text" name="payload" [ngModel]="button.payload" placeholder="payload" style="width: 100%">
@@ -86,23 +87,24 @@
                   <li class="d-flex" style="margin-top: 10px; font-size: 11px">
                     <!--<button class="btn-theme btn-theme-success-sm-outline mx-1" (click)="dropdown.hide()">Cancel</button>-->
                     <!--<button class="btn-theme btn-theme-success-sm">Save</button>-->
-                    <span class="text-primary mr-1 cursor-pointer" (click)="saveButtonConfig(btnConfigForm, i, buttonIndex)">Done</span>
+                    <span class="text-primary mr-1 cursor-pointer" (click)="saveButtonConfig(btnConfigForm, carouselIndex, buttonIndex)">Done</span>
                     <span class="text-primary cursor-pointer" (click)="dropdown.hide()">Cancel</span>
+                    <span class="text-danger cursor-pointer ml-auto" (click)="deleteCaraousalButton(carouselIndex, buttonIndex)">Delete</span>
                   </li>
                 </ul>
               </form>
             </li>
 
-            <li *ngIf="this.outputItem.generic_template[0].elements[i].button.length<=2" class="list-group-item limit-three-lines w-100 px-0 py-1 border cursor-pointer"
+            <li *ngIf="this.outputItem.generic_template[0].elements[carouselIndex].button.length<=2" class="list-group-item limit-three-lines w-100 px-0 py-1 border cursor-pointer"
                 style="margin-top: 6px;">
-              <div class="text-center w-100" (click)="addNewButtonToCarasol(i)">+ Add New</div>
+              <div class="text-center w-100" (click)="addNewButtonToCarasol(carouselIndex)">+ Add New</div>
             </li>
 
 
           </ul>
           <!--carasol content ends-->
 
-          <ng-container *ngIf="i === controlsClickedCount-1">
+          <ng-container *ngIf="carouselIndex === controlsClickedCount-1">
             <div class="item-after cursor-pointer bg-overlay-grey d-flex align-items-center justify-content-center "
                  #leftLst (click)="slideCarousel(myECarasoulMoveDirection.left)" style="position: absolute; top: 0; right: 0; left: 0; bottom: 0; z-index: 100">
               <i class="fa fa-arrow-left" style="position: absolute; top: 50%; right: 12.5%; z-index: 110"></i>
