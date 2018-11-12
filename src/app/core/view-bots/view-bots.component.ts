@@ -56,9 +56,13 @@ export class ViewBotsComponent implements OnInit, AfterViewInit {
       });
     this.botlist$
       .subscribe((allBotListState) => {
+        debugger;
         if (!allBotListState.allBotList) return;
         this.codeBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.chatbot);
         this.pipelineBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.intelligent);
+        setTimeout(()=>{
+          if (this.doShowPopover(this.activeTab)) this.pop.show();
+        },1000)
       });
   }
 
@@ -79,7 +83,6 @@ export class ViewBotsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(){
-    if (this.doShowPopover(this.activeTab)) this.pop.show();
   }
 
   doShowPopover(activeTab) {

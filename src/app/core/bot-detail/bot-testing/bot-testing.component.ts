@@ -32,7 +32,8 @@ export class BotTestingComponent implements OnInit {
   tableChanged = false;
   cancelTestFlag: boolean;
   myESplashScreens = ESplashScreens;
-  showSplashScreen = true;
+  showSplashScreen = false;
+  showLoader = false;
   constructor(
     private serverService: ServerService,
     private modalService: BsModalService,
@@ -52,6 +53,7 @@ export class BotTestingComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showLoader = true;
     this.serverService.makeGetReq<{ meta: any, objects: ITestcases[] }>(
       {
         url: this.testCasesUrl,
@@ -64,6 +66,7 @@ export class BotTestingComponent implements OnInit {
       //   });
       // })
       .subscribe((value) => {
+        this.showLoader = false;
         if (value.objects.length === 0) {
           this.isData = false;
           this.showSplashScreen = true;

@@ -28,6 +28,7 @@ export class BotSessionsComponent implements OnInit {
   sessionItemToBeDecrypted: ISessionItem;
   @ViewChild(SmartTableComponent) smartTableComponent: SmartTableComponent;
   sessions$: Observable<ISessions>;
+  showLoader = false;
   refreshSessions$: Observable<ISessions>;
   url: string;
   modalRef: BsModalRef;
@@ -53,23 +54,6 @@ export class BotSessionsComponent implements OnInit {
 
   ngOnInit() {
     this.loadSmartTableSessionData();
-    // this.loadSessionTableDataForGivenPage(1);
-    // this.sessions$ = this.serverService.makeGetReq<ISessions>({ url: this.url, headerData: { 'bot-access-token': this.bot.bot_access_token } });
-    // this.sessions$
-    //   .map((value) => {
-    //     return {
-    //       ...value,
-    //       objects: value.objects.map((result) => {
-    //         let modified_update_at = (new Date(result.updated_at)).toDateString();
-    //         return { ...result, updated_at: modified_update_at };
-    //       })
-    //     };
-    //   })
-    //   .subscribe((value) => {
-    //     if (!value) return;
-    //     this.totalSessionRecords = value.meta.total_count;
-    //     this.sessions = value.objects;
-    //   });
   }
 
   /*todo: implement it better way*/
@@ -83,22 +67,6 @@ export class BotSessionsComponent implements OnInit {
 
   loadSmartTableSessionData() {
     this.loadSessionTableDataForGivenPage(this.pageNumberOfCurrentRowSelected);
-    // this.sessions$ = this.serverService.makeGetReq<ISessions>({ url: this.url, headerData: { 'bot-access-token': this.bot.bot_access_token } });
-    // this.sessions$
-    //   .map((value) => {
-    //     return {
-    //       ...value,
-    //       objects: value.objects.map((result) => {
-    //         let modified_update_at = (new Date(result.updated_at)).toDateString();
-    //         return { ...result, updated_at: modified_update_at };
-    //       })
-    //     };
-    //   })
-    //   .subscribe((value) => {
-    //     if (!value) return;
-    //     this.totalSessionRecords = value.meta.total_count;
-    //     this.sessions = value.objects;
-    //   });
   }
 
   sessionTableRowClicked(eventData: { data: ISessionItem }, template?, reasonForDecryptionTemplate?) {
@@ -141,6 +109,7 @@ export class BotSessionsComponent implements OnInit {
 
   loadSessionTableDataForGivenPage(pageNumber) {
 
+    this.showLoader = true;
     this.pageNumberOfCurrentRowSelected = pageNumber;
     this.url = this.constantsService.getBotSessionsUrl(10, (pageNumber - 1) * 10);
     const headerData: IHeaderData = {
@@ -148,6 +117,7 @@ export class BotSessionsComponent implements OnInit {
     };
     this.serverService.makeGetReq<ISessions>({url: this.url, headerData})
       .subscribe((value) => {
+        this.showLoader = false;
         this.totalSessionRecords = value.meta.total_count;
         this.selectedRow_Session = value.objects[this.selectedRow_number || 0];
         this.sessions = value.objects;
