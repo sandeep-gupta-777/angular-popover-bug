@@ -8,9 +8,9 @@ import {UtilityService} from './utility.service';
 })
 export class ChartSettingService {
 
-  constructor(private utilityService:UtilityService) { }
+  constructor(private utilityService: UtilityService) { }
 
-  chartSetting:IChartSetting = {
+  chartSetting: IChartSetting = {
     chart: {
       type: 'line'
     },
@@ -55,7 +55,7 @@ export class ChartSettingService {
         [Date.UTC(2010, 1, 1), 29.9],
         [Date.UTC(2010, 1, 2), 71.5],
         [Date.UTC(2010, 1, 3), 106.4],
-        [Date.UTC(2010,1, 4), 29.9],
+        [Date.UTC(2010, 1, 4), 29.9],
         [Date.UTC(2010, 1, 5), 71.5],
         [Date.UTC(2010, 1, 6), 106.4],
         [Date.UTC(2010, 1, 7), 29.9],
@@ -103,7 +103,7 @@ export class ChartSettingService {
           [Date.UTC(2010, 1, 1), 39.9],
           [Date.UTC(2010, 1, 2), 31.5],
           [Date.UTC(2010, 1, 3), 136.4],
-          [Date.UTC(2010,1, 4), 39.9],
+          [Date.UTC(2010, 1, 4), 39.9],
           [Date.UTC(2010, 1, 5), 31.5],
           [Date.UTC(2010, 1, 6), 136.4],
           [Date.UTC(2010, 1, 7), 39.9],
@@ -151,7 +151,7 @@ export class ChartSettingService {
           [Date.UTC(2010, 1, 1), 89.9],
           [Date.UTC(2010, 1, 2), 81.5],
           [Date.UTC(2010, 1, 3), 186.4],
-          [Date.UTC(2010,1, 4), 89.9],
+          [Date.UTC(2010, 1, 4), 89.9],
           [Date.UTC(2010, 1, 5), 81.5],
           [Date.UTC(2010, 1, 6), 186.4],
           [Date.UTC(2010, 1, 7), 89.9],
@@ -174,7 +174,7 @@ export class ChartSettingService {
 
       tickInterval: 24 * 3600 * 1000
     },
-    yAxis:[
+    yAxis: [
       { // Primary yAxis
         labels: {
           // format: '°C',
@@ -227,221 +227,221 @@ export class ChartSettingService {
 
       }
     ]
-  }
+  };
 
   // createChartSettingBySeriesData(){
   //   this.chartSetting.series = this.createSeriesDataFromArray(this.test);
   // }
 
-  createSeriesDataFromArray(array: any[],xAxisLabel){
+  createSeriesDataFromArray(array: any[], xAxisLabel) {
     // return this.utilityService.convert(this.test,"labels");
-    return this.utilityService.convert(array,xAxisLabel,'Users');
+    return this.utilityService.convert(array, xAxisLabel, 'Users');
   }
 
 
   rawData = [{
     x: 1,
-    y1:"1 y1 string",
-    y2:"1 y2 string",
-    y3:"1 y3 string",
+    y1: '1 y1 string',
+    y2: '1 y2 string',
+    y3: '1 y3 string',
 
-    yn:"1 yn string",
-},{
+    yn: '1 yn string',
+}, {
     x: 2,
-    y1:"2 y1 string",
-    y2:"2 y2 string",
-    y3:"2 y3 string",
+    y1: '2 y1 string',
+    y2: '2 y2 string',
+    y3: '2 y3 string',
 
-    yn:"2 yn string",
+    yn: '2 yn string',
 }];
 
   test = [
     {
-      "labels": "18/06/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '18/06/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "19/06/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '19/06/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "20/06/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '20/06/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "21/06/2018",
-      "newusers": 1,
-      "returningusers": 0,
-      "totalusers": 1
+      'labels': '21/06/2018',
+      'newusers': 1,
+      'returningusers': 0,
+      'totalusers': 1
     },
     {
-      "labels": "22/06/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '22/06/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "23/06/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '23/06/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "24/06/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '24/06/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "25/06/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '25/06/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "26/06/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '26/06/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "27/06/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '27/06/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "28/06/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '28/06/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "29/06/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '29/06/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "30/06/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '30/06/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "01/07/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '01/07/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "02/07/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '02/07/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "03/07/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '03/07/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "04/07/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '04/07/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "05/07/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '05/07/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "06/07/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '06/07/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "07/07/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '07/07/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "08/07/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '08/07/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "09/07/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '09/07/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "10/07/2018",
-      "newusers": 2,
-      "returningusers": 0,
-      "totalusers": 2
+      'labels': '10/07/2018',
+      'newusers': 2,
+      'returningusers': 0,
+      'totalusers': 2
     },
     {
-      "labels": "11/07/2018",
-      "newusers": 1,
-      "returningusers": 0,
-      "totalusers": 1
+      'labels': '11/07/2018',
+      'newusers': 1,
+      'returningusers': 0,
+      'totalusers': 1
     },
     {
-      "labels": "12/07/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '12/07/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "13/07/2018",
-      "newusers": 4,
-      "returningusers": 0,
-      "totalusers": 4
+      'labels': '13/07/2018',
+      'newusers': 4,
+      'returningusers': 0,
+      'totalusers': 4
     },
     {
-      "labels": "14/07/2018",
-      "newusers": 2,
-      "returningusers": 0,
-      "totalusers": 2
+      'labels': '14/07/2018',
+      'newusers': 2,
+      'returningusers': 0,
+      'totalusers': 2
     },
     {
-      "labels": "15/07/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '15/07/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "16/07/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '16/07/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     },
     {
-      "labels": "17/07/2018",
-      "newusers": 3,
-      "returningusers": 1,
-      "totalusers": 4
+      'labels': '17/07/2018',
+      'newusers': 3,
+      'returningusers': 1,
+      'totalusers': 4
     },
     {
-      "labels": "18/07/2018",
-      "newusers": 0,
-      "returningusers": 0,
-      "totalusers": 0
+      'labels': '18/07/2018',
+      'newusers': 0,
+      'returningusers': 0,
+      'totalusers': 0
     }
-  ]
+  ];
 
 }

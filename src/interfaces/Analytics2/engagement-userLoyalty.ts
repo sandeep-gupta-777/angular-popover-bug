@@ -1,18 +1,18 @@
 import { IBot } from '../../app/core/interfaces/IBot';
 
 export interface IUserLoyaltyResponseBody {
-    meta: any,
+    meta: any;
     objects: [
         {
             output: {
-                "userLoyalty": IUserLoyaltyItem[],
+                'userLoyalty': IUserLoyaltyItem[],
             }
         }
-    ]
+    ];
 }
 export interface IUserLoyaltyItem {
-    "labels": string,
-    "result": number
+    'labels': string;
+    'result': number;
 }
 
 // {

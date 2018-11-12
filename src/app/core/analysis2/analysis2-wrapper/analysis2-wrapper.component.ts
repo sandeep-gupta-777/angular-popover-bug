@@ -13,11 +13,11 @@ export class Analysis2WrapperComponent implements OnInit {
 
   /*TODO: rename it to allBotList OR store all bots into store*/
   @Select() botlist$: Observable<ViewBotStateModel>;
-  allBotList$:Observable<IBot[]>;
+  allBotList$: Observable<IBot[]>;
   constructor() { }
 
   ngOnInit() {
-    this.allBotList$ = this.botlist$.map(value =>value.allBotList);
+    this.allBotList$ = this.botlist$.map(value => value.allBotList);
   }
 
 }

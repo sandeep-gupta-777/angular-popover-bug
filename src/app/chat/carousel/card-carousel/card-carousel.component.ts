@@ -16,7 +16,7 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
   _messageData: IMessageData;
   @Input() isParentSessionsModal = false;
   itemCountIsNotCausingOverflow = false;
-  @Input() set messageData(messageDataValue: IMessageData){
+  @Input() set messageData(messageDataValue: IMessageData) {
 
     this._messageData = messageDataValue;
   }
@@ -38,31 +38,32 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
 
   sendMessageToBotServer(mediaItem: { title: string, type: string, url: string, buttons: { payload: string, title: string, type: string }[] }) {
     try {
-      this.sendMessageToBotServer$.emit(mediaItem.buttons[0].payload||'NO_PAYLOAD');
-    }catch (e) {
+      this.sendMessageToBotServer$.emit(mediaItem.buttons[0].payload || 'NO_PAYLOAD');
+    } catch (e) {
       this.sendMessageToBotServer$.emit('NO_PAYLOAD');
       LoggingService.error(e);
     }
   }
 
-  @ViewChild('leftLst') leftLstElementRef:ElementRef;
-  @ViewChild('rightLst') rightLstElementRef:ElementRef;
+  @ViewChild('leftLst') leftLstElementRef: ElementRef;
+  @ViewChild('rightLst') rightLstElementRef: ElementRef;
   ngAfterViewInit() {
 
     $(document).ready(() => {
-      let CardCarouselComponent_this = this;
-      var itemsMainDiv = ('.MultiCarousel');
-      var itemsDiv = ('.MultiCarousel-inner');
-      var itemWidth: any = '';
+      const CardCarouselComponent_this = this;
+      const itemsMainDiv = ('.MultiCarousel');
+      const itemsDiv = ('.MultiCarousel-inner');
+      let itemWidth: any = '';
 
       // $('.leftLst, .rightLst').click(function () {
 
-      let sideControlsClickHandler = function ($event) {
-        let condition = $(this).hasClass('leftLst');
-        if (condition)
+      const sideControlsClickHandler = function ($event) {
+        const condition = $(this).hasClass('leftLst');
+        if (condition) {
           click(0, this);
-        else
+        } else {
           click(1, this);
+        }
 
         $event.stopPropagation();
       };
@@ -79,18 +80,18 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
       //this function define the size of the items
       function ResCarouselSize() {
 
-        var incno = 0;
-        var dataItems = ('data-items');
-        var itemClass = ('.item');
-        var id = 0;
-        var btnParentSb = '';
-        var itemsSplit: any = '';
-        var sampwidth = $(itemsMainDiv).width();
-        var bodyWidth = $('body').width();
+        let incno = 0;
+        const dataItems = ('data-items');
+        const itemClass = ('.item');
+        let id = 0;
+        let btnParentSb = '';
+        let itemsSplit: any = '';
+        const sampwidth = $(itemsMainDiv).width();
+        const bodyWidth = $('body').width();
         $(itemsDiv).each(function () {
 
           id = id + 1;
-          var itemNumbers = $(this).find(itemClass).length;
+          const itemNumbers = $(this).find(itemClass).length;
           btnParentSb = $(this).parent().attr(dataItems);
           itemsSplit = btnParentSb.split(',');
           $(this).parent().attr('id', 'MultiCarousel' + id);
@@ -100,16 +101,13 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
           if (bodyWidth >= 1200) {
             // incno = this.carasolItemShownInOneScreen;//itemsSplit[3];
             itemWidth = sampwidth / CardCarouselComponent_this.carasolItemShownInOneScreen;
-          }
-          else if (bodyWidth >= 992) {
+          } else if (bodyWidth >= 992) {
             incno = itemsSplit[2];
             itemWidth = sampwidth / CardCarouselComponent_this.carasolItemShownInOneScreen;
-          }
-          else if (bodyWidth >= 768) {
+          } else if (bodyWidth >= 768) {
             incno = itemsSplit[1];
             itemWidth = sampwidth / CardCarouselComponent_this.carasolItemShownInOneScreen;
-          }
-          else {
+          } else {
             incno = itemsSplit[0];
             itemWidth = sampwidth / CardCarouselComponent_this.carasolItemShownInOneScreen;
           }
@@ -127,12 +125,12 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
 
       //this function used to move the items
       function ResCarousel(e, el, s) {
-        var leftBtn = ('.leftLst');
-        var rightBtn = ('.rightLst');
-        var translateXval: any = '';
-        var divStyle = $(el + ' ' + itemsDiv).css('transform');
-        var values = divStyle.match(/-?[\d\.]+/g);
-        var xds: any = Math.abs(values[4]);
+        const leftBtn = ('.leftLst');
+        const rightBtn = ('.rightLst');
+        let translateXval: any = '';
+        const divStyle = $(el + ' ' + itemsDiv).css('transform');
+        const values = divStyle.match(/-?[\d\.]+/g);
+        const xds: any = Math.abs(values[4]);
         if (e == 0) {
           translateXval = parseInt(xds) - (<any>parseInt)(itemWidth * s);
           $(el + ' ' + rightBtn).removeClass('over');
@@ -141,9 +139,8 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
             translateXval = 0;
             $(el + ' ' + leftBtn).addClass('over');
           }
-        }
-        else if (e == 1) {
-          var itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
+        } else if (e == 1) {
+          const itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
           translateXval = parseInt(xds) + (<any>parseInt)(itemWidth * s);
           $(el + ' ' + leftBtn).removeClass('over');
 
@@ -157,8 +154,8 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
 
       //It is used to get some elements from btn
       function click(ell, ee) {
-        var Parent = '#' + $(ee).parent().attr('id');
-        var slide = $(Parent).attr('data-slide');
+        const Parent = '#' + $(ee).parent().attr('id');
+        const slide = $(Parent).attr('data-slide');
         ResCarousel(ell, Parent, slide);
       }
 

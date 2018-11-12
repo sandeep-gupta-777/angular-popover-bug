@@ -17,21 +17,21 @@ import {LoggingService} from '../../../../../../logging.service';
   templateUrl: './integration-option-list.component.html',
   styleUrls: ['./integration-option-list.component.scss'],
   host: {
-    "[style.display]": "'block'",
-    "[style.height.percent]": "100",
-    "[style.overflow]": "scroll",
+    '[style.display]': '\'block\'',
+    '[style.height.percent]': '100',
+    '[style.overflow]': 'scroll',
   }
 })
 export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
 
-  test:boolean;
+  test: boolean;
   isActive: boolean;
   enable = false;
   formValue: IIntegrationOption;
   formValueFinal: IIntegrationOption;
   formDataClone = {};
   @Input() _bot: IBot;
-  @Input() set bot(bot:IBot){
+  @Input() set bot(bot: IBot) {
     this._bot = bot;
     this.generateIntegrationFormValue();
   }
@@ -58,23 +58,23 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.app$.subscribe((value) => {
       this.masterIntegrationList = value.masterIntegrationList;
-      this.integration_types =  Array.from(new Set(this.masterIntegrationList.map(item=>item.integration_type)));
+      this.integration_types =  Array.from(new Set(this.masterIntegrationList.map(item => item.integration_type)));
     });
     this.routeParent = this.activatedRoute.snapshot.data;
     this.generateIntegrationFormValue();
   }
 
-  generateIntegrationFormValue(){
-    if(!this.masterIntegrationList) return;
+  generateIntegrationFormValue() {
+    if (!this.masterIntegrationList) { return; }
     this.masterIntegrationList.forEach((integrationItem) => {
-      let integration_type_key = integrationItem.integration_type;
-      let integration_name_key = integrationItem.key;
-      let tempObj = {};
+      const integration_type_key = integrationItem.integration_type;
+      const integration_name_key = integrationItem.key;
+      const tempObj = {};
       tempObj[integration_name_key] = integrationItem.inputs.reduce((aggregate, value: { 'display_text': string, 'param_name': string }) => {
-        let obj = {};
+        const obj = {};
         obj[value.param_name] = '';
         return {...aggregate, ...obj};
-      }, {enabled:false});
+      }, {enabled: false});
       if (this.masterIntegrationListSerialized[integration_type_key]) {
         this.masterIntegrationListSerialized[integration_type_key] = {
           ...this.masterIntegrationListSerialized[integration_type_key],
@@ -109,7 +109,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   }
 
   getLogo(key) {
-    let matchedMasterIntegration = this.masterIntegrationList.find((masterIntegrationItem) => {
+    const matchedMasterIntegration = this.masterIntegrationList.find((masterIntegrationItem) => {
       return masterIntegrationItem.key === key;
     });
     return matchedMasterIntegration.icon;
@@ -135,22 +135,22 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
     });
 
     try {
-      let fragment = this.activatedRoute.snapshot.fragment;
+      const fragment = this.activatedRoute.snapshot.fragment;
       document.getElementById(fragment).scrollIntoView();
-    }catch (e) {
+    } catch (e) {
       console.log(e);
     }
 
     this.f_new.valueChanges.debounceTime(200).subscribe((integrationInfo: IIntegrationOption) => {
       // if (!this.f_new.dirty) return;
 
-      if(this.utilityService.areTwoJSObjectSame(this.formDataClone,this.f_new.value))return;
-      let formValidityObj =  {};
+      if (this.utilityService.areTwoJSObjectSame(this.formDataClone, this.f_new.value)) {return; }
+      const formValidityObj =  {};
       this.formDataClone  = this.utilityService.createDeepClone(this.f_new.value);
       formValidityObj[EFormValidationErrors.form_validation_integration] = this.f_new && this.f_new.valid;
 
 
-      this.datachanged$.emit({integrations: integrationInfo,...formValidityObj});
+      this.datachanged$.emit({integrations: integrationInfo, ...formValidityObj});
       // if (this.routeParent['buildBot'])
       //   this.store.dispatch([
       //     new SaveBasicInfo({data: {integrations: integrationInfo}})

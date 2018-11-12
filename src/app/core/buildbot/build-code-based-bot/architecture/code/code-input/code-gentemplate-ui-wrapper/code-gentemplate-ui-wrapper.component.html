@@ -1,4 +1,4 @@
-
+<!--<p>{{selectedTemplateKeyOutputIndex|json}}</p>-->
 <div class="genTempGrid child-expand">
   <!--left sidebar starts-->
   <div class="genTempGridItem left-sidebar intent-header ml-1 position-relative">
@@ -223,7 +223,8 @@
         <form class="modelGridGenTempNames" id="modelGenTempNameForm" #modelGenTempNameForm="ngForm"
               (submit)="selectedListCopy(modelGenTempNameForm)">
           <label class="container-chekbox text-dark"
-                 *ngFor="let templateKey of myObject.keys(templateKeyDict)|filterTemplateLeyList:copyModalTemplateSearchKeyword">{{templateKey}}
+                 *ngFor="let templateKey of myObject.keys(templateKeyDict)|filterTemplateLeyList:copyModalTemplateSearchKeyword">
+            {{templateKey}}
             <input type="checkbox" ngModel name="{{templateKey}}">
             <span class="checkmark"></span>
           </label>
@@ -232,8 +233,7 @@
           <button class="btn-theme btn-theme-primary-outline ml-auto mr-2" (click)="modalRef.hide()">Cancel</button>
           <button class="btn-theme btn-theme-primary  d-inline-block mr-2"
                   [disabled]="(modelGenTempNameForm.value|numberOfTrueKeys)<1"
-                  form="modelGenTempNameForm">Copy
-            now
+                  form="modelGenTempNameForm">Copy now
           </button>
         </div>
       </div>
@@ -245,21 +245,25 @@
 <input type="text" hidden #templateKeyToBeDeleted>
 
 <ng-template #EditTemplateKeyModal>
-  <div class="primary-modal">
+  <div class="primary-modal" (clickOutside)="templateKeyCreationError=''">
     <div class="top-dec"></div>
     <div class="modal-body" style="text-align: left">
       <div class="text-bold">Edit Template key</div>
       <form #templateKeyEditForm="ngForm" class="d-flex align-items-center flex-wrap mt-2">
         <!--<input class="input-material" style="width: 100%" placeholder="Enter template key name" type="text"-->
         <!--[(ngModel)]="newTemplateKey">-->
+        <!---->
         <input ngModel name="old_key" hidden type="text" [ngModel]="templateKeyToBeDeleted.value">
-        <input ngModel name="new_key" style="width: 100%" required type="text" [ngModel]="templateKeyToBeDeleted.value"
+        <input ngModel required name="new_key" class="w-100" required type="text" [ngModel]="templateKeyToBeDeleted.value"
                (keyup.enter)="editTemplateKey(templateKeyEditForm)">
-        <!--<p *ngIf="templateKeyCreationError" class="text-danger">{{templateKeyCreationError}}</p>-->
+        <div class="error-wrapper">
+          <span *ngIf="templateKeyCreationError" class="text-danger">{{templateKeyCreationError}}</span>
+        </div>
         <div class="d-flex justify-content-end w-100 mt-2">
           <button class="btn-theme btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>
-          <button class="btn-theme btn-theme-primary" [disabled]="!templateKeyEditForm.valid"
-                  (click)="editTemplateKey(templateKeyEditForm)">Create
+          <button class="btn-theme btn-theme-primary"
+                  [disabled]="!templateKeyEditForm.valid"
+                  (click)="editTemplateKey(templateKeyEditForm)">Submit
           </button>
         </div>
       </form>
@@ -270,7 +274,7 @@
 
 
 <ng-template #IntentModal>
-  <div class="primary-modal">
+  <div class="primary-modal" (clickOutside)="templateKeyCreationError='';newTemplateKey=''">
     <div class="top-dec"></div>
     <!--<div class="modal-header">-->
     <!--<h4 class="modal-title" style="display: flex;justify-content: start;">Create new template key</h4>-->
@@ -285,8 +289,8 @@
                (keyup.enter)="createNewTemplatekey()" [(ngModel)]="newTemplateKey">
         <p *ngIf="templateKeyCreationError" class="text-danger">{{templateKeyCreationError}}</p>
         <div class="d-flex justify-content-end w-100 mt-2">
-          <button class="btn-theme btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>
-          <button class="btn-theme btn-theme-primary" [disabled]="!newTemplateKey" (click)="createNewTemplatekey();">
+          <button class="btn-theme btn-theme-primary-outline mr-1" (click)="clearNewTemplateKeyData()">Cancel</button>
+          <button class="btn-theme btn-theme-primary" [disabled]="!newTemplateKey && newTemplateKey|trimString" (click)="createNewTemplatekey();">
             Create
           </button>
         </div>

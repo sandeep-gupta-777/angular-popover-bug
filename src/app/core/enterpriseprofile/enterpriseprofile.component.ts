@@ -36,27 +36,27 @@ export class EnterpriseprofileComponent implements OnInit {
     private utilityService: UtilityService,
     private serverService: ServerService) {
   }
-  validateLogo(logo){
+  validateLogo(logo) {
 
-    let formControl = new FormControl(logo)
-    let logoErrorObj = this.utilityService.imageUrlHttpsError(formControl) || this.utilityService.imageUrlHavingValidExtnError(formControl);
-    this.logoError = logoErrorObj && Object.keys(logoErrorObj)[0]||null;
+    const formControl = new FormControl(logo);
+    const logoErrorObj = this.utilityService.imageUrlHttpsError(formControl) || this.utilityService.imageUrlHavingValidExtnError(formControl);
+    this.logoError = logoErrorObj && Object.keys(logoErrorObj)[0] || null;
   }
 
   ngOnInit() {
     this.loggeduser$.subscribe(({user}) => {
       this.userid = user.id;
       this.role = user.role.name;
-      this.enterpriseId = user.enterprise_id;//enterprise_id
-      let enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(this.enterpriseId);
+      this.enterpriseId = user.enterprise_id; //enterprise_id
+      const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(this.enterpriseId);
       this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
         .subscribe((value: IEnterpriseProfileInfo) => {
           this.store.dispatch([
             new SetEnterpriseInfoAction({enterpriseInfo: value})
           ]);
         });
-      if(this.role==='Admin'){
-        let enterpriseUsersUrl = this.constantsService.getEnterpriseUsersUrl();
+      if (this.role === 'Admin') {
+        const enterpriseUsersUrl = this.constantsService.getEnterpriseUsersUrl();
         this.serverService.makeGetReq<{ objects: IEnterpriseUser[] }>({url: enterpriseUsersUrl})
           .subscribe((value) => {
             this.store.dispatch([
@@ -67,20 +67,20 @@ export class EnterpriseprofileComponent implements OnInit {
 
     });
 
-    this.loggeduserenterpriseinfoMap$=
+    this.loggeduserenterpriseinfoMap$ =
     this.loggeduserenterpriseinfo$
-      .map((value)=>{
+      .map((value) => {
         return {
           ...value,
-          enterpriseusers:value.enterpriseusers.map((enterpriseuser)=>{
+          enterpriseusers: value.enterpriseusers.map((enterpriseuser) => {
             return {
               ...enterpriseuser,
-              created_at:new Date(enterpriseuser.created_at).toLocaleDateString(),
-              updated_at:new Date(enterpriseuser.updated_at).toLocaleDateString()
-            }
+              created_at: new Date(enterpriseuser.created_at).toLocaleDateString(),
+              updated_at: new Date(enterpriseuser.updated_at).toLocaleDateString()
+            };
           })
-        }
-      })
+        };
+      });
       // .subscribe((value) => {
       // this.loggeduserenterpriseinfo = value;
       // ;
@@ -97,10 +97,10 @@ export class EnterpriseprofileComponent implements OnInit {
   }
 
   updateEnterpriseProfile() {
-    let formData = this.f.value;
-    let body: IEnterpriseProfileInfo = {...this.loggeduserenterpriseinfo, ...formData};
-    let url = this.constantsService.getEnterpriseUrl(this.enterpriseId);
-    let headerData: IHeaderData = {'content-type': 'application/json'};
+    const formData = this.f.value;
+    const body: IEnterpriseProfileInfo = {...this.loggeduserenterpriseinfo, ...formData};
+    const url = this.constantsService.getEnterpriseUrl(this.enterpriseId);
+    const headerData: IHeaderData = {'content-type': 'application/json'};
     this.serverService.makePutReq({url, body, headerData})
       .subscribe(() => {
         this.utilityService.showSuccessToaster('Updated enterprise profile');

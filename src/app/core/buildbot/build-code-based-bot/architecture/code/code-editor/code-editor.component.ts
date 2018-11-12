@@ -18,8 +18,8 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
   editorCodeObjRef: { text: string } = { text: '' };
   @Output() validateClick =  new EventEmitter();
   @ViewChild('f') codeEditor: ElementRef;
-  @Input() doShowUploadDownloadButton: boolean = true;
-  @Input() doValidationsIcon: boolean = true;
+  @Input() doShowUploadDownloadButton = true;
+  @Input() doValidationsIcon = true;
   constructor(
     private utilityService: UtilityService,
     private activatedRoute: ActivatedRoute) {
@@ -27,7 +27,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
 
   @Input() set text(editorCodeObj: { text: string }) {
 
-    if (!editorCodeObj) return;
+    if (!editorCodeObj) { return; }
     this.editorCodeObjRef = editorCodeObj;
     // if(this._text===editorCodeObj.text) return;
     this._text = editorCodeObj.text;
@@ -49,7 +49,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
       this.editor && this.editor.refresh();
     });
 
-    let editor = this.codeEditor.nativeElement;
+    const editor = this.codeEditor.nativeElement;
     this.editor = new CodeMirror.fromTextArea(editor, {
       lineNumbers: true,
       lineWrapping: true,
@@ -60,7 +60,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
       moveInputWithCursor: false,
     });
     this.editor.on('keydown', editor => {
-      setTimeout(()=>{
+      setTimeout(() => {
         this.editorCodeObjRef.text = editor.getValue();
         this.textChangedEvent.emit(editor.getValue());
       });
@@ -73,17 +73,17 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
   }
 
   downloadCodeText() {
-    let fileName = "code.txt"
-    let codeTab = this.activatedRoute.snapshot.queryParamMap.get("code-tab");
-    let buildTab = this.activatedRoute.snapshot.queryParamMap.get("build-tab");
-    let botId = this.activatedRoute.snapshot.params['id'];
+    let fileName = 'code.txt';
+    const codeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab');
+    const buildTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab');
+    const botId = this.activatedRoute.snapshot.params['id'];
     if (buildTab === 'code' && codeTab && botId) {
-      fileName = `${codeTab} for bot id ${botId}.txt`
+      fileName = `${codeTab} for bot id ${botId}.txt`;
     }
 
-    let nerId = this.activatedRoute.snapshot.queryParamMap.get("ner_id");
+    const nerId = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
     if (buildTab === 'knowledge' && botId && nerId) {
-      fileName = `code for nerid ${nerId} for bot id ${botId}.txt`
+      fileName = `code for nerid ${nerId} for bot id ${botId}.txt`;
     }
     this.utilityService.downloadText(this.editorCodeObjRef.text, fileName);
   }
@@ -93,12 +93,12 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.editor && this.editor.setSize('100%', '100%');//TODO: codemirror is exceeding its parent width by 30px
+    this.editor && this.editor.setSize('100%', '100%'); //TODO: codemirror is exceeding its parent width by 30px
     this.editor && this.editor.refresh();
   }
 
   async openFile(inputEl) {
-    let codeText = await this.utilityService.readInputFileAsText(inputEl);
+    const codeText = await this.utilityService.readInputFileAsText(inputEl);
     this.editor && this.editor.setValue(codeText);
   }
 

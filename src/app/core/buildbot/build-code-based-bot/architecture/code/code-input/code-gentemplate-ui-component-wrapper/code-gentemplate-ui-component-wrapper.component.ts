@@ -9,10 +9,11 @@ import {IOutputItem} from '../code-gentemplate-ui-wrapper/code-gentemplate-ui-wr
 export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
 
   _variants: string[];
-  channelNameList:string[];
+  channelNameList: string[];
   @Input() outputItem: IOutputItem;
+  outputItemClone: IOutputItem;
   @Input() myIndex: number;
-  @Input() channelList: {name:string}[];
+  @Input() channelList: {name: string}[];
   @Input() totalResponseTemplateComponentCount: number;
   @Output() deleteTemplate: EventEmitter<string> = new EventEmitter<string>();
   @Output() moveTempUp: EventEmitter<string> = new EventEmitter<string>();
@@ -35,14 +36,34 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
 
   delete(i) {
     this.deleteTemplate.emit(i);
+    this.selectionChanged.emit(JSON.stringify({
+      select: false,
+      index: this.myIndex
+    }));
   }
 
   moveUp(i) {
     this.moveTempUp.emit(i);
+    this.selectionChanged.emit(JSON.stringify({
+      select: false,
+      index: this.myIndex
+    }));
+    this.selectionChanged.emit(JSON.stringify({
+      select: false,
+      index: this.myIndex-1
+    }));
   }
 
   moveDown(i) {
     this.moveTempDown.emit(i);
+    this.selectionChanged.emit(JSON.stringify({
+      select: false,
+      index: this.myIndex
+    }));
+    this.selectionChanged.emit(JSON.stringify({
+      select: false,
+      index: this.myIndex+1
+    }));
   }
 
   addVarient() {
@@ -50,9 +71,10 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
     this.variantsIter = [...this._variants];
   }
 
-  onSelected(b) {
+  onSelected(isSelected:boolean) {
+
     this.selectionChanged.emit(JSON.stringify({
-      select: b,
+      select: isSelected,
       index: this.myIndex
     }));
   }
@@ -62,24 +84,23 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
     let isChannelPresent = this.outputItem.include.find(e => e === channel);
     if (isChannelPresent) {
       this.outputItem.include = this.outputItem.include.filter(e => e !== channel);
-    }
-    else {
+    } else {
       this.outputItem.include.push(channel);
     }
-    this.outputItem = {...this.outputItem};
+    this.outputItemClone = {...this.outputItem};
   }
 
   imgOpacity(channel: string) {
     try {
       return this.outputItem.include.find(e => e === channel);
-    }catch (e) {
+    } catch (e) {
       console.log(e);
     }
   }
 
   ngOnInit() {
 
-    this.channelNameList = this.channelList.filter(e=>e.name!=='all').map(e=>e.name)
+    this.channelNameList = this.channelList.filter(e => e.name !== 'all').map(e => e.name);
   }
 
   isTemplateKeyOutputUnparsable() {

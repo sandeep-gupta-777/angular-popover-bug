@@ -46,7 +46,6 @@ import {BackendDevComponent} from './backend-dev/backend-dev.component';
 import {ChatService} from './chat.service';
 import {ObjectArrayCrudService} from './object-array-crud.service';
 import {SplashScreenComponent} from './splash-screen/splash-screen.component';
-import { DebounceClickDirective } from './debounce-click.directive';
 import {ThemeComponent} from './theme/theme.component';
 import {SafeHtml} from '@angular/platform-browser';
 import {SafeUrlPipe} from './href-sanitizer.pipe';
@@ -54,11 +53,11 @@ import {SafeUrlPipe} from './href-sanitizer.pipe';
 
 const routes: Route[] = [
   {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
-  {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad:[AuthGaurdService]},
+  {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad: [AuthGaurdService]},
   {path: 'preview', loadChildren: './chat/chat.module#ChatModule'},
   {path: 'denied', component: NotAuthorisedComponent},
   {path: 'theme', component: ThemeComponent},
-  {path: '', redirectTo:"core/viewbots", pathMatch:"full"},
+  {path: '', redirectTo: 'core/viewbots', pathMatch: 'full'},
   {path: '**', component: NotFoundComponent}
 ];
 
@@ -70,7 +69,6 @@ const routes: Route[] = [
     NotAuthorisedComponent,
     FilterArrayPipe,
     BackendDevComponent,
-    DebounceClickDirective,
     // MsToHhMmPipe,
     // ChatWrapperComponent,
     // ChatWindowComponent,
@@ -100,7 +98,7 @@ const routes: Route[] = [
     ]),
     NgxsStoragePluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot({disabled:true}),//disable for prod mode
+    NgxsLoggerPluginModule.forRoot({disabled: true}), //disable for prod mode
     HttpClientModule,
     ClickOutsideModule,
     // DragulaModule,

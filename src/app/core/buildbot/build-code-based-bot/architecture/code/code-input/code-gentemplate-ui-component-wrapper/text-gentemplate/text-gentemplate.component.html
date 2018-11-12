@@ -16,7 +16,11 @@
       <i style="font-size: 11px">This field cannot be left empty</i>
     </div>
   </div>
-  <div class="text-theme-primary cursor-pointer pl-2 d-flex align-items-center" (click)="addVarient()">
+  <div class="text-danger pl-2" *ngIf="userErrorMessage">
+    <i style="font-size: 11px">{{userErrorMessage}}</i>
+  </div>
+
+  <div class="text-theme-primary cursor-pointer pl-2 d-flex align-items-center" (click)="addVariant()">
     <i class="fa fa-plus pr-1 my-auto"></i>Add a new variant
   </div>
 </div>

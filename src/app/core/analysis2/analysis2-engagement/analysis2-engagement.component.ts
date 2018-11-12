@@ -17,7 +17,7 @@ export class Analysis2EngagementComponent implements OnInit {
   @Select() analysisstate2$: Observable<IAnalysis2State>;
 
 
-  activeTab: string = 'Sessions';
+  activeTab = 'Sessions';
   series_Sessions: any[] = [{
     name: 'Maximum',
     data: [4, 5, 8, 12, 10, 6, 22, 3]
@@ -44,36 +44,36 @@ export class Analysis2EngagementComponent implements OnInit {
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
     private store: Store,
-    private u:UtilityService
+    private u: UtilityService
   ) {
   }
 
   tabClicked(activeTab: string) {
     this.activeTab = activeTab;
-    if(this.activeTab==='Sessions'){
+    if (this.activeTab === 'Sessions') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.userLoyalty}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.userLoyalty}
       }));
     }
-    if(this.activeTab==='Time'){
+    if (this.activeTab === 'Time') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseAverageSessionTime}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.channelWiseAverageSessionTime}
       }));
     }
-    if(this.activeTab==='channel_Wise_Sessions'){
+    if (this.activeTab === 'channel_Wise_Sessions') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseSessions}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.channelWiseSessions}
       }));
     }
-    if(this.activeTab==='channel_Wise_Users'){
+    if (this.activeTab === 'channel_Wise_Users') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseUsers}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.channelWiseUsers}
       }));
     }
     // added now
-    if(this.activeTab === 'Users'){
+    if (this.activeTab === 'Users') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.userAcquisition}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.userAcquisition}
       }));
     }
   }
@@ -81,28 +81,28 @@ export class Analysis2EngagementComponent implements OnInit {
   ngOnInit() {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('perf') || 'Users';
     this.analysisstate2$
-      .subscribe((value)=>{
+      .subscribe((value) => {
         // ;
-        if(value.userLoyalty){
-          this.series_Sessions  = this.u.convert(value.userLoyalty,"labels","String") ;
+        if (value.userLoyalty) {
+          this.series_Sessions  = this.u.convert(value.userLoyalty, 'labels', 'String') ;
         }
 
-        if(value.channelWiseAverageSessionTime){
-          this.series_Time  = this.u.convert(value.channelWiseAverageSessionTime,"labels","Date") ;
-        }
-        
-        if(value.channelWiseSessions){
-          this.series_ChannelWiseSessions  = this.u.convert(value.channelWiseSessions,"labels","Date") ;
+        if (value.channelWiseAverageSessionTime) {
+          this.series_Time  = this.u.convert(value.channelWiseAverageSessionTime, 'labels', 'Date') ;
         }
 
-        if(value.channelWiseUsers){
-          this.series_ChannelWiseUsers  = this.u.convert(value.channelWiseUsers,"labels","Date") ;
+        if (value.channelWiseSessions) {
+          this.series_ChannelWiseSessions  = this.u.convert(value.channelWiseSessions, 'labels', 'Date') ;
+        }
+
+        if (value.channelWiseUsers) {
+          this.series_ChannelWiseUsers  = this.u.convert(value.channelWiseUsers, 'labels', 'Date') ;
         }
         // added now
-        if(value.userAcquisition){
-          this.series_Users  = this.u.convert(value.userAcquisition,"labels","Date") ;
+        if (value.userAcquisition) {
+          this.series_Users  = this.u.convert(value.userAcquisition, 'labels', 'Date') ;
         }
-      })
+      });
   }
 
 

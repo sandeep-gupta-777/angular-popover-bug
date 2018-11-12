@@ -1,7 +1,7 @@
 import {EBotMessageMediaType} from './chat-session-state';
 
 export interface ISendApiRequestPayload {
-  'bot_id': string,
+  'bot_id': string;
   'consumer': {
     '_id'?: string,
     'botId': string,
@@ -18,29 +18,29 @@ export interface ISendApiRequestPayload {
     'skypeId': string,
     'uid': string,
     'updated_at': string
-  },
+  };
 
-  'type': string,
-  'msg': string,
-  'platform': string
+  'type': string;
+  'msg': string;
+  'platform': string;
 }
 
 export interface IGeneratedMessageItem {
-  'text'?: string,
+  'text'?: string;
   'media'?: [
     {
       'buttons': [
         {
           'title': 'URL Button',
-          'type': 'web_url',//title
+          'type': 'web_url', //title
           'url': 'https://www.messenger.com/'/*TODO: we are not getting payload*/
         }
         ],
-      'title': 'this is sample text for image ,it is optional',//use this
+      'title': 'this is sample text for image ,it is optional', //use this
       'type': EBotMessageMediaType//"image",//use this
       'url': 'https://wallpaperbrowse.com/media/images/soap-bubble-1958650_960_720.jpg'//use this
     }
-    ],
+    ];
   quick_reply?: {
     'quick_replies': [
       {
@@ -49,21 +49,21 @@ export interface IGeneratedMessageItem {
         'title': 'Play Game'
       }],
     'text': 'Do you want to play game or validate coupon?<br>Select any'
-  }
+  };
 
 }
 
 export interface ISendApiResponsePayload {
-  'TimeStamp': 1533902788.0,
-  'bot_msg': string,
-  'generated_msg': IGeneratedMessageItem[],
-  'messageStore': { 'endflow': true, 'templateKey': 'A1' },
+  'TimeStamp': 1533902788.0;
+  'bot_msg': string;
+  'generated_msg': IGeneratedMessageItem[];
+  'messageStore': { 'endflow': true, 'templateKey': 'A1' };
   'room': {
     'agent_handover': false,
     'allow_anonymization': false,
     'bot_id': number//1,
     'consent_permissions': any[],
-    'consumer_id': number,//43,
+    'consumer_id': number, //43,
     'cross_retention_period': false,
     'data_store': {},
     'df_state': {
@@ -77,10 +77,10 @@ export interface ISendApiResponsePayload {
     'resource_uri': '/api/v1/room/64/',
     'room_state_closed': false,
     'selected_avatar': any
-  },
-  'sendtoagent': false,
-  'templateKey': 'A1',
-  'transaction_id': '79f2707b0d2c419198febf0ccaaa4b99'
+  };
+  'sendtoagent': false;
+  'templateKey': 'A1';
+  'transaction_id': '79f2707b0d2c419198febf0ccaaa4b99';
   // 'generated_msg': [{
   //     'text': string
   //   }],

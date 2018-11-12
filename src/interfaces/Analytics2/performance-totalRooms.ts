@@ -3,19 +3,19 @@
 import { IBot } from '../../app/core/interfaces/IBot';
 
 export interface ITotalRoomsResponseBody {
-    meta: any,
+    meta: any;
     objects: [
         {
             output: {
-                "totalRooms": ITotalRoomsItem[]
+                'totalRooms': ITotalRoomsItem[]
             }
         }
-    ]
+    ];
 }
 export interface ITotalRoomsItem {
-    "activesessions": number,
-    "labels": string,
-    "totalsessions": number
+    'activesessions': number;
+    'labels': string;
+    'totalsessions': number;
     }
 
     // {

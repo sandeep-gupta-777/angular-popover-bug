@@ -1,4 +1,4 @@
-import { FilterObjectArrayPipe } from './filter-object-array.pipe';
+import { FilterObjectArrayPipe } from './highlight-session-texts.pipe';
 
 describe('FilterObjectArrayPipe', () => {
   it('create an instance', () => {

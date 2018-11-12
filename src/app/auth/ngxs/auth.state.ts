@@ -8,28 +8,28 @@ import {ConstantsService} from '../../constants.service';
 export interface IAuthState {
   user?: IUser;
 }
-const initialState: IAuthState ={
-  user:null
+const initialState: IAuthState = {
+  user: null
 };
 
 @State<IAuthState>({
-  name:'loggeduser',
-  defaults:initialState
+  name: 'loggeduser',
+  defaults: initialState
 })
 
 //same as reducer
 export class AuthStateReducer {
 
-  constructor(private constantsService:ConstantsService){}
+  constructor(private constantsService: ConstantsService) {}
   @Action(SetUser)
-  setUser({patchState, setState, getState,dispatch}:StateContext<IAuthState>, {payload} : SetUser){
-    patchState({user:payload.user});
+  setUser({patchState, setState, getState, dispatch}: StateContext<IAuthState>, {payload}: SetUser) {
+    patchState({user: payload.user});
     this.constantsService.setLoggedUser(payload.user);
   }
 
   @Action(ResetAuthToDefaultState)
-  resetAuthToDefaultState({patchState, setState, getState,dispatch}:StateContext<IAuthState>){
-    patchState({user:null});
+  resetAuthToDefaultState({patchState, setState, getState, dispatch}: StateContext<IAuthState>) {
+    patchState({user: null});
   }
 
 }

@@ -11,13 +11,13 @@ import {LoggingService} from '../../../../logging.service';
 })
 export class BotConfigComponent implements OnInit {
 
-  @Input() bot:IBot;
-  activeTab:string = "basic";
+  @Input() bot: IBot;
+  activeTab = 'basic';
   @Output() datachanged$ = new EventEmitter();
   myEBotType = EBotType;
   bot_type;
   id;
-  constructor(private activatedRoute:ActivatedRoute) { }
+  constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.activeTab  =  this.activatedRoute.snapshot.queryParamMap.get('config') ||  'basic';
@@ -26,11 +26,11 @@ export class BotConfigComponent implements OnInit {
     //
     //   this.bot_type  =  this.activatedRoute.snapshot.data['bot_type'];
     // }
-    this.bot_type  =  this.activatedRoute.snapshot.queryParamMap.get('bot_type')|| this.activatedRoute.snapshot.data['bot_type'];
+    this.bot_type  =  this.activatedRoute.snapshot.queryParamMap.get('bot_type') || this.activatedRoute.snapshot.data['bot_type'];
     this.id  =  this.activatedRoute.snapshot.queryParamMap.get('id');
   }
 
-  tabClicked(activeTab:string){
+  tabClicked(activeTab: string) {
     this.activeTab = activeTab;
     LoggingService.log(this.activeTab);
   }

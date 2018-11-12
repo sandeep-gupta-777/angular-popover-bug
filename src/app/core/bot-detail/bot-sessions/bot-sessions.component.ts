@@ -28,17 +28,18 @@ export class BotSessionsComponent implements OnInit {
   sessionItemToBeDecrypted: ISessionItem;
   @ViewChild(SmartTableComponent) smartTableComponent: SmartTableComponent;
   sessions$: Observable<ISessions>;
+  showLoader = false;
   refreshSessions$: Observable<ISessions>;
   url: string;
   modalRef: BsModalRef;
   smartTableSettings_Sessions = this.constantsService.SMART_TABLE_SESSIONS_SETTING;
   selectedRow_Session: ISessionItem;
-  selectedRow_number: number = 0;
-  totalSessionRecords: number = 0;
+  selectedRow_number = 0;
+  totalSessionRecords = 0;
   sessions: ISessionItem[];
   showNextButton: boolean;
   showPrevButton: boolean;
-  pageNumberOfCurrentRowSelected: number = 1;
+  pageNumberOfCurrentRowSelected = 1;
   indexOfCurrentRowSelected: number;
   decryptReason: string;
 
@@ -53,23 +54,6 @@ export class BotSessionsComponent implements OnInit {
 
   ngOnInit() {
     this.loadSmartTableSessionData();
-    // this.loadSessionTableDataForGivenPage(1);
-    // this.sessions$ = this.serverService.makeGetReq<ISessions>({ url: this.url, headerData: { 'bot-access-token': this.bot.bot_access_token } });
-    // this.sessions$
-    //   .map((value) => {
-    //     return {
-    //       ...value,
-    //       objects: value.objects.map((result) => {
-    //         let modified_update_at = (new Date(result.updated_at)).toDateString();
-    //         return { ...result, updated_at: modified_update_at };
-    //       })
-    //     };
-    //   })
-    //   .subscribe((value) => {
-    //     if (!value) return;
-    //     this.totalSessionRecords = value.meta.total_count;
-    //     this.sessions = value.objects;
-    //   });
   }
 
   /*todo: implement it better way*/
@@ -83,22 +67,6 @@ export class BotSessionsComponent implements OnInit {
 
   loadSmartTableSessionData() {
     this.loadSessionTableDataForGivenPage(this.pageNumberOfCurrentRowSelected);
-    // this.sessions$ = this.serverService.makeGetReq<ISessions>({ url: this.url, headerData: { 'bot-access-token': this.bot.bot_access_token } });
-    // this.sessions$
-    //   .map((value) => {
-    //     return {
-    //       ...value,
-    //       objects: value.objects.map((result) => {
-    //         let modified_update_at = (new Date(result.updated_at)).toDateString();
-    //         return { ...result, updated_at: modified_update_at };
-    //       })
-    //     };
-    //   })
-    //   .subscribe((value) => {
-    //     if (!value) return;
-    //     this.totalSessionRecords = value.meta.total_count;
-    //     this.sessions = value.objects;
-    //   });
   }
 
   sessionTableRowClicked(eventData: { data: ISessionItem }, template?, reasonForDecryptionTemplate?) {
@@ -112,15 +80,15 @@ export class BotSessionsComponent implements OnInit {
       // this.sessionItemToBeDecrypted = eventData.data;
       // this.openSessionRowDecryptModal(reasonForDecryptionTemplate);
       this.openSessionRowDecryptModal(this.reasonForDecryptionTemplate, eventData.data);
-    }
-    else {
+    } else {
       this.loadSessionMessagesById(eventData.data.id)
         .subscribe((value: any) => {
           this.selectedRow_Session = this.sessions.find(session => session.id === eventData.data.id);
 
           // (<any>this.selectedRow_Session).highlight = true;
-          if (this.indexOfCurrentRowSelected !== undefined)
+          if (this.indexOfCurrentRowSelected !== undefined) {
             this.sessions[this.indexOfCurrentRowSelected].highlight = false;
+          }
           this.indexOfCurrentRowSelected = this.sessions.findIndex((session) => {
             return this.selectedRow_Session.id === session.id;
           });
@@ -141,13 +109,15 @@ export class BotSessionsComponent implements OnInit {
 
   loadSessionTableDataForGivenPage(pageNumber) {
 
+    this.showLoader = true;
     this.pageNumberOfCurrentRowSelected = pageNumber;
     this.url = this.constantsService.getBotSessionsUrl(10, (pageNumber - 1) * 10);
-    let headerData: IHeaderData = {
+    const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
     this.serverService.makeGetReq<ISessions>({url: this.url, headerData})
       .subscribe((value) => {
+        this.showLoader = false;
         this.totalSessionRecords = value.meta.total_count;
         this.selectedRow_Session = value.objects[this.selectedRow_number || 0];
         this.sessions = value.objects;
@@ -170,10 +140,11 @@ export class BotSessionsComponent implements OnInit {
 
   selectNextRow() {
     // this.selectedRow_Session
-    let newSelectedRow_Session: ISessionItem;// = {...this.selectedRow_Session};
+    let newSelectedRow_Session: ISessionItem; // = {...this.selectedRow_Session};
 
-    if (this.indexOfCurrentRowSelected !== undefined)/*removing the highlighted color from the old selected table row*/
+    if (this.indexOfCurrentRowSelected !== undefined) {/*removing the highlighted color from the old selected table row*/
       this.sessions[this.indexOfCurrentRowSelected].highlight = false;
+    }
 
     let currentIndex = this.sessions.findIndex((session) => {/*old selected row index*/
       // return this.selectedRow_Session.id === session.id;
@@ -186,11 +157,10 @@ export class BotSessionsComponent implements OnInit {
       if (newSelectedRow_Session.data_encrypted) {
         // this.customActionEventsTriggeredInSessionsTable({data:selectedRow_SessionClone,action:'decrypt',source:null});
         this.preOpenDecryptionModal();
-      }else {
-        this.selectedRow_Session=  newSelectedRow_Session;
+      } else {
+        this.selectedRow_Session =  newSelectedRow_Session;
       }
-    }
-    else {/*new page is needed to be loaded*/
+    } else {/*new page is needed to be loaded*/
       this.smartTableComponent.goToNextPage();
       this.selectedRow_number = 0;
       this.indexOfCurrentRowSelected = 0;
@@ -200,22 +170,23 @@ export class BotSessionsComponent implements OnInit {
     //   this.sessions[this.indexOfCurrentRowSelected].highlight = true;
   }
 
-  preOpenDecryptionModal(){
+  preOpenDecryptionModal() {
     this.modalRef.hide();
-    let sessionToBeDecrypted = this.sessions[this.indexOfCurrentRowSelected];
+    const sessionToBeDecrypted = this.sessions[this.indexOfCurrentRowSelected];
     this.openSessionRowDecryptModal(this.reasonForDecryptionTemplate, sessionToBeDecrypted);
     return;
   }
 
   selectPrevRow() {
-    if (this.indexOfCurrentRowSelected !== undefined)
+    if (this.indexOfCurrentRowSelected !== undefined) {
       this.sessions[this.indexOfCurrentRowSelected].highlight = false;
+    }
     let currentIndex = this.sessions.findIndex((session) => {
       return this.selectedRow_Session.id === session.id;
     });
 
     this.indexOfCurrentRowSelected = currentIndex;
-    let newSelectedRow_Session:ISessionItem;
+    let newSelectedRow_Session: ISessionItem;
 
     if (currentIndex >= 1) {
       newSelectedRow_Session = this.sessions[--currentIndex];
@@ -224,17 +195,17 @@ export class BotSessionsComponent implements OnInit {
       if (newSelectedRow_Session.data_encrypted) {
         // this.customActionEventsTriggeredInSessionsTable({data:selectedRow_SessionClone,action:'decrypt',source:null});
         this.preOpenDecryptionModal();
-      }else {
-        this.selectedRow_Session=  newSelectedRow_Session;
+      } else {
+        this.selectedRow_Session =  newSelectedRow_Session;
       }
-    }
-    else {
+    } else {
       this.smartTableComponent.goToPrevPage();
       this.selectedRow_number = 9;
       this.indexOfCurrentRowSelected = 9;
     }
-    if (this.indexOfCurrentRowSelected !== undefined)
+    if (this.indexOfCurrentRowSelected !== undefined) {
       this.sessions[this.indexOfCurrentRowSelected].highlight = true;
+    }
 
   }
 
@@ -256,26 +227,26 @@ export class BotSessionsComponent implements OnInit {
     if (data.action === 'decrypt') {
       /*use dcrypt api*/
 
-      let sessionItemToBeDecrypted = data.data;
+      const sessionItemToBeDecrypted = data.data;
       this.openSessionRowDecryptModal(Primarytemplate, sessionItemToBeDecrypted);
 
     }
   }
 
   decryptSubmit(sessionTobeDecryptedId: number) {
-    let headerData: IHeaderData = {
+    const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-    let body = {'room_id': sessionTobeDecryptedId, 'decrypt_audit_type': 'room', 'message': this.decryptReason};
-    let url = this.constantsService.getDecryptUrl();
+    const body = {'room_id': sessionTobeDecryptedId, 'decrypt_audit_type': 'room', 'message': this.decryptReason};
+    const url = this.constantsService.getDecryptUrl();
     this.serverService.makePostReq({headerData, body, url})
       .subscribe(() => {
         this.decryptReason = null;
-        let surl = this.constantsService.getSessionsByIdUrl(sessionTobeDecryptedId);
+        const surl = this.constantsService.getSessionsByIdUrl(sessionTobeDecryptedId);
         this.serverService.makeGetReq({url: surl, headerData})
           .subscribe((newSession: ISessionItem) => {
 
-            let del = this.sessions.findIndex((session) => session.id === sessionTobeDecryptedId);
+            const del = this.sessions.findIndex((session) => session.id === sessionTobeDecryptedId);
             this.sessions[del] = {...newSession};
             this.sessions = [...this.sessions];
           });

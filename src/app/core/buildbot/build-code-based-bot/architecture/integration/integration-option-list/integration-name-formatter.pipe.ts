@@ -8,15 +8,15 @@ import {IIntegrationMasterListItem} from '../../../../../../../interfaces/integr
   name: 'integrationNameFormatter'
 })
 export class IntegrationNameFormatterPipe implements PipeTransform {
-  masterIntegrationList:IIntegrationMasterListItem[];
+  masterIntegrationList: IIntegrationMasterListItem[];
   @Select() app$: Observable<IAppState>;
-  constructor(){
-    this.app$.subscribe((appState)=>{
+  constructor() {
+    this.app$.subscribe((appState) => {
       this.masterIntegrationList = appState.masterIntegrationList;
-    })
+    });
   }
   transform(integration_type: any, args?: any): any {
-    let masterIntegrationItem =   this.masterIntegrationList.find((masterIntegrationItem)=>masterIntegrationItem.integration_type===integration_type)
+    const masterIntegrationItem =   this.masterIntegrationList.find((masterIntegrationItem) => masterIntegrationItem.integration_type === integration_type);
     return masterIntegrationItem.type;
   }
 

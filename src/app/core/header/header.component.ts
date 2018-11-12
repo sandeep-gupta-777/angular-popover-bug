@@ -50,25 +50,25 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    document.addEventListener("mozfullscreenchange", ()=>{
+    document.addEventListener('mozfullscreenchange', () => {
       this.isDocumentFullScreenModeOn = !this.isDocumentFullScreenModeOn;
     });
-    document.addEventListener("webkitfullscreenchange", ($event)=>{
+    document.addEventListener('webkitfullscreenchange', ($event) => {
       this.isDocumentFullScreenModeOn = !this.isDocumentFullScreenModeOn;
     });
-    document.addEventListener("msfullscreenchange", ()=>{
+    document.addEventListener('msfullscreenchange', () => {
       this.isDocumentFullScreenModeOn = !this.isDocumentFullScreenModeOn;
     });
 
     /*this.app$Subscription = */this.app$.subscribe((app) => {
         /*every time this callback runs remove all previous setTimeOuts*/
-        let autoLogOutTime = app.autoLogoutTime;
+        const autoLogOutTime = app.autoLogoutTime;
         if (autoLogOutTime) {
 
           /*If autoLogOutTime hasn't changed, return
           * else clear previous timeouts, and create a new one
           * */
-          if (this.autoLogOutTime === autoLogOutTime) return;
+          if (this.autoLogOutTime === autoLogOutTime) { return; }
           this.autoLogOutTime = autoLogOutTime;
           this.logoutSetTimeoutRef && clearTimeout(this.logoutSetTimeoutRef);
 
@@ -77,12 +77,12 @@ export class HeaderComponent implements OnInit {
             this.logoutSetTimeoutRef && clearTimeout(this.logoutSetTimeoutRef);
             try {
               this.app$Subscription && this.app$Subscription.unsubscribe();
-            }catch (e) {
-              LoggingService.error(e);/*TODO: find out whats wrong with app$Subscription*/
+            } catch (e) {
+              LoggingService.error(e); /*TODO: find out whats wrong with app$Subscription*/
             }
             LoggingService.log('============================autologout============================');
             this.logout();
-            document.location.reload();/*To destroy all timeouts just in case*/
+            document.location.reload(); /*To destroy all timeouts just in case*/
           }, (autoLogOutTime - Date.now()));
         }
       }
@@ -90,7 +90,7 @@ export class HeaderComponent implements OnInit {
     this.loggeduser$.subscribe((value) => {
     });
     this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
-      ;
+
       this.logoSrc = enterpriseProfileInfo.logo || this.logoSrc;
     });
     // this.activatedRoute.queryParams.subscribe((queryParams)=>{
@@ -124,7 +124,7 @@ export class HeaderComponent implements OnInit {
 
   }
 
-  toggleDocumentFullScreen(){
-    this.isDocumentFullScreenModeOn? this.utilityService.closeFullscreen() :this.utilityService.openFullscreen();
+  toggleDocumentFullScreen() {
+    this.isDocumentFullScreenModeOn ? this.utilityService.closeFullscreen() : this.utilityService.openFullscreen();
   }
 }

@@ -1,20 +1,20 @@
 import { IBot } from '../../app/core/interfaces/IBot';
 
 export interface IChannelWiseFlowsPerSessionResponseBody {
-    meta: any,
+    meta: any;
     objects: [
         {
             output: {
-                "channelWiseFlowsPerSession": IChannelWiseFlowsPerSessionItem[]
+                'channelWiseFlowsPerSession': IChannelWiseFlowsPerSessionItem[]
             }
         }
-    ]
+    ];
 }
 export interface IChannelWiseFlowsPerSessionItem {
-    "alexa": number,
-    "facebook": number,
-    "labels": string,
-    "web": number
+    'alexa': number;
+    'facebook': number;
+    'labels': string;
+    'web': number;
 }
 
 // {

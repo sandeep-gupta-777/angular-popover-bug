@@ -61,14 +61,16 @@ import {IntegrationItemForTypePipe} from '../../integration-item-for-type.pipe';
 import {CodeGentemplateUiComponentWrapperComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-gentemplate-ui-component-wrapper.component';
 import {CodeVersionListComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-version-list/code-version-list.component';
 import {CodeGentemplateUiWrapperComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
+import {TrimStringPipe} from '../../trim-string.pipe';
+import {DebounceClickDirective} from '../../debounce-click.directive';
 
 const routes: Route[] = [
   {
-    path: '', component: BotDetailWrapperComponent, canActivateChild:[AuthGaurdService], children:
+    path: '', component: BotDetailWrapperComponent, canActivateChild: [AuthGaurdService], children:
       [
         {path: `${EBotType.chatbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.chatbot}},
         {path: `${EBotType.intelligent}/:id`, component: PipelineBasedBotDetailComponent, data: {bot_type: EBotType.intelligent}},
-        {path: ':id/consumer', component: ConsumerFullscreenWrapperComponent, data:{isFullscreen:true}},
+        {path: ':id/consumer', component: ConsumerFullscreenWrapperComponent, data: {isFullscreen: true}},
       ]
   }
 ];
@@ -95,8 +97,10 @@ const routes: Route[] = [
     CodeGentemplateUiComponentWrapperComponent,
     CodeVersionListComponent,
     CodeGentemplateUiWrapperComponent,
+    TrimStringPipe,
     FilterTemplateLeyListPipe,
     CodeInputCaraosalComponent,
+    DebounceClickDirective,
     CodeQuickReplyWrapperComponent,
     CodeQuickReplyComponent,
     CodeQuickReplyButtonWrapperComponent,

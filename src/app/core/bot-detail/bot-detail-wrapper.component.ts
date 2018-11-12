@@ -19,10 +19,10 @@ export class BotDetailWrapperComponent implements OnInit {
 
   // @Select() botlist$: Observable<ViewBotStateModel>;
   constructor(
-    private activatedRoute:ActivatedRoute,
-    private constantsService:ConstantsService,
-    private serverService:ServerService,
-    private store:Store,
+    private activatedRoute: ActivatedRoute,
+    private constantsService: ConstantsService,
+    private serverService: ServerService,
+    private store: Store,
   ) { }
 
   ngOnInit() {

@@ -6,6 +6,8 @@
     </div>
   </div>
 
+  <i>{{controlsClickedCount}}</i>
+
   <div #MultiCarousel class="MultiCarousel  w-100 ml-1" data-items="2,2,2,2" data-slide="1" id="MultiCarousel"
        data-interval="1000">
     <!--TODO: ngclass below is a hack; improve it-->
@@ -111,8 +113,11 @@
       </div>
       <!--carasol item ends-->
 
-      <div #addNewCarasolPlaceholder title="Add new carousal item" [style.width]="(itemWidth/3)+'px'" (click)="pushNewCarasolItem()"
-           class="p-1 flex-shrink-0 d-flex align-items-center justify-content-center bg-overlay-grey">
+      <div #addNewCarasolPlaceholder title="Add new carousal item"
+           [style.width]="(itemWidth/3)+'px'"
+           [ngClass]="{'cursor-pointer-event-none':disableAddNewCarasolItem}"
+           appDebounceClick (debounceClick)="pushNewCarasolItem()"
+           class="p-1 flex-shrink-0 d-flex align-items-center justify-content-center bg-overlay-grey cursor-pointer" >
         <i class="fa fa-plus" style="font-size: 20px; color: #9e9e9e"></i>
       </div>
 

@@ -5,21 +5,21 @@ import {IAppState} from '../../../../../../ngxs/app.state';
 import {IIntegrationMasterListItem} from '../../../../../../../interfaces/integration-option';
 
 export interface IStore {
-  reportItem: any,
-  botcreationstate: any,
-  chatsessionstate: any,
-  analysisstate2: any,
-  app: any,
-  botlist: any,
-  loggeduser: any,
-  loggeduserenterpriseinfo: any,
+  reportItem: any;
+  botcreationstate: any;
+  chatsessionstate: any;
+  analysisstate2: any;
+  app: any;
+  botlist: any;
+  loggeduser: any;
+  loggeduserenterpriseinfo: any;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class StoreVariableService {
-  storeState: IStore=null;
+  storeState: IStore = null;
 
   constructor(private store: Store) {
     this.store
@@ -29,8 +29,8 @@ export class StoreVariableService {
       );
   }
 
-  getApp(){
-    if(this.storeState){
+  getApp() {
+    if (this.storeState) {
       return this.storeState.app;
     }
     return null;

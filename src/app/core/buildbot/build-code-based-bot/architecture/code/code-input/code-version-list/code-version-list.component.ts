@@ -15,7 +15,7 @@ export class CodeVersionListComponent implements OnInit {
   @Output() changeSelectedVersion$ = new EventEmitter();
   @Output() saveSelectedVersion$ = new EventEmitter();
   @Output() openForkNewVersionModal$ = new EventEmitter();
-  showVersionList =false;
+  showVersionList = false;
   constructor() { }
 
   ngOnInit() {

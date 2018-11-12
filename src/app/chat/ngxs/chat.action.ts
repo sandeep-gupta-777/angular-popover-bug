@@ -20,7 +20,7 @@ export class ChangeFrameAction {
 export class ChangeBotIsThinkingDisplayByRoomId {
   static readonly type = '[chat-widdow] set ShowBotIsThinkingInRoomId';
 
-  constructor(public payload: { roomId:number, shouldShowBotIsThinking:boolean}) {
+  constructor(public payload: { roomId: number, shouldShowBotIsThinking: boolean}) {
   }
 }
 
@@ -75,7 +75,7 @@ export class SetCurrentBotDetailsAndResetChatStateIfBotMismatch {
   static readonly type = '[chat-widdow] set SetCurrentBotID';
 
   constructor(public payload: {
-    bot:IBot
+    bot: IBot
     // id: number,
     // bot_access_token?: string,
     // name?: string,

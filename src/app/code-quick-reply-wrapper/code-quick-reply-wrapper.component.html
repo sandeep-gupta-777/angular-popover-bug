@@ -14,8 +14,9 @@
   </div>
 
   <app-code-quick-reply-button-wrapper
-    *ngFor="let quick_reply of outputItem?.quick_reply[0].quick_replies"
+    *ngFor="let quick_reply of outputItem?.quick_reply[0].quick_replies; let i = index"
     [quick_reply]="quick_reply"
+    (deleteQuickReply$)="deleteQuickReply(i)"
     class="flex-grow-1 p-2 d-inline-block">
   </app-code-quick-reply-button-wrapper>
 

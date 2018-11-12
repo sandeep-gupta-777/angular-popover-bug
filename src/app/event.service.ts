@@ -6,10 +6,10 @@ import {EventEmitter, Injectable} from '@angular/core';
 export class EventService {
 
   private removeCodeMirrorHistory$ = new EventEmitter();
-  getRemoveCodeMirrorHistory$(){
+  getRemoveCodeMirrorHistory$() {
       return this.removeCodeMirrorHistory$;
   }
-  emitRemoveCodeMirrorHistoryEvent(source:string){
+  emitRemoveCodeMirrorHistoryEvent(source: string) {
       this.removeCodeMirrorHistory$.emit(source);
   }
   constructor() { }

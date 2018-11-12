@@ -66,11 +66,12 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   maxDate = new Date();
 
   @Input() set allbotList(_allbotList: IBot[]) {
-    if (!_allbotList) return;
+    if (!_allbotList) { return; }
     this._allbotList = _allbotList;
     this.codebasedBotList = this._allbotList.filter((bot) => bot.bot_type === EBotType.chatbot);
-    if (this.f && _allbotList && _allbotList.length>0)
+    if (this.f && _allbotList && _allbotList.length > 0) {
       this.f.form.patchValue({botId: this._allbotList[0].id, platform: this.channelList[0].name});
+    }
   }
 
   granularityList = [
@@ -109,12 +110,12 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
       .debounceTime(1000)
       .subscribe((formData) => {
         LoggingService.log(this.f);
-        if (this.utilityService.areTwoJSObjectSame(this.formData, formData)) return;
+        if (this.utilityService.areTwoJSObjectSame(this.formData, formData)) { return; }
         this.formData = formData;
-        if (!this.f.valid) return;
-        let selectedBot: IBot = this._allbotList.find((bot) => bot.id === Number(this.f.value.botId));
+        if (!this.f.valid) { return; }
+        const selectedBot: IBot = this._allbotList.find((bot) => bot.id === Number(this.f.value.botId));
         // this.route.navigate(["." ], {queryParams:{granularity:this.f.value.granularity} , relativeTo: this.activatedRoute});
-        let analysisHeaderData: IAnalysis2HeaderData = {
+        const analysisHeaderData: IAnalysis2HeaderData = {
           'bot-access-token': selectedBot.bot_access_token,
           platform: 'web',
           ...formData
@@ -139,8 +140,8 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
       /*move this code to dedicated service*/
       try {
         this.f.form.patchValue(analytics2HeaderData);
-        let url = this.constantsService.getAnalyticsUrl();
-        let headerData: IAnalysis2HeaderData = {
+        const url = this.constantsService.getAnalyticsUrl();
+        const headerData: IAnalysis2HeaderData = {
           ...analytics2HeaderData,
           'auth-token': this.loggeduser.user.auth_token,
           'user-access-token': this.loggeduser.user.user_access_token,
@@ -148,13 +149,13 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
           enddate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.enddate),
         };
         //asdas
-        if (!this.utilityService.areAllValesDefined(headerData)) return;
-        if (this.utilityService.areTwoJSObjectSame(this.analytics2HeaderData, analytics2HeaderData)) return;
+        if (!this.utilityService.areAllValesDefined(headerData)) { return; }
+        if (this.utilityService.areTwoJSObjectSame(this.analytics2HeaderData, analytics2HeaderData)) { return; }
         this.store.dispatch([new ResetAnalytics2GraphData()])
           .debounceTime(1000)
           .subscribe(() => {
-            let isHeaderValid = this.isHeaderValid(analytics2HeaderData.startdate, analytics2HeaderData.enddate, analytics2HeaderData.granularity);
-            if (!isHeaderValid) return;
+            const isHeaderValid = this.isHeaderValid(analytics2HeaderData.startdate, analytics2HeaderData.enddate, analytics2HeaderData.granularity);
+            if (!isHeaderValid) { return; }
             this.analytics2HeaderData = analytics2HeaderData;
 
             this.store.dispatch([new ResetAnalytics2GraphData()]);
@@ -163,78 +164,78 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
               .take(1)
               .subscribe((response: any) => {
                 if (headerData.type === EAnalysis2TypesEnum.overviewinfo) {
-                  let responseCopy: IOverviewInfoResponse = response;
+                  const responseCopy: IOverviewInfoResponse = response;
                   this.store.dispatch(new SetOverviewInfoData({data: responseCopy.objects[0].output}));
                 }
                 if (headerData.type === EAnalysis2TypesEnum.channelWiseFlowsPerSession) {
-                  let responseCopy: IChannelWiseFlowsPerSessionResponseBody = response;
+                  const responseCopy: IChannelWiseFlowsPerSessionResponseBody = response;
                   this.store.dispatch(new SetChannelWiseFlowsPerSession({data: responseCopy.objects[0].output.channelWiseFlowsPerSession}));
                 }
                 if (headerData.type === EAnalysis2TypesEnum.userAcquisition) {
-                  let responseCopy: IUserAcquisitionResponseBody = response;
+                  const responseCopy: IUserAcquisitionResponseBody = response;
                   this.store.dispatch(new SetUserAcquisition({data: responseCopy.objects[0].output.userAcquisition}));
                 }
                 if (headerData.type === EAnalysis2TypesEnum.totalMessages) {
-                  let responseCopy: ITotalMessagesResponseBody = response;
+                  const responseCopy: ITotalMessagesResponseBody = response;
                   this.store.dispatch(new SetTotalMessages({data: responseCopy.objects[0].output.messagesinfo}));
                 }
                 if (headerData.type === EAnalysis2TypesEnum.averageRoomTime) {
-                  ;
-                  let responseCopy: IAverageRoomTimeResponseBody = response;
+
+                  const responseCopy: IAverageRoomTimeResponseBody = response;
                   this.store.dispatch(new SetAverageRoomTime({data: responseCopy.objects[0].output.averageRoomTime}));
                 }
                 if (headerData.type === EAnalysis2TypesEnum.userLoyalty) {
-                  let responseCopy: IUserLoyaltyResponseBody = response;
+                  const responseCopy: IUserLoyaltyResponseBody = response;
                   this.store.dispatch(new SetUserLoyalty({data: responseCopy.objects[0].output.userLoyalty}));
                 }
                 if (headerData.type === EAnalysis2TypesEnum.channelWiseAverageSessionTime) {
-                  let responseCopy: IChannelWiseAverageSessionTimeResponseBody = response;
+                  const responseCopy: IChannelWiseAverageSessionTimeResponseBody = response;
                   this.store.dispatch(new SetChannelWiseAverageSessionTime({data: responseCopy.objects[0].output.channelWiseAverageSessionTime}));
                 }
                 if (headerData.type === EAnalysis2TypesEnum.totalFlows) {
-                  let responseCopy: ITotalFlowsResponseBody = response;
+                  const responseCopy: ITotalFlowsResponseBody = response;
                   this.store.dispatch(new SetTotalFlows({data: responseCopy.objects[0].output.totalFlows}));
                 }
                 if (headerData.type === EAnalysis2TypesEnum.totalFlows) {
-                  let responseCopy: ITotalFlowsResponseBody = response;
+                  const responseCopy: ITotalFlowsResponseBody = response;
                   this.store.dispatch(new SetTotalFlows({data: responseCopy.objects[0].output.totalFlows}));
                 }
 
                 if (headerData.type === EAnalysis2TypesEnum.flowsPerRoom) {
-                  let responseCopy: IFlowsPerRoomResponseBody = response;
+                  const responseCopy: IFlowsPerRoomResponseBody = response;
                   this.store.dispatch(new SetFlowsPerRoom({data: responseCopy.objects[0].output.flowsPerRoom}));
                 }
 
                 if (headerData.type === EAnalysis2TypesEnum.totalRooms) {
-                  let responseCopy: ITotalRoomsResponseBody = response;
+                  const responseCopy: ITotalRoomsResponseBody = response;
                   this.store.dispatch(new SetTotalRooms({data: responseCopy.objects[0].output.totalRooms}));
                 }
 
                 if (headerData.type === EAnalysis2TypesEnum.roomDuration) {
-                  let responseCopy: IRoomDurationResponseBody = response;
+                  const responseCopy: IRoomDurationResponseBody = response;
                   this.store.dispatch(new SetRoomDuration({data: responseCopy.objects[0].output.roomDuration}));
                 }
 
                 if (headerData.type === EAnalysis2TypesEnum.channelWiseSessions) {
-                  let responseCopy: IChannelWiseSessionsResponseBody = response;
+                  const responseCopy: IChannelWiseSessionsResponseBody = response;
                   this.store.dispatch(new SetChannelWiseSessions({data: responseCopy.objects[0].output.channelWiseSessions}));
                 }
 
                 if (headerData.type === EAnalysis2TypesEnum.channelWiseUsers) {
-                  let responseCopy: IChannelWiseUsersResponseBody = response;
+                  const responseCopy: IChannelWiseUsersResponseBody = response;
                   this.store.dispatch(new SetChannelWiseUsers({data: responseCopy.objects[0].output.channelWiseUsers}));
                 }
 
                 if (headerData.type === EAnalysis2TypesEnum.usagetracking) {
-                  let responseCopy: IChannelWiseUsersResponseBody = response;
+                  const responseCopy: IChannelWiseUsersResponseBody = response;
                   this.store.dispatch(new SetUsagetrackingInfo({data: responseCopy.objects[0].output[EAnalysis2TypesEnum.usagetracking]}));
                 }
                 if (headerData.type === EAnalysis2TypesEnum.topgenerationtemplates) {
-                  let responseCopy: IChannelWiseUsersResponseBody = response;
+                  const responseCopy: IChannelWiseUsersResponseBody = response;
                   this.store.dispatch(new Topgenerationtemplates({data: responseCopy.objects[0].output[EAnalysis2TypesEnum.topgenerationtemplates]}));
                 }
                 if (headerData.type === EAnalysis2TypesEnum.totalSessions) {
-                  let responseCopy: IChannelWiseUsersResponseBody = response;;
+                  const responseCopy: IChannelWiseUsersResponseBody = response;
                   this.store.dispatch(new TotalSessions({data: responseCopy.objects[0].output['messagesinfo']}));
                 }
               });
@@ -249,10 +250,10 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   isHeaderValid(startDate, endDate, granularity) {
-    var startDate: any = new Date(startDate);
-    var endDate: any = new Date(endDate);
-    var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
-    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    startDate = new Date(startDate);
+    endDate = new Date(endDate);
+    const timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
+    const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
     if (startDate > endDate) {
       this.errorMessage = 'start date is larger than end date';
       return false;
@@ -269,8 +270,8 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
 
     setTimeout(() => {
       this.f.controls.botId.valueChanges.subscribe((data) => {
-        if (!this.f.value.botId) return;
-        let selectedBot: IBot = this._allbotList.find((bot) => bot.id === Number(this.f.value.botId));
+        if (!this.f.value.botId) { return; }
+        const selectedBot: IBot = this._allbotList.find((bot) => bot.id === Number(this.f.value.botId));
         if (selectedBot) {
           this.channelList =
             Object.keys(selectedBot.integrations.channels).filter((integrationKey: any) => {
@@ -290,8 +291,9 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
         }
       });
 
-      if (this._allbotList)
+      if (this._allbotList) {
         this.f.form.patchValue({botId: this._allbotList[0].id, platform: this.channelList[0].name});
+      }
     }, 0);
   }
 

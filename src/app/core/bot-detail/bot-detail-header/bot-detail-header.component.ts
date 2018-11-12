@@ -69,22 +69,22 @@ export class BotDetailHeaderComponent implements OnInit {
   updateBot() {
     try {
       this.modalRef.hide();
-    }catch (e) {
+    } catch (e) {
       LoggingService.error(e);
     }
     this.bot.active_version_id = this.bot.store_selected_version;
-    let bot = this.utilityService.performFormValidationBeforeSaving(this.bot);
-    if (!bot) return;
+    const bot = this.utilityService.performFormValidationBeforeSaving(this.bot);
+    if (!bot) { return; }
 
-    let url = this.constantsService.updateBotUrl(this.bot.id);
-    let headerData: IHeaderData = {
+    const url = this.constantsService.updateBotUrl(this.bot.id);
+    const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
     if (this.bot.store_selected_version && this.bot.store_selected_version !== this.bot.active_version_id) {
-      if (!confirm('active version has been changed')) return;
+      if (!confirm('active version has been changed')) { return; }
       this.bot.active_version_id = this.bot.store_selected_version;
     }
-    let body = this.constantsService.updateBotSerializer(this.bot);
+    const body = this.constantsService.updateBotSerializer(this.bot);
     if (!body.logo) {
       body.logo = 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png';
     }
@@ -107,8 +107,8 @@ export class BotDetailHeaderComponent implements OnInit {
 
   deleteBot() {
     this.modalRef.hide();
-    let url = this.constantsService.getDeleteBotUrl(this.bot.id);
-    let headerData: IHeaderData = {
+    const url = this.constantsService.getDeleteBotUrl(this.bot.id);
+    const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
     this.serverService.makeDeleteReq({url, headerData})
@@ -125,7 +125,7 @@ export class BotDetailHeaderComponent implements OnInit {
     if (this.bot.store_selected_version && this.bot.store_selected_version !== this.bot.active_version_id) {
       // if (!confirm('active version has been changed')) return;
       this.modalRef = this.modalService.show(template, {class: 'center-modal'});
-    }else {
+    } else {
       this.updateBot();
     }
   }

@@ -14,26 +14,26 @@ import {LoggingService} from '../../../../../../logging.service';
     multi: true
   }]
 })
-export class BotConfigInputComponent implements OnInit,ControlValueAccessor {
+export class BotConfigInputComponent implements OnInit, ControlValueAccessor {
   value;
-  @Input() displayName:string;
-  @Input() placeholder:string;
-  @Input() errors:{name:string, description:string}[] = [];
+  @Input() displayName: string;
+  @Input() placeholder: string;
+  @Input() errors: {name: string, description: string}[] = [];
   @Output() keyDown$ = new EventEmitter();
   myObject = Object;
   isDisabled = false;
-  onChanges:Function;
-  ngControl:NgControl;
+  onChanges: Function;
+  ngControl: NgControl;
   constructor(private injector: Injector) {}
 
   ngOnInit() {
     this.ngControl = this.injector && this.injector.get(NgControl);
   }
 
-  keyDown(data){
+  keyDown(data) {
     this.keyDown$.emit(data);
   }
-  valueChanged(isOn:boolean){
+  valueChanged(isOn: boolean) {
     LoggingService.log(this.ngControl.errors);
     this.onChanges(isOn);
   }
@@ -55,12 +55,12 @@ export class BotConfigInputComponent implements OnInit,ControlValueAccessor {
 
   }
 
-  keyPressed($event){
+  keyPressed($event) {
 
     this.keyDown$.emit($event);
-    setTimeout(()=>{
+    setTimeout(() => {
       this.valueChanged(this.value);
-    })
+    });
   }
 
 }

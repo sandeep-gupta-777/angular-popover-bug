@@ -3,18 +3,18 @@
 import { IBot } from '../../app/core/interfaces/IBot';
 
 export interface IFlowsPerRoomResponseBody {
-    meta: any,
+    meta: any;
     objects: [
         {
             output: {
-                "flowsPerRoom": IFlowsPerRoomItem[]
+                'flowsPerRoom': IFlowsPerRoomItem[]
             }
         }
-    ]
+    ];
 }
 export interface IFlowsPerRoomItem {
-        "flowsperroom": number,
-        "labels": string
+        'flowsperroom': number;
+        'labels': string;
     }
 
 // {

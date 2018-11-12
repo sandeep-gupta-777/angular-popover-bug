@@ -33,7 +33,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
       this.hot.getInstance().loadData(value);
       this.hot.getInstance().render();
     }
-  };
+  }
 
 
   _data: [string[]] = [['blank', '', '']];
@@ -56,9 +56,9 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    let routeName = this.activatedRoute.snapshot.data['routeName'];
+    const routeName = this.activatedRoute.snapshot.data['routeName'];
 
-    let searchField = this.hotTableSearchField.nativeElement;
+    const searchField = this.hotTableSearchField.nativeElement;
     let colObject = {};
     if (this.colHeaders && this.columns) {
       colObject = {
@@ -66,7 +66,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
         columns: this.columns,
       };
     }
-    let hot = this.hot = new Handsontable(this.hotTableComponentTest.nativeElement, {
+    const hot = this.hot = new Handsontable(this.hotTableComponentTest.nativeElement, {
       data: this._data,
       // rowHeaders: true,
       ...this.options,
@@ -101,8 +101,8 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
     });
 
     (<any>Handsontable.dom).addEvent(searchField, 'keyup', function (event) {
-      let search = hot.getPlugin('search');
-      let queryResult = (<any>search).query(this.value);
+      const search = hot.getPlugin('search');
+      const queryResult = (<any>search).query(this.value);
 
       LoggingService.log(queryResult);
       hot.render();

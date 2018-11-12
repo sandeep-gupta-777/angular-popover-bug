@@ -30,12 +30,12 @@ export class ObjectArrayCrudService {
   //   array.push(obj);
   //   return array;
   // }
-  getObjectItemByKeyValuePair(array:any[], obj:object){
-    let key = Object.keys(obj)[0];
-    let value =  obj[key];
-    let x = array.find(item => {
+  getObjectItemByKeyValuePair(array: any[], obj: object) {
+    const key = Object.keys(obj)[0];
+    const value =  obj[key];
+    const x = array.find(item => {
       return item[key] === value;
-    })
+    });
     return x;
   }
 }

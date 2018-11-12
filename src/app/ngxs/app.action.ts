@@ -42,7 +42,7 @@ export class SetMasterIntegrationsList {
   static readonly type = '[app] set SetMasterIntegrationsList';
 
   constructor(public payload: {
-    masterIntegrationList:IIntegrationMasterListItem[]
+    masterIntegrationList: IIntegrationMasterListItem[]
   }) {}
 }
 
@@ -51,7 +51,7 @@ export class SetMasterProfilePermissions {
   static readonly type = '[app] set SetProfilePermissions';
 
   constructor(public payload: {
-    masterProfilePermissions:IProfilePermission[]
+    masterProfilePermissions: IProfilePermission[]
   }) {}
 }
 
@@ -59,7 +59,7 @@ export class SetBackendURlRoot {
   static readonly type = '[app] set SetBackendURlRoot';
 
   constructor(public payload: {
-    url:string
+    url: string
   }) {}
 }
 
@@ -67,7 +67,7 @@ export class SetShowBackendURlRoot {
   static readonly type = '[app] set SetShowBackendURlRoot ';
 
   constructor(public payload: {
-    showBackendURlRoot:boolean
+    showBackendURlRoot: boolean
   }) {}
 }
 
@@ -75,15 +75,15 @@ export class SetEnterpriseNerData {
   static readonly type = '[app] set SetEnterpriseNERs';
 
   constructor(public payload: {
-    enterpriseNerData:ICustomNerItem[]
+    enterpriseNerData: ICustomNerItem[]
   }) {}
 }
 
-export class SetPipelineModuleMasterData{
+export class SetPipelineModuleMasterData {
   static readonly type = '[app] set SetPipelineModuleMasterData';
 
   constructor(public payload: {
-    masterPipelineItems:IPipelineItem[]
+    masterPipelineItems: IPipelineItem[]
   }) {}
 }
 
@@ -96,7 +96,7 @@ export class ResetAppState {
 export class SetAutoLogoutTime {
   static readonly type = '[app] set setAutoLogoutTime';
 
-  constructor(public payload:{time:number}) {}
+  constructor(public payload: {time: number}) {}
 }
 
 

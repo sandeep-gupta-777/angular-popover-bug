@@ -100,7 +100,7 @@ export class PermissionService {
           if (!loggeduser.user) {
             return;
           }
-          let masterActionList = appState.masterProfilePermissions;
+          const masterActionList = appState.masterProfilePermissions;
           if (loggeduser.user.role.name === 'Admin') {
             this.forbiddenActionsToFrontEndMapping = [];
             return;
@@ -111,9 +111,9 @@ export class PermissionService {
           /*remove all allowed perms*/
           loggeduser.user.role.permissions.actions.forEach((permId: number) => {
             /*find action name for given permission id*/
-            let actionName = masterActionList.find((action) => action.id === permId).name;
-            let x = this.forbiddenActionsToFrontEndMapping[actionName];
-            let y = this.forbiddenActionsToFrontEndMapping;
+            const actionName = masterActionList.find((action) => action.id === permId).name;
+            const x = this.forbiddenActionsToFrontEndMapping[actionName];
+            const y = this.forbiddenActionsToFrontEndMapping;
             delete this.forbiddenActionsToFrontEndMapping[actionName];
           });
 
@@ -124,7 +124,7 @@ export class PermissionService {
           * 2. check if that action is allowed
           * */
 
-          let actionToHttpVerbPPathNameMap = {};
+          const actionToHttpVerbPPathNameMap = {};
           masterActionList.forEach((action: IProfilePermission) => {
             // actionToHttpVerbPPathNameMap[action.permissions.method + '+' + action.permissions.endpoint] = action.name;
             actionToHttpVerbPPathNameMap[action.name] = action.permissions.method + '+' + action.permissions.endpoint;
@@ -134,10 +134,10 @@ export class PermissionService {
           this.allowedApiHttpVerbPPathToActionNamesMapping = {};
           loggeduser.user.role.permissions.actions.forEach((permId: number) => {
             /*find action name for given permission id*/
-            let action = masterActionList.find((action) => action.id === permId);
-            let httpVerb = action.permissions.method;
-            let path = action.permissions.endpoint;
-            let httpVerbPPath = httpVerb + '+' + path;
+            const action = masterActionList.find((action) => action.id === permId);
+            const httpVerb = action.permissions.method;
+            const path = action.permissions.endpoint;
+            const httpVerbPPath = httpVerb + '+' + path;
             this.allowedApiHttpVerbPPathToActionNamesMapping[httpVerbPPath] = action.name;
             // let key:string = this.findKeyForValueInObject(this.allowedApiHttpVerbPPathToActionNamesMapping, actionName);
             // delete this.allowedApiHttpVerbPPathToActionNamesMapping[key];
@@ -150,23 +150,22 @@ export class PermissionService {
     });
 
   }
-  isInApiAccessAllowedUrlList(pathName){
-    let check = this.ApiAccessAllowedUrlList.find(x => x === pathName );
-    if(check)  return true;
-    else return false;
+  isInApiAccessAllowedUrlList(pathName) {
+    const check = this.ApiAccessAllowedUrlList.find(x => x === pathName );
+    if (check) {  return true; } else { return false; }
   }
   findKeyForValueInObject(obj: object, value): string {
     if (!obj || !value) {
       console.error('non valid arguments for findKeyForValueInObject()');
       return;
     }
-    let key = Object.keys(obj).find((key) => obj[key] === value);
+    const key = Object.keys(obj).find((key) => obj[key] === value);
     return key;
   }
 
-  isTabAccessDenied(tabName: string, accessType = "") {//route,tab
-    if (!tabName) return false;
-    let isDenied = !!this.forbiddenActionsToFrontEndMapping[tabName];
+  isTabAccessDenied(tabName: string, accessType = '') {//route,tab
+    if (!tabName) { return false; }
+    const isDenied = !!this.forbiddenActionsToFrontEndMapping[tabName];
     LoggingService.logMultiple(`checking ${accessType} access for tabName = ${tabName} and the access was ${isDenied ? 'Denied' : 'Allowed'}. Following is forbiddenActionsToFrontEndMapping`, this.forbiddenActionsToFrontEndMapping);
     return isDenied;
   }
@@ -176,17 +175,17 @@ export class PermissionService {
   }
 
   isApiAccessDenied(url: string, httpVerb: EHttpVerbs) {
-    let isAllowed: boolean, httpVerbAndPathKey: string, logMessage: string = "", pathName = this.getPathNameFromUrl(url);
-    let roleName = this.loggedUser && this.loggedUser.role.name;
+    let isAllowed: boolean, httpVerbAndPathKey: string, logMessage = '', pathName = this.getPathNameFromUrl(url);
+    const roleName = this.loggedUser && this.loggedUser.role.name;
     if (!url || !httpVerb) {
       console.error('invalid args for isApiAccessDenied');
       return;
     }
     if (roleName === ERoleName.Admin) {
-      logMessage = "All APIs are allowed for Admin user";
+      logMessage = 'All APIs are allowed for Admin user';
       isAllowed = true;
     } else if (this.isInApiAccessAllowedUrlList(pathName)) {
-      logMessage = "get actions api is allowed for all user";
+      logMessage = 'get actions api is allowed for all user';
       /*explicitly allowing get action route for all the users, since we can't create allowedApiHttpVerbPPathToActionNamesMapping without it*/
       isAllowed = true;
     } else {
@@ -200,7 +199,7 @@ export class PermissionService {
 
   getPathNameFromUrl(url: string) {
     /*https://stackoverflow.com/questions/736513/how-do-i-parse-a-url-into-hostname-and-path-in-javascript*/
-    let parser = document.createElement('a');
+    const parser = document.createElement('a');
     parser.href = url;
     return parser.pathname;
   }

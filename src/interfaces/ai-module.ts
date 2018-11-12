@@ -25,7 +25,7 @@ export interface IPipelineItem {
   "updated_at": number,
 
   /*custom fields*/
-  form_validation_pipeline?:boolean;
+  form_validation_pipeline?: boolean;
 }
 
 

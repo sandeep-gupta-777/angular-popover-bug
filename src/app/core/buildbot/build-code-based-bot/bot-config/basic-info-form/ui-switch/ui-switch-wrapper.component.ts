@@ -15,15 +15,15 @@ import {ELogType, LoggingService} from '../../../../../../logging.service';
 export class UiSwitchWrapperComponent implements OnInit, ControlValueAccessor {
   isSwitchOn = false;
   isDisabled = false;
-  onChanges:Function;
+  onChanges: Function;
   constructor() {
   }
 
-  valueChanged(isOn:boolean){
+  valueChanged(isOn: boolean) {
     try {
       this.onChanges(isOn);
-    }catch (e) {
-      LoggingService.log(e,ELogType.error);
+    } catch (e) {
+      LoggingService.log(e, ELogType.error);
     }
   }
 

@@ -57,22 +57,22 @@ export class Analysis2Engagement1Component implements OnInit {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || this.activeTab;
     this.tabClicked(this.activeTab);
     this.analytics2GraphData$
-      .subscribe((value: IAnalysis2State)=>{
-        try{
-          let granularity =  value.analysisHeaderData.granularity;
-          let granularity_ms:number = this.utilityService.convertGranularityStrToMs(granularity);
+      .subscribe((value: IAnalysis2State) => {
+        try {
+          const granularity =  value.analysisHeaderData.granularity;
+          const granularity_ms: number = this.utilityService.convertGranularityStrToMs(granularity);
 
           this.chartValue =
             <any>this.utilityService.convertDateTimeGraph(
               value[this.activeTab],
-              "labels",
+              'labels',
               new Date(value.analysisHeaderData.startdate).getTime(),
               granularity_ms) ;
-        }catch (e) {
+        } catch (e) {
           LoggingService.error(e);
         }
 
-      })
+      });
   }
 
 

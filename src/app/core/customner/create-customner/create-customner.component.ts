@@ -8,11 +8,11 @@ import { Component, OnInit } from '@angular/core';
 export class CreateCustomnerComponent implements OnInit {
 
   constructor() { }
-  conceptType:string="single";
+  conceptType = 'single';
   ngOnInit() {
   }
 
-  conceptTypeChanged(newConceptType:string){
+  conceptTypeChanged(newConceptType: string) {
     this.conceptType = newConceptType;
   }
 

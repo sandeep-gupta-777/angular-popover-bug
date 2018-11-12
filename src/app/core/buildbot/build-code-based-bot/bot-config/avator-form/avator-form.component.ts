@@ -61,9 +61,9 @@ export class AvatorFormComponent implements OnInit {
     LoggingService.log(this.formArray);
 
     this.formGroup.valueChanges.debounceTime(200).subscribe((data: any) => {
-      if (this.utilityService.areTwoJSObjectSame(this.formData, data)) return;
+      if (this.utilityService.areTwoJSObjectSame(this.formData, data)) { return; }
       this.formData = this.formGroup.value;
-      let avatarValidationObj = {};
+      const avatarValidationObj = {};
       avatarValidationObj[EFormValidationErrors.form_validation_avator] = this.formGroup.valid;
       this.datachanged$.emit({...this.formGroup.value, ...avatarValidationObj});
     });
@@ -87,8 +87,7 @@ export class AvatorFormComponent implements OnInit {
         name: '',
         id: 0
       };
-    }
-    else {
+    } else {
       newAvator = {
         imageUrl: this.utilityService.getRandomAvatorUrl(),
         name: 'StarBot' + Math.floor(Math.random() * 100),

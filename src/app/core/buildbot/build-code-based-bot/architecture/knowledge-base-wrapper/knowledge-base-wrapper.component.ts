@@ -26,7 +26,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
   @ViewChild(KnowledgeBaseComponent) knowledgeBaseComponent: KnowledgeBaseComponent;
   enterpriseNerData: ICustomNerItem[];
   settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;
-  totalRecords: number = 10;
+  totalRecords = 10;
   currentPageNumber = 1;
   // custumNerDataForSmartTable = [];
   custumNerDataForSmartTable: ICustomNerItem[];
@@ -59,19 +59,19 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
 
   fetchNers(limit: number = 10, offset: number = 0) {
 
-    let url = this.constantsService.getCustomBotNER(limit, (offset * 10));
-    let headerData: IHeaderData = {'bot-access-token': this.bot.bot_access_token};
+    const url = this.constantsService.getCustomBotNER(limit, (offset * 10));
+    const headerData: IHeaderData = {'bot-access-token': this.bot.bot_access_token};
     this.serverService.makeGetReq({url, headerData})
       .subscribe((value: { meta: { total_count: number }, objects: [ICustomNerItem] }) => {
         this.totalRecords = value.meta.total_count;
         this.custumNerDataForSmartTable = value.objects;
         /*For selected ner*/
-        let selectedNerId = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
-        if (!selectedNerId) return;
-        let getNerByIdUrl = this.constantsService.getCustomNerById(selectedNerId);
-        let doesSelectedNerExistsIn_custumNerDataForSmartTable =
+        const selectedNerId = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
+        if (!selectedNerId) { return; }
+        const getNerByIdUrl = this.constantsService.getCustomNerById(selectedNerId);
+        const doesSelectedNerExistsIn_custumNerDataForSmartTable =
           this.custumNerDataForSmartTable.find(item => item.id === Number(selectedNerId));
-        if (doesSelectedNerExistsIn_custumNerDataForSmartTable) return;
+        if (doesSelectedNerExistsIn_custumNerDataForSmartTable) { return; }
         this.serverService.makeGetReq({url: getNerByIdUrl})
           .subscribe((values: ICustomNerItem[]) => {
             if (values.length > 0) {
@@ -83,12 +83,27 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
 
   updateOrSaveCustomNer(selectedOrNewRowData: ICustomNerItem) {
 
+    try {
+      /*TODO: this is temporary fix to remove copy paste from excel issue*/
+      selectedOrNewRowData.values.forEach((obj, index, array) => {
+        if (obj) {
+          for (const key in obj) {
+            obj[key] = obj[key] && obj[key].trim();
+          }
+        }
+      });
+    } catch (e) {
+      console.log(e);
+    }
+
+
     this.serverService.updateOrSaveCustomNer(selectedOrNewRowData, this.bot)
       .subscribe((value) => {
 
-        let doesNerExistsInSmartTable = this.custumNerDataForSmartTable.find((nerObj) => nerObj.id === value.id);
-        if (!doesNerExistsInSmartTable)
+        const doesNerExistsInSmartTable = this.custumNerDataForSmartTable.find((nerObj) => nerObj.id === value.id);
+        if (!doesNerExistsInSmartTable) {
           (<any>this.custumNerDataForSmartTable).push({...value, highlight: true});
+        }
         this.addQueryParamsInCurrentRoute({ner_id: value.id});
         this.utilityService.showSuccessToaster('Customner saved');
       });
@@ -136,8 +151,8 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
             'showNerTable': true
           }
         });
-        let indexToBeDeleted = this.custumNerDataForSmartTable.findIndex((nerObj) => nerObj.id == ner_id);
-        if (indexToBeDeleted!==-1) this.custumNerDataForSmartTable.splice(indexToBeDeleted, 1);
+        const indexToBeDeleted = this.custumNerDataForSmartTable.findIndex((nerObj) => nerObj.id == ner_id);
+        if (indexToBeDeleted !== -1) { this.custumNerDataForSmartTable.splice(indexToBeDeleted, 1); }
         this.knowledgeBaseComponent.showNerSmartTable();
         this.custumNerDataForSmartTable = [...this.custumNerDataForSmartTable];
       });

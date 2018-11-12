@@ -3,20 +3,20 @@
 import { IBot } from '../../app/core/interfaces/IBot';
 
 export interface ITotalFlowsResponseBody {
-    meta: any,
+    meta: any;
     objects: [
         {
             output: {
-                "totalFlows": ITotalFlowsItem[]
+                'totalFlows': ITotalFlowsItem[]
             }
         }
-    ]
+    ];
 }
 export interface ITotalFlowsItem {
-    "imichat": number,
-    "labels": string,
-    "nonimichat": number,
-    "total": number
+    'imichat': number;
+    'labels': string;
+    'nonimichat': number;
+    'total': number;
 }
 // {
 //     "meta": {

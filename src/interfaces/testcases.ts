@@ -8,16 +8,16 @@
 // }
 
 export interface ITestcases {
-  'id': number,
-  'bot_id': number,
-  'created_at': string,
-  'created_by': number,
+  'id': number;
+  'bot_id': number;
+  'created_at': string;
+  'created_by': number;
   'data':
-    [ string, string, string ][],
-  'resource_uri': string,
-  'status': string,
-  'updated_at': string,
-  'updated_by': number
+    [ string, string, string ][];
+  'resource_uri': string;
+  'status': string;
+  'updated_at': string;
+  'updated_by': number;
 }
 
 

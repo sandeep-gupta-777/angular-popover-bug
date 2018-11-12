@@ -21,16 +21,17 @@ export class KnowledgeBasePresentationComponent implements OnInit {
   myERouteNames = ERouteNames;
   modalRef: BsModalRef;
 
-  @ViewChild(HandsontableComponent)handsontableComponent:HandsontableComponent;
+  @ViewChild(HandsontableComponent)handsontableComponent: HandsontableComponent;
   @Input() set selectedRowData(value: ICustomNerItem) {
 
-    if (!value) return;
+    if (!value) { return; }
     this._selectedRowData = value;
 
     this.key = value.key;
-    if (value.ner_type)
+    if (value.ner_type) {
       this.ner_type = value.ner_type;
-    this.conflict_policy = value.conflict_policy|| this.conflict_policy;
+    }
+    this.conflict_policy = value.conflict_policy || this.conflict_policy;
     this.process_raw_text = value.process_raw_text;
     // this.codeTextInputToCodeEditor = value.values && value.values.join(',');
     // this.codeTextInputToCodeEditorObj.text = value.values && value.values.join(',');
@@ -43,7 +44,7 @@ export class KnowledgeBasePresentationComponent implements OnInit {
     this.codeTextInputToCodeEditorObj = {...this.codeTextInputToCodeEditorObj};
     try {
       this.handontable_colHeaders = Object.keys(value.values[0]);
-    }catch (e) {
+    } catch (e) {
       LoggingService.error(e);
     }
     // for (let index = 0; index < this.handontable_colHeaders.length; index++) {
@@ -52,7 +53,7 @@ export class KnowledgeBasePresentationComponent implements OnInit {
       // }
     // }
 
-    this.handontable_column =this.handontable_colHeaders;
+    this.handontable_column = this.handontable_colHeaders;
   }
 
   @Input() handsontableData = ['', '', ''];
@@ -63,8 +64,8 @@ export class KnowledgeBasePresentationComponent implements OnInit {
   ner_id: string;
   key: string;
   routeName: string;
-  ner_type: string = 'double_match';
-  conflict_policy: string="override";
+  ner_type = 'double_match';
+  conflict_policy = 'override';
   codeTextInputToCodeEditor: string;
   codeTextInputToCodeEditorObj: { text: string } = {text: ''};
   codeTextOutPutFromCodeEditor: string;
@@ -113,13 +114,12 @@ export class KnowledgeBasePresentationComponent implements OnInit {
 
     let codeTextFromEditor;
     if (this.ner_type === 'regex') {
-      if (!this.codeTextOutPutFromCodeEditor){
+      if (!this.codeTextOutPutFromCodeEditor) {
         this.utilityService.showErrorToaster(`Syntax is not valid. ${this.ner_type} only accepts String`);
         return;
       }
       codeTextFromEditor = [this.codeTextOutPutFromCodeEditor];
-    }
-    else if (this.ner_type !== 'database') {
+    } else if (this.ner_type !== 'database') {
       try {
         if (!this.codeTextOutPutFromCodeEditor) {
           this.utilityService.showErrorToaster(`Syntax is not valid. ${this.ner_type} only accespts Array literal`);
@@ -137,24 +137,25 @@ export class KnowledgeBasePresentationComponent implements OnInit {
         }
       }
     }
-    let outputData = {
-      mode:this.ner_id?"Update": "Create",
+    const outputData = {
+      mode: this.ner_id ? 'Update' : 'Create',
       key: this.key,
       ner_type: this.ner_type,
       conflict_policy: this.conflict_policy,
       codeTextOutPutFromCodeEditor: codeTextFromEditor,
       handsontableData: this.handsontableData,
       //   ...this.handsontableComponent.getHotTableData(),
-      process_raw_text:this.process_raw_text
+      process_raw_text: this.process_raw_text
     };
-    let ner_id_str = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
-    if (ner_id_str)
+    const ner_id_str = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
+    if (ner_id_str) {
       outputData['id'] = Number(ner_id_str);
+    }
     this.updateOrSaveConcept$.emit(outputData);
   }
 
-  click(){
-    LoggingService.log(this.form.value)
+  click() {
+    LoggingService.log(this.form.value);
   }
 
 }

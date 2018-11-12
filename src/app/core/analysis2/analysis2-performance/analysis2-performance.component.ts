@@ -15,8 +15,8 @@ import { UtilityService } from '../../../utility.service';
 })
 export class Analysis2PerformanceComponent implements OnInit {
   @Select() analysisstate2$: Observable<IAnalysis2State>;
-  activeTab: string = "sessions";
-  series_sessions:any[] = [{
+  activeTab = 'sessions';
+  series_sessions: any[] = [{
     name: 'Handled by bot',
     data: [5, 3, 4, 7, 2]
   }, {
@@ -26,17 +26,17 @@ export class Analysis2PerformanceComponent implements OnInit {
     name: 'User abandoned',
     data: [3, 4, 4, 2, 5]
   }];
-  series_template:any[] = [{
+  series_template: any[] = [{
     name: 'Triggered',
     data: [5, 3, 4, 7, 2]
   }];
-  series_flows_per_room:any[]= [{
+  series_flows_per_room: any[] = [{
     name: 'Triggered',
     data: [5, 3, 4, 7, 2]
   }];
-  series_room_duration:any[];
-  series_flows:any[];
-  series_total_rooms:any[];
+  series_room_duration: any[];
+  series_flows: any[];
+  series_total_rooms: any[];
   series_Messages: any[] = [{
     name: 'Triggered',
     data: [5, 3, 4, 7, 2]
@@ -45,41 +45,41 @@ export class Analysis2PerformanceComponent implements OnInit {
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
     private store: Store,
-    private u:UtilityService
+    private u: UtilityService
     ) {}
 
-  tabClicked(activeTab:string) {
+  tabClicked(activeTab: string) {
     this.activeTab = activeTab;
-    if(this.activeTab==='template'){
+    if (this.activeTab === 'template') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.topgenerationtemplates}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.topgenerationtemplates}
       }));
     }
-    ;
-    if(this.activeTab==='flows'){
+
+    if (this.activeTab === 'flows') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.totalFlows}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.totalFlows}
       }));
     }
-    if(this.activeTab==='flows_per_room'){
+    if (this.activeTab === 'flows_per_room') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.flowsPerRoom}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.flowsPerRoom}
       }));
     }
-    if(this.activeTab==='total_rooms'){
+    if (this.activeTab === 'total_rooms') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.totalRooms}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.totalRooms}
       }));
     }
-    if(this.activeTab==='room_duration'){
+    if (this.activeTab === 'room_duration') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.roomDuration}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.roomDuration}
       }));
     }
     //added now
-    if(this.activeTab === 'Messages'){
+    if (this.activeTab === 'Messages') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.totalMessages}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.totalMessages}
       }));
     }
   }
@@ -87,27 +87,27 @@ export class Analysis2PerformanceComponent implements OnInit {
   ngOnInit() {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('perf') || 'Messages';
     this.analysisstate2$
-    .subscribe((value)=>{
+    .subscribe((value) => {
       // ;
-      if(value.topgenerationtemplates){
-        this.series_template  = this.u.convert(value.topgenerationtemplates,"labels","Date") ;
+      if (value.topgenerationtemplates) {
+        this.series_template  = this.u.convert(value.topgenerationtemplates, 'labels', 'Date') ;
       }
-      ;
-      if(value.totalFlows){
-        this.series_flows  = this.u.convert(value.totalFlows,"labels","Date");
+
+      if (value.totalFlows) {
+        this.series_flows  = this.u.convert(value.totalFlows, 'labels', 'Date');
       }
-      if(value.flowsPerRoom){
-        this.series_flows_per_room  = this.u.convert(value.flowsPerRoom,"labels","Date");
+      if (value.flowsPerRoom) {
+        this.series_flows_per_room  = this.u.convert(value.flowsPerRoom, 'labels', 'Date');
       }
-      if(value.totalRooms){
-        this.series_total_rooms  = this.u.convert(value.totalRooms,"labels","Date");
+      if (value.totalRooms) {
+        this.series_total_rooms  = this.u.convert(value.totalRooms, 'labels', 'Date');
       }
-      if(value.roomDuration){
-        this.series_room_duration  = this.u.convert(value.roomDuration,"labels","String");
+      if (value.roomDuration) {
+        this.series_room_duration  = this.u.convert(value.roomDuration, 'labels', 'String');
       }
       //added now
-      if(value.totalMessages){
-        this.series_Messages = this.u.convert(value.totalMessages,"labels","Date") ;
+      if (value.totalMessages) {
+        this.series_Messages = this.u.convert(value.totalMessages, 'labels', 'Date') ;
       }
     });
   }

@@ -43,32 +43,32 @@ export class ReportDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.report_id = Number(this.activatedRoute.snapshot.paramMap.get('_id'));
-    this.botlist$.subscribe((botListState)=>{
+    this.botlist$.subscribe((botListState) => {
       this.allBotList = botListState.allBotList;
-    })
+    });
     // this.reportItem$.subscribe((value)=>{
     //   this.reportFormData = value.formData;
     // })
   }
-  showReportDeleteModel(unsubscribeTemplate:TemplateRef<any>) {
-    this.modalRef = this.modalService.show(unsubscribeTemplate,{class: 'center-modal'});
+  showReportDeleteModel(unsubscribeTemplate: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(unsubscribeTemplate, {class: 'center-modal'});
   }
   deleteReport() {
-    let deleteReportUrl = this.constantsService.getReportDeleteUrl(this.report_id);
-    this.serverService.makeDeleteReq({url:deleteReportUrl})
-      .subscribe(()=>{
-        this.utilityService.showSuccessToaster("Report deleted");
+    const deleteReportUrl = this.constantsService.getReportDeleteUrl(this.report_id);
+    this.serverService.makeDeleteReq({url: deleteReportUrl})
+      .subscribe(() => {
+        this.utilityService.showSuccessToaster('Report deleted');
         this.modalRef.hide();
         this.router.navigate(['/core/reports']);
       });
   }
 
-  updateReport(subscribeTemplate: TemplateRef<any>, unsubscribeTemplate:TemplateRef<any>) {
+  updateReport(subscribeTemplate: TemplateRef<any>, unsubscribeTemplate: TemplateRef<any>) {
     //
     this.reportFormData = JSON.parse(JSON.stringify(this.reportControlsComponent.getReportControlFormData()));
     // let timeNow = (new Date()).toString();
-    let _id_str = this.activatedRoute.snapshot.paramMap.get('_id');
-    this.reportFormData.id = _id_str? Number(_id_str):null;
+    const _id_str = this.activatedRoute.snapshot.paramMap.get('_id');
+    this.reportFormData.id = _id_str ? Number(_id_str) : null;
     this.reportFormData.startdate = (new Date(this.reportFormData.startdate)).getTime();
 
     this.reportFormData.delivery = <any>[{
@@ -87,7 +87,7 @@ export class ReportDetailsComponent implements OnInit {
     this.report_id ?
       url = this.constantsService.getSaveReportsEditInfo(this.reportFormData.id)
       : url = this.constantsService.getCreateReportUrl();
-    let body = {...this.reportFormData};
+    const body = {...this.reportFormData};
     delete body.created_at;
     delete body.updated_at;
     delete body.botName;
@@ -100,19 +100,19 @@ export class ReportDetailsComponent implements OnInit {
     if (body.id) {
       //
       this.serverService.makePutReq({url, body})
-        .subscribe((value:IReportItem) => {
-          if(value.isactive)
+        .subscribe((value: IReportItem) => {
+          if (value.isactive) {
           this.modalRef = this.modalService.show(subscribeTemplate, {class: 'modal-md'});
-          else {
+          } else {
             this.modalRef = this.modalService.show(unsubscribeTemplate, {class: 'modal-md'});
           }
         });
-    }else {
+    } else {
       delete body.id;
-      let report_bot:IBot = this.allBotList.find((bot)=>bot.id==body.bot_id);
-      let headerData:IHeaderData = {"bot-access-token": report_bot.bot_access_token};
+      const report_bot: IBot = this.allBotList.find((bot) => bot.id == body.bot_id);
+      const headerData: IHeaderData = {'bot-access-token': report_bot.bot_access_token};
       this.serverService.makePostReq({url, body, headerData})
-        .subscribe((value:IReportItem) => {
+        .subscribe((value: IReportItem) => {
           this.router.navigate([`core/reports/edit/${value.id}`]);
           this.modalRef = this.modalService.show(subscribeTemplate, {class: 'modal-md'});
         });

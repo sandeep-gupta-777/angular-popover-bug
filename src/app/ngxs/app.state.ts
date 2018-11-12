@@ -16,21 +16,20 @@ import {IPipelineItem} from '../../interfaces/ai-module';
 import {LoggingService} from '../logging.service';
 
 
-export interface IAppState /*extends INavigationState, IAuthState */
-{
-  lastUpdated: number,
+export interface IAppState {
+  lastUpdated: number;
   progressbar: {
     show: boolean,
     loading: boolean,
     value: number
-  },
-  masterIntegrationList: IIntegrationMasterListItem[],
-  masterProfilePermissions: IProfilePermission[],
-  masterPipelineItems: IPipelineItem[],
-  backendUrlRoot: string,
-  showBackendUrlRootButton: boolean,
-  enterpriseNerData: ICustomNerItem[],
-  autoLogoutTime: number
+  };
+  masterIntegrationList: IIntegrationMasterListItem[];
+  masterProfilePermissions: IProfilePermission[];
+  masterPipelineItems: IPipelineItem[];
+  backendUrlRoot: string;
+  showBackendUrlRootButton: boolean;
+  enterpriseNerData: ICustomNerItem[];
+  autoLogoutTime: number;
 }
 //
 const appDefaultState: IAppState = {
@@ -42,7 +41,7 @@ const appDefaultState: IAppState = {
   },
   masterIntegrationList: null,
   masterProfilePermissions: null,
-  backendUrlRoot: 'https://staging.imibot.ai/',//'https://dev.imibot.ai/',,//'http://staging.imibot.ai/',//'https://dev.imibot.ai/',
+  backendUrlRoot: 'https://staging.imibot.ai/', //'https://dev.imibot.ai/',,//'http://staging.imibot.ai/',//'https://dev.imibot.ai/',
   showBackendUrlRootButton: false,
   enterpriseNerData: [],
   masterPipelineItems: null,
@@ -59,7 +58,7 @@ export class AppStateReducer {
   }
 
   @Action(SetStateFromLocalStorageAction)
-  setUsername({patchState, setState, getState, dispatch,}: StateContext<any>, {payload}: SetStateFromLocalStorageAction) {
+  setUsername({patchState, setState, getState, dispatch, }: StateContext<any>, {payload}: SetStateFromLocalStorageAction) {
     LoggingService.log('resetting state', getState());
   }
 
@@ -70,50 +69,50 @@ export class AppStateReducer {
   // }
 
   @Action(SetProgressValue)
-  SetProgressValue({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetProgressValue) {
+  SetProgressValue({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetProgressValue) {
     // this.store.reset(appDefaultState);
     // LoggingService.log('resetting state', getState());
     patchState({progressbar: payload.payload.progressbar});
   }
 
   @Action(SetMasterIntegrationsList)
-  setMasterIntegrationsList({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetMasterIntegrationsList) {
+  setMasterIntegrationsList({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetMasterIntegrationsList) {
     patchState({masterIntegrationList: payload.payload.masterIntegrationList});
   }
 
   @Action(SetMasterProfilePermissions)
-  setMasterProfilePermissions({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetMasterProfilePermissions) {
+  setMasterProfilePermissions({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetMasterProfilePermissions) {
     patchState({masterProfilePermissions: payload.payload.masterProfilePermissions});
   }
 
 
   @Action(SetBackendURlRoot)
-  setBackendURlRoot({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetBackendURlRoot) {
+  setBackendURlRoot({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetBackendURlRoot) {
     patchState({backendUrlRoot: payload.payload.url});
   }
 
   @Action(SetShowBackendURlRoot)
-  setShowBackendURlRoot({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetShowBackendURlRoot) {
+  setShowBackendURlRoot({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetShowBackendURlRoot) {
     patchState({showBackendUrlRootButton: payload.payload.showBackendURlRoot});
   }
 
   @Action(SetEnterpriseNerData)
-  setEnterpriseNerData({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetEnterpriseNerData) {
+  setEnterpriseNerData({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetEnterpriseNerData) {
     patchState({enterpriseNerData: payload.payload.enterpriseNerData});
   }
 
   @Action(SetPipelineModuleMasterData)
-  setPipelineModuleMasterData({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetPipelineModuleMasterData) {
+  setPipelineModuleMasterData({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetPipelineModuleMasterData) {
     patchState({masterPipelineItems: payload.payload.masterPipelineItems});
   }
 
   @Action(SetAutoLogoutTime)
-  setAutoLogoutTime({patchState, setState, getState, dispatch,}: StateContext<any>, payload: SetAutoLogoutTime) {
+  setAutoLogoutTime({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetAutoLogoutTime) {
     patchState({autoLogoutTime: payload.payload.time});
   }
 
   @Action(ResetAppState)
-  resetAppState({patchState, setState, getState, dispatch,}: StateContext<any>, payload: ResetAppState) {
+  resetAppState({patchState, setState, getState, dispatch, }: StateContext<any>, payload: ResetAppState) {
     patchState(appDefaultState);
   }
 

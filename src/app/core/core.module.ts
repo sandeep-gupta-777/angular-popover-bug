@@ -44,28 +44,28 @@ const routes: Route[] = [
 
     path: '',
     component: CoreWrapperComponent,
-    canActivate:[AuthGaurdService],
-    canActivateChild:[AuthGaurdService,AccessGaurdService],
+    canActivate: [AuthGaurdService],
+    canActivateChild: [AuthGaurdService, AccessGaurdService],
     children: [
       {
-        path: 'viewbots', loadChildren: './view-bots/view-bots.module#ViewBotsModule',canLoad:[AuthGaurdService]
+        path: 'viewbots', loadChildren: './view-bots/view-bots.module#ViewBotsModule', canLoad: [AuthGaurdService]
       },
       {
-        path: 'botdetail', loadChildren: './bot-detail/bot-detail.module#BotDetailModule', canLoad:[AuthGaurdService]
+        path: 'botdetail', loadChildren: './bot-detail/bot-detail.module#BotDetailModule', canLoad: [AuthGaurdService]
       },
       {
-        path: 'analytics2', loadChildren: './analysis2/analysis2.module#Analysis2Module', canLoad:[AuthGaurdService]
+        path: 'analytics2', loadChildren: './analysis2/analysis2.module#Analysis2Module', canLoad: [AuthGaurdService]
       },
-      {path: 'customner', component: ViewCustomnerComponent, data:{routeName:ERouteNames['Get Enterprise Knowledge base']}, canActivate:[]},
-      {path: 'customner/create', component: CreateCustomnerComponent, data:{routeName:ERouteNames['Create Enterprise Knowledge base']}},
-      {path: 'enterpriseprofile', component: EnterpriseprofileComponent, data:{routeName:ERouteNames['Get Enterprise']}, canActivate:[]},
-      {path: 'profile', component: ProfileComponent,data:{routeName:ERouteNames['Get User']}},
-      {path: 'reports', component: ReportsComponent, data:{routeName:ERouteNames['Get Reports']}},
-      {path: 'reports/edit/:_id', component: ReportDetailsComponent, data:{routeName:ERouteNames['Update Reports']}},
-      {path: 'reports/create', component: ReportDetailsComponent, data:{name:ERouteNames['Create Reports']}},
-      {path: 'documentation', component: DocumentationComponent, canActivate:[]},
+      {path: 'customner', component: ViewCustomnerComponent, data: {routeName: ERouteNames['Get Enterprise Knowledge base']}, canActivate: []},
+      {path: 'customner/create', component: CreateCustomnerComponent, data: {routeName: ERouteNames['Create Enterprise Knowledge base']}},
+      {path: 'enterpriseprofile', component: EnterpriseprofileComponent, data: {routeName: ERouteNames['Get Enterprise']}, canActivate: []},
+      {path: 'profile', component: ProfileComponent, data: {routeName: ERouteNames['Get User']}},
+      {path: 'reports', component: ReportsComponent, data: {routeName: ERouteNames['Get Reports']}},
+      {path: 'reports/edit/:_id', component: ReportDetailsComponent, data: {routeName: ERouteNames['Update Reports']}},
+      {path: 'reports/create', component: ReportDetailsComponent, data: {name: ERouteNames['Create Reports']}},
+      {path: 'documentation', component: DocumentationComponent, canActivate: []},
       {
-        path: 'buildbot', component: BuildbotWrapperComponent,data:{name:ERouteNames['Create Bots']}, children:
+        path: 'buildbot', component: BuildbotWrapperComponent, data: {name: ERouteNames['Create Bots']}, children:
           [
             {path: EBotType.chatbot, component: BuildCodeBasedBotComponent, data: {buildBot: EBotType.chatbot}},
             {path: 'intelligent', component: BuildPipelineBasedBotComponent, data: {buildBot: 'pipeLineBased'}},

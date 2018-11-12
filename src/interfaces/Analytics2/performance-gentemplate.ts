@@ -1,18 +1,18 @@
 import { IBot } from '../../app/core/interfaces/IBot';
 
 export interface ITopgenerationtemplatesResponseBody {
-    meta: any,
+    meta: any;
     objects: [
         {
             output: {
-                "averageRoomTime": ITopgenerationtemplatesItem[]
+                'averageRoomTime': ITopgenerationtemplatesItem[]
             }
         }
-    ]
+    ];
 }
 export interface ITopgenerationtemplatesItem {
-    "labels": string,
-    "averageroomtime": number
+    'labels': string;
+    'averageroomtime': number;
 }
 
 // {

@@ -64,13 +64,13 @@ export class ProfileComponent implements OnInit {
       this.utilityService.showErrorToaster(new Error('Please fill valid values'));
       return;
     }
-    let url: string = this.constantsService.getUserUpdateUrl(this.loggeduser.id);
+    const url: string = this.constantsService.getUserUpdateUrl(this.loggeduser.id);
     // ;
     // let body = {...this.loggeduser, ...this.f.value};
-    let body = this.f.value;
+    const body = this.f.value;
     this.serverService.makePutReq({url, body})
       .subscribe((value: IUser) => {
-        let updatedUser: IUser = {...this.loggeduser, ...value};
+        const updatedUser: IUser = {...this.loggeduser, ...value};
         this.utilityService.showSuccessToaster('Updated profile');
         this.store.dispatch([
           new SetUser({user: updatedUser})
@@ -86,11 +86,11 @@ export class ProfileComponent implements OnInit {
     //TODO: make use of forms here instead
     // ;
     // if(this.passwordForm.valid){
-    let changePasswordUrl = this.constantsService.updatePassword();
+    const changePasswordUrl = this.constantsService.updatePassword();
     //   let formData =  this.passwordForm.value;
     //   formData.new_password_confirm && delete formData.new_password_confirm;
     if (this.old_password && this.new_password && this.new_password === this.new_password_confirm) {
-      let body = {
+      const body = {
         old_password: this.old_password,
         new_password: this.new_password
       };
@@ -100,9 +100,9 @@ export class ProfileComponent implements OnInit {
             this.flashErrorMessage(value.message);
             return;
           }
-          this.showPasswordChangeForm = false;//show success message
+          this.showPasswordChangeForm = false; //show success message
           setTimeout(() => {
-            this.showPasswordChangeForm = true;//show form again
+            this.showPasswordChangeForm = true; //show form again
             this.new_password_confirm = this.new_password = this.old_password = '';
           }, 3000);
         });

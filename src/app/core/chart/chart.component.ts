@@ -14,16 +14,16 @@ export class ChartComponent implements OnInit {
   chart: Chart;
   _data;
   _chartValue;
-  @Input() title:string="";
-  @Input() set chartValue(_chartValue){
+  @Input() title = '';
+  @Input() set chartValue(_chartValue) {
     // this._chartValue = _chartValue;
     this.init(_chartValue);
-  };
-  @Input() highChartThemeValue:any;
-  @Input()set data(value){
+  }
+  @Input() highChartThemeValue: any;
+  @Input()set data(value) {
 
     this._data = value;
-    if(!value) return;
+    if (!value) { return; }
     // this.init();
   }
   ngOnInit() {
@@ -46,7 +46,7 @@ export class ChartComponent implements OnInit {
     * */
 
 
-      let chart = new Chart( {
+      const chart = new Chart( {
         credits: false,
         // xAxis: {
         //   type: 'datetime'

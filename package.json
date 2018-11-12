@@ -7,6 +7,7 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
+    "lint:fix": "ng lint botPlateformFE --fix",
     "e2e": "ng e2e",
     "fe_build": "cd C:/Users/sandeepkumar.g/Desktop/nodebook/bot_platform-fe && ng build --prod",
     "git": "git add . && git commit",

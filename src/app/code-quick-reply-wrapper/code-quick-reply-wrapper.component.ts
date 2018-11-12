@@ -12,11 +12,11 @@ export class CodeQuickReplyWrapperComponent implements OnInit {
   @Input() outputItem: IOutputItem;
   @Input() isFullScreenPreview = false;
   @Input() isParentSessionsModal = false;
-  @Input() set selectedTemplateKeyOutputIndex(val:number[]){
+  @Input() set selectedTemplateKeyOutputIndex(val: number[]) {
     /*when parent components empty selectedTemplateKeyOutputIndex array,
      *we should turn this.selected to false
      */
-    if(val.length===0){
+    if (val.length === 0) {
       this.selected = false;
     }
   }
@@ -39,8 +39,8 @@ export class CodeQuickReplyWrapperComponent implements OnInit {
     }));
   }
 
-  pushNewQuickReply(){
-    this.outputItem.quick_reply[0].quick_replies.push({'content_type': 'text', 'title': 'No', 'payload': 'no'})
+  pushNewQuickReply() {
+    this.outputItem.quick_reply[0].quick_replies.push({'content_type': 'text', 'title': 'New Reply', 'payload': 'New Reply Payload'});
   }
 
   delete(i) {
@@ -48,6 +48,10 @@ export class CodeQuickReplyWrapperComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  deleteQuickReply(index){
+    this.outputItem.quick_reply[0].quick_replies.splice(index,1);
   }
 
 

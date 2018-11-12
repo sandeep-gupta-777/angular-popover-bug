@@ -30,14 +30,14 @@ export class ChatService {
   }
 
   sendHumanMessageToBotServer(botDetails: { id: number, bot_access_token: string }, consumerDetails: IConsumerDetails, messageByHuman: string, frameEnabled: EChatFrame) {
-    let url = this.constantsService.getStartNewChatLoginUrl();
-    let body/*: ISendApiRequestPayload */ = {
+    const url = this.constantsService.getStartNewChatLoginUrl();
+    const body /*: ISendApiRequestPayload */ = {
       'consumer': consumerDetails,
       'type': 'human',
       'msg': messageByHuman || 'hi',
       'platform': 'web'
     };
-    let headerData: IHeaderData = {
+    const headerData: IHeaderData = {
       'bot-access-token': botDetails.bot_access_token,
       'auth-token': null,
       'user-access-token': null
@@ -45,13 +45,14 @@ export class ChatService {
 
     this.store.dispatch(new ToggleChatWindow({open: true}));
 
-    if (frameEnabled)
+    if (frameEnabled) {
       this.navigate(frameEnabled);
-    return this.serverService.makePostReq({url, body, headerData, dontShowProgressBar:true})
+    }
+    return this.serverService.makePostReq({url, body, headerData, dontShowProgressBar: true})
       .do((response: ISendApiResponsePayload) => {
         /*recieved chat reply from bot*/
-        let generatedMessages = response.generated_msg;
-        let serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages);
+        const generatedMessages = response.generated_msg;
+        const serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages);
         // let serializedMessages: IMessageData[] = generatedMessages.map((message: IGeneratedMessageItem) => {
         //   /*check if media is the key
         //   * if yes, return {message_type:media[0].type, ...message}
@@ -100,10 +101,10 @@ export class ChatService {
             // bot_access_token: botDetails.bot_access_token,
             // lastTemplateKey: response.templateKey/*TODO: NOT NEEDED*/
           }),
-          new ChangeBotIsThinkingDisplayByRoomId({roomId:response.room.id, shouldShowBotIsThinking:false})
+          new ChangeBotIsThinkingDisplayByRoomId({roomId: response.room.id, shouldShowBotIsThinking: false})
           // new AttachRoomIdToRoomByUId({room_id: response.room.id, uid})
         ]);
-        this.store.dispatch(new SetLastTemplateKeyToRoomByRoomId({lastTemplateKey:response.templateKey ,room_id:response.room.id}));
+        this.store.dispatch(new SetLastTemplateKeyToRoomByRoomId({lastTemplateKey: response.templateKey , room_id: response.room.id}));
         // this.store.dispatch(new SetCurrentRoomID({id: response.room.id}));
         // this.store.dispatch(new SetCurrentBotID({bot_id: response.room.bot_id}));
       });

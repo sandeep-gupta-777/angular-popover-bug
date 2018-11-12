@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class IntegrationInputKeysFilterPipe implements PipeTransform {
 
   transform(arr: any, args?: any): any {
-    return Object.keys(arr).filter(key=>key!=='enabled')
+    return Object.keys(arr).filter(key => key !== 'enabled');
 
   }
 

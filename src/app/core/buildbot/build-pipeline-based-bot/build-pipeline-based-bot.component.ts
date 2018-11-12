@@ -21,17 +21,17 @@ export class BuildPipelineBasedBotComponent implements OnInit {
   @Select() botcreationstate$: Observable<IBotCreationState>;
   // @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
-  selectedTab = "architecture";
+  selectedTab = 'architecture';
   bot$: Observable<IBot>;
   bot_id: number;
-  showConfig:boolean =true;
+  showConfig = true;
   overviewInfo$: Observable<IOverviewInfoResponse>;
-  selectedChannel: string = 'all';
+  selectedChannel = 'all';
   start_date: string;
   end_date: string;
   selectedChannelDisplayName: string;
-  selectedDurationDisplayName: string = 'Monthly';
-  selectedSideBarTab: string = 'pipeline';
+  selectedDurationDisplayName = 'Monthly';
+  selectedSideBarTab = 'pipeline';
 
 
   constructor(
@@ -39,42 +39,42 @@ export class BuildPipelineBasedBotComponent implements OnInit {
     private serverService: ServerService,
     private utilityService: UtilityService,
     private constantsService: ConstantsService,
-    private store:Store
+    private store: Store
 
   ) { }
-  activeTab:string = 'basic';
+  activeTab = 'basic';
   @Input() bot = {};
 
   ngOnInit() {
     // ;
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('tab') || 'basic'; //todo: not a robust code
-    this.botcreationstate$.subscribe((value)=>{
+    this.botcreationstate$.subscribe((value) => {
       // LoggingService.log('test');
-      if(!value || !value.pipeLineBased) return;
+      if (!value || !value.pipeLineBased) { return; }
       this.bot = value.pipeLineBased;
     });
 
-    this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab')||'pipeline';
+    this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab') || 'pipeline';
 
   }
 
-  tabClicked(activeTab:string){
+  tabClicked(activeTab: string) {
     this.activeTab = activeTab;
   }
 
   tabChanged(tab: string) {
     this.selectedTab = tab;
   }
-  createBot(){
-    let url = this.constantsService.getCreateNewBot();
-    this.serverService.makePostReq({url:url, body:this.bot})
-      .subscribe((value)=>{
-      })
+  createBot() {
+    const url = this.constantsService.getCreateNewBot();
+    this.serverService.makePostReq({url: url, body: this.bot})
+      .subscribe((value) => {
+      });
   }
-  datachanged(data:IBot){
+  datachanged(data: IBot) {
     // ;
     this.store.dispatch([
-      new SaveNewBotInfo_PipelineBased({data:data})
+      new SaveNewBotInfo_PipelineBased({data: data})
     ]);
   }
 

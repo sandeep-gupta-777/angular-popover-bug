@@ -10,9 +10,9 @@ export class BotIdToNamePipe implements PipeTransform {
 
   @Select() botlist$: Observable<ViewBotStateModel>;
   transform(id: any, args?: any): any {
-    return this.botlist$.map((botlist)=>{
-      let matchedBot =  botlist.allBotList.find((bot)=>bot.id === id);
-      return matchedBot? matchedBot.name:`id=${id} cant_access_bot`;
+    return this.botlist$.map((botlist) => {
+      const matchedBot =  botlist.allBotList.find((bot) => bot.id === id);
+      return matchedBot ? matchedBot.name : `id=${id} cant_access_bot`;
     });
   }
 }

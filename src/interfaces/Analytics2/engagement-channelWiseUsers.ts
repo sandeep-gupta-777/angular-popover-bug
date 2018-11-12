@@ -1,20 +1,20 @@
 import { IBot } from '../../app/core/interfaces/IBot';
 
 export interface IChannelWiseUsersResponseBody {
-    meta: any,
+    meta: any;
     objects: [
         {
             output: {
-                "channelWiseUsers": IChannelWiseUsersItem[],
+                'channelWiseUsers': IChannelWiseUsersItem[],
             }
         }
-    ]
+    ];
 }
 export interface IChannelWiseUsersItem {
-    "alexa": number,
-    "facebook": number,
-    "labels": string,
-    "web": number
+    'alexa': number;
+    'facebook': number;
+    'labels': string;
+    'web': number;
 }
 // {
 //     "meta": {

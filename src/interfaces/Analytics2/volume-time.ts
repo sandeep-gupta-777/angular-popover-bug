@@ -1,18 +1,18 @@
 import { IBot } from '../../app/core/interfaces/IBot';
 
 export interface IAverageRoomTimeResponseBody {
-    meta: any,
+    meta: any;
     objects: [
         {
             output: {
-                "averageRoomTime": IAverageRoomTimeItem[]
+                'averageRoomTime': IAverageRoomTimeItem[]
             }
         }
-    ]
+    ];
 }
 export interface IAverageRoomTimeItem {
-    "labels": string,
-    "averageroomtime": number
+    'labels': string;
+    'averageroomtime': number;
 }
 
 // {
