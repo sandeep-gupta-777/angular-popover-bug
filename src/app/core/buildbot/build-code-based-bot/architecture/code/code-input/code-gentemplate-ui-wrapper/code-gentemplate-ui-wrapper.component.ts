@@ -78,8 +78,11 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     try {
       this.templateKeyDictClone = this.utilityService.createDeepClone(this.templateKeyDict);
       this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
-      this.channelSelectorForm.form.patchValue({name: 'all'});
-    } catch (e) {
+      this.channelSelectorForm.form.patchValue({name:'all'});
+      this.channelNameList = this.channelList.map((channel)=>{
+        return channel.name;
+      }).filter(e => e !== 'all');
+    }catch (e) {
       console.log(e);
     }
   }
@@ -159,8 +162,8 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   }
 
-  createIncludesArray() {
-    return Array.isArray(this.channelNameList) ? ['web', ...this.channelNameList] : ['web'];
+  createIncludesArray(){  
+    return Array.isArray(this.channelNameList)? ['web', ...this.channelNameList]: ['web'];;
   }
 
   scrollToBottom(): void {
