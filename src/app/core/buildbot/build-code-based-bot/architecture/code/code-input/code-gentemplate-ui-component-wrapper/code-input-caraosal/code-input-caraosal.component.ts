@@ -33,7 +33,6 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   @Input() isFullScreenPreview = false;
   @Input() isParentSessionsModal = false;
   @Input() myIndex: number;
-  carasolItems: any[];
   @Input() channelNameList: string[];
   @Input() totalResponseTemplateComponentCount: number;
   @Output() deleteTemplate: EventEmitter<string> = new EventEmitter<string>();
@@ -41,6 +40,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   @Output() moveTempDown: EventEmitter<string> = new EventEmitter<string>();
   @Output() selectionChanged: EventEmitter<string> = new EventEmitter<string>();
   @Output() sendMessageToBotServer$ = new EventEmitter();
+  carasolItems: any[];
   @ViewChildren('caraosalItem') caraosalItem: QueryList<ElementRef>;
   @ViewChild('leftLst') leftLstElementRef: ElementRef;
   @ViewChild('rightLst') rightLstElementRef: ElementRef;
@@ -228,7 +228,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
         // var dataItems = ('data-items');
         console.log(self.caraosalItem.toArray());
 
-        // var itemClass = ('.item');
+        var itemClass = ('.item');
         let id = 0;
         // var btnParentSb = '';
         // var itemsSplit: any = '';
@@ -271,12 +271,12 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
           $(this).css({'transform': 'translateX(0px)', 'width': 10 + itemWidth * itemNumbers});
           /*TODO; 10 is a hack; remove it*/
           $(self.MultiCarouselInner.nativeElement).css('transform', 'translateX(' + ((sampwidth - itemWidth) / 2) + 'px)');
-          // $(this).find(itemClass).each(function () {
-          //   $(this).outerWidth(itemWidth);
-          // });
-          self.carasolItems.forEach((item) => {
-            $(item.nativeElement).outerWidth(itemWidth);
+          $(this).find(itemClass).each(function () {
+            $(this).outerWidth(itemWidth);
           });
+          // self.carasolItems.forEach((item) => {
+          //   $(item.nativeElement).outerWidth(itemWidth);
+          // });
 
           // $('.leftLst').addClass('over');
           // $('.rightLst').removeClass('over');
