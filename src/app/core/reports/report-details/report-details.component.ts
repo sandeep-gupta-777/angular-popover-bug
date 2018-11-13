@@ -50,9 +50,11 @@ export class ReportDetailsComponent implements OnInit {
     //   this.reportFormData = value.formData;
     // })
   }
+
   showReportDeleteModel(unsubscribeTemplate: TemplateRef<any>) {
     this.modalRef = this.modalService.show(unsubscribeTemplate, {class: 'center-modal'});
   }
+
   deleteReport() {
     const deleteReportUrl = this.constantsService.getReportDeleteUrl(this.report_id);
     this.serverService.makeDeleteReq({url: deleteReportUrl})
@@ -63,21 +65,40 @@ export class ReportDetailsComponent implements OnInit {
       });
   }
 
+  removeTrailingColons(str:string){
+    return str.replace(/(^;)|(;$)/g, "")
+  }
+
+  getRecipientsArr(reportFormData){
+    try {
+      let recipientsStrColonDelimited = this.removeTrailingColons(reportFormData.delivery['email'].recipients);
+      return recipientsStrColonDelimited.split(';').filter((str:string)=>{
+        return str.trim().replace(';',"");
+      })
+    }catch (e) {
+      console.error(e);
+    }
+  }
+
   updateReport(subscribeTemplate: TemplateRef<any>, unsubscribeTemplate: TemplateRef<any>) {
-    //
+    debugger;
     this.reportFormData = JSON.parse(JSON.stringify(this.reportControlsComponent.getReportControlFormData()));
     // let timeNow = (new Date()).toString();
     const _id_str = this.activatedRoute.snapshot.paramMap.get('_id');
     this.reportFormData.id = _id_str ? Number(_id_str) : null;
     this.reportFormData.startdate = (new Date(this.reportFormData.startdate)).getTime();
 
+
     this.reportFormData.delivery = <any>[{
       ...this.reportFormData.delivery['sftp'],
-      delivery_type: 'sftp'
+      delivery_type: 'sftp',
+      enabled:this.reportFormData.delivery['sftp'].enabled||false,
     },
       {
         ...this.reportFormData.delivery['email'],
-        delivery_type: 'email'
+        delivery_type: 'email',
+        enabled:this.reportFormData.delivery['email'].enabled||false,
+        recipients:  this.getRecipientsArr(this.reportFormData)||[]
       }
     ];
 
@@ -102,7 +123,7 @@ export class ReportDetailsComponent implements OnInit {
       this.serverService.makePutReq({url, body})
         .subscribe((value: IReportItem) => {
           if (value.isactive) {
-          this.modalRef = this.modalService.show(subscribeTemplate, {class: 'modal-md'});
+            this.modalRef = this.modalService.show(subscribeTemplate, {class: 'modal-md'});
           } else {
             this.modalRef = this.modalService.show(unsubscribeTemplate, {class: 'modal-md'});
           }
