@@ -9,7 +9,7 @@ export interface ICarousalItem {
   'button': [{ 'type': string, 'title': string, 'payload': string }];
   'title': string;
   /*custom added*/
-  description?: string;
+  subtitle?: string;
 }
 
 export interface IQuickReplyItem {
@@ -162,8 +162,8 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   }
 
-  createIncludesArray(){  
-    return Array.isArray( this.channelNameList )? ['web', ...this.channelNameList]: ['web'];;
+  createIncludesArray(){
+    return Array.isArray(this.channelNameList)? ['web', ...this.channelNameList]: ['web'];;
   }
 
   scrollToBottom(): void {

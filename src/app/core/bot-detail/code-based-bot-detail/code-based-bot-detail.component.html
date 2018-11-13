@@ -13,7 +13,7 @@
         <div *ngIf="!showConfig" class="d-flex mx-4 justify-content-between align-items-center flex-grow-1">
           <div class="">Bot Unique Name : <strong>{{bot.bot_unique_name}}</strong></div>
           <div class="">Session Time : <strong>{{bot.room_persistence_time}} min</strong></div>
-          <div class="d-none d-md-inline">Advance Data Protection : <strong>{{bot.advanced_data_protection}}</strong></div>
+          <div class="d-none d-md-inline">Advanced Data Protection : <strong>{{bot.advanced_data_protection}}</strong></div>
           <div class="d-none d-md-inline">Data Retention Period : <strong>{{bot.data_persistence_period}} Days</strong></div>
           <div class="d-none d-md-inline">Blank Consent : <strong>{{bot.blanket_consent}}</strong></div>
         </div>
@@ -98,7 +98,7 @@
              queryParamsHandling="merge"
              [ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"
              (click)="selectedSideBarTab='knowledge'"
-             class="tab-theme">Knowledge base
+             class="tab-theme">Knowledge Base
         </li>
         <li routerLink="."
              [queryParams]="{'build-tab':'code'}"
@@ -144,7 +144,7 @@
                    queryParamsHandling="merge"
                    [ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"
                    (click)="selectedSideBarTab='knowledge'"
-                   class="tab-theme">Knowledge base
+                   class="tab-theme">Knowledge Base
               </div>
               <div routerLink="."
                    [queryParams]="{'build-tab':'code'}"
