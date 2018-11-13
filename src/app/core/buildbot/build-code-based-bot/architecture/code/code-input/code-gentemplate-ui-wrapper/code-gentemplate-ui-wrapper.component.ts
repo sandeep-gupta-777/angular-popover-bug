@@ -164,7 +164,6 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   createIncludesArray(){
     return Array.isArray( this.channelNameList )? ['web', ...this.channelNameList]: ['web'];;
-
   }
 
   scrollToBottom(): void {
