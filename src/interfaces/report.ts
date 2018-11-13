@@ -23,7 +23,8 @@ export interface IReportItem {
       'ip': string,
       'port': string,
       'privatekey': string,
-      'username': string
+      'username': string,
+      recipients:string[]
     }
     ];
   'enterprise_id': number;
