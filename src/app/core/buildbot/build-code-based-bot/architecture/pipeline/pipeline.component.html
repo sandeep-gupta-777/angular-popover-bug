@@ -62,15 +62,15 @@
             <select
              [ngModel] = "selectedPipeline.input_params[Key] || selectedPipeline.display_values[Key].default"
               name="{{Key}}">
-              <option *ngFor="let dropi of selectedPipeline.display_values[Key].content" 
+              <option *ngFor="let dropi of selectedPipeline.display_values[Key].content"
               type="button" [value]="dropi">{{dropi}}</option>
             </select>
           </div>
-
+<!---->
           <div class="form-group m-0 mr-4" *ngIf="selectedPipeline.display_values[Key].type == 'text'">
             <label class="mb-0 mr-1"  >{{selectedPipeline.display_values[Key].display_value}}</label>
-            <input type="text" class="input-material flex-grow-1" 
-              [ngModel] = "selectedPipeline.input_params[Key]" 
+            <input type="text" class="input-material flex-grow-1"
+              [ngModel] = "selectedPipeline.input_params[Key]"
               name="{{Key}}">
           </div>
 
@@ -79,7 +79,7 @@
       </form>
 
 
-      
+
 
     </div>
   </div>
