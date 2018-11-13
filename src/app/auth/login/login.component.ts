@@ -102,7 +102,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       return;
     }
     this.disabeLoginButton = true;
-    this.flashInfoMessage('Reaching out to the server', 100000);
+    this.flashInfoMessage('Connecting to the server', 100000);
     const headerData: IHeaderData = {
       'auth-token': null,
       'user-access-token': null
@@ -116,7 +116,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
         ]).subscribe(() => {
           this.serverService.getNSetMasterPermissionsList()
             .subscribe(() => {
-              this.flashInfoMessage('Taking you to homepage', 100000);
+              this.flashInfoMessage('Loading your dashboard', 100000);
               /*after login, route to appropriate page according to user role*/
               if (user.role.name === ERoleName.Analyst) {
                 this.router.navigate(['/core/analytics2/users']);
