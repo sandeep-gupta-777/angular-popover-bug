@@ -2,11 +2,11 @@
   <div class="d-flex w-100">
     <div class="d-flex align-items-center">
       <i class="fa fa-picture-o mr-1" style="font-size: 15px; color: #9b9b9b"></i>
-      <span>Image Carousel ({{outputItem?.generic_template[0]?.elements?.length}})</span>
+      <span>Image Carousel ({{controlsClickedCount+1}} of {{outputItem?.generic_template[0]?.elements?.length}})</span>
     </div>
   </div>
 
-  <i>{{controlsClickedCount}}</i>
+  <!--<i>{{controlsClickedCount}}</i>-->
 
   <div #MultiCarousel class="MultiCarousel  w-100 ml-1" data-items="2,2,2,2" data-slide="1" id="MultiCarousel"
        data-interval="1000">
