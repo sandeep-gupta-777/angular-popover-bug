@@ -10,7 +10,9 @@
   top:calc(50% - 20px);
   background-color: $color-primary;
   border: none;
-  //outline: none;
+  height: 30px;
+  width: 30px;
+  outline: none;
 }
 .MultiCarousel .leftLst { left:0; }
 .MultiCarousel .rightLst { right:0; }

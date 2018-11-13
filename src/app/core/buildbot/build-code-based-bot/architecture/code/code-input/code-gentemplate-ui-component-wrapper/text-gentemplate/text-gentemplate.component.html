@@ -5,6 +5,7 @@
   <div *ngFor="let variant of variantsIter; let i = index" class="p-2">
     <div class="d-flex">
       <div class="name">Variant {{i + 1}}</div>
+      <i *ngIf="i!==0" class="fa fa-trash ml-auto" (click)="deleteVariant(i)"></i>
     </div>
     <textarea
       #textarea

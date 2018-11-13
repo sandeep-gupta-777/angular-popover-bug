@@ -33,8 +33,7 @@ export class TextGentemplateComponent implements OnInit, AfterViewInit {
 
   deleteVariant(index) {
     this._variants.splice(index, 1);
-    console.log('sdasdas das das dadas', index);
-    console.log(this._variants);
+    this.variantsIter = [...this._variants];
   }
 
 

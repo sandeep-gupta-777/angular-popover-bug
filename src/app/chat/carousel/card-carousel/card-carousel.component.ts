@@ -1,4 +1,16 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {IMessageData} from '../../../../interfaces/chat-session-state';
 import {ActivatedRoute} from '@angular/router';
 import {ELogType, LoggingService} from '../../../logging.service';
@@ -23,6 +35,14 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() sendMessageToBotServer$ = new EventEmitter();
   carasolItemShownInOneScreen = 2;
   totalItemsInCarasol: number;
+
+  @ViewChild('MultiCarousel') MultiCarousel: ElementRef;
+  @ViewChild('MultiCarouselInner') MultiCarouselInner: ElementRef;
+  @ViewChildren('caraosalItem') caraosalItem: QueryList<ElementRef>;
+  carasolItems: any[];
+  itemWidth:any;
+
+
 
   constructor(
     private activatedRoute: ActivatedRoute
@@ -49,16 +69,22 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('rightLst') rightLstElementRef: ElementRef;
   ngAfterViewInit() {
 
+    const self = this;
+    self.carasolItems = self.caraosalItem.toArray();
+
     $(document).ready(() => {
       const CardCarouselComponent_this = this;
-      const itemsMainDiv = ('.MultiCarousel');
-      const itemsDiv = ('.MultiCarousel-inner');
+      // const itemsMainDiv = ('.MultiCarousel');
+      const MultiCarousel = this.MultiCarousel.nativeElement; //('.MultiCarousel');
+      const MultiCarouselInner = this.MultiCarouselInner.nativeElement; //('.MultiCarousel-inner');
+      // const itemsDiv = ('.MultiCarousel-inner');
       let itemWidth: any = '';
 
       // $('.leftLst, .rightLst').click(function () {
 
       const sideControlsClickHandler = function ($event) {
         const condition = $(this).hasClass('leftLst');
+        debugger;
         if (condition) {
           click(0, this);
         } else {
@@ -86,18 +112,18 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
         let id = 0;
         let btnParentSb = '';
         let itemsSplit: any = '';
-        const sampwidth = $(itemsMainDiv).width();
+        const sampwidth = $(MultiCarousel).width();//$(itemsMainDiv).width();
         const bodyWidth = $('body').width();
-        $(itemsDiv).each(function () {
+        // $(itemsDiv).each(function () {
+        $(MultiCarouselInner).each(function () {
 
           id = id + 1;
-          const itemNumbers = $(this).find(itemClass).length;
+          const itemNumbers = self.carasolItems.length;//$(this).find(itemClass).length;
           btnParentSb = $(this).parent().attr(dataItems);
           itemsSplit = btnParentSb.split(',');
           $(this).parent().attr('id', 'MultiCarousel' + id);
 
-
-
+          itemWidth = sampwidth / CardCarouselComponent_this.carasolItemShownInOneScreen;
           if (bodyWidth >= 1200) {
             // incno = this.carasolItemShownInOneScreen;//itemsSplit[3];
             itemWidth = sampwidth / CardCarouselComponent_this.carasolItemShownInOneScreen;
@@ -111,8 +137,14 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
             incno = itemsSplit[0];
             itemWidth = sampwidth / CardCarouselComponent_this.carasolItemShownInOneScreen;
           }
+          // self.itemWidth = itemWidth;
+
           $(this).css({'transform': 'translateX(0px)', 'width': itemWidth * itemNumbers});
-          $(this).find(itemClass).each(function () {
+          // $(this).find(itemClass).each(function () {
+          //   $(this).outerWidth(itemWidth);
+          // });
+
+          $(self.MultiCarouselInner.nativeElement).find(('.item')).each(function () {
             $(this).outerWidth(itemWidth);
           });
 
@@ -124,39 +156,45 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
       //this function used to move the items
-      function ResCarousel(e, el, s) {
+      function ResCarousel(e) {
+        let s=1;
         const leftBtn = ('.leftLst');
         const rightBtn = ('.rightLst');
         let translateXval: any = '';
-        const divStyle = $(el + ' ' + itemsDiv).css('transform');
+        const divStyle = $(MultiCarouselInner).css('transform');
         const values = divStyle.match(/-?[\d\.]+/g);
         const xds: any = Math.abs(values[4]);
         if (e == 0) {
           translateXval = parseInt(xds) - (<any>parseInt)(itemWidth * s);
-          $(el + ' ' + rightBtn).removeClass('over');
+          $(rightBtn).removeClass('over');
+          // $(self.rightLstElementRef.nativeElement).removeClass('over');
 
           if (translateXval <= itemWidth / 2) {
             translateXval = 0;
-            $(el + ' ' + leftBtn).addClass('over');
+            $(leftBtn).addClass('over');
+            // $(self.rightLstElementRef.nativeElement).addClass('over');
           }
         } else if (e == 1) {
-          const itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
+          const itemsCondition = $(MultiCarouselInner).width() - $(MultiCarousel).width();
           translateXval = parseInt(xds) + (<any>parseInt)(itemWidth * s);
-          $(el + ' ' + leftBtn).removeClass('over');
+          $(leftBtn).removeClass('over');
+          // $(self.leftLstElementRef.nativeElement).removeClass('over');
 
           if (translateXval >= itemsCondition - itemWidth / 2) {
             translateXval = itemsCondition;
-            $(el + ' ' + rightBtn).addClass('over');
+            $(rightBtn).addClass('over');
+            // $(self.rightLstElementRef.nativeElement).addClass('over');
           }
         }
-        $(el + ' ' + itemsDiv).css('transform', 'translateX(' + -translateXval + 'px)');
+        $(MultiCarouselInner).css('transform', 'translateX(' + -translateXval + 'px)');
       }
 
       //It is used to get some elements from btn
       function click(ell, ee) {
         const Parent = '#' + $(ee).parent().attr('id');
         const slide = $(Parent).attr('data-slide');
-        ResCarousel(ell, Parent, slide);
+        // ResCarousel(ell, Parent, slide);
+        ResCarousel(ell);
       }
 
     });
