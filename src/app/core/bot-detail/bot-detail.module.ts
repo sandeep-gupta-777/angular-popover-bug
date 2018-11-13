@@ -63,6 +63,7 @@ import {CodeVersionListComponent} from '../buildbot/build-code-based-bot/archite
 import {CodeGentemplateUiWrapperComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
 import {TrimStringPipe} from '../../trim-string.pipe';
 import {DebounceClickDirective} from '../../debounce-click.directive';
+import {CheckImageValidityPipe} from '../../check-image-validity.pipe';
 
 const routes: Route[] = [
   {
@@ -100,6 +101,7 @@ const routes: Route[] = [
     TrimStringPipe,
     FilterTemplateLeyListPipe,
     CodeInputCaraosalComponent,
+    CheckImageValidityPipe,
     DebounceClickDirective,
     CodeQuickReplyWrapperComponent,
     CodeQuickReplyComponent,

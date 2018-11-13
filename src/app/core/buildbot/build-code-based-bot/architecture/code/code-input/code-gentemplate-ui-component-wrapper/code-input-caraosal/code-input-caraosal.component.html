@@ -45,11 +45,14 @@
             </li>
             <li class="list-group-item limit-three-lines flex-column align-items-start cursor-pointer">
               <input type="text" placeholder="image URL" [(ngModel)]="carousalItem.image_url" style="width: 100%">
-              <span class="faded-text">0/80</span>
+              <div class="d-flex justify-content-between w-100">
+                <span class="faded-text">{{carousalItem?.image_url?.length || 0}}/80</span>
+                <i class="faded-text text-danger" *ngIf="!(carousalItem?.image_url|checkImageValidity)">Invalid image</i>
+              </div>
             </li>
             <li class="list-group-item limit-three-lines cursor-pointer flex-column align-items-start">
-              <textarea style="height: 48px; width: 100%" placeholder="subtitle" [(ngModel)]="carousalItem.subtitle"></textarea>
-              <span class="faded-text">0/80</span>
+              <textarea maxlength="80" style="height: 48px; width: 100%" [(ngModel)]="carousalItem.description"></textarea>
+              <span class="faded-text">{{carousalItem?.description?.length || 0}}/80</span>
             </li>
             <li class="list-group-item limit-three-lines cursor-pointer">
               <input type="text" placeholder="URL" style="width: 100%">
@@ -61,7 +64,7 @@
             <!--{{button.title}}-->
             <!--</li>-->
             <li *ngFor="let button of carousalItem.button; let buttonIndex = index;" (clickOutside)="dropdown.hide()"
-                class="list-group-item limit-three-lines w-100 px-0 py-0 border cursor-pointer" style="margin-top: 6px; overflow: visible">
+                class="list-group-item limit-three-lines w-100 px-0 py-0 border" style="margin-top: 6px; overflow: visible">
               <form #btnConfigForm="ngForm" class="btn-group w-100" #dropdown="bs-dropdown" [autoClose]="false"
                     dropdown (clickOutside)="dropdown.hide()">
                 <!--caraosal button starts-->
@@ -72,7 +75,7 @@
                     <div class="faded-text text-dark text-bold text-center">Configure button options</div>
                   </li>
                   <li role="menuitem" class="mb-1">
-                    <label class="faded-text mb-0"> Title</label>
+                    <label class="faded-text mb-0"> Title {{titleEl.valid}}</label>
                     <input type="text" name="title" #titleEl required [ngModel]="button.title" placeholder="title" style="width: 100%">
                   </li>
                   <!--<p>{{titleEl.valid}}</p>-->
@@ -87,7 +90,12 @@
                   <li class="d-flex" style="margin-top: 10px; font-size: 11px">
                     <!--<button class="btn-theme btn-theme-success-sm-outline mx-1" (click)="dropdown.hide()">Cancel</button>-->
                     <!--<button class="btn-theme btn-theme-success-sm">Save</button>-->
-                    <span class="text-primary mr-1 cursor-pointer" (click)="saveButtonConfig(btnConfigForm, carouselIndex, buttonIndex)">Done</span>
+                    <span [ngClass]="{'cursor-not-allowed':!btnConfigForm.valid}" class="mr-1">
+                      <span (click)="saveButtonConfig(btnConfigForm, carouselIndex, buttonIndex)"
+                        [ngClass]="{'cursor-pointer-event-none':!btnConfigForm.valid,'cursor-pointer':btnConfigForm.valid, 'text-primary':btnConfigForm.valid, 'text-muted': !btnConfigForm.valid}">
+                        Done
+                      </span>
+                    </span>
                     <span class="text-primary cursor-pointer" (click)="dropdown.hide()">Cancel</span>
                     <span class="text-danger cursor-pointer ml-auto" (click)="deleteCaraousalButton(carouselIndex, buttonIndex)">Delete</span>
                   </li>
