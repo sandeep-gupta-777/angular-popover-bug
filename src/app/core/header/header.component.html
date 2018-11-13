@@ -59,7 +59,7 @@
             <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
               <li role="menuitem"><a class="dropdown-item" [routerLink]="['profile']"
                                      routerLinkActive="highlight-text-on-route-match">Profile</a></li>
-              <li role="menuitem"><a class="dropdown-item cursor-pointer" (click)="logout()">Signout</a></li>
+              <li role="menuitem"><a class="dropdown-item cursor-pointer" (click)="logout()">Sign out</a></li>
               <li class="divider dropdown-divider" *myIf="myEAllActions['Get Enterprise']"></li>
               <li role="menuitem"><a class="dropdown-item" *myIf="myEAllActions['Get Enterprise']"
                                      [routerLink]="['enterpriseprofile']"

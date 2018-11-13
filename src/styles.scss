@@ -308,6 +308,10 @@ th, td {
   pointer-events: none;
 }
 
+.cursor-not-allowed{
+  cursor: not-allowed;
+}
+
 .ng2-smart-title {
 
   //@include typography(16px, $line-height-normal, $font-weight-300, $color-text-normal);

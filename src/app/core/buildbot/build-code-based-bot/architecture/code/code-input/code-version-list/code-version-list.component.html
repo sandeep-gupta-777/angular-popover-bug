@@ -63,14 +63,14 @@
             (click)="saveSelectedVersion$.emit()">
       {{(!bot.store_bot_versions || !bot.store_bot_versions.length ||
       bot.store_bot_versions.length>0)?"Save":"Create"}}
-      version
+      Version
     </button>
     <div *ngIf="selectedVersion" class="d-inline-block">
       <button class="btn-theme btn-theme-primary-outline"
               [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
               *myIf="myEAllActions['Create Bot Versioning']"
               (click)="openForkNewVersionModal$.emit()">
-        Fork new version
+        Fork New Version
       </button>
     </div>
   </div>

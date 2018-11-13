@@ -47,6 +47,8 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   @ViewChild('MultiCarousel') MultiCarousel: ElementRef;
   @ViewChild('MultiCarouselInner') MultiCarouselInner: ElementRef;
   @ViewChild('addNewCarasolPlaceholder') addNewCarasolPlaceholder: ElementRef;
+
+  @ViewChild('carauoselForm') caraoselForm: NgForm;
   itemWidth;
   disableAddNewCarasolItem = false;
   _messageData: IMessageData;
