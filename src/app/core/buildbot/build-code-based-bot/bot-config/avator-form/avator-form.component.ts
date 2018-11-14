@@ -8,6 +8,7 @@ import {FormArray, FormBuilder, FormGroup, NgForm, Validators} from '@angular/fo
 import {EFormValidationErrors, UtilityService} from '../../../../../utility.service';
 import {EAllActions} from '../../../../../constants.service';
 import {LoggingService} from '../../../../../logging.service';
+import {debounceTime} from 'rxjs/operators';
 
 @Component({
   selector: 'app-avator-form',
@@ -60,7 +61,7 @@ export class AvatorFormComponent implements OnInit {
     this.initializeFormArray();
     LoggingService.log(this.formArray);
 
-    this.formGroup.valueChanges.debounceTime(200).subscribe((data: any) => {
+    this.formGroup.valueChanges.pipe(debounceTime(200)).subscribe((data: any) => {
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) { return; }
       this.formData = this.formGroup.value;
       const avatarValidationObj = {};

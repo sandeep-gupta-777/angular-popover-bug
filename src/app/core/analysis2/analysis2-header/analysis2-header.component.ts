@@ -47,6 +47,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {query} from '@angular/animations';
 import {EBotType} from '../../view-bots/view-bots.component';
 import {ELogType, LoggingService} from '../../../logging.service';
+import {debounceTime, take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-analysis2-header',
@@ -107,7 +108,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     * update the header data in store
     * */
     this.formChangesSub = this.f.form.valueChanges
-      .debounceTime(1000)
+      .pipe(debounceTime(1000))
       .subscribe((formData) => {
         LoggingService.log(this.f);
         if (this.utilityService.areTwoJSObjectSame(this.formData, formData)) { return; }
@@ -152,7 +153,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
         if (!this.utilityService.areAllValesDefined(headerData)) { return; }
         if (this.utilityService.areTwoJSObjectSame(this.analytics2HeaderData, analytics2HeaderData)) { return; }
         this.store.dispatch([new ResetAnalytics2GraphData()])
-          .debounceTime(1000)
+          .pipe(debounceTime(1000))
           .subscribe(() => {
             const isHeaderValid = this.isHeaderValid(analytics2HeaderData.startdate, analytics2HeaderData.enddate, analytics2HeaderData.granularity);
             if (!isHeaderValid) { return; }
@@ -161,7 +162,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
             this.store.dispatch([new ResetAnalytics2GraphData()]);
             // this.makeGetReqSub && this.makeGetReqSub.unsubscribe();//todo: better use .
             this.makeGetReqSub = this.serverService.makeGetReq({url, headerData})
-              .take(1)
+              .pipe(take(1))
               .subscribe((response: any) => {
                 if (headerData.type === EAnalysis2TypesEnum.overviewinfo) {
                   const responseCopy: IOverviewInfoResponse = response;

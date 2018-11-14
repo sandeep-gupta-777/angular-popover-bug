@@ -2,10 +2,9 @@ import {Component, ElementRef, Input, OnInit, TemplateRef, ViewChild} from '@ang
 import {Store, Select} from '@ngxs/store';
 import {IConsumerResults} from '../../../../interfaces/consumer';
 import {ServerService} from '../../../server.service';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {ConstantsService} from '../../../constants.service';
 import {ISessionItem, ISessionMessage, ISessions} from '../../../../interfaces/sessions';
-import {of} from 'rxjs';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {IBot} from '../../interfaces/IBot';
 import {SmartTableComponent} from '../../../smart-table/smart-table.component';

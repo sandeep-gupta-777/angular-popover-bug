@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
@@ -17,7 +19,7 @@ export class Analysis2WrapperComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.allBotList$ = this.botlist$.map(value => value.allBotList);
+    this.allBotList$ = this.botlist$.pipe(map(value => value.allBotList));
   }
 
 }

@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import {IPipelineItem} from '../interfaces/ai-module';
 import {ServerService} from './server.service';
@@ -15,8 +17,8 @@ export class AimService {
     private constantsService: ConstantsService
   ) {
     const url = this.constantsService.getAllPipelineModuleUrl();
-    this.aiModules$ = this.serverService.makeGetReq<{objects: IPipelineItem[]}>({url})
-      .map(value => value.objects);
+    this.aiModules$ = this.serverService.makeGetReq<{objects: IPipelineItem[]}>({url}).pipe(
+      map(value => value.objects));
     this.aiModules$
       .subscribe((value) => {
       });

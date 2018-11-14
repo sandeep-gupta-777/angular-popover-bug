@@ -12,6 +12,7 @@ import {IHeaderData} from '../../../../interfaces/header-data';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {PermissionService} from '../../../permission.service';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-consumers',
@@ -71,7 +72,7 @@ export class ConsumersComponent implements OnInit {
     const url = this.constantsService.getBotConsumerUrl(limit, offset);
     this.serverService
       .makeGetReq<IConsumerResultsFromServer>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
-      .map((value) => {
+      .pipe(map((value) => {
         this.totalRecords = value.meta.total_count;
         return {
           ...value,
@@ -80,7 +81,7 @@ export class ConsumersComponent implements OnInit {
             return {...result};
           })
         };
-      }).subscribe((value) => {
+      })).subscribe((value) => {
       this.showLoader = false;
       this.consumerTableData = value.objects;
     });
@@ -117,10 +118,10 @@ export class ConsumersComponent implements OnInit {
         const url = this.constantsService.getBotConsumerByIdUrl(this.consumerItemToBeDecrypted.id);
         this.serverService
           .makeGetReq<IConsumerResults>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
-          .map((result) => {
+          .pipe(map((result) => {
             const modified_update_at = (new Date(result.updated_at)).toDateString();
             return {...result, updated_at: modified_update_at};
-          })
+          }))
           .subscribe((value) => {
 
             this.consumersDecrypted = value;

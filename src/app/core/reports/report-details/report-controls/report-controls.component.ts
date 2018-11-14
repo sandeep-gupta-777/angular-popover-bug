@@ -13,6 +13,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {BsDatepickerConfig} from 'ngx-bootstrap/datepicker';
 import {EBotType} from '../../../view-bots/view-bots.component';
 import {ELogType, LoggingService} from '../../../../logging.service';
+import {debounceTime} from 'rxjs/operators';
 
 declare var $: any;
 
@@ -125,7 +126,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
     });
 
 
-    this.f.valueChanges.debounceTime(1000).subscribe((data: any) => {
+    this.f.valueChanges.pipe(debounceTime(1000)).subscribe((data: any) => {
       // if (!this.f.dirty) return;
 
       /*TODO: VERY BAD FIX; USE REACTIVE FORM INSTEAD*/

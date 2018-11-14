@@ -1,6 +1,8 @@
+
+import {debounceTime} from 'rxjs/operators';
 import {AfterContentChecked, AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
-import 'rxjs/add/operator/debounceTime';
+
 import {Store, Select} from '@ngxs/store';
 import {SaveNewBotInfo_CodeBased} from '../../../ngxs/buildbot.action';
 import {IBasicInfo} from '../../../../../../interfaces/bot-creation';
@@ -78,7 +80,7 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
 
     this.initializeChildBotFormArray();
     /*TODO: initialization must be done with initialization of formGroup*/
-    this.formGroup.valueChanges.debounceTime(200).subscribe((data: Partial<IBot>) => {
+    this.formGroup.valueChanges.pipe(debounceTime(200)).subscribe((data: Partial<IBot>) => {
       LoggingService.log(this.formGroup);
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) { return; }
       this.formData = data;
