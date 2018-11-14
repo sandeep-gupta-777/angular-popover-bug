@@ -95,6 +95,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
           this.serverService.makeGetReq<IReportItem>({url})
             .subscribe((value: IReportItem) => {
               try {
+                debugger;
                 const formDataSerialized = {
                   ...value,
                   delivery: {
