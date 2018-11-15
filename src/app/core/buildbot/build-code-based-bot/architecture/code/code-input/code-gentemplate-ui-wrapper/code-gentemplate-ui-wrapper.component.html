@@ -13,7 +13,7 @@
         </div>
       </div>
       <input *ngIf="templateKeyDict && myObject.keys(templateKeyDict) && myObject.keys(templateKeyDict).length>0;"
-             type="text" placeholder="Search Intent" [(ngModel)]="templateKeySearchKeyword">
+             type="text" placeholder="Search Templatekey" [(ngModel)]="templateKeySearchKeyword">
       <div class="d-flex align-items-center show-on-hover"
            *ngFor="let tempKey of myObject.keys(templateKeyDict||{})|filterTemplateLeyList:templateKeySearchKeyword">
         <div class="pl-2 p-1 mr-1 flex-grow-1 tab-theme limit-oneline"
@@ -169,11 +169,11 @@
           <i class="fa fa-align-left"></i>Text
         </li>
         <li class="pl-2 bot-template cursor-pointer" (click)="addImageCaraosalUnit()">
-          <i class=" fa fa-image"></i>Image corousel
+          <i class=" fa fa-image"></i>Image Carousel
         </li>
         <li class="pl-2 bot-template cursor-pointer" style="opacity: .3; pointer-events: none">
-          <i class="fa fa-users"></i>Text Corousel
-        </li>
+          <i class="fa fa-users"></i>Text Carousel
+        </li>F
         <li class="pl-2 bot-template cursor-pointer" (click)="addQuickReplyUnit()">
           <i class="fa fa-users"></i>Quick Reply
         </li>
