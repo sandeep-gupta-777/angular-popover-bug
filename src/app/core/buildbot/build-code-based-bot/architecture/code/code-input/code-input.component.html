@@ -135,7 +135,7 @@
         <i class="fa fa-angle-double-left" *ngIf='!validationMessageToggle'></i>
       </div>
     </div>
-    <div class="validation-message" *ngIf="validationMessageToggle">
+    <div class="validation-message" *ngIf="validationMessageToggle &&(activeTab!==myEBotVersionTabs.generation_templates || showGenTempEditorAndHideGenTempUi)">
       <div class="validation-message-heading" *ngIf="!!selectedVersion.validation[activeTab].error">
         Issue found
       </div>
