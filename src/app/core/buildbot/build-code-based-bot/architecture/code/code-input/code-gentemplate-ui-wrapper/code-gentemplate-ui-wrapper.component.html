@@ -87,8 +87,9 @@
         <ng-container
           *ngIf="templateKeyDict && (templateKeyDict[selectedTemplateKeyInLeftSideBar]|dataType)!=='string'">
           <div class="py-1 px-0 mb-3"
-               *ngFor="let outputItem of templateKeyDict[selectedTemplateKeyInLeftSideBar]|filterResponseComponentByChannelName:selectedChannelOfGenTemplate?.name; let i = index">
+               *ngFor="let outputItem of templateKeyDict[selectedTemplateKeyInLeftSideBar]; let i = index">
             <app-code-gentemplate-ui-component-wrapper
+              [selectedChannel]="selectedChannelOfGenTemplate?.name"
               [outputItem]="outputItem"
               #gentemplateItem class="gentemplateItem"
               [myIndex]=i
