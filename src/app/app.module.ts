@@ -49,6 +49,7 @@ import {SplashScreenComponent} from './splash-screen/splash-screen.component';
 import {ThemeComponent} from './theme/theme.component';
 import {SafeHtml} from '@angular/platform-browser';
 import {SafeUrlPipe} from './href-sanitizer.pipe';
+import {MatButtonModule, MatCommonModule} from '@angular/material';
 // import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 
 const routes: Route[] = [
@@ -85,6 +86,8 @@ const routes: Route[] = [
     RichMediaModule,
     RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,
+    MatCommonModule,
+    MatButtonModule,
 
     NgxsModule.forRoot([
       AuthStateReducer,

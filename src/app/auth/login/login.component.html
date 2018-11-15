@@ -30,6 +30,9 @@
                 [disabled]="disabeLoginButton"
                 [ngClass]="{'btn-theme-primary':!disabeLoginButton, 'btn-theme-disabled':disabeLoginButton}">Sign in
         </button>
+
+        <button mat-flat-button color="primary" class="btn-theme btn-block">Primary</button>
+
         <!--TODO: set form info-->
         <div class="user-info">
           <i class="form-theme-error" *ngIf="errorMessage" [ngClass]="{'visible':errorMessage}">{{errorMessage}}</i>
@@ -86,6 +89,7 @@
                      placeholder="Confirm password">
             </div>
             <button type="submit" class="btn-block btn-theme-primary my-3" (click)="resetPassword()">Reset</button>
+
           </form>
         </div>
         <div class="text-center cursor-pointer color-primary" (click)="panelActive='login'">back to sign in</div>
@@ -126,3 +130,9 @@
 <div *ngIf="showCustomEmails">
   <div *ngFor="let email of loginEmails" (click)="loginWithCustomEmail(email)">{{email}}</div>
 </div>
+
+<button mat-flat-button>Basic</button>
+<button mat-flat-button color="primary">Primary</button>
+<button mat-flat-button color="accent">Accent</button>
+<button mat-flat-button color="warn">Warn</button>
+<button mat-flat-button disabled>Disabled</button>

@@ -6,6 +6,7 @@ import {AuthWrapperComponent} from './auth-wrapper.component';
 import {CommonModule} from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import {LoginGaurdService} from '../login-gaurd.service';
+import {MatButtonModule} from '@angular/material';
 
 const routes: Route[] = [
       {path: 'login', component: LoginComponent, canActivate: [LoginGaurdService]},
@@ -18,6 +19,7 @@ const routes: Route[] = [
   ],
   imports: [
     CommonModule,
+    MatButtonModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,
     // NgxsModule.forFeature([
