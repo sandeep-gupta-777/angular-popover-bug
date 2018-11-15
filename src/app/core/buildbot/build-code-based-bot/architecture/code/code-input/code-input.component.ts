@@ -406,7 +406,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
           if (this.bot.active_version_id === this.selectedVersion.id) {
             this.modalRef = this.modalService.show(validationWarningModal, {class: 'modal-md'});
           } else {
-            this.utilityService.showErrorToaster('Your code has error. But it will be save as its not active');
+            this.utilityService.showErrorToaster('Your code has error. But it will be saved as its not active');
 
             this.selectedVersion.updated_fields = this.selectedVersion.changed_fields;
             this.selectedVersion.changed_fields = {
