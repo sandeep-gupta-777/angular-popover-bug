@@ -139,3 +139,9 @@
 .notification-text {
   color: $color-primary;
 }
+
+:host /deep/ .mat-checkbox-inner-container{
+  height: remy(17);
+  width:remy(17);
+}
+

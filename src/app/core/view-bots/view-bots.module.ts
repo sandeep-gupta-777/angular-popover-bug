@@ -14,6 +14,7 @@ import {BotPreviewCardComponent} from './bot-preview-card/bot-preview-card.compo
 import {SharedModule} from '../../shared.module';
 import {RichMediaModule} from '../../rich-media.module';
 import {BotPreviewCardListComponent} from './bot-preview-card-list/bot-preview-card-list.component';
+import {MyMaterialModule} from '../../material.module';
 
 const routes: Route[] = [
   {path: '', component: ViewBotsComponent}
@@ -28,6 +29,7 @@ const routes: Route[] = [
 
   ],
   imports: [
+    MyMaterialModule,
     CommonModule,
     RouterModule.forChild(routes),
     BsDropdownModule.forRoot(),
