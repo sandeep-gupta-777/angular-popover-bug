@@ -133,6 +133,8 @@ export class BotPreviewCardComponent implements OnInit {
 
   navigateToBotDetailPage(event) {//preview-button
 
+    debugger;
+
     if (!event.target.classList.contains('click-save-wrapper')) {
       this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id]);
       this.showLoader = true;

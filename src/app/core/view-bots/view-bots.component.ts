@@ -11,8 +11,9 @@ import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {LoggingService} from '../../logging.service';
 import {ViewBotStateModel} from './ngxs/view-bot.state';
-import {E} from '@angular/core/src/render3';
 import {RouteHelperService} from '../../route-helper.service';
+import {MatDialog} from '@angular/material';
+import {CreateBotDialogComponent} from './create-bot-dialog/create-bot-dialog.component';
 
 export enum EBotType {
   chatbot = 'chatbot',
@@ -39,6 +40,7 @@ export class ViewBotsComponent implements OnInit, AfterViewInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private modalService: BsModalService,
+    public dialog: MatDialog,
     private store: Store) {
   }
 
@@ -46,17 +48,31 @@ export class ViewBotsComponent implements OnInit, AfterViewInit {
   codeBasedBotList: IBot[];
   pipelineBasedBotList: IBot[];
 
+  name  = 'sadas';
+  animal= 'horse';
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(CreateBotDialogComponent, {
+      data: {name: this.name, animal: this.animal},
+      panelClass: "primary-modal-header-border"
+    });
+
+    dialogRef.afterClosed().subscribe((botType:string) => {
+      if(!botType)return;
+      this.router.navigate([`/core/buildbot`], {queryParams:{bot_type:botType}});
+    });
+  }
+
   ngOnInit() {
     this.activeTab = RouteHelperService.getQueryParams(this.activatedRoute, 'type') || EBotType.chatbot;
     window.scrollTo(0, 0);
     this.serverService.getNSetBotList()
       .subscribe(() => {
         LoggingService.log('bot list fetched from view bots page');
-        ;
       });
     this.botlist$
       .subscribe((allBotListState) => {
-        debugger;
+
         if (!allBotListState.allBotList) return;
         this.codeBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.chatbot);
         this.pipelineBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.intelligent);
@@ -88,5 +104,9 @@ export class ViewBotsComponent implements OnInit, AfterViewInit {
   doShowPopover(activeTab) {
     return activeTab === EBotType.chatbot && this.codeBasedBotList && this.codeBasedBotList.length === 0
       || (activeTab === EBotType.intelligent && this.pipelineBasedBotList && this.pipelineBasedBotList.length === 0);
+  }
+
+  test($event){
+    console.log($event);
   }
 }

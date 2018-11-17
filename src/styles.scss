@@ -1068,3 +1068,40 @@ body {
   margin: 0;
   font-family: "Helvetica", sans-serif;
 }
+
+
+mat-dialog-container{
+  //padding: 0!important;
+  .top-dec{
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    height: 10px;
+    background-color: $color-primary;
+  }
+}
+
+.primary-modal-header-border{
+  .mat-dialog-container{
+    border-top: 10px solid $color-primary;
+    border-radius: 4px;
+  }
+}
+
+.danger-modal-header-border{
+  .mat-dialog-container{
+    border-top: 10px solid $color-primary;
+    border-radius: 4px;
+  }
+}
+
+.cutom-md-menu{
+  .mat-menu-content{
+    padding: 0;
+    button{
+      height: 40px;
+      font-size: 13px;
+      line-height: 13px;
+    }
+  }
+
+}

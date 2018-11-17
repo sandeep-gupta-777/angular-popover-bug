@@ -12,7 +12,7 @@ export class CheckImageValidityPipe implements PipeTransform {
   }
 
   transform(url: string): any {
-    console.log();debugger;
+    console.log();
     let x =  !this.utilityService.imageUrlHavingValidExtnError(new FormControl(url)) &&
       !this.utilityService.imageUrlHttpsError(new FormControl(url))
     return x;

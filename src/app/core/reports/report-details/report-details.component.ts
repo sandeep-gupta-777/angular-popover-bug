@@ -81,7 +81,7 @@ export class ReportDetailsComponent implements OnInit {
   }
 
   updateReport(subscribeTemplate: TemplateRef<any>, unsubscribeTemplate: TemplateRef<any>) {
-    debugger;
+
     this.reportFormData = JSON.parse(JSON.stringify(this.reportControlsComponent.getReportControlFormData()));
     // let timeNow = (new Date()).toString();
     const _id_str = this.activatedRoute.snapshot.paramMap.get('_id');

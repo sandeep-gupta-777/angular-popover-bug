@@ -84,7 +84,7 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
 
       const sideControlsClickHandler = function ($event) {
         const condition = $(this).hasClass('leftLst');
-        debugger;
+
         if (condition) {
           click(0, this);
         } else {
