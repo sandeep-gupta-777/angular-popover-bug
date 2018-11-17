@@ -64,6 +64,7 @@ import {CodeGentemplateUiWrapperComponent} from '../buildbot/build-code-based-bo
 import {TrimStringPipe} from '../../trim-string.pipe';
 import {DebounceClickDirective} from '../../debounce-click.directive';
 import {CheckImageValidityPipe} from '../../check-image-validity.pipe';
+import {MyMaterialModule} from '../../material.module';
 
 const routes: Route[] = [
   {
@@ -140,6 +141,7 @@ const routes: Route[] = [
     Ng2SmartTableModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
+    MyMaterialModule
   ],
   providers: [AimService]
 })

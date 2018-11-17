@@ -1,42 +1,35 @@
 <!--<button (click)="click()">Click</button>-->
 <form [formGroup]="formGroup" class="bot-creation-form">
-  <div class="row">
+  <div class="row m-0">
     <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
-      <div class="form-group">
         <app-bot-config-input
           #NameInput
           displayName="Bot Name"
           placeholder="A display name for the bot"
           (keyDown$)="nameChangeByUser($event)"
           formControlName="name"></app-bot-config-input>
-      </div>
 
-      <div class="form-group">
         <app-bot-config-input
           displayName="Description"
           formControlName="description"
           placeholder=" description for the Bot"></app-bot-config-input>
-      </div>
 
-      <div class="form-group">
+
         <app-bot-config-input
           displayName="Bot Logo"
           formControlName="logo"
           [errors] = "logoErrorObj"
           placeholder="URL for the Bot Logo/Brand Image"></app-bot-config-input>
-      </div>
 
     </fieldset>
     <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
-      <div class="form-group">
         <app-bot-config-input
           displayName="Unique Name"
           formControlName="bot_unique_name"
           placeholder="Bot Unique Name (non-editable after Bot creation)"></app-bot-config-input>
-      </div>
 
 
-      <div class="form-group" *ngIf="!(bot_type===myEBotType.intelligent)">
+      <div class="" *ngIf="!(bot_type===myEBotType.intelligent)">
         <app-bot-config-input
           displayName="Session Close Time [mins]"
           formControlName="room_persistence_time"

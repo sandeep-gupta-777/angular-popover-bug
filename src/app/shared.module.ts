@@ -48,6 +48,7 @@ import {ErrorDescriptionPipe} from './core/buildbot/build-code-based-bot/bot-con
 import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
 import {SplashScreenComponent} from './splash-screen/splash-screen.component';
 import {SafeUrlPipe} from './href-sanitizer.pipe';
+import {MyMaterialModule} from './material.module';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import {SafeUrlPipe} from './href-sanitizer.pipe';
     SafeUrlPipe,
   ],
   imports: [
+    MyMaterialModule,
     UiSwitchModule,
     FormsModule,
     ReactiveFormsModule,
@@ -146,7 +148,8 @@ import {SafeUrlPipe} from './href-sanitizer.pipe';
     TimepickerModule,
     TooltipModule,
     ClickOutsideModule,
-    PopoverModule
+    PopoverModule,
+    MyMaterialModule,
 
 
 
