@@ -4,7 +4,7 @@ import {IConsumerResults} from '../../../../interfaces/consumer';
 import {ServerService} from '../../../server.service';
 import {Observable, of} from 'rxjs';
 import {ConstantsService} from '../../../constants.service';
-import {ISessionItem, ISessionMessage, ISessions} from '../../../../interfaces/sessions';
+import {ISessionItem, ISessionMessage, ISessions, ITableColumn} from '../../../../interfaces/sessions';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {IBot} from '../../interfaces/IBot';
 import {SmartTableComponent} from '../../../smart-table/smart-table.component';
@@ -12,6 +12,7 @@ import {UtilityService} from '../../../utility.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {findIndex} from 'rxjs/operators';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
+import {IAppState} from '../../../ngxs/app.state';
 
 @Component({
   selector: 'app-bot-sessions',
@@ -36,11 +37,13 @@ export class BotSessionsComponent implements OnInit {
   selectedRow_number = 0;
   totalSessionRecords = 0;
   sessions: ISessionItem[];
+  sessionsDataForTable: any[];
   showNextButton: boolean;
   showPrevButton: boolean;
   pageNumberOfCurrentRowSelected = 1;
   indexOfCurrentRowSelected: number;
   decryptReason: string;
+
 
   constructor(
     private serverService: ServerService,
@@ -48,12 +51,12 @@ export class BotSessionsComponent implements OnInit {
     private constantsService: ConstantsService,
     private store: Store,
     private modalService: BsModalService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.loadSmartTableSessionData();
   }
+
 
   /*todo: implement it better way*/
   refreshSession() {
@@ -64,8 +67,104 @@ export class BotSessionsComponent implements OnInit {
     });
   }
 
+  sessionMetaMap: ITableColumn = {
+    id: {
+      originalKey:"",
+      value: '',
+      type: 'number',
+      displayValue: 'Room Id',
+      search:true,
+      searchValue:true,
+    },
+    consumer_id: {
+      originalKey:"",
+      value: '',
+      type: 'number',
+      displayValue: 'Consumer id',
+      search:true,
+      searchValue:true,
+    },
+    sendtoagent: {
+      originalKey:"",
+      value: '',
+      type: 'boolean',
+      displayValue: 'Send to agent',
+      search:true,
+      searchValue:true,
+    },
+    total_message_count: {
+      originalKey:"",
+      value: '',
+      type: 'number',
+      displayValue: 'Messages',
+      search:true,
+      searchValue:true,
+    },
+    updated_at: {
+      originalKey:"",
+      value: '',
+      type: 'time',
+      displayValue: 'Updated At',
+      search:true,
+      searchValue:true,
+    },
+    channels: {
+      originalKey:"",
+      value: '',
+      type: 'image',
+      displayValue: 'Channels',
+      search:true,
+      searchValue:true,
+    },
+    actions: {
+      originalKey:"",
+      value: undefined,
+      type: 'icon',
+      displayValue: 'Actions',
+      custom: true,
+      name:"",
+      search:false,
+      searchValue:true,
+    },
+  };
+
   loadSmartTableSessionData() {
     this.loadSessionTableDataForGivenPage(this.pageNumberOfCurrentRowSelected);
+  }
+
+  transformSessionDataForMaterialTable(session: ISessionItem[]) {
+
+    this.sessionsDataForTable = session.map((sessionItem) => {
+      let obj:any = {};
+      for (let key in this.sessionMetaMap) {
+        obj[this.sessionMetaMap[key].displayValue] = {
+          ...this.sessionMetaMap[key],
+          originalKey:key,
+          value: sessionItem[key],
+          searchValue: sessionItem[key]
+        };
+      }
+
+      /*actions*/
+      obj['Actions'].value = [];
+      obj['Actions'].value.push({show: true, name:"download", class: 'fa fa-download'});
+      if(sessionItem.isEncrypted){
+        obj['actions'].value.push({show:true,name:"decrypt", class:"fa fa-lock"});
+      }
+
+      /*channels*/
+      obj['Channels'].value = [];
+      obj['Channels'].value =  (sessionItem.channels.map((channelName)=>{
+        return {
+          name:channelName,
+          src: this.constantsService.getIntegrationIconForChannelName(channelName).icon//'https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/web.png'
+        }
+      }));
+      obj['Channels'].search = sessionItem.channels.join();
+
+      obj.originalSessionData = sessionItem;
+      return obj;
+    });
   }
 
   sessionTableRowClicked(eventData: { data: ISessionItem }, template?, reasonForDecryptionTemplate?) {
@@ -121,6 +220,9 @@ export class BotSessionsComponent implements OnInit {
         this.selectedRow_Session = value.objects[this.selectedRow_number || 0];
         this.sessions = value.objects;
 
+        this.transformSessionDataForMaterialTable(this.sessions);
+
+
         // if (this.indexOfCurrentRowSelected !== undefined && this.sessions[this.indexOfCurrentRowSelected].isEncrypted === false) {
         //   this.sessions[this.indexOfCurrentRowSelected].highlight = true;
         // } else {
@@ -157,7 +259,7 @@ export class BotSessionsComponent implements OnInit {
         // this.customActionEventsTriggeredInSessionsTable({data:selectedRow_SessionClone,action:'decrypt',source:null});
         this.preOpenDecryptionModal();
       } else {
-        this.selectedRow_Session =  newSelectedRow_Session;
+        this.selectedRow_Session = newSelectedRow_Session;
       }
     } else {/*new page is needed to be loaded*/
       this.smartTableComponent.goToNextPage();
@@ -195,7 +297,7 @@ export class BotSessionsComponent implements OnInit {
         // this.customActionEventsTriggeredInSessionsTable({data:selectedRow_SessionClone,action:'decrypt',source:null});
         this.preOpenDecryptionModal();
       } else {
-        this.selectedRow_Session =  newSelectedRow_Session;
+        this.selectedRow_Session = newSelectedRow_Session;
       }
     } else {
       this.smartTableComponent.goToPrevPage();
@@ -210,6 +312,7 @@ export class BotSessionsComponent implements OnInit {
 
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: ISessionItem, source: any }, Primarytemplate) {
 
+    debugger;
     if (data.action === 'download') {
       /*download the conversation for the record*/
       this.loadSessionMessagesById(data.data.id)
@@ -275,8 +378,9 @@ export class BotSessionsComponent implements OnInit {
     });
   }
 
-  performSearchInDbForSession(data) {
-    this.loadSessionById(data['Room ID'])
+  performSearchInDbForSession(data: { id: number }) {
+
+    this.loadSessionById(data.id)
       .subscribe((session: ISessionItem) => {
         this.sessions.push(session);
         this.sessions = [...this.sessions];

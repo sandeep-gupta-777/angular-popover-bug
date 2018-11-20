@@ -1,5 +1,5 @@
 <div *ngIf="sessions && sessions.length>0">
-  <app-smart-table [data]="sessions"
+  <app-smart-table [data]="sessionsDataForTable"
                    [totalRecords]="totalSessionRecords"
                    (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,reasonForDecryptionTemplate)"
                    (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate, reasonForDecryptionTemplate)"

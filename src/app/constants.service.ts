@@ -100,13 +100,14 @@ export const ERouteNames = EAllActions;
 export class ConstantsService {
 
   forbiddenPermsDynamic: { id?: string, name?: number };
-
+  appState:IAppState;
   allowedPermissionIdsToCurrentRole: number[];
 
   constructor(private datePipe: DatePipe) {
-    this.app$.subscribe((value) => {
-      if (!value) { return; }
-      this.BACKEND_URL = (value && value.backendUrlRoot) || 'https://dev.imibot.ai/';
+    this.app$.subscribe((appState) => {
+      if (!appState) { return; }
+      this.appState = appState;
+      this.BACKEND_URL = (appState && appState.backendUrlRoot) || 'https://dev.imibot.ai/';
     });
     this.loggeduser$.subscribe((loggedUser: IAuthState) => {
       if (loggedUser && loggedUser.user) {
@@ -115,6 +116,19 @@ export class ConstantsService {
         this.allowedPermissionIdsToCurrentRole = this.loggedUser.role.permissions.actions;
       }
     });
+  }
+
+  getIntegrationIconForChannelName(channelName: string): any {
+    let x;
+    let masterIntegrationList = this.appState.masterIntegrationList;
+    try {
+      x =  masterIntegrationList.find((integrationMasterListItem) => {
+        return integrationMasterListItem.key.toUpperCase() === channelName.toUpperCase();
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    return x;
   }
 
   NEW_BOT_VERSION_TEMPLATE = {
