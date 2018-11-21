@@ -39,7 +39,7 @@ export class BotConfigInputComponent implements OnInit, ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
+    this.isDisabled = false;
   }
 
   writeValue(value: boolean): void {

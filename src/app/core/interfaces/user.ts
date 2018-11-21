@@ -4,6 +4,7 @@ export interface IUser {
   last_login: string;
   is_superuser: boolean;
   enterprise_id: number;
+  enterprises: any;
   role_id: number;
   email: string;
   first_name: string;

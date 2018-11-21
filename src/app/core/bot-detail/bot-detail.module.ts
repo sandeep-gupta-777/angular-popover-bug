@@ -25,7 +25,6 @@ import {SessionDetailModelComponent} from './bot-sessions/session-detail-model/s
 import {ConsumersComponent} from './consumers/consumers.component';
 import {SessionMessageComponent} from './bot-sessions/session-detail-model/session-message/session-message.component';
 import {SessionTabsDetailsComponent} from './bot-sessions/session-detail-model/session-tabs-details/session-tabs-details.component';
-import {PipelineFilterPipe} from '../../pipeline-filter.pipe';
 import {SessionComponent} from './session/session.component';
 import {PipelineComponent} from '../buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
 import {CodeInputComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-input.component';
@@ -92,7 +91,6 @@ const routes: Route[] = [
     SessionMessageComponent,
     PipelineComponent,
     UnderscroreToSpaceDelimitorPipe,
-    PipelineFilterPipe,
     SessionComponent,
     CodeInputComponent,
     CodeGentemplateUiComponentWrapperComponent,

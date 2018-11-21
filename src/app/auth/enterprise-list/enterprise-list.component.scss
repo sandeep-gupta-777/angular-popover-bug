@@ -1,0 +1,39 @@
+.enterprise-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 150px);
+    overflow-y: scroll;
+    justify-content: space-around;
+    .enterprise-grid-item{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      // border: 1px solid red; 
+      height: 150px;
+      padding: 5px;
+      .enterprise-image{
+        width: 72px;
+        height: 72px;
+        background-color: #e0e0e0;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center; 
+        img{
+          width: 72px;
+          border-radius: 50%;
+          align-self: center;
+        }
+      }
+      .enterprise-name{
+        font-size: 16px;
+        text-align: center;
+        line-height: 1.3;
+        margin-bottom: 4px;
+      }
+      .enterprise-role{
+        text-align: center;
+      }
+    }
+    
+  }
+  
