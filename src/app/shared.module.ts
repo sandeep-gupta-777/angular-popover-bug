@@ -5,7 +5,6 @@ import {BasicInfoFormComponent} from './core/buildbot/build-code-based-bot/bot-c
 import {BotConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {BotArchitetureComponent} from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {UiSwitchModule} from 'ngx-toggle-switch';
 import {CommonModule} from '@angular/common';
 import {BotIdToNamePipe} from './bot-id-to-name.pipe';
 import {RouterModule} from '@angular/router';
@@ -87,7 +86,6 @@ import {ImiLoaderComponent} from './imi-loader/imi-loader.component';
   ],
   imports: [
     MyMaterialModule,
-    UiSwitchModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
@@ -123,7 +121,6 @@ import {ImiLoaderComponent} from './imi-loader/imi-loader.component';
     FormsModule,
     BotIdToNamePipe,
     RouterModule,
-    UiSwitchModule,
     SmartTableComponent, //
     CodeEditorComponent, //
     KnowledgeBaseComponent, //

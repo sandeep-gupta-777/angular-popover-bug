@@ -165,11 +165,6 @@ export class ViewCustomnerComponent implements OnInit {
   }
 
   test(){
-    // this.ngZone.run(()=>{
-    //   this.custumNerDataForSmartTable = [...this.custumNerDataForSmartTable];
-    // });
-    this.custumNerDataForSmartTable = [...this.custumNerDataForSmartTable];
-    this.changeDetectorRef.detectChanges();
   }
 
 }

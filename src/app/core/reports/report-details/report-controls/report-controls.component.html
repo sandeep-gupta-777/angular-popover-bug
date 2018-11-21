@@ -24,7 +24,7 @@
     <div class="btn-group" role="group">
       <label (click)="filetype='csv'"
              [ngClass]="{'btn-theme-primary': filetype==='csv', 'btn-theme-secondary-outline':filetype==='pdf'}"
-             for="csv" class="btn-theme d-flex align-items-center ">CSV</label>
+             for="csv" class="btn-theme d-flex align-items-center text-white">CSV</label>
       <label
         disabled
         [ngClass]="{'btn-theme-primary': filetype==='pdf', 'btn-theme-secondary-outline':filetype==='csv'}"
@@ -38,8 +38,8 @@
     <!--<p>{{report_id}}</p>-->
     <div class="d-flex mt-2 align-items-center" *ngIf="report_id">
       <label for="" class="required m-0 pr-3">Status</label>
-      <ui-switch class="m-0 pt-2" [(ngModel)]="isactive" required name="isactive" style="border:none"
-                 size="small"></ui-switch>
+      <!--<ui-switch class="m-0 pt-2" [(ngModel)]="isactive" required name="isactive" style="border:none" size="small"></ui-switch>-->
+      <mat-slide-toggle class="m-0" [(ngModel)]="isactive" required name="isactive"></mat-slide-toggle>
     </div>
   </div>
 
@@ -110,7 +110,9 @@
         Schedule emails for multiple recipients, separate with semi-colon(;)
       </div>
       <div class="col-4 text-right ">
-        <ui-switch ngModel name="enabled" class="pt-2" style="border:none" size="small"></ui-switch>
+        <!--<ui-switch ngModel name="enabled" class="pt-2" style="border:none" size="small"></ui-switch>-->
+        <mat-slide-toggle ngModel name="enabled" ></mat-slide-toggle>
+
       </div>
       <fieldset class="col-12 ">
         <div class="col-10 mt-2 border-left">
@@ -123,7 +125,9 @@
     <div class="row m-0 " [hidden]="deliveryMode!=='sftp'" ngModelGroup='sftp'>
       <div class="col-12 d-flex justify-content-between align-items-center">
         <div class="text-report ">Push reports to a secure location as scheduled</div>
-        <ui-switch [(ngModel)]="isSftpReportEnabled" name="enabled" class="pt-2" style="border:none" size="small"></ui-switch>
+        <!--<ui-switch [(ngModel)]="isSftpReportEnabled" name="enabled" class="pt-2" style="border:none" size="small"></ui-switch>-->
+        <mat-slide-toggle [(ngModel)]="isSftpReportEnabled" name="enabled"></mat-slide-toggle>
+
       </div>
 
       <fieldset [disabled]="!isSftpReportEnabled" class="col-12 ">

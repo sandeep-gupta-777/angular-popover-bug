@@ -68,3 +68,9 @@
 .danger-modal{
   @include classic-modal(#b14250);
 }
+
+:host /deep/{
+  .mat-slide-toggle-label{
+    margin-bottom: 0;
+  }
+}

@@ -22,8 +22,13 @@
       <div class="d-flex flex-column mx-2">
         <label for="" class="m-0 p-0 mb-1">Process Raw Text</label>
         <div style="height: 26px;">
-          <ui-switch name="process_raw_text" [(ngModel)]="process_raw_text" class="d-flex align-items-center mx-1"
-                     style="border:none;padding: 0;" size="small"></ui-switch>
+          <!--<ui-switch name="process_raw_text" [(ngModel)]="process_raw_text" class="d-flex align-items-center mx-1"-->
+                     <!--style="border:none;padding: 0;" size="small"></ui-switch>-->
+          <mat-slide-toggle
+            name="process_raw_text"
+            class="d-flex align-items-center mx-1"
+            style="border:none;padding: 0;"
+            [(ngModel)]="process_raw_text"></mat-slide-toggle>
         </div>
         <!---->
       </div>

@@ -21,9 +21,11 @@
               [src]="getLogo(key)"
               alt="">
             <div class="heading my-0 mx-2">{{key.toUpperCase()}}</div>
-            <ui-switch size="small" [checked]="false"
-                       [(ngModel)]="formValueFinal[integration_type][key]['enabled']"
-                       name="enabled"></ui-switch>
+            <!--<ui-switch size="small" [checked]="false"-->
+                       <!--[(ngModel)]="formValueFinal[integration_type][key]['enabled']"-->
+                       <!--name="enabled"></ui-switch>-->
+            <mat-slide-toggle color="primary" [checked]="false" [(ngModel)]="formValueFinal[integration_type][key]['enabled']" name="enabled">
+            </mat-slide-toggle>
           </div>
           <div [hidden]="!formValueFinal[integration_type][key]['enabled']">
             <div

@@ -765,6 +765,99 @@ export class ConstantsService {
     // {data: 5, type: 'text'}
   ];
 
+  readonly SMART_TABLE_REPORT_TABLE_DATA_META_DICT_TEMPLATE = {
+
+    bot: {
+      originalKey:"bot",
+      value: '',
+      type: 'string',
+      displayValue: 'Bot',
+      search:true,
+      searchValue:true,
+    },
+
+    name: {
+      originalKey:"name",
+      value: '',
+      type: 'string',
+      displayValue: 'Report Type',
+      search:true,
+      searchValue:true,
+    },
+    frequency: {
+      originalKey:"frequency",
+      value: '',
+      type: 'string',
+      displayValue: 'Frequency',
+      search:true,
+      searchValue:true,
+    },
+    last_jobId: {
+      originalKey:"last_jobId",
+      value: '',
+      type: 'string',
+      displayValue: 'Last job run',
+      search:true,
+      searchValue:true,
+    },
+    nextreportgenerated: {
+      originalKey:"nextreportgenerated",
+      value: '',
+      type: 'string',
+      displayValue: 'Next scheduled date',
+      search:true,
+      searchValue:true,
+    },
+    isactive: {
+      originalKey:"isactive",
+      value: '',
+      type: 'boolean',
+      displayValue: 'Active',
+      search:true,
+      searchValue:true,
+    }
+  };
+  readonly SMART_TABLE_REPORT_HISTORY_TABLE_DATA_META_DICT_TEMPLATE = {
+
+    bot: {
+      originalKey:"bot",
+      value: '',
+      type: 'string',
+      displayValue: 'Bot',
+      search:true,
+      searchValue:true,
+    },
+
+    name: {
+      originalKey:"name",
+      value: '',
+      type: 'string',
+      displayValue: 'Report Type',
+      search:true,
+      searchValue:true,
+    },
+    created_at: {
+      originalKey:"created_at",
+      value: '',
+      type: 'time',
+      displayValue: 'Generated Date',
+      search:true,
+      searchValue:true,
+    },
+    actions: {
+      originalKey:"",
+      value: undefined,
+      type: 'icon',
+      displayValue: 'Actions',
+      custom: true,
+      name:"",
+      search:false,
+      searchValue:true,
+    },
+
+  };
+
+
 
   readonly HIGHCHART_CHARTVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE = {
     chart: {

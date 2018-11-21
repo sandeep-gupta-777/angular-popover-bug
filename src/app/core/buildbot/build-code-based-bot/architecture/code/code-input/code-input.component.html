@@ -55,13 +55,20 @@
                 *ngIf="activeTab===myEBotVersionTabs.generation_templates">
               <!-- <button [hidden]="activeTab!==myEBotVersionTabs.generation_templates" (click)="showGenTempUi = !showGenTempUi">button</button> -->
               <span>Interface</span>
-              <ui-switch *ngIf="showViewChangeToggle" color="rgb(0, 34, 64)"
-                         switchColor="white" name="toggle_gen_templet"
-                         (change)="viewChanged($event)"
-                         [(ngModel)]="showGenTempEditorAndHideGenTempUi"
-                         class="d-flex align-items-center mx-1 "
-                         style="border:none;padding: 0;"
-                         size="small" title="Toggle UI view"></ui-switch>
+              <!--<ui-switch *ngIf="showViewChangeToggle" color="rgb(0, 34, 64)"-->
+                         <!--switchColor="white" name="toggle_gen_templet"-->
+                         <!--(change)="viewChanged($event)"-->
+                         <!--[(ngModel)]="showGenTempEditorAndHideGenTempUi"-->
+                         <!--class="d-flex align-items-center mx-1 "-->
+                         <!--style="border:none;padding: 0;"-->
+                         <!--size="small" title="Toggle UI view"></ui-switch>-->
+              <mat-slide-toggle
+                *ngIf="showViewChangeToggle"
+                (change)="viewChanged($event)"
+                [(ngModel)]="showGenTempEditorAndHideGenTempUi"
+                class="d-flex align-items-center mx-1 "
+                color="primary"
+                title="Toggle UI view"></mat-slide-toggle>
               <span>Code</span>
 
             </li>
