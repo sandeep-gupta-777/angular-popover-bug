@@ -14,11 +14,7 @@ import {ViewBotStateModel} from './ngxs/view-bot.state';
 import {RouteHelperService} from '../../route-helper.service';
 import {MatDialog} from '@angular/material';
 import {CreateBotDialogComponent} from './create-bot-dialog/create-bot-dialog.component';
-
-export enum EBotType {
-  chatbot = 'chatbot',
-  intelligent = 'intelligent'
-}
+import {EBotType} from '../../utility.service';
 
 @Component({
   selector: 'app-view-bots',

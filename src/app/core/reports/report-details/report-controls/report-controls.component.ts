@@ -5,13 +5,12 @@ import {ViewBotStateModel} from '../../../view-bots/ngxs/view-bot.state';
 import {IBot} from '../../../interfaces/IBot';
 import {IReportItem} from '../../../../../interfaces/report';
 import {NgForm} from '@angular/forms';
-import {UtilityService} from '../../../../utility.service';
+import {EBotType, UtilityService} from '../../../../utility.service';
 import {TempVariableService} from '../../../../temp-variable.service';
 import {ServerService} from '../../../../server.service';
 import {ConstantsService} from '../../../../constants.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BsDatepickerConfig} from 'ngx-bootstrap/datepicker';
-import {EBotType} from '../../../view-bots/view-bots.component';
 import {ELogType, LoggingService} from '../../../../logging.service';
 import {debounceTime} from 'rxjs/operators';
 

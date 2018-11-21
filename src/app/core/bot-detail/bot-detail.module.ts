@@ -36,7 +36,6 @@ import {DropTargetDirective} from '../../drop-target.directive';
 import {KnowledgeBaseWrapperComponent} from '../buildbot/build-code-based-bot/architecture/knowledge-base-wrapper/knowledge-base-wrapper.component';
 import { LimitObjectArraysStringPipe } from './consumers/limit-object-arrays-string.pipe';
 import { ConsumerFullscreenWrapperComponent } from './consumers/consumer-fullscreen-wrapper/consumer-fullscreen-wrapper.component';
-import {EBotType} from '../view-bots/view-bots.component';
 import {AuthGaurdService} from '../../auth-gaurd.service';
 import {RequiredIfOneFilledValidator} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/requiredIfOneFilledValidator.directive';
 import {DragulaModule} from 'ng2-dragula';
@@ -65,6 +64,8 @@ import {TrimStringPipe} from '../../trim-string.pipe';
 import {DebounceClickDirective} from '../../debounce-click.directive';
 import {CheckImageValidityPipe} from '../../check-image-validity.pipe';
 import {MyMaterialModule} from '../../material.module';
+import {EBotType} from '../../utility.service';
+import {StringIncludesPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
 
 const routes: Route[] = [
   {
@@ -92,6 +93,7 @@ const routes: Route[] = [
     SessionTabsDetailsComponent,
     SessionMessageComponent,
     PipelineComponent,
+    StringIncludesPipe,
     UnderscroreToSpaceDelimitorPipe,
     PipelineFilterPipe,
     SessionComponent,

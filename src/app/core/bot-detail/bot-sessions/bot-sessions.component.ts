@@ -1,6 +1,6 @@
 import {Component, ElementRef, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Store, Select} from '@ngxs/store';
-import {IConsumerResults} from '../../../../interfaces/consumer';
+import {IConsumerItem} from '../../../../interfaces/consumer';
 import {ServerService} from '../../../server.service';
 import {Observable, of} from 'rxjs';
 import {ConstantsService} from '../../../constants.service';
@@ -13,13 +13,15 @@ import {IHeaderData} from '../../../../interfaces/header-data';
 import {findIndex} from 'rxjs/operators';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 import {IAppState} from '../../../ngxs/app.state';
+import {MaterialTableImplementer} from '../../../material-table-implementer';
 
 @Component({
   selector: 'app-bot-sessions',
   templateUrl: './bot-sessions.component.html',
   styleUrls: ['./bot-sessions.component.scss']
 })
-export class BotSessionsComponent implements OnInit {
+export class BotSessionsComponent extends MaterialTableImplementer implements OnInit {
+  tableData;
   myESplashScreens = ESplashScreens;
   @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
   @Input() id: string;
@@ -51,7 +53,9 @@ export class BotSessionsComponent implements OnInit {
     private constantsService: ConstantsService,
     private store: Store,
     private modalService: BsModalService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.loadSmartTableSessionData();
@@ -67,66 +71,15 @@ export class BotSessionsComponent implements OnInit {
     });
   }
 
-  sessionMetaMap: ITableColumn = {
-    id: {
-      originalKey:"",
-      value: '',
-      type: 'number',
-      displayValue: 'Room Id',
-      search:true,
-      searchValue:true,
-    },
-    consumer_id: {
-      originalKey:"",
-      value: '',
-      type: 'number',
-      displayValue: 'Consumer id',
-      search:true,
-      searchValue:true,
-    },
-    sendtoagent: {
-      originalKey:"",
-      value: '',
-      type: 'boolean',
-      displayValue: 'Send to agent',
-      search:true,
-      searchValue:true,
-    },
-    total_message_count: {
-      originalKey:"",
-      value: '',
-      type: 'number',
-      displayValue: 'Messages',
-      search:true,
-      searchValue:true,
-    },
-    updated_at: {
-      originalKey:"",
-      value: '',
-      type: 'time',
-      displayValue: 'Updated At',
-      search:true,
-      searchValue:true,
-    },
-    channels: {
-      originalKey:"",
-      value: '',
-      type: 'image',
-      displayValue: 'Channels',
-      search:true,
-      searchValue:true,
-    },
-    actions: {
-      originalKey:"",
-      value: undefined,
-      type: 'icon',
-      displayValue: 'Actions',
-      custom: true,
-      name:"",
-      search:false,
-      searchValue:true,
-    },
-  };
+
+  getTableDataMetaDict(): any {
+    return this.constantsService.SMART_TABLE_SESSION_TABLE_DATA_META_DICT_TEMPLATE;
+  }
+
+  initializeTableData(sessions: ISessionItem[], tableDataMetaDict: any): void {
+    this.sessionsDataForTable = this.transformDataForMaterialTable(this.sessions, this.getTableDataMetaDict());
+
+  }
 
   loadSmartTableSessionData() {
     this.loadSessionTableDataForGivenPage(this.pageNumberOfCurrentRowSelected);
@@ -134,37 +87,30 @@ export class BotSessionsComponent implements OnInit {
 
   transformSessionDataForMaterialTable(session: ISessionItem[]) {
 
-    this.sessionsDataForTable = session.map((sessionItem) => {
-      let obj:any = {};
-      for (let key in this.sessionMetaMap) {
-        obj[this.sessionMetaMap[key].displayValue] = {
-          ...this.sessionMetaMap[key],
-          originalKey:key,
-          value: sessionItem[key],
-          searchValue: sessionItem[key]
-        };
-      }
+    let sessionsDataForTable = super.transformDataForMaterialTable(this.sessions, this.getTableDataMetaDict());
+    sessionsDataForTable = sessionsDataForTable.map((sessionsDataForTableItem) => {
+      /*adding two additional columns 1) actions and 2)channels*/
+      let additonalColumns: any = {};
 
       /*actions*/
-      obj['Actions'].value = [];
-      obj['Actions'].value.push({show: true, name:"download", class: 'fa fa-download'});
-      if(sessionItem.isEncrypted){
-        obj['actions'].value.push({show:true,name:"decrypt", class:"fa fa-lock"});
+      additonalColumns['Actions'].value = [];
+      additonalColumns['Actions'].value.push({show: true, name: 'download', class: 'fa fa-download'});
+      if (sessionsDataForTableItem.isEncrypted) {
+        additonalColumns['actions'].value.push({show: true, name: 'decrypt', class: 'fa fa-lock'});
       }
 
       /*channels*/
-      obj['Channels'].value = [];
-      obj['Channels'].value =  (sessionItem.channels.map((channelName)=>{
+      additonalColumns['Channels'].value = [];
+      additonalColumns['Channels'].value = (sessionsDataForTableItem.channels.map((channelName) => {
         return {
-          name:channelName,
+          name: channelName,
           src: this.constantsService.getIntegrationIconForChannelName(channelName).icon//'https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/web.png'
-        }
+        };
       }));
-      obj['Channels'].search = sessionItem.channels.join();
-
-      obj.originalSessionData = sessionItem;
-      return obj;
+      additonalColumns['Channels'].search = sessionsDataForTableItem.channels.join();
+      return {...sessionsDataForTableItem, ...additonalColumns};
     });
+    return sessionsDataForTable;
   }
 
   sessionTableRowClicked(eventData: { data: ISessionItem }, template?, reasonForDecryptionTemplate?) {
@@ -219,20 +165,8 @@ export class BotSessionsComponent implements OnInit {
         this.totalSessionRecords = value.meta.total_count;
         this.selectedRow_Session = value.objects[this.selectedRow_number || 0];
         this.sessions = value.objects;
+        this.initializeTableData(this.sessions, this.getTableDataMetaDict())
 
-        this.transformSessionDataForMaterialTable(this.sessions);
-
-
-        // if (this.indexOfCurrentRowSelected !== undefined && this.sessions[this.indexOfCurrentRowSelected].isEncrypted === false) {
-        //   this.sessions[this.indexOfCurrentRowSelected].highlight = true;
-        // } else {
-        //   try {
-        //     this.modalRef.hide();
-        //   } catch (e) {
-        //     LoggingService.log(e,ELogType.error);
-        //   }
-        //   // this.sessionTableRowClicked({data: this.sessions[this.indexOfCurrentRowSelected]});
-        // }
       });
   }
 
@@ -312,7 +246,7 @@ export class BotSessionsComponent implements OnInit {
 
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: ISessionItem, source: any }, Primarytemplate) {
 
-    debugger;
+
     if (data.action === 'download') {
       /*download the conversation for the record*/
       this.loadSessionMessagesById(data.data.id)
@@ -384,6 +318,7 @@ export class BotSessionsComponent implements OnInit {
       .subscribe((session: ISessionItem) => {
         this.sessions.push(session);
         this.sessions = [...this.sessions];
+        this.transformSessionDataForMaterialTable(this.sessions);
       });
   }
 

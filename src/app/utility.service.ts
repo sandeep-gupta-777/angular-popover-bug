@@ -1,6 +1,11 @@
 import {EventEmitter, Injectable, isDevMode} from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
 
+export enum EBotType {
+  chatbot = 'chatbot',
+  intelligent = 'intelligent'
+}
+
 export enum EFormValidationErrors {
   form_validation_basic_info = 'form_validation_basic_info',
   form_validation_integration = 'form_validation_integration',

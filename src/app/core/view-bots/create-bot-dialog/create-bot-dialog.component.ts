@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {EBotType} from '../view-bots.component';
+import {EBotType} from '../../../utility.service';
 
 export interface DialogData {
   animal: string;

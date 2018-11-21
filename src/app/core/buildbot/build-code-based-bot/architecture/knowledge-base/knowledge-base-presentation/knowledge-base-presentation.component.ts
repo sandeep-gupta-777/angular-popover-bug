@@ -23,7 +23,6 @@ export class KnowledgeBasePresentationComponent implements OnInit {
 
   @ViewChild(HandsontableComponent)handsontableComponent: HandsontableComponent;
   @Input() set selectedRowData(value: ICustomNerItem) {
-
     if (!value) { return; }
     this._selectedRowData = value;
 

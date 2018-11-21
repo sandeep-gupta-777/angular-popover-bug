@@ -35,10 +35,11 @@ import {CommonModule} from '@angular/common';
 import {SharedModule} from '../shared.module';
 import {ViewCustomnerComponent} from './customner/view-customner/view-customner.component';
 import {AuthGaurdService} from '../auth-gaurd.service';
-import {EBotType} from './view-bots/view-bots.component';
 import {AccessGaurdService} from '../access-gaurd.service';
 import {ERouteNames} from '../constants.service';
 import {ChatModule} from '../chat/chat.module';
+import {EBotType} from '../utility.service';
+import { StringIncludesPipe } from './buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
 const routes: Route[] = [
   {
 
@@ -102,7 +103,6 @@ const routes: Route[] = [
     TestComponent,
     ChatPreviewNewPageComponent,
     FooterComponent,
-
     // DisplayNameForKeyIntegrationPipe,
 
     /*added after lazy loading*/

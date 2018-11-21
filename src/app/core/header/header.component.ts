@@ -12,9 +12,8 @@ import {ServerService} from '../../server.service';
 import {ResetEnterpriseUsersAction} from '../enterpriseprofile/ngxs/enterpriseprofile.action';
 import {ResetBuildBotToDefault} from '../buildbot/ngxs/buildbot.action';
 import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
-import {EBotType} from '../view-bots/view-bots.component';
 import {ResetAnalytics2GraphData, ResetAnalytics2HeaderData} from '../analysis2/ngxs/analysis.action';
-import {UtilityService} from '../../utility.service';
+import {EBotType, UtilityService} from '../../utility.service';
 import {IAppState} from '../../ngxs/app.state';
 import {ELogType, LoggingService} from '../../logging.service';
 

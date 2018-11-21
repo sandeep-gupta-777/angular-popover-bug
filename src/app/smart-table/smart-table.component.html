@@ -34,22 +34,22 @@
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
     <!-- Position Column -->
-    <ng-container matColumnDef="position">
-      <th mat-header-cell *matHeaderCellDef class="">
-        <div>
-          <!--<mat-form-field>-->
-          <!--<input matInput-->
-          <!--placeholder="Choose a date"-->
-          <!--[satDatepicker]="picker"-->
-          <!--[value]="date">-->
-          <!--<sat-datepicker #picker [rangeMode]="true">-->
-          <!--</sat-datepicker>-->
-          <!--<sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>-->
-          <!--</mat-form-field>-->
-        </div>
-      </th>
-      <td mat-cell *matCellDef="let element"> {{element.position}}</td>
-    </ng-container>
+    <!--<ng-container matColumnDef="position">-->
+      <!--<th mat-header-cell *matHeaderCellDef class="">-->
+        <!--<div>-->
+          <!--&lt;!&ndash;<mat-form-field>&ndash;&gt;-->
+          <!--&lt;!&ndash;<input matInput&ndash;&gt;-->
+          <!--&lt;!&ndash;placeholder="Choose a date"&ndash;&gt;-->
+          <!--&lt;!&ndash;[satDatepicker]="picker"&ndash;&gt;-->
+          <!--&lt;!&ndash;[value]="date">&ndash;&gt;-->
+          <!--&lt;!&ndash;<sat-datepicker #picker [rangeMode]="true">&ndash;&gt;-->
+          <!--&lt;!&ndash;</sat-datepicker>&ndash;&gt;-->
+          <!--&lt;!&ndash;<sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>&ndash;&gt;-->
+          <!--&lt;!&ndash;</mat-form-field>&ndash;&gt;-->
+        <!--</div>-->
+      <!--</th>-->
+      <!--<td mat-cell *matCellDef="let element"> {{element.position}}</td>-->
+    <!--</ng-container>-->
 
     <!--&lt;!&ndash; Name Column &ndash;&gt;-->
     <!--<ng-container matColumnDef="name">-->
@@ -87,7 +87,7 @@
             <!--<mat-form-field>-->
               <!--<input matInput ngModel (keyup.enter)="petformSearch()" [name]="i" class="form-field" placeholder="">-->
             <!--</mat-form-field>-->
-            <input class="column-input" type="text" ngModel (keyup.enter)="petformSearch()" [name]="i" >
+            <input class="column-input" type="text" ngModel (keyup.enter)="performSearch()" [name]="i" >
           </div>
         </th>
         <!--table header ends-->

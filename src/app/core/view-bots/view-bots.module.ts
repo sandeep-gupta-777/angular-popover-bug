@@ -1,7 +1,7 @@
 import {Route, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {EBotType, ViewBotsComponent} from './view-bots.component';
+import {ViewBotsComponent} from './view-bots.component';
 import {BsDropdownModule, ModalModule, TabsModule} from 'ngx-bootstrap';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';

@@ -8,8 +8,7 @@ import {ICustomNerItem} from '../../../../../../interfaces/custom-ners';
 import {Observable} from 'rxjs';
 import {IHeaderData} from '../../../../../../interfaces/header-data';
 import {IBot} from '../../../../interfaces/IBot';
-import {UtilityService} from '../../../../../utility.service';
-import {EBotType} from '../../../../view-bots/view-bots.component';
+import {EBotType, UtilityService} from '../../../../../utility.service';
 import {KnowledgeBaseComponent} from '../knowledge-base/knowledge-base.component';
 import {ESplashScreens} from '../../../../../splash-screen/splash-screen.component';
 
@@ -37,10 +36,10 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private utilityService: UtilityService,
-    private constantsService: ConstantsService) {
+    public constantsService: ConstantsService) {
   }
 
-
+  showLoader = false;
   ngOnInit() {
     this.currentPageNumber = Number(this.activatedRoute.snapshot.queryParamMap.get('page') || '1');
     this.fetchNers(10, this.currentPageNumber - 1);
@@ -58,12 +57,13 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
 
 
   fetchNers(limit: number = 10, offset: number = 0) {
-
+    this.showLoader = true;
     const url = this.constantsService.getCustomBotNER(limit, (offset * 10));
     const headerData: IHeaderData = {'bot-access-token': this.bot.bot_access_token};
     this.serverService.makeGetReq({url, headerData})
       .subscribe((value: { meta: { total_count: number }, objects: [ICustomNerItem] }) => {
         this.totalRecords = value.meta.total_count;
+        this.showLoader = false;
         this.custumNerDataForSmartTable = value.objects;
         /*For selected ner*/
         const selectedNerId = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
@@ -104,6 +104,8 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
         if (!doesNerExistsInSmartTable) {
           (<any>this.custumNerDataForSmartTable).push({...value, highlight: true});
         }
+
+        this.custumNerDataForSmartTable = [...this.custumNerDataForSmartTable];
         this.addQueryParamsInCurrentRoute({ner_id: value.id});
         this.utilityService.showSuccessToaster('Customner saved');
       });

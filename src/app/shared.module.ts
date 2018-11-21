@@ -49,6 +49,7 @@ import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
 import {SplashScreenComponent} from './splash-screen/splash-screen.component';
 import {SafeUrlPipe} from './href-sanitizer.pipe';
 import {MyMaterialModule} from './material.module';
+import {ImiLoaderComponent} from './imi-loader/imi-loader.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import {MyMaterialModule} from './material.module';
     IntegrationNameFormatterPipe,
     HighlightDirective,
     SafeUrlPipe,
+    ImiLoaderComponent
   ],
   imports: [
     MyMaterialModule,
@@ -150,9 +152,7 @@ import {MyMaterialModule} from './material.module';
     ClickOutsideModule,
     PopoverModule,
     MyMaterialModule,
-
-
-
+    ImiLoaderComponent
   ]
 })
 export class SharedModule {

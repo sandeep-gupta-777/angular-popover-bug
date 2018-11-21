@@ -58,11 +58,28 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   isValidValue(val){
     return val!=="" && val!==undefined && val!==null;
   }
+  createDisplayKeyOriginalKeyDict(dataValue){
+    let obj = {};
 
-  petformSearch(){
+    Object.keys(dataValue[0]).forEach((displayKey)=>{
+      obj[displayKey] = dataValue[0][displayKey]['originalKey']
+    });
+    return obj;
+  }
+
+  replaceDisplayKeyByOriginalKey(searchFormData){
+    let obj = {};
+    for(let displayKey in searchFormData){
+      obj[this.displayKeyOriginalKeyDict[displayKey]] = searchFormData[displayKey];
+    }
+    return obj;
+  }
+
+  performSearch(){
     let searchFormData = this.tableForm.value;
     this.removeEmptyKeyValues(searchFormData);
-    this.performSearchInDB$.emit(searchFormData);
+    let obj = this.replaceDisplayKeyByOriginalKey(searchFormData);
+    this.performSearchInDB$.emit(obj);
 
   }
 
@@ -70,6 +87,8 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   dataSource;// = new MatTableDataSource(ELEMENT_DATA);
 
   tableData;
+  displayKeyOriginalKeyDict:any = {};
+
 
   @Input() set data(dataValue:any[]) {
 
@@ -79,6 +98,8 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     });
 
     this.tableData = dataValue;
+
+    this.displayKeyOriginalKeyDict = this.createDisplayKeyOriginalKeyDict(dataValue);
     if (!dataValue) {
       return;
     }
