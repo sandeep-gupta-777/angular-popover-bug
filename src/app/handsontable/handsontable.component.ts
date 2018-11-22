@@ -76,7 +76,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
 
   setHeightAndWidthofHost() {
     console.log(this.elementRef.nativeElement.clientHeight);
-    this.height = this.elementRef.nativeElement.clientHeight + 'px';
+    this.height = (this.elementRef.nativeElement.clientHeight -30) + 'px';//-30 is to compensate for input
     console.log(this.elementRef.nativeElement.clientWidth);
     this.width = this.elementRef.nativeElement.clientWidth + 'px';
   }
