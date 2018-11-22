@@ -10,5 +10,7 @@
   <!--[data]="dataset"></hot-table>-->
 
 <!--<button (click)="click()">export</button>-->
+<!--<button (click)="eventService.rerenderHandsonTable$.emit()">rerender</button>-->
 <input hidden type="text" class="mb-2" #handsontable_search_field placeholder="search table">
-<div class="flex-grow-1" #handsontable></div>
+<div id="testing" style="overflow: hidden" [ngStyle]="{'height': height, 'width':width}" class="flex-grow-1" #handsontable></div>
+
