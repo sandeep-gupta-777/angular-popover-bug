@@ -15,6 +15,7 @@ import {IHeaderData} from '../../../../interfaces/header-data';
 import {IUser} from '../../interfaces/user';
 import {IAuthState} from '../../../auth/ngxs/auth.state';
 import {LoggingService} from '../../../logging.service';
+import {EventService} from '../../../event.service';
 
 export enum EArchitectureTabs {
   pipeline,
@@ -53,6 +54,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
     private serverService: ServerService,
     private store: Store,
     private constantsService: ConstantsService,
+    public eventService: EventService,
     private utilityService: UtilityService) {
   }
 

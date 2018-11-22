@@ -12,5 +12,7 @@ export class EventService {
   emitRemoveCodeMirrorHistoryEvent(source: string) {
       this.removeCodeMirrorHistory$.emit(source);
   }
+
+  rerenderHandsonTable$ = new EventEmitter();
   constructor() { }
 }
