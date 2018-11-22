@@ -232,7 +232,11 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
         this.gotUserData$.emit(value);
       });
   }
-
+  enterpriseLogout(){
+    this.panelActive = 'login';
+    this.panelActive = 'login';
+    this.disabeLoginButton=false;
+  }
   loginWithCustomEmail(email) {
     this.loginForm.form.patchValue({ email: email, password: 'Botwoman@123!' });
     this.onSubmit();

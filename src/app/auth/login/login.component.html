@@ -1,6 +1,6 @@
 <img src="https://imibot.ai/assets/img/login_page.png" class="imi-fixed-logo" alt="">
 
-<div class="login-grid">
+<div class="login-grid" [ngClass] = "{'enterprise-pushing-left':panelActive==='enterprise-list-display'}">
   <!--left logo box starts-->
   <section class="left d-flex ">
     <div class="imi-logo-box">
@@ -111,14 +111,14 @@
       <div class="text-center" style="width: 70%">
         Your password has been saved. Please use your new password to sign in
       </div>
-      <div class="text-center cursor-pointer color-primary" (click)="panelActive='login'">Back to Sign in</div>
+      <div class="text-center cursor-pointer color-primary" (click)="panelActive = 'login'">Back to Sign in</div>
     </div>
   </section>
 
   <section *ngIf="panelActive==='enterprise-list-display'" class="enterprise-flex mx-4">
     <div class="d-flex mb-3">
       <div style="font-size: 20px">Welcome Shoaib</div>
-      <div class="color-primary cursor-pointer ml-auto"><i class="fa fa-power-off"> </i> Log out</div>
+      <div class="color-primary cursor-pointer ml-auto" (click) = "enterpriseLogout()"><i class="fa fa-power-off"> </i> Log out</div>
     </div>
     <div class="d-flex mb-3">
       <div style="font-size: 16px;">Enterprises available({{enterpriseList.length}})</div>
