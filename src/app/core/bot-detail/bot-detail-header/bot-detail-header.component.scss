@@ -24,7 +24,7 @@
 
 .row-bot-detail-header {
   height: 40px;
-  *:not(.fa) {
+  *:not(.fa):not(mat-icon) {
     @include typography(11px, 1.45, $font-weight-400, black);
     strong {
       font-weight: bold;

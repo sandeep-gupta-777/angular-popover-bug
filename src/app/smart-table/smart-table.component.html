@@ -87,7 +87,7 @@
             <!--<mat-form-field>-->
               <!--<input matInput ngModel (keyup.enter)="petformSearch()" [name]="i" class="form-field" placeholder="">-->
             <!--</mat-form-field>-->
-            <input class="column-input" type="text" ngModel (keyup.enter)="performSearch()" [name]="i" >
+            <input class="column-input" [placeholder]="i" type="text" ngModel (keyup.enter)="performSearch()" [name]="i" >
           </div>
         </th>
         <!--table header ends-->

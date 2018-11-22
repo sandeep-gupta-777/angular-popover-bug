@@ -223,5 +223,8 @@ table {
     padding-left: 5px;
     border: 1px solid $table-border-color;
     outline: none;
+    &::placeholder{
+      font-size: 11px;
+    }
   }
 }

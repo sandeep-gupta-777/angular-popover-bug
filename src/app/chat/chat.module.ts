@@ -27,6 +27,7 @@ import {BotWelcomeComponent} from './bot-welcome-panel/bot-welcome.component';
 import {RichMediaModule} from '../rich-media.module';
 import {ServerService} from '../server.service';
 import {ChatService} from '../chat.service';
+import {MyMaterialModule} from '../material.module';
 
 const routes: Route[] = [
   // {path: 'preview',outlet: 'preview', component: ChatWrapperComponent},
@@ -54,6 +55,7 @@ const routes: Route[] = [
     HttpClientModule,
     ClickOutsideModule,
     BsDropdownModule.forRoot(),
+    MyMaterialModule
     // ToastrModule.forRoot(), // ToastrModule added,
   ],
   exports: [
