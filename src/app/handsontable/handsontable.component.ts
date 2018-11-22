@@ -65,6 +65,10 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
         this.setHeightAndWidthofHost();
         setTimeout(() => {
           this.hot.getInstance().render();
+          setTimeout(() => {
+            this.setHeightAndWidthofHost();
+            this.hot.getInstance().render();
+          },1000);
         },200);
       })
     });
