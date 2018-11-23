@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
-import { ConstantsService } from '../constants.service';
-import { ActivatedRoute } from '@angular/router';
+import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, Output, EventEmitter} from '@angular/core';
+import {ConstantsService} from '../constants.service';
+import {ActivatedRoute} from '@angular/router';
 import {LoggingService} from '../logging.service';
+import {EventService} from '../event.service';
 // import * as Handsontable from 'handsontable';
 declare var Handsontable: any;
 
@@ -17,6 +18,10 @@ declare var Handsontable: any;
 export class HandsontableComponent implements OnInit, AfterViewInit {
 
   public data: any[];
+
+  renderHandsontable = true;
+  @Input() height: string;
+  @Input() width: string;
 
   @Input() colHeaders: string[];
   @Input() columns: any[];
@@ -42,7 +47,9 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
 
   constructor(
     private constantsService: ConstantsService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public eventService: EventService,
+    private elementRef: ElementRef
   ) {
     this.options = {
       rowHeaders: true,
@@ -53,59 +60,92 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.eventService.rerenderHandsonTable$.subscribe(() => {
+      setTimeout(()=>{
+        this.setHeightAndWidthofHost();
+        setTimeout(() => {
+          this.hot.getInstance().render();
+          setTimeout(() => {
+            this.setHeightAndWidthofHost();
+            this.hot.getInstance().render();
+          },1000);
+        },200);
+      })
+    });
+  }
+
+  setHeightAndWidthofHost() {
+    console.log(this.elementRef.nativeElement.clientHeight);
+    this.height = (this.elementRef.nativeElement.clientHeight -30) + 'px';//-30 is to compensate for input
+    console.log(this.elementRef.nativeElement.clientWidth);
+    this.width = this.elementRef.nativeElement.clientWidth + 'px';
   }
 
   ngAfterViewInit(): void {
-    const routeName = this.activatedRoute.snapshot.data['routeName'];
 
-    const searchField = this.hotTableSearchField.nativeElement;
-    let colObject = {};
-    if (this.colHeaders && this.columns) {
-      colObject = {
-        colHeaders: this.colHeaders,
-        columns: this.columns,
-      };
-    }
-    const hot = this.hot = new Handsontable(this.hotTableComponentTest.nativeElement, {
-      data: this._data,
-      // rowHeaders: true,
-      ...this.options,
-      // colHeaders: this.columns,
-      ...colObject,
-      contextMenu: true,
-      wordWrap: true,
-      // autoRowSize: true,
-      search: true,
-      afterRemoveRow: () => {
-        this.rowChanged$.emit();
-      },
-      afterCreateRow: () => {
-        this.rowChanged$.emit();
-      },
-      ...this.setting
+    this.setHeightAndWidthofHost();
 
-      /*https://jsfiddle.net/epjettq1/*/
-      // allowHtml: true,
-      // readOnly: true,
-      // colHeaders: data.columns,
-      // stretchH: 'all',
-      // sortIndicator: true,
-      // columnSorting: {
-      //   column: 0,
-      //   sortOrder: true
-      // },
-      // disableVisualSelection: true,
-      // fixedColumnsLeft: 1,
-      // wordWrap: true,
-      // autoRowSize: true
-    });
+    /*when the app is reloaded we want to rerander handsontable*/
+    this.eventService.rerenderHandsonTable$.emit();
 
-    (<any>Handsontable.dom).addEvent(searchField, 'keyup', function (event) {
-      const search = hot.getPlugin('search');
-      const queryResult = (<any>search).query(this.value);
+    debugger;
+    setTimeout(() => {
+      const routeName = this.activatedRoute.snapshot.data['routeName'];
 
-      LoggingService.log(queryResult);
-      hot.render();
-    });
+      const searchField = this.hotTableSearchField.nativeElement;
+      let colObject = {};
+      if (this.colHeaders && this.columns) {
+        colObject = {
+          colHeaders: this.colHeaders,
+          columns: this.columns,
+        };
+      }
+      const hot = this.hot = new Handsontable(this.hotTableComponentTest.nativeElement, {
+        data: this._data,
+        // rowHeaders: true,
+        ...this.options,
+        // colHeaders: this.columns,
+        ...colObject,
+        contextMenu: true,
+        modifyColWidth: function (width, col) {
+          if (width > 200) {
+            return 100;
+          }
+        },
+        wordWrap: true,
+        // autoRowSize: true,
+        search: true,
+        afterRemoveRow: () => {
+          this.rowChanged$.emit();
+        },
+        afterCreateRow: () => {
+          this.rowChanged$.emit();
+        },
+        ...this.setting,
+
+        /*https://jsfiddle.net/epjettq1/*/
+        // allowHtml: true,
+        // readOnly: true,
+        // colHeaders: data.columns,
+        // stretchH: 'all',
+        // sortIndicator: true,
+        // columnSorting: {
+        //   column: 0,
+        //   sortOrder: true
+        // },
+        // disableVisualSelection: true,
+        // fixedColumnsLeft: 1,
+        // wordWrap: true,
+        // autoRowSize: true
+      });
+
+      (<any>Handsontable.dom).addEvent(searchField, 'keyup', function (event) {
+        const search = hot.getPlugin('search');
+        const queryResult = (<any>search).query(this.value);
+
+        LoggingService.log(queryResult);
+        hot.render();
+      });
+    }, 100);
   }
 }

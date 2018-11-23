@@ -1,5 +1,6 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {IOutputItem} from '../../code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
+import {UtilityService} from '../../../../../../../../utility.service';
 
 
 @Component({
@@ -9,7 +10,7 @@ import {IOutputItem} from '../../code-gentemplate-ui-wrapper/code-gentemplate-ui
 })
 export class CodeGentemplateComponent implements OnInit {
 
-  constructor() {
+  constructor(private utilityService:UtilityService) {
   }
 
   outputItem: IOutputItem;
@@ -60,9 +61,18 @@ export class CodeGentemplateComponent implements OnInit {
     this.outputItemClone = {...this.outputItem};
   }
 
+  showJsonInvalidError
   codeEditorTextCHanged(data) {
-    console.log('helloosadasdasdas');
-    this.outputItem = Object.assign(this.outputItem, JSON.parse(data));
+    console.log();debugger;
+    try {
+      let newCodeStr_parsed = JSON.parse(data);
+      this.utilityService.emptyObjectWithoutChaningRef(this.outputItem);
+      this.outputItem = Object.assign(this.outputItem, newCodeStr_parsed);
+      this.showJsonInvalidError = false;
+    }catch (e) {
+      this.showJsonInvalidError = true;
+      console.log(e);
+    }
   }
   removeThisChannel(channel: string) {
     const isChannelPresent = this.outputItemClone.include.find(e => e === channel);

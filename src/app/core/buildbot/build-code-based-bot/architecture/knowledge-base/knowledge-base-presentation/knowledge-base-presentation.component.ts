@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {ICustomNerItem} from '../../../../../../../interfaces/custom-ners';
 import {NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../../utility.service';
@@ -15,6 +15,7 @@ import {ELogType, LoggingService} from '../../../../../../logging.service';
 })
 
 export class KnowledgeBasePresentationComponent implements OnInit {
+
   _selectedRowData: ICustomNerItem = {};
   process_raw_text = false;
   myEAllActions = EAllActions;
@@ -86,6 +87,7 @@ export class KnowledgeBasePresentationComponent implements OnInit {
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
     private modalService: BsModalService,
+    private ele:ElementRef
   ) {
   }
 
@@ -157,5 +159,7 @@ export class KnowledgeBasePresentationComponent implements OnInit {
   click() {
     LoggingService.log(this.form.value);
   }
+
+
 
 }

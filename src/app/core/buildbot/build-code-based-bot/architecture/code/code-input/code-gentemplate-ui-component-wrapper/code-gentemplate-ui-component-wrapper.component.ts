@@ -13,6 +13,7 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
   @Input() outputItem: IOutputItem;
   outputItemClone: IOutputItem;
   @Input() myIndex: number;
+  @Input() selectedChannel: string;
   @Input() channelList: {name: string}[];
   @Input() totalResponseTemplateComponentCount: number;
   @Output() deleteTemplate: EventEmitter<string> = new EventEmitter<string>();
@@ -35,11 +36,14 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
   }
 
   delete(i) {
-    this.deleteTemplate.emit(i);
-    this.selectionChanged.emit(JSON.stringify({
-      select: false,
-      index: this.myIndex
-    }));
+    this.selected = false;
+    setTimeout(()=>{
+      this.deleteTemplate.emit(i);
+      this.selectionChanged.emit(JSON.stringify({
+        select: false,
+        index: this.myIndex
+      }));
+    });
   }
 
   moveUp(i) {

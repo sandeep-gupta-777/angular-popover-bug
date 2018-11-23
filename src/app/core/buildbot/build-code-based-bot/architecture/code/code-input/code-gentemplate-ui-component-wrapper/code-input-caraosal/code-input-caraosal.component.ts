@@ -14,6 +14,7 @@ import {IMessageData} from '../../../../../../../../../interfaces/chat-session-s
 import {LoggingService} from '../../../../../../../../logging.service';
 import {NgForm} from '@angular/forms';
 import {ICarousalItem, IOutputItem} from '../../code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
+import {UtilityService} from '../../../../../../../../utility.service';
 
 declare var $: any;
 
@@ -68,6 +69,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
     this._messageData = messageDataValue;
   }
 
+  constructor(private utilityService:UtilityService){}
   carasolItemShownInOneScreen: number;
   totalItemsInCarasol: number;
   MultiCarouselWidth: number;
@@ -132,7 +134,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
 
   duplicateCarasolItem(index) {
     const carasolItems = this.outputItem.generic_template[0].elements;
-    const itemToBeDuplicated = carasolItems[index];
+    const itemToBeDuplicated = this.utilityService.createDeepClone(carasolItems[index]);
     carasolItems.splice(index, 0, itemToBeDuplicated);
     this.recalculateWidthForCaraousalItems();
   }

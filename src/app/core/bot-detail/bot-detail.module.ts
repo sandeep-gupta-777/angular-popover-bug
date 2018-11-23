@@ -63,6 +63,7 @@ import {CodeGentemplateUiWrapperComponent} from '../buildbot/build-code-based-bo
 import {TrimStringPipe} from '../../trim-string.pipe';
 import {DebounceClickDirective} from '../../debounce-click.directive';
 import {CheckImageValidityPipe} from '../../check-image-validity.pipe';
+import {HasChannelPipe} from '../../has-channel.pipe';
 
 const routes: Route[] = [
   {
@@ -96,6 +97,7 @@ const routes: Route[] = [
     CodeGentemplateUiComponentWrapperComponent,
     CodeVersionListComponent,
     CodeGentemplateUiWrapperComponent,
+    HasChannelPipe,
     TrimStringPipe,
     FilterTemplateLeyListPipe,
     CodeInputCaraosalComponent,
