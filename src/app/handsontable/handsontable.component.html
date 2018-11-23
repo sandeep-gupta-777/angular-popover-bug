@@ -1,14 +1,18 @@
 <!--<hot-table [data]="testData"-->
-           <!--[colHeaders]="colHeaders"-->
-           <!--[columns]="columns"-->
-           <!--(afterInit)="alert1($event)"-->
-           <!--[options]="options"></hot-table>-->
+<!--[colHeaders]="colHeaders"-->
+<!--[columns]="columns"-->
+<!--(afterInit)="alert1($event)"-->
+<!--[options]="options"></hot-table>-->
 
 <!--<hot-table-->
-  <!--[colHeaders]="true"-->
-  <!--[rowHeaders]="true"-->
-  <!--[data]="dataset"></hot-table>-->
+<!--[colHeaders]="true"-->
+<!--[rowHeaders]="true"-->
+<!--[data]="dataset"></hot-table>-->
 
 <!--<button (click)="click()">export</button>-->
-<input hidden type="text" class="mb-2" #handsontable_search_field placeholder="search table">
-<div class="flex-grow-1" #handsontable></div>
+<!--<button (click)="eventService.rerenderHandsonTable$.emit()">rerender</button>-->
+<div>
+  <input type="text" class="mb-2" #handsontable_search_field placeholder="search table">
+</div>
+<div id="testing" style="overflow: hidden" [ngStyle]="{'height': height, 'width':width}" class="flex-grow-1" #handsontable></div>
+

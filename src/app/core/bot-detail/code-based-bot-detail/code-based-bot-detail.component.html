@@ -20,6 +20,7 @@
         <div class="cursor-pointer"
              (click)="togglePanel()">
           <i class="fa" [ngClass]="{'fa-angle-up':showConfig, 'fa-angle-down':!showConfig}"
+             (click)="eventService.rerenderHandsonTable$.emit()"
              style="font-size: 20px; line-height: 12px"></i>
         </div>
       </div>
@@ -44,6 +45,7 @@
     <div class="px-2">
       <ul class="nav nav-tabs border-none theme-tabbing mb-1 bg-white">
         <li *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]" class="nav-item"
+            (click)="eventService.rerenderHandsonTable$.emit()"
             [ngClass]="{'tab-active':selectedTab==='architecture'}">
           <a class="nav-link heading" [routerLink]="['.']"
              queryParamsHandling="merge"
@@ -79,6 +81,7 @@
              replaceUrl="true"
              [queryParams]="{isArchitectureFullScreen:!isArchitectureFullScreen}">
             <i class="fa"
+               (click)="eventService.rerenderHandsonTable$.emit()"
                [ngClass]="{'fa-window-restore':isArchitectureFullScreen, 'fa-expand':!isArchitectureFullScreen}"></i>
           </a>
         </li>
