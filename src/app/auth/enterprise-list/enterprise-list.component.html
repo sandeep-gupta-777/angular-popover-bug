@@ -3,7 +3,7 @@
   *ngFor="let enterprise of  (enterpriseList | genericObjFilter:'enterprise_id.name':searchEnterprise)"
   (click) = clickEnterprise(enterprise.enterprise_id.id,enterprise.role_id.id)>
     <div class = "enterprise-image">
-      <img src="{{enterprise.enterprise_id.logo}}" alt="">
+      <img src="{{enterprise.enterprise_id.logo || 'https://robohash.org/SilverDroid.png' }}  " alt="">
     </div>
     <div class = "enterprise-name" >{{enterprise.enterprise_id.name}}</div>
     <div class = "enterprise-role" >{{enterprise.role_id.name}}</div>
