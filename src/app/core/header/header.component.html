@@ -61,7 +61,7 @@
                                      routerLinkActive="highlight-text-on-route-match">Profile</a></li>
               <li role="menuitem"><a class="dropdown-item cursor-pointer" (click)="logout()">Sign out</a></li>
               <li class="divider dropdown-divider" *myIf="myEAllActions['Get Enterprise']"></li>
-              <li role="menuitem"><a class="dropdown-item" 
+              <li role="menuitem"><a class="dropdown-item" *ngIf="enterpriseList.length > 1"
                                       (click)="changeEnterprise(changeEnterpriseModal)">Change enterprise</a></li>
               <li role="menuitem"><a class="dropdown-item" *myIf="myEAllActions['Get Enterprise']"
                                      [routerLink]="['enterpriseprofile']"

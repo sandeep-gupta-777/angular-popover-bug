@@ -71,7 +71,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
           this.serverService.getNSetMasterPermissionsList()
             .subscribe(() => {
               debugger;
-              this.flashInfoMessage('Loading your dashboard', 100000);
+              this.flashInfoMessage('Loading your dashboard', 10000);
               /*after login, route to appropriate page according to user role*/
               if (userValue.role.name === ERoleName.Analyst) {
                 this.router.navigate(['/core/analytics2/users']);
@@ -86,7 +86,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
               this.store.dispatch([
                 new ResetAuthToDefaultState()
               ]);
-              this.flashErrorMessage('Could not fetch permission. Please try again', 100000);
+              this.flashErrorMessage('Could not fetch permission. Please try again', 10000);
             });
             debugger;
             const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(userValue.enterprise_id);
@@ -152,7 +152,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       return;
     }
     this.disabeLoginButton = true;
-    this.flashInfoMessage('Connecting to the server', 100000);
+    this.flashInfoMessage('Connecting to the server', 10000);
     const headerData: IHeaderData = {
       'auth-token': null,
       'user-access-token': null
@@ -161,10 +161,15 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     this.serverService.makePostReq<IUser>({ url: loginUrl, body, headerData })
       .subscribe((user: IUser) => {
         this.userData = user;
-        this.flashInfoMessage('Logged in. Fetching permissions', 100000);
+        this.flashInfoMessage('Logged in. Fetching permissions', 10000);
         debugger;
-        if (this.userData.user_access_token) {
-          this.gotUserData$.emit(user);
+        if (this.userData.enterprises.length <= 1) {
+          let enterpriseDate = {
+            enterpriseId : this.userData.enterprises[0].enterprise_id.id ,
+            roleId : this.userData.enterprises[0].role_id.id
+          };
+          this.enterEnterprise(enterpriseDate);
+          // this.gotUserData$.emit(user);
           // this.store.dispatch([
           //   new SetUser({ user }),
           // ]).subscribe(() => {
