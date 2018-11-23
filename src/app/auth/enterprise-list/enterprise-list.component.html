@@ -1,0 +1,11 @@
+<div class="enterprise-grid h-100">
+  <div class = "enterprise-grid-item cursor-pointer " 
+  *ngFor="let enterprise of  (enterpriseList | genericObjFilter:'enterprise_id.name':searchEnterprise)"
+  (click) = clickEnterprise(enterprise.enterprise_id.id,enterprise.role_id.id)>
+    <div class = "enterprise-image">
+      <img src="{{enterprise.enterprise_id.logo || 'https://image.ibb.co/hjJ0xA/icon-2x.png' }}  " alt="">
+    </div>
+    <div class = "enterprise-name" >{{enterprise.enterprise_id.name}}</div>
+    <div class = "enterprise-role" >{{enterprise.role_id.name}}</div>
+  </div>
+</div>

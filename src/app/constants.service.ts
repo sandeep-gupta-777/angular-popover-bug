@@ -172,8 +172,12 @@ export class ConstantsService {
     'containerClass': 'theme-dark-blue',
     'dateInputFormat': 'DD/MM/YYYY',
   });
-
-
+  getEnterpriseLoginUrl(){
+    return this.BACKEND_URL + 'api/v1/user/enterprise_login/';    
+  }
+  getAllEnterpriseUrl(){
+    return this.BACKEND_URL + 'api/v1/user/enterprises/';
+  }
   getLoginUrl() {
     return this.BACKEND_URL + 'api/v1/user/login/';
   }

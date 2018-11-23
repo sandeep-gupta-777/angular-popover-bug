@@ -48,6 +48,9 @@ import {ErrorDescriptionPipe} from './core/buildbot/build-code-based-bot/bot-con
 import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
 import {SplashScreenComponent} from './splash-screen/splash-screen.component';
 import {SafeUrlPipe} from './href-sanitizer.pipe';
+import { PipelineFilterPipe } from './pipeline-filter.pipe';
+import { GenericObjFilterPipe } from './generic-obj-filter.pipe';
+import { EnterpriseListComponent } from './auth/enterprise-list/enterprise-list.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +65,7 @@ import {SafeUrlPipe} from './href-sanitizer.pipe';
     BotConfigComponent,
     BotArchitetureComponent,
     BotIdToNamePipe,
+    PipelineFilterPipe,
     AdditionalInfoFormComponent,
     SmartTableComponent, //
     CodeEditorComponent, //
@@ -81,6 +85,8 @@ import {SafeUrlPipe} from './href-sanitizer.pipe';
     IntegrationNameFormatterPipe,
     HighlightDirective,
     SafeUrlPipe,
+    GenericObjFilterPipe,
+    EnterpriseListComponent,
   ],
   imports: [
     UiSwitchModule,
@@ -110,6 +116,7 @@ import {SafeUrlPipe} from './href-sanitizer.pipe';
     DataManageFormComponent,
     BasicInfoFormComponent,
     BotConfigInputComponent,
+    PipelineFilterPipe,
     ErrorDescriptionPipe,
     UiSwitchWrapperComponent,
     AvatorFormComponent,
@@ -146,8 +153,9 @@ import {SafeUrlPipe} from './href-sanitizer.pipe';
     TimepickerModule,
     TooltipModule,
     ClickOutsideModule,
-    PopoverModule
-
+    PopoverModule,
+    GenericObjFilterPipe,
+    EnterpriseListComponent
 
 
   ]

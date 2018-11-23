@@ -61,6 +61,8 @@
                                      routerLinkActive="highlight-text-on-route-match">Profile</a></li>
               <li role="menuitem"><a class="dropdown-item cursor-pointer" (click)="logout()">Sign out</a></li>
               <li class="divider dropdown-divider" *myIf="myEAllActions['Get Enterprise']"></li>
+              <li role="menuitem"><a class="dropdown-item" *ngIf="enterpriseList.length > 1"
+                                      (click)="changeEnterprise(changeEnterpriseModal)">Change enterprise</a></li>
               <li role="menuitem"><a class="dropdown-item" *myIf="myEAllActions['Get Enterprise']"
                                      [routerLink]="['enterpriseprofile']"
                                      routerLinkActive="highlight-text-on-route-match">Enterprise Profile</a></li>
@@ -73,3 +75,28 @@
   </div>
 
 </div>
+
+<ng-template #changeEnterpriseModal>
+  <div class="primary-modal" style= "width: 650px;">
+    <div class="top-dec"></div>
+    <div class="modal-header" style = "border: none;">
+      <h4 class="modal-title" style="display: flex;justify-content: start;">Change enterprise</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="d-flex mb-3" style="align-items: center;">
+      <div style="font-size: 13px;" class="pl-3">Select an enterprise to view corresponding bots</div>
+      <div class="search-theme-input-with-search ml-auto">
+        <span class="fa fa-search" style="top: 13px;left: 15px;"></span>
+        <input class="border" placeholder="Enterprise" [(ngModel)]="searchEnterprise" type="search" style = "height: 24px;">
+      </div>
+    </div>
+    <div class="modal-body pt-0" style="height:400px;">
+      <app-enterprise-list 
+      [enterpriseList] = enterpriseList
+      [searchEnterprise] = searchEnterprise
+      (clickedEnterprise) = "enterEnterprise($event);modalRef.hide();"></app-enterprise-list>
+    </div>
+  </div>
+</ng-template>
