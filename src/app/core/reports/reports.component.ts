@@ -135,10 +135,18 @@ export class ReportsComponent implements OnInit, OnDestroy {
         results.objects.forEach(report => {
           this.botlist$_sub = this.botlist$.subscribe((value) => {
             const listOfAllBots = value.allBotList;
+            let botName:string;
+            try {
+              botName = this.objectArrayCrudService.getObjectItemByKeyValuePair(listOfAllBots, {id: report.bot_id}).name
+            }catch (e) {
+              console.error(`No bot found while looking for a report having bot id = ${report.bot_id}. Returning NO_BOT_FOUND instead.`);
+              botName = "NO_BOT_FOUND";
+            }
+
             try {
               this.reportSmartTableData.push({
                 ...report,
-                bot: this.objectArrayCrudService.getObjectItemByKeyValuePair(listOfAllBots, {id: report.bot_id}).name,
+                bot: botName,
                 id: report.id,
                 name: this.objectArrayCrudService.getObjectItemByKeyValuePair(this.reportTypes.objects, {id: report.reporttype_id}).name,
                 frequency: report.frequency,
