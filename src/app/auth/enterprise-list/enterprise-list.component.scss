@@ -10,6 +10,9 @@
       // border: 1px solid red; 
       height: 150px;
       padding: 5px;
+      &:hover{
+        background-color: #f7f7f7;
+      }
       .enterprise-image{
         width: 72px;
         height: 72px;

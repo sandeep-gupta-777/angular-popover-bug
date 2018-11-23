@@ -33,7 +33,7 @@ export class HeaderComponent implements OnInit {
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   @Select() app$: Observable<IAppState>;
   @Select() app$Subscription: Subscription;
-  logoSrc = 'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg';
+  logoSrc = 'https://image.ibb.co/hjJ0xA/icon-2x.png';
   myEBotType = EBotType;
   myEAllActions = EAllActions;
   myEAPermissionsDynamic = EAllActions;
