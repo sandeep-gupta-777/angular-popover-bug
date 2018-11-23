@@ -42,6 +42,8 @@ export class KnowledgeBasePresentationComponent implements OnInit {
       this.codeTextInputToCodeEditorObj.text = value.values && JSON.stringify(value.values);
     }
 
+    this.codeTextOutPutFromCodeEditor = this.codeTextInputToCodeEditorObj.text;
+
     this.codeTextInputToCodeEditorObj = {...this.codeTextInputToCodeEditorObj};
     try {
       this.handontable_colHeaders = Object.keys(value.values[0]);
