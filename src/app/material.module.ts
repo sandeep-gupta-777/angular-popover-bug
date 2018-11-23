@@ -1,5 +1,5 @@
 import {
-  MatAutocompleteModule,
+  MatAutocompleteModule, MatBadgeModule,
   MatBottomSheetModule,
   MatButtonModule,
   MatButtonToggleModule,
@@ -32,7 +32,6 @@ import {
   MatTabsModule, MatToolbarModule, MatTooltipModule, MatTreeModule
 } from '@angular/material';
 import {NgModule} from '@angular/core';
-import {MatBadgeModule} from '@angular/material/typings/badge';
 
 const materialItems = [
   MatButtonModule,
