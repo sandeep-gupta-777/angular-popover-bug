@@ -22,7 +22,6 @@ import {AnalysisStateReducer2} from './core/analysis2/ngxs/analysis.state';
 
 import {ReportsStateReducer} from './core/reports/ngxs/reports.state';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
 import {AuthGaurdService} from './auth-gaurd.service';
 import {DatePipe} from '@angular/common';
 import {LoginGaurdService} from './login-gaurd.service';
@@ -33,7 +32,7 @@ import {ChatItemComponent} from './chat/rooms-and-convo-panel/chat-room-list/cha
 import {ChatListComponent} from './chat/rooms-and-convo-panel/chat-room-list/chat-list.component';
 import {ChatMessageComponent} from './chat/rooms-and-convo-panel/chat-message-list/chat-message/chat-message.component';
 import {ChatWindowComponent} from './chat/rooms-and-convo-panel/chat-window.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BotWelcomeComponent} from './chat/bot-welcome-panel/bot-welcome.component';
 import {QuickReplyComponent} from './chat/carousel/quick-reply/quick-reply.component';
 import {CardCarouselComponent} from './chat/carousel/card-carousel/card-carousel.component';
@@ -49,7 +48,7 @@ import {SplashScreenComponent} from './splash-screen/splash-screen.component';
 import {ThemeComponent} from './theme/theme.component';
 import {SafeHtml} from '@angular/platform-browser';
 import {SafeUrlPipe} from './href-sanitizer.pipe';
-import {MatButtonModule, MatCommonModule} from '@angular/material';
+import {MatButtonModule, MatCommonModule, MatInputModule, MatSelectModule} from '@angular/material';
 // import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 
 const routes: Route[] = [
@@ -88,6 +87,9 @@ const routes: Route[] = [
     FormsModule,
     MatCommonModule,
     MatButtonModule,
+    MatInputModule,
+    MatSelectModule,
+    ReactiveFormsModule,
 
     NgxsModule.forRoot([
       AuthStateReducer,

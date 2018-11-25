@@ -8,24 +8,20 @@ import {Select, Store} from '@ngxs/store';
 import {SetCodeBasedBotListAction, SetPipeLineBasedBotListAction} from './ngxs/view-bot.action';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {BsModalService} from 'ngx-bootstrap/modal';
 import {LoggingService} from '../../logging.service';
 import {ViewBotStateModel} from './ngxs/view-bot.state';
 import {RouteHelperService} from '../../route-helper.service';
 import {MatDialog} from '@angular/material';
 import {CreateBotDialogComponent} from './create-bot-dialog/create-bot-dialog.component';
-
-export enum EBotType {
-  chatbot = 'chatbot',
-  intelligent = 'intelligent'
-}
+import {EBotType, UtilityService} from '../../utility.service';
+import {ModalImplementer} from '../../modal-implementer';
 
 @Component({
   selector: 'app-view-bots',
   templateUrl: './view-bots.component.html',
   styleUrls: ['./view-bots.component.scss']
 })
-export class ViewBotsComponent implements OnInit, AfterViewInit {
+export class ViewBotsComponent extends ModalImplementer implements OnInit, AfterViewInit {
 
   myEBotType = EBotType;
   botList$: Observable<IBot[]>;
@@ -39,31 +35,36 @@ export class ViewBotsComponent implements OnInit, AfterViewInit {
     private constantsService: ConstantsService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private modalService: BsModalService,
-    public dialog: MatDialog,
+    public utilityService: UtilityService,
+    public matDialog: MatDialog,
     private store: Store) {
+    super(utilityService, matDialog);
   }
 
   @Select() botlist$: Observable<ViewBotStateModel>;
   codeBasedBotList: IBot[];
   pipelineBasedBotList: IBot[];
 
-  name  = 'sadas';
-  animal= 'horse';
+  name = 'sadas';
+  animal = 'horse';
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(CreateBotDialogComponent, {
-      data: {name: this.name, animal: this.animal},
-      panelClass: "primary-modal-header-border"
-    });
-
-    dialogRef.afterClosed().subscribe((botType:string) => {
-      if(!botType)return;
-      this.router.navigate([`/core/buildbot`], {queryParams:{bot_type:botType}});
-    });
+    // this.utilityService.openDialog({
+    //   matDialog: this.matDialog,
+    //   component: CreateBotDialogComponent,
+    //   data: null,
+    //   classStr: 'primary-modal-header-border'
+    // })
+    this.openPrimaryModal(CreateBotDialogComponent)
+      .then((botType) => {
+        if (!botType) return;
+        this.router.navigate([`/core/buildbot`], {queryParams: {bot_type: botType}});
+      });
   }
 
   ngOnInit() {
+
+
     this.activeTab = RouteHelperService.getQueryParams(this.activatedRoute, 'type') || EBotType.chatbot;
     window.scrollTo(0, 0);
     this.serverService.getNSetBotList()
@@ -76,15 +77,15 @@ export class ViewBotsComponent implements OnInit, AfterViewInit {
         if (!allBotListState.allBotList) return;
         this.codeBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.chatbot);
         this.pipelineBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.intelligent);
-        setTimeout(()=>{
+        setTimeout(() => {
           if (this.doShowPopover(this.activeTab)) this.pop.show();
-        },1000)
+        }, 1000);
       });
   }
 
-  openCreateBotModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
-  }
+  // openCreateBotModal(template: TemplateRef<any>) {
+  //   this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+  // }
 
   navigate(bot_type) {
     this.modalRef.hide();
@@ -92,13 +93,14 @@ export class ViewBotsComponent implements OnInit, AfterViewInit {
   }
 
   @ViewChild('pop') pop;
+
   tabClicked(activeTab) {
     this.activeTab = activeTab;
     RouteHelperService.navigateToUrl(this.router, {url: '/core/viewbots', queryParams: {'type': activeTab}});
     this.doShowPopover(activeTab) ? this.pop.show() : this.pop.hide();
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
   }
 
   doShowPopover(activeTab) {
@@ -106,7 +108,7 @@ export class ViewBotsComponent implements OnInit, AfterViewInit {
       || (activeTab === EBotType.intelligent && this.pipelineBasedBotList && this.pipelineBasedBotList.length === 0);
   }
 
-  test($event){
+  test($event) {
     console.log($event);
   }
 }

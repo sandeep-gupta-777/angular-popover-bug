@@ -86,7 +86,7 @@
   .card-img-top {
     height: 100px !important;
   }
-  input, textarea {
+  textarea {
     border: 1px solid #e0e0e0;
     padding: 3px;
     border-radius: 2px;
@@ -127,4 +127,9 @@
 
 .template-output-scroll-container{
   max-width: calc(100% - 18px);
+}
+
+.dialog-container {
+  background-color: white;
+  box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.4);;
 }

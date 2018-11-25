@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {NgForm} from '@angular/forms';
+import {ServerService} from '../server.service';
+import {UtilityService} from '../utility.service';
 
 @Component({
   selector: 'app-theme',
@@ -7,9 +10,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ThemeComponent implements OnInit {
 
-  constructor() { }
+  @ViewChild('httpForm') httpForm:NgForm;
+  constructor(
+    public serverService:ServerService,
+    public utilityService:UtilityService,
+  ) { }
 
+  httpValue;
   ngOnInit() {
+  }
+
+  makeHttpReq(formRef){
+
+    let formData = formRef.value;
+    this.serverService[formData.verb]({url:formData.url})
+      .subscribe((val)=>{
+        console.clear();
+        console.log(val);
+        this.httpValue = val;
+      },(err)=>{
+        this.httpValue = err;
+      })
   }
 
 }

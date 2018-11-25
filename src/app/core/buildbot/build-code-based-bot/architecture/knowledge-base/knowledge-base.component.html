@@ -20,10 +20,9 @@
 
 <ng-container *ngIf="_custumNerDataForSmartTable && _custumNerDataForSmartTable.length!==0">
   <div class="row" *ngIf="showTable">
-
     <div class="col-12">
-      <app-smart-table *ngIf="_custumNerDataForSmartTable"
-                       [data]="_custumNerDataForSmartTable"
+      <app-smart-table *ngIf="tableData"
+                       [data]="tableData"
                        [settings]="settings"
                        [totalRecords]="totalRecords"
                        [recordsPerPage]="recordsPerPage"
@@ -36,17 +35,23 @@
 
 <!--<ng-template #splash>-->
 
-<app-splash-screen *ngIf="_custumNerDataForSmartTable && _custumNerDataForSmartTable.length===0 && showTable"
+<app-splash-screen *ngIf="_custumNerDataForSmartTable && _custumNerDataForSmartTable.length===0 && showTable && currentPageNumber===1"
                    [imageHRef]="myESplashScreens.knowledge_base"
                    [descriptionText]="'Knowledge base concepts are collections which can be recognized by the bot in user messages. Different ways of capturing these concepts exists like exact match(single match), partial match(double match) regex parsers, database or entity access along with metadata'"
                    [headingText]="'No concepts in knowledge Base'"
                    class="d-flex justify-content-center align-items-center w-100 h-75"
 ></app-splash-screen>
 
+
+<div class="d-flex flex-column justify-content-center align-items-center h-75 w-100" *ngIf="currentPageNumber>1 && _custumNerDataForSmartTable && _custumNerDataForSmartTable.length===0 && showTable">
+  <i>No concept for page = {{currentPageNumber}}</i>
+  <button class="btn-theme mt-1" mat-flat-button color="primary" (click)="pageChanged$.emit(1)">Go to page = 1</button>
+
+</div>
+
 <!--</ng-template>-->
 
 <ng-template #rowDetails>
-
   <app-knowledge-base-presentation
     class="h-100 d-flex-column-last-child-flex-grow-1"
     [selectedRowData]="selectedRowData"

@@ -1,4 +1,4 @@
-import { IMeta } from '../app/core/interfaces/meta';
+import {IMeta} from '../app/core/interfaces/meta';
 
 
 export interface ISessionMessageItem {
@@ -30,6 +30,20 @@ export interface ISessionMessage {
   'objects': ISessionMessageItem[];
 }
 
+export interface ITableColumn {
+  [key: string]: {
+    originalKey:string,
+    displayValue: string,
+    type: string,//date, button, badge,
+    value: any
+    classList?: string,
+    name?: string,
+    custom?: boolean,
+    search?: boolean,
+    searchValue?: boolean,
+  }
+}
+
 export interface ISessionItem {
   'agent_handover': boolean;
   'allow_anonymization': boolean;
@@ -39,6 +53,7 @@ export interface ISessionItem {
   'cross_retention_period': boolean;
   'data_store': any;
   'df_state': any;
+  channels: string[],
   'id': number;
   'imichat_agent': {};
   'is_anonymized': boolean;
@@ -47,9 +62,9 @@ export interface ISessionItem {
   'resource_uri': string;
   'room_state_closed': boolean;
   'selected_avatar': {
-      'id': number,
-      'imageUrl': string,
-      'name': string
+    'id': number,
+    'imageUrl': string,
+    'name': string
   };
   'data_encrypted': boolean;
   'sendtoagent': boolean;
@@ -59,7 +74,6 @@ export interface ISessionItem {
   highlight?: boolean;
   isEncrypted: boolean;
 }
-
 
 
 export interface ISessions {

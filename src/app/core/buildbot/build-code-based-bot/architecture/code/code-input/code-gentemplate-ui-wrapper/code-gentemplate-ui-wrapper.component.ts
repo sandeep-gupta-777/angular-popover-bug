@@ -1,8 +1,10 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {EBotVersionTabs} from '../code-input.component';
-import {BsModalService} from 'ngx-bootstrap/modal';
 import {NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../../../utility.service';
+import {ModalConfirmComponent} from '../../../../../../../modal-confirm/modal-confirm.component';
+import {MatDialog} from '@angular/material';
+import {GentemplateEditKeyComponent} from '../code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
 
 export interface ICarousalItem {
   'image_url': string;
@@ -50,7 +52,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   templateKeyCreationError = '';
   @ViewChild('channelSelectorForm') channelSelectorForm: NgForm;
 
-  modalRef;
+  modalRefWrapper = {ref:null};
   selectedChannelOfGenTemplate;
   @Input() bot;
   @Input() templateKeyDict;
@@ -68,9 +70,10 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   @Output() convertUiDictToGenTemplateCode$ = new EventEmitter();
   templateKeySearchKeyword: string;
   templateKeyDictClone;
+
   constructor(
-    private modalService: BsModalService,
     private utilityService: UtilityService,
+    private matDialog: MatDialog,
   ) {
   }
 
@@ -78,18 +81,16 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     try {
       this.templateKeyDictClone = this.utilityService.createDeepClone(this.templateKeyDict);
       this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
-      this.channelSelectorForm.form.patchValue({name:'all'});
-      this.channelNameList = this.channelList.map((channel)=>{
+      this.channelSelectorForm.form.patchValue({name: 'all'});
+      this.channelNameList = this.channelList.map((channel) => {
         return channel.name;
       }).filter(e => e !== 'all');
-    }catch (e) {
+    } catch (e) {
       console.log(e);
     }
   }
 
   isTemplateKeyOutputUnparsable() {
-
-
     return this.activeTab === this.myEBotVersionTabs.generation_templates &&
       this.templateKeyDict &&
       typeof this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar] === 'string';
@@ -101,8 +102,21 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar] = codeStr;
   }
 
-  selectedListCopyModel(IntentSelectionModal) {
-    this.modalRef = this.modalService.show(IntentSelectionModal, {class: 'modal-lg'});
+  async selectedListCopyModel(IntentSelectionModal) {
+    // this.modalRefWrapper = this.modalService.show(IntentSelectionModal, {class: 'modal-lg'});
+
+
+    let data = await this.utilityService.openDialog({
+      dialog: this.matDialog,
+      component: IntentSelectionModal,
+      data: null,
+      classStr: 'primary-modal-header-border',
+      dialogRefWrapper: this.modalRefWrapper
+    });
+
+    if (data) {
+      // this.deleteTemplateKey(tempKey);
+    }
   }
 
   addCodeUnit() {
@@ -129,11 +143,11 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   }
 
-  clearNewTemplateKeyData(){
+  clearNewTemplateKeyData() {
 
-    this.modalRef.hide();
-    this.newTemplateKey='';
-    this.templateKeyCreationError="";
+    this.modalRefWrapper.ref.close();
+    this.newTemplateKey = '';
+    this.templateKeyCreationError = '';
   }
 
   addImageCaraosalUnit() {
@@ -162,8 +176,9 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   }
 
-  createIncludesArray(){
-    return Array.isArray(this.channelNameList)? ['web', ...this.channelNameList]: ['web'];;
+  createIncludesArray() {
+    return Array.isArray(this.channelNameList) ? ['web', ...this.channelNameList] : ['web'];
+    ;
   }
 
   scrollToBottom(): void {
@@ -212,7 +227,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
       this.templateKeyDict[key].push(...JSON.parse(JSON.stringify(selectedGenTempObjList)));
     }
     this.selectedTemplateKeyOutputIndex = [];
-    this.modalRef.hide();
+    this.modalRefWrapper.ref.close();
   }
 
 
@@ -262,15 +277,15 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
       this.templateKeyCreationError = 'This template key already exists';
       return;
     }
-    this.templateKeyCreationError = "";
+    this.templateKeyCreationError = '';
     const intentUnit = {};
     intentUnit[this.newTemplateKey] = [{
       'text': [''],
       'include': this.createIncludesArray(),
     }];
     // this.templateKeyDict = {...this.templateKeyDict, ...intentUnit};
-    this.templateKeyDict =  Object.assign(this.templateKeyDict, intentUnit);
-    this.modalRef.hide();
+    this.templateKeyDict = Object.assign(this.templateKeyDict, intentUnit);
+    this.modalRefWrapper.ref.close();
     this.selectedTemplateKeyInLeftSideBar = this.newTemplateKey;
     this.newTemplateKey = '';
   }
@@ -288,43 +303,96 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     }
   }
 
-  editTemplateKey(templateKeyEditForm) {
-    const {old_key, new_key} = templateKeyEditForm.value;
-    let doesNewKeyAlreadyExistsInTemplateKeyDict = Object.keys(this.templateKeyDict).find(key=>new_key===key);
-    if(doesNewKeyAlreadyExistsInTemplateKeyDict){
-      this.templateKeyCreationError = "Template Key name already exists";
+  editTemplateKey({old_key, new_key}) {
+    // const new_key = templateKeyEditForm.value;
+    let doesNewKeyAlreadyExistsInTemplateKeyDict = Object.keys(this.templateKeyDict).find(key => new_key === key);
+    if (doesNewKeyAlreadyExistsInTemplateKeyDict) {
+      this.templateKeyCreationError = 'Template Key name already exists';
       return;
-    }else if(!new_key.trim()){
-      this.templateKeyCreationError = "Template Key can't be empty";
+    } else if (!new_key.trim()) {
+      this.templateKeyCreationError = 'Template Key can\'t be empty';
       return;
     }
     this.utilityService.renameKeyInObject(this.templateKeyDict, old_key, new_key);
     this.selectedTemplateKeyInLeftSideBar = new_key;
-    this.modalRef.hide();
+    this.modalRefWrapper.ref.close();
   }
 
-  openDeleteTemplateKeyModal(deleteTemplateKeyModal) {
-    this.modalRef = this.modalService.show(deleteTemplateKeyModal);
+  // openDeleteTemplateKeyModal(deleteTemplateKeyModal) {
+  //   this.modalRefWrapper = this.modalService.show(deleteTemplateKeyModal);
+  // }
+
+  async openDeleteTemplateKeyModal(tempKey) {
+    let data = await this.utilityService.openDialog({
+      dialog: this.matDialog,
+      component: ModalConfirmComponent,
+      data: {
+        title: `Delete template key: ${tempKey}?`,
+        message: 'This action cannot be undone.Are you sure you wish to continue?',
+        actionButtonText: 'Delete',
+        isActionButtonDanger: true,
+      },
+      dialogRefWrapper: this.modalRefWrapper,
+      classStr: 'danger-modal-header-border'
+    });
+
+    if (data) {
+      this.deleteTemplateKey(tempKey);
+    }
   }
 
-  openEditTemplateKeyModal(EditTemplateKeyModal) {
-    this.modalRef = this.modalService.show(EditTemplateKeyModal);
+  // openEditTemplateKeyModal(EditTemplateKeyModal) {
+  //   this.modalRefWrapper = this.modalService.show(EditTemplateKeyModal);
+  // }
+
+  async openNewIntentModal(IntentModal) {
+    let dialogRefWrapper = {ref:this.modalRefWrapper};
+    let dataPromise$ = this.utilityService.openDialog({
+      dialog: this.matDialog,
+      component: IntentModal,
+      data: null,
+      dialogRefWrapper,
+      classStr: 'primary-modal-header-border'
+    });
+
+    let data = await dataPromise$;
+
+    if (data) {
+      // this.editTemplateKey({old_key:tempKey, new_key:data});
+    }
   }
 
-  openNewIntentModal(template) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-w-30vw'});
-    return;
+  async openEditTemplateKeyModal(tempKey) {
+    let data = await this.utilityService.openDialog({
+      dialog: this.matDialog,
+      component: GentemplateEditKeyComponent,
+      data: {
+        old_key:tempKey,
+        templateKeyDict: this.templateKeyDict
+      },
+      dialogRefWrapper: this.modalRefWrapper,
+      classStr: 'primary-modal-header-border'
+    });
+
+    if (data) {
+      this.editTemplateKey({old_key:tempKey, new_key:data});
+    }
   }
+
+  // openNewIntentModal(template) {
+  //   this.modalRefWrapper = this.modalService.show(template, {class: 'modal-w-30vw'});
+  //   return;
+  // }
 
   deleteTemplateKey(tempKey) {
     delete this.templateKeyDict[tempKey];
     this.utilityService.showSuccessToaster('Template key deleted!');
-    this.modalRef.hide();
+    this.modalRefWrapper.ref.close();
   }
 
   ngOnDestroy() {
     this.convertUiDictToGenTemplateCode$.emit(this.templateKeyDict);
-    this.selectedTemplateKeyOutputIndex = []
+    this.selectedTemplateKeyOutputIndex = [];
   }
 
   ngAfterViewInit() {
@@ -332,6 +400,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
       this.selectedChannelOfGenTemplate = value;
     });
   }
+
   test() {
     // console.log(this.selectedVersion);
     // console.log(this.bot.store_bot_versions);

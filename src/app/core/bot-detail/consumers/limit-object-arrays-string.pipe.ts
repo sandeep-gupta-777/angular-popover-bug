@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {IConsumerResults} from '../../../../interfaces/consumer';
+import {IConsumerItem} from '../../../../interfaces/consumer';
 
 @Pipe({
   name: 'limitObjectArraysString'
 })
 export class LimitObjectArraysStringPipe implements PipeTransform {
 
-  transform(consumerResults: IConsumerResults[], args?: any): any {
+  transform(consumerResults: IConsumerItem[], args?: any): any {
     if (!consumerResults) { return; }
     consumerResults = JSON.parse(JSON.stringify(consumerResults));
 

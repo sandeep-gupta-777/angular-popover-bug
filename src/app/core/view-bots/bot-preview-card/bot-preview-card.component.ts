@@ -4,7 +4,7 @@ import {IBot} from '../../interfaces/IBot';
 import {UtilityService} from '../../../utility.service';
 import {ChatService} from '../../../chat.service';
 import {EChatFrame, IChatSessionState} from '../../../../interfaces/chat-session-state';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {BsModalRef} from 'ngx-bootstrap';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Select, Store} from '@ngxs/store';
 import {
@@ -23,13 +23,17 @@ import {IAuthState} from '../../../auth/ngxs/auth.state';
 import {IEnterpriseProfileInfo} from '../../../../interfaces/enterprise-profile';
 import {LoggingService} from '../../../logging.service';
 import {UpdateBotInfoByIdInBotInBotList} from '../ngxs/view-bot.action';
+import {CreateBotDialogComponent} from '../create-bot-dialog/create-bot-dialog.component';
+import {MatDialog} from '@angular/material';
+import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
+import {ModalImplementer} from '../../../modal-implementer';
 
 @Component({
   selector: 'app-bot-preview-card',
   templateUrl: './bot-preview-card.component.html',
   styleUrls: ['./bot-preview-card.component.scss']
 })
-export class BotPreviewCardComponent implements OnInit {
+export class BotPreviewCardComponent extends ModalImplementer implements OnInit {
 
   @Input() bot: IBot;
   showLoader = false;
@@ -51,13 +55,14 @@ export class BotPreviewCardComponent implements OnInit {
   constructor(
     public utilityService: UtilityService,
     private chatService: ChatService,
-    private modalService: BsModalService,
     private activatedRoute: ActivatedRoute,
     public router: Router,
     public constantsService: ConstantsService,
     public serverService: ServerService,
+    public matDialog: MatDialog,
     public store: Store
   ) {
+    super(utilityService, matDialog);
   }
 
   ngOnInit() {
@@ -103,18 +108,28 @@ export class BotPreviewCardComponent implements OnInit {
       new UpdateBotInfoByIdInBotInBotList({botId: bot.id, data: {store_isPinned: doPin}})
     ]).subscribe(() => {
       if (doPin) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({top: 0, behavior: 'smooth'});
       }
     });
 
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+  async openDeleteModal() {
+    let data = await this.utilityService.openDialog({
+      dialog: this.matDialog,
+      component: ModalConfirmComponent,
+      data: {title:`Delete bot ${this.bot.name}?`, message:null, actionButtonText:"Delete", isActionButtonDanger:true},
+      classStr: 'danger-modal-header-border',
+      dialogRefWrapper:this.dialogRefWrapper
+    });
+
+    if(data){
+      this.deleteBot();
+    }
   }
 
   deleteBot() {
-    this.modalRef.hide();
+    // this.modalRefWrapper.hide();
     const url = this.constantsService.getDeleteBotUrl(this.bot.id);
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
@@ -133,7 +148,6 @@ export class BotPreviewCardComponent implements OnInit {
 
   navigateToBotDetailPage(event) {//preview-button
 
-    debugger;
 
     if (!event.target.classList.contains('click-save-wrapper')) {
       this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id]);
@@ -161,5 +175,6 @@ export class BotPreviewCardComponent implements OnInit {
   test(channelName) {
     this.router.navigateByUrl(`core/botdetail/chatbot/${this.bot.id}?build-tab=integration&code-tab=df_template#${channelName}`);
   }
+
 
 }

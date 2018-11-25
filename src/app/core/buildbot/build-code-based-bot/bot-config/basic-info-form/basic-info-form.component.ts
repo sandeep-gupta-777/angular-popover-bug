@@ -9,10 +9,9 @@ import {IBasicInfo} from '../../../../../../interfaces/bot-creation';
 import {Observable} from 'rxjs';
 import {ViewBotStateModel} from '../../../../view-bots/ngxs/view-bot.state';
 import {ControlValueAccessor, FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
-import {UtilityService} from '../../../../../utility.service';
+import {EBotType, UtilityService} from '../../../../../utility.service';
 import {ConstantsService, EAllActions} from '../../../../../constants.service';
 import {ActivatedRoute} from '@angular/router';
-import {EBotType} from '../../../../view-bots/view-bots.component';
 import {PermissionService} from '../../../../../permission.service';
 import {ELogType, LoggingService} from '../../../../../logging.service';
 

@@ -1,7 +1,7 @@
 import {Route, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {EBotType, ViewBotsComponent} from './view-bots.component';
+import {ViewBotsComponent} from './view-bots.component';
 import {BsDropdownModule, ModalModule, TabsModule} from 'ngx-bootstrap';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
@@ -14,7 +14,7 @@ import {BotPreviewCardComponent} from './bot-preview-card/bot-preview-card.compo
 import {SharedModule} from '../../shared.module';
 import {RichMediaModule} from '../../rich-media.module';
 import {BotPreviewCardListComponent} from './bot-preview-card-list/bot-preview-card-list.component';
-import {MyMaterialModule} from '../../material.module';
+import {MyMaterialModule} from '../../my-material.module';
 import { CreateBotDialogComponent } from './create-bot-dialog/create-bot-dialog.component';
 
 const routes: Route[] = [

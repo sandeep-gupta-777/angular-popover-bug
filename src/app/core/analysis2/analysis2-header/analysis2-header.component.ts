@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {BotConfigComponent} from '../../buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {IBot} from '../../interfaces/IBot';
 import {Observable, Subscription} from 'rxjs';
@@ -25,7 +25,7 @@ import {
 } from '../ngxs/analysis.action';
 import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
-import {UtilityService} from '../../../utility.service';
+import {EBotType, UtilityService} from '../../../utility.service';
 import {IUser} from '../../interfaces/user';
 import {AnalysisStateReducer2} from '../ngxs/analysis.state';
 import {EAnalysis2TypesEnum} from '../../../../interfaces/Analytics2/analysis2-types';
@@ -45,7 +45,6 @@ import {IChannelWiseSessionsResponseBody} from '../../../../interfaces/Analytics
 import {IChannelWiseUsersResponseBody} from '../../../../interfaces/Analytics2/engagement-channelWiseUsers';
 import {ActivatedRoute, Router} from '@angular/router';
 import {query} from '@angular/animations';
-import {EBotType} from '../../view-bots/view-bots.component';
 import {ELogType, LoggingService} from '../../../logging.service';
 import {debounceTime, take} from 'rxjs/operators';
 

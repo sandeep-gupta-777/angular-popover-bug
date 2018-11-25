@@ -1,29 +1,50 @@
 <div class="d-flex-column-last-child-flex-grow-1 create-concept-row">
   <div class="child d-flex justify-content-between">
-    <button class="btn-theme btn-theme-primary-outline" (click)="showTable$.emit(); _selectedRowData = {}">Go Back</button>
+    <button class="btn-theme btn-theme-primary-outline" (click)="showTable$.emit(); _selectedRowData = {}">Go Back
+    </button>
     <form ngNativeValidate class="options d-flex align-items-end" #form="ngForm">
-      <div class="d-flex flex-column">
-        <span class="required p-0 mb-1">Concept Key</span>
-        <input type="text" class="concept" placeholder="Concept Key" required
-               [(ngModel)]="key" name="key">
-      </div>
+
+      <mat-form-field style="margin-bottom: -1.25em">
+        <input type="text" matInput placeholder="Concept Key" required [(ngModel)]="key" name="key">
+      </mat-form-field>
+      <!--<div class="d-flex flex-column">-->
+      <!--<span class="required p-0 mb-1">Concept Key</span>-->
+      <!--<input type="text" class="concept" placeholder="Concept Key" required-->
+      <!--[(ngModel)]="key" name="key">-->
+      <!--</div>-->
       <div class="d-flex flex-column mx-2">
-        <span class="required p-0 mb-1">Concept Type1</span>
-        <select [(ngModel)]="ner_type" required name="ner_type">
-          <option value="single_match">Single Match</option>
-          <option value="double_match">Double Match</option>
-          <option value="with_metadata">With Metadata</option>
-          <option value="database">Database</option>
-          <option value="regex">Regex</option>
-        </select>
+        <!--<span class="required p-0 mb-1">Concept Type1</span>-->
+        <!--<select [(ngModel)]="ner_type" required name="ner_type">-->
+        <!--<option value="single_match">Single Match</option>-->
+        <!--<option value="double_match">Double Match</option>-->
+        <!--<option value="with_metadata">With Metadata</option>-->
+        <!--<option value="database">Database</option>-->
+        <!--<option value="regex">Regex</option>-->
+        <!--</select>-->
+
+        <mat-form-field style="margin-bottom: -1.25em">
+          <mat-select [(ngModel)]="ner_type" required name="ner_type" placeholder="Concept Type">
+            <mat-option value="single_match">Single Match</mat-option>
+            <mat-option value="double_match">Double Match</mat-option>
+            <mat-option value="with_metadata">With Metadata</mat-option>
+            <mat-option value="database">Database</mat-option>
+            <mat-option value="regex">Regex</mat-option>
+          </mat-select>
+        </mat-form-field>
 
       </div>
 
       <div class="d-flex flex-column mx-2">
         <label for="" class="m-0 p-0 mb-1">Process Raw Text</label>
         <div style="height: 26px;">
-          <ui-switch name="process_raw_text" [(ngModel)]="process_raw_text" class="d-flex align-items-center mx-1"
-                     style="border:none;padding: 0;" size="small"></ui-switch>
+          <!--<ui-switch name="process_raw_text" [(ngModel)]="process_raw_text" class="d-flex align-items-center mx-1"-->
+          <!--style="border:none;padding: 0;" size="small"></ui-switch>-->
+          <mat-slide-toggle
+            name="process_raw_text"
+            color="primary"
+            class="d-flex align-items-center mx-1"
+            style="border:none;padding: 0;"
+            [(ngModel)]="process_raw_text"></mat-slide-toggle>
         </div>
         <!---->
       </div>
@@ -140,10 +161,9 @@
 
 <ng-template #deleteTemplate>
   <div class="danger-modal">
-    <div class="top-dec"></div>
     <div class="modal-header">
       <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete Concept?</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -154,8 +174,8 @@
           <p class="mb-3">This action cannot be undone.Are you sure you wish to continue?</p>
 
         </div>
-        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
-        <button class=" btn-theme btn-theme-danger" (click)="deleteNer$.emit(ner_id);modalRef.hide()">Delete</button>
+        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
+        <button class=" btn-theme btn-theme-danger" (click)="deleteNer$.emit(ner_id);dialogRefWrapper.ref.close()">Delete</button>
       </form>
     </div>
   </div>

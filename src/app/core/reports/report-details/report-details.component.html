@@ -23,17 +23,16 @@
 <!--===================Templates Below===================-->
 <ng-template #Primarytemplate>
   <div class="primary-modal">
-    <div class = "top-dec"></div>
     <div class="modal-header" >
       <h4 class="modal-title"> Subscribed successfully</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
 
     </div>
 
     <div class="modal-body">
-      <div class ="row">
+      <div>
         <div class="col-md-12">
           You have subscribed to <strong>messages</strong> report for
           <strong>{{reportFormData.botName}}</strong> bot in a <strong>{{reportFormData.filetype}}</strong> format,which is scheduled
@@ -58,10 +57,9 @@
 <ng-template #reportDeleteTemplate>
 
   <div class="danger-modal center-modal">
-    <div class="top-dec"></div>
     <div class="modal-header">
       <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete Report?</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -72,7 +70,7 @@
           <p class="mb-3">This will delete the report and all it’s instances from history
             will also be removed. Are you sure you want to delete it?</p>
         </div>
-        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
         <button class=" btn-theme btn-theme-danger" (click)="deleteReport()">Delete</button>
       </form>
     </div>
@@ -83,10 +81,9 @@
 
 <ng-template #unsubscribeTemplate>
   <div class="danger-modal">
-    <div class = "top-dec"></div>
     <div class="modal-header" >
       <h4 class="modal-title"> Unsubscribed successfully</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>

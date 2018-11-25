@@ -1,9 +1,12 @@
-<app-knowledge-base
+<app-knowledge-base *ngIf="custumNerDataForSmartTable && !showLoader"
   (updateOrSaveParentNers$)="updateOrSaveCustomNer($event)"
   (pageChanged$)="pageChanged($event)"
   [custumNerDataForSmartTable]="custumNerDataForSmartTable"
   [currentPageNumber]="currentPageNumber"
+  [tableDataMetaDict]="constantsService.SMART_TABLE_BOT_KNOWLEDGE_BASE_NER_TABLE_DATA_META_DICT_TEMPLATE"
   [totalRecords]="totalRecords"
   (deleteNer$)="deleteNer($event)"
   >
 </app-knowledge-base>
+
+<app-imi-loader *ngIf="showLoader"></app-imi-loader>

@@ -1,30 +1,46 @@
 <!--<button (click)="click()">click1</button>-->
 <form class="row report-detail-row" #form="ngForm">
   <div class="col-6">
-    <div class="select-theme-primary">
-      <label for="" class="Bot required">Bot</label>
-      <select class="concept1" type="number" [ngModel] required name="bot_id" #select>
-        <option *ngFor="let bot of codebasedBotList let i = index;" [selected]="i===0" [value]="bot.id">
+    <!--<div class="select-theme-primary">-->
+    <!--<label for="" class="Bot required">Bot</label>-->
+    <!--<select class="concept1" type="number" [ngModel] required name="bot_id" #select>-->
+    <!--<option *ngFor="let bot of codebasedBotList let i = index;" [selected]="i===0" [value]="bot.id">-->
+    <!--{{bot.name}}-->
+    <!--</option>-->
+    <!--</select>-->
+
+    <mat-form-field>
+      <mat-select placeholder="Bot" ngModel name="bot_id" [value]="codebasedBotList[0].id">
+        <mat-option *ngFor="let bot of codebasedBotList let i = index;" [value]="bot.id">
           {{bot.name}}
-        </option>
-      </select>
-    </div>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!--</div>-->
   </div>
 
   <div class="col-6">
-    <div class="select-theme-primary">
-      <label for="" class="required required">Report type</label>
-      <select class="concept1">
-        <option value="single_match">Messages</option>
-      </select>
-    </div>
+    <!--<div class="select-theme-primary">-->
+    <!--<label for="" class="required required">Report type</label>-->
+    <!--<select class="concept1">-->
+    <!--<option value="single_match">Messages</option>-->
+    <!--</select>-->
+    <!--</div>-->
+
+    <mat-form-field>
+      <mat-select placeholder="Report type" name="single_match" value="single_match" ngModel>
+        <mat-option value="single_match">
+          Messages
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
   <div class="col-6 mt-3">
     <label for="" class="required m-0 pr-3 mb-2">Output format</label>
     <div class="btn-group" role="group">
       <label (click)="filetype='csv'"
              [ngClass]="{'btn-theme-primary': filetype==='csv', 'btn-theme-secondary-outline':filetype==='pdf'}"
-             for="csv" class="btn-theme d-flex align-items-center ">CSV</label>
+             for="csv" class="btn-theme d-flex align-items-center text-white">CSV</label>
       <label
         disabled
         [ngClass]="{'btn-theme-primary': filetype==='pdf', 'btn-theme-secondary-outline':filetype==='csv'}"
@@ -38,53 +54,68 @@
     <!--<p>{{report_id}}</p>-->
     <div class="d-flex mt-2 align-items-center" *ngIf="report_id">
       <label for="" class="required m-0 pr-3">Status</label>
-      <ui-switch class="m-0 pt-2" [(ngModel)]="isactive" required name="isactive" style="border:none"
-                 size="small"></ui-switch>
+      <!--<ui-switch class="m-0 pt-2" [(ngModel)]="isactive" required name="isactive" style="border:none" size="small"></ui-switch>-->
+      <mat-slide-toggle class="m-0" [(ngModel)]="isactive" required name="isactive"></mat-slide-toggle>
     </div>
   </div>
 
   <div class="col-6 mt-4">
     <div class="select-theme-primary">
-      <label for="" class="required ">Frequency</label>
-      <select class="concept1" ngModel required name="frequency">
-        <option value="daily">Daily</option>
-        <option value="weekly">Weekly</option>
-        <option value="bi-weekly">Bi-weekly</option>
-        <option value="monthly">Monthly</option>
-      </select>
+      <!--<label for="" class="required ">Frequency</label>-->
+      <!--<select class="concept1" ngModel required name="frequency">-->
+      <!--<option value="daily">Daily</option>-->
+      <!--<option value="weekly">Weekly</option>-->
+      <!--<option value="bi-weekly">Bi-weekly</option>-->
+      <!--<option value="monthly">Monthly</option>-->
+      <!--</select>-->
+
+      <mat-form-field>
+        <mat-select placeholder="Frequency" ngModel required name="frequency">
+          <mat-option value="daily">Daily</mat-option>
+          <mat-option value="weekly">Weekly</mat-option>
+          <mat-option value="bi-weekly">Bi-weekly</mat-option>
+          <mat-option value="monthly">Monthly</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
   </div>
 
   <div class="col-5 mt-4">
-    <div class="select-theme-primary">
-      <label for="" class="required ">Time</label>
-      <input type="text"
-             placeholder="Timepicker"
-             autocomplete="off"
-             class="form-control time-input1 date-input"
-             name="start_time"
-             id="start_time" required
-             [(ngModel)]="start_time"
-      >
-    </div>
+    <!--<div class="select-theme-primary">-->
+      <!--<label for="" class="required ">Time</label>-->
+      <mat-form-field>
+        <input type="text"
+               matInput
+               placeholder="Timepicker"
+               autocomplete="off"
+               class="time-input1 date-input"
+               name="start_time"
+               id="start_time" required
+               [(ngModel)]="start_time"
+        >
+      </mat-form-field>
+    <!--</div>-->
 
   </div>
 
   <div class="col-12 mt-4">
     <div class="row">
       <div class="col-12 col-md-4 form-group">
-        <label for="" class="required " style="width: 100%">Select Date</label>
-        <input type="text"
-               placeholder="Datepicker"
-               class="form-control date-input"
-               [(ngModel)]="startdate"
-               [minDate]="today"
-               required
-               name="startdate"
-               bsDatepicker [bsConfig]="datePickerConfig">
+        <!--<label for="" class="required " style="width: 100%">Select Date</label>-->
+        <mat-form-field>
+          <input type="text"
+                 placeholder="Select Date"
+                 matInput
+                 class="date-input"
+                 [(ngModel)]="startdate"
+                 [minDate]="today"
+                 required
+                 name="startdate"
+                 bsDatepicker [bsConfig]="datePickerConfig">
+        </mat-form-field>
       </div>
     </div>
-<!---->
+    <!---->
   </div>
 
   <div class="row m-0 p-0" ngModelGroup='delivery'>
@@ -110,7 +141,9 @@
         Schedule emails for multiple recipients, separate with semi-colon(;)
       </div>
       <div class="col-4 text-right ">
-        <ui-switch ngModel name="enabled" class="pt-2" style="border:none" size="small"></ui-switch>
+        <!--<ui-switch ngModel name="enabled" class="pt-2" style="border:none" size="small"></ui-switch>-->
+        <mat-slide-toggle ngModel name="enabled"></mat-slide-toggle>
+
       </div>
       <fieldset class="col-12 ">
         <div class="col-10 mt-2 border-left">
@@ -123,7 +156,9 @@
     <div class="row m-0 " [hidden]="deliveryMode!=='sftp'" ngModelGroup='sftp'>
       <div class="col-12 d-flex justify-content-between align-items-center">
         <div class="text-report ">Push reports to a secure location as scheduled</div>
-        <ui-switch [(ngModel)]="isSftpReportEnabled" name="enabled" class="pt-2" style="border:none" size="small"></ui-switch>
+        <!--<ui-switch [(ngModel)]="isSftpReportEnabled" name="enabled" class="pt-2" style="border:none" size="small"></ui-switch>-->
+        <mat-slide-toggle [(ngModel)]="isSftpReportEnabled" name="enabled"></mat-slide-toggle>
+
       </div>
 
       <fieldset [disabled]="!isSftpReportEnabled" class="col-12 ">
@@ -138,7 +173,9 @@
           <input class="input-material mb-3" type="password" name="password">
           <label for="" class=" m-0">Upload directory</label>
           <!--<button class="btn-theme btn-theme-primary-outline upload-private-key-button">Upload private key</button>-->
-          <label style="height: 32px" for="uploadInput" class="cursor-pointer d-flex justify-content-center align-items-center btn-theme-secondary-outline upload-private-key-button">Upload File
+          <label style="height: 32px" for="uploadInput"
+                 class="cursor-pointer d-flex justify-content-center align-items-center btn-theme-secondary-outline upload-private-key-button">Upload
+            File
             <input type="file"
                    hidden
                    id="uploadInput"

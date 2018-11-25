@@ -7,17 +7,34 @@
   <div class="heading ml-4">Filter Data</div>
 
   <div class="form-group m-0 mr-4 ml-auto">
-    <label for="">Bot</label>
-    <select ngModel required name="botId">
-      <option *ngFor="let bot of codebasedBotList; let i = index;" [selected]="i===0" type="button" [value]="bot.id">{{bot.name}}</option>
-    </select>
+    <!--<label for="">Bot</label>-->
+    <!--<select ngModel required name="botId">-->
+      <!--<option *ngFor="let bot of codebasedBotList; let i = index;" [selected]="i===0" type="button" [value]="bot.id">{{bot.name}}</option>-->
+    <!--</select>-->
+
+    <mat-form-field>
+      <mat-select placeholder="Select bot" ngModel name="botId" [value]="codebasedBotList[0].id">
+        <mat-option *ngFor="let bot of codebasedBotList; let i = index;" [value]="bot.id">
+          {{bot.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
   </div>
 
   <div class="form-group m-0 mr-4 ">
-    <label for="">Channel</label>
-    <select  [ngModel] required name="platform">
-      <option *ngFor="let channel of channelList"  type="button" [value]="channel.name">{{channel.displayName}}</option>
-    </select>
+    <!--<label for="">Channel</label>-->
+    <!--<select  [ngModel] required name="platform">-->
+      <!--<option *ngFor="let channel of channelList"  type="button" [value]="channel.name">{{channel.displayName}}</option>-->
+    <!--</select>-->
+
+    <mat-form-field>
+      <mat-select placeholder="Channel" ngModel name="platform" [value]="channelList[0]">
+        <mat-option *ngFor="let channel of channelList" [value]="channel.name">
+          {{channel.displayName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
 
   <div class="form-group m-0 mr-4">
@@ -45,10 +62,19 @@
   </div>
 
   <div class="form-group m-0 mr-4">
-    <label for="">Granularity</label>
-    <select  [(ngModel)]="granularity" required name="granularity">
-      <option *ngFor="let granularity of granularityList"  type="button" [value]="granularity">{{granularity}}</option>
-    </select>
+    <!--<label for="">Granularity</label>-->
+    <!--<select  [(ngModel)]="granularity" required name="granularity">-->
+      <!--<option *ngFor="let granularity of granularityList"  type="button" [value]="granularity">{{granularity}}</option>-->
+    <!--</select>-->
+
+    <mat-form-field>
+      <mat-select placeholder="Granularity" ngModel name="granularity" [value]="granularityList[0]">
+        <mat-option *ngFor="let granularity of granularityList" [value]="granularity">
+          {{granularity}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
   </div>
 
   <div class="text-right" style="position: absolute; left: 0;right: 0; bottom: 0">

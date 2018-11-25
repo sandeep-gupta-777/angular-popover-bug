@@ -1,6 +1,6 @@
 import { IMeta } from '../app/core/interfaces/meta';
 
-export interface IConsumerResults {
+export interface IConsumerItem {
   'active_rooms': {};
   'bot_id': number;
   'consent_permissions': Array<any>;
@@ -22,7 +22,7 @@ export interface IConsumerResults {
 }
 
 export interface IConsumerResultsFromServer {
-  'objects': IConsumerResults[];
+  'objects': IConsumerItem[];
   'meta': IMeta;
 }
 

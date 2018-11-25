@@ -27,6 +27,8 @@ import {BotWelcomeComponent} from './bot-welcome-panel/bot-welcome.component';
 import {RichMediaModule} from '../rich-media.module';
 import {ServerService} from '../server.service';
 import {ChatService} from '../chat.service';
+import {MyMaterialModule} from '../my-material.module';
+import {ChatConsumerFormComponent} from '../chat-consumer-form/chat-consumer-form.component';
 
 const routes: Route[] = [
   // {path: 'preview',outlet: 'preview', component: ChatWrapperComponent},
@@ -37,6 +39,7 @@ const routes: Route[] = [
   declarations: [
     MsToHhMmPipe,
     ChatWrapperComponent,
+    ChatConsumerFormComponent,
     ChatWindowComponent,
     ChatMessageComponent,
     ChatListComponent,
@@ -54,11 +57,13 @@ const routes: Route[] = [
     HttpClientModule,
     ClickOutsideModule,
     BsDropdownModule.forRoot(),
+    MyMaterialModule
     // ToastrModule.forRoot(), // ToastrModule added,
   ],
   exports: [
     MsToHhMmPipe,
     ChatWrapperComponent,
+    ChatConsumerFormComponent,
     ChatWindowComponent,
     ChatMessageComponent,
     ChatListComponent,

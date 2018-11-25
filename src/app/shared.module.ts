@@ -5,7 +5,6 @@ import {BasicInfoFormComponent} from './core/buildbot/build-code-based-bot/bot-c
 import {BotConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {BotArchitetureComponent} from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {UiSwitchModule} from 'ngx-toggle-switch';
 import {CommonModule} from '@angular/common';
 import {BotIdToNamePipe} from './bot-id-to-name.pipe';
 import {RouterModule} from '@angular/router';
@@ -48,7 +47,8 @@ import {ErrorDescriptionPipe} from './core/buildbot/build-code-based-bot/bot-con
 import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
 import {SplashScreenComponent} from './splash-screen/splash-screen.component';
 import {SafeUrlPipe} from './href-sanitizer.pipe';
-import {MyMaterialModule} from './material.module';
+import {MyMaterialModule} from './my-material.module';
+import {ImiLoaderComponent} from './imi-loader/imi-loader.component';
 
 @NgModule({
   declarations: [
@@ -82,10 +82,10 @@ import {MyMaterialModule} from './material.module';
     IntegrationNameFormatterPipe,
     HighlightDirective,
     SafeUrlPipe,
+    ImiLoaderComponent
   ],
   imports: [
     MyMaterialModule,
-    UiSwitchModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
@@ -121,7 +121,6 @@ import {MyMaterialModule} from './material.module';
     FormsModule,
     BotIdToNamePipe,
     RouterModule,
-    UiSwitchModule,
     SmartTableComponent, //
     CodeEditorComponent, //
     KnowledgeBaseComponent, //
@@ -150,9 +149,7 @@ import {MyMaterialModule} from './material.module';
     ClickOutsideModule,
     PopoverModule,
     MyMaterialModule,
-
-
-
+    ImiLoaderComponent
   ]
 })
 export class SharedModule {

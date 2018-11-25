@@ -438,4 +438,9 @@ app-code-editor {
   outline: none;
 }
 
+:host /deep/{
+  .mat-slide-toggle-label{
+    margin-bottom: 0;
+  }
+}
 

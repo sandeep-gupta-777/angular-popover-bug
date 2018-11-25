@@ -1,0 +1,36 @@
+<form role="menu" #form="ngForm"
+      (ngSubmit)="validateAndSubmit(form.value)"
+      style="width: 200px">
+  <p class="heading mb-2">Edit Customer</p>
+
+  <mat-form-field>
+    <input matInput placeholder="Name" type="text" [ngModel]="customConsumerDetails?.name"
+           name="name" aria-describedby="emailHelp">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Phone" type="text" [ngModel]="customConsumerDetails?.phone" name="phone"
+           aria-describedby="emailHelp">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Email" type="email" email [ngModel]="customConsumerDetails?.email"
+           name="email" aria-describedby="emailHelp">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Facebook ID" type="text" [ngModel]="customConsumerDetails?.facebook_id"
+           name="facebook_id" aria-describedby="emailHelp">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="UID" type="text" [ngModel]="customConsumerDetails?.uid" name="uid"
+           aria-describedby="emailHelp">
+  </mat-form-field>
+  <div class="d-flex justify-content-center">
+    <button type="submit" mat-flat-button color="primary" class="btn-theme">Save Changes</button>
+  </div>
+  <p *ngIf="errorMessage" class="text-danger mt-2 text-center font-11" >{{errorMessage}}</p>
+</form>
+
+

@@ -57,8 +57,8 @@ declare var $: any;
 export class ServerService {
 
   @Select() loggeduser$: Observable<{ user: IUser }>;
-  private X_AXIS_TOKEN: string = null;
-  private AUTH_TOKEN: string = null;
+  public X_AXIS_TOKEN: string = null;
+  public AUTH_TOKEN: string = null;
   private isLoggedIn = false;
 
 

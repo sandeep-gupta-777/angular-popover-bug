@@ -1,10 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IBot} from '../../interfaces/IBot';
 import {Store} from '@ngxs/store';
-import {EBotType} from '../view-bots.component';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 import {ConstantsService, EAllActions} from '../../../constants.service';
 import {PermissionService} from '../../../permission.service';
+import {EBotType} from '../../../utility.service';
 
 @Component({
   selector: 'app-bot-preview-card-list',
