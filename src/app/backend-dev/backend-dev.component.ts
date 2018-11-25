@@ -23,7 +23,7 @@ export class BackendDevComponent implements OnInit {
     private router: Router,
     private store: Store,
   ) { }
-  // modalRef: BsModalRef;
+  // modalRefWrapper: BsModalRef;
   backend_root_url: string;
   showBackendRootUrlButton = false;
 
@@ -45,7 +45,7 @@ export class BackendDevComponent implements OnInit {
   }
 
   openChangePasswordModal(template: TemplateRef<any>) {
-    // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    // this.modalRefWrapper = this.modalService.show(template, {class: 'modal-md'});
   }
 
   changeUrl() {
@@ -54,7 +54,7 @@ export class BackendDevComponent implements OnInit {
     ])
       .subscribe((value) => {
         this.utilityService.showSuccessToaster('Backend root url changed');
-        // this.modalRef.hide();
+        // this.modalRefWrapper.hide();
       });
   }
 

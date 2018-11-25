@@ -53,7 +53,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   templateKeyCreationError = '';
   @ViewChild('channelSelectorForm') channelSelectorForm: NgForm;
 
-  modalRef;
+  modalRefWrapper = {ref:null};
   selectedChannelOfGenTemplate;
   @Input() bot;
   @Input() templateKeyDict;
@@ -93,8 +93,6 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   isTemplateKeyOutputUnparsable() {
-
-
     return this.activeTab === this.myEBotVersionTabs.generation_templates &&
       this.templateKeyDict &&
       typeof this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar] === 'string';
@@ -106,8 +104,21 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar] = codeStr;
   }
 
-  selectedListCopyModel(IntentSelectionModal) {
-    this.modalRef = this.modalService.show(IntentSelectionModal, {class: 'modal-lg'});
+  async selectedListCopyModel(IntentSelectionModal) {
+    // this.modalRefWrapper = this.modalService.show(IntentSelectionModal, {class: 'modal-lg'});
+
+
+    let data = await this.utilityService.openDialog({
+      dialog: this.matDialog,
+      component: IntentSelectionModal,
+      data: null,
+      classStr: 'primary-modal-header-border',
+      dialogRefWrapper: this.modalRefWrapper
+    });
+
+    if (data) {
+      // this.deleteTemplateKey(tempKey);
+    }
   }
 
   addCodeUnit() {
@@ -136,7 +147,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   clearNewTemplateKeyData() {
 
-    this.modalRef.hide();
+    this.modalRefWrapper.ref.close();
     this.newTemplateKey = '';
     this.templateKeyCreationError = '';
   }
@@ -218,7 +229,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
       this.templateKeyDict[key].push(...JSON.parse(JSON.stringify(selectedGenTempObjList)));
     }
     this.selectedTemplateKeyOutputIndex = [];
-    this.modalRef.hide();
+    this.modalRefWrapper.ref.close();
   }
 
 
@@ -276,7 +287,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     }];
     // this.templateKeyDict = {...this.templateKeyDict, ...intentUnit};
     this.templateKeyDict = Object.assign(this.templateKeyDict, intentUnit);
-    this.modalRef.hide();
+    this.modalRefWrapper.ref.close();
     this.selectedTemplateKeyInLeftSideBar = this.newTemplateKey;
     this.newTemplateKey = '';
   }
@@ -306,11 +317,11 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     }
     this.utilityService.renameKeyInObject(this.templateKeyDict, old_key, new_key);
     this.selectedTemplateKeyInLeftSideBar = new_key;
-    this.modalRef.hide();
+    this.modalRefWrapper.ref.close();
   }
 
   // openDeleteTemplateKeyModal(deleteTemplateKeyModal) {
-  //   this.modalRef = this.modalService.show(deleteTemplateKeyModal);
+  //   this.modalRefWrapper = this.modalService.show(deleteTemplateKeyModal);
   // }
 
   async openDeleteTemplateKeyModal(tempKey) {
@@ -321,8 +332,9 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
         title: `Delete template key: ${tempKey}?`,
         message: 'This action cannot be undone.Are you sure you wish to continue?',
         actionButtonText: 'Delete',
-        isActionButtonDanger: true
+        isActionButtonDanger: true,
       },
+      dialogRefWrapper: this.modalRefWrapper,
       classStr: 'danger-modal-header-border'
     });
 
@@ -332,8 +344,25 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   // openEditTemplateKeyModal(EditTemplateKeyModal) {
-  //   this.modalRef = this.modalService.show(EditTemplateKeyModal);
+  //   this.modalRefWrapper = this.modalService.show(EditTemplateKeyModal);
   // }
+
+  async openNewIntentModal(IntentModal) {
+    let dialogRefWrapper = {ref:this.modalRefWrapper};
+    let dataPromise$ = this.utilityService.openDialog({
+      dialog: this.matDialog,
+      component: IntentModal,
+      data: null,
+      dialogRefWrapper,
+      classStr: 'primary-modal-header-border'
+    });
+
+    let data = await dataPromise$;
+
+    if (data) {
+      // this.editTemplateKey({old_key:tempKey, new_key:data});
+    }
+  }
 
   async openEditTemplateKeyModal(tempKey) {
     let data = await this.utilityService.openDialog({
@@ -341,8 +370,9 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
       component: GentemplateEditKeyComponent,
       data: {
         old_key:tempKey,
-        templateKeyDict: this.templateKeyDict,
+        templateKeyDict: this.templateKeyDict
       },
+      dialogRefWrapper: this.modalRefWrapper,
       classStr: 'primary-modal-header-border'
     });
 
@@ -351,15 +381,15 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     }
   }
 
-  openNewIntentModal(template) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-w-30vw'});
-    return;
-  }
+  // openNewIntentModal(template) {
+  //   this.modalRefWrapper = this.modalService.show(template, {class: 'modal-w-30vw'});
+  //   return;
+  // }
 
   deleteTemplateKey(tempKey) {
     delete this.templateKeyDict[tempKey];
     this.utilityService.showSuccessToaster('Template key deleted!');
-    this.modalRef.hide();
+    this.modalRefWrapper.ref.close();
   }
 
   ngOnDestroy() {

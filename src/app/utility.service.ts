@@ -903,7 +903,7 @@ export class UtilityService {
     return Array.from(new Set(arr));
   }
 
-  openDialog(dialogOptions:{dialog, component, data, classStr,dialogRefWrapper?:{ref:any}}): Promise<any> {
+  openDialog(dialogOptions:{dialog, component, data, classStr,dialogRefWrapper:{ref:any}}): Promise<any> {
 
     let {dialog, component, data, classStr,dialogRefWrapper} = dialogOptions;
     try {

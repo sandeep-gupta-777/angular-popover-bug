@@ -203,10 +203,9 @@
 
 <ng-template #IntentSelectionModal>
   <div class="primary-modal">
-    <div class="top-dec"></div>
     <div class="modal-header" style="border: none !important;">
       <h4 class="modal-title" style="display: flex;justify-content: start;">Copy response templates to</h4>
-      <button aria-label="Close" class="close pull-right" type="button" (click)="modalRef.hide()"><span
+      <button aria-label="Close" class="close pull-right" type="button" (click)="modalRefWrapper.ref.close()"><span
         aria-hidden="true">×</span>
       </button>
       <br>
@@ -238,7 +237,7 @@
           </label>
         </form>
         <div class="d-flex w-100">
-          <button class="btn-theme btn-theme-primary-outline ml-auto mr-2" (click)="modalRef.hide()">Cancel</button>
+          <button class="btn-theme btn-theme-primary-outline ml-auto mr-2" (click)="modalRefWrapper.ref.close()">Cancel</button>
           <button class="btn-theme btn-theme-primary  d-inline-block mr-2"
                   [disabled]="(modelGenTempNameForm.value|numberOfTrueKeys)<1"
                   form="modelGenTempNameForm">Copy now
@@ -268,7 +267,7 @@
           <span *ngIf="templateKeyCreationError" class="text-danger">{{templateKeyCreationError}}</span>
         </div>
         <div class="d-flex justify-content-end w-100 mt-2">
-          <button class="btn-theme btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>
+          <button class="btn-theme btn-theme-primary-outline mr-1" (click)="modalRefWrapper.ref.hide()">Cancel</button>
           <button class="btn-theme btn-theme-primary"
                   [disabled]="!templateKeyEditForm.valid"
                   (click)="editTemplateKey(templateKeyEditForm)">Submit
@@ -283,13 +282,6 @@
 
 <ng-template #IntentModal>
   <div class="primary-modal" (clickOutside)="templateKeyCreationError='';newTemplateKey=''">
-    <div class="top-dec"></div>
-    <!--<div class="modal-header">-->
-    <!--<h4 class="modal-title" style="display: flex;justify-content: start;">Create new template key</h4>-->
-    <!--<button aria-label="Close" class="close pull-right" type="button" (click)="modalRef.hide()"><span-->
-    <!--aria-hidden="true">×</span>-->
-    <!--</button>-->
-    <!--</div>-->
     <div class="modal-body" style="text-align: left">
       <div class="text-bold">Create new template key</div>
       <div class="d-flex align-items-center flex-wrap mt-2">
@@ -313,7 +305,7 @@
     <div class="top-dec"></div>
     <div class="modal-header">
       <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete Template key?</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefWrapper.ref.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -325,7 +317,7 @@
 
         </div>
         <div class="d-flex justify-content-end">
-          <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+          <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRefWrapper.ref.hide()">Cancel</button>
           <button class=" btn-theme btn-theme-danger" (click)="deleteTemplateKey(templateKeyToBeDeleted.value)">Delete
           </button>
         </div>
