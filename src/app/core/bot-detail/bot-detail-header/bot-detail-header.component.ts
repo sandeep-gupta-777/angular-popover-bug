@@ -13,6 +13,8 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {IEnterpriseProfileInfo} from '../../../../interfaces/enterprise-profile';
 import {ELogType, LoggingService} from '../../../logging.service';
+import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-bot-detail-header',
@@ -34,6 +36,7 @@ export class BotDetailHeaderComponent implements OnInit {
     private store: Store,
     private serverService: ServerService,
     private router: Router,
+    private matDialog:MatDialog,
     public utilityService: UtilityService,
     private modalService: BsModalService,
     private constantsService: ConstantsService) {
@@ -130,7 +133,17 @@ export class BotDetailHeaderComponent implements OnInit {
     }
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'center-modal'});
+
+  async openDeleteModal() {
+    let data = await this.utilityService.openDialog({
+      dialog: this.matDialog,
+      component: ModalConfirmComponent,
+      data: {title:`Delete bot ${this.bot.name}?`, message:null, actionButtonText:"Delete", isActionButtonDanger:true},
+      classStr: 'danger-modal-header-border'
+    });
+
+    if(data){
+      this.deleteBot();
+    }
   }
 }

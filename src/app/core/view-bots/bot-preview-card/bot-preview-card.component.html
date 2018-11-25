@@ -105,7 +105,7 @@
 <mat-menu class="cutom-md-menu" #appMenu="matMenu">
   <button mat-menu-item (click)="utilityService.copyToClipboard(bot.bot_access_token)"><i class="fa fa-copy mr-1"></i>Copy Access Token</button>
   <button mat-menu-item (click)="utilityService.copyToClipboard(bot.enterprise_id)"><i class="fa fa-copy mr-1"></i>Copy Enterprise ID</button>
-  <button mat-menu-item *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]" (click)="openModal(template)"><i class="fa fa-trash mr-1"></i>Delete</button>
+  <button mat-menu-item *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]" (click)="openDeleteModal(template)"><i class="fa fa-trash mr-1"></i>Delete</button>
   <button mat-menu-item *ngIf="!bot.store_isPinned" (click)="togglePinBotCard(bot, true)"><i class="fa fa-thumb-tack mr-1"></i>Pin</button>
   <button mat-menu-item *ngIf="bot.store_isPinned" (click)="togglePinBotCard(bot, false)">Unpin</button>
 </mat-menu>

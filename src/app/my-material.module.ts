@@ -37,8 +37,17 @@ import {PlatformModule} from '@angular/cdk/platform';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {OverlayComponent} from './overlay/overlay.component';
 import {OverlayWithMenuComponent} from './overlay-with-menu/overlay-with-menu.component';
+import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
+import {ModalWrapperComponent} from './modal-wrapper/modal-wrapper.component';
+import {CommonModule} from '@angular/common';
+import {GentemplateEditKeyComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
+import {FormsModule} from '@angular/forms';
+import {BotSessionModalWrapperComponent} from './bot-session-modal-wrapper/bot-session-modal-wrapper.component';
 
 const materialModules = [
+  CommonModule,
+  FormsModule,
+
   MatButtonModule,
   MatCheckboxModule,
   MatMenuModule,
@@ -92,7 +101,11 @@ const materialModules = [
 
 const materialDeclarations = [
   OverlayComponent,
-  OverlayWithMenuComponent
+  OverlayWithMenuComponent,
+  ModalConfirmComponent,
+  ModalWrapperComponent,
+  BotSessionModalWrapperComponent,
+  GentemplateEditKeyComponent
 ]
 
 @NgModule({

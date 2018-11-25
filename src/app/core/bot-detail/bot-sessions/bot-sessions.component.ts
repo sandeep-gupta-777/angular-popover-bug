@@ -14,6 +14,8 @@ import {findIndex} from 'rxjs/operators';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 import {IAppState} from '../../../ngxs/app.state';
 import {MaterialTableImplementer} from '../../../material-table-implementer';
+import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-bot-sessions',
@@ -45,13 +47,14 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   pageNumberOfCurrentRowSelected = 1;
   indexOfCurrentRowSelected: number;
   decryptReason: string;
-
+  sessionModalRef;
 
   constructor(
     private serverService: ServerService,
     private utilityService: UtilityService,
     private constantsService: ConstantsService,
     private store: Store,
+    private matDialog: MatDialog,
     private modalService: BsModalService
   ) {
     super();
@@ -59,6 +62,30 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   ngOnInit() {
     this.loadSmartTableSessionData();
+  }
+
+  async openDeleteTemplateKeyModal(tempKey) {
+
+    let dialogRefWrapper = {ref: this.sessionModalRef};
+    let closeDialogPromise$ = this.utilityService.openDialog({
+      dialog: this.matDialog,
+      component: this.sessionDetailTemplate,
+      data: {
+        title: `Delete template key: ${tempKey}?`,
+        message: 'This action cannot be undone.Are you sure you wish to continue?',
+        actionButtonText: 'Delete',
+        isActionButtonDanger: true
+      },
+      dialogRefWrapper,
+      classStr: 'modal-xlg'
+    });
+    this.sessionModalRef = dialogRefWrapper.ref;
+    let data = await closeDialogPromise$;
+
+
+    // if (data) {
+    //   this.deleteTemplateKey(tempKey);
+    // }
   }
 
 
@@ -121,8 +148,6 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     * */
     if (eventData.data.data_encrypted) {
 
-      // this.sessionItemToBeDecrypted = eventData.data;
-      // this.openSessionRowDecryptModal(reasonForDecryptionTemplate);
       this.openSessionRowDecryptModal(this.reasonForDecryptionTemplate, eventData.data);
     } else {
       this.loadSessionMessagesById(eventData.data.id)
@@ -138,8 +163,8 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
           });
           this.sessions[this.indexOfCurrentRowSelected].highlight = true;
 
-          // this.openModal(template);
-          this.openModal(this.sessionDetailTemplate);
+          // this.openDeleteModal(template);
+          this.openDeleteTemplateKeyModal(this.sessionDetailTemplate);
 
         });
     }

@@ -41,6 +41,10 @@ import {ChatModule} from '../chat/chat.module';
 import {EBotType} from '../utility.service';
 import { StringIncludesPipe } from './buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
 import {MyMaterialModule} from '../my-material.module';
+import {CreateBotDialogComponent} from './view-bots/create-bot-dialog/create-bot-dialog.component';
+import {ModalConfirmComponent} from '../modal-confirm/modal-confirm.component';
+import {GentemplateEditKeyComponent} from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
+import {BotSessionModalWrapperComponent} from '../bot-session-modal-wrapper/bot-session-modal-wrapper.component';
 const routes: Route[] = [
   {
 
@@ -111,6 +115,11 @@ const routes: Route[] = [
     // HighlightDirective
 
   ],
+  entryComponents: [
+    ModalConfirmComponent,
+    GentemplateEditKeyComponent,
+    BotSessionModalWrapperComponent
+  ],
   imports: [
     ChatModule,
     CommonModule,
@@ -119,7 +128,8 @@ const routes: Route[] = [
     // DragAndDropModule.forRoot(),
     HttpClientModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MyMaterialModule
 
   ],
   providers: [AimService]

@@ -865,7 +865,11 @@ progressbar {
 
 .modal-xlg {
   max-width: 1000px;
-  width: 80vw;
+  width: 70vw;
+  .mat-dialog-container{
+    padding: 0;
+    border-radius: 4px;
+  }
 }
 
 .modal-w-30vw {
@@ -1084,12 +1088,14 @@ mat-dialog-container{
   .mat-dialog-container{
     border-top: 10px solid $color-primary;
     border-radius: 4px;
+    padding: 10px;
   }
 }
 
 .danger-modal-header-border{
   .mat-dialog-container{
-    border-top: 10px solid $color-primary;
+    border-top: 10px solid $color-danger;
+    padding: 10px;
     border-radius: 4px;
   }
 }

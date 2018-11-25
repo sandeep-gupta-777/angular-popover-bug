@@ -23,6 +23,9 @@ import {IAuthState} from '../../../auth/ngxs/auth.state';
 import {IEnterpriseProfileInfo} from '../../../../interfaces/enterprise-profile';
 import {LoggingService} from '../../../logging.service';
 import {UpdateBotInfoByIdInBotInBotList} from '../ngxs/view-bot.action';
+import {CreateBotDialogComponent} from '../create-bot-dialog/create-bot-dialog.component';
+import {MatDialog} from '@angular/material';
+import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
 
 @Component({
   selector: 'app-bot-preview-card',
@@ -56,6 +59,7 @@ export class BotPreviewCardComponent implements OnInit {
     public router: Router,
     public constantsService: ConstantsService,
     public serverService: ServerService,
+    private dialog: MatDialog,
     public store: Store
   ) {
   }
@@ -103,18 +107,27 @@ export class BotPreviewCardComponent implements OnInit {
       new UpdateBotInfoByIdInBotInBotList({botId: bot.id, data: {store_isPinned: doPin}})
     ]).subscribe(() => {
       if (doPin) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({top: 0, behavior: 'smooth'});
       }
     });
 
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+  async openDeleteModal() {
+    let data = await this.utilityService.openDialog({
+      dialog: this.dialog,
+      component: ModalConfirmComponent,
+      data: {title:`Delete bot ${this.bot.name}?`, message:null, actionButtonText:"Delete", isActionButtonDanger:true},
+      classStr: 'danger-modal-header-border'
+    });
+
+    if(data){
+      this.deleteBot();
+    }
   }
 
   deleteBot() {
-    this.modalRef.hide();
+    // this.modalRef.hide();
     const url = this.constantsService.getDeleteBotUrl(this.bot.id);
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
@@ -132,7 +145,6 @@ export class BotPreviewCardComponent implements OnInit {
   }
 
   navigateToBotDetailPage(event) {//preview-button
-
 
 
     if (!event.target.classList.contains('click-save-wrapper')) {
@@ -161,5 +173,6 @@ export class BotPreviewCardComponent implements OnInit {
   test(channelName) {
     this.router.navigateByUrl(`core/botdetail/chatbot/${this.bot.id}?build-tab=integration&code-tab=df_template#${channelName}`);
   }
+
 
 }

@@ -1,0 +1,16 @@
+@import "~src/sass/main";
+
+
+.danger-modal{
+  @include classic-modal(#b14250);
+}
+
+
+input {
+  margin: 4px;
+  height: 25px;
+  border-radius: 2px;
+  width: 95%;
+  border: solid 1px #e0e0e0;
+  padding-left: 8px;
+}

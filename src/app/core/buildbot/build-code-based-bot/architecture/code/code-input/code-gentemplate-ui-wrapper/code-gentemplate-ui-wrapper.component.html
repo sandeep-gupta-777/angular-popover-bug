@@ -22,9 +22,9 @@
              (click)="selectedTemplateKeyInLeftSideBar = tempKey;selectedTemplateKeyOutputIndex = [];">{{tempKey}}
         </div>
         <i class="fa fa-edit mr-1 cursor-pointer hide-it" style="color: #9e9e9e"
-           (click)="templateKeyToBeDeleted.value= tempKey; openEditTemplateKeyModal(EditTemplateKeyModal);"></i>
+           (click)="openEditTemplateKeyModal(tempKey);"></i>
         <i class="fa fa-trash mx-2 cursor-pointer hide-it" style="color: #9e9e9e"
-           (click)="templateKeyToBeDeleted.value= tempKey;openDeleteTemplateKeyModal(deleteTemplateKeyModal)"></i>
+           (click)="openDeleteTemplateKeyModal(tempKey)"></i>
       </div>
 
     </div>
