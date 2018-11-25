@@ -182,7 +182,7 @@
         <div class="col-md-3 d-flex justify-content-end">
           <label for="">Fork from</label>
         </div>
-        <div class="col-md-9 px-0 d-flex justify-content-start">
+        <div class="col-md-9 px-0 d-flex justify-content-start align-content-end">
           <!--<input type="password" [(ngModel)]="forked_From" name="old_password">-->
           <!--<select class="concept1" [(ngModel)]="forked_version_number" required type="number" name="version_id" #select>-->
           <!--<option type="button" *ngFor="let version of bot.store_bot_versions">-->
@@ -191,14 +191,22 @@
           <!--</select>-->
 
           <!--<div class="form-group m-0 mr-4 ml-auto">-->
-          <select class="concept1" [(ngModel)]="forked_version_number" required type="number" name="version_id" #select>
-            <img style="height: 20px; width: 20px; position: absolute;left: 5px"
-                 src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/facebook.png"
-                 alt="">
-            <option type="button" *ngFor="let version of bot.store_bot_versions">
-              <button>{{version.version}}</button>
-            </option>
-          </select>
+          <!--<select class="concept1" [(ngModel)]="forked_version_number" required type="number" name="version_id" #select>-->
+            <!--<img style="height: 20px; width: 20px; position: absolute;left: 5px"-->
+                 <!--src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/facebook.png"-->
+                 <!--alt="">-->
+            <!--<option type="button" *ngFor="let version of bot.store_bot_versions">-->
+              <!--<button>{{version.version}}</button>-->
+            <!--</option>-->
+          <!--</select>-->
+
+          <mat-form-field>
+            <mat-select placeholder="" name="version_id">
+              <mat-option *ngFor="let version of bot.store_bot_versions">
+                {{version.version}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
           <!--</div>-->
 
         </div>
