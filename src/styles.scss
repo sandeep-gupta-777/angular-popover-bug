@@ -1,0 +1,1117 @@
+$fa-font-path: "../node_modules/font-awesome/fonts";
+@import "../node_modules/font-awesome/scss/font-awesome.scss";
+@import "./sass/main.scss";
+
+/*angular material theming starts*/
+@import '~@angular/material/theming';
+
+/*typography*/
+
+// Define a custom typography config that overrides the font-family as well as the
+// `headlines` and `body-1` levels.
+$custom-typography: mat-typography-config(
+  $font-family:   '"Helvetica", sans-serif',
+  $display-4:     mat-typography-level(112px, 112px, 300),
+  $display-3:     mat-typography-level(56px, 56px, 400),
+  $display-2:     mat-typography-level(45px, 48px, 400),
+  $display-1:     mat-typography-level(34px, 40px, 400),
+  $headline:      mat-typography-level(24px, 32px, 400),
+  $title:         mat-typography-level(20px, 32px, 500),
+  $subheading-2:  mat-typography-level(16px, 28px, 400),
+  $subheading-1:  mat-typography-level(15px, 24px, 400),
+  $body-2:        mat-typography-level(14px, 24px, 500),
+  $body-1:        mat-typography-level(14px, 20px, 400),
+  $caption:       mat-typography-level(11px, 20px, 400),
+  $button:        mat-typography-level(14px, 14px, 500),
+    // Line-height must be unit-less fraction of the font-size.
+  $input:         mat-typography-level(inherit, 1.125, 400)
+);
+@include mat-core($custom-typography);
+.unicorn-title {
+  @include mat-typography-level-to-styles($custom-typography, title);
+}
+
+.custom-info{
+  @include mat-typography-level-to-styles($custom-typography, caption);
+  color: $color-primary;
+  font-style: italic;
+}
+
+.custom-error{
+  @include mat-typography-level-to-styles($custom-typography, caption);
+  color: red;
+  font-style: italic;
+}
+
+.custom-text-primary{
+  color: $color-primary;
+}
+.custom-text-danger{
+  color: red;
+}
+
+.custom-button{
+  height: 32px;
+}
+
+$mat-indigo: (
+  50: #e8eaf6,
+  100: #c5cae9,
+  200: #9fa8da,
+  300: #7986cb,
+  400: #5c6bc0,
+  500: $color-primary,
+  600: #3949ab,
+  700: #303f9f,
+  800: #283593,
+  900: #1a237e,
+  A100: #8c9eff,
+  A200: #536dfe,
+  A400: #3d5afe,
+  A700: #304ffe,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $light-primary-text,
+    400: $light-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  )
+);
+
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$candy-app-primary: mat-palette($mat-indigo);
+$candy-app-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$candy-app-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($candy-app-theme);
+/*angular material theming starts*/
+
+* div {
+  //@include typography($font-size-normal, $line-height-normal, $font-weight-300, $color-text-normal);
+  font-size: $font-size-normal;
+  strong {
+    font-weight: 700;
+  }
+  &:focus {
+    outline: 0;
+  }
+}
+
+.border1 {
+  border: 1px solid red !important;
+}
+
+.border-theme {
+  border: 1px solid rgba(0, 0, 0, 0.38);
+}
+
+.border-theme-secondary {
+  border: 1px solid $color-secondary;
+}
+
+.border-primary {
+  border: 1px solid $color-primary;
+}
+
+.modal-content {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.text-theme-normal {
+  .center-horizontal-absolute {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  .center-vertical-absolute {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    right: 15px;
+  }
+  @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-text-normal);
+}
+
+.text-theme-muted {
+  @include typography($font-size-xs, $line-height-normal, $font-weight-300, $color-text-border-e0);
+}
+
+.text-theme-secondary {
+  @include typography($font-size-xs, $line-height-normal, $font-weight-300, $color-secondary);
+}
+
+.box {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.tab-active {
+  border-bottom: 2px solid $color-primary !important;
+  background-color: transparent; //important is required to override bootstrap active
+  .nav-link {
+    font-weight: 700;
+  }
+}
+
+.dropdown-item-active {
+  background-color: $color-primary;
+  color: white !important;
+  //padding: 8px !important;
+}
+
+.shadow-theme {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.bg-theme-primary {
+  background-color: $color-primary;
+}
+
+.bg-theme-secondary {
+  background-color: #d7d7d7;
+}
+
+.shadow-theme-hover:hover {
+  box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+//.btn-theme-primary {
+//  background-color: #00abd3 !important;
+//  border: none;
+//  border-radius: 2px;
+//  padding-left: 20px;
+//  padding-right: 20px;
+//  line-height: 0px;
+//  height: 32px !important;
+//  font-size: $font-size-xs;
+//  color: white !important;
+//  cursor: pointer;
+//  &:hover {
+//    background-color: #0291d2 !important;
+//  }
+//}
+
+//.btn-theme-disabled {
+//  background-color: $color-secondary !important;
+//  opacity: .5;
+//  border: none;
+//  border-radius: 2px;
+//  padding-left: 20px;
+//  padding-right: 20px;
+//  line-height: 0px;
+//  height: 32px !important;
+//  font-size: $font-size-xs;
+//  color: white !important;
+//  cursor: pointer;
+//  //&:hover {
+//  //  background-color: #0291d2 !important;
+//  //}
+//}
+
+//.btn-theme-dark {
+//  background-color: black !important;
+//  border: none;
+//  border-radius: 2px;
+//  padding-left: 20px;
+//  padding-right: 20px;
+//  line-height: 0px;
+//  height: 32px !important;
+//  font-size: $font-size-xs;
+//  color: white !important;
+//  cursor: pointer;
+//  &:hover {
+//    background-color: black !important;
+//  }
+//}
+
+//.btn-theme-danger {
+//  background-color: #e85656 !important;
+//  border: none;
+//  border-radius: 2px;
+//  padding-left: 20px;
+//  padding-right: 20px;
+//  height: 32px !important;
+//  font-size: $font-size-xs;
+//  color: white;
+//  cursor: pointer;
+//  // &:hover {
+//  //   background-color: #0291d2 !important;
+//  // }
+//}
+
+//.btn-theme-primary-outline {
+//  background-color: white !important;
+//  border-radius: 2px;
+//  border: 1px solid;
+//  padding-left: 20px;
+//  padding-right: 20px;
+//  height: 32px !important;
+//  font-size: $font-size-xs;
+//  color: $color-primary;
+//  cursor: pointer;
+//}
+
+//.btn-theme-secondary-outline {
+//  background-color: white !important;
+//  border-radius: 2px;
+//  border: 1px solid $color-secondary;
+//  padding-left: 20px;
+//  padding-right: 20px;
+//  height: 32px !important;
+//  font-size: $font-size-xs;
+//  color: $color-primary;
+//  cursor: pointer;
+//}
+
+//.btn-theme-success {
+//  background-color: $color-success !important;
+//  border: none;
+//  border-radius: 2px;
+//  padding-left: 20px;
+//  padding-right: 20px;
+//  height: 32px !important;
+//  font-size: $font-size-xs;
+//  color: white;
+//  cursor: pointer;
+//}
+
+//.btn-theme-danger {
+//  background-color: $color-danger !important;
+//  border: none;
+//  border-radius: 2px;
+//  padding-left: 20px;
+//  padding-right: 20px;
+//  height: 32px !important;
+//  font-size: $font-size-xs;
+//  color: white;
+//}
+
+.btn-theme-danger-sm {
+  background-color: $color-danger !important;
+  border: none;
+  border-radius: 2px;
+  padding: 1px 5px;
+  height: 23px !important;
+  font-size: $font-size-xs;
+  color: white;
+  width: 70px;
+}
+
+.btn-theme-success-sm {
+  background-color: $color-success !important;
+  border: none;
+  border-radius: 2px;
+  padding: 1px 5px;
+  height: 23px !important;
+  font-size: $font-size-xs;
+  color: white;
+  width: 70px;
+}
+
+.btn-theme-success-sm {
+  background-color: $color-primary !important;
+  border: none;
+  border-radius: 2px;
+  padding: 1px 5px;
+  height: 23px !important;
+  font-size: $font-size-xs;
+  color: white;
+  width: 70px;
+}
+
+.btn-theme-success-sm-outline {
+  background-color: white !important;
+  border-radius: 2px;
+  border: 1px solid;
+  font-size: $font-size-xs;
+  color: $color-primary;
+
+  padding: 1px 5px;
+  height: 23px !important;
+  font-size: $font-size-xs;
+  width: 70px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+h4 {
+  @include typography($font-size-lg, $line-height-md, $font-weight-700, $color-text-grey);
+}
+
+.center-horizontal-absolute {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.center-vertical-absolute {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  right: 15px;
+}
+
+/*bootstrap overrides*/
+.card, .card-header, .card-footer {
+  border: none;
+}
+
+//.table td, .table th {
+//  vertical-align: middle !important;
+//}
+
+//th, td {
+//  text-align: center;
+//}
+
+.limit-oneline {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 350px;
+}
+
+.col-1d5 {
+  width: 12.499999995%
+  //width: 24% !important;
+}
+
+.nav-link, .cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-pointer-event-none {
+  pointer-events: none;
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
+
+.ng2-smart-title {
+
+  //@include typography(16px, $line-height-normal, $font-weight-300, $color-text-normal);
+  color: #56627c !important;
+  font-size: 13px !important;
+  line-height: 20px !important;
+  font-weight: 700 !important;
+  //color: #474747;
+  font-family: "Helvetica", sans-serif;
+}
+
+.ng2-smart-actions {
+  //margin-left: 4px !important;
+  padding-left: 30px !important;
+  text-align: start !important;
+}
+
+.dropdown-menu {
+  font-size: 13px;
+  font-family: "Helvetica", sans-serif;
+  border-radius: 2px;
+}
+
+.scrollbar-theme, body {
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgba(136, 136, 136, 0.28);
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(85, 85, 85, 0.51);
+  }
+}
+
+.tab-theme {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  @include typography(13px, $line-height-normal, $font-weight-300, $color-text-normal);
+  cursor: pointer;
+  &:hover {
+    background-color: #f7f7f7;
+  }
+  outline: none;
+  text-decoration: none;
+}
+
+.heading {
+  font-size: 13px !important;
+  font-family: "Helvetica", sans-serif;
+  font-weight: bold;
+  color: #474747;
+}
+
+.handsontable {
+  //position: absolute;
+}
+
+.d-flex-column-last-child-flex-grow-1 {
+  flex: 1;
+  //min-(dimension): 0;
+  display: flex;
+  flex-direction: column;
+  .child-no-expand {
+    flex-grow: 0;
+  }
+  .child-no-expand-shrink {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+  .child-expand {
+    flex: 1;
+  }
+
+}
+
+.search-theme-input-with-search {
+  align-self: start;
+  position: relative;
+  color: #aaa;
+  font-size: 16px;
+
+  input {
+    width: 93%;
+    height: 32px;
+
+    background: #fcfcfc;
+    border: 1px solid #aaa;
+    border-radius: 2px;
+    outline: none;
+    text-indent: 32px;
+    @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-text-normal);
+  }
+  .fa-search {
+    position: absolute;
+    top: 15px;
+    left: 25px;
+    transform: translate(0%, -50%)
+  }
+}
+
+.hover-under-line {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.logo-md {
+  height: 40px;
+  width: 40px;
+}
+
+.logo-sm {
+  height: 20px;
+  width: 20px;
+}
+
+.logo-xs {
+  height: 16px;
+  width: 16px;
+}
+
+.theme-tabbing {
+  .nav-item {
+    border: none;
+    .nav-link {
+      border: none;
+      text-decoration: none !important;
+      font-size: $font-size-sm;
+      //@include typography($font-size-sm, $line-height-normal, $font-weight-300, $color-text-grey);
+      line-height: $line-height-normal;
+      color: $color-text-grey;
+      font-family: "Helvetica", sans-serif;
+      &:hover {
+        border: none;
+      }
+    }
+  }
+}
+
+.text-theme-primary {
+  color: #00abd3;
+}
+
+/* Hide the browser's default checkbox */
+.container-chekbox {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 25px;
+  height: 18px;
+  cursor: pointer;
+  border-radius: 2px;
+  @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-secondary);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background-color: #eee;
+    border-radius: 2px
+  }
+
+  /* On mouse-over, add a grey background color */
+  &:hover input ~ .checkmark {
+    background-color: #ccc;
+    border-radius: 2px
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  input:checked ~ .checkmark {
+    background-color: #2196F3;
+    border-radius: 2px
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  input:checked ~ .checkmark:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .checkmark:after {
+    /*TODO: dont use hardcoded values*/
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+}
+
+.center-absolute {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.form-theme {
+  border-radius: 2px;
+  label {
+    @include typography(12px, $line-height-normal, $font-weight-300, $color-secondary);
+    margin: 0;
+  }
+  .form-control {
+    @include hide-borders();
+    border-bottom: $border-normal;
+    border-radius: 0;
+    padding: 8px 0px;
+    @include typography(11px, $line-height-normal, $font-weight-300, $color-text-normal);
+  }
+}
+
+//
+
+.speech-bubble {
+  //.Shape {
+  width: 51.7px;
+  height: 35px;
+  //background-color: #02bde8;
+  //}
+  position: relative;
+  background: #1e69de;
+  border-radius: 2px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+
+  background: #6db3f2; /* Old browsers */
+  background: -moz-linear-gradient(-45deg, #6db3f2 0%, #54a3ee 50%, #3690f0 51%, #1e69de 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(-45deg, #6db3f2 0%, #54a3ee 50%, #3690f0 51%, #1e69de 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg, #6db3f2 0%, #54a3ee 50%, #3690f0 51%, #1e69de 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6db3f2', endColorstr='#1e69de', GradientType=1);
+  /* IE6-9 fallback on horizontal gradient */
+  .stick-wrapper {
+    width: 70%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    .stick {
+      height: 2.5px;
+      width: 100%;
+      background-color: white;
+      &:last-child {
+        width: 50%;
+        height: 3px;
+      }
+    }
+
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    right: 0;
+    width: 0;
+    height: 0;
+    border: 14px solid transparent;
+    border-top-color: #1e69de;
+    border-bottom: 0;
+    border-right: 0;
+    margin-left: -7px;
+    margin-bottom: -14px;
+  }
+
+}
+
+.float-on-hover-animation {
+  //margin: 20px;
+  //padding: 3px;
+  //outline: 2px solid #DDD;
+  //border: #a1a1a1;
+  //float: left;
+  position: absolute;
+  //bottom: 0px;
+  //position: absolute;
+  bottom: -20px;
+  right: 0;
+  //-webkit-transition: margin 0.5s ease-out
+  -webkit-transition: margin 0.5s ease-out;
+  -moz-transition: margin 0.5s ease-out;
+  -o-transition: margin 0.5s ease-out;
+  &:hover {
+    cursor: pointer;
+    bottom: -0px;
+  }
+}
+
+//.CodeMirror {
+//  border: 1px solid #eee;
+//  height: auto !important;
+//  height: 50%;
+//}
+
+progressbar {
+  border-radius: 0 !important;
+  height: 5px !important;
+  .progress-bar {
+    background-color: $color-primary;
+    border-radius: 0;
+  }
+  background-color: transparent !important;
+}
+
+.text-highlight {
+  background-color: yellow;
+  color: #474747;
+}
+
+.hightlight-created-row {
+  background-color: #ededed;
+}
+
+.hightlight-decrypted {
+  //background-color: black;
+  .fa-lock {
+    //color: #f1f1f1 !important;
+    display: none !important;
+  }
+}
+
+.style-children-scrollbar-x {
+  /*TODO: make this for [overflow-x="auto"]*/
+  /*scrollbar styles start*/
+  /* width */
+  /* width */
+  ::-webkit-scrollbar {
+    height: 5px !important;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #d2d2d2;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+  /*scrollbar styles end*/
+
+}
+
+.required:after {
+  content: " *";
+}
+
+[disabled] {
+  cursor: not-allowed !important;
+}
+
+.disabled {
+  cursor: not-allowed !important;
+}
+
+.form-control:disabled, .form-control[readonly] {
+  background-color: transparent;
+}
+
+.ui-corner-all {
+  text-align: start;
+}
+
+.blinking {
+  animation: blinkingText 0.8s 0s;
+  animation-iteration-count: 2;
+  color: black;
+}
+
+@keyframes blinkingText {
+  0% {
+    opacity: 1.0;
+    color: #000000 !important;
+  }
+  50% {
+    opacity: 0.0;
+  }
+  100% {
+    opacity: 1.0;
+    color: #000000 !important;
+  }
+}
+
+//.modal.fade {
+//  display: flex !important;
+//  justify-content: center;
+//  align-items: center;
+//}
+//.modal-matDialog {
+//  vertical-align:middle;
+//  height:18em;
+//  //background-color: rgba(0,0,0,0.5);
+//}
+
+.d-flex-column-custom {
+  display: -ms-flexbox !important;
+  display: flex !important;
+  flex-direction: column;
+}
+
+.modal-xlg {
+  max-width: 1000px;
+  width: 70vw;
+  .mat-dialog-container{
+    padding: 0;
+    border-radius: 4px;
+  }
+}
+
+.modal-w-30vw {
+  width: 30vw;
+}
+
+//.center-modal{
+.modal.fade {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+//.modal-matDialog {
+//  vertical-align:middle;
+//  height:18em;
+//  background-color: rgba(0,0,0,0.5);
+//}
+//}
+
+//==========================
+.CodeMirror {
+  border: 1px solid #eee;
+  height: auto;
+  //max-height:250px;
+  //max-height: 350px;
+}
+
+.CodeMirror-scroll {
+  height: auto;
+  //max-height: 350px;
+}
+
+.cm-s-cobalt.CodeMirror {
+  background: #002240;
+  color: white;
+  position: absolute;
+}
+
+.cm-s-cobalt div.CodeMirror-selected {
+  background: #b36539;
+}
+
+.cm-s-cobalt .CodeMirror-line::selection, .cm-s-cobalt .CodeMirror-line > span::selection, .cm-s-cobalt .CodeMirror-line > span > span::selection {
+  background: rgba(179, 101, 57, .99);
+}
+
+.cm-s-cobalt .CodeMirror-line::-moz-selection, .cm-s-cobalt .CodeMirror-line > span::-moz-selection, .cm-s-cobalt .CodeMirror-line > span > span::-moz-selection {
+  background: rgba(179, 101, 57, .99);
+}
+
+.cm-s-cobalt .CodeMirror-gutters {
+  background: #002240;
+  border-right: 1px solid #aaa;
+}
+
+.cm-s-cobalt .CodeMirror-guttermarker {
+  color: #ffee80;
+}
+
+.cm-s-cobalt .CodeMirror-guttermarker-subtle {
+  color: #d0d0d0;
+}
+
+.cm-s-cobalt .CodeMirror-linenumber {
+  color: #d0d0d0;
+}
+
+.cm-s-cobalt .CodeMirror-cursor {
+  border-left: 1px solid white;
+}
+
+.cm-s-cobalt span.cm-comment {
+  color: #08f;
+}
+
+.cm-s-cobalt span.cm-atom {
+  color: #845dc4;
+}
+
+.cm-s-cobalt span.cm-number, .cm-s-cobalt span.cm-attribute {
+  color: #ff80e1;
+}
+
+.cm-s-cobalt span.cm-keyword {
+  color: #ffee80;
+}
+
+.cm-s-cobalt span.cm-string {
+  color: #3ad900;
+}
+
+.cm-s-cobalt span.cm-meta {
+  color: #ff9d00;
+}
+
+.cm-s-cobalt span.cm-variable-2, .cm-s-cobalt span.cm-tag {
+  color: #9effff;
+}
+
+.cm-s-cobalt span.cm-variable-3, .cm-s-cobalt span.cm-def, .cm-s-cobalt .cm-type {
+  color: white;
+}
+
+.cm-s-cobalt span.cm-bracket {
+  color: #d8d8d8;
+}
+
+.cm-s-cobalt span.cm-builtin, .cm-s-cobalt span.cm-special {
+  color: #ff9e59;
+}
+
+.cm-s-cobalt span.cm-link {
+  color: #845dc4;
+}
+
+.cm-s-cobalt span.cm-error {
+  color: #9d1e15;
+}
+
+.cm-s-cobalt .CodeMirror-activeline-background {
+  background: #002D57;
+}
+
+.cm-s-cobalt .CodeMirror-matchingbracket {
+  outline: 1px solid grey;
+  color: white !important;
+}
+
+.bg-message-bot {
+  background-color: #f7f7f7;
+  .time, .message-text {
+    color: #474747 !important;
+  }
+}
+
+.bg-message-human {
+  background-color: $color-primary;
+  .time, .message-text {
+    color: white !important;
+  }
+}
+
+/*centering*/
+.flex-theme-vertical-center {
+  display: flex;
+  justify-content: center;
+}
+
+.flex-theme-horizontal-center {
+  display: flex;
+  align-items: center;
+}
+
+.flex-theme-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.debug-small {
+  font-size: 6px;
+}
+
+.show-on-hover-wrapper {
+  .show-on-hover-item {
+    visibility: hidden;
+  }
+  &:hover {
+    .show-on-hover-item {
+      visibility: visible;
+    }
+  }
+}
+
+.always-show {
+  .show-on-hover-item {
+    visibility: visible;
+  }
+  &:hover {
+    .show-on-hover-item {
+      visibility: visible;
+    }
+  }
+}
+
+#button-configure-dropdown {
+  top: -180px !important;
+}
+
+.popover {
+  z-index: 100;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Helvetica", sans-serif;
+}
+
+
+mat-dialog-container{
+  //padding: 0!important;
+  .top-dec{
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    height: 10px;
+    background-color: $color-primary;
+  }
+}
+
+.primary-modal-header-border{
+  .mat-dialog-container{
+    border-top: 10px solid $color-primary;
+    border-radius: 4px;
+    padding: 10px;
+  }
+}
+
+.danger-modal-header-border{
+  .mat-dialog-container{
+    border-top: 10px solid $color-danger;
+    padding: 10px;
+    border-radius: 4px;
+  }
+}
+
+.cutom-md-menu{
+  .mat-menu-content{
+    padding: 0;
+    button{
+      height: 40px;
+      font-size: 13px;
+      line-height: 13px;
+    }
+  }
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-underline{
+  background-color: #e0e0e0;;
+}
+

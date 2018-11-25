@@ -36,7 +36,6 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   showLoader = false;
   refreshSessions$: Observable<ISessions>;
   url: string;
-  modalRef: BsModalRef;
   smartTableSettings_Sessions = this.constantsService.SMART_TABLE_SESSIONS_SETTING;
   selectedRow_Session: ISessionItem;
   selectedRow_number = 0;
@@ -229,7 +228,8 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   }
 
   preOpenDecryptionModal() {
-    this.modalRef.hide();
+    // this.modalRef.hide();
+    this.dialogRefWrapper.ref.close();
     const sessionToBeDecrypted = this.sessions[this.indexOfCurrentRowSelected];
     this.openSessionRowDecryptModal(this.reasonForDecryptionTemplate, sessionToBeDecrypted);
     return;
