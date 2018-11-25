@@ -40,7 +40,7 @@ import {ERouteNames} from '../constants.service';
 import {ChatModule} from '../chat/chat.module';
 import {EBotType} from '../utility.service';
 import { StringIncludesPipe } from './buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
-import {MyMaterialModule} from '../material.module';
+import {MyMaterialModule} from '../my-material.module';
 const routes: Route[] = [
   {
 

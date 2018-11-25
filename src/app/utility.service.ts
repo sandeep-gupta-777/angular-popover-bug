@@ -748,6 +748,15 @@ export class UtilityService {
     this.router.navigate(['.'], {queryParams: queryParamObj, relativeTo: this.activatedRoute});
   }
 
+  isAtleastOneValueIsDefined(obj){
+    if(!obj) return false;
+    for (let key in obj){
+      if(obj[key]) return true
+    }
+    return false;
+  }
+
+
   findFormControlIndexInFormArrayByValue(formArray: FormArray, value): number {
     let i = 0;
     for (const control of formArray.controls) {

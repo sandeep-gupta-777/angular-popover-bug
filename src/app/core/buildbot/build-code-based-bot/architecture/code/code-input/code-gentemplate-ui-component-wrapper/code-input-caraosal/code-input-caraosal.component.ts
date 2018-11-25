@@ -28,6 +28,8 @@ enum ECarasoulMoveDirection {
   styleUrls: ['./code-input-caraosal.component.scss']
 })
 export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
+
+  showOverlay:boolean;
   @ViewChild('mainInput') mainInput: ElementRef;
   @Input() outputItem: IOutputItem;
   @Input() isFullScreenPreview = false;
@@ -353,9 +355,11 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
     this.recalculateWidthForCaraousalItems();
   }
 
-  saveButtonConfig(btnConfigForm: NgForm, i: number, buttonIndex: number) {
+  saveButtonConfig(btnConfigForm: NgForm, i: number, buttonIndex: number, activeDropdownButtonIndex) {
     console.log(btnConfigForm.value);
+
     this.outputItem.generic_template[0].elements[i].button[buttonIndex] = btnConfigForm.value;
+    activeDropdownButtonIndex.value = -1;
   }
 
   ngAfterViewChecked() {
@@ -384,6 +388,17 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
       console.log(e);
     }
   }
+
+  changeActiveButtonIndex(activeDropdownButtonIndex,buttonIndex){
+    setTimeout(()=>{
+      activeDropdownButtonIndex.value = buttonIndex;
+    })
+  }
+
+test(){
+    alert();
+}
+
 
 
 }

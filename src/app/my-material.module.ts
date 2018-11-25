@@ -32,8 +32,13 @@ import {
   MatTabsModule, MatToolbarModule, MatTooltipModule, MatTreeModule
 } from '@angular/material';
 import {NgModule} from '@angular/core';
+import {PortalModule} from '@angular/cdk/portal';
+import {PlatformModule} from '@angular/cdk/platform';
+import {OverlayModule} from '@angular/cdk/overlay';
+import {OverlayComponent} from './overlay/overlay.component';
+import {OverlayWithMenuComponent} from './overlay-with-menu/overlay-with-menu.component';
 
-const materialItems = [
+const materialModules = [
   MatButtonModule,
   MatCheckboxModule,
   MatMenuModule,
@@ -78,10 +83,21 @@ const materialItems = [
   MatToolbarModule,
   MatTooltipModule,
   MatTreeModule,
+
+  OverlayModule,
+  PlatformModule,
+  PortalModule,
+
 ];
 
+const materialDeclarations = [
+  OverlayComponent,
+  OverlayWithMenuComponent
+]
+
 @NgModule({
-  imports: materialItems,
-  exports: materialItems,
+  declarations:materialDeclarations,
+  imports: [...materialModules],
+  exports: [...materialModules, ...materialDeclarations],
 })
 export class MyMaterialModule { }

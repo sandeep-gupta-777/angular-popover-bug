@@ -12,9 +12,11 @@ import {IConsumerDetails} from '../../../ngxs/chat.state';
 })
 export class ChatItemComponent implements OnInit {
 
+  myObject = Object;
   @Input() room: IRoomData;
   @Input() currentUid: string;
   @Input() currentRoomId: number;
+  showOverlay:boolean;
   @Select() chatsessionstate$: Observable<IChatSessionState>;
   customConsumerDetails: IConsumerDetails;
   constructor(private store: Store) {
@@ -33,5 +35,13 @@ export class ChatItemComponent implements OnInit {
       new SetCurrentUId({uid: this.room.uid}),
       // new SetCurrentBotDetails({bot_id:this.room.bot_id}),
       new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX})]);
+  }
+
+  toggleOverlay(showOverlay, event){
+    setTimeout(()=>{
+      this.showOverlay = !this.showOverlay;
+    });
+
+    event.stopPropagation();
   }
 }

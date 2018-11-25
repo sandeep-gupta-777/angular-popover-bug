@@ -63,7 +63,7 @@ import {CodeGentemplateUiWrapperComponent} from '../buildbot/build-code-based-bo
 import {TrimStringPipe} from '../../trim-string.pipe';
 import {DebounceClickDirective} from '../../debounce-click.directive';
 import {CheckImageValidityPipe} from '../../check-image-validity.pipe';
-import {MyMaterialModule} from '../../material.module';
+import {MyMaterialModule} from '../../my-material.module';
 import {EBotType} from '../../utility.service';
 import {StringIncludesPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
 

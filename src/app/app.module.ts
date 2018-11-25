@@ -22,7 +22,6 @@ import {AnalysisStateReducer2} from './core/analysis2/ngxs/analysis.state';
 
 import {ReportsStateReducer} from './core/reports/ngxs/reports.state';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
 import {AuthGaurdService} from './auth-gaurd.service';
 import {DatePipe} from '@angular/common';
 import {LoginGaurdService} from './login-gaurd.service';

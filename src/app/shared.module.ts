@@ -47,7 +47,7 @@ import {ErrorDescriptionPipe} from './core/buildbot/build-code-based-bot/bot-con
 import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
 import {SplashScreenComponent} from './splash-screen/splash-screen.component';
 import {SafeUrlPipe} from './href-sanitizer.pipe';
-import {MyMaterialModule} from './material.module';
+import {MyMaterialModule} from './my-material.module';
 import {ImiLoaderComponent} from './imi-loader/imi-loader.component';
 
 @NgModule({
