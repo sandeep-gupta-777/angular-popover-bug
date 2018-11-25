@@ -903,17 +903,17 @@ export class UtilityService {
     return Array.from(new Set(arr));
   }
 
-  openDialog(dialogOptions:{dialog, component, data, classStr,dialogRefWrapper:{ref:any}}): Promise<any> {
-
-    let {dialog, component, data, classStr,dialogRefWrapper} = dialogOptions;
+  openDialog(dialogOptions: { dialog, component, data?: any, classStr, dialogRefWrapper?: { ref: any } }): Promise<any> {
+    //data: { message?: string, title?: string, actionButtonText?: string, isActionButtonDanger?:boolean }
+    let {dialog, component, data, classStr, dialogRefWrapper} = dialogOptions;
     try {
       dialogRefWrapper.ref.close();//closing any previous modals
-    }catch (e) {
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
     const dialogRef = dialog.open(component, {
       data,
-      panelClass: classStr
+      panelClass: classStr//'primary-modal-header-border'
     });
     dialogRefWrapper.ref = dialogRef;
 

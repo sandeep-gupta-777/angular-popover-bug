@@ -20,7 +20,7 @@
     <div class="top-dec"></div>
     <div class="modal-header">
       <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Reason for decryption</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
 
@@ -38,7 +38,7 @@
                  name="decryptReason">
         </div>
         <button [disabled]="!form.valid" class=" btn-theme btn-theme-success-sm"
-                (click)="decryptSubmit();modalRef.hide()">Submit
+                (click)="decryptSubmit();dialogRefWrapper.ref.close()">Submit
         </button>
       </form>
     </div>

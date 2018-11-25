@@ -9,11 +9,12 @@ import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
 import {ActivatedRoute, Route, Router} from '@angular/router';
 import {ISessionItem, ITableColumn} from '../../../../interfaces/sessions';
 import {IHeaderData} from '../../../../interfaces/header-data';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {PermissionService} from '../../../permission.service';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 import {map} from 'rxjs/operators';
 import {MaterialTableImplementer} from '../../../material-table-implementer';
+import {UtilityService} from '../../../utility.service';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-consumers',
@@ -22,6 +23,7 @@ import {MaterialTableImplementer} from '../../../material-table-implementer';
 })
 export class ConsumersComponent extends MaterialTableImplementer implements OnInit {
 
+  dialogRefWrapper = {ref:null};
   @Select() botlist$: Observable<ViewBotStateModel>;
   @Input() id: string;
   @Input() bot: IBot;
@@ -36,7 +38,6 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
   isFullscreen: false;
   consumerItemToBeDecrypted: IConsumerItem;
   decryptReason: string;
-  modalRef: BsModalRef;
   tableData;
 
   constructor(
@@ -45,7 +46,8 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
     private router: Router,
     private permissionService: PermissionService,
     private activatedRoute: ActivatedRoute,
-    private modalService: BsModalService,
+    private matDialog: MatDialog,
+    private utilityService: UtilityService,
     private store: Store) {
     super();
   }
@@ -133,7 +135,13 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
   }
 
   openCreateBotModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    this.utilityService.openDialog({
+      dialog: this.matDialog,
+      dialogRefWrapper: this.dialogRefWrapper,
+      component:template,
+      classStr:'primary-modal-header-border'
+    });
   }
 
 

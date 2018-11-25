@@ -8,20 +8,20 @@ import {Select, Store} from '@ngxs/store';
 import {SetCodeBasedBotListAction, SetPipeLineBasedBotListAction} from './ngxs/view-bot.action';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {BsModalService} from 'ngx-bootstrap/modal';
 import {LoggingService} from '../../logging.service';
 import {ViewBotStateModel} from './ngxs/view-bot.state';
 import {RouteHelperService} from '../../route-helper.service';
 import {MatDialog} from '@angular/material';
 import {CreateBotDialogComponent} from './create-bot-dialog/create-bot-dialog.component';
 import {EBotType, UtilityService} from '../../utility.service';
+import {ModalImplementer} from '../../modal-implementer';
 
 @Component({
   selector: 'app-view-bots',
   templateUrl: './view-bots.component.html',
   styleUrls: ['./view-bots.component.scss']
 })
-export class ViewBotsComponent implements OnInit, AfterViewInit {
+export class ViewBotsComponent extends ModalImplementer implements OnInit, AfterViewInit {
 
   myEBotType = EBotType;
   botList$: Observable<IBot[]>;
@@ -35,10 +35,10 @@ export class ViewBotsComponent implements OnInit, AfterViewInit {
     private constantsService: ConstantsService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private modalService: BsModalService,
-    private utilityService: UtilityService,
-    public dialog: MatDialog,
+    public utilityService: UtilityService,
+    public matDialog: MatDialog,
     private store: Store) {
+    super(utilityService, matDialog);
   }
 
   @Select() botlist$: Observable<ViewBotStateModel>;
@@ -49,12 +49,13 @@ export class ViewBotsComponent implements OnInit, AfterViewInit {
   animal = 'horse';
 
   openDialog(): void {
-    this.utilityService.openDialog({
-      dialog: this.dialog,
-      component: CreateBotDialogComponent,
-      data: null,
-      classStr: 'primary-modal-header-border'
-    })
+    // this.utilityService.openDialog({
+    //   matDialog: this.matDialog,
+    //   component: CreateBotDialogComponent,
+    //   data: null,
+    //   classStr: 'primary-modal-header-border'
+    // })
+    this.openPrimaryModal(CreateBotDialogComponent)
       .then((botType) => {
         if (!botType) return;
         this.router.navigate([`/core/buildbot`], {queryParams: {bot_type: botType}});
@@ -82,9 +83,9 @@ export class ViewBotsComponent implements OnInit, AfterViewInit {
       });
   }
 
-  openCreateBotModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
-  }
+  // openCreateBotModal(template: TemplateRef<any>) {
+  //   this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+  // }
 
   navigate(bot_type) {
     this.modalRef.hide();

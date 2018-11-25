@@ -49,10 +49,9 @@
 
 <ng-template #Primarytemplat>
   <div class="primary-modal">
-    <div class="top-dec"></div>
     <div class="modal-header">
       <h4 class="modal-title" style="display: flex;justify-content: start;">{{selectedPipeline.unique_name}}</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
 
@@ -82,7 +81,7 @@
           </div>
 
         </div>
-        <button class="btn-theme btn-theme-success-sm" (click)="submitPipeline(Pipelineform); modalRef.hide()">Submit
+        <button class="btn-theme btn-theme-success-sm" (click)="submitPipeline(Pipelineform); dialogRefWrapper.ref.close()">Submit
         </button>
       </form>
 
@@ -90,14 +89,3 @@
     </div>
   </div>
 </ng-template>
-
-
-<!--<div class="flex">-->
-<!--<div class="container " dragula="VAMPIRES" [(dragulaModel)]="vamps">-->
-<!--<div class="vamp" *ngFor="let vamp of vamps">{{ vamp.name }}</div>-->
-<!--</div>-->
-
-<!--<div class="container " dragula="VAMPIRES" [(dragulaModel)]="vamps2">-->
-<!--<div class="vamp" *ngFor="let vamp of vamps2">{{ vamp.name }}</div>-->
-<!--</div>-->
-<!--</div>-->

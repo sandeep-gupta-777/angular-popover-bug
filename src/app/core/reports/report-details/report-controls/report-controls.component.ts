@@ -85,11 +85,6 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
       this.codebasedBotList = this.botlist.filter((bot) => bot.bot_type === EBotType.chatbot);
 
       setTimeout(() => {
-
-
-        // this.reportFormData.startdate = this.utilityService.convertDateObjectStringToDDMMYY(new Date(this.reportFormData.startdate));
-        // if (this.reportFormData) this.f.f.patchValue(this.reportFormData);
-        //
         if (_id && _id !== 'new') {
           const url = this.constantsService.getReportsEditInfo(_id);
           this.serverService.makeGetReq<IReportItem>({url})

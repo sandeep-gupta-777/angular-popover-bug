@@ -88,6 +88,7 @@
                matInput
                placeholder="Timepicker"
                autocomplete="off"
+               class="time-input1 date-input"
                name="start_time"
                id="start_time" required
                [(ngModel)]="start_time"
@@ -100,15 +101,18 @@
   <div class="col-12 mt-4">
     <div class="row">
       <div class="col-12 col-md-4 form-group">
-        <label for="" class="required " style="width: 100%">Select Date</label>
-        <input type="text"
-               placeholder="Datepicker"
-               class="form-control date-input"
-               [(ngModel)]="startdate"
-               [minDate]="today"
-               required
-               name="startdate"
-               bsDatepicker [bsConfig]="datePickerConfig">
+        <!--<label for="" class="required " style="width: 100%">Select Date</label>-->
+        <mat-form-field>
+          <input type="text"
+                 placeholder="Select Date"
+                 matInput
+                 class="date-input"
+                 [(ngModel)]="startdate"
+                 [minDate]="today"
+                 required
+                 name="startdate"
+                 bsDatepicker [bsConfig]="datePickerConfig">
+        </mat-form-field>
       </div>
     </div>
     <!---->

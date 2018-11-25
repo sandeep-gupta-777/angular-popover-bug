@@ -5,7 +5,6 @@ import {ServerService} from '../../../server.service';
 import {Observable, of} from 'rxjs';
 import {ConstantsService} from '../../../constants.service';
 import {ISessionItem, ISessionMessage, ISessions, ITableColumn} from '../../../../interfaces/sessions';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {IBot} from '../../interfaces/IBot';
 import {SmartTableComponent} from '../../../smart-table/smart-table.component';
 import {UtilityService} from '../../../utility.service';
@@ -24,6 +23,8 @@ import {MatDialog} from '@angular/material';
 })
 export class BotSessionsComponent extends MaterialTableImplementer implements OnInit {
   tableData;
+  dialogRefWrapper = {ref:null};
+
   myESplashScreens = ESplashScreens;
   @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
   @Input() id: string;
@@ -55,7 +56,6 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     private constantsService: ConstantsService,
     private store: Store,
     private matDialog: MatDialog,
-    private modalService: BsModalService
   ) {
     super();
   }
@@ -66,7 +66,6 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   async openDeleteTemplateKeyModal(tempKey) {
 
-    let dialogRefWrapper = {ref: this.sessionModalRef};
     let closeDialogPromise$ = this.utilityService.openDialog({
       dialog: this.matDialog,
       component: this.sessionDetailTemplate,
@@ -76,10 +75,9 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         actionButtonText: 'Delete',
         isActionButtonDanger: true
       },
-      dialogRefWrapper,
+      dialogRefWrapper: this.dialogRefWrapper,
       classStr: 'modal-xlg'
     });
-    this.sessionModalRef = dialogRefWrapper.ref;
     let data = await closeDialogPromise$;
 
 
@@ -172,9 +170,9 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-xlg'});
-  }
+  // openModal(template: TemplateRef<any>) {
+  //   this.modalRef = this.modalService.show(template, {class: 'modal-xlg'});
+  // }
 
   loadSessionTableDataForGivenPage(pageNumber) {
 
@@ -317,7 +315,13 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   openSessionRowDecryptModal(template: TemplateRef<any>, sessionToBeDecrypted: ISessionItem) {
     this.sessionItemToBeDecrypted = sessionToBeDecrypted;
-    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    this.utilityService.openDialog({
+      component: template,
+      dialog : this.matDialog,
+      classStr:'primary-modal-header-border',
+      dialogRefWrapper: this.dialogRefWrapper
+    });
   }
 
   loadSessionMessagesById(id) {

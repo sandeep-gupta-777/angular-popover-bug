@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {EBotVersionTabs} from '../code-input.component';
-import {BsModalService} from 'ngx-bootstrap/modal';
 import {NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../../../utility.service';
 import {ModalConfirmComponent} from '../../../../../../../modal-confirm/modal-confirm.component';
@@ -73,7 +72,6 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   templateKeyDictClone;
 
   constructor(
-    private modalService: BsModalService,
     private utilityService: UtilityService,
     private matDialog: MatDialog,
   ) {

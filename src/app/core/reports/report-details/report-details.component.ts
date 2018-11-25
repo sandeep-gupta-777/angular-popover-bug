@@ -9,19 +9,20 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ServerService} from '../../../server.service';
 import {ConstantsService} from '../../../constants.service';
 // import * as moment from 'moment';
-import {BsModalService} from 'ngx-bootstrap/modal';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
 import {IBot} from '../../interfaces/IBot';
 import {UtilityService} from '../../../utility.service';
+import {ModalImplementer} from '../../../modal-implementer';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-report-details',
   templateUrl: './report-details.component.html',
   styleUrls: ['./report-details.component.scss']
 })
-export class ReportDetailsComponent implements OnInit {
+export class ReportDetailsComponent extends ModalImplementer implements OnInit {
 
   @ViewChild(ReportControlsComponent) reportControlsComponent: ReportControlsComponent;
   @Select() reportItem$: Observable<ReportStateModel>;
@@ -33,12 +34,13 @@ export class ReportDetailsComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private utilityService: UtilityService,
+    public utilityService: UtilityService,
+    public matDialog: MatDialog,
     private router: Router,
     private serverService: ServerService,
     private constantsService: ConstantsService,
-    private modalService: BsModalService
   ) {
+    super(utilityService, matDialog);
   }
 
   ngOnInit() {
@@ -52,7 +54,8 @@ export class ReportDetailsComponent implements OnInit {
   }
 
   showReportDeleteModel(unsubscribeTemplate: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(unsubscribeTemplate, {class: 'center-modal'});
+    // this.modalRef = this.modalService.show(unsubscribeTemplate, {class: 'center-modal'});
+    this.openDangerModal(unsubscribeTemplate);
   }
 
   deleteReport() {
@@ -60,7 +63,7 @@ export class ReportDetailsComponent implements OnInit {
     this.serverService.makeDeleteReq({url: deleteReportUrl})
       .subscribe(() => {
         this.utilityService.showSuccessToaster('Report deleted');
-        this.modalRef.hide();
+        this.dialogRefWrapper.ref.close();
         this.router.navigate(['/core/reports']);
       });
   }
@@ -123,9 +126,11 @@ export class ReportDetailsComponent implements OnInit {
       this.serverService.makePutReq({url, body})
         .subscribe((value: IReportItem) => {
           if (value.isactive) {
-            this.modalRef = this.modalService.show(subscribeTemplate, {class: 'modal-md'});
+            // this.modalRef = this.modalService.show(subscribeTemplate, {class: 'modal-md'});
+            this.openPrimaryModal(subscribeTemplate);
           } else {
-            this.modalRef = this.modalService.show(unsubscribeTemplate, {class: 'modal-md'});
+            // this.modalRef = this.modalService.show(unsubscribeTemplate, {class: 'modal-md'});
+            this.openDangerModal(unsubscribeTemplate);
           }
         });
     } else {
@@ -135,7 +140,8 @@ export class ReportDetailsComponent implements OnInit {
       this.serverService.makePostReq({url, body, headerData})
         .subscribe((value: IReportItem) => {
           this.router.navigate([`core/reports/edit/${value.id}`]);
-          this.modalRef = this.modalService.show(subscribeTemplate, {class: 'modal-md'});
+          // this.modalRef = this.modalService.show(subscribeTemplate, {class: 'modal-md'});
+          this.openPrimaryModal(subscribeTemplate);
         });
     }
 

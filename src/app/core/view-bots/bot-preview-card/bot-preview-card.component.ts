@@ -4,7 +4,7 @@ import {IBot} from '../../interfaces/IBot';
 import {UtilityService} from '../../../utility.service';
 import {ChatService} from '../../../chat.service';
 import {EChatFrame, IChatSessionState} from '../../../../interfaces/chat-session-state';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {BsModalRef} from 'ngx-bootstrap';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Select, Store} from '@ngxs/store';
 import {
@@ -26,13 +26,14 @@ import {UpdateBotInfoByIdInBotInBotList} from '../ngxs/view-bot.action';
 import {CreateBotDialogComponent} from '../create-bot-dialog/create-bot-dialog.component';
 import {MatDialog} from '@angular/material';
 import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
+import {ModalImplementer} from '../../../modal-implementer';
 
 @Component({
   selector: 'app-bot-preview-card',
   templateUrl: './bot-preview-card.component.html',
   styleUrls: ['./bot-preview-card.component.scss']
 })
-export class BotPreviewCardComponent implements OnInit {
+export class BotPreviewCardComponent extends ModalImplementer implements OnInit {
 
   @Input() bot: IBot;
   showLoader = false;
@@ -54,14 +55,14 @@ export class BotPreviewCardComponent implements OnInit {
   constructor(
     public utilityService: UtilityService,
     private chatService: ChatService,
-    private modalService: BsModalService,
     private activatedRoute: ActivatedRoute,
     public router: Router,
     public constantsService: ConstantsService,
     public serverService: ServerService,
-    private dialog: MatDialog,
+    public matDialog: MatDialog,
     public store: Store
   ) {
+    super(utilityService, matDialog);
   }
 
   ngOnInit() {
@@ -115,10 +116,11 @@ export class BotPreviewCardComponent implements OnInit {
 
   async openDeleteModal() {
     let data = await this.utilityService.openDialog({
-      dialog: this.dialog,
+      dialog: this.matDialog,
       component: ModalConfirmComponent,
       data: {title:`Delete bot ${this.bot.name}?`, message:null, actionButtonText:"Delete", isActionButtonDanger:true},
-      classStr: 'danger-modal-header-border'
+      classStr: 'danger-modal-header-border',
+      dialogRefWrapper:this.dialogRefWrapper
     });
 
     if(data){

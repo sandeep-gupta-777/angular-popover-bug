@@ -164,11 +164,10 @@
 <!--modals starts-->
 <ng-template #Primarytemplate>
   <div class="primary-modal">
-    <div class="top-dec"></div>
     <div class="modal-header" style="display: block!important;">
       <div class="d-flex">
         <h4 class="modal-title mb-2"> Fork to a new version</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -190,24 +189,24 @@
           <!--</option>-->
           <!--</select>-->
 
-          <!--<div class="form-group m-0 mr-4 ml-auto">-->
-          <!--<select class="concept1" [(ngModel)]="forked_version_number" required type="number" name="version_id" #select>-->
-            <!--<img style="height: 20px; width: 20px; position: absolute;left: 5px"-->
-                 <!--src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/facebook.png"-->
-                 <!--alt="">-->
-            <!--<option type="button" *ngFor="let version of bot.store_bot_versions">-->
-              <!--<button>{{version.version}}</button>-->
-            <!--</option>-->
-          <!--</select>-->
+          <div class="form-group m-0 mr-4">
+          <select class="concept1" [(ngModel)]="forked_version_number" required type="number" name="version_id" #select>
+            <img style="height: 20px; width: 20px; position: absolute;left: 5px"
+                 src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/facebook.png"
+                 alt="">
+            <option type="button" *ngFor="let version of bot.store_bot_versions">
+              <button>{{version.version}}</button>
+            </option>
+          </select>
 
-          <mat-form-field>
-            <mat-select placeholder="" name="version_id">
-              <mat-option *ngFor="let version of bot.store_bot_versions">
-                {{version.version}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <!--</div>-->
+          <!--<mat-form-field>-->
+            <!--<mat-select placeholder="" name="version_id">-->
+              <!--<mat-option *ngFor="let version of bot.store_bot_versions">-->
+                <!--{{version.version}}-->
+              <!--</mat-option>-->
+            <!--</mat-select>-->
+          <!--</mat-form-field>-->
+          </div>
 
         </div>
         <div class="col-md-3 my-2">
@@ -218,7 +217,7 @@
         </div>
         <div class="col-md-12">
           <p *ngIf="errorMessage" class="text-danger">{{errorMessage}}</p>
-          <button class="btn-theme btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>
+          <button class="btn-theme btn-theme-primary-outline mr-1" (click)="dialogRefWrapper.ref.close()">Cancel</button>
 
           <button class="btn-theme btn-theme-primary" (click)="forkNewVersion()">
             Fork
@@ -285,7 +284,7 @@
     <div class="top-dec"></div>
     <div class="modal-header" style="border:none !important">
       <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">version save failed</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -304,7 +303,7 @@
         <div class="d-flex">
           <!-- <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRefWrapper.hide()">Cancel</button> -->
           <button class=" btn-theme btn-theme-primary-outline " style="color:#474747"
-                  (click)="modalRef.hide();openForkNewVersionModal(Primarytemplate)">Fork an inactive version
+                  (click)="dialogRefWrapper.ref.close();openForkNewVersionModal(Primarytemplate)">Fork an inactive version
           </button>
         </div>
       </form>
