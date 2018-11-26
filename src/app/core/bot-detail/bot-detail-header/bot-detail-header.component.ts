@@ -72,7 +72,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
 
   updateBot() {
     try {
-      this.modalRef.hide();
+      this.dialogRefWrapper.ref.close();
     } catch (e) {
       LoggingService.error(e);
     }
@@ -110,7 +110,6 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
   }
 
   deleteBot() {
-    this.modalRef.hide();
     const url = this.constantsService.getDeleteBotUrl(this.bot.id);
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
@@ -127,8 +126,6 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
   dialogRefWrapper = {ref:null};
   openActiveBotChangedModal(template: TemplateRef<any>) {
     if (this.bot.store_selected_version && this.bot.store_selected_version !== this.bot.active_version_id) {
-      // if (!confirm('active version has been changed')) return;
-      // this.modalRef = this.modalService.show(template, {class: 'center-modal'});
       this.utilityService.openDialog({
         dialogRefWrapper: this.dialogRefWrapper,
         classStr:'danger-modal-header-border',
@@ -144,9 +141,9 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
         if(data) this.updateBot();
       })
     }
-    // else {
-    //   this.updateBot();
-    // }
+    else {
+      this.updateBot();
+    }
   }
 
 
@@ -158,6 +155,8 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
       classStr: 'danger-modal-header-border',
       dialogRefWrapper:this.dialogRefWrapper
     });
+
+    debugger;
 
     if(data){
       this.deleteBot();

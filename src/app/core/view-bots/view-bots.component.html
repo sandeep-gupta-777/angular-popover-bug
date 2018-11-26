@@ -1,7 +1,9 @@
 <!--<button (click)="openDialog()">test</button>-->
 
 <div style="margin: 0px 80px; position: relative">
-  <mat-tab-group>
+  <mat-tab-group
+    [selectedIndex]="activeTab===myEBotType.chatbot?0:1"
+    (selectedTabChange)="tabClicked($event.index == 0?myEBotType.chatbot: myEBotType.intelligent)">
     <mat-tab label="Code Based">
       <div class="px-4 mt-2">
         <app-bot-preview-card-list
@@ -19,17 +21,29 @@
 
   </mat-tab-group>
 
+  <!--<button *myIf="myEAllActions['Create Bots']"-->
+  <!--mat-flat-button-->
+  <!--mat-ripple-->
+  <!--color="primary"-->
+  <!--class="btn-theme ml-auto"-->
+  <!--[popover]="'Click here to create your first bot'"-->
+  <!--placement="bottom"-->
+  <!--triggers=""-->
+  <!--#pop="bs-popover"-->
+  <!--style="position: absolute; right: 0; top: 10px; z-index: 1000;"-->
+  <!--triggers=""-->
+  <!--(click)="openDialog()">-->
+  <!--<i class="fa fa-plus pr-1"></i>New Bot-->
+  <!--</button>-->
+
   <button *myIf="myEAllActions['Create Bots']"
           mat-flat-button
           mat-ripple
           color="primary"
           class="btn-theme ml-auto"
-          [popover]="'Click here to create your first bot'"
-          placement="bottom"
-          triggers=""
-          #pop="bs-popover"
+          #tooltip="matTooltip"
+          [matTooltip]="'Click here to create your first bot'"
           style="position: absolute; right: 0; top: 10px; z-index: 1000;"
-          triggers=""
           (click)="openDialog()">
     <i class="fa fa-plus pr-1"></i>New Bot
   </button>

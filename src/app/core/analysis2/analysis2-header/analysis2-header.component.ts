@@ -66,7 +66,9 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   maxDate = new Date();
 
   @Input() set allbotList(_allbotList: IBot[]) {
-    if (!_allbotList) { return; }
+    if (!_allbotList) {
+      return;
+    }
     this._allbotList = _allbotList;
     this.codebasedBotList = this._allbotList.filter((bot) => bot.bot_type === EBotType.chatbot);
     if (this.f && _allbotList && _allbotList.length > 0) {
@@ -77,6 +79,13 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   granularityList = [
     'hour', 'day', 'month', 'year'
   ];
+  //startdate = new Date(new Date().setDate(new Date().getDate() - 30));
+  //   enddate = new Date();
+  date = {
+    begin: new Date(new Date().setDate(new Date().getDate() - 30)),
+    end: new Date()
+  };
+
   @ViewChild('form') f: NgForm;
   @Select(AnalysisStateReducer2.getAnalytics2HeaderData) analytics2HeaderData$: Observable<IAnalysis2HeaderData>;
   @Select() loggeduser$: Observable<{ user: IUser }>;
@@ -109,16 +118,19 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     this.formChangesSub = this.f.form.valueChanges
       .pipe(debounceTime(1000))
       .subscribe((formData) => {
-        LoggingService.log(this.f);
-        if (this.utilityService.areTwoJSObjectSame(this.formData, formData)) { return; }
+        if (this.utilityService.areTwoJSObjectSame(this.formData, formData)) {
+          return;
+        }
         this.formData = formData;
-        if (!this.f.valid) { return; }
+        debugger;
+        if (!this.f.valid) return;
         const selectedBot: IBot = this._allbotList.find((bot) => bot.id === Number(this.f.value.botId));
-        // this.route.navigate(["." ], {queryParams:{granularity:this.f.value.granularity} , relativeTo: this.activatedRoute});
         const analysisHeaderData: IAnalysis2HeaderData = {
           'bot-access-token': selectedBot.bot_access_token,
           platform: 'web',
-          ...formData
+          ...formData,
+          startdate: formData && formData.date_range.begin,
+          enddate: formData && formData.date_range.end
         };
         this.store.dispatch([new ResetAnalytics2GraphData()])
           .subscribe(() => {
@@ -139,6 +151,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     this.analytics2HeaderDataSub = this.analytics2HeaderData$.subscribe((analytics2HeaderData) => {
       /*move this code to dedicated service*/
       try {
+        debugger;
         this.f.form.patchValue(analytics2HeaderData);
         const url = this.constantsService.getAnalyticsUrl();
         const headerData: IAnalysis2HeaderData = {
@@ -149,13 +162,19 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
           enddate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.enddate),
         };
         //asdas
-        if (!this.utilityService.areAllValesDefined(headerData)) { return; }
-        if (this.utilityService.areTwoJSObjectSame(this.analytics2HeaderData, analytics2HeaderData)) { return; }
+        if (!this.utilityService.areAllValesDefined(headerData)) {
+          return;
+        }
+        if (this.utilityService.areTwoJSObjectSame(this.analytics2HeaderData, analytics2HeaderData)) {
+          return;
+        }
         this.store.dispatch([new ResetAnalytics2GraphData()])
           .pipe(debounceTime(1000))
           .subscribe(() => {
             const isHeaderValid = this.isHeaderValid(analytics2HeaderData.startdate, analytics2HeaderData.enddate, analytics2HeaderData.granularity);
-            if (!isHeaderValid) { return; }
+            if (!isHeaderValid) {
+              return;
+            }
             this.analytics2HeaderData = analytics2HeaderData;
 
             this.store.dispatch([new ResetAnalytics2GraphData()]);
@@ -270,7 +289,9 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
 
     setTimeout(() => {
       this.f.controls.botId.valueChanges.subscribe((data) => {
-        if (!this.f.value.botId) { return; }
+        if (!this.f.value.botId) {
+          return;
+        }
         const selectedBot: IBot = this._allbotList.find((bot) => bot.id === Number(this.f.value.botId));
         if (selectedBot) {
           this.channelList =

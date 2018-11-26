@@ -43,6 +43,7 @@ import {CommonModule} from '@angular/common';
 import {GentemplateEditKeyComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
 import {FormsModule} from '@angular/forms';
 import {BotSessionModalWrapperComponent} from './bot-session-modal-wrapper/bot-session-modal-wrapper.component';
+import {SatDatepickerModule, SatNativeDateModule} from 'saturn-datepicker';
 
 const materialModules = [
   CommonModule,
@@ -51,6 +52,7 @@ const materialModules = [
   MatButtonModule,
   MatCheckboxModule,
   MatMenuModule,
+  MatTooltipModule,
   MatTabsModule,
   MatDialogModule,
   MatMenuModule,
@@ -92,6 +94,10 @@ const materialModules = [
   MatToolbarModule,
   MatTooltipModule,
   MatTreeModule,
+
+  SatNativeDateModule,
+  SatDatepickerModule,
+
 
   OverlayModule,
   PlatformModule,

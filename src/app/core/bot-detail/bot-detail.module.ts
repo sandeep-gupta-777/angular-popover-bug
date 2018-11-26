@@ -66,6 +66,7 @@ import {CheckImageValidityPipe} from '../../check-image-validity.pipe';
 import {MyMaterialModule} from '../../my-material.module';
 import {EBotType} from '../../utility.service';
 import {StringIncludesPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
+import {MatTooltipModule} from '@angular/material';
 
 const routes: Route[] = [
   {
@@ -143,7 +144,8 @@ const routes: Route[] = [
     Ng2SmartTableModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
-    MyMaterialModule
+    MyMaterialModule,
+
   ],
   providers: [AimService]
 })

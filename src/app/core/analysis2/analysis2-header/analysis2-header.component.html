@@ -9,7 +9,7 @@
   <div class="form-group m-0 mr-4 ml-auto">
     <!--<label for="">Bot</label>-->
     <!--<select ngModel required name="botId">-->
-      <!--<option *ngFor="let bot of codebasedBotList; let i = index;" [selected]="i===0" type="button" [value]="bot.id">{{bot.name}}</option>-->
+    <!--<option *ngFor="let bot of codebasedBotList; let i = index;" [selected]="i===0" type="button" [value]="bot.id">{{bot.name}}</option>-->
     <!--</select>-->
 
     <mat-form-field>
@@ -25,7 +25,7 @@
   <div class="form-group m-0 mr-4 ">
     <!--<label for="">Channel</label>-->
     <!--<select  [ngModel] required name="platform">-->
-      <!--<option *ngFor="let channel of channelList"  type="button" [value]="channel.name">{{channel.displayName}}</option>-->
+    <!--<option *ngFor="let channel of channelList"  type="button" [value]="channel.name">{{channel.displayName}}</option>-->
     <!--</select>-->
 
     <mat-form-field>
@@ -37,38 +37,53 @@
     </mat-form-field>
   </div>
 
-  <div class="form-group m-0 mr-4">
-      <label for="">Time Range</label>
-    <input type="text"
-           placeholder="Start Date"
-           style="width: 100px;"
-           name="startdate"
-           [(ngModel)]="startdate"
-           required
-           readonly
-           bsDatepicker
-           [bsConfig]="datePickerConfig">
+  <div class="m-0 mr-4">
+    <!--<label for="">Time Range</label>-->
+    <!--<input type="text"-->
+    <!--placeholder="Start Date"-->
+    <!--style="width: 100px;"-->
+    <!--name="startdate"-->
+    <!--[(ngModel)]="startdate"-->
+    <!--required-->
+    <!--readonly-->
+    <!--bsDatepicker-->
+    <!--[bsConfig]="datePickerConfig">-->
+
+    <mat-form-field>
+      <input matInput
+             required
+             readonly
+             placeholder="Choose a date range"
+             name="date_range"
+             [max]="maxDate"
+             [ngModel]="date"
+             [satDatepicker]="picker">
+      <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
+      <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+    </mat-form-field>
+
   </div>
-  <div class="form-group m-0 mr-4">
-    <input type="text"
-           style="width: 100px;"
-           placeholder="End Date"
-           name="enddate"
-           [(ngModel)]="enddate"
-           bsDatepicker
-           readonly
-           [maxDate]="maxDate"
-           [bsConfig]="datePickerConfig">
-  </div>
+  <!--<div class="form-group m-0 mr-4">-->
+  <!--<input type="text"-->
+  <!--style="width: 100px;"-->
+  <!--placeholder="End Date"-->
+  <!--name="enddate"-->
+  <!--[(ngModel)]="enddate"-->
+  <!--bsDatepicker-->
+  <!--readonly-->
+  <!--[maxDate]="maxDate"-->
+  <!--[bsConfig]="datePickerConfig">-->
+  <!--</div>-->
 
   <div class="form-group m-0 mr-4">
     <!--<label for="">Granularity</label>-->
-    <!--<select  [(ngModel)]="granularity" required name="granularity">-->
-      <!--<option *ngFor="let granularity of granularityList"  type="button" [value]="granularity">{{granularity}}</option>-->
+    <!--<select  [ngModel]="granularityList[0]" required name="granularity">-->
+    <!--<option *ngFor="let granularity of granularityList"  type="button" [value]="granularity">{{granularity}}</option>-->
     <!--</select>-->
 
     <mat-form-field>
-      <mat-select placeholder="Granularity" ngModel name="granularity" [value]="granularityList[0]">
+      <mat-select [ngModel]="granularity" placeholder="Granularity" required name="granularity"
+                  [value]="granularityList[0]">
         <mat-option *ngFor="let granularity of granularityList" [value]="granularity">
           {{granularity}}
         </mat-option>
@@ -78,7 +93,7 @@
   </div>
 
   <div class="text-right" style="position: absolute; left: 0;right: 0; bottom: 0">
-    <i  *ngIf="errorMessage" class="text-danger mr-4" style="font-size: 11px">{{errorMessage}}</i>
+    <i *ngIf="errorMessage" class="text-danger mr-4" style="font-size: 11px">{{errorMessage}}</i>
   </div>
 
 </form>

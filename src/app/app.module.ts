@@ -48,7 +48,15 @@ import {SplashScreenComponent} from './splash-screen/splash-screen.component';
 import {ThemeComponent} from './theme/theme.component';
 import {SafeHtml} from '@angular/platform-browser';
 import {SafeUrlPipe} from './href-sanitizer.pipe';
-import {MatButtonModule, MatCommonModule, MatInputModule, MatSelectModule} from '@angular/material';
+import {
+  MatButtonModule,
+  MatCommonModule,
+  MatInputModule,
+  MatProgressBarModule,
+  MatSelectModule,
+  MatSnackBar,
+  MatSnackBarModule
+} from '@angular/material';
 // import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 
 const routes: Route[] = [
@@ -120,7 +128,9 @@ const routes: Route[] = [
     //
     BsDropdownModule.forRoot(),
     ToastrModule.forRoot(), // ToastrModule added,
+    MatSnackBarModule,
     BrowserAnimationsModule,
+    MatProgressBarModule,
     // ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
     ServiceWorkerModule.register('/static/ngsw-worker.js')
     /*custom modules*/

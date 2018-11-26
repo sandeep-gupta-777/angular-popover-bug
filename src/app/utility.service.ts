@@ -29,6 +29,7 @@ import {StoreVariableService} from './core/buildbot/build-code-based-bot/archite
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {LoggingService} from './logging.service';
 import {CreateBotDialogComponent} from './core/view-bots/create-bot-dialog/create-bot-dialog.component';
+import {MatSnackBar} from '@angular/material';
 
 
 @Injectable({
@@ -37,8 +38,9 @@ import {CreateBotDialogComponent} from './core/view-bots/create-bot-dialog/creat
 export class UtilityService {
 
   constructor(
-    private toastr: ToastrService,
+    // private toastr: ToastrService,
     private router: Router,
+    public snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private storeVariableService: StoreVariableService,
   ) {
@@ -607,21 +609,47 @@ export class UtilityService {
     return JSON.parse(JSON.stringify(obj));
   }
 
-  showErrorToaster(message, sec = 2) {
-    if (typeof message === 'string') {
-      this.toastr.error(message, null, {positionClass: 'toast-top-right', timeOut: sec * 1000});
-      return;
-    } else {
-      this.toastr.error(message.message, null, {positionClass: 'toast-top-right', timeOut: sec * 1000});
+  showErrorToaster(message, sec = 3) {
+    debugger;
+    let messageStr = typeof message === 'string'? message: message.message;
+    try {
+      this.snackBar.open(messageStr, '', {
+        duration: (sec * 1000)||2000,
+        panelClass:["bg-danger"]
+      });
+    }catch (e) {
+      console.log(e);
     }
+    // if (typeof message === 'string') {
+    //   // this.toastr.error(message, null, {positionClass: 'toast-top-right', timeOut: sec * 1000});
+    //   this.snackBar.open(message, '', {
+    //     duration: (sec * 1000)||2000,
+    //     panelClass:["bg-success"]
+    //   });
+    //   return;
+    // } else {
+    //   this.snackBar.open(message.message, '', {
+    //     duration: (sec * 1000)||2000,
+    //     panelClass:["bg-success"]
+    //   });
+    //   this.toastr.error(message.message, null, {positionClass: 'toast-top-right', timeOut: sec * 1000});
+    // }
   }
 
   showInfoToaster(message) {
-    this.toastr.info(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
+    // this.toastr.info(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
+    this.snackBar.open(message, '', {
+      duration: 2000,
+      panelClass:["bg-success"]
+    });
   }
 
   showSuccessToaster(message) {
-    this.toastr.success(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
+    // this.toastr.success(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
+    this.snackBar.open(message, '', {
+      duration: 2000,
+      panelClass:["bg-success"]
+    });
   }
 
   renameKeyInObject(o, old_key, new_key) {

@@ -29,6 +29,7 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
   showPopover = false;
   modalRef: BsModalRef;
   myEAllActions = EAllActions;
+  disableCreateNewBotTooltip = true;
 
   constructor(
     private serverService: ServerService,
@@ -92,12 +93,16 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
     RouteHelperService.navigateToUrl(this.router, {url: 'core/buildbot', queryParams: {bot_type: bot_type}});
   }
 
-  @ViewChild('pop') pop;
+  @ViewChild('tooltip') pop;
 
   tabClicked(activeTab) {
+    debugger;
     this.activeTab = activeTab;
     RouteHelperService.navigateToUrl(this.router, {url: '/core/viewbots', queryParams: {'type': activeTab}});
-    this.doShowPopover(activeTab) ? this.pop.show() : this.pop.hide();
+    // this.disableCreateNewBotTooltip = !this.doShowPopover(activeTab);
+    setTimeout(()=>{
+      this.doShowPopover(activeTab) ? this.pop.show() : this.pop.hide();
+    });
   }
 
   ngAfterViewInit() {
