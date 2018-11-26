@@ -6,7 +6,6 @@ import {FormsModule} from '@angular/forms';
 // import {DragAndDropModule} from 'angular-draggable-droppable';
 // import {NgxsModule} from '@ngxs/store';
 import {HttpClientModule} from '@angular/common/http';
-import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {DragService} from '../../drag.service';
 import {AimService} from '../../aim.service';
 import {SharedModule} from '../../shared.module';
@@ -79,7 +78,6 @@ const routes: Route[] = [
     // ]),
     SharedModule,
     HttpClientModule,
-    // Ng2SmartTableModule,
     // ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),

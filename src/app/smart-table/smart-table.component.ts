@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, EventEmitter, Input, IterableDiffers, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
-import {LocalDataSource} from 'ng2-smart-table';
+// import {LocalDataSource} from 'ng2-smart-table';
 import {Observable} from 'rxjs';
 import {LoggingService} from '../logging.service';
 import {MatTableDataSource} from '@angular/material';
@@ -114,8 +114,8 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
       console.log(e);
     }
     this._data = dataValue;
-    this.source.load(this._data);
-    this.source.refresh();
+    // this.source.load(this._data);
+    // this.source.refresh();
   }
 
   totalRows;
@@ -133,7 +133,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   @Output() refreshData$ = new EventEmitter();
   @Output() performSearchInDB$ = new EventEmitter();
   @Output() pageChanged$ = new EventEmitter();
-  source: LocalDataSource = new LocalDataSource();
+  // source: LocalDataSource = new LocalDataSource();
   // @Input() totalRecords: number = 10;
   x;
 
@@ -179,7 +179,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   ngOnInit() {
 
     LoggingService.log(this.x);
-    this.source.load(this._data);
+    // this.source.load(this._data);
 
 
     // /*material table starts*/
@@ -208,7 +208,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     //   LoggingService.log('Changes in data detected!');
     //   this.source.refresh();
     // }
-    this.totalRows = this.source != null ? this.source.count() : 0;
+    // this.totalRows = this.source != null ? this.source.count() : 0;
 
   }
 

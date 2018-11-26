@@ -116,8 +116,6 @@ const routes: Route[] = [
     ClickOutsideModule,
     // DragulaModule,
     // HotTableModule,
-    // Ng2CompleterModule,
-    // Ng2SmartTableModule,
     // BsDatepickerModule.forRoot(),
     // ModalModule.forRoot(),
     // TooltipModule.forRoot(),

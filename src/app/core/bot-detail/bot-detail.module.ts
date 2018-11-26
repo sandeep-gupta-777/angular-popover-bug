@@ -9,8 +9,6 @@ import {FormsModule} from '@angular/forms';
 // import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
 // import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
 import {HttpClientModule} from '@angular/common/http';
-import {Ng2CompleterModule} from 'ng2-completer';
-import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {DragService} from '../../drag.service';
 import {AimService} from '../../aim.service';
 import {SortBotsPipe} from '../../sort-bots.pipe';
@@ -141,7 +139,6 @@ const routes: Route[] = [
     // NgxsModule.forFeature([]),
     SharedModule,
     HttpClientModule,
-    Ng2SmartTableModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     MyMaterialModule,

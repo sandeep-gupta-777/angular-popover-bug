@@ -12,8 +12,8 @@ import {AdditionalInfoFormComponent} from './core/buildbot/build-code-based-bot/
 import {SmartTableComponent} from './smart-table/smart-table.component';
 import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 import {KnowledgeBaseComponent} from './core/buildbot/build-code-based-bot/architecture/knowledge-base/knowledge-base.component';
-import {Ng2CompleterModule} from 'ng2-completer';
-import {Ng2SmartTableModule} from 'ng2-smart-table';
+
+
 import {KnowledgeBasePresentationComponent} from './core/buildbot/build-code-based-bot/architecture/knowledge-base/knowledge-base-presentation/knowledge-base-presentation.component';
 import {ChartComponent} from './core/chart/chart.component';
 import {HandsontableComponent} from './handsontable/handsontable.component';
@@ -90,8 +90,6 @@ import {ImiLoaderComponent} from './imi-loader/imi-loader.component';
     ReactiveFormsModule,
     CommonModule,
     RouterModule,
-    Ng2CompleterModule,
-    Ng2SmartTableModule,
     ChartModule,
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
@@ -124,8 +122,6 @@ import {ImiLoaderComponent} from './imi-loader/imi-loader.component';
     SmartTableComponent, //
     CodeEditorComponent, //
     KnowledgeBaseComponent, //
-    Ng2CompleterModule,
-    Ng2SmartTableModule,
     KnowledgeBasePresentationComponent,
     ChartComponent,
     HandsontableComponent,

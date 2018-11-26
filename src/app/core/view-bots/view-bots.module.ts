@@ -5,8 +5,6 @@ import {ViewBotsComponent} from './view-bots.component';
 import {BsDropdownModule, ModalModule, TabsModule} from 'ngx-bootstrap';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import {Ng2CompleterModule} from 'ng2-completer';
-import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {DragService} from '../../drag.service';
 import {AimService} from '../../aim.service';
 import {SortBotsPipe} from '../../sort-bots.pipe';
@@ -43,8 +41,6 @@ const routes: Route[] = [
     SharedModule,
     RichMediaModule,
     HttpClientModule,
-    Ng2CompleterModule,
-    Ng2SmartTableModule,
     ModalModule.forRoot(),
   ],
   providers: [DragService, AimService]
