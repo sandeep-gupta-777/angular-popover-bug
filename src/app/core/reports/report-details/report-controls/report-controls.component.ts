@@ -10,7 +10,6 @@ import {TempVariableService} from '../../../../temp-variable.service';
 import {ServerService} from '../../../../server.service';
 import {ConstantsService} from '../../../../constants.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {BsDatepickerConfig} from 'ngx-bootstrap/datepicker';
 import {ELogType, LoggingService} from '../../../../logging.service';
 import {debounceTime} from 'rxjs/operators';
 
@@ -25,7 +24,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
   start_time;
   isactive = false;
   @Select() botlist$: Observable<ViewBotStateModel>;
-  datePickerConfig: Partial<BsDatepickerConfig>;
+  datePickerConfig: any;
   @ViewChild('form') f: NgForm;
   botlist: IBot[] = [];
   selectedBot: IBot;

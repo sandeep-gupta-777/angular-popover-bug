@@ -12,7 +12,6 @@ import {IAppState} from '../../../../../ngxs/app.state';
 import {ConstantsService} from '../../../../../constants.service';
 import {ServerService} from '../../../../../server.service';
 import {SetPipelineModuleMasterData} from '../../../../../ngxs/app.action';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import {EFormValidationErrors, UtilityService} from '../../../../../utility.service';
 import {DragulaService} from 'ng2-dragula';
 import {LoggingService} from '../../../../../logging.service';
@@ -45,7 +44,6 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   selectedPipeline: IPipelineItem;
   searchKeyword: string;
   buildBotType: any;
-  modalRef: BsModalRef;
   @Output() datachanged$ = new EventEmitter();
 
   constructor(

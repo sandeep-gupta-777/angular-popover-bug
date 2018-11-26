@@ -4,13 +4,9 @@ import {Observable} from 'rxjs';
 import {Select, Store} from '@ngxs/store';
 import {ServerService} from '../../server.service';
 import {ConstantsService, EAllActions} from '../../constants.service';
-import {IHeaderData} from '../../../interfaces/header-data';
 import {SetUser} from '../../auth/ngxs/auth.action';
 import {UtilityService} from '../../utility.service';
-import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {NgForm} from '@angular/forms';
-import {SetMasterProfilePermissions} from '../../ngxs/app.action';
-import {IProfilePermission} from '../../../interfaces/profile-action-permission';
 import {ModalImplementer} from '../../modal-implementer';
 import {MatDialog} from '@angular/material';
 
@@ -27,7 +23,6 @@ export class ProfileComponent extends ModalImplementer implements OnInit {
   @ViewChild('password_form') passwordForm: NgForm;
   showPasswordChangeForm = true;
   loggeduser: IUser;
-  modalRef: BsModalRef;
   passwordErrorStr: string;
 
   new_password;

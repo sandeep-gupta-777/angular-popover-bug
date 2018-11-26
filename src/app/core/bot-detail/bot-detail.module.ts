@@ -1,17 +1,9 @@
 import {Route, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {BsDropdownModule, ModalModule, TabsModule} from 'ngx-bootstrap';
 import {FormsModule} from '@angular/forms';
-// import {DragAndDropModule} from 'angular-draggable-droppable';
-// import {NgxsModule} from '@ngxs/store';
-// import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
-// import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
-// import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
 import {HttpClientModule} from '@angular/common/http';
-import {DragService} from '../../drag.service';
 import {AimService} from '../../aim.service';
-import {SortBotsPipe} from '../../sort-bots.pipe';
 import {SharedModule} from '../../shared.module';
 import {PipelineBasedBotDetailComponent} from './pipeline-based-bot-detail/pipeline-based-bot-detail.component';
 import {CodeBasedBotDetailComponent} from './code-based-bot-detail/code-based-bot-detail.component';
@@ -64,7 +56,6 @@ import {CheckImageValidityPipe} from '../../check-image-validity.pipe';
 import {MyMaterialModule} from '../../my-material.module';
 import {EBotType} from '../../utility.service';
 import {StringIncludesPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
-import {MatTooltipModule} from '@angular/material';
 
 const routes: Route[] = [
   {
@@ -132,15 +123,9 @@ const routes: Route[] = [
     DragulaModule,
     CommonModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
-    BsDropdownModule.forRoot(),
-    TabsModule.forRoot(),
     FormsModule,
-    // DragAndDropModule.forRoot(),
-    // NgxsModule.forFeature([]),
     SharedModule,
     HttpClientModule,
-    BsDropdownModule.forRoot(),
-    ModalModule.forRoot(),
     MyMaterialModule,
 
   ],

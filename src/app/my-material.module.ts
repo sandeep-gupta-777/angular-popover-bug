@@ -43,6 +43,7 @@ import {CommonModule} from '@angular/common';
 import {GentemplateEditKeyComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
 import {FormsModule} from '@angular/forms';
 import {BotSessionModalWrapperComponent} from './bot-session-modal-wrapper/bot-session-modal-wrapper.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 // import {SatDatepickerModule, SatNativeDateModule} from 'saturn-datepicker';
 
 const materialModules = [
@@ -55,45 +56,21 @@ const materialModules = [
   MatTooltipModule,
   MatTabsModule,
   MatDialogModule,
-  MatMenuModule,
   MatIconModule,
   MatInputModule,
   //remove in production
-  MatAutocompleteModule,
-  MatBadgeModule,
-  MatBottomSheetModule,
-  MatButtonModule,
   MatButtonToggleModule,
-  MatCardModule,
-  MatCheckboxModule,
   MatChipsModule,
   MatDatepickerModule,
   MatDialogModule,
   MatDividerModule,
-  MatExpansionModule,
-  MatGridListModule,
-  MatIconModule,
-  MatInputModule,
-  MatListModule,
-  MatMenuModule,
   MatNativeDateModule,
-  MatPaginatorModule,
   MatProgressBarModule,
-  MatProgressSpinnerModule,
-  MatRadioModule,
-  MatRippleModule,
   MatSelectModule,
-  MatSidenavModule,
-  MatSliderModule,
   MatSlideToggleModule,
   MatSnackBarModule,
-  MatSortModule,
-  MatStepperModule,
   MatTableModule,
   MatTabsModule,
-  MatToolbarModule,
-  MatTooltipModule,
-  MatTreeModule,
 
   // SatNativeDateModule,
   // SatDatepickerModule,
@@ -102,7 +79,6 @@ const materialModules = [
   OverlayModule,
   PlatformModule,
   PortalModule,
-
 ];
 
 const materialDeclarations = [
@@ -111,7 +87,8 @@ const materialDeclarations = [
   ModalConfirmComponent,
   ModalWrapperComponent,
   BotSessionModalWrapperComponent,
-  GentemplateEditKeyComponent
+  GentemplateEditKeyComponent,
+
 ]
 
 @NgModule({

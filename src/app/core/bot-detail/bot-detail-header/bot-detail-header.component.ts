@@ -5,7 +5,6 @@ import {Select, Store} from '@ngxs/store';
 import {ConstantsService, EAllActions} from '../../../constants.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {UtilityService} from '../../../utility.service';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {ChangeFrameAction, SetCurrentBotDetailsAndResetChatStateIfBotMismatch, ToggleChatWindow} from '../../../chat/ngxs/chat.action';
 import {EChatFrame} from '../../../../interfaces/chat-session-state';
 import {AddNewBotInAllBotList, UpdateBotInfoByIdInBotInBotList} from '../../view-bots/ngxs/view-bot.action';
@@ -29,7 +28,6 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
   myEAllActions = EAllActions;
   showSpinIcon = false;
   @Output() refreshBotDetails$ = new EventEmitter();
-  modalRef: BsModalRef;
   enterprise_unique_name;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
 
@@ -88,7 +86,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
       if (!confirm('active version has been changed')) { return; }
       this.bot.active_version_id = this.bot.store_selected_version;
     }
-    const body = this.constantsService.updateBotSerializer(this.bot);
+    const body:any = this.constantsService.updateBotSerializer(this.bot);
     if (!body.logo) {
       body.logo = 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png';
     }

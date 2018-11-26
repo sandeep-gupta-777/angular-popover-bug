@@ -34,7 +34,6 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
   isDeCryptAuditAccessDenied = false;
   consumerTableData: IConsumerItem[];
   consumersDecrypted: IConsumerItem; //IConsumerItem
-  smartTableSettings_Consumers = this.constantsService.SMART_TABLE_CONSUMER_SETTING;
   isFullscreen: false;
   consumerItemToBeDecrypted: IConsumerItem;
   decryptReason: string;

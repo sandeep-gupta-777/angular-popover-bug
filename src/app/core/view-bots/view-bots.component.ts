@@ -3,11 +3,8 @@ import {Observable} from 'rxjs';
 import {ServerService} from '../../server.service';
 import {ConstantsService, EAllActions} from '../../constants.service';
 import {IBot} from '../interfaces/IBot';
-import {IHeaderData} from '../../../interfaces/header-data';
 import {Select, Store} from '@ngxs/store';
-import {SetCodeBasedBotListAction, SetPipeLineBasedBotListAction} from './ngxs/view-bot.action';
 import {ActivatedRoute, Router} from '@angular/router';
-import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {LoggingService} from '../../logging.service';
 import {ViewBotStateModel} from './ngxs/view-bot.state';
 import {RouteHelperService} from '../../route-helper.service';
@@ -27,7 +24,6 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
   botList$: Observable<IBot[]>;
   activeTab: string;
   showPopover = false;
-  modalRef: BsModalRef;
   myEAllActions = EAllActions;
   disableCreateNewBotTooltip = true;
 
@@ -89,7 +85,6 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
   // }
 
   navigate(bot_type) {
-    this.modalRef.hide();
     RouteHelperService.navigateToUrl(this.router, {url: 'core/buildbot', queryParams: {bot_type: bot_type}});
   }
 

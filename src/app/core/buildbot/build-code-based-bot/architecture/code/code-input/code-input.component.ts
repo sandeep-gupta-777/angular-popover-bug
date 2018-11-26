@@ -27,8 +27,6 @@ import {IHeaderData} from '../../../../../../../interfaces/header-data';
 import {EBotType, UtilityService} from '../../../../../../utility.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import {IBotCreationState} from '../../../../ngxs/buildbot.state';
-import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {BsModalService} from 'ngx-bootstrap/modal';
 import {CodeEditorComponent} from '../code-editor/code-editor.component';
 import {EventService} from '../../../../../../event.service';
 import {take} from 'rxjs/operators';
@@ -72,7 +70,6 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   @Select() botcreationstate$: Observable<IBotCreationState>;
   @Input() bot: IBot;
   @Output() datachanged$ = new EventEmitter();
-  modalRef: BsModalRef;
   forked_From: number;
   forked_comments: string;
   errorMessage: string;

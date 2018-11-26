@@ -5,7 +5,6 @@ import {UtilityService} from '../../../../../../utility.service';
 import {ConstantsService, EAllActions, ERouteNames} from '../../../../../../constants.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {HandsontableComponent} from '../../../../../../handsontable/handsontable.component';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {ELogType, LoggingService} from '../../../../../../logging.service';
 import {ModalImplementer} from '../../../../../../modal-implementer';
 import {MatDialog} from '@angular/material';
@@ -21,7 +20,6 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   process_raw_text = false;
   myEAllActions = EAllActions;
   myERouteNames = ERouteNames;
-  modalRef: BsModalRef;
 
   @ViewChild(HandsontableComponent)handsontableComponent: HandsontableComponent;
   @Input() set selectedRowData(value: ICustomNerItem) {

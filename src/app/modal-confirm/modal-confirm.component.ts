@@ -10,11 +10,12 @@ import {DialogData} from '../core/view-bots/create-bot-dialog/create-bot-dialog.
 })
 export class ModalConfirmComponent{
 
+  dataCopy:any;
   @Output() actionItemClicked$ = new EventEmitter();
   constructor(
     public dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
-    console.log(data);
+    this.dataCopy = this.data;
   }
 
 }

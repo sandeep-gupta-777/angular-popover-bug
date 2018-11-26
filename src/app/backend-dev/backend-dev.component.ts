@@ -1,13 +1,10 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {BsModalService} from 'ngx-bootstrap/modal';
 import {Select, Store} from '@ngxs/store';
 import {SetBackendURlRoot, SetShowBackendURlRoot} from '../ngxs/app.action';
 import {Observable} from 'rxjs';
-import {IAuthState} from '../auth/ngxs/auth.state';
 import {IAppState} from '../ngxs/app.state';
 import {UtilityService} from '../utility.service';
-import {ActivatedRoute, RouteConfigLoadEnd, RouteConfigLoadStart, Router, RoutesRecognized} from '@angular/router';
+import {ActivatedRoute, Router, RoutesRecognized} from '@angular/router';
 
 @Component({
   selector: 'app-backend-dev',

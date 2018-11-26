@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {IBot} from '../../../../interfaces/IBot';
 import {ServerService} from '../../../../../server.service';
 import {ConstantsService, EAllActions, ERouteNames} from '../../../../../constants.service';
@@ -51,7 +50,6 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
   @Input() currentPageNumber = 1;
   @Input() totalRecords = 10;
   loggeduser: { user: IUser };
-  @Input() settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;
   codeTextOutPutFromCodeEditor: string;
   codeTextInputToCodeEditor: string;
   showTable = true;
@@ -59,7 +57,6 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
   ner_type1;
   conflict_policy1;
   type: string;
-  modalRef: BsModalRef;
   handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
   handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
 

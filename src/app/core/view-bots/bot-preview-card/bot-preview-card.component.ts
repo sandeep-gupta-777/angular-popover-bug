@@ -4,7 +4,6 @@ import {IBot} from '../../interfaces/IBot';
 import {UtilityService} from '../../../utility.service';
 import {ChatService} from '../../../chat.service';
 import {EChatFrame, IChatSessionState} from '../../../../interfaces/chat-session-state';
-import {BsModalRef} from 'ngx-bootstrap';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Select, Store} from '@ngxs/store';
 import {
@@ -40,7 +39,6 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() chatsessionstate$: Observable<IChatSessionState>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
-  modalRef: BsModalRef;
   doStartBlinking = false;
   myObject = Object;
   message: string;

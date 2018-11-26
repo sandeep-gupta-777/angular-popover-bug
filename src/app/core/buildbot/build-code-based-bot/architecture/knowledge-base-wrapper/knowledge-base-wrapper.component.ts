@@ -24,7 +24,6 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
   myESplashScreens = ESplashScreens;
   @ViewChild(KnowledgeBaseComponent) knowledgeBaseComponent: KnowledgeBaseComponent;
   enterpriseNerData: ICustomNerItem[];
-  settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;
   totalRecords = 10;
   currentPageNumber = 1;
   // custumNerDataForSmartTable = [];

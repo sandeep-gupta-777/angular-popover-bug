@@ -9,7 +9,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ServerService} from '../../../server.service';
 import {ConstantsService} from '../../../constants.service';
 // import * as moment from 'moment';
-import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
 import {IBot} from '../../interfaces/IBot';
@@ -30,7 +29,6 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
   allBotList: IBot[];
   reportFormData: IReportItem;
   report_id: number;
-  modalRef: BsModalRef;
 
   constructor(
     private activatedRoute: ActivatedRoute,

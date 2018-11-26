@@ -82,52 +82,53 @@
                 (clickOutside)="activeDropdownButtonIndex.value = -1"
                 class="list-group-item limit-three-lines w-100 px-0 py-0 border"
                 style="margin-top: 6px; overflow: visible">
-              <form #btnConfigForm="ngForm" class="btn-group w-100" #dropdown="bs-dropdown" [autoClose]="false"
-                    dropdown (clickOutside)="dropdown.hide()">
-                <!--caraosal button starts-->
-                <div style="position: relative" class="text-center w-100 py-1"
-                     (click)="changeActiveButtonIndex(activeDropdownButtonIndex,buttonIndex)">
-                  <span>{{button.title}}</span>
-                  <ul *ngIf="buttonIndex == activeDropdownButtonIndex.value"
-                      style="position: absolute; top: 0; list-style-type: none;"
-                      class="p-2 bg-white dialog-container"
-                      id="button-configure-dropdown" role="menu">
-                    <li>
-                      <div class="faded-text text-dark text-bold text-center">Configure button options</div>
-                    </li>
-                    <li role="menuitem">
-                      <mat-form-field>
-                        <input matInput type="text" name="title" #titleEl required [ngModel]="button.title" placeholder="Title">
-                      </mat-form-field>
-                    </li>
-                    <li role="menuitem">
-                      <mat-form-field>
-                        <input matInput type="text" name="payload" [ngModel]="button.payload" placeholder="Payload">
-                      </mat-form-field>
-                    </li>
-                    <li role="menuitem">
-                      <mat-form-field>
-                        <input matInput type="text" name="type" [ngModel]="button.type" placeholder="Type">
-                      </mat-form-field>
-                    </li>
-                    <li class="d-flex" style="font-size: 11px">
-                      <!--<button class="btn-theme btn-theme-success-sm-outline mx-1" (click)="dropdown.hide()">Cancel</button>-->
-                      <!--<button class="btn-theme btn-theme-success-sm">Save</button>-->
-                      <span [ngClass]="{'cursor-not-allowed':!btnConfigForm.valid}" class="mr-1">
-                      <span (click)="saveButtonConfig(btnConfigForm, carouselIndex, buttonIndex, activeDropdownButtonIndex)"
-                            [ngClass]="{'cursor-pointer-event-none':!btnConfigForm.valid,'cursor-pointer':btnConfigForm.valid, 'text-primary':btnConfigForm.valid, 'text-muted': !btnConfigForm.valid}">
-                        Done
-                      </span>
-                    </span>
-                      <span class="text-primary cursor-pointer"
-                            (click)="activeDropdownButtonIndex.value = -1;$event.stopPropagation();">Cancel</span>
-                      <span class="text-danger cursor-pointer ml-auto"
-                            (click)="deleteCaraousalButton(carouselIndex, buttonIndex)">Delete</span>
-                    </li>
-                  </ul>
-                </div>
-                <!--caraosal button ends-->
-              </form>
+              <!--TODO: come back here after angular 7 and uncomment below line-->
+              <!--<form #btnConfigForm="ngForm" class="btn-group w-100" #dropdown="bs-dropdown" [autoClose]="false"-->
+                    <!--dropdown (clickOutside)="dropdown.hide()">-->
+                <!--&lt;!&ndash;caraosal button starts&ndash;&gt;-->
+                <!--<div style="position: relative" class="text-center w-100 py-1"-->
+                     <!--(click)="changeActiveButtonIndex(activeDropdownButtonIndex,buttonIndex)">-->
+                  <!--<span>{{button.title}}</span>-->
+                  <!--<ul *ngIf="buttonIndex == activeDropdownButtonIndex.value"-->
+                      <!--style="position: absolute; top: 0; list-style-type: none;"-->
+                      <!--class="p-2 bg-white dialog-container"-->
+                      <!--id="button-configure-dropdown" role="menu">-->
+                    <!--<li>-->
+                      <!--<div class="faded-text text-dark text-bold text-center">Configure button options</div>-->
+                    <!--</li>-->
+                    <!--<li role="menuitem">-->
+                      <!--<mat-form-field>-->
+                        <!--<input matInput type="text" name="title" #titleEl required [ngModel]="button.title" placeholder="Title">-->
+                      <!--</mat-form-field>-->
+                    <!--</li>-->
+                    <!--<li role="menuitem">-->
+                      <!--<mat-form-field>-->
+                        <!--<input matInput type="text" name="payload" [ngModel]="button.payload" placeholder="Payload">-->
+                      <!--</mat-form-field>-->
+                    <!--</li>-->
+                    <!--<li role="menuitem">-->
+                      <!--<mat-form-field>-->
+                        <!--<input matInput type="text" name="type" [ngModel]="button.type" placeholder="Type">-->
+                      <!--</mat-form-field>-->
+                    <!--</li>-->
+                    <!--<li class="d-flex" style="font-size: 11px">-->
+                      <!--&lt;!&ndash;<button class="btn-theme btn-theme-success-sm-outline mx-1" (click)="dropdown.hide()">Cancel</button>&ndash;&gt;-->
+                      <!--&lt;!&ndash;<button class="btn-theme btn-theme-success-sm">Save</button>&ndash;&gt;-->
+                      <!--<span [ngClass]="{'cursor-not-allowed':!btnConfigForm.valid}" class="mr-1">-->
+                      <!--<span (click)="saveButtonConfig(btnConfigForm, carouselIndex, buttonIndex, activeDropdownButtonIndex)"-->
+                            <!--[ngClass]="{'cursor-pointer-event-none':!btnConfigForm.valid,'cursor-pointer':btnConfigForm.valid, 'text-primary':btnConfigForm.valid, 'text-muted': !btnConfigForm.valid}">-->
+                        <!--Done-->
+                      <!--</span>-->
+                    <!--</span>-->
+                      <!--<span class="text-primary cursor-pointer"-->
+                            <!--(click)="activeDropdownButtonIndex.value = -1;$event.stopPropagation();">Cancel</span>-->
+                      <!--<span class="text-danger cursor-pointer ml-auto"-->
+                            <!--(click)="deleteCaraousalButton(carouselIndex, buttonIndex)">Delete</span>-->
+                    <!--</li>-->
+                  <!--</ul>-->
+                <!--</div>-->
+                <!--&lt;!&ndash;caraosal button ends&ndash;&gt;-->
+              <!--</form>-->
             </li>
 
             <li *ngIf="this.outputItem.generic_template[0].elements[carouselIndex].button.length<=2"

@@ -4,7 +4,7 @@ import {IBot} from '../../interfaces/IBot';
 import {Observable, Subscription} from 'rxjs';
 import {NgForm} from '@angular/forms';
 import {ConstantsService} from '../../../constants.service';
-import {BsDatepickerConfig} from 'ngx-bootstrap';
+
 import {Select, Store} from '@ngxs/store';
 import {
   SetAnalysis2HeaderData,
@@ -91,7 +91,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   startdate = new Date(new Date().setDate(new Date().getDate() - 30));
   enddate = new Date();
   granularity = 'day';
-  datePickerConfig: Partial<BsDatepickerConfig> = this.constantsService.DATE_PICKER_CONFIG;
+  datePickerConfig: Partial<any> = this.constantsService.DATE_PICKER_CONFIG;
   channelList = this.constantsService.CHANNEL_LIST;
   loggeduser: IAuthState;
   analytics2HeaderData;
@@ -124,7 +124,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
         debugger;
         if (!this.f.valid) return;
         const selectedBot: IBot = this._allbotList.find((bot) => bot.id === Number(this.f.value.botId));
-        const analysisHeaderData: IAnalysis2HeaderData = {
+        const analysisHeaderData: any /*: TODO: IAnalysis2HeaderData*/ = {
           'bot-access-token': selectedBot.bot_access_token,
           platform: 'web',
           ...formData,
@@ -147,13 +147,13 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
       this.loggeduser = loggeduser;
     });
 
-    this.analytics2HeaderDataSub = this.analytics2HeaderData$.subscribe((analytics2HeaderData) => {
+    this.analytics2HeaderDataSub = this.analytics2HeaderData$.subscribe((analytics2HeaderData:any) => {
       /*move this code to dedicated service*/
       try {
         debugger;
         this.f.form.patchValue(analytics2HeaderData);
         const url = this.constantsService.getAnalyticsUrl();
-        const headerData: IAnalysis2HeaderData = {
+        const headerData: any/*IAnalysis2HeaderData*/ = {
           ...analytics2HeaderData,
           'auth-token': this.loggeduser.user.auth_token,
           'user-access-token': this.loggeduser.user.user_access_token,

@@ -36,7 +36,6 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   showLoader = false;
   refreshSessions$: Observable<ISessions>;
   url: string;
-  smartTableSettings_Sessions = this.constantsService.SMART_TABLE_SESSIONS_SETTING;
   selectedRow_Session: ISessionItem;
   selectedRow_number = 0;
   totalSessionRecords = 0;

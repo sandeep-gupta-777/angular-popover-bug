@@ -2,7 +2,6 @@ import {Route, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ViewBotsComponent} from './view-bots.component';
-import {BsDropdownModule, ModalModule, TabsModule} from 'ngx-bootstrap';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {DragService} from '../../drag.service';
@@ -35,13 +34,10 @@ const routes: Route[] = [
     MyMaterialModule,
     CommonModule,
     RouterModule.forChild(routes),
-    BsDropdownModule.forRoot(),
-    TabsModule.forRoot(),
     FormsModule,
     SharedModule,
     RichMediaModule,
     HttpClientModule,
-    ModalModule.forRoot(),
   ],
   providers: [DragService, AimService]
 })
