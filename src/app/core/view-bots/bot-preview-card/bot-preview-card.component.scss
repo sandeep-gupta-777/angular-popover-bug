@@ -243,3 +243,26 @@
 }
 
 
+.cutom-md-menu{
+  .mat-menu-content{
+    padding: 0;
+    button{
+      height: 40px;
+      font-size: 13px;
+    }
+  }
+
+}
+
+:host{
+
+}
+
+.mat-menu-content{
+  padding: 0;
+  button{
+    height: 40px;
+    font-size: 13px;
+  }
+}
+

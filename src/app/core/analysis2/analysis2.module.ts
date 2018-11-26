@@ -1,12 +1,8 @@
 import {Route, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {BsDatepickerModule, BsDropdownModule, ModalModule, TabsModule, TooltipModule} from 'ngx-bootstrap';
 import {FormsModule} from '@angular/forms';
-// import {DragAndDropModule} from 'angular-draggable-droppable';
-// import {NgxsModule} from '@ngxs/store';
 import {HttpClientModule} from '@angular/common/http';
-import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {DragService} from '../../drag.service';
 import {AimService} from '../../aim.service';
 import {SharedModule} from '../../shared.module';
@@ -25,7 +21,6 @@ import { Analysis2EventsComponent } from './according-to-old-ui/analysis2-events
 import { Analysis2UsageComponent } from './according-to-old-ui/analysis2-usage/analysis2-usage.component';
 import { Analysis2Engagement1Component } from './according-to-old-ui/analysis2-engagement1/analysis2-engagement1.component';
 import {AuthGaurdService} from '../../auth-gaurd.service';
-// import {AnalysisStateReducer2} from './ngxs/analysis.state';
 
 const routes: Route[] = [
   {
@@ -70,8 +65,6 @@ const routes: Route[] = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
-    BsDropdownModule.forRoot(),
-    TabsModule.forRoot(),
     FormsModule,
     // DragAndDropModule.forRoot(),
     // NgxsModule.forFeature([
@@ -79,11 +72,7 @@ const routes: Route[] = [
     // ]),
     SharedModule,
     HttpClientModule,
-    // Ng2SmartTableModule,
     // ModalModule.forRoot(),
-    BsDatepickerModule.forRoot(),
-    ModalModule.forRoot(),
-    TooltipModule.forRoot()
   ],
   providers: [DragService, AimService]
 })

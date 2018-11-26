@@ -1,26 +1,24 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { Observable, Subscription } from 'rxjs';
-import { IUser } from '../interfaces/user';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ResetAppState, ResetStoreToDefault } from '../../ngxs/app.action';
-import { ResetChatState } from '../../chat/ngxs/chat.action';
-import { ResetBotListAction, SetAllBotListAction } from '../view-bots/ngxs/view-bot.action';
-import { ResetAuthToDefaultState, SetUser } from '../../auth/ngxs/auth.action';
-import { ConstantsService, EAllActions } from '../../constants.service';
-import { ServerService } from '../../server.service';
-import { ResetEnterpriseUsersAction } from '../enterpriseprofile/ngxs/enterpriseprofile.action';
-import { ResetBuildBotToDefault } from '../buildbot/ngxs/buildbot.action';
-import { IEnterpriseProfileInfo } from '../../../interfaces/enterprise-profile';
-import { EBotType } from '../view-bots/view-bots.component';
-import { ResetAnalytics2GraphData, ResetAnalytics2HeaderData } from '../analysis2/ngxs/analysis.action';
-import { UtilityService } from '../../utility.service';
-import { IAppState } from '../../ngxs/app.state';
-import { ELogType, LoggingService } from '../../logging.service';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { IAuthState } from 'src/app/auth/ngxs/auth.state';
-import { IHeaderData } from 'src/interfaces/header-data';
-import { IBotResult } from '../interfaces/IBot';
+import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Select, Store} from '@ngxs/store';
+import {Observable, Subscription} from 'rxjs';
+import {IUser} from '../interfaces/user';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ResetAppState, ResetStoreToDefault} from '../../ngxs/app.action';
+import {ResetChatState} from '../../chat/ngxs/chat.action';
+import {ResetBotListAction, SetAllBotListAction} from '../view-bots/ngxs/view-bot.action';
+import {ResetAuthToDefaultState, SetUser} from '../../auth/ngxs/auth.action';
+import {ConstantsService, EAllActions} from '../../constants.service';
+import {ServerService} from '../../server.service';
+import {ResetEnterpriseUsersAction} from '../enterpriseprofile/ngxs/enterpriseprofile.action';
+import {ResetBuildBotToDefault} from '../buildbot/ngxs/buildbot.action';
+import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
+import {ResetAnalytics2GraphData, ResetAnalytics2HeaderData} from '../analysis2/ngxs/analysis.action';
+import {EBotType, UtilityService} from '../../utility.service';
+import {IAppState} from '../../ngxs/app.state';
+import {ELogType, LoggingService} from '../../logging.service';
+import {IHeaderData} from '../../../interfaces/header-data';
+import {IBotResult} from '../interfaces/IBot';
+import {IAuthState} from '../../auth/ngxs/auth.state';
 
 @Component({
   selector: 'app-header',
@@ -42,7 +40,6 @@ export class HeaderComponent implements OnInit {
   logoutSetTimeoutRef;
   autoLogOutTime: number;
   isOnline = true;
-  modalRef: BsModalRef;
   isDocumentFullScreenModeOn = false;
   searchEnterprise: string;
   enterpriseList: any[];
@@ -54,7 +51,6 @@ export class HeaderComponent implements OnInit {
     private constantsService: ConstantsService,
     public utilityService: UtilityService,
     private router: Router,
-    private modalService: BsModalService
   ) {
   }
 
@@ -111,7 +107,7 @@ export class HeaderComponent implements OnInit {
     //   .subscribe((v) => {
     //     this.utilityService.showSuccessToaster('Logged Out');
     //   });
-    
+
 
     this.loggeduser$
       .subscribe((value: IAuthState) => {
@@ -154,12 +150,13 @@ export class HeaderComponent implements OnInit {
 
   }
   changeEnterprise(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { class: 'modal-lg' })
+    /*TODO: Come here after migration of angular 7 and merge with dev*/
+    // this.modalRef = this.modalService.show(template, { class: 'modal-lg' })
   }
   toggleDocumentFullScreen() {
     this.isDocumentFullScreenModeOn ? this.utilityService.closeFullscreen() : this.utilityService.openFullscreen();
   }
-  
+
   enterEnterprise(Enterprise) {
     debugger;
     let enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
@@ -188,7 +185,7 @@ export class HeaderComponent implements OnInit {
                 });
 
             });
-          
+
         })
         // this.gotUserData$.emit(value);
       });

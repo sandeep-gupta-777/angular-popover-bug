@@ -1,4 +1,4 @@
-import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {EBotMessageMediaType, EChatFrame, IChatSessionState, IMessageData, IRoomData} from '../../interfaces/chat-session-state';
@@ -51,7 +51,7 @@ export interface IBotPreviewFirstMessage {
   styleUrls: ['./chat-wrapper.component.scss']
 })
 export class ChatWrapperComponent implements OnInit {
-
+  showOverlay=false;
   @Select() chatsessionstate$: Observable<IChatSessionState>;
   @Select() loggeduser$: Observable<IAuthState>;
   @Select() botlist$: Observable<ViewBotStateModel>;
@@ -89,6 +89,12 @@ export class ChatWrapperComponent implements OnInit {
               private utilityService: UtilityService,
               private route: Router
   ) {
+  }
+
+  toggleOverlay(){
+    setTimeout(()=>{
+      this.showOverlay = !this.showOverlay;
+    },0)
   }
 
   ngOnInit() {
@@ -323,12 +329,14 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   saveConsumerDetails(value) {
+    this.showOverlay = false;
     this.store.dispatch([new SetConsumerDetail(value)])
       .subscribe(() => {
         this.utilityService.showSuccessToaster('Saved');
         this.createCustomRoom();
       });
   }
+
 
 
 }

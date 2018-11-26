@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, Input, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {BotConfigComponent} from '../../buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {IBot} from '../../interfaces/IBot';
 import {Observable, Subscription} from 'rxjs';
 import {NgForm} from '@angular/forms';
 import {ConstantsService} from '../../../constants.service';
-import {BsDatepickerConfig} from 'ngx-bootstrap';
+
 import {Select, Store} from '@ngxs/store';
 import {
   SetAnalysis2HeaderData,
@@ -25,7 +25,7 @@ import {
 } from '../ngxs/analysis.action';
 import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
-import {UtilityService} from '../../../utility.service';
+import {EBotType, UtilityService} from '../../../utility.service';
 import {IUser} from '../../interfaces/user';
 import {AnalysisStateReducer2} from '../ngxs/analysis.state';
 import {EAnalysis2TypesEnum} from '../../../../interfaces/Analytics2/analysis2-types';
@@ -44,9 +44,8 @@ import {IRoomDurationResponseBody} from '../../../../interfaces/Analytics2/perfo
 import {IChannelWiseSessionsResponseBody} from '../../../../interfaces/Analytics2/engagement-channelWiseSessions';
 import {IChannelWiseUsersResponseBody} from '../../../../interfaces/Analytics2/engagement-channelWiseUsers';
 import {ActivatedRoute, Router} from '@angular/router';
-import {query} from '@angular/animations';
-import {EBotType} from '../../view-bots/view-bots.component';
 import {ELogType, LoggingService} from '../../../logging.service';
+import {debounceTime, take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-analysis2-header',
@@ -66,7 +65,9 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   maxDate = new Date();
 
   @Input() set allbotList(_allbotList: IBot[]) {
-    if (!_allbotList) { return; }
+    if (!_allbotList) {
+      return;
+    }
     this._allbotList = _allbotList;
     this.codebasedBotList = this._allbotList.filter((bot) => bot.bot_type === EBotType.chatbot);
     if (this.f && _allbotList && _allbotList.length > 0) {
@@ -77,13 +78,20 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   granularityList = [
     'hour', 'day', 'month', 'year'
   ];
+  //startdate = new Date(new Date().setDate(new Date().getDate() - 30));
+  //   enddate = new Date();
+  date = {
+    begin: new Date(new Date().setDate(new Date().getDate() - 30)),
+    end: new Date()
+  };
+
   @ViewChild('form') f: NgForm;
   @Select(AnalysisStateReducer2.getAnalytics2HeaderData) analytics2HeaderData$: Observable<IAnalysis2HeaderData>;
   @Select() loggeduser$: Observable<{ user: IUser }>;
   startdate = new Date(new Date().setDate(new Date().getDate() - 30));
   enddate = new Date();
   granularity = 'day';
-  datePickerConfig: Partial<BsDatepickerConfig> = this.constantsService.DATE_PICKER_CONFIG;
+  datePickerConfig: Partial<any> = this.constantsService.DATE_PICKER_CONFIG;
   channelList = this.constantsService.CHANNEL_LIST;
   loggeduser: IAuthState;
   analytics2HeaderData;
@@ -107,18 +115,21 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     * update the header data in store
     * */
     this.formChangesSub = this.f.form.valueChanges
-      .debounceTime(1000)
+      .pipe(debounceTime(1000))
       .subscribe((formData) => {
-        LoggingService.log(this.f);
-        if (this.utilityService.areTwoJSObjectSame(this.formData, formData)) { return; }
+        if (this.utilityService.areTwoJSObjectSame(this.formData, formData)) {
+          return;
+        }
         this.formData = formData;
-        if (!this.f.valid) { return; }
+        debugger;
+        if (!this.f.valid) return;
         const selectedBot: IBot = this._allbotList.find((bot) => bot.id === Number(this.f.value.botId));
-        // this.route.navigate(["." ], {queryParams:{granularity:this.f.value.granularity} , relativeTo: this.activatedRoute});
-        const analysisHeaderData: IAnalysis2HeaderData = {
+        const analysisHeaderData: any /*: TODO: IAnalysis2HeaderData*/ = {
           'bot-access-token': selectedBot.bot_access_token,
           platform: 'web',
-          ...formData
+          ...formData,
+          startdate: formData && formData.date_range.begin,
+          enddate: formData && formData.date_range.end
         };
         this.store.dispatch([new ResetAnalytics2GraphData()])
           .subscribe(() => {
@@ -136,12 +147,13 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
       this.loggeduser = loggeduser;
     });
 
-    this.analytics2HeaderDataSub = this.analytics2HeaderData$.subscribe((analytics2HeaderData) => {
+    this.analytics2HeaderDataSub = this.analytics2HeaderData$.subscribe((analytics2HeaderData:any) => {
       /*move this code to dedicated service*/
       try {
+        debugger;
         this.f.form.patchValue(analytics2HeaderData);
         const url = this.constantsService.getAnalyticsUrl();
-        const headerData: IAnalysis2HeaderData = {
+        const headerData: any/*IAnalysis2HeaderData*/ = {
           ...analytics2HeaderData,
           'auth-token': this.loggeduser.user.auth_token,
           'user-access-token': this.loggeduser.user.user_access_token,
@@ -149,19 +161,25 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
           enddate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.enddate),
         };
         //asdas
-        if (!this.utilityService.areAllValesDefined(headerData)) { return; }
-        if (this.utilityService.areTwoJSObjectSame(this.analytics2HeaderData, analytics2HeaderData)) { return; }
+        if (!this.utilityService.areAllValesDefined(headerData)) {
+          return;
+        }
+        if (this.utilityService.areTwoJSObjectSame(this.analytics2HeaderData, analytics2HeaderData)) {
+          return;
+        }
         this.store.dispatch([new ResetAnalytics2GraphData()])
-          .debounceTime(1000)
+          .pipe(debounceTime(1000))
           .subscribe(() => {
             const isHeaderValid = this.isHeaderValid(analytics2HeaderData.startdate, analytics2HeaderData.enddate, analytics2HeaderData.granularity);
-            if (!isHeaderValid) { return; }
+            if (!isHeaderValid) {
+              return;
+            }
             this.analytics2HeaderData = analytics2HeaderData;
 
             this.store.dispatch([new ResetAnalytics2GraphData()]);
             // this.makeGetReqSub && this.makeGetReqSub.unsubscribe();//todo: better use .
             this.makeGetReqSub = this.serverService.makeGetReq({url, headerData})
-              .take(1)
+              .pipe(take(1))
               .subscribe((response: any) => {
                 if (headerData.type === EAnalysis2TypesEnum.overviewinfo) {
                   const responseCopy: IOverviewInfoResponse = response;
@@ -270,7 +288,9 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
 
     setTimeout(() => {
       this.f.controls.botId.valueChanges.subscribe((data) => {
-        if (!this.f.value.botId) { return; }
+        if (!this.f.value.botId) {
+          return;
+        }
         const selectedBot: IBot = this._allbotList.find((bot) => bot.id === Number(this.f.value.botId));
         if (selectedBot) {
           this.channelList =

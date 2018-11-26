@@ -43,6 +43,8 @@ export class SmartTableSettingsService {
       perPage: 10
     }
   };
+
+
   readonly SMART_TABLE_REPORTS_HISTORY_SETTING = {
 
     columns: {

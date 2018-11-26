@@ -84,7 +84,7 @@ export class CodeGentemplateUiComponentWrapperComponent implements OnInit {
   }
 
   removeThisChannel(channel: string,i) {
-    // debugger;
+    //
     let isChannelPresent = this.outputItem.include.find(e => e === channel);
     if (isChannelPresent) {
       this.outputItem.include = this.outputItem.include.filter(e => e !== channel);

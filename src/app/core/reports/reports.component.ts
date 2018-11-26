@@ -22,13 +22,42 @@ import {DatePipe} from '@angular/common';
 import {ISessionItem} from '../../../interfaces/sessions';
 import {UtilityService} from '../../utility.service';
 import {ELogType, LoggingService} from '../../logging.service';
+import {MaterialTableImplementer} from '../../material-table-implementer';
 
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.scss']
 })
-export class ReportsComponent implements OnInit, OnDestroy {
+export class ReportsComponent extends MaterialTableImplementer implements OnInit, OnDestroy {
+  tableData;
+  tableData_report;
+  tableData_history;
+
+  getTableDataMetaDict_report(): any {
+    return this.constantsService.SMART_TABLE_REPORT_TABLE_DATA_META_DICT_TEMPLATE
+  }
+
+  initializeTableData_report(data: any, tableDataMetaDict: any): void {
+    this.tableData_report = this.transformDataForMaterialTable(data, this.getTableDataMetaDict_report());
+  }
+
+  getTableDataMetaDict_reportHistory(): any {
+    return this.constantsService.SMART_TABLE_REPORT_HISTORY_TABLE_DATA_META_DICT_TEMPLATE
+  }
+
+  initializeTableData_reportHistory(data: any, tableDataMetaDict: any): void {
+    this.tableData_history = this.transformDataForMaterialTable(data, this.getTableDataMetaDict_reportHistory());
+    debugger;
+    this.tableData_history = this.tableData_history.map((sessionsDataForTableItem)=>{
+      let additonalColumns: any = {};
+      /*actions*/
+      additonalColumns['Actions'] = sessionsDataForTableItem['Actions'];
+      additonalColumns['Actions'].value = [];
+      additonalColumns['Actions'].value.push({show: true, name: 'download', class: 'fa fa-download'});
+      return {...sessionsDataForTableItem, ...additonalColumns}
+    })
+  }
 
   reportSmartTableData: ISmartTableReportDataItem[] = [];
   reportHistorySmartTableData: ISmartTableReportHisoryDataItem[] = [];
@@ -48,6 +77,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
     private utilityService: UtilityService,
     private store: Store,
   ) {
+    super();
   }
 
   activeTab = 'configure';
@@ -84,7 +114,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
               name: this.objectArrayCrudService.getObjectItemByKeyValuePair(this.reportTypes.objects, {id: reportHistoryItem.reporttype_id}).name,
               created_at: reportHistoryItem.created_at
             });
-            this.reportHistorySmartTableData = [...this.reportHistorySmartTableData];
+            this,this.initializeTableData_reportHistory(this.reportHistorySmartTableData, this.getTableDataMetaDict_reportHistory());
 
           });
         });
@@ -154,6 +184,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
                 nextreportgenerated: (new Date(report.nextreportgenerated).toDateString()),
                 isactive: report.isactive
               });
+              this.initializeTableData_report(this.reportSmartTableData, this.getTableDataMetaDict_report());
             } catch (e) {
               LoggingService.error(e);
               // this.utilityService.showErrorToaster(`Can't show the report for botid: ${report.bot_id}. This bot is either deleted or your access maybe been revoked.`,5 );
@@ -189,6 +220,12 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.botlist$_sub && this.botlist$_sub.unsubscribe();
+  }
+
+  getTableDataMetaDict(): any {
+  }
+
+  initializeTableData(data: any, tableDataMetaDict: any): void {
   }
 
 }

@@ -1,17 +1,18 @@
-<label class="required" for="alterEgo">{{displayName}}</label>
-<label
-  *ngIf="this.ngControl.errors && myObject.keys(this.ngControl.errors)[0]"
-  [hidden]="!ngControl.hasError(myObject.keys(this.ngControl.errors)[0])" class="text-danger pl-1" for="alterEgo">
-  <i>{{myObject.keys(this.ngControl.errors)[0]}}</i>
-</label>
+<!--<label class="required" for="alterEgo">{{displayName}}</label>-->
+<!--<label-->
+<!--*ngIf="this.ngControl.errors && myObject.keys(this.ngControl.errors)[0]"-->
+<!--[hidden]="!ngControl.hasError(myObject.keys(this.ngControl.errors)[0])" class="text-danger pl-1" for="alterEgo">-->
+<!--<i>{{myObject.keys(this.ngControl.errors)[0]}}</i>-->
+<!--</label>-->
 <!--<label *ngIf="ngControl|errorDescription as errorObj"-->
-       <!--[hidden]="!ngControl.hasError(errorObj.name)"-->
-       <!--class="text-danger pl-1" for="alterEgo"><i>{{errorObj.description}}</i></label>-->
-<input type="text" id="alterEgo"
-       class="form-control"
-       [placeholder]="placeholder"
-       [(ngModel)]="value"
-       (keydown)="keyPressed($event)"
-       [disabled]="isDisabled"
-       >
+<!--[hidden]="!ngControl.hasError(errorObj.name)"-->
+<!--class="text-danger pl-1" for="alterEgo"><i>{{errorObj.description}}</i></label>-->
+  <mat-form-field class="w-100">
+  <input type="text" id="alterEgo"
+         matInput
+         [placeholder]="placeholder"
+         [(ngModel)]="value"
+         (keydown)="keyPressed($event)"
+         [disabled]="isDisabled">
+</mat-form-field>
 <!--<p>{{errors|json}}</p>-->

@@ -8,12 +8,10 @@ import {ImiLoaderComponent} from './imi-loader/imi-loader.component';
   declarations: [
     CardCarouselComponent,
     QuickReplyComponent,
-    ImiLoaderComponent
   ],
   exports: [
     CardCarouselComponent,
     QuickReplyComponent,
-    ImiLoaderComponent
   ],
   imports: [
     CommonModule

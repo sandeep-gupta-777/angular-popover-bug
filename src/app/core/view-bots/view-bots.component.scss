@@ -52,3 +52,7 @@ a{
 .danger-modal{
   @include classic-modal(#b14250);
 }
+
+:host /deep/ .mat-tab-header{
+  border: none !important;
+}

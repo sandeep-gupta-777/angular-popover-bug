@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {IBot} from '../../../../interfaces/IBot';
 import {ServerService} from '../../../../../server.service';
 import {ConstantsService, EAllActions, ERouteNames} from '../../../../../constants.service';
@@ -12,15 +11,15 @@ import {ICustomners} from '../../../../../../interfaces/bot-creation';
 import {Observable} from 'rxjs';
 import {IUser} from '../../../../interfaces/user';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {b} from '@angular/core/src/render3';
 import {ESplashScreens} from '../../../../../splash-screen/splash-screen.component';
+import {MaterialTableImplementer} from '../../../../../material-table-implementer';
 
 @Component({
   selector: 'app-knowledge-base',
   templateUrl: './knowledge-base.component.html',
   styleUrls: ['./knowledge-base.component.scss']
 })
-export class KnowledgeBaseComponent implements OnInit {
+export class KnowledgeBaseComponent extends MaterialTableImplementer implements OnInit {
 
   // @Input() bot: IBot;
 
@@ -33,20 +32,24 @@ export class KnowledgeBaseComponent implements OnInit {
   @Input() recordsPerPage = 10;
 
   // @Input() _custumNerDataForSmartTable = [];
-  _custumNerDataForSmartTable: ICustomNerItem[] = [];
+  _custumNerDataForSmartTable: any[] = [];
   @Input() set custumNerDataForSmartTable(value: ICustomNerItem[]) {
-
+    debugger;
     this._custumNerDataForSmartTable = value;
+    setTimeout(()=>{
+      this.initializeTableData(value, this.getTableDataMetaDict());
+    });
+
     const ner_id = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
     ner_id && this.updateSelectedRowDataByNer_Id(Number(ner_id));
   }
+
   @Output() pageChanged$ = new EventEmitter(); //
   @Output() updateOrSaveParentNers$ = new EventEmitter(); //
   @Output() deleteNer$ = new EventEmitter(); //deleteNer$.emit()
   @Input() currentPageNumber = 1;
   @Input() totalRecords = 10;
   loggeduser: { user: IUser };
-  @Input() settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;
   codeTextOutPutFromCodeEditor: string;
   codeTextInputToCodeEditor: string;
   showTable = true;
@@ -54,12 +57,13 @@ export class KnowledgeBaseComponent implements OnInit {
   ner_type1;
   conflict_policy1;
   type: string;
-  modalRef: BsModalRef;
   handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
   handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
 
   handontableData = [['', '', '']];
   selectedRowData: ICustomNerItem;
+
+  @Input() tableDataMetaDict;
 
   /*TODO: use model instead of ngif;else*/
   constructor(
@@ -69,26 +73,36 @@ export class KnowledgeBaseComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private store: Store) {
+    super();
+  }
 
+  getTableDataMetaDict(): any {
+    return this.tableDataMetaDict;
+  }
+
+  initializeTableData(data: any, tableDataMetaDict: any): void {
+    this.tableData = this.transformDataForMaterialTable(data, tableDataMetaDict);
+    this.tableData = [...this.tableData];
   }
 
   updateSelectedRowDataByNer_Id(ner_id: number) {
-      this.showTable = !ner_id;
-
-
-      this.selectedRowData = this._custumNerDataForSmartTable && this._custumNerDataForSmartTable.find((custumNerData) => {
-        return custumNerData.id === ner_id;
-      });
-      if (this.selectedRowData) {this.prepareDataForDetailedViewAndChangeParams(this.selectedRowData); }
+    this.showTable = !ner_id;
+    this.selectedRowData = this._custumNerDataForSmartTable && this._custumNerDataForSmartTable.find((custumNerData) => {
+      return custumNerData.id === ner_id;
+    });
+    if (this.selectedRowData) {
+      this.prepareDataForDetailedViewAndChangeParams(this.selectedRowData);
+    }
   }
 
   ngOnInit() {
+
     this.routeName = this.activatedRoute.snapshot.data['routeName'];
 
     this.activatedRoute.queryParamMap
       .subscribe((value: ParamMap) => {
-        if (value.get('ner_id') ) {
-          const ner_id =  Number(value.get('ner_id'));
+        if (value.get('ner_id')) {
+          const ner_id = Number(value.get('ner_id'));
           ner_id && this.updateSelectedRowDataByNer_Id(ner_id);
           // this.showTable = !ner_id;
           // this.selectedRowData = this._custumNerDataForSmartTable.find((custumNerData)=>{
@@ -116,7 +130,8 @@ export class KnowledgeBaseComponent implements OnInit {
     this.codeTextOutPutFromCodeEditor = codeText;
   }
 
-  updateOrSaveConcept(data: {key: string, ner_type: string, conflict_policy: string, codeTextOutPutFromCodeEditor: string, handsontableData: any}) {
+  updateOrSaveConcept(data: { key: string, ner_type: string, conflict_policy: string, codeTextOutPutFromCodeEditor: string, handsontableData: any }) {
+
     let body: ICustomNerItem = data;
     // this.type = this.bot?'bot':'enterprise';
     if (data.ner_type === 'single_match' || data.ner_type === 'with_metadata' || data.ner_type === 'double_match' || data.ner_type === 'regex') {
@@ -139,7 +154,7 @@ export class KnowledgeBaseComponent implements OnInit {
           });
           return obj;
         } else {
-          return ;
+          return;
         }
         // let obj = {};
         // row.forEach((str, index) => {
@@ -163,7 +178,7 @@ export class KnowledgeBaseComponent implements OnInit {
       const type = bot_id ? 'bot' : 'enterprise';
 
       const newRowData: ICustomNerItem = output = {
-        'bot_id': bot_id , //this.bot.id,
+        'bot_id': bot_id, //this.bot.id,
         // "column_headers": any[],
         'column_nermap': {},
         'conflict_policy': data.conflict_policy,
@@ -178,7 +193,7 @@ export class KnowledgeBaseComponent implements OnInit {
         // 'updated_at': new Date().toISOString(),
         // "updated_by": 0,
         // "values"?: any[],
-        'column_headers' : [],
+        'column_headers': [],
         // "process_raw_text" : false,
         ...body
       };
@@ -269,7 +284,9 @@ export class KnowledgeBaseComponent implements OnInit {
   }
 
   rowClicked($event) {
+
     this.selectedRowData = $event.data;
+    console.log(this.selectedRowData);
     this.prepareDataForDetailedViewAndChangeParams(this.selectedRowData);
   }
 
@@ -277,7 +294,8 @@ export class KnowledgeBaseComponent implements OnInit {
     this.router.navigate(['.'], {
       queryParams: {ner_id: selectedRowData.id},
       queryParamsHandling: 'merge',
-      relativeTo: this.activatedRoute});
+      relativeTo: this.activatedRoute
+    });
     this.showTable = false;
     this.codeTextInputToCodeEditor = selectedRowData.values && selectedRowData.values;
     if (selectedRowData.ner_type === 'database') {
@@ -315,7 +333,15 @@ export class KnowledgeBaseComponent implements OnInit {
     this.router.navigate(['.'], {
       queryParams: {ner_id: null},
       queryParamsHandling: 'merge',
-      relativeTo: this.activatedRoute});
+      relativeTo: this.activatedRoute
+    });
   }
+
+  log(selectedRowData) {
+    console.log(selectedRowData);
+    console.log(this.selectedRowData);
+  }
+
+  tableData;
 
 }

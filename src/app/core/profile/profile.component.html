@@ -61,17 +61,16 @@
 
 <ng-template #Primarytemplate>
   <div class="primary-modal">
-    <div class="top-dec"></div>
     <div class="modal-header">
       <h4 class="modal-title mb-2"> Change Password</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
 
     </div>
 
     <div class="modal-body">
-      <form *ngIf="showPasswordChangeForm" class="row" #password_form="ngForm">
+      <form *ngIf="showPasswordChangeForm" #password_form="ngForm">
 
         <div class="col-md-12">
           <label for="">Old Password</label>
@@ -93,7 +92,7 @@
         </div>
         <div class="col-md-12 d-flex flex-row-reverse justify-content-center"><!--todo: hack-->
           <button type="submit" class="btn-theme btn-theme-primary" (click)="changePassword()">Modify</button>
-          <button class="btn-theme btn-theme-primary-outline mr-1" (click)="modalRef.hide()">Cancel</button>
+          <button class="btn-theme btn-theme-primary-outline mr-1" (click)="dialogRefWrapper.ref.close()">Cancel</button>
           <!--<button class="btn-theme btn-theme-primary" (click)="changePassword()">Submit</button>-->
         </div>
 

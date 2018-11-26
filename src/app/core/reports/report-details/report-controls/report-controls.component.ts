@@ -5,14 +5,13 @@ import {ViewBotStateModel} from '../../../view-bots/ngxs/view-bot.state';
 import {IBot} from '../../../interfaces/IBot';
 import {IReportItem} from '../../../../../interfaces/report';
 import {NgForm} from '@angular/forms';
-import {UtilityService} from '../../../../utility.service';
+import {EBotType, UtilityService} from '../../../../utility.service';
 import {TempVariableService} from '../../../../temp-variable.service';
 import {ServerService} from '../../../../server.service';
 import {ConstantsService} from '../../../../constants.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {BsDatepickerConfig} from 'ngx-bootstrap/datepicker';
-import {EBotType} from '../../../view-bots/view-bots.component';
 import {ELogType, LoggingService} from '../../../../logging.service';
+import {debounceTime} from 'rxjs/operators';
 
 declare var $: any;
 
@@ -25,7 +24,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
   start_time;
   isactive = false;
   @Select() botlist$: Observable<ViewBotStateModel>;
-  datePickerConfig: Partial<BsDatepickerConfig>;
+  datePickerConfig: any;
   @ViewChild('form') f: NgForm;
   botlist: IBot[] = [];
   selectedBot: IBot;
@@ -85,11 +84,6 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
       this.codebasedBotList = this.botlist.filter((bot) => bot.bot_type === EBotType.chatbot);
 
       setTimeout(() => {
-
-
-        // this.reportFormData.startdate = this.utilityService.convertDateObjectStringToDDMMYY(new Date(this.reportFormData.startdate));
-        // if (this.reportFormData) this.f.f.patchValue(this.reportFormData);
-        //
         if (_id && _id !== 'new') {
           const url = this.constantsService.getReportsEditInfo(_id);
           this.serverService.makeGetReq<IReportItem>({url})
@@ -128,7 +122,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
     });
 
 
-    this.f.valueChanges.debounceTime(1000).subscribe((data: any) => {
+    this.f.valueChanges.pipe(debounceTime(1000)).subscribe((data: any) => {
       // if (!this.f.dirty) return;
 
       /*TODO: VERY BAD FIX; USE REACTIVE FORM INSTEAD*/

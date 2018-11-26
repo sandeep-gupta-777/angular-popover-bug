@@ -1,10 +1,9 @@
 
-<div class="wrapper cursor-pointer position-relative" (click)="navigateToBotDetailPage($event)">
+<section class="wrapper cursor-pointer position-relative" (click)="navigateToBotDetailPage($event)">
   <div class="grid-bot-preview-two bg-white shadow-theme">
     <div class="header-border-bottom"></div><!--just for border-->
     <!--header starts-->
-    <div class="grid-bot-preview-version header header-border-bottom  d-flex">
-      <!--<div class="header">-->
+    <header class="grid-bot-preview-version header header-border-bottom d-flex">
       <div class="span-wrapper" *ngIf="bot.bot_type === 'chatbot'">
         <i class="fa fa-circle"></i>
       </div>
@@ -15,41 +14,25 @@
         <div class=" show-on-parent-hover" style="align-self: center" *ngIf="bot.bot_type === 'chatbot'">
           Latest(v{{bot.latest_version.version || 0}})
         </div>
-        <i *ngIf="bot.store_isPinned" class="fa p-1 fa-thumb-tack click-save-wrapper" (click)="togglePinBotCard(bot, false)"></i>
-        <div class="btn-group click-save-wrapper" dropdown style="align-self: center; font-size: 18px;padding:0;">
-          <i dropdownToggle class="fa fa-ellipsis-v click-save-wrapper px-2"></i>
-          <ul *dropdownMenu class="dropdown-menu click-save-wrapper" role="menu">
-            <li role="menuitem">
-              <a class="dropdown-item cursor-pointer click-save-wrapper"
-                 (click)="utilityService.copyToClipboard(bot.bot_access_token)">Copy Access Token</a>
-            </li>
-            <li role="menuitem">
-              <a class="dropdown-item cursor-pointer click-save-wrapper"
-                 (click)="utilityService.copyToClipboard(bot.enterprise_id)">Copy Enterprise ID</a>
-            </li>
-            <li role="menuitem"
-                *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]">
-              <a class="dropdown-item click-save-wrapper" (click)="openModal(template)">Delete</a>
-            </li>
-            <li role="menuitem" *ngIf="!bot.store_isPinned">
-              <a class="dropdown-item click-save-wrapper" (click)="togglePinBotCard(bot, true)">Pin</a>
-            </li>
-            <li role="menuitem" *ngIf="bot.store_isPinned">
-              <a class="dropdown-item click-save-wrapper" (click)="togglePinBotCard(bot, false)">Unpin</a>
-            </li>
-          </ul>
+        <i *ngIf="bot.store_isPinned" class="fa p-1 fa-thumb-tack" (click)="togglePinBotCard(bot, false)"></i>
+        <div class="btn-group" dropdown style="align-self: center; font-size: 18px;padding:0;">
+
+          <button mat-icon-button [matMenuTriggerFor]="appMenu" class="click-save-wrapper">
+            <mat-icon class="click-save-wrapper">more_vert</mat-icon>
+          </button>
+
         </div>
       </div>
-    </div>
+    </header>
     <!--header ends-->
-    <div class=""></div><!--just for border-->
+    <div></div><!--just for border-->
 
-    <div class="ml-2 grid-bot-preview-img grid-bot-preview-second-row main-logo-wrapper">
+    <figure class="ml-2 grid-bot-preview-img grid-bot-preview-second-row main-logo-wrapper">
       <img class="logo-md rounded-circle" [src]="bot.logo" alt="">
-    </div>
+    </figure>
     <div class="grid-bot-preview-name details1 text-theme-secondary">
-      <div class="heading">{{(bot.name|slice:0:36)+(bot.name.length>36?"...":"")}}</div>
-      <div class="description mt-1">{{bot.description}}</div>
+      <h6 class="heading">{{(bot.name|slice:0:36)+(bot.name.length>36?"...":"")}}</h6>
+      <p class="description mt-1">{{bot.description}}</p>
     </div>
     <div class="grid-bot-preview-details grid-bot-preview-third-row details2 pl-2" style="align-self: center">
       <div class="">Unique Name : {{(bot.bot_unique_name|slice:0:36)+(bot.bot_unique_name.length>36?"...":"")}}</div>
@@ -90,7 +73,7 @@
        class="d-flex justify-content-center align-items-center bg-secondary">
     <i class="fa fa-gear fa-spin" style="font-size: 20px"></i>
   </div>
-</div>
+</section>
 
 
 <!--Template for modal-->
@@ -117,3 +100,12 @@
     </div>
   </div>
 </ng-template>
+
+
+<mat-menu class="cutom-md-menu" #appMenu="matMenu">
+  <button mat-menu-item (click)="utilityService.copyToClipboard(bot.bot_access_token)"><i class="fa fa-copy mr-1"></i>Copy Access Token</button>
+  <button mat-menu-item (click)="utilityService.copyToClipboard(bot.enterprise_id)"><i class="fa fa-copy mr-1"></i>Copy Enterprise ID</button>
+  <button mat-menu-item *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]" (click)="openDeleteModal(template)"><i class="fa fa-trash mr-1"></i>Delete</button>
+  <button mat-menu-item *ngIf="!bot.store_isPinned" (click)="togglePinBotCard(bot, true)"><i class="fa fa-thumb-tack mr-1"></i>Pin</button>
+  <button mat-menu-item *ngIf="bot.store_isPinned" (click)="togglePinBotCard(bot, false)">Unpin</button>
+</mat-menu>

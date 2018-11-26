@@ -1,3 +1,5 @@
+
+import {tap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {Store} from '@ngxs/store';
 import {ServerService} from './server.service';
@@ -48,8 +50,8 @@ export class ChatService {
     if (frameEnabled) {
       this.navigate(frameEnabled);
     }
-    return this.serverService.makePostReq({url, body, headerData, dontShowProgressBar: true})
-      .do((response: ISendApiResponsePayload) => {
+    return this.serverService.makePostReq({url, body, headerData, dontShowProgressBar: true}).pipe(
+      tap((response: ISendApiResponsePayload) => {
         /*recieved chat reply from bot*/
         const generatedMessages = response.generated_msg;
         const serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages);
@@ -107,7 +109,7 @@ export class ChatService {
         this.store.dispatch(new SetLastTemplateKeyToRoomByRoomId({lastTemplateKey: response.templateKey , room_id: response.room.id}));
         // this.store.dispatch(new SetCurrentRoomID({id: response.room.id}));
         // this.store.dispatch(new SetCurrentBotID({bot_id: response.room.bot_id}));
-      });
+      }));
   }
 
   navigate(frameEnabled: EChatFrame) {
