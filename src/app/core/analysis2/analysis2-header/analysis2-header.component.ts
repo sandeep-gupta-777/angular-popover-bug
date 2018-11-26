@@ -44,7 +44,6 @@ import {IRoomDurationResponseBody} from '../../../../interfaces/Analytics2/perfo
 import {IChannelWiseSessionsResponseBody} from '../../../../interfaces/Analytics2/engagement-channelWiseSessions';
 import {IChannelWiseUsersResponseBody} from '../../../../interfaces/Analytics2/engagement-channelWiseUsers';
 import {ActivatedRoute, Router} from '@angular/router';
-import {query} from '@angular/animations';
 import {ELogType, LoggingService} from '../../../logging.service';
 import {debounceTime, take} from 'rxjs/operators';
 
