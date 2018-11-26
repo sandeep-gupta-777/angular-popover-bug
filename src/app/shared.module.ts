@@ -37,7 +37,7 @@ import {
 } from 'ngx-bootstrap';
 import {SerializeSessionMessagePipe} from './serialize-session-message.pipe';
 import {IntegrationNameFormatterPipe} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-name-formatter.pipe';
-import {ClickOutsideModule} from 'ng2-click-outside';
+import {ClickOutsideModule} from 'ng-click-outside';
 import {HighlightDirective} from './readonly-selected-permission.directive';
 import {BotConfigInputComponent} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/bot-config-input/bot-config-input.component';
 import {UiSwitchWrapperComponent} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/ui-switch/ui-switch-wrapper.component';

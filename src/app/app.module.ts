@@ -36,7 +36,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BotWelcomeComponent} from './chat/bot-welcome-panel/bot-welcome.component';
 import {QuickReplyComponent} from './chat/carousel/quick-reply/quick-reply.component';
 import {CardCarouselComponent} from './chat/carousel/card-carousel/card-carousel.component';
-import {ClickOutsideModule} from 'ng2-click-outside';
 import {BotThinkingBubbleComponent} from './chat/carousel/bot-thinking-bubble/bot-thinking-bubble.component';
 import {RichMediaModule} from './rich-media.module';
 import {FilterArrayPipe} from './filter-array.pipe';
@@ -57,6 +56,7 @@ import {
   MatSnackBar,
   MatSnackBarModule
 } from '@angular/material';
+import {ClickOutsideModule} from 'ng-click-outside';
 // import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 
 const routes: Route[] = [
@@ -122,8 +122,6 @@ const routes: Route[] = [
     // BrowserAnimationsModule, // required animations module
     // ToastrModule.forRoot(), // ToastrModule added,
     ProgressbarModule.forRoot(),
-    // ClickOutsideModule,
-    //
     BsDropdownModule.forRoot(),
     ToastrModule.forRoot(), // ToastrModule added,
     MatSnackBarModule,

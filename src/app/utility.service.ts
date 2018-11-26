@@ -1,5 +1,4 @@
-import {EventEmitter, Injectable, isDevMode} from '@angular/core';
-import {ToastrService} from 'ngx-toastr';
+import {EventEmitter, Injectable} from '@angular/core';
 
 export enum EBotType {
   chatbot = 'chatbot',
@@ -14,11 +13,8 @@ export enum EFormValidationErrors {
   form_validation_data_management = 'form_validation_data_management',
 }
 
-// import import downloadCsv from 'download-csv'; from 'download-csv';
 import downloadCsv from 'download-csv';
 import {ActivatedRoute, Router} from '@angular/router';
-import {start} from 'repl';
-import {T} from '@angular/core/src/render3';
 import {IBot} from './core/interfaces/IBot';
 import {IPipelineItem} from '../interfaces/ai-module';
 import {IAnalysis2HeaderData} from '../interfaces/Analytics2/analytics2-header';
@@ -27,8 +23,6 @@ import {IBotPreviewFirstMessage} from './chat/chat-wrapper.component';
 import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 import {StoreVariableService} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {LoggingService} from './logging.service';
-import {CreateBotDialogComponent} from './core/view-bots/create-bot-dialog/create-bot-dialog.component';
 import {MatSnackBar} from '@angular/material';
 
 
@@ -139,8 +133,8 @@ export class UtilityService {
   }
 
 
-  readInputFileAsText(inputElement): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
+  readInputFileAsText(inputElement): Promise<any> {
+    return new Promise((resolve, reject) => {
       const input = inputElement; //event.target;
       for (let index = 0; index < input.files.length; index++) {
         const reader = new FileReader();

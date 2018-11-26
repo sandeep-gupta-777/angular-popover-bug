@@ -11,7 +11,7 @@ import {NgxsModule} from '@ngxs/store';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import {CommonModule, DatePipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {ClickOutsideModule} from 'ng2-click-outside';
+import {ClickOutsideModule} from 'ng-click-outside';
 import {AuthGaurdService} from '../auth-gaurd.service';
 import {ChatWrapperComponent} from './chat-wrapper.component';
 import {NotAuthorisedComponent} from '../not-authorised/not-authorised.component';

@@ -42,7 +42,6 @@ import {
   SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
   SetCurrentRoomID, ToggleChatWindow
 } from './chat/ngxs/chat.action';
-import {b, st} from '@angular/core/src/render3';
 import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 import {IProfilePermission} from '../interfaces/profile-action-permission';
 import {EHttpVerbs, PermissionService} from './permission.service';
@@ -114,7 +113,7 @@ export class ServerService {
     return false;
   }
 
-  makeGetReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<T> {
+  makeGetReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<any> {
     const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
       return throwError(`api access not allowed:${reqObj.url}`);
@@ -181,7 +180,7 @@ export class ServerService {
       }),);
   }
 
-  makeDeleteReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<T> {
+  makeDeleteReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<any> {
 
     const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.DELETE);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
@@ -215,7 +214,7 @@ export class ServerService {
       }),);
   }
 
-  makePostReq<T>(reqObj: { url: string, body: any, headerData?: any, dontShowProgressBar?: boolean, noValidateUser?: boolean }): Observable<T> {
+  makePostReq<T>(reqObj: { url: string, body: any, headerData?: any, dontShowProgressBar?: boolean, noValidateUser?: boolean }): Observable<any> {
 
     const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.POST);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
@@ -253,7 +252,7 @@ export class ServerService {
       }),);
   }
 
-  makePutReq<T>(reqObj: { url: string, body: any, headerData?: IHeaderData }): Observable<T> {
+  makePutReq<T>(reqObj: { url: string, body: any, headerData?: IHeaderData }): Observable<any> {
     const headers = this.createHeaders(reqObj.headerData);
     this.changeProgressBar(true, 0);
 

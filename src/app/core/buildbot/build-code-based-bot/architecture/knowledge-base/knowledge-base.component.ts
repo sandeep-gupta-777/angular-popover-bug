@@ -12,7 +12,6 @@ import {ICustomners} from '../../../../../../interfaces/bot-creation';
 import {Observable} from 'rxjs';
 import {IUser} from '../../../../interfaces/user';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {b} from '@angular/core/src/render3';
 import {ESplashScreens} from '../../../../../splash-screen/splash-screen.component';
 import {MaterialTableImplementer} from '../../../../../material-table-implementer';
 
