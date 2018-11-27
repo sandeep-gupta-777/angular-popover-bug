@@ -2,32 +2,28 @@
 
   <div class="box box-logo" style="position: relative">
     <a routerLink="/" style="">
-      <img class="box-logo__image"
-           src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/IMI_logo.png"
-           alt=""></a>
+      <img class="box-logo__image" src="https://imibot.ai/assets/img/IMI_logo.png"
+        alt=""></a>
   </div>
 
   <div class="d-flex flex-grow-1">
     <div class="header-container__left mt-auto d-flex align-items-end">
 
       <div class="box box-tools">
-        <a class="header-nav" [routerLink]="'/core/viewbots/'"
-           routerLinkActive="highlight-text-on-route-match">
+        <a class="header-nav" [routerLink]="'/core/viewbots/'" routerLinkActive="highlight-text-on-route-match">
           <i class="fa fa-home"></i>
           <span class="d-none d-lg-inline">Bot Dashboard</span>
         </a>
-        <a class="header-nav" routerLink="customner" routerLinkActive="highlight-text-on-route-match"
-           *myIf="myEAllActions['Get Enterprise Knowledge base']">
+        <a class="header-nav" routerLink="customner" routerLinkActive="highlight-text-on-route-match" *myIf="myEAllActions['Get Enterprise Knowledge base']">
           <i class="fa fa-graduation-cap"></i>
           <span class="d-none d-lg-inline">Knowledge Base</span>
         </a>
-        <a class="header-nav" routerLink="analytics2" routerLinkActive="highlight-text-on-route-match"
-           *myIf="myEAllActions['Analytics']">
+        <a class="header-nav" routerLink="analytics2" routerLinkActive="highlight-text-on-route-match" *myIf="myEAllActions['Analytics']">
           <i dropdownToggle class="fa fa-bar-chart"></i>
           <span class="d-none d-lg-inline">Analytics</span>
         </a>
         <a *myIf="myEAllActions['Get Reports']" routerLinkActive="highlight-text-on-route-match" class="header-nav"
-           routerLink="reports">
+          routerLink="reports">
           <i class="fa fa-list"></i>
           <span class="d-none d-lg-inline">Reports</span>
         </a>
@@ -42,15 +38,15 @@
     <div class="ml-auto d-flex align-items-center">
       <div class="d-flex header-container__right align-items-center ml-auto ">
         <div class="box box-details-personal d-flex flex-column">
-          <span class="box-details-personal__name  pr-0 limit-oneline">{{(loggeduser$|async).user.first_name +" "+ (loggeduser$|async).user.last_name}}</span>
+          <span class="box-details-personal__name  pr-0 limit-oneline">{{(loggeduser$|async).user.first_name +" "+
+            (loggeduser$|async).user.last_name}}</span>
           <span class="box-details-personal__designation text-theme-muted pt-1 text-right">{{(loggeduser$|async).user.role.name}}</span>
         </div>
 
         <div class="box d-flex ">
-    <span class="box-details__logo">
-      <img class="img-fluid rounded-circle" style="width: 32px"
-           [src]="logoSrc" alt="">
-    </span>
+          <span class="box-details__logo">
+            <img class="img-fluid rounded-circle" style="width: 32px" [src]="logoSrc" alt="">
+          </span>
 
           <button mat-icon-button [matMenuTriggerFor]="appMenu" class="click-save-wrapper">
             <!--<mat-icon class="click-save-wrapper">more_vert</mat-icon>-->
@@ -62,10 +58,11 @@
             </button>
             <button mat-menu-item><a class="dropdown-item cursor-pointer" (click)="logout()">Sign out</a></button>
             <!--<button mat-menu-item><hr></button>-->
+            <button mat-menu-item><a class="dropdown-item" (click) = changeEnterprise(changeEnterpriseModal)
+              >Change enterprise</a></button>
             <mat-divider></mat-divider>
-            <button mat-menu-item><a class="dropdown-item" *myIf="myEAllActions['Get Enterprise']"
-                                     [routerLink]="['enterpriseprofile']"
-                                     routerLinkActive="highlight-text-on-route-match">Enterprise Profile</a></button>
+            <button mat-menu-item><a class="dropdown-item" *myIf="myEAllActions['Get Enterprise']" [routerLink]="['enterpriseprofile']"
+                routerLinkActive="highlight-text-on-route-match">Enterprise Profile</a></button>
           </mat-menu>
           <!--<div class="btn-group" dropdown>-->
           <!--<span dropdownToggle class="box-details__dropdown d-flex align-items-center"><i-->
@@ -90,10 +87,9 @@
 
 <ng-template #changeEnterpriseModal>
   <div class="primary-modal" style="width: 650px;">
-    <div class="top-dec"></div>
     <div class="modal-header" style="border: none;">
       <h4 class="modal-title" style="display: flex;justify-content: start;">Change enterprise</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -101,15 +97,11 @@
       <div style="font-size: 13px;" class="pl-3">Select an enterprise to view corresponding bots</div>
       <div class="search-theme-input-with-search ml-auto">
         <span class="fa fa-search" style="top: 13px;left: 15px;"></span>
-        <input class="border" placeholder="Enterprise" [(ngModel)]="searchEnterprise" type="search"
-               style="height: 24px;">
+        <input class="border" placeholder="Enterprise" [(ngModel)]="searchEnterprise" type="search" style="height: 24px;">
       </div>
     </div>
     <div class="modal-body pt-0" style="height:400px;">
-      <app-enterprise-list
-        [enterpriseList]="enterpriseList"
-        [searchEnterprise]="searchEnterprise"
-        (clickedEnterprise)="enterEnterprise($event);"></app-enterprise-list>
+      <app-enterprise-list [enterpriseList]="enterpriseList" [searchEnterprise]="searchEnterprise" (clickedEnterprise)="enterEnterprise($event);dialogRefWrapper.ref.close()"></app-enterprise-list>
     </div>
   </div>
 </ng-template>

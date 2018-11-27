@@ -1,31 +1,33 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
-import {Select, Store} from '@ngxs/store';
-import {Observable, Subscription} from 'rxjs';
-import {IUser} from '../interfaces/user';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ResetAppState, ResetStoreToDefault} from '../../ngxs/app.action';
-import {ResetChatState} from '../../chat/ngxs/chat.action';
-import {ResetBotListAction, SetAllBotListAction} from '../view-bots/ngxs/view-bot.action';
-import {ResetAuthToDefaultState, SetUser} from '../../auth/ngxs/auth.action';
-import {ConstantsService, EAllActions} from '../../constants.service';
-import {ServerService} from '../../server.service';
-import {ResetEnterpriseUsersAction} from '../enterpriseprofile/ngxs/enterpriseprofile.action';
-import {ResetBuildBotToDefault} from '../buildbot/ngxs/buildbot.action';
-import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
-import {ResetAnalytics2GraphData, ResetAnalytics2HeaderData} from '../analysis2/ngxs/analysis.action';
-import {EBotType, UtilityService} from '../../utility.service';
-import {IAppState} from '../../ngxs/app.state';
-import {ELogType, LoggingService} from '../../logging.service';
-import {IHeaderData} from '../../../interfaces/header-data';
-import {IBotResult} from '../interfaces/IBot';
-import {IAuthState} from '../../auth/ngxs/auth.state';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
+import { Observable, Subscription } from 'rxjs';
+import { IUser } from '../interfaces/user';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ResetAppState, ResetStoreToDefault } from '../../ngxs/app.action';
+import { ResetChatState } from '../../chat/ngxs/chat.action';
+import { ResetBotListAction, SetAllBotListAction } from '../view-bots/ngxs/view-bot.action';
+import { ResetAuthToDefaultState, SetUser } from '../../auth/ngxs/auth.action';
+import { ConstantsService, EAllActions } from '../../constants.service';
+import { ServerService } from '../../server.service';
+import { ResetEnterpriseUsersAction, SetEnterpriseInfoAction } from '../enterpriseprofile/ngxs/enterpriseprofile.action';
+import { ResetBuildBotToDefault } from '../buildbot/ngxs/buildbot.action';
+import { IEnterpriseProfileInfo } from '../../../interfaces/enterprise-profile';
+import { ResetAnalytics2GraphData, ResetAnalytics2HeaderData } from '../analysis2/ngxs/analysis.action';
+import { EBotType, UtilityService } from '../../utility.service';
+import { IAppState } from '../../ngxs/app.state';
+import { ELogType, LoggingService } from '../../logging.service';
+import { IHeaderData } from '../../../interfaces/header-data';
+import { IBotResult } from '../interfaces/IBot';
+import { IAuthState } from '../../auth/ngxs/auth.state';
+import { ModalImplementer } from 'src/app/modal-implementer';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent extends ModalImplementer implements OnInit {
 
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
@@ -50,15 +52,17 @@ export class HeaderComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private constantsService: ConstantsService,
     public utilityService: UtilityService,
+    public matDialog: MatDialog,
     private router: Router,
   ) {
+    super(utilityService ,matDialog );
   }
 
   ngOnInit() {
     let getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
     debugger;
     this.serverService.makeGetReq({ url: getAllEnterpriseUrl })
-      .subscribe((value : any) => {
+      .subscribe((value: any) => {
         debugger;
         this.enterpriseList = value.enterprises;
         // console.log("sadasdasdsad");
@@ -114,11 +118,12 @@ export class HeaderComponent implements OnInit {
         if (value && value.user != null) {
           debugger;
           this.userData = value.user;
+          this.logoSrc = this.userData.enterprise.logo || this.logoSrc;
         }
       });
-    this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
-      this.logoSrc = enterpriseProfileInfo.logo || this.logoSrc;
-    });
+    // this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
+    //   this.logoSrc = enterpriseProfileInfo.logo || this.logoSrc;
+    // });
     // this.activatedRoute.queryParams.subscribe((queryParams)=>{
     //   ;
     //   this.isFullScreen = queryParams['isArchitectureFullScreen']==='true'
@@ -150,8 +155,17 @@ export class HeaderComponent implements OnInit {
 
   }
   changeEnterprise(template: TemplateRef<any>) {
-    /*TODO: Come here after migration of angular 7 and merge with dev*/
-    // this.modalRef = this.modalService.show(template, { class: 'modal-lg' })
+    let getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
+    debugger;
+    this.serverService.makeGetReq({ url: getAllEnterpriseUrl })
+      .subscribe((value: any) => {
+        debugger;
+        this.enterpriseList = value.enterprises;
+        // console.log("sadasdasdsad");
+        console.log(this.enterpriseList);
+        // this.modalRef = this.modalService.show(template, { class: 'modal-lg' })
+        this.openPrimaryModal(template);
+      });
   }
   toggleDocumentFullScreen() {
     this.isDocumentFullScreenModeOn ? this.utilityService.closeFullscreen() : this.utilityService.openFullscreen();
@@ -180,8 +194,17 @@ export class HeaderComponent implements OnInit {
           return this.serverService.makeGetReq<IBotResult>({ url, headerData })
             .subscribe((botResult) => {
               this.store.dispatch(new SetAllBotListAction({ botList: botResult.objects }))
-                .subscribe(()=>{
-                  location.reload();
+                .subscribe(() => {
+                  debugger;
+                  const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(Enterprise.enterpriseId);
+                  this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
+                    .subscribe((value: IEnterpriseProfileInfo) => {
+                      this.store.dispatch([
+                        new SetEnterpriseInfoAction({ enterpriseInfo: value })
+                      ]).subscribe(() => {
+                        location.reload();
+                      });
+                    });
                 });
 
             });
