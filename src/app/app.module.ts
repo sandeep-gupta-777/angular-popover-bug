@@ -101,7 +101,7 @@ const routes: Route[] = [
     // BsDatepickerModule.forRoot(),
     // ModalModule.forRoot(),
     // TooltipModule.forRoot(),
-    // BrowserAnimationsModule, // required animations module
+    // BrowserAnimationsModule, // requiredClass animations module
     // ToastrModule.forRoot(), // ToastrModule added,
     ProgressbarModule.forRoot(),
     // ClickOutsideModule,

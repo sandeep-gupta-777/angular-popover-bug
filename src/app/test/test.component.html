@@ -249,7 +249,7 @@
                  <!--[src]="(selectedChannelOfGenTemplate?.name|logosByIntegrationName)?.icon"-->
                  <!--alt="">-->
             <!--<select id="gentemplate-channel-selector" [ngModel]="selectedChannelOfGenTemplate?.displayName"-->
-                    <!--(ngModelChange)="selectedChannelChanged($event)" required name="platform">-->
+                    <!--(ngModelChange)="selectedChannelChanged($event)" requiredClass name="platform">-->
               <!--<option *ngFor="let channel of channelList" type="button" [value]="channel.name">{{channel.displayName}}-->
               <!--</option>-->
             <!--</select>-->
@@ -402,7 +402,7 @@
         <!--</div>-->
         <!--<div class="col-md-9 px-0 d-flex justify-content-start">-->
           <!--&lt;!&ndash;<input type="password" [(ngModel)]="forked_From" name="old_password">&ndash;&gt;-->
-          <!--&lt;!&ndash;<select class="concept1" [(ngModel)]="forked_version_number" required type="number" name="version_id" #select>&ndash;&gt;-->
+          <!--&lt;!&ndash;<select class="concept1" [(ngModel)]="forked_version_number" requiredClass type="number" name="version_id" #select>&ndash;&gt;-->
           <!--&lt;!&ndash;<option type="button" *ngFor="let version of bot.store_bot_versions">&ndash;&gt;-->
           <!--&lt;!&ndash;<button>{{version.version}}</button>&ndash;&gt;-->
           <!--&lt;!&ndash;</option>&ndash;&gt;-->
@@ -410,7 +410,7 @@
 
           <!--&lt;!&ndash;<div class="form-group m-0 mr-4 ml-auto">&ndash;&gt;-->
           <!--<select class="concept1"-->
-                  <!--[(ngModel)]="forked_version_number" required type="number" name="version_id" #select>-->
+                  <!--[(ngModel)]="forked_version_number" requiredClass type="number" name="version_id" #select>-->
             <!--<img style="height: 20px; width: 20px; position: absolute;left: 5px"-->
                  <!--src="https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/facebook.png" alt="">-->
             <!--<option type="button" *ngFor="let version of bot.store_bot_versions">-->
@@ -575,7 +575,7 @@
         <!--&lt;!&ndash;<input class="input-material" style="width: 100%" placeholder="Enter template key name" type="text"&ndash;&gt;-->
         <!--&lt;!&ndash;[(ngModel)]="newTemplateKey">&ndash;&gt;-->
         <!--<input ngModel name="old_key" hidden type="text" [ngModel]="templateKeyToBeDeleted.value">-->
-        <!--<input ngModel name="new_key" style="width: 100%" required type="text" [ngModel]="templateKeyToBeDeleted.value"-->
+        <!--<input ngModel name="new_key" style="width: 100%" requiredClass type="text" [ngModel]="templateKeyToBeDeleted.value"-->
                <!--(keyup.enter)="editTemplateKey(templateKeyEditForm)">-->
         <!--&lt;!&ndash;<p *ngIf="templateKeyCreationError" class="text-danger">{{templateKeyCreationError}}</p>&ndash;&gt;-->
         <!--<div class="d-flex justify-content-end w-100 mt-2">-->

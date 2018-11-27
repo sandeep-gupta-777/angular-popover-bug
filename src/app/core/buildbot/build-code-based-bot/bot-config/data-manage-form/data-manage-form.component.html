@@ -7,23 +7,25 @@
         <!--<input-->
                <!--formControlName="data_persistence_period" type="number"-->
                <!--class="form-control"-->
-               <!--placeholder="Time until Data will retain((in days)" id="name" required>-->
+               <!--placeholder="Time until Data will retain((in days)" id="name" requiredClass>-->
         <app-bot-config-input
           displayName="Data retention period [days]"
+          [requiredClass]="true"
           placeholder="Time until Data will retain((in days)"
           formControlName="data_persistence_period"></app-bot-config-input>
       </div>
 
       <div class="form-group">
-        <!--<label for="alterEgo" [ngClass]="{'required':_bot.blanket_consent}">Consent disclaimer message</label>-->
-        <!--<label [hidden]="blanket_consent.valid" class="text-danger pl-1" for="alterEgo"><i>Consent disclaimer message is required</i></label>-->
-        <!--<input [required]="_bot.blanket_consent"-->
+        <!--<label for="alterEgo" [ngClass]="{'requiredClass':_bot.blanket_consent}">Consent disclaimer message</label>-->
+        <!--<label [hidden]="blanket_consent.valid" class="text-danger pl-1" for="alterEgo"><i>Consent disclaimer message is requiredClass</i></label>-->
+        <!--<input [requiredClass]="_bot.blanket_consent"-->
                <!--formControlName="consent_message" type="text" class="form-control"-->
                <!--placeholder="Consent Message" id="alterEgo">-->
 
         <app-bot-config-input
           displayName="Consent disclaimer message"
-          placeholder="Time until Data will retain((in days)"
+          placeholder="Consent disclaimer message"
+          [requiredClass]="advanced_data_protection"
           formControlName="consent_message"></app-bot-config-input>
 
       </div>
@@ -33,6 +35,7 @@
           <label class="pr-2">Advanced Data Protection</label>
           <app-ui-switch
             formControlName="advanced_data_protection"
+            [(ngModel)]="advanced_data_protection"
             [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
           ></app-ui-switch>
         </div>

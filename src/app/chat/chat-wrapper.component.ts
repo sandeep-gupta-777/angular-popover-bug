@@ -58,7 +58,7 @@ export class ChatWrapperComponent implements OnInit {
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   @ViewChild('scrollMe') myScrollContainer: ElementRef;
   frameEnabled: EChatFrame = EChatFrame.WELCOME_BOX;
-  myEChatFrame = EChatFrame;//This is required to use enums in template, we can't use enums direactly in templates
+  myEChatFrame = EChatFrame;//This is requiredClass to use enums in template, we can't use enums direactly in templates
   windowOpen: boolean = false;
   messageData: IMessageData[] = null;
   selectedAvatar: any;
@@ -197,7 +197,7 @@ export class ChatWrapperComponent implements OnInit {
   /*this is called when bot preview button or create a custom room button is clicked*/
   startNewChat(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot,isCustomRoom?:boolean }) {
 
-    startNewChatData.bot = startNewChatData.bot ? startNewChatData.bot : this.currentBot;//todo: is it really required?
+    startNewChatData.bot = startNewChatData.bot ? startNewChatData.bot : this.currentBot;//todo: is it really requiredClass?
 
     /*========================Creation of chat room using Send API===============================*/
 

@@ -1,4 +1,5 @@
-<label class="required" for="alterEgo">{{displayName}}</label>
+<!--<label class="requiredClass" for="alterEgo">{{displayName}}</label>-->
+<label [ngClass]="{'required':requiredClass}" for="alterEgo">{{displayName}}</label>
 <label
   *ngIf="this.ngControl.errors && myObject.keys(this.ngControl.errors)[0]"
   [hidden]="!ngControl.hasError(myObject.keys(this.ngControl.errors)[0])" class="text-danger pl-1" for="alterEgo">

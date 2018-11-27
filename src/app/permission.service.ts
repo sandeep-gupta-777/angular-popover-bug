@@ -16,6 +16,7 @@ export class PermissionService {
   @Select() app$: Observable<IAppState>;
   @Select() loggeduser$: Observable<{ user: IUser }>;
   loggedUser: IUser;
+  advanced_data_protection;
   allBackEndActionsToFrontEndTabMapping2 = {
     [EAllActions['Get Bots']]: true,
     [EAllActions['Create Bots']]: true,

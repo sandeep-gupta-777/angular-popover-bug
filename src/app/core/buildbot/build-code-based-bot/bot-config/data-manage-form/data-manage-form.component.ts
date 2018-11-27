@@ -6,7 +6,7 @@ import {Store} from '@ngxs/store';
 import {UtilityService} from '../../../../../utility.service';
 import {ConstantsService, EAllActions} from '../../../../../constants.service';
 import {PermissionService} from '../../../../../permission.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-data-manage-form',
@@ -38,12 +38,16 @@ export class DataManageFormComponent implements OnInit {
     public formBuilder: FormBuilder,
     private utilityService: UtilityService) {
   }
+  advanced_data_protection;
 
   ngOnInit() {
-
     this.formGroup = this.formBuilder.group({
       data_persistence_period: [this._bot.data_persistence_period, Validators.required],
-      consent_message: [this._bot.consent_message, Validators.required],
+      consent_message: [this._bot.consent_message,  (formControl: FormControl) => {
+        if(this.advanced_data_protection && !formControl.value){
+          return {'required_as_advanced_data_protection_is_on':true}
+        }
+      }],
       advanced_data_protection: [this._bot.advanced_data_protection],
       allow_anonymization: [this._bot.allow_anonymization],
       blanket_consent: [this._bot.blanket_consent],

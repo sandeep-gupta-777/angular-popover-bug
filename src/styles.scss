@@ -67,7 +67,7 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 
 .tab-active {
   border-bottom: 2px solid $color-primary !important;
-  background-color: transparent; //important is required to override bootstrap active
+  background-color: transparent; //important is requiredClass to override bootstrap active
   .nav-link{
     font-weight: 700;
   }

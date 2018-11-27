@@ -6,6 +6,7 @@
         <app-bot-config-input
           displayName="Bot Name"
           placeholder="A display name for the bot"
+          [requiredClass]="true"
           formControlName="name"></app-bot-config-input>
       </div>
 
@@ -13,6 +14,7 @@
         <app-bot-config-input
           displayName="Description"
           formControlName="description"
+          [requiredClass]="true"
           placeholder=" description for the Bot"></app-bot-config-input>
       </div>
 
@@ -20,6 +22,7 @@
         <app-bot-config-input
           displayName="Bot Logo"
           formControlName="logo"
+          [requiredClass]="true"
           [errors] = "logoErrorObj"
           placeholder="URL for the Bot Logo/Brand Image"></app-bot-config-input>
       </div>
@@ -30,6 +33,7 @@
         <app-bot-config-input
           displayName="Unique Name"
           formControlName="bot_unique_name"
+          [requiredClass]="true"
           placeholder="Bot Unique Name (non-editable after Bot creation)"></app-bot-config-input>
       </div>
 
@@ -38,6 +42,7 @@
         <app-bot-config-input
           displayName="Session Close Time [mins]"
           formControlName="room_persistence_time"
+          [requiredClass]="true"
           placeholder="Time until Session Closes (in minutes)"></app-bot-config-input>
       </div>
 

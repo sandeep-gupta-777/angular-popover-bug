@@ -19,11 +19,13 @@ export class BotConfigInputComponent implements OnInit,ControlValueAccessor {
   @Input() displayName:string;
   @Input() placeholder:string;
   @Input() errors:{name:string, description:string}[] = [];
+  @Input() requiredClass;/*todo: hack improve it*/
   myObject = Object;
   isDisabled = false;
   onChanges:Function;
   ngControl:NgControl;
   constructor(private injector: Injector) {
+    console.log(this.ngControl);
   }
 
   ngOnInit() {
