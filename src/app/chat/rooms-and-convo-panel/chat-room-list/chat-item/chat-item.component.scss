@@ -41,3 +41,17 @@ form {
   right: 0 !important;
   top: 90%!important;
 }
+
+.consumer-detail-hover{
+  line-height: 0;
+  height: auto;
+  width: auto;
+  mat-icon{
+    line-height: 0;
+  };
+}
+.dialog-container {
+  background-color: white;
+  box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.4);;
+}
+

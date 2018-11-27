@@ -4,21 +4,18 @@ import {Observable} from 'rxjs';
 import {Select, Store} from '@ngxs/store';
 import {ServerService} from '../../server.service';
 import {ConstantsService, EAllActions} from '../../constants.service';
-import {IHeaderData} from '../../../interfaces/header-data';
 import {SetUser} from '../../auth/ngxs/auth.action';
 import {UtilityService} from '../../utility.service';
-import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {BsModalService} from 'ngx-bootstrap/modal';
 import {NgForm} from '@angular/forms';
-import {SetMasterProfilePermissions} from '../../ngxs/app.action';
-import {IProfilePermission} from '../../../interfaces/profile-action-permission';
+import {ModalImplementer} from '../../modal-implementer';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent extends ModalImplementer implements OnInit {
 
   myEAllActions = EAllActions;
   @Select() loggeduser$: Observable<{ user: IUser }>;
@@ -26,7 +23,6 @@ export class ProfileComponent implements OnInit {
   @ViewChild('password_form') passwordForm: NgForm;
   showPasswordChangeForm = true;
   loggeduser: IUser;
-  modalRef: BsModalRef;
   passwordErrorStr: string;
 
   new_password;
@@ -36,9 +32,10 @@ export class ProfileComponent implements OnInit {
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
-    private utilityService: UtilityService,
-    private modalService: BsModalService,
+    public utilityService: UtilityService,
+    public matDialog:MatDialog,
     private store: Store) {
+    super(utilityService, matDialog);
   }
 
   ngOnInit() {
@@ -46,17 +43,6 @@ export class ProfileComponent implements OnInit {
       this.loggeduser = loggeduser.user;
     });
 
-    // let allActionsUrl = this.constantsService.getAllActionsUrl();
-    // this.serverService.makeGetReq<{ meta: any, objects: IProfilePermission[] }>({url: allActionsUrl})
-    //   .subscribe(({objects}) => {
-    //     this.store.dispatch([
-    //       new SetMasterProfilePermissions({masterProfilePermissions: objects})
-    //     ]);
-    //   });
-
-    this.modalService.onHidden.subscribe((reason: string) => {
-      this.old_password = this.new_password = this.new_password_confirm = '';
-    });
   }
 
   updateProfile() {
@@ -79,7 +65,10 @@ export class ProfileComponent implements OnInit {
   }
 
   openChangePasswordModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    this.openPrimaryModal(template)
+      .then(()=>{
+        this.old_password = this.new_password = this.new_password_confirm = '';
+      })
   }
 
   changePassword() {

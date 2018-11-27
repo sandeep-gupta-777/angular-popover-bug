@@ -173,3 +173,8 @@
     transform: translate(0%, -50%)
   }
 }
+:host /deep/ .mat-checkbox-inner-container{
+  height: remy(17);
+  width:remy(17);
+}
+

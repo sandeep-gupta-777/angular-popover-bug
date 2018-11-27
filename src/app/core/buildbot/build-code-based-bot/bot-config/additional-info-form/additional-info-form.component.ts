@@ -6,6 +6,7 @@ import {Store} from '@ngxs/store';
 import {UtilityService} from '../../../../../utility.service';
 import {EAllActions} from '../../../../../constants.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {debounceTime} from 'rxjs/operators';
 
 @Component({
   selector: 'app-additional-info-form',
@@ -43,7 +44,7 @@ export class AdditionalInfoFormComponent implements OnInit {
       error_message: [this._bot.error_message],
       first_message: [this._bot.first_message],
     });
-    this.formGroup.valueChanges.debounceTime(200).subscribe((data: IBasicInfo) => {
+    this.formGroup.valueChanges.pipe(debounceTime(200)).subscribe((data: IBasicInfo) => {
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) { return; }
       this.formData = data;
       this.datachanged$.emit(data);

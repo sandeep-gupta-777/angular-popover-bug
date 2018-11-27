@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, NgZone, OnInit, ViewChild} from '@angular/core';
 import {ServerService} from '../../../server.service';
 import {Select, Store} from '@ngxs/store';
 import {ConstantsService} from '../../../constants.service';
@@ -10,8 +10,8 @@ import {IAppState} from '../../../ngxs/app.state';
 import {SetEnterpriseNerData} from '../../../ngxs/app.action';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UtilityService} from '../../../utility.service';
-import {EBotType} from '../../view-bots/view-bots.component';
 import {KnowledgeBaseComponent} from '../../buildbot/build-code-based-bot/architecture/knowledge-base/knowledge-base.component';
+import {MaterialTableImplementer} from '../../../material-table-implementer';
 
 @Component({
   selector: 'app-view-customner',
@@ -19,6 +19,7 @@ import {KnowledgeBaseComponent} from '../../buildbot/build-code-based-bot/archit
   styleUrls: ['./view-customner.component.scss']
 })
 export class ViewCustomnerComponent implements OnInit {
+  tableData;
 
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() app$: Observable<IAppState>;
@@ -56,29 +57,34 @@ export class ViewCustomnerComponent implements OnInit {
   totalRecords = 10;
   currentPageNumber = 1;
   @ViewChild(KnowledgeBaseComponent) knowledgeBaseComponent: KnowledgeBaseComponent;
-
+  showLoader;
   constructor(
     private store: Store,
     private serverService: ServerService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private utilityService: UtilityService,
-    private constantsService: ConstantsService) {
+    private ngZone:NgZone,
+    private changeDetectorRef:ChangeDetectorRef,
+    public constantsService: ConstantsService) {
   }
+
 
 
   ngOnInit() {
     this.currentPageNumber = Number(this.activatedRoute.snapshot.queryParamMap.get('page') || '1');
     this.app$.subscribe((value) => {
-      this.custumNerDataForSmartTable = value.enterpriseNerData;
+
+      // this.custumNerDataForSmartTable = value.enterpriseNerData;
     });
     this.recordsPerPage = this.utilityService.getSmartTableRowCountPerPageByViewportHeight();
     this.fetchNers(this.recordsPerPage, this.currentPageNumber - 1);
+    this.showLoader = true;
   }
 
   pageChanged$(currentPageNumber) {
     this.router.navigate(['.'], {queryParams: {page: currentPageNumber}, relativeTo: this.activatedRoute});
-    this.currentPageNumber = currentPageNumber;
+    // this.currentPageNumber = currentPageNumber;
     this.fetchNers(this.recordsPerPage, currentPageNumber - 1);
   }
 
@@ -88,9 +94,12 @@ export class ViewCustomnerComponent implements OnInit {
       .subscribe((value) => {
         this.totalRecords = value.meta.total_count;
         this.custumNerDataForSmartTable = value.objects;
+        this.currentPageNumber = Number(this.activatedRoute.snapshot.queryParamMap.get('page') || '1');
         this.store.dispatch([
           new SetEnterpriseNerData({enterpriseNerData: this.custumNerDataForSmartTable})
         ]);
+
+        this.showLoader = false;
 
         /*For selected ner*/
         const selectedNerId = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
@@ -113,6 +122,7 @@ export class ViewCustomnerComponent implements OnInit {
 
     this.serverService.updateOrSaveCustomNer(selectedOrNewRowData)
       .subscribe((value: ICustomNerItem) => {
+        this.test();
         // (<any>this.custumNerDataForSmartTable).push({...value,highlight:true});
         let indexToUpdate;
         if (value && value.id) {
@@ -123,6 +133,9 @@ export class ViewCustomnerComponent implements OnInit {
         } else {
           this.custumNerDataForSmartTable.push({...value, highlight: true});
         }
+
+        this.custumNerDataForSmartTable = [...this.custumNerDataForSmartTable];
+        this.changeDetectorRef.detectChanges();
         this.addQueryParamsInCurrentRoute({ner_id: value.id});
         this.utilityService.showSuccessToaster('Saved customner');
       });
@@ -147,7 +160,11 @@ export class ViewCustomnerComponent implements OnInit {
         if (indexToBeDeleted !== -1) { this.custumNerDataForSmartTable.splice(indexToBeDeleted, 1); }
         this.knowledgeBaseComponent.showNerSmartTable();
         this.custumNerDataForSmartTable = [...this.custumNerDataForSmartTable];
+
       });
+  }
+
+  test(){
   }
 
 }

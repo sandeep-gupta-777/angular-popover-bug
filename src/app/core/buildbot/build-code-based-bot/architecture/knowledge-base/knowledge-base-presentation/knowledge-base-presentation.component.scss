@@ -2,9 +2,9 @@
 
 
 .create-concept-row{
-  select, input{
-    height: 26px;
-  }
+  //select, input{
+  //  height: 26px;
+  //}
   .concept {
     @include typography($font-size-xs, $line-height-normal, $font-weight-normal, $color-text-normal);
     width: 160px;
@@ -16,15 +16,15 @@
     }
   }
 
-  select{
-    @include typography($font-size-xs, $line-height-normal, $font-weight-normal, $color-text-normal);
-    outline: none;
-    border: 1px solid #ced4da;
-    border-radius: 2px !important;
-    padding-left: 10px;
-    padding-right: 10px;
-    text-align: center;
-  }
+  //select{
+  //  @include typography($font-size-xs, $line-height-normal, $font-weight-normal, $color-text-normal);
+  //  outline: none;
+  //  border: 1px solid #ced4da;
+  //  border-radius: 2px !important;
+  //  padding-left: 10px;
+  //  padding-right: 10px;
+  //  text-align: center;
+  //}
 
   span, label{
     @include typography($font-size-xs, $line-height-normal, $font-weight-normal, $color-text-normal);
@@ -36,11 +36,11 @@
     @include typography($font-size-xs, $line-height-normal, $font-weight-normal, $color-text-normal);
   }
 
-  input{
-    @include hide-borders();
-    border: 1px solid #ced4da;
-    padding-left: 8px;
-  }
+  //input{
+  //  @include hide-borders();
+  //  border: 1px solid #ced4da;
+  //  padding-left: 8px;
+  //}
 
   label{
     display: flex;
@@ -67,4 +67,10 @@
 
 .danger-modal{
   @include classic-modal(#b14250);
+}
+
+:host /deep/{
+  .mat-slide-toggle-label{
+    margin-bottom: 0;
+  }
 }

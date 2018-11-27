@@ -14,6 +14,7 @@ export interface IUser {
   date_joined: string;
   auth_token: string;
   user_access_token: string;
+  enterprise: any;
   role: {
     'resource_uri': string,
     'permissions': {

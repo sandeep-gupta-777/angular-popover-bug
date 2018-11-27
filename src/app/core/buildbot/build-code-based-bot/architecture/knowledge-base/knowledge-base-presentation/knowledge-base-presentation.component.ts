@@ -5,8 +5,9 @@ import {UtilityService} from '../../../../../../utility.service';
 import {ConstantsService, EAllActions, ERouteNames} from '../../../../../../constants.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {HandsontableComponent} from '../../../../../../handsontable/handsontable.component';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {ELogType, LoggingService} from '../../../../../../logging.service';
+import {ModalImplementer} from '../../../../../../modal-implementer';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-knowledge-base-presentation',
@@ -14,17 +15,14 @@ import {ELogType, LoggingService} from '../../../../../../logging.service';
   styleUrls: ['./knowledge-base-presentation.component.scss']
 })
 
-export class KnowledgeBasePresentationComponent implements OnInit {
-
+export class KnowledgeBasePresentationComponent extends ModalImplementer implements OnInit {
   _selectedRowData: ICustomNerItem = {};
   process_raw_text = false;
   myEAllActions = EAllActions;
   myERouteNames = ERouteNames;
-  modalRef: BsModalRef;
 
   @ViewChild(HandsontableComponent)handsontableComponent: HandsontableComponent;
   @Input() set selectedRowData(value: ICustomNerItem) {
-
     if (!value) { return; }
     this._selectedRowData = value;
 
@@ -41,6 +39,8 @@ export class KnowledgeBasePresentationComponent implements OnInit {
     } else {
       this.codeTextInputToCodeEditorObj.text = value.values && JSON.stringify(value.values);
     }
+
+    this.codeTextOutPutFromCodeEditor = this.codeTextInputToCodeEditorObj.text;
 
     this.codeTextInputToCodeEditorObj = {...this.codeTextInputToCodeEditorObj};
     try {
@@ -83,12 +83,12 @@ export class KnowledgeBasePresentationComponent implements OnInit {
   //   {data: 5, type: 'text'}
   // ];
   constructor(
-    private utilityService: UtilityService,
+    public utilityService: UtilityService,
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
-    private modalService: BsModalService,
-    private ele:ElementRef
+    public matDialog:MatDialog
   ) {
+    super(utilityService, matDialog);
   }
 
   ngOnInit() {
@@ -99,7 +99,8 @@ export class KnowledgeBasePresentationComponent implements OnInit {
   }
 
   openDeleteModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+    // this.modalRef = this.modalService.show(template);
+    this.openDangerModal(template);
   }
 
   async openFile(inputEl) {

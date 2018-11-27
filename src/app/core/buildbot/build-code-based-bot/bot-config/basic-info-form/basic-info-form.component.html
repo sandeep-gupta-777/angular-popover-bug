@@ -1,42 +1,35 @@
 <!--<button (click)="click()">Click</button>-->
 <form [formGroup]="formGroup" class="bot-creation-form">
-  <div class="row">
+  <div class="row m-0">
     <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
-      <div class="form-group">
         <app-bot-config-input
           #NameInput
           displayName="Bot Name"
           placeholder="A display name for the bot"
           (keyDown$)="nameChangeByUser($event)"
           formControlName="name"></app-bot-config-input>
-      </div>
 
-      <div class="form-group">
         <app-bot-config-input
           displayName="Description"
           formControlName="description"
           placeholder=" description for the Bot"></app-bot-config-input>
-      </div>
 
-      <div class="form-group">
+
         <app-bot-config-input
           displayName="Bot Logo"
           formControlName="logo"
           [errors] = "logoErrorObj"
           placeholder="URL for the Bot Logo/Brand Image"></app-bot-config-input>
-      </div>
 
     </fieldset>
     <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
-      <div class="form-group">
         <app-bot-config-input
           displayName="Unique Name"
           formControlName="bot_unique_name"
           placeholder="Bot Unique Name (non-editable after Bot creation)"></app-bot-config-input>
-      </div>
 
 
-      <div class="form-group" *ngIf="!(bot_type===myEBotType.intelligent)">
+      <div class="" *ngIf="!(bot_type===myEBotType.intelligent)">
         <app-bot-config-input
           displayName="Session Close Time [mins]"
           formControlName="room_persistence_time"
@@ -45,23 +38,32 @@
 
       <div class="" *ngIf="!(bot_type===myEBotType.intelligent)">
         <div class="d-flex align-items-center">
-          <label class="pr-2">Is Manager Bot?</label>
-          <app-ui-switch formControlName="is_manager"></app-ui-switch>
+          <label class="pr-2 mb-0">Is Manager Bot?</label>
+          <!--<app-ui-switch formControlName="is_manager"></app-ui-switch>-->
+          <mat-slide-toggle formControlName="is_manager" color="primary"></mat-slide-toggle>
           <!--<app-is-manager-form-control hidden formArrayName="child_bots"></app-is-manager-form-control>-->
 
           <!--bots dropdown starts-->
-          <div class="btn-group mb-1" dropdown *ngIf="formGroup.get('is_manager').value">
-            <button id="button-basic" dropdownToggle type="button"
-                    class="btn-theme dropdown-toggle btn-theme-success-sm-outline ml-1" aria-controls="dropdown-basic">
-              Bot List<span class="caret"></span>
-            </button>
-            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic"
-                style="max-height: 200px; overflow-y: scroll">
-              <li role="menuitem" *ngFor="let bot of codebasedBotList; let i = index;">
-                <a class="dropdown-item" (click)="pushChildBot(bot.id)" *ngIf="!isBotIdPresentInChildBotList(bot.id)">{{bot.name}}</a>
-              </li>
-            </ul>
-          </div>
+          <mat-chip-list class="ml-3" *ngIf="formGroup.get('is_manager').value">
+            <mat-chip [matMenuTriggerFor]="menu">Bot list</mat-chip>
+          </mat-chip-list>
+          <mat-menu #menu="matMenu" class="cutom-md-menu">
+            <ng-container *ngFor="let bot of codebasedBotList; let i = index;">
+              <button mat-menu-item (click)="pushChildBot(bot.id)" *ngIf="!isBotIdPresentInChildBotList(bot.id)">{{bot.name}}</button>
+            </ng-container>
+          </mat-menu>
+          <!--<div class="btn-group mb-1" dropdown *ngIf="formGroup.get('is_manager').value">-->
+            <!--<button id="button-basic" dropdownToggle type="button"-->
+                    <!--class="btn-theme dropdown-toggle btn-theme-success-sm-outline ml-1" aria-controls="dropdown-basic">-->
+              <!--Bot List<span class="caret"></span>-->
+            <!--</button>-->
+            <!--<ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic"-->
+                <!--style="max-height: 200px; overflow-y: scroll">-->
+              <!--<li role="menuitem" *ngFor="let bot of codebasedBotList; let i = index;">-->
+                <!--<a class="dropdown-item" (click)="pushChildBot(bot.id)" *ngIf="!isBotIdPresentInChildBotList(bot.id)">{{bot.name}}</a>-->
+              <!--</li>-->
+            <!--</ul>-->
+          <!--</div>-->
           <!--bot dropdown ends-->
         </div>
       </div>

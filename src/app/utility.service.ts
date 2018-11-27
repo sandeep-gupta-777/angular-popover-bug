@@ -1,5 +1,9 @@
-import {EventEmitter, Injectable, isDevMode} from '@angular/core';
-import {ToastrService} from 'ngx-toastr';
+import {EventEmitter, Injectable} from '@angular/core';
+
+export enum EBotType {
+  chatbot = 'chatbot',
+  intelligent = 'intelligent'
+}
 
 export enum EFormValidationErrors {
   form_validation_basic_info = 'form_validation_basic_info',
@@ -9,11 +13,8 @@ export enum EFormValidationErrors {
   form_validation_data_management = 'form_validation_data_management',
 }
 
-// import import downloadCsv from 'download-csv'; from 'download-csv';
 import downloadCsv from 'download-csv';
 import {ActivatedRoute, Router} from '@angular/router';
-import {start} from 'repl';
-import {T} from '@angular/core/src/render3';
 import {IBot} from './core/interfaces/IBot';
 import {IPipelineItem} from '../interfaces/ai-module';
 import {IAnalysis2HeaderData} from '../interfaces/Analytics2/analytics2-header';
@@ -22,7 +23,7 @@ import {IBotPreviewFirstMessage} from './chat/chat-wrapper.component';
 import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 import {StoreVariableService} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {LoggingService} from './logging.service';
+import {MatSnackBar} from '@angular/material';
 
 
 @Injectable({
@@ -31,8 +32,9 @@ import {LoggingService} from './logging.service';
 export class UtilityService {
 
   constructor(
-    private toastr: ToastrService,
+    // private toastr: ToastrService,
     private router: Router,
+    public snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private storeVariableService: StoreVariableService,
   ) {
@@ -131,8 +133,8 @@ export class UtilityService {
   }
 
 
-  readInputFileAsText(inputElement): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
+  readInputFileAsText(inputElement): Promise<any> {
+    return new Promise((resolve, reject) => {
       const input = inputElement; //event.target;
       for (let index = 0; index < input.files.length; index++) {
         const reader = new FileReader();
@@ -408,10 +410,10 @@ export class UtilityService {
 
   }
 
-  doesStringIncludesSubstring(string, subString){
+  doesStringIncludesSubstring(string, subString) {
     try {
       return !string || !subString ? false : string.includes(subString);
-    }catch (e) {
+    } catch (e) {
       return false;
     }
   }
@@ -432,7 +434,9 @@ export class UtilityService {
     granularity_Ms: number = 24 * 3600 * 1000  // one day
   ) {
 
-    if (!rawData) { return; }
+    if (!rawData) {
+      return;
+    }
     const template = {
       xAxis: {
         type: 'datetime'
@@ -458,7 +462,9 @@ export class UtilityService {
     const seriesArr = [];
     /*initialize the seriesArr*/
     Object.keys(rawData[0]).forEach((value) => {
-      if (value === 'labels') { return; }
+      if (value === 'labels') {
+        return;
+      }
       seriesArr.push({
         name: value, //y1
         data: []//[(xi,y1i)]
@@ -467,7 +473,9 @@ export class UtilityService {
     /*now loop over rawData and fill convertedData's data array*/
     rawData.forEach((obj) => {
       Object.keys(obj).forEach((key) => {
-        if (key === xAxisLabel) { return; }
+        if (key === xAxisLabel) {
+          return;
+        }
         const data = this.findDataByName(seriesArr, key);
         // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
         data.push(obj[key]); //pushing a new coordinate
@@ -484,7 +492,9 @@ export class UtilityService {
     const seriesArr = [];
     /*initialize the convertedData*/
     Object.keys(rawData[0]).forEach((value) => {
-      if (value === 'labels') { return; }
+      if (value === 'labels') {
+        return;
+      }
       seriesArr.push({
         name: value, //y1
         data: []//[(xi,y1i)]
@@ -493,7 +503,9 @@ export class UtilityService {
     /*now loop over rawData and fill convertedData's data array*/
     rawData.forEach((obj) => {
       Object.keys(obj).forEach((key) => {
-        if (key === xAxisLabel) { return; }
+        if (key === xAxisLabel) {
+          return;
+        }
         const data = this.findDataByName(seriesArr, key);
         // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
         data.push(obj[key]); //pushing a new coordinate
@@ -518,7 +530,9 @@ export class UtilityService {
     const convertedData = [];
     /*initialize the convertedData*/
     Object.keys(rawData[0]).forEach((value) => {
-      if (value === 'labels') { return; }
+      if (value === 'labels') {
+        return;
+      }
       convertedData.push({
         name: value, //y1
         data: []//[(xi,y1i)]
@@ -528,7 +542,9 @@ export class UtilityService {
       /*now loop over rawData and fill convertedData's data array*/
       rawData.forEach((obj) => {
         Object.keys(obj).forEach((key) => {
-          if (key === xAxisLabel) { return; }
+          if (key === xAxisLabel) {
+            return;
+          }
           const data = this.findDataByName(convertedData, key);
           // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
           const dateStr_ddmmyyyy = obj[xAxisLabel];
@@ -545,7 +561,9 @@ export class UtilityService {
       /*now loop over rawData and fill convertedData's data array*/
       rawData.forEach((obj) => {
         Object.keys(obj).forEach((key) => {
-          if (key === xAxisLabel) { return; }
+          if (key === xAxisLabel) {
+            return;
+          }
           const data = this.findDataByName(convertedData, key);
           // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
           const dateStr_ddmmyyyy = obj[xAxisLabel];
@@ -563,7 +581,9 @@ export class UtilityService {
     if (labelType === 'String') {
       rawData.forEach((obj) => {
         Object.keys(obj).forEach((key) => {
-          if (key === xAxisLabel) { return; }
+          if (key === xAxisLabel) {
+            return;
+          }
           const data = this.findDataByName(convertedData, key);
           // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
           // let dateStr_ddmmyyyy = obj[xAxisLabel];
@@ -583,21 +603,47 @@ export class UtilityService {
     return JSON.parse(JSON.stringify(obj));
   }
 
-  showErrorToaster(message, sec = 2) {
-    if (typeof message === 'string') {
-      this.toastr.error(message, null, {positionClass: 'toast-top-right', timeOut: sec * 1000});
-      return;
-    } else {
-      this.toastr.error(message.message, null, {positionClass: 'toast-top-right', timeOut: sec * 1000});
+  showErrorToaster(message, sec = 3) {
+    debugger;
+    let messageStr = typeof message === 'string'? message: message.message;
+    try {
+      this.snackBar.open(messageStr, '', {
+        duration: (sec * 1000)||2000,
+        panelClass:["bg-danger"]
+      });
+    }catch (e) {
+      console.log(e);
     }
+    // if (typeof message === 'string') {
+    //   // this.toastr.error(message, null, {positionClass: 'toast-top-right', timeOut: sec * 1000});
+    //   this.snackBar.open(message, '', {
+    //     duration: (sec * 1000)||2000,
+    //     panelClass:["bg-success"]
+    //   });
+    //   return;
+    // } else {
+    //   this.snackBar.open(message.message, '', {
+    //     duration: (sec * 1000)||2000,
+    //     panelClass:["bg-success"]
+    //   });
+    //   this.toastr.error(message.message, null, {positionClass: 'toast-top-right', timeOut: sec * 1000});
+    // }
   }
 
   showInfoToaster(message) {
-    this.toastr.info(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
+    // this.toastr.info(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
+    this.snackBar.open(message, '', {
+      duration: 2000,
+      panelClass:["bg-success"]
+    });
   }
 
   showSuccessToaster(message) {
-    this.toastr.success(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
+    // this.toastr.success(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
+    this.snackBar.open(message, '', {
+      duration: 2000,
+      panelClass:["bg-success"]
+    });
   }
 
   renameKeyInObject(o, old_key, new_key) {
@@ -743,11 +789,22 @@ export class UtilityService {
     this.router.navigate(['.'], {queryParams: queryParamObj, relativeTo: this.activatedRoute});
   }
 
+  isAtleastOneValueIsDefined(obj) {
+    if (!obj) return false;
+    for (let key in obj) {
+      if (obj[key]) return true;
+    }
+    return false;
+  }
+
+
   findFormControlIndexInFormArrayByValue(formArray: FormArray, value): number {
     let i = 0;
     for (const control of formArray.controls) {
       if (control instanceof FormControl) {
-        if (control.value === value) { return i; }
+        if (control.value === value) {
+          return i;
+        }
       }
       if (control instanceof FormGroup) {
         // is a FormGroup
@@ -867,5 +924,28 @@ export class UtilityService {
   deDupPrimitiveArray(arr: any[]) {
     return Array.from(new Set(arr));
   }
+
+  openDialog(dialogOptions: { dialog, component, data?: any, classStr, dialogRefWrapper?: { ref: any } }): Promise<any> {
+    //data: { message?: string, title?: string, actionButtonText?: string, isActionButtonDanger?:boolean }
+    let {dialog, component, data, classStr, dialogRefWrapper} = dialogOptions;
+    try {
+      dialogRefWrapper.ref.close();//closing any previous modals
+    } catch (e) {
+      console.log(e);
+    }
+    const dialogRef = dialog.open(component, {
+      data,
+      panelClass: classStr//'primary-modal-header-border'
+    });
+    dialogRefWrapper.ref = dialogRef;
+
+    return new Promise((resolve, reject) => {
+      dialogRef.afterClosed().subscribe((botType: string) => {
+        resolve(botType);
+      });
+    });
+
+  }
+
 
 }

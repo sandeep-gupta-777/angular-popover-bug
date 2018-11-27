@@ -12,11 +12,12 @@ import {IAppState} from '../../../../../ngxs/app.state';
 import {ConstantsService} from '../../../../../constants.service';
 import {ServerService} from '../../../../../server.service';
 import {SetPipelineModuleMasterData} from '../../../../../ngxs/app.action';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import {EFormValidationErrors, UtilityService} from '../../../../../utility.service';
 import {DragulaService} from 'ng2-dragula';
 import {LoggingService} from '../../../../../logging.service';
 import { NgForm } from '@angular/forms';
+import {ModalImplementer} from '../../../../../modal-implementer';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-pipeline',
@@ -24,7 +25,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./pipeline.component.scss'],
   providers: [DragulaService]
 })
-export class PipelineComponent implements OnInit {
+export class PipelineComponent extends ModalImplementer implements OnInit {
 
   myObject = Object;
   // @Input() bot: IBot;
@@ -43,7 +44,6 @@ export class PipelineComponent implements OnInit {
   selectedPipeline: IPipelineItem;
   searchKeyword: string;
   buildBotType: any;
-  modalRef: BsModalRef;
   @Output() datachanged$ = new EventEmitter();
 
   constructor(
@@ -53,37 +53,15 @@ export class PipelineComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private constantsService: ConstantsService,
     private serverService: ServerService,
-    private modalService: BsModalService,
-    private utilityService: UtilityService,
+    public utilityService: UtilityService,
     private dragulaService: DragulaService,
+    public matDialog: MatDialog,
     private store: Store) {
+    super(utilityService, matDialog);
     this.iterableDiffer = this._iterableDiffers.find([]).create(null);
   }
-  vamps = [
-    { name: 'Bad Vamp' },
-    { name: 'Petrovitch the Slain' },
-    { name: 'Bob of the Everglades' },
-    { name: 'The Optimistic Reaper' }
-  ];
-
-  vamps2 = [
-    { name: 'Dracula' },
-    { name: 'Kurz' },
-    { name: 'Vladislav' },
-    { name: 'Deacon' }
-  ];
 
   ngOnInit() {
-    // use these if you want
-
-    // this.dragulaService.createGroup("VAMPIRES", {
-    //   // ...
-    // });
-    //
-    // this.dragulaService.dropModel("VAMPIRES").subscribe(args => {
-    //   LoggingService.log(args);
-    // });
-
     this.buildBotType = this.activatedRoute.snapshot.data['buildBot'];
     this.pipeLine = this._bot && this._bot.pipelines || [];
 
@@ -99,9 +77,9 @@ export class PipelineComponent implements OnInit {
         ]);
       });
 
-    this.modalService.onHidden.subscribe((reason: string) => {
-      this.prepareAndDispatch();
-    });
+    // this.modalService.onHidden.subscribe((reason: string) => {
+    //   this.prepareAndDispatch();
+    // });
 
 
     // this.aimService.getModules()
@@ -147,7 +125,8 @@ export class PipelineComponent implements OnInit {
   }
   openCreateBotModal(template: TemplateRef<any>, pipeline: IPipelineItem) {
     this.selectedPipeline = pipeline;
-    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+    // this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+    this.openPrimaryModal(template);
   }
 
   test() {

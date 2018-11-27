@@ -1,13 +1,10 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {BsModalService} from 'ngx-bootstrap/modal';
 import {Select, Store} from '@ngxs/store';
 import {SetBackendURlRoot, SetShowBackendURlRoot} from '../ngxs/app.action';
 import {Observable} from 'rxjs';
-import {IAuthState} from '../auth/ngxs/auth.state';
 import {IAppState} from '../ngxs/app.state';
 import {UtilityService} from '../utility.service';
-import {ActivatedRoute, RouteConfigLoadEnd, RouteConfigLoadStart, Router, RoutesRecognized} from '@angular/router';
+import {ActivatedRoute, Router, RoutesRecognized} from '@angular/router';
 
 @Component({
   selector: 'app-backend-dev',
@@ -23,7 +20,7 @@ export class BackendDevComponent implements OnInit {
     private router: Router,
     private store: Store,
   ) { }
-  // modalRef: BsModalRef;
+  // modalRefWrapper: BsModalRef;
   backend_root_url: string;
   showBackendRootUrlButton = false;
 
@@ -45,7 +42,7 @@ export class BackendDevComponent implements OnInit {
   }
 
   openChangePasswordModal(template: TemplateRef<any>) {
-    // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    // this.modalRefWrapper = this.modalService.show(template, {class: 'modal-md'});
   }
 
   changeUrl() {
@@ -54,7 +51,7 @@ export class BackendDevComponent implements OnInit {
     ])
       .subscribe((value) => {
         this.utilityService.showSuccessToaster('Backend root url changed');
-        // this.modalRef.hide();
+        // this.modalRefWrapper.hide();
       });
   }
 

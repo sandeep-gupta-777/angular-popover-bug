@@ -7,9 +7,8 @@ import {Observable} from 'rxjs';
 import {ServerService} from '../../server.service';
 import {ConstantsService} from '../../constants.service';
 import {ActivatedRoute, Route, Router} from '@angular/router';
-import {UtilityService} from '../../utility.service';
+import {EBotType, UtilityService} from '../../utility.service';
 import {AddNewBotInAllBotList, SetAllBotListAction} from '../view-bots/ngxs/view-bot.action';
-import {EBotType} from '../view-bots/view-bots.component';
 import {LoggingService} from '../../logging.service';
 
 @Component({

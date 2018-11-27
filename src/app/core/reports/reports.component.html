@@ -40,7 +40,7 @@
 
     <div class="col-12" *ngIf="reportSmartTableData.length>0">
       <app-smart-table
-        [data]="reportSmartTableData"
+        [data]="tableData_report"
         (rowClicked$)="goToReportEditComponent($event)"
         [totalRecords]="totalReportRecords"
         (pageChanged$)="reportTablePageChanged($event)"
@@ -52,7 +52,7 @@
   <div class="col-12 mt-2" *ngIf="activeTab==='history' && reportHistorySmartTableData.length>0">
     <div class="col-12">
       <app-smart-table
-        [data]="reportHistorySmartTableData"
+        [data]="tableData_history"
         (pageChanged$)="reportHistoryTablePageChanged($event)"
         [totalRecords]="totalReportRecords"
         (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"

@@ -15,6 +15,7 @@ import { TestComponent } from '../../test/test.component';
 import { MessageDisplayBase } from './messageDisplayBase';
 import { Observable } from 'rxjs';
 import { IAuthState } from '../ngxs/auth.state';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -58,8 +59,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     this.panelActive = this.activatedRoute.snapshot.queryParamMap.get('token') ? 'reset-password' : this.panelActive;
     this.changePasswordExpireTime = this.activatedRoute.snapshot.queryParamMap.get('timestamp');
     this.serverService.getNSetConfigData$().subscribe(() => this.isConfigDataSet = true);
-    this.gotUserData$
-      .map((value: IUser) => {
+    this.gotUserData$.pipe(
+      map((value: IUser) => {
         debugger;
         userValue = value;
         this.store.dispatch([
@@ -67,7 +68,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
           // new SetEnterpriseInfoAction({ enterpriseInfo: value})
         ])
       })
-      .map(() => {
+    )
+      .subscribe(() => {
           this.serverService.getNSetMasterPermissionsList()
             .subscribe(() => {
               debugger;
@@ -97,9 +99,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
                 ]);
               });
         })
-        .subscribe(()=>{
-          
-        });
+
   }
 
   sendEmailForReset() {

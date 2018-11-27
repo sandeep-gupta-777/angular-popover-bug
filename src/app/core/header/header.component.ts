@@ -12,22 +12,22 @@ import { ServerService } from '../../server.service';
 import { ResetEnterpriseUsersAction, SetEnterpriseInfoAction } from '../enterpriseprofile/ngxs/enterpriseprofile.action';
 import { ResetBuildBotToDefault } from '../buildbot/ngxs/buildbot.action';
 import { IEnterpriseProfileInfo } from '../../../interfaces/enterprise-profile';
-import { EBotType } from '../view-bots/view-bots.component';
 import { ResetAnalytics2GraphData, ResetAnalytics2HeaderData } from '../analysis2/ngxs/analysis.action';
-import { UtilityService } from '../../utility.service';
+import { EBotType, UtilityService } from '../../utility.service';
 import { IAppState } from '../../ngxs/app.state';
 import { ELogType, LoggingService } from '../../logging.service';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { IAuthState } from 'src/app/auth/ngxs/auth.state';
-import { IHeaderData } from 'src/interfaces/header-data';
+import { IHeaderData } from '../../../interfaces/header-data';
 import { IBotResult } from '../interfaces/IBot';
+import { IAuthState } from '../../auth/ngxs/auth.state';
+import { ModalImplementer } from 'src/app/modal-implementer';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent extends ModalImplementer implements OnInit {
 
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
@@ -42,7 +42,6 @@ export class HeaderComponent implements OnInit {
   logoutSetTimeoutRef;
   autoLogOutTime: number;
   isOnline = true;
-  modalRef: BsModalRef;
   isDocumentFullScreenModeOn = false;
   searchEnterprise: string;
   enterpriseList: any[];
@@ -53,9 +52,10 @@ export class HeaderComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private constantsService: ConstantsService,
     public utilityService: UtilityService,
+    public matDialog: MatDialog,
     private router: Router,
-    private modalService: BsModalService
   ) {
+    super(utilityService ,matDialog );
   }
 
   ngOnInit() {
@@ -118,11 +118,12 @@ export class HeaderComponent implements OnInit {
         if (value && value.user != null) {
           debugger;
           this.userData = value.user;
+          this.logoSrc = this.userData.enterprise.logo || this.logoSrc;
         }
       });
-    this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
-      this.logoSrc = enterpriseProfileInfo.logo || this.logoSrc;
-    });
+    // this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
+    //   this.logoSrc = enterpriseProfileInfo.logo || this.logoSrc;
+    // });
     // this.activatedRoute.queryParams.subscribe((queryParams)=>{
     //   ;
     //   this.isFullScreen = queryParams['isArchitectureFullScreen']==='true'
@@ -162,8 +163,8 @@ export class HeaderComponent implements OnInit {
         this.enterpriseList = value.enterprises;
         // console.log("sadasdasdsad");
         console.log(this.enterpriseList);
-        this.modalRef = this.modalService.show(template, { class: 'modal-lg' })
-
+        // this.modalRef = this.modalService.show(template, { class: 'modal-lg' })
+        this.openPrimaryModal(template);
       });
   }
   toggleDocumentFullScreen() {
@@ -200,7 +201,7 @@ export class HeaderComponent implements OnInit {
                     .subscribe((value: IEnterpriseProfileInfo) => {
                       this.store.dispatch([
                         new SetEnterpriseInfoAction({ enterpriseInfo: value })
-                      ]).subscribe(()=>{
+                      ]).subscribe(() => {
                         location.reload();
                       });
                     });

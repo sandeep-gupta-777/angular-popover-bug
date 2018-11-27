@@ -1,73 +1,82 @@
-<div class="container-fluid header-container shadow-theme">
+<div class="container-fluid header-container d-flex align-content-center shadow-theme">
 
-  <div class="box box-logo" style="position: absolute; top: 0; bottom: 0; z-index: 40;">
-    <a routerLink="/" style="padding-top: 9px;">
-      <img class="box-logo__image" src="https://imibot.ai/assets/img/IMI_logo.png" alt=""></a>
+  <div class="box box-logo" style="position: relative">
+    <a routerLink="/" style="">
+      <img class="box-logo__image" src="data:image/jpeg;base64,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"
+        alt=""></a>
   </div>
 
-  <div class="row">
-    <div class="col-8 col-md-9 header-container__left d-flex align-items-end">
-      <!--TODO: THIS IMAGE IS INVISIBLE; REMOVE IT ALTOGETHER-->
-      <div class="box box-logo invisible">
-        <a routerLink="/"><img class="box-logo__image" src="https://imibot.ai/assets/img/IMI_logo.png" alt=""></a>
-      </div>
+  <div class="d-flex flex-grow-1">
+    <div class="header-container__left mt-auto d-flex align-items-end">
 
       <div class="box box-tools">
-        <a class="header-nav" [routerLink]="'/core/viewbots/'"
-           routerLinkActive="highlight-text-on-route-match">
+        <a class="header-nav" [routerLink]="'/core/viewbots/'" routerLinkActive="highlight-text-on-route-match">
           <i class="fa fa-home"></i>
           <span class="d-none d-lg-inline">Bot Dashboard</span>
         </a>
-        <a class="header-nav" routerLink="customner" routerLinkActive="highlight-text-on-route-match"
-           *myIf="myEAllActions['Get Enterprise Knowledge base']">
+        <a class="header-nav" routerLink="customner" routerLinkActive="highlight-text-on-route-match" *myIf="myEAllActions['Get Enterprise Knowledge base']">
           <i class="fa fa-graduation-cap"></i>
           <span class="d-none d-lg-inline">Knowledge Base</span>
         </a>
-        <a class="header-nav" routerLink="analytics2" routerLinkActive="highlight-text-on-route-match"
-           *myIf="myEAllActions['Analytics']">
+        <a class="header-nav" routerLink="analytics2" routerLinkActive="highlight-text-on-route-match" *myIf="myEAllActions['Analytics']">
           <i dropdownToggle class="fa fa-bar-chart"></i>
           <span class="d-none d-lg-inline">Analytics</span>
         </a>
         <a *myIf="myEAllActions['Get Reports']" routerLinkActive="highlight-text-on-route-match" class="header-nav"
-           routerLink="reports">
+          routerLink="reports">
           <i class="fa fa-list"></i>
           <span class="d-none d-lg-inline">Reports</span>
         </a>
 
       </div>
       <!--<a class="header-nav" (click)="toggleDocumentFullScreen();"-->
-         <!--[title]="isDocumentFullScreenModeOn?'Go to fullscreen mode':'Exit fullscreen mode'">-->
-        <!--<i class="fa" [ngClass]="{'fa-television':!isDocumentFullScreenModeOn, 'fa-compress':isDocumentFullScreenModeOn}"></i>-->
+      <!--[title]="isDocumentFullScreenModeOn?'Go to fullscreen mode':'Exit fullscreen mode'">-->
+      <!--<i class="fa" [ngClass]="{'fa-television':!isDocumentFullScreenModeOn, 'fa-compress':isDocumentFullScreenModeOn}"></i>-->
       <!--</a>-->
     </div>
 
-    <div class="col-4 px-0 col-md-3 d-flex align-items-center">
+    <div class="ml-auto d-flex align-items-center">
       <div class="d-flex header-container__right align-items-center ml-auto ">
         <div class="box box-details-personal d-flex flex-column">
-          <span class="box-details-personal__name  pr-0 limit-oneline">{{(loggeduser$|async).user.first_name +" "+ (loggeduser$|async).user.last_name}}</span>
+          <span class="box-details-personal__name  pr-0 limit-oneline">{{(loggeduser$|async).user.first_name +" "+
+            (loggeduser$|async).user.last_name}}</span>
           <span class="box-details-personal__designation text-theme-muted pt-1 text-right">{{(loggeduser$|async).user.role.name}}</span>
         </div>
 
         <div class="box d-flex ">
-    <span class="box-details__logo">
-      <img class="img-fluid rounded-circle" style="width: 32px"
-           [src]="logoSrc" alt="">
-    </span>
-          <div class="btn-group" dropdown>
-            <span dropdownToggle class="box-details__dropdown d-flex align-items-center"><i
-              class="fa fa-chevron-down"></i></span>
-            <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
-              <li role="menuitem"><a class="dropdown-item" [routerLink]="['profile']"
-                                     routerLinkActive="highlight-text-on-route-match">Profile</a></li>
-              <li role="menuitem"><a class="dropdown-item cursor-pointer" (click)="logout()">Sign out</a></li>
-              <li class="divider dropdown-divider" *myIf="myEAllActions['Get Enterprise']"></li>
-              <li role="menuitem"><a class="dropdown-item" *ngIf="enterpriseList.length > 1"
-                                      (click)="changeEnterprise(changeEnterpriseModal)">Change enterprise</a></li>
-              <li role="menuitem"><a class="dropdown-item" *myIf="myEAllActions['Get Enterprise']"
-                                     [routerLink]="['enterpriseprofile']"
-                                     routerLinkActive="highlight-text-on-route-match">Enterprise Profile</a></li>
-            </ul>
-          </div>
+          <span class="box-details__logo">
+            <img class="img-fluid rounded-circle" style="width: 32px" [src]="logoSrc" alt="">
+          </span>
+
+          <button mat-icon-button [matMenuTriggerFor]="appMenu" class="click-save-wrapper">
+            <!--<mat-icon class="click-save-wrapper">more_vert</mat-icon>-->
+            <i class="fa fa-chevron-down"></i>
+          </button>
+          <mat-menu class="cutom-md-menu" #appMenu="matMenu">
+            <button mat-menu-item>
+              <a class="dropdown-item" [routerLink]="['profile']" routerLinkActive="highlight-text-on-route-match">Profile</a>
+            </button>
+            <button mat-menu-item><a class="dropdown-item cursor-pointer" (click)="logout()">Sign out</a></button>
+            <!--<button mat-menu-item><hr></button>-->
+            <button mat-menu-item><a class="dropdown-item" (click) = changeEnterprise(changeEnterpriseModal)
+              >Change enterprise</a></button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item><a class="dropdown-item" *myIf="myEAllActions['Get Enterprise']" [routerLink]="['enterpriseprofile']"
+                routerLinkActive="highlight-text-on-route-match">Enterprise Profile</a></button>
+          </mat-menu>
+          <!--<div class="btn-group" dropdown>-->
+          <!--<span dropdownToggle class="box-details__dropdown d-flex align-items-center"><i-->
+          <!--class="fa fa-chevron-down"></i></span>-->
+          <!--<ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">-->
+          <!--<li role="menuitem"><a class="dropdown-item" [routerLink]="['profile']"-->
+          <!--routerLinkActive="highlight-text-on-route-match">Profile</a></li>-->
+          <!--<li role="menuitem"><a class="dropdown-item cursor-pointer" (click)="logout()">Sign out</a></li>-->
+          <!--<li class="divider dropdown-divider" *myIf="myEAllActions['Get Enterprise']"></li>-->
+          <!--<li role="menuitem"><a class="dropdown-item" *myIf="myEAllActions['Get Enterprise']"-->
+          <!--[routerLink]="['enterpriseprofile']"-->
+          <!--routerLinkActive="highlight-text-on-route-match">Enterprise Profile</a></li>-->
+          <!--</ul>-->
+          <!--</div>-->
         </div>
       </div>
     </div>
@@ -77,11 +86,10 @@
 </div>
 
 <ng-template #changeEnterpriseModal>
-  <div class="primary-modal" style= "width: 650px;">
-    <div class="top-dec"></div>
-    <div class="modal-header" style = "border: none;">
+  <div class="primary-modal" style="width: 650px;">
+    <div class="modal-header" style="border: none;">
       <h4 class="modal-title" style="display: flex;justify-content: start;">Change enterprise</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -89,14 +97,11 @@
       <div style="font-size: 13px;" class="pl-3">Select an enterprise to view corresponding bots</div>
       <div class="search-theme-input-with-search ml-auto">
         <span class="fa fa-search" style="top: 13px;left: 15px;"></span>
-        <input class="border" placeholder="Enterprise" [(ngModel)]="searchEnterprise" type="search" style = "height: 24px;">
+        <input class="border" placeholder="Enterprise" [(ngModel)]="searchEnterprise" type="search" style="height: 24px;">
       </div>
     </div>
     <div class="modal-body pt-0" style="height:400px;">
-      <app-enterprise-list 
-      [enterpriseList] = enterpriseList
-      [searchEnterprise] = searchEnterprise
-      (clickedEnterprise) = "enterEnterprise($event);modalRef.hide();"></app-enterprise-list>
+      <app-enterprise-list [enterpriseList]="enterpriseList" [searchEnterprise]="searchEnterprise" (clickedEnterprise)="enterEnterprise($event);dialogRefWrapper.ref.close()"></app-enterprise-list>
     </div>
   </div>
 </ng-template>

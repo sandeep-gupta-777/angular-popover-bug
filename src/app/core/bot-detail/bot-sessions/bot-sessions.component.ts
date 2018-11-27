@@ -1,25 +1,30 @@
 import {Component, ElementRef, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Store, Select} from '@ngxs/store';
-import {IConsumerResults} from '../../../../interfaces/consumer';
+import {IConsumerItem} from '../../../../interfaces/consumer';
 import {ServerService} from '../../../server.service';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {ConstantsService} from '../../../constants.service';
-import {ISessionItem, ISessionMessage, ISessions} from '../../../../interfaces/sessions';
-import {of} from 'rxjs';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {ISessionItem, ISessionMessage, ISessions, ITableColumn} from '../../../../interfaces/sessions';
 import {IBot} from '../../interfaces/IBot';
 import {SmartTableComponent} from '../../../smart-table/smart-table.component';
 import {UtilityService} from '../../../utility.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {findIndex} from 'rxjs/operators';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
+import {IAppState} from '../../../ngxs/app.state';
+import {MaterialTableImplementer} from '../../../material-table-implementer';
+import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-bot-sessions',
   templateUrl: './bot-sessions.component.html',
   styleUrls: ['./bot-sessions.component.scss']
 })
-export class BotSessionsComponent implements OnInit {
+export class BotSessionsComponent extends MaterialTableImplementer implements OnInit {
+  tableData;
+  dialogRefWrapper = {ref:null};
+
   myESplashScreens = ESplashScreens;
   @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
   @Input() id: string;
@@ -31,30 +36,54 @@ export class BotSessionsComponent implements OnInit {
   showLoader = false;
   refreshSessions$: Observable<ISessions>;
   url: string;
-  modalRef: BsModalRef;
-  smartTableSettings_Sessions = this.constantsService.SMART_TABLE_SESSIONS_SETTING;
   selectedRow_Session: ISessionItem;
   selectedRow_number = 0;
   totalSessionRecords = 0;
   sessions: ISessionItem[];
+  sessionsDataForTable: any[];
   showNextButton: boolean;
   showPrevButton: boolean;
   pageNumberOfCurrentRowSelected = 1;
   indexOfCurrentRowSelected: number;
   decryptReason: string;
+  sessionModalRef;
 
   constructor(
     private serverService: ServerService,
     private utilityService: UtilityService,
     private constantsService: ConstantsService,
     private store: Store,
-    private modalService: BsModalService
+    private matDialog: MatDialog,
   ) {
+    super();
   }
 
   ngOnInit() {
     this.loadSmartTableSessionData();
   }
+
+  async openDeleteTemplateKeyModal(tempKey) {
+
+    let closeDialogPromise$ = this.utilityService.openDialog({
+      dialog: this.matDialog,
+      component: this.sessionDetailTemplate,
+      data: {
+        title: `Delete template key: ${tempKey}?`,
+        message: 'This action cannot be undone.Are you sure you wish to continue?',
+        actionButtonText: 'Delete',
+        isActionButtonDanger: true
+      },
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr: 'modal-xlg'
+    });
+    let data = await closeDialogPromise$;
+
+
+    // if (data) {
+    //   this.deleteTemplateKey(tempKey);
+    // }
+  }
+
 
   /*todo: implement it better way*/
   refreshSession() {
@@ -65,8 +94,46 @@ export class BotSessionsComponent implements OnInit {
     });
   }
 
+
+  getTableDataMetaDict(): any {
+    return this.constantsService.SMART_TABLE_SESSION_TABLE_DATA_META_DICT_TEMPLATE;
+  }
+
+  initializeTableData(sessions: ISessionItem[], tableDataMetaDict: any): void {
+    this.sessionsDataForTable = this.transformDataForMaterialTable(this.sessions, this.getTableDataMetaDict());
+
+  }
+
   loadSmartTableSessionData() {
     this.loadSessionTableDataForGivenPage(this.pageNumberOfCurrentRowSelected);
+  }
+
+  transformSessionDataForMaterialTable(session: ISessionItem[]) {
+
+    let sessionsDataForTable = super.transformDataForMaterialTable(this.sessions, this.getTableDataMetaDict());
+    sessionsDataForTable = sessionsDataForTable.map((sessionsDataForTableItem) => {
+      /*adding two additional columns 1) actions and 2)channels*/
+      let additonalColumns: any = {};
+
+      /*actions*/
+      additonalColumns['Actions'].value = [];
+      additonalColumns['Actions'].value.push({show: true, name: 'download', class: 'fa fa-download'});
+      if (sessionsDataForTableItem.isEncrypted) {
+        additonalColumns['actions'].value.push({show: true, name: 'decrypt', class: 'fa fa-lock'});
+      }
+
+      /*channels*/
+      additonalColumns['Channels'].value = [];
+      additonalColumns['Channels'].value = (sessionsDataForTableItem.channels.map((channelName) => {
+        return {
+          name: channelName,
+          src: this.constantsService.getIntegrationIconForChannelName(channelName).icon//'https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/web.png'
+        };
+      }));
+      additonalColumns['Channels'].search = sessionsDataForTableItem.channels.join();
+      return {...sessionsDataForTableItem, ...additonalColumns};
+    });
+    return sessionsDataForTable;
   }
 
   sessionTableRowClicked(eventData: { data: ISessionItem }, template?, reasonForDecryptionTemplate?) {
@@ -77,8 +144,6 @@ export class BotSessionsComponent implements OnInit {
     * */
     if (eventData.data.data_encrypted) {
 
-      // this.sessionItemToBeDecrypted = eventData.data;
-      // this.openSessionRowDecryptModal(reasonForDecryptionTemplate);
       this.openSessionRowDecryptModal(this.reasonForDecryptionTemplate, eventData.data);
     } else {
       this.loadSessionMessagesById(eventData.data.id)
@@ -94,8 +159,8 @@ export class BotSessionsComponent implements OnInit {
           });
           this.sessions[this.indexOfCurrentRowSelected].highlight = true;
 
-          // this.openModal(template);
-          this.openModal(this.sessionDetailTemplate);
+          // this.openDeleteModal(template);
+          this.openDeleteTemplateKeyModal(this.sessionDetailTemplate);
 
         });
     }
@@ -103,9 +168,9 @@ export class BotSessionsComponent implements OnInit {
 
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-xlg'});
-  }
+  // openModal(template: TemplateRef<any>) {
+  //   this.modalRef = this.modalService.show(template, {class: 'modal-xlg'});
+  // }
 
   loadSessionTableDataForGivenPage(pageNumber) {
 
@@ -121,17 +186,8 @@ export class BotSessionsComponent implements OnInit {
         this.totalSessionRecords = value.meta.total_count;
         this.selectedRow_Session = value.objects[this.selectedRow_number || 0];
         this.sessions = value.objects;
+        this.initializeTableData(this.sessions, this.getTableDataMetaDict())
 
-        // if (this.indexOfCurrentRowSelected !== undefined && this.sessions[this.indexOfCurrentRowSelected].isEncrypted === false) {
-        //   this.sessions[this.indexOfCurrentRowSelected].highlight = true;
-        // } else {
-        //   try {
-        //     this.modalRef.hide();
-        //   } catch (e) {
-        //     LoggingService.log(e,ELogType.error);
-        //   }
-        //   // this.sessionTableRowClicked({data: this.sessions[this.indexOfCurrentRowSelected]});
-        // }
       });
   }
 
@@ -158,7 +214,7 @@ export class BotSessionsComponent implements OnInit {
         // this.customActionEventsTriggeredInSessionsTable({data:selectedRow_SessionClone,action:'decrypt',source:null});
         this.preOpenDecryptionModal();
       } else {
-        this.selectedRow_Session =  newSelectedRow_Session;
+        this.selectedRow_Session = newSelectedRow_Session;
       }
     } else {/*new page is needed to be loaded*/
       this.smartTableComponent.goToNextPage();
@@ -171,7 +227,8 @@ export class BotSessionsComponent implements OnInit {
   }
 
   preOpenDecryptionModal() {
-    this.modalRef.hide();
+    // this.modalRef.hide();
+    this.dialogRefWrapper.ref.close();
     const sessionToBeDecrypted = this.sessions[this.indexOfCurrentRowSelected];
     this.openSessionRowDecryptModal(this.reasonForDecryptionTemplate, sessionToBeDecrypted);
     return;
@@ -196,7 +253,7 @@ export class BotSessionsComponent implements OnInit {
         // this.customActionEventsTriggeredInSessionsTable({data:selectedRow_SessionClone,action:'decrypt',source:null});
         this.preOpenDecryptionModal();
       } else {
-        this.selectedRow_Session =  newSelectedRow_Session;
+        this.selectedRow_Session = newSelectedRow_Session;
       }
     } else {
       this.smartTableComponent.goToPrevPage();
@@ -210,6 +267,7 @@ export class BotSessionsComponent implements OnInit {
   }
 
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: ISessionItem, source: any }, Primarytemplate) {
+
 
     if (data.action === 'download') {
       /*download the conversation for the record*/
@@ -256,7 +314,13 @@ export class BotSessionsComponent implements OnInit {
 
   openSessionRowDecryptModal(template: TemplateRef<any>, sessionToBeDecrypted: ISessionItem) {
     this.sessionItemToBeDecrypted = sessionToBeDecrypted;
-    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    this.utilityService.openDialog({
+      component: template,
+      dialog : this.matDialog,
+      classStr:'primary-modal-header-border',
+      dialogRefWrapper: this.dialogRefWrapper
+    });
   }
 
   loadSessionMessagesById(id) {
@@ -276,11 +340,13 @@ export class BotSessionsComponent implements OnInit {
     });
   }
 
-  performSearchInDbForSession(data) {
-    this.loadSessionById(data['Room ID'])
+  performSearchInDbForSession(data: { id: number }) {
+
+    this.loadSessionById(data.id)
       .subscribe((session: ISessionItem) => {
         this.sessions.push(session);
         this.sessions = [...this.sessions];
+        this.transformSessionDataForMaterialTable(this.sessions);
       });
   }
 

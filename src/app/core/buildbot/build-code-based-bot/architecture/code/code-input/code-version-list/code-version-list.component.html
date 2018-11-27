@@ -14,14 +14,14 @@
       <!--style="flex-basis: 56px">Inactive-->
       <!--</button>-->
       <div class="count mx-1 flex-shrink-0 flex-grow-0">{{selectedVersion.version}}</div>
-      <div class="forked mr-1 pl-1" *ngIf="selectedVersion.forked_from !== 0">Forked from 
+      <div class="forked mr-1 pl-1" *ngIf="selectedVersion.forked_from !== 0">Forked from
         v{{selectedVersion.forked_from}}
       </div>
       <div class="forked mr-1 pl-1" *ngIf="selectedVersion.forked_from === 0">Default version
       </div>
       <div class="forked mr-1 " >Last update</div>
       <div class="update d-flex flex-column mr-2 justify-content-center">
-        
+
         <div class="d-flex justify-content-left py-1" *ngIf="selectedVersion">
           <!-- <i class="fa fa-circle"
              [ngClass]="{'text-danger':selectedVersion.updated_fields['df_template'], 'dark-green':activeTab==='df_template'}"></i> -->
@@ -47,8 +47,7 @@
         <!--<input type="radio" name="optradio">-->
         <!--</form>-->
       </div>
-      <div class="insert mr-1" *ngIf="selectedVersion && selectedVersion.comment" [popover]="selectedVersion.comment"
-           placement="bottom" triggers="mouseenter:mouseleave">
+      <div class="insert mr-1" *ngIf="selectedVersion && selectedVersion.comment">
         {{selectedVersion.comment.length>120?(((selectedVersion.comment)|slice:0:120)
         +"..."):selectedVersion?.comment}}
         <!--<div class="insert mr-1">{{(selectedVersion.comment)|slice:0:100}}-->
@@ -98,7 +97,7 @@
         <div class="forked mr-1">Last update</div>
         <!--change dot start-->
         <div class="update d-flex flex-column mr-2 justify-content-center" *ngIf="version">
-          
+
           <div class="justify-content-left pt-1">
             <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['df_template']}"></i>
             <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['df_rules']}"></i>

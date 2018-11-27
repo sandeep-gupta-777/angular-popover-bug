@@ -4,7 +4,7 @@ import {ConstantsService} from '../../../../constants.service';
 import {ServerService} from '../../../../server.service';
 import {IBot} from '../../../interfaces/IBot';
 import {Observable} from 'rxjs';
-import {st} from '@angular/core/src/render3';
+
 import {element} from 'protractor';
 import {UtilityService} from '../../../../utility.service';
 import { ViewBotStateModel } from '../../../view-bots/ngxs/view-bot.state';

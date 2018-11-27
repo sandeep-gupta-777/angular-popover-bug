@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {ConstantsService} from '../../constants.service';
@@ -27,7 +29,6 @@ export class EnterpriseprofileComponent implements OnInit {
   role: string;
   enterpriseId: number;
   loggeduserenterpriseinfo: IEnterpriseProfileInfo;
-  smartTableSettings_Enterprise_profiles = this.constantsService.SMART_TABLE_ENTERPISE_USERS_SETTING;
   logoError;
 
   constructor(
@@ -68,8 +69,8 @@ export class EnterpriseprofileComponent implements OnInit {
     });
 
     this.loggeduserenterpriseinfoMap$ =
-    this.loggeduserenterpriseinfo$
-      .map((value) => {
+    this.loggeduserenterpriseinfo$.pipe(
+      map((value) => {
         return {
           ...value,
           enterpriseusers: value.enterpriseusers.map((enterpriseuser) => {
@@ -80,7 +81,7 @@ export class EnterpriseprofileComponent implements OnInit {
             };
           })
         };
-      });
+      }));
       // .subscribe((value) => {
       // this.loggeduserenterpriseinfo = value;
       // ;

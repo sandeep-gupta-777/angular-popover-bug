@@ -436,14 +436,10 @@ app-code-editor {
 }
 
 
-#gentemplate-channel-selector{
-  height: 26px;
-  width: 130px;
-  border-radius: 2px;
-  padding-left: 20px;
-  border: solid 1px #e0e0e0;
-  @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-text-normal);
-  outline: none;
-}
+//#gentemplate-channel-selector /deep/{
+//  .mat-form-field-label{
+//    visibility: hidden;
+//  }
+//}
 
 

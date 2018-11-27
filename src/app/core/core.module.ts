@@ -35,10 +35,16 @@ import {CommonModule} from '@angular/common';
 import {SharedModule} from '../shared.module';
 import {ViewCustomnerComponent} from './customner/view-customner/view-customner.component';
 import {AuthGaurdService} from '../auth-gaurd.service';
-import {EBotType} from './view-bots/view-bots.component';
 import {AccessGaurdService} from '../access-gaurd.service';
 import {ERouteNames} from '../constants.service';
 import {ChatModule} from '../chat/chat.module';
+import {EBotType} from '../utility.service';
+import { StringIncludesPipe } from './buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
+import {MyMaterialModule} from '../my-material.module';
+import {CreateBotDialogComponent} from './view-bots/create-bot-dialog/create-bot-dialog.component';
+import {ModalConfirmComponent} from '../modal-confirm/modal-confirm.component';
+import {GentemplateEditKeyComponent} from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
+import {BotSessionModalWrapperComponent} from '../bot-session-modal-wrapper/bot-session-modal-wrapper.component';
 const routes: Route[] = [
   {
 
@@ -102,13 +108,17 @@ const routes: Route[] = [
     TestComponent,
     ChatPreviewNewPageComponent,
     FooterComponent,
-
     // DisplayNameForKeyIntegrationPipe,
 
     /*added after lazy loading*/
 
     // HighlightDirective
 
+  ],
+  entryComponents: [
+    ModalConfirmComponent,
+    GentemplateEditKeyComponent,
+    BotSessionModalWrapperComponent
   ],
   imports: [
     ChatModule,
@@ -118,7 +128,8 @@ const routes: Route[] = [
     // DragAndDropModule.forRoot(),
     HttpClientModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MyMaterialModule
 
   ],
   providers: [AimService]
