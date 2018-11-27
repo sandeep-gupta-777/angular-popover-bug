@@ -44,6 +44,7 @@ import {GentemplateEditKeyComponent} from './core/buildbot/build-code-based-bot/
 import {FormsModule} from '@angular/forms';
 import {BotSessionModalWrapperComponent} from './bot-session-modal-wrapper/bot-session-modal-wrapper.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {SatDatepickerModule, SatNativeDateModule} from 'saturn-datepicker';
 // import {SatDatepickerModule, SatNativeDateModule} from 'saturn-datepicker';
 
 const materialModules = [
@@ -72,8 +73,8 @@ const materialModules = [
   MatTableModule,
   MatTabsModule,
 
-  // SatNativeDateModule,
-  // SatDatepickerModule,
+  SatNativeDateModule,
+  SatDatepickerModule,
 
 
   OverlayModule,

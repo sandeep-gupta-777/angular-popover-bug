@@ -177,6 +177,7 @@ export class PermissionService {
   }
 
   isApiAccessDenied(url: string, httpVerb: EHttpVerbs) {
+    debugger;
     let isAllowed: boolean, httpVerbAndPathKey: string, logMessage = '', pathName = this.getPathNameFromUrl(url);
     const roleName = this.loggedUser && this.loggedUser.role.name;
     if (!url || !httpVerb) {

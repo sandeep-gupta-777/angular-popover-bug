@@ -12,18 +12,29 @@ import {IHeaderData} from '../../../interfaces/header-data';
 import {IEnterpriseUser} from '../interfaces/enterprise-users';
 import {UtilityService} from '../../utility.service';
 import {FormControl} from '@angular/forms';
+import {MaterialTableImplementer} from '../../material-table-implementer';
 
 @Component({
   selector: 'app-enterpriseprofile',
   templateUrl: './enterpriseprofile.component.html',
   styleUrls: ['./enterpriseprofile.component.scss']
 })
-export class EnterpriseprofileComponent implements OnInit {
+export class EnterpriseprofileComponent extends MaterialTableImplementer implements OnInit {
 
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   loggeduserenterpriseinfoMap$: Observable<IEnterpriseProfileInfo>;
   @ViewChild('form') f: HTMLFormElement;
+
+  tableData;
+
+  getTableDataMetaDict(): any {
+    return this.constantsService.SMART_TABLE_USER_DICT_TEMPLATE;
+  }
+
+  initializeTableData(data: any, tableDataMetaDict: any): void {
+    this.tableData = this.transformDataForMaterialTable(data, this.getTableDataMetaDict());
+  }
 
   userid: number;
   role: string;
@@ -36,6 +47,7 @@ export class EnterpriseprofileComponent implements OnInit {
     private constantsService: ConstantsService,
     private utilityService: UtilityService,
     private serverService: ServerService) {
+    super();
   }
   validateLogo(logo) {
 
@@ -63,6 +75,8 @@ export class EnterpriseprofileComponent implements OnInit {
             this.store.dispatch([
               new SetEnterpriseUsersAction({enterpriseUsers: value.objects})
             ]);
+
+            this.initializeTableData(value.objects, this.getTableDataMetaDict());
           });
       }
 
@@ -110,5 +124,7 @@ export class EnterpriseprofileComponent implements OnInit {
         ]);
       });
   }
+
+
 
 }

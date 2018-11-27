@@ -93,7 +93,8 @@
 
   <div class="row pb-3 bg-white profile-row" *ngIf="role==='Admin'">
     <div class="col-12">
-      <app-smart-table [data]="loggeduserenterpriseinfo.enterpriseusers|serializeEnterpriseprofileData">
+      <app-smart-table
+        [data]="tableData">
       </app-smart-table>
     </div>
 

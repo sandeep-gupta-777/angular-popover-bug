@@ -90,7 +90,7 @@ const routes: Route[] = [
       ReportsStateReducer,
     ]),
     NgxsStoragePluginModule.forRoot(),
-    // NgxsReduxDevtoolsPluginModule.forRoot(),//Comment this before pushing to git
+    NgxsReduxDevtoolsPluginModule.forRoot(),//Comment this before pushing to git
     NgxsLoggerPluginModule.forRoot({disabled: true}), //disable for prod mode
     HttpClientModule,
     // ClickOutsideModule,
