@@ -9,7 +9,7 @@ import { ResetBotListAction, SetAllBotListAction } from '../view-bots/ngxs/view-
 import { ResetAuthToDefaultState, SetUser } from '../../auth/ngxs/auth.action';
 import { ConstantsService, EAllActions } from '../../constants.service';
 import { ServerService } from '../../server.service';
-import { ResetEnterpriseUsersAction } from '../enterpriseprofile/ngxs/enterpriseprofile.action';
+import { ResetEnterpriseUsersAction, SetEnterpriseInfoAction } from '../enterpriseprofile/ngxs/enterpriseprofile.action';
 import { ResetBuildBotToDefault } from '../buildbot/ngxs/buildbot.action';
 import { IEnterpriseProfileInfo } from '../../../interfaces/enterprise-profile';
 import { EBotType } from '../view-bots/view-bots.component';
@@ -62,7 +62,7 @@ export class HeaderComponent implements OnInit {
     let getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
     debugger;
     this.serverService.makeGetReq({ url: getAllEnterpriseUrl })
-      .subscribe((value : any) => {
+      .subscribe((value: any) => {
         debugger;
         this.enterpriseList = value.enterprises;
         // console.log("sadasdasdsad");
@@ -111,7 +111,7 @@ export class HeaderComponent implements OnInit {
     //   .subscribe((v) => {
     //     this.utilityService.showSuccessToaster('Logged Out');
     //   });
-    
+
 
     this.loggeduser$
       .subscribe((value: IAuthState) => {
@@ -154,12 +154,22 @@ export class HeaderComponent implements OnInit {
 
   }
   changeEnterprise(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { class: 'modal-lg' })
+    let getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
+    debugger;
+    this.serverService.makeGetReq({ url: getAllEnterpriseUrl })
+      .subscribe((value: any) => {
+        debugger;
+        this.enterpriseList = value.enterprises;
+        // console.log("sadasdasdsad");
+        console.log(this.enterpriseList);
+        this.modalRef = this.modalService.show(template, { class: 'modal-lg' })
+
+      });
   }
   toggleDocumentFullScreen() {
     this.isDocumentFullScreenModeOn ? this.utilityService.closeFullscreen() : this.utilityService.openFullscreen();
   }
-  
+
   enterEnterprise(Enterprise) {
     debugger;
     let enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
@@ -183,12 +193,21 @@ export class HeaderComponent implements OnInit {
           return this.serverService.makeGetReq<IBotResult>({ url, headerData })
             .subscribe((botResult) => {
               this.store.dispatch(new SetAllBotListAction({ botList: botResult.objects }))
-                .subscribe(()=>{
-                  location.reload();
+                .subscribe(() => {
+                  debugger;
+                  const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(Enterprise.enterpriseId);
+                  this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
+                    .subscribe((value: IEnterpriseProfileInfo) => {
+                      this.store.dispatch([
+                        new SetEnterpriseInfoAction({ enterpriseInfo: value })
+                      ]).subscribe(()=>{
+                        location.reload();
+                      });
+                    });
                 });
 
             });
-          
+
         })
         // this.gotUserData$.emit(value);
       });
