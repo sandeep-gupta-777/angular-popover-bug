@@ -35,12 +35,14 @@ export class SmartTableComponent implements OnInit {
   @Input() showSearchInDbButton:boolean = false;
   @Input() set totalRecords(value) {
 
-    this.x = value;
-    // this.source.load(this._data);
-    this.totalPageCount = Math.ceil(value / this.recordsPerPage);
-    let start = 1;
-    let end = Math.min(this.totalPageCount, 5);
-    this.createPaginationArray(start, end);
+    setTimeout(()=>{//TODO: to avoid input race condition
+      this.x = value;
+      // this.source.load(this._data);
+      this.totalPageCount = Math.ceil(value / this.recordsPerPage);
+      let start = 1;
+      let end = Math.min(this.totalPageCount, 5);
+      this.createPaginationArray(start, end);
+    });
   }
 
   paginationArr = [];
