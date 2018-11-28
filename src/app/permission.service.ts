@@ -89,7 +89,8 @@ export class PermissionService {
     '/api/v1/user/login/',
     '/api/v1/user/resetpasswordurl/',
     '/api/v1/user/resetpassword/',
-    '/api/v1/webhook/web/'
+    '/api/v1/webhook/web/',
+    '/api/v1/room/'
   ];
   constructor() {
     this.loggeduser$.subscribe((loggeduser) => {
@@ -134,6 +135,7 @@ export class PermissionService {
 
           this.allowedApiHttpVerbPPathToActionNamesMapping = {};
           loggeduser.user.role.permissions.actions.forEach((permId: number) => {
+            debugger;
             /*find action name for given permission id*/
             let action = masterActionList.find((action) => action.id === permId);
             let httpVerb = action.permissions.method;
@@ -152,6 +154,11 @@ export class PermissionService {
 
   }
   isInApiAccessAllowedUrlList(pathName){
+    try {
+      if(pathName.includes('/api/v1/room/')) return true;
+    }catch (e) {
+      return false;
+    }
     let check = this.ApiAccessAllowedUrlList.find(x => x === pathName );
     if(check)  return true;
     else return false;

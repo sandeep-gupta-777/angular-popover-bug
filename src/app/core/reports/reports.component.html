@@ -45,7 +45,7 @@
       <app-smart-table
         [data]="reportHistorySmartTableData"
         (pageChanged$)="reportHistoryTablePageChanged($event)"
-        [totalRecords]="totalReportRecords"
+        [totalRecords]="totalHistoryReportRecords"
         (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
         [settings]="SMART_TABLE_REPORT_HISTORY_SETTING"></app-smart-table>
     </div>
