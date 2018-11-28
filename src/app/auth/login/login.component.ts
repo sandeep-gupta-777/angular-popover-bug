@@ -61,7 +61,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     this.serverService.getNSetConfigData$().subscribe(() => this.isConfigDataSet = true);
     this.gotUserData$.pipe(
       map((value: IUser) => {
-        debugger;
+
         userValue = value;
         this.store.dispatch([
           new SetUser({ user: value }),
@@ -72,7 +72,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       .subscribe(() => {
           this.serverService.getNSetMasterPermissionsList()
             .subscribe(() => {
-              debugger;
+
               this.flashInfoMessage('Loading your dashboard', 10000);
               /*after login, route to appropriate page according to user role*/
               if (userValue.role.name === ERoleName.Analyst) {
@@ -90,7 +90,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
               ]);
               this.flashErrorMessage('Could not fetch permission. Please try again', 10000);
             });
-            debugger;
+
             const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(userValue.enterprise_id);
             this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
               .subscribe((value: IEnterpriseProfileInfo) => {
@@ -162,7 +162,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       .subscribe((user: IUser) => {
         this.userData = user;
         this.flashInfoMessage('Logged in. Fetching permissions', 10000);
-        debugger;
+
         if (this.userData.enterprises.length <= 1) {
           let enterpriseDate = {
             enterpriseId : this.userData.enterprises[0].enterprise_id.id ,
@@ -211,7 +211,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       },
         () => {
           this.disabeLoginButton = false;
-          this.flashErrorMessage('Login failed. Please try again', 10000);
+          this.flashErrorMessage('Login failed. Please try again', 100000);
         }
       );
   }
@@ -220,7 +220,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     this.panelActive = panel;
   }
   enterEnterprise(Enterprise) {
-    debugger;
+
     let enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
     let body = {
       "user_id": this.userData.id,
@@ -230,10 +230,10 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     let headerData = {
       "auth-token": this.userData.auth_token
     }
-    debugger;
+
     this.serverService.makePostReq<any>({ url: enterpriseLoginUrl, body, headerData })
       .subscribe((value) => {
-        debugger;
+
         this.gotUserData$.emit(value);
       });
   }

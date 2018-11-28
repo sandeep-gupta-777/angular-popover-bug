@@ -60,10 +60,10 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
 
   ngOnInit() {
     let getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
-    debugger;
+
     this.serverService.makeGetReq({ url: getAllEnterpriseUrl })
       .subscribe((value: any) => {
-        debugger;
+
         this.enterpriseList = value.enterprises;
         // console.log("sadasdasdsad");
         console.log(this.enterpriseList);
@@ -116,7 +116,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     this.loggeduser$
       .subscribe((value: IAuthState) => {
         if (value && value.user != null) {
-          debugger;
+
           this.userData = value.user;
           this.logoSrc = this.userData.enterprise.logo || this.logoSrc;
         }
@@ -156,10 +156,10 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   }
   changeEnterprise(template: TemplateRef<any>) {
     let getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
-    debugger;
+
     this.serverService.makeGetReq({ url: getAllEnterpriseUrl })
       .subscribe((value: any) => {
-        debugger;
+
         this.enterpriseList = value.enterprises;
         // console.log("sadasdasdsad");
         console.log(this.enterpriseList);
@@ -172,7 +172,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   }
 
   enterEnterprise(Enterprise) {
-    debugger;
+
     let enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
     let body = {
       "user_id": this.userData.id,
@@ -182,10 +182,10 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     let headerData = {
       "auth-token": this.userData.auth_token
     }
-    debugger;
+
     this.serverService.makePostReq<any>({ url: enterpriseLoginUrl, body, headerData })
       .subscribe((value) => {
-        debugger;
+
         this.store.dispatch([
           new SetUser({ user: value }),
         ]).subscribe((user) => {
@@ -195,7 +195,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
             .subscribe((botResult) => {
               this.store.dispatch(new SetAllBotListAction({ botList: botResult.objects }))
                 .subscribe(() => {
-                  debugger;
+
                   const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(Enterprise.enterpriseId);
                   this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
                     .subscribe((value: IEnterpriseProfileInfo) => {

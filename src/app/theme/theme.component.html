@@ -1,52 +1,38 @@
-<!--<button class="btn-theme btn-theme-primary">Primary</button>-->
-<!--<button class="btn-theme btn-theme-danger">Danger</button>-->
-<!--<button class="btn-theme btn-theme-secondary">Secondary</button>-->
-<!--<button class="btn-theme btn-theme-success">Success</button>-->
-<!--<br>-->
-<!--<button class="btn-theme btn-theme-primary-outline">Primary</button>-->
-<!--<button class="btn-theme btn-theme-danger-outline">Danger</button>-->
-<!--<button class="btn-theme btn-theme-secondary-outline">Secondary</button>-->
-<!--<button class="btn-theme btn-theme-success-outline">Success</button>-->
+<form class="d-flex align-items-end" #httpForm="ngForm" (ngSubmit)="makeHttpReq(httpForm)">
+  <mat-form-field>
+    <mat-select placeholder="HTTP verb" ngModel name="verb" required #verb>
+      <mat-option value="makeGetReq">Get</mat-option>
+      <mat-option value="makePostReq">Put</mat-option>
+      <mat-option value="makePutReq">Post</mat-option>
+      <mat-option value="makeDeleteReq">Delete</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="flex-grow-1">
+    <input type="text" matInput placeholder="Enter full url" ngModel name="url" required>
+  </mat-form-field>
 
-<!--<br>-->
+  <button mat-raised-button style="margin-bottom:  1.25em" [disabled]="!httpForm.valid">Submit</button>
+</form>
 
-<!--<input type="text" class="input-theme input-theme-material" placeholder="placeholder">-->
+<div>
+  <span (click)="utilityService.copyToClipboard(serverService.X_AXIS_TOKEN)">Copy user access token</span>
+  <span (click)="utilityService.copyToClipboard(serverService.AUTH_TOKEN)">Copy auth access token </span>
+</div>
+<div class="d-flex">
+  <div style="width: 50%" *ngIf="verb.value==='makePostReq' || verb.value==='makePutReq'">
+    <h5>Body</h5>
+  </div>
+  <div style="width: 50%">
+    <h5>Result</h5>
+  </div>
+</div>
 
-<!--<hr>-->
+<div class="d-flex">
+  <textarea
+    *ngIf="verb.value==='makePostReq' || verb.value==='makePutReq'"
+    style="width: 50%; height: 50vh; font-size: 9px; background-color: black; color: white"
+    name="body"
+    [ngModel]="httpValue|json"></textarea>
+  <textarea style="width: 50%; height: 50vh; font-size: 9px; background-color: black; color: white"  [ngModel]="httpValue|json"></textarea>
 
-<!--<form class="d-flex align-items-end" #httpForm="ngForm" (ngSubmit)="makeHttpReq(httpForm)">-->
-  <!--<mat-form-field>-->
-    <!--<mat-select placeholder="Favorite food" ngModel name="verb" required #verb>-->
-      <!--<mat-option value="makeGetReq">Get</mat-option>-->
-      <!--<mat-option value="makePostReq">Put</mat-option>-->
-      <!--<mat-option value="makePutReq">Post</mat-option>-->
-      <!--<mat-option value="makeDeleteReq">Delete</mat-option>-->
-    <!--</mat-select>-->
-  <!--</mat-form-field>-->
-  <!--<mat-form-field class="flex-grow-1">-->
-    <!--<input type="text" matInput placeholder="Enter full url" ngModel name="url" required>-->
-  <!--</mat-form-field>-->
-
-  <!--<button mat-raised-button style="margin-bottom:  1.25em" [disabled]="!httpForm.valid">Submit</button>-->
-<!--</form>-->
-
-<!--<div>-->
-  <!--<span (click)="utilityService.copyToClipboard(serverService.X_AXIS_TOKEN)">Copy user access token</span>-->
-  <!--<span (click)="utilityService.copyToClipboard(serverService.AUTH_TOKEN)">Copy auth access token </span>-->
-<!--</div>-->
-<!--<div class="d-flex">-->
-  <!--<div style="width: 50%" *ngIf="verb.value==='makePostReq' || verb.value==='makePutReq'">-->
-    <!--<h5>Body</h5>-->
-  <!--</div>-->
-  <!--<div style="width: 50%">-->
-    <!--<h5>Result</h5>-->
-  <!--</div>-->
-<!--</div>-->
-
-<!--<div class="d-flex">-->
-  <!--<textarea-->
-    <!--*ngIf="verb.value==='makePostReq' || verb.value==='makePutReq'"-->
-    <!--style="width: 50%; height: 50vh; font-size: 9px; background-color: black; color: white"  [ngModel]="httpValue|json"></textarea>-->
-  <!--<textarea style="width: 50%; height: 50vh; font-size: 9px; background-color: black; color: white"  [ngModel]="httpValue|json"></textarea>-->
-
-<!--</div>-->
+</div>

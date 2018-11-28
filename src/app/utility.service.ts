@@ -603,8 +603,8 @@ export class UtilityService {
     return JSON.parse(JSON.stringify(obj));
   }
 
-  showErrorToaster(message, sec = 3) {
-    debugger;
+  showErrorToaster(message, sec = 5) {
+
     let messageStr = typeof message === 'string'? message: message.message;
     try {
       this.snackBar.open(messageStr, '', {

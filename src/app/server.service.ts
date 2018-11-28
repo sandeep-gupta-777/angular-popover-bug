@@ -46,6 +46,7 @@ import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 import {IProfilePermission} from '../interfaces/profile-action-permission';
 import {EHttpVerbs, PermissionService} from './permission.service';
 import {ELogType, LoggingService} from './logging.service';
+import {EventService} from './event.service';
 
 declare var IMI: any;
 declare var $: any;
@@ -373,15 +374,17 @@ export class ServerService {
   }
 
   changeProgressBar(loading: boolean, value: number) {
-    this.store.dispatch([
-      new SetProgressValue({
-        progressbar: {
-          loading: loading,
-          value: value
-        }
-      }
-      )
-    ]);
+    // this.store.dispatch([
+    //   new SetProgressValue({
+    //     progressbar: {
+    //       loading: loading,
+    //       value: value
+    //     }
+    //   }
+    //   )
+    // ]);
+    // this.
+    EventService.progressBar$.emit({loading: loading, value: value})
 
   }
 
