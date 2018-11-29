@@ -91,7 +91,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
 
   @Input() set data(dataValue:any[]) {
-
+    this._data = dataValue;
     this.dataSource = new MatTableDataSource(dataValue);
     this.displayedColumns = Object.keys(dataValue[0]).filter((key)=>{
       return dataValue[0][key].hasOwnProperty("value") && dataValue[0][key].hasOwnProperty("type")
@@ -142,6 +142,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
   @Input() set totalRecords(value) {
 
+    debugger;
     this.x = value;
     // this.source.load(this._data);
     this.totalPageCount = Math.ceil(value / this.recordsPerPage);

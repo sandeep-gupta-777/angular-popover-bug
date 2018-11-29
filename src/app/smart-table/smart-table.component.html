@@ -127,7 +127,7 @@
 
   <!--_data.length!==totalRows means that custom query has been used to filter rows-->
   <ul class="pagination pagination-sm justify-content-center my-2"
-      *ngIf="paginationArr && paginationArr.length>1 && _data.length===totalRows">
+      *ngIf="paginationArr && paginationArr.length>1">
     <li class="page-item" [ngClass]="{'text-muted':currentPage<=1}"><a class="page-link"
                                                                        (click)="goToPrevPage()">Previous</a></li>
     <li class="page-item" *ngFor="let i of paginationArr"><a class="page-link"
