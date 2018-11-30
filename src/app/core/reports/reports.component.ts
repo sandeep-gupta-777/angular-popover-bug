@@ -33,6 +33,9 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   tableData;
   tableData_report;
   tableData_history;
+  currentPage_reports = 1;
+  currentPage_reportsHistory = 1;
+  error_message;
 
   getTableDataMetaDict_report(): any {
     return this.constantsService.SMART_TABLE_REPORT_TABLE_DATA_META_DICT_TEMPLATE
@@ -99,10 +102,13 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
 
   loadReportHistory(limit: number, offset: number) {
 
+    this.error_message = "loading...";
+
     const reportHistoryUrl = this.constantsService.getReportHistoryUrl(limit, offset);
     this.serverService.makeGetReq<IReportHistory>({url: reportHistoryUrl})
       .subscribe((reportHistory: IReportHistory) => {
         this.totalHistoryReportRecords = reportHistory.meta.total_count;
+        this.error_message = "";
         /*Making reportItem$ history data*/
         reportHistory.objects.forEach((reportHistoryItem: IReportHistoryItem) => {
           this.botlist$.subscribe((botList) => {
@@ -121,6 +127,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   }
 
   reportHistoryTablePageChanged(page) {
+    this.currentPage_reportsHistory = page;
     this.reportHistorySmartTableData = [];
     this.loadReportHistory(10, (page - 1) * 10 );
   }
@@ -135,9 +142,11 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   }
 
   loadReports(limit: number, offset: number) {
+    this.error_message = "Loading...";
     const reportUrl = this.constantsService.getReportUrl(limit, offset);
     this.serverService.makeGetReq<IReportList>({url: reportUrl})
       .subscribe((results:{objects:ISmartTableReportDataItem[], meta:any}) => {
+        this.error_message = "";
         this.totalReportRecords = results.meta.total_count;
         /*Making reportItem$ data*/
         results.objects.forEach(report => {
@@ -177,6 +186,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   }
 
   reportTablePageChanged(page) {
+    this.currentPage_reports = page;
     this.reportSmartTableData = [];
     this.loadReports(10, (page - 1) * 10);
   }
