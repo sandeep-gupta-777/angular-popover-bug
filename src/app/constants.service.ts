@@ -370,8 +370,8 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/reports?limit=${limit}&offset=${offset}`; //{{url}}/reports?limit=1&offset=10
   }
 
-  getReportHistoryUrl(limit = 1, offset = 10) {
-    return this.BACKEND_URL + `api/v1/reporthistory?limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/reporthistory?limit=1&offset=10
+  getReportHistoryUrl(limit = 1, offset = 10, order_by ) {
+    return this.BACKEND_URL + `api/v1/reporthistory?limit=${limit}&offset=${offset}&order_by=-created_at`;; //https://dev.imibot.ai/reporthistory?limit=1&offset=10
   }
 
   getReportDeleteUrl(report_id: number) {

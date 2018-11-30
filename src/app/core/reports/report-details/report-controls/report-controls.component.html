@@ -138,15 +138,17 @@
           <input class="input-material mb-3" type="password" ngModel name="password">
           <label for="" class=" m-0">Upload directory</label>
           <!--<button class="btn btn-theme-primary-outline upload-private-key-button">Upload private key</button>-->
-          <label for="uploadInput" class="btn btn-theme-secondary-outline upload-private-key-button">Upload File
+          <label for="uploadInput" class="btn btn-theme-secondary-outline upload-private-key-button">
+            {{privateKey?'Uploaded':'Upload File'}}
             <input type="file"
                    hidden
                    id="uploadInput"
                    (change)='openFile(uploadInput);uploadInput.value=null'
                    accept='text/plain' multiple
                    #uploadInput>
+            <input type="text" hidden [(ngModel)]="privateKey" type="password" name="privateKey">
           </label>
-          <input class="input-material" [(ngModel)]="privateKey" type="password" ngModel name="directory">
+          <input class="input-material"  ngModel name="directory">
         </div>
       </fieldset>
 

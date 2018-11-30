@@ -70,7 +70,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
   loadReportHistory(limit: number, offset: number) {
 
-    let reportHistoryUrl = this.constantsService.getReportHistoryUrl(limit, offset);
+    let order_by = -1;
+    let reportHistoryUrl = this.constantsService.getReportHistoryUrl(limit, offset, order_by );
     this.serverService.makeGetReq<IReportHistory>({url: reportHistoryUrl})
       .subscribe((reportHistory: IReportHistory) => {
         this.totalHistoryReportRecords = reportHistory.meta.total_count;
