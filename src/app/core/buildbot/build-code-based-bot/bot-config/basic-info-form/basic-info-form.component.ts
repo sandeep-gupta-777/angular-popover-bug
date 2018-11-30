@@ -139,7 +139,7 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
   }
 
   click() {
-    this.formGroup.get('name').patchValue(Date.now());
+    console.log(this.formGroup);
     LoggingService.log(this.formGroup);
   }
 

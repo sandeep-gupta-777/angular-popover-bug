@@ -104,7 +104,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
 
     this.error_message = "loading...";
 
-    const reportHistoryUrl = this.constantsService.getReportHistoryUrl(limit, offset);
+    const reportHistoryUrl = this.constantsService.getReportHistoryUrl(limit, offset, -1);
     this.serverService.makeGetReq<IReportHistory>({url: reportHistoryUrl})
       .subscribe((reportHistory: IReportHistory) => {
         this.totalHistoryReportRecords = reportHistory.meta.total_count;

@@ -10,6 +10,7 @@
   <mat-form-field class="w-100">
   <input type="text" id="alterEgo"
          matInput
+         [required]="isRequired"
          [placeholder]="placeholder"
          [(ngModel)]="value"
          (keydown)="keyPressed($event)"

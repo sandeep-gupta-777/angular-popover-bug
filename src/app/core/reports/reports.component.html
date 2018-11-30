@@ -65,7 +65,7 @@
   <div
     *ngIf="activeTab==='history' && reportHistorySmartTableData && reportHistorySmartTableData.length<1"
     class="col-12 d-flex justify-content-center align-items-center" style="height: 30vh">
-    <i>No Report history data</i>
+    <i>{{error_message||'No Report history data'}}</i>
   </div>
   <div
     *ngIf="activeTab==='configure' && reportSmartTableData && reportSmartTableData.length<1"

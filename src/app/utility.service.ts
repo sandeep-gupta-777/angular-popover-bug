@@ -22,7 +22,7 @@ import {EBotMessageMediaType, IMessageData} from '../interfaces/chat-session-sta
 import {IBotPreviewFirstMessage} from './chat/chat-wrapper.component';
 import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 import {StoreVariableService} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
-import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl} from '@angular/forms';
 import {MatSnackBar} from '@angular/material';
 
 
@@ -946,6 +946,26 @@ export class UtilityService {
     });
 
   }
+
+  static hasRequiredField(abstractControl: NgControl): boolean{
+    debugger;
+    if (abstractControl.validator) {
+      const validator = abstractControl.validator({}as AbstractControl);
+      if (validator && validator.required) {
+        return true;
+      }
+    }
+    if (abstractControl['controls']) {
+      for (const controlName in abstractControl['controls']) {
+        if (abstractControl['controls'][controlName]) {
+          if (this.hasRequiredField(abstractControl['controls'][controlName])) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  };
 
 
 }
