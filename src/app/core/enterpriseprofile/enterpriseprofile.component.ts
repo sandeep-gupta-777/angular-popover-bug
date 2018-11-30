@@ -11,7 +11,7 @@ import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
 import {IHeaderData} from '../../../interfaces/header-data';
 import {IEnterpriseUser} from '../interfaces/enterprise-users';
 import {UtilityService} from '../../utility.service';
-import {FormControl} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MaterialTableImplementer} from '../../material-table-implementer';
 
 @Component({
@@ -46,6 +46,7 @@ export class EnterpriseprofileComponent extends MaterialTableImplementer impleme
     private store: Store,
     private constantsService: ConstantsService,
     private utilityService: UtilityService,
+    private formBuilder: FormBuilder,
     private serverService: ServerService) {
     super();
   }
@@ -56,7 +57,21 @@ export class EnterpriseprofileComponent extends MaterialTableImplementer impleme
     this.logoError = logoErrorObj && Object.keys(logoErrorObj)[0] || null;
   }
 
+  formGroup:FormGroup;
+
   ngOnInit() {
+
+    this.formGroup = this.formBuilder.group({
+      name:  [''],
+      industry:  [''],
+      logo: ['',[Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
+      email: [''],
+      websiteUrl: [''],
+      // enterpriseUniqueName: [''],
+      tier_group: [''],
+      log_retention_period: [''],
+    });
+
     this.loggeduser$.subscribe(({user}) => {
       this.userid = user.id;
       this.role = user.role.name;
@@ -67,6 +82,7 @@ export class EnterpriseprofileComponent extends MaterialTableImplementer impleme
           this.store.dispatch([
             new SetEnterpriseInfoAction({enterpriseInfo: value})
           ]);
+          this.formGroup.patchValue(<any>value);
         });
       if (this.role === 'Admin') {
         const enterpriseUsersUrl = this.constantsService.getEnterpriseUsersUrl();
@@ -112,7 +128,7 @@ export class EnterpriseprofileComponent extends MaterialTableImplementer impleme
   }
 
   updateEnterpriseProfile() {
-    const formData = this.f.value;
+    const formData = this.formGroup.value;
     const body: IEnterpriseProfileInfo = {...this.loggeduserenterpriseinfo, ...formData};
     const url = this.constantsService.getEnterpriseUrl(this.enterpriseId);
     const headerData: IHeaderData = {'content-type': 'application/json'};
@@ -123,6 +139,10 @@ export class EnterpriseprofileComponent extends MaterialTableImplementer impleme
           new SetEnterpriseInfoAction({enterpriseInfo: body}),
         ]);
       });
+  }
+
+  log(z){
+    console.log(z);
   }
 
 

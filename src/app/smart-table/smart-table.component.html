@@ -103,15 +103,25 @@
         </span>
           <span *ngIf="element[i].type==='time'"><span class="">{{element[i].value|date:'medium'}}</span></span>
           <span *ngIf="element[i].type==='icon'" class="cursor-pointer">
-            <i *ngFor="let i of  element[i].value" [title]="i.name" [class]="i.class" (click)="actionIconClicked(element.originalSessionData, i.name, $event)"></i>
+            <i *ngFor="let i of  element[i].value" [title]="i.name"  [class]="i.class + ' mr-1'" (click)="actionIconClicked(element.originalSessionData, i.name, $event)"></i>
           </span>
           <span *ngIf="element[i].type==='image'">
           <img style="width: 16px; height: 16px" *ngFor="let item of element[i].value" [src]="item.src" alt="">
         </span>
-          <span
-            *ngIf="element[i].type!=='button' && element[i].type!=='icon' && element[i].type!=='image' && element[i].type!=='boolean' && element[i].type!=='time'">
+          <div style="position: relative" class="textval-wrapper">
+            <div
+              class="textVal"
+              *ngIf="element[i].type!=='button' && element[i].type!=='icon' && element[i].type!=='image' && element[i].type!=='boolean' && element[i].type!=='time'">
           {{element[i].value}}
-        </span>
+          </div>
+
+            <!--<div-->
+              <!--class="textVal-hover" style="position: absolute; top: 0; z-index: 1000000000;"-->
+              <!--*ngIf="element[i].type!=='button' && element[i].type!=='icon' && element[i].type!=='image' && element[i].type!=='boolean' && element[i].type!=='time'">-->
+          <!--{{element[i].value}}-->
+          <!--</div>-->
+
+        </div>
         </td> <!-- element[i] =  { "value": 164026, "type": "number", "displayValue": "Room Id" }-->
       </ng-container>
     </ng-container>

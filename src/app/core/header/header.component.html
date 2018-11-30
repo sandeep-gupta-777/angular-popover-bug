@@ -3,7 +3,7 @@
   <div class="box box-logo" style="position: relative">
     <a routerLink="/" style="">
       <img class="box-logo__image" src="https://imibot.ai/assets/img/IMI_logo.png"
-        alt=""></a>
+           alt=""></a>
   </div>
 
   <div class="d-flex flex-grow-1">
@@ -14,16 +14,18 @@
           <i class="fa fa-home"></i>
           <span class="d-none d-lg-inline">Bot Dashboard</span>
         </a>
-        <a class="header-nav" routerLink="customner" routerLinkActive="highlight-text-on-route-match" *myIf="myEAllActions['Get Enterprise Knowledge base']">
+        <a class="header-nav" routerLink="customner" routerLinkActive="highlight-text-on-route-match"
+           *myIf="myEAllActions['Get Enterprise Knowledge base']">
           <i class="fa fa-graduation-cap"></i>
           <span class="d-none d-lg-inline">Knowledge Base</span>
         </a>
-        <a class="header-nav" routerLink="analytics2" routerLinkActive="highlight-text-on-route-match" *myIf="myEAllActions['Analytics']">
+        <a class="header-nav" routerLink="analytics2" routerLinkActive="highlight-text-on-route-match"
+           *myIf="myEAllActions['Analytics']">
           <i dropdownToggle class="fa fa-bar-chart"></i>
           <span class="d-none d-lg-inline">Analytics</span>
         </a>
         <a *myIf="myEAllActions['Get Reports']" routerLinkActive="highlight-text-on-route-match" class="header-nav"
-          routerLink="reports">
+           routerLink="reports">
           <i class="fa fa-list"></i>
           <span class="d-none d-lg-inline">Reports</span>
         </a>
@@ -49,20 +51,17 @@
           </span>
 
           <button mat-icon-button [matMenuTriggerFor]="appMenu" class="click-save-wrapper">
-            <!--<mat-icon class="click-save-wrapper">more_vert</mat-icon>-->
-            <i class="fa fa-chevron-down"></i>
+            <i class="fa fa-chevron-down m-0"></i>
           </button>
           <mat-menu class="cutom-md-menu" #appMenu="matMenu">
-            <button mat-menu-item>
-              <a class="dropdown-item" [routerLink]="['profile']" routerLinkActive="highlight-text-on-route-match">Profile</a>
-            </button>
-            <button mat-menu-item><a class="dropdown-item cursor-pointer" (click)="logout()">Sign out</a></button>
-            <!--<button mat-menu-item><hr></button>-->
-            <button mat-menu-item><a class="dropdown-item" (click) = changeEnterprise(changeEnterpriseModal)
-              >Change enterprise</a></button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item><a class="dropdown-item" *myIf="myEAllActions['Get Enterprise']" [routerLink]="['enterpriseprofile']"
-                routerLinkActive="highlight-text-on-route-match">Enterprise Profile</a></button>
+            <a mat-menu-item class="dropdown-item" [routerLink]="['profile']"
+               routerLinkActive="highlight-text-on-route-match">Profile</a>
+            <a mat-menu-item class="dropdown-item cursor-pointer" (click)="logout()">Sign out</a>
+            <a mat-menu-item class="dropdown-item" (click)=changeEnterprise(changeEnterpriseModal)>Change enterprise</a>
+            <mat-divider *myIf="myEAllActions['Get Enterprise']"></mat-divider>
+            <a mat-menu-item class="dropdown-item" *myIf="myEAllActions['Get Enterprise']"
+               [routerLink]="['enterpriseprofile']"
+               routerLinkActive="highlight-text-on-route-match">Enterprise Profile</a>
           </mat-menu>
           <!--<div class="btn-group" dropdown>-->
           <!--<span dropdownToggle class="box-details__dropdown d-flex align-items-center"><i-->
@@ -97,11 +96,13 @@
       <div style="font-size: 13px;" class="pl-3">Select an enterprise to view corresponding bots</div>
       <div class="search-theme-input-with-search ml-auto">
         <span class="fa fa-search" style="top: 13px;left: 15px;"></span>
-        <input class="border" placeholder="Enterprise" [(ngModel)]="searchEnterprise" type="search" style="height: 24px;">
+        <input class="border" placeholder="Enterprise" [(ngModel)]="searchEnterprise" type="search"
+               style="height: 24px;">
       </div>
     </div>
     <div class="modal-body pt-0" style="height:400px;">
-      <app-enterprise-list [enterpriseList]="enterpriseList" [searchEnterprise]="searchEnterprise" (clickedEnterprise)="enterEnterprise($event);dialogRefWrapper.ref.close()"></app-enterprise-list>
+      <app-enterprise-list [enterpriseList]="enterpriseList" [searchEnterprise]="searchEnterprise"
+                           (clickedEnterprise)="enterEnterprise($event);dialogRefWrapper.ref.close()"></app-enterprise-list>
     </div>
   </div>
 </ng-template>

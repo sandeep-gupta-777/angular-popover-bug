@@ -47,6 +47,8 @@ export class CodeBasedBotDetailComponent implements OnInit {
   selectedDurationDisplayName = 'Monthly';
   selectedSideBarTab = 'pipeline';
   bot: IBot;
+  showLoader = false;
+  noSuchBotMessage="";
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -83,9 +85,13 @@ export class CodeBasedBotDetailComponent implements OnInit {
     /*this.bot$ = */
     this.botlist$.subscribe((botListState) => {
       if (botListState.allBotList) {
+        debugger;
         this.bot = botListState.allBotList.find((bot) => {
           return bot.id === this.bot_id;
         });
+        if(!this.bot){
+          this.noSuchBotMessage = "No such bot exists in your account";
+        }
       }
       LoggingService.log('Bot Opened' + this.bot);
       return this.bot;

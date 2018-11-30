@@ -1,5 +1,5 @@
 <div *ngIf="sessions && sessions.length>0">
-  <app-smart-table [data]="sessionsDataForTable"
+  <app-smart-table [data]="tableData"
                    [totalRecords]="totalSessionRecords"
                    (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,reasonForDecryptionTemplate)"
                    (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate, reasonForDecryptionTemplate)"
@@ -30,7 +30,7 @@
         [session]="selectedRow_Session"
         [bot]="bot"
         (selectNextRow)="selectNextRow()"
-        (closeModel$)="sessionModalRef.close()"
+        (closeModel$)="dialogRefWrapper.ref.close()"
         (selectPrevRow)="selectPrevRow()"
         [pageNumberOfCurrentRowSelected]="pageNumberOfCurrentRowSelected"
         [indexOfCurrentRowSelected]="indexOfCurrentRowSelected"
@@ -43,10 +43,9 @@
 <!---->
 <ng-template #reasonForDecryptionTemplate>
   <div class="primary-modal">
-    <div class="top-dec"></div>
     <div class="modal-header">
       <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Reason for decryption</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -58,7 +57,7 @@
                  name="decryptReason">
         </div>
         <button [disabled]="!form.valid" class=" btn-theme btn-theme-success-sm"
-                (click)="decryptSubmit(sessionItemToBeDecrypted.id);modalRef.hide()">Submit
+                (click)="decryptSubmit(sessionItemToBeDecrypted.id);">Submit
         </button>
       </form>
     </div>

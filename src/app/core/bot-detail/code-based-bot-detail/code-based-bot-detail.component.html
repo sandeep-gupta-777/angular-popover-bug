@@ -207,7 +207,15 @@
 
 </div>
 
-<app-imi-loader *ngIf="!bot"></app-imi-loader>
+<app-imi-loader *ngIf="!bot && !noSuchBotMessage"></app-imi-loader>
+<app-imi-loader *ngIf="noSuchBotMessage" [customTemplate]="true" >
+  <div class="d-flex flex-column justify-content-center align-content-center">
+    <i>No such bot in your account</i>
+    <a routerLink="/">Go to home page</a>
+  </div>
+</app-imi-loader>
+
+<!--<p *ngIf="noSuchBotMessage">{{noSuchBotMessage}}</p>-->
 
 <ng-template #placeholder>
   <div class="row row-details">
