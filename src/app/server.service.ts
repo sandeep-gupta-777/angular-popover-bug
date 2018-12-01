@@ -104,8 +104,8 @@ export class ServerService {
 
   showErrorMessageForErrorTrue({ error, message }) {
     try {
-      if (error.error === true || error) {
-        this.utilityService.showErrorToaster(error.message || message);
+      if (error) {
+        this.utilityService.showErrorToaster(message);
         return true;
       }
     } catch (e) {
@@ -142,11 +142,12 @@ export class ServerService {
   }
 
   handleErrorFromServer(e) {
+    debugger;
     this.showErrorMessageForErrorTrue(e);
     this.changeProgressBar(false, 100);
     if (isDevMode()) {
       LoggingService.error(e);
-      this.utilityService.showErrorToaster(e);
+      // this.utilityService.showErrorToaster(e);
     }
     return _throw('error');
   }
@@ -239,9 +240,11 @@ export class ServerService {
     return this.httpClient.post<T>(reqObj.url, reqObj.body, {headers: headers}).pipe(
       map((value: any) => {
 
+        debugger;
         if (value && value.error) {
-          this.showErrorMessageForErrorTrue(value); //{error: true, message: "Error"};
-          return throwError(value);
+          // this.showErrorMessageForErrorTrue(value); //{error: true, message: "Error"};
+          throw value;
+          // return throwError(value);
         } else {
           return value;
         }

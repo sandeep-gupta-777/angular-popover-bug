@@ -603,11 +603,9 @@ export class UtilityService {
     return JSON.parse(JSON.stringify(obj));
   }
 
-  showErrorToaster(message, sec = 5) {
-
-    let messageStr = typeof message === 'string'? message: message.message;
+  showErrorToaster(message:string, sec = 5) {
     try {
-      this.snackBar.open(messageStr, '', {
+      this.snackBar.open(message, '', {
         duration: (sec * 1000)||2000,
         panelClass:["bg-danger"]
       });
