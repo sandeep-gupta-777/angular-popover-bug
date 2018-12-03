@@ -109,3 +109,8 @@
 .primary-modal{
   @include classic-modal($color-primary);
 }
+
+.dropdown-item{
+  line-height: 30px;
+  height: auto;
+}

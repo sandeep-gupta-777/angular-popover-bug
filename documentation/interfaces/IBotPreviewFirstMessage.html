@@ -1,0 +1,586 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>bot-plateform-fe documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">bot-plateform-fe documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>IBotPreviewFirstMessage</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/chat/chat-wrapper.component.ts</code>
+        </p>
+
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#generated_msg">generated_msg</a>
+                                </li>
+                                <li>
+                                        <a href="#room">room</a>
+                                </li>
+                                <li>
+                                        <a href="#transaction_id">transaction_id</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="generated_msg"></a>
+                                        <span class="name"><b>generated_msg</b><a href="#generated_msg"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>generated_msg:     <code>[literal type, literal type]</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>[literal type, literal type]</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="room"></a>
+                                        <span class="name"><b>room</b><a href="#room"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>room:     <code><a href="../interfaces/IRoomData.html" target="_self" >IRoomData</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code><a href="../interfaces/IRoomData.html" target="_self" >IRoomData</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="transaction_id"></a>
+                                        <span class="name"><b>transaction_id</b><a href="#transaction_id"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>transaction_id:     <code></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, ElementRef, OnInit, ViewChild} from &#x27;@angular/core&#x27;;
+import {Select, Store} from &#x27;@ngxs/store&#x27;;
+import {Observable} from &#x27;rxjs&#x27;;
+import {EBotMessageMediaType, EChatFrame, IChatSessionState, IMessageData, IRoomData} from &#x27;../../interfaces/chat-session-state&#x27;;
+import {
+  // AddMessagesToRoomByUId,
+  ChangeFrameAction,
+  // SetCurrentUId,
+  SetCurrentRoomID,
+  ToggleChatWindow,
+  AddNewRoom,
+  AddMessagesToRoomByRoomId,
+  SetConsumerDetail,
+  SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
+  ResetChatState,
+  ChangeBotIsThinkingDisplayByRoomId
+} from &#x27;./ngxs/chat.action&#x27;;
+import {ServerService} from &#x27;../server.service&#x27;;
+import {ConstantsService} from &#x27;../constants.service&#x27;;
+import {ISendApiRequestPayload, ISendApiResponsePayload} from &#x27;../../interfaces/send-api-request-payload&#x27;;
+import {IHeaderData} from &#x27;../../interfaces/header-data&#x27;;
+import {ChatService} from &#x27;../chat.service&#x27;;
+import {IAuthState} from &#x27;../auth/ngxs/auth.state&#x27;;
+import {ActivatedRoute, Route, Router, RoutesRecognized} from &#x27;@angular/router&#x27;;
+import {UtilityService} from &#x27;../utility.service&#x27;;
+import {IBot} from &#x27;../core/interfaces/IBot&#x27;;
+import {ViewBotStateModel} from &#x27;../core/view-bots/ngxs/view-bot.state&#x27;;
+import {IConsumerDetails} from &#x27;./ngxs/chat.state&#x27;;
+import {IEnterpriseProfileInfo} from &#x27;../../interfaces/enterprise-profile&#x27;;
+import {UpdateBotInfoByIdInBotInBotList} from &#x27;../core/view-bots/ngxs/view-bot.action&#x27;;
+import {IIntegrationOption} from &#x27;../../interfaces/integration-option&#x27;;
+import {ELogType, LoggingService} from &#x27;../logging.service&#x27;;
+
+export interface IBotPreviewFirstMessage {
+  &#x27;generated_msg&#x27;: [
+    {
+      &#x27;text&#x27;: &#x27;lkjlksdmfasd&#x27;
+    },
+    {
+      &#x27;text&#x27;: &#x27;Test consent message&#x27;
+    }
+    ];
+  &#x27;room&#x27;: IRoomData;
+
+  &#x27;transaction_id&#x27;: &#x27;1cba048e58684206b8c3912b7f7e1887&#x27;;
+}
+
+@Component({
+  selector: &#x27;app-chat-wrapper&#x27;,
+  templateUrl: &#x27;./chat-wrapper.component.html&#x27;,
+  styleUrls: [&#x27;./chat-wrapper.component.scss&#x27;]
+})
+export class ChatWrapperComponent implements OnInit {
+  showOverlay&#x3D;false;
+  @Select() chatsessionstate$: Observable&lt;IChatSessionState&gt;;
+  @Select() loggeduser$: Observable&lt;IAuthState&gt;;
+  @Select() botlist$: Observable&lt;ViewBotStateModel&gt;;
+  @Select() loggeduserenterpriseinfo$: Observable&lt;IEnterpriseProfileInfo&gt;;
+  @ViewChild(&#x27;scrollMe&#x27;) myScrollContainer: ElementRef;
+  frameEnabled: EChatFrame &#x3D; EChatFrame.WELCOME_BOX;
+  myEChatFrame &#x3D; EChatFrame; //This is required to use enums in template, we can&#x27;t use enums direactly in templates
+  windowOpen &#x3D; false;
+  messageData: IMessageData[] &#x3D; null;
+  selectedAvatar: any;
+  loggeduser: IAuthState;
+  currentRoom: IRoomData;
+  current_uid: string;
+  customConsumerDetails: IConsumerDetails;
+  bot_access_token: string;
+  currentBotId: number;
+  currentBot: IBot;
+  allBotList: IBot[];
+  chatWindowTitle &#x3D; &#x27;Start Chat&#x27;;
+  messageByHuman &#x3D; &#x27;&#x27;;
+  isFullScreenPreview;
+  welcomeScreenBotId: number;
+  enterprise_logo &#x3D; &#x27;https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg&#x27;;
+  enterprise_unique_name: string;
+  bot_unique_name: string;
+  user_first_name;
+  user_email;
+  showBotIsThinking &#x3D; false;
+
+  constructor(private store: Store,
+              private serverService: ServerService,
+              private constantsService: ConstantsService,
+              private chatService: ChatService,
+              private activatedRoute: ActivatedRoute,
+              private utilityService: UtilityService,
+              private route: Router
+  ) {
+  }
+
+  toggleOverlay(){
+    setTimeout(()&#x3D;&gt;{
+      this.showOverlay &#x3D; !this.showOverlay;
+    },0)
+  }
+
+  ngOnInit() {
+    LoggingService.log(&#x27;inside chat-wrapper&#x27;);
+    this.loggeduser$.subscribe((loggeduser) &#x3D;&gt; {
+      try {
+        if (!this.loggeduser) { return; }
+        this.user_first_name &#x3D; loggeduser.user.first_name || &#x27;Anonymous User&#x27;;
+        this.user_email &#x3D; loggeduser.user.email;
+      } catch (e) {
+        this.user_first_name &#x3D; &#x27;Anonymous User&#x27;;
+        LoggingService.error(e);
+      }
+    });
+
+    this.isFullScreenPreview &#x3D; this.activatedRoute.snapshot.data.isFullScreenPreview;
+    if (this.isFullScreenPreview) {
+      this.activatedRoute.queryParamMap.subscribe((queryparam) &#x3D;&gt; {
+        const welcomeScreenBotIdStr &#x3D; queryparam.get(&#x27;preview&#x27;);
+        const enterprise_unique_name &#x3D; queryparam.get(&#x27;enterprise_unique_name&#x27;);
+        const bot_unique_name &#x3D; queryparam.get(&#x27;bot_unique_name&#x27;);
+        if (!bot_unique_name || !enterprise_unique_name) { return; }
+        this.enterprise_unique_name &#x3D; enterprise_unique_name;
+        if (enterprise_unique_name &amp;&amp; bot_unique_name &amp;&amp; bot_unique_name) {
+          this.serverService.getNSetChatPreviewBot(bot_unique_name, enterprise_unique_name);
+        }
+      });
+    }
+    this.route.events.subscribe((data) &#x3D;&gt; {
+      /*This is to access route data from non-subtree component
+      * see: https://github.com/angular/angular/issues/11812
+      * */
+      if (data instanceof RoutesRecognized) {
+        this.isFullScreenPreview &#x3D; data.state.root.firstChild.data.isFullScreenPreview;
+      }
+    });
+
+    this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) &#x3D;&gt; {
+      try {
+        this.windowOpen &#x3D; chatSessionState.opened;
+        if (!chatSessionState) { return; }
+
+        const hasPreviewBotChanged &#x3D; chatSessionState.currentBotDetails &amp;&amp;
+          (!this.currentBot || this.currentBot.id !&#x3D;&#x3D; chatSessionState.currentBotDetails.id);
+        const hasPreviewRoomChanged &#x3D; chatSessionState.currentRoomId &amp;&amp;
+          (!this.currentRoom || (this.currentRoom.id !&#x3D;&#x3D; chatSessionState.currentRoomId));
+
+        this.showBotIsThinking &#x3D; this.currentRoom &amp;&amp; this.currentRoom.showBotIsThinking;
+
+        if (hasPreviewRoomChanged || hasPreviewBotChanged) {
+          this.serverService.initializeIMIConnect(chatSessionState.currentBotDetails, chatSessionState.currentRoomId);
+        }
+
+        this.currentBot &#x3D; chatSessionState.currentBotDetails; /**/
+        if (this.currentBot) {
+          this.enterprise_unique_name &#x3D; this.currentBot.enterprise_unique_name;
+          this.bot_access_token &#x3D; this.currentBot.bot_access_token; //this.currentRoom &amp;&amp; this.currentRoom.bot_access_token || currentBot.bot_access_token;
+          this.chatWindowTitle &#x3D;  chatSessionState.currentBotDetails.name;
+        }
+        if (chatSessionState.currentRoomId) {
+          this.currentRoom &#x3D; chatSessionState.rooms.find((room) &#x3D;&gt; room.id &#x3D;&#x3D;&#x3D; chatSessionState.currentRoomId);
+          this.messageData &#x3D; this.currentRoom &amp;&amp; this.currentRoom.messageList;
+          this.selectedAvatar &#x3D; this.currentRoom &amp;&amp; this.currentRoom.selectedAvatar;
+        }
+
+        this.frameEnabled &#x3D; chatSessionState.frameEnabled;
+        if (chatSessionState.consumerDetails) {
+          this.customConsumerDetails &#x3D; chatSessionState.consumerDetails;
+          this.current_uid &#x3D; chatSessionState.consumerDetails.uid;
+        } else {
+          this.current_uid &#x3D; chatSessionState.currentUId;
+        }
+      } catch (e) {
+        LoggingService.log(e, ELogType.error);
+      }
+    });
+
+  }
+
+  openPreviewTab() {
+    // window.open(&#x60;https://www.google.com&#x60;, &quot;_blank&quot;);
+  }
+
+  createCustomRoom() {
+    let doesAtleastOneConsumerKeyHasValue &#x3D; false;
+    if (!this.customConsumerDetails) {
+      this.utilityService.showErrorToaster(&#x27;Please set custom Consumer details&#x27;);
+      return;
+    }
+    for (const key in this.customConsumerDetails) {
+      doesAtleastOneConsumerKeyHasValue &#x3D; doesAtleastOneConsumerKeyHasValue || this.customConsumerDetails[key];
+    }
+    if (!doesAtleastOneConsumerKeyHasValue) {
+      this.utilityService.showErrorToaster(&#x27;Please set custom Consumer details&#x27;);
+    } else {
+      this.startNewChat({
+        consumerDetails: this.customConsumerDetails,
+        bot: this.currentBot,
+        isCustomRoom: true
+      });
+    }
+
+  }
+
+
+  /*this is called when bot preview button or create a custom room button is clicked*/
+  startNewChat(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot, isCustomRoom?: boolean }) {
+
+    startNewChatData.bot &#x3D; startNewChatData.bot ? startNewChatData.bot : this.currentBot; //todo: is it really required?
+
+    /*&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;Creation of chat room using Send API&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;*/
+
+    /*FLOW:
+    * 1. Post send api to server with first message&#x3D;&gt; will get back consent message and room id
+    * 2. create a new room using room id
+    * */
+    this.serverService.startANewChatUsingSendApi(startNewChatData)
+      .subscribe((value: IBotPreviewFirstMessage) &#x3D;&gt; {
+
+        /*
+        *A new room has been created. Now if the room belongs to IMI Connect bot,
+        *initialize IMI Connect integration
+        * */
+        this.serverService.initializeIMIConnect(startNewChatData.bot, value.room.id);
+        /*1. create a new room with room id
+         *2. add message to the room: consent message */
+        const roomMessages &#x3D; this.utilityService.serializeServerValueToChatRoomMessages(value);
+
+        this.store.dispatch([
+          new AddNewRoom({
+            id: value.room.id,
+            consumer_id: value.room.consumer_id,
+            consumerDetails: startNewChatData.consumerDetails,
+            messageList: roomMessages,
+            bot_access_token: this.currentBot.bot_access_token,
+            uid: startNewChatData.consumerDetails.uid, //this.current_uid,
+            selectedAvatar: value.room.selected_avatar,
+            bot_id: this.currentBot.id,
+            created_at: value.room.created_at,
+            isCustomRoom: startNewChatData.isCustomRoom
+          }),
+          new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX}),
+          new SetCurrentRoomID({id: value.room.id}),
+          new ChangeBotIsThinkingDisplayByRoomId({roomId: value.room.id, shouldShowBotIsThinking: false}),
+        ]);
+      });
+  }
+
+  logForm(consumerFormValue) {
+    LoggingService.log(consumerFormValue);
+    this.store.dispatch([
+      new SetConsumerDetail(consumerFormValue)
+    ]);
+  }
+
+  navigate(frame) {
+    this.chatService.navigate(frame);
+  }
+
+  closeChatWindow() {
+    this.store.dispatch(new ToggleChatWindow({open: false}));
+  }
+
+  // sendMessageByHuman(messageByHuman: string) {
+  sendMessageByHuman(messageData: { messageByHuman: string, room: IRoomData }) {
+    LoggingService.log(&#x27;sending message by human&#x27;);
+    // this.showBotIsThinking &#x3D; true;
+    const messageByHuman &#x3D; messageData.messageByHuman;
+    const room: IRoomData &#x3D; messageData.room;
+    if (messageByHuman.trim() &#x3D;&#x3D;&#x3D; &#x27;&#x27;) { return; }
+    this.store.dispatch([new AddMessagesToRoomByRoomId({
+      id: room.id,
+      messageList: [{
+        text: messageByHuman,
+        sourceType: &#x27;human&#x27;,
+        messageMediatype: EBotMessageMediaType.text,
+        time: Date.now()//this.utilityService.getCurrentTimeInHHMM()
+      }],
+    }),
+      new ChangeBotIsThinkingDisplayByRoomId({shouldShowBotIsThinking: true, roomId: messageData.room.id})
+      ]
+    )
+      .subscribe(() &#x3D;&gt; {
+        /*
+ * Before starting a new chat, we need to check if the currentBot has imiconnect
+ * integration is on or not, its not on&#x3D;&gt; use send API
+ * if its on &#x3D;&gt; use IMI connect
+ * */
+        let shouldStartChatViaImiConnectSDK &#x3D; false;
+        try {
+          const botImiConnectIntegrationInfo &#x3D; this.currentBot.integrations.fulfillment_provider_details.imiconnect;
+          shouldStartChatViaImiConnectSDK &#x3D; botImiConnectIntegrationInfo &amp;&amp;
+            botImiConnectIntegrationInfo.enabled &amp;&amp;
+            (botImiConnectIntegrationInfo.send_via_connect &#x3D;&#x3D;&#x3D; &#x27;true&#x27;);
+        } catch (e) {
+          LoggingService.error(e);
+        }
+
+        /*&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;Creation of chat room using IMI CONNECT&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;*/
+        if (shouldStartChatViaImiConnectSDK) {
+          this.serverService.sendHumanMessageViaImiConnect(this.currentRoom, this.currentBot, messageByHuman);
+          return;
+        }
+        this.chatService.sendHumanMessageToBotServer(
+          {
+            bot_access_token: room.bot_access_token,
+            id: room.id
+          },
+          messageData.room.consumerDetails,
+          messageByHuman,
+          EChatFrame.CHAT_BOX)
+          .subscribe(() &#x3D;&gt; {
+            this.showBotIsThinking &#x3D; false;
+          }, (error) &#x3D;&gt; {
+            this.showBotIsThinking &#x3D; false;
+          });
+      });
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop &#x3D; this.myScrollContainer.nativeElement.scrollHeight;
+    } catch (err) {
+      LoggingService.log(err);
+    }
+  }
+
+  toggleChatWindow() {
+    this.store.dispatch([
+      new ToggleChatWindow({open: true})
+    ]);
+  }
+
+  saveConsumerDetails(value) {
+    this.showOverlay &#x3D; false;
+    this.store.dispatch([new SetConsumerDetail(value)])
+      .subscribe(() &#x3D;&gt; {
+        this.utilityService.showSuccessToaster(&#x27;Saved&#x27;);
+        this.createCustomRoom();
+      });
+  }
+
+
+
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'IBotPreviewFirstMessage.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

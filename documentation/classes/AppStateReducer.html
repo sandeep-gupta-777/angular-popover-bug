@@ -1,0 +1,1269 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>bot-plateform-fe documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">bot-plateform-fe documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>AppStateReducer</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/ngxs/app.state.ts</code>
+        </p>
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#resetAppState">resetAppState</a>
+                            </li>
+                            <li>
+                                <a href="#setAutoLogoutTime">setAutoLogoutTime</a>
+                            </li>
+                            <li>
+                                <a href="#setBackendURlRoot">setBackendURlRoot</a>
+                            </li>
+                            <li>
+                                <a href="#setEnterpriseNerData">setEnterpriseNerData</a>
+                            </li>
+                            <li>
+                                <a href="#setMasterIntegrationsList">setMasterIntegrationsList</a>
+                            </li>
+                            <li>
+                                <a href="#setMasterProfilePermissions">setMasterProfilePermissions</a>
+                            </li>
+                            <li>
+                                <a href="#setPipelineModuleMasterData">setPipelineModuleMasterData</a>
+                            </li>
+                            <li>
+                                <a href="#SetProgressValue">SetProgressValue</a>
+                            </li>
+                            <li>
+                                <a href="#setShowBackendURlRoot">setShowBackendURlRoot</a>
+                            </li>
+                            <li>
+                                <a href="#setUsername">setUsername</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(constantsService: <a href="../injectables/ConstantsService.html">ConstantsService</a>, store: Store)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/ngxs/app.state.ts:55</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>constantsService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/ConstantsService.html" target="_self" >ConstantsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>store</td>
+                                                  
+                                                        <td>
+                                                                    <code>Store</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+            <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="resetAppState"></a>
+                        <span class="name">
+                            <b>
+                            resetAppState
+                            </b>
+                            <a href="#resetAppState"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>resetAppState(undefined: <a href="../objects/x.html">StateContext<any></a>, payload: <a href="../classes/ResetAppState.html">ResetAppState</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(ResetAppState)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="115" class="link-to-prism">src/app/ngxs/app.state.ts:115</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../miscellaneous/variables.html#x" target="_self" >StateContext&lt;any&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>payload</td>
+                                                        <td>
+                                                                    <code><a href="../classes/ResetAppState.html" target="_self" >ResetAppState</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setAutoLogoutTime"></a>
+                        <span class="name">
+                            <b>
+                            setAutoLogoutTime
+                            </b>
+                            <a href="#setAutoLogoutTime"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>setAutoLogoutTime(undefined: <a href="../objects/x.html">StateContext<any></a>, payload: <a href="../classes/SetAutoLogoutTime.html">SetAutoLogoutTime</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(SetAutoLogoutTime)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">src/app/ngxs/app.state.ts:110</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../miscellaneous/variables.html#x" target="_self" >StateContext&lt;any&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>payload</td>
+                                                        <td>
+                                                                    <code><a href="../classes/SetAutoLogoutTime.html" target="_self" >SetAutoLogoutTime</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setBackendURlRoot"></a>
+                        <span class="name">
+                            <b>
+                            setBackendURlRoot
+                            </b>
+                            <a href="#setBackendURlRoot"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>setBackendURlRoot(undefined: <a href="../objects/x.html">StateContext<any></a>, payload: <a href="../classes/SetBackendURlRoot.html">SetBackendURlRoot</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(SetBackendURlRoot)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/app/ngxs/app.state.ts:90</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../miscellaneous/variables.html#x" target="_self" >StateContext&lt;any&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>payload</td>
+                                                        <td>
+                                                                    <code><a href="../classes/SetBackendURlRoot.html" target="_self" >SetBackendURlRoot</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setEnterpriseNerData"></a>
+                        <span class="name">
+                            <b>
+                            setEnterpriseNerData
+                            </b>
+                            <a href="#setEnterpriseNerData"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>setEnterpriseNerData(undefined: <a href="../objects/x.html">StateContext<any></a>, payload: <a href="../classes/SetEnterpriseNerData.html">SetEnterpriseNerData</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(SetEnterpriseNerData)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">src/app/ngxs/app.state.ts:100</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../miscellaneous/variables.html#x" target="_self" >StateContext&lt;any&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>payload</td>
+                                                        <td>
+                                                                    <code><a href="../classes/SetEnterpriseNerData.html" target="_self" >SetEnterpriseNerData</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setMasterIntegrationsList"></a>
+                        <span class="name">
+                            <b>
+                            setMasterIntegrationsList
+                            </b>
+                            <a href="#setMasterIntegrationsList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>setMasterIntegrationsList(undefined: <a href="../objects/x.html">StateContext<any></a>, payload: <a href="../classes/SetMasterIntegrationsList.html">SetMasterIntegrationsList</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(SetMasterIntegrationsList)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/ngxs/app.state.ts:79</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../miscellaneous/variables.html#x" target="_self" >StateContext&lt;any&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>payload</td>
+                                                        <td>
+                                                                    <code><a href="../classes/SetMasterIntegrationsList.html" target="_self" >SetMasterIntegrationsList</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setMasterProfilePermissions"></a>
+                        <span class="name">
+                            <b>
+                            setMasterProfilePermissions
+                            </b>
+                            <a href="#setMasterProfilePermissions"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>setMasterProfilePermissions(undefined: <a href="../objects/x.html">StateContext<any></a>, payload: <a href="../classes/SetMasterProfilePermissions.html">SetMasterProfilePermissions</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(SetMasterProfilePermissions)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/app/ngxs/app.state.ts:84</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../miscellaneous/variables.html#x" target="_self" >StateContext&lt;any&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>payload</td>
+                                                        <td>
+                                                                    <code><a href="../classes/SetMasterProfilePermissions.html" target="_self" >SetMasterProfilePermissions</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setPipelineModuleMasterData"></a>
+                        <span class="name">
+                            <b>
+                            setPipelineModuleMasterData
+                            </b>
+                            <a href="#setPipelineModuleMasterData"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>setPipelineModuleMasterData(undefined: <a href="../objects/x.html">StateContext<any></a>, payload: <a href="../classes/SetPipelineModuleMasterData.html">SetPipelineModuleMasterData</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(SetPipelineModuleMasterData)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">src/app/ngxs/app.state.ts:105</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../miscellaneous/variables.html#x" target="_self" >StateContext&lt;any&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>payload</td>
+                                                        <td>
+                                                                    <code><a href="../classes/SetPipelineModuleMasterData.html" target="_self" >SetPipelineModuleMasterData</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="SetProgressValue"></a>
+                        <span class="name">
+                            <b>
+                            SetProgressValue
+                            </b>
+                            <a href="#SetProgressValue"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>SetProgressValue(undefined: <a href="../objects/x.html">StateContext<any></a>, payload: <a href="../classes/SetProgressValue.html">SetProgressValue</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(SetProgressValue)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/ngxs/app.state.ts:72</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../miscellaneous/variables.html#x" target="_self" >StateContext&lt;any&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>payload</td>
+                                                        <td>
+                                                                    <code><a href="../classes/SetProgressValue.html" target="_self" >SetProgressValue</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setShowBackendURlRoot"></a>
+                        <span class="name">
+                            <b>
+                            setShowBackendURlRoot
+                            </b>
+                            <a href="#setShowBackendURlRoot"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>setShowBackendURlRoot(undefined: <a href="../objects/x.html">StateContext<any></a>, payload: <a href="../classes/SetShowBackendURlRoot.html">SetShowBackendURlRoot</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(SetShowBackendURlRoot)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">src/app/ngxs/app.state.ts:95</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../miscellaneous/variables.html#x" target="_self" >StateContext&lt;any&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>payload</td>
+                                                        <td>
+                                                                    <code><a href="../classes/SetShowBackendURlRoot.html" target="_self" >SetShowBackendURlRoot</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setUsername"></a>
+                        <span class="name">
+                            <b>
+                            setUsername
+                            </b>
+                            <a href="#setUsername"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>setUsername(undefined: <a href="../objects/x.html">StateContext<any></a>, undefined: <a href="../classes/SetStateFromLocalStorageAction.html">SetStateFromLocalStorageAction</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(SetStateFromLocalStorageAction)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/ngxs/app.state.ts:61</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../miscellaneous/variables.html#x" target="_self" >StateContext&lt;any&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../classes/SetStateFromLocalStorageAction.html" target="_self" >SetStateFromLocalStorageAction</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Action, State, StateContext, Store} from &#x27;@ngxs/store&#x27;;
+import {
+  ResetAppState,
+  ResetStoreToDefault, SetAutoLogoutTime, SetBackendURlRoot, SetEnterpriseNerData,
+  SetLastSateUpdatedTimeAction,
+  SetMasterIntegrationsList,
+  SetMasterProfilePermissions, SetPipelineModuleMasterData,
+  SetProgressValue, SetShowBackendURlRoot,
+  SetStateFromLocalStorageAction
+} from &#x27;./app.action&#x27;;
+import {ConstantsService} from &#x27;../constants.service&#x27;;
+import {IIntegrationMasterListItem} from &#x27;../../interfaces/integration-option&#x27;;
+import {IProfilePermission} from &#x27;../../interfaces/profile-action-permission&#x27;;
+import {ICustomNerItem} from &#x27;../../interfaces/custom-ners&#x27;;
+import {IPipelineItem} from &#x27;../../interfaces/ai-module&#x27;;
+import {LoggingService} from &#x27;../logging.service&#x27;;
+
+
+export interface IAppState {
+  lastUpdated: number;
+  progressbar: {
+    show: boolean,
+    loading: boolean,
+    value: number
+  };
+  masterIntegrationList: IIntegrationMasterListItem[];
+  masterProfilePermissions: IProfilePermission[];
+  masterPipelineItems: IPipelineItem[];
+  backendUrlRoot: string;
+  showBackendUrlRootButton: boolean;
+  enterpriseNerData: ICustomNerItem[];
+  autoLogoutTime: number;
+}
+//
+const appDefaultState: IAppState &#x3D; {
+  lastUpdated: 0,
+  progressbar: {
+    show: false,
+    loading: false,
+    value: 0
+  },
+  masterIntegrationList: null,
+  masterProfilePermissions: null,
+  backendUrlRoot:  &#x27;https://dev.imibot.ai/&#x27;,//&#x27;http://staging.imibot.ai/&#x27;,//&#x27;https://dev.imibot.ai/&#x27;,
+  showBackendUrlRootButton: false,
+  enterpriseNerData: [],
+  masterPipelineItems: null,
+  autoLogoutTime: Date.now() + 3600 * 1000
+};
+
+@State&lt;IAppState&gt;({
+  name: &#x27;app&#x27;,
+  defaults: appDefaultState
+})//same as reducer
+export class AppStateReducer {
+
+  constructor(private constantsService: ConstantsService, private store: Store) {
+  }
+
+  @Action(SetStateFromLocalStorageAction)
+  setUsername({patchState, setState, getState, dispatch, }: StateContext&lt;any&gt;, {payload}: SetStateFromLocalStorageAction) {
+    LoggingService.log(&#x27;resetting state&#x27;, getState());
+  }
+
+  // @Action(ResetStoreToDefault)
+  // resetStoreToDefault({patchState, setState, getState, dispatch,}: StateContext&lt;any&gt;) {
+  //   this.store.reset(appDefaultState);
+  //   LoggingService.log(&#x27;resetting state&#x27;, getState());
+  // }
+
+  @Action(SetProgressValue)
+  SetProgressValue({patchState, setState, getState, dispatch, }: StateContext&lt;any&gt;, payload: SetProgressValue) {
+    // this.store.reset(appDefaultState);
+    // LoggingService.log(&#x27;resetting state&#x27;, getState());
+    patchState({progressbar: payload.payload.progressbar});
+  }
+
+  @Action(SetMasterIntegrationsList)
+  setMasterIntegrationsList({patchState, setState, getState, dispatch, }: StateContext&lt;any&gt;, payload: SetMasterIntegrationsList) {
+    patchState({masterIntegrationList: payload.payload.masterIntegrationList});
+  }
+
+  @Action(SetMasterProfilePermissions)
+  setMasterProfilePermissions({patchState, setState, getState, dispatch, }: StateContext&lt;any&gt;, payload: SetMasterProfilePermissions) {
+    patchState({masterProfilePermissions: payload.payload.masterProfilePermissions});
+  }
+
+
+  @Action(SetBackendURlRoot)
+  setBackendURlRoot({patchState, setState, getState, dispatch, }: StateContext&lt;any&gt;, payload: SetBackendURlRoot) {
+    patchState({backendUrlRoot: payload.payload.url});
+  }
+
+  @Action(SetShowBackendURlRoot)
+  setShowBackendURlRoot({patchState, setState, getState, dispatch, }: StateContext&lt;any&gt;, payload: SetShowBackendURlRoot) {
+    patchState({showBackendUrlRootButton: payload.payload.showBackendURlRoot});
+  }
+
+  @Action(SetEnterpriseNerData)
+  setEnterpriseNerData({patchState, setState, getState, dispatch, }: StateContext&lt;any&gt;, payload: SetEnterpriseNerData) {
+    patchState({enterpriseNerData: payload.payload.enterpriseNerData});
+  }
+
+  @Action(SetPipelineModuleMasterData)
+  setPipelineModuleMasterData({patchState, setState, getState, dispatch, }: StateContext&lt;any&gt;, payload: SetPipelineModuleMasterData) {
+    patchState({masterPipelineItems: payload.payload.masterPipelineItems});
+  }
+
+  @Action(SetAutoLogoutTime)
+  setAutoLogoutTime({patchState, setState, getState, dispatch, }: StateContext&lt;any&gt;, payload: SetAutoLogoutTime) {
+    patchState({autoLogoutTime: payload.payload.time});
+  }
+
+  @Action(ResetAppState)
+  resetAppState({patchState, setState, getState, dispatch, }: StateContext&lt;any&gt;, payload: ResetAppState) {
+    patchState(appDefaultState);
+  }
+
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'AppStateReducer.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

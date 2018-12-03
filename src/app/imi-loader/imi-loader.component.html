@@ -1,9 +1,10 @@
 <div class="vertical-centered-box">
-  <div class="content">
+  <div class="content" *ngIf="!customTemplate">
     <div class="loader-circle"></div>
     <div class="loader-line-mask">
       <div class="loader-line"></div>
     </div>
-    <img src="https://staging.imibot.ai/static/favicon.ico">
+    <img  src="https://staging.imibot.ai/static/favicon.ico">
   </div>
+  <ng-content *ngIf="customTemplate"></ng-content>
 </div>

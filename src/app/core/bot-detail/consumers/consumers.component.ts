@@ -15,6 +15,7 @@ import {map} from 'rxjs/operators';
 import {MaterialTableImplementer} from '../../../material-table-implementer';
 import {UtilityService} from '../../../utility.service';
 import {MatDialog} from '@angular/material';
+import {ObjectArrayCrudService} from '../../../object-array-crud.service';
 
 @Component({
   selector: 'app-consumers',
@@ -32,7 +33,7 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
   myESplashScreens = ESplashScreens;
   showLoader = false;
   isDeCryptAuditAccessDenied = false;
-  consumerTableData: IConsumerItem[];
+  consumerItems: IConsumerItem[];
   consumersDecrypted: IConsumerItem; //IConsumerItem
   isFullscreen: false;
   consumerItemToBeDecrypted: IConsumerItem;
@@ -51,8 +52,21 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
     super();
   }
 
-  initializeTableData(consumerTableData: IConsumerItem[], tableDataMetaDict): void {
-    this.tableData = this.transformDataForMaterialTable(consumerTableData, tableDataMetaDict);
+  initializeTableData(consumerTableData: IConsumerItem[], tableDataMetaDict) {
+    let tableData = this.transformDataForMaterialTable(consumerTableData, tableDataMetaDict);
+    tableData.map((tableRow)=>{
+      let additonalColumns: any = {
+        Actions:tableRow['Actions'],
+      };
+
+      additonalColumns['Actions'].value = additonalColumns['Actions'].value || [];
+      if(tableRow['originalSessionData']['data_encrypted']){
+        additonalColumns['Actions'].value.push({show: true, name: 'decrypt', class: 'fa fa-lock'});
+      }
+
+      return {...tableRow, ...additonalColumns};
+    });
+    return tableData;
   }
 
   getTableDataMetaDict() {
@@ -81,14 +95,15 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
       .subscribe((value) => {
         this.totalRecords = value.meta.total_count;
         this.showLoader = false;
-        this.consumerTableData = value.objects;
+        this.consumerItems = value.objects;
         let tableDataMetaDict = this.getTableDataMetaDict();
-        this.initializeTableData(value.objects, tableDataMetaDict);
+        this.tableData = this.initializeTableData(value.objects, tableDataMetaDict);
       });
   }
 
 
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: IConsumerItem, source: any }, Primarytemplat) {
+    debugger;
     if (data.action === 'decrypt') {
       this.consumerItemToBeDecrypted = data.data;
       this.openCreateBotModal(Primarytemplat);
@@ -113,11 +128,11 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
             const modified_update_at = (new Date(result.updated_at)).toDateString();
             return {...result, updated_at: modified_update_at};
           }))
-          .subscribe((value) => {
+          .subscribe((value: IConsumerItem) => {
             this.consumersDecrypted = value;
-            const index = this.consumerTableData.findIndex((value) => value.id === this.consumerItemToBeDecrypted.id);
-            this.consumerTableData[index] = this.consumersDecrypted;
-            this.initializeTableData(this.consumerTableData, this.getTableDataMetaDict());
+            const index = this.consumerItems.findIndex((value) => value.id === this.consumerItemToBeDecrypted.id);
+            this.consumerItems[index] = this.consumersDecrypted;
+            this.tableData = this.initializeTableData(this.consumerItems, this.getTableDataMetaDict());
           });
       });
 
@@ -128,13 +143,17 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
     this.serverService
       .makeGetReq<IConsumerItem>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
       .subscribe((consumer: IConsumerItem) => {
-        this.consumerTableData.push(consumer);
-        this.initializeTableData(this.consumerTableData, this.getTableDataMetaDict());
+        let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.consumerItems, {id: consumer.id});
+        if(index >= 0){
+          this.consumerItems[index] = consumer;
+        }else {
+          this.consumerItems.push(consumer);
+        }
+        this.tableData = this.initializeTableData(this.consumerItems, this.getTableDataMetaDict());
       });
   }
 
   openCreateBotModal(template: TemplateRef<any>) {
-    // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
     this.utilityService.openDialog({
       dialog: this.matDialog,
       dialogRefWrapper: this.dialogRefWrapper,

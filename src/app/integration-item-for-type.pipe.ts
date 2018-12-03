@@ -18,10 +18,9 @@ export class IntegrationItemForTypePipe implements PipeTransform {
     });
   }
   transform(type: string): any {
-    const integrationItems: string[] =   this.masterIntegrationList
+    const integrationItems=   this.masterIntegrationList
       .filter((masterIntegrationItem) => masterIntegrationItem.type === type)
-      .map(masterIntegrationItem => masterIntegrationItem.key);
-
+      // .map(masterIntegrationItem => masterIntegrationItem.key);
     return integrationItems;
   }
 

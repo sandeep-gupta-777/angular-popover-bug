@@ -33,6 +33,9 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   tableData;
   tableData_report;
   tableData_history;
+  currentPage_reports = 1;
+  currentPage_reportsHistory = 1;
+  error_message;
 
   getTableDataMetaDict_report(): any {
     return this.constantsService.SMART_TABLE_REPORT_TABLE_DATA_META_DICT_TEMPLATE
@@ -48,7 +51,6 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
 
   initializeTableData_reportHistory(data: any, tableDataMetaDict: any): void {
     this.tableData_history = this.transformDataForMaterialTable(data, this.getTableDataMetaDict_reportHistory());
-     
     this.tableData_history = this.tableData_history.map((sessionsDataForTableItem)=>{
       let additonalColumns: any = {};
       /*actions*/
@@ -94,16 +96,18 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
         this.reportTypes = reportTypes;
         this.loadReports(10, 0);
         this.loadReportHistory(10, 0);
-
       });
   }
 
   loadReportHistory(limit: number, offset: number) {
 
-    const reportHistoryUrl = this.constantsService.getReportHistoryUrl(limit, offset);
+    this.error_message = "loading...";
+
+    const reportHistoryUrl = this.constantsService.getReportHistoryUrl(limit, offset, -1);
     this.serverService.makeGetReq<IReportHistory>({url: reportHistoryUrl})
       .subscribe((reportHistory: IReportHistory) => {
         this.totalHistoryReportRecords = reportHistory.meta.total_count;
+        this.error_message = "";
         /*Making reportItem$ history data*/
         reportHistory.objects.forEach((reportHistoryItem: IReportHistoryItem) => {
           this.botlist$.subscribe((botList) => {
@@ -114,7 +118,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
               name: this.objectArrayCrudService.getObjectItemByKeyValuePair(this.reportTypes.objects, {id: reportHistoryItem.reporttype_id}).name,
               created_at: reportHistoryItem.created_at
             });
-            this,this.initializeTableData_reportHistory(this.reportHistorySmartTableData, this.getTableDataMetaDict_reportHistory());
+            this.initializeTableData_reportHistory(this.reportHistorySmartTableData, this.getTableDataMetaDict_reportHistory());
 
           });
         });
@@ -122,44 +126,26 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   }
 
   reportHistoryTablePageChanged(page) {
+    this.currentPage_reportsHistory = page;
     this.reportHistorySmartTableData = [];
     this.loadReportHistory(10, (page - 1) * 10 );
   }
   customActionEventsTriggeredInSessionsTable(smartTableCustomEventData: { action: string, data: IReportHistoryItem, source: any }) {
-
     const url = this.constantsService.getDownloadReportHistoryByIdUrl(smartTableCustomEventData.data.id);
     this.serverService.makeGetReqToDownloadFiles({url})
       .subscribe((value: any) => {
-
         /*To download the blob: https://stackoverflow.com/questions/19327749/javascript-blob-filename-without-link*/
          const fileName = 'report_history_for_bot_id_' + smartTableCustomEventData.data.bot_id + '.csv';
         this.utilityService.downloadText(value, fileName);
-        // var saveData = (function () {
-        //   var a:any = document.createElement("a");
-        //   document.body.appendChild(a);
-        //   a.style = "display: none";
-        //   return function (data, fileName) {
-        //     var blob = new Blob([value], {type: "octet/stream"}),
-        //       url = window.URL.createObjectURL(blob);
-        //     a.href = url;
-        //     a.download = fileName;
-        //     a.click();
-        //     window.URL.revokeObjectURL(url);
-        //   };
-        // }());
-        //
-        // // var data = { x: 42, s: "hello, world", d: new Date() },
-        //
-        // saveData(null, fileName);
-        // LoggingService.log(value);
-        // this.utilityService.downloadArrayAsCSV(value, "asdsad");
       });
   }
 
   loadReports(limit: number, offset: number) {
+    this.error_message = "Loading...";
     const reportUrl = this.constantsService.getReportUrl(limit, offset);
     this.serverService.makeGetReq<IReportList>({url: reportUrl})
-      .subscribe((results) => {
+      .subscribe((results:{objects:ISmartTableReportDataItem[], meta:any}) => {
+        this.error_message = "";
         this.totalReportRecords = results.meta.total_count;
         /*Making reportItem$ data*/
         results.objects.forEach(report => {
@@ -199,6 +185,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   }
 
   reportTablePageChanged(page) {
+    this.currentPage_reports = page;
     this.reportSmartTableData = [];
     this.loadReports(10, (page - 1) * 10);
   }
@@ -208,7 +195,6 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   }
 
   goToReportEditComponent(eventData: any) {
-    // ;
     this.store.dispatch(new SetCurrentEditedReportAction({reportItem: eventData.data}));
     this.tempVariableService.reportRowClicked = eventData.data;
     this.router.navigate(['/core', 'reports', 'edit', eventData.data.id]);

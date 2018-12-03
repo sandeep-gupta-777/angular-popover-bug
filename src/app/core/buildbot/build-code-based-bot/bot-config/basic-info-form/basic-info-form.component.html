@@ -6,12 +6,14 @@
           #NameInput
           displayName="Bot Name"
           placeholder="A display name for the bot"
+          [isRequired]="true"
           (keyDown$)="nameChangeByUser($event)"
           formControlName="name"></app-bot-config-input>
 
         <app-bot-config-input
           displayName="Description"
           formControlName="description"
+          [isRequired]="true"
           placeholder=" description for the Bot"></app-bot-config-input>
 
 
@@ -19,6 +21,7 @@
           displayName="Bot Logo"
           formControlName="logo"
           [errors] = "logoErrorObj"
+          [isRequired]="true"
           placeholder="URL for the Bot Logo/Brand Image"></app-bot-config-input>
 
     </fieldset>
@@ -26,6 +29,7 @@
         <app-bot-config-input
           displayName="Unique Name"
           formControlName="bot_unique_name"
+          [isRequired]="true"
           placeholder="Bot Unique Name (non-editable after Bot creation)"></app-bot-config-input>
 
 
@@ -33,6 +37,7 @@
         <app-bot-config-input
           displayName="Session Close Time [mins]"
           formControlName="room_persistence_time"
+          [isRequired]="true"
           placeholder="Time until Session Closes (in minutes)"></app-bot-config-input>
       </div>
 

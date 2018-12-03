@@ -1,0 +1,547 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>bot-plateform-fe documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">bot-plateform-fe documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>ChatService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/chat.service.ts</code>
+        </p>
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#navigate">navigate</a>
+                            </li>
+                            <li>
+                                <a href="#sendHumanMessageToBotServer">sendHumanMessageToBotServer</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(store: Store, serverService: <a href="../injectables/ServerService.html">ServerService</a>, utilityService: <a href="../injectables/UtilityService.html">UtilityService</a>, constantsService: <a href="../injectables/ConstantsService.html">ConstantsService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/chat.service.ts:25</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>store</td>
+                                                  
+                                                        <td>
+                                                                    <code>Store</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>serverService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/ServerService.html" target="_self" >ServerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>utilityService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/UtilityService.html" target="_self" >UtilityService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>constantsService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/ConstantsService.html" target="_self" >ConstantsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="navigate"></a>
+                        <span class="name">
+                            <b>
+                            navigate
+                            </b>
+                            <a href="#navigate"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>navigate(frameEnabled: <a href="../undefineds/EChatFrame.html">EChatFrame</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="115" class="link-to-prism">src/app/chat.service.ts:115</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>frameEnabled</td>
+                                                        <td>
+                                                                    <code><a href="../miscellaneous/enumerations.html#EChatFrame" target="_self" >EChatFrame</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sendHumanMessageToBotServer"></a>
+                        <span class="name">
+                            <b>
+                            sendHumanMessageToBotServer
+                            </b>
+                            <a href="#sendHumanMessageToBotServer"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>sendHumanMessageToBotServer(botDetails: literal type, consumerDetails: <a href="../interfaces/IConsumerDetails.html">IConsumerDetails</a>, messageByHuman: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, frameEnabled: <a href="../undefineds/EChatFrame.html">EChatFrame</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/chat.service.ts:34</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>botDetails</td>
+                                                        <td>
+                                                                    <code>literal type</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>consumerDetails</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/IConsumerDetails.html" target="_self" >IConsumerDetails</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>messageByHuman</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>frameEnabled</td>
+                                                        <td>
+                                                                    <code><a href="../miscellaneous/enumerations.html#EChatFrame" target="_self" >EChatFrame</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {tap} from &#x27;rxjs/operators&#x27;;
+import {Injectable} from &#x27;@angular/core&#x27;;
+import {Store} from &#x27;@ngxs/store&#x27;;
+import {ServerService} from &#x27;./server.service&#x27;;
+import {IHeaderData} from &#x27;../interfaces/header-data&#x27;;
+import {EBotMessageMediaType, EChatFrame, IMessageData} from &#x27;../interfaces/chat-session-state&#x27;;
+import {
+  AddMessagesToRoomByRoomId,
+  // AddMessagesToRoomByUId,
+  ChangeFrameAction,
+  SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
+  SetCurrentRoomID, SetLastTemplateKeyToRoomByRoomId, ChangeBotIsThinkingDisplayByRoomId,
+  ToggleChatWindow
+} from &#x27;./chat/ngxs/chat.action&#x27;;
+import {IGeneratedMessageItem, ISendApiRequestPayload, ISendApiResponsePayload} from &#x27;../interfaces/send-api-request-payload&#x27;;
+import {ConstantsService} from &#x27;./constants.service&#x27;;
+import {IBot} from &#x27;./core/interfaces/IBot&#x27;;
+import {UtilityService} from &#x27;./utility.service&#x27;;
+import {IConsumerDetails} from &#x27;./chat/ngxs/chat.state&#x27;;
+
+@Injectable({
+  providedIn: &#x27;root&#x27;
+})
+export class ChatService {
+
+  constructor(
+    private store: Store,
+    private serverService: ServerService,
+    private utilityService: UtilityService,
+    private constantsService: ConstantsService) {
+  }
+
+  sendHumanMessageToBotServer(botDetails: { id: number, bot_access_token: string }, consumerDetails: IConsumerDetails, messageByHuman: string, frameEnabled: EChatFrame) {
+    const url &#x3D; this.constantsService.getStartNewChatLoginUrl();
+    const body /*: ISendApiRequestPayload */ &#x3D; {
+      &#x27;consumer&#x27;: consumerDetails,
+      &#x27;type&#x27;: &#x27;human&#x27;,
+      &#x27;msg&#x27;: messageByHuman || &#x27;hi&#x27;,
+      &#x27;platform&#x27;: &#x27;web&#x27;
+    };
+    const headerData: IHeaderData &#x3D; {
+      &#x27;bot-access-token&#x27;: botDetails.bot_access_token,
+      &#x27;auth-token&#x27;: null,
+      &#x27;user-access-token&#x27;: null
+    };
+
+    this.store.dispatch(new ToggleChatWindow({open: true}));
+
+    if (frameEnabled) {
+      this.navigate(frameEnabled);
+    }
+    return this.serverService.makePostReq({url, body, headerData, dontShowProgressBar: true}).pipe(
+      tap((response: ISendApiResponsePayload) &#x3D;&gt; {
+        /*recieved chat reply from bot*/
+        const generatedMessages &#x3D; response.generated_msg;
+        const serializedMessages: IMessageData[] &#x3D; this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages);
+        // let serializedMessages: IMessageData[] &#x3D; generatedMessages.map((message: IGeneratedMessageItem) &#x3D;&gt; {
+        //   /*check if media is the key
+        //   * if yes, return {message_type:media[0].type, ...message}
+        //   * else return it as tet
+        //   * */
+        //
+        //   // this.utilityService.getActiveVersionInBot()
+        //
+        //
+        //   if(Object.keys(message)[0] &#x3D;&#x3D;&#x3D; &quot;media&quot;){
+        //     return {
+        //       messageMediatype:message.media[0].type,//
+        //       ...message,
+        //       time: this.utilityService.getCurrentTimeInHHMM(),
+        //       text:EBotMessageMediaType.image,//this is for preview of last message in chat room list
+        //       sourceType: &#x27;bot&#x27;
+        //     }
+        //   }else if(Object.keys(message)[0] &#x3D;&#x3D;&#x3D; &quot;quick_reply&quot;){
+        //
+        //     return {
+        //       messageMediatype:EBotMessageMediaType.quickReply,//
+        //       ...message,
+        //       time: this.utilityService.getCurrentTimeInHHMM(),
+        //       text:(&lt;any&gt;message).quick_reply.text || EBotMessageMediaType.quickReply,//this is for preview of last message in chat room list
+        //       sourceType: &#x27;bot&#x27;
+        //     }
+        //   }
+        //
+        //   /*if message type &#x3D; text*/
+        //   return {
+        //     text: message.text,
+        //     time: this.utilityService.getCurrentTimeInHHMM(),
+        //     sourceType: &#x27;bot&#x27;,,
+        //     messageMediatype:EBotMessageMediaType.text
+        //   };
+        // });
+
+        this.store.dispatch([
+          new AddMessagesToRoomByRoomId({
+            id: response.room.id,
+            consumer_id: response.room.consumer_id,
+            messageList: serializedMessages,
+            // uid,
+            // bot_id: response.room.bot_id,
+            // selectedAvatar: response.room.selected_avatar,
+            // bot_access_token: botDetails.bot_access_token,
+            // lastTemplateKey: response.templateKey/*TODO: NOT NEEDED*/
+          }),
+          new ChangeBotIsThinkingDisplayByRoomId({roomId: response.room.id, shouldShowBotIsThinking: false})
+          // new AttachRoomIdToRoomByUId({room_id: response.room.id, uid})
+        ]);
+        this.store.dispatch(new SetLastTemplateKeyToRoomByRoomId({lastTemplateKey: response.templateKey , room_id: response.room.id}));
+        // this.store.dispatch(new SetCurrentRoomID({id: response.room.id}));
+        // this.store.dispatch(new SetCurrentBotID({bot_id: response.room.bot_id}));
+      }));
+  }
+
+  navigate(frameEnabled: EChatFrame) {
+    this.store.dispatch(new ChangeFrameAction({frameEnabled: frameEnabled}));
+  }
+
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'ChatService.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

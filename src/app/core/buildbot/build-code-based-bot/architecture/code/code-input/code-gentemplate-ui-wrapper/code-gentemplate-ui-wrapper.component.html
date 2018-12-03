@@ -57,8 +57,8 @@
           <!--</option>-->
         <!--</select>-->
 
-        <mat-form-field style="margin-bottom: -1.2em">
-          <mat-select required name="name" ngModel placeholder="Select Channel">
+        <mat-form-field style="margin-bottom: -1.2em" floatLabel="never">
+          <mat-select required name="name" ngModel placeholder="Select Channel" >
             <mat-option *ngFor="let channel of channelList" [value]="channel.name">
               {{channel.displayName}}
             </mat-option>
@@ -181,7 +181,7 @@
         </li>
         <li class="pl-2 bot-template cursor-pointer" style="opacity: .3; pointer-events: none">
           <i class="fa fa-users"></i>Text Carousel
-        </li>F
+        </li>
         <li class="pl-2 bot-template cursor-pointer" (click)="addQuickReplyUnit()">
           <i class="fa fa-users"></i>Quick Reply
         </li>

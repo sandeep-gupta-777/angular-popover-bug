@@ -15,7 +15,7 @@ import {SetPipelineModuleMasterData} from '../../../../../ngxs/app.action';
 import {EFormValidationErrors, UtilityService} from '../../../../../utility.service';
 import {DragulaService} from 'ng2-dragula';
 import {LoggingService} from '../../../../../logging.service';
-import { NgForm } from '@angular/forms';
+import {NgForm} from '@angular/forms';
 import {ModalImplementer} from '../../../../../modal-implementer';
 import {MatDialog} from '@angular/material';
 
@@ -63,18 +63,24 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
 
   ngOnInit() {
     this.buildBotType = this.activatedRoute.snapshot.data['buildBot'];
-    this.pipeLine = this._bot && this._bot.pipelines || [];
+    debugger;
+    this.pipeLine =  [];
 
     let url = this.constantsService.getAllPipelineModuleUrl();
-    this.app$.subscribe((appState:IAppState)=>{
+    this.app$.subscribe((appState: IAppState) => {
       this.aiModules = this.utilityService.createDeepClone(appState.masterPipelineItems);
-      this.filterAiModules()
+      this.filterAiModules();
     });
-    this.serverService.makeGetReq<{objects: IPipelineItem[]}>({url})
+    this.serverService.makeGetReq<{ objects: IPipelineItem[] }>({url})
       .subscribe(value => {
+        let masterPipelineItems = value.objects;
         this.store.dispatch([
           new SetPipelineModuleMasterData({masterPipelineItems: value.objects})
         ]);
+        this.pipeLine = this.pipeLine.map((pipelineItem: IPipelineItem) => {
+          let masterPipelineItem = masterPipelineItems.find(el => el.id === pipelineItem.id);
+          return {...masterPipelineItem, ...pipelineItem};
+        });
       });
 
     // this.modalService.onHidden.subscribe((reason: string) => {
@@ -96,7 +102,9 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   }
 
   filterAiModules() {
-    if (!this.pipeLine || !this.aiModules) { return; }
+    if (!this.pipeLine || !this.aiModules) {
+      return;
+    }
     this.aiModules = this.aiModules.filter((aiModule) => {
       const x = !this.pipeLine.find(pipelineItem => pipelineItem.id === aiModule.id);
       return x;
@@ -123,6 +131,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
     LoggingService.log(this.pipeLine);
     LoggingService.log(this.aiModules);
   }
+
   openCreateBotModal(template: TemplateRef<any>, pipeline: IPipelineItem) {
     this.selectedPipeline = pipeline;
     // this.modalRef = this.modalService.show(template, { class: 'modal-md' });
@@ -132,10 +141,11 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   test() {
     LoggingService.log(this.pipeLine);
   }
-  submitPipeline(Pipelineform:NgForm){
+
+  submitPipeline(Pipelineform: NgForm) {
     if (Pipelineform.valid) {
       console.log(Pipelineform.value);
-      this.selectedPipeline.input_params = Pipelineform.value;  
+      this.selectedPipeline.input_params = Pipelineform.value;
     }
   }
 

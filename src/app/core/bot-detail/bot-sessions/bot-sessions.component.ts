@@ -15,6 +15,7 @@ import {IAppState} from '../../../ngxs/app.state';
 import {MaterialTableImplementer} from '../../../material-table-implementer';
 import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
 import {MatDialog} from '@angular/material';
+import {ObjectArrayCrudService} from '../../../object-array-crud.service';
 
 @Component({
   selector: 'app-bot-sessions',
@@ -22,7 +23,6 @@ import {MatDialog} from '@angular/material';
   styleUrls: ['./bot-sessions.component.scss']
 })
 export class BotSessionsComponent extends MaterialTableImplementer implements OnInit {
-  tableData;
   dialogRefWrapper = {ref:null};
 
   myESplashScreens = ESplashScreens;
@@ -40,13 +40,12 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   selectedRow_number = 0;
   totalSessionRecords = 0;
   sessions: ISessionItem[];
-  sessionsDataForTable: any[];
+  tableData: any[];
   showNextButton: boolean;
   showPrevButton: boolean;
   pageNumberOfCurrentRowSelected = 1;
   indexOfCurrentRowSelected: number;
   decryptReason: string;
-  sessionModalRef;
 
   constructor(
     private serverService: ServerService,
@@ -100,7 +99,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   }
 
   initializeTableData(sessions: ISessionItem[], tableDataMetaDict: any): void {
-    this.sessionsDataForTable = this.transformDataForMaterialTable(this.sessions, this.getTableDataMetaDict());
+    this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
 
   }
 
@@ -110,27 +109,32 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   transformSessionDataForMaterialTable(session: ISessionItem[]) {
 
-    let sessionsDataForTable = super.transformDataForMaterialTable(this.sessions, this.getTableDataMetaDict());
+    debugger;
+    let sessionsDataForTable = super.transformDataForMaterialTable(session, this.getTableDataMetaDict());
     sessionsDataForTable = sessionsDataForTable.map((sessionsDataForTableItem) => {
       /*adding two additional columns 1) actions and 2)channels*/
-      let additonalColumns: any = {};
+      let additonalColumns: any = {
+        Actions:sessionsDataForTableItem['Actions'],
+        Channels:sessionsDataForTableItem['Channels'],
+      };
 
+      additonalColumns['Actions'].value = additonalColumns['Actions'].value || [];
+      additonalColumns['Channels'].value = additonalColumns['Channels'].value || [];
       /*actions*/
-      additonalColumns['Actions'].value = [];
       additonalColumns['Actions'].value.push({show: true, name: 'download', class: 'fa fa-download'});
-      if (sessionsDataForTableItem.isEncrypted) {
-        additonalColumns['actions'].value.push({show: true, name: 'decrypt', class: 'fa fa-lock'});
+      if (sessionsDataForTableItem['originalSessionData']['data_encrypted']) {
+        additonalColumns['Actions'].value.push({show: true, name: 'decrypt', class: 'fa fa-lock'});
       }
 
+      debugger;
       /*channels*/
-      additonalColumns['Channels'].value = [];
-      additonalColumns['Channels'].value = (sessionsDataForTableItem.channels.map((channelName) => {
+      additonalColumns['Channels'].searchValue = sessionsDataForTableItem['Channels'].value.join();;
+      additonalColumns['Channels'].value = (sessionsDataForTableItem.Channels['value'].map((channelName) => {
         return {
           name: channelName,
           src: this.constantsService.getIntegrationIconForChannelName(channelName).icon//'https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/web.png'
         };
       }));
-      additonalColumns['Channels'].search = sessionsDataForTableItem.channels.join();
       return {...sessionsDataForTableItem, ...additonalColumns};
     });
     return sessionsDataForTable;
@@ -142,6 +146,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       * TODO: there is a data_encrypted key it the row itself. Can we use it?
     * Why do we need to go fetch first message to see if its decrypted or not?
     * */
+    debugger;
     if (eventData.data.data_encrypted) {
 
       this.openSessionRowDecryptModal(this.reasonForDecryptionTemplate, eventData.data);
@@ -267,8 +272,6 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   }
 
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: ISessionItem, source: any }, Primarytemplate) {
-
-
     if (data.action === 'download') {
       /*download the conversation for the record*/
       this.loadSessionMessagesById(data.data.id)
@@ -278,6 +281,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
             dataToDownload = [{name: 'No Data'}];
             this.utilityService.downloadArrayAsCSV(dataToDownload, {name: 'No Data'});
           } else {
+            /*todo: give downloaded file an apt name*/
             this.utilityService.downloadArrayAsCSV(dataToDownload);
           }
         });
@@ -303,12 +307,14 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         const surl = this.constantsService.getSessionsByIdUrl(sessionTobeDecryptedId);
         this.serverService.makeGetReq({url: surl, headerData})
           .subscribe((newSession: ISessionItem) => {
-
+            debugger;
             const del = this.sessions.findIndex((session) => session.id === sessionTobeDecryptedId);
             this.sessions[del] = {...newSession};
             this.sessions = [...this.sessions];
+            this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
           });
       });
+    this.dialogRefWrapper.ref.close()
 
   }
 
@@ -344,9 +350,15 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
     this.loadSessionById(data.id)
       .subscribe((session: ISessionItem) => {
-        this.sessions.push(session);
-        this.sessions = [...this.sessions];
-        this.transformSessionDataForMaterialTable(this.sessions);
+        // this.sessions.push(session);
+        let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id:session.id});
+        if(index && index!==-1){
+          this.sessions[index] = session;
+        }else {
+          this.sessions.push(session);
+        }
+        this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
+        this.tableData =[...this.tableData];
       });
   }
 

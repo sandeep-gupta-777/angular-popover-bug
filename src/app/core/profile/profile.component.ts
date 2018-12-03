@@ -47,7 +47,7 @@ export class ProfileComponent extends ModalImplementer implements OnInit {
 
   updateProfile() {
     if (!this.f.valid) {
-      this.utilityService.showErrorToaster(new Error('Please fill valid values'));
+      this.utilityService.showErrorToaster('Please fill valid values');
       return;
     }
     const url: string = this.constantsService.getUserUpdateUrl(this.loggeduser.id);

@@ -91,7 +91,6 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
   @ViewChild('tooltip') pop;
 
   tabClicked(activeTab) {
-     
     this.activeTab = activeTab;
     RouteHelperService.navigateToUrl(this.router, {url: '/core/viewbots', queryParams: {'type': activeTab}});
     // this.disableCreateNewBotTooltip = !this.doShowPopover(activeTab);

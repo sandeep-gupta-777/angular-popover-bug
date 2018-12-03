@@ -14,7 +14,7 @@ export class CodeGentemplateComponent implements OnInit {
   }
 
   outputItem: IOutputItem;
-  @Input() set _outputItem(val) {
+  @Input() set _outputItem(val:IOutputItem) {
     this.outputItem =   val;
     this.outputItemClone = {...val};
   }
@@ -22,9 +22,8 @@ export class CodeGentemplateComponent implements OnInit {
   outputItemClone: IOutputItem = null;
   @Input() myIndex: number;
 
-  @Input() set selectedTemplateKeyOutputIndex(selectedTemplateKeyOutputIndex: number[]) {
-
-    if (this.selectedTemplateKeyOutputIndex && this.selectedTemplateKeyOutputIndex.length === 0) {
+  @Input() set selectedTemplateKeyOutputIndex(selectedTemplateKeyOutputIndexVal: number[]) {
+    if (selectedTemplateKeyOutputIndexVal && selectedTemplateKeyOutputIndexVal.length === 0) {
       this.selected = false;
     }
   }
@@ -63,7 +62,7 @@ export class CodeGentemplateComponent implements OnInit {
 
   showJsonInvalidError
   codeEditorTextCHanged(data) {
-    console.log(); 
+    console.log();
     try {
       let newCodeStr_parsed = JSON.parse(data);
       this.utilityService.emptyObjectWithoutChaningRef(this.outputItem);
@@ -83,12 +82,7 @@ export class CodeGentemplateComponent implements OnInit {
     }
   }
   imgOpacity(channel: string) {
-    const isChannelPresent = this.outputItemClone.include.find(e => e === channel);
-    if (isChannelPresent) {
-      return true;
-    } else {
-      return false;
-    }
+    return !!this.outputItemClone.include.find(e => e === channel);
   }
 
 }

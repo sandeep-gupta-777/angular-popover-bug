@@ -98,12 +98,14 @@ export const ERouteNames = EAllActions;
 export class ConstantsService {
 
   forbiddenPermsDynamic: { id?: string, name?: number };
-  appState:IAppState;
+  appState: IAppState;
   allowedPermissionIdsToCurrentRole: number[];
 
   constructor() {
     this.app$.subscribe((appState) => {
-      if (!appState) { return; }
+      if (!appState) {
+        return;
+      }
       this.appState = appState;
       this.BACKEND_URL = (appState && appState.backendUrlRoot) || 'https://dev.imibot.ai/';
     });
@@ -120,7 +122,7 @@ export class ConstantsService {
     let x;
     let masterIntegrationList = this.appState.masterIntegrationList;
     try {
-      x =  masterIntegrationList.find((integrationMasterListItem) => {
+      x = masterIntegrationList.find((integrationMasterListItem) => {
         return integrationMasterListItem.key.toUpperCase() === channelName.toUpperCase();
       });
     } catch (e) {
@@ -155,7 +157,8 @@ export class ConstantsService {
 
   static state: any;
   loggedUser: IUser;
-  static loggedUser_static:IUser;/*Todo: remove this.logged user and rename it*/
+  static loggedUser_static: IUser;
+  /*Todo: remove this.logged user and rename it*/
   @Select() app$: Observable<IAppState>;
   @Select() loggeduser$: Observable<{ user: IUser }>;
 
@@ -184,55 +187,62 @@ export class ConstantsService {
     'containerClass': 'theme-dark-blue',
     'dateInputFormat': 'DD/MM/YYYY',
   });
-  getEnterpriseLoginUrl(){
-    return this.BACKEND_URL + 'api/v1/user/enterprise_login/';    
+
+  getEnterpriseLoginUrl() {
+    return this.BACKEND_URL + 'api/v1/user/enterprise_login/';
   }
-  getAllEnterpriseUrl(){
+
+  getAllEnterpriseUrl() {
     return this.BACKEND_URL + 'api/v1/user/enterprises/';
   }
+
   getLoginUrl() {
     return this.BACKEND_URL + 'api/v1/user/login/';
   }
+
   sendEmailUrl() {
     return this.BACKEND_URL + 'api/v1/user/resetpasswordurl/';
   }
+
   resetPasswordUrl() {
     return this.BACKEND_URL + 'api/v1/user/resetpassword/';
   }
+
   codeValidationUrl() {
     return this.BACKEND_URL + 'api/v1/botversioning/codevalidation/';
   }
+
   setLoggedUser(loggedUser: IUser) {
     this.loggedUser = loggedUser;
   }
 
   getSelectedVersionTemplate(botId) {
     return {
-      'bot_id' : botId,
-      'comment'  : '',
-      'created_at'  : '',
-      'df_rules'  : '',
-      'df_template'  : '#####DF Template Goes here####',
-      'generation_rules'  : '',
-      'generation_templates'  : '',
-      'id' : -1,
-      'resource_uri'  : '',
-      'updated_at'  : '',
-      'version' : null,
-      'workflow'  : '',
-      'updated_fields' : {
-        'df_template' : false,
-        'df_rules' : false,
-        'generation_rules' : false,
-        'generation_template' : false,
-        'workflows' : false
+      'bot_id': botId,
+      'comment': '',
+      'created_at': '',
+      'df_rules': '',
+      'df_template': '#####DF Template Goes here####',
+      'generation_rules': '',
+      'generation_templates': '',
+      'id': -1,
+      'resource_uri': '',
+      'updated_at': '',
+      'version': null,
+      'workflow': '',
+      'updated_fields': {
+        'df_template': false,
+        'df_rules': false,
+        'generation_rules': false,
+        'generation_template': false,
+        'workflows': false
       },
-      'changed_fields' : {
-        'df_template' : false,
-        'df_rules' : false,
-        'generation_rules' : false,
-        'generation_template' : false,
-        'workflows' : false
+      'changed_fields': {
+        'df_template': false,
+        'df_rules': false,
+        'generation_rules': false,
+        'generation_template': false,
+        'workflows': false
       },
       'validation': {
         'df_rules': {'msg': 'You can validate your code'},
@@ -241,7 +251,7 @@ export class ConstantsService {
         'generation_templates': {'msg': 'You can validate your code'},
         'workflow': {'msg': 'You can validate your code'},
       },
-      'forked_from' : null,
+      'forked_from': null,
     };
   }
 
@@ -339,8 +349,8 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/reports/?limit=${limit}&offset=${offset}`; //{{url}}/reports?limit=1&offset=10
   }
 
-  getReportHistoryUrl(limit = 1, offset = 10) {
-    return this.BACKEND_URL + `api/v1/reporthistory/?limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/reporthistory?limit=1&offset=10
+  getReportHistoryUrl(limit = 1, offset = 10, order_by ) {
+    return this.BACKEND_URL + `api/v1/reporthistory/?limit=${limit}&offset=${offset}&order_by=${order_by}`; //https://dev.imibot.ai/reporthistory?limit=1&offset=10
   }
 
   getReportDeleteUrl(report_id: number) {
@@ -501,8 +511,8 @@ export class ConstantsService {
 
   readonly HANDSON_TABLE_BOT_TESTING_colHeaders = ['Message', 'Expected Template', 'Status', 'Generated Template', 'RoomId', 'TransactionId'];
   readonly HANDSON_TABLE_BOT_TESTING_columns = [
-    {data: 0, type: 'text', },
-    {data: 1, type: 'text', },
+    {data: 0, type: 'text',},
+    {data: 1, type: 'text',},
     {data: 2, type: 'text', readOnly: true},
     {data: 3, type: 'text', readOnly: true},
     {data: 4, type: 'text', readOnly: true},
@@ -540,95 +550,94 @@ export class ConstantsService {
   readonly SMART_TABLE_REPORT_TABLE_DATA_META_DICT_TEMPLATE = {
 
     bot: {
-      originalKey:"bot",
+      originalKey: 'bot',
       value: '',
       type: 'string',
       displayValue: 'Bot',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     },
 
     name: {
-      originalKey:"name",
+      originalKey: 'name',
       value: '',
       type: 'string',
       displayValue: 'Report Type',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     },
     frequency: {
-      originalKey:"frequency",
+      originalKey: 'frequency',
       value: '',
       type: 'string',
       displayValue: 'Frequency',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     },
     last_jobId: {
-      originalKey:"last_jobId",
+      originalKey: 'last_jobId',
       value: '',
       type: 'string',
       displayValue: 'Last job run',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     },
     nextreportgenerated: {
-      originalKey:"nextreportgenerated",
+      originalKey: 'nextreportgenerated',
       value: '',
       type: 'string',
       displayValue: 'Next scheduled date',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     },
     isactive: {
-      originalKey:"isactive",
+      originalKey: 'isactive',
       value: '',
       type: 'boolean',
       displayValue: 'Active',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     }
   };
   readonly SMART_TABLE_REPORT_HISTORY_TABLE_DATA_META_DICT_TEMPLATE = {
 
     bot: {
-      originalKey:"bot",
+      originalKey: 'bot',
       value: '',
       type: 'string',
       displayValue: 'Bot',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     },
 
     name: {
-      originalKey:"name",
+      originalKey: 'name',
       value: '',
       type: 'string',
       displayValue: 'Report Type',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     },
     created_at: {
-      originalKey:"created_at",
+      originalKey: 'created_at',
       value: '',
       type: 'time',
       displayValue: 'Generated Date',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     },
     actions: {
-      originalKey:"",
+      originalKey: '',
       value: undefined,
       type: 'icon',
       displayValue: 'Actions',
       custom: true,
-      name:"",
-      search:false,
-      searchValue:true,
+      name: '',
+      search: false,
+      searchValue: true,
     },
 
   };
-
 
 
   readonly HIGHCHART_CHARTVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE = {
@@ -847,114 +856,195 @@ export class ConstantsService {
 
   SMART_TABLE_ENTERPRISE_NER_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
     key: {
-      originalKey:"key",
+      originalKey: 'key',
       value: '',
       type: 'string',
       displayValue: 'Concept Key',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     },
     ner_type: {
-      originalKey:"ner_type",
+      originalKey: 'ner_type',
       value: '',
       type: 'string',
       displayValue: 'Type',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     },
 
   };
 
   SMART_TABLE_BOT_KNOWLEDGE_BASE_NER_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
     key: {
-      originalKey:"key",
+      originalKey: 'key',
       value: '',
       type: 'string',
       displayValue: 'Concept Key',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     },
     ner_type: {
-      originalKey:"ner_type",
+      originalKey: 'ner_type',
       value: '',
       type: 'string',
       displayValue: 'Type',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     },
     conflict_policy: {
-      originalKey:"conflict_policy",
+      originalKey: 'conflict_policy',
       value: '',
       type: 'string',
       displayValue: 'Override Policy',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     },
 
   };
   SMART_TABLE_SESSION_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
     id: {
-      originalKey:"",
+      originalKey: '',
       value: '',
       type: 'number',
       displayValue: 'Room Id',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     },
     consumer_id: {
-      originalKey:"",
+      originalKey: '',
       value: '',
       type: 'number',
       displayValue: 'Consumer id',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     },
     sendtoagent: {
-      originalKey:"",
+      originalKey: '',
       value: '',
       type: 'boolean',
       displayValue: 'Send to agent',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     },
     total_message_count: {
-      originalKey:"",
+      originalKey: '',
       value: '',
       type: 'number',
       displayValue: 'Messages',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     },
     updated_at: {
-      originalKey:"",
+      originalKey: '',
       value: '',
       type: 'time',
       displayValue: 'Updated At',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     },
     channels: {
-      originalKey:"",
+      originalKey: '',
       value: '',
       type: 'image',
       displayValue: 'Channels',
-      search:true,
-      searchValue:true,
+      search: true,
+      searchValue: true,
     },
     actions: {
-      originalKey:"",
+      originalKey: '',
       value: undefined,
       type: 'icon',
       displayValue: 'Actions',
       custom: true,
-      name:"",
-      search:false,
-      searchValue:true,
+      name: '',
+      search: false,
+      searchValue: true,
+    },
+  };
+
+  readonly SMART_TABLE_ENTERPISE_USERS_SETTING = {
+
+    columns: {
+      first_name: {
+        title: 'First Name'
+      },
+      email: {
+        title: 'Email'
+      },
+      // 'messages.length': {
+      //   title: 'Messages'
+      // },
+      'role': {
+        title: 'Role'
+      },
+      'permissions': {
+        title: 'Permissions'
+      }
+      , created_at: {
+        title: 'Created At'
+      },
+      updated_at: {
+        title: 'Updated At'
+      }
+    },
+    // hideSubHeader: true
+    actions: {
+      add: false,
+      edit: false,
+      delete: false
+    },
+    pager: {
+      display: false,
+      perPage: 5
+    }
+  };
+
+
+  SMART_TABLE_USER_DICT_TEMPLATE: ITableColumn = {
+    first_name: {
+      originalKey: 'first_name',
+      value: '',
+      type: 'number',
+      displayValue: 'First Name',
+      search: true,
+      searchValue: true,
+    },
+    email: {
+      originalKey: 'email',
+      value: '',
+      type: 'number',
+      displayValue: 'Email',
+      search: true,
+      searchValue: true,
+    },
+    'role': {
+      originalKey: 'role',
+      value: '',
+      type: 'number',
+      displayValue: 'Role',
+      search: true,
+      searchValue: true,
+    },
+    'permissions': {
+      originalKey: 'permissions',
+      value: '',
+      type: 'number',
+      displayValue: 'Permissions',
+      search: true,
+      searchValue: true,
+    },
+    updated_at: {
+      originalKey: 'updated_at',
+      value: '',
+      type: 'number',
+      displayValue: 'Updated At',
+      search: true,
+      searchValue: true,
     },
   };
 
 
-  SMART_TABLE_CONSUMER_TABLE_DATA_META_DICT_TEMPLATE :ITableColumn = {
+  SMART_TABLE_CONSUMER_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
     id: {
       originalKey: 'id',
       value: '',

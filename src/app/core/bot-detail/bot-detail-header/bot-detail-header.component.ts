@@ -154,7 +154,6 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
       dialogRefWrapper:this.dialogRefWrapper
     });
 
-     
 
     if(data){
       this.deleteBot();

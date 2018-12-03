@@ -41,7 +41,7 @@
     <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
       <div class="switch-wrapper">
         <div class="form-control d-flex align-items-center justify-content-between pr-5">
-          <label class="pr-2">Allow anonymization?</label>
+          <label class="pr-2">Persist Anonymized Conversation Logs</label>
           <app-ui-switch
             formControlName="allow_anonymization"
             [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"

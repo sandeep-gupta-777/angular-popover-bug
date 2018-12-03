@@ -1,4 +1,4 @@
-<app-smart-table *ngIf="consumerTableData && consumerTableData.length>0"
+<app-smart-table *ngIf="consumerItems && consumerItems.length>0"
                  [ngClass]="{'disable-decrypt-lock-icon':isDeCryptAuditAccessDenied}"
                  class="d-flex-column-last-child-flex-grow-1"
                  [totalRecords]="totalRecords"
@@ -6,7 +6,6 @@
                  [data]="tableData"
                  [showRefreshButton]="true"
                  (refreshData$)="loadConsumerData()"
-                 [settings]="smartTableSettings_Consumers"
                  (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,Primarytemplat)"
                  [showSearchInDbButton]="true"
                  (performSearchInDB$)="performSearchInDbForConsumer($event)">
@@ -17,7 +16,6 @@
 
 <ng-template #Primarytemplat>
   <div class="primary-modal">
-    <div class="top-dec"></div>
     <div class="modal-header">
       <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Reason for decryption</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
@@ -46,7 +44,7 @@
 </ng-template>
 
 
-<app-splash-screen *ngIf="consumerTableData && consumerTableData.length===0"
+<app-splash-screen *ngIf="consumerItems && consumerItems.length===0"
                    [imageHRef]="myESplashScreens.consumers"
                    headingText="No consumers found"
                    descriptionText="Integrate or deploy your bot to see the captured consumer details"

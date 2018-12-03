@@ -43,6 +43,7 @@
         [data]="tableData_report"
         (rowClicked$)="goToReportEditComponent($event)"
         [totalRecords]="totalReportRecords"
+        [currentPage]="currentPage_reports"
         (pageChanged$)="reportTablePageChanged($event)"
         [settings]="SMART_TABLE_REPORTS_SETTING">
       </app-smart-table>
@@ -54,6 +55,7 @@
       <app-smart-table
         [data]="tableData_history"
         (pageChanged$)="reportHistoryTablePageChanged($event)"
+        [currentPage]="currentPage_reportsHistory"
         [totalRecords]="totalReportRecords"
         (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
         [settings]="SMART_TABLE_REPORT_HISTORY_SETTING"></app-smart-table>
@@ -63,12 +65,12 @@
   <div
     *ngIf="activeTab==='history' && reportHistorySmartTableData && reportHistorySmartTableData.length<1"
     class="col-12 d-flex justify-content-center align-items-center" style="height: 30vh">
-    <i>No Report history data</i>
+    <i>{{error_message||'No Report history data'}}</i>
   </div>
   <div
     *ngIf="activeTab==='configure' && reportSmartTableData && reportSmartTableData.length<1"
     class="col-12 d-flex justify-content-center align-items-center" style="height: 30vh">
-    <i>No Reports</i>
+    <i>{{error_message||'No Reports'}} </i>
   </div>
 </div>
 

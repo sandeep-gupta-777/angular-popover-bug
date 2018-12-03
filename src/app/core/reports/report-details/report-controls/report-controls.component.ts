@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {ViewBotStateModel} from '../../../view-bots/ngxs/view-bot.state';
@@ -12,6 +12,8 @@ import {ConstantsService} from '../../../../constants.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ELogType, LoggingService} from '../../../../logging.service';
 import {debounceTime} from 'rxjs/operators';
+import {DebugBase} from '../../../../debug-base';
+import {EventService} from '../../../../event.service';
 
 declare var $: any;
 
@@ -20,7 +22,7 @@ declare var $: any;
   templateUrl: './report-controls.component.html',
   styleUrls: ['./report-controls.component.scss']
 })
-export class ReportControlsComponent implements OnInit, AfterViewInit {
+export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy {
   start_time;
   isactive = false;
   @Select() botlist$: Observable<ViewBotStateModel>;
@@ -68,6 +70,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  botlistSub;
   ngOnInit() {
 
     LoggingService.log(this);
@@ -79,7 +82,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
 
     const _id = this.report_id = this.activatedRoute.snapshot.paramMap.get('_id');
 
-    this.botlist$.subscribe((value: ViewBotStateModel) => {
+    this.botlistSub = this.botlist$.subscribe((value: ViewBotStateModel) => {
       this.botlist = [...value.allBotList];
       this.codebasedBotList = this.botlist.filter((bot) => bot.bot_type === EBotType.chatbot);
 
@@ -89,7 +92,6 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
           this.serverService.makeGetReq<IReportItem>({url})
             .subscribe((value: IReportItem) => {
               try {
-                 
                 let email:any = value.delivery.find((item: any) => item.delivery_type === 'email');
                 email.recipients = email.recipients.join(';');
                 const formDataSerialized = {
@@ -178,6 +180,10 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
   navigate(deliveryMode) {
     this.router.navigate([], {queryParams: {deliveryMode}});
     // deliveryMode='email'
+  }
+
+  ngOnDestroy(): void {
+    EventService.unsubscribeInComponent(this);
   }
 
 }

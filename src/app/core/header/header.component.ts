@@ -116,7 +116,6 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     this.loggeduser$
       .subscribe((value: IAuthState) => {
         if (value && value.user != null) {
-          
           this.userData = value.user;
           this.logoSrc = this.userData.enterprise.logo || this.logoSrc;
         }
@@ -156,10 +155,10 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   }
   changeEnterprise(template: TemplateRef<any>) {
     let getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
-     
+
     this.serverService.makeGetReq({ url: getAllEnterpriseUrl })
       .subscribe((value: any) => {
-         
+
         this.enterpriseList = value.enterprises;
         // console.log("sadasdasdsad");
         console.log(this.enterpriseList);
@@ -172,7 +171,6 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   }
 
   enterEnterprise(Enterprise) {
-     
     let enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
     let body = {
       "user_id": this.userData.id,
@@ -182,10 +180,10 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     let headerData = {
       "auth-token": this.userData.auth_token
     }
-     
+
     this.serverService.makePostReq<any>({ url: enterpriseLoginUrl, body, headerData })
       .subscribe((value) => {
-         
+
         this.store.dispatch([
           new SetUser({ user: value }),
         ]).subscribe((user) => {
