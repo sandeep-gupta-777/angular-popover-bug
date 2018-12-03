@@ -101,7 +101,7 @@ export class ProfileComponent extends ModalImplementer implements OnInit {
           //   this.showPasswordChangeForm = true; //show form again
           //   this.new_password_confirm = this.new_password = this.old_password = '';
           // }, 3000);
-        }, ()=>alert());
+        });
     } else if (this.new_password !== this.new_password_confirm) {
       this.flashErrorMessage('passwords dont match');
 
