@@ -18,11 +18,7 @@
   <section class="row basic-row bg-white">
     <div class="col-3 logo-wrapper-col p-5">
       <div class="logo-wrapper">
-<<<<<<< HEAD
-        <img [src]="logoInput?.value || loggeduserenterpriseinfo.logo" alt="">
-=======
         <img [src]="logoUrl.value || loggeduserenterpriseinfo.logo" alt="">
->>>>>>> develop
       </div>
     </div>
     <div class="col-9">
@@ -32,11 +28,7 @@
           <div class="col-5">
             <div class="form-group">
               <label for="name">Company Name</label>
-<<<<<<< HEAD
-              <input type="text"  class="form-control" [ngModel]="loggeduserenterpriseinfo.name" name="name" required>
-=======
               <input type="text" class="form-control" formControlName="name" required>
->>>>>>> develop
             </div>
 
             <div class="form-group">
@@ -46,13 +38,9 @@
             <!---->
             <div class="form-group">
               <label for="alterEgo">Logo Url</label><i class="text-danger pl-1" style="font-size: 11px" >{{logoError}}</i>
-<<<<<<< HEAD
-              <input type="text" #logoInput class="form-control" [ngModel]="loggeduserenterpriseinfo.logo" (ngModelChange)="validateLogo($event)" name="logo">
-=======
               <input type="text" #logoUrl class="form-control" formControlName="logo">
               <i class="text-danger font-11 mr-1" *ngIf="formGroup.get('logo').getError('Image Extension is not correct')">Image Extension is not correct</i>
               <i class="text-danger font-11" *ngIf="formGroup.get('logo').getError('Must be Https Url')">Must be Https Url</i>
->>>>>>> develop
             </div>
           </div>
           <div class="col-5">

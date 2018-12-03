@@ -116,22 +116,12 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
   @Input() set totalRecords(value) {
 
-<<<<<<< HEAD
-    setTimeout(()=>{/*TODO: RACE CONDITION: in set timeout because we want run this code after this.totalPageCount is recieved*/
-      this.x = value;
-      // this.source.load(this._data);
-=======
     setTimeout(() => {
->>>>>>> develop
       this.totalPageCount = Math.ceil(value / this.recordsPerPage);
       const start = 1;
       const end = Math.min(this.totalPageCount, 5);
       this.createPaginationArray(start, end);
-<<<<<<< HEAD
-    })
-=======
     });
->>>>>>> develop
   }
 
   paginationArr = [];
