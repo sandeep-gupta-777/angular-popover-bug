@@ -607,7 +607,7 @@ export class UtilityService {
     try {
       this.snackBar.open(message, '', {
         duration: (sec * 1000)||2000,
-        panelClass:["bg-danger"]
+        panelClass:["bg-theme-danger"]
       });
     }catch (e) {
       console.log(e);
