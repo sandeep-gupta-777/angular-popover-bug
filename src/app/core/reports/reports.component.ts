@@ -48,7 +48,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
 
   initializeTableData_reportHistory(data: any, tableDataMetaDict: any): void {
     this.tableData_history = this.transformDataForMaterialTable(data, this.getTableDataMetaDict_reportHistory());
-    debugger;
+     
     this.tableData_history = this.tableData_history.map((sessionsDataForTableItem)=>{
       let additonalColumns: any = {};
       /*actions*/

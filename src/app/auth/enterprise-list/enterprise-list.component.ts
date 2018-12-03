@@ -10,6 +10,7 @@ export class EnterpriseListComponent implements OnInit {
   constructor() { }
   @Input() enterpriseList : any[];
   @Input() searchEnterprise: string;
+  @Input() currentEnterpriseId : number;
   @Output() clickedEnterprise = new EventEmitter();
   ngOnInit() {
   }

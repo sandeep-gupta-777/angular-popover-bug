@@ -250,9 +250,9 @@
   }
 
   .count {
-    text-align: left;
+    text-align: center;
     @include typography(20px, 24px, $font-weight-700, $color-text-normal);
-
+    flex-basis: 23px;
   }
 
   form {

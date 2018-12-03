@@ -91,7 +91,7 @@ export class PermissionService {
     '/api/v1/webhook/web/',
     '/api/v1/user/enterprise_login/',
     '/api/v1/user/enterprises/',
-    '/api/v1/enterprise/4/'
+    '/api/v1/enterprise/'
   ];
   constructor() {
     this.loggeduser$.subscribe((loggeduser) => {

@@ -35,7 +35,7 @@ export class AppComponent extends DebugBase implements OnInit {
       this.app$.subscribe((app) => {
 
       if (app.progressbar.loading) {
-        debugger;
+         
         this.showProgressbar = true;
         this.currentIntervalRef && clearInterval(this.currentIntervalRef);
         this.progressVal = app.progressbar.value;

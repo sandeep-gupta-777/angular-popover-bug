@@ -604,7 +604,7 @@ export class UtilityService {
   }
 
   showErrorToaster(message, sec = 3) {
-    debugger;
+     
     let messageStr = typeof message === 'string'? message: message.message;
     try {
       this.snackBar.open(messageStr, '', {

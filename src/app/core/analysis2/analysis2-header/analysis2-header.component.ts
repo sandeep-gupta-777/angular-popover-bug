@@ -121,7 +121,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
           return;
         }
         this.formData = formData;
-        debugger;
+         
         if (!this.f.valid) return;
         const selectedBot: IBot = this._allbotList.find((bot) => bot.id === Number(this.f.value.botId));
         const analysisHeaderData: any /*: TODO: IAnalysis2HeaderData*/ = {
@@ -150,7 +150,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     this.analytics2HeaderDataSub = this.analytics2HeaderData$.subscribe((analytics2HeaderData:any) => {
       /*move this code to dedicated service*/
       try {
-        debugger;
+         
         this.f.form.patchValue(analytics2HeaderData);
         const url = this.constantsService.getAnalyticsUrl();
         const headerData: any/*IAnalysis2HeaderData*/ = {

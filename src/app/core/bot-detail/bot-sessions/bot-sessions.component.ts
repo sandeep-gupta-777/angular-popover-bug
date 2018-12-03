@@ -69,7 +69,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       component: this.sessionDetailTemplate,
       data: {
         title: `Delete template key: ${tempKey}?`,
-        message: 'This action cannot be undone.Are you sure you wish to continue?',
+        message: 'This action cannot be undone. Are you sure you wish to delete?',
         actionButtonText: 'Delete',
         isActionButtonDanger: true
       },

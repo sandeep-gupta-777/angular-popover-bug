@@ -89,7 +89,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
           this.serverService.makeGetReq<IReportItem>({url})
             .subscribe((value: IReportItem) => {
               try {
-                debugger;
+                 
                 let email:any = value.delivery.find((item: any) => item.delivery_type === 'email');
                 email.recipients = email.recipients.join(';');
                 const formDataSerialized = {

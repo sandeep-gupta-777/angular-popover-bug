@@ -7,7 +7,7 @@ export abstract class ModalImplementer{
   constructor(utilityService:UtilityService, matDialog) {}
 
   public openPrimaryModal(IntentModal) {
-    debugger;
+     
     return this.utilityService.openDialog({
       dialog: this.matDialog,
       component: IntentModal,

@@ -58,7 +58,7 @@
             </button>
             <button mat-menu-item><a class="dropdown-item cursor-pointer" (click)="logout()">Sign out</a></button>
             <!--<button mat-menu-item><hr></button>-->
-            <button mat-menu-item><a class="dropdown-item" (click) = changeEnterprise(changeEnterpriseModal)
+            <button mat-menu-item *ngIf= "enterpriseList.length > 1" ><a class="dropdown-item" (click) = changeEnterprise(changeEnterpriseModal)
               >Change enterprise</a></button>
             <mat-divider></mat-divider>
             <button mat-menu-item><a class="dropdown-item" *myIf="myEAllActions['Get Enterprise']" [routerLink]="['enterpriseprofile']"
@@ -101,7 +101,9 @@
       </div>
     </div>
     <div class="modal-body pt-0" style="height:400px;">
-      <app-enterprise-list [enterpriseList]="enterpriseList" [searchEnterprise]="searchEnterprise" (clickedEnterprise)="enterEnterprise($event);dialogRefWrapper.ref.close()"></app-enterprise-list>
+      <app-enterprise-list [enterpriseList]="enterpriseList" [searchEnterprise]="searchEnterprise" 
+      (clickedEnterprise)="enterEnterprise($event);dialogRefWrapper.ref.close()"
+      [currentEnterpriseId]= "(loggeduser$|async).user.enterprise.id"></app-enterprise-list>
     </div>
   </div>
 </ng-template>

@@ -98,7 +98,7 @@
         <!--change dot start-->
         <div class="update d-flex flex-column mr-2 justify-content-center" *ngIf="version">
 
-          <div class="justify-content-left pt-1">
+          <div class="justify-content-left py-1">
             <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['df_template']}"></i>
             <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['df_rules']}"></i>
             <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['generation_rules']}"></i>
@@ -106,7 +106,7 @@
             <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['workflow']}"></i>
           </div>
           <div style = "font-weight: 500;font-size: 10px;">
-              {{selectedVersion.updated_at | date}}&nbsp;{{selectedVersion.updated_at | date:"hh:mm"}}
+              {{selectedVersion.updated_at | date}}&nbsp;{{version.updated_at | date:"hh:mm"}}
           </div>
         </div>
         <!--change dot end-->

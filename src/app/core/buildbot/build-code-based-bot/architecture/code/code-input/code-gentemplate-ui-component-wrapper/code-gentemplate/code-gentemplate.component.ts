@@ -63,7 +63,7 @@ export class CodeGentemplateComponent implements OnInit {
 
   showJsonInvalidError
   codeEditorTextCHanged(data) {
-    console.log();debugger;
+    console.log(); 
     try {
       let newCodeStr_parsed = JSON.parse(data);
       this.utilityService.emptyObjectWithoutChaningRef(this.outputItem);
