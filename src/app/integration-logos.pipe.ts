@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Pipe, PipeTransform } from '@angular/core';
 import {IIntegrationMasterListItem, IIntegrationOption, IMasterIntegrationResult} from '../interfaces/integration-option';
 import {Select} from '@ngxs/store';
@@ -38,7 +40,7 @@ export class IntegrationLogosPipe implements PipeTransform {
     }
 
     if (!Object.keys(integrations) || Object.keys(integrations).length === 0) { return; }
-    return this.app$.map((value) => {
+    return this.app$.pipe(map((value) => {
       try {
         const integrationsMasterList = value.masterIntegrationList;
         const arr = Object.keys(integrations).map((key) => {
@@ -52,7 +54,7 @@ export class IntegrationLogosPipe implements PipeTransform {
       } catch (e) {
         LoggingService.error(e);
       }
-    });
+    }));
 
   }
 

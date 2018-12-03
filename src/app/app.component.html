@@ -1,17 +1,19 @@
+<!--<button mat-raised-button color="black">hello</button>-->
+<!--<progressbar-->
+<!--*ngIf="showProgressbar"-->
+<!--[value]="progressVal"-->
+<!--[animate]="true"-->
+<!--style="position: fixed; right: 0px; top: 0px;z-index:300000000"></progressbar>-->
 
-<progressbar
-  *ngIf="showProgressbar"
-  [value]="progressVal"
-  [animate]="true"
-  style="position: fixed; right: 0px; top: 0px;z-index:300000000"></progressbar>
+<!--<p>{{progressVal}}</p>-->
+<mat-progress-bar
+  [hidden]="!showProgressbar"
+[value]="progressVal"
+mode="determinate"
+  style="position: fixed; right: 0px; top: 0px;z-index:300000000"
+></mat-progress-bar>
+
 <router-outlet></router-outlet>
-
-
-
-<!--<ng-container *ngIf="loadingRouteConfig">-->
-<!--&lt;!&ndash;<app-imi-loader></app-imi-loader>&ndash;&gt;-->
-<!--<i class="fa fa-spin"></i>-->
-<!--</ng-container>-->
-
+<!---->
 <app-backend-dev></app-backend-dev>
 

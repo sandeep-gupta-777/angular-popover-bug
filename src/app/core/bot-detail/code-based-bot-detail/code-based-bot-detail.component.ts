@@ -4,7 +4,7 @@ import {ViewBotStateModel, ViewBotStateReducer} from '../../view-bots/ngxs/view-
 import {Observable} from 'rxjs';
 import {IBot} from '../../interfaces/IBot';
 import {ActivatedRoute, Route, Router} from '@angular/router';
-import 'rxjs/add/operator/map';
+
 import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
 import {UtilityService} from '../../../utility.service';
@@ -47,6 +47,8 @@ export class CodeBasedBotDetailComponent implements OnInit {
   selectedDurationDisplayName = 'Monthly';
   selectedSideBarTab = 'pipeline';
   bot: IBot;
+  showLoader = false;
+  noSuchBotMessage="";
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -83,9 +85,13 @@ export class CodeBasedBotDetailComponent implements OnInit {
     /*this.bot$ = */
     this.botlist$.subscribe((botListState) => {
       if (botListState.allBotList) {
+        debugger;
         this.bot = botListState.allBotList.find((bot) => {
           return bot.id === this.bot_id;
         });
+        if(!this.bot){
+          this.noSuchBotMessage = "No such bot exists in your account";
+        }
       }
       LoggingService.log('Bot Opened' + this.bot);
       return this.bot;

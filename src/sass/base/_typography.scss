@@ -1,5 +1,33 @@
 @import "../abstract/variables";
 
+/*angular material theming starts*/
+@import '~@angular/material/theming';
+
+//Source: https://material.angular.io/guide/typography
+
+/*Creating custom typography theme*/
+//$custom-typography: mat-typography-config(
+//  $font-family: "Helvetica" 'sans-serif',
+//    //font-size,line-height,font-weight,font-family ,letter-spacing
+//  $display-4: mat-typography-level(112px, 112px, 300),//.mat-display-4:Large, one-off header, usually at the top of the page (e.g. a hero header).
+//  $display-3: mat-typography-level(56px, 56px, 400),//.mat-display-3:Large, one-off header, usually at the top of the page (e.g. a hero header).
+//  $display-2: mat-typography-level(45px, 48px, 400),//.mat-display-2:Large, one-off header, usually at the top of the page (e.g. a hero header).
+//  $display-1: mat-typography-level(34px, 40px, 400),//.mat-display-1:Large, one-off header, usually at the top of the page (e.g. a hero header).
+//  $headline: mat-typography-level(24px, 32px, 400),//.mat-h1, .mat-headline:Section heading corresponding to the <h1> tag.
+//  $title: mat-typography-level(20px, 32px, 500),//.mat-h2, .mat-title:Section heading corresponding to the <h2> tag.
+//  $subheading-2: mat-typography-level(16px, 28px, 400),//.mat-h3, .mat-subheading-2:Section heading corresponding to the <h3> tag.
+//  $subheading-1: mat-typography-level(15px, 24px, 400),//.mat-h4, .mat-subheading-1:Section heading corresponding to the <h4> tag.
+//  $body-2: mat-typography-level(13px, 24px, 500),//.mat-body, .mat-body-1:Base body text.
+//  $body-1: mat-typography-level(13px, 20px, 400),//.mat-body-strong, .mat-body-2: Bolder body text.
+//  $caption: mat-typography-level(72px, 20px, 400)//.mat-small, .mat-caption: Smaller body and hint text.
+//  //$button: mat-typography-level(14px, 14px, 500)//Buttons and anchors.
+//  //$input:         mat-typography-level(inherit, 1.125, 400)//Form input fields.
+//
+//);;
+//@include mat-core($custom-typography)
+
+
+
 %text-xl{
   font-size: $font-size-xl;
   line-height: $line-height-normal;

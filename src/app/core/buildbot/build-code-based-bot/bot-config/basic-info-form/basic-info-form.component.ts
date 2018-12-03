@@ -1,16 +1,17 @@
+
+import {debounceTime} from 'rxjs/operators';
 import {AfterContentChecked, AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
-import 'rxjs/add/operator/debounceTime';
+
 import {Store, Select} from '@ngxs/store';
 import {SaveNewBotInfo_CodeBased} from '../../../ngxs/buildbot.action';
 import {IBasicInfo} from '../../../../../../interfaces/bot-creation';
 import {Observable} from 'rxjs';
 import {ViewBotStateModel} from '../../../../view-bots/ngxs/view-bot.state';
 import {ControlValueAccessor, FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
-import {UtilityService} from '../../../../../utility.service';
+import {EBotType, UtilityService} from '../../../../../utility.service';
 import {ConstantsService, EAllActions} from '../../../../../constants.service';
 import {ActivatedRoute} from '@angular/router';
-import {EBotType} from '../../../../view-bots/view-bots.component';
 import {PermissionService} from '../../../../../permission.service';
 import {ELogType, LoggingService} from '../../../../../logging.service';
 
@@ -78,7 +79,7 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
 
     this.initializeChildBotFormArray();
     /*TODO: initialization must be done with initialization of formGroup*/
-    this.formGroup.valueChanges.debounceTime(200).subscribe((data: Partial<IBot>) => {
+    this.formGroup.valueChanges.pipe(debounceTime(200)).subscribe((data: Partial<IBot>) => {
       LoggingService.log(this.formGroup);
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) { return; }
       this.formData = data;
@@ -138,7 +139,7 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
   }
 
   click() {
-    this.formGroup.get('name').patchValue(Date.now());
+    console.log(this.formGroup);
     LoggingService.log(this.formGroup);
   }
 

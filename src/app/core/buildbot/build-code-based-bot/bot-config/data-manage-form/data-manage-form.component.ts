@@ -1,3 +1,5 @@
+
+import {debounceTime} from 'rxjs/operators';
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
 import {IBasicInfo, ISaveDataManagment} from '../../../../../../interfaces/bot-creation';
@@ -43,7 +45,7 @@ export class DataManageFormComponent implements OnInit {
 
     this.formGroup = this.formBuilder.group({
       data_persistence_period: [this._bot.data_persistence_period, Validators.required],
-      consent_message: [this._bot.consent_message, Validators.required],
+      consent_message: [this._bot.consent_message],
       advanced_data_protection: [this._bot.advanced_data_protection],
       allow_anonymization: [this._bot.allow_anonymization],
       blanket_consent: [this._bot.blanket_consent],
@@ -51,7 +53,7 @@ export class DataManageFormComponent implements OnInit {
     });
 
 
-    this.formGroup.valueChanges.debounceTime(200).subscribe((data: ISaveDataManagment) => {
+    this.formGroup.valueChanges.pipe(debounceTime(200)).subscribe((data: ISaveDataManagment) => {
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) { return; }
       this.formData = data;
       this.datachanged$.emit({...data, form_validation_data_management: this.formGroup.valid});

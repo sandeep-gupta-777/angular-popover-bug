@@ -4,21 +4,18 @@ import {Observable} from 'rxjs';
 import {Select, Store} from '@ngxs/store';
 import {ServerService} from '../../server.service';
 import {ConstantsService, EAllActions} from '../../constants.service';
-import {IHeaderData} from '../../../interfaces/header-data';
 import {SetUser} from '../../auth/ngxs/auth.action';
 import {UtilityService} from '../../utility.service';
-import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {BsModalService} from 'ngx-bootstrap/modal';
 import {NgForm} from '@angular/forms';
-import {SetMasterProfilePermissions} from '../../ngxs/app.action';
-import {IProfilePermission} from '../../../interfaces/profile-action-permission';
+import {ModalImplementer} from '../../modal-implementer';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent extends ModalImplementer implements OnInit {
 
   myEAllActions = EAllActions;
   @Select() loggeduser$: Observable<{ user: IUser }>;
@@ -26,7 +23,6 @@ export class ProfileComponent implements OnInit {
   @ViewChild('password_form') passwordForm: NgForm;
   showPasswordChangeForm = true;
   loggeduser: IUser;
-  modalRef: BsModalRef;
   passwordErrorStr: string;
 
   new_password;
@@ -36,9 +32,10 @@ export class ProfileComponent implements OnInit {
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
-    private utilityService: UtilityService,
-    private modalService: BsModalService,
+    public utilityService: UtilityService,
+    public matDialog:MatDialog,
     private store: Store) {
+    super(utilityService, matDialog);
   }
 
   ngOnInit() {
@@ -46,22 +43,11 @@ export class ProfileComponent implements OnInit {
       this.loggeduser = loggeduser.user;
     });
 
-    // let allActionsUrl = this.constantsService.getAllActionsUrl();
-    // this.serverService.makeGetReq<{ meta: any, objects: IProfilePermission[] }>({url: allActionsUrl})
-    //   .subscribe(({objects}) => {
-    //     this.store.dispatch([
-    //       new SetMasterProfilePermissions({masterProfilePermissions: objects})
-    //     ]);
-    //   });
-
-    this.modalService.onHidden.subscribe((reason: string) => {
-      this.old_password = this.new_password = this.new_password_confirm = '';
-    });
   }
 
   updateProfile() {
     if (!this.f.valid) {
-      this.utilityService.showErrorToaster(new Error('Please fill valid values'));
+      this.utilityService.showErrorToaster('Please fill valid values');
       return;
     }
     const url: string = this.constantsService.getUserUpdateUrl(this.loggeduser.id);
@@ -79,7 +65,11 @@ export class ProfileComponent implements OnInit {
   }
 
   openChangePasswordModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    this.showPasswordChangeForm = true;
+    this.openPrimaryModal(template)
+      .then(()=>{
+        this.old_password = this.new_password = this.new_password_confirm = '';
+      })
   }
 
   changePassword() {
@@ -96,15 +86,21 @@ export class ProfileComponent implements OnInit {
       };
       this.serverService.makePostReq({url: changePasswordUrl, body})
         .subscribe((value: { 'error': boolean, 'message': string }) => {
-          if (value.error) {
-            this.flashErrorMessage(value.message);
-            return;
+          debugger;
+          if (!value.error) {
+          this.showPasswordChangeForm = false; //show success message    
           }
-          this.showPasswordChangeForm = false; //show success message
-          setTimeout(() => {
+          else{
+           
+            // this.flashErrorMessage(value.message);
             this.showPasswordChangeForm = true; //show form again
             this.new_password_confirm = this.new_password = this.old_password = '';
-          }, 3000);
+            // return;
+          }
+          // setTimeout(() => {
+          //   this.showPasswordChangeForm = true; //show form again
+          //   this.new_password_confirm = this.new_password = this.old_password = '';
+          // }, 3000);
         });
     } else if (this.new_password !== this.new_password_confirm) {
       this.flashErrorMessage('passwords dont match');

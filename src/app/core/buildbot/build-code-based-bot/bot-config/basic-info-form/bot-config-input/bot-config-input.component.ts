@@ -3,6 +3,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl} from '@angular/forms
 import {UiSwitchWrapperComponent} from '../ui-switch/ui-switch-wrapper.component';
 import {ObjectKeyMap} from '@ngxs/store/src/internals';
 import {LoggingService} from '../../../../../../logging.service';
+import {UtilityService} from '../../../../../../utility.service';
 
 @Component({
   selector: 'app-bot-config-input',
@@ -24,10 +25,13 @@ export class BotConfigInputComponent implements OnInit, ControlValueAccessor {
   isDisabled = false;
   onChanges: Function;
   ngControl: NgControl;
+  @Input() isRequired =false;
   constructor(private injector: Injector) {}
 
   ngOnInit() {
+    /*todo: detect required attribute in input here*/
     this.ngControl = this.injector && this.injector.get(NgControl);
+    // this.isRequired  = UtilityService.hasRequiredField(this.ngControl);
   }
 
   keyDown(data) {
@@ -39,7 +43,7 @@ export class BotConfigInputComponent implements OnInit, ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
+    this.isDisabled = false;
   }
 
   writeValue(value: boolean): void {

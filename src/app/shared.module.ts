@@ -5,7 +5,6 @@ import {BasicInfoFormComponent} from './core/buildbot/build-code-based-bot/bot-c
 import {BotConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {BotArchitetureComponent} from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {UiSwitchModule} from 'ngx-toggle-switch';
 import {CommonModule} from '@angular/common';
 import {BotIdToNamePipe} from './bot-id-to-name.pipe';
 import {RouterModule} from '@angular/router';
@@ -13,8 +12,8 @@ import {AdditionalInfoFormComponent} from './core/buildbot/build-code-based-bot/
 import {SmartTableComponent} from './smart-table/smart-table.component';
 import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
 import {KnowledgeBaseComponent} from './core/buildbot/build-code-based-bot/architecture/knowledge-base/knowledge-base.component';
-import {Ng2CompleterModule} from 'ng2-completer';
-import {Ng2SmartTableModule} from 'ng2-smart-table';
+
+
 import {KnowledgeBasePresentationComponent} from './core/buildbot/build-code-based-bot/architecture/knowledge-base/knowledge-base-presentation/knowledge-base-presentation.component';
 import {ChartComponent} from './core/chart/chart.component';
 import {HandsontableComponent} from './handsontable/handsontable.component';
@@ -27,18 +26,9 @@ import {ProfilePermissionIdToNamePipe} from './core/profile/profile-permission-i
 import {EnabledIntegrationsCountPipe} from './enabled-integrations-count.pipe';
 import {SerializeEnterpriseprofileDataPipe} from './core/enterpriseprofile/serialize-enterpriseprofile-data.pipe';
 import {DragulaModule} from 'ng2-dragula';
-import {
-  BsDatepickerModule,
-  BsDropdownModule,
-  ModalModule, PopoverModule,
-  ProgressbarModule,
-  TabsModule,
-  TimepickerModule,
-  TooltipModule
-} from 'ngx-bootstrap';
 import {SerializeSessionMessagePipe} from './serialize-session-message.pipe';
 import {IntegrationNameFormatterPipe} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-name-formatter.pipe';
-import {ClickOutsideModule} from 'ng2-click-outside';
+import {ClickOutsideModule} from 'ng-click-outside';
 import {HighlightDirective} from './readonly-selected-permission.directive';
 import {BotConfigInputComponent} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/bot-config-input/bot-config-input.component';
 import {UiSwitchWrapperComponent} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/ui-switch/ui-switch-wrapper.component';
@@ -48,9 +38,16 @@ import {ErrorDescriptionPipe} from './core/buildbot/build-code-based-bot/bot-con
 import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
 import {SplashScreenComponent} from './splash-screen/splash-screen.component';
 import {SafeUrlPipe} from './href-sanitizer.pipe';
+import {MyMaterialModule} from './my-material.module';
+import {ImiLoaderComponent} from './imi-loader/imi-loader.component';
+import {PipelineFilterPipe} from './pipeline-filter.pipe';
+import {EnterpriseListComponent} from './auth/enterprise-list/enterprise-list.component';
+import {GenericObjFilterPipe} from './generic-obj-filter.pipe';
 
 @NgModule({
   declarations: [
+    EnterpriseListComponent,
+    GenericObjFilterPipe,
     IntegrationLogosPipe,
     SplashScreenComponent,
     DataManageFormComponent,
@@ -62,6 +59,7 @@ import {SafeUrlPipe} from './href-sanitizer.pipe';
     BotConfigComponent,
     BotArchitetureComponent,
     BotIdToNamePipe,
+    PipelineFilterPipe,
     AdditionalInfoFormComponent,
     SmartTableComponent, //
     CodeEditorComponent, //
@@ -81,26 +79,21 @@ import {SafeUrlPipe} from './href-sanitizer.pipe';
     IntegrationNameFormatterPipe,
     HighlightDirective,
     SafeUrlPipe,
+    ImiLoaderComponent
   ],
   imports: [
-    UiSwitchModule,
+
+    MyMaterialModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
     RouterModule,
-    Ng2CompleterModule,
-    Ng2SmartTableModule,
     ChartModule,
-    BsDatepickerModule.forRoot(),
-    ModalModule.forRoot(),
-    TooltipModule.forRoot(),
-    BsDropdownModule.forRoot(),
-    ProgressbarModule,
-    TabsModule.forRoot(),
     ClickOutsideModule,
-    PopoverModule.forRoot(),
   ],
   exports: [
+    GenericObjFilterPipe,
+    EnterpriseListComponent,
     MyIfDirective,
     SplashScreenComponent,
     HighlightDirective,
@@ -110,6 +103,7 @@ import {SafeUrlPipe} from './href-sanitizer.pipe';
     DataManageFormComponent,
     BasicInfoFormComponent,
     BotConfigInputComponent,
+    PipelineFilterPipe,
     ErrorDescriptionPipe,
     UiSwitchWrapperComponent,
     AvatorFormComponent,
@@ -119,12 +113,9 @@ import {SafeUrlPipe} from './href-sanitizer.pipe';
     FormsModule,
     BotIdToNamePipe,
     RouterModule,
-    UiSwitchModule,
     SmartTableComponent, //
     CodeEditorComponent, //
     KnowledgeBaseComponent, //
-    Ng2CompleterModule,
-    Ng2SmartTableModule,
     KnowledgeBasePresentationComponent,
     ChartComponent,
     HandsontableComponent,
@@ -138,18 +129,9 @@ import {SafeUrlPipe} from './href-sanitizer.pipe';
     SerializeEnterpriseprofileDataPipe,
     DragulaModule,
     IntegrationNameFormatterPipe,
-    BsDatepickerModule,
-    BsDropdownModule,
-    ModalModule,
-    ProgressbarModule,
-    TabsModule,
-    TimepickerModule,
-    TooltipModule,
     ClickOutsideModule,
-    PopoverModule
-
-
-
+    MyMaterialModule,
+    ImiLoaderComponent
   ]
 })
 export class SharedModule {

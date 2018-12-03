@@ -4,6 +4,7 @@ export interface IUser {
   last_login: string;
   is_superuser: boolean;
   enterprise_id: number;
+  enterprises: any;
   role_id: number;
   email: string;
   first_name: string;
@@ -13,6 +14,7 @@ export interface IUser {
   date_joined: string;
   auth_token: string;
   user_access_token: string;
+  enterprise: any;
   role: {
     'resource_uri': string,
     'permissions': {

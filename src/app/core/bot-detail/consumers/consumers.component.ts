@@ -3,38 +3,42 @@ import {Select, Store} from '@ngxs/store';
 import {ServerService} from '../../../server.service';
 import {Observable} from 'rxjs';
 import {ConstantsService, EAllActions} from '../../../constants.service';
-import {IConsumerResults, IConsumerResultsFromServer} from '../../../../interfaces/consumer';
+import {IConsumerItem, IConsumerResultsFromServer} from '../../../../interfaces/consumer';
 import {IBot} from '../../interfaces/IBot';
 import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
 import {ActivatedRoute, Route, Router} from '@angular/router';
-import {ISessionItem} from '../../../../interfaces/sessions';
+import {ISessionItem, ITableColumn} from '../../../../interfaces/sessions';
 import {IHeaderData} from '../../../../interfaces/header-data';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {PermissionService} from '../../../permission.service';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
+import {map} from 'rxjs/operators';
+import {MaterialTableImplementer} from '../../../material-table-implementer';
+import {UtilityService} from '../../../utility.service';
+import {MatDialog} from '@angular/material';
+import {ObjectArrayCrudService} from '../../../object-array-crud.service';
 
 @Component({
   selector: 'app-consumers',
   templateUrl: './consumers.component.html',
   styleUrls: ['./consumers.component.scss']
 })
-export class ConsumersComponent implements OnInit {
+export class ConsumersComponent extends MaterialTableImplementer implements OnInit {
 
+  dialogRefWrapper = {ref:null};
+  @Select() botlist$: Observable<ViewBotStateModel>;
   @Input() id: string;
   @Input() bot: IBot;
   bot_id: number;
   totalRecords: number;
   myESplashScreens = ESplashScreens;
-  @Select() botlist$: Observable<ViewBotStateModel>;
   showLoader = false;
   isDeCryptAuditAccessDenied = false;
-  consumerTableData: IConsumerResults[];
-  consumersDecrypted: IConsumerResults; //IConsumerItem
-  smartTableSettings_Consumers = this.constantsService.SMART_TABLE_CONSUMER_SETTING;
+  consumerItems: IConsumerItem[];
+  consumersDecrypted: IConsumerItem; //IConsumerItem
   isFullscreen: false;
-  consumerItemToBeDecrypted: IConsumerResults;
+  consumerItemToBeDecrypted: IConsumerItem;
   decryptReason: string;
-  modalRef: BsModalRef;
+  tableData;
 
   constructor(
     private serverService: ServerService,
@@ -42,18 +46,35 @@ export class ConsumersComponent implements OnInit {
     private router: Router,
     private permissionService: PermissionService,
     private activatedRoute: ActivatedRoute,
-    private modalService: BsModalService,
+    private matDialog: MatDialog,
+    private utilityService: UtilityService,
     private store: Store) {
+    super();
   }
 
+  initializeTableData(consumerTableData: IConsumerItem[], tableDataMetaDict) {
+    let tableData = this.transformDataForMaterialTable(consumerTableData, tableDataMetaDict);
+    tableData.map((tableRow)=>{
+      let additonalColumns: any = {
+        Actions:tableRow['Actions'],
+      };
 
-  reloadData() {
-    this.loadConsumerData();
+      additonalColumns['Actions'].value = additonalColumns['Actions'].value || [];
+      if(tableRow['originalSessionData']['data_encrypted']){
+        additonalColumns['Actions'].value.push({show: true, name: 'decrypt', class: 'fa fa-lock'});
+      }
+
+      return {...tableRow, ...additonalColumns};
+    });
+    return tableData;
+  }
+
+  getTableDataMetaDict() {
+    return this.constantsService.SMART_TABLE_CONSUMER_TABLE_DATA_META_DICT_TEMPLATE;
   }
 
   ngOnInit() {
     this.isDeCryptAuditAccessDenied = this.permissionService.isTabAccessDenied(EAllActions['Create Decrypt Audit']);
-
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     this.isFullscreen = this.activatedRoute.snapshot.data['isFullscreen'];
     this.botlist$.subscribe((viewBotState) => {
@@ -71,38 +92,24 @@ export class ConsumersComponent implements OnInit {
     const url = this.constantsService.getBotConsumerUrl(limit, offset);
     this.serverService
       .makeGetReq<IConsumerResultsFromServer>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
-      .map((value) => {
+      .subscribe((value) => {
         this.totalRecords = value.meta.total_count;
-        return {
-          ...value,
-          objects: value.objects.map((result) => {
-            // let modified_update_at = (new Date(result.updated_at)).toDateString();
-            return {...result};
-          })
-        };
-      }).subscribe((value) => {
-      this.showLoader = false;
-      this.consumerTableData = value.objects;
-    });
+        this.showLoader = false;
+        this.consumerItems = value.objects;
+        let tableDataMetaDict = this.getTableDataMetaDict();
+        this.tableData = this.initializeTableData(value.objects, tableDataMetaDict);
+      });
   }
 
 
-  goFullScreen() {
-    this.router.navigate([`core/botdetail/${this.bot_id}/consumer`]);
-    // http://localhost:4200/core/botdetail/27/consumer
-  }
-
-  customActionEventsTriggeredInSessionsTable(data: { action: string, data: IConsumerResults, source: any }, Primarytemplat) {
-
-
+  customActionEventsTriggeredInSessionsTable(data: { action: string, data: IConsumerItem, source: any }, Primarytemplat) {
+    debugger;
     if (data.action === 'decrypt') {
-      /*use dcrypt api*/
-
       this.consumerItemToBeDecrypted = data.data;
       this.openCreateBotModal(Primarytemplat);
-
     }
   }
+
 
   decryptSubmit() {
 
@@ -116,36 +123,44 @@ export class ConsumersComponent implements OnInit {
         this.decryptReason = '';
         const url = this.constantsService.getBotConsumerByIdUrl(this.consumerItemToBeDecrypted.id);
         this.serverService
-          .makeGetReq<IConsumerResults>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
-          .map((result) => {
+          .makeGetReq<IConsumerItem>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
+          .pipe(map((result) => {
             const modified_update_at = (new Date(result.updated_at)).toDateString();
             return {...result, updated_at: modified_update_at};
-          })
-          .subscribe((value) => {
-
+          }))
+          .subscribe((value: IConsumerItem) => {
             this.consumersDecrypted = value;
-
-            const index = this.consumerTableData.findIndex((value) => value.id === this.consumerItemToBeDecrypted.id);
-            this.consumerTableData[index] = this.consumersDecrypted;
-            this.consumerTableData = [...this.consumerTableData];
+            const index = this.consumerItems.findIndex((value) => value.id === this.consumerItemToBeDecrypted.id);
+            this.consumerItems[index] = this.consumersDecrypted;
+            this.tableData = this.initializeTableData(this.consumerItems, this.getTableDataMetaDict());
           });
       });
 
   }
 
   performSearchInDbForConsumer(data) {
-
-    const url = this.constantsService.getBotConsumerByIdUrl(data['ID']);
+    const url = this.constantsService.getBotConsumerByIdUrl(data['id']);
     this.serverService
-      .makeGetReq<IConsumerResults>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
-      .subscribe((consumer: IConsumerResults) => {
-        this.consumerTableData.push(consumer);
-        this.consumerTableData = [...this.consumerTableData];
+      .makeGetReq<IConsumerItem>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
+      .subscribe((consumer: IConsumerItem) => {
+        let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.consumerItems, {id: consumer.id});
+        if(index >= 0){
+          this.consumerItems[index] = consumer;
+        }else {
+          this.consumerItems.push(consumer);
+        }
+        this.tableData = this.initializeTableData(this.consumerItems, this.getTableDataMetaDict());
       });
   }
 
   openCreateBotModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    this.utilityService.openDialog({
+      dialog: this.matDialog,
+      dialogRefWrapper: this.dialogRefWrapper,
+      component:template,
+      classStr:'primary-modal-header-border'
+    });
   }
+
 
 }

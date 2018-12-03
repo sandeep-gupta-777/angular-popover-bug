@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import {IAuthState} from './auth/ngxs/auth.state';
 import {Router} from '@angular/router';
@@ -16,13 +18,13 @@ export class LoginGaurdService {
 
   canActivate() {
 
-    return this.loggeduser$.map((value: IAuthState) => {
+    return this.loggeduser$.pipe(map((value: IAuthState) => {
       if (value.user == null) {
         return true;
       } else {
         this.router.navigate(['.']);
         return false;
       }
-    });
+    }));
   }
 }

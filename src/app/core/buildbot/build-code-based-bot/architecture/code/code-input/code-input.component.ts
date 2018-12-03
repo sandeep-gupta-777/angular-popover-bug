@@ -24,19 +24,18 @@ import {SaveCodeInfo} from '../../../../ngxs/buildbot.action';
 import {ViewBotStateModel} from '../../../../../view-bots/ngxs/view-bot.state';
 import {Observable, Subscription} from 'rxjs';
 import {IHeaderData} from '../../../../../../../interfaces/header-data';
-import {UtilityService} from '../../../../../../utility.service';
+import {EBotType, UtilityService} from '../../../../../../utility.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import {IBotCreationState} from '../../../../ngxs/buildbot.state';
-import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {BsModalService} from 'ngx-bootstrap/modal';
 import {CodeEditorComponent} from '../code-editor/code-editor.component';
-import {EBotType} from '../../../../../view-bots/view-bots.component';
 import {EventService} from '../../../../../../event.service';
 import {take} from 'rxjs/operators';
 import {LoggingService} from '../../../../../../logging.service';
 import {DebugBase} from '../../../../../../debug-base';
 import {NgForm} from '@angular/forms';
 import {IUser} from '../../../../../interfaces/user';
+import {ModalImplementer} from '../../../../../../modal-implementer';
+import {MatDialog} from '@angular/material';
 
 export enum EBotVersionTabs {
   df_template = 'df_template',
@@ -53,8 +52,10 @@ export enum EBotVersionTabs {
   styleUrls: ['./code-input.component.scss'],
 
 })
-export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
+export class CodeInputComponent extends ModalImplementer implements OnInit, OnDestroy {
 
+
+  modalRefWrapper = {ref:null};
   showConfig = true;
   templateKeySearchKeyword = '';
   myEBotVersionTabs = EBotVersionTabs;
@@ -69,7 +70,6 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   @Select() botcreationstate$: Observable<IBotCreationState>;
   @Input() bot: IBot;
   @Output() datachanged$ = new EventEmitter();
-  modalRef: BsModalRef;
   forked_From: number;
   forked_comments: string;
   errorMessage: string;
@@ -112,12 +112,12 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     private serverService: ServerService,
     private constantsService: ConstantsService,
     private eventService: EventService,
-    private utilityService: UtilityService,
+    public utilityService: UtilityService,
     private router: Router,
+    public matDialog:MatDialog,
     private activatedRoute: ActivatedRoute,
-    private modalService: BsModalService,
   ) {
-    super();
+    super(utilityService, matDialog);
   }
 
   role: string;
@@ -404,7 +404,8 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
           }
         } else {
           if (this.bot.active_version_id === this.selectedVersion.id) {
-            this.modalRef = this.modalService.show(validationWarningModal, {class: 'modal-md'});
+            // this.modalRef = this.modalService.show(validationWarningModal, {class: 'modal-md'});
+            this.openPrimaryModal(validationWarningModal);
           } else {
             this.utilityService.showErrorToaster('Your code has error. But it will be saved as its not active');
 
@@ -463,7 +464,8 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   openForkNewVersionModal(template) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    this.openPrimaryModal(template);
   }
 
   forkNewVersion() {
@@ -472,7 +474,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
       this.flashErrorMessage('Please select version id');
       return;
     }
-    this.modalRef.hide();
+    this.dialogRefWrapper.ref.close();
     let forkedVersionInfo = this.bot.store_bot_versions.find((versions) => versions.version == this.forked_version_number);
     forkedVersionInfo = {...forkedVersionInfo};
     forkedVersionInfo.updated_fields = forkedVersionInfo.changed_fields;
@@ -576,5 +578,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
       this.convertGenTemplateCodeStringIntoUiComponents();
     }
   }
+
+
 
 }

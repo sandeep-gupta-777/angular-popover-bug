@@ -1,0 +1,2981 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>bot-plateform-fe documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">bot-plateform-fe documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>ServerService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/server.service.ts</code>
+        </p>
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#AUTH_TOKEN">AUTH_TOKEN</a>
+                            </li>
+                            <li>
+                                <a href="#currentPreviewBot">currentPreviewBot</a>
+                            </li>
+                            <li>
+                                <a href="#currentRoom">currentRoom</a>
+                            </li>
+                            <li>
+                                <a href="#currentRoomId">currentRoomId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isLoggedIn">isLoggedIn</a>
+                            </li>
+                            <li>
+                                <a href="#loggeduser$">loggeduser$</a>
+                            </li>
+                            <li>
+                                <a href="#messaging">messaging</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#X_AXIS_TOKEN">X_AXIS_TOKEN</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#changeProgressBar">changeProgressBar</a>
+                            </li>
+                            <li>
+                                <a href="#createHeaders">createHeaders</a>
+                            </li>
+                            <li>
+                                <a href="#deleteNer">deleteNer</a>
+                            </li>
+                            <li>
+                                <a href="#fetchSpecificBotFromServerAndUpdateBotList">fetchSpecificBotFromServerAndUpdateBotList</a>
+                            </li>
+                            <li>
+                                <a href="#getAllVersionOfBotFromServerAndStoreInBotInBotList">getAllVersionOfBotFromServerAndStoreInBotInBotList</a>
+                            </li>
+                            <li>
+                                <a href="#getNSetBotList">getNSetBotList</a>
+                            </li>
+                            <li>
+                                <a href="#getNSetChatPreviewBot">getNSetChatPreviewBot</a>
+                            </li>
+                            <li>
+                                <a href="#getNSetConfigData$">getNSetConfigData$</a>
+                            </li>
+                            <li>
+                                <a href="#getNSetIntegrationList">getNSetIntegrationList</a>
+                            </li>
+                            <li>
+                                <a href="#getNSetMasterPermissionsList">getNSetMasterPermissionsList</a>
+                            </li>
+                            <li>
+                                <a href="#getOverviewInfo">getOverviewInfo</a>
+                            </li>
+                            <li>
+                                <a href="#handleErrorFromServer">handleErrorFromServer</a>
+                            </li>
+                            <li>
+                                <a href="#IncreaseAutoLogoutTime">IncreaseAutoLogoutTime</a>
+                            </li>
+                            <li>
+                                <a href="#initializeIMIConnect">initializeIMIConnect</a>
+                            </li>
+                            <li>
+                                <a href="#makeDeleteReq">makeDeleteReq</a>
+                            </li>
+                            <li>
+                                <a href="#makeGetReq">makeGetReq</a>
+                            </li>
+                            <li>
+                                <a href="#makeGetReqToDownloadFiles">makeGetReqToDownloadFiles</a>
+                            </li>
+                            <li>
+                                <a href="#makePostReq">makePostReq</a>
+                            </li>
+                            <li>
+                                <a href="#makePutReq">makePutReq</a>
+                            </li>
+                            <li>
+                                <a href="#removeTokens">removeTokens</a>
+                            </li>
+                            <li>
+                                <a href="#sendHumanMessageViaImiConnect">sendHumanMessageViaImiConnect</a>
+                            </li>
+                            <li>
+                                <a href="#showErrorMessageForErrorTrue">showErrorMessageForErrorTrue</a>
+                            </li>
+                            <li>
+                                <a href="#startANewChatUsingSendApi">startANewChatUsingSendApi</a>
+                            </li>
+                            <li>
+                                <a href="#updateOrSaveCustomNer">updateOrSaveCustomNer</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(httpClient: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, utilityService: <a href="../injectables/UtilityService.html">UtilityService</a>, store: Store, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, permissionService: <a href="../injectables/PermissionService.html">PermissionService</a>, constantsService: <a href="../injectables/ConstantsService.html">ConstantsService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/server.service.ts:62</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>httpClient</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/common/http/HttpClient" target="_blank" >HttpClient</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>utilityService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/UtilityService.html" target="_self" >UtilityService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>store</td>
+                                                  
+                                                        <td>
+                                                                    <code>Store</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>permissionService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/PermissionService.html" target="_self" >PermissionService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>constantsService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/ConstantsService.html" target="_self" >ConstantsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="changeProgressBar"></a>
+                        <span class="name">
+                            <b>
+                            changeProgressBar
+                            </b>
+                            <a href="#changeProgressBar"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>changeProgressBar(loading: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="376" class="link-to-prism">src/app/server.service.ts:376</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>loading</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>value</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="createHeaders"></a>
+                        <span class="name">
+                            <b>
+                            createHeaders
+                            </b>
+                            <a href="#createHeaders"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>createHeaders(headerData?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/app/server.service.ts:84</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>headerData</td>
+                                                        <td>
+                                                                    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://angular.io/api/common/http/HttpHeaders" target="_blank" >HttpHeaders</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="deleteNer"></a>
+                        <span class="name">
+                            <b>
+                            deleteNer
+                            </b>
+                            <a href="#deleteNer"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>deleteNer(ner_id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, bot?: <a href="../interfaces/IBot.html">IBot</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="411" class="link-to-prism">src/app/server.service.ts:411</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>ner_id</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>bot</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/IBot.html" target="_self" >IBot</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="fetchSpecificBotFromServerAndUpdateBotList"></a>
+                        <span class="name">
+                            <b>
+                            fetchSpecificBotFromServerAndUpdateBotList
+                            </b>
+                            <a href="#fetchSpecificBotFromServerAndUpdateBotList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>fetchSpecificBotFromServerAndUpdateBotList(bot)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="294" class="link-to-prism">src/app/server.service.ts:294</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>bot</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getAllVersionOfBotFromServerAndStoreInBotInBotList"></a>
+                        <span class="name">
+                            <b>
+                            getAllVersionOfBotFromServerAndStoreInBotInBotList
+                            </b>
+                            <a href="#getAllVersionOfBotFromServerAndStoreInBotInBotList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>getAllVersionOfBotFromServerAndStoreInBotInBotList(botId, bot_access_token)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="425" class="link-to-prism">src/app/server.service.ts:425</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>botId</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>bot_access_token</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getNSetBotList"></a>
+                        <span class="name">
+                            <b>
+                            getNSetBotList
+                            </b>
+                            <a href="#getNSetBotList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>getNSetBotList(noValidateUser?)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="324" class="link-to-prism">src/app/server.service.ts:324</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>noValidateUser</td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getNSetChatPreviewBot"></a>
+                        <span class="name">
+                            <b>
+                            getNSetChatPreviewBot
+                            </b>
+                            <a href="#getNSetChatPreviewBot"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>getNSetChatPreviewBot(bot_unique_name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, enterprise_unique_name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="342" class="link-to-prism">src/app/server.service.ts:342</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>bot_unique_name</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>enterprise_unique_name</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getNSetConfigData$"></a>
+                        <span class="name">
+                            <b>
+                            getNSetConfigData$
+                            </b>
+                            <a href="#getNSetConfigData$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>getNSetConfigData$()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="617" class="link-to-prism">src/app/server.service.ts:617</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getNSetIntegrationList"></a>
+                        <span class="name">
+                            <b>
+                            getNSetIntegrationList
+                            </b>
+                            <a href="#getNSetIntegrationList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>getNSetIntegrationList()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="360" class="link-to-prism">src/app/server.service.ts:360</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getNSetMasterPermissionsList"></a>
+                        <span class="name">
+                            <b>
+                            getNSetMasterPermissionsList
+                            </b>
+                            <a href="#getNSetMasterPermissionsList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>getNSetMasterPermissionsList()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="683" class="link-to-prism">src/app/server.service.ts:683</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getOverviewInfo"></a>
+                        <span class="name">
+                            <b>
+                            getOverviewInfo
+                            </b>
+                            <a href="#getOverviewInfo"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>getOverviewInfo(body: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="312" class="link-to-prism">src/app/server.service.ts:312</a></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                <b>Type parameters :</b>
+                                <ul class="type-parameters">
+                                        <li>T</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>body</td>
+                                                        <td>
+                                                                    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="../interfaces/IOverviewInfoResponse.html" target="_self" >Observable&lt;IOverviewInfoResponse&gt;</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="handleErrorFromServer"></a>
+                        <span class="name">
+                            <b>
+                            handleErrorFromServer
+                            </b>
+                            <a href="#handleErrorFromServer"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>handleErrorFromServer(e)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="144" class="link-to-prism">src/app/server.service.ts:144</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>e</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="IncreaseAutoLogoutTime"></a>
+                        <span class="name">
+                            <b>
+                            IncreaseAutoLogoutTime
+                            </b>
+                            <a href="#IncreaseAutoLogoutTime"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>IncreaseAutoLogoutTime()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="317" class="link-to-prism">src/app/server.service.ts:317</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="initializeIMIConnect"></a>
+                        <span class="name">
+                            <b>
+                            initializeIMIConnect
+                            </b>
+                            <a href="#initializeIMIConnect"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>initializeIMIConnect(previewBot: <a href="../interfaces/IBot.html">IBot</a>, currentRoomId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="460" class="link-to-prism">src/app/server.service.ts:460</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>previewBot</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/IBot.html" target="_self" >IBot</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>currentRoomId</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="makeDeleteReq"></a>
+                        <span class="name">
+                            <b>
+                            makeDeleteReq
+                            </b>
+                            <a href="#makeDeleteReq"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>makeDeleteReq(reqObj: literal type)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="187" class="link-to-prism">src/app/server.service.ts:187</a></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                <b>Type parameters :</b>
+                                <ul class="type-parameters">
+                                        <li>T</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>reqObj</td>
+                                                        <td>
+                                                                    <code>literal type</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="makeGetReq"></a>
+                        <span class="name">
+                            <b>
+                            makeGetReq
+                            </b>
+                            <a href="#makeGetReq"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>makeGetReq(reqObj: literal type)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">src/app/server.service.ts:117</a></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                <b>Type parameters :</b>
+                                <ul class="type-parameters">
+                                        <li>T</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>reqObj</td>
+                                                        <td>
+                                                                    <code>literal type</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="makeGetReqToDownloadFiles"></a>
+                        <span class="name">
+                            <b>
+                            makeGetReqToDownloadFiles
+                            </b>
+                            <a href="#makeGetReqToDownloadFiles"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>makeGetReqToDownloadFiles(reqObj: literal type)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="154" class="link-to-prism">src/app/server.service.ts:154</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>reqObj</td>
+                                                        <td>
+                                                                    <code>literal type</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="makePostReq"></a>
+                        <span class="name">
+                            <b>
+                            makePostReq
+                            </b>
+                            <a href="#makePostReq"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>makePostReq(reqObj: literal type)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="223" class="link-to-prism">src/app/server.service.ts:223</a></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                <b>Type parameters :</b>
+                                <ul class="type-parameters">
+                                        <li>T</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>reqObj</td>
+                                                        <td>
+                                                                    <code>literal type</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="makePutReq"></a>
+                        <span class="name">
+                            <b>
+                            makePutReq
+                            </b>
+                            <a href="#makePutReq"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>makePutReq(reqObj: literal type)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="266" class="link-to-prism">src/app/server.service.ts:266</a></div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                <b>Type parameters :</b>
+                                <ul class="type-parameters">
+                                        <li>T</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>reqObj</td>
+                                                        <td>
+                                                                    <code>literal type</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="removeTokens"></a>
+                        <span class="name">
+                            <b>
+                            removeTokens
+                            </b>
+                            <a href="#removeTokens"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>removeTokens()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/server.service.ts:79</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sendHumanMessageViaImiConnect"></a>
+                        <span class="name">
+                            <b>
+                            sendHumanMessageViaImiConnect
+                            </b>
+                            <a href="#sendHumanMessageViaImiConnect"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>sendHumanMessageViaImiConnect(currentRoom, currentBot: <a href="../interfaces/IBot.html">IBot</a>, messageByHuman: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="628" class="link-to-prism">src/app/server.service.ts:628</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>currentRoom</td>
+                                                        <td>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>currentBot</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/IBot.html" target="_self" >IBot</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>messageByHuman</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showErrorMessageForErrorTrue"></a>
+                        <span class="name">
+                            <b>
+                            showErrorMessageForErrorTrue
+                            </b>
+                            <a href="#showErrorMessageForErrorTrue"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>showErrorMessageForErrorTrue(undefined)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">src/app/server.service.ts:105</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="startANewChatUsingSendApi"></a>
+                        <span class="name">
+                            <b>
+                            startANewChatUsingSendApi
+                            </b>
+                            <a href="#startANewChatUsingSendApi"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>startANewChatUsingSendApi(startNewChatData: literal type)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="662" class="link-to-prism">src/app/server.service.ts:662</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>startNewChatData</td>
+                                                        <td>
+                                                                    <code>literal type</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="updateOrSaveCustomNer"></a>
+                        <span class="name">
+                            <b>
+                            updateOrSaveCustomNer
+                            </b>
+                            <a href="#updateOrSaveCustomNer"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>updateOrSaveCustomNer(selectedOrNewRowData: <a href="../interfaces/ICustomNerItem.html">ICustomNerItem</a>, bot?: <a href="../interfaces/IBot.html">IBot</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="391" class="link-to-prism">src/app/server.service.ts:391</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>selectedOrNewRowData</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/ICustomNerItem.html" target="_self" >ICustomNerItem</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>bot</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/IBot.html" target="_self" >IBot</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="AUTH_TOKEN"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            AUTH_TOKEN
+                            </b>
+                            <a href="#AUTH_TOKEN"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>AUTH_TOKEN:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>null</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/server.service.ts:61</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="currentPreviewBot"></a>
+                        <span class="name">
+                            <b>
+                            currentPreviewBot
+                            </b>
+                            <a href="#currentPreviewBot"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>currentPreviewBot:     <code><a href="../interfaces/IBot.html" target="_self" >IBot</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/IBot.html" target="_self" >IBot</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="457" class="link-to-prism">src/app/server.service.ts:457</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="currentRoom"></a>
+                        <span class="name">
+                            <b>
+                            currentRoom
+                            </b>
+                            <a href="#currentRoom"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>currentRoom:     <code><a href="../interfaces/IRoomData.html" target="_self" >IRoomData</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/IRoomData.html" target="_self" >IRoomData</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="626" class="link-to-prism">src/app/server.service.ts:626</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="currentRoomId"></a>
+                        <span class="name">
+                            <b>
+                            currentRoomId
+                            </b>
+                            <a href="#currentRoomId"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>currentRoomId:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="458" class="link-to-prism">src/app/server.service.ts:458</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isLoggedIn"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            isLoggedIn
+                            </b>
+                            <a href="#isLoggedIn"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>isLoggedIn:     <code></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/server.service.ts:62</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="loggeduser$"></a>
+                        <span class="name">
+                            <b>
+                            loggeduser$
+                            </b>
+                            <a href="#loggeduser$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>loggeduser$:     <code>Observable&lt;literal type&gt;</code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;literal type&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Select()<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/server.service.ts:59</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="messaging"></a>
+                        <span class="name">
+                            <b>
+                            messaging
+                            </b>
+                            <a href="#messaging"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>messaging:     <code></code>
+</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="455" class="link-to-prism">src/app/server.service.ts:455</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="X_AXIS_TOKEN"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            X_AXIS_TOKEN
+                            </b>
+                            <a href="#X_AXIS_TOKEN"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>X_AXIS_TOKEN:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>null</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/server.service.ts:60</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {catchError, map, tap} from &#x27;rxjs/operators&#x27;;
+import {Injectable, isDevMode} from &#x27;@angular/core&#x27;;
+import {HttpClient, HttpErrorResponse, HttpHeaders} from &#x27;@angular/common/http&#x27;;
+import {Observable, throwError, throwError as _throw} from &#x27;rxjs&#x27;;
+import {ConstantsService} from &#x27;./constants.service&#x27;;
+import {Select, Selector, Store} from &#x27;@ngxs/store&#x27;;
+import {IUser} from &#x27;./core/interfaces/user&#x27;;
+import {IHeaderData} from &#x27;../interfaces/header-data&#x27;;
+import {IOverviewInfoResponse, IOverviewInfoPostBody} from &#x27;../interfaces/Analytics2/overview-info&#x27;;
+
+import {UtilityService} from &#x27;./utility.service&#x27;;
+import {
+  SaveVersionInfoInBot,
+  SetAllBotListAction,
+  SetCodeBasedBotListAction,
+  SetPipeLineBasedBotListAction,
+  UpdateBotInfoByIdInBotInBotList
+} from &#x27;./core/view-bots/ngxs/view-bot.action&#x27;;
+import { IBot, IBotResult, IBotVersionResult } from &#x27;./core/interfaces/IBot&#x27;;
+import { ActivatedRoute, Router } from &#x27;@angular/router&#x27;;
+import {
+  SetAutoLogoutTime,
+  SetBackendURlRoot,
+  SetMasterIntegrationsList,
+  SetMasterProfilePermissions,
+  SetProgressValue
+} from &#x27;./ngxs/app.action&#x27;;
+import {IIntegrationMasterListItem, IIntegrationOption} from &#x27;../interfaces/integration-option&#x27;;
+import {ICustomNerItem} from &#x27;../interfaces/custom-ners&#x27;;
+
+
+
+
+import {IConsumerDetails} from &#x27;./chat/ngxs/chat.state&#x27;;
+import {EBotMessageMediaType, EChatFrame, IMessageData, IRoomData} from &#x27;../interfaces/chat-session-state&#x27;;
+import {
+  AddMessagesToRoomByRoomId,
+  AddNewRoom, ChangeBotIsThinkingDisplayByRoomId,
+  ChangeFrameAction,
+  ResetChatState,
+  SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
+  SetCurrentRoomID, ToggleChatWindow
+} from &#x27;./chat/ngxs/chat.action&#x27;;
+import {IGeneratedMessageItem} from &#x27;../interfaces/send-api-request-payload&#x27;;
+import {IProfilePermission} from &#x27;../interfaces/profile-action-permission&#x27;;
+import {EHttpVerbs, PermissionService} from &#x27;./permission.service&#x27;;
+import {ELogType, LoggingService} from &#x27;./logging.service&#x27;;
+import {EventService} from &#x27;./event.service&#x27;;
+
+declare var IMI: any;
+declare var $: any;
+
+@Injectable({
+  providedIn: &#x27;root&#x27;
+})
+export class ServerService {
+
+  @Select() loggeduser$: Observable&lt;{ user: IUser }&gt;;
+  public X_AXIS_TOKEN: string &#x3D; null;
+  public AUTH_TOKEN: string &#x3D; null;
+  private isLoggedIn &#x3D; false;
+
+
+  constructor(
+    private httpClient: HttpClient,
+    private utilityService: UtilityService,
+    private store: Store,
+    private router: Router,
+    private permissionService: PermissionService,
+    private constantsService: ConstantsService) {
+    this.loggeduser$.subscribe((value) &#x3D;&gt; {
+      if (!value || !value.user) { return; }
+      this.AUTH_TOKEN &#x3D; value.user.auth_token &amp;&amp; value.user.auth_token;
+      this.X_AXIS_TOKEN &#x3D; value.user.user_access_token &amp;&amp; value.user.user_access_token;
+    });
+  }
+
+  removeTokens() {
+    this.X_AXIS_TOKEN &#x3D; null;
+    this.AUTH_TOKEN &#x3D; null;
+  }
+
+  createHeaders(headerData?: any): HttpHeaders {
+    let headers &#x3D; new HttpHeaders();
+    let tokenData: IHeaderData &#x3D; {};
+    tokenData &#x3D; { &#x27;user-access-token&#x27;: this.X_AXIS_TOKEN };
+    tokenData &#x3D; { ...tokenData, &#x27;auth-token&#x27;: this.AUTH_TOKEN };
+    tokenData &#x3D; { ...tokenData, &#x27;content-type&#x27;: &#x27;application/json&#x27; };
+
+    headerData &#x3D; {
+      ...tokenData,
+      ...headerData,
+    };
+
+    if (headerData) {
+      for (const key in headerData) {
+        /*don&#x27;t set header data for undefined values*/
+        headerData[key] &amp;&amp; (headers &#x3D; headers.set(key, headerData[key]));
+      }
+    }
+    return headers;
+  }
+
+  showErrorMessageForErrorTrue({ error, message }) {
+    try {
+      if (error.error &#x3D;&#x3D;&#x3D; true || error) {
+        this.utilityService.showErrorToaster(error.message || message);
+        return true;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  }
+
+  makeGetReq&lt;T&gt;(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable&lt;any&gt; {
+    const isApiAccessDenied &#x3D; this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
+    if (!reqObj.noValidateUser &amp;&amp; isApiAccessDenied) {
+      console.log(&#x60;api access not allowed:${reqObj.url}&#x60;);
+      return throwError(&#x60;api access not allowed:${reqObj.url}&#x60;);
+    }
+    const headers &#x3D; this.createHeaders(reqObj.headerData);
+
+    this.changeProgressBar(true, 0);
+    return this.httpClient.get&lt;T&gt;(reqObj.url, {headers: headers}).pipe(
+      map((value: any) &#x3D;&gt; {
+        if (value &amp;&amp; value.error) {
+          this.showErrorMessageForErrorTrue(value);
+          return throwError(value);
+        } else {
+          return value;
+        }
+      }),
+      tap((value) &#x3D;&gt; {
+        this.changeProgressBar(false, 100);
+        this.IncreaseAutoLogoutTime();
+      }),
+      catchError((e: any, caught: Observable&lt;T&gt;) &#x3D;&gt; {
+        return this.handleErrorFromServer(e);
+      }),);
+  }
+
+  handleErrorFromServer(e) {
+    this.showErrorMessageForErrorTrue(e);
+    this.changeProgressBar(false, 100);
+    if (isDevMode()) {
+      LoggingService.error(e);
+      this.utilityService.showErrorToaster(e);
+    }
+    return _throw(&#x27;error&#x27;);
+  }
+
+  makeGetReqToDownloadFiles(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }) {
+    const isApiAccessDenied &#x3D; this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
+    if (!reqObj.noValidateUser &amp;&amp; isApiAccessDenied) {
+      console.log(&#x60;api access not allowed:${reqObj.url}&#x60;);
+
+      return throwError(&#x60;api access not allowed:${reqObj.url}&#x60;);
+    }
+    const headers &#x3D; this.createHeaders(reqObj.headerData);
+
+    this.changeProgressBar(true, 0);
+    return this.httpClient.get(reqObj.url, {headers: headers, responseType: &#x27;text&#x27;}).pipe(
+      map((value: any) &#x3D;&gt; {
+        if (value &amp;&amp; value.error) {
+          this.showErrorMessageForErrorTrue(value);
+          return throwError(value);
+        } else {
+          return value;
+        }
+      }),
+      tap((value) &#x3D;&gt; {
+        this.changeProgressBar(false, 100);
+        this.IncreaseAutoLogoutTime();
+      }),
+      catchError((e: any) &#x3D;&gt; {
+        return this.handleErrorFromServer(e);
+        // LoggingService.error(e);
+        // this.changeProgressBar(false, 100);
+        //
+        // this.utilityService.showErrorToaster(e);
+        // return _throw(&#x27;error&#x27;);
+      }),);
+  }
+
+  makeDeleteReq&lt;T&gt;(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable&lt;any&gt; {
+
+    const isApiAccessDenied &#x3D; this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.DELETE);
+    if (!reqObj.noValidateUser &amp;&amp; isApiAccessDenied) {
+      console.log(&#x60;api access not allowed:${reqObj.url}&#x60;);
+
+      return throwError(&#x60;api access not allowed:${reqObj.url}&#x60;);
+    }
+
+    const headers &#x3D; this.createHeaders(reqObj.headerData);
+
+    this.changeProgressBar(true, 0);
+    return this.httpClient.delete&lt;T&gt;(reqObj.url, {headers: headers}).pipe(
+      map((value: any) &#x3D;&gt; {
+        if (value &amp;&amp; value.error) {
+          this.showErrorMessageForErrorTrue(value);
+          return throwError(value);
+        } else {
+          return value;
+        }
+      }),
+      tap((value) &#x3D;&gt; {
+        this.changeProgressBar(false, 100);
+        this.IncreaseAutoLogoutTime();
+      }),
+      catchError((e: any, caught: Observable&lt;T&gt;) &#x3D;&gt; {
+        return this.handleErrorFromServer(e);
+        // LoggingService.error(e);
+        // this.showErrorMessageForErrorTrue(e)
+        // this.changeProgressBar(false, 100);
+        //
+        // this.utilityService.showErrorToaster(e);
+        // return _throw(&#x27;error&#x27;);
+      }),);
+  }
+
+  makePostReq&lt;T&gt;(reqObj: { url: string, body: any, headerData?: any, dontShowProgressBar?: boolean, noValidateUser?: boolean }): Observable&lt;any&gt; {
+
+    const isApiAccessDenied &#x3D; this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.POST);
+    if (!reqObj.noValidateUser &amp;&amp; isApiAccessDenied) {
+      if (isDevMode()) {
+        this.utilityService.showErrorToaster(&quot;Api access not allowed&quot;);
+      }
+      console.log(&#x60;api access not allowed:${reqObj.url}&#x60;);
+      return throwError(&#x60;api access not allowed:${reqObj.url}&#x60;);
+
+    }
+
+    const headers &#x3D; this.createHeaders(reqObj.headerData);
+    if (!reqObj.dontShowProgressBar) {
+      this.changeProgressBar(true, 0);
+    }
+    return this.httpClient.post&lt;T&gt;(reqObj.url, reqObj.body, {headers: headers}).pipe(
+      map((value: any) &#x3D;&gt; {
+
+        if (value &amp;&amp; value.error) {
+          this.showErrorMessageForErrorTrue(value); //{error: true, message: &quot;Error&quot;};
+          return throwError(value);
+        } else {
+          return value;
+        }
+      }),
+      tap((value) &#x3D;&gt; {
+        this.IncreaseAutoLogoutTime();
+        if (!reqObj.dontShowProgressBar) {
+          this.changeProgressBar(false, 100);
+        }
+      }),
+      catchError((e: any, caught: Observable&lt;T&gt;) &#x3D;&gt; {
+        return this.handleErrorFromServer(e);
+        //
+        // LoggingService.error(e);
+        // this.showErrorMessageForErrorTrue(e);
+        // this.changeProgressBar(false, 100);
+        // this.utilityService.showErrorToaster(e);
+        // return _throw(&#x27;error&#x27;);
+      }),);
+  }
+
+  makePutReq&lt;T&gt;(reqObj: { url: string, body: any, headerData?: IHeaderData }): Observable&lt;any&gt; {
+    const headers &#x3D; this.createHeaders(reqObj.headerData);
+    this.changeProgressBar(true, 0);
+
+    return this.httpClient.put&lt;T&gt;(reqObj.url, JSON.stringify(reqObj.body), {headers: headers}).pipe(
+      map((value: any) &#x3D;&gt; {
+
+        if (value &amp;&amp; value.error) {
+          this.showErrorMessageForErrorTrue(value);
+          return throwError(value);
+        } else {
+          return value;
+        }
+      }),
+      tap((value) &#x3D;&gt; {
+        this.IncreaseAutoLogoutTime();
+        this.changeProgressBar(false, 100);
+      }),
+      catchError((e: any, caught: Observable&lt;T&gt;) &#x3D;&gt; {
+        return this.handleErrorFromServer(e);
+        // this.showErrorMessageForErrorTrue(e.error) || this.showErrorMessageForErrorTrue(e);
+        //
+        // this.changeProgressBar(false, 100);
+        // return _throw(&#x27;error&#x27;);
+      }),);
+  }
+
+
+  fetchSpecificBotFromServerAndUpdateBotList(bot) {
+    const getBotByTokenUrl &#x3D; this.constantsService.getSpecificBotByBotTokenUrl();
+    const headerData: IHeaderData &#x3D; {
+      &#x27;bot-access-token&#x27;: bot.bot_access_token
+    };
+    return this.makeGetReq&lt;{ objects: IBot[] }&gt;({url: getBotByTokenUrl, headerData}).pipe(
+      map((val) &#x3D;&gt; {
+
+        const bot: IBot &#x3D; val.objects.find((bot) &#x3D;&gt; {
+
+          return bot.id &#x3D;&#x3D;&#x3D; bot.id;
+        });
+        return this.store.dispatch([
+          new UpdateBotInfoByIdInBotInBotList({ data: bot, botId: bot.id })
+        ]);
+      }));
+  }
+
+  getOverviewInfo&lt;T&gt;(body: any): Observable&lt;IOverviewInfoResponse&gt; {
+    const url &#x3D; this.constantsService.getOverViewInfoUrl();
+    return this.makePostReq&lt;IOverviewInfoResponse&gt;({ url, body });
+  }
+
+  IncreaseAutoLogoutTime() {
+    const autoLogoutInterval &#x3D; 3600 * 1000; //3600*1000
+    this.store.dispatch([
+      new SetAutoLogoutTime({ time: Date.now() + autoLogoutInterval })
+    ]);
+  }
+
+  getNSetBotList(noValidateUser?) {
+    const url &#x3D; this.constantsService.getBotListUrl();
+    const headerData: IHeaderData &#x3D; {&#x27;content-type&#x27;: &#x27;application/json&#x27;};
+    return this.makeGetReq&lt;IBotResult&gt;({url, headerData, noValidateUser}).pipe(
+      tap((botResult) &#x3D;&gt; {
+        // let codeBasedBotList: IBot[] &#x3D; [];
+        // let pipelineBasedBotList: IBot[] &#x3D; [];
+
+        // botResult.objects.forEach((bot) &#x3D;&gt; {
+        //   bot.bot_type !&#x3D;&#x3D; &#x27;genbot&#x27; ? codeBasedBotList.push(bot) : pipelineBasedBotList.push(bot);
+        // });
+        this.store.dispatch(new SetAllBotListAction({ botList: botResult.objects }));
+        // this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
+        // this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
+      }));
+
+  }
+
+  getNSetChatPreviewBot(bot_unique_name: string, enterprise_unique_name: string) {
+    // if (!this.currentBot || (this.currentBot &amp;&amp; this.currentBot.bot_unique_name !&#x3D;&#x3D; this.bot_unique_name)) {
+    //   let enterprise_unique_name &#x3D; this.activatedRoute.snapshot.queryParams[&#x27;enterprise_unique_name&#x27;];//testingbot
+    //   if (!this.bot_unique_name) return;
+    const url &#x3D; this.constantsService.getNSetChatPreviewBotUrl(bot_unique_name, enterprise_unique_name);
+    this.makeGetReq({ url, noValidateUser: true })
+      .subscribe((bot: IBot) &#x3D;&gt; {
+        // this.user_first_name &#x3D; bot.enterprise_name;
+        // this.enterprise_logo &#x3D; bot.enterprise_logo;
+        // this.user_email &#x3D;bot.enterprise_name;
+        this.store.dispatch([
+          new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({ bot }),
+          // new ToggleChatWindow({open:true})
+        ]);
+      });
+  }
+
+
+  getNSetIntegrationList() {
+    const url &#x3D; this.constantsService.getMasterIntegrationsList();
+    return this.makeGetReq&lt;{ meta: any, objects: IIntegrationMasterListItem[] }&gt;({url}).pipe(
+      tap((value) &#x3D;&gt; {
+        // this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
+        // this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
+      }))
+      .subscribe((value) &#x3D;&gt; {
+        this.store.dispatch([
+          new SetMasterIntegrationsList({
+            masterIntegrationList: value.objects
+          })
+        ]);
+      });
+  }
+
+  changeProgressBar(loading: boolean, value: number) {
+    // this.store.dispatch([
+    //   new SetProgressValue({
+    //     progressbar: {
+    //       loading: loading,
+    //       value: value
+    //     }
+    //   }
+    //   )
+    // ]);
+    // this.
+    EventService.progressBar$.emit({loading: loading, value: value})
+
+  }
+
+  updateOrSaveCustomNer(selectedOrNewRowData: ICustomNerItem, bot?: IBot) {
+    let body: ICustomNerItem;
+    const headerData: IHeaderData &#x3D; { &#x27;bot-access-token&#x27;: bot &amp;&amp; bot.bot_access_token };
+    let url, methodStr;
+    if (selectedOrNewRowData &amp;&amp; selectedOrNewRowData.id) {/*update customner*/
+      url &#x3D; this.constantsService.updateOrDeleteCustomBotNER(selectedOrNewRowData.id);
+      methodStr &#x3D; &#x27;makePutReq&#x27;;
+      body &#x3D; {
+        values: selectedOrNewRowData.values,
+        column_headers: selectedOrNewRowData.column_headers,
+        ...selectedOrNewRowData
+      };
+    } else {/*create a new customner*/
+      url &#x3D; this.constantsService.createNewCustomBotNER();
+      methodStr &#x3D; &#x27;makePostReq&#x27;;
+      body &#x3D; selectedOrNewRowData;
+    }
+    return this[methodStr]({ url, body, headerData });
+  }
+
+  deleteNer(ner_id: number, bot?: IBot) {
+    let body: ICustomNerItem;
+    let url, headerData: IHeaderData;
+    if (bot) {
+      url &#x3D; this.constantsService.updateOrDeleteCustomBotNER(ner_id);
+      headerData &#x3D; {
+        &#x27;bot-access-token&#x27;: (bot &amp;&amp; bot.bot_access_token) || null
+      };
+    } else {
+      url &#x3D; this.constantsService.updateOrDeleteEnterpriseNer(ner_id);
+    }
+    return this.makeDeleteReq({ url, headerData });
+  }
+
+  getAllVersionOfBotFromServerAndStoreInBotInBotList(botId, bot_access_token) {
+
+    const url &#x3D; this.constantsService.getAllVersionsByBotId();
+    // let botId &#x3D; this.bot.id;
+    this.makeGetReq&lt;IBotVersionResult&gt;({ url, headerData: { &#x27;bot-access-token&#x27;: bot_access_token } })
+      .subscribe((botVersionResult) &#x3D;&gt; {
+        botVersionResult.objects.forEach((version) &#x3D;&gt; {
+          version.changed_fields &#x3D; {
+            &#x27;df_template&#x27;: false,
+            &#x27;df_rules&#x27;: false,
+            &#x27;generation_rules&#x27;: false,
+            &#x27;generation_template&#x27;: false,
+            &#x27;workflows&#x27;: false
+          };
+          version.validation &#x3D; {
+            &#x27;df_template&#x27;: { error: false },
+            &#x27;df_rules&#x27;: { error: false },
+            &#x27;generation_rules&#x27;: { error: false },
+            &#x27;generation_templates&#x27;: { error: false },
+            &#x27;workflow&#x27;: { error: false },
+          };
+        });
+
+        this.store.dispatch([
+          new SaveVersionInfoInBot({ data: botVersionResult.objects, botId: botId })
+        ]);
+      });
+  }
+
+
+  messaging;
+
+  currentPreviewBot: IBot;
+  currentRoomId: number;
+
+  initializeIMIConnect(previewBot: IBot, currentRoomId: number) {
+    if (this.currentRoomId &#x3D;&#x3D;&#x3D; currentRoomId &amp;&amp; this.currentPreviewBot &#x3D;&#x3D;&#x3D; previewBot) {
+      return;
+    } else {
+      try {
+        IMI.IMIconnect.shutdown();
+      } catch (e) {
+        LoggingService.error(e);
+      }
+
+    }
+    this.currentRoomId &#x3D; currentRoomId;
+    this.currentPreviewBot &#x3D; previewBot;
+
+    // this.currentPreviewBot &#x3D; previewBot;
+    /*TODO: make initialization happen only once*/
+    let imiConnectIntegrationDetails;
+    try {
+      imiConnectIntegrationDetails &#x3D; previewBot.integrations.fulfillment_provider_details.imiconnect;
+      if (!imiConnectIntegrationDetails.enabled || !imiConnectIntegrationDetails.send_via_connect) {
+        LoggingService.log(&#x27;this is not an imiconnect bot...&#x27;);
+        return;
+      }
+    } catch (e) {
+      LoggingService.log(&#x27;this is not an imiconnect bot&#x27;);
+      return;
+    }
+    const appId &#x3D; imiConnectIntegrationDetails.appId; //&#x27;GS23064017&#x27;;
+    const appSecret &#x3D; imiConnectIntegrationDetails.appSecret; //&#x27;uZi6B5Zg&#x27;;
+    // var streamName &#x3D; &quot;bot&quot;;
+    const serviceKey &#x3D; imiConnectIntegrationDetails.serviceKey; //&#x27;3b8f6470-5e56-11e8-bf0b-0213261164bb&#x27;;//&#x27;f6e50f7b-2bfd-11e8-bf0b-0213261164bb&#x27;;
+    const userId &#x3D; currentRoomId + &#x27;_hellothisissandeep1231312&#x27;;
+
+    const config &#x3D; new IMI.ICConfig(appId, appSecret);
+    const messaging &#x3D; IMI.ICMessaging.getInstance();
+
+    console.info(&#x27;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;initializing connection with imiconnect with following details&#x27;);
+    LoggingService.log(
+      &#x27;appId&#x3D; &#x27; + appId + &#x27;\n&#x27; +
+      &#x27;appSecret&#x3D; &#x27; + appSecret + &#x27;\n&#x27; +
+      &#x27;serviceKey&#x3D; &#x27; + serviceKey + &#x27;\n&#x27; +
+      &#x27;userId&#x3D; &#x27; + userId + &#x27;\n&#x27;);
+
+
+    const prepareMessage &#x3D; (messageObj) &#x3D;&gt; {
+      console.info(&#x27;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;message from IMICONNECT Has been recieved&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x27;, messageObj);
+      const generatedMessagesStr &#x3D; messageObj.message;
+      let generatedMessages: IGeneratedMessageItem[];
+      try {
+        generatedMessages &#x3D; JSON.parse(generatedMessagesStr);
+      } catch (e) {
+        console.error(&#x27;Unable to parse json from IMIConnect callback&#x27;, generatedMessagesStr);
+        console.error(&#x27;Assuming its a string&#x27;);
+        generatedMessages &#x3D; [{ text: generatedMessagesStr }];
+      }
+      const serializedMessages: IMessageData[] &#x3D; this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages);
+      this.store.dispatch([
+        new AddMessagesToRoomByRoomId({
+          id: currentRoomId,
+          messageList: serializedMessages
+        }),
+        new ChangeBotIsThinkingDisplayByRoomId({ roomId: currentRoomId, shouldShowBotIsThinking: false }),
+        // new SetCurrentRoomID({id: 123456789.room.id})
+      ]);
+    };
+
+    const msgCallBack &#x3D; {//messaging.setICMessagingReceiver(msgCallBack);
+      onConnectionStatusChanged: function (statuscode) {
+        LoggingService.log(&#x27;msgCallBack,onConnectionStatusChanged&#x27;, statuscode);
+        let statusMessage &#x3D; null;
+        if (statuscode &#x3D;&#x3D; 2) {
+          statusMessage &#x3D; &#x27;Connected&#x27;;
+        } else if (statuscode &#x3D;&#x3D; 6) {
+          statusMessage &#x3D; &#x27;Error while connecting&#x27;;
+        } else {
+          statusMessage &#x3D; &#x27;Not Connected&#x27;;
+        }
+
+      },
+      onMessageReceived: function (message) {
+
+
+        prepareMessage(message);
+
+        if (message.getType() &#x3D;&#x3D;&#x3D; IMI.ICMessageType.Message) {
+          const callback &#x3D; {
+            onFailure: function (err) {
+              LoggingService.log(&#x27;failed to get topics:&#x27;);
+
+              //handleFailure(err);
+            }
+          };
+          messaging.setMessageAsRead(message.getTransactionId(), callback);
+        }
+      }
+    };
+
+
+    messaging.setICMessagingReceiver(msgCallBack);
+    const deviceId &#x3D; IMI.ICDeviceProfile.getDefaultDeviceId();
+    IMI.IMIconnect.startup(config);
+    IMI.IMIconnect.registerListener(
+      {
+        onFailure: function () {
+          LoggingService.log(&#x27;token got expired...&#x27;);
+        }
+      });
+
+
+    const regcallback &#x3D; {
+      onSuccess: function (msg) {
+
+        try {
+          messaging.connect();
+          LoggingService.log(&#x27;onSuccess: reg&#x27;);
+        } catch (ex) {
+          LoggingService.log(ex);
+        }
+
+      },
+      onFailure: function (err) {
+        LoggingService.log(&#x27;Registration failed&#x27;);
+
+      }
+    };
+    const deviceProfile &#x3D; new IMI.ICDeviceProfile(deviceId, userId);
+    LoggingService.log(&#x27;IMI.IMIconnect.isRegistered()&#x27; + IMI.IMIconnect.isRegistered());
+    IMI.IMIconnect.register(deviceProfile, regcallback);
+
+
+    // //send message
+    //     var pubcallback &#x3D; {
+    //       onSuccess: function () {
+    //         LoggingService.log(&quot;message sent&quot;);
+    //
+    //       },
+    //       onFailure: function (errormsg) {
+    //         LoggingService.log(&quot;failed to send message&quot;);
+    //       }
+    //
+    //     };
+    //
+    //     var message &#x3D; new IMI.ICMessage();
+    //     message.setMessage(&quot;Hello this is sample message&quot;);
+    //
+    //     var thread &#x3D; new IMI.ICThread();
+    //     thread.setId(&quot;bot&quot;);
+    //     thread.setTitle(&quot;bot&quot;);
+    //     thread.setStreamName(streamName);
+    //
+    //     message.setThread(thread);
+    //     messaging.publishMessage(message, pubcallback);
+
+    this.messaging &#x3D; messaging;
+  }
+
+
+  getNSetConfigData$() {
+    return this.makeGetReq({ url: &#x27;/static/config.json&#x27;, noValidateUser: true })
+      .pipe(tap(((value: { &#x27;backend_url&#x27;: string, &#x27;version&#x27;: string }) &#x3D;&gt; {
+        this.store.dispatch([
+          new SetBackendURlRoot({ url: value.backend_url })
+        ]);
+      })));
+  }
+
+  currentRoom: IRoomData;
+
+  sendHumanMessageViaImiConnect(currentRoom, currentBot: IBot, messageByHuman: string) {
+
+    let streamName: string; //&#x27;gsureg&#x27;;
+    try {
+      streamName &#x3D; currentBot.integrations.fulfillment_provider_details.imiconnect.streamName;
+    } catch (e) {
+      LoggingService.log(e);
+    }
+    // this.currentRoom &#x3D; currentRoom;
+    //send message
+    const pubcallback &#x3D; {
+      onSuccess: function () {
+        LoggingService.log(&#x27;message sent&#x27;);
+
+      },
+      onFailure: function (errormsg) {
+        LoggingService.log(&#x27;failed to send message&#x27;);
+      }
+
+    };
+
+    const message &#x3D; new IMI.ICMessage();
+    message.setMessage(messageByHuman);
+
+    const thread &#x3D; new IMI.ICThread();
+    thread.setId(&#x27;bot&#x27;);
+    thread.setTitle(&#x27;bot&#x27;);
+    thread.setStreamName(streamName);
+
+    message.setThread(thread);
+    this.messaging.publishMessage(message, pubcallback);
+  }
+
+
+  startANewChatUsingSendApi(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot }) {
+    const url &#x3D; this.constantsService.getStartNewChatLoginUrl();
+    const headerData: IHeaderData &#x3D; {
+      &#x27;bot-access-token&#x27;: startNewChatData.bot.bot_access_token,
+      &#x27;auth-token&#x27;: null,
+      &#x27;user-access-token&#x27;: null,
+      &#x27;content-type&#x27;: &#x27;application/json&#x27;
+    };
+    const body /*: ISendApiRequestPayload */ &#x3D; {
+      &#x27;type&#x27;: &#x27;bot&#x27;,
+      &#x27;msg&#x27;: &#x27;hi&#x27;,
+      &#x27;platform&#x27;: &#x27;web&#x27;,
+      // &#x27;consumer&#x27;: {
+      //   &#x27;uid&#x27;: this.current_uid,
+      // },
+      &#x27;consumer&#x27;: startNewChatData.consumerDetails
+    };
+
+    return this.makePostReq({ url, body, headerData });
+  }
+
+  getNSetMasterPermissionsList() {
+    const allActionsUrl &#x3D; this.constantsService.getAllActionsUrl();
+    return this.makeGetReq&lt;{ meta: any, objects: IProfilePermission[] }&gt;({url: allActionsUrl}).pipe(
+      map((value: { objects: IProfilePermission[] }) &#x3D;&gt; {
+        this.store.dispatch([
+          new SetMasterProfilePermissions({ masterProfilePermissions: value.objects })
+        ]);
+        // this.constantsService.setPermissionsDeniedMap(value.objects)
+      }));
+  }
+
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'ServerService.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

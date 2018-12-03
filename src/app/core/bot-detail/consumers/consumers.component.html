@@ -1,12 +1,11 @@
-<app-smart-table *ngIf="consumerTableData && consumerTableData.length>0"
+<app-smart-table *ngIf="consumerItems && consumerItems.length>0"
                  [ngClass]="{'disable-decrypt-lock-icon':isDeCryptAuditAccessDenied}"
                  class="d-flex-column-last-child-flex-grow-1"
                  [totalRecords]="totalRecords"
                  (pageChanged$)="pageChanged($event)"
-                 [data]="(consumerTableData)|limitObjectArraysString"
+                 [data]="tableData"
                  [showRefreshButton]="true"
-                 (refreshData$)="reloadData()"
-                 [settings]="smartTableSettings_Consumers"
+                 (refreshData$)="loadConsumerData()"
                  (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,Primarytemplat)"
                  [showSearchInDbButton]="true"
                  (performSearchInDB$)="performSearchInDbForConsumer($event)">
@@ -17,10 +16,9 @@
 
 <ng-template #Primarytemplat>
   <div class="primary-modal">
-    <div class="top-dec"></div>
     <div class="modal-header">
       <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Reason for decryption</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
 
@@ -29,7 +27,7 @@
     <div class="modal-body pt-0">
       <!-- <div>
         <input type="text" [(ngModel)] = "decryptReason">
-        <button class="btn-theme btn-theme-primary" (click)="decryptSubmit();modalRef.hide()">Submit</button>
+        <button class="btn-theme btn-theme-primary" (click)="decryptSubmit();modalRefWrapper.hide()">Submit</button>
       </div> -->
       <form #form="ngForm">
         <div class="text-center my-1">
@@ -38,7 +36,7 @@
                  name="decryptReason">
         </div>
         <button [disabled]="!form.valid" class=" btn-theme btn-theme-success-sm"
-                (click)="decryptSubmit();modalRef.hide()">Submit
+                (click)="decryptSubmit();dialogRefWrapper.ref.close()">Submit
         </button>
       </form>
     </div>
@@ -46,7 +44,7 @@
 </ng-template>
 
 
-<app-splash-screen *ngIf="consumerTableData && consumerTableData.length===0"
+<app-splash-screen *ngIf="consumerItems && consumerItems.length===0"
                    [imageHRef]="myESplashScreens.consumers"
                    headingText="No consumers found"
                    descriptionText="Integrate or deploy your bot to see the captured consumer details"

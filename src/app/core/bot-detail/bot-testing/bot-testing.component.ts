@@ -7,16 +7,17 @@ import { Observable } from 'rxjs';
 import { IBot } from '../../interfaces/IBot';
 import { IHeaderData } from '../../../../interfaces/header-data';
 import { UtilityService } from '../../../utility.service';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import {LoggingService} from '../../../logging.service';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
+import {ModalImplementer} from '../../../modal-implementer';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-bot-testing',
   templateUrl: './bot-testing.component.html',
   styleUrls: ['./bot-testing.component.scss']
 })
-export class BotTestingComponent implements OnInit {
+export class BotTestingComponent extends ModalImplementer implements OnInit {
 
   @Input() bot: IBot;
   testCases$: Observable<[string, string, string][]>;
@@ -28,7 +29,6 @@ export class BotTestingComponent implements OnInit {
   stopTestUrl = this.constantsService.stopTestUrl();
   testCaseId: number;
   isData = false;
-  modalRef: BsModalRef;
   tableChanged = false;
   cancelTestFlag: boolean;
   myESplashScreens = ESplashScreens;
@@ -36,10 +36,11 @@ export class BotTestingComponent implements OnInit {
   showLoader = false;
   constructor(
     private serverService: ServerService,
-    private modalService: BsModalService,
     private constantsService: ConstantsService,
-    private utilityService: UtilityService,
+    public utilityService: UtilityService,
+    public matDialog: MatDialog,
     private store: Store) {
+    super(utilityService, matDialog);
   }
 
   exportToCSV() {
@@ -162,7 +163,7 @@ export class BotTestingComponent implements OnInit {
   removeNullRowsFromTableData(arr: [string, string, string][]) {
   }
   openCreateBotModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+    this.openDangerModal(template);
   }
   stopTest() {
     this.serverService.makeGetReq<{ meta: any, objects: ITestcases[] }>(

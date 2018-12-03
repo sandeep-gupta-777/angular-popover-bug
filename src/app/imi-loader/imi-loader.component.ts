@@ -6,6 +6,8 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./imi-loader.component.scss']
 })
 export class ImiLoaderComponent implements OnInit {
+
+  @Input() customTemplate = false;
   constructor() { }
 
   ngOnInit() {

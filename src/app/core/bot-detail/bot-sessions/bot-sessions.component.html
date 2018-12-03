@@ -1,5 +1,5 @@
 <div *ngIf="sessions && sessions.length>0">
-  <app-smart-table [data]="sessions"
+  <app-smart-table [data]="tableData"
                    [totalRecords]="totalSessionRecords"
                    (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,reasonForDecryptionTemplate)"
                    (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate, reasonForDecryptionTemplate)"
@@ -7,8 +7,7 @@
                    [showSearchInDbButton]="true"
                    (refreshData$)="loadSmartTableSessionData()"
                    [showRefreshButton]="true"
-                   (performSearchInDB$)="performSearchInDbForSession($event)"
-                   [settings]="smartTableSettings_Sessions"></app-smart-table>
+                   (performSearchInDB$)="performSearchInDbForSession($event)"></app-smart-table>
 </div>
 
 
@@ -25,29 +24,28 @@
 
 
 <ng-template #sessionDetailTemplate>
-  <div class="row" style="width: 100%">
-    <div class="col-12">
+  <!--<div class="row" style="width: 100%">-->
+    <!--<div class="col-12">-->
       <app-session-detail-model
         [session]="selectedRow_Session"
         [bot]="bot"
         (selectNextRow)="selectNextRow()"
-        (closeModel$)="modalRef.hide()"
+        (closeModel$)="dialogRefWrapper.ref.close()"
         (selectPrevRow)="selectPrevRow()"
         [pageNumberOfCurrentRowSelected]="pageNumberOfCurrentRowSelected"
         [indexOfCurrentRowSelected]="indexOfCurrentRowSelected"
         [finalDfState]="selectedRow_Session.df_state"
         [sessionDataStore]="selectedRow_Session.data_store">
       </app-session-detail-model>
-    </div>
-  </div>
+    <!--</div>-->
+  <!--</div>-->
 </ng-template>
 <!---->
 <ng-template #reasonForDecryptionTemplate>
   <div class="primary-modal">
-    <div class="top-dec"></div>
     <div class="modal-header">
       <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Reason for decryption</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -59,7 +57,7 @@
                  name="decryptReason">
         </div>
         <button [disabled]="!form.valid" class=" btn-theme btn-theme-success-sm"
-                (click)="decryptSubmit(sessionItemToBeDecrypted.id);modalRef.hide()">Submit
+                (click)="decryptSubmit(sessionItemToBeDecrypted.id);">Submit
         </button>
       </form>
     </div>

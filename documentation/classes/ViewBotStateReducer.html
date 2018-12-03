@@ -1,0 +1,1255 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>bot-plateform-fe documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">bot-plateform-fe documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>ViewBotStateReducer</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/core/view-bots/ngxs/view-bot.state.ts</code>
+        </p>
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addNewBotInAllBotList">addNewBotInAllBotList</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#getCodeBased">getCodeBased</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#getPipelineBased">getPipelineBased</a>
+                            </li>
+                            <li>
+                                <a href="#resetBotList">resetBotList</a>
+                            </li>
+                            <li>
+                                <a href="#saveVersionInfoInBot">saveVersionInfoInBot</a>
+                            </li>
+                            <li>
+                                <a href="#setAllBotListAction">setAllBotListAction</a>
+                            </li>
+                            <li>
+                                <a href="#setCodebasedBotList">setCodebasedBotList</a>
+                            </li>
+                            <li>
+                                <a href="#setPipelineBasedBotList">setPipelineBasedBotList</a>
+                            </li>
+                            <li>
+                                <a href="#updateBotInfoByIdInBotInBotList">updateBotInfoByIdInBotInBotList</a>
+                            </li>
+                            <li>
+                                <a href="#updateVersionInfoByIdInBot">updateVersionInfoByIdInBot</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(activatedRoute: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/core/view-bots/ngxs/view-bot.state.ts:29</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>activatedRoute</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+            <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="addNewBotInAllBotList"></a>
+                        <span class="name">
+                            <b>
+                            addNewBotInAllBotList
+                            </b>
+                            <a href="#addNewBotInAllBotList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>addNewBotInAllBotList(undefined: <a href="../interfaces/ViewBotStateModel.html">StateContext<ViewBotStateModel></a>, undefined: <a href="../classes/AddNewBotInAllBotList.html">AddNewBotInAllBotList</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(AddNewBotInAllBotList)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/core/view-bots/ngxs/view-bot.state.ts:54</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/ViewBotStateModel.html" target="_self" >StateContext&lt;ViewBotStateModel&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../classes/AddNewBotInAllBotList.html" target="_self" >AddNewBotInAllBotList</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getCodeBased"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Static</span>
+                            getCodeBased
+                            </b>
+                            <a href="#getCodeBased"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getCodeBased(x)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="151" class="link-to-prism">src/app/core/view-bots/ngxs/view-bot.state.ts:151</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>x</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getPipelineBased"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Static</span>
+                            getPipelineBased
+                            </b>
+                            <a href="#getPipelineBased"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getPipelineBased(x)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="155" class="link-to-prism">src/app/core/view-bots/ngxs/view-bot.state.ts:155</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>x</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="resetBotList"></a>
+                        <span class="name">
+                            <b>
+                            resetBotList
+                            </b>
+                            <a href="#resetBotList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>resetBotList(undefined: <a href="../interfaces/ViewBotStateModel.html">StateContext<ViewBotStateModel></a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(ResetBotListAction)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">src/app/core/view-bots/ngxs/view-bot.state.ts:81</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/ViewBotStateModel.html" target="_self" >StateContext&lt;ViewBotStateModel&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="saveVersionInfoInBot"></a>
+                        <span class="name">
+                            <b>
+                            saveVersionInfoInBot
+                            </b>
+                            <a href="#saveVersionInfoInBot"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>saveVersionInfoInBot(undefined: <a href="../interfaces/ViewBotStateModel.html">StateContext<ViewBotStateModel></a>, undefined: <a href="../classes/SaveVersionInfoInBot.html">SaveVersionInfoInBot</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(SaveVersionInfoInBot)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/app/core/view-bots/ngxs/view-bot.state.ts:90</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/ViewBotStateModel.html" target="_self" >StateContext&lt;ViewBotStateModel&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../classes/SaveVersionInfoInBot.html" target="_self" >SaveVersionInfoInBot</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setAllBotListAction"></a>
+                        <span class="name">
+                            <b>
+                            setAllBotListAction
+                            </b>
+                            <a href="#setAllBotListAction"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>setAllBotListAction(undefined: <a href="../interfaces/ViewBotStateModel.html">StateContext<ViewBotStateModel></a>, undefined: <a href="../classes/SetAllBotListAction.html">SetAllBotListAction</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(SetAllBotListAction)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/core/view-bots/ngxs/view-bot.state.ts:35</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/ViewBotStateModel.html" target="_self" >StateContext&lt;ViewBotStateModel&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../classes/SetAllBotListAction.html" target="_self" >SetAllBotListAction</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setCodebasedBotList"></a>
+                        <span class="name">
+                            <b>
+                            setCodebasedBotList
+                            </b>
+                            <a href="#setCodebasedBotList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>setCodebasedBotList(undefined: <a href="../interfaces/ViewBotStateModel.html">StateContext<ViewBotStateModel></a>, undefined: <a href="../classes/SetCodeBasedBotListAction.html">SetCodeBasedBotListAction</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(SetCodeBasedBotListAction)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/core/view-bots/ngxs/view-bot.state.ts:63</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/ViewBotStateModel.html" target="_self" >StateContext&lt;ViewBotStateModel&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../classes/SetCodeBasedBotListAction.html" target="_self" >SetCodeBasedBotListAction</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setPipelineBasedBotList"></a>
+                        <span class="name">
+                            <b>
+                            setPipelineBasedBotList
+                            </b>
+                            <a href="#setPipelineBasedBotList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>setPipelineBasedBotList(undefined: <a href="../interfaces/ViewBotStateModel.html">StateContext<ViewBotStateModel></a>, undefined: <a href="../classes/SetPipeLineBasedBotListAction.html">SetPipeLineBasedBotListAction</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(SetPipeLineBasedBotListAction)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/core/view-bots/ngxs/view-bot.state.ts:72</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/ViewBotStateModel.html" target="_self" >StateContext&lt;ViewBotStateModel&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../classes/SetPipeLineBasedBotListAction.html" target="_self" >SetPipeLineBasedBotListAction</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="updateBotInfoByIdInBotInBotList"></a>
+                        <span class="name">
+                            <b>
+                            updateBotInfoByIdInBotInBotList
+                            </b>
+                            <a href="#updateBotInfoByIdInBotInBotList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>updateBotInfoByIdInBotInBotList(undefined: <a href="../interfaces/ViewBotStateModel.html">StateContext<ViewBotStateModel></a>, undefined: <a href="../classes/UpdateBotInfoByIdInBotInBotList.html">UpdateBotInfoByIdInBotInBotList</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(UpdateBotInfoByIdInBotInBotList)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="137" class="link-to-prism">src/app/core/view-bots/ngxs/view-bot.state.ts:137</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/ViewBotStateModel.html" target="_self" >StateContext&lt;ViewBotStateModel&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../classes/UpdateBotInfoByIdInBotInBotList.html" target="_self" >UpdateBotInfoByIdInBotInBotList</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="updateVersionInfoByIdInBot"></a>
+                        <span class="name">
+                            <b>
+                            updateVersionInfoByIdInBot
+                            </b>
+                            <a href="#updateVersionInfoByIdInBot"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>updateVersionInfoByIdInBot(undefined: <a href="../interfaces/ViewBotStateModel.html">StateContext<ViewBotStateModel></a>, undefined: <a href="../classes/UpdateVersionInfoByIdInBot.html">UpdateVersionInfoByIdInBot</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(UpdateVersionInfoByIdInBot)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">src/app/core/view-bots/ngxs/view-bot.state.ts:120</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/ViewBotStateModel.html" target="_self" >StateContext&lt;ViewBotStateModel&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../classes/UpdateVersionInfoByIdInBot.html" target="_self" >UpdateVersionInfoByIdInBot</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Action, Selector, State, StateContext} from &#x27;@ngxs/store&#x27;;
+import {
+  ResetBotListAction,
+  SetCodeBasedBotListAction,
+  SetPipeLineBasedBotListAction,
+  SaveVersionInfoInBot,
+  UpdateBotInfoByIdInBotInBotList, SetAllBotListAction, AddNewBotInAllBotList, UpdateVersionInfoByIdInBot
+} from &#x27;./view-bot.action&#x27;;
+import {IBot} from &#x27;../../interfaces/IBot&#x27;;
+import {ActivatedRoute} from &#x27;@angular/router&#x27;;
+
+
+export interface ViewBotStateModel {
+  codeBasedBotList?: IBot[];
+  pipelineBasedBotList?: IBot[];
+  allBotList: IBot[];
+}
+
+@State&lt;ViewBotStateModel&gt;({
+  name: &#x27;botlist&#x27;,
+  defaults: {
+    codeBasedBotList: null,
+    pipelineBasedBotList: null,
+    allBotList: null
+  }
+})
+
+//same as reducer
+export class ViewBotStateReducer {
+
+  constructor(private activatedRoute: ActivatedRoute) {
+  }
+
+  @Action(SetAllBotListAction)
+  setAllBotListAction({patchState, setState, getState, dispatch}: StateContext&lt;ViewBotStateModel&gt;, {payload}: SetAllBotListAction) {
+    const state &#x3D; getState();
+    const newBotList &#x3D; payload.botList;
+    const oldBotList &#x3D; state.allBotList;
+    if (Array.isArray(oldBotList)) {
+      newBotList.forEach((newBot, index) &#x3D;&gt; {
+        const oldBot: IBot &#x3D; oldBotList.find((bot) &#x3D;&gt; bot.id &#x3D;&#x3D;&#x3D; newBot.id);
+        newBotList[index] &#x3D; {...oldBot, ...newBot};
+      });
+    }
+
+
+    patchState({
+      // codeBasedBotList: payload.botList,
+      allBotList: newBotList
+    });
+  }
+
+  @Action(AddNewBotInAllBotList)
+  addNewBotInAllBotList({patchState, setState, getState, dispatch}: StateContext&lt;ViewBotStateModel&gt;, {payload}: AddNewBotInAllBotList) {
+    const state &#x3D; getState();
+    const allBotList &#x3D; state.allBotList.push(payload.bot);
+    patchState({
+      allBotList: [...state.allBotList]
+    });
+  }
+
+  @Action(SetCodeBasedBotListAction)
+  setCodebasedBotList({patchState, setState, getState, dispatch}: StateContext&lt;ViewBotStateModel&gt;, {payload}: SetCodeBasedBotListAction) {
+    const state &#x3D; getState();
+    patchState({
+      codeBasedBotList: payload.botList,
+      // allBotList: [...(state.codeBasedBotList || []), ...(state.pipelineBasedBotList || []), ...payload.botList]
+    });
+  }
+
+  @Action(SetPipeLineBasedBotListAction)
+  setPipelineBasedBotList({patchState, setState, getState, dispatch}: StateContext&lt;ViewBotStateModel&gt;, {payload}: SetPipeLineBasedBotListAction) {
+    const state &#x3D; getState();
+    patchState({
+      pipelineBasedBotList: payload.botList,
+      // allBotList: [...(state.codeBasedBotList || []), ...(state.pipelineBasedBotList || []), ...payload.botList]
+    });
+  }
+
+  @Action(ResetBotListAction)
+  resetBotList({patchState, setState, getState, dispatch}: StateContext&lt;ViewBotStateModel&gt;) {
+    setState({
+      codeBasedBotList: null,
+      pipelineBasedBotList: null,
+      allBotList: null
+    });
+  }
+
+  @Action(SaveVersionInfoInBot)
+  saveVersionInfoInBot({patchState, setState, getState, dispatch}: StateContext&lt;ViewBotStateModel&gt;,
+                       {payload}: SaveVersionInfoInBot) {
+
+    const state: ViewBotStateModel &#x3D; getState();
+    const bot: IBot &#x3D; state.allBotList.find((bot) &#x3D;&gt; bot.id &#x3D;&#x3D;&#x3D; payload.botId);
+    // &quot;updated_fields&quot;?: {
+    //   &quot;df_template&quot;?: boolean,
+    //   &quot;df_rules&quot;?: boolean,
+    //   &quot;generation_rules&quot;?: boolean,
+    //   &quot;generation_template&quot;?: boolean,
+    //   &quot;workflows&quot;?: boolean
+    // }
+    const versionList &#x3D; payload.data;
+    // versionList.forEach(version &#x3D;&gt; {
+    //   version.store_updated_fields &#x3D; {
+    //     &quot;df_template&quot;: false,
+    //     &quot;df_rules&quot;: false,
+    //     &quot;generation_rules&quot;: false,
+    //     &quot;generation_template&quot;: false,
+    //     &quot;workflows&quot;: false
+    //   }
+    // });
+    // versionList &#x3D; {...versionList}
+
+    bot.store_bot_versions &#x3D; versionList;
+
+    setState({...state});
+  }
+
+  @Action(UpdateVersionInfoByIdInBot)
+  updateVersionInfoByIdInBot({patchState, setState, getState, dispatch}: StateContext&lt;ViewBotStateModel&gt;,
+                             {payload}: UpdateVersionInfoByIdInBot) {
+    const state: ViewBotStateModel &#x3D; getState();
+    const bot: IBot &#x3D; state.allBotList.find((bot) &#x3D;&gt; bot.id &#x3D;&#x3D;&#x3D; payload.botId);
+
+    const store_bot_versions &#x3D; bot.store_bot_versions || (bot.store_bot_versions &#x3D; []);
+    const index &#x3D; store_bot_versions.findIndex((version) &#x3D;&gt; version.id &#x3D;&#x3D;&#x3D; payload.data.id);
+    // index &#x3D;  index&#x3D;&#x3D;&#x3D;-1?0:index;
+    if (index !&#x3D;&#x3D; -1) {
+      store_bot_versions[index] &#x3D; {...store_bot_versions[index], ...payload.data};
+    } else {
+      store_bot_versions.push(payload.data);
+    }
+    setState({...state});
+  }
+
+  @Action(UpdateBotInfoByIdInBotInBotList)
+  updateBotInfoByIdInBotInBotList({patchState, setState, getState, dispatch}: StateContext&lt;ViewBotStateModel&gt;,
+                                  {payload}: UpdateBotInfoByIdInBotInBotList) {
+    const state: ViewBotStateModel &#x3D; getState();
+    state.allBotList &#x3D; state.allBotList.map((bot) &#x3D;&gt; {
+      if (bot.id &#x3D;&#x3D;&#x3D; payload.botId) {
+        return {...bot, ...payload.data};
+      } else {
+        return bot;
+      }
+      // return  ? {...bot, ...payload.data} : bot;
+    });
+    setState({...state});
+  }
+
+  static getCodeBased(x) {
+    return x.botlist.codeBasedBotList;
+  }
+
+  static getPipelineBased(x) {
+    // ;
+    return x.botlist.pipelineBasedBotList;
+  }
+
+  // static getBotById(state){
+  //   let id &#x3D; this.ac
+  //   // return x.botlist.pipelineBasedBotList.;
+  //   return x.botlist.pipelineBasedBotList.filter(timePeriod &#x3D;&gt; timePeriod._id &#x3D;&#x3D;&#x3D; )
+  //
+  //   for(let i&#x3D;0; i&lt; x.botlist.pipelineBasedBotList.length; ++i){
+  //     let timePeriod &#x3D; x.botlist.pipelineBasedBotList[i];
+  //     if(timePeriod._id &#x3D;&#x3D;&#x3D; id) return timePeriod
+  //   }
+  //
+  //   for(let i&#x3D;0; i&lt; x.botlist.codeBasedBotList.length; ++i){
+  //     let timePeriod &#x3D; x.botlist.codeBasedBotList[i];
+  //     if(timePeriod._id &#x3D;&#x3D;&#x3D; id) return timePeriod
+  //   }
+  // }
+
+}
+
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'ViewBotStateReducer.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

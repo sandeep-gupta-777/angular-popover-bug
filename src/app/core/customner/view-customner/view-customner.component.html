@@ -1,18 +1,22 @@
+<!--<button (click)="test()">test</button>-->
 <div class="row m-0 mt-3 p-1 bg-white">
   <div class="col-12 mt-4">
     <h4> Enterprise Knowledge Base </h4>
   </div>
   <div class="col-12" style="min-height: 450px">
     <app-knowledge-base
+      *ngIf="custumNerDataForSmartTable && (!showLoader)"
       class="h-100"
       [custumNerDataForSmartTable]="custumNerDataForSmartTable"
+      [currentPageNumber]="currentPageNumber"
       (updateOrSaveParentNers$)="updateOrSaveCustomNer($event)"
+      [tableDataMetaDict]="constantsService.SMART_TABLE_ENTERPRISE_NER_TABLE_DATA_META_DICT_TEMPLATE"
       (pageChanged$)="pageChanged$($event)"
       [totalRecords]="totalRecords"
       [recordsPerPage]="recordsPerPage"
       (deleteNer$)="deleteNer($event)"
-      [currentPageNumber]="currentPageNumber"
-      [settings]="settings"
     ></app-knowledge-base>
+
+      <app-imi-loader *ngIf="showLoader"></app-imi-loader>
   </div>
 </div>

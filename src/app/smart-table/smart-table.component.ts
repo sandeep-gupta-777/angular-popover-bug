@@ -1,48 +1,137 @@
-import {Component, EventEmitter, Input, IterableDiffers, OnChanges, OnInit, Output} from '@angular/core';
-import {LocalDataSource} from 'ng2-smart-table';
+import {AfterViewInit, Component, EventEmitter, Input, IterableDiffers, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+// import {LocalDataSource} from 'ng2-smart-table';
 import {Observable} from 'rxjs';
 import {LoggingService} from '../logging.service';
+import {MatTableDataSource} from '@angular/material';
+import {FormControl, NgForm} from '@angular/forms';
+import {settings} from 'cluster';
 
 @Component({
   selector: 'app-smart-table',
   templateUrl: './smart-table.component.html',
   styleUrls: ['./smart-table.component.scss']
 })
-export class SmartTableComponent implements OnInit {
+export class SmartTableComponent implements OnInit, AfterViewInit {
 
-  @Input() set data(value) {
-    if (!value) { return; }
-    this._data = value;
-    // this.totalPageCount = Math.ceil((this.totalRecords) / this.recordsPerPage);
-    this.source.load(this._data);
-    this.source.refresh();
+  ngAfterViewInit(): void {
+    this.tableForm.valueChanges.subscribe((formData) => {
+      // this.dataSource = new MatTableDataSource(val);
+      try {
+        let searchDataClone = this.filterTableData(this.tableData, {...formData});
+        this.dataSource = new MatTableDataSource(searchDataClone);
+      } catch (e) {
+        console.log(e);
+      }
+    });
+  }
+
+  log(x) {
+    console.log(x);
+  }
+
+  removeEmptyKeyValues(valClone) {
+    for (let key in valClone) {
+      if (!valClone[key]) {
+        delete  valClone[key];
+      }
+    }
+    return valClone;
+  }
+
+  isValidValue(val) {
+    return val !== '' && val !== undefined && val !== null;
+  }
+
+  createDisplayKeyOriginalKeyDict(dataValue) {
+    let obj = {};
+
+    Object.keys(dataValue[0]).forEach((displayKey) => {
+      obj[displayKey] = dataValue[0][displayKey]['originalKey'];
+    });
+    return obj;
+  }
+
+  replaceDisplayKeyByOriginalKey(searchFormData) {
+    let obj = {};
+    for (let displayKey in searchFormData) {
+      obj[this.displayKeyOriginalKeyDict[displayKey]] = searchFormData[displayKey];
+    }
+    return obj;
+  }
+
+  performSearch() {
+    let searchFormData = this.tableForm.value;
+    this.removeEmptyKeyValues(searchFormData);
+    let obj = this.replaceDisplayKeyByOriginalKey(searchFormData);
+    this.performSearchInDB$.emit(obj);
+
+  }
+
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  dataSource;// = new MatTableDataSource(ELEMENT_DATA);
+
+  tableData;
+  displayKeyOriginalKeyDict: any = {};
+
+
+  @Input() set data(dataValue: any[]) {
+    this._data = dataValue;
+    this.dataSource = new MatTableDataSource(dataValue);
+    this.displayedColumns = Object.keys(dataValue[0]).filter((key) => {
+      return dataValue[0][key].hasOwnProperty('value') && dataValue[0][key].hasOwnProperty('type');
+    });
+
+    this.tableData = dataValue;
+
+    this.displayKeyOriginalKeyDict = this.createDisplayKeyOriginalKeyDict(dataValue);
+    if (!dataValue) {
+      return;
+    }
+
+    try {
+      let formData = this.tableForm && this.tableForm.value;
+      if (formData) {
+        let searchDataClone = this.filterTableData(dataValue, {...formData});
+        this.dataSource = new MatTableDataSource(searchDataClone);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    this._data = dataValue;
   }
 
   totalRows;
-@Input() showRefreshButton = false;
+  @Input() showRefreshButton = false;
 
   _data: any = [{}];
   iterableDiffer;
-  @Input() settings: any;
+
   @Output() rowClicked$ = new EventEmitter();
   @Output() refreshData$ = new EventEmitter();
   @Output() performSearchInDB$ = new EventEmitter();
   @Output() pageChanged$ = new EventEmitter();
-  source: LocalDataSource = new LocalDataSource();
-  // @Input() totalRecords: number = 10;
-  x;
 
+  @ViewChild('tableForm') tableForm: NgForm;
   @Input() showSearchInDbButton = false;
+
   @Input() set totalRecords(value) {
 
+<<<<<<< HEAD
     setTimeout(()=>{/*TODO: RACE CONDITION: in set timeout because we want run this code after this.totalPageCount is recieved*/
       this.x = value;
       // this.source.load(this._data);
+=======
+    setTimeout(() => {
+>>>>>>> develop
       this.totalPageCount = Math.ceil(value / this.recordsPerPage);
       const start = 1;
       const end = Math.min(this.totalPageCount, 5);
       this.createPaginationArray(start, end);
+<<<<<<< HEAD
     })
+=======
+    });
+>>>>>>> develop
   }
 
   paginationArr = [];
@@ -50,46 +139,40 @@ export class SmartTableComponent implements OnInit {
   @Input() recordsPerPage = 10;
   @Output() customActionEvents = new EventEmitter();
   totalPageCount;
+  @Input() settings
   math = Math;
 
   constructor(private _iterableDiffers: IterableDiffers) {
     this.iterableDiffer = this._iterableDiffers.find([]).create(null);
   }
 
-  ngOnInit() {
+  positionFilter = new FormControl();
+  nameFilter = new FormControl();
 
-    LoggingService.log(this.x);
-    this.source.load(this._data);
-    // this.totalPageCount = Math.ceil((this.totalRecords) / this.recordsPerPage);
-    // let start = 1;
-    // let end = Math.min(this.totalPageCount, 5);
-    // this.createPaginationArray(start, end);
+  // filteredValues = {
+  //   position: '', name: '', weight: '',
+  //   symbol: '', topFilter: false
+  // };
+
+  filteredValues = {};
+
+  actionIconClicked(session, action: any, event) {
+    this.customActionEvents.emit({data: session, action});
+    event.stopPropagation();
   }
 
-  ngDoCheck() {
-    // let changes = this.iterableDiffer.diff(this._data);
-    // if (changes) {
-    //   ;
-    //   this.source.load(this._data);
-    //   LoggingService.log('Changes in data detected!');
-    //   this.source.refresh();
-    // }
-    this.totalRows = this.source != null ? this.source.count() : 0;
+  ngOnInit() {}
 
-  }
-
-  performSearchInDB() {
-    if (this.totalRows === 0) {
-      const inputs = document.querySelectorAll('.ng2-smart-filter input');
-      const inputsCount = document.querySelectorAll('.ng2-smart-filter input').length;
-      const obj = {};
-      for (let i = 0; i < inputs.length; ++i) {
-        const input$: any = inputs[i];
-        obj[input$.placeholder] = input$.value;
-      }
-      this.performSearchInDB$.emit(obj);
-    }
-  }
+  // performSearchInDB() {
+  //   const inputs = document.querySelectorAll('.ng2-smart-filter input');
+  //   const inputsCount = document.querySelectorAll('.ng2-smart-filter input').length;
+  //   const obj = {};
+  //   for (let i = 0; i < inputs.length; ++i) {
+  //     const input$: any = inputs[i];
+  //     obj[input$.placeholder] = input$.value;
+  //   }
+  //   this.performSearchInDB$.emit(obj);
+  // }
 
   onUserRowSelect(event): void {
     LoggingService.log('row clicked');
@@ -100,18 +183,19 @@ export class SmartTableComponent implements OnInit {
     if (this.currentPage < this.totalPageCount) {
       this.goToPage(Math.min(this.totalPageCount, this.currentPage + 1));
     }
+    this.tableForm.resetForm();
   }
 
   goToPrevPage() {
     if (this.currentPage >= 2) {
       this.goToPage(Math.max(0, this.currentPage - 1));
     }
+    this.tableForm.resetForm();
   }
 
   goToPage(currentPage) {
 
     this.currentPage = currentPage;
-    // this.totalPageCount = Math.ceil(this.totalRecords / this.recordsPerPage);
     let start = 0, end = 0;
     if (currentPage <= 3) {
       start = 1;
@@ -125,7 +209,7 @@ export class SmartTableComponent implements OnInit {
     }
     this.createPaginationArray(start, end);
     this.pageChanged$.emit(currentPage);
-    // this.source.setPage(currentPage);
+    this.tableForm.resetForm();
   }
 
   createPaginationArray(start, end) {
@@ -140,40 +224,37 @@ export class SmartTableComponent implements OnInit {
   }
 
 
-  // settings = {
-  //   columns: {
-  //     _id: {//
-  //       title: 'ID'
-  //     },
-  //     name: {//
-  //       title: 'Name'
-  //     },
-  //     phone: {//
-  //       title: 'Phone'
-  //     },
-  //     facebookId: {//
-  //       title: 'Facebook Id'
-  //     },
-  //     skypeId: {//
-  //       title: 'Skype Id'
-  //     },
-  //     botId: {
-  //       title: 'U Id'
-  //     },
-  //     email: {//
-  //       title: 'Email'
-  //     },
-  //     created_at: {//
-  //       title: 'Created At'
-  //     },
-  //
-  //   },
-  //   // hideSubHeader: true
-  //   actions: {
-  //     add: false,
-  //     edit: false,
-  //     delete: false
-  //   }
-  // };
+// material table starts
+  applyFilter(filterValue: string) {
+    let filter = {
+      name: filterValue.trim().toLowerCase(),
+      position: filterValue.trim().toLowerCase(),
+      topFilter: true
+    };
+    this.dataSource.filter = JSON.stringify(filter);
+  }
+
+  selectRow(row) {
+    console.log(row);
+    this.rowClicked$.emit({data: row.originalSessionData});
+  }
+
+  filterTableData(tableData, formData) {
+    let searchDataClone = this.removeEmptyKeyValues(formData);
+    return tableData.filter((rowDataObj) => {
+      let shouldInclude = true;
+      for (let searchKey in searchDataClone) {
+        if (this.isValidValue(rowDataObj[searchKey])) {
+          shouldInclude = shouldInclude &&
+            rowDataObj[searchKey]['searchValue'].toString().includes(searchDataClone[searchKey]);
+        } else {
+          shouldInclude = false;
+          break;
+        }
+      }
+      return shouldInclude;
+    });
+  }
 
 }
+

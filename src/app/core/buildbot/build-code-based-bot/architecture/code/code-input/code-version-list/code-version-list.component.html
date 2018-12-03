@@ -1,6 +1,6 @@
 <div class="row row-version my-2 m-0 child-no-expand-shrink " style="position: relative"
      (clickOutside)="showVersionList = false">
-  <div class="col-6 p-0" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
+  <div class="col-8 p-0" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
     <div *ngIf="selectedVersion" class="d-flex align-items-center flex-bot-versioning-toaster border-theme-secondary">
       <div class="version-active-label" *ngIf="selectedVersion"
            [ngClass]="{'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-label-inactive':selectedVersion?.id !== activeVersion?.id}">
@@ -14,14 +14,15 @@
       <!--style="flex-basis: 56px">Inactive-->
       <!--</button>-->
       <div class="count mx-1 flex-shrink-0 flex-grow-0">{{selectedVersion.version}}</div>
-      <div class="forked mr-1 pl-1" *ngIf="selectedVersion.forked_from !== 0">Forked from version
-        {{selectedVersion.forked_from}}
+      <div class="forked mr-1 pl-1" *ngIf="selectedVersion.forked_from !== 0">Forked from
+        v{{selectedVersion.forked_from}}
       </div>
-      <div class="forked mr-1 pl-1" *ngIf="selectedVersion.forked_from === 0">Default created version
+      <div class="forked mr-1 pl-1" *ngIf="selectedVersion.forked_from === 0">Default version
       </div>
-      <div class="update d-flex flex-column mr-1 justify-content-center">
-        <div>Last update</div>
-        <div class="d-flex justify-content-left pt-1" *ngIf="selectedVersion">
+      <div class="forked mr-1 " >Last update</div>
+      <div class="update d-flex flex-column mr-2 justify-content-center">
+
+        <div class="d-flex justify-content-left py-1" *ngIf="selectedVersion">
           <!-- <i class="fa fa-circle"
              [ngClass]="{'text-danger':selectedVersion.updated_fields['df_template'], 'dark-green':activeTab==='df_template'}"></i> -->
           <i class="fa fa-circle"
@@ -35,6 +36,9 @@
           <i class="fa fa-circle"
              [ngClass]="{'text-danger':selectedVersion.changed_fields['workflow'], 'dark-green':selectedVersion.updated_fields['workflow']}"></i>
         </div>
+        <div style = "font-weight: 500;font-size: 10px;">
+            {{selectedVersion.updated_at | date}}&nbsp;{{selectedVersion.updated_at | date:"hh:mm"}}
+        </div>
         <!--<form class="d-flex">-->
         <!--<input type="radio" name="optradio" checked>-->
         <!--<input type="radio" name="optradio">-->
@@ -43,9 +47,8 @@
         <!--<input type="radio" name="optradio">-->
         <!--</form>-->
       </div>
-      <div class="insert mr-1" *ngIf="selectedVersion && selectedVersion.comment" [popover]="selectedVersion.comment"
-           placement="bottom" triggers="mouseenter:mouseleave">
-        {{selectedVersion.comment.length>70?(((selectedVersion.comment)|slice:0:100)
+      <div class="insert mr-1" *ngIf="selectedVersion && selectedVersion.comment">
+        {{selectedVersion.comment.length>120?(((selectedVersion.comment)|slice:0:120)
         +"..."):selectedVersion?.comment}}
         <!--<div class="insert mr-1">{{(selectedVersion.comment)|slice:0:100}}-->
       </div>
@@ -57,7 +60,7 @@
          style="height: 100%"></i>
     </div>
   </div>
-  <div class="col-6">
+  <div class="col-4">
     <button [disabled]="!selectedVersion" class="btn-theme btn-theme-primary-outline mr-1"
             *myIf="myEAllActions['Update Bot Versioning']"
             (click)="saveSelectedVersion$.emit()">
@@ -85,22 +88,25 @@
           <div>{{version.id === (activeVersion && activeVersion.id)?'Active':'Inactive'}}</div>
         </div>
         <!--<div class="active-label-text">{{version.id +""+activeVersion.id }}</div>-->
-        <div class="count mr-1">{{version.version}}</div>
-        <div class="forked mr-1 pl-1" *ngIf="version.forked_from !== 0">Forked from version
-          {{version.forked_from}}
+        <div class="count mx-1">{{version.version}}</div>
+        <div class="forked mr-1 pl-1" *ngIf="version.forked_from !== 0">Forked from
+          v{{version.forked_from}}
         </div>
-        <div class="forked mr-1 pl-1" *ngIf="version.forked_from === 0">Default created version
+        <div class="forked mr-1 pl-1" *ngIf="version.forked_from === 0">Default version
         </div>
-
+        <div class="forked mr-1">Last update</div>
         <!--change dot start-->
-        <div class="update d-flex flex-column mr-1 justify-content-center" *ngIf="version">
-          <div class="mr-1">Last update</div>
-          <div class="justify-content-left pt-1">
+        <div class="update d-flex flex-column mr-2 justify-content-center" *ngIf="version">
+
+          <div class="justify-content-left py-1">
             <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['df_template']}"></i>
             <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['df_rules']}"></i>
             <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['generation_rules']}"></i>
             <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['generation_templates']}"></i>
             <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['workflow']}"></i>
+          </div>
+          <div style = "font-weight: 500;font-size: 10px;">
+              {{selectedVersion.updated_at | date}}&nbsp;{{version.updated_at | date:"hh:mm"}}
           </div>
         </div>
         <!--change dot end-->

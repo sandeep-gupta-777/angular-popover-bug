@@ -1,8 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Chart, Highcharts, MapChart} from 'angular-highcharts';
-import {elementStart} from '@angular/core/src/render3/instructions';
-
-
 
 @Component({
   selector: 'app-chart',

@@ -1,10 +1,10 @@
 <img src="https://imibot.ai/assets/img/login_page.png" class="imi-fixed-logo" alt="">
 
-<div class="login-grid">
+<div class="login-grid" [ngClass]="{'enterprise-pushing-left':panelActive==='enterprise-list-display'}">
   <!--left logo box starts-->
   <section class="left d-flex ">
     <div class="imi-logo-box">
-      <img src="https://imibot.ai/assets/img/IMI_logo.png" alt="">
+      <img src="assets/img/IMI_logo.png" alt="IMI logo">
       <p class="tagline text-center d-none d-md-block">The bot building platform for your enterprise</p>
     </div>
   </section>
@@ -13,27 +13,52 @@
   <!--right login form starts-->
   <main *ngIf="panelActive==='login'" class="right">
     <div class="login-box ">
+      <!-- <<<<<<< HEAD -->
       <h6 class="title" style="font-size: 18px">Sign in to IMIbot</h6>
       <form class="form-theme form-theme-with-md-controls" (ngSubmit)="onSubmit()" #loginForm="ngForm">
         <input type="email" required email class="form-theme-control" ngModel name="email" aria-describedby="emailHelp"
                placeholder="Enter Email">
         <input type="password" class="form-theme-control my-3" name="password" ngModel required
                placeholder="Enter Password">
+        <!-- ======= -->
+        <!-- <h6 class="title" style="font-size: 20px">Sign in IMIbot</h6>
+        <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+          <mat-form-field class="w-100">
+            <input matInput type="email" required email class="" ngModel name="email"
+                   aria-describedby="emailHelp"
+                   placeholder="Enter Email">
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <input type="password" matInput class="" name="password" ngModel required
+                   placeholder="Enter Password">
+          </mat-form-field> -->
+        <!-- >>>>>>> dev-Angular7-migration -->
         <div class="d-flex justify-content-between">
-          <label class="container-chekbox text-dark">Remember me
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-          </label>
+          <span class="d-flex justify-content-between align-items-center">
+            <mat-checkbox color="primary" class="text-muted" style="width: 17px"></mat-checkbox>
+            <span class="text-muted ml-1">Remember me</span>
+          </span>
           <a class="cursor-pointer text-muted" (click)="panelActive='reset-via-email'">Forgot password?</a>
         </div>
-        <button type="submit" class="btn-theme btn-theme-block btn-theme-primary mt-3 mb-2"
+        <!-- <<<<<<< HEAD -->
+        <button mat-flat-button type="submit" class="btn-theme btn-theme-block mt-3 mb-2"
                 [disabled]="disabeLoginButton"
                 [ngClass]="{'btn-theme-primary':!disabeLoginButton, 'btn-theme-disabled':disabeLoginButton}">Sign in
+          <!-- ======= -->
+          <!-- <button
+            type="submit"
+            [disabled]="disabeLoginButton"
+            mat-flat-button
+            mat-ripple
+            [color]="disabeLoginButton?'primary':'primary'"
+            class="btn-theme btn-block mt-3 mb-2">Sign in -->
+          <!-- >>>>>>> dev-Angular7-migration -->
         </button>
+
         <!--TODO: set form info-->
         <div class="user-info">
-          <i class="form-theme-error" *ngIf="errorMessage" [ngClass]="{'visible':errorMessage}">{{errorMessage}}</i>
-          <i class="form-theme-info" *ngIf="infoMessage" [ngClass]="{'visible':infoMessage}">{{infoMessage}}</i>
+          <i class="custom-text-danger" *ngIf="errorMessage" [ngClass]="{'visible':errorMessage}">{{errorMessage}}</i>
+          <i class="custom-text-primary" *ngIf="infoMessage" [ngClass]="{'visible':infoMessage}">{{infoMessage}}</i>
         </div>
       </form>
     </div>
@@ -45,7 +70,7 @@
     <div class="login-box " style="width: 48%">
       <div class="form-theme form-theme-with-md-controls">
         <div class="col-12 string d-flex justify-content-center align-items-center">
-          <p class="title pb-4">Forgot password?</p>
+          <header class="title pb-4">Forgot password?</header>
         </div>
         <div class="col-12 mb-3 text-theme-normal text-center" style="color: #9e9e9e">
           Enter your email address below and we’ll send you a
@@ -53,14 +78,23 @@
         </div>
         <div class="col-12 d-flex justify-content-center align-items-center">
           <form class="login-form" #emailForPasswordResetForm="ngForm">
+            <!-- <<<<<<< HEAD -->
             <input type="email" class="form-theme-control" required email ngModel name="email"
                    aria-describedby="emailHelp"
                    placeholder="Enter Email">
             <button type="submit" class="btn-block btn-theme btn-theme-primary my-3" (click)="sendEmailForReset()">
               Request Reset
               Link
+              <!-- =======
+                          <input type="email" class="form-theme-control" required email ngModel name="email"
+                                 aria-describedby="emailHelp"
+                                 placeholder="Enter Email">
+                          <button type="submit" mat-flat-button
+                                  mat-ripple color="primary" class="btn-block btn-theme my-3" (click)="sendEmailForReset()">
+                            Request Reset Link
+              >>>>>>> dev-Angular7-migration -->
             </button>
-            <div class="text-center cursor-pointer color-primary" (click)="panelActive='login'">back to sign in</div>
+            <div class="text-center cursor-pointer color-primary" (click)="panelActive='login'">Back to Sign in</div>
           </form>
         </div>
       </div>
@@ -71,24 +105,31 @@
     <div class="login-box " style="width: 48%">
       <div class="login-form-box">
         <div class="col-12 string d-flex justify-content-center align-items-center">
-          <p class="title pb-4">Reset Password?</p>
+          <p class="title" style="font-size: 18px">Reset Password?</p>
         </div>
         <div class="col-12 d-flex justify-content-center align-items-center">
-          <form class="login-form" #resetPasswordForm="ngForm">
-            <div class="form-group">
-              <input type="password" required password class="form-control" ngModel name="password"
+          <form class="login-form w-100" #resetPasswordForm="ngForm">
+            <div class="form-group form-theme">
+              <input type="password" required password class="form-theme-control" ngModel name="password"
                      aria-describedby="passwordHelp"
-                     placeholder="Enter password">
+                     placeholder="Enter new password">
             </div>
-            <div class="form-group">
-              <input type="password" required password class="form-control" ngModel name="confirm"
+            <div class="form-group form-theme">
+              <input type="password" required password class="form-theme-control" ngModel name="confirm"
                      aria-describedby="passwordHelp"
-                     placeholder="Confirm password">
+                     placeholder="Confirm new password">
             </div>
-            <button type="submit" class="btn-block btn-theme-primary my-3" (click)="resetPassword()">Reset</button>
+            <!-- <<<<<<< HEAD -->
+            <button type="submit" class="btn-theme btn-theme-block btn-theme-primary my-3" (click)="resetPassword()">
+              Reset
+            </button>
+            <!-- ======= -->
+            <!-- <button type="submit" class="btn-block btn-theme-primary my-3" (click)="resetPassword()">Reset</button> -->
+
+            <!-- >>>>>>> dev-Angular7-migration -->
           </form>
         </div>
-        <div class="text-center cursor-pointer color-primary" (click)="panelActive='login'">back to sign in</div>
+        <div class="text-center cursor-pointer color-primary" (click)="panelActive='login'">Back to Sign in</div>
       </div>
     </div>
   </section>
@@ -100,9 +141,10 @@
       </div>
       <div class="hero-text">Password Reset Email Sent</div>
       <div class="text-center" style="width: 70%">
-        An email has been sent to your email address,<strong>{{resetPasswordForm.value.email}}</strong> . Follow directions to reset your password.
+        An email has been sent to your email address,<strong>{{resetPasswordForm.value.email}}</strong> . Follow
+        directions to reset your password.
       </div>
-      <div class="text-center cursor-pointer color-primary" (click)="panelActive='login'">back to sign in</div>
+      <div class="text-center cursor-pointer color-primary" (click)="panelActive='login'">Back to Sign in</div>
     </div>
   </section>
 
@@ -115,8 +157,41 @@
       <div class="text-center" style="width: 70%">
         Your password has been saved. Please use your new password to sign in
       </div>
-      <div class="text-center cursor-pointer color-primary" (click)="panelActive='login'">back to sign in</div>
+      <div class="text-center cursor-pointer color-primary" (click)="panelActive = 'login'">Back to Sign in</div>
     </div>
+  </section>
+
+  <section *ngIf="panelActive==='enterprise-list-display'" class="enterprise-flex mx-4">
+    <div class="d-flex mb-3">
+      <div style="font-size: 20px">Welcome Shoaib</div>
+      <div class="color-primary cursor-pointer ml-auto" (click)="enterpriseLogout()"><i class="fa fa-power-off"> </i>
+        Log out
+      </div>
+    </div>
+    <div class="d-flex mb-3">
+      <div style="font-size: 16px;">Enterprises available({{enterpriseList.length}})</div>
+      <div class="search-theme-input-with-search ml-auto">
+        <span class="fa fa-search"></span>
+        <input class="border" placeholder="Enterprise" [(ngModel)]="searchEnterprise" type="search">
+      </div>
+    </div>
+    <app-enterprise-list
+      [enterpriseList]="enterpriseList"
+      [searchEnterprise]="searchEnterprise"
+      (clickedEnterprise)="enterEnterprise($event)"
+      [currentEnterpriseId]="-1"></app-enterprise-list>
+    <!-- <div class="enterprise-grid h-100">
+      <div class = "enterprise-grid-item"
+      *ngFor="let enterprise of  (enterpriseList | genericObjFilter:'enterprise_id.name':searchEnterprise)"
+      (click) = enterEnterprise(enterprise.enterprise_id.id,enterprise.role_id.id)>
+        <div class = "enterprise-image">
+          <img src="{{enterprise.enterprise_id.logo}}" alt="">
+        </div>
+        <div class = "enterprise-name" >{{enterprise.enterprise_id.name}}</div>
+        <div class = "enterprise-role" >{{enterprise.role_id.name}}</div>
+      </div>
+
+    </div> -->
   </section>
 
   <!--right login form ends-->

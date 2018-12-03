@@ -88,7 +88,6 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
     /*when the app is reloaded we want to rerander handsontable*/
     this.eventService.rerenderHandsonTable$.emit();
 
-    debugger;
     setTimeout(() => {
       const routeName = this.activatedRoute.snapshot.data['routeName'];
 

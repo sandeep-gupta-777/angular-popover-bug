@@ -52,3 +52,7 @@ form input{
 th,td{
   @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-text-grey);
 }
+
+.font-11{
+  font-size: 11px;
+}

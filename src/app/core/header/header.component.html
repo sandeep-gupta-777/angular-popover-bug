@@ -1,20 +1,16 @@
-<div class="container-fluid header-container shadow-theme">
+<div class="container-fluid header-container d-flex align-content-center shadow-theme">
 
-  <div class="box box-logo" style="position: absolute; top: 0; bottom: 0; z-index: 40;">
-    <a routerLink="/" style="padding-top: 9px;">
-      <img class="box-logo__image" src="https://imibot.ai/assets/img/IMI_logo.png" alt=""></a>
+  <div class="box box-logo" style="position: relative">
+    <a routerLink="/" style="">
+      <img class="box-logo__image" src="https://imibot.ai/assets/img/IMI_logo.png"
+           alt=""></a>
   </div>
 
-  <div class="row">
-    <div class="col-8 col-md-9 header-container__left d-flex align-items-end">
-      <!--TODO: THIS IMAGE IS INVISIBLE; REMOVE IT ALTOGETHER-->
-      <div class="box box-logo invisible">
-        <a routerLink="/"><img class="box-logo__image" src="https://imibot.ai/assets/img/IMI_logo.png" alt=""></a>
-      </div>
+  <div class="d-flex flex-grow-1">
+    <div class="header-container__left mt-auto d-flex align-items-end">
 
       <div class="box box-tools">
-        <a class="header-nav" [routerLink]="'/core/viewbots/'"
-           routerLinkActive="highlight-text-on-route-match">
+        <a class="header-nav" [routerLink]="'/core/viewbots/'" routerLinkActive="highlight-text-on-route-match">
           <i class="fa fa-home"></i>
           <span class="d-none d-lg-inline">Bot Dashboard</span>
         </a>
@@ -36,36 +32,52 @@
 
       </div>
       <!--<a class="header-nav" (click)="toggleDocumentFullScreen();"-->
-         <!--[title]="isDocumentFullScreenModeOn?'Go to fullscreen mode':'Exit fullscreen mode'">-->
-        <!--<i class="fa" [ngClass]="{'fa-television':!isDocumentFullScreenModeOn, 'fa-compress':isDocumentFullScreenModeOn}"></i>-->
+      <!--[title]="isDocumentFullScreenModeOn?'Go to fullscreen mode':'Exit fullscreen mode'">-->
+      <!--<i class="fa" [ngClass]="{'fa-television':!isDocumentFullScreenModeOn, 'fa-compress':isDocumentFullScreenModeOn}"></i>-->
       <!--</a>-->
     </div>
 
-    <div class="col-4 px-0 col-md-3 d-flex align-items-center">
+    <div class="ml-auto d-flex align-items-center">
       <div class="d-flex header-container__right align-items-center ml-auto ">
         <div class="box box-details-personal d-flex flex-column">
-          <span class="box-details-personal__name  pr-0 limit-oneline">{{(loggeduser$|async).user.first_name +" "+ (loggeduser$|async).user.last_name}}</span>
+          <span class="box-details-personal__name  pr-0 limit-oneline">{{(loggeduser$|async).user.first_name +" "+
+            (loggeduser$|async).user.last_name}}</span>
           <span class="box-details-personal__designation text-theme-muted pt-1 text-right">{{(loggeduser$|async).user.role.name}}</span>
         </div>
 
         <div class="box d-flex ">
-    <span class="box-details__logo">
-      <img class="img-fluid rounded-circle" style="width: 32px"
-           [src]="logoSrc" alt="">
-    </span>
-          <div class="btn-group" dropdown>
-            <span dropdownToggle class="box-details__dropdown d-flex align-items-center"><i
-              class="fa fa-chevron-down"></i></span>
-            <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
-              <li role="menuitem"><a class="dropdown-item" [routerLink]="['profile']"
-                                     routerLinkActive="highlight-text-on-route-match">Profile</a></li>
-              <li role="menuitem"><a class="dropdown-item cursor-pointer" (click)="logout()">Sign out</a></li>
-              <li class="divider dropdown-divider" *myIf="myEAllActions['Get Enterprise']"></li>
-              <li role="menuitem"><a class="dropdown-item" *myIf="myEAllActions['Get Enterprise']"
-                                     [routerLink]="['enterpriseprofile']"
-                                     routerLinkActive="highlight-text-on-route-match">Enterprise Profile</a></li>
-            </ul>
-          </div>
+          <span class="box-details__logo">
+            <img class="img-fluid rounded-circle" style="width: 32px" [src]="logoSrc" alt="">
+          </span>
+
+          <button mat-icon-button [matMenuTriggerFor]="appMenu" class="click-save-wrapper">
+            <i class="fa fa-chevron-down m-0"></i>
+          </button>
+          <mat-menu class="cutom-md-menu" #appMenu="matMenu">
+
+            <a mat-menu-item class="dropdown-item" [routerLink]="['profile']"
+               routerLinkActive="highlight-text-on-route-match">Profile</a>
+            <a mat-menu-item class="dropdown-item cursor-pointer" (click)="logout()">Sign out</a>
+            <a mat-menu-item class="dropdown-item" (click)=changeEnterprise(changeEnterpriseModal)
+            *ngIf= "enterpriseList.length > 1"  >Change enterprise</a>
+            <mat-divider *myIf="myEAllActions['Get Enterprise']"></mat-divider>
+            <a mat-menu-item class="dropdown-item" *myIf="myEAllActions['Get Enterprise']"
+               [routerLink]="['enterpriseprofile']"
+               routerLinkActive="highlight-text-on-route-match">Enterprise Profile</a>
+          </mat-menu>
+          <!--<div class="btn-group" dropdown>-->
+          <!--<span dropdownToggle class="box-details__dropdown d-flex align-items-center"><i-->
+          <!--class="fa fa-chevron-down"></i></span>-->
+          <!--<ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">-->
+          <!--<li role="menuitem"><a class="dropdown-item" [routerLink]="['profile']"-->
+          <!--routerLinkActive="highlight-text-on-route-match">Profile</a></li>-->
+          <!--<li role="menuitem"><a class="dropdown-item cursor-pointer" (click)="logout()">Sign out</a></li>-->
+          <!--<li class="divider dropdown-divider" *myIf="myEAllActions['Get Enterprise']"></li>-->
+          <!--<li role="menuitem"><a class="dropdown-item" *myIf="myEAllActions['Get Enterprise']"-->
+          <!--[routerLink]="['enterpriseprofile']"-->
+          <!--routerLinkActive="highlight-text-on-route-match">Enterprise Profile</a></li>-->
+          <!--</ul>-->
+          <!--</div>-->
         </div>
       </div>
     </div>
@@ -73,3 +85,27 @@
   </div>
 
 </div>
+
+<ng-template #changeEnterpriseModal>
+  <div class="primary-modal" style="width: 650px;">
+    <div class="modal-header" style="border: none;">
+      <h4 class="modal-title" style="display: flex;justify-content: start;">Change enterprise</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="d-flex mb-3" style="align-items: center;">
+      <div style="font-size: 13px;" class="pl-3">Select an enterprise to view corresponding bots</div>
+      <div class="search-theme-input-with-search ml-auto">
+        <span class="fa fa-search" style="top: 13px;left: 15px;"></span>
+        <input class="border" placeholder="Enterprise" [(ngModel)]="searchEnterprise" type="search"
+               style="height: 24px;">
+      </div>
+    </div>
+    <div class="modal-body pt-0" style="height:400px;">
+      <app-enterprise-list [enterpriseList]="enterpriseList" [searchEnterprise]="searchEnterprise" 
+      (clickedEnterprise)="enterEnterprise($event);dialogRefWrapper.ref.close()"
+      [currentEnterpriseId]= "(loggeduser$|async).user.enterprise.id"></app-enterprise-list>
+    </div>
+  </div>
+</ng-template>

@@ -1,18 +1,21 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ServerService } from '../../server.service';
 import { ConstantsService, ERoleName } from '../../constants.service';
 import { IUser } from '../../core/interfaces/user';
-import { Store } from '@ngxs/store';
+import { Store, Select } from '@ngxs/store';
 import { IHeaderData } from '../../../interfaces/header-data';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UtilityService } from '../../utility.service';
 import { IEnterpriseProfileInfo } from '../../../interfaces/enterprise-profile';
 import { SetEnterpriseInfoAction } from '../../core/enterpriseprofile/ngxs/enterpriseprofile.action';
 import { SetBackendURlRoot } from '../../ngxs/app.action';
-import {ResetAuthToDefaultState, SetUser} from '../ngxs/auth.action';
+import { ResetAuthToDefaultState, SetUser } from '../ngxs/auth.action';
 import { NgForm } from '@angular/forms';
-import {TestComponent} from '../../test/test.component';
-import {MessageDisplayBase} from './messageDisplayBase';
+import { TestComponent } from '../../test/test.component';
+import { MessageDisplayBase } from './messageDisplayBase';
+import { Observable } from 'rxjs';
+import { IAuthState } from '../ngxs/auth.state';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +28,9 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   disabeLoginButton = false;
   changePasswordToken;
   changePasswordExpireTime;
+  enterpriseList: any[];
+  userData: IUser;
+  searchEnterprise: string;
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
@@ -45,12 +51,52 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   @ViewChild('loginForm') loginForm: NgForm;
   @ViewChild('emailForPasswordResetForm') emailForPasswordResetForm: NgForm;
   @ViewChild('resetPasswordForm') r: NgForm;
+  gotUserData$ = new EventEmitter();
   showCustomEmails = false;
   ngOnInit() {
+    let userValue = null;
     this.showCustomEmails = !!this.activatedRoute.snapshot.queryParamMap.get('burl');
     this.panelActive = this.activatedRoute.snapshot.queryParamMap.get('token') ? 'reset-password' : this.panelActive;
     this.changePasswordExpireTime = this.activatedRoute.snapshot.queryParamMap.get('timestamp');
     this.serverService.getNSetConfigData$().subscribe(() => this.isConfigDataSet = true);
+    this.gotUserData$.pipe(
+      map((value: IUser) => {
+        userValue = value;
+        this.store.dispatch([
+          new SetUser({ user: value }),
+          // new SetEnterpriseInfoAction({ enterpriseInfo: value})
+        ])
+      })
+    )
+      .subscribe(() => {
+          this.serverService.getNSetMasterPermissionsList()
+            .subscribe(() => {
+              this.flashInfoMessage('Loading your dashboard', 10000);
+              /*after login, route to appropriate page according to user role*/
+              if (userValue.role.name === ERoleName.Analyst) {
+                this.router.navigate(['/core/analytics2/users']);
+              } else {
+                this.router.navigate(['/']);
+              }
+              this.serverService.getNSetBotList().subscribe(() => {
+              });
+              this.serverService.getNSetIntegrationList();
+            }, () => {
+              this.disabeLoginButton = false;
+              this.store.dispatch([
+                new ResetAuthToDefaultState()
+              ]);
+              this.flashErrorMessage('Could not fetch permission. Please try again', 10000);
+            });
+            const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(userValue.enterprise_id);
+            this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
+              .subscribe((value: IEnterpriseProfileInfo) => {
+                this.store.dispatch([
+                  new SetEnterpriseInfoAction({ enterpriseInfo: value })
+                ]);
+              });
+        })
+
   }
 
   sendEmailForReset() {
@@ -73,6 +119,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     let body;
     if (this.r.valid) {
       if (this.r.value.password === this.r.value.confirm) {
+        this.changePasswordToken = this.activatedRoute.snapshot.queryParamMap.get('token')
         body = {
           'password': this.r.value.password,
           'token': this.changePasswordToken
@@ -102,7 +149,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       return;
     }
     this.disabeLoginButton = true;
-    this.flashInfoMessage('Connecting to the server', 100000);
+    this.flashInfoMessage('Connecting to the server', 10000);
     const headerData: IHeaderData = {
       'auth-token': null,
       'user-access-token': null
@@ -110,42 +157,57 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
 
     this.serverService.makePostReq<IUser>({ url: loginUrl, body, headerData })
       .subscribe((user: IUser) => {
-        this.flashInfoMessage('Logged in. Fetching permissions', 100000);
-        this.store.dispatch([
-          new SetUser({ user }),
-        ]).subscribe(() => {
-          this.serverService.getNSetMasterPermissionsList()
-            .subscribe(() => {
-              this.flashInfoMessage('Loading your dashboard', 100000);
-              /*after login, route to appropriate page according to user role*/
-              if (user.role.name === ERoleName.Analyst) {
-                this.router.navigate(['/core/analytics2/users']);
-              } else {
-                this.router.navigate(['.']);
-              }
-              this.serverService.getNSetBotList().subscribe(() => {
-              });
-              this.serverService.getNSetIntegrationList();
-            }, () => {
-                this.disabeLoginButton = false;
-                this.store.dispatch([
-                  new ResetAuthToDefaultState()
-                ]);
-                this.flashErrorMessage('Could not fetch permission. Please try again', 100000);
-              });
+        this.userData = user;
+        this.flashInfoMessage('Logged in. Fetching permissions', 10000);
+        if (this.userData.enterprises.length <= 1) {
+          let enterpriseDate = {
+            enterpriseId : this.userData.enterprises[0].enterprise_id.id ,
+            roleId : this.userData.enterprises[0].role_id.id
+          };
+          this.enterEnterprise(enterpriseDate);
+          // this.gotUserData$.emit(user);
+          // this.store.dispatch([
+          //   new SetUser({ user }),
+          // ]).subscribe(() => {
+          //   this.serverService.getNSetMasterPermissionsList()
+          //     .subscribe(() => {
+          //       this.flashInfoMessage('Loading your dashboard', 100000);
+          //       /*after login, route to appropriate page according to user role*/
+          //       if (this.userData.role.name === ERoleName.Analyst) {
+          //         this.router.navigate(['/core/analytics2/users']);
+          //       } else {
+          //         this.router.navigate([' ']);
+          //       }
+          //       this.serverService.getNSetBotList().subscribe(() => {
+          //       });
+          //       this.serverService.getNSetIntegrationList();
+          //     }, () => {
+          //       this.disabeLoginButton = false;
+          //       this.store.dispatch([
+          //         new ResetAuthToDefaultState()
+          //       ]);
+          //       this.flashErrorMessage('Could not fetch permission. Please try again', 100000);
+          //     });
+          // });
+          // const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(user.enterprise_id);
+          // this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
+          //   .subscribe((value: IEnterpriseProfileInfo) => {
+          //     this.store.dispatch([
+          //       new SetEnterpriseInfoAction({ enterpriseInfo: value })
+          //     ]);
+          //   });
 
-          const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(user.enterprise_id);
-          this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
-            .subscribe((value: IEnterpriseProfileInfo) => {
-              this.store.dispatch([
-                new SetEnterpriseInfoAction({ enterpriseInfo: value })
-              ]);
-            });
-        });
+        }
+        else {
+          this.enterpriseList = this.userData.enterprises;
+          this.panelActive = "enterprise-list-display";
+          console.log(this.enterpriseList);
+        }
+        // });
       },
         () => {
           this.disabeLoginButton = false;
-          this.flashErrorMessage('Login failed. Please try again', 10000);
+          this.flashErrorMessage('Login failed. Please try again', 100000);
         }
       );
   }
@@ -153,8 +215,28 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   showPanel(panel) {
     this.panelActive = panel;
   }
+  enterEnterprise(Enterprise) {
+    let enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
+    let body = {
+      "user_id": this.userData.id,
+      "enterprise_id": Enterprise.enterpriseId,
+      "role_id": Enterprise.roleId
+    }
+    let headerData = {
+      "auth-token": this.userData.auth_token
+    }
 
+    this.serverService.makePostReq<any>({ url: enterpriseLoginUrl, body, headerData })
+      .subscribe((value) => {
 
+        this.gotUserData$.emit(value);
+      });
+  }
+  enterpriseLogout(){
+    this.panelActive = 'login';
+    this.panelActive = 'login';
+    this.disabeLoginButton=false;
+  }
   loginWithCustomEmail(email) {
     this.loginForm.form.patchValue({ email: email, password: 'Botwoman@123!' });
     this.onSubmit();

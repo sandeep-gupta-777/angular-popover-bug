@@ -6,7 +6,7 @@ import { actionMatcher, Select } from '@ngxs/store';
 import { IProfilePermission } from '../interfaces/profile-action-permission';
 import { IUser } from './core/interfaces/user';
 import { IAuthState } from './auth/ngxs/auth.state';
-import { st } from '@angular/core/src/render3';
+
 import { ELogType, LoggingService } from './logging.service';
 
 @Injectable({
@@ -88,7 +88,10 @@ export class PermissionService {
     '/api/v1/user/login/',
     '/api/v1/user/resetpasswordurl/',
     '/api/v1/user/resetpassword/',
-    '/api/v1/webhook/web/'
+    '/api/v1/webhook/web/',
+    '/api/v1/user/enterprise_login/',
+    '/api/v1/user/enterprises/',
+    '/api/v1/enterprise/'
   ];
   constructor() {
     this.loggeduser$.subscribe((loggeduser) => {
@@ -175,6 +178,7 @@ export class PermissionService {
   }
 
   isApiAccessDenied(url: string, httpVerb: EHttpVerbs) {
+
     let isAllowed: boolean, httpVerbAndPathKey: string, logMessage = '', pathName = this.getPathNameFromUrl(url);
     const roleName = this.loggedUser && this.loggedUser.role.name;
     if (!url || !httpVerb) {

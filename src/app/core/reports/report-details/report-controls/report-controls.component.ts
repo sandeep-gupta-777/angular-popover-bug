@@ -1,18 +1,19 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {ViewBotStateModel} from '../../../view-bots/ngxs/view-bot.state';
 import {IBot} from '../../../interfaces/IBot';
 import {IReportItem} from '../../../../../interfaces/report';
 import {NgForm} from '@angular/forms';
-import {UtilityService} from '../../../../utility.service';
+import {EBotType, UtilityService} from '../../../../utility.service';
 import {TempVariableService} from '../../../../temp-variable.service';
 import {ServerService} from '../../../../server.service';
 import {ConstantsService} from '../../../../constants.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {BsDatepickerConfig} from 'ngx-bootstrap/datepicker';
-import {EBotType} from '../../../view-bots/view-bots.component';
 import {ELogType, LoggingService} from '../../../../logging.service';
+import {debounceTime} from 'rxjs/operators';
+import {DebugBase} from '../../../../debug-base';
+import {EventService} from '../../../../event.service';
 
 declare var $: any;
 
@@ -21,11 +22,11 @@ declare var $: any;
   templateUrl: './report-controls.component.html',
   styleUrls: ['./report-controls.component.scss']
 })
-export class ReportControlsComponent implements OnInit, AfterViewInit {
+export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy {
   start_time;
   isactive = false;
   @Select() botlist$: Observable<ViewBotStateModel>;
-  datePickerConfig: Partial<BsDatepickerConfig>;
+  datePickerConfig: any;
   @ViewChild('form') f: NgForm;
   botlist: IBot[] = [];
   selectedBot: IBot;
@@ -69,6 +70,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  botlistSub;
   ngOnInit() {
 
     LoggingService.log(this);
@@ -80,22 +82,16 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
 
     const _id = this.report_id = this.activatedRoute.snapshot.paramMap.get('_id');
 
-    this.botlist$.subscribe((value: ViewBotStateModel) => {
+    this.botlistSub = this.botlist$.subscribe((value: ViewBotStateModel) => {
       this.botlist = [...value.allBotList];
       this.codebasedBotList = this.botlist.filter((bot) => bot.bot_type === EBotType.chatbot);
 
       setTimeout(() => {
-
-
-        // this.reportFormData.startdate = this.utilityService.convertDateObjectStringToDDMMYY(new Date(this.reportFormData.startdate));
-        // if (this.reportFormData) this.f.f.patchValue(this.reportFormData);
-        //
         if (_id && _id !== 'new') {
           const url = this.constantsService.getReportsEditInfo(_id);
           this.serverService.makeGetReq<IReportItem>({url})
             .subscribe((value: IReportItem) => {
               try {
-                debugger;
                 let email:any = value.delivery.find((item: any) => item.delivery_type === 'email');
                 email.recipients = email.recipients.join(';');
                 const formDataSerialized = {
@@ -128,7 +124,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
     });
 
 
-    this.f.valueChanges.debounceTime(1000).subscribe((data: any) => {
+    this.f.valueChanges.pipe(debounceTime(1000)).subscribe((data: any) => {
       // if (!this.f.dirty) return;
 
       /*TODO: VERY BAD FIX; USE REACTIVE FORM INSTEAD*/
@@ -184,6 +180,10 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
   navigate(deliveryMode) {
     this.router.navigate([], {queryParams: {deliveryMode}});
     // deliveryMode='email'
+  }
+
+  ngOnDestroy(): void {
+    EventService.unsubscribeInComponent(this);
   }
 
 }

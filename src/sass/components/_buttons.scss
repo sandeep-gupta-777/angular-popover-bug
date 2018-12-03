@@ -8,7 +8,7 @@
   line-height: 0px;
   height: 32px !important;
   font-size: $font-size-xs;
-  color: white !important;
+  color: white;
   cursor: pointer;
   &[disabled] {
     opacity: .5;

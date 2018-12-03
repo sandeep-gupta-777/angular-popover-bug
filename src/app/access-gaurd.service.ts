@@ -1,3 +1,5 @@
+
+import {map,  take } from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {
   ActivatedRoute, ActivatedRouteSnapshot,
@@ -12,9 +14,6 @@ import {
 import {IAuthState} from './auth/ngxs/auth.state';
 import {Observable} from 'rxjs';
 import {Select} from '@ngxs/store';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/take';
-import { take } from 'rxjs/operators';
 import {ConstantsService} from './constants.service';
 import {PermissionService} from './permission.service';
 
@@ -35,9 +34,9 @@ export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoa
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     // return true;
 
-    return this.loggeduser$.map((value: IAuthState) => {
+    return this.loggeduser$.pipe(map((value: IAuthState) => {
       return this.doAllowAccess(value, route);
-    });
+    }));
   }
 
   doAllowAccess(value, route: ActivatedRouteSnapshot) {
@@ -56,21 +55,21 @@ export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoa
   }
 
   canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return this.loggeduser$.map((value: IAuthState) => {
+    return this.loggeduser$.pipe(map((value: IAuthState) => {
 
      return this.doAllowAccess(value, route);
-    });
+    }));
   }
 
   canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
-    return this.loggeduser$.map((value: IAuthState) => {
+    return this.loggeduser$.pipe(map((value: IAuthState) => {
       if (value.user != null) {
         return true;
       } else {
         this.router.navigate(['auth', 'login']);
         return false;
       }
-    }).take(1);
+    }),take(1),);
     /*OMG:
     *What does it means for an observable to complete
     * https://github.com/angular/angular/issues/9613*/

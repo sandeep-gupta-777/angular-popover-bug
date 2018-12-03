@@ -1,0 +1,1684 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>bot-plateform-fe documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">bot-plateform-fe documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>ReportDetailsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/core/reports/report-details/report-details.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+            <code><a href="../classes/ModalImplementer.html" target="_self" >ModalImplementer</a></code>
+    </p>
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-report-details</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./report-details.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./report-details.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#allBotList">allBotList</a>
+                            </li>
+                            <li>
+                                <a href="#botlist$">botlist$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#matDialog">matDialog</a>
+                            </li>
+                            <li>
+                                <a href="#report_id">report_id</a>
+                            </li>
+                            <li>
+                                <a href="#reportControlsComponent">reportControlsComponent</a>
+                            </li>
+                            <li>
+                                <a href="#reportFormData">reportFormData</a>
+                            </li>
+                            <li>
+                                <a href="#reportItem$">reportItem$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#utilityService">utilityService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dialogRefWrapper">dialogRefWrapper</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#matDialog">matDialog</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#utilityService">utilityService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#deleteReport">deleteReport</a>
+                            </li>
+                            <li>
+                                <a href="#getRecipientsArr">getRecipientsArr</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#removeTrailingColons">removeTrailingColons</a>
+                            </li>
+                            <li>
+                                <a href="#showReportDeleteModel">showReportDeleteModel</a>
+                            </li>
+                            <li>
+                                <a href="#updateReport">updateReport</a>
+                            </li>
+                            <li>
+                                <a href="#openDangerModal">openDangerModal</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#openPrimaryModal">openPrimaryModal</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(activatedRoute: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, utilityService: <a href="../injectables/UtilityService.html">UtilityService</a>, matDialog: MatDialog, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, serverService: <a href="../injectables/ServerService.html">ServerService</a>, constantsService: <a href="../injectables/ConstantsService.html">ConstantsService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/core/reports/report-details/report-details.component.ts:31</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>activatedRoute</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>utilityService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/UtilityService.html" target="_self" >UtilityService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>matDialog</td>
+                                                  
+                                                        <td>
+                                                                    <code>MatDialog</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>serverService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/ServerService.html" target="_self" >ServerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>constantsService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/ConstantsService.html" target="_self" >ConstantsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="deleteReport"></a>
+                        <span class="name">
+                            <b>
+                            deleteReport
+                            </b>
+                            <a href="#deleteReport"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>deleteReport()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/core/reports/report-details/report-details.component.ts:59</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getRecipientsArr"></a>
+                        <span class="name">
+                            <b>
+                            getRecipientsArr
+                            </b>
+                            <a href="#getRecipientsArr"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>getRecipientsArr(reportFormData)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/app/core/reports/report-details/report-details.component.ts:73</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>reportFormData</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngOnInit"></a>
+                        <span class="name">
+                            <b>
+                            ngOnInit
+                            </b>
+                            <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>ngOnInit()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/core/reports/report-details/report-details.component.ts:44</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="removeTrailingColons"></a>
+                        <span class="name">
+                            <b>
+                            removeTrailingColons
+                            </b>
+                            <a href="#removeTrailingColons"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>removeTrailingColons(str: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/core/reports/report-details/report-details.component.ts:69</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>str</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showReportDeleteModel"></a>
+                        <span class="name">
+                            <b>
+                            showReportDeleteModel
+                            </b>
+                            <a href="#showReportDeleteModel"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>showReportDeleteModel(unsubscribeTemplate: TemplateRef<any>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/core/reports/report-details/report-details.component.ts:54</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>unsubscribeTemplate</td>
+                                                        <td>
+                                                                    <code>TemplateRef&lt;any&gt;</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="updateReport"></a>
+                        <span class="name">
+                            <b>
+                            updateReport
+                            </b>
+                            <a href="#updateReport"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>updateReport(subscribeTemplate: TemplateRef<any>, unsubscribeTemplate: TemplateRef<any>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/app/core/reports/report-details/report-details.component.ts:84</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>subscribeTemplate</td>
+                                                        <td>
+                                                                    <code>TemplateRef&lt;any&gt;</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>unsubscribeTemplate</td>
+                                                        <td>
+                                                                    <code>TemplateRef&lt;any&gt;</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="openDangerModal"></a>
+                        <span class="name">
+                            <b>
+                            openDangerModal
+                            </b>
+                            <a href="#openDangerModal"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>openDangerModal(IntentModal, classStr?: literal type)</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/ModalImplementer.html" target="_self" >ModalImplementer</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in ModalImplementer:20</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>IntentModal</td>
+                                                        <td>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>classStr</td>
+                                                        <td>
+                                                                    <code>literal type</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="openPrimaryModal"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            openPrimaryModal
+                            </b>
+                            <a href="#openPrimaryModal"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>openPrimaryModal(IntentModal)</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/ModalImplementer.html" target="_self" >ModalImplementer</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in ModalImplementer:9</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>IntentModal</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="allBotList"></a>
+                        <span class="name">
+                            <b>
+                            allBotList
+                            </b>
+                            <a href="#allBotList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>allBotList:     <code><a href="../interfaces/IBot.html" target="_self" >IBot[]</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/IBot.html" target="_self" >IBot[]</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/core/reports/report-details/report-details.component.ts:29</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="botlist$"></a>
+                        <span class="name">
+                            <b>
+                            botlist$
+                            </b>
+                            <a href="#botlist$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>botlist$:     <code><a href="../interfaces/ViewBotStateModel.html" target="_self" >Observable&lt;ViewBotStateModel&gt;</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/ViewBotStateModel.html" target="_self" >Observable&lt;ViewBotStateModel&gt;</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Select()<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/core/reports/report-details/report-details.component.ts:28</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="matDialog"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            matDialog
+                            </b>
+                            <a href="#matDialog"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>matDialog:     <code>MatDialog</code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>MatDialog</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/core/reports/report-details/report-details.component.ts:36</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="report_id"></a>
+                        <span class="name">
+                            <b>
+                            report_id
+                            </b>
+                            <a href="#report_id"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>report_id:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/core/reports/report-details/report-details.component.ts:31</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="reportControlsComponent"></a>
+                        <span class="name">
+                            <b>
+                            reportControlsComponent
+                            </b>
+                            <a href="#reportControlsComponent"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>reportControlsComponent:     <code><a href="../components/ReportControlsComponent.html" target="_self" >ReportControlsComponent</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../components/ReportControlsComponent.html" target="_self" >ReportControlsComponent</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(ReportControlsComponent)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/core/reports/report-details/report-details.component.ts:26</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="reportFormData"></a>
+                        <span class="name">
+                            <b>
+                            reportFormData
+                            </b>
+                            <a href="#reportFormData"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>reportFormData:     <code><a href="../interfaces/IReportItem.html" target="_self" >IReportItem</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/IReportItem.html" target="_self" >IReportItem</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/core/reports/report-details/report-details.component.ts:30</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="reportItem$"></a>
+                        <span class="name">
+                            <b>
+                            reportItem$
+                            </b>
+                            <a href="#reportItem$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>reportItem$:     <code><a href="../interfaces/ReportStateModel.html" target="_self" >Observable&lt;ReportStateModel&gt;</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/ReportStateModel.html" target="_self" >Observable&lt;ReportStateModel&gt;</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Select()<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/core/reports/report-details/report-details.component.ts:27</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="utilityService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            utilityService
+                            </b>
+                            <a href="#utilityService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>utilityService:     <code><a href="../injectables/UtilityService.html" target="_self" >UtilityService</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../injectables/UtilityService.html" target="_self" >UtilityService</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/core/reports/report-details/report-details.component.ts:35</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dialogRefWrapper"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            dialogRefWrapper
+                            </b>
+                            <a href="#dialogRefWrapper"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>dialogRefWrapper:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{ref:null}</code>
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/ModalImplementer.html" target="_self" >ModalImplementer</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in ModalImplementer:4</div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="matDialog"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                                <span class="modifier">Abstract</span>
+                            matDialog
+                            </b>
+                            <a href="#matDialog"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>matDialog:     <code></code>
+</code>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/ModalImplementer.html" target="_self" >ModalImplementer</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in ModalImplementer:5</div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="utilityService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            utilityService
+                            </b>
+                            <a href="#utilityService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>utilityService:     <code></code>
+</code>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/ModalImplementer.html" target="_self" >ModalImplementer</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in ModalImplementer:6</div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, OnInit, ViewChild, TemplateRef} from &#x27;@angular/core&#x27;;
+import {ReportControlsComponent} from &#x27;./report-controls/report-controls.component&#x27;;
+import {Select, Selector} from &#x27;@ngxs/store&#x27;;
+import {Observable} from &#x27;rxjs&#x27;;
+import {ReportStateModel} from &#x27;../ngxs/reports.state&#x27;;
+import {IReportItem} from &#x27;../../../../interfaces/report&#x27;;
+// import {validate} from &#x27;codelyzer/walkerFactory/walkerFn&#x27;;
+import {ActivatedRoute, Router} from &#x27;@angular/router&#x27;;
+import {ServerService} from &#x27;../../../server.service&#x27;;
+import {ConstantsService} from &#x27;../../../constants.service&#x27;;
+// import * as moment from &#x27;moment&#x27;;
+import {IHeaderData} from &#x27;../../../../interfaces/header-data&#x27;;
+import {ViewBotStateModel} from &#x27;../../view-bots/ngxs/view-bot.state&#x27;;
+import {IBot} from &#x27;../../interfaces/IBot&#x27;;
+import {UtilityService} from &#x27;../../../utility.service&#x27;;
+import {ModalImplementer} from &#x27;../../../modal-implementer&#x27;;
+import {MatDialog} from &#x27;@angular/material&#x27;;
+
+@Component({
+  selector: &#x27;app-report-details&#x27;,
+  templateUrl: &#x27;./report-details.component.html&#x27;,
+  styleUrls: [&#x27;./report-details.component.scss&#x27;]
+})
+export class ReportDetailsComponent extends ModalImplementer implements OnInit {
+
+  @ViewChild(ReportControlsComponent) reportControlsComponent: ReportControlsComponent;
+  @Select() reportItem$: Observable&lt;ReportStateModel&gt;;
+  @Select() botlist$: Observable&lt;ViewBotStateModel&gt;;
+  allBotList: IBot[];
+  reportFormData: IReportItem;
+  report_id: number;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    public utilityService: UtilityService,
+    public matDialog: MatDialog,
+    private router: Router,
+    private serverService: ServerService,
+    private constantsService: ConstantsService,
+  ) {
+    super(utilityService, matDialog);
+  }
+
+  ngOnInit() {
+    this.report_id &#x3D; Number(this.activatedRoute.snapshot.paramMap.get(&#x27;_id&#x27;));
+    this.botlist$.subscribe((botListState) &#x3D;&gt; {
+      this.allBotList &#x3D; botListState.allBotList;
+    });
+    // this.reportItem$.subscribe((value)&#x3D;&gt;{
+    //   this.reportFormData &#x3D; value.formData;
+    // })
+  }
+
+  showReportDeleteModel(unsubscribeTemplate: TemplateRef&lt;any&gt;) {
+    // this.modalRef &#x3D; this.modalService.show(unsubscribeTemplate, {class: &#x27;center-modal&#x27;});
+    this.openDangerModal(unsubscribeTemplate);
+  }
+
+  deleteReport() {
+    const deleteReportUrl &#x3D; this.constantsService.getReportDeleteUrl(this.report_id);
+    this.serverService.makeDeleteReq({url: deleteReportUrl})
+      .subscribe(() &#x3D;&gt; {
+        this.utilityService.showSuccessToaster(&#x27;Report deleted&#x27;);
+        this.dialogRefWrapper.ref.close();
+        this.router.navigate([&#x27;/core/reports&#x27;]);
+      });
+  }
+
+  removeTrailingColons(str:string){
+    return str.replace(/(^;)|(;$)/g, &quot;&quot;)
+  }
+
+  getRecipientsArr(reportFormData){
+    try {
+      let recipientsStrColonDelimited &#x3D; this.removeTrailingColons(reportFormData.delivery[&#x27;email&#x27;].recipients);
+      return recipientsStrColonDelimited.split(&#x27;;&#x27;).filter((str:string)&#x3D;&gt;{
+        return str.trim().replace(&#x27;;&#x27;,&quot;&quot;);
+      })
+    }catch (e) {
+      console.error(e);
+    }
+  }
+
+  updateReport(subscribeTemplate: TemplateRef&lt;any&gt;, unsubscribeTemplate: TemplateRef&lt;any&gt;) {
+
+    this.reportFormData &#x3D; JSON.parse(JSON.stringify(this.reportControlsComponent.getReportControlFormData()));
+    // let timeNow &#x3D; (new Date()).toString();
+    const _id_str &#x3D; this.activatedRoute.snapshot.paramMap.get(&#x27;_id&#x27;);
+    this.reportFormData.id &#x3D; _id_str ? Number(_id_str) : null;
+    this.reportFormData.startdate &#x3D; (new Date(this.reportFormData.startdate)).getTime();
+
+
+    this.reportFormData.delivery &#x3D; &lt;any&gt;[{
+      ...this.reportFormData.delivery[&#x27;sftp&#x27;],
+      delivery_type: &#x27;sftp&#x27;,
+      enabled:this.reportFormData.delivery[&#x27;sftp&#x27;].enabled||false,
+    },
+      {
+        ...this.reportFormData.delivery[&#x27;email&#x27;],
+        delivery_type: &#x27;email&#x27;,
+        enabled:this.reportFormData.delivery[&#x27;email&#x27;].enabled||false,
+        recipients:  this.getRecipientsArr(this.reportFormData)||[]
+      }
+    ];
+
+    this.reportFormData.updated_at &#x3D; new Date().toISOString();
+    let url;
+
+    this.report_id ?
+      url &#x3D; this.constantsService.getSaveReportsEditInfo(this.reportFormData.id)
+      : url &#x3D; this.constantsService.getCreateReportUrl();
+    const body &#x3D; {...this.reportFormData};
+    delete body.created_at;
+    delete body.updated_at;
+    delete body.botName;
+    // delete body.id;
+    // body.isactive &#x3D; true;
+    body.reporttype_id &#x3D; 1;
+    body.bot_id &#x3D; Number(body.bot_id);
+    // delete body.delivery;
+    // delete body.startdate;/*TODO: temporary; since date is not working*/
+    if (body.id) {
+      //
+      this.serverService.makePutReq({url, body})
+        .subscribe((value: IReportItem) &#x3D;&gt; {
+          if (value.isactive) {
+            // this.modalRef &#x3D; this.modalService.show(subscribeTemplate, {class: &#x27;modal-md&#x27;});
+            this.openPrimaryModal(subscribeTemplate);
+          } else {
+            // this.modalRef &#x3D; this.modalService.show(unsubscribeTemplate, {class: &#x27;modal-md&#x27;});
+            this.openDangerModal(unsubscribeTemplate);
+          }
+        });
+    } else {
+      delete body.id;
+      const report_bot: IBot &#x3D; this.allBotList.find((bot) &#x3D;&gt; bot.id &#x3D;&#x3D; body.bot_id);
+      const headerData: IHeaderData &#x3D; {&#x27;bot-access-token&#x27;: report_bot.bot_access_token};
+      this.serverService.makePostReq({url, body, headerData})
+        .subscribe((value: IReportItem) &#x3D;&gt; {
+          this.router.navigate([&#x60;core/reports/edit/${value.id}&#x60;]);
+          // this.modalRef &#x3D; this.modalService.show(subscribeTemplate, {class: &#x27;modal-md&#x27;});
+          this.openPrimaryModal(subscribeTemplate);
+        });
+    }
+
+  }
+
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;container px-5 pb-5 my-3 bg-white shadow-theme&quot;&gt;
+  &lt;div class&#x3D;&quot;row&quot;&gt;
+    &lt;div class&#x3D;&quot;col-12 mb-4 py-3 d-flex align-items-center &quot; style&#x3D;&quot;border-bottom: solid 2px #e0e0e0;&quot;&gt;
+      &lt;a class&#x3D;&quot;p-0 h4 cursor-pointer&quot; [routerLink]&#x3D;&quot;[&#x27;/core&#x27;,&#x27;reports&#x27;]&quot; &gt;&lt;i class&#x3D;&quot;fa fa-angle-left pr-2&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+      &lt;a class&#x3D;&quot;p-0 h4 &quot;&gt;Subscribe to Report&lt;/a&gt;
+      &lt;button class&#x3D;&quot;btn-theme btn-theme-primary-outline ml-auto mr-3&quot; routerLink&#x3D;&quot;/core/reports&quot;&gt;Cancel&lt;/button&gt;
+      &lt;button class&#x3D;&quot;btn-theme btn-theme-primary&quot; *ngIf&#x3D;&quot;!report_id&quot; (click)&#x3D;&quot;updateReport(Primarytemplate, unsubscribeTemplate)&quot;&gt;Create&lt;/button&gt;
+      &lt;button class&#x3D;&quot;btn-theme btn-theme-primary&quot; *ngIf&#x3D;&quot;report_id&quot; (click)&#x3D;&quot;updateReport(Primarytemplate, unsubscribeTemplate)&quot;&gt;Update&lt;/button&gt;
+      &lt;i class&#x3D;&quot;fa fa-trash cursor-pointer&quot; *ngIf&#x3D;&quot;report_id&quot; (click)&#x3D;&quot;showReportDeleteModel(reportDeleteTemplate)&quot;&gt;&lt;/i&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class&#x3D;&quot;row&quot;&gt;
+    &lt;div class&#x3D;&quot;col-5 pr-5 border-right&quot;&gt;
+      &lt;!--&lt;app-report-controls [reportFormData]&#x3D;&quot;reportFormData&quot;&gt;&lt;/app-report-controls&gt;--&gt;
+      &lt;app-report-controls &gt;&lt;/app-report-controls&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;col-7 d-flex&quot;&gt;
+      &lt;app-report-display class&#x3D;&quot;d-flex&quot; style&#x3D;&quot;width: 100%&quot;&gt;&lt;/app-report-display&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;!--&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;Templates Below&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;--&gt;
+&lt;ng-template #Primarytemplate&gt;
+  &lt;div class&#x3D;&quot;primary-modal&quot;&gt;
+    &lt;div class&#x3D;&quot;modal-header&quot; &gt;
+      &lt;h4 class&#x3D;&quot;modal-title&quot;&gt; Subscribed successfully&lt;/h4&gt;
+      &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;close pull-right&quot; aria-label&#x3D;&quot;Close&quot; (click)&#x3D;&quot;dialogRefWrapper.ref.close()&quot;&gt;
+        &lt;span aria-hidden&#x3D;&quot;true&quot;&gt;&amp;times;&lt;/span&gt;
+      &lt;/button&gt;
+
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;modal-body&quot;&gt;
+      &lt;div&gt;
+        &lt;div class&#x3D;&quot;col-md-12&quot;&gt;
+          You have subscribed to &lt;strong&gt;messages&lt;/strong&gt; report for
+          &lt;strong&gt;{{reportFormData.botName}}&lt;/strong&gt; bot in a &lt;strong&gt;{{reportFormData.filetype}}&lt;/strong&gt; format,which is scheduled
+          &lt;strong&gt;{{reportFormData.frequency}}&lt;/strong&gt; at &lt;strong&gt;{{reportFormData.startdate|date:&#x27;shortTime&#x27;}} &lt;/strong&gt;via
+          &lt;strong *ngIf&#x3D;&quot;!reportFormData?.delivery[1].enabled&quot;&gt;{{reportFormData?.delivery[0]?.delivery_type}}&lt;/strong&gt;
+          &lt;strong *ngIf&#x3D;&quot;reportFormData?.delivery[1].enabled&quot;&gt;{{reportFormData?.delivery[1]?.delivery_type}}&lt;/strong&gt;
+        &lt;/div&gt;
+        &lt;div class  &#x3D; &quot;col-md-12&quot;&gt;
+          &lt;i class&#x3D;&quot;fa fa-check-circle&quot; &gt;&lt;/i&gt;
+        &lt;/div&gt;
+        &lt;div class &#x3D; &quot;col-md-12 light-text&quot;&gt;The next delivery is scheduled on&lt;/div&gt;
+        &lt;div class&#x3D;&quot;col-md-12&quot;&gt;&lt;strong&gt;{{reportFormData.startdate|date:&#x27;mediumDate&#x27;}}&lt;/strong&gt;&lt;/div&gt;
+        &lt;div class&#x3D;&quot;col-md-12&quot;&gt;{{reportFormData.startdate|date:&#x27;shortTime&#x27;}}&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!----&gt;
+&lt;/ng-template&gt;
+
+
+
+&lt;ng-template #reportDeleteTemplate&gt;
+
+  &lt;div class&#x3D;&quot;danger-modal center-modal&quot;&gt;
+    &lt;div class&#x3D;&quot;modal-header&quot;&gt;
+      &lt;h4 class&#x3D;&quot;modal-title mb-2&quot; style&#x3D;&quot;display: flex;justify-content: start;&quot;&gt;Delete Report?&lt;/h4&gt;
+      &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;close pull-right&quot; aria-label&#x3D;&quot;Close&quot; (click)&#x3D;&quot;dialogRefWrapper.ref.close()&quot;&gt;
+        &lt;span aria-hidden&#x3D;&quot;true&quot;&gt;&amp;times;&lt;/span&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;modal-body pt-0&quot;&gt;
+      &lt;form #form&#x3D;&quot;ngForm&quot;&gt;
+        &lt;div class&#x3D;&quot;text-center my-1&quot;&gt;
+          &lt;p class&#x3D;&quot;mb-3&quot;&gt;This will delete the report and all it’s instances from history
+            will also be removed. Are you sure you want to delete it?&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;button class&#x3D;&quot;btn-theme btn-theme-secondary-outline mr-2&quot; (click)&#x3D;&quot;dialogRefWrapper.ref.close()&quot;&gt;Cancel&lt;/button&gt;
+        &lt;button class&#x3D;&quot; btn-theme btn-theme-danger&quot; (click)&#x3D;&quot;deleteReport()&quot;&gt;Delete&lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+
+&lt;/ng-template&gt;
+
+&lt;ng-template #unsubscribeTemplate&gt;
+  &lt;div class&#x3D;&quot;danger-modal&quot;&gt;
+    &lt;div class&#x3D;&quot;modal-header&quot; &gt;
+      &lt;h4 class&#x3D;&quot;modal-title&quot;&gt; Unsubscribed successfully&lt;/h4&gt;
+      &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;close pull-right&quot; aria-label&#x3D;&quot;Close&quot; (click)&#x3D;&quot;dialogRefWrapper.ref.close()&quot;&gt;
+        &lt;span aria-hidden&#x3D;&quot;true&quot;&gt;&amp;times;&lt;/span&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;modal-body&quot;&gt;
+      &lt;div class &#x3D;&quot;row&quot;&gt;
+        &lt;div class&#x3D;&quot;col-md-12 mb-2&quot;&gt;You have subscribed to &lt;strong&gt;messages&lt;/strong&gt; report for
+          &lt;strong&gt;{{reportFormData.botName}}&lt;/strong&gt; bot in a &lt;strong&gt;{{reportFormData.filetype}}&lt;/strong&gt;
+          format,which is scheduled  &lt;strong&gt;{{reportFormData.frequency}}&lt;/strong&gt; at &lt;strong&gt;
+            {{reportFormData.startdate|date:&#x27;shortTime&#x27;}} &lt;/strong&gt;via
+          &lt;strong *ngIf&#x3D;&quot;!reportFormData?.delivery[1].enabled&quot;&gt;{{reportFormData?.delivery[0]?.delivery_type}}&lt;/strong&gt;
+          &lt;strong *ngIf&#x3D;&quot;reportFormData?.delivery[1].enabled&quot;&gt;{{reportFormData?.delivery[1]?.delivery_type}}&lt;/strong&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;col-md-12&quot;&gt;You can subscribe to it later if you need from configure tab later&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/ng-template&gt;
+&lt;!----&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./report-details.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;~src/sass/main&#x27;;
+
+.h4{
+  @include typography($font-size-md, $line-height-normal, $font-weight-700, #474747);
+}
+.light-text{
+  color: #9e9e9e;
+}
+.primary-modal{
+   @include classic-modal(#00abd3);
+ }
+.primary-modal{
+  .modal-body{
+    .fa{
+      font-size:48px;
+      color: #00abd3;
+      padding: 10px 0px;
+    }
+  }
+}
+
+.danger-modal{
+  @include classic-modal(#b14250);
+}
+
+.fa-trash{
+  font-size: 22px;
+  color: $color-primary;
+  padding-left: 5px;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="container px-5 pb-5 my-3 bg-white shadow-theme">  <div class="row">    <div class="col-12 mb-4 py-3 d-flex align-items-center " style="border-bottom: solid 2px #e0e0e0;">      <a class="p-0 h4 cursor-pointer" [routerLink]="[\'/core\',\'reports\']" ><i class="fa fa-angle-left pr-2"></i></a>      <a class="p-0 h4 ">Subscribe to Report</a>      <button class="btn-theme btn-theme-primary-outline ml-auto mr-3" routerLink="/core/reports">Cancel</button>      <button class="btn-theme btn-theme-primary" *ngIf="!report_id" (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Create</button>      <button class="btn-theme btn-theme-primary" *ngIf="report_id" (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Update</button>      <i class="fa fa-trash cursor-pointer" *ngIf="report_id" (click)="showReportDeleteModel(reportDeleteTemplate)"></i>    </div>  </div>  <div class="row">    <div class="col-5 pr-5 border-right">      <!--<app-report-controls [reportFormData]="reportFormData"></app-report-controls>-->      <app-report-controls ></app-report-controls>    </div>    <div class="col-7 d-flex">      <app-report-display class="d-flex" style="width: 100%"></app-report-display>    </div>  </div></div><!--===================Templates Below===================--><ng-template #Primarytemplate>  <div class="primary-modal">    <div class="modal-header" >      <h4 class="modal-title"> Subscribed successfully</h4>      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">        <span aria-hidden="true">&times;</span>      </button>    </div>    <div class="modal-body">      <div>        <div class="col-md-12">          You have subscribed to <strong>messages</strong> report for          <strong>{{reportFormData.botName}}</strong> bot in a <strong>{{reportFormData.filetype}}</strong> format,which is scheduled          <strong>{{reportFormData.frequency}}</strong> at <strong>{{reportFormData.startdate|date:\'shortTime\'}} </strong>via          <strong *ngIf="!reportFormData?.delivery[1].enabled">{{reportFormData?.delivery[0]?.delivery_type}}</strong>          <strong *ngIf="reportFormData?.delivery[1].enabled">{{reportFormData?.delivery[1]?.delivery_type}}</strong>        </div>        <div class  = "col-md-12">          <i class="fa fa-check-circle" ></i>        </div>        <div class = "col-md-12 light-text">The next delivery is scheduled on</div>        <div class="col-md-12"><strong>{{reportFormData.startdate|date:\'mediumDate\'}}</strong></div>        <div class="col-md-12">{{reportFormData.startdate|date:\'shortTime\'}}</div>      </div>    </div>  </div>  <!----></ng-template><ng-template #reportDeleteTemplate>  <div class="danger-modal center-modal">    <div class="modal-header">      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete Report?</h4>      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">        <span aria-hidden="true">&times;</span>      </button>    </div>    <div class="modal-body pt-0">      <form #form="ngForm">        <div class="text-center my-1">          <p class="mb-3">This will delete the report and all it’s instances from history            will also be removed. Are you sure you want to delete it?</p>        </div>        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>        <button class=" btn-theme btn-theme-danger" (click)="deleteReport()">Delete</button>      </form>    </div>  </div></ng-template><ng-template #unsubscribeTemplate>  <div class="danger-modal">    <div class="modal-header" >      <h4 class="modal-title"> Unsubscribed successfully</h4>      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">        <span aria-hidden="true">&times;</span>      </button>    </div>    <div class="modal-body">      <div class ="row">        <div class="col-md-12 mb-2">You have subscribed to <strong>messages</strong> report for          <strong>{{reportFormData.botName}}</strong> bot in a <strong>{{reportFormData.filetype}}</strong>          format,which is scheduled  <strong>{{reportFormData.frequency}}</strong> at <strong>            {{reportFormData.startdate|date:\'shortTime\'}} </strong>via          <strong *ngIf="!reportFormData?.delivery[1].enabled">{{reportFormData?.delivery[0]?.delivery_type}}</strong>          <strong *ngIf="reportFormData?.delivery[1].enabled">{{reportFormData?.delivery[1]?.delivery_type}}</strong>        </div>        <div class="col-md-12">You can subscribe to it later if you need from configure tab later</div>      </div>    </div>  </div></ng-template><!----></div>'
+    var COMPONENTS = [{'name': 'AdditionalInfoFormComponent', 'selector': 'app-additional-info-form'},{'name': 'Analysis2BodyComponent', 'selector': 'app-analysis2-body'},{'name': 'Analysis2Engagement1Component', 'selector': 'app-analysis2-engagement1'},{'name': 'Analysis2EngagementComponent', 'selector': 'app-analysis2-engagement'},{'name': 'Analysis2EventsComponent', 'selector': 'app-analysis2-events'},{'name': 'Analysis2HeaderComponent', 'selector': 'app-analysis2-header'},{'name': 'Analysis2MessagesComponent', 'selector': 'app-analysis2-messages'},{'name': 'Analysis2OverviewComponent', 'selector': 'app-analysis2-overview'},{'name': 'Analysis2PerformanceComponent', 'selector': 'app-analysis2-performance'},{'name': 'Analysis2PlatformComponent', 'selector': 'app-analysis2-platform'},{'name': 'Analysis2UsageComponent', 'selector': 'app-analysis2-usage'},{'name': 'Analysis2VolumeComponent', 'selector': 'app-analysis2-volume'},{'name': 'Analysis2WrapperComponent', 'selector': 'app-analysis2-wrapper'},{'name': 'Analytics2SessionsComponent', 'selector': 'app-analytics2-sessions'},{'name': 'Analytics2UsersComponent', 'selector': 'app-analytics2-users'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthWrapperComponent', 'selector': 'app-auth-wrapper'},{'name': 'AvatorFormComponent', 'selector': 'app-avator-form'},{'name': 'BackendDevComponent', 'selector': 'app-backend-dev'},{'name': 'BasicInfoFormComponent', 'selector': 'app-basic-info-form'},{'name': 'BotArchitetureComponent', 'selector': 'app-bot-architeture'},{'name': 'BotConfigComponent', 'selector': 'app-bot-config'},{'name': 'BotConfigInputComponent', 'selector': 'app-bot-config-input'},{'name': 'BotDetailHeaderComponent', 'selector': 'app-bot-detail-header'},{'name': 'BotDetailWrapperComponent', 'selector': 'app-bot-detail-wrapper'},{'name': 'BotPreviewCardComponent', 'selector': 'app-bot-preview-card'},{'name': 'BotPreviewCardListComponent', 'selector': 'app-bot-preview-card-list'},{'name': 'BotSessionModalWrapperComponent', 'selector': 'app-bot-session-modal-wrapper'},{'name': 'BotSessionsComponent', 'selector': 'app-bot-sessions'},{'name': 'BotTestingComponent', 'selector': 'app-bot-testing'},{'name': 'BotThinkingBubbleComponent', 'selector': 'app-bot-thinking-bubble'},{'name': 'BotWelcomeComponent', 'selector': 'app-bot-welcome'},{'name': 'BuildbotWrapperComponent', 'selector': 'app-buildbot-wrapper'},{'name': 'BuildCodeBasedBotComponent', 'selector': 'app-build-code-based-bot'},{'name': 'BuildPipelineBasedBotComponent', 'selector': 'app-build-pipeline-based-bot'},{'name': 'CardCarouselComponent', 'selector': 'app-card-carousel'},{'name': 'ChartComponent', 'selector': 'app-chart'},{'name': 'ChatConsumerFormComponent', 'selector': 'app-chat-consumer-form'},{'name': 'ChatItemComponent', 'selector': 'app-chat-item'},{'name': 'ChatListComponent', 'selector': 'app-chat-list'},{'name': 'ChatMessageComponent', 'selector': 'app-chat-message'},{'name': 'ChatPreviewNewPageComponent', 'selector': 'app-chat-preview-new-page'},{'name': 'ChatroomComponent', 'selector': 'app-chatroom'},{'name': 'ChatWindowComponent', 'selector': 'app-chat-window'},{'name': 'ChatWrapperComponent', 'selector': 'app-chat-wrapper'},{'name': 'CodeBasedBotDetailComponent', 'selector': 'app-code-based-bot-detail'},{'name': 'CodeEditorComponent', 'selector': 'app-code-editor'},{'name': 'CodeGentemplateComponent', 'selector': 'app-code-gentemplate'},{'name': 'CodeGentemplateUiComponentWrapperComponent', 'selector': 'app-code-gentemplate-ui-component-wrapper'},{'name': 'CodeGentemplateUiWrapperComponent', 'selector': 'app-code-gentemplate-ui-wrapper'},{'name': 'CodeInputCaraosalComponent', 'selector': 'app-code-input-caraosal'},{'name': 'CodeInputComponent', 'selector': 'app-code-input'},{'name': 'CodeQuickReplyButtonWrapperComponent', 'selector': 'app-code-quick-reply-button-wrapper'},{'name': 'CodeQuickReplyComponent', 'selector': 'app-code-quick-reply'},{'name': 'CodeQuickReplyWrapperComponent', 'selector': 'app-code-quick-reply-wrapper'},{'name': 'CodeVersionListComponent', 'selector': 'app-code-version-list'},{'name': 'ConsumerFullscreenWrapperComponent', 'selector': 'app-consumer-fullscreen-wrapper'},{'name': 'ConsumersComponent', 'selector': 'app-consumers'},{'name': 'CoreWrapperComponent', 'selector': 'app-core-wrapper'},{'name': 'CreateBotDialogComponent', 'selector': 'app-create-bot-dialog'},{'name': 'CreateCustomnerComponent', 'selector': 'app-create-customner'},{'name': 'DataManageFormComponent', 'selector': 'app-data-manage-form'},{'name': 'DocumentationComponent', 'selector': 'app-documentation'},{'name': 'EnterpriseListComponent', 'selector': 'app-enterprise-list'},{'name': 'EnterpriseprofileComponent', 'selector': 'app-enterpriseprofile'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GentemplateEditKeyComponent', 'selector': 'app-gentemplate-edit-key'},{'name': 'HandsontableComponent', 'selector': 'app-handsontable'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'ImiLoaderComponent', 'selector': 'app-imi-loader'},{'name': 'IntegrationItemComponent', 'selector': 'app-integration-item'},{'name': 'IntegrationOptionListComponent', 'selector': 'app-integration-option-list'},{'name': 'KnowledgeBaseComponent', 'selector': 'app-knowledge-base'},{'name': 'KnowledgeBasePresentationComponent', 'selector': 'app-knowledge-base-presentation'},{'name': 'KnowledgeBaseWrapperComponent', 'selector': 'app-knowledge-base-wrapper'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'ModalConfirmComponent', 'selector': 'app-modal-confirm'},{'name': 'ModalWrapperComponent', 'selector': 'app-modal-wrapper'},{'name': 'NotAuthorisedComponent', 'selector': 'app-not-authorised'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OverlayComponent', 'selector': 'app-overlay'},{'name': 'OverlayWithMenuComponent', 'selector': 'app-overlay-with-menu'},{'name': 'PipelineBasedBotDetailComponent', 'selector': 'app-pipeline-based-bot-detail'},{'name': 'PipelineComponent', 'selector': 'app-pipeline'},{'name': 'PipelineTestComponent', 'selector': 'app-pipeline-test'},{'name': 'ProfileComponent', 'selector': 'app-profile'},{'name': 'QuickReplyComponent', 'selector': 'app-quick-reply'},{'name': 'ReportControlsComponent', 'selector': 'app-report-controls'},{'name': 'ReportDetailsComponent', 'selector': 'app-report-details'},{'name': 'ReportDisplayComponent', 'selector': 'app-report-display'},{'name': 'ReportsComponent', 'selector': 'app-reports'},{'name': 'SessionComponent', 'selector': 'app-session'},{'name': 'SessionDetailModelComponent', 'selector': 'app-session-detail-model'},{'name': 'SessionMessageComponent', 'selector': 'app-session-message'},{'name': 'SessionTabsDetailsComponent', 'selector': 'app-session-tabs-details'},{'name': 'SignupComponent', 'selector': 'app-signup'},{'name': 'SmartTableComponent', 'selector': 'app-smart-table'},{'name': 'SplashScreenComponent', 'selector': 'app-splash-screen'},{'name': 'TestComponent', 'selector': 'app-test'},{'name': 'TextGentemplateComponent', 'selector': 'app-text-gentemplate'},{'name': 'ThemeComponent', 'selector': 'app-theme'},{'name': 'UiSwitchWrapperComponent', 'selector': 'app-ui-switch'},{'name': 'ViewBotsComponent', 'selector': 'app-view-bots'},{'name': 'ViewCustomnerComponent', 'selector': 'app-view-customner'}];
+    var DIRECTIVES = [{'name': 'DebounceClickDirective', 'selector': '[appDebounceClick]'},{'name': 'DraggableDirective', 'selector': '[appDraggable]'},{'name': 'DropTargetDirective', 'selector': '[appDropTarget]'},{'name': 'HighlightDirective', 'selector': '[readonlyselectedroles]'},{'name': 'MyIfDirective', 'selector': '[myIf]'},{'name': 'RequiredIfOneFilledValidator', 'selector': '[ngModelGroup][requiredIfOneFilledValidator]'},{'name': 'RouterFragmentActiveDirective', 'selector': '[appRouterQueryParamActive]'},{'name': 'ScrollerDirective', 'selector': '[scroller]'}];
+    var ACTUAL_COMPONENT = {'name': 'ReportDetailsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ReportDetailsComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

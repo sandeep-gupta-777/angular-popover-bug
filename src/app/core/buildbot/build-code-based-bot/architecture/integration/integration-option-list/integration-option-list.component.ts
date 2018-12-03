@@ -11,6 +11,7 @@ import {IBotCreationState} from '../../../../ngxs/buildbot.state';
 import {IAppState} from '../../../../../../ngxs/app.state';
 import {EFormValidationErrors, UtilityService} from '../../../../../../utility.service';
 import {LoggingService} from '../../../../../../logging.service';
+import {debounceTime} from 'rxjs/operators';
 
 @Component({
   selector: 'app-integration-option-list',
@@ -141,7 +142,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
       console.log(e);
     }
 
-    this.f_new.valueChanges.debounceTime(200).subscribe((integrationInfo: IIntegrationOption) => {
+    this.f_new.valueChanges.pipe(debounceTime(200)).subscribe((integrationInfo: IIntegrationOption) => {
       // if (!this.f_new.dirty) return;
 
       if (this.utilityService.areTwoJSObjectSame(this.formDataClone, this.f_new.value)) {return; }

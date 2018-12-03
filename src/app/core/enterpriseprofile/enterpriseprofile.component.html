@@ -6,7 +6,7 @@
         class="card-header pt-4 mb-4 pb-0 bg-white d-flex justify-content-between justify-content-center align-items-center">
         <h4>Enterprise Profile</h4>
         <div>
-          <button class="btn-theme btn-theme-primary" (click)="updateEnterpriseProfile()">Update</button>
+          <button class="btn-theme btn-theme-primary" [disabled]="!formGroup.valid" (click)="updateEnterpriseProfile()">Update</button>
         </div>
       </div>
     </div>
@@ -18,38 +18,52 @@
   <section class="row basic-row bg-white">
     <div class="col-3 logo-wrapper-col p-5">
       <div class="logo-wrapper">
+<<<<<<< HEAD
         <img [src]="logoInput?.value || loggeduserenterpriseinfo.logo" alt="">
+=======
+        <img [src]="logoUrl.value || loggeduserenterpriseinfo.logo" alt="">
+>>>>>>> develop
       </div>
     </div>
     <div class="col-9">
       <h4 class="form-title">Basic</h4>
-      <form  class="basic-info-form" #form="ngForm">
+      <form [formGroup]="formGroup"  class="basic-info-form">
         <div class="row">
           <div class="col-5">
             <div class="form-group">
               <label for="name">Company Name</label>
+<<<<<<< HEAD
               <input type="text"  class="form-control" [ngModel]="loggeduserenterpriseinfo.name" name="name" required>
+=======
+              <input type="text" class="form-control" formControlName="name" required>
+>>>>>>> develop
             </div>
 
             <div class="form-group">
               <label for="alterEgo">Industry</label>
-              <input type="text" class="form-control" [ngModel]="loggeduserenterpriseinfo.industry" name="industry">
+              <input type="text" class="form-control" formControlName="industry">
             </div>
             <!---->
             <div class="form-group">
               <label for="alterEgo">Logo Url</label><i class="text-danger pl-1" style="font-size: 11px" >{{logoError}}</i>
+<<<<<<< HEAD
               <input type="text" #logoInput class="form-control" [ngModel]="loggeduserenterpriseinfo.logo" (ngModelChange)="validateLogo($event)" name="logo">
+=======
+              <input type="text" #logoUrl class="form-control" formControlName="logo">
+              <i class="text-danger font-11 mr-1" *ngIf="formGroup.get('logo').getError('Image Extension is not correct')">Image Extension is not correct</i>
+              <i class="text-danger font-11" *ngIf="formGroup.get('logo').getError('Must be Https Url')">Must be Https Url</i>
+>>>>>>> develop
             </div>
           </div>
           <div class="col-5">
             <div class="form-group">
               <label for="alterEgo">Email</label>
-              <input type="text" class="form-control" [ngModel]="loggeduserenterpriseinfo.email" name="email">
+              <input type="text" class="form-control" formControlName="email">
             </div>
 
             <div class="form-group">
               <label for="alterEgo">Website Url</label>
-              <input type="text" class="form-control" [ngModel]="loggeduserenterpriseinfo.websiteUrl" name="websiteUrl">
+              <input type="text" class="form-control" formControlName="websiteUrl">
             </div>
           </div>
         </div>
@@ -58,20 +72,20 @@
           <div class="col-5">
             <div class="form-group">
               <label for="name">Enterprise Unique Name</label>
-              <input type="text" class="form-control" required [ngModel]="loggeduserenterpriseinfo.enterprise_unique_name" name="enterpriseUniqueName" readonly>
+              <input type="text" class="form-control" required formControlName="enterpriseUniqueName" readonly>
             </div>
 
           </div>
           <div class="col-5">
             <div class="form-group">
               <label for="alterEgo">Tier Group</label>
-              <input type="number" class="form-control" [ngModel]="loggeduserenterpriseinfo.tier_group" disabled name="tier_group" >
+              <input type="number" class="form-control" disabled formControlName="tier_group" >
             </div>
           </div>
           <div class="col-5">
             <div class="form-group">
               <label for="alterEgo">Log Retention Period</label>
-              <input type="text" class="form-control" [ngModel]="loggeduserenterpriseinfo.log_retention_period" name="log_retention_period">
+              <input type="text" class="form-control" formControlName="log_retention_period">
             </div>
           </div>
         </div>
@@ -93,8 +107,8 @@
 
   <div class="row pb-3 bg-white profile-row" *ngIf="role==='Admin'">
     <div class="col-12">
-      <app-smart-table [data]="loggeduserenterpriseinfo.enterpriseusers|serializeEnterpriseprofileData"
-                       [settings]="smartTableSettings_Enterprise_profiles">
+      <app-smart-table *ngIf="tableData"
+        [data]="tableData">
       </app-smart-table>
     </div>
 

@@ -1,7 +1,7 @@
 import {EChatFrame, IMessageData, IRoomData} from '../../../interfaces/chat-session-state';
 import {IBot} from '../../core/interfaces/IBot';
 import {IConsumerDetails} from './chat.state';
-import {st} from '@angular/core/src/render3';
+
 import {IIntegrationOption} from '../../../interfaces/integration-option';
 
 export class ToggleChatWindow {

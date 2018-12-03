@@ -33,7 +33,7 @@ export class EnterpriseprofileStateReducer {
 
   @Action(SetEnterpriseInfoAction)
   SetEnterpriseInfo({patchState, setState, getState, dispatch}: StateContext<IEnterpriseProfileInfo>, {payload}: SetEnterpriseInfoAction) {
-    patchState(payload.enterpriseInfo);
+    patchState(payload.enterpriseInfo);//{...state,payload.enterpriseInfo}
   }
 
   @Action(SetEnterpriseUsersAction)

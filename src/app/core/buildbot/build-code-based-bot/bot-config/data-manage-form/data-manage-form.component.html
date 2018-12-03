@@ -1,8 +1,8 @@
 <form [formGroup]="formGroup" *ngIf="_bot" class="bot-creation-form ">
 
-  <div class="row">
+  <div class="row m-0">
     <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
-      <div class="form-group">
+      <div class="">
         <!--<label for="name">Data retention period [days]</label>-->
         <!--<input-->
                <!--formControlName="data_persistence_period" type="number"-->
@@ -14,7 +14,7 @@
           formControlName="data_persistence_period"></app-bot-config-input>
       </div>
 
-      <div class="form-group">
+      <div class="">
         <!--<label for="alterEgo" [ngClass]="{'required':_bot.blanket_consent}">Consent disclaimer message</label>-->
         <!--<label [hidden]="blanket_consent.valid" class="text-danger pl-1" for="alterEgo"><i>Consent disclaimer message is required</i></label>-->
         <!--<input [required]="_bot.blanket_consent"-->
@@ -28,7 +28,7 @@
 
       </div>
 
-      <div class="form-group">
+      <div class="switch-wrapper">
         <div class="form-control d-flex align-items-center justify-content-between pr-5">
           <label class="pr-2">Advanced Data Protection</label>
           <app-ui-switch
@@ -39,9 +39,9 @@
       </div>
     </fieldset >
     <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
-      <div class="form-group">
+      <div class="switch-wrapper">
         <div class="form-control d-flex align-items-center justify-content-between pr-5">
-          <label class="pr-2">Allow anonymization?</label>
+          <label class="pr-2">Persist Anonymized Conversation Logs</label>
           <app-ui-switch
             formControlName="allow_anonymization"
             [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
@@ -49,7 +49,7 @@
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="switch-wrapper">
         <div class="form-control d-flex align-items-center justify-content-between pr-5">
           <label class="pr-2">Blanket consent for all consumers</label>
           <app-ui-switch
@@ -58,7 +58,7 @@
           ></app-ui-switch>
         </div>
       </div>
-      <div class="form-group">
+      <div class="switch-wrapper">
         <div class="form-control d-flex align-items-center justify-content-between pr-5">
           <label class="pr-2">Room Close Callback</label>
 

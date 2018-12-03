@@ -1,0 +1,1304 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>bot-plateform-fe documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">bot-plateform-fe documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>ChartSettingService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/chart-setting.service.ts</code>
+        </p>
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#chartSetting">chartSetting</a>
+                            </li>
+                            <li>
+                                <a href="#rawData">rawData</a>
+                            </li>
+                            <li>
+                                <a href="#test">test</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#createSeriesDataFromArray">createSeriesDataFromArray</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(utilityService: <a href="../injectables/UtilityService.html">UtilityService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/app/chart-setting.service.ts:9</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>utilityService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/UtilityService.html" target="_self" >UtilityService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="createSeriesDataFromArray"></a>
+                        <span class="name">
+                            <b>
+                            createSeriesDataFromArray
+                            </b>
+                            <a href="#createSeriesDataFromArray"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>createSeriesDataFromArray(array: any[], xAxisLabel)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="236" class="link-to-prism">src/app/chart-setting.service.ts:236</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>array</td>
+                                                        <td>
+                                                                    <code>any[]</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>xAxisLabel</td>
+                                                        <td>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="chartSetting"></a>
+                        <span class="name">
+                            <b>
+                            chartSetting
+                            </b>
+                            <a href="#chartSetting"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>chartSetting:     <code><a href="../interfaces/IChartSetting.html" target="_self" >IChartSetting</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/IChartSetting.html" target="_self" >IChartSetting</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+    chart: {
+      type: &#x27;line&#x27;
+    },
+    title: {
+      text: &#x27;Linechart&#x27;
+    },
+    credits: {
+      enabled: false
+    },
+    series: [
+      {
+      name: &#x27;Total Users&#x27;,
+      data: [
+        [Date.UTC(2010, 0, 1), 29.9],
+        [Date.UTC(2010, 0, 2), 71.5],
+        [Date.UTC(2010, 0, 3), 106.4],
+        [Date.UTC(2010, 0, 4), 29.9],
+        [Date.UTC(2010, 0, 5), 71.5],
+        [Date.UTC(2010, 0, 6), 106.4],
+        [Date.UTC(2010, 0, 7), 29.9],
+        [Date.UTC(2010, 0, 8), 71.5],
+        [Date.UTC(2010, 0, 9), 106.4],
+        [Date.UTC(2010, 0, 10), 29.9],
+        [Date.UTC(2010, 0, 11), 71.5],
+        [Date.UTC(2010, 0, 12), 106.4],
+        [Date.UTC(2010, 0, 13), 29.9],
+        [Date.UTC(2010, 0, 14), 71.5],
+        [Date.UTC(2010, 0, 15), 106.4],
+        [Date.UTC(2010, 0, 16), 29.9],
+        [Date.UTC(2010, 0, 17), 71.5],
+        [Date.UTC(2010, 0, 18), 106.4],
+        [Date.UTC(2010, 0, 19), 29.9],
+        [Date.UTC(2010, 0, 20), 71.5],
+        [Date.UTC(2010, 0, 21), 106.4],
+        [Date.UTC(2010, 0, 22), 29.9],
+        [Date.UTC(2010, 0, 23), 71.5],
+        [Date.UTC(2010, 0, 24), 106.4],
+        [Date.UTC(2010, 0, 25), 29.9],
+        [Date.UTC(2010, 0, 26), 71.5],
+        [Date.UTC(2010, 0, 27), 106.4],
+        [Date.UTC(2010, 0, 28), 29.9],
+        [Date.UTC(2010, 1, 1), 29.9],
+        [Date.UTC(2010, 1, 2), 71.5],
+        [Date.UTC(2010, 1, 3), 106.4],
+        [Date.UTC(2010, 1, 4), 29.9],
+        [Date.UTC(2010, 1, 5), 71.5],
+        [Date.UTC(2010, 1, 6), 106.4],
+        [Date.UTC(2010, 1, 7), 29.9],
+        [Date.UTC(2010, 1, 8), 71.5],
+        [Date.UTC(2010, 1, 9), 106.4],
+        [Date.UTC(2010, 1, 10), 29.9],
+        [Date.UTC(2010, 1, 11), 71.5],
+        [Date.UTC(2010, 1, 12), 106.4],
+        [Date.UTC(2010, 1, 13), 29.9],
+        [Date.UTC(2010, 1, 14), 71.5],
+        [Date.UTC(2010, 1, 15), 106.4]
+      ]
+    },
+      {
+        name: &#x27;New Users&#x27;,
+        data: [
+          [Date.UTC(2010, 0, 1), 39.9],
+          [Date.UTC(2010, 0, 2), 31.5],
+          [Date.UTC(2010, 0, 3), 136.4],
+          [Date.UTC(2010, 0, 4), 39.9],
+          [Date.UTC(2010, 0, 5), 31.5],
+          [Date.UTC(2010, 0, 6), 136.4],
+          [Date.UTC(2010, 0, 7), 39.9],
+          [Date.UTC(2010, 0, 8), 31.5],
+          [Date.UTC(2010, 0, 9), 136.4],
+          [Date.UTC(2010, 0, 10), 39.9],
+          [Date.UTC(2010, 0, 11), 31.5],
+          [Date.UTC(2010, 0, 12), 136.4],
+          [Date.UTC(2010, 0, 13), 39.9],
+          [Date.UTC(2010, 0, 14), 31.5],
+          [Date.UTC(2010, 0, 15), 136.4],
+          [Date.UTC(2010, 0, 16), 39.9],
+          [Date.UTC(2010, 0, 17), 31.5],
+          [Date.UTC(2010, 0, 18), 136.4],
+          [Date.UTC(2010, 0, 19), 39.9],
+          [Date.UTC(2010, 0, 20), 31.5],
+          [Date.UTC(2010, 0, 21), 136.4],
+          [Date.UTC(2010, 0, 22), 39.9],
+          [Date.UTC(2010, 0, 23), 31.5],
+          [Date.UTC(2010, 0, 24), 136.4],
+          [Date.UTC(2010, 0, 25), 39.9],
+          [Date.UTC(2010, 0, 26), 31.5],
+          [Date.UTC(2010, 0, 27), 136.4],
+          [Date.UTC(2010, 0, 28), 39.9],
+          [Date.UTC(2010, 1, 1), 39.9],
+          [Date.UTC(2010, 1, 2), 31.5],
+          [Date.UTC(2010, 1, 3), 136.4],
+          [Date.UTC(2010, 1, 4), 39.9],
+          [Date.UTC(2010, 1, 5), 31.5],
+          [Date.UTC(2010, 1, 6), 136.4],
+          [Date.UTC(2010, 1, 7), 39.9],
+          [Date.UTC(2010, 1, 8), 31.5],
+          [Date.UTC(2010, 1, 9), 136.4],
+          [Date.UTC(2010, 1, 10), 39.9],
+          [Date.UTC(2010, 1, 11), 31.5],
+          [Date.UTC(2010, 1, 12), 136.4],
+          [Date.UTC(2010, 1, 13), 29.9],
+          [Date.UTC(2010, 1, 14), 71.5],
+          [Date.UTC(2010, 1, 15), 106.4]
+        ]
+      },
+      {
+        name: &#x27;Returning Users&#x27;,
+        data: [
+          [Date.UTC(2010, 0, 1), 89.9],
+          [Date.UTC(2010, 0, 2), 81.5],
+          [Date.UTC(2010, 0, 3), 186.4],
+          [Date.UTC(2010, 0, 4), 89.9],
+          [Date.UTC(2010, 0, 5), 81.5],
+          [Date.UTC(2010, 0, 6), 186.4],
+          [Date.UTC(2010, 0, 7), 89.9],
+          [Date.UTC(2010, 0, 8), 81.5],
+          [Date.UTC(2010, 0, 9), 186.4],
+          [Date.UTC(2010, 0, 10), 89.9],
+          [Date.UTC(2010, 0, 11), 81.5],
+          [Date.UTC(2010, 0, 12), 186.4],
+          [Date.UTC(2010, 0, 13), 89.9],
+          [Date.UTC(2010, 0, 14), 81.5],
+          [Date.UTC(2010, 0, 15), 186.4],
+          [Date.UTC(2010, 0, 16), 89.9],
+          [Date.UTC(2010, 0, 17), 81.5],
+          [Date.UTC(2010, 0, 18), 186.4],
+          [Date.UTC(2010, 0, 19), 89.9],
+          [Date.UTC(2010, 0, 20), 81.5],
+          [Date.UTC(2010, 0, 21), 186.4],
+          [Date.UTC(2010, 0, 22), 89.9],
+          [Date.UTC(2010, 0, 23), 81.5],
+          [Date.UTC(2010, 0, 24), 186.4],
+          [Date.UTC(2010, 0, 25), 89.9],
+          [Date.UTC(2010, 0, 26), 81.5],
+          [Date.UTC(2010, 0, 27), 186.4],
+          [Date.UTC(2010, 0, 28), 89.9],
+          [Date.UTC(2010, 1, 1), 89.9],
+          [Date.UTC(2010, 1, 2), 81.5],
+          [Date.UTC(2010, 1, 3), 186.4],
+          [Date.UTC(2010, 1, 4), 89.9],
+          [Date.UTC(2010, 1, 5), 81.5],
+          [Date.UTC(2010, 1, 6), 186.4],
+          [Date.UTC(2010, 1, 7), 89.9],
+          [Date.UTC(2010, 1, 8), 81.5],
+          [Date.UTC(2010, 1, 9), 186.4],
+          [Date.UTC(2010, 1, 10), 89.9],
+          [Date.UTC(2010, 1, 11), 81.5],
+          [Date.UTC(2010, 1, 12), 186.4],
+          [Date.UTC(2010, 1, 13), 89.9],
+          [Date.UTC(2010, 1, 14), 81.5],
+          [Date.UTC(2010, 1, 15), 106.4]
+        ]
+      }
+    ],
+    xAxis: {
+      type: &#x27;datetime&#x27;,
+      dateTimeLabelFormats: {
+        day: &#x27;%e %b&#x27;
+      },
+
+      tickInterval: 24 * 3600 * 1000
+    },
+    yAxis: [
+      { // Primary yAxis
+        labels: {
+          // format: &#x27;°C&#x27;,
+          style: {
+            color: Highcharts.getOptions().colors[2]
+          }
+        },
+        title: {
+          text: &#x27;Total Users&#x27;,
+          style: {
+            color: Highcharts.getOptions().colors[2]
+          }
+        },
+        opposite: false,
+        visible: false
+
+      },
+      { // Secondary yAxis
+        gridLineWidth: 0,
+        title: {
+          text: &#x27;New Users&#x27;,
+          style: {
+            color: Highcharts.getOptions().colors[0]
+          }
+        },
+        labels: {
+          style: {
+            color: Highcharts.getOptions().colors[0]
+          }
+        },
+        visible: false
+
+
+      },
+      { // tertiary yAxis
+        gridLineWidth: 0,
+        title: {
+          text: &#x27;Returning Users&#x27;,
+          style: {
+            color: Highcharts.getOptions().colors[1]
+          }
+        },
+        labels: {
+          // format: &#x27;{value} mm&#x27;,
+          style: {
+            color: Highcharts.getOptions().colors[1]
+          }
+        },
+        visible: false
+
+      }
+    ]
+  }</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/chart-setting.service.ts:13</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="rawData"></a>
+                        <span class="name">
+                            <b>
+                            rawData
+                            </b>
+                            <a href="#rawData"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>rawData:     <code>[]</code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[{
+    x: 1,
+    y1: &#x27;1 y1 string&#x27;,
+    y2: &#x27;1 y2 string&#x27;,
+    y3: &#x27;1 y3 string&#x27;,
+
+    yn: &#x27;1 yn string&#x27;,
+}, {
+    x: 2,
+    y1: &#x27;2 y1 string&#x27;,
+    y2: &#x27;2 y2 string&#x27;,
+    y3: &#x27;2 y3 string&#x27;,
+
+    yn: &#x27;2 yn string&#x27;,
+}]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="242" class="link-to-prism">src/app/chart-setting.service.ts:242</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="test"></a>
+                        <span class="name">
+                            <b>
+                            test
+                            </b>
+                            <a href="#test"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>test:     <code>[]</code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[
+    {
+      &#x27;labels&#x27;: &#x27;18/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;19/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;20/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;21/06/2018&#x27;,
+      &#x27;newusers&#x27;: 1,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 1
+    },
+    {
+      &#x27;labels&#x27;: &#x27;22/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;23/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;24/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;25/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;26/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;27/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;28/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;29/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;30/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;01/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;02/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;03/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;04/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;05/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;06/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;07/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;08/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;09/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;10/07/2018&#x27;,
+      &#x27;newusers&#x27;: 2,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 2
+    },
+    {
+      &#x27;labels&#x27;: &#x27;11/07/2018&#x27;,
+      &#x27;newusers&#x27;: 1,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 1
+    },
+    {
+      &#x27;labels&#x27;: &#x27;12/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;13/07/2018&#x27;,
+      &#x27;newusers&#x27;: 4,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 4
+    },
+    {
+      &#x27;labels&#x27;: &#x27;14/07/2018&#x27;,
+      &#x27;newusers&#x27;: 2,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 2
+    },
+    {
+      &#x27;labels&#x27;: &#x27;15/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;16/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;17/07/2018&#x27;,
+      &#x27;newusers&#x27;: 3,
+      &#x27;returningusers&#x27;: 1,
+      &#x27;totalusers&#x27;: 4
+    },
+    {
+      &#x27;labels&#x27;: &#x27;18/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    }
+  ]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="258" class="link-to-prism">src/app/chart-setting.service.ts:258</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import {Chart, Highcharts} from &#x27;angular-highcharts&#x27;;
+import {IChartSetting, ISeriesDataItem} from &#x27;../interfaces/chart-setting&#x27;;
+import {UtilityService} from &#x27;./utility.service&#x27;;
+
+@Injectable({
+  providedIn: &#x27;root&#x27;
+})
+export class ChartSettingService {
+
+  constructor(private utilityService: UtilityService) { }
+
+  chartSetting: IChartSetting &#x3D; {
+    chart: {
+      type: &#x27;line&#x27;
+    },
+    title: {
+      text: &#x27;Linechart&#x27;
+    },
+    credits: {
+      enabled: false
+    },
+    series: [
+      {
+      name: &#x27;Total Users&#x27;,
+      data: [
+        [Date.UTC(2010, 0, 1), 29.9],
+        [Date.UTC(2010, 0, 2), 71.5],
+        [Date.UTC(2010, 0, 3), 106.4],
+        [Date.UTC(2010, 0, 4), 29.9],
+        [Date.UTC(2010, 0, 5), 71.5],
+        [Date.UTC(2010, 0, 6), 106.4],
+        [Date.UTC(2010, 0, 7), 29.9],
+        [Date.UTC(2010, 0, 8), 71.5],
+        [Date.UTC(2010, 0, 9), 106.4],
+        [Date.UTC(2010, 0, 10), 29.9],
+        [Date.UTC(2010, 0, 11), 71.5],
+        [Date.UTC(2010, 0, 12), 106.4],
+        [Date.UTC(2010, 0, 13), 29.9],
+        [Date.UTC(2010, 0, 14), 71.5],
+        [Date.UTC(2010, 0, 15), 106.4],
+        [Date.UTC(2010, 0, 16), 29.9],
+        [Date.UTC(2010, 0, 17), 71.5],
+        [Date.UTC(2010, 0, 18), 106.4],
+        [Date.UTC(2010, 0, 19), 29.9],
+        [Date.UTC(2010, 0, 20), 71.5],
+        [Date.UTC(2010, 0, 21), 106.4],
+        [Date.UTC(2010, 0, 22), 29.9],
+        [Date.UTC(2010, 0, 23), 71.5],
+        [Date.UTC(2010, 0, 24), 106.4],
+        [Date.UTC(2010, 0, 25), 29.9],
+        [Date.UTC(2010, 0, 26), 71.5],
+        [Date.UTC(2010, 0, 27), 106.4],
+        [Date.UTC(2010, 0, 28), 29.9],
+        [Date.UTC(2010, 1, 1), 29.9],
+        [Date.UTC(2010, 1, 2), 71.5],
+        [Date.UTC(2010, 1, 3), 106.4],
+        [Date.UTC(2010, 1, 4), 29.9],
+        [Date.UTC(2010, 1, 5), 71.5],
+        [Date.UTC(2010, 1, 6), 106.4],
+        [Date.UTC(2010, 1, 7), 29.9],
+        [Date.UTC(2010, 1, 8), 71.5],
+        [Date.UTC(2010, 1, 9), 106.4],
+        [Date.UTC(2010, 1, 10), 29.9],
+        [Date.UTC(2010, 1, 11), 71.5],
+        [Date.UTC(2010, 1, 12), 106.4],
+        [Date.UTC(2010, 1, 13), 29.9],
+        [Date.UTC(2010, 1, 14), 71.5],
+        [Date.UTC(2010, 1, 15), 106.4]
+      ]
+    },
+      {
+        name: &#x27;New Users&#x27;,
+        data: [
+          [Date.UTC(2010, 0, 1), 39.9],
+          [Date.UTC(2010, 0, 2), 31.5],
+          [Date.UTC(2010, 0, 3), 136.4],
+          [Date.UTC(2010, 0, 4), 39.9],
+          [Date.UTC(2010, 0, 5), 31.5],
+          [Date.UTC(2010, 0, 6), 136.4],
+          [Date.UTC(2010, 0, 7), 39.9],
+          [Date.UTC(2010, 0, 8), 31.5],
+          [Date.UTC(2010, 0, 9), 136.4],
+          [Date.UTC(2010, 0, 10), 39.9],
+          [Date.UTC(2010, 0, 11), 31.5],
+          [Date.UTC(2010, 0, 12), 136.4],
+          [Date.UTC(2010, 0, 13), 39.9],
+          [Date.UTC(2010, 0, 14), 31.5],
+          [Date.UTC(2010, 0, 15), 136.4],
+          [Date.UTC(2010, 0, 16), 39.9],
+          [Date.UTC(2010, 0, 17), 31.5],
+          [Date.UTC(2010, 0, 18), 136.4],
+          [Date.UTC(2010, 0, 19), 39.9],
+          [Date.UTC(2010, 0, 20), 31.5],
+          [Date.UTC(2010, 0, 21), 136.4],
+          [Date.UTC(2010, 0, 22), 39.9],
+          [Date.UTC(2010, 0, 23), 31.5],
+          [Date.UTC(2010, 0, 24), 136.4],
+          [Date.UTC(2010, 0, 25), 39.9],
+          [Date.UTC(2010, 0, 26), 31.5],
+          [Date.UTC(2010, 0, 27), 136.4],
+          [Date.UTC(2010, 0, 28), 39.9],
+          [Date.UTC(2010, 1, 1), 39.9],
+          [Date.UTC(2010, 1, 2), 31.5],
+          [Date.UTC(2010, 1, 3), 136.4],
+          [Date.UTC(2010, 1, 4), 39.9],
+          [Date.UTC(2010, 1, 5), 31.5],
+          [Date.UTC(2010, 1, 6), 136.4],
+          [Date.UTC(2010, 1, 7), 39.9],
+          [Date.UTC(2010, 1, 8), 31.5],
+          [Date.UTC(2010, 1, 9), 136.4],
+          [Date.UTC(2010, 1, 10), 39.9],
+          [Date.UTC(2010, 1, 11), 31.5],
+          [Date.UTC(2010, 1, 12), 136.4],
+          [Date.UTC(2010, 1, 13), 29.9],
+          [Date.UTC(2010, 1, 14), 71.5],
+          [Date.UTC(2010, 1, 15), 106.4]
+        ]
+      },
+      {
+        name: &#x27;Returning Users&#x27;,
+        data: [
+          [Date.UTC(2010, 0, 1), 89.9],
+          [Date.UTC(2010, 0, 2), 81.5],
+          [Date.UTC(2010, 0, 3), 186.4],
+          [Date.UTC(2010, 0, 4), 89.9],
+          [Date.UTC(2010, 0, 5), 81.5],
+          [Date.UTC(2010, 0, 6), 186.4],
+          [Date.UTC(2010, 0, 7), 89.9],
+          [Date.UTC(2010, 0, 8), 81.5],
+          [Date.UTC(2010, 0, 9), 186.4],
+          [Date.UTC(2010, 0, 10), 89.9],
+          [Date.UTC(2010, 0, 11), 81.5],
+          [Date.UTC(2010, 0, 12), 186.4],
+          [Date.UTC(2010, 0, 13), 89.9],
+          [Date.UTC(2010, 0, 14), 81.5],
+          [Date.UTC(2010, 0, 15), 186.4],
+          [Date.UTC(2010, 0, 16), 89.9],
+          [Date.UTC(2010, 0, 17), 81.5],
+          [Date.UTC(2010, 0, 18), 186.4],
+          [Date.UTC(2010, 0, 19), 89.9],
+          [Date.UTC(2010, 0, 20), 81.5],
+          [Date.UTC(2010, 0, 21), 186.4],
+          [Date.UTC(2010, 0, 22), 89.9],
+          [Date.UTC(2010, 0, 23), 81.5],
+          [Date.UTC(2010, 0, 24), 186.4],
+          [Date.UTC(2010, 0, 25), 89.9],
+          [Date.UTC(2010, 0, 26), 81.5],
+          [Date.UTC(2010, 0, 27), 186.4],
+          [Date.UTC(2010, 0, 28), 89.9],
+          [Date.UTC(2010, 1, 1), 89.9],
+          [Date.UTC(2010, 1, 2), 81.5],
+          [Date.UTC(2010, 1, 3), 186.4],
+          [Date.UTC(2010, 1, 4), 89.9],
+          [Date.UTC(2010, 1, 5), 81.5],
+          [Date.UTC(2010, 1, 6), 186.4],
+          [Date.UTC(2010, 1, 7), 89.9],
+          [Date.UTC(2010, 1, 8), 81.5],
+          [Date.UTC(2010, 1, 9), 186.4],
+          [Date.UTC(2010, 1, 10), 89.9],
+          [Date.UTC(2010, 1, 11), 81.5],
+          [Date.UTC(2010, 1, 12), 186.4],
+          [Date.UTC(2010, 1, 13), 89.9],
+          [Date.UTC(2010, 1, 14), 81.5],
+          [Date.UTC(2010, 1, 15), 106.4]
+        ]
+      }
+    ],
+    xAxis: {
+      type: &#x27;datetime&#x27;,
+      dateTimeLabelFormats: {
+        day: &#x27;%e %b&#x27;
+      },
+
+      tickInterval: 24 * 3600 * 1000
+    },
+    yAxis: [
+      { // Primary yAxis
+        labels: {
+          // format: &#x27;°C&#x27;,
+          style: {
+            color: Highcharts.getOptions().colors[2]
+          }
+        },
+        title: {
+          text: &#x27;Total Users&#x27;,
+          style: {
+            color: Highcharts.getOptions().colors[2]
+          }
+        },
+        opposite: false,
+        visible: false
+
+      },
+      { // Secondary yAxis
+        gridLineWidth: 0,
+        title: {
+          text: &#x27;New Users&#x27;,
+          style: {
+            color: Highcharts.getOptions().colors[0]
+          }
+        },
+        labels: {
+          style: {
+            color: Highcharts.getOptions().colors[0]
+          }
+        },
+        visible: false
+
+
+      },
+      { // tertiary yAxis
+        gridLineWidth: 0,
+        title: {
+          text: &#x27;Returning Users&#x27;,
+          style: {
+            color: Highcharts.getOptions().colors[1]
+          }
+        },
+        labels: {
+          // format: &#x27;{value} mm&#x27;,
+          style: {
+            color: Highcharts.getOptions().colors[1]
+          }
+        },
+        visible: false
+
+      }
+    ]
+  };
+
+  // createChartSettingBySeriesData(){
+  //   this.chartSetting.series &#x3D; this.createSeriesDataFromArray(this.test);
+  // }
+
+  createSeriesDataFromArray(array: any[], xAxisLabel) {
+    // return this.utilityService.convert(this.test,&quot;labels&quot;);
+    return this.utilityService.convert(array, xAxisLabel, &#x27;Users&#x27;);
+  }
+
+
+  rawData &#x3D; [{
+    x: 1,
+    y1: &#x27;1 y1 string&#x27;,
+    y2: &#x27;1 y2 string&#x27;,
+    y3: &#x27;1 y3 string&#x27;,
+
+    yn: &#x27;1 yn string&#x27;,
+}, {
+    x: 2,
+    y1: &#x27;2 y1 string&#x27;,
+    y2: &#x27;2 y2 string&#x27;,
+    y3: &#x27;2 y3 string&#x27;,
+
+    yn: &#x27;2 yn string&#x27;,
+}];
+
+  test &#x3D; [
+    {
+      &#x27;labels&#x27;: &#x27;18/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;19/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;20/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;21/06/2018&#x27;,
+      &#x27;newusers&#x27;: 1,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 1
+    },
+    {
+      &#x27;labels&#x27;: &#x27;22/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;23/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;24/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;25/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;26/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;27/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;28/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;29/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;30/06/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;01/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;02/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;03/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;04/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;05/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;06/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;07/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;08/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;09/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;10/07/2018&#x27;,
+      &#x27;newusers&#x27;: 2,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 2
+    },
+    {
+      &#x27;labels&#x27;: &#x27;11/07/2018&#x27;,
+      &#x27;newusers&#x27;: 1,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 1
+    },
+    {
+      &#x27;labels&#x27;: &#x27;12/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;13/07/2018&#x27;,
+      &#x27;newusers&#x27;: 4,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 4
+    },
+    {
+      &#x27;labels&#x27;: &#x27;14/07/2018&#x27;,
+      &#x27;newusers&#x27;: 2,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 2
+    },
+    {
+      &#x27;labels&#x27;: &#x27;15/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;16/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    },
+    {
+      &#x27;labels&#x27;: &#x27;17/07/2018&#x27;,
+      &#x27;newusers&#x27;: 3,
+      &#x27;returningusers&#x27;: 1,
+      &#x27;totalusers&#x27;: 4
+    },
+    {
+      &#x27;labels&#x27;: &#x27;18/07/2018&#x27;,
+      &#x27;newusers&#x27;: 0,
+      &#x27;returningusers&#x27;: 0,
+      &#x27;totalusers&#x27;: 0
+    }
+  ];
+
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'ChartSettingService.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,1531 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>bot-plateform-fe documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">bot-plateform-fe documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>ChatSessionStateReducer</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/chat/ngxs/chat.state.ts</code>
+        </p>
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addMessagesToRoomByRoomId">addMessagesToRoomByRoomId</a>
+                            </li>
+                            <li>
+                                <a href="#addNewRoom">addNewRoom</a>
+                            </li>
+                            <li>
+                                <a href="#changeFrame">changeFrame</a>
+                            </li>
+                            <li>
+                                <a href="#closeChatWindow">closeChatWindow</a>
+                            </li>
+                            <li>
+                                <a href="#deleteRoomsByBotId">deleteRoomsByBotId</a>
+                            </li>
+                            <li>
+                                <a href="#resetChatState">resetChatState</a>
+                            </li>
+                            <li>
+                                <a href="#setConsumerDetail">setConsumerDetail</a>
+                            </li>
+                            <li>
+                                <a href="#setCurrentBotDetailsAndResetIfBotMismatch">setCurrentBotDetailsAndResetIfBotMismatch</a>
+                            </li>
+                            <li>
+                                <a href="#setCurrentConsumerId">setCurrentConsumerId</a>
+                            </li>
+                            <li>
+                                <a href="#setCurrentRoomID">setCurrentRoomID</a>
+                            </li>
+                            <li>
+                                <a href="#SetLastTemplateKeyToRoomByRoomId">SetLastTemplateKeyToRoomByRoomId</a>
+                            </li>
+                            <li>
+                                <a href="#showBotIsThinkingInRoomId">showBotIsThinkingInRoomId</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(constantsService: <a href="../injectables/ConstantsService.html">ConstantsService</a>, utilityService: <a href="../injectables/UtilityService.html">UtilityService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/chat/ngxs/chat.state.ts:46</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>constantsService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/ConstantsService.html" target="_self" >ConstantsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>utilityService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/UtilityService.html" target="_self" >UtilityService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+            <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="addMessagesToRoomByRoomId"></a>
+                        <span class="name">
+                            <b>
+                            addMessagesToRoomByRoomId
+                            </b>
+                            <a href="#addMessagesToRoomByRoomId"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>addMessagesToRoomByRoomId(undefined: <a href="../interfaces/IChatSessionState.html">StateContext<IChatSessionState></a>, undefined: <a href="../classes/AddMessagesToRoomByRoomId.html">AddMessagesToRoomByRoomId</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(AddMessagesToRoomByRoomId)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="144" class="link-to-prism">src/app/chat/ngxs/chat.state.ts:144</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/IChatSessionState.html" target="_self" >StateContext&lt;IChatSessionState&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../classes/AddMessagesToRoomByRoomId.html" target="_self" >AddMessagesToRoomByRoomId</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="addNewRoom"></a>
+                        <span class="name">
+                            <b>
+                            addNewRoom
+                            </b>
+                            <a href="#addNewRoom"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>addNewRoom(undefined: <a href="../interfaces/IChatSessionState.html">StateContext<IChatSessionState></a>, undefined: <a href="../classes/AddNewRoom.html">AddNewRoom</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(AddNewRoom)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="111" class="link-to-prism">src/app/chat/ngxs/chat.state.ts:111</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/IChatSessionState.html" target="_self" >StateContext&lt;IChatSessionState&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../classes/AddNewRoom.html" target="_self" >AddNewRoom</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="changeFrame"></a>
+                        <span class="name">
+                            <b>
+                            changeFrame
+                            </b>
+                            <a href="#changeFrame"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>changeFrame(undefined: <a href="../interfaces/IChatSessionState.html">StateContext<IChatSessionState></a>, undefined: <a href="../classes/ChangeFrameAction.html">ChangeFrameAction</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(ChangeFrameAction)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/chat/ngxs/chat.state.ts:72</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/IChatSessionState.html" target="_self" >StateContext&lt;IChatSessionState&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../classes/ChangeFrameAction.html" target="_self" >ChangeFrameAction</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="closeChatWindow"></a>
+                        <span class="name">
+                            <b>
+                            closeChatWindow
+                            </b>
+                            <a href="#closeChatWindow"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>closeChatWindow(undefined: <a href="../interfaces/IChatSessionState.html">StateContext<IChatSessionState></a>, undefined: <a href="../classes/ToggleChatWindow.html">ToggleChatWindow</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(ToggleChatWindow)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/chat/ngxs/chat.state.ts:53</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/IChatSessionState.html" target="_self" >StateContext&lt;IChatSessionState&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../classes/ToggleChatWindow.html" target="_self" >ToggleChatWindow</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="deleteRoomsByBotId"></a>
+                        <span class="name">
+                            <b>
+                            deleteRoomsByBotId
+                            </b>
+                            <a href="#deleteRoomsByBotId"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>deleteRoomsByBotId(undefined: <a href="../interfaces/IChatSessionState.html">StateContext<IChatSessionState></a>, undefined: <a href="../classes/DeleteChatRoomsByBotId.html">DeleteChatRoomsByBotId</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(DeleteChatRoomsByBotId)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="198" class="link-to-prism">src/app/chat/ngxs/chat.state.ts:198</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/IChatSessionState.html" target="_self" >StateContext&lt;IChatSessionState&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../classes/DeleteChatRoomsByBotId.html" target="_self" >DeleteChatRoomsByBotId</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="resetChatState"></a>
+                        <span class="name">
+                            <b>
+                            resetChatState
+                            </b>
+                            <a href="#resetChatState"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>resetChatState(undefined: <a href="../interfaces/IChatSessionState.html">StateContext<IChatSessionState></a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(ResetChatState)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="190" class="link-to-prism">src/app/chat/ngxs/chat.state.ts:190</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/IChatSessionState.html" target="_self" >StateContext&lt;IChatSessionState&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setConsumerDetail"></a>
+                        <span class="name">
+                            <b>
+                            setConsumerDetail
+                            </b>
+                            <a href="#setConsumerDetail"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>setConsumerDetail(undefined: <a href="../interfaces/IChatSessionState.html">StateContext<IChatSessionState></a>, undefined: <a href="../classes/SetConsumerDetail.html">SetConsumerDetail</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(SetConsumerDetail)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/chat/ngxs/chat.state.ts:66</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/IChatSessionState.html" target="_self" >StateContext&lt;IChatSessionState&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../classes/SetConsumerDetail.html" target="_self" >SetConsumerDetail</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setCurrentBotDetailsAndResetIfBotMismatch"></a>
+                        <span class="name">
+                            <b>
+                            setCurrentBotDetailsAndResetIfBotMismatch
+                            </b>
+                            <a href="#setCurrentBotDetailsAndResetIfBotMismatch"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>setCurrentBotDetailsAndResetIfBotMismatch(undefined: <a href="../interfaces/IChatSessionState.html">StateContext<IChatSessionState></a>, undefined: <a href="../classes/SetCurrentBotDetailsAndResetChatStateIfBotMismatch.html">SetCurrentBotDetailsAndResetChatStateIfBotMismatch</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(SetCurrentBotDetailsAndResetChatStateIfBotMismatch)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">src/app/chat/ngxs/chat.state.ts:91</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/IChatSessionState.html" target="_self" >StateContext&lt;IChatSessionState&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../classes/SetCurrentBotDetailsAndResetChatStateIfBotMismatch.html" target="_self" >SetCurrentBotDetailsAndResetChatStateIfBotMismatch</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setCurrentConsumerId"></a>
+                        <span class="name">
+                            <b>
+                            setCurrentConsumerId
+                            </b>
+                            <a href="#setCurrentConsumerId"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>setCurrentConsumerId(undefined: <a href="../interfaces/IChatSessionState.html">StateContext<IChatSessionState></a>, undefined: <a href="../classes/SetCurrentUId.html">SetCurrentUId</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(SetCurrentUId)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/chat/ngxs/chat.state.ts:85</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/IChatSessionState.html" target="_self" >StateContext&lt;IChatSessionState&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../classes/SetCurrentUId.html" target="_self" >SetCurrentUId</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setCurrentRoomID"></a>
+                        <span class="name">
+                            <b>
+                            setCurrentRoomID
+                            </b>
+                            <a href="#setCurrentRoomID"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>setCurrentRoomID(undefined: <a href="../interfaces/IChatSessionState.html">StateContext<IChatSessionState></a>, undefined: <a href="../classes/SetCurrentRoomID.html">SetCurrentRoomID</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(SetCurrentRoomID)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/chat/ngxs/chat.state.ts:78</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/IChatSessionState.html" target="_self" >StateContext&lt;IChatSessionState&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../classes/SetCurrentRoomID.html" target="_self" >SetCurrentRoomID</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="SetLastTemplateKeyToRoomByRoomId"></a>
+                        <span class="name">
+                            <b>
+                            SetLastTemplateKeyToRoomByRoomId
+                            </b>
+                            <a href="#SetLastTemplateKeyToRoomByRoomId"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>SetLastTemplateKeyToRoomByRoomId(undefined: <a href="../interfaces/IChatSessionState.html">StateContext<IChatSessionState></a>, undefined: <a href="../classes/SetLastTemplateKeyToRoomByRoomId.html">SetLastTemplateKeyToRoomByRoomId</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(SetLastTemplateKeyToRoomByRoomId)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="179" class="link-to-prism">src/app/chat/ngxs/chat.state.ts:179</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/IChatSessionState.html" target="_self" >StateContext&lt;IChatSessionState&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../classes/SetLastTemplateKeyToRoomByRoomId.html" target="_self" >SetLastTemplateKeyToRoomByRoomId</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showBotIsThinkingInRoomId"></a>
+                        <span class="name">
+                            <b>
+                            showBotIsThinkingInRoomId
+                            </b>
+                            <a href="#showBotIsThinkingInRoomId"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>showBotIsThinkingInRoomId(undefined: <a href="../interfaces/IChatSessionState.html">StateContext<IChatSessionState></a>, undefined: <a href="../classes/ChangeBotIsThinkingDisplayByRoomId.html">ChangeBotIsThinkingDisplayByRoomId</a>)</code>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Action(ChangeBotIsThinkingDisplayByRoomId)<br />
+                            </code>
+                        </td>
+                    </tr>
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/chat/ngxs/chat.state.ts:58</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../interfaces/IChatSessionState.html" target="_self" >StateContext&lt;IChatSessionState&gt;</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                    <code><a href="../classes/ChangeBotIsThinkingDisplayByRoomId.html" target="_self" >ChangeBotIsThinkingDisplayByRoomId</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Action, State, StateContext} from &#x27;@ngxs/store&#x27;;
+import {ConstantsService} from &#x27;../../constants.service&#x27;;
+import {
+  AddNewRoom,
+  // AddMessagesToRoomByUId,
+  ChangeFrameAction,
+  ResetChatState,
+  SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
+  SetCurrentUId,
+  SetCurrentRoomID,
+  ToggleChatWindow,
+  // AttachRoomIdToRoomByUId,
+  // SetLastTemplateKeyToRoomByUId,
+  DeleteChatRoomsByBotId,
+  AddMessagesToRoomByRoomId,
+  SetLastTemplateKeyToRoomByRoomId, SetConsumerDetail, ChangeBotIsThinkingDisplayByRoomId
+} from &#x27;./chat.action&#x27;;
+import {EChatFrame, IChatSessionState, IRoomData} from &#x27;../../../interfaces/chat-session-state&#x27;;
+import {UtilityService} from &#x27;../../utility.service&#x27;;
+
+export const defaultChatState: IChatSessionState &#x3D; {
+  frameEnabled: EChatFrame.WELCOME_BOX,
+  opened: false,
+  currentRoomId: null,
+  currentBotDetails: null,
+  currentUId: null,
+  rooms: null,
+  consumerDetails: null
+};
+
+export interface IConsumerDetails {
+  name?: string;
+  phone?: string;
+  email?: string;
+  facebook_id?: string;
+  uid?: string;
+}
+
+@State&lt;IChatSessionState&gt;({
+  name: &#x27;chatsessionstate&#x27;,
+  defaults: defaultChatState
+})
+
+
+//same as reducer
+export class ChatSessionStateReducer {
+
+  constructor(private constantsService: ConstantsService,
+              private utilityService: UtilityService) {
+  }
+
+  @Action(ToggleChatWindow)
+  closeChatWindow({patchState, setState, getState, dispatch}: StateContext&lt;IChatSessionState&gt;, {payload}: ToggleChatWindow) {
+    const state: IChatSessionState &#x3D; getState();
+    setState({...state, opened: payload.open});
+  }
+  @Action(ChangeBotIsThinkingDisplayByRoomId)
+  showBotIsThinkingInRoomId({patchState, setState, getState, dispatch}: StateContext&lt;IChatSessionState&gt;, {payload}: ChangeBotIsThinkingDisplayByRoomId) {
+    const state: IChatSessionState &#x3D; getState();
+    const room  &#x3D; state.rooms.find((room) &#x3D;&gt; room.id &#x3D;&#x3D;&#x3D; payload.roomId);
+    room.showBotIsThinking &#x3D; payload.shouldShowBotIsThinking;
+    setState({...state});
+  }
+
+  @Action(SetConsumerDetail)
+  setConsumerDetail({patchState, setState, getState, dispatch}: StateContext&lt;IChatSessionState&gt;, {payload}: SetConsumerDetail) {
+    const state: IChatSessionState &#x3D; getState();
+    patchState({consumerDetails: payload});
+  }
+
+  @Action(ChangeFrameAction)
+  changeFrame({patchState, setState, getState, dispatch}: StateContext&lt;IChatSessionState&gt;, {payload}: ChangeFrameAction) {
+    const state: IChatSessionState &#x3D; getState();
+    patchState({...state, frameEnabled: payload.frameEnabled});
+  }
+
+  @Action(SetCurrentRoomID)
+  setCurrentRoomID({patchState, setState, getState, dispatch}: StateContext&lt;IChatSessionState&gt;, {payload}: SetCurrentRoomID) {
+    const state: IChatSessionState &#x3D; getState();
+    patchState({...state, currentRoomId: payload.id});
+  }
+
+
+  @Action(SetCurrentUId)
+  setCurrentConsumerId({patchState, setState, getState, dispatch}: StateContext&lt;IChatSessionState&gt;, {payload}: SetCurrentUId) {
+    const state: IChatSessionState &#x3D; getState();
+    patchState({...state, currentUId: payload.uid});
+  }
+
+  @Action(SetCurrentBotDetailsAndResetChatStateIfBotMismatch)
+  setCurrentBotDetailsAndResetIfBotMismatch(
+    {patchState, setState, getState, dispatch}: StateContext&lt;IChatSessionState&gt;,
+    {payload}: SetCurrentBotDetailsAndResetChatStateIfBotMismatch) {
+
+    const state &#x3D; getState();
+    const isOpened &#x3D; state.opened;
+    const currentBot &#x3D; getState().currentBotDetails;
+    if (payload.bot.id !&#x3D;&#x3D; (currentBot &amp;&amp; currentBot.id)) {
+     dispatch([
+       new ResetChatState()
+     ]).subscribe(() &#x3D;&gt; {
+       patchState({currentBotDetails: payload.bot, opened: isOpened}); //restoring bot opened state
+     });
+    } else {
+      patchState({currentBotDetails: payload.bot});
+    }
+
+  }
+
+  @Action(AddNewRoom)
+  addNewRoom({patchState, setState, getState, dispatch}: StateContext&lt;IChatSessionState&gt;, {payload}: AddNewRoom) {
+    const state &#x3D; getState();
+    let rooms &#x3D; state.rooms;
+    const room &#x3D; payload;
+    if (!state.rooms) { state.rooms &#x3D; rooms &#x3D; []; }
+    /*first check if room id already */
+    let doesRoomAlreadyExist_index;
+    doesRoomAlreadyExist_index &#x3D; rooms.findIndex(room &#x3D;&gt; room.id &#x3D;&#x3D;&#x3D; payload.id);
+    if (!doesRoomAlreadyExist_index || doesRoomAlreadyExist_index &#x3D;&#x3D;&#x3D; -1) {
+      state.rooms.push(room);
+    } else {
+      this.utilityService.showErrorToaster(&#x60;Room with room id ${payload.id} already exists&#x60;);
+    }
+  }
+
+  // @Action(AddMessagesToRoomByUId)
+  // addMessagesToRoom({patchState, setState, getState, dispatch}: StateContext&lt;IChatSessionState&gt;, {payload}: AddMessagesToRoomByUId) {
+  //   let state &#x3D; getState();
+  //   let rooms &#x3D; state.rooms;
+  //   let room_id &#x3D;payload.id;
+  //   let room: IRoomData &#x3D; (rooms &amp;&amp; (rooms.find((room) &#x3D;&gt; room.id &#x3D;&#x3D;&#x3D; room_id)));
+  //
+  //   room.messageList &#x3D; [...room.messageList, ...payload.messageList];
+  //   // state.currentBotDetails &#x3D; {
+  //   //   ...state.currentBotDetails,
+  //   //   id: payload.bot_id,
+  //   //   token: payload.bot_access_token,
+  //   // };
+  //   setState({...state});
+  //
+  // }
+
+  @Action(AddMessagesToRoomByRoomId)
+  addMessagesToRoomByRoomId({patchState, setState, getState, dispatch}: StateContext&lt;IChatSessionState&gt;, {payload}: AddMessagesToRoomByRoomId) {
+    const state &#x3D; getState();
+    const rooms &#x3D; state.rooms;
+    const room_id &#x3D; payload.id;
+
+    let room: IRoomData &#x3D; (rooms &amp;&amp; (rooms.find((room) &#x3D;&gt; room.id &#x3D;&#x3D;&#x3D; room_id)));
+    if (!room) {
+      /*room is not found, this means session is expired. So search by consumer id*/
+      const consumer_id &#x3D; payload.consumer_id;
+      room &#x3D; (rooms &amp;&amp; (rooms.find((room) &#x3D;&gt; room.consumer_id &#x3D;&#x3D;&#x3D; consumer_id)));
+      if (room) {
+        this.utilityService.showSuccessToaster(&#x27;Previous session expired. New session created&#x27;);
+        room.id &#x3D; payload.id;
+        dispatch([
+          new SetCurrentRoomID({id: room.id})
+        ]);
+        room.messageList.push({sourceType: &#x27;session_expired&#x27;, messageMediatype: null, time: null, text: null});
+      }
+    }
+    room.messageList &#x3D; [...room.messageList, ...payload.messageList];
+    setState({...state});
+  }
+
+  // @Action(AttachRoomIdToRoomByUId)
+  // attachRoomIdToRoomByUId({patchState, setState, getState, dispatch}: StateContext&lt;IChatSessionState&gt;, {payload}: AttachRoomIdToRoomByUId) {
+  //   let state &#x3D; getState();
+  //   let rooms &#x3D; state.rooms;
+  //   let uId &#x3D;payload.uid;
+  //   let room: IRoomData &#x3D; (rooms &amp;&amp; (rooms.find((room) &#x3D;&gt; room.uid &#x3D;&#x3D;&#x3D; uId)));
+  //   room.id &#x3D; payload.room_id;
+  //   setState({...state});
+  //
+  // }
+
+  @Action(SetLastTemplateKeyToRoomByRoomId)
+  SetLastTemplateKeyToRoomByRoomId({patchState, setState, getState, dispatch}: StateContext&lt;IChatSessionState&gt;, {payload}: SetLastTemplateKeyToRoomByRoomId) {
+    const state &#x3D; getState();
+    const rooms &#x3D; state.rooms;
+    const room_id &#x3D; payload.room_id;
+
+    const room: IRoomData &#x3D; (rooms &amp;&amp; (rooms.find((room) &#x3D;&gt; room.id &#x3D;&#x3D;&#x3D; room_id)));
+    room.lastTemplateKey &#x3D; payload.lastTemplateKey;
+    setState({...state});
+  }
+
+  @Action(ResetChatState)
+  resetChatState({patchState, setState, getState, dispatch}: StateContext&lt;IChatSessionState&gt;) {
+    const state: IChatSessionState &#x3D; getState();
+    const x &#x3D; defaultChatState;
+
+    setState(x);
+  }
+
+  @Action(DeleteChatRoomsByBotId)
+  deleteRoomsByBotId({patchState, setState, getState, dispatch}: StateContext&lt;IChatSessionState&gt;, {payload}: DeleteChatRoomsByBotId) {
+    const state &#x3D; getState();
+    const rooms &#x3D; state.rooms;
+    const botId &#x3D; payload.id;
+    /*
+    * As of now there can be only one current bot in the application.
+    * The moment a new current bot is selected (via preview), all info of previous current bot is deleted
+    * This means if a bot is deleted, and if that bot is also &quot;currentBot&quot;, we can just reset the whole state
+    * */
+    if (botId &#x3D;&#x3D;&#x3D; state.currentBotDetails.id) {
+      dispatch([new ResetChatState()]);
+    }
+    // rooms &amp;&amp; (rooms.forEach((room, index) &#x3D;&gt; {
+    //   if (room.id &#x3D;&#x3D;&#x3D; botId) {
+    //     rooms.splice(index, 1);
+    //   }
+    // }));
+    // setState({...state});
+  }
+
+
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'ChatSessionStateReducer.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
