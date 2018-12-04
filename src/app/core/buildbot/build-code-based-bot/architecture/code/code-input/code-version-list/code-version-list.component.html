@@ -37,7 +37,7 @@
              [ngClass]="{'text-danger':selectedVersion.changed_fields['workflow'], 'dark-green':selectedVersion.updated_fields['workflow']}"></i>
         </div>
         <div style = "font-weight: 500;font-size: 10px;">
-            {{selectedVersion.updated_at | date}}&nbsp;{{selectedVersion.updated_at | date:"hh:mm"}}
+            {{selectedVersion.updated_at | date:"MMM d"}}&nbsp;'{{selectedVersion.updated_at | date:"yy"}}&nbsp;{{selectedVersion.updated_at | date:"shortTime"}}
         </div>
         <!--<form class="d-flex">-->
         <!--<input type="radio" name="optradio" checked>-->
@@ -106,7 +106,7 @@
             <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['workflow']}"></i>
           </div>
           <div style = "font-weight: 500;font-size: 10px;">
-              {{selectedVersion.updated_at | date}}&nbsp;{{version.updated_at | date:"hh:mm"}}
+              {{version.updated_at | date:"MMM d"}}&nbsp;'{{version.updated_at | date:"yy"}}&nbsp;{{version.updated_at | date:"shortTime"}}
           </div>
         </div>
         <!--change dot end-->
