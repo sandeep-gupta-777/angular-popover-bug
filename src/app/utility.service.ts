@@ -946,7 +946,7 @@ export class UtilityService {
   }
 
   static hasRequiredField(abstractControl: NgControl): boolean{
-    debugger;
+
     if (abstractControl.validator) {
       const validator = abstractControl.validator({}as AbstractControl);
       if (validator && validator.required) {

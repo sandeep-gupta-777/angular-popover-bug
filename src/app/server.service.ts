@@ -142,7 +142,7 @@ export class ServerService {
   }
 
   handleErrorFromServer(e) {
-    debugger;
+
     this.showErrorMessageForErrorTrue(e);
     this.changeProgressBar(false, 100);
     if (isDevMode()) {
@@ -240,7 +240,7 @@ export class ServerService {
     return this.httpClient.post<T>(reqObj.url, reqObj.body, {headers: headers}).pipe(
       map((value: any) => {
 
-        debugger;
+
         if (value && value.error) {
           // this.showErrorMessageForErrorTrue(value); //{error: true, message: "Error"};
           throw value;

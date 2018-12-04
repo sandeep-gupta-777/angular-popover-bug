@@ -63,8 +63,8 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
 
   ngOnInit() {
     this.buildBotType = this.activatedRoute.snapshot.data['buildBot'];
-    debugger;
-    this.pipeLine =  [];
+
+    this.pipeLine =  this._bot.pipelines || [];
 
     let url = this.constantsService.getAllPipelineModuleUrl();
     this.app$.subscribe((appState: IAppState) => {
@@ -73,6 +73,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
     });
     this.serverService.makeGetReq<{ objects: IPipelineItem[] }>({url})
       .subscribe(value => {
+        debugger;
         let masterPipelineItems = value.objects;
         this.store.dispatch([
           new SetPipelineModuleMasterData({masterPipelineItems: value.objects})
