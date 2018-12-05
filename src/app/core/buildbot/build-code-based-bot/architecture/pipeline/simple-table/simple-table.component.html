@@ -1,0 +1,18 @@
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Paid?</th>
+    <th>Pros</th>
+    <th>Cons</th>
+    <th>Setting</th>
+    <th>Added?</th>
+  </tr>
+  <tr *ngFor="let item of tableData.pipeline_modules">
+    <td>{{item.library}}</td>
+    <td>{{item.is_paid}}</td>
+    <td>{{item.pros}}</td>
+    <td>{{item.cons}}</td>
+    <td>{{item.setting}}</td>
+    <td>{{item.added}}</td>
+  </tr>
+</table>

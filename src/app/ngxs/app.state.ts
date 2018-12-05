@@ -4,7 +4,7 @@ import {
   ResetStoreToDefault, SetAutoLogoutTime, SetBackendURlRoot, SetEnterpriseNerData,
   SetLastSateUpdatedTimeAction,
   SetMasterIntegrationsList,
-  SetMasterProfilePermissions, SetPipelineModuleMasterData,
+  SetMasterProfilePermissions, SetPipelineItemsV2, SetPipelineModuleMasterData,
   SetProgressValue, SetShowBackendURlRoot,
   SetStateFromLocalStorageAction
 } from './app.action';
@@ -14,6 +14,7 @@ import {IProfilePermission} from '../../interfaces/profile-action-permission';
 import {ICustomNerItem} from '../../interfaces/custom-ners';
 import {IPipelineItem} from '../../interfaces/ai-module';
 import {LoggingService} from '../logging.service';
+import {IPipelineItemV2} from '../core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
 
 
 export interface IAppState {
@@ -30,6 +31,7 @@ export interface IAppState {
   showBackendUrlRootButton: boolean;
   enterpriseNerData: ICustomNerItem[];
   autoLogoutTime: number;
+  pipelineModulesV2List:IPipelineItemV2[];
 }
 //
 const appDefaultState: IAppState = {
@@ -45,7 +47,8 @@ const appDefaultState: IAppState = {
   showBackendUrlRootButton: false,
   enterpriseNerData: [],
   masterPipelineItems: null,
-  autoLogoutTime: Date.now() + 3600 * 1000
+  autoLogoutTime: Date.now() + 3600 * 1000,
+  pipelineModulesV2List:[]
 };
 
 @State<IAppState>({
@@ -78,6 +81,11 @@ export class AppStateReducer {
   @Action(SetMasterIntegrationsList)
   setMasterIntegrationsList({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetMasterIntegrationsList) {
     patchState({masterIntegrationList: payload.payload.masterIntegrationList});
+  }
+
+  @Action(SetPipelineItemsV2)
+  setPipelineItemsV2({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetPipelineItemsV2) {
+    patchState({pipelineModulesV2List: payload.payload.data});
   }
 
   @Action(SetMasterProfilePermissions)

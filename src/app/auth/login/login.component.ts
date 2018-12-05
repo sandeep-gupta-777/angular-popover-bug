@@ -80,9 +80,11 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
               } else {
                 this.router.navigate(['/']);
               }
-              this.serverService.getNSetBotList().subscribe(() => {
-              });
+
+              this.serverService.getNSetBotList().subscribe(() => {});
               this.serverService.getNSetIntegrationList();
+              this.serverService.getNSetPipelineModuleV2();
+
             }, () => {
               this.disabeLoginButton = false;
               this.store.dispatch([

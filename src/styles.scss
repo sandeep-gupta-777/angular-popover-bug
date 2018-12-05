@@ -1132,3 +1132,18 @@ mat-dialog-container{
   color: white;
   font-style: italic;
 }
+
+
+.mat-expansion-panel-header-title,
+.mat-expansion-panel-header-description {
+  //flex-basis: auto;
+  flex-basis: 100%;
+
+}
+.mat-content{
+  flex-wrap: wrap;
+}
+
+.mat-expansion-panel-header-description{
+  //ma-bottom: 10px;
+}

@@ -23,7 +23,7 @@ import {
   SetAutoLogoutTime,
   SetBackendURlRoot,
   SetMasterIntegrationsList,
-  SetMasterProfilePermissions,
+  SetMasterProfilePermissions, SetPipelineItemsV2,
   SetProgressValue
 } from './ngxs/app.action';
 import {IIntegrationMasterListItem, IIntegrationOption} from '../interfaces/integration-option';
@@ -47,6 +47,7 @@ import {IProfilePermission} from '../interfaces/profile-action-permission';
 import {EHttpVerbs, PermissionService} from './permission.service';
 import {ELogType, LoggingService} from './logging.service';
 import {EventService} from './event.service';
+import {IPipelineItemV2} from './core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
 
 declare var IMI: any;
 declare var $: any;
@@ -142,7 +143,7 @@ export class ServerService {
   }
 
   handleErrorFromServer(e) {
-    debugger;
+
     this.showErrorMessageForErrorTrue(e);
     this.changeProgressBar(false, 100);
     if (isDevMode()) {
@@ -240,7 +241,7 @@ export class ServerService {
     return this.httpClient.post<T>(reqObj.url, reqObj.body, {headers: headers}).pipe(
       map((value: any) => {
 
-        debugger;
+
         if (value && value.error) {
           // this.showErrorMessageForErrorTrue(value); //{error: true, message: "Error"};
           throw value;
@@ -359,6 +360,18 @@ export class ServerService {
       });
   }
 
+
+  getNSetPipelineModuleV2() {
+    const url = this.constantsService.getPipelineModuleV2();
+    return this.makeGetReq<{ meta: any, objects: IPipelineItemV2[] }>({url})
+      .subscribe((value) => {
+        this.store.dispatch([
+          new SetPipelineItemsV2({
+            data: value.objects
+          })
+        ]);
+      });
+  }
 
   getNSetIntegrationList() {
     const url = this.constantsService.getMasterIntegrationsList();

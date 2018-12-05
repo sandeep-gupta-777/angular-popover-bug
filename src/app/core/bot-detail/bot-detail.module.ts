@@ -56,6 +56,8 @@ import {HasChannelPipe} from '../../has-channel.pipe';
 import {MyMaterialModule} from '../../my-material.module';
 import {EBotType} from '../../utility.service';
 import {StringIncludesPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
+import {SimpleTableComponent} from '../buildbot/build-code-based-bot/architecture/pipeline/simple-table/simple-table.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 const routes: Route[] = [
   {
@@ -79,10 +81,10 @@ const routes: Route[] = [
     BotSessionsComponent,
     SessionDetailModelComponent,
     ConsumersComponent,
-    SessionDetailModelComponent,
     SessionTabsDetailsComponent,
     SessionMessageComponent,
     PipelineComponent,
+    SimpleTableComponent,
     StringIncludesPipe,
     UnderscroreToSpaceDelimitorPipe,
     SessionComponent,
@@ -127,7 +129,7 @@ const routes: Route[] = [
     SharedModule,
     HttpClientModule,
     MyMaterialModule,
-
+    DragDropModule
   ],
   providers: [AimService]
 })

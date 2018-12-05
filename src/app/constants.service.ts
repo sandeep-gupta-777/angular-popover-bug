@@ -212,6 +212,10 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/botversioning/codevalidation/';
   }
 
+  getPipelineModuleV2(){
+    return this.BACKEND_URL + 'api/v1/moduledetails/?limit=1000';
+  }
+
   setLoggedUser(loggedUser: IUser) {
     this.loggedUser = loggedUser;
   }

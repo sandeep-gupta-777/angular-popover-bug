@@ -18,6 +18,16 @@ import {LoggingService} from '../../../../../logging.service';
 import {NgForm} from '@angular/forms';
 import {ModalImplementer} from '../../../../../modal-implementer';
 import {MatDialog} from '@angular/material';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+
+
+export interface IPipelineItemV2 {
+  description:string,
+  display_values:string,
+  id:string,
+  unique_name: string,
+  pipeline_modules:IPipelineItem
+}
 
 @Component({
   selector: 'app-pipeline',
@@ -27,6 +37,7 @@ import {MatDialog} from '@angular/material';
 })
 export class PipelineComponent extends ModalImplementer implements OnInit {
 
+  panelOpenState = false;
   myObject = Object;
   // @Input() bot: IBot;
   _bot: IBot;
@@ -45,6 +56,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   searchKeyword: string;
   buildBotType: any;
   @Output() datachanged$ = new EventEmitter();
+  pipelineModulesV2List: IPipelineItemV2[];
 
   constructor(
     private aimService: AimService,
@@ -63,12 +75,13 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
 
   ngOnInit() {
     this.buildBotType = this.activatedRoute.snapshot.data['buildBot'];
-    debugger;
-    this.pipeLine =  [];
+
+    this.pipeLine =  this._bot.pipelines || [];
 
     let url = this.constantsService.getAllPipelineModuleUrl();
     this.app$.subscribe((appState: IAppState) => {
       this.aiModules = this.utilityService.createDeepClone(appState.masterPipelineItems);
+      this.pipelineModulesV2List = this.utilityService.createDeepClone(appState.pipelineModulesV2List);
       this.filterAiModules();
     });
     this.serverService.makeGetReq<{ objects: IPipelineItem[] }>({url})
@@ -148,5 +161,21 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
       this.selectedPipeline.input_params = Pipelineform.value;
     }
   }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.pipeLine, event.previousIndex, event.currentIndex);
+  }
+
+  movies = [
+    'Episode I - The Phantom Menace',
+    'Episode II - Attack of the Clones',
+    'Episode III - Revenge of the Sith',
+    'Episode IV - A New Hope',
+    'Episode V - The Empire Strikes Back',
+    'Episode VI - Return of the Jedi',
+    'Episode VII - The Force Awakens',
+    'Episode VIII - The Last Jedi'
+  ];
+
 
 }

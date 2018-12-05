@@ -1,45 +1,59 @@
+<!--<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">-->
+  <!--<div class="example-box" *ngFor="let movie of movies" cdkDrag>{{movie}}</div>-->
+<!--</div>-->
+
+
+<!--<i>{{pipeLine |json}}</i>-->
 <div class="row m-0" style="height: 100%;">
-  <div style="height: 10%" class="col-12 mb-1 d-flex p-0 justify-content-between">
-    <p class="text-theme-secondary my-2 col-8">Drag and drop modules from 'Available Intelligence Modules' to 'Bot
-      Intelligence
-      Pipeline' and vice versa</p>
-    <div class="search-theme-input-with-search col-4">
-      <span class="fa fa-search"></span>
-      <input type="search" placeholder="Filter Modules" [(ngModel)]="searchKeyword" class="border">
-    </div>
-  </div>
 
   <div class="col-8" style="height:90%;overflow-y: scroll">
+    <div  style="height: 10%" class="mb-1 border1 d-flex p-0 justify-content-between">
+      <p class="text-theme-secondary my-2">Drag and drop modules from 'Available Intelligence Modules' to 'Bot
+        Intelligence
+        Pipeline' and vice versa</p>
+      <div class="search-theme-input-with-search col-4">
+        <span class="fa fa-search"></span>
+        <input type="search" placeholder="Filter Modules" [(ngModel)]="searchKeyword" class="border">
+      </div>
+    </div>
     <h4 class="heading mb-2 mt-3">Available Intelligence Modules({{aiModules && aiModules.length}})</h4>
-    <ul *ngIf="aiModules"
-        class="aim-list  px-0 d-flex align-items-start align-content-start flex-row flex-wrap"
-        style="height: 90%"
-        [dragula]='"first-bag"' [(dragulaModel)]='aiModules'>
-      <li class="border module-box mb-2 px-2 mr-1"
-          *ngFor="let aiModule of aiModules; let i of index"
-          [hidden]="searchKeyword && !(aiModule.unique_name|stringIncludes:searchKeyword)">
-        {{aiModule.unique_name}}
-        <div>
-          <i *ngIf="aiModule && aiModule.input_params && myObject.keys(aiModule.display_values).length>0"
-             (click)="openCreateBotModal(Primarytemplat,aiModule);"
-             class="fa fa-cog pl-1" aria-hidden="true"></i>
-        </div>
-      </li>
-    </ul>
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let pipelineItem of pipelineModulesV2List" class="mat-elevation-z0">
+        <mat-expansion-panel-header >
+          <mat-panel-title>
+            {{pipelineItem.display_values}}
+          </mat-panel-title>
+          <mat-panel-description>
+            Type your name and age
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <app-simple-table [tableData]="pipelineItem"></app-simple-table>
+
+      </mat-expansion-panel>
+
+    </mat-accordion>
   </div>
-  <div class="col-4 pipeline-wrapper d-flex flex-column" *ngIf="aiModules" style="height: 90%;overflow-y: auto">
-    <!--<div class="col-12 border pr-0 pipeline d-flex flex-column" style="height: 90%;overflow-y: scroll">-->
+  <div class="col-4 pipeline-wrapper d-flex flex-column" style="height: 90%;overflow-y: auto">
+
     <h4 class="heading mb-2 mt-3">Bot Intelligence Pipeline ({{pipeLine && pipeLine.length}})</h4>
     <div class="flex-grow-1" [dragula]='"first-bag"' [(dragulaModel)]='pipeLine'>
-      <div *ngFor="let aiModule of pipeLine;let targetIndexNew = index" [hidden]="searchKeyword && !(aiModule.unique_name|stringIncludes:searchKeyword)">
-        <div class="border mb-2 mr-3 module-box border-danger"
-             [ngClass]="{'bg-grey':aiModule.$$hashKey==='PLACE_HOLDER', 'border-danger':!utilityService.checkIfAllPipelineInputParamsArePopulated([aiModule])}">
-          {{aiModule.unique_name}}
-          <div>
-            <i *ngIf=" aiModule && aiModule.input_params && myObject.keys(aiModule.input_params).length>0"
-               (click)="openCreateBotModal(Primarytemplat,aiModule);"
-               class="fa fa-cog pl-1" aria-hidden="true"></i>
-          </div>
+      <!--<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">-->
+        <!--<div class="example-box" *ngFor="let aiModule of pipeLine;let targetIndexNew = index" cdkDrag>{{aiModule.unique_name}}</div>-->
+      <!--</div>-->
+      <div *ngFor="let aiModule of pipeLine;let targetIndexNew = index"
+           cdkDropList (cdkDropListDropped)="drop($event)">
+        <div class="border mr-3 module-box border-danger">
+          <i class="fa fa-arrows-alt"></i>
+          <span>{{aiModule.unique_name}}</span>
+          <i class="fa fa-cog"></i>
+          <i class="fa fa-trash"></i>
+
+          <!--<div>-->
+            <!--<i *ngIf=" aiModule && aiModule.input_params && myObject.keys(aiModule.input_params).length>0"-->
+               <!--(click)="openCreateBotModal(Primarytemplat,aiModule);"-->
+               <!--class="fa fa-cog pl-1" aria-hidden="true"></i>-->
+          <!--</div>-->
         </div>
       </div>
     </div>

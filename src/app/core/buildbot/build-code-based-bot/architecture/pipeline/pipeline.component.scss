@@ -40,14 +40,20 @@ ul {
   background-color: #dddddd;
 }
 .module-box{
-  height: 32px;
+  height: 48px;
   font-size: 13px;
   display: flex;
-  justify-content: center;
+  //justify-content: center;
   align-items: center;
+  //padding-left: 20px;
   cursor: pointer;
   .fa{
+    padding-left: 15px;;
+    padding-right: 15px;;
     color: $color-secondary;
+  }
+  .fa-cog{
+    margin-left: auto;
   }
 }
 
@@ -88,3 +94,13 @@ label {
 
   }
 }
+
+
+/deep/ mat-expansion-panel{
+  .mat-expansion-panel-header{
+    //height:32px !important;
+    font-size: 13px;
+  }
+}
+
+
