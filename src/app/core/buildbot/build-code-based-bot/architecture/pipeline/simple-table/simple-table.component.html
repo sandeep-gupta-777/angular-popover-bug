@@ -4,8 +4,8 @@
     <th>Paid?</th>
     <th>Pros</th>
     <th>Cons</th>
-    <th>Setting</th>
-    <th>Added?</th>
+    <th></th>
+    <th></th>
   </tr>
   <tr *ngFor="let item of tableData.pipeline_modules">
     <td>{{item.library}}</td>
@@ -13,6 +13,9 @@
     <td>{{item.pros}}</td>
     <td>{{item.cons}}</td>
     <td>{{item.setting}}</td>
-    <td>{{item.added}}</td>
+    <td *ngIf="!item.is_added; else added" (click)="add$.emit(item)" class="cursor-pointer">Add</td>
+    <ng-template #added>
+      <td>Added</td>
+    </ng-template>
   </tr>
 </table>

@@ -26,7 +26,7 @@ export interface IPipelineItemV2 {
   display_values:string,
   id:string,
   unique_name: string,
-  pipeline_modules:IPipelineItem
+  pipeline_modules:IPipelineItem[]
 }
 
 @Component({
@@ -45,6 +45,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
     this._bot = botData;
     this.pipeLine = this._bot && this._bot.pipelines || [];
     this.filterAiModules();
+
   }
 
   @Select() botcreationstate$: Observable<IBotCreationState>;
@@ -84,17 +85,17 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
       this.pipelineModulesV2List = this.utilityService.createDeepClone(appState.pipelineModulesV2List);
       this.filterAiModules();
     });
-    this.serverService.makeGetReq<{ objects: IPipelineItem[] }>({url})
-      .subscribe(value => {
-        let masterPipelineItems = value.objects;
-        this.store.dispatch([
-          new SetPipelineModuleMasterData({masterPipelineItems: value.objects})
-        ]);
-        this.pipeLine = this.pipeLine.map((pipelineItem: IPipelineItem) => {
-          let masterPipelineItem = masterPipelineItems.find(el => el.id === pipelineItem.id);
-          return {...masterPipelineItem, ...pipelineItem};
-        });
-      });
+    // this.serverService.makeGetReq<{ objects: IPipelineItem[] }>({url})
+    //   .subscribe(value => {
+    //     let masterPipelineItems = value.objects;
+    //     this.store.dispatch([
+    //       new SetPipelineModuleMasterData({masterPipelineItems: value.objects})
+    //     ]);
+    //     this.pipeLine = this.pipeLine.map((pipelineItem: IPipelineItem) => {
+    //       let masterPipelineItem = masterPipelineItems.find(el => el.id === pipelineItem.id);
+    //       return {...masterPipelineItem, ...pipelineItem};
+    //     });
+    //   });
 
     // this.modalService.onHidden.subscribe((reason: string) => {
     //   this.prepareAndDispatch();
@@ -115,23 +116,34 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   }
 
   filterAiModules() {
-    if (!this.pipeLine || !this.aiModules) {
+    debugger;
+    if (!this.pipeLine || !this.pipelineModulesV2List) {
       return;
     }
-    this.aiModules = this.aiModules.filter((aiModule) => {
-      const x = !this.pipeLine.find(pipelineItem => pipelineItem.id === aiModule.id);
-      return x;
-    });
+    // this.aiModules = this.aiModules.filter((aiModule) => {
+    //   const x = !this.pipeLine.find(pipelineItem => pipelineItem.id === aiModule.id);
+    //   return x;
+    // });
+
+    this.pipelineModulesV2List.forEach((pipelineModulesV2)=>{
+      pipelineModulesV2.pipeline_modules.forEach((masterPipelineItem)=>{
+        masterPipelineItem.is_added = !!this.pipeLine.find((pipeLineItem)=>{
+           return masterPipelineItem.unique_name === pipeLineItem.unique_name;
+        })
+      })
+    })
   }
 
   ngDoCheck() {
     const changes = this.iterableDiffer.diff(this.pipeLine);
     if (changes) {
-      this.prepareAndDispatch();
+      // this.prepareAndDispatch();
+      this.filterAiModules();
     }
   }
 
   prepareAndDispatch() {
+    debugger;
     const isAllPipelineModulesInputParamsArePopulated = this.utilityService.checkIfAllPipelineInputParamsArePopulated(this.pipeLine);
     const isPipelineValidObj = {};
     isPipelineValidObj[EFormValidationErrors.form_validation_pipeline] = isAllPipelineModulesInputParamsArePopulated;
@@ -166,16 +178,13 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
     moveItemInArray(this.pipeLine, event.previousIndex, event.currentIndex);
   }
 
-  movies = [
-    'Episode I - The Phantom Menace',
-    'Episode II - Attack of the Clones',
-    'Episode III - Revenge of the Sith',
-    'Episode IV - A New Hope',
-    'Episode V - The Empire Strikes Back',
-    'Episode VI - Return of the Jedi',
-    'Episode VII - The Force Awakens',
-    'Episode VIII - The Last Jedi'
-  ];
+  addPipelineItemToPipeline(pipelineItem:IPipelineItem){
+    this.pipeLine.push(pipelineItem);
+  }
+
+  removePipelineItemFromPipeline(index:number){;
+    this.pipeLine.splice(index,1);
+  }
 
 
 }
