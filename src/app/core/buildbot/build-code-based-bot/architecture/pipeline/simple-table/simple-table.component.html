@@ -1,7 +1,7 @@
 <table>
   <tr>
-    <th>Name</th>
-    <th>Paid?</th>
+    <th>Library</th>
+    <th>Price</th>
     <th>Pros</th>
     <th>Cons</th>
     <th></th>
@@ -9,18 +9,22 @@
   </tr>
   <tr *ngFor="let item of tableData.pipeline_modules">
     <td>{{item.library}}</td>
-    <td>{{item.is_paid}}</td>
+    <td><i class="fa fa-circle-o" [ngStyle]="{'color': item.is_paid === 'paid'? '#f5a623':'#34bc6e'}"></i> {{item.is_paid}}</td>
     <td>{{item.pros}}</td>
     <td>{{item.cons}}</td>
     <td (click)="settingsClicked$.emit(item)" class="cursor-pointer">
       <!--<i>{{item|json}}</i>-->
-      <i *ngIf="item && item.input_params && myObject.keys(item.input_params).length>0"
+      <i [ngClass]="{'opacity-0':!(item && item.input_params && myObject.keys(item.input_params).length>0)}"
          class="fa fa-cog">
       </i>
     </td>
-    <td *ngIf="!item.is_added; else added" (click)="item && item.input_params && myObject.keys(item.input_params).length>0 ?openInputParamModalBeforeAdd$.emit(item): add$.emit(item)" class="cursor-pointer">Add</td>
+    <td *ngIf="!item.is_added; else added" (click)="item && item.input_params && myObject.keys(item.input_params).length>0 ?openInputParamModalBeforeAdd$.emit(item): add$.emit(item)" class="cursor-pointer">
+      <span style="color: #0291b2;">Add >></span>
+    </td>
     <ng-template #added>
-      <td>Added</td>
+      <td>
+        <span>Added</span>
+      </td>
     </ng-template>
   </tr>
 </table>

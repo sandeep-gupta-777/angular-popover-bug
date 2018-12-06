@@ -2,6 +2,7 @@ table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
+  font-size: 11px;
 }
 
 tr:first-child {
@@ -9,9 +10,15 @@ tr:first-child {
   background-color: #f7f7f7;
   text-align: left;
   padding: 8px;
-  font-style: normal;
+  font-weight: normal !important;
 }
 
 tr:nth-child(even) {
   //background-color: #dddddd;
 }
+
+
+.fa-circle-o{
+  font-size: 9px;
+}
+

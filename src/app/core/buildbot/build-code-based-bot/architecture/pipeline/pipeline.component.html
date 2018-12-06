@@ -1,10 +1,10 @@
-<div class="d-flex h-100">
+<section class="d-flex h-100">
 
   <div style="height:90%;overflow-y: scroll; flex: 2; padding-right: 10px; position: relative">
     <!--<div style="height: 32px"></div>-->
     <div style="height: 32px; position: sticky; left: 24px; right: 10px; top: 0;z-index: 1000; background-color: white"
          class="mb-1 p-1 border-bottom d-flex p-0 justify-content-between align-items-end">
-      <strong>Modules({{masterModuleCount}})</strong>
+      <strong>Modules ({{masterModuleCount}})</strong>
       <div class="d-inline-flex align-items-center ml-auto mr-1 cursor-pointer" (click)="allMatExpansionExpanded = !allMatExpansionExpanded">
         <span class="mr-1" style="color: #9e9e9e">{{allMatExpansionExpanded?'Collapse': 'Expand'}} All</span>
         <i style="color: #9e9e9e; align-items: baseline;" class="fa" [ngClass]="{'fa-chevron-down':!allMatExpansionExpanded, 'fa-chevron-up':allMatExpansionExpanded}"></i>
@@ -16,7 +16,7 @@
       <mat-form-field floatLabel="never" style="margin-bottom: -16px">
         <input matInput type="text" placeholder="Libraries and Modules" [(ngModel)]="searchKeyword">
         <button mat-button matPrefix mat-icon-button aria-label="Clear">
-          <mat-icon>filter_list</mat-icon>
+          <mat-icon color="primary">search</mat-icon>
         </button>
       </mat-form-field>
 
@@ -27,7 +27,7 @@
                            class="mat-elevation-z0">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            {{pipelineItem.display_values}}
+            {{pipelineItem.display_values}} ({{pipelineItem.pipeline_modules.length}})
           </mat-panel-title>
           <mat-panel-description>
             Type your name and age
@@ -45,9 +45,12 @@
 
     <!--</mat-accordion>-->
   </div>
-  <div class="pipeline-wrapper d-flex flex-column p-1" style="height: 90%;overflow-y: auto; flex: 1">
-    <h4 class="heading p-2" style="background-color: #f7f7f7">Bot Intelligence Pipeline ({{pipeLine &&
-      pipeLine.length}})</h4>
+  <div class="pipeline-wrapper d-flex flex-column" style="height: 90%;overflow-y: auto; flex: 1">
+    <h4
+      class="heading p-2 m-1"
+      style="background-color: #f7f7f7; position: sticky; top: 0; left: 0; right: 0">
+      Bot Intelligence Pipeline ({{pipeLine && pipeLine.length}})
+    </h4>
     <div class="flex-grow-1">
       <!--<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">-->
       <!--<div class="example-box" *ngFor="let aiModule of pipeLine;let targetIndexNew = index" cdkDrag>{{aiModule.unique_name}}</div>-->
@@ -57,7 +60,10 @@
              cdkDrag
              class="mr-3 module-box" [ngClass]="{'border-custom-top':targetIndexNew ===0}">
           <i class="fa fa-arrows-alt"></i>
-          <span>{{aiModule.unique_name}}</span>
+          <div class="d-flex flex-column">
+            <span class="module">{{aiModule.module|titlecase }}</span>
+            <span class="library">{{aiModule.library|titlecase}}</span>
+          </div>
           <span class="ml-auto"></span>
           <i *ngIf="aiModule && aiModule.input_params && myObject.keys(aiModule.input_params).length>0"
              (click)="openInputParamModal(Primarytemplat,aiModule);"
@@ -74,7 +80,7 @@
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <ng-template #Primarytemplat>
   <div class="primary-modal">
@@ -115,7 +121,7 @@
 
         </div>
         <button class="btn-theme btn-theme-success-sm"
-                (click)="submitPipeline(Pipelineform); dialogRefWrapper.ref.close()">Submit
+                (click)="submitPipeline(Pipelineform); dialogRefWrapper.ref.close(true)">Submit
         </button>
       </form>
 

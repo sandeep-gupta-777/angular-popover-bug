@@ -182,10 +182,12 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
     debugger;
     this.selectedPipeline = pipeline;
     // this.modalRef = this.modalService.show(template, { class: 'modal-md' });
-    await this.openPrimaryModal(template);
-    if(addPipelineItemToPipeline){
-      this.addPipelineItemToPipeline(pipeline);
-    }
+    this.openPrimaryModal(template)
+      .then((closedWithSubmitClick:boolean)=>{
+        if(addPipelineItemToPipeline && closedWithSubmitClick){
+          this.addPipelineItemToPipeline(pipeline);
+        }
+      });
   }
 
   test() {
