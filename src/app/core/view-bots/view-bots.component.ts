@@ -80,7 +80,7 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
       });
   }
 
-  // openCreateBotModal(template: TemplateRef<any>) {
+  // openInputParamModal(template: TemplateRef<any>) {
   //   this.modalRef = this.modalService.show(template, {class: 'modal-md'});
   // }
 

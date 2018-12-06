@@ -12,8 +12,13 @@
     <td>{{item.is_paid}}</td>
     <td>{{item.pros}}</td>
     <td>{{item.cons}}</td>
-    <td>{{item.setting}}</td>
-    <td *ngIf="!item.is_added; else added" (click)="add$.emit(item)" class="cursor-pointer">Add</td>
+    <td (click)="settingsClicked$.emit(item)" class="cursor-pointer">
+      <!--<i>{{item|json}}</i>-->
+      <i *ngIf="item && item.input_params && myObject.keys(item.input_params).length>0"
+         class="fa fa-cog">
+      </i>
+    </td>
+    <td *ngIf="!item.is_added; else added" (click)="item && item.input_params && myObject.keys(item.input_params).length>0 ?openInputParamModalBeforeAdd$.emit(item): add$.emit(item)" class="cursor-pointer">Add</td>
     <ng-template #added>
       <td>Added</td>
     </ng-template>
