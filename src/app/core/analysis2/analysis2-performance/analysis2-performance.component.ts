@@ -15,32 +15,9 @@ import { UtilityService } from '../../../utility.service';
 })
 export class Analysis2PerformanceComponent implements OnInit {
   @Select() analysisstate2$: Observable<IAnalysis2State>;
-  activeTab = 'sessions';
-  series_sessions: any[] = [{
-    name: 'Handled by bot',
-    data: [5, 3, 4, 7, 2]
-  }, {
-    name: 'Handled by agent',
-    data: [2, 2, 3, 2, 1]
-  }, {
-    name: 'User abandoned',
-    data: [3, 4, 4, 2, 5]
-  }];
-  series_template: any[] = [{
-    name: 'Triggered',
-    data: [5, 3, 4, 7, 2]
-  }];
-  series_flows_per_room: any[] = [{
-    name: 'Triggered',
-    data: [5, 3, 4, 7, 2]
-  }];
-  series_room_duration: any[];
-  series_flows: any[];
-  series_total_rooms: any[];
-  series_Messages: any[] = [{
-    name: 'Triggered',
-    data: [5, 3, 4, 7, 2]
-  }];
+  activeTab = 'topgenerationtemplates';
+  chartValue: any;
+  chartValue1: any;
   constructor(
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
@@ -50,13 +27,13 @@ export class Analysis2PerformanceComponent implements OnInit {
 
   tabClicked(activeTab: string) {
     this.activeTab = activeTab;
-    if (this.activeTab === 'template') {
+    if (this.activeTab === 'topgenerationtemplates') {
       this.store.dispatch(new SetAnalysis2HeaderData({
         analysisHeaderData: {type: EAnalysis2TypesEnum.topgenerationtemplates}
       }));
     }
 
-    if (this.activeTab === 'flows') {
+    if (this.activeTab === 'totalFlows') {
       this.store.dispatch(new SetAnalysis2HeaderData({
         analysisHeaderData: {type: EAnalysis2TypesEnum.totalFlows}
       }));
@@ -66,7 +43,7 @@ export class Analysis2PerformanceComponent implements OnInit {
         analysisHeaderData: {type: EAnalysis2TypesEnum.flowsPerRoom}
       }));
     }
-    if (this.activeTab === 'total_rooms') {
+    if (this.activeTab === 'totalRooms') {
       this.store.dispatch(new SetAnalysis2HeaderData({
         analysisHeaderData: {type: EAnalysis2TypesEnum.totalRooms}
       }));
@@ -76,40 +53,36 @@ export class Analysis2PerformanceComponent implements OnInit {
         analysisHeaderData: {type: EAnalysis2TypesEnum.roomDuration}
       }));
     }
-    //added now
-    if (this.activeTab === 'Messages') {
-      this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData: {type: EAnalysis2TypesEnum.totalMessages}
-      }));
-    }
+
   }
 
   ngOnInit() {
-    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('perf') || 'Messages';
+    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || this.activeTab;
+    this.tabClicked(this.activeTab);
+      
     this.analysisstate2$
-    .subscribe((value) => {
-      // ;
-      if (value.topgenerationtemplates) {
-        this.series_template  = this.u.convert(value.topgenerationtemplates, 'labels', 'Date') ;
-      }
-
-      if (value.totalFlows) {
-        this.series_flows  = this.u.convert(value.totalFlows, 'labels', 'Date');
-      }
-      if (value.flowsPerRoom) {
-        this.series_flows_per_room  = this.u.convert(value.flowsPerRoom, 'labels', 'Date');
-      }
-      if (value.totalRooms) {
-        this.series_total_rooms  = this.u.convert(value.totalRooms, 'labels', 'Date');
-      }
-      if (value.roomDuration) {
-        this.series_room_duration  = this.u.convert(value.roomDuration, 'labels', 'String');
-      }
-      //added now
-      if (value.totalMessages) {
-        this.series_Messages = this.u.convert(value.totalMessages, 'labels', 'Date') ;
-      }
-    });
+      .subscribe((value: IAnalysis2State) => {
+        try {
+            
+          const granularity =  value.analysisHeaderData.granularity;
+          const granularity_ms: number = this.u.convertGranularityStrToMs(granularity);
+            
+          this.chartValue =
+            <any>this.u.convert_xAxisText(
+              value[this.activeTab],
+              'labels'
+              ) ;
+          this.chartValue1 =
+          <any>this.u.convertDateTimeGraph(
+            value[this.activeTab],
+            'labels',
+            new Date(value.analysisHeaderData.startdate).getTime(),
+            granularity_ms) ;
+            
+        } catch (e) {
+          // LoggingService.error(e);
+        }
+      });
   }
 
 }

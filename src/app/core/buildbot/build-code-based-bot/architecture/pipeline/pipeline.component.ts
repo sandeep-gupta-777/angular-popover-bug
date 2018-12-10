@@ -63,7 +63,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
 
   ngOnInit() {
     this.buildBotType = this.activatedRoute.snapshot.data['buildBot'];
-    debugger;
+      
     this.pipeLine =  [];
 
     let url = this.constantsService.getAllPipelineModuleUrl();

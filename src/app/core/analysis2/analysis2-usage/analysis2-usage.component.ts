@@ -1,22 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ConstantsService} from '../../../constants.service';
 import {ActivatedRoute} from '@angular/router';
-import { EAnalysis2TypesEnum } from '../../../../interfaces/Analytics2/analysis2-types';
-import { SetAnalysis2HeaderData } from '../ngxs/analysis.action';
-import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { IAnalysis2State } from '../ngxs/analysis.state';
+import { Select, Store } from '@ngxs/store';
 import { UtilityService } from '../../../utility.service';
+import { SetAnalysis2HeaderData } from '../ngxs/analysis.action';
+import { EAnalysis2TypesEnum } from '../../../../interfaces/Analytics2/analysis2-types';
 
 @Component({
-  selector: 'app-analysis2-volume',
-  templateUrl: './analysis2-volume.component.html',
-  styleUrls: ['./analysis2-volume.component.scss']
+  selector: 'app-analysis2-usage',
+  templateUrl: './analysis2-usage.component.html',
+  styleUrls: ['./analysis2-usage.component.scss']
 })
-export class Analysis2VolumeComponent implements OnInit {
+export class Analysis2UsageComponent implements OnInit {
   @Select() analysisstate2$: Observable<IAnalysis2State>;
-  // data$: Observable<IChannelWiseFlowsPerSessionItem[]>;
-  activeTab = 'userAcquisition';
+
+
+  activeTab = 'usagetracking';
   chartValue: any;
   constructor(
     public constantsService: ConstantsService,
@@ -28,28 +29,13 @@ export class Analysis2VolumeComponent implements OnInit {
 
   tabClicked(activeTab: string) {
     this.activeTab = activeTab;
+   
+    if (this.activeTab === 'usagetracking') {
+      this.store.dispatch(new SetAnalysis2HeaderData({
+        analysisHeaderData: {type: EAnalysis2TypesEnum.usagetracking}
+      }));
+    }
     
-    if (this.activeTab === 'userAcquisition') {
-      this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData: {type: EAnalysis2TypesEnum.userAcquisition}
-      }));
-    }
-    if (this.activeTab === 'totalMessages') {
-      this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData: {type: EAnalysis2TypesEnum.totalMessages}
-      }));
-    }
-    if (this.activeTab === 'totalTimeOfRooms') {
-      this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData: {type: EAnalysis2TypesEnum.totalTimeOfRooms}
-      }));
-    }
-    //adding new now
-    if (this.activeTab === 'totalRooms') {
-      this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData: {type: EAnalysis2TypesEnum.totalRooms}
-      }));
-    }
   }
 
   ngOnInit() {
@@ -73,8 +59,8 @@ export class Analysis2VolumeComponent implements OnInit {
         } catch (e) {
           // LoggingService.error(e);
         }
+
       });
-    
   }
 
 

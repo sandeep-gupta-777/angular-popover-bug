@@ -14,11 +14,12 @@ export class ChartComponent implements OnInit {
   @Input() title = '';
   @Input() set chartValue(_chartValue) {
     // this._chartValue = _chartValue;
+      debugger;
     this.init(_chartValue);
   }
   @Input() highChartThemeValue: any;
-  @Input()set data(value) {
-
+  @Input() set data(value) {
+      
     this._data = value;
     if (!value) { return; }
     // this.init();
@@ -45,8 +46,9 @@ export class ChartComponent implements OnInit {
 
       const chart = new Chart( {
         credits: false,
+        
         // xAxis: {
-        //   type: 'datetime'
+        //   categories: ['Template key 1', 'Template key 2', 'Template key 3', 'Template key 4', 'Template key 5']
         // },
         title: {
           text: ''
@@ -69,13 +71,15 @@ export class ChartComponent implements OnInit {
         ..._chartValue
       });
     (<any>Highcharts).theme = this.highChartThemeValue;
-
+//   
 // Apply the theme
     Highcharts.setOptions((<any>Highcharts).theme);
 
 
-
+        
     this.chart = chart;
+    // 
+    // this.chart.chart.type = 'column';
     setTimeout(() => {
     }, 2000);
 

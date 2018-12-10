@@ -33,6 +33,22 @@ export class SetChannelWiseFlowsPerSession {
   }
 }
 
+export class SetSessionsperuser {
+  static readonly type = '[analytics2] SetSessionsperuser';
+  constructor(public payload: { data: any[]}) {
+  }
+}
+
+export class SetMessagespersession {
+  static readonly type = '[analytics2] SetMessagespersession';
+  constructor(public payload: { data: any[]}) {
+  }
+}
+export class SetTimepersession {
+  static readonly type = '[analytics2] SetTimepersession';
+  constructor(public payload: { data: any[]}) {
+  }
+}
 export class SetUserAcquisition {
   static readonly type = '[analytics2] SetUserAcquisition';
   constructor(public payload: { data: IUserAcquisitionItem[]}) {
@@ -45,9 +61,9 @@ export class SetTotalMessages {
   }
 }
 
-export class SetAverageRoomTime {
-  static readonly type = '[analytics2] SetAverageRoomTime';
-  constructor(public payload: { data: IAverageRoomTimeItem[]}) {
+export class SetTotalTimeOfRooms {
+  static readonly type = '[analytics2] SetTotalTimeOfRooms';
+  constructor(public payload: { data: any[]}) {
   }
 }
 
@@ -101,8 +117,8 @@ export class SetUsagetrackingInfo {
   }
 }
 
-export class Topgenerationtemplates {
-  static readonly type = '[analytics2] Topgenerationtemplates';
+export class SetTopgenerationtemplates {
+  static readonly type = '[analytics2] SetTopgenerationtemplates';
   constructor(public payload: { data: any}) {
   }
 }

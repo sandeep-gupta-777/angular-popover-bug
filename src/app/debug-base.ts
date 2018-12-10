@@ -18,7 +18,7 @@ export class DebugBase implements OnDestroy {
   }
 
   destroy(componentObj) {
-    debugger;
+      
     for (const key in componentObj) {
       try {
         if (componentObj[key] instanceof Subscriber) {

@@ -80,7 +80,7 @@
   <div class="row row-flex-bot-versioning-toaster border-theme-secondary  border-top-0 mx-0" *ngIf="showVersionList"
        style="max-height: 50vh; overflow-y: scroll">
     <div class="col-12 py-1 px-0 cursor-pointer hover-change-background border-bottom-theme-secondary"
-         *ngFor="let version of bot.store_bot_versions | filterActiveBot:selectedVersion.id">
+         *ngFor="let version of bot.store_bot_versions | filterActiveBot:selectedVersion.id ">
       <div class="d-flex align-items-center flex-bot-versioning-toaster"
            (click)="changeSelectedVersion$.emit(version); showVersionList = false; ">
 

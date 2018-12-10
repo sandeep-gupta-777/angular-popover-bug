@@ -86,7 +86,7 @@ export class ProfileComponent extends ModalImplementer implements OnInit {
       };
       this.serverService.makePostReq({url: changePasswordUrl, body})
         .subscribe((value: { 'error': boolean, 'message': string }) => {
-          debugger;
+            
           if (!value.error) {
           this.showPasswordChangeForm = false; //show success message    
           }

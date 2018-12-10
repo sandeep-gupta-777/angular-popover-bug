@@ -139,6 +139,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       });
   }
   onSubmit() {
+    localStorage.clear();
     const loginData = this.loginForm.value;
     const loginUrl = this.constantsService.getLoginUrl();
     let body;
