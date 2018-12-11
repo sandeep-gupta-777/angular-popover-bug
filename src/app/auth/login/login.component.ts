@@ -54,6 +54,12 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   gotUserData$ = new EventEmitter();
   showCustomEmails = false;
   ngOnInit() {
+    try {
+      /*replace with plateform.id*/
+      localStorage.clear();
+    }catch (e) {
+      console.log(e);
+    }
     let userValue = null;
     this.showCustomEmails = !!this.activatedRoute.snapshot.queryParamMap.get('burl');
     this.panelActive = this.activatedRoute.snapshot.queryParamMap.get('token') ? 'reset-password' : this.panelActive;
