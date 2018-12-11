@@ -75,7 +75,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   }
 
   countMasterModules(pipelineModulesV2List:IPipelineItemV2[]){
-    debugger;
+
     return this.pipelineModulesV2List.reduce((aggregate, pipelineModulesV2Item)=>{
       return aggregate + pipelineModulesV2Item.pipeline_modules.length;
     },0);
@@ -137,7 +137,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   }
 
   filterAiModules() {
-    debugger;
+
     if (!this.pipeLine || !this.pipelineModulesV2List) {
       return;
     }
@@ -164,7 +164,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   }
 
   prepareAndDispatch() {
-    debugger;
+
     const isAllPipelineModulesInputParamsArePopulated = this.utilityService.checkIfAllPipelineInputParamsArePopulated(this.pipeLine);
     const isPipelineValidObj = {};
     isPipelineValidObj[EFormValidationErrors.form_validation_pipeline] = isAllPipelineModulesInputParamsArePopulated;
@@ -179,7 +179,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   }
 
   async openInputParamModal(template: TemplateRef<any>, pipeline: IPipelineItem, addPipelineItemToPipeline?:boolean) {
-    debugger;
+
     this.selectedPipeline = pipeline;
     // this.modalRef = this.modalService.show(template, { class: 'modal-md' });
     this.openPrimaryModal(template)

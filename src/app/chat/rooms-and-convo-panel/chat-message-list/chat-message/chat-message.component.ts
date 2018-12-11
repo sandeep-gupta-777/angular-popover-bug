@@ -10,6 +10,7 @@ import {ActivatedRoute, Router, RoutesRecognized} from '@angular/router';
 export class ChatMessageComponent implements OnInit {
 
   myEBotMessageMediaType = EBotMessageMediaType;
+  @Input() isLastMessage: boolean;
   @Input()selectedAvatar;
   @Input() messageData: IMessageData = {
     text: 'this is a test',
