@@ -49,10 +49,10 @@ export class AvatorFormComponent implements OnInit {
     id: 0
   };
 
-  avatorList: IAvatar[] = [];
+  // avatorList: IAvatar[] = [];
 
   ngOnInit() {
-    this.avatorList = this._bot.avatars;
+    // this.avatorList = this._bot.avatars;
     this.formGroup = this.formBuilder.group({
       avatars: this.formBuilder.array([])
     });
@@ -70,6 +70,7 @@ export class AvatorFormComponent implements OnInit {
   }
 
   initializeFormArray() {
+    debugger;
     this._bot.avatars && this._bot.avatars.forEach((avatar) => {
       this.formArray.push(this.formBuilder.group({
         'name': [avatar.name, Validators.required],
@@ -100,7 +101,7 @@ export class AvatorFormComponent implements OnInit {
   }
 
   deleteAvator(index: number) {
-    this.avatorList.splice(index, 1);
+    // this.avatorList.splice(index, 1);
     this.formArray.removeAt(index);
   }
 }

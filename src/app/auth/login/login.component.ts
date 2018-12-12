@@ -117,6 +117,7 @@ export class LoginComponent implements OnInit {
       body = this.f.value;
     } else {
       this.flashErrorMessage('Details not valid');
+      this.disabeLoginButton = false;
       return;
     }
 
