@@ -18,5 +18,8 @@ export enum EAnalysis2TypesEnum {
   channelWiseUsers= 'channelWiseUsers', //doing
   channelWiseAverageSessionTime= 'channelWiseAverageSessionTime', //done
   channelWiseSessions= 'channelWiseSessions', //done
-  channelWiseFlowsPerSession= 'channelWiseFlowsPerSession'//done in volume-sessions
+  channelWiseFlowsPerSession= 'channelWiseFlowsPerSession',//done in volume-sessions
+  sessionsperuser='sessionsperuser',
+  messagespersession='messagespersession',
+  timepersession='timepersession',
 }

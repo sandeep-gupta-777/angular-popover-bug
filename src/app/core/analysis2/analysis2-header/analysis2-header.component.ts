@@ -12,7 +12,6 @@ import {
   SetChannelWiseFlowsPerSession,
   SetUserAcquisition,
   SetTotalMessages,
-  SetAverageRoomTime,
   SetUserLoyalty,
   SetChannelWiseAverageSessionTime,
   SetTotalFlows,
@@ -21,7 +20,7 @@ import {
   SetRoomDuration,
   SetChannelWiseSessions,
   SetChannelWiseUsers,
-  ResetAnalytics2GraphData, SetUsagetrackingInfo, Topgenerationtemplates, ResetAnalytics2HeaderData, TotalSessions
+  ResetAnalytics2GraphData, SetUsagetrackingInfo,  ResetAnalytics2HeaderData, TotalSessions, SetSessionsperuser, SetMessagespersession, SetTimepersession, SetTotalTimeOfRooms, SetTopgenerationtemplates
 } from '../ngxs/analysis.action';
 import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
@@ -121,7 +120,6 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
           return;
         }
         this.formData = formData;
-
         if (!this.f.valid) return;
         const selectedBot: IBot = this._allbotList.find((bot) => bot.id === Number(this.f.value.botId));
         const analysisHeaderData: any /*: TODO: IAnalysis2HeaderData*/ = {
@@ -150,7 +148,6 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     this.analytics2HeaderDataSub = this.analytics2HeaderData$.subscribe((analytics2HeaderData:any) => {
       /*move this code to dedicated service*/
       try {
-
         this.f.form.patchValue(analytics2HeaderData);
         const url = this.constantsService.getAnalyticsUrl();
         const headerData: any/*IAnalysis2HeaderData*/ = {
@@ -197,10 +194,9 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
                   const responseCopy: ITotalMessagesResponseBody = response;
                   this.store.dispatch(new SetTotalMessages({data: responseCopy.objects[0].output.messagesinfo}));
                 }
-                if (headerData.type === EAnalysis2TypesEnum.averageRoomTime) {
-
-                  const responseCopy: IAverageRoomTimeResponseBody = response;
-                  this.store.dispatch(new SetAverageRoomTime({data: responseCopy.objects[0].output.averageRoomTime}));
+                if (headerData.type === EAnalysis2TypesEnum.totalTimeOfRooms) {
+                  const responseCopy: any = response;
+                  this.store.dispatch(new SetTotalTimeOfRooms({data: responseCopy.objects[0].output.totalTimeOfRooms}));
                 }
                 if (headerData.type === EAnalysis2TypesEnum.userLoyalty) {
                   const responseCopy: IUserLoyaltyResponseBody = response;
@@ -210,15 +206,23 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
                   const responseCopy: IChannelWiseAverageSessionTimeResponseBody = response;
                   this.store.dispatch(new SetChannelWiseAverageSessionTime({data: responseCopy.objects[0].output.channelWiseAverageSessionTime}));
                 }
+                
                 if (headerData.type === EAnalysis2TypesEnum.totalFlows) {
                   const responseCopy: ITotalFlowsResponseBody = response;
                   this.store.dispatch(new SetTotalFlows({data: responseCopy.objects[0].output.totalFlows}));
                 }
-                if (headerData.type === EAnalysis2TypesEnum.totalFlows) {
-                  const responseCopy: ITotalFlowsResponseBody = response;
-                  this.store.dispatch(new SetTotalFlows({data: responseCopy.objects[0].output.totalFlows}));
+                if (headerData.type === EAnalysis2TypesEnum.sessionsperuser) {
+                  const responseCopy: any = response;
+                  this.store.dispatch(new SetSessionsperuser({data: responseCopy.objects[0].output.sessionsperuser}));
                 }
-
+                if (headerData.type === EAnalysis2TypesEnum.messagespersession) {
+                  const responseCopy: any = response;
+                  this.store.dispatch(new SetMessagespersession({data: responseCopy.objects[0].output.messagespersession}));
+                }
+                if (headerData.type === EAnalysis2TypesEnum.timepersession) {
+                  const responseCopy: any = response;
+                  this.store.dispatch(new SetTimepersession({data: responseCopy.objects[0].output.timepersession}));
+                }
                 if (headerData.type === EAnalysis2TypesEnum.flowsPerRoom) {
                   const responseCopy: IFlowsPerRoomResponseBody = response;
                   this.store.dispatch(new SetFlowsPerRoom({data: responseCopy.objects[0].output.flowsPerRoom}));
@@ -249,8 +253,9 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
                   this.store.dispatch(new SetUsagetrackingInfo({data: responseCopy.objects[0].output[EAnalysis2TypesEnum.usagetracking]}));
                 }
                 if (headerData.type === EAnalysis2TypesEnum.topgenerationtemplates) {
-                  const responseCopy: IChannelWiseUsersResponseBody = response;
-                  this.store.dispatch(new Topgenerationtemplates({data: responseCopy.objects[0].output[EAnalysis2TypesEnum.topgenerationtemplates]}));
+                  const responseCopy: any = response;
+                    
+                  this.store.dispatch(new SetTopgenerationtemplates({data: responseCopy.objects[0].output[EAnalysis2TypesEnum.topgenerationtemplates]}));
                 }
                 if (headerData.type === EAnalysis2TypesEnum.totalSessions) {
                   const responseCopy: IChannelWiseUsersResponseBody = response;

@@ -465,7 +465,6 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
   openForkNewVersionModal(template) {
     // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
-
     this.openPrimaryModal(template);
   }
 

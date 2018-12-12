@@ -5,7 +5,8 @@
   <section class="left d-flex ">
     <div class="imi-logo-box">
       <img src="assets/img/IMI_logo.png" alt="IMI logo">
-      <p class="tagline text-center d-none d-md-block">The bot building platform for your enterprise</p>
+      <p class="tagline text-center d-none d-md-block">
+          {{panelActive==='enterprise-list-display' ? "Select an enterprise" : "The bot building platform for your enterprise" }}</p>
     </div>
   </section>
   <!--left logo box ends-->
@@ -163,7 +164,7 @@
 
   <section *ngIf="panelActive==='enterprise-list-display'" class="enterprise-flex mx-4">
     <div class="d-flex mb-3">
-      <div style="font-size: 20px">Welcome Shoaib</div>
+      <div style="font-size: 20px">Welcome {{userData.first_name}} {{userData.last_name}}</div>
       <div class="color-primary cursor-pointer ml-auto" (click)="enterpriseLogout()"><i class="fa fa-power-off"> </i>
         Log out
       </div>
@@ -178,7 +179,8 @@
     <app-enterprise-list
       [enterpriseList]="enterpriseList"
       [searchEnterprise]="searchEnterprise"
-      (clickedEnterprise)="enterEnterprise($event)"></app-enterprise-list>
+      (clickedEnterprise)="enterEnterprise($event)"
+      [currentEnterpriseId]="-1"></app-enterprise-list>
     <!-- <div class="enterprise-grid h-100">
       <div class = "enterprise-grid-item"
       *ngFor="let enterprise of  (enterpriseList | genericObjFilter:'enterprise_id.name':searchEnterprise)"

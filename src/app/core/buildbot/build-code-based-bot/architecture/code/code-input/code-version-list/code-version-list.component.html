@@ -37,7 +37,7 @@
              [ngClass]="{'text-danger':selectedVersion.changed_fields['workflow'], 'dark-green':selectedVersion.updated_fields['workflow']}"></i>
         </div>
         <div style = "font-weight: 500;font-size: 10px;">
-            {{selectedVersion.updated_at | date}}&nbsp;{{selectedVersion.updated_at | date:"hh:mm"}}
+            {{selectedVersion.updated_at | date:"MMM d"}}&nbsp;'{{selectedVersion.updated_at | date:"yy"}}&nbsp;{{selectedVersion.updated_at | date:"shortTime"}}
         </div>
         <!--<form class="d-flex">-->
         <!--<input type="radio" name="optradio" checked>-->
@@ -80,7 +80,7 @@
   <div class="row row-flex-bot-versioning-toaster border-theme-secondary  border-top-0 mx-0" *ngIf="showVersionList"
        style="max-height: 50vh; overflow-y: scroll">
     <div class="col-12 py-1 px-0 cursor-pointer hover-change-background border-bottom-theme-secondary"
-         *ngFor="let version of bot.store_bot_versions | filterActiveBot:selectedVersion.id">
+         *ngFor="let version of bot.store_bot_versions | filterActiveBot:selectedVersion.id ">
       <div class="d-flex align-items-center flex-bot-versioning-toaster"
            (click)="changeSelectedVersion$.emit(version); showVersionList = false; ">
 
@@ -98,7 +98,7 @@
         <!--change dot start-->
         <div class="update d-flex flex-column mr-2 justify-content-center" *ngIf="version">
 
-          <div class="justify-content-left pt-1">
+          <div class="justify-content-left py-1">
             <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['df_template']}"></i>
             <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['df_rules']}"></i>
             <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['generation_rules']}"></i>
@@ -106,7 +106,7 @@
             <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['workflow']}"></i>
           </div>
           <div style = "font-weight: 500;font-size: 10px;">
-              {{selectedVersion.updated_at | date}}&nbsp;{{selectedVersion.updated_at | date:"hh:mm"}}
+              {{version.updated_at | date:"MMM d"}}&nbsp;'{{version.updated_at | date:"yy"}}&nbsp;{{version.updated_at | date:"shortTime"}}
           </div>
         </div>
         <!--change dot end-->

@@ -85,7 +85,11 @@ export class CodeBasedBotDetailComponent implements OnInit {
     /*this.bot$ = */
     this.botlist$.subscribe((botListState) => {
       if (botListState.allBotList) {
+<<<<<<< HEAD
 
+=======
+          
+>>>>>>> 2e73ee006c78016ff42c899982a3e1273bbf2c23
         this.bot = botListState.allBotList.find((bot) => {
           return bot.id === this.bot_id;
         });

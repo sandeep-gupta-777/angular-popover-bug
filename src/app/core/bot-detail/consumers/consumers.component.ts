@@ -103,7 +103,11 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
 
 
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: IConsumerItem, source: any }, Primarytemplat) {
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> 2e73ee006c78016ff42c899982a3e1273bbf2c23
     if (data.action === 'decrypt') {
       this.consumerItemToBeDecrypted = data.data;
       this.openCreateBotModal(Primarytemplat);

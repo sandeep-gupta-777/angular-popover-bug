@@ -1,19 +1,19 @@
+<!---->
 <!--Tabbing starts-->
 <ul class="nav nav-tabs my-2 theme-tabbing">
-  <li class="nav-item ml-3">
+   <li class="nav-item ml-3">
     <a class="nav-link" [routerLink]="['.']"
        queryParamsHandling="merge"
        replaceUrl="true"
-       [queryParams]="{activeTab:myEAnalysis2TypesEnum.totalMessages}"
-       (click)="tabClicked(myEAnalysis2TypesEnum.totalMessages)"
-       [ngClass]="{'tab-active':activeTab===myEAnalysis2TypesEnum.totalMessages}"><strong>MESSAGE ANALYSIS
-    </strong></a>
+       [queryParams]="{eng:'usagetracking'}"
+       (click)="tabClicked('usagetracking')"
+       [ngClass]="{'tab-active':activeTab==='usagetracking'}"><strong>Usage</strong></a>
   </li>
 </ul>
 <!--Tabbing ends-->
 
 
-<app-chart *ngIf="activeTab===myEAnalysis2TypesEnum.totalMessages"
+<app-chart *ngIf="activeTab==='usagetracking'" 
            [chartValue]="chartValue"
            [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
 </app-chart>

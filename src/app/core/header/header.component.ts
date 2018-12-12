@@ -60,10 +60,10 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
 
   ngOnInit() {
     let getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
-
+     
     this.serverService.makeGetReq({ url: getAllEnterpriseUrl })
       .subscribe((value: any) => {
-
+         
         this.enterpriseList = value.enterprises;
         // console.log("sadasdasdsad");
         console.log(this.enterpriseList);
@@ -116,7 +116,6 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     this.loggeduser$
       .subscribe((value: IAuthState) => {
         if (value && value.user != null) {
-
           this.userData = value.user;
           this.logoSrc = this.userData.enterprise.logo || this.logoSrc;
         }
@@ -172,7 +171,6 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   }
 
   enterEnterprise(Enterprise) {
-
     let enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
     let body = {
       "user_id": this.userData.id,
@@ -195,16 +193,18 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
             .subscribe((botResult) => {
               this.store.dispatch(new SetAllBotListAction({ botList: botResult.objects }))
                 .subscribe(() => {
-
-                  const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(Enterprise.enterpriseId);
-                  this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
-                    .subscribe((value: IEnterpriseProfileInfo) => {
-                      this.store.dispatch([
-                        new SetEnterpriseInfoAction({ enterpriseInfo: value })
-                      ]).subscribe(() => {
-                        location.reload();
-                      });
-                    });
+                   
+                  this.router.navigate(['/']);
+                  location.reload();
+                  // const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(Enterprise.enterpriseId);
+                  // this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
+                  //   .subscribe((value: IEnterpriseProfileInfo) => {
+                  //     this.store.dispatch([
+                  //       new SetEnterpriseInfoAction({ enterpriseInfo: value })
+                  //     ]).subscribe(() => {
+                        
+                  //     });
+                  //   });
                 });
 
             });

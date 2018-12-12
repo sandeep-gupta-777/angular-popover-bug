@@ -155,7 +155,6 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     });
 
 
-
     if(data){
       this.deleteBot();
     }

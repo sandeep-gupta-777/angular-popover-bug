@@ -65,6 +65,7 @@ export class ProfileComponent extends ModalImplementer implements OnInit {
   }
 
   openChangePasswordModal(template: TemplateRef<any>) {
+    this.showPasswordChangeForm = true;
     this.openPrimaryModal(template)
       .then(()=>{
         this.old_password = this.new_password = this.new_password_confirm = '';
@@ -85,15 +86,21 @@ export class ProfileComponent extends ModalImplementer implements OnInit {
       };
       this.serverService.makePostReq({url: changePasswordUrl, body})
         .subscribe((value: { 'error': boolean, 'message': string }) => {
-          if (value.error) {
-            this.flashErrorMessage(value.message);
-            return;
+            
+          if (!value.error) {
+          this.showPasswordChangeForm = false; //show success message    
           }
-          this.showPasswordChangeForm = false; //show success message
-          setTimeout(() => {
+          else{
+           
+            // this.flashErrorMessage(value.message);
             this.showPasswordChangeForm = true; //show form again
             this.new_password_confirm = this.new_password = this.old_password = '';
-          }, 3000);
+            // return;
+          }
+          // setTimeout(() => {
+          //   this.showPasswordChangeForm = true; //show form again
+          //   this.new_password_confirm = this.new_password = this.old_password = '';
+          // }, 3000);
         });
     } else if (this.new_password !== this.new_password_confirm) {
       this.flashErrorMessage('passwords dont match');

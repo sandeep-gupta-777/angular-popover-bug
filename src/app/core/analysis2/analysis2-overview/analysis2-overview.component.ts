@@ -23,9 +23,6 @@ export class Analysis2OverviewComponent implements OnInit {
   data$: Observable<IOverviewInfo>;
 
   constructor(
-    private serverService: ServerService,
-    private constantsService: ConstantsService,
-    private utilityService: UtilityService,
     private store: Store,
   ) {
   }
