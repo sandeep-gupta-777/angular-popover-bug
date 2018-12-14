@@ -111,6 +111,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
 
   @Output() disableSaveButton$ = new EventEmitter();
   ngOnInit() {
+    // co
     this.carasolItemShownInOneScreen = 1.5; //this.isFullScreenPreview ? 4 : 2;
     this.totalItemsInCarasol = 2; //this._messageData.media.length;
     this.carausalForm.statusChanges
