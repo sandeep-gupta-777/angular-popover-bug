@@ -80,7 +80,8 @@
              queryParamsHandling="merge"
              replaceUrl="true"
              [queryParams]="{isArchitectureFullScreen:!isArchitectureFullScreen}">
-            <i class="fa" (click)="eventService.rerenderHandsonTable$.emit()"
+            <i class="fa"
+               (click)="eventService.rerenderHandsonTable$.emit()"
                [ngClass]="{'fa-window-restore':isArchitectureFullScreen, 'fa-expand':!isArchitectureFullScreen}"></i>
           </a>
         </li>

@@ -156,6 +156,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       body = this.loginForm.value;
     } else {
       this.flashErrorMessage('Details not valid');
+      this.disabeLoginButton = false;
       return;
     }
     this.disabeLoginButton = true;

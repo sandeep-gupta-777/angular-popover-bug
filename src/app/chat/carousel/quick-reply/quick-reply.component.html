@@ -6,7 +6,7 @@
     <p class="mb-1" style="flex-basis: 100%;" *ngIf="messageData.text!==myEBotMessageMediaType.quickReply">
       {{messageData.text||messageData.quick_reply.text}}
     </p>
-    <!--TODO: messageData.text is for chat message (refactor...its not required) and messageData.quick_reply.text session...improve this-->
+    <!--TODO: messageData.text is for chat message (refactor...its not requiredClass) and messageData.quick_reply.text session...improve this-->
     <button *ngFor="let item of messageData.quick_reply.quick_replies"
             (click)="sendMessageToBotServer$.emit(item.payload)"
             class="btn-theme btn-theme-secondary-outline mr-2 mb-1">

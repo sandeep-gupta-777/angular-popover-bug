@@ -30,7 +30,7 @@
  * <ol>
  * <li>Connecting to and disconnecting from a server. The server is identified by its host name and port number.
  * <li>Specifying options that relate to the communications link with the server,
- * for example the frequency of keep-alive heartbeats, and whether SSL/TLS is required.
+ * for example the frequency of keep-alive heartbeats, and whether SSL/TLS is requiredClass.
  * <li>Subscribing to and receiving messages from MQTT Topics.
  * <li>Publishing messages to MQTT Topics.
  * </ol>
@@ -1532,7 +1532,7 @@ Paho.MQTT = (function (global) {
 	 * @constructor
 	 *
 	 * @param {string} host - the address of the messaging server, as a fully qualified WebSocket URI, as a DNS name or dotted decimal IP address.
-	 * @param {number} port - the port number to connect to - only required if host is not a URI
+	 * @param {number} port - the port number to connect to - only requiredClass if host is not a URI
 	 * @param {string} path - the path on the host to connect to - only used if host is not a URI. Default: '/mqtt'.
 	 * @param {string} clientId - the Messaging client identifier, between 1 and 23 characters in length.
 	 *

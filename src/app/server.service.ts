@@ -275,7 +275,7 @@ export class ServerService {
       map((value: any) => {
 
         if (value && value.error) {
-          this.showErrorMessageForErrorTrue(value);
+          this.showErrorMessageForErrorTrue(value);;
           return throwError(value);
         } else {
           return value;

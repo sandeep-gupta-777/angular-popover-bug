@@ -104,7 +104,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
     this.formValue = {...this.formValue};
 
     this.f_new.form.patchValue(this.formValue);
-    /*TODO: this should not be required to form but removing it doesnt patch
+    /*TODO: this should not be requiredClass to form but removing it doesnt patch
     * the form when reset is clicked in bot header. Not sure why.
     * */
   }
