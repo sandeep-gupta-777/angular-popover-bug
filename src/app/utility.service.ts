@@ -671,13 +671,8 @@ export class UtilityService {
   showErrorToaster(message: string, sec = 5) {
     try {
       this.snackBar.open(message, '', {
-<<<<<<< HEAD
-        duration: (sec * 1000)||2000,
-        panelClass:["bg-theme-danger"]
-=======
         duration: (sec * 1000) || 2000,
         panelClass: ["bg-danger"]
->>>>>>> 2e73ee006c78016ff42c899982a3e1273bbf2c23
       });
     } catch (e) {
       console.log(e);
@@ -1015,11 +1010,7 @@ export class UtilityService {
 
   }
 
-<<<<<<< HEAD
-  static hasRequiredField(abstractControl: NgControl): boolean{
-=======
   static hasRequiredField(abstractControl: NgControl): boolean {
->>>>>>> 2e73ee006c78016ff42c899982a3e1273bbf2c23
 
     if (abstractControl.validator) {
       const validator = abstractControl.validator({} as AbstractControl);

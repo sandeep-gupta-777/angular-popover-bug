@@ -58,6 +58,7 @@ import {EBotType} from '../../utility.service';
 import {StringIncludesPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
 import {SimpleTableComponent} from '../buildbot/build-code-based-bot/architecture/pipeline/simple-table/simple-table.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {UrlValidatorDirective} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-input-caraosal/url-validator.directive';
 
 const routes: Route[] = [
   {
@@ -96,6 +97,7 @@ const routes: Route[] = [
     TrimStringPipe,
     FilterTemplateLeyListPipe,
     CodeInputCaraosalComponent,
+    UrlValidatorDirective,
     CheckImageValidityPipe,
     DebounceClickDirective,
     CodeQuickReplyWrapperComponent,

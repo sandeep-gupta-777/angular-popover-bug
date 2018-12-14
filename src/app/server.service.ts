@@ -143,11 +143,7 @@ export class ServerService {
   }
 
   handleErrorFromServer(e) {
-<<<<<<< HEAD
-
-=======
       
->>>>>>> 2e73ee006c78016ff42c899982a3e1273bbf2c23
     this.showErrorMessageForErrorTrue(e);
     this.changeProgressBar(false, 100);
     if (isDevMode()) {
@@ -245,11 +241,7 @@ export class ServerService {
     return this.httpClient.post<T>(reqObj.url, reqObj.body, {headers: headers}).pipe(
       map((value: any) => {
 
-<<<<<<< HEAD
-
-=======
           
->>>>>>> 2e73ee006c78016ff42c899982a3e1273bbf2c23
         if (value && value.error) {
           // this.showErrorMessageForErrorTrue(value); //{error: true, message: "Error"};
           throw value;

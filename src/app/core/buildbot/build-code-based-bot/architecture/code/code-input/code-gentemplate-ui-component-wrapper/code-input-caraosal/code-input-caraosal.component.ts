@@ -15,6 +15,8 @@ import {LoggingService} from '../../../../../../../../logging.service';
 import {NgForm} from '@angular/forms';
 import {ICarousalItem, IOutputItem} from '../../code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
 import {UtilityService} from '../../../../../../../../utility.service';
+import {debounce} from 'rxjs/operators';
+import {EventService} from '../../../../../../../../event.service';
 
 declare var $: any;
 
@@ -51,7 +53,8 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
   @ViewChild('MultiCarouselInner') MultiCarouselInner: ElementRef;
   @ViewChild('addNewCarasolPlaceholder') addNewCarasolPlaceholder: ElementRef;
 
-  @ViewChild('carauoselForm') caraoselForm: NgForm;
+  // @ViewChild('carauoselForm') caraoselForm: NgForm;
+  @ViewChild('carausalForm') carausalForm: NgForm;
   itemWidth;
   disableAddNewCarasolItem = false;
   _messageData: IMessageData;
@@ -71,7 +74,10 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
     this._messageData = messageDataValue;
   }
 
-  constructor(private utilityService:UtilityService){}
+  constructor(
+    private utilityService:UtilityService,
+    private eventService:EventService,
+  ){}
   carasolItemShownInOneScreen: number;
   totalItemsInCarasol: number;
   MultiCarouselWidth: number;
@@ -103,9 +109,16 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
     this.moveTempDown.emit(i);
   }
 
+  @Output() disableSaveButton$ = new EventEmitter();
   ngOnInit() {
     this.carasolItemShownInOneScreen = 1.5; //this.isFullScreenPreview ? 4 : 2;
     this.totalItemsInCarasol = 2; //this._messageData.media.length;
+    this.carausalForm.statusChanges
+      .subscribe((result)=>{
+        let isValid = result === 'VALID';
+        EventService.disableSaveButton_codeInput$.emit(!isValid);
+      })
+
 
   }
 
@@ -397,8 +410,8 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy {
     })
   }
 
-test(){
-    alert();
+test(arg){
+    console.log(arg);
 }
 
 

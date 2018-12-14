@@ -1,6 +1,10 @@
+<!--<button (click)="test(carausalForm)">button</button>-->
+
 <input type="text" hidden #activeDropdownButtonIndex [value]="-1">
 
-<div class="row mx-0 px-1 w-100 bg-white template-output-scroll-container">
+<form #carausalForm="ngForm" class="row mx-0 px-1 w-100 bg-white template-output-scroll-container">
+
+  <!--<input appUrlValidator ngModel name="test">-->
   <div class="d-flex w-100">
     <div class="d-flex align-items-center">
       <i class="fa fa-picture-o mr-1" style="font-size: 15px; color: #9b9b9b"></i>
@@ -55,7 +59,7 @@
                      style="width: 100%">
             </li>
             <li class="list-group-item limit-three-lines flex-column align-items-start cursor-pointer">
-              <input type="text" placeholder="image URL" [(ngModel)]="carousalItem.image_url" style="width: 100%">
+              <input appUrlValidator type="text" name="image_url" placeholder="image URL" [(ngModel)]="carousalItem.image_url" style="width: 100%">
               <div class="d-flex justify-content-between w-100">
                 <!--<span class="faded-text">{{carousalItem?.image_url?.length || 0}}/80</span>-->
                 <i class="faded-text text-danger" *ngIf="!(carousalItem?.image_url|checkImageValidity)">Invalid
@@ -83,8 +87,7 @@
                 class="list-group-item limit-three-lines w-100 px-0 py-0 border"
                 style="margin-top: 6px; overflow: visible">
               <!--TODO: come back here after angular 7 and uncomment below line-->
-              <form #btnConfigForm="ngForm" class="btn-group w-100"
-                    (clickOutside)="dropdown.hide()" (click)="$event.stopPropagation()">
+              <form #btnConfigForm="ngForm" class="btn-group w-100" (click)="$event.stopPropagation()">
                 <!--caraosal button starts-->
                 <div style="position: relative" class="text-center w-100 py-1"
                      (click)="changeActiveButtonIndex(activeDropdownButtonIndex,buttonIndex)">
@@ -164,4 +167,4 @@
   </div>
 
 
-</div>
+</form>

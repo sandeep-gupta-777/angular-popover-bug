@@ -14,7 +14,7 @@ export class ChartComponent implements OnInit {
   @Input() title = '';
   @Input() set chartValue(_chartValue) {
     // this._chartValue = _chartValue;
-      debugger;
+
     this.init(_chartValue);
   }
   @Input() highChartThemeValue: any;
