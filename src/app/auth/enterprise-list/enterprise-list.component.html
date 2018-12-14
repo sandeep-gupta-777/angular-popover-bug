@@ -1,4 +1,4 @@
-<div class="enterprise-grid h-100">
+<div class="enterprise-grid">
   <div class = "enterprise-grid-item cursor-pointer " 
   *ngFor="let enterprise of  (enterpriseList | genericObjFilter:'enterprise_id.name':searchEnterprise)"
   (click) = clickEnterprise(enterprise.enterprise_id.id,enterprise.role_id.id)

@@ -109,9 +109,12 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   transformSessionDataForMaterialTable(session: ISessionItem[]) {
 
-      
+      debugger;
     let sessionsDataForTable = super.transformDataForMaterialTable(session, this.getTableDataMetaDict());
+    debugger;
+
     sessionsDataForTable = sessionsDataForTable.map((sessionsDataForTableItem) => {
+      
       /*adding two additional columns 1) actions and 2)channels*/
       let additonalColumns: any = {
         Actions:sessionsDataForTableItem['Actions'],
@@ -137,6 +140,8 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       }));
       return {...sessionsDataForTableItem, ...additonalColumns};
     });
+    debugger;
+
     return sessionsDataForTable;
   }
 

@@ -163,13 +163,13 @@
   </section>
 
   <section *ngIf="panelActive==='enterprise-list-display'" class="enterprise-flex mx-4">
-    <div class="d-flex mb-3">
+    <div class="d-flex mb-2">
       <div style="font-size: 20px">Welcome {{userData.first_name}} {{userData.last_name}}</div>
       <div class="color-primary cursor-pointer ml-auto" (click)="enterpriseLogout()"><i class="fa fa-power-off"> </i>
         Log out
       </div>
     </div>
-    <div class="d-flex mb-3">
+    <div class="d-flex mb-2">
       <div style="font-size: 16px;">Enterprises available({{enterpriseList.length}})</div>
       <div class="search-theme-input-with-search ml-auto">
         <span class="fa fa-search"></span>

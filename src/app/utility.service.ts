@@ -52,6 +52,25 @@ export class UtilityService {
     'https://robohash.org/SilverDroid.png',
   ];
 
+  public openPrimaryModal(IntentModal ,matDialog,dialogRefWrapper) {
+    return this.openDialog({
+      dialog: matDialog,
+      component: IntentModal,
+      data: null,
+      dialogRefWrapper: dialogRefWrapper,
+      classStr: 'primary-modal-header-border'
+    });
+  }
+  openDangerModal(IntentModal,matDialog,dialogRefWrapper,classStr?: {class:string}) {
+    return this.openDialog({
+      dialog: matDialog,
+      component: IntentModal,
+      data: null,
+      dialogRefWrapper: dialogRefWrapper,
+      classStr: 'danger-modal-header-border'
+    });
+  }
+
   getRandomAvatorUrl() {
     const avatorArrLength = this.RANDOM_IMAGE_URLS.length;
     const randomNumber = Math.floor(Math.random() * avatorArrLength);
