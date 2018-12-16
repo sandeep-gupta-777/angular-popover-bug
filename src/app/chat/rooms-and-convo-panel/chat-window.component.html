@@ -2,6 +2,7 @@
   <app-chat-message
     *ngFor="let messageData of _messageDataArray; let isLast = last"
     [isLastMessage]="isLast"
+    (chatMessageFeedback$)="feedback(messageData, $event)"
     (sendMessageToBotServer$)="sendMessageByHuman($event)"
     class="mx-2"
     [selectedAvatar]="selectedAvatar"

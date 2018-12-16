@@ -1,6 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {EBotMessageMediaType, IMessageData} from '../../../../../interfaces/chat-session-state';
 import {ActivatedRoute, Router, RoutesRecognized} from '@angular/router';
+import {ServerService} from '../../../../server.service';
+import {ConstantsService} from '../../../../constants.service';
+import {EChatFeedback} from '../../../chat-wrapper.component';
 
 @Component({
   selector: 'app-chat-message',
@@ -9,23 +12,31 @@ import {ActivatedRoute, Router, RoutesRecognized} from '@angular/router';
 })
 export class ChatMessageComponent implements OnInit {
 
+  myEChatFeedback = EChatFeedback;
   myEBotMessageMediaType = EBotMessageMediaType;
   @Input() isLastMessage: boolean;
-  @Input()selectedAvatar;
+  @Input() selectedAvatar;
   @Input() messageData: IMessageData = {
     text: 'this is a test',
     time: Date.now(),
     sourceType: 'bot',
-    messageMediatype: null
+    messageMediatype: null,
+    bot_message_id: null
   };
   isFullScreenPreview = false;
   @Output() sendMessageToBotServer$ = new EventEmitter();
+  @Output() chatMessageFeedback$ = new EventEmitter();
+
   constructor(
     private activatedRoute: ActivatedRoute,
+    private serverService: ServerService,
+    private constantsService: ConstantsService,
     private router: Router,
-    ) { }
+  ) {
+  }
 
   ngOnInit() {
+
     // LoggingService.log(this.messageData);
     this.isFullScreenPreview = location.pathname === '/preview'; //this.activatedRoute.snapshot.data['isFullScreenPreview'];
     this.router.events.subscribe((data) => {
@@ -35,4 +46,8 @@ export class ChatMessageComponent implements OnInit {
     });
   }
 
+  feedback(isPositive){
+    this.messageData.feedback = isPositive? EChatFeedback.POSITIVE: EChatFeedback.NEGATIVE;
+    this.chatMessageFeedback$.emit(isPositive);
+  }
 }

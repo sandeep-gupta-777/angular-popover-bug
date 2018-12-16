@@ -3,6 +3,7 @@ import {IBot} from '../../core/interfaces/IBot';
 import {IConsumerDetails} from './chat.state';
 
 import {IIntegrationOption} from '../../../interfaces/integration-option';
+import {EChatFeedback, IChatFeedback} from '../chat-wrapper.component';
 
 export class ToggleChatWindow {
   static readonly type = '[chat-widdow] set toggle';
@@ -54,6 +55,13 @@ export class SetLastTemplateKeyToRoomByRoomId {
   static readonly type = '[chat-widdow] update SetLastTemplateKeyToRoomByRoomId';
 
   constructor(public payload: { lastTemplateKey: string, room_id: number }) {
+  }
+}
+
+export class UpdateBotMessage {
+  static readonly type = '[chat-widdow] update UpdateBotMessage';
+
+  constructor(public payload: {room_id: number, bot_message_id: number, feedback: EChatFeedback }) {
   }
 }
 

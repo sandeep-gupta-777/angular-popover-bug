@@ -2,6 +2,7 @@ import {IConsumerDetails} from '../app/chat/ngxs/chat.state';
 import {IGeneratedMessageItem} from './send-api-request-payload';
 import {IIntegrationOption} from './integration-option';
 import {IBot} from '../app/core/interfaces/IBot';
+import {EChatFeedback} from '../app/chat/chat-wrapper.component';
 
 export enum EChatFrame {
   WELCOME_BOX= 'WELCOME_BOX',
@@ -21,6 +22,8 @@ export interface IMessageData extends IGeneratedMessageItem {
   sourceType: string; //TODO: "timePeriod" ||"human", gives error, see why
   time: number;
   messageMediatype: EBotMessageMediaType;
+  bot_message_id:number;
+  feedback?:EChatFeedback
 }
 
 export interface IRoomData {
