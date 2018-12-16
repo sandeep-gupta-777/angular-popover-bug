@@ -1,0 +1,32 @@
+.chat-feedback{
+  display: flex;
+  align-items: center;
+  margin-left: 40px;
+
+  .fa{
+    margin-right: 10px;
+  }
+  .fa-thumbs-up{
+    color: #34bc6e;
+  }
+  .fa-thumbs-down{
+    color: #b14250;
+  }
+  mat-icon{
+    font-size: 13px;
+    height: 10px;/*TODO: mat-icons have unneccery height*/
+    &:first-of-type{
+      color: #34bc6e;
+
+    }
+    &:last-of-type{
+      color: #b14250;
+    }
+  }
+  span{
+    font-size: 11px;
+    &:first-of-type{
+      margin-right: 16px;
+    }
+  }
+}

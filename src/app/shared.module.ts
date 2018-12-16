@@ -43,6 +43,7 @@ import {ImiLoaderComponent} from './imi-loader/imi-loader.component';
 import {PipelineFilterPipe} from './pipeline-filter.pipe';
 import {EnterpriseListComponent} from './auth/enterprise-list/enterprise-list.component';
 import {GenericObjFilterPipe} from './generic-obj-filter.pipe';
+import {ChatFeedbackComponent} from './chat-feedback/chat-feedback.component';
 
 @NgModule({
   declarations: [
@@ -79,10 +80,10 @@ import {GenericObjFilterPipe} from './generic-obj-filter.pipe';
     IntegrationNameFormatterPipe,
     HighlightDirective,
     SafeUrlPipe,
-    ImiLoaderComponent
+    ImiLoaderComponent,
+    ChatFeedbackComponent
   ],
   imports: [
-
     MyMaterialModule,
     FormsModule,
     ReactiveFormsModule,
@@ -131,7 +132,8 @@ import {GenericObjFilterPipe} from './generic-obj-filter.pipe';
     IntegrationNameFormatterPipe,
     ClickOutsideModule,
     MyMaterialModule,
-    ImiLoaderComponent
+    ImiLoaderComponent,
+    ChatFeedbackComponent
   ]
 })
 export class SharedModule {

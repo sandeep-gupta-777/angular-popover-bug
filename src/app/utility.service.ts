@@ -94,41 +94,40 @@ export class UtilityService {
     });
   }
 
-  serializeGeneratedMessagesToPreviewMessages(generatedMessage: IGeneratedMessageItem[]): IMessageData[] {
+  serializeGeneratedMessagesToPreviewMessages(generatedMessage: IGeneratedMessageItem[], bot_message_id: number): IMessageData[] {
     return generatedMessage.map((message: IGeneratedMessageItem) => {
-      /*check if media is the key
-      * if yes, return {message_type:media[0].type, ...message}
-      * else return it as tet
-      * */
 
-      // this.utilityService.getActiveVersionInBot()
+      let messageData:IMessageData = {
+        ...message,
+        bot_message_id,
+        time: Date.now(),
+        messageMediatype: null,
+        sourceType: 'bot'
+      };
 
       if (Object.keys(message)[0] === 'media') {
-        return {
-          messageMediatype: message.media[0].type, //
-          ...message,
-          time: Date.now(), //this.getCurrentTimeInHHMM(),
+        messageData =  {
+          ...messageData,
+          messageMediatype: message.media[0].type,
           text: EBotMessageMediaType.image, //this is for preview of last message in chat room list
-          sourceType: 'bot'
         };
       } else if (Object.keys(message)[0] === 'quick_reply') {
-
-        return {
+        messageData = {
+          ...messageData,
           messageMediatype: EBotMessageMediaType.quickReply, //
-          ...message,
-          time: Date.now(),
           text: (<any>message).quick_reply.text || EBotMessageMediaType.quickReply, //this is for preview of last message in chat room list
-          sourceType: 'bot'
+        };
+      }else {
+        /*if message type = text*/
+        messageData = {
+          ...messageData,
+          messageMediatype: EBotMessageMediaType.text,
         };
       }
 
-      /*if message type = text*/
-      return {
-        text: message.text,
-        time: Date.now(), //this.getCurrentTimeInHHMM(),
-        sourceType: 'bot',
-        messageMediatype: EBotMessageMediaType.text
-      };
+      return messageData;
+
+
     });
   }
 
@@ -668,7 +667,7 @@ export class UtilityService {
     return JSON.parse(JSON.stringify(obj));
   }
 
-  showErrorToaster(message: string, sec = 5) {
+  showErrorToaster(message:string, sec = 4) {
     try {
       this.snackBar.open(message, '', {
         duration: (sec * 1000) || 2000,
@@ -948,7 +947,8 @@ export class UtilityService {
         text: item.text,
         sourceType: 'bot',
         messageMediatype: EBotMessageMediaType.text,
-        time: Date.now()//this.getCurrentTimeInHHMM()/*todo: change it to real time*/
+        time: Date.now(),//this.getCurrentTimeInHHMM()/*todo: change it to real time*/
+        bot_message_id: null,
       };
     });
     return roomMessages;

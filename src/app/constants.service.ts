@@ -341,6 +341,8 @@ export class ConstantsService {
     return this.BACKEND_URL + 'analytics/channelWiseSessions/'; //https://dev.imibot.ai/analytics/channelWiseSessions
   }
 
+
+
   getChannelWiseFlowsPerSessionUrl() {
     return this.BACKEND_URL + 'analytics/channelWiseFlowsPerSession/'; //https://dev.imibot.ai/analytics/channelWiseFlowsPerSession
   }
@@ -414,6 +416,10 @@ export class ConstantsService {
 
   getAllActionsUrl() {
     return this.BACKEND_URL + `api/v1/actions/?limit=100`; //https://dev.imibot.ai/api/v1/actions/
+  }
+
+  getChatFeedbackUrl(){
+    return this.BACKEND_URL + 'api/v1/message/feedback/';
   }
 
   getDeleteBotUrl(id: number) {

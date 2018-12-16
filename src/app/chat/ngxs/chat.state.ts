@@ -13,7 +13,7 @@ import {
   // SetLastTemplateKeyToRoomByUId,
   DeleteChatRoomsByBotId,
   AddMessagesToRoomByRoomId,
-  SetLastTemplateKeyToRoomByRoomId, SetConsumerDetail, ChangeBotIsThinkingDisplayByRoomId
+  SetLastTemplateKeyToRoomByRoomId, SetConsumerDetail, ChangeBotIsThinkingDisplayByRoomId, UpdateBotMessage
 } from './chat.action';
 import {EChatFrame, IChatSessionState, IRoomData} from '../../../interfaces/chat-session-state';
 import {UtilityService} from '../../utility.service';
@@ -78,6 +78,18 @@ export class ChatSessionStateReducer {
   setCurrentRoomID({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: SetCurrentRoomID) {
     const state: IChatSessionState = getState();
     patchState({...state, currentRoomId: payload.id});
+  }
+
+  @Action(UpdateBotMessage)
+  updateBotMessage({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: UpdateBotMessage) {
+    const state: IChatSessionState = getState();
+    let room = state.rooms.find((room)=>room.id === payload.room_id);
+    let index = room.messageList.findIndex((message)=>message.bot_message_id === payload.bot_message_id);
+    room.messageList[index] = {
+      ...room.messageList[index],
+      feedback: payload.feedback
+    };
+    patchState({rooms: state.rooms});
   }
 
 
@@ -157,7 +169,7 @@ export class ChatSessionStateReducer {
         dispatch([
           new SetCurrentRoomID({id: room.id})
         ]);
-        room.messageList.push({sourceType: 'session_expired', messageMediatype: null, time: null, text: null});
+        room.messageList.push({sourceType: 'session_expired', messageMediatype: null, time: null, text: null, bot_message_id:null});
       }
     }
     room.messageList = [...room.messageList, ...payload.messageList];
@@ -214,6 +226,8 @@ export class ChatSessionStateReducer {
     // }));
     // setState({...state});
   }
+
+
 
 
 }

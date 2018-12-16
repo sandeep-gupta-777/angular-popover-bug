@@ -98,6 +98,7 @@
                        [room]="currentRoom"
                        [showBotIsThinking]="showBotIsThinking"
                        (sendMessageByHuman$)="sendMessageByHuman($event)"
+                       (chatMessageFeedback$)="sendFeedback($event)"
                        [messageDataArray]="messageData"></app-chat-window>
     </div>
 
@@ -232,6 +233,7 @@
       [showBotIsThinking]="showBotIsThinking"
       [room]="currentRoom"
       (sendMessageByHuman$)="sendMessageByHuman($event)"
+      (chatMessageFeedback$)="sendFeedback($event)"
       [messageDataArray]="messageData">
     </app-chat-window>
   </div>
