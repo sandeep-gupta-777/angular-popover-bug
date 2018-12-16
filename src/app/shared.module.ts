@@ -17,7 +17,7 @@ import {KnowledgeBaseComponent} from './core/buildbot/build-code-based-bot/archi
 import {KnowledgeBasePresentationComponent} from './core/buildbot/build-code-based-bot/architecture/knowledge-base/knowledge-base-presentation/knowledge-base-presentation.component';
 import {ChartComponent} from './core/chart/chart.component';
 import {HandsontableComponent} from './handsontable/handsontable.component';
-import {ChartModule} from 'angular-highcharts';
+// import {ChartModule} from 'angular-highcharts';
 import {HighlightSessionTexts} from './highlight-session-texts.pipe';
 import {FilterActiveBotPipe} from './filter-active-bot.pipe';
 import {IntegrationImageCountPipe} from './integration-image-count.pipe';
@@ -89,7 +89,7 @@ import {ChatFeedbackComponent} from './chat-feedback/chat-feedback.component';
     ReactiveFormsModule,
     CommonModule,
     RouterModule,
-    ChartModule,
+    // ChartModule,
     ClickOutsideModule,
   ],
   exports: [
@@ -99,7 +99,7 @@ import {ChatFeedbackComponent} from './chat-feedback/chat-feedback.component';
     SplashScreenComponent,
     HighlightDirective,
     SafeUrlPipe,
-    ChartModule,
+    // ChartModule,
     IntegrationLogosPipe,
     DataManageFormComponent,
     BasicInfoFormComponent,

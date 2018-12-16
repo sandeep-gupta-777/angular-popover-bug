@@ -41,7 +41,7 @@
     "@ngxs/logger-plugin": "^3.1.4",
     "@ngxs/storage-plugin": "^3.2.0",
     "@ngxs/store": "^3.1.4",
-    "angular-highcharts": "^6.2.6",
+    "angular-highcharts": "^7.0.0",
     "codemirror": "^5.39.2",
     "core-js": "^2.5.4",
     "download-csv": "^1.1.1",
