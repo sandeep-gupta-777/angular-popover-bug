@@ -422,6 +422,20 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/message/feedback/';
   }
 
+  appendQueryParamsInUrl(url:string, queryParams:object){
+    let urlObj = new URL(url);
+    for(let key in queryParams){
+      urlObj.searchParams.append(key, queryParams[key]);
+    }
+    return urlObj.href
+  }
+
+  getRoomWithFilters(queryParams:object){
+    let url = this.BACKEND_URL + 'api/v1/room/';
+    let urlWithQueryParams =   this.appendQueryParamsInUrl(url, queryParams);
+    return urlWithQueryParams;
+  }
+
   getDeleteBotUrl(id: number) {
     return this.BACKEND_URL + `api/v1/bot/${id}/`; //http://localhost:8000/api/v1/bot/66/
   }
@@ -949,8 +963,9 @@ export class ConstantsService {
       value: '',
       type: 'time',
       displayValue: 'Updated At',
-      search: true,
+      search: false,
       searchValue: true,
+      dateRange:true
     },
     channels: {
       originalKey: '',
