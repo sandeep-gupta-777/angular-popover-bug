@@ -22,7 +22,7 @@ export class BotConfigInputComponent implements OnInit, ControlValueAccessor {
   @Input() errors: {name: string, description: string}[] = [];
   @Output() keyDown$ = new EventEmitter();
   myObject = Object;
-  isDisabled = false;
+  @Input() isDisabled = false;
   onChanges: Function;
   ngControl: NgControl;
   @Input() isRequired =false;
