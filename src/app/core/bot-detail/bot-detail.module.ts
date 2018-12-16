@@ -15,7 +15,6 @@ import {SessionDetailModelComponent} from './bot-sessions/session-detail-model/s
 import {ConsumersComponent} from './consumers/consumers.component';
 import {SessionMessageComponent} from './bot-sessions/session-detail-model/session-message/session-message.component';
 import {SessionTabsDetailsComponent} from './bot-sessions/session-detail-model/session-tabs-details/session-tabs-details.component';
-import {SessionComponent} from './session/session.component';
 import {PipelineComponent} from '../buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
 import {CodeInputComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-input.component';
 import {IntegrationOptionListComponent} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-option-list.component';
@@ -56,6 +55,9 @@ import {HasChannelPipe} from '../../has-channel.pipe';
 import {MyMaterialModule} from '../../my-material.module';
 import {EBotType} from '../../utility.service';
 import {StringIncludesPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
+import {SimpleTableComponent} from '../buildbot/build-code-based-bot/architecture/pipeline/simple-table/simple-table.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {UrlValidatorDirective} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-input-caraosal/url-validator.directive';
 
 const routes: Route[] = [
   {
@@ -79,13 +81,12 @@ const routes: Route[] = [
     BotSessionsComponent,
     SessionDetailModelComponent,
     ConsumersComponent,
-    SessionDetailModelComponent,
     SessionTabsDetailsComponent,
     SessionMessageComponent,
     PipelineComponent,
+    SimpleTableComponent,
     StringIncludesPipe,
     UnderscroreToSpaceDelimitorPipe,
-    SessionComponent,
     CodeInputComponent,
     CodeGentemplateUiComponentWrapperComponent,
     CodeVersionListComponent,
@@ -94,6 +95,7 @@ const routes: Route[] = [
     TrimStringPipe,
     FilterTemplateLeyListPipe,
     CodeInputCaraosalComponent,
+    UrlValidatorDirective,
     CheckImageValidityPipe,
     DebounceClickDirective,
     CodeQuickReplyWrapperComponent,
@@ -127,7 +129,7 @@ const routes: Route[] = [
     SharedModule,
     HttpClientModule,
     MyMaterialModule,
-
+    DragDropModule
   ],
   providers: [AimService]
 })

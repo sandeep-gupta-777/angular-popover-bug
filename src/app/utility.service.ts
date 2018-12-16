@@ -1,4 +1,4 @@
-import {EventEmitter, Injectable} from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 
 export enum EBotType {
   chatbot = 'chatbot',
@@ -14,16 +14,16 @@ export enum EFormValidationErrors {
 }
 
 import downloadCsv from 'download-csv';
-import {ActivatedRoute, Router} from '@angular/router';
-import {IBot} from './core/interfaces/IBot';
-import {IPipelineItem} from '../interfaces/ai-module';
-import {IAnalysis2HeaderData} from '../interfaces/Analytics2/analytics2-header';
-import {EBotMessageMediaType, IMessageData} from '../interfaces/chat-session-state';
-import {IBotPreviewFirstMessage} from './chat/chat-wrapper.component';
-import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
-import {StoreVariableService} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl} from '@angular/forms';
-import {MatSnackBar} from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IBot } from './core/interfaces/IBot';
+import { IPipelineItem } from '../interfaces/ai-module';
+import { IAnalysis2HeaderData } from '../interfaces/Analytics2/analytics2-header';
+import { EBotMessageMediaType, IMessageData } from '../interfaces/chat-session-state';
+import { IBotPreviewFirstMessage } from './chat/chat-wrapper.component';
+import { IGeneratedMessageItem } from '../interfaces/send-api-request-payload';
+import { StoreVariableService } from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 
 
 @Injectable({
@@ -82,7 +82,7 @@ export class UtilityService {
           accObj[currObj.param_name] = currObj.display_text;
           return accObj;
         }, {});
-        return {...accumulator, ...x};
+        return { ...accumulator, ...x };
       }, {});
     }
     return this.masterIntegration_IntegrationKeyDisplayNameMap[key];
@@ -94,41 +94,40 @@ export class UtilityService {
     });
   }
 
-  serializeGeneratedMessagesToPreviewMessages(generatedMessage: IGeneratedMessageItem[]): IMessageData[] {
+  serializeGeneratedMessagesToPreviewMessages(generatedMessage: IGeneratedMessageItem[], bot_message_id: number): IMessageData[] {
     return generatedMessage.map((message: IGeneratedMessageItem) => {
-      /*check if media is the key
-      * if yes, return {message_type:media[0].type, ...message}
-      * else return it as tet
-      * */
 
-      // this.utilityService.getActiveVersionInBot()
+      let messageData:IMessageData = {
+        ...message,
+        bot_message_id,
+        time: Date.now(),
+        messageMediatype: null,
+        sourceType: 'bot'
+      };
 
       if (Object.keys(message)[0] === 'media') {
-        return {
-          messageMediatype: message.media[0].type, //
-          ...message,
-          time: Date.now(), //this.getCurrentTimeInHHMM(),
+        messageData =  {
+          ...messageData,
+          messageMediatype: message.media[0].type,
           text: EBotMessageMediaType.image, //this is for preview of last message in chat room list
-          sourceType: 'bot'
         };
       } else if (Object.keys(message)[0] === 'quick_reply') {
-
-        return {
+        messageData = {
+          ...messageData,
           messageMediatype: EBotMessageMediaType.quickReply, //
-          ...message,
-          time: Date.now(),
           text: (<any>message).quick_reply.text || EBotMessageMediaType.quickReply, //this is for preview of last message in chat room list
-          sourceType: 'bot'
+        };
+      }else {
+        /*if message type = text*/
+        messageData = {
+          ...messageData,
+          messageMediatype: EBotMessageMediaType.text,
         };
       }
 
-      /*if message type = text*/
-      return {
-        text: message.text,
-        time: Date.now(), //this.getCurrentTimeInHHMM(),
-        sourceType: 'bot',
-        messageMediatype: EBotMessageMediaType.text
-      };
+      return messageData;
+
+
     });
   }
 
@@ -431,17 +430,24 @@ export class UtilityService {
     rawData: { activesessions: number, labels: string, totalsessions: number }[],
     xAxisLabel: string,
     startTime_ms: number = Date.UTC(2010, 0, 2), //Date.UTC(2010, 0, 2),
-    granularity_Ms: number = 24 * 3600 * 1000  // one day
+    granularity_Ms: number = 24 * 3600 * 1000,  // one day
   ) {
-
+    
     if (!rawData) {
       return;
     }
-    const template = {
+    const template: any = {
       xAxis: {
         type: 'datetime'
       },
-
+      // xAxis: {
+      //   categories: ['Template key 1', 'Template key 2', 'Template key 3', 'Template key 4', 'Template key 5']
+      // },
+      // plotOptions: {
+      //   column: {
+      //       stacking: 'normal'
+      //       }
+      //   },
       plotOptions: {
         series: {
           pointStart: startTime_ms, //Date.UTC(2010, 0, 2),
@@ -471,6 +477,7 @@ export class UtilityService {
       });
     });
     /*now loop over rawData and fill convertedData's data array*/
+    
     rawData.forEach((obj) => {
       Object.keys(obj).forEach((key) => {
         if (key === xAxisLabel) {
@@ -481,14 +488,17 @@ export class UtilityService {
         data.push(obj[key]); //pushing a new coordinate
       });
     });
+    let arr: string[] = []
 
     template.series = seriesArr;
     return template;
   }
 
   convert_xAxisText(rawData: { activesessions: 0, labels: '03:00', totalsessions: 0 }[], xAxisLabel: string) {
-
-    const categoriesString = rawData.map((dataItem) => dataItem.labels);
+    if (!rawData) {
+      return;
+    }
+    const categoriesString: any[] = rawData.map((dataItem) => dataItem.labels);
     const seriesArr = [];
     /*initialize the convertedData*/
     Object.keys(rawData[0]).forEach((value) => {
@@ -501,6 +511,8 @@ export class UtilityService {
       });
     });
     /*now loop over rawData and fill convertedData's data array*/
+
+
     rawData.forEach((obj) => {
       Object.keys(obj).forEach((key) => {
         if (key === xAxisLabel) {
@@ -511,19 +523,71 @@ export class UtilityService {
         data.push(obj[key]); //pushing a new coordinate
       });
     });
+    //     series: Array(1)
+    // 0: {name: "result", data: Array(8)}
+    // length: 1
 
+    
+    let lengthofcategoriesString = categoriesString.length;
+    let categoriesString5 = categoriesString.slice(0, 5);
+
+    categoriesString5.push("Others")
+    
+    var totalValue = seriesArr[0]['data'].reduce((a, b) => a + b, 0);
+    seriesArr[0]['data'] = seriesArr[0]['data'].slice(0, 5)
+    var endValue = seriesArr[0]['data'].reduce((a, b) => a + b, 0);
+    
+    // seriesArr[0]['data'] = seriesArr5;
+    seriesArr[0]['data'].push(totalValue - endValue)
+    if (lengthofcategoriesString <= 5) {
+      categoriesString5.pop();
+      seriesArr[0]['data'].pop();
+    }
+
+    
     const template = {
       xAxis: {
-        categories: categoriesString, //['apple', 'orange', 'mango'],
+        categories: categoriesString5, //['apple', 'orange', 'mango'],
         tickInterval: 1,
         labels: {
           enabled: true
         }
       },
+      plotOptions: {
+        column: {
+          stacking: 'normal',
+        }
+      },
+      chart: {
+        type: 'column'
+      },
       series: seriesArr
     };
 
     return template;
+
+    // if (type == "column") {
+
+    //   rawData.forEach((obj) => {
+    //     Object.keys(obj).forEach((key) => {
+    //       if (key === xAxisLabel) {
+    //         arr.push(obj[key]);
+    //       }
+    //     });
+    //   });
+    //   template.xAxis = {
+    //     categories: arr,
+    //   };
+    //   template.plotOptions = {
+    //     column: {
+    //       stacking: 'normal',
+    //     }
+    //   };
+    //   template.chart = {
+    //     type: 'column'
+    // };
+    // }
+
   }
 
   convert(rawData, xAxisLabel: string, labelType: string) {
@@ -603,13 +667,13 @@ export class UtilityService {
     return JSON.parse(JSON.stringify(obj));
   }
 
-  showErrorToaster(message:string, sec = 5) {
+  showErrorToaster(message:string, sec = 4) {
     try {
       this.snackBar.open(message, '', {
-        duration: (sec * 1000)||2000,
-        panelClass:["bg-danger"]
+        duration: (sec * 1000) || 2000,
+        panelClass: ["bg-danger"]
       });
-    }catch (e) {
+    } catch (e) {
       console.log(e);
     }
     // if (typeof message === 'string') {
@@ -632,7 +696,7 @@ export class UtilityService {
     // this.toastr.info(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
     this.snackBar.open(message, '', {
       duration: 2000,
-      panelClass:["bg-success"]
+      panelClass: ["bg-success"]
     });
   }
 
@@ -640,7 +704,7 @@ export class UtilityService {
     // this.toastr.success(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
     this.snackBar.open(message, '', {
       duration: 2000,
-      panelClass:["bg-success"]
+      panelClass: ["bg-success"]
     });
   }
 
@@ -656,13 +720,13 @@ export class UtilityService {
     const url: string = formControl.value;
     const pattern = /^((https):\/\/)/;
 
-    return pattern.test(url) ? null : {'Must be Https Url': true};
+    return pattern.test(url) ? null : { 'Must be Https Url': true };
   }
 
   imageUrlHavingValidExtnError(formControl: FormControl) {
     const url: string = formControl.value;
     const pattern = /\.(gif|jpg|jpeg|tiff|png)$/i;
-    return pattern.test(url) ? null : {'Image Extension is not correct': true};
+    return pattern.test(url) ? null : { 'Image Extension is not correct': true };
   }
 
   isManagerValidator(formGroup: FormGroup) {
@@ -670,7 +734,7 @@ export class UtilityService {
     const is_manager = formValue['is_manager'];
     const child_bots = formValue['child_bots'];
     /*if is_manager = true, child_bots should have at least one value*/
-    return (!is_manager || is_manager && (child_bots.length > 0)) ? null : {'isManagerError': true};
+    return (!is_manager || is_manager && (child_bots.length > 0)) ? null : { 'isManagerError': true };
   }
 
   pushFormControlItemInFormArray(formArray: FormArray, formBuilder: FormBuilder, item: any) {
@@ -728,7 +792,7 @@ export class UtilityService {
       document.body.appendChild(a);
       a.style = 'display: none';
       return function (data, fileName) {
-        const blob = new Blob([text], {type: 'octet/stream'}),
+        const blob = new Blob([text], { type: 'octet/stream' }),
           url = window.URL.createObjectURL(blob);
         a.href = url;
         a.download = fileName;
@@ -774,7 +838,7 @@ export class UtilityService {
       'user-access-token': null,
       granularity: null
     };
-    headerObj = {...headerDataTemplate, ...headerObj};
+    headerObj = { ...headerDataTemplate, ...headerObj };
     for (const key in headerObj) {
       if (headerObj[key] == null || headerObj[key] === '') {//0!==null but 0==""
         return false;
@@ -784,7 +848,7 @@ export class UtilityService {
   }
 
   addQueryParamsInCurrentRoute(queryParamObj: object) {
-    this.router.navigate(['.'], {queryParams: queryParamObj, relativeTo: this.activatedRoute});
+    this.router.navigate(['.'], { queryParams: queryParamObj, relativeTo: this.activatedRoute });
   }
 
   isAtleastOneValueIsDefined(obj) {
@@ -850,7 +914,7 @@ export class UtilityService {
   checkIfAllPipelineInputParamsArePopulated(pipeline: IPipelineItem[]): boolean {
 
     const inputParamsObj: object = pipeline.reduce((inputParamsObj, pipelineItem) => {
-      return {...inputParamsObj, ...pipelineItem.input_params};
+      return { ...inputParamsObj, ...pipelineItem.input_params };
     }, {});
 
     for (const param in inputParamsObj) {
@@ -862,7 +926,7 @@ export class UtilityService {
   }
 
   performFormValidationBeforeSaving(obj: IBot): IBot {
-    const objShallowClone = {...obj};
+    const objShallowClone = { ...obj };
     const validation_Keys: string[] = Object.keys(objShallowClone).filter((key) => {
       return key.includes('form_validation_');
     });
@@ -872,7 +936,7 @@ export class UtilityService {
         this.showErrorToaster(errorMessage);
         return null;
       }
-      delete  objShallowClone[key];
+      delete objShallowClone[key];
     }
     return objShallowClone;
   }
@@ -883,7 +947,8 @@ export class UtilityService {
         text: item.text,
         sourceType: 'bot',
         messageMediatype: EBotMessageMediaType.text,
-        time: Date.now()//this.getCurrentTimeInHHMM()/*todo: change it to real time*/
+        time: Date.now(),//this.getCurrentTimeInHHMM()/*todo: change it to real time*/
+        bot_message_id: null,
       };
     });
     return roomMessages;
@@ -925,7 +990,7 @@ export class UtilityService {
 
   openDialog(dialogOptions: { dialog, component, data?: any, classStr, dialogRefWrapper?: { ref: any } }): Promise<any> {
     //data: { message?: string, title?: string, actionButtonText?: string, isActionButtonDanger?:boolean }
-    let {dialog, component, data, classStr, dialogRefWrapper} = dialogOptions;
+    let { dialog, component, data, classStr, dialogRefWrapper } = dialogOptions;
     try {
       dialogRefWrapper.ref.close();//closing any previous modals
     } catch (e) {
@@ -945,10 +1010,10 @@ export class UtilityService {
 
   }
 
-  static hasRequiredField(abstractControl: NgControl): boolean{
+  static hasRequiredField(abstractControl: NgControl): boolean {
 
     if (abstractControl.validator) {
-      const validator = abstractControl.validator({}as AbstractControl);
+      const validator = abstractControl.validator({} as AbstractControl);
       if (validator && validator.required) {
         return true;
       }

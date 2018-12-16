@@ -18,6 +18,16 @@ import {LoggingService} from '../../../../../logging.service';
 import {NgForm} from '@angular/forms';
 import {ModalImplementer} from '../../../../../modal-implementer';
 import {MatDialog} from '@angular/material';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+
+
+export interface IPipelineItemV2 {
+  description:string,
+  display_values:string,
+  id:string,
+  unique_name: string,
+  pipeline_modules:IPipelineItem[]
+}
 
 @Component({
   selector: 'app-pipeline',
@@ -27,8 +37,10 @@ import {MatDialog} from '@angular/material';
 })
 export class PipelineComponent extends ModalImplementer implements OnInit {
 
+  allMatExpansionExpanded = false;
+  masterModuleCount:number;
+  panelOpenState = false;
   myObject = Object;
-  // @Input() bot: IBot;
   _bot: IBot;
   @Input() set bot(botData: IBot) {
     this._bot = botData;
@@ -45,6 +57,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   searchKeyword: string;
   buildBotType: any;
   @Output() datachanged$ = new EventEmitter();
+  pipelineModulesV2List: IPipelineItemV2[];
 
   constructor(
     private aimService: AimService,
@@ -61,6 +74,25 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
     this.iterableDiffer = this._iterableDiffers.find([]).create(null);
   }
 
+  countMasterModules(pipelineModulesV2List:IPipelineItemV2[]){
+
+    return this.pipelineModulesV2List.reduce((aggregate, pipelineModulesV2Item)=>{
+      return aggregate + pipelineModulesV2Item.pipeline_modules.length;
+    },0);
+  }
+
+  mergeInputParams(){
+    this.pipelineModulesV2List.forEach((pipelineModulesV2)=>{
+      pipelineModulesV2.pipeline_modules.forEach((masterPipelineItem)=>{
+        let index:number = this.pipeLine.findIndex((pipeLineItem)=>{
+          return masterPipelineItem.unique_name === pipeLineItem.unique_name;
+        });
+        if(index!==-1)
+          masterPipelineItem.input_params = {...masterPipelineItem.input_params, ...this.pipeLine[index].input_params};
+      })
+    })
+  }
+// /pipeline.component.ts
   ngOnInit() {
     this.buildBotType = this.activatedRoute.snapshot.data['buildBot'];
 
@@ -69,20 +101,22 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
     let url = this.constantsService.getAllPipelineModuleUrl();
     this.app$.subscribe((appState: IAppState) => {
       this.aiModules = this.utilityService.createDeepClone(appState.masterPipelineItems);
+      this.pipelineModulesV2List = this.utilityService.createDeepClone(appState.pipelineModulesV2List);
+      this.masterModuleCount = this.countMasterModules(this.pipelineModulesV2List);
       this.filterAiModules();
+      this.mergeInputParams()
     });
-    this.serverService.makeGetReq<{ objects: IPipelineItem[] }>({url})
-      .subscribe(value => {
-        debugger;
-        let masterPipelineItems = value.objects;
-        this.store.dispatch([
-          new SetPipelineModuleMasterData({masterPipelineItems: value.objects})
-        ]);
-        this.pipeLine = this.pipeLine.map((pipelineItem: IPipelineItem) => {
-          let masterPipelineItem = masterPipelineItems.find(el => el.id === pipelineItem.id);
-          return {...masterPipelineItem, ...pipelineItem};
-        });
-      });
+    // this.serverService.makeGetReq<{ objects: IPipelineItem[] }>({url})
+    //   .subscribe(value => {
+    //     let masterPipelineItems = value.objects;
+    //     this.store.dispatch([
+    //       new SetPipelineModuleMasterData({masterPipelineItems: value.objects})
+    //     ]);
+    //     this.pipeLine = this.pipeLine.map((pipelineItem: IPipelineItem) => {
+    //       let masterPipelineItem = masterPipelineItems.find(el => el.id === pipelineItem.id);
+    //       return {...masterPipelineItem, ...pipelineItem};
+    //     });
+    //   });
 
     // this.modalService.onHidden.subscribe((reason: string) => {
     //   this.prepareAndDispatch();
@@ -103,23 +137,34 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   }
 
   filterAiModules() {
-    if (!this.pipeLine || !this.aiModules) {
+
+    if (!this.pipeLine || !this.pipelineModulesV2List) {
       return;
     }
-    this.aiModules = this.aiModules.filter((aiModule) => {
-      const x = !this.pipeLine.find(pipelineItem => pipelineItem.id === aiModule.id);
-      return x;
-    });
+    // this.aiModules = this.aiModules.filter((aiModule) => {
+    //   const x = !this.pipeLine.find(pipelineItem => pipelineItem.id === aiModule.id);
+    //   return x;
+    // });
+
+    this.pipelineModulesV2List.forEach((pipelineModulesV2)=>{
+      pipelineModulesV2.pipeline_modules.forEach((masterPipelineItem)=>{
+        masterPipelineItem.is_added = !!this.pipeLine.find((pipeLineItem)=>{
+           return masterPipelineItem.unique_name === pipeLineItem.unique_name;
+        })
+      })
+    })
   }
 
   ngDoCheck() {
     const changes = this.iterableDiffer.diff(this.pipeLine);
     if (changes) {
-      this.prepareAndDispatch();
+      // this.prepareAndDispatch();
+      this.filterAiModules();
     }
   }
 
   prepareAndDispatch() {
+
     const isAllPipelineModulesInputParamsArePopulated = this.utilityService.checkIfAllPipelineInputParamsArePopulated(this.pipeLine);
     const isPipelineValidObj = {};
     isPipelineValidObj[EFormValidationErrors.form_validation_pipeline] = isAllPipelineModulesInputParamsArePopulated;
@@ -133,10 +178,16 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
     LoggingService.log(this.aiModules);
   }
 
-  openCreateBotModal(template: TemplateRef<any>, pipeline: IPipelineItem) {
+  async openInputParamModal(template: TemplateRef<any>, pipeline: IPipelineItem, addPipelineItemToPipeline?:boolean) {
+
     this.selectedPipeline = pipeline;
     // this.modalRef = this.modalService.show(template, { class: 'modal-md' });
-    this.openPrimaryModal(template);
+    this.openPrimaryModal(template)
+      .then((closedWithSubmitClick:boolean)=>{
+        if(addPipelineItemToPipeline && closedWithSubmitClick){
+          this.addPipelineItemToPipeline(pipeline);
+        }
+      });
   }
 
   test() {
@@ -149,5 +200,18 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
       this.selectedPipeline.input_params = Pipelineform.value;
     }
   }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.pipeLine, event.previousIndex, event.currentIndex);
+  }
+
+  addPipelineItemToPipeline(pipelineItem:IPipelineItem){
+    this.pipeLine.push(pipelineItem);
+  }
+
+  removePipelineItemFromPipeline(index:number){
+    this.pipeLine.splice(index,1);
+  }
+
 
 }

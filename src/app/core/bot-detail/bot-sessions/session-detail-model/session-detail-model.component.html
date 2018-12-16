@@ -76,6 +76,7 @@
                        *ngFor="let txnConversationItems of sessionMessageDataCopy|serializeSessionMessage|highlightSessionTexts:messageSearchKeyword; let i=index"
                        [ngClass]="{'border-selected-txn':txnConversationItems.transaction_id === transactionIdSelectedInModel,
                         'border-unselected-txn':txnConversationItems.transaction_id !== transactionIdSelectedInModel}">
+                    <!--<app-chat-feedback></app-chat-feedback>-->
                     <app-session-message [txnConversationItems]="txnConversationItems"
                                          (messageClickedEvent$)="transactionIdChangedInModel($event)"></app-session-message>
                   </div>

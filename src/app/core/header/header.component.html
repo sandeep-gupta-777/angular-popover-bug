@@ -19,7 +19,7 @@
           <i class="fa fa-graduation-cap"></i>
           <span class="d-none d-lg-inline">Knowledge Base</span>
         </a>
-        <a class="header-nav" routerLink="analytics2" routerLinkActive="highlight-text-on-route-match"
+        <a class="header-nav" [routerLink]="['/core','analytics2','overview']" routerLinkActive="highlight-text-on-route-match"
            *myIf="myEAllActions['Analytics']">
           <i dropdownToggle class="fa fa-bar-chart"></i>
           <span class="d-none d-lg-inline">Analytics</span>
@@ -59,7 +59,7 @@
                routerLinkActive="highlight-text-on-route-match">Profile</a>
             <a mat-menu-item class="dropdown-item cursor-pointer" (click)="logout()">Sign out</a>
             <a mat-menu-item class="dropdown-item" (click)=changeEnterprise(changeEnterpriseModal)
-            *ngIf= "enterpriseList.length > 1"  >Change enterprise</a>
+            *ngIf= "enterpriseList && enterpriseList.length > 1"  >Change enterprise</a>
             <mat-divider *myIf="myEAllActions['Get Enterprise']"></mat-divider>
             <a mat-menu-item class="dropdown-item" *myIf="myEAllActions['Get Enterprise']"
                [routerLink]="['enterpriseprofile']"

@@ -271,6 +271,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   createNewTemplatekey() {
+    debugger;
     this.newTemplateKey = this.newTemplateKey.trim();
     const isTemplateKeyUnique = !Object.keys(this.templateKeyDict).find((key) => key === this.newTemplateKey);
     if (!isTemplateKeyUnique || !this.newTemplateKey) {
@@ -346,7 +347,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   // }
 
   async openNewIntentModal(IntentModal) {
-    let dialogRefWrapper = {ref:this.modalRefWrapper};
+    let dialogRefWrapper = this.modalRefWrapper;
     let dataPromise$ = this.utilityService.openDialog({
       dialog: this.matDialog,
       component: IntentModal,

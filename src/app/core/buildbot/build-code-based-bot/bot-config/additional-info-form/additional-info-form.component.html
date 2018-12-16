@@ -42,6 +42,18 @@
         </mat-form-field>
       </div>
 
+      <div class="switch-wrapper">
+        <div class="form-control d-flex align-items-center justify-content-between pr-5">
+          <label class="pr-2">Room Close Callback</label>
+
+          <app-ui-switch
+            formControlName="room_close_callback"
+            [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
+          ></app-ui-switch>
+
+        </div>
+      </div>
+
     </fieldset>
   </div>
 

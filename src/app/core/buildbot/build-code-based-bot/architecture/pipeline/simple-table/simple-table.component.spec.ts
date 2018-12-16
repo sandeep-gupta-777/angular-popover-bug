@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Analysis2MessagesComponent } from './analysis2-messages.component';
+import { SimpleTableComponent } from './simple-table.component';
 
-describe('Analysis2MessagesComponent', () => {
-  let component: Analysis2MessagesComponent;
-  let fixture: ComponentFixture<Analysis2MessagesComponent>;
+describe('SimpleTableComponent', () => {
+  let component: SimpleTableComponent;
+  let fixture: ComponentFixture<SimpleTableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ Analysis2MessagesComponent ]
+      declarations: [ SimpleTableComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(Analysis2MessagesComponent);
+    fixture = TestBed.createComponent(SimpleTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

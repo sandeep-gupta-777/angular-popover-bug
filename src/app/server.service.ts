@@ -1,52 +1,41 @@
-
 import {catchError, map, tap} from 'rxjs/operators';
 import {Injectable, isDevMode} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError, throwError as _throw} from 'rxjs';
 import {ConstantsService} from './constants.service';
-import {Select, Selector, Store} from '@ngxs/store';
+import {Select, Store} from '@ngxs/store';
 import {IUser} from './core/interfaces/user';
 import {IHeaderData} from '../interfaces/header-data';
-import {IOverviewInfoResponse, IOverviewInfoPostBody} from '../interfaces/Analytics2/overview-info';
+import {IOverviewInfoResponse} from '../interfaces/Analytics2/overview-info';
 
 import {UtilityService} from './utility.service';
-import {
-  SaveVersionInfoInBot,
-  SetAllBotListAction,
-  SetCodeBasedBotListAction,
-  SetPipeLineBasedBotListAction,
-  UpdateBotInfoByIdInBotInBotList
-} from './core/view-bots/ngxs/view-bot.action';
-import { IBot, IBotResult, IBotVersionResult } from './core/interfaces/IBot';
-import { ActivatedRoute, Router } from '@angular/router';
+import {SaveVersionInfoInBot, SetAllBotListAction, UpdateBotInfoByIdInBotInBotList} from './core/view-bots/ngxs/view-bot.action';
+import {IBot, IBotResult, IBotVersionResult} from './core/interfaces/IBot';
+import {Router} from '@angular/router';
 import {
   SetAutoLogoutTime,
   SetBackendURlRoot,
   SetMasterIntegrationsList,
   SetMasterProfilePermissions,
-  SetProgressValue
+  SetPipelineItemsV2
 } from './ngxs/app.action';
-import {IIntegrationMasterListItem, IIntegrationOption} from '../interfaces/integration-option';
+import {IIntegrationMasterListItem} from '../interfaces/integration-option';
 import {ICustomNerItem} from '../interfaces/custom-ners';
 
 
-
-
 import {IConsumerDetails} from './chat/ngxs/chat.state';
-import {EBotMessageMediaType, EChatFrame, IMessageData, IRoomData} from '../interfaces/chat-session-state';
+import {IMessageData, IRoomData} from '../interfaces/chat-session-state';
 import {
   AddMessagesToRoomByRoomId,
-  AddNewRoom, ChangeBotIsThinkingDisplayByRoomId,
-  ChangeFrameAction,
-  ResetChatState,
-  SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
-  SetCurrentRoomID, ToggleChatWindow
+  ChangeBotIsThinkingDisplayByRoomId,
+  SetCurrentBotDetailsAndResetChatStateIfBotMismatch
 } from './chat/ngxs/chat.action';
 import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 import {IProfilePermission} from '../interfaces/profile-action-permission';
 import {EHttpVerbs, PermissionService} from './permission.service';
-import {ELogType, LoggingService} from './logging.service';
+import {LoggingService} from './logging.service';
 import {EventService} from './event.service';
+import {IPipelineItemV2} from './core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
 
 declare var IMI: any;
 declare var $: any;
@@ -70,7 +59,9 @@ export class ServerService {
     private permissionService: PermissionService,
     private constantsService: ConstantsService) {
     this.loggeduser$.subscribe((value) => {
-      if (!value || !value.user) { return; }
+      if (!value || !value.user) {
+        return;
+      }
       this.AUTH_TOKEN = value.user.auth_token && value.user.auth_token;
       this.X_AXIS_TOKEN = value.user.user_access_token && value.user.user_access_token;
     });
@@ -84,9 +75,9 @@ export class ServerService {
   createHeaders(headerData?: any): HttpHeaders {
     let headers = new HttpHeaders();
     let tokenData: IHeaderData = {};
-    tokenData = { 'user-access-token': this.X_AXIS_TOKEN };
-    tokenData = { ...tokenData, 'auth-token': this.AUTH_TOKEN };
-    tokenData = { ...tokenData, 'content-type': 'application/json' };
+    tokenData = {'user-access-token': this.X_AXIS_TOKEN};
+    tokenData = {...tokenData, 'auth-token': this.AUTH_TOKEN};
+    tokenData = {...tokenData, 'content-type': 'application/json'};
 
     headerData = {
       ...tokenData,
@@ -102,16 +93,8 @@ export class ServerService {
     return headers;
   }
 
-  showErrorMessageForErrorTrue({ error, message }) {
-    try {
-      if (error) {
-        this.utilityService.showErrorToaster(message);
-        return true;
-      }
-    } catch (e) {
-      console.log(e);
-    }
-    return false;
+  showErrorMessageForErrorTrue({error, message}) {
+    this.utilityService.showErrorToaster(message);
   }
 
   makeGetReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<any> {
@@ -143,7 +126,8 @@ export class ServerService {
 
   handleErrorFromServer(e) {
 
-    this.showErrorMessageForErrorTrue(e);
+    let arg = (e.error && e.error.error) ? e.error : e;
+    this.showErrorMessageForErrorTrue(arg);
     this.changeProgressBar(false, 100);
     if (isDevMode()) {
       LoggingService.error(e);
@@ -153,23 +137,13 @@ export class ServerService {
   }
 
   makeGetReqToDownloadFiles(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }) {
-    const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
-    if (!reqObj.noValidateUser && isApiAccessDenied) {
-      console.log(`api access not allowed:${reqObj.url}`);
-
-      return throwError(`api access not allowed:${reqObj.url}`);
-    }
+    this.checkApiAccess(reqObj, EHttpVerbs.GET);
     const headers = this.createHeaders(reqObj.headerData);
 
     this.changeProgressBar(true, 0);
     return this.httpClient.get(reqObj.url, {headers: headers, responseType: 'text'}).pipe(
       map((value: any) => {
-        if (value && value.error) {
-          this.showErrorMessageForErrorTrue(value);
-          return throwError(value);
-        } else {
-          return value;
-        }
+        return this.checkForErrorTrue(value);
       }),
       tap((value) => {
         this.changeProgressBar(false, 100);
@@ -177,34 +151,24 @@ export class ServerService {
       }),
       catchError((e: any) => {
         return this.handleErrorFromServer(e);
-        // LoggingService.error(e);
-        // this.changeProgressBar(false, 100);
-        //
-        // this.utilityService.showErrorToaster(e);
-        // return _throw('error');
       }),);
   }
 
-  makeDeleteReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<any> {
-
-    const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.DELETE);
+  checkApiAccess(reqObj, verb:EHttpVerbs){
+    const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, verb);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
       console.log(`api access not allowed:${reqObj.url}`);
-
       return throwError(`api access not allowed:${reqObj.url}`);
     }
+  }
 
+  makeDeleteReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<any> {
+    this.checkApiAccess(reqObj, EHttpVerbs.DELETE);
     const headers = this.createHeaders(reqObj.headerData);
-
     this.changeProgressBar(true, 0);
     return this.httpClient.delete<T>(reqObj.url, {headers: headers}).pipe(
       map((value: any) => {
-        if (value && value.error) {
-          this.showErrorMessageForErrorTrue(value);
-          return throwError(value);
-        } else {
-          return value;
-        }
+        return this.checkForErrorTrue(value);
       }),
       tap((value) => {
         this.changeProgressBar(false, 100);
@@ -212,42 +176,18 @@ export class ServerService {
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
-        // LoggingService.error(e);
-        // this.showErrorMessageForErrorTrue(e)
-        // this.changeProgressBar(false, 100);
-        //
-        // this.utilityService.showErrorToaster(e);
-        // return _throw('error');
       }),);
   }
 
   makePostReq<T>(reqObj: { url: string, body: any, headerData?: any, dontShowProgressBar?: boolean, noValidateUser?: boolean }): Observable<any> {
-
-    const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.POST);
-    if (!reqObj.noValidateUser && isApiAccessDenied) {
-      if (isDevMode()) {
-        this.utilityService.showErrorToaster("Api access not allowed");
-      }
-      console.log(`api access not allowed:${reqObj.url}`);
-      return throwError(`api access not allowed:${reqObj.url}`);
-
-    }
-
+    this.checkApiAccess(reqObj, EHttpVerbs.POST);
     const headers = this.createHeaders(reqObj.headerData);
     if (!reqObj.dontShowProgressBar) {
       this.changeProgressBar(true, 0);
     }
     return this.httpClient.post<T>(reqObj.url, reqObj.body, {headers: headers}).pipe(
       map((value: any) => {
-
-
-        if (value && value.error) {
-          // this.showErrorMessageForErrorTrue(value); //{error: true, message: "Error"};
-          throw value;
-          // return throwError(value);
-        } else {
-          return value;
-        }
+        return this.checkForErrorTrue(value);
       }),
       tap((value) => {
         this.IncreaseAutoLogoutTime();
@@ -257,28 +197,18 @@ export class ServerService {
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
-        //
-        // LoggingService.error(e);
-        // this.showErrorMessageForErrorTrue(e);
-        // this.changeProgressBar(false, 100);
-        // this.utilityService.showErrorToaster(e);
-        // return _throw('error');
       }),);
   }
 
   makePutReq<T>(reqObj: { url: string, body: any, headerData?: IHeaderData }): Observable<any> {
+
+    this.checkApiAccess(reqObj, EHttpVerbs.PUT);
     const headers = this.createHeaders(reqObj.headerData);
     this.changeProgressBar(true, 0);
 
     return this.httpClient.put<T>(reqObj.url, JSON.stringify(reqObj.body), {headers: headers}).pipe(
       map((value: any) => {
-
-        if (value && value.error) {
-          this.showErrorMessageForErrorTrue(value);
-          return throwError(value);
-        } else {
-          return value;
-        }
+        return this.checkForErrorTrue(value);
       }),
       tap((value) => {
         this.IncreaseAutoLogoutTime();
@@ -286,13 +216,17 @@ export class ServerService {
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
-        // this.showErrorMessageForErrorTrue(e.error) || this.showErrorMessageForErrorTrue(e);
-        //
-        // this.changeProgressBar(false, 100);
-        // return _throw('error');
-      }),);
+      }));
   }
 
+
+  checkForErrorTrue(value){
+    if (value && value.error === true) {
+      throw new Error(value.message);
+    } else {
+      return value;
+    }
+  }
 
   fetchSpecificBotFromServerAndUpdateBotList(bot) {
     const getBotByTokenUrl = this.constantsService.getSpecificBotByBotTokenUrl();
@@ -307,20 +241,20 @@ export class ServerService {
           return bot.id === bot.id;
         });
         return this.store.dispatch([
-          new UpdateBotInfoByIdInBotInBotList({ data: bot, botId: bot.id })
+          new UpdateBotInfoByIdInBotInBotList({data: bot, botId: bot.id})
         ]);
       }));
   }
 
   getOverviewInfo<T>(body: any): Observable<IOverviewInfoResponse> {
     const url = this.constantsService.getOverViewInfoUrl();
-    return this.makePostReq<IOverviewInfoResponse>({ url, body });
+    return this.makePostReq<IOverviewInfoResponse>({url, body});
   }
 
   IncreaseAutoLogoutTime() {
     const autoLogoutInterval = 3600 * 1000; //3600*1000
     this.store.dispatch([
-      new SetAutoLogoutTime({ time: Date.now() + autoLogoutInterval })
+      new SetAutoLogoutTime({time: Date.now() + autoLogoutInterval})
     ]);
   }
 
@@ -335,7 +269,7 @@ export class ServerService {
         // botResult.objects.forEach((bot) => {
         //   bot.bot_type !== 'genbot' ? codeBasedBotList.push(bot) : pipelineBasedBotList.push(bot);
         // });
-        this.store.dispatch(new SetAllBotListAction({ botList: botResult.objects }));
+        this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
         // this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
         // this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
       }));
@@ -347,18 +281,30 @@ export class ServerService {
     //   let enterprise_unique_name = this.activatedRoute.snapshot.queryParams['enterprise_unique_name'];//testingbot
     //   if (!this.bot_unique_name) return;
     const url = this.constantsService.getNSetChatPreviewBotUrl(bot_unique_name, enterprise_unique_name);
-    this.makeGetReq({ url, noValidateUser: true })
+    this.makeGetReq({url, noValidateUser: true})
       .subscribe((bot: IBot) => {
         // this.user_first_name = bot.enterprise_name;
         // this.enterprise_logo = bot.enterprise_logo;
         // this.user_email =bot.enterprise_name;
         this.store.dispatch([
-          new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({ bot }),
+          new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({bot}),
           // new ToggleChatWindow({open:true})
         ]);
       });
   }
 
+
+  getNSetPipelineModuleV2() {
+    const url = this.constantsService.getPipelineModuleV2();
+    return this.makeGetReq<{ meta: any, objects: IPipelineItemV2[] }>({url})
+      .subscribe((value) => {
+        this.store.dispatch([
+          new SetPipelineItemsV2({
+            data: value.objects
+          })
+        ]);
+      });
+  }
 
   getNSetIntegrationList() {
     const url = this.constantsService.getMasterIntegrationsList();
@@ -387,13 +333,13 @@ export class ServerService {
     //   )
     // ]);
     // this.
-    EventService.progressBar$.emit({loading: loading, value: value})
+    EventService.progressBar$.emit({loading: loading, value: value});
 
   }
 
   updateOrSaveCustomNer(selectedOrNewRowData: ICustomNerItem, bot?: IBot) {
     let body: ICustomNerItem;
-    const headerData: IHeaderData = { 'bot-access-token': bot && bot.bot_access_token };
+    const headerData: IHeaderData = {'bot-access-token': bot && bot.bot_access_token};
     let url, methodStr;
     if (selectedOrNewRowData && selectedOrNewRowData.id) {/*update customner*/
       url = this.constantsService.updateOrDeleteCustomBotNER(selectedOrNewRowData.id);
@@ -408,7 +354,7 @@ export class ServerService {
       methodStr = 'makePostReq';
       body = selectedOrNewRowData;
     }
-    return this[methodStr]({ url, body, headerData });
+    return this[methodStr]({url, body, headerData});
   }
 
   deleteNer(ner_id: number, bot?: IBot) {
@@ -422,14 +368,14 @@ export class ServerService {
     } else {
       url = this.constantsService.updateOrDeleteEnterpriseNer(ner_id);
     }
-    return this.makeDeleteReq({ url, headerData });
+    return this.makeDeleteReq({url, headerData});
   }
 
   getAllVersionOfBotFromServerAndStoreInBotInBotList(botId, bot_access_token) {
 
     const url = this.constantsService.getAllVersionsByBotId();
     // let botId = this.bot.id;
-    this.makeGetReq<IBotVersionResult>({ url, headerData: { 'bot-access-token': bot_access_token } })
+    this.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': bot_access_token}})
       .subscribe((botVersionResult) => {
         botVersionResult.objects.forEach((version) => {
           version.changed_fields = {
@@ -440,16 +386,16 @@ export class ServerService {
             'workflows': false
           };
           version.validation = {
-            'df_template': { error: false },
-            'df_rules': { error: false },
-            'generation_rules': { error: false },
-            'generation_templates': { error: false },
-            'workflow': { error: false },
+            'df_template': {error: false},
+            'df_rules': {error: false},
+            'generation_rules': {error: false},
+            'generation_templates': {error: false},
+            'workflow': {error: false},
           };
         });
 
         this.store.dispatch([
-          new SaveVersionInfoInBot({ data: botVersionResult.objects, botId: botId })
+          new SaveVersionInfoInBot({data: botVersionResult.objects, botId: botId})
         ]);
       });
   }
@@ -513,15 +459,15 @@ export class ServerService {
       } catch (e) {
         console.error('Unable to parse json from IMIConnect callback', generatedMessagesStr);
         console.error('Assuming its a string');
-        generatedMessages = [{ text: generatedMessagesStr }];
+        generatedMessages = [{text: generatedMessagesStr, bot_message_id: null}];
       }
-      const serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages);
+      const serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages, null);
       this.store.dispatch([
         new AddMessagesToRoomByRoomId({
           id: currentRoomId,
           messageList: serializedMessages
         }),
-        new ChangeBotIsThinkingDisplayByRoomId({ roomId: currentRoomId, shouldShowBotIsThinking: false }),
+        new ChangeBotIsThinkingDisplayByRoomId({roomId: currentRoomId, shouldShowBotIsThinking: false}),
         // new SetCurrentRoomID({id: 123456789.room.id})
       ]);
     };
@@ -618,10 +564,10 @@ export class ServerService {
 
 
   getNSetConfigData$() {
-    return this.makeGetReq({ url: '/static/config.json', noValidateUser: true })
+    return this.makeGetReq({url: '/static/config.json', noValidateUser: true})
       .pipe(tap(((value: { 'backend_url': string, 'version': string }) => {
         this.store.dispatch([
-          new SetBackendURlRoot({ url: value.backend_url })
+          new SetBackendURlRoot({url: value.backend_url})
         ]);
       })));
   }
@@ -680,7 +626,7 @@ export class ServerService {
       'consumer': startNewChatData.consumerDetails
     };
 
-    return this.makePostReq({ url, body, headerData });
+    return this.makePostReq({url, body, headerData});
   }
 
   getNSetMasterPermissionsList() {
@@ -688,7 +634,7 @@ export class ServerService {
     return this.makeGetReq<{ meta: any, objects: IProfilePermission[] }>({url: allActionsUrl}).pipe(
       map((value: { objects: IProfilePermission[] }) => {
         this.store.dispatch([
-          new SetMasterProfilePermissions({ masterProfilePermissions: value.objects })
+          new SetMasterProfilePermissions({masterProfilePermissions: value.objects})
         ]);
         // this.constantsService.setPermissionsDeniedMap(value.objects)
       }));

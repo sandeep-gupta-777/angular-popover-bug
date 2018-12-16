@@ -23,6 +23,6 @@ export class RequiredIfOneFilledValidator implements Validator {
     // controlNames.shift();//enabled is not counted
     // const filledCount = controlNames.filter(name => !!controls[name].value).length
     //
-    // return filledCount > 0 && filledCount < controlNames.length ? { required: true } : null;
+    // return filledCount > 0 && filledCount < controlNames.length ? { requiredClass: true } : null;
   }
 }

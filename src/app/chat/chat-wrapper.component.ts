@@ -13,7 +13,7 @@ import {
   SetConsumerDetail,
   SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
   ResetChatState,
-  ChangeBotIsThinkingDisplayByRoomId
+  ChangeBotIsThinkingDisplayByRoomId, UpdateBotMessage
 } from './ngxs/chat.action';
 import {ServerService} from '../server.service';
 import {ConstantsService} from '../constants.service';
@@ -45,13 +45,25 @@ export interface IBotPreviewFirstMessage {
   'transaction_id': '1cba048e58684206b8c3912b7f7e1887';
 }
 
+export enum EChatFeedback {
+  NEGATIVE = 'NEGATIVE',
+  POSITIVE = 'POSITIVE',
+  NONE = 'NONE',
+}
+
+export interface IChatFeedback {
+  'bot_message_id': number,
+  'consumer_id': number,
+  'feedback': EChatFeedback
+}
+
 @Component({
   selector: 'app-chat-wrapper',
   templateUrl: './chat-wrapper.component.html',
   styleUrls: ['./chat-wrapper.component.scss']
 })
 export class ChatWrapperComponent implements OnInit {
-  showOverlay=false;
+  showOverlay = false;
   @Select() chatsessionstate$: Observable<IChatSessionState>;
   @Select() loggeduser$: Observable<IAuthState>;
   @Select() botlist$: Observable<ViewBotStateModel>;
@@ -91,17 +103,19 @@ export class ChatWrapperComponent implements OnInit {
   ) {
   }
 
-  toggleOverlay(){
-    setTimeout(()=>{
+  toggleOverlay() {
+    setTimeout(() => {
       this.showOverlay = !this.showOverlay;
-    },0)
+    }, 0);
   }
 
   ngOnInit() {
     LoggingService.log('inside chat-wrapper');
     this.loggeduser$.subscribe((loggeduser) => {
       try {
-        if (!this.loggeduser) { return; }
+        if (!this.loggeduser) {
+          return;
+        }
         this.user_first_name = loggeduser.user.first_name || 'Anonymous User';
         this.user_email = loggeduser.user.email;
       } catch (e) {
@@ -116,7 +130,9 @@ export class ChatWrapperComponent implements OnInit {
         const welcomeScreenBotIdStr = queryparam.get('preview');
         const enterprise_unique_name = queryparam.get('enterprise_unique_name');
         const bot_unique_name = queryparam.get('bot_unique_name');
-        if (!bot_unique_name || !enterprise_unique_name) { return; }
+        if (!bot_unique_name || !enterprise_unique_name) {
+          return;
+        }
         this.enterprise_unique_name = enterprise_unique_name;
         if (enterprise_unique_name && bot_unique_name && bot_unique_name) {
           this.serverService.getNSetChatPreviewBot(bot_unique_name, enterprise_unique_name);
@@ -135,7 +151,9 @@ export class ChatWrapperComponent implements OnInit {
     this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
       try {
         this.windowOpen = chatSessionState.opened;
-        if (!chatSessionState) { return; }
+        if (!chatSessionState) {
+          return;
+        }
 
         const hasPreviewBotChanged = chatSessionState.currentBotDetails &&
           (!this.currentBot || this.currentBot.id !== chatSessionState.currentBotDetails.id);
@@ -148,11 +166,11 @@ export class ChatWrapperComponent implements OnInit {
           this.serverService.initializeIMIConnect(chatSessionState.currentBotDetails, chatSessionState.currentRoomId);
         }
 
-        this.currentBot = chatSessionState.currentBotDetails; /**/
+        this.currentBot = chatSessionState.currentBotDetails;
         if (this.currentBot) {
           this.enterprise_unique_name = this.currentBot.enterprise_unique_name;
           this.bot_access_token = this.currentBot.bot_access_token; //this.currentRoom && this.currentRoom.bot_access_token || currentBot.bot_access_token;
-          this.chatWindowTitle =  chatSessionState.currentBotDetails.name;
+          this.chatWindowTitle = chatSessionState.currentBotDetails.name;
         }
         if (chatSessionState.currentRoomId) {
           this.currentRoom = chatSessionState.rooms.find((room) => room.id === chatSessionState.currentRoomId);
@@ -258,31 +276,32 @@ export class ChatWrapperComponent implements OnInit {
     this.store.dispatch(new ToggleChatWindow({open: false}));
   }
 
-  // sendMessageByHuman(messageByHuman: string) {
   sendMessageByHuman(messageData: { messageByHuman: string, room: IRoomData }) {
     LoggingService.log('sending message by human');
-    // this.showBotIsThinking = true;
     const messageByHuman = messageData.messageByHuman;
     const room: IRoomData = messageData.room;
-    if (messageByHuman.trim() === '') { return; }
+    if (messageByHuman.trim() === '') {
+      return;
+    }
     this.store.dispatch([new AddMessagesToRoomByRoomId({
-      id: room.id,
-      messageList: [{
-        text: messageByHuman,
-        sourceType: 'human',
-        messageMediatype: EBotMessageMediaType.text,
-        time: Date.now()//this.utilityService.getCurrentTimeInHHMM()
-      }],
-    }),
-      new ChangeBotIsThinkingDisplayByRoomId({shouldShowBotIsThinking: true, roomId: messageData.room.id})
+        id: room.id,
+        messageList: [{
+          text: messageByHuman,
+          sourceType: 'human',
+          messageMediatype: EBotMessageMediaType.text,
+          time: Date.now(),//this.utilityService.getCurrentTimeInHHMM(),
+          bot_message_id: null
+        }],
+      }),
+        new ChangeBotIsThinkingDisplayByRoomId({shouldShowBotIsThinking: true, roomId: messageData.room.id})
       ]
     )
       .subscribe(() => {
         /*
- * Before starting a new chat, we need to check if the currentBot has imiconnect
- * integration is on or not, its not on=> use send API
- * if its on => use IMI connect
- * */
+        * Before starting a new chat, we need to check if the currentBot has imiconnect
+        * integration is on or not, its not on=> use send API
+        * if its on => use IMI connect
+        * */
         let shouldStartChatViaImiConnectSDK = false;
         try {
           const botImiConnectIntegrationInfo = this.currentBot.integrations.fulfillment_provider_details.imiconnect;
@@ -337,6 +356,35 @@ export class ChatWrapperComponent implements OnInit {
       });
   }
 
+  sendFeedback(feedback: IChatFeedback) {
+    let roomId = this.currentRoom.id;
+    feedback.consumer_id = this.currentRoom.consumer_id;
+    let url = this.constantsService.getChatFeedbackUrl();
+    let headerData: IHeaderData = {
+      'bot-access-token': this.currentRoom.bot_access_token,
+      'auth-token': null,
+      'user-access-token': null
+    };
+    this.serverService.makePutReq({url, body: feedback, headerData})
+      .subscribe((val) => {
+        this.store.dispatch([
+          new UpdateBotMessage({
+            room_id: roomId,
+            feedback: feedback.feedback,
+            bot_message_id: feedback.bot_message_id
+          })
+        ]);
+      },()=>{
+
+        this.store.dispatch([
+          new UpdateBotMessage({
+            room_id: roomId,
+            feedback: EChatFeedback.NONE,
+            bot_message_id: feedback.bot_message_id
+          })
+        ]);
+      });
+  }
 
 
 }

@@ -18,6 +18,8 @@ import {ServerService} from '../server.service';
 import {ChatService} from '../chat.service';
 import {MyMaterialModule} from '../my-material.module';
 import {ChatConsumerFormComponent} from '../chat-consumer-form/chat-consumer-form.component';
+import {SharedModule} from '../shared.module';
+import {ChatFeedbackComponent} from '../chat-feedback/chat-feedback.component';
 
 const routes: Route[] = [
   // {path: 'preview',outlet: 'preview', component: ChatWrapperComponent},
@@ -44,7 +46,9 @@ const routes: Route[] = [
     FormsModule,
     HttpClientModule,
     ClickOutsideModule,
-    MyMaterialModule
+    MyMaterialModule,
+    SharedModule//TODO: remove this later, this is here because of ChatFeedbackComponent
+
   ],
   exports: [
     MsToHhMmPipe,

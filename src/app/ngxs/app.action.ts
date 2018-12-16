@@ -3,6 +3,7 @@ import {IIntegrationMasterListItem} from '../../interfaces/integration-option';
 import {IProfilePermission} from '../../interfaces/profile-action-permission';
 import {ICustomNerItem} from '../../interfaces/custom-ners';
 import {IPipelineItem} from '../../interfaces/ai-module';
+import {IPipelineItemV2} from '../core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
 
 export class SetStateFromLocalStorageAction {
   static readonly type = '[app] set state from localstorage';
@@ -43,6 +44,14 @@ export class SetMasterIntegrationsList {
 
   constructor(public payload: {
     masterIntegrationList: IIntegrationMasterListItem[]
+  }) {}
+}
+
+export class SetPipelineItemsV2 {
+  static readonly type = '[app] set SetPipelineItemsV2';
+
+  constructor(public payload: {
+    data: IPipelineItemV2[]
   }) {}
 }
 

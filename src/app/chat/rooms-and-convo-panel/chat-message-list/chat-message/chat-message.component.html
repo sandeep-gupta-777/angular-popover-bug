@@ -18,8 +18,6 @@
 </div>
 <!--chat bubbles for text message ends-->
 
-<!--<p>{{messageData|json}}</p>-->
-
 <div class="row mt-1 style-children-scrollbar-x" *ngIf="messageData.messageMediatype !== myEBotMessageMediaType.text && messageData.sourceType!=='session_expired'">
   <div class="p-0 text-center" style="width: 40px">
     <img class="rounded-circle"
@@ -35,8 +33,6 @@
       (sendMessageToBotServer$)="sendMessageToBotServer$.emit($event)"
     ></app-card-carousel>
   </div>
-  <!--<p *ngIf="messageData.messageMediatype===myEBotMessageMediaType.quickReply">hello</p>-->
-  <!---->
   <div class="col-10 text-left px-0"
        *ngIf="messageData.messageMediatype===myEBotMessageMediaType.quickReply">
     <!--<div class="d-inline-block">-->
@@ -56,23 +52,6 @@
   </div>
 </div>
 
-<!--chat bubbles for media message started-->
-<!--<app-card-carousel-->
-<!--*ngIf="messageData.messageMediatype===myEBotMessageMediaType.image"-->
-<!--[messageData]="messageData"-->
-<!--(sendMessageToBotServer$)="sendMessageToBotServer$.emit($event)"-->
-<!--&gt;</app-card-carousel>-->
-
-<!--<app-quick-reply-->
-<!--*ngIf="messageData.messageMediatype===myEBotMessageMediaType.quickReply"-->
-<!--[messageData]="messageData"-->
-<!--(sendMessageToBotServer$)="sendMessageToBotServer$.emit($event)"-->
-<!--&gt;</app-quick-reply>-->
-
-
-<!--chat bubbles for media message ends-->
-
-
 <div class="row d-flex align-items-center session-expire-info-row" *ngIf="messageData.sourceType==='session_expired'">
   <hr>
   <i class="px-2">New session started</i>
@@ -80,4 +59,8 @@
 </div>
 
 
-<!--carousal starts-->
+<app-chat-feedback
+  *ngIf="isLastMessage && messageData.sourceType === 'bot' && messageData.bot_message_id"
+  (chatMessageFeedback$)="feedback($event)"
+  [feedback]="messageData.feedback"
+></app-chat-feedback>

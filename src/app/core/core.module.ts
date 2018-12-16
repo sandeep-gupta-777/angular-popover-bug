@@ -45,6 +45,7 @@ import {CreateBotDialogComponent} from './view-bots/create-bot-dialog/create-bot
 import {ModalConfirmComponent} from '../modal-confirm/modal-confirm.component';
 import {GentemplateEditKeyComponent} from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
 import {BotSessionModalWrapperComponent} from '../bot-session-modal-wrapper/bot-session-modal-wrapper.component';
+import { UrlValidatorDirective } from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-input-caraosal/url-validator.directive';
 const routes: Route[] = [
   {
 
@@ -107,7 +108,7 @@ const routes: Route[] = [
     ReportControlsComponent,
     TestComponent,
     ChatPreviewNewPageComponent,
-    FooterComponent,
+    FooterComponent
     // DisplayNameForKeyIntegrationPipe,
 
     /*added after lazy loading*/

@@ -7,9 +7,10 @@
         <!--<input-->
                <!--formControlName="data_persistence_period" type="number"-->
                <!--class="form-control"-->
-               <!--placeholder="Time until Data will retain((in days)" id="name" required>-->
+               <!--placeholder="Time until Data will retain((in days)" id="name" requiredClass>-->
         <app-bot-config-input
           displayName="Data retention period [days]"
+          [isRequired]="true"
           placeholder="Time until Data will retain((in days)"
           formControlName="data_persistence_period"></app-bot-config-input>
       </div>
@@ -24,6 +25,7 @@
         <app-bot-config-input
           displayName="Consent disclaimer message"
           placeholder="Consent disclaimer message"
+          [isDisabled]="!advanced_data_protection"
           formControlName="consent_message"></app-bot-config-input>
 
       </div>
@@ -33,6 +35,7 @@
           <label class="pr-2">Advanced Data Protection</label>
           <app-ui-switch
             formControlName="advanced_data_protection"
+            [(ngModel)]="advanced_data_protection"
             [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
           ></app-ui-switch>
         </div>
@@ -56,17 +59,6 @@
             formControlName="blanket_consent"
             [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
           ></app-ui-switch>
-        </div>
-      </div>
-      <div class="switch-wrapper">
-        <div class="form-control d-flex align-items-center justify-content-between pr-5">
-          <label class="pr-2">Room Close Callback</label>
-
-          <app-ui-switch
-            formControlName="room_close_callback"
-            [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
-          ></app-ui-switch>
-
         </div>
       </div>
     </fieldset>

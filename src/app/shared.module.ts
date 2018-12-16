@@ -17,7 +17,7 @@ import {KnowledgeBaseComponent} from './core/buildbot/build-code-based-bot/archi
 import {KnowledgeBasePresentationComponent} from './core/buildbot/build-code-based-bot/architecture/knowledge-base/knowledge-base-presentation/knowledge-base-presentation.component';
 import {ChartComponent} from './core/chart/chart.component';
 import {HandsontableComponent} from './handsontable/handsontable.component';
-import {ChartModule} from 'angular-highcharts';
+// import {ChartModule} from 'angular-highcharts';
 import {HighlightSessionTexts} from './highlight-session-texts.pipe';
 import {FilterActiveBotPipe} from './filter-active-bot.pipe';
 import {IntegrationImageCountPipe} from './integration-image-count.pipe';
@@ -43,6 +43,7 @@ import {ImiLoaderComponent} from './imi-loader/imi-loader.component';
 import {PipelineFilterPipe} from './pipeline-filter.pipe';
 import {EnterpriseListComponent} from './auth/enterprise-list/enterprise-list.component';
 import {GenericObjFilterPipe} from './generic-obj-filter.pipe';
+import {ChatFeedbackComponent} from './chat-feedback/chat-feedback.component';
 
 @NgModule({
   declarations: [
@@ -79,16 +80,16 @@ import {GenericObjFilterPipe} from './generic-obj-filter.pipe';
     IntegrationNameFormatterPipe,
     HighlightDirective,
     SafeUrlPipe,
-    ImiLoaderComponent
+    ImiLoaderComponent,
+    ChatFeedbackComponent
   ],
   imports: [
-
     MyMaterialModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
     RouterModule,
-    ChartModule,
+    // ChartModule,
     ClickOutsideModule,
   ],
   exports: [
@@ -98,7 +99,7 @@ import {GenericObjFilterPipe} from './generic-obj-filter.pipe';
     SplashScreenComponent,
     HighlightDirective,
     SafeUrlPipe,
-    ChartModule,
+    // ChartModule,
     IntegrationLogosPipe,
     DataManageFormComponent,
     BasicInfoFormComponent,
@@ -131,7 +132,8 @@ import {GenericObjFilterPipe} from './generic-obj-filter.pipe';
     IntegrationNameFormatterPipe,
     ClickOutsideModule,
     MyMaterialModule,
-    ImiLoaderComponent
+    ImiLoaderComponent,
+    ChatFeedbackComponent
   ]
 })
 export class SharedModule {

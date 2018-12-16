@@ -212,6 +212,10 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/botversioning/codevalidation/';
   }
 
+  getPipelineModuleV2(){
+    return this.BACKEND_URL + 'api/v1/moduledetails/?limit=1000';
+  }
+
   setLoggedUser(loggedUser: IUser) {
     this.loggedUser = loggedUser;
   }
@@ -337,6 +341,8 @@ export class ConstantsService {
     return this.BACKEND_URL + 'analytics/channelWiseSessions/'; //https://dev.imibot.ai/analytics/channelWiseSessions
   }
 
+
+
   getChannelWiseFlowsPerSessionUrl() {
     return this.BACKEND_URL + 'analytics/channelWiseFlowsPerSession/'; //https://dev.imibot.ai/analytics/channelWiseFlowsPerSession
   }
@@ -350,7 +356,7 @@ export class ConstantsService {
   }
 
   getReportHistoryUrl(limit = 1, offset = 10, order_by ) {
-    return this.BACKEND_URL + `api/v1/reporthistory/?limit=${limit}&offset=${offset}&order_by=${order_by}`; //https://dev.imibot.ai/reporthistory?limit=1&offset=10
+    return this.BACKEND_URL + `api/v1/reporthistory?limit=${limit}&offset=${offset}&order_by=-created_at`;; //https://dev.imibot.ai/reporthistory?limit=1&offset=10
   }
 
   getReportDeleteUrl(report_id: number) {
@@ -410,6 +416,24 @@ export class ConstantsService {
 
   getAllActionsUrl() {
     return this.BACKEND_URL + `api/v1/actions/?limit=100`; //https://dev.imibot.ai/api/v1/actions/
+  }
+
+  getChatFeedbackUrl(){
+    return this.BACKEND_URL + 'api/v1/message/feedback/';
+  }
+
+  appendQueryParamsInUrl(url:string, queryParams:object){
+    let urlObj = new URL(url);
+    for(let key in queryParams){
+      urlObj.searchParams.append(key, queryParams[key]);
+    }
+    return urlObj.href
+  }
+
+  getRoomWithFilters(queryParams:object){
+    let url = this.BACKEND_URL + 'api/v1/room/';
+    let urlWithQueryParams =   this.appendQueryParamsInUrl(url, queryParams);
+    return urlWithQueryParams;
   }
 
   getDeleteBotUrl(id: number) {
@@ -939,8 +963,9 @@ export class ConstantsService {
       value: '',
       type: 'time',
       displayValue: 'Updated At',
-      search: true,
+      search: false,
       searchValue: true,
+      dateRange:true
     },
     channels: {
       originalKey: '',

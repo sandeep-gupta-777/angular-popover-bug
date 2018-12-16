@@ -379,7 +379,7 @@ var IMI = IMI || {
     }
 };
 
-//required urls
+//requiredClass urls
 
 var getsubscriptions = authdomain + "/subscriptions";
 var rtmsAPIURL = authdomain + "/api/v1";
@@ -3355,7 +3355,7 @@ var timeStampInterval = 30000;//in milliseconds
         InvalidToken: {"code": 6027, "description": "Invalid token"},
         InvalidAuthorizationRequest: {"code": 6028, "description": "Invalid authorization request"},
         TokenExpired: {"code": 6029, "description": "Token is expired"},
-        TokenRequired: {"code": 6030, "description": "Token is required"},
+        TokenRequired: {"code": 6030, "description": "Token is requiredClass"},
         Unknown: {"code": 6999, "description": "Unkown error"}
     };
     //access filter

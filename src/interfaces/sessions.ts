@@ -41,6 +41,7 @@ export interface ITableColumn {
     custom?: boolean,
     search?: boolean,
     searchValue?: boolean,
+    dateRange?:boolean
   }
 }
 

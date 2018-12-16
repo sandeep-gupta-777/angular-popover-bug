@@ -41,7 +41,7 @@
     "@ngxs/logger-plugin": "^3.1.4",
     "@ngxs/storage-plugin": "^3.2.0",
     "@ngxs/store": "^3.1.4",
-    "angular-highcharts": "^6.2.6",
+    "angular-highcharts": "^7.0.0",
     "codemirror": "^5.39.2",
     "core-js": "^2.5.4",
     "download-csv": "^1.1.1",
@@ -51,7 +51,7 @@
     "ng-click-outside": "^4.0.0",
     "ng2-dragula": "^2.1.0",
     "rxjs": "^6.3.3",
-    "saturn-datepicker": "^7.0.0",
+    "saturn-datepicker": "^7.0.2",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

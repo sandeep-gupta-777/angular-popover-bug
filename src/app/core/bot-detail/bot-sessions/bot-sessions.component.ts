@@ -16,6 +16,7 @@ import {MaterialTableImplementer} from '../../../material-table-implementer';
 import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
 import {MatDialog} from '@angular/material';
 import {ObjectArrayCrudService} from '../../../object-array-crud.service';
+import {EventService} from '../../../event.service';
 
 @Component({
   selector: 'app-bot-sessions',
@@ -30,6 +31,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   @Input() id: string;
   test = 'asdasdsd';
   @Input() bot: IBot;
+  headerData: IHeaderData;
   sessionItemToBeDecrypted: ISessionItem;
   @ViewChild(SmartTableComponent) smartTableComponent: SmartTableComponent;
   sessions$: Observable<ISessions>;
@@ -51,6 +53,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     private serverService: ServerService,
     private utilityService: UtilityService,
     private constantsService: ConstantsService,
+    private eventService: EventService,
     private store: Store,
     private matDialog: MatDialog,
   ) {
@@ -59,6 +62,10 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   ngOnInit() {
     this.loadSmartTableSessionData();
+    this.headerData = {'bot-access-token': this.bot.bot_access_token};
+    this.eventService.reloadSessionTable$.subscribe(()=>{
+      this.loadSmartTableSessionData();
+    });
   }
 
   async openDeleteTemplateKeyModal(tempKey) {
@@ -76,11 +83,6 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       classStr: 'modal-xlg'
     });
     let data = await closeDialogPromise$;
-
-
-    // if (data) {
-    //   this.deleteTemplateKey(tempKey);
-    // }
   }
 
 
@@ -109,7 +111,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   transformSessionDataForMaterialTable(session: ISessionItem[]) {
 
-
+      
     let sessionsDataForTable = super.transformDataForMaterialTable(session, this.getTableDataMetaDict());
     sessionsDataForTable = sessionsDataForTable.map((sessionsDataForTableItem) => {
       /*adding two additional columns 1) actions and 2)channels*/
@@ -126,7 +128,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         additonalColumns['Actions'].value.push({show: true, name: 'decrypt', class: 'fa fa-lock'});
       }
 
-
+        
       /*channels*/
       additonalColumns['Channels'].searchValue = sessionsDataForTableItem['Channels'].value.join();;
       additonalColumns['Channels'].value = (sessionsDataForTableItem.Channels['value'].map((channelName) => {
@@ -146,7 +148,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       * TODO: there is a data_encrypted key it the row itself. Can we use it?
     * Why do we need to go fetch first message to see if its decrypted or not?
     * */
-
+      
     if (eventData.data.data_encrypted) {
 
       this.openSessionRowDecryptModal(this.reasonForDecryptionTemplate, eventData.data);
@@ -172,10 +174,6 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
 
   }
-
-  // openModal(template: TemplateRef<any>) {
-  //   this.modalRef = this.modalService.show(template, {class: 'modal-xlg'});
-  // }
 
   loadSessionTableDataForGivenPage(pageNumber) {
 
@@ -226,9 +224,6 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       this.selectedRow_number = 0;
       this.indexOfCurrentRowSelected = 0;
     }
-
-    // if (this.indexOfCurrentRowSelected !== undefined)
-    //   this.sessions[this.indexOfCurrentRowSelected].highlight = true;
   }
 
   preOpenDecryptionModal() {
@@ -307,7 +302,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         const surl = this.constantsService.getSessionsByIdUrl(sessionTobeDecryptedId);
         this.serverService.makeGetReq({url: surl, headerData})
           .subscribe((newSession: ISessionItem) => {
-
+              
             const del = this.sessions.findIndex((session) => session.id === sessionTobeDecryptedId);
             this.sessions[del] = {...newSession};
             this.sessions = [...this.sessions];
@@ -348,15 +343,19 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   performSearchInDbForSession(data: { id: number }) {
 
-    this.loadSessionById(data.id)
-      .subscribe((session: ISessionItem) => {
-        // this.sessions.push(session);
-        let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id:session.id});
-        if(index && index!==-1){
-          this.sessions[index] = session;
-        }else {
-          this.sessions.push(session);
-        }
+    debugger;
+    let url = this.constantsService.getRoomWithFilters(data);
+    this.serverService.makeGetReq({url, headerData: this.headerData})
+      .subscribe((value: {objects: ISessionItem[]}) => {
+        let sessions = value.objects;
+        sessions.forEach((session)=>{
+          let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id:session.id});
+          if(index && index!==-1){
+            this.sessions[index] = session;
+          }else {
+            this.sessions.push(session);
+          }
+        });
         this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
         this.tableData =[...this.tableData];
       });

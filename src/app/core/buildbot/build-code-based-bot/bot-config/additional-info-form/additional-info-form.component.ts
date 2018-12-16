@@ -7,6 +7,7 @@ import {UtilityService} from '../../../../../utility.service';
 import {EAllActions} from '../../../../../constants.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {debounceTime} from 'rxjs/operators';
+import {PermissionService} from '../../../../../permission.service';
 
 @Component({
   selector: 'app-additional-info-form',
@@ -34,6 +35,7 @@ export class AdditionalInfoFormComponent implements OnInit {
   constructor(
     private store: Store,
     private utilityService: UtilityService,
+    public permissionService: PermissionService,
     private formBuilder: FormBuilder) {
   }
 
@@ -43,6 +45,7 @@ export class AdditionalInfoFormComponent implements OnInit {
       transactions_per_pricing_unit: [this._bot.transactions_per_pricing_unit],
       error_message: [this._bot.error_message],
       first_message: [this._bot.first_message],
+      room_close_callback: [this._bot.room_close_callback],
     });
     this.formGroup.valueChanges.pipe(debounceTime(200)).subscribe((data: IBasicInfo) => {
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) { return; }
