@@ -16,6 +16,7 @@ import {MaterialTableImplementer} from '../../../material-table-implementer';
 import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
 import {MatDialog} from '@angular/material';
 import {ObjectArrayCrudService} from '../../../object-array-crud.service';
+import {EventService} from '../../../event.service';
 
 @Component({
   selector: 'app-bot-sessions',
@@ -52,6 +53,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     private serverService: ServerService,
     private utilityService: UtilityService,
     private constantsService: ConstantsService,
+    private eventService: EventService,
     private store: Store,
     private matDialog: MatDialog,
   ) {
@@ -61,6 +63,9 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   ngOnInit() {
     this.loadSmartTableSessionData();
     this.headerData = {'bot-access-token': this.bot.bot_access_token};
+    this.eventService.reloadSessionTable$.subscribe(()=>{
+      this.loadSmartTableSessionData();
+    });
   }
 
   async openDeleteTemplateKeyModal(tempKey) {

@@ -33,6 +33,7 @@ export class EventService {
   }
 
   rerenderHandsonTable$ = new EventEmitter();
+  reloadSessionTable$ = new EventEmitter();
 
   constructor() {
   }
