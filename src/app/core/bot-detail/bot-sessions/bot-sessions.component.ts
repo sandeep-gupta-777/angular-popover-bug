@@ -128,8 +128,6 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       if (sessionsDataForTableItem['originalSessionData']['data_encrypted']) {
         additonalColumns['Actions'].value.push({show: true, name: 'decrypt', class: 'fa fa-lock'});
       }
-
-        
       /*channels*/
       additonalColumns['Channels'].searchValue = sessionsDataForTableItem['Channels'].value.join();;
       additonalColumns['Channels'].value = (sessionsDataForTableItem.Channels['value'].map((channelName) => {

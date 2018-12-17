@@ -7,9 +7,15 @@
             <div class="card-header d-flex justify-content-between justify-content-center align-items-center">
               <h4>Enterprise Profile</h4>
             </div>
-            <div>
-              <button class="btn-theme btn-theme-primary" [disabled]="!formGroup.valid" (click)="updateEnterpriseProfile()">Update</button>
+            <div class = "d-flex">
+              <div class = "card-header">
+                Profile settings
+              </div>
+              
+                <button class="btn-theme btn-theme-primary ml-auto " [disabled]="!formGroup.valid" (click)="updateEnterpriseProfile()">Update</button>
+              
             </div>
+            
           </div>
         </div>
 
@@ -127,9 +133,6 @@
           <div class="card">
             <div class="card-header d-flex justify-content-between justify-content-center align-items-center">
               <h4>Users management</h4>
-              <button (click)="openDeletModal(enterpriseDeleteModal)">delet</button>
-              <button (click)="openUserEditModal(ModifyUserModal)">ModifyUser</button>
-              <button (click)="openUserEditModal(NewUserModal)">NewUser</button>
             </div>
             <div class="card-header d-flex justify-content-between justify-content-center align-items-center">
               Manage users of your enterprise by adding new ones, modifying and removing existing ones.
@@ -142,21 +145,23 @@
           All Users
         </div>
         <div class="ml-auto ">
-          <button class="btn-theme btn-theme-primary" [disabled]="!formGroup.valid" (click)="updateEnterpriseProfile()">Update</button>
+          <button class="btn-theme btn-theme-primary" (click)="openUserEditModal(NewUserModal)">New User</button>
         </div>
       </div>
 
-      <div class="row pb-3 bg-white profile-row" *ngIf="role==='Admin'">
+      <div class="row pb-3 mt-3 bg-white profile-row" *ngIf="role==='Admin'">
 
         <div class="col-12">
-          <app-smart-table *ngIf="tableData" [data]="tableData">
+          <app-smart-table *ngIf="tableData" [data]="tableData"
+          (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,enterpriseDeleteModal,ModifyUserModal)"
+          >
           </app-smart-table>
         </div>
 
       </div>
     </div>
   </mat-tab>
-  <mat-tab label="Roles">
+  <mat-tab label="Roles" [disabled]="true">
     <div class="px-4 mt-2">
       <header class="row mt-3  profile-row" *ngIf="role==='Admin'">
         <div class="col-12 p-0">

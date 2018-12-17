@@ -109,12 +109,23 @@ th,td{
     .d-flex{
     flex-direction: row;
     .fa-cog{
-      color: #00abd3;
+      color: $color-primary;
     }
     .fa-trash{
-      color: #d94254;
+      color: $color-danger;
       
     }
     }
+  }
+}
+::ng-deep{
+  .textVal {
+    width:auto  !important; 
+  }
+  .color-primary{
+    color:$color-primary;
+  }
+  .color-danger{
+    color:$color-danger;
   }
 }

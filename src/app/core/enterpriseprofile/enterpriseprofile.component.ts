@@ -38,9 +38,14 @@ export class EnterpriseprofileComponent extends MaterialTableImplementer impleme
     this.tableData = super.transformDataForMaterialTable(data, this.getTableDataMetaDict());
     this.tableData = this.tableData.map((tableGataItem)=>{
       debugger;
-      tableGataItem.Bots.value = tableGataItem.Bots.value.length +  " bots assigned"
+      tableGataItem.Bots.value = tableGataItem.Bots.value.length +  " bots assigned";
+      tableGataItem.Actions.value = tableGataItem.Actions.value || [];
+      tableGataItem.Actions.value.push({show: true, name: 'modify', class: 'fa fa-edit mr-3 color-primary'});
+      tableGataItem.Actions.value.push({show: true, name: 'remove', class: 'fa fa-trash color-danger'});
+
       return tableGataItem;
-    })
+    });
+    debugger;
     // this.
       // let sessionsDataForTable = super.transformDataForMaterialTable(session, this.getTableDataMetaDict());
       // sessionsDataForTable = sessionsDataForTable.map((sessionsDataForTableItem) => {
@@ -83,6 +88,15 @@ export class EnterpriseprofileComponent extends MaterialTableImplementer impleme
   openUserEditModal(template: TemplateRef<any>){
     this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);    
 
+  }
+  customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }, enterpriseDeleteModal, ModifyUserModal) {
+    if (data.action === 'remove') {
+      this.openDeletModal(enterpriseDeleteModal);
+
+    }
+    if (data.action === 'modify') {
+      this.openUserEditModal(ModifyUserModal);
+    }
   }
   userid: number;
   role: string;
