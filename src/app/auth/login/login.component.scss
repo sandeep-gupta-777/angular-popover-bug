@@ -143,8 +143,9 @@
 
 .enterprise-flex{
   grid-area: right;
-  display: flex;
+  // display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .enterprise-pushing-left {

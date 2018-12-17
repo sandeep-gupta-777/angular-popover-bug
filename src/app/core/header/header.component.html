@@ -59,7 +59,7 @@
                routerLinkActive="highlight-text-on-route-match">Profile</a>
             <a mat-menu-item class="dropdown-item cursor-pointer" (click)="logout()">Sign out</a>
             <a mat-menu-item class="dropdown-item" (click)=changeEnterprise(changeEnterpriseModal)
-            *ngIf= "enterpriseList && enterpriseList.length > 1"  >Change enterprise</a>
+            *ngIf= "enterpriseList && enterpriseList.length > 1"  >Switch enterprise</a>
             <mat-divider *myIf="myEAllActions['Get Enterprise']"></mat-divider>
             <a mat-menu-item class="dropdown-item" *myIf="myEAllActions['Get Enterprise']"
                [routerLink]="['enterpriseprofile']"
@@ -89,7 +89,7 @@
 <ng-template #changeEnterpriseModal>
   <div class="primary-modal" style="width: 650px;">
     <div class="modal-header" style="border: none;">
-      <h4 class="modal-title" style="display: flex;justify-content: start;">Change enterprise</h4>
+      <h4 class="modal-title" style="display: flex;justify-content: start;">Switch enterprise</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>

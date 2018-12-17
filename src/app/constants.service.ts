@@ -1030,42 +1030,64 @@ export class ConstantsService {
       originalKey: 'first_name',
       value: '',
       type: 'number',
-      displayValue: 'First Name',
-      search: true,
-      searchValue: true,
+      displayValue: 'User Name',
+      
     },
     email: {
       originalKey: 'email',
       value: '',
       type: 'number',
-      displayValue: 'Email',
-      search: true,
-      searchValue: true,
+      displayValue: 'Email ID',
+      
     },
-    'role': {
-      originalKey: 'role',
+    // 'role': {
+    //   originalKey: 'role',
+    //   value: '',
+    //   type: 'number',
+    //   displayValue: 'Role',
+    //   search: true,
+    //   searchValue: true,
+    // },
+    'role_id': {
+      originalKey: 'role_id',
       value: '',
       type: 'number',
-      displayValue: 'Role',
-      search: true,
-      searchValue: true,
+      displayValue: 'Role ID',
+      
     },
-    'permissions': {
-      originalKey: 'permissions',
+    
+    'bots': {
+      originalKey: 'bots',
       value: '',
       type: 'number',
-      displayValue: 'Permissions',
-      search: true,
-      searchValue: true,
+      displayValue: 'Bots',
+      
     },
-    updated_at: {
-      originalKey: 'updated_at',
-      value: '',
-      type: 'number',
-      displayValue: 'Updated At',
-      search: true,
-      searchValue: true,
-    },
+    'actions': {
+      originalKey: '',
+      value: undefined,
+      type: 'icon',
+      displayValue: 'Actions',
+      custom: true,
+      name: '',
+      
+    }
+    // 'permissions': {
+    //   originalKey: 'permissions',
+    //   value: '',
+    //   type: 'number',
+    //   displayValue: 'Permissions',
+    //   search: true,
+    //   searchValue: true,
+    // },
+    // updated_at: {
+    //   originalKey: 'updated_at',
+    //   value: '',
+    //   type: 'number',
+    //   displayValue: 'Updated At',
+    //   search: true,
+    //   searchValue: true,
+    // },
   };
 
 
