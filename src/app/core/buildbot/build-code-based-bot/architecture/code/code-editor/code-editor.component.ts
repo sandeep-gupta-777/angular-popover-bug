@@ -19,7 +19,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
   @Output() validateClick =  new EventEmitter();
   @ViewChild('f') codeEditor: ElementRef;
   @Input() doShowUploadDownloadButton = true;
-  @Input() doValidationsIcon = true;
+  @Input() doShowValidationsIcon = false;
   constructor(
     private utilityService: UtilityService,
     private activatedRoute: ActivatedRoute) {

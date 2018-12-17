@@ -20,7 +20,7 @@ export class AuthGaurdService implements CanActivate, CanActivateChild, CanLoad 
       if (value && value.user != null) {
         return true;
       } else {
-        this.router.navigate(['auth', 'login']);
+        this.router.navigate(['login']);
         return false;
       }
     }));
@@ -32,7 +32,7 @@ export class AuthGaurdService implements CanActivate, CanActivateChild, CanLoad 
       if (value.user != null) {
         return true;
       } else {
-        this.router.navigate(['auth', 'login']);
+        this.router.navigate(['login']);
         return false;
       }
     }));
@@ -44,7 +44,7 @@ export class AuthGaurdService implements CanActivate, CanActivateChild, CanLoad 
       if (value.user != null) {
         return true;
       } else {
-        this.router.navigate(['auth', 'login']);
+        this.router.navigate(['login']);
         return false;
       }
     }),take(1),);

@@ -341,10 +341,19 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     });
   }
 
-  performSearchInDbForSession(data: { id: number }) {
-
+  performSearchInDbForSession(data: { id: number, updated_at: {begin:number, end:number} }) {
     debugger;
-    let url = this.constantsService.getRoomWithFilters(data);
+    let dataCopy:any = this.utilityService.createDeepClone(data);
+    if(dataCopy.updated_at){
+      let x:any;
+      dataCopy.updated_at =
+        this.utilityService.convertDateObjectStringToYYYYMMDD((<any>data).updated_at.begin.getTime(), '-') + ',';
+      x =  this.utilityService.convertDateObjectStringToYYYYMMDD((<any>data).updated_at.end.getTime(), '-');
+      dataCopy.updated_at += x;
+      dataCopy.updated_at__range = dataCopy.updated_at;
+      delete dataCopy.updated_at;
+    }
+    let url = this.constantsService.getRoomWithFilters(dataCopy);
     this.serverService.makeGetReq({url, headerData: this.headerData})
       .subscribe((value: {objects: ISessionItem[]}) => {
         let sessions = value.objects;

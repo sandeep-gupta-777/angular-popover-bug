@@ -6,7 +6,7 @@
       Invalid JSON (will be overwritten)</i>
   </div>
   <app-code-editor [doShowUploadDownloadButton]="false"
-                   [doValidationsIcon]="false"
+                   [doShowValidationsIcon]="false"
                    class="child-expand" [text]="{text: outputItemClone|json}"
                    (textChangedEvent)="codeEditorTextCHanged($event)"
                    (channelListChanged) = "codeEditorTextCHanged($event)"></app-code-editor>
