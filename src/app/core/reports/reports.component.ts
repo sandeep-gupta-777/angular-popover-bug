@@ -101,9 +101,8 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
 
   loadReportHistory(limit: number, offset: number) {
 
-    this.error_message = "loading...";
-
-    const reportHistoryUrl = this.constantsService.getReportHistoryUrl(limit, offset, -1);
+    let order_by = -1;
+    let reportHistoryUrl = this.constantsService.getReportHistoryUrl(limit, offset, order_by );
     this.serverService.makeGetReq<IReportHistory>({url: reportHistoryUrl})
       .subscribe((reportHistory: IReportHistory) => {
         this.totalHistoryReportRecords = reportHistory.meta.total_count;

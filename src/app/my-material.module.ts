@@ -75,6 +75,7 @@ const materialModules = [
 
   SatNativeDateModule,
   SatDatepickerModule,
+  MatExpansionModule,
 
 
   OverlayModule,

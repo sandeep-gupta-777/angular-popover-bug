@@ -8,7 +8,7 @@ import {Store} from '@ngxs/store';
 import {UtilityService} from '../../../../../utility.service';
 import {ConstantsService, EAllActions} from '../../../../../constants.service';
 import {PermissionService} from '../../../../../permission.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-data-manage-form',
@@ -40,9 +40,9 @@ export class DataManageFormComponent implements OnInit {
     public formBuilder: FormBuilder,
     private utilityService: UtilityService) {
   }
+  advanced_data_protection;
 
   ngOnInit() {
-
     this.formGroup = this.formBuilder.group({
       data_persistence_period: [this._bot.data_persistence_period, Validators.required],
       consent_message: [this._bot.consent_message],

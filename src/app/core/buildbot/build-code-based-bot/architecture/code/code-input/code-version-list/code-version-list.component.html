@@ -61,7 +61,7 @@
     </div>
   </div>
   <div class="col-4">
-    <button [disabled]="!selectedVersion" class="btn-theme btn-theme-primary-outline mr-1"
+    <button [disabled]="!selectedVersion || disableSave" class="btn-theme btn-theme-primary-outline mr-1"
             *myIf="myEAllActions['Update Bot Versioning']"
             (click)="saveSelectedVersion$.emit()">
       {{(!bot.store_bot_versions || !bot.store_bot_versions.length ||

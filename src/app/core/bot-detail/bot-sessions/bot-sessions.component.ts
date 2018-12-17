@@ -16,6 +16,7 @@ import {MaterialTableImplementer} from '../../../material-table-implementer';
 import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
 import {MatDialog} from '@angular/material';
 import {ObjectArrayCrudService} from '../../../object-array-crud.service';
+import {EventService} from '../../../event.service';
 
 @Component({
   selector: 'app-bot-sessions',
@@ -30,6 +31,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   @Input() id: string;
   test = 'asdasdsd';
   @Input() bot: IBot;
+  headerData: IHeaderData;
   sessionItemToBeDecrypted: ISessionItem;
   @ViewChild(SmartTableComponent) smartTableComponent: SmartTableComponent;
   sessions$: Observable<ISessions>;
@@ -51,6 +53,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     private serverService: ServerService,
     private utilityService: UtilityService,
     private constantsService: ConstantsService,
+    private eventService: EventService,
     private store: Store,
     private matDialog: MatDialog,
   ) {
@@ -59,6 +62,10 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   ngOnInit() {
     this.loadSmartTableSessionData();
+    this.headerData = {'bot-access-token': this.bot.bot_access_token};
+    this.eventService.reloadSessionTable$.subscribe(()=>{
+      this.loadSmartTableSessionData();
+    });
   }
 
   async openDeleteTemplateKeyModal(tempKey) {
@@ -76,11 +83,6 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       classStr: 'modal-xlg'
     });
     let data = await closeDialogPromise$;
-
-
-    // if (data) {
-    //   this.deleteTemplateKey(tempKey);
-    // }
   }
 
 
@@ -173,10 +175,6 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   }
 
-  // openModal(template: TemplateRef<any>) {
-  //   this.modalRef = this.modalService.show(template, {class: 'modal-xlg'});
-  // }
-
   loadSessionTableDataForGivenPage(pageNumber) {
 
     this.showLoader = true;
@@ -226,9 +224,6 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       this.selectedRow_number = 0;
       this.indexOfCurrentRowSelected = 0;
     }
-
-    // if (this.indexOfCurrentRowSelected !== undefined)
-    //   this.sessions[this.indexOfCurrentRowSelected].highlight = true;
   }
 
   preOpenDecryptionModal() {
@@ -348,15 +343,19 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   performSearchInDbForSession(data: { id: number }) {
 
-    this.loadSessionById(data.id)
-      .subscribe((session: ISessionItem) => {
-        // this.sessions.push(session);
-        let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id:session.id});
-        if(index && index!==-1){
-          this.sessions[index] = session;
-        }else {
-          this.sessions.push(session);
-        }
+    debugger;
+    let url = this.constantsService.getRoomWithFilters(data);
+    this.serverService.makeGetReq({url, headerData: this.headerData})
+      .subscribe((value: {objects: ISessionItem[]}) => {
+        let sessions = value.objects;
+        sessions.forEach((session)=>{
+          let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id:session.id});
+          if(index && index!==-1){
+            this.sessions[index] = session;
+          }else {
+            this.sessions.push(session);
+          }
+        });
         this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
         this.tableData =[...this.tableData];
       });

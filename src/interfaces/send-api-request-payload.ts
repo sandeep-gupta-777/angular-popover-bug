@@ -27,6 +27,7 @@ export interface ISendApiRequestPayload {
 
 export interface IGeneratedMessageItem {
   'text'?: string;
+  bot_message_id: number,
   'media'?: [
     {
       'buttons': [
@@ -56,6 +57,7 @@ export interface IGeneratedMessageItem {
 export interface ISendApiResponsePayload {
   'TimeStamp': 1533902788.0;
   'bot_msg': string;
+  bot_message_id: number;
   'generated_msg': IGeneratedMessageItem[];
   'messageStore': { 'endflow': true, 'templateKey': 'A1' };
   'room': {

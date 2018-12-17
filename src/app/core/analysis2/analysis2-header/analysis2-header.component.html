@@ -58,7 +58,9 @@
              [max]="maxDate"
              [ngModel]="date"
              [satDatepicker]="picker">
-      <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
+      <sat-datepicker #picker
+                      [closeAfterSelection]="false"
+                      [rangeMode]="true"></sat-datepicker>
       <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
     </mat-form-field>
 <!---->
@@ -84,8 +86,8 @@
     <mat-form-field>
       <mat-select [ngModel]="granularity" placeholder="Granularity" required name="granularity"
                   [value]="granularityList[0]">
-        <mat-option *ngFor="let granularity of granularityList" [value]="granularity">
-          {{granularity}}
+        <mat-option *ngFor="let granularity of granularityList" [value]="granularity.value">
+          {{granularity.displayValue}}
         </mat-option>
       </mat-select>
     </mat-form-field>

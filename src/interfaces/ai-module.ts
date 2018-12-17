@@ -26,6 +26,7 @@ export interface IPipelineItem {
 
   /*custom fields*/
   form_validation_pipeline?: boolean;
+  is_added:boolean;
 }
 
 

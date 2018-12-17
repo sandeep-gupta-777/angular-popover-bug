@@ -17,6 +17,7 @@ export class EventService {
   }
 
   static progressBar$ = new EventEmitter<{loading: boolean, value: number }>();
+  static disableSaveButton_codeInput$ = new EventEmitter<boolean>();
 
   static unsubscribeInComponent(component){
     for (const key in component) {
@@ -32,6 +33,7 @@ export class EventService {
   }
 
   rerenderHandsonTable$ = new EventEmitter();
+  reloadSessionTable$ = new EventEmitter();
 
   constructor() {
   }

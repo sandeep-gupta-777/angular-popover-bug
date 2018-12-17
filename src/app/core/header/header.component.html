@@ -59,7 +59,7 @@
                routerLinkActive="highlight-text-on-route-match">Profile</a>
             <a mat-menu-item class="dropdown-item cursor-pointer" (click)="logout()">Sign out</a>
             <a mat-menu-item class="dropdown-item" (click)=changeEnterprise(changeEnterpriseModal)
-            *ngIf= "enterpriseList.length > 1"  >Change enterprise</a>
+            *ngIf= "enterpriseList && enterpriseList.length > 1"  >Change enterprise</a>
             <mat-divider *myIf="myEAllActions['Get Enterprise']"></mat-divider>
             <a mat-menu-item class="dropdown-item" *myIf="myEAllActions['Get Enterprise']"
                [routerLink]="['enterpriseprofile']"

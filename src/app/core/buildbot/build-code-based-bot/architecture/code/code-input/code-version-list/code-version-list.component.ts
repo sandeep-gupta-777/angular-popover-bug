@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {EAllActions} from '../../../../../../../constants.service';
+import {EventService} from '../../../../../../../event.service';
 
 @Component({
   selector: 'app-code-version-list',
@@ -16,9 +17,14 @@ export class CodeVersionListComponent implements OnInit {
   @Output() saveSelectedVersion$ = new EventEmitter();
   @Output() openForkNewVersionModal$ = new EventEmitter();
   showVersionList = false;
+  disableSave = true;
   constructor() { }
 
   ngOnInit() {
+    EventService.disableSaveButton_codeInput$.subscribe((disableSave)=>{
+      debugger;
+      this.disableSave = disableSave;
+    });
   }
 
 }

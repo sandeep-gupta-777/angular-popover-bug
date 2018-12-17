@@ -75,7 +75,10 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   granularityList = [
-    'hour', 'day', 'month', 'year'
+    {value:'hour', displayValue: 'Hourly'},
+    {value:'day', displayValue: 'Daily'},
+    {value:'month', displayValue: 'Monthly'},
+    {value:'year', displayValue: 'Yearly'}
   ];
   //startdate = new Date(new Date().setDate(new Date().getDate() - 30));
   //   enddate = new Date();

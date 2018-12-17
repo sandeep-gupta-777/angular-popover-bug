@@ -16,6 +16,7 @@ export class PermissionService {
   @Select() app$: Observable<IAppState>;
   @Select() loggeduser$: Observable<{ user: IUser }>;
   loggedUser: IUser;
+  advanced_data_protection;
   allBackEndActionsToFrontEndTabMapping2 = {
     [EAllActions['Get Bots']]: true,
     [EAllActions['Create Bots']]: true,
@@ -91,7 +92,8 @@ export class PermissionService {
     '/api/v1/webhook/web/',
     '/api/v1/user/enterprise_login/',
     '/api/v1/user/enterprises/',
-    '/api/v1/enterprise/'
+    '/api/v1/enterprise/',
+    '/api/v1/room/'
   ];
   constructor() {
     this.loggeduser$.subscribe((loggeduser) => {
@@ -136,6 +138,7 @@ export class PermissionService {
 
           this.allowedApiHttpVerbPPathToActionNamesMapping = {};
           loggeduser.user.role.permissions.actions.forEach((permId: number) => {
+            debugger;
             /*find action name for given permission id*/
             const action = masterActionList.find((action) => action.id === permId);
             const httpVerb = action.permissions.method;

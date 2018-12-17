@@ -169,8 +169,11 @@ table {
 }
 
 .mat-form-field {
-  font-size: 14px;
-  width: 50%;
+  font-size: 11px;
+  max-width: 70%;
+  ::placeholder{
+    font-size: 11px;
+  }
 }
 
 .mat-column-position {
@@ -202,7 +205,7 @@ table {
 :host /deep/ {
   .mat-form-field-infix {
     //border: none;
-    padding: 0;
+    //padding: 0;
   }
   //.mat-form-field-flex{
   //  margin-top: 10px;
