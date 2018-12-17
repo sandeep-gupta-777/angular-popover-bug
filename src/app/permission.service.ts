@@ -138,7 +138,7 @@ export class PermissionService {
 
           this.allowedApiHttpVerbPPathToActionNamesMapping = {};
           loggeduser.user.role.permissions.actions.forEach((permId: number) => {
-            debugger;
+            // debugger;
             /*find action name for given permission id*/
             const action = masterActionList.find((action) => action.id === permId);
             const httpVerb = action.permissions.method;

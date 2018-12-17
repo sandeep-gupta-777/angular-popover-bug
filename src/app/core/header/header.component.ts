@@ -21,6 +21,7 @@ import { IBotResult } from '../interfaces/IBot';
 import { IAuthState } from '../../auth/ngxs/auth.state';
 import { ModalImplementer } from 'src/app/modal-implementer';
 import { MatDialog } from '@angular/material';
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-header',
@@ -55,15 +56,15 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     public matDialog: MatDialog,
     private router: Router,
   ) {
-    super(utilityService ,matDialog );
+    super(utilityService, matDialog);
   }
 
   ngOnInit() {
     let getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
-     
+
     this.serverService.makeGetReq({ url: getAllEnterpriseUrl })
       .subscribe((value: any) => {
-         
+
         this.enterpriseList = value.enterprises;
         // console.log("sadasdasdsad");
         console.log(this.enterpriseList);
@@ -192,9 +193,8 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
           return this.serverService.makeGetReq<IBotResult>({ url, headerData })
             .subscribe((botResult) => {
               this.store.dispatch(new SetAllBotListAction({ botList: botResult.objects }))
-                .subscribe(() => {
-                   
-                  this.router.navigate(['/']);
+                .subscribe(async () => {
+                this.router.navigate(['/']);;
                   location.reload();
                   // const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(Enterprise.enterpriseId);
                   // this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
@@ -202,7 +202,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
                   //     this.store.dispatch([
                   //       new SetEnterpriseInfoAction({ enterpriseInfo: value })
                   //     ]).subscribe(() => {
-                        
+
                   //     });
                   //   });
                 });
