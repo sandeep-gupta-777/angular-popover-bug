@@ -14,6 +14,7 @@ import { UtilityService } from '../../utility.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MaterialTableImplementer } from '../../material-table-implementer';
 import { MatDialog } from '@angular/material';
+import { SetUser } from 'src/app/auth/ngxs/auth.action';
 
 @Component({
   selector: 'app-enterpriseprofile',
@@ -34,59 +35,59 @@ export class EnterpriseprofileComponent extends MaterialTableImplementer impleme
   }
 
   initializeTableData(data: any, tableDataMetaDict: any): void {
-    debugger;
+    // debugger;
     this.tableData = super.transformDataForMaterialTable(data, this.getTableDataMetaDict());
-    this.tableData = this.tableData.map((tableGataItem)=>{
-      debugger;
-      tableGataItem.Bots.value = tableGataItem.Bots.value.length +  " bots assigned";
+    this.tableData = this.tableData.map((tableGataItem) => {
+      // debugger;
+      tableGataItem.Bots.value = tableGataItem.Bots.value.length + " bots assigned";
       tableGataItem.Actions.value = tableGataItem.Actions.value || [];
-      tableGataItem.Actions.value.push({show: true, name: 'modify', class: 'fa fa-edit mr-3 color-primary'});
-      tableGataItem.Actions.value.push({show: true, name: 'remove', class: 'fa fa-trash color-danger'});
+      tableGataItem.Actions.value.push({ show: true, name: 'modify', class: 'fa fa-edit mr-3 color-primary' });
+      tableGataItem.Actions.value.push({ show: true, name: 'remove', class: 'fa fa-trash color-danger' });
 
       return tableGataItem;
     });
-    debugger;
+    // debugger;
     // this.
-      // let sessionsDataForTable = super.transformDataForMaterialTable(session, this.getTableDataMetaDict());
-      // sessionsDataForTable = sessionsDataForTable.map((sessionsDataForTableItem) => {
-      //   /*adding two additional columns 1) actions and 2)channels*/
-      //   let additonalColumns: any = {
-      //     Actions:sessionsDataForTableItem['Actions'],
-      //     Channels:sessionsDataForTableItem['Channels'],
-      //   };
-  
-      //   additonalColumns['Actions'].value = additonalColumns['Actions'].value || [];
-      //   additonalColumns['Channels'].value = additonalColumns['Channels'].value || [];
-      //   /*actions*/
-      //   additonalColumns['Actions'].value.push({show: true, name: 'download', class: 'fa fa-download'});
-      //   if (sessionsDataForTableItem['originalSessionData']['data_encrypted']) {
-      //     additonalColumns['Actions'].value.push({show: true, name: 'decrypt', class: 'fa fa-lock'});
-      //   }    
-      //   /*channels*/
-      //   additonalColumns['Channels'].searchValue = sessionsDataForTableItem['Channels'].value.join();;
-      //   additonalColumns['Channels'].value = (sessionsDataForTableItem.Channels['value'].map((channelName) => {
-      //     return {
-      //       name: channelName,
-      //       src: this.constantsService.getIntegrationIconForChannelName(channelName).icon//'https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/web.png'
-      //     };
-      //   }));
-      //   return {...sessionsDataForTableItem, ...additonalColumns};
-      // });
-      // return sessionsDataForTable;
-    
+    // let sessionsDataForTable = super.transformDataForMaterialTable(session, this.getTableDataMetaDict());
+    // sessionsDataForTable = sessionsDataForTable.map((sessionsDataForTableItem) => {
+    //   /*adding two additional columns 1) actions and 2)channels*/
+    //   let additonalColumns: any = {
+    //     Actions:sessionsDataForTableItem['Actions'],
+    //     Channels:sessionsDataForTableItem['Channels'],
+    //   };
+
+    //   additonalColumns['Actions'].value = additonalColumns['Actions'].value || [];
+    //   additonalColumns['Channels'].value = additonalColumns['Channels'].value || [];
+    //   /*actions*/
+    //   additonalColumns['Actions'].value.push({show: true, name: 'download', class: 'fa fa-download'});
+    //   if (sessionsDataForTableItem['originalSessionData']['data_encrypted']) {
+    //     additonalColumns['Actions'].value.push({show: true, name: 'decrypt', class: 'fa fa-lock'});
+    //   }    
+    //   /*channels*/
+    //   additonalColumns['Channels'].searchValue = sessionsDataForTableItem['Channels'].value.join();;
+    //   additonalColumns['Channels'].value = (sessionsDataForTableItem.Channels['value'].map((channelName) => {
+    //     return {
+    //       name: channelName,
+    //       src: this.constantsService.getIntegrationIconForChannelName(channelName).icon//'https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/web.png'
+    //     };
+    //   }));
+    //   return {...sessionsDataForTableItem, ...additonalColumns};
+    // });
+    // return sessionsDataForTable;
+
 
   }
   dialogRefWrapper = { ref: null };
-  
+
   openDeletModal(template: TemplateRef<any>) {
 
     // this.selectedPipeline = pipeline;
     // this.modalRef = this.modalService.show(template, { class: 'modal-md' });
-    this.utilityService.openDangerModal(template, this.matDialog, this.dialogRefWrapper);    
+    this.utilityService.openDangerModal(template, this.matDialog, this.dialogRefWrapper);
     // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
-  openUserEditModal(template: TemplateRef<any>){
-    this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);    
+  openUserEditModal(template: TemplateRef<any>) {
+    this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
 
   }
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }, enterpriseDeleteModal, ModifyUserModal) {
@@ -103,13 +104,13 @@ export class EnterpriseprofileComponent extends MaterialTableImplementer impleme
   enterpriseId: number;
   loggeduserenterpriseinfo: IEnterpriseProfileInfo;
   logoError;
-  enterpriseUserBotList:number[];
+  enterpriseUserBotList: number[];
   constructor(
     private store: Store,
     private constantsService: ConstantsService,
     private utilityService: UtilityService,
     private formBuilder: FormBuilder,
-    private matDialog:MatDialog,
+    private matDialog: MatDialog,
     private serverService: ServerService) {
     super();
   }
@@ -167,9 +168,8 @@ export class EnterpriseprofileComponent extends MaterialTableImplementer impleme
           return {
             ...value,
             enterpriseusers: value.enterpriseusers.map((enterpriseuser) => {
-              if(this.enterpriseUserBotList){
-                this.enterpriseUserBotList = [...this.enterpriseUserBotList, ...enterpriseuser.bots];
-              }else{
+
+              if (enterpriseuser.role_id == 2) {
                 this.enterpriseUserBotList = enterpriseuser.bots;
               }
               return {
@@ -205,13 +205,28 @@ export class EnterpriseprofileComponent extends MaterialTableImplementer impleme
         this.utilityService.showSuccessToaster('Updated enterprise profile');
         this.store.dispatch([
           new SetEnterpriseInfoAction({ enterpriseInfo: body }),
-        ]);
-      });
-  }
+        ]).subscribe((entprisedetails) => {
+          let enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
+          let enterpriseBody = {
+            "user_id": entprisedetails[0].loggeduser.user.id,
+            "enterprise_id": entprisedetails[0].loggeduser.user.enterprise_id ,
+            "role_id": entprisedetails[0].loggeduser.user.role_id
+          }
+          this.serverService.makePostReq<any>({ url: enterpriseLoginUrl, body : enterpriseBody, headerData })
+            .subscribe((value) => {
+              this.store.dispatch([
+                new SetUser({ user: value }),
+              ])
+              // this.gotUserData$.emit(value);
+            });
+        });
+        });
+  
+}
 
-  log(z) {
-    console.log(z);
-  }
+log(z) {
+  console.log(z);
+}
 
 
 
