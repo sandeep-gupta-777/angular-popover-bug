@@ -29,7 +29,7 @@
           <mat-panel-title>
             {{pipelineItem.display_values}} ({{pipelineItem.pipeline_modules.length}})
           </mat-panel-title>
-          <mat-panel-description class="limit-oneline" [matTooltip]="pipelineItem.description">
+          <mat-panel-description class="limit-oneline" style="max-width: 800px" [matTooltip]="pipelineItem.description">
             {{pipelineItem.description}}
           </mat-panel-description>
         </mat-expansion-panel-header>
