@@ -151,7 +151,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
       this.store.dispatch([new ResetChatState()]);
     });
     this.serverService.removeTokens();
-    this.router.navigate(['auth', 'login']);
+    this.router.navigate(['login']);
 
   }
   changeEnterprise(template: TemplateRef<any>) {
