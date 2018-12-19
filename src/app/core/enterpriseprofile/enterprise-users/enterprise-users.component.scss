@@ -1,0 +1,32 @@
+@import '~src/sass/main';
+
+.user-modal-heading{
+    font-family: Helvetica;
+    font-size: 13px;
+    color: #474747;
+    font-weight: bold;
+  }
+  
+  
+  ::ng-deep{
+    .textVal {
+      width:auto  !important; 
+    }
+    .color-primary{
+      color:$color-primary;
+    }
+    .color-danger{
+      color:$color-danger;
+    }
+  }
+  
+  .card-header{
+    background-color: #f0f3f4;
+    padding-right: 0;
+    padding-left: 0;  
+    padding-top: 0; 
+  }
+  .card{
+    background-color: #f0f3f4;
+  }
+  

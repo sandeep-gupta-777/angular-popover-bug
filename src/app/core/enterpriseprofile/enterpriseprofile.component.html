@@ -1,7 +1,8 @@
 <mat-tab-group>
   <mat-tab label="Overview">
     <div class="px-4 mt-2">
-      <header class="row mt-3 pb-3 profile-row ">
+        <app-enterprise-overview></app-enterprise-overview>
+      <!-- <header class="row mt-3 pb-3 profile-row ">
         <div class="col-12 p-0">
           <div class="card">
             <div class="card-header d-flex justify-content-between justify-content-center align-items-center">
@@ -19,8 +20,8 @@
           </div>
         </div>
 
-      </header>
-      <div *ngIf="(loggeduserenterpriseinfoMap$|async) as loggeduserenterpriseinfo">
+      </header> -->
+      <!-- <div *ngIf="(loggeduserenterpriseinfoMap$|async) as loggeduserenterpriseinfo">
         <section class="row basic-row bg-white pt-3">
           <div class="col-3 logo-wrapper-col p-5">
             <div class="logo-wrapper">
@@ -40,7 +41,7 @@
                     <label for="alterEgo">Industry</label>
                     <input type="text" class="form-control" formControlName="industry">
                   </div>
-                  <!---->
+                  
                   <div class="form-group">
                     <label for="alterEgo">Logo Url</label><i class="text-danger pl-1" style="font-size: 11px">{{logoError}}</i>
                     <input type="text" #logoUrl class="form-control" formControlName="logo">
@@ -87,9 +88,9 @@
             </form>
           </div>
         </section>
-        <!---->
+        
 
-        </div>
+        </div> -->
         </div>
 
         <!--<section class="row enterprise-profile-info-row bg-white" *ngIf="role==='Admin'">-->
@@ -128,7 +129,8 @@
   </mat-tab>
   <mat-tab label="Users">
     <div class="px-4 mt-2">
-      <header class="row mt-3  profile-row" *ngIf="role==='Admin'">
+        <app-enterprise-users></app-enterprise-users>
+      <!-- <header class="row mt-3  profile-row" *ngIf="role==='Admin'">
         <div class="col-12 p-0">
           <div class="card">
             <div class="card-header d-flex justify-content-between justify-content-center align-items-center">
@@ -149,21 +151,21 @@
         </div>
       </div>
 
-      <div class="row pb-3 mt-3 bg-white profile-row" *ngIf="role==='Admin'">
+      <div class="row mt-3 bg-white profile-row" *ngIf="role==='Admin'">
 
-        <div class="col-12">
+        <div class="col-12 p-0 m-0">
           <app-smart-table *ngIf="tableData" [data]="tableData"
           (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,enterpriseDeleteModal,ModifyUserModal)"
           >
           </app-smart-table>
         </div>
 
-      </div>
+      </div> -->
     </div>
   </mat-tab>
   <mat-tab label="Roles" [disabled]="true">
     <div class="px-4 mt-2">
-      <header class="row mt-3  profile-row" *ngIf="role==='Admin'">
+      <!-- <header class="row mt-3  profile-row" *ngIf="role==='Admin'">
         <div class="col-12 p-0">
           <div class="card">
             <div class="card-header d-flex justify-content-between justify-content-center align-items-center">
@@ -206,193 +208,7 @@
         <div class="rolePannelGridItem"></div>
         <div class="rolePannelGridItem"></div>
 
-      </div>
+      </div> -->
     </div>
   </mat-tab>
 </mat-tab-group>
-
-<ng-template #enterpriseDeleteModal>
-  <div class="danger-modal" style="min-width: 500px;">
-    <div class="modal-header" style="border:none !important">
-      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Remove user?</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-    <div class="mx-3 mb-3" style="text-align: left !important;">
-      <form #form="ngForm">
-        <div class="my-1">
-          <p class="mb-3">Do you want to remove XXXXXXX form YYYYYYY?
-          </p>
-
-        </div>
-        <div class="d-flex" style="flex-direction: row-reverse">
-          <!-- <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRefWrapper.hide()">Cancel</button> -->
-          <button class=" btn-theme btn-theme-danger mx-1 " (click)="dialogRefWrapper.ref.close();">Remove
-          </button>
-          <button class=" btn-theme btn-theme-danger-outline mx-1" (click)="dialogRefWrapper.ref.close();">Cancel
-          </button>
-
-        </div>
-      </form>
-    </div>
-  </div>
-</ng-template>
-
-
-<ng-template #ModifyUserModal>
-  <div class="primary-modal">
-    <div class="modal-header" style="border: none !important; padding-bottom: 0">
-      <h4 class="modal-title" style="display: flex;justify-content: start;">Modify details</h4>
-      <button aria-label="Close" class="close pull-right" type="button" (click)="dialogRefWrapper.ref.close()"><span
-          aria-hidden="true">×</span>
-      </button>
-      <br>
-    </div>
-    <div class="pl-3 pb-3 pt-1">
-      XXXXXX’s role and bots can be changed here
-    </div>
-    <div class="w-100 pl-3" style="align-items: center;">
-      <div class="user-modal-heading">Change role</div>
-      <mat-form-field>
-        <mat-select placeholder="Select role" ngModel name="role" [value]="123">
-          <!-- <mat-option *ngFor="let bot of codebasedBotList; let i = index;" [value]="role.id">
-            {{bot.name}}
-          </mat-option> -->
-          <!-- <mat-option [value]="role.id">
-              Admin
-            </mat-option> -->
-          <mat-option [value]="12">
-            Admin
-          </mat-option>
-          <mat-option [value]="12">
-            developer
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-    </div>
-    <div class="user-modal-heading pl-3">Change bots</div>
-    <div class="d-flex w-100 col-12 pl-3" style="align-items: center;">
-
-      <div class="cursor-pointer color-primary mr-3" (click)="modelGenTempNameForm.reset()">
-        Clear
-      </div>
-      <!-- <div class="cursor-pointer color-primary mr-auto " (click)="selectAllCheckBoxesInCopyTemplateForm(modelGenTempNameForm)">
-        Select all
-      </div> -->
-      <div class="cursor-pointer color-primary mr-auto " >
-        Select all
-      </div>
-      <div>
-        <input type="text" style="width: 120px;border: 1px solid #e0e0e0;margin-right: 10px; padding: 3px" placeholder="Bots"
-        >  
-        <!-- [(ngModel)]="copyModalTemplateSearchKeyword"> -->
-      </div>
-    </div>
-    <div class="modal-body" style="padding-top: 10px!important;">
-      <div class="d-flex flex-column align-items-center justify-content-center m-2" id="checkboxes">
-
-        <form class="modelBotNames" id="modelGenTempNameForm" #modelGenTempNameForm="ngForm" 
-          style="overflow-y: scroll;max-height: 250px;">
-          <label class="container-chekbox text-dark" *ngFor="let botId of enterpriseUserBotList">
-            {{botId}}
-            <input type="checkbox" ngModel name="{{botId}}">
-            <span class="checkmark"></span>
-          </label>
-        </form>
-        <div class="d-flex w-100 mt-2">
-          <button class="btn-theme btn-theme-primary-outline ml-auto mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
-          <button class="btn-theme btn-theme-primary  d-inline-block mr-2" form="modelGenTempNameForm">Modify
-          </button>
-          <!-- <button class="btn-theme btn-theme-primary  d-inline-block mr-2"
-                  [disabled]="(modelGenTempNameForm.value|numberOfTrueKeys)<1"
-                  form="modelGenTempNameForm">Copy now
-          </button> -->
-        </div>
-      </div>
-    </div>
-  </div>
-</ng-template>
-
-
-<ng-template #NewUserModal>
-  <div class="primary-modal">
-    <div class="modal-header" style="border: none !important; padding-bottom: 0">
-      <h4 class="modal-title" style="display: flex;justify-content: start;">New User</h4>
-      <button aria-label="Close" class="close pull-right" type="button" (click)="dialogRefWrapper.ref.close()"><span
-          aria-hidden="true">×</span>
-      </button>
-      <br>
-    </div>
-    <div class="pl-3 pb-3 pt-1">
-      Add a new user to the enterprise
-    </div>
-    <div class="w-100 pl-3" style="align-items: center;">
-      <div class="user-modal-heading">User details</div>
-      <!-- <form class="form-theme form-theme-with-md-controls " (ngSubmit)="onSubmit()" #loginForm="ngForm"> -->
-      <form class="form-theme form-theme-with-md-controls " #loginForm="ngForm">
-        <input required email class="form-theme-control my-1 col-3 mx-2" ngModel name="email" aria-describedby="emailHelp"
-          placeholder="First name">
-        <input class="form-theme-control my-1 col-3 mx-2" name="password" ngModel required placeholder="First name">
-        <mat-form-field>
-          <mat-select placeholder="Select role" ngModel name="role" [value]="12">
-            <!-- <mat-option *ngFor="let bot of codebasedBotList; let i = index;" [value]="role.id">
-                    {{bot.name}}
-                  </mat-option> -->
-            <mat-option [value]="12">
-              Admin
-            </mat-option>
-            <mat-option [value]="23">
-              developer
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <input class="form-theme-control my-1 col-7 mx-2" name="password" ngModel required placeholder="Email address">
-      </form>
-
-
-    </div>
-    <div class="user-modal-heading pl-3">Add Bots(0 selected)</div>
-    <div class="d-flex w-100 col-12 pl-3" style="align-items: center;">
-
-      <div class="cursor-pointer color-primary mr-3" (click)="modelGenTempNameForm.reset()">
-        Clear
-      </div>
-      <div class="cursor-pointer color-primary mr-auto " >
-        Select all
-      </div>
-      <div>
-        <input type="text" style="width: 120px;border: 1px solid #e0e0e0;margin-right: 10px; padding: 3px" placeholder="Bots"
-          >
-          <!-- [(ngModel)]="copyModalTemplateSearchKeyword"> -->
-
-      </div>
-    </div>
-    <div class="modal-body" style="padding-top: 10px!important;">
-      <div class="d-flex flex-column align-items-center justify-content-center m-2" id="checkboxes">
-
-        <!-- <form class="modelBotNames" id="modelGenTempNameForm" #modelGenTempNameForm="ngForm" (submit)="selectedListCopy(modelGenTempNameForm)" -->
-        <form class="modelBotNames" id="modelGenTempNameForm" #modelGenTempNameForm="ngForm" 
-          
-        style="overflow-y: scroll;max-height: 250px;">
-          <label class="container-chekbox text-dark" *ngFor="let botId of enterpriseUserBotList">
-            {{botId}}
-            <input type="checkbox" ngModel name="{{botId}}">
-            <span class="checkmark"></span>
-          </label>
-        </form>
-        <div class="d-flex w-100 mt-2">
-          <button class="btn-theme btn-theme-primary-outline ml-auto mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
-          <button class="btn-theme btn-theme-primary  d-inline-block mr-2" form="modelGenTempNameForm">Modify
-          </button>
-          <!-- <button class="btn-theme btn-theme-primary  d-inline-block mr-2"
-                  [disabled]="(modelGenTempNameForm.value|numberOfTrueKeys)<1"
-                  form="modelGenTempNameForm">Copy now
-          </button> -->
-        </div>
-      </div>
-    </div>
-  </div>
-</ng-template>
