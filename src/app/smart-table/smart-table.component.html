@@ -1,15 +1,16 @@
 <!--https://stackblitz.com/edit/angular-hbakxo-xctfqy?file=app%2Ftable-filtering-example.ts-->
 <form #tableForm="ngForm">
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-
     <!-- Symbol Column -->
     <ng-container *ngFor="let i of displayedColumns">
 
       <ng-container [matColumnDef]="i">
         <!--table header starts-->
         <th mat-header-cell class="pt-3" *matHeaderCellDef>
-          <div style="font-size: 13px;color: #56627c; font-weight: 700"> {{i}}</div>
+          <div (click)="sort(i)"
+               [title]="'Sort ' + (sortDirAsc===1?'descending':'ascending') +' by '+ i"
+               class="cursor-pointer"
+               style="font-size: 13px;color: #56627c; font-weight: 700"> {{i}}</div>
           <div *ngIf="tableData[0][i].search">
             <input class="column-input" [placeholder]="i" type="text" ngModel (keyup.enter)="performSearch()"
                    [name]="i">
@@ -23,7 +24,7 @@
                      placeholder="date range"
                      (keyup.enter)="performSearch()"
                      [satDatepicker]="picker">
-              <sat-datepicker #picker [closeAfterSelection]="false" [rangeMode]="true"></sat-datepicker>
+              <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
               <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
             </mat-form-field>
 

@@ -32,7 +32,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   removeEmptyKeyValues(valClone) {
     for (let key in valClone) {
       if (!valClone[key]) {
-        delete  valClone[key];
+        delete valClone[key];
       }
     }
     return valClone;
@@ -129,7 +129,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   @Input() recordsPerPage = 10;
   @Output() customActionEvents = new EventEmitter();
   totalPageCount;
-  @Input() settings
+  @Input() settings;
   math = Math;
 
   constructor(private _iterableDiffers: IterableDiffers) {
@@ -151,7 +151,8 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     event.stopPropagation();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   // performSearchInDB() {
   //   const inputs = document.querySelectorAll('.ng2-smart-filter input');
@@ -234,16 +235,35 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     return tableData.filter((rowDataObj) => {
       let shouldInclude = true;
       for (let searchKey in searchDataClone) {
-        if (this.isValidValue(rowDataObj[searchKey])) {
+        let x = this.isValidValue(rowDataObj[searchKey]) && rowDataObj[searchKey]['search'];
+        if (x) {
           shouldInclude = shouldInclude &&
             rowDataObj[searchKey]['searchValue'].toString().includes(searchDataClone[searchKey]);
+        } else if (rowDataObj[searchKey]['dateRange'] === true) {
+          let filterDateRangeObj: { begin: Date, end: Date } = formData[searchKey];
+          let startTimeStamp: number = new Date(filterDateRangeObj.begin).getTime();
+          let endTimeStamp: number = new Date(filterDateRangeObj.end).getTime();
+          let cellValueTimeStamp = new Date(rowDataObj[searchKey].value).getTime();
+          shouldInclude = startTimeStamp <= cellValueTimeStamp && endTimeStamp >= cellValueTimeStamp
         } else {
           shouldInclude = false;
-          break;
         }
       }
       return shouldInclude;
     });
+  }
+
+  sortDirAsc = 1;
+  sort(key){
+    this.sortDirAsc = this.sortDirAsc * -1;
+    let tableData = this.tableData;
+    // this.tableData =
+      tableData.sort((row1, row2)=>{
+        return (row1[key].value-row2[key].value) * this.sortDirAsc;
+    });
+    // console.log(tableData);
+    this.dataSource = new MatTableDataSource(tableData);
+    // this.tableData = [...tableData];
   }
 
 }

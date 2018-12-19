@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 
 export enum EBotType {
   chatbot = 'chatbot',
@@ -14,16 +14,16 @@ export enum EFormValidationErrors {
 }
 
 import downloadCsv from 'download-csv';
-import { ActivatedRoute, Router } from '@angular/router';
-import { IBot } from './core/interfaces/IBot';
-import { IPipelineItem } from '../interfaces/ai-module';
-import { IAnalysis2HeaderData } from '../interfaces/Analytics2/analytics2-header';
-import { EBotMessageMediaType, IMessageData } from '../interfaces/chat-session-state';
-import { IBotPreviewFirstMessage } from './chat/chat-wrapper.component';
-import { IGeneratedMessageItem } from '../interfaces/send-api-request-payload';
-import { StoreVariableService } from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import {ActivatedRoute, Router} from '@angular/router';
+import {IBot} from './core/interfaces/IBot';
+import {IPipelineItem} from '../interfaces/ai-module';
+import {IAnalysis2HeaderData} from '../interfaces/Analytics2/analytics2-header';
+import {EBotMessageMediaType, IMessageData} from '../interfaces/chat-session-state';
+import {IBotPreviewFirstMessage} from './chat/chat-wrapper.component';
+import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
+import {StoreVariableService} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl} from '@angular/forms';
+import {MatSnackBar} from '@angular/material';
 
 
 @Injectable({
@@ -101,7 +101,7 @@ export class UtilityService {
           accObj[currObj.param_name] = currObj.display_text;
           return accObj;
         }, {});
-        return { ...accumulator, ...x };
+        return {...accumulator, ...x};
       }, {});
     }
     return this.masterIntegration_IntegrationKeyDisplayNameMap[key];
@@ -116,7 +116,7 @@ export class UtilityService {
   serializeGeneratedMessagesToPreviewMessages(generatedMessage: IGeneratedMessageItem[], bot_message_id: number): IMessageData[] {
     return generatedMessage.map((message: IGeneratedMessageItem) => {
 
-      let messageData:IMessageData = {
+      let messageData: IMessageData = {
         ...message,
         bot_message_id,
         time: Date.now(),
@@ -125,7 +125,7 @@ export class UtilityService {
       };
 
       if (Object.keys(message)[0] === 'media') {
-        messageData =  {
+        messageData = {
           ...messageData,
           messageMediatype: message.media[0].type,
           text: EBotMessageMediaType.image, //this is for preview of last message in chat room list
@@ -136,7 +136,7 @@ export class UtilityService {
           messageMediatype: EBotMessageMediaType.quickReply, //
           text: (<any>message).quick_reply.text || EBotMessageMediaType.quickReply, //this is for preview of last message in chat room list
         };
-      }else {
+      } else {
         /*if message type = text*/
         messageData = {
           ...messageData,
@@ -184,7 +184,7 @@ export class UtilityService {
     return (today = dd + '/' + mm + '/' + yyyy);
   }
 
-  convertDateObjectStringToDDMMYY(dateStr: string = '') {
+  convertDateObjectStringToDDMMYY(dateStr: any = '', delimiter = '/') {
     let today: any = dateStr ? new Date(dateStr) : new Date();
 
     let dd: any = today.getDate();
@@ -199,11 +199,31 @@ export class UtilityService {
       mm = '0' + mm;
     }
 
-    return (today = dd + '/' + mm + '/' + yyyy);
+    return (today = dd + delimiter + mm + delimiter + yyyy);
 
   }
 
-  convertDateObjectStringToMMDDYY(dateStr: Date) {
+  convertDateObjectStringToYYYYMMDD(dateStr: any = '', delimiter = '/') {
+    let today: any = dateStr ? new Date(dateStr) : new Date();
+
+    let dd: any = today.getDate();
+    let mm: any = today.getMonth() + 1; //January is 0!
+    const yyyy: any = today.getFullYear();
+
+    if (dd < 10) {
+      dd = '0' + dd;
+    }
+
+    if (mm < 10) {
+      mm = '0' + mm;
+    }
+
+    // return (today = dd + delimiter + mm + delimiter + yyyy);
+    return (today = yyyy + delimiter + mm +delimiter + dd);
+
+  }
+
+  convertDateObjectStringToMMDDYY(dateStr: Date, delimiter = '/') {
     let today: any = new Date(dateStr);
 
     let dd: any = today.getDate();
@@ -218,7 +238,7 @@ export class UtilityService {
       mm = '0' + mm;
     }
 
-    return (today = mm + '/' + dd + '/' + yyyy);
+    return (today = mm + delimiter + dd + delimiter + yyyy);
 
   }
 
@@ -451,7 +471,7 @@ export class UtilityService {
     startTime_ms: number = Date.UTC(2010, 0, 2), //Date.UTC(2010, 0, 2),
     granularity_Ms: number = 24 * 3600 * 1000,  // one day
   ) {
-    
+
     if (!rawData) {
       return;
     }
@@ -496,7 +516,7 @@ export class UtilityService {
       });
     });
     /*now loop over rawData and fill convertedData's data array*/
-    
+
     rawData.forEach((obj) => {
       Object.keys(obj).forEach((key) => {
         if (key === xAxisLabel) {
@@ -507,7 +527,7 @@ export class UtilityService {
         data.push(obj[key]); //pushing a new coordinate
       });
     });
-    let arr: string[] = []
+    let arr: string[] = [];
 
     template.series = seriesArr;
     return template;
@@ -546,24 +566,24 @@ export class UtilityService {
     // 0: {name: "result", data: Array(8)}
     // length: 1
 
-    
+
     let lengthofcategoriesString = categoriesString.length;
     let categoriesString5 = categoriesString.slice(0, 5);
 
-    categoriesString5.push("Others")
-    
+    categoriesString5.push('Others');
+
     var totalValue = seriesArr[0]['data'].reduce((a, b) => a + b, 0);
-    seriesArr[0]['data'] = seriesArr[0]['data'].slice(0, 5)
+    seriesArr[0]['data'] = seriesArr[0]['data'].slice(0, 5);
     var endValue = seriesArr[0]['data'].reduce((a, b) => a + b, 0);
-    
+
     // seriesArr[0]['data'] = seriesArr5;
-    seriesArr[0]['data'].push(totalValue - endValue)
+    seriesArr[0]['data'].push(totalValue - endValue);
     if (lengthofcategoriesString <= 5) {
       categoriesString5.pop();
       seriesArr[0]['data'].pop();
     }
 
-    
+
     const template = {
       xAxis: {
         categories: categoriesString5, //['apple', 'orange', 'mango'],
@@ -686,11 +706,11 @@ export class UtilityService {
     return JSON.parse(JSON.stringify(obj));
   }
 
-  showErrorToaster(message:string, sec = 4) {
+  showErrorToaster(message: string, sec = 4) {
     try {
       this.snackBar.open(message, '', {
         duration: (sec * 1000) || 2000,
-        panelClass: ["bg-danger"]
+        panelClass: ['bg-danger']
       });
     } catch (e) {
       console.log(e);
@@ -715,7 +735,7 @@ export class UtilityService {
     // this.toastr.info(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
     this.snackBar.open(message, '', {
       duration: 2000,
-      panelClass: ["bg-success"]
+      panelClass: ['bg-success']
     });
   }
 
@@ -723,7 +743,7 @@ export class UtilityService {
     // this.toastr.success(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
     this.snackBar.open(message, '', {
       duration: 2000,
-      panelClass: ["bg-success"]
+      panelClass: ['bg-success']
     });
   }
 
@@ -739,13 +759,13 @@ export class UtilityService {
     const url: string = formControl.value;
     const pattern = /^((https):\/\/)/;
 
-    return pattern.test(url) ? null : { 'Must be Https Url': true };
+    return pattern.test(url) ? null : {'Must be Https Url': true};
   }
 
   imageUrlHavingValidExtnError(formControl: FormControl) {
     const url: string = formControl.value;
     const pattern = /\.(gif|jpg|jpeg|tiff|png)$/i;
-    return pattern.test(url) ? null : { 'Image Extension is not correct': true };
+    return pattern.test(url) ? null : {'Image Extension is not correct': true};
   }
 
   isManagerValidator(formGroup: FormGroup) {
@@ -753,7 +773,7 @@ export class UtilityService {
     const is_manager = formValue['is_manager'];
     const child_bots = formValue['child_bots'];
     /*if is_manager = true, child_bots should have at least one value*/
-    return (!is_manager || is_manager && (child_bots.length > 0)) ? null : { 'isManagerError': true };
+    return (!is_manager || is_manager && (child_bots.length > 0)) ? null : {'isManagerError': true};
   }
 
   pushFormControlItemInFormArray(formArray: FormArray, formBuilder: FormBuilder, item: any) {
@@ -811,7 +831,7 @@ export class UtilityService {
       document.body.appendChild(a);
       a.style = 'display: none';
       return function (data, fileName) {
-        const blob = new Blob([text], { type: 'octet/stream' }),
+        const blob = new Blob([text], {type: 'octet/stream'}),
           url = window.URL.createObjectURL(blob);
         a.href = url;
         a.download = fileName;
@@ -857,7 +877,7 @@ export class UtilityService {
       'user-access-token': null,
       granularity: null
     };
-    headerObj = { ...headerDataTemplate, ...headerObj };
+    headerObj = {...headerDataTemplate, ...headerObj};
     for (const key in headerObj) {
       if (headerObj[key] == null || headerObj[key] === '') {//0!==null but 0==""
         return false;
@@ -867,7 +887,7 @@ export class UtilityService {
   }
 
   addQueryParamsInCurrentRoute(queryParamObj: object) {
-    this.router.navigate(['.'], { queryParams: queryParamObj, relativeTo: this.activatedRoute });
+    this.router.navigate(['.'], {queryParams: queryParamObj, relativeTo: this.activatedRoute});
   }
 
   isAtleastOneValueIsDefined(obj) {
@@ -933,7 +953,7 @@ export class UtilityService {
   checkIfAllPipelineInputParamsArePopulated(pipeline: IPipelineItem[]): boolean {
 
     const inputParamsObj: object = pipeline.reduce((inputParamsObj, pipelineItem) => {
-      return { ...inputParamsObj, ...pipelineItem.input_params };
+      return {...inputParamsObj, ...pipelineItem.input_params};
     }, {});
 
     for (const param in inputParamsObj) {
@@ -945,7 +965,7 @@ export class UtilityService {
   }
 
   performFormValidationBeforeSaving(obj: IBot): IBot {
-    const objShallowClone = { ...obj };
+    const objShallowClone = {...obj};
     const validation_Keys: string[] = Object.keys(objShallowClone).filter((key) => {
       return key.includes('form_validation_');
     });
@@ -1009,7 +1029,7 @@ export class UtilityService {
 
   openDialog(dialogOptions: { dialog, component, data?: any, classStr, dialogRefWrapper?: { ref: any } }): Promise<any> {
     //data: { message?: string, title?: string, actionButtonText?: string, isActionButtonDanger?:boolean }
-    let { dialog, component, data, classStr, dialogRefWrapper } = dialogOptions;
+    let {dialog, component, data, classStr, dialogRefWrapper} = dialogOptions;
     try {
       dialogRefWrapper.ref.close();//closing any previous modals
     } catch (e) {

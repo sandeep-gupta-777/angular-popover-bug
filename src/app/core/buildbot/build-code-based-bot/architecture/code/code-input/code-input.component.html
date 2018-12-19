@@ -85,16 +85,19 @@
       class="code-editor-row code-editor-row-max position-relative child-expand  d-flex-column-last-child-flex-grow-1">
 
       <app-code-editor class="child-expand" [hidden]="activeTab!==myEBotVersionTabs.df_template"
+                       [doShowValidationsIcon]="true"
                        [text]="editorCodeObj[myEBotVersionTabs.df_template]"
                        (textChangedEvent)="saveText($event)"
                        (validateClick)="validateCodeTest($event)"></app-code-editor>
 
       <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.df_rules"
+                       [doShowValidationsIcon]="true"
                        [text]="editorCodeObj[myEBotVersionTabs.df_rules]"
                        (textChangedEvent)="saveText($event)"
                        (validateClick)="validateCodeTest($event)"></app-code-editor>
 
       <app-code-editor [hidden]="activeTab!==myEBotVersionTabs.generation_rules"
+                       [doShowValidationsIcon]="true"
                        [text]="editorCodeObj[myEBotVersionTabs.generation_rules]"
                        (textChangedEvent)="saveText($event)"
                        (validateClick)="validateCodeTest($event)"></app-code-editor>

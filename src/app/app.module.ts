@@ -28,10 +28,12 @@ import {
   MatProgressBarModule,
   MatSnackBarModule
 } from '@angular/material';
+import {FormsModule} from '@angular/forms';
+import {AuthModule} from './auth/auth.module';
 
 const routes: Route[] = [
   {path: 'dev', loadChildren: './dev/dev.module#DevModule',canLoad: []},
-  {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
+  // {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
   {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad: [AuthGaurdService]},
   {path: 'preview', loadChildren: './chat/chat.module#ChatModule'},
   {path: 'denied', component: NotAuthorisedComponent},
@@ -66,8 +68,13 @@ const routes: Route[] = [
     HttpClientModule,
     MatSnackBarModule,
     MatProgressBarModule,
+    AuthModule,
     // ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
-    ServiceWorkerModule.register('/static/ngsw-worker.js')
+    ServiceWorkerModule.register('/static/ngsw-worker.js'),
+
+
+    /**/
+    FormsModule
   ],
   providers: [ServerService, DragService, DatePipe],
   bootstrap: [AppComponent]
