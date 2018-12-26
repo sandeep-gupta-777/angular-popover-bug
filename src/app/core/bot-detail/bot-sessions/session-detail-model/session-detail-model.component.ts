@@ -117,7 +117,7 @@ export class SessionDetailModelComponent implements OnInit {
     let activeBotId = botMessageDataForGiveTxnId.message_store.activeBotId;
     let activeBotRoomId = botMessageDataForGiveTxnId.message_store.activeBotRoomId;
     this.activeBotPanelData = botMessageDataForGiveTxnId.message_store;
-
+    this.tabClicked(this.activeTab);
     if(activeBotId){
       let activeBotAccessTokenId = this.allBotList.find(bot => bot.id === activeBotId).bot_access_token;
       let headerData: IHeaderData = {
@@ -127,7 +127,7 @@ export class SessionDetailModelComponent implements OnInit {
       this.serverService.makeGetReq({url : surl, headerData})
       .subscribe((newSession : ISessionItem)=>{
         let murl = this.constantsService.getSessionsMessageUrl(newSession.id);
-        this.serverService.makeGetReq({url : surl, headerData})
+        this.serverService.makeGetReq({url : murl, headerData})
         .subscribe((value : ISessionMessage)=>{
           let activeBotMessage = value.objects.find(message => message.transaction_id === this.transactionIdSelectedInModel);
           this.activeBotPanelData = {
@@ -138,7 +138,7 @@ export class SessionDetailModelComponent implements OnInit {
         });
       });
     }
-    this.tabClicked(this.activeTab);
+    // this.tabClicked(this.activeTab);
 
   }
 
