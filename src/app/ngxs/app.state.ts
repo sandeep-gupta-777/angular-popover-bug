@@ -42,7 +42,7 @@ const appDefaultState: IAppState = {
   },
   masterIntegrationList: null,
   masterProfilePermissions: null,
-  backendUrlRoot: 'https://imibot.ai/',//'https://dev.imibot.ai/',,//'http://staging.imibot.ai/',//'https://dev.imibot.ai/',
+  backendUrlRoot: 'https://staging.imibot.ai/',//'https://dev.imibot.ai/',,//'http://staging.imibot.ai/',//'https://dev.imibot.ai/',
   showBackendUrlRootButton: false,
   enterpriseNerData: [],
   masterPipelineItems: null,
