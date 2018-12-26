@@ -710,7 +710,9 @@ export class UtilityService {
     try {
       this.snackBar.open(message, '', {
         duration: (sec * 1000) || 2000,
-        panelClass: ['bg-danger']
+        panelClass: ['bg-danger'],
+        verticalPosition : 'top',
+        horizontalPosition: 'right'
       });
     } catch (e) {
       console.log(e);
@@ -735,7 +737,9 @@ export class UtilityService {
     // this.toastr.info(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
     this.snackBar.open(message, '', {
       duration: 2000,
-      panelClass: ['bg-success']
+      panelClass: ['bg-success'],
+      verticalPosition : 'top',
+      horizontalPosition: 'right'
     });
   }
 
@@ -743,7 +747,9 @@ export class UtilityService {
     // this.toastr.success(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
     this.snackBar.open(message, '', {
       duration: 2000,
-      panelClass: ['bg-success']
+      panelClass: ['bg-success'],
+      verticalPosition : 'top',
+      horizontalPosition: 'right'
     });
   }
 
