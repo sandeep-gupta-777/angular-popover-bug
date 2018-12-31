@@ -231,7 +231,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     this.panelActive = panel;
   }
   enterEnterprise(Enterprise) {
-    let enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
+    if(Enterprise.isActive){
+      let enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
     let body = {
       "user_id": this.userData.id,
       "enterprise_id": Enterprise.enterpriseId,
@@ -246,6 +247,11 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
 
         this.gotUserData$.emit(value);
       });
+    }
+    else{
+      this.utilityService.showErrorToaster("Please verify this enterprise before trying to login.");
+    }
+    
   }
   enterpriseLogout(){
     this.panelActive = 'login';

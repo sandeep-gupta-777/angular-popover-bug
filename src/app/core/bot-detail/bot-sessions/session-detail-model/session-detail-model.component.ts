@@ -118,7 +118,7 @@ export class SessionDetailModelComponent implements OnInit {
     const activeBotId = botMessageDataForGiveTxnId.message_store.activeBotId;
     const activeBotRoomId = botMessageDataForGiveTxnId.message_store.activeBotRoomId;
     this.activeBotPanelData = botMessageDataForGiveTxnId.message_store;
-
+    this.tabClicked(this.activeTab);
     if (activeBotId) {
       const activeBotAccessTokenId = this.allBotList.find(bot => bot.id === activeBotId).bot_access_token;
       const headerData: IHeaderData = {
@@ -139,7 +139,7 @@ export class SessionDetailModelComponent implements OnInit {
         });
       });
     }
-    this.tabClicked(this.activeTab);
+    // this.tabClicked(this.activeTab);
 
   }
 
