@@ -40,6 +40,7 @@ import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 import {IProfilePermission} from '../interfaces/profile-action-permission';
 import {EHttpVerbs, PermissionService} from './permission.service';
 import {ELogType, LoggingService} from './logging.service';
+import {SetEnterpriseInfoAction, SetEnterpriseUsersAction} from './core/enterpriseprofile/ngxs/enterpriseprofile.action';
 
 declare var IMI: any;
 declare var $: any;
@@ -325,8 +326,10 @@ export class ServerService {
         // this.user_first_name = bot.enterprise_name;
         // this.enterprise_logo = bot.enterprise_logo;
         // this.user_email =bot.enterprise_name;
+        debugger
         this.store.dispatch([
           new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({bot}),
+          // new SetEnterpriseInfoAction({enterpriseInfo:{logo:bot.logo}})
           // new ToggleChatWindow({open:true})
         ]);
       });

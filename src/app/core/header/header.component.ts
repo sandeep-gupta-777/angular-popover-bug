@@ -90,7 +90,6 @@ export class HeaderComponent implements OnInit {
     this.loggeduser$.subscribe((value) => {
     });
     this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
-      ;
       this.logoSrc = enterpriseProfileInfo.logo || this.logoSrc;
     });
     // this.activatedRoute.queryParams.subscribe((queryParams)=>{

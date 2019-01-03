@@ -133,6 +133,7 @@ export class LoginComponent implements OnInit {
         this.store.dispatch([
           new SetUser({ user }),
         ]).subscribe(() => {
+          debugger;
           this.serverService.getNSetMasterPermissionsList()
             .subscribe(() => {
               this.flashErrorMessage('Taking you to homepage', 100000);

@@ -1,36 +1,36 @@
 import {IEnterpriseUser} from '../app/core/interfaces/enterprise-users';
 
 export interface IEnterpriseProfileInfo {
-  'id': string
-  'created_at': string
-    'enterprise_unique_name': string
-  'logo': string
-  'name': string
-  'updated_at': string
-  'updated_by': number
+  'id'?: string
+  'created_at'?: string
+    'enterprise_unique_name'?: string
+  'logo'?: string
+  'name'?: string
+  'updated_at'?: string
+  'updated_by'?: number
 
 
   //new fields
-  'created_by': number,
-  'tier_group': number,
-  'log_retention_period': string,
-  'secret_key': string,
+  'created_by'?: number,
+  'tier_group'?: number,
+  'log_retention_period'?: string,
+  'secret_key'?: string,
 
   //not in new
-  'phone': string
-  'enterpriseusers': IEnterpriseUser[],
-  'tier': string
-  'websiteUrl': string,
-  'email': string
-  'industry': string
+  'phone'?: string
+  'enterpriseusers'?: IEnterpriseUser[],
+  'tier'?: string
+  'websiteUrl'?: string,
+  'email'?: string
+  'industry'?: string
 
 }
 
 let x = {
-  // 'created_at': '2018-07-26',
-  // 'created_by': 0,
-  // 'enterprise_unique_name': 'manjulaanalytics',
-  // 'id': 14,
+  // 'created_at'?: '2018-07-26',
+  // 'created_by'?: 0,
+  // 'enterprise_unique_name'?: 'manjulaanalytics',
+  // 'id'?: 14,
   // 'log_retention_period': 'PT180D',
   // 'logo': 'https://media.glassdoor.com/sqll/402111/imimobile-squarelogo-1517496212047.png',
   // 'name': 'Manjula Analytics Enterprise update',

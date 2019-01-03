@@ -74,7 +74,7 @@ export class ChatWrapperComponent implements OnInit {
   messageByHuman: string = '';
   isFullScreenPreview;
   welcomeScreenBotId: number;
-  enterprise_logo = 'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg';
+  enterprise_logo = "https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png" ;
   enterprise_unique_name: string;
   bot_unique_name: string;
   user_first_name;
@@ -102,6 +102,11 @@ export class ChatWrapperComponent implements OnInit {
         this.user_first_name = 'Anonymous User';
         LoggingService.error(e);
       }
+    });
+
+    /*hotfix: enterprise logo*/
+    this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
+      this.enterprise_logo = enterpriseProfileInfo.logo || this.enterprise_logo;
     });
 
     this.isFullScreenPreview = this.activatedRoute.snapshot.data.isFullScreenPreview;
