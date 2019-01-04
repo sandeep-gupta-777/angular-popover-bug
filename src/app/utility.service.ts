@@ -527,8 +527,7 @@ export class UtilityService {
         data.push(obj[key]); //pushing a new coordinate
       });
     });
-    let arr: string[] = [];
-
+// debugger;
     template.series = seriesArr;
     return template;
   }

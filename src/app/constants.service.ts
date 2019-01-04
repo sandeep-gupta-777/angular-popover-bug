@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {IAppState} from './ngxs/app.state';
-import {IUser} from './core/interfaces/user';
-import {Select} from '@ngxs/store';
-import {Observable} from 'rxjs';
-import {IBot} from './core/interfaces/IBot';
-import {IIntegrationOption} from '../interfaces/integration-option';
-import {IAuthState} from './auth/ngxs/auth.state';
-import {ITableColumn} from '../interfaces/sessions';
+import { Injectable } from '@angular/core';
+import { IAppState } from './ngxs/app.state';
+import { IUser } from './core/interfaces/user';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { IBot } from './core/interfaces/IBot';
+import { IIntegrationOption } from '../interfaces/integration-option';
+import { IAuthState } from './auth/ngxs/auth.state';
+import { ITableColumn } from '../interfaces/sessions';
 
 declare var Handsontable: any;
 
@@ -170,17 +170,17 @@ export class ConstantsService {
   public BACKEND_USER_PIPELINE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'api/v1/bot/'; //https://dev.imibot.ai/bots
 
   public readonly CHANNEL_LIST = [
-    {name: 'all', displayName: 'All Channels'},
-    {name: 'facebook', displayName: 'Facebook'},
-    {name: 'web', displayName: 'WebChat'},
-    {name: 'alexa', displayName: 'Alexa'}];
+    { name: 'all', displayName: 'All Channels' },
+    { name: 'facebook', displayName: 'Facebook' },
+    { name: 'web', displayName: 'WebChat' },
+    { name: 'alexa', displayName: 'Alexa' }];
 
   public readonly TIME_GRANULARITY_LIST = [
-    {name: 'hour', displayName: 'Hour'},
-    {name: 'day', displayName: 'Day'},
-    {name: 'week', displayName: 'Week'},
-    {name: 'month', displayName: 'Month'},
-    {name: 'year', displayName: 'Year'}
+    { name: 'hour', displayName: 'Hour' },
+    { name: 'day', displayName: 'Day' },
+    { name: 'week', displayName: 'Week' },
+    { name: 'month', displayName: 'Month' },
+    { name: 'year', displayName: 'Year' }
   ];
 
   public readonly DATE_PICKER_CONFIG = Object.assign({}, {
@@ -212,7 +212,7 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/botversioning/codevalidation/';
   }
 
-  getPipelineModuleV2(){
+  getPipelineModuleV2() {
     return this.BACKEND_URL + 'api/v1/moduledetails/?limit=1000';
   }
 
@@ -249,11 +249,11 @@ export class ConstantsService {
         'workflows': false
       },
       'validation': {
-        'df_rules': {'msg': 'You can validate your code'},
-        'df_template': {'msg': 'You can validate your code'},
-        'generation_rules': {'msg': 'You can validate your code'},
-        'generation_templates': {'msg': 'You can validate your code'},
-        'workflow': {'msg': 'You can validate your code'},
+        'df_rules': { 'msg': 'You can validate your code' },
+        'df_template': { 'msg': 'You can validate your code' },
+        'generation_rules': { 'msg': 'You can validate your code' },
+        'generation_templates': { 'msg': 'You can validate your code' },
+        'workflow': { 'msg': 'You can validate your code' },
       },
       'forked_from': null,
     };
@@ -277,11 +277,16 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/user/enterpriseusers/'; //https://dev.imibot.ai/api/v1/user/enterpriseusers/
   }
 
+  getEnterpriseLogDeletionSummaryUrl() {
+    return this.BACKEND_URL + 'api/v1/deletelogs/enterpriselogdeletionsummary/'; //https://dev.imibot.ai/api/v1/deletelogs/enterpriselogdeletionsummary/
+  }
   getBotListUrl() {
     // return this.BACKEND_USER_PIPELINE_BASED_BOT_LIST + 'api/v1/bot/';
     return this.BACKEND_URL + 'api/v1/bot/?limit=1000';
   }
-
+  getRoleMapUrl() {
+    return this.BACKEND_URL + 'api/v1//role/';
+  }
   getLogoutUrl() {
     // http://localhost:8000/api/v1/logout/;
     return this.BACKEND_URL + 'api/v1/logout/';
@@ -355,7 +360,7 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/reports/?limit=${limit}&offset=${offset}`; //{{url}}/reports?limit=1&offset=10
   }
 
-  getReportHistoryUrl(limit = 1, offset = 10, order_by ) {
+  getReportHistoryUrl(limit = 1, offset = 10, order_by) {
     return this.BACKEND_URL + `api/v1/reporthistory?limit=${limit}&offset=${offset}&order_by=-created_at`;; //https://dev.imibot.ai/reporthistory?limit=1&offset=10
   }
 
@@ -418,21 +423,21 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/actions/?limit=100`; //https://dev.imibot.ai/api/v1/actions/
   }
 
-  getChatFeedbackUrl(){
+  getChatFeedbackUrl() {
     return this.BACKEND_URL + 'api/v1/message/feedback/';
   }
 
-  appendQueryParamsInUrl(url:string, queryParams:object){
+  appendQueryParamsInUrl(url: string, queryParams: object) {
     let urlObj = new URL(url);
-    for(let key in queryParams){
+    for (let key in queryParams) {
       urlObj.searchParams.append(key, queryParams[key]);
     }
     return urlObj.href
   }
 
-  getRoomWithFilters(queryParams:object){
+  getRoomWithFilters(queryParams: object) {
     let url = this.BACKEND_URL + 'api/v1/room/';
-    let urlWithQueryParams =   this.appendQueryParamsInUrl(url, queryParams);
+    let urlWithQueryParams = this.appendQueryParamsInUrl(url, queryParams);
     return urlWithQueryParams;
   }
 
@@ -510,7 +515,7 @@ export class ConstantsService {
   }
 
   updateBotSerializer(bot: IBot) {
-    const clone = {...bot};
+    const clone = { ...bot };
     const not_keys = [
       'bot_access_token',
       'created_at',
@@ -535,12 +540,12 @@ export class ConstantsService {
 
   readonly HANDSON_TABLE_BOT_TESTING_colHeaders = ['Message', 'Expected Template', 'Status', 'Generated Template', 'RoomId', 'TransactionId'];
   readonly HANDSON_TABLE_BOT_TESTING_columns = [
-    {data: 0, type: 'text',},
-    {data: 1, type: 'text',},
-    {data: 2, type: 'text', readOnly: true},
-    {data: 3, type: 'text', readOnly: true},
-    {data: 4, type: 'text', readOnly: true},
-    {data: 5, type: 'text', readOnly: true},
+    { data: 0, type: 'text', },
+    { data: 1, type: 'text', },
+    { data: 2, type: 'text', readOnly: true },
+    { data: 3, type: 'text', readOnly: true },
+    { data: 4, type: 'text', readOnly: true },
+    { data: 5, type: 'text', readOnly: true },
   ];
 
   readonly HANDSON_TABLE_KNOWLEDGE_BASE_SETTING = {
@@ -965,7 +970,7 @@ export class ConstantsService {
       displayValue: 'Updated At',
       search: false,
       searchValue: true,
-      dateRange:true
+      dateRange: true
     },
     channels: {
       originalKey: '',
@@ -1023,7 +1028,76 @@ export class ConstantsService {
       perPage: 5
     }
   };
+  readonly SMART_TABLE_SERVICE_KEY_EXPIRED: any = {
+    key: {
+      originalKey: 'key',
+      value: '',
+      type: 'string',
+      displayValue: 'Token Id',
+    },
+    description: {
+      originalKey: 'description',
+      value: '',
+      type: 'string',
+      displayValue: 'Description',
+    },
+    created_at: {
+      originalKey: 'created_at',
+      value: '',
+      type: 'string',
+      displayValue: 'Created on',
+    },
+    expired_at: {
+      originalKey: 'expired_at',
+      value: '',
+      type: 'string',
+      displayValue: 'Expires on',
+    },
+    expired_by: {
+      originalKey: 'expired_by',
+      value: '',
+      type: 'string',
+      displayValue: 'Expired by',
+    }
+    
+  }
 
+  readonly SMART_TABLE_SERVICE_KEY_ACTIVE: any = {
+    key: {
+      originalKey: 'key',
+      value: '',
+      type: 'string',
+      displayValue: 'Token Id',
+    },
+    description: {
+      originalKey: 'description',
+      value: '',
+      type: 'string',
+      displayValue: 'Description',
+    },
+    created_at: {
+      originalKey: 'created_at',
+      value: '',
+      type: 'string',
+      displayValue: 'Created on',
+    },
+    expired_at: {
+      originalKey: 'expired_at',
+      value: '',
+      type: 'string',
+      displayValue: 'Expires on',
+    },
+    'actions': {
+      originalKey: '',
+      value: undefined,
+      type: 'icon',
+      displayValue: 'Actions',
+      custom: true,
+      name: '',
+
+    }
+    
+  }
 
   SMART_TABLE_USER_DICT_TEMPLATE: ITableColumn = {
     first_name: {
@@ -1031,14 +1105,14 @@ export class ConstantsService {
       value: '',
       type: 'number',
       displayValue: 'User Name',
-      
+
     },
     email: {
       originalKey: 'email',
       value: '',
       type: 'number',
       displayValue: 'Email ID',
-      
+
     },
     // 'role': {
     //   originalKey: 'role',
@@ -1051,17 +1125,16 @@ export class ConstantsService {
     'role_id': {
       originalKey: 'role_id',
       value: '',
-      type: 'number',
+      type: 'string',
       displayValue: 'Role ID',
-      
+
     },
-    
     'bots': {
       originalKey: 'bots',
       value: '',
-      type: 'number',
+      type: 'string',
       displayValue: 'Bots',
-      
+
     },
     'actions': {
       originalKey: '',
@@ -1070,7 +1143,7 @@ export class ConstantsService {
       displayValue: 'Actions',
       custom: true,
       name: '',
-      
+
     }
     // 'permissions': {
     //   originalKey: 'permissions',
