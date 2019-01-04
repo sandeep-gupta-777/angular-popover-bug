@@ -33,20 +33,64 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   logoError;
   enterpriseUserBotList: number[];
   formGroup: FormGroup;
+  roleMap: any;
   getTableDataMetaDict(): any {
     return this.constantsService.SMART_TABLE_USER_DICT_TEMPLATE;
   }
+  roleIdToRoleName(roleId: number) {
+    let thisRole = this.roleMap.find(role => role.id == roleId);
+    if(thisRole){
+      return thisRole.name
+    }
+    else{
+      return "Custom role";
+    }
+    
+  }
+  transformDataForMaterialTable(data: any[], tableDataMetaDict: any) {
+    return data.map((consumerTableDataItem) => {
+      let obj: any = {};
+      let thisUsersEnterperise = consumerTableDataItem.enterprises.find(value => value.enterprise_id == this.enterpriseId)
+      for (let key in tableDataMetaDict) {
+        if (key == 'role_id') {
+          let roleName = this.roleIdToRoleName(thisUsersEnterperise[key])
+          obj[tableDataMetaDict[key].displayValue] = {
+            ...tableDataMetaDict[key],
+            originalKey: key,
+            value: roleName,
+            searchValue: roleName
+          };
+        }
+        else if (key == 'bots') {
 
+          obj[tableDataMetaDict[key].displayValue] = {
+            ...tableDataMetaDict[key],
+            originalKey: key,
+            value: thisUsersEnterperise[key].length + " bots assigned",
+            searchValue: thisUsersEnterperise[key].length
+          };
+        }
+        else {
+          obj[tableDataMetaDict[key].displayValue] = {
+            ...tableDataMetaDict[key],
+            originalKey: key,
+            value: consumerTableDataItem[key],
+            searchValue: consumerTableDataItem[key]
+          };
+        }
+      }
+
+      obj.originalSessionData = consumerTableDataItem;
+      return obj;
+    });
+  }
   initializeTableData(data: any, tableDataMetaDict: any): void {
-    // debugger;
-    this.tableData = super.transformDataForMaterialTable(data, this.getTableDataMetaDict());
+    this.tableData = this.transformDataForMaterialTable(data, this.getTableDataMetaDict());
     this.tableData = this.tableData.map((tableGataItem) => {
-      // debugger;
-      tableGataItem.Bots.value = tableGataItem.Bots.value.length + " bots assigned";
+      // tableGataItem.Bots.value = tableGataItem.Bots.value.length + " bots assigned";
       tableGataItem.Actions.value = tableGataItem.Actions.value || [];
       tableGataItem.Actions.value.push({ show: true, name: 'modify', class: 'fa fa-edit mr-3 color-primary' });
       tableGataItem.Actions.value.push({ show: true, name: 'remove', class: 'fa fa-trash color-danger' });
-      debugger;
       return tableGataItem;
     });
   }
@@ -89,11 +133,17 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     this.logoError = logoErrorObj && Object.keys(logoErrorObj)[0] || null;
   }
 
-  
+
 
   ngOnInit() {
 
-    
+    const RoleMapUrl = this.constantsService.getRoleMapUrl();
+    this.serverService.makeGetReq<any>({ url: RoleMapUrl })
+      .subscribe((value) => {
+        this.roleMap = value.objects;
+        // debugger;
+      });
+
     this.loggeduser$.subscribe(({ user }) => {
       this.userid = user.id;
       this.role = user.role.name;
@@ -114,6 +164,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
             this.store.dispatch([
               new SetEnterpriseUsersAction({ enterpriseUsers: value.objects })
             ]);
+            this.initializeTableData(value.objects, this.getTableDataMetaDict());
           });
       }
 
@@ -128,7 +179,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
               debugger;
               if (enterpriseuser.role_id == 2) {
                 this.enterpriseUserBotList = enterpriseuser.bots;
-                
+
               }
               return {
                 ...enterpriseuser,
@@ -138,7 +189,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
             })
           };
         }));
-      }
+  }
   log(z) {
     console.log(z);
   }

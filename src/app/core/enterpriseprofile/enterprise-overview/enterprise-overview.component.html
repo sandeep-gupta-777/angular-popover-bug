@@ -1,43 +1,49 @@
-<header class="row mt-3 pb-3 profile-row ">
+<header class="row mt-3 pb-3  ">
   <div class="col-12 p-0">
-    <div class="card">
-      <div class="card-header d-flex justify-content-between justify-content-center align-items-center">
-        <h4>Enterprise Profile</h4>
+    <div class="d-flex">
+      <div class="card-header">
+        Profile settings
       </div>
-      <div class="d-flex">
-        <div class="card-header">
-          Profile settings
-        </div>
-
-        <button class="btn-theme btn-theme-primary ml-auto " [disabled]="!formGroup.valid" (click)="updateEnterpriseProfile()">Update</button>
-
-      </div>
-
+      <button class="btn-theme btn-theme-primary ml-auto " [disabled]="!formGroup.valid" (click)="updateEnterpriseProfile()">Update</button>
     </div>
   </div>
-
 </header>
 <div *ngIf="(loggeduserenterpriseinfoMap$|async) as loggeduserenterpriseinfo">
-  <section class="row basic-row bg-white pt-3">
-    <div class="col-3 logo-wrapper-col p-5">
+  <section class="row basic-row bottom-border-line">
+    <div class="col-1 logo-wrapper-col ">
       <div class="logo-wrapper">
         <img [src]="logoUrl.value || loggeduserenterpriseinfo.logo" alt="">
       </div>
     </div>
-    <div class="col-9">
-      <h4 class="form-title">Basic</h4>
-      <form [formGroup]="formGroup" class="basic-info-form">
-        <div class="row">
+    <div class="col-11">
+
+      <form [formGroup]="formGroup" class="basic-info-form row">
+        <div class="row col-6">
+          <h4 class="form-title col-12">Basic</h4>
           <div class="col-5">
             <div class="form-group">
               <label for="name">Company Name</label>
               <input type="text" class="form-control" formControlName="name" required>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="alterEgo">Industry</label>
               <input type="text" class="form-control" formControlName="industry">
-            </div>
+            </div> -->
             <!---->
+
+          </div>
+          <div class="col-7">
+            <div class="form-group">
+              <label for="alterEgo">Email</label>
+              <input type="text" class="form-control" formControlName="email">
+            </div>
+
+            <!-- <div class="form-group">
+              <label for="alterEgo">Website Url</label>
+              <input type="text" class="form-control" formControlName="websiteUrl">
+            </div> -->
+          </div>
+          <div class="col-12">
             <div class="form-group">
               <label for="alterEgo">Logo Url</label><i class="text-danger pl-1" style="font-size: 11px">{{logoError}}</i>
               <input type="text" #logoUrl class="form-control" formControlName="logo">
@@ -47,26 +53,15 @@
                 Https Url</i>
             </div>
           </div>
-          <div class="col-5">
-            <div class="form-group">
-              <label for="alterEgo">Email</label>
-              <input type="text" class="form-control" formControlName="email">
-            </div>
-
-            <div class="form-group">
-              <label for="alterEgo">Website Url</label>
-              <input type="text" class="form-control" formControlName="websiteUrl">
-            </div>
-          </div>
         </div>
-        <h4 class="form-title">Advanced</h4>
-        <div class="row">
+        <div class="row col-6">
+          <h4 class="form-title col-12">Advanced</h4>
+
           <div class="col-5">
             <div class="form-group">
               <label for="name">Enterprise Unique Name</label>
-              <!-- <input type="text" class="form-control" required formControlName="enterpriseUniqueName" readonly> -->
+              <input type="text" class="form-control" required formControlName="enterpriseUniqueName" readonly>
             </div>
-
           </div>
           <div class="col-5">
             <div class="form-group">
@@ -83,10 +78,104 @@
         </div>
       </form>
     </div>
+
   </section>
   <!---->
 
 </div>
+<header class="row mt-3 pb-3  ">
+  <div class="col-12 p-0">
+    <div class="card-header">
+      Log deletion summary
+    </div>
+  </div>
+  <div class="col-12 p-0">
+    <div class="card-header card-header-description">
+      Descrion of log deletion summary ................
+    </div>
+  </div>
+</header>
+<div class="d-flex log-deletion bottom-border-line">
+  <div class="unit ml-2 mr-4" *ngFor="let data of logdeletionsummary">
+    <div class="date mb-2">
+      {{data.date}}
+    </div>
+    <div class="count">
+      {{data.total}}
+    </div>
+  </div>
+</div>
+<header class="row mt-3 pb-3  ">
+  <div class="col-12 p-0">
+    <div class="card-header">
+      Service keys
+    </div>
+  </div>
+  <div class="col-12 p-0">
+    <div class="card-header card-header-description">
+      Descrion of Service keys ....................
+    </div>
+  </div>
+</header>
+<div class="access-tokens">
+  <div class="col-12 p-0 pb-2">
+    <div class="heading">
+      Enterprise access token
+    </div>
+  </div>
+  <div class="col-12 p-0 pb-2 d-flex">
+    <button class="btn-theme  btn-theme-primary " [ngClass]="{'btn-theme-primary-outline': !showActiveServiceKeysTable}" (click) = "showActiveServiceKeysTable = true">Active</button>
+    <button class="btn-theme btn-theme-primary" [ngClass]="{'btn-theme-primary-outline': showActiveServiceKeysTable}" (click) = "showActiveServiceKeysTable = false">Expired</button>
+    <div class="ml-auto color-primary cursor-pointer" (click)="openNewServiceKeyModal(enterpriseNewServiceKeyModal)"><i class="fa fa-plus pr-1 "></i> New token</div>
+  </div>
+</div>
+<div class="row profile-row" [hidden] = "!showActiveServiceKeysTable && serviceKeyTableDataExpired" >
+  <div class="col-12 p-0 m-0">
+    <app-smart-table  [data]="serviceKeyTableDataExpired"
+    >
+    </app-smart-table>
+  </div>
+</div>
 
+<div class="row profile-row" [hidden] = "showActiveServiceKeysTable && serviceKeyTableDataActive">
+  <div class="col-12 p-0 m-0">
+    <app-smart-table [data]="serviceKeyTableDataActive"
+    >
+    </app-smart-table>
+  </div>
+</div>
 
-
+<ng-template #enterpriseNewServiceKeyModal>
+    <div class="primary-modal" style="min-width: 500px;">
+      <div class="modal-header" style="border:none !important">
+        <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">New service key</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+  
+      <div class="mx-3 mb-3" style="text-align: left !important;">
+        <form #form="ngForm">
+          <div class="my-1">
+            <p class="mb-3">Provide an expiration date to generate a new service key
+            </p>
+            <span class= "mr-3 mb-2">No expriy</span><mat-slide-toggle formControlName="is_manager" color="primary"></mat-slide-toggle> 
+            <br>
+            <mat-form-field>
+                <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="d-flex" style="flex-direction: row-reverse">
+            <!-- <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRefWrapper.hide()">Cancel</button> -->
+            <button class=" btn-theme btn-theme-primary mx-1 " (click)="dialogRefWrapper.ref.close();">Create
+            </button>
+            <button class=" btn-theme btn-theme-primary-outline mx-1" (click)="dialogRefWrapper.ref.close();">Cancel
+            </button>
+  
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-template>

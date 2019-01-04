@@ -21,12 +21,17 @@
   }
   
   .card-header{
-    background-color: #f0f3f4;
-    padding-right: 0;
-    padding-left: 0;  
-    padding-top: 0; 
+      padding: .5rem 1.25rem;
+      background-color: transparent;
+      @include typography($font-size-md, $line-height-normal, $font-weight-normal, $color-text-normal);
+  
+  }
+  .card-header-description{
+    @include typography($font-size-xs, $line-height-normal, $font-weight-normal, $color-text-normal);
   }
   .card{
     background-color: #f0f3f4;
   }
-  
+  .profile-row{
+    padding: .5rem 1.25rem;
+  }

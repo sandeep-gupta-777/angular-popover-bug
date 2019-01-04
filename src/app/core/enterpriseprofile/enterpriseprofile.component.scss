@@ -80,3 +80,11 @@ th,td{
     }
   }
 }
+:host /deep/ {
+  mat-tab-header{
+    border: none;
+  }
+  .mat-tab-label{
+    border: none;
+  }
+}

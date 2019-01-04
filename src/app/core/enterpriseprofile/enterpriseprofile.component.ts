@@ -75,8 +75,6 @@ export class EnterpriseprofileComponent  implements OnInit {
     //   return {...sessionsDataForTableItem, ...additonalColumns};
     // });
     // return sessionsDataForTable;
-
-
   // }
 
   // openDeletModal(template: TemplateRef<any>) {

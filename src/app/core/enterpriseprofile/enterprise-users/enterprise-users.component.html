@@ -1,25 +1,43 @@
-<header class="row mt-3  profile-row" *ngIf="role==='Admin'">
+<!-- <header class="row mt-3  profile-row" *ngIf="role==='Admin'">
     <div class="col-12 p-0">
       <div class="card">
         <div class="card-header d-flex justify-content-between justify-content-center align-items-center">
           <h4>Users management</h4>
         </div>
-        <div class="card-header d-flex justify-content-between justify-content-center align-items-center">
+        <div class="card-header-description d-flex justify-content-between justify-content-center align-items-center">
           Manage users of your enterprise by adding new ones, modifying and removing existing ones.
         </div>
       </div>
     </div>
+  </header> -->
+  <header class="row mt-3 pb-3  ">
+    <div class="col-12 p-0">
+      <div class="card-header">
+        Users management
+      </div>
+    </div>
+    <div class="col-12 p-0">
+      <div class="card-header card-header-description">
+        Manage users of your enterprise by adding new ones, modifying and removing existing ones.
+      </div>
+    </div>
   </header>
   <div class="d-flex">
+    <div class="card-header">
+      All Users
+    </div>
+    <button class="btn-theme btn-theme-primary ml-auto mr-3" (click)="openUserEditModal(NewUserModal)"><i class="fa fa-plus pr-1 "></i>New User</button>
+  </div>
+  <!-- <div class="d-flex">
     <div class="d-inline-block " *ngIf="role==='Admin'">
       All Users
     </div>
     <div class="ml-auto ">
       <button class="btn-theme btn-theme-primary" (click)="openUserEditModal(NewUserModal)">New User</button>
     </div>
-  </div>
+  </div> -->
 
-  <div class="row mt-3 bg-white profile-row" *ngIf="role==='Admin'">
+  <div class="row profile-row" *ngIf="role==='Admin'">
 
     <div class="col-12 p-0 m-0">
       <app-smart-table *ngIf="tableData" [data]="tableData"
