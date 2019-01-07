@@ -4,7 +4,6 @@ import {Observable} from 'rxjs';
 import {LoggingService} from '../logging.service';
 import {MatTableDataSource} from '@angular/material';
 import {FormControl, NgForm} from '@angular/forms';
-import {settings} from 'cluster';
 
 @Component({
   selector: 'app-smart-table',

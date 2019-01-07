@@ -34,6 +34,8 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
   // @Input() _custumNerDataForSmartTable = [];
   _custumNerDataForSmartTable: any[] = [];
   @Input() set custumNerDataForSmartTable(value: ICustomNerItem[]) {
+
+    debugger;
     this._custumNerDataForSmartTable = value;
     setTimeout(()=>{
       this.initializeTableData(value, this.getTableDataMetaDict());
@@ -140,7 +142,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
       const handontableDataClone = JSON.parse(JSON.stringify(data.handsontableData));
       const column_headers = handontableDataClone[0] || ['', '', ''];
       handontableDataClone.shift();
-      let handsontableDataSerialized = handontableDataClone.map((row) => {
+      let handsontableDataSerialized: any[] = handontableDataClone.map((row) => {
         const obj = {};
         let isRow = false;
         row.forEach((str, index) => {
@@ -162,10 +164,16 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
         // });
         // return obj;
       });
+
       console.log('shoaib sadas', handsontableDataSerialized);
       handsontableDataSerialized = handsontableDataSerialized.filter(function (el) {
         return el != null;
       });
+
+      if(!handsontableDataSerialized || handsontableDataSerialized.length===0){
+        this.utilityService.showErrorToaster("There must be atleast two rows in table");
+        return;
+      }
       body = {'column_headers': column_headers, values: handsontableDataSerialized, ...body};
     }
 
