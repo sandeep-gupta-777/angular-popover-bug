@@ -132,6 +132,7 @@
 <div class="row profile-row" [hidden] = "!showActiveServiceKeysTable && serviceKeyTableDataExpired" >
   <div class="col-12 p-0 m-0">
     <app-smart-table  [data]="serviceKeyTableDataExpired"
+    (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
     >
     </app-smart-table>
   </div>
@@ -157,19 +158,18 @@
       <div class="mx-3 mb-3" style="text-align: left !important;">
         <form #form="ngForm">
           <div class="my-1">
-            <p class="mb-3">Provide an expiration date to generate a new service key
+            <p class="mb-3">Provide a description for the new service key {{descriptionServiceKey}}
             </p>
-            <span class= "mr-3 mb-2">No expriy</span><mat-slide-toggle formControlName="is_manager" color="primary"></mat-slide-toggle> 
-            <br>
-            <mat-form-field>
-                <input matInput [matDatepicker]="picker" placeholder="Choose a date">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
+      
+            <form  #descriptionForm="ngForm" >
+              <mat-form-field style = "width : 300px">
+                <input matInput placeholder="Description" ngModel name ="description" value="" > 
+              </mat-form-field>
+            </form>
           </div>
           <div class="d-flex" style="flex-direction: row-reverse">
             <!-- <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRefWrapper.hide()">Cancel</button> -->
-            <button class=" btn-theme btn-theme-primary mx-1 " (click)="dialogRefWrapper.ref.close();">Create
+            <button class=" btn-theme btn-theme-primary mx-1 " (click)="addNewServiceKey() ;dialogRefWrapper.ref.close();">Create
             </button>
             <button class=" btn-theme btn-theme-primary-outline mx-1" (click)="dialogRefWrapper.ref.close();">Cancel
             </button>

@@ -191,7 +191,14 @@ export class ConstantsService {
   getEnterpriseLoginUrl() {
     return this.BACKEND_URL + 'api/v1/user/enterprise_login/';
   }
+  
+  generateServiceKeyUrl() {
+    return this.BACKEND_URL + 'api/v1/enterprise/generate_service_key/';
+  }
+  disableServiceKeyUrl(){
+    return this.BACKEND_URL + 'api/v1/enterprise/disable_service_key/';
 
+  }
   getAllEnterpriseUrl() {
     return this.BACKEND_URL + 'api/v1/user/enterprises/';
   }
@@ -285,7 +292,13 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/bot/?limit=1000';
   }
   getRoleMapUrl() {
-    return this.BACKEND_URL + 'api/v1//role/';
+    return this.BACKEND_URL + 'api/v1/role/';
+  }
+  deleteUserUrl(id:number){
+    return this.BACKEND_URL + `api/v1/user/${id}/`;
+  }
+  removeEnterpriseUserUrl(){
+    return this.BACKEND_URL + `api/v1/user/removeenterpriseuser/`;
   }
   getLogoutUrl() {
     // http://localhost:8000/api/v1/logout/;

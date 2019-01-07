@@ -22,4 +22,5 @@ export enum EAnalysis2TypesEnum {
   sessionsperuser='sessionsperuser',
   messagespersession='messagespersession',
   timepersession='timepersession',
+  sessionhandling = 'sessionhandling',
 }

@@ -13,7 +13,7 @@ import {
   SetRoomDuration,
   SetChannelWiseSessions,
   SetChannelWiseUsers,
-  ResetAnalytics2GraphData, SetUsagetrackingInfo,  ResetAnalytics2HeaderData, TotalSessions, SetSessionsperuser, SetMessagespersession, SetTimepersession, SetTotalTimeOfRooms, SetTopgenerationtemplates
+  ResetAnalytics2GraphData, SetUsagetrackingInfo,  ResetAnalytics2HeaderData, TotalSessions, SetSessionsperuser, SetMessagespersession, SetTimepersession, SetTotalTimeOfRooms, SetTopgenerationtemplates, SetSessionhandling
 } from './analysis.action';
 import {IOverviewInfo, IOverviewInfoPostBody} from '../../../../interfaces/Analytics2/overview-info';
 import {IAnalysis2HeaderData} from '../../../../interfaces/Analytics2/analytics2-header';
@@ -54,6 +54,7 @@ export interface IAnalysis2State {
   messagespersession:any;
   timepersession:any;
   totalTimeOfRooms:any;
+  sessionhandling:any;
 }
 const defaultAnalytics2 = {
   analysisHeaderData: null,
@@ -76,7 +77,8 @@ const defaultAnalytics2 = {
   sessionsperuser: null,
   messagespersession: null,
   timepersession: null,
-  totalTimeOfRooms: null
+  totalTimeOfRooms: null,
+  sessionhandling:null
 };
 @State<IAnalysis2State>({
   name: 'analysisstate2',
@@ -129,7 +131,12 @@ export class AnalysisStateReducer2 {
     const state: IAnalysis2State = getState();
     patchState({userAcquisition: payload.data});
   }
-
+  
+  @Action(SetSessionhandling)
+  setSessionhandling({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetSessionhandling) {
+    const state: IAnalysis2State = getState();
+    patchState({sessionhandling: payload.data});
+  }
   @Action(SetTotalMessages)
   setTotalMessages({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetTotalMessages) {
     const state: IAnalysis2State = getState();

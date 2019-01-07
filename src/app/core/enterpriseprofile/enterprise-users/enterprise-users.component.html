@@ -68,7 +68,7 @@
           </div>
           <div class="d-flex" style="flex-direction: row-reverse">
             <!-- <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRefWrapper.hide()">Cancel</button> -->
-            <button class=" btn-theme btn-theme-danger mx-1 " (click)="dialogRefWrapper.ref.close();">Remove
+            <button class=" btn-theme btn-theme-danger mx-1 " (click)="deleteUser();dialogRefWrapper.ref.close();">Remove
             </button>
             <button class=" btn-theme btn-theme-danger-outline mx-1" (click)="dialogRefWrapper.ref.close();">Cancel
             </button>
@@ -96,8 +96,8 @@
         <div class="user-modal-heading">Change role</div>
         <mat-form-field>
           <mat-select placeholder="Select role" ngModel name="role" [value]="123">
-            <!-- <mat-option *ngFor="let bot of codebasedBotList; let i = index;" [value]="role.id">
-              {{bot.name}}
+            <!-- <mat-option *ngFor="let bot of enterpriseUserBotList; let i = index;" >
+              {{bot}}
             </mat-option> -->
             <!-- <mat-option [value]="role.id">
                 Admin

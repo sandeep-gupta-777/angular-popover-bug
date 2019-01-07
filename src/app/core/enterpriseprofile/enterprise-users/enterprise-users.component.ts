@@ -12,6 +12,8 @@ import { OnInit, ViewChild, Component, TemplateRef } from "@angular/core";
 import { Observable } from "rxjs";
 import { IUser } from "../../interfaces/user";
 import { map } from "rxjs/operators";
+import { NumberValueAccessor } from "@angular/forms/src/directives";
+import { IHeaderData } from "src/interfaces/header-data";
 
 @Component({
   selector: 'app-enterprise-users',
@@ -34,6 +36,8 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   enterpriseUserBotList: number[];
   formGroup: FormGroup;
   roleMap: any;
+  userIdtoDelete:number;
+  
   getTableDataMetaDict(): any {
     return this.constantsService.SMART_TABLE_USER_DICT_TEMPLATE;
   }
@@ -86,6 +90,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   }
   initializeTableData(data: any, tableDataMetaDict: any): void {
     this.tableData = this.transformDataForMaterialTable(data, this.getTableDataMetaDict());
+    
     this.tableData = this.tableData.map((tableGataItem) => {
       // tableGataItem.Bots.value = tableGataItem.Bots.value.length + " bots assigned";
       tableGataItem.Actions.value = tableGataItem.Actions.value || [];
@@ -93,11 +98,22 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
       tableGataItem.Actions.value.push({ show: true, name: 'remove', class: 'fa fa-trash color-danger' });
       return tableGataItem;
     });
+    debugger;
+    this.tableData = [...this.tableData]; 
   }
 
+  deleteUser(){
+    let removeEnterpriseUserUrl = this.constantsService.removeEnterpriseUserUrl();
+    const headerData: IHeaderData = { 'content-type': 'application/json' };
+    let body = {"user_id":this.userIdtoDelete};
+    this.serverService.makePostReq<any>({ url: removeEnterpriseUserUrl, body, headerData })
+      .subscribe((value) => {
+        console.log(value);
+        this.tableData = this.tableData.filter((user)=>user.originalSessionData.id !== this.userIdtoDelete);
+      });
+  }
 
-  openDeletModal(template: TemplateRef<any>) {
-
+  openDeletModal(template: TemplateRef<any> ) {
     // this.selectedPipeline = pipeline;
     // this.modalRef = this.modalService.show(template, { class: 'modal-md' });
     this.utilityService.openDangerModal(template, this.matDialog, this.dialogRefWrapper);
@@ -109,6 +125,8 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   }
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }, enterpriseDeleteModal, ModifyUserModal) {
     if (data.action === 'remove') {
+      // console.log(data.data)
+      this.userIdtoDelete = data.data.id;
       this.openDeletModal(enterpriseDeleteModal);
 
     }
@@ -141,7 +159,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     this.serverService.makeGetReq<any>({ url: RoleMapUrl })
       .subscribe((value) => {
         this.roleMap = value.objects;
-        // debugger;
+        // 
       });
 
     this.loggeduser$.subscribe(({ user }) => {
@@ -154,7 +172,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
           this.store.dispatch([
             new SetEnterpriseInfoAction({ enterpriseInfo: value })
           ]);
-          // debugger;
+          // 
           // this.formGroup.patchValue(<any>value);
         });
       if (this.role === 'Admin') {
@@ -169,17 +187,15 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
       }
 
     });
-    // debugger;
     this.loggeduserenterpriseinfoMap$ =
       this.loggeduserenterpriseinfo$.pipe(
         map((value) => {
           return {
             ...value,
             enterpriseusers: value.enterpriseusers.map((enterpriseuser) => {
-              debugger;
               if (enterpriseuser.role_id == 2) {
                 this.enterpriseUserBotList = enterpriseuser.bots;
-
+                console.log("filling bot");
               }
               return {
                 ...enterpriseuser,
@@ -189,6 +205,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
             })
           };
         }));
+    
   }
   log(z) {
     console.log(z);

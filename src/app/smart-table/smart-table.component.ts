@@ -75,6 +75,9 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
 
   @Input() set data(dataValue: any[]) {
+    if (!dataValue) {
+      return;
+    }
     this._data = dataValue;
     this.dataSource = new MatTableDataSource(dataValue);
     this.displayedColumns = Object.keys(dataValue[0]).filter((key) => {
@@ -84,9 +87,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     this.tableData = dataValue;
 
     this.displayKeyOriginalKeyDict = this.createDisplayKeyOriginalKeyDict(dataValue);
-    if (!dataValue) {
-      return;
-    }
+    
 
     try {
       let formData = this.tableForm && this.tableForm.value;
