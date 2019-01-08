@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   margin-left: 40px;
+  cursor: pointer;
 
   .fa{
     margin-right: 10px;
@@ -14,7 +15,8 @@
   }
   mat-icon{
     font-size: 13px;
-    height: 10px;/*TODO: mat-icons have unneccery height*/
+    height: auto;
+    width: auto;
     &:first-of-type{
       color: #34bc6e;
 

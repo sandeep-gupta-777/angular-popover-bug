@@ -3,6 +3,7 @@ import {ISessionItem, ISessionMessageItem} from '../../../../../../interfaces/se
 import {ITxnSessionMessagesItem} from '../../../../../serialize-session-message.pipe';
 import {UtilityService} from '../../../../../utility.service';
 import {LoggingService} from '../../../../../logging.service';
+import {EChatFeedback} from '../../../../../chat/chat-wrapper.component';
 
 @Component({
   selector: 'app-session-message',
@@ -13,6 +14,7 @@ export class SessionMessageComponent implements OnInit {
 
   // @Input() sessionMessageData: ISessionMessageItem;
    _txnConversationItems: ITxnSessionMessagesItem;
+  myEChatFeedback = EChatFeedback;
   @Input()  set txnConversationItems (txnConversationItemsValue: ITxnSessionMessagesItem) {
 
     this._txnConversationItems = txnConversationItemsValue;
@@ -29,6 +31,7 @@ export class SessionMessageComponent implements OnInit {
 
     this.sessionMessageItems = this._txnConversationItems.convoList;
     LoggingService.log(this.sessionMessageItems);
+    debugger;
     this.txnId = this._txnConversationItems.transaction_id;
     this.txnId_highlighting = this._txnConversationItems.transaction_id_highlighting || this.txnId;
     // this.sessionMessageData.user_type;

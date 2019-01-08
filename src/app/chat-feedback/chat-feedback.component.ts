@@ -4,7 +4,7 @@ import {EChatFeedback} from '../chat/chat-wrapper.component';
 @Component({
   selector: 'app-chat-feedback',
   template: `    
-    <div class="chat-feedback cursor-pointer">
+    <div class="chat-feedback">
       <div (click)="chatMessageFeedback$.emit(true)">
         <i class="fa" [ngClass]="{'fa-thumbs-up': feedback === myEChatFeedback.POSITIVE, 'fa-thumbs-o-up': feedback !== myEChatFeedback.POSITIVE}"></i>
         <span>Upvote</span>
