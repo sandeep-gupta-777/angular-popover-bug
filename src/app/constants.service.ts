@@ -300,11 +300,17 @@ export class ConstantsService {
   removeEnterpriseUserUrl(){
     return this.BACKEND_URL + `api/v1/user/removeenterpriseuser/`;
   }
+  createUserUrl(){
+    return this.BACKEND_URL + `api/v1/user/`;
+  }
   getLogoutUrl() {
     // http://localhost:8000/api/v1/logout/;
     return this.BACKEND_URL + 'api/v1/logout/';
   }
-
+  updateUserUrl(user_id : number){
+    return this.BACKEND_URL + `api/v1/user/${user_id}/`;
+    
+  }
   getNSetChatPreviewBotUrl(bot_unique_name, enterprise_unique_name) {
     // http://localhost:8000/api/v1/logout/;
     return this.BACKEND_URL + `api/v1/bot/preview/?bot_unique_name=${bot_unique_name}&enterprise_unique_name=${enterprise_unique_name}`;
@@ -706,6 +712,7 @@ export class ConstantsService {
       column: {
         stacking: 'percent'
       },
+      
       series: {
         pointStart: Date.UTC(2018, 6, 20),
         pointInterval: 24 * 3600 * 1000

@@ -35,3 +35,19 @@
   .profile-row{
     padding: .5rem 1.25rem;
   }
+  .modelBotNames{
+    display: grid;
+    grid-template-columns: repeat(4,150px);
+    justify-content: center;
+    align-items: start;
+    row-gap: 8px;
+    label{
+      height: auto;
+      line-height: 1.35;
+      text-align: left;
+      input{
+        width:13px;
+        height: 13px;
+      }
+    }
+  }

@@ -12,8 +12,10 @@ import { OnInit, ViewChild, Component, TemplateRef } from "@angular/core";
 import { Observable } from "rxjs";
 import { IUser } from "../../interfaces/user";
 import { map } from "rxjs/operators";
-import { NumberValueAccessor } from "@angular/forms/src/directives";
+import { NgForm } from "@angular/forms";
 import { IHeaderData } from "src/interfaces/header-data";
+import { IBotResult, IBot } from "../../interfaces/IBot";
+import { SetAllBotListAction } from "../../view-bots/ngxs/view-bot.action";
 
 @Component({
   selector: 'app-enterprise-users',
@@ -26,30 +28,35 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   loggeduserenterpriseinfoMap$: Observable<IEnterpriseProfileInfo>;
   @ViewChild('form') f: HTMLFormElement;
+  @ViewChild('modifyBotList') modifyBotList: NgForm;
+  @ViewChild('newBotList') newBotList: NgForm;
+  @ViewChild('newBotDetails') newBotDetails: NgForm;
+  @ViewChild('modifyBotDetails') modifyBotDetails: NgForm;
   dialogRefWrapper = { ref: null };
+  object = Object;
   tableData;
   userid: number;
   role: string;
   enterpriseId: number;
   loggeduserenterpriseinfo: IEnterpriseProfileInfo;
   logoError;
-  enterpriseUserBotList: number[];
+  enterpriseUserBotList: IBot[];//
   formGroup: FormGroup;
   roleMap: any;
-  userIdtoDelete:number;
-  
+  userIdtoDelete: number;
+  selectedUserModify: any;
   getTableDataMetaDict(): any {
     return this.constantsService.SMART_TABLE_USER_DICT_TEMPLATE;
   }
   roleIdToRoleName(roleId: number) {
     let thisRole = this.roleMap.find(role => role.id == roleId);
-    if(thisRole){
+    if (thisRole) {
       return thisRole.name
     }
-    else{
+    else {
       return "Custom role";
     }
-    
+
   }
   transformDataForMaterialTable(data: any[], tableDataMetaDict: any) {
     return data.map((consumerTableDataItem) => {
@@ -90,7 +97,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   }
   initializeTableData(data: any, tableDataMetaDict: any): void {
     this.tableData = this.transformDataForMaterialTable(data, this.getTableDataMetaDict());
-    
+
     this.tableData = this.tableData.map((tableGataItem) => {
       // tableGataItem.Bots.value = tableGataItem.Bots.value.length + " bots assigned";
       tableGataItem.Actions.value = tableGataItem.Actions.value || [];
@@ -99,21 +106,72 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
       return tableGataItem;
     });
     debugger;
-    this.tableData = [...this.tableData]; 
+    this.tableData = [...this.tableData];
   }
 
-  deleteUser(){
+  deleteUser() {
     let removeEnterpriseUserUrl = this.constantsService.removeEnterpriseUserUrl();
     const headerData: IHeaderData = { 'content-type': 'application/json' };
-    let body = {"user_id":this.userIdtoDelete};
+    let body = { "user_id": this.userIdtoDelete };
     this.serverService.makePostReq<any>({ url: removeEnterpriseUserUrl, body, headerData })
       .subscribe((value) => {
         console.log(value);
-        this.tableData = this.tableData.filter((user)=>user.originalSessionData.id !== this.userIdtoDelete);
+        this.tableData = this.tableData.filter((user) => user.originalSessionData.id !== this.userIdtoDelete);
       });
   }
+  addNewUser() {
+    let url = this.constantsService.createUserUrl();
+    const headerData: IHeaderData = { 'content-type': 'application/json' };
+    debugger;
+    console.log(this.newBotDetails.value);
+    // console.log(this.modifyBotList.value);
+    // Object.keys(this.modifyBotList.value).filter((v))
+    let list = [];
+    Object.keys(this.newBotList.value).forEach(element => {
+      if (this.newBotList.value[element] == true) {
+        list.push(Number(element))
+      }
+    });
+    console.log(list);
+    let body = {   "email" : this.newBotDetails.value.email,
+    "role_id":this.newBotDetails.value.role,
+    "first_name":this.newBotDetails.value.first_name,
+    "last_name":this.newBotDetails.value.last_name,
+    "bots": list
+};
+    this.serverService.makePostReq({ url, body, headerData })
+      .subscribe(() => {
 
-  openDeletModal(template: TemplateRef<any> ) {
+      });
+
+  }
+  modifyUser() {
+    let url = this.constantsService.updateUserUrl(this.selectedUserModify.id);
+    const headerData: IHeaderData = { 'content-type': 'application/json' };
+    debugger;
+    console.log(this.modifyBotDetails.value);
+    // console.log(this.modifyBotList.value);
+    // Object.keys(this.modifyBotList.value).filter((v))
+    let list = [];
+    Object.keys(this.modifyBotList.value).forEach(element => {
+      if (this.modifyBotList.value[element] == true) {
+        list.push(Number(element));
+        // console.log(element);
+      }
+    });
+    console.log(list);
+    let body = {
+      "role_id": this.modifyBotDetails.value.role,
+      "bots": list
+    };
+    this.serverService.makePutReq({ url, body, headerData })
+      .subscribe(() => {
+
+      });
+
+  }
+
+  openDeletModal(template: TemplateRef<any>) {
     // this.selectedPipeline = pipeline;
     // this.modalRef = this.modalService.show(template, { class: 'modal-md' });
     this.utilityService.openDangerModal(template, this.matDialog, this.dialogRefWrapper);
@@ -131,10 +189,18 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
     }
     if (data.action === 'modify') {
+      this.selectedUserModify = data.data;
       this.openUserEditModal(ModifyUserModal);
     }
   }
 
+  selectAll(form: NgForm) {
+    const formVal = form.value;
+    for (const key in formVal) {
+      formVal[key] = true;
+    }
+    form.form.patchValue(formVal);
+  }
   constructor(
     private store: Store,
     private constantsService: ConstantsService,
@@ -187,25 +253,40 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
       }
 
     });
-    this.loggeduserenterpriseinfoMap$ =
-      this.loggeduserenterpriseinfo$.pipe(
-        map((value) => {
-          return {
-            ...value,
-            enterpriseusers: value.enterpriseusers.map((enterpriseuser) => {
-              if (enterpriseuser.role_id == 2) {
-                this.enterpriseUserBotList = enterpriseuser.bots;
-                console.log("filling bot");
-              }
-              return {
-                ...enterpriseuser,
-                created_at: new Date(enterpriseuser.created_at).toLocaleDateString(),
-                updated_at: new Date(enterpriseuser.updated_at).toLocaleDateString()
-              };
-            })
-          };
-        }));
-    
+    const url = this.constantsService.getBotListUrl();
+    debugger;
+    const headerData: IHeaderData = { 'content-type': 'application/json' };
+    this.serverService.makeGetReq<IBotResult>({ url, headerData }).
+      subscribe((botResult) => {
+        debugger;
+        // let codeBasedBotList: IBot[] = [];
+        // let pipelineBasedBotList: IBot[] = [];
+
+        // botResult.objects.forEach((bot) => {
+        //   bot.bot_type !== 'genbot' ? codeBasedBotList.push(bot) : pipelineBasedBotList.push(bot);
+        // });
+        this.enterpriseUserBotList = botResult.objects;
+        this.store.dispatch(new SetAllBotListAction({ botList: botResult.objects }));
+        // this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
+        // this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
+      });
+    // this.loggeduserenterpriseinfo$.pipe(
+    //   map((value) => {
+    //     debugger;
+    //     //sandeep
+    //     return {
+    //       ...value,
+    //       enterpriseusers: value.enterpriseusers.map((enterpriseuser) => {
+    //         if (enterpriseuser.enterprises[0].role_id == 2) {
+    //           this.enterpriseUserBotList = enterpriseuser.enterprises[0].bots;
+    //           debugger;
+    //           console.log("filling bot");
+    //         }
+
+    //       })
+    //     };
+    //   })
+    //   ).subscribe();
   }
   log(z) {
     console.log(z);

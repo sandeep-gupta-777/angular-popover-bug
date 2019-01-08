@@ -67,19 +67,19 @@ th,td{
   background-color: #f0f3f4;
 }
 
-.modelBotNames{
-  display: grid;
-  grid-template-columns: repeat(4,150px);
-  justify-content: center;
-  align-items: center;
-  label{
-    text-align: left;
-    input{
-      width:13px;
-      height: 13px;
-    }
-  }
-}
+// .modelBotNames{
+//   display: grid;
+//   grid-template-columns: repeat(4,150px);
+//   justify-content: center;
+//   align-items: center;
+//   label{
+//     text-align: left;
+//     input{
+//       width:13px;
+//       height: 13px;
+//     }
+//   }
+// }
 :host /deep/ {
   mat-tab-header{
     border: none;

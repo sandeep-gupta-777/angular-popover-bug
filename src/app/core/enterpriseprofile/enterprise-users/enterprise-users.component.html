@@ -90,38 +90,42 @@
         <br>
       </div>
       <div class="pl-3 pb-3 pt-1">
-        XXXXXX’s role and bots can be changed here
+        {{selectedUserModify.first_name}} {{selectedUserModify.last_name}}’s role and bots can be changed here
+        <!-- {{modifyBotList.value | json}} -->
       </div>
       <div class="w-100 pl-3" style="align-items: center;">
         <div class="user-modal-heading">Change role</div>
-        <mat-form-field>
-          <mat-select placeholder="Select role" ngModel name="role" [value]="123">
-            <!-- <mat-option *ngFor="let bot of enterpriseUserBotList; let i = index;" >
-              {{bot}}
-            </mat-option> -->
-            <!-- <mat-option [value]="role.id">
+        <form class="form-theme form-theme-with-md-controls " #modifyBotDetails="ngForm">
+          <mat-form-field>
+            <mat-select placeholder="Select role" ngModel name="role" >
+              <mat-option *ngFor="let role of roleMap; let i = index;" [value]="role.id"  >
+                {{role.name}}
+              </mat-option>
+              <!-- <mat-option [value]="role.id">
+                  Admin
+                </mat-option> -->
+              <!-- <mat-option [value]="12">
                 Admin
+              </mat-option>
+              <mat-option [value]="12">
+                developer
               </mat-option> -->
-            <mat-option [value]="12">
-              Admin
-            </mat-option>
-            <mat-option [value]="12">
-              developer
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+            </mat-select>
+          </mat-form-field>
+        </form>
+        
   
       </div>
       <div class="user-modal-heading pl-3">Change bots</div>
       <div class="d-flex w-100 col-12 pl-3" style="align-items: center;">
   
-        <div class="cursor-pointer color-primary mr-3" (click)="modelGenTempNameForm.reset()">
+        <div class="cursor-pointer color-primary mr-3" (click)="modifyBotList.reset()">
           Clear
         </div>
         <!-- <div class="cursor-pointer color-primary mr-auto " (click)="selectAllCheckBoxesInCopyTemplateForm(modelGenTempNameForm)">
           Select all
         </div> -->
-        <div class="cursor-pointer color-primary mr-auto ">
+        <div class="cursor-pointer color-primary mr-auto " (click) = 'selectAll(modifyBotList);'>
           Select all
         </div>
         <div>
@@ -131,17 +135,17 @@
       </div>
       <div class="modal-body" style="padding-top: 10px!important;">
         <div class="d-flex flex-column align-items-center justify-content-center m-2" id="checkboxes">
-  
-          <form class="modelBotNames" id="modelGenTempNameForm" #modelGenTempNameForm="ngForm" style="overflow-y: scroll;max-height: 250px;">
-            <label class="container-chekbox text-dark" *ngFor="let botId of enterpriseUserBotList">
-              {{botId}}
-              <input type="checkbox" ngModel name="{{botId}}">
+
+          <form class="modelBotNames" id="modifyBotList" #modifyBotList="ngForm" style="overflow-y: scroll;max-height: 250px;">
+            <label class="container-chekbox text-dark" *ngFor="let bot of enterpriseUserBotList">
+              {{bot.name}}
+              <input type="checkbox" ngModel name="{{bot.id}}">
               <span class="checkmark"></span>
             </label>
           </form>
           <div class="d-flex w-100 mt-2">
             <button class="btn-theme btn-theme-primary-outline ml-auto mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
-            <button class="btn-theme btn-theme-primary  d-inline-block mr-2" form="modelGenTempNameForm">Modify
+            <button class="btn-theme btn-theme-primary  d-inline-block mr-2" (click) = "modifyUser();dialogRefWrapper.ref.close()">Modify
             </button>
             <!-- <button class="btn-theme btn-theme-primary  d-inline-block mr-2"
                     [disabled]="(modelGenTempNameForm.value|numberOfTrueKeys)<1"
@@ -168,25 +172,26 @@
       </div>
       <div class="w-100 pl-3" style="align-items: center;">
         <div class="user-modal-heading">User details</div>
+      <!-- {{roleMap | json}} -->
         <!-- <form class="form-theme form-theme-with-md-controls " (ngSubmit)="onSubmit()" #loginForm="ngForm"> -->
-        <form class="form-theme form-theme-with-md-controls " #loginForm="ngForm">
+        <form class="form-theme form-theme-with-md-controls " #newBotDetails="ngForm">
           <input required email class="form-theme-control my-1 col-3 mx-2" ngModel name="first_name" aria-describedby="emailHelp"
             placeholder="First name">
           <input class="form-theme-control my-1 col-3 mx-2" name="last_name" ngModel required placeholder="Last name">
           <mat-form-field>
             <mat-select placeholder="Select role" ngModel name="role" [value]="12">
-              <!-- <mat-option *ngFor="let bot of codebasedBotList; let i = index;" [value]="role.id">
-                      {{bot.name}}
-                    </mat-option> -->
-              <mat-option [value]="12">
-                Admin
-              </mat-option>
-              <mat-option [value]="23">
-                developer
-              </mat-option>
+              <mat-option *ngFor="let role of roleMap; let i = index;" [value]="role.id">
+                      {{role.name}}
+                    </mat-option>
+                <!-- <mat-option [value]="12">
+                  Admin
+                </mat-option>
+                <mat-option [value]="23">
+                  developer
+                </mat-option> -->
             </mat-select>
           </mat-form-field>
-          <input class="form-theme-control my-1 col-7 mx-2" name="password" ngModel required placeholder="Email address">
+          <input class="form-theme-control my-1 col-7 mx-2" name="email" ngModel required placeholder="Email address">
         </form>
   
   
@@ -194,10 +199,10 @@
       <div class="user-modal-heading pl-3">Add Bots(0 selected)</div>
       <div class="d-flex w-100 col-12 pl-3" style="align-items: center;">
   
-        <div class="cursor-pointer color-primary mr-3" (click)="modelGenTempNameForm.reset()">
+        <div class="cursor-pointer color-primary mr-3" (click)="newBotList.reset()">
           Clear
         </div>
-        <div class="cursor-pointer color-primary mr-auto ">
+        <div class="cursor-pointer color-primary mr-auto" (click) = 'selectAll(newBotList);'>
           Select all
         </div>
         <div>
@@ -210,16 +215,16 @@
         <div class="d-flex flex-column align-items-center justify-content-center m-2" id="checkboxes">
   
           <!-- <form class="modelBotNames" id="modelGenTempNameForm" #modelGenTempNameForm="ngForm" (submit)="selectedListCopy(modelGenTempNameForm)" -->
-          <form class="modelBotNames" id="modelGenTempNameForm" #modelGenTempNameForm="ngForm" style="overflow-y: scroll;max-height: 250px;">
-            <label class="container-chekbox text-dark" *ngFor="let botId of enterpriseUserBotList">
-              {{botId}}
-              <input type="checkbox" ngModel name="{{botId}}">
+          <form class="modelBotNames" id="newBotList" #newBotList="ngForm" style="overflow-y: scroll;max-height: 250px;">
+            <label class="container-chekbox text-dark" *ngFor="let bot of enterpriseUserBotList">
+              {{bot.name}}
+              <input type="checkbox" ngModel name="{{bot.id}}">
               <span class="checkmark"></span>
             </label>
           </form>
           <div class="d-flex w-100 mt-2">
             <button class="btn-theme btn-theme-primary-outline ml-auto mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
-            <button class="btn-theme btn-theme-primary  d-inline-block mr-2" form="modelGenTempNameForm">Modify
+            <button class="btn-theme btn-theme-primary  d-inline-block mr-2" form="modelGenTempNameForm" (click) = "addNewUser();dialogRefWrapper.ref.close()">Add new user
             </button>
             <!-- <button class="btn-theme btn-theme-primary  d-inline-block mr-2"
                     [disabled]="(modelGenTempNameForm.value|numberOfTrueKeys)<1"
