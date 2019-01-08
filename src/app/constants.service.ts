@@ -449,7 +449,7 @@ export class ConstantsService {
   }
 
   getBotSessionsUrl(limit: number, offset: number) {
-    return this.BACKEND_URL + `api/v1/room/?limit=${limit}&offset=${offset}&order_by=-id`; //https://dev.imibot.ai/aip/v1/room
+    return this.BACKEND_URL + `api/v1/room/?limit=${limit}&offset=${offset}&order_by=-updated_at`; //https://dev.imibot.ai/aip/v1/room
   }
 
   getStartNewChatLoginUrl() {
