@@ -21,6 +21,7 @@ export interface IBot {
   'active_version_id'?: number;
   'advanced_data_protection'?: boolean;
   'allow_anonymization'?: boolean;
+  'allow_feedback'?: boolean;
   'avatars'?: IAvatar[];
   'blanket_consent'?: boolean;
   'bot_access_token'?: string;

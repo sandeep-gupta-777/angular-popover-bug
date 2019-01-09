@@ -94,6 +94,7 @@
                      (createNewRoom$)="startNewChat($event)"
       ></app-chat-list>
       <app-chat-window *ngIf="frameEnabled===myEChatFrame.CHAT_BOX && this.messageData"
+                       [allow_feedback]="currentBot.allow_feedback"
                        [selectedAvatar]="selectedAvatar"
                        [room]="currentRoom"
                        [showBotIsThinking]="showBotIsThinking"
