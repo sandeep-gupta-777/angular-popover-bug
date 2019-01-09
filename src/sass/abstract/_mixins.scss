@@ -17,3 +17,9 @@
   font-family: "Helvetica", sans-serif;
 }
 
+
+@mixin flexbox-centered(){
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

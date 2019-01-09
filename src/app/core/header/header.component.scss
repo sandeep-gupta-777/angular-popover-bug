@@ -1,5 +1,48 @@
 @import '~src/sass/main';
 
+header{
+  display: flex;
+  align-items: center;
+  background-color: $color-primary-v2;
+  height: 56px;
+  font-size: 13px;
+  color: white;
+
+  .box-logo{
+    padding: 16px;
+    @include flexbox-centered();
+    img{
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .header__nav{
+    padding: 16px;
+    @include flexbox-centered();
+    color: #ffffff;
+    text-decoration: none;
+    img{
+      margin-right: 5px;
+    }
+    .header__nav--title{
+      color: white;
+    }
+  }
+
+  .header__right{
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+  }
+
+}
+
+
+
+
+
+
 .header-container {
   height: 56px;
   //@include center-vertical();
@@ -96,9 +139,11 @@
 
 
 .highlight-text-on-route-match{
-  //:not(.fa){
-    color: $color-primary !important;
-  //}
+  background-color: #26415b;
+  span{
+    color: white;
+    font-weight: bold;
+  }
 }
 
 .nav-dropdown-menu{
