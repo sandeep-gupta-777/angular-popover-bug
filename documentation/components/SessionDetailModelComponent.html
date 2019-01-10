@@ -1939,7 +1939,7 @@ export class SessionDetailModelComponent implements OnInit {
     const activeBotId &#x3D; botMessageDataForGiveTxnId.message_store.activeBotId;
     const activeBotRoomId &#x3D; botMessageDataForGiveTxnId.message_store.activeBotRoomId;
     this.activeBotPanelData &#x3D; botMessageDataForGiveTxnId.message_store;
-
+    this.tabClicked(this.activeTab);
     if (activeBotId) {
       const activeBotAccessTokenId &#x3D; this.allBotList.find(bot &#x3D;&gt; bot.id &#x3D;&#x3D;&#x3D; activeBotId).bot_access_token;
       const headerData: IHeaderData &#x3D; {
@@ -1960,7 +1960,7 @@ export class SessionDetailModelComponent implements OnInit {
         });
       });
     }
-    this.tabClicked(this.activeTab);
+    
 
   }
 

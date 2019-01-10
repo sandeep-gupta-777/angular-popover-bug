@@ -1,0 +1,53 @@
+@import '~src/sass/main';
+
+.user-modal-heading{
+    font-family: Helvetica;
+    font-size: 13px;
+    color: #474747;
+    font-weight: bold;
+  }
+  
+  
+  ::ng-deep{
+    .textVal {
+      width:auto  !important; 
+    }
+    .color-primary{
+      color:$color-primary;
+    }
+    .color-danger{
+      color:$color-danger;
+    }
+  }
+  
+  .card-header{
+      padding: .5rem 1.25rem;
+      background-color: transparent;
+      @include typography($font-size-md, $line-height-normal, $font-weight-normal, $color-text-normal);
+  
+  }
+  .card-header-description{
+    @include typography($font-size-xs, $line-height-normal, $font-weight-normal, $color-text-normal);
+  }
+  .card{
+    background-color: #f0f3f4;
+  }
+  .profile-row{
+    padding: .5rem 1.25rem;
+  }
+  .modelBotNames{
+    display: grid;
+    grid-template-columns: repeat(4,150px);
+    justify-content: center;
+    align-items: start;
+    row-gap: 8px;
+    label{
+      height: auto;
+      line-height: 1.35;
+      text-align: left;
+      input{
+        width:13px;
+        height: 13px;
+      }
+    }
+  }
