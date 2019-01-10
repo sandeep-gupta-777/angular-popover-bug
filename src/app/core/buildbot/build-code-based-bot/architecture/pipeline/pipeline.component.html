@@ -62,7 +62,7 @@
           <i class="fa fa-arrows-alt"></i>
           <div class="d-flex flex-column">
             <span class="module">{{aiModule.module|titlecase }}</span>
-            <span class="library">{{aiModule.library|titlecase}}</span>
+            <span class="library">{{aiModule.unique_name|titlecase}}</span>
           </div>
           <span class="ml-auto"></span>
           <i *ngIf="aiModule && aiModule.input_params && myObject.keys(aiModule.input_params).length>0"
