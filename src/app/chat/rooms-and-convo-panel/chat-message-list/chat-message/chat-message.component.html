@@ -59,8 +59,9 @@
 </div>
 
 
+<!--TODO: hide if the first-->
 <app-chat-feedback
-  *ngIf="isLastMessage && messageData.sourceType === 'bot' && messageData.bot_message_id"
+  *ngIf="messageData.sourceType === 'bot' && messageData.bot_message_id"
   (chatMessageFeedback$)="feedback($event)"
   [feedback]="messageData.feedback"
 ></app-chat-feedback>
