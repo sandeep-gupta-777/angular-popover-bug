@@ -26,7 +26,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
-  loggeduserenterpriseinfoMap$: Observable<IEnterpriseProfileInfo>;
+  // loggeduserenterpriseinfoMap$: Observable<IEnterpriseProfileInfo>;
   @ViewChild('form') f: HTMLFormElement;
   @ViewChild('modifyBotList') modifyBotList: NgForm;
   @ViewChild('newBotList') newBotList: NgForm;
@@ -90,7 +90,6 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
           };
         }
       }
-
       obj.originalSessionData = consumerTableDataItem;
       return obj;
     });
@@ -133,15 +132,22 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
       }
     });
     console.log(list);
-    let body = {   "email" : this.newBotDetails.value.email,
-    "role_id":this.newBotDetails.value.role,
-    "first_name":this.newBotDetails.value.first_name,
-    "last_name":this.newBotDetails.value.last_name,
-    "bots": list
-};
+    let body = {
+      "email": this.newBotDetails.value.email,
+      "role_id": this.newBotDetails.value.role,
+      "first_name": this.newBotDetails.value.first_name,
+      "last_name": this.newBotDetails.value.last_name,
+      "bots": list
+    };
     this.serverService.makePostReq({ url, body, headerData })
-      .subscribe(() => {
-
+      .subscribe((newUser) => {
+        this.loggeduserenterpriseinfo.enterpriseusers.push(newUser);
+        //shoaib
+        this.store.dispatch([
+          new SetEnterpriseUsersAction({ enterpriseUsers : this.loggeduserenterpriseinfo.enterpriseusers })
+        ]).subscribe((enterprise)=>{
+          this.loggeduserenterpriseinfo = enterprise[0].loggeduserenterpriseinfo;
+        });
       });
 
   }
@@ -221,12 +227,24 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
   ngOnInit() {
 
+    this.loggeduserenterpriseinfo$.subscribe((enterprise) => {
+      debugger;
+      
+        if(enterprise.enterpriseusers){
+          this.initializeTableData(enterprise.enterpriseusers, this.getTableDataMetaDict());
+          this.loggeduserenterpriseinfo = enterprise;
+        }
+     
+    });
+
     const RoleMapUrl = this.constantsService.getRoleMapUrl();
     this.serverService.makeGetReq<any>({ url: RoleMapUrl })
       .subscribe((value) => {
         this.roleMap = value.objects;
         // 
       });
+
+    
 
     this.loggeduser$.subscribe(({ user }) => {
       this.userid = user.id;
@@ -237,7 +255,9 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
         .subscribe((value: IEnterpriseProfileInfo) => {
           this.store.dispatch([
             new SetEnterpriseInfoAction({ enterpriseInfo: value })
-          ]);
+          ]).subscribe((enterprise)=>{
+            this.loggeduserenterpriseinfo = enterprise[0].loggeduserenterpriseinfo;
+          });
           // 
           // this.formGroup.patchValue(<any>value);
         });
@@ -247,7 +267,9 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
           .subscribe((value) => {
             this.store.dispatch([
               new SetEnterpriseUsersAction({ enterpriseUsers: value.objects })
-            ]);
+            ]).subscribe((enterprise)=>{
+              this.loggeduserenterpriseinfo = enterprise[0].loggeduserenterpriseinfo;
+            });
             this.initializeTableData(value.objects, this.getTableDataMetaDict());
           });
       }

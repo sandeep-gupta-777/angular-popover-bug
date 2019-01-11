@@ -64,6 +64,9 @@ export class EnterpriseOverviewComponent implements OnInit {
     return this.constantsService.SMART_TABLE_SERVICE_KEY_EXPIRED;
   }
   transformDataForMaterialTable(data: any[], tableDataMetaDict: any) {
+    if (!data) {
+      return null;
+    }
     if (data.length == 0) {
       return null;
     }
