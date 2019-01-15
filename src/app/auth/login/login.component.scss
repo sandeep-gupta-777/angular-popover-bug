@@ -18,7 +18,7 @@
 
   .left {
     grid-area: left;
-    @extend %centered-flex-row;
+    @extend %centered-flex;
     border-right: 2px solid #e0e0e0;
     .imi-logo-box {
       text-align: center;
@@ -29,7 +29,7 @@
 
   .right {
     grid-area: right;
-    @extend %centered-flex-row;
+    @extend %centered-flex;
     flex-wrap: wrap;
     .login-box {
       margin-right: auto;

@@ -1,58 +1,71 @@
 @import '~src/sass/main';
 
+.view-bots-container {
+  margin: 0px 4%;
+  position: relative;
+  @media screen and (max-width: 780px) {
+    margin: 0;;
+  }
+}
 
-.nav-link{
+
+.nav-link {
   border: none;
 }
 
-.nav{
+.nav {
   //border-bottom: $border-normal;
 }
-.nav-tabs{
+
+.nav-tabs {
   border-bottom: 0;
 }
 
-a{
+a {
   text-decoration: none !important;
   font-size: $font-size-sm;
   color: black;
 }
 
-.primary-modal{
+.primary-modal {
   @include classic-modal(#00abd3);
 }
-.primary-modal{
-  .modal-header{
+
+.primary-modal {
+  .modal-header {
     border: none;
   }
-  .modal-body{
-    .fa{
-      font-size:26px;
+
+  .modal-body {
+    .fa {
+      font-size: 26px;
       color: #474747;
       //padding: 10px 0px;
     }
-    .action:hover{
+
+    .action:hover {
       background-color: #dcdcdc;
     }
-    .action{
+
+    .action {
       border-radius: 2px;
     }
 
 
-    .new-bot-heading{
+    .new-bot-heading {
       @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-text-normal);
     }
 
-    .new-bot-text{
+    .new-bot-text {
       @include typography($font-size-xs, $line-height-normal, $font-weight-300, $color-text-normal);
     }
   }
 }
 
-.danger-modal{
+.danger-modal {
   @include classic-modal(#b14250);
 }
 
-:host /deep/ .mat-tab-header{
+:host /deep/ .mat-tab-header {
   border: none !important;
 }

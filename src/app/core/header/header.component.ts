@@ -47,6 +47,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   searchEnterprise: string;
   enterpriseList: any[];
   userData: IUser;
+  showIconRow = false;
   constructor(
     private store: Store,
     private serverService: ServerService,

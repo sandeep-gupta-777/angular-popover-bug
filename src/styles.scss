@@ -11,7 +11,8 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 // Define a custom typography config that overrides the font-family as well as the
 // `headlines` and `body-1` levels.
 $custom-typography: mat-typography-config(
-  $font-family:   '"Helvetica", sans-serif',
+  //$font-family:   '"Helvetica", sans-serif',
+  $font-family: ''IBM Plex Sans', sans-serif',
   $display-4:     mat-typography-level(112px, 112px, 300),
   $display-3:     mat-typography-level(56px, 56px, 400),
   $display-2:     mat-typography-level(45px, 48px, 400),
@@ -31,6 +32,7 @@ $custom-typography: mat-typography-config(
 .unicorn-title {
   @include mat-typography-level-to-styles($custom-typography, title);
 }
+
 
 .custom-info{
   @include mat-typography-level-to-styles($custom-typography, caption);
@@ -166,11 +168,6 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 
 .text-theme-secondary {
   @include typography($font-size-xs, $line-height-normal, $font-weight-300, $color-secondary);
-}
-
-.box {
-  padding-left: 10px;
-  padding-right: 10px;
 }
 
 .tab-active {
@@ -1070,7 +1067,8 @@ html, body {
 
 body {
   margin: 0;
-  font-family: "Helvetica", sans-serif;
+  font-size: 13px;
+  font-family: 'IBM Plex Sans', sans-serif;
 }
 
 

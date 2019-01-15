@@ -5,7 +5,7 @@ import {BasicInfoFormComponent} from './core/buildbot/build-code-based-bot/bot-c
 import {BotConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {BotArchitetureComponent} from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {CommonModule} from '@angular/common';
+import {CommonModule} from '@angular/common';;
 import {BotIdToNamePipe} from './bot-id-to-name.pipe';
 import {RouterModule} from '@angular/router';
 import {AdditionalInfoFormComponent} from './core/buildbot/build-code-based-bot/bot-config/additional-info-form/additional-info-form.component';
@@ -25,7 +25,6 @@ import {IntegrationInputKeysFilterPipe} from './integration-input-keys-filter.pi
 import {ProfilePermissionIdToNamePipe} from './core/profile/profile-permission-id-to-name.pipe';
 import {EnabledIntegrationsCountPipe} from './enabled-integrations-count.pipe';
 import {SerializeEnterpriseprofileDataPipe} from './core/enterpriseprofile/serialize-enterpriseprofile-data.pipe';
-import {DragulaModule} from 'ng2-dragula';
 import {SerializeSessionMessagePipe} from './serialize-session-message.pipe';
 import {IntegrationNameFormatterPipe} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-name-formatter.pipe';
 import {ClickOutsideModule} from 'ng-click-outside';
@@ -128,7 +127,6 @@ import {ChatFeedbackComponent} from './chat-feedback/chat-feedback.component';
     ProfilePermissionIdToNamePipe,
     EnabledIntegrationsCountPipe,
     SerializeEnterpriseprofileDataPipe,
-    DragulaModule,
     IntegrationNameFormatterPipe,
     ClickOutsideModule,
     MyMaterialModule,

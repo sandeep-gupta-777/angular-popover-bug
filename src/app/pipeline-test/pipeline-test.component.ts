@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {DragulaService} from 'ng2-dragula';
-import {LoggingService} from '../logging.service';
 
 @Component({
   selector: 'app-pipeline-test',
@@ -8,11 +6,6 @@ import {LoggingService} from '../logging.service';
   styleUrls: ['./pipeline-test.component.scss']
 })
 export class PipelineTestComponent implements OnInit {
-  constructor(private dragulaService: DragulaService) {
-    // dragulaService.setOptions('third-bag', {
-    //   removeOnSpill: true
-    // });
-  }
 
   ngOnInit() {
   }

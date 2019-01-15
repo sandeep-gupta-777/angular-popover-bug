@@ -1,6 +1,6 @@
 <!--<button (click)="openDialog()">test</button>-->
 
-<div style="margin: 0px 80px; position: relative">
+<div class="view-bots-container">
   <mat-tab-group
     [selectedIndex]="activeTab===myEBotType.chatbot?0:1"
     (selectedTabChange)="tabClicked($event.index == 0?myEBotType.chatbot: myEBotType.intelligent)">
