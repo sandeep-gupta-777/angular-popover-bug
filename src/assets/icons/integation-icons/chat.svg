@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>chat</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Redesigned-UI-final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="idea-1-dashb-copy" transform="translate(-392.000000, -230.000000)">
+            <g id="dashboard" transform="translate(59.000000, 83.000000)">
+                <g id="Group-12" transform="translate(30.000000, 54.000000)">
+                    <g id="Group-7-Copy-2">
+                        <g id="Group-5" transform="translate(20.000000, 22.000000)">
+                            <g id="Group-3" transform="translate(202.000000, 71.000000)">
+                                <g id="chat" transform="translate(81.000000, 0.000000)">
+                                    <circle id="Oval-Copy-3" fill="#FDEDD3" fill-rule="nonzero" cx="12" cy="12" r="12"></circle>
+                                    <g id="connect-copy-2" transform="translate(8.000000, 7.000000)">
+                                        <g id="Group">
+                                            <g id="Vector" transform="translate(3.149753, 0.951000)" fill="#FFD185">
+                                                <g id="path10_fill-link" transform="translate(0.023203, 0.008564)">
+                                                    <polygon id="path10_fill" points="5.67300249 3.29570073 2.35342815 -3.74389457e-07 1.51202201e-06 5.63220558"></polygon>
+                                                </g>
+                                            </g>
+                                            <g id="Vector" transform="translate(1.862538, 4.235256)" fill="#F5A623">
+                                                <g id="path11_fill-link" transform="translate(0.001345, 0.019698)">
+                                                    <polygon id="path11_fill" points="6.98596552 0 1.31296304 2.33650484 -3.02403674e-06 5.46003925 3.41866382 5.46003925 7.95210443 0.95919589"></polygon>
+                                                </g>
+                                            </g>
+                                            <g id="Vector" fill="#F5A623">
+                                                <g id="path12_fill-link" transform="translate(0.023910, 0.000000)">
+                                                    <polygon id="path12_fill" points="4.53344788 1.8764334e-07 -1.51202201e-06 4.50084336 -1.51202201e-06 7.87029568 3.1461659 6.59140147 5.49959406 0.95919589"></polygon>
+                                                </g>
+                                            </g>
+                                            <g id="Vector" transform="translate(0.000000, 6.588635)" fill="#C88618">
+                                                <g id="path13_fill-link" transform="translate(0.023910, 0.002867)">
+                                                    <polygon id="path13_fill" points="1.8331956 3.12353441 3.1461659 0 -1.51202201e-06 1.27893026 -1.51202201e-06 3.12353441"></polygon>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
