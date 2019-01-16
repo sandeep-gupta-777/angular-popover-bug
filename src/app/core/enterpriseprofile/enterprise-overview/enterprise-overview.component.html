@@ -126,7 +126,7 @@
   <div class="col-12 p-0 pb-2 d-flex">
     <button class="btn-theme  btn-theme-primary " [ngClass]="{'btn-theme-primary-outline': !showActiveServiceKeysTable}" (click) = "showActiveServiceKeysTable = true">Active</button>
     <button class="btn-theme btn-theme-primary" [ngClass]="{'btn-theme-primary-outline': showActiveServiceKeysTable}" (click) = "showActiveServiceKeysTable = false">Expired</button>
-    <div class="ml-auto color-primary cursor-pointer" (click)="openNewServiceKeyModal(enterpriseNewServiceKeyModal)"><i class="fa fa-plus pr-1 "></i> New token</div>
+    <div class="ml-auto color-primary cursor-pointer" *ngIf = "showActiveServiceKeysTable" (click)="openNewServiceKeyModal(enterpriseNewServiceKeyModal)"><i class="fa fa-plus pr-1 "></i> New token</div>
   </div>
 </div>
 <div class="row profile-row" *ngIf = "!!serviceKeyTableDataExpired && showActiveServiceKeysTable" >

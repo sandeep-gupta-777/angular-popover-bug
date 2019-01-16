@@ -49,13 +49,17 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     return this.constantsService.SMART_TABLE_USER_DICT_TEMPLATE;
   }
   roleIdToRoleName(roleId: number) {
-    let thisRole = this.roleMap.find(role => role.id == roleId);
-    if (thisRole) {
-      return thisRole.name
+    // debugger;
+    if(this.roleMap){
+      let thisRole = this.roleMap.find(role => role.id == roleId);
+      if (thisRole) {
+        return thisRole.name
+      }
+      else {
+        return "Custom role";
+      }
     }
-    else {
-      return "Custom role";
-    }
+      
 
   }
   transformDataForMaterialTable(data: any[], tableDataMetaDict: any) {
@@ -101,10 +105,16 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
       // tableGataItem.Bots.value = tableGataItem.Bots.value.length + " bots assigned";
       tableGataItem.Actions.value = tableGataItem.Actions.value || [];
       tableGataItem.Actions.value.push({ show: true, name: 'modify', class: 'fa fa-edit mr-3 color-primary' });
-      tableGataItem.Actions.value.push({ show: true, name: 'remove', class: 'fa fa-trash color-danger' });
+      tableGataItem.Actions.value.push({ show: true, name: 'remove', class: 'fa fa-trash mr-3 color-danger' });
+      // if()
+      debugger;
+      if(!tableGataItem.originalSessionData.enterprises[0].is_active){
+        tableGataItem.Actions.value.push({ show: true, name: 'exclamation', class: 'fa fa-exclamation-triangle color-yellow' });
+      }
+
       return tableGataItem;
     });
-    debugger;
+    // debugger;
     this.tableData = [...this.tableData];
   }
 
@@ -112,16 +122,29 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     let removeEnterpriseUserUrl = this.constantsService.removeEnterpriseUserUrl();
     const headerData: IHeaderData = { 'content-type': 'application/json' };
     let body = { "user_id": this.userIdtoDelete };
+    // debugger;
+
     this.serverService.makePostReq<any>({ url: removeEnterpriseUserUrl, body, headerData })
       .subscribe((value) => {
         console.log(value);
-        this.tableData = this.tableData.filter((user) => user.originalSessionData.id !== this.userIdtoDelete);
+        let p = this.loggeduserenterpriseinfo.enterpriseusers.filter((user) => user.id !== this.userIdtoDelete);
+        this.loggeduserenterpriseinfo.enterpriseusers = [...p];
+        //shoaib
+        // debugger;
+        this.store.dispatch([
+          new SetEnterpriseUsersAction({ enterpriseUsers: this.loggeduserenterpriseinfo.enterpriseusers })
+        ])
+        // .subscribe((enterprise) => {
+        //   debugger;
+        //   this.loggeduserenterpriseinfo = enterprise[0].loggeduserenterpriseinfo;
+        // });
+        // this.tableData = this.tableData.filter((user) => user.originalSessionData.id !== this.userIdtoDelete);
       });
   }
   addNewUser() {
     let url = this.constantsService.createUserUrl();
     const headerData: IHeaderData = { 'content-type': 'application/json' };
-    debugger;
+    // debugger;
     console.log(this.newBotDetails.value);
     // console.log(this.modifyBotList.value);
     // Object.keys(this.modifyBotList.value).filter((v))
@@ -141,20 +164,22 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     };
     this.serverService.makePostReq({ url, body, headerData })
       .subscribe((newUser) => {
+        // debugger;
         this.loggeduserenterpriseinfo.enterpriseusers.push(newUser);
         //shoaib
         this.store.dispatch([
-          new SetEnterpriseUsersAction({ enterpriseUsers : this.loggeduserenterpriseinfo.enterpriseusers })
-        ]).subscribe((enterprise)=>{
-          this.loggeduserenterpriseinfo = enterprise[0].loggeduserenterpriseinfo;
-        });
+          new SetEnterpriseUsersAction({ enterpriseUsers: this.loggeduserenterpriseinfo.enterpriseusers })
+        ])
+        // .subscribe((enterprise) => {
+        //   this.loggeduserenterpriseinfo = enterprise[0].loggeduserenterpriseinfo;
+        // });
       });
 
   }
   modifyUser() {
     let url = this.constantsService.updateUserUrl(this.selectedUserModify.id);
     const headerData: IHeaderData = { 'content-type': 'application/json' };
-    debugger;
+    // debugger;
     console.log(this.modifyBotDetails.value);
     // console.log(this.modifyBotList.value);
     // Object.keys(this.modifyBotList.value).filter((v))
@@ -170,9 +195,18 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
       "role_id": this.modifyBotDetails.value.role,
       "bots": list
     };
+    // debugger;
     this.serverService.makePutReq({ url, body, headerData })
-      .subscribe(() => {
-
+      .subscribe((modifiedUser) => {
+        // debugger;
+        let p = this.loggeduserenterpriseinfo.enterpriseusers.filter((user) => user.id !== this.selectedUserModify.id);
+        this.loggeduserenterpriseinfo.enterpriseusers = [...p];
+        
+        this.loggeduserenterpriseinfo.enterpriseusers.push(modifiedUser);
+        //shoaib
+        this.store.dispatch([
+          new SetEnterpriseUsersAction({ enterpriseUsers: this.loggeduserenterpriseinfo.enterpriseusers })
+        ])
       });
 
   }
@@ -226,36 +260,20 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
 
   ngOnInit() {
-
-    this.loggeduserenterpriseinfo$.subscribe((enterprise) => {
-      debugger;
-      
-        if(enterprise.enterpriseusers){
-          this.initializeTableData(enterprise.enterpriseusers, this.getTableDataMetaDict());
-          this.loggeduserenterpriseinfo = enterprise;
-        }
-     
-    });
-
-    const RoleMapUrl = this.constantsService.getRoleMapUrl();
-    this.serverService.makeGetReq<any>({ url: RoleMapUrl })
-      .subscribe((value) => {
-        this.roleMap = value.objects;
-        // 
-      });
-
+    // debugger;
     
 
     this.loggeduser$.subscribe(({ user }) => {
       this.userid = user.id;
       this.role = user.role.name;
       this.enterpriseId = user.enterprise_id; //enterprise_id
+      // debugger;
       const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(this.enterpriseId);
       this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
         .subscribe((value: IEnterpriseProfileInfo) => {
           this.store.dispatch([
             new SetEnterpriseInfoAction({ enterpriseInfo: value })
-          ]).subscribe((enterprise)=>{
+          ]).subscribe((enterprise) => {
             this.loggeduserenterpriseinfo = enterprise[0].loggeduserenterpriseinfo;
           });
           // 
@@ -267,7 +285,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
           .subscribe((value) => {
             this.store.dispatch([
               new SetEnterpriseUsersAction({ enterpriseUsers: value.objects })
-            ]).subscribe((enterprise)=>{
+            ]).subscribe((enterprise) => {
               this.loggeduserenterpriseinfo = enterprise[0].loggeduserenterpriseinfo;
             });
             this.initializeTableData(value.objects, this.getTableDataMetaDict());
@@ -275,12 +293,45 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
       }
 
     });
+
+
+  
+    this.loggeduserenterpriseinfo$.subscribe((enterprise) => {
+      // debugger;
+      
+      if(!this.roleMap){
+        const headerData: IHeaderData = { 'content-type': 'application/json' };
+        const RoleMapUrl = this.constantsService.getRoleMapUrl();
+        this.serverService.makeGetReq<any>({ url: RoleMapUrl, headerData })
+          .subscribe((value) => {
+            this.roleMap = value.objects;
+            if (enterprise.enterpriseusers) {
+              this.initializeTableData(enterprise.enterpriseusers, this.getTableDataMetaDict());
+              this.loggeduserenterpriseinfo = enterprise;
+            }
+            // 
+          });
+      }else{
+        if (enterprise.enterpriseusers) {
+          this.initializeTableData(enterprise.enterpriseusers, this.getTableDataMetaDict());
+          this.loggeduserenterpriseinfo = enterprise;
+        }
+      }
+
+      // if (enterprise.enterpriseusers) {
+      //   this.initializeTableData(enterprise.enterpriseusers, this.getTableDataMetaDict());
+      //   this.loggeduserenterpriseinfo = enterprise;
+      // }
+
+    });
+
     const url = this.constantsService.getBotListUrl();
-    debugger;
+    // debugger;
     const headerData: IHeaderData = { 'content-type': 'application/json' };
+
     this.serverService.makeGetReq<IBotResult>({ url, headerData }).
       subscribe((botResult) => {
-        debugger;
+        // debugger;
         // let codeBasedBotList: IBot[] = [];
         // let pipelineBasedBotList: IBot[] = [];
 

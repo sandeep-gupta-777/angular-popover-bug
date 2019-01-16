@@ -1101,12 +1101,12 @@ export class ConstantsService {
       type: 'string',
       displayValue: 'Created on',
     },
-    expired_at: {
-      originalKey: 'expired_at',
-      value: '',
-      type: 'string',
-      displayValue: 'Expires on',
-    },
+    // expired_at: {
+    //   originalKey: 'expired_at',
+    //   value: '',
+    //   type: 'string',
+    //   displayValue: 'Expires on',
+    // },
     'actions': {
       originalKey: '',
       value: undefined,

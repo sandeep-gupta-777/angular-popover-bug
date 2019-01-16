@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material';
 import { ServerService } from 'src/app/server.service';
 import { Select, Store } from '@ngxs/store';
 import { IEnterpriseProfileInfo } from 'src/interfaces/enterprise-profile';
-import { SetEnterpriseInfoAction, SetEnterpriseUsersAction } from '../ngxs/enterpriseprofile.action';
+import { SetEnterpriseInfoAction, SetEnterpriseUsersAction, SetEnterpriseServiceKeyAction } from '../ngxs/enterpriseprofile.action';
 import { SetUser } from 'src/app/auth/ngxs/auth.action';
 import { IHeaderData } from 'src/interfaces/header-data';
 import { Observable } from 'rxjs';
@@ -25,8 +25,9 @@ export class EnterpriseOverviewComponent implements OnInit {
   loggeduserenterpriseinfoMap$: Observable<IEnterpriseProfileInfo>;
   @ViewChild('form') f: HTMLFormElement;
   @ViewChild('descriptionForm') descriptionForm: NgForm;
-  serviceKeyTableDataExpired =  [];
+  serviceKeyTableDataExpired = [];
   serviceKeyTableDataActive = [];
+  serviceKeys = [];
   userid: number;
   role: string;
   enterpriseId: number;
@@ -36,7 +37,7 @@ export class EnterpriseOverviewComponent implements OnInit {
   enterpriseUserBotList: number[];
   dialogRefWrapper = { ref: null };
   logdeletionsummary: [];
-  descriptionServiceKey:string;
+  descriptionServiceKey: string;
   constructor(
     private store: Store,
     private constantsService: ConstantsService,
@@ -70,8 +71,8 @@ export class EnterpriseOverviewComponent implements OnInit {
     if (data.length == 0) {
       return null;
     }
-// debugger;
-    let x =  data.map((consumerTableDataItem) => {
+    // debugger;
+    let x = data.map((consumerTableDataItem) => {
       let obj: any = {};
       // debugger;
 
@@ -92,8 +93,8 @@ export class EnterpriseOverviewComponent implements OnInit {
             obj[tableDataMetaDict[key].displayValue] = {
               ...tableDataMetaDict[key],
               originalKey: key,
-              value: time.getMonth() + 1 + "/" + time.getDate() + "/" + time.getFullYear(),
-              searchValue: time.getMonth() + 1 + "/" + time.getDate() + "/" + time.getFullYear()
+              value: time.getDate() + " " + time.toLocaleString('en-us', { month: 'short' }) + " " + time.getFullYear().toString().substr(-2),
+              searchValue: time.getDate() + " " + time.toLocaleString('en-us', { month: 'short' }) + " " + time.getFullYear().toString().substr(-2)
             };
           }
           else {
@@ -149,19 +150,23 @@ export class EnterpriseOverviewComponent implements OnInit {
   addNewServiceKey() {
     // enterprise/generate_service_key/
     let generateServiceKeyUrl = this.constantsService.generateServiceKeyUrl();
-    let body = this.descriptionForm.value ;
-    
-    console.log("descriptionForm.value" ,this.descriptionForm.value)
+    let body = this.descriptionForm.value;
+
+    console.log("descriptionForm.value", this.descriptionForm.value)
     const headerData: IHeaderData = { 'content-type': 'application/json' };
-    
+
     this.serverService.makePostReq<any>({ url: generateServiceKeyUrl, body, headerData })
       .subscribe((value) => {
-        
 
-        let temp = this.transformDataForMaterialTable([value], this.getTableDataMetaDictActive());
-        
-        this.serviceKeyTableDataExpired.push(temp[0]);
-        this.serviceKeyTableDataExpired = [...this.serviceKeyTableDataExpired];
+
+        this.serviceKeys.push(value);
+        this.serviceKeys = [...this.serviceKeys];
+        debugger;
+        this.store.dispatch([
+          new SetEnterpriseServiceKeyAction({ service_key: this.serviceKeys })
+        ])
+
+
         // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter(data => data.age > 18)
         // this.serviceKeyTableDataActive = this.transformDataForMaterialTable(array, this.getTableDataMetaDictActive());
 
@@ -199,22 +204,7 @@ export class EnterpriseOverviewComponent implements OnInit {
             this.store.dispatch([
               new SetEnterpriseUsersAction({ enterpriseUsers: value.objects })
             ])
-              .subscribe((value) => {
-                debugger;
-                let expiredTableData = value[0].loggeduserenterpriseinfo.service_key.filter(data => data.enabled == true);
-                expiredTableData = expiredTableData.filter(data => typeof data.description == "string");
 
-                
-                let activeTableData = value[0].loggeduserenterpriseinfo.service_key.filter(data => data.enabled != true);
-                activeTableData = activeTableData.filter(data => typeof data.description == "string");
-
-                this.serviceKeyTableDataExpired = this.transformDataForMaterialTable(expiredTableData, this.getTableDataMetaDictActive());
-                debugger;
-                // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter(data => data.age > 18)
-                this.serviceKeyTableDataActive = this.transformDataForMaterialTable(activeTableData, this.getTableDataMetaDictExpired());
-
-
-              });
           });
       }
 
@@ -239,7 +229,25 @@ export class EnterpriseOverviewComponent implements OnInit {
             })
           };
         }));
+    this.loggeduserenterpriseinfo$
+      .subscribe((enterprise) => {
 
+        debugger;
+
+        this.serviceKeys = enterprise.service_key;
+        let expiredTableData = enterprise.service_key.filter(data => data.enabled == true);
+        expiredTableData = expiredTableData.filter(data => typeof data.description == "string");
+
+        let activeTableData = enterprise.service_key.filter(data => data.enabled != true);
+        activeTableData = activeTableData.filter(data => typeof data.description == "string");
+
+        this.serviceKeyTableDataExpired = this.transformDataForMaterialTable(expiredTableData, this.getTableDataMetaDictActive());
+        debugger;
+        // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter(data => data.age > 18)
+        this.serviceKeyTableDataActive = this.transformDataForMaterialTable(activeTableData, this.getTableDataMetaDictExpired());
+
+
+      });
     const enterpriselogdeletionsummary = this.constantsService.getEnterpriseLogDeletionSummaryUrl();
     this.serverService.makeGetReq<{ objects: IEnterpriseUser[] }>({ url: enterpriselogdeletionsummary })
       .subscribe((value) => {
@@ -279,23 +287,44 @@ export class EnterpriseOverviewComponent implements OnInit {
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }) {
     if (data.action === 'expire') {
       // console.log(data.data)
-    let disableServiceKeyUrl = this.constantsService.disableServiceKeyUrl();
-    let body = { service_key : data.data.key }
-    const headerData: IHeaderData = { 'content-type': 'application/json' };
-    // 
-    this.serverService.makePostReq<any>({ url: disableServiceKeyUrl, body, headerData })
-      .subscribe((value) => {
-        console.log(value);
-        this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter((item) => item["Token Id"].searchValue !== body.service_key);
-        this.serviceKeyTableDataExpired = [...this.serviceKeyTableDataExpired];
-        // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter(data => data.age > 18)
-        // this.serviceKeyTableDataActive = this.transformDataForMaterialTable(array, this.getTableDataMetaDictActive());
-        let temp = this.transformDataForMaterialTable([data.data], this.getTableDataMetaDictExpired());
-        
-        this.serviceKeyTableDataActive.push(temp[0]);
-        this.serviceKeyTableDataActive = [...this.serviceKeyTableDataActive];
-      });
-      
+      let disableServiceKeyUrl = this.constantsService.disableServiceKeyUrl();
+      let body = { service_key: data.data.key }
+      const headerData: IHeaderData = { 'content-type': 'application/json' };
+      // 
+      this.serverService.makePostReq<any>({ url: disableServiceKeyUrl, body, headerData })
+        .subscribe((value) => {
+          debugger;
+          this.serviceKeys = this.serviceKeys.map((item) => {
+            if (item["key"] == body.service_key) {
+              item.enabled = false;
+              return item;
+            }
+            else {
+              return item;
+            }
+          });
+
+          this.serviceKeys = [...this.serviceKeys];
+          debugger;
+          this.store.dispatch([
+            new SetEnterpriseServiceKeyAction({ service_key: this.serviceKeys })
+          ])
+
+
+
+
+
+          // console.log(value);
+          // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter((item) => item["Token Id"].searchValue !== body.service_key);
+          // this.serviceKeyTableDataExpired = [...this.serviceKeyTableDataExpired];
+          // // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter(data => data.age > 18)
+          // // this.serviceKeyTableDataActive = this.transformDataForMaterialTable(array, this.getTableDataMetaDictActive());
+          // let temp = this.transformDataForMaterialTable([data.data], this.getTableDataMetaDictExpired());
+
+          // this.serviceKeyTableDataActive.push(temp[0]);
+          // this.serviceKeyTableDataActive = [...this.serviceKeyTableDataActive];
+        });
+
 
     }
     // if (data.action === 'modify') {
