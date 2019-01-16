@@ -1,7 +1,7 @@
 import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {IBot} from '../../interfaces/IBot';
 import {IEnterpriseProfileInfo} from '../../../../interfaces/enterprise-profile';
-import {ResetEnterpriseUsersAction, SetEnterpriseInfoAction, SetEnterpriseUsersAction} from './enterpriseprofile.action';
+import {ResetEnterpriseUsersAction, SetEnterpriseInfoAction, SetEnterpriseUsersAction, SetEnterpriseServiceKeyAction} from './enterpriseprofile.action';
 import {IEnterpriseUser} from '../../interfaces/enterprise-users';
 
 const initialState = {
@@ -36,9 +36,19 @@ export class EnterpriseprofileStateReducer {
     patchState(payload.enterpriseInfo);//{...state,payload.enterpriseInfo}
   }
 
+  // shoaib
   @Action(SetEnterpriseUsersAction)
   setEnterpriseUsers({patchState, setState, getState, dispatch}: StateContext<IEnterpriseProfileInfo>, {payload}: SetEnterpriseUsersAction) {
+    // debugger;
+    // alert("reducer");
     patchState({enterpriseusers: payload.enterpriseUsers});
+  }
+
+  @Action(SetEnterpriseServiceKeyAction)
+  setEnterpriseServiceKeyAction({patchState, setState, getState, dispatch}: StateContext<IEnterpriseProfileInfo>, {payload}: SetEnterpriseServiceKeyAction) {
+    debugger;
+    // alert("reducer");
+    patchState({service_key: payload.service_key});
   }
 
   @Action(ResetEnterpriseUsersAction)

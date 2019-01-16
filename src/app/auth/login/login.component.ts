@@ -165,16 +165,18 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       'auth-token': null,
       'user-access-token': null
     };
-
+    
     this.serverService.makePostReq<IUser>({ url: loginUrl, body, headerData })
       .subscribe((user: IUser) => {
         this.userData = user;
         this.flashInfoMessage('Logged in. Fetching permissions', 10000);
         try {/*TODO: not sure what this does. ask shoaib*/
           if (this.userData.enterprises.length <= 1) {
+            debugger;
             let enterpriseDate = {
               enterpriseId : this.userData.enterprises[0].enterprise_id.id ,
-              roleId : this.userData.enterprises[0].role_id.id
+              roleId : this.userData.enterprises[0].role_id.id,
+              isActive : this.userData.is_active
             };
             this.enterEnterprise(enterpriseDate);
             // this.gotUserData$.emit(user);
@@ -231,7 +233,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     this.panelActive = panel;
   }
   enterEnterprise(Enterprise) {
-    let enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
+    if(Enterprise.isActive){
+      let enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
     let body = {
       "user_id": this.userData.id,
       "enterprise_id": Enterprise.enterpriseId,
@@ -246,6 +249,11 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
 
         this.gotUserData$.emit(value);
       });
+    }
+    else{
+      this.utilityService.showErrorToaster("Please verify this enterprise before trying to login.");
+    }
+    
   }
   enterpriseLogout(){
     this.panelActive = 'login';

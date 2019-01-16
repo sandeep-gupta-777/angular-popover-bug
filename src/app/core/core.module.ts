@@ -46,6 +46,9 @@ import {ModalConfirmComponent} from '../modal-confirm/modal-confirm.component';
 import {GentemplateEditKeyComponent} from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
 import {BotSessionModalWrapperComponent} from '../bot-session-modal-wrapper/bot-session-modal-wrapper.component';
 import { UrlValidatorDirective } from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-input-caraosal/url-validator.directive';
+import { EnterpriseOverviewComponent } from './enterpriseprofile/enterprise-overview/enterprise-overview.component';
+import { EnterpriseUsersComponent } from './enterpriseprofile/enterprise-users/enterprise-users.component';
+import { EnterpriseRolesComponent } from './enterpriseprofile/enterprise-roles/enterprise-roles.component';
 const routes: Route[] = [
   {
 
@@ -95,6 +98,7 @@ const routes: Route[] = [
     CreateCustomnerComponent,
     ProfileComponent,
     EnterpriseprofileComponent,
+    EnterpriseOverviewComponent,
     ReportsComponent,
     CoreWrapperComponent,
     BuildbotWrapperComponent,
@@ -108,7 +112,10 @@ const routes: Route[] = [
     ReportControlsComponent,
     TestComponent,
     ChatPreviewNewPageComponent,
-    FooterComponent
+    FooterComponent,
+    EnterpriseOverviewComponent,
+    EnterpriseUsersComponent,
+    EnterpriseRolesComponent
     // DisplayNameForKeyIntegrationPipe,
 
     /*added after lazy loading*/
