@@ -1,5 +1,10 @@
 @import "~src/sass/main.scss";
 
+
+.session-message-section{
+  cursor: pointer;
+}
+
 .reverse-flex-row {
   display: flex;
   flex-direction: row-reverse;

@@ -1,21 +1,14 @@
-<!--<p>{{sessionMessageItems|json}}</p>-->
-<div class="cursor-pointer" [ngClass]="txnId" (click)="messageClickedEvent$.emit(txnId)">
-  <!--<div class="cursor-pointer" [ngClass]="txnId">-->
+
+<section class="session-message-section" [ngClass]="txnId" (click)="messageClickedEvent$.emit(txnId)">
   <i class="meta-text cursor-pointer pl-1" (click)="utilityService.copyToClipboard(txnId)"
      [innerHtml]="'txnId:'+ txnId_highlighting">
   </i>
   <div *ngFor="let sessionMessage of sessionMessageItems">
 
     <div *ngIf="sessionMessage && sessionMessage.user_type==='human'">
-      <!--<div class="row reverse-flex-row my-1">-->
       <div class="row my-1">
-        <!--<div class="col-1 text-left p-0">-->
-        <!--<img class="" src="http://logok.org/wp-content/uploads/2014/04/Citi-logo-880x660.png"-->
-        <!--style="width: 32px;height: 32px" alt="">-->
-        <!--</div>-->
         <div class="col-10 p-0">
           <div class="message p-2 bg-message-human" style="display: inline-block">
-            <!--<span class="message-text ">{{sessionMessageData.message}}</span>-->
             <span class="message-text" [innerHtml]="sessionMessage.messageByHuman|| sessionMessage.message"></span>
             <div class="time text-right">10:42 PM</div>
           </div>
@@ -69,5 +62,5 @@
 
   </div>
 
-</div>
+</section>
 
