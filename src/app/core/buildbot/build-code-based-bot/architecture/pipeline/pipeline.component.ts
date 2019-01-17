@@ -19,6 +19,7 @@ import {NgForm} from '@angular/forms';
 import {ModalImplementer} from '../../../../../modal-implementer';
 import {MatDialog} from '@angular/material';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import {EventService} from '../../../../../event.service';
 
 
 export interface IPipelineItemV2 {
@@ -41,6 +42,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   masterModuleCount:number;
   panelOpenState = false;
   myObject = Object;
+  pipeLineSrc: string = 'assets/img/pipeline-no-hover-drag.svg';
   _bot: IBot;
   @Input() set bot(botData: IBot) {
     this._bot = botData;
@@ -211,6 +213,11 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
 
   removePipelineItemFromPipeline(index:number){
     this.pipeLine.splice(index,1);
+  }
+
+  expandAllModules(){
+    this.allMatExpansionExpanded = !this.allMatExpansionExpanded;
+    EventService.toggleAllPipeLineModules.emit(this.allMatExpansionExpanded);
   }
 
 
