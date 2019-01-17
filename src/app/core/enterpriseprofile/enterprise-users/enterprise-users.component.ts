@@ -43,7 +43,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   enterpriseUserBotList: IBot[];//
   formGroup: FormGroup;
   roleMap: any;
-  userIdtoDelete: number;
+  usertoDelete: any;
   selectedUserModify: any;
   getTableDataMetaDict(): any {
     return this.constantsService.SMART_TABLE_USER_DICT_TEMPLATE;
@@ -121,13 +121,13 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   deleteUser() {
     let removeEnterpriseUserUrl = this.constantsService.removeEnterpriseUserUrl();
     const headerData: IHeaderData = { 'content-type': 'application/json' };
-    let body = { "user_id": this.userIdtoDelete };
+    let body = { "user_id": this.usertoDelete.id };
     // debugger;
 
     this.serverService.makePostReq<any>({ url: removeEnterpriseUserUrl, body, headerData })
       .subscribe((value) => {
         console.log(value);
-        let p = this.loggeduserenterpriseinfo.enterpriseusers.filter((user) => user.id !== this.userIdtoDelete);
+        let p = this.loggeduserenterpriseinfo.enterpriseusers.filter((user) => user.id !== this.usertoDelete.id);
         this.loggeduserenterpriseinfo.enterpriseusers = [...p];
         //shoaib
         // debugger;
@@ -138,7 +138,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
         //   debugger;
         //   this.loggeduserenterpriseinfo = enterprise[0].loggeduserenterpriseinfo;
         // });
-        // this.tableData = this.tableData.filter((user) => user.originalSessionData.id !== this.userIdtoDelete);
+        // this.tableData = this.tableData.filter((user) => user.originalSessionData.id !== this.usertoDelete.id);
       });
   }
   addNewUser() {
@@ -224,7 +224,8 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }, enterpriseDeleteModal, ModifyUserModal) {
     if (data.action === 'remove') {
       // console.log(data.data)
-      this.userIdtoDelete = data.data.id;
+      this.usertoDelete = data.data;
+      debugger;
       this.openDeletModal(enterpriseDeleteModal);
 
     }
