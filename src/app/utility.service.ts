@@ -490,7 +490,7 @@ export class UtilityService {
       plotOptions: {
         series: {
           pointStart: startTime_ms, //Date.UTC(2010, 0, 2),
-          pointInterval: granularity_Ms//24*3600*1000  // one day,
+          pointInterval: granularity_Ms,//24*3600*1000  // one day,
           label: {
             enabled: false
           }

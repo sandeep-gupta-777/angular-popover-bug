@@ -75,21 +75,10 @@ export class ChartComponent implements OnInit {
       colors: ['#5392ff', '#71cddd', '#34bc6e', '#95d13c', '#ffb000', '#fe8500', '#ff509e', '#9b82f3']
     });
 
+    debugger;
     Highcharts.chart('container-highcharts',
         {
           credits: false,
-          exporting: {
-            enabled: true,
-            menuItems: [
-              'printChart',
-              'separator',
-              'downloadPNG',
-              'downloadJPEG',
-              // "downloadXLS",
-              // "viewData",
-              // "openInCloud"
-            ]
-          },
 
           // xAxis: {
           //   categories: ['Template key 1', 'Template key 2', 'Template key 3', 'Template key 4', 'Template key 5']
@@ -113,6 +102,15 @@ export class ChartComponent implements OnInit {
           //   data: [144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4, 29.9, 71.5, 106.4, 129.2]
           // }],
           ..._chartValue,
+          exporting: {
+            enabled: true,
+            menuItems: [
+              'printChart',
+              'separator',
+              'downloadPNG',
+              'downloadJPEG'
+            ]
+          }
           // plotOptions: {
           //   series: {
           //     // pointStart: Date.UTC(2018, 6, 20),
