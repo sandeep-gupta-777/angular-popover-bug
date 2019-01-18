@@ -31,7 +31,9 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   @ViewChild('modifyBotList') modifyBotList: NgForm;
   @ViewChild('newBotList') newBotList: NgForm;
   @ViewChild('newBotDetails') newBotDetails: NgForm;
-  @ViewChild('modifyBotDetails') modifyBotDetails: NgForm;
+  modifyBotRole :number;
+  newBotRole:number;
+  isSelectedRoleAdmin:boolean;
   dialogRefWrapper = { ref: null };
   object = Object;
   tableData;
@@ -45,12 +47,14 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   roleMap: any;
   usertoDelete: any;
   selectedUserModify: any;
+  searchBots: string = "";
+  searchBotsInModify: string = "";
   getTableDataMetaDict(): any {
     return this.constantsService.SMART_TABLE_USER_DICT_TEMPLATE;
   }
   roleIdToRoleName(roleId: number) {
     // debugger;
-    if(this.roleMap){
+    if (this.roleMap) {
       let thisRole = this.roleMap.find(role => role.id == roleId);
       if (thisRole) {
         return thisRole.name
@@ -59,7 +63,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
         return "Custom role";
       }
     }
-      
+
 
   }
   transformDataForMaterialTable(data: any[], tableDataMetaDict: any) {
@@ -108,8 +112,8 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
       tableGataItem.Actions.value.push({ show: true, name: 'remove', class: 'fa fa-trash mr-3 color-danger' });
       // if()
       debugger;
-      if(!tableGataItem.originalSessionData.enterprises[0].is_active){
-        tableGataItem.Actions.value.push({ show: true, name: 'exclamation', class: 'fa fa-exclamation-triangle color-yellow' });
+      if (!tableGataItem.originalSessionData.enterprises[0].is_active) {
+        tableGataItem.Actions.value.push({ show: true, name: 'User not verified', class: 'fa fa-exclamation-triangle color-yellow' });
       }
 
       return tableGataItem;
@@ -131,6 +135,8 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
         this.loggeduserenterpriseinfo.enterpriseusers = [...p];
         //shoaib
         // debugger;
+        this.utilityService.showSuccessToaster("User has been deleted successfully");
+
         this.store.dispatch([
           new SetEnterpriseUsersAction({ enterpriseUsers: this.loggeduserenterpriseinfo.enterpriseusers })
         ])
@@ -167,6 +173,8 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
         // debugger;
         this.loggeduserenterpriseinfo.enterpriseusers.push(newUser);
         //shoaib
+        this.utilityService.showSuccessToaster(" New user has been added successfully");
+
         this.store.dispatch([
           new SetEnterpriseUsersAction({ enterpriseUsers: this.loggeduserenterpriseinfo.enterpriseusers })
         ])
@@ -179,8 +187,10 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   modifyUser() {
     let url = this.constantsService.updateUserUrl(this.selectedUserModify.id);
     const headerData: IHeaderData = { 'content-type': 'application/json' };
-    // debugger;
-    console.log(this.modifyBotDetails.value);
+    debugger;
+
+    console.log(this.modifyBotRole);
+    debugger;
     // console.log(this.modifyBotList.value);
     // Object.keys(this.modifyBotList.value).filter((v))
     let list = [];
@@ -192,18 +202,20 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     });
     console.log(list);
     let body = {
-      "role_id": this.modifyBotDetails.value.role,
+      "role_id": this.modifyBotRole,
       "bots": list
     };
     // debugger;
     this.serverService.makePutReq({ url, body, headerData })
       .subscribe((modifiedUser) => {
-        // debugger;
+        debugger;
         let p = this.loggeduserenterpriseinfo.enterpriseusers.filter((user) => user.id !== this.selectedUserModify.id);
         this.loggeduserenterpriseinfo.enterpriseusers = [...p];
-        
+
         this.loggeduserenterpriseinfo.enterpriseusers.push(modifiedUser);
         //shoaib
+        this.utilityService.showSuccessToaster("User has been modified successfully");
+
         this.store.dispatch([
           new SetEnterpriseUsersAction({ enterpriseUsers: this.loggeduserenterpriseinfo.enterpriseusers })
         ])
@@ -211,6 +223,36 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
   }
 
+  modifyBotRoleChanged(role){
+    if(role == 2){
+      this.selectAll(this.modifyBotList);
+      this.isSelectedRoleAdmin = true;
+      // this.modifyBotList.form.disable
+    }
+    else{
+      // this.modifyBotList
+      this.isSelectedRoleAdmin = false;
+      this.modifyBotList.reset();
+      let formlist = this.modifyBotList.value;
+      for (let key of this.selectedUserModify.enterprises[0].bots) {
+        formlist[key] = true;
+      }
+      this.modifyBotList.form.patchValue(formlist);
+      
+    }
+  }
+  newUserRoleChanged(role){
+    if(role == 2){
+      this.selectAll(this.newBotList);
+      this.isSelectedRoleAdmin = true;
+      // this.modifyBotList.form.disable
+    }
+    else{
+      // this.modifyBotList
+      this.isSelectedRoleAdmin = false;
+      // this.newBotList.reset();
+    }
+  }
   openDeletModal(template: TemplateRef<any>) {
     // this.selectedPipeline = pipeline;
     // this.modalRef = this.modalService.show(template, { class: 'modal-md' });
@@ -218,7 +260,28 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
   openUserEditModal(template: TemplateRef<any>) {
-    this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
+    this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper)
+    setTimeout(()=>{
+      debugger;
+      this.modifyBotRole = this.selectedUserModify.enterprises[0].role_id;
+      this.isSelectedRoleAdmin  = this.modifyBotRole == 2 ? true : false;
+      let formlist = this.modifyBotList.value;
+      for (let key of this.selectedUserModify.enterprises[0].bots) {
+        formlist[key] = true;
+      }
+      this.modifyBotList.form.patchValue(formlist);
+    },0);
+      
+
+  }
+  openNewUserModal(template: TemplateRef<any>) {
+    this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper)
+    setTimeout(()=>{
+      debugger;
+      this.isSelectedRoleAdmin = false;
+      this.newBotRole = 4;
+    },0);
+      
 
   }
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }, enterpriseDeleteModal, ModifyUserModal) {
@@ -230,6 +293,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
     }
     if (data.action === 'modify') {
+      // debugger;
       this.selectedUserModify = data.data;
       this.openUserEditModal(ModifyUserModal);
     }
@@ -262,7 +326,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
   ngOnInit() {
     // debugger;
-    
+
 
     this.loggeduser$.subscribe(({ user }) => {
       this.userid = user.id;
@@ -296,11 +360,11 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     });
 
 
-  
+
     this.loggeduserenterpriseinfo$.subscribe((enterprise) => {
-      // debugger;
-      
-      if(!this.roleMap){
+      debugger;
+
+      if (!this.roleMap) {
         const headerData: IHeaderData = { 'content-type': 'application/json' };
         const RoleMapUrl = this.constantsService.getRoleMapUrl();
         this.serverService.makeGetReq<any>({ url: RoleMapUrl, headerData })
@@ -312,7 +376,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
             }
             // 
           });
-      }else{
+      } else {
         if (enterprise.enterpriseusers) {
           this.initializeTableData(enterprise.enterpriseusers, this.getTableDataMetaDict());
           this.loggeduserenterpriseinfo = enterprise;

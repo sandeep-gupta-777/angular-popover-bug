@@ -162,6 +162,7 @@ export class EnterpriseOverviewComponent implements OnInit {
         this.serviceKeys.push(value);
         this.serviceKeys = [...this.serviceKeys];
         debugger;
+        this.utilityService.showSuccessToaster("New service key added successfully");
         this.store.dispatch([
           new SetEnterpriseServiceKeyAction({ service_key: this.serviceKeys })
         ])
@@ -179,8 +180,8 @@ export class EnterpriseOverviewComponent implements OnInit {
       industry: [''],
       logo: ['', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
       email: [''],
-      websiteUrl: [''],
-      // enterpriseUniqueName: [''],
+      // websiteUrl: [''],
+      enterprise_unique_name: [''],
       tier_group: [''],
       log_retention_period: [''],
     });
@@ -233,8 +234,10 @@ export class EnterpriseOverviewComponent implements OnInit {
       .subscribe((enterprise) => {
 
         debugger;
-
         this.serviceKeys = enterprise.service_key;
+        debugger;
+        //  if(this.serviceKeys.length > 0){
+
         let expiredTableData = enterprise.service_key.filter(data => data.enabled == true);
         expiredTableData = expiredTableData.filter(data => typeof data.description == "string");
 
@@ -245,6 +248,8 @@ export class EnterpriseOverviewComponent implements OnInit {
         debugger;
         // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter(data => data.age > 18)
         this.serviceKeyTableDataActive = this.transformDataForMaterialTable(activeTableData, this.getTableDataMetaDictExpired());
+
+        //  }
 
 
       });
@@ -306,6 +311,7 @@ export class EnterpriseOverviewComponent implements OnInit {
 
           this.serviceKeys = [...this.serviceKeys];
           debugger;
+          this.utilityService.showSuccessToaster("Service key has been successfully expired");
           this.store.dispatch([
             new SetEnterpriseServiceKeyAction({ service_key: this.serviceKeys })
           ])

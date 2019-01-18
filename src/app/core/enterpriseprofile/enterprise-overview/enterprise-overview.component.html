@@ -22,7 +22,7 @@
           <h4 class="form-title col-12">Basic</h4>
           <div class="col-5">
             <div class="form-group">
-              <label for="name">Company Name</label>
+              <label for="name">Enterprise name</label>
               <input type="text" class="form-control" formControlName="name" required>
             </div>
             <!-- <div class="form-group">
@@ -34,7 +34,7 @@
           </div>
           <div class="col-7">
             <div class="form-group">
-              <label for="alterEgo">Email</label>
+              <label for="alterEgo">Email address</label>
               <input type="text" class="form-control" formControlName="email">
             </div>
 
@@ -60,7 +60,7 @@
           <div class="col-5">
             <div class="form-group">
               <label for="name">Enterprise Unique Name</label>
-              <input type="text" class="form-control" required formControlName="enterpriseUniqueName" readonly>
+              <input type="text" class="form-control" required formControlName="enterprise_unique_name" readonly>
             </div>
           </div>
           <div class="col-5">
@@ -98,7 +98,8 @@
 <div class="d-flex log-deletion bottom-border-line">
   <div class="unit ml-2 mr-4" *ngFor="let data of logdeletionsummary">
     <div class="date mb-2">
-      {{data.date}}
+      <!-- {{data.timestamp |  date : "medium"}} -->
+      {{data.timestamp| date:"d MMM yy"}}
     </div>
     <div class="count">
       {{data.total}}
@@ -163,13 +164,13 @@
       
             <form  #descriptionForm="ngForm" >
               <mat-form-field style = "width : 300px">
-                <input matInput placeholder="Description" ngModel name ="description" value="" > 
+                <input matInput placeholder="Description" ngModel name ="description" value="" required> 
               </mat-form-field>
             </form>
           </div>
           <div class="d-flex" style="flex-direction: row-reverse">
             <!-- <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRefWrapper.hide()">Cancel</button> -->
-            <button class=" btn-theme btn-theme-primary mx-1 " (click)="addNewServiceKey() ;dialogRefWrapper.ref.close();">Create
+            <button class=" btn-theme btn-theme-primary mx-1 " [disabled]= "!descriptionForm.valid" (click)="addNewServiceKey() ;dialogRefWrapper.ref.close();">Create
             </button>
             <button class=" btn-theme btn-theme-primary-outline mx-1" (click)="dialogRefWrapper.ref.close();">Cancel
             </button>
