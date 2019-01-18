@@ -7,13 +7,13 @@ import {EChatFeedback} from '../chat/chat-wrapper.component';
     <div class="chat-feedback-wrapper">
       <div class="chat-feedback" (click)="chatFeedbackClicked(true)" *ngIf="feedback!==myEChatFeedback.NEGATIVE">
         <mat-icon
-          [ngStyle]="{'color': feedback === myEChatFeedback.POSITIVE? '#34bc6e':'yellow'}"
+          [ngStyle]="{'color': feedback === myEChatFeedback.POSITIVE? '#34bc6e':'#bebebe'}"
           class="chat-feedback__icon user-feedback__icon--up">thumb_up</mat-icon>
         <span>Upvote</span>
       </div>
       <div class="chat-feedback" (click)="chatFeedbackClicked(false)" *ngIf="feedback!==myEChatFeedback.POSITIVE">
         <mat-icon
-          [ngStyle]="{'color': feedback === myEChatFeedback.NEGATIVE? '#b14250':'yellow'}"
+          [ngStyle]="{'color': feedback === myEChatFeedback.NEGATIVE? '#b14250':'#bebebe'}"
           class="chat-feedback__icon user-feedback__icon--down">thumb_down</mat-icon>
         <span>Downvote</span>
       </div>
