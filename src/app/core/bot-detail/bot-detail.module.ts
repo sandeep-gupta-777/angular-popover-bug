@@ -59,6 +59,7 @@ import {SimpleTableComponent} from '../buildbot/build-code-based-bot/architectur
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {UrlValidatorDirective} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-input-caraosal/url-validator.directive';
 import {AccordianComponent} from '../../accordian/accordian.component';
+import {SortPipelinePipe} from '../buildbot/build-code-based-bot/architecture/pipeline/sort-pipeline.pipe';
 
 const routes: Route[] = [
   {
@@ -85,6 +86,7 @@ const routes: Route[] = [
     SessionTabsDetailsComponent,
     SessionMessageComponent,
     PipelineComponent,
+    SortPipelinePipe,
     AccordianComponent,
     SimpleTableComponent,
     StringIncludesPipe,

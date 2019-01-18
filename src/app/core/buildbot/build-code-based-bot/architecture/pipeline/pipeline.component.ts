@@ -77,7 +77,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   }
 
   countMasterModules(pipelineModulesV2List:IPipelineItemV2[]){
-
+    debugger;
     return this.pipelineModulesV2List.reduce((aggregate, pipelineModulesV2Item)=>{
       return aggregate + pipelineModulesV2Item.pipeline_modules.length;
     },0);
@@ -218,6 +218,10 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   expandAllModules(){
     this.allMatExpansionExpanded = !this.allMatExpansionExpanded;
     EventService.toggleAllPipeLineModules.emit(this.allMatExpansionExpanded);
+  }
+
+  log(){
+    console.log(this.pipeLine);
   }
 
 

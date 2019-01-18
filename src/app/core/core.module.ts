@@ -48,6 +48,7 @@ import { UrlValidatorDirective } from './buildbot/build-code-based-bot/architect
 import { EnterpriseOverviewComponent } from './enterpriseprofile/enterprise-overview/enterprise-overview.component';
 import { EnterpriseUsersComponent } from './enterpriseprofile/enterprise-users/enterprise-users.component';
 import { EnterpriseRolesComponent } from './enterpriseprofile/enterprise-roles/enterprise-roles.component';
+import { SortPipelinePipe } from './buildbot/build-code-based-bot/architecture/pipeline/sort-pipeline.pipe';
 const routes: Route[] = [
   {
 
@@ -114,7 +115,7 @@ const routes: Route[] = [
     FooterComponent,
     EnterpriseOverviewComponent,
     EnterpriseUsersComponent,
-    EnterpriseRolesComponent
+    EnterpriseRolesComponent,
     // DisplayNameForKeyIntegrationPipe,
 
     /*added after lazy loading*/

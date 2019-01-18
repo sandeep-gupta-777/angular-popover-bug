@@ -21,6 +21,7 @@ export interface IBot {
   'active_version_id'?: number;
   'advanced_data_protection'?: boolean;
   'allow_anonymization'?: boolean;
+  'allow_feedback'?: boolean;
   'avatars'?: IAvatar[];
   'blanket_consent'?: boolean;
   'bot_access_token'?: string;
@@ -40,7 +41,7 @@ export interface IBot {
   'heading'?: string;
   'id'?: number;
   is_manager?: boolean;
-  allow_feedback?:boolean,
+  // allow_feedback?:boolean,
   /*TODO: Queries:Integration should be array*/
   integrations?: IIntegrationOption;
   //   {

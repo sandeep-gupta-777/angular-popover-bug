@@ -19,20 +19,12 @@
                [(ngModel)]="searchKeyword"
                class="border">
       </div>
-      <!--<mat-form-field floatLabel="never" style="margin-bottom: -16px">-->
-      <!--<input matInput type="text" placeholder="Libraries and Modules" [(ngModel)]="searchKeyword">-->
-      <!--<button mat-button matPrefix mat-icon-button aria-label="Clear">-->
-      <!--<mat-icon color="primary">search</mat-icon>-->
-      <!--</button>-->
-      <!--</mat-form-field>-->
-
-
     </div>
 
     <div style="margin-top: 15px; padding-left: 15px">
       <app-accordian [doExpandAll]="allMatExpansionExpanded"
                      style="width: 100%; display: block;"
-                     *ngFor="let pipelineItem of pipelineModulesV2List|pipelineFilter:searchKeyword"
+                     *ngFor="let pipelineItem of pipelineModulesV2List|pipelineFilter:searchKeyword|sortPipeline"
                      [data]="pipelineItem">
 
         <app-simple-table
@@ -91,7 +83,7 @@
                style="margin-right: 8px" alt="">
           <div class="d-flex flex-column">
             <span class="module">{{aiModule.module|titlecase }}</span>
-            <span class="library">{{aiModule.library|titlecase}}</span>
+            <span class="library">{{aiModule.unique_name|titlecase}}</span>
           </div>
           <span class="ml-auto"></span>
           <i *ngIf="aiModule && aiModule.input_params && myObject.keys(aiModule.input_params).length>0"
