@@ -1,9 +1,9 @@
 <div class="enterprise-grid">
   <div class = "cursor-pointer " 
   *ngFor="let enterprise of  (enterpriseList | genericObjFilter:'enterprise_id.name':searchEnterprise)"
-  (click) = clickEnterprise(enterprise.enterprise_id.id,enterprise.role_id.id)
-  [ngClass]="{ 'disabled': currentEnterpriseId === enterprise.enterprise_id.id}">
-  <div class = "enterprise-grid-item" *ngIf="enterprise.is_active">
+  (click) = clickEnterprise(enterprise.enterprise_id.id,enterprise.role_id.id,enterprise.is_active)
+  [ngClass]="{ 'disabled': (currentEnterpriseId === enterprise.enterprise_id.id) }">
+  <div class = "enterprise-grid-item">
     <div class = "enterprise-image">
       <img src="{{enterprise.enterprise_id.logo || 'https://image.ibb.co/hjJ0xA/icon-2x.png' }}  " alt="">
     </div>

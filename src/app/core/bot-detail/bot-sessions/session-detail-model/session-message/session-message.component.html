@@ -1,21 +1,13 @@
-<!--<p>{{sessionMessageItems|json}}</p>-->
-<div class="cursor-pointer" [ngClass]="txnId" (click)="messageClickedEvent$.emit(txnId)">
-  <!--<div class="cursor-pointer" [ngClass]="txnId">-->
+<section class="session-message-section" [ngClass]="txnId" (click)="messageClickedEvent$.emit(txnId)">
   <i class="meta-text cursor-pointer pl-1" (click)="utilityService.copyToClipboard(txnId)"
      [innerHtml]="'txnId:'+ txnId_highlighting">
   </i>
   <div *ngFor="let sessionMessage of sessionMessageItems">
 
     <div *ngIf="sessionMessage && sessionMessage.user_type==='human'">
-      <!--<div class="row reverse-flex-row my-1">-->
       <div class="row my-1">
-        <!--<div class="col-1 text-left p-0">-->
-        <!--<img class="" src="http://logok.org/wp-content/uploads/2014/04/Citi-logo-880x660.png"-->
-        <!--style="width: 32px;height: 32px" alt="">-->
-        <!--</div>-->
         <div class="col-10 p-0">
           <div class="message p-2 bg-message-human" style="display: inline-block">
-            <!--<span class="message-text ">{{sessionMessageData.message}}</span>-->
             <span class="message-text" [innerHtml]="sessionMessage.messageByHuman|| sessionMessage.message"></span>
             <div class="time text-right">10:42 PM</div>
           </div>
@@ -29,8 +21,9 @@
         <div class="row flex-row-reverse" *ngFor="let message of sessionMessage.message">
           <!--bot text reply starts-->
           <div class="col-10 p-0 pb-1 d-flex justify-content-end" *ngIf="message.text">
-            <!--<div class="col-12 p-1 text-right p-0" *ngIf="message.text">-->
-            <div class="message p-2 bg-message-bot" style="display: inline-block">
+            <div class="message p-2"
+                 [ngStyle]="{'background-color': (!sessionMessage.feedback? '#f7f7f7' :(sessionMessage.feedback === myEChatFeedback.POSITIVE) ? '#5cd791' : '#ffc7cd') }"
+                 >
               <span class="message-text" [innerHtml]="message.text"></span>
               <div class="time text-right">10:42 PM</div>
             </div>
@@ -64,10 +57,19 @@
 
     </div>
 
+    <div class="user-feedback" *ngIf="sessionMessage.feedback === myEChatFeedback.POSITIVE">
+      <mat-icon class="user-feedback__icon user-feedback__icon--up">thumb_up</mat-icon>
+      <span class="user-feedback__text">Upvoted</span>
+    </div>
+    <div class="user-feedback" *ngIf="sessionMessage.feedback === myEChatFeedback.NEGATIVE">
+      <mat-icon class="user-feedback__icon user-feedback__icon--down">thumb_down</mat-icon>
+      <span class="user-feedback__text">Downvoted</span>
+    </div>
+
     <!--<p>{{(sessionMessage|json)}}</p>-->
     <!--<app-card-carousel  [messageData]="sessionMessage|sessionDataToRichMediaSerializer"></app-card-carousel>-->
 
   </div>
 
-</div>
+</section>
 

@@ -1,20 +1,48 @@
 @import '~src/sass/main';
 
-.card-header{
+.card-header {
   background-color: $color-primary;
 }
 
-.fa{
+.fa {
   font-size: 22px;
   color: white;
 }
 
-.fa-refresh, .fa-times{
+.fa-refresh, .fa-times {
   font-size: 16px;
 }
 
+.session-messages-container {
+  height: 65vh;
 
-.primary16{
+  position: relative;
+  .session-messages-container-list{
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .fa-angle-down {
+    position: absolute;
+    bottom: 2%;
+    right: 3%;
+    color: white;
+    cursor: pointer;
+    z-index: 1000;
+
+    background-color: $color-primary;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+
+.primary16 {
   height: 16px;
   font-family: Helvetica;
   font-size: 13px;
@@ -26,7 +54,7 @@
   color: #ffffff;
 }
 
-.primary{
+.primary {
   height: 14px;
   font-family: Helvetica;
   font-size: 12px;
@@ -38,7 +66,7 @@
   color: #ffffff;
 }
 
-.secondary{
+.secondary {
   font-family: Helvetica;
   font-size: 10px;
   font-weight: 300;
@@ -49,34 +77,33 @@
   color: #ffffff;
 }
 
-span{
+span {
   margin: 0;
 }
 
-#search-session-model{
+#search-session-model {
   @include hide-borders();
-  padding-left: 30px;/*todo: this doesn't seem right*/
+  padding-left: 30px; /*todo: this doesn't seem right*/
   outline: none;
 }
 
 
-
-.nav-link{
+.nav-link {
   border: none;
 }
 
-.nav{
+.nav {
   //border-bottom: $border-normal; TODO: this will be misplaced when code text overflows
   border: none;
 }
 
-a{
+a {
   text-decoration: none !important;
   font-size: 10px;
   color: black;
 }
 
-.indicate{
+.indicate {
   height: 34px;
   font-family: Helvetica;
   font-size: 14px;
@@ -89,12 +116,14 @@ a{
   color: #9e9e9e;
 }
 
-.border-hover-txn:hover{
+.border-hover-txn:hover {
   border-left: 4px solid #e0e0e0;
 }
-.border-selected-txn{
+
+.border-selected-txn {
   border-left: 4px solid $color-primary !important;
 }
-.border-unselected-txn{
+
+.border-unselected-txn {
   border-left: 4px solid transparent;
 }

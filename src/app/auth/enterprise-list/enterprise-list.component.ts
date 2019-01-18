@@ -14,10 +14,11 @@ export class EnterpriseListComponent implements OnInit {
   @Output() clickedEnterprise = new EventEmitter();
   ngOnInit() {
   }
-  clickEnterprise(enterpriseId,roleId){
+  clickEnterprise(enterpriseId,roleId,isActive){
     let object = {
       enterpriseId : enterpriseId,
-      roleId : roleId
+      roleId : roleId,
+      isActive : isActive
     }
     this.clickedEnterprise.emit(object);
   }

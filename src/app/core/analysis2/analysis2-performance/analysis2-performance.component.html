@@ -1,7 +1,11 @@
 <!--TODO: create a directive for tabbing-->
 <!--Tabbing starts-->
 <ul class="nav nav-tabs my-2 theme-tabbing">
-  
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true" [queryParams]="{perf:'totalSessions'}"
+      (click)="tabClicked('totalSessions')" [ngClass]="{'tab-active':activeTab==='totalSessions'}"><strong>Sessions wise</strong></a>
+  </li>
+
   <li class="nav-item">
     <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true" [queryParams]="{perf:'topgenerationtemplates'}"
       (click)="tabClicked('topgenerationtemplates')" [ngClass]="{'tab-active':activeTab==='topgenerationtemplates'}"><strong>Template
@@ -12,17 +16,14 @@
     <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true" [queryParams]="{perf:'totalFlows'}"
       (click)="tabClicked('totalFlows')" [ngClass]="{'tab-active':activeTab==='totalFlows'}"><strong>Flows triggered</strong></a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" [routerLink]="['.']" queryParamsHandling="merge" replaceUrl="true" [queryParams]="{perf:'totalRooms'}"
-      (click)="tabClicked('totalRooms')" [ngClass]="{'tab-active':activeTab==='totalRooms'}"><strong>Total Rooms</strong></a>
-  </li>
+  
  
 </ul>
 <!--Tabbing ends-->
 
 
-<app-chart *ngIf="activeTab==='totalRooms'"  [chartValue]="chartValue1" 
-  [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
+<app-chart *ngIf="activeTab==='totalSessions'"  [chartValue]="chartValue2" 
+  [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED">
 </app-chart>
 
 <app-chart *ngIf="activeTab==='topgenerationtemplates'"  [chartValue]="chartValue"

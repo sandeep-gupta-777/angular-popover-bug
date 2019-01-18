@@ -26,6 +26,7 @@ export interface IEnterpriseUser {
     'updated_at': string,
     'updated_by': number
   };
+  'enterprises': any[];
   'role_id': number;
   'updated_at': string;
 }

@@ -24,7 +24,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
   myEAllActions = EAllActions;
   handontable_colHeaders;
   handontable_column;
-  testCaseData: [string, string, string][] = [];
+  testCaseData: [string, string, string][] = [['<The user message you wish to test for>','<The name of the template key you expect the bot to return>','']];
   testCasesUrl = this.constantsService.getBotTestingUrl();
   stopTestUrl = this.constantsService.stopTestUrl();
   testCaseId: number;

@@ -1,0 +1,32 @@
+@import '~src/sass/main';
+
+.rolePannelGrid{
+    font-family: Helvetica;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    justify-content: start;
+    align-items: center;
+    grid-gap: 20px;
+    .rolePannelGridItem{
+      background-color: #ffffff;
+      height:120px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      .headding{
+    font-size: 13px;
+    color: #474747;
+    font-weight: bold;
+      }
+      .d-flex{
+      flex-direction: row;
+      .fa-cog{
+        color: $color-primary;
+      }
+      .fa-trash{
+        color: $color-danger;
+        
+      }
+      }
+    }
+  }

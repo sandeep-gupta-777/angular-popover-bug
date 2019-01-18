@@ -1,4 +1,5 @@
 import {IMeta} from '../app/core/interfaces/meta';
+import {EChatFeedback} from '../app/chat/chat-wrapper.component';
 
 
 export interface ISessionMessageItem {
@@ -20,7 +21,7 @@ export interface ISessionMessageItem {
   'transaction_id': string;
   'updated_at': string;
   'user_type': string;
-
+  feedback: EChatFeedback,
   /*custom fields*/
   messageByHuman: string;
 }

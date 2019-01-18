@@ -40,6 +40,7 @@ export interface IBot {
   'heading'?: string;
   'id'?: number;
   is_manager?: boolean;
+  allow_feedback?:boolean,
   /*TODO: Queries:Integration should be array*/
   integrations?: IIntegrationOption;
   //   {
