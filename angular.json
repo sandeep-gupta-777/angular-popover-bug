@@ -31,11 +31,25 @@
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss",
               "node_modules/dragula/dist/dragula.css",
-              "node_modules/codemirror/lib/codemirror.css"
+              "node_modules/codemirror/lib/codemirror.css",
+              "node_modules/codemirror/addon/fold/foldgutter.css",
+              "node_modules/codemirror/addon/dialog/dialog.css"
+
             ],
             "scripts": [
               "node_modules/codemirror/lib/codemirror.js",
+              "node_modules/codemirror/addon/fold/foldcode.js",
+              "node_modules/codemirror/addon/fold/foldgutter.js",
+              "node_modules/codemirror/addon/fold/indent-fold.js",
+              "node_modules/codemirror/addon/fold/comment-fold.js",
+              "node_modules/codemirror/addon/search/search.js",
+              "node_modules/codemirror/addon/search/searchcursor.js",
+              "node_modules/codemirror/addon/search/jump-to-line.js",
+              "node_modules/codemirror/addon/dialog/dialog.js",
+
+              "node_modules/codemirror/addon/dialog/dialog.js",
               "node_modules/codemirror/mode/python/python.js"
+
             ]
           },
           "configurations": {
