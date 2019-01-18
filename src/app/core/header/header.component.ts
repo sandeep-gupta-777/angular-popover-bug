@@ -21,7 +21,6 @@ import { IBotResult } from '../interfaces/IBot';
 import { IAuthState } from '../../auth/ngxs/auth.state';
 import { ModalImplementer } from 'src/app/modal-implementer';
 import { MatDialog } from '@angular/material';
-import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-header',

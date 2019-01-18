@@ -170,63 +170,44 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       .subscribe((user: IUser) => {
         this.userData = user;
         this.flashInfoMessage('Logged in. Fetching permissions', 10000);
-        try {/*TODO: not sure what this does. ask shoaib*/
-          if (this.userData.enterprises.length <= 1) {
-            debugger;
-            let enterpriseDate = {
-              enterpriseId : this.userData.enterprises[0].enterprise_id.id ,
-              roleId : this.userData.enterprises[0].role_id.id,
-              isActive : this.userData.is_active
-            };
-            this.enterEnterprise(enterpriseDate);
-            // this.gotUserData$.emit(user);
-            // this.store.dispatch([
-            //   new SetUser({ user }),
-            // ]).subscribe(() => {
-            //   this.serverService.getNSetMasterPermissionsList()
-            //     .subscribe(() => {
-            //       this.flashInfoMessage('Loading your dashboard', 100000);
-            //       /*after login, route to appropriate page according to user role*/
-            //       if (this.userData.role.name === ERoleName.Analyst) {
-            //         this.router.navigate(['/core/analytics2/users']);
-            //       } else {
-            //         this.router.navigate([' ']);
-            //       }
-            //       this.serverService.getNSetBotList().subscribe(() => {
-            //       });
-            //       this.serverService.getNSetIntegrationList();
-            //     }, () => {
-            //       this.disabeLoginButton = false;
-            //       this.store.dispatch([
-            //         new ResetAuthToDefaultState()
-            //       ]);
-            //       this.flashErrorMessage('Could not fetch permission. Please try again', 100000);
-            //     });
-            // });
-            // const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(user.enterprise_id);
-            // this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
-            //   .subscribe((value: IEnterpriseProfileInfo) => {
-            //     this.store.dispatch([
-            //       new SetEnterpriseInfoAction({ enterpriseInfo: value })
-            //     ]);
-            //   });
+        // try {/*TODO: not sure what this does. ask shoaib*/
+        //   if (this.userData.enterprises.length <= 1) {
+            // debugger;
+            // let enterpriseDate = {
+            //   enterpriseId : this.userData.enterprises[0].enterprise_id.id ,
+            //   roleId : this.userData.enterprises[0].role_id.id,
+            //   isActive : this.userData.is_active
+            // };
+            // debugger;
+            // this.enterEnterprise(enterpriseDate);
 
+          this.flashInfoMessage('Logged in. Fetching permissions', 10000);
+          try {/*TODO: not sure what this does. ask shoaib*/
+            debugger;
+            if (this.userData.enterprises.length <= 1) {
+              let enterpriseDate = {
+                enterpriseId: this.userData.enterprises[0].enterprise_id.id,
+                roleId: this.userData.enterprises[0].role_id.id,
+                isActive : this.userData.is_active
+              };
+              this.enterEnterprise(enterpriseDate)
+
+            } else {
+              this.enterpriseList = this.userData.enterprises;
+              this.panelActive = "enterprise-list-display";
+              console.log(this.enterpriseList);
+            }
+          } catch (e) {
+            console.error(e)
           }
-          else {
-            this.enterpriseList = this.userData.enterprises;
-            this.panelActive = "enterprise-list-display";
-            console.log(this.enterpriseList);
-          }
-        }catch (e) {
-          console.error(e)
-        }
-        // });
-      },
+          // });
+        // }
+          },
         () => {
           this.disabeLoginButton = false;
           this.flashErrorMessage('Login failed. Please try again', 100000);
         }
-      );
+      )
   }
 
   showPanel(panel) {

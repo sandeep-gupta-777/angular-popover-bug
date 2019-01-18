@@ -1,0 +1,25 @@
+@import '~src/sass/main';
+
+*:not(.fa){
+  @include typography($font-size-normal, $line-height-normal, $font-weight-300, $color-text-normal);
+  font-size: 13px;
+  margin: 0;
+  padding: 0;
+}
+
+.accordion-section{
+  .accordion-section__heading, .accordion-section__description{
+    cursor: pointer;
+  }
+
+  .accordion-section__description{
+    font-size: 11px;
+    line-height: 1.36;
+    //color: #e0e0e0; //todo: in the new design
+  }
+}
+
+.description{
+  font-size: 11px;
+}
+

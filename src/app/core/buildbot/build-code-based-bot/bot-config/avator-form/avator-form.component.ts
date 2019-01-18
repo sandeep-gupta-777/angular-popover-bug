@@ -24,10 +24,10 @@ export class AvatorFormComponent implements OnInit {
   @Input() set bot(_bot: IBot) {
 
     this._bot = _bot;
-    if (this.formArray) {
-      this.formArray.controls.splice(0);
-      this.initializeFormArray();
-    }
+    // if (this.formArray) {
+    //   this.formArray.controls.splice(0);
+    //   this.initializeFormArray();
+    // }
   }
 
   @ViewChild('form') f: NgForm;

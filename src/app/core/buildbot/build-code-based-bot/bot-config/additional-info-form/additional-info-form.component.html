@@ -54,6 +54,18 @@
         </div>
       </div>
 
+      <div class="switch-wrapper">
+        <div class="form-control d-flex align-items-center justify-content-between pr-5">
+          <label class="pr-2">Allow Feedback</label>
+
+          <app-ui-switch
+            formControlName="allow_feedback"
+            [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
+          ></app-ui-switch>
+<!---->
+        </div>
+      </div>
+
     </fieldset>
   </div>
 
