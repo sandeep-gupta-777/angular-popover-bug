@@ -8,6 +8,7 @@
   }
   
   
+  
   ::ng-deep{
     .textVal {
       width:auto  !important; 
@@ -53,4 +54,8 @@
         height: 13px;
       }
     }
+  }
+
+  .opacity-less{
+    opacity: .5;
   }
