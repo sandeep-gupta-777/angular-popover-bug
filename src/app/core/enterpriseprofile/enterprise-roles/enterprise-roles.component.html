@@ -1,3 +1,75 @@
-<p>
-  enterprise-roles works!
-</p>
+<!-- <header class="row mt-3  profile-row">
+  <div class="col-12 p-0">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between justify-content-center align-items-center">
+        <h4>Custom role management</h4>
+
+      </div>
+      <div class="card-header d-flex justify-content-between justify-content-center align-items-center">
+        Manage roles of your enterprise by adding new ones, modifying and removing existing ones.
+      </div>
+    </div>
+  </div>
+</header> -->
+<header class="row mt-3 pb-3  ">
+  <div class="col-12 p-0">
+    <div class="card-header">
+      Custom role management
+    </div>
+  </div>
+  <div class="col-12 p-0">
+    <div class="card-header card-header-description">
+        Manage roles of your enterprise by adding new ones, modifying and removing existing ones.
+    </div>
+  </div>
+</header>
+<div class="d-flex pb-2">
+  <div class="d-inline-block card-header">
+    All roles
+  </div>
+  <div class="ml-auto ">
+    <button class="btn-theme btn-theme-primary" ><i class="fa fa-plus pr-1 "></i>New role</button>
+  </div>
+</div>
+<div class="rolePannelGrid pl-3">
+    <!-- {
+      "created_at": 1535685544000,
+      "created_by": -1,
+      "enterprise_id": 0,
+      "id": 2,
+      "is_system_role": true,
+      "name": "Admin",
+      "permissions": {
+          "actions": []
+      },
+      "resource_uri": "/api/v1/role/2/",
+      "session_expiry_time": 999999999,
+      "updated_at": 1535685544000,
+      "updated_by": -1
+  }, -->
+
+  <div class="rolePannelGridItem" *ngFor="let role of roleList">
+    <div class="headding ">
+      {{role.name}}
+    </div>
+    <div>
+      {{role.created_by}}
+    </div>
+    <div>
+      {{role.permissions.actions.length}} permissions added
+    </div>
+    <div class="mt-auto d-flex" style="align-items: center;">
+      <div class = "mr-auto cursor-pointer">
+          <i class="fa fa-cog mr-1"></i>Modify
+      </div>
+      <div class= "cursor-pointer">
+          <i class="fa fa-trash mr-1"></i>Delete
+      </div>
+    </div>
+  </div>
+  <!-- <div class="rolePannelGridItem"></div>
+  <div class="rolePannelGridItem"></div>
+  <div class="rolePannelGridItem"></div>
+  <div class="rolePannelGridItem"></div> -->
+
+</div>
