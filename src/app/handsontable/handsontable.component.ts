@@ -47,11 +47,11 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   public options: any;
 
   constructor(
-    private constantsService: ConstantsService,
-    private activatedRoute: ActivatedRoute,
-    public eventService: EventService,
-    private utilityService:UtilityService,
-    private elementRef: ElementRef
+      private constantsService: ConstantsService,
+      private activatedRoute: ActivatedRoute,
+      public eventService: EventService,
+      private utilityService: UtilityService,
+      private elementRef: ElementRef
   ) {
     this.options = {
       rowHeaders: true,
@@ -63,22 +63,22 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.eventService.rerenderHandsonTable$.subscribe(() => {
-      setTimeout(()=>{
+      setTimeout(() => {
         this.setHeightAndWidthofHost();
         setTimeout(() => {
           this.hot.getInstance().render();
           setTimeout(() => {
             this.setHeightAndWidthofHost();
             this.hot.getInstance().render();
-          },1000);
-        },200);
-      })
+          }, 1000);
+        }, 200);
+      });
     });
   }
 
   setHeightAndWidthofHost() {
     console.log(this.elementRef.nativeElement.clientHeight);
-    this.height = (this.elementRef.nativeElement.clientHeight -30) + 'px';//-30 is to compensate for input
+    this.height = (this.elementRef.nativeElement.clientHeight - 30) + 'px';//-30 is to compensate for input
     console.log(this.elementRef.nativeElement.clientWidth);
     this.width = this.elementRef.nativeElement.clientWidth + 'px';
   }
@@ -156,21 +156,25 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
       let value = UtilityService.convertCsvTextToArray(data);
       // this.testData(data1);
       this._data = value;
+      if (!value || !value.length || value.length == 0) {
+        throw "some error parsing file";
+      }
       if (value && value.length > 0 && this.hot) {
         this.hot.getInstance().loadData(value);
         this.hot.getInstance().render();
-        setTimeout(()=>{
+        setTimeout(() => {
           this.csvUploaded$.emit(value);
         });
       }
     } catch (e) {
       LoggingService.log(e, ELogType.error);
+      this.utilityService.showErrorToaster('Either empty or unparsable file');
     }
   }
 
-  exportToCsv(){
+  exportToCsv() {
     const csvData = this._data;
     // const csvColumn = [1, 2, 3];
-    this.utilityService.downloadArrayAsCSV(csvData, this.colHeaders?this.colHeaders:[1,2,3]);
+    this.utilityService.downloadArrayAsCSV(csvData, this.colHeaders ? this.colHeaders : [1, 2, 3]);
   }
 }
