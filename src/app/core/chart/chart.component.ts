@@ -75,7 +75,7 @@ export class ChartComponent implements OnInit {
       colors: ['#5392ff', '#71cddd', '#34bc6e', '#95d13c', '#ffb000', '#fe8500', '#ff509e', '#9b82f3']
     });
 
-    debugger;
+
     Highcharts.chart('container-highcharts',
         {
           credits: false,

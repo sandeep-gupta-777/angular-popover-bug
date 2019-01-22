@@ -35,7 +35,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
   _custumNerDataForSmartTable: any[] = [];
   @Input() set custumNerDataForSmartTable(value: ICustomNerItem[]) {
 
-    debugger;
+
     this._custumNerDataForSmartTable = value;
     setTimeout(()=>{
       this.initializeTableData(value, this.getTableDataMetaDict());

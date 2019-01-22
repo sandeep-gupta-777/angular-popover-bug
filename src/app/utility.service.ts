@@ -530,7 +530,7 @@ export class UtilityService {
         data.push(obj[key]); //pushing a new coordinate
       });
     });
-    // debugger;
+    //
     template.series = seriesArr;
     return template;
   }
@@ -603,7 +603,7 @@ export class UtilityService {
         data: []//[(xi,y1i)]
       });
     });
-    debugger;
+
     /*now loop over rawData and fill convertedData's data array*/
 
     rawData.forEach((obj) => {
@@ -619,8 +619,8 @@ export class UtilityService {
         data.push(obj[key]); //pushing a new coordinate
       });
     });
-    debugger;
-    // debugger;
+
+    //
     // delete seriesArr[2];
     seriesArr = seriesArr.filter(arr => arr.name != 'total');
     template.series = seriesArr;

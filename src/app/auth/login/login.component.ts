@@ -87,7 +87,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
 
               this.serverService.getNSetBotList().subscribe(() => {});
               this.serverService.getNSetIntegrationList();
-              debugger;
+
               this.serverService.getNSetPipelineModuleV2();
 
             }, () => {
@@ -172,18 +172,18 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
         this.flashInfoMessage('Logged in. Fetching permissions', 10000);
         // try {/*TODO: not sure what this does. ask shoaib*/
         //   if (this.userData.enterprises.length <= 1) {
-            // debugger;
+            //
             // let enterpriseDate = {
             //   enterpriseId : this.userData.enterprises[0].enterprise_id.id ,
             //   roleId : this.userData.enterprises[0].role_id.id,
             //   isActive : this.userData.is_active
             // };
-            // debugger;
+            //
             // this.enterEnterprise(enterpriseDate);
 
           this.flashInfoMessage('Logged in. Fetching permissions', 10000);
           try {/*TODO: not sure what this does. ask shoaib*/
-            debugger;
+
             if (this.userData.enterprises.length <= 1) {
               let enterpriseDate = {
                 enterpriseId: this.userData.enterprises[0].enterprise_id.id,
