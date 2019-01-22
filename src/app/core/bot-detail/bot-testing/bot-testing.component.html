@@ -26,6 +26,7 @@
   [columns]="handontable_column"
   [colHeaders]="handontable_colHeaders"
   (rowChanged$)="onTableChange()"
+  (csvUploaded$)="testCaseData = $event"
 >
 </app-handsontable>
 

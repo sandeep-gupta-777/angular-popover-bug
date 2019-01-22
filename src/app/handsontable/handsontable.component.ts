@@ -1,8 +1,9 @@
 import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, Output, EventEmitter} from '@angular/core';
 import {ConstantsService} from '../constants.service';
 import {ActivatedRoute} from '@angular/router';
-import {LoggingService} from '../logging.service';
+import {ELogType, LoggingService} from '../logging.service';
 import {EventService} from '../event.service';
+import {UtilityService} from '../utility.service';
 // import * as Handsontable from 'handsontable';
 declare var Handsontable: any;
 
@@ -22,11 +23,11 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   renderHandsontable = true;
   @Input() height: string;
   @Input() width: string;
-
   @Input() colHeaders: string[];
   @Input() columns: any[];
   @Input() setting = {};
   @Output() rowChanged$ = new EventEmitter();
+  @Output() csvUploaded$ = new EventEmitter();
   @ViewChild('handsontable') hotTableComponentTest: ElementRef;
   @ViewChild('handsontable_search_field') hotTableSearchField: ElementRef;
   hot: any;
@@ -41,7 +42,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   }
 
 
-  _data: [string[]] = [['blank', '', '']];
+  _data: string[][] = [['blank', '', '']];
 
   public options: any;
 
@@ -49,6 +50,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
     private constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
     public eventService: EventService,
+    private utilityService:UtilityService,
     private elementRef: ElementRef
   ) {
     this.options = {
@@ -146,5 +148,29 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
         hot.render();
       });
     }, 100);
+  }
+
+  async openFile(inputEl) {
+    try {
+      let data = await this.utilityService.readInputFileAsText(inputEl);
+      let value = UtilityService.convertCsvTextToArray(data);
+      // this.testData(data1);
+      this._data = value;
+      if (value && value.length > 0 && this.hot) {
+        this.hot.getInstance().loadData(value);
+        this.hot.getInstance().render();
+        setTimeout(()=>{
+          this.csvUploaded$.emit(value);
+        });
+      }
+    } catch (e) {
+      LoggingService.log(e, ELogType.error);
+    }
+  }
+
+  exportToCsv(){
+    const csvData = this._data;
+    // const csvColumn = [1, 2, 3];
+    this.utilityService.downloadArrayAsCSV(csvData, this.colHeaders?this.colHeaders:[1,2,3]);
   }
 }
