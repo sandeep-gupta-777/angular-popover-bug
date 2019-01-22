@@ -112,15 +112,16 @@
                (click)="tabClicked('nlp')"><strong>NLP</strong></a>
           </li>
         </ul>
-        <pre *ngIf="codeText" class="p-2" style="width: 100%; height: 100%; background-color: #000055; color: white">
-                {{(codeText|json)}}
-              </pre>
+        <!--<pre *ngIf="codeText" class="p-2" style="width: 100%; height: 100%; background-color: #000055; color: white">-->
+                <!--{{(codeText|json)}}-->
+              <!--</pre>-->
         <div *ngIf="!codeText" class="p-2 d-flex flex-column justify-content-center align-items-center"
              style="width: 100%; height: 100%;">
           <i class="fa fa-arrow-left" style="font-size: 15px; color: #9e9e9e"></i>
           <i style="color: #9e9e9e;">Select a transaction to
             see metadata associated</i>
         </div>
+        <app-code-editor *ngIf="codeText" class="child-expand" [text]="{ text: codeText|json}"></app-code-editor>
       </div>
     </div>
   </div>
