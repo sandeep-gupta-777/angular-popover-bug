@@ -8,7 +8,7 @@
       <div class="row my-1">
         <div class="col-10 p-0">
           <div class="message p-2 bg-message-human" style="display: inline-block">
-            <span class="message-text" [innerHtml]="sessionMessage.messageByHuman|| sessionMessage.message"></span>
+            <span class="message-text" [innerHtml]="sessionMessage.messageByHuman|| sessionMessage.message|linkify:'text-white'"></span>
             <div class="time text-right">10:42 PM</div>
           </div>
         </div>
