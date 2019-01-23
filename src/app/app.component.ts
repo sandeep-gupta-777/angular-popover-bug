@@ -7,6 +7,7 @@ import {PermissionService} from './permission.service';
 import {ELogType, LoggingService} from './logging.service';
 import {DebugBase} from './debug-base';
 import {EventService} from './event.service';
+import {ServerService} from './server.service';
 
 declare var CodeMirror: any;
 
@@ -23,7 +24,7 @@ export class AppComponent extends DebugBase implements OnInit {
 
   constructor(private router: Router,
               private eventService: EventService,
-              private permissionService: PermissionService) {
+              private serverService: ServerService) {
     super();
   }
 
@@ -86,5 +87,9 @@ export class AppComponent extends DebugBase implements OnInit {
       }
     });
   }
+
+  // test(){
+  //   this.serverService.getLinkMetaData();
+  // }
 
 }
