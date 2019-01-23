@@ -27,6 +27,7 @@ import {BotWelcomeComponent} from './bot-welcome-panel/bot-welcome.component';
 import {RichMediaModule} from '../rich-media.module';
 import {ServerService} from '../server.service';
 import {ChatService} from '../chat.service';
+import {SharedModule} from "../shared.module";
 
 const routes: Route[] = [
   // {path: 'preview',outlet: 'preview', component: ChatWrapperComponent},
@@ -35,7 +36,7 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [
-    MsToHhMmPipe,
+    // MsToHhMmPipe,
     ChatWrapperComponent,
     ChatWindowComponent,
     ChatMessageComponent,
@@ -54,10 +55,11 @@ const routes: Route[] = [
     HttpClientModule,
     ClickOutsideModule,
     BsDropdownModule.forRoot(),
+    SharedModule
     // ToastrModule.forRoot(), // ToastrModule added,
   ],
   exports: [
-    MsToHhMmPipe,
+    // MsToHhMmPipe,
     ChatWrapperComponent,
     ChatWindowComponent,
     ChatMessageComponent,
@@ -66,6 +68,7 @@ const routes: Route[] = [
     ChatroomComponent,
     BotThinkingBubbleComponent,
     BotWelcomeComponent,
+
   ],
   providers: [DatePipe, ChatService],
 })

@@ -45,6 +45,7 @@ import {UiSwitchWrapperComponent} from './core/buildbot/build-code-based-bot/bot
 import {AvatorFormComponent} from './core/buildbot/build-code-based-bot/bot-config/avator-form/avator-form.component';
 import {MyIfDirective} from './ngIf-permission.directive';
 import {ErrorDescriptionPipe} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/bot-config-input/error-description.pipe';
+import {MsToHhMmPipe} from "./ms-to-hh-mm.pipe";
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import {ErrorDescriptionPipe} from './core/buildbot/build-code-based-bot/bot-con
     MyIfDirective,
     IntegrationNameFormatterPipe,
     HighlightDirective,
+    MsToHhMmPipe
   ],
   imports: [
     UiSwitchModule,
@@ -120,6 +122,7 @@ import {ErrorDescriptionPipe} from './core/buildbot/build-code-based-bot/bot-con
     Ng2SmartTableModule,
     KnowledgeBasePresentationComponent,
     ChartComponent,
+    MsToHhMmPipe,
     HandsontableComponent,
     FilterObjectArrayPipe,
     FilterActiveBotPipe,
