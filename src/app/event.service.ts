@@ -1,5 +1,6 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {Subscriber} from 'rxjs';
+import {IBot} from './core/interfaces/IBot';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class EventService {
   static progressBar$ = new EventEmitter<{loading: boolean, value: number }>();
   static disableSaveButton_codeInput$ = new EventEmitter<boolean>();
   static toggleAllPipeLineModules = new EventEmitter<boolean>();
+  static botUpdatedInServer = new EventEmitter<IBot>();
 
   static unsubscribeInComponent(component){
     for (const key in component) {
@@ -32,6 +34,8 @@ export class EventService {
       }
     }
   }
+
+
 
   rerenderHandsonTable$ = new EventEmitter();
   reloadSessionTable$ = new EventEmitter();

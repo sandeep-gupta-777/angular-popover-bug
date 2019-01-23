@@ -1146,7 +1146,7 @@ export class ConstantsService {
       originalKey: 'role_id',
       value: '',
       type: 'string',
-      displayValue: 'Role ID',
+      displayValue: 'Role',
 
     },
     'bots': {

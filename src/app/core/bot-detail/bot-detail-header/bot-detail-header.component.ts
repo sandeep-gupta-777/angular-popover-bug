@@ -15,6 +15,7 @@ import {ELogType, LoggingService} from '../../../logging.service';
 import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
 import {MatDialog} from '@angular/material';
 import {ModalImplementer} from '../../../modal-implementer';
+import {EventService} from '../../../event.service';
 
 @Component({
   selector: 'app-bot-detail-header',
@@ -92,6 +93,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     }
     this.serverService.makePutReq({url, body, headerData})
       .subscribe((updatedBot: IBot) => {
+        EventService.botUpdatedInServer.emit(updatedBot);
         this.store.dispatch([
           new UpdateBotInfoByIdInBotInBotList({botId: this.bot.id, data: updatedBot})
         ]);
