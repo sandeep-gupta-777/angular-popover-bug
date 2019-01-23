@@ -13,9 +13,9 @@
     <a class="nav-link" [routerLink]="['.']"
        queryParamsHandling="merge"
        replaceUrl="true"
-       [queryParams]="{vol:'totalRooms'}"
-       (click)="tabClicked('totalRooms')"
-       [ngClass]="{'tab-active':activeTab==='totalRooms'}"><strong>Sessions</strong></a>
+       [queryParams]="{vol:'totalSessions'}"
+       (click)="tabClicked('totalSessions')"
+       [ngClass]="{'tab-active':activeTab==='totalSessions'}"><strong>Sessions</strong></a>
   </li>
   <!-- for now -->
   <li class="nav-item">
@@ -35,7 +35,7 @@
 <!--Tabbing ends-->
 
 
-<app-chart *ngIf="activeTab==='totalRooms'" 
+<app-chart *ngIf="activeTab==='totalSessions'" 
           [chartValue]="chartValue"
           [highChartThemeValue]="constantsService.HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE">
           </app-chart>

@@ -1,4 +1,4 @@
-import {EventEmitter, Injectable} from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 
 export enum EBotType {
   chatbot = 'chatbot',
@@ -14,16 +14,16 @@ export enum EFormValidationErrors {
 }
 
 import downloadCsv from 'download-csv';
-import {ActivatedRoute, Router} from '@angular/router';
-import {IBot} from './core/interfaces/IBot';
-import {IPipelineItem} from '../interfaces/ai-module';
-import {IAnalysis2HeaderData} from '../interfaces/Analytics2/analytics2-header';
-import {EBotMessageMediaType, IMessageData} from '../interfaces/chat-session-state';
-import {IBotPreviewFirstMessage} from './chat/chat-wrapper.component';
-import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
-import {StoreVariableService} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl} from '@angular/forms';
-import {MatSnackBar} from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IBot } from './core/interfaces/IBot';
+import { IPipelineItem } from '../interfaces/ai-module';
+import { IAnalysis2HeaderData } from '../interfaces/Analytics2/analytics2-header';
+import { EBotMessageMediaType, IMessageData } from '../interfaces/chat-session-state';
+import { IBotPreviewFirstMessage } from './chat/chat-wrapper.component';
+import { IGeneratedMessageItem } from '../interfaces/send-api-request-payload';
+import { StoreVariableService } from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 
 
 @Injectable({
@@ -52,7 +52,7 @@ export class UtilityService {
     'https://robohash.org/SilverDroid.png',
   ];
 
-  public openPrimaryModal(IntentModal ,matDialog,dialogRefWrapper) {
+  public openPrimaryModal(IntentModal, matDialog, dialogRefWrapper) {
     return this.openDialog({
       dialog: matDialog,
       component: IntentModal,
@@ -61,7 +61,7 @@ export class UtilityService {
       classStr: 'primary-modal-header-border'
     });
   }
-  openDangerModal(IntentModal,matDialog,dialogRefWrapper,classStr?: {class:string}) {
+  openDangerModal(IntentModal, matDialog, dialogRefWrapper, classStr?: { class: string }) {
     return this.openDialog({
       dialog: matDialog,
       component: IntentModal,
@@ -101,7 +101,7 @@ export class UtilityService {
           accObj[currObj.param_name] = currObj.display_text;
           return accObj;
         }, {});
-        return {...accumulator, ...x};
+        return { ...accumulator, ...x };
       }, {});
     }
     return this.masterIntegration_IntegrationKeyDisplayNameMap[key];
@@ -219,7 +219,7 @@ export class UtilityService {
     }
 
     // return (today = dd + delimiter + mm + delimiter + yyyy);
-    return (today = yyyy + delimiter + mm +delimiter + dd);
+    return (today = yyyy + delimiter + mm + delimiter + dd);
 
   }
 
@@ -490,17 +490,20 @@ export class UtilityService {
       plotOptions: {
         series: {
           pointStart: startTime_ms, //Date.UTC(2010, 0, 2),
-          pointInterval: granularity_Ms//24*3600*1000  // one day
+          pointInterval: granularity_Ms,//24*3600*1000  // one day,
+          label: {
+            enabled: false
+          }
         }
       },
 
-      series: [{
-        name: 'sandeep',
-        data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-      }, {
-        name: 'gupta',
-        data: [144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4, 29.9, 71.5, 106.4, 129.2]
-      }]
+      // series: [{
+      //   name: 'sandeep',
+      //   data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+      // }, {
+      //   name: 'gupta',
+      //   data: [144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4, 29.9, 71.5, 106.4, 129.2]
+      // }]
     };
 
     // let categoriesString = rawData.map((dataItem) => dataItem.labels);
@@ -527,8 +530,99 @@ export class UtilityService {
         data.push(obj[key]); //pushing a new coordinate
       });
     });
-    let arr: string[] = [];
+    //
+    template.series = seriesArr;
+    return template;
+  }
 
+  convertDateTimeTwoBarGraph(
+    rawData: { activesessions: number, labels: string, totalsessions: number }[],
+    xAxisLabel: string,
+    startTime_ms: number = Date.UTC(2010, 0, 2), //Date.UTC(2010, 0, 2),
+    granularity_Ms: number = 24 * 3600 * 1000,  // one day
+  ) {
+
+    if (!rawData) {
+      return;
+    }
+    const template: any = {
+      xAxis: {
+        type: 'datetime'
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Percentage'
+        }
+      },
+      tooltip: {
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+        shared: true
+      },
+      chart: {
+        type: 'column'
+      },
+      // xAxis: {
+      //   categories: ['Template key 1', 'Template key 2', 'Template key 3', 'Template key 4', 'Template key 5']
+      // },
+      // plotOptions: {
+      //   column: {
+      //       stacking: 'normal'
+      //       }
+      //   },
+      plotOptions: {
+        column: {
+          stacking: 'percent'
+        },
+        series: {
+          pointStart: startTime_ms, //Date.UTC(2010, 0, 2),
+          pointInterval: granularity_Ms//24*3600*1000  // one day
+        }
+      },
+
+      series: [{
+        name: 'Handled by bot',
+        data: [5, 3, 4, 7, 2]
+      }, {
+        name: 'Handled by agent',
+        data: [2, 2, 3, 2, 1]
+      }]
+    };
+
+    // let categoriesString = rawData.map((dataItem) => dataItem.labels);
+    let seriesArr = [];
+    /*initialize the seriesArr*/
+    Object.keys(rawData[0]).forEach((value) => {
+      if (value === 'labels') {
+        return;
+      }
+      
+
+      seriesArr.push({
+        name: value, //y1
+        data: []//[(xi,y1i)]
+      });
+    });
+
+    /*now loop over rawData and fill convertedData's data array*/
+
+    rawData.forEach((obj) => {
+      
+      Object.keys(obj).forEach((key) => {
+        if (key === xAxisLabel) {
+          return;
+        }
+        
+
+        const data = this.findDataByName(seriesArr, key);
+        // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
+        data.push(obj[key]); //pushing a new coordinate
+      });
+    });
+
+    //
+    // delete seriesArr[2];
+    seriesArr = seriesArr.filter(arr => arr.name != 'total');
     template.series = seriesArr;
     return template;
   }
@@ -590,7 +684,7 @@ export class UtilityService {
         tickInterval: 1,
         labels: {
           enabled: true
-        }
+        },
       },
       plotOptions: {
         column: {
@@ -711,7 +805,7 @@ export class UtilityService {
       this.snackBar.open(message, '', {
         duration: (sec * 1000) || 2000,
         panelClass: ['bg-danger'],
-        verticalPosition : 'top',
+        verticalPosition: 'top',
         horizontalPosition: 'right'
       });
     } catch (e) {
@@ -738,7 +832,7 @@ export class UtilityService {
     this.snackBar.open(message, '', {
       duration: 2000,
       panelClass: ['bg-success'],
-      verticalPosition : 'top',
+      verticalPosition: 'top',
       horizontalPosition: 'right'
     });
   }
@@ -748,7 +842,7 @@ export class UtilityService {
     this.snackBar.open(message, '', {
       duration: 2000,
       panelClass: ['bg-success'],
-      verticalPosition : 'top',
+      verticalPosition: 'top',
       horizontalPosition: 'right'
     });
   }
@@ -765,13 +859,13 @@ export class UtilityService {
     const url: string = formControl.value;
     const pattern = /^((https):\/\/)/;
 
-    return pattern.test(url) ? null : {'Must be Https Url': true};
+    return pattern.test(url) ? null : { 'Must be Https Url': true };
   }
 
   imageUrlHavingValidExtnError(formControl: FormControl) {
     const url: string = formControl.value;
     const pattern = /\.(gif|jpg|jpeg|tiff|png)$/i;
-    return pattern.test(url) ? null : {'Image Extension is not correct': true};
+    return pattern.test(url) ? null : { 'Image Extension is not correct': true };
   }
 
   isManagerValidator(formGroup: FormGroup) {
@@ -779,7 +873,7 @@ export class UtilityService {
     const is_manager = formValue['is_manager'];
     const child_bots = formValue['child_bots'];
     /*if is_manager = true, child_bots should have at least one value*/
-    return (!is_manager || is_manager && (child_bots.length > 0)) ? null : {'isManagerError': true};
+    return (!is_manager || is_manager && (child_bots.length > 0)) ? null : { 'isManagerError': true };
   }
 
   pushFormControlItemInFormArray(formArray: FormArray, formBuilder: FormBuilder, item: any) {
@@ -837,7 +931,7 @@ export class UtilityService {
       document.body.appendChild(a);
       a.style = 'display: none';
       return function (data, fileName) {
-        const blob = new Blob([text], {type: 'octet/stream'}),
+        const blob = new Blob([text], { type: 'octet/stream' }),
           url = window.URL.createObjectURL(blob);
         a.href = url;
         a.download = fileName;
@@ -883,7 +977,7 @@ export class UtilityService {
       'user-access-token': null,
       granularity: null
     };
-    headerObj = {...headerDataTemplate, ...headerObj};
+    headerObj = { ...headerDataTemplate, ...headerObj };
     for (const key in headerObj) {
       if (headerObj[key] == null || headerObj[key] === '') {//0!==null but 0==""
         return false;
@@ -893,7 +987,7 @@ export class UtilityService {
   }
 
   addQueryParamsInCurrentRoute(queryParamObj: object) {
-    this.router.navigate(['.'], {queryParams: queryParamObj, relativeTo: this.activatedRoute});
+    this.router.navigate(['.'], { queryParams: queryParamObj, relativeTo: this.activatedRoute });
   }
 
   isAtleastOneValueIsDefined(obj) {
@@ -959,7 +1053,7 @@ export class UtilityService {
   checkIfAllPipelineInputParamsArePopulated(pipeline: IPipelineItem[]): boolean {
 
     const inputParamsObj: object = pipeline.reduce((inputParamsObj, pipelineItem) => {
-      return {...inputParamsObj, ...pipelineItem.input_params};
+      return { ...inputParamsObj, ...pipelineItem.input_params };
     }, {});
 
     for (const param in inputParamsObj) {
@@ -971,7 +1065,7 @@ export class UtilityService {
   }
 
   performFormValidationBeforeSaving(obj: IBot): IBot {
-    const objShallowClone = {...obj};
+    const objShallowClone = { ...obj };
     const validation_Keys: string[] = Object.keys(objShallowClone).filter((key) => {
       return key.includes('form_validation_');
     });
@@ -1035,7 +1129,7 @@ export class UtilityService {
 
   openDialog(dialogOptions: { dialog, component, data?: any, classStr, dialogRefWrapper?: { ref: any } }): Promise<any> {
     //data: { message?: string, title?: string, actionButtonText?: string, isActionButtonDanger?:boolean }
-    let {dialog, component, data, classStr, dialogRefWrapper} = dialogOptions;
+    let { dialog, component, data, classStr, dialogRefWrapper } = dialogOptions;
     try {
       dialogRefWrapper.ref.close();//closing any previous modals
     } catch (e) {

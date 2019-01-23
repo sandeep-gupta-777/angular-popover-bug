@@ -129,7 +129,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
           return;
         }
 
-        debugger;
+
 
         codeTextFromEditor = JSON.parse(this.codeTextOutPutFromCodeEditor);
       } catch (e) {
@@ -164,7 +164,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   }
 
   handsOnTableDataHasAtleastTwoRows(){
-    debugger;
+
     return this.handsontableData && this.handsontableData.length>2;
   }
 

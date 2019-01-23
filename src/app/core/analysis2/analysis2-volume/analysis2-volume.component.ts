@@ -45,9 +45,9 @@ export class Analysis2VolumeComponent implements OnInit {
       }));
     }
     //adding new now
-    if (this.activeTab === 'totalRooms') {
+    if (this.activeTab === 'totalSessions') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData: {type: EAnalysis2TypesEnum.totalRooms}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.totalSessions}
       }));
     }
   }
@@ -62,7 +62,7 @@ export class Analysis2VolumeComponent implements OnInit {
             
           const granularity =  value.analysisHeaderData.granularity;
           const granularity_ms: number = this.u.convertGranularityStrToMs(granularity);
-            
+            //
           this.chartValue =
             <any>this.u.convertDateTimeGraph(
               value[this.activeTab],

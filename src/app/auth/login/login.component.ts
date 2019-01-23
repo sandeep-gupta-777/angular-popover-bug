@@ -87,7 +87,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
 
               this.serverService.getNSetBotList().subscribe(() => {});
               this.serverService.getNSetIntegrationList();
-              debugger;
+
               this.serverService.getNSetPipelineModuleV2();
 
             }, () => {
@@ -165,50 +165,32 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       'auth-token': null,
       'user-access-token': null
     };
-
-    this.serverService.makePostReq<IUser>({url: loginUrl, body, headerData})
+    
+    this.serverService.makePostReq<IUser>({ url: loginUrl, body, headerData })
       .subscribe((user: IUser) => {
-          this.userData = user;
+        this.userData = user;
+        this.flashInfoMessage('Logged in. Fetching permissions', 10000);
+        // try {/*TODO: not sure what this does. ask shoaib*/
+        //   if (this.userData.enterprises.length <= 1) {
+            //
+            // let enterpriseDate = {
+            //   enterpriseId : this.userData.enterprises[0].enterprise_id.id ,
+            //   roleId : this.userData.enterprises[0].role_id.id,
+            //   isActive : this.userData.is_active
+            // };
+            //
+            // this.enterEnterprise(enterpriseDate);
 
           this.flashInfoMessage('Logged in. Fetching permissions', 10000);
           try {/*TODO: not sure what this does. ask shoaib*/
+
             if (this.userData.enterprises.length <= 1) {
               let enterpriseDate = {
                 enterpriseId: this.userData.enterprises[0].enterprise_id.id,
-                roleId: this.userData.enterprises[0].role_id.id
+                roleId: this.userData.enterprises[0].role_id.id,
+                isActive : this.userData.is_active
               };
-              this.enterEnterprise(enterpriseDate);
-              // this.gotUserData$.emit(user);
-              // this.store.dispatch([
-              //   new SetUser({ user }),
-              // ]).subscribe(() => {
-              //   this.serverService.getNSetMasterPermissionsList()
-              //     .subscribe(() => {
-              //       this.flashInfoMessage('Loading your dashboard', 100000);
-              //       /*after login, route to appropriate page according to user role*/
-              //       if (this.userData.role.name === ERoleName.Analyst) {
-              //         this.router.navigate(['/core/analytics2/users']);
-              //       } else {
-              //         this.router.navigate([' ']);
-              //       }
-              //       this.serverService.getNSetBotList().subscribe(() => {
-              //       });
-              //       this.serverService.getNSetIntegrationList();
-              //     }, () => {
-              //       this.disabeLoginButton = false;
-              //       this.store.dispatch([
-              //         new ResetAuthToDefaultState()
-              //       ]);
-              //       this.flashErrorMessage('Could not fetch permission. Please try again', 100000);
-              //     });
-              // });
-              // const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(user.enterprise_id);
-              // this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
-              //   .subscribe((value: IEnterpriseProfileInfo) => {
-              //     this.store.dispatch([
-              //       new SetEnterpriseInfoAction({ enterpriseInfo: value })
-              //     ]);
-              //   });
+              this.enterEnterprise(enterpriseDate)
 
             } else {
               this.enterpriseList = this.userData.enterprises;
@@ -219,7 +201,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
             console.error(e)
           }
           // });
-        },
+        // }
+          },
         () => {
           this.disabeLoginButton = false;
           this.flashErrorMessage('Login failed. Please try again', 100000);
@@ -231,7 +214,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     this.panelActive = panel;
   }
   enterEnterprise(Enterprise) {
-    let enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
+    if(Enterprise.isActive){
+      let enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
     let body = {
       "user_id": this.userData.id,
       "enterprise_id": Enterprise.enterpriseId,
@@ -246,6 +230,11 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
 
         this.gotUserData$.emit(value);
       });
+    }
+    else{
+      this.utilityService.showErrorToaster("Please verify this enterprise before trying to login.");
+    }
+    
   }
   enterpriseLogout(){
     this.panelActive = 'login';

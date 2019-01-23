@@ -23,7 +23,7 @@ export interface IEnterpriseProfileInfo {
   'websiteUrl': string;
   'email': string;
   'industry': string;
-
+  'service_key':any[];
 }
 
 const x = {

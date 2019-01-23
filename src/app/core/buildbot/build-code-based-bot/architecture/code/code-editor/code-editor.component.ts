@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { UtilityService } from '../../../../../../utility.service';
-import { ActivatedRoute } from '@angular/router';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {UtilityService} from '../../../../../../utility.service';
+import {ActivatedRoute} from '@angular/router';
+
 declare var CodeMirror: any;
 
 @Component({
@@ -15,11 +16,12 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
 
   editor;
   _text;
-  editorCodeObjRef: { text: string } = { text: '' };
-  @Output() validateClick =  new EventEmitter();
+  editorCodeObjRef: { text: string } = {text: ''};
+  @Output() validateClick = new EventEmitter();
   @ViewChild('f') codeEditor: ElementRef;
   @Input() doShowUploadDownloadButton = true;
   @Input() doShowValidationsIcon = false;
+
   constructor(
     private utilityService: UtilityService,
     private activatedRoute: ActivatedRoute) {
@@ -27,7 +29,9 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
 
   @Input() set text(editorCodeObj: { text: string }) {
 
-    if (!editorCodeObj) { return; }
+    if (!editorCodeObj) {
+      return;
+    }
     this.editorCodeObjRef = editorCodeObj;
     // if(this._text===editorCodeObj.text) return;
     this._text = editorCodeObj.text;
@@ -58,6 +62,15 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
       rtlMoveVisually: false,
       direction: 'ltr',
       moveInputWithCursor: false,
+
+      extraKeys: {
+        'Ctrl-Q': function (cm) {
+          cm.foldCode(cm.getCursor());
+        },
+        "Ctrl-Space": "autocomplete",
+      },
+      foldGutter: true,
+      gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
     });
     this.editor.on('keydown', editor => {
       setTimeout(() => {
@@ -103,7 +116,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
   }
 
 
-  options: any = { maxLines: 20, printMargin: false };
+  options: any = {maxLines: 20, printMargin: false};
 
   // onChange1(code) {
   //   this.editorCodeObjRef

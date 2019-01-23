@@ -20,7 +20,7 @@ import {
   SetRoomDuration,
   SetChannelWiseSessions,
   SetChannelWiseUsers,
-  ResetAnalytics2GraphData, SetUsagetrackingInfo,  ResetAnalytics2HeaderData, TotalSessions, SetSessionsperuser, SetMessagespersession, SetTimepersession, SetTotalTimeOfRooms, SetTopgenerationtemplates
+  ResetAnalytics2GraphData, SetUsagetrackingInfo,  ResetAnalytics2HeaderData, TotalSessions, SetSessionsperuser, SetMessagespersession, SetTimepersession, SetTotalTimeOfRooms, SetTopgenerationtemplates, SetSessionhandling
 } from '../ngxs/analysis.action';
 import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
@@ -235,7 +235,11 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
                   const responseCopy: ITotalRoomsResponseBody = response;
                   this.store.dispatch(new SetTotalRooms({data: responseCopy.objects[0].output.totalRooms}));
                 }
-
+                
+                if (headerData.type === EAnalysis2TypesEnum.sessionhandling) {
+                  const responseCopy: any = response;
+                  this.store.dispatch(new SetSessionhandling({data: responseCopy.objects[0].output.sessionhandling}));
+                }
                 if (headerData.type === EAnalysis2TypesEnum.roomDuration) {
                   const responseCopy: IRoomDurationResponseBody = response;
                   this.store.dispatch(new SetRoomDuration({data: responseCopy.objects[0].output.roomDuration}));
