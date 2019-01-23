@@ -45,6 +45,7 @@ import {EnterpriseListComponent} from './auth/enterprise-list/enterprise-list.co
 import {GenericObjFilterPipe} from './generic-obj-filter.pipe';
 import {ChatFeedbackComponent} from './chat-feedback/chat-feedback.component';
 import {LinkifyPipe} from './linkify.pipe';
+import {MsToHhMmPipe} from './ms-to-hh-mm.pipe';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import {LinkifyPipe} from './linkify.pipe';
     GenericObjFilterPipe,
     IntegrationLogosPipe,
     SplashScreenComponent,
+    MsToHhMmPipe,
     DataManageFormComponent,
     BasicInfoFormComponent,
     BotConfigInputComponent,
@@ -136,7 +138,8 @@ import {LinkifyPipe} from './linkify.pipe';
     ClickOutsideModule,
     MyMaterialModule,
     ImiLoaderComponent,
-    ChatFeedbackComponent
+    ChatFeedbackComponent,
+    MsToHhMmPipe
   ]
 })
 export class SharedModule {
