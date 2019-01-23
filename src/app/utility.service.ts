@@ -154,7 +154,7 @@ export class UtilityService {
   public static convertCsvTextToArray(csv:string):string[][]{
     let lines=csv.split("\n");
     let arr:string[][] = [];
-    for (let i=1; i<lines.length; ++i){
+    for (let i=0; i<lines.length; ++i){
       arr.push(lines[i].split(','));
     }
     return arr;

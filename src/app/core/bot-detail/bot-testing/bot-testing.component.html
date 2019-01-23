@@ -25,9 +25,10 @@
   [testData]="testCaseData"
   [columns]="handontable_column"
   [colHeaders]="handontable_colHeaders"
+  [expectedCSVHeaders]="['message', 'expected_template']"
   (rowChanged$)="onTableChange()"
-  (csvUploaded$)="testCaseData = $event"
->
+  (csvUploaded$)="testCaseData = $event">
+  <!---->
   <div class="d-flex-column-custom justify-content-end my-1" *ngIf="!showSplashScreen && !showLoader">
     <div class="d-flex align-items-center justify-content-end">
       <!-- <i class="fa fa-plus pr-4"></i>
