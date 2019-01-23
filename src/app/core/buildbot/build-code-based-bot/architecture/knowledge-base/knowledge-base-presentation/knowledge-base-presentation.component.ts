@@ -96,6 +96,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     this.activatedRoute.queryParamMap.subscribe((queryParamMap: ParamMap) => {
       this.ner_id = (<any>queryParamMap).params['ner_id'];
     });
+    debugger;
   }
 
   openDeleteModal(template: TemplateRef<any>) {
@@ -115,6 +116,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
   updateOrSaveConcept() {
 
+    debugger;
     let codeTextFromEditor;
     if (this.ner_type === 'regex') {
       if (!this.codeTextOutPutFromCodeEditor) {
@@ -128,8 +130,6 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
           this.utilityService.showErrorToaster(`Syntax is not valid. ${this.ner_type} only accespts Array literal`);
           return;
         }
-
-
 
         codeTextFromEditor = JSON.parse(this.codeTextOutPutFromCodeEditor);
       } catch (e) {
