@@ -59,9 +59,12 @@
 </div>
 
 
+<!--<i>{{messageData.feedback}}</i>-->
+<!--<i>{{!!isLastMessage}}</i>-->
+<!---->
 <!--TODO: hide if the first-->
 <app-chat-feedback
-  *ngIf="messageData.sourceType === 'bot' && messageData.bot_message_id"
+  *ngIf="_allow_feedback && messageData.sourceType === 'bot' && messageData.bot_message_id && (isLastMessage || messageData.feedback === myEChatFeedback.NEGATIVE || messageData.feedback === myEChatFeedback.POSITIVE)"
   (chatMessageFeedback$)="feedback($event)"
   [feedback]="messageData.feedback"
 ></app-chat-feedback>
