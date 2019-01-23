@@ -895,6 +895,9 @@ export class UtilityService {
     if (granularity === 'day') {
       return 24 * 3600 * 1000;
     }
+    if (granularity === 'week') {
+      return 24 * 3600 * 7 * 1000;
+    }
     if (granularity === 'month') {
       return 30 * 24 * 3600 * 1000;
     }
