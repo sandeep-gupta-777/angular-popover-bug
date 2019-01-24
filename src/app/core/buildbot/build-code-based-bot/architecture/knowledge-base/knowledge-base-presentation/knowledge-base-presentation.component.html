@@ -116,6 +116,7 @@
       class="d-flex-column-last-child-flex-grow-1"
       style="overflow: scroll;"
       [testData]="handsontableData"
+      (csvUploaded$)="handsontableData = $event"
       [setting]="constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_SETTING">
     </app-handsontable>
   </div>
