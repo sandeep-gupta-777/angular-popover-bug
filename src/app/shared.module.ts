@@ -46,6 +46,7 @@ import {GenericObjFilterPipe} from './generic-obj-filter.pipe';
 import {ChatFeedbackComponent} from './chat-feedback/chat-feedback.component';
 import {LinkifyPipe} from './linkify.pipe';
 import {MsToHhMmPipe} from './ms-to-hh-mm.pipe';
+import {LinksFromTextPipe} from './links-from-text.pipe';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import {MsToHhMmPipe} from './ms-to-hh-mm.pipe';
     SafeUrlPipe,
     ImiLoaderComponent,
     ChatFeedbackComponent,
-    LinkifyPipe
+    LinkifyPipe,
+    LinksFromTextPipe
   ],
   imports: [
     MyMaterialModule,
@@ -98,6 +100,7 @@ import {MsToHhMmPipe} from './ms-to-hh-mm.pipe';
   ],
   exports: [
     LinkifyPipe,
+    LinksFromTextPipe,
     GenericObjFilterPipe,
     EnterpriseListComponent,
     MyIfDirective,

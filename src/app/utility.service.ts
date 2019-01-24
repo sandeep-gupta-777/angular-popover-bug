@@ -1258,7 +1258,17 @@ export class UtilityService {
 
   }
 
+  static getLinksInText(str:string):string[]{
+    let replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+    let match = replacePattern1.exec(str);
 
+    const links = [];
+    while (match) {
+      let templateKey, matchedStr = match[0];
+      links.push(matchedStr);
+      match = replacePattern1.exec(str);
+    }
+    return links;
 
-
+  }
 }
