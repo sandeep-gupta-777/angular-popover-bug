@@ -90,8 +90,8 @@ const routes: Route[] = [
       ReportsStateReducer,
     ]),
     NgxsStoragePluginModule.forRoot(),
-    NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot({disabled:true}),//disable for prod mode
+    // NgxsReduxDevtoolsPluginModule.forRoot(),
+    // NgxsLoggerPluginModule.forRoot({disabled:true}),//disable for prod mode
     HttpClientModule,
     ClickOutsideModule,
     // DragulaModule,
