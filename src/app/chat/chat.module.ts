@@ -28,7 +28,7 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [
-    MsToHhMmPipe,
+    // MsToHhMmPipe,
     ChatWrapperComponent,
     ChatConsumerFormComponent,
     ChatWindowComponent,
@@ -47,7 +47,7 @@ const routes: Route[] = [
     HttpClientModule,
     ClickOutsideModule,
     MyMaterialModule,
-    SharedModule//TODO: remove this later, this is here because of ChatFeedbackComponent
+    SharedModule//TODO: remove this later, this is here because of ChatFeedbackComponent and MsToHhMmPipe
 
   ],
   exports: [
