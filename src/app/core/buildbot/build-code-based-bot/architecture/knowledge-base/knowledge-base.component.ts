@@ -123,9 +123,10 @@ export class KnowledgeBaseComponent implements OnInit {
     //   body = {values: data.codeTextOutPutFromCodeEditor};
     // }
     else if (data.ner_type === 'database') {
+      debugger;
       let handontableDataClone = JSON.parse(JSON.stringify(data.handsontableData));
       let column_headers = handontableDataClone[0] || ["","",""];
-      if(!column_headers || !column_headers || (new Set(column_headers)).size !== column_headers.length){
+      if(!column_headers || (new Set(column_headers)).size !== column_headers.length){
         this.utilityService.showErrorToaster("Empty or duplicate headers!");
         return;
       }
