@@ -1,4 +1,5 @@
 <section class="link-preview-section" *ngIf="linkPreviewData"
+         (click)="openLinkInNewTab()"
          [ngClass]="{'bg-message-bot':sourceType==='bot','bg-message-human':sourceType==='human'}">
   <div class="link-preview-section__image-wrapper">
     <img [src]="linkPreviewData.image" alt="">

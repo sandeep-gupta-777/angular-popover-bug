@@ -23,5 +23,8 @@ export class LinkPreviewComponent implements OnInit {
           console.log(err)
         })
   }
+  openLinkInNewTab(){
+    window.open(this.link,'_blank');
+  }
 
 }
