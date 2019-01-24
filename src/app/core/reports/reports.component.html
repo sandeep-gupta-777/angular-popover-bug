@@ -40,12 +40,12 @@
 
     <div class="col-12" *ngIf="reportSmartTableData.length>0">
       <app-smart-table
-        [data]="tableData_report"
-        (rowClicked$)="goToReportEditComponent($event)"
-        [totalRecords]="totalReportRecords"
-        [currentPage]="currentPage_reports"
-        (pageChanged$)="reportTablePageChanged($event)"
-        [settings]="SMART_TABLE_REPORTS_SETTING">
+              [data]="tableData_report"
+              (rowClicked$)="goToReportEditComponent($event)"
+              [totalRecords]="totalReportRecords"
+              [currentPage]="currentPage_reports"
+              (pageChanged$)="reportTablePageChanged($event)"
+              [settings]="SMART_TABLE_REPORTS_SETTING">
       </app-smart-table>
     </div>
   </div>
@@ -53,24 +53,25 @@
   <div class="col-12 mt-2" *ngIf="activeTab==='history' && reportHistorySmartTableData.length>0">
     <div class="col-12">
       <app-smart-table
-        [data]="tableData_history"
-        (pageChanged$)="reportHistoryTablePageChanged($event)"
-        [currentPage]="currentPage_reportsHistory"
-        [totalRecords]="totalHistoryReportRecords"
-        (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
-        [settings]="SMART_TABLE_REPORT_HISTORY_SETTING"></app-smart-table>
+              [data]="tableData_history"
+              (pageChanged$)="reportHistoryTablePageChanged($event)"
+              [currentPage]="currentPage_reportsHistory"
+              [totalRecords]="totalHistoryReportRecords"
+              (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
+              [settings]="SMART_TABLE_REPORT_HISTORY_SETTING"></app-smart-table>
     </div>
   </div>
 
   <div
-    *ngIf="activeTab==='history' && reportHistorySmartTableData && reportHistorySmartTableData.length<1"
-    class="col-12 d-flex justify-content-center align-items-center" style="height: 30vh">
-    <i>{{error_message||'No Report history data'}}</i>
+          *ngIf="activeTab==='history' && reportHistorySmartTableData && reportHistorySmartTableData.length<1"
+          class="col-12 d-flex justify-content-center align-items-center" style="height: 30vh">
+    <i>{{error_message || 'No Report history data'}}</i>
   </div>
   <div
-    *ngIf="activeTab==='configure' && reportSmartTableData && reportSmartTableData.length<1"
-    class="col-12 d-flex justify-content-center align-items-center" style="height: 30vh">
-    <i>{{error_message||'No Reports'}} </i>
+          *ngIf="activeTab==='configure' && reportSmartTableData && reportSmartTableData.length<1"
+          class="col-12 d-flex justify-content-center align-items-center" style="height: 30vh">
+    <i *ngIf="!isLoading">{{error_message}} </i>
+    <i *ngIf="isLoading"> Loading... </i>
   </div>
 </div>
 
