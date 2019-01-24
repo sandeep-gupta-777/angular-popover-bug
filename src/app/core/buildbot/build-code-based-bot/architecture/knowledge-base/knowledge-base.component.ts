@@ -125,6 +125,10 @@ export class KnowledgeBaseComponent implements OnInit {
     else if (data.ner_type === 'database') {
       let handontableDataClone = JSON.parse(JSON.stringify(data.handsontableData));
       let column_headers = handontableDataClone[0] || ["","",""];
+      if(!column_headers || !column_headers || (new Set(column_headers)).size !== column_headers.length){
+        this.utilityService.showErrorToaster("Empty or duplicate headers!");
+        return;
+      }
       handontableDataClone.shift();
       let handsontableDataSerialized = handontableDataClone.map((row) => {
         let obj = {};
@@ -149,7 +153,7 @@ export class KnowledgeBaseComponent implements OnInit {
         // });
         // return obj;
       });
-      console.log("shoaib sadas",handsontableDataSerialized);
+      // console.log("shoaib sadas",handsontableDataSerialized);
       handsontableDataSerialized = handsontableDataSerialized.filter(function (el) {
         return el != null;
       });
@@ -274,7 +278,8 @@ export class KnowledgeBaseComponent implements OnInit {
     this.prepareDataForDetailedViewAndChangeParams(this.selectedRowData);
   }
 
-  prepareDataForDetailedViewAndChangeParams(selectedRowData){
+  prepareDataForDetailedViewAndChangeParams(selectedRowData:ICustomNerItem){
+    debugger;
     this.router.navigate(['.'], {
       queryParams:{ner_id:selectedRowData.id},
       queryParamsHandling: "merge",
@@ -282,8 +287,11 @@ export class KnowledgeBaseComponent implements OnInit {
     this.showTable = false;
     this.codeTextInputToCodeEditor = selectedRowData.values && selectedRowData.values;
     if (selectedRowData.ner_type === 'database') {
-      // let valueKeys = selectedRowData.column_headers;
-      let valueKeys = Object.keys(selectedRowData.values[0]);
+      /*
+      * column_headers is array which will keep the order of headers written by user
+      * Object.keys(selectedRowData.values[0]) => will not keep order since its coming from dictionary
+      * */
+      let valueKeys = selectedRowData.column_headers || Object.keys(selectedRowData.values[0]);
       this.handontableData = selectedRowData.values.map((value) => {
         return valueKeys.map((valueKey) => {
           return value[valueKey];
