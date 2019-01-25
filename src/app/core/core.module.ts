@@ -23,7 +23,6 @@ import {PipelineTestComponent} from '../pipeline-test/pipeline-test.component';
 import {ScrollerDirective} from '../scroller.directive';
 import {ReportDisplayComponent} from './reports/report-details/report-display/report-display.component';
 import {ReportControlsComponent} from './reports/report-details/report-controls/report-controls.component';
-import {TestComponent} from '../test/test.component';
 import {ChatPreviewNewPageComponent} from '../chat/chat-preview-new-page/chat-preview-new-page.component';
 import {FooterComponent} from '../footer/footer.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -49,6 +48,8 @@ import { EnterpriseOverviewComponent } from './enterpriseprofile/enterprise-over
 import { EnterpriseUsersComponent } from './enterpriseprofile/enterprise-users/enterprise-users.component';
 import { EnterpriseRolesComponent } from './enterpriseprofile/enterprise-roles/enterprise-roles.component';
 import { SortPipelinePipe } from './buildbot/build-code-based-bot/architecture/pipeline/sort-pipeline.pipe';
+import { RolesComponent } from './enterpriseprofile/roles/roles.component';
+import { RoleaccordionComponent } from './enterpriseprofile/roles/roleaccordion/roleaccordion.component';
 const routes: Route[] = [
   {
 
@@ -67,8 +68,9 @@ const routes: Route[] = [
         path: 'analytics2', loadChildren: './analysis2/analysis2.module#Analysis2Module', canLoad: [AuthGaurdService]
       },
       {path: 'customner', component: ViewCustomnerComponent, data: {routeName: ERouteNames['Get Enterprise Knowledge base']}, canActivate: []},
-      {path: 'customner/create', component: CreateCustomnerComponent, data: {routeName: ERouteNames['Create Enterprise Knowledge base']}},
+      {path: 'customner/create', component: CreateCustomnerComponent, data: {routeName: ERouteNames['Create Enterprise Knowledge base']}},      
       {path: 'enterpriseprofile', component: EnterpriseprofileComponent, data: {routeName: ERouteNames['Get Enterprise']}, canActivate: []},
+
       {path: 'profile', component: ProfileComponent, data: {routeName: ERouteNames['Get User']}},
       {path: 'reports', component: ReportsComponent, data: {routeName: ERouteNames['Get Reports']}},
       {path: 'reports/edit/:_id', component: ReportDetailsComponent, data: {routeName: ERouteNames['Update Reports']}},
@@ -98,19 +100,20 @@ const routes: Route[] = [
     CreateCustomnerComponent,
     ProfileComponent,
     EnterpriseprofileComponent,
+    EnterpriseRolesComponent,
     EnterpriseOverviewComponent,
     ReportsComponent,
     CoreWrapperComponent,
     BuildbotWrapperComponent,
     SignupComponent,
     PipelineTestComponent,
-
+    RolesComponent,
+    RoleaccordionComponent,
     ScrollerDirective,
     ReportDetailsComponent,
     // BotWelcomeComponent,
     ReportDisplayComponent,
     ReportControlsComponent,
-    TestComponent,
     ChatPreviewNewPageComponent,
     FooterComponent,
     EnterpriseOverviewComponent,

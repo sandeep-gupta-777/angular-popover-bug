@@ -161,7 +161,7 @@ export class EnterpriseOverviewComponent implements OnInit {
 
         this.serviceKeys.push(value);
         this.serviceKeys = [...this.serviceKeys];
-        debugger;
+        // debugger;
         this.utilityService.showSuccessToaster("New service key added successfully");
         this.store.dispatch([
           new SetEnterpriseServiceKeyAction({ service_key: this.serviceKeys })
@@ -233,9 +233,9 @@ export class EnterpriseOverviewComponent implements OnInit {
     this.loggeduserenterpriseinfo$
       .subscribe((enterprise) => {
 
-        debugger;
+        // debugger;
         this.serviceKeys = enterprise.service_key;
-        debugger;
+        // debugger;
         //  if(this.serviceKeys.length > 0){
 
         let expiredTableData = enterprise.service_key.filter(data => data.enabled == true);
@@ -245,7 +245,7 @@ export class EnterpriseOverviewComponent implements OnInit {
         activeTableData = activeTableData.filter(data => typeof data.description == "string");
 
         this.serviceKeyTableDataExpired = this.transformDataForMaterialTable(expiredTableData, this.getTableDataMetaDictActive());
-        debugger;
+        // debugger;
         // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter(data => data.age > 18)
         this.serviceKeyTableDataActive = this.transformDataForMaterialTable(activeTableData, this.getTableDataMetaDictExpired());
 
@@ -298,10 +298,10 @@ export class EnterpriseOverviewComponent implements OnInit {
       // 
       this.serverService.makePostReq<any>({ url: disableServiceKeyUrl, body, headerData })
         .subscribe((value) => {
-          debugger;
+          // debugger;
           this.serviceKeys = this.serviceKeys.map((item) => {
             if (item["key"] == body.service_key) {
-              item.enabled = false;
+              item = value;
               return item;
             }
             else {
@@ -310,7 +310,7 @@ export class EnterpriseOverviewComponent implements OnInit {
           });
 
           this.serviceKeys = [...this.serviceKeys];
-          debugger;
+          // debugger;
           this.utilityService.showSuccessToaster("Service key has been successfully expired");
           this.store.dispatch([
             new SetEnterpriseServiceKeyAction({ service_key: this.serviceKeys })

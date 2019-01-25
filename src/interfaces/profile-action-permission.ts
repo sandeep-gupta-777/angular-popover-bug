@@ -1,26 +1,19 @@
 export interface IProfilePermission {
-  'created_at': string;
-  'description': string;
-  'id': 1;
-  'is_system_role': true;
-  'name': string;
-  'permissions': {
-    'endpoint': string,
-    'fields': any[],
-    'get_params': [
-      {
-        'key': string,
-        'optional': true,
-        'type': string
-      }
-      ],
-    'method': string,
-    'role': [
-      'user',
-      'admin',
-      'super_admin'
-      ]
-  };
-  'resource_uri': string;
-  'updated_at': string;
+  "category": string;
+  "created_at": string;
+  "description": string;
+  "id": number,
+  "is_configurable_action": true,
+  "is_default_action": false,
+  "name": string;
+  "permissions": {
+    "endpoint": string;
+    "fields": [];
+    "get_params"?: any[],
+    "post_fields"?: any[],
+    "method": string;
+    "role": any[]
+  },
+  "resource_uri": string;
+  "updated_at": string;
 }

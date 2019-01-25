@@ -1,16 +1,3 @@
-<!-- <header class="row mt-3  profile-row">
-  <div class="col-12 p-0">
-    <div class="card">
-      <div class="card-header d-flex justify-content-between justify-content-center align-items-center">
-        <h4>Custom role management</h4>
-
-      </div>
-      <div class="card-header d-flex justify-content-between justify-content-center align-items-center">
-        Manage roles of your enterprise by adding new ones, modifying and removing existing ones.
-      </div>
-    </div>
-  </div>
-</header> -->
 <header class="row mt-3 pb-3  ">
   <div class="col-12 p-0">
     <div class="card-header">
@@ -28,7 +15,7 @@
     All roles
   </div>
   <div class="ml-auto ">
-    <button class="btn-theme btn-theme-primary" ><i class="fa fa-plus pr-1 "></i>New role</button>
+    <button class="btn-theme btn-theme-primary" (click) = "enterNewRole.emit()" ><i class="fa fa-plus pr-1 "></i>New role</button>
   </div>
 </div>
 <div class="rolePannelGrid pl-3">
@@ -48,28 +35,53 @@
       "updated_by": -1
   }, -->
 
-  <div class="rolePannelGridItem" *ngFor="let role of roleList">
+  <div class="rolePannelGridItem" *ngFor="let role of roleList" >
     <div class="headding ">
       {{role.name}}
     </div>
     <div>
-      {{role.created_by}}
+      {{role.enterprise_id == 0 ? "System roles" : role.created_by}}
     </div>
     <div>
       {{role.permissions.actions.length}} permissions added
     </div>
     <div class="mt-auto d-flex" style="align-items: center;">
-      <div class = "mr-auto cursor-pointer">
-          <i class="fa fa-cog mr-1"></i>Modify
+      <div class = "mr-auto cursor-pointer" (click) = "navegateRole(role.id)">
+          <i class="fa fa-cog mr-1"></i>{{role.enterprise_id == 0 ? "View" : "Modify"}}
       </div>
-      <div class= "cursor-pointer">
+      <div class= "cursor-pointer" (click) = "openDeletModal(roleDeleteModal,role)" *ngIf="!(role.enterprise_id == 0)">
           <i class="fa fa-trash mr-1"></i>Delete
       </div>
     </div>
   </div>
-  <!-- <div class="rolePannelGridItem"></div>
-  <div class="rolePannelGridItem"></div>
-  <div class="rolePannelGridItem"></div>
-  <div class="rolePannelGridItem"></div> -->
 
 </div>
+
+
+<ng-template #roleDeleteModal>
+  <div class="danger-modal" style="min-width: 500px;">
+    <div class="modal-header" style="border:none !important">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete role?</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="mx-3 mb-3" style="text-align: left !important;">
+      <form #form="ngForm">
+        <div class="my-1">
+          <p class="mb-3">Do you want to remove {{deleteRole.name}} ? 
+          </p>
+        </div>
+        <div class="d-flex" style="flex-direction: row-reverse">
+          <!-- <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRefWrapper.hide()">Cancel</button> -->
+          <button class=" btn-theme btn-theme-danger mx-1 " (click)="deleteRoleClicked();dialogRefWrapper.ref.close();">Remove
+          </button>
+          <button class=" btn-theme btn-theme-danger-outline mx-1" (click)="dialogRefWrapper.ref.close();">Cancel
+          </button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

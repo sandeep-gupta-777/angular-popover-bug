@@ -45,6 +45,7 @@ import {EnterpriseListComponent} from './auth/enterprise-list/enterprise-list.co
 import {GenericObjFilterPipe} from './generic-obj-filter.pipe';
 import {ChatFeedbackComponent} from './chat-feedback/chat-feedback.component';
 import {LinkifyPipe} from './linkify.pipe';
+import { ObjectWithCategoryNamePipe } from './core/enterpriseprofile/roles/object-with-category-name.pipe';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import {LinkifyPipe} from './linkify.pipe';
     IntegrationImageCountPipe,
     IntegrationInputKeysFilterPipe,
     ProfilePermissionIdToNamePipe,
+    ObjectWithCategoryNamePipe,
     EnabledIntegrationsCountPipe,
     SerializeEnterpriseprofileDataPipe,
     SerializeSessionMessagePipe,
@@ -129,6 +131,7 @@ import {LinkifyPipe} from './linkify.pipe';
     IntegrationImageCountPipe,
     IntegrationInputKeysFilterPipe,
     ProfilePermissionIdToNamePipe,
+    ObjectWithCategoryNamePipe,
     EnabledIntegrationsCountPipe,
     SerializeEnterpriseprofileDataPipe,
     DragulaModule,
