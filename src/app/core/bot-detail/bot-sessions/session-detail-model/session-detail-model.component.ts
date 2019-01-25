@@ -21,6 +21,7 @@ import {LoggingService} from '../../../../logging.service';
 export class SessionDetailModelComponent implements OnInit {
 
   @Input() set session(_session) {
+    debugger;
     this._session = _session;
     if (_session && _session.id) {
       setTimeout(() => {
@@ -90,6 +91,7 @@ export class SessionDetailModelComponent implements OnInit {
       if (!value) { return; }
       this.totalMessagesCount = value.meta.total_count;
       this.sessionMessageData = value.objects;
+      /*==========here for NLP==============*/
       this.sessionMessageDataCopy = [...this.sessionMessageData];
       this.showSpinIcon = false;
     });

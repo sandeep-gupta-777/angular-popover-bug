@@ -152,7 +152,7 @@ export class UtilityService {
 
 
   public static convertCsvTextToArray(csv:string):string[][]{
-    let lines=csv.split("\n");
+    let lines=csv.split('\n');
     let arr:string[][] = [];
     for (let i=0; i<lines.length; ++i){
       arr.push(lines[i].split(','));
@@ -160,12 +160,12 @@ export class UtilityService {
     return arr;
   }
   public static convertCsvToJson(csv){
-    var lines=csv.split("\n");
+    var lines=csv.split('\n');
     var result = [];
     var headers = lines[0].split(",");
 
     for(var i=1; i<lines.length; i++) {
-      var obj = {};
+      let obj = {};
 
       var row = lines[i],
           queryIdx = 0,
@@ -207,7 +207,7 @@ export class UtilityService {
   }
   readInputFileAsText(inputElement): Promise<any> {
     return new Promise((resolve, reject) => {
-      const input = inputElement; //event.target;
+      const input = inputElement; // event.target;
       for (let index = 0; index < input.files.length; index++) {
         const reader = new FileReader();
         reader.onload = () => {
@@ -224,7 +224,7 @@ export class UtilityService {
   getPriorDate(days_before: number) {
     let today: any = new Date(Date.now() - days_before * 24 * 3600 * 1000);
     let dd: any = today.getDate();
-    let mm: any = today.getMonth() + 1; //January is 0!
+    let mm: any = today.getMonth() + 1; // January is 0!
     const yyyy: any = today.getFullYear();
 
     if (dd < 10) {
@@ -242,7 +242,7 @@ export class UtilityService {
     let today: any = dateStr ? new Date(dateStr) : new Date();
 
     let dd: any = today.getDate();
-    let mm: any = today.getMonth() + 1; //January is 0!
+    let mm: any = today.getMonth() + 1; // January is 0!
     const yyyy: any = today.getFullYear();
 
     if (dd < 10) {
@@ -261,7 +261,7 @@ export class UtilityService {
     let today: any = dateStr ? new Date(dateStr) : new Date();
 
     let dd: any = today.getDate();
-    let mm: any = today.getMonth() + 1; //January is 0!
+    let mm: any = today.getMonth() + 1; // January is 0!
     const yyyy: any = today.getFullYear();
 
     if (dd < 10) {
@@ -281,7 +281,7 @@ export class UtilityService {
     let today: any = new Date(dateStr);
 
     let dd: any = today.getDate();
-    let mm: any = today.getMonth() + 1; //January is 0!
+    let mm: any = today.getMonth() + 1; // January is 0!
     const yyyy: any = today.getFullYear();
 
     if (dd < 10) {
@@ -430,7 +430,7 @@ export class UtilityService {
   }
 
   createOutputArr(generation_templates) {
-    const str = generation_templates + 'elif'; //TODO: adding elif is a hack
+    const str = generation_templates + 'elif'; // TODO: adding elif is a hack
 
     // let regex = /output\s=\s([\s\S]*?)\selif/g;
     // let regex = /output[\s\S]*?]$/gm;
@@ -522,7 +522,7 @@ export class UtilityService {
   convertDateTimeGraph(
     rawData: { activesessions: number, labels: string, totalsessions: number }[],
     xAxisLabel: string,
-    startTime_ms: number = Date.UTC(2010, 0, 2), //Date.UTC(2010, 0, 2),
+    startTime_ms: number = Date.UTC(2010, 0, 2), // Date.UTC(2010, 0, 2),
     granularity_Ms: number = 24 * 3600 * 1000,  // one day
   ) {
 
@@ -543,8 +543,8 @@ export class UtilityService {
       //   },
       plotOptions: {
         series: {
-          pointStart: startTime_ms, //Date.UTC(2010, 0, 2),
-          pointInterval: granularity_Ms,//24*3600*1000  // one day,
+          pointStart: startTime_ms, // Date.UTC(2010, 0, 2),
+          pointInterval: granularity_Ms,// 24*3600*1000  // one day,
           label: {
             enabled: false
           }
@@ -568,8 +568,8 @@ export class UtilityService {
         return;
       }
       seriesArr.push({
-        name: value, //y1
-        data: []//[(xi,y1i)]
+        name: value, // y1
+        data: []// [(xi,y1i)]
       });
     });
     /*now loop over rawData and fill convertedData's data array*/
@@ -581,7 +581,7 @@ export class UtilityService {
         }
         const data = this.findDataByName(seriesArr, key);
         // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
-        data.push(obj[key]); //pushing a new coordinate
+        data.push(obj[key]); // pushing a new coordinate
       });
     });
     //
@@ -592,7 +592,7 @@ export class UtilityService {
   convertDateTimeTwoBarGraph(
     rawData: { activesessions: number, labels: string, totalsessions: number }[],
     xAxisLabel: string,
-    startTime_ms: number = Date.UTC(2010, 0, 2), //Date.UTC(2010, 0, 2),
+    startTime_ms: number = Date.UTC(2010, 0, 2), // Date.UTC(2010, 0, 2),
     granularity_Ms: number = 24 * 3600 * 1000,  // one day
   ) {
 
@@ -629,8 +629,8 @@ export class UtilityService {
           stacking: 'percent'
         },
         series: {
-          pointStart: startTime_ms, //Date.UTC(2010, 0, 2),
-          pointInterval: granularity_Ms//24*3600*1000  // one day
+          pointStart: startTime_ms, // Date.UTC(2010, 0, 2),
+          pointInterval: granularity_Ms// 24*3600*1000  // one day
         }
       },
 
@@ -650,27 +650,27 @@ export class UtilityService {
       if (value === 'labels') {
         return;
       }
-      
+
 
       seriesArr.push({
-        name: value, //y1
-        data: []//[(xi,y1i)]
+        name: value, // y1
+        data: []// [(xi,y1i)]
       });
     });
 
     /*now loop over rawData and fill convertedData's data array*/
 
     rawData.forEach((obj) => {
-      
+
       Object.keys(obj).forEach((key) => {
         if (key === xAxisLabel) {
           return;
         }
-        
+
 
         const data = this.findDataByName(seriesArr, key);
         // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
-        data.push(obj[key]); //pushing a new coordinate
+        data.push(obj[key]); // pushing a new coordinate
       });
     });
 
@@ -693,8 +693,8 @@ export class UtilityService {
         return;
       }
       seriesArr.push({
-        name: value, //y1
-        data: []//[(xi,y1i)]
+        name: value, // y1
+        data: []// [(xi,y1i)]
       });
     });
     /*now loop over rawData and fill convertedData's data array*/
@@ -707,7 +707,7 @@ export class UtilityService {
         }
         const data = this.findDataByName(seriesArr, key);
         // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
-        data.push(obj[key]); //pushing a new coordinate
+        data.push(obj[key]); // pushing a new coordinate
       });
     });
     //     series: Array(1)
@@ -715,14 +715,14 @@ export class UtilityService {
     // length: 1
 
 
-    let lengthofcategoriesString = categoriesString.length;
-    let categoriesString5 = categoriesString.slice(0, 5);
+    const lengthofcategoriesString = categoriesString.length;
+    const categoriesString5 = categoriesString.slice(0, 5);
 
     categoriesString5.push('Others');
 
-    var totalValue = seriesArr[0]['data'].reduce((a, b) => a + b, 0);
+    const totalValue = seriesArr[0]['data'].reduce((a, b) => a + b, 0);
     seriesArr[0]['data'] = seriesArr[0]['data'].slice(0, 5);
-    var endValue = seriesArr[0]['data'].reduce((a, b) => a + b, 0);
+    const endValue = seriesArr[0]['data'].reduce((a, b) => a + b, 0);
 
     // seriesArr[0]['data'] = seriesArr5;
     seriesArr[0]['data'].push(totalValue - endValue);
@@ -734,7 +734,7 @@ export class UtilityService {
 
     const template = {
       xAxis: {
-        categories: categoriesString5, //['apple', 'orange', 'mango'],
+        categories: categoriesString5, // ['apple', 'orange', 'mango'],
         tickInterval: 1,
         labels: {
           enabled: true
@@ -785,8 +785,8 @@ export class UtilityService {
         return;
       }
       convertedData.push({
-        name: value, //y1
-        data: []//[(xi,y1i)]
+        name: value, // y1
+        data: []// [(xi,y1i)]
       });
     });
     if (labelType === 'Time') {
@@ -804,7 +804,7 @@ export class UtilityService {
           const ms = hh * 3600 * 1000 + mm * 60 * 1000;
           if (data) {/*This fix is done for new keys which were not in rawdata[0]. They will be ignored*/
             data.push([ms, obj[key]]);
-          }//pushing a new coordinate
+          }// pushing a new coordinate
         });
       });
     }
@@ -825,7 +825,7 @@ export class UtilityService {
           const ms = Date.parse(dateStr_mmddyyyy);
           if (data) {/*This fix is done for new keys which were not in rawdata[0]. They will be ignored*/
             data.push([ms, obj[key]]);
-          }//pushing a new coordinate
+          }// pushing a new coordinate
         });
       });
     }
@@ -843,7 +843,7 @@ export class UtilityService {
           // let ms = hh*3600*1000 + mm*60*1000;
           if (data) {/*This fix is done for new keys which were not in rawdata[0]. They will be ignored*/
             data.push([obj[xAxisLabel], obj[key]]);
-          }//pushing a new coordinate
+          }// pushing a new coordinate
         });
       });
     }
@@ -1017,7 +1017,7 @@ export class UtilityService {
 
   areAllAvatorValesDefined(headerObj: object) {
     for (const key in headerObj) {
-      if (headerObj[key] == null || headerObj[key] === '') {//0!==null but 0==""
+      if (headerObj[key] == null || headerObj[key] === '') {// 0!==null but 0==""
         return false;
       }
     }
@@ -1036,7 +1036,7 @@ export class UtilityService {
     };
     headerObj = { ...headerDataTemplate, ...headerObj };
     for (const key in headerObj) {
-      if (headerObj[key] == null || headerObj[key] === '') {//0!==null but 0==""
+      if (headerObj[key] == null || headerObj[key] === '') {// 0!==null but 0==""
         return false;
       }
     }
@@ -1048,9 +1048,9 @@ export class UtilityService {
   }
 
   isAtleastOneValueIsDefined(obj) {
-    if (!obj) return false;
-    for (let key in obj) {
-      if (obj[key]) return true;
+    if (!obj) { return false; }
+    for (const key in obj) {
+      if (obj[key]) { return true; }
     }
     return false;
   }
@@ -1143,7 +1143,7 @@ export class UtilityService {
         text: item.text,
         sourceType: 'bot',
         messageMediatype: EBotMessageMediaType.text,
-        time: Date.now(),//this.getCurrentTimeInHHMM()/*todo: change it to real time*/
+        time: Date.now(), // this.getCurrentTimeInHHMM()/*todo: change it to real time*/
         bot_message_id: null,
       };
     });
@@ -1185,16 +1185,16 @@ export class UtilityService {
   }
 
   openDialog(dialogOptions: { dialog, component, data?: any, classStr, dialogRefWrapper?: { ref: any } }): Promise<any> {
-    //data: { message?: string, title?: string, actionButtonText?: string, isActionButtonDanger?:boolean }
-    let { dialog, component, data, classStr, dialogRefWrapper } = dialogOptions;
+    // data: { message?: string, title?: string, actionButtonText?: string, isActionButtonDanger?:boolean }
+    const { dialog, component, data, classStr, dialogRefWrapper } = dialogOptions;
     try {
-      dialogRefWrapper.ref.close();//closing any previous modals
+      dialogRefWrapper.ref.close(); // closing any previous modals
     } catch (e) {
       console.log(e);
     }
     const dialogRef = dialog.open(component, {
       data,
-      panelClass: classStr//'primary-modal-header-border'
+      panelClass: classStr// 'primary-modal-header-border'
     });
     dialogRefWrapper.ref = dialogRef;
 
@@ -1224,12 +1224,12 @@ export class UtilityService {
       }
     }
     return false;
-  };
+  }
 
 
-  static replaceHrefWithAnchorTag(str){
-    if(!str) return;
-    let regex:RegExp = /http[s]?:\/\/[\w,.]+/gm;
+  static replaceHrefWithAnchorTag(str) {
+    if (!str) { return; }
+    const regex: RegExp = /http[s]?:\/\/[\w,.]+/gm;
     // str.replace(, "SO");
     regex.exec(str);
   }
@@ -1239,17 +1239,17 @@ export class UtilityService {
   * linkify: replaces all texts to <a> links in a string
   * */
   static linkify(inputText, className) {
-    var replacedText, replacePattern1, replacePattern2, replacePattern3;
+    let replacedText, replacePattern1, replacePattern2, replacePattern3;
 
-    //URLs starting with http://, https://, or ftp://
+    // URLs starting with http://, https://, or ftp://
     replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
     replacedText = inputText.replace(replacePattern1, `<a href="$1" target="_blank" class="${className}">$1</a>`);
 
-    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+    // URLs starting with "www." (without // before it, or it'd re-link the ones done above).
     replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
     replacedText = replacedText.replace(replacePattern2, `$1<a href="http://$2" class="${className} target="_blank">$2</a>`);
 
-    //Change email addresses to mailto:: links.
+    // Change email addresses to mailto:: links.
     replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
     replacedText = replacedText.replace(replacePattern3, `<a href="mailto:$1" class="${className}>$1</a>`);
 
@@ -1258,8 +1258,8 @@ export class UtilityService {
 
   }
 
-  static getLinksInText(str:string):string[]{
-    let replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+  static getLinksInText(str: string): string[] {
+    const replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
     let match = replacePattern1.exec(str);
 
     const links = [];

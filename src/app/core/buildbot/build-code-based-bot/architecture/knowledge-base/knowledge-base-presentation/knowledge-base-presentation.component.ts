@@ -131,6 +131,8 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
           return;
         }
 
+
+
         codeTextFromEditor = JSON.parse(this.codeTextOutPutFromCodeEditor);
       } catch (e) {
         // codeTextFromEditor = this.codeTextOutPutFromCodeEditor;
