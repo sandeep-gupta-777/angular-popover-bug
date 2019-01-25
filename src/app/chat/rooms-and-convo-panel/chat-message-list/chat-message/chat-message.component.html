@@ -11,7 +11,7 @@
     <div class="message p-2"
          [ngClass]="{'bg-message-bot':messageData?.sourceType==='bot','bg-message-human':messageData?.sourceType==='human'}"
          style="display: inline-block; overflow-x: auto">
-      <span class="message-text" [innerHtml]="messageData?.text|linkify:'text-white'"></span>
+      <span class="message-text" [innerHtml]="messageData?.text|linkify:messageData?.sourceType==='human'? 'text-white': 'text-theme-normal' "></span>
       <div class="time text-right">{{(messageData?.time|msToHhmm)||'no time info'}}</div>
     </div>
     <app-link-preview style="display: block; order: 3;max-width: 100%; margin: 10px 0"
