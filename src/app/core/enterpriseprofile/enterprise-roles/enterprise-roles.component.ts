@@ -1,8 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, TemplateRef } from '@angular/core';
 import { ServerService } from 'src/app/server.service';
 import { ConstantsService } from 'src/app/constants.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { RouterService } from 'src/app/router.service';
 import { IRole, IRoleResult } from '../../interfaces/IRole';
 import { EnterpriseRoleTabName } from '../enterpriseprofile.component';
 import { MatDialog } from '@angular/material';
@@ -18,7 +16,6 @@ export class EnterpriseRolesComponent implements OnInit {
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
-    private routerService: RouterService,
     private matDialog: MatDialog,
     private utilityService: UtilityService
   ) { }
@@ -34,7 +31,6 @@ export class EnterpriseRolesComponent implements OnInit {
     debugger;
     this.selectedRole.emit({ "roleId": id });
     this.enterRole.emit();
-    // this.routerService.addQueryParams({ roleState : this.myEnterpriseRoleTabName.modifyRole,"roleId":id });
   }
   openDeletModal(template: TemplateRef<any>, role: IRole) {
     this.deleteRole = role;

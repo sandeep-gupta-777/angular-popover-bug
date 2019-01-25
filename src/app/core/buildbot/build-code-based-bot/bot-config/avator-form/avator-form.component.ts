@@ -71,7 +71,7 @@ export class AvatorFormComponent implements OnInit {
   }
 
   initializeFormArray() {
-    debugger;
+
     this._bot.avatars && this._bot.avatars.forEach((avatar) => {
       this.formArray.push(this.formBuilder.group({
         'name': [avatar.name, Validators.required],

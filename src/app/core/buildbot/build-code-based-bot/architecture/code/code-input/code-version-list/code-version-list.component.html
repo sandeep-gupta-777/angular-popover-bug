@@ -76,6 +76,11 @@
         Fork New Version
       </button>
     </div>
+
+    <button class="btn-theme btn-theme-primary-outline"
+            (click)="downloadAll$.emit()">
+      <i class="fa fa-download"></i>
+    </button>
   </div>
   <div class="row row-flex-bot-versioning-toaster border-theme-secondary  border-top-0 mx-0" *ngIf="showVersionList"
        style="max-height: 50vh; overflow-y: scroll">
@@ -114,6 +119,7 @@
         <div class="insert mr-1">{{version.comment.length>70?(((version.comment)|slice:0:100)
           +"..."):version?.comment}}
         </div>
+
         <i class=" py-2 px-3 "></i>
       </div>
     </div>

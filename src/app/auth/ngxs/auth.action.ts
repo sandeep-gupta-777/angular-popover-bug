@@ -1,4 +1,3 @@
-import {IBot} from '../../core/interfaces/IBot';
 import {IUser} from '../../core/interfaces/user';
 
 export class SetUser {

@@ -14,6 +14,7 @@ export class CodeVersionListComponent implements OnInit {
   @Input() activeVersion;
   @Input() bot;
   @Output() changeSelectedVersion$ = new EventEmitter();
+  @Output() downloadAll$ = new EventEmitter();
   @Output() saveSelectedVersion$ = new EventEmitter();
   @Output() openForkNewVersionModal$ = new EventEmitter();
   showVersionList = false;
@@ -22,7 +23,7 @@ export class CodeVersionListComponent implements OnInit {
 
   ngOnInit() {
     EventService.disableSaveButton_codeInput$.subscribe((disableSave)=>{
-      debugger;
+
       this.disableSave = disableSave;
     });
   }

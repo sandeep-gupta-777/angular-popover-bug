@@ -54,20 +54,6 @@ export class RoleaccordionComponent implements OnInit {
     event.stopPropagation() ;
   }
   ngOnInit() {
-    // let getRoleUrl = this.constantsService.getRoleUrl();
-    // this.serverService.makeGetReq<any>({ url: getRoleUrl })
-    //   .subscribe((roles) => {
-    //     this.roleList = roles.objects;
-    //   });
-    // this.objects.forEach(permission => {
-    //   this.categoryList.push(permission.category);
-    // })
-    // this.categoryList = Array.from(new Set(this.categoryList))
-    // this. = this.route.params.subscribe(params => {
-    //   this.id = +params['id']; // (+) converts string 'id' to a number
-
-    //   // In a real app: dispatch action to load the details here.
-    // });
   }
 
 }

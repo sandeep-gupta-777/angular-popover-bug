@@ -8,8 +8,8 @@
       <div class="row my-1">
         <div class="col-10 p-0">
           <div class="message p-2 bg-message-human" style="display: inline-block">
-            <span class="message-text" [innerHtml]="sessionMessage.messageByHuman|| sessionMessage.message"></span>
-            <div class="time text-right">10:42 PM</div>
+            <span class="message-text" [innerHtml]="sessionMessage.messageByHuman|| sessionMessage.message|linkify:'text-white'"></span>
+            <div class="time text-right">{{sessionMessage.created_at|msToHhmm}}</div>
           </div>
         </div>
       </div>
@@ -24,8 +24,8 @@
             <div class="message p-2"
                  [ngStyle]="{'background-color': (!sessionMessage.feedback? '#f7f7f7' :(sessionMessage.feedback === myEChatFeedback.POSITIVE) ? '#5cd791' : '#ffc7cd') }"
                  >
-              <span class="message-text" [innerHtml]="message.text"></span>
-              <div class="time text-right">10:42 PM</div>
+              <span class="message-text" [innerHtml]="message.text|linkify:'text-theme-normal'"></span>
+              <div class="time text-right">{{sessionMessage.created_at|msToHhmm}}</div>
             </div>
           </div>
           <!--bot text reply ends-->

@@ -35,7 +35,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
   _custumNerDataForSmartTable: any[] = [];
   @Input() set custumNerDataForSmartTable(value: ICustomNerItem[]) {
 
-    debugger;
+
     this._custumNerDataForSmartTable = value;
     setTimeout(()=>{
       this.initializeTableData(value, this.getTableDataMetaDict());
@@ -141,6 +141,10 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     } else if (data.ner_type === 'database') {
       const handontableDataClone = JSON.parse(JSON.stringify(data.handsontableData));
       const column_headers = handontableDataClone[0] || ['', '', ''];
+      if(!column_headers || (new Set(column_headers)).size !== column_headers.length){
+        this.utilityService.showErrorToaster("Empty or duplicate headers!");
+        return;
+      }
       handontableDataClone.shift();
       let handsontableDataSerialized: any[] = handontableDataClone.map((row) => {
         const obj = {};

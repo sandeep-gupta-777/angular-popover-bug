@@ -45,7 +45,12 @@ import {EnterpriseListComponent} from './auth/enterprise-list/enterprise-list.co
 import {GenericObjFilterPipe} from './generic-obj-filter.pipe';
 import {ChatFeedbackComponent} from './chat-feedback/chat-feedback.component';
 import {LinkifyPipe} from './linkify.pipe';
+
 import { ObjectWithCategoryNamePipe } from './core/enterpriseprofile/roles/object-with-category-name.pipe';
+
+import {MsToHhMmPipe} from './ms-to-hh-mm.pipe';
+import {LinksFromTextPipe} from './links-from-text.pipe';
+
 
 @NgModule({
   declarations: [
@@ -53,6 +58,7 @@ import { ObjectWithCategoryNamePipe } from './core/enterpriseprofile/roles/objec
     GenericObjFilterPipe,
     IntegrationLogosPipe,
     SplashScreenComponent,
+    MsToHhMmPipe,
     DataManageFormComponent,
     BasicInfoFormComponent,
     BotConfigInputComponent,
@@ -85,7 +91,8 @@ import { ObjectWithCategoryNamePipe } from './core/enterpriseprofile/roles/objec
     SafeUrlPipe,
     ImiLoaderComponent,
     ChatFeedbackComponent,
-    LinkifyPipe
+    LinkifyPipe,
+    LinksFromTextPipe
   ],
   imports: [
     MyMaterialModule,
@@ -98,13 +105,13 @@ import { ObjectWithCategoryNamePipe } from './core/enterpriseprofile/roles/objec
   ],
   exports: [
     LinkifyPipe,
+    LinksFromTextPipe,
     GenericObjFilterPipe,
     EnterpriseListComponent,
     MyIfDirective,
     SplashScreenComponent,
     HighlightDirective,
     SafeUrlPipe,
-    // ChartModule,
     IntegrationLogosPipe,
     DataManageFormComponent,
     BasicInfoFormComponent,
@@ -139,7 +146,8 @@ import { ObjectWithCategoryNamePipe } from './core/enterpriseprofile/roles/objec
     ClickOutsideModule,
     MyMaterialModule,
     ImiLoaderComponent,
-    ChatFeedbackComponent
+    ChatFeedbackComponent,
+    MsToHhMmPipe
   ]
 })
 export class SharedModule {

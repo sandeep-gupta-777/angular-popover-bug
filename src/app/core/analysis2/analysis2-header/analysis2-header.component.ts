@@ -77,6 +77,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   granularityList = [
     {value:'hour', displayValue: 'Hourly'},
     {value:'day', displayValue: 'Daily'},
+    {value:'week', displayValue: 'Weekly'},
     {value:'month', displayValue: 'Monthly'},
     {value:'year', displayValue: 'Yearly'}
   ];

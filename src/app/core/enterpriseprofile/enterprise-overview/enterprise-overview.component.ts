@@ -13,7 +13,6 @@ import { Observable } from 'rxjs';
 import { IUser } from '../../interfaces/user';
 import { IEnterpriseUser } from '../../interfaces/enterprise-users';
 import { map } from 'rxjs/operators';
-import { MaterialTableImplementer } from 'src/app/material-table-implementer';
 @Component({
   selector: 'app-enterprise-overview',
   templateUrl: './enterprise-overview.component.html',
@@ -53,10 +52,7 @@ export class EnterpriseOverviewComponent implements OnInit {
   }
   openNewServiceKeyModal(template: TemplateRef<any>) {
 
-    // this.selectedPipeline = pipeline;
-    // this.modalRef = this.modalService.show(template, { class: 'modal-md' });
     this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
-    // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
   getTableDataMetaDictActive(): any {
     return this.constantsService.SMART_TABLE_SERVICE_KEY_ACTIVE;
@@ -71,13 +67,13 @@ export class EnterpriseOverviewComponent implements OnInit {
     if (data.length == 0) {
       return null;
     }
-    // debugger;
+    //
     let x = data.map((consumerTableDataItem) => {
       let obj: any = {};
-      // debugger;
+      //
 
       for (let key in tableDataMetaDict) {
-        // debugger;
+        //
 
         if (key == 'key' || key == 'description') {
           obj[tableDataMetaDict[key].displayValue] = {
@@ -141,10 +137,9 @@ export class EnterpriseOverviewComponent implements OnInit {
 
       }
       obj.originalSessionData = consumerTableDataItem;
-      // console.log("ttttttttt", obj);
       return obj;
     });
-    // debugger;
+    //
     return x;
   }
   addNewServiceKey() {
@@ -166,10 +161,6 @@ export class EnterpriseOverviewComponent implements OnInit {
         this.store.dispatch([
           new SetEnterpriseServiceKeyAction({ service_key: this.serviceKeys })
         ])
-
-
-        // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter(data => data.age > 18)
-        // this.serviceKeyTableDataActive = this.transformDataForMaterialTable(array, this.getTableDataMetaDictActive());
 
       });
   }
@@ -233,10 +224,9 @@ export class EnterpriseOverviewComponent implements OnInit {
     this.loggeduserenterpriseinfo$
       .subscribe((enterprise) => {
 
-        // debugger;
+
         this.serviceKeys = enterprise.service_key;
-        // debugger;
-        //  if(this.serviceKeys.length > 0){
+
 
         let expiredTableData = enterprise.service_key.filter(data => data.enabled == true);
         expiredTableData = expiredTableData.filter(data => typeof data.description == "string");
@@ -245,7 +235,6 @@ export class EnterpriseOverviewComponent implements OnInit {
         activeTableData = activeTableData.filter(data => typeof data.description == "string");
 
         this.serviceKeyTableDataExpired = this.transformDataForMaterialTable(expiredTableData, this.getTableDataMetaDictActive());
-        // debugger;
         // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter(data => data.age > 18)
         this.serviceKeyTableDataActive = this.transformDataForMaterialTable(activeTableData, this.getTableDataMetaDictExpired());
 
@@ -282,7 +271,7 @@ export class EnterpriseOverviewComponent implements OnInit {
               this.store.dispatch([
                 new SetUser({ user: value }),
               ])
-              // this.gotUserData$.emit(value);
+              
             });
         });
       });
@@ -298,7 +287,6 @@ export class EnterpriseOverviewComponent implements OnInit {
       // 
       this.serverService.makePostReq<any>({ url: disableServiceKeyUrl, body, headerData })
         .subscribe((value) => {
-          // debugger;
           this.serviceKeys = this.serviceKeys.map((item) => {
             if (item["key"] == body.service_key) {
               item = value;
@@ -310,32 +298,15 @@ export class EnterpriseOverviewComponent implements OnInit {
           });
 
           this.serviceKeys = [...this.serviceKeys];
-          // debugger;
           this.utilityService.showSuccessToaster("Service key has been successfully expired");
           this.store.dispatch([
             new SetEnterpriseServiceKeyAction({ service_key: this.serviceKeys })
           ])
-
-
-
-
-
-          // console.log(value);
-          // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter((item) => item["Token Id"].searchValue !== body.service_key);
-          // this.serviceKeyTableDataExpired = [...this.serviceKeyTableDataExpired];
-          // // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter(data => data.age > 18)
-          // // this.serviceKeyTableDataActive = this.transformDataForMaterialTable(array, this.getTableDataMetaDictActive());
-          // let temp = this.transformDataForMaterialTable([data.data], this.getTableDataMetaDictExpired());
-
-          // this.serviceKeyTableDataActive.push(temp[0]);
-          // this.serviceKeyTableDataActive = [...this.serviceKeyTableDataActive];
         });
 
 
     }
-    // if (data.action === 'modify') {
-    //   this.openUserEditModal(ModifyUserModal);
-    // }
+   
   }
 
 

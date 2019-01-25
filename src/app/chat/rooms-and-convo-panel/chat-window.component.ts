@@ -4,6 +4,7 @@ import {LoggingService} from '../../logging.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ServerService} from '../../server.service';
 import {ConstantsService} from '../../constants.service';
+import {IBot} from '../../core/interfaces/IBot';
 
 @Component({
   selector: 'app-chat-window',
@@ -12,6 +13,7 @@ import {ConstantsService} from '../../constants.service';
 })
 export class ChatWindowComponent implements OnInit {
   messageByHuman: string;
+  @Input() bot:IBot;
   @Output() chatMessageFeedback$ = new EventEmitter();
   botIsThinkingMessageDataArray: IMessageData[] = [{
     sourceType: 'bot',

@@ -31,7 +31,7 @@ export class SessionMessageComponent implements OnInit {
 
     this.sessionMessageItems = this._txnConversationItems.convoList;
     LoggingService.log(this.sessionMessageItems);
-    debugger;
+
     this.txnId = this._txnConversationItems.transaction_id;
     this.txnId_highlighting = this._txnConversationItems.transaction_id_highlighting || this.txnId;
     // this.sessionMessageData.user_type;

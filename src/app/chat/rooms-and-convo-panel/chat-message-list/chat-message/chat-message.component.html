@@ -7,14 +7,18 @@
          [src]="messageData?.sourceType==='bot'?selectedAvatar?.imageUrl:'https://image.flaticon.com/icons/svg/17/17004.svg'"
          style="width: 32px;height: 32px" alt="">
   </div>
-  <div class="col-10 text-left p-0" [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}">
+  <div class="col-10 text-left p-0 flex-wrap" [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}">
     <div class="message p-2"
          [ngClass]="{'bg-message-bot':messageData?.sourceType==='bot','bg-message-human':messageData?.sourceType==='human'}"
          style="display: inline-block; overflow-x: auto">
-      <span class="message-text" [innerHtml]="messageData?.text|linkify:'text-white'"></span>
+      <span class="message-text" [innerHtml]="messageData?.text|linkify:messageData?.sourceType==='human'? 'text-white': 'text-theme-normal' "></span>
       <div class="time text-right">{{(messageData?.time|msToHhmm)||'no time info'}}</div>
     </div>
-  </div>
+    <app-link-preview style="display: block; order: 3;max-width: 100%; margin: 10px 0"
+                      [link]="(messageData?.text|linksFromText)[0]"
+                      [sourceType]="messageData.sourceType"
+    ></app-link-preview>
+  <!--</div>-->
 </div>
 <!--chat bubbles for text message ends-->
 
@@ -59,9 +63,12 @@
 </div>
 
 
+<!--<i>{{messageData.feedback}}</i>-->
+<!--<i>{{!!isLastMessage}}</i>-->
+<!---->
 <!--TODO: hide if the first-->
 <app-chat-feedback
-  *ngIf="messageData.sourceType === 'bot' && messageData.bot_message_id"
+  *ngIf="_allow_feedback && messageData.sourceType === 'bot' && messageData.bot_message_id && (isLastMessage || messageData.feedback === myEChatFeedback.NEGATIVE || messageData.feedback === myEChatFeedback.POSITIVE)"
   (chatMessageFeedback$)="feedback($event)"
   [feedback]="messageData.feedback"
 ></app-chat-feedback>

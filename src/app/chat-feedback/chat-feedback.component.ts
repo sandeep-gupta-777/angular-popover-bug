@@ -31,6 +31,7 @@ export class ChatFeedbackComponent {
   * chatFeedbackClicked: feedback can't be changed once given
   * */
   chatFeedbackClicked(isFeedbackPositive: boolean) {
+    debugger;
     if (this.feedback == null) {
       this.chatMessageFeedback$.emit(isFeedbackPositive);
     }

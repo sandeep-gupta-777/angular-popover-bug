@@ -7,8 +7,10 @@
     [bot]="bot"
     (changeSelectedVersion$)="changeSelectedVersion($event)"
     (saveSelectedVersion$)="saveSelectedVersion(validationWarningModal)"
+    (downloadAll$)="downloadZip()"
     (openForkNewVersionModal$)="openForkNewVersionModal(Primarytemplate)"
   ></app-code-version-list>
+  <!--<button (click)="downloadZip()">download</button>-->
 
   <div class="row row-tabs child-no-expand-shrink ">
     <div class="col-12">

@@ -1,3 +1,4 @@
+<!--<i>{{_expandedPipelineModules|json}}</i>-->
 <section class="d-flex h-100">
 
   <div style="height:100%;overflow-y: scroll; flex: 2; padding-right: 10px; position: relative">
@@ -6,7 +7,7 @@
          class="mb-1 p-1 d-flex p-0 justify-content-between align-items-end">
       <strong>Modules ({{masterModuleCount}})</strong>
       <div class="d-inline-flex align-items-center ml-auto mr-1 cursor-pointer"
-           (click)="expandAllModules()">
+           (click)="toggleExpandAllModules()">
                 <span class="mr-1" style="font-size: 11px">{{allMatExpansionExpanded ? 'Collapse' : 'Expand'}}
                   All</span>
         <i style="align-items: baseline;font-size: 9px" class="fa"
@@ -22,11 +23,13 @@
     </div>
 
     <div style="margin-top: 15px; padding-left: 15px">
-      <app-accordian [doExpandAll]="allMatExpansionExpanded"
-                     style="width: 100%; display: block;"
-                     *ngFor="let pipelineItem of pipelineModulesV2List|pipelineFilter:searchKeyword|sortPipeline"
-                     [data]="pipelineItem">
-
+      <app-accordian
+              style="width: 100%; display: block;"
+              *ngFor="let pipelineItem of pipelineModulesV2List|pipelineFilter:searchKeyword|sortPipeline; let i = index"
+              (click)="togglePipelineModule(pipelineItem.id)"
+              [doExpand]="_expandedPipelineModules[pipelineItem.id]"
+              [data]="pipelineItem">
+      <!--<i>{{_expandedPipelineModules[i]}}</i>-->
         <app-simple-table
                 style="width: 100%"
                 (click)="$event.stopPropagation()"

@@ -22,6 +22,7 @@ export interface ISessionMessageItem {
   'updated_at': string;
   'user_type': string;
   feedback: EChatFeedback,
+  nlp:object;
   /*custom fields*/
   messageByHuman: string;
 }

@@ -1,20 +1,9 @@
-
-import { map } from 'rxjs/operators';
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Select } from '@ngxs/store';
 import { ConstantsService } from '../../constants.service';
-import { ServerService } from '../../server.service';
 import { IUser } from '../interfaces/user';
 import { Observable } from 'rxjs';
-import { SetEnterpriseInfoAction, SetEnterpriseUsersAction } from './ngxs/enterpriseprofile.action';
 import { IEnterpriseProfileInfo } from '../../../interfaces/enterprise-profile';
-import { IHeaderData } from '../../../interfaces/header-data';
-import { IEnterpriseUser } from '../interfaces/enterprise-users';
-import { UtilityService } from '../../utility.service';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MaterialTableImplementer } from '../../material-table-implementer';
-import { MatDialog } from '@angular/material';
-import { SetUser } from 'src/app/auth/ngxs/auth.action';
 import { ActivatedRoute } from '@angular/router';
 
 export enum EnterpriseRoleTabName {
@@ -52,20 +41,10 @@ export class EnterpriseprofileComponent  implements OnInit {
     this.currentRoleId = obj.roleId;
   }
   constructor(
-    private constantsService: ConstantsService,
-    private route:ActivatedRoute ) {
+    private constantsService: ConstantsService ) {
   }
 
   ngOnInit() {
-  //  this.route.queryParamMap.subscribe((queryParamMap)=>{
-  //     // debugger;
-  //     this.currentRoleState = queryParamMap.get('roleState'); 
-  //     // if(this.currentRoleId){
-  //     //   this.currentRoleState = this.myEnterpriseRoleTabName.modifyRole;
-  //     // }
-
-  //     console.log(this.currentRoleId);
-  //  });
   }
 log(z) {
   console.log(z);

@@ -53,7 +53,7 @@
   <app-knowledge-base-presentation
     class="h-100 d-flex-column-last-child-flex-grow-1"
     [selectedRowData]="selectedRowData"
-    [handsontableData]="handontableData"
+    [handsontableData]="handontableData || [['', '', '']]"
     (showTable$)="showNerSmartTable()"
     (deleteNer$)="deleteNer$.emit($event)"
     (updateOrSaveConcept$)="updateOrSaveConcept($event)"

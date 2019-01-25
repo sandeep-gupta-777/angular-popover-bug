@@ -21,6 +21,7 @@ import {LoggingService} from '../../../../logging.service';
 export class SessionDetailModelComponent implements OnInit {
 
   @Input() set session(_session) {
+    debugger;
     this._session = _session;
     if (_session && _session.id) {
       setTimeout(() => {
@@ -86,16 +87,18 @@ export class SessionDetailModelComponent implements OnInit {
       headerData: {'bot-access-token': this.bot.bot_access_token}
     });
     this.sessionMessageData$.subscribe((value) => {
+      debugger;
       if (!value) { return; }
       this.totalMessagesCount = value.meta.total_count;
       this.sessionMessageData = value.objects;
+      /*==========here for NLP==============*/
       this.sessionMessageDataCopy = [...this.sessionMessageData];
       this.showSpinIcon = false;
     });
     this.tabClicked(this.activeTab);
   }
 
-
+  nlp:object = {};
   transactionIdChangedInModel(txnId) {
 
 
@@ -118,6 +121,10 @@ export class SessionDetailModelComponent implements OnInit {
     const activeBotId = botMessageDataForGiveTxnId.message_store.activeBotId;
     const activeBotRoomId = botMessageDataForGiveTxnId.message_store.activeBotRoomId;
     this.activeBotPanelData = botMessageDataForGiveTxnId.message_store;
+    let humanMessageDataForGiveTxnId = this.sessionMessageData.find((message) => {
+      return (message.transaction_id === txnId && message.user_type === "human" ) ;
+    });
+    this.nlp = humanMessageDataForGiveTxnId.nlp;
     this.tabClicked(this.activeTab);
     if (activeBotId) {
       const activeBotAccessTokenId = this.allBotList.find(bot => bot.id === activeBotId).bot_access_token;
@@ -160,6 +167,10 @@ export class SessionDetailModelComponent implements OnInit {
       }
       case 'datastore': {
         this.codeText = this.sessionDataStore;
+        break;
+      }
+      case 'nlp': {
+        this.codeText = this.nlp;
         break;
       }
     }
@@ -263,7 +274,7 @@ export class SessionDetailModelComponent implements OnInit {
   }
 
   scrollMessageListToEnd(){
-    debugger;
+
     let transactionsCount = this.sessionMessageDataCopy.length -1;
     let lastTransactionId = this.sessionMessageDataCopy[transactionsCount].transaction_id;
     let lastElement = document.getElementsByClassName(lastTransactionId);

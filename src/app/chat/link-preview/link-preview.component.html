@@ -1,0 +1,14 @@
+<section class="link-preview-section" *ngIf="linkPreviewData"
+         (click)="openLinkInNewTab()"
+         [ngClass]="{'bg-message-bot':sourceType==='bot','bg-message-human':sourceType==='human'}">
+  <div class="link-preview-section__image-wrapper">
+    <img [src]="linkPreviewData.image" alt="">
+  </div>
+  <div class="link-preview-section__text">
+    <strong class="link-preview-section__text--title limit-oneline">{{linkPreviewData.title}}</strong>
+    <p class="link-preview-section__text--description limit-to-2-lines">
+      {{linkPreviewData.description}}
+    </p>
+    <div class="link-preview-section__text--link limit-oneline">{{linkPreviewData.url}}</div>
+  </div>
+</section>

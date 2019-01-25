@@ -15,7 +15,7 @@ import { TestComponent } from '../../test/test.component';
 import { MessageDisplayBase } from './messageDisplayBase';
 import { Observable } from 'rxjs';
 import { IAuthState } from '../ngxs/auth.state';
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -57,7 +57,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     try {
       /*replace with plateform.id*/
       localStorage.clear();
-    }catch (e) {
+    } catch (e) {
       console.log(e);
     }
     let userValue = null;
@@ -71,40 +71,40 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
         this.store.dispatch([
           new SetUser({ user: value }),
           // new SetEnterpriseInfoAction({ enterpriseInfo: value})
-        ])
+        ]);
       })
     )
       .subscribe(() => {
-          this.serverService.getNSetMasterPermissionsList()
-            .subscribe(() => {
-              this.flashInfoMessage('Loading your dashboard', 10000);
-              /*after login, route to appropriate page according to user role*/
-              if (userValue.role.name === ERoleName.Analyst) {
-                this.router.navigate(['/core/analytics2/users']);
-              } else {
-                this.router.navigate(['/']);
-              }
+        this.serverService.getNSetMasterPermissionsList()
+          .subscribe(() => {
+            this.flashInfoMessage('Loading your dashboard', 10000);
+            /*after login, route to appropriate page according to user role*/
+            if (userValue.role.name === ERoleName.Analyst) {
+              this.router.navigate(['/core/analytics2/users']);
+            } else {
+              this.router.navigate(['/']);
+            }
 
-              this.serverService.getNSetBotList().subscribe(() => {});
-              this.serverService.getNSetIntegrationList();
-              debugger;
-              this.serverService.getNSetPipelineModuleV2();
+            this.serverService.getNSetBotList().subscribe(() => { });
+            this.serverService.getNSetIntegrationList();
 
-            }, () => {
-              this.disabeLoginButton = false;
-              this.store.dispatch([
-                new ResetAuthToDefaultState()
-              ]);
-              this.flashErrorMessage('Could not fetch permission. Please try again', 10000);
-            });
-            const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(userValue.enterprise_id);
-            this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
-              .subscribe((value: IEnterpriseProfileInfo) => {
-                this.store.dispatch([
-                  new SetEnterpriseInfoAction({ enterpriseInfo: value })
-                ]);
-              });
-        })
+            this.serverService.getNSetPipelineModuleV2();
+
+          }, () => {
+            this.disabeLoginButton = false;
+            this.store.dispatch([
+              new ResetAuthToDefaultState()
+            ]);
+            this.flashErrorMessage('Could not fetch permission. Please try again', 10000);
+          });
+        const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(userValue.enterprise_id);
+        this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
+          .subscribe((value: IEnterpriseProfileInfo) => {
+            this.store.dispatch([
+              new SetEnterpriseInfoAction({ enterpriseInfo: value })
+            ]);
+          });
+      });
 
   }
 
@@ -128,7 +128,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     let body;
     if (this.r.valid) {
       if (this.r.value.password === this.r.value.confirm) {
-        this.changePasswordToken = this.activatedRoute.snapshot.queryParamMap.get('token')
+        this.changePasswordToken = this.activatedRoute.snapshot.queryParamMap.get('token');
         body = {
           'password': this.r.value.password,
           'token': this.changePasswordToken
@@ -165,81 +165,80 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       'auth-token': null,
       'user-access-token': null
     };
-    
+
     this.serverService.makePostReq<IUser>({ url: loginUrl, body, headerData })
       .subscribe((user: IUser) => {
         this.userData = user;
         this.flashInfoMessage('Logged in. Fetching permissions', 10000);
         // try {/*TODO: not sure what this does. ask shoaib*/
         //   if (this.userData.enterprises.length <= 1) {
-            // debugger;
-            // let enterpriseDate = {
-            //   enterpriseId : this.userData.enterprises[0].enterprise_id.id ,
-            //   roleId : this.userData.enterprises[0].role_id.id,
-            //   isActive : this.userData.is_active
-            // };
-            // debugger;
-            // this.enterEnterprise(enterpriseDate);
+        //
+        // let enterpriseDate = {
+        //   enterpriseId : this.userData.enterprises[0].enterprise_id.id ,
+        //   roleId : this.userData.enterprises[0].role_id.id,
+        //   isActive : this.userData.is_active
+        // };
+        //
+        // this.enterEnterprise(enterpriseDate);
 
-          this.flashInfoMessage('Logged in. Fetching permissions', 10000);
-          try {/*TODO: not sure what this does. ask shoaib*/
-            debugger;
-            if (this.userData.enterprises.length <= 1) {
-              let enterpriseDate = {
-                enterpriseId: this.userData.enterprises[0].enterprise_id.id,
-                roleId: this.userData.enterprises[0].role_id.id,
-                isActive : this.userData.is_active
-              };
-              this.enterEnterprise(enterpriseDate)
+        this.flashInfoMessage('Logged in. Fetching permissions', 10000);
+        try {/*TODO: not sure what this does. ask shoaib*/
 
-            } else {
-              this.enterpriseList = this.userData.enterprises;
-              this.panelActive = "enterprise-list-display";
-              console.log(this.enterpriseList);
-            }
-          } catch (e) {
-            console.error(e)
+          if (this.userData.enterprises.length <= 1) {
+            const enterpriseDate = {
+              enterpriseId: this.userData.enterprises[0].enterprise_id.id,
+              roleId: this.userData.enterprises[0].role_id.id,
+              isActive: this.userData.is_active
+            };
+            this.enterEnterprise(enterpriseDate);
+
+          } else {
+            this.enterpriseList = this.userData.enterprises;
+            this.panelActive = 'enterprise-list-display';
+            console.log(this.enterpriseList);
           }
-          // });
+        } catch (e) {
+          console.error(e);
+        }
+        // });
         // }
-          },
+      },
         () => {
           this.disabeLoginButton = false;
           this.flashErrorMessage('Login failed. Please try again', 100000);
         }
-      )
+      );
   }
 
   showPanel(panel) {
     this.panelActive = panel;
   }
   enterEnterprise(Enterprise) {
-    if(Enterprise.isActive){
-      let enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
-    let body = {
-      "user_id": this.userData.id,
-      "enterprise_id": Enterprise.enterpriseId,
-      "role_id": Enterprise.roleId
-    }
-    let headerData = {
-      "auth-token": this.userData.auth_token
+    if (Enterprise.isActive) {
+      const enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
+      const body = {
+        'user_id': this.userData.id,
+        'enterprise_id': Enterprise.enterpriseId,
+        'role_id': Enterprise.roleId
+      };
+      const headerData = {
+        'auth-token': this.userData.auth_token
+      };
+
+      this.serverService.makePostReq<any>({ url: enterpriseLoginUrl, body, headerData })
+        .subscribe((value) => {
+
+          this.gotUserData$.emit(value);
+        });
+    } else {
+      this.utilityService.showErrorToaster('Please verify this enterprise before trying to login.');
     }
 
-    this.serverService.makePostReq<any>({ url: enterpriseLoginUrl, body, headerData })
-      .subscribe((value) => {
-
-        this.gotUserData$.emit(value);
-      });
-    }
-    else{
-      this.utilityService.showErrorToaster("Please verify this enterprise before trying to login.");
-    }
-    
   }
-  enterpriseLogout(){
+  enterpriseLogout() {
     this.panelActive = 'login';
     this.panelActive = 'login';
-    this.disabeLoginButton=false;
+    this.disabeLoginButton = false;
   }
   loginWithCustomEmail(email) {
     this.loginForm.form.patchValue({ email: email, password: 'Botwoman@123!' });

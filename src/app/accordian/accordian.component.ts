@@ -10,13 +10,13 @@ import {EventService} from '../event.service';
 export class AccordianComponent implements OnInit {
 
   show = false;
-  @Input() doExpandAll = false;
+  @Input() doExpand = false;
   @Input() data: IPipelineItemV2;
   constructor() { }
 
   ngOnInit() {
     EventService.toggleAllPipeLineModules
-        .subscribe((show)=>{
+        .subscribe((show: any) => {
           this.show = show;
         });
   }
