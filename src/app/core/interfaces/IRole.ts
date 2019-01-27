@@ -24,6 +24,7 @@ export interface IRole {
     "base_role": number,
     "created_at": number,
     "created_by":string,
+    "description"? : string,
     "enterprise_id": number,
     "id": number,
     "is_system_role": boolean,

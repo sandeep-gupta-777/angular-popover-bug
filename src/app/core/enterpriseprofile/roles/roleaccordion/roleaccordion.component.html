@@ -5,7 +5,7 @@
   <div class="color-danger cursor-pointer ml-auto font-16" *ngIf = "isCategory()" (click) = "deselectAll()">Deselect all</div>
 </div>
 <div *ngIf="show">
-  <div *ngFor="let roleItem of roles" class="py-2 pl-3 row action">
+  <div *ngFor="let roleItem of roles" class="py-2 pl-3 row action" [hidden]="!roleItem.name.toUpperCase().includes(serchedAction.toUpperCase())">
     <div class="col-11">
       <div class="name ">
         {{roleItem.name}}

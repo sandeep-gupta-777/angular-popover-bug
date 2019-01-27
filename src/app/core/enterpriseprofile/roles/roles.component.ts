@@ -25,6 +25,8 @@ export class RolesComponent implements OnInit {
     selectedRoleData: IRole;
     selectedRoleName: string = "";
     selectedRoleBaseRole: number;
+    serchedAction:string = "";
+    serchedPermission:string = "";
     @Output() backToRoles = new EventEmitter();
     show = false;
     panelOpenState = false;
