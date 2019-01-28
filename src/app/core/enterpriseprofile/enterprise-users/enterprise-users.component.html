@@ -139,7 +139,7 @@
       <div class="d-flex flex-column align-items-center justify-content-center m-2" id="checkboxes">
 
         <form class="modelBotNames" id="modifyBotList" #modifyBotList="ngForm" style="overflow-y: scroll;max-height: 250px;">
-          <label class="container-chekbox text-dark" *ngFor="let bot of enterpriseUserBotList" [hidden]="!bot.name.includes(searchBotsInModify)">
+          <label class="container-chekbox text-dark" *ngFor="let bot of enterpriseUserBotList" [hidden]="!bot.name.toLowerCase().includes(searchBotsInModify.toLowerCase())">
             {{bot.name}}
             <input type="checkbox" ngModel name="{{bot.id}}" [disabled]="isSelectedRoleAdmin">
             <span class="checkmark" [ngClass]="isSelectedRoleAdmin && 'opacity-less'"></span>
@@ -177,7 +177,7 @@
       <!-- {{roleMap | json}} -->
       <!-- <form class="form-theme form-theme-with-md-controls " (ngSubmit)="onSubmit()" #loginForm="ngForm"> -->
       <form class="form-theme form-theme-with-md-controls " #newBotDetails="ngForm">
-        <input required class="form-theme-control my-1 mx-2" style="width: 200px" ngModel name="first_name" aria-describedby="emailHelp"
+        <input required class="form-theme-control my-1 mx-2" style="width: 200px" ngModel name="first_name" 
           placeholder="First name">
         <input required class="form-theme-control my-1 mx-2" style="width: 200px" name="last_name" ngModel placeholder="Last name">
         <mat-form-field >
@@ -195,7 +195,7 @@
           </mat-select>
         </mat-form-field>
         <br>
-        <input required class="form-theme-control my-1 mx-2" style="width: 400px" name="email" ngModel placeholder="Email address">
+        <input required class="form-theme-control my-1 mx-2" style="width: 400px" name="email" ngModel placeholder="Email address" type="email">
       </form>
 
 
@@ -221,7 +221,7 @@
 
         <!-- <form class="modelBotNames" id="modelGenTempNameForm" #modelGenTempNameForm="ngForm" (submit)="selectedListCopy(modelGenTempNameForm)" -->
         <form class="modelBotNames" id="newBotList" #newBotList="ngForm" style="overflow-y: scroll;max-height: 250px;">
-          <label class="container-chekbox text-dark" *ngFor="let bot of enterpriseUserBotList" [hidden]="!bot.name.includes(searchBots)">
+          <label class="container-chekbox text-dark" *ngFor="let bot of enterpriseUserBotList" [hidden]="!bot.name.toLowerCase().includes(searchBots.toLowerCase())">
             {{bot.name}}
             <input type="checkbox" ngModel name="{{bot.id}}" [disabled]="isSelectedRoleAdmin">
             <span class="checkmark" [ngClass]="isSelectedRoleAdmin && 'opacity-less'"></span>
@@ -229,7 +229,8 @@
         </form>
         <div class="d-flex w-100 mt-2">
           <button class="btn-theme btn-theme-primary-outline ml-auto mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
-          <button class="btn-theme btn-theme-primary  d-inline-block mr-2" form="modelGenTempNameForm" [disabled]="!newBotDetails.valid"
+          <button class="btn-theme btn-theme-primary  d-inline-block mr-2" form="modelGenTempNameForm" 
+            [disabled]="!newBotDetails.valid"
             (click)="addNewUser();dialogRefWrapper.ref.close()">Add new user
           </button>
           <!-- <button class="btn-theme btn-theme-primary  d-inline-block mr-2"

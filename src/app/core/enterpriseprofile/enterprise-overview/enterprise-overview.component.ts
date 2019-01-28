@@ -240,10 +240,14 @@ export class EnterpriseOverviewComponent implements OnInit {
 
         let expiredTableData = enterprise.service_key.filter(data => data.enabled == true);
         expiredTableData = expiredTableData.filter(data => typeof data.description == "string");
-
+        expiredTableData.sort(function(a, b){
+          return -a.created_at+b.created_at
+      })
         let activeTableData = enterprise.service_key.filter(data => data.enabled != true);
         activeTableData = activeTableData.filter(data => typeof data.description == "string");
-
+        activeTableData.sort(function(a, b){
+          return -a.expired_at+b.expired_at
+      })
         this.serviceKeyTableDataExpired = this.transformDataForMaterialTable(expiredTableData, this.getTableDataMetaDictActive());
         debugger;
         // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter(data => data.age > 18)
@@ -302,6 +306,7 @@ export class EnterpriseOverviewComponent implements OnInit {
           this.serviceKeys = this.serviceKeys.map((item) => {
             if (item["key"] == body.service_key) {
               item.enabled = false;
+              item.expired_at = value.expired_at;
               return item;
             }
             else {
