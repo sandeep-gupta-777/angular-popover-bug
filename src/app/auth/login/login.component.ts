@@ -96,7 +96,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
             this.flashInfoMessage('Loading your dashboard', 10000);
             /*after login, route to appropriate page according to user role*/
             if (userValue.role.name === ERoleName.Analyst) {
-              this.router.navigate(['/core/analytics2/users']);
+              this.router.navigate(['/core/analytics2']);
             } else {
               this.router.navigate(['/']);
             }
