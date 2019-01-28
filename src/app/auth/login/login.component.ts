@@ -1,21 +1,30 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
-import { ServerService } from '../../server.service';
-import { ConstantsService, ERoleName } from '../../constants.service';
-import { IUser } from '../../core/interfaces/user';
-import { Store, Select } from '@ngxs/store';
-import { IHeaderData } from '../../../interfaces/header-data';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UtilityService } from '../../utility.service';
-import { IEnterpriseProfileInfo } from '../../../interfaces/enterprise-profile';
-import { SetEnterpriseInfoAction } from '../../core/enterpriseprofile/ngxs/enterpriseprofile.action';
-import { SetBackendURlRoot } from '../../ngxs/app.action';
-import { ResetAuthToDefaultState, SetUser } from '../ngxs/auth.action';
-import { NgForm } from '@angular/forms';
-import { TestComponent } from '../../test/test.component';
-import { MessageDisplayBase } from './messageDisplayBase';
-import { Observable } from 'rxjs';
-import { IAuthState } from '../ngxs/auth.state';
-import { map } from 'rxjs/operators';
+import {Component, OnInit, ViewChild, Output, EventEmitter} from '@angular/core';
+import {ServerService} from '../../server.service';
+import {ConstantsService, ERoleName} from '../../constants.service';
+import {IUser} from '../../core/interfaces/user';
+import {Store, Select} from '@ngxs/store';
+import {IHeaderData} from '../../../interfaces/header-data';
+import {ActivatedRoute, Router} from '@angular/router';
+import {UtilityService} from '../../utility.service';
+import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
+import {ResetEnterpriseUsersAction, SetEnterpriseInfoAction} from '../../core/enterpriseprofile/ngxs/enterpriseprofile.action';
+import {ResetAppState, SetBackendURlRoot} from '../../ngxs/app.action';
+import {ResetAuthToDefaultState, SetUser} from '../ngxs/auth.action';
+import {NgForm} from '@angular/forms';
+import {TestComponent} from '../../test/test.component';
+import {MessageDisplayBase} from './messageDisplayBase';
+import {Observable} from 'rxjs';
+import {IAuthState} from '../ngxs/auth.state';
+import {map} from 'rxjs/operators';
+import {ResetBotListAction} from '../../core/view-bots/ngxs/view-bot.action';
+import {ResetBuildBotToDefault} from '../../core/buildbot/ngxs/buildbot.action';
+import {ResetAnalytics2GraphData, ResetAnalytics2HeaderData} from '../../core/analysis2/ngxs/analysis.action';
+
+enum ELoginPanels {
+  set = "set",
+  reset = "reset",
+  login = "login",
+}
 
 @Component({
   selector: 'app-login',
@@ -23,14 +32,16 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent extends MessageDisplayBase implements OnInit {
-
+  myELoginPanels = ELoginPanels
   panelActive = 'login';
   disabeLoginButton = false;
   changePasswordToken;
   changePasswordExpireTime;
+
   enterpriseList: any[];
   userData: IUser;
   searchEnterprise: string;
+
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
@@ -53,6 +64,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   @ViewChild('resetPasswordForm') r: NgForm;
   gotUserData$ = new EventEmitter();
   showCustomEmails = false;
+
   ngOnInit() {
     try {
       /*replace with plateform.id*/
@@ -62,14 +74,18 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     }
     let userValue = null;
     this.showCustomEmails = !!this.activatedRoute.snapshot.queryParamMap.get('burl');
-    this.panelActive = this.activatedRoute.snapshot.queryParamMap.get('token') ? 'reset-password' : this.panelActive;
+    let token = this.activatedRoute.snapshot.queryParamMap.get('token');
+    let action = this.activatedRoute.snapshot.queryParamMap.get('action');
+    if (token && (action === ELoginPanels.reset || action === ELoginPanels.set)) {
+      this.panelActive = action;
+    }
     this.changePasswordExpireTime = this.activatedRoute.snapshot.queryParamMap.get('timestamp');
     this.serverService.getNSetConfigData$().subscribe(() => this.isConfigDataSet = true);
     this.gotUserData$.pipe(
       map((value: IUser) => {
         userValue = value;
         this.store.dispatch([
-          new SetUser({ user: value }),
+          new SetUser({user: value}),
           // new SetEnterpriseInfoAction({ enterpriseInfo: value})
         ]);
       })
@@ -117,11 +133,12 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       this.flashErrorMessage('Details not valid');
       return;
     }
-    this.serverService.makePostReq<IUser>({ url: sendEmailUrl, body })
+    this.serverService.makePostReq<IUser>({url: sendEmailUrl, body})
       .subscribe(() => {
         this.panelActive = 'email-reset-link-notify';
       });
   }
+
   resetPassword() {
 
     const resetPasswordUrl = this.constantsService.resetPasswordUrl();
@@ -142,13 +159,24 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       this.flashErrorMessage('Details not valid');
       return;
     }
-    this.serverService.makePostReq<IUser>({ url: resetPasswordUrl, body })
+    this.serverService.makePostReq<IUser>({url: resetPasswordUrl, body})
       .subscribe(() => {
         this.panelActive = 'password-reset-notify';
       });
   }
+
   onSubmit() {
     localStorage.clear();
+    /*logging out so that only one use can login in at one time*/
+    this.store.dispatch([
+      new ResetBotListAction(),
+      new ResetAuthToDefaultState(),
+      new ResetEnterpriseUsersAction(),
+      new ResetBuildBotToDefault(),
+      new ResetAnalytics2GraphData(),
+      new ResetAnalytics2HeaderData(),
+      new ResetAppState()
+    ]);
     const loginData = this.loginForm.value;
     const loginUrl = this.constantsService.getLoginUrl();
     let body;
@@ -213,6 +241,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   showPanel(panel) {
     this.panelActive = panel;
   }
+
   enterEnterprise(Enterprise) {
     if (Enterprise.isActive) {
       const enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
@@ -240,8 +269,15 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     this.panelActive = 'login';
     this.disabeLoginButton = false;
   }
+
   loginWithCustomEmail(email) {
-    this.loginForm.form.patchValue({ email: email, password: 'Botwoman@123!' });
+    this.loginForm.form.patchValue({email: email, password: 'Botwoman@123!'});
     this.onSubmit();
+  }
+
+  backToLogin(){
+    this.panelActive=ELoginPanels.login;
+    this.router.navigate(['/login'], {queryParams:{token:null, action:null}});
+
   }
 }

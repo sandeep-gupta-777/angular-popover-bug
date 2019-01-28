@@ -37,8 +37,9 @@
           You have subscribed to <strong>messages</strong> report for
           <strong>{{reportFormData.botName}}</strong> bot in a <strong>{{reportFormData.filetype}}</strong> format,which is scheduled
           <strong>{{reportFormData.frequency}}</strong> at <strong>{{reportFormData.startdate|date:'shortTime'}} </strong>via
-          <strong *ngIf="!reportFormData?.delivery[1].enabled">{{reportFormData?.delivery[0]?.delivery_type}}</strong>
-          <strong *ngIf="reportFormData?.delivery[1].enabled">{{reportFormData?.delivery[1]?.delivery_type}}</strong>
+          <strong *ngIf="reportFormData?.delivery[0]?.enabled">SFTP</strong>
+          <span *ngIf="reportFormData?.delivery[0]?.enabled && reportFormData?.delivery[1]?.delivery_type"> and </span>
+          <strong *ngIf="reportFormData?.delivery[1]?.delivery_type">Email</strong>
         </div>
         <div class  = "col-md-12">
           <i class="fa fa-check-circle" ></i>
