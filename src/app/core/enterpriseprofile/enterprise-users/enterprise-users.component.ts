@@ -85,7 +85,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
             originalKey: key,
-            value: thisUsersEnterperise[key].length + " bots assigned",
+            value: thisUsersEnterperise[key].length + " bot(s) assigned",
             searchValue: thisUsersEnterperise[key].length
           };
         }
@@ -260,6 +260,8 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
   openUserEditModal(template: TemplateRef<any>) {
+    this.searchBots = "";
+  this.searchBotsInModify = "";
     this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper)
     setTimeout(()=>{
 
@@ -275,6 +277,8 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
   }
   openNewUserModal(template: TemplateRef<any>) {
+    this.searchBots = "";
+  this.searchBotsInModify = "";
     this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper)
     setTimeout(()=>{
 

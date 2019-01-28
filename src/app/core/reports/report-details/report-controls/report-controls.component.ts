@@ -43,6 +43,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
   // start_date = new Date();
   isSftpReportEnabled = false;
   report_id;
+
   constructor(
     private store: Store,
     private utilityService: UtilityService,
@@ -59,7 +60,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   ngAfterViewInit() {
-    $(document).ready(function() {
+    $(document).ready(function () {
       $('input.time-input1').timepicker({defaultTime: '9', scrollbar: true, timeFormat: 'HH:mm'});
     });
 
@@ -71,6 +72,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   botlistSub;
+
   ngOnInit() {
 
     LoggingService.log(this);
@@ -92,23 +94,31 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
           this.serverService.makeGetReq<IReportItem>({url})
             .subscribe((value: IReportItem) => {
               try {
-                let email:any = value.delivery.find((item: any) => item.delivery_type === 'email');
+                this.deliveryMode = value.delivery[1].enabled ? "email" : "sftp";
+                this.router.navigate([], {queryParams: {deliveryMode: this.deliveryMode}});
+                let email: any = value.delivery.find((item: any) => item.delivery_type === 'email');
                 email.recipients = email.recipients.join(';');
                 const formDataSerialized = {
                   ...value,
                   delivery: {
                     sftp: value.delivery.find((item: any) => item.delivery_type === 'sftp'),
-                    email:email
+                    email: email
                   }
                 };
                 // delete value.startdate;
-                if (value) { this.f.form.patchValue(formDataSerialized); }
+                if (value) {
+                  this.f.form.patchValue(formDataSerialized);
+                }
                 this.startdate = new Date(value.startdate);
                 // let start_time:string  = (<any>document).getElementById("start_time").value;
                 let hh: string = new Date(value.startdate).getHours().toString();
                 let mm: string = new Date(value.startdate).getMinutes().toString();
-                if (mm.length === 1) { mm = '0' + mm; }
-                if (hh.length === 1) { hh = '0' + hh; }
+                if (mm.length === 1) {
+                  mm = '0' + mm;
+                }
+                if (hh.length === 1) {
+                  hh = '0' + hh;
+                }
                 (<any>document).getElementById('start_time').value = hh + ':' + mm;
               } catch (e) {
                 LoggingService.error(e);
@@ -150,8 +160,8 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.reportFormData.botName = this.botlist.find((bot) => bot.id == this.reportFormData.bot_id).name;
     this.reportFormData = {...this.reportFormData};
-    const start_time: string  = (<any>document).getElementById('start_time').value;
-    const start_time_arr =  start_time.split(':');
+    const start_time: string = (<any>document).getElementById('start_time').value;
+    const start_time_arr = start_time.split(':');
     const hh = Number(start_time_arr[0]);
     const mm = Number(start_time_arr[1]);
     if (!this.reportFormData.filetype) {
@@ -167,7 +177,9 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
 
   click() {
   }
+
   privateKey;
+
   async openFile(inputEl) {
 
     try {
