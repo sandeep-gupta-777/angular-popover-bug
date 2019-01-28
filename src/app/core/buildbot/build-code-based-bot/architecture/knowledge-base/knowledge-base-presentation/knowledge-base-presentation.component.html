@@ -3,7 +3,6 @@
     <button class="btn-theme btn-theme-primary-outline" (click)="showTable$.emit(); _selectedRowData = {}">Go Back
     </button>
     <form ngNativeValidate class="options d-flex align-items-end" #form="ngForm">
-<!---->
       <mat-form-field style="margin-bottom: -1.25em">
         <input type="text" matInput placeholder="Concept Key" required [(ngModel)]="key" name="key">
       </mat-form-field>

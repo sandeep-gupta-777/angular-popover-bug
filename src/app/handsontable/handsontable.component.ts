@@ -158,7 +158,10 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
         this.utilityService.showErrorToaster('Error: File is not CSV');
         return;
       }
-      let data = await this.utilityService.readInputFileAsText(inputEl);
+      debugger;
+      let data:string = await this.utilityService.readInputFileAsText(inputEl);
+      if(!data) return;
+      data = data.trim();
       let value = UtilityService.convertCsvTextToArray(data);
           // this.testData(data1);
       this._data = value;
