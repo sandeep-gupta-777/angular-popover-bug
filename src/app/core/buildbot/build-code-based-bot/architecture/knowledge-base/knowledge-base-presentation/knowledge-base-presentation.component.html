@@ -3,7 +3,7 @@
     <button class="btn-theme btn-theme-primary-outline" (click)="showTable$.emit(); _selectedRowData = {}">Go Back
     </button>
     <form ngNativeValidate class="options d-flex align-items-end" #form="ngForm">
-
+<!---->
       <mat-form-field style="margin-bottom: -1.25em">
         <input type="text" matInput placeholder="Concept Key" required [(ngModel)]="key" name="key">
       </mat-form-field>
@@ -50,6 +50,7 @@
         </div>
 
       </div>
+<!--<<<<<<< HEAD-->
 
       <!--<fieldset *ngIf="!routeName">-->
       <!--<div>-->
@@ -68,6 +69,8 @@
       <!--</div>-->
       <!--</fieldset>-->
 <!---->
+<!--=======-->
+<!--&gt;>>>>>> feature10#578-user-feedback-in-chat-->
       <!--update/create button starts-->
       <div *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']">
         <button
@@ -113,6 +116,7 @@
       class="d-flex-column-last-child-flex-grow-1"
       style="overflow: scroll;"
       [testData]="handsontableData"
+      (csvUploaded$)="handsontableData = $event"
       [setting]="constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_SETTING">
     </app-handsontable>
   </div>
