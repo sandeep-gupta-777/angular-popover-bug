@@ -19,6 +19,7 @@ import {map} from 'rxjs/operators';
 import {ResetBotListAction} from '../../core/view-bots/ngxs/view-bot.action';
 import {ResetBuildBotToDefault} from '../../core/buildbot/ngxs/buildbot.action';
 import {ResetAnalytics2GraphData, ResetAnalytics2HeaderData} from '../../core/analysis2/ngxs/analysis.action';
+import {tap} from 'rxjs/internal/operators';
 
 enum ELoginPanels {
   set = "set",
@@ -41,6 +42,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   enterpriseList: any[];
   userData: IUser;
   searchEnterprise: string;
+  backend_url;
 
   constructor(
     private serverService: ServerService,
@@ -80,7 +82,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       this.panelActive = action;
     }
     this.changePasswordExpireTime = this.activatedRoute.snapshot.queryParamMap.get('timestamp');
-    this.serverService.getNSetConfigData$().subscribe(() => this.isConfigDataSet = true);
+    this.getNSetConfigData$().subscribe((val) => this.isConfigDataSet = true);
     this.gotUserData$.pipe(
       map((value: IUser) => {
         userValue = value;
@@ -176,7 +178,11 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       new ResetAnalytics2GraphData(),
       new ResetAnalytics2HeaderData(),
       new ResetAppState()
-    ]);
+    ]).subscribe(()=>{
+      this.store.dispatch([
+        new SetBackendURlRoot({url: this.backend_url})
+      ])
+    });
     const loginData = this.loginForm.value;
     const loginUrl = this.constantsService.getLoginUrl();
     let body;
@@ -279,5 +285,15 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     this.panelActive=ELoginPanels.login;
     this.router.navigate(['/login'], {queryParams:{token:null, action:null}});
 
+  }
+
+  getNSetConfigData$() {
+    return this.serverService.makeGetReq({url: '/static/config.json', noValidateUser: true})
+      .pipe(tap(((value: { 'backend_url': string, 'version': string }) => {
+        this.backend_url = value.backend_url;
+        this.store.dispatch([
+          new SetBackendURlRoot({url: value.backend_url})
+        ]);
+      })));
   }
 }
