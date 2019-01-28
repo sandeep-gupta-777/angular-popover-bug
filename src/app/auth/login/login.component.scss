@@ -4,6 +4,11 @@
   @extend %fixed-top-left;
 }
 
+*{
+    font-family: Helvetica;
+    color: #00abd3;
+}
+
 .login-grid {
   display: grid;
   height: 100vh;
