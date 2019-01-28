@@ -15,18 +15,16 @@ export interface IReportItem {
   'bot_id': number;
   'botName': string; /*custom field*/
   'created_at': string;
-  'delivery': [
-    {
-      'delivery_type': string,
-      'directory': string,
-      'enabled': boolean,
-      'ip': string,
-      'port': string,
-      'privatekey': string,
-      'username': string,
-      recipients:string[]
-    }
-    ];
+  'delivery': {
+    'delivery_type': string,
+    'directory': string,
+    'enabled': boolean,
+    'ip': string,
+    'port': string,
+    'privatekey': string,
+    'username': string,
+    recipients: string[]
+  }[];
   'enterprise_id': number;
   'filetype': string;
   'frequency': string;
@@ -43,7 +41,7 @@ export interface IReportItem {
 
 export interface IReportList {
   'objects': IReportItem[];
-  'meta': {total_count: number};
+  'meta': { total_count: number };
 }
 
 
@@ -61,6 +59,7 @@ export interface IReportHistoryItem {
   'reporttype_id': string;
   'url': string;
 }
+
 export interface IReportHistory {
   'objects': IReportHistoryItem[];
 
