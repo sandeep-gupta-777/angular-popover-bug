@@ -11,7 +11,7 @@
     <div class="message p-2"
          [ngClass]="{'bg-message-bot':messageData?.sourceType==='bot','bg-message-human':messageData?.sourceType==='human'}"
          style="display: inline-block; overflow-x: auto">
-      <span class="message-text" [innerHtml]="messageData?.text"></span>
+      <span class="message-text" [innerHtml]="messageData?.text|linkify:'text-white'"></span>
       <div class="time text-right">{{(messageData?.time|msToHhmm)||'no time info'}}</div>
     </div>
   </div>
@@ -59,8 +59,12 @@
 </div>
 
 
+<!--<i>{{messageData.feedback}}</i>-->
+<!--<i>{{!!isLastMessage}}</i>-->
+<!---->
+<!--TODO: hide if the first-->
 <app-chat-feedback
-  *ngIf="isLastMessage && messageData.sourceType === 'bot' && messageData.bot_message_id"
+  *ngIf="_allow_feedback && messageData.sourceType === 'bot' && messageData.bot_message_id && (isLastMessage || messageData.feedback === myEChatFeedback.NEGATIVE || messageData.feedback === myEChatFeedback.POSITIVE)"
   (chatMessageFeedback$)="feedback($event)"
   [feedback]="messageData.feedback"
 ></app-chat-feedback>

@@ -39,14 +39,14 @@ export class EnterpriseprofileStateReducer {
   // shoaib
   @Action(SetEnterpriseUsersAction)
   setEnterpriseUsers({patchState, setState, getState, dispatch}: StateContext<IEnterpriseProfileInfo>, {payload}: SetEnterpriseUsersAction) {
-    // debugger;
+    //
     // alert("reducer");
     patchState({enterpriseusers: payload.enterpriseUsers});
   }
 
   @Action(SetEnterpriseServiceKeyAction)
   setEnterpriseServiceKeyAction({patchState, setState, getState, dispatch}: StateContext<IEnterpriseProfileInfo>, {payload}: SetEnterpriseServiceKeyAction) {
-    debugger;
+
     // alert("reducer");
     patchState({service_key: payload.service_key});
   }

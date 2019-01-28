@@ -62,7 +62,7 @@ export class Analysis2VolumeComponent implements OnInit {
             
           const granularity =  value.analysisHeaderData.granularity;
           const granularity_ms: number = this.u.convertGranularityStrToMs(granularity);
-            // debugger;
+            //
           this.chartValue =
             <any>this.u.convertDateTimeGraph(
               value[this.activeTab],

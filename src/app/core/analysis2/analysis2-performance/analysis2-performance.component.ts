@@ -87,7 +87,7 @@ export class Analysis2PerformanceComponent implements OnInit {
               new Date(value.analysisHeaderData.startdate).getTime(),
               granularity_ms
             );
-              debugger;
+
         } catch (e) {
           // LoggingService.error(e);
         }

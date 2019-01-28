@@ -111,9 +111,9 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   transformSessionDataForMaterialTable(session: ISessionItem[]) {
 
-      debugger;
+
     let sessionsDataForTable = super.transformDataForMaterialTable(session, this.getTableDataMetaDict());
-    debugger;
+
 
     sessionsDataForTable = sessionsDataForTable.map((sessionsDataForTableItem) => {
       
@@ -140,7 +140,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       }));
       return {...sessionsDataForTableItem, ...additonalColumns};
     });
-    debugger;
+
 
     return sessionsDataForTable;
   }
@@ -345,7 +345,6 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   }
 
   performSearchInDbForSession(data: { id: number, updated_at: {begin:number, end:number} }) {
-    debugger;
     let dataCopy:any = this.utilityService.createDeepClone(data);
     if(dataCopy.updated_at){
       let x:any;
@@ -362,7 +361,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         let sessions = value.objects;
         sessions.forEach((session)=>{
           let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id:session.id});
-          if(index && index!==-1){
+          if(index!==null && index!==-1){
             this.sessions[index] = session;
           }else {
             this.sessions.push(session);

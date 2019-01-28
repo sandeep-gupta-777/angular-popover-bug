@@ -28,8 +28,8 @@
     <!--</div>-->
 
     <mat-form-field>
-      <mat-select placeholder="Report type" name="single_match" value="single_match" ngModel>
-        <mat-option value="single_match">
+      <mat-select placeholder="Report type" name="single_match" value="single_match" [ngModel]="'Messages'">
+        <mat-option value="Messages">
           Messages
         </mat-option>
       </mat-select>
@@ -55,7 +55,7 @@
     <div class="d-flex mt-2 align-items-center" *ngIf="report_id">
       <label for="" class="required m-0 pr-3">Status</label>
       <!--<ui-switch class="m-0 pt-2" [(ngModel)]="isactive" required name="isactive" style="border:none" size="small"></ui-switch>-->
-      <mat-slide-toggle class="m-0" [(ngModel)]="isactive" required name="isactive"></mat-slide-toggle>
+      <mat-slide-toggle class="m-0" [(ngModel)]="isactive" required name="isactive" color="primary"></mat-slide-toggle>
     </div>
   </div>
 
@@ -151,7 +151,7 @@
       </div>
       <div class="col-4 text-right ">
         <!--<ui-switch ngModel name="enabled" class="pt-2" style="border:none" size="small"></ui-switch>-->
-        <mat-slide-toggle ngModel name="enabled"></mat-slide-toggle>
+        <mat-slide-toggle ngModel name="enabled" color="primary"></mat-slide-toggle>
 
       </div>
       <fieldset class="col-12 ">

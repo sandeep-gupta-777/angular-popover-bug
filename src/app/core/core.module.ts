@@ -44,11 +44,11 @@ import {MyMaterialModule} from '../my-material.module';
 import {CreateBotDialogComponent} from './view-bots/create-bot-dialog/create-bot-dialog.component';
 import {ModalConfirmComponent} from '../modal-confirm/modal-confirm.component';
 import {GentemplateEditKeyComponent} from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
-import {BotSessionModalWrapperComponent} from '../bot-session-modal-wrapper/bot-session-modal-wrapper.component';
 import { UrlValidatorDirective } from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-input-caraosal/url-validator.directive';
 import { EnterpriseOverviewComponent } from './enterpriseprofile/enterprise-overview/enterprise-overview.component';
 import { EnterpriseUsersComponent } from './enterpriseprofile/enterprise-users/enterprise-users.component';
 import { EnterpriseRolesComponent } from './enterpriseprofile/enterprise-roles/enterprise-roles.component';
+import { SortPipelinePipe } from './buildbot/build-code-based-bot/architecture/pipeline/sort-pipeline.pipe';
 const routes: Route[] = [
   {
 
@@ -115,7 +115,7 @@ const routes: Route[] = [
     FooterComponent,
     EnterpriseOverviewComponent,
     EnterpriseUsersComponent,
-    EnterpriseRolesComponent
+    EnterpriseRolesComponent,
     // DisplayNameForKeyIntegrationPipe,
 
     /*added after lazy loading*/
@@ -126,7 +126,6 @@ const routes: Route[] = [
   entryComponents: [
     ModalConfirmComponent,
     GentemplateEditKeyComponent,
-    BotSessionModalWrapperComponent
   ],
   imports: [
     ChatModule,

@@ -53,7 +53,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     return this.constantsService.SMART_TABLE_USER_DICT_TEMPLATE;
   }
   roleIdToRoleName(roleId: number) {
-    // debugger;
+    //
     if (this.roleMap) {
       let thisRole = this.roleMap.find(role => role.id == roleId);
       if (thisRole) {
@@ -111,14 +111,14 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
       tableGataItem.Actions.value.push({ show: true, name: 'modify', class: 'fa fa-edit mr-3 color-primary' });
       tableGataItem.Actions.value.push({ show: true, name: 'remove', class: 'fa fa-trash mr-3 color-danger' });
       // if()
-      debugger;
+
       if (!tableGataItem.originalSessionData.enterprises[0].is_active) {
         tableGataItem.Actions.value.push({ show: true, name: 'User not verified', class: 'fa fa-exclamation-triangle color-yellow' });
       }
 
       return tableGataItem;
     });
-    // debugger;
+    //
     this.tableData = [...this.tableData];
   }
 
@@ -126,7 +126,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     let removeEnterpriseUserUrl = this.constantsService.removeEnterpriseUserUrl();
     const headerData: IHeaderData = { 'content-type': 'application/json' };
     let body = { "user_id": this.usertoDelete.id };
-    // debugger;
+    //
 
     this.serverService.makePostReq<any>({ url: removeEnterpriseUserUrl, body, headerData })
       .subscribe((value) => {
@@ -134,14 +134,14 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
         let p = this.loggeduserenterpriseinfo.enterpriseusers.filter((user) => user.id !== this.usertoDelete.id);
         this.loggeduserenterpriseinfo.enterpriseusers = [...p];
         //shoaib
-        // debugger;
+        //
         this.utilityService.showSuccessToaster("User has been deleted successfully");
 
         this.store.dispatch([
           new SetEnterpriseUsersAction({ enterpriseUsers: this.loggeduserenterpriseinfo.enterpriseusers })
         ])
         // .subscribe((enterprise) => {
-        //   debugger;
+        //
         //   this.loggeduserenterpriseinfo = enterprise[0].loggeduserenterpriseinfo;
         // });
         // this.tableData = this.tableData.filter((user) => user.originalSessionData.id !== this.usertoDelete.id);
@@ -150,7 +150,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   addNewUser() {
     let url = this.constantsService.createUserUrl();
     const headerData: IHeaderData = { 'content-type': 'application/json' };
-    // debugger;
+    //
     console.log(this.newBotDetails.value);
     // console.log(this.modifyBotList.value);
     // Object.keys(this.modifyBotList.value).filter((v))
@@ -170,7 +170,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     };
     this.serverService.makePostReq({ url, body, headerData })
       .subscribe((newUser) => {
-        // debugger;
+        //
         this.loggeduserenterpriseinfo.enterpriseusers.push(newUser);
         //shoaib
         this.utilityService.showSuccessToaster(" New user has been added successfully");
@@ -187,10 +187,10 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   modifyUser() {
     let url = this.constantsService.updateUserUrl(this.selectedUserModify.id);
     const headerData: IHeaderData = { 'content-type': 'application/json' };
-    debugger;
+
 
     console.log(this.modifyBotRole);
-    debugger;
+
     // console.log(this.modifyBotList.value);
     // Object.keys(this.modifyBotList.value).filter((v))
     let list = [];
@@ -205,10 +205,10 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
       "role_id": this.modifyBotRole,
       "bots": list
     };
-    // debugger;
+    //
     this.serverService.makePutReq({ url, body, headerData })
       .subscribe((modifiedUser) => {
-        debugger;
+
         let p = this.loggeduserenterpriseinfo.enterpriseusers.filter((user) => user.id !== this.selectedUserModify.id);
         this.loggeduserenterpriseinfo.enterpriseusers = [...p];
 
@@ -264,7 +264,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   this.searchBotsInModify = "";
     this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper)
     setTimeout(()=>{
-      debugger;
+
       this.modifyBotRole = this.selectedUserModify.enterprises[0].role_id;
       this.isSelectedRoleAdmin  = this.modifyBotRole == 2 ? true : false;
       let formlist = this.modifyBotList.value;
@@ -281,7 +281,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   this.searchBotsInModify = "";
     this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper)
     setTimeout(()=>{
-      debugger;
+
       this.isSelectedRoleAdmin = false;
       this.newBotRole = 4;
     },0);
@@ -292,12 +292,12 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     if (data.action === 'remove') {
       // console.log(data.data)
       this.usertoDelete = data.data;
-      debugger;
+
       this.openDeletModal(enterpriseDeleteModal);
 
     }
     if (data.action === 'modify') {
-      // debugger;
+      //
       this.selectedUserModify = data.data;
       this.openUserEditModal(ModifyUserModal);
     }
@@ -329,14 +329,14 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
 
   ngOnInit() {
-    // debugger;
+    //
 
 
     this.loggeduser$.subscribe(({ user }) => {
       this.userid = user.id;
       this.role = user.role.name;
       this.enterpriseId = user.enterprise_id; //enterprise_id
-      // debugger;
+      //
       const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(this.enterpriseId);
       this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
         .subscribe((value: IEnterpriseProfileInfo) => {
@@ -366,7 +366,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
 
     this.loggeduserenterpriseinfo$.subscribe((enterprise) => {
-      debugger;
+
 
       if (!this.roleMap) {
         const headerData: IHeaderData = { 'content-type': 'application/json' };
@@ -395,12 +395,12 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     });
 
     const url = this.constantsService.getBotListUrl();
-    // debugger;
+    //
     const headerData: IHeaderData = { 'content-type': 'application/json' };
 
     this.serverService.makeGetReq<IBotResult>({ url, headerData }).
       subscribe((botResult) => {
-        // debugger;
+        //
         // let codeBasedBotList: IBot[] = [];
         // let pipelineBasedBotList: IBot[] = [];
 
@@ -414,14 +414,14 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
       });
     // this.loggeduserenterpriseinfo$.pipe(
     //   map((value) => {
-    //     debugger;
+    //
     //     //sandeep
     //     return {
     //       ...value,
     //       enterpriseusers: value.enterpriseusers.map((enterpriseuser) => {
     //         if (enterpriseuser.enterprises[0].role_id == 2) {
     //           this.enterpriseUserBotList = enterpriseuser.enterprises[0].bots;
-    //           debugger;
+    //
     //           console.log("filling bot");
     //         }
 

@@ -263,7 +263,7 @@ export class SessionDetailModelComponent implements OnInit {
   }
 
   scrollMessageListToEnd(){
-    debugger;
+
     let transactionsCount = this.sessionMessageDataCopy.length -1;
     let lastTransactionId = this.sessionMessageDataCopy[transactionsCount].transaction_id;
     let lastElement = document.getElementsByClassName(lastTransactionId);

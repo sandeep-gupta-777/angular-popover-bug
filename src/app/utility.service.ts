@@ -490,17 +490,20 @@ export class UtilityService {
       plotOptions: {
         series: {
           pointStart: startTime_ms, //Date.UTC(2010, 0, 2),
-          pointInterval: granularity_Ms//24*3600*1000  // one day
+          pointInterval: granularity_Ms,//24*3600*1000  // one day,
+          label: {
+            enabled: false
+          }
         }
       },
 
-      series: [{
-        name: 'sandeep',
-        data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-      }, {
-        name: 'gupta',
-        data: [144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4, 29.9, 71.5, 106.4, 129.2]
-      }]
+      // series: [{
+      //   name: 'sandeep',
+      //   data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+      // }, {
+      //   name: 'gupta',
+      //   data: [144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4, 29.9, 71.5, 106.4, 129.2]
+      // }]
     };
 
     // let categoriesString = rawData.map((dataItem) => dataItem.labels);
@@ -527,7 +530,7 @@ export class UtilityService {
         data.push(obj[key]); //pushing a new coordinate
       });
     });
-    // debugger;
+    //
     template.series = seriesArr;
     return template;
   }
@@ -600,7 +603,7 @@ export class UtilityService {
         data: []//[(xi,y1i)]
       });
     });
-    debugger;
+
     /*now loop over rawData and fill convertedData's data array*/
 
     rawData.forEach((obj) => {
@@ -616,8 +619,8 @@ export class UtilityService {
         data.push(obj[key]); //pushing a new coordinate
       });
     });
-    debugger;
-    // debugger;
+
+    //
     // delete seriesArr[2];
     seriesArr = seriesArr.filter(arr => arr.name != 'total');
     template.series = seriesArr;
@@ -891,6 +894,9 @@ export class UtilityService {
     }
     if (granularity === 'day') {
       return 24 * 3600 * 1000;
+    }
+    if (granularity === 'week') {
+      return 24 * 3600 * 7 * 1000;
     }
     if (granularity === 'month') {
       return 30 * 24 * 3600 * 1000;
@@ -1166,5 +1172,36 @@ export class UtilityService {
     return false;
   };
 
+
+  static replaceHrefWithAnchorTag(str){
+    if(!str) return;
+    let regex:RegExp = /http[s]?:\/\/[\w,.]+/gm;
+    // str.replace(, "SO");
+    regex.exec(str);
+  }
+
+
+  /*
+  * linkify: replaces all texts to <a> links in a string
+  * */
+  static linkify(inputText, className) {
+    var replacedText, replacePattern1, replacePattern2, replacePattern3;
+
+    //URLs starting with http://, https://, or ftp://
+    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+    replacedText = inputText.replace(replacePattern1, `<a href="$1" target="_blank" class="${className}">$1</a>`);
+
+    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    replacedText = replacedText.replace(replacePattern2, `$1<a href="http://$2" class="${className} target="_blank">$2</a>`);
+
+    //Change email addresses to mailto:: links.
+    replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+    replacedText = replacedText.replace(replacePattern3, `<a href="mailto:$1" class="${className}>$1</a>`);
+
+    console.log(replacedText);
+    return replacedText;
+
+  }
 
 }
