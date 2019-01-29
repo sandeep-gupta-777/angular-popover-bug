@@ -48,11 +48,11 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   public options: any;
 
   constructor(
-      private constantsService: ConstantsService,
-      private activatedRoute: ActivatedRoute,
-      public eventService: EventService,
-      private utilityService: UtilityService,
-      private elementRef: ElementRef
+    private constantsService: ConstantsService,
+    private activatedRoute: ActivatedRoute,
+    public eventService: EventService,
+    private utilityService: UtilityService,
+    private elementRef: ElementRef
   ) {
     this.options = {
       rowHeaders: true,
@@ -85,6 +85,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    console.log(this);////
 
     this.setHeightAndWidthofHost();
 
@@ -152,29 +153,34 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   }
 
   async openFile(inputEl) {
+    debugger;
     try {
       let filePath = inputEl.value;
       if(!filePath || !filePath.endsWith('.csv')){
         this.utilityService.showErrorToaster('Error: File is not CSV');
         return;
       }
-      debugger;
+
       let data:string = await this.utilityService.readInputFileAsText(inputEl);
       if(!data) return;
       data = data.trim();
       let value = UtilityService.convertCsvTextToArray(data);
-          // this.testData(data1);
       this._data = value;
       let filteredTableData: string[][] = this._data;
       if (!value || !value.length || value.length == 0) {
         throw 'some error parsing file';
       }
+
+      // if(!this.expectedCSVHeaders && location.search.includes('build=testing')){
+      //   this.expectedCSVHeaders = ['Message', 'Expected Template'];
+      // }
+
       // this.expectedCSVHeaders = ['DateTime'];//todo: remove this
       if (this.expectedCSVHeaders) {
         /*check if this.expectedCSVHeaders is same as headers in csv*/
         let commonHeadersIndex: number[] = [];
         this._data[0].forEach((header,index) => {
-          if(this.expectedCSVHeaders.find(csvHeader => csvHeader === header)){
+          if(this.expectedCSVHeaders.find(csvHeader => csvHeader.trim() === header.trim())){
             commonHeadersIndex.push(index)
           }
         });
@@ -182,10 +188,14 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
         /*remove headers*/
         this._data.splice(0,1);
 
-        filteredTableData = this._data.map((row:string[])=>{
-          return row.filter((el,index)=>{
+        filteredTableData = [];
+        this._data.forEach((row:string[])=>{
+          let x =row.filter((el,index)=>{
             return commonHeadersIndex.find((commonIndex) => commonIndex === index) != null;
           });
+          if(Array.isArray(x) && x.length > 0){
+            filteredTableData.push(x);
+          }
         });
 
       }
@@ -208,8 +218,16 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   }
 
   exportToCsv() {
-    const csvData = this._data;
-    // const csvColumn = [1, 2, 3];
-    this.utilityService.downloadArrayAsCSV(csvData, this.expectedCSVHeaders ? this.expectedCSVHeaders : []);
+
+    const csvData = JSON.parse(JSON.stringify(this._data));
+    console.log(csvData);
+    if(this.expectedCSVHeaders){
+      csvData.unshift(this.expectedCSVHeaders);
+    }
+    this.utilityService.downloadArrayAsCSV(csvData, []);
+  }
+
+  log(){
+    console.log(this);
   }
 }

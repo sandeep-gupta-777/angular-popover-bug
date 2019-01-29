@@ -366,7 +366,7 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   sendFeedback(feedback: IChatFeedback) {
-    debugger;
+
     let roomId = this.currentRoom.id;
     feedback.consumer_id = this.currentRoom.consumer_id;
     let url = this.constantsService.getChatFeedbackUrl();
