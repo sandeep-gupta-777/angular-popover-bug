@@ -30,6 +30,8 @@ import {
 } from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import {AuthModule} from './auth/auth.module';
+import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.component';
+import {SharedModule} from './shared.module';
 
 const routes: Route[] = [
   {path: 'dev', loadChildren: './dev/dev.module#DevModule',canLoad: []},
@@ -48,8 +50,10 @@ const routes: Route[] = [
     NotAuthorisedComponent,
     FilterArrayPipe,
     BackendDevComponent,
+
   ],
   imports: [
+    SharedModule,
     RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     BrowserAnimationsModule ,
     NgxsModule.forRoot([

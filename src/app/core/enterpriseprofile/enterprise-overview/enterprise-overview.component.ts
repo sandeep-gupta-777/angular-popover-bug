@@ -156,7 +156,7 @@ export class EnterpriseOverviewComponent implements OnInit {
 
         this.serviceKeys.push(value);
         this.serviceKeys = [...this.serviceKeys];
-        // debugger;
+        //
         this.utilityService.showSuccessToaster("New service key added successfully");
         this.store.dispatch([
           new SetEnterpriseServiceKeyAction({ service_key: this.serviceKeys })
@@ -275,7 +275,7 @@ export class EnterpriseOverviewComponent implements OnInit {
               this.store.dispatch([
                 new SetUser({ user: value }),
               ])
-              
+
             });
         });
       });
@@ -288,7 +288,7 @@ export class EnterpriseOverviewComponent implements OnInit {
       let disableServiceKeyUrl = this.constantsService.disableServiceKeyUrl();
       let body = { service_key: data.data.key }
       const headerData: IHeaderData = { 'content-type': 'application/json' };
-      // 
+      //
       this.serverService.makePostReq<any>({ url: disableServiceKeyUrl, body, headerData })
         .subscribe((value) => {
           this.serviceKeys = this.serviceKeys.map((item) => {
@@ -311,7 +311,7 @@ export class EnterpriseOverviewComponent implements OnInit {
 
 
     }
-   
+
   }
 
 

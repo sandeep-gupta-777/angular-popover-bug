@@ -129,7 +129,7 @@ export class ServerService {
 
   handleErrorFromServer(e) {
 
-    debugger;
+
     let arg = (e.error && e.error.error) ? e.error : e;
     this.showErrorMessageForErrorTrue(arg);
     this.changeProgressBar(false, 100);

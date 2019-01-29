@@ -18,14 +18,13 @@
   <!--</div>-->
 <!--</div>-->
 
-<!--<div [hidden]="!testCaseData" (change)="onTableChange()" class="d-flex-column-custom flex-grow-1">-->
 <app-handsontable
   *ngIf="testCaseData && !showSplashScreen && !showLoader"
   (change)="onTableChange()"
   [testData]="testCaseData"
   [columns]="handontable_column"
   [colHeaders]="handontable_colHeaders"
-  [expectedCSVHeaders]="['message', 'expected_template']"
+  [expectedCSVHeaders]="expectedCSVHeaders"
   (rowChanged$)="onTableChange()"
   (csvUploaded$)="testCaseData = $event">
   <!---->

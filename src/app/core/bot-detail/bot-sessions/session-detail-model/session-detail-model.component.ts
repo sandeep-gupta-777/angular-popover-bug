@@ -21,7 +21,7 @@ import {LoggingService} from '../../../../logging.service';
 export class SessionDetailModelComponent implements OnInit {
 
   @Input() set session(_session) {
-    debugger;
+
     this._session = _session;
     if (_session && _session.id) {
       setTimeout(() => {
@@ -87,7 +87,7 @@ export class SessionDetailModelComponent implements OnInit {
       headerData: {'bot-access-token': this.bot.bot_access_token}
     });
     this.sessionMessageData$.subscribe((value) => {
-      debugger;
+
       if (!value) { return; }
       this.totalMessagesCount = value.meta.total_count;
       this.sessionMessageData = value.objects;

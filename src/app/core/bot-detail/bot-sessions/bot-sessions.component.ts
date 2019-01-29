@@ -116,7 +116,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
 
     sessionsDataForTable = sessionsDataForTable.map((sessionsDataForTableItem) => {
-      
+
       /*adding two additional columns 1) actions and 2)channels*/
       let additonalColumns: any = {
         Actions:sessionsDataForTableItem['Actions'],
@@ -151,14 +151,14 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       * TODO: there is a data_encrypted key it the row itself. Can we use it?
     * Why do we need to go fetch first message to see if its decrypted or not?
     * */
-      
+
     if (eventData.data.data_encrypted) {
 
       this.openSessionRowDecryptModal(this.reasonForDecryptionTemplate, eventData.data);
     } else {
       this.loadSessionMessagesById(eventData.data.id)
         .subscribe((value: {objects:ISessionItem[]}) => {
-          debugger;
+
           this.selectedRow_Session = this.sessions.find(session => session.id === eventData.data.id);
           // this.selectedRow_Session = value.objects.find(session => session.id === eventData.data.id);
           // (<any>this.selectedRow_Session).highlight = true;
@@ -306,7 +306,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         const surl = this.constantsService.getSessionsByIdUrl(sessionTobeDecryptedId);
         this.serverService.makeGetReq({url: surl, headerData})
           .subscribe((newSession: ISessionItem) => {
-              
+
             const del = this.sessions.findIndex((session) => session.id === sessionTobeDecryptedId);
             this.sessions[del] = {...newSession};
             this.sessions = [...this.sessions];

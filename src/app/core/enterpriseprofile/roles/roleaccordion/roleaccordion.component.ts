@@ -27,7 +27,7 @@ export class RoleaccordionComponent implements OnInit {
   ) { }
 
   isPermission( id: number):boolean{
-    // debugger;
+    //
     return !!this.addedPermissions.find(num => num == id );
   }
   isCategory():boolean{
@@ -40,7 +40,7 @@ export class RoleaccordionComponent implements OnInit {
   removePermissionById(id){
     this.removePermission.emit({roleIds : id})
   }
-  
+
   addPermissionById(id){
     this.addPermission.emit({roleIds:id})
   }

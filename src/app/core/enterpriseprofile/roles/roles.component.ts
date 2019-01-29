@@ -46,7 +46,7 @@ export class RolesComponent implements OnInit {
             }
         }
         let getRoleIdUrl = this.constantsService.getRoleIdUrl(this.selectedRole);
-        debugger;
+
         this.serverService.makePutReq<any>({ url: getRoleIdUrl, body })
             .subscribe((roles) => {
                 this.utilityService.showSuccessToaster("Role modified");
@@ -63,7 +63,7 @@ export class RolesComponent implements OnInit {
             "base_role": +this.selectedRoleBaseRole
         }
         let getRoleUrl = this.constantsService.getRoleUrl();
-        debugger;
+
         this.serverService.makePostReq<any>({ url: getRoleUrl, body })
             .subscribe((roles) => {
                 this.utilityService.showSuccessToaster("New Role added");
@@ -76,21 +76,21 @@ export class RolesComponent implements OnInit {
         this.backToRoles.emit();
     }
     addPermission(obj) {
-        debugger;
+
         obj.roleIds.forEach(element => {
             this.selectedPermissionIdList.push(element);
         });
         this.selectedPermissionIdList = Array.from(new Set(this.selectedPermissionIdList));
     }
     removePermission(obj) {
-        debugger;
+
         obj.roleIds.forEach(element => {
             this.selectedPermissionIdList = this.selectedPermissionIdList.filter(val => val != element);
         });
         this.selectedPermissionIdList = Array.from(new Set(this.selectedPermissionIdList));
     }
     baseRoleChanged(RoleId){
-        debugger;
+
         this.allRolesList;
         let thisRole = this.allRolesList.find( role => role.id == RoleId);
         this.selectedPermissionIdList = thisRole.permissions.actions;
@@ -110,10 +110,10 @@ export class RolesComponent implements OnInit {
         });
         if (!this.isNewRole) {
             let getRoleByIdUrl = this.constantsService.getRoleByIdUrl(this.selectedRole);
-            debugger;
+
             this.serverService.makeGetReq<any>({ url: getRoleByIdUrl })
                 .subscribe((roles) => {
-                    debugger;
+
                     this.system_role = roles.objects[0].enterprise_id == 0;
                     this.selectedRoleName = roles.objects[0].name;
                     this.selectedRoleData = roles.objects[0];

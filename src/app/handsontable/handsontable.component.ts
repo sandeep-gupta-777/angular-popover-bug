@@ -24,7 +24,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   @Input() height: string;
   @Input() width: string;
   @Input() colHeaders: string[];
-  @Input() expectedCSVHeaders: string[];
+  @Input() expectedCSVHeaders: string[] = ["hello"];
   @Input() columns: any[];
   @Input() setting = {};
   @Output() rowChanged$ = new EventEmitter();
@@ -85,6 +85,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    console.log(this);////
 
     this.setHeightAndWidthofHost();
 
@@ -152,13 +153,14 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   }
 
   async openFile(inputEl) {
+    // alert(this.expectedCSVHeaders);
     try {
       let filePath = inputEl.value;
       if(!filePath || !filePath.endsWith('.csv')){
         this.utilityService.showErrorToaster('Error: File is not CSV');
         return;
       }
-      debugger;
+
       let data:string = await this.utilityService.readInputFileAsText(inputEl);
       if(!data) return;
       data = data.trim();
@@ -174,7 +176,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
         /*check if this.expectedCSVHeaders is same as headers in csv*/
         let commonHeadersIndex: number[] = [];
         this._data[0].forEach((header,index) => {
-          if(this.expectedCSVHeaders.find(csvHeader => csvHeader === header)){
+          if(this.expectedCSVHeaders.find(csvHeader => csvHeader.trim() === header.trim())){
             commonHeadersIndex.push(index)
           }
         });
@@ -211,5 +213,9 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
     const csvData = this._data;
     // const csvColumn = [1, 2, 3];
     this.utilityService.downloadArrayAsCSV(csvData, this.expectedCSVHeaders ? this.expectedCSVHeaders : []);
+  }
+
+  log(){
+    console.log(this);
   }
 }

@@ -9,9 +9,9 @@ export class RouterService {
     private router : Router
   ) { }
   addQueryParams(params : {}  ){
-    debugger;
+
     // console.log(route.url);
-    
+
     this.router.navigate([], {
       // relativeTo: route,
       queryParams: params,

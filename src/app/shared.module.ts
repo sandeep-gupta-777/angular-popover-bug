@@ -49,6 +49,7 @@ import { ObjectWithCategoryNamePipe } from './core/enterpriseprofile/roles/objec
 
 import {MsToHhMmPipe} from './ms-to-hh-mm.pipe';
 import {LinksFromTextPipe} from './links-from-text.pipe';
+import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.component';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import {LinksFromTextPipe} from './links-from-text.pipe';
     AvatorFormComponent,
     BotConfigComponent,
     BotArchitetureComponent,
+    BotTestingComponent,
     BotIdToNamePipe,
     PipelineFilterPipe,
     AdditionalInfoFormComponent,
@@ -148,7 +150,8 @@ import {LinksFromTextPipe} from './links-from-text.pipe';
     MyMaterialModule,
     ImiLoaderComponent,
     ChatFeedbackComponent,
-    MsToHhMmPipe
+    MsToHhMmPipe,
+    BotTestingComponent
   ]
 })
 export class SharedModule {

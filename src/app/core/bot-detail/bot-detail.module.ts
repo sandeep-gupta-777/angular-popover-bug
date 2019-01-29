@@ -79,7 +79,7 @@ const routes: Route[] = [
     PipelineBasedBotDetailComponent,
     BotDetailHeaderComponent,
     BotDetailWrapperComponent,
-    BotTestingComponent,
+    // BotTestingComponent,
     BotSessionsComponent,
     SessionDetailModelComponent,
     ConsumersComponent,

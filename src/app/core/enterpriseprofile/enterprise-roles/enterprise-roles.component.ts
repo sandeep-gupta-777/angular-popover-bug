@@ -28,7 +28,7 @@ export class EnterpriseRolesComponent implements OnInit {
   @Output() enterNewRole = new EventEmitter();
 
   navegateRole(id: number) {
-    debugger;
+
     this.selectedRole.emit({ "roleId": id });
     this.enterRole.emit();
   }
@@ -38,7 +38,7 @@ export class EnterpriseRolesComponent implements OnInit {
   }
   deleteRoleClicked() {
     let getRoleIdUrl = this.constantsService.getRoleIdUrl(this.deleteRole.id);
-    debugger;
+
     this.serverService.makeDeleteReq<any>({ url: getRoleIdUrl })
       .subscribe((roles) => {
         let getRoleUrl = this.constantsService.getRoleUrl();
