@@ -49,6 +49,12 @@ export class AvatorFormComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       avatars: this.formBuilder.array([])
     });
+
+    /*Why?: form_validation_avator key doesnt exists in botcreation state in the beginning*/
+    const avatarValidationObj = {};
+    avatarValidationObj[EFormValidationErrors.form_validation_avator] = false;
+    this.datachanged$.emit({...avatarValidationObj});
+
     this.formArray = this.formGroup.get('avatars') as FormArray;
     this.initializeFormArray();
     LoggingService.log(this.formArray);
@@ -60,7 +66,7 @@ export class AvatorFormComponent implements OnInit {
       }
       this.formData = this.formGroup.value;
       const avatarValidationObj = {};
-      avatarValidationObj[EFormValidationErrors.form_validation_avator] = this.formGroup.valid;
+      avatarValidationObj[EFormValidationErrors.form_validation_avator] = this.formGroup.valid && data.avatars && data.avatars.length > 0;
       this.datachanged$.emit({...this.formGroup.value, ...avatarValidationObj});
     });
   }
