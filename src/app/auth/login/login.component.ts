@@ -8,7 +8,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {UtilityService} from '../../utility.service';
 import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
 import {ResetEnterpriseUsersAction, SetEnterpriseInfoAction} from '../../core/enterpriseprofile/ngxs/enterpriseprofile.action';
-import {ResetAppState} from '../../ngxs/app.action';
+import {ResetAppState, SetBackendURlRoot} from '../../ngxs/app.action';
 import {ResetAuthToDefaultState, SetUser} from '../ngxs/auth.action';
 import {NgForm} from '@angular/forms';
 import {MessageDisplayBase} from './messageDisplayBase';
