@@ -53,7 +53,6 @@ const routes: Route[] = [
 
   ],
   imports: [
-    SharedModule,
     RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     BrowserAnimationsModule ,
     NgxsModule.forRoot([

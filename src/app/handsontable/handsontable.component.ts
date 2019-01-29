@@ -24,7 +24,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   @Input() height: string;
   @Input() width: string;
   @Input() colHeaders: string[];
-  @Input() expectedCSVHeaders: string[] = ["hello"];
+  @Input() expectedCSVHeaders: string[];
   @Input() columns: any[];
   @Input() setting = {};
   @Output() rowChanged$ = new EventEmitter();
@@ -184,10 +184,14 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
         /*remove headers*/
         this._data.splice(0,1);
 
-        filteredTableData = this._data.map((row:string[])=>{
-          return row.filter((el,index)=>{
+        filteredTableData = [];
+        this._data.forEach((row:string[])=>{
+          let x =row.filter((el,index)=>{
             return commonHeadersIndex.find((commonIndex) => commonIndex === index) != null;
           });
+          if(Array.isArray(x) && x.length > 0){
+            filteredTableData.push(x);
+          }
         });
 
       }
@@ -210,9 +214,13 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   }
 
   exportToCsv() {
-    const csvData = this._data;
-    // const csvColumn = [1, 2, 3];
-    this.utilityService.downloadArrayAsCSV(csvData, this.expectedCSVHeaders ? this.expectedCSVHeaders : []);
+    debugger;
+    const csvData = JSON.parse(JSON.stringify(this._data));
+    console.log(csvData);
+    if(this.expectedCSVHeaders){
+      csvData.unshift(this.expectedCSVHeaders);
+    }
+    this.utilityService.downloadArrayAsCSV(csvData, []);
   }
 
   log(){
