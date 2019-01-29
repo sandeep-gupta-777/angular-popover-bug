@@ -35,6 +35,7 @@
         [pageNumberOfCurrentRowSelected]="pageNumberOfCurrentRowSelected"
         [indexOfCurrentRowSelected]="indexOfCurrentRowSelected"
         [finalDfState]="selectedRow_Session.df_state"
+        (refreshSession$)="updateSessionById($event)"
         [sessionDataStore]="selectedRow_Session.data_store">
       </app-session-detail-model>
     <!--</div>-->
