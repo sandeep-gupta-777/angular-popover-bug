@@ -27,7 +27,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
   expectedCSVHeaders = ['Message', 'Expected Template'];
   testCaseData: [string, string, string][] = [['<The user message you wish to test for>','<The name of the template key you expect the bot to return>','']];
   testCasesUrl = this.constantsService.getBotTestingUrl();
-  expectedCSVHeaders = ['Message', 'Expected Template'];
+  // expectedCSVHeaders = ['Message', 'Expected Template'];
   stopTestUrl = this.constantsService.stopTestUrl();
   testCaseId: number;
   isData = false;
