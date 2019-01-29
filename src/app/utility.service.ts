@@ -151,6 +151,7 @@ export class UtilityService {
   }
 
 
+  // tslint:disable-next-line:member-ordering
   public static convertCsvTextToArray(csv:string):string[][]{
     let lines=csv.split('\n');
     lines = lines.map((line)=> line.trim());

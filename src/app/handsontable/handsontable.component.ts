@@ -48,11 +48,11 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   public options: any;
 
   constructor(
-      private constantsService: ConstantsService,
-      private activatedRoute: ActivatedRoute,
-      public eventService: EventService,
-      private utilityService: UtilityService,
-      private elementRef: ElementRef
+    private constantsService: ConstantsService,
+    private activatedRoute: ActivatedRoute,
+    public eventService: EventService,
+    private utilityService: UtilityService,
+    private elementRef: ElementRef
   ) {
     this.options = {
       rowHeaders: true,
@@ -165,12 +165,16 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
       if(!data) return;
       data = data.trim();
       let value = UtilityService.convertCsvTextToArray(data);
-          // this.testData(data1);
       this._data = value;
       let filteredTableData: string[][] = this._data;
       if (!value || !value.length || value.length == 0) {
         throw 'some error parsing file';
       }
+
+      // if(!this.expectedCSVHeaders && location.search.includes('build=testing')){
+      //   this.expectedCSVHeaders = ['Message', 'Expected Template'];
+      // }
+
       // this.expectedCSVHeaders = ['DateTime'];//todo: remove this
       if (this.expectedCSVHeaders) {
         /*check if this.expectedCSVHeaders is same as headers in csv*/
@@ -214,7 +218,6 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   }
 
   exportToCsv() {
-    debugger;
     const csvData = JSON.parse(JSON.stringify(this._data));
     console.log(csvData);
     if(this.expectedCSVHeaders){
