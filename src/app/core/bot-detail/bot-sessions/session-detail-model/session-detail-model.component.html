@@ -10,7 +10,7 @@
 
     <div class="d-flex  align-items-center justify-content-center">
       <i class="fa fa-refresh mr-2 cursor-pointer" [ngClass]="{'fa-spin':showSpinIcon}"
-         (click)="loadSessionById(_session.id);"></i>
+         (click)="updateModal(_session.id);"></i>
       <div class="d-flex  flex-column align-items-start align-content-start">
         <span class="secondary">Last updated at</span>
         <span class="primary">{{_session.updated_at|date:'mediumDate'}}</span>

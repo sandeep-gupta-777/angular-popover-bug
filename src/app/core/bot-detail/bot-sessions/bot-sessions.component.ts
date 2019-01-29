@@ -24,7 +24,7 @@ import {EventService} from '../../../event.service';
   styleUrls: ['./bot-sessions.component.scss']
 })
 export class BotSessionsComponent extends MaterialTableImplementer implements OnInit {
-  dialogRefWrapper = {ref:null};
+  dialogRefWrapper = {ref: null};
 
   myESplashScreens = ESplashScreens;
   @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
@@ -63,7 +63,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   ngOnInit() {
     this.loadSmartTableSessionData();
     this.headerData = {'bot-access-token': this.bot.bot_access_token};
-    this.eventService.reloadSessionTable$.subscribe(()=>{
+    this.eventService.reloadSessionTable$.subscribe(() => {
       this.loadSmartTableSessionData();
     });
   }
@@ -116,11 +116,11 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
 
     sessionsDataForTable = sessionsDataForTable.map((sessionsDataForTableItem) => {
-      
+
       /*adding two additional columns 1) actions and 2)channels*/
       let additonalColumns: any = {
-        Actions:sessionsDataForTableItem['Actions'],
-        Channels:sessionsDataForTableItem['Channels'],
+        Actions: sessionsDataForTableItem['Actions'],
+        Channels: sessionsDataForTableItem['Channels'],
       };
 
       additonalColumns['Actions'].value = additonalColumns['Actions'].value || [];
@@ -131,7 +131,8 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         additonalColumns['Actions'].value.push({show: true, name: 'decrypt', class: 'fa fa-lock'});
       }
       /*channels*/
-      additonalColumns['Channels'].searchValue = sessionsDataForTableItem['Channels'].value.join();;
+      additonalColumns['Channels'].searchValue = sessionsDataForTableItem['Channels'].value.join();
+      ;
       additonalColumns['Channels'].value = (sessionsDataForTableItem.Channels['value'].map((channelName) => {
         return {
           name: channelName,
@@ -151,7 +152,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       * TODO: there is a data_encrypted key it the row itself. Can we use it?
     * Why do we need to go fetch first message to see if its decrypted or not?
     * */
-      
+
     if (eventData.data.data_encrypted) {
 
       this.openSessionRowDecryptModal(this.reasonForDecryptionTemplate, eventData.data);
@@ -192,7 +193,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         this.totalSessionRecords = value.meta.total_count;
         this.selectedRow_Session = value.objects[this.selectedRow_number || 0];
         this.sessions = value.objects;
-        this.initializeTableData(this.sessions, this.getTableDataMetaDict())
+        this.initializeTableData(this.sessions, this.getTableDataMetaDict());
 
       });
   }
@@ -305,14 +306,14 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         const surl = this.constantsService.getSessionsByIdUrl(sessionTobeDecryptedId);
         this.serverService.makeGetReq({url: surl, headerData})
           .subscribe((newSession: ISessionItem) => {
-              
+
             const del = this.sessions.findIndex((session) => session.id === sessionTobeDecryptedId);
             this.sessions[del] = {...newSession};
             this.sessions = [...this.sessions];
             this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
           });
       });
-    this.dialogRefWrapper.ref.close()
+    this.dialogRefWrapper.ref.close();
 
   }
 
@@ -321,8 +322,8 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
     this.utilityService.openDialog({
       component: template,
-      dialog : this.matDialog,
-      classStr:'primary-modal-header-border',
+      dialog: this.matDialog,
+      classStr: 'primary-modal-header-border',
       dialogRefWrapper: this.dialogRefWrapper
     });
   }
@@ -344,31 +345,43 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     });
   }
 
-  performSearchInDbForSession(data: { id: number, updated_at: {begin:number, end:number} }) {
-    let dataCopy:any = this.utilityService.createDeepClone(data);
-    if(dataCopy.updated_at){
-      let x:any;
+  updateSessionById(id: number) {
+    this.loadSessionById(id)
+      .subscribe((sessionItem) => {
+        let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id});
+        this.sessions[index] = sessionItem;
+        this.selectedRow_Session = sessionItem;
+        this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
+        this.tableData = [...this.tableData];
+      });
+  //
+  }
+
+  performSearchInDbForSession(data: { id: number, updated_at: { begin: number, end: number } }) {
+    let dataCopy: any = this.utilityService.createDeepClone(data);
+    if (dataCopy.updated_at) {
+      let x: any;
       dataCopy.updated_at =
         this.utilityService.convertDateObjectStringToYYYYMMDD((<any>data).updated_at.begin.getTime(), '-') + ',';
-      x =  this.utilityService.convertDateObjectStringToYYYYMMDD((<any>data).updated_at.end.getTime(), '-');
+      x = this.utilityService.convertDateObjectStringToYYYYMMDD((<any>data).updated_at.end.getTime(), '-');
       dataCopy.updated_at += x;
       dataCopy.updated_at__range = dataCopy.updated_at;
       delete dataCopy.updated_at;
     }
     let url = this.constantsService.getRoomWithFilters(dataCopy);
     this.serverService.makeGetReq({url, headerData: this.headerData})
-      .subscribe((value: {objects: ISessionItem[]}) => {
+      .subscribe((value: { objects: ISessionItem[] }) => {
         let sessions = value.objects;
-        sessions.forEach((session)=>{
-          let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id:session.id});
-          if(index!==null && index!==-1){
+        sessions.forEach((session) => {
+          let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id: session.id});
+          if (index !== null && index !== -1) {
             this.sessions[index] = session;
-          }else {
+          } else {
             this.sessions.push(session);
           }
         });
         this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
-        this.tableData =[...this.tableData];
+        this.tableData = [...this.tableData];
       });
   }
 
