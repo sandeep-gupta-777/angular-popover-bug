@@ -25,7 +25,7 @@
   [testData]="testCaseData"
   [columns]="handontable_column"
   [colHeaders]="handontable_colHeaders"
-  [expectedCSVHeaders]="['message', 'expected_template']"
+  [expectedCSVHeaders]="expectedCSVHeaders"
   (rowChanged$)="onTableChange()"
   (csvUploaded$)="testCaseData = $event">
   <!---->

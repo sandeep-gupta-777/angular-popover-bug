@@ -153,6 +153,10 @@ export class UtilityService {
 
   public static convertCsvTextToArray(csv:string):string[][]{
     let lines=csv.split("\n");
+
+    lines = lines.map((line)=>{
+      return line.trim();
+    });
     let arr:string[][] = [];
     for (let i=0; i<lines.length; ++i){
       arr.push(lines[i].split(','));
@@ -650,7 +654,7 @@ export class UtilityService {
       if (value === 'labels') {
         return;
       }
-      
+
 
       seriesArr.push({
         name: value, //y1
@@ -661,12 +665,12 @@ export class UtilityService {
     /*now loop over rawData and fill convertedData's data array*/
 
     rawData.forEach((obj) => {
-      
+
       Object.keys(obj).forEach((key) => {
         if (key === xAxisLabel) {
           return;
         }
-        
+
 
         const data = this.findDataByName(seriesArr, key);
         // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
@@ -1122,6 +1126,7 @@ export class UtilityService {
   }
 
   performFormValidationBeforeSaving(obj: IBot): IBot {
+    debugger;
     const objShallowClone = { ...obj };
     const validation_Keys: string[] = Object.keys(objShallowClone).filter((key) => {
       return key.includes('form_validation_');

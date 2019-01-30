@@ -24,7 +24,7 @@ export class SessionDetailModelComponent implements OnInit {
     this._session = _session;
     if (_session && _session.id) {
       setTimeout(() => {
-          this.loadSessionById(_session.id);
+          this.loadSessionMessagesById(_session.id);
         }
       );
     }
@@ -44,6 +44,7 @@ export class SessionDetailModelComponent implements OnInit {
   @Select() botlist$: Observable<ViewBotStateModel>;
   allBotList: IBot[];
   sessionMessageData$: Observable<ISessionMessage>;
+  @Output() refreshSession$ = new EventEmitter();
   sessionMessageData: ISessionMessageItem[];
   sessionMessageDataCopy: ISessionMessageItem[];
   transactionIdSelectedInModel: string;
@@ -74,11 +75,16 @@ export class SessionDetailModelComponent implements OnInit {
     this.botlist$.subscribe((value) => {
       this.allBotList = value.allBotList;
     });
-    // this.loadSessionById(this._session.id);
+    // this.loadSessionMessagesById(this._session.id);
   }
 
   showSpinIcon = false;
-  loadSessionById(id) {
+
+  updateModal(id){
+    this.loadSessionMessagesById(id);
+    this.refreshSession$.emit(id);
+  }
+  loadSessionMessagesById(id) {
     this.showSpinIcon = true;
     this.url = this.constantsService.getSessionsMessageUrl(id);
     this.sessionMessageData$ = this.serverService.makeGetReq<ISessionMessage>({
@@ -92,6 +98,7 @@ export class SessionDetailModelComponent implements OnInit {
       this.sessionMessageDataCopy = [...this.sessionMessageData];
       this.showSpinIcon = false;
     });
+
     this.tabClicked(this.activeTab);
   }
 

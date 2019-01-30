@@ -4,9 +4,13 @@
   @extend %fixed-top-left;
 }
 
-*{
+*:not(.fa){
     font-family: Helvetica;
     color: #00abd3;
+}
+
+button{
+  color: white !important; //todo: temporary change
 }
 
 .login-grid {
