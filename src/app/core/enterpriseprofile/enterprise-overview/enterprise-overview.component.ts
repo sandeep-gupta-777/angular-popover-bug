@@ -83,7 +83,8 @@ export class EnterpriseOverviewComponent implements OnInit {
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
             originalKey: key,
-            value: consumerTableDataItem[key].substring(0, 50),
+            // value: consumerTableDataItem[key].substring(0, 50),
+            value: consumerTableDataItem[key],
             searchValue: consumerTableDataItem[key]
           };
         }
@@ -299,7 +300,7 @@ export class EnterpriseOverviewComponent implements OnInit {
       let disableServiceKeyUrl = this.constantsService.disableServiceKeyUrl();
       let body = { service_key: data.data.key }
       const headerData: IHeaderData = { 'content-type': 'application/json' };
-      // 
+      //
       this.serverService.makePostReq<any>({ url: disableServiceKeyUrl, body, headerData })
         .subscribe((value) => {
 
