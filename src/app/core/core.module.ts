@@ -49,6 +49,8 @@ import { EnterpriseOverviewComponent } from './enterpriseprofile/enterprise-over
 import { EnterpriseUsersComponent } from './enterpriseprofile/enterprise-users/enterprise-users.component';
 import { EnterpriseRolesComponent } from './enterpriseprofile/enterprise-roles/enterprise-roles.component';
 import { SortPipelinePipe } from './buildbot/build-code-based-bot/architecture/pipeline/sort-pipeline.pipe';
+import {SafeHtml} from '@angular/platform-browser';
+import {SafeHtmlPipe} from '../safe-html.pipe';
 const routes: Route[] = [
   {
 
@@ -115,7 +117,7 @@ const routes: Route[] = [
     FooterComponent,
     EnterpriseOverviewComponent,
     EnterpriseUsersComponent,
-    EnterpriseRolesComponent,
+    EnterpriseRolesComponent
     // DisplayNameForKeyIntegrationPipe,
 
     /*added after lazy loading*/

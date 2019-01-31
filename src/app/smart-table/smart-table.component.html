@@ -53,8 +53,9 @@
           <div style="position: relative" class="textval-wrapper">
             <div
               class="textVal"
+              [innerHTML]="element[i].value"
               *ngIf="element[i].type!=='button' && element[i].type!=='icon' && element[i].type!=='image' && element[i].type!=='boolean' && element[i].type!=='time'">
-              {{element[i].value}}
+              <!--{{element[i].value}}-->
             </div>
 
             <!--<div-->
