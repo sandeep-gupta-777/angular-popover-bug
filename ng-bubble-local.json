@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"isAngular":true,"preferredIde":"WEBSTORM","inputTaken":true}
-=======
-{"isAngular":true,"preferredIde":"VSCODE","inputTaken":true}
->>>>>>> develop
+{"preferredIde":"VSCODE","inputTaken":true,"guess":true,"componentSelector":"app-","ctrl":false}
