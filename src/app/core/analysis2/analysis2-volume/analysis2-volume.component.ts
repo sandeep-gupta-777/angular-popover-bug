@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ConstantsService} from '../../../constants.service';
 import {ActivatedRoute} from '@angular/router';
-import { EAnalysis2TypesEnum } from '../../../../interfaces/Analytics2/analysis2-types';
-import { SetAnalysis2HeaderData } from '../ngxs/analysis.action';
-import { Store, Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { IAnalysis2State } from '../ngxs/analysis.state';
-import { UtilityService } from '../../../utility.service';
+import {EAnalysis2TypesEnum} from '../../../../interfaces/Analytics2/analysis2-types';
+import {SetAnalysis2HeaderData} from '../ngxs/analysis.action';
+import {Store, Select} from '@ngxs/store';
+import {Observable} from 'rxjs';
+import {IAnalysis2State} from '../ngxs/analysis.state';
+import {UtilityService} from '../../../utility.service';
 
 @Component({
   selector: 'app-analysis2-volume',
@@ -18,6 +18,7 @@ export class Analysis2VolumeComponent implements OnInit {
   // data$: Observable<IChannelWiseFlowsPerSessionItem[]>;
   activeTab = 'userAcquisition';
   chartValue: any;
+
   constructor(
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
@@ -28,7 +29,7 @@ export class Analysis2VolumeComponent implements OnInit {
 
   tabClicked(activeTab: string) {
     this.activeTab = activeTab;
-    
+
     if (this.activeTab === 'userAcquisition') {
       this.store.dispatch(new SetAnalysis2HeaderData({
         analysisHeaderData: {type: EAnalysis2TypesEnum.userAcquisition}
@@ -55,26 +56,26 @@ export class Analysis2VolumeComponent implements OnInit {
   ngOnInit() {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || this.activeTab;
     this.tabClicked(this.activeTab);
-      
+
     this.analysisstate2$
       .subscribe((value: IAnalysis2State) => {
         try {
-            
-          const granularity =  value.analysisHeaderData.granularity;
+          debugger;
+          const granularity = value.analysisHeaderData.granularity;
           const granularity_ms: number = this.u.convertGranularityStrToMs(granularity);
-            //
+          //
           this.chartValue =
             <any>this.u.convertDateTimeGraph(
               value[this.activeTab],
               'labels',
               new Date(value.analysisHeaderData.startdate).getTime(),
-              granularity_ms) ;
-            
+              granularity_ms);
+
         } catch (e) {
           // LoggingService.error(e);
         }
       });
-    
+
   }
 
 

@@ -66,7 +66,10 @@ export class ChartComponent implements OnInit {
     options.splice(4, 2);
     console.log(options);
 
-    Highcharts.setOptions({
+    Highcharts.setOptions({/*day was one day/granularity off : https://stackoverflow.com/questions/10353386/highcharts-data-off-by-one-day/13740847*/
+      global : {
+        useUTC : false
+      },
       chart: {
         style: {
           fontFamily: 'helvetica'
