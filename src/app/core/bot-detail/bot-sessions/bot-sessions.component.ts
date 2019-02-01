@@ -311,6 +311,9 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
             this.sessions[del] = {...newSession};
             this.sessions = [...this.sessions];
             this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
+
+            this.selectedRow_Session = newSession;
+            this.openDeleteTemplateKeyModal(this.sessionDetailTemplate);  
           });
       });
     this.dialogRefWrapper.ref.close();
