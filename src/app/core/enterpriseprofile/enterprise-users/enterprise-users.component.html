@@ -177,10 +177,16 @@
       <!-- {{roleMap | json}} -->
       <!-- <form class="form-theme form-theme-with-md-controls " (ngSubmit)="onSubmit()" #loginForm="ngForm"> -->
       <form class="form-theme form-theme-with-md-controls " #newBotDetails="ngForm">
-        <input required class="form-theme-control my-1 mx-2" style="width: 200px" ngModel name="first_name" 
-          placeholder="First name">
-        <input required class="form-theme-control my-1 mx-2" style="width: 200px" name="last_name" ngModel placeholder="Last name">
-        <mat-form-field >
+        <mat-form-field class="pr-3">
+          <input matInput placeholder="First name" ngModel name="first_name" required>
+        </mat-form-field>
+        <mat-form-field class="pr-3">
+          <input matInput placeholder="Last name" name="last_name" ngModel required>
+        </mat-form-field>
+
+        <!-- <input required class="form-theme-control my-1 mx-2" style="width: 200px" ngModel name="first_name" placeholder="First name">
+        <input required class="form-theme-control my-1 mx-2" style="width: 200px" name="last_name" ngModel placeholder="Last name"> -->
+        <mat-form-field>
           <mat-select required placeholder="Select role" [(ngModel)]="newBotRole" (ngModelChange)="newUserRoleChanged($event)"
             name="role">
             <mat-option *ngFor="let role of roleMap; let i = index;" [value]="role.id">
@@ -195,7 +201,9 @@
           </mat-select>
         </mat-form-field>
         <br>
-        <input required class="form-theme-control my-1 mx-2" style="width: 400px" name="email" ngModel placeholder="Email address" type="email">
+        <mat-form-field style="width: 378px;">
+          <input matInput name="email"  type = "email" email ngModel placeholder="Email address" required type="email">
+        </mat-form-field>
       </form>
 
 
@@ -230,7 +238,7 @@
         <div class="d-flex w-100 mt-2">
           <button class="btn-theme btn-theme-primary-outline ml-auto mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
           <button class="btn-theme btn-theme-primary  d-inline-block mr-2" form="modelGenTempNameForm" 
-            [disabled]="!newBotDetails.valid"
+          [disabled]="!newBotDetails.valid"
             (click)="addNewUser();dialogRefWrapper.ref.close()">Add new user
           </button>
           <!-- <button class="btn-theme btn-theme-primary  d-inline-block mr-2"

@@ -272,7 +272,7 @@ export class EnterpriseOverviewComponent implements OnInit {
     const headerData: IHeaderData = { 'content-type': 'application/json' };
     this.serverService.makePutReq({ url, body, headerData })
       .subscribe(() => {
-        this.utilityService.showSuccessToaster('Updated enterprise profile');
+        this.utilityService.showSuccessToaster('Enterprise profile updated');
         this.store.dispatch([
           new SetEnterpriseInfoAction({ enterpriseInfo: body }),
         ]).subscribe((entprisedetails) => {
@@ -306,9 +306,7 @@ export class EnterpriseOverviewComponent implements OnInit {
 
           this.serviceKeys = this.serviceKeys.map((item) => {
             if (item["key"] == body.service_key) {
-              item.enabled = false;
-              item.expired_at = value.expired_at;
-              return item;
+              return value;
             }
             else {
               return item;
