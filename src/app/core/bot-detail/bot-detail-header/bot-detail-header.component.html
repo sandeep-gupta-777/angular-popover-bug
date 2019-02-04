@@ -2,7 +2,9 @@
 <div class="row-bot-detail-header d-flex align-items-center my-1">
   <img style="width: 32px;height: 32px" class="rounded-circle" [src]="bot.logo" alt="">
   <div class="name">
-    <div class="heading mb-0">{{bot.name}}</div>
+    <div class="heading mb-0" [title]="bot.name">
+      {{(bot.name| slice:0: 30) + (bot.name.length>30?"...":"")}}
+    </div>
   </div>
   <i class="fa fa-users" *ngIf="bot && bot.is_manager" style="font-size: 16px"></i>
   <div class="d-flex align-items-center">

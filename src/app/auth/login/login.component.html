@@ -79,7 +79,7 @@
         <img src="assets/img/baseline-verified-user-24-px.svg"
              style="width: 24px; height: 24px; margin: 0 15px"
              alt="varified user">
-        <div>Congratulations, your account has been verified. Please set a password to continue.</div>
+        <div style="color: #474747">Congratulations, your account has been verified. Please set a password to continue.</div>
       </div>
 
       <div class="login-form-box">
@@ -103,7 +103,7 @@
             <button type="submit"
                     [disabled]="!resetPasswordForm.valid || resetPasswordForm.value.password !== resetPasswordForm.value.confirm"
                     class="btn-theme btn-theme-block btn-theme-primary my-3" (click)="resetPassword()">
-              Reset
+              {{panelActive===myELoginPanels.reset? 'Reset': 'Set'}}
             </button>
           </form>
         </div>
@@ -135,7 +135,7 @@
       <div class="text-center mb-2" style="width: 70%">
         Your password has been saved. Please use your new password to sign in
       </div>
-      <div class="text-center cursor-pointer color-primary" (click)="backToLogin()">Back to Sign in</div>
+      <div class="text-center cursor-pointer color-primary" style="margin-top: 20px" (click)="backToLogin()">Back to Sign in</div>
     </div>
   </section>
 

@@ -403,6 +403,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
               });
           }
         } else {
+          debugger;
           if (this.bot.active_version_id === this.selectedVersion.id) {
             // this.modalRef = this.modalService.show(validationWarningModal, {class: 'modal-md'});
             this.openPrimaryModal(validationWarningModal);
@@ -426,7 +427,9 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
                   this.store.dispatch([
                     new UpdateVersionInfoByIdInBot({data: value, botId: this.bot.id})
                   ]);
-                  this.utilityService.showSuccessToaster('New version saved');
+                  setTimeout(()=>{
+                    this.utilityService.showSuccessToaster('New version saved');
+                  },2000);
                 });
             } else {
               const url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
@@ -440,7 +443,11 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
                 .subscribe((forkedVersion: IBotVersionData) => {
                   LoggingService.log(forkedVersion);
                   this.selectedVersion = forkedVersion;
-                  this.utilityService.showSuccessToaster('New version forked');
+
+                  setTimeout(()=>{
+                    this.utilityService.showSuccessToaster('New version forked');
+                  },2000);
+
                   this.store.dispatch([
                     new UpdateVersionInfoByIdInBot({data: forkedVersion, botId: this.bot.id})
                   ]);

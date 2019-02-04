@@ -70,6 +70,14 @@
               "vendorChunk": false,
               "buildOptimizer": true,
               "serviceWorker": true
+            },
+            "hmr": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.hmr.ts"
+                }
+              ]
             }
           }
         },
@@ -81,6 +89,10 @@
           "configurations": {
             "production": {
               "browserTarget": "botPlateformFE:build:production"
+            },
+            "hmr": {
+              "hmr": true,
+              "browserTarget": "botPlateformFE:build:hmr"
             }
           }
         },
