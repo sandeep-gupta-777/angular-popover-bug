@@ -33,7 +33,7 @@ enum ELoginPanels {
 })
 export class LoginComponent extends MessageDisplayBase implements OnInit {
   myELoginPanels = ELoginPanels
-  panelActive = 'password-reset-notify';
+  panelActive = 'login';
   disabeLoginButton = false;
   changePasswordToken;
   changePasswordExpireTime;
