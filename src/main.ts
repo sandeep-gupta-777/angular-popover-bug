@@ -15,7 +15,7 @@ if (environment.production) {
 
 const bootstrap = () => platformBrowserDynamic().bootstrapModule(AppModule);
 
-if (environment.hmr) {
+if ((<any>environment).hmr) {
   if (module[ 'hot' ]) {
     // hmrBootstrap(module, bootstrap);
     bootstrap().then((ngModuleRef) => {
