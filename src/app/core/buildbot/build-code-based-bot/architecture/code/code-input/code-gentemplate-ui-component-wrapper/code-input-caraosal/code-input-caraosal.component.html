@@ -55,7 +55,7 @@
           <ul class="list-group list-group-flush">
             <li class="list-group-item limit-three-lines cursor-pointer mt-2">
               <input #mainInput type="text" class="border" autofocus placeholder="title"
-                     name="title"
+                     [name]="'title'+ carouselIndex"
                      [(ngModel)]="carousalItem.title"
                      style="width: 100%">
             </li>
@@ -70,7 +70,7 @@
             <li class="list-group-item limit-three-lines cursor-pointer flex-column align-items-start">
               <textarea maxlength="80" style="height: 48px; width: 100%"
                         placeholder="Subtitle"
-                        name="subtitle"
+                        [name]="'subtitle'+ carouselIndex"
                         [(ngModel)]="carousalItem.subtitle"></textarea>
               <span class="faded-text">{{carousalItem?.subtitle?.length || 0}}/80</span>
             </li>
