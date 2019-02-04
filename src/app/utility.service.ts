@@ -1101,7 +1101,7 @@ export class UtilityService {
     errorObj[EFormValidationErrors.form_validation_basic_info] = 'Basic info form is not valid';
     errorObj[EFormValidationErrors.form_validation_integration] = 'Integration form is not valid';
     errorObj[EFormValidationErrors.form_validation_pipeline] = 'Pipeline is not valid';
-    errorObj[EFormValidationErrors.form_validation_avator] = 'Avators are either invalid or empty';
+    errorObj[EFormValidationErrors.form_validation_avator] = 'Avatars are either invalid or empty';
     errorObj[EFormValidationErrors.form_validation_data_management] = 'Data Management form is invalid';
     return errorObj;
   }

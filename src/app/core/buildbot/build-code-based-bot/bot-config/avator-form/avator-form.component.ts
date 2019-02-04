@@ -46,18 +46,22 @@ export class AvatorFormComponent implements OnInit {
   };
 
   ngOnInit() {
+    debugger;
     this.formGroup = this.formBuilder.group({
       avatars: this.formBuilder.array([])
     });
 
     /*Why?: form_validation_avator key doesnt exists in botcreation state in the beginning*/
-    const avatarValidationObj = {};
-    avatarValidationObj[EFormValidationErrors.form_validation_avator] = false;
-    this.datachanged$.emit({...avatarValidationObj});
+
 
     this.formArray = this.formGroup.get('avatars') as FormArray;
     this.initializeFormArray();
-    LoggingService.log(this.formArray);
+
+
+    /*This line is here because this.formGroup.valueChanges is not being triggered automatically initially*/
+    const avatarValidationObj = {};
+    avatarValidationObj[EFormValidationErrors.form_validation_avator] = this.formGroup.valid && this._bot.avatars && this._bot.avatars.length > 0;
+    this.datachanged$.emit({...this.formGroup.value, ...avatarValidationObj});
 
     this.formGroup.valueChanges.pipe(debounceTime(200)).subscribe((data: any) => {
       debugger;
@@ -70,6 +74,7 @@ export class AvatorFormComponent implements OnInit {
       this.datachanged$.emit({...this.formGroup.value, ...avatarValidationObj});
     });
   }
+
 
   initializeFormArray() {
 
