@@ -41,18 +41,18 @@
 
 .basic-info-form {
   label {
-    @include typography(11px, $line-height-md, $font-weight-normal, $color-secondary);
-    padding-bottom: 0;
-    margin-bottom: 0;
+    // @include typography(11px, $line-height-md, $font-weight-normal, $color-secondary);
+    // padding-bottom: 0;
+    // margin-bottom: 0;
   }
 
   input {
-    padding: 2px;
-    margin-top: 0;
-    margin-left: 1px;
+    // padding: 2px;
+    // margin-top: 0;
+    // margin-left: 1px;
     @include hide-borders();
-    border-bottom: $border-normal;
-    border-radius: 0;
+    // border-bottom: $border-normal;
+    // border-radius: 0;
   }
 }
 

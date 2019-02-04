@@ -21,9 +21,10 @@
         <div class="row col-6">
           <h4 class="form-title col-12">Basic</h4>
           <div class="col-5">
-            <div class="form-group">
-              <label for="name">Enterprise name</label>
-              <input type="text" class="form-control" formControlName="name" required>
+            <div class="form-group ">
+              <mat-form-field class = "w-100">
+                <input type="text" class="form-control"  matInput placeholder="Enterprise name" formControlName="name" required>
+              </mat-form-field>
             </div>
             <!-- <div class="form-group">
               <label for="alterEgo">Industry</label>
@@ -45,12 +46,21 @@
           </div>
           <div class="col-12">
             <div class="form-group">
-              <label for="alterEgo">Logo Url</label><i class="text-danger pl-1" style="font-size: 11px">{{logoError}}</i>
-              <input type="text" #logoUrl class="form-control" formControlName="logo">
-              <i class="text-danger font-11 mr-1" *ngIf="formGroup.get('logo').getError('Image Extension is not correct')">Image
+              <!-- <label for="alterEgo">Logo Url</label><i class="text-danger pl-1" style="font-size: 11px">{{logoError}}</i>
+              <input type="text" #logoUrl class="form-control" formControlName="logo"> -->
+              <mat-form-field class = "w-100">
+                  <input type="text" #logoUrl class="form-control" matInput placeholder="Logo Url" formControlName="logo">
+                  <mat-error *ngIf="formGroup.get('logo').getError('Image Extension is not correct')">
+                      Image Extension is not correct
+                    </mat-error>
+                    <mat-error *ngIf="formGroup.get('logo').getError('Must be Https Url')">
+                        Must be Https Url
+                      </mat-error>
+                </mat-form-field>
+              <!-- <i class="text-danger font-11 mr-1" *ngIf="formGroup.get('logo').getError('Image Extension is not correct')">Image
                 Extension is not correct</i>
               <i class="text-danger font-11" *ngIf="formGroup.get('logo').getError('Must be Https Url')">Must be
-                Https Url</i>
+                Https Url</i> -->
             </div>
           </div>
         </div>
@@ -59,20 +69,30 @@
 
           <div class="col-5">
             <div class="form-group">
-              <label for="name">Enterprise Unique Name</label>
-              <input type="text" class="form-control" required formControlName="enterprise_unique_name" readonly>
+              <!-- <label for="name">Enterprise Unique Name</label>
+              <input type="text" class="form-control" required formControlName="enterprise_unique_name" readonly> -->
+              <mat-form-field class = "w-100">
+                  <input type="text" class="form-control"  required matInput placeholder="Enterprise Unique Name" formControlName="enterprise_unique_name" readonly>
+                </mat-form-field>
             </div>
           </div>
           <div class="col-5">
             <div class="form-group">
-              <label for="alterEgo">Tier Group</label>
+              <!-- <label for="alterEgo">Tier Group</label>
               <input type="number" class="form-control" disabled formControlName="tier_group">
+               -->
+               <mat-form-field class = "w-100">
+                  <input type="text" class="form-control"  disabled matInput placeholder="Tier Group" formControlName="tier_group">
+                </mat-form-field>
             </div>
           </div>
           <div class="col-5">
             <div class="form-group">
-              <label for="alterEgo">Log Retention Period</label>
-              <input type="text" class="form-control" formControlName="log_retention_period" readonly>
+              <!-- <label for="alterEgo">Log Retention Period</label>
+              <input type="text" class="form-control" formControlName="log_retention_period" readonly> -->
+              <mat-form-field class = "w-100">
+                  <input type="text" class="form-control" matInput placeholder="Log Retention Period" formControlName="log_retention_period" readonly>
+                </mat-form-field>
             </div>
           </div>
         </div>
