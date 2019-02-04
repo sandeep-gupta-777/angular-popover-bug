@@ -40,6 +40,15 @@ export class UtilityService {
   ) {
   }
 
+  static removeAllNonDefinedKeysFromObject(obj:object){
+    for (let key in obj){
+      if(obj[key]=== undefined || obj[key]=== null || obj[key]=== ""){
+        delete obj[key];
+      }
+    }
+    return obj;
+  }
+
   refreshCodeEditor$ = new EventEmitter();
   readonly RANDOM_IMAGE_URLS = [
     'https://robohash.org/StarDroid.png',

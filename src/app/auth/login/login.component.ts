@@ -24,6 +24,9 @@ enum ELoginPanels {
   set = "set",
   reset = "reset",
   login = "login",
+  'password_reset_notify'= 'password-reset-notify',
+  'email_reset_link_notify'='email-reset-link-notify',
+  'enterprise_list_display'='enterprise-list-display'
 }
 
 @Component({
@@ -32,8 +35,8 @@ enum ELoginPanels {
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent extends MessageDisplayBase implements OnInit {
-  myELoginPanels = ELoginPanels
-  panelActive = 'password-reset-notify';
+  myELoginPanels = ELoginPanels;
+  panelActive = ELoginPanels.login;
   disabeLoginButton = false;
   changePasswordToken;
   changePasswordExpireTime;
@@ -136,7 +139,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     }
     this.serverService.makePostReq<IUser>({url: sendEmailUrl, body})
       .subscribe(() => {
-        this.panelActive = 'email-reset-link-notify';
+        this.panelActive = ELoginPanels.email_reset_link_notify;
       });
   }
 
@@ -162,7 +165,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     }
     this.serverService.makePostReq<IUser>({url: resetPasswordUrl, body})
       .subscribe(() => {
-        this.panelActive = 'password-reset-notify';
+        this.panelActive = ELoginPanels.password_reset_notify;
       });
   }
 
@@ -223,7 +226,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
 
             } else {
               this.enterpriseList = this.userData.enterprises;
-              this.panelActive = 'enterprise-list-display';
+              this.panelActive = ELoginPanels.enterprise_list_display;
               console.log(this.enterpriseList);
             }
           } catch (e) {
@@ -267,8 +270,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   }
 
   enterpriseLogout() {
-    this.panelActive = 'login';
-    this.panelActive = 'login';
+    this.panelActive = ELoginPanels.login;
     this.disabeLoginButton = false;
   }
 

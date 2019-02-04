@@ -1,17 +1,18 @@
-<div *ngIf="sessions && sessions.length>0">
+<!--<button (click)="log()">log</button>-->
+
+<div>
   <app-smart-table [data]="tableData"
                    [totalRecords]="totalSessionRecords"
                    (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,reasonForDecryptionTemplate)"
                    (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate, reasonForDecryptionTemplate)"
                    (pageChanged$)="loadSessionTableDataForGivenPage($event)"
                    [showSearchInDbButton]="true"
-                   (refreshData$)="loadSmartTableSessionData()"
                    [showRefreshButton]="true"
                    (performSearchInDB$)="performSearchInDbForSession($event)"></app-smart-table>
 </div>
 
 
-<app-splash-screen *ngIf="sessions && sessions.length===0"
+<app-splash-screen *ngIf="showSplashScreen"
                    [imageHRef]="myESplashScreens.sessions"
                    [headingText]="'No sessions found'"
                    [descriptionText]="'Integrate or deploy your bot to see all conversations bot was involved in'"

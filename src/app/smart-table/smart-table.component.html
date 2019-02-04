@@ -1,5 +1,7 @@
+<!--<button (click)="log()">log</button>-->
+<!---->
 <!--https://stackblitz.com/edit/angular-hbakxo-xctfqy?file=app%2Ftable-filtering-example.ts-->
-<form #tableForm="ngForm">
+<form #tableForm="ngForm" *ngIf="tableData">
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <!-- Symbol Column -->
     <ng-container *ngFor="let i of displayedColumns">
@@ -11,12 +13,12 @@
                [title]="'Sort ' + (sortDirAsc===1?'descending':'ascending') +' by '+ i"
                class="cursor-pointer"
                style="font-size: 13px;color: #56627c; font-weight: 700"> {{i}}</div>
-          <div *ngIf="tableData[0][i].search">
+          <div *ngIf="tableData && tableData[0][i].search">
             <input class="column-input" [placeholder]="i" type="text" ngModel (keyup.enter)="performSearch()"
                    [name]="i">
           </div>
 
-          <div *ngIf="tableData[0][i].dateRange" style="position: relative">
+          <div *ngIf="tableData && tableData[0][i].dateRange" style="position: relative">
             <mat-form-field floatLabel="never">
               <input matInput
                      [name]="i"

@@ -14,8 +14,12 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.tableForm.valueChanges.subscribe((formData) => {
-      // this.dataSource = new MatTableDataSource(val);
       try {
+        let cleanedFilterData = this.removeEmptyKeyValues(formData);
+        /*if at any moment, filter data is empty => perform search in db*/
+        if(Object.keys(cleanedFilterData).length ===0){
+          this.performSearch();
+        }
         let searchDataClone = this.filterTableData(this.tableData, {...formData});
         this.dataSource = new MatTableDataSource(searchDataClone);
       } catch (e) {
@@ -25,7 +29,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   }
 
   log(x) {
-    console.log(x);
+    console.log(this._data);
   }
 
   removeEmptyKeyValues(valClone) {
@@ -62,7 +66,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     let searchFormData = this.tableForm.value;
     this.removeEmptyKeyValues(searchFormData);
     let obj = this.replaceDisplayKeyByOriginalKey(searchFormData);
-    this.performSearchInDB$.emit(obj);
+    this.performSearchInDB$.emit({...obj, page: this.currentPage});
 
   }
 
@@ -74,11 +78,15 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
 
   @Input() set data(dataValue: any[]) {
+    debugger;
     if (!dataValue) {
       return;
     }
     this._data = dataValue;
     this.dataSource = new MatTableDataSource(dataValue);
+    if(dataValue.length===0){
+      return;
+    }
     this.displayedColumns = Object.keys(dataValue[0]).filter((key) => {
       return dataValue[0][key].hasOwnProperty('value') && dataValue[0][key].hasOwnProperty('type');
     });
@@ -86,7 +94,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     this.tableData = dataValue;
 
     this.displayKeyOriginalKeyDict = this.createDisplayKeyOriginalKeyDict(dataValue);
-    
+
 
     try {
       let formData = this.tableForm && this.tableForm.value;
@@ -174,14 +182,14 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     if (this.currentPage < this.totalPageCount) {
       this.goToPage(Math.min(this.totalPageCount, this.currentPage + 1));
     }
-    this.tableForm.resetForm();
+    // this.tableForm.resetForm();
   }
 
   goToPrevPage() {
     if (this.currentPage >= 2) {
       this.goToPage(Math.max(0, this.currentPage - 1));
     }
-    this.tableForm.resetForm();
+    // this.tableForm.resetForm();
   }
 
   goToPage(currentPage) {
@@ -199,8 +207,9 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
       end = this.currentPage + 2;
     }
     this.createPaginationArray(start, end);
-    this.pageChanged$.emit(currentPage);
-    this.tableForm.resetForm();
+    // this.pageChanged$.emit({page: currentPage,  ...this.tableForm.value});
+    this.performSearch();
+    // this.tableForm.resetForm();
   }
 
   createPaginationArray(start, end) {
@@ -255,16 +264,19 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
   sortDirAsc = 1;
   sort(key){
+    debugger;
     this.sortDirAsc = this.sortDirAsc * -1;
     let tableData = this.tableData;
-    // this.tableData =
+    this.tableData =
       tableData.sort((row1, row2)=>{
-        return (row1[key].value-row2[key].value) * this.sortDirAsc;
+        let sortAsc:number = row1[key].value > row2[key].value?1:-1;
+        return sortAsc * this.sortDirAsc;
     });
     // console.log(tableData);
     this.dataSource = new MatTableDataSource(tableData);
     // this.tableData = [...tableData];
   }
+
 
 }
 
