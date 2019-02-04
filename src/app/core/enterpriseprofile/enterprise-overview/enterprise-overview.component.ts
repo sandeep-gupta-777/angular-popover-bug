@@ -19,7 +19,7 @@ import { MaterialTableImplementer } from 'src/app/material-table-implementer';
   templateUrl: './enterprise-overview.component.html',
   styleUrls: ['./enterprise-overview.component.scss']
 })
-export class EnterpriseOverviewComponent implements OnInit {
+export class EnterpriseOverviewComponent  implements OnInit {
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   loggeduserenterpriseinfoMap$: Observable<IEnterpriseProfileInfo>;
@@ -33,6 +33,7 @@ export class EnterpriseOverviewComponent implements OnInit {
   enterpriseId: number;
   loggeduserenterpriseinfo: IEnterpriseProfileInfo;
   showActiveServiceKeysTable: boolean = true;
+  expireServicekeyData;
   logoError;
   enterpriseUserBotList: number[];
   dialogRefWrapper = { ref: null };
@@ -69,6 +70,9 @@ export class EnterpriseOverviewComponent implements OnInit {
       return null;
     }
     if (data.length == 0) {
+      return null;
+    }
+    if (data.length == 1 && data[0] == {}) {
       return null;
     }
     //
@@ -167,11 +171,6 @@ export class EnterpriseOverviewComponent implements OnInit {
         this.store.dispatch([
           new SetEnterpriseServiceKeyAction({ service_key: this.serviceKeys })
         ])
-
-
-        // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter(data => data.age > 18)
-        // this.serviceKeyTableDataActive = this.transformDataForMaterialTable(array, this.getTableDataMetaDictActive());
-
       });
   }
   formGroup: FormGroup;
@@ -250,18 +249,15 @@ export class EnterpriseOverviewComponent implements OnInit {
           return -a.expired_at+b.expired_at
       })
         this.serviceKeyTableDataExpired = this.transformDataForMaterialTable(expiredTableData, this.getTableDataMetaDictActive());
-
-        // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter(data => data.age > 18)
+debugger;
         this.serviceKeyTableDataActive = this.transformDataForMaterialTable(activeTableData, this.getTableDataMetaDictExpired());
-
-        //  }
-
+debugger;
 
       });
     const enterpriselogdeletionsummary = this.constantsService.getEnterpriseLogDeletionSummaryUrl();
     this.serverService.makeGetReq<{ objects: IEnterpriseUser[] }>({ url: enterpriselogdeletionsummary })
       .subscribe((value) => {
-        this.logdeletionsummary = value.objects;
+        this.logdeletionsummary = value.objects.reverse();
       });
   }
   updateEnterpriseProfile() {
@@ -293,12 +289,12 @@ export class EnterpriseOverviewComponent implements OnInit {
       });
 
   }
-
-  customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }) {
-    if (data.action === 'expire') {
-      // console.log(data.data)
+  expireServiceKey(){
+    let data = this.expireServicekeyData;
+    // console.log(data.data)
+    debugger;
       let disableServiceKeyUrl = this.constantsService.disableServiceKeyUrl();
-      let body = { service_key: data.data.key }
+      let body = { service_key: this.expireServicekeyData.key }
       const headerData: IHeaderData = { 'content-type': 'application/json' };
       //
       this.serverService.makePostReq<any>({ url: disableServiceKeyUrl, body, headerData })
@@ -312,35 +308,17 @@ export class EnterpriseOverviewComponent implements OnInit {
               return item;
             }
           });
-
           this.serviceKeys = [...this.serviceKeys];
-
           this.utilityService.showSuccessToaster("Service key has been successfully expired");
           this.store.dispatch([
             new SetEnterpriseServiceKeyAction({ service_key: this.serviceKeys })
           ])
-
-
-
-
-
-          // console.log(value);
-          // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter((item) => item["Token Id"].searchValue !== body.service_key);
-          // this.serviceKeyTableDataExpired = [...this.serviceKeyTableDataExpired];
-          // // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter(data => data.age > 18)
-          // // this.serviceKeyTableDataActive = this.transformDataForMaterialTable(array, this.getTableDataMetaDictActive());
-          // let temp = this.transformDataForMaterialTable([data.data], this.getTableDataMetaDictExpired());
-
-          // this.serviceKeyTableDataActive.push(temp[0]);
-          // this.serviceKeyTableDataActive = [...this.serviceKeyTableDataActive];
         });
-
-
-    }
-    // if (data.action === 'modify') {
-    //   this.openUserEditModal(ModifyUserModal);
-    // }
   }
-
-
+  customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any },expireServiceKeyModal) {
+    if (data.action === 'expire') {
+      this.expireServicekeyData = data.data;
+      this.utilityService.openDangerModal(expireServiceKeyModal, this.matDialog, this.dialogRefWrapper);
+    }
+  }
 }
