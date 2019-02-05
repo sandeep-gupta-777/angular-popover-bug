@@ -46,8 +46,6 @@
           </div>
           <div class="col-12">
             <div class="form-group">
-              <!-- <label for="alterEgo">Logo Url</label><i class="text-danger pl-1" style="font-size: 11px">{{logoError}}</i>
-              <input type="text" #logoUrl class="form-control" formControlName="logo"> -->
               <mat-form-field class = "w-100">
                   <input type="text" #logoUrl class="form-control" matInput placeholder="Logo Url" formControlName="logo">
                   <mat-error *ngIf="formGroup.get('logo').getError('Image Extension is not correct')">
@@ -57,10 +55,6 @@
                         Must be Https Url
                       </mat-error>
                 </mat-form-field>
-              <!-- <i class="text-danger font-11 mr-1" *ngIf="formGroup.get('logo').getError('Image Extension is not correct')">Image
-                Extension is not correct</i>
-              <i class="text-danger font-11" *ngIf="formGroup.get('logo').getError('Must be Https Url')">Must be
-                Https Url</i> -->
             </div>
           </div>
         </div>
