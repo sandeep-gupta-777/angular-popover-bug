@@ -88,8 +88,8 @@ $mat-indigo: (
   )
 );
 
-*{
-  outline: none;
+button{
+  outline: none !important;/*removing outline that comes with material components when focused*/
 }
 
 // Plus imports for other components in your app.

@@ -13,13 +13,15 @@ import {debounce, debounceTime} from 'rxjs/internal/operators';
 })
 export class SmartTableComponent implements OnInit, AfterViewInit {
 
+  formDirty = false;
+  @Output() dataValue$ = new EventEmitter();
   ngAfterViewInit(): void {
     this.tableForm.valueChanges.pipe(debounceTime(1000)).subscribe((formData) => {
       try {
         let cleanedFilterData = this.removeEmptyKeyValues(formData);
         /*if at any moment, filter data is empty => perform search in db*/
         if(Object.keys(cleanedFilterData).length ===0){
-          this.performSearch();
+          this.performSearch({page:1});
         }
         let searchDataClone = this.filterTableData(this.tableData, {...formData});
         this.dataSource = new MatTableDataSource(searchDataClone);
@@ -63,11 +65,27 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     return obj;
   }
 
-  performSearch() {
+  enterPressedOnFilters(){
+    if(this.tableForm.touched){
+      this.currentPage = 1;
+      this.tableForm.form.markAsUntouched();
+    }
     let searchFormData = this.tableForm.value;
     this.removeEmptyKeyValues(searchFormData);
     let obj = this.replaceDisplayKeyByOriginalKey(searchFormData);
-    this.performSearchInDB$.emit({...obj, page: this.currentPage});
+    this.performSearch({...obj, page: this.currentPage});
+  }
+
+  performSearch(filterObj:object) {
+    // if(this.tableForm.touched){
+    //   this.currentPage = 1;
+    //   this.tableForm.form.markAsUntouched();
+    // }
+    // let searchFormData = this.tableForm.value;
+    // this.removeEmptyKeyValues(searchFormData);
+    // let obj = this.replaceDisplayKeyByOriginalKey(searchFormData);
+    // this.performSearchInDB$.emit({...obj, page: this.currentPage});
+    this.performSearchInDB$.emit(filterObj);
 
   }
 
@@ -205,7 +223,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     }
     this.createPaginationArray(start, end);
     // this.pageChanged$.emit({page: currentPage,  ...this.tableForm.value});
-    this.performSearch();
+    this.performSearch({page:currentPage});
     // this.tableForm.resetForm();
   }
 
@@ -277,6 +295,15 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     // console.log(tableData);
     this.dataSource = new MatTableDataSource(tableData);
     // this.tableData = [...tableData];
+  }
+
+
+  handleDataValueClicked(event){
+    debugger;
+    let dataValue =  event.target.getAttribute("data-value");
+    if(dataValue){
+      this.dataValue$.emit(dataValue);
+    }
   }
 
 

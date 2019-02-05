@@ -14,6 +14,7 @@ import { IUser } from '../../interfaces/user';
 import { IEnterpriseUser } from '../../interfaces/enterprise-users';
 import { map } from 'rxjs/operators';
 import { MaterialTableImplementer } from 'src/app/material-table-implementer';
+import {DomSanitizer} from '@angular/platform-browser';
 @Component({
   selector: 'app-enterprise-overview',
   templateUrl: './enterprise-overview.component.html',
@@ -71,15 +72,25 @@ export class EnterpriseOverviewComponent implements OnInit {
     if (data.length == 0) {
       return null;
     }
-    //
     let x = data.map((consumerTableDataItem) => {
       let obj: any = {};
       //
 
       for (let key in tableDataMetaDict) {
-        //
+        //||
 
-        if (key == 'key' || key == 'description') {
+        if (key == 'key' ) {
+          obj[tableDataMetaDict[key].displayValue] = {
+            ...tableDataMetaDict[key],
+            originalKey: key,
+            // value: consumerTableDataItem[key].substring(0, 50),
+            value: `<div class="d-flex cursor-pointer">
+                        <i class="fa fa-copy" data-value="${consumerTableDataItem[key]}" ></i> 
+                        <span>${consumerTableDataItem[key]}</span>
+                     </div>`,
+            searchValue: consumerTableDataItem[key]
+          };
+        }else if (key == 'description') {
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
             originalKey: key,
@@ -340,6 +351,10 @@ export class EnterpriseOverviewComponent implements OnInit {
     // if (data.action === 'modify') {
     //   this.openUserEditModal(ModifyUserModal);
     // }
+  }
+
+  dataValueClicked(dataValue){
+    this.utilityService.copyToClipboard(dataValue);
   }
 
 

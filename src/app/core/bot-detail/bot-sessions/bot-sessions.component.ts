@@ -133,6 +133,8 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       additonalColumns['Channels'].value = additonalColumns['Channels'].value || [];
       /*actions*/
       additonalColumns['Actions'].value.push({show: true, name: 'download', class: 'fa fa-download'});
+
+      /*TODO: also check if the user has access to decrypt api*/
       if (sessionsDataForTableItem['originalSessionData']['data_encrypted']) {
         additonalColumns['Actions'].value.push({show: true, name: 'decrypt', class: 'fa fa-lock'});
       }

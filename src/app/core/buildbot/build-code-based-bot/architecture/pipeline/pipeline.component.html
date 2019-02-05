@@ -1,5 +1,5 @@
-<!--<i>{{_expandedPipelineModules|json}}</i>-->
-<section class="d-flex h-100">
+
+<section class="d-flex h-100" *ngIf="aiModules">
 
   <div style="height:100%;overflow-y: scroll; flex: 2; padding-right: 10px; position: relative">
     <!--<div style="height: 32px"></div>-->
@@ -85,8 +85,8 @@
           <img [src]="aiModule.pipeLineSrc ||pipeLineSrc"
                style="margin-right: 8px" alt="">
           <div class="d-flex flex-column">
-            <span class="module">{{(aiModule.id|pipelineIdToPipelineModule).unique_name}}</span>
-            <span class="library">{{aiModule.unique_name|titlecase}}</span>
+            <span class="module">{{aiModule.unique_name|titlecase}}</span>
+            <span class="library">{{(aiModule.id|pipelineIdToPipelineModule).library}}</span>
           </div>
           <span class="ml-auto"></span>
           <i *ngIf="aiModule && aiModule.input_params && myObject.keys(aiModule.input_params).length>0"
@@ -106,6 +106,10 @@
     </div>
   </div>
 </section>
+
+<div style="position: absolute; top: 0; left: 0;right: 0; bottom: 0; display: flex; justify-content: center; align-items: center">
+  You don't have access to pipelines.
+</div>
 
 <ng-template #Primarytemplat>
   <div class="primary-modal">
@@ -145,7 +149,7 @@
 
         </div>
         <button class="btn-theme btn-theme-success-sm"
-                (click)="submitPipeline(Pipelineform); dialogRefWrapper.ref.close(true)">Submit1
+                (click)="submitPipeline(Pipelineform); dialogRefWrapper.ref.close(true)">Submit
         </button>
       </form>
 
