@@ -127,6 +127,9 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   ngOnInit() {
 
     this.loggeduser$.subscribe((loggeduserState) => {
+      if(!loggeduserState.user){
+        return;
+      }
       this.role = loggeduserState.user.role.name;
       this.showViewChangeToggle = this.role === ERoleName.Admin || this.role === ERoleName['Bot Developer'];
     });

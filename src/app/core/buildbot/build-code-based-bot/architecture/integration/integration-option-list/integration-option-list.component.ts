@@ -59,6 +59,9 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.app$.subscribe((value) => {
       this.masterIntegrationList = value.masterIntegrationList;
+      if(value.masterIntegrationList){
+        return;
+      }
       this.integration_types =  Array.from(new Set(this.masterIntegrationList.map(item => item.integration_type)));
     });
     this.routeParent = this.activatedRoute.snapshot.data;

@@ -20,7 +20,7 @@ export class MessageDisplayBase {
   }
   flashInfoMessage(message: string, time_ms: number = 3000) {
     // this.addOneDotInInfoMessageSetIntervalRef && clearInterval(this.addOneDotInInfoMessageSetIntervalRef);
-    // this.infoMessage = message;
+    this.infoMessage = message;
     // this.errorMessage = '';
     // try {
     //   this.setIntervelRef = this.addOneDotInInfoMessage();

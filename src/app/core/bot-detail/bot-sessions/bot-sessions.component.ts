@@ -378,7 +378,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         let x: any;
         dataCopy.updated_at =
           this.utilityService.convertDateObjectStringToYYYYMMDD((<any>filterData).updated_at.begin.getTime(), '-') + ',';
-        x = this.utilityService.convertDateObjectStringToYYYYMMDD((<any>filterData).updated_at.end.getTime(), '-');
+        x = this.utilityService.convertDateObjectStringToYYYYMMDD((<any>filterData).updated_at.end.getTime(), '-') + " 23:59";
         dataCopy.updated_at += x;
         dataCopy.updated_at__range = dataCopy.updated_at;
         delete dataCopy.updated_at;

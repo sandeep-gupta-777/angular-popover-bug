@@ -246,9 +246,10 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
           shouldInclude = shouldInclude &&
             rowDataObj[searchKey]['searchValue'].toString().includes(searchDataClone[searchKey]);
         } else if (rowDataObj[searchKey]['dateRange'] === true) {
+          debugger;
           let filterDateRangeObj: { begin: Date, end: Date } = formData[searchKey];
           let startTimeStamp: number = new Date(filterDateRangeObj.begin).getTime();
-          let endTimeStamp: number = new Date(filterDateRangeObj.end).getTime();
+          let endTimeStamp: number = (this.addADayToDate(new Date(filterDateRangeObj.end))).getTime();
           let cellValueTimeStamp = new Date(rowDataObj[searchKey].value).getTime();
           shouldInclude = startTimeStamp <= cellValueTimeStamp && endTimeStamp >= cellValueTimeStamp
         } else {
@@ -257,6 +258,10 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
       }
       return shouldInclude;
     });
+  }
+
+  addADayToDate(date: Date):Date{
+    return new Date(date.setDate(date.getDate() + 1))
   }
 
   sortDirAsc = 1;

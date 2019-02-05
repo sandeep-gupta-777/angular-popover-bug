@@ -67,8 +67,8 @@
   </div>
   <div class="pipeline-wrapper d-flex flex-column" style="height: 95%;overflow-y: auto; flex: 1; padding-left: 16px">
     <h4
-            class="heading p-2 m-1"
-            style="position: sticky; top: 0; left: 0; right: 0">
+            class="heading p-2 m-1 px-0"
+            style="position: sticky; top: 0; left: 0; right: 0; background-color: white">
       Bot Intelligence Pipeline ({{pipeLine && pipeLine.length}})
     </h4>
     <div class="flex-grow-1">
@@ -85,7 +85,7 @@
           <img [src]="aiModule.pipeLineSrc ||pipeLineSrc"
                style="margin-right: 8px" alt="">
           <div class="d-flex flex-column">
-            <span class="module">{{aiModule.module|titlecase }}</span>
+            <span class="module">{{(aiModule.id|pipelineIdToPipelineModule).unique_name}}</span>
             <span class="library">{{aiModule.unique_name|titlecase}}</span>
           </div>
           <span class="ml-auto"></span>
@@ -114,7 +114,6 @@
       <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
-
     </div>
 
     <div class="modal-body pt-0">
@@ -146,7 +145,7 @@
 
         </div>
         <button class="btn-theme btn-theme-success-sm"
-                (click)="submitPipeline(Pipelineform); dialogRefWrapper.ref.close(true)">Submit
+                (click)="submitPipeline(Pipelineform); dialogRefWrapper.ref.close(true)">Submit1
         </button>
       </form>
 
