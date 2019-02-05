@@ -3,7 +3,8 @@ import {AfterViewInit, Component, EventEmitter, Input, IterableDiffers, OnChange
 import {Observable} from 'rxjs';
 import {LoggingService} from '../logging.service';
 import {MatTableDataSource} from '@angular/material';
-import {FormControl, NgForm} from '@angular/forms';
+import {FormControl, FormGroup, NgForm} from '@angular/forms';
+import {debounce, debounceTime} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-smart-table',
@@ -13,7 +14,7 @@ import {FormControl, NgForm} from '@angular/forms';
 export class SmartTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
-    this.tableForm.valueChanges.subscribe((formData) => {
+    this.tableForm.valueChanges.pipe(debounceTime(1000)).subscribe((formData) => {
       try {
         let cleanedFilterData = this.removeEmptyKeyValues(formData);
         /*if at any moment, filter data is empty => perform search in db*/
@@ -78,7 +79,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
 
   @Input() set data(dataValue: any[]) {
-    debugger;
+
     if (!dataValue) {
       return;
     }
@@ -139,10 +140,6 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   totalPageCount;
   @Input() settings;
   math = Math;
-
-  constructor(private _iterableDiffers: IterableDiffers) {
-    this.iterableDiffer = this._iterableDiffers.find([]).create(null);
-  }
 
   positionFilter = new FormControl();
   nameFilter = new FormControl();
@@ -264,7 +261,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
   sortDirAsc = 1;
   sort(key){
-    debugger;
+
     this.sortDirAsc = this.sortDirAsc * -1;
     let tableData = this.tableData;
     this.tableData =

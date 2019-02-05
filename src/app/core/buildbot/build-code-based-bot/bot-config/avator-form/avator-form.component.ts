@@ -46,7 +46,7 @@ export class AvatorFormComponent implements OnInit {
   };
 
   ngOnInit() {
-    debugger;
+
     this.formGroup = this.formBuilder.group({
       avatars: this.formBuilder.array([])
     });
@@ -64,7 +64,7 @@ export class AvatorFormComponent implements OnInit {
     this.datachanged$.emit({...this.formGroup.value, ...avatarValidationObj});
 
     this.formGroup.valueChanges.pipe(debounceTime(200)).subscribe((data: any) => {
-      debugger;
+
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) {
         return;
       }
