@@ -40,6 +40,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   disabeLoginButton = false;
   changePasswordToken;
   changePasswordExpireTime;
+  bc;
 
   enterpriseList: any[];
   userData: IUser;
@@ -67,8 +68,18 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   @ViewChild('resetPasswordForm') r: NgForm;
   gotUserData$ = new EventEmitter();
   showCustomEmails = false;
-
+  timestamp = new Date();
   ngOnInit() {
+    // this.bc = new BroadcastChannel('test_channel');
+    // this.bc.onmessage = (ev) => {
+    //   console.clear();
+    //   console.log(ev);
+    //   debugger;
+    //   if(ev.data != this.timestamp){
+    //     location.reload();
+    //   }
+    //
+    // }
     try {
       /*replace with plateform.id*/
       localStorage.clear();
@@ -109,6 +120,9 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
             this.serverService.getNSetIntegrationList();
 
             this.serverService.getNSetPipelineModuleV2();
+            setTimeout(()=>{
+              // this.bc.postMessage(this.timestamp);
+            },10000);
 
           }, () => {
             this.disabeLoginButton = false;

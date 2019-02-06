@@ -35,8 +35,8 @@ export class AppComponent extends DebugBase implements OnInit {
   editor: any;
   currentIntervalRef;
 
-  ngOnInit() {
 
+  ngOnInit() {
     this.initializeProgressBarSubscription();
 
     this.router.events.subscribe((data) => {

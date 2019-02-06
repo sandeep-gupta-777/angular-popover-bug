@@ -29,6 +29,7 @@ import { MatDialog } from '@angular/material';
 })
 export class HeaderComponent extends ModalImplementer implements OnInit {
 
+  bc
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   @Select() app$: Observable<IAppState>;
@@ -59,6 +60,10 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   }
 
   ngOnInit() {
+    this.bc = new BroadcastChannel('test_channel');
+    this.bc.onmessage = (ev) => {
+      location.reload();
+    };
     let getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
 
     this.serverService.makeGetReq({ url: getAllEnterpriseUrl })
@@ -129,8 +134,14 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     // })
   }
 
+  test(){
+    this.bc.postMessage('This is a test message.');
+  }
+
   logout() {
+    console.log("==================================");
     localStorage.clear();
+    this.bc.postMessage('This is a test message.');
     // this.store.reset({});
     this.url = this.constantsService.getLogoutUrl();
     this.serverService.makeGetReq({ url: this.url })
@@ -216,6 +227,6 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     else{
       this.utilityService.showErrorToaster("Please verify this enterprise before trying to login.")
     }
-    
+
   }
 }
