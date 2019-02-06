@@ -38,7 +38,8 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     private router: Router,
     public matDialog:MatDialog,
     public  utilityService: UtilityService,
-    private constantsService: ConstantsService) {
+    private constantsService: ConstantsService,
+    ) {
     super(utilityService, matDialog);
   }
 
@@ -91,13 +92,20 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     if (!body.logo) {
       body.logo = 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png';
     }
+    debugger;
     this.serverService.makePutReq({url, body, headerData})
       .subscribe((updatedBot: IBot) => {
+        debugger;
         EventService.botUpdatedInServer.emit(updatedBot);
         this.store.dispatch([
           new UpdateBotInfoByIdInBotInBotList({botId: this.bot.id, data: updatedBot})
         ]);
         this.utilityService.showSuccessToaster('Bot updated');
+      },
+      err  => {
+        debugger;
+        EventService.codeValidationErrorOnUpdate$.emit(err.error);
+        console.log("emited this :::::::::::::",err.error);
       });
   }
 
