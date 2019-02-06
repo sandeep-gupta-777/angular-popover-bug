@@ -4,13 +4,16 @@ const fs = require('fs');
 
 
 async function runCommand(str) {
-    return await exec(str);
+    // console.log((await exec(str)).stdout);
+    return (await exec(str)).stdout.trim();
 }
 
-function f() {
-    let currentBranch = `git rev-parse --abbrev-ref HEAD`;
-    let lastCommit = `git log -1`
-    fs.writeFileSync('D:\\nodebook\\DEVELOP\\bot_platform-fe\\dist\\botPlateformFE\\git-info.json',
-        {currentBranch,lastCommit});
+async function f() {
+    let currentBranch = await runCommand(`git rev-parse --abbrev-ref HEAD`);
+    console.log(currentBranch);
+    let lastCommit = await runCommand(`git log -1`);
+    fs.writeFileSync('D:\\nodebook\\DEVELOP\\bot_platform-fe\\src\\git-info.json',
+        JSON.stringify({currentBranch,lastCommit}));
 }
+f();
 
