@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import set = Reflect.set;
+import {LoggingService} from '../../../logging.service';
 
 @Component({
   selector: 'app-bot-thinking-bubble',
@@ -17,6 +18,7 @@ export class BotThinkingBubbleComponent implements OnInit {
   randomNumber = 1;
   ngOnInit() {
     setInterval(() => {
+      LoggingService.log('setInterval');
       this.randomNumber = this.randomNumber > 3 ? 1 : this.randomNumber + 1;
     }, 400);
   }

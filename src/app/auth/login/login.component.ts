@@ -58,8 +58,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
 
   loginEmails = [
     'ayeshreddy.k@imimobile.com',
-    'qa.analyst_1537783720606@imimobile.com',
-    'qa.dev_1537783640111@imimobile.com',
+    'puspita.m@imimobile.com/Test@1234',
+    'puspita.m@gmail.com/Test@1234',
     'qa.tester_1537783698819@imimobile.com',
   ];
   isConfigDataSet = false;

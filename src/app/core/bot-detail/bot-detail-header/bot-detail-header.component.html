@@ -63,7 +63,7 @@
     <div class="modal-header">
       <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete bot&nbsp;{{ bot.name}}&nbsp;
         ?</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -74,7 +74,7 @@
           <p class="mb-3">This action cannot be undone.Are you sure you wish to delete?</p>
 
         </div>
-        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
         <button class=" btn-theme btn-theme-danger" (click)="deleteBot()">Delete</button>
       </form>
     </div>
@@ -87,7 +87,7 @@
     <div class="top-dec"></div>
     <div class="modal-header">
       <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Active version changed</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -98,7 +98,7 @@
           <p class="mb-3">If you update the bot your currently selected version will be the new Active version.</p>
 
         </div>
-        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
         <button class=" btn-theme btn-theme-danger" (click)="updateBot()">Update</button>
       </form>
     </div>

@@ -1,5 +1,5 @@
 
-<section class="d-flex h-100" *ngIf="aiModules">
+<section class="d-flex h-100" *ngIf="pipelineModulesV2List">
 
   <div style="height:100%;overflow-y: scroll; flex: 2; padding-right: 10px; position: relative">
     <!--<div style="height: 32px"></div>-->
@@ -107,7 +107,7 @@
   </div>
 </section>
 
-<div style="position: absolute; top: 0; left: 0;right: 0; bottom: 0; display: flex; justify-content: center; align-items: center">
+<div *ngIf="!pipelineModulesV2List" style="position: absolute; top: 0; left: 0;right: 0; bottom: 0; display: flex; justify-content: center; align-items: center">
   You don't have access to pipelines.
 </div>
 

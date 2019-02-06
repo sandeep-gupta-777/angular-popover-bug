@@ -87,7 +87,8 @@ export enum EAllActions {
   'Get Bot Knowledge base' = 'Get Bot Knowledge base',
   'Create Bot Knowledge base' = 'Create Bot Knowledge base',
   'Update Bot Knowledge base' = 'Update Bot Knowledge base',
-  'Delete Bot Knowledge base' = 'Delete Bot Knowledge base'
+  'Delete Bot Knowledge base' = 'Delete Bot Knowledge base',
+  'ModuleDetail' = 'ModuleDetail'
 }
 
 export const ERouteNames = EAllActions;
@@ -191,7 +192,7 @@ export class ConstantsService {
   getEnterpriseLoginUrl() {
     return this.BACKEND_URL + 'api/v1/user/enterprise_login/';
   }
-  
+
   generateServiceKeyUrl() {
     return this.BACKEND_URL + 'api/v1/enterprise/generate_service_key/';
   }
@@ -309,7 +310,7 @@ export class ConstantsService {
   }
   updateUserUrl(user_id : number){
     return this.BACKEND_URL + `api/v1/user/${user_id}/`;
-    
+
   }
   getNSetChatPreviewBotUrl(bot_unique_name, enterprise_unique_name) {
     // http://localhost:8000/api/v1/logout/;
@@ -712,7 +713,7 @@ export class ConstantsService {
       column: {
         stacking: 'percent'
       },
-      
+
       series: {
         pointStart: Date.UTC(2018, 6, 20),
         pointInterval: 24 * 3600 * 1000
@@ -1079,7 +1080,7 @@ export class ConstantsService {
       type: 'string',
       displayValue: 'Expired by',
     }
-    
+
   }
 
   readonly SMART_TABLE_SERVICE_KEY_ACTIVE: any = {
@@ -1116,7 +1117,7 @@ export class ConstantsService {
       name: '',
 
     }
-    
+
   }
 
   SMART_TABLE_USER_DICT_TEMPLATE: ITableColumn = {

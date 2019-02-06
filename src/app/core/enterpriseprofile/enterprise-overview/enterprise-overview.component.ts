@@ -333,13 +333,9 @@ debugger;
       this.utilityService.openDangerModal(expireServiceKeyModal, this.matDialog, this.dialogRefWrapper);
     }
   }
-<<<<<<< HEAD
 
   dataValueClicked(dataValue){
     this.utilityService.copyToClipboard(dataValue);
   }
 
-
-=======
->>>>>>> a0e2f4cd8d3f25195e4fb64887c4988fa5d56f25
 }

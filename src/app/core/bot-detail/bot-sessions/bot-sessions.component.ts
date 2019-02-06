@@ -311,6 +311,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     const url = this.constantsService.getDecryptUrl();
     this.serverService.makePostReq({headerData, body, url})
       .subscribe(() => {
+        debugger;
         this.decryptReason = null;
         const surl = this.constantsService.getSessionsByIdUrl(sessionTobeDecryptedId);
         this.serverService.makeGetReq({url: surl, headerData})

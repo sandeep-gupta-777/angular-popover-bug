@@ -295,6 +295,7 @@ export class ServerService {
 
 
   getNSetPipelineModuleV2() {
+        debugger;
     const url = this.constantsService.getPipelineModuleV2();
     return this.makeGetReq<{ meta: any, objects: IPipelineItemV2[] }>({url})
       .subscribe((value) => {
