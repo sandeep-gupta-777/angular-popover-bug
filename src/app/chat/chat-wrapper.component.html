@@ -235,6 +235,7 @@
       [selectedAvatar]="selectedAvatar"
       [showBotIsThinking]="showBotIsThinking"
       [room]="currentRoom"
+      [allow_feedback]="currentBot.allow_feedback"
       (sendMessageByHuman$)="sendMessageByHuman($event)"
       (chatMessageFeedback$)="sendFeedback($event)"
       [messageDataArray]="messageData">
