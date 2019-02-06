@@ -263,7 +263,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
           shouldInclude = shouldInclude &&
             rowDataObj[searchKey]['searchValue'].toString().includes(searchDataClone[searchKey]);
         } else if (rowDataObj[searchKey]['dateRange'] === true) {
-          debugger;
+
           let filterDateRangeObj: { begin: Date, end: Date } = formData[searchKey];
           let startTimeStamp: number = new Date(filterDateRangeObj.begin).getTime();
           let endTimeStamp: number = (this.addADayToDate(new Date(filterDateRangeObj.end))).getTime();
@@ -298,7 +298,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
 
   handleDataValueClicked(event){
-    debugger;
+
     let dataValue =  event.target.getAttribute("data-value");
     if(dataValue){
       this.dataValue$.emit(dataValue);

@@ -68,7 +68,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
       return;
     }
     this._allbotList = _allbotList;
-    debugger;
+
     this.codebasedBotList = this._allbotList.filter((bot) => bot.bot_type === EBotType.chatbot);
     if (this.f && _allbotList && _allbotList.length > 0) {
       this.f.form.patchValue({botId: this._allbotList[0].id, platform: this.channelList[0].name});

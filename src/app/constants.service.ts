@@ -342,7 +342,7 @@ export class ConstantsService {
   }
 
   getSessionsByIdUrl(id) {
-    return this.BACKEND_URL + `api/v1/room/${id}/`; //https://dev.imibot.ai/api/v1/room/9913/
+    return this.BACKEND_URL + `api/v1/room/?id=${id}`; //https://dev.imibot.ai/api/v1/room/9913/
   }
 
   getSessionsMessageUrl(room_id: number) {

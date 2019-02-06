@@ -92,10 +92,10 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     if (!body.logo) {
       body.logo = 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png';
     }
-    debugger;
+
     this.serverService.makePutReq({url, body, headerData})
       .subscribe((updatedBot: IBot) => {
-        debugger;
+
         EventService.botUpdatedInServer.emit(updatedBot);
         this.store.dispatch([
           new UpdateBotInfoByIdInBotInBotList({botId: this.bot.id, data: updatedBot})
@@ -103,7 +103,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
         this.utilityService.showSuccessToaster('Bot updated');
       },
       err  => {
-        debugger;
+
         EventService.codeValidationErrorOnUpdate$.emit(err.error);
         console.log("emited this :::::::::::::",err.error);
       });
@@ -133,9 +133,9 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
   }
   dialogRefWrapper = {ref:null};
   openActiveBotChangedModal(template: TemplateRef<any>) {
-    debugger;
+
     if (this.bot.store_selected_version && this.bot.store_selected_version !== this.bot.active_version_id) {
-      debugger;
+
       let selectedVersion = this.bot.store_bot_versions.find(value => value.id == this.bot.store_selected_version);
       if(selectedVersion.changed_fields['df_template']||
         selectedVersion.changed_fields['df_rules']||

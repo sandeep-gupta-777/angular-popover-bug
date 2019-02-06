@@ -59,9 +59,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
 
   loginEmails = [
     'ayeshreddy.k@imimobile.com',
-    'puspita.m@imimobile.com/Test@1234',
-    'puspita.m@gmail.com/Test@1234',
-    'qa.tester_1537783698819@imimobile.com',
+    'puspita.m@imimobile.com',
+    'puspita.m@gmail.com'
   ];
   isConfigDataSet = false;
   @ViewChild('loginForm') loginForm: NgForm;
@@ -75,7 +74,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     // this.bc.onmessage = (ev) => {
     //   console.clear();
     //   console.log(ev);
-    //   debugger;
+    //
     //   if(ev.data != this.timestamp){
     //     location.reload();
     //   }
@@ -110,20 +109,18 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
           .subscribe(() => {
             this.flashInfoMessage('Loading your dashboard', 10000);
             /*after login, route to appropriate page according to user role*/
-            if (userValue.role.name === ERoleName.Analyst) {
-              this.router.navigate(['/core/analytics2']);
-            } else {
-              this.router.navigate(['/']);
-            }
+
 
             this.serverService.getNSetBotList().subscribe(() => {
+              this.serverService.getNSetIntegrationList();
+              this.serverService.getNSetPipelineModuleV2();
+              if (userValue.role.name === ERoleName.Analyst) {
+                this.router.navigate(['/core/analytics2/volume']);
+              } else {
+                this.router.navigate(['/']);
+              }
             });
-            this.serverService.getNSetIntegrationList();
 
-            this.serverService.getNSetPipelineModuleV2();
-            setTimeout(()=>{
-              // this.bc.postMessage(this.timestamp);
-            },10000);
 
           }, () => {
             this.disabeLoginButton = false;
@@ -290,7 +287,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   }
 
   loginWithCustomEmail(email) {
-    this.loginForm.form.patchValue({email: email, password: 'Botwoman@123!'});
+    this.loginForm.form.patchValue({email: email, password: 'Test@1234'});
     this.onSubmit();
   }
 
