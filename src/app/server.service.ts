@@ -133,7 +133,7 @@ export class ServerService {
       LoggingService.error(e);
       // this.utilityService.showErrorToaster(e);
     }
-    return _throw('error');
+    return _throw(e);
   }
 
   makeGetReqToDownloadFiles(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }) {
