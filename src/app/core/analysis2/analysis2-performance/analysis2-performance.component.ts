@@ -65,7 +65,7 @@ export class Analysis2PerformanceComponent implements OnInit {
       .subscribe((value: IAnalysis2State) => {
         try {
 
-          const granularity = value.analysisHeaderData.granularity;
+          const granularity:string = value.analysisHeaderData.granularity;
           const granularity_ms: number = this.u.convertGranularityStrToMs(granularity);
 
           this.chartValue =
@@ -78,7 +78,7 @@ export class Analysis2PerformanceComponent implements OnInit {
               value[this.activeTab],
               'labels',
               new Date(value.analysisHeaderData.startdate).getTime(),
-              granularity_ms);
+              granularity);
 
           this.chartValue2 =
             <any>this.u.convertDateTimeTwoBarGraph(

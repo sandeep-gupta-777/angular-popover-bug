@@ -28,4 +28,8 @@ export class SimpleTableComponent implements OnInit {
     this.pipeline_modules = this.tableData.pipeline_modules;
   }
 
+  log(x){
+    console.log(x);
+  }
+
 }

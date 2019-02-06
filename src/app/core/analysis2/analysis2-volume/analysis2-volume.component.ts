@@ -60,7 +60,7 @@ export class Analysis2VolumeComponent implements OnInit {
     this.analysisstate2$
       .subscribe((value: IAnalysis2State) => {
         try {
-          debugger;
+
           const granularity = value.analysisHeaderData.granularity;
           const granularity_ms: number = this.u.convertGranularityStrToMs(granularity);
           //
@@ -69,7 +69,7 @@ export class Analysis2VolumeComponent implements OnInit {
               value[this.activeTab],
               'labels',
               new Date(value.analysisHeaderData.startdate).getTime(),
-              granularity_ms);
+              granularity);;
 
         } catch (e) {
           // LoggingService.error(e);

@@ -3,7 +3,8 @@ import {AfterViewInit, Component, EventEmitter, Input, IterableDiffers, OnChange
 import {Observable} from 'rxjs';
 import {LoggingService} from '../logging.service';
 import {MatTableDataSource} from '@angular/material';
-import {FormControl, NgForm} from '@angular/forms';
+import {FormControl, FormGroup, NgForm} from '@angular/forms';
+import {debounce, debounceTime} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-smart-table',
@@ -12,10 +13,16 @@ import {FormControl, NgForm} from '@angular/forms';
 })
 export class SmartTableComponent implements OnInit, AfterViewInit {
 
+  formDirty = false;
+  @Output() dataValue$ = new EventEmitter();
   ngAfterViewInit(): void {
-    this.tableForm.valueChanges.subscribe((formData) => {
-      // this.dataSource = new MatTableDataSource(val);
+    this.tableForm.valueChanges.pipe(debounceTime(1000)).subscribe((formData) => {
       try {
+        let cleanedFilterData = this.removeEmptyKeyValues(formData);
+        /*if at any moment, filter data is empty => perform search in db*/
+        if(Object.keys(cleanedFilterData).length ===0){
+          this.performSearch({page:1});
+        }
         let searchDataClone = this.filterTableData(this.tableData, {...formData});
         this.dataSource = new MatTableDataSource(searchDataClone);
       } catch (e) {
@@ -25,7 +32,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   }
 
   log(x) {
-    console.log(x);
+    console.log(this._data);
   }
 
   removeEmptyKeyValues(valClone) {
@@ -58,11 +65,27 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     return obj;
   }
 
-  performSearch() {
+  enterPressedOnFilters(){
+    if(this.tableForm.touched){
+      this.currentPage = 1;
+      this.tableForm.form.markAsUntouched();
+    }
     let searchFormData = this.tableForm.value;
     this.removeEmptyKeyValues(searchFormData);
     let obj = this.replaceDisplayKeyByOriginalKey(searchFormData);
-    this.performSearchInDB$.emit(obj);
+    this.performSearch({...obj, page: this.currentPage});
+  }
+
+  performSearch(filterObj:object) {
+    // if(this.tableForm.touched){
+    //   this.currentPage = 1;
+    //   this.tableForm.form.markAsUntouched();
+    // }
+    // let searchFormData = this.tableForm.value;
+    // this.removeEmptyKeyValues(searchFormData);
+    // let obj = this.replaceDisplayKeyByOriginalKey(searchFormData);
+    // this.performSearchInDB$.emit({...obj, page: this.currentPage});
+    this.performSearchInDB$.emit(filterObj);
 
   }
 
@@ -79,6 +102,9 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     }
     this._data = dataValue;
     this.dataSource = new MatTableDataSource(dataValue);
+    if(dataValue.length===0){
+      return;
+    }
     this.displayedColumns = Object.keys(dataValue[0]).filter((key) => {
       return dataValue[0][key].hasOwnProperty('value') && dataValue[0][key].hasOwnProperty('type');
     });
@@ -86,7 +112,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     this.tableData = dataValue;
 
     this.displayKeyOriginalKeyDict = this.createDisplayKeyOriginalKeyDict(dataValue);
-    
+
 
     try {
       let formData = this.tableForm && this.tableForm.value;
@@ -132,10 +158,6 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   @Input() settings;
   math = Math;
 
-  constructor(private _iterableDiffers: IterableDiffers) {
-    this.iterableDiffer = this._iterableDiffers.find([]).create(null);
-  }
-
   positionFilter = new FormControl();
   nameFilter = new FormControl();
 
@@ -174,14 +196,14 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     if (this.currentPage < this.totalPageCount) {
       this.goToPage(Math.min(this.totalPageCount, this.currentPage + 1));
     }
-    this.tableForm.resetForm();
+    // this.tableForm.resetForm();
   }
 
   goToPrevPage() {
     if (this.currentPage >= 2) {
       this.goToPage(Math.max(0, this.currentPage - 1));
     }
-    this.tableForm.resetForm();
+    // this.tableForm.resetForm();
   }
 
   goToPage(currentPage) {
@@ -199,8 +221,9 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
       end = this.currentPage + 2;
     }
     this.createPaginationArray(start, end);
-    this.pageChanged$.emit(currentPage);
-    this.tableForm.resetForm();
+    // this.pageChanged$.emit({page: currentPage,  ...this.tableForm.value});
+    this.performSearch({page:currentPage});
+    // this.tableForm.resetForm();
   }
 
   createPaginationArray(start, end) {
@@ -240,9 +263,10 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
           shouldInclude = shouldInclude &&
             rowDataObj[searchKey]['searchValue'].toString().includes(searchDataClone[searchKey]);
         } else if (rowDataObj[searchKey]['dateRange'] === true) {
+          debugger;
           let filterDateRangeObj: { begin: Date, end: Date } = formData[searchKey];
           let startTimeStamp: number = new Date(filterDateRangeObj.begin).getTime();
-          let endTimeStamp: number = new Date(filterDateRangeObj.end).getTime();
+          let endTimeStamp: number = (this.addADayToDate(new Date(filterDateRangeObj.end))).getTime();
           let cellValueTimeStamp = new Date(rowDataObj[searchKey].value).getTime();
           shouldInclude = startTimeStamp <= cellValueTimeStamp && endTimeStamp >= cellValueTimeStamp
         } else {
@@ -253,18 +277,34 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     });
   }
 
+  addADayToDate(date: Date):Date{
+    return new Date(date.setDate(date.getDate() + 1))
+  }
+
   sortDirAsc = 1;
   sort(key){
+
     this.sortDirAsc = this.sortDirAsc * -1;
     let tableData = this.tableData;
-    // this.tableData =
+    this.tableData =
       tableData.sort((row1, row2)=>{
-        return (row1[key].value-row2[key].value) * this.sortDirAsc;
+        let sortAsc:number = row1[key].value > row2[key].value?1:-1;
+        return sortAsc * this.sortDirAsc;
     });
     // console.log(tableData);
     this.dataSource = new MatTableDataSource(tableData);
     // this.tableData = [...tableData];
   }
+
+
+  handleDataValueClicked(event){
+    debugger;
+    let dataValue =  event.target.getAttribute("data-value");
+    if(dataValue){
+      this.dataValue$.emit(dataValue);
+    }
+  }
+
 
 }
 

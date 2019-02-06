@@ -12,7 +12,7 @@
   <section class="row basic-row bottom-border-line">
     <div class="col-1 logo-wrapper-col ">
       <div class="logo-wrapper">
-        <img [src]="logoUrl.value || loggeduserenterpriseinfo.logo" alt="">
+        <img [src]="logoUrl.value" alt="">
       </div>
     </div>
     <div class="col-11">
@@ -151,6 +151,7 @@
 <div class="row profile-row" *ngIf = "!!serviceKeyTableDataExpired && showActiveServiceKeysTable" >
   <div class="col-12 p-0 m-0">
     <app-smart-table  [data]="serviceKeyTableDataExpired"
+                      (dataValue$)="dataValueClicked($event)"
     (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,expireServiceKeyModal)"
     >
     </app-smart-table>
@@ -173,16 +174,16 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-  
+
       <div class="mx-3 mb-3" style="text-align: left !important;">
         <form #form="ngForm">
           <div class="my-1">
             <p class="mb-3">Provide a description for the new service key {{descriptionServiceKey}}
             </p>
-      
+
             <form  #descriptionForm="ngForm" >
               <mat-form-field style = "width : 300px">
-                <input matInput placeholder="Description" ngModel name ="description" value="" required> 
+                <input matInput placeholder="Description" ngModel name ="description" value="" required>
               </mat-form-field>
             </form>
           </div>
@@ -192,7 +193,7 @@
             </button>
             <button class=" btn-theme btn-theme-primary-outline mx-1" (click)="dialogRefWrapper.ref.close();">Cancel
             </button>
-  
+
           </div>
         </form>
       </div>

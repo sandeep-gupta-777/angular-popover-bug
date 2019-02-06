@@ -13,6 +13,11 @@ import {ELogType, LoggingService} from './logging.service';
 export class IntegrationLogosPipe implements PipeTransform {
 
   @Select() app$: Observable<IAppState>;
+
+  constructor(){
+
+  }
+
   transform(integrationOption: IIntegrationOption, no_channel_or_only_channel: string): Observable<IIntegrationMasterListItem[]> {
     let integrations;
     if (no_channel_or_only_channel === 'no_channel') {
@@ -43,6 +48,9 @@ export class IntegrationLogosPipe implements PipeTransform {
     return this.app$.pipe(map((value) => {
       try {
         const integrationsMasterList = value.masterIntegrationList;
+        if(!integrationsMasterList){
+          return;
+        }
         const arr = Object.keys(integrations).map((key) => {
           const x =  integrationsMasterList.find((integrationsMasterListItem) => {
             // LoggingService.log(integrationsMasterListItem.unique_name.toUpperCase(), key.toUpperCase());

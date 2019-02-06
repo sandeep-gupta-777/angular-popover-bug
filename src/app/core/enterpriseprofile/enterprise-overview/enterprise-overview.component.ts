@@ -14,6 +14,7 @@ import { IUser } from '../../interfaces/user';
 import { IEnterpriseUser } from '../../interfaces/enterprise-users';
 import { map } from 'rxjs/operators';
 import { MaterialTableImplementer } from 'src/app/material-table-implementer';
+import {DomSanitizer} from '@angular/platform-browser';
 @Component({
   selector: 'app-enterprise-overview',
   templateUrl: './enterprise-overview.component.html',
@@ -81,9 +82,20 @@ export class EnterpriseOverviewComponent  implements OnInit {
       //
 
       for (let key in tableDataMetaDict) {
-        //
+        //||
 
-        if (key == 'key' || key == 'description') {
+        if (key == 'key' ) {
+          obj[tableDataMetaDict[key].displayValue] = {
+            ...tableDataMetaDict[key],
+            originalKey: key,
+            // value: consumerTableDataItem[key].substring(0, 50),
+            value: `<div class="d-flex cursor-pointer">
+                        <i class="fa fa-copy" data-value="${consumerTableDataItem[key]}" ></i> 
+                        <span>${consumerTableDataItem[key]}</span>
+                     </div>`,
+            searchValue: consumerTableDataItem[key]
+          };
+        }else if (key == 'description') {
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
             originalKey: key,
@@ -321,4 +333,13 @@ debugger;
       this.utilityService.openDangerModal(expireServiceKeyModal, this.matDialog, this.dialogRefWrapper);
     }
   }
+<<<<<<< HEAD
+
+  dataValueClicked(dataValue){
+    this.utilityService.copyToClipboard(dataValue);
+  }
+
+
+=======
+>>>>>>> a0e2f4cd8d3f25195e4fb64887c4988fa5d56f25
 }

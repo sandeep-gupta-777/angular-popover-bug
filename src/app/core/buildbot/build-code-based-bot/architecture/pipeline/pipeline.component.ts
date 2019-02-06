@@ -183,6 +183,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
 
   async openInputParamModal(template: TemplateRef<any>, pipeline: IPipelineItem, addPipelineItemToPipeline?: boolean) {
 
+    debugger;
     this.selectedPipeline = pipeline;
     // this.modalRef = this.modalService.show(template, { class: 'modal-md' });
     this.openPrimaryModal(template)
@@ -209,6 +210,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   }
 
   addPipelineItemToPipeline(pipelineItem: IPipelineItem) {
+    console.log('=========>', pipelineItem);
     this.pipeLine.push(pipelineItem);
   }
 

@@ -40,6 +40,15 @@ export class UtilityService {
   ) {
   }
 
+  static removeAllNonDefinedKeysFromObject(obj:object){
+    for (let key in obj){
+      if(obj[key]=== undefined || obj[key]=== null || obj[key]=== ""){
+        delete obj[key];
+      }
+    }
+    return obj;
+  }
+
   refreshCodeEditor$ = new EventEmitter();
   readonly RANDOM_IMAGE_URLS = [
     'https://robohash.org/StarDroid.png',
@@ -527,7 +536,7 @@ export class UtilityService {
     rawData: { activesessions: number, labels: string, totalsessions: number }[],
     xAxisLabel: string,
     startTime_ms: number = Date.UTC(2010, 0, 2), //Date.UTC(2010, 0, 2),
-    granularity_Ms: number = 24 * 3600 * 1000,  // one day
+    granularity: string = 'day',  // one day
   ) {
 
     if (!rawData) {
@@ -548,7 +557,7 @@ export class UtilityService {
       plotOptions: {
         series: {
           pointStart: startTime_ms, //Date.UTC(2010, 0, 2),
-          pointInterval: granularity_Ms,//24*3600*1000  // one day,
+          pointIntervalUnit: granularity,//24*3600*1000  // one day,
           label: {
             enabled: false
           }
@@ -1126,7 +1135,7 @@ export class UtilityService {
   }
 
   performFormValidationBeforeSaving(obj: IBot): IBot {
-    debugger;
+
     const objShallowClone = { ...obj };
     const validation_Keys: string[] = Object.keys(objShallowClone).filter((key) => {
       return key.includes('form_validation_');

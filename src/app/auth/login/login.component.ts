@@ -24,6 +24,9 @@ enum ELoginPanels {
   set = "set",
   reset = "reset",
   login = "login",
+  'password_reset_notify'= 'password-reset-notify',
+  'email_reset_link_notify'='email-reset-link-notify',
+  'enterprise_list_display'='enterprise-list-display'
 }
 
 @Component({
@@ -32,11 +35,12 @@ enum ELoginPanels {
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent extends MessageDisplayBase implements OnInit {
-  myELoginPanels = ELoginPanels
-  panelActive = 'login';
+  myELoginPanels = ELoginPanels;
+  panelActive = ELoginPanels.login;
   disabeLoginButton = false;
   changePasswordToken;
   changePasswordExpireTime;
+  bc;
 
   enterpriseList: any[];
   userData: IUser;
@@ -64,8 +68,18 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   @ViewChild('resetPasswordForm') r: NgForm;
   gotUserData$ = new EventEmitter();
   showCustomEmails = false;
-
+  timestamp = new Date();
   ngOnInit() {
+    // this.bc = new BroadcastChannel('test_channel');
+    // this.bc.onmessage = (ev) => {
+    //   console.clear();
+    //   console.log(ev);
+    //   debugger;
+    //   if(ev.data != this.timestamp){
+    //     location.reload();
+    //   }
+    //
+    // }
     try {
       /*replace with plateform.id*/
       localStorage.clear();
@@ -106,6 +120,9 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
             this.serverService.getNSetIntegrationList();
 
             this.serverService.getNSetPipelineModuleV2();
+            setTimeout(()=>{
+              // this.bc.postMessage(this.timestamp);
+            },10000);
 
           }, () => {
             this.disabeLoginButton = false;
@@ -136,7 +153,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     }
     this.serverService.makePostReq<IUser>({url: sendEmailUrl, body})
       .subscribe(() => {
-        this.panelActive = 'email-reset-link-notify';
+        this.panelActive = ELoginPanels.email_reset_link_notify;
       });
   }
 
@@ -162,7 +179,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     }
     this.serverService.makePostReq<IUser>({url: resetPasswordUrl, body})
       .subscribe(() => {
-        this.panelActive = 'password-reset-notify';
+        this.panelActive = ELoginPanels.password_reset_notify;
       });
   }
 
@@ -223,7 +240,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
 
             } else {
               this.enterpriseList = this.userData.enterprises;
-              this.panelActive = 'enterprise-list-display';
+              this.panelActive = ELoginPanels.enterprise_list_display;
               console.log(this.enterpriseList);
             }
           } catch (e) {
@@ -267,8 +284,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   }
 
   enterpriseLogout() {
-    this.panelActive = 'login';
-    this.panelActive = 'login';
+    this.panelActive = ELoginPanels.login;
     this.disabeLoginButton = false;
   }
 

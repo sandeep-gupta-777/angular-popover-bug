@@ -81,6 +81,8 @@ export class PermissionService {
     [EAllActions['Create Bot Knowledge base']]: true,
     [EAllActions['Update Bot Knowledge base']]: true,
     [EAllActions['Delete Bot Knowledge base']]: true,
+    [EAllActions['GET ModuleDetail']]: true,
+
   };
   forbiddenActionsToFrontEndMapping = {};
   allowedApiHttpVerbPPathToActionNamesMapping = {};
@@ -93,7 +95,8 @@ export class PermissionService {
     '/api/v1/user/enterprise_login/',
     '/api/v1/user/enterprises/',
     '/api/v1/enterprise/',
-    '/api/v1/room/'
+    '/api/v1/room/',
+    '/static/config.json'
   ];
   constructor() {
     this.loggeduser$.subscribe((loggeduser) => {

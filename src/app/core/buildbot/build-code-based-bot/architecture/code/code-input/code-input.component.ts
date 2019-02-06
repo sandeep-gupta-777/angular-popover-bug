@@ -127,6 +127,9 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   ngOnInit() {
 
     this.loggeduser$.subscribe((loggeduserState) => {
+      if(!loggeduserState.user){
+        return;
+      }
       this.role = loggeduserState.user.role.name;
       this.showViewChangeToggle = this.role === ERoleName.Admin || this.role === ERoleName['Bot Developer'];
     });
@@ -408,7 +411,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
               });
           }
         } else {
-          debugger;
+
           if (this.bot.active_version_id === this.selectedVersion.id) {
             // this.modalRef = this.modalService.show(validationWarningModal, {class: 'modal-md'});
             this.openPrimaryModal(validationWarningModal);
