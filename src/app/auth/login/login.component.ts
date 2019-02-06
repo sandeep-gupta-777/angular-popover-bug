@@ -26,7 +26,8 @@ enum ELoginPanels {
   login = "login",
   'password_reset_notify'= 'password-reset-notify',
   'email_reset_link_notify'='email-reset-link-notify',
-  'enterprise_list_display'='enterprise-list-display'
+  'enterprise_list_display'='enterprise-list-display',
+  'reset-via-email'='reset-via-email'
 }
 
 @Component({
@@ -36,7 +37,7 @@ enum ELoginPanels {
 })
 export class LoginComponent extends MessageDisplayBase implements OnInit {
   myELoginPanels = ELoginPanels;
-  panelActive = ELoginPanels.login;
+  panelActive:ELoginPanels = ELoginPanels.login;
   disabeLoginButton = false;
   changePasswordToken;
   changePasswordExpireTime;
