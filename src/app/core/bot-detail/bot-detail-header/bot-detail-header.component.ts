@@ -125,21 +125,46 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
   }
   dialogRefWrapper = {ref:null};
   openActiveBotChangedModal(template: TemplateRef<any>) {
+    debugger;
     if (this.bot.store_selected_version && this.bot.store_selected_version !== this.bot.active_version_id) {
-      this.utilityService.openDialog({
-        dialogRefWrapper: this.dialogRefWrapper,
-        classStr:'danger-modal-header-border',
-        data:{
-          actionButtonText:"Update",
-          message: 'If you update the bot your currently selected version will be the new Active version.',
-          title:'Active version changed',
-          isActionButtonDanger:true
-        },
-        dialog: this.matDialog,
-        component:ModalConfirmComponent
-      }).then((data)=>{
-        if(data) this.updateBot();
-      })
+      debugger;
+      let selectedVersion = this.bot.store_bot_versions.find(value => value.id == this.bot.store_selected_version);
+      if(selectedVersion.changed_fields['df_template']||
+        selectedVersion.changed_fields['df_rules']||
+        selectedVersion.changed_fields['generation_rules']||
+        selectedVersion.changed_fields['generation_templates']||
+        selectedVersion.changed_fields['workflow']){
+        this.utilityService.openDialog({
+          dialogRefWrapper: this.dialogRefWrapper,
+          classStr:'danger-modal-header-border',
+          data:{
+            actionButtonText:"Activate with last saved data",
+            message: 'The version you are trying to make active contains unsaved changes.Do you want to use the last saved data of this version?',
+            title:'Activate code version',
+            isActionButtonDanger:true
+          },
+          dialog: this.matDialog,
+          component:ModalConfirmComponent
+        }).then((data)=>{
+          if(data) this.updateBot();
+        })
+      }
+      else{
+        this.utilityService.openDialog({
+          dialogRefWrapper: this.dialogRefWrapper,
+          classStr:'danger-modal-header-border',
+          data:{
+            actionButtonText:"Update",
+            message: 'If you update the bot your currently selected version will be the new Active version.',
+            title:'Active version changed',
+            isActionButtonDanger:true
+          },
+          dialog: this.matDialog,
+          component:ModalConfirmComponent
+        }).then((data)=>{
+          if(data) this.updateBot();
+        })
+      }
     }
     else {
       this.updateBot();

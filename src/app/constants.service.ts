@@ -1153,7 +1153,7 @@ export class ConstantsService {
       originalKey: 'bots',
       value: '',
       type: 'string',
-      displayValue: 'Bots',
+      displayValue: 'Bots assigned',
 
     },
     'actions': {

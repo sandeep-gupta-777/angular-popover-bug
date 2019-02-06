@@ -61,7 +61,7 @@
     <div class="mx-3 mb-3" style="text-align: left !important;">
       <form #form="ngForm">
         <div class="my-1">
-          <p class="mb-3">Do you want to remove {{usertoDelete.first_name}} {{usertoDelete.last_name}} form
+          <p class="mb-3">Do you want to remove {{usertoDelete.first_name}} {{usertoDelete.last_name}} from
             {{loggeduserenterpriseinfo.name}}?
           </p>
 
@@ -94,7 +94,7 @@
       <!-- {{modifyBotList.value | json}} -->
     </div>
     <div class="w-100 pl-3" style="align-items: center;">
-      <div class="user-modal-heading">Change role</div>
+      <div class="user-modal-heading mb-2">Change role</div>
       <form class="form-theme form-theme-with-md-controls ">
         <mat-form-field>
           <mat-select placeholder="Select role" [(ngModel)]="modifyBotRole" (ngModelChange)="modifyBotRoleChanged($event)"
@@ -120,18 +120,17 @@
     <div class="user-modal-heading pl-3">Change bots</div>
     <div class="d-flex w-100 col-12 pl-3" style="align-items: center;">
 
-      <div class="cursor-pointer color-primary mr-3" (click)="modifyBotList.reset()">
+      <div class="cursor-pointer color-primary mr-3" (click)="modifyBotList.reset()" style="font-size: 11px">
         Clear
       </div>
-      <!-- <div class="cursor-pointer color-primary mr-auto " (click)="selectAllCheckBoxesInCopyTemplateForm(modelGenTempNameForm)">
-          Select all
-        </div> -->
-      <div class="cursor-pointer color-primary mr-auto " (click)='selectAll(modifyBotList);'>
+      <div class="cursor-pointer color-primary mr-auto " (click)='selectAll(modifyBotList);' style="font-size: 11px">
         Select all
       </div>
       <div>
-        <input type="text" style="width: 120px;border: 1px solid #e0e0e0;margin-right: 10px; padding: 3px" placeholder="Bots"
-          [(ngModel)]="searchBotsInModify">
+        <mat-form-field>
+          <input type="text"  matInput placeholder="Search bots" [(ngModel)]="searchBotsInModify">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
         <!-- [(ngModel)]="copyModalTemplateSearchKeyword"> -->
       </div>
     </div>
@@ -140,7 +139,7 @@
 
         <form class="modelBotNames" id="modifyBotList" #modifyBotList="ngForm" style="overflow-y: scroll;max-height: 250px;">
           <label class="container-chekbox text-dark" *ngFor="let bot of enterpriseUserBotList" [hidden]="!bot.name.toLowerCase().includes(searchBotsInModify.toLowerCase())">
-            {{bot.name}}
+            <div style="width: 120px;overflow-wrap: break-word;"> {{bot.name}}</div> 
             <input type="checkbox" ngModel name="{{bot.id}}" [disabled]="isSelectedRoleAdmin">
             <span class="checkmark" [ngClass]="isSelectedRoleAdmin && 'opacity-less'"></span>
           </label>
@@ -173,7 +172,7 @@
       Add a new user to the enterprise
     </div>
     <div class="w-100 pl-3" style="align-items: center;">
-      <div class="user-modal-heading">User details</div>
+      <div class="user-modal-heading mb-2">User details</div>
       <!-- {{roleMap | json}} -->
       <!-- <form class="form-theme form-theme-with-md-controls " (ngSubmit)="onSubmit()" #loginForm="ngForm"> -->
       <form class="form-theme form-theme-with-md-controls " #newBotDetails="ngForm">
@@ -201,8 +200,8 @@
           </mat-select>
         </mat-form-field>
         <br>
-        <mat-form-field style="width: 378px;">
-          <input matInput name="email"  type = "email" email ngModel placeholder="Email address" required type="email">
+        <mat-form-field style="width: 378px;" class = "pb-3">
+          <input matInput name="email" type="email" email ngModel placeholder="Email address" required type="email">
         </mat-form-field>
       </form>
 
@@ -211,15 +210,18 @@
     <div class="user-modal-heading pl-3">Add Bots(0 selected)</div>
     <div class="d-flex w-100 col-12 pl-3" style="align-items: center;">
 
-      <div class="cursor-pointer color-primary mr-3" (click)="newBotList.reset()">
+      <div class="cursor-pointer color-primary mr-3" (click)="newBotList.reset()" style="font-size: 11px">
         Clear
       </div>
-      <div class="cursor-pointer color-primary mr-auto" (click)='selectAll(newBotList);'>
+      <div class="cursor-pointer color-primary mr-auto" (click)='selectAll(newBotList);' style="font-size: 11px">
         Select all
       </div>
       <div>
-        <input type="text" style="width: 120px;border: 1px solid #e0e0e0;margin-right: 10px; padding: 3px" placeholder="Search bots"
-          [(ngModel)]="searchBots">
+        <mat-form-field>
+          <input type="text" matInput placeholder="Search bots" [(ngModel)]="searchBots">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
         <!-- [(ngModel)]="copyModalTemplateSearchKeyword"> -->
 
       </div>
@@ -230,15 +232,14 @@
         <!-- <form class="modelBotNames" id="modelGenTempNameForm" #modelGenTempNameForm="ngForm" (submit)="selectedListCopy(modelGenTempNameForm)" -->
         <form class="modelBotNames" id="newBotList" #newBotList="ngForm" style="overflow-y: scroll;max-height: 250px;">
           <label class="container-chekbox text-dark" *ngFor="let bot of enterpriseUserBotList" [hidden]="!bot.name.toLowerCase().includes(searchBots.toLowerCase())">
-            {{bot.name}}
+            <div style="width: 120px;overflow-wrap: break-word;"> {{bot.name}}</div> 
             <input type="checkbox" ngModel name="{{bot.id}}" [disabled]="isSelectedRoleAdmin">
             <span class="checkmark" [ngClass]="isSelectedRoleAdmin && 'opacity-less'"></span>
           </label>
         </form>
         <div class="d-flex w-100 mt-2">
           <button class="btn-theme btn-theme-primary-outline ml-auto mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
-          <button class="btn-theme btn-theme-primary  d-inline-block mr-2" form="modelGenTempNameForm" 
-          [disabled]="!newBotDetails.valid"
+          <button class="btn-theme btn-theme-primary  d-inline-block mr-2" form="modelGenTempNameForm" [disabled]="!newBotDetails.valid"
             (click)="addNewUser();dialogRefWrapper.ref.close()">Add new user
           </button>
           <!-- <button class="btn-theme btn-theme-primary  d-inline-block mr-2"

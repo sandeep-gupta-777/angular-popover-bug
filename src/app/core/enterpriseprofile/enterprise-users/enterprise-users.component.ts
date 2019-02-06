@@ -86,7 +86,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
             originalKey: key,
-            value: thisUsersEnterperise[key].length + ' bot(s) assigned',
+            value: thisUsersEnterperise[key].length,
             searchValue: thisUsersEnterperise[key].length
           };
         } else {

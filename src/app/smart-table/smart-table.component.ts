@@ -97,8 +97,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
 
   @Input() set data(dataValue: any[]) {
-
-    if (!dataValue) {
+    if (!dataValue || dataValue.length == 0) {
       return;
     }
     this._data = dataValue;
