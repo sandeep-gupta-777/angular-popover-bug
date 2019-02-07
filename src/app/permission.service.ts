@@ -96,7 +96,9 @@ export class PermissionService {
     '/api/v1/user/enterprises/',
     '/api/v1/enterprise/',
     '/api/v1/room/',
-    '/static/config.json'
+    '/api/v1/role/',
+    '/static/config.json',
+
   ];
   constructor() {
     this.loggeduser$.subscribe((loggeduser) => {
@@ -119,6 +121,7 @@ export class PermissionService {
           /*remove all allowed perms*/
           loggeduser.user.role.permissions.actions.forEach((permId: number) => {
             /*find action name for given permission id*/
+            if(!masterActionList) return;
             const actionName = masterActionList.find((action) => action.id === permId).name;
             const x = this.forbiddenActionsToFrontEndMapping[actionName];
             const y = this.forbiddenActionsToFrontEndMapping;

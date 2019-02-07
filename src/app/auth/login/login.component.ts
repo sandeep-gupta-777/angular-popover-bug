@@ -8,7 +8,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {UtilityService} from '../../utility.service';
 import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
 import {ResetEnterpriseUsersAction, SetEnterpriseInfoAction} from '../../core/enterpriseprofile/ngxs/enterpriseprofile.action';
-import {ResetAppState, SetBackendURlRoot} from '../../ngxs/app.action';
+import {ResetAppState, SetBackendURlRoot, SetRoleInfo} from '../../ngxs/app.action';
 import {ResetAuthToDefaultState, SetUser} from '../ngxs/auth.action';
 import {NgForm} from '@angular/forms';
 import {TestComponent} from '../../test/test.component';
@@ -19,6 +19,7 @@ import {map} from 'rxjs/operators';
 import {ResetBotListAction} from '../../core/view-bots/ngxs/view-bot.action';
 import {ResetBuildBotToDefault} from '../../core/buildbot/ngxs/buildbot.action';
 import {ResetAnalytics2GraphData, ResetAnalytics2HeaderData} from '../../core/analysis2/ngxs/analysis.action';
+import {IRoleInfo} from '../../../interfaces/role-info';
 
 enum ELoginPanels {
   set = "set",
@@ -114,11 +115,19 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
             this.serverService.getNSetBotList().subscribe(() => {
               this.serverService.getNSetIntegrationList();
               this.serverService.getNSetPipelineModuleV2();
-              if (userValue.role.name === ERoleName.Analyst) {
-                this.router.navigate(['/core/analytics2/volume']);
-              } else {
-                this.router.navigate(['/']);
-              }
+              let getRoleUrl = this.constantsService.getRoleUrl();
+              this.serverService.makeGetReq({url: getRoleUrl})
+                .subscribe((val: {objects:IRoleInfo[]})=>{
+                  this.store.dispatch([
+                    new SetRoleInfo({roleInfoArr:val.objects})
+                  ]);
+                  if (userValue.role.name === ERoleName.Analyst) {
+                    this.router.navigate(['/core/analytics2/volume']);
+                  } else {
+                    this.router.navigate(['/']);
+                  }
+                });
+
             });
 
 

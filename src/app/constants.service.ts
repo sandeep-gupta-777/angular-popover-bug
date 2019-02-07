@@ -292,7 +292,7 @@ export class ConstantsService {
     // return this.BACKEND_USER_PIPELINE_BASED_BOT_LIST + 'api/v1/bot/';
     return this.BACKEND_URL + 'api/v1/bot/?limit=1000';
   }
-  getRoleMapUrl() {
+  getRoleUrl() {
     return this.BACKEND_URL + 'api/v1/role/';
   }
   deleteUserUrl(id:number){

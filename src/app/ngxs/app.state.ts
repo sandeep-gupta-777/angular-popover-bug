@@ -5,7 +5,7 @@ import {
   SetLastSateUpdatedTimeAction,
   SetMasterIntegrationsList,
   SetMasterProfilePermissions, SetPipelineItemsV2, SetPipelineModuleMasterData,
-  SetProgressValue, SetShowBackendURlRoot,
+  SetProgressValue, SetRoleInfo, SetShowBackendURlRoot,
   SetStateFromLocalStorageAction
 } from './app.action';
 import {ConstantsService} from '../constants.service';
@@ -15,6 +15,7 @@ import {ICustomNerItem} from '../../interfaces/custom-ners';
 import {IPipelineItem} from '../../interfaces/ai-module';
 import {LoggingService} from '../logging.service';
 import {IPipelineItemV2} from '../core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
+import {IRoleInfo} from '../../interfaces/role-info';
 
 
 export interface IAppState {
@@ -32,6 +33,7 @@ export interface IAppState {
   enterpriseNerData: ICustomNerItem[];
   autoLogoutTime: number;
   pipelineModulesV2List:IPipelineItemV2[];
+  roleInfoArr:IRoleInfo[]
 }
 //
 const appDefaultState: IAppState = {
@@ -48,7 +50,8 @@ const appDefaultState: IAppState = {
   enterpriseNerData: [],
   masterPipelineItems: null,
   autoLogoutTime: Date.now() + 3600 * 1000,
-  pipelineModulesV2List:[]
+  pipelineModulesV2List:[],
+  roleInfoArr:null
 };
 
 @State<IAppState>({
@@ -124,6 +127,10 @@ export class AppStateReducer {
   @Action(ResetAppState)
   resetAppState({patchState, setState, getState, dispatch, }: StateContext<any>, payload: ResetAppState) {
     patchState(appDefaultState);
+  }
+  @Action(SetRoleInfo)
+  setRoleInfo({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetRoleInfo) {
+    patchState({roleInfoArr: payload.payload.roleInfoArr});
   }
 
 }
