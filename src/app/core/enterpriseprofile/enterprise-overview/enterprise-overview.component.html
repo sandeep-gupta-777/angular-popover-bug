@@ -139,12 +139,12 @@
     </div>
   </div>
   <div class="col-12 p-0 pb-2 d-flex">
-      <!-- <mat-button-toggle-group name="fontStyle" aria-label="Font Style" style = "height: 25px;align-items: center;">
-          <mat-button-toggle value="Active">Active</mat-button-toggle>
-          <mat-button-toggle value="Expired">Expired</mat-button-toggle>
-        </mat-button-toggle-group> -->
-    <button class="btn-theme  btn-theme-primary " [ngClass]="{'btn-theme-primary-outline': !showActiveServiceKeysTable}" (click) = "showActiveServiceKeysTable = true">Active</button>
-    <button class="btn-theme btn-theme-primary" [ngClass]="{'btn-theme-primary-outline': showActiveServiceKeysTable}" (click) = "showActiveServiceKeysTable = false">Expired</button>
+      <mat-button-toggle-group name="fontStyle" aria-label="Font Style" value="Active">
+          <mat-button-toggle value="Active"  (click) = "showActiveServiceKeysTable = true">Active</mat-button-toggle>
+          <mat-button-toggle value="Expired" (click) = "showActiveServiceKeysTable = false">Expired</mat-button-toggle>
+        </mat-button-toggle-group>
+    <!-- <button class="btn-theme  btn-theme-primary " [ngClass]="{'btn-theme-primary-outline': !showActiveServiceKeysTable}" (click) = "showActiveServiceKeysTable = true">Active</button>
+    <button class="btn-theme btn-theme-primary" [ngClass]="{'btn-theme-primary-outline': showActiveServiceKeysTable}" (click) = "showActiveServiceKeysTable = false">Expired</button> -->
     <div class="ml-auto color-primary cursor-pointer" *ngIf = "showActiveServiceKeysTable" (click)="openNewServiceKeyModal(enterpriseNewServiceKeyModal)"><i class="fa fa-plus pr-1 "></i> New token</div>
   </div>
 </div>

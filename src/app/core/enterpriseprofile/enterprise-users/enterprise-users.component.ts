@@ -194,7 +194,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   modifyUser() {
     let url = this.constantsService.updateUserUrl(this.selectedUserModify.id);
     const headerData: IHeaderData = {'content-type': 'application/json'};
-
+debugger;
 
     console.log(this.modifyBotRole);
 
@@ -272,7 +272,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     this.searchBotsInModify = '';
     this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
     setTimeout(() => {
-
+      debugger;
       this.modifyBotRole = this.selectedUserModify.enterprises[0].role_id;
       this.isSelectedRoleAdmin = this.modifyBotRole == 2 ? true : false;
       let formlist = this.modifyBotList.value;
@@ -376,8 +376,6 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
 
     this.loggeduserenterpriseinfo$.subscribe((enterprise) => {
-
-
       if (!this.roleMap) {
         const headerData: IHeaderData = {'content-type': 'application/json'};
         const RoleMapUrl = this.constantsService.getRoleMapUrl();

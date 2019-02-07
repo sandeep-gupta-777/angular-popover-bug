@@ -90,7 +90,7 @@ export class EnterpriseOverviewComponent  implements OnInit {
             originalKey: key,
             // value: consumerTableDataItem[key].substring(0, 50),
             value: `<div class="d-flex cursor-pointer">
-                        <i class="fa fa-copy" data-value="${consumerTableDataItem[key]}" ></i> 
+                        <i class="material-icons color-primary" style="position: absolute;left: -20px; font-size:13px" data-value="${consumerTableDataItem[key]}">file_copy_outline</i>
                         <span>${consumerTableDataItem[key]}</span>
                      </div>`,
             searchValue: consumerTableDataItem[key]
@@ -186,6 +186,7 @@ export class EnterpriseOverviewComponent  implements OnInit {
       });
   }
   formGroup: FormGroup;
+
   ngOnInit() {
     this.formGroup = this.formBuilder.group({
       name: [''],
@@ -261,9 +262,9 @@ export class EnterpriseOverviewComponent  implements OnInit {
           return -a.expired_at+b.expired_at
       })
         this.serviceKeyTableDataExpired = this.transformDataForMaterialTable(expiredTableData, this.getTableDataMetaDictActive());
-debugger;
+// debugger;
         this.serviceKeyTableDataActive = this.transformDataForMaterialTable(activeTableData, this.getTableDataMetaDictExpired());
-debugger;
+// debugger;
 
       });
     const enterpriselogdeletionsummary = this.constantsService.getEnterpriseLogDeletionSummaryUrl();
@@ -304,7 +305,7 @@ debugger;
   expireServiceKey(){
     let data = this.expireServicekeyData;
     // console.log(data.data)
-    debugger;
+    // debugger;
       let disableServiceKeyUrl = this.constantsService.disableServiceKeyUrl();
       let body = { service_key: this.expireServicekeyData.key }
       const headerData: IHeaderData = { 'content-type': 'application/json' };
@@ -333,13 +334,10 @@ debugger;
       this.utilityService.openDangerModal(expireServiceKeyModal, this.matDialog, this.dialogRefWrapper);
     }
   }
-<<<<<<< HEAD
 
   dataValueClicked(dataValue){
     this.utilityService.copyToClipboard(dataValue);
   }
 
 
-=======
->>>>>>> a0e2f4cd8d3f25195e4fb64887c4988fa5d56f25
 }
