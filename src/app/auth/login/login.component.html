@@ -16,7 +16,7 @@
   <main *ngIf="panelActive==='login'" class="right">
     <div class="login-box ">
       <h6 class="title" style="font-size: 18px">Sign in to IMIbot</h6>
-      <form class="form-theme form-theme-with-md-controls" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <form class="form-theme form-theme-with-md-controls" (ngSubmit)="loginSubmitHandler()" #loginForm="ngForm">
         <input type="email" required email class="form-theme-control" ngModel name="email" aria-describedby="emailHelp"
                placeholder="Enter Email">
         <input type="password" class="form-theme-control my-3" name="password" ngModel required
@@ -30,7 +30,7 @@
         </div>
 
         <button mat-flat-button type="submit" class="btn-theme btn-theme-block mt-3 mb-2"
-                [disabled]="disabeLoginButton"
+                [disabled]="disabeLoginButton || !this.isConfigDataSet"
                 [ngClass]="{'btn-theme-primary':!disabeLoginButton, 'btn-theme-disabled':disabeLoginButton}">Sign in
         </button>
 

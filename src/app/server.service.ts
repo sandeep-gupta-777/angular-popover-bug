@@ -274,10 +274,9 @@ export class ServerService {
   }
 
   increaseAutoLogoutTime() {
-    debugger;
     const autoLogoutInterval = (this.roleInfo && this.roleInfo.session_expiry_time*1000) || 3600 * 1000; //3600*1000
     if(!this.roleInfo){
-      console.log("increaseAutoLogoutTime: ROLE IS NOT FOUND=====================")
+      // console.log("increaseAutoLogoutTime: ROLE IS NOT FOUND=====================")
     }
     this.store.dispatch([
       new SetAutoLogoutTime({time: (Date.now() + autoLogoutInterval)})
@@ -324,13 +323,13 @@ export class ServerService {
 
     const url = this.constantsService.getPipelineModuleV2();
     return this.makeGetReq<{ meta: any, objects: IPipelineItemV2[] }>({url})
-      .subscribe((value) => {
+      .pipe(map((value) => {
         this.store.dispatch([
           new SetPipelineItemsV2({
             data: value.objects
           })
         ]);
-      });
+      }));
   }
 
   getNSetIntegrationList() {
@@ -340,13 +339,13 @@ export class ServerService {
         // this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
         // this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
       }))
-      .subscribe((value) => {
+      .pipe(map((value) => {
         this.store.dispatch([
           new SetMasterIntegrationsList({
             masterIntegrationList: value.objects
           })
         ]);
-      });
+      }));
   }
 
   changeProgressBar(loading: boolean, value: number) {
@@ -657,6 +656,7 @@ export class ServerService {
   }
 
   getNSetMasterPermissionsList() {
+    debugger;
     const allActionsUrl = this.constantsService.getAllActionsUrl();
     return this.makeGetReq<{ meta: any, objects: IProfilePermission[] }>({url: allActionsUrl}).pipe(
       map((value: { objects: IProfilePermission[] }) => {
