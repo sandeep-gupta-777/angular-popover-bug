@@ -91,7 +91,7 @@
     </div>
     <div class="pl-3 pb-3 pt-1">
       {{selectedUserModify.first_name}} {{selectedUserModify.last_name}}’s role and bots can be changed here
-      <!-- {{modifyBotList.value | json}} -->
+      {{modifyBotList.value | json}}
     </div>
     <div class="w-100 pl-3" style="align-items: center;">
       <div class="user-modal-heading mb-2">Change role</div>
@@ -201,7 +201,7 @@
         </mat-form-field>
         <br>
         <mat-form-field style="width: 378px;" class = "pb-3">
-          <input matInput name="email" type="email" email ngModel placeholder="Email address" required type="email">
+          <input matInput name="email" type="email"  ngModel placeholder="Email address" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
         </mat-form-field>
       </form>
 
