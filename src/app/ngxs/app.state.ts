@@ -126,7 +126,10 @@ export class AppStateReducer {
 
   @Action(ResetAppState)
   resetAppState({patchState, setState, getState, dispatch, }: StateContext<any>, payload: ResetAppState) {
-    patchState(appDefaultState);
+    let state:IAppState = getState();
+    /*when app is reset, backendUrlRoot must not reset, since its only set when login page reloads*/
+    let backendUrlRoot = state.backendUrlRoot;
+    patchState({...appDefaultState, backendUrlRoot});
   }
   @Action(SetRoleInfo)
   setRoleInfo({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetRoleInfo) {

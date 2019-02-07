@@ -1,5 +1,20 @@
 @import "~src/sass/variables";
 
+:host{
+  position: relative;
+}
+
+.report-placeholder{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .active{
   border-color: white !important;
   border-bottom: 2px solid $color-primary !important;

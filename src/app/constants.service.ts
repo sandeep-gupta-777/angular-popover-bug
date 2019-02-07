@@ -107,8 +107,9 @@ export class ConstantsService {
       if (!appState) {
         return;
       }
+      debugger;
       this.appState = appState;
-      this.BACKEND_URL = (appState && appState.backendUrlRoot) || 'https://staging.imibot.ai/';
+      this.BACKEND_URL = (appState && appState.backendUrlRoot);
     });
     this.loggeduser$.subscribe((loggedUser: IAuthState) => {
       if (loggedUser && loggedUser.user) {
@@ -342,11 +343,11 @@ export class ConstantsService {
   }
 
   getSessionsByIdUrl(id) {
-    return this.BACKEND_URL + `api/v1/room/?id=${id}`; //https://dev.imibot.ai/api/v1/room/9913/
+    return this.BACKEND_URL + `api/v1/room/?id=${id}&order_by=-updated_at`; //https://dev.imibot.ai/api/v1/room/9913/
   }
 
   getSessionsMessageUrl(room_id: number) {
-    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}&limit=1000`; //https://dev.imibot.ai/api/v1/message/?room_id=60
+    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}&limit=1000&order_by=-updated_at`; //https://dev.imibot.ai/api/v1/message/?room_id=60
   }
 
   getTotalMessagesUrl() {
@@ -456,7 +457,7 @@ export class ConstantsService {
   }
 
   getRoomWithFilters(queryParams: object) {
-    let url = this.BACKEND_URL + 'api/v1/room/';
+    let url = this.BACKEND_URL + 'api/v1/room/?order_by=-updated_at';
     let urlWithQueryParams = this.appendQueryParamsInUrl(url, queryParams);
     return urlWithQueryParams;
   }

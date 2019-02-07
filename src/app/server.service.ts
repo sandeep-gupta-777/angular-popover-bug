@@ -1,7 +1,7 @@
 import {catchError, map, tap} from 'rxjs/operators';
 import {Injectable, isDevMode} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable, throwError, throwError as _throw} from 'rxjs';
+import {Observable, of, throwError, throwError as _throw} from 'rxjs';
 import {ConstantsService} from './constants.service';
 import {Select, Store} from '@ngxs/store';
 import {IUser} from './core/interfaces/user';
@@ -123,7 +123,8 @@ export class ServerService {
     const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
       console.log(`api access not allowed:${reqObj.url}`);
-      return throwError(`api access not allowed:${reqObj.url}`);
+      // return throwError(`api access not allowed:${reqObj.url}`);
+      return of(null);
     }
     const headers = this.createHeaders(reqObj.headerData);
 
@@ -323,12 +324,14 @@ export class ServerService {
 
     const url = this.constantsService.getPipelineModuleV2();
     return this.makeGetReq<{ meta: any, objects: IPipelineItemV2[] }>({url})
-      .pipe(map((value) => {
-        this.store.dispatch([
-          new SetPipelineItemsV2({
-            data: value.objects
-          })
-        ]);
+      .pipe(tap((value) => {
+        if(value){
+          this.store.dispatch([
+            new SetPipelineItemsV2({
+              data: value.objects
+            })
+          ]);
+        }
       }));
   }
 
@@ -656,7 +659,7 @@ export class ServerService {
   }
 
   getNSetMasterPermissionsList() {
-    debugger;
+
     const allActionsUrl = this.constantsService.getAllActionsUrl();
     return this.makeGetReq<{ meta: any, objects: IProfilePermission[] }>({url: allActionsUrl}).pipe(
       map((value: { objects: IProfilePermission[] }) => {

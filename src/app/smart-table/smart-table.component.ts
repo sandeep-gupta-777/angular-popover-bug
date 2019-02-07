@@ -17,6 +17,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   @Output() dataValue$ = new EventEmitter();
   ngAfterViewInit(): void {
     this.tableForm.valueChanges.pipe(debounceTime(1000)).subscribe((formData) => {
+      debugger;
       try {
         let cleanedFilterData = this.removeEmptyKeyValues(formData);
         /*if at any moment, filter data is empty => perform search in db*/
@@ -221,7 +222,8 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
       end = this.currentPage + 2;
     }
     this.createPaginationArray(start, end);
-    // this.pageChanged$.emit({page: currentPage,  ...this.tableForm.value});
+    debugger;
+    this.pageChanged$.emit({page: currentPage});//TODO: this is just for report and knowledge base...remove it later
     this.performSearch({page:currentPage});
     // this.tableForm.resetForm();
   }

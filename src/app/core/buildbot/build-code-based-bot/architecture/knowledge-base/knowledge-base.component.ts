@@ -140,7 +140,12 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
       body = {values: data.codeTextOutPutFromCodeEditor, ...body};
     } else if (data.ner_type === 'database') {
       const handontableDataClone = JSON.parse(JSON.stringify(data.handsontableData));
-      const column_headers = handontableDataClone[0] || ['', '', ''];
+      const column_headers = handontableDataClone[0];
+      let areHeaderElementRepeated = UtilityService.areAllElementsInArrUnique(column_headers);
+      if(!areHeaderElementRepeated){
+        this.utilityService.showErrorToaster("Header values are not valid");
+        return;
+      }
       handontableDataClone.shift();
       let handsontableDataSerialized: any[] = handontableDataClone.map((row) => {
         const obj = {};
@@ -165,9 +170,9 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
         // return obj;
       });
 
-      console.log('shoaib sadas', handsontableDataSerialized);
       handsontableDataSerialized = handsontableDataSerialized.filter(function (el) {
-        return el != null;
+        debugger;
+        return el !=null;
       });
 
       if(!handsontableDataSerialized || handsontableDataSerialized.length===0){
@@ -334,8 +339,8 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     this.showTable = false;
   }
 
-  pageChanged(pageNumber) {
-    this.pageChanged$.emit(pageNumber);
+  pageChanged({page}) {
+    this.pageChanged$.emit(page);
   }
 
   showNerSmartTable() {

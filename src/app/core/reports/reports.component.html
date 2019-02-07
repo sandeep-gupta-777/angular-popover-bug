@@ -1,9 +1,9 @@
-<div class="row mx-0  mt-2 pb-5 bg-white shadow-theme">
+<div class="row mx-0  mt-2 pb-5 bg-white shadow-theme" style="position: relative;">
   <div class="col-12 py-2 border-bottom">
     <div class="pl-2 font-weight-bold" style="font-size: 20px; color: #474747">Reports</div>
   </div>
 
-  <div class="col-12">
+  <div class="col-12" >
     <div class="card-body">
       <ul class="nav nav-tabs my-2">
         <li class="nav-item">
@@ -38,8 +38,9 @@
     <!--<button class="btn-theme btn-theme-primary" (click)="navigateTocreateNewReport()">New Report</button>-->
     <!--</div>-->
 
-    <div class="col-12" *ngIf="reportSmartTableData.length>0">
+    <div class="col-12"  style="min-height: 50vh; position: relative">
       <app-smart-table
+              *ngIf="reportSmartTableData.length>0"
         [data]="tableData_report"
         (rowClicked$)="goToReportEditComponent($event)"
         [totalRecords]="totalReportRecords"
@@ -47,12 +48,18 @@
         (pageChanged$)="reportTablePageChanged($event)"
         [settings]="SMART_TABLE_REPORTS_SETTING">
       </app-smart-table>
+      <div *ngIf="activeTab==='configure' && (reportsEmpty || reportsLoading)"
+           class="report-placeholder">
+        <i *ngIf="reportsLoading">Loading</i>
+        <i *ngIf="reportsEmpty">No Reports</i>
+      </div>
     </div>
   </div>
 
-  <div class="col-12 mt-2" *ngIf="activeTab==='history' && reportHistorySmartTableData.length>0">
+  <div class="col-12 mt-2" *ngIf="activeTab==='history'" style="min-height: 50vh; position: relative">
     <div class="col-12">
       <app-smart-table
+              *ngIf="reportHistorySmartTableData.length>0"
         [data]="tableData_history"
         (pageChanged$)="reportHistoryTablePageChanged($event)"
         [currentPage]="currentPage_reportsHistory"
@@ -60,18 +67,15 @@
         (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
         [settings]="SMART_TABLE_REPORT_HISTORY_SETTING"></app-smart-table>
     </div>
+    <div  *ngIf="activeTab==='history' && (reportsHistoryEmpty || reportHistoryLoading)"
+          class="report-placeholder">
+      <i *ngIf="reportHistoryLoading">Loading</i>
+      <i *ngIf="reportsHistoryEmpty">No Report History</i>
+    </div>
   </div>
+<!--<i>{{reportsEmpty}}</i>-->
 
-  <div
-    *ngIf="activeTab==='history' && reportHistorySmartTableData && reportHistorySmartTableData.length<1"
-    class="col-12 d-flex justify-content-center align-items-center" style="height: 30vh">
-    <i>{{error_message||'No Report history data'}}</i>
-  </div>
-  <div
-    *ngIf="activeTab==='configure' && reportSmartTableData && reportSmartTableData.length<1"
-    class="col-12 d-flex justify-content-center align-items-center" style="height: 30vh">
-    <i>{{error_message||'No Reports'}} </i>
-  </div>
+
 </div>
 
 <!--<p>{{reportSmartTableData|json}}</p>-->

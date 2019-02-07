@@ -84,9 +84,9 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
     this.loadConsumerData();
   }
 
-  pageChanged(selectedPage: number) {
+  pageChanged({page}) {
 
-    this.loadConsumerData(10, (selectedPage - 1) * 10);
+    this.loadConsumerData(10, (page - 1) * 10);
   }
 
   loadConsumerData(limit: number = 10, offset: number = 0) {

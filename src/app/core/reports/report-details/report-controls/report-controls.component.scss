@@ -42,15 +42,6 @@
 
 }
 
-.date-input {
-  //height: 32px !important;
-  //border-radius: 2px;
-  //@include typography(12px, $line-height-normal, $font-weight-300, $color-secondary);
-  //&::placeholder {
-  //  @include typography(12px, $line-height-normal, $font-weight-300, $color-secondary);
-  //}
-}
-
 .nav-link {
   @include typography(13px, $line-height-normal, $font-weight-300, #474747);
   color: #474747 !important;
@@ -63,6 +54,7 @@
 textarea {
   border: solid 1px #e0e0e0;
   @include typography($font-size-xs, $line-height-normal, $font-weight-300, #474747);
+
   &:focus {
     outline: none;
   }
@@ -78,30 +70,32 @@ textarea {
   .Bot {
     margin-bottom: 0 !important;
   }
+
   //input{
   //  padding: 4px ;
   //  color: $color-secondary;
   //}
-  .upload-private-key-button{
+  .upload-private-key-button {
     grid-row: auto/ span 2;
   }
 }
 
-  .input-material {
-    padding: 0;
-    margin-top: 0;
-    margin-left: 1px;
-    @include hide-borders();
-    border-bottom: $border-normal;
-    background-color: transparent;
-    border-radius: 0;
-    &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-      opacity: 1; /* Firefox */
-      @include typography($font-size-xs, $line-height-md, $font-weight-normal, $color-secondary);
-      padding: 0;
+.input-material {
+  padding: 0;
+  margin-top: 0;
+  margin-left: 1px;
+  @include hide-borders();
+  border-bottom: $border-normal;
+  background-color: transparent;
+  border-radius: 0;
 
-    }
+  &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    opacity: 1; /* Firefox */
+    @include typography($font-size-xs, $line-height-md, $font-weight-normal, $color-secondary);
+    padding: 0;
+
   }
+}
 
 
 

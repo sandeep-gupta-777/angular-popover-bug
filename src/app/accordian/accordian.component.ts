@@ -10,7 +10,11 @@ import {EventService} from '../event.service';
 export class AccordianComponent implements OnInit {
 
   show = false;
-  @Input() doExpand = false;
+  _doExpand = false;
+  @Input() set doExpand(_doExpand){
+    this._doExpand = _doExpand;
+    this.show = _doExpand;
+  };
   @Input() data: IPipelineItemV2;
   constructor() { }
 

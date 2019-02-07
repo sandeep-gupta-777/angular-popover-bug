@@ -121,21 +121,27 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       switchMap(() => {
         this.flashInfoMessage('Fetching permissions', 10000);
         return this.serverService.getNSetMasterPermissionsList();
-
       }),
       switchMap(() => {
-        debugger;
+        // this.constantsService.allowedPermissionIdsToCurrentRole
+        return of(1);
+      }),
+      switchMap(() => {
+
         const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(userValue.enterprise_id);
         return this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl});
       }),
       switchMap((value: IEnterpriseProfileInfo) => {
-        return this.store.dispatch([
-          new SetEnterpriseInfoAction({enterpriseInfo: value})
-        ]);
+        if(value){
+          return this.store.dispatch([
+            new SetEnterpriseInfoAction({enterpriseInfo: value})
+          ]);
+        }else {
+          return of(1);
+        }
       }),
       switchMap(() => {
         this.flashInfoMessage('Fetching dashboard info', 10000);
-        /*after login, route to appropriate page according to user role*/
         return this.serverService.getNSetBotList();
       }),
       switchMap(() => {
