@@ -43,7 +43,7 @@ const appDefaultState: IAppState = {
   },
   masterIntegrationList: null,
   masterProfilePermissions: null,
-  backendUrlRoot: 'https://dev.imibot.ai/',////'https://staging.imibot.ai/',//'https://dev.imibot.ai/'////
+  backendUrlRoot: 'https://staging.imibot.ai/',////'https://staging.imibot.ai/',//'https://dev.imibot.ai/'////
   showBackendUrlRootButton: false,
   enterpriseNerData: [],
   masterPipelineItems: null,
@@ -96,11 +96,13 @@ export class AppStateReducer {
 
   @Action(SetBackendURlRoot)
   setBackendURlRoot({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetBackendURlRoot) {
+    console.log("backend root:", payload);
     patchState({backendUrlRoot: payload.payload.url});
   }
 
   @Action(SetShowBackendURlRoot)
   setShowBackendURlRoot({patchState, setState, getState, dispatch, }: StateContext<any>, payload: SetShowBackendURlRoot) {
+
     patchState({showBackendUrlRootButton: payload.payload.showBackendURlRoot});
   }
 

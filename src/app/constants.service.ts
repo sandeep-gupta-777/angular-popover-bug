@@ -108,7 +108,7 @@ export class ConstantsService {
         return;
       }
       this.appState = appState;
-      this.BACKEND_URL = (appState && appState.backendUrlRoot) || 'https://dev.imibot.ai/';
+      this.BACKEND_URL = (appState && appState.backendUrlRoot) || 'https://staging.imibot.ai/';
     });
     this.loggeduser$.subscribe((loggedUser: IAuthState) => {
       if (loggedUser && loggedUser.user) {
