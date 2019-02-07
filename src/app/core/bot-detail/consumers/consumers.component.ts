@@ -74,7 +74,7 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
   }
 
   ngOnInit() {
-    debugger;
+
     this.isDeCryptAuditAccessDenied = this.permissionService.isTabAccessDenied(EAllActions['Create Decrypt Audit']);
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     this.isFullscreen = this.activatedRoute.snapshot.data['isFullscreen'];
@@ -85,7 +85,7 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
   }
 
   pageChanged(selectedPage: number) {
-    debugger;
+
     this.loadConsumerData(10, (selectedPage - 1) * 10);
   }
 
@@ -115,7 +115,7 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
 
   decryptSubmit() {
 
-    debugger;
+
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
@@ -142,7 +142,7 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
   }
 
   performSearchInDbForConsumer(data) {
-    debugger;
+
     if(!data.id){
       if(data.page){
         this.loadConsumerData(10, (data.page-1)*10);

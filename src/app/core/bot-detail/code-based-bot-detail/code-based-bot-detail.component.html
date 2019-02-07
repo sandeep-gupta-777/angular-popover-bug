@@ -94,7 +94,7 @@
         </li>
       </ul>
 
-      <ul class="nav nav-tabs border-none theme-tabbing mb-1 bg-white d-flex d-md-none">
+      <ul class="nav nav-tabs border-none theme-tabbing mb-1 bg-white d-flex d-md-none" *ngIf="selectedTab ==='architecture'">
         <li routerLink="."
              [queryParams]="{'build-tab':'pipeline'}"
              queryParamsHandling="merge"

@@ -4,13 +4,13 @@
     <mat-tab label="Basic Info">
       <app-basic-info-form (datachanged$)="datachanged$.emit($event)" [bot]="bot"></app-basic-info-form>
     </mat-tab>
-    <mat-tab label="Data Management">
+    <mat-tab label="Data Management" *ngIf="!(bot_type===myEBotType.intelligent)">
       <app-data-manage-form (datachanged$)="datachanged$.emit($event)" [bot]="bot"></app-data-manage-form>
     </mat-tab>
-    <mat-tab label="Additional Info">
+    <mat-tab label="Additional Info" *ngIf="!(bot_type===myEBotType.intelligent)">
       <app-additional-info-form (datachanged$)="datachanged$.emit($event)" [bot]="bot"></app-additional-info-form>
     </mat-tab>
-    <mat-tab label="Avatars">
+    <mat-tab label="Avatars" *ngIf="!(bot_type===myEBotType.intelligent)">
       <app-avator-form (datachanged$)="datachanged$.emit($event)" [bot]="bot"></app-avator-form>
     </mat-tab>
   </mat-tab-group>

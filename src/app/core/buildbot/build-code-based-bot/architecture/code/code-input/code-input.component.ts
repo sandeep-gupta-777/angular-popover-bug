@@ -144,7 +144,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
       this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
     }
     EventService.codeValidationErrorOnUpdate$.subscribe((data)=>{
-      debugger;
+
       this.selectedVersion.validation = data;
       this.validationMessageToggle = true;
     })

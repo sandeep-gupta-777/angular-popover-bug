@@ -26,7 +26,8 @@ enum ELoginPanels {
   login = "login",
   'password_reset_notify'= 'password-reset-notify',
   'email_reset_link_notify'='email-reset-link-notify',
-  'enterprise_list_display'='enterprise-list-display'
+  'enterprise_list_display'='enterprise-list-display',
+  'reset-via-email'='reset-via-email'
 }
 
 @Component({
@@ -36,7 +37,7 @@ enum ELoginPanels {
 })
 export class LoginComponent extends MessageDisplayBase implements OnInit {
   myELoginPanels = ELoginPanels;
-  panelActive = ELoginPanels.login;
+  panelActive:ELoginPanels = ELoginPanels.login;
   disabeLoginButton = false;
   changePasswordToken;
   changePasswordExpireTime;
@@ -58,9 +59,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
 
   loginEmails = [
     'ayeshreddy.k@imimobile.com',
-    'qa.analyst_1537783720606@imimobile.com',
-    'qa.dev_1537783640111@imimobile.com',
-    'qa.tester_1537783698819@imimobile.com',
+    'puspita.m@imimobile.com',
+    'puspita.m@gmail.com'
   ];
   isConfigDataSet = false;
   @ViewChild('loginForm') loginForm: NgForm;
@@ -74,7 +74,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     // this.bc.onmessage = (ev) => {
     //   console.clear();
     //   console.log(ev);
-    //   debugger;
+    //
     //   if(ev.data != this.timestamp){
     //     location.reload();
     //   }
@@ -109,20 +109,18 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
           .subscribe(() => {
             this.flashInfoMessage('Loading your dashboard', 10000);
             /*after login, route to appropriate page according to user role*/
-            if (userValue.role.name === ERoleName.Analyst) {
-              this.router.navigate(['/core/analytics2']);
-            } else {
-              this.router.navigate(['/']);
-            }
+
 
             this.serverService.getNSetBotList().subscribe(() => {
+              this.serverService.getNSetIntegrationList();
+              this.serverService.getNSetPipelineModuleV2();
+              if (userValue.role.name === ERoleName.Analyst) {
+                this.router.navigate(['/core/analytics2/volume']);
+              } else {
+                this.router.navigate(['/']);
+              }
             });
-            this.serverService.getNSetIntegrationList();
 
-            this.serverService.getNSetPipelineModuleV2();
-            setTimeout(()=>{
-              // this.bc.postMessage(this.timestamp);
-            },10000);
 
           }, () => {
             this.disabeLoginButton = false;
@@ -289,7 +287,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   }
 
   loginWithCustomEmail(email) {
-    this.loginForm.form.patchValue({email: email, password: 'Botwoman@123!'});
+    this.loginForm.form.patchValue({email: email, password: 'Test@1234'});
     this.onSubmit();
   }
 

@@ -262,9 +262,9 @@ export class EnterpriseOverviewComponent  implements OnInit {
           return -a.expired_at+b.expired_at
       })
         this.serviceKeyTableDataExpired = this.transformDataForMaterialTable(expiredTableData, this.getTableDataMetaDictActive());
-// debugger;
+
         this.serviceKeyTableDataActive = this.transformDataForMaterialTable(activeTableData, this.getTableDataMetaDictExpired());
-// debugger;
+
 
       });
     const enterpriselogdeletionsummary = this.constantsService.getEnterpriseLogDeletionSummaryUrl();
@@ -305,7 +305,6 @@ export class EnterpriseOverviewComponent  implements OnInit {
   expireServiceKey(){
     let data = this.expireServicekeyData;
     // console.log(data.data)
-    // debugger;
       let disableServiceKeyUrl = this.constantsService.disableServiceKeyUrl();
       let body = { service_key: this.expireServicekeyData.key }
       const headerData: IHeaderData = { 'content-type': 'application/json' };
@@ -338,6 +337,5 @@ export class EnterpriseOverviewComponent  implements OnInit {
   dataValueClicked(dataValue){
     this.utilityService.copyToClipboard(dataValue);
   }
-
 
 }

@@ -304,6 +304,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   }
 
   decryptSubmit(sessionTobeDecryptedId: number) {
+    this.decryptReason = "";
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
@@ -311,11 +312,13 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     const url = this.constantsService.getDecryptUrl();
     this.serverService.makePostReq({headerData, body, url})
       .subscribe(() => {
+
         this.decryptReason = null;
         const surl = this.constantsService.getSessionsByIdUrl(sessionTobeDecryptedId);
         this.serverService.makeGetReq({url: surl, headerData})
-          .subscribe((newSession: ISessionItem) => {
-
+          .subscribe((value: {objects:ISessionItem[]}) => {
+          let newSession = value.objects[0];
+          /*todo: use perform search in db instead*/
             const del = this.sessions.findIndex((session) => session.id === sessionTobeDecryptedId);
             this.sessions[del] = {...newSession};
             this.sessions = [...this.sessions];
@@ -357,17 +360,18 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     });
   }
 
-  updateSessionById(id: number) {
-    this.loadSessionById(id)
-      .subscribe((sessionItem) => {
-        let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id});
-        this.sessions[index] = sessionItem;
-        this.selectedRow_Session = sessionItem;
-        this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
-        this.tableData = [...this.tableData];
-      });
-    //
-  }
+  // updateSessionById(id: number) {
+  //   this.loadSessionById(id)
+  //     .subscribe((sessionItem) => {
+  //       debugger
+  //       let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id});
+  //       this.sessions[index] = sessionItem;
+  //       this.selectedRow_Session = sessionItem;
+  //       this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
+  //       this.tableData = [...this.tableData];
+  //     });
+  //   //
+  // }
 
   performSearchInDbForSession(filterData:ISessionFilterData) {
 

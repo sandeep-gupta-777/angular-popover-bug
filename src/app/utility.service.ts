@@ -539,6 +539,7 @@ export class UtilityService {
     granularity: string = 'day',  // one day
   ) {
 
+
     if (!rawData) {
       return;
     }
