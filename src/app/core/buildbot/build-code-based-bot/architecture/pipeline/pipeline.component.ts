@@ -229,6 +229,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
       this._expandedPipelineModules = {};
     }
     this._expandedPipelineModules = {...this._expandedPipelineModules};
+
     this.allMatExpansionExpanded = !this.allMatExpansionExpanded;
   }
 

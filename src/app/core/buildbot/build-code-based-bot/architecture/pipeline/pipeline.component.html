@@ -27,7 +27,7 @@
               style="width: 100%; display: block;"
               *ngFor="let pipelineItem of pipelineModulesV2List|pipelineFilter:searchKeyword|sortPipeline; let i = index"
               (click)="togglePipelineModule(pipelineItem.id)"
-              [doExpand]="_expandedPipelineModules[pipelineItem.id] || allMatExpansionExpanded"
+              [doExpand]="_expandedPipelineModules[pipelineItem.id]"
               [data]="pipelineItem">
       <!--<i>{{_expandedPipelineModules[i]}}</i>-->
         <app-simple-table
