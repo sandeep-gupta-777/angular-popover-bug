@@ -76,7 +76,7 @@
         </li>
         <div class="ml-auto"></div>
         <li class="nav-item" *ngIf="selectedTab==='sessions'">
-          <a class="nav-link heading">
+          <a class="nav-link heading" style="cursor: default!important;">
             <i class="fa fa-refresh cursor-pointer"
                [ngClass]="{'fa-spin':spinReloadSessionTableSpinner}"
                (click)="reloadSessionsHandler()"></i>

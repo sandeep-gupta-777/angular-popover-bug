@@ -16,23 +16,23 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
   @Output() dataValue$ = new EventEmitter();
 
+  tableFormTouched = false;/*because this.tableForm.touched is showing weird behaviour; only works when console is opened*/
   ngAfterViewInit(): void {
     this.tableForm.valueChanges.pipe(
       map((obj) => this.removeEmptyKeyValues(UtilityService.cloneObj(obj))),
       distinctUntilChanged((obj1, obj2) => JSON.stringify(obj1) === JSON.stringify(obj2)),
     ).subscribe((formData) => {
-      console.log('======================', formData);
-      console.log(this.tableForm.touched, Object.keys(formData).length === 0);
       this.formData = formData;
 
       /*if at any moment, filter data is empty => perform search in db*/
-      if (this.tableForm.touched && Object.keys(formData).length === 0) {
+      // if (this.tableForm.touched && Object.keys(formData).length === 0) {
+      if (this.tableForm.dirty && Object.keys(formData).length === 0) {
         this.performSearch({page: 1});
       }
 
-      if (!this.tableForm.touched) {
-        console.log('inside value changes', this.tableForm.touched, this.tableForm);
-      }
+      // if (!this.tableForm.touched) {
+      //   console.log('inside value changes', this.tableForm.touched, this.tableForm);
+      // }
       let searchDataClone = this.filterTableData(this.tableData, {...formData});
       this.dataSource = new MatTableDataSource(searchDataClone);
 
@@ -74,7 +74,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   }
 
   enterPressedOnFilters() {
-    this.performSearch({page:1});
+    this.performSearch({page: 1});
   }
 
   performSearch(filterObj: object = {}) {

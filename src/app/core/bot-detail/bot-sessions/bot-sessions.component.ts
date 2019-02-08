@@ -13,6 +13,7 @@ import {MaterialTableImplementer} from '../../../material-table-implementer';
 import {MatDialog} from '@angular/material';
 import {ObjectArrayCrudService} from '../../../object-array-crud.service';
 import {EventService} from '../../../event.service';
+import {catchError} from 'rxjs/internal/operators';
 
 interface ISessionFilterData {
   id: number,
@@ -416,7 +417,10 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
         this.tableData = [...this.tableData];
         this.showLoader = false;
-      });
+      },()=>{
+          this.showLoader = false;
+        }
+        );
   }
 
 
