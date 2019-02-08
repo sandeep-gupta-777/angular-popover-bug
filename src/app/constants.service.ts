@@ -637,8 +637,9 @@ export class ConstantsService {
       value: '',
       type: 'string',
       displayValue: 'Next scheduled date',
-      search: true,
-      searchValue: true,
+      search: false,
+      searchValue: "",
+      dateRange: true
     },
     isactive: {
       originalKey: 'isactive',
@@ -673,8 +674,9 @@ export class ConstantsService {
       value: '',
       type: 'time',
       displayValue: 'Generated Date',
-      search: true,
-      searchValue: true,
+      search: false,
+      searchValue: "",
+      dateRange: true
     },
     actions: {
       originalKey: '',
@@ -1248,8 +1250,9 @@ export class ConstantsService {
       value: '',
       type: 'time',
       displayValue: 'Updated At',
-      search: true,
+      search: false,
       searchValue: true,
+      dateRange: true
     },
     actions: {
       originalKey: '',

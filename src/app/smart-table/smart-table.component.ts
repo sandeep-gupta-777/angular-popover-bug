@@ -263,7 +263,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
         let x = this.isValidValue(rowDataObj[searchKey]) && rowDataObj[searchKey]['search'];
         if (x) {
           shouldInclude = shouldInclude &&
-            rowDataObj[searchKey]['searchValue'].toString().includes(searchDataClone[searchKey]);
+            rowDataObj[searchKey]['searchValue'].toString().toLowerCase().toString().includes(searchDataClone[searchKey].toLowerCase());
         } else if (rowDataObj[searchKey]['dateRange'] === true) {
 
           let filterDateRangeObj: { begin: Date, end: Date } = formData[searchKey];
