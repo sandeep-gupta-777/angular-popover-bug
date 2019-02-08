@@ -547,6 +547,21 @@ export class UtilityService {
     if (!rawData) {
       return;
     }
+
+    let intervalObj = {};
+    if(granularity === 'day' || granularity === 'month' || granularity === 'year'){
+      intervalObj = {
+        pointIntervalUnit: granularity,//24*3600*1000  // one day,
+      }
+    }else {
+      /*pointIntervalUnit doesnt work for hour and week
+      *https://api.highcharts.com/highstock/series.column.pointIntervalUnit
+      * */
+      intervalObj = {
+        pointInterval: this.convertGranularityStrToMs(granularity),//24*3600*1000  // one day,
+      }
+    }
+
     const template: any = {
       xAxis: {
         type: 'datetime'
@@ -562,7 +577,8 @@ export class UtilityService {
       plotOptions: {
         series: {
           pointStart: startTime_ms, //Date.UTC(2010, 0, 2),
-          pointIntervalUnit: granularity,//24*3600*1000  // one day,
+          ...intervalObj,
+          // pointIntervalUnit: granularity,//24*3600*1000  // one day,
           label: {
             enabled: false
           }
