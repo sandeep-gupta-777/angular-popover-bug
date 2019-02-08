@@ -107,7 +107,7 @@ export class ConstantsService {
       if (!appState) {
         return;
       }
-      debugger;
+
       this.appState = appState;
       this.BACKEND_URL = (appState && appState.backendUrlRoot);
     });

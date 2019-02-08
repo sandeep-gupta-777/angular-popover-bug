@@ -171,7 +171,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
       });
 
       handsontableDataSerialized = handsontableDataSerialized.filter(function (el) {
-        debugger;
+
         return el !=null;
       });
 

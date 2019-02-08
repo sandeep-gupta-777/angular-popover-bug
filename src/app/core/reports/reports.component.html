@@ -51,7 +51,8 @@
             </app-smart-table>
             <div *ngIf="activeTab==='configure' && (reportsEmpty || reportsLoading)"
                  class="report-placeholder">
-                <i *ngIf="reportsLoading">Loading</i>
+                <!--<i *ngIf="reportsLoading">Loading</i>-->
+                <app-imi-loader *ngIf="reportsLoading"></app-imi-loader>
                 <!--<i *ngIf="reportsEmpty">No Reports</i>-->
                 <app-splash-screen *ngIf="reportsEmpty" [imageHRef]="'report.svg'"
                                    [headingText]="'No reports available '"
@@ -74,9 +75,8 @@
         </div>
         <div *ngIf="activeTab==='history' && (reportsHistoryEmpty || reportHistoryLoading)"
              class="report-placeholder">
-            <i *ngIf="reportHistoryLoading">Loading</i>
+            <app-imi-loader *ngIf="reportHistoryLoading"></app-imi-loader>
             <i *ngIf="reportsHistoryEmpty">No Report History</i>
-            <!--<i *ngIf="reportsHistoryEmpty">No Report History</i>z-->
 
         </div>
     </div>

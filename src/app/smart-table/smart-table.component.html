@@ -1,6 +1,7 @@
 <!--<button (click)="log()">log</button>-->
 <!---->
 <!--https://stackblitz.com/edit/angular-hbakxo-xctfqy?file=app%2Ftable-filtering-example.ts-->
+<!--<button (click)="log(tableForm)">log</button>-->
 <form #tableForm="ngForm" *ngIf="tableData" (click)="handleDataValueClicked($event)">
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <!-- Symbol Column -->
@@ -14,7 +15,8 @@
                class="cursor-pointer"
                style="font-size: 13px;color: #56627c; font-weight: 700"> {{i}}</div>
           <div *ngIf="tableData && tableData[0][i].search">
-            <input class="column-input" [placeholder]="i" type="text" ngModel (keyup.enter)="enterPressedOnFilters()"
+            <input class="column-input" [placeholder]="i" type="text" ngModel
+                   (keyup.enter)="enterPressedOnFilters()"
                    [name]="i">
           </div>
 
@@ -50,7 +52,7 @@
                (click)="actionIconClicked(element.originalSessionData, i.name, $event)"></i>
           </span>
           <span *ngIf="element[i].type==='image'">
-          <img style="width: 16px; height: 16px" *ngFor="let item of element[i].value" [src]="item.src" alt="">
+          <img style="width: 16px; height: 16px; margin-right: 2px;" *ngFor="let item of element[i].value" [src]="item.src" alt="">
         </span>
           <div style="position: relative" class="textval-wrapper">
             <div

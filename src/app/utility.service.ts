@@ -340,6 +340,27 @@ export class UtilityService {
     }
   }
 
+  static cloneObj(obj){
+    return JSON.parse(JSON.stringify(obj));
+  }
+
+  static removeEmptyKeyValues(valClone) {
+    for (let key in valClone) {
+      if (!valClone[key]) {/*if value is "" or undefined */
+        delete valClone[key];
+      }
+    }
+    return valClone;
+  }
+
+  static trimAllObjValues(obj:object) {
+    for (let key in obj) {
+      if (obj[key] && obj[key].trim) {
+        obj[key] = obj[key].trim();
+      }
+    }
+    return obj;
+  }
 
   findDataByName(convertedData, name) {
     for (let i = 0; i < convertedData.length; ++i) {

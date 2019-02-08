@@ -90,7 +90,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
         /*creating a new Timeout*/
         this.logoutSetTimeoutRef = setTimeout(() => {
 
-          alert('You session has expired. Logging out');
+          // alert('You session has expired. Logging out');
           this.logoutSetTimeoutRef && clearTimeout(this.logoutSetTimeoutRef);
           try {
             //TODO:this.app$Subscription && this.app$Subscription.unsubscribe();

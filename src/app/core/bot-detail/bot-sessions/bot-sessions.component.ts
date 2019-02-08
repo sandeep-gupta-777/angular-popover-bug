@@ -406,6 +406,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     }
     this.serverService.makeGetReq({url, headerData: this.headerData})
       .subscribe((value: { objects: ISessionItem[], meta: { total_count: number } }) => {
+
         if(!filterData && value.objects.length ===0 ){
           this.showSplashScreen = true;
         }

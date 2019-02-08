@@ -4,7 +4,8 @@ import {Observable} from 'rxjs';
 import {LoggingService} from '../logging.service';
 import {MatTableDataSource} from '@angular/material';
 import {FormControl, FormGroup, NgForm} from '@angular/forms';
-import {debounce, debounceTime} from 'rxjs/internal/operators';
+import {debounce, debounceTime, distinctUntilChanged, map} from 'rxjs/internal/operators';
+import {UtilityService} from '../utility.service';
 
 @Component({
   selector: 'app-smart-table',
@@ -13,27 +14,33 @@ import {debounce, debounceTime} from 'rxjs/internal/operators';
 })
 export class SmartTableComponent implements OnInit, AfterViewInit {
 
-  formDirty = false;
   @Output() dataValue$ = new EventEmitter();
+
   ngAfterViewInit(): void {
-    this.tableForm.valueChanges.pipe(debounceTime(1000)).subscribe((formData) => {
-      debugger;
-      try {
-        let cleanedFilterData = this.removeEmptyKeyValues(formData);
-        /*if at any moment, filter data is empty => perform search in db*/
-        if(Object.keys(cleanedFilterData).length ===0){
-          this.performSearch({page:1});
-        }
-        let searchDataClone = this.filterTableData(this.tableData, {...formData});
-        this.dataSource = new MatTableDataSource(searchDataClone);
-      } catch (e) {
-        console.log(e);
+    this.tableForm.valueChanges.pipe(
+      map((obj) => this.removeEmptyKeyValues(UtilityService.cloneObj(obj))),
+      distinctUntilChanged((obj1, obj2) => JSON.stringify(obj1) === JSON.stringify(obj2)),
+    ).subscribe((formData) => {
+      console.log('======================', formData);
+      console.log(this.tableForm.touched, Object.keys(formData).length === 0);
+      this.formData = formData;
+
+      /*if at any moment, filter data is empty => perform search in db*/
+      if (this.tableForm.touched && Object.keys(formData).length === 0) {
+        this.performSearch({page: 1});
       }
+
+      if (!this.tableForm.touched) {
+        console.log('inside value changes', this.tableForm.touched, this.tableForm);
+      }
+      let searchDataClone = this.filterTableData(this.tableData, {...formData});
+      this.dataSource = new MatTableDataSource(searchDataClone);
+
     });
   }
 
   log(x) {
-    console.log(this._data);
+    console.log(x.touched, x);
   }
 
   removeEmptyKeyValues(valClone) {
@@ -66,27 +73,16 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     return obj;
   }
 
-  enterPressedOnFilters(){
-    if(this.tableForm.touched){
-      this.currentPage = 1;
-      this.tableForm.form.markAsUntouched();
-    }
-    let searchFormData = this.tableForm.value;
-    this.removeEmptyKeyValues(searchFormData);
-    let obj = this.replaceDisplayKeyByOriginalKey(searchFormData);
-    this.performSearch({...obj, page: this.currentPage});
+  enterPressedOnFilters() {
+    this.performSearch({page:1});
   }
 
-  performSearch(filterObj:object) {
-    // if(this.tableForm.touched){
-    //   this.currentPage = 1;
-    //   this.tableForm.form.markAsUntouched();
-    // }
-    // let searchFormData = this.tableForm.value;
-    // this.removeEmptyKeyValues(searchFormData);
-    // let obj = this.replaceDisplayKeyByOriginalKey(searchFormData);
-    // this.performSearchInDB$.emit({...obj, page: this.currentPage});
-    this.performSearchInDB$.emit(filterObj);
+  performSearch(filterObj: object = {}) {
+
+    let formData = this.replaceDisplayKeyByOriginalKey(this.formData);
+    let page = (<any>filterObj).page;
+    if (page) this.currentPage = page;
+    this.performSearchInDB$.emit({...formData, page: this.currentPage || 1, ...filterObj});
 
   }
 
@@ -98,12 +94,12 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
 
   @Input() set data(dataValue: any[]) {
-    if (!dataValue || dataValue.length == 0) {
+    if (!dataValue) {
       return;
     }
     this._data = dataValue;
     this.dataSource = new MatTableDataSource(dataValue);
-    if(dataValue.length===0){
+    if (dataValue.length === 0) {
       return;
     }
     this.displayedColumns = Object.keys(dataValue[0]).filter((key) => {
@@ -111,9 +107,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     });
 
     this.tableData = dataValue;
-
     this.displayKeyOriginalKeyDict = this.createDisplayKeyOriginalKeyDict(dataValue);
-
 
     try {
       let formData = this.tableForm && this.tableForm.value;
@@ -127,11 +121,9 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     this._data = dataValue;
   }
 
-  totalRows;
   @Input() showRefreshButton = false;
 
   _data: any = [{}];
-  iterableDiffer;
 
   @Output() rowClicked$ = new EventEmitter();
   @Output() refreshData$ = new EventEmitter();
@@ -158,16 +150,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   totalPageCount;
   @Input() settings;
   math = Math;
-
-  positionFilter = new FormControl();
-  nameFilter = new FormControl();
-
-  // filteredValues = {
-  //   position: '', name: '', weight: '',
-  //   symbol: '', topFilter: false
-  // };
-
-  filteredValues = {};
+  formData;
 
   actionIconClicked(session, action: any, event) {
     this.customActionEvents.emit({data: session, action});
@@ -176,17 +159,6 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
   }
-
-  // performSearchInDB() {
-  //   const inputs = document.querySelectorAll('.ng2-smart-filter input');
-  //   const inputsCount = document.querySelectorAll('.ng2-smart-filter input').length;
-  //   const obj = {};
-  //   for (let i = 0; i < inputs.length; ++i) {
-  //     const input$: any = inputs[i];
-  //     obj[input$.placeholder] = input$.value;
-  //   }
-  //   this.performSearchInDB$.emit(obj);
-  // }
 
   onUserRowSelect(event): void {
     LoggingService.log('row clicked');
@@ -197,14 +169,12 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     if (this.currentPage < this.totalPageCount) {
       this.goToPage(Math.min(this.totalPageCount, this.currentPage + 1));
     }
-    // this.tableForm.resetForm();
   }
 
   goToPrevPage() {
     if (this.currentPage >= 2) {
       this.goToPage(Math.max(0, this.currentPage - 1));
     }
-    // this.tableForm.resetForm();
   }
 
   goToPage(currentPage) {
@@ -222,10 +192,9 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
       end = this.currentPage + 2;
     }
     this.createPaginationArray(start, end);
-    debugger;
+
     this.pageChanged$.emit({page: currentPage});//TODO: this is just for report and knowledge base...remove it later
-    this.performSearch({page:currentPage});
-    // this.tableForm.resetForm();
+    this.performSearch({page: currentPage});
   }
 
   createPaginationArray(start, end) {
@@ -256,6 +225,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   }
 
   filterTableData(tableData, formData) {
+
     let searchDataClone = this.removeEmptyKeyValues(formData);
     return tableData.filter((rowDataObj) => {
       let shouldInclude = true;
@@ -270,7 +240,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
           let startTimeStamp: number = new Date(filterDateRangeObj.begin).getTime();
           let endTimeStamp: number = (this.addADayToDate(new Date(filterDateRangeObj.end))).getTime();
           let cellValueTimeStamp = new Date(rowDataObj[searchKey].value).getTime();
-          shouldInclude = startTimeStamp <= cellValueTimeStamp && endTimeStamp >= cellValueTimeStamp
+          shouldInclude = startTimeStamp <= cellValueTimeStamp && endTimeStamp >= cellValueTimeStamp;
         } else {
           shouldInclude = false;
         }
@@ -279,30 +249,31 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     });
   }
 
-  addADayToDate(date: Date):Date{
-    return new Date(date.setDate(date.getDate() + 1))
+  addADayToDate(date: Date): Date {
+    return new Date(date.setDate(date.getDate() + 1));
   }
 
   sortDirAsc = 1;
-  sort(key){
+
+  sort(key) {
 
     this.sortDirAsc = this.sortDirAsc * -1;
     let tableData = this.tableData;
     this.tableData =
-      tableData.sort((row1, row2)=>{
-        let sortAsc:number = row1[key].value > row2[key].value?1:-1;
+      tableData.sort((row1, row2) => {
+        let sortAsc: number = row1[key].value > row2[key].value ? 1 : -1;
         return sortAsc * this.sortDirAsc;
-    });
+      });
     // console.log(tableData);
     this.dataSource = new MatTableDataSource(tableData);
     // this.tableData = [...tableData];
   }
 
 
-  handleDataValueClicked(event){
+  handleDataValueClicked(event) {
 
-    let dataValue =  event.target.getAttribute("data-value");
-    if(dataValue){
+    let dataValue = event.target.getAttribute('data-value');
+    if (dataValue) {
       this.dataValue$.emit(dataValue);
     }
   }

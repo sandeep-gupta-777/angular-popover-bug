@@ -191,6 +191,7 @@ export class SessionDetailModelComponent implements OnInit {
 
   goToNextSearchResult(messageSearchKeyword) {
 
+    debugger;
     if (this.searchEnterPressedCount !== 0) {
       ++this.searchEnterPressedCount;
     }
@@ -235,7 +236,11 @@ export class SessionDetailModelComponent implements OnInit {
     /*find transaction id of first matched text*/
     const elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, 0);
     setTimeout(()=>{
-      elementDataToScroll && this.scroll(elementDataToScroll.transaction_id);
+      let didScrollOccur = elementDataToScroll && this.scroll(elementDataToScroll.transaction_id);
+      if(didScrollOccur){
+        this.transactionIdChangedInModel(elementDataToScroll.transaction_id);
+        this.searchEnterPressedCount++;
+      }
     },0);
   }
 
@@ -261,6 +266,14 @@ export class SessionDetailModelComponent implements OnInit {
       try {
         /*searching for bot messages match*/
         for (const msg of objItem.message) {
+          isMatch = msg.text.toUpperCase().includes(messageSearchKeyword.toUpperCase());
+          if (isMatch) { return isMatch; }
+        }
+      } catch (e) {}
+
+      try {
+        /*searching for bot generated_msg match*/
+        for (const msg of objItem.generated_msg) {
           isMatch = msg.text.toUpperCase().includes(messageSearchKeyword.toUpperCase());
           if (isMatch) { return isMatch; }
         }

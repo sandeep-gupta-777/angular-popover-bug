@@ -6,7 +6,6 @@
                    [totalRecords]="totalSessionRecords"
                    (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,reasonForDecryptionTemplate)"
                    (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate, reasonForDecryptionTemplate)"
-                   (pageChanged$)="loadSessionTableDataForGivenPage($event)"
                    [showSearchInDbButton]="true"
                    [showRefreshButton]="true"
                    (performSearchInDB$)="performSearchInDbForSession($event)"></app-smart-table>
