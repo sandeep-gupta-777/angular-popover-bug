@@ -69,7 +69,7 @@ export class Analysis2VolumeComponent implements OnInit {
               value[this.activeTab],
               'labels',
               new Date(value.analysisHeaderData.startdate).getTime(),
-              granularity);;
+              granularity);
 
         } catch (e) {
           // LoggingService.error(e);
