@@ -60,26 +60,30 @@ mat-button-toggle {
 mat-button-toggle-group {
   border: 1px solid $color-primary;
   border-radius: 2px;
+  // color:$color-primary !important;
 }
 .mat-button-toggle-disabled{
   border-radius: 0px;
   background-color: #ffffff;
-  color:$color-primary;
 }
-.mat-button-toggle-checked {
+/deep/  .mat-button-toggle-checked {
   border-radius: 0px;
   background-color: $color-primary;
-  color: #ffffff;
+  color: #ffffff !important;
 }
-
+/deep/ .mat-button-toggle-appearance-standard{
+  color:$color-primary ;
+}
 /deep/ .mat-button-toggle-checked .mat-button-toggle-focus-overlay{
   border-bottom: none !important;
+  
 }
 
 /deep/ .mat-button-toggle-appearance-standard .mat-button-toggle-label-content{
   line-height: 24px !important;
   font-size: 11px;
   padding: 0 5px !important;
+  
 }
 // .mat-button-toggle-checked .mat-button-toggle-focus-overlay {
 //   border-bottom: none !important;
