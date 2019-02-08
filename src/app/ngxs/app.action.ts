@@ -4,6 +4,7 @@ import {IProfilePermission} from '../../interfaces/profile-action-permission';
 import {ICustomNerItem} from '../../interfaces/custom-ners';
 import {IPipelineItem} from '../../interfaces/ai-module';
 import {IPipelineItemV2} from '../core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
+import {IRoleInfo} from '../../interfaces/role-info';
 
 export class SetStateFromLocalStorageAction {
   static readonly type = '[app] set state from localstorage';
@@ -106,6 +107,11 @@ export class SetAutoLogoutTime {
   static readonly type = '[app] set setAutoLogoutTime';
 
   constructor(public payload: {time: number}) {}
+}
+export class SetRoleInfo {
+  static readonly type = '[app] set role info';
+
+  constructor(public payload: {roleInfoArr:IRoleInfo[]}) {}
 }
 
 

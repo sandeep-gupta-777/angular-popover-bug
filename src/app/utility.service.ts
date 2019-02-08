@@ -49,6 +49,10 @@ export class UtilityService {
     return obj;
   }
 
+  static areAllElementsInArrUnique(arr:any[]): boolean{
+    return (new Set(arr)).size === arr.length;
+  }
+
   refreshCodeEditor$ = new EventEmitter();
   readonly RANDOM_IMAGE_URLS = [
     'https://robohash.org/StarDroid.png',

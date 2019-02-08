@@ -389,6 +389,10 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         dataCopy.updated_at__range = dataCopy.updated_at;
         delete dataCopy.updated_at;
       }
+      if(dataCopy.total_message_count) {
+        dataCopy.total_message_count__range = `${dataCopy.total_message_count},${dataCopy.total_message_count}`;
+        delete dataCopy.total_message_count;
+      }
       dataCopy = {
         ...dataCopy,
         offset: dataCopy.page ? ((dataCopy.page - 1) * 10) : 0,

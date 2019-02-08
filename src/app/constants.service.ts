@@ -107,8 +107,9 @@ export class ConstantsService {
       if (!appState) {
         return;
       }
+      debugger;
       this.appState = appState;
-      this.BACKEND_URL = (appState && appState.backendUrlRoot) || 'https://staging.imibot.ai/';
+      this.BACKEND_URL = (appState && appState.backendUrlRoot);
     });
     this.loggeduser$.subscribe((loggedUser: IAuthState) => {
       if (loggedUser && loggedUser.user) {
@@ -292,7 +293,7 @@ export class ConstantsService {
     // return this.BACKEND_USER_PIPELINE_BASED_BOT_LIST + 'api/v1/bot/';
     return this.BACKEND_URL + 'api/v1/bot/?limit=1000';
   }
-  getRoleMapUrl() {
+  getRoleUrl() {
     return this.BACKEND_URL + 'api/v1/role/';
   }
   deleteUserUrl(id:number){
@@ -342,11 +343,11 @@ export class ConstantsService {
   }
 
   getSessionsByIdUrl(id) {
-    return this.BACKEND_URL + `api/v1/room/?id=${id}`; //https://dev.imibot.ai/api/v1/room/9913/
+    return this.BACKEND_URL + `api/v1/room/?id=${id}&order_by=-updated_at`; //https://dev.imibot.ai/api/v1/room/9913/
   }
 
   getSessionsMessageUrl(room_id: number) {
-    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}&limit=1000`; //https://dev.imibot.ai/api/v1/message/?room_id=60
+    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}&limit=1000&order_by=-updated_at`; //https://dev.imibot.ai/api/v1/message/?room_id=60
   }
 
   getTotalMessagesUrl() {
@@ -456,7 +457,7 @@ export class ConstantsService {
   }
 
   getRoomWithFilters(queryParams: object) {
-    let url = this.BACKEND_URL + 'api/v1/room/';
+    let url = this.BACKEND_URL + 'api/v1/room/?order_by=-updated_at';
     let urlWithQueryParams = this.appendQueryParamsInUrl(url, queryParams);
     return urlWithQueryParams;
   }
@@ -636,8 +637,9 @@ export class ConstantsService {
       value: '',
       type: 'string',
       displayValue: 'Next scheduled date',
-      search: true,
-      searchValue: true,
+      search: false,
+      searchValue: "",
+      dateRange: true
     },
     isactive: {
       originalKey: 'isactive',
@@ -672,8 +674,9 @@ export class ConstantsService {
       value: '',
       type: 'time',
       displayValue: 'Generated Date',
-      search: true,
-      searchValue: true,
+      search: false,
+      searchValue: "",
+      dateRange: true
     },
     actions: {
       originalKey: '',
@@ -1247,8 +1250,9 @@ export class ConstantsService {
       value: '',
       type: 'time',
       displayValue: 'Updated At',
-      search: true,
+      search: false,
       searchValue: true,
+      dateRange: true
     },
     actions: {
       originalKey: '',

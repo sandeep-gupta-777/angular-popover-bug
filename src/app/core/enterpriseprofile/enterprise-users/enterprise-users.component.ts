@@ -378,7 +378,7 @@ debugger;
     this.loggeduserenterpriseinfo$.subscribe((enterprise) => {
       if (!this.roleMap) {
         const headerData: IHeaderData = {'content-type': 'application/json'};
-        const RoleMapUrl = this.constantsService.getRoleMapUrl();
+        const RoleMapUrl = this.constantsService.getRoleUrl();
         this.serverService.makeGetReq<any>({url: RoleMapUrl, headerData})
           .subscribe((value) => {
             this.roleMap = value.objects;
