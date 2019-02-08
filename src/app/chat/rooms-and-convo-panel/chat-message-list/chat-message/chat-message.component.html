@@ -1,5 +1,6 @@
 <!--chat bubbles for text message started-->
 <div class="row mt-1 style-children-scrollbar-x"
+     style="word-break: break-all"
      [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}"
      *ngIf="messageData.messageMediatype === myEBotMessageMediaType.text && messageData.sourceType!=='session_expired'">
   <div class="p-0 text-center" style="width: 40px">

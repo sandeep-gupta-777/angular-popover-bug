@@ -149,8 +149,13 @@ export class ServerService {
 
   handleErrorFromServer(e) {
 
-    let arg = (e.error && e.error.error) ? e.error : e;
-    this.showErrorMessageForErrorTrue(arg);
+    if(e.error && (e.error.error === true)){
+      this.showErrorMessageForErrorTrue(e.error);
+    }else {
+      this.showErrorMessageForErrorTrue({error: true, message:"Some error occurred"});
+    }
+    // let arg = (e.error && e.error.error) ? e.error : e;
+    // this.showErrorMessageForErrorTrue(arg);
     this.changeProgressBar(false, 100);
     if (isDevMode()) {
       LoggingService.error(e);

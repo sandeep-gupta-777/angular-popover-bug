@@ -133,7 +133,11 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   }
 
   logout() {
-    console.log("==================================");
+
+    if(!this.userData){/*TODO: ring fancing: BAD*/
+      return;
+    }
+
     localStorage.clear();
     this.bc.postMessage('This is a test message.');
     // this.store.reset({});

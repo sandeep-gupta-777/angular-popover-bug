@@ -910,8 +910,9 @@ export class UtilityService {
   }
 
   showErrorToaster(message: string, sec = 4) {
+    debugger;
     try {
-      this.snackBar.open(message, '', {
+      this.snackBar.open(message || "Some error occurred", '', {
         duration: (sec * 1000) || 2000,
         panelClass: ['bg-danger'],
         verticalPosition: 'top',
