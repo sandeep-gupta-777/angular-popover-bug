@@ -56,5 +56,13 @@ export class RoleaccordionComponent implements OnInit {
   }
   ngOnInit() {
   }
+  isAllHidden(value) {
+    let ans:boolean = true;
+    this.roles.forEach(role => {
+      ans = ans && !role.name.toUpperCase().includes(value)
+    });
+    debugger;
+    return ans;
+  }
 
 }
