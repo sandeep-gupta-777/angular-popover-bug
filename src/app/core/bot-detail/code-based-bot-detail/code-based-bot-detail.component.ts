@@ -85,7 +85,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
     /*this.bot$ = */
     this.botlist$.subscribe((botListState) => {
       if (botListState.allBotList) {
-          
+
         this.bot = botListState.allBotList.find((bot) => {
           return bot.id === this.bot_id;
         });
@@ -186,5 +186,11 @@ export class CodeBasedBotDetailComponent implements OnInit {
     });
   }
 
+  spinReloadSessionTableSpinner = false;
+  reloadSessionsHandler(){
+    this.spinReloadSessionTableSpinner = true;
+    setTimeout(()=>this.spinReloadSessionTableSpinner = false,2000);
+    this.eventService.reloadSessionTable$.emit()
+  }
 
 }

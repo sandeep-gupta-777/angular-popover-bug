@@ -257,27 +257,31 @@ export class SessionDetailModelComponent implements OnInit {
         if (isMatch) { return isMatch; }
       } catch (e) {}
 
-      try {
-        /*searching for human message match*/
-        isMatch = objItem.message.toUpperCase().includes(messageSearchKeyword.toUpperCase());
-        if (isMatch) { return isMatch; }
-      } catch (e) {}
-
-      try {
-        /*searching for bot messages match*/
-        for (const msg of objItem.message) {
-          isMatch = msg.text.toUpperCase().includes(messageSearchKeyword.toUpperCase());
+      if(objItem.user_type==='human'){
+        try {
+          /*searching for human message match*/
+          isMatch = objItem.message.toUpperCase().includes(messageSearchKeyword.toUpperCase());
           if (isMatch) { return isMatch; }
-        }
-      } catch (e) {}
+        } catch (e) {}
+      }else {
+        try {
+          /*searching for bot messages match*/
+          for (const msg of objItem.message) {
+            isMatch = msg.text.toUpperCase().includes(messageSearchKeyword.toUpperCase());
+            if (isMatch) { return isMatch; }
+          }
+        } catch (e) {}
 
-      try {
-        /*searching for bot generated_msg match*/
-        for (const msg of objItem.generated_msg) {
-          isMatch = msg.text.toUpperCase().includes(messageSearchKeyword.toUpperCase());
-          if (isMatch) { return isMatch; }
-        }
-      } catch (e) {}
+        try {
+          /*searching for bot generated_msg match*/
+          for (const msg of objItem.generated_msg) {
+            isMatch = msg.text.toUpperCase().includes(messageSearchKeyword.toUpperCase());
+            if (isMatch) { return isMatch; }
+          }
+        } catch (e) {}
+      }
+
+
     });
     return elementsDataToScroll[index];
   }
