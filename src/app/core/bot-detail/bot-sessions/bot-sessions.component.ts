@@ -384,16 +384,30 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       let dataCopy: any = this.utilityService.createDeepClone(filterData);
       if (dataCopy.updated_at) {
         let x: any;
+
+        // dataCopy.updated_at =
+        //   this.utilityService.convertDateObjectStringToYYYYMMDD(new Date((<any>filterData).updated_at.begin).toUTCString(), '-') + ',';
+        // x = this.utilityService.convertDateObjectStringToYYYYMMDD(new Date((<any>filterData).updated_at.end).toUTCString(), '-') + " 23:59";
+
+        /*
+        * start and end refer to date 00:00
+        * We want end to point to 23:59, so added a day
+        * */
+      let begin = new Date((<any>filterData).updated_at.begin);
+      let end = new Date((<any>filterData).updated_at.end);
+      end.setDate(end.getDate() + 1);
+
         dataCopy.updated_at =
-          this.utilityService.convertDateObjectStringToYYYYMMDD((<any>filterData).updated_at.begin.getTime(), '-') + ',';
-        x = this.utilityService.convertDateObjectStringToYYYYMMDD((<any>filterData).updated_at.end.getTime(), '-') + " 23:59";
-        dataCopy.updated_at += x;
+            `${begin.getFullYear()}-${begin.getUTCMonth()+1}-${begin.getUTCDate()} ${begin.getUTCHours()}:${begin.getUTCMinutes()}` + ',' +
+            `${end.getFullYear()}-${end.getUTCMonth()+1}-${end.getUTCDate()} ${begin.getUTCHours()}:${begin.getUTCMinutes()}` ;
+
+        // dataCopy.updated_at += x;
         dataCopy.updated_at__range = dataCopy.updated_at;
         delete dataCopy.updated_at;
       }
       if(dataCopy.total_message_count) {
         dataCopy.total_message_count__range = `${dataCopy.total_message_count},${dataCopy.total_message_count}`;
-        delete dataCopy.total_message_count;
+
       }
       dataCopy = {
         ...dataCopy,
