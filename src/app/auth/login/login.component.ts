@@ -255,7 +255,6 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       'auth-token': null,
       'user-access-token': null
     };
-
     this.serverService.makePostReq<IUser>({url: loginUrl, body, headerData})
       .pipe(switchMap(((user: IUser) => {
             this.userData = user;
@@ -282,7 +281,9 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
           //   }
         ),
       ), switchMap((value) => {
-        this.gotUserData$.emit(value);
+        if(value){  
+          this.gotUserData$.emit(value);
+        }
         return of();
       }), catchError((e) => {
         this.loginFailedHandler();
@@ -318,10 +319,13 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
         'auth-token': this.userData.auth_token
       };
 
-      return this.serverService.makePostReq<any>({url: enterpriseLoginUrl, body, headerData});
-      // .subscribe((value) => {
+      return this.serverService.makePostReq<any>({url: enterpriseLoginUrl, body, headerData})
+      // .pipe(
+      //   switchMap((value) => {
       //     this.gotUserData$.emit(value);
-      //   });
+      //     return value;
+      //   })
+      // );
     } else {
       this.utilityService.showErrorToaster('Please verify this enterprise before trying to login.');
       return of(null);
@@ -329,9 +333,18 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
 
   }
 
+  clickedEnterprise(Enterprise){
+    this.enterEnterprise(Enterprise)
+      .subscribe((value)=>{
+        this.gotUserData$.emit(value);
+      })
+  }
+
   enterpriseLogout() {
     this.panelActive = ELoginPanels.login;
     this.disabeLoginButton = false;
+    this.errorMessage = "";
+    this.infoMessage = "";
   }
 
   loginWithCustomEmail(email) {
