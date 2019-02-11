@@ -17,6 +17,7 @@ export class RoleaccordionComponent implements OnInit {
   @Input() roles : IRole[];
   @Input() addedPermissions : number[];
   @Input() serchedAction : string;
+  @Input() systemRole: string;
   @Output() removePermission  = new EventEmitter();
   @Output() addPermission  = new EventEmitter();
 

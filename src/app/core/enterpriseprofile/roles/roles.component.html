@@ -3,7 +3,7 @@
     <div class="card-header">
       <i class="fa fa-chevron-left mr-2 cursor-pointer" (click)="navegateRole()"></i>
       {{isNewRole? "Create a new role" :
-      (!system_role ? "Edit role" : "System role")}}
+      (!system_role ? "Edit role" : selectedRoleName)}}
     </div>
     <div class="ml-auto">
       <button class="btn-theme btn-theme-primary" (click)="createNewRole()" *ngIf = "isNewRole" [disabled]="!selectedRoleName || !selectedRoleBaseRole" >Create role</button>
@@ -19,19 +19,19 @@
   </div>
 </header>
 
-<div class="example-container ">
+<div class="example-container "  [hidden] = "system_role">
   <mat-form-field style="width:250px; height: 40px;" class="p-0">
     <input matInput placeholder="Role name" required [(ngModel)]="selectedRoleName" [disabled]="system_role">
   </mat-form-field>
 
-  <mat-form-field style="width: 140px;height: 40px;" *ngIf="isNewRole" class="p-0" >
+  <mat-form-field style="width: 140px;height: 40px;" *ngIf="isNewRole" class="p-0">
     <mat-select placeholder="Base role" [(ngModel)] = "selectedRoleBaseRole" (ngModelChange) = "baseRoleChanged(selectedRoleBaseRole)" >
       <mat-option [value]="role.id" *ngFor = "let role of allRolesList"[disabled]="role.name == 'Admin'">{{role.name}}</mat-option>
     </mat-select>
   </mat-form-field>
 </div>
 <div class="row">
-  <div class="col-6 all-permission">
+  <div class="col-6 all-permission" >
 
     <div class="d-flex" style="font-size: 13px;align-items: center;">
       <div class = "card-header">
@@ -54,8 +54,10 @@
         [roles]="permissionList | objectWithCategoryName:categoryName"
         [addedPermissions]="selectedPermissionIdList" 
         [serchedAction]="serchedAction"
+        [systemRole]="system_role"
         (addPermission)="addPermission($event)" 
-        (removePermission)="removePermission($event)"></app-roleaccordion>
+        (removePermission)="removePermission($event)"
+        ></app-roleaccordion>
     </div>
   </div>
   <div class="col-6">
@@ -72,7 +74,7 @@
       <span class="badge mr-1 mb-2" *ngFor="let perm of selectedPermissionIdList" 
       [hidden]="!([perm] | profilePermissionIdToName |async)[0].toLowerCase().includes(serchedPermission.toLowerCase())">
         {{(([perm] | profilePermissionIdToName)|async)[0]}}
-        <i class="fa fa-times-circle cursor-pointer" (click)="removePermission({roleIds:[perm]})" 
+        <i class="fa fa-times-circle cursor-pointer" [hidden]="system_role" (click)="removePermission({roleIds:[perm]})" 
         
         ></i>
       </span>
