@@ -85,7 +85,7 @@
           <img [src]="aiModule.pipeLineSrc ||pipeLineSrc"
                style="margin-right: 8px" alt="">
           <div class="d-flex flex-column">
-            <span class="module">{{aiModule.unique_name|titlecase}}</span>
+            <span class="module">{{(aiModule.id| pipeineIdToPipelineModuleWrapper).display_values}}</span>
             <span class="library">{{(aiModule.id|pipelineIdToPipelineModule).library}}</span>
           </div>
           <span class="ml-auto"></span>
@@ -149,7 +149,7 @@
 
         </div>
         <button class="btn-theme btn-theme-success-sm"
-                (click)="submitPipeline(Pipelineform); dialogRefWrapper.ref.close(true)">Submit1
+                (click)="submitPipeline(Pipelineform); dialogRefWrapper.ref.close(true)">Submit
         </button>
       </form>
 
