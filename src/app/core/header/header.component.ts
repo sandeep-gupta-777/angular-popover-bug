@@ -133,7 +133,6 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   }
 
   logout() {
-
     if(!this.userData){/*TODO: ring fancing: BAD*/
       return;
     }
