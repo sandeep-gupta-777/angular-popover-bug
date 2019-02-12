@@ -1,26 +1,55 @@
+<!--<button (click)="openDialog()">test</button>-->
 
+<div style="margin: 0px 80px; position: relative">
+  <mat-tab-group
+    [selectedIndex]="activeTab===myEBotType.chatbot?0:1"
+    (selectedTabChange)="tabClicked($event.index == 0?myEBotType.chatbot: myEBotType.intelligent)">
+    <mat-tab label="Code Based">
+      <div class="px-4 mt-2">
+        <app-bot-preview-card-list
+          [botType]="activeTab"
+          [codeBasedBotList]="codeBasedBotList"></app-bot-preview-card-list>
+      </div>
+    </mat-tab>
+    <mat-tab label="Pipeline Based">
+      <div class="px-4 mt-2">
+        <app-bot-preview-card-list
+          [botType]="activeTab"
+          [codeBasedBotList]="pipelineBasedBotList"></app-bot-preview-card-list>
+      </div>
+    </mat-tab>
 
-<div style="margin: 0px 80px">
-  <ul class="nav nav-tabs mb-2 d-flex align-items-center mb-4 mt-2">
-    <li class="nav-item">
-      <a class="nav-link" [routerLink]="['/core','viewbots', myEBotType.chatbot]" routerLinkActive="tab-active">Code based
-        bot</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" [routerLink]="['/core','viewbots', myEBotType.intelligent]" routerLinkActive="tab-active">Pipeline based bots</a>
-    </li>
+  </mat-tab-group>
 
-    <!--<div class="d-flex justify-content-end mt-4 ml-auto">-->
-    <button *myIf="myEAllActions['Create Bots']" class="btn btn-theme-primary ml-auto" (click)="openCreateBotModal(Primarytemplate)">
-      <i class="fa fa-plus pr-1"></i>New Bot
-    </button>
-    <!--</div>-->
-  </ul>
+  <!--<button *myIf="myEAllActions['Create Bots']"-->
+  <!--mat-flat-button-->
+  <!--mat-ripple-->
+  <!--color="primary"-->
+  <!--class="btn-theme ml-auto"-->
+  <!--[popover]="'Click here to create your first bot'"-->
+  <!--placement="bottom"-->
+  <!--triggers=""-->
+  <!--#pop="bs-popover"-->
+  <!--style="position: absolute; right: 0; top: 10px; z-index: 1000;"-->
+  <!--triggers=""-->
+  <!--(click)="openDialog()">-->
+  <!--<i class="fa fa-plus pr-1"></i>New Bot-->
+  <!--</button>-->
 
-  <div class="px-4">
-    <router-outlet></router-outlet>
-  </div>
+  <button *myIf="myEAllActions['Create Bots']"
+          mat-flat-button
+          mat-ripple
+          color="primary"
+          class="btn-theme ml-auto"
+          style="position: absolute; right: 0; top: 10px; z-index: 100;"
+          (click)="openDialog()">
+    <i class="fa fa-plus pr-1"></i>New Bot
+  </button>
+
 </div>
+
+
+
 
 <ng-template #Primarytemplate>
   <div class="primary-modal">
@@ -45,7 +74,8 @@
         </div>
       </div>
 
-      <div class="action d-flex mt-2 cursor-pointer p-2" (click)="navigate(myEBotType.intelligent)" style="height: 40px">
+      <div class="action d-flex mt-2 cursor-pointer p-2" (click)="navigate(myEBotType.intelligent)"
+           style="height: 40px">
         <div class="d-flex" style="padding-right: 20px">
           <i class="fa fa-server"></i>
         </div>

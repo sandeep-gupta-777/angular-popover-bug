@@ -1,20 +1,20 @@
 import { IBot } from '../../app/core/interfaces/IBot';
 
 export interface IUserAcquisitionResponseBody {
-    meta: any,
+    meta: any;
     objects: [
         {
             output: {
-                "userAcquisition": IUserAcquisitionItem[]
+                'userAcquisition': IUserAcquisitionItem[]
             }
         }
-    ]
+    ];
 }
 export interface IUserAcquisitionItem {
-    "labels": string,
-    "newusers": number,
-    "returningusers": number,
-    "totalusers": number            
+    'labels': string;
+    'newusers': number;
+    'returningusers': number;
+    'totalusers': number;
 }
 
 

@@ -15,7 +15,7 @@ export interface IPipelineItem {
   "contextual": boolean,
   "created_at": number,
   "default": boolean,
-  "display_values": {},
+  "display_values": any,
   "id": number,
   "input_params": object,
   "library": string,
@@ -25,8 +25,10 @@ export interface IPipelineItem {
   "updated_at": number,
 
   /*custom fields*/
-  form_validation_pipeline?:boolean;
+  form_validation_pipeline?: boolean;
+  is_added:boolean;
 }
+
 
 
 // {

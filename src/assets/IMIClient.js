@@ -2612,7 +2612,7 @@ var timeStampInterval = 30000;//in milliseconds
             self.group = undefined;
             self.title = undefined;
             self.id = undefined;
-            self.description = undefined;
+            self.subtitle = undefined;
 
         };
         topicConst.fromJSON = function (jsonObject) {

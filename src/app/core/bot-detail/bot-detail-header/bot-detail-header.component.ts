@@ -5,7 +5,6 @@ import {Select, Store} from '@ngxs/store';
 import {ConstantsService, EAllActions} from '../../../constants.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {UtilityService} from '../../../utility.service';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {ChangeFrameAction, SetCurrentBotDetailsAndResetChatStateIfBotMismatch, ToggleChatWindow} from '../../../chat/ngxs/chat.action';
 import {EChatFrame} from '../../../../interfaces/chat-session-state';
 import {AddNewBotInAllBotList, UpdateBotInfoByIdInBotInBotList} from '../../view-bots/ngxs/view-bot.action';
@@ -13,20 +12,23 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {IEnterpriseProfileInfo} from '../../../../interfaces/enterprise-profile';
 import {ELogType, LoggingService} from '../../../logging.service';
+import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
+import {MatDialog} from '@angular/material';
+import {ModalImplementer} from '../../../modal-implementer';
+import {EventService} from '../../../event.service';
 
 @Component({
   selector: 'app-bot-detail-header',
   templateUrl: './bot-detail-header.component.html',
   styleUrls: ['./bot-detail-header.component.scss']
 })
-export class BotDetailHeaderComponent implements OnInit {
+export class BotDetailHeaderComponent extends ModalImplementer implements OnInit {
 
   @Input() bot: IBot;
   myObject = Object;
   myEAllActions = EAllActions;
   showSpinIcon = false;
   @Output() refreshBotDetails$ = new EventEmitter();
-  modalRef: BsModalRef;
   enterprise_unique_name;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
 
@@ -34,9 +36,11 @@ export class BotDetailHeaderComponent implements OnInit {
     private store: Store,
     private serverService: ServerService,
     private router: Router,
-    public utilityService: UtilityService,
-    private modalService: BsModalService,
-    private constantsService: ConstantsService) {
+    public matDialog:MatDialog,
+    public  utilityService: UtilityService,
+    private constantsService: ConstantsService,
+    ) {
+    super(utilityService, matDialog);
   }
 
   ngOnInit() {
@@ -68,32 +72,40 @@ export class BotDetailHeaderComponent implements OnInit {
 
   updateBot() {
     try {
-      this.modalRef.hide();
-    }catch (e) {
+      this.dialogRefWrapper.ref.close();
+    } catch (e) {
       LoggingService.error(e);
     }
     this.bot.active_version_id = this.bot.store_selected_version;
-    let bot = this.utilityService.performFormValidationBeforeSaving(this.bot);
-    if (!bot) return;
+    const bot = this.utilityService.performFormValidationBeforeSaving(this.bot);
+    if (!bot) { return; }
 
-    let url = this.constantsService.updateBotUrl(this.bot.id);
-    let headerData: IHeaderData = {
+    const url = this.constantsService.updateBotUrl(this.bot.id);
+    const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
     if (this.bot.store_selected_version && this.bot.store_selected_version !== this.bot.active_version_id) {
-      if (!confirm('active version has been changed')) return;
+      if (!confirm('active version has been changed')) { return; }
       this.bot.active_version_id = this.bot.store_selected_version;
     }
-    let body = this.constantsService.updateBotSerializer(this.bot);
+    const body:any = this.constantsService.updateBotSerializer(this.bot);
     if (!body.logo) {
       body.logo = 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png';
     }
+
     this.serverService.makePutReq({url, body, headerData})
       .subscribe((updatedBot: IBot) => {
+
+        EventService.botUpdatedInServer.emit(updatedBot);
         this.store.dispatch([
           new UpdateBotInfoByIdInBotInBotList({botId: this.bot.id, data: updatedBot})
         ]);
         this.utilityService.showSuccessToaster('Bot updated');
+      },
+      err  => {
+
+        EventService.codeValidationErrorOnUpdate$.emit(err.error);
+        console.log("emited this :::::::::::::",err.error);
       });
   }
 
@@ -106,9 +118,8 @@ export class BotDetailHeaderComponent implements OnInit {
   }
 
   deleteBot() {
-    this.modalRef.hide();
-    let url = this.constantsService.getDeleteBotUrl(this.bot.id);
-    let headerData: IHeaderData = {
+    const url = this.constantsService.getDeleteBotUrl(this.bot.id);
+    const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
     this.serverService.makeDeleteReq({url, headerData})
@@ -120,17 +131,67 @@ export class BotDetailHeaderComponent implements OnInit {
           });
       });
   }
-
+  dialogRefWrapper = {ref:null};
   openActiveBotChangedModal(template: TemplateRef<any>) {
+
     if (this.bot.store_selected_version && this.bot.store_selected_version !== this.bot.active_version_id) {
-      // if (!confirm('active version has been changed')) return;
-      this.modalRef = this.modalService.show(template, {class: 'center-modal'});
-    }else {
+
+      let selectedVersion = this.bot.store_bot_versions.find(value => value.id == this.bot.store_selected_version);
+      if(selectedVersion.changed_fields['df_template']||
+        selectedVersion.changed_fields['df_rules']||
+        selectedVersion.changed_fields['generation_rules']||
+        selectedVersion.changed_fields['generation_templates']||
+        selectedVersion.changed_fields['workflow']){
+        this.utilityService.openDialog({
+          dialogRefWrapper: this.dialogRefWrapper,
+          classStr:'danger-modal-header-border',
+          data:{
+            actionButtonText:"Activate with last saved data",
+            message: 'The version you are trying to make active contains unsaved changes.Do you want to use the last saved data of this version?',
+            title:'Activate code version',
+            isActionButtonDanger:true
+          },
+          dialog: this.matDialog,
+          component:ModalConfirmComponent
+        }).then((data)=>{
+          if(data) this.updateBot();
+        })
+      }
+      else{
+        this.utilityService.openDialog({
+          dialogRefWrapper: this.dialogRefWrapper,
+          classStr:'danger-modal-header-border',
+          data:{
+            actionButtonText:"Update",
+            message: 'If you update the bot your currently selected version will be the new Active version.',
+            title:'Active version changed',
+            isActionButtonDanger:true
+          },
+          dialog: this.matDialog,
+          component:ModalConfirmComponent
+        }).then((data)=>{
+          if(data) this.updateBot();
+        })
+      }
+    }
+    else {
       this.updateBot();
     }
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'center-modal'});
+
+  async openDeleteModal() {
+    let data = await this.utilityService.openDialog({
+      dialog: this.matDialog,
+      component: ModalConfirmComponent,
+      data: {title:`Delete bot ${this.bot.name}?`, message:null, actionButtonText:"Delete", isActionButtonDanger:true},
+      classStr: 'danger-modal-header-border',
+      dialogRefWrapper:this.dialogRefWrapper
+    });
+
+
+    if(data){
+      this.deleteBot();
+    }
   }
 }

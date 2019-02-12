@@ -1,41 +1,69 @@
 <!--<button (click)="click()">click</button>-->
 <form [formGroup]="formGroup" class="bot-creation-form ">
-  <div class="row">
+  <div class="row m-0">
 
     <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
 
-      <div class="form-group">
-        <label for="alterEgo">Heading</label>
-        <input formControlName="heading" type="text" class="form-control"
-               placeholder="A heading defining the usecase of the Bot" id="alterEgo">
+      <div class="">
+        <mat-form-field class="w-100">
+          <input matInput formControlName="heading" type="text" class=""
+                 placeholder="Heading">
+        </mat-form-field>
       </div>
 
-      <div class="form-group">
-        <label for="alterEgo">Transactions Per Billing Unit</label>
-        <input formControlName="transactions_per_pricing_unit" type="number" class="form-control"
-               placeholder="Number of transactions to be counted in one session unit"
-               id="alterEgo">
+      <div class="">
+        <mat-form-field class="w-100">
+          <input matInput formControlName="transactions_per_pricing_unit" type="number" class=""
+                 placeholder="Transactions Per Billing Unit"
+          >
+        </mat-form-field>
       </div>
-      <div class="form-group">
-        <label for="alterEgo">Default Platform Error Message</label>
-        <input formControlName="error_message" type="text" class="form-control"
-               placeholder="" id="alterEgo">
+      <div class="">
+        <mat-form-field class="w-100">
+          <input matInput formControlName="error_message" type="text" class=""
+                 placeholder="Default Platform Error Message ">
+        </mat-form-field>
       </div>
 
     </fieldset>
     <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
 
       <!--<div class="form-group">-->
-        <!--<label for="alterEgo">Industry</label>-->
-        <!--<input formControlName="industry" type="text" class="form-control"-->
-               <!--placeholder="The industry the Bot caters to" id="alterEgo">-->
+      <!--<label for="alterEgo">Industry</label>-->
+      <!--<input matInput formControlName="industry" type="text" class=""-->
+      <!--placeholder="The industry the Bot caters to">-->
       <!--</div>-->
 
 
-      <div class="form-group">
-        <label for="alterEgo">Bot's First Message</label>
-        <input formControlName="first_message" type="text" class="form-control"
-               placeholder="First message of the Bot" id="alterEgo">
+      <div class="">
+        <mat-form-field class="w-100">
+          <input matInput formControlName="first_message" type="text" class=""
+                 placeholder="Bot's First Message">
+        </mat-form-field>
+      </div>
+
+      <div class="switch-wrapper">
+        <div class="form-control d-flex align-items-center justify-content-between pr-5">
+          <label class="pr-2">Room Close Callback</label>
+
+          <app-ui-switch
+            formControlName="room_close_callback"
+            [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
+          ></app-ui-switch>
+
+        </div>
+      </div>
+
+      <div class="switch-wrapper">
+        <div class="form-control d-flex align-items-center justify-content-between pr-5">
+          <label class="pr-2">Allow Feedback</label>
+
+          <app-ui-switch
+            formControlName="allow_feedback"
+            [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
+          ></app-ui-switch>
+<!---->
+        </div>
       </div>
 
     </fieldset>

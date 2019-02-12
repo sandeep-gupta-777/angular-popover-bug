@@ -17,93 +17,61 @@ export class Analysis2EngagementComponent implements OnInit {
   @Select() analysisstate2$: Observable<IAnalysis2State>;
 
 
-  activeTab: string = 'Sessions';
-  series_Sessions: any[] = [{
-    name: 'Maximum',
-    data: [4, 5, 8, 12, 10, 6, 22, 3]
-  }, {
-    name: 'Average',
-    data: [2, 2.5, 6.2, 4.4, 8, 4, 12.4, 1.3]
-  }, {
-    name: 'Minimum',
-    data: [1, 2, 1, 2, 1, 2, 1, 1]
-  }];
-  series_Messages: any[] = [{
-    name: 'Triggered',
-    data: [5, 3, 4, 7, 2]
-  }];
-  series_ChannelWiseSessions: any[];
-  series_ChannelWiseUsers: any[];
-  series_Time: any[];
-  series_Users: any[] = [{
-    name: 'Triggered',
-    data: [5, 3, 4, 7, 2]
-  }];
-
+  activeTab = 'sessionsperuser';
+  chartValue: any;
   constructor(
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
     private store: Store,
-    private u:UtilityService
+    private u: UtilityService
   ) {
   }
 
   tabClicked(activeTab: string) {
     this.activeTab = activeTab;
-    if(this.activeTab==='Sessions'){
+
+    if (this.activeTab === 'sessionsperuser') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.userLoyalty}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.sessionsperuser}
       }));
     }
-    if(this.activeTab==='Time'){
+    if (this.activeTab === 'messagespersession') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseAverageSessionTime}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.messagespersession}
       }));
     }
-    if(this.activeTab==='channel_Wise_Sessions'){
+    if (this.activeTab === 'timepersession') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseSessions}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.timepersession}
       }));
     }
-    if(this.activeTab==='channel_Wise_Users'){
-      this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseUsers}
-      }));
-    }
-    // added now
-    if(this.activeTab === 'Users'){
-      this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.userAcquisition}
-      }));
-    }
+
   }
 
   ngOnInit() {
-    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('perf') || 'Users';
+    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || this.activeTab;
+    this.tabClicked(this.activeTab);
+
     this.analysisstate2$
-      .subscribe((value)=>{
-        // ;
-        if(value.userLoyalty){
-          this.series_Sessions  = this.u.convert(value.userLoyalty,"labels","String") ;
+      .subscribe((value: IAnalysis2State) => {
+        try {
+
+          const granularity =  value.analysisHeaderData.granularity;
+          const granularity_ms: number = this.u.convertGranularityStrToMs(granularity);
+
+          this.chartValue =
+            <any>this.u.convertDateTimeGraph(
+              value[this.activeTab],
+              'labels',
+              new Date(value.analysisHeaderData.startdate).getTime(),
+              granularity) ;
+
+        } catch (e) {
+          // LoggingService.error(e);
         }
 
-        if(value.channelWiseAverageSessionTime){
-          this.series_Time  = this.u.convert(value.channelWiseAverageSessionTime,"labels","Date") ;
-        }
-        
-        if(value.channelWiseSessions){
-          this.series_ChannelWiseSessions  = this.u.convert(value.channelWiseSessions,"labels","Date") ;
-        }
-
-        if(value.channelWiseUsers){
-          this.series_ChannelWiseUsers  = this.u.convert(value.channelWiseUsers,"labels","Date") ;
-        }
-        // added now
-        if(value.userAcquisition){
-          this.series_Users  = this.u.convert(value.userAcquisition,"labels","Date") ;
-        }
-      })
+      });
   }
-
+//
 
 }

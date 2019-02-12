@@ -1,20 +1,20 @@
 
 export interface ISeriesDataItem {
-  name?: string,
-  data?: [any, number][]
+  name?: string;
+  data?: [any, number][];
 }
 
 export interface IChartSetting {
   chart?: {
     type?: string
-  },
+  };
   title?: {
     text?: string
-  },
+  };
   credits?: {
     enabled?: boolean
-  },
-  series?: ISeriesDataItem[],
+  };
+  series?: ISeriesDataItem[];
   xAxis?: {
     type?: string,
     dateTimeLabelFormats?: {
@@ -22,14 +22,14 @@ export interface IChartSetting {
     },
 
     tickInterval?: number
-  },
+  };
   yAxis?: {
       labels?: {
         style?: {
           color?: any
         }
       },
-    gridLineWidth?:number,
+    gridLineWidth?: number,
     title?: {
         text?: string,
         style?: {
@@ -39,5 +39,5 @@ export interface IChartSetting {
       opposite?: boolean,
       visible?: boolean
 
-    }[]
+    }[];
 }

@@ -1,5 +1,5 @@
-<div class="grid-analysis2">
-  <app-analysis2-header [allbotList]="(allBotList$|async)" class="header border"></app-analysis2-header>
+<div class="grid-analysis2" *ngIf="(allCodeBasedBotList$|async) && (allCodeBasedBotList$|async).length>0; else splashscreen">
+  <app-analysis2-header [allbotList]="(allCodeBasedBotList$|async)" class="header border"></app-analysis2-header>
   <app-analysis2-body class="body"></app-analysis2-body>
 
   <div class="body">
@@ -7,41 +7,39 @@
 
       <div class="side-bar  border-right">
         <div class="side-bar-content">
-          <a [routerLink]="['/core','analytics2']" routerLinkActive="font-weight-bold" class="heading  my-3">Analytics</a>
-          <!--<a [routerLink]="['/core','analytics2','overview']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Overview</a>-->
-          <!--<a [routerLink]="['/core','analytics2','volume']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Sessions</a>-->
-          <!--<a [routerLink]="['/core','analytics2','performance']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Performance</a>&lt;!&ndash; Performance was &ndash;&gt;-->
-          <!--<a [routerLink]="['/core','analytics2','engagement']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">engaggment</a> &lt;!&ndash; engaggment was &ndash;&gt;-->
-          <!--according to old UI-->
-          <a [routerLink]="['/core','analytics2','users']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">
-            Users</a> <!-- engaggment was -->
-          <a [routerLink]="['/core','analytics2','sessions']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">
-            Sessions
-          </a>
-          <a [routerLink]="['/core','analytics2','messages']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">
-            Messages
-          </a>
-          <a [routerLink]="['/core','analytics2','platform']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">
-            Platform
-          </a>
-          <a [routerLink]="['/core','analytics2','events']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">
-            Events
-          </a>
-          <a [routerLink]="['/core','analytics2','engagement']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">
-            Engagement
-          </a>
-          <a [routerLink]="['/core','analytics2','usage']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">
-            Usage
-          </a>
+          <a routerLinkActive="font-weight-bold" class="heading  my-3">Analytics</a>
+          <!-- <a [routerLink]="['/core','analytics2','overview']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Overview</a> -->
+          <a [routerLink]="['/core','analytics2','volume']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Volume</a>
+          <a [routerLink]="['/core','analytics2','performance']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Performance</a>
+          <!-- &lt;!&ndash; Performance was &ndash;&gt; -->
+          <a [routerLink]="['/core','analytics2','engagement']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Engagement</a>
+          <a [routerLink]="['/core','analytics2','usage']" routerLinkActive="font-weight-bold" class="tab-theme mb-3">Usage</a>
+           <!-- &lt;!&ndash; engaggment was &ndash;&gt; -->
         </div>
       </div>
 
       <div class="flex-grow-1">
         <router-outlet style="flex-grow: 1"></router-outlet>
       </div>
-      <!--<app-analysis2-overview></app-analysis2-overview>-->
+      <!-- <app-analysis2-overview></app-analysis2-overview> -->
 
     </div>
 
   </div>
 </div>
+<ng-template
+        #splashscreen>
+<app-splash-screen
+        style="position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;"
+        [imageHRef]="'group-2.svg'"
+        [headingText]="'No bots available in your account'"
+        [descriptionText]="'Create a new bot or ask your administrator to add bots'"
+></app-splash-screen>
+</ng-template>

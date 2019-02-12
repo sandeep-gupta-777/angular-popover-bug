@@ -1,75 +1,159 @@
-<!--<p>{{pipeLine|json}}</p>-->
-<!--<button (click)="test()">test</button>-->
-<div class="row m-0" style="height: 100%;">
-  <div style="height: 10%" class="col-12 mb-1 d-flex p-0 justify-content-between">
-    <p class="text-theme-secondary my-2 col-8">Drag and drop modules from 'Available Intelligence Modules' to 'Bot Intelligence
-      Pipeline' and vice versa</p>
-    <div class="search-theme-input-with-search col-4">
-      <span class="fa fa-search"></span>
-      <input type="search" placeholder="Filter Modules" [(ngModel)]="searchKeyword" class="border">
-    </div>
-  </div>
 
-  <div class="col-8" style="height:90%;overflow-y: scroll" *ngIf="aiModules">
-    <h4 class="heading mb-2 mt-3">Available Intelligence Modules({{aiModules && aiModules.length}})</h4>
-    <ul class="aim-list  px-0 d-flex align-items-start align-content-start flex-row flex-wrap"
-        [dragula]='"first-bag"' [(dragulaModel)]='aiModules'>
-      <li class="border module-box mb-2 px-2 mr-1"
-          *ngFor="let aiModule of (aiModules|pipelineFilter:searchKeyword); let i of index">
-        {{aiModule.unique_name}}
-        <div>
-          <i *ngIf="aiModule && aiModule.input_params && myObject.keys(aiModule.input_params).length>0" (click) = "openCreateBotModal(Primarytemplat,aiModule);" class="fa fa-cog pl-1" aria-hidden="true"></i>
-        </div>
-      </li>
-    </ul>
+<section class="d-flex h-100" *ngIf="pipelineModulesV2List">
+
+  <div style="height:100%;overflow-y: scroll; flex: 2; padding-right: 10px; position: relative">
+    <!--<div style="height: 32px"></div>-->
+    <div style="height: 32px; position: sticky; left: 24px; right: 10px; top: 0;z-index: 1000; background-color: white"
+         class="mb-1 p-1 d-flex p-0 justify-content-between align-items-end">
+      <strong>Modules ({{masterModuleCount}})</strong>
+      <div class="d-inline-flex align-items-center ml-auto mr-1 cursor-pointer"
+           (click)="toggleExpandAllModules()">
+                <span class="mr-1" style="font-size: 11px">{{allMatExpansionExpanded ? 'Collapse' : 'Expand'}}
+                  All</span>
+        <i style="align-items: baseline;font-size: 9px" class="fa"
+           [ngClass]="{'fa-chevron-down':!allMatExpansionExpanded, 'fa-chevron-up':allMatExpansionExpanded}"></i>
+      </div>
+      <div class="search-theme-input-with-search">
+        <span class="fa fa-search" style="font-size: 11px"></span>
+        <input type="search" style="height: 24px; width: 170px; text-indent: 21px"
+               placeholder="Libraries and Modules"
+               [(ngModel)]="searchKeyword"
+               class="border">
+      </div>
+    </div>
+
+    <div style="margin-top: 15px; padding-left: 15px">
+      <app-accordian
+              style="width: 100%; display: block;"
+              *ngFor="let pipelineItem of pipelineModulesV2List|pipelineFilter:searchKeyword|sortPipeline; let i = index"
+              (click)="togglePipelineModule(pipelineItem.id)"
+              [doExpand]="_expandedPipelineModules[pipelineItem.id]"
+              [data]="pipelineItem">
+      <!--<i>{{_expandedPipelineModules[i]}}</i>-->
+        <app-simple-table
+                style="width: 100%"
+                (click)="$event.stopPropagation()"
+                [searchKeyword]="searchKeyword"
+                [tableData]="pipelineItem"
+                (settingsClicked$)="openInputParamModal(Primarytemplat,$event)"
+                (openInputParamModalBeforeAdd$)="openInputParamModal(Primarytemplat,$event, true)"
+                (add$)="addPipelineItemToPipeline($event)"
+        ></app-simple-table>
+      </app-accordian>
+    </div>
+
+    <!--<mat-expansion-panel *ngFor="let pipelineItem of pipelineModulesV2List|pipelineFilter:searchKeyword"-->
+    <!--[expanded]="allMatExpansionExpanded"-->
+    <!--class="mat-elevation-z0">-->
+    <!--<mat-expansion-panel-header>-->
+    <!--<mat-panel-title>-->
+    <!--{{pipelineItem.display_values}} ({{pipelineItem.pipeline_modules.length}})-->
+    <!--</mat-panel-title>-->
+    <!--<mat-panel-description class="limit-oneline" style="max-width: 800px" [matTooltip]="pipelineItem.description">-->
+    <!--{{pipelineItem.description}}-->
+    <!--</mat-panel-description>-->
+    <!--</mat-expansion-panel-header>-->
+
+    <!--<app-simple-table-->
+    <!--[tableData]="pipelineItem"-->
+    <!--(settingsClicked$)="openInputParamModal(Primarytemplat,$event)"-->
+    <!--(openInputParamModalBeforeAdd$)="openInputParamModal(Primarytemplat,$event, true)"-->
+    <!--(add$)="addPipelineItemToPipeline($event)"-->
+    <!--&gt;</app-simple-table>-->
+
+    <!--</mat-expansion-panel>-->
+
+    <!--</mat-accordion>-->
   </div>
-  <div class="col-4 pipeline-wrapper d-flex flex-column" *ngIf="aiModules" style="height: 90%;overflow-y: auto">
-    <!--<div class="col-12 border pr-0 pipeline d-flex flex-column" style="height: 90%;overflow-y: scroll">-->
-      <h4 class="heading mb-2 mt-3">Bot Intelligence Pipeline ({{pipeLine && pipeLine.length}})</h4>
-      <div class="flex-grow-1"  [dragula]='"first-bag"' [(dragulaModel)]='pipeLine'>
-        <div *ngFor="let aiModule of (pipeLine|pipelineFilter:searchKeyword);let targetIndexNew = index">
-          <div class="border mb-2 mr-3 module-box border-danger"
-               [ngClass]="{'bg-grey':aiModule.$$hashKey==='PLACE_HOLDER', 'border-danger':!utilityService.checkIfAllPipelineInputParamsArePopulated([aiModule])}">
-            {{aiModule.unique_name||aiModule.id}}
-            <div>
-              <i *ngIf=" aiModule && aiModule.input_params && myObject.keys(aiModule.input_params).length>0" (click) = "openCreateBotModal(Primarytemplat,aiModule);" class="fa fa-cog pl-1" aria-hidden="true"></i>
-            </div>
+  <div class="pipeline-wrapper d-flex flex-column" style="height: 95%;overflow-y: auto; flex: 1; padding-left: 16px">
+    <h4
+            class="heading p-2 m-1 px-0"
+            style="position: sticky; top: 0; left: 0; right: 0; background-color: white">
+      Bot Intelligence Pipeline ({{pipeLine && pipeLine.length}})
+    </h4>
+    <div class="flex-grow-1">
+      <!--<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">-->
+      <!--<div class="example-box" *ngFor="let aiModule of pipeLine;let targetIndexNew = index" cdkDrag>{{aiModule.unique_name}}</div>-->
+      <!--</div>-->
+      <div cdkDropList (cdkDropListDropped)="drop($event)">
+        <div *ngFor="let aiModule of pipeLine;let targetIndexNew = index"
+             cdkDrag
+             (mouseenter)="aiModule.pipeLineSrc = 'assets/img/pipeline-hover-drag.svg'"
+             (mouseleave)="aiModule.pipeLineSrc = 'assets/img/pipeline-no-hover-drag.svg'"
+             style="padding: 8px"
+             class="mr-3 module-box" [ngClass]="{'border-custom-top':targetIndexNew ===0}">
+          <img [src]="aiModule.pipeLineSrc ||pipeLineSrc"
+               style="margin-right: 8px" alt="">
+          <div class="d-flex flex-column">
+            <span class="module">{{(aiModule.id| pipeineIdToPipelineModuleWrapper).display_values}}</span>
+            <span class="library">{{(aiModule.id|pipelineIdToPipelineModule).library}}</span>
           </div>
+          <span class="ml-auto"></span>
+          <i *ngIf="aiModule && aiModule.input_params && myObject.keys(aiModule.input_params).length>0"
+             (click)="openInputParamModal(Primarytemplat,aiModule);"
+             class="fa fa-cog">
+          </i>
+          <i class="fa fa-minus-circle show-on-parent-hover" style="color: #b14250"
+             (click)="removePipelineItemFromPipeline(targetIndexNew)"></i>
+
+          <!--<div>-->
+          <!--<i *ngIf=" aiModule && aiModule.input_params && myObject.keys(aiModule.input_params).length>0"-->
+          <!--(click)="openInputParamModal(Primarytemplat,aiModule);"-->
+          <!--class="fa fa-cog pl-1" aria-hidden="true"></i>-->
+          <!--</div>-->
         </div>
       </div>
     </div>
-  <!--</div>-->
+  </div>
+</section>
+
+<div *ngIf="!pipelineModulesV2List" style="position: absolute; top: 0; left: 0;right: 0; bottom: 0; display: flex; justify-content: center; align-items: center">
+  You don't have access to pipelines.
 </div>
 
 <ng-template #Primarytemplat>
   <div class="primary-modal">
-    <div class="top-dec"></div>
     <div class="modal-header">
       <h4 class="modal-title" style="display: flex;justify-content: start;">{{selectedPipeline.unique_name}}</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
-
     </div>
 
     <div class="modal-body pt-0">
-     <div *ngFor="let Key of myObject.keys(selectedPipeline.input_params)" class="d-flex align-items-center justify-content-center my-2">
-       <label class="mb-0 mr-1" style="width: 30%">{{Key|underscroreToSpaceDelimitor|titlecase }}</label>
-       <input type="text" class="input-material flex-grow-1" [(ngModel)] = "selectedPipeline.input_params[Key]">
-     </div>
-      <button class="btn btn-theme-success-sm" (click)="modalRef.hide()">Submit</button>
+      <form ngNativeValidate class=" align-items-center" #Pipelineform="ngForm">
+
+        <div *ngFor="let Key of myObject.keys(selectedPipeline.display_values)"
+             class="d-flex align-items-center justify-content-center my-2">
+
+          <div class="form-group m-0 d-flex w-100 align-items-center justify-content-center"
+               *ngIf="selectedPipeline.display_values[Key].type == 'dropdown'">
+            <label class="mb-0  w-50 "
+                   style="text-align: left;">{{selectedPipeline.display_values[Key].display_value}}</label>
+            <select class="w-50" style="color: #474747;"
+                    [ngModel]="selectedPipeline.input_params[Key] || selectedPipeline.display_values[Key].default"
+                    name="{{Key}}">
+              <option *ngFor="let dropi of selectedPipeline.display_values[Key].content"
+                      type="button" [value]="dropi">{{dropi}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group m-0 d-flex w-100 align-items-center justify-content-center"
+               *ngIf="selectedPipeline.display_values[Key].type == 'text'">
+            <label class="mb-0 w-50"
+                   style="text-align: left;">{{selectedPipeline.display_values[Key].display_value}}</label>
+            <input type="text" class="input-material flex-grow-1 w-50" style="color: #474747;"
+                   [ngModel]="selectedPipeline.input_params[Key]"
+                   name="{{Key}}">
+          </div>
+
+        </div>
+        <button class="btn-theme btn-theme-success-sm"
+                (click)="submitPipeline(Pipelineform); dialogRefWrapper.ref.close(true)">Submit
+        </button>
+      </form>
+
 
     </div>
   </div>
 </ng-template>
-
-
-<!--<div class="flex">-->
-  <!--<div class="container " dragula="VAMPIRES" [(dragulaModel)]="vamps">-->
-    <!--<div class="vamp" *ngFor="let vamp of vamps">{{ vamp.name }}</div>-->
-  <!--</div>-->
-
-  <!--<div class="container " dragula="VAMPIRES" [(dragulaModel)]="vamps2">-->
-    <!--<div class="vamp" *ngFor="let vamp of vamps2">{{ vamp.name }}</div>-->
-  <!--</div>-->
-<!--</div>-->

@@ -1,0 +1,62 @@
+@import "../abstract/variables";
+
+.btn-theme {
+  border: none;
+  border-radius: 2px;
+  padding-left: 20px;
+  padding-right: 20px;
+  line-height: 0px;
+  height: 32px !important;
+  font-size: $font-size-xs;
+  color: white;
+  cursor: pointer;
+  &[disabled] {
+    opacity: .5;
+    cursor: not-allowed !important;
+  }
+}
+
+.btn-theme-primary {
+  @include set-background-focus-hover($color-primary)
+}
+
+.btn-theme-secondary {
+  @include set-background-focus-hover($color-secondary);
+}
+
+.btn-theme-danger {
+  @include set-background-focus-hover($color-danger);
+}
+
+.btn-theme-success {
+  @include set-background-focus-hover($color-success);
+}
+
+.btn-theme-primary-outline {
+  @include set-background-focus-hover($color-white);
+  border: 1px solid $color-primary;
+  color: $color-primary !important;
+}
+
+.btn-theme-secondary-outline {
+  @include set-background-focus-hover($color-white);
+  border: 1px solid $color-secondary;
+  color: $color-secondary !important;
+}
+
+.btn-theme-danger-outline {
+  @include set-background-focus-hover($color-white);
+  border: 1px solid $color-danger;
+  color: $color-danger !important;
+}
+
+.btn-theme-success-outline {
+  @include set-background-focus-hover($color-white);
+  border: 1px solid $color-success;
+  color: $color-success !important;
+}
+
+.btn-theme-block{
+  width: 100%;
+}
+

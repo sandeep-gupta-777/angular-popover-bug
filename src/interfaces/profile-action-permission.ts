@@ -1,9 +1,10 @@
 export interface IProfilePermission {
-  'created_at': string,
-  'description': string,
-  'id': 1,
-  'is_system_role': true,
-  'name': string,
+  'created_at': string;
+  'description': string;
+  'id': 1;
+  'is_system_role': true;
+  'name': string;
+  is_default_action:boolean;
   'permissions': {
     'endpoint': string,
     'fields': any[],
@@ -20,7 +21,7 @@ export interface IProfilePermission {
       'admin',
       'super_admin'
       ]
-  },
-  'resource_uri': string,
-  'updated_at': string
+  };
+  'resource_uri': string;
+  'updated_at': string;
 }

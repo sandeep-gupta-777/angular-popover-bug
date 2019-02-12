@@ -13,7 +13,7 @@ import {
   // SetLastTemplateKeyToRoomByUId,
   DeleteChatRoomsByBotId,
   AddMessagesToRoomByRoomId,
-  SetLastTemplateKeyToRoomByRoomId, SetConsumerDetail, ChangeBotIsThinkingDisplayByRoomId
+  SetLastTemplateKeyToRoomByRoomId, SetConsumerDetail, ChangeBotIsThinkingDisplayByRoomId, UpdateBotMessage
 } from './chat.action';
 import {EChatFrame, IChatSessionState, IRoomData} from '../../../interfaces/chat-session-state';
 import {UtilityService} from '../../utility.service';
@@ -29,11 +29,11 @@ export const defaultChatState: IChatSessionState = {
 };
 
 export interface IConsumerDetails {
-  username?: string,
-  phone?: string,
-  email?: string,
-  facebook_id?: string,
-  uid?: string
+  name?: string;
+  phone?: string;
+  email?: string;
+  facebook_id?: string;
+  uid?: string;
 }
 
 @State<IChatSessionState>({
@@ -51,39 +51,51 @@ export class ChatSessionStateReducer {
 
   @Action(ToggleChatWindow)
   closeChatWindow({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: ToggleChatWindow) {
-    let state: IChatSessionState = getState();
+    const state: IChatSessionState = getState();
     setState({...state, opened: payload.open});
   }
   @Action(ChangeBotIsThinkingDisplayByRoomId)
   showBotIsThinkingInRoomId({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: ChangeBotIsThinkingDisplayByRoomId) {
-    let state: IChatSessionState = getState();
-    let room  = state.rooms.find((room)=>room.id===payload.roomId);
-    room.showBotIsThinking = payload.shouldShowBotIsThinking
+    const state: IChatSessionState = getState();
+    const room  = state.rooms.find((room) => room.id === payload.roomId);
+    room.showBotIsThinking = payload.shouldShowBotIsThinking;
     setState({...state});
   }
 
   @Action(SetConsumerDetail)
   setConsumerDetail({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: SetConsumerDetail) {
-    let state: IChatSessionState = getState();
+    const state: IChatSessionState = getState();
     patchState({consumerDetails: payload});
   }
 
   @Action(ChangeFrameAction)
   changeFrame({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: ChangeFrameAction) {
-    let state: IChatSessionState = getState();
+    const state: IChatSessionState = getState();
     patchState({...state, frameEnabled: payload.frameEnabled});
   }
 
   @Action(SetCurrentRoomID)
   setCurrentRoomID({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: SetCurrentRoomID) {
-    let state: IChatSessionState = getState();
+    const state: IChatSessionState = getState();
     patchState({...state, currentRoomId: payload.id});
+  }
+
+  @Action(UpdateBotMessage)
+  updateBotMessage({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: UpdateBotMessage) {
+    const state: IChatSessionState = getState();
+    let room = state.rooms.find((room)=>room.id === payload.room_id);
+    let index = room.messageList.findIndex((message)=>message.bot_message_id === payload.bot_message_id);
+    room.messageList[index] = {
+      ...room.messageList[index],
+      feedback: payload.feedback
+    };
+    patchState({rooms: state.rooms});
   }
 
 
   @Action(SetCurrentUId)
   setCurrentConsumerId({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: SetCurrentUId) {
-    let state: IChatSessionState = getState();
+    const state: IChatSessionState = getState();
     patchState({...state, currentUId: payload.uid});
   }
 
@@ -92,16 +104,16 @@ export class ChatSessionStateReducer {
     {patchState, setState, getState, dispatch}: StateContext<IChatSessionState>,
     {payload}: SetCurrentBotDetailsAndResetChatStateIfBotMismatch) {
 
-    let state = getState();
-    let isOpened = state.opened;
-    let currentBot = getState().currentBotDetails;
-    if(payload.bot.id!==(currentBot && currentBot.id)){
+    const state = getState();
+    const isOpened = state.opened;
+    const currentBot = getState().currentBotDetails;
+    if (payload.bot.id !== (currentBot && currentBot.id)) {
      dispatch([
        new ResetChatState()
-     ]).subscribe(()=>{
-       patchState({currentBotDetails: payload.bot, opened:isOpened});//restoring bot opened state
-     })
-    }else {
+     ]).subscribe(() => {
+       patchState({currentBotDetails: payload.bot, opened: isOpened}); //restoring bot opened state
+     });
+    } else {
       patchState({currentBotDetails: payload.bot});
     }
 
@@ -109,10 +121,10 @@ export class ChatSessionStateReducer {
 
   @Action(AddNewRoom)
   addNewRoom({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: AddNewRoom) {
-    let state = getState();
+    const state = getState();
     let rooms = state.rooms;
-    let room = payload;
-    if (!state.rooms) state.rooms = rooms = [];
+    const room = payload;
+    if (!state.rooms) { state.rooms = rooms = []; }
     /*first check if room id already */
     let doesRoomAlreadyExist_index;
     doesRoomAlreadyExist_index = rooms.findIndex(room => room.id === payload.id);
@@ -142,14 +154,14 @@ export class ChatSessionStateReducer {
 
   @Action(AddMessagesToRoomByRoomId)
   addMessagesToRoomByRoomId({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: AddMessagesToRoomByRoomId) {
-    let state = getState();
-    let rooms = state.rooms;
-    let room_id = payload.id;
+    const state = getState();
+    const rooms = state.rooms;
+    const room_id = payload.id;
 
     let room: IRoomData = (rooms && (rooms.find((room) => room.id === room_id)));
     if (!room) {
       /*room is not found, this means session is expired. So search by consumer id*/
-      let consumer_id = payload.consumer_id;
+      const consumer_id = payload.consumer_id;
       room = (rooms && (rooms.find((room) => room.consumer_id === consumer_id)));
       if (room) {
         this.utilityService.showSuccessToaster('Previous session expired. New session created');
@@ -157,7 +169,7 @@ export class ChatSessionStateReducer {
         dispatch([
           new SetCurrentRoomID({id: room.id})
         ]);
-        room.messageList.push({sourceType: 'session_expired',messageMediatype:null, time: null, text: null});
+        room.messageList.push({sourceType: 'session_expired', messageMediatype: null, time: null, text: null, bot_message_id:null});
       }
     }
     room.messageList = [...room.messageList, ...payload.messageList];
@@ -177,35 +189,35 @@ export class ChatSessionStateReducer {
 
   @Action(SetLastTemplateKeyToRoomByRoomId)
   SetLastTemplateKeyToRoomByRoomId({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: SetLastTemplateKeyToRoomByRoomId) {
-    let state = getState();
-    let rooms = state.rooms;
-    let room_id = payload.room_id;
+    const state = getState();
+    const rooms = state.rooms;
+    const room_id = payload.room_id;
 
-    let room: IRoomData = (rooms && (rooms.find((room) => room.id === room_id)));
+    const room: IRoomData = (rooms && (rooms.find((room) => room.id === room_id)));
     room.lastTemplateKey = payload.lastTemplateKey;
     setState({...state});
   }
 
   @Action(ResetChatState)
   resetChatState({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>) {
-    let state: IChatSessionState = getState();
-    let x = defaultChatState;
+    const state: IChatSessionState = getState();
+    const x = defaultChatState;
 
     setState(x);
   }
 
   @Action(DeleteChatRoomsByBotId)
   deleteRoomsByBotId({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: DeleteChatRoomsByBotId) {
-    let state = getState();
-    let rooms = state.rooms;
-    let botId = payload.id;
+    const state = getState();
+    const rooms = state.rooms;
+    const botId = payload.id;
     /*
     * As of now there can be only one current bot in the application.
     * The moment a new current bot is selected (via preview), all info of previous current bot is deleted
     * This means if a bot is deleted, and if that bot is also "currentBot", we can just reset the whole state
     * */
-    if(botId===state.currentBotDetails.id){
-      dispatch([new ResetChatState()])
+    if (botId === state.currentBotDetails.id) {
+      dispatch([new ResetChatState()]);
     }
     // rooms && (rooms.forEach((room, index) => {
     //   if (room.id === botId) {
@@ -214,6 +226,8 @@ export class ChatSessionStateReducer {
     // }));
     // setState({...state});
   }
+
+
 
 
 }

@@ -9,13 +9,13 @@ import {Component, Input, OnInit} from '@angular/core';
 export class IntegrationItemComponent implements OnInit {
 
   constructor() { }
-  @Input()  orgName:string;
-  @Input()  formFields:string[];
-  isActive:boolean;
+  @Input()  orgName: string;
+  @Input()  formFields: string[];
+  isActive: boolean;
 
   ngOnInit() {
   }
-  onChange($event){
+  onChange($event) {
     this.isActive  = $event;
   }
 

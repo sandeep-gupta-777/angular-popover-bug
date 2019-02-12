@@ -1,0 +1,37 @@
+<table>
+  <tr>
+    <th style="width: 15%">Library</th>
+    <th style="width: 5%">Price</th>
+    <th style="width: 35%">Pros</th>
+    <th style="width: 35%">Cons</th>
+    <th style="width: 5%"></th>
+    <th style="width: 5%"></th>
+  </tr>
+
+  <tr *ngFor="let item of pipeline_modules">
+    <td>{{item.library}}</td>
+    <td style="position: relative">
+      <i style="position: absolute;left: -10px;top: 10px;" class="fa fa-circle-o"
+         [ngStyle]="{'color': item.is_paid === 'paid'? '#f5a623':'#34bc6e'}"></i>
+      {{item.is_paid}}
+    </td>
+    <td>{{item.pros}}</td>
+    <td>{{item.cons}}</td>
+    <td (click)="settingsClicked$.emit(item)" class="cursor-pointer">
+      <!--<i>{{item|json}}</i>-->
+      <i [ngClass]="{'opacity-0':!(item && item.input_params && myObject.keys(item.input_params).length>0)}"
+         class="fa fa-cog">
+      </i>
+    </td>
+    <td *ngIf="!item.is_added; else added"
+        (click)="item && item.input_params && myObject.keys(item.input_params).length>0 ?openInputParamModalBeforeAdd$.emit(item): add$.emit(item)"
+        class="cursor-pointer">
+      <span style="color: #0291b2;">Add >></span>
+    </td>
+    <ng-template #added>
+      <td>
+        <span>Added</span>
+      </td>
+    </ng-template>
+  </tr>
+</table>

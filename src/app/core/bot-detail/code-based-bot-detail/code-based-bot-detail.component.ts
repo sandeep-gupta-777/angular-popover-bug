@@ -4,7 +4,7 @@ import {ViewBotStateModel, ViewBotStateReducer} from '../../view-bots/ngxs/view-
 import {Observable} from 'rxjs';
 import {IBot} from '../../interfaces/IBot';
 import {ActivatedRoute, Route, Router} from '@angular/router';
-import 'rxjs/add/operator/map';
+
 import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
 import {UtilityService} from '../../../utility.service';
@@ -15,8 +15,9 @@ import {IHeaderData} from '../../../../interfaces/header-data';
 import {IUser} from '../../interfaces/user';
 import {IAuthState} from '../../../auth/ngxs/auth.state';
 import {LoggingService} from '../../../logging.service';
+import {EventService} from '../../../event.service';
 
-export enum EArchitectureTabs{
+export enum EArchitectureTabs {
   pipeline,
 
 }
@@ -36,16 +37,18 @@ export class CodeBasedBotDetailComponent implements OnInit {
   selectedTab = 'architecture';
   bot$: Observable<IBot>;
   bot_id: number;
-  showConfig: boolean = true;
+  showConfig = true;
   overviewInfo$: Observable<IOverviewInfoResponse>;
-  selectedChannel: string = 'all';
+  selectedChannel = 'all';
   start_date: string;
   isAdmin = false;
   end_date: string;
   selectedChannelDisplayName: string;
-  selectedDurationDisplayName: string = 'Monthly';
-  selectedSideBarTab: string = 'pipeline';
+  selectedDurationDisplayName = 'Monthly';
+  selectedSideBarTab = 'pipeline';
   bot: IBot;
+  showLoader = false;
+  noSuchBotMessage="";
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -53,38 +56,44 @@ export class CodeBasedBotDetailComponent implements OnInit {
     private serverService: ServerService,
     private store: Store,
     private constantsService: ConstantsService,
+    public eventService: EventService,
     private utilityService: UtilityService) {
   }
 
   ngOnInit() {
     // this.loggeduser$.take(1).subscribe((loggedUserState:IAuthState)=>{
-      let roleName = this.constantsService.loggedUser.role.name;
-      this.showConfig = roleName!==ERoleName.Admin;//if its admin don't expand bot config by default
-      if(roleName===ERoleName.Admin || roleName===ERoleName['Bot Developer']){
-        this.selectedTab = 'architecture'
-      }else if(roleName===ERoleName.Tester){
-        this.selectedTab = 'testing'
-      }else{
-        this.selectedTab = 'sessions'
+      const roleName = this.constantsService.loggedUser.role.name;
+      this.showConfig = roleName !== ERoleName.Admin; //if its admin don't expand bot config by default
+      if (roleName === ERoleName.Admin || roleName === ERoleName['Bot Developer']) {
+        this.selectedTab = 'architecture';
+      } else if (roleName === ERoleName.Tester) {
+        this.selectedTab = 'testing';
+      } else {
+        this.selectedTab = 'sessions';
       }
     // });
 
-    let isArchitectureFullScreen = this.activatedRoute.snapshot.queryParamMap.get('isArchitectureFullScreen');
-    this.isArchitectureFullScreen = isArchitectureFullScreen==='true';
-    let showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
-    if(showConfigStr){
-      this.showConfig = showConfigStr==='true';//(showConfigStr === 'true' || showConfigStr == undefined);;
+    const isArchitectureFullScreen = this.activatedRoute.snapshot.queryParamMap.get('isArchitectureFullScreen');
+    this.isArchitectureFullScreen = isArchitectureFullScreen === 'true';
+    const showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
+    if (showConfigStr) {
+      this.showConfig = showConfigStr === 'true'; //(showConfigStr === 'true' || showConfigStr == undefined);;
     }
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
     this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || this.selectedTab;
     /*this.bot$ = */
     this.botlist$.subscribe((botListState) => {
-      if (botListState.allBotList)
+      if (botListState.allBotList) {
+
         this.bot = botListState.allBotList.find((bot) => {
           return bot.id === this.bot_id;
         });
-      LoggingService.log("Bot Opened"+ this.bot);
+        if(!this.bot){
+          this.noSuchBotMessage = "No such bot exists in your account";
+        }
+      }
+      LoggingService.log('Bot Opened' + this.bot);
       return this.bot;
     });
     this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab') || this.selectedSideBarTab;
@@ -92,20 +101,23 @@ export class CodeBasedBotDetailComponent implements OnInit {
     this.start_date = this.utilityService.getPriorDate(0);
     this.end_date = this.utilityService.getPriorDate(30);
     this.getOverviewInfo();
-    this.activatedRoute.queryParams.subscribe((queryParams)=>{
-      this.isArchitectureFullScreen= queryParams['isArchitectureFullScreen']==='true'
-    })
+    this.activatedRoute.queryParams.subscribe((queryParams) => {
+      this.isArchitectureFullScreen = queryParams['isArchitectureFullScreen'] === 'true';
+    });
   }
 
 
-  refreshCodeEditor(){
+  refreshCodeEditor() {
     /*codemirror needs to be refreshed after being visible; otherwise its content wont show*/
-    setTimeout(()=>this.utilityService.refreshCodeEditor$.emit());
+    setTimeout(() => this.utilityService.refreshCodeEditor$.emit());
   }
 
   refreshBotDetails() {
-    this.serverService.fetchSpecificBotFromServerAndUpdateBotList(this.bot);
-    this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
+    this.serverService.fetchSpecificBotFromServerAndUpdateBotList(this.bot)
+      .subscribe(() => {
+        this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
+      });
+    // this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
 
 
     // let getBotByTokenUrl = this.constantsService.getSpecificBotByBotTokenUrl();
@@ -140,12 +152,12 @@ export class CodeBasedBotDetailComponent implements OnInit {
 
   getOverviewInfo() {
     /*TODO: improve below by adding all the fields*/
-    this.overviewInfo$ = this.serverService.getOverviewInfo({
-      bot_id: this.bot_id,
-      platform: this.selectedChannel,
-      start_date: this.start_date,
-      end_date: this.end_date
-    });
+    // this.overviewInfo$ = this.serverService.getOverviewInfo({
+    //   bot_id: this.bot_id,
+    //   platform: this.selectedChannel,
+    //   start_date: this.start_date,
+    //   end_date: this.end_date
+    // });
   }
 
   refreshSession() {
@@ -157,7 +169,6 @@ export class CodeBasedBotDetailComponent implements OnInit {
   }
 
   datachanged(data: IBot) {
-    ;
     this.store.dispatch([
       new UpdateBotInfoByIdInBotInBotList({data, botId: this.bot_id})
     ]);
@@ -175,5 +186,11 @@ export class CodeBasedBotDetailComponent implements OnInit {
     });
   }
 
+  spinReloadSessionTableSpinner = false;
+  reloadSessionsHandler(){
+    this.spinReloadSessionTableSpinner = true;
+    setTimeout(()=>this.spinReloadSessionTableSpinner = false,2000);
+    this.eventService.reloadSessionTable$.emit()
+  }
 
 }

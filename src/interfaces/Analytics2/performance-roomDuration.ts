@@ -1,17 +1,17 @@
 
 export interface IRoomDurationResponseBody {
-    meta: any,
+    meta: any;
     objects: [
         {
             output: {
-                "roomDuration": IRoomDurationItem[]
+                'roomDuration': IRoomDurationItem[]
             }
         }
-    ]
+    ];
 }
 export interface IRoomDurationItem {
-    "labels": string,
-    "result": number
+    'labels': string;
+    'result': number;
     }
     // {
     //     "meta": {

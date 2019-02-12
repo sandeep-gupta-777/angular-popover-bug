@@ -1,52 +1,67 @@
-<div *ngIf="sessions">
-  <app-smart-table [data]="sessions"
+<!--<button (click)="log()">log</button>-->
+
+<div>
+  <app-smart-table [data]="tableData"
+                   *ngIf="tableData"
                    [totalRecords]="totalSessionRecords"
                    (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,reasonForDecryptionTemplate)"
                    (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate, reasonForDecryptionTemplate)"
-                   (pageChanged$)="loadSessionTableDataForGivenPage($event)"
                    [showSearchInDbButton]="true"
-                   (refreshData$)="loadSmartTableSessionData()"
                    [showRefreshButton]="true"
-                   (performSearchInDB$)="performSearchInDbForSession($event)"
-                   [settings]="smartTableSettings_Sessions"></app-smart-table>
+                   (performSearchInDB$)="performSearchInDbForSession($event)"></app-smart-table>
 </div>
 
 
+<app-splash-screen *ngIf="showSplashScreen"
+                   [imageHRef]="myESplashScreens.sessions"
+                   [headingText]="'No sessions found'"
+                   [descriptionText]="'Integrate or deploy your bot to see all conversations bot was involved in'"
+                   class="d-flex justify-content-center align-items-center"
+                   style="position: absolute; left: 0; right: 0;bottom: 0; top: 0;"
+></app-splash-screen>
+
+<app-imi-loader *ngIf="showLoader "></app-imi-loader>
+
+
+
 <ng-template #sessionDetailTemplate>
-  <div class="row" style="width: 100%">
-    <div class="col-12">
+  <!--<div class="row" style="width: 100%">-->
+    <!--<div class="col-12">-->
       <app-session-detail-model
         [session]="selectedRow_Session"
         [bot]="bot"
         (selectNextRow)="selectNextRow()"
-        (closeModel$)="modalRef.hide()"
+        (closeModel$)="dialogRefWrapper.ref.close()"
         (selectPrevRow)="selectPrevRow()"
         [pageNumberOfCurrentRowSelected]="pageNumberOfCurrentRowSelected"
         [indexOfCurrentRowSelected]="indexOfCurrentRowSelected"
         [finalDfState]="selectedRow_Session.df_state"
+        (refreshSession$)="updateSessionById($event)"
         [sessionDataStore]="selectedRow_Session.data_store">
       </app-session-detail-model>
-    </div>
-  </div>
+    <!--</div>-->
+  <!--</div>-->
 </ng-template>
 <!---->
 <ng-template #reasonForDecryptionTemplate>
   <div class="primary-modal">
-    <div class="top-dec"></div>
     <div class="modal-header">
       <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Reason for decryption</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body pt-0">
-     <form #form="ngForm">
-       <div class="text-center my-1">
-         <label for="" class="mr-1">Reason</label>
-         <input type="text" required style="border-radius: 0px !important;" [(ngModel)] = "decryptReason" name="decryptReason">
-       </div>
-       <button [disabled]="!form.valid" class=" btn btn-theme-success-sm" (click)="decryptSubmit(sessionItemToBeDecrypted.id);modalRef.hide()">Submit</button>
-     </form>
+      <form #form="ngForm">
+        <div class="text-center my-1">
+          <label class="mr-1">Reason</label>
+          <input type="text" required style="border-radius: 0px !important;" [(ngModel)]="decryptReason"
+                 name="decryptReason">
+        </div>
+        <button [disabled]="!form.valid" class=" btn-theme btn-theme-success-sm"
+                (click)="decryptSubmit(sessionItemToBeDecrypted.id);">Submit
+        </button>
+      </form>
     </div>
   </div>
 </ng-template>

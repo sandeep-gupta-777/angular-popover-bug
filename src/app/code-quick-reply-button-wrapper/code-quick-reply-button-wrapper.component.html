@@ -1,10 +1,11 @@
 <span class="bg-white" style="position: relative" (clickOutside)="openDropdown=false">
   <span class="outer" style="overflow: hidden;">
-    <button class="btn btn-theme-primary"  (click)="openDropdown = !openDropdown">{{quick_reply.title}}</button>
+    <button class="btn-theme btn-theme-primary"  (click)="openDropdown = !openDropdown">{{quick_reply.title}}</button>
     <app-code-quick-reply
       *ngIf="openDropdown"
       [quick_reply]="quick_reply"
       (hideQuickReplyDropdown$)="openDropdown = false"
+      (deleteQuickReply$)="deleteQuickReply$.emit()"
       style="position: absolute; top:100%; left: 0;"
       [ngClass]="{'z-1000':openDropdown}"
       class="inner"></app-code-quick-reply>

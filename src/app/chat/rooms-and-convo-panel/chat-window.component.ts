@@ -1,6 +1,10 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {EBotMessageMediaType, EChatFrame, IMessageData, IRoomData} from '../../../interfaces/chat-session-state';
 import {LoggingService} from '../../logging.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ServerService} from '../../server.service';
+import {ConstantsService} from '../../constants.service';
+import {IBot} from '../../core/interfaces/IBot';
 
 @Component({
   selector: 'app-chat-window',
@@ -8,41 +12,63 @@ import {LoggingService} from '../../logging.service';
   styleUrls: ['./chat-window.component.scss']
 })
 export class ChatWindowComponent implements OnInit {
+  messageByHuman: string;
+  @Input() bot:IBot;
+  @Output() chatMessageFeedback$ = new EventEmitter();
+  botIsThinkingMessageDataArray: IMessageData[] = [{
+    sourceType: 'bot',
+    messageMediatype: EBotMessageMediaType.bot_thinking,
+    time: null,
+    bot_message_id: null,
+  }];
 
-  @Input() _messageDataArray:IMessageData[];
-  botIsThinkingMessageDataArray:IMessageData[] = [
-    {
-      sourceType:'bot',
-      messageMediatype:EBotMessageMediaType.bot_thinking,
-      time:null
-    }
-  ]
-  @Input() selectedAvatar;
-  @Input() room:IRoomData;
-  @Input() showBotIsThinking:boolean=false;
-  @Input() set messageDataArray(value){
-
-    this._messageDataArray = value;
-    setTimeout(()=>this.scrollToBottom(),0);
+  _allow_feedback:boolean = false;
+  @Input() set allow_feedback(val){
+    this._allow_feedback = val;
   }
+
+  @Input() _messageDataArray: IMessageData[];
+  @Input() selectedAvatar;
+  @Input() room: IRoomData;
+  @Input() showBotIsThinking = false;
+
+  @Input() set messageDataArray(value) {
+    this._messageDataArray = value;
+    setTimeout(() => this.scrollToBottom(), 0);
+  }
+
   @Output() sendMessageByHuman$ = new EventEmitter();
-  messageByHuman:string;
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   myEChatFrame = EChatFrame;
 
-  constructor() { }
+  constructor(
+    private serverService: ServerService,
+    private constantsService: ConstantsService,
+  ) {
+  }
+
   ngOnInit() {
   }
+
+  feedback(messageData: IMessageData, isLiked: boolean) {
+    let body = {
+      'bot_message_id': messageData.bot_message_id,
+      'feedback': isLiked ? 'POSITIVE' : 'NEGATIVE'
+    };
+    this.chatMessageFeedback$.emit(body);
+  }
+
   scrollToBottom(): void {
     try {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch(err) {
+    } catch (err) {
       LoggingService.error(err);
     }
   }
-  sendMessageByHuman(message){
-    this.sendMessageByHuman$.emit({messageByHuman:message, room:this.room});
-    this.messageByHuman ="";
+
+  sendMessageByHuman(message) {
+    this.sendMessageByHuman$.emit({messageByHuman: message, room: this.room});
+    this.messageByHuman = '';
   }
 
 }

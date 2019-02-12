@@ -16,24 +16,24 @@ export class ChatListComponent implements OnInit {
   constructor() {
   }
 
-  @Input() currentBot:IBot;
+  @Input() currentBot: IBot;
   bot_id;
   @Select() botlist$: Observable<ViewBotStateModel>;
   @Select() chatsessionstate$: Observable<IChatSessionState>;
   @Output() navigateEvent: EventEmitter<string> = new EventEmitter();
-  @Output() createCustomRoom$= new EventEmitter();
+  @Output() createCustomRoom$ = new EventEmitter();
   @Output() createNewRoom$ = new EventEmitter();
-  chatsessionstate:IChatSessionState;
-  rooms:IRoomData[];
+  chatsessionstate: IChatSessionState;
+  rooms: IRoomData[];
 
   ngOnInit() {
 
     this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
-      if(!chatSessionState || !chatSessionState.rooms) return;
+      if (!chatSessionState || !chatSessionState.rooms) { return; }
       this.chatsessionstate = chatSessionState;
 
-      let x = this.rooms = chatSessionState.rooms.sort((obj1,obj2)=>{
-        return obj2.messageList[obj2.messageList.length-1].time-obj1.messageList[obj1.messageList.length-1].time;
+      const x = this.rooms = chatSessionState.rooms.sort((obj1, obj2) => {
+        return obj2.messageList[obj2.messageList.length - 1].time - obj1.messageList[obj1.messageList.length - 1].time;
       });
       this.rooms = [...this.rooms];
       // this.bot_id = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.id;
@@ -44,15 +44,15 @@ export class ChatListComponent implements OnInit {
     });
   }
 
-  createCustomRoom(){
+  createCustomRoom() {
     this.createCustomRoom$.emit();
   }
-  startNewRoom(){
-    let details:{consumerDetails:IConsumerDetails, bot:IBot} =  {
-      consumerDetails:{
-        uid:Date.now().toString()
+  startNewRoom() {
+    const details: {consumerDetails: IConsumerDetails, bot: IBot} =  {
+      consumerDetails: {
+        uid: Date.now().toString()
       },
-      bot:this.currentBot
+      bot: this.currentBot
     };
     this.createNewRoom$.emit(details);
   }

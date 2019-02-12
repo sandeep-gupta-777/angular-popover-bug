@@ -1,202 +1,38 @@
-<!--Template for modal-->
-<ng-template #template>
-  <div class="danger-modal">
-    <div class="top-dec"></div>
-    <div class="modal-header">
-      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete bot&nbsp;{{bot.name}}&nbsp;
-        ?</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
 
-    <div class="modal-body pt-0">
-      <form #form="ngForm">
-        <div class="text-center my-1">
-          <p class="mb-3">Do you confirm the Deletion? This is a permanent and irreversible change</p>
-
-        </div>
-        <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
-        <button class=" btn btn-theme-danger" (click)="deleteBot()">Delete</button>
-      </form>
-    </div>
-  </div>
-</ng-template>
-<!-- <ng-template #template>
-  <div class="modal-header bg-danger">
-    <h4 class="modal-title heading pull-left text-white">Delete: <strong>{{bot.name}}</strong>?</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true" class="text-white">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body bg-white text-dark">
-    <p class="mb-3">Do you confirm the Deletion? This is a permanent and irreversible change</p>
-    <button class="btn btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
-    <button class="btn btn-theme-danger" (click)="deleteBot()">Delete</button>
-  </div>
-</ng-template> -->
-
-<!--============================== Following is unbinded html for css tests ==============================-->
-<!---->
-<!--<div class="card mb-2">-->
-<!--&lt;!&ndash;card starts&ndash;&gt;-->
-<!--<div class="card-header">-->
-<!--<div class="row">-->
-
-<!--<div class="col-md-2 col-sm-2 col-12">-->
-<!--<img class="timePeriod-logo" src="http://www.pngmart.com/files/3/Weather-PNG-HD.png">-->
-<!--</div>-->
-
-<!--<div class="col-md-10 col-sm-10 col-12 ">-->
-<!--<div class="d-flex m-0 pb-0">-->
-<!--<p class="timePeriod-name m-0"><strong class="ng-binding">Weathery</strong></p>-->
-<!--<i class="fa fa-trash ml-auto"></i>-->
-<!--</div>-->
-<!--<p class="timePeriod-title" title="I have done a PHD...">I have done a PHD...</p>-->
-<!--<p class="timePeriod-created">Created On : Oct 12, 2017</p>-->
-<!--<p class="timePeriod-updated">Last Updated On : Jun 5, 2018</p>-->
-<!--</div>-->
-
-<!--</div>-->
-<!--</div>-->
-<!--<div class="card-body d-flex pb-0">-->
-<!--<button class="btn-theme-primary ml-auto">Preview Bot</button>-->
-<!--</div>-->
-<!--<div class="card-footer d-flex justify-content-between">-->
-<!--<div class="copy"><i class="fa fa-copy"></i>Access Token</div>-->
-<!--<div class="copy"><i class="fa fa-copy"></i>Enterprise ID</div>-->
-
-<!--</div>-->
-<!--</div>-->
-
-
-<!--================NEW DESIGN==================-->
-<!-- <div class="grid-bot-preview bg-white shadow-theme">
-  <div class="top d-flex border-bottom cursor-pointer"
-       (click)="router.navigate(['core/botdetail/'+parentRoute+'/'+ bot.id])">
-    <div class="mr-2">
-      <img class="logo-md rounded-circle" [src]="bot.logo" alt="">
-    </div>
-    <div class="d-flex flex-column">
-      <div class="heading">{{bot.name}}</div>
-      <div class="description limit-oneline">{{bot.description}}
-      </div>
-    </div>
-    <i class="fa fa-users ml-auto" [hidden]="bot.child_bots.length===0" style="color: #9b9b9b"></i>
-  </div>
-  <div class="bot" style="position: relative">
-    <div class="positioned-wrapper">
-      <button
-        (click)="openBot()"
-        class="btn btn-theme-primary center-absolute">Preview
-      </button>
-      <div class="btn-group p-2" dropdown style="position: absolute; right:2%;top: 2%;">
-        <i dropdownToggle class="fa fa-ellipsis-v p-1"></i>
-        <ul *dropdownMenu class="dropdown-menu" role="menu">
-          <li role="menuitem">
-            <a class="dropdown-item cursor-pointer" (click)="utilityService.copyToClipboard(bot.bot_access_token)" >Copy Access Token</a>
-          </li>
-          <li role="menuitem">
-            <a class="dropdown-item cursor-pointer" (click)="utilityService.copyToClipboard(bot.enterprise_id)">Copy Enterprise ID</a>
-          </li>
-          <li role="menuitem">
-            <a class="dropdown-item">Make Bot Active</a>
-          </li>
-          <li role="menuitem">
-            <a class="dropdown-item" (click)="openModal(template)">Delete</a>
-          </li>
-        </ul>
-      </div>
-
-    </div>
-    -->
-<!-- <div class="unique-name mt-2">Bot Unique Name : <strong>{{bot.bot_unique_name}}</strong></div>
-    <div class="date-protection mb-3">Advance Data Protection :
-      <strong>{{bot.advanced_data_protection?"ON":"OFF"}}</strong></div>
-    <div class="d-flex bot-strip align-items-center">
-      <div class="pr-1 " [ngClass]="{'border-right':(bot.integrations|integrationImageCount)>0}">
-        <div class="active-button px-1 border-right d-flex justify-content-center align-items-center">Active
-          ({{bot.active_version_id}})
-        </div>
-      </div>
-      <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos|async)|slice:0:5)"
-           [src]="'https://imibot.ai'+integrationsMasterListItem?.icon"
-           class="logo-image"
-           style="width: 16px;height: 16px"
-           alt="">
-
-      <span *ngIf="(bot.integrations|integrationImageCount)>4"
-            class="more ml-auto">+{{(bot.integrations|integrationImageCount)-4}} More</span>
-    </div>
-  </div> -->
-<!---->
-<!-- </div> -->
-<!--===============New New Design ==========================-->
-<div class="wrapper cursor-pointer" (click)="navigateToBotDetailPage($event)">
+<section class="wrapper cursor-pointer position-relative" (click)="navigateToBotDetailPage($event)">
   <div class="grid-bot-preview-two bg-white shadow-theme">
     <div class="header-border-bottom"></div><!--just for border-->
     <!--header starts-->
-    <div class="grid-bot-preview-version header header-border-bottom  d-flex">
-      <!--<div class="header">-->
+    <header class="grid-bot-preview-version header header-border-bottom d-flex">
       <div class="span-wrapper" *ngIf="bot.bot_type === 'chatbot'">
         <i class="fa fa-circle"></i>
       </div>
-      <!--<div class = "ml-1 " style="align-self: center" *ngIf="bot.bot_type !== 'intelligent'">-->
-      <!--Active-->
-      <!--</div>-->
       <div class="ml-1 " style="align-self: center" *ngIf="bot.bot_type === 'chatbot'">
-        <!--<<<<<<< HEAD-->
-        <!--Active(v{{bot.active_version.version}})-->
-        <!--</div>-->
-        <!--<div class="ml-auto"></div>-->
-        <!--<div [hidden]="bot.bot_type !== 'chatbot'" class = "ml-1" style="align-self: center">-->
-        <!--Latest(v{{bot.latest_version.version}})-->
-        <!--=======-->
         Active(v{{bot.active_version.version || 0}})
       </div>
       <div class="ml-auto" style="align-self: center">
         <div class=" show-on-parent-hover" style="align-self: center" *ngIf="bot.bot_type === 'chatbot'">
           Latest(v{{bot.latest_version.version || 0}})
         </div>
-        <i *ngIf="bot.store_isPinned" class="fa p-1 fa-thumb-tack click-save-wrapper" (click)="togglePinBotCard(bot, false)"></i>
-        <div class="btn-group click-save-wrapper" dropdown style="align-self: center; font-size: 18px;padding:0;">
-          <i dropdownToggle class="fa fa-ellipsis-v click-save-wrapper px-2"></i>
-          <ul *dropdownMenu class="dropdown-menu click-save-wrapper" role="menu">
-            <li role="menuitem">
-              <a class="dropdown-item cursor-pointer click-save-wrapper"
-                 (click)="utilityService.copyToClipboard(bot.bot_access_token)">Copy Access Token</a>
-            </li>
-            <li role="menuitem">
-              <a class="dropdown-item cursor-pointer click-save-wrapper"
-                 (click)="utilityService.copyToClipboard(bot.enterprise_id)">Copy Enterprise ID</a>
-            </li>
-            <!-- <li role="menuitem">
-              <a class="dropdown-item">Make Bot Active</a>
-            </li> -->
-            <li role="menuitem"
-                *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]">
-              <a class="dropdown-item click-save-wrapper" (click)="openModal(template)">Delete</a>
-            </li>
-            <li role="menuitem" *ngIf="!bot.store_isPinned">
-              <a class="dropdown-item click-save-wrapper" (click)="togglePinBotCard(bot, true)">Pin</a>
-            </li>
-            <li role="menuitem" *ngIf="bot.store_isPinned">
-              <a class="dropdown-item click-save-wrapper" (click)="togglePinBotCard(bot, false)">Unpin</a>
-            </li>
-          </ul>
+        <i *ngIf="bot.store_isPinned" class="fa p-1 fa-thumb-tack" (click)="togglePinBotCard(bot, false)"></i>
+        <div class="btn-group" dropdown style="align-self: center; font-size: 18px;padding:0;">
+
+          <button mat-icon-button [matMenuTriggerFor]="appMenu" class="click-save-wrapper">
+            <mat-icon class="click-save-wrapper">more_vert</mat-icon>
+          </button>
+
         </div>
       </div>
-      <!--</div>-->
-    </div>
+    </header>
     <!--header ends-->
-    <div class=""></div><!--just for border-->
+    <div></div><!--just for border-->
 
-    <div class="ml-2 grid-bot-preview-img grid-bot-preview-second-row main-logo-wrapper">
+    <figure class="ml-2 grid-bot-preview-img grid-bot-preview-second-row main-logo-wrapper">
       <img class="logo-md rounded-circle" [src]="bot.logo" alt="">
-    </div>
+    </figure>
     <div class="grid-bot-preview-name details1 text-theme-secondary">
-      <div class="heading">{{(bot.name|slice:0:36)+(bot.name.length>36?"...":"")}}</div>
-      <div class="description mt-1">{{bot.description}}</div>
+      <h6 class="heading">{{(bot.name|slice:0:36)+(bot.name.length>36?"...":"")}}</h6>
+      <p class="description mt-1">{{bot.description}}</p>
     </div>
     <div class="grid-bot-preview-details grid-bot-preview-third-row details2 pl-2" style="align-self: center">
       <div class="">Unique Name : {{(bot.bot_unique_name|slice:0:36)+(bot.bot_unique_name.length>36?"...":"")}}</div>
@@ -212,10 +48,12 @@
 
       <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'no_channel'|async))"
            [src]="integrationsMasterListItem?.icon"
+           (click)="test(integrationsMasterListItem.key)"
            class="logo-image no-channel-integrations" style="width: 16px;height: 16px" alt="">
       <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async))"
            [src]="integrationsMasterListItem?.icon"
-           class="logo-image " style="width: 16px;height: 16px" alt="">
+           (click)="test(integrationsMasterListItem.key)"
+           class="logo-image click-save-wrapper" style="width: 16px;height: 16px" alt="">
       <div class="mr-auto"></div>
       <div *myIf="myEAllActions['Send API']" class="show-on-parent-hover click-save-wrapper" (click)="previewBot()">
         <div *ngIf="bot.bot_type == 'chatbot'"
@@ -223,11 +61,52 @@
              class="text-sm click-save-wrapper  ">Preview
         </div>
       </div>
-      <button (click)="navigateToBotDetailPage($event)" class="show-on-parent-hover  btn btn-theme-primary px-3 mr-2 "
+      <button (click)="navigateToBotDetailPage($event)" class="show-on-parent-hover  btn-theme btn-theme-primary px-3 mr-2 "
               [ngClass]="{'mr-auto': bot.bot_type !== 'chatbot'}">Edit
       </button>
       <!---->
     </div>
 
   </div>
-</div>
+
+  <div *ngIf="showLoader"
+       style="position: absolute;top: 0; left: 0;right: 0; bottom: 0; opacity: .2"
+       class="d-flex justify-content-center align-items-center bg-secondary">
+    <i class="fa fa-gear fa-spin" style="font-size: 20px"></i>
+  </div>
+</section>
+
+
+<!--Template for modal-->
+<ng-template #template>
+  <div class="danger-modal">
+    <div class="top-dec"></div>
+    <div class="modal-header">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete bot&nbsp;{{bot.name}}&nbsp;
+        ?</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body pt-0">
+      <form #form="ngForm">
+        <div class="text-center my-1">
+          <p class="mb-3">This action cannot be undone.Are you sure you wish to delete?</p>
+
+        </div>
+        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
+        <button class=" btn-theme btn-theme-danger" (click)="deleteBot()">Delete</button>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+
+<mat-menu class="cutom-md-menu" #appMenu="matMenu">
+  <button mat-menu-item (click)="utilityService.copyToClipboard(bot.bot_access_token)"><i class="fa fa-copy mr-1"></i>Copy Access Token</button>
+  <button mat-menu-item (click)="utilityService.copyToClipboard(bot.enterprise_id)"><i class="fa fa-copy mr-1"></i>Copy Enterprise ID</button>
+  <button mat-menu-item *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]" (click)="openDeleteModal(template)"><i class="fa fa-trash mr-1"></i>Delete</button>
+  <button mat-menu-item *ngIf="!bot.store_isPinned" (click)="togglePinBotCard(bot, true)"><i class="fa fa-thumb-tack mr-1"></i>Pin</button>
+  <button mat-menu-item *ngIf="bot.store_isPinned" (click)="togglePinBotCard(bot, false)">Unpin</button>
+</mat-menu>

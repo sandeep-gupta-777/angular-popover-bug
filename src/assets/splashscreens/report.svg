@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="180px" height="180px" viewBox="0 0 180 180" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 53 (72520) - https://sketchapp.com -->
+    <title>2C43B43D-E4FD-4D28-8427-30C480C1882B</title>
+    <desc>Created with sketchtool.</desc>
+    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="reports-splash-screen" transform="translate(-622.000000, -316.000000)">
+            <g id="Group-4" transform="translate(622.000000, 316.000000)">
+                <g id="Group-2">
+                    <circle id="Oval" fill="#FFFFFF" fill-rule="nonzero" cx="90" cy="90" r="90"></circle>
+                    <g id="analytics-(2)" transform="translate(44.000000, 40.000000)">
+                        <path d="M72.5454545,0 L3.45454545,0 C1.54931635,0.00595203448 0.005903775,1.56196957 0,3.48275862 L0,97.5172414 C0.005903775,99.4380304 1.54931635,100.994048 3.45454545,101 L62.1818182,101 L62.1818182,90.5517241 C62.187722,88.6309351 63.7311345,87.0749176 65.6363636,87.0689655 L76,87.0689655 L76,3.48275862 C75.9940962,1.56196957 74.4506836,0.00595203448 72.5454545,0 Z" id="Path" fill="#E6E7E8"></path>
+                        <path d="M82.502762,33.9972424 C85.4259719,37.7005972 87.0110503,42.2823668 87,47 L66,47 L66,26 C69.686269,25.9898269 73.3084514,26.9562539 76.499971,28.8002408 C78.807948,30.1426429 80.8433429,31.9054536 82.502762,33.9972424 L82.502762,33.9972424 Z" id="Path" fill="#FFD422"></path>
+                        <path d="M43.6727098,40.0106178 C47.4989468,34.361792 53.7875884,30.9948798 60.4999773,31.0000058 L60.4999773,51.9960045 L80.9999985,51.9960045 C81.0033351,61.0399351 75.3503142,69.0706312 66.9712976,71.9249458 C58.5922808,74.7801144 49.3699406,71.8190089 44.0814423,64.5760044 C38.793778,57.3321458 38.6294509,47.4347399 43.6727098,40.0106178 Z" id="Path" fill="#00CCB3"></path>
+                        <path d="M76,87 L62,101 L62,90.5 C62.0059815,88.5697021 63.5697021,87.0059815 65.5,87 L76,87 Z" id="Path" fill="#BCBEC0"></path>
+                        <path d="M47.5235412,46 L37.5287726,36.3735428 L33,36.3735428 L33,33 L38.2539235,33 C38.7182596,33 39.1637827,33.1779017 39.4921529,33.4941713 L50,43.6147998 L47.5235412,46 Z" id="Path" fill="#FF9811"></path>
+                        <g id="Group" transform="translate(9.000000, 29.000000)" fill="#ACABB1">
+                            <polygon id="Path" points="0 0.112244898 7 0.112244898 7 3.70408163 0 3.70408163"></polygon>
+                            <polygon id="Path" points="10.5 0.112244898 21 0.112244898 21 3.70408163 10.5 3.70408163"></polygon>
+                            <polygon id="Path" points="0 7.29591837 21 7.29591837 21 10.8877551 0 10.8877551"></polygon>
+                        </g>
+                        <path d="M79.43607,40 L77,37.4700058 L85.6137281,28.5241701 C85.9367429,28.1887012 86.3749999,28 86.8317631,28 L92,28 L92,31.5783343 L87.5450875,31.5783343 L79.43607,40 Z" id="Path" fill="#FF9811"></path>
+                        <polygon id="Path" fill="#FFA733" points="95 25 102 25 102 28 95 28"></polygon>
+                        <polygon id="Path" fill="#FFA733" points="95 32 102 32 102 35 95 35"></polygon>
+                        <polygon id="Path" fill="#787680" points="9 9 16 9 16 12 9 12"></polygon>
+                        <polygon id="Path" fill="#ACABB1" points="19 9 33 9 33 12 19 12"></polygon>
+                        <polygon id="Path" fill="#ACABB1" points="9 16 33 16 33 19 9 19"></polygon>
+                        <polygon id="Path" fill="#787680" points="9 68 12 68 12 71 9 71"></polygon>
+                        <polygon id="Path" fill="#ACABB1" points="16 68 33 68 33 71 16 71"></polygon>
+                        <polygon id="Path" fill="#ACABB1" points="9 75 33 75 33 78 9 78"></polygon>
+                        <polygon id="Path" fill="#ACABB1" points="8 82 36 82 36 85 8 85"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

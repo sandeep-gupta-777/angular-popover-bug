@@ -1,14 +1,12 @@
-import {Injectable} from '@angular/core';
-import {IAppState} from './ngxs/app.state';
-import {IUser} from './core/interfaces/user';
-import {Select} from '@ngxs/store';
-import {Observable} from 'rxjs';
-import {IBot} from './core/interfaces/IBot';
-import {IIntegrationOption} from '../interfaces/integration-option';
-import {DatePipe} from '@angular/common';
-import {environment} from '../environments/environment.prod';
-import {IAuthState} from './auth/ngxs/auth.state';
-import {IProfilePermission} from '../interfaces/profile-action-permission';
+import { Injectable } from '@angular/core';
+import { IAppState } from './ngxs/app.state';
+import { IUser } from './core/interfaces/user';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { IBot } from './core/interfaces/IBot';
+import { IIntegrationOption } from '../interfaces/integration-option';
+import { IAuthState } from './auth/ngxs/auth.state';
+import { ITableColumn } from '../interfaces/sessions';
 
 declare var Handsontable: any;
 
@@ -32,7 +30,7 @@ export enum EAllActions {
   'Update Bots' = 'Update Bots',
   'Delete Bots' = 'Delete Bots',
   'Get Bots Anonymous' = 'Get Bots Anonymous',
-  'Get Enterprise Knowledge base' = 'Get Enterprise Knowledge base',//Get Enterprise Knowledge base
+  'Get Enterprise Knowledge base' = 'Get Enterprise Knowledge base', //Get Enterprise Knowledge base
   'Create Enterprise Knowledge base' = 'Create Enterprise Knowledge base',
   'Update Enterprise Knowledge base' = 'Update Enterprise Knowledge base',
   'Delete Enterprise Knowledge base' = 'Delete Enterprise Knowledge base',
@@ -89,7 +87,8 @@ export enum EAllActions {
   'Get Bot Knowledge base' = 'Get Bot Knowledge base',
   'Create Bot Knowledge base' = 'Create Bot Knowledge base',
   'Update Bot Knowledge base' = 'Update Bot Knowledge base',
-  'Delete Bot Knowledge base' = 'Delete Bot Knowledge base'
+  'Delete Bot Knowledge base' = 'Delete Bot Knowledge base',
+  'ModuleDetail' = 'ModuleDetail'
 }
 
 export const ERouteNames = EAllActions;
@@ -100,20 +99,38 @@ export const ERouteNames = EAllActions;
 export class ConstantsService {
 
   forbiddenPermsDynamic: { id?: string, name?: number };
-
+  appState: IAppState;
   allowedPermissionIdsToCurrentRole: number[];
 
-  constructor(private datePipe: DatePipe) {
-    this.app$.subscribe((value) => {
-      if (!value) return;
-      this.BACKEND_URL = (value && value.backendUrlRoot) || 'https://dev.imibot.ai/';
+  constructor() {
+    this.app$.subscribe((appState) => {
+      if (!appState) {
+        return;
+      }
+
+      this.appState = appState;
+      this.BACKEND_URL = (appState && appState.backendUrlRoot);
     });
     this.loggeduser$.subscribe((loggedUser: IAuthState) => {
       if (loggedUser && loggedUser.user) {
         this.loggedUser = loggedUser.user;
+        ConstantsService.loggedUser_static = loggedUser.user;
         this.allowedPermissionIdsToCurrentRole = this.loggedUser.role.permissions.actions;
       }
     });
+  }
+
+  getIntegrationIconForChannelName(channelName: string): any {
+    let x;
+    let masterIntegrationList = this.appState.masterIntegrationList;
+    try {
+      x = masterIntegrationList.find((integrationMasterListItem) => {
+        return integrationMasterListItem.key.toUpperCase() === channelName.toUpperCase();
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    return x;
   }
 
   NEW_BOT_VERSION_TEMPLATE = {
@@ -142,71 +159,30 @@ export class ConstantsService {
 
   static state: any;
   loggedUser: IUser;
+  static loggedUser_static: IUser;
+  /*Todo: remove this.logged user and rename it*/
   @Select() app$: Observable<IAppState>;
   @Select() loggeduser$: Observable<{ user: IUser }>;
 
-
-  isRouteAccessDenied(routeName: string) {
-    // let role = this.loggedUser.role.name;
-    // let deniedRoutes = this.permissionsDeniedMap[role].route;
-    // let isRouteAccessDenied = deniedRoutes.find((route) => {
-    //   return route === routeName;
-    // });
-    return false;// isRouteAccessDenied;
-  }
-
-  // isTabAccessDenied(tabName: string) {
-  //   if (!tabName) return false;
-  //   let role = this.loggedUser.role.name;
-  //   let deniedTabs = this.permissionsDeniedMap[role].tab;
-  //   let isTabAccessDenied = deniedTabs.find((route) => {
-  //     return route === tabName;
-  //   });
-  //   return !!isTabAccessDenied;
-  // }
-
-  isAccessDeniedDynamic(tabName: EAllActions) {
-    if (!tabName || !this.forbiddenPermsDynamic) return false;
-    // let role = this.loggedUser.role.name;
-    // let deniedTabs = this.permissionsDeniedMap[role].tab;
-    let isTabAccessDenied = Object.keys(this.forbiddenPermsDynamic).find((perm) => {
-      return perm === tabName;
-    });
-    return !!isTabAccessDenied;
-  }
-
-  isApiAccessDenied(apiUrl: string) {
-    return false;
-    // if (!apiUrl) return false;
-    // let role = this.loggedUser.role.name;
-    // let deniedApi = this.permissionsDeniedMap[role].api;
-    // let isApiAccessDenied = deniedApi.find((route) => {
-    //   return apiUrl.includes(route);
-    // });
-    // let x = !!isApiAccessDenied;
-    // return x;
-  }
-
-  //
   public BACKEND_URL;// = environment.url;//'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
   public BACKEND_URL_LOGIN = `${this.BACKEND_URL}` + 'api/v1/user/login/';
   private BACKEND_URL_ENTERPRISE_USERS = `${this.BACKEND_URL}` + 'users/enterprise/';
-  private BACKEND_USER_UPDATE_URL = `${this.BACKEND_URL}` + 'user/';//https://dev.imibot.ai/user/5a030aa9b050705bd0ca5a45
-  private BACKEND_USER_CODE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'integrations';//https://dev.imibot.ai/integrations
-  public BACKEND_USER_PIPELINE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'api/v1/bot/';//https://dev.imibot.ai/bots
+  private BACKEND_USER_UPDATE_URL = `${this.BACKEND_URL}` + 'user/'; //https://dev.imibot.ai/user/5a030aa9b050705bd0ca5a45
+  private BACKEND_USER_CODE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'integrations'; //https://dev.imibot.ai/integrations
+  public BACKEND_USER_PIPELINE_BASED_BOT_LIST = `${this.BACKEND_URL}` + 'api/v1/bot/'; //https://dev.imibot.ai/bots
 
   public readonly CHANNEL_LIST = [
-    {name: 'all', displayName: 'All Channels'},
-    {name: 'facebook', displayName: 'Facebook'},
-    {name: 'web', displayName: 'WebChat'},
-    {name: 'alexa', displayName: 'Alexa'}];
+    { name: 'all', displayName: 'All Channels' },
+    { name: 'facebook', displayName: 'Facebook' },
+    { name: 'web', displayName: 'WebChat' },
+    { name: 'alexa', displayName: 'Alexa' }];
 
   public readonly TIME_GRANULARITY_LIST = [
-    {name: 'hour', displayName: 'Hour'},
-    {name: 'day', displayName: 'Day'},
-    {name: 'week', displayName: 'Week'},
-    {name: 'month', displayName: 'Month'},
-    {name: 'year', displayName: 'Year'}
+    { name: 'hour', displayName: 'Hour' },
+    { name: 'day', displayName: 'Day' },
+    { name: 'week', displayName: 'Week' },
+    { name: 'month', displayName: 'Month' },
+    { name: 'year', displayName: 'Year' }
   ];
 
   public readonly DATE_PICKER_CONFIG = Object.assign({}, {
@@ -214,73 +190,95 @@ export class ConstantsService {
     'dateInputFormat': 'DD/MM/YYYY',
   });
 
+  getEnterpriseLoginUrl() {
+    return this.BACKEND_URL + 'api/v1/user/enterprise_login/';
+  }
+
+  generateServiceKeyUrl() {
+    return this.BACKEND_URL + 'api/v1/enterprise/generate_service_key/';
+  }
+  disableServiceKeyUrl(){
+    return this.BACKEND_URL + 'api/v1/enterprise/disable_service_key/';
+
+  }
+  getAllEnterpriseUrl() {
+    return this.BACKEND_URL + 'api/v1/user/enterprises/';
+  }
 
   getLoginUrl() {
     return this.BACKEND_URL + 'api/v1/user/login/';
   }
+
   sendEmailUrl() {
     return this.BACKEND_URL + 'api/v1/user/resetpasswordurl/';
   }
-  resetPasswordUrl(){
+
+  resetPasswordUrl() {
     return this.BACKEND_URL + 'api/v1/user/resetpassword/';
   }
-  codeValidationUrl(){
+
+  codeValidationUrl() {
     return this.BACKEND_URL + 'api/v1/botversioning/codevalidation/';
   }
+
+  getPipelineModuleV2() {
+    return this.BACKEND_URL + 'api/v1/moduledetails/?limit=1000';
+  }
+
   setLoggedUser(loggedUser: IUser) {
     this.loggedUser = loggedUser;
   }
 
   getSelectedVersionTemplate(botId) {
     return {
-      'bot_id' : botId,
-      'comment'  : "",
-      'created_at'  : "",
-      'df_rules'  : "",
-      'df_template'  : "#####DF Template Goes here####",
-      'generation_rules'  : "",
-      'generation_templates'  : "",
-      'id' : -1,
-      'resource_uri'  : "",
-      'updated_at'  : "",
-      'version' : null,
-      'workflow'  : "",
-      'updated_fields' : {
-        'df_template' : false,
-        'df_rules' : false,
-        'generation_rules' : false,
-        'generation_template' : false,
-        'workflows' : false
+      'bot_id': botId,
+      'comment': '',
+      'created_at': '',
+      'df_rules': '',
+      'df_template': '#####DF Template Goes here####',
+      'generation_rules': '',
+      'generation_templates': '',
+      'id': -1,
+      'resource_uri': '',
+      'updated_at': '',
+      'version': null,
+      'workflow': '',
+      'updated_fields': {
+        'df_template': false,
+        'df_rules': false,
+        'generation_rules': false,
+        'generation_template': false,
+        'workflows': false
       },
-      'changed_fields' : {
-        'df_template' : false,
-        'df_rules' : false,
-        'generation_rules' : false,
-        'generation_template' : false,
-        'workflows' : false
+      'changed_fields': {
+        'df_template': false,
+        'df_rules': false,
+        'generation_rules': false,
+        'generation_template': false,
+        'workflows': false
       },
-      "validation": {
-        "df_rules": {"msg":"You can validate your code"},
-        "df_template": {"msg":"You can validate your code"},
-        "generation_rules": {"msg":"You can validate your code"},
-        "generation_templates": {"msg":"You can validate your code"},
-        "workflow": {"msg":"You can validate your code"},
+      'validation': {
+        'df_rules': { 'msg': 'You can validate your code' },
+        'df_template': { 'msg': 'You can validate your code' },
+        'generation_rules': { 'msg': 'You can validate your code' },
+        'generation_templates': { 'msg': 'You can validate your code' },
+        'workflow': { 'msg': 'You can validate your code' },
       },
-      'forked_from' : null,
+      'forked_from': null,
     };
   }
 
   getUserUpdateUrl(enterprise_UserId: number) {
-    return this.BACKEND_URL + `api/v1/user/${enterprise_UserId}/`;//{{url}}/user/{{Enterprise_UserId}}
+    return this.BACKEND_URL + `api/v1/user/${enterprise_UserId}/`; //{{url}}/user/{{Enterprise_UserId}}
   }
 
   getEnterpriseUrl(enterpriseId: number) {
     // return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`;// + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
-    return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`;// + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
+    return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`; // + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
   }
 
   stopTestUrl() {
-    return this.BACKEND_URL + `api/v1/bottestcases/canceltesting/`;// https://dev.imibot.ai/api/v1/bottestcases/canceltesting/
+    return this.BACKEND_URL + `api/v1/bottestcases/canceltesting/`; // https://dev.imibot.ai/api/v1/bottestcases/canceltesting/
 
   }
 
@@ -288,16 +286,33 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/user/enterpriseusers/'; //https://dev.imibot.ai/api/v1/user/enterpriseusers/
   }
 
+  getEnterpriseLogDeletionSummaryUrl() {
+    return this.BACKEND_URL + 'api/v1/deletelogs/enterpriselogdeletionsummary/'; //https://dev.imibot.ai/api/v1/deletelogs/enterpriselogdeletionsummary/
+  }
   getBotListUrl() {
     // return this.BACKEND_USER_PIPELINE_BASED_BOT_LIST + 'api/v1/bot/';
     return this.BACKEND_URL + 'api/v1/bot/?limit=1000';
   }
-
+  getRoleUrl() {
+    return this.BACKEND_URL + 'api/v1/role/';
+  }
+  deleteUserUrl(id:number){
+    return this.BACKEND_URL + `api/v1/user/${id}/`;
+  }
+  removeEnterpriseUserUrl(){
+    return this.BACKEND_URL + `api/v1/user/removeenterpriseuser/`;
+  }
+  createUserUrl(){
+    return this.BACKEND_URL + `api/v1/user/`;
+  }
   getLogoutUrl() {
     // http://localhost:8000/api/v1/logout/;
     return this.BACKEND_URL + 'api/v1/logout/';
   }
+  updateUserUrl(user_id : number){
+    return this.BACKEND_URL + `api/v1/user/${user_id}/`;
 
+  }
   getNSetChatPreviewBotUrl(bot_unique_name, enterprise_unique_name) {
     // http://localhost:8000/api/v1/logout/;
     return this.BACKEND_URL + `api/v1/bot/preview/?bot_unique_name=${bot_unique_name}&enterprise_unique_name=${enterprise_unique_name}`;
@@ -306,12 +321,6 @@ export class ConstantsService {
   getMasterIntegrationsList() {
     return this.BACKEND_URL + 'api/v1/integrations/';
   }
-
-  // getCodebasedBotListUrl() {
-  //   return this.BACKEND_USER_CODE_BASED_BOT_LIST;
-  //   return this.BACKEND_URL + 'api/v1/integrations/';
-  //
-  // }
 
   getOverViewInfoUrl() {
     return this.BACKEND_URL + 'analytics/overviewinfo/'; //https://dev.imibot.ai/analytics/overviewinfo;
@@ -334,11 +343,11 @@ export class ConstantsService {
   }
 
   getSessionsByIdUrl(id) {
-    return this.BACKEND_URL + `api/v1/room/${id}/`; //https://dev.imibot.ai/api/v1/room/9913/
+    return this.BACKEND_URL + `api/v1/room/?id=${id}&order_by=-updated_at`; //https://dev.imibot.ai/api/v1/room/9913/
   }
 
   getSessionsMessageUrl(room_id: number) {
-    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}&limit=1000`; //https://dev.imibot.ai/api/v1/message/?room_id=60
+    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}&limit=1000&order_by=-updated_at`; //https://dev.imibot.ai/api/v1/message/?room_id=60
   }
 
   getTotalMessagesUrl() {
@@ -358,6 +367,8 @@ export class ConstantsService {
     return this.BACKEND_URL + 'analytics/channelWiseSessions/'; //https://dev.imibot.ai/analytics/channelWiseSessions
   }
 
+
+
   getChannelWiseFlowsPerSessionUrl() {
     return this.BACKEND_URL + 'analytics/channelWiseFlowsPerSession/'; //https://dev.imibot.ai/analytics/channelWiseFlowsPerSession
   }
@@ -367,10 +378,10 @@ export class ConstantsService {
   }
 
   getReportUrl(limit = 1, offset = 10) {//limit: number, offset: number
-    return this.BACKEND_URL + `api/v1/reports?limit=${limit}&offset=${offset}`; //{{url}}/reports?limit=1&offset=10
+    return this.BACKEND_URL + `api/v1/reports/?limit=${limit}&offset=${offset}`; //{{url}}/reports?limit=1&offset=10
   }
 
-  getReportHistoryUrl(limit = 1, offset = 10, order_by ) {
+  getReportHistoryUrl(limit = 1, offset = 10, order_by) {
     return this.BACKEND_URL + `api/v1/reporthistory?limit=${limit}&offset=${offset}&order_by=-created_at`;; //https://dev.imibot.ai/reporthistory?limit=1&offset=10
   }
 
@@ -391,7 +402,7 @@ export class ConstantsService {
   }
 
   getSaveReportsEditInfo(_id) {
-    return this.BACKEND_URL + `api/v1/reports/${_id}`; //  http://dev.imibot.ai/api/v1/reports/1/
+    return this.BACKEND_URL + `api/v1/reports/${_id}/`; //  http://dev.imibot.ai/api/v1/reports/1/
   }
 
 
@@ -426,11 +437,29 @@ export class ConstantsService {
   }
 
   getBotConsumerByIdUrl(id: number) {
-    return this.BACKEND_URL + `api/v1/consumer/${id}`; //https://dev.imibot.ai/api/v1/consumer/2320/
+    return this.BACKEND_URL + `api/v1/consumer/${id}/`; //https://dev.imibot.ai/api/v1/consumer/2320/
   }
 
   getAllActionsUrl() {
     return this.BACKEND_URL + `api/v1/actions/?limit=100`; //https://dev.imibot.ai/api/v1/actions/
+  }
+
+  getChatFeedbackUrl() {
+    return this.BACKEND_URL + 'api/v1/message/feedback/';
+  }
+
+  appendQueryParamsInUrl(url: string, queryParams: object) {
+    let urlObj = new URL(url);
+    for (let key in queryParams) {
+      urlObj.searchParams.append(key, queryParams[key]);
+    }
+    return urlObj.href
+  }
+
+  getRoomWithFilters(queryParams: object) {
+    let url = this.BACKEND_URL + 'api/v1/room/?order_by=-updated_at';
+    let urlWithQueryParams = this.appendQueryParamsInUrl(url, queryParams);
+    return urlWithQueryParams;
   }
 
   getDeleteBotUrl(id: number) {
@@ -446,11 +475,11 @@ export class ConstantsService {
   }
 
   getBotSessionsUrl(limit: number, offset: number) {
-    return this.BACKEND_URL + `api/v1/room/?limit=${limit}&offset=${offset}&order_by=-id`; //https://dev.imibot.ai/aip/v1/room
+    return this.BACKEND_URL + `api/v1/room/?limit=${limit}&offset=${offset}&order_by=-updated_at`; //https://dev.imibot.ai/aip/v1/room
   }
 
   getStartNewChatLoginUrl() {
-    return this.BACKEND_URL + 'api/v1/webhook/web/';//'send';
+    return this.BACKEND_URL + 'api/v1/webhook/web/'; //'send';
   }
 
   getAllBotVersionByBotIdUrl(bot_id) {
@@ -466,7 +495,7 @@ export class ConstantsService {
   }
 
   updateBotUrl(bot_id: number) {
-    return this.BACKEND_URL + `api/v1/bot/${bot_id}/`;//https://dev.imibot.ai/api/v1/bot/13/
+    return this.BACKEND_URL + `api/v1/bot/${bot_id}/`; //https://dev.imibot.ai/api/v1/bot/13/
   }
 
   createNewCustomBotNER() {
@@ -492,11 +521,11 @@ export class ConstantsService {
   }
 
   getAnalyticsUrl() {
-    return this.BACKEND_URL + 'api/v1/analytics/';//https://dev.imibot.ai/api/v1/analytics/
+    return this.BACKEND_URL + 'api/v1/analytics/'; //https://dev.imibot.ai/api/v1/analytics/
   }
 
   updateOrDeleteEnterpriseNer(id) {/*TODO: is it enterprise id??*/
-    return this.BACKEND_URL + `api/v1/customner/${id}`; //https://dev.imibot.ai/api/v1/customner/12/
+    return this.BACKEND_URL + `api/v1/customner/${id}/`; //https://dev.imibot.ai/api/v1/customner/12/
   }
 
   createEnterpriseNer() {
@@ -507,8 +536,8 @@ export class ConstantsService {
   }
 
   updateBotSerializer(bot: IBot) {
-    let clone = {...bot};
-    let not_keys = [
+    const clone = { ...bot };
+    const not_keys = [
       'bot_access_token',
       'created_at',
       'created_by',
@@ -526,234 +555,18 @@ export class ConstantsService {
 
 
   //localstorage keys
-  LOCALSTORAGE_APP_STATE: string = 'LOCALSTORAGE_APP_STATE';
-  LOCALSTORAGE_LAST_STATE_UPDATED: string = 'LOCALSTORAGE_LAST_STATE_UPDATED';
+  LOCALSTORAGE_APP_STATE = 'LOCALSTORAGE_APP_STATE';
+  LOCALSTORAGE_LAST_STATE_UPDATED = 'LOCALSTORAGE_LAST_STATE_UPDATED';
 
-
-  //settings for smart table
-  readonly SMART_TABLE_CONSUMER_SETTING = {
-    columns: {
-      id: {//
-        title: 'ID',
-        width: '120px',
-        /*
-        https://github.com/akveo/ng2-smart-table/blob/master/src/app/pages/examples/filter/advanced-example-filters.component.ts#L69-L79
-        filter: {
-          type: 'list',
-          config: {
-            selectText: 'Select...',
-            list: [
-              { value: 'Glenna Reichert', title: 'Glenna Reichert' },
-              { value: 'Kurtis Weissnat', title: 'Kurtis Weissnat' },
-              { value: 'Chelsey Dietrich', title: 'Chelsey Dietrich' },
-            ],
-          },
-        },
-        */
-      },
-      name: {//
-        title: 'Name',
-        filter: false
-      },
-      phone: {
-        title: 'Phone',
-        filter: false
-      },
-      facebook_id: {//
-        title: 'Facebook ID',
-        width: '120px',
-        filter: false
-      },
-      skype_id: {//
-        title: 'Skype ID',
-        width: '120px',
-        filter: false
-      },
-      uid: {
-        title: 'UID',
-        width: '120px',
-        filter: false
-      },
-      email: {//
-        title: 'Email',
-        filter: false
-      },
-      updated_at: {//
-        title: 'Updated At',
-        width: '150px',
-        filter: false,
-        valuePrepareFunction: (date) => {
-
-          // var raw = new Date(date);
-          var formatted = new Date(date).toJSON().slice(0, 10).split('-').reverse().join('/'); //this.datePipe.transform(raw, 'd/m/yy');
-          return formatted;
-        }
-      },
-
-    },
-    // hideSubHeader: true
-    actions: {
-      edit: false,
-      add: false,
-      delete: false,
-      position: 'right',
-      custom: [
-        {name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>`}
-      ],
-      width: '150px',
-    },
-    rowClassFunction: (row) => {
-      if (row.data.data_encrypted === false) {
-        return 'hightlight-decrypted';
-        ;
-      }
-      return '';
-    }
-  };
-
-  readonly SMART_TABLE_SESSIONS_SETTING = {
-
-    columns: {
-      id: {
-        title: 'Room ID',
-        width: '150px'
-      },
-      consumer_id: {
-        title: 'Consumer ID',
-        width: '150px'
-      },
-      total_message_count: {
-        title: 'Messages',
-        width: '150px'
-      },
-      updated_at: {
-        title: 'Updated At',
-        valuePrepareFunction: (date) => {
-          var raw = new Date(date);
-          var formatted = this.datePipe.transform(raw, 'medium');
-          return formatted;
-        }
-      },
-      sendtoagent: {
-        title: 'Sent to Agent'
-      }
-
-    },
-    // hideSubHeader: true
-    // actions: {
-    //   add: true,
-    //   edit: true,
-    //   delete: false
-    // },
-    actions: {
-      edit: false,
-      add: false,
-      delete: false,
-      position: 'right',
-      custom: [
-        {name: 'download', title: `<i  class="fa fa-download pr-2 text-dark"></i>`},
-        {name: 'decrypt', title: `<i class="fa fa-lock text-dark"></i>`},
-      ],
-
-    },
-    pager: {
-      display: false,
-      perPage: 5
-    },
-    rowClassFunction: (row) => {
-      if (row.data.highlight && !row.data.data_encrypted === false) {
-        return 'hightlight-created-row';
-        //   return 'score negative'; // Color from row with negative in score
-        // } else if (row.data.type === '(+)') {
-        //   return 'score positive';
-      }
-      if (row.data.highlight && row.data.data_encrypted === false) {
-        return 'hightlight-created-row hightlight-decrypted';
-      }
-      if (!row.data.highlight && row.data.data_encrypted === false) {
-        return 'hightlight-decrypted';
-      }
-      return '';
-    }
-  };
-  readonly SMART_TABLE_ENTERPISE_USERS_SETTING = {
-
-    columns: {
-      first_name: {
-        title: 'First Name'
-      },
-      email: {
-        title: 'Email'
-      },
-      // 'messages.length': {
-      //   title: 'Messages'
-      // },
-      'role': {
-        title: 'Role'
-      },
-      'permissions': {
-        title: 'Permissions'
-      }
-      , created_at: {
-        title: 'Created At'
-      },
-      updated_at: {
-        title: 'Updated At'
-      }
-    },
-    // hideSubHeader: true
-    actions: {
-      add: false,
-      edit: false,
-      delete: false
-    },
-    pager: {
-      display: false,
-      perPage: 5
-    }
-  };
-
-
-  readonly SMART_TABLE_KNOWLEDGEBASE_SETTING = {
-
-    columns: {
-      key: {
-        title: 'Concept Key'
-      },
-      ner_type: {
-        title: 'Type'
-      },
-      conflict_policy: {
-        title: 'Override Policy'
-      },
-    },
-    pager: {
-      display: false
-    },
-    actions: {
-      add: false,
-      edit: false,
-      delete: false
-    },
-    rowClassFunction: (row) => {
-      if (row.data.highlight) {
-        return 'hightlight-created-row';
-        //   return 'score negative'; // Color from row with negative in score
-        // } else if (row.data.type === '(+)') {
-        //   return 'score positive';
-      }
-      return '';
-    }
-  };
 
   readonly HANDSON_TABLE_BOT_TESTING_colHeaders = ['Message', 'Expected Template', 'Status', 'Generated Template', 'RoomId', 'TransactionId'];
   readonly HANDSON_TABLE_BOT_TESTING_columns = [
-    {data: 0, type: 'text',},
-    {data: 1, type: 'text',},
-    {data: 2, type: 'text', readOnly: true},
-    {data: 3, type: 'text', readOnly: true},
-    {data: 4, type: 'text', readOnly: true},
-    {data: 5, type: 'text', readOnly: true},
+    { data: 0, type: 'text', },
+    { data: 1, type: 'text', },
+    { data: 2, type: 'text', readOnly: true },
+    { data: 3, type: 'text', readOnly: true },
+    { data: 4, type: 'text', readOnly: true },
+    { data: 5, type: 'text', readOnly: true },
   ];
 
   readonly HANDSON_TABLE_KNOWLEDGE_BASE_SETTING = {
@@ -761,7 +574,7 @@ export class ConstantsService {
 
       /*To make first row highlighted*/
       /*https://docs.handsontable.com/5.0.2/demo-conditional-formatting.html*/
-      var cellProperties = {};
+      const cellProperties = {};
       // var data = this.instance.getData();
 
 
@@ -783,6 +596,100 @@ export class ConstantsService {
     // {data: 4, type: 'text'},
     // {data: 5, type: 'text'}
   ];
+
+  readonly SMART_TABLE_REPORT_TABLE_DATA_META_DICT_TEMPLATE = {
+
+    bot: {
+      originalKey: 'bot',
+      value: '',
+      type: 'string',
+      displayValue: 'Bot',
+      search: true,
+      searchValue: true,
+    },
+
+    name: {
+      originalKey: 'name',
+      value: '',
+      type: 'string',
+      displayValue: 'Report Type',
+      search: true,
+      searchValue: true,
+    },
+    frequency: {
+      originalKey: 'frequency',
+      value: '',
+      type: 'string',
+      displayValue: 'Frequency',
+      search: true,
+      searchValue: true,
+    },
+    last_jobId: {
+      originalKey: 'last_jobId',
+      value: '',
+      type: 'string',
+      displayValue: 'Last job run',
+      search: true,
+      searchValue: true,
+    },
+    nextreportgenerated: {
+      originalKey: 'nextreportgenerated',
+      value: '',
+      type: 'string',
+      displayValue: 'Next scheduled date',
+      search: false,
+      searchValue: "",
+      dateRange: true
+    },
+    isactive: {
+      originalKey: 'isactive',
+      value: '',
+      type: 'boolean',
+      displayValue: 'Active',
+      search: true,
+      searchValue: true,
+    }
+  };
+  readonly SMART_TABLE_REPORT_HISTORY_TABLE_DATA_META_DICT_TEMPLATE = {
+
+    bot: {
+      originalKey: 'bot',
+      value: '',
+      type: 'string',
+      displayValue: 'Bot',
+      search: true,
+      searchValue: true,
+    },
+
+    name: {
+      originalKey: 'name',
+      value: '',
+      type: 'string',
+      displayValue: 'Report Type',
+      search: true,
+      searchValue: true,
+    },
+    created_at: {
+      originalKey: 'created_at',
+      value: '',
+      type: 'time',
+      displayValue: 'Generated Date',
+      search: false,
+      searchValue: "",
+      dateRange: true
+    },
+    actions: {
+      originalKey: '',
+      value: undefined,
+      type: 'icon',
+      displayValue: 'Actions',
+      custom: true,
+      name: '',
+      search: false,
+      searchValue: true,
+    },
+
+  };
 
 
   readonly HIGHCHART_CHARTVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE = {
@@ -809,6 +716,7 @@ export class ConstantsService {
       column: {
         stacking: 'percent'
       },
+
       series: {
         pointStart: Date.UTC(2018, 6, 20),
         pointInterval: 24 * 3600 * 1000
@@ -999,62 +907,363 @@ export class ConstantsService {
     }]
   };
 
-  readonly integrationOptionListTemplate: IIntegrationOption = {
-    ccsp_details: {
-      debug: {
-        debugurl: '',
-        enabled: false
-      },
-      imichat: {
-        'access-token': '',
-        domain: '',
-        enabled: false,
-        'service-key': ''
-      }
+  SMART_TABLE_ENTERPRISE_NER_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
+    key: {
+      originalKey: 'key',
+      value: '',
+      type: 'string',
+      displayValue: 'Concept Key',
+      search: true,
+      searchValue: true,
     },
-    channels: {
-      alexa: {
-        enabled: false,
-        skillId: ''
-      },
-      facebook: {
-        enabled: false,
-        'facebook-token': '',
-        id: ''
-      },
-      skype: {
-        client_id: '',
-        client_secret: '',
-        'skype-page-name': '',
-        enabled: false
-      },
-      'viber': {
-        'enabled': false,
-        'bot_name': '',
-        'bot_auth_token': '',
-        'bot_avatar': ''
-      },
-      'web': {
-        'enabled': false,
-        'speech_model': '',
-        'speech_tts': '',
-        'speech_url': ''
-      },
-      'line': {
-        'enabled': false,
-        skillId: ''
-      }
+    ner_type: {
+      originalKey: 'ner_type',
+      value: '',
+      type: 'string',
+      displayValue: 'Type',
+      search: true,
+      searchValue: true,
     },
-    fulfillment_provider_details: {
-      imiconnect: {
-        appId: '',
-        appSecret: '',
-        enabled: false,
-        serviceKey: '',
-        streamName: '',
-        send_via_connect: ''
-      }
-    }
 
   };
+
+  SMART_TABLE_BOT_KNOWLEDGE_BASE_NER_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
+    key: {
+      originalKey: 'key',
+      value: '',
+      type: 'string',
+      displayValue: 'Concept Key',
+      search: true,
+      searchValue: true,
+    },
+    ner_type: {
+      originalKey: 'ner_type',
+      value: '',
+      type: 'string',
+      displayValue: 'Type',
+      search: true,
+      searchValue: true,
+    },
+    conflict_policy: {
+      originalKey: 'conflict_policy',
+      value: '',
+      type: 'string',
+      displayValue: 'Override Policy',
+      search: true,
+      searchValue: true,
+    },
+
+  };
+  SMART_TABLE_SESSION_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
+    id: {
+      originalKey: '',
+      value: '',
+      type: 'number',
+      displayValue: 'Room Id',
+      search: true,
+      searchValue: true,
+    },
+    consumer_id: {
+      originalKey: '',
+      value: '',
+      type: 'number',
+      displayValue: 'Consumer id',
+      search: true,
+      searchValue: true,
+    },
+    sendtoagent: {
+      originalKey: '',
+      value: '',
+      type: 'boolean',
+      displayValue: 'Send to agent',
+      search: true,
+      searchValue: true,
+    },
+    total_message_count: {
+      originalKey: '',
+      value: '',
+      type: 'number',
+      displayValue: 'Messages',
+      search: true,
+      searchValue: true,
+    },
+    updated_at: {
+      originalKey: '',
+      value: '',
+      type: 'time',
+      displayValue: 'Updated At',
+      search: false,
+      searchValue: true,
+      dateRange: true
+    },
+    channels: {
+      originalKey: '',
+      value: '',
+      type: 'image',
+      displayValue: 'Channels',
+      search: true,
+      searchValue: true,
+    },
+    actions: {
+      originalKey: '',
+      value: undefined,
+      type: 'icon',
+      displayValue: 'Actions',
+      custom: true,
+      name: '',
+      search: false,
+      searchValue: true,
+    },
+  };
+
+  readonly SMART_TABLE_ENTERPISE_USERS_SETTING = {
+
+    columns: {
+      first_name: {
+        title: 'First Name'
+      },
+      email: {
+        title: 'Email'
+      },
+      // 'messages.length': {
+      //   title: 'Messages'
+      // },
+      'role': {
+        title: 'Role'
+      },
+      'permissions': {
+        title: 'Permissions'
+      }
+      , created_at: {
+        title: 'Created At'
+      },
+      updated_at: {
+        title: 'Updated At'
+      }
+    },
+    // hideSubHeader: true
+    actions: {
+      add: false,
+      edit: false,
+      delete: false
+    },
+    pager: {
+      display: false,
+      perPage: 5
+    }
+  };
+  readonly SMART_TABLE_SERVICE_KEY_EXPIRED: any = {
+    key: {
+      originalKey: 'key',
+      value: '',
+      type: 'string',
+      displayValue: 'Token Id',
+    },
+    description: {
+      originalKey: 'description',
+      value: '',
+      type: 'string',
+      displayValue: 'Description',
+    },
+    created_at: {
+      originalKey: 'created_at',
+      value: '',
+      type: 'string',
+      displayValue: 'Created on',
+    },
+    expired_at: {
+      originalKey: 'expired_at',
+      value: '',
+      type: 'string',
+      displayValue: 'Expires on',
+    },
+    expired_by: {
+      originalKey: 'expired_by',
+      value: '',
+      type: 'string',
+      displayValue: 'Expired by',
+    }
+
+  }
+
+  readonly SMART_TABLE_SERVICE_KEY_ACTIVE: any = {
+    key: {
+      originalKey: 'key',
+      value: '',
+      type: 'string',
+      displayValue: 'Token Id',
+    },
+    description: {
+      originalKey: 'description',
+      value: '',
+      type: 'string',
+      displayValue: 'Description',
+    },
+    created_at: {
+      originalKey: 'created_at',
+      value: '',
+      type: 'string',
+      displayValue: 'Created on',
+    },
+    // expired_at: {
+    //   originalKey: 'expired_at',
+    //   value: '',
+    //   type: 'string',
+    //   displayValue: 'Expires on',
+    // },
+    'actions': {
+      originalKey: '',
+      value: undefined,
+      type: 'icon',
+      displayValue: 'Actions',
+      custom: true,
+      name: '',
+
+    }
+
+  }
+
+  SMART_TABLE_USER_DICT_TEMPLATE: ITableColumn = {
+    first_name: {
+      originalKey: 'first_name',
+      value: '',
+      type: 'number',
+      displayValue: 'User Name',
+
+    },
+    email: {
+      originalKey: 'email',
+      value: '',
+      type: 'number',
+      displayValue: 'Email ID',
+
+    },
+    // 'role': {
+    //   originalKey: 'role',
+    //   value: '',
+    //   type: 'number',
+    //   displayValue: 'Role',
+    //   search: true,
+    //   searchValue: true,
+    // },
+    'role_id': {
+      originalKey: 'role_id',
+      value: '',
+      type: 'string',
+      displayValue: 'Role',
+
+    },
+    'bots': {
+      originalKey: 'bots',
+      value: '',
+      type: 'string',
+      displayValue: 'Bots assigned',
+
+    },
+    'actions': {
+      originalKey: '',
+      value: undefined,
+      type: 'icon',
+      displayValue: 'Actions',
+      custom: true,
+      name: '',
+
+    }
+    // 'permissions': {
+    //   originalKey: 'permissions',
+    //   value: '',
+    //   type: 'number',
+    //   displayValue: 'Permissions',
+    //   search: true,
+    //   searchValue: true,
+    // },
+    // updated_at: {
+    //   originalKey: 'updated_at',
+    //   value: '',
+    //   type: 'number',
+    //   displayValue: 'Updated At',
+    //   search: true,
+    //   searchValue: true,
+    // },
+  };
+
+
+  SMART_TABLE_CONSUMER_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
+    id: {
+      originalKey: 'id',
+      value: '',
+      type: 'number',
+      displayValue: 'ID',
+      search: true,
+      searchValue: true,
+    },
+    name: {
+      originalKey: '',
+      value: '',
+      type: 'number',
+      displayValue: 'Name',
+      search: true,
+      searchValue: true,
+    },
+    phone: {
+      originalKey: '',
+      value: '',
+      type: 'number',
+      displayValue: 'Phone',
+      search: true,
+      searchValue: true,
+    },
+    facebook_id: {
+      originalKey: 'facebook_id',
+      value: '',
+      type: 'number',
+      displayValue: 'Facebook ID',
+      search: true,
+      searchValue: true,
+    },
+    skype_id: {
+      originalKey: 'skype_id',
+      value: '',
+      type: 'number',
+      displayValue: 'Skype ID',
+      search: true,
+      searchValue: true,
+    },
+    uid: {
+      originalKey: 'uid',
+      value: '',
+      type: 'number',
+      displayValue: 'UID',
+      search: true,
+      searchValue: true,
+    },
+    email: {
+      originalKey: 'email',
+      value: '',
+      type: 'string',
+      displayValue: 'Email',
+      search: true,
+      searchValue: true,
+    },
+    updated_at: {
+      originalKey: 'updated_at',
+      value: '',
+      type: 'time',
+      displayValue: 'Updated At',
+      search: false,
+      searchValue: true,
+      dateRange: true
+    },
+    actions: {
+      originalKey: '',
+      value: undefined,
+      type: 'icon',
+      displayValue: 'Actions',
+      custom: true,
+      name: '',
+      search: false,
+      searchValue: true,
+    },
+  };
+
 }

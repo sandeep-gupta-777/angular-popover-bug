@@ -35,37 +35,51 @@ import {CommonModule} from '@angular/common';
 import {SharedModule} from '../shared.module';
 import {ViewCustomnerComponent} from './customner/view-customner/view-customner.component';
 import {AuthGaurdService} from '../auth-gaurd.service';
-import {EBotType} from './view-bots/view-bots.component';
 import {AccessGaurdService} from '../access-gaurd.service';
 import {ERouteNames} from '../constants.service';
 import {ChatModule} from '../chat/chat.module';
+import {EBotType} from '../utility.service';
+import { StringIncludesPipe } from './buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
+import {MyMaterialModule} from '../my-material.module';
+import {CreateBotDialogComponent} from './view-bots/create-bot-dialog/create-bot-dialog.component';
+import {ModalConfirmComponent} from '../modal-confirm/modal-confirm.component';
+import {GentemplateEditKeyComponent} from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
+import { UrlValidatorDirective } from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-input-caraosal/url-validator.directive';
+import { EnterpriseOverviewComponent } from './enterpriseprofile/enterprise-overview/enterprise-overview.component';
+import { EnterpriseUsersComponent } from './enterpriseprofile/enterprise-users/enterprise-users.component';
+import { EnterpriseRolesComponent } from './enterpriseprofile/enterprise-roles/enterprise-roles.component';
+import { SortPipelinePipe } from './buildbot/build-code-based-bot/architecture/pipeline/sort-pipeline.pipe';
+import {SafeHtml} from '@angular/platform-browser';
+import {SafeHtmlPipe} from '../safe-html.pipe';
+import { PipelineIdToPipelineModulePipe } from './buildbot/build-code-based-bot/architecture/pipeline/pipeline-id-to-pipeline-module.pipe';
+import { PipeineIdToPipelineModuleWrapperPipe } from './buildbot/build-code-based-bot/architecture/pipeline/pipeine-id-to-pipeline-module-wrapper.pipe';
 const routes: Route[] = [
   {
 
     path: '',
     component: CoreWrapperComponent,
-    canActivate:[AuthGaurdService],
-    canActivateChild:[AuthGaurdService,AccessGaurdService],
+    canActivate: [AuthGaurdService],
+    canActivateChild: [AuthGaurdService, AccessGaurdService],
     children: [
       {
-        path: 'viewbots', loadChildren: './view-bots/view-bots.module#ViewBotsModule',canLoad:[AuthGaurdService]
+        path: 'viewbots', loadChildren: './view-bots/view-bots.module#ViewBotsModule', canLoad: [AuthGaurdService]
       },
       {
-        path: 'botdetail', loadChildren: './bot-detail/bot-detail.module#BotDetailModule', canLoad:[AuthGaurdService]
+        path: 'botdetail', loadChildren: './bot-detail/bot-detail.module#BotDetailModule', canLoad: [AuthGaurdService]
       },
       {
-        path: 'analytics2', loadChildren: './analysis2/analysis2.module#Analysis2Module', canLoad:[AuthGaurdService]
+        path: 'analytics2', loadChildren: './analysis2/analysis2.module#Analysis2Module', canLoad: [AuthGaurdService]
       },
-      {path: 'customner', component: ViewCustomnerComponent, data:{routeName:ERouteNames['Get Enterprise Knowledge base']}, canActivate:[]},
-      {path: 'customner/create', component: CreateCustomnerComponent, data:{routeName:ERouteNames['Create Enterprise Knowledge base']}},
-      {path: 'enterpriseprofile', component: EnterpriseprofileComponent, data:{routeName:ERouteNames['Get Enterprise']}, canActivate:[]},
-      {path: 'profile', component: ProfileComponent,data:{routeName:ERouteNames['Get User']}},
-      {path: 'reports', component: ReportsComponent, data:{routeName:ERouteNames['Get Reports']}},
-      {path: 'reports/edit/:_id', component: ReportDetailsComponent, data:{routeName:ERouteNames['Update Reports']}},
-      {path: 'reports/create', component: ReportDetailsComponent, data:{name:ERouteNames['Create Reports']}},
-      {path: 'documentation', component: DocumentationComponent, canActivate:[]},
+      {path: 'customner', component: ViewCustomnerComponent, data: {routeName: ERouteNames['Get Enterprise Knowledge base']}, canActivate: []},
+      {path: 'customner/create', component: CreateCustomnerComponent, data: {routeName: ERouteNames['Create Enterprise Knowledge base']}},
+      {path: 'enterpriseprofile', component: EnterpriseprofileComponent, data: {routeName: ERouteNames['Get Enterprise']}, canActivate: []},
+      {path: 'profile', component: ProfileComponent, data: {routeName: ERouteNames['Get User']}},
+      {path: 'reports', component: ReportsComponent, data: {routeName: ERouteNames['Get Reports']}},
+      {path: 'reports/edit/:_id', component: ReportDetailsComponent, data: {routeName: ERouteNames['Update Reports']}},
+      {path: 'reports/create', component: ReportDetailsComponent, data: {name: ERouteNames['Create Reports']}},
+      {path: 'documentation', component: DocumentationComponent, canActivate: []},
       {
-        path: 'buildbot', component: BuildbotWrapperComponent,data:{name:ERouteNames['Create Bots']}, children:
+        path: 'buildbot', component: BuildbotWrapperComponent, data: {name: ERouteNames['Create Bots']}, children:
           [
             {path: EBotType.chatbot, component: BuildCodeBasedBotComponent, data: {buildBot: EBotType.chatbot}},
             {path: 'intelligent', component: BuildPipelineBasedBotComponent, data: {buildBot: 'pipeLineBased'}},
@@ -88,6 +102,7 @@ const routes: Route[] = [
     CreateCustomnerComponent,
     ProfileComponent,
     EnterpriseprofileComponent,
+    EnterpriseOverviewComponent,
     ReportsComponent,
     CoreWrapperComponent,
     BuildbotWrapperComponent,
@@ -102,12 +117,21 @@ const routes: Route[] = [
     TestComponent,
     ChatPreviewNewPageComponent,
     FooterComponent,
+    EnterpriseOverviewComponent,
+    EnterpriseUsersComponent,
+    EnterpriseRolesComponent,
+    // PipeineIdToPipelineModuleWrapperPipe,
+    // PipelineIdToPipelineModulePipe
     // DisplayNameForKeyIntegrationPipe,
 
     /*added after lazy loading*/
 
     // HighlightDirective
 
+  ],
+  entryComponents: [
+    ModalConfirmComponent,
+    GentemplateEditKeyComponent,
   ],
   imports: [
     ChatModule,
@@ -117,7 +141,8 @@ const routes: Route[] = [
     // DragAndDropModule.forRoot(),
     HttpClientModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MyMaterialModule
 
   ],
   providers: [AimService]

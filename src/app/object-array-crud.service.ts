@@ -8,6 +8,21 @@ export class ObjectArrayCrudService {
 
   constructor() { }
 
+  static getObjectIndexByKeyValuePairInObjectArray(array: any[], obj: object) {
+    if(Array.isArray(array) && obj){
+      const key = Object.keys(obj)[0];
+      const value =  obj[key];
+      const x = array.findIndex(item => {
+        return item[key] === value;
+      });
+      return x;
+    }
+    else {
+      console.error("getObjectIndexByKeyValuePairInObjectArray: invalid values");
+      return null;
+    }
+  }
+
 
   // removeItemById(array:IAIModule[], id:string):IAIModule[]{
   //   if(!array || !id ) return;
@@ -30,12 +45,12 @@ export class ObjectArrayCrudService {
   //   array.push(obj);
   //   return array;
   // }
-  getObjectItemByKeyValuePair(array:any[], obj:object){
-    let key = Object.keys(obj)[0];
-    let value =  obj[key];
-    let x = array.find(item => {
+  getObjectItemByKeyValuePair(array: any[], obj: object) {
+    const key = Object.keys(obj)[0];
+    const value =  obj[key];
+    const x = array.find(item => {
       return item[key] === value;
-    })
+    });
     return x;
   }
 }

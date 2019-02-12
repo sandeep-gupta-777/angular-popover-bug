@@ -28,7 +28,8 @@ form {
   grid-template-columns: repeat(auto-fill, 120px);
   grid-column-gap: 10px;
   // grid-row-gap: 10px;
-  grid-auto-rows: 162px;
+  grid-auto-rows: 165px;/* 55*3; Dont change this: this is done to keep height of all 4 components same, when tab is switched*/
+  overflow: hidden;
 }
 
 .avator-item{

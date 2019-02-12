@@ -1,29 +1,30 @@
-<div class="row">
-  <div class="col-12 d-flex justify-content-between" >
-    <div class="btn btn-primary cursor-pointer">Go Back</div>
-    <div class="right">
-      <span>Concept Key</span>
-      <input type="text">
-      <span>Concept Type</span>
-      <div class="btn-group"  dropdown>
-        <button class="btn btn-primary" dropdownToggle> {{conceptType}}</button>
-        <ul *dropdownMenu class="dropdown-menu" role="menu">
-          <li role="menuitem"><a class="dropdown-item" (click)="conceptTypeChanged('single')" >single match</a></li>
-          <li role="menuitem"><a class="dropdown-item" (click)="conceptTypeChanged('double')" >double match</a></li>
-          <li role="menuitem"><a class="dropdown-item" (click)="conceptTypeChanged('metadata')" >with metadata</a></li>
-          <li role="menuitem"><a class="dropdown-item" (click)="conceptTypeChanged('database')" >database</a></li>
-          <li role="menuitem"><a class="dropdown-item" (click)="conceptTypeChanged('regex')" >regex</a></li>
-        </ul>
-      </div>
-      <button class="btn btn-sucess">Create</button>
-    </div>
-  </div>
+<!--<div class="row">-->
+  <!--<div class="col-12 d-flex justify-content-between" >-->
+    <!--<div class="btn-theme btn-primary cursor-pointer">Go Back</div>-->
+    <!--<div class="right">-->
+      <!--<span>Concept Key</span>-->
+      <!--<input type="text">-->
+      <!--<span>Concept Type</span>-->
+      <!--<div class="btn-group"  dropdown>-->
+        <!--<button class="btn-theme btn-primary" dropdownToggle> {{conceptType}}</button>-->
+        <!--<ul *dropdownMenu class="dropdown-menu" role="menu">-->
+          <!--<li role="menuitem"><a class="dropdown-item" (click)="conceptTypeChanged('single')" >single match</a></li>-->
+          <!--<li role="menuitem"><a class="dropdown-item" (click)="conceptTypeChanged('double')" >double match</a></li>-->
+          <!--<li role="menuitem"><a class="dropdown-item" (click)="conceptTypeChanged('metadata')" >with metadata</a></li>-->
+          <!--<li role="menuitem"><a class="dropdown-item" (click)="conceptTypeChanged('database')" >database</a></li>-->
+          <!--<li role="menuitem"><a class="dropdown-item" (click)="conceptTypeChanged('regex')" >regex</a></li>-->
+        <!--</ul>-->
+      <!--</div>-->
 
-  <div class="col-12" *ngIf="conceptType==='regex'">
-    <textarea name=""  id="" cols="30" rows="10" style="width: 100%;"></textarea>
-  </div>
-  <div class="col-12"  *ngIf="conceptType==='single' || conceptType==='double' || conceptType==='metadata'">
-    <app-code-editor></app-code-editor>
-  </div>
-</div>
-<!---->
+      <!--<button class="btn-theme btn-sucess">Create</button>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <!--<div class="col-12" *ngIf="conceptType==='regex'">-->
+    <!--<textarea name=""  id="" cols="30" rows="10" style="width: 100%;"></textarea>-->
+  <!--</div>-->
+  <!--<div class="col-12"  *ngIf="conceptType==='single' || conceptType==='double' || conceptType==='metadata'">-->
+    <!--<app-code-editor></app-code-editor>-->
+  <!--</div>-->
+<!--</div>-->
+<!--&lt;!&ndash;&ndash;&gt;-->

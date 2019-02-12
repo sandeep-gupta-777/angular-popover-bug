@@ -13,7 +13,7 @@
         <div *ngIf="!showConfig" class="d-flex mx-4 justify-content-between align-items-center flex-grow-1">
           <div class="">Bot Unique Name : <strong>{{bot.bot_unique_name}}</strong></div>
           <div class="">Session Time : <strong>{{bot.room_persistence_time}} min</strong></div>
-          <div class="d-none d-md-inline">Advance Data Protection : <strong>{{bot.advanced_data_protection}}</strong></div>
+          <div class="d-none d-md-inline">Advanced Data Protection : <strong>{{bot.advanced_data_protection}}</strong></div>
           <div class="d-none d-md-inline">Data Retention Period : <strong>{{bot.data_persistence_period}} Days</strong></div>
           <div class="d-none d-md-inline">Blank Consent : <strong>{{bot.blanket_consent}}</strong></div>
         </div>
@@ -74,7 +74,16 @@
              (click)="tabChanged('consumer')"
              [queryParams]="{build:'consumer'}"><strong>Consumers</strong></a>
         </li>
-        <li class="nav-item ml-auto">
+        <div class="ml-auto"></div>
+        <li class="nav-item" *ngIf="selectedTab==='sessions'">
+          <a class="nav-link heading" style="cursor: default!important;">
+            <i class="fa fa-refresh cursor-pointer"
+               [ngClass]="{'fa-spin':spinReloadSessionTableSpinner}"
+               (click)="reloadSessionsHandler()"></i>
+          </a>
+          <!---->
+        </li>
+        <li class="nav-item">
           <a class="nav-link heading"
              [routerLink]="['.']"
              queryParamsHandling="merge"
@@ -87,7 +96,7 @@
         </li>
       </ul>
 
-      <ul class="nav nav-tabs border-none theme-tabbing mb-1 bg-white d-flex d-md-none">
+      <ul class="nav nav-tabs border-none theme-tabbing mb-1 bg-white d-flex d-md-none" *ngIf="selectedTab ==='architecture'">
         <li routerLink="."
              [queryParams]="{'build-tab':'pipeline'}"
              queryParamsHandling="merge"
@@ -101,7 +110,7 @@
              queryParamsHandling="merge"
              [ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"
              (click)="selectedSideBarTab='knowledge'"
-             class="tab-theme">Knowledge base
+             class="tab-theme">Knowledge Base
         </li>
         <li routerLink="."
              [queryParams]="{'build-tab':'code'}"
@@ -147,7 +156,7 @@
                    queryParamsHandling="merge"
                    [ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"
                    (click)="selectedSideBarTab='knowledge'"
-                   class="tab-theme">Knowledge base
+                   class="tab-theme">Knowledge Base
               </div>
               <div routerLink="."
                    [queryParams]="{'build-tab':'code'}"
@@ -178,9 +187,8 @@
             <app-code-input
               class=" d-flex-column-last-child-flex-grow-1"
               (datachanged$)="datachanged($event)"
-              [hidden]="selectedSideBarTab!=='code'"
+              *ngIf="selectedSideBarTab==='code'"
               [bot]="bot"></app-code-input>
-
             <app-integration-option-list
               (datachanged$)="datachanged($event)"
               *ngIf="selectedSideBarTab==='integration'"
@@ -193,23 +201,31 @@
     </div>
     <!--architeture ends-->
 
-    <div class="p-0 d-flex d-flex-column-custom  flex-grow-1"  *ngIf="selectedTab==='testing'">
-      <app-bot-testing class=" d-flex-column-custom flex-grow-1" [bot]="bot"></app-bot-testing>
+    <div class="p-0 d-flex d-flex-column-custom flex-grow-1"  *ngIf="selectedTab==='testing'">
+      <app-bot-testing style="position: relative" class="child-expand d-flex-column-custom flex-grow-1" [bot]="bot"></app-bot-testing>
     </div>
 
-    <div class="col-12 scroll-wrapper" *ngIf="selectedTab==='sessions'">
-      <app-bot-sessions [id]="bot.id" [bot]="bot"></app-bot-sessions>
+    <div class="scroll-wrapper d-flex-column-last-child-flex-grow-1" *ngIf="selectedTab==='sessions'">
+      <app-bot-sessions class="child-expand d-flex-column-last-child-flex-grow-1" style="position: relative" [id]="bot.id" [bot]="bot"></app-bot-sessions>
     </div>
 
     <div class="d-flex-column-last-child-flex-grow-1 scroll-wrapper" *ngIf="selectedTab==='consumer'">
-      <app-consumers class="d-flex-column-last-child-flex-grow-1 " [id]="bot.id" [bot]="bot"></app-consumers>
+      <app-consumers style="position: relative" class="child-expand d-flex-column-last-child-flex-grow-1 " [id]="bot.id" [bot]="bot"></app-consumers>
     </div>
 
   </div>
 
 </div>
 
-<app-imi-loader *ngIf="!bot"></app-imi-loader>
+<app-imi-loader *ngIf="!bot && !noSuchBotMessage"></app-imi-loader>
+<app-imi-loader *ngIf="noSuchBotMessage" [customTemplate]="true" >
+  <div class="d-flex flex-column justify-content-center align-content-center">
+    <i>No such bot in your account</i>
+    <a routerLink="/">Go to home page</a>
+  </div>
+</app-imi-loader>
+
+<!--<p *ngIf="noSuchBotMessage">{{noSuchBotMessage}}</p>-->
 
 <ng-template #placeholder>
   <div class="row row-details">

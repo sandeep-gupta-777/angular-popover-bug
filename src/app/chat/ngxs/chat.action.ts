@@ -1,8 +1,9 @@
 import {EChatFrame, IMessageData, IRoomData} from '../../../interfaces/chat-session-state';
 import {IBot} from '../../core/interfaces/IBot';
 import {IConsumerDetails} from './chat.state';
-import {st} from '@angular/core/src/render3';
+
 import {IIntegrationOption} from '../../../interfaces/integration-option';
+import {EChatFeedback, IChatFeedback} from '../chat-wrapper.component';
 
 export class ToggleChatWindow {
   static readonly type = '[chat-widdow] set toggle';
@@ -20,7 +21,7 @@ export class ChangeFrameAction {
 export class ChangeBotIsThinkingDisplayByRoomId {
   static readonly type = '[chat-widdow] set ShowBotIsThinkingInRoomId';
 
-  constructor(public payload: { roomId:number, shouldShowBotIsThinking:boolean}) {
+  constructor(public payload: { roomId: number, shouldShowBotIsThinking: boolean}) {
   }
 }
 
@@ -57,6 +58,13 @@ export class SetLastTemplateKeyToRoomByRoomId {
   }
 }
 
+export class UpdateBotMessage {
+  static readonly type = '[chat-widdow] update UpdateBotMessage';
+
+  constructor(public payload: {room_id: number, bot_message_id: number, feedback: EChatFeedback }) {
+  }
+}
+
 export class SetCurrentRoomID {
   static readonly type = '[chat-widdow] set SetCurrentRoomID';
 
@@ -75,7 +83,7 @@ export class SetCurrentBotDetailsAndResetChatStateIfBotMismatch {
   static readonly type = '[chat-widdow] set SetCurrentBotID';
 
   constructor(public payload: {
-    bot:IBot
+    bot: IBot
     // id: number,
     // bot_access_token?: string,
     // name?: string,

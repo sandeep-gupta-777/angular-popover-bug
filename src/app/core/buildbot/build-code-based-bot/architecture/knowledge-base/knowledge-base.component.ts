@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {IBot} from '../../../../interfaces/IBot';
 import {ServerService} from '../../../../../server.service';
 import {ConstantsService, EAllActions, ERouteNames} from '../../../../../constants.service';
@@ -12,51 +11,60 @@ import {ICustomners} from '../../../../../../interfaces/bot-creation';
 import {Observable} from 'rxjs';
 import {IUser} from '../../../../interfaces/user';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {b} from '@angular/core/src/render3';
+import {ESplashScreens} from '../../../../../splash-screen/splash-screen.component';
+import {MaterialTableImplementer} from '../../../../../material-table-implementer';
 
 @Component({
   selector: 'app-knowledge-base',
   templateUrl: './knowledge-base.component.html',
   styleUrls: ['./knowledge-base.component.scss']
 })
-export class KnowledgeBaseComponent implements OnInit {
+export class KnowledgeBaseComponent extends MaterialTableImplementer implements OnInit {
 
   // @Input() bot: IBot;
+
+  myESplashScreens = ESplashScreens;
   @ViewChild('form') f1: NgForm;
   myEAllActions = EAllActions;
   myERouteNames = ERouteNames;
   routeName: string;
   @Select() loggeduser$: Observable<{ user: IUser }>;
-  @Input() recordsPerPage=10;
+  @Input() recordsPerPage = 10;
 
   // @Input() _custumNerDataForSmartTable = [];
-  _custumNerDataForSmartTable:ICustomNerItem[] = [];
-  @Input() set custumNerDataForSmartTable(value:ICustomNerItem[]){
+  _custumNerDataForSmartTable: any[] = [];
+  @Input() set custumNerDataForSmartTable(value: ICustomNerItem[]) {
+
 
     this._custumNerDataForSmartTable = value;
-    let ner_id = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
+    setTimeout(()=>{
+      this.initializeTableData(value, this.getTableDataMetaDict());
+    });
+
+    const ner_id = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
     ner_id && this.updateSelectedRowDataByNer_Id(Number(ner_id));
-  };
-  @Output() pageChanged$ = new EventEmitter();//
-  @Output() updateOrSaveParentNers$ = new EventEmitter();//
-  @Output() deleteNer$ = new EventEmitter();//deleteNer$.emit()
-  @Input() currentPageNumber=1;
+  }
+
+  @Output() pageChanged$ = new EventEmitter(); //
+  @Output() updateOrSaveParentNers$ = new EventEmitter(); //
+  @Output() deleteNer$ = new EventEmitter(); //deleteNer$.emit()
+  @Input() currentPageNumber = 1;
   @Input() totalRecords = 10;
   loggeduser: { user: IUser };
-  @Input() settings = this.constantsService.SMART_TABLE_KNOWLEDGEBASE_SETTING;
   codeTextOutPutFromCodeEditor: string;
   codeTextInputToCodeEditor: string;
   showTable = true;
   key1;
   ner_type1;
   conflict_policy1;
-  type:string;
-  modalRef: BsModalRef;
+  type: string;
   handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
   handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
 
-  handontableData = [["","",""]];
+  handontableData = [['', '', '']];
   selectedRowData: ICustomNerItem;
+
+  @Input() tableDataMetaDict;
 
   /*TODO: use model instead of ngif;else*/
   constructor(
@@ -66,25 +74,36 @@ export class KnowledgeBaseComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private store: Store) {
-
+    super();
   }
 
-  updateSelectedRowDataByNer_Id(ner_id:number){
-      this.showTable = !ner_id;
+  getTableDataMetaDict(): any {
+    return this.tableDataMetaDict;
+  }
 
-      this.selectedRowData = this._custumNerDataForSmartTable.find((custumNerData)=>{
-        return custumNerData.id === ner_id
-      });
-      if(this.selectedRowData)this.prepareDataForDetailedViewAndChangeParams(this.selectedRowData);
+  initializeTableData(data: any, tableDataMetaDict: any): void {
+    this.tableData = this.transformDataForMaterialTable(data, tableDataMetaDict);
+    this.tableData = [...this.tableData];
+  }
+
+  updateSelectedRowDataByNer_Id(ner_id: number) {
+    this.showTable = !ner_id;
+    this.selectedRowData = this._custumNerDataForSmartTable && this._custumNerDataForSmartTable.find((custumNerData) => {
+      return custumNerData.id === ner_id;
+    });
+    if (this.selectedRowData) {
+      this.prepareDataForDetailedViewAndChangeParams(this.selectedRowData);
+    }
   }
 
   ngOnInit() {
+
     this.routeName = this.activatedRoute.snapshot.data['routeName'];
 
     this.activatedRoute.queryParamMap
-      .subscribe((value:ParamMap)=>{
-        if(value.get('ner_id') ){
-          let ner_id =  Number(value.get('ner_id'));
+      .subscribe((value: ParamMap) => {
+        if (value.get('ner_id')) {
+          const ner_id = Number(value.get('ner_id'));
           ner_id && this.updateSelectedRowDataByNer_Id(ner_id);
           // this.showTable = !ner_id;
           // this.selectedRowData = this._custumNerDataForSmartTable.find((custumNerData)=>{
@@ -93,7 +112,7 @@ export class KnowledgeBaseComponent implements OnInit {
           // if(this.selectedRowData)this.prepareData(this.selectedRowData);
         }
       });
-    this.currentPageNumber = Number(this.activatedRoute.snapshot.queryParamMap.get('page') ||'1');
+    this.currentPageNumber = Number(this.activatedRoute.snapshot.queryParamMap.get('page') || '1');
     // this.handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
     // this.handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
     // if (this.bot) {
@@ -112,40 +131,36 @@ export class KnowledgeBaseComponent implements OnInit {
     this.codeTextOutPutFromCodeEditor = codeText;
   }
 
-  updateOrSaveConcept(data:{key:string, ner_type:string, conflict_policy:string, codeTextOutPutFromCodeEditor:string,handsontableData:any}) {
+  updateOrSaveConcept(data: { key: string, ner_type: string, conflict_policy: string, codeTextOutPutFromCodeEditor: string, handsontableData: any }) {
+
     let body: ICustomNerItem = data;
     // this.type = this.bot?'bot':'enterprise';
-    if (data.ner_type === 'single_match' || data.ner_type === 'with_metadata' || data.ner_type === 'double_match'||data.ner_type === 'regex') {
+    if (data.ner_type === 'single_match' || data.ner_type === 'with_metadata' || data.ner_type === 'double_match' || data.ner_type === 'regex') {
       // body = {values: data.codeTextOutPutFromCodeEditor.split(',')};
       body = {values: data.codeTextOutPutFromCodeEditor, ...body};
-    }
-    // else if (data.ner_type === 'regex'){
-    //   body = {values: data.codeTextOutPutFromCodeEditor};
-    // }
-    else if (data.ner_type === 'database') {
-      debugger;
-      let handontableDataClone = JSON.parse(JSON.stringify(data.handsontableData));
-      let column_headers = handontableDataClone[0] || ["","",""];
-      if(!column_headers || (new Set(column_headers)).size !== column_headers.length){
-        this.utilityService.showErrorToaster("Empty or duplicate headers!");
+    } else if (data.ner_type === 'database') {
+      const handontableDataClone = JSON.parse(JSON.stringify(data.handsontableData));
+      const column_headers = handontableDataClone[0];
+      let areHeaderElementRepeated = UtilityService.areAllElementsInArrUnique(column_headers);
+      if(!areHeaderElementRepeated){
+        this.utilityService.showErrorToaster("Header values are not valid");
         return;
       }
       handontableDataClone.shift();
-      let handsontableDataSerialized = handontableDataClone.map((row) => {
-        let obj = {};
-        let isRow : boolean = false;
+      let handsontableDataSerialized: any[] = handontableDataClone.map((row) => {
+        const obj = {};
+        let isRow = false;
         row.forEach((str, index) => {
-          isRow = isRow || ((str !== null) && (str !== ""));
+          isRow = isRow || ((str !== null) && (str !== ''));
         });
-        if(isRow){
+        if (isRow) {
           row.forEach((str, index) => {
-            let key = column_headers[index];
+            const key = column_headers[index];
             obj[key] = str;
           });
           return obj;
-        }
-        else{
-          return ;
+        } else {
+          return;
         }
         // let obj = {};
         // row.forEach((str, index) => {
@@ -154,22 +169,27 @@ export class KnowledgeBaseComponent implements OnInit {
         // });
         // return obj;
       });
-      // console.log("shoaib sadas",handsontableDataSerialized);
       handsontableDataSerialized = handsontableDataSerialized.filter(function (el) {
-        return el != null;
+
+        return el !=null;
       });
-      body = {"column_headers": column_headers,values: handsontableDataSerialized, ...body};
+
+      if(!handsontableDataSerialized || handsontableDataSerialized.length===0){
+        this.utilityService.showErrorToaster("There must be atleast two rows in table");
+        return;
+      }
+      body = {'column_headers': column_headers, values: handsontableDataSerialized, ...body};
     }
 
-    let output:ICustomNerItem;
+    let output: ICustomNerItem;
     if (this.selectedRowData && this.selectedRowData.id) {/*if there is not id, this means we are creating new customner*/
       output = Object.assign(this.selectedRowData, body);
-    }else {
-      let bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
-      let type = bot_id?'bot':'enterprise';
+    } else {
+      const bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+      const type = bot_id ? 'bot' : 'enterprise';
 
-      let newRowData:ICustomNerItem = output ={
-        'bot_id': bot_id ,//this.bot.id,
+      const newRowData: ICustomNerItem = output = {
+        'bot_id': bot_id, //this.bot.id,
         // "column_headers": any[],
         'column_nermap': {},
         'conflict_policy': data.conflict_policy,
@@ -184,10 +204,10 @@ export class KnowledgeBaseComponent implements OnInit {
         // 'updated_at': new Date().toISOString(),
         // "updated_by": 0,
         // "values"?: any[],
-        "column_headers" : [],
+        'column_headers': [],
         // "process_raw_text" : false,
         ...body
-      }
+      };
       // this.custumNerDataForSmartTable.push(newRowData);
     }
 
@@ -275,16 +295,18 @@ export class KnowledgeBaseComponent implements OnInit {
   }
 
   rowClicked($event) {
+
     this.selectedRowData = $event.data;
+    console.log(this.selectedRowData);
     this.prepareDataForDetailedViewAndChangeParams(this.selectedRowData);
   }
 
-  prepareDataForDetailedViewAndChangeParams(selectedRowData:ICustomNerItem){
-    debugger;
+  prepareDataForDetailedViewAndChangeParams(selectedRowData) {
     this.router.navigate(['.'], {
-      queryParams:{ner_id:selectedRowData.id},
-      queryParamsHandling: "merge",
-      relativeTo:this.activatedRoute});
+      queryParams: {ner_id: selectedRowData.id},
+      queryParamsHandling: 'merge',
+      relativeTo: this.activatedRoute
+    });
     this.showTable = false;
     this.codeTextInputToCodeEditor = selectedRowData.values && selectedRowData.values;
     if (selectedRowData.ner_type === 'database') {
@@ -292,7 +314,7 @@ export class KnowledgeBaseComponent implements OnInit {
       * column_headers is array which will keep the order of headers written by user
       * Object.keys(selectedRowData.values[0]) => will not keep order since its coming from dictionary
       * */
-      let valueKeys = selectedRowData.column_headers || Object.keys(selectedRowData.values[0]);
+      const valueKeys = selectedRowData.column_headers || Object.keys(selectedRowData.values[0]);
       this.handontableData = selectedRowData.values.map((value) => {
         return valueKeys.map((valueKey) => {
           return value[valueKey];
@@ -311,21 +333,29 @@ export class KnowledgeBaseComponent implements OnInit {
     // this.conflict_policy = 'override';
     // this.codeTextInputToCodeEditor = '';
     this.selectedRowData = {};
-    this.handontableData = [["","",""]];
+    this.handontableData = [['', '', '']];
     /*show create ner stuff*/
     this.showTable = false;
   }
 
-  pageChanged(pageNumber) {
-    this.pageChanged$.emit(pageNumber);
+  pageChanged({page}) {
+    this.pageChanged$.emit(page);
   }
 
-  showNerSmartTable(){
+  showNerSmartTable() {
     this.showTable = true;
     this.router.navigate(['.'], {
-      queryParams:{ner_id:null},
-      queryParamsHandling: "merge",
-      relativeTo:this.activatedRoute});
+      queryParams: {ner_id: null},
+      queryParamsHandling: 'merge',
+      relativeTo: this.activatedRoute
+    });
   }
+
+  log(selectedRowData) {
+    console.log(selectedRowData);
+    console.log(this.selectedRowData);
+  }
+
+  tableData;
 
 }

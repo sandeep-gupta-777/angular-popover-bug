@@ -1,5 +1,12 @@
 @import "~src/sass/main.scss";
 
+
+.session-message-section{
+  cursor: pointer;
+  width: 100%;
+  word-break: break-all;
+}
+
 .reverse-flex-row {
   display: flex;
   flex-direction: row-reverse;
@@ -21,6 +28,7 @@
 .message {
   @include typography($font-size-normal, $line-height-lg, $font-weight-400, $color-text-normal);
   border-radius: 2px;
+  display: inline-block;
   .message-text {
 
   }
@@ -45,3 +53,30 @@
 .meta-text {
   @include typography(9px, $line-height-normal, $font-weight-300, $color-text-normal);
 }
+
+
+.user-feedback{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  mat-icon{
+    font-size: 13px;
+  }
+  .user-feedback__text{
+    font-size: 11px;
+    margin-left: 5px;
+  }
+  .user-feedback__icon{
+    height: auto;
+    width: auto;
+  }
+  .user-feedback__icon--down{
+    color: #b14250;
+  }
+
+  .user-feedback__icon--up{
+    color: #5cd791;
+  }
+}
+
+

@@ -1,0 +1,27 @@
+<div class="text-gentemplate flex-grow-1">
+  <div class="p-1 pl-2 tem-heading d-flex">
+    <i class="fa fa-align-left heading-icon pr-1"></i>Text Input
+  </div>
+  <div *ngFor="let variant of variantsIter; let i = index" class="p-2">
+    <div class="d-flex">
+      <div class="name">Variant {{i + 1}}</div>
+      <i *ngIf="i!==0" class="fa fa-trash ml-auto" (click)="deleteVariant(i)"></i>
+    </div>
+    <textarea
+      #textarea
+      [(ngModel)]="_variants[i]"
+      class="classic-textarea"
+      placeholder='Write your text here ...' rows="3">
+      </textarea>
+    <div class="text-danger" *ngIf="textarea.value.length===0">
+      <i style="font-size: 11px">This field cannot be left empty</i>
+    </div>
+  </div>
+  <div class="text-danger pl-2" *ngIf="userErrorMessage">
+    <i style="font-size: 11px">{{userErrorMessage}}</i>
+  </div>
+
+  <div class="text-theme-primary cursor-pointer pl-2 d-flex align-items-center" (click)="addVariant()">
+    <i class="fa fa-plus pr-1 my-auto"></i>New variant
+  </div>
+</div>

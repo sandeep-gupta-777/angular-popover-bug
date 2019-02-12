@@ -1,9 +1,6 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { EventService } from '../../../../../../event.service';
-import { UtilityService } from '../../../../../../utility.service';
-import { ActivatedRoute } from '@angular/router';
-import { ConstantsService } from 'src/app/constants.service';
-import { ServerService } from 'src/app/server.service';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {UtilityService} from '../../../../../../utility.service';
+import {ActivatedRoute} from '@angular/router';
 
 declare var CodeMirror: any;
 
@@ -12,22 +9,19 @@ declare var CodeMirror: any;
   templateUrl: './code-editor.component.html',
   styleUrls: ['./code-editor.component.scss'],
   host: {
-    //https://stackoverflow.com/questions/34636661/how-do-i-change-the-body-class-via-a-typescript-class-angular2
     '[class.d-flex-column-last-child-flex-grow-1]': 'true'
   }
-  // host: {
-
-  // "[style.display]": "'inline-block'",
-  // "[style.height.percent]": "100",
-  // }
 })
 export class CodeEditorComponent implements OnInit, AfterViewInit {
 
   editor;
   _text;
-  editorCodeObjRef: { text: string } = { text: '' };
-  @Output() validateClick =  new EventEmitter();
+  editorCodeObjRef: { text: string } = {text: ''};
+  @Output() validateClick = new EventEmitter();
   @ViewChild('f') codeEditor: ElementRef;
+  @Input() doShowUploadDownloadButton = true;
+  @Input() doShowValidationsIcon = false;
+
   constructor(
     private utilityService: UtilityService,
     private activatedRoute: ActivatedRoute) {
@@ -35,7 +29,9 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
 
   @Input() set text(editorCodeObj: { text: string }) {
 
-    if (!editorCodeObj) return;
+    if (!editorCodeObj) {
+      return;
+    }
     this.editorCodeObjRef = editorCodeObj;
     // if(this._text===editorCodeObj.text) return;
     this._text = editorCodeObj.text;
@@ -57,7 +53,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
       this.editor && this.editor.refresh();
     });
 
-    let editor = this.codeEditor.nativeElement;
+    const editor = this.codeEditor.nativeElement;
     this.editor = new CodeMirror.fromTextArea(editor, {
       lineNumbers: true,
       lineWrapping: true,
@@ -66,10 +62,21 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
       rtlMoveVisually: false,
       direction: 'ltr',
       moveInputWithCursor: false,
+
+      extraKeys: {
+        'Ctrl-Q': function (cm) {
+          cm.foldCode(cm.getCursor());
+        },
+        "Ctrl-Space": "autocomplete",
+      },
+      foldGutter: true,
+      gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
     });
-    this.editor.on('change', editor => {
-      this.editorCodeObjRef.text = editor.getValue();
-      this.textChangedEvent.emit(editor.getValue());
+    this.editor.on('keydown', editor => {
+      setTimeout(() => {
+        this.editorCodeObjRef.text = editor.getValue();
+        this.textChangedEvent.emit(editor.getValue());
+      });
     });
     this._text && this.editor.setValue(this._text);
     setTimeout(() => {
@@ -79,17 +86,17 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
   }
 
   downloadCodeText() {
-    let fileName = "code.txt"
-    let codeTab = this.activatedRoute.snapshot.queryParamMap.get("code-tab");
-    let buildTab = this.activatedRoute.snapshot.queryParamMap.get("build-tab");
-    let botId = this.activatedRoute.snapshot.params['id'];
+    let fileName = 'code.txt';
+    const codeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab');
+    const buildTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab');
+    const botId = this.activatedRoute.snapshot.params['id'];
     if (buildTab === 'code' && codeTab && botId) {
-      fileName = `${codeTab} for bot id ${botId}.txt`
+      fileName = `${codeTab} for bot id ${botId}.txt`;
     }
 
-    let nerId = this.activatedRoute.snapshot.queryParamMap.get("ner_id");
+    const nerId = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
     if (buildTab === 'knowledge' && botId && nerId) {
-      fileName = `code for nerid ${nerId} for bot id ${botId}.txt`
+      fileName = `code for nerid ${nerId} for bot id ${botId}.txt`;
     }
     this.utilityService.downloadText(this.editorCodeObjRef.text, fileName);
   }
@@ -99,17 +106,17 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.editor && this.editor.setSize('100%', '100%');//TODO: codemirror is exceeding its parent width by 30px
+    this.editor && this.editor.setSize('100%', '100%'); //TODO: codemirror is exceeding its parent width by 30px
     this.editor && this.editor.refresh();
   }
 
   async openFile(inputEl) {
-    let codeText = await this.utilityService.readInputFileAsText(inputEl);
+    const codeText = await this.utilityService.readInputFileAsText(inputEl);
     this.editor && this.editor.setValue(codeText);
   }
 
 
-  options: any = { maxLines: 20, printMargin: false };
+  options: any = {maxLines: 20, printMargin: false};
 
   // onChange1(code) {
   //   this.editorCodeObjRef

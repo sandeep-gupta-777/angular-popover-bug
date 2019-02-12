@@ -17,23 +17,23 @@ import {EAllActions} from '../../../constants.service';
   styleUrls: ['./pipeline-based-bot-detail.component.scss']
 })
 export class PipelineBasedBotDetailComponent implements OnInit {
-myEAllActions = EAllActions
+myEAllActions = EAllActions;
 
   @Select() botlist$: Observable<ViewBotStateModel>;
   isArchitectureFullScreen = false;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
-  selectedTab = "architecture";
+  selectedTab = 'architecture';
   bot$: Observable<IBot>;
   bot: IBot;
   bot_id: number;
-  showConfig:boolean =false;
+  showConfig = false;
   overviewInfo$: Observable<IOverviewInfoResponse>;
-  selectedChannel: string = 'all';
+  selectedChannel = 'all';
   start_date: string;
   end_date: string;
   selectedChannelDisplayName: string;
-  selectedDurationDisplayName: string = 'Monthly';
-  selectedSideBarTab: string = 'pipeline';
+  selectedDurationDisplayName = 'Monthly';
+  selectedSideBarTab = 'pipeline';
 
   constructor(
     private router: Router,
@@ -44,27 +44,27 @@ myEAllActions = EAllActions
   }
 
   ngOnInit() {
-    let isArchitectureFullScreen = this.activatedRoute.snapshot.queryParamMap.get('isArchitectureFullScreen');
-    this.isArchitectureFullScreen = isArchitectureFullScreen==='true';
-    let showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
+    const isArchitectureFullScreen = this.activatedRoute.snapshot.queryParamMap.get('isArchitectureFullScreen');
+    this.isArchitectureFullScreen = isArchitectureFullScreen === 'true';
+    const showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
     this.showConfig = showConfigStr === 'true';
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
-    this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || "architecture";
+    this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || 'architecture';
     this.botlist$.subscribe((botlist) => {
       this.bot = botlist.allBotList.find((bot) => {
-        return bot.id === this.bot_id;//
-      })
+        return bot.id === this.bot_id; //
+      });
     });
 
-    this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab')||'pipeline';
+    this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab') || 'pipeline';
 
     this.start_date = this.utilityService.getPriorDate(0);
     this.end_date = this.utilityService.getPriorDate(30);
     this.getOverviewInfo();
-    this.activatedRoute.queryParams.subscribe((queryParams)=>{
-      this.isArchitectureFullScreen= queryParams['isArchitectureFullScreen']==='true'
-    })
+    this.activatedRoute.queryParams.subscribe((queryParams) => {
+      this.isArchitectureFullScreen = queryParams['isArchitectureFullScreen'] === 'true';
+    });
 
   }
 
@@ -99,18 +99,19 @@ myEAllActions = EAllActions
     this.selectedTab = tab;
   }
 
-  datachanged(data:IBot){
+  datachanged(data: IBot) {
     this.store.dispatch([
-      new UpdateBotInfoByIdInBotInBotList({data, botId:this.bot_id})
+      new UpdateBotInfoByIdInBotInBotList({data, botId: this.bot_id})
     ]);
   }
 
-  refreshBotDetails(){
-    this.serverService.fetchSpecificBotFromServerAndUpdateBotList(this.bot);
+  refreshBotDetails() {
+    this.serverService.fetchSpecificBotFromServerAndUpdateBotList(this.bot)
+      .subscribe((bot) => console.log('bot fetched', bot));
     this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
   }
 
-  togglePanel(){
+  togglePanel() {
     /*TODO: this code is repeated in code-based-bot-detail.component.ts, put it in a service*/
     this.showConfig = !this.showConfig;
     // this.router.navigate(['.'], {queryParams:{'show-config':this.showConfig}});

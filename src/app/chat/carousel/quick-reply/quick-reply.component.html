@@ -9,7 +9,7 @@
     <!--TODO: messageData.text is for chat message (refactor...its not requiredClass) and messageData.quick_reply.text session...improve this-->
     <button *ngFor="let item of messageData.quick_reply.quick_replies"
             (click)="sendMessageToBotServer$.emit(item.payload)"
-            class="btn btn-theme-secondary-outline mr-2 mb-1">
+            class="btn-theme btn-theme-secondary-outline mr-2 mb-1">
       {{item.title}}
     </button>
   </div>

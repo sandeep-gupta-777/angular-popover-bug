@@ -20,7 +20,7 @@ export class MyIfDirective {
     /*TODO: make it accept array as well*/
     // let isDenied:boolean =  this.constantsService.isAccessDeniedDynamic(tabName);
     // let isDenied:boolean =  this.constantsService.isTabAccessDenied(tabName);
-    let isDenied: boolean = true;
+    let isDenied = true;
     // ;
 
     if (Array.isArray(tabNameInfo)) {
@@ -28,7 +28,7 @@ export class MyIfDirective {
         isDenied = isDenied && this.permissionService.isTabAccessDenied(tab);
       });
     } else {
-      isDenied = this.permissionService.isTabAccessDenied(tabNameInfo);//false;//this.constantsService.isTabAccessDenied(tabName);
+      isDenied = this.permissionService.isTabAccessDenied(tabNameInfo); //false;//this.constantsService.isTabAccessDenied(tabName);
 
     }
     if (!isDenied) {

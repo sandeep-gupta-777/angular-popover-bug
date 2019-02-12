@@ -10,19 +10,18 @@ export class ScrollerDirective {
 
       if (elRef.nativeElement.scrollTop == lastScrollTop && e.deltaY > 0) {
         e = e || window.event;
-        if (e.preventDefault)
+        if (e.preventDefault) {
           e.preventDefault();
+        }
         e.returnValue = false;
-      }
-      else if (elRef.nativeElement.scrollTop == 0) {
+      } else if (elRef.nativeElement.scrollTop == 0) {
         lastScrollTop = -1;
-      }
-      else {
+      } else {
         lastScrollTop = elRef.nativeElement.scrollTop;
       }
 
 
-    })
+    });
   }
 
 }

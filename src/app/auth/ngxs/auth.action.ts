@@ -3,14 +3,14 @@ import {IUser} from '../../core/interfaces/user';
 
 export class SetUser {
   static readonly type = '[login] set user';
-  constructor(public payload:{user:IUser }){
+  constructor(public payload: {user: IUser }) {
   }
 
 }
 
-export class ResetAuthToDefaultState{
+export class ResetAuthToDefaultState {
   static readonly type = '[login] reset user';
-  constructor(){
+  constructor() {
   }
 
 }

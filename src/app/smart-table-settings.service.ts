@@ -43,6 +43,8 @@ export class SmartTableSettingsService {
       perPage: 10
     }
   };
+
+
   readonly SMART_TABLE_REPORTS_HISTORY_SETTING = {
 
     columns: {
@@ -55,9 +57,9 @@ export class SmartTableSettingsService {
       created_at: {
         title: 'Generated Date',
         valuePrepareFunction: (date) => {
-          var raw = new Date(date);
+          const raw = new Date(date);
 
-          var formatted = this.datePipe.transform(raw, 'fullDate');
+          const formatted = this.datePipe.transform(raw, 'fullDate');
           return formatted;
         }
       }

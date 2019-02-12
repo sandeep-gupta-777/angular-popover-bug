@@ -7,8 +7,8 @@ export class FilterArrayPipe implements PipeTransform {
 
   transform(arr: any[], key: string): any {
 
-    return arr.sort((obj1,obj2)=>{
-      return obj2[key]-obj1[key];
+    return arr.sort((obj1, obj2) => {
+      return obj2[key] - obj1[key];
     });
   }
 

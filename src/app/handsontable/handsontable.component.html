@@ -1,18 +1,20 @@
-<!--<hot-table [data]="testData"-->
-<!--[colHeaders]="colHeaders"-->
-<!--[columns]="columns"-->
-<!--(afterInit)="alert1($event)"-->
-<!--[options]="options"></hot-table>-->
+<header class="handsontable-header">
+  <!--<label for="uploadInput" class="handsontable-header__upload"-->
+         <!--[title]="'upload csv '+ (expectedCSVHeaders?('as: ' + expectedCSVHeaders):'')">-->
+    <!--<i class="fa fa-upload"></i>-->
+    <!--<input type="file"-->
+           <!--hidden-->
+           <!--id="uploadInput"-->
+           <!--(change)='openFile(uploadInput);uploadInput.value=null'-->
+           <!--accept='text/csv'-->
+           <!--#uploadInput>-->
+  <!--</label>-->
+  <!--<i class="fa fa-download" (click)="exportToCsv()"></i>-->
+  <input type="text" class="" #handsontable_search_field placeholder="search table">
+  <div class="handsontable-header__ng-content">
+    <ng-content></ng-content>
+  </div>
+</header>
 
-<!--<hot-table-->
-<!--[colHeaders]="true"-->
-<!--[rowHeaders]="true"-->
-<!--[data]="dataset"></hot-table>-->
-
-<!--<button (click)="click()">export</button>-->
-<!--<button (click)="eventService.rerenderHandsonTable$.emit()">rerender</button>-->
-<div>
-  <input type="text" class="mb-2" #handsontable_search_field placeholder="search table">
-</div>
 <div id="testing" style="overflow: hidden" [ngStyle]="{'height': height, 'width':width}" class="flex-grow-1" #handsontable></div>
 

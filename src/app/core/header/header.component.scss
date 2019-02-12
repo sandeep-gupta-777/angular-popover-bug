@@ -3,7 +3,7 @@
 .header-container {
   height: 56px;
   //@include center-vertical();
-  //padding: 10px 0px;
+  padding: 10px 0px;
   background-color: white;
 
   position: fixed;
@@ -12,8 +12,8 @@
   right: 0;
 
   .header-container__left{
-    padding-bottom: 15px;
-    padding-top: 9px;
+    //padding-bottom: 15px;
+    //padding-top: 9px;
     //padding-right: 28px;
   }
 
@@ -61,6 +61,8 @@
 
   .box-details__logo, .box-details__orgname {
     padding-right: 10px;
+    display: flex;
+    align-items: center;
   }
 }
 
@@ -106,3 +108,11 @@
   }
 }
 
+.primary-modal{
+  @include classic-modal($color-primary);
+}
+
+.dropdown-item{
+  line-height: 30px;
+  height: auto;
+}

@@ -10,7 +10,7 @@ import {UtilityService} from '../../../../../../utility.service';
 })
 export class DisplayNameForKeyIntegrationPipe implements PipeTransform {
 
-  constructor(private utilityService:UtilityService){}
+  constructor(private utilityService: UtilityService) {}
 
   transform(key: any, args?: any): any {
 

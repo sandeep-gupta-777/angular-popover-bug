@@ -2,11 +2,11 @@
   <!--SOURCE: https://bootsnipp.com/snippets/zDQkr-->
   <div class="row">
     <!--<div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel"  data-interval="1000">-->
-    <div class="MultiCarousel" data-items="2,2,2,2" data-slide="1" id="MultiCarousel" data-interval="1000">
+    <div #MultiCarousel class="MultiCarousel" data-items="2,2,2,2" data-slide="1" id="MultiCarousel" data-interval="1000">
       <!--TODO: ngclass below is a hack; improve it-->
-      <div class="MultiCarousel-inner" [ngClass]="{'float-right':isParentSessionsModal && (totalItemsInCarasol<carasolItemShownInOneScreen)}">
+      <div #MultiCarouselInner class="MultiCarousel-inner" [ngClass]="{'float-right':isParentSessionsModal && (totalItemsInCarasol<carasolItemShownInOneScreen)}">
         <!--carasol item starts-->
-        <div class="item p-1" style="border-radius: 2px" *ngFor="let mediaItem of _messageData.media">
+        <div #caraosalItem class="item p-1" style="border-radius: 2px" *ngFor="let mediaItem of _messageData.media">
           <div class="card m-0 shadow-theme ">
             <!--<div class="card-header bg-white p-1" style="color: #474747">Featured</div>-->
             <div [ngStyle]="{'background-image': 'url('+ mediaItem.url+')'}"
@@ -28,9 +28,12 @@
         <!--carasol item starts-->
 
       </div>
-      <button *ngIf="totalItemsInCarasol>carasolItemShownInOneScreen" class="btn btn-info leftLst" #leftLst><i
+      <button *ngIf="totalItemsInCarasol>carasolItemShownInOneScreen" class="btn-info leftLst"
+              #leftLst><i
         class="fa p-1 fa-angle-left"></i></button>
-      <button *ngIf="totalItemsInCarasol>carasolItemShownInOneScreen" class="btn btn-info rightLst" #rightLst><i
+      <button *ngIf="totalItemsInCarasol>carasolItemShownInOneScreen"
+              class="btn-info rightLst"
+              #rightLst><i
         class="fa p-1 fa-angle-right"></i></button>
     </div>
   </div>

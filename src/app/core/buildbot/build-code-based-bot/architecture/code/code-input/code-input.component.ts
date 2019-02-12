@@ -1,8 +1,20 @@
-import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {Store, Select} from '@ngxs/store';
 import {IBot, IBotVersionData, IBotVersionResult, ICode} from '../../../../../interfaces/IBot';
 import {ServerService} from '../../../../../../server.service';
-import {ConstantsService, EAllActions} from '../../../../../../constants.service';
+import {ConstantsService, EAllActions, ERoleName} from '../../../../../../constants.service';
 import {
   SaveVersionInfoInBot,
   UpdateBotInfoByIdInBotInBotList,
@@ -12,18 +24,18 @@ import {SaveCodeInfo} from '../../../../ngxs/buildbot.action';
 import {ViewBotStateModel} from '../../../../../view-bots/ngxs/view-bot.state';
 import {Observable, Subscription} from 'rxjs';
 import {IHeaderData} from '../../../../../../../interfaces/header-data';
-import {UtilityService} from '../../../../../../utility.service';
+import {EBotType, UtilityService} from '../../../../../../utility.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import {IBotCreationState} from '../../../../ngxs/buildbot.state';
-import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {BsModalService} from 'ngx-bootstrap/modal';
 import {CodeEditorComponent} from '../code-editor/code-editor.component';
-import {EBotType} from '../../../../../view-bots/view-bots.component';
 import {EventService} from '../../../../../../event.service';
 import {take} from 'rxjs/operators';
 import {LoggingService} from '../../../../../../logging.service';
 import {DebugBase} from '../../../../../../debug-base';
 import {NgForm} from '@angular/forms';
+import {IUser} from '../../../../../interfaces/user';
+import {ModalImplementer} from '../../../../../../modal-implementer';
+import {MatDialog} from '@angular/material';
 
 export enum EBotVersionTabs {
   df_template = 'df_template',
@@ -33,31 +45,6 @@ export enum EBotVersionTabs {
   workflow = 'workflow'
 }
 
-export interface ICarousalItem {
-  'image_url': string,
-  'button': [{ 'type': string, 'title': string, 'payload': string }],
-  'title': string,
-  /*custom added*/
-  description?: string,
-}
-
-export interface IQuickReplyItem {
-  'content_type': 'text',
-  'title': string,
-  'payload': string
-}
-
-export interface IOutputItem {
-  text?: string[],
-  include?: string[],
-  generic_template?: { 'elements': ICarousalItem[] }[],
-  'quick_reply': [{
-    'text': string,
-    'quick_replies': [
-      IQuickReplyItem
-  ]}]
-
-}
 
 @Component({
   selector: 'app-code-input',
@@ -65,13 +52,16 @@ export interface IOutputItem {
   styleUrls: ['./code-input.component.scss'],
 
 })
-export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
+export class CodeInputComponent extends ModalImplementer implements OnInit, OnDestroy {
 
+
+  modalRefWrapper = {ref:null};
   showConfig = true;
-  templateKeySearchKeyword: string = '';
+  templateKeySearchKeyword = '';
   myEBotVersionTabs = EBotVersionTabs;
-  activeTab: string = 'df_template';
-
+  activeTab = 'df_template';
+  buildTab: string;
+  isGentemplateCodeParsable = false;
   @ViewChild('modelGenTempNameForm') modelGenTempNameForm: NgForm;
 
   myEAllActions = EAllActions;
@@ -80,251 +70,31 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   @Select() botcreationstate$: Observable<IBotCreationState>;
   @Input() bot: IBot;
   @Output() datachanged$ = new EventEmitter();
-  modalRef: BsModalRef;
   forked_From: number;
   forked_comments: string;
   errorMessage: string;
   activeVersion: IBotVersionData;
   forked_version_number: number;
-  selectedTemplateKeyInLeftSideBar: string = '';
+  selectedTemplateKeyInLeftSideBar = '';
   myObject = Object;
   newTemplateKey: string;
-  showGenTempEditorAndHideGenTempUi: boolean = true;
+  showGenTempEditorAndHideGenTempUi = false;
   selectedChannelOfGenTemplate: { name: string, displayName: string };
-  selectedTemplateKeyOutputIndex: number[] = [];
-  selectedIntentList: string[] = ['A2', 'A3', 'A4'];
-  validationMessageToggle: boolean = false;
-  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+  validationMessageToggle = false;
+  // @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+  @ViewChildren('gentemplateItem') private gentemplateItems: QueryList<ElementRef>;
   templateKeyDict;
 
   onSubmit(modelGridGenTempNames) {
     console.log(modelGridGenTempNames);
   }
 
-  copyModalTemplateSearchKeyword: string = '';
-  /*= {
-     "ask_date_book1": [{
-       "include": ["facebook", "web"],
-       "text": ["1When would you like to visit us? Please provide the date and time.11",
-         "1When would you like to visit us? Please provide the date and time.12"]
-     },
-     {
-       "include": ["facebook", "web"],
-       "text": ["1When would you like to visit us? Please provide the date and time.21",
-         "1When would you like to visit us? Please provide the date and time.22",
-         "1When would you like to visit us? Please provide the date and time.23"]
-     },
-     {
-       "include": ["facebook", "web"],
-       "sdas": ["1When would you like to visit us? Please provide the date and time.21",
-         "1When would you like to visit us? Please provide the date and time.22",
-         "1When would you like to visit us? Please provide the date and time.23"]
-     }
-     ],
-
-     "ask_date_book2": [{
-       "include": ["facebook", "web"],
-       "text": ["1When would you like to visit us? Please provide the date and time.11",
-         "1When would you like to visit us? Please provide the date and time.22",
-         "1When would you like to visit us? Please provide the date and time.33"]
-     }],
-
-
-     "ask_date_book3": [{
-       "include": ["facebook", "web"],
-       "text": ["3When would you like to visit us? Please provide the date and time."]
-     }],
-
-     "ask_date_book4": [{
-       "include": ["facebook", "web"],
-       "text": ["4When would you like to visit us? Please provide the date and time."]
-     }],
-
-     "ask_date_book5": [{
-       "include": ["facebook", "web"],
-       "text": ["5When would you like to visit us? Please provide the date and time."]
-     }],
-
-     "ask_date_book6": [{
-       "include": ["facebook", "web"],
-       "text": ["6When would you like to visit us? Please provide the date and time."]
-     }]
-
-   }
-   */
-
-  channelList: { name: string, displayName: string }[];// = ["facebook", "web", "imiconnect", "imichat", "skype"];
-  channelNameList: string[];
-
-  openNewIntentModal(template) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-w-30vw'});
-    return;
-  }
-
-  templateKeyCreationError = '';
-
-  createNewTemplatekey() {
-    let isTemplateKeyUnique = !Object.keys(this.templateKeyDict).find((key) => key === this.newTemplateKey);
-    if (!isTemplateKeyUnique) {
-      this.templateKeyCreationError = 'This template key already exists';
-      return;
-    }
-    let intentUnit = {};
-    intentUnit[this.newTemplateKey] = [{
-      'text': [''],
-      'include': ['web', ...this.channelNameList],
-    }];
-    this.templateKeyDict = {...this.templateKeyDict, ...intentUnit};
-    this.modalRef.hide();
-    this.selectedTemplateKeyInLeftSideBar = this.newTemplateKey;
-    this.newTemplateKey = '';
-  }
-
-  addTextUnit() {
-    let textUnit = {
-      'include': ['web', ...this.channelNameList],
-      'text': ['']
-    };
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(textUnit);
-    setTimeout(() => this.scrollToBottom());
-
-  }
-
-  addImageCaraosalUnit() {
-    let caraosalUnit = {
-      'generic_template': [{
-        'elements': [{
-          'image_url': 'https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg',
-          'button': [{'type': 'postback', 'title': 'Renew Now', 'payload': 'expire'}],
-          'title': 'Contract Renewal'
-        }]
-      }]
-    };
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(caraosalUnit);
-    setTimeout(() => this.scrollToBottom());
-
-  }
-
-  addQuickReplyUnit() {
-    let quickReplyUnit = {
-      'include': ['facebook', 'skype', 'line', 'viber'],
-      'quick_reply': [{
-        'text': 'Would you like us to activate this ?',
-        'quick_replies': [{'content_type': 'text', 'title': 'Yes', 'payload': 'yes'},
-          {'content_type': 'text', 'title': 'No', 'payload': 'no'}]
-      }]
-    };
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(quickReplyUnit);
-    setTimeout(() => this.scrollToBottom());
-
-  }
-
-  addCodeUnit() {
-
-    let codeUnit = {
-      'include': ['web', ...this.channelNameList],
-      'code': ['Write ur text here .....']
-    };
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(codeUnit);
-    setTimeout(() => this.scrollToBottom());
-  }
-
-  addQReplyUnit() {
-    let qReplyUnit = {
-      'include': ['web', ...this.channelNameList],
-      'text': ['Write ur text here .....']
-    };
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(qReplyUnit);
-    setTimeout(() => this.scrollToBottom());
-  }
-
-  deleteGentemplate(e) {
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].splice(e, 1);
-    // console.log(this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar]);
-  }
-
-  moveUpGentempate(e) {
-    var temp = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e];
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e] = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e - 1];
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e - 1] = temp;
-  }
-
-  moveDownGentempate(e) {
-    if (this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].length == e + 1) {
-      console.log('just dot do that , U know Y');
-      return;
-    }
-    var temp = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e];
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e] = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e + 1];
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e + 1] = temp;
-  }
-
-  // functins on selected gen temp list
-  selectGentempate(e) {
-    let i = JSON.parse(e);
-    if (i.select) {
-      this.selectedTemplateKeyOutputIndex.push(i.index);
-    }
-    if (!(i.select)) {
-      var index = this.selectedTemplateKeyOutputIndex.indexOf(i.index);
-      if (index > -1) {
-        this.selectedTemplateKeyOutputIndex.splice(index, 1);
-      }
-    }
-  }
-
-  selectedListDelete() {
-    this.selectedTemplateKeyOutputIndex.sort((a, b) => b - a);
-    for (let i of this.selectedTemplateKeyOutputIndex) {
-      this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].splice(i, 1);
-    }
-    this.selectedTemplateKeyOutputIndex = [];
-  }
-
-  selectedListDuplicate() {
-    for (let i of this.selectedTemplateKeyOutputIndex) {
-      this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(JSON.parse(JSON.stringify(this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][i])));
-    }
-    this.selectedTemplateKeyOutputIndex = [];
-  }
-
-  selectedListCopyModel(IntentSelectionModal) {
-    this.modalRef = this.modalService.show(IntentSelectionModal, {class: 'modal-lg'});
-  }
-
-  selectedListCopy(modelGenTempNameForm: NgForm) {
-
-    let selectedTemplateKeyObject = modelGenTempNameForm.value;
-    /*Example: selectedTemplateKeyObject  = {A1:true, A2:false}*/
-    let selectedGenTempObjList = [];
-    for (let i of this.selectedTemplateKeyOutputIndex) {
-      selectedGenTempObjList.push(this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][i]);
-    }
-
-    let selectedIntentDestinationKeys = Object.keys(selectedTemplateKeyObject).filter((key) => selectedTemplateKeyObject[key]);
-    for (let key of selectedIntentDestinationKeys) {
-      this.templateKeyDict[key].push(...selectedGenTempObjList);
-    }
-    this.selectedTemplateKeyOutputIndex = [];
-    this.modalRef.hide();
-  }
-
-  // selectedIntent(SIntent){
-  //   this.selectedIntentTab = SIntent;
-  // }
-
-  // @ViewChild('fork_new_version_form') fork_new_version_form: HTMLFormElement;
+  copyModalTemplateSearchKeyword = '';
+  channelList: { name: string, displayName: string }[] = []; // = ["facebook", "web", "imiconnect", "imichat", "skype"];
+  channelListClone: { name: string, displayName: string }[] = []; // = ["facebook", "web", "imiconnect", "imichat", "skype"];
+  channelNameList: string[] = [];
 
   templateKeyDictClone = null;
-
-  getTemplateKeyDictClone() {
-
-    if (!this.templateKeyDictClone) this.templateKeyDictClone = {...this.templateKeyDict};
-    return this.templateKeyDictClone;
-  }
-
-  editorCode;
-  // editorCodeObj:{text:string} = {text:""};
   editorCodeObj = {
     'df_template': {text: ''},
     'df_rules': {text: ''},
@@ -342,23 +112,52 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     private serverService: ServerService,
     private constantsService: ConstantsService,
     private eventService: EventService,
-    private utilityService: UtilityService,
+    public utilityService: UtilityService,
     private router: Router,
+    public matDialog:MatDialog,
     private activatedRoute: ActivatedRoute,
-    private modalService: BsModalService,
   ) {
-    super();
+    super(utilityService, matDialog);
   }
 
+  role: string;
+  @Select() loggeduser$: Observable<{ user: IUser }>;
+  showViewChangeToggle = true;
+
   ngOnInit() {
+
+    this.loggeduser$.subscribe((loggeduserState) => {
+      if(!loggeduserState.user){
+        return;
+      }
+      this.role = loggeduserState.user.role.name;
+      this.showViewChangeToggle = this.role === ERoleName.Admin || this.role === ERoleName['Bot Developer'];
+    });
+
     this.activatedRoute.queryParams.subscribe((queryParam) => {
       /*when upper panel minimizes or maximizes, change lower panel height accordingly*/
-      let showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
+      const showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
       this.showConfig = (showConfigStr === 'true' || showConfigStr == undefined);
     });
 
-    this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
+    if (!this.bot.store_bot_versions) {
+      this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
+    }
+    EventService.codeValidationErrorOnUpdate$.subscribe((data)=>{
+
+      this.selectedVersion.validation = data;
+      this.validationMessageToggle = true;
+    })
     this.botlist$_sub = this.botlist$.subscribe(() => {
+
+
+      // try {
+      //   let newTemplateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
+      //   if(this.utilityService.areTwoJSObjectSame(this.templateKeyDict, newTemplateKeyDict)) return;
+      // }catch (e) {
+      //   console.log(e);
+      // }
+
       try {
         this.utilityService.getActiveVersionInBot(this.bot);
         if (this.bot.integrations && this.bot.integrations.channels) {
@@ -368,23 +167,19 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
                 name: integrationKey,
                 displayName: integrationKey
               };
-            });
-          this.channelList.unshift({name: 'all', displayName: 'All'});
+            })
+            .filter((enabledIntegrations) => this.bot.integrations.channels[enabledIntegrations.name].enabled);
+          this.channelListClone = [...this.channelList];
+          if (this.channelListClone.length > 0) {
+            this.channelListClone.unshift({name: 'all', displayName: 'All'});
+          }
         }
 
         this.selectedChannelOfGenTemplate = {name: 'all', displayName: 'All'};
         this.channelNameList = this.channelList.map(channel => {
           return channel.name;
         }).filter(e => e !== 'all');
-        setTimeout(() => {
-          if (this.selectedVersion && this.selectedVersion[EBotVersionTabs.generation_templates]) {
-            this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
-            if (this.templateKeyDict) {
-              this.templateKeyDictClone = {...this.templateKeyDict};
-              if (!this.selectedTemplateKeyInLeftSideBar) this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
-            }
-          }
-        });
+
       } catch (e) {
         console.error(e);
       }
@@ -394,10 +189,10 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
       * otherwise, selected version = first version, if that exists
       * */
 
-      let activeVersion = this.activeVersion = this.utilityService.getActiveVersionInBot(this.bot);
-      if (!this.selectedVersion || this.selectedVersion.id === -1)
+      const activeVersion = this.activeVersion = this.utilityService.getActiveVersionInBot(this.bot);
+      if (!this.selectedVersion || this.selectedVersion.id === -1) {
         this.selectedVersion = activeVersion ? activeVersion : (this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions[0]);
-      else {
+      } else {
         /*updating selected version*/
         this.selectedVersion = this.bot.store_bot_versions && this.bot.store_bot_versions.length && this.bot.store_bot_versions.find((version) => version.id === this.selectedVersion.id);
       }
@@ -409,7 +204,34 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
 
       this.forked_version_number = this.selectedVersion && this.selectedVersion.version;
       this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab') || EBotVersionTabs.df_template;
+      // if(this.activeTab===EBotVersionTabs.generation_templates){
+      //   this.activeTab = EBotVersionTabs.df_template;
+      // }
+      this.buildTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab');
       this.bot.store_selected_version = this.selectedVersion && this.selectedVersion.id;
+
+      try {
+        if (this.selectedVersion && this.selectedVersion[EBotVersionTabs.generation_templates]) {
+          const newTemplateKeyDict = this.utilityService.createDeepClone(this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]));
+          if (!this.utilityService.areTwoJSObjectSame(this.templateKeyDict, newTemplateKeyDict)) {
+            this.utilityService.emptyObjectWithoutChaningRef(this.templateKeyDict);
+            if (this.templateKeyDict) {
+              Object.assign(this.templateKeyDict, newTemplateKeyDict);
+            } else {
+              this.templateKeyDict = newTemplateKeyDict;
+            }
+            if (this.templateKeyDict) {
+              this.templateKeyDictClone = {...this.templateKeyDict};
+              if (!this.selectedTemplateKeyInLeftSideBar) { this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0]; }
+            }
+          }
+
+        }
+      } catch (e) {
+        console.log(e);
+
+      }
+
       this.tabClicked(this.activeTab);
 
     }, (err) => {
@@ -423,9 +245,16 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   @ViewChild(CodeEditorComponent) codeEditorComponent: ElementRef;
+  @ViewChild('genTempGridItemGrid') genTempGridItemGrid: ElementRef;
 
 
   tabClicked(activeTab: string) {
+
+    // if (this.activeTab===EBotVersionTabs.generation_templates && this.showGenTempEditorAndHideGenTempUi === false) {
+    //   this.convertGenTemplateCodeStringIntoUiComponents();
+    // }else if(this.activeTab===EBotVersionTabs.generation_templates && this.showGenTempEditorAndHideGenTempUi === false){
+    //   this.convertUiDictToGenTemplateCode(this.templateKeyDict);
+    // }
 
     this.activeTab = activeTab;
     /*TODO: We dont need code here... just replace it with selectedVersion. Also we dont need ICode interface*/
@@ -440,27 +269,32 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     this.router.navigate([`core/botdetail/${EBotType.chatbot}/`, this.bot.id], {
       queryParams: {'code-tab': activeTab},
       queryParamsHandling: 'merge',
+      preserveFragment: true,
       replaceUrl: true
     });
   }
 
   convertGenTemplateCodeStringIntoUiComponents() {
-
     try {
-
+      console.log('convertGenTemplateCodeStringIntoUiComponents');
       this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
+      this.isGentemplateCodeParsable = this.isGentemplateCodeParsableCheck(this.selectedVersion[EBotVersionTabs.generation_templates]);
       this.templateKeyDictClone = {...this.templateKeyDict};
     } catch (e) {
       console.log(e);
     }
   }
 
-  dataType(item: any) {
-    return typeof item;
+  isGentemplateCodeParsableCheck(genTemplateCode) {
+    const countOf_templateKey_stringInGenTemplateCodeStr = genTemplateCode.split('templateKey').length - 1;
+    const countOf_output_stringInGenTemplateCodeStr = genTemplateCode.split('output').length - 1;
+    const countOfTemplateKeyFoundByParser = Object.keys(this.templateKeyDict).length;
+
+    return countOf_templateKey_stringInGenTemplateCodeStr === countOfTemplateKeyFoundByParser &&
+      countOf_output_stringInGenTemplateCodeStr === countOfTemplateKeyFoundByParser;
   }
 
   updateSelectedTemplateKeyValue(codeStr: string) {
-
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar] = codeStr;
   }
 
@@ -470,10 +304,11 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     *at this point some changes have been made to selected version's codeText
     * */
     if (this.selectedVersion && this.selectedVersion.id) {
-      let selectedVersion_pristine = this.bot.store_bot_versions && this.bot.store_bot_versions.find((version) => version.id === this.selectedVersion.id);
-      let codeTextPristine = selectedVersion_pristine && selectedVersion_pristine[this.activeTab];
-      if (!this.selectedVersion.changed_fields[this.activeTab])/*If field is dirty from server, nothing can change it*/
+      const selectedVersion_pristine = this.bot.store_bot_versions && this.bot.store_bot_versions.find((version) => version.id === this.selectedVersion.id);
+      const codeTextPristine = selectedVersion_pristine && selectedVersion_pristine[this.activeTab];
+      if (!this.selectedVersion.changed_fields[this.activeTab]) {/*If field is dirty from server, nothing can change it*/
         this.selectedVersion.changed_fields[this.activeTab] = codeStr !== codeTextPristine;
+      }
       this.selectedVersion[this.activeTab] = codeStr;
     } else {
       /*we are creating a new version*/
@@ -489,190 +324,163 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
       this.selectedVersion = new_version;
       this.selectedVersion[this.activeTab] = codeStr;
     }
-    /*comparing old code text to new*/
-
 
   }
 
   validateCodeTest(code: string) {
-    let headerData: IHeaderData = {
+    const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-    let body = {
-      // "df_template": this.editorCodeObjRef.text,
-      // "df_rules": "",
-      // "workflow": "",
-      // "generation_rules": "",
-      // "generation_templates": "",
-      // "version": 4,
-      // "comment": ""
-    };
+    const body = {};
     body[this.activeTab] = code;
 
-    let codeValidationUrl = this.constantsService.codeValidationUrl();
+    const codeValidationUrl = this.constantsService.codeValidationUrl();
 
     this.serverService.makePostReq<any>({headerData, body, url: codeValidationUrl})
       .subscribe((validationResult) => {
         console.log('validation resulted ');
         this.selectedVersion.validation[this.activeTab] = validationResult[this.activeTab];
-        // response is of form
-        // bot_id: 245
-        // comment: "Default active version"
-        // df_rules: { error: true, error_line: "  print "aaa"↵", error_msg: "Missing parentheses in call to 'print'. Did you mean print("aaa")? at line number - 7" }
-        // df_template: { msg: "No Errors" }
-        // generation_rules: { msg: "No Errors" }
-        // generation_templates: { msg: "No Errors" }
-        // version: 4
-        // workflow: { msg: "No Errors" }
       });
   }
 
-  saveSelectedVersion() {
+  saveSelectedVersion(validationWarningModal) {
 
-    if (this.showGenTempEditorAndHideGenTempUi === false) {
-      this.convertUiDictToGenTemplateCode();
+    if (this.showGenTempEditorAndHideGenTempUi === false && this.isGentemplateCodeParsable) {
+      this.convertUiDictToGenTemplateCode(this.templateKeyDict);
     }
 
-    let headerData: IHeaderData = {
+    const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-    
 
-      this.selectedVersion.updated_fields = this.selectedVersion.changed_fields;
-      this.selectedVersion.changed_fields = {
-        'df_template': false,
-        'df_rules': false,
-        'generation_rules': false,
-        'generation_template': false,
-        'workflows': false
-      };
-      if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
-        let url = this.constantsService.getSaveVersionByBotId(this.bot.id);
-        this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
-          .subscribe((value: IBotVersionData) => {
-            this.selectedVersion = Object.assign(this.selectedVersion, value);
-            LoggingService.log(this.bot.store_bot_versions);
-            this.store.dispatch([
-              new UpdateVersionInfoByIdInBot({data: value, botId: this.bot.id})
-            ]);
-            this.utilityService.showSuccessToaster('New version saved');
-          });
-      } else {
-        let url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
-        let body = this.selectedVersion;
-        delete body.id;
-        delete body.resource_uri;
-        delete body.forked_from;
-        /*remove version id = -1, from store*/
-        this.bot.store_bot_versions.length = 0;
-        this.serverService.makePostReq({url, body, headerData})
-          .subscribe((forkedVersion: IBotVersionData) => {
-            LoggingService.log(forkedVersion);
-            this.selectedVersion = forkedVersion;
-            this.utilityService.showSuccessToaster('New version forked');
-            this.store.dispatch([
-              new UpdateVersionInfoByIdInBot({data: forkedVersion, botId: this.bot.id})
-            ]);
-          });
-      }
-    
-    // let validatinBody = {
-    //   'df_template': this.selectedVersion.df_template,
-    //   'df_rules': this.selectedVersion.df_rules,
-    //   'workflow': this.selectedVersion.workflow,
-    //   'generation_rules': this.selectedVersion.generation_rules,
-    //   'generation_templates': this.selectedVersion.generation_templates,
-    //   'version': this.selectedVersion.version,
-    //   'comment': this.selectedVersion.comment
-    // };
-    // let codeValidationUrl = this.constantsService.codeValidationUrl();
+    const validatinBody = {
+      'df_template': this.selectedVersion.df_template,
+      'df_rules': this.selectedVersion.df_rules,
+      'workflow': this.selectedVersion.workflow,
+      'generation_rules': this.selectedVersion.generation_rules,
+      'generation_templates': this.selectedVersion.generation_templates,
+      'version': this.selectedVersion.version,
+      'comment': this.selectedVersion.comment
+    };
+    const codeValidationUrl = this.constantsService.codeValidationUrl();
 
-    // this.serverService.makePostReq<any>({headerData, body: validatinBody, url: codeValidationUrl})
-    //   .subscribe((validationResult) => {
-    //     this.selectedVersion.validation = validationResult;
-    //     if (!this.selectedVersion.validation.df_template.error &&
-    //       !this.selectedVersion.validation.df_rules.error &&
-    //       !this.selectedVersion.validation.workflow.error &&
-    //       !this.selectedVersion.validation.generation_rules.error &&
-    //       !this.selectedVersion.validation.generation_templates.error) {
+    this.serverService.makePostReq<any>({headerData, body: validatinBody, url: codeValidationUrl})
+      .subscribe((validationResult) => {
+        this.selectedVersion.validation = validationResult;
+        if (!this.selectedVersion.validation.df_template.error &&
+          !this.selectedVersion.validation.df_rules.error &&
+          !this.selectedVersion.validation.workflow.error &&
+          !this.selectedVersion.validation.generation_rules.error &&
+          !this.selectedVersion.validation.generation_templates.error) {
 
-    //       this.selectedVersion.updated_fields = this.selectedVersion.changed_fields;
-    //       this.selectedVersion.changed_fields = {
-    //         'df_template': false,
-    //         'df_rules': false,
-    //         'generation_rules': false,
-    //         'generation_template': false,
-    //         'workflows': false
-    //       };
-    //       if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
-    //         let url = this.constantsService.getSaveVersionByBotId(this.bot.id);
-    //         this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
-    //           .subscribe((value: IBotVersionData) => {
-    //             this.selectedVersion = Object.assign(this.selectedVersion, value);
-    //             LoggingService.log(this.bot.store_bot_versions);
-    //             this.store.dispatch([
-    //               new UpdateVersionInfoByIdInBot({data: value, botId: this.bot.id})
-    //             ]);
-    //             this.utilityService.showSuccessToaster('New version saved');
-    //           });
-    //       } else {
-    //         let url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
-    //         let body = this.selectedVersion;
-    //         delete body.id;
-    //         delete body.resource_uri;
-    //         delete body.forked_from;
-    //         /*remove version id = -1, from store*/
-    //         this.bot.store_bot_versions.length = 0;
-    //         this.serverService.makePostReq({url, body, headerData})
-    //           .subscribe((forkedVersion: IBotVersionData) => {
-    //             LoggingService.log(forkedVersion);
-    //             this.selectedVersion = forkedVersion;
-    //             this.utilityService.showSuccessToaster('New version forked');
-    //             this.store.dispatch([
-    //               new UpdateVersionInfoByIdInBot({data: forkedVersion, botId: this.bot.id})
-    //             ]);
-    //           });
-    //       }
-    //     }
-    //     else {
-    //       this.utilityService.showErrorToaster('Your code has error. Please correct it before saving');
-    //     }
-    //   });
+          this.selectedVersion.updated_fields = this.selectedVersion.changed_fields;
+          this.selectedVersion.changed_fields = {
+            'df_template': false,
+            'df_rules': false,
+            'generation_rules': false,
+            'generation_template': false,
+            'workflows': false
+          };
+          if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
+            const url = this.constantsService.getSaveVersionByBotId(this.bot.id);
+            this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
+              .subscribe((value: IBotVersionData) => {
+                this.selectedVersion = Object.assign(this.selectedVersion, value);
+                LoggingService.log(this.bot.store_bot_versions);
+                this.store.dispatch([
+                  new UpdateVersionInfoByIdInBot({data: value, botId: this.bot.id})
+                ]);
+                this.utilityService.showSuccessToaster('New version saved');
+              });
+          } else {
+            const url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
+            const body = this.selectedVersion;
+            delete body.id;
+            delete body.resource_uri;
+            delete body.forked_from;
+            /*remove version id = -1, from store*/
+            this.bot.store_bot_versions.length = 0;
+            this.serverService.makePostReq({url, body, headerData})
+              .subscribe((forkedVersion: IBotVersionData) => {
+                LoggingService.log(forkedVersion);
+                this.selectedVersion = forkedVersion;
+                this.utilityService.showSuccessToaster('New version forked');
+                this.store.dispatch([
+                  new UpdateVersionInfoByIdInBot({data: forkedVersion, botId: this.bot.id})
+                ]);
+              });
+          }
+        } else {
+
+          if (this.bot.active_version_id === this.selectedVersion.id) {
+            // this.modalRef = this.modalService.show(validationWarningModal, {class: 'modal-md'});
+            this.openPrimaryModal(validationWarningModal);
+          } else {
+            this.utilityService.showErrorToaster('Your code has error. But it will be saved as its not active');
+
+            this.selectedVersion.updated_fields = this.selectedVersion.changed_fields;
+            this.selectedVersion.changed_fields = {
+              'df_template': false,
+              'df_rules': false,
+              'generation_rules': false,
+              'generation_template': false,
+              'workflows': false
+            };
+            if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
+              const url = this.constantsService.getSaveVersionByBotId(this.bot.id);
+              this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
+                .subscribe((value: IBotVersionData) => {
+                  this.selectedVersion = Object.assign(this.selectedVersion, value);
+                  LoggingService.log(this.bot.store_bot_versions);
+                  this.store.dispatch([
+                    new UpdateVersionInfoByIdInBot({data: value, botId: this.bot.id})
+                  ]);
+                  setTimeout(()=>{
+                    this.utilityService.showSuccessToaster('New version saved');
+                  },2000);
+                });
+            } else {
+              const url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
+              const body = this.selectedVersion;
+              delete body.id;
+              delete body.resource_uri;
+              delete body.forked_from;
+              /*remove version id = -1, from store*/
+              this.bot.store_bot_versions.length = 0;
+              this.serverService.makePostReq({url, body, headerData})
+                .subscribe((forkedVersion: IBotVersionData) => {
+                  LoggingService.log(forkedVersion);
+                  this.selectedVersion = forkedVersion;
+
+                  setTimeout(()=>{
+                    this.utilityService.showSuccessToaster('New version forked');
+                  },2000);
+
+                  this.store.dispatch([
+                    new UpdateVersionInfoByIdInBot({data: forkedVersion, botId: this.bot.id})
+                  ]);
+                });
+            }
+
+          }
+
+        }
+      });
 
 
   }
 
-  convertUiDictToGenTemplateCode() {
-    let parseUiDict = this.utilityService.parseGenTemplateUiDictionaryToIfElseCode(this.templateKeyDict);
-    if (parseUiDict) {
+  convertUiDictToGenTemplateCode(templateKeyDict) {
+    const parseUiDict = this.utilityService.parseGenTemplateUiDictionaryToIfElseCode(templateKeyDict);
+    if (parseUiDict != undefined) {
       this.selectedVersion.generation_templates = parseUiDict;
     }
     this.editorCodeObj = {...this.editorCodeObj, generation_templates: {text: this.selectedVersion.generation_templates}};
   }
 
   openForkNewVersionModal(template) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-md'});
-    return;
-
-    // let headerData: IHeaderData = {
-    //   'bot-access-token': this.bot.bot_access_token
-    // };
-    // let url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
-    // // this.selectedVersion.version=12;
-    //
-    // delete this.selectedVersion.id;
-    // delete this.selectedVersion.resource_uri;
-    // delete this.selectedVersion.resource_uri;
-    //
-    // this.serverService.makePostReq({url, body: this.selectedVersion, headerData})
-    //   .subscribe((forkedVersion: IBotVersionData) => {
-    //     LoggingService.log(forkedVersion);
-    //     this.selectedVersion = forkedVersion;
-    //     this.utilityService.showSuccessToaster('new version forked successfully!')
-    //     ;
-    //     this.ngOnInit();
-    //     /*TODO: implement it correctly*/
-    //   });
+    // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+    this.openPrimaryModal(template);
   }
 
   forkNewVersion() {
@@ -681,7 +489,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
       this.flashErrorMessage('Please select version id');
       return;
     }
-    this.modalRef.hide();
+    this.dialogRefWrapper.ref.close();
     let forkedVersionInfo = this.bot.store_bot_versions.find((versions) => versions.version == this.forked_version_number);
     forkedVersionInfo = {...forkedVersionInfo};
     forkedVersionInfo.updated_fields = forkedVersionInfo.changed_fields;
@@ -694,10 +502,10 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     };
     forkedVersionInfo.comment = this.forked_comments;
     forkedVersionInfo.forked_from = this.forked_version_number;
-    let headerData: IHeaderData = {
+    const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-    let url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
+    const url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
     delete forkedVersionInfo.id;
     delete forkedVersionInfo.resource_uri;
     delete forkedVersionInfo.resource_uri;
@@ -721,9 +529,20 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   changeSelectedVersion(version) {
+    /*we are moving away from old version and going to new version
+    * for old version => if view is UI view. covert ui view to code, if its code view don't do anything
+    * for new version => if view is UI view. covert code to ui view, if its code view don't do anything
+    * */
+    if (this.showGenTempEditorAndHideGenTempUi === false) {
+      this.convertUiDictToGenTemplateCode(this.templateKeyDict);
+    }
+    console.log('selected version changed');
     this.bot.store_selected_version = version.id;
     this.selectedVersion = version;
     this.forked_version_number = this.selectedVersion.version;
+    if (this.showGenTempEditorAndHideGenTempUi === false) {
+      this.convertGenTemplateCodeStringIntoUiComponents();
+    }
     this.tabClicked(this.activeTab);
   }
 
@@ -739,25 +558,13 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
     this.botlist$_sub && this.botlist$_sub.unsubscribe();
   }
 
-  scrollToBottom(): void {
-    try {
-      console.log(this.myScrollContainer);
-      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch (err) {
-    }
-  }
-
-  selectedChannelChanged(selectedChannel: string) {
-    this.selectedChannelOfGenTemplate = this.channelList.find((channel) => channel.name === selectedChannel);
-  }
 
   genTemplateViewChange(showGenTempEditorAndHideGenTempUi) {
     if (showGenTempEditorAndHideGenTempUi) {
-      this.convertUiDictToGenTemplateCode();
+      this.convertUiDictToGenTemplateCode(this.templateKeyDict);
     } else {
       this.convertGenTemplateCodeStringIntoUiComponents();
       if (!this.selectedTemplateKeyInLeftSideBar && this.templateKeyDict && Array.isArray(Object.keys(this.templateKeyDict))) {
@@ -766,39 +573,7 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
     }
   }
 
-  openDeleteTemplateKeyModal(deleteTemplateKeyModal) {
-    this.modalRef = this.modalService.show(deleteTemplateKeyModal);
-  }
-
-  openEditTemplateKeyModal(EditTemplateKeyModal) {
-    this.modalRef = this.modalService.show(EditTemplateKeyModal);
-  }
-
-  deleteTemplateKey(tempKey) {
-    delete this.templateKeyDict[tempKey];
-    this.utilityService.showSuccessToaster('Template key deleted!');
-    this.modalRef.hide();
-  }
-
-  editTemplateKey(templateKeyEditForm) {
-    let {old_key, new_key} = templateKeyEditForm.value;
-    this.utilityService.renameKeyInObject(this.templateKeyDict, old_key, new_key);
-    this.selectedTemplateKeyInLeftSideBar = new_key;
-    this.modalRef.hide();
-  }
-
-  selectAllCheckBoxesInCopyTemplateForm(form: NgForm) {
-    let formVal = form.value;
-    for (let key in formVal) {
-      formVal[key] = true;
-    }
-    form.form.patchValue(formVal);
-  }
-
-
   isTemplateKeyOutputUnparsable() {
-
-
     return this.activeTab === this.myEBotVersionTabs.generation_templates &&
       !this.showGenTempEditorAndHideGenTempUi &&
       this.templateKeyDict &&
@@ -806,7 +581,19 @@ export class CodeInputComponent extends DebugBase implements OnInit, OnDestroy {
   }
 
   test() {
-    console.log(this.selectedVersion);
-    console.log(this.bot.store_bot_versions);
+    // console.log(this.selectedVersion);
+    // console.log(this.bot.store_bot_versions);
+    console.log(this.templateKeyDict);
   }
+
+  viewChanged(showGenTempEditorAndHideGenTempUi) {
+    if (showGenTempEditorAndHideGenTempUi === false) {
+      this.convertGenTemplateCodeStringIntoUiComponents();
+    } else {
+      this.convertGenTemplateCodeStringIntoUiComponents();
+    }
+  }
+
+
+
 }

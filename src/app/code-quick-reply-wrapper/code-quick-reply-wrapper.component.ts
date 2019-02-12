@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {IOutputItem} from '../core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {IOutputItem} from '../core/buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component';
 
 @Component({
   selector: 'app-code-quick-reply-wrapper',
@@ -12,7 +12,14 @@ export class CodeQuickReplyWrapperComponent implements OnInit {
   @Input() outputItem: IOutputItem;
   @Input() isFullScreenPreview = false;
   @Input() isParentSessionsModal = false;
-  @Input() selectedTemplateKeyOutputIndex:number;
+  @Input() set selectedTemplateKeyOutputIndex(val: number[]) {
+    /*when parent components empty selectedTemplateKeyOutputIndex array,
+     *we should turn this.selected to false
+     */
+    if (val.length === 0) {
+      this.selected = false;
+    }
+  }
   @Input() myIndex: number;
   @Input() channelNameList: string[];
   @Input() totalResponseTemplateComponentCount: number;
@@ -22,14 +29,8 @@ export class CodeQuickReplyWrapperComponent implements OnInit {
   @Output() selectionChanged: EventEmitter<string> = new EventEmitter<string>();
   @Output() sendMessageToBotServer$ = new EventEmitter();
 
+  @ViewChild('mainInput') mainInput: ElementRef;
   selected;
-  moveUp(i) {
-    this.moveTempUp.emit(i);
-  }
-
-  moveDown(i) {
-    this.moveTempDown.emit(i);
-  }
 
   onSelected(data) {
     this.selectionChanged.emit(JSON.stringify({
@@ -38,8 +39,8 @@ export class CodeQuickReplyWrapperComponent implements OnInit {
     }));
   }
 
-  pushNewQuickReply(){
-    this.outputItem.quick_reply[0].quick_replies.push({'content_type': 'text', 'title': 'No', 'payload': 'no'})
+  pushNewQuickReply() {
+    this.outputItem.quick_reply[0].quick_replies.push({'content_type': 'text', 'title': 'New Reply', 'payload': 'New Reply Payload'});
   }
 
   delete(i) {
@@ -48,5 +49,10 @@ export class CodeQuickReplyWrapperComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  deleteQuickReply(index){
+    this.outputItem.quick_reply[0].quick_replies.splice(index,1);
+  }
+
 
 }

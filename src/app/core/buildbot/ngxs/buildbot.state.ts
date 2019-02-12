@@ -25,21 +25,21 @@ import {EFormValidationErrors} from '../../../utility.service';
 
 
 export interface IBotCreationState {
-  codeBased: IBot,
-  pipeLineBased: IBot
+  codeBased: IBot;
+  pipeLineBased: IBot;
 }
 
 
-let defaultCodeBasedBotState = {
-  logo:'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png',
-  room_persistence_time:240,
-  data_persistence_period:30,
-  transactions_per_pricing_unit:30
+const defaultCodeBasedBotState = {
+  logo: 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png',
+  room_persistence_time: 240,
+  data_persistence_period: 30,
+  transactions_per_pricing_unit: 30
 };
-defaultCodeBasedBotState[EFormValidationErrors.form_validation_basic_info]=false;
-defaultCodeBasedBotState[EFormValidationErrors.form_validation_avator]=false;
-let defaultPipeLineBasedBotState={...defaultCodeBasedBotState};
-delete defaultPipeLineBasedBotState[EFormValidationErrors.form_validation_avator]
+defaultCodeBasedBotState[EFormValidationErrors.form_validation_basic_info] = false;
+defaultCodeBasedBotState[EFormValidationErrors.form_validation_avator] = false;
+const defaultPipeLineBasedBotState = {...defaultCodeBasedBotState};
+delete defaultPipeLineBasedBotState[EFormValidationErrors.form_validation_avator];
 const defaultBuildBotState = {
   codeBased: defaultCodeBasedBotState,
   pipeLineBased: defaultPipeLineBasedBotState
@@ -57,8 +57,8 @@ export class BotCreationStateReducer {
 
   @Action(SaveNewBotInfo_CodeBased)
   saveBasicInfo({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveNewBotInfo_CodeBased) {
-    let state: IBotCreationState = getState();
-    let x = {
+    const state: IBotCreationState = getState();
+    const x = {
       ...state,
       codeBased: {
         ...state.codeBased,
@@ -70,8 +70,8 @@ export class BotCreationStateReducer {
 
   @Action(SaveNewBotInfo_PipelineBased)
   saveNewBotInfoPipelineBased({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveNewBotInfo_PipelineBased) {
-    let state: IBotCreationState = getState();
-    let x = {
+    const state: IBotCreationState = getState();
+    const x = {
       ...state,
       pipeLineBased: {
         ...state.pipeLineBased,
@@ -83,10 +83,10 @@ export class BotCreationStateReducer {
 
   @Action(SaveDataManagment)
   saveDataManagment({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveDataManagment) {
-    let state: IBotCreationState = getState();
-    if(!state) return;
+    const state: IBotCreationState = getState();
+    if (!state) { return; }
     // TODO: Later
-    let x = {
+    const x = {
       ...state,
       codeBased: {
         ...state.codeBased,
@@ -98,7 +98,7 @@ export class BotCreationStateReducer {
 
   @Action(SaveAvatorInfo)
   saveAvatorInfo({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveAvatorInfo) {
-    let state: IBotCreationState = getState();
+    const state: IBotCreationState = getState();
     patchState({
       codeBased: {
         ...state.codeBased,
@@ -109,7 +109,7 @@ export class BotCreationStateReducer {
 
   @Action(SavePipeLineInfo)
   savePipeLineInfo({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SavePipeLineInfo) {
-    let state: IBotCreationState = getState();
+    const state: IBotCreationState = getState();
     patchState({
       codeBased: {
         ...state.codeBased,
@@ -121,7 +121,7 @@ export class BotCreationStateReducer {
 
   @Action(SaveCustomnersInfo)
   saveCustomnersInfo({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveCustomnersInfo) {
-    let state: IBotCreationState = getState();
+    const state: IBotCreationState = getState();
     setState({...state});
   }
 
@@ -143,7 +143,7 @@ export class BotCreationStateReducer {
 
   @Action(SaveIntegrationInfo)
   SaveIntegrationInfo({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveIntegrationInfo) {
-    let state: IBotCreationState = getState();
+    const state: IBotCreationState = getState();
     patchState({
       codeBased: {
         ...state.codeBased,
@@ -155,7 +155,7 @@ export class BotCreationStateReducer {
 
   @Action(ResetBuildBotToDefault)
   resetBuildBotToDefault({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>) {
-    let state: IBotCreationState = getState();
+    const state: IBotCreationState = getState();
     patchState(defaultBuildBotState);
   }
 

@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ConstantsService} from '../../../constants.service';
 import {ActivatedRoute} from '@angular/router';
-import { EAnalysis2TypesEnum } from '../../../../interfaces/Analytics2/analysis2-types';
-import { SetAnalysis2HeaderData, SetUserAcquisition } from '../ngxs/analysis.action';
-import { Store, Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { IAnalysis2State } from '../ngxs/analysis.state';
-import { IChannelWiseFlowsPerSessionResponseBody, IChannelWiseFlowsPerSessionItem } from '../../../../interfaces/Analytics2/volume-sessions';
-import { UtilityService } from '../../../utility.service';
+import {EAnalysis2TypesEnum} from '../../../../interfaces/Analytics2/analysis2-types';
+import {SetAnalysis2HeaderData} from '../ngxs/analysis.action';
+import {Store, Select} from '@ngxs/store';
+import {Observable} from 'rxjs';
+import {IAnalysis2State} from '../ngxs/analysis.state';
+import {UtilityService} from '../../../utility.service';
 
 @Component({
   selector: 'app-analysis2-volume',
@@ -17,107 +16,66 @@ import { UtilityService } from '../../../utility.service';
 export class Analysis2VolumeComponent implements OnInit {
   @Select() analysisstate2$: Observable<IAnalysis2State>;
   // data$: Observable<IChannelWiseFlowsPerSessionItem[]>;
-  activeTab: string = 'Sessions';
-  series_Sessions: {name:string, data:number[]}[] = [{
-    name: 'Maximum',
-    data: [4, 5, 8, 12, 10, 6, 22, 3]
-  }, {
-    name: 'Average',
-    data: [2, 2.5, 6.2, 4.4, 8, 4, 12.4, 1.3]
-  }, {
-    name: 'Minimum',
-    data: [1, 2, 1, 2, 1, 2, 1, 1]
-  }];
-  series_Messages: any[] = [{
-    name: 'Triggered',
-    data: [5, 3, 4, 7, 2]
-  }];
-  series_Users: any[] = [{
-    name: 'Triggered',
-    data: [5, 3, 4, 7, 2]
-  }];
-  series_Time: any[]  = [{
-    name: 'Triggered',
-    data: [5, 3, 4, 7, 2]
-  }];
-  series_flows:any[];
+  activeTab = 'userAcquisition';
+  chartValue: any;
 
   constructor(
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
     private store: Store,
-    private u:UtilityService
+    private u: UtilityService
   ) {
   }
 
   tabClicked(activeTab: string) {
     this.activeTab = activeTab;
-    if(this.activeTab==='Sessions'){
-    this.store.dispatch(new SetAnalysis2HeaderData({
-      analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseFlowsPerSession}
-    }));
-    }
-    if(this.activeTab === 'Users'){
+
+    if (this.activeTab === 'userAcquisition') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.userAcquisition}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.userAcquisition}
       }));
     }
-    if(this.activeTab === 'Messages'){
+    if (this.activeTab === 'totalMessages') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.totalMessages}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.totalMessages}
       }));
     }
-    if(this.activeTab === 'Time'){
+    if (this.activeTab === 'totalTimeOfRooms') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.averageRoomTime}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.totalTimeOfRooms}
       }));
     }
     //adding new now
-    if(this.activeTab==='flows'){
+    if (this.activeTab === 'totalSessions') {
       this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.totalFlows}
+        analysisHeaderData: {type: EAnalysis2TypesEnum.totalSessions}
       }));
     }
   }
 
   ngOnInit() {
-    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('vol') || 'Sessions';
-      this.store.dispatch(new SetAnalysis2HeaderData({
-        analysisHeaderData:{type:EAnalysis2TypesEnum.channelWiseFlowsPerSession}
-      }));
+    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || this.activeTab;
+    this.tabClicked(this.activeTab);
 
-      this.analysisstate2$
-      .subscribe((value)=>{
-        if(value.channelWiseFlowsPerSession){
-          this.series_Sessions  = this.u.convert(value.channelWiseFlowsPerSession,"labels","Date") ;
-        }
-        if(value.userAcquisition){
-          this.series_Users  = this.u.convert(value.userAcquisition,"labels","Date") ;
-        }
-        if(value.totalMessages){
-          this.series_Messages = this.u.convert(value.totalMessages,"labels","Date") ;
-        }
-        if(value.averageRoomTime  ){
-          this.series_Time  = this.u.convert(value.averageRoomTime,"labels","Date") ;
-        }
-        //addeing extra to anylisis now
-        if(value.totalFlows){
-          this.series_flows  = this.u.convert(value.totalFlows,"labels","Date");
-        }
-      })
+    this.analysisstate2$
+      .subscribe((value: IAnalysis2State) => {
+        try {
 
-      // this.analysisstate2$
-      // .subscribe((value)=>{
-      //   ;
-      // let y  = this.u.convert(value.channelWiseFlowsPerSession,"labels") ;
-      //   this.series_Sessions = y;
-      //
-      // })
+          const granularity = value.analysisHeaderData.granularity;
+          const granularity_ms: number = this.u.convertGranularityStrToMs(granularity);
+          //
+          this.chartValue =
+            <any>this.u.convertDateTimeGraph(
+              value[this.activeTab],
+              'labels',
+              new Date(value.analysisHeaderData.startdate).getTime(),
+              granularity);
 
-      // .map((analysisState) => {
-      //   ;
-      // let x =  this.u.convert(analysisState.channelWiseFlowsPerSession,"labels") ;
-      // });
+        } catch (e) {
+          // LoggingService.error(e);
+        }
+      });
+
   }
 
 

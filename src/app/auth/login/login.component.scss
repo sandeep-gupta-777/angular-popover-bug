@@ -1,5 +1,17 @@
 @import '~src/sass/main';
-/*new design starts*/
+
+.imi-fixed-logo{
+  @extend %fixed-top-left;
+}
+
+*:not(.fa){
+    font-family: Helvetica;
+}
+
+button{
+  color: white !important; //todo: temporary change
+}
+
 .login-grid {
   display: grid;
   height: 100vh;
@@ -7,20 +19,17 @@
   width: 100vw;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 60% 1fr;
-  grid-template-areas: '. .' 'left right' '. .';
+  grid-template-areas:
+    '. .'
+    'left right'
+    '. .';
 
   .left {
     grid-area: left;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @extend %centered-flex-row;
     border-right: 2px solid #e0e0e0;
     .imi-logo-box {
-      //d-flex ml-auto mr-5 flex-column justify-content-center align-items-center
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      text-align: center;
       margin-left: auto;
       margin-right: 3rem;
     }
@@ -28,14 +37,18 @@
 
   .right {
     grid-area: right;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @extend %centered-flex-row;
     flex-wrap: wrap;
-    //d-flex justify-content-center flex-wrap
     .login-box {
       margin-right: auto;
       margin-left: 3rem;
+      width: 50%;
+      .form-theme-error, .form-theme-info{
+        font-size: 13px;
+      }
+      .user-info{
+        height: 20px;
+      }
     }
   }
   .color-primary{
@@ -53,7 +66,7 @@
       .imi-logo-box {
         margin-right: 0px;
         margin-top: auto;
-        .imi-logo {
+        img {
           height: 65px;
           width: auto;
           margin-bottom: 20px;
@@ -77,13 +90,8 @@
 /*new design ends*/
 
 .login-grid {
-
-  //height: 90vh;
-  //@include center-vertical-horizontal();
   .imi-logo-box {
-    //border: 1px solid red;
-    //@include center-vertical-horizontal();
-    .imi-logo {
+    img {
       height: 70px;
       width: 241px;
       margin-bottom: 20px;
@@ -93,26 +101,9 @@
     }
   }
 
-  .login-form {
-    width: 100%;
-    @include typography($font-size-normal, $line-height-normal, $font-weight-300, $color-secondary);;
-  }
-
   .title {
-    @include typography(24px, $line-height-normal, $font-weight-300, #00abd3);
+    @extend %text-xl;
     text-align: center;
-  }
-
-  .form-control {
-    @include hide-borders();
-    border-bottom: $border-normal;
-    border-radius: 0;
-  }
-
-  .btn-theme-primary {
-    height: 34px !important;
-    font-size: 14px;
-    background-color: #00abd3 !important;
   }
 }
 
@@ -156,3 +147,43 @@
 .notification-text {
   color: $color-primary;
 }
+
+
+.enterprise-flex{
+  grid-area: right;
+  // display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.enterprise-pushing-left {
+  grid-template-columns: 1fr 1.7fr !important;
+}
+.search-theme-input-with-search {
+  align-self: start;
+  position: relative;
+  color: #aaa;
+  font-size: 16px;
+
+  input {
+    width: 100%;
+    height: 24px;
+    background: #fcfcfc;
+    border: 1px solid #aaa;
+    border-radius: 2px;
+    outline: none;
+    text-indent: 32px;
+    @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-text-normal);
+  }
+  .fa-search {
+    position: absolute;
+    top: 13px;
+    left: 10px;
+    transform: translate(0%, -50%)
+  }
+}
+:host /deep/ .mat-checkbox-inner-container{
+    height: remy(17);
+  width:remy(17);
+}
+

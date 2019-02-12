@@ -1,18 +1,19 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {ViewBotStateModel} from '../../../view-bots/ngxs/view-bot.state';
 import {IBot} from '../../../interfaces/IBot';
 import {IReportItem} from '../../../../../interfaces/report';
 import {NgForm} from '@angular/forms';
-import {UtilityService} from '../../../../utility.service';
+import {EBotType, UtilityService} from '../../../../utility.service';
 import {TempVariableService} from '../../../../temp-variable.service';
 import {ServerService} from '../../../../server.service';
 import {ConstantsService} from '../../../../constants.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {BsDatepickerConfig} from 'ngx-bootstrap/datepicker';
-import {EBotType} from '../../../view-bots/view-bots.component';
 import {ELogType, LoggingService} from '../../../../logging.service';
+import {debounceTime} from 'rxjs/operators';
+import {DebugBase} from '../../../../debug-base';
+import {EventService} from '../../../../event.service';
 
 declare var $: any;
 
@@ -21,27 +22,28 @@ declare var $: any;
   templateUrl: './report-controls.component.html',
   styleUrls: ['./report-controls.component.scss']
 })
-export class ReportControlsComponent implements OnInit, AfterViewInit {
+export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy {
   start_time;
-  isactive=false;
+  isactive = false;
   @Select() botlist$: Observable<ViewBotStateModel>;
-  datePickerConfig: Partial<BsDatepickerConfig>;
+  datePickerConfig: any;
   @ViewChild('form') f: NgForm;
   botlist: IBot[] = [];
   selectedBot: IBot;
-  codebasedBotList:IBot[];
+  codebasedBotList: IBot[];
   today = new Date();
   reportItem: IReportItem;
   filetype = 'csv';
   // @Input()
   reportFormData: IReportItem;
   servervalue;
-  deliveryMode: string = 'sftp';
+  deliveryMode = 'sftp';
   startdate = new Date();
 // test = false;
   // start_date = new Date();
-  isSftpReportEnabled=false;
+  isSftpReportEnabled = false;
   report_id;
+
   constructor(
     private store: Store,
     private utilityService: UtilityService,
@@ -57,17 +59,19 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit(){
-    $(document).ready(function(){
+  ngAfterViewInit() {
+    $(document).ready(function () {
       $('input.time-input1').timepicker({defaultTime: '9', scrollbar: true, timeFormat: 'HH:mm'});
     });
 
-    if(this.activatedRoute.snapshot.data["name"]==='create_report'){
+    if (this.activatedRoute.snapshot.data['name'] === 'create_report') {
       setTimeout(() => {
-        this.f.form.patchValue({bot_id: this.botlist[0].id, frequency:'daily'});
+        this.f.form.patchValue({bot_id: this.botlist[0].id, frequency: 'daily'});
       }, 0);
     }
   }
+
+  botlistSub;
 
   ngOnInit() {
 
@@ -78,40 +82,45 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
       this.deliveryMode = queryParams.params['deliveryMode'] || this.deliveryMode;
     });
 
-    let _id = this.report_id = this.activatedRoute.snapshot.paramMap.get('_id');
+    const _id = this.report_id = this.activatedRoute.snapshot.paramMap.get('_id');
 
-    this.botlist$.subscribe((value: ViewBotStateModel) => {
+    this.botlistSub = this.botlist$.subscribe((value: ViewBotStateModel) => {
       this.botlist = [...value.allBotList];
-      this.codebasedBotList = this.botlist.filter((bot)=>bot.bot_type===EBotType.chatbot);
+      this.codebasedBotList = this.botlist.filter((bot) => bot.bot_type === EBotType.chatbot);
 
       setTimeout(() => {
-
-
-        // this.reportFormData.startdate = this.utilityService.convertDateObjectStringToDDMMYY(new Date(this.reportFormData.startdate));
-        // if (this.reportFormData) this.f.f.patchValue(this.reportFormData);
-        //
         if (_id && _id !== 'new') {
-          let url = this.constantsService.getReportsEditInfo(_id);
+          const url = this.constantsService.getReportsEditInfo(_id);
           this.serverService.makeGetReq<IReportItem>({url})
             .subscribe((value: IReportItem) => {
               try {
-                let formDataSerialized = {
+                this.deliveryMode = value.delivery[1].enabled ? "email" : "sftp";
+                this.router.navigate([], {queryParams: {deliveryMode: this.deliveryMode}});
+                let email: any = value.delivery.find((item: any) => item.delivery_type === 'email');
+                email.recipients = email.recipients.join(';');
+                const formDataSerialized = {
                   ...value,
                   delivery: {
-                    sftp: value.delivery.find((item:any)=>item.delivery_type==='sftp'),
-                    email: value.delivery.find((item:any)=>item.delivery_type==='email')
+                    sftp: value.delivery.find((item: any) => item.delivery_type === 'sftp'),
+                    email: email
                   }
                 };
                 // delete value.startdate;
-                if (value) this.f.form.patchValue(formDataSerialized);
+                if (value) {
+                  this.f.form.patchValue(formDataSerialized);
+                }
                 this.startdate = new Date(value.startdate);
                 // let start_time:string  = (<any>document).getElementById("start_time").value;
-                let hh:string = new Date(value.startdate).getHours().toString();
-                let mm:string = new Date(value.startdate).getMinutes().toString();
-                if(mm.length===1) mm= '0'+mm;
-                if(hh.length===1) hh= '0'+hh;
-                (<any>document).getElementById("start_time").value = hh+':'+mm;
-              }catch (e) {
+                let hh: string = new Date(value.startdate).getHours().toString();
+                let mm: string = new Date(value.startdate).getMinutes().toString();
+                if (mm.length === 1) {
+                  mm = '0' + mm;
+                }
+                if (hh.length === 1) {
+                  hh = '0' + hh;
+                }
+                (<any>document).getElementById('start_time').value = hh + ':' + mm;
+              } catch (e) {
                 LoggingService.error(e);
               }
               // this.f.f.patchValue({startdate:value.startdate});
@@ -125,9 +134,9 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
     });
 
 
-    this.f.valueChanges.debounceTime(1000).subscribe((data: any) => {
+    this.f.valueChanges.pipe(debounceTime(1000)).subscribe((data: any) => {
       // if (!this.f.dirty) return;
-      ;
+
       /*TODO: VERY BAD FIX; USE REACTIVE FORM INSTEAD*/
       // data.delivery = [data.delivery];
 
@@ -147,20 +156,20 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
 
   }
 
-  getReportControlFormData(){/*to be called by parent*/
+  getReportControlFormData() {/*to be called by parent*/
 
-    this.reportFormData.botName = this.botlist.find((bot)=>bot.id==this.reportFormData.bot_id).name;
+    this.reportFormData.botName = this.botlist.find((bot) => bot.id == this.reportFormData.bot_id).name;
     this.reportFormData = {...this.reportFormData};
-    let start_time:string  = (<any>document).getElementById("start_time").value;
-    let start_time_arr =  start_time.split(':');
-    let hh = Number(start_time_arr[0]);
-    let mm = Number(start_time_arr[1]);
-    if(!this.reportFormData.filetype){
-      this.reportFormData.filetype = 'csv'
+    const start_time: string = (<any>document).getElementById('start_time').value;
+    const start_time_arr = start_time.split(':');
+    const hh = Number(start_time_arr[0]);
+    const mm = Number(start_time_arr[1]);
+    if (!this.reportFormData.filetype) {
+      this.reportFormData.filetype = 'csv';
     }
 
     this.reportFormData.startdate
-      = new Date(this.reportFormData.startdate).setHours(hh,mm,0,0);
+      = new Date(this.reportFormData.startdate).setHours(hh, mm, 0, 0);
 
 
     return this.reportFormData;
@@ -168,19 +177,25 @@ export class ReportControlsComponent implements OnInit, AfterViewInit {
 
   click() {
   }
+
   privateKey;
+
   async openFile(inputEl) {
 
     try {
-      this.privateKey= await this.utilityService.readInputFileAsText(inputEl);
-    }catch (e) {
-      LoggingService.log(e,ELogType.error);
+      this.privateKey = await this.utilityService.readInputFileAsText(inputEl);
+    } catch (e) {
+      LoggingService.log(e, ELogType.error);
     }
   }
 
   navigate(deliveryMode) {
     this.router.navigate([], {queryParams: {deliveryMode}});
     // deliveryMode='email'
+  }
+
+  ngOnDestroy(): void {
+    EventService.unsubscribeInComponent(this);
   }
 
 }

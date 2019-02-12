@@ -1,29 +1,29 @@
 import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {IBot} from '../../interfaces/IBot';
 import {IEnterpriseProfileInfo} from '../../../../interfaces/enterprise-profile';
-import {ResetEnterpriseUsersAction, SetEnterpriseInfoAction, SetEnterpriseUsersAction} from './enterpriseprofile.action';
+import {ResetEnterpriseUsersAction, SetEnterpriseInfoAction, SetEnterpriseUsersAction, SetEnterpriseServiceKeyAction} from './enterpriseprofile.action';
 import {IEnterpriseUser} from '../../interfaces/enterprise-users';
 
 const initialState = {
   'id': '',
-  enterpriseUniqueName:'',
+  enterpriseUniqueName: '',
   'created_at': '',
-  "email": '',
+  'email': '',
   'enterprise_unique_name': '',
-  "industry": '',
+  'industry': '',
   'logo': '',
   'name': '',
-  "phone": '',
-  "tier": '',
+  'phone': '',
+  'tier': '',
   'updated_at': '',
   'updated_by': null,
-  "websiteUrl": '',
-  "enterpriseusers":[],
+  'websiteUrl': '',
+  'enterpriseusers': [],
   'tier_group': null,
   'log_retention_period': '',
   'secret_key': '',
 
-}
+};
 @State<Partial<IEnterpriseProfileInfo>>({
   name: 'loggeduserenterpriseinfo',
   defaults: initialState
@@ -33,12 +33,22 @@ export class EnterpriseprofileStateReducer {
 
   @Action(SetEnterpriseInfoAction)
   SetEnterpriseInfo({patchState, setState, getState, dispatch}: StateContext<IEnterpriseProfileInfo>, {payload}: SetEnterpriseInfoAction) {
-    patchState(payload.enterpriseInfo);
+    patchState(payload.enterpriseInfo);//{...state,payload.enterpriseInfo}
   }
 
+  // shoaib
   @Action(SetEnterpriseUsersAction)
   setEnterpriseUsers({patchState, setState, getState, dispatch}: StateContext<IEnterpriseProfileInfo>, {payload}: SetEnterpriseUsersAction) {
+    //
+    // alert("reducer");
     patchState({enterpriseusers: payload.enterpriseUsers});
+  }
+
+  @Action(SetEnterpriseServiceKeyAction)
+  setEnterpriseServiceKeyAction({patchState, setState, getState, dispatch}: StateContext<IEnterpriseProfileInfo>, {payload}: SetEnterpriseServiceKeyAction) {
+
+    // alert("reducer");
+    patchState({service_key: payload.service_key});
   }
 
   @Action(ResetEnterpriseUsersAction)

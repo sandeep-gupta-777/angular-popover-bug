@@ -1,7 +1,8 @@
 @import "~src/sass/main";
 
-//::ng-deep app-code-editor {
-//}
+:host{
+  position: relative;
+}
 
 ::ng-deep .code-editor-row-min {
   //.CodeMirror {
@@ -68,6 +69,7 @@
 
 .nav-link {
   font-size: 12px;
+  padding-left: .5rem;
 }
 
 .row-flex-bot-versioning-toaster {
@@ -96,8 +98,25 @@
   display: grid;
   //width: 80vw;
   grid-template-columns: 20% 60% 20%;
-  grid-template-rows: 100%;
+  grid-template-rows: 30px calc(100% - 30px);
+  grid-template-areas :
+  'left centerHeader bot-templates'
+  'left genTempGridItem bot-templates'
+;
   background-color: #f7f7f7;
+
+  .center-header{
+    grid-area: centerHeader;
+  }
+  .left-sidebar{
+    grid-area: left;
+  }
+  .genTempGridItemGrid{
+    grid-area: genTempGridItem;
+  }
+  .bot-templates{
+    grid-area: bot-templates;
+  }
 }
 
 .genTempGridItem {
@@ -187,7 +206,6 @@
 }
 
 .bot-templates {
-  border-left: solid 1px #e0e0e0;
   ul {
     list-style-type: none;
     padding: 0;
@@ -361,6 +379,7 @@
   .validation-toggle{
     display: flex;
     flex: 1 1 auto;
+    width: 100%;
     align-items: center;
     justify-content: center;
   }
@@ -419,7 +438,9 @@ app-code-editor {
   outline: none;
 }
 
-.input-material{
-
+:host /deep/{
+  .mat-slide-toggle-label{
+    margin-bottom: 0;
+  }
 }
 

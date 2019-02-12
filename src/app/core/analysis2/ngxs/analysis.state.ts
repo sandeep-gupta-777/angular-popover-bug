@@ -5,7 +5,6 @@ import {
   SetChannelWiseFlowsPerSession,
   SetUserAcquisition,
   SetTotalMessages,
-  SetAverageRoomTime,
   SetUserLoyalty,
   SetChannelWiseAverageSessionTime,
   SetTotalFlows,
@@ -14,7 +13,7 @@ import {
   SetRoomDuration,
   SetChannelWiseSessions,
   SetChannelWiseUsers,
-  ResetAnalytics2GraphData, SetUsagetrackingInfo, Topgenerationtemplates, ResetAnalytics2HeaderData, TotalSessions
+  ResetAnalytics2GraphData, SetUsagetrackingInfo,  ResetAnalytics2HeaderData, TotalSessions, SetSessionsperuser, SetMessagespersession, SetTimepersession, SetTotalTimeOfRooms, SetTopgenerationtemplates, SetSessionhandling
 } from './analysis.action';
 import {IOverviewInfo, IOverviewInfoPostBody} from '../../../../interfaces/Analytics2/overview-info';
 import {IAnalysis2HeaderData} from '../../../../interfaces/Analytics2/analytics2-header';
@@ -34,27 +33,32 @@ import { IChannelWiseUsersItem } from '../../../../interfaces/Analytics2/engagem
 
 export interface IAnalysis2State {
   // analysisHeaderData:IOverviewInfoPostBody,
-  analysisHeaderData:Partial<IAnalysis2HeaderData>,
-  overviewInfo: IOverviewInfo,
-  channelWiseFlowsPerSession : IChannelWiseFlowsPerSessionItem[],
-  userAcquisition : IUserAcquisitionItem[],
-  totalMessages : ITotalMessagesItem[],
-  averageRoomTime: IAverageRoomTimeItem[],
-  totalFlows : ITotalFlowsItem[],
-  userLoyalty : IUserLoyaltyItem[],
-  channelWiseAverageSessionTime : IChannelWiseAverageSessionTimeItem[],
-  topgenerationtemplates : ITopgenerationtemplatesItem[],
-  totalSessions : any[],
-  flowsPerRoom : IFlowsPerRoomItem[],
-  totalRooms : ITotalRoomsItem[],
-  roomDuration : IRoomDurationItem[],
-  channelWiseSessions : IChannelWiseSessionsItem[],
-  channelWiseUsers : IChannelWiseUsersItem[],
-  usagetracking: any
+  analysisHeaderData: Partial<IAnalysis2HeaderData>;
+  overviewInfo: IOverviewInfo;
+  channelWiseFlowsPerSession: IChannelWiseFlowsPerSessionItem[];
+  userAcquisition: IUserAcquisitionItem[];
+  totalMessages: ITotalMessagesItem[];
+  averageRoomTime: IAverageRoomTimeItem[];
+  totalFlows: ITotalFlowsItem[];
+  userLoyalty: IUserLoyaltyItem[];
+  channelWiseAverageSessionTime: IChannelWiseAverageSessionTimeItem[];
+  topgenerationtemplates: ITopgenerationtemplatesItem[];
+  totalSessions: any[];
+  flowsPerRoom: IFlowsPerRoomItem[];
+  totalRooms: ITotalRoomsItem[];
+  roomDuration: IRoomDurationItem[];
+  channelWiseSessions: IChannelWiseSessionsItem[];
+  channelWiseUsers: IChannelWiseUsersItem[];
+  usagetracking: any;
+  sessionsperuser:any;
+  messagespersession:any;
+  timepersession:any;
+  totalTimeOfRooms:any;
+  sessionhandling:any;
 }
 const defaultAnalytics2 = {
-  analysisHeaderData:null,
-  overviewInfo:null,
+  analysisHeaderData: null,
+  overviewInfo: null,
   channelWiseFlowsPerSession : null,
   userAcquisition : null,
   totalMessages : null,
@@ -62,14 +66,19 @@ const defaultAnalytics2 = {
   totalFlows : null,
   userLoyalty : null,
   channelWiseAverageSessionTime : null,
-  topgenerationtemplates :null,
-  totalSessions :null,
+  topgenerationtemplates : null,
+  totalSessions : null,
   flowsPerRoom : null,
   totalRooms : null,
   roomDuration : null,
   channelWiseSessions : null,
   channelWiseUsers: null,
-  usagetracking:null
+  usagetracking: null,
+  sessionsperuser: null,
+  messagespersession: null,
+  timepersession: null,
+  totalTimeOfRooms: null,
+  sessionhandling:null
 };
 @State<IAnalysis2State>({
   name: 'analysisstate2',
@@ -79,123 +88,143 @@ const defaultAnalytics2 = {
 export class AnalysisStateReducer2 {
   @Action(SetAnalysis2HeaderData)
   setAnalysis2HeaderData({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetAnalysis2HeaderData) {
-    let state:IAnalysis2State = getState();
-    if(state){
-      patchState({ analysisHeaderData:{
+    const state: IAnalysis2State = getState();
+    if (state) {
+      patchState({ analysisHeaderData: {
           ...state.analysisHeaderData,
           ...payload.analysisHeaderData
         }});
-    }else {
-      patchState({ analysisHeaderData:payload.analysisHeaderData});
+    } else {
+      patchState({ analysisHeaderData: payload.analysisHeaderData});
     }
   }
 
   @Action(SetOverviewInfoData)
   setOverviewInfoData({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetOverviewInfoData) {
-    let state:IAnalysis2State = getState();
-    patchState({overviewInfo:payload.data});
+    const state: IAnalysis2State = getState();
+    patchState({overviewInfo: payload.data});
   }
 
   @Action(SetChannelWiseFlowsPerSession)
   setVolumUserData({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetChannelWiseFlowsPerSession) {
-    let state:IAnalysis2State = getState();
-    patchState({channelWiseFlowsPerSession:payload.data});
+    const state: IAnalysis2State = getState();
+    patchState({channelWiseFlowsPerSession: payload.data});
   }
-
+  
+  @Action(SetSessionsperuser)
+  SetSessionsperuser({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetSessionsperuser) {
+    const state: IAnalysis2State = getState();
+    patchState({sessionsperuser: payload.data});
+  }
+  @Action(SetMessagespersession)
+  SetMessagespersession({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetMessagespersession) {
+    const state: IAnalysis2State = getState();
+    patchState({messagespersession: payload.data});
+  }
+  @Action(SetTimepersession)
+  SetTimepersession({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetTimepersession) {
+    const state: IAnalysis2State = getState();
+    patchState({timepersession: payload.data});
+  }
   @Action(SetUserAcquisition)
   setUserAcquisition({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetUserAcquisition) {
-    let state:IAnalysis2State = getState();
-    patchState({userAcquisition:payload.data});
+    const state: IAnalysis2State = getState();
+    patchState({userAcquisition: payload.data});
   }
-
+  
+  @Action(SetSessionhandling)
+  setSessionhandling({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetSessionhandling) {
+    const state: IAnalysis2State = getState();
+    patchState({sessionhandling: payload.data});
+  }
   @Action(SetTotalMessages)
   setTotalMessages({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetTotalMessages) {
-    let state:IAnalysis2State = getState();
-    patchState({totalMessages:payload.data});
+    const state: IAnalysis2State = getState();
+    patchState({totalMessages: payload.data});
   }
-  @Action(SetAverageRoomTime)
-  setAverageRoomTime({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetAverageRoomTime) {
-    let state:IAnalysis2State = getState();
-    patchState({averageRoomTime:payload.data});
+  @Action(SetTotalTimeOfRooms)
+  setAverageRoomTime({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetTotalTimeOfRooms) {
+    const state: IAnalysis2State = getState();
+    patchState({totalTimeOfRooms: payload.data});
   }
   @Action(SetUserLoyalty)
   setUserLoyalty({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetUserLoyalty) {
-    let state:IAnalysis2State = getState();
-    patchState({userLoyalty:payload.data});
+    const state: IAnalysis2State = getState();
+    patchState({userLoyalty: payload.data});
   }
   @Action(SetChannelWiseAverageSessionTime)
   setChannelWiseAverageSessionTime({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetChannelWiseAverageSessionTime) {
-    let state:IAnalysis2State = getState();
-    patchState({channelWiseAverageSessionTime:payload.data});
+    const state: IAnalysis2State = getState();
+    patchState({channelWiseAverageSessionTime: payload.data});
   }
 
   @Action(SetTotalFlows)
   setTotalFlows({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetTotalFlows) {
-    let state:IAnalysis2State = getState();
-    patchState({totalFlows:payload.data});
+    const state: IAnalysis2State = getState();
+    patchState({totalFlows: payload.data});
   }
   @Action(SetFlowsPerRoom)
   setFlowsPerRoom({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetFlowsPerRoom) {
-    let state:IAnalysis2State = getState();
-    patchState({flowsPerRoom:payload.data});
+    const state: IAnalysis2State = getState();
+    patchState({flowsPerRoom: payload.data});
   }
   @Action(SetTotalRooms)
   setTotalRooms({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetTotalRooms) {
-    let state:IAnalysis2State = getState();
-    patchState({totalRooms:payload.data});
+    const state: IAnalysis2State = getState();
+    patchState({totalRooms: payload.data});
   }
   @Action(SetRoomDuration)
   setRoomDuration({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetRoomDuration) {
-    let state:IAnalysis2State = getState();
-    patchState({roomDuration:payload.data});
+    const state: IAnalysis2State = getState();
+    patchState({roomDuration: payload.data});
   }
   @Action(SetChannelWiseSessions)
   setChannelWiseSessions({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetChannelWiseSessions) {
-    let state:IAnalysis2State = getState();
-    patchState({channelWiseSessions:payload.data});
+    const state: IAnalysis2State = getState();
+    patchState({channelWiseSessions: payload.data});
   }
 
   @Action(SetChannelWiseUsers)
   setChannelWiseUsers({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetChannelWiseUsers) {
-    let state:IAnalysis2State = getState();
-    patchState({channelWiseUsers:payload.data});
+    const state: IAnalysis2State = getState();
+    patchState({channelWiseUsers: payload.data});
   }
 
   @Action(SetUsagetrackingInfo)
   setUsagetrackingInfo({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetUsagetrackingInfo) {
-    let state:IAnalysis2State = getState();
-    patchState({usagetracking:payload.data});
+    const state: IAnalysis2State = getState();
+    patchState({usagetracking: payload.data});
   }
 
-  @Action(Topgenerationtemplates)
-  topgenerationtemplates({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: Topgenerationtemplates) {
-    let state:IAnalysis2State = getState();
-    patchState({topgenerationtemplates:payload.data});
+  @Action(SetTopgenerationtemplates)
+  topgenerationtemplates({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: SetTopgenerationtemplates) {
+    const state: IAnalysis2State = getState();
+    patchState({topgenerationtemplates: payload.data});
   }
 
   @Action(TotalSessions)
   TotalSessions({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>, {payload}: TotalSessions) {
-    let state:IAnalysis2State = getState();
+    const state: IAnalysis2State = getState();
 
-    patchState({totalSessions:payload.data});
+    patchState({totalSessions: payload.data});
   }
 
   @Action(ResetAnalytics2GraphData)
   resetAnalytics2Data({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>) {
-    let state = getState();
-    patchState({...defaultAnalytics2,analysisHeaderData:state.analysisHeaderData});
+    const state = getState();
+    patchState({...defaultAnalytics2, analysisHeaderData: state.analysisHeaderData});
   }
 
   @Action(ResetAnalytics2HeaderData)/*only for logout*/
   resetAnalytics2HeaderData({patchState, setState, getState, dispatch}: StateContext<IAnalysis2State>) {
-    let state = getState();
-    patchState({analysisHeaderData:null});
+    const state = getState();
+    patchState({analysisHeaderData: null});
   }
 
-  static getAnalytics2HeaderData(state){
+  static getAnalytics2HeaderData(state) {
     return state.analysisstate2.analysisHeaderData;
   }
-  static getAnalytics2GraphData(state){/*this is not observe headerData*/
+  static getAnalytics2GraphData(state) {/*this is not observe headerData*/
     return {
       ...state.analysisstate2,
       // headerData:null

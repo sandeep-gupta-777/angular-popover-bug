@@ -7,40 +7,46 @@ import { Observable } from 'rxjs';
 import { IBot } from '../../interfaces/IBot';
 import { IHeaderData } from '../../../../interfaces/header-data';
 import { UtilityService } from '../../../utility.service';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import {LoggingService} from '../../../logging.service';
+import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
+import {ModalImplementer} from '../../../modal-implementer';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-bot-testing',
   templateUrl: './bot-testing.component.html',
   styleUrls: ['./bot-testing.component.scss']
 })
-export class BotTestingComponent implements OnInit {
+export class BotTestingComponent extends ModalImplementer implements OnInit {
 
   @Input() bot: IBot;
   testCases$: Observable<[string, string, string][]>;
   myEAllActions = EAllActions;
   handontable_colHeaders;
   handontable_column;
-  testCaseData: [string, string, string][] = [["", "", ""]];
+  expectedCSVHeaders = ['Message', 'Expected Template'];
+  testCaseData: [string, string, string][] = [['<The user message you wish to test for>','<The name of the template key you expect the bot to return>','']];
   testCasesUrl = this.constantsService.getBotTestingUrl();
   stopTestUrl = this.constantsService.stopTestUrl();
   testCaseId: number;
-  isData: boolean = false;
-  modalRef: BsModalRef;
-  tableChanged: boolean = false;
-  cancelTestFlag:boolean;
+  isData = false;
+  tableChanged = false;
+  cancelTestFlag: boolean;
+  myESplashScreens = ESplashScreens;
+  showSplashScreen = false;
+  showLoader = false;
   constructor(
     private serverService: ServerService,
-    private modalService: BsModalService,
     private constantsService: ConstantsService,
-    private utilityService: UtilityService,
+    public utilityService: UtilityService,
+    public matDialog: MatDialog,
     private store: Store) {
+    super(utilityService, matDialog);
   }
 
   exportToCSV() {
-    let csvData = this.testCaseData;
-    let csvColumn = [1, 2, 3];
+    const csvData = this.testCaseData;
+    const csvColumn = [1, 2, 3];
     this.utilityService.downloadArrayAsCSV(csvData, csvColumn);
   }
 
@@ -49,6 +55,7 @@ export class BotTestingComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showLoader = true;
     this.serverService.makeGetReq<{ meta: any, objects: ITestcases[] }>(
       {
         url: this.testCasesUrl,
@@ -61,15 +68,17 @@ export class BotTestingComponent implements OnInit {
       //   });
       // })
       .subscribe((value) => {
+        this.showLoader = false;
         if (value.objects.length === 0) {
           this.isData = false;
-        }
-        else {
+          this.showSplashScreen = true;
+        } else {
+          this.showSplashScreen = false;
           this.isData = true;
-          let testCaseData = value.objects[0].data;
+          const testCaseData = value.objects[0].data;
 
-          let testCaseDataForBot: ITestcases = value.objects.find((testcase) => {
-            return testcase.bot_id === this.bot.id
+          const testCaseDataForBot: ITestcases = value.objects.find((testcase) => {
+            return testcase.bot_id === this.bot.id;
           });
 
           this.testCaseData =
@@ -91,8 +100,8 @@ export class BotTestingComponent implements OnInit {
       url: this.testCasesUrl,
       headerData: { 'bot-access-token': this.bot.bot_access_token },
       body: {
-        "status": "IDLE",
-        "data": this.testCaseData
+        'status': 'IDLE',
+        'data': this.testCaseData
         //   .map((testCaseItem:[ string, string, string ])=>{
         //     /*
         //     *This is to remove third item of testcase array
@@ -105,7 +114,7 @@ export class BotTestingComponent implements OnInit {
       this.utilityService.showSuccessToaster('Test cases created');
       this.isData = true;
       this.tableChanged = false;
-    })
+    });
   }
 
   updateTC() {
@@ -135,8 +144,7 @@ export class BotTestingComponent implements OnInit {
       if (value.objects[0].status === 'RUNNING') {
         this.cancelTestFlag = true;
         this.openCreateBotModal(Primarytemplat);
-      }
-      else {
+      } else {
         this.serverService.makeGetReq<any>(
           {
             url: this.testCasesUrl + 'oneclicktesting/',
@@ -156,7 +164,7 @@ export class BotTestingComponent implements OnInit {
   removeNullRowsFromTableData(arr: [string, string, string][]) {
   }
   openCreateBotModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+    this.openDangerModal(template);
   }
   stopTest() {
     this.serverService.makeGetReq<{ meta: any, objects: ITestcases[] }>(

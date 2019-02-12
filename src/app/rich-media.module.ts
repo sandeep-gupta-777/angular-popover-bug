@@ -8,17 +8,15 @@ import {ImiLoaderComponent} from './imi-loader/imi-loader.component';
   declarations: [
     CardCarouselComponent,
     QuickReplyComponent,
-    ImiLoaderComponent
   ],
-  exports:[
+  exports: [
     CardCarouselComponent,
     QuickReplyComponent,
-    ImiLoaderComponent
   ],
-  imports:[
+  imports: [
     CommonModule
   ]
 })
-export class RichMediaModule{
+export class RichMediaModule {
 
 }

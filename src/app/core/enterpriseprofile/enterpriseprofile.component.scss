@@ -52,3 +52,39 @@ form input{
 th,td{
   @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-text-grey);
 }
+
+.font-11{
+  font-size: 11px;
+}
+
+.card-header{
+  background-color: #f0f3f4;
+  padding-right: 0;
+  padding-left: 0;  
+  padding-top: 0; 
+}
+.card{
+  background-color: #f0f3f4;
+}
+
+// .modelBotNames{
+//   display: grid;
+//   grid-template-columns: repeat(4,150px);
+//   justify-content: center;
+//   align-items: center;
+//   label{
+//     text-align: left;
+//     input{
+//       width:13px;
+//       height: 13px;
+//     }
+//   }
+// }
+:host /deep/ {
+  mat-tab-header{
+    border: none;
+  }
+  .mat-tab-label{
+    border: none;
+  }
+}

@@ -1,5 +1,5 @@
-import { IMeta } from "./meta";
-import { IAvatar } from "../../../interfaces/bot-creation";
+import { IMeta } from './meta';
+import { IAvatar } from '../../../interfaces/bot-creation';
 import { IPipelineItem } from '../../../interfaces/ai-module';
 import { IIntegrationOption } from '../../../interfaces/integration-option';
 
@@ -10,38 +10,40 @@ export interface IBot {
     comment: string,
     id: number,
     version: number
-  },
+  };
   latest_version?: {
     _id: number,
     bot_id: number,
     comment: number,
     id: number,
     version: number
-  }
-  "active_version_id"?: number,
-  "advanced_data_protection"?: boolean,
-  "allow_anonymization"?: boolean,
-  "avatars"?: IAvatar[],
-  "blanket_consent"?: boolean,
-  "bot_access_token"?: string,
-  "bot_type"?: string,
-  "bot_unique_name"?: string,
-  "child_bots"?: Array<number>,
-  "consent_categories"?: string,
-  "consent_message"?: string,
-  "created_at"?: string,
-  "created_by"?: number,
-  "data_persistence_period"?: number,
-  "description"?: string,
-  "enterprise_id"?: number,
-  "error_message"?: string,
-  "first_message"?: string,
-  room_close_callback?: boolean,
-  "heading"?: string,
-  "id"?: number,
-  is_manager?: boolean,
+  };
+  'active_version_id'?: number;
+  'advanced_data_protection'?: boolean;
+  'allow_anonymization'?: boolean;
+  'allow_feedback'?: boolean;
+  'avatars'?: IAvatar[];
+  'blanket_consent'?: boolean;
+  'bot_access_token'?: string;
+  'bot_type'?: string;
+  'bot_unique_name'?: string;
+  'child_bots'?: Array<number>;
+  'consent_categories'?: string;
+  'consent_message'?: string;
+  'created_at'?: string;
+  'created_by'?: number;
+  'data_persistence_period'?: number;
+  'description'?: string;
+  'enterprise_id'?: number;
+  'error_message'?: string;
+  'first_message'?: string;
+  room_close_callback?: boolean;
+  'heading'?: string;
+  'id'?: number;
+  is_manager?: boolean;
+  // allow_feedback?:boolean,
   /*TODO: Queries:Integration should be array*/
-  integrations?: IIntegrationOption,
+  integrations?: IIntegrationOption;
   //   {
   //   ccsp_details: {
   //     debug: {
@@ -82,82 +84,82 @@ export interface IBot {
   //     }
   //   }
   // }
-  "logo"?: string,
-  "name"?: string,
-  "parent_bots"?: string,
-  "pipelines"?: IPipelineItem[],
-  "room_persistence_time"?: number,
-  "transactions_per_pricing_unit"?: number,
-  "updated_at"?: string,
-  "updated_by"?: number,
+  'logo'?: string;
+  'name'?: string;
+  'parent_bots'?: string;
+  'pipelines'?: IPipelineItem[];
+  'room_persistence_time'?: number;
+  'transactions_per_pricing_unit'?: number;
+  'updated_at'?: string;
+  'updated_by'?: number;
 
-  enterprise_name?: string,
-  enterprise_logo?: string,
-  enterprise_unique_name?: string,
+  enterprise_name?: string;
+  enterprise_logo?: string;
+  enterprise_unique_name?: string;
   // these r store properties and will not come from server...delete it before updating the bot
-  "store_bot_versions"?: Partial<IBotVersionData>[];
-  store_selected_version?: number,
-  store_isPinned?: boolean,
+  'store_bot_versions'?: Partial<IBotVersionData>[];
+  store_selected_version?: number;
+  store_isPinned?: boolean;
 
   /*Form validations*/
-  form_validation_basic_info?: boolean,
-  form_validation_data_management?: boolean,
-  form_validation_avator?: boolean,
-  form_validation_integration?: boolean,
+  form_validation_basic_info?: boolean;
+  form_validation_data_management?: boolean;
+  form_validation_avator?: boolean;
+  form_validation_integration?: boolean;
 }
 
 export interface IBotResult {
-  "meta": IMeta,
-  "objects": IBot[]
+  'meta': IMeta;
+  'objects': IBot[];
 }
 
 export interface IBotVersionResult {
-  "meta": IMeta,
-  "objects": IBotVersionData[]
+  'meta': IMeta;
+  'objects': IBotVersionData[];
 }
 
 export interface IBotVersionData {
-  "bot_id"?: number,
-  "comment"?: string,
-  "created_at"?: string,
-  "df_rules"?: string,
-  "df_template"?: string,
-  "generation_rules"?: string,
-  "generation_templates"?: string,
-  "id"?: number,
-  "resource_uri"?: string,
-  "updated_at"?: string,
-  "version"?: number,
-  "workflow"?: string,
-  "updated_fields"?: {
-    "df_template"?: boolean,
-    "df_rules"?: boolean,
-    "generation_rules"?: boolean,
-    "generation_template"?: boolean,
-    "workflows"?: boolean
-  },
-  "changed_fields"?: {
-    "df_template"?: boolean,
-    "df_rules"?: boolean,
-    "generation_rules"?: boolean,
-    "generation_template"?: boolean,
-    "workflows"?: boolean
-  },
-  "forked_from"?: number,
-  "validation"?: {
-    "df_rules"?: IValidationTabItem,
-    "df_template"?: IValidationTabItem,
-    "generation_rules"?: IValidationTabItem,
-    "generation_templates"?: IValidationTabItem,
-    "workflow"?: IValidationTabItem,
-  }
+  'bot_id'?: number;
+  'comment'?: string;
+  'created_at'?: string;
+  'df_rules'?: string;
+  'df_template'?: string;
+  'generation_rules'?: string;
+  'generation_templates'?: string;
+  'id'?: number;
+  'resource_uri'?: string;
+  'updated_at'?: string;
+  'version'?: number;
+  'workflow'?: string;
+  'updated_fields'?: {
+    'df_template'?: boolean,
+    'df_rules'?: boolean,
+    'generation_rules'?: boolean,
+    'generation_template'?: boolean,
+    'workflows'?: boolean
+  };
+  'changed_fields'?: {
+    'df_template'?: boolean,
+    'df_rules'?: boolean,
+    'generation_rules'?: boolean,
+    'generation_template'?: boolean,
+    'workflows'?: boolean
+  };
+  'forked_from'?: number;
+  'validation'?: {
+    'df_rules'?: IValidationTabItem,
+    'df_template'?: IValidationTabItem,
+    'generation_rules'?: IValidationTabItem,
+    'generation_templates'?: IValidationTabItem,
+    'workflow'?: IValidationTabItem,
+  };
 
 }
-export interface IValidationTabItem{
-  error?: boolean,
-  error_line?: string,
-  error_msg?: string,
-  msg?:string
+export interface IValidationTabItem {
+  error?: boolean;
+  error_line?: string;
+  error_msg?: string;
+  msg?: string;
 }
 
 // export interface IBot {
@@ -245,18 +247,18 @@ export interface IValidationTabItem{
 //   cmsurl:string,
 // }
 export interface ICodeData {
-  "code": ICode
+  'code': ICode;
 }
 
 export interface ICode {
   // "bot_id": number,
-  "comment"?: string,
-  "df_rules"?: string,
-  "df_template"?: string,
-  "generation_rules"?: string,
-  "generation_templates"?: string,
-  "version"?: number,
-  "workflow"?: string
+  'comment'?: string;
+  'df_rules'?: string;
+  'df_template'?: string;
+  'generation_rules'?: string;
+  'generation_templates'?: string;
+  'version'?: number;
+  'workflow'?: string;
 }
 
 export interface IBotCreation extends Partial<IBot>/*,ICodeData */ {

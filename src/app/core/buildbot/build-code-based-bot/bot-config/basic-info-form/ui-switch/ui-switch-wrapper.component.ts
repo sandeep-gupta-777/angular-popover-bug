@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {ELogType, LoggingService} from '../../../../../../logging.service';
+import {MatSlideToggleChange} from '@angular/material';
 
 @Component({
   selector: 'app-ui-switch',
@@ -15,15 +16,16 @@ import {ELogType, LoggingService} from '../../../../../../logging.service';
 export class UiSwitchWrapperComponent implements OnInit, ControlValueAccessor {
   isSwitchOn = false;
   isDisabled = false;
-  onChanges:Function;
+  onChanges: Function;
   constructor() {
   }
 
-  valueChanged(isOn:boolean){
+  valueChanged(matSlideToggleChange: MatSlideToggleChange) {
+    let isOn = matSlideToggleChange.checked;
     try {
       this.onChanges(isOn);
-    }catch (e) {
-      LoggingService.log(e,ELogType.error);
+    } catch (e) {
+      LoggingService.log(e, ELogType.error);
     }
   }
 

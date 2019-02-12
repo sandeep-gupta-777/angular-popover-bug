@@ -1,8 +1,10 @@
+
+import {map} from 'rxjs/operators';
 import {Pipe, PipeTransform} from '@angular/core';
 import {Select} from '@ngxs/store';
 import {IAppState} from '../../ngxs/app.state';
 import {Observable} from 'rxjs';
-import 'rxjs/add/operator/map';
+
 
 @Pipe({
   name: 'profilePermissionIdToName'
@@ -13,19 +15,19 @@ export class ProfilePermissionIdToNamePipe implements PipeTransform {
 
   transform(permissionIds: number[], args?: any): any {
 
-    return this.app$.map((appState) => {
-      let masterPermissions = appState.masterProfilePermissions;
-      if (!permissionIds || !masterPermissions) return;
+    return this.app$.pipe(map((appState) => {
+      const masterPermissions = appState.masterProfilePermissions;
+      if (!permissionIds || !masterPermissions) { return; }
       if (permissionIds.length === 0) {
         return masterPermissions.map((permission) => {
           return permission.name;
         });
       }
       return permissionIds.map((permissionId) => {
-        let matchedPermissionObject = masterPermissions.find((permission) => permissionId === permission.id);
+        const matchedPermissionObject = masterPermissions.find((permission) => permissionId === permission.id);
         return matchedPermissionObject ? matchedPermissionObject.name : `${permissionId}:not_in_backend`;
       });
-    });
+    }));
   }
 
 }

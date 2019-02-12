@@ -1,8 +1,11 @@
+
+import {map} from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
 import {IBot} from '../../interfaces/IBot';
+import {EBotType} from '../../../utility.service';
 
 @Component({
   selector: 'app-analysis2-wrapper',
@@ -13,11 +16,11 @@ export class Analysis2WrapperComponent implements OnInit {
 
   /*TODO: rename it to allBotList OR store all bots into store*/
   @Select() botlist$: Observable<ViewBotStateModel>;
-  allBotList$:Observable<IBot[]>;
+  allCodeBasedBotList$: Observable<IBot[]>;
   constructor() { }
 
   ngOnInit() {
-    this.allBotList$ = this.botlist$.map(value =>value.allBotList);
+    this.allCodeBasedBotList$ = this.botlist$.pipe(map(value => value.allBotList.filter(bot=> bot.bot_type === EBotType.chatbot)));
   }
 
 }

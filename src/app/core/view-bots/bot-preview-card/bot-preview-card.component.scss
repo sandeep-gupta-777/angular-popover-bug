@@ -14,7 +14,7 @@
     .show-on-parent-hover{
       display: inline-block;
       opacity: 1;
-      
+
     }
   }
 }
@@ -238,8 +238,31 @@
 }
 
 .click-save-wrapper{
-  padding: 6px;
-  font-size: 13px !important;
+  //padding: 6px;
+  //font-size: 13px !important;
 }
 
+
+.cutom-md-menu{
+  .mat-menu-content{
+    padding: 0;
+    button{
+      height: 40px;
+      font-size: 13px;
+    }
+  }
+
+}
+
+:host{
+
+}
+
+.mat-menu-content{
+  padding: 0;
+  button{
+    height: 40px;
+    font-size: 13px;
+  }
+}
 

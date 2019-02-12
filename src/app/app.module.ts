@@ -1,7 +1,6 @@
-import {NgModule} from '@angular/core';
+import {ApplicationRef, NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {PreloadAllModules, Route, RouterModule} from '@angular/router';
-import {BsDropdownModule, CarouselModule, ProgressbarModule} from 'ngx-bootstrap';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
 import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
 import {HttpClientModule} from '@angular/common/http';
@@ -9,7 +8,6 @@ import {AppStateReducer} from './ngxs/app.state';
 import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
 import {ServerService} from './server.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ToastrModule} from 'ngx-toastr';
 import {NgxsModule} from '@ngxs/store';
 import {NotFoundComponent} from './core/not-found/not-found.component';
 import {DragService} from './drag.service';
@@ -19,40 +17,30 @@ import {ViewBotStateReducer} from './core/view-bots/ngxs/view-bot.state';
 import {ChatSessionStateReducer} from './chat/ngxs/chat.state';
 import {BotCreationStateReducer} from './core/buildbot/ngxs/buildbot.state';
 import {AnalysisStateReducer2} from './core/analysis2/ngxs/analysis.state';
-
 import {ReportsStateReducer} from './core/reports/ngxs/reports.state';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
 import {AuthGaurdService} from './auth-gaurd.service';
 import {DatePipe} from '@angular/common';
-import {LoginGaurdService} from './login-gaurd.service';
 import {NotAuthorisedComponent} from './not-authorised/not-authorised.component';
-import {ChatWrapperComponent} from './chat/chat-wrapper.component';
-import {ChatroomComponent} from './chat/rooms-and-convo-panel/chat-message-list/chatroom.component';
-import {ChatItemComponent} from './chat/rooms-and-convo-panel/chat-room-list/chat-item/chat-item.component';
-import {ChatListComponent} from './chat/rooms-and-convo-panel/chat-room-list/chat-list.component';
-import {ChatMessageComponent} from './chat/rooms-and-convo-panel/chat-message-list/chat-message/chat-message.component';
-import {ChatWindowComponent} from './chat/rooms-and-convo-panel/chat-window.component';
-import {FormsModule} from '@angular/forms';
-import {BotWelcomeComponent} from './chat/bot-welcome-panel/bot-welcome.component';
-import {QuickReplyComponent} from './chat/carousel/quick-reply/quick-reply.component';
-import {CardCarouselComponent} from './chat/carousel/card-carousel/card-carousel.component';
-import {ClickOutsideModule} from 'ng2-click-outside';
-import {BotThinkingBubbleComponent} from './chat/carousel/bot-thinking-bubble/bot-thinking-bubble.component';
-import {RichMediaModule} from './rich-media.module';
 import {FilterArrayPipe} from './filter-array.pipe';
-import {MsToHhMmPipe} from './ms-to-hh-mm.pipe';
-import {BackendDevComponent} from './backend-dev/backend-dev.component';
-import {ChatService} from './chat.service';
-import {ObjectArrayCrudService} from './object-array-crud.service';
-// import {CodeEditorComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component';
+import {BackendDevComponent} from './backend-dev/backend-dev.component';;
+import {
+  MatProgressBarModule,
+  MatSnackBarModule
+} from '@angular/material';
+import {FormsModule} from '@angular/forms';
+import {AuthModule} from './auth/auth.module';
+import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.component';
+import {SharedModule} from './shared.module';
+import {createInputTransfer, createNewHosts, removeNgStyles} from '@angularclass/hmr';
 
 const routes: Route[] = [
-  {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
-  {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad:[AuthGaurdService]},
+  {path: 'dev', loadChildren: './dev/dev.module#DevModule',canLoad: []},
+  // {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
+  {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad: [AuthGaurdService]},
   {path: 'preview', loadChildren: './chat/chat.module#ChatModule'},
   {path: 'denied', component: NotAuthorisedComponent},
-  {path: '', redirectTo:"core/viewbots/chatbot", pathMatch:"full"},
+  {path: '', redirectTo: 'core/viewbots', pathMatch: 'full'},
   {path: '**', component: NotFoundComponent}
 ];
 
@@ -61,24 +49,12 @@ const routes: Route[] = [
     AppComponent,
     NotFoundComponent,
     NotAuthorisedComponent,
-      FilterArrayPipe,
+    FilterArrayPipe,
     BackendDevComponent,
-    // MsToHhMmPipe,
-    // ChatWrapperComponent,
-    // ChatWindowComponent,
-    // ChatMessageComponent,
-    // ChatListComponent,
-    // ChatItemComponent,
-    // ChatroomComponent,
-    // BotThinkingBubbleComponent,
-    // BotWelcomeComponent,
   ],
   imports: [
-    // ChatModule,
-    CarouselModule.forRoot(),
-    RichMediaModule,
     RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
-    FormsModule,
+    BrowserAnimationsModule ,
     NgxsModule.forRoot([
       AuthStateReducer,
       AppStateReducer,
@@ -90,35 +66,56 @@ const routes: Route[] = [
       ReportsStateReducer,
     ]),
     NgxsStoragePluginModule.forRoot(),
-    // NgxsReduxDevtoolsPluginModule.forRoot(),
-    // NgxsLoggerPluginModule.forRoot({disabled:true}),//disable for prod mode
+    // NgxsReduxDevtoolsPluginModule.forRoot(),//Comment this before pushing to git
+    // NgxsLoggerPluginModule.forRoot({disabled: true}), //disable for prod mode
     HttpClientModule,
-    ClickOutsideModule,
-    // DragulaModule,
-    // HotTableModule,
-    // Ng2CompleterModule,
-    // Ng2SmartTableModule,
-    // BsDatepickerModule.forRoot(),
-    // ModalModule.forRoot(),
-    // TooltipModule.forRoot(),
-    // BrowserAnimationsModule, // requiredClass animations module
-    // ToastrModule.forRoot(), // ToastrModule added,
-    ProgressbarModule.forRoot(),
-    // ClickOutsideModule,
-    //
-    BsDropdownModule.forRoot(),
-    ToastrModule.forRoot(), // ToastrModule added,
-    BrowserAnimationsModule,
+    MatSnackBarModule,
+    MatProgressBarModule,
+    AuthModule,
     // ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
-    ServiceWorkerModule.register('/ngsw-worker.js')
-    /*custom modules*/
-    // AuthModule,
-    // CoreModule
+    ServiceWorkerModule.register('/static/ngsw-worker.js'),
 
+
+    /**/
+    FormsModule
   ],
   providers: [ServerService, DragService, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule {
 
+  constructor(public appRef: ApplicationRef) {}
+  hmrOnInit(store) {
+    if (!store || !store.state) return;
+    // console.log('HMR store', store);
+    // console.log('store.state.data:', store.state.data)
+    // inject AppStore here and update it
+    // this.AppStore.update(store.state)
+    if ('restoreInputValues' in store) {
+      store.restoreInputValues();
+    }
+    // change detection
+    this.appRef.tick();
+    delete store.state;
+    delete store.restoreInputValues;
+  }
+  hmrOnDestroy(store) {
+    var cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
+    // recreate elements
+    store.disposeOldHosts = createNewHosts(cmpLocation);
+    // inject your AppStore and grab state then set it on store
+    // var appState = this.AppStore.get()
+    store.state = {data: 'yolo'};
+    // store.state = Object.assign({}, appState)
+    // save input values
+    store.restoreInputValues  = createInputTransfer();
+    // remove styles
+    removeNgStyles();
+  }
+  hmrAfterDestroy(store) {
+    // display new elements
+    store.disposeOldHosts()
+    delete store.disposeOldHosts;
+    // anything you need done the component is removed
+  }
 }

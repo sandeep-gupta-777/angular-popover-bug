@@ -108,6 +108,7 @@ form {
 
   .chat-rooms {
     grid-area: room;
+    max-width: 33vw !important
   }
   .header1 {
     grid-area: h1;
@@ -171,4 +172,15 @@ form {
 
 .selected{
   background-color: darken($color-primary,3%);
+}
+
+
+.dialog-container {
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.4);;
+}
+
+mat-icon{
+  color: white;
 }

@@ -6,6 +6,8 @@ import {IAppState} from './ngxs/app.state';
 import {PermissionService} from './permission.service';
 import {ELogType, LoggingService} from './logging.service';
 import {DebugBase} from './debug-base';
+import {EventService} from './event.service';
+import {UtilityService} from './utility.service';
 
 declare var CodeMirror: any;
 
@@ -18,52 +20,26 @@ export class AppComponent extends DebugBase implements OnInit {
 
   loadingRouteConfig;
   @Select() app$: Observable<IAppState>;
-  @ViewChild('carousel') carousel:ElementRef;
-  constructor(private router: Router, private permissionService:PermissionService) {
+  @ViewChild('carousel') carousel: ElementRef;
+
+  constructor(private router: Router,
+              private eventService: EventService,
+              private permissionService: PermissionService) {
     super();
   }
 
   isFullScreenPreview: boolean;
   enterprise_unique_name: string;
   bot_unique_name: string;
-  progressVal: number = 0;
-  showProgressbar: boolean = false;
+  progressVal = 0;
+  showProgressbar = false;
   editor: any;
   currentIntervalRef;
 
+
   ngOnInit() {
-      this.app$.subscribe((app) => {
-      if (app.progressbar.loading) {
-        this.showProgressbar = true;
-        this.currentIntervalRef && clearInterval(this.currentIntervalRef);
-        this.progressVal = app.progressbar.value;
-        // this.progressVal = 0;
-        this.currentIntervalRef = setInterval(() => {
-          if (this.progressVal < 80)
-            ++this.progressVal;
-          else {
-            this.progressVal = this.progressVal + 0.2;
-          }
-        }, 200);
-      } else {
-        setTimeout(() => {
-          this.progressVal = 100;
-          this.currentIntervalRef && clearInterval(this.currentIntervalRef);
-          setTimeout(() => {
-            this.showProgressbar = false;
-          }, 500);
-        }, 0);
-      }
+    this.initializeProgressBarSubscription();
 
-    });
-
-
-    // this.router.events.subscribe((data) => {
-    //   if (data instanceof RoutesRecognized) {
-    //     this.isFullScreenPreview = data.state.root.firstChild.data.isFullScreenPreview;
-    //     ;
-    //   }
-    // });
     this.router.events.subscribe((data) => {
       if (data instanceof RoutesRecognized) {
 
@@ -76,6 +52,39 @@ export class AppComponent extends DebugBase implements OnInit {
         this.loadingRouteConfig = true;
       } else if (event instanceof RouteConfigLoadEnd) {
         this.loadingRouteConfig = false;
+      }
+    });
+  }
+
+
+  /**
+   * initializeProgressBarSubscription
+   * if loading = true, slowly increase progressbar
+   * if loading = false, finish progressbar in 500ms
+   * */
+  initializeProgressBarSubscription(){
+    EventService.progressBar$.subscribe(({loading, value}) => {
+      if (loading) {/*if loading = true, slowly increase progressbar*/
+        this.showProgressbar = true;
+        this.currentIntervalRef && clearInterval(this.currentIntervalRef);
+        this.progressVal = value;
+        // this.progressVal = 0;
+        this.currentIntervalRef = setInterval(() => {
+          LoggingService.log('setInterval');
+          if (this.progressVal < 80) {
+            ++this.progressVal;
+          } else {
+            this.progressVal = this.progressVal + 0.2;
+          }
+        }, 300);
+      } else {
+        setTimeout(() => {
+          this.progressVal = 100;
+          this.currentIntervalRef && clearInterval(this.currentIntervalRef);
+          setTimeout(() => {
+            this.showProgressbar = false;
+          }, 500);
+        }, 0);
       }
     });
   }
