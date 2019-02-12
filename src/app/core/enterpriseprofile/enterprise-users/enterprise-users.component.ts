@@ -344,8 +344,6 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
 
     this.loggeduser$.subscribe(({user}) => {
-      if(user) return;
-      debugger;
       this.userid = user.id;
       this.role = user.role.name;
       this.enterpriseId = user.enterprise_id; //enterprise_id
