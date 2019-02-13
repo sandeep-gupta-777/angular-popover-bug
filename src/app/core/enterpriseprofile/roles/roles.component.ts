@@ -38,6 +38,8 @@ export class RolesComponent implements OnInit {
     permissionList: IProfilePermission[];
     myEnterpriseRoleTabName = EnterpriseRoleTabName;
     allRolesList : IRole[];
+    @Output() roleListChanged = new EventEmitter();
+
     modifyRole() {
         let body = {
             "name": this.selectedRoleName,
@@ -50,6 +52,7 @@ export class RolesComponent implements OnInit {
         this.serverService.makePutReq<any>({ url: getRoleIdUrl, body })
             .subscribe((roles) => {
                 this.utilityService.showSuccessToaster("Role modified");
+                this.roleListChanged.emit();
                 this.navegateRole();
             });
         console.log(body);
@@ -67,6 +70,7 @@ export class RolesComponent implements OnInit {
         this.serverService.makePostReq<any>({ url: getRoleUrl, body })
             .subscribe((roles) => {
                 this.utilityService.showSuccessToaster("New Role added");
+                this.roleListChanged.emit();
                 this.navegateRole()
             });
         console.log(body);
