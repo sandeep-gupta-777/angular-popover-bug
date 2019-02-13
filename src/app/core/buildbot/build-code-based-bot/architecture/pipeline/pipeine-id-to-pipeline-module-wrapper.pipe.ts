@@ -20,6 +20,7 @@ export class PipeineIdToPipelineModuleWrapperPipe implements PipeTransform {
   }
 
   transform(id: any): any {
+    debugger;
     return this.pipelineModulesV2List.find((wrapper)=>{
       return !!wrapper.pipeline_modules.find((module)=>{
         return module.id === id;

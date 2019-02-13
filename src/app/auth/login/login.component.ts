@@ -290,7 +290,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
         return of([]);
       }))
       .subscribe(() => {
-        console.log('hi');
+        // console.log('hi');
       });
 
   }

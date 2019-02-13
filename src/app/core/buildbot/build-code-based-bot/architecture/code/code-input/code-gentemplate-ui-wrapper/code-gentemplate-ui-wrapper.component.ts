@@ -98,7 +98,6 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
 
   updateSelectedTemplateKeyValue(codeStr: string) {
-    console.log('sadasads');
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar] = codeStr;
   }
 
@@ -262,7 +261,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   moveDownGentempate(e) {
     if (this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].length == e + 1) {
-      console.log('just dot do that , U know Y');
+      // console.log('just dot do that , U know Y');
       return;
     }
     const temp = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e];
