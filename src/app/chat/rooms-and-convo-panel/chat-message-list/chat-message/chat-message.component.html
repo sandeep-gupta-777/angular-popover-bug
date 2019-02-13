@@ -14,7 +14,8 @@
          style="display: inline-block; overflow-x: auto">
       <span class="message-text" *ngIf="messageData?.sourceType==='human'" [innerHtml]="messageData?.text|linkify:'text-white'"></span>
       <span class="message-text" *ngIf="messageData?.sourceType==='bot'" [innerHtml]="messageData?.text|linkify:'text-dark'"></span>
-      <div class="time text-right">{{(messageData?.time|msToHhmm)||'no time info'}}</div>
+      <div class="time text-right" [title]="messageData?.time|date:'EEEE, MMMM d, y, h:mm:ss a'">
+        {{(messageData?.time|date:'h:mm:ss a')||'no time info'}}</div>
     </div>
   </div>
 </div>

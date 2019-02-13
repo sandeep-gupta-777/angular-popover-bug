@@ -11,6 +11,7 @@ export class AccordianComponent implements OnInit {
 
   show = false;
   _doExpand = false;
+  @Input() keyword:string;
   @Input() set doExpand(_doExpand){
     this._doExpand = _doExpand;
     this.show = _doExpand;

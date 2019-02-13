@@ -8,9 +8,7 @@ export class SortBotsPipe implements PipeTransform {
   /*TODO: make it more generic, as of now its just sorting by created by*/
   transform(botList: IBot[], args?: any): any {
     if (!botList) { return; }
-    console.log(
-      botList
-    );
+    // console.log(botList);
     const x = botList
       .sort((bot1, bot2) => {
         if (bot1.store_isPinned && !bot2.store_isPinned) {
