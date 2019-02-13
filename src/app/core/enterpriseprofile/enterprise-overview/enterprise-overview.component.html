@@ -85,7 +85,7 @@
               <!-- <label for="alterEgo">Log Retention Period</label>
               <input type="text" class="form-control" formControlName="log_retention_period" readonly> -->
               <mat-form-field class = "w-100">
-                  <input type="text" class="form-control" matInput placeholder="Log Retention Period" formControlName="log_retention_period" readonly>
+                  <input type="text" class="form-control" matInput placeholder="Log Retention Period" formControlName="log_retention_period">
                 </mat-form-field>
             </div>
           </div>
@@ -161,6 +161,7 @@
 <div class="row profile-row" *ngIf = "!!serviceKeyTableDataActive && !showActiveServiceKeysTable ">
   <div class="col-12 p-0 m-0">
     <app-smart-table [data]="serviceKeyTableDataActive"
+    (dataValue$)="dataValueClicked($event)"
     >
     </app-smart-table>
   </div>
