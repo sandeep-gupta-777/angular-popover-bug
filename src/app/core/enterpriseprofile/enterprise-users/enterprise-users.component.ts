@@ -135,7 +135,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
     this.serverService.makePostReq<any>({url: removeEnterpriseUserUrl, body, headerData})
       .subscribe((value) => {
-        console.log(value);
+        // console.log(value);
         let p = this.loggeduserenterpriseinfo.enterpriseusers.filter((user) => user.id !== this.usertoDelete.id);
         this.loggeduserenterpriseinfo.enterpriseusers = [...p];
         //shoaib

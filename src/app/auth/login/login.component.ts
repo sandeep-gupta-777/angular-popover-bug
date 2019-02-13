@@ -270,7 +270,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
             } else {
               this.enterpriseList = this.userData.enterprises;
               this.panelActive = ELoginPanels.enterprise_list_display;
-              console.log(this.enterpriseList);
+              // console.log(this.enterpriseList);
               return of();
             }
           }
@@ -281,7 +281,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
           //   }
         ),
       ), switchMap((value) => {
-        if(value){  
+        if(value){
           this.gotUserData$.emit(value);
         }
         return of();

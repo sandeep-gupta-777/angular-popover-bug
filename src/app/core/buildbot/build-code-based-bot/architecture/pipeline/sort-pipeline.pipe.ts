@@ -7,7 +7,7 @@ import {IPipelineItemV2} from './pipeline.component';
 export class SortPipelinePipe implements PipeTransform {
 
   transform(value: IPipelineItemV2[], args?: any): any {
-    console.log(value);
+    // console.log(value);
     let x = value.sort((a,b)=>{
       if(a.display_values > b.display_values){
         return 1;

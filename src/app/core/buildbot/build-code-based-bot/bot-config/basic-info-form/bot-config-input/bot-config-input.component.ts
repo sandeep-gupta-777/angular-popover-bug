@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Injector, Input, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Injector, Input, OnInit, Output} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl} from '@angular/forms';
 import {UiSwitchWrapperComponent} from '../ui-switch/ui-switch-wrapper.component';
 import {ObjectKeyMap} from '@ngxs/store/src/internals';
@@ -15,7 +15,7 @@ import {UtilityService} from '../../../../../../utility.service';
     multi: true
   }]
 })
-export class BotConfigInputComponent implements OnInit, ControlValueAccessor {
+export class BotConfigInputComponent implements OnInit, ControlValueAccessor, AfterViewInit {
   value;
   @Input() displayName: string;
   @Input() placeholder: string;
@@ -27,11 +27,26 @@ export class BotConfigInputComponent implements OnInit, ControlValueAccessor {
   ngControl: NgControl;
   @Input() isRequired =false;
   constructor(private injector: Injector) {}
+  errorMessage="";
+  // myObject = Object;
 
   ngOnInit() {
     /*todo: detect required attribute in input here*/
     this.ngControl = this.injector && this.injector.get(NgControl);
     // this.isRequired  = UtilityService.hasRequiredField(this.ngControl);
+    debugger;
+  }
+
+  ngAfterViewInit(){
+    this.ngControl.valueChanges.subscribe(()=>{
+      debugger;
+      // this.errorMessage = this.ngControl.hasError()
+      if(this.ngControl.errors)
+        this.errorMessage = Object.keys(this.ngControl.errors)[0];
+      else {
+        this.errorMessage = ""
+      }
+    })
   }
 
   keyDown(data) {
@@ -67,4 +82,8 @@ export class BotConfigInputComponent implements OnInit, ControlValueAccessor {
     });
   }
 
+
+  log(){
+    console.log(this.ngControl);
+  }
 }

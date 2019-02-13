@@ -10,8 +10,8 @@
         <div class="col-10 p-0">
           <div class="message p-2 bg-message-human" style="display: inline-block">
             <span class="message-text" [innerHtml]="sessionMessage.messageByHuman|| sessionMessage.message |linkify:'text-white'"></span>
-            <div class="time text-right">
-              {{sessionMessage.created_at|msToHhmm}}
+            <div class="time text-right" [title]="sessionMessage.created_at|date:'EEEE, MMMM d, y, h:mm:ss a'">
+              {{sessionMessage.created_at|date:'h:mm:ss a'}}
             </div>
           </div>
         </div>
@@ -28,8 +28,8 @@
                  [ngStyle]="{'background-color': (!sessionMessage.feedback? '#f7f7f7' :(sessionMessage.feedback === myEChatFeedback.POSITIVE) ? '#5cd791' : '#ffc7cd') }"
                  >
               <span class="message-text" [innerHtml]="message.text|linkify:'text-dark'"></span>
-              <div class="time text-right">
-                {{sessionMessage.created_at|msToHhmm}}
+              <div class="time text-right" [title]="sessionMessage.created_at|date:'EEEE, MMMM d, y, h:mm:ss a'">
+                {{sessionMessage.created_at|date:'h:mm:ss a'}}
               </div>
             </div>
           </div>
@@ -55,8 +55,8 @@
         <div class="col-12 p-1 text-right p-0">
           <div class="message p-2 bg-message-bot" style="display: inline-block">
             <span class="message-text" [innerHtml]="'hi'"></span>
-            <div class="time text-right">
-              {{sessionMessage.created_at|msToHhmm}}
+            <div class="time text-right" [title]="sessionMessage.created_at|date:'EEEE, MMMM d, y, h:mm:ss a'">
+              {{sessionMessage.created_at|date:'h:mm:ss a'}}
             </div>
           </div>
         </div>
