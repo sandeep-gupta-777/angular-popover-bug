@@ -30,7 +30,7 @@ export class RolesComponent implements OnInit {
     @Output() backToRoles = new EventEmitter();
     show = false;
     panelOpenState = false;
-    system_role: boolean = false;
+    system_role: boolean = true;
     categoryList = [];
     @Select() app$: Observable<IAppState>
     @Input() selectedRole: number;
@@ -100,18 +100,7 @@ export class RolesComponent implements OnInit {
         this.selectedPermissionIdList = thisRole.permissions.actions;
     }
     ngOnInit() {
-        let getRoleUrl = this.constantsService.getRoleUrl();
-        this.serverService.makeGetReq<IRoleResult>({ url: getRoleUrl })
-            .subscribe((roles: IRoleResult) => {
-                this.allRolesList = roles.objects;
-            });
-        this.app$.subscribe((value) => {
-            this.permissionList = value.masterProfilePermissions;
-            this.permissionList.forEach(permission => {
-                this.categoryList.push(permission.category);
-            })
-            this.categoryList = Array.from(new Set(this.categoryList));
-        });
+        
         if (!this.isNewRole) {
             let getRoleByIdUrl = this.constantsService.getRoleByIdUrl(this.selectedRole);
             debugger;
@@ -124,6 +113,18 @@ export class RolesComponent implements OnInit {
                     this.selectedPermissionIdList = roles.objects[0].permissions.actions;
                 });
         }
+        let getRoleUrl = this.constantsService.getRoleUrl();
+        this.serverService.makeGetReq<IRoleResult>({ url: getRoleUrl })
+            .subscribe((roles: IRoleResult) => {
+                this.allRolesList = roles.objects;
+            });
+        this.app$.subscribe((value) => {
+            this.permissionList = value.masterProfilePermissions;
+            this.permissionList.forEach(permission => {
+                this.categoryList.push(permission.category);
+            })
+            this.categoryList = Array.from(new Set(this.categoryList));
+        });
     }
     ngOnDestroy() {
 
