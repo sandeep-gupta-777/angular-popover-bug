@@ -8,13 +8,14 @@ import { UtilityService } from "src/app/utility.service";
 import { MatDialog } from "@angular/material";
 import { ServerService } from "src/app/server.service";
 import { MaterialTableImplementer } from "src/app/material-table-implementer";
-import { OnInit, ViewChild, Component, TemplateRef } from "@angular/core";
+import { OnInit, ViewChild, Component, TemplateRef, Input } from "@angular/core";
 import { Observable } from "rxjs";
 import { IUser } from "../../interfaces/user";
 import { NgForm } from "@angular/forms";
 import { IHeaderData } from "src/interfaces/header-data";
 import { IBotResult, IBot } from "../../interfaces/IBot";
 import { SetAllBotListAction } from "../../view-bots/ngxs/view-bot.action";
+import { IRole } from "../../interfaces/IRole";
 
 @Component({
   selector: 'app-enterprise-users',
@@ -42,7 +43,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   logoError;
   enterpriseUserBotList: IBot[];//
   formGroup: FormGroup;
-  roleMap: any;
+  @Input() roleMap: IRole[];
   usertoDelete: any;
   selectedUserModify: any;
   searchBots: string = "";
@@ -312,7 +313,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     this.loggeduserenterpriseinfo$.subscribe((enterprise) => {
       if (!this.roleMap) {
         const headerData: IHeaderData = { 'content-type': 'application/json' };
-        const RoleMapUrl = this.constantsService.getRoleMapUrl();
+        const RoleMapUrl = this.constantsService.getRoleUrl();
         this.serverService.makeGetReq<any>({ url: RoleMapUrl, headerData })
           .subscribe((value) => {
             this.roleMap = value.objects;

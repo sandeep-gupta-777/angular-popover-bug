@@ -48,10 +48,7 @@
 .card{
   background-color: #f0f3f4;
 }
-.bottom-border-line{
-  border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 2rem;
-}
+
 .modal-header{
   padding: 0;
   .close{
@@ -67,7 +64,6 @@
   display: flex;
   flex-direction: column;
   margin-left: 1.25rem!important;
-  border-bottom: 1px solid #e0e0e0;
 }
 .all-permission{
   border-right: 1px solid #e0e0e0;

@@ -23,6 +23,7 @@ export class EnterpriseRolesComponent implements OnInit {
   myEnterpriseRoleTabName = EnterpriseRoleTabName;
   dialogRefWrapper = { ref: null };
   deleteRole: IRole;
+  @Output() roleListChanged = new EventEmitter();
   @Output() selectedRole = new EventEmitter();
   @Output() enterRole = new EventEmitter();
   @Output() enterNewRole = new EventEmitter();
@@ -45,6 +46,7 @@ export class EnterpriseRolesComponent implements OnInit {
         this.serverService.makeGetReq<IRoleResult>({ url: getRoleUrl })
           .subscribe((roles: IRoleResult) => {
             this.roleList = roles.objects;
+            this.roleListChanged.emit();
             this.utilityService.showSuccessToaster("Role deleted");
           });
       });

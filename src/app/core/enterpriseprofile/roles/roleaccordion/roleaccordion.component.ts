@@ -17,6 +17,7 @@ export class RoleaccordionComponent implements OnInit {
   @Input() roles : IRole[];
   @Input() addedPermissions : number[];
   @Input() serchedAction : string;
+  @Input() systemRole: string;
   @Output() removePermission  = new EventEmitter();
   @Output() addPermission  = new EventEmitter();
 
@@ -38,10 +39,12 @@ export class RoleaccordionComponent implements OnInit {
     return ans;
   }
   removePermissionById(id){
+    if(this.systemRole) return;
     this.removePermission.emit({roleIds : id})
   }
 
   addPermissionById(id){
+    if(this.systemRole) return;
     this.addPermission.emit({roleIds:id})
   }
   selectAll(){
@@ -55,6 +58,14 @@ export class RoleaccordionComponent implements OnInit {
     event.stopPropagation() ;
   }
   ngOnInit() {
+  }
+  isAllHidden(value) {
+    let ans:boolean = true;
+    this.roles.forEach(role => {
+      ans = ans && !role.name.toUpperCase().includes(value)
+    });
+    debugger;
+    return ans;
   }
 
 }

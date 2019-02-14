@@ -1,22 +1,28 @@
-<div style="box-shadow: none;" class="categoryHeading py-1 d-flex" (click)="show = !show">
-  <i class="fa mr-1"  [ngClass]="{'fa-angle-right': !show, 'fa-angle-down':show}"></i>
-  {{categoryName}}
-  <div class="color-primary cursor-pointer ml-auto font-16" *ngIf = "!isCategory()" (click) = "selectAll()">Select all</div>  
-  <div class="color-danger cursor-pointer ml-auto font-16" *ngIf = "isCategory()" (click) = "deselectAll()">Deselect all</div>
-</div>
-<div *ngIf="show">
-  <div *ngFor="let roleItem of roles" class="py-2 pl-3 row action" [hidden]="!roleItem.name.toUpperCase().includes(serchedAction.toUpperCase())">
-    <div class="col-11">
-      <div class="name ">
-        {{roleItem.name}}
-      </div>
-      <div class="description pt-1">{{roleItem.description}}</div>
-    </div>
-    <div class="col-1 d-flex">
-        <i class="fa fa-minus-circle color-danger my-auto" *ngIf = "isPermission(roleItem.id)" (click)="removePermissionById([roleItem.id])"></i>
-      <i class="fa fa-plus-circle color-primary my-auto" *ngIf = "!isPermission(roleItem.id)" (click)="addPermissionById([roleItem.id])"></i>
-    </div>
+<div [hidden]="isAllHidden(serchedAction.toUpperCase())" class = "p-1 ">
+  <div style="box-shadow: none;" class="categoryHeading py-1 d-flex" (click)="show = !show" >
+    <i class="fa mr-1 cursor-pointer"  [ngClass]="{'fa-angle-right': !show, 'fa-angle-down':show}"></i>
+    {{categoryName}}
+    <div class="color-primary cursor-pointer ml-auto font-16" *ngIf = "!isCategory()" (click) = "selectAll()" [hidden]="systemRole">Select all</div>  
+    <div class="color-danger cursor-pointer ml-auto font-16" *ngIf = "isCategory()" (click) = "deselectAll()" [hidden]="systemRole">Deselect all</div>
   </div>
+  <div *ngIf="show">
+    <div *ngFor="let roleItem of roles" class="py-2 pl-3 row action" [hidden]="!roleItem.name.toUpperCase().includes(serchedAction.toUpperCase())">
+      <div class="col-11">
+        <div class="name ">
+          {{roleItem.name}}
+        </div>
+        <div class="description pt-1">{{roleItem.description}}</div>
+      </div>
+      <div class="col-1 d-flex"  >
+        <i class="fa fa-minus-circle color-danger my-auto" 
+          *ngIf = "isPermission(roleItem.id)" 
+          (click)="removePermissionById([roleItem.id])" 
+          [ngClass]="{'half-opacity':!!systemRole}"></i>
+        <i class="fa fa-plus-circle color-primary my-auto" 
+          *ngIf = "!isPermission(roleItem.id)" 
+          (click)="addPermissionById([roleItem.id])" 
+          [ngClass]="{'half-opacity':!!systemRole}"></i>
+      </div>
+    </div>
+  </div> 
 </div>
-
-
