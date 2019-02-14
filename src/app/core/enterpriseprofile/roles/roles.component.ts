@@ -30,7 +30,7 @@ export class RolesComponent implements OnInit {
     @Output() backToRoles = new EventEmitter();
     show = false;
     panelOpenState = false;
-    system_role: boolean = true;
+    system_role: boolean = false;
     categoryList = [];
     @Select() app$: Observable<IAppState>
     @Input() selectedRole: number;
