@@ -14,12 +14,13 @@ import { IUser } from '../../interfaces/user';
 import { IEnterpriseUser } from '../../interfaces/enterprise-users';
 import { map } from 'rxjs/operators';
 import { MaterialTableImplementer } from 'src/app/material-table-implementer';
+import {DomSanitizer} from '@angular/platform-browser';
 @Component({
   selector: 'app-enterprise-overview',
   templateUrl: './enterprise-overview.component.html',
   styleUrls: ['./enterprise-overview.component.scss']
 })
-export class EnterpriseOverviewComponent implements OnInit {
+export class EnterpriseOverviewComponent  implements OnInit {
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   loggeduserenterpriseinfoMap$: Observable<IEnterpriseProfileInfo>;
@@ -33,6 +34,7 @@ export class EnterpriseOverviewComponent implements OnInit {
   enterpriseId: number;
   loggeduserenterpriseinfo: IEnterpriseProfileInfo;
   showActiveServiceKeysTable: boolean = true;
+  expireServicekeyData;
   logoError;
   enterpriseUserBotList: number[];
   dialogRefWrapper = { ref: null };
@@ -71,19 +73,34 @@ export class EnterpriseOverviewComponent implements OnInit {
     if (data.length == 0) {
       return null;
     }
-    // debugger;
+    if (data.length == 1 && data[0] == {}) {
+      return null;
+    }
+    //
     let x = data.map((consumerTableDataItem) => {
       let obj: any = {};
-      // debugger;
+      //
 
       for (let key in tableDataMetaDict) {
-        // debugger;
+        //||
 
-        if (key == 'key' || key == 'description') {
+        if (key == 'key' ) {
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
             originalKey: key,
-            value: consumerTableDataItem[key].substring(0, 50),
+            // value: consumerTableDataItem[key].substring(0, 50),
+            value: `<div class="d-flex cursor-pointer">
+                        <i class="material-icons color-primary" style="position: absolute;left: -20px; font-size:13px" data-value="${consumerTableDataItem[key]}">file_copy_outline</i>
+                        <span>${consumerTableDataItem[key]}</span>
+                     </div>`,
+            searchValue: consumerTableDataItem[key]
+          };
+        }else if (key == 'description') {
+          obj[tableDataMetaDict[key].displayValue] = {
+            ...tableDataMetaDict[key],
+            originalKey: key,
+            // value: consumerTableDataItem[key].substring(0, 50),
+            value: consumerTableDataItem[key],
             searchValue: consumerTableDataItem[key]
           };
         }
@@ -144,7 +161,7 @@ export class EnterpriseOverviewComponent implements OnInit {
       // console.log("ttttttttt", obj);
       return obj;
     });
-    // debugger;
+    //
     return x;
   }
   addNewServiceKey() {
@@ -161,31 +178,29 @@ export class EnterpriseOverviewComponent implements OnInit {
 
         this.serviceKeys.push(value);
         this.serviceKeys = [...this.serviceKeys];
-        debugger;
+
+        this.utilityService.showSuccessToaster("New service key added successfully");
         this.store.dispatch([
           new SetEnterpriseServiceKeyAction({ service_key: this.serviceKeys })
         ])
-
-
-        // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter(data => data.age > 18)
-        // this.serviceKeyTableDataActive = this.transformDataForMaterialTable(array, this.getTableDataMetaDictActive());
-
       });
   }
   formGroup: FormGroup;
+
   ngOnInit() {
     this.formGroup = this.formBuilder.group({
       name: [''],
       industry: [''],
       logo: ['', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
       email: [''],
-      websiteUrl: [''],
-      // enterpriseUniqueName: [''],
+      // websiteUrl: [''],
+      enterprise_unique_name: [''],
       tier_group: [''],
       log_retention_period: [''],
     });
 
     this.loggeduser$.subscribe(({ user }) => {
+      if(!user) return;
       this.userid = user.id;
       this.role = user.role.name;
       this.enterpriseId = user.enterprise_id; //enterprise_id
@@ -232,18 +247,23 @@ export class EnterpriseOverviewComponent implements OnInit {
     this.loggeduserenterpriseinfo$
       .subscribe((enterprise) => {
 
-        debugger;
 
         this.serviceKeys = enterprise.service_key;
+
+        //  if(this.serviceKeys.length > 0){
+
         let expiredTableData = enterprise.service_key.filter(data => data.enabled == true);
         expiredTableData = expiredTableData.filter(data => typeof data.description == "string");
-
+        expiredTableData.sort(function(a, b){
+          return -a.created_at+b.created_at
+      })
         let activeTableData = enterprise.service_key.filter(data => data.enabled != true);
         activeTableData = activeTableData.filter(data => typeof data.description == "string");
-
+        activeTableData.sort(function(a, b){
+          return -a.expired_at+b.expired_at
+      })
         this.serviceKeyTableDataExpired = this.transformDataForMaterialTable(expiredTableData, this.getTableDataMetaDictActive());
-        debugger;
-        // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter(data => data.age > 18)
+
         this.serviceKeyTableDataActive = this.transformDataForMaterialTable(activeTableData, this.getTableDataMetaDictExpired());
 
 
@@ -251,7 +271,7 @@ export class EnterpriseOverviewComponent implements OnInit {
     const enterpriselogdeletionsummary = this.constantsService.getEnterpriseLogDeletionSummaryUrl();
     this.serverService.makeGetReq<{ objects: IEnterpriseUser[] }>({ url: enterpriselogdeletionsummary })
       .subscribe((value) => {
-        this.logdeletionsummary = value.objects;
+        this.logdeletionsummary = value.objects.reverse();
       });
   }
   updateEnterpriseProfile() {
@@ -262,7 +282,7 @@ export class EnterpriseOverviewComponent implements OnInit {
     const headerData: IHeaderData = { 'content-type': 'application/json' };
     this.serverService.makePutReq({ url, body, headerData })
       .subscribe(() => {
-        this.utilityService.showSuccessToaster('Updated enterprise profile');
+        this.utilityService.showSuccessToaster('Enterprise profile updated');
         this.store.dispatch([
           new SetEnterpriseInfoAction({ enterpriseInfo: body }),
         ]).subscribe((entprisedetails) => {
@@ -283,54 +303,40 @@ export class EnterpriseOverviewComponent implements OnInit {
       });
 
   }
-
-  customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }) {
-    if (data.action === 'expire') {
-      // console.log(data.data)
+  expireServiceKey(){
+    let data = this.expireServicekeyData;
+    // console.log(data.data)
       let disableServiceKeyUrl = this.constantsService.disableServiceKeyUrl();
-      let body = { service_key: data.data.key }
+      let body = { service_key: this.expireServicekeyData.key }
       const headerData: IHeaderData = { 'content-type': 'application/json' };
-      // 
+      //
       this.serverService.makePostReq<any>({ url: disableServiceKeyUrl, body, headerData })
         .subscribe((value) => {
-          debugger;
+
           this.serviceKeys = this.serviceKeys.map((item) => {
             if (item["key"] == body.service_key) {
-              item.enabled = false;
-              return item;
+              return value;
             }
             else {
               return item;
             }
           });
-
           this.serviceKeys = [...this.serviceKeys];
-          debugger;
+          this.utilityService.showSuccessToaster("Service key has been successfully expired");
           this.store.dispatch([
             new SetEnterpriseServiceKeyAction({ service_key: this.serviceKeys })
           ])
-
-
-
-
-
-          // console.log(value);
-          // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter((item) => item["Token Id"].searchValue !== body.service_key);
-          // this.serviceKeyTableDataExpired = [...this.serviceKeyTableDataExpired];
-          // // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter(data => data.age > 18)
-          // // this.serviceKeyTableDataActive = this.transformDataForMaterialTable(array, this.getTableDataMetaDictActive());
-          // let temp = this.transformDataForMaterialTable([data.data], this.getTableDataMetaDictExpired());
-
-          // this.serviceKeyTableDataActive.push(temp[0]);
-          // this.serviceKeyTableDataActive = [...this.serviceKeyTableDataActive];
         });
-
-
+  }
+  customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any },expireServiceKeyModal) {
+    if (data.action === 'expire') {
+      this.expireServicekeyData = data.data;
+      this.utilityService.openDangerModal(expireServiceKeyModal, this.matDialog, this.dialogRefWrapper);
     }
-    // if (data.action === 'modify') {
-    //   this.openUserEditModal(ModifyUserModal);
-    // }
   }
 
+  dataValueClicked(dataValue){
+    this.utilityService.copyToClipboard(dataValue);
+  }
 
 }

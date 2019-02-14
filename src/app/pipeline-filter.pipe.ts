@@ -23,7 +23,7 @@ export class PipelineFilterPipe implements PipeTransform {
 
       /*searching in pipeline_modules.unique_name*/
       if (item.pipeline_modules) {
-        let searchStr = item.pipeline_modules.map(e => e.unique_name).join(';') || '';
+        let searchStr = item.pipeline_modules.map(e => e.library).join(';') || '';
         found = searchStr.toLowerCase().includes(keyword.toLowerCase());
       }
       return found;

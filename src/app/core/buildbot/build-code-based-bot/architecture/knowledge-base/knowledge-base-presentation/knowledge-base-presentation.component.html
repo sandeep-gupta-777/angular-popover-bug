@@ -3,7 +3,6 @@
     <button class="btn-theme btn-theme-primary-outline" (click)="showTable$.emit(); _selectedRowData = {}">Go Back
     </button>
     <form ngNativeValidate class="options d-flex align-items-end" #form="ngForm">
-
       <mat-form-field style="margin-bottom: -1.25em">
         <input type="text" matInput placeholder="Concept Key" required [(ngModel)]="key" name="key">
       </mat-form-field>
@@ -50,6 +49,27 @@
         </div>
 
       </div>
+<!--<<<<<<< HEAD-->
+
+      <!--<fieldset *ngIf="!routeName">-->
+      <!--<div>-->
+      <!--<span *ngIf="!routeName" class="requiredClass p-0">Override Policy</span>-->
+      <!--</div>-->
+      <!--<div class="label-wrapper d-flex" style="height: 26px">-->
+      <!--<label class="form-check-label" for="radio1">-->
+      <!--Override-->
+      <!--</label>-->
+      <!--<input hidden type="radio" class="form-check-input" id="radio1" requiredClass name="conflict_policy"-->
+      <!--[(ngModel)]="conflict_policy" value="override" checked>-->
+      <!--<label class="form-check-label" for="radio2">-->
+      <!--<input hidden type="radio" class="form-check-input" id="radio2" requiredClass name="conflict_policy"-->
+      <!--[(ngModel)]="conflict_policy" value="merge">Merge-->
+      <!--</label>-->
+      <!--</div>-->
+      <!--</fieldset>-->
+<!---->
+<!--=======-->
+<!--&gt;>>>>>> feature10#578-user-feedback-in-chat-->
       <!--update/create button starts-->
       <div *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']">
         <button
@@ -95,6 +115,7 @@
       class="d-flex-column-last-child-flex-grow-1"
       style="overflow: scroll;"
       [testData]="handsontableData"
+      (csvUploaded$)="handsontableData = $event"
       [setting]="constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_SETTING">
     </app-handsontable>
   </div>

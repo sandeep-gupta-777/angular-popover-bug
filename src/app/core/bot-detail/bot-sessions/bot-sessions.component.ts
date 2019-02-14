@@ -1,22 +1,26 @@
-import {Component, ElementRef, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {Store, Select} from '@ngxs/store';
-import {IConsumerItem} from '../../../../interfaces/consumer';
+import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Select, Store} from '@ngxs/store';
 import {ServerService} from '../../../server.service';
 import {Observable, of} from 'rxjs';
 import {ConstantsService} from '../../../constants.service';
-import {ISessionItem, ISessionMessage, ISessions, ITableColumn} from '../../../../interfaces/sessions';
+import {ISessionItem, ISessions} from '../../../../interfaces/sessions';
 import {IBot} from '../../interfaces/IBot';
 import {SmartTableComponent} from '../../../smart-table/smart-table.component';
 import {UtilityService} from '../../../utility.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
-import {findIndex} from 'rxjs/operators';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
-import {IAppState} from '../../../ngxs/app.state';
 import {MaterialTableImplementer} from '../../../material-table-implementer';
-import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
 import {MatDialog} from '@angular/material';
 import {ObjectArrayCrudService} from '../../../object-array-crud.service';
 import {EventService} from '../../../event.service';
+import {catchError} from 'rxjs/internal/operators';
+
+interface ISessionFilterData {
+  id: number,
+  updated_at: { begin: number, end: number },
+  limit: number,
+  page: number
+}
 
 @Component({
   selector: 'app-bot-sessions',
@@ -24,13 +28,14 @@ import {EventService} from '../../../event.service';
   styleUrls: ['./bot-sessions.component.scss']
 })
 export class BotSessionsComponent extends MaterialTableImplementer implements OnInit {
-  dialogRefWrapper = {ref:null};
+  dialogRefWrapper = {ref: null};
 
   myESplashScreens = ESplashScreens;
   @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
   @Input() id: string;
   test = 'asdasdsd';
   @Input() bot: IBot;
+  showSplashScreen = false;
   headerData: IHeaderData;
   sessionItemToBeDecrypted: ISessionItem;
   @ViewChild(SmartTableComponent) smartTableComponent: SmartTableComponent;
@@ -48,6 +53,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   pageNumberOfCurrentRowSelected = 1;
   indexOfCurrentRowSelected: number;
   decryptReason: string;
+  filterData: ISessionFilterData;
 
   constructor(
     private serverService: ServerService,
@@ -61,10 +67,10 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   }
 
   ngOnInit() {
-    this.loadSmartTableSessionData();
     this.headerData = {'bot-access-token': this.bot.bot_access_token};
-    this.eventService.reloadSessionTable$.subscribe(()=>{
-      this.loadSmartTableSessionData();
+    this.performSearchInDbForSession(null);
+    this.eventService.reloadSessionTable$.subscribe(() => {
+      this.performSearchInDbForSession(this.filterData);
     });
   }
 
@@ -105,33 +111,37 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   }
 
-  loadSmartTableSessionData() {
-    this.loadSessionTableDataForGivenPage(this.pageNumberOfCurrentRowSelected);
-  }
+  // loadSmartTableSessionData() {
+  // this.loadSessionTableDataForGivenPage({page: this.pageNumberOfCurrentRowSelected});
+  // this.performSearchInDbForSession({});
+  // }
 
   transformSessionDataForMaterialTable(session: ISessionItem[]) {
 
-      debugger;
+
     let sessionsDataForTable = super.transformDataForMaterialTable(session, this.getTableDataMetaDict());
-    debugger;
+
 
     sessionsDataForTable = sessionsDataForTable.map((sessionsDataForTableItem) => {
-      
+
       /*adding two additional columns 1) actions and 2)channels*/
       let additonalColumns: any = {
-        Actions:sessionsDataForTableItem['Actions'],
-        Channels:sessionsDataForTableItem['Channels'],
+        Actions: sessionsDataForTableItem['Actions'],
+        Channels: sessionsDataForTableItem['Channels'],
       };
 
       additonalColumns['Actions'].value = additonalColumns['Actions'].value || [];
       additonalColumns['Channels'].value = additonalColumns['Channels'].value || [];
       /*actions*/
       additonalColumns['Actions'].value.push({show: true, name: 'download', class: 'fa fa-download'});
+
+      /*TODO: also check if the user has access to decrypt api*/
       if (sessionsDataForTableItem['originalSessionData']['data_encrypted']) {
         additonalColumns['Actions'].value.push({show: true, name: 'decrypt', class: 'fa fa-lock'});
       }
       /*channels*/
-      additonalColumns['Channels'].searchValue = sessionsDataForTableItem['Channels'].value.join();;
+      additonalColumns['Channels'].searchValue = sessionsDataForTableItem['Channels'].value.join();
+      ;
       additonalColumns['Channels'].value = (sessionsDataForTableItem.Channels['value'].map((channelName) => {
         return {
           name: channelName,
@@ -140,7 +150,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       }));
       return {...sessionsDataForTableItem, ...additonalColumns};
     });
-    debugger;
+
 
     return sessionsDataForTable;
   }
@@ -151,7 +161,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       * TODO: there is a data_encrypted key it the row itself. Can we use it?
     * Why do we need to go fetch first message to see if its decrypted or not?
     * */
-      
+
     if (eventData.data.data_encrypted) {
 
       this.openSessionRowDecryptModal(this.reasonForDecryptionTemplate, eventData.data);
@@ -178,23 +188,24 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   }
 
-  loadSessionTableDataForGivenPage(pageNumber) {
+  loadSessionTableDataForGivenPage(filterData: ISessionFilterData) {
 
     this.showLoader = true;
-    this.pageNumberOfCurrentRowSelected = pageNumber;
-    this.url = this.constantsService.getBotSessionsUrl(10, (pageNumber - 1) * 10);
-    const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
-    };
-    this.serverService.makeGetReq<ISessions>({url: this.url, headerData})
-      .subscribe((value) => {
-        this.showLoader = false;
-        this.totalSessionRecords = value.meta.total_count;
-        this.selectedRow_Session = value.objects[this.selectedRow_number || 0];
-        this.sessions = value.objects;
-        this.initializeTableData(this.sessions, this.getTableDataMetaDict())
-
-      });
+    this.pageNumberOfCurrentRowSelected = filterData.page;
+    this.performSearchInDbForSession(filterData);
+    // this.url = this.constantsService.getBotSessionsUrl(10, (data.page - 1) * 10);
+    // const headerData: IHeaderData = {
+    //   'bot-access-token': this.bot.bot_access_token
+    // };
+    // this.serverService.makeGetReq<ISessions>({url: this.url, headerData})
+    //   .subscribe((value) => {
+    //     this.showLoader = false;
+    //     this.totalSessionRecords = value.meta.total_count;
+    //     this.selectedRow_Session = value.objects[this.selectedRow_number || 0];
+    //     this.sessions = value.objects;
+    //     this.initializeTableData(this.sessions, this.getTableDataMetaDict());
+    //
+    //   });
   }
 
   @ViewChild('reasonForDecryptionTemplate') reasonForDecryptionTemplate: TemplateRef<any>;
@@ -294,6 +305,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   }
 
   decryptSubmit(sessionTobeDecryptedId: number) {
+    this.decryptReason = "";
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
@@ -301,18 +313,23 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     const url = this.constantsService.getDecryptUrl();
     this.serverService.makePostReq({headerData, body, url})
       .subscribe(() => {
+
         this.decryptReason = null;
         const surl = this.constantsService.getSessionsByIdUrl(sessionTobeDecryptedId);
         this.serverService.makeGetReq({url: surl, headerData})
-          .subscribe((newSession: ISessionItem) => {
-              
+          .subscribe((value: {objects:ISessionItem[]}) => {
+          let newSession = value.objects[0];
+          /*todo: use perform search in db instead*/
             const del = this.sessions.findIndex((session) => session.id === sessionTobeDecryptedId);
             this.sessions[del] = {...newSession};
             this.sessions = [...this.sessions];
             this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
+
+            this.selectedRow_Session = newSession;
+            this.openDeleteTemplateKeyModal(this.sessionDetailTemplate);
           });
       });
-    this.dialogRefWrapper.ref.close()
+    this.dialogRefWrapper.ref.close();
 
   }
 
@@ -321,8 +338,8 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
     this.utilityService.openDialog({
       component: template,
-      dialog : this.matDialog,
-      classStr:'primary-modal-header-border',
+      dialog: this.matDialog,
+      classStr: 'primary-modal-header-border',
       dialogRefWrapper: this.dialogRefWrapper
     });
   }
@@ -344,33 +361,85 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     });
   }
 
-  performSearchInDbForSession(data: { id: number, updated_at: {begin:number, end:number} }) {
-    debugger;
-    let dataCopy:any = this.utilityService.createDeepClone(data);
-    if(dataCopy.updated_at){
-      let x:any;
-      dataCopy.updated_at =
-        this.utilityService.convertDateObjectStringToYYYYMMDD((<any>data).updated_at.begin.getTime(), '-') + ',';
-      x =  this.utilityService.convertDateObjectStringToYYYYMMDD((<any>data).updated_at.end.getTime(), '-');
-      dataCopy.updated_at += x;
-      dataCopy.updated_at__range = dataCopy.updated_at;
-      delete dataCopy.updated_at;
-    }
-    let url = this.constantsService.getRoomWithFilters(dataCopy);
-    this.serverService.makeGetReq({url, headerData: this.headerData})
-      .subscribe((value: {objects: ISessionItem[]}) => {
-        let sessions = value.objects;
-        sessions.forEach((session)=>{
-          let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id:session.id});
-          if(index && index!==-1){
-            this.sessions[index] = session;
-          }else {
-            this.sessions.push(session);
-          }
-        });
+  updateSessionById(id: number) {
+    this.loadSessionById(id)
+      .subscribe((val:{objects:ISessionItem[]}) => {
+        debugger;
+        let sessionItem = val.objects[0];
+        let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id});
+        this.sessions[index] = sessionItem;;
+        this.selectedRow_Session = sessionItem;
         this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
-        this.tableData =[...this.tableData];
+        this.tableData = [...this.tableData];
       });
+    //
+  }
+
+  performSearchInDbForSession(filterData:ISessionFilterData) {
+
+    this.showLoader = true;
+    let url: string;
+    this.filterData = JSON.parse(JSON.stringify(filterData));
+    if (filterData) {
+      let dataCopy: any = this.utilityService.createDeepClone(filterData);
+      if (dataCopy.updated_at) {
+        let x: any;
+
+        // dataCopy.updated_at =
+        //   this.utilityService.convertDateObjectStringToYYYYMMDD(new Date((<any>filterData).updated_at.begin).toUTCString(), '-') + ',';
+        // x = this.utilityService.convertDateObjectStringToYYYYMMDD(new Date((<any>filterData).updated_at.end).toUTCString(), '-') + " 23:59";
+
+        /*
+        * start and end refer to date 00:00
+        * We want end to point to 23:59, so added a day
+        * */
+      let begin = new Date((<any>filterData).updated_at.begin);
+      let end = new Date((<any>filterData).updated_at.end);
+      end.setDate(end.getDate() + 1);
+
+        dataCopy.updated_at =
+            `${begin.getFullYear()}-${begin.getUTCMonth()+1}-${begin.getUTCDate()} ${begin.getUTCHours()}:${begin.getUTCMinutes()}` + ',' +
+            `${end.getFullYear()}-${end.getUTCMonth()+1}-${end.getUTCDate()} ${begin.getUTCHours()}:${begin.getUTCMinutes()}` ;
+
+        // dataCopy.updated_at += x;
+        dataCopy.updated_at__range = dataCopy.updated_at;
+        delete dataCopy.updated_at;
+      }
+      if(dataCopy.total_message_count) {
+        dataCopy.total_message_count__range = `${dataCopy.total_message_count},${dataCopy.total_message_count}`;
+
+      }
+      dataCopy = {
+        ...dataCopy,
+        offset: dataCopy.page ? ((dataCopy.page - 1) * 10) : 0,
+        limit: dataCopy.limit ? dataCopy.limit : 10
+      };
+      delete dataCopy.page;
+      UtilityService.removeAllNonDefinedKeysFromObject(dataCopy);
+      url = this.constantsService.getRoomWithFilters(dataCopy);
+    }else {
+      url = this.constantsService.getRoomWithFilters({limit:10});
+    }
+    this.serverService.makeGetReq({url, headerData: this.headerData})
+      .subscribe((value: { objects: ISessionItem[], meta: { total_count: number } }) => {
+
+        if(!filterData && value.objects.length ===0 ){
+          this.showSplashScreen = true;
+        }
+        this.sessions = value.objects;
+        this.totalSessionRecords = value.meta.total_count;
+        this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
+        this.tableData = [...this.tableData];
+        this.showLoader = false;
+      },()=>{
+          this.showLoader = false;
+        }
+        );
+  }
+
+
+  log() {
+    console.log(this.headerData);
   }
 
 }

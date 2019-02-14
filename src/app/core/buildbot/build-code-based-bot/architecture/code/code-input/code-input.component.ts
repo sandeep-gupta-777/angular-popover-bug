@@ -127,6 +127,9 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   ngOnInit() {
 
     this.loggeduser$.subscribe((loggeduserState) => {
+      if(!loggeduserState.user){
+        return;
+      }
       this.role = loggeduserState.user.role.name;
       this.showViewChangeToggle = this.role === ERoleName.Admin || this.role === ERoleName['Bot Developer'];
     });
@@ -140,6 +143,11 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     if (!this.bot.store_bot_versions) {
       this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
     }
+    EventService.codeValidationErrorOnUpdate$.subscribe((data)=>{
+
+      this.selectedVersion.validation = data;
+      this.validationMessageToggle = true;
+    })
     this.botlist$_sub = this.botlist$.subscribe(() => {
 
 
@@ -403,6 +411,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
               });
           }
         } else {
+
           if (this.bot.active_version_id === this.selectedVersion.id) {
             // this.modalRef = this.modalService.show(validationWarningModal, {class: 'modal-md'});
             this.openPrimaryModal(validationWarningModal);
@@ -426,7 +435,9 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
                   this.store.dispatch([
                     new UpdateVersionInfoByIdInBot({data: value, botId: this.bot.id})
                   ]);
-                  this.utilityService.showSuccessToaster('New version saved');
+                  setTimeout(()=>{
+                    this.utilityService.showSuccessToaster('New version saved');
+                  },2000);
                 });
             } else {
               const url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
@@ -440,7 +451,11 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
                 .subscribe((forkedVersion: IBotVersionData) => {
                   LoggingService.log(forkedVersion);
                   this.selectedVersion = forkedVersion;
-                  this.utilityService.showSuccessToaster('New version forked');
+
+                  setTimeout(()=>{
+                    this.utilityService.showSuccessToaster('New version forked');
+                  },2000);
+
                   this.store.dispatch([
                     new UpdateVersionInfoByIdInBot({data: forkedVersion, botId: this.bot.id})
                   ]);

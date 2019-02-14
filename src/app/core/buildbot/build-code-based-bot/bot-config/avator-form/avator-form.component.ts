@@ -22,12 +22,7 @@ export class AvatorFormComponent implements OnInit {
   formData;
 
   @Input() set bot(_bot: IBot) {
-
     this._bot = _bot;
-    if (this.formArray) {
-      this.formArray.controls.splice(0);
-      this.initializeFormArray();
-    }
   }
 
   @ViewChild('form') f: NgForm;
@@ -50,28 +45,39 @@ export class AvatorFormComponent implements OnInit {
     id: 0
   };
 
-  // avatorList: IAvatar[] = [];
-
   ngOnInit() {
-    // this.avatorList = this._bot.avatars;
+
     this.formGroup = this.formBuilder.group({
       avatars: this.formBuilder.array([])
     });
+
+    /*Why?: form_validation_avator key doesnt exists in botcreation state in the beginning*/
+
+
     this.formArray = this.formGroup.get('avatars') as FormArray;
     this.initializeFormArray();
-    LoggingService.log(this.formArray);
+
+
+    /*This line is here because this.formGroup.valueChanges is not being triggered automatically initially*/
+    const avatarValidationObj = {};
+    avatarValidationObj[EFormValidationErrors.form_validation_avator] = this.formGroup.valid && this._bot.avatars && this._bot.avatars.length > 0;
+    this.datachanged$.emit({...this.formGroup.value, ...avatarValidationObj});
 
     this.formGroup.valueChanges.pipe(debounceTime(200)).subscribe((data: any) => {
-      if (this.utilityService.areTwoJSObjectSame(this.formData, data)) { return; }
+
+      if (this.utilityService.areTwoJSObjectSame(this.formData, data)) {
+        return;
+      }
       this.formData = this.formGroup.value;
       const avatarValidationObj = {};
-      avatarValidationObj[EFormValidationErrors.form_validation_avator] = this.formGroup.valid;
+      avatarValidationObj[EFormValidationErrors.form_validation_avator] = this.formGroup.valid && data.avatars && data.avatars.length > 0;
       this.datachanged$.emit({...this.formGroup.value, ...avatarValidationObj});
     });
   }
 
+
   initializeFormArray() {
-    debugger;
+
     this._bot.avatars && this._bot.avatars.forEach((avatar) => {
       this.formArray.push(this.formBuilder.group({
         'name': [avatar.name, Validators.required],
@@ -85,23 +91,26 @@ export class AvatorFormComponent implements OnInit {
     let newAvator;
     if (empty) {
       newAvator = {
-        imageUrl: '',
-        name: '',
+        imageUrl: ['', Validators.required],
+        name: ['', Validators.required],
         id: 0
       };
     } else {
       newAvator = {
-        imageUrl: this.utilityService.getRandomAvatorUrl(),
-        name: 'StarBot' + Math.floor(Math.random() * 100),
+        imageUrl: [this.utilityService.getRandomAvatorUrl(), Validators.required],
+        name: ['StarBot' + Math.floor(Math.random() * 100), Validators.required],
         id: 0
       };
     }
-
+    //
     this.utilityService.pushFormGroupItemInFormArray(this.formArray, this.formBuilder, newAvator);
   }
 
   deleteAvator(index: number) {
-    // this.avatorList.splice(index, 1);
     this.formArray.removeAt(index);
+  }
+
+  log() {
+    console.log(this.formGroup);
   }
 }

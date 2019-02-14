@@ -12,7 +12,7 @@
   <section class="row basic-row bottom-border-line">
     <div class="col-1 logo-wrapper-col ">
       <div class="logo-wrapper">
-        <img [src]="logoUrl.value || loggeduserenterpriseinfo.logo" alt="">
+        <img [src]="logoUrl.value" alt="">
       </div>
     </div>
     <div class="col-11">
@@ -21,9 +21,10 @@
         <div class="row col-6">
           <h4 class="form-title col-12">Basic</h4>
           <div class="col-5">
-            <div class="form-group">
-              <label for="name">Company Name</label>
-              <input type="text" class="form-control" formControlName="name" required>
+            <div class="form-group ">
+              <mat-form-field class = "w-100">
+                <input type="text" class="form-control"  matInput placeholder="Enterprise name" formControlName="name" required>
+              </mat-form-field>
             </div>
             <!-- <div class="form-group">
               <label for="alterEgo">Industry</label>
@@ -33,10 +34,10 @@
 
           </div>
           <div class="col-7">
-            <div class="form-group">
-              <label for="alterEgo">Email</label>
+            <!-- <div class="form-group">
+              <label for="alterEgo">Email address</label>
               <input type="text" class="form-control" formControlName="email">
-            </div>
+            </div> -->
 
             <!-- <div class="form-group">
               <label for="alterEgo">Website Url</label>
@@ -45,12 +46,15 @@
           </div>
           <div class="col-12">
             <div class="form-group">
-              <label for="alterEgo">Logo Url</label><i class="text-danger pl-1" style="font-size: 11px">{{logoError}}</i>
-              <input type="text" #logoUrl class="form-control" formControlName="logo">
-              <i class="text-danger font-11 mr-1" *ngIf="formGroup.get('logo').getError('Image Extension is not correct')">Image
-                Extension is not correct</i>
-              <i class="text-danger font-11" *ngIf="formGroup.get('logo').getError('Must be Https Url')">Must be
-                Https Url</i>
+              <mat-form-field class = "w-100">
+                  <input type="text" #logoUrl class="form-control" matInput placeholder="Logo Url" formControlName="logo">
+                  <mat-error *ngIf="formGroup.get('logo').getError('Image Extension is not correct')">
+                      Image Extension is not correct
+                    </mat-error>
+                    <mat-error *ngIf="formGroup.get('logo').getError('Must be Https Url')">
+                        Must be Https Url
+                      </mat-error>
+                </mat-form-field>
             </div>
           </div>
         </div>
@@ -59,20 +63,30 @@
 
           <div class="col-5">
             <div class="form-group">
-              <label for="name">Enterprise Unique Name</label>
-              <input type="text" class="form-control" required formControlName="enterpriseUniqueName" readonly>
+              <!-- <label for="name">Enterprise Unique Name</label>
+              <input type="text" class="form-control" required formControlName="enterprise_unique_name" readonly> -->
+              <mat-form-field class = "w-100">
+                  <input type="text" class="form-control"  required matInput placeholder="Enterprise Unique Name" formControlName="enterprise_unique_name" readonly>
+                </mat-form-field>
             </div>
           </div>
           <div class="col-5">
             <div class="form-group">
-              <label for="alterEgo">Tier Group</label>
+              <!-- <label for="alterEgo">Tier Group</label>
               <input type="number" class="form-control" disabled formControlName="tier_group">
+               -->
+               <mat-form-field class = "w-100">
+                  <input type="text" class="form-control"  disabled matInput placeholder="Tier Group" formControlName="tier_group">
+                </mat-form-field>
             </div>
           </div>
           <div class="col-5">
             <div class="form-group">
-              <label for="alterEgo">Log Retention Period</label>
-              <input type="text" class="form-control" formControlName="log_retention_period">
+              <!-- <label for="alterEgo">Log Retention Period</label>
+              <input type="text" class="form-control" formControlName="log_retention_period" readonly> -->
+              <mat-form-field class = "w-100">
+                  <input type="text" class="form-control" matInput placeholder="Log Retention Period" formControlName="log_retention_period" readonly>
+                </mat-form-field>
             </div>
           </div>
         </div>
@@ -91,14 +105,15 @@
   </div>
   <div class="col-12 p-0">
     <div class="card-header card-header-description">
-      Descrion of log deletion summary ................
+      Count of logs deleted over the last 7 days.
     </div>
   </div>
 </header>
 <div class="d-flex log-deletion bottom-border-line">
   <div class="unit ml-2 mr-4" *ngFor="let data of logdeletionsummary">
     <div class="date mb-2">
-      {{data.date}}
+      <!-- {{data.timestamp |  date : "medium"}} -->
+      {{data.timestamp| date:"d MMM yy"}}
     </div>
     <div class="count">
       {{data.total}}
@@ -113,7 +128,7 @@
   </div>
   <div class="col-12 p-0">
     <div class="card-header card-header-description">
-      Descrion of Service keys ....................
+      Service keys associated with this account.
     </div>
   </div>
 </header>
@@ -124,15 +139,20 @@
     </div>
   </div>
   <div class="col-12 p-0 pb-2 d-flex">
-    <button class="btn-theme  btn-theme-primary " [ngClass]="{'btn-theme-primary-outline': !showActiveServiceKeysTable}" (click) = "showActiveServiceKeysTable = true">Active</button>
-    <button class="btn-theme btn-theme-primary" [ngClass]="{'btn-theme-primary-outline': showActiveServiceKeysTable}" (click) = "showActiveServiceKeysTable = false">Expired</button>
+      <mat-button-toggle-group name="fontStyle" aria-label="Font Style" value="Active">
+          <mat-button-toggle value="Active"  (click) = "showActiveServiceKeysTable = true">Active</mat-button-toggle>
+          <mat-button-toggle value="Expired" (click) = "showActiveServiceKeysTable = false">Expired</mat-button-toggle>
+        </mat-button-toggle-group>
+    <!-- <button class="btn-theme  btn-theme-primary " [ngClass]="{'btn-theme-primary-outline': !showActiveServiceKeysTable}" (click) = "showActiveServiceKeysTable = true">Active</button>
+    <button class="btn-theme btn-theme-primary" [ngClass]="{'btn-theme-primary-outline': showActiveServiceKeysTable}" (click) = "showActiveServiceKeysTable = false">Expired</button> -->
     <div class="ml-auto color-primary cursor-pointer" *ngIf = "showActiveServiceKeysTable" (click)="openNewServiceKeyModal(enterpriseNewServiceKeyModal)"><i class="fa fa-plus pr-1 "></i> New token</div>
   </div>
 </div>
 <div class="row profile-row" *ngIf = "!!serviceKeyTableDataExpired && showActiveServiceKeysTable" >
   <div class="col-12 p-0 m-0">
     <app-smart-table  [data]="serviceKeyTableDataExpired"
-    (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
+                      (dataValue$)="dataValueClicked($event)"
+    (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,expireServiceKeyModal)"
     >
     </app-smart-table>
   </div>
@@ -154,28 +174,56 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-  
+
       <div class="mx-3 mb-3" style="text-align: left !important;">
         <form #form="ngForm">
           <div class="my-1">
             <p class="mb-3">Provide a description for the new service key {{descriptionServiceKey}}
             </p>
-      
+
             <form  #descriptionForm="ngForm" >
               <mat-form-field style = "width : 300px">
-                <input matInput placeholder="Description" ngModel name ="description" value="" > 
+                <input matInput placeholder="Description" ngModel name ="description" value="" required>
               </mat-form-field>
             </form>
           </div>
           <div class="d-flex" style="flex-direction: row-reverse">
             <!-- <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRefWrapper.hide()">Cancel</button> -->
-            <button class=" btn-theme btn-theme-primary mx-1 " (click)="addNewServiceKey() ;dialogRefWrapper.ref.close();">Create
+            <button class=" btn-theme btn-theme-primary mx-1 " [disabled]= "!descriptionForm.valid" (click)="addNewServiceKey() ;dialogRefWrapper.ref.close();">Create
             </button>
             <button class=" btn-theme btn-theme-primary-outline mx-1" (click)="dialogRefWrapper.ref.close();">Cancel
             </button>
-  
+
           </div>
         </form>
       </div>
     </div>
   </ng-template>
+
+  <ng-template #expireServiceKeyModal>
+      <div class="danger-modal" style="min-width: 500px;">
+        <div class="modal-header" style="border:none !important">
+          <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Expire token?</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+    
+        <div class="mx-3 mb-3" style="text-align: left !important;">
+          <form #form="ngForm">
+            <div class="my-1">
+              <p class="mb-3">Do you want to expire the selected access token</p>
+    
+            </div>
+            <div class="d-flex" style="flex-direction: row-reverse">
+              <!-- <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRefWrapper.hide()">Cancel</button> -->
+              <button class=" btn-theme btn-theme-danger mx-1 " (click)="expireServiceKey();dialogRefWrapper.ref.close();">Expire
+              </button>
+              <button class=" btn-theme btn-theme-danger-outline mx-1" (click)="dialogRefWrapper.ref.close();">Cancel
+              </button>
+    
+            </div>
+          </form>
+        </div>
+      </div>
+    </ng-template>

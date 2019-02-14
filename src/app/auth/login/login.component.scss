@@ -4,6 +4,14 @@
   @extend %fixed-top-left;
 }
 
+*:not(.fa){
+    font-family: Helvetica;
+}
+
+button{
+  color: white !important; //todo: temporary change
+}
+
 .login-grid {
   display: grid;
   height: 100vh;
@@ -175,7 +183,7 @@
   }
 }
 :host /deep/ .mat-checkbox-inner-container{
-  height: remy(17);
+    height: remy(17);
   width:remy(17);
 }
 

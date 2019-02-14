@@ -21,7 +21,6 @@ import { IBotResult } from '../interfaces/IBot';
 import { IAuthState } from '../../auth/ngxs/auth.state';
 import { ModalImplementer } from 'src/app/modal-implementer';
 import { MatDialog } from '@angular/material';
-import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-header',
@@ -30,6 +29,7 @@ import { async } from '@angular/core/testing';
 })
 export class HeaderComponent extends ModalImplementer implements OnInit {
 
+  bc
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   @Select() app$: Observable<IAppState>;
@@ -61,6 +61,10 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   }
 
   ngOnInit() {
+    this.bc = new BroadcastChannel('test_channel');
+    this.bc.onmessage = (ev) => {
+      location.reload();
+    };
     let getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
 
     this.serverService.makeGetReq({ url: getAllEnterpriseUrl })
@@ -70,16 +74,6 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
         // console.log("sadasdasdsad");
         console.log(this.enterpriseList);
       });
-
-    document.addEventListener('mozfullscreenchange', () => {
-      this.isDocumentFullScreenModeOn = !this.isDocumentFullScreenModeOn;
-    });
-    document.addEventListener('webkitfullscreenchange', ($event) => {
-      this.isDocumentFullScreenModeOn = !this.isDocumentFullScreenModeOn;
-    });
-    document.addEventListener('msfullscreenchange', () => {
-      this.isDocumentFullScreenModeOn = !this.isDocumentFullScreenModeOn;
-    });
 
     /*this.app$Subscription = */this.app$.subscribe((app) => {
       /*every time this callback runs remove all previous setTimeOuts*/
@@ -93,18 +87,22 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
         this.autoLogOutTime = autoLogOutTime;
         this.logoutSetTimeoutRef && clearTimeout(this.logoutSetTimeoutRef);
 
+
         /*creating a new Timeout*/
         this.logoutSetTimeoutRef = setTimeout(() => {
+
+          // alert('You session has expired. Logging out');
           this.logoutSetTimeoutRef && clearTimeout(this.logoutSetTimeoutRef);
           try {
-            this.app$Subscription && this.app$Subscription.unsubscribe();
+            //TODO:this.app$Subscription && this.app$Subscription.unsubscribe();
           } catch (e) {
             LoggingService.error(e); /*TODO: find out whats wrong with app$Subscription*/
           }
           LoggingService.log('============================autologout============================');
           this.logout();
-          document.location.reload(); /*To destroy all timeouts just in case*/
-        }, (autoLogOutTime - Date.now()));
+          // document.location.reload(); /*To destroy all timeouts just in case*/
+        }, (autoLogOutTime-Date.now()));
+        console.log(`next logout time is: ${new Date(autoLogOutTime)}. ${(autoLogOutTime-Date.now())/1000} sec from now`);
       }
     }
     );
@@ -131,8 +129,17 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     // })
   }
 
+  test(){
+    this.bc.postMessage('This is a test message.');
+  }
+
   logout() {
+    if(!this.userData){/*TODO: ring fancing: BAD*/
+      return;
+    }
+
     localStorage.clear();
+    this.bc.postMessage('This is a test message.');
     // this.store.reset({});
     this.url = this.constantsService.getLogoutUrl();
     this.serverService.makeGetReq({ url: this.url })
@@ -218,6 +225,6 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     else{
       this.utilityService.showErrorToaster("Please verify this enterprise before trying to login.")
     }
-    
+
   }
 }

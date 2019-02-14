@@ -15,6 +15,7 @@ import {ELogType, LoggingService} from '../../../logging.service';
 import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
 import {MatDialog} from '@angular/material';
 import {ModalImplementer} from '../../../modal-implementer';
+import {EventService} from '../../../event.service';
 
 @Component({
   selector: 'app-bot-detail-header',
@@ -37,7 +38,8 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     private router: Router,
     public matDialog:MatDialog,
     public  utilityService: UtilityService,
-    private constantsService: ConstantsService) {
+    private constantsService: ConstantsService,
+    ) {
     super(utilityService, matDialog);
   }
 
@@ -90,12 +92,20 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     if (!body.logo) {
       body.logo = 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png';
     }
+
     this.serverService.makePutReq({url, body, headerData})
       .subscribe((updatedBot: IBot) => {
+
+        EventService.botUpdatedInServer.emit(updatedBot);
         this.store.dispatch([
           new UpdateBotInfoByIdInBotInBotList({botId: this.bot.id, data: updatedBot})
         ]);
         this.utilityService.showSuccessToaster('Bot updated');
+      },
+      err  => {
+
+        EventService.codeValidationErrorOnUpdate$.emit(err.error);
+        console.log("emited this :::::::::::::",err.error);
       });
   }
 
@@ -123,21 +133,46 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
   }
   dialogRefWrapper = {ref:null};
   openActiveBotChangedModal(template: TemplateRef<any>) {
+
     if (this.bot.store_selected_version && this.bot.store_selected_version !== this.bot.active_version_id) {
-      this.utilityService.openDialog({
-        dialogRefWrapper: this.dialogRefWrapper,
-        classStr:'danger-modal-header-border',
-        data:{
-          actionButtonText:"Update",
-          message: 'If you update the bot your currently selected version will be the new Active version.',
-          title:'Active version changed',
-          isActionButtonDanger:true
-        },
-        dialog: this.matDialog,
-        component:ModalConfirmComponent
-      }).then((data)=>{
-        if(data) this.updateBot();
-      })
+
+      let selectedVersion = this.bot.store_bot_versions.find(value => value.id == this.bot.store_selected_version);
+      if(selectedVersion.changed_fields['df_template']||
+        selectedVersion.changed_fields['df_rules']||
+        selectedVersion.changed_fields['generation_rules']||
+        selectedVersion.changed_fields['generation_templates']||
+        selectedVersion.changed_fields['workflow']){
+        this.utilityService.openDialog({
+          dialogRefWrapper: this.dialogRefWrapper,
+          classStr:'danger-modal-header-border',
+          data:{
+            actionButtonText:"Activate with last saved data",
+            message: 'The version you are trying to make active contains unsaved changes.Do you want to use the last saved data of this version?',
+            title:'Activate code version',
+            isActionButtonDanger:true
+          },
+          dialog: this.matDialog,
+          component:ModalConfirmComponent
+        }).then((data)=>{
+          if(data) this.updateBot();
+        })
+      }
+      else{
+        this.utilityService.openDialog({
+          dialogRefWrapper: this.dialogRefWrapper,
+          classStr:'danger-modal-header-border',
+          data:{
+            actionButtonText:"Update",
+            message: 'If you update the bot your currently selected version will be the new Active version.',
+            title:'Active version changed',
+            isActionButtonDanger:true
+          },
+          dialog: this.matDialog,
+          component:ModalConfirmComponent
+        }).then((data)=>{
+          if(data) this.updateBot();
+        })
+      }
     }
     else {
       this.updateBot();

@@ -271,7 +271,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   createNewTemplatekey() {
-    debugger;
+
     this.newTemplateKey = this.newTemplateKey.trim();
     const isTemplateKeyUnique = !Object.keys(this.templateKeyDict).find((key) => key === this.newTemplateKey);
     if (!isTemplateKeyUnique || !this.newTemplateKey) {

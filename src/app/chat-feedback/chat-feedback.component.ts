@@ -3,22 +3,37 @@ import {EChatFeedback} from '../chat/chat-wrapper.component';
 
 @Component({
   selector: 'app-chat-feedback',
-  template: `    
-    <div class="chat-feedback cursor-pointer">
-      <div (click)="chatMessageFeedback$.emit(true)">
-        <i class="fa" [ngClass]="{'fa-thumbs-up': feedback === myEChatFeedback.POSITIVE, 'fa-thumbs-o-up': feedback !== myEChatFeedback.POSITIVE}"></i>
+  template: `
+    <div class="chat-feedback-wrapper">
+      <div class="chat-feedback" (click)="chatFeedbackClicked(true)" *ngIf="feedback!==myEChatFeedback.NEGATIVE">
+        <mat-icon
+          [ngStyle]="{'color': feedback === myEChatFeedback.POSITIVE? '#34bc6e':'#bebebe'}"
+          class="chat-feedback__icon user-feedback__icon--up">thumb_up</mat-icon>
         <span>Upvote</span>
       </div>
-      <div (click)="chatMessageFeedback$.emit(false)">
-        <i class="fa" [ngClass]="{'fa-thumbs-down': feedback === myEChatFeedback.NEGATIVE, 'fa-thumbs-o-down': feedback !== myEChatFeedback.NEGATIVE}"></i>
+      <div class="chat-feedback" (click)="chatFeedbackClicked(false)" *ngIf="feedback!==myEChatFeedback.POSITIVE">
+        <mat-icon
+          [ngStyle]="{'color': feedback === myEChatFeedback.NEGATIVE? '#b14250':'#bebebe'}"
+          class="chat-feedback__icon user-feedback__icon--down">thumb_down</mat-icon>
         <span>Downvote</span>
       </div>
     </div>
   `,
   styleUrls: ['./chat-feedback.component.scss']
 })
-export class ChatFeedbackComponent{
+export class ChatFeedbackComponent {
+
   @Input() feedback;
   @Output() chatMessageFeedback$ = new EventEmitter();
   myEChatFeedback = EChatFeedback;
+
+  /*
+  * chatFeedbackClicked: feedback can't be changed once given
+  * */
+  chatFeedbackClicked(isFeedbackPositive: boolean) {
+
+    if (this.feedback == null) {
+      this.chatMessageFeedback$.emit(isFeedbackPositive);
+    }
+  }
 }

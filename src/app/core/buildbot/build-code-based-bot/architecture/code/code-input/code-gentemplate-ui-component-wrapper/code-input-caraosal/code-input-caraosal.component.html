@@ -16,7 +16,7 @@
   <!--<i>{{controlsClickedCount}}</i>-->
 
   <div #MultiCarousel class="MultiCarousel  w-100 ml-1" data-items="2,2,2,2" data-slide="1" id="MultiCarousel"
-       data-interval="1000">bg
+       data-interval="1000">
     <!--TODO: ngclass below is a hack; improve it-->
     <div #MultiCarouselInner class="MultiCarousel-inner  flex-grow-1 d-flex" style="min-width: 100%"
          [ngClass]="{'float-right':isParentSessionsModal && (totalItemsInCarasol<carasolItemShownInOneScreen)}">
@@ -55,7 +55,7 @@
           <ul class="list-group list-group-flush">
             <li class="list-group-item limit-three-lines cursor-pointer mt-2">
               <input #mainInput type="text" class="border" autofocus placeholder="title"
-                     name="title"
+                     [name]="'title'+ carouselIndex"
                      [(ngModel)]="carousalItem.title"
                      style="width: 100%">
             </li>
@@ -70,7 +70,7 @@
             <li class="list-group-item limit-three-lines cursor-pointer flex-column align-items-start">
               <textarea maxlength="80" style="height: 48px; width: 100%"
                         placeholder="Subtitle"
-                        name="subtitle"
+                        [name]="'subtitle'+ carouselIndex"
                         [(ngModel)]="carousalItem.subtitle"></textarea>
               <span class="faded-text">{{carousalItem?.subtitle?.length || 0}}/80</span>
             </li>

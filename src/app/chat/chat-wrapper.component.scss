@@ -108,6 +108,7 @@ form {
 
   .chat-rooms {
     grid-area: room;
+    max-width: 33vw !important
   }
   .header1 {
     grid-area: h1;

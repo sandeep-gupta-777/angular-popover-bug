@@ -74,6 +74,7 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
   }
 
   ngOnInit() {
+
     this.isDeCryptAuditAccessDenied = this.permissionService.isTabAccessDenied(EAllActions['Create Decrypt Audit']);
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     this.isFullscreen = this.activatedRoute.snapshot.data['isFullscreen'];
@@ -83,8 +84,9 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
     this.loadConsumerData();
   }
 
-  pageChanged(selectedPage: number) {
-    this.loadConsumerData(10, (selectedPage - 1) * 10);
+  pageChanged({page}) {
+
+    this.loadConsumerData(10, (page - 1) * 10);
   }
 
   loadConsumerData(limit: number = 10, offset: number = 0) {
@@ -103,7 +105,7 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
 
 
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: IConsumerItem, source: any }, Primarytemplat) {
-      
+
     if (data.action === 'decrypt') {
       this.consumerItemToBeDecrypted = data.data;
       this.openCreateBotModal(Primarytemplat);
@@ -112,6 +114,7 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
 
 
   decryptSubmit() {
+
 
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
@@ -139,6 +142,13 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
   }
 
   performSearchInDbForConsumer(data) {
+
+    if(!data.id){
+      if(data.page){
+        this.loadConsumerData(10, (data.page-1)*10);
+      }
+      return;
+    }
     const url = this.constantsService.getBotConsumerByIdUrl(data['id']);
     this.serverService
       .makeGetReq<IConsumerItem>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
@@ -149,6 +159,7 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
         }else {
           this.consumerItems.push(consumer);
         }
+        this.totalRecords = 1;
         this.tableData = this.initializeTableData(this.consumerItems, this.getTableDataMetaDict());
       });
   }

@@ -22,8 +22,8 @@ import {IntegrationItemComponent} from '../buildbot/build-code-based-bot/archite
 import {DraggableDirective} from '../../draggable.directive';
 import {DropTargetDirective} from '../../drop-target.directive';
 import {KnowledgeBaseWrapperComponent} from '../buildbot/build-code-based-bot/architecture/knowledge-base-wrapper/knowledge-base-wrapper.component';
-import { LimitObjectArraysStringPipe } from './consumers/limit-object-arrays-string.pipe';
-import { ConsumerFullscreenWrapperComponent } from './consumers/consumer-fullscreen-wrapper/consumer-fullscreen-wrapper.component';
+import {LimitObjectArraysStringPipe} from './consumers/limit-object-arrays-string.pipe';
+import {ConsumerFullscreenWrapperComponent} from './consumers/consumer-fullscreen-wrapper/consumer-fullscreen-wrapper.component';
 import {AuthGaurdService} from '../../auth-gaurd.service';
 import {RequiredIfOneFilledValidator} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/requiredIfOneFilledValidator.directive';
 import {RichMediaModule} from '../../rich-media.module';
@@ -31,8 +31,8 @@ import {SessionDataToRichMediaSerializerPipe} from '../../session-data-to-rich-m
 import {DisplayNameForKeyIntegrationPipe} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/display-name-for-key-integration.pipe';
 import {UnderscroreToSpaceDelimitorPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/underscrore-to-space-delimitor.pipe';
 
-import { CodeGentemplateComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-gentemplate/code-gentemplate.component';
-import { TextGentemplateComponent } from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/text-gentemplate/text-gentemplate.component';
+import {CodeGentemplateComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-gentemplate/code-gentemplate.component';
+import {TextGentemplateComponent} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/text-gentemplate/text-gentemplate.component';
 import {FilterTemplateLeyListPipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/filter-template-ley-list.pipe';
 import {LogosByIntegrationNamePipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/text-gentemplate/logos-by-integration-name.pipe';
 import {FilterResponseComponentByChannelNamePipe} from '../buildbot/build-code-based-bot/architecture/code/code-input/filter-response-component-by-channel-name.pipe';
@@ -57,15 +57,19 @@ import {StringIncludesPipe} from '../buildbot/build-code-based-bot/architecture/
 import {SimpleTableComponent} from '../buildbot/build-code-based-bot/architecture/pipeline/simple-table/simple-table.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {UrlValidatorDirective} from '../buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-input-caraosal/url-validator.directive';
+import {AccordianComponent} from '../../accordian/accordian.component';
+import {SortPipelinePipe} from '../buildbot/build-code-based-bot/architecture/pipeline/sort-pipeline.pipe';
+import {PipelineIdToPipelineModulePipe} from '../buildbot/build-code-based-bot/architecture/pipeline/pipeline-id-to-pipeline-module.pipe';
+import {PipeineIdToPipelineModuleWrapperPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/pipeine-id-to-pipeline-module-wrapper.pipe';
 
 const routes: Route[] = [
   {
     path: '', component: BotDetailWrapperComponent, canActivateChild: [AuthGaurdService], children:
-      [
-        {path: `${EBotType.chatbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.chatbot}},
-        {path: `${EBotType.intelligent}/:id`, component: PipelineBasedBotDetailComponent, data: {bot_type: EBotType.intelligent}},
-        {path: ':id/consumer', component: ConsumerFullscreenWrapperComponent, data: {isFullscreen: true}},
-      ]
+        [
+          {path: `${EBotType.chatbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.chatbot}},
+          {path: `${EBotType.intelligent}/:id`, component: PipelineBasedBotDetailComponent, data: {bot_type: EBotType.intelligent}},
+          {path: ':id/consumer', component: ConsumerFullscreenWrapperComponent, data: {isFullscreen: true}},
+        ]
   }
 ];
 
@@ -83,6 +87,9 @@ const routes: Route[] = [
     SessionTabsDetailsComponent,
     SessionMessageComponent,
     PipelineComponent,
+    PipelineIdToPipelineModulePipe,
+    SortPipelinePipe,
+    AccordianComponent,
     SimpleTableComponent,
     StringIncludesPipe,
     UnderscroreToSpaceDelimitorPipe,
@@ -92,6 +99,7 @@ const routes: Route[] = [
     CodeGentemplateUiWrapperComponent,
     HasChannelPipe,
     TrimStringPipe,
+    PipeineIdToPipelineModuleWrapperPipe,
     FilterTemplateLeyListPipe,
     CodeInputCaraosalComponent,
     UrlValidatorDirective,
@@ -116,7 +124,7 @@ const routes: Route[] = [
     DisplayNameForKeyIntegrationPipe,
     LimitObjectArraysStringPipe,
     ConsumerFullscreenWrapperComponent,
-/*after lazy loading*/
+    /*after lazy loading*/
     RequiredIfOneFilledValidator
   ],
   imports: [

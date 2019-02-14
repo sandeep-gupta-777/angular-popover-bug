@@ -85,7 +85,10 @@ export class BuildbotWrapperComponent implements OnInit {
     }
   }
 
-  navigateToDashboard() {
+  removeDataAndNavigateToDashboard() {
+    this.store.dispatch([
+      new ResetBuildBotToDefault()
+    ]);
     this.router.navigate(['']);
   }
 }

@@ -24,7 +24,7 @@ export class SessionDetailModelComponent implements OnInit {
     this._session = _session;
     if (_session && _session.id) {
       setTimeout(() => {
-          this.loadSessionById(_session.id);
+          this.loadSessionMessagesById(_session.id);
         }
       );
     }
@@ -44,6 +44,7 @@ export class SessionDetailModelComponent implements OnInit {
   @Select() botlist$: Observable<ViewBotStateModel>;
   allBotList: IBot[];
   sessionMessageData$: Observable<ISessionMessage>;
+  @Output() refreshSession$ = new EventEmitter();
   sessionMessageData: ISessionMessageItem[];
   sessionMessageDataCopy: ISessionMessageItem[];
   transactionIdSelectedInModel: string;
@@ -74,11 +75,16 @@ export class SessionDetailModelComponent implements OnInit {
     this.botlist$.subscribe((value) => {
       this.allBotList = value.allBotList;
     });
-    // this.loadSessionById(this._session.id);
+    // this.loadSessionMessagesById(this._session.id);
   }
 
   showSpinIcon = false;
-  loadSessionById(id) {
+
+  updateModal(id){
+    this.loadSessionMessagesById(id);
+    this.refreshSession$.emit(id);
+  }
+  loadSessionMessagesById(id) {
     this.showSpinIcon = true;
     this.url = this.constantsService.getSessionsMessageUrl(id);
     this.sessionMessageData$ = this.serverService.makeGetReq<ISessionMessage>({
@@ -92,6 +98,7 @@ export class SessionDetailModelComponent implements OnInit {
       this.sessionMessageDataCopy = [...this.sessionMessageData];
       this.showSpinIcon = false;
     });
+
     this.tabClicked(this.activeTab);
   }
 
@@ -184,6 +191,7 @@ export class SessionDetailModelComponent implements OnInit {
 
   goToNextSearchResult(messageSearchKeyword) {
 
+    debugger;
     if (this.searchEnterPressedCount !== 0) {
       ++this.searchEnterPressedCount;
     }
@@ -228,7 +236,11 @@ export class SessionDetailModelComponent implements OnInit {
     /*find transaction id of first matched text*/
     const elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, 0);
     setTimeout(()=>{
-      elementDataToScroll && this.scroll(elementDataToScroll.transaction_id);
+      let didScrollOccur = elementDataToScroll && this.scroll(elementDataToScroll.transaction_id);
+      if(didScrollOccur){
+        this.transactionIdChangedInModel(elementDataToScroll.transaction_id);
+        this.searchEnterPressedCount++;
+      }
     },0);
   }
 
@@ -245,29 +257,43 @@ export class SessionDetailModelComponent implements OnInit {
         if (isMatch) { return isMatch; }
       } catch (e) {}
 
-      try {
-        /*searching for human message match*/
-        isMatch = objItem.message.toUpperCase().includes(messageSearchKeyword.toUpperCase());
-        if (isMatch) { return isMatch; }
-      } catch (e) {}
-
-      try {
-        /*searching for bot messages match*/
-        for (const msg of objItem.message) {
-          isMatch = msg.text.toUpperCase().includes(messageSearchKeyword.toUpperCase());
+      if(objItem.user_type==='human'){
+        try {
+          /*searching for human message match*/
+          isMatch = objItem.message.toUpperCase().includes(messageSearchKeyword.toUpperCase());
           if (isMatch) { return isMatch; }
-        }
-      } catch (e) {}
+        } catch (e) {}
+      }else {
+        try {
+          /*searching for bot messages match*/
+          for (const msg of objItem.message) {
+            isMatch = msg.text.toUpperCase().includes(messageSearchKeyword.toUpperCase());
+            if (isMatch) { return isMatch; }
+          }
+        } catch (e) {}
+
+        try {
+          /*searching for bot generated_msg match*/
+          for (const msg of objItem.generated_msg) {
+            isMatch = msg.text.toUpperCase().includes(messageSearchKeyword.toUpperCase());
+            if (isMatch) { return isMatch; }
+          }
+        } catch (e) {}
+      }
+
+
     });
     return elementsDataToScroll[index];
   }
 
-  scrollMessageListToEnd(){
-    debugger;
-    let transactionsCount = this.sessionMessageDataCopy.length -1;
+  scrollDown = true;
+  scrollMessageList(){
+    let transactionsCount: number;
+    transactionsCount = this.scrollDown ? this.sessionMessageDataCopy.length - 1 : 0;
     let lastTransactionId = this.sessionMessageDataCopy[transactionsCount].transaction_id;
     let lastElement = document.getElementsByClassName(lastTransactionId);
     this.scroll(lastTransactionId)
+    this.scrollDown = !this.scrollDown;
   }
 
 }

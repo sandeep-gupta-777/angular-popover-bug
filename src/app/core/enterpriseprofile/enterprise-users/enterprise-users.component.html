@@ -10,25 +10,26 @@
       </div>
     </div>
   </header> -->
-  <header class="row mt-3 pb-3  ">
-    <div class="col-12 p-0">
-      <div class="card-header">
-        Users management
-      </div>
-    </div>
-    <div class="col-12 p-0">
-      <div class="card-header card-header-description">
-        Manage users of your enterprise by adding new ones, modifying and removing existing ones.
-      </div>
-    </div>
-  </header>
-  <div class="d-flex">
+<header class="row mt-3 pb-3  ">
+  <div class="col-12 p-0">
     <div class="card-header">
-      All Users
+      Users management
     </div>
-    <button class="btn-theme btn-theme-primary ml-auto mr-3" (click)="openUserEditModal(NewUserModal)"><i class="fa fa-plus pr-1 "></i>New User</button>
   </div>
-  <!-- <div class="d-flex">
+  <div class="col-12 p-0">
+    <div class="card-header card-header-description">
+      Manage users of your enterprise by adding new ones, modifying and removing existing ones.
+    </div>
+  </div>
+</header>
+<div class="d-flex">
+  <div class="card-header">
+    All Users
+  </div>
+  <button class="btn-theme btn-theme-primary ml-auto mr-3" (click)="openUserEditModal(NewUserModal)"><i class="fa fa-plus pr-1 "></i>New
+    User</button>
+</div>
+<!-- <div class="d-flex">
     <div class="d-inline-block " *ngIf="role==='Admin'">
       All Users
     </div>
@@ -37,201 +38,215 @@
     </div>
   </div> -->
 
-  <div class="row profile-row" *ngIf="role==='Admin'">
+<div class="row profile-row" *ngIf="role==='Admin'">
 
-    <div class="col-12 p-0 m-0">
-      <app-smart-table *ngIf="tableData" [data]="tableData"
-      (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,enterpriseDeleteModal,ModifyUserModal)"
-      >
-      </app-smart-table>
-    </div>
-
+  <div class="col-12 p-0 m-0">
+    <app-smart-table *ngIf="tableData" [data]="tableData" (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,enterpriseDeleteModal,ModifyUserModal)">
+    </app-smart-table>
   </div>
 
+</div>
 
-  
+
+
 <ng-template #enterpriseDeleteModal>
-    <div class="danger-modal" style="min-width: 500px;">
-      <div class="modal-header" style="border:none !important">
-        <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Remove user?</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-  
-      <div class="mx-3 mb-3" style="text-align: left !important;">
-        <form #form="ngForm">
-          <div class="my-1">
-            <p class="mb-3">Do you want to remove XXXXXXX form YYYYYYY?
-            </p>
-  
-          </div>
-          <div class="d-flex" style="flex-direction: row-reverse">
-            <!-- <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRefWrapper.hide()">Cancel</button> -->
-            <button class=" btn-theme btn-theme-danger mx-1 " (click)="deleteUser();dialogRefWrapper.ref.close();">Remove
-            </button>
-            <button class=" btn-theme btn-theme-danger-outline mx-1" (click)="dialogRefWrapper.ref.close();">Cancel
-            </button>
-  
-          </div>
-        </form>
-      </div>
+  <div class="danger-modal" style="min-width: 500px;">
+    <div class="modal-header" style="border:none !important">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Remove user?</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-  </ng-template>
-  
-  
-  <ng-template #ModifyUserModal>
-    <div class="primary-modal">
-      <div class="modal-header" style="border: none !important; padding-bottom: 0">
-        <h4 class="modal-title" style="display: flex;justify-content: start;">Modify details</h4>
-        <button aria-label="Close" class="close pull-right" type="button" (click)="dialogRefWrapper.ref.close()"><span
-            aria-hidden="true">×</span>
-        </button>
-        <br>
-      </div>
-      <div class="pl-3 pb-3 pt-1">
-        {{selectedUserModify.first_name}} {{selectedUserModify.last_name}}’s role and bots can be changed here
-        <!-- {{modifyBotList.value | json}} -->
-      </div>
-      <div class="w-100 pl-3" style="align-items: center;">
-        <div class="user-modal-heading">Change role</div>
-        <form class="form-theme form-theme-with-md-controls " #modifyBotDetails="ngForm">
-          <mat-form-field>
-            <mat-select placeholder="Select role" ngModel name="role" >
-              <mat-option *ngFor="let role of roleMap; let i = index;" [value]="role.id"  >
-                {{role.name}}
-              </mat-option>
-              <!-- <mat-option [value]="role.id">
+
+    <div class="mx-3 mb-3" style="text-align: left !important;">
+      <form #form="ngForm">
+        <div class="my-1">
+          <p class="mb-3">Do you want to remove {{usertoDelete.first_name}} {{usertoDelete.last_name}} from
+            {{loggeduserenterpriseinfo.name}}?
+          </p>
+
+        </div>
+        <div class="d-flex" style="flex-direction: row-reverse">
+          <!-- <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRefWrapper.hide()">Cancel</button> -->
+          <button class=" btn-theme btn-theme-danger mx-1 " (click)="deleteUser();dialogRefWrapper.ref.close();">Remove
+          </button>
+          <button class=" btn-theme btn-theme-danger-outline mx-1" (click)="dialogRefWrapper.ref.close();">Cancel
+          </button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #ModifyUserModal>
+  <div class="primary-modal">
+    <div class="modal-header" style="border: none !important; padding-bottom: 0">
+      <h4 class="modal-title" style="display: flex;justify-content: start;">Modify details</h4>
+      <button aria-label="Close" class="close pull-right" type="button" (click)="dialogRefWrapper.ref.close()"><span
+          aria-hidden="true">×</span>
+      </button>
+      <br>
+    </div>
+    <div class="pl-3 pb-3 pt-1">
+      {{selectedUserModify.first_name}} {{selectedUserModify.last_name}}’s role and bots can be changed here
+    </div>
+    <div class="w-100 pl-3" style="align-items: center;">
+      <div class="user-modal-heading mb-2">Change role</div>
+      <form class="form-theme form-theme-with-md-controls ">
+        <mat-form-field>
+          <mat-select placeholder="Select role" [(ngModel)]="modifyBotRole" (ngModelChange)="modifyBotRoleChanged($event)"
+            name="role">
+            <mat-option *ngFor="let role of roleMap; let i = index;" [value]="role.id">
+              {{role.name}}
+            </mat-option>
+            <!-- <mat-option [value]="role.id">
                   Admin
                 </mat-option> -->
-              <!-- <mat-option [value]="12">
+            <!-- <mat-option [value]="12">
                 Admin
               </mat-option>
               <mat-option [value]="12">
                 developer
               </mat-option> -->
-            </mat-select>
-          </mat-form-field>
-        </form>
-        
-  
-      </div>
-      <div class="user-modal-heading pl-3">Change bots</div>
-      <div class="d-flex w-100 col-12 pl-3" style="align-items: center;">
-  
-        <div class="cursor-pointer color-primary mr-3" (click)="modifyBotList.reset()">
-          Clear
-        </div>
-        <!-- <div class="cursor-pointer color-primary mr-auto " (click)="selectAllCheckBoxesInCopyTemplateForm(modelGenTempNameForm)">
-          Select all
-        </div> -->
-        <div class="cursor-pointer color-primary mr-auto " (click) = 'selectAll(modifyBotList);'>
-          Select all
-        </div>
-        <div>
-          <input type="text" style="width: 120px;border: 1px solid #e0e0e0;margin-right: 10px; padding: 3px" placeholder="Bots">
-          <!-- [(ngModel)]="copyModalTemplateSearchKeyword"> -->
-        </div>
-      </div>
-      <div class="modal-body" style="padding-top: 10px!important;">
-        <div class="d-flex flex-column align-items-center justify-content-center m-2" id="checkboxes">
+          </mat-select>
+        </mat-form-field>
+      </form>
 
-          <form class="modelBotNames" id="modifyBotList" #modifyBotList="ngForm" style="overflow-y: scroll;max-height: 250px;">
-            <label class="container-chekbox text-dark" *ngFor="let bot of enterpriseUserBotList">
-              {{bot.name}}
-              <input type="checkbox" ngModel name="{{bot.id}}">
-              <span class="checkmark"></span>
-            </label>
-          </form>
-          <div class="d-flex w-100 mt-2">
-            <button class="btn-theme btn-theme-primary-outline ml-auto mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
-            <button class="btn-theme btn-theme-primary  d-inline-block mr-2" (click) = "modifyUser();dialogRefWrapper.ref.close()">Modify
-            </button>
-            <!-- <button class="btn-theme btn-theme-primary  d-inline-block mr-2"
+
+    </div>
+    <div class="user-modal-heading pl-3">Change bots</div>
+    <div class="d-flex w-100 col-12 pl-3" style="align-items: center;">
+
+      <div class="cursor-pointer color-primary mr-3" (click)="modifyBotList.reset()" style="font-size: 11px">
+        Clear
+      </div>
+      <div class="cursor-pointer color-primary mr-auto " (click)='selectAll(modifyBotList);' style="font-size: 11px">
+        Select all
+      </div>
+      <div>
+        <mat-form-field>
+          <input type="text"  matInput placeholder="Search bots" [(ngModel)]="searchBotsInModify">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        <!-- [(ngModel)]="copyModalTemplateSearchKeyword"> -->
+      </div>
+    </div>
+    <div class="modal-body" style="padding-top: 10px!important;">
+      <div class="d-flex flex-column align-items-center justify-content-center m-2" id="checkboxes">
+
+        <form class="modelBotNames" id="modifyBotList" #modifyBotList="ngForm" style="overflow-y: scroll;max-height: 250px;">
+          <label class="container-chekbox text-dark" *ngFor="let bot of enterpriseUserBotList" [hidden]="!bot.name.toLowerCase().includes(searchBotsInModify.toLowerCase())">
+            <div style="width: 120px;overflow-wrap: break-word;"> {{bot.name}}</div>
+            <input type="checkbox" ngModel name="{{bot.id}}" [disabled]="isSelectedRoleAdmin">
+            <span class="checkmark" [ngClass]="isSelectedRoleAdmin && 'opacity-less'"></span>
+          </label>
+        </form>
+        <div class="d-flex w-100 mt-2">
+          <button class="btn-theme btn-theme-primary-outline ml-auto mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
+          <button class="btn-theme btn-theme-primary  d-inline-block mr-2" [disabled]="!modifyBotRole" (click)="modifyUser();dialogRefWrapper.ref.close()">Modify
+          </button>
+          <!-- <button class="btn-theme btn-theme-primary  d-inline-block mr-2"
                     [disabled]="(modelGenTempNameForm.value|numberOfTrueKeys)<1"
                     form="modelGenTempNameForm">Copy now
             </button> -->
-          </div>
         </div>
       </div>
     </div>
-  </ng-template>
-  
-  
-  <ng-template #NewUserModal>
-    <div class="primary-modal">
-      <div class="modal-header" style="border: none !important; padding-bottom: 0">
-        <h4 class="modal-title" style="display: flex;justify-content: start;">New User</h4>
-        <button aria-label="Close" class="close pull-right" type="button" (click)="dialogRefWrapper.ref.close()"><span
-            aria-hidden="true">×</span>
-        </button>
-        <br>
-      </div>
-      <div class="pl-3 pb-3 pt-1">
-        Add a new user to the enterprise
-      </div>
-      <div class="w-100 pl-3" style="align-items: center;">
-        <div class="user-modal-heading">User details</div>
+  </div>
+</ng-template>
+
+
+<ng-template #NewUserModal>
+  <div class="primary-modal">
+    <div class="modal-header" style="border: none !important; padding-bottom: 0">
+      <h4 class="modal-title" style="display: flex;justify-content: start;">New User</h4>
+      <button aria-label="Close" class="close pull-right" type="button" (click)="dialogRefWrapper.ref.close()"><span
+          aria-hidden="true">×</span>
+      </button>
+      <br>
+    </div>
+    <div class="pl-3 pb-3 pt-1">
+      Add a new user to the enterprise
+    </div>
+    <div class="w-100 pl-3" style="align-items: center;">
+      <div class="user-modal-heading mb-2">User details</div>
       <!-- {{roleMap | json}} -->
-        <!-- <form class="form-theme form-theme-with-md-controls " (ngSubmit)="onSubmit()" #loginForm="ngForm"> -->
-        <form class="form-theme form-theme-with-md-controls " #newBotDetails="ngForm">
-          <input required email class="form-theme-control my-1 col-3 mx-2" ngModel name="first_name" aria-describedby="emailHelp"
-            placeholder="First name">
-          <input class="form-theme-control my-1 col-3 mx-2" name="last_name" ngModel required placeholder="Last name">
-          <mat-form-field>
-            <mat-select placeholder="Select role" ngModel name="role" [value]="12">
-              <mat-option *ngFor="let role of roleMap; let i = index;" [value]="role.id">
-                      {{role.name}}
-                    </mat-option>
-                <!-- <mat-option [value]="12">
+      <!-- <form class="form-theme form-theme-with-md-controls " (ngSubmit)="loginSubmitHandler()" #loginForm="ngForm"> -->
+      <form class="form-theme form-theme-with-md-controls " #newBotDetails="ngForm">
+        <mat-form-field class="pr-3">
+          <input matInput placeholder="First name" ngModel name="first_name" required>
+        </mat-form-field>
+        <mat-form-field class="pr-3">
+          <input matInput placeholder="Last name" name="last_name" ngModel required>
+        </mat-form-field>
+
+        <!-- <input required class="form-theme-control my-1 mx-2" style="width: 200px" ngModel name="first_name" placeholder="First name">
+        <input required class="form-theme-control my-1 mx-2" style="width: 200px" name="last_name" ngModel placeholder="Last name"> -->
+        <mat-form-field>
+          <mat-select required placeholder="Select role" [(ngModel)]="newBotRole" (ngModelChange)="newUserRoleChanged($event)"
+            name="role">
+            <mat-option *ngFor="let role of roleMap; let i = index;" [value]="role.id">
+              {{role.name}}
+            </mat-option>
+            <!-- <mat-option [value]="12">
                   Admin
                 </mat-option>
                 <mat-option [value]="23">
                   developer
                 </mat-option> -->
-            </mat-select>
-          </mat-form-field>
-          <input class="form-theme-control my-1 col-7 mx-2" name="email" ngModel required placeholder="Email address">
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <mat-form-field style="width: 378px;" class = "pb-3">
+          <input matInput name="email" type="email"  ngModel placeholder="Email address" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+        </mat-form-field>
+      </form>
+
+
+    </div>
+    <div class="user-modal-heading pl-3">Add Bots(0 selected)</div>
+    <div class="d-flex w-100 col-12 pl-3" style="align-items: center;">
+
+      <div class="cursor-pointer color-primary mr-3" (click)="newBotList.reset()" style="font-size: 11px">
+        Clear
+      </div>
+      <div class="cursor-pointer color-primary mr-auto" (click)='selectAll(newBotList);' style="font-size: 11px">
+        Select all
+      </div>
+      <div>
+        <mat-form-field>
+          <input type="text" matInput placeholder="Search bots" [(ngModel)]="searchBots">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <!-- [(ngModel)]="copyModalTemplateSearchKeyword"> -->
+
+      </div>
+    </div>
+    <div class="modal-body" style="padding-top: 10px!important;">
+      <div class="d-flex flex-column align-items-center justify-content-center m-2" id="checkboxes">
+
+        <!-- <form class="modelBotNames" id="modelGenTempNameForm" #modelGenTempNameForm="ngForm" (submit)="selectedListCopy(modelGenTempNameForm)" -->
+        <form class="modelBotNames" id="newBotList" #newBotList="ngForm" style="overflow-y: scroll;max-height: 185px;">
+          <label class="container-chekbox text-dark" *ngFor="let bot of enterpriseUserBotList" [hidden]="!bot.name.toLowerCase().includes(searchBots.toLowerCase())">
+            <div style="width: 120px;overflow-wrap: break-word;"> {{bot.name}}</div>
+            <input type="checkbox" ngModel name="{{bot.id}}" [disabled]="isSelectedRoleAdmin">
+            <span class="checkmark" [ngClass]="isSelectedRoleAdmin && 'opacity-less'"></span>
+          </label>
         </form>
-  
-  
-      </div>
-      <div class="user-modal-heading pl-3">Add Bots(0 selected)</div>
-      <div class="d-flex w-100 col-12 pl-3" style="align-items: center;">
-  
-        <div class="cursor-pointer color-primary mr-3" (click)="newBotList.reset()">
-          Clear
-        </div>
-        <div class="cursor-pointer color-primary mr-auto" (click) = 'selectAll(newBotList);'>
-          Select all
-        </div>
-        <div>
-          <input type="text" style="width: 120px;border: 1px solid #e0e0e0;margin-right: 10px; padding: 3px" placeholder="Bots">
-          <!-- [(ngModel)]="copyModalTemplateSearchKeyword"> -->
-  
-        </div>
-      </div>
-      <div class="modal-body" style="padding-top: 10px!important;">
-        <div class="d-flex flex-column align-items-center justify-content-center m-2" id="checkboxes">
-  
-          <!-- <form class="modelBotNames" id="modelGenTempNameForm" #modelGenTempNameForm="ngForm" (submit)="selectedListCopy(modelGenTempNameForm)" -->
-          <form class="modelBotNames" id="newBotList" #newBotList="ngForm" style="overflow-y: scroll;max-height: 250px;">
-            <label class="container-chekbox text-dark" *ngFor="let bot of enterpriseUserBotList">
-              {{bot.name}}
-              <input type="checkbox" ngModel name="{{bot.id}}">
-              <span class="checkmark"></span>
-            </label>
-          </form>
-          <div class="d-flex w-100 mt-2">
-            <button class="btn-theme btn-theme-primary-outline ml-auto mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
-            <button class="btn-theme btn-theme-primary  d-inline-block mr-2" form="modelGenTempNameForm" (click) = "addNewUser();dialogRefWrapper.ref.close()">Add new user
-            </button>
-            <!-- <button class="btn-theme btn-theme-primary  d-inline-block mr-2"
+        <div class="d-flex w-100 mt-2">
+          <button class="btn-theme btn-theme-primary-outline ml-auto mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
+          <button class="btn-theme btn-theme-primary  d-inline-block mr-2" form="modelGenTempNameForm" [disabled]="!newBotDetails.valid"
+            (click)="addNewUser();dialogRefWrapper.ref.close()">Add new user
+          </button>
+          <!-- <button class="btn-theme btn-theme-primary  d-inline-block mr-2"
                     [disabled]="(modelGenTempNameForm.value|numberOfTrueKeys)<1"
                     form="modelGenTempNameForm">Copy now
             </button> -->
-          </div>
         </div>
       </div>
     </div>
-  </ng-template>
+  </div>
+</ng-template>

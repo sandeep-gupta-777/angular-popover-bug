@@ -43,6 +43,9 @@ import {PipelineFilterPipe} from './pipeline-filter.pipe';
 import {EnterpriseListComponent} from './auth/enterprise-list/enterprise-list.component';
 import {GenericObjFilterPipe} from './generic-obj-filter.pipe';
 import {ChatFeedbackComponent} from './chat-feedback/chat-feedback.component';
+import {LinkifyPipe} from './linkify.pipe';
+import {MsToHhMmPipe} from './ms-to-hh-mm.pipe';
+import {SafeHtmlPipe} from './safe-html.pipe';
 
 @NgModule({
   declarations: [
@@ -80,7 +83,10 @@ import {ChatFeedbackComponent} from './chat-feedback/chat-feedback.component';
     HighlightDirective,
     SafeUrlPipe,
     ImiLoaderComponent,
-    ChatFeedbackComponent
+    ChatFeedbackComponent,
+    LinkifyPipe,
+    MsToHhMmPipe,
+    SafeHtmlPipe
   ],
   imports: [
     MyMaterialModule,
@@ -92,6 +98,8 @@ import {ChatFeedbackComponent} from './chat-feedback/chat-feedback.component';
     ClickOutsideModule,
   ],
   exports: [
+    LinkifyPipe,
+    MsToHhMmPipe,
     GenericObjFilterPipe,
     EnterpriseListComponent,
     MyIfDirective,
@@ -131,7 +139,8 @@ import {ChatFeedbackComponent} from './chat-feedback/chat-feedback.component';
     ClickOutsideModule,
     MyMaterialModule,
     ImiLoaderComponent,
-    ChatFeedbackComponent
+    ChatFeedbackComponent,
+    SafeHtmlPipe
   ]
 })
 export class SharedModule {

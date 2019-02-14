@@ -36,10 +36,10 @@ export class EnterpriseprofileComponent  implements OnInit {
   }
 
   // initializeTableData(data: any, tableDataMetaDict: any): void {
-  //   // debugger;
+  //   //
   //   this.tableData = super.transformDataForMaterialTable(data, this.getTableDataMetaDict());
   //   this.tableData = this.tableData.map((tableGataItem) => {
-  //     // debugger;
+  //     //
   //     tableGataItem.Bots.value = tableGataItem.Bots.value.length + " bots assigned";
   //     tableGataItem.Actions.value = tableGataItem.Actions.value || [];
   //     tableGataItem.Actions.value.push({ show: true, name: 'modify', class: 'fa fa-edit mr-3 color-primary' });
@@ -47,7 +47,7 @@ export class EnterpriseprofileComponent  implements OnInit {
 
   //     return tableGataItem;
   //   });
-    // debugger;
+    //
     // this.
     // let sessionsDataForTable = super.transformDataForMaterialTable(session, this.getTableDataMetaDict());
     // sessionsDataForTable = sessionsDataForTable.map((sessionsDataForTableItem) => {

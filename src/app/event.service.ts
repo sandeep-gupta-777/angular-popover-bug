@@ -1,5 +1,6 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {Subscriber} from 'rxjs';
+import {IBot} from './core/interfaces/IBot';
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +8,7 @@ import {Subscriber} from 'rxjs';
 export class EventService {
 
   private removeCodeMirrorHistory$ = new EventEmitter();
+  public static codeValidationErrorOnUpdate$ = new EventEmitter();
 
   getRemoveCodeMirrorHistory$() {
     return this.removeCodeMirrorHistory$;
@@ -15,10 +17,10 @@ export class EventService {
   emitRemoveCodeMirrorHistoryEvent(source: string) {
     this.removeCodeMirrorHistory$.emit(source);
   }
-
   static progressBar$ = new EventEmitter<{loading: boolean, value: number }>();
   static disableSaveButton_codeInput$ = new EventEmitter<boolean>();
-
+  static toggleAllPipeLineModules = new EventEmitter<boolean>();
+  static botUpdatedInServer = new EventEmitter<IBot>();
   static unsubscribeInComponent(component){
     for (const key in component) {
       try {
@@ -31,6 +33,8 @@ export class EventService {
       }
     }
   }
+
+
 
   rerenderHandsonTable$ = new EventEmitter();
   reloadSessionTable$ = new EventEmitter();

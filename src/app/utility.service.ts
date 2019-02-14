@@ -40,6 +40,19 @@ export class UtilityService {
   ) {
   }
 
+  static removeAllNonDefinedKeysFromObject(obj:object){
+    for (let key in obj){
+      if(obj[key]=== undefined || obj[key]=== null || obj[key]=== ""){
+        delete obj[key];
+      }
+    }
+    return obj;
+  }
+
+  static areAllElementsInArrUnique(arr:any[]): boolean{
+    return (new Set(arr)).size === arr.length;
+  }
+
   refreshCodeEditor$ = new EventEmitter();
   readonly RANDOM_IMAGE_URLS = [
     'https://robohash.org/StarDroid.png',
@@ -151,6 +164,64 @@ export class UtilityService {
   }
 
 
+  public static convertCsvTextToArray(csv:string):string[][]{
+    let lines=csv.split("\n");
+
+    lines = lines.map((line)=>{
+      return line.trim();
+    });
+    let arr:string[][] = [];
+    for (let i=0; i<lines.length; ++i){
+      arr.push(lines[i].split(','));
+    }
+    return arr;
+  }
+  public static convertCsvToJson(csv){
+    var lines=csv.split("\n");
+    var result = [];
+    var headers = lines[0].split(",");
+
+    for(var i=1; i<lines.length; i++) {
+      var obj = {};
+
+      var row = lines[i],
+          queryIdx = 0,
+          startValueIdx = 0,
+          idx = 0;
+
+      if (row.trim() === '') { continue; }
+
+      while (idx < row.length) {
+        /* if we meet a double quote we skip until the next one */
+        var c = row[idx];
+
+        if (c === '"') {
+          do { c = row[++idx]; } while (c !== '"' && idx < row.length - 1);
+        }
+
+        if (c === ',' || /* handle end of line with no comma */ idx === row.length - 1) {
+          /* we've got a value */
+          var value = row.substr(startValueIdx, idx - startValueIdx).trim();
+
+          /* skip first double quote */
+          if (value[0] === '"') { value = value.substr(1); }
+          /* skip last comma */
+          if (value[value.length - 1] === ',') { value = value.substr(0, value.length - 1); }
+          /* skip last double quote */
+          if (value[value.length - 1] === '"') { value = value.substr(0, value.length - 1); }
+
+          var key = headers[queryIdx++];
+          obj[key] = value;
+          startValueIdx = idx + 1;
+        }
+
+        ++idx;
+      }
+
+      result.push(obj);
+    }
+    return result;
+  }
   readInputFileAsText(inputElement): Promise<any> {
     return new Promise((resolve, reject) => {
       const input = inputElement; //event.target;
@@ -269,6 +340,27 @@ export class UtilityService {
     }
   }
 
+  static cloneObj(obj){
+    return JSON.parse(JSON.stringify(obj));
+  }
+
+  static removeEmptyKeyValues(valClone) {
+    for (let key in valClone) {
+      if (!valClone[key]) {/*if value is "" or undefined */
+        delete valClone[key];
+      }
+    }
+    return valClone;
+  }
+
+  static trimAllObjValues(obj:object) {
+    for (let key in obj) {
+      if (obj[key] && obj[key].trim) {
+        obj[key] = obj[key].trim();
+      }
+    }
+    return obj;
+  }
 
   findDataByName(convertedData, name) {
     for (let i = 0; i < convertedData.length; ++i) {
@@ -469,12 +561,28 @@ export class UtilityService {
     rawData: { activesessions: number, labels: string, totalsessions: number }[],
     xAxisLabel: string,
     startTime_ms: number = Date.UTC(2010, 0, 2), //Date.UTC(2010, 0, 2),
-    granularity_Ms: number = 24 * 3600 * 1000,  // one day
+    granularity: string = 'day',  // one day
   ) {
+
 
     if (!rawData) {
       return;
     }
+
+    let intervalObj = {};
+    if(granularity === 'day' || granularity === 'month' || granularity === 'year'){
+      intervalObj = {
+        pointIntervalUnit: granularity,//24*3600*1000  // one day,
+      }
+    }else {
+      /*pointIntervalUnit doesnt work for hour and week
+      *https://api.highcharts.com/highstock/series.column.pointIntervalUnit
+      * */
+      intervalObj = {
+        pointInterval: this.convertGranularityStrToMs(granularity),//24*3600*1000  // one day,
+      }
+    }
+
     const template: any = {
       xAxis: {
         type: 'datetime'
@@ -490,17 +598,21 @@ export class UtilityService {
       plotOptions: {
         series: {
           pointStart: startTime_ms, //Date.UTC(2010, 0, 2),
-          pointInterval: granularity_Ms//24*3600*1000  // one day
+          ...intervalObj,
+          // pointIntervalUnit: granularity,//24*3600*1000  // one day,
+          label: {
+            enabled: false
+          }
         }
       },
 
-      series: [{
-        name: 'sandeep',
-        data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-      }, {
-        name: 'gupta',
-        data: [144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4, 29.9, 71.5, 106.4, 129.2]
-      }]
+      // series: [{
+      //   name: 'sandeep',
+      //   data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+      // }, {
+      //   name: 'gupta',
+      //   data: [144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4, 29.9, 71.5, 106.4, 129.2]
+      // }]
     };
 
     // let categoriesString = rawData.map((dataItem) => dataItem.labels);
@@ -527,7 +639,7 @@ export class UtilityService {
         data.push(obj[key]); //pushing a new coordinate
       });
     });
-    // debugger;
+    //
     template.series = seriesArr;
     return template;
   }
@@ -593,31 +705,31 @@ export class UtilityService {
       if (value === 'labels') {
         return;
       }
-      
+
 
       seriesArr.push({
         name: value, //y1
         data: []//[(xi,y1i)]
       });
     });
-    debugger;
+
     /*now loop over rawData and fill convertedData's data array*/
 
     rawData.forEach((obj) => {
-      
+
       Object.keys(obj).forEach((key) => {
         if (key === xAxisLabel) {
           return;
         }
-        
+
 
         const data = this.findDataByName(seriesArr, key);
         // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
         data.push(obj[key]); //pushing a new coordinate
       });
     });
-    debugger;
-    // debugger;
+
+    //
     // delete seriesArr[2];
     seriesArr = seriesArr.filter(arr => arr.name != 'total');
     template.series = seriesArr;
@@ -798,8 +910,9 @@ export class UtilityService {
   }
 
   showErrorToaster(message: string, sec = 4) {
+    debugger;
     try {
-      this.snackBar.open(message, '', {
+      this.snackBar.open(message || "Some error occurred", '', {
         duration: (sec * 1000) || 2000,
         panelClass: ['bg-danger'],
         verticalPosition: 'top',
@@ -891,6 +1004,9 @@ export class UtilityService {
     }
     if (granularity === 'day') {
       return 24 * 3600 * 1000;
+    }
+    if (granularity === 'week') {
+      return 24 * 3600 * 7 * 1000;
     }
     if (granularity === 'month') {
       return 30 * 24 * 3600 * 1000;
@@ -1037,7 +1153,7 @@ export class UtilityService {
     errorObj[EFormValidationErrors.form_validation_basic_info] = 'Basic info form is not valid';
     errorObj[EFormValidationErrors.form_validation_integration] = 'Integration form is not valid';
     errorObj[EFormValidationErrors.form_validation_pipeline] = 'Pipeline is not valid';
-    errorObj[EFormValidationErrors.form_validation_avator] = 'Avators are either invalid or empty';
+    errorObj[EFormValidationErrors.form_validation_avator] = 'Avatars are either invalid or empty';
     errorObj[EFormValidationErrors.form_validation_data_management] = 'Data Management form is invalid';
     return errorObj;
   }
@@ -1062,6 +1178,7 @@ export class UtilityService {
   }
 
   performFormValidationBeforeSaving(obj: IBot): IBot {
+
     const objShallowClone = { ...obj };
     const validation_Keys: string[] = Object.keys(objShallowClone).filter((key) => {
       return key.includes('form_validation_');
@@ -1165,6 +1282,40 @@ export class UtilityService {
     }
     return false;
   };
+
+
+  static replaceHrefWithAnchorTag(str){
+    if(!str) return;
+    let regex:RegExp = /http[s]?:\/\/[\w,.]+/gm;
+    // str.replace(, "SO");
+    regex.exec(str);
+  }
+
+
+  /*
+  * linkify: replaces all texts to <a> links in a string
+  * */
+  static linkify(inputText, className) {
+    var replacedText, replacePattern1, replacePattern2, replacePattern3;
+
+    //URLs starting with http://, https://, or ftp://
+    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+    replacedText = inputText.replace(replacePattern1, `<a href="$1" target="_blank" class="${className}">$1</a>`);
+
+    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    replacedText = replacedText.replace(replacePattern2, `$1<a href="http://$2" class="${className} target="_blank">$2</a>`);
+
+    //Change email addresses to mailto:: links.
+    replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+    replacedText = replacedText.replace(replacePattern3, `<a href="mailto:$1" class="${className}>$1</a>`);
+
+    console.log(replacedText);
+    return replacedText;
+
+  }
+
+
 
 
 }

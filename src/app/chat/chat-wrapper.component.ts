@@ -30,6 +30,7 @@ import {IEnterpriseProfileInfo} from '../../interfaces/enterprise-profile';
 import {UpdateBotInfoByIdInBotInBotList} from '../core/view-bots/ngxs/view-bot.action';
 import {IIntegrationOption} from '../../interfaces/integration-option';
 import {ELogType, LoggingService} from '../logging.service';
+import {EventService} from '../event.service';
 
 export interface IBotPreviewFirstMessage {
   'generated_msg': [
@@ -110,6 +111,14 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   ngOnInit() {
+    EventService.botUpdatedInServer.subscribe((bot:IBot)=>{
+      if(bot.id === this.currentBot.id && bot.allow_feedback !== this.currentBot.allow_feedback){
+        this.store.dispatch([
+            new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({bot:bot})
+        ]);
+      }
+    });
+
     LoggingService.log('inside chat-wrapper');
     this.loggeduser$.subscribe((loggeduser) => {
       try {
@@ -357,6 +366,7 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   sendFeedback(feedback: IChatFeedback) {
+
     let roomId = this.currentRoom.id;
     feedback.consumer_id = this.currentRoom.consumer_id;
     let url = this.constantsService.getChatFeedbackUrl();

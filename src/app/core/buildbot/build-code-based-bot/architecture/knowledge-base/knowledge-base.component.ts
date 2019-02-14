@@ -35,7 +35,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
   _custumNerDataForSmartTable: any[] = [];
   @Input() set custumNerDataForSmartTable(value: ICustomNerItem[]) {
 
-    debugger;
+
     this._custumNerDataForSmartTable = value;
     setTimeout(()=>{
       this.initializeTableData(value, this.getTableDataMetaDict());
@@ -140,7 +140,12 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
       body = {values: data.codeTextOutPutFromCodeEditor, ...body};
     } else if (data.ner_type === 'database') {
       const handontableDataClone = JSON.parse(JSON.stringify(data.handsontableData));
-      const column_headers = handontableDataClone[0] || ['', '', ''];
+      const column_headers = handontableDataClone[0];
+      let areHeaderElementRepeated = UtilityService.areAllElementsInArrUnique(column_headers);
+      if(!areHeaderElementRepeated){
+        this.utilityService.showErrorToaster("Header values are not valid");
+        return;
+      }
       handontableDataClone.shift();
       let handsontableDataSerialized: any[] = handontableDataClone.map((row) => {
         const obj = {};
@@ -165,9 +170,9 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
         // return obj;
       });
 
-      console.log('shoaib sadas', handsontableDataSerialized);
       handsontableDataSerialized = handsontableDataSerialized.filter(function (el) {
-        return el != null;
+
+        return el !=null;
       });
 
       if(!handsontableDataSerialized || handsontableDataSerialized.length===0){
@@ -306,8 +311,11 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     this.showTable = false;
     this.codeTextInputToCodeEditor = selectedRowData.values && selectedRowData.values;
     if (selectedRowData.ner_type === 'database') {
-      // let valueKeys = selectedRowData.column_headers;
-      const valueKeys = Object.keys(selectedRowData.values[0]);
+      /*
+      * column_headers is array which will keep the order of headers written by user
+      * Object.keys(selectedRowData.values[0]) => will not keep order since its coming from dictionary
+      * */
+      const valueKeys = selectedRowData.column_headers || Object.keys(selectedRowData.values[0]);
       this.handontableData = selectedRowData.values.map((value) => {
         return valueKeys.map((valueKey) => {
           return value[valueKey];
@@ -331,8 +339,8 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     this.showTable = false;
   }
 
-  pageChanged(pageNumber) {
-    this.pageChanged$.emit(pageNumber);
+  pageChanged({page}) {
+    this.pageChanged$.emit(page);
   }
 
   showNerSmartTable() {

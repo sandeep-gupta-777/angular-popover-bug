@@ -68,6 +68,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
       return;
     }
     this._allbotList = _allbotList;
+
     this.codebasedBotList = this._allbotList.filter((bot) => bot.bot_type === EBotType.chatbot);
     if (this.f && _allbotList && _allbotList.length > 0) {
       this.f.form.patchValue({botId: this._allbotList[0].id, platform: this.channelList[0].name});
@@ -77,6 +78,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   granularityList = [
     {value:'hour', displayValue: 'Hourly'},
     {value:'day', displayValue: 'Daily'},
+    {value:'week', displayValue: 'Weekly'},
     {value:'month', displayValue: 'Monthly'},
     {value:'year', displayValue: 'Yearly'}
   ];
@@ -209,7 +211,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
                   const responseCopy: IChannelWiseAverageSessionTimeResponseBody = response;
                   this.store.dispatch(new SetChannelWiseAverageSessionTime({data: responseCopy.objects[0].output.channelWiseAverageSessionTime}));
                 }
-                
+
                 if (headerData.type === EAnalysis2TypesEnum.totalFlows) {
                   const responseCopy: ITotalFlowsResponseBody = response;
                   this.store.dispatch(new SetTotalFlows({data: responseCopy.objects[0].output.totalFlows}));
@@ -235,7 +237,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
                   const responseCopy: ITotalRoomsResponseBody = response;
                   this.store.dispatch(new SetTotalRooms({data: responseCopy.objects[0].output.totalRooms}));
                 }
-                
+
                 if (headerData.type === EAnalysis2TypesEnum.sessionhandling) {
                   const responseCopy: any = response;
                   this.store.dispatch(new SetSessionhandling({data: responseCopy.objects[0].output.sessionhandling}));
@@ -261,7 +263,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
                 }
                 if (headerData.type === EAnalysis2TypesEnum.topgenerationtemplates) {
                   const responseCopy: any = response;
-                    
+
                   this.store.dispatch(new SetTopgenerationtemplates({data: responseCopy.objects[0].output[EAnalysis2TypesEnum.topgenerationtemplates]}));
                 }
                 if (headerData.type === EAnalysis2TypesEnum.totalSessions) {

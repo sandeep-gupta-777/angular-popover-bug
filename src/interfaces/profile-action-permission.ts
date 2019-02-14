@@ -4,6 +4,7 @@ export interface IProfilePermission {
   'id': 1;
   'is_system_role': true;
   'name': string;
+  is_default_action:boolean;
   'permissions': {
     'endpoint': string,
     'fields': any[],

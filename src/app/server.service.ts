@@ -1,7 +1,7 @@
 import {catchError, map, tap} from 'rxjs/operators';
 import {Injectable, isDevMode} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable, throwError, throwError as _throw} from 'rxjs';
+import {Observable, of, throwError, throwError as _throw} from 'rxjs';
 import {ConstantsService} from './constants.service';
 import {Select, Store} from '@ngxs/store';
 import {IUser} from './core/interfaces/user';
@@ -36,6 +36,9 @@ import {EHttpVerbs, PermissionService} from './permission.service';
 import {LoggingService} from './logging.service';
 import {EventService} from './event.service';
 import {IPipelineItemV2} from './core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
+import {IAppState} from './ngxs/app.state';
+import {take} from 'rxjs/internal/operators';
+import {IRoleInfo} from '../interfaces/role-info';
 
 declare var IMI: any;
 declare var $: any;
@@ -46,10 +49,12 @@ declare var $: any;
 export class ServerService {
 
   @Select() loggeduser$: Observable<{ user: IUser }>;
+  @Select() app$: Observable<IAppState>;
   public X_AXIS_TOKEN: string = null;
+  roleName:string;
   public AUTH_TOKEN: string = null;
   private isLoggedIn = false;
-
+  roleInfo:IRoleInfo;
 
   constructor(
     private httpClient: HttpClient,
@@ -64,7 +69,24 @@ export class ServerService {
       }
       this.AUTH_TOKEN = value.user.auth_token && value.user.auth_token;
       this.X_AXIS_TOKEN = value.user.user_access_token && value.user.user_access_token;
+      this.roleName = value.user.role.name;
+      this.app$.pipe(take(1)).subscribe((appState)=>{
+        if(!this.roleInfo && appState.roleInfoArr)
+        this.roleInfo = appState.roleInfoArr.find((role)=>{
+          return role.name === value.user.role.name
+        });
+      })
     });
+
+    this.app$.subscribe((appState)=>{/*todo: code repetition: this code should run after logged value has been set*/
+      if(this.roleName)
+      if(appState.roleInfoArr)
+        this.roleInfo = appState.roleInfoArr.find((role)=>{
+          return role.name === this.roleName;
+        });
+    })
+
+
   }
 
   removeTokens() {
@@ -101,7 +123,8 @@ export class ServerService {
     const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
       console.log(`api access not allowed:${reqObj.url}`);
-      return throwError(`api access not allowed:${reqObj.url}`);
+      // return throwError(`api access not allowed:${reqObj.url}`);
+      return of(null);
     }
     const headers = this.createHeaders(reqObj.headerData);
 
@@ -117,7 +140,7 @@ export class ServerService {
       }),
       tap((value) => {
         this.changeProgressBar(false, 100);
-        this.IncreaseAutoLogoutTime();
+        this.increaseAutoLogoutTime();
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
@@ -126,14 +149,19 @@ export class ServerService {
 
   handleErrorFromServer(e) {
 
-    let arg = (e.error && e.error.error) ? e.error : e;
-    this.showErrorMessageForErrorTrue(arg);
+    if(e.error && (e.error.error === true)){
+      this.showErrorMessageForErrorTrue(e.error);
+    }else {
+      this.showErrorMessageForErrorTrue({error: true, message:"Some error occurred"});
+    }
+    // let arg = (e.error && e.error.error) ? e.error : e;
+    // this.showErrorMessageForErrorTrue(arg);
     this.changeProgressBar(false, 100);
     if (isDevMode()) {
       LoggingService.error(e);
       // this.utilityService.showErrorToaster(e);
     }
-    return _throw('error');
+    return _throw(e);
   }
 
   makeGetReqToDownloadFiles(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }) {
@@ -147,7 +175,7 @@ export class ServerService {
       }),
       tap((value) => {
         this.changeProgressBar(false, 100);
-        this.IncreaseAutoLogoutTime();
+        this.increaseAutoLogoutTime();
       }),
       catchError((e: any) => {
         return this.handleErrorFromServer(e);
@@ -172,7 +200,7 @@ export class ServerService {
       }),
       tap((value) => {
         this.changeProgressBar(false, 100);
-        this.IncreaseAutoLogoutTime();
+        this.increaseAutoLogoutTime();
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
@@ -190,7 +218,7 @@ export class ServerService {
         return this.checkForErrorTrue(value);
       }),
       tap((value) => {
-        this.IncreaseAutoLogoutTime();
+        this.increaseAutoLogoutTime();
         if (!reqObj.dontShowProgressBar) {
           this.changeProgressBar(false, 100);
         }
@@ -211,7 +239,7 @@ export class ServerService {
         return this.checkForErrorTrue(value);
       }),
       tap((value) => {
-        this.IncreaseAutoLogoutTime();
+        this.increaseAutoLogoutTime();
         this.changeProgressBar(false, 100);
       }),
       catchError((e: any, caught: Observable<T>) => {
@@ -251,10 +279,13 @@ export class ServerService {
     return this.makePostReq<IOverviewInfoResponse>({url, body});
   }
 
-  IncreaseAutoLogoutTime() {
-    const autoLogoutInterval = 3600 * 1000; //3600*1000
+  increaseAutoLogoutTime() {
+    const autoLogoutInterval = (this.roleInfo && this.roleInfo.session_expiry_time*1000) || 3600 * 1000; //3600*1000
+    if(!this.roleInfo){
+      // console.log("increaseAutoLogoutTime: ROLE IS NOT FOUND=====================")
+    }
     this.store.dispatch([
-      new SetAutoLogoutTime({time: Date.now() + autoLogoutInterval})
+      new SetAutoLogoutTime({time: (Date.now() + autoLogoutInterval)})
     ]);
   }
 
@@ -295,15 +326,18 @@ export class ServerService {
 
 
   getNSetPipelineModuleV2() {
+
     const url = this.constantsService.getPipelineModuleV2();
     return this.makeGetReq<{ meta: any, objects: IPipelineItemV2[] }>({url})
-      .subscribe((value) => {
-        this.store.dispatch([
-          new SetPipelineItemsV2({
-            data: value.objects
-          })
-        ]);
-      });
+      .pipe(tap((value) => {
+        if(value){
+          this.store.dispatch([
+            new SetPipelineItemsV2({
+              data: value.objects
+            })
+          ]);
+        }
+      }));
   }
 
   getNSetIntegrationList() {
@@ -313,13 +347,13 @@ export class ServerService {
         // this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
         // this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
       }))
-      .subscribe((value) => {
+      .pipe(map((value) => {
         this.store.dispatch([
           new SetMasterIntegrationsList({
             masterIntegrationList: value.objects
           })
         ]);
-      });
+      }));
   }
 
   changeProgressBar(loading: boolean, value: number) {
@@ -630,6 +664,7 @@ export class ServerService {
   }
 
   getNSetMasterPermissionsList() {
+
     const allActionsUrl = this.constantsService.getAllActionsUrl();
     return this.makeGetReq<{ meta: any, objects: IProfilePermission[] }>({url: allActionsUrl}).pipe(
       map((value: { objects: IProfilePermission[] }) => {

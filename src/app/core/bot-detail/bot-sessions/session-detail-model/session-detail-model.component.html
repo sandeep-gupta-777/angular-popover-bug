@@ -1,3 +1,4 @@
+<!--<i>{{sessionMessageDataCopy|json}}</i>-->
 <div class="card">
   <div class="card-header d-flex  justify-content-between align-items-center">
     <div class="d-flex ">
@@ -7,10 +8,10 @@
       <i class="fa fa-angle-right cursor-pointer"
          (click)="selectNextRow.emit()"></i>
     </div>
-
+    <!--<i>{{searchEnterPressedCount}}</i>-->
     <div class="d-flex  align-items-center justify-content-center">
       <i class="fa fa-refresh mr-2 cursor-pointer" [ngClass]="{'fa-spin':showSpinIcon}"
-         (click)="loadSessionById(_session.id);"></i>
+         (click)="updateModal(_session.id);"></i>
       <div class="d-flex  flex-column align-items-start align-content-start">
         <span class="secondary">Last updated at</span>
         <span class="primary">{{_session.updated_at|date:'mediumDate'}}</span>
@@ -67,7 +68,7 @@
           </div>
           <!--search input ends-->
           <div class="session-messages-container row m-0 my-2 p-1 align-items-start align-content-start">
-            <i class="fa fa-angle-down" (click)="scrollMessageListToEnd()"></i>
+            <i class="fa" [ngClass]="{'fa-angle-down':scrollDown,'fa-angle-up':!scrollDown}" *ngIf="sessionMessageDataCopy && sessionMessageDataCopy.length >5" (click)="scrollMessageList()"></i>
             <div style="height: 100%;width: 100%; padding-right: 5px" class="session-messages-container-list">
               <div class="col-12 px-0 border-hover-txn"
                    style="padding-left: 5px !important;"
@@ -108,7 +109,7 @@
                (click)="tabClicked('datastore')"><strong>DATASTORE</strong></a>
           </li>
         </ul>
-        <pre *ngIf="codeText" class="p-2" style="width: 100%; height: 100%; background-color: #000055; color: white">
+        <pre *ngIf="codeText" class="p-2" style="width: 100%; height: 100%; background-color: #000055; color: white; overflow: auto">
                 {{(codeText|json)}}
               </pre>
         <div *ngIf="!codeText" class="p-2 d-flex flex-column justify-content-center align-items-center"
