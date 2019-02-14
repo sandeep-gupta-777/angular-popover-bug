@@ -39,10 +39,12 @@ export class RoleaccordionComponent implements OnInit {
     return ans;
   }
   removePermissionById(id){
+    if(this.systemRole) return;
     this.removePermission.emit({roleIds : id})
   }
   
   addPermissionById(id){
+    if(this.systemRole) return;
     this.addPermission.emit({roleIds:id})
   }
   selectAll(){

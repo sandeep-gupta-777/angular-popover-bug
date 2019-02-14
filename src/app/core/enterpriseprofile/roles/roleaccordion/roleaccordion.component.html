@@ -13,9 +13,15 @@
         </div>
         <div class="description pt-1">{{roleItem.description}}</div>
       </div>
-      <div class="col-1 d-flex" *ngIf = "!systemRole">
-          <i class="fa fa-minus-circle color-danger my-auto" *ngIf = "isPermission(roleItem.id)" (click)="removePermissionById([roleItem.id])"></i>
-        <i class="fa fa-plus-circle color-primary my-auto" *ngIf = "!isPermission(roleItem.id)" (click)="addPermissionById([roleItem.id])"></i>
+      <div class="col-1 d-flex"  >
+        <i class="fa fa-minus-circle color-danger my-auto" 
+          *ngIf = "isPermission(roleItem.id)" 
+          (click)="removePermissionById([roleItem.id])" 
+          [ngClass]="{'half-opacity':!!systemRole}"></i>
+        <i class="fa fa-plus-circle color-primary my-auto" 
+          *ngIf = "!isPermission(roleItem.id)" 
+          (click)="addPermissionById([roleItem.id])" 
+          [ngClass]="{'half-opacity':!!systemRole}"></i>
       </div>
     </div>
   </div> 
