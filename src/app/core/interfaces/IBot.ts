@@ -91,7 +91,7 @@ export interface IBot {
   'room_persistence_time'?: number;
   'transactions_per_pricing_unit'?: number;
   'updated_at'?: string;
-  'updated_by'?: number;
+  'updated_by'?: string;
 
   enterprise_name?: string;
   enterprise_logo?: string;
