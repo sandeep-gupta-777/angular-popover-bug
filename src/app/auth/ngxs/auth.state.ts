@@ -1,8 +1,8 @@
-import {IUser} from '../../core/interfaces/user';
-import {Action, State, StateContext} from '@ngxs/store';
-import {SetCodeBasedBotListAction} from '../../core/view-bots/ngxs/view-bot.action';
-import {ResetAuthToDefaultState, SetUser} from './auth.action';
-import {ConstantsService} from '../../constants.service';
+import { IUser } from '../../core/interfaces/user';
+import { Action, State, StateContext } from '@ngxs/store';
+import { SetCodeBasedBotListAction } from '../../core/view-bots/ngxs/view-bot.action';
+import { ResetAuthToDefaultState, SetUser } from './auth.action';
+import { ConstantsService } from '../../constants.service';
 
 
 export interface IAuthState {
@@ -17,10 +17,10 @@ const initialState: IAuthState = {
   defaults: initialState
 })
 
-//same as reducer
+// same as reducer
 export class AuthStateReducer {
 
-  constructor(private constantsService: ConstantsService) {}
+  constructor(private constantsService: ConstantsService) { }
   @Action(SetUser)
   setUser({patchState, setState, getState, dispatch}: StateContext<IAuthState>, {payload}: SetUser) {
     debugger;
@@ -29,8 +29,8 @@ export class AuthStateReducer {
   }
 
   @Action(ResetAuthToDefaultState)
-  resetAuthToDefaultState({patchState, setState, getState, dispatch}: StateContext<IAuthState>) {
-    patchState({user: null});
+  resetAuthToDefaultState({ patchState, setState, getState, dispatch }: StateContext<IAuthState>) {
+    patchState({ user: null });
   }
 
 }

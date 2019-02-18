@@ -55,10 +55,7 @@ export class EnterpriseOverviewComponent  implements OnInit {
   }
   openNewServiceKeyModal(template: TemplateRef<any>) {
 
-    // this.selectedPipeline = pipeline;
-    // this.modalRef = this.modalService.show(template, { class: 'modal-md' });
     this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
-    // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
   getTableDataMetaDictActive(): any {
     return this.constantsService.SMART_TABLE_SERVICE_KEY_ACTIVE;
@@ -158,7 +155,6 @@ export class EnterpriseOverviewComponent  implements OnInit {
 
       }
       obj.originalSessionData = consumerTableDataItem;
-      // console.log("ttttttttt", obj);
       return obj;
     });
     //
@@ -178,7 +174,7 @@ export class EnterpriseOverviewComponent  implements OnInit {
 
         this.serviceKeys.push(value);
         this.serviceKeys = [...this.serviceKeys];
-
+        //
         this.utilityService.showSuccessToaster("New service key added successfully");
         this.store.dispatch([
           new SetEnterpriseServiceKeyAction({ service_key: this.serviceKeys })
@@ -250,7 +246,6 @@ export class EnterpriseOverviewComponent  implements OnInit {
 
         this.serviceKeys = enterprise.service_key;
 
-        //  if(this.serviceKeys.length > 0){
 
         let expiredTableData = enterprise.service_key.filter(data => data.enabled == true);
         expiredTableData = expiredTableData.filter(data => typeof data.description == "string");
@@ -263,7 +258,6 @@ export class EnterpriseOverviewComponent  implements OnInit {
           return -a.expired_at+b.expired_at
       })
         this.serviceKeyTableDataExpired = this.transformDataForMaterialTable(expiredTableData, this.getTableDataMetaDictActive());
-
         this.serviceKeyTableDataActive = this.transformDataForMaterialTable(activeTableData, this.getTableDataMetaDictExpired());
 
 
@@ -297,7 +291,7 @@ export class EnterpriseOverviewComponent  implements OnInit {
               this.store.dispatch([
                 new SetUser({ user: value }),
               ])
-              // this.gotUserData$.emit(value);
+
             });
         });
       });
@@ -312,7 +306,6 @@ export class EnterpriseOverviewComponent  implements OnInit {
       //
       this.serverService.makePostReq<any>({ url: disableServiceKeyUrl, body, headerData })
         .subscribe((value) => {
-
           this.serviceKeys = this.serviceKeys.map((item) => {
             if (item["key"] == body.service_key) {
               return value;

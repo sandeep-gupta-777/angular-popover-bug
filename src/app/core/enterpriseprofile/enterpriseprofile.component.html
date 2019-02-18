@@ -2,213 +2,27 @@
   <mat-tab label="Overview">
     <div class="px-4 mt-2">
         <app-enterprise-overview></app-enterprise-overview>
-      <!-- <header class="row mt-3 pb-3 profile-row ">
-        <div class="col-12 p-0">
-          <div class="card">
-            <div class="card-header d-flex justify-content-between justify-content-center align-items-center">
-              <h4>Enterprise Profile</h4>
-            </div>
-            <div class = "d-flex">
-              <div class = "card-header">
-                Profile settings
-              </div>
-              
-                <button class="btn-theme btn-theme-primary ml-auto " [disabled]="!formGroup.valid" (click)="updateEnterpriseProfile()">Update</button>
-              
-            </div>
-            
-          </div>
-        </div>
-
-      </header> -->
-      <!-- <div *ngIf="(loggeduserenterpriseinfoMap$|async) as loggeduserenterpriseinfo">
-        <section class="row basic-row bg-white pt-3">
-          <div class="col-3 logo-wrapper-col p-5">
-            <div class="logo-wrapper">
-              <img [src]="logoUrl.value" alt="">
-            </div>
-          </div>
-          <div class="col-9">
-            <h4 class="form-title">Basic</h4>
-            <form [formGroup]="formGroup" class="basic-info-form">
-              <div class="row">
-                <div class="col-5">
-                  <div class="form-group">
-                    <label for="name">Company Name</label>
-                    <input type="text" class="form-control" formControlName="name" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="alterEgo">Industry</label>
-                    <input type="text" class="form-control" formControlName="industry">
-                  </div>
-                  
-                  <div class="form-group">
-                    <label for="alterEgo">Logo Url</label><i class="text-danger pl-1" style="font-size: 11px">{{logoError}}</i>
-                    <input type="text" #logoUrl class="form-control" formControlName="logo">
-                    <i class="text-danger font-11 mr-1" *ngIf="formGroup.get('logo').getError('Image Extension is not correct')">Image
-                      Extension is not correct</i>
-                    <i class="text-danger font-11" *ngIf="formGroup.get('logo').getError('Must be Https Url')">Must be
-                      Https Url</i>
-                  </div>
-                </div>
-                <div class="col-5">
-                  <div class="form-group">
-                    <label for="alterEgo">Email</label>
-                    <input type="text" class="form-control" formControlName="email">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="alterEgo">Website Url</label>
-                    <input type="text" class="form-control" formControlName="websiteUrl">
-                  </div>
-                </div>
-              </div>
-              <h4 class="form-title">Advanced</h4>
-              <div class="row">
-                <div class="col-5">
-                  <div class="form-group">
-                    <label for="name">Enterprise Unique Name</label>
-                    <input type="text" class="form-control" required formControlName="enterpriseUniqueName" readonly>
-                  </div>
-
-                </div>
-                <div class="col-5">
-                  <div class="form-group">
-                    <label for="alterEgo">Tier Group</label>
-                    <input type="number" class="form-control" disabled formControlName="tier_group">
-                  </div>
-                </div>
-                <div class="col-5">
-                  <div class="form-group">
-                    <label for="alterEgo">Log Retention Period</label>
-                    <input type="text" class="form-control" formControlName="log_retention_period">
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-        </section>
-        
-
-        </div> -->
-        </div>
-
-        <!--<section class="row enterprise-profile-info-row bg-white" *ngIf="role==='Admin'">-->
-        <!--<div class="col-12">-->
-        <!--<table class="table">-->
-        <!--<thead class="">-->
-        <!--<tr>-->
-        <!--<th scope="col">#</th>-->
-        <!--<th scope="col">Name</th>-->
-        <!--<th scope="col">Email</th>-->
-        <!--<th scope="col">Created At</th>-->
-        <!--<th scope="col">Updated At</th>-->
-        <!--<th scope="col">Permissions</th>-->
-        <!--</tr>-->
-        <!--</thead>-->
-        <!--<tbody>-->
-        <!--<tr *ngFor="let enterpriseuser of loggeduserenterpriseinfo.enterpriseusers">-->
-        <!--<td>1</td>-->
-        <!--<td>{{enterpriseuser.first_name}}</td>-->
-        <!--<td>{{enterpriseuser.email}}</td>-->
-        <!--<td>{{enterpriseuser.created_at|date}}</td>-->
-        <!--<td>{{enterpriseuser.updated_at|date}}</td>-->
-        <!--<td> empty</td>-->
-        <!--</tr>-->
-        <!--</tbody>-->
-        <!--</table>-->
-        <!--</div>-->
-        <!--</section>-->
-
-  
-      <!--<app-smart-table [data]="loggeduserenterpriseinfo.enterpriseusers"-->
-      <!--[settings]="smartTableSettings_Enterprise_profiles">-->
-      <!--</app-smart-table>-->
-
-  
+        </div> 
   </mat-tab>
   <mat-tab label="Users">
     <div class="px-4 mt-2">
         <app-enterprise-users></app-enterprise-users>
-      <!-- <header class="row mt-3  profile-row" *ngIf="role==='Admin'">
-        <div class="col-12 p-0">
-          <div class="card">
-            <div class="card-header d-flex justify-content-between justify-content-center align-items-center">
-              <h4>Users management</h4>
-            </div>
-            <div class="card-header d-flex justify-content-between justify-content-center align-items-center">
-              Manage users of your enterprise by adding new ones, modifying and removing existing ones.
-            </div>
-          </div>
-        </div>
-      </header>
-      <div class="d-flex">
-        <div class="d-inline-block " *ngIf="role==='Admin'">
-          All Users
-        </div>
-        <div class="ml-auto ">
-          <button class="btn-theme btn-theme-primary" (click)="openUserEditModal(NewUserModal)">New User</button>
-        </div>
-      </div>
-
-      <div class="row mt-3 bg-white profile-row" *ngIf="role==='Admin'">
-
-        <div class="col-12 p-0 m-0">
-          <app-smart-table *ngIf="tableData" [data]="tableData"
-          (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,enterpriseDeleteModal,ModifyUserModal)"
-          >
-          </app-smart-table>
-        </div>
-
-      </div> -->
     </div>
   </mat-tab>
-  <mat-tab label="Roles" [disabled]="true">
+  <mat-tab label="Roles"  >
     <div class="px-4 mt-2">
-      <!-- <header class="row mt-3  profile-row" *ngIf="role==='Admin'">
-        <div class="col-12 p-0">
-          <div class="card">
-            <div class="card-header d-flex justify-content-between justify-content-center align-items-center">
-              <h4>Custom role management</h4>
+      <app-enterprise-roles
+      *ngIf="!currentRoleState || currentRoleState == myEnterpriseRoleTabName.roles " 
+      (selectedRole)="roleSelected($event)"
+      (enterRole) = "isNewRole = false; currentRoleState = myEnterpriseRoleTabName.modifyRole"
+      (enterNewRole) = "isNewRole = true; currentRoleState = myEnterpriseRoleTabName.newRole "
+      ></app-enterprise-roles>
 
-            </div>
-            <div class="card-header d-flex justify-content-between justify-content-center align-items-center">
-              Manage roles of your enterprise by adding new ones, modifying and removing existing ones.
-            </div>
-          </div>
-        </div>
-      </header>
-      <div class="d-flex">
-        <div class="d-inline-block " *ngIf="role==='Admin'">
-          All Users
-        </div>
-        <div class="ml-auto ">
-          <button class="btn-theme btn-theme-primary" [disabled]="!formGroup.valid" (click)="updateEnterpriseProfile()">Update</button>
-        </div>
-      </div>
-      <div class="rolePannelGrid">
-
-        <div class="rolePannelGridItem">
-          <div class="headding pb-1" >
-            Ikea developer
-          </div>
-          <div>
-            Created by:Manoj MMMMMMMMM
-          </div>
-          <div>
-            45 permissions added
-          </div>
-          <div class = "mt-auto d-flex" >
-              <i class="fa fa-cog"></i><div class ="mr-auto">Modify</div>
-              <i class="fa fa-trash"></i><div>Delete</div>
-          </div>
-        </div>
-        <div class="rolePannelGridItem"></div>
-        <div class="rolePannelGridItem"></div>
-        <div class="rolePannelGridItem"></div>
-        <div class="rolePannelGridItem"></div>
-
-      </div> -->
+      <app-roles *ngIf="currentRoleState == myEnterpriseRoleTabName.modifyRole || currentRoleState == myEnterpriseRoleTabName.newRole" 
+      [selectedRole] = "currentRoleId"
+      (backToRoles) = "currentRoleState =  myEnterpriseRoleTabName.roles"
+      [isNewRole] = "isNewRole"
+      ></app-roles>
     </div>
   </mat-tab>
 </mat-tab-group>

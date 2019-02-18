@@ -28,8 +28,9 @@
     <!--</div>-->
 
     <mat-form-field>
-      <mat-select placeholder="Report type" name="single_match" value="single_match" [ngModel]="'Messages'">
-        <mat-option value="Messages">
+      <!--TODO: hardcoded messges since there is no other option as of now-->
+      <mat-select placeholder="Report type" name="single_match" value="single_match" [ngModel]="'messages'">
+        <mat-option value="messages">
           Messages
         </mat-option>
       </mat-select>

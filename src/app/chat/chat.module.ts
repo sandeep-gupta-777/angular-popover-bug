@@ -20,6 +20,7 @@ import {MyMaterialModule} from '../my-material.module';
 import {ChatConsumerFormComponent} from '../chat-consumer-form/chat-consumer-form.component';
 import {SharedModule} from '../shared.module';
 import {ChatFeedbackComponent} from '../chat-feedback/chat-feedback.component';
+import { LinkPreviewComponent } from './link-preview/link-preview.component';
 
 const routes: Route[] = [
   // {path: 'preview',outlet: 'preview', component: ChatWrapperComponent},
@@ -37,6 +38,7 @@ const routes: Route[] = [
     ChatroomComponent,
     BotThinkingBubbleComponent,
     BotWelcomeComponent,
+    LinkPreviewComponent,
   ],
   imports: [
     CommonModule,
@@ -46,7 +48,7 @@ const routes: Route[] = [
     HttpClientModule,
     ClickOutsideModule,
     MyMaterialModule,
-    SharedModule//TODO: remove this later, this is here because of ChatFeedbackComponent
+    SharedModule//TODO: remove this later, this is here because of ChatFeedbackComponent and MsToHhMmPipe
 
   ],
   exports: [

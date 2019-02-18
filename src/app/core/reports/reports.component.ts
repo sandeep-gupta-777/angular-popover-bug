@@ -10,7 +10,7 @@ import {
 } from '../../../interfaces/report';
 import {ObjectArrayCrudService} from '../../object-array-crud.service';
 import {Select, Store} from '@ngxs/store';
-import {forkJoin, Observable, of, Subscription} from 'rxjs';
+import {forkJoin, Observable, Subscription} from 'rxjs';
 import {ViewBotStateModel} from '../view-bots/ngxs/view-bot.state';
 import {IBot} from '../interfaces/IBot';
 import {SmartTableSettingsService} from '../../smart-table-settings.service';
@@ -30,13 +30,14 @@ import {catchError, finalize, switchMap, tap} from 'rxjs/internal/operators';
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.scss']
 })
-export class ReportsComponent extends MaterialTableImplementer implements OnInit, OnDestroy {
+export class ReportsComponent extends MaterialTableImplementer implements OnInit {
   tableData;
   tableData_report;
   tableData_history;
   currentPage_reports = 1;
   currentPage_reportsHistory = 1;
   error_message;
+  isLoading: boolean;
 
   getTableDataMetaDict_report(): any {
     return this.constantsService.SMART_TABLE_REPORT_TABLE_DATA_META_DICT_TEMPLATE;
@@ -70,15 +71,15 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   @Select() botlist$: Observable<ViewBotStateModel>;
 
   constructor(
-    private constantsService: ConstantsService,
-    private serverService: ServerService,
-    private objectArrayCrudService: ObjectArrayCrudService,
-    private smartTableSettingsService: SmartTableSettingsService,
-    private tempVariableService: TempVariableService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private utilityService: UtilityService,
-    private store: Store,
+      private constantsService: ConstantsService,
+      private serverService: ServerService,
+      private objectArrayCrudService: ObjectArrayCrudService,
+      private smartTableSettingsService: SmartTableSettingsService,
+      private tempVariableService: TempVariableService,
+      private router: Router,
+      private activatedRoute: ActivatedRoute,
+      private utilityService: UtilityService,
+      private store: Store,
   ) {
     super();
   }
@@ -95,6 +96,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
     this.reportsLoading = true;
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || this.activeTab;
     const reportTypeUrl = this.constantsService.geReportTypesUrl();
+    this.isLoading = true;
     this.serverService.makeGetReq<{ meta: any, objects: IReportTypeItem[] }>({url: reportTypeUrl})
       .pipe(tap((reportTypes) => {
           this.reportTypes = reportTypes;
@@ -148,11 +150,12 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
               name: this.objectArrayCrudService.getObjectItemByKeyValuePair(this.reportTypes.objects, {id: reportHistoryItem.reporttype_id}).name,
               created_at: reportHistoryItem.created_at
             });
+            //
             this.initializeTableData_reportHistory(this.reportHistorySmartTableData, this.getTableDataMetaDict_reportHistory());
 
+            });
           });
-        });
-      }));
+        }));
   }
 
   reportHistoryTablePageChanged({page}) {

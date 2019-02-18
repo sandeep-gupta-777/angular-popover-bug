@@ -167,9 +167,10 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       this.openSessionRowDecryptModal(this.reasonForDecryptionTemplate, eventData.data);
     } else {
       this.loadSessionMessagesById(eventData.data.id)
-        .subscribe((value: any) => {
-          this.selectedRow_Session = this.sessions.find(session => session.id === eventData.data.id);
+        .subscribe((value: {objects:ISessionItem[]}) => {
 
+          this.selectedRow_Session = this.sessions.find(session => session.id === eventData.data.id);
+          // this.selectedRow_Session = value.objects.find(session => session.id === eventData.data.id);
           // (<any>this.selectedRow_Session).highlight = true;
           if (this.indexOfCurrentRowSelected !== undefined) {
             this.sessions[this.indexOfCurrentRowSelected].highlight = false;

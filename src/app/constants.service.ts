@@ -276,6 +276,17 @@ export class ConstantsService {
     // return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`;// + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
     return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`; // + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
   }
+  // getRoleUrl(){
+  //   return this.BACKEND_URL + `api/v1/role/`; // + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
+  //
+  // }
+  getRoleByIdUrl(roleId : number){
+    return this.BACKEND_URL + `api/v1/role/?id=${roleId}`; // + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
+  }
+
+  getRoleIdUrl(roleId : number){
+    return this.BACKEND_URL + `api/v1/role/${roleId}/`; // + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
+  }
 
   stopTestUrl() {
     return this.BACKEND_URL + `api/v1/bottestcases/canceltesting/`; // https://dev.imibot.ai/api/v1/bottestcases/canceltesting/

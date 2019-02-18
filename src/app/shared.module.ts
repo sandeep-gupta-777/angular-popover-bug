@@ -35,7 +35,6 @@ import {UiSwitchWrapperComponent} from './core/buildbot/build-code-based-bot/bot
 import {AvatorFormComponent} from './core/buildbot/build-code-based-bot/bot-config/avator-form/avator-form.component';
 import {MyIfDirective} from './ngIf-permission.directive';
 import {ErrorDescriptionPipe} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/bot-config-input/error-description.pipe';
-import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
 import {SplashScreenComponent} from './splash-screen/splash-screen.component';
 import {SafeUrlPipe} from './href-sanitizer.pipe';
 import {MyMaterialModule} from './my-material.module';
@@ -45,8 +44,14 @@ import {EnterpriseListComponent} from './auth/enterprise-list/enterprise-list.co
 import {GenericObjFilterPipe} from './generic-obj-filter.pipe';
 import {ChatFeedbackComponent} from './chat-feedback/chat-feedback.component';
 import {LinkifyPipe} from './linkify.pipe';
+
+import { ObjectWithCategoryNamePipe } from './core/enterpriseprofile/roles/object-with-category-name.pipe';
+
 import {MsToHhMmPipe} from './ms-to-hh-mm.pipe';
 import {SafeHtmlPipe} from './safe-html.pipe';
+import {LinksFromTextPipe} from './links-from-text.pipe';
+import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.component';
+
 
 @NgModule({
   declarations: [
@@ -54,6 +59,7 @@ import {SafeHtmlPipe} from './safe-html.pipe';
     GenericObjFilterPipe,
     IntegrationLogosPipe,
     SplashScreenComponent,
+    MsToHhMmPipe,
     DataManageFormComponent,
     BasicInfoFormComponent,
     BotConfigInputComponent,
@@ -62,6 +68,7 @@ import {SafeHtmlPipe} from './safe-html.pipe';
     AvatorFormComponent,
     BotConfigComponent,
     BotArchitetureComponent,
+    BotTestingComponent,
     BotIdToNamePipe,
     PipelineFilterPipe,
     AdditionalInfoFormComponent,
@@ -76,6 +83,7 @@ import {SafeHtmlPipe} from './safe-html.pipe';
     IntegrationImageCountPipe,
     IntegrationInputKeysFilterPipe,
     ProfilePermissionIdToNamePipe,
+    ObjectWithCategoryNamePipe,
     EnabledIntegrationsCountPipe,
     SerializeEnterpriseprofileDataPipe,
     SerializeSessionMessagePipe,
@@ -87,7 +95,9 @@ import {SafeHtmlPipe} from './safe-html.pipe';
     ChatFeedbackComponent,
     LinkifyPipe,
     MsToHhMmPipe,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    LinksFromTextPipe,
+    MsToHhMmPipe
   ],
   imports: [
     MyMaterialModule,
@@ -100,6 +110,7 @@ import {SafeHtmlPipe} from './safe-html.pipe';
   ],
   exports: [
     LinkifyPipe,
+    LinksFromTextPipe,
     MsToHhMmPipe,
     GenericObjFilterPipe,
     EnterpriseListComponent,
@@ -107,7 +118,6 @@ import {SafeHtmlPipe} from './safe-html.pipe';
     SplashScreenComponent,
     HighlightDirective,
     SafeUrlPipe,
-    // ChartModule,
     IntegrationLogosPipe,
     DataManageFormComponent,
     BasicInfoFormComponent,
@@ -134,6 +144,7 @@ import {SafeHtmlPipe} from './safe-html.pipe';
     IntegrationImageCountPipe,
     IntegrationInputKeysFilterPipe,
     ProfilePermissionIdToNamePipe,
+    ObjectWithCategoryNamePipe,
     EnabledIntegrationsCountPipe,
     SerializeEnterpriseprofileDataPipe,
     DragulaModule,
@@ -142,7 +153,9 @@ import {SafeHtmlPipe} from './safe-html.pipe';
     MyMaterialModule,
     ImiLoaderComponent,
     ChatFeedbackComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    MsToHhMmPipe,
+    BotTestingComponent
   ]
 })
 export class SharedModule {

@@ -116,7 +116,10 @@ export class ServerService {
   }
 
   showErrorMessageForErrorTrue({error, message}) {
-    this.utilityService.showErrorToaster(message);
+    if(message) this.utilityService.showErrorToaster(message);
+    else {
+      console.error('error toaster called without error');
+    }
   }
 
   makeGetReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<any> {
@@ -674,5 +677,11 @@ export class ServerService {
         // this.constantsService.setPermissionsDeniedMap(value.objects)
       }));
   }
+
+  getLinkMetaData(link){
+    return this.makeGetReq({url:'http://api.linkpreview.net/?key=5c488da19fef97c0cb6a5fbc472a08d3def1842ea6ac3&q='+link})
+  }
+
+
 
 }

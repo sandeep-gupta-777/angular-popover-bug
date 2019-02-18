@@ -21,7 +21,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   myEAllActions = EAllActions;
   myERouteNames = ERouteNames;
 
-  @ViewChild(HandsontableComponent)handsontableComponent: HandsontableComponent;
+  // @ViewChild(HandsontableComponent)handsontableComponent: HandsontableComponent;
   @Input() set selectedRowData(value: ICustomNerItem) {
     if (!value) { return; }
     this._selectedRowData = value;
@@ -130,6 +130,8 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
           this.utilityService.showErrorToaster(`Syntax is not valid. ${this.ner_type} only accespts Array literal`);
           return;
         }
+
+
 
         codeTextFromEditor = JSON.parse(this.codeTextOutPutFromCodeEditor);
       } catch (e) {

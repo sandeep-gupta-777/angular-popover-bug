@@ -18,7 +18,6 @@
   <!--</div>-->
 <!--</div>-->
 
-<!--<div [hidden]="!testCaseData" (change)="onTableChange()" class="d-flex-column-custom flex-grow-1">-->
 <app-handsontable
   *ngIf="testCaseData && !showSplashScreen && !showLoader"
   (change)="onTableChange()"

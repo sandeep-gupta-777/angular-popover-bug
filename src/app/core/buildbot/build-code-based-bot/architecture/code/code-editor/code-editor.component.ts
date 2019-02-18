@@ -91,12 +91,12 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
     const buildTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab');
     const botId = this.activatedRoute.snapshot.params['id'];
     if (buildTab === 'code' && codeTab && botId) {
-      fileName = `${codeTab} for bot id ${botId}.txt`;
+      fileName = `${codeTab} for bot id ${botId}.py`;
     }
 
     const nerId = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
     if (buildTab === 'knowledge' && botId && nerId) {
-      fileName = `code for nerid ${nerId} for bot id ${botId}.txt`;
+      fileName = `code for nerid ${nerId} for bot id ${botId}.py`;
     }
     this.utilityService.downloadText(this.editorCodeObjRef.text, fileName);
   }

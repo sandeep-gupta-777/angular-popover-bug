@@ -41,8 +41,6 @@ export class ChatMessageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-
-
     this.isFullScreenPreview = location.pathname === '/preview'; //this.activatedRoute.snapshot.data['isFullScreenPreview'];
     this.router.events.subscribe((data) => {
       if (data instanceof RoutesRecognized) {

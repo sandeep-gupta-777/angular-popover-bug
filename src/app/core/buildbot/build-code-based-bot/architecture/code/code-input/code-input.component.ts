@@ -37,6 +37,10 @@ import {IUser} from '../../../../../interfaces/user';
 import {ModalImplementer} from '../../../../../../modal-implementer';
 import {MatDialog} from '@angular/material';
 
+declare var zip;
+declare var JSZip;
+declare var saveAs;
+
 export enum EBotVersionTabs {
   df_template = 'df_template',
   df_rules = 'df_rules',
@@ -55,7 +59,7 @@ export enum EBotVersionTabs {
 export class CodeInputComponent extends ModalImplementer implements OnInit, OnDestroy {
 
 
-  modalRefWrapper = {ref:null};
+  modalRefWrapper = {ref: null};
   showConfig = true;
   templateKeySearchKeyword = '';
   myEBotVersionTabs = EBotVersionTabs;
@@ -114,7 +118,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     private eventService: EventService,
     public utilityService: UtilityService,
     private router: Router,
-    public matDialog:MatDialog,
+    public matDialog: MatDialog,
     private activatedRoute: ActivatedRoute,
   ) {
     super(utilityService, matDialog);
@@ -127,7 +131,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   ngOnInit() {
 
     this.loggeduser$.subscribe((loggeduserState) => {
-      if(!loggeduserState.user){
+      if (!loggeduserState.user) {
         return;
       }
       this.role = loggeduserState.user.role.name;
@@ -143,11 +147,11 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     if (!this.bot.store_bot_versions) {
       this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
     }
-    EventService.codeValidationErrorOnUpdate$.subscribe((data)=>{
+    EventService.codeValidationErrorOnUpdate$.subscribe((data) => {
 
       this.selectedVersion.validation = data;
       this.validationMessageToggle = true;
-    })
+    });
     this.botlist$_sub = this.botlist$.subscribe(() => {
 
 
@@ -222,7 +226,9 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
             }
             if (this.templateKeyDict) {
               this.templateKeyDictClone = {...this.templateKeyDict};
-              if (!this.selectedTemplateKeyInLeftSideBar) { this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0]; }
+              if (!this.selectedTemplateKeyInLeftSideBar) {
+                this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
+              }
             }
           }
 
@@ -435,9 +441,9 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
                   this.store.dispatch([
                     new UpdateVersionInfoByIdInBot({data: value, botId: this.bot.id})
                   ]);
-                  setTimeout(()=>{
+                  setTimeout(() => {
                     this.utilityService.showSuccessToaster('New version saved');
-                  },2000);
+                  }, 2000);
                 });
             } else {
               const url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
@@ -452,9 +458,9 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
                   LoggingService.log(forkedVersion);
                   this.selectedVersion = forkedVersion;
 
-                  setTimeout(()=>{
+                  setTimeout(() => {
                     this.utilityService.showSuccessToaster('New version forked');
-                  },2000);
+                  }, 2000);
 
                   this.store.dispatch([
                     new UpdateVersionInfoByIdInBot({data: forkedVersion, botId: this.bot.id})
@@ -463,7 +469,6 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
             }
 
           }
-
         }
       });
 
@@ -594,6 +599,25 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     }
   }
 
+  downloadZip() {
+    var zip = new JSZip();
+    this.addFileToZip(zip, 'df_template.py', this.selectedVersion.df_template);
+    this.addFileToZip(zip, 'df_rules.py', this.selectedVersion.df_rules);
+    this.addFileToZip(zip, 'generation_rules.py', this.selectedVersion.generation_rules);
+    this.addFileToZip(zip, 'generation_templates.py', this.selectedVersion.generation_templates);
+    this.addFileToZip(zip, 'workflow.py', this.selectedVersion.workflow);
+    // var img = zip.folder("images");
+    // img.file("smile.gif", imgData, {base64: true});
+    zip.generateAsync({type: 'blob'})
+      .then((content) => {
+        // see FileSaver.js
+        saveAs(content, `${this.bot.bot_unique_name}_codeV${this.selectedVersion.version}`);
+      });
+  }
+
+  addFileToZip(zip: any, name: string, text: string) {
+    zip.file(name, text);
+  }
 
 
 }

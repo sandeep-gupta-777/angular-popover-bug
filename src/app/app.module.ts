@@ -51,6 +51,7 @@ const routes: Route[] = [
     NotAuthorisedComponent,
     FilterArrayPipe,
     BackendDevComponent,
+
   ],
   imports: [
     RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module

@@ -1,0 +1,81 @@
+<header class="row mt-3 pb-3  ">
+  <div class="p-0 d-flex w-100">
+    <div class="card-header">
+      <i class="fa fa-chevron-left mr-2 cursor-pointer" (click)="navegateRole()"></i>
+      {{isNewRole? "Create a new role" :
+      (!system_role ? "Edit role" : "System role")}}
+    </div>
+    <div class="ml-auto">
+      <button class="btn-theme btn-theme-primary" (click)="createNewRole()" *ngIf = "isNewRole" [disabled]="!selectedRoleName || !selectedRoleBaseRole" >Create role</button>
+      <button class="btn-theme btn-theme-primary" (click)="modifyRole()" *ngIf = "!isNewRole && !system_role" [disabled]="!selectedRoleName">Update role</button>
+    </div>
+  </div>
+  <div class="p-0 ml-3">
+    <div class="card-header card-header-description ">
+      {{isNewRole? "Create a new role by selecting a base role or from scratch" :
+      !system_role? "Edit the existing role by modifying it’s details or removing it all together" : 
+    "This role is a system role it can't be edited"}}
+    </div>
+  </div>
+</header>
+
+<div class="example-container ">
+  <mat-form-field style="width:250px; height: 40px;" class="p-0">
+    <input matInput placeholder="Role name" required [(ngModel)]="selectedRoleName" [disabled]="system_role">
+  </mat-form-field>
+
+  <mat-form-field style="width: 140px;height: 40px;" *ngIf="isNewRole" class="p-0" >
+    <mat-select placeholder="Basic role" [(ngModel)] = "selectedRoleBaseRole" (ngModelChange) = "baseRoleChanged(selectedRoleBaseRole)" >
+      <mat-option [value]="role.id" *ngFor = "let role of allRolesList"[disabled]="role.name == 'Admin'">{{role.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div class="row">
+  <div class="col-6 all-permission">
+
+    <div class="d-flex" style="font-size: 13px;align-items: center;">
+      <div class = "card-header">
+        All permissions
+      </div>
+      <div class="ml-auto color-primary cursor-pointer" (click) = "show = true" *ngIf = "!show">
+        Expand all <i class = "fa fa-chevron-down"></i>
+      </div>
+      <div class="ml-auto color-danger cursor-pointer" (click) = "show = false" *ngIf = "show">
+        Collapse all <i class = "fa fa-chevron-up"></i>
+      </div>
+      <mat-form-field style="width:100px" class="ml-3">
+        <input matInput placeholder="Search" [(ngModel)] = "serchedAction">
+        <mat-icon matSuffix class = "color-primary">search</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="p-1" *ngFor="let categoryName of categoryList">
+      <app-roleaccordion [show]="show" 
+        [categoryName]="categoryName" 
+        [roles]="permissionList | objectWithCategoryName:categoryName"
+        [addedPermissions]="selectedPermissionIdList" 
+        [serchedAction]="serchedAction"
+        (addPermission)="addPermission($event)" 
+        (removePermission)="removePermission($event)"></app-roleaccordion>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="card-header d-flex" style="font-size: 13px;align-items: center;">
+      <div>
+        Selected permissions
+      </div>
+      <mat-form-field style="width:100px" class="ml-auto">
+        <input matInput placeholder="Search" [(ngModel)] = "serchedPermission">
+        <mat-icon matSuffix class = "color-primary">search</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="permissions-box p-2">
+      <span class="badge mr-1 mb-2" *ngFor="let perm of selectedPermissionIdList" 
+      [hidden]="!([perm] | profilePermissionIdToName |async)[0].toLowerCase().includes(serchedPermission.toLowerCase())">
+        {{(([perm] | profilePermissionIdToName)|async)[0]}}
+        <i class="fa fa-times-circle cursor-pointer" (click)="removePermission({roleIds:[perm]})" 
+        
+        ></i>
+      </span>
+    </div>
+  </div>
+</div>

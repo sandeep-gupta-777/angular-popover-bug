@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild, Output, EventEmitter} from '@angular/core'
 import {ServerService} from '../../server.service';
 import {ConstantsService, ERoleName} from '../../constants.service';
 import {IUser} from '../../core/interfaces/user';
-import {Store, Select} from '@ngxs/store';
+import {Store} from '@ngxs/store';
 import {IHeaderData} from '../../../interfaces/header-data';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UtilityService} from '../../utility.service';
@@ -11,7 +11,6 @@ import {ResetEnterpriseUsersAction, SetEnterpriseInfoAction} from '../../core/en
 import {ResetAppState, SetBackendURlRoot, SetRoleInfo} from '../../ngxs/app.action';
 import {ResetAuthToDefaultState, SetUser} from '../ngxs/auth.action';
 import {NgForm} from '@angular/forms';
-import {TestComponent} from '../../test/test.component';
 import {MessageDisplayBase} from './messageDisplayBase';
 import {observable, Observable, of} from 'rxjs';
 import {IAuthState} from '../ngxs/auth.state';
@@ -22,6 +21,7 @@ import {ResetAnalytics2GraphData, ResetAnalytics2HeaderData} from '../../core/an
 import {IRoleInfo} from '../../../interfaces/role-info';
 import {catchError, switchMap} from 'rxjs/internal/operators';
 import {PermissionService} from '../../permission.service';
+import {tap} from 'rxjs/internal/operators';
 
 enum ELoginPanels {
   set = 'set',
@@ -51,6 +51,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   enterpriseList: any[];
   userData: IUser;
   searchEnterprise: string;
+  backend_url;
 
   constructor(
     private serverService: ServerService,
@@ -238,7 +239,12 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       new ResetAnalytics2GraphData(),
       new ResetAnalytics2HeaderData(),
       new ResetAppState()
-    ]);
+    ]).subscribe(()=>{
+      let burl = this.backend_url || 'https://staging.imibot.ai/';
+      this.store.dispatch([
+        new SetBackendURlRoot({url: burl})
+      ])
+    });
     const loginData = this.loginForm.value;
     const loginUrl = this.constantsService.getLoginUrl();
     let body;
@@ -281,7 +287,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
           //   }
         ),
       ), switchMap((value) => {
-        if(value){  
+        if(value){
           this.gotUserData$.emit(value);
         }
         return of();
@@ -309,13 +315,13 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
 
   enterEnterprise(Enterprise) {
     if (Enterprise.isActive) {
-      let enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
-      let body = {
+      const enterpriseLoginUrl = this.constantsService.getEnterpriseLoginUrl();
+      const body = {
         'user_id': this.userData.id,
         'enterprise_id': Enterprise.enterpriseId,
         'role_id': Enterprise.roleId
       };
-      let headerData = {
+      const headerData = {
         'auth-token': this.userData.auth_token
       };
 
@@ -356,5 +362,15 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     this.panelActive = ELoginPanels.login;
     this.router.navigate(['/login'], {queryParams: {token: null, action: null}});
 
+  }
+
+  getNSetConfigData$() {
+    return this.serverService.makeGetReq({url: '/static/config.json', noValidateUser: true})
+      .pipe(tap(((value: { 'backend_url': string, 'version': string }) => {
+        this.backend_url = value.backend_url;
+        this.store.dispatch([
+          new SetBackendURlRoot({url: value.backend_url})
+        ]);
+      })));
   }
 }

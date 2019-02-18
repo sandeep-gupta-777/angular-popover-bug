@@ -186,16 +186,10 @@
         <input required class="form-theme-control my-1 mx-2" style="width: 200px" name="last_name" ngModel placeholder="Last name"> -->
         <mat-form-field>
           <mat-select required placeholder="Select role" [(ngModel)]="newBotRole" (ngModelChange)="newUserRoleChanged($event)"
-            name="role">
+            name="role" style="padding-bottom: .26rem;font-size: 16px;">
             <mat-option *ngFor="let role of roleMap; let i = index;" [value]="role.id">
               {{role.name}}
             </mat-option>
-            <!-- <mat-option [value]="12">
-                  Admin
-                </mat-option>
-                <mat-option [value]="23">
-                  developer
-                </mat-option> -->
           </mat-select>
         </mat-form-field>
         <br>

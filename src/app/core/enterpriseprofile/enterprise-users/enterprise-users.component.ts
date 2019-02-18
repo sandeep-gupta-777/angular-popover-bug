@@ -26,7 +26,6 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
-  // loggeduserenterpriseinfoMap$: Observable<IEnterpriseProfileInfo>;
   @ViewChild('form') f: HTMLFormElement;
   @ViewChild('modifyBotList') modifyBotList: NgForm;
   @ViewChild('newBotList') newBotList: NgForm;
@@ -55,7 +54,6 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   }
 
   roleIdToRoleName(roleId: number) {
-    //
     if (this.roleMap) {
       let thisRole = this.roleMap.find(role => role.id == roleId);
       if (thisRole) {
@@ -64,8 +62,6 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
         return 'Custom role';
       }
     }
-
-
   }
 
   transformDataForMaterialTable(data: any[], tableDataMetaDict: any) {
@@ -105,7 +101,6 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
   initializeTableData(data: any, tableDataMetaDict: any): void {
     this.tableData = this.transformDataForMaterialTable(data, this.getTableDataMetaDict());
-
     this.tableData = this.tableData.map((tableGataItem) => {
       let exclamationIconHTML = `<i class="fa fa-exclamation-triangle color-yellow" title="User not verified"></i>`;
       tableGataItem['Email ID'].value = `
@@ -197,14 +192,10 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
 
     console.log(this.modifyBotRole);
-
-    // console.log(this.modifyBotList.value);
-    // Object.keys(this.modifyBotList.value).filter((v))
     let list = [];
     Object.keys(this.modifyBotList.value).forEach(element => {
       if (this.modifyBotList.value[element] == true) {
         list.push(Number(element));
-        // console.log(element);
       }
     });
     console.log(list);
@@ -256,15 +247,11 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     } else {
       // this.modifyBotList
       this.isSelectedRoleAdmin = false;
-      // this.newBotList.reset();
     }
   }
 
   openDeletModal(template: TemplateRef<any>) {
-    // this.selectedPipeline = pipeline;
-    // this.modalRef = this.modalService.show(template, { class: 'modal-md' });
     this.utilityService.openDangerModal(template, this.matDialog, this.dialogRefWrapper);
-    // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
 
   openUserEditModal(template: TemplateRef<any>) {
@@ -300,11 +287,8 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }, enterpriseDeleteModal, ModifyUserModal) {
     if (data.action === 'remove') {
-      // console.log(data.data)
       this.usertoDelete = data.data;
-
       this.openDeletModal(enterpriseDeleteModal);
-
     }
     if (data.action === 'modify') {
       //
@@ -337,19 +321,11 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     const logoErrorObj = this.utilityService.imageUrlHttpsError(formControl) || this.utilityService.imageUrlHavingValidExtnError(formControl);
     this.logoError = logoErrorObj && Object.keys(logoErrorObj)[0] || null;
   }
-
-
   ngOnInit() {
-    //
-
-
-    this.loggeduser$.subscribe(({user}) => {
-      if(user) return;
-      debugger;
+    this.loggeduser$.subscribe(({ user }) => {
       this.userid = user.id;
       this.role = user.role.name;
       this.enterpriseId = user.enterprise_id; //enterprise_id
-      //
       const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(this.enterpriseId);
       this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
         .subscribe((value: IEnterpriseProfileInfo) => {
@@ -373,7 +349,6 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
             this.initializeTableData(value.objects, this.getTableDataMetaDict());
           });
       }
-
     });
 
 
@@ -396,12 +371,6 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
           this.loggeduserenterpriseinfo = enterprise;
         }
       }
-
-      // if (enterprise.enterpriseusers) {
-      //   this.initializeTableData(enterprise.enterpriseusers, this.getTableDataMetaDict());
-      //   this.loggeduserenterpriseinfo = enterprise;
-      // }
-
     });
 
     const url = this.constantsService.getBotListUrl();
