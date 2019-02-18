@@ -11,7 +11,8 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 // Define a custom typography config that overrides the font-family as well as the
 // `headlines` and `body-1` levels.
 $custom-typography: mat-typography-config(
-  $font-family:   '"Helvetica", sans-serif',
+  //$font-family:   '"Helvetica", sans-serif',
+  $font-family: ''IBM Plex Sans', sans-serif',
   $display-4:     mat-typography-level(112px, 112px, 300),
   $display-3:     mat-typography-level(56px, 56px, 400),
   $display-2:     mat-typography-level(45px, 48px, 400),
@@ -31,6 +32,7 @@ $custom-typography: mat-typography-config(
 .unicorn-title {
   @include mat-typography-level-to-styles($custom-typography, title);
 }
+
 
 .custom-info{
   @include mat-typography-level-to-styles($custom-typography, caption);
@@ -136,7 +138,7 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 }
 
 .border-theme-secondary {
-  border: 1px solid $color-secondary;
+  border: 1px solid $color-secondary !important;
 }
 
 .border-primary {
@@ -170,11 +172,6 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 
 .text-theme-secondary {
   @include typography($font-size-xs, $line-height-normal, $font-weight-300, $color-secondary);
-}
-
-.box {
-  padding-left: 10px;
-  padding-right: 10px;
 }
 
 .tab-active {
@@ -404,7 +401,6 @@ h4 {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  //max-width: 350px;
 }
 //
 .col-1d5 {
@@ -486,7 +482,6 @@ h4 {
 
 .heading {
   font-size: 13px !important;
-  font-family: "Helvetica", sans-serif;
   font-weight: bold;
   color: #474747;
 }
@@ -1074,7 +1069,12 @@ html, body {
 
 body {
   margin: 0;
-  font-family: "Helvetica", sans-serif;
+  font-size: 13px;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+*:not(.fa):not(mat-icon){
+  font-family: 'IBM Plex Sans', sans-serif;
 }
 
 
@@ -1182,4 +1182,28 @@ mat-dialog-container{
 
 .mat-progress-bar{
   height: 2px !important;
+}
+
+.form-control{
+  background-color: transparent !important;/*bootstrap override*/
+}
+
+.greyscale-1{
+  filter: grayscale(1);
+}
+
+
+.mat-theme-button {
+  min-height: 32px !important;
+  min-width: 46px !important;
+  font-size: 13px !important;
+  line-height: 0px !important;
+  mat-icon{
+    line-height: 23px;
+    font-size: 17px;
+  }
+}
+
+.card{
+  background-color: transparent !important;
 }

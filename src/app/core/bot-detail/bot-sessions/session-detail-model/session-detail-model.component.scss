@@ -5,7 +5,7 @@
   .session-modal-section__header {
     background-color: $color-primary;
     padding: 13px;
-    @extend %centered-flex-row;
+    display: flex;
     justify-content: space-between;
 
     .session-modal-section__header--action {
@@ -19,7 +19,7 @@
     }
 
     .session-modal-section__header--time {
-      @extend %centered-flex-row;
+      display: flex;
       justify-content: start;
       padding-right: 10px;
       cursor: pointer;
@@ -134,7 +134,6 @@
 
 .primary16 {
   height: 16px;
-  font-family: Helvetica;
   font-size: 13px;
   font-weight: normal;
   font-style: normal;
@@ -146,7 +145,6 @@
 
 .primary {
   height: 14px;
-  font-family: Helvetica;
   font-size: 12px;
   font-weight: normal;
   font-style: normal;
@@ -157,7 +155,6 @@
 }
 
 .secondary {
-  font-family: Helvetica;
   font-size: 10px;
   font-weight: 300;
   font-style: normal;
@@ -190,7 +187,6 @@ a {
 
 .indicate {
   height: 34px;
-  font-family: Helvetica;
   font-size: 14px;
   font-weight: normal;
   font-style: normal;

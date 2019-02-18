@@ -14,6 +14,9 @@ import {MatDialog} from '@angular/material';
 import {ObjectArrayCrudService} from '../../../object-array-crud.service';
 import {EventService} from '../../../event.service';
 import {catchError} from 'rxjs/internal/operators';
+import {IAppState} from '../../../ngxs/app.state';
+import {IIntegrationMasterListItem} from '../../../../interfaces/integration-option';
+import {NgForm} from '@angular/forms';
 
 interface ISessionFilterData {
   id: number,
@@ -54,6 +57,9 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   indexOfCurrentRowSelected: number;
   decryptReason: string;
   filterData: ISessionFilterData;
+  @Select() app$: Observable<IAppState>;
+
+  masterIntegrationList: IIntegrationMasterListItem[];
 
   constructor(
     private serverService: ServerService,
@@ -67,6 +73,12 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   }
 
   ngOnInit() {
+
+    this.app$
+      .subscribe((appState) => {
+        this.masterIntegrationList = appState.masterIntegrationList;
+      });
+
     this.headerData = {'bot-access-token': this.bot.bot_access_token};
     this.performSearchInDbForSession(null);
     this.eventService.reloadSessionTable$.subscribe(() => {
@@ -306,7 +318,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   }
 
   decryptSubmit(sessionTobeDecryptedId: number) {
-    this.decryptReason = "";
+    this.decryptReason = '';
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
@@ -318,9 +330,9 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         this.decryptReason = null;
         const surl = this.constantsService.getSessionsByIdUrl(sessionTobeDecryptedId);
         this.serverService.makeGetReq({url: surl, headerData})
-          .subscribe((value: {objects:ISessionItem[]}) => {
-          let newSession = value.objects[0];
-          /*todo: use perform search in db instead*/
+          .subscribe((value: { objects: ISessionItem[] }) => {
+            let newSession = value.objects[0];
+            /*todo: use perform search in db instead*/
             const del = this.sessions.findIndex((session) => session.id === sessionTobeDecryptedId);
             this.sessions[del] = {...newSession};
             this.sessions = [...this.sessions];
@@ -364,11 +376,12 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   updateSessionById(id: number) {
     this.loadSessionById(id)
-      .subscribe((val:{objects:ISessionItem[]}) => {
-        debugger;
+      .subscribe((val: { objects: ISessionItem[] }) => {
+
         let sessionItem = val.objects[0];
         let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id});
-        this.sessions[index] = sessionItem;;
+        this.sessions[index] = sessionItem;
+        ;
         this.selectedRow_Session = sessionItem;
         this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
         this.tableData = [...this.tableData];
@@ -376,8 +389,8 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     //
   }
 
-  performSearchInDbForSession(filterData:ISessionFilterData) {
-
+  performSearchInDbForSession(filterData: ISessionFilterData) {
+    debugger;
     this.showLoader = true;
     let url: string;
     this.filterData = JSON.parse(JSON.stringify(filterData));
@@ -394,19 +407,19 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         * start and end refer to date 00:00
         * We want end to point to 23:59, so added a day
         * */
-      let begin = new Date((<any>filterData).updated_at.begin);
-      let end = new Date((<any>filterData).updated_at.end);
-      end.setDate(end.getDate() + 1);
+        let begin = new Date((<any>filterData).updated_at.begin);
+        let end = new Date((<any>filterData).updated_at.end);
+        end.setDate(end.getDate() + 1);
 
         dataCopy.updated_at =
-            `${begin.getFullYear()}-${begin.getUTCMonth()+1}-${begin.getUTCDate()} ${begin.getUTCHours()}:${begin.getUTCMinutes()}` + ',' +
-            `${end.getFullYear()}-${end.getUTCMonth()+1}-${end.getUTCDate()} ${begin.getUTCHours()}:${begin.getUTCMinutes()}` ;
+          `${begin.getFullYear()}-${begin.getUTCMonth() + 1}-${begin.getUTCDate()} ${begin.getUTCHours()}:${begin.getUTCMinutes()}` + ',' +
+          `${end.getFullYear()}-${end.getUTCMonth() + 1}-${end.getUTCDate()} ${begin.getUTCHours()}:${begin.getUTCMinutes()}`;
 
         // dataCopy.updated_at += x;
         dataCopy.updated_at__range = dataCopy.updated_at;
         delete dataCopy.updated_at;
       }
-      if(dataCopy.total_message_count) {
+      if (dataCopy.total_message_count) {
         dataCopy.total_message_count__range = `${dataCopy.total_message_count},${dataCopy.total_message_count}`;
 
       }
@@ -418,29 +431,45 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       delete dataCopy.page;
       UtilityService.removeAllNonDefinedKeysFromObject(dataCopy);
       url = this.constantsService.getRoomWithFilters(dataCopy);
-    }else {
-      url = this.constantsService.getRoomWithFilters({limit:10});
+    } else {
+      url = this.constantsService.getRoomWithFilters({limit: 10});
     }
     this.serverService.makeGetReq({url, headerData: this.headerData})
       .subscribe((value: { objects: ISessionItem[], meta: { total_count: number } }) => {
 
-        if(!filterData && value.objects.length ===0 ){
-          this.showSplashScreen = true;
-        }
-        this.sessions = value.objects;
-        this.totalSessionRecords = value.meta.total_count;
-        this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
-        this.tableData = [...this.tableData];
-        this.showLoader = false;
-      },()=>{
+          if (!filterData && value.objects.length === 0) {
+            this.showSplashScreen = true;
+          }
+          this.sessions = value.objects;
+          this.totalSessionRecords = value.meta.total_count;
+          this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
+          this.tableData = [...this.tableData];
+          this.showLoader = false;
+        }, () => {
           this.showLoader = false;
         }
-        );
+      );
+  }
+
+  sessionFormSubmitted(formData){
+    let filterData = UtilityService.cloneObj(formData);
+    let channelsObj = filterData.channels;
+    let channelStr = Object.keys(channelsObj).filter(key=>channelsObj[key]).join(",");
+    delete filterData.channels;
+    if(channelStr){
+      filterData.channels= channelStr.toLowerCase();
+    }
+    this.performSearchInDbForSession(filterData);
   }
 
 
   log() {
     console.log(this.headerData);
+  }
+
+  resetSearchForm(form:NgForm){
+    form.resetForm();
+    this.performSearchInDbForSession(null);
   }
 
 }

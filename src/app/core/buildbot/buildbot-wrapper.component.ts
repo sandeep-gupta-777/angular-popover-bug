@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ResetBuildBotToDefault, SaveNewBotInfo_CodeBased, SaveNewBotInfo_PipelineBased} from './ngxs/buildbot.action';
 import {IBot} from '../interfaces/IBot';
 import {IBotCreationState} from './ngxs/buildbot.state';
@@ -10,6 +10,7 @@ import {ActivatedRoute, Route, Router} from '@angular/router';
 import {EBotType, UtilityService} from '../../utility.service';
 import {AddNewBotInAllBotList, SetAllBotListAction} from '../view-bots/ngxs/view-bot.action';
 import {LoggingService} from '../../logging.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-buildbot-wrapper',
@@ -20,8 +21,24 @@ export class BuildbotWrapperComponent implements OnInit {
 
   @Select() botcreationstate$: Observable<IBotCreationState>;
   @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
+  formValidNumber = -1;
   bot: IBot = {};
-  bot_type: string;
+  bot_type: string = EBotType.chatbot;
+  formGroup: FormGroup;
+  @Output() datachanged$ = new EventEmitter();
+  activeTab = 0;
+  headings = [
+    'Bot Profile',
+    'Bot Management',
+    'Security and privacy'
+  ];
+  heading = this.headings[0];
+  descriptions = [
+    'Complete the bot details to go to the next space',
+    'Complete the bot details to go to the next space',
+    'Compliance with regulations and data protection'
+  ];
+  description = this.descriptions[0];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -29,27 +46,52 @@ export class BuildbotWrapperComponent implements OnInit {
     private serverService: ServerService,
     private utilityService: UtilityService,
     private constantsService: ConstantsService,
+    private formBuilder: FormBuilder,
     private store: Store
   ) {
   }
 
+  logoErrorObj = [
+    {name: 'imageExnError', description: 'Invalid Extension'},
+    {name: 'imageHttpsError', description: 'Only Https urls allowed'}];
+
+  stageValidObj:object = {
+    0:false,
+    1:false,
+    2:false,
+  };
+
+  myObject = Object;
+  myEBotType = EBotType;
+
   ngOnInit() {
-    this.bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type');
-    this.botcreationstate$.subscribe((value) => {
-      /*TODO: this is a  hack to avoid loops*/
-      if (!value) { return; }
-      if (this.bot_type === EBotType.chatbot && value.codeBased) {
-        this.bot = value.codeBased;
-      } else if (this.bot_type === EBotType.intelligent && value.pipeLineBased) {
-        this.bot = value.pipeLineBased;
-      }
-    });
+    this.bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type') || this.bot_type;
+    if(this.bot_type === EBotType.intelligent){
+      this.stageValidObj = {0:false};
+    }
+
+    // this.botcreationstate$.subscribe((value) => {
+    //   /*TODO: this is a  hack to avoid loops*/
+    //   if (!value) {
+    //     return;
+    //   }
+    //   if (this.bot_type === EBotType.chatbot && value.codeBased) {
+    //     this.bot = value.codeBased;
+    //   } else if (this.bot_type === EBotType.intelligent && value.pipeLineBased) {
+    //     this.bot = value.pipeLineBased;
+    //   }
+    // });
   }
 
+  loading = false;
   createBot() {
 
-    const bot: IBot = this.utilityService.performFormValidationBeforeSaving(this.bot);
-    if (!bot) { return; }
+    this.loading = true;
+    // const bot: IBot = this.utilityService.performFormValidationBeforeSaving(this.bot);
+    const bot = this.bot;
+    if (!bot) {
+      return;
+    }
     const url = this.constantsService.getCreateNewBot();
     if (!bot) {
       console.error('there is no bot type in url');
@@ -68,6 +110,9 @@ export class BuildbotWrapperComponent implements OnInit {
           this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`]);
         });
         this.utilityService.showSuccessToaster('Bot Created');
+        this.loading = false;
+      },()=>{
+        this.loading = false;
       });
   }
 
@@ -90,5 +135,41 @@ export class BuildbotWrapperComponent implements OnInit {
       new ResetBuildBotToDefault()
     ]);
     this.router.navigate(['']);
+  }
+
+
+  selectedIndexChange(activeTab: number) {
+    this.activeTab = activeTab;
+    this.heading = this.headings[activeTab];
+    this.description = this.descriptions[activeTab];
+  }
+
+  updateBot(bot: IBot) {
+    this.bot = {...this.bot, ...bot};
+  }
+
+  nextStep(activeTab: number) {
+    if (activeTab > Object.keys(this.stageValidObj).length-1) {
+      let invalidIndex = Object.keys(this.stageValidObj).findIndex((key)=>!this.stageValidObj[key]);
+      if(invalidIndex === -1){
+        this.createBot();
+      }else {
+        this.activeTab = invalidIndex;
+      }
+    }else {
+      this.activeTab = activeTab;
+    }
+  }
+
+  enterKeyHandler(){
+    if(this.stageValidObj[this.activeTab]){
+      this.nextStep(this.activeTab+1);
+    }
+  }
+
+
+
+  updateFormValidNumber(formValidNumber, isValid: boolean) {
+    this.stageValidObj[formValidNumber] = isValid;
   }
 }

@@ -44,9 +44,9 @@ export class AdditionalInfoFormComponent implements OnInit {
       heading: [this._bot.heading],
       transactions_per_pricing_unit: [this._bot.transactions_per_pricing_unit],
       error_message: [this._bot.error_message],
-      first_message: [this._bot.first_message],
-      room_close_callback: [this._bot.room_close_callback],
-      allow_feedback: [this._bot.allow_feedback],
+      // first_message: [this._bot.first_message],
+      // room_close_callback: [this._bot.room_close_callback],
+      // allow_feedback: [this._bot.allow_feedback],
     });
     this.formGroup.valueChanges.pipe(debounceTime(200)).subscribe((data: IBasicInfo) => {
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) { return; }

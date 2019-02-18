@@ -1,67 +1,114 @@
 <form [formGroup]="formGroup" *ngIf="_bot" class="bot-creation-form ">
 
-  <div class="row m-0">
-    <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
-      <div class="">
-        <!--<label for="name">Data retention period [days]</label>-->
-        <!--<input-->
-               <!--formControlName="data_persistence_period" type="number"-->
-               <!--class="form-control"-->
-               <!--placeholder="Time until Data will retain((in days)" id="name" requiredClass>-->
-        <app-bot-config-input
-          displayName="Data retention period [days]"
-          [isRequired]="true"
-          placeholder="Time until Data will retain((in days)"
-          formControlName="data_persistence_period"></app-bot-config-input>
-      </div>
+    <div class="row m-0">
+        <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
 
-      <div class="">
-        <!--<label for="alterEgo" [ngClass]="{'required':_bot.blanket_consent}">Consent disclaimer message</label>-->
-        <!--<label [hidden]="blanket_consent.valid" class="text-danger pl-1" for="alterEgo"><i>Consent disclaimer message is required</i></label>-->
-        <!--<input [required]="_bot.blanket_consent"-->
-               <!--formControlName="consent_message" type="text" class="form-control"-->
-               <!--placeholder="Consent Message" id="alterEgo">-->
+            <div class="switch-wrapper">
+                <div class="form-control d-flex flex-column">
+                    <label class="pr-2">Room Close Callback</label>
 
-        <app-bot-config-input
-          displayName="Consent disclaimer message"
-          placeholder="Consent disclaimer message"
-          [isDisabled]="!advanced_data_protection"
-          formControlName="consent_message"></app-bot-config-input>
+                    <app-ui-switch
+                            formControlName="room_close_callback"
+                            [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
+                    ></app-ui-switch>
 
-      </div>
+                </div>
+            </div>
 
-      <div class="switch-wrapper">
-        <div class="form-control d-flex align-items-center justify-content-between pr-5">
-          <label class="pr-2">Advanced Data Protection</label>
-          <app-ui-switch
-            formControlName="advanced_data_protection"
-            [(ngModel)]="advanced_data_protection"
-            [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
-          ></app-ui-switch>
-        </div>
-      </div>
-    </fieldset >
-    <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
-      <div class="switch-wrapper">
-        <div class="form-control d-flex align-items-center justify-content-between pr-5">
-          <label class="pr-2">Persist Anonymized Conversation Logs</label>
-          <app-ui-switch
-            formControlName="allow_anonymization"
-            [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
-          ></app-ui-switch>
-        </div>
-      </div>
+            <div class="switch-wrapper">
+                <div class="form-control d-flex flex-column">
+                    <label class="pr-2">Allow Feedback</label>
 
-      <div class="switch-wrapper">
-        <div class="form-control d-flex align-items-center justify-content-between pr-5">
-          <label class="pr-2">Blanket consent for all consumers</label>
-          <app-ui-switch
-            formControlName="blanket_consent"
-            [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
-          ></app-ui-switch>
-        </div>
-      </div>
-    </fieldset>
-  </div>
+                    <app-ui-switch
+                            formControlName="allow_feedback"
+                            [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
+                    ></app-ui-switch>
+                    <!---->
+                </div>
+            </div>
+
+
+            <div class="switch-wrapper">
+                <div class="form-control d-flex flex-column">
+                    <label class="pr-2">Advanced Data Protection</label>
+                    <app-ui-switch
+                            formControlName="advanced_data_protection"
+                            [(ngModel)]="advanced_data_protection"
+                            [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
+                    ></app-ui-switch>
+                </div>
+            </div>
+
+            <div class="" *ngIf="!(_bot.bot_type===myEBotType.intelligent)">
+                <div class="d-flex align-items-center">
+                    <label class="pr-2 mb-0">Is Manager Bot?</label>
+                    <mat-slide-toggle formControlName="is_manager" color="primary"></mat-slide-toggle>
+                    <!--<app-is-manager-form-control hidden formArrayName="child_bots"></app-is-manager-form-control>-->
+
+                    <!--bots dropdown starts-->
+                    <mat-chip-list class="ml-3" *ngIf="formGroup.get('is_manager').value">
+                        <mat-chip [matMenuTriggerFor]="menu">Bot list</mat-chip>
+                    </mat-chip-list>
+                    <mat-menu #menu="matMenu" class="cutom-md-menu">
+                        <ng-container *ngFor="let bot of codebasedBotList; let i = index;">
+                            <button mat-menu-item (click)="pushChildBot(bot.id)"
+                                    *ngIf="!isBotIdPresentInChildBotList(bot.id)">{{bot.name}}</button>
+                        </ng-container>
+                    </mat-menu>
+                    <!--<div class="btn-group mb-1" dropdown *ngIf="formGroup.get('is_manager').value">-->
+                    <!--<button id="button-basic" dropdownToggle type="button"-->
+                    <!--class="btn-theme dropdown-toggle btn-theme-success-sm-outline ml-1" aria-controls="dropdown-basic">-->
+                    <!--Bot List<span class="caret"></span>-->
+                    <!--</button>-->
+                    <!--<ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic"-->
+                    <!--style="max-height: 200px; overflow-y: scroll">-->
+                    <!--<li role="menuitem" *ngFor="let bot of codebasedBotList; let i = index;">-->
+                    <!--<a class="dropdown-item" (click)="pushChildBot(bot.id)" *ngIf="!isBotIdPresentInChildBotList(bot.id)">{{bot.name}}</a>-->
+                    <!--</li>-->
+                    <!--</ul>-->
+                    <!--</div>-->
+                    <!--bot dropdown ends-->
+                </div>
+            </div>
+
+
+        </fieldset>
+        <div class="col-1"></div>
+        <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
+
+            <app-bot-config-input
+            displayName="Session Close Time [mins]"
+            formControlName="room_persistence_time"
+            [isRequired]="true"
+            placeholder="Session Close Time [mins]"></app-bot-config-input>
+
+            <mat-form-field class="w-100">
+                <input matInput formControlName="transactions_per_pricing_unit" type="number" class=""
+                       placeholder="Transactions Per Billing Unit">
+            </mat-form-field>
+
+            <!--<div class="switch-wrapper">-->
+            <!--<div class="form-control d-flex flex-column">-->
+            <!--<label class="pr-2">Persist Anonymized Conversation Logs</label>-->
+            <!--<app-ui-switch-->
+            <!--formControlName="allow_anonymization"-->
+            <!--[disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"-->
+            <!--&gt;</app-ui-switch>-->
+            <!--</div>-->
+            <!--</div>-->
+
+            <!--<div class="switch-wrapper">-->
+            <!--<div class="form-control d-flex flex-column">-->
+            <!--<label class="pr-2">Blanket consent for all consumers</label>-->
+            <!--<app-ui-switch-->
+            <!--formControlName="blanket_consent"-->
+            <!--[disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"-->
+            <!--&gt;</app-ui-switch>-->
+            <!--</div>-->
+            <!--</div>-->
+        </fieldset>
+    </div>
 
 </form>
+
+

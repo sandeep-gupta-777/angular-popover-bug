@@ -72,7 +72,7 @@
 }
 
 .row-flex-bot-versioning-toaster {
-  background-color: white;
+  //background-color: white;
   position: absolute;
   top: 100%;
   left: 0;
@@ -416,6 +416,7 @@ app-code-editor {
   grid-template-areas: 'version' 'tabs' 'editor';
   .row-version {
     grid-area: version;
+    //border: 1px solid red;
   }
   .row-tabs {
     grid-area: tabs;

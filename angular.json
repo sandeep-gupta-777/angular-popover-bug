@@ -29,7 +29,6 @@
               "src/git-info.json"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss",
               "node_modules/dragula/dist/dragula.css",
               "node_modules/codemirror/lib/codemirror.css",
