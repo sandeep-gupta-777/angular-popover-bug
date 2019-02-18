@@ -3,6 +3,8 @@ import {IBot} from '../../../interfaces/IBot';
 import {ActivatedRoute} from '@angular/router';
 import {LoggingService} from '../../../../logging.service';
 import {EBotType} from '../../../../utility.service';
+import {EAllActions} from '../../../../constants.service';
+import {EventService} from '../../../../event.service';
 
 @Component({
   selector: 'app-bot-config',
@@ -13,6 +15,7 @@ export class BotConfigComponent implements OnInit {
 
   @Input() bot: IBot;
   activeTab = 'basic';
+  myEAllActions = EAllActions;
   @Output() datachanged$ = new EventEmitter();
   myEBotType = EBotType;
   bot_type;
@@ -33,6 +36,10 @@ export class BotConfigComponent implements OnInit {
   tabClicked(activeTab: string) {
     this.activeTab = activeTab;
     LoggingService.log(this.activeTab);
+  }
+
+  updateBot(){
+    EventService.updateBot$.emit()
   }
 
 }

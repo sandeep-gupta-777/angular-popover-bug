@@ -12,7 +12,7 @@
 
 
 .bg-message-human {
-  background-color: $color-primary;
+  background-color: $color-primary-v2;
   .time, .message-text {
     color: white !important;
   }
@@ -20,7 +20,8 @@
 
 .message {
   @include typography($font-size-normal, $line-height-lg, $font-weight-400, $color-text-normal);
-  border-radius: 1px;
+  //border-radius: 1px;
+  border-radius: 8px;
   .message-text {
 
   }

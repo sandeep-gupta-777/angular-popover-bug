@@ -5,7 +5,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Store} from '@ngxs/store';
 import {UtilityService} from '../../../../../utility.service';
 import {PermissionService} from '../../../../../permission.service';
-import {debounceTime} from 'rxjs/internal/operators';
+import {debounceTime, distinctUntilChanged, skip} from 'rxjs/internal/operators';
 import {IBasicInfo} from '../../../../../../interfaces/bot-creation';
 
 @Component({
@@ -18,6 +18,7 @@ export class SecurityComponent implements OnInit {
   _bot: Partial<IBot> = {};
   myEAllActions = EAllActions;
   formGroup: FormGroup;
+  @Output() dataValid$ = new EventEmitter();
 
   @Input() set bot(_bot: IBot) {
     if (_bot) {
@@ -51,14 +52,23 @@ export class SecurityComponent implements OnInit {
       // room_close_callback: [this._bot.room_close_callback],
       // allow_feedback: [this._bot.allow_feedback],
     });
-    this.formGroup.valueChanges.pipe(debounceTime(200)).subscribe((data: IBasicInfo) => {
-      if (this.utilityService.areTwoJSObjectSame(this.formData, data)) { return; }
+    this.formGroup.valueChanges
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged((value1, value2) => JSON.stringify(value1) === JSON.stringify(value2)),
+        skip(1),
+      ).subscribe((data: IBasicInfo) => {
+      if (this.utilityService.areTwoJSObjectSame(this.formData, data)) {
+        return;
+      }
+      setTimeout(()=>this.dataValid$.emit(this.formGroup.valid));
       this.formData = data;
       this.datachanged$.emit(data);
     });
 
   }
 
-  click() {}
+  click() {
+  }
 
 }

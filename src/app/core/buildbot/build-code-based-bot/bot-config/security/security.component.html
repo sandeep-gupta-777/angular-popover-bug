@@ -5,11 +5,12 @@
     <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
 
       <!--<div class="">-->
-        <app-bot-config-input
-        displayName="Data retention period [days]"
-        [isRequired]="true"
-        placeholder="Data retention period((in days)"
-        formControlName="data_persistence_period"></app-bot-config-input>
+
+      <mat-form-field class="w-100">
+        <input matInput formControlName="data_persistence_period" type="number" class=""
+               required
+               placeholder="Data retention period((in days)">
+      </mat-form-field>
       <!--</div>-->
 
       <!--<div class="">-->

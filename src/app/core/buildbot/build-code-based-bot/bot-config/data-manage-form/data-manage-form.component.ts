@@ -1,16 +1,15 @@
 import {debounceTime} from 'rxjs/operators';
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
-import {IBasicInfo, ISaveDataManagment} from '../../../../../../interfaces/bot-creation';
-import {SaveDataManagment} from '../../../ngxs/buildbot.action';
+import {ISaveDataManagment} from '../../../../../../interfaces/bot-creation';
 import {Select, Store} from '@ngxs/store';
 import {EBotType, UtilityService} from '../../../../../utility.service';
 import {ConstantsService, EAllActions} from '../../../../../constants.service';
 import {PermissionService} from '../../../../../permission.service';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {ViewBotStateModel} from '../../../../view-bots/ngxs/view-bot.state';
-import {map, takeWhile} from 'rxjs/internal/operators';
+import {distinctUntilChanged, map, skip, takeWhile} from 'rxjs/internal/operators';
 import {LoggingService} from '../../../../../logging.service';
 
 @Component({
@@ -25,6 +24,7 @@ export class DataManageFormComponent implements OnInit {
   myEBotType =  EBotType;
   myEAllActions = EAllActions;
   formGroup: FormGroup;
+  @Output() dataValid$ = new EventEmitter();
   @Select() botlist$: Observable<ViewBotStateModel>;
 
   @Input() set bot(_bot: IBot) {
@@ -74,22 +74,35 @@ export class DataManageFormComponent implements OnInit {
 
     this.formGroup = this.formBuilder.group({
       // data_persistence_period: [this._bot.data_persistence_period, Validators.required],
+      // bot_unique_name: [this._bot.bot_unique_name, Validators.required],
       consent_message: [this._bot.consent_message],
       advanced_data_protection: [this._bot.advanced_data_protection],
       allow_anonymization: [this._bot.allow_anonymization],
       blanket_consent: [this._bot.blanket_consent],
-      room_persistence_time: [this._bot.room_persistence_time],
+      room_persistence_time: [this._bot.room_persistence_time, Validators.required],
       room_close_callback: [this._bot.room_close_callback],
       allow_feedback: [this._bot.allow_feedback],
+      transactions_per_pricing_unit: [this._bot.transactions_per_pricing_unit],
       is_manager: [this._bot.is_manager || false],
       child_bots: this.formBuilder.array([])
     });
 
 
-    this.formGroup.valueChanges.pipe(debounceTime(200)).subscribe((data: ISaveDataManagment) => {
+    this.formGroup.valueChanges.pipe(
+      debounceTime(200),
+      distinctUntilChanged((value1, value2)=> {
+
+        let x = JSON.stringify(value1) === JSON.stringify(value2);
+        return x;
+      }),
+      skip(1),
+    ).subscribe((data: ISaveDataManagment) => {
+
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) {
         return;
       }
+      // alert();
+      setTimeout(()=>this.dataValid$.emit(this.formGroup.valid));
       this.formData = data;
       this.datachanged$.emit({...data, form_validation_data_management: this.formGroup.valid});
     });

@@ -2,11 +2,6 @@
 
     <div class="row m-0">
         <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
-            <app-bot-config-input
-                    displayName="Unique Name"
-                    formControlName="bot_unique_name"
-                    [isRequired]="true"
-                    placeholder="Bot Unique Name"></app-bot-config-input>
 
             <div class="switch-wrapper">
                 <div class="form-control d-flex flex-column">
@@ -89,8 +84,7 @@
 
             <mat-form-field class="w-100">
                 <input matInput formControlName="transactions_per_pricing_unit" type="number" class=""
-                       placeholder="Transactions Per Billing Unit"
-                >
+                       placeholder="Transactions Per Billing Unit">
             </mat-form-field>
 
             <!--<div class="switch-wrapper">-->

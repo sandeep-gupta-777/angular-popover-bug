@@ -10,6 +10,11 @@
                 [isRequired]="true"
                 (keyDown$)="nameChangeByUser($event)"
                 formControlName="name"></app-bot-config-input>
+            <app-bot-config-input
+                    displayName="Unique Name"
+                    formControlName="bot_unique_name"
+                    [isRequired]="true"
+                    placeholder="Bot Unique Name"></app-bot-config-input>
 
             <app-bot-config-input
                     displayName="Description"

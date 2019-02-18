@@ -41,4 +41,6 @@ export class EventService {
 
   constructor() {
   }
+
+  static updateBot$ = new EventEmitter();
 }

@@ -1,4 +1,3 @@
-<!--<p>{{sideBarTab1}}</p>-->
 
 <div
         [ngClass]="{'bot-detail-grid-architecture-full-screen':isArchitectureFullScreen,'bot-detail-grid':!isArchitectureFullScreen}"
@@ -8,6 +7,7 @@
         <app-bot-detail-header [bot]="bot" (refreshBotDetails$)="refreshBotDetails()"></app-bot-detail-header>
     </div>
 
+    <!--sidebar starts-->
     <nav class="sidebar shadow-theme">
         <a class="sidebar-logo" routerLink="/">
             <img class="sidebar-logo__image" src="assets/img/connect-copy@2x.png" alt="website logo">
@@ -23,21 +23,21 @@
                 <img src="assets/img/sidebar/funnel-copy.svg" alt="">
                 <span style="color: #00ABD3">Input</span>
             </li>
-            <li style="cursor: pointer" [ngClass]="{'greyscale-1':sideBarTab1!=='logic'}" (click)="sideBarTabChanged('logic')">
+            <li style="cursor: pointer" *ngIf="bot.bot_type === myEBotType.chatbot" [ngClass]="{'greyscale-1':sideBarTab1!=='logic'}" (click)="sideBarTabChanged('logic')">
                 <img src="assets/img/sidebar/bot-logic.svg" alt="">
                 <span style="color: #00ABD3">Logic</span>
             </li>
-            <li style="cursor: pointer" [ngClass]="{'greyscale-1':sideBarTab1!=='chat'}" (click)="sideBarTabChanged('chat')">
+            <li style="cursor: pointer" *ngIf="bot.bot_type === myEBotType.chatbot" [ngClass]="{'greyscale-1':sideBarTab1!=='chat'}" (click)="sideBarTabChanged('chat')">
                 <img src="assets/img/sidebar/conversations.svg" alt="">
                 <span style="color: #00ABD3">Chat</span>
             </li>
-            <li style="cursor: pointer" [ngClass]="{'greyscale-1':sideBarTab1!=='test'}" (click)="sideBarTabChanged('test')">
+            <li style="cursor: pointer" *ngIf="bot.bot_type === myEBotType.chatbot" [ngClass]="{'greyscale-1':sideBarTab1!=='test'}" (click)="sideBarTabChanged('test')">
                 <img src="assets/img/sidebar/testing.svg" alt="">
                 <span style="color: #00ABD3">Test</span>
             </li>
         </ul>
     </nav>
-
+    <!--sidebar ends-->
 
     <div class="architecture" style="margin-left: 56px">
         <ng-container *ngIf="sideBarTab1 === 'setting'">
@@ -49,28 +49,7 @@
             </header>
             <div class="architecture py-3" *ngIf="sideBarTab1 ==='setting'">
                 <div class="d-flex-column-last-child-flex-grow-1 text-theme-normal justify-content-center">
-                    <!--<div class="d-flex justify-content-between">-->
-
-                    <!--<div class="heading" style="font-size: 14px !important;">Bot Configuration</div>-->
-                    <!--<div *ngIf="!showConfig" class="d-flex mx-4 justify-content-between align-items-center flex-grow-1">-->
-                    <!--<div class="">Bot Unique Name : <strong>{{bot.bot_unique_name}}</strong></div>-->
-                    <!--<div class="">Session Time : <strong>{{bot.room_persistence_time}} min</strong></div>-->
-                    <!--<div class="d-none d-md-inline">Advanced Data Protection :-->
-                    <!--<strong>{{bot.advanced_data_protection}}</strong></div>-->
-                    <!--<div class="d-none d-md-inline">Data Retention Period : <strong>{{bot.data_persistence_period}}-->
-                    <!--Days</strong></div>-->
-                    <!--<div class="d-none d-md-inline">Blank Consent : <strong>{{bot.blanket_consent}}</strong></div>-->
-                    <!--</div>-->
-                    <!--<div class="cursor-pointer"-->
-                    <!--(click)="togglePanel()">-->
-                    <!--<i class="fa" [ngClass]="{'fa-angle-up':showConfig, 'fa-angle-down':!showConfig}"-->
-                    <!--(click)="eventService.rerenderHandsonTable$.emit()"-->
-                    <!--style="font-size: 20px; line-height: 12px"></i>-->
-                    <!--</div>-->
-                    <!--</div>-->
-
                     <app-bot-config (datachanged$)="datachanged($event)" [bot]="(bot)"></app-bot-config>
-
                 </div>
             </div>
         </ng-container>
@@ -98,7 +77,7 @@
                 </mat-tab>
             </mat-tab-group>
         </ng-container>
-        <ng-container *ngIf="sideBarTab1 === 'logic'">
+        <ng-container *ngIf="sideBarTab1 === 'logic' && bot.bot_type === myEBotType.chatbot">
             <header style="margin-top: 12px">
                 <div style="padding-bottom: 8px"><strong
                         style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">
@@ -114,7 +93,7 @@
                     (datachanged$)="datachanged($event)"
                     [bot]="bot"></app-code-input>
         </ng-container>
-        <div *ngIf="sideBarTab1 === 'chat'">
+        <ng-container *ngIf="sideBarTab1 === 'chat' && bot.bot_type === myEBotType.chatbot">
             <header style="margin-top: 12px">
                 <strong>Conversations</strong>
                 <div>See all the conversations happened with the bot along with data of the users who interacted with
@@ -138,8 +117,8 @@
                 </mat-tab>
             </mat-tab-group>
 
-        </div>
-        <ng-container *ngIf="sideBarTab1 === 'test'">
+        </ng-container>
+        <ng-container *ngIf="sideBarTab1 === 'test' && bot.bot_type === myEBotType.chatbot">
             <header style="margin-top: 12px">
                 <!---->
                 <div style="padding-bottom: 8px"><strong
@@ -368,7 +347,6 @@
     </div>
 </app-imi-loader>
 
-<!--<p *ngIf="noSuchBotMessage">{{noSuchBotMessage}}</p>-->
 
 <ng-template #placeholder>
     <div class="row row-details">

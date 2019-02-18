@@ -191,3 +191,10 @@ mat-tab-group{
     padding-left: 10px;
   }
 }
+
+
+::ng-deep{
+  .mat-tab-nav-bar, .mat-tab-header {
+     border-bottom: 1px solid transparent;
+  }
+}

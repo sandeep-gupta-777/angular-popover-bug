@@ -12,7 +12,7 @@
       <span>Last Update By </span>{{bot.updated_by}} on {{bot.updated_at|date}}
     </div>
   </div>
-  <i class="fa fa-users" *ngIf="bot && bot.is_manager" style="font-size: 16px"></i>
+  <!--<i class="fa fa-users" *ngIf="bot && bot.is_manager" style="font-size: 16px"></i>-->
   <!--<div class="d-flex align-items-center">-->
     <!--<i class="fa fa-circle dark-green"></i>-->
     <!--<div>Active(v{{bot.active_version.version}})</div>-->
@@ -42,11 +42,11 @@
       <!--<i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>-->
       <!--<span class="action">Preview</span>-->
     <!--</div>-->
-    <button mat-button style="border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 2px; margin-right: 10px">
+    <button class="mat-theme-button" mat-button style="border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 2px; margin-right: 10px">
         <mat-icon>trending_up</mat-icon>
       Analytics
     </button>
-    <button
+    <button class="mat-theme-button"
             (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'"
             mat-button style="border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 2px">
         <mat-icon>chat_bubble_outline</mat-icon>

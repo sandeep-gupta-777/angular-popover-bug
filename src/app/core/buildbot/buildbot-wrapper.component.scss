@@ -12,3 +12,9 @@ ul{
     width: 50%;
   }
 }
+
+.header-less-tabs /deep/{
+  .mat-tab-header{
+    display: none;
+  }
+}

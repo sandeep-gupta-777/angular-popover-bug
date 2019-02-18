@@ -3,12 +3,12 @@
      style="word-break: break-all"
      [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}"
      *ngIf="messageData.messageMediatype === myEBotMessageMediaType.text && messageData.sourceType!=='session_expired'">
-  <div class="p-0 text-center" style="width: 40px">
-    <img class="rounded-circle"
-         [src]="messageData?.sourceType==='bot'?selectedAvatar?.imageUrl:'https://image.flaticon.com/icons/svg/17/17004.svg'"
-         style="width: 32px;height: 32px" alt="">
-  </div>
-  <div class="col-10 text-left p-0" [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}">
+  <!--<div class="p-0 text-center" style="width: 40px">-->
+    <!--<img class="rounded-circle"-->
+         <!--[src]="messageData?.sourceType==='bot'?selectedAvatar?.imageUrl:'https://image.flaticon.com/icons/svg/17/17004.svg'"-->
+         <!--style="width: 32px;height: 32px" alt="">-->
+  <!--</div>-->
+  <div class="col-12 text-left p-0" [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}">
     <div class="message p-2"
          [ngClass]="{'bg-message-bot':messageData?.sourceType==='bot','bg-message-human':messageData?.sourceType==='human'}"
          style="display: inline-block; overflow-x: auto">

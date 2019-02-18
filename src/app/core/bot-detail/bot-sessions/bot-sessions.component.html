@@ -1,85 +1,52 @@
 <!--<button (click)="log()">log</button>-->
 
-<div class="d-flex">
-    <form class="refine-results" style="background-color: white; width: 250px; flex-basis: 250px; flex-shrink: 0">
+<div class="d-flex" style="margin-top: 10px">
+    <form #form="ngForm" class="refine-results"
+          style="background-color: white; width: 250px; flex-basis: 250px; flex-shrink: 0; border: 1px solid #e0e0e0">
         <strong>Refine Results</strong>
         <hr>
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Room Id">
+            <input matInput placeholder="Room Id"
+                   ngModel
+                   name="id">
         </mat-form-field>
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Consumer Id">
+            <input matInput placeholder="Consumer Id"
+                   ngModel
+                   name="consumer_id">
         </mat-form-field>
 
 
         <div>Message</div>
         <div class="d-flex justify-content-between">
             <mat-form-field class="example-full-width input-no-label" style="width: 40%" floatLabel="never">
-                <input matInput placeholder="min" type="number">
+                <input matInput placeholder="min" type="number"
+                       ngModel
+                       name="consumer_id">
             </mat-form-field>
             <span style="align-self: center; margin-bottom: 10px">to</span>
             <mat-form-field class="example-full-width input-no-label" style="width: 40%" floatLabel="never">
-                <input matInput placeholder="max" type="number">
+                <input matInput placeholder="max" type="number"
+                       ngModel
+                       name="total_message_count">
             </mat-form-field>
         </div>
 
         <div>Channel</div>
-        <ul style="display: flex; flex-wrap: wrap">
-            <li>
-                <mat-checkbox color="primary">
+        <ul style="display: flex; flex-wrap: wrap" ngModelGroup="channels">
+            <li *ngFor="let channel of masterIntegrationList">
+                <mat-checkbox color="primary" ngModel name="{{channel.unique_name}}" [title]="channel.unique_name">
                     <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
-                         src="https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/skype.png" alt="">
-                </mat-checkbox>
-            </li>
-            <li>
-                <mat-checkbox color="primary">
-                    <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
-                         src="https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/skype.png" alt="">
-                </mat-checkbox>
-            </li>
-            <li>
-                <mat-checkbox color="primary">
-                    <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
-                         src="https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/skype.png" alt="">
-                </mat-checkbox>
-            </li>
-            <li>
-                <mat-checkbox color="primary">
-                    <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
-                         src="https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/skype.png" alt="">
-                </mat-checkbox>
-            </li>
-            <li>
-                <mat-checkbox color="primary">
-                    <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
-                         src="https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/skype.png" alt="">
-                </mat-checkbox>
-            </li><li>
-                <mat-checkbox color="primary">
-                    <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
-                         src="https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/skype.png" alt="">
-                </mat-checkbox>
-            </li><li>
-                <mat-checkbox color="primary">
-                    <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
-                         src="https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/skype.png" alt="">
-                </mat-checkbox>
-            </li><li>
-                <mat-checkbox color="primary">
-                    <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
-                         src="https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/skype.png" alt="">
-                </mat-checkbox>
-            </li><li>
-                <mat-checkbox color="primary">
-                    <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
-                         src="https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/skype.png" alt="">
+                         [src]="channel.icon" [alt]="channel.unique_name">
                 </mat-checkbox>
             </li>
         </ul>
 
         <mat-form-field floatLabel="never">
             <input matInput
-                   [name]="'date'"
+
+                   ngModel
+                   name="updated_at"
                    ngModel
                    placeholder="date range"
                    [satDatepicker]="picker">
@@ -100,9 +67,10 @@
         </ul>
 
         <div class="d-flex justify-content-between mt-2">
-            <button  mat-raised-button color="primary">Submit</button>
-            <button mat-button>Cancel</button>
-
+            <button mat-raised-button color="primary" type="button" (click)="sessionFormSubmitted(form.value)">
+                Submit
+            </button>
+            <button mat-button (click)="resetSearchForm(form)">Cancel</button>
         </div>
     </form>
     <app-smart-table [data]="tableData"
@@ -160,6 +128,8 @@
                 <div class="text-center my-1">
                     <label class="mr-1">Reason</label>
                     <input type="text" required style="border-radius: 0px !important;" [(ngModel)]="decryptReason"
+
+                           ngModel
                            name="decryptReason">
                 </div>
                 <button [disabled]="!form.valid" class=" btn-theme btn-theme-success-sm"

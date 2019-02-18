@@ -37,7 +37,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
   @Select() botlist$: Observable<ViewBotStateModel>;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
   @Select() loggeduser$: Observable<{ user: IUser }>;
-  sideBarTab1 = 'architecture';
+  sideBarTab1 = 'setting';
   bot$: Observable<IBot>;
   bot_id: number;
   showConfig = true;
@@ -68,14 +68,14 @@ export class CodeBasedBotDetailComponent implements OnInit {
       const roleName = this.constantsService.loggedUser.role.name;
       this.showConfig = roleName !== ERoleName.Admin; //if its admin don't expand bot config by default
       if (roleName === ERoleName.Admin || roleName === ERoleName['Bot Developer']) {
-        this.sideBarTab1 = 'architecture';
+        this.sideBarTab1 = 'setting';
       } else if (roleName === ERoleName.Tester) {
         this.sideBarTab1 = 'testing';
       } else {
         this.sideBarTab1 = 'sessions';
       }
     // });
-
+    debugger;
     const isArchitectureFullScreen = this.activatedRoute.snapshot.queryParamMap.get('isArchitectureFullScreen');
     this.isArchitectureFullScreen = isArchitectureFullScreen === 'true';
     const showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
@@ -105,7 +105,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
     this.end_date = this.utilityService.getPriorDate(30);
     this.getOverviewInfo();
     this.activatedRoute.queryParams.subscribe((queryParams) => {
-      this.sideBarTab1 = queryParams['build'];
+      this.sideBarTab1 = queryParams['build'] || this.sideBarTab1 ;;
       this.isArchitectureFullScreen = queryParams['isArchitectureFullScreen'] === 'true';
     });
   }

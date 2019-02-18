@@ -14,6 +14,7 @@ import {ConstantsService, EAllActions} from '../../../../../constants.service';
 import {ActivatedRoute} from '@angular/router';
 import {PermissionService} from '../../../../../permission.service';
 import {ELogType, LoggingService} from '../../../../../logging.service';
+import {distinctUntilChanged, skip} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-basic-info-form',
@@ -53,6 +54,7 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
   myEAllActions = EAllActions;
   myEBotType = EBotType;
   formGroup: FormGroup;
+  @Output() dataValid$ = new EventEmitter();
   logoErrorObj = [
     {name: 'imageExnError', description: 'Invalid Extension'},
     {name: 'imageHttpsError', description: 'Only Https urls allowed'}];
@@ -69,9 +71,10 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
   ngOnInit() {
     this.formGroup = this.formBuilder.group({
       name: [this._bot.name, Validators.required],
+      bot_unique_name: [this._bot.bot_unique_name, Validators.required],
       description: [this._bot.description, Validators.required],
       logo: [this._bot.logo, [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
-      bot_unique_name: [this._bot.bot_unique_name, Validators.required],
+      // bot_unique_name: [this._bot.bot_unique_name, Validators.required],
       first_message: [this._bot.first_message, Validators.required],
       error_message: [this._bot.error_message, Validators.required],
       // room_persistence_time: [this._bot.room_persistence_time, Validators.required],
@@ -81,10 +84,17 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
 
     this.initializeChildBotFormArray();
     /*TODO: initialization must be done with initialization of formGroup*/
-    this.formGroup.valueChanges.pipe(debounceTime(200)).subscribe((data: Partial<IBot>) => {
-      LoggingService.log(this.formGroup);
+    this.formGroup.valueChanges.pipe(
+      debounceTime(200),
+      distinctUntilChanged((value1, value2)=>JSON.stringify(value1) ===JSON.stringify(value2)),
+      skip(1)
+      ).subscribe((data: Partial<IBot>) => {
+
+      console.log(this.formGroup);
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) { return; }
+      this.dataValid$.emit(this.formGroup.valid);
       this.formData = data;
+      setTimeout(()=>this.dataValid$.emit(this.formGroup.valid));
       /*this.formData is used for compareTwoJavaObjects, no other purpose*/
       this.datachanged$.emit({...data, form_validation_basic_info: this.formGroup.valid});
     });
@@ -162,6 +172,7 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
   }
 
   nameChangeByUser($event) {
+    /*TODO: uncomment it later*/
     setTimeout(() => {
       const name = this.formGroup.value.name;
       if (name && !this._bot.id) {
