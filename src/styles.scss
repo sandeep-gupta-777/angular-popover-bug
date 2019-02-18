@@ -1073,6 +1073,10 @@ body {
   font-family: 'IBM Plex Sans', sans-serif;
 }
 
+*:not(.fa):not(mat-icon){
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
 
 mat-dialog-container{
   //padding: 0!important;
@@ -1178,4 +1182,12 @@ mat-dialog-container{
 
 .mat-progress-bar{
   height: 2px !important;
+}
+
+.form-control{
+  background-color: transparent !important;/*bootstrap override*/
+}
+
+.greyscale-1{
+  filter: grayscale(1);
 }

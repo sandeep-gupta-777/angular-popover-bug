@@ -1,22 +1,20 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
-import {IBasicInfo} from '../../../../../../interfaces/bot-creation';
-import {SaveNewBotInfo_CodeBased} from '../../../ngxs/buildbot.action';
-import {Store} from '@ngxs/store';
-import {UtilityService} from '../../../../../utility.service';
 import {EAllActions} from '../../../../../constants.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {debounceTime} from 'rxjs/operators';
+import {Store} from '@ngxs/store';
+import {UtilityService} from '../../../../../utility.service';
 import {PermissionService} from '../../../../../permission.service';
+import {debounceTime} from 'rxjs/internal/operators';
+import {IBasicInfo} from '../../../../../../interfaces/bot-creation';
 
 @Component({
-  selector: 'app-additional-info-form',
-  templateUrl: './additional-info-form.component.html',
+  selector: 'app-security',
+  templateUrl: './security.component.html',
   styleUrls: ['../basic-info-form/basic-info-form.component.scss']
-
 })
-export class AdditionalInfoFormComponent implements OnInit {
-
+export class SecurityComponent implements OnInit {
+  //
   _bot: Partial<IBot> = {};
   myEAllActions = EAllActions;
   formGroup: FormGroup;
@@ -41,9 +39,14 @@ export class AdditionalInfoFormComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = this.formBuilder.group({
+      data_persistence_period: [this._bot.data_persistence_period, Validators.required],
       heading: [this._bot.heading],
+      advanced_data_protection: [this._bot.advanced_data_protection],
       transactions_per_pricing_unit: [this._bot.transactions_per_pricing_unit],
       error_message: [this._bot.error_message],
+      consent_message: [this._bot.consent_message],
+      blanket_consent: [this._bot.blanket_consent],
+      allow_anonymization: [this._bot.allow_anonymization],
       // first_message: [this._bot.first_message],
       // room_close_callback: [this._bot.room_close_callback],
       // allow_feedback: [this._bot.allow_feedback],
@@ -57,4 +60,5 @@ export class AdditionalInfoFormComponent implements OnInit {
   }
 
   click() {}
+
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ResetBuildBotToDefault, SaveNewBotInfo_CodeBased, SaveNewBotInfo_PipelineBased} from './ngxs/buildbot.action';
 import {IBot} from '../interfaces/IBot';
 import {IBotCreationState} from './ngxs/buildbot.state';
@@ -10,6 +10,7 @@ import {ActivatedRoute, Route, Router} from '@angular/router';
 import {EBotType, UtilityService} from '../../utility.service';
 import {AddNewBotInAllBotList, SetAllBotListAction} from '../view-bots/ngxs/view-bot.action';
 import {LoggingService} from '../../logging.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-buildbot-wrapper',
@@ -22,6 +23,9 @@ export class BuildbotWrapperComponent implements OnInit {
   @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
   bot: IBot = {};
   bot_type: string;
+  formGroup: FormGroup;
+  @Output() datachanged$ = new EventEmitter();
+  activeTab=0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -29,11 +33,25 @@ export class BuildbotWrapperComponent implements OnInit {
     private serverService: ServerService,
     private utilityService: UtilityService,
     private constantsService: ConstantsService,
+    private formBuilder: FormBuilder,
     private store: Store
   ) {
   }
 
+  logoErrorObj = [
+    {name: 'imageExnError', description: 'Invalid Extension'},
+    {name: 'imageHttpsError', description: 'Only Https urls allowed'}];
+
   ngOnInit() {
+    this.formGroup = this.formBuilder.group({
+      name: ["", Validators.required],
+      description: ["", Validators.required],
+      logo: ["", [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
+      bot_unique_name: ["", Validators.required],
+      first_message: ["", Validators.required],
+      error_message: ["", Validators.required],
+    }, {validator: this.utilityService.isManagerValidator});
+
     this.bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type');
     this.botcreationstate$.subscribe((value) => {
       /*TODO: this is a  hack to avoid loops*/

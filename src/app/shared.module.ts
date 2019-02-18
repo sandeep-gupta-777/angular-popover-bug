@@ -46,14 +46,23 @@ import {ChatFeedbackComponent} from './chat-feedback/chat-feedback.component';
 import {LinkifyPipe} from './linkify.pipe';
 import {MsToHhMmPipe} from './ms-to-hh-mm.pipe';
 import {SafeHtmlPipe} from './safe-html.pipe';
+import {IntegrationChannelListComponent} from './core/integration-channel-list/integration-channel-list.component';
+import {SecurityComponent} from './core/buildbot/build-code-based-bot/bot-config/security/security.component';
+import {IntegrationItemForTypePipe} from './integration-item-for-type.pipe';
+import {IntegrationItemComponent} from './core/buildbot/build-code-based-bot/architecture/integration/integration-item/integration-item.component';
+import {IntegrationOptionListComponent} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-option-list.component';
+import {DisplayNameForKeyIntegrationPipe} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/display-name-for-key-integration.pipe';
+import {BuildbotWrapperComponent} from './core/buildbot/buildbot-wrapper.component';
 
 @NgModule({
   declarations: [
+    IntegrationChannelListComponent,
     EnterpriseListComponent,
     GenericObjFilterPipe,
     IntegrationLogosPipe,
     SplashScreenComponent,
     DataManageFormComponent,
+    BuildbotWrapperComponent,
     BasicInfoFormComponent,
     BotConfigInputComponent,
     ErrorDescriptionPipe,
@@ -86,7 +95,13 @@ import {SafeHtmlPipe} from './safe-html.pipe';
     ChatFeedbackComponent,
     LinkifyPipe,
     MsToHhMmPipe,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    SecurityComponent,
+    TypeForIntegrationTypePipe,
+    IntegrationItemForTypePipe,
+    IntegrationItemComponent,
+    IntegrationOptionListComponent,
+    DisplayNameForKeyIntegrationPipe
   ],
   imports: [
     MyMaterialModule,
@@ -96,6 +111,7 @@ import {SafeHtmlPipe} from './safe-html.pipe';
     RouterModule,
     // ChartModule,
     ClickOutsideModule,
+
   ],
   exports: [
     LinkifyPipe,
@@ -140,7 +156,15 @@ import {SafeHtmlPipe} from './safe-html.pipe';
     MyMaterialModule,
     ImiLoaderComponent,
     ChatFeedbackComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    IntegrationChannelListComponent,
+    SecurityComponent,
+    TypeForIntegrationTypePipe,
+    IntegrationItemForTypePipe,
+    IntegrationItemComponent,
+    IntegrationOptionListComponent,
+    DisplayNameForKeyIntegrationPipe,
+    BuildbotWrapperComponent
   ]
 })
 export class SharedModule {

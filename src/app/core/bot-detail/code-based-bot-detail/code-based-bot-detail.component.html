@@ -1,263 +1,406 @@
+<!--<p>{{sideBarTab1}}</p>-->
+
 <div
-  [ngClass]="{'bot-detail-grid-architecture-full-screen':isArchitectureFullScreen,'bot-detail-grid':!isArchitectureFullScreen}"
-  *ngIf="bot">
+        [ngClass]="{'bot-detail-grid-architecture-full-screen':isArchitectureFullScreen,'bot-detail-grid':!isArchitectureFullScreen}"
+        *ngIf="bot">
 
-  <div class="header" *ngIf="!isArchitectureFullScreen">
-    <app-bot-detail-header [bot]="bot" (refreshBotDetails$)="refreshBotDetails()"></app-bot-detail-header>
-  </div>
-  <div class="d-flex-column-last-child-flex-grow-1 config bg-white px-3 py-3 shadow-theme" *ngIf="!isArchitectureFullScreen">
-    <div class="d-flex-column-last-child-flex-grow-1 text-theme-normal justify-content-center">
-      <div class="d-flex justify-content-between px-3">
-
-        <div class="heading" style="font-size: 14px !important;">Bot Configuration</div>
-        <div *ngIf="!showConfig" class="d-flex mx-4 justify-content-between align-items-center flex-grow-1">
-          <div class="">Bot Unique Name : <strong>{{bot.bot_unique_name}}</strong></div>
-          <div class="">Session Time : <strong>{{bot.room_persistence_time}} min</strong></div>
-          <div class="d-none d-md-inline">Advanced Data Protection : <strong>{{bot.advanced_data_protection}}</strong></div>
-          <div class="d-none d-md-inline">Data Retention Period : <strong>{{bot.data_persistence_period}} Days</strong></div>
-          <div class="d-none d-md-inline">Blank Consent : <strong>{{bot.blanket_consent}}</strong></div>
-        </div>
-        <div class="cursor-pointer"
-             (click)="togglePanel()">
-          <i class="fa" [ngClass]="{'fa-angle-up':showConfig, 'fa-angle-down':!showConfig}"
-             (click)="eventService.rerenderHandsonTable$.emit()"
-             style="font-size: 20px; line-height: 12px"></i>
-        </div>
-      </div>
-
-      <app-bot-config (datachanged$)="datachanged($event)" *ngIf="showConfig" [bot]="(bot)"></app-bot-config>
-
+    <div class="header">
+        <app-bot-detail-header [bot]="bot" (refreshBotDetails$)="refreshBotDetails()"></app-bot-detail-header>
     </div>
-  </div>
 
-  <!--============= REDESIGN=================-->
-
-  <div class="flex-column shadow-theme  d-flex-column-last-child-flex-grow-1 architecture bg-white p-1 px-2 my align-content-start"
-       *myIf="[
-       myEAllActions['Get Pipeline Module'],
-       myEAllActions['Get Integrations'],
-       myEAllActions['Get Bot Knowledge base'],
-       myEAllActions['Get Bot Testcases'],
-       myEAllActions['Get Sessions'],
-       myEAllActions['Get Consumers']
-       ]">
-    <!--tabs start-->
-    <div class="px-2">
-      <ul class="nav nav-tabs border-none theme-tabbing mb-1 bg-white">
-        <li *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]" class="nav-item"
-            (click)="eventService.rerenderHandsonTable$.emit()"
-            [ngClass]="{'tab-active':selectedTab==='architecture'}">
-          <a class="nav-link heading" [routerLink]="['.']"
-             queryParamsHandling="merge"
-             replaceUrl="true"
-             (click)="tabChanged('architecture')"
-             [queryParams]="{build:'architecture'}"><strong>Architecture</strong></a>
-        </li>
-        <li *myIf="myEAllActions['Get Bot Testcases']" class="nav-item" [ngClass]="{'tab-active':selectedTab==='testing'}">
-          <a class="nav-link heading" [routerLink]="['.']"
-             queryParamsHandling="merge"
-             replaceUrl="true"
-             (click)="tabChanged('testing')"
-             [queryParams]="{build:'testing'}"><strong>Testing</strong></a>
-        </li>
-        <li *myIf="myEAllActions['Get Sessions']" class="nav-item" [ngClass]="{'tab-active':selectedTab==='sessions'}">
-          <a class="nav-link heading" [routerLink]="['.']"
-             queryParamsHandling="merge"
-             replaceUrl="true"
-             (click)="tabChanged('sessions')"
-             [queryParams]="{build:'sessions'}"><strong>Sessions</strong></a>
-        </li>
-        <li *myIf="myEAllActions['Get Consumers']" class="nav-item" [ngClass]="{'tab-active':selectedTab==='consumer'}">
-          <a class="nav-link heading" [routerLink]="['.']"
-             queryParamsHandling="merge"
-             replaceUrl="true"
-             (click)="tabChanged('consumer')"
-             [queryParams]="{build:'consumer'}"><strong>Consumers</strong></a>
-        </li>
-        <div class="ml-auto"></div>
-        <li class="nav-item" *ngIf="selectedTab==='sessions'">
-          <a class="nav-link heading" style="cursor: default!important;">
-            <i class="fa fa-refresh cursor-pointer"
-               [ngClass]="{'fa-spin':spinReloadSessionTableSpinner}"
-               (click)="reloadSessionsHandler()"></i>
-          </a>
-          <!---->
-        </li>
-        <li class="nav-item">
-          <a class="nav-link heading"
-             [routerLink]="['.']"
-             queryParamsHandling="merge"
-             replaceUrl="true"
-             [queryParams]="{isArchitectureFullScreen:!isArchitectureFullScreen}">
-            <i class="fa"
-               (click)="eventService.rerenderHandsonTable$.emit()"
-               [ngClass]="{'fa-window-restore':isArchitectureFullScreen, 'fa-expand':!isArchitectureFullScreen}"></i>
-          </a>
-        </li>
-      </ul>
-
-      <ul class="nav nav-tabs border-none theme-tabbing mb-1 bg-white d-flex d-md-none" *ngIf="selectedTab ==='architecture'">
-        <li routerLink="."
-             [queryParams]="{'build-tab':'pipeline'}"
-             queryParamsHandling="merge"
-             [ngClass]="{'font-weight-bold':selectedSideBarTab==='pipeline'}"
-             (click)="selectedSideBarTab='pipeline'"
-             class="tab-theme ml-auto">Pipeline
-        </li>
-        <!---->
-        <li routerLink="."
-             [queryParams]="{'build-tab':'knowledge'}"
-             queryParamsHandling="merge"
-             [ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"
-             (click)="selectedSideBarTab='knowledge'"
-             class="tab-theme">Knowledge Base
-        </li>
-        <li routerLink="."
-             [queryParams]="{'build-tab':'code'}"
-             queryParamsHandling="merge"
-             [ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"
-             (click)="selectedSideBarTab='code'; refreshCodeEditor()"
-             class="tab-theme">Code
-        </li>
-        <li routerLink="."
-             [queryParams]="{'build-tab':'integration'}"
-             queryParamsHandling="merge"
-             [ngClass]="{'font-weight-bold':selectedSideBarTab==='integration'}"
-             (click)="selectedSideBarTab='integration'"
-             class="tab-theme">Integrations
-        </li>
+    <nav class="sidebar shadow-theme">
+        <a class="sidebar-logo" routerLink="/">
+            <img class="sidebar-logo__image" src="assets/img/connect-copy@2x.png" alt="website logo">
+        </a>
 
 
-      </ul>
+        <ul>
+            <li style="cursor: pointer" [ngClass]="{'greyscale-1':sideBarTab1!=='setting'}" (click)="sideBarTabChanged('setting')" class="cursor-pointer">
+                <img src="assets/img/sidebar/bot-config.svg" alt="">
+                <span style="color: #00ABD3">Settings</span>
+            </li>
+            <li style="cursor: pointer" [ngClass]="{'greyscale-1':sideBarTab1!=='input'}" (click)="sideBarTabChanged('input')">
+                <img src="assets/img/sidebar/funnel-copy.svg" alt="">
+                <span style="color: #00ABD3">Input</span>
+            </li>
+            <li style="cursor: pointer" [ngClass]="{'greyscale-1':sideBarTab1!=='logic'}" (click)="sideBarTabChanged('logic')">
+                <img src="assets/img/sidebar/bot-logic.svg" alt="">
+                <span style="color: #00ABD3">Logic</span>
+            </li>
+            <li style="cursor: pointer" [ngClass]="{'greyscale-1':sideBarTab1!=='chat'}" (click)="sideBarTabChanged('chat')">
+                <img src="assets/img/sidebar/conversations.svg" alt="">
+                <span style="color: #00ABD3">Chat</span>
+            </li>
+            <li style="cursor: pointer" [ngClass]="{'greyscale-1':sideBarTab1!=='test'}" (click)="sideBarTabChanged('test')">
+                <img src="assets/img/sidebar/testing.svg" alt="">
+                <span style="color: #00ABD3">Test</span>
+            </li>
+        </ul>
+    </nav>
 
-    </div>
-    <!--tabs end-->
 
-    <!--architeture starts-->
-    <div class="p-0 child-expand d-flex-column-last-child-flex-grow-1"
-         [hidden]="selectedTab !=='architecture'">
-      <div class="d-flex-column-last-child-flex-grow-1 architeture-body child-expand" style="overflow-y: auto;"
-           *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]">
-        <div class="d-flex row-body bg-white child-expand" >
-          <!--TODO: 98% to avoid scroll bar; use grid instead-->
-          <!--side bar starts-->
-          <div class="side-bar  border-right d-none d-md-block flex-shrink-0">
-            <div class="">
-              <div routerLink="."
-                 [queryParams]="{'build-tab':'pipeline'}"
-                 queryParamsHandling="merge"
-                 [ngClass]="{'font-weight-bold':selectedSideBarTab==='pipeline'}"
-                 (click)="selectedSideBarTab='pipeline'"
-                 class="tab-theme">Pipeline
-              </div>
-              <!---->
-              <div routerLink="."
-                   [queryParams]="{'build-tab':'knowledge'}"
-                   queryParamsHandling="merge"
-                   [ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"
-                   (click)="selectedSideBarTab='knowledge'"
-                   class="tab-theme">Knowledge Base
-              </div>
-              <div routerLink="."
-                   [queryParams]="{'build-tab':'code'}"
-                   queryParamsHandling="merge"
-                   [ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"
-                   (click)="selectedSideBarTab='code'; refreshCodeEditor()"
-                   class="tab-theme">Code
-              </div>
-              <div routerLink="."
-                   [queryParams]="{'build-tab':'integration'}"
-                   queryParamsHandling="merge"
-                   [ngClass]="{'font-weight-bold':selectedSideBarTab==='integration'}"
-                   (click)="selectedSideBarTab='integration'"
-                   class="tab-theme">Integrations
-              </div>
+    <div class="architecture" style="margin-left: 56px">
+        <ng-container *ngIf="sideBarTab1 === 'setting'">
+            <header style="margin-top: 12px">
+                <div style="padding-bottom: 8px"><strong
+                        style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Bot configuration</strong></div>
+                <div style="color: #9e9e9e;font-size: 11px">Change the bot settings and add or update integrations.
+                </div>
+            </header>
+            <div class="architecture py-3" *ngIf="sideBarTab1 ==='setting'">
+                <div class="d-flex-column-last-child-flex-grow-1 text-theme-normal justify-content-center">
+                    <!--<div class="d-flex justify-content-between">-->
+
+                    <!--<div class="heading" style="font-size: 14px !important;">Bot Configuration</div>-->
+                    <!--<div *ngIf="!showConfig" class="d-flex mx-4 justify-content-between align-items-center flex-grow-1">-->
+                    <!--<div class="">Bot Unique Name : <strong>{{bot.bot_unique_name}}</strong></div>-->
+                    <!--<div class="">Session Time : <strong>{{bot.room_persistence_time}} min</strong></div>-->
+                    <!--<div class="d-none d-md-inline">Advanced Data Protection :-->
+                    <!--<strong>{{bot.advanced_data_protection}}</strong></div>-->
+                    <!--<div class="d-none d-md-inline">Data Retention Period : <strong>{{bot.data_persistence_period}}-->
+                    <!--Days</strong></div>-->
+                    <!--<div class="d-none d-md-inline">Blank Consent : <strong>{{bot.blanket_consent}}</strong></div>-->
+                    <!--</div>-->
+                    <!--<div class="cursor-pointer"-->
+                    <!--(click)="togglePanel()">-->
+                    <!--<i class="fa" [ngClass]="{'fa-angle-up':showConfig, 'fa-angle-down':!showConfig}"-->
+                    <!--(click)="eventService.rerenderHandsonTable$.emit()"-->
+                    <!--style="font-size: 20px; line-height: 12px"></i>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <app-bot-config (datachanged$)="datachanged($event)" [bot]="(bot)"></app-bot-config>
+
+                </div>
             </div>
-          </div>
-          <!--side bar ends-->
-
-          <div class="px-2 pt-2 pb-0 d-flex  w-100">
-            <app-pipeline
-              (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"
-                          [bot]="bot"></app-pipeline>
-            <app-knowledge-base-wrapper
-              [bot]="bot"
-              *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base-wrapper>
-
+        </ng-container>
+        <ng-container *ngIf="sideBarTab1 === 'input'">
+            <header style="margin-top: 12px">
+                <!---->
+                <div style="padding-bottom: 8px"><strong
+                        style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Input
+                    recognition</strong></div>
+                <div style="color: #9e9e9e;font-size: 11px">Configure the bot pipeline and the knowledge base here.
+                    Pipeline is used as filter for the user message to extract or discard certain parameters. In
+                    knowledge base entities are to be defined which are to be captured from the pipeline as parameters
+                    in the message.
+                </div>
+            </header>
+            <mat-tab-group style="height: 100%">
+                <mat-tab label="Pipeline">
+                    <app-pipeline
+                            (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"
+                            [bot]="bot"></app-pipeline>
+                </mat-tab>
+                <mat-tab label="Knowledge base" *ngIf="!(bot.bot_type===myEBotType.intelligent)">
+                    <app-knowledge-base-wrapper style="height: 100%; padding-top: 20px"
+                                                [bot]="bot"></app-knowledge-base-wrapper>
+                </mat-tab>
+            </mat-tab-group>
+        </ng-container>
+        <ng-container *ngIf="sideBarTab1 === 'logic'">
+            <header style="margin-top: 12px">
+                <div style="padding-bottom: 8px"><strong
+                        style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">
+                    Logic </strong>
+                </div>
+                <div style="color: #9e9e9e;font-size: 11px">
+                    No Description
+                </div>
+            </header>
             <app-code-input
-              class=" d-flex-column-last-child-flex-grow-1"
-              (datachanged$)="datachanged($event)"
-              *ngIf="selectedSideBarTab==='code'"
-              [bot]="bot"></app-code-input>
-            <app-integration-option-list
-              (datachanged$)="datachanged($event)"
-              *ngIf="selectedSideBarTab==='integration'"
-              [bot]="bot"></app-integration-option-list>
-          </div>
+                    style="height: 100%"
+                    class=" d-flex-column-last-child-flex-grow-1"
+                    (datachanged$)="datachanged($event)"
+                    [bot]="bot"></app-code-input>
+        </ng-container>
+        <div *ngIf="sideBarTab1 === 'chat'">
+            <header style="margin-top: 12px">
+                <strong>Conversations</strong>
+                <div>See all the conversations happened with the bot along with data of the users who interacted with
+                    the bot
+                </div>
+            </header>
+            <mat-tab-group style="height: 100%">
+                <mat-tab label="Session">
+                    <div class="scroll-wrapper d-flex-column-last-child-flex-grow-1" style="height: 100%">
+                        <app-bot-sessions class="child-expand d-flex-column-last-child-flex-grow-1"
+                                          style="position: relative"
+                                          [id]="bot.id" [bot]="bot"></app-bot-sessions>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Consumer">
+                    <div class="d-flex-column-last-child-flex-grow-1 scroll-wrapper">
+                        <app-consumers style="position: relative"
+                                       class="child-expand d-flex-column-last-child-flex-grow-1 "
+                                       [id]="bot.id" [bot]="bot"></app-consumers>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
 
         </div>
-      </div>
-
-    </div>
-    <!--architeture ends-->
-
-    <div class="p-0 d-flex d-flex-column-custom flex-grow-1"  *ngIf="selectedTab==='testing'">
-      <app-bot-testing style="position: relative" class="child-expand d-flex-column-custom flex-grow-1" [bot]="bot"></app-bot-testing>
-    </div>
-
-    <div class="scroll-wrapper d-flex-column-last-child-flex-grow-1" *ngIf="selectedTab==='sessions'">
-      <app-bot-sessions class="child-expand d-flex-column-last-child-flex-grow-1" style="position: relative" [id]="bot.id" [bot]="bot"></app-bot-sessions>
-    </div>
-
-    <div class="d-flex-column-last-child-flex-grow-1 scroll-wrapper" *ngIf="selectedTab==='consumer'">
-      <app-consumers style="position: relative" class="child-expand d-flex-column-last-child-flex-grow-1 " [id]="bot.id" [bot]="bot"></app-consumers>
+        <ng-container *ngIf="sideBarTab1 === 'test'">
+            <header style="margin-top: 12px">
+                <!---->
+                <div style="padding-bottom: 8px"><strong
+                        style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Test</strong></div>
+                <div style="color: #9e9e9e;font-size: 11px">No description
+                </div>
+            </header>
+            <app-bot-testing style="position: relative; height: 100%;"
+                             class="child-expand d-flex-column-custom flex-grow-1" [bot]="bot">
+            </app-bot-testing>
+        </ng-container>
     </div>
 
-  </div>
+    <!--<ng-container *ngIf="sideBarTab1!=='setting'">-->
+    <!--<div class="flex-column shadow-theme  d-flex-column-last-child-flex-grow-1 architecture bg-white p-1 px-2 my align-content-start"-->
+    <!--*myIf="[-->
+    <!--myEAllActions['Get Pipeline Module'],-->
+    <!--myEAllActions['Get Integrations'],-->
+    <!--myEAllActions['Get Bot Knowledge base'],-->
+    <!--myEAllActions['Get Bot Testcases'],-->
+    <!--myEAllActions['Get Sessions'],-->
+    <!--myEAllActions['Get Consumers']-->
+    <!--]">-->
+    <!--&lt;!&ndash;tabs start&ndash;&gt;-->
+    <!--<div class="px-2">-->
+    <!--<ul class="nav nav-tabs border-none theme-tabbing mb-1 bg-white">-->
+    <!--<li *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]" class="nav-item"-->
+    <!--(click)="eventService.rerenderHandsonTable$.emit()"-->
+    <!--[ngClass]="{'tab-active':sideBarTab1==='architecture'}">-->
+    <!--<a class="nav-link heading" [routerLink]="['.']"-->
+    <!--queryParamsHandling="merge"-->
+    <!--replaceUrl="true"-->
+    <!--(click)="tabChanged('architecture')"-->
+    <!--[queryParams]="{build:'architecture'}"><strong>Architecture</strong></a>-->
+    <!--</li>-->
+    <!--<li *myIf="myEAllActions['Get Bot Testcases']" class="nav-item" [ngClass]="{'tab-active':sideBarTab1==='testing'}">-->
+    <!--<a class="nav-link heading" [routerLink]="['.']"-->
+    <!--queryParamsHandling="merge"-->
+    <!--replaceUrl="true"-->
+    <!--(click)="tabChanged('testing')"-->
+    <!--[queryParams]="{build:'testing'}"><strong>Testing</strong></a>-->
+    <!--</li>-->
+    <!--<li *myIf="myEAllActions['Get Sessions']" class="nav-item" [ngClass]="{'tab-active':sideBarTab1==='sessions'}">-->
+    <!--<a class="nav-link heading" [routerLink]="['.']"-->
+    <!--queryParamsHandling="merge"-->
+    <!--replaceUrl="true"-->
+    <!--(click)="tabChanged('sessions')"-->
+    <!--[queryParams]="{build:'sessions'}"><strong>Sessions</strong></a>-->
+    <!--</li>-->
+    <!--<li *myIf="myEAllActions['Get Consumers']" class="nav-item" [ngClass]="{'tab-active':sideBarTab1==='consumer'}">-->
+    <!--<a class="nav-link heading" [routerLink]="['.']"-->
+    <!--queryParamsHandling="merge"-->
+    <!--replaceUrl="true"-->
+    <!--(click)="tabChanged('consumer')"-->
+    <!--[queryParams]="{build:'consumer'}"><strong>Consumers</strong></a>-->
+    <!--</li>-->
+    <!--<div class="ml-auto"></div>-->
+    <!--<li class="nav-item" *ngIf="sideBarTab1==='sessions'">-->
+    <!--<a class="nav-link heading" style="cursor: default!important;">-->
+    <!--<i class="fa fa-refresh cursor-pointer"-->
+    <!--[ngClass]="{'fa-spin':spinReloadSessionTableSpinner}"-->
+    <!--(click)="reloadSessionsHandler()"></i>-->
+    <!--</a>-->
+    <!--&lt;!&ndash;&ndash;&gt;-->
+    <!--</li>-->
+    <!--<li class="nav-item">-->
+    <!--<a class="nav-link heading"-->
+    <!--[routerLink]="['.']"-->
+    <!--queryParamsHandling="merge"-->
+    <!--replaceUrl="true"-->
+    <!--[queryParams]="{isArchitectureFullScreen:!isArchitectureFullScreen}">-->
+    <!--<i class="fa"-->
+    <!--(click)="eventService.rerenderHandsonTable$.emit()"-->
+    <!--[ngClass]="{'fa-window-restore':isArchitectureFullScreen, 'fa-expand':!isArchitectureFullScreen}"></i>-->
+    <!--</a>-->
+    <!--</li>-->
+    <!--</ul>-->
+
+    <!--<ul class="nav nav-tabs border-none theme-tabbing mb-1 bg-white d-flex d-md-none" *ngIf="sideBarTab1 ==='architecture'">-->
+    <!--<li routerLink="."-->
+    <!--[queryParams]="{'tab':'pipeline'}"-->
+    <!--queryParamsHandling="merge"-->
+    <!--[ngClass]="{'font-weight-bold':selectedSideBarTab==='pipeline'}"-->
+    <!--(click)="selectedSideBarTab='pipeline'"-->
+    <!--class="tab-theme ml-auto">Pipeline-->
+    <!--</li>-->
+    <!--&lt;!&ndash;&ndash;&gt;-->
+    <!--<li routerLink="."-->
+    <!--[queryParams]="{'tab':'knowledge'}"-->
+    <!--queryParamsHandling="merge"-->
+    <!--[ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"-->
+    <!--(click)="selectedSideBarTab='knowledge'"-->
+    <!--class="tab-theme">Knowledge Base-->
+    <!--</li>-->
+    <!--<li routerLink="."-->
+    <!--[queryParams]="{'tab':'code'}"-->
+    <!--queryParamsHandling="merge"-->
+    <!--[ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"-->
+    <!--(click)="selectedSideBarTab='code'; refreshCodeEditor()"-->
+    <!--class="tab-theme">Code-->
+    <!--</li>-->
+    <!--<li routerLink="."-->
+    <!--[queryParams]="{'tab':'integration'}"-->
+    <!--queryParamsHandling="merge"-->
+    <!--[ngClass]="{'font-weight-bold':selectedSideBarTab==='integration'}"-->
+    <!--(click)="selectedSideBarTab='integration'"-->
+    <!--class="tab-theme">Integrations-->
+    <!--</li>-->
+
+
+    <!--</ul>-->
+
+    <!--</div>-->
+    <!--&lt;!&ndash;tabs end&ndash;&gt;-->
+
+    <!--<ng-container>-->
+    <!--<app-pipeline-->
+    <!--(datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"-->
+    <!--[bot]="bot"></app-pipeline>-->
+    <!--<app-knowledge-base-wrapper-->
+    <!--[bot]="bot"-->
+    <!--*ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base-wrapper>-->
+    <!--</ng-container>-->
+
+    <!--<app-code-input-->
+    <!--class=" d-flex-column-last-child-flex-grow-1"-->
+    <!--(datachanged$)="datachanged($event)"-->
+    <!--*ngIf="selectedSideBarTab==='code'"-->
+    <!--[bot]="bot"></app-code-input>-->
+    <!--<app-integration-option-list-->
+    <!--(datachanged$)="datachanged($event)"-->
+    <!--*ngIf="selectedSideBarTab==='integration'"-->
+    <!--[bot]="bot"></app-integration-option-list>-->
+
+
+    <!--&lt;!&ndash;architeture starts&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="p-0 child-expand d-flex-column-last-child-flex-grow-1"&ndash;&gt;-->
+    <!--&lt;!&ndash;[hidden]="sideBarTab1 !=='architecture'">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="d-flex-column-last-child-flex-grow-1 architeture-body child-expand" style="overflow-y: auto;"&ndash;&gt;-->
+    <!--&lt;!&ndash;*myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="d-flex row-body bg-white child-expand" >&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;TODO: 98% to avoid scroll bar; use grid instead&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;side bar starts&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="side-bar  border-right d-none d-md-block flex-shrink-0">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div routerLink="."&ndash;&gt;-->
+    <!--&lt;!&ndash;[queryParams]="{'tab':'pipeline'}"&ndash;&gt;-->
+    <!--&lt;!&ndash;queryParamsHandling="merge"&ndash;&gt;-->
+    <!--&lt;!&ndash;[ngClass]="{'font-weight-bold':selectedSideBarTab==='pipeline'}"&ndash;&gt;-->
+    <!--&lt;!&ndash;(click)="selectedSideBarTab='pipeline'"&ndash;&gt;-->
+    <!--&lt;!&ndash;class="tab-theme">Pipeline&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<div routerLink="."&ndash;&gt;-->
+    <!--&lt;!&ndash;[queryParams]="{'tab':'knowledge'}"&ndash;&gt;-->
+    <!--&lt;!&ndash;queryParamsHandling="merge"&ndash;&gt;-->
+    <!--&lt;!&ndash;[ngClass]="{'font-weight-bold':selectedSideBarTab==='knowledge'}"&ndash;&gt;-->
+    <!--&lt;!&ndash;(click)="selectedSideBarTab='knowledge'"&ndash;&gt;-->
+    <!--&lt;!&ndash;class="tab-theme">Knowledge Base&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;<div routerLink="."&ndash;&gt;-->
+    <!--&lt;!&ndash;[queryParams]="{'tab':'code'}"&ndash;&gt;-->
+    <!--&lt;!&ndash;queryParamsHandling="merge"&ndash;&gt;-->
+    <!--&lt;!&ndash;[ngClass]="{'font-weight-bold':selectedSideBarTab==='code'}"&ndash;&gt;-->
+    <!--&lt;!&ndash;(click)="selectedSideBarTab='code'; refreshCodeEditor()"&ndash;&gt;-->
+    <!--&lt;!&ndash;class="tab-theme">Code&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;<div routerLink="."&ndash;&gt;-->
+    <!--&lt;!&ndash;[queryParams]="{'tab':'integration'}"&ndash;&gt;-->
+    <!--&lt;!&ndash;queryParamsHandling="merge"&ndash;&gt;-->
+    <!--&lt;!&ndash;[ngClass]="{'font-weight-bold':selectedSideBarTab==='integration'}"&ndash;&gt;-->
+    <!--&lt;!&ndash;(click)="selectedSideBarTab='integration'"&ndash;&gt;-->
+    <!--&lt;!&ndash;class="tab-theme">Integrations&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;side bar ends&ndash;&gt;&ndash;&gt;-->
+
+    <!--&lt;!&ndash;<div class="px-2 pt-2 pb-0 d-flex  w-100">&ndash;&gt;-->
+    <!--&lt;!&ndash;<app-pipeline&ndash;&gt;-->
+    <!--&lt;!&ndash;(datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"&ndash;&gt;-->
+    <!--&lt;!&ndash;[bot]="bot"></app-pipeline>&ndash;&gt;-->
+    <!--&lt;!&ndash;<app-knowledge-base-wrapper&ndash;&gt;-->
+    <!--&lt;!&ndash;[bot]="bot"&ndash;&gt;-->
+    <!--&lt;!&ndash;*ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base-wrapper>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;<app-code-input&ndash;&gt;-->
+    <!--&lt;!&ndash;class=" d-flex-column-last-child-flex-grow-1"&ndash;&gt;-->
+    <!--&lt;!&ndash;(datachanged$)="datachanged($event)"&ndash;&gt;-->
+    <!--&lt;!&ndash;*ngIf="selectedSideBarTab==='code'"&ndash;&gt;-->
+    <!--&lt;!&ndash;[bot]="bot"></app-code-input>&ndash;&gt;-->
+    <!--&lt;!&ndash;<app-integration-option-list&ndash;&gt;-->
+    <!--&lt;!&ndash;(datachanged$)="datachanged($event)"&ndash;&gt;-->
+    <!--&lt;!&ndash;*ngIf="selectedSideBarTab==='integration'"&ndash;&gt;-->
+    <!--&lt;!&ndash;[bot]="bot"></app-integration-option-list>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;architeture ends&ndash;&gt;-->
+
+    <!--<div class="p-0 d-flex d-flex-column-custom flex-grow-1"  *ngIf="sideBarTab1==='testing'">-->
+    <!--<app-bot-testing style="position: relative" class="child-expand d-flex-column-custom flex-grow-1" [bot]="bot"></app-bot-testing>-->
+    <!--</div>-->
+
+    <!--<div class="scroll-wrapper d-flex-column-last-child-flex-grow-1" *ngIf="sideBarTab1==='sessions'">-->
+    <!--<app-bot-sessions class="child-expand d-flex-column-last-child-flex-grow-1" style="position: relative" [id]="bot.id" [bot]="bot"></app-bot-sessions>-->
+    <!--</div>-->
+
+    <!--<div class="d-flex-column-last-child-flex-grow-1 scroll-wrapper" *ngIf="sideBarTab1==='consumer'">-->
+    <!--<app-consumers style="position: relative" class="child-expand d-flex-column-last-child-flex-grow-1 " [id]="bot.id" [bot]="bot"></app-consumers>-->
+    <!--</div>-->
+
+    <!--</div>-->
+    <!--</ng-container>-->
 
 </div>
 
 <app-imi-loader *ngIf="!bot && !noSuchBotMessage"></app-imi-loader>
-<app-imi-loader *ngIf="noSuchBotMessage" [customTemplate]="true" >
-  <div class="d-flex flex-column justify-content-center align-content-center">
-    <i>No such bot in your account</i>
-    <a routerLink="/">Go to home page</a>
-  </div>
+<app-imi-loader *ngIf="noSuchBotMessage" [customTemplate]="true">
+    <div class="d-flex flex-column justify-content-center align-content-center">
+        <i>No such bot in your account</i>
+        <a routerLink="/">Go to home page</a>
+    </div>
 </app-imi-loader>
 
 <!--<p *ngIf="noSuchBotMessage">{{noSuchBotMessage}}</p>-->
 
 <ng-template #placeholder>
-  <div class="row row-details">
-    <div class="col-2  d-flex flex-column align-items-center justify-content-start">
-      <i class="fa fa-area-chart p-0"></i>
-      <span class="number">0</span>
-      <span class="description">Total Session</span>
+    <div class="row row-details">
+        <div class="col-2  d-flex flex-column align-items-center justify-content-start">
+            <i class="fa fa-area-chart p-0"></i>
+            <span class="number">0</span>
+            <span class="description">Total Session</span>
+        </div>
+        <div class="col-2 pb-5 d-flex flex-column align-items-center">
+            <i class="fa fa-users"></i>
+            <span class="number">0</span>
+            <span class="description">Total Users</span>
+        </div>
+        <div class="col-2 d-flex flex-column align-items-center">
+            <i class="fa fa-envelope"></i>
+            <span class="number">0</span>
+            <span class="description">Total Messages</span>
+        </div>
+        <div class="col-2 d-flex flex-column align-items-center">
+            <i class="fa fa-exchange"></i>
+            <span class="number">0</span>
+            <span class="description">Average Message Per Session</span>
+        </div>
+        <div class="col-2 d-flex flex-column align-items-center">
+            <i class="fa fa-clock-o"></i>
+            <span class="number">0</span>
+            <span class="description">Total Time Spent(hh:mm)</span>
+        </div>
+        <div class="col-2 d-flex flex-column align-items-center">
+            <i class="fa fa-hourglass"></i>
+            <span class="number">0</span>
+            <span class="description">Time Spent Per Session (hh:mm)</span>
+        </div>
     </div>
-    <div class="col-2 pb-5 d-flex flex-column align-items-center">
-      <i class="fa fa-users"></i>
-      <span class="number">0</span>
-      <span class="description">Total Users</span>
-    </div>
-    <div class="col-2 d-flex flex-column align-items-center">
-      <i class="fa fa-envelope"></i>
-      <span class="number">0</span>
-      <span class="description">Total Messages</span>
-    </div>
-    <div class="col-2 d-flex flex-column align-items-center">
-      <i class="fa fa-exchange"></i>
-      <span class="number">0</span>
-      <span class="description">Average Message Per Session</span>
-    </div>
-    <div class="col-2 d-flex flex-column align-items-center">
-      <i class="fa fa-clock-o"></i>
-      <span class="number">0</span>
-      <span class="description">Total Time Spent(hh:mm)</span>
-    </div>
-    <div class="col-2 d-flex flex-column align-items-center">
-      <i class="fa fa-hourglass"></i>
-      <span class="number">0</span>
-      <span class="description">Time Spent Per Session (hh:mm)</span>
-    </div>
-  </div>
 </ng-template>

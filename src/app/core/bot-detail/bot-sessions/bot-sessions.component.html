@@ -1,14 +1,119 @@
 <!--<button (click)="log()">log</button>-->
 
-<div>
-  <app-smart-table [data]="tableData"
-                   *ngIf="tableData"
-                   [totalRecords]="totalSessionRecords"
-                   (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,reasonForDecryptionTemplate)"
-                   (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate, reasonForDecryptionTemplate)"
-                   [showSearchInDbButton]="true"
-                   [showRefreshButton]="true"
-                   (performSearchInDB$)="performSearchInDbForSession($event)"></app-smart-table>
+<div class="d-flex">
+    <form class="refine-results" style="background-color: white; width: 250px; flex-basis: 250px; flex-shrink: 0">
+        <strong>Refine Results</strong>
+        <hr>
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Room Id">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Consumer Id">
+        </mat-form-field>
+
+
+        <div>Message</div>
+        <div class="d-flex justify-content-between">
+            <mat-form-field class="example-full-width input-no-label" style="width: 40%" floatLabel="never">
+                <input matInput placeholder="min" type="number">
+            </mat-form-field>
+            <span style="align-self: center; margin-bottom: 10px">to</span>
+            <mat-form-field class="example-full-width input-no-label" style="width: 40%" floatLabel="never">
+                <input matInput placeholder="max" type="number">
+            </mat-form-field>
+        </div>
+
+        <div>Channel</div>
+        <ul style="display: flex; flex-wrap: wrap">
+            <li>
+                <mat-checkbox color="primary">
+                    <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
+                         src="https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/skype.png" alt="">
+                </mat-checkbox>
+            </li>
+            <li>
+                <mat-checkbox color="primary">
+                    <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
+                         src="https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/skype.png" alt="">
+                </mat-checkbox>
+            </li>
+            <li>
+                <mat-checkbox color="primary">
+                    <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
+                         src="https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/skype.png" alt="">
+                </mat-checkbox>
+            </li>
+            <li>
+                <mat-checkbox color="primary">
+                    <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
+                         src="https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/skype.png" alt="">
+                </mat-checkbox>
+            </li>
+            <li>
+                <mat-checkbox color="primary">
+                    <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
+                         src="https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/skype.png" alt="">
+                </mat-checkbox>
+            </li><li>
+                <mat-checkbox color="primary">
+                    <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
+                         src="https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/skype.png" alt="">
+                </mat-checkbox>
+            </li><li>
+                <mat-checkbox color="primary">
+                    <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
+                         src="https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/skype.png" alt="">
+                </mat-checkbox>
+            </li><li>
+                <mat-checkbox color="primary">
+                    <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
+                         src="https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/skype.png" alt="">
+                </mat-checkbox>
+            </li><li>
+                <mat-checkbox color="primary">
+                    <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
+                         src="https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/skype.png" alt="">
+                </mat-checkbox>
+            </li>
+        </ul>
+
+        <mat-form-field floatLabel="never">
+            <input matInput
+                   [name]="'date'"
+                   ngModel
+                   placeholder="date range"
+                   [satDatepicker]="picker">
+            <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
+            <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+        </mat-form-field>
+
+        <ul>Room metadata
+            <li>
+                <mat-checkbox color="primary">Agent handover happened</mat-checkbox>
+            </li>
+            <li>
+                <mat-checkbox color="primary">Error occured</mat-checkbox>
+            </li>
+            <li>
+                <mat-checkbox color="primary">Downvoted</mat-checkbox>
+            </li>
+        </ul>
+
+        <div class="d-flex justify-content-between mt-2">
+            <button  mat-raised-button color="primary">Submit</button>
+            <button mat-button>Cancel</button>
+
+        </div>
+    </form>
+    <app-smart-table [data]="tableData"
+                     *ngIf="tableData"
+                     style="flex-grow: 1"
+                     [totalRecords]="totalSessionRecords"
+                     (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,reasonForDecryptionTemplate)"
+                     (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate, reasonForDecryptionTemplate)"
+                     [showSearchInDbButton]="true"
+                     [showRefreshButton]="true"
+                     (performSearchInDB$)="performSearchInDbForSession($event)"></app-smart-table>
 </div>
 
 
@@ -23,45 +128,44 @@
 <app-imi-loader *ngIf="showLoader "></app-imi-loader>
 
 
-
 <ng-template #sessionDetailTemplate>
-  <!--<div class="row" style="width: 100%">-->
+    <!--<div class="row" style="width: 100%">-->
     <!--<div class="col-12">-->
-      <app-session-detail-model
-        [session]="selectedRow_Session"
-        [bot]="bot"
-        (selectNextRow)="selectNextRow()"
-        (closeModel$)="dialogRefWrapper.ref.close()"
-        (selectPrevRow)="selectPrevRow()"
-        [pageNumberOfCurrentRowSelected]="pageNumberOfCurrentRowSelected"
-        [indexOfCurrentRowSelected]="indexOfCurrentRowSelected"
-        [finalDfState]="selectedRow_Session.df_state"
-        (refreshSession$)="updateSessionById($event)"
-        [sessionDataStore]="selectedRow_Session.data_store">
-      </app-session-detail-model>
+    <app-session-detail-model
+            [session]="selectedRow_Session"
+            [bot]="bot"
+            (selectNextRow)="selectNextRow()"
+            (closeModel$)="dialogRefWrapper.ref.close()"
+            (selectPrevRow)="selectPrevRow()"
+            [pageNumberOfCurrentRowSelected]="pageNumberOfCurrentRowSelected"
+            [indexOfCurrentRowSelected]="indexOfCurrentRowSelected"
+            [finalDfState]="selectedRow_Session.df_state"
+            (refreshSession$)="updateSessionById($event)"
+            [sessionDataStore]="selectedRow_Session.data_store">
+    </app-session-detail-model>
     <!--</div>-->
-  <!--</div>-->
+    <!--</div>-->
 </ng-template>
 <!---->
 <ng-template #reasonForDecryptionTemplate>
-  <div class="primary-modal">
-    <div class="modal-header">
-      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Reason for decryption</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body pt-0">
-      <form #form="ngForm">
-        <div class="text-center my-1">
-          <label class="mr-1">Reason</label>
-          <input type="text" required style="border-radius: 0px !important;" [(ngModel)]="decryptReason"
-                 name="decryptReason">
+    <div class="primary-modal">
+        <div class="modal-header">
+            <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Reason for decryption</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-        <button [disabled]="!form.valid" class=" btn-theme btn-theme-success-sm"
-                (click)="decryptSubmit(sessionItemToBeDecrypted.id);">Submit
-        </button>
-      </form>
+        <div class="modal-body pt-0">
+            <form #form="ngForm">
+                <div class="text-center my-1">
+                    <label class="mr-1">Reason</label>
+                    <input type="text" required style="border-radius: 0px !important;" [(ngModel)]="decryptReason"
+                           name="decryptReason">
+                </div>
+                <button [disabled]="!form.valid" class=" btn-theme btn-theme-success-sm"
+                        (click)="decryptSubmit(sessionItemToBeDecrypted.id);">Submit
+                </button>
+            </form>
+        </div>
     </div>
-  </div>
 </ng-template>

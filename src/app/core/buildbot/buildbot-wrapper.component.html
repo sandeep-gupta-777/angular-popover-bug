@@ -1,17 +1,65 @@
 <!--<div class="my-3">-->
-  <!--<router-outlet class="my-5"></router-outlet>-->
+<!--<router-outlet class="my-5"></router-outlet>-->
 <!--</div>-->
 
 
+<!--<div class="my-3">-->
+<!--<div class="d-flex bg-white align-items-center my-2 shadow-theme" style="padding: 16px 36px;">-->
+<!--<h4 class="m-0">Create Bot </h4>-->
+<!--<button class="btn-theme btn-theme-secondary-outline ml-auto mr-1" (click)="removeDataAndNavigateToDashboard()">Cancel</button>-->
+<!--<button class="btn-theme btn-theme-primary" (click)="createBot()">Create Bot</button>-->
+<!--</div>-->
+<!--<div class="shadow-theme p-2 bg-white">-->
+<!--<app-bot-config  (datachanged$)="datachanged($event)" [bot]="bot"></app-bot-config>-->
+<!--</div>-->
+<!--</div>-->
 
 
-<div class="my-3">
-  <div class="d-flex bg-white align-items-center my-2 shadow-theme" style="padding: 16px 36px;">
-    <h4 class="m-0">Create Bot </h4>
-    <button class="btn-theme btn-theme-secondary-outline ml-auto mr-1" (click)="removeDataAndNavigateToDashboard()">Cancel</button>
-    <button class="btn-theme btn-theme-primary" (click)="createBot()">Create Bot</button>
-  </div>
-  <div class="shadow-theme p-2 bg-white">
-    <app-bot-config  (datachanged$)="datachanged($event)" [bot]="bot"></app-bot-config>
-  </div>
+<div class="d-flex" style="height: 100vh; width: 100vw">
+    <div style="background-color: #193a57; color: #060606; width: 36%; display: flex; justify-content: center; align-items: center">
+        <div style="width: 70%; height: 70%; position: relative; display: flex;flex-direction: column;justify-content: center;">
+            <div style="position: absolute; top: -50px;">
+                <p style="color: white; font-size: 20px">Create Bot</p>
+                <div style="color: white;">Code based</div>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <div class="circle"
+                     style="width: 40px; height: 40px; border-radius: 50%; background-color:#00abd3; margin-right: 40px"></div>
+                <div style="color: white">Profile</div>
+            </div>
+            <div style="width: 4px;height: 18px;background-color: white; margin-bottom: 14px;margin-left: 18px;border-radius : 2px;  margin-top: 20px "></div>
+            <div style="width: 4px;height: 18px;background-color: white; margin-bottom: 14px;margin-left: 18px;border-radius: 2px; margin-right: 20px "></div>
+            <div style="width: 4px;height: 18px;background-color: white; margin-bottom: 14px;margin-left: 18px;border-radius: 2px; margin-right: 20px;"></div>
+            <div style="display: flex; align-items: center;">
+                <div class="circle"
+                     style="width: 40px; height: 40px; border-radius: 50%; background-color:#527a9e; margin-right: 40px"></div>
+                <div style="color: white">Management</div>
+            </div>
+
+            <div style="width: 4px;height: 18px;background-color: white; margin-bottom: 14px;margin-left: 18px;border-radius : 2px;  margin-top: 20px "></div>
+            <div style="width: 4px;height: 18px;background-color: white; margin-bottom: 14px;margin-left: 18px;border-radius: 2px; margin-right: 20px "></div>
+            <div style="width: 4px;height: 18px;background-color: white; margin-bottom: 14px;margin-left: 18px;border-radius: 2px; margin-right: 20px;"></div>
+
+            <div style="display: flex; align-items: center;">
+                <div class="circle"
+                     style="width: 40px; height: 40px; border-radius: 50%; background-color:#527a9e; margin-right: 40px"></div>
+                <div style="color: white">Security and privacy</div>
+            </div>
+        </div>
+    </div>
+    <div style="width: 64%; display: flex;color: #060606; justify-content: center; align-items: center; position: relative">
+        <form [formGroup]="formGroup" style="width: 80%; height: 85%; position: relative">
+            <div style="font-size: 16px;margin-bottom: 8px">Bot Profile</div>
+            <div style="margin-bottom: 16px">Complete the bot details to go to the next space</div>
+            <app-basic-info-form *ngIf="activeTab===0" (datachanged$)="datachanged$.emit($event)" [bot]="bot"></app-basic-info-form>
+            <app-data-manage-form *ngIf="activeTab===1" (datachanged$)="datachanged$.emit($event)" [bot]="bot"></app-data-manage-form>
+            <app-security *ngIf="activeTab===2" (datachanged$)="datachanged$.emit($event)" [bot]="bot"></app-security>
+            <i class="fa fa-times"
+               style="margin: 0;width: 32px;height: 32px;position: absolute;top: 0;right: 0;border-radius: 50%;background: #e5e5e5;display: flex;justify-content: center;align-items: center;color: #4a4a4a;"></i>
+            <button mat-raised-button color="primary" style="position: absolute;top: 90%;right: 0" (click)="activeTab = activeTab+1">
+                Continue
+                <mat-icon>arrow_right</mat-icon>
+            </button>
+        </form>
+    </div>
 </div>

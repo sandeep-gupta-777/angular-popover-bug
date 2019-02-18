@@ -4,19 +4,64 @@
   display: grid;
   height: 100vh;
   //border: 1px solid red;
-  grid-template-columns: 1fr;
-  grid-template-rows: 40px auto 1fr;
-  grid-gap: 8px;
-  grid-template-areas: 'header' 'config' 'architecture';
+  grid-template-columns: 56px 1fr 100px;
+  grid-template-rows: 56px 1fr;
+  //grid-gap: 8px;
+  grid-template-areas:
+          'sidebar header header'
+          'sidebar architecture architecture';
+
+  .sidebar {
+    grid-area: sidebar;
+    background-color: white;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .sidebar-logo{
+      height: 56px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: $color-primary-v2;
+      width: 100%;
+      .sidebar-logo__image{
+        width: 24px;
+        height: 24px;
+      }
+
+    }
+
+    ul {
+      list-style-type: none;
+
+      li {
+        display: flex;
+        flex-direction: column;
+        margin-top: 24px;
+        align-items: center;
+        span {
+          margin-top: 6px;
+          font-size: 11px;
+          color: #747474;
+          font-family: 'IBM Plex Sans', sans-serif;
+        }
+      }
+    }
+  }
+
   .header {
     grid-area: header;
   }
+
   .config {
     grid-area: config;
   }
+
   .architecture {
     grid-area: architecture;
     overflow-y: auto;
+    padding-right: 56px;
   }
 }
 
@@ -28,6 +73,7 @@
   grid-gap: 8px;
   margin-top: 10px;
   grid-template-areas: 'architecture';
+
   .architecture {
     grid-area: architecture;
   }
@@ -86,6 +132,7 @@
     // padding-left: 10px;
     padding-right: 0px;
   }
+
   .tab {
     height: 32px;
     display: flex;
@@ -93,6 +140,7 @@
     padding: 6px;
     @include typography(13px, $line-height-normal, $font-weight-300, $color-text-normal);
     cursor: pointer;
+
     &:hover {
       background-color: #f7f7f7;
     }
@@ -104,6 +152,7 @@
   overflow-y: auto;
   //height: 85%;
 }
+
 .scroll-wrapper-testing {
   //overflow-y: auto;
   //height: 65%;
@@ -127,4 +176,18 @@ app-knowledge-base-wrapper, app-code-input, app-integration-option-list {
 app-integration-option-list {
   //overflow-y: scroll;
   display: flex;
+}
+
+
+::ng-deep{
+  .mat-tab-body-wrapper{
+    height: 100%;/*TODO: check why its needed....for knowledge base editor*/
+  }
+}
+
+mat-tab-group{
+  //padding-left: 56px;
+  mat-tab{
+    padding-left: 10px;
+  }
 }

@@ -1,0 +1,110 @@
+<!--<button (click)="click()">click</button>-->
+<form [formGroup]="formGroup" class="bot-creation-form ">
+  <div class="row m-0">
+
+    <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
+
+      <!--<div class="">-->
+        <app-bot-config-input
+        displayName="Data retention period [days]"
+        [isRequired]="true"
+        placeholder="Data retention period((in days)"
+        formControlName="data_persistence_period"></app-bot-config-input>
+      <!--</div>-->
+
+      <!--<div class="">-->
+        <!--<mat-form-field class="w-100">-->
+          <!--<input matInput formControlName="transactions_per_pricing_unit" type="number" class=""-->
+                 <!--placeholder="Transactions Per Billing Unit"-->
+          <!--&gt;-->
+        <!--</mat-form-field>-->
+      <!--</div>-->
+
+      <div class="switch-wrapper">
+        <div class="form-control d-flex flex-column">
+          <label class="pr-2">Advanced Data Protection</label>
+          <app-ui-switch
+                  formControlName="advanced_data_protection"
+                  [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
+          ></app-ui-switch>
+        </div>
+      </div>
+
+      <app-bot-config-input
+              displayName="Consent disclaimer message"
+              placeholder="Consent disclaimer message"
+              [isDisabled]="!formGroup.get('advanced_data_protection').value"
+              formControlName="consent_message"></app-bot-config-input>
+      <!--<div class="">-->
+      <!--<mat-form-field class="w-100">-->
+      <!--<input matInput formControlName="error_message" type="text" class=""-->
+      <!--placeholder="Default Platform Error Message ">-->
+      <!--</mat-form-field>-->
+      <!--</div>-->
+
+    </fieldset>
+    <div class="col-1"></div>
+    <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
+      <div class="switch-wrapper">
+        <div class="form-control d-flex flex-column">
+          <label class="pr-2">Allow anonymization</label>
+          <app-ui-switch
+                  formControlName="allow_anonymization"
+                  [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
+          ></app-ui-switch>
+        </div>
+      </div>
+      <!--<div class="form-group">-->
+      <!--<label for="alterEgo">Industry</label>-->
+      <!--<input matInput formControlName="industry" type="text" class=""-->
+      <!--placeholder="The industry the Bot caters to">-->
+      <!--</div>-->
+
+
+      <!--<div class="">-->
+      <!--<mat-form-field class="w-100">-->
+      <!--<input matInput formControlName="first_message" type="text" class=""-->
+      <!--placeholder="Bot's First Message">-->
+      <!--</mat-form-field>-->
+      <!--</div>-->
+
+      <!--<div class="switch-wrapper">-->
+      <!--<div class="form-control d-flex flex-column">-->
+      <!--<label class="pr-2">Room Close Callback</label>-->
+
+      <!--<app-ui-switch-->
+      <!--formControlName="room_close_callback"-->
+      <!--[disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"-->
+      <!--&gt;</app-ui-switch>-->
+
+      <!--</div>-->
+      <!--</div>-->
+
+      <!--<div class="switch-wrapper">-->
+      <!--<div class="form-control d-flex flex-column">-->
+      <!--<label class="pr-2">Allow Feedback</label>-->
+
+      <!--<app-ui-switch-->
+      <!--formControlName="allow_feedback"-->
+      <!--[disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"-->
+      <!--&gt;</app-ui-switch>-->
+      <!--&lt;!&ndash;&ndash;&gt;-->
+      <!--</div>-->
+      <!--</div>-->
+
+      <div class="switch-wrapper">
+        <div class="form-control d-flex flex-column">
+          <label class="pr-2">Blanket consent for all consumers</label>
+          <app-ui-switch
+                  formControlName="blanket_consent"
+                  [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
+          ></app-ui-switch>
+        </div>
+      </div>
+
+    </fieldset>
+  </div>
+
+</form>
+
+<!---->

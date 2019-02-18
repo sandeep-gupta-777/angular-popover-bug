@@ -1,14 +1,17 @@
-<div class="card bg-white" style="border-radius: 0">
+<div class="card" style="border-radius: 0">
 
   <mat-tab-group>
-    <mat-tab label="Basic Info">
+    <mat-tab label="Profile">
       <app-basic-info-form (datachanged$)="datachanged$.emit($event)" [bot]="bot"></app-basic-info-form>
     </mat-tab>
-    <mat-tab label="Data Management" *ngIf="!(bot_type===myEBotType.intelligent)">
+    <mat-tab label="Management" *ngIf="!(bot_type===myEBotType.intelligent)">
       <app-data-manage-form (datachanged$)="datachanged$.emit($event)" [bot]="bot"></app-data-manage-form>
     </mat-tab>
-    <mat-tab label="Additional Info" *ngIf="!(bot_type===myEBotType.intelligent)">
-      <app-additional-info-form (datachanged$)="datachanged$.emit($event)" [bot]="bot"></app-additional-info-form>
+    <mat-tab label="Security" *ngIf="!(bot_type===myEBotType.intelligent)">
+      <app-security (datachanged$)="datachanged$.emit($event)" [bot]="bot"></app-security>
+    </mat-tab>
+    <mat-tab label="Integrations" *ngIf="!(bot_type===myEBotType.intelligent)">
+      <app-integration-option-list [bot]="bot" (datachanged$)="datachanged$.emit($event)"></app-integration-option-list>
     </mat-tab>
     <mat-tab label="Avatars" *ngIf="!(bot_type===myEBotType.intelligent)">
       <app-avator-form (datachanged$)="datachanged$.emit($event)" [bot]="bot"></app-avator-form>

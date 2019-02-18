@@ -35,15 +35,15 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
       // if (!this._bot.logo) this._bot.logo = this._default_logo;
       if (!this._bot.room_persistence_time) { this._bot.room_persistence_time = this._default_room_persistence_time; }
       /*TODO: implement eventEmitter instead of always listening to store*/
-      try {
-        this.formGroup.patchValue(this._bot);
-        const formArray = this.formGroup.get('child_bots') as FormArray;
-        formArray.controls.splice(0);
-
-        this.initializeChildBotFormArray();
-      } catch (e) {
-        LoggingService.error(e);
-      }
+      // try {
+      //   this.formGroup.patchValue(this._bot);
+      //   const formArray = this.formGroup.get('child_bots') as FormArray;
+      //   formArray.controls.splice(0);
+      //
+      //   this.initializeChildBotFormArray();
+      // } catch (e) {
+      //   LoggingService.error(e);
+      // }
     }
   }
 
@@ -65,16 +65,18 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
               private formBuilder: FormBuilder
   ) {
   }
-
+  //
   ngOnInit() {
     this.formGroup = this.formBuilder.group({
       name: [this._bot.name, Validators.required],
       description: [this._bot.description, Validators.required],
       logo: [this._bot.logo, [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
       bot_unique_name: [this._bot.bot_unique_name, Validators.required],
-      room_persistence_time: [this._bot.room_persistence_time, Validators.required],
-      is_manager: [this._bot.is_manager || false],
-      child_bots: this.formBuilder.array([]),
+      first_message: [this._bot.first_message, Validators.required],
+      error_message: [this._bot.error_message, Validators.required],
+      // room_persistence_time: [this._bot.room_persistence_time, Validators.required],
+      // is_manager: [this._bot.is_manager || false],
+      // child_bots: this.formBuilder.array([]),
     }, {validator: this.utilityService.isManagerValidator});
 
     this.initializeChildBotFormArray();

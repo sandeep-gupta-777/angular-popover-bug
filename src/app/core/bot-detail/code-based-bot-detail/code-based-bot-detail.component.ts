@@ -7,7 +7,7 @@ import {ActivatedRoute, Route, Router} from '@angular/router';
 
 import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ServerService} from '../../../server.service';
-import {UtilityService} from '../../../utility.service';
+import {EBotType, UtilityService} from '../../../utility.service';
 import {BotSessionsComponent} from '../bot-sessions/bot-sessions.component';
 import {UpdateBotInfoByIdInBotInBotList, SaveVersionInfoInBot} from '../../view-bots/ngxs/view-bot.action';
 import {ConstantsService, ERoleName, EAllActions} from '../../../constants.service';
@@ -17,9 +17,11 @@ import {IAuthState} from '../../../auth/ngxs/auth.state';
 import {LoggingService} from '../../../logging.service';
 import {EventService} from '../../../event.service';
 
-export enum EArchitectureTabs {
+export enum EBotDetailTabs {
   pipeline,
-
+  custom_ner,
+  sessions,
+  consumer
 }
 
 @Component({
@@ -30,11 +32,12 @@ export enum EArchitectureTabs {
 export class CodeBasedBotDetailComponent implements OnInit {
 
   myEAllActions = EAllActions;
+  myEBotType = EBotType;
   isArchitectureFullScreen = false;
   @Select() botlist$: Observable<ViewBotStateModel>;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
   @Select() loggeduser$: Observable<{ user: IUser }>;
-  selectedTab = 'architecture';
+  sideBarTab1 = 'architecture';
   bot$: Observable<IBot>;
   bot_id: number;
   showConfig = true;
@@ -65,11 +68,11 @@ export class CodeBasedBotDetailComponent implements OnInit {
       const roleName = this.constantsService.loggedUser.role.name;
       this.showConfig = roleName !== ERoleName.Admin; //if its admin don't expand bot config by default
       if (roleName === ERoleName.Admin || roleName === ERoleName['Bot Developer']) {
-        this.selectedTab = 'architecture';
+        this.sideBarTab1 = 'architecture';
       } else if (roleName === ERoleName.Tester) {
-        this.selectedTab = 'testing';
+        this.sideBarTab1 = 'testing';
       } else {
-        this.selectedTab = 'sessions';
+        this.sideBarTab1 = 'sessions';
       }
     // });
 
@@ -81,7 +84,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
     }
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
-    this.selectedTab = this.activatedRoute.snapshot.queryParamMap.get('build') || this.selectedTab;
+    this.sideBarTab1 = this.activatedRoute.snapshot.queryParamMap.get('build') || this.sideBarTab1;
     /*this.bot$ = */
     this.botlist$.subscribe((botListState) => {
       if (botListState.allBotList) {
@@ -96,12 +99,13 @@ export class CodeBasedBotDetailComponent implements OnInit {
       LoggingService.log('Bot Opened' + this.bot);
       return this.bot;
     });
-    this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab') || this.selectedSideBarTab;
+    this.selectedSideBarTab = this.activatedRoute.snapshot.queryParamMap.get('tab') || this.selectedSideBarTab;
 
     this.start_date = this.utilityService.getPriorDate(0);
     this.end_date = this.utilityService.getPriorDate(30);
     this.getOverviewInfo();
     this.activatedRoute.queryParams.subscribe((queryParams) => {
+      this.sideBarTab1 = queryParams['build'];
       this.isArchitectureFullScreen = queryParams['isArchitectureFullScreen'] === 'true';
     });
   }
@@ -143,6 +147,12 @@ export class CodeBasedBotDetailComponent implements OnInit {
     this.getOverviewInfo();
   }
 
+  sideBarTabChanged(sideBarTabChanged:string){
+    this.sideBarTab1 = sideBarTabChanged;
+    // core/botdetail/chatbot/398
+    this.router.navigate(['core/botdetail/chatbot/', this.bot.id], {queryParams:{"build":sideBarTabChanged}});
+  }
+
   selectedDurationChanged(priordays: number, name: string) {
     this.selectedDurationDisplayName = name;
     this.start_date = this.utilityService.getPriorDate(0);
@@ -165,7 +175,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
   }
 
   tabChanged(tab: string) {
-    this.selectedTab = tab;
+    this.sideBarTab1 = tab;
   }
 
   datachanged(data: IBot) {

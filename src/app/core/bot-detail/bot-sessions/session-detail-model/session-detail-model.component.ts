@@ -191,7 +191,7 @@ export class SessionDetailModelComponent implements OnInit {
 
   goToNextSearchResult(messageSearchKeyword) {
 
-    debugger;
+
     if (this.searchEnterPressedCount !== 0) {
       ++this.searchEnterPressedCount;
     }

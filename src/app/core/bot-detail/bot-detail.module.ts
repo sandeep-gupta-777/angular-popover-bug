@@ -114,14 +114,11 @@ const routes: Route[] = [
     LogosByIntegrationNamePipe,
     CodeGentemplateComponent,
     TextGentemplateComponent,
-    IntegrationOptionListComponent,
-    TypeForIntegrationTypePipe,
-    IntegrationItemForTypePipe,
-    IntegrationItemComponent,
+
     DraggableDirective,
     DropTargetDirective,
     KnowledgeBaseWrapperComponent,
-    DisplayNameForKeyIntegrationPipe,
+    // DisplayNameForKeyIntegrationPipe,
     LimitObjectArraysStringPipe,
     ConsumerFullscreenWrapperComponent,
     /*after lazy loading*/

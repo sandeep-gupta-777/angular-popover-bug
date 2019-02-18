@@ -46,7 +46,7 @@
 
   .header {
     grid-area: h;
-    background-color: $color-primary;
+    background-color: $color-primary-v2;
     flex-shrink: 0;
     color: white;
     .user {
@@ -147,7 +147,7 @@ form {
   padding-bottom: 20px;
   overflow-y: hidden;
   grid-row: 2/-1 !important;
-  border-bottom: 9px solid $color-primary;
+  border-bottom: 9px solid $color-primary-v2;
 }
 
 .font-11 {
@@ -171,7 +171,7 @@ form {
 }
 
 .selected{
-  background-color: darken($color-primary,3%);
+  background-color: darken($color-primary-v2,3%);
 }
 
 
