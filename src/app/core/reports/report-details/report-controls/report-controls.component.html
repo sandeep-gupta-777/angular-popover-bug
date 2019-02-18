@@ -82,14 +82,14 @@
   </div>
 
   <div class="col-5 mt-4">
-      <mat-form-field>
-        <input type="text"
+      <mat-form-field ngNativeValidate>
+        <input
                matInput
                placeholder="Timepicker"
                autocomplete="off"
                class="time-input1 date-input"
                name="start_time"
-               id="start_time" required
+               id="start_time"
                [(ngModel)]="start_time"
         >
       </mat-form-field>
@@ -167,7 +167,7 @@
       <div class="col-12 d-flex justify-content-between align-items-center">
         <div class="text-report ">Push reports to a secure location as scheduled</div>
         <!--<ui-switch [(ngModel)]="isSftpReportEnabled" name="enabled" class="pt-2" style="border:none" size="small"></ui-switch>-->
-        <mat-slide-toggle [(ngModel)]="isSftpReportEnabled" name="enabled"></mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="isSftpReportEnabled" color="primary" name="enabled"></mat-slide-toggle>
 
       </div>
 

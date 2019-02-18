@@ -1,78 +1,88 @@
-<div class="row mx-0  mt-2 pb-5 bg-white shadow-theme">
-  <div class="col-12 py-2 border-bottom">
-    <div class="pl-2 font-weight-bold" style="font-size: 20px; color: #474747">Reports</div>
-  </div>
-
-  <div class="col-12">
-    <div class="card-body">
-      <ul class="nav nav-tabs my-2">
-        <li class="nav-item">
-          <a class="nav-link"
-             [routerLink]="['/core/reports']"
-             [queryParams]="{activeTab:'configure'}"
-             (click)="tabClicked('configure')"
-             [ngClass]="{'active' : activeTab ==='configure'}"><strong>Configure</strong></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link"
-             [routerLink]="['/core/reports']"
-             [queryParams]="{activeTab:'history'}"
-             (click)="tabClicked('history')"
-             [ngClass]="{'active' : activeTab ==='history'}"><strong>History</strong></a>
-        </li>
-        <li class="nav-item ml-auto">
-          <button class="btn-theme btn-theme-primary" (click)="navigateTocreateNewReport()">New Report</button>
-
-          <!--<a class="nav-link"-->
-          <!--[routerLink]="['/core/reports']"-->
-          <!--[queryParams]="{activeTab:'history'}"-->
-          <!--(click)="tabClicked('history')"-->
-          <!--[ngClass]="{'active' : activeTab ==='history'}"><strong>History</strong></a>-->
-        </li>
-      </ul>
+<div class="row mx-0  mt-2 pb-5 bg-white shadow-theme" style="position: relative;">
+    <div class="col-12 py-2 border-bottom">
+        <div class="pl-2 font-weight-bold" style="font-size: 20px; color: #474747">Reports</div>
     </div>
-  </div>
-  <!---->
-  <div class="col-12" *ngIf="activeTab==='configure'">
-    <!--<div class="col-12 d-flex justify-content-end pb-2">-->
-    <!--<button class="btn-theme btn-theme-primary" (click)="navigateTocreateNewReport()">New Report</button>-->
-    <!--</div>-->
 
-    <div class="col-12" *ngIf="reportSmartTableData.length>0">
-      <app-smart-table
-              [data]="tableData_report"
-              (rowClicked$)="goToReportEditComponent($event)"
-              [totalRecords]="totalReportRecords"
-              [currentPage]="currentPage_reports"
-              (pageChanged$)="reportTablePageChanged($event)"
-              [settings]="SMART_TABLE_REPORTS_SETTING">
-      </app-smart-table>
-    </div>
-  </div>
-
-  <div class="col-12 mt-2" *ngIf="activeTab==='history' && reportHistorySmartTableData.length>0">
     <div class="col-12">
-      <app-smart-table
-              [data]="tableData_history"
-              (pageChanged$)="reportHistoryTablePageChanged($event)"
-              [currentPage]="currentPage_reportsHistory"
-              [totalRecords]="totalHistoryReportRecords"
-              (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
-              [settings]="SMART_TABLE_REPORT_HISTORY_SETTING"></app-smart-table>
-    </div>
-  </div>
+        <div class="card-body">
+            <ul class="nav nav-tabs my-2">
+                <li class="nav-item">
+                    <a class="nav-link"
+                       [routerLink]="['/core/reports']"
+                       [queryParams]="{activeTab:'configure'}"
+                       (click)="tabClicked('configure')"
+                       [ngClass]="{'active' : activeTab ==='configure'}"><strong>Configure</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       [routerLink]="['/core/reports']"
+                       [queryParams]="{activeTab:'history'}"
+                       (click)="tabClicked('history')"
+                       [ngClass]="{'active' : activeTab ==='history'}"><strong>History</strong></a>
+                </li>
+                <li class="nav-item ml-auto">
+                    <button class="btn-theme btn-theme-primary" (click)="navigateTocreateNewReport()">New Report
+                    </button>
 
-  <div
-          *ngIf="activeTab==='history' && reportHistorySmartTableData && reportHistorySmartTableData.length<1"
-          class="col-12 d-flex justify-content-center align-items-center" style="height: 30vh">
-    <i>{{error_message || 'No Report history data'}}</i>
-  </div>
-  <div
-          *ngIf="activeTab==='configure' && reportSmartTableData && reportSmartTableData.length<1"
-          class="col-12 d-flex justify-content-center align-items-center" style="height: 30vh">
-    <i *ngIf="!isLoading">{{error_message}} </i>
-    <i *ngIf="isLoading"> Loading... </i>
-  </div>
+                    <!--<a class="nav-link"-->
+                    <!--[routerLink]="['/core/reports']"-->
+                    <!--[queryParams]="{activeTab:'history'}"-->
+                    <!--(click)="tabClicked('history')"-->
+                    <!--[ngClass]="{'active' : activeTab ==='history'}"><strong>History</strong></a>-->
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!---->
+    <div class="col-12" *ngIf="activeTab==='configure'">
+        <!--<div class="col-12 d-flex justify-content-end pb-2">-->
+        <!--<button class="btn-theme btn-theme-primary" (click)="navigateTocreateNewReport()">New Report</button>-->
+        <!--</div>-->
+
+        <div class="col-12" style="min-height: 50vh; position: relative">
+            <app-smart-table
+                    *ngIf="reportSmartTableData.length>0"
+                    [data]="tableData_report"
+                    (rowClicked$)="goToReportEditComponent($event)"
+                    [totalRecords]="totalReportRecords"
+                    [currentPage]="currentPage_reports"
+                    (pageChanged$)="reportTablePageChanged($event)"
+                    [settings]="SMART_TABLE_REPORTS_SETTING">
+            </app-smart-table>
+            <div *ngIf="activeTab==='configure' && (reportsEmpty || reportsLoading)"
+                 class="report-placeholder">
+                <!--<i *ngIf="reportsLoading">Loading</i>-->
+                <app-imi-loader *ngIf="reportsLoading"></app-imi-loader>
+                <!--<i *ngIf="reportsEmpty">No Reports</i>-->
+                <app-splash-screen *ngIf="reportsEmpty" [imageHRef]="'report.svg'"
+                                   [headingText]="'No reports available '"
+                                   [descriptionText]="'Start by creating a new report'"
+                ></app-splash-screen>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 mt-2" *ngIf="activeTab==='history'" style="min-height: 50vh; position: relative">
+        <div class="col-12">
+            <app-smart-table
+                    *ngIf="reportHistorySmartTableData.length>0"
+                    [data]="tableData_history"
+                    (pageChanged$)="reportHistoryTablePageChanged($event)"
+                    [currentPage]="currentPage_reportsHistory"
+                    [totalRecords]="totalHistoryReportRecords"
+                    (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
+                    [settings]="SMART_TABLE_REPORT_HISTORY_SETTING"></app-smart-table>
+        </div>
+        <div *ngIf="activeTab==='history' && (reportsHistoryEmpty || reportHistoryLoading)"
+             class="report-placeholder">
+            <app-imi-loader *ngIf="reportHistoryLoading"></app-imi-loader>
+            <i *ngIf="reportsHistoryEmpty">No Report History</i>
+
+        </div>
+    </div>
+    <!--<i>{{reportsEmpty}}</i>-->
+
+
 </div>
 
 <!--<p>{{reportSmartTableData|json}}</p>-->

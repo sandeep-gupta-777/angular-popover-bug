@@ -23,14 +23,14 @@ import {ISessionItem} from '../../../interfaces/sessions';
 import {UtilityService} from '../../utility.service';
 import {ELogType, LoggingService} from '../../logging.service';
 import {MaterialTableImplementer} from '../../material-table-implementer';
-import {switchMap, tap} from 'rxjs/operators';
+import {catchError, finalize, switchMap, tap} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.scss']
 })
-export class ReportsComponent extends MaterialTableImplementer implements OnInit, OnDestroy {
+export class ReportsComponent extends MaterialTableImplementer implements OnInit {
   tableData;
   tableData_report;
   tableData_history;
@@ -91,108 +91,146 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   botlist$_sub: Subscription;
 
   ngOnInit() {
+    this.error_message = 'Loading';
+    this.reportHistoryLoading = true;
+    this.reportsLoading = true;
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || this.activeTab;
     const reportTypeUrl = this.constantsService.geReportTypesUrl();
     this.isLoading = true;
     this.serverService.makeGetReq<{ meta: any, objects: IReportTypeItem[] }>({url: reportTypeUrl})
-        .pipe(
-            switchMap((reportTypes) => {
-              this.reportTypes = reportTypes;
-              return forkJoin(this.loadReports(10, 0), this.loadReportHistory(10, 0));
-            })
-        )
-        .subscribe(() => {this.isLoading = false;}, () => this.isLoading = false);
+      .pipe(tap((reportTypes) => {
+          this.reportTypes = reportTypes;
+          // return forkJoin(this.loadReports(10, 0),/*TODO: forkjoin isnt working*/
+          //   this.loadReportHistory(10, 0));
+        }),
+        switchMap(() => {
+          return this.loadReports(10, 0);
+        }),
+        tap((val:{objects:any[]})=>{
+          this.reportsLoading = false;
+          this.reportsEmpty = val.objects.length===0;
+        }),
+        switchMap(() => {
+          return this.loadReportHistory(10, 0);
+        }),
+        tap((val:IReportHistory)=>{
+          this.reportsHistoryEmpty = val.objects.length===0;
+        }),
+        finalize(()=>{
+          this.reportsLoading = false;
+          this.reportHistoryLoading = false;
+        })
+      )
+      .subscribe(() => {
+        this.error_message = '';
+      });
   }
-
+  //
+  reportsLoading = false;
+  reportsEmpty = false;
+  reportHistoryLoading = false;
+  reportsHistoryEmpty = false;
   loadReportHistory(limit: number, offset: number) {
 
     let order_by = -1;
     let reportHistoryUrl = this.constantsService.getReportHistoryUrl(limit, offset, order_by);
     return this.serverService.makeGetReq<IReportHistory>({url: reportHistoryUrl})
-        .pipe(tap((reportHistory: IReportHistory) => {
-          this.totalHistoryReportRecords = reportHistory.meta.total_count;
-          this.error_message = '';
-          /*Making reportItem$ history data*/
-          reportHistory.objects.forEach((reportHistoryItem: IReportHistoryItem) => {
-            this.botlist$.subscribe((botList) => {
-              const listOfAllBots = botList.allBotList;
-              this.reportHistorySmartTableData.push({
-                ...reportHistoryItem,
-                bot: this.objectArrayCrudService.getObjectItemByKeyValuePair(listOfAllBots, {id: reportHistoryItem.bot_id}).name,
-                name: this.objectArrayCrudService.getObjectItemByKeyValuePair(this.reportTypes.objects, {id: reportHistoryItem.reporttype_id}).name,
-                created_at: reportHistoryItem.created_at
-              });
-              this.initializeTableData_reportHistory(this.reportHistorySmartTableData, this.getTableDataMetaDict_reportHistory());
+      .pipe(tap((reportHistory: IReportHistory) => {
+        this.totalHistoryReportRecords = reportHistory.meta.total_count;
+        this.error_message = '';
+        this.reportHistorySmartTableData = [];
+        /*Making reportItem$ history data*/
+        reportHistory.objects.forEach((reportHistoryItem: IReportHistoryItem) => {
+          this.botlist$.subscribe((botList) => {
+            const listOfAllBots = botList.allBotList;
+
+            this.reportHistorySmartTableData.push({
+              ...reportHistoryItem,
+              bot: this.objectArrayCrudService.getObjectItemByKeyValuePair(listOfAllBots, {id: reportHistoryItem.bot_id}).name,
+              name: this.objectArrayCrudService.getObjectItemByKeyValuePair(this.reportTypes.objects, {id: reportHistoryItem.reporttype_id}).name,
+              created_at: reportHistoryItem.created_at
+            });
+            //
+            this.initializeTableData_reportHistory(this.reportHistorySmartTableData, this.getTableDataMetaDict_reportHistory());
 
             });
           });
         }));
   }
 
-  reportHistoryTablePageChanged(page) {
+  reportHistoryTablePageChanged({page}) {
+    this.reportHistoryLoading = true;
     this.currentPage_reportsHistory = page;
-    this.reportHistorySmartTableData = [];
-    this.loadReportHistory(10, (page - 1) * 10);
+    // this.reportHistorySmartTableData = [];
+    this.loadReportHistory(10, (page - 1) * 10)
+      .subscribe(()=>{
+        this.reportHistoryLoading = false;
+      });
   }
 
   customActionEventsTriggeredInSessionsTable(smartTableCustomEventData: { action: string, data: IReportHistoryItem, source: any }) {
     const url = this.constantsService.getDownloadReportHistoryByIdUrl(smartTableCustomEventData.data.id);
     this.serverService.makeGetReqToDownloadFiles({url})
-        .subscribe((value: any) => {
-          /*To download the blob: https://stackoverflow.com/questions/19327749/javascript-blob-filename-without-link*/
-          const fileName = 'report_history_for_bot_id_' + smartTableCustomEventData.data.bot_id + '.csv';
-          this.utilityService.downloadText(value, fileName);
-        });
+      .subscribe((value: any) => {
+        /*To download the blob: https://stackoverflow.com/questions/19327749/javascript-blob-filename-without-link*/
+        const fileName = 'report_history_for_bot_id_' + smartTableCustomEventData.data.bot_id + '.csv';
+        this.utilityService.downloadText(value, fileName);
+      });
   }
 
   loadReports(limit: number, offset: number) {
     this.error_message = 'Loading...';
     const reportUrl = this.constantsService.getReportUrl(limit, offset);
     return this.serverService.makeGetReq<IReportList>({url: reportUrl})
-        .pipe(tap((results: { objects: ISmartTableReportDataItem[], meta: any }) => {
-          this.error_message = '';
-          this.totalReportRecords = results.meta.total_count;
-          /*Making reportItem$ data*/
-          results.objects.forEach(report => {
-            this.botlist$_sub = this.botlist$.subscribe((value) => {
-              const listOfAllBots = value.allBotList;
-              let botName: string;
-              try {
-                botName = this.objectArrayCrudService.getObjectItemByKeyValuePair(listOfAllBots, {id: report.bot_id}).name;
-              } catch (e) {
-                console.error(`No bot found while looking for a report having bot id = ${report.bot_id}. Returning NO_BOT_FOUND instead.`);
-                botName = 'NO_BOT_FOUND';
-              }
+      .pipe(tap((results: { objects: ISmartTableReportDataItem[], meta: any }) => {
+        this.error_message = '';
+        this.reportSmartTableData = [];
+        this.totalReportRecords = results.meta.total_count;
+        /*Making reportItem$ data*/
+        results.objects.forEach(report => {
+          this.botlist$_sub = this.botlist$.subscribe((value) => {
+            const listOfAllBots = value.allBotList;
+            let botName: string;
+            try {
+              botName = this.objectArrayCrudService.getObjectItemByKeyValuePair(listOfAllBots, {id: report.bot_id}).name;
+            } catch (e) {
+              console.error(`No bot found while looking for a report having bot id = ${report.bot_id}. Returning NO_BOT_FOUND instead.`);
+              botName = 'NO_BOT_FOUND';
+            }
 
-              try {
-                this.reportSmartTableData.push({
-                  ...report,
-                  bot: botName,
-                  id: report.id,
-                  name: this.objectArrayCrudService.getObjectItemByKeyValuePair(this.reportTypes.objects, {id: report.reporttype_id}).name,
-                  frequency: report.frequency,
-                  last_jobId: report.last_job_id,
-                  nextreportgenerated: (new Date(report.nextreportgenerated).toDateString()),
-                  isactive: report.isactive
-                });
-                this.initializeTableData_report(this.reportSmartTableData, this.getTableDataMetaDict_report());
-              } catch (e) {
-                LoggingService.error(e);
-                // this.utilityService.showErrorToaster(`Can't show the report for botid: ${report.bot_id}. This bot is either deleted or your access maybe been revoked.`,5 );
-              }
-              this.reportSmartTableData = [
-                ...this.reportSmartTableData
-              ];
-            });
+            try {
+              this.reportSmartTableData.push({
+                ...report,
+                bot: botName,
+                id: report.id,
+                name: this.objectArrayCrudService.getObjectItemByKeyValuePair(this.reportTypes.objects, {id: report.reporttype_id}).name,
+                frequency: report.frequency,
+                last_jobId: report.last_job_id,
+                nextreportgenerated: (new Date(report.nextreportgenerated).toDateString()),
+                isactive: report.isactive
+              });
+              this.initializeTableData_report(this.reportSmartTableData, this.getTableDataMetaDict_report());
+            } catch (e) {
+              LoggingService.error(e);
+              // this.utilityService.showErrorToaster(`Can't show the report for botid: ${report.bot_id}. This bot is either deleted or your access maybe been revoked.`,5 );
+            }
+            this.reportSmartTableData = [
+              ...this.reportSmartTableData
+            ];
           });
-        }));
+        });
+      }));
 
   }
 
-  reportTablePageChanged(page) {
+  reportTablePageChanged({page}) {
+    this.reportsLoading = true;
     this.currentPage_reports = page;
-    this.reportSmartTableData = [];
-    this.loadReports(10, (page - 1) * 10);
+    // this.reportSmartTableData = [];
+    this.loadReports(10, (page - 1) * 10)
+      .subscribe(()=>{
+        this.reportsLoading = false;
+      })
   }
 
   tabClicked(activeTab: string) {

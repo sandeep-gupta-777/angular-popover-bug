@@ -14,7 +14,7 @@
         <p class="accordion-section__description" style="margin-top: 7px">
             {{data.description}}
         </p>
-        <div *ngIf="doExpand" style="margin-top: 5px">
+        <div *ngIf="_doExpand" style="margin-top: 5px">
             <ng-content></ng-content>
         </div>
     </section>

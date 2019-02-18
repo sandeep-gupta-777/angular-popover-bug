@@ -7,6 +7,7 @@ import {PermissionService} from './permission.service';
 import {ELogType, LoggingService} from './logging.service';
 import {DebugBase} from './debug-base';
 import {EventService} from './event.service';
+import {UtilityService} from './utility.service';
 import {ServerService} from './server.service';
 
 declare var CodeMirror: any;
@@ -36,8 +37,8 @@ export class AppComponent extends DebugBase implements OnInit {
   editor: any;
   currentIntervalRef;
 
-  ngOnInit() {
 
+  ngOnInit() {
     this.initializeProgressBarSubscription();
 
     this.router.events.subscribe((data) => {
@@ -70,6 +71,7 @@ export class AppComponent extends DebugBase implements OnInit {
         this.progressVal = value;
         // this.progressVal = 0;
         this.currentIntervalRef = setInterval(() => {
+          LoggingService.log('setInterval');
           if (this.progressVal < 80) {
             ++this.progressVal;
           } else {

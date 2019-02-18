@@ -19,13 +19,13 @@ export class LoggingService {
   static log(item: any, logType= ELogType.log) {
     const x = isDevMode();
     if (!isDevMode()) { return; }
-    (<any>console)[logType](item);
+    // (<any>console)[logType](item);
     console.groupEnd();
   }
 
   static logMultiple(...items: any[]) {
     if (!isDevMode()) { return; }
-    console.log(items);
+    // console.log(items);
   }
 
   static error(item: any) {

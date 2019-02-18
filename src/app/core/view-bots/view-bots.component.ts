@@ -74,9 +74,6 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
         if (!allBotListState.allBotList) return;
         this.codeBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.chatbot);
         this.pipelineBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.intelligent);
-        setTimeout(() => {
-          if (this.doShowPopover(this.activeTab)) this.pop.show();
-        }, 1000);
       });
   }
 
@@ -88,24 +85,20 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
     RouteHelperService.navigateToUrl(this.router, {url: 'core/buildbot', queryParams: {bot_type: bot_type}});
   }
 
-  @ViewChild('tooltip') pop;
+  // @ViewChild('tooltip') pop;
 
   tabClicked(activeTab) {
     this.activeTab = activeTab;
     RouteHelperService.navigateToUrl(this.router, {url: '/core/viewbots', queryParams: {'type': activeTab}});
-    // this.disableCreateNewBotTooltip = !this.doShowPopover(activeTab);
-    setTimeout(()=>{
-      this.doShowPopover(activeTab) ? this.pop.show() : this.pop.hide();
-    });
   }
 
   ngAfterViewInit() {
   }
 
-  doShowPopover(activeTab) {
-    return activeTab === EBotType.chatbot && this.codeBasedBotList && this.codeBasedBotList.length === 0
-      || (activeTab === EBotType.intelligent && this.pipelineBasedBotList && this.pipelineBasedBotList.length === 0);
-  }
+  // doShowPopover(activeTab) {
+  //   return activeTab === EBotType.chatbot && this.codeBasedBotList && this.codeBasedBotList.length === 0
+  //     || (activeTab === EBotType.intelligent && this.pipelineBasedBotList && this.pipelineBasedBotList.length === 0);
+  // }
 
   test($event) {
     console.log($event);

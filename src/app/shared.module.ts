@@ -48,6 +48,7 @@ import {LinkifyPipe} from './linkify.pipe';
 import { ObjectWithCategoryNamePipe } from './core/enterpriseprofile/roles/object-with-category-name.pipe';
 
 import {MsToHhMmPipe} from './ms-to-hh-mm.pipe';
+import {SafeHtmlPipe} from './safe-html.pipe';
 import {LinksFromTextPipe} from './links-from-text.pipe';
 import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.component';
 
@@ -93,6 +94,8 @@ import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.com
     ImiLoaderComponent,
     ChatFeedbackComponent,
     LinkifyPipe,
+    MsToHhMmPipe,
+    SafeHtmlPipe,
     LinksFromTextPipe,
     MsToHhMmPipe
   ],
@@ -150,6 +153,7 @@ import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.com
     MyMaterialModule,
     ImiLoaderComponent,
     ChatFeedbackComponent,
+    SafeHtmlPipe,
     MsToHhMmPipe,
     BotTestingComponent
   ]

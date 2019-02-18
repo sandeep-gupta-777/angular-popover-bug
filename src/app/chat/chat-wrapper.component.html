@@ -10,7 +10,7 @@
          style="text-decoration: none"
          [routerLink]="['/core/botdetail/chatbot/', currentBot.id]"
          routerLinkActive="selected"
-      >{{chatWindowTitle}}</a>
+      >{{(chatWindowTitle| slice:0: 16) + (chatWindowTitle.length>16?"...":"")}}</a>
       <a class="ml-auto hover-parent" [routerLink]="['/preview']"
          title="Open bot preview in a new Tab"
          [queryParams]="{bot_unique_name:currentBot.bot_unique_name,enterprise_unique_name:enterprise_unique_name}"
@@ -101,7 +101,8 @@
                        [showBotIsThinking]="showBotIsThinking"
                        (sendMessageByHuman$)="sendMessageByHuman($event)"
                        (chatMessageFeedback$)="sendFeedback($event)"
-                       [messageDataArray]="messageData"></app-chat-window>
+                       [messageDataArray]="messageData">
+      </app-chat-window>
     </div>
 
     <!--&lt;!&ndash;text input starts&ndash;&gt;-->
@@ -234,6 +235,7 @@
       [selectedAvatar]="selectedAvatar"
       [showBotIsThinking]="showBotIsThinking"
       [room]="currentRoom"
+      [allow_feedback]="currentBot.allow_feedback"
       (sendMessageByHuman$)="sendMessageByHuman($event)"
       (chatMessageFeedback$)="sendFeedback($event)"
       [messageDataArray]="messageData">

@@ -1,5 +1,5 @@
-<div class="grid-analysis2">
-  <app-analysis2-header [allbotList]="(allBotList$|async)" class="header border"></app-analysis2-header>
+<div class="grid-analysis2" *ngIf="(allCodeBasedBotList$|async) && (allCodeBasedBotList$|async).length>0; else splashscreen">
+  <app-analysis2-header [allbotList]="(allCodeBasedBotList$|async)" class="header border"></app-analysis2-header>
   <app-analysis2-body class="body"></app-analysis2-body>
 
   <div class="body">
@@ -27,3 +27,19 @@
 
   </div>
 </div>
+<ng-template
+        #splashscreen>
+<app-splash-screen
+        style="position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;"
+        [imageHRef]="'group-2.svg'"
+        [headingText]="'No bots available in your account'"
+        [descriptionText]="'Create a new bot or ask your administrator to add bots'"
+></app-splash-screen>
+</ng-template>

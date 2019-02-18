@@ -87,7 +87,8 @@ export enum EAllActions {
   'Get Bot Knowledge base' = 'Get Bot Knowledge base',
   'Create Bot Knowledge base' = 'Create Bot Knowledge base',
   'Update Bot Knowledge base' = 'Update Bot Knowledge base',
-  'Delete Bot Knowledge base' = 'Delete Bot Knowledge base'
+  'Delete Bot Knowledge base' = 'Delete Bot Knowledge base',
+  'ModuleDetail' = 'ModuleDetail'
 }
 
 export const ERouteNames = EAllActions;
@@ -106,8 +107,9 @@ export class ConstantsService {
       if (!appState) {
         return;
       }
+
       this.appState = appState;
-      this.BACKEND_URL = (appState && appState.backendUrlRoot) || 'https://dev.imibot.ai/';
+      this.BACKEND_URL = (appState && appState.backendUrlRoot);
     });
     this.loggeduser$.subscribe((loggedUser: IAuthState) => {
       if (loggedUser && loggedUser.user) {
@@ -191,7 +193,7 @@ export class ConstantsService {
   getEnterpriseLoginUrl() {
     return this.BACKEND_URL + 'api/v1/user/enterprise_login/';
   }
-  
+
   generateServiceKeyUrl() {
     return this.BACKEND_URL + 'api/v1/enterprise/generate_service_key/';
   }
@@ -274,14 +276,14 @@ export class ConstantsService {
     // return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`;// + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
     return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`; // + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
   }
-  getRoleUrl(){
-    return this.BACKEND_URL + `api/v1/role/`; // + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
-
-  }
+  // getRoleUrl(){
+  //   return this.BACKEND_URL + `api/v1/role/`; // + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
+  //
+  // }
   getRoleByIdUrl(roleId : number){
     return this.BACKEND_URL + `api/v1/role/?id=${roleId}`; // + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
   }
-  
+
   getRoleIdUrl(roleId : number){
     return this.BACKEND_URL + `api/v1/role/${roleId}/`; // + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
   }
@@ -302,6 +304,9 @@ export class ConstantsService {
     // return this.BACKEND_USER_PIPELINE_BASED_BOT_LIST + 'api/v1/bot/';
     return this.BACKEND_URL + 'api/v1/bot/?limit=1000';
   }
+  getRoleUrl() {
+    return this.BACKEND_URL + 'api/v1/role/';
+  }
   deleteUserUrl(id:number){
     return this.BACKEND_URL + `api/v1/user/${id}/`;
   }
@@ -317,7 +322,7 @@ export class ConstantsService {
   }
   updateUserUrl(user_id : number){
     return this.BACKEND_URL + `api/v1/user/${user_id}/`;
-    
+
   }
   getNSetChatPreviewBotUrl(bot_unique_name, enterprise_unique_name) {
     // http://localhost:8000/api/v1/logout/;
@@ -349,11 +354,11 @@ export class ConstantsService {
   }
 
   getSessionsByIdUrl(id) {
-    return this.BACKEND_URL + `api/v1/room/${id}/`; //https://dev.imibot.ai/api/v1/room/9913/
+    return this.BACKEND_URL + `api/v1/room/?id=${id}&order_by=-updated_at`; //https://dev.imibot.ai/api/v1/room/9913/
   }
 
   getSessionsMessageUrl(room_id: number) {
-    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}&limit=1000`; //https://dev.imibot.ai/api/v1/message/?room_id=60
+    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}&limit=1000&order_by=-updated_at`; //https://dev.imibot.ai/api/v1/message/?room_id=60
   }
 
   getTotalMessagesUrl() {
@@ -463,7 +468,7 @@ export class ConstantsService {
   }
 
   getRoomWithFilters(queryParams: object) {
-    let url = this.BACKEND_URL + 'api/v1/room/';
+    let url = this.BACKEND_URL + 'api/v1/room/?order_by=-updated_at';
     let urlWithQueryParams = this.appendQueryParamsInUrl(url, queryParams);
     return urlWithQueryParams;
   }
@@ -643,8 +648,9 @@ export class ConstantsService {
       value: '',
       type: 'string',
       displayValue: 'Next scheduled date',
-      search: true,
-      searchValue: true,
+      search: false,
+      searchValue: "",
+      dateRange: true
     },
     isactive: {
       originalKey: 'isactive',
@@ -679,8 +685,9 @@ export class ConstantsService {
       value: '',
       type: 'time',
       displayValue: 'Generated Date',
-      search: true,
-      searchValue: true,
+      search: false,
+      searchValue: "",
+      dateRange: true
     },
     actions: {
       originalKey: '',
@@ -720,7 +727,7 @@ export class ConstantsService {
       column: {
         stacking: 'percent'
       },
-      
+
       series: {
         pointStart: Date.UTC(2018, 6, 20),
         pointInterval: 24 * 3600 * 1000
@@ -1087,7 +1094,7 @@ export class ConstantsService {
       type: 'string',
       displayValue: 'Expired by',
     }
-    
+
   }
 
   readonly SMART_TABLE_SERVICE_KEY_ACTIVE: any = {
@@ -1124,7 +1131,7 @@ export class ConstantsService {
       name: '',
 
     }
-    
+
   }
 
   SMART_TABLE_USER_DICT_TEMPLATE: ITableColumn = {
@@ -1161,7 +1168,7 @@ export class ConstantsService {
       originalKey: 'bots',
       value: '',
       type: 'string',
-      displayValue: 'Bots',
+      displayValue: 'Bots assigned',
 
     },
     'actions': {
@@ -1254,8 +1261,9 @@ export class ConstantsService {
       value: '',
       type: 'time',
       displayValue: 'Updated At',
-      search: true,
+      search: false,
       searchValue: true,
+      dateRange: true
     },
     actions: {
       originalKey: '',

@@ -40,6 +40,19 @@ export class UtilityService {
   ) {
   }
 
+  static removeAllNonDefinedKeysFromObject(obj:object){
+    for (let key in obj){
+      if(obj[key]=== undefined || obj[key]=== null || obj[key]=== ""){
+        delete obj[key];
+      }
+    }
+    return obj;
+  }
+
+  static areAllElementsInArrUnique(arr:any[]): boolean{
+    return (new Set(arr)).size === arr.length;
+  }
+
   refreshCodeEditor$ = new EventEmitter();
   readonly RANDOM_IMAGE_URLS = [
     'https://robohash.org/StarDroid.png',
@@ -325,6 +338,27 @@ export class UtilityService {
     }
   }
 
+  static cloneObj(obj){
+    return JSON.parse(JSON.stringify(obj));
+  }
+
+  static removeEmptyKeyValues(valClone) {
+    for (let key in valClone) {
+      if (!valClone[key]) {/*if value is "" or undefined */
+        delete valClone[key];
+      }
+    }
+    return valClone;
+  }
+
+  static trimAllObjValues(obj:object) {
+    for (let key in obj) {
+      if (obj[key] && obj[key].trim) {
+        obj[key] = obj[key].trim();
+      }
+    }
+    return obj;
+  }
 
   findDataByName(convertedData, name) {
     for (let i = 0; i < convertedData.length; ++i) {
@@ -524,13 +558,34 @@ export class UtilityService {
   convertDateTimeGraph(
     rawData: { activesessions: number, labels: string, totalsessions: number }[],
     xAxisLabel: string,
-    startTime_ms: number = Date.UTC(2010, 0, 2), // Date.UTC(2010, 0, 2),
-    granularity_Ms: number = 24 * 3600 * 1000,  // one day
+// <<<<<<< HEAD
+    startTime_ms: number = Date.UTC(2010, 0, 2), //Date.UTC(2010, 0, 2),
+    granularity: string = 'day',  // one day
+// =======
+    // startTime_ms: number = Date.UTC(2010, 0, 2), // Date.UTC(2010, 0, 2),
+    // granularity_Ms: number = 24 * 3600 * 1000,  // one day
+// >>>>>>> develop
   ) {
+
 
     if (!rawData) {
       return;
     }
+
+    let intervalObj = {};
+    if(granularity === 'day' || granularity === 'month' || granularity === 'year'){
+      intervalObj = {
+        pointIntervalUnit: granularity,//24*3600*1000  // one day,
+      }
+    }else {
+      /*pointIntervalUnit doesnt work for hour and week
+      *https://api.highcharts.com/highstock/series.column.pointIntervalUnit
+      * */
+      intervalObj = {
+        pointInterval: this.convertGranularityStrToMs(granularity),//24*3600*1000  // one day,
+      }
+    }
+
     const template: any = {
       xAxis: {
         type: 'datetime'
@@ -545,8 +600,14 @@ export class UtilityService {
       //   },
       plotOptions: {
         series: {
-          pointStart: startTime_ms, // Date.UTC(2010, 0, 2),
-          pointInterval: granularity_Ms,// 24*3600*1000  // one day,
+// <<<<<<< HEAD
+          pointStart: startTime_ms, //Date.UTC(2010, 0, 2),
+          ...intervalObj,
+          // pointIntervalUnit: granularity,//24*3600*1000  // one day,
+// =======
+          // pointStart: startTime_ms, // Date.UTC(2010, 0, 2),
+          // pointInterval: granularity_Ms,// 24*3600*1000  // one day,
+// >>>>>>> develop
           label: {
             enabled: false
           }
@@ -857,8 +918,9 @@ export class UtilityService {
   }
 
   showErrorToaster(message: string, sec = 4) {
+    debugger;
     try {
-      this.snackBar.open(message, '', {
+      this.snackBar.open(message || "Some error occurred", '', {
         duration: (sec * 1000) || 2000,
         panelClass: ['bg-danger'],
         verticalPosition: 'top',
@@ -1099,7 +1161,7 @@ export class UtilityService {
     errorObj[EFormValidationErrors.form_validation_basic_info] = 'Basic info form is not valid';
     errorObj[EFormValidationErrors.form_validation_integration] = 'Integration form is not valid';
     errorObj[EFormValidationErrors.form_validation_pipeline] = 'Pipeline is not valid';
-    errorObj[EFormValidationErrors.form_validation_avator] = 'Avators are either invalid or empty';
+    errorObj[EFormValidationErrors.form_validation_avator] = 'Avatars are either invalid or empty';
     errorObj[EFormValidationErrors.form_validation_data_management] = 'Data Management form is invalid';
     return errorObj;
   }
@@ -1124,7 +1186,7 @@ export class UtilityService {
   }
 
   performFormValidationBeforeSaving(obj: IBot): IBot {
-    debugger;
+
     const objShallowClone = { ...obj };
     const validation_Keys: string[] = Object.keys(objShallowClone).filter((key) => {
       return key.includes('form_validation_');

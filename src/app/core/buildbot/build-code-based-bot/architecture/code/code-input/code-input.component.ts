@@ -112,14 +112,14 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   code: ICode;
 
   constructor(
-      private store: Store,
-      private serverService: ServerService,
-      private constantsService: ConstantsService,
-      private eventService: EventService,
-      public utilityService: UtilityService,
-      private router: Router,
-      public matDialog: MatDialog,
-      private activatedRoute: ActivatedRoute,
+    private store: Store,
+    private serverService: ServerService,
+    private constantsService: ConstantsService,
+    private eventService: EventService,
+    public utilityService: UtilityService,
+    private router: Router,
+    public matDialog: MatDialog,
+    private activatedRoute: ActivatedRoute,
   ) {
     super(utilityService, matDialog);
   }
@@ -131,6 +131,9 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   ngOnInit() {
 
     this.loggeduser$.subscribe((loggeduserState) => {
+      if (!loggeduserState.user) {
+        return;
+      }
       this.role = loggeduserState.user.role.name;
       this.showViewChangeToggle = this.role === ERoleName.Admin || this.role === ERoleName['Bot Developer'];
     });
@@ -144,6 +147,11 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     if (!this.bot.store_bot_versions) {
       this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
     }
+    EventService.codeValidationErrorOnUpdate$.subscribe((data) => {
+
+      this.selectedVersion.validation = data;
+      this.validationMessageToggle = true;
+    });
     this.botlist$_sub = this.botlist$.subscribe(() => {
 
 
@@ -158,13 +166,13 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
         this.utilityService.getActiveVersionInBot(this.bot);
         if (this.bot.integrations && this.bot.integrations.channels) {
           this.channelList = Object.keys(this.bot.integrations.channels)
-              .map((integrationKey) => {
-                return {
-                  name: integrationKey,
-                  displayName: integrationKey
-                };
-              })
-              .filter((enabledIntegrations) => this.bot.integrations.channels[enabledIntegrations.name].enabled);
+            .map((integrationKey) => {
+              return {
+                name: integrationKey,
+                displayName: integrationKey
+              };
+            })
+            .filter((enabledIntegrations) => this.bot.integrations.channels[enabledIntegrations.name].enabled);
           this.channelListClone = [...this.channelList];
           if (this.channelListClone.length > 0) {
             this.channelListClone.unshift({name: 'all', displayName: 'All'});
@@ -289,7 +297,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     const countOfTemplateKeyFoundByParser = Object.keys(this.templateKeyDict).length;
 
     return countOf_templateKey_stringInGenTemplateCodeStr === countOfTemplateKeyFoundByParser &&
-        countOf_output_stringInGenTemplateCodeStr === countOfTemplateKeyFoundByParser;
+      countOf_output_stringInGenTemplateCodeStr === countOfTemplateKeyFoundByParser;
   }
 
   updateSelectedTemplateKeyValue(codeStr: string) {
@@ -335,10 +343,10 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     const codeValidationUrl = this.constantsService.codeValidationUrl();
 
     this.serverService.makePostReq<any>({headerData, body, url: codeValidationUrl})
-        .subscribe((validationResult) => {
-          console.log('validation resulted ');
-          this.selectedVersion.validation[this.activeTab] = validationResult[this.activeTab];
-        });
+      .subscribe((validationResult) => {
+        console.log('validation resulted ');
+        this.selectedVersion.validation[this.activeTab] = validationResult[this.activeTab];
+      });
   }
 
   saveSelectedVersion(validationWarningModal) {
@@ -363,13 +371,58 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     const codeValidationUrl = this.constantsService.codeValidationUrl();
 
     this.serverService.makePostReq<any>({headerData, body: validatinBody, url: codeValidationUrl})
-        .subscribe((validationResult) => {
-          this.selectedVersion.validation = validationResult;
-          if (!this.selectedVersion.validation.df_template.error &&
-              !this.selectedVersion.validation.df_rules.error &&
-              !this.selectedVersion.validation.workflow.error &&
-              !this.selectedVersion.validation.generation_rules.error &&
-              !this.selectedVersion.validation.generation_templates.error) {
+      .subscribe((validationResult) => {
+        this.selectedVersion.validation = validationResult;
+        if (!this.selectedVersion.validation.df_template.error &&
+          !this.selectedVersion.validation.df_rules.error &&
+          !this.selectedVersion.validation.workflow.error &&
+          !this.selectedVersion.validation.generation_rules.error &&
+          !this.selectedVersion.validation.generation_templates.error) {
+
+          this.selectedVersion.updated_fields = this.selectedVersion.changed_fields;
+          this.selectedVersion.changed_fields = {
+            'df_template': false,
+            'df_rules': false,
+            'generation_rules': false,
+            'generation_template': false,
+            'workflows': false
+          };
+          if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
+            const url = this.constantsService.getSaveVersionByBotId(this.bot.id);
+            this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
+              .subscribe((value: IBotVersionData) => {
+                this.selectedVersion = Object.assign(this.selectedVersion, value);
+                LoggingService.log(this.bot.store_bot_versions);
+                this.store.dispatch([
+                  new UpdateVersionInfoByIdInBot({data: value, botId: this.bot.id})
+                ]);
+                this.utilityService.showSuccessToaster('New version saved');
+              });
+          } else {
+            const url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
+            const body = this.selectedVersion;
+            delete body.id;
+            delete body.resource_uri;
+            delete body.forked_from;
+            /*remove version id = -1, from store*/
+            this.bot.store_bot_versions.length = 0;
+            this.serverService.makePostReq({url, body, headerData})
+              .subscribe((forkedVersion: IBotVersionData) => {
+                LoggingService.log(forkedVersion);
+                this.selectedVersion = forkedVersion;
+                this.utilityService.showSuccessToaster('New version forked');
+                this.store.dispatch([
+                  new UpdateVersionInfoByIdInBot({data: forkedVersion, botId: this.bot.id})
+                ]);
+              });
+          }
+        } else {
+
+          if (this.bot.active_version_id === this.selectedVersion.id) {
+            // this.modalRef = this.modalService.show(validationWarningModal, {class: 'modal-md'});
+            this.openPrimaryModal(validationWarningModal);
+          } else {
+            this.utilityService.showErrorToaster('Your code has error. But it will be saved as its not active');
 
             this.selectedVersion.updated_fields = this.selectedVersion.changed_fields;
             this.selectedVersion.changed_fields = {
@@ -382,14 +435,16 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
             if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
               const url = this.constantsService.getSaveVersionByBotId(this.bot.id);
               this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
-                  .subscribe((value: IBotVersionData) => {
-                    this.selectedVersion = Object.assign(this.selectedVersion, value);
-                    LoggingService.log(this.bot.store_bot_versions);
-                    this.store.dispatch([
-                      new UpdateVersionInfoByIdInBot({data: value, botId: this.bot.id})
-                    ]);
+                .subscribe((value: IBotVersionData) => {
+                  this.selectedVersion = Object.assign(this.selectedVersion, value);
+                  LoggingService.log(this.bot.store_bot_versions);
+                  this.store.dispatch([
+                    new UpdateVersionInfoByIdInBot({data: value, botId: this.bot.id})
+                  ]);
+                  setTimeout(() => {
                     this.utilityService.showSuccessToaster('New version saved');
-                  });
+                  }, 2000);
+                });
             } else {
               const url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
               const body = this.selectedVersion;
@@ -399,64 +454,23 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
               /*remove version id = -1, from store*/
               this.bot.store_bot_versions.length = 0;
               this.serverService.makePostReq({url, body, headerData})
-                  .subscribe((forkedVersion: IBotVersionData) => {
-                    LoggingService.log(forkedVersion);
-                    this.selectedVersion = forkedVersion;
+                .subscribe((forkedVersion: IBotVersionData) => {
+                  LoggingService.log(forkedVersion);
+                  this.selectedVersion = forkedVersion;
+
+                  setTimeout(() => {
                     this.utilityService.showSuccessToaster('New version forked');
-                    this.store.dispatch([
-                      new UpdateVersionInfoByIdInBot({data: forkedVersion, botId: this.bot.id})
-                    ]);
-                  });
-            }
-          } else {
-            if (this.bot.active_version_id === this.selectedVersion.id) {
-              // this.modalRef = this.modalService.show(validationWarningModal, {class: 'modal-md'});
-              this.openPrimaryModal(validationWarningModal);
-            } else {
-              this.utilityService.showErrorToaster('Your code has error. But it will be saved as its not active');
+                  }, 2000);
 
-              this.selectedVersion.updated_fields = this.selectedVersion.changed_fields;
-              this.selectedVersion.changed_fields = {
-                'df_template': false,
-                'df_rules': false,
-                'generation_rules': false,
-                'generation_template': false,
-                'workflows': false
-              };
-              if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
-                const url = this.constantsService.getSaveVersionByBotId(this.bot.id);
-                this.serverService.makePutReq({url, body: this.selectedVersion, headerData})
-                    .subscribe((value: IBotVersionData) => {
-                      this.selectedVersion = Object.assign(this.selectedVersion, value);
-                      LoggingService.log(this.bot.store_bot_versions);
-                      this.store.dispatch([
-                        new UpdateVersionInfoByIdInBot({data: value, botId: this.bot.id})
-                      ]);
-                      this.utilityService.showSuccessToaster('New version saved');
-                    });
-              } else {
-                const url = this.constantsService.getCreateNewVersionByBotId(this.bot.id);
-                const body = this.selectedVersion;
-                delete body.id;
-                delete body.resource_uri;
-                delete body.forked_from;
-                /*remove version id = -1, from store*/
-                this.bot.store_bot_versions.length = 0;
-                this.serverService.makePostReq({url, body, headerData})
-                    .subscribe((forkedVersion: IBotVersionData) => {
-                      LoggingService.log(forkedVersion);
-                      this.selectedVersion = forkedVersion;
-                      this.utilityService.showSuccessToaster('New version forked');
-                      this.store.dispatch([
-                        new UpdateVersionInfoByIdInBot({data: forkedVersion, botId: this.bot.id})
-                      ]);
-                    });
-              }
-
+                  this.store.dispatch([
+                    new UpdateVersionInfoByIdInBot({data: forkedVersion, botId: this.bot.id})
+                  ]);
+                });
             }
 
           }
-        });
+        }
+      });
 
 
   }
@@ -502,21 +516,21 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     delete forkedVersionInfo.resource_uri;
 
     this.serverService.makePostReq({url, body: forkedVersionInfo, headerData})
-        .subscribe((forkedVersion: IBotVersionData) => {
-          LoggingService.log(forkedVersion);
-          this.bot.store_bot_versions.push(forkedVersion);
-          this.utilityService.showSuccessToaster('New version forked');
-          this.forked_comments = '';
-          this.forked_version_number = null;
-          this.store.dispatch([
-            new UpdateVersionInfoByIdInBot({botId: this.bot.id, data: forkedVersion})
-          ]).subscribe(() => {
-            this.changeSelectedVersion(forkedVersion);
-            // this.selectedVersion = forkedVersion;
-          });
-          // this.ngOnInit();
-          /*TODO: implement it correctly*/
+      .subscribe((forkedVersion: IBotVersionData) => {
+        LoggingService.log(forkedVersion);
+        this.bot.store_bot_versions.push(forkedVersion);
+        this.utilityService.showSuccessToaster('New version forked');
+        this.forked_comments = '';
+        this.forked_version_number = null;
+        this.store.dispatch([
+          new UpdateVersionInfoByIdInBot({botId: this.bot.id, data: forkedVersion})
+        ]).subscribe(() => {
+          this.changeSelectedVersion(forkedVersion);
+          // this.selectedVersion = forkedVersion;
         });
+        // this.ngOnInit();
+        /*TODO: implement it correctly*/
+      });
   }
 
   changeSelectedVersion(version) {
@@ -566,9 +580,9 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
   isTemplateKeyOutputUnparsable() {
     return this.activeTab === this.myEBotVersionTabs.generation_templates &&
-        !this.showGenTempEditorAndHideGenTempUi &&
-        this.templateKeyDict &&
-        typeof this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar] === 'string';
+      !this.showGenTempEditorAndHideGenTempUi &&
+      this.templateKeyDict &&
+      typeof this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar] === 'string';
   }
 
   test() {
@@ -595,10 +609,10 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     // var img = zip.folder("images");
     // img.file("smile.gif", imgData, {base64: true});
     zip.generateAsync({type: 'blob'})
-        .then((content) => {
-          // see FileSaver.js
-          saveAs(content, `${this.bot.bot_unique_name}_codeV${this.selectedVersion.version}`);
-        });
+      .then((content) => {
+        // see FileSaver.js
+        saveAs(content, `${this.bot.bot_unique_name}_codeV${this.selectedVersion.version}`);
+      });
   }
 
   addFileToZip(zip: any, name: string, text: string) {

@@ -103,7 +103,8 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
 
     let url = this.constantsService.getAllPipelineModuleUrl();
     this.app$.subscribe((appState: IAppState) => {
-      this.aiModules = this.utilityService.createDeepClone(appState.masterPipelineItems);
+
+      // this.aiModules = this.utilityService.createDeepClone(appState.masterPipelineItems);
       this.pipelineModulesV2List = this.utilityService.createDeepClone(appState.pipelineModulesV2List);
       this.masterModuleCount = this.countMasterModules(this.pipelineModulesV2List);
       this.filterAiModules();
@@ -183,6 +184,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
 
   async openInputParamModal(template: TemplateRef<any>, pipeline: IPipelineItem, addPipelineItemToPipeline?: boolean) {
 
+  debugger;
     this.selectedPipeline = pipeline;
     // this.modalRef = this.modalService.show(template, { class: 'modal-md' });
     this.openPrimaryModal(template)
@@ -209,6 +211,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   }
 
   addPipelineItemToPipeline(pipelineItem: IPipelineItem) {
+    console.log('=========>', pipelineItem);
     this.pipeLine.push(pipelineItem);
   }
 
@@ -226,6 +229,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
       this._expandedPipelineModules = {};
     }
     this._expandedPipelineModules = {...this._expandedPipelineModules};
+
     this.allMatExpansionExpanded = !this.allMatExpansionExpanded;
   }
 

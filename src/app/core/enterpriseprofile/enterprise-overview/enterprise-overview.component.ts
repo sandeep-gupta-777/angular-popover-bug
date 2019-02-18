@@ -13,12 +13,14 @@ import { Observable } from 'rxjs';
 import { IUser } from '../../interfaces/user';
 import { IEnterpriseUser } from '../../interfaces/enterprise-users';
 import { map } from 'rxjs/operators';
+import { MaterialTableImplementer } from 'src/app/material-table-implementer';
+import {DomSanitizer} from '@angular/platform-browser';
 @Component({
   selector: 'app-enterprise-overview',
   templateUrl: './enterprise-overview.component.html',
   styleUrls: ['./enterprise-overview.component.scss']
 })
-export class EnterpriseOverviewComponent implements OnInit {
+export class EnterpriseOverviewComponent  implements OnInit {
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   loggeduserenterpriseinfoMap$: Observable<IEnterpriseProfileInfo>;
@@ -32,6 +34,7 @@ export class EnterpriseOverviewComponent implements OnInit {
   enterpriseId: number;
   loggeduserenterpriseinfo: IEnterpriseProfileInfo;
   showActiveServiceKeysTable: boolean = true;
+  expireServicekeyData;
   logoError;
   enterpriseUserBotList: number[];
   dialogRefWrapper = { ref: null };
@@ -67,19 +70,34 @@ export class EnterpriseOverviewComponent implements OnInit {
     if (data.length == 0) {
       return null;
     }
+    if (data.length == 1 && data[0] == {}) {
+      return null;
+    }
     //
     let x = data.map((consumerTableDataItem) => {
       let obj: any = {};
       //
 
       for (let key in tableDataMetaDict) {
-        //
+        //||
 
-        if (key == 'key' || key == 'description') {
+        if (key == 'key' ) {
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
             originalKey: key,
-            value: consumerTableDataItem[key].substring(0, 50),
+            // value: consumerTableDataItem[key].substring(0, 50),
+            value: `<div class="d-flex cursor-pointer">
+                        <i class="material-icons color-primary" style="position: absolute;left: -20px; font-size:13px" data-value="${consumerTableDataItem[key]}">file_copy_outline</i>
+                        <span>${consumerTableDataItem[key]}</span>
+                     </div>`,
+            searchValue: consumerTableDataItem[key]
+          };
+        }else if (key == 'description') {
+          obj[tableDataMetaDict[key].displayValue] = {
+            ...tableDataMetaDict[key],
+            originalKey: key,
+            // value: consumerTableDataItem[key].substring(0, 50),
+            value: consumerTableDataItem[key],
             searchValue: consumerTableDataItem[key]
           };
         }
@@ -161,10 +179,10 @@ export class EnterpriseOverviewComponent implements OnInit {
         this.store.dispatch([
           new SetEnterpriseServiceKeyAction({ service_key: this.serviceKeys })
         ])
-
       });
   }
   formGroup: FormGroup;
+
   ngOnInit() {
     this.formGroup = this.formBuilder.group({
       name: [''],
@@ -178,6 +196,7 @@ export class EnterpriseOverviewComponent implements OnInit {
     });
 
     this.loggeduser$.subscribe(({ user }) => {
+      if(!user) return;
       this.userid = user.id;
       this.role = user.role.name;
       this.enterpriseId = user.enterprise_id; //enterprise_id
@@ -239,17 +258,14 @@ export class EnterpriseOverviewComponent implements OnInit {
           return -a.expired_at+b.expired_at
       })
         this.serviceKeyTableDataExpired = this.transformDataForMaterialTable(expiredTableData, this.getTableDataMetaDictActive());
-        // this.serviceKeyTableDataExpired = this.serviceKeyTableDataExpired.filter(data => data.age > 18)
         this.serviceKeyTableDataActive = this.transformDataForMaterialTable(activeTableData, this.getTableDataMetaDictExpired());
-
-        //  }
 
 
       });
     const enterpriselogdeletionsummary = this.constantsService.getEnterpriseLogDeletionSummaryUrl();
     this.serverService.makeGetReq<{ objects: IEnterpriseUser[] }>({ url: enterpriselogdeletionsummary })
       .subscribe((value) => {
-        this.logdeletionsummary = value.objects;
+        this.logdeletionsummary = value.objects.reverse();
       });
   }
   updateEnterpriseProfile() {
@@ -260,7 +276,7 @@ export class EnterpriseOverviewComponent implements OnInit {
     const headerData: IHeaderData = { 'content-type': 'application/json' };
     this.serverService.makePutReq({ url, body, headerData })
       .subscribe(() => {
-        this.utilityService.showSuccessToaster('Updated enterprise profile');
+        this.utilityService.showSuccessToaster('Enterprise profile updated');
         this.store.dispatch([
           new SetEnterpriseInfoAction({ enterpriseInfo: body }),
         ]).subscribe((entprisedetails) => {
@@ -281,38 +297,39 @@ export class EnterpriseOverviewComponent implements OnInit {
       });
 
   }
-
-  customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }) {
-    if (data.action === 'expire') {
-      // console.log(data.data)
+  expireServiceKey(){
+    let data = this.expireServicekeyData;
+    // console.log(data.data)
       let disableServiceKeyUrl = this.constantsService.disableServiceKeyUrl();
-      let body = { service_key: data.data.key }
+      let body = { service_key: this.expireServicekeyData.key }
       const headerData: IHeaderData = { 'content-type': 'application/json' };
       //
       this.serverService.makePostReq<any>({ url: disableServiceKeyUrl, body, headerData })
         .subscribe((value) => {
           this.serviceKeys = this.serviceKeys.map((item) => {
             if (item["key"] == body.service_key) {
-              item.enabled = false;
-              item.expired_at = value.expired_at;
-              return item;
+              return value;
             }
             else {
               return item;
             }
           });
-
           this.serviceKeys = [...this.serviceKeys];
           this.utilityService.showSuccessToaster("Service key has been successfully expired");
           this.store.dispatch([
             new SetEnterpriseServiceKeyAction({ service_key: this.serviceKeys })
           ])
         });
-
-
+  }
+  customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any },expireServiceKeyModal) {
+    if (data.action === 'expire') {
+      this.expireServicekeyData = data.data;
+      this.utilityService.openDangerModal(expireServiceKeyModal, this.matDialog, this.dialogRefWrapper);
     }
-
   }
 
+  dataValueClicked(dataValue){
+    this.utilityService.copyToClipboard(dataValue);
+  }
 
 }

@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { EAllActions, ERoleName } from './constants.service';
-import { IAppState } from './ngxs/app.state';
-import { Observable } from 'rxjs';
-import { actionMatcher, Select } from '@ngxs/store';
-import { IProfilePermission } from '../interfaces/profile-action-permission';
-import { IUser } from './core/interfaces/user';
-import { IAuthState } from './auth/ngxs/auth.state';
+import {Injectable} from '@angular/core';
+import {EAllActions, ERoleName} from './constants.service';
+import {IAppState} from './ngxs/app.state';
+import {Observable} from 'rxjs';
+import {actionMatcher, Select} from '@ngxs/store';
+import {IProfilePermission} from '../interfaces/profile-action-permission';
+import {IUser} from './core/interfaces/user';
+import {IAuthState} from './auth/ngxs/auth.state';
 
-import { ELogType, LoggingService } from './logging.service';
+import {ELogType, LoggingService} from './logging.service';
 
 @Injectable({
   providedIn: 'root'
@@ -81,6 +81,8 @@ export class PermissionService {
     [EAllActions['Create Bot Knowledge base']]: true,
     [EAllActions['Update Bot Knowledge base']]: true,
     [EAllActions['Delete Bot Knowledge base']]: true,
+    [EAllActions['GET ModuleDetail']]: true,
+
   };
   forbiddenActionsToFrontEndMapping = {};
   allowedApiHttpVerbPPathToActionNamesMapping = {};
@@ -93,73 +95,94 @@ export class PermissionService {
     '/api/v1/user/enterprise_login/',
     '/api/v1/user/enterprises/',
     '/api/v1/enterprise/',
-    '/api/v1/room/'
+    '/api/v1/room/',
+    '/api/v1/role/',
+    '/static/config.json',
   ];
+
   constructor() {
     this.loggeduser$.subscribe((loggeduser) => {
       if (loggeduser && loggeduser.user) {
         this.loggedUser = loggeduser.user;
       }
-      this.app$.subscribe((appState) => {
-        try {
-          if (!loggeduser.user) {
-            return;
-          }
-          const masterActionList = appState.masterProfilePermissions;
-          if (loggeduser.user.role.name === 'Admin') {
-            this.forbiddenActionsToFrontEndMapping = [];
-            return;
-          }
+    //
+    });
 
-          /*for non admin roles*/
-          this.forbiddenActionsToFrontEndMapping = { ...this.allBackEndActionsToFrontEndTabMapping2 };
-          /*remove all allowed perms*/
-          loggeduser.user.role.permissions.actions.forEach((permId: number) => {
-            /*find action name for given permission id*/
-            const actionName = masterActionList.find((action) => action.id === permId).name;
-            const x = this.forbiddenActionsToFrontEndMapping[actionName];
-            const y = this.forbiddenActionsToFrontEndMapping;
-            delete this.forbiddenActionsToFrontEndMapping[actionName];
-          });
+    this.app$.subscribe((appState) => {
+      try {
+        const masterActionList = appState.masterProfilePermissions;
+        if (!this.loggedUser || !masterActionList) {
+          return;
+        }
+        if (this.loggedUser.role.name === 'Admin') {
+          this.forbiddenActionsToFrontEndMapping = [];
+          return;
+        }
+
+        /*for non admin roles*/
+        this.forbiddenActionsToFrontEndMapping = {...this.allBackEndActionsToFrontEndTabMapping2};
+        /*remove all allowed perms*/
+        this.loggedUser.role.permissions.actions.forEach((permId: number) => {
+          /*find action name for given permission id*/
+          if (!masterActionList) return;
+          const actionName = masterActionList.find((action) => action.id === permId).name;
+          const x = this.forbiddenActionsToFrontEndMapping[actionName];
+          const y = this.forbiddenActionsToFrontEndMapping;
+          delete this.forbiddenActionsToFrontEndMapping[actionName];
+        });
 
 
-          /*
-          * For API access
-          * 1. create path-> action map
-          * 2. check if that action is allowed
-          * */
+        /*
+        * For API access
+        * 1. create path-> action map
+        * 2. check if that action is allowed
+        * */
 
-          const actionToHttpVerbPPathNameMap = {};
-          masterActionList.forEach((action: IProfilePermission) => {
-            // actionToHttpVerbPPathNameMap[action.permissions.method + '+' + action.permissions.endpoint] = action.name;
-            actionToHttpVerbPPathNameMap[action.name] = action.permissions.method + '+' + action.permissions.endpoint;
-            return actionToHttpVerbPPathNameMap;
-          });
+        const actionToHttpVerbPPathNameMap = {};
+        masterActionList.forEach((action: IProfilePermission) => {
+          // actionToHttpVerbPPathNameMap[action.permissions.method + '+' + action.permissions.endpoint] = action.name;
+          actionToHttpVerbPPathNameMap[action.name] = action.permissions.method + '+' + action.permissions.endpoint;
+          return actionToHttpVerbPPathNameMap;
+        });
 
-          this.allowedApiHttpVerbPPathToActionNamesMapping = {};
-          loggeduser.user.role.permissions.actions.forEach((permId: number) => {
-            //
-            /*find action name for given permission id*/
-            const action = masterActionList.find((action) => action.id === permId);
+        this.allowedApiHttpVerbPPathToActionNamesMapping = {};
+        /*add the explicit permissions */
+        // this.loggeduser.role.permissions.actions.forEach((permId: number) => {
+        //   /*find action name for given permission id*/
+        //   const action = masterActionList.find((action) => action.id === permId);
+        //   const httpVerb = action.permissions.method;
+        //   const path = action.permissions.endpoint;
+        //   const httpVerbPPath = httpVerb + '+' + path;
+        //   this.allowedApiHttpVerbPPathToActionNamesMapping[httpVerbPPath] = action.name;
+        // });
+
+        /*add the explicit and default permissions */
+        masterActionList.forEach((action) => {
+
+          let addActionToUser: boolean;
+          addActionToUser = action.is_default_action || !!this.loggedUser.role.permissions.actions.find((permId: number) => permId === action.id);
+          if(addActionToUser){
             const httpVerb = action.permissions.method;
             const path = action.permissions.endpoint;
             const httpVerbPPath = httpVerb + '+' + path;
             this.allowedApiHttpVerbPPathToActionNamesMapping[httpVerbPPath] = action.name;
-            // let key:string = this.findKeyForValueInObject(this.allowedApiHttpVerbPPathToActionNamesMapping, actionName);
-            // delete this.allowedApiHttpVerbPPathToActionNamesMapping[key];
-          });
+          }
+        });
 
-        } catch (e) {
-          LoggingService.error(e);
-        }
-      });
+        /*add the default permissions*/
+
+      } catch (e) {
+        LoggingService.error(e);
+      }
     });
 
   }
+
   isInApiAccessAllowedUrlList(pathName) {
-    const check = this.ApiAccessAllowedUrlList.find(x => x === pathName );
-    if (check) {  return true; } else { return false; }
+    const check = this.ApiAccessAllowedUrlList.find(x => x === pathName);
+    return !!check;
   }
+
   findKeyForValueInObject(obj: object, value): string {
     if (!obj || !value) {
       console.error('non valid arguments for findKeyForValueInObject()');
@@ -170,7 +193,9 @@ export class PermissionService {
   }
 
   isTabAccessDenied(tabName: string, accessType = '') {//route,tab
-    if (!tabName) { return false; }
+    if (!tabName) {
+      return false;
+    }
     const isDenied = !!this.forbiddenActionsToFrontEndMapping[tabName];
     LoggingService.logMultiple(`checking ${accessType} access for tabName = ${tabName} and the access was ${isDenied ? 'Denied' : 'Allowed'}. Following is forbiddenActionsToFrontEndMapping`, this.forbiddenActionsToFrontEndMapping);
     return isDenied;

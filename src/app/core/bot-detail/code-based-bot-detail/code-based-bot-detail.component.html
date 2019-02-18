@@ -76,10 +76,12 @@
         </li>
         <div class="ml-auto"></div>
         <li class="nav-item" *ngIf="selectedTab==='sessions'">
-          <a class="nav-link heading">
-            <i class="fa fa-refresh"
-               (click)="eventService.reloadSessionTable$.emit()"></i>
+          <a class="nav-link heading" style="cursor: default!important;">
+            <i class="fa fa-refresh cursor-pointer"
+               [ngClass]="{'fa-spin':spinReloadSessionTableSpinner}"
+               (click)="reloadSessionsHandler()"></i>
           </a>
+          <!---->
         </li>
         <li class="nav-item">
           <a class="nav-link heading"
@@ -94,7 +96,7 @@
         </li>
       </ul>
 
-      <ul class="nav nav-tabs border-none theme-tabbing mb-1 bg-white d-flex d-md-none">
+      <ul class="nav nav-tabs border-none theme-tabbing mb-1 bg-white d-flex d-md-none" *ngIf="selectedTab ==='architecture'">
         <li routerLink="."
              [queryParams]="{'build-tab':'pipeline'}"
              queryParamsHandling="merge"

@@ -2,6 +2,7 @@
   <i class="meta-text cursor-pointer pl-1" (click)="utilityService.copyToClipboard(txnId)"
      [innerHtml]="'txnId:'+ txnId_highlighting">
   </i>
+
   <div *ngFor="let sessionMessage of sessionMessageItems">
 
     <div *ngIf="sessionMessage && sessionMessage.user_type==='human'">

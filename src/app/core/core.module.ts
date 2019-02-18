@@ -48,6 +48,10 @@ import { EnterpriseOverviewComponent } from './enterpriseprofile/enterprise-over
 import { EnterpriseUsersComponent } from './enterpriseprofile/enterprise-users/enterprise-users.component';
 import { EnterpriseRolesComponent } from './enterpriseprofile/enterprise-roles/enterprise-roles.component';
 import { SortPipelinePipe } from './buildbot/build-code-based-bot/architecture/pipeline/sort-pipeline.pipe';
+import {SafeHtml} from '@angular/platform-browser';
+import {SafeHtmlPipe} from '../safe-html.pipe';
+import { PipelineIdToPipelineModulePipe } from './buildbot/build-code-based-bot/architecture/pipeline/pipeline-id-to-pipeline-module.pipe';
+import { PipeineIdToPipelineModuleWrapperPipe } from './buildbot/build-code-based-bot/architecture/pipeline/pipeine-id-to-pipeline-module-wrapper.pipe';
 import { RolesComponent } from './enterpriseprofile/roles/roles.component';
 import { RoleaccordionComponent } from './enterpriseprofile/roles/roleaccordion/roleaccordion.component';
 const routes: Route[] = [
@@ -119,6 +123,8 @@ const routes: Route[] = [
     EnterpriseOverviewComponent,
     EnterpriseUsersComponent,
     EnterpriseRolesComponent,
+    // PipeineIdToPipelineModuleWrapperPipe,
+    // PipelineIdToPipelineModulePipe
     // DisplayNameForKeyIntegrationPipe,
 
     /*added after lazy loading*/

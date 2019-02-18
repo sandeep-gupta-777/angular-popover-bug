@@ -29,33 +29,33 @@ export class Analysis2UsageComponent implements OnInit {
 
   tabClicked(activeTab: string) {
     this.activeTab = activeTab;
-   
+
     if (this.activeTab === 'usagetracking') {
       this.store.dispatch(new SetAnalysis2HeaderData({
         analysisHeaderData: {type: EAnalysis2TypesEnum.usagetracking}
       }));
     }
-    
+
   }
 
   ngOnInit() {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || this.activeTab;
     this.tabClicked(this.activeTab);
-      
+
     this.analysisstate2$
       .subscribe((value: IAnalysis2State) => {
         try {
-            
+
           const granularity =  value.analysisHeaderData.granularity;
           const granularity_ms: number = this.u.convertGranularityStrToMs(granularity);
-            
+
           this.chartValue =
             <any>this.u.convertDateTimeGraph(
               value[this.activeTab],
               'labels',
               new Date(value.analysisHeaderData.startdate).getTime(),
-              granularity_ms) ;
-            
+              granularity) ;
+
         } catch (e) {
           // LoggingService.error(e);
         }
