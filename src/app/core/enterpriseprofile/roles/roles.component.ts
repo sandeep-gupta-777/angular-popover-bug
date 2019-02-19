@@ -30,6 +30,7 @@ export class RolesComponent implements OnInit {
     serchedPermission: string = "";
     @Output() backToRoles = new EventEmitter();
     show = false;
+    reloaded = false;
     panelOpenState = false;
     system_role: boolean = false;
     categoryList = [];
@@ -106,17 +107,17 @@ export class RolesComponent implements OnInit {
         this.serverService.makeDeleteReq<any>({ url: getRoleIdUrl })
           .subscribe((roles) => {
             this.utilityService.showSuccessToaster("Role deleted");
+            this.roleListChanged.emit();
             this.navegateRole();
           });
       }
     ngOnInit() {
-
+        // this.system_role = false;
         if (!this.isNewRole) {
             let getRoleByIdUrl = this.constantsService.getRoleByIdUrl(this.selectedRole);
 
             this.serverService.makeGetReq<any>({ url: getRoleByIdUrl })
                 .subscribe((roles) => {
-
                     this.system_role = roles.objects[0].enterprise_id == 0;
                     this.selectedRoleName = roles.objects[0].name;
                     this.selectedRoleData = roles.objects[0];
@@ -126,9 +127,19 @@ export class RolesComponent implements OnInit {
                             this.selectedPermissionIdList = value.masterProfilePermissions.map(permission => {
                                 return permission.id
                             });
+                        this.reloaded = true;
+                            
                         });
                     }
+                    else{
+                    this.reloaded = true;
+                    }
+                   
                 });
+        }
+        else{
+            this.system_role = false;
+            this.reloaded = true;
         }
         let getRoleUrl = this.constantsService.getRoleUrl();
         this.serverService.makeGetReq<IRoleResult>({ url: getRoleUrl })
