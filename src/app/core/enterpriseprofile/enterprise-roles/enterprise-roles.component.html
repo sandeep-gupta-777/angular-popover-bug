@@ -30,7 +30,7 @@
             {{role.name}}
           </div>
           <div>
-            {{role.enterprise_id == 0 ? "System roles" : role.created_by}}
+            {{role.enterprise_id == 0 ? "System role" : "Created by: " + role.created_by}}
           </div>
           <div>
             {{role.id == 2 ?allPermissionIdList.length : role.permissions.actions.length}} permissions added
