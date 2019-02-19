@@ -1,3 +1,4 @@
+
 import { Component, OnInit, Output, Input, EventEmitter, TemplateRef } from '@angular/core';
 import { ServerService } from 'src/app/server.service';
 import { ConstantsService } from 'src/app/constants.service';
@@ -38,6 +39,8 @@ export class RolesComponent implements OnInit {
     permissionList: IProfilePermission[];
     myEnterpriseRoleTabName = EnterpriseRoleTabName;
     allRolesList: IRole[];
+    @Output() roleListChanged = new EventEmitter();
+
     modifyRole() {
         let body = {
             "name": this.selectedRoleName,
@@ -50,6 +53,7 @@ export class RolesComponent implements OnInit {
         this.serverService.makePutReq<any>({ url: getRoleIdUrl, body })
             .subscribe((roles) => {
                 this.utilityService.showSuccessToaster("Role modified");
+                this.roleListChanged.emit();
                 this.navegateRole();
             });
         console.log(body);
@@ -67,6 +71,7 @@ export class RolesComponent implements OnInit {
         this.serverService.makePostReq<any>({ url: getRoleUrl, body })
             .subscribe((roles) => {
                 this.utilityService.showSuccessToaster("New Role added");
+                this.roleListChanged.emit();
                 this.navegateRole()
             });
         console.log(body);
@@ -105,18 +110,7 @@ export class RolesComponent implements OnInit {
           });
       }
     ngOnInit() {
-        let getRoleUrl = this.constantsService.getRoleUrl();
-        this.serverService.makeGetReq<IRoleResult>({ url: getRoleUrl })
-            .subscribe((roles: IRoleResult) => {
-                this.allRolesList = roles.objects;
-            });
-        this.app$.subscribe((value) => {
-            this.permissionList = value.masterProfilePermissions;
-            this.permissionList.forEach(permission => {
-                this.categoryList.push(permission.category);
-            })
-            this.categoryList = Array.from(new Set(this.categoryList));
-        });
+
         if (!this.isNewRole) {
             let getRoleByIdUrl = this.constantsService.getRoleByIdUrl(this.selectedRole);
 
@@ -134,9 +128,20 @@ export class RolesComponent implements OnInit {
                             });
                         });
                     }
-
                 });
         }
+        let getRoleUrl = this.constantsService.getRoleUrl();
+        this.serverService.makeGetReq<IRoleResult>({ url: getRoleUrl })
+            .subscribe((roles: IRoleResult) => {
+                this.allRolesList = roles.objects;
+            });
+        this.app$.subscribe((value) => {
+            this.permissionList = value.masterProfilePermissions;
+            this.permissionList.forEach(permission => {
+                this.categoryList.push(permission.category);
+            })
+            this.categoryList = Array.from(new Set(this.categoryList));
+        });
     }
     ngOnDestroy() {
 
