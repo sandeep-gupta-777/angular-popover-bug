@@ -5,6 +5,9 @@ import { IRole, IRoleResult } from '../../interfaces/IRole';
 import { EnterpriseRoleTabName } from '../enterpriseprofile.component';
 import { MatDialog } from '@angular/material';
 import { UtilityService } from 'src/app/utility.service';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { IAppState } from 'src/app/ngxs/app.state';
 
 @Component({
   selector: 'app-enterprise-roles',
@@ -23,6 +26,8 @@ export class EnterpriseRolesComponent implements OnInit {
   myEnterpriseRoleTabName = EnterpriseRoleTabName;
   dialogRefWrapper = { ref: null };
   deleteRole: IRole;
+  allPermissionIdList:any[];
+  @Select() app$: Observable<IAppState>;
   @Output() roleListChanged = new EventEmitter();
   @Output() selectedRole = new EventEmitter();
   @Output() enterRole = new EventEmitter();
@@ -58,8 +63,12 @@ export class EnterpriseRolesComponent implements OnInit {
       .subscribe((roles: IRoleResult) => {
         this.roleList = roles.objects;
       });
-
-
+      this.app$.subscribe((value) => {
+        this.allPermissionIdList  = value.masterProfilePermissions.map(permission =>{
+            return permission.id
+        });
+    });
+    
   }
 
 }
