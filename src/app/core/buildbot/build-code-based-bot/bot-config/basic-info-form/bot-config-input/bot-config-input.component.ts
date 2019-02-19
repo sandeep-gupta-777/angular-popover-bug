@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Injector, Input, OnInit, Output} from '@angular/core';
 import {ControlValueAccessor, FormControl, FormGroupDirective, NG_VALUE_ACCESSOR, NgControl, NgForm} from '@angular/forms';
 import {UiSwitchWrapperComponent} from '../ui-switch/ui-switch-wrapper.component';
-import {ObjectKeyMap} from '@ngxs/store/src/internals';
 import {LoggingService} from '../../../../../../logging.service';
 import {UtilityService} from '../../../../../../utility.service';
 import {ErrorStateMatcher} from '@angular/material';
