@@ -305,7 +305,15 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     }
     form.form.patchValue(formVal);
   }
-
+  noOfTrues(arr){
+    debugger;
+    let count = 0;
+    let  p = Object.keys(arr) ;
+    for (let x in p){
+      if(arr[x] = "true"){ count = count+1;}
+    }
+    return count;
+  }
   constructor(
     private store: Store,
     private constantsService: ConstantsService,

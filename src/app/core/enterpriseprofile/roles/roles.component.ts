@@ -25,8 +25,8 @@ export class RolesComponent implements OnInit {
     selectedRoleData: IRole;
     selectedRoleName: string = "";
     selectedRoleBaseRole: number;
-    serchedAction:string = "";
-    serchedPermission:string = "";
+    serchedAction: string = "";
+    serchedPermission: string = "";
     @Output() backToRoles = new EventEmitter();
     show = false;
     panelOpenState = false;
@@ -37,7 +37,7 @@ export class RolesComponent implements OnInit {
     @Input() isNewRole: boolean;
     permissionList: IProfilePermission[];
     myEnterpriseRoleTabName = EnterpriseRoleTabName;
-    allRolesList : IRole[];
+    allRolesList: IRole[];
     @Output() roleListChanged = new EventEmitter();
 
     modifyRole() {
@@ -93,14 +93,23 @@ export class RolesComponent implements OnInit {
         });
         this.selectedPermissionIdList = Array.from(new Set(this.selectedPermissionIdList));
     }
-    baseRoleChanged(RoleId){
+    baseRoleChanged(RoleId) {
 
         this.allRolesList;
-        let thisRole = this.allRolesList.find( role => role.id == RoleId);
+        let thisRole = this.allRolesList.find(role => role.id == RoleId);
         this.selectedPermissionIdList = thisRole.permissions.actions;
     }
+    deleteRole() {
+        let getRoleIdUrl = this.constantsService.getRoleIdUrl(this.selectedRole);
+    
+        this.serverService.makeDeleteReq<any>({ url: getRoleIdUrl })
+          .subscribe((roles) => {
+            this.utilityService.showSuccessToaster("Role deleted");
+            this.navegateRole();
+          });
+      }
     ngOnInit() {
-        
+
         if (!this.isNewRole) {
             let getRoleByIdUrl = this.constantsService.getRoleByIdUrl(this.selectedRole);
 
@@ -111,6 +120,13 @@ export class RolesComponent implements OnInit {
                     this.selectedRoleName = roles.objects[0].name;
                     this.selectedRoleData = roles.objects[0];
                     this.selectedPermissionIdList = roles.objects[0].permissions.actions;
+                    if (this.system_role && this.selectedRoleData.id == 2) {
+                        this.app$.subscribe((value) => {
+                            this.selectedPermissionIdList = value.masterProfilePermissions.map(permission => {
+                                return permission.id
+                            });
+                        });
+                    }
                 });
         }
         let getRoleUrl = this.constantsService.getRoleUrl();
