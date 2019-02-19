@@ -6,6 +6,7 @@
       (!system_role ? "Edit role" : "System role")}}
     </div>
     <div class="ml-auto">
+        <button class="btn-theme btn-theme-danger mr-2" (click)="deleteRole()"  *ngIf = "!isNewRole && !system_role">Delete role</button>
       <button class="btn-theme btn-theme-primary" (click)="createNewRole()" *ngIf = "isNewRole" [disabled]="!selectedRoleName || !selectedRoleBaseRole" >Create role</button>
       <button class="btn-theme btn-theme-primary" (click)="modifyRole()" *ngIf = "!isNewRole && !system_role" [disabled]="!selectedRoleName">Update role</button>
     </div>
