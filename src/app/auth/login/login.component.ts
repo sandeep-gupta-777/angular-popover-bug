@@ -102,6 +102,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     }
     this.changePasswordExpireTime = this.activatedRoute.snapshot.queryParamMap.get('timestamp');
 
+    debugger;
     /*keep login button disabled till response comes*/
     this.serverService.getNSetConfigData$().subscribe(
       () => this.isConfigDataSet = true,
@@ -281,7 +282,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
           //   }
         ),
       ), switchMap((value) => {
-        if(value){  
+        if(value){
           this.gotUserData$.emit(value);
         }
         return of();

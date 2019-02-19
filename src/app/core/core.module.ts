@@ -109,6 +109,7 @@ const routes: Route[] = [
     // BuildbotWrapperComponent,
     SignupComponent,
     PipelineTestComponent,
+    HeaderComponent,
 
     ScrollerDirective,
     ReportDetailsComponent,

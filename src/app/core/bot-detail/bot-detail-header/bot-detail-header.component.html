@@ -3,7 +3,7 @@
   <a class="row-bot-detail-header__back" routerLink="/" style="text-decoration: none">
     <i class="fa fa-angle-left" title="Go to Dashboard"></i>
   </a>
-  <img class="row-bot-detail-header__bot-logo" [src]="bot.logo" alt="B">
+  <img class="row-bot-detail-header__bot-logo" style="margin-right: 5px" [src]="bot.logo" alt="B">
   <div class="row-bot-detail-header__bot-details">
     <div [title]="bot.name">
       {{(bot.name| slice:0: 50) + (bot.name.length>50?"...":"")}}
@@ -42,7 +42,7 @@
       <!--<i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>-->
       <!--<span class="action">Preview</span>-->
     <!--</div>-->
-    <button class="mat-theme-button" mat-button style="border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 2px; margin-right: 10px">
+    <button (click)="openAnalyticsForBot()" class="mat-theme-button" mat-button style="border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 2px; margin-right: 10px">
         <mat-icon>trending_up</mat-icon>
       Analytics
     </button>

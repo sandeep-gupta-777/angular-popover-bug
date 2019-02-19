@@ -26,7 +26,8 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.json",
-              "src/git-info.json"
+              "src/git-info.json",
+              "src/config.json"
             ],
             "styles": [
               "src/styles.scss",
