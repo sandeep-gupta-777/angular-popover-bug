@@ -26,7 +26,6 @@ import {LimitObjectArraysStringPipe} from './consumers/limit-object-arrays-strin
 import {ConsumerFullscreenWrapperComponent} from './consumers/consumer-fullscreen-wrapper/consumer-fullscreen-wrapper.component';
 import {AuthGaurdService} from '../../auth-gaurd.service';
 import {RequiredIfOneFilledValidator} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/requiredIfOneFilledValidator.directive';
-import {DragulaModule} from 'ng2-dragula';
 import {RichMediaModule} from '../../rich-media.module';
 import {SessionDataToRichMediaSerializerPipe} from '../../session-data-to-rich-media-serializer.pipe';
 import {DisplayNameForKeyIntegrationPipe} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/display-name-for-key-integration.pipe';
@@ -130,7 +129,6 @@ const routes: Route[] = [
   ],
   imports: [
     RichMediaModule,
-    DragulaModule,
     CommonModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,

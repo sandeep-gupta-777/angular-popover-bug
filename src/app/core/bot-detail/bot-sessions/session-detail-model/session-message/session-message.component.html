@@ -5,34 +5,63 @@
 
   <div *ngFor="let sessionMessage of sessionMessageItems">
 
-    <div *ngIf="sessionMessage && sessionMessage.user_type==='human'">
-      <div class="row my-1">
-        <div class="col-10 p-0">
-          <div class="message p-2 bg-message-human" style="display: inline-block">
-            <span class="message-text" [innerHtml]="sessionMessage.messageByHuman|| sessionMessage.message |linkify:'text-white'"></span>
-            <div class="time text-right">
-              {{sessionMessage.created_at|msToHhmm}}
-            </div>
+      <div *ngIf="sessionMessage && sessionMessage.user_type==='human'">
+          <div class="row my-1">
+              <div class="col-10 p-0">
+                  <div class="message p-2 bg-message-human" style="display: inline-block">
+                      <span class="message-text" [innerHtml]="sessionMessage.messageByHuman|| sessionMessage.message |linkify:'text-white'"></span>
+                      <div class="time text-right" [title]="sessionMessage.created_at|date:'EEEE, MMMM d, y, h:mm:ss a'">
+                          {{sessionMessage.created_at|date:'h:mm:ss a'}}
+                      </div>
+                  </div>
+              </div>
           </div>
-        </div>
       </div>
-    </div>
+
+    <!--<div *ngIf="sessionMessage && sessionMessage.user_type==='human'">-->
+      <!--<div class="row my-1">-->
+        <!--<div class="col-10 p-0">-->
+          <!--<div class="message p-2 bg-message-human" style="display: inline-block">-->
+<!--&lt;!&ndash; <<<<<<< HEAD &ndash;&gt;-->
+            <!--<span class="message-text" [innerHtml]="sessionMessage.messageByHuman|| sessionMessage.message |linkify:'text-white'"></span>-->
+            <!--<div class="time text-right">-->
+              <!--{{sessionMessage.created_at|msToHhmm}}-->
+            <!--</div>-->
+<!--&lt;!&ndash; ======= &ndash;&gt;-->
+            <!--&lt;!&ndash;<span class="message-text ">{{sessionMessageData.message}}</span>&ndash;&gt;-->
+            <!--&lt;!&ndash; <span class="message-text" [innerHtml]="sessionMessage.message"></span> &ndash;&gt;-->
+            <!--&lt;!&ndash; <div class="time text-right">{{sessionMessage.created_at|msToHhmm}}</div> &ndash;&gt;-->
+<!--&lt;!&ndash; >>>>>>> master &ndash;&gt;-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
 
     <div *ngIf="sessionMessage && sessionMessage.user_type==='bot'">
       <div *ngIf="myArray.isArray(sessionMessage.message); else messageIsStringNotObjectTemplate">
         <!--TODO:HACK:: sometimes data from backend is not {text:"hi"} but just "hi"-->
         <div class="row flex-row-reverse" *ngFor="let message of sessionMessage.message">
           <!--bot text reply starts-->
-          <div class="col-10 p-0 pb-1 d-flex justify-content-end" *ngIf="message.text">
-            <div class="message p-2"
-                 [ngStyle]="{'background-color': (!sessionMessage.feedback? '#f7f7f7' :(sessionMessage.feedback === myEChatFeedback.POSITIVE) ? '#5cd791' : '#ffc7cd') }"
-                 >
-              <span class="message-text" [innerHtml]="message.text|linkify:'text-dark'"></span>
-              <div class="time text-right">
-                {{sessionMessage.created_at|msToHhmm}}
-              </div>
+            <div class="col-10 p-0 pb-1 d-flex justify-content-end" *ngIf="message.text">
+                <div class="message p-2"
+                     [ngStyle]="{'background-color': (!sessionMessage.feedback? '#f7f7f7' :(sessionMessage.feedback === myEChatFeedback.POSITIVE) ? '#5cd791' : '#ffc7cd') }"
+                >
+                    <span class="message-text" [innerHtml]="message.text|linkify:'text-dark'"></span>
+                    <div class="time text-right" [title]="sessionMessage.created_at|date:'EEEE, MMMM d, y, h:mm:ss a'">
+                        {{sessionMessage.created_at|date:'h:mm:ss a'}}
+                    </div>
+                </div>
             </div>
-          </div>
+          <!--<div class="col-10 p-0 pb-1 d-flex justify-content-end" *ngIf="message.text">-->
+            <!--<div class="message p-2"-->
+                 <!--[ngStyle]="{'background-color': (!sessionMessage.feedback? '#f7f7f7' :(sessionMessage.feedback === myEChatFeedback.POSITIVE) ? '#5cd791' : '#ffc7cd') }"-->
+                 <!--&gt;-->
+              <!--<span class="message-text" [innerHtml]="message.text|linkify:'text-dark'"></span>-->
+              <!--<div class="time text-right">-->
+                <!--{{sessionMessage.created_at|msToHhmm}}-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
           <!--bot text reply ends-->
 
           <!--bot rich media reply starts-->
@@ -56,7 +85,8 @@
           <div class="message p-2 bg-message-bot" style="display: inline-block">
             <span class="message-text" [innerHtml]="'hi'"></span>
             <div class="time text-right">
-              {{sessionMessage.created_at|msToHhmm}}
+              <!--{{sessionMessage.created_at|msToHhmm}}-->
+                {{sessionMessage.created_at|date:'h:mm:ss a'}}
             </div>
           </div>
         </div>

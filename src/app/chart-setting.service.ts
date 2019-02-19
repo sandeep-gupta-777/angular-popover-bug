@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import {Chart, Highcharts} from 'angular-highcharts';
+// import {Chart, Highcharts} from 'angular-highcharts';
+declare const Highcharts:any;
+declare const Chart:any;
 import {IChartSetting, ISeriesDataItem} from '../interfaces/chart-setting';
 import {UtilityService} from './utility.service';
 

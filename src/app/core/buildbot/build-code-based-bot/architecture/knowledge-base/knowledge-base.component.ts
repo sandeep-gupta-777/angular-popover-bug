@@ -170,6 +170,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
         // return obj;
       });
 
+      // console.log("shoaib sadas",handsontableDataSerialized);
       handsontableDataSerialized = handsontableDataSerialized.filter(function (el) {
 
         return el !=null;

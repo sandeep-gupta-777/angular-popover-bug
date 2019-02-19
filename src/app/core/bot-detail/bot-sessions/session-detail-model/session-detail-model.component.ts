@@ -4,8 +4,6 @@ import {ConstantsService} from '../../../../constants.service';
 import {ServerService} from '../../../../server.service';
 import {IBot} from '../../../interfaces/IBot';
 import {Observable} from 'rxjs';
-
-import {element} from 'protractor';
 import {UtilityService} from '../../../../utility.service';
 import { ViewBotStateModel } from '../../../view-bots/ngxs/view-bot.state';
 import { Select } from '@ngxs/store';
@@ -303,7 +301,7 @@ export class SessionDetailModelComponent implements OnInit {
     transactionsCount = this.scrollDown ? this.sessionMessageDataCopy.length - 1 : 0;
     let lastTransactionId = this.sessionMessageDataCopy[transactionsCount].transaction_id;
     let lastElement = document.getElementsByClassName(lastTransactionId);
-    this.scroll(lastTransactionId)
+    this.scroll(lastTransactionId);
     this.scrollDown = !this.scrollDown;
   }
 

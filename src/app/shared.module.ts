@@ -25,7 +25,6 @@ import {IntegrationInputKeysFilterPipe} from './integration-input-keys-filter.pi
 import {ProfilePermissionIdToNamePipe} from './core/profile/profile-permission-id-to-name.pipe';
 import {EnabledIntegrationsCountPipe} from './enabled-integrations-count.pipe';
 import {SerializeEnterpriseprofileDataPipe} from './core/enterpriseprofile/serialize-enterpriseprofile-data.pipe';
-import {DragulaModule} from 'ng2-dragula';
 import {SerializeSessionMessagePipe} from './serialize-session-message.pipe';
 import {IntegrationNameFormatterPipe} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-name-formatter.pipe';
 import {ClickOutsideModule} from 'ng-click-outside';
@@ -137,6 +136,7 @@ import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.com
     KnowledgeBaseComponent, //
     KnowledgeBasePresentationComponent,
     ChartComponent,
+    MsToHhMmPipe,
     HandsontableComponent,
     HighlightSessionTexts,
     FilterActiveBotPipe,
@@ -147,7 +147,6 @@ import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.com
     ObjectWithCategoryNamePipe,
     EnabledIntegrationsCountPipe,
     SerializeEnterpriseprofileDataPipe,
-    DragulaModule,
     IntegrationNameFormatterPipe,
     ClickOutsideModule,
     MyMaterialModule,
