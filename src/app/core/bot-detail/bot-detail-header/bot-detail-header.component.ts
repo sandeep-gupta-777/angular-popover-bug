@@ -199,4 +199,8 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
       this.deleteBot();
     }
   }
+
+  openAnalyticsForBot(){
+    this.router.navigate(['/core/analytics2/overview'], {queryParams:{bot_id:this.bot.id}});
+  }
 }

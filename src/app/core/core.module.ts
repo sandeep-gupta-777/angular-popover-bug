@@ -114,6 +114,8 @@ const routes: Route[] = [
     PipelineTestComponent,
     RolesComponent,
     RoleaccordionComponent,
+    HeaderComponent,
+
     ScrollerDirective,
     ReportDetailsComponent,
     // BotWelcomeComponent,

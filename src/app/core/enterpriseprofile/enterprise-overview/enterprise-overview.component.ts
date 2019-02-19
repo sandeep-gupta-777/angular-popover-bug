@@ -87,7 +87,7 @@ export class EnterpriseOverviewComponent  implements OnInit {
             originalKey: key,
             // value: consumerTableDataItem[key].substring(0, 50),
             value: `<div class="d-flex cursor-pointer">
-                        <i class="material-icons color-primary" style="position: absolute;left: -20px; font-size:13px" data-value="${consumerTableDataItem[key]}">file_copy_outline</i>
+                        <mat-icon class="material-icons color-primary" style="position: absolute;left: -20px; font-size:13px" data-value="${consumerTableDataItem[key]}">file_copy_outline</mat-icon>
                         <span>${consumerTableDataItem[key]}</span>
                      </div>`,
             searchValue: consumerTableDataItem[key]

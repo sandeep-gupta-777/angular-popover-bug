@@ -112,8 +112,9 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   formData;
-
+  bot_id;
   ngOnInit() {
+
     /*
     * form contains the header data, Whenever form changes,
     * update the header data in store
@@ -325,8 +326,13 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
         }
       });
 
+      let bot_id = this.activatedRoute.snapshot.queryParamMap.get('bot_id');
+      if(bot_id){
+        this.bot_id = Number(bot_id);
+      }
+
       if (this._allbotList) {
-        this.f.form.patchValue({botId: this._allbotList[0].id, platform: this.channelList[0].name});
+        this.f.form.patchValue({botId: this.bot_id||this._allbotList[0].id, platform: this.channelList[0].name});
       }
     }, 0);
   }
@@ -342,5 +348,9 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     this.makeGetReqSub && this.makeGetReqSub.unsubscribe();
     this.store.dispatch([new ResetAnalytics2HeaderData(), new ResetAnalytics2GraphData()]);
     // this.store.dispatch([]);
+  }
+
+  log(){
+    console.log(this.f);
   }
 }

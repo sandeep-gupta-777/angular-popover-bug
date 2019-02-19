@@ -26,7 +26,7 @@ const routes: Route[] = [
     BotPreviewCardComponent,
     SortBotsPipe,
     CreateBotDialogComponent,
-    HeaderComponent
+    // HeaderComponent
 
   ],
   entryComponents: [
