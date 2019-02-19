@@ -196,12 +196,12 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
         this.store.dispatch([
           new SetUser({ user: value }),
         ]).subscribe((user) => {
-          const url = this.constantsService.getBotListUrl();
-          const headerData: IHeaderData = { 'content-type': 'application/json' };
-          return this.serverService.makeGetReq<IBotResult>({ url, headerData })
-            .subscribe((botResult) => {
-              this.store.dispatch(new SetAllBotListAction({ botList: botResult.objects }))
-                .subscribe(async () => {
+          // const url = this.constantsService.getBotListUrl();
+          // const headerData: IHeaderData = { 'content-type': 'application/json' };
+          // return this.serverService.makeGetReq<IBotResult>({ url, headerData })
+          //   .subscribe((botResult) => {
+          //     this.store.dispatch(new SetAllBotListAction({ botList: botResult.objects }))
+          //       .subscribe(async () => {
                 this.router.navigate(['/']);;
                   location.reload();
                   // const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(Enterprise.enterpriseId);
@@ -213,9 +213,9 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
 
                   //     });
                   //   });
-                });
+            //     });
 
-            });
+            // });
 
         })
         // this.gotUserData$.emit(value);
