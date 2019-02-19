@@ -3,8 +3,9 @@
   <div class="chat-grid text-center" *ngIf="(windowOpen && (loggeduser$|async).user)">
     <div class="header d-flex align-items-center px-3 position-relative">
       <span title="Go to room list" class="hover-parent" (click)="navigate(myEChatFrame.CHAT_LIST)" [hidden]="frameEnabled===myEChatFrame.CHAT_LIST">
-        <i  class="fa fa-arrow-left cursor-pointer"></i>
+        <i  class="fa fa-angle-left cursor-pointer" style="font-size: 20px; margin-right: 10px"></i>
       </span>
+      <img [src]="currentBot.avatars[0].imageUrl" style="width: 32px; height: 32px; border-radius: 50%" alt="">
       <a class="center-absolute text-white hover-parent"
          [title]="'Open '+ chatWindowTitle"
          style="text-decoration: none"
@@ -121,13 +122,14 @@
 <div class="d-flex justify-content-end cursor-pointer float-on-hover-animation" (click)="toggleChatWindow()"
      style="height: 45px; width: 60px"
      *ngIf="!windowOpen && currentBot">
-  <div class="speech-bubble">
-    <div class="stick-wrapper">
-      <div class="stick"></div>
-      <div class="stick"></div>
-      <div class="stick"></div>
-    </div>
-  </div>
+  <img src="assets/img/sidebar/bot-icon.svg" alt="">
+  <!--<div class="speech-bubble">-->
+    <!--<div class="stick-wrapper">-->
+      <!--<div class="stick"></div>-->
+      <!--<div class="stick"></div>-->
+      <!--<div class="stick"></div>-->
+    <!--</div>-->
+  <!--</div>-->
 </div>
 <!--tool tip ends-->
 

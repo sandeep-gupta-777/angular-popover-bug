@@ -966,6 +966,15 @@ export class ConstantsService {
 
   };
   SMART_TABLE_SESSION_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
+
+    channels: {
+      originalKey: '',
+      value: '',
+      type: 'image',
+      displayValue: 'Channels',
+      search: true,
+      searchValue: true,
+    },
     id: {
       originalKey: '',
       value: '',
@@ -982,14 +991,14 @@ export class ConstantsService {
       search: true,
       searchValue: true,
     },
-    sendtoagent: {
-      originalKey: '',
-      value: '',
-      type: 'boolean',
-      displayValue: 'Send to agent',
-      search: true,
-      searchValue: true,
-    },
+    // sendtoagent: {
+    //   originalKey: '',
+    //   value: '',
+    //   type: 'boolean',
+    //   displayValue: 'Send to agent',
+    //   search: true,
+    //   searchValue: true,
+    // },
     total_message_count: {
       originalKey: '',
       value: '',
@@ -1006,14 +1015,6 @@ export class ConstantsService {
       search: false,
       searchValue: true,
       dateRange: true
-    },
-    channels: {
-      originalKey: '',
-      value: '',
-      type: 'image',
-      displayValue: 'Channels',
-      search: true,
-      searchValue: true,
     },
     actions: {
       originalKey: '',

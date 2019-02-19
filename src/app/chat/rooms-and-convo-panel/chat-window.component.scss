@@ -6,16 +6,17 @@
   position: relative;
   padding: 3px 10px ;
   //height: 50px !important;
-  background-color: rgb(236, 236, 236);;
+  //background-color: rgb(236, 236, 236);;
 
   input {
     height: 80%;
     width: 90%;
+    background-color: #f7f7f7;
     @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-secondary);
     border-radius: 4px;
     @include hide-borders();
     &::placeholder{
-      color: #dadada !important;
+      color: #bebebe !important;
     }
 
   }

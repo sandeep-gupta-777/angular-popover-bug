@@ -54,6 +54,8 @@ import { PipelineIdToPipelineModulePipe } from './buildbot/build-code-based-bot/
 import { PipeineIdToPipelineModuleWrapperPipe } from './buildbot/build-code-based-bot/architecture/pipeline/pipeine-id-to-pipeline-module-wrapper.pipe';
 import { RolesComponent } from './enterpriseprofile/roles/roles.component';
 import { RoleaccordionComponent } from './enterpriseprofile/roles/roleaccordion/roleaccordion.component';
+import { IntegrationChannelListComponent } from './integration-channel-list/integration-channel-list.component';
+import { SecurityComponent } from './buildbot/build-code-based-bot/bot-config/security/security.component';
 const routes: Route[] = [
   {
 
@@ -95,7 +97,6 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [
-    HeaderComponent,
     BuildCodeBasedBotComponent,
     BuildPipelineBasedBotComponent,
     RouterFragmentActiveDirective,
@@ -108,7 +109,7 @@ const routes: Route[] = [
     EnterpriseOverviewComponent,
     ReportsComponent,
     CoreWrapperComponent,
-    BuildbotWrapperComponent,
+    // BuildbotWrapperComponent,
     SignupComponent,
     PipelineTestComponent,
     RolesComponent,
@@ -123,6 +124,8 @@ const routes: Route[] = [
     EnterpriseOverviewComponent,
     EnterpriseUsersComponent,
     EnterpriseRolesComponent,
+    // SecurityComponent,
+    // IntegrationChannelListComponent,
     // PipeineIdToPipelineModuleWrapperPipe,
     // PipelineIdToPipelineModulePipe
     // DisplayNameForKeyIntegrationPipe,
@@ -141,6 +144,7 @@ const routes: Route[] = [
     CommonModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,
+    ReactiveFormsModule,
     // DragAndDropModule.forRoot(),
     HttpClientModule,
     SharedModule,

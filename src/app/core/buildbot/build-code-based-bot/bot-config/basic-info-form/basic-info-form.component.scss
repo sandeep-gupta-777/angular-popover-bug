@@ -1,6 +1,12 @@
 @import "~src/sass/main";
 
 
+::ng-deep{
+  .mat-tab-body-wrapper{
+    flex-grow: 1;
+  }
+}
+
 .bot-creation-form {
   .form-group {
     //margin-bottom: 0px;

@@ -47,6 +47,10 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
       this.enterprise_unique_name = enterpriseProfileInfo.enterprise_unique_name;
     });
+
+    EventService.updateBot$.subscribe(()=>{
+      this.updateBot();
+    })
   }
 
   openBot() {
@@ -70,6 +74,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     // })
   }
 
+  /*TODO: remove it*/
   updateBot() {
     try {
       this.dialogRefWrapper.ref.close();

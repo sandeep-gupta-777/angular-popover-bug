@@ -5,7 +5,7 @@ import {BasicInfoFormComponent} from './core/buildbot/build-code-based-bot/bot-c
 import {BotConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {BotArchitetureComponent} from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {CommonModule} from '@angular/common';
+import {CommonModule} from '@angular/common';;
 import {BotIdToNamePipe} from './bot-id-to-name.pipe';
 import {RouterModule} from '@angular/router';
 import {AdditionalInfoFormComponent} from './core/buildbot/build-code-based-bot/bot-config/additional-info-form/additional-info-form.component';
@@ -25,7 +25,6 @@ import {IntegrationInputKeysFilterPipe} from './integration-input-keys-filter.pi
 import {ProfilePermissionIdToNamePipe} from './core/profile/profile-permission-id-to-name.pipe';
 import {EnabledIntegrationsCountPipe} from './enabled-integrations-count.pipe';
 import {SerializeEnterpriseprofileDataPipe} from './core/enterpriseprofile/serialize-enterpriseprofile-data.pipe';
-import {DragulaModule} from 'ng2-dragula';
 import {SerializeSessionMessagePipe} from './serialize-session-message.pipe';
 import {IntegrationNameFormatterPipe} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-name-formatter.pipe';
 import {ClickOutsideModule} from 'ng-click-outside';
@@ -52,15 +51,25 @@ import {SafeHtmlPipe} from './safe-html.pipe';
 import {LinksFromTextPipe} from './links-from-text.pipe';
 import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.component';
 
+import {IntegrationChannelListComponent} from './core/integration-channel-list/integration-channel-list.component';
+import {SecurityComponent} from './core/buildbot/build-code-based-bot/bot-config/security/security.component';
+import {IntegrationItemForTypePipe} from './integration-item-for-type.pipe';
+import {IntegrationItemComponent} from './core/buildbot/build-code-based-bot/architecture/integration/integration-item/integration-item.component';
+import {IntegrationOptionListComponent} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-option-list.component';
+import {DisplayNameForKeyIntegrationPipe} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/display-name-for-key-integration.pipe';
+import {BuildbotWrapperComponent} from './core/buildbot/buildbot-wrapper.component';
+import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
 
 @NgModule({
   declarations: [
+    IntegrationChannelListComponent,
     EnterpriseListComponent,
     GenericObjFilterPipe,
     IntegrationLogosPipe,
     SplashScreenComponent,
     MsToHhMmPipe,
     DataManageFormComponent,
+    BuildbotWrapperComponent,
     BasicInfoFormComponent,
     BotConfigInputComponent,
     ErrorDescriptionPipe,
@@ -97,7 +106,13 @@ import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.com
     MsToHhMmPipe,
     SafeHtmlPipe,
     LinksFromTextPipe,
-    MsToHhMmPipe
+    MsToHhMmPipe,
+    SecurityComponent,
+    TypeForIntegrationTypePipe,
+    IntegrationItemForTypePipe,
+    IntegrationItemComponent,
+    IntegrationOptionListComponent,
+    DisplayNameForKeyIntegrationPipe
   ],
   imports: [
     MyMaterialModule,
@@ -107,6 +122,7 @@ import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.com
     RouterModule,
     // ChartModule,
     ClickOutsideModule,
+
   ],
   exports: [
     LinkifyPipe,
@@ -147,7 +163,6 @@ import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.com
     ObjectWithCategoryNamePipe,
     EnabledIntegrationsCountPipe,
     SerializeEnterpriseprofileDataPipe,
-    DragulaModule,
     IntegrationNameFormatterPipe,
     ClickOutsideModule,
     MyMaterialModule,
@@ -155,7 +170,15 @@ import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.com
     ChatFeedbackComponent,
     SafeHtmlPipe,
     MsToHhMmPipe,
-    BotTestingComponent
+    BotTestingComponent,
+    IntegrationChannelListComponent,
+    SecurityComponent,
+    TypeForIntegrationTypePipe,
+    IntegrationItemForTypePipe,
+    IntegrationItemComponent,
+    IntegrationOptionListComponent,
+    DisplayNameForKeyIntegrationPipe,
+    BuildbotWrapperComponent
   ]
 })
 export class SharedModule {

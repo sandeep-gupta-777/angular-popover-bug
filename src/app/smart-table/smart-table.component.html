@@ -2,6 +2,7 @@
 <!---->
 <!--https://stackblitz.com/edit/angular-hbakxo-xctfqy?file=app%2Ftable-filtering-example.ts-->
 <!--<button (click)="log(tableForm)">log</button>-->
+<input type="text" #headerHoverd value="false" hidden>
 <form #tableForm="ngForm" *ngIf="tableData" (click)="handleDataValueClicked($event)">
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <!-- Symbol Column -->
@@ -9,29 +10,48 @@
 
       <ng-container [matColumnDef]="i">
         <!--table header starts-->
-        <th mat-header-cell class="pt-3" *matHeaderCellDef>
+        <th mat-header-cell class="pt-3"
+            (mouseenter)="headerHoverd.value = 'true'"
+            (mouseleave)="headerHoverd.value = 'false'"
+            *matHeaderCellDef>
           <div (click)="sort(i)"
                [title]="'Sort ' + (sortDirAsc===1?'descending':'ascending') +' by '+ i"
                class="cursor-pointer"
-               style="font-size: 13px;color: #56627c; font-weight: 700"> {{i}}</div>
-          <div *ngIf="tableData && tableData[0][i].search">
-            <input class="column-input" [placeholder]="i" type="text" ngModel
-                   (keyup.enter)="enterPressedOnFilters()"
-                   [name]="i">
-          </div>
+               style="font-size: 13px;color: #9e9e9e; position: relative">
+            <span [style.visibility]="headerHoverd.value ==='false' ? 'visible' : 'hidden'">{{i}}</span>
+            <!--text search starts-->
+            <div *ngIf="tableData && tableData[0][i].search && headerHoverd.value ==='true'" style="position: absolute; top: -5px; left: 0; right: 0 ; bottom: 0;">
+              <!--<input class="column-input" [placeholder]="i" type="text" ngModel-->
+                     <!--(keyup.enter)="enterPressedOnFilters()"-->
+                     <!--[name]="i">-->
 
-          <div *ngIf="tableData && tableData[0][i].dateRange" style="position: relative">
-            <mat-form-field floatLabel="never">
-              <input matInput
-                     [name]="i"
-                     ngModel
-                     placeholder="date range"
-                     (keyup.enter)="enterPressedOnFilters()"
-                     [satDatepicker]="picker">
-              <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
-              <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
-            </mat-form-field>
+              <mat-form-field floatLabel="never">
+                <input matInput
+                       type="text"
+                       ngModel
+                       [placeholder]="i"
+                       [name]="i"
+                       (keyup.enter)="enterPressedOnFilters()">
+                <mat-icon matSuffix>search</mat-icon>
+              </mat-form-field>
+            </div>
+            <!--text search ends-->
 
+            <!--text search starts-->
+            <div *ngIf="tableData && tableData[0][i].dateRange && headerHoverd.value ==='true'" style="position: absolute; top: -5px; left: 0; right: 0 ; bottom: 0;">
+              <mat-form-field floatLabel="never">
+                <input matInput
+                       [name]="i"
+                       ngModel
+                       [placeholder]="i"
+                       (keyup.enter)="enterPressedOnFilters()"
+                       [satDatepicker]="picker">
+                <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
+                <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+              </mat-form-field>
+
+            </div>
+            <!--text search ends-->
           </div>
 
         </th>

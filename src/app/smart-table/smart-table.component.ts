@@ -18,6 +18,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
   tableFormTouched = false;/*because this.tableForm.touched is showing weird behaviour; only works when console is opened*/
   ngAfterViewInit(): void {
+    this.tableForm &&
     this.tableForm.valueChanges.pipe(
       map((obj) => this.removeEmptyKeyValues(UtilityService.cloneObj(obj))),
       distinctUntilChanged((obj1, obj2) => JSON.stringify(obj1) === JSON.stringify(obj2)),

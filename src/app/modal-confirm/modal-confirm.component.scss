@@ -1,8 +1,13 @@
 @import "~src/sass/main";
 
+:host{
+  display: block;
+  padding: 20px;
+}
 
 .danger-modal{
   @include classic-modal(#b14250);
+  padding: 20px
 }
 
 

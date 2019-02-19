@@ -1,51 +1,68 @@
 
-<div class="row-bot-detail-header d-flex align-items-center my-1">
-  <img style="width: 32px;height: 32px" class="rounded-circle" [src]="bot.logo" alt="">
-  <div class="name">
-    <div class="heading mb-0" [title]="bot.name">
-      {{(bot.name| slice:0: 30) + (bot.name.length>30?"...":"")}}
+<div class="row-bot-detail-header d-flex align-items-center">
+  <a class="row-bot-detail-header__back" routerLink="/" style="text-decoration: none">
+    <i class="fa fa-angle-left" title="Go to Dashboard"></i>
+  </a>
+  <img class="row-bot-detail-header__bot-logo" [src]="bot.logo" alt="B">
+  <div class="row-bot-detail-header__bot-details">
+    <div [title]="bot.name">
+      {{(bot.name| slice:0: 50) + (bot.name.length>50?"...":"")}}
+    </div>
+    <div style="font-size: 11px">
+      <span>Last Update By </span>{{bot.updated_by}} on {{bot.updated_at|date}}
     </div>
   </div>
-  <i class="fa fa-users" *ngIf="bot && bot.is_manager" style="font-size: 16px"></i>
-  <div class="d-flex align-items-center">
-    <i class="fa fa-circle dark-green"></i>
-    <div>Active(v{{bot.active_version.version}})</div>
-  </div>
-  <div class="text-theme-normal mr-3 d-none d-md-block">
-    <span class="text-muted">Created by :</span>{{bot.created_by}} <span class="text-muted">on</span>{{bot.created_at|date}}
-  </div>
-  <div class="text-theme-normal d-none d-lg-block">
-    <span class="text-muted">Last Updated By :</span>{{bot.updated_by}} <span class="text-muted">on</span>{{bot.updated_at|date}}
-  </div>
+  <!--<i class="fa fa-users" *ngIf="bot && bot.is_manager" style="font-size: 16px"></i>-->
+  <!--<div class="d-flex align-items-center">-->
+    <!--<i class="fa fa-circle dark-green"></i>-->
+    <!--<div>Active(v{{bot.active_version.version}})</div>-->
+  <!--</div>-->
+  <!--<div class="text-theme-normal mr-3 d-none d-md-block">-->
+    <!--<span class="text-muted">Created by :</span>{{bot.created_by}} <span class="text-muted">on</span>{{bot.created_at|date}}-->
+  <!--</div>-->
+  <!--<div class="text-theme-normal d-none d-lg-block">-->
+    <!--<span class="text-muted">Last Updated By :</span>{{bot.updated_by}} <span class="text-muted">on</span>{{bot.updated_at|date}}-->
+  <!--</div>-->
   <div class="ml-auto"></div>
+  <app-integration-channel-list [bot]="bot" style="margin-right: 10px"></app-integration-channel-list>
 
-  <span *myIf="myEAllActions['Get Integrations']">
-    <img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async))"
-         [src]="integrationsMasterListItem?.icon"
-         class="logo-image " style="width: 16px;height: 16px" alt="">
-    <img id="id" *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'no_channel'|async))"
-         [src]="integrationsMasterListItem?.icon" class="logo-image " style="width: 16px;height: 16px" alt="">
-  </span>
-  <span *ngIf="myObject.keys(bot.integrations).length>4" class="more">
-    +{{myObject.keys(bot.integrations).length-4}} More
-  </span>
-  <div class="headerDivider mx-2"></div>
+  <!--<span *myIf="myEAllActions['Get Integrations']">-->
+    <!--<img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async))"-->
+         <!--[src]="integrationsMasterListItem?.icon"-->
+         <!--class="logo-image " style="width: 16px;height: 16px" alt="">-->
+    <!--<img id="id" *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'no_channel'|async))"-->
+         <!--[src]="integrationsMasterListItem?.icon" class="logo-image " style="width: 16px;height: 16px" alt="">-->
+  <!--</span>-->
+  <!--<span *ngIf="myObject.keys(bot.integrations).length>4" class="more">-->
+    <!--+{{myObject.keys(bot.integrations).length-4}} More-->
+  <!--</span>-->
+  <!--<div class="headerDivider mx-2"></div>-->
   <div *myIf="myEAllActions['Send API']">
-    <div class="d-flex preview-box align-items-center" (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'">
-      <i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>
-      <span class="action">Preview</span>
-    </div>
+    <!--<div class="d-flex preview-box align-items-center" (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'">-->
+      <!--<i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>-->
+      <!--<span class="action">Preview</span>-->
+    <!--</div>-->
+    <button class="mat-theme-button" mat-button style="border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 2px; margin-right: 10px">
+        <mat-icon>trending_up</mat-icon>
+      Analytics
+    </button>
+    <button class="mat-theme-button"
+            (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'"
+            mat-button style="border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 2px">
+        <mat-icon>chat_bubble_outline</mat-icon>
+      Preview
+    </button>
   </div>
 
-  <div *myIf="myEAllActions['Update Bots']" class="d-flex preview-box align-items-center"
-       (click)="refreshBotDetails()">
-    <i class="fa fa-refresh cursor-pointer" style="font-size: 15px" [ngClass]="{'fa-spin':showSpinIcon}"></i>
-    <span class="action">Cancel</span>
-    <!---->
-  </div>
-  <button mat-flat-button color="primary" class="btn-theme text-white" (click)="openActiveBotChangedModal(activeVersionChangedTemplate)"
-          *myIf="myEAllActions['Update Bots']">Update Bot
-  </button>
+  <!--<div *myIf="myEAllActions['Update Bots']" class="d-flex preview-box align-items-center"-->
+       <!--(click)="refreshBotDetails()">-->
+    <!--<i class="fa fa-refresh cursor-pointer" style="font-size: 15px" [ngClass]="{'fa-spin':showSpinIcon}"></i>-->
+    <!--<span class="action">Cancel</span>-->
+  <!--</div>-->
+
+  <!--<button mat-flat-button color="primary" class="btn-theme text-white" (click)="openActiveBotChangedModal(activeVersionChangedTemplate)"-->
+          <!--*myIf="myEAllActions['Update Bots']">Update Bot-->
+  <!--</button>-->
   <button mat-icon-button [matMenuTriggerFor]="appMenu" class="click-save-wrapper">
     <mat-icon>more_vert</mat-icon>
   </button>

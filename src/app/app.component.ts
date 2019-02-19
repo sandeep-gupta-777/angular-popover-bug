@@ -55,6 +55,7 @@ export class AppComponent extends DebugBase implements OnInit {
         this.loadingRouteConfig = false;
       }
     });
+    console.log("Testing reload: take1");
   }
 
 

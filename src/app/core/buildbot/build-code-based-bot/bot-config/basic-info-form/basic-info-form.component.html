@@ -1,94 +1,128 @@
 <!--<button (click)="click()">Click</button>-->
 <form [formGroup]="formGroup" class="bot-creation-form">
-  <div class="row m-0">
-    <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
-        <app-bot-config-input
-          #NameInput
-          displayName="Bot Name"
-          placeholder="A display name for the bot"
-          [isRequired]="true"
-          (keyDown$)="nameChangeByUser($event)"
-          formControlName="name"></app-bot-config-input>
+    <div class="row m-0">
+        <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
+            <div style="font-size: 11px; margin-bottom: 10px">basic information</div>
+            <app-bot-config-input
+                #NameInput
+                displayName="Bot Name"
+                placeholder="Bot Name"
+                [isRequired]="true"
+                (keyDown$)="nameChangeByUser($event)"
+                formControlName="name"></app-bot-config-input>
+            <app-bot-config-input
+                    displayName="Unique Name"
+                    formControlName="bot_unique_name"
+                    [isRequired]="true"
+                    placeholder="Bot Unique Name"></app-bot-config-input>
 
-        <app-bot-config-input
-          displayName="Description"
-          formControlName="description"
-          [isRequired]="true"
-          placeholder=" description for the Bot"></app-bot-config-input>
-
-
-        <app-bot-config-input
-          displayName="Bot Logo"
-          formControlName="logo"
-          [errors] = "logoErrorObj"
-          [isRequired]="true"
-          placeholder="URL for the Bot Logo/Brand Image"></app-bot-config-input>
-
-    </fieldset>
-    <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
-        <app-bot-config-input
-          displayName="Unique Name"
-          formControlName="bot_unique_name"
-          [isRequired]="true"
-          placeholder="Bot Unique Name"></app-bot-config-input>
+            <app-bot-config-input
+                    displayName="Description"
+                    formControlName="description"
+                    [isRequired]="true"
+                    placeholder=" description for the Bot"></app-bot-config-input>
 
 
-      <div class="" *ngIf="!(bot_type===myEBotType.intelligent)">
-        <app-bot-config-input
-          displayName="Session Close Time [mins]"
-          formControlName="room_persistence_time"
-          [isRequired]="true"
-          placeholder="Time until Session Closes (in minutes)"></app-bot-config-input>
-      </div>
+        </fieldset>
+        <div class="col-1"></div>
+        <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
+            <div style="font-size: 11px; margin-bottom: 10px">Photo</div>
+            <div style="display: flex; align-items: center">
+                <img style="width: 72px; border-radius: 50%; height: 72px; margin-right: 10px"
+                     [src]="formGroup.get('logo').value" alt="">
+                <app-bot-config-input
+                        style="flex-grow: 1;"
+                        displayName="Bot Logo"
+                        formControlName="logo"
+                        [errors]="logoErrorObj"
+                        [isRequired]="true"
+                        placeholder="URL for the Bot Logo/Brand Image"></app-bot-config-input>
+            </div>
 
-      <div class="" *ngIf="!(bot_type===myEBotType.intelligent)">
-        <div class="d-flex align-items-center">
-          <label class="pr-2 mb-0">Is Manager Bot?</label>
-          <mat-slide-toggle formControlName="is_manager" color="primary"></mat-slide-toggle>
-          <!--<app-is-manager-form-control hidden formArrayName="child_bots"></app-is-manager-form-control>-->
+            <!--<app-bot-config-input-->
+            <!--displayName="Unique Name"-->
+            <!--formControlName="bot_unique_name"-->
+            <!--[isRequired]="true"-->
+            <!--placeholder="Bot Unique Name"></app-bot-config-input>-->
 
-          <!--bots dropdown starts-->
-          <mat-chip-list class="ml-3" *ngIf="formGroup.get('is_manager').value">
-            <mat-chip [matMenuTriggerFor]="menu">Bot list</mat-chip>
-          </mat-chip-list>
-          <mat-menu #menu="matMenu" class="cutom-md-menu">
-            <ng-container *ngFor="let bot of codebasedBotList; let i = index;">
-              <button mat-menu-item (click)="pushChildBot(bot.id)" *ngIf="!isBotIdPresentInChildBotList(bot.id)">{{bot.name}}</button>
-            </ng-container>
-          </mat-menu>
-          <!--<div class="btn-group mb-1" dropdown *ngIf="formGroup.get('is_manager').value">-->
-            <!--<button id="button-basic" dropdownToggle type="button"-->
-                    <!--class="btn-theme dropdown-toggle btn-theme-success-sm-outline ml-1" aria-controls="dropdown-basic">-->
-              <!--Bot List<span class="caret"></span>-->
-            <!--</button>-->
-            <!--<ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic"-->
-                <!--style="max-height: 200px; overflow-y: scroll">-->
-              <!--<li role="menuitem" *ngFor="let bot of codebasedBotList; let i = index;">-->
-                <!--<a class="dropdown-item" (click)="pushChildBot(bot.id)" *ngIf="!isBotIdPresentInChildBotList(bot.id)">{{bot.name}}</a>-->
-              <!--</li>-->
-            <!--</ul>-->
-          <!--</div>-->
-          <!--bot dropdown ends-->
+
+            <!--<div class="" *ngIf="!(bot_type===myEBotType.intelligent)">-->
+            <!--<app-bot-config-input-->
+            <!--displayName="Session Close Time [mins]"-->
+            <!--formControlName="room_persistence_time"-->
+            <!--[isRequired]="true"-->
+            <!--placeholder="Time until Session Closes (in minutes)"></app-bot-config-input>-->
+            <!--</div>-->
+
+            <!--<div class="" *ngIf="!(bot_type===myEBotType.intelligent)">-->
+            <!--<div class="d-flex align-items-center">-->
+            <!--<label class="pr-2 mb-0">Is Manager Bot?</label>-->
+            <!--<mat-slide-toggle formControlName="is_manager" color="primary"></mat-slide-toggle>-->
+            <!--&lt;!&ndash;<app-is-manager-form-control hidden formArrayName="child_bots"></app-is-manager-form-control>&ndash;&gt;-->
+
+            <!--&lt;!&ndash;bots dropdown starts&ndash;&gt;-->
+            <!--<mat-chip-list class="ml-3" *ngIf="formGroup.get('is_manager').value">-->
+            <!--<mat-chip [matMenuTriggerFor]="menu">Bot list</mat-chip>-->
+            <!--</mat-chip-list>-->
+            <!--<mat-menu #menu="matMenu" class="cutom-md-menu">-->
+            <!--<ng-container *ngFor="let bot of codebasedBotList; let i = index;">-->
+            <!--<button mat-menu-item (click)="pushChildBot(bot.id)"-->
+            <!--*ngIf="!isBotIdPresentInChildBotList(bot.id)">{{bot.name}}</button>-->
+            <!--</ng-container>-->
+            <!--</mat-menu>-->
+            <!--&lt;!&ndash;<div class="btn-group mb-1" dropdown *ngIf="formGroup.get('is_manager').value">&ndash;&gt;-->
+            <!--&lt;!&ndash;<button id="button-basic" dropdownToggle type="button"&ndash;&gt;-->
+            <!--&lt;!&ndash;class="btn-theme dropdown-toggle btn-theme-success-sm-outline ml-1" aria-controls="dropdown-basic">&ndash;&gt;-->
+            <!--&lt;!&ndash;Bot List<span class="caret"></span>&ndash;&gt;-->
+            <!--&lt;!&ndash;</button>&ndash;&gt;-->
+            <!--&lt;!&ndash;<ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic"&ndash;&gt;-->
+            <!--&lt;!&ndash;style="max-height: 200px; overflow-y: scroll">&ndash;&gt;-->
+            <!--&lt;!&ndash;<li role="menuitem" *ngFor="let bot of codebasedBotList; let i = index;">&ndash;&gt;-->
+            <!--&lt;!&ndash;<a class="dropdown-item" (click)="pushChildBot(bot.id)" *ngIf="!isBotIdPresentInChildBotList(bot.id)">{{bot.name}}</a>&ndash;&gt;-->
+            <!--&lt;!&ndash;</li>&ndash;&gt;-->
+            <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;bot dropdown ends&ndash;&gt;-->
+            <!--</div>-->
+            <!--</div>-->
+
+            <!--<ng-template #isManagerError>-->
+            <!--<label class="text-danger pl-1"-->
+            <!--for="alterEgo"><i>At least one childbot is requred</i></label>-->
+            <!--</ng-template>-->
+
+            <!--list of child bots starts-->
+            <!--<div *ngIf="formGroup.get('is_manager').value">-->
+            <!--<div *ngIf="!formGroup.hasError('isManagerError');else isManagerError" class="permissions-box">-->
+            <!--<span *ngFor="let childBotId of formGroup.get('child_bots').value"-->
+            <!--class="badge badge-pill badge-info inline m-1">{{childBotId | botIdToName | async}}-->
+            <!--<span class="fa fa-remove cursor-pointer" (click)="removeChildBot(childBotId)"></span>-->
+            <!--</span>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--list of child bots ends-->
+        </fieldset>
+    </div>
+
+    <div class="row" style="margin-top: 45px">
+        <div class="col-12">
+            <div style="font-size: 11px; margin-bottom: 10px">Default messages</div>
         </div>
-      </div>
-
-      <ng-template #isManagerError>
-        <label class="text-danger pl-1"
-               for="alterEgo"><i>At least one childbot is requred</i></label>
-      </ng-template>
-
-      <!--list of child bots starts-->
-      <div *ngIf="formGroup.get('is_manager').value">
-        <div *ngIf="!formGroup.hasError('isManagerError');else isManagerError" class="permissions-box">
-            <span *ngFor="let childBotId of formGroup.get('child_bots').value"
-                  class="badge badge-pill badge-info inline m-1">{{childBotId | botIdToName | async}}
-              <span class="fa fa-remove cursor-pointer" (click)="removeChildBot(childBotId)"></span>
-            </span>
+        <!---->
+        <div class="col-5">
+            <mat-form-field class="w-100">
+                <input matInput formControlName="first_message" type="text" class=""
+                       placeholder="First Message">
+            </mat-form-field>
         </div>
-      </div>
-      <!--list of child bots ends-->
-    </fieldset>
-  </div>
+        <div class="col-1"></div>
+        <div class="col-5">
+            <mat-form-field class="w-100">
+            <input matInput formControlName="error_message" type="text" class=""
+            placeholder="Default Platform Error Message ">
+            </mat-form-field>
+        </div>
+    </div>
 
 
 </form>

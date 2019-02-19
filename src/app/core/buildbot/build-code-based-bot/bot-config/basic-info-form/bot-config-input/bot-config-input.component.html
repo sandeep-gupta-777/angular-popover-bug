@@ -7,13 +7,26 @@
 <!--<label *ngIf="ngControl|errorDescription as errorObj"-->
 <!--[hidden]="!ngControl.hasError(errorObj.name)"-->
 <!--class="text-danger pl-1" for="alterEgo"><i>{{errorObj.description}}</i></label>-->
-  <mat-form-field class="w-100">
-  <input type="text" id="alterEgo"
-         matInput
-         [required]="isRequired"
-         [placeholder]="placeholder"
-         [(ngModel)]="value"
-         (keydown)="keyPressed($event)"
-         [disabled]="isDisabled">
+<mat-form-field class="w-100">
+    <input type="text" id="alterEgo"
+           matInput
+           [required]="isRequired"
+           [placeholder]="placeholder"
+           [(ngModel)]="value"
+           (keydown)="keyPressed($event)"
+           [disabled]="isDisabled">
+    <mat-error>Invalid input</mat-error>
+    <!--<mat-error>Invalid Extension</mat-error>-->
+    <mat-error></mat-error>
+    <!---->
+    <!--<mat-error *ngIf="ngControl.hasError('Image Extension is not correct')">-->
+    <!--<strong>Image Extension is not correct</strong>-->
+    <!--</mat-error>-->
+    <!--<mat-error *ngIf="ngControl.hasError('Must be Https Url')">-->
+    <!--<strong>Must be Https Url</strong>-->
+    <!--</mat-error>-->
 </mat-form-field>
-<!--<p>{{errors|json}}</p>-->
+<!--<i>{{ngControl.hasError('imageHttpsError')}}</i>-->
+<!--<i>{{ngControl.errors|json}}</i>-->
+<!--<br>-->
+<!--<i>{{myObject.keys(ngControl.errors)[0]}}</i>-->
