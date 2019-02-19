@@ -5,6 +5,8 @@ import { IUser } from '../interfaces/user';
 import { Observable } from 'rxjs';
 import { IEnterpriseProfileInfo } from '../../../interfaces/enterprise-profile';
 import { ActivatedRoute } from '@angular/router';
+import { ServerService } from 'src/app/server.service';
+import { IRoleResult, IRole } from '../interfaces/IRole';
 
 export enum EnterpriseRoleTabName {
   roles = 'roles',
@@ -36,14 +38,22 @@ export class EnterpriseprofileComponent  implements OnInit {
   logoError;
   enterpriseUserBotList: number[];
   currentRoleId : number ;
+  roleList : IRole[];
   currentRoleState : string = this.myEnterpriseRoleTabName.roles;
   roleSelected(obj){
     this.currentRoleId = obj.roleId;
   }
   constructor(
-    private constantsService: ConstantsService ) {
+    private constantsService: ConstantsService,
+    private serverService: ServerService ) {
   }
-
+  roleListChangedFunction(){
+    let getRoleUrl = this.constantsService.getRoleUrl();
+    this.serverService.makeGetReq<IRoleResult>({ url: getRoleUrl })
+      .subscribe((roles: IRoleResult) => {
+        this.roleList = roles.objects;
+      });
+  }
   ngOnInit() {
   }
 log(z) {

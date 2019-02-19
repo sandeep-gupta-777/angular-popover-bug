@@ -8,7 +8,7 @@ import {UtilityService} from 'src/app/utility.service';
 import {MatDialog} from '@angular/material';
 import {ServerService} from 'src/app/server.service';
 import {MaterialTableImplementer} from 'src/app/material-table-implementer';
-import {OnInit, ViewChild, Component, TemplateRef} from '@angular/core';
+import {OnInit, ViewChild, Component, TemplateRef, Input} from '@angular/core';
 import {Observable} from 'rxjs';
 import {IUser} from '../../interfaces/user';
 import {map} from 'rxjs/operators';
@@ -43,7 +43,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   logoError;
   enterpriseUserBotList: IBot[];//
   formGroup: FormGroup;
-  roleMap: any;
+  @Input() roleMap: any;
   usertoDelete: any;
   selectedUserModify: any;
   searchBots: string = '';

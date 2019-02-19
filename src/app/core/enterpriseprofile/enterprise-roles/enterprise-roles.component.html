@@ -1,47 +1,53 @@
-<header class="row mt-3 pb-3  ">
-  <div class="col-12 p-0">
-    <div class="card-header">
-      Custom role management
-    </div>
-  </div>
-  <div class="col-12 p-0">
-    <div class="card-header card-header-description">
-        Manage roles of your enterprise by adding new ones, modifying and removing existing ones.
-    </div>
-  </div>
-</header>
-<div class="d-flex pb-2">
-  <div class="d-inline-block card-header">
-    All roles
-  </div>
-  <div class="ml-auto ">
-    <button class="btn-theme btn-theme-primary" (click) = "enterNewRole.emit()" ><i class="fa fa-plus pr-1 "></i>New role</button>
-  </div>
+
+<div style="height: 61vh;" *ngIf="!reloaded">
+    <app-imi-loader ></app-imi-loader>
 </div>
-<div class="rolePannelGrid pl-3">
-
-  <div class="rolePannelGridItem" *ngFor="let role of roleList" >
-    <div class="headding ">
-      {{role.name}}
-    </div>
-    <div>
-      {{role.enterprise_id == 0 ? "System roles" : role.created_by}}
-    </div>
-    <div>
-      {{role.permissions.actions.length}} permissions added
-    </div>
-    <div class="mt-auto d-flex" style="align-items: center;">
-      <div class = "mr-auto cursor-pointer" (click) = "navegateRole(role.id)">
-          <i class="fa fa-cog mr-1"></i>{{role.enterprise_id == 0 ? "View" : "Modify"}}
+<div *ngIf="reloaded">
+    <header class="row mt-3 pb-3  ">
+        <div class="col-12 p-0">
+          <div class="card-header">
+            Custom role management
+          </div>
+        </div>
+        <div class="col-12 p-0">
+          <div class="card-header card-header-description">
+              Manage roles of your enterprise by adding new ones, modifying and removing existing ones.
+          </div>
+        </div>
+      </header>
+      <div class="d-flex pb-2">
+        <div class="d-inline-block card-header">
+          All roles
+        </div>
+        <div class="ml-auto ">
+          <button class="btn-theme btn-theme-primary" (click) = "enterNewRole.emit()" ><i class="fa fa-plus pr-1 "></i>New role</button>
+        </div>
       </div>
-      <div class= "cursor-pointer" (click) = "openDeletModal(roleDeleteModal,role)" *ngIf="!(role.enterprise_id == 0)">
-          <i class="fa fa-trash mr-1"></i>Delete
+      <div class="rolePannelGrid pl-3">
+      
+        <div class="rolePannelGridItem" *ngFor="let role of roleList" >
+          <div class="headding ">
+            {{role.name}}
+          </div>
+          <div>
+            {{role.enterprise_id == 0 ? "System role" : "Created by: " + role.created_by}}
+          </div>
+          <div>
+            {{role.id == 2 ?allPermissionIdList.length : role.permissions.actions.length}} permissions added
+          </div>
+          <div class="mt-auto d-flex" style="align-items: center;">
+            <div class = "mr-auto cursor-pointer" (click) = "navegateRole(role.id)">
+                <i class="fa fa-cog mr-1"></i>{{role.enterprise_id == 0 ? "View" : "Modify"}}
+            </div>
+            <div class= "cursor-pointer" (click) = "openDeletModal(roleDeleteModal,role)" *ngIf="!(role.enterprise_id == 0)">
+                <i class="fa fa-trash mr-1"></i>Delete
+            </div>
+          </div>
+        </div>
+      
       </div>
-    </div>
-  </div>
-
+      
 </div>
-
 
 <ng-template #roleDeleteModal>
   <div class="danger-modal" style="min-width: 500px;">

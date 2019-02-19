@@ -1,3 +1,4 @@
+
 import { Component, OnInit, Output, Input, EventEmitter, TemplateRef } from '@angular/core';
 import { ServerService } from 'src/app/server.service';
 import { ConstantsService } from 'src/app/constants.service';
@@ -25,10 +26,11 @@ export class RolesComponent implements OnInit {
     selectedRoleData: IRole;
     selectedRoleName: string = "";
     selectedRoleBaseRole: number;
-    serchedAction:string = "";
-    serchedPermission:string = "";
+    serchedAction: string = "";
+    serchedPermission: string = "";
     @Output() backToRoles = new EventEmitter();
     show = false;
+    reloaded = false;
     panelOpenState = false;
     system_role: boolean = false;
     categoryList = [];
@@ -37,7 +39,9 @@ export class RolesComponent implements OnInit {
     @Input() isNewRole: boolean;
     permissionList: IProfilePermission[];
     myEnterpriseRoleTabName = EnterpriseRoleTabName;
-    allRolesList : IRole[];
+    allRolesList: IRole[];
+    @Output() roleListChanged = new EventEmitter();
+
     modifyRole() {
         let body = {
             "name": this.selectedRoleName,
@@ -50,6 +54,7 @@ export class RolesComponent implements OnInit {
         this.serverService.makePutReq<any>({ url: getRoleIdUrl, body })
             .subscribe((roles) => {
                 this.utilityService.showSuccessToaster("Role modified");
+                this.roleListChanged.emit();
                 this.navegateRole();
             });
         console.log(body);
@@ -67,6 +72,7 @@ export class RolesComponent implements OnInit {
         this.serverService.makePostReq<any>({ url: getRoleUrl, body })
             .subscribe((roles) => {
                 this.utilityService.showSuccessToaster("New Role added");
+                this.roleListChanged.emit();
                 this.navegateRole()
             });
         console.log(body);
@@ -89,13 +95,52 @@ export class RolesComponent implements OnInit {
         });
         this.selectedPermissionIdList = Array.from(new Set(this.selectedPermissionIdList));
     }
-    baseRoleChanged(RoleId){
+    baseRoleChanged(RoleId) {
 
         this.allRolesList;
-        let thisRole = this.allRolesList.find( role => role.id == RoleId);
+        let thisRole = this.allRolesList.find(role => role.id == RoleId);
         this.selectedPermissionIdList = thisRole.permissions.actions;
     }
+    deleteRole() {
+        let getRoleIdUrl = this.constantsService.getRoleIdUrl(this.selectedRole);
+    
+        this.serverService.makeDeleteReq<any>({ url: getRoleIdUrl })
+          .subscribe((roles) => {
+            this.utilityService.showSuccessToaster("Role deleted");
+            this.roleListChanged.emit();
+            this.navegateRole();
+          });
+      }
     ngOnInit() {
+        // this.system_role = false;
+        if (!this.isNewRole) {
+            let getRoleByIdUrl = this.constantsService.getRoleByIdUrl(this.selectedRole);
+
+            this.serverService.makeGetReq<any>({ url: getRoleByIdUrl })
+                .subscribe((roles) => {
+                    this.system_role = roles.objects[0].enterprise_id == 0;
+                    this.selectedRoleName = roles.objects[0].name;
+                    this.selectedRoleData = roles.objects[0];
+                    this.selectedPermissionIdList = roles.objects[0].permissions.actions;
+                    if (this.system_role && this.selectedRoleData.id == 2) {
+                        this.app$.subscribe((value) => {
+                            this.selectedPermissionIdList = value.masterProfilePermissions.map(permission => {
+                                return permission.id
+                            });
+                        this.reloaded = true;
+                            
+                        });
+                    }
+                    else{
+                    this.reloaded = true;
+                    }
+                   
+                });
+        }
+        else{
+            this.system_role = false;
+            this.reloaded = true;
+        }
         let getRoleUrl = this.constantsService.getRoleUrl();
         this.serverService.makeGetReq<IRoleResult>({ url: getRoleUrl })
             .subscribe((roles: IRoleResult) => {
@@ -108,18 +153,6 @@ export class RolesComponent implements OnInit {
             })
             this.categoryList = Array.from(new Set(this.categoryList));
         });
-        if (!this.isNewRole) {
-            let getRoleByIdUrl = this.constantsService.getRoleByIdUrl(this.selectedRole);
-
-            this.serverService.makeGetReq<any>({ url: getRoleByIdUrl })
-                .subscribe((roles) => {
-
-                    this.system_role = roles.objects[0].enterprise_id == 0;
-                    this.selectedRoleName = roles.objects[0].name;
-                    this.selectedRoleData = roles.objects[0];
-                    this.selectedPermissionIdList = roles.objects[0].permissions.actions;
-                });
-        }
     }
     ngOnDestroy() {
 
