@@ -5,7 +5,7 @@
 
             <div class="switch-wrapper">
                 <div class="form-control d-flex flex-column">
-                    <label class="pr-2">Room Close Callback</label>
+                    <label class="pr-2">Room Close Callback <app-info-icon></app-info-icon></label>
 
                     <app-ui-switch
                             formControlName="room_close_callback"
@@ -17,7 +17,7 @@
 
             <div class="switch-wrapper">
                 <div class="form-control d-flex flex-column">
-                    <label class="pr-2">Allow Feedback</label>
+                    <label class="pr-2">Allow Feedback <app-info-icon></app-info-icon></label>
 
                     <app-ui-switch
                             formControlName="allow_feedback"
@@ -30,7 +30,7 @@
 
             <div class="switch-wrapper">
                 <div class="form-control d-flex flex-column">
-                    <label class="pr-2">Advanced Data Protection</label>
+                    <label class="pr-2">Advanced Data Protection <app-info-icon></app-info-icon></label>
                     <app-ui-switch
                             formControlName="advanced_data_protection"
                             [(ngModel)]="advanced_data_protection"
@@ -41,7 +41,7 @@
 
             <div class="" *ngIf="!(_bot.bot_type===myEBotType.intelligent)">
                 <div class="d-flex align-items-center">
-                    <label class="pr-2 mb-0">Is Manager Bot?</label>
+                    <label class="pr-2 mb-0">Is Manager Bot? <app-info-icon></app-info-icon></label>
                     <mat-slide-toggle formControlName="is_manager" color="primary"></mat-slide-toggle>
                     <!--<app-is-manager-form-control hidden formArrayName="child_bots"></app-is-manager-form-control>-->
 

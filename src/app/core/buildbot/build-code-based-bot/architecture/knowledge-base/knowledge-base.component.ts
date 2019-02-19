@@ -13,6 +13,7 @@ import {IUser} from '../../../../interfaces/user';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {ESplashScreens} from '../../../../../splash-screen/splash-screen.component';
 import {MaterialTableImplementer} from '../../../../../material-table-implementer';
+import {EventService} from '../../../../../event.service';
 
 @Component({
   selector: 'app-knowledge-base',
@@ -297,6 +298,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
 
   rowClicked($event) {
 
+    EventService.createConceptFullScreen$.emit(true);
     this.selectedRowData = $event.data;
     console.log(this.selectedRowData);
     this.prepareDataForDetailedViewAndChangeParams(this.selectedRowData);
@@ -337,6 +339,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     this.handontableData = [['', '', '']];
     /*show create ner stuff*/
     this.showTable = false;
+    EventService.createConceptFullScreen$.emit(true);
   }
 
   pageChanged({page}) {

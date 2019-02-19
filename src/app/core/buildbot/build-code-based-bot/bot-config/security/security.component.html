@@ -23,7 +23,7 @@
 
       <div class="switch-wrapper">
         <div class="form-control d-flex flex-column">
-          <label class="pr-2">Advanced Data Protection</label>
+          <label class="pr-2">Advanced Data Protection <app-info-icon></app-info-icon></label>
           <app-ui-switch
                   formControlName="advanced_data_protection"
                   [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
@@ -48,7 +48,7 @@
     <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
       <div class="switch-wrapper">
         <div class="form-control d-flex flex-column">
-          <label class="pr-2">Allow anonymization</label>
+          <label class="pr-2">Allow anonymization <app-info-icon></app-info-icon></label>
           <app-ui-switch
                   formControlName="allow_anonymization"
                   [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"

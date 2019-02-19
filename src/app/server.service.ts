@@ -601,7 +601,7 @@ export class ServerService {
 
 
   getNSetConfigData$() {
-    debugger;
+
     return this.makeGetReq({url: '/static/config.json', noValidateUser: true})
       .pipe(tap(((value: { 'backend_url': string, 'version': string }) => {
 

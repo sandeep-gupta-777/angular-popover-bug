@@ -51,7 +51,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
   selectedSideBarTab = 'pipeline';
   bot: IBot;
   showLoader = false;
-  noSuchBotMessage="";
+  noSuchBotMessage = '';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -63,19 +63,26 @@ export class CodeBasedBotDetailComponent implements OnInit {
     private utilityService: UtilityService) {
   }
 
+  goFullScreen;
+
   ngOnInit() {
+
+    EventService
+      .createConceptFullScreen$
+      .subscribe((goFullScreen) => this.goFullScreen = goFullScreen);
+
     // this.loggeduser$.take(1).subscribe((loggedUserState:IAuthState)=>{
-      const roleName = this.constantsService.loggedUser.role.name;
-      this.showConfig = roleName !== ERoleName.Admin; //if its admin don't expand bot config by default
-      if (roleName === ERoleName.Admin || roleName === ERoleName['Bot Developer']) {
-        this.sideBarTab1 = 'setting';
-      } else if (roleName === ERoleName.Tester) {
-        this.sideBarTab1 = 'testing';
-      } else {
-        this.sideBarTab1 = 'sessions';
-      }
+    const roleName = this.constantsService.loggedUser.role.name;
+    this.showConfig = roleName !== ERoleName.Admin; //if its admin don't expand bot config by default
+    if (roleName === ERoleName.Admin || roleName === ERoleName['Bot Developer']) {
+      this.sideBarTab1 = 'setting';
+    } else if (roleName === ERoleName.Tester) {
+      this.sideBarTab1 = 'testing';
+    } else {
+      this.sideBarTab1 = 'sessions';
+    }
     // });
-    debugger;
+
     const isArchitectureFullScreen = this.activatedRoute.snapshot.queryParamMap.get('isArchitectureFullScreen');
     this.isArchitectureFullScreen = isArchitectureFullScreen === 'true';
     const showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
@@ -92,8 +99,8 @@ export class CodeBasedBotDetailComponent implements OnInit {
         this.bot = botListState.allBotList.find((bot) => {
           return bot.id === this.bot_id;
         });
-        if(!this.bot){
-          this.noSuchBotMessage = "No such bot exists in your account";
+        if (!this.bot) {
+          this.noSuchBotMessage = 'No such bot exists in your account';
         }
       }
       LoggingService.log('Bot Opened' + this.bot);
@@ -105,7 +112,8 @@ export class CodeBasedBotDetailComponent implements OnInit {
     this.end_date = this.utilityService.getPriorDate(30);
     this.getOverviewInfo();
     this.activatedRoute.queryParams.subscribe((queryParams) => {
-      this.sideBarTab1 = queryParams['build'] || this.sideBarTab1 ;;
+      this.sideBarTab1 = queryParams['build'] || this.sideBarTab1;
+      ;
       this.isArchitectureFullScreen = queryParams['isArchitectureFullScreen'] === 'true';
     });
   }
@@ -147,10 +155,11 @@ export class CodeBasedBotDetailComponent implements OnInit {
     this.getOverviewInfo();
   }
 
-  sideBarTabChanged(sideBarTabChanged:string){
+  sideBarTabChanged(sideBarTabChanged: string) {
+    this.goFullScreen = false;
     this.sideBarTab1 = sideBarTabChanged;
     // core/botdetail/chatbot/398
-    this.router.navigate(['core/botdetail/chatbot/', this.bot.id], {queryParams:{"build":sideBarTabChanged}});
+    this.router.navigate(['core/botdetail/chatbot/', this.bot.id], {queryParams: {'build': sideBarTabChanged}});
   }
 
   selectedDurationChanged(priordays: number, name: string) {
@@ -197,10 +206,11 @@ export class CodeBasedBotDetailComponent implements OnInit {
   }
 
   spinReloadSessionTableSpinner = false;
-  reloadSessionsHandler(){
+
+  reloadSessionsHandler() {
     this.spinReloadSessionTableSpinner = true;
-    setTimeout(()=>this.spinReloadSessionTableSpinner = false,2000);
-    this.eventService.reloadSessionTable$.emit()
+    setTimeout(() => this.spinReloadSessionTableSpinner = false, 2000);
+    this.eventService.reloadSessionTable$.emit();
   }
 
 }

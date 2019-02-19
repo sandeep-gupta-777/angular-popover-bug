@@ -76,6 +76,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
 
   /*TODO: remove it*/
   updateBot() {
+
     try {
       this.dialogRefWrapper.ref.close();
     } catch (e) {

@@ -3,11 +3,11 @@
      style="word-break: break-all"
      [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}"
      *ngIf="messageData.messageMediatype === myEBotMessageMediaType.text && messageData.sourceType!=='session_expired'">
-  <div class="p-0 text-center" style="width: 40px">
-    <img class="rounded-circle"
-         [src]="messageData?.sourceType==='bot'?selectedAvatar?.imageUrl:'https://image.flaticon.com/icons/svg/17/17004.svg'"
-         style="width: 32px;height: 32px" alt="">
-  </div>
+  <!--<div class="p-0 text-center" style="width: 40px">-->
+    <!--<img class="rounded-circle"-->
+         <!--[src]="messageData?.sourceType==='bot'?selectedAvatar?.imageUrl:'https://image.flaticon.com/icons/svg/17/17004.svg'"-->
+         <!--style="width: 32px;height: 32px" alt="">-->
+  <!--</div>-->
   <div class="col-10 text-left p-0 flex-wrap" [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}">
     <div class="message p-2"
          [ngClass]="{'bg-message-bot':messageData?.sourceType==='bot','bg-message-human':messageData?.sourceType==='human'}"
@@ -23,7 +23,7 @@
   <!--</div>-->
 </div>
 <!--chat bubbles for text message ends-->
-
+</div>
 <div class="row mt-1 style-children-scrollbar-x" *ngIf="messageData.messageMediatype !== myEBotMessageMediaType.text && messageData.sourceType!=='session_expired'">
   <div class="p-0 text-center" style="width: 40px">
     <img class="rounded-circle"

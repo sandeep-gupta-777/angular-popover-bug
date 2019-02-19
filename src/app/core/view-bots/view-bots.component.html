@@ -6,14 +6,14 @@
     [selectedIndex]="activeTab===myEBotType.chatbot?0:1"
     (selectedTabChange)="tabClicked($event.index == 0?myEBotType.chatbot: myEBotType.intelligent)">
     <mat-tab label="Code Based">
-      <div class="px-4 mt-2">
+      <div class="pl-4 mt-2">
         <app-bot-preview-card-list
           [botType]="activeTab"
           [codeBasedBotList]="codeBasedBotList"></app-bot-preview-card-list>
       </div>
     </mat-tab>
     <mat-tab label="Pipeline Based">
-      <div class="px-4 mt-2">
+      <div class="pl-4 mt-2">
         <app-bot-preview-card-list
           [botType]="activeTab"
           [codeBasedBotList]="pipelineBasedBotList"></app-bot-preview-card-list>
@@ -44,7 +44,8 @@
           class="btn-theme ml-auto"
           style="position: absolute; right: 0; top: 10px; z-index: 100;"
           (click)="openDialog()">
-    <i class="fa fa-plus pr-1"></i>New Bot
+    <!--<i class="fa fa-plus pr-1"></i>-->
+    + New Bot
   </button>
 
 </div>

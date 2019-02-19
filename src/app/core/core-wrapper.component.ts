@@ -30,7 +30,7 @@ export class CoreWrapperComponent implements OnInit {
       this.isBotDetail = location.pathname && location.pathname.includes('/core/botdetail/');
       if (data instanceof RoutesRecognized) {
         this.isFullScreenPreview = data.state.root.firstChild.data.isFullScreenPreview;
-        debugger;
+
       }
     });
   }

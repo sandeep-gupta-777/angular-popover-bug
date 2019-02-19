@@ -390,7 +390,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   }
 
   performSearchInDbForSession(filterData: ISessionFilterData) {
-    debugger;
+
     this.showLoader = true;
     let url: string;
     this.filterData = JSON.parse(JSON.stringify(filterData));

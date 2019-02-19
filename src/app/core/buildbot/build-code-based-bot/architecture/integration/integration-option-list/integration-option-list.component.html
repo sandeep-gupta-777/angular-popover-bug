@@ -32,12 +32,15 @@
           <div [hidden]="!formValueFinal[integration_type][integration_item.key]['enabled']">
             <div
               *ngFor="let integration_input_keys of formValue[integration_type][integration_item.key]|integrationInputKeysFilter">
-              <div class="form-group">
-                <label class="required">{{integration_input_keys|displayNameForKeyIntegration}}</label>
-                <input ngModel type="text"
-                       class="form-control"
-                       [name]="integration_input_keys">
-              </div>
+              <!--<div class="form-group">-->
+                <!--<label class="required">{{integration_input_keys|displayNameForKeyIntegration}}</label>-->
+                <!--<input ngModel type="text"-->
+                       <!--class="form-control"-->
+                       <!--[name]="integration_input_keys">-->
+              <!--</div>-->
+              <mat-form-field  class="example-full-width">
+                <input matInput ngModel placeholder="{{integration_input_keys|displayNameForKeyIntegration}}" [name]="integration_input_keys">
+              </mat-form-field>
             </div>
           </div>
         </div>

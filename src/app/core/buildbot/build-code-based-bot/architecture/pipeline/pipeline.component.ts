@@ -243,5 +243,9 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
     this._expandedPipelineModules = {...this._expandedPipelineModules};
   }
 
+  updateBot(){
+    EventService.updateBot$.emit();
+  }
+
 
 }
