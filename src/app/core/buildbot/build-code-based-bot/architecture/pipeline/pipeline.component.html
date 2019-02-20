@@ -27,9 +27,11 @@
               style="width: 100%; display: block;"
               *ngFor="let pipelineItem of pipelineModulesV2List|pipelineFilter:searchKeyword|sortPipeline; let i = index"
               (click)="togglePipelineModule(pipelineItem.id)"
+              [keyword]="searchKeyword"
               [doExpand]="_expandedPipelineModules[pipelineItem.id]"
               [data]="pipelineItem">
       <!--<i>{{_expandedPipelineModules[i]}}</i>-->
+        <!--<i>{{pipelineItem.pipeline_modules|json}}</i>-->
         <app-simple-table
                 style="width: 100%"
                 (click)="$event.stopPropagation()"
@@ -75,6 +77,7 @@
       <!--<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">-->
       <!--<div class="example-box" *ngFor="let aiModule of pipeLine;let targetIndexNew = index" cdkDrag>{{aiModule.unique_name}}</div>-->
       <!--</div>-->
+      <!--<i>{{pipeLine|json}}</i>-->
       <div cdkDropList (cdkDropListDropped)="drop($event)">
         <div *ngFor="let aiModule of pipeLine;let targetIndexNew = index"
              cdkDrag
@@ -85,8 +88,8 @@
           <img [src]="aiModule.pipeLineSrc ||pipeLineSrc"
                style="margin-right: 8px" alt="">
           <div class="d-flex flex-column">
-            <span class="module">{{(aiModule.id| pipeineIdToPipelineModuleWrapper).display_values}}</span>
-            <span class="library">{{(aiModule.id|pipelineIdToPipelineModule).library}}</span>
+            <span class="module">{{(aiModule.id| pipeineIdToPipelineModuleWrapper)?.display_values}}</span>
+            <span class="library">{{(aiModule.id|pipelineIdToPipelineModule)?.library}}</span>
           </div>
           <span class="ml-auto"></span>
           <i *ngIf="aiModule && aiModule.input_params && myObject.keys(aiModule.input_params).length>0"
