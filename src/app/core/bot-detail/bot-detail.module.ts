@@ -61,6 +61,7 @@ import {AccordianComponent} from '../../accordian/accordian.component';
 import {SortPipelinePipe} from '../buildbot/build-code-based-bot/architecture/pipeline/sort-pipeline.pipe';
 import {PipelineIdToPipelineModulePipe} from '../buildbot/build-code-based-bot/architecture/pipeline/pipeline-id-to-pipeline-module.pipe';
 import {PipeineIdToPipelineModuleWrapperPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/pipeine-id-to-pipeline-module-wrapper.pipe';
+import {SortObjectArrPipe} from '../../sort-object-arr.pipe';
 
 const routes: Route[] = [
   {
@@ -96,6 +97,7 @@ const routes: Route[] = [
     CodeInputComponent,
     CodeGentemplateUiComponentWrapperComponent,
     CodeVersionListComponent,
+    SortObjectArrPipe,
     CodeGentemplateUiWrapperComponent,
     HasChannelPipe,
     TrimStringPipe,
