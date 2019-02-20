@@ -23,6 +23,11 @@
     "index": "node file-index-script.js",
     "hmr": "ng serve --configuration hmr"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run xgit"
+    }
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "^7.1.0",
