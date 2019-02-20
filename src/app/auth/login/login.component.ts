@@ -91,6 +91,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     try {
       /*replace with plateform.id*/
       localStorage.clear();
+
     } catch (e) {
       console.log(e);
     }
