@@ -70,7 +70,8 @@ export class SetBackendURlRoot {
 
   constructor(public payload: {
     url: string
-  }) {}
+  }) {
+  }
 }
 
 export class SetShowBackendURlRoot {

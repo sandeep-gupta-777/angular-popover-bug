@@ -104,6 +104,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     this.changePasswordExpireTime = this.activatedRoute.snapshot.queryParamMap.get('timestamp');
 
 
+    /*TODO: remove it: we are doing in app.component.ts as well*/
     /*keep login button disabled till response comes*/
     this.serverService.getNSetConfigData$().subscribe(
       () => this.isConfigDataSet = true,
@@ -240,12 +241,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       new ResetAnalytics2GraphData(),
       new ResetAnalytics2HeaderData(),
       new ResetAppState()
-    ]).subscribe(()=>{
-      let burl = this.backend_url || 'https://staging.imibot.ai/';
-      this.store.dispatch([
-        new SetBackendURlRoot({url: burl})
-      ])
-    });
+    ]);
     const loginData = this.loginForm.value;
     const loginUrl = this.constantsService.getLoginUrl();
     let body;
@@ -365,13 +361,13 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
 
   }
 
-  getNSetConfigData$() {
-    return this.serverService.makeGetReq({url: '/static/config.json', noValidateUser: true})
-      .pipe(tap(((value: { 'backend_url': string, 'version': string }) => {
-        this.backend_url = value.backend_url;
-        this.store.dispatch([
-          new SetBackendURlRoot({url: value.backend_url})
-        ]);
-      })));
-  }
+  // getNSetConfigData$() {
+  //   return this.serverService.makeGetReq({url: '/static/config.json', noValidateUser: true})
+  //     .pipe(tap(((value: { 'backend_url': string, 'version': string }) => {
+  //       this.backend_url = value.backend_url;
+  //       this.store.dispatch([
+  //         new SetBackendURlRoot({url: value.backend_url})
+  //       ]);
+  //     })));
+  // }
 }
