@@ -1,1 +1,1 @@
-{"currentBranch":"develop","lastCommit":"commit 34b469742e0ffa7405a4bcd906015de164038b2f\nAuthor: Sandeep Kumar Gupta <sandeepkumar.g@imimobile.com>\nDate:   Wed Feb 20 20:29:22 2019 +0530\n\n    fix: login setting backend url"}
+{"currentBranch":"develop","lastCommit":"commit a7acceaa0c06d0a6244ff21a4fa384091fdecf48\nAuthor: Sandeep Kumar Gupta <sandeepkumar.g@imimobile.com>\nDate:   Wed Feb 20 21:34:31 2019 +0530\n\n    feature: added husky"}
