@@ -62,7 +62,7 @@
             </div>
             <!--search input ends-->
             <div class="session-messages-container row m-0 my-2 p-1 align-items-start align-content-start">
-                <i [ngClass]="{'fa-angle-down':scrollDown,'fa-angle-up':!scrollDown}" *ngIf="sessionMessageDataCopy && sessionMessageDataCopy.length >5"
+                <i class="fa" [ngClass]="{'fa-angle-down':scrollDown,'fa-angle-up':!scrollDown}" *ngIf="sessionMessageDataCopy && sessionMessageDataCopy.length >5"
                    (click)="scrollMessageList()"></i>
                 <div style="height: 100%;width: 100%; padding-right: 5px" class="session-messages-container-list">
                     <div class="col-12 px-0 border-hover-txn"
