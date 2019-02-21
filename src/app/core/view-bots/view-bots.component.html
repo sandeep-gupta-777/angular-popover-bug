@@ -1,6 +1,6 @@
 <!--<button (click)="openDialog()">test</button>-->
-
-<div style="margin: 0px 80px; position: relative">
+<app-imi-loader *ngIf="!reloaded" ></app-imi-loader>
+<div style="margin: 0px 80px; position: relative" *ngIf="reloaded">
   <mat-tab-group
     [selectedIndex]="activeTab===myEBotType.chatbot?0:1"
     (selectedTabChange)="tabClicked($event.index == 0?myEBotType.chatbot: myEBotType.intelligent)">

@@ -202,8 +202,8 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
           //   .subscribe((botResult) => {
           //     this.store.dispatch(new SetAllBotListAction({ botList: botResult.objects }))
           //       .subscribe(async () => {
-                this.router.navigate(['/']);;
-                  location.reload();
+                      this.router.navigate(['/']);
+                      location.reload();
                   // const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(Enterprise.enterpriseId);
                   // this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
                   //   .subscribe((value: IEnterpriseProfileInfo) => {

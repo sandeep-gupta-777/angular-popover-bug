@@ -155,6 +155,7 @@
 <div class="row profile-row" *ngIf = "!!serviceKeyTableDataActive && !showActiveServiceKeysTable ">
   <div class="col-12 p-0 m-0">
     <app-smart-table [data]="serviceKeyTableDataActive"
+                    (dataValue$)="dataValueClicked($event)"
     >
     </app-smart-table>
   </div>

@@ -26,7 +26,7 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
   showPopover = false;
   myEAllActions = EAllActions;
   disableCreateNewBotTooltip = true;
-
+  reloaded : boolean = false;
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
@@ -67,6 +67,7 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
     this.serverService.getNSetBotList()
       .subscribe(() => {
         LoggingService.log('bot list fetched from view bots page');
+        this.reloaded = true;
       });
     this.botlist$
       .subscribe((allBotListState) => {
