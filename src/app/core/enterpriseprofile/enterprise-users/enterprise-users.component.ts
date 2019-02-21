@@ -379,16 +379,16 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
     this.serverService.makeGetReq<IBotResult>({url, headerData}).subscribe((botResult) => {
       //
-      // let codeBasedBotList: IBot[] = [];
+      // let botList: IBot[] = [];
       // let pipelineBasedBotList: IBot[] = [];
 
       // botResult.objects.forEach((bot) => {
-      //   bot.bot_type !== 'genbot' ? codeBasedBotList.push(bot) : pipelineBasedBotList.push(bot);
+      //   bot.bot_type !== 'genbot' ? botList.push(bot) : pipelineBasedBotList.push(bot);
       // });
       this.enterpriseUserBotList = botResult.objects;
       this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
       // this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
-      // this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
+      // this.store.dispatch(new SetCodeBasedBotListAction({botList: botList}));
     });
     // this.loggeduserenterpriseinfo$.pipe(
     //   map((value) => {

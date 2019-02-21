@@ -31,7 +31,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   dialogRefWrapper = {ref: null};
 
   myESplashScreens = ESplashScreens;
-  @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
+  @Select(state => state.botlist.botList) codeBasedBotList$: Observable<IBot[]>;
   @Input() id: string;
   test = 'asdasdsd';
   @Input() bot: IBot;

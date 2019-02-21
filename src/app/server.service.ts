@@ -298,15 +298,15 @@ export class ServerService {
     const headerData: IHeaderData = {'content-type': 'application/json'};
     return this.makeGetReq<IBotResult>({url, headerData, noValidateUser}).pipe(
       tap((botResult) => {
-        // let codeBasedBotList: IBot[] = [];
+        // let botList: IBot[] = [];
         // let pipelineBasedBotList: IBot[] = [];
 
         // botResult.objects.forEach((bot) => {
-        //   bot.bot_type !== 'genbot' ? codeBasedBotList.push(bot) : pipelineBasedBotList.push(bot);
+        //   bot.bot_type !== 'genbot' ? botList.push(bot) : pipelineBasedBotList.push(bot);
         // });
         this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
         // this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
-        // this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
+        // this.store.dispatch(new SetCodeBasedBotListAction({botList: botList}));
       }));
 
   }
@@ -351,7 +351,7 @@ export class ServerService {
     return this.makeGetReq<{ meta: any, objects: IIntegrationMasterListItem[] }>({url}).pipe(
       tap((value) => {
         // this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
-        // this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
+        // this.store.dispatch(new SetCodeBasedBotListAction({botList: botList}));
       }))
       .pipe(map((value) => {
         this.store.dispatch([

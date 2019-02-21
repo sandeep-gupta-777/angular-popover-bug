@@ -19,7 +19,7 @@ import {ConstantsService} from '../../../constants.service';
 export class BuildPipelineBasedBotComponent implements OnInit {
 
   @Select() botcreationstate$: Observable<IBotCreationState>;
-  // @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
+  // @Select(state => state.botlist.botList) botList$: Observable<IBot[]>;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
   selectedTab = 'architecture';
   bot$: Observable<IBot>;

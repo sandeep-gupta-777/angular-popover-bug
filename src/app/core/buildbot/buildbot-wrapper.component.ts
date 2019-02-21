@@ -19,7 +19,7 @@ import {LoggingService} from '../../logging.service';
 export class BuildbotWrapperComponent implements OnInit {
 
   @Select() botcreationstate$: Observable<IBotCreationState>;
-  @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
+  @Select(state => state.botlist.botList) codeBasedBotList$: Observable<IBot[]>;
   bot: IBot = {};
   bot_type: string;
 

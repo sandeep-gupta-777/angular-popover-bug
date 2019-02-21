@@ -1,9 +1,9 @@
-<div class="grid-bot-preview" style="min-height: 70vh; position: relative" *ngIf="codeBasedBotList; else loaderTemplate">
-  <ng-container *ngIf="codeBasedBotList.length>0">
-    <app-bot-preview-card [parentRoute]="botType" *ngFor="let bot of codeBasedBotList|sortBots" [bot]=bot></app-bot-preview-card>
+<div class="grid-bot-preview" style="min-height: 70vh; position: relative" *ngIf="botList; else loaderTemplate">
+  <ng-container *ngIf="botList.length>0">
+    <app-bot-preview-card [parentRoute]="botType" *ngFor="let bot of botList|sortBots" [bot]=bot></app-bot-preview-card>
   </ng-container>
 
-  <app-splash-screen *ngIf="codeBasedBotList.length===0"
+  <app-splash-screen *ngIf="botList.length===0"
                      [imageHRef]="botType===myEBotType.chatbot? myESplashScreens.imageForCodeBots:myESplashScreens.pipeline_bots_empty"
                      [headingText]="'There are no '+ (botType===myEBotType.chatbot? 'code based ': 'pipeline based') +' bots in your account'"
                      [descriptionText]="isCreateBotAccessDenied?

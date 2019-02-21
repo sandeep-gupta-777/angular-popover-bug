@@ -15,6 +15,7 @@ import {IBot} from '../../interfaces/IBot';
 import {UtilityService} from '../../../utility.service';
 import {ModalImplementer} from '../../../modal-implementer';
 import {MatDialog} from '@angular/material';
+import {EventService} from '../../../event.service';
 
 @Component({
   selector: 'app-report-details',
@@ -29,6 +30,8 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
   allBotList: IBot[];
   reportFormData: IReportItem;
   report_id: number;
+
+  myEventService = EventService;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -46,9 +49,7 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
     this.botlist$.subscribe((botListState) => {
       this.allBotList = botListState.allBotList;
     });
-    // this.reportItem$.subscribe((value)=>{
-    //   this.reportFormData = value.formData;
-    // })
+
   }
 
   showReportDeleteModel(unsubscribeTemplate: TemplateRef<any>) {

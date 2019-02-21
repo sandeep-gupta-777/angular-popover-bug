@@ -17,7 +17,7 @@ export class BotPreviewCardListComponent implements OnInit {
   isCreateBotAccessDenied:boolean = true;
   @Input() botType;
   myESplashScreens = ESplashScreens;
-  @Input() codeBasedBotList:IBot[];
+  @Input() botList:IBot[];
   constructor(private store: Store, private isTabAccessDenied:PermissionService) {
   }
 

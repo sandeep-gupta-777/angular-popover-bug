@@ -92,7 +92,9 @@
                        (click)="tabClicked('manager_bot')"><strong>TRANSACTION INFO</strong></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link p-0" [ngClass]="{'tab-active':activeTab==='nlp'}"
+                    <a class="nav-link p-0"
+                       [title]="nlp?'':'NLP is disabled.'"
+                       [ngClass]="{'tab-active':activeTab==='nlp'}"
                        (click)="tabClicked('nlp')"><strong>NLP</strong></a>
                 </li>
                 <li class="nav-item">

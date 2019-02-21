@@ -20,7 +20,7 @@ import {ResetBuildBotToDefault, SaveNewBotInfo_CodeBased} from '../ngxs/buildbot
 export class BuildCodeBasedBotComponent implements OnInit {
 
   @Select() botcreationstate$: Observable<IBotCreationState>;
-  @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
+  @Select(state => state.botlist.botList) codeBasedBotList$: Observable<IBot[]>;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
   selectedTab = 'architecture';
   bot$: Observable<IBot>;
