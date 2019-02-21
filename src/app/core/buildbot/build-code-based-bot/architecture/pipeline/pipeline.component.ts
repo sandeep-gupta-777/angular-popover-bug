@@ -13,7 +13,6 @@ import {ConstantsService} from '../../../../../constants.service';
 import {ServerService} from '../../../../../server.service';
 import {SetPipelineModuleMasterData} from '../../../../../ngxs/app.action';
 import {EFormValidationErrors, UtilityService} from '../../../../../utility.service';
-import {DragulaService} from 'ng2-dragula';
 import {LoggingService} from '../../../../../logging.service';
 import {NgForm} from '@angular/forms';
 import {ModalImplementer} from '../../../../../modal-implementer';
@@ -34,7 +33,7 @@ export interface IPipelineItemV2 {
   selector: 'app-pipeline',
   templateUrl: './pipeline.component.html',
   styleUrls: ['./pipeline.component.scss'],
-  providers: [DragulaService]
+  providers: []
 })
 export class PipelineComponent extends ModalImplementer implements OnInit {
 
@@ -69,7 +68,6 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
       private constantsService: ConstantsService,
       private serverService: ServerService,
       public utilityService: UtilityService,
-      private dragulaService: DragulaService,
       public matDialog: MatDialog,
       private store: Store) {
     super(utilityService, matDialog);

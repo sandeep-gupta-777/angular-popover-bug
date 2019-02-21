@@ -29,6 +29,7 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [
+    // MsToHhMmPipe,
     ChatWrapperComponent,
     ChatConsumerFormComponent,
     ChatWindowComponent,
@@ -61,6 +62,7 @@ const routes: Route[] = [
     ChatroomComponent,
     BotThinkingBubbleComponent,
     BotWelcomeComponent,
+
   ],
   providers: [DatePipe, ChatService],
 })

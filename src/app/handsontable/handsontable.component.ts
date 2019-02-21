@@ -153,6 +153,8 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   }
 
   async openFile(inputEl) {
+    // alert();
+    // debugger;
     try {
       let filePath = inputEl.value;
       if(!filePath || !filePath.endsWith('.csv')){
@@ -218,6 +220,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
 
   exportToCsv() {
     const csvData = JSON.parse(JSON.stringify(this._data));
+    debugger;
     console.log(csvData);
     if(this.expectedCSVHeaders){
       csvData.unshift(this.expectedCSVHeaders);
