@@ -365,7 +365,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   updateSessionById(id: number) {
     this.loadSessionById(id)
       .subscribe((val:{objects:ISessionItem[]}) => {
-        debugger;
+
         let sessionItem = val.objects[0];
         let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id});
         this.sessions[index] = sessionItem;;

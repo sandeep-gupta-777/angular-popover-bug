@@ -152,15 +152,16 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
     const url = this.constantsService.getBotConsumerByIdUrl(data['id']);
     this.serverService
       .makeGetReq<IConsumerItem>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
-      .subscribe((consumer: IConsumerItem) => {
-        let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.consumerItems, {id: consumer.id});
-        if(index >= 0){
-          this.consumerItems[index] = consumer;
-        }else {
-          this.consumerItems.push(consumer);
-        }
-        this.totalRecords = 1;
-        this.tableData = this.initializeTableData(this.consumerItems, this.getTableDataMetaDict());
+      .subscribe(({objects}) => {
+        debugger;
+        // let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.consumerItems, {id: consumer.id});
+        // if(index >= 0){
+        //   this.consumerItems[index] = consumer;
+        // }else {
+        //   this.consumerItems.push(consumer);
+        // }
+        // this.totalRecords = 1;
+        this.tableData = this.initializeTableData(objects, this.getTableDataMetaDict());
       });
   }
 

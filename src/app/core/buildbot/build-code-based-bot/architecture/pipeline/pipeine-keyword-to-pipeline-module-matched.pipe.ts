@@ -21,7 +21,7 @@ export class PipeineKeywordToPipelineModuleMatchedPipe implements PipeTransform 
   }
 
   transform(modules:IPipelineItem[], keyword: string): any {
-    debugger;
+
     if(!keyword || !keyword.trim()){
       return modules;
     }

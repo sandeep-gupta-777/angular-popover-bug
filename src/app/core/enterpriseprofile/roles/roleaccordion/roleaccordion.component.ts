@@ -64,7 +64,7 @@ export class RoleaccordionComponent implements OnInit {
     this.roles.forEach(role => {
       ans = ans && !role.name.toUpperCase().includes(value)
     });
-    debugger;
+
     return ans;
   }
 
