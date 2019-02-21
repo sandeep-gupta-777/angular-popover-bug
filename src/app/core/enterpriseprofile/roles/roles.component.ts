@@ -9,6 +9,7 @@ import { Select } from '@ngxs/store';
 import { IAppState } from 'src/app/ngxs/app.state';
 import { EnterpriseRoleTabName } from '../enterpriseprofile.component';
 import { UtilityService } from 'src/app/utility.service';
+import { ESplashScreens } from 'src/app/splash-screen/splash-screen.component';
 
 @Component({
     selector: 'app-roles',
@@ -28,6 +29,7 @@ export class RolesComponent implements OnInit {
     selectedRoleBaseRole: number;
     serchedAction: string = "";
     serchedPermission: string = "";
+    myESplashScreens = ESplashScreens;
     @Output() backToRoles = new EventEmitter();
     show = false;
     reloaded = false;
