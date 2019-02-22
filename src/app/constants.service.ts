@@ -437,7 +437,7 @@ export class ConstantsService {
   }
 
   getBotConsumerByIdUrl(id: number) {
-    return this.BACKEND_URL + `api/v1/consumer/${id}/`; //https://dev.imibot.ai/api/v1/consumer/2320/
+    return this.BACKEND_URL + `api/v1/consumer/?id=${id}`; //https://dev.imibot.ai/api/v1/consumer/2320/
   }
 
   getAllActionsUrl() {

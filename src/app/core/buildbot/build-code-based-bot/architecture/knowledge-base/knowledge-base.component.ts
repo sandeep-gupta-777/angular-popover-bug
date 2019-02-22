@@ -314,7 +314,9 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
       * column_headers is array which will keep the order of headers written by user
       * Object.keys(selectedRowData.values[0]) => will not keep order since its coming from dictionary
       * */
-      const valueKeys = selectedRowData.column_headers || Object.keys(selectedRowData.values[0]);
+      // const valueKeys = selectedRowData.column_headers || Object.keys(selectedRowData.values[0]);
+      let is_column_headers_valid = Array.isArray(selectedRowData.column_headers) && selectedRowData.column_headers.length > 0;
+      const valueKeys: string[] = is_column_headers_valid ? (selectedRowData.column_headers) : Object.keys(selectedRowData.values[0]);
       this.handontableData = selectedRowData.values.map((value) => {
         return valueKeys.map((valueKey) => {
           return value[valueKey];

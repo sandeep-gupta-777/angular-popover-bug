@@ -127,12 +127,12 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
         const url = this.constantsService.getBotConsumerByIdUrl(this.consumerItemToBeDecrypted.id);
         this.serverService
           .makeGetReq<IConsumerItem>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
-          .pipe(map((result) => {
-            const modified_update_at = (new Date(result.updated_at)).toDateString();
-            return {...result, updated_at: modified_update_at};
-          }))
-          .subscribe((value: IConsumerItem) => {
-            this.consumersDecrypted = value;
+          // .pipe(map((result) => {
+          //   const modified_update_at = (new Date(result.updated_at)).toDateString();
+          //   return {...result, updated_at: modified_update_at};
+          // }))
+          .subscribe((value: {objects:IConsumerItem[]}) => {
+            this.consumersDecrypted = value.objects[0];
             const index = this.consumerItems.findIndex((value) => value.id === this.consumerItemToBeDecrypted.id);
             this.consumerItems[index] = this.consumersDecrypted;
             this.tableData = this.initializeTableData(this.consumerItems, this.getTableDataMetaDict());
@@ -152,15 +152,15 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
     const url = this.constantsService.getBotConsumerByIdUrl(data['id']);
     this.serverService
       .makeGetReq<IConsumerItem>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
-      .subscribe((consumer: IConsumerItem) => {
-        let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.consumerItems, {id: consumer.id});
-        if(index >= 0){
-          this.consumerItems[index] = consumer;
-        }else {
-          this.consumerItems.push(consumer);
-        }
-        this.totalRecords = 1;
-        this.tableData = this.initializeTableData(this.consumerItems, this.getTableDataMetaDict());
+      .subscribe(({objects, meta}) => {
+        // let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.consumerItems, {id: consumer.id});
+        // if(index >= 0){
+        //   this.consumerItems[index] = consumer;
+        // }else {
+        //   this.consumerItems.push(consumer);
+        // }
+        this.totalRecords = meta.total_count;
+        this.tableData = this.initializeTableData(objects, this.getTableDataMetaDict());
       });
   }
 
