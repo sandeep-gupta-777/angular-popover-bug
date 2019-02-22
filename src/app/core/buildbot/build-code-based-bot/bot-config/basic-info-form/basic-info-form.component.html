@@ -36,6 +36,7 @@
       <div class="" *ngIf="!(bot_type===myEBotType.intelligent)">
         <app-bot-config-input
           displayName="Session Close Time [mins]"
+          type="number"
           formControlName="room_persistence_time"
           [isRequired]="true"
           placeholder="Time until Session Closes (in minutes)"></app-bot-config-input>

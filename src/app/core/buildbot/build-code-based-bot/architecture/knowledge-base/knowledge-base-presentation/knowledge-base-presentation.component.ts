@@ -166,7 +166,6 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   }
 
   handsOnTableDataHasAtleastTwoRows(){
-
     return this.handsontableData && this.handsontableData.length>2;
   }
 
