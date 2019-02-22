@@ -114,6 +114,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
       this.utilityService.showSuccessToaster('Test cases created');
       this.isData = true;
       this.tableChanged = false;
+      this.testCaseId = value.id;
     });
   }
 
