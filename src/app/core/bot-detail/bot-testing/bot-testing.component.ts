@@ -91,7 +91,9 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
     this.handontable_colHeaders = this.constantsService.HANDSON_TABLE_BOT_TESTING_colHeaders;
     this.handontable_column = this.constantsService.HANDSON_TABLE_BOT_TESTING_columns;
   }
-  onTableChange() {
+  onTableChange(data) {
+    // debugger;
+    // console.log(data);
     this.tableChanged = true;
   }
   createTC() {
