@@ -74,7 +74,7 @@
       <div *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']">
         <button
           class="btn-theme btn-theme-primary mx-1"
-          [disabled]="!form.valid || (ner_type === 'database' && !handsOnTableDataHasAtleastTwoRows())"
+          [disabled]="!form.valid"
           (click)="updateOrSaveConcept()"
                 *myIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
         >
