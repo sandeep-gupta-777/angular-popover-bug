@@ -206,19 +206,4 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     })
     // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
-
-  // async openDeleteModal() {
-  //   let data = await this.utilityService.openDialog({
-  //     dialog: this.matDialog,
-  //     component: ModalConfirmComponent,
-  //     data: {title:`Delete bot ${this.bot.name}?`, message:null, actionButtonText:"Delete", isActionButtonDanger:true},
-  //     classStr: 'danger-modal-header-border',
-  //     dialogRefWrapper:this.dialogRefWrapper
-  //   });
-
-
-  //   if(data){
-  //     this.deleteBot();
-  //   }
-  // }
 }
