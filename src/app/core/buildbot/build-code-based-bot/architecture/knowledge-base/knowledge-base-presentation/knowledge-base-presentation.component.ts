@@ -1,13 +1,14 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
-import {ICustomNerItem} from '../../../../../../../interfaces/custom-ners';
-import {NgForm} from '@angular/forms';
-import {UtilityService} from '../../../../../../utility.service';
-import {ConstantsService, EAllActions, ERouteNames} from '../../../../../../constants.service';
-import {ActivatedRoute, ParamMap} from '@angular/router';
-import {HandsontableComponent} from '../../../../../../handsontable/handsontable.component';
-import {ELogType, LoggingService} from '../../../../../../logging.service';
-import {ModalImplementer} from '../../../../../../modal-implementer';
-import {MatDialog} from '@angular/material';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { ICustomNerItem } from '../../../../../../../interfaces/custom-ners';
+import { NgForm } from '@angular/forms';
+import { UtilityService } from '../../../../../../utility.service';
+import { ConstantsService, EAllActions, ERouteNames } from '../../../../../../constants.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { HandsontableComponent } from '../../../../../../handsontable/handsontable.component';
+import { ELogType, LoggingService } from '../../../../../../logging.service';
+import { ModalImplementer } from '../../../../../../modal-implementer';
+import { MatDialog } from '@angular/material';
+import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
 
 @Component({
   selector: 'app-knowledge-base-presentation',
@@ -42,16 +43,16 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
     this.codeTextOutPutFromCodeEditor = this.codeTextInputToCodeEditorObj.text;
 
-    this.codeTextInputToCodeEditorObj = {...this.codeTextInputToCodeEditorObj};
+    this.codeTextInputToCodeEditorObj = { ...this.codeTextInputToCodeEditorObj };
     try {
       this.handontable_colHeaders = Object.keys(value.values[0]);
     } catch (e) {
       LoggingService.error(e);
     }
     // for (let index = 0; index < this.handontable_colHeaders.length; index++) {
-      // this.handontable_column[index] = {
-      //   data: index, type: 'text'
-      // }
+    // this.handontable_column[index] = {
+    //   data: index, type: 'text'
+    // }
     // }
 
     this.handontable_column = this.handontable_colHeaders;
@@ -68,7 +69,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   ner_type = 'double_match';
   conflict_policy = 'override';
   codeTextInputToCodeEditor: string;
-  codeTextInputToCodeEditorObj: { text: string } = {text: ''};
+  codeTextInputToCodeEditorObj: { text: string } = { text: '' };
   codeTextOutPutFromCodeEditor: string;
   // handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
   handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
@@ -86,7 +87,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     public utilityService: UtilityService,
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
-    public matDialog:MatDialog
+    public matDialog: MatDialog
   ) {
     super(utilityService, matDialog);
   }
@@ -99,15 +100,36 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
   }
 
-  openDeleteModal(template: TemplateRef<any>) {
+  async openDeleteModal() {
     // this.modalRef = this.modalService.show(template);
-    this.openDangerModal(template);
+    debugger;
+    await this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr: 'danger-modal-header-border',
+      data: {
+        actionButtonText: "Delete",
+        message: "This action cannot be undone.Are you sure you wish to delete?",
+        title: `Delete Concept?`,
+        isActionButtonDanger: true,
+        inputDescription: null
+      },
+      dialog: this.matDialog,
+      component: ModalConfirmComponent
+    }).then((data) => {
+      debugger;
+      if (data) {
+        this.deleteNer$.emit(this.ner_id);
+      }
+    })
+    // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
+
+    // this.openDangerModal(template);
   }
 
   async openFile(inputEl) {
 
     this.codeTextInputToCodeEditorObj.text = await this.utilityService.readInputFileAsText(inputEl);
-    this.codeTextInputToCodeEditorObj = {...this.codeTextInputToCodeEditorObj};
+    this.codeTextInputToCodeEditorObj = { ...this.codeTextInputToCodeEditorObj };
   }
 
   textChanged(codeText) {
@@ -165,9 +187,9 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     LoggingService.log(this.form.value);
   }
 
-  handsOnTableDataHasAtleastTwoRows(){
+  handsOnTableDataHasAtleastTwoRows() {
 
-    return this.handsontableData && this.handsontableData.length>2;
+    return this.handsontableData && this.handsontableData.length > 2;
   }
 
 

@@ -17,6 +17,7 @@ import {IHeaderData} from 'src/interfaces/header-data';
 import {IBotResult, IBot} from '../../interfaces/IBot';
 import {SetAllBotListAction} from '../../view-bots/ngxs/view-bot.action';
 import { IRole } from '../../interfaces/IRole';
+import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
 
 @Component({
   selector: 'app-enterprise-users',
@@ -286,10 +287,26 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
   }
 
-  customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }, enterpriseDeleteModal, ModifyUserModal) {
+  customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }, ModifyUserModal) {
     if (data.action === 'remove') {
       this.usertoDelete = data.data;
-      this.openDeletModal(enterpriseDeleteModal);
+      this.utilityService.openDialog({
+        dialogRefWrapper: this.dialogRefWrapper,
+        classStr:'danger-modal-header-border',
+        data:{
+          actionButtonText:"Remove",
+          message: `Do you want to remove ${this.usertoDelete.first_name} ${this.usertoDelete.last_name} from ${this.loggeduserenterpriseinfo.name}?`,
+          title:'Remove user?',
+          isActionButtonDanger:true
+        },
+        dialog: this.matDialog,
+        component:ModalConfirmComponent
+      }).then((data)=>{
+        if(data){
+          this.deleteUser();
+        }
+      })
+      // this.openDeletModal(enterpriseDeleteModal);
     }
     if (data.action === 'modify') {
       //

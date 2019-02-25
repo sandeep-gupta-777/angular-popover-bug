@@ -6,7 +6,7 @@
       <button class="btn-theme btn-theme-primary-outline ml-auto mr-3" routerLink="/core/reports">Cancel</button>
       <button class="btn-theme btn-theme-primary" *ngIf="!report_id" (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Create</button>
       <button class="btn-theme btn-theme-primary" *ngIf="report_id" (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Update</button>
-      <i class="fa fa-trash cursor-pointer" *ngIf="report_id" (click)="showReportDeleteModel(reportDeleteTemplate)"></i>
+      <i class="fa fa-trash cursor-pointer" *ngIf="report_id" (click)="showReportDeleteModel()"></i>
     </div>
   </div>
 
@@ -55,7 +55,7 @@
 
 
 
-<ng-template #reportDeleteTemplate>
+<!-- <ng-template #reportDeleteTemplate>
 
   <div class="danger-modal center-modal">
     <div class="modal-header">
@@ -78,7 +78,7 @@
   </div>
 
 
-</ng-template>
+</ng-template> -->
 
 <ng-template #unsubscribeTemplate>
   <div class="danger-modal">

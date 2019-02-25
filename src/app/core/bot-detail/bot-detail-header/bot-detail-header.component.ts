@@ -184,19 +184,41 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     }
   }
 
-
   async openDeleteModal() {
-    let data = await this.utilityService.openDialog({
+    debugger;
+    await this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr:'danger-modal-header-border',
+      data:{
+        actionButtonText:"Delete",
+        message: null,
+        title:`Delete bot ${this.bot.name}?`,
+        isActionButtonDanger:true,
+        inputDescription: null
+      },
       dialog: this.matDialog,
-      component: ModalConfirmComponent,
-      data: {title:`Delete bot ${this.bot.name}?`, message:null, actionButtonText:"Delete", isActionButtonDanger:true},
-      classStr: 'danger-modal-header-border',
-      dialogRefWrapper:this.dialogRefWrapper
-    });
-
-
-    if(data){
-      this.deleteBot();
-    }
+      component:ModalConfirmComponent
+    }).then((data)=>{
+      debugger;
+      if(data){
+        this.deleteBot();
+      } 
+    })
+    // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
+
+  // async openDeleteModal() {
+  //   let data = await this.utilityService.openDialog({
+  //     dialog: this.matDialog,
+  //     component: ModalConfirmComponent,
+  //     data: {title:`Delete bot ${this.bot.name}?`, message:null, actionButtonText:"Delete", isActionButtonDanger:true},
+  //     classStr: 'danger-modal-header-border',
+  //     dialogRefWrapper:this.dialogRefWrapper
+  //   });
+
+
+  //   if(data){
+  //     this.deleteBot();
+  //   }
+  // }
 }

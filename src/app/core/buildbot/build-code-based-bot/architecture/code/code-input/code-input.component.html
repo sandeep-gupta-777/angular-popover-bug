@@ -6,9 +6,9 @@
     [activeVersion]="activeVersion"
     [bot]="bot"
     (changeSelectedVersion$)="changeSelectedVersion($event)"
-    (saveSelectedVersion$)="saveSelectedVersion(validationWarningModal)"
+    (saveSelectedVersion$)="saveSelectedVersion()"
     (downloadAll$)="downloadZip()"
-    (openForkNewVersionModal$)="openForkNewVersionModal(Primarytemplate)"
+    (openForkNewVersionModal$)="openForkNewVersionModal(ForkVersiontemplate)"
   ></app-code-version-list>
   <!--<button (click)="downloadZip()">download</button>-->
 
@@ -167,7 +167,7 @@
 </div>
 
 <!--modals starts-->
-<ng-template #Primarytemplate>
+<ng-template #ForkVersiontemplate>
   <div class="primary-modal">
     <div class="modal-header" style="display: block!important;">
       <div class="d-flex">
@@ -284,16 +284,14 @@
 <!--</ng-template>-->
 
 
-<ng-template #validationWarningModal>
+<!-- <ng-template #validationWarningModal>
   <div class="danger-modal">
-    <!--<div class="top-dec"></div>-->
     <div class="modal-header" style="border:none !important">
       <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">version save failed</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-
     <div class="mx-3 mb-3" style="text-align: left !important;">
       <form #form="ngForm">
         <div class="my-1">
@@ -306,7 +304,6 @@
           </p>
         </div>
         <div class="d-flex">
-          <!-- <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRefWrapper.hide()">Cancel</button> -->
           <button class=" btn-theme btn-theme-primary-outline " style="color:#474747"
                   (click)="dialogRefWrapper.ref.close();openForkNewVersionModal(Primarytemplate)">Fork an inactive version
           </button>
@@ -314,6 +311,6 @@
       </form>
     </div>
   </div>
-</ng-template>
+</ng-template> -->
 
 

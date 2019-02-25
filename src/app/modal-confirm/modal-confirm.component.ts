@@ -1,7 +1,8 @@
-import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, OnInit, Output, ViewChild} from '@angular/core';
 import {EBotType} from '../utility.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {DialogData} from '../core/view-bots/create-bot-dialog/create-bot-dialog.component';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-modal-confirm',
@@ -12,10 +13,22 @@ export class ModalConfirmComponent{
 
   dataCopy:any;
   @Output() actionItemClicked$ = new EventEmitter();
+  @ViewChild('inputForm') Form: NgForm;
   constructor(
     public dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
     this.dataCopy = this.data;
   }
+
+
+  log(x){
+    debugger;
+    console.log(x);
+    this.dialogRef.close(x);
+  }
+
+  // ngOnDestroy(){
+  //     alert();
+  // }
 
 }

@@ -36,6 +36,7 @@ import {NgForm} from '@angular/forms';
 import {IUser} from '../../../../../interfaces/user';
 import {ModalImplementer} from '../../../../../../modal-implementer';
 import {MatDialog} from '@angular/material';
+import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
 
 declare var zip;
 declare var JSZip;
@@ -85,6 +86,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   showGenTempEditorAndHideGenTempUi = false;
   selectedChannelOfGenTemplate: { name: string, displayName: string };
   validationMessageToggle = false;
+  @ViewChild('ForkVersiontemplate') ForkVersiontemplate: ElementRef;
   // @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   @ViewChildren('gentemplateItem') private gentemplateItems: QueryList<ElementRef>;
   templateKeyDict;
@@ -349,7 +351,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
       });
   }
 
-  saveSelectedVersion(validationWarningModal) {
+  saveSelectedVersion() {
 
     if (this.showGenTempEditorAndHideGenTempUi === false && this.isGentemplateCodeParsable) {
       this.convertUiDictToGenTemplateCode(this.templateKeyDict);
@@ -378,7 +380,6 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
           !this.selectedVersion.validation.workflow.error &&
           !this.selectedVersion.validation.generation_rules.error &&
           !this.selectedVersion.validation.generation_templates.error) {
-
           this.selectedVersion.updated_fields = this.selectedVersion.changed_fields;
           this.selectedVersion.changed_fields = {
             'df_template': false,
@@ -420,7 +421,23 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
           if (this.bot.active_version_id === this.selectedVersion.id) {
             // this.modalRef = this.modalService.show(validationWarningModal, {class: 'modal-md'});
-            this.openPrimaryModal(validationWarningModal);
+            // this.openPrimaryModal(validationWarningModal);
+            this.utilityService.openDialog({
+              dialogRefWrapper: this.dialogRefWrapper,
+              classStr:'danger-modal-header-border',
+              data:{
+                actionButtonText:"Fork an inactive version",
+                message: 'The current active version has error which need to be rectified before saving the version.You can resolve the errors in the active version to save it right now.You can fork this version to an inactive version with these errors and you can save it,inactive versions can be saved with errors.',
+                title:'Version save failed',
+                isActionButtonDanger:true
+              },
+              dialog: this.matDialog,
+              component:ModalConfirmComponent
+            }).then((data)=>{
+              if(data){
+                this.openForkNewVersionModal(this.ForkVersiontemplate);
+              }
+            })
           } else {
             this.utilityService.showErrorToaster('Your code has error. But it will be saved as its not active');
 

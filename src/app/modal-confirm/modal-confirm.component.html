@@ -10,9 +10,25 @@
     <div class="text-center my-1">
       <p class="mb-3">{{dataCopy.message||'This action cannot be undone. Are you sure you wish to delete?'}}</p>
     </div>
+    <form class = "input-form" #inputForm="ngForm" [hidden]="!dataCopy.inputDescription">
+      <mat-form-field class="example-full-width">
+        <input matInput [placeholder]="dataCopy.inputDescription" ngModel name="inputData" required>
+      </mat-form-field>
+    </form>
     <div class="d-flex">
       <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2" (click)="dialogRef.close()">Cancel</button>
-      <button class=" btn-theme" [ngClass]="{'btn-theme-danger':dataCopy.isActionButtonDanger}" (click)="dialogRef.close(true)">{{dataCopy.actionButtonText||'Continue'}}</button>
+      <button class=" btn-theme " 
+      *ngIf="!dataCopy.inputDescription"
+      [ngClass]="{ 'btn-theme-danger': dataCopy.isActionButtonDanger ,  'btn-theme-primary': !dataCopy.isActionButtonDanger}" 
+      (click)="dialogRef.close(true);"
+       >{{dataCopy.actionButtonText||'Continue'}}</button>
+       
+       <button class=" btn-theme " 
+       *ngIf="dataCopy.inputDescription"
+      [disabled]="inputForm && !inputForm.valid"
+      [ngClass]="{ 'btn-theme-danger': dataCopy.isActionButtonDanger ,  'btn-theme-primary': !dataCopy.isActionButtonDanger}" 
+      (click)="dialogRef.close(inputForm.value.inputData);"
+       >{{dataCopy.actionButtonText||'Continue'}}</button>
     </div>
   </div>
 </div>

@@ -95,11 +95,11 @@
 
       <div *ngIf="ner_id && routeName===myERouteNames['Get Enterprise Knowledge base']">
         <div *myIf="myEAllActions['Delete Enterprise Knowledge base']"
-             (click)="openDeleteModal(deleteTemplate)"><i class="fa fa-trash cursor-pointer"></i></div>
+             (click)="openDeleteModal()"><i class="fa fa-trash cursor-pointer"></i></div>
       </div>
       <div *ngIf="ner_id && routeName!==myERouteNames['Get Enterprise Knowledge base']">
         <div *myIf="myEAllActions['Delete Bot Knowledge base']"
-             (click)="openDeleteModal(deleteTemplate)"><i class="fa fa-trash cursor-pointer"></i></div>
+             (click)="openDeleteModal()"><i class="fa fa-trash cursor-pointer"></i></div>
       </div>
     </form>
   </div>
@@ -121,24 +121,4 @@
   </div>
 </div>
 
-<ng-template #deleteTemplate>
-  <div class="danger-modal">
-    <div class="modal-header">
-      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete Concept?</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-    <div class="modal-body pt-0">
-      <form #form="ngForm">
-        <div class="text-center my-1">
-          <p class="mb-3">This action cannot be undone.Are you sure you wish to delete?</p>
-        </div>
-        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
-        <button class=" btn-theme btn-theme-danger" (click)="deleteNer$.emit(ner_id);dialogRefWrapper.ref.close()">Delete</button>
-      </form>
-    </div>
-  </div>
-</ng-template>
 
