@@ -122,7 +122,8 @@ const routes: Route[] = [
     LimitObjectArraysStringPipe,
     ConsumerFullscreenWrapperComponent,
     /*after lazy loading*/
-    RequiredIfOneFilledValidator
+    // RequiredIfOneFilledValidator
+  //
   ],
   imports: [
     RichMediaModule,

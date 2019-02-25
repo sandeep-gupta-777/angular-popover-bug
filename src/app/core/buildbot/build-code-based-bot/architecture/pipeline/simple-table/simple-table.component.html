@@ -11,7 +11,7 @@
   <tr *ngFor="let item of pipeline_modules">
     <td>{{item.library}}</td>
     <td style="position: relative">
-      <i style="position: absolute;left: -10px;top: 10px;" class="fa fa-circle-o"
+      <i style="position: absolute;left: -10px;top: 10px; font-size: 8px" class="fa fa-circle"
          [ngStyle]="{'color': item.is_paid === 'paid'? '#f5a623':'#34bc6e'}"></i>
       {{item.is_paid}}
     </td>

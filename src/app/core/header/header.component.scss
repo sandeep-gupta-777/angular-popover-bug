@@ -7,6 +7,7 @@
 }
 
 header {
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
   background-color: $color-primary-v2;
@@ -57,7 +58,7 @@ header {
     text-decoration: none;
 
     img {
-      margin-right: 5px;
+      margin-right: 8px;
     }
 
     @media screen and (max-width: 780px) {
@@ -165,4 +166,12 @@ header {
 .fa {
   color: white;
   margin: 0;
+}
+
+
+::ng-deep{
+  button{
+    padding-top: 2px !important;
+    font-size: 13px !important;
+  }
 }

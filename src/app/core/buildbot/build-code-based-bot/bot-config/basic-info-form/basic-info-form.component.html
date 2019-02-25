@@ -2,7 +2,7 @@
 <form [formGroup]="formGroup" class="bot-creation-form">
     <div class="row m-0">
         <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
-            <div style="font-size: 11px; margin-bottom: 10px">basic information</div>
+            <div style="font-size: 11px; margin-bottom: 16px">Basic information</div>
             <app-bot-config-input
                 #NameInput
                 displayName="Bot Name"
@@ -16,11 +16,19 @@
                     [isRequired]="true"
                     placeholder="Bot Unique Name"></app-bot-config-input>
 
-            <app-bot-config-input
-                    displayName="Description"
-                    formControlName="description"
-                    [isRequired]="true"
-                    placeholder=" description for the Bot"></app-bot-config-input>
+            <!--<app-bot-config-input-->
+            <!--displayName="Description"-->
+            <!--formControlName="description"-->
+            <!--[isRequired]="true"-->
+            <!--placeholder="Description"></app-bot-config-input>-->
+
+            <mat-form-field class="w-100" ngNativeValidate>
+                <textarea type="text" id="alterEgo"
+                          matInput
+                          formControlName="description"
+                          placeholder="Description"
+                          [disabled]="isDisabled"></textarea>
+            </mat-form-field>
 
 
         </fieldset>
@@ -111,15 +119,15 @@
         <!---->
         <div class="col-5">
             <mat-form-field class="w-100">
-                <input matInput formControlName="first_message" type="text" class=""
-                       placeholder="First Message">
+                <textarea matInput formControlName="first_message" type="text" class=""
+                          placeholder="First Message"></textarea>
             </mat-form-field>
         </div>
         <div class="col-1"></div>
         <div class="col-5">
             <mat-form-field class="w-100">
-            <input matInput formControlName="error_message" type="text" class=""
-            placeholder="Default Platform Error Message ">
+                <textarea matInput formControlName="error_message" type="text" class=""
+                          placeholder="Default Platform Error Message "></textarea>
             </mat-form-field>
         </div>
     </div>

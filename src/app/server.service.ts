@@ -601,8 +601,10 @@ export class ServerService {
 
 
   getNSetConfigData$() {
+
     return this.makeGetReq({url: '/static/config.json', noValidateUser: true})
       .pipe(tap(((value: { 'backend_url': string, 'version': string }) => {
+
         this.store.dispatch([
           new SetBackendURlRoot({url: value.backend_url})
         ]);
@@ -681,6 +683,9 @@ export class ServerService {
   getLinkMetaData(link){
     return this.makeGetReq({url:'http://api.linkpreview.net/?key=5c488da19fef97c0cb6a5fbc472a08d3def1842ea6ac3&q='+link})
   }
+
+
+
 
 
 

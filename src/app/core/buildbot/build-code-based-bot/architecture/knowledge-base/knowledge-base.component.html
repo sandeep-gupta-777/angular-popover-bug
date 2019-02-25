@@ -4,16 +4,24 @@
     <button class="btn-theme btn-theme-primary"
             (click)="reinitialise()"
             *myIf="myEAllActions['Create Enterprise Knowledge base']"
-    >Create Concept
+    >+ New Concept
     </button>
   </div>
   <div class="col-12 pb-2 d-flex justify-content-end"
        *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']">
-    <button class="btn-theme btn-theme-primary"
+    <button class="mat-theme-button"
+            mat-button
+            style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
             (click)="reinitialise()"
             *myIf="myEAllActions['Create Bot Knowledge base']"
-    >Create Concept
+    >
+      + New Concept
     </button>
+
+    <!--<button-->
+
+      <!--Analytics-->
+    <!--</button>-->
   </div>
 </div>
 
