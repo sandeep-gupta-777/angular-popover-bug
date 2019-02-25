@@ -77,8 +77,8 @@
                      *ngIf="tableData"
                      style="flex-grow: 1"
                      [totalRecords]="totalSessionRecords"
-                     (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,reasonForDecryptionTemplate)"
-                     (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate, reasonForDecryptionTemplate)"
+                     (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
+                     (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate)"
                      [showSearchInDbButton]="true"
                      [showRefreshButton]="true"
                      (performSearchInDB$)="performSearchInDbForSession($event)"></app-smart-table>
@@ -115,7 +115,7 @@
     <!--</div>-->
 </ng-template>
 <!---->
-<ng-template #reasonForDecryptionTemplate>
+<!-- <ng-template #reasonForDecryptionTemplate>
     <div class="primary-modal">
         <div class="modal-header">
             <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Reason for decryption</h4>
@@ -138,4 +138,4 @@
             </form>
         </div>
     </div>
-</ng-template>
+</ng-template> -->

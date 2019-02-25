@@ -17,6 +17,7 @@ import {catchError} from 'rxjs/internal/operators';
 import {IAppState} from '../../../ngxs/app.state';
 import {IIntegrationMasterListItem} from '../../../../interfaces/integration-option';
 import {NgForm} from '@angular/forms';
+import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
 
 interface ISessionFilterData {
   id: number,
@@ -55,7 +56,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   showPrevButton: boolean;
   pageNumberOfCurrentRowSelected = 1;
   indexOfCurrentRowSelected: number;
-  decryptReason: string;
+  // decryptReason: string;
   filterData: ISessionFilterData;
   @Select() app$: Observable<IAppState>;
 
@@ -167,7 +168,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     return sessionsDataForTable;
   }
 
-  sessionTableRowClicked(eventData: { data: ISessionItem }, template?, reasonForDecryptionTemplate?) {
+  sessionTableRowClicked(eventData: { data: ISessionItem }, template?) {
     let isEncrypted: boolean;
     /*
       * TODO: there is a data_encrypted key it the row itself. Can we use it?
@@ -176,7 +177,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
     if (eventData.data.data_encrypted) {
 
-      this.openSessionRowDecryptModal(this.reasonForDecryptionTemplate, eventData.data);
+      this.openSessionRowDecryptModal( eventData.data);
     } else {
       this.loadSessionMessagesById(eventData.data.id)
         .subscribe((value: {objects:ISessionItem[]}) => {
@@ -220,8 +221,6 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     //
     //   });
   }
-
-  @ViewChild('reasonForDecryptionTemplate') reasonForDecryptionTemplate: TemplateRef<any>;
   @ViewChild('sessionDetailTemplate') sessionDetailTemplate: TemplateRef<any>;
 
   selectNextRow() {
@@ -257,7 +256,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     // this.modalRef.hide();
     this.dialogRefWrapper.ref.close();
     const sessionToBeDecrypted = this.sessions[this.indexOfCurrentRowSelected];
-    this.openSessionRowDecryptModal(this.reasonForDecryptionTemplate, sessionToBeDecrypted);
+    this.openSessionRowDecryptModal(sessionToBeDecrypted);
     return;
   }
 
@@ -312,22 +311,20 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       /*use dcrypt api*/
 
       const sessionItemToBeDecrypted = data.data;
-      this.openSessionRowDecryptModal(Primarytemplate, sessionItemToBeDecrypted);
+      this.openSessionRowDecryptModal(sessionItemToBeDecrypted);
 
     }
   }
 
-  decryptSubmit(sessionTobeDecryptedId: number) {
-    this.decryptReason = '';
+  decryptSubmit(sessionTobeDecryptedId: number , decryptReason) {
+    
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-    const body = {'room_id': sessionTobeDecryptedId, 'decrypt_audit_type': 'room', 'message': this.decryptReason};
+    const body = {'room_id': sessionTobeDecryptedId, 'decrypt_audit_type': 'room', 'message':decryptReason};
     const url = this.constantsService.getDecryptUrl();
     this.serverService.makePostReq({headerData, body, url})
       .subscribe(() => {
-
-        this.decryptReason = null;
         const surl = this.constantsService.getSessionsByIdUrl(sessionTobeDecryptedId);
         this.serverService.makeGetReq({url: surl, headerData})
           .subscribe((value: { objects: ISessionItem[] }) => {
@@ -346,15 +343,33 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   }
 
-  openSessionRowDecryptModal(template: TemplateRef<any>, sessionToBeDecrypted: ISessionItem) {
+  openSessionRowDecryptModal( sessionToBeDecrypted: ISessionItem) {
     this.sessionItemToBeDecrypted = sessionToBeDecrypted;
     // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
     this.utilityService.openDialog({
-      component: template,
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr:'danger-modal-header-border',
+      data:{
+        actionButtonText:`Decrypt`,
+        message: 'Use the decryption key to see all the messages exchanged.',
+        title:`Decrypt session`,
+        isActionButtonDanger:false,
+        inputDescription: "Key"
+      },
       dialog: this.matDialog,
-      classStr: 'primary-modal-header-border',
-      dialogRefWrapper: this.dialogRefWrapper
-    });
+      component:ModalConfirmComponent
+    }).then((data)=>{
+      if(data){
+        this.decryptSubmit(this.sessionItemToBeDecrypted.id , data);
+      }
+    })
+
+    // this.utilityService.openDialog({
+    //   component: template,
+    //   dialog: this.matDialog,
+    //   classStr: 'primary-modal-header-border',
+    //   dialogRefWrapper: this.dialogRefWrapper
+    // });
   }
 
   loadSessionMessagesById(id) {

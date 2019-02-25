@@ -2,20 +2,42 @@
 // @import "~src/sass/components/_buttons.scss";
 :host{
   display: block;
-  padding: 20px;
+  padding: 0 !important;
+  border-radius: 4px;
+  min-width: 530px;
+  max-width: 700px
 }
 
-.danger-modal{
-  @include classic-modal(#b14250);
-  padding: 20px
+// .danger-modal{
+//   @include classic-modal(#b14250);
+//   padding: 20px
+// }
+
+
+// input {
+//   margin: 4px;
+//   height: 25px;
+//   border-radius: 2px;
+//   width: 95%;
+//   border: solid 1px #e0e0e0;
+//   padding-left: 8px;
+// }
+
+.modal-header .close{
+  padding: 0;
+  margin: 0;
 }
 
-
-input {
-  margin: 4px;
-  height: 25px;
-  border-radius: 2px;
-  width: 95%;
-  border: solid 1px #e0e0e0;
-  padding-left: 8px;
+.modal-header{
+  
+  padding-top: 20px;
+  padding-bottom: 8px;
+}
+.modal-body{
+  padding-bottom: 20px;
+  padding-top: 8px;
+}
+.px-20{
+  padding-left: 30px;
+  padding-right: 20px;
 }
