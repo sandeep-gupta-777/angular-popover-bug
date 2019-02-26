@@ -146,3 +146,17 @@ label {
 }
 
 
+.primary-modal{ 
+  .modal-body{
+    text-align: start;
+}
+.btn-theme-primary-outline{
+  border: solid 1px #e0e0e0;
+  color:#474747 !important;
+}
+.modal-header{
+  .modal-title{
+    font-size: 16px;
+  }
+}
+}

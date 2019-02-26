@@ -24,6 +24,7 @@ import { IGeneratedMessageItem } from '../interfaces/send-api-request-payload';
 import { StoreVariableService } from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
+import { ModalConfirmComponent } from './modal-confirm/modal-confirm.component';
 
 
 @Injectable({
@@ -1269,6 +1270,25 @@ export class UtilityService {
       });
     });
 
+  }
+
+  openCloseWithoutSavingModal(dialogRefWrapper,matDialog) {
+    debugger;
+    return this.openDialog({
+      dialogRefWrapper: dialogRefWrapper,
+      classStr:'danger-modal-header-border',
+      data:{
+        actionButtonText:"Close without saving",
+        message: "All your unsaved changes will be lost if you don’t save.",
+        title:`Close without saving?`,
+        isActionButtonDanger:true,
+        inputDescription: null,
+        closeButtonText:"Keep editing"
+      },
+      dialog: matDialog,
+      component:ModalConfirmComponent
+    })
+    // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
 
   static hasRequiredField(abstractControl: NgControl): boolean {

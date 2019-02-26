@@ -111,7 +111,8 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
         message: "This action cannot be undone.Are you sure you wish to delete?",
         title: `Delete Concept?`,
         isActionButtonDanger: true,
-        inputDescription: null
+        inputDescription: null,
+        closeButtonText: "Keep editing"
       },
       dialog: this.matDialog,
       component: ModalConfirmComponent

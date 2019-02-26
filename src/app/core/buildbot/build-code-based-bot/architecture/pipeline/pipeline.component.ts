@@ -202,6 +202,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
     if (Pipelineform.valid) {
       console.log(Pipelineform.value);
       this.selectedPipeline.input_params = Pipelineform.value;
+      this.addPipelineItemToPipeline(this.selectedPipeline);
     }
   }
 
@@ -211,6 +212,11 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
 
   addPipelineItemToPipeline(pipelineItem: IPipelineItem) {
     console.log('=========>', pipelineItem);
+    debugger;
+    let pipeLineTemp = this.pipeLine.filter(item => {
+      return item.id !== pipelineItem.id
+    });
+    this.pipeLine = pipeLineTemp;
     this.pipeLine.push(pipelineItem);
   }
 

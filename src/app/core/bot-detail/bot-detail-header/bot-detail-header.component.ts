@@ -190,11 +190,12 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
       dialogRefWrapper: this.dialogRefWrapper,
       classStr:'danger-modal-header-border',
       data:{
-        actionButtonText:"Delete",
+        actionButtonText:"Delete bot",
         message: null,
-        title:`Delete bot ${this.bot.name}?`,
+        title:`Delete ${this.bot.name}?`,
         isActionButtonDanger:true,
-        inputDescription: null
+        inputDescription: null,
+        closeButtonText: "Keep bot"
       },
       dialog: this.matDialog,
       component:ModalConfirmComponent
