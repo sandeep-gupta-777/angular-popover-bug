@@ -124,7 +124,7 @@ background-color: #f0f3f4;
 
     <div class="modal-body pt-0">
       <form ngNativeValidate class="d-flex flex-column" #Pipelineform="ngForm">
-
+        <div class="pb-2">Library configuration</div>
         <div *ngFor="let Key of myObject.keys(selectedPipeline.display_values)" >
 
              <mat-form-field *ngIf="selectedPipeline.display_values[Key].type == 'dropdown'">
