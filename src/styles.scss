@@ -903,7 +903,7 @@ progressbar {
 }
 
 .cm-s-cobalt.CodeMirror {
-  background: #002240;
+  background: #474747;
   color: white;
   position: absolute;
 }
@@ -921,8 +921,8 @@ progressbar {
 }
 
 .cm-s-cobalt .CodeMirror-gutters {
-  background: #002240;
-  border-right: 1px solid #aaa;
+  background: #474747;
+  border-right: 1px solid transparent;
 }
 
 .cm-s-cobalt .CodeMirror-guttermarker {
@@ -1075,6 +1075,7 @@ body {
 
 *:not(.fa):not(mat-icon){
   font-family: 'IBM Plex Sans', sans-serif;
+  -webkit-font-smoothing : antialiased
 }
 
 

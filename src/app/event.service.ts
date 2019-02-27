@@ -43,4 +43,5 @@ export class EventService {
   }
 
   static updateBot$ = new EventEmitter();
+  static createConceptFullScreen$ = new EventEmitter();
 }

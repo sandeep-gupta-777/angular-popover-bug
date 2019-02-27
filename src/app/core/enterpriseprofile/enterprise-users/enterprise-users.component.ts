@@ -323,7 +323,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     form.form.patchValue(formVal);
   }
   noOfTrues(arr){
-    debugger;
+
     let count = 0;
     let  p = Object.keys(arr) ;
     for (let x in p){

@@ -59,6 +59,8 @@ import {IntegrationOptionListComponent} from './core/buildbot/build-code-based-b
 import {DisplayNameForKeyIntegrationPipe} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/display-name-for-key-integration.pipe';
 import {BuildbotWrapperComponent} from './core/buildbot/buildbot-wrapper.component';
 import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
+import {RequiredIfOneFilledValidator} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/requiredIfOneFilledValidator.directive';
+import {InfoIconComponent} from './info-icon/info-icon.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +71,7 @@ import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
     SplashScreenComponent,
     MsToHhMmPipe,
     DataManageFormComponent,
+    InfoIconComponent,
     BuildbotWrapperComponent,
     BasicInfoFormComponent,
     BotConfigInputComponent,
@@ -112,7 +115,8 @@ import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
     IntegrationItemForTypePipe,
     IntegrationItemComponent,
     IntegrationOptionListComponent,
-    DisplayNameForKeyIntegrationPipe
+    RequiredIfOneFilledValidator,
+    DisplayNameForKeyIntegrationPipe,
   ],
   imports: [
     MyMaterialModule,
@@ -136,6 +140,7 @@ import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
     SafeUrlPipe,
     IntegrationLogosPipe,
     DataManageFormComponent,
+    InfoIconComponent,
     BasicInfoFormComponent,
     BotConfigInputComponent,
     PipelineFilterPipe,
@@ -177,6 +182,7 @@ import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
     IntegrationItemForTypePipe,
     IntegrationItemComponent,
     IntegrationOptionListComponent,
+    RequiredIfOneFilledValidator,
     DisplayNameForKeyIntegrationPipe,
     BuildbotWrapperComponent
   ]

@@ -67,10 +67,10 @@
         </ul>
 
         <div class="d-flex justify-content-between mt-2">
-            <button mat-raised-button color="primary" type="button" (click)="sessionFormSubmitted(form.value)">
+            <button mat-button class="mat-theme-button" color="primary" type="button" (click)="sessionFormSubmitted(form.value)">
                 Submit
             </button>
-            <button mat-button (click)="resetSearchForm(form)">Cancel</button>
+            <button mat-button class="mat-theme-button" (click)="resetSearchForm(form)">Cancel</button>
         </div>
     </form>
     <app-smart-table [data]="tableData"

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 4400 -o",
+    "start": "npm run hmr",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -22,6 +22,11 @@
     "build-old": "ng build --prod && ",
     "index": "node file-index-script.js",
     "hmr": "ng serve --configuration hmr"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run xgit"
+    }
   },
   "private": true,
   "dependencies": {

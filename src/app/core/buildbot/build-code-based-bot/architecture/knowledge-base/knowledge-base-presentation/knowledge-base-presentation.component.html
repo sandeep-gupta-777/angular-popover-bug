@@ -1,97 +1,94 @@
 <div class="d-flex-column-last-child-flex-grow-1 create-concept-row">
-  <div class="child d-flex justify-content-between">
-    <button class="btn-theme btn-theme-primary-outline" (click)="showTable$.emit(); _selectedRowData = {}">Go Back
-    </button>
-    <form ngNativeValidate class="options d-flex align-items-end" #form="ngForm">
-      <mat-form-field style="margin-bottom: -1.25em">
-        <input type="text" matInput placeholder="Concept Key" required [(ngModel)]="key" name="key">
-      </mat-form-field>
-      <div class="d-flex flex-column mx-2">
 
-        <mat-form-field style="margin-bottom: -1.25em">
-          <mat-select [(ngModel)]="ner_type" required name="ner_type" placeholder="Concept Type">
-            <mat-option value="single_match">Single Match</mat-option>
-            <mat-option value="double_match">Double Match</mat-option>
-            <mat-option value="with_metadata">With Metadata</mat-option>
-            <mat-option value="database">Database</mat-option>
-            <mat-option value="regex">Regex</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-      </div>
-
-      <div class="d-flex flex-column mx-2">
-        <label for="" class="m-0 p-0 mb-1">Process Raw Text</label>
-        <div style="height: 26px;">
-          <mat-slide-toggle
-            name="process_raw_text"
-            color="primary"
-            class="d-flex align-items-center mx-1"
-            style="border:none;padding: 0;"
-            [(ngModel)]="process_raw_text"></mat-slide-toggle>
+    <header style="padding-left: 14px">
+        <div style="position: relative;">
+            <i class="fa fa-angle-left cursor-pointer" title="Go back" style="position: absolute; left: -15px;  font-size: 19px"  (click)="showTable$.emit(); _selectedRowData = {}"></i>
+            <h6 style="font-size: 16px; font-weight: bold; margin-bottom: 8px">Edit concept</h6>
+            <p style="color: #9e9e9e; font-size: 11px">Select from 5 concept types. ‘Single match’ which matches the phrase exactly said; ‘Partial Match’ which matches within a subset of the string;‘Regex’ to parse regular expressions; ‘Database’ for multiple values; ‘With metadata’ for additional accesible data.</p>
         </div>
-      </div>
-      <div class="d-flex flex-column mx-2" *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']">
-        <span class="required p-0 mb-1 ">Override Policy</span>
-        <div class="d-flex cursor-pointer" style="height: 26px;">
-          <label
-            [ngClass]="{'label-selected':conflict_policy==='override','label-unselected': conflict_policy==='merge'}"
-            class="p-0 px-2 m-0"
-            for="radio1">Override</label>
-          <input hidden type="radio" class="form-check-input" id="radio1" required name="conflict_policy"
-                 [(ngModel)]="conflict_policy" value="override" checked>
-          <label
-            [ngClass]="{'label-unselected':conflict_policy==='override','label-selected': conflict_policy==='merge'}"
-            class="p-0 px-2 m-0" for="radio2">Merge</label>
-          <input hidden type="radio" class="form-check-input" id="radio2" required name="conflict_policy"
-                 [(ngModel)]="conflict_policy" value="merge">
+    </header>
 
-        </div>
+    <div class="child d-flex justify-content-between">
+        <!--<button class="btn-theme btn-theme-primary-outline" (click)="showTable$.emit(); _selectedRowData = {}">Go Back-->
+        <!--</button>-->
+        <form ngNativeValidate class="options d-flex align-items-end w-100" #form="ngForm">
+            <mat-form-field style="margin-bottom: -1.25em">
+                <input type="text" matInput placeholder="Concept Key" required [(ngModel)]="key" name="key">
+            </mat-form-field>
+            <div class="d-flex flex-column mx-2">
 
-      </div>
-<!--<<<<<<< HEAD-->
+                <mat-form-field style="margin-bottom: -1.25em">
+                    <mat-select [(ngModel)]="ner_type" required name="ner_type" placeholder="Concept Type">
+                        <mat-option value="single_match">Single Match</mat-option>
+                        <mat-option value="double_match">Double Match</mat-option>
+                        <mat-option value="with_metadata">With Metadata</mat-option>
+                        <mat-option value="database">Database</mat-option>
+                        <mat-option value="regex">Regex</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
 
-      <!--<fieldset *ngIf="!routeName">-->
-      <!--<div>-->
-      <!--<span *ngIf="!routeName" class="requiredClass p-0">Override Policy</span>-->
-      <!--</div>-->
-      <!--<div class="label-wrapper d-flex" style="height: 26px">-->
-      <!--<label class="form-check-label" for="radio1">-->
-      <!--Override-->
-      <!--</label>-->
-      <!--<input hidden type="radio" class="form-check-input" id="radio1" requiredClass name="conflict_policy"-->
-      <!--[(ngModel)]="conflict_policy" value="override" checked>-->
-      <!--<label class="form-check-label" for="radio2">-->
-      <!--<input hidden type="radio" class="form-check-input" id="radio2" requiredClass name="conflict_policy"-->
-      <!--[(ngModel)]="conflict_policy" value="merge">Merge-->
-      <!--</label>-->
-      <!--</div>-->
-      <!--</fieldset>-->
-<!---->
-<!--=======-->
-<!--&gt;>>>>>> feature10#578-user-feedback-in-chat-->
-      <!--update/create button starts-->
-      <div *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']">
-        <button
-          class="btn-theme btn-theme-primary mx-1"
-          [disabled]="!form.valid || (ner_type === 'database' && handsOnTableDataHasAtleastTwoRows())"
-          (click)="updateOrSaveConcept()"
-                *myIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
-        >
-          {{ner_id?"Update": "Create" }}
-        </button>
-      </div>
+            <div class="d-flex flex-column mx-2">
+                <label for="" class="m-0 p-0 mb-1">Process Raw Text</label>
+                <div style="height: 26px;">
+                    <mat-slide-toggle
+                            name="process_raw_text"
+                            color="primary"
+                            class="d-flex align-items-center mx-1"
+                            style="border:none;padding: 0;"
+                            [(ngModel)]="process_raw_text"></mat-slide-toggle>
+                </div>
+            </div>
+            <div class="d-flex flex-column mx-2 mr-auto" *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']">
+                <span class="required p-0 mb-1 ">Override Policy</span>
+                <div class="d-flex cursor-pointer" style="height: 26px;">
+                    <label
+                            [ngClass]="{'label-selected':conflict_policy==='override','label-unselected': conflict_policy==='merge'}"
+                            class="p-0 px-2 m-0"
+                            for="radio1">Override</label>
+                    <input hidden type="radio" class="form-check-input" id="radio1" required name="conflict_policy"
+                           [(ngModel)]="conflict_policy" value="override" checked>
+                    <label
+                            [ngClass]="{'label-unselected':conflict_policy==='override','label-selected': conflict_policy==='merge'}"
+                            class="p-0 px-2 m-0" for="radio2">Merge</label>
+                    <input hidden type="radio" class="form-check-input" id="radio2" required name="conflict_policy"
+                           [(ngModel)]="conflict_policy" value="merge">
 
-      <div *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']">
-        <button class="btn-theme btn-theme-primary mx-1"
-                [disabled]="!form.valid"
-                (click)="updateOrSaveConcept()"
-                *myIf="[myEAllActions['Create Bot Knowledge base'],myEAllActions['Update Bot Knowledge base']]"
-        >
-          {{ner_id?"Update": "Create" }}
-        </button>
-      </div>
-      <!--update/create button ends-->
+                </div>
+
+            </div>
+
+            <div *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']">
+                <button
+                        mat-button
+                        class="mat-theme-button"
+                        [disabled]="!form.valid || (ner_type === 'database' && handsOnTableDataHasAtleastTwoRows())"
+                        (click)="updateOrSaveConcept()"
+                        *myIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
+                >
+                    <mat-icon>refresh</mat-icon>{{ner_id ? "Update" : "Create" }}
+                </button>
+            </div>
+
+            <div *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']">
+                <button mat-button
+                        class="mat-theme-button"
+                        style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
+                        [disabled]="!form.valid"
+                        (click)="updateOrSaveConcept()"
+                        *myIf="[myEAllActions['Create Bot Knowledge base'],myEAllActions['Update Bot Knowledge base']]">
+                    <mat-icon>refresh</mat-icon>{{ner_id ? "Update" : "Create" }}
+                </button>
+            </div>
+
+            <!--<button class="mat-theme-button"-->
+                    <!--mat-button-->
+                    <!--style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"-->
+                    <!--(click)="reinitialise()"-->
+                    <!--*myIf="myEAllActions['Create Bot Knowledge base']"-->
+            <!--&gt;-->
+                <!--+ New Concept-->
+            <!--</button>-->
 
       <div *ngIf="ner_id && routeName===myERouteNames['Get Enterprise Knowledge base']">
         <div *myIf="myEAllActions['Delete Enterprise Knowledge base']"
@@ -110,15 +107,6 @@
       <app-code-editor class="" (textChangedEvent)="textChanged($event)"
                        [text]="codeTextInputToCodeEditorObj"></app-code-editor>
     </div>
-    <app-handsontable
-      *ngIf="ner_type==='database'"
-      class="d-flex-column-last-child-flex-grow-1"
-      style="overflow: scroll;"
-      [testData]="handsontableData"
-      (csvUploaded$)="handsontableData = $event"
-      [setting]="constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_SETTING">
-    </app-handsontable>
-  </div>
 </div>
 
 

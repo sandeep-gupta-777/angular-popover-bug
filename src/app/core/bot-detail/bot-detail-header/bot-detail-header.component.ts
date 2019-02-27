@@ -76,6 +76,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
 
   /*TODO: remove it*/
   updateBot() {
+
     try {
       this.dialogRefWrapper.ref.close();
     } catch (e) {
@@ -206,5 +207,9 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
       } 
     })
     // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
+  }
+
+  openAnalyticsForBot(){
+    this.router.navigate(['/core/analytics2/overview'], {queryParams:{bot_id:this.bot.id}});
   }
 }

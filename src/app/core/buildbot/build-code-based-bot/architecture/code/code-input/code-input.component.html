@@ -7,9 +7,9 @@
   </app-code-version-list>
   <!--<button (click)="downloadZip()">download</button>-->
 
-  <div class="row row-tabs child-no-expand-shrink ">
-    <div class="col-12">
-      <div class="card" style="background-color: transparent">
+    <div class="row row-tabs child-no-expand-shrink ">
+        <div class="col-12">
+            <div class="card" style="background-color: transparent">
 
         <!--tabs start-->
         <div class="card-body p-0 mr-0">
@@ -65,18 +65,18 @@
                 title="Toggle UI view"></mat-slide-toggle>
               <span>Code</span>
 
-            </li>
-          </ul>
-          <!--tabs end-->
+                        </li>
+                    </ul>
+                    <!--tabs end-->
 
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <!-- code editor starts here -->
-  <div class="d-flex" style="height:100%">
-    <div
-      class="code-editor-row code-editor-row-max position-relative child-expand  d-flex-column-last-child-flex-grow-1">
+    <!-- code editor starts here -->
+    <div class="d-flex" style="height:100%">
+        <div
+                class="code-editor-row code-editor-row-max position-relative child-expand  d-flex-column-last-child-flex-grow-1">
 
       <app-code-editor class="child-expand" [hidden]="activeTab!==myEBotVersionTabs.df_template"
         [doShowValidationsIcon]="true" [text]="editorCodeObj[myEBotVersionTabs.df_template]"
@@ -145,7 +145,6 @@
         Validation was successful. You can validate again if you need.
       </div>
     </div>
-  </div>
 
 </div>
 
@@ -207,7 +206,7 @@
           </button>
         </div>
 
-      </form>
+            </form>
+        </div>
     </div>
-  </div>
 </ng-template>
