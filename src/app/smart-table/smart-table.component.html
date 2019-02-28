@@ -12,6 +12,9 @@
 </div>
 <input type="text" #headerHoverd value="false" hidden>
 <input type="text" #calenderOpened value="{{formDirty}}" hidden>
+<!--<i>{{sortDir}}</i>-->
+<!--<i>{{sortedCol}}</i>-->
+<!--<i>{{sortDir === myESortDir.ASC && i===sortedCol}}</i>-->
 <form #tableForm="ngForm" *ngIf="tableData" (click)="handleDataValueClicked($event)">
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <!-- Symbol Column -->
@@ -29,14 +32,15 @@
             <span [style.visibility]="(!(tableData[0][i].search || tableData[0][i].dateRange) || formDirty ===false  && headerHoverd.value ==='false') ? 'visible' : 'hidden'">{{i}}</span>
 
             <!--text search starts-->
-            <div *ngIf="headerHoverd.value" style="position: absolute; top: 0px; left: -15px; right: 0 ; bottom: 0; display: flex; flex-direction: column">
+            <div *ngIf="headerHoverd.value === 'true'"
+                 style="position: absolute; top: 0px; left: -15px; right: 0 ; bottom: 0; display: flex; flex-direction: column">
               <i class="fa fa-caret-up"
                  title="Sort descending"
                  style="margin-bottom: 6px"
-                 [ngClass]="{'text-bold': sortDir === myESortDir.DES}" (click)="sort(i, myESortDir.DES)"></i>
+                 [ngClass]="{'text-bold': sortDir === myESortDir.DES && i===sortedCol}" (click)="sort(i, myESortDir.DES)"></i>
               <i class="fa fa-caret-down"
                  title="Sort Ascending"
-                 [ngClass]="{'text-bold': sortDir === myESortDir.ASC}" (click)="sort(i, myESortDir.ASC)"></i>
+                 [ngClass]="{'text-bold': sortDir === myESortDir.ASC && i===sortedCol}" (click)="sort(i, myESortDir.ASC)"></i>
             </div>
 
             <div [hidden]="!(tableData && tableData[0][i].search && (headerHoverd.value ==='true' || formDirty))" style="position: absolute; top: -5px; left: 0; right: 0 ; bottom: 0;">

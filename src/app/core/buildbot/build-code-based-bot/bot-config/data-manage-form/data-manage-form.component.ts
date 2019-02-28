@@ -36,7 +36,7 @@ export class DataManageFormComponent implements OnInit {
         const formArray = this.formGroup.get('child_bots') as FormArray;
         formArray.controls.splice(0);
 
-        this.initializeChildBotFormArray();
+        // this.initializeChildBotFormArray();
       } catch (e) {
         LoggingService.error(e);
       }
@@ -84,7 +84,8 @@ export class DataManageFormComponent implements OnInit {
       allow_feedback: [this._bot.allow_feedback],
       transactions_per_pricing_unit: [this._bot.transactions_per_pricing_unit],
       is_manager: [this._bot.is_manager || false],
-      child_bots: this.formBuilder.array([])
+      child_bots: [],
+      // child_bots: this.formBuilder.array([])
     });
 
 
@@ -108,31 +109,35 @@ export class DataManageFormComponent implements OnInit {
     });
   }
 
-  pushChildBot(childBotId): void {
-    const formArray = this.formGroup.get('child_bots') as FormArray;
-    // formArray.push(this.formBuilder.control(childBotid));
-    this.utilityService.pushFormControlItemInFormArray(formArray, this.formBuilder, childBotId);
-  }
+  // pushChildBot(childBotId): void {
+  //   const formArray = this.formGroup.get('child_bots') as FormArray;
+  //   // formArray.push(this.formBuilder.control(childBotid));
+  //   this.utilityService.pushFormControlItemInFormArray(formArray, this.formBuilder, childBotId);
+  // }
 
-  removeChildBot(childBotId): void {
-    const formArray = this.formGroup.get('child_bots') as FormArray;
-    const formControlIndex = this.utilityService.findFormControlIndexInFormArrayByValue(formArray, childBotId);
-    LoggingService.log(`removing bot at index ${formControlIndex}`);
-    if (formControlIndex != undefined) { formArray.removeAt(formControlIndex); }
-  }
+  // removeChildBot(childBotId): void {
+  //   const formArray = this.formGroup.get('child_bots') as FormArray;
+  //   const formControlIndex = this.utilityService.findFormControlIndexInFormArrayByValue(formArray, childBotId);
+  //   LoggingService.log(`removing bot at index ${formControlIndex}`);
+  //   if (formControlIndex != undefined) { formArray.removeAt(formControlIndex); }
+  // }
 
-  isBotIdPresentInChildBotList(childBotId): boolean {
-    const childBots: number[] = this.formGroup.get('child_bots').value || [];
-    const indexOfMatchingChildBot: number = childBots.findIndex((botId) => botId === childBotId);
-    return indexOfMatchingChildBot !== -1;
-  }
+  // isBotIdPresentInChildBotList(childBotId): boolean {
+  //   const childBots: number[] = this.formGroup.get('child_bots').value || [];
+  //   const indexOfMatchingChildBot: number = childBots.findIndex((botId) => botId === childBotId);
+  //   return indexOfMatchingChildBot !== -1;
+  // }
 
-  initializeChildBotFormArray() {
-    if (this._bot.child_bots && this._bot.child_bots.length > 0) {
-      this._bot.child_bots.forEach((childBotId) => {
-        this.pushChildBot(childBotId);
-      });
-    }
+  // initializeChildBotFormArray() {
+  //   if (this._bot.child_bots && this._bot.child_bots.length > 0) {
+  //     this._bot.child_bots.forEach((childBotId) => {
+  //       this.pushChildBot(childBotId);
+  //     });
+  //   }
+  // }
+
+  log(){
+    console.log(this.formGroup.value);
   }
 
 }

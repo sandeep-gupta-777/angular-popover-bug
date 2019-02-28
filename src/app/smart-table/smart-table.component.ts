@@ -33,7 +33,6 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
         this.formDirty = Object.keys(obj).length > 0;
       }),
       distinctUntilChanged((obj1, obj2) => {
-        console.log(obj1, obj2);
         return JSON.stringify(obj1) === JSON.stringify(obj2)
       }),
     ).subscribe((formData) => {
@@ -276,10 +275,10 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
   sortDir = ESortDir.ASC;
   myESortDir = ESortDir;
-
+  sortedCol
   sort(key, sorDirection:ESortDir) {
-debugger;
-    // this.sortDirAsc = this.sortDirAsc * -1;
+    this.sortedCol = key;
+    this.sortDir = sorDirection;
     // this.sortDirAsc = sorDirection === ESortDir.DES? -1:1;
 
     let tableData = this.tableData;

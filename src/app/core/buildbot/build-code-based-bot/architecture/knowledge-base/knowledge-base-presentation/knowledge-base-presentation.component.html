@@ -29,7 +29,7 @@
             </div>
 
             <div class="d-flex flex-column mx-2">
-                <label for="" class="m-0 p-0 mb-1">Process Raw Text</label>
+                <label class="m-0 p-0 mb-1">Process Raw Text</label>
                 <div style="height: 26px;">
                     <mat-slide-toggle
                             name="process_raw_text"
@@ -90,23 +90,58 @@
                 <!--+ New Concept-->
             <!--</button>-->
 
-      <div *ngIf="ner_id && routeName===myERouteNames['Get Enterprise Knowledge base']">
-        <div *myIf="myEAllActions['Delete Enterprise Knowledge base']"
-             (click)="openDeleteModal()"><i class="fa fa-trash cursor-pointer"></i></div>
-      </div>
-      <div *ngIf="ner_id && routeName!==myERouteNames['Get Enterprise Knowledge base']">
-        <div *myIf="myEAllActions['Delete Bot Knowledge base']"
-             (click)="openDeleteModal()"><i class="fa fa-trash cursor-pointer"></i></div>
-      </div>
-    </form>
-  </div>
-  <!---->
-  <div class="mt-2 d-flex-column-last-child-flex-grow-1 child">
-    <div class="d-flex-column-last-child-flex-grow-1"
-         *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata' ||ner_type==='regex';">
-      <app-code-editor class="" (textChangedEvent)="textChanged($event)"
-                       [text]="codeTextInputToCodeEditorObj"></app-code-editor>
+            <!--update/create button ends-->
+            <div *ngIf="ner_id && routeName===myERouteNames['Get Enterprise Knowledge base']">
+                <div *myIf="myEAllActions['Delete Enterprise Knowledge base']"
+                     (click)="openDeleteModal(deleteTemplate)"><i class="fa fa-trash cursor-pointer" style="color: #e0e0e0"></i></div>
+            </div>
+
+            <div *ngIf="ner_id && routeName!==myERouteNames['Get Enterprise Knowledge base']">
+                <div *myIf="myEAllActions['Delete Bot Knowledge base']"
+                     (click)="openDeleteModal(deleteTemplate)"><i style="color: #474747" class="fa fa-trash cursor-pointer"></i></div>
+            </div>
+        </form>
+    </div>
+    <!---->
+    <div class="mt-2 d-flex-column-last-child-flex-grow-1 child">
+        <div class="d-flex-column-last-child-flex-grow-1"
+             *ngIf="ner_type==='single_match' ||ner_type==='double_match' ||ner_type==='with_metadata' ||ner_type==='regex';">
+            <app-code-editor class="" (textChangedEvent)="textChanged($event)"
+                             [text]="codeTextInputToCodeEditorObj"></app-code-editor>
+        </div>
+        <app-handsontable
+                *ngIf="ner_type==='database'"
+                class="d-flex-column-last-child-flex-grow-1"
+                style="overflow: scroll;"
+                [testData]="handsontableData"
+                (csvUploaded$)="handsontableData = $event"
+                [setting]="constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_SETTING">
+        </app-handsontable>
     </div>
 </div>
 
+<ng-template #deleteTemplate>
+    <div class="danger-modal">
+        <div class="modal-header">
+            <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete Concept?</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body pt-0">
+            <form #form="ngForm">
+                <div class="text-center my-1">
+                    <p class="mb-3">This action cannot be undone.Are you sure you wish to delete?</p>
+                </div>
+                <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="dialogRefWrapper.ref.close()">
+                    Cancel
+                </button>
+                <button class=" btn-theme btn-theme-danger"
+                        (click)="deleteNer$.emit(ner_id);dialogRefWrapper.ref.close()">Delete
+                </button>
+            </form>
+        </div>
+    </div>
+</ng-template>
 

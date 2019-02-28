@@ -311,7 +311,6 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
 
     EventService.createConceptFullScreen$.emit(true);
     this.selectedRowData = $event.data;
-    console.log(this.selectedRowData);
     this.prepareDataForDetailedViewAndChangeParams(this.selectedRowData);
   }
 
@@ -368,7 +367,6 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
 
   log(selectedRowData) {
     console.log(selectedRowData);
-    console.log(this.selectedRowData);
   }
 
   tableData;

@@ -82,7 +82,7 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
       // child_bots: this.formBuilder.array([]),
     }, {validator: this.utilityService.isManagerValidator});
 
-    this.initializeChildBotFormArray();
+    // this.initializeChildBotFormArray();
     /*TODO: initialization must be done with initialization of formGroup*/
     this.formGroup.valueChanges.pipe(
       debounceTime(200),
@@ -109,31 +109,31 @@ export class BasicInfoFormComponent implements OnInit, ControlValueAccessor {
   }
 
 
-  initializeChildBotFormArray() {
-    if (this._bot.child_bots && this._bot.child_bots.length > 0) {
-      this._bot.child_bots.forEach((childBotId) => {
-        this.pushChildBot(childBotId);
-      });
-    }
-  }
+  // initializeChildBotFormArray() {
+  //   if (this._bot.child_bots && this._bot.child_bots.length > 0) {
+  //     this._bot.child_bots.forEach((childBotId) => {
+  //       this.pushChildBot(childBotId);
+  //     });
+  //   }
+  // }
 
   setBotUniqueName(botName: string) {
     const uniqueName = botName.split('').join();
     this.formGroup.patchValue({'Unique Name': uniqueName});
   }
 
-  pushChildBot(childBotId): void {
-    const formArray = this.formGroup.get('child_bots') as FormArray;
-    // formArray.push(this.formBuilder.control(childBotid));
-    this.utilityService.pushFormControlItemInFormArray(formArray, this.formBuilder, childBotId);
-  }
+  // pushChildBot(childBotId): void {
+  //   const formArray = this.formGroup.get('child_bots') as FormArray;
+  //   // formArray.push(this.formBuilder.control(childBotid));
+  //   this.utilityService.pushFormControlItemInFormArray(formArray, this.formBuilder, childBotId);
+  // }
 
-  removeChildBot(childBotId): void {
-    const formArray = this.formGroup.get('child_bots') as FormArray;
-    const formControlIndex = this.utilityService.findFormControlIndexInFormArrayByValue(formArray, childBotId);
-    LoggingService.log(`removing bot at index ${formControlIndex}`);
-    if (formControlIndex != undefined) { formArray.removeAt(formControlIndex); }
-  }
+  // removeChildBot(childBotId): void {
+  //   const formArray = this.formGroup.get('child_bots') as FormArray;
+  //   const formControlIndex = this.utilityService.findFormControlIndexInFormArrayByValue(formArray, childBotId);
+  //   LoggingService.log(`removing bot at index ${formControlIndex}`);
+  //   if (formControlIndex != undefined) { formArray.removeAt(formControlIndex); }
+  // }
 
   emitFormValidationEvent() {
     if (this.bot_type === EBotType.chatbot && this._bot.is_manager && this._bot.child_bots.length < 1) {
