@@ -16,6 +16,7 @@ import {MaterialTableImplementer} from '../../../material-table-implementer';
 import {UtilityService} from '../../../utility.service';
 import {MatDialog} from '@angular/material';
 import {ObjectArrayCrudService} from '../../../object-array-crud.service';
+import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
 
 @Component({
   selector: 'app-consumers',
@@ -37,7 +38,7 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
   consumersDecrypted: IConsumerItem; //IConsumerItem
   isFullscreen: false;
   consumerItemToBeDecrypted: IConsumerItem;
-  decryptReason: string;
+  // decryptReason: string;
   tableData;
 
   constructor(
@@ -104,26 +105,43 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
   }
 
 
-  customActionEventsTriggeredInSessionsTable(data: { action: string, data: IConsumerItem, source: any }, Primarytemplat) {
+  customActionEventsTriggeredInSessionsTable(data: { action: string, data: IConsumerItem, source: any }) {
 
     if (data.action === 'decrypt') {
       this.consumerItemToBeDecrypted = data.data;
-      this.openCreateBotModal(Primarytemplat);
+      this.utilityService.openDialog({
+        dialogRefWrapper: this.dialogRefWrapper,
+        classStr:'danger-modal-header-border',
+        data:{
+          actionButtonText:`Decrypt`,
+          message: 'Use the decryption key to decrypt this consumer',
+          title:`Decrypt consumer`,
+          isActionButtonDanger:false,
+          inputDescription: "Key"
+        },
+        dialog: this.matDialog,
+        component:ModalConfirmComponent
+      }).then((data)=>{
+        if(data){
+          // this.decryptSubmit()
+          this.decryptSubmit(data);
+        }
+      })
     }
   }
 
 
-  decryptSubmit() {
+  decryptSubmit(decryptKey) {
 
 
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-    const body = {'consumer_id': this.consumerItemToBeDecrypted.id, 'decrypt_audit_type': 'consumer', 'message': this.decryptReason};
+    const body = {'consumer_id': this.consumerItemToBeDecrypted.id, 'decrypt_audit_type': 'consumer', 'message': decryptKey};
     const url = this.constantsService.getDecryptUrl();
     this.serverService.makePostReq({headerData, body, url})
       .subscribe(() => {
-        this.decryptReason = '';
+        decryptKey = '';
         const url = this.constantsService.getBotConsumerByIdUrl(this.consumerItemToBeDecrypted.id);
         this.serverService
           .makeGetReq<IConsumerItem>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
@@ -164,14 +182,6 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
       });
   }
 
-  openCreateBotModal(template: TemplateRef<any>) {
-    this.utilityService.openDialog({
-      dialog: this.matDialog,
-      dialogRefWrapper: this.dialogRefWrapper,
-      component:template,
-      classStr:'primary-modal-header-border'
-    });
-  }
 
 
 }

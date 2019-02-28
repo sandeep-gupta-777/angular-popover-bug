@@ -1094,16 +1094,14 @@ mat-dialog-container{
 
 .primary-modal-header-border{
   .mat-dialog-container{
-    border-top: 10px solid $color-primary;
     border-radius: 4px;
-    padding: 10px;
+    padding: 20px 20px 20px 30px;
   }
 }
 
 .danger-modal-header-border{
   .mat-dialog-container{
-    border-top: 10px solid $color-danger;
-    padding: 10px;
+    padding: 20px 20px 20px 30px;
     border-radius: 4px;
   }
 }

@@ -75,9 +75,8 @@
                      *ngIf="tableData"
                      style="flex-grow: 1"
                      [totalRecords]="totalSessionRecords"
-
-                     (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,reasonForDecryptionTemplate)"
-                     (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate, reasonForDecryptionTemplate)"
+                     (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
+                     (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate)"
                      [showSearchInDbButton]="true"
                      [showRefreshButton]="true"
                      (refreshData$)="performSearchInDbForSession($event)"
@@ -113,27 +112,3 @@
     </app-session-detail-model>
 </ng-template>
 <!---->
-<ng-template #reasonForDecryptionTemplate>
-    <div class="primary-modal">
-        <div class="modal-header">
-            <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Reason for decryption</h4>
-            <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body pt-0">
-            <form #form="ngForm">
-                <div class="text-center my-1">
-                    <label class="mr-1">Reason</label>
-                    <input type="text" required style="border-radius: 0px !important;" [(ngModel)]="decryptReason"
-
-                           ngModel
-                           name="decryptReason">
-                </div>
-                <button [disabled]="!form.valid" class=" btn-theme btn-theme-success-sm"
-                        (click)="decryptSubmit(sessionItemToBeDecrypted.id);">Submit
-                </button>
-            </form>
-        </div>
-    </div>
-</ng-template>

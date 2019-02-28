@@ -15,6 +15,7 @@ import { IEnterpriseUser } from '../../interfaces/enterprise-users';
 import { map } from 'rxjs/operators';
 import { MaterialTableImplementer } from 'src/app/material-table-implementer';
 import {DomSanitizer} from '@angular/platform-browser';
+import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
 @Component({
   selector: 'app-enterprise-overview',
   templateUrl: './enterprise-overview.component.html',
@@ -39,7 +40,6 @@ export class EnterpriseOverviewComponent  implements OnInit {
   enterpriseUserBotList: number[];
   dialogRefWrapper = { ref: null };
   logdeletionsummary: [];
-  descriptionServiceKey: string;
   constructor(
     private store: Store,
     private constantsService: ConstantsService,
@@ -53,9 +53,27 @@ export class EnterpriseOverviewComponent  implements OnInit {
     const logoErrorObj = this.utilityService.imageUrlHttpsError(formControl) || this.utilityService.imageUrlHavingValidExtnError(formControl);
     this.logoError = logoErrorObj && Object.keys(logoErrorObj)[0] || null;
   }
-  openNewServiceKeyModal(template: TemplateRef<any>) {
-
-    this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
+  openNewServiceKeyModal() {
+    debugger;
+    this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr:'primary-modal-header-border',
+      data:{
+        actionButtonText:"Create",
+        message: `Provide a description for the new service key`,
+        title:'New service key',
+        isActionButtonDanger:false,
+        inputDescription:"Description"
+      },
+      dialog: this.matDialog,
+      component:ModalConfirmComponent
+    }).then((data)=>{
+      debugger;
+      if(data){
+        this.addNewServiceKey(data);
+      } 
+    })
+    // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
   getTableDataMetaDictActive(): any {
     return this.constantsService.SMART_TABLE_SERVICE_KEY_ACTIVE;
@@ -85,7 +103,6 @@ export class EnterpriseOverviewComponent  implements OnInit {
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
             originalKey: key,
-            // value: consumerTableDataItem[key].substring(0, 50),
             value: `<div class="d-flex cursor-pointer">
                         <mat-icon class="material-icons color-primary" style="position: absolute;left: -20px; font-size:13px" data-value="${consumerTableDataItem[key]}">file_copy_outline</mat-icon>
                         <span>${consumerTableDataItem[key]}</span>
@@ -96,7 +113,6 @@ export class EnterpriseOverviewComponent  implements OnInit {
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
             originalKey: key,
-            // value: consumerTableDataItem[key].substring(0, 50),
             value: consumerTableDataItem[key],
             searchValue: consumerTableDataItem[key]
           };
@@ -160,12 +176,11 @@ export class EnterpriseOverviewComponent  implements OnInit {
     //
     return x;
   }
-  addNewServiceKey() {
+  addNewServiceKey( description ) {
     // enterprise/generate_service_key/
     let generateServiceKeyUrl = this.constantsService.generateServiceKeyUrl();
-    let body = this.descriptionForm.value;
+    let body = {'description':description};
 
-    console.log("descriptionForm.value", this.descriptionForm.value)
     const headerData: IHeaderData = { 'content-type': 'application/json' };
 
     this.serverService.makePostReq<any>({ url: generateServiceKeyUrl, body, headerData })
@@ -321,10 +336,26 @@ export class EnterpriseOverviewComponent  implements OnInit {
           ])
         });
   }
-  customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any },expireServiceKeyModal) {
+  customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }) {
     if (data.action === 'expire') {
       this.expireServicekeyData = data.data;
-      this.utilityService.openDangerModal(expireServiceKeyModal, this.matDialog, this.dialogRefWrapper);
+      this.utilityService.openDialog({
+        dialogRefWrapper: this.dialogRefWrapper,
+        classStr:'danger-modal-header-border',
+        data:{
+          actionButtonText:"Expire",
+          message: 'Do you want to expire the selected access token',
+          title:'Expire token?',
+          isActionButtonDanger:true
+        },
+        dialog: this.matDialog,
+        component:ModalConfirmComponent
+      }).then((data)=>{
+        if(data){
+          this.expireServiceKey();
+        } 
+      })
+      // this.utilityService.openDangerModal(expireServiceKeyModal, this.matDialog, this.dialogRefWrapper);
     }
   }
 

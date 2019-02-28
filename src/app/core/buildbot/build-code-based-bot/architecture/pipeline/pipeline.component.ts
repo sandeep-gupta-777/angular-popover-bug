@@ -19,6 +19,8 @@ import {ModalImplementer} from '../../../../../modal-implementer';
 import {MatDialog} from '@angular/material';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {EventService} from '../../../../../event.service';
+import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
+import { PipeineIdToPipelineModuleWrapperPipe } from './pipeine-id-to-pipeline-module-wrapper.pipe';
 
 
 export interface IPipelineItemV2 {
@@ -200,6 +202,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
     if (Pipelineform.valid) {
       console.log(Pipelineform.value);
       this.selectedPipeline.input_params = Pipelineform.value;
+      this.addPipelineItemToPipeline(this.selectedPipeline);
     }
   }
 
@@ -209,9 +212,38 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
 
   addPipelineItemToPipeline(pipelineItem: IPipelineItem) {
     console.log('=========>', pipelineItem);
+    debugger;
+    let pipeLineTemp = this.pipeLine.filter(item => {
+      return item.id !== pipelineItem.id
+    });
+    this.pipeLine = pipeLineTemp;
     this.pipeLine.push(pipelineItem);
   }
 
+  removePipelineItemFromPipelineModal(index: number,aiModuleId: number) {
+    debugger;
+    let displayNamePipeline = this.pipelineModulesV2List.find((wrapper)=>{
+      return !!wrapper.pipeline_modules.find((module)=>{
+        return module.id === aiModuleId;
+      })
+    })
+    this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr:'danger-modal-header-border',
+      data:{
+        actionButtonText:`Remove module`,
+        message: 'Are you sure you want to remove the selected module from your pipeline?',
+        title:`Remove ${displayNamePipeline.display_values}`,
+        isActionButtonDanger:true
+      },
+      dialog: this.matDialog,
+      component:ModalConfirmComponent
+    }).then((data)=>{
+      if(data){
+        this.removePipelineItemFromPipeline(index);
+      }
+    })
+  }
   removePipelineItemFromPipeline(index: number) {
     this.pipeLine.splice(index, 1);
   }

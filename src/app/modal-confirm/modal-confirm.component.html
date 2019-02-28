@@ -1,20 +1,35 @@
 <div class="modal-header">
-  <h4 class="modal-title mb-1" style="display: flex;justify-content: start;">{{dataCopy.title}}</h4>
+  <h4 class="modal-title" style="display: flex;justify-content: start;">{{dataCopy.title}}</h4>
   <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRef.close()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 
-<div class="modal-body pt-0">
-  <div>
-    <div class="text-center my-1">
-      <p class="mb-3">{{dataCopy.message||'This action cannot be undone. Are you sure you wish to delete?'}}</p>
+<div class="modal-body">
+  
+    <div class="pb-2">
+      <p class="mb-1">{{dataCopy.message||'This action cannot be undone. Are you sure you wish to delete?'}}</p>
     </div>
-    <div class="d-flex">
-      <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2" (click)="dialogRef.close()">Cancel</button>
-      <button class=" btn-theme" [ngClass]="{'btn-theme-danger':dataCopy.isActionButtonDanger}" (click)="dialogRef.close(true)">{{dataCopy.actionButtonText||'Continue'}}</button>
+    <form class = "input-form pb-2" #inputForm="ngForm" [hidden]="!dataCopy.inputDescription">
+      <mat-form-field class="example-full-width">
+        <input matInput [placeholder]="dataCopy.inputDescription" ngModel name="inputData" required>
+      </mat-form-field>
+    </form>
+    <div class="d-flex pt-2">
+      <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2 px-15" (click)="dialogRef.close()">{{dataCopy.closeButtonText ||  'Cancel'}}</button>
+      <button class=" btn-theme px-15" 
+      *ngIf="!dataCopy.inputDescription"
+      [ngClass]="{ 'btn-theme-danger': dataCopy.isActionButtonDanger ,  'btn-theme-primary': !dataCopy.isActionButtonDanger}" 
+      (click)="dialogRef.close(true);"
+       >{{dataCopy.actionButtonText||'Continue'}}</button>
+       
+       <button class=" btn-theme px-15" 
+       *ngIf="dataCopy.inputDescription"
+      [disabled]="inputForm && !inputForm.valid"
+      [ngClass]="{ 'btn-theme-danger': dataCopy.isActionButtonDanger ,  'btn-theme-primary': !dataCopy.isActionButtonDanger}" 
+      (click)="dialogRef.close(inputForm.value.inputData);"
+       >{{dataCopy.actionButtonText||'Continue'}}</button>
     </div>
-  </div>
 </div>
 
 

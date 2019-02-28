@@ -8,6 +8,7 @@ import { UtilityService } from 'src/app/utility.service';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { IAppState } from 'src/app/ngxs/app.state';
+import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
 
 @Component({
   selector: 'app-enterprise-roles',
@@ -38,9 +39,24 @@ export class EnterpriseRolesComponent implements OnInit {
     this.selectedRole.emit({ "roleId": id });
     this.enterRole.emit();
   }
-  openDeletModal(template: TemplateRef<any>, role: IRole) {
+  openDeletModal(role: IRole) {
     this.deleteRole = role;
-    this.utilityService.openDangerModal(template, this.matDialog, this.dialogRefWrapper);
+    this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr:'danger-modal-header-border',
+      data:{
+        actionButtonText:"Remove",
+        message: `Do you want to remove ${this.deleteRole.name} ? `,
+        title:'Delete role?',
+        isActionButtonDanger:true
+      },
+      dialog: this.matDialog,
+      component:ModalConfirmComponent
+    }).then((data)=>{
+      if(data){
+        this.deleteRoleClicked();
+      }
+    })
   }
   deleteRoleClicked() {
     let getRoleIdUrl = this.constantsService.getRoleIdUrl(this.deleteRole.id);

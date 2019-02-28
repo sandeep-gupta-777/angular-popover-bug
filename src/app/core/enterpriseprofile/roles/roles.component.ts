@@ -8,6 +8,8 @@ import { Select } from '@ngxs/store';
 import { IAppState } from 'src/app/ngxs/app.state';
 import { EnterpriseRoleTabName } from '../enterpriseprofile.component';
 import { UtilityService } from 'src/app/utility.service';
+import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
     selector: 'app-roles',
@@ -19,7 +21,8 @@ export class RolesComponent implements OnInit {
     constructor(
         private serverService: ServerService,
         private utilityService: UtilityService,
-        private constantsService: ConstantsService
+        private constantsService: ConstantsService,
+        private matDialog: MatDialog
     ) { }
     selectedPermissionIdList: number[] = [];
     selectedRoleData: IRole;
@@ -38,6 +41,7 @@ export class RolesComponent implements OnInit {
     permissionList: IProfilePermission[];
     myEnterpriseRoleTabName = EnterpriseRoleTabName;
     allRolesList: IRole[];
+    dialogRefWrapper = { ref: null };
     @Output() roleListChanged = new EventEmitter();
 
     modifyRole() {
@@ -99,6 +103,25 @@ export class RolesComponent implements OnInit {
         let thisRole = this.allRolesList.find(role => role.id == RoleId);
         this.selectedPermissionIdList = thisRole.permissions.actions;
     }
+    openDeletModal() {
+        this.utilityService.openDialog({
+          dialogRefWrapper: this.dialogRefWrapper,
+          classStr:'danger-modal-header-border',
+          data:{
+            actionButtonText:"Remove",
+            message: `Do you want to remove ${this.selectedRoleName} ? `,
+            title:'Delete role?',
+            isActionButtonDanger:true
+          },
+          dialog: this.matDialog,
+          component:ModalConfirmComponent
+        }).then((data)=>{
+          if(data){
+            this.deleteRole();
+          }
+        })
+        // this.utilityService.openDangerModal(template, this.matDialog, this.dialogRefWrapper);
+      }
     deleteRole() {
         let getRoleIdUrl = this.constantsService.getRoleIdUrl(this.selectedRole);
     

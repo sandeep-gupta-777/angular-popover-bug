@@ -124,48 +124,65 @@ background-color: #f0f3f4;
 </div>
 
 <ng-template #Primarytemplat>
-    <div class="primary-modal">
-        <div class="modal-header">
-            <h4 class="modal-title" style="display: flex;justify-content: start;">{{selectedPipeline.unique_name}}</h4>
-            <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
-                <span aria-hidden="true">&times;</span>
-            </button>
+  <div class="primary-modal" style = "width:430px">
+    <div class="modal-header pb-1">
+      <h4 class="modal-title" style="display: flex;justify-content: start;">{{selectedPipeline.unique_name}}</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body pt-0">
+      <form ngNativeValidate class="d-flex flex-column" #Pipelineform="ngForm">
+        <div class="pb-2">Library configuration</div>
+        <div *ngFor="let Key of myObject.keys(selectedPipeline.display_values)" >
+
+             <mat-form-field *ngIf="selectedPipeline.display_values[Key].type == 'dropdown'">
+              <mat-select [placeholder]="selectedPipeline.display_values[Key].display_value" name="{{Key}}" 
+              [ngModel]="selectedPipeline.input_params[Key] || selectedPipeline.display_values[Key].default">
+                    <mat-option *ngFor="let dropi of selectedPipeline.display_values[Key].content" [value]="dropi"  >
+                      {{dropi}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          <!-- <div class=""
+               *ngIf="selectedPipeline.display_values[Key].type == 'dropdown'">
+               
+            <label class="mb-0  w-50 "
+                   style="text-align: left;">{{selectedPipeline.display_values[Key].display_value}}</label>
+            <select class="w-50" style="color: #474747;"
+                    [ngModel]="selectedPipeline.input_params[Key] || selectedPipeline.display_values[Key].default"
+                    name="{{Key}}">
+              <option *ngFor="let dropi of selectedPipeline.display_values[Key].content"
+                      type="button" [value]="dropi">{{dropi}}
+              </option>
+            </select>
+          </div> -->
+          <mat-form-field *ngIf="selectedPipeline.display_values[Key].type == 'text'" >
+            <input matInput [placeholder]="selectedPipeline.display_values[Key].display_value" 
+            [ngModel]="selectedPipeline.input_params[Key]" name="{{Key}}">
+          </mat-form-field>
+          <!-- <div *ngIf="selectedPipeline.display_values[Key].type == 'text'">
+            <label class="mb-0 w-50"
+                   style="text-align: left;">{{selectedPipeline.display_values[Key].display_value}}</label>
+            <input type="text" class="input-material flex-grow-1 w-50" style="color: #474747;"
+                   [ngModel]="selectedPipeline.input_params[Key]"
+                   name="{{Key}}">
+          </div> -->
+
         </div>
+        <div class = "ml-auto">
+            <button class="btn-theme btn-theme-primary-outline mr-1"
+            (click)="dialogRefWrapper.ref.close()">Cancel</button>
 
-        <div class="modal-body pt-0">
-            <form ngNativeValidate class=" align-items-center" #Pipelineform="ngForm">
-
-                <div *ngFor="let Key of myObject.keys(selectedPipeline.display_values)"
-                     class="d-flex align-items-center justify-content-center my-2">
-
-                    <div class="form-group m-0 d-flex w-100 align-items-center justify-content-center"
-                         *ngIf="selectedPipeline.display_values[Key].type == 'dropdown'">
-                        <label class="mb-0  w-50 "
-                               style="text-align: left;">{{selectedPipeline.display_values[Key].display_value}}</label>
-                        <select class="w-50" style="color: #474747;"
-                                [ngModel]="selectedPipeline.input_params[Key] || selectedPipeline.display_values[Key].default"
-                                name="{{Key}}">
-                            <option *ngFor="let dropi of selectedPipeline.display_values[Key].content"
-                                    type="button" [value]="dropi">{{dropi}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group m-0 d-flex w-100 align-items-center justify-content-center"
-                         *ngIf="selectedPipeline.display_values[Key].type == 'text'">
-                        <label class="mb-0 w-50"
-                               style="text-align: left;">{{selectedPipeline.display_values[Key].display_value}}</label>
-                        <input type="text" class="input-material flex-grow-1 w-50" style="color: #474747;"
-                               [ngModel]="selectedPipeline.input_params[Key]"
-                               name="{{Key}}">
-                    </div>
-
-                </div>
-                <button class="btn-theme btn-theme-success-sm"
-                        (click)="submitPipeline(Pipelineform); dialogRefWrapper.ref.close(true)">Submit
-                </button>
-            </form>
-
-
+          <button class="btn-theme btn-theme-success-sm"
+            (click)="submitPipeline(Pipelineform); dialogRefWrapper.ref.close(true)">Add&nbsp;>>
+          </button>
         </div>
+        
+      </form>
+
+
+    </div>
     </div>
 </ng-template>

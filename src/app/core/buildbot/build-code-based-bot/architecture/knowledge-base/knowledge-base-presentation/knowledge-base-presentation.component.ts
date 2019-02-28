@@ -9,6 +9,7 @@ import {ELogType, LoggingService} from '../../../../../../logging.service';
 import {ModalImplementer} from '../../../../../../modal-implementer';
 import {MatDialog} from '@angular/material';
 import {EventService} from '../../../../../../event.service';
+import {ModalConfirmComponent} from '../../../../../../modal-confirm/modal-confirm.component';
 
 @Component({
   selector: 'app-knowledge-base-presentation',
@@ -45,7 +46,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
     this.codeTextOutPutFromCodeEditor = this.codeTextInputToCodeEditorObj.text;
 
-    this.codeTextInputToCodeEditorObj = {...this.codeTextInputToCodeEditorObj};
+    this.codeTextInputToCodeEditorObj = { ...this.codeTextInputToCodeEditorObj };
     try {
       this.handontable_colHeaders = Object.keys(value.values[0]);
     } catch (e) {
@@ -71,7 +72,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   ner_type = 'double_match';
   conflict_policy = 'override';
   codeTextInputToCodeEditor: string;
-  codeTextInputToCodeEditorObj: { text: string } = {text: ''};
+  codeTextInputToCodeEditorObj: { text: string } = { text: '' };
   codeTextOutPutFromCodeEditor: string;
   // handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
   handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
@@ -102,15 +103,37 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
   }
 
-  openDeleteModal(template: TemplateRef<any>) {
+  async openDeleteModal() {
     // this.modalRef = this.modalService.show(template);
-    this.openDangerModal(template);
+    debugger;
+    await this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr: 'danger-modal-header-border',
+      data: {
+        actionButtonText: "Delete",
+        message: "This action cannot be undone.Are you sure you wish to delete?",
+        title: `Delete Concept?`,
+        isActionButtonDanger: true,
+        inputDescription: null,
+        closeButtonText: "Keep editing"
+      },
+      dialog: this.matDialog,
+      component: ModalConfirmComponent
+    }).then((data) => {
+      debugger;
+      if (data) {
+        this.deleteNer$.emit(this.ner_id);
+      }
+    })
+    // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
+
+    // this.openDangerModal(template);
   }
 
   async openFile(inputEl) {
 
     this.codeTextInputToCodeEditorObj.text = await this.utilityService.readInputFileAsText(inputEl);
-    this.codeTextInputToCodeEditorObj = {...this.codeTextInputToCodeEditorObj};
+    this.codeTextInputToCodeEditorObj = { ...this.codeTextInputToCodeEditorObj };
   }
 
   textChanged(codeText) {
