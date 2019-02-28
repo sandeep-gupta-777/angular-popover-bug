@@ -2,9 +2,9 @@
 
 <div class="d-flex" style="margin-top: 10px">
     <form #form="ngForm" class="refine-results"
-          style="background-color: white; width: 250px; flex-basis: 250px; flex-shrink: 0; border: 1px solid #e0e0e0">
+          style="background-color: white; width: 250px; flex-basis: 250px; flex-shrink: 0; border: 1px solid #e0e0e0; align-self: flex-start">
         <strong>Refine Results</strong>
-        <hr>
+        <hr style="margin: 10px -16px;">
         <mat-form-field class="example-full-width">
             <input matInput placeholder="Room Id"
                    ngModel
@@ -34,8 +34,8 @@
 
         <div>Channel</div>
         <ul style="display: flex; flex-wrap: wrap" ngModelGroup="channels">
-            <li *ngFor="let channel of masterIntegrationList">
-                <mat-checkbox color="primary" ngModel name="{{channel.unique_name}}" [title]="channel.unique_name">
+            <li *ngFor="let channel of channels" style="margin-top: 14px">
+                <mat-checkbox *ngIf="channel.integration_type=== 'channels'" color="primary" ngModel name="{{channel.unique_name}}" [title]="channel.unique_name">
                     <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
                          [src]="channel.icon" [alt]="channel.unique_name">
                 </mat-checkbox>
@@ -44,11 +44,9 @@
 
         <mat-form-field floatLabel="never">
             <input matInput
-
-                   ngModel
                    name="updated_at"
                    ngModel
-                   placeholder="date range"
+                   placeholder="Last Updated"
                    [satDatepicker]="picker">
             <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
             <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
@@ -67,20 +65,22 @@
         </ul>
 
         <div class="d-flex justify-content-between mt-2">
-            <button mat-button class="mat-theme-button" color="primary" type="button" (click)="sessionFormSubmitted(form.value)">
-                Submit
-            </button>
-            <button mat-button class="mat-theme-button" (click)="resetSearchForm(form)">Cancel</button>
+            <button mat-flat-button class="mat-theme-button"
+                    style="border-radius: 2px"
+                    color="primary" type="button" (click)="sessionFormSubmitted(form.value)">Submit</button>
+            <button mat-button style="border: 1px solid #e0e0e0; border-radius: 2px" class="mat-theme-button" (click)="resetSearchForm(form)">Clear</button>
         </div>
     </form>
     <app-smart-table [data]="tableData"
                      *ngIf="tableData"
                      style="flex-grow: 1"
                      [totalRecords]="totalSessionRecords"
+
                      (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,reasonForDecryptionTemplate)"
                      (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate, reasonForDecryptionTemplate)"
                      [showSearchInDbButton]="true"
                      [showRefreshButton]="true"
+                     (refreshData$)="performSearchInDbForSession($event)"
                      (performSearchInDB$)="performSearchInDbForSession($event)"></app-smart-table>
 </div>
 
@@ -111,8 +111,6 @@
             (refreshSession$)="updateSessionById($event)"
             [sessionDataStore]="selectedRow_Session.data_store">
     </app-session-detail-model>
-    <!--</div>-->
-    <!--</div>-->
 </ng-template>
 <!---->
 <ng-template #reasonForDecryptionTemplate>

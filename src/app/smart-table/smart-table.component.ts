@@ -4,8 +4,15 @@ import {Observable} from 'rxjs';
 import {LoggingService} from '../logging.service';
 import {MatTableDataSource} from '@angular/material';
 import {FormControl, FormGroup, NgForm} from '@angular/forms';
-import {debounce, debounceTime, distinctUntilChanged, map} from 'rxjs/internal/operators';
+import {debounce, debounceTime, distinctUntilChanged, map, tap} from 'rxjs/internal/operators';
 import {UtilityService} from '../utility.service';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
+
+export enum ESortDir {
+  ASC,
+  DES,
+}
+
 
 @Component({
   selector: 'app-smart-table',
@@ -15,13 +22,20 @@ import {UtilityService} from '../utility.service';
 export class SmartTableComponent implements OnInit, AfterViewInit {
 
   @Output() dataValue$ = new EventEmitter();
+  formDirty = false;
 
   tableFormTouched = false;/*because this.tableForm.touched is showing weird behaviour; only works when console is opened*/
   ngAfterViewInit(): void {
     this.tableForm &&
     this.tableForm.valueChanges.pipe(
       map((obj) => this.removeEmptyKeyValues(UtilityService.cloneObj(obj))),
-      distinctUntilChanged((obj1, obj2) => JSON.stringify(obj1) === JSON.stringify(obj2)),
+      tap((obj)=>{
+        this.formDirty = Object.keys(obj).length > 0;
+      }),
+      distinctUntilChanged((obj1, obj2) => {
+        console.log(obj1, obj2);
+        return JSON.stringify(obj1) === JSON.stringify(obj2)
+      }),
     ).subscribe((formData) => {
       this.formData = formData;
 
@@ -41,7 +55,8 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   }
 
   log(x) {
-    console.log(x.touched, x);
+    console.log(x);
+    // alert();
   }
 
   removeEmptyKeyValues(valClone) {
@@ -98,6 +113,8 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     if (!dataValue) {
       return;
     }
+
+    console.log(dataValue);
     this._data = dataValue;
     this.dataSource = new MatTableDataSource(dataValue);
     if (dataValue.length === 0) {
@@ -133,10 +150,11 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild('tableForm') tableForm: NgForm;
   @Input() showSearchInDbButton = false;
-
-  @Input() set totalRecords(value) {
+  _totalRecords:number;
+  @Input() set totalRecords(value:number) {
 
     setTimeout(() => {
+      this._totalRecords = value;
       this.totalPageCount = Math.ceil(value / this.recordsPerPage);
       const start = 1;
       const end = Math.min(this.totalPageCount, 5);
@@ -168,17 +186,19 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
   goToNextPage() {
     if (this.currentPage < this.totalPageCount) {
-      this.goToPage(Math.min(this.totalPageCount, this.currentPage + 1));
+      this.goToPage({pageIndex:Math.min(this.totalPageCount, this.currentPage + 1)});
     }
   }
 
   goToPrevPage() {
     if (this.currentPage >= 2) {
-      this.goToPage(Math.max(0, this.currentPage - 1));
+      this.goToPage({pageIndex: Math.max(0, this.currentPage - 1)});
     }
   }
 
-  goToPage(currentPage) {
+  goToPage(pageData : {length?: number, pageIndex?: number, pageSize?: number, previousPageIndex?: number}) {
+
+    let currentPage: number = pageData.pageIndex + 1;/*angular paginator starts from zero*/
 
     this.currentPage = currentPage;
     let start = 0, end = 0;
@@ -254,19 +274,23 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     return new Date(date.setDate(date.getDate() + 1));
   }
 
-  sortDirAsc = 1;
+  sortDir = ESortDir.ASC;
+  myESortDir = ESortDir;
 
-  sort(key) {
+  sort(key, sorDirection:ESortDir) {
+debugger;
+    // this.sortDirAsc = this.sortDirAsc * -1;
+    // this.sortDirAsc = sorDirection === ESortDir.DES? -1:1;
 
-    this.sortDirAsc = this.sortDirAsc * -1;
     let tableData = this.tableData;
     this.tableData =
       tableData.sort((row1, row2) => {
         let sortAsc: number = row1[key].value > row2[key].value ? 1 : -1;
-        return sortAsc * this.sortDirAsc;
+        return sortAsc * (sorDirection === ESortDir.ASC? 1 : -1);
       });
     // console.log(tableData);
     this.dataSource = new MatTableDataSource(tableData);
+    // this.sortDir = sorDirection;
     // this.tableData = [...tableData];
   }
 
@@ -277,6 +301,11 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     if (dataValue) {
       this.dataValue$.emit(dataValue);
     }
+  }
+
+
+  refreshData(){
+    this.refreshData$.emit({...this.formData, page:this.currentPage});
   }
 
 

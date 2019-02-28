@@ -1,14 +1,15 @@
 <div class="row" *ngIf="showTable; else rowDetails">
-  <div class="col-12 pb-2 d-flex justify-content-end"
-       *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']">
+  <div class="col-12 d-flex justify-content-between" *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']">
+    <div>Edit the existing concepts or create a new concept</div>
     <button class="btn-theme btn-theme-primary"
             (click)="reinitialise()"
             *myIf="myEAllActions['Create Enterprise Knowledge base']"
     >+ New Concept
     </button>
   </div>
-  <div class="col-12 pb-2 d-flex justify-content-end"
+  <div class="col-12 d-flex justify-content-between"
        *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']">
+    <div>Edit the existing concepts or create a new concept</div>
     <button class="mat-theme-button"
             mat-button
             style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"

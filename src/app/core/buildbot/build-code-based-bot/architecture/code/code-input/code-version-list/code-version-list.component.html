@@ -1,7 +1,8 @@
 <div class="row row-version my-2 m-0 child-no-expand-shrink " style="position: relative"
      (clickOutside)="showVersionList = false">
   <div class="col-8 p-0" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
-    <div *ngIf="selectedVersion" class="d-flex align-items-center flex-bot-versioning-toaster border-theme-secondary">
+    <div *ngIf="selectedVersion" class="d-flex align-items-center flex-bot-versioning-toaster"
+         style="border: 1px solid #e0e0e0">
       <div class="version-active-label" *ngIf="selectedVersion"
            [ngClass]="{'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-label-inactive':selectedVersion?.id !== activeVersion?.id}">
         <div>{{selectedVersion.id === (activeVersion && activeVersion.id)?'Active':'Inactive'}}</div>
@@ -52,45 +53,59 @@
         +"..."):selectedVersion?.comment}}
         <!--<div class="insert mr-1">{{(selectedVersion.comment)|slice:0:100}}-->
       </div>
-      <!---->
       <i (click)="showVersionList= !showVersionList"
          *ngIf="bot.store_bot_versions && bot.store_bot_versions.length > 1"
-         class="fa py-2 px-3 bg-theme-primary text-white ml-auto cursor-pointer"
-         [ngClass]="{'fa-angle-up':showVersionList, 'fa-angle-down':!showVersionList}"
+         class="fa py-2 px-3 text-white ml-auto cursor-pointer"
+         [ngClass]="{'fa-caret-up':showVersionList, 'fa-caret-down':!showVersionList, 'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-caret-inactive':selectedVersion?.id !== activeVersion?.id}"
          style="height: 100%"></i>
     </div>
   </div>
   <div class="col-4">
-    <button [disabled]="!selectedVersion || disableSave" class="btn-theme btn-theme-primary-outline mx-1"
+    <!--<button [disabled]="!selectedVersion || disableSave" class="btn-theme btn-theme-primary-outline mx-1"-->
+            <!--*myIf="myEAllActions['Update Bot Versioning']"-->
+            <!--(click)="saveSelectedVersion$.emit()">-->
+      <!--{{(!bot.store_bot_versions || !bot.store_bot_versions.length ||-->
+      <!--bot.store_bot_versions.length>0)?"Save":"Create"}}-->
+      <!--Version-->
+    <!--</button>-->
+    <button [disabled]="!selectedVersion || disableSave"
             *myIf="myEAllActions['Update Bot Versioning']"
-            (click)="saveSelectedVersion$.emit()">
+            (click)="saveSelectedVersion$.emit()"
+            class="mat-theme-button" mat-button style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-left: 10px">
+      <mat-icon>save</mat-icon>
       {{(!bot.store_bot_versions || !bot.store_bot_versions.length ||
-      bot.store_bot_versions.length>0)?"Save":"Create"}}
-      Version
+            bot.store_bot_versions.length>0)?"Save":"Create"}}
     </button>
-    <div *ngIf="selectedVersion" class="d-inline-block">
-      <button class="btn-theme btn-theme-primary-outline"
-              [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
-              *myIf="myEAllActions['Create Bot Versioning']"
-              (click)="openForkNewVersionModal$.emit()">
-        Fork New Version
-      </button>
-    </div>
 
-    <button class="btn-theme btn-theme-primary-outline"
+    <ng-container *ngIf="selectedVersion">
+      <button [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
+              *myIf="myEAllActions['Create Bot Versioning']"
+              (click)="openForkNewVersionModal$.emit()"
+              class="mat-theme-button" mat-button
+              style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin: 0 10px">
+        <mat-icon>save</mat-icon>
+        Fork
+      </button>
+    </ng-container>
+
+    <button class="mat-theme-button" mat-button
+            style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px;"
             (click)="downloadAll$.emit()">
-      <i class="fa fa-download"></i>
+      <mat-icon>get_app</mat-icon>
     </button>
   </div>
-  <div class="row row-flex-bot-versioning-toaster border-theme-secondary  border-top-0 mx-0" *ngIf="showVersionList"
-       style="max-height: 50vh; overflow-y: scroll">
-    <div class="col-12 py-1 px-0 cursor-pointer hover-change-background border-bottom-theme-secondary"
+  <!---->
+  <div class="row row-flex-bot-versioning-toaster mx-0" *ngIf="showVersionList"
+       style="max-height: 50vh; overflow-y: scroll; border: 1px solid #e0e0e0; border-top: none ">
+    <div class="col-12 py-1 px-0 cursor-pointer hover-change-background"
          *ngFor="let version of bot.store_bot_versions | filterActiveBot:selectedVersion.id ">
       <div class="d-flex align-items-center flex-bot-versioning-toaster"
            (click)="changeSelectedVersion$.emit(version); showVersionList = false; ">
 
         <div class="version-active-label">
-          <div>{{version.id === (activeVersion && activeVersion.id)?'Active':'Inactive'}}</div>
+          <div
+                  [ngClass]="{'text-primary':version.id === (activeVersion && activeVersion.id)}"
+          >{{version.id === (activeVersion && activeVersion.id)?'Active':'Inactive'}}</div>
         </div>
         <!--<div class="active-label-text">{{version.id +""+activeVersion.id }}</div>-->
         <div class="count mx-1">{{version.version}}</div>

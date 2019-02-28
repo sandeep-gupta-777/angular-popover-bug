@@ -8,6 +8,7 @@ import {HandsontableComponent} from '../../../../../../handsontable/handsontable
 import {ELogType, LoggingService} from '../../../../../../logging.service';
 import {ModalImplementer} from '../../../../../../modal-implementer';
 import {MatDialog} from '@angular/material';
+import {EventService} from '../../../../../../event.service';
 
 @Component({
   selector: 'app-knowledge-base-presentation',
@@ -23,7 +24,9 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
   // @ViewChild(HandsontableComponent)handsontableComponent: HandsontableComponent;
   @Input() set selectedRowData(value: ICustomNerItem) {
-    if (!value) { return; }
+    if (!value) {
+      return;
+    }
     this._selectedRowData = value;
 
     this.key = value.key;
@@ -49,9 +52,9 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       LoggingService.error(e);
     }
     // for (let index = 0; index < this.handontable_colHeaders.length; index++) {
-      // this.handontable_column[index] = {
-      //   data: index, type: 'text'
-      // }
+    // this.handontable_column[index] = {
+    //   data: index, type: 'text'
+    // }
     // }
 
     this.handontable_column = this.handontable_colHeaders;
@@ -86,7 +89,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     public utilityService: UtilityService,
     public constantsService: ConstantsService,
     private activatedRoute: ActivatedRoute,
-    public matDialog:MatDialog
+    public matDialog: MatDialog
   ) {
     super(utilityService, matDialog);
   }
@@ -132,7 +135,6 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
         }
 
 
-
         codeTextFromEditor = JSON.parse(this.codeTextOutPutFromCodeEditor);
       } catch (e) {
         // codeTextFromEditor = this.codeTextOutPutFromCodeEditor;
@@ -165,11 +167,17 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     LoggingService.log(this.form.value);
   }
 
-  handsOnTableDataHasAtleastTwoRows(){
+  handsOnTableDataHasAtleastTwoRows() {
 
-    return this.handsontableData && this.handsontableData.length>2;
+    return this.handsontableData && this.handsontableData.length > 2;
   }
 
+
+  goBack() {
+    this.showTable$.emit();
+    this._selectedRowData = {};
+    EventService.createConceptFullScreen$.emit(false);
+  }
 
 
 }

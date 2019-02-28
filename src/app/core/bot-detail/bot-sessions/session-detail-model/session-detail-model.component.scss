@@ -208,3 +208,14 @@ a {
 .border-unselected-txn {
   border-left: 4px solid transparent;
 }
+
+
+.circle-on-hover{
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  &:hover{
+    background-color: white;
+    color: black;
+  }
+}

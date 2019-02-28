@@ -20,6 +20,7 @@ export class BotConfigComponent implements OnInit {
   myEBotType = EBotType;
   bot_type;
   id;
+  formDirty = false;
   constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {

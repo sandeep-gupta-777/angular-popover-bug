@@ -176,6 +176,9 @@ table {
   tr:hover:not(:first-child) {
     background-color: rgba(0, 0, 0, .05);;
   }
+  th{
+    padding-right: 10px;
+  }
 }
 
 .mat-form-field {
@@ -217,6 +220,10 @@ table {
     //border: none;
     //padding: 0;
   }
+
+  .mat-paginator {
+     background: transparent !important;
+  }
   //.mat-form-field-flex{
   //  margin-top: 10px;
 }
@@ -225,6 +232,10 @@ table {
   .mat-chip-list-wrapper .mat-standard-chip, .mat-chip-list-wrapper input.mat-input-element {
     margin: 0px;
     padding: 1px 7px;
+  }
+
+  mat-icon{
+    font-size: 110% !important;
   }
 
   .column-input {
@@ -284,4 +295,8 @@ table {
 ::-webkit-scrollbar /deep/ {
   /*TODO: this is not working*/
   width: 4px;
+}
+
+.fa-caret-up, .fa-caret-down{
+  font-size: 7px;
 }

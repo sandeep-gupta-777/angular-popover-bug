@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, isDevMode, OnInit, ViewChild} from '@angular/core';
 import {NavigationEnd, RouteConfigLoadEnd, RouteConfigLoadStart, Router, RoutesRecognized} from '@angular/router';
 import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
@@ -43,8 +43,10 @@ export class AppComponent extends DebugBase implements OnInit {
     /**
      * This is required here because if we set backend url in login page then anonymour chat page will be left out
      * */
-    this.serverService.getNSetConfigData$().subscribe(() => {
-    });
+    if(!isDevMode()){
+      this.serverService.getNSetConfigData$().subscribe(() => {
+      });
+    }
 
     this.initializeProgressBarSubscription();
 

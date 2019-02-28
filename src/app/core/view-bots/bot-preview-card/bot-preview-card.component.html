@@ -1,18 +1,18 @@
 <section class="card-section">
     <div class="grid-bot-preview-two" [ngClass]="{'grid-pipeline-card':bot.bot_type === 'intelligent'}"
          (click)="navigateToBotDetailPage($event)">
-        <button mat-icon-button [matMenuTriggerFor]="appMenu" class="more-button click-save-wrapper">
-            <mat-icon class="show-on-parent-hover click-save-wrapper">more_horiz</mat-icon>
+        <button mat-icon-button [matMenuTriggerFor]="appMenu" (menuOpened)="menuOpened = true" (menuClosed)="menuOpened = false" class="more-button click-save-wrapper">
+            <mat-icon [ngClass]="{'show-on-parent-hover':!menuOpened}" class="click-save-wrapper">more_horiz</mat-icon>
         </button>
 
         <figure class="grid-bot-preview-img">
             <img [src]="bot.logo" alt="">
         </figure>
-        <div class="grid-bot-preview-name">
-            <h6 style="color: #474747; letter-spacing: 0.3px">{{(bot.name|slice:0:36) + (bot.name.length > 36 ? "..." : "")}}</h6>
+        <div class="grid-bot-preview-name details1">
+            <h6 class="limit-oneline" style="color: #474747; letter-spacing: 0.3px">{{(bot.name|slice:0:36) + (bot.name.length > 36 ? "..." : "")}}</h6>
             <p class="description limit-oneline" style="letter-spacing: 0.1px">
-                Last Update on {{bot.updated_at|date:'mediumDate'}}
-                by {{bot.updated_by && bot.updated_by.split(" ")[0]}}
+                Last Update by {{bot.updated_by && bot.updated_by.split(" ")[0]}}
+                on {{bot.updated_at|date:'mediumDate'}}
             </p>
         </div>
 

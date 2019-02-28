@@ -69,7 +69,9 @@ export class CodeBasedBotDetailComponent implements OnInit {
 
     EventService
       .createConceptFullScreen$
-      .subscribe((goFullScreen) => this.goFullScreen = goFullScreen);
+      .subscribe((goFullScreen) => {
+        this.goFullScreen = goFullScreen;
+      });
 
     // this.loggeduser$.take(1).subscribe((loggedUserState:IAuthState)=>{
     const roleName = this.constantsService.loggedUser.role.name;

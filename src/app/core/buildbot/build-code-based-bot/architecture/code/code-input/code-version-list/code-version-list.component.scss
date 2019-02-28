@@ -86,7 +86,7 @@
   color: #474747;
 }
 .text-primary{
-  color: #00abd3;
+  color: #00abd3 !important;
 }
 .text-lite {
   font-size: 11px;
@@ -245,7 +245,7 @@
     color: white;
   }
   .bg-label-inactive {
-    background-color: #474747;
+    background-color: #747474;
     color: white;
   }
 
@@ -347,6 +347,7 @@
 }
 
 .hover-change-background {
+  background-color: #f0f3f4;;
   &:hover {
     background-color: #ededed;
   }
@@ -440,4 +441,11 @@ app-code-editor {
 .input-material{
 
 }
+
+
+.bg-caret-inactive{
+  border-left: 1px solid #e0e0e0;
+  color: #474747 !important;
+}
+
 

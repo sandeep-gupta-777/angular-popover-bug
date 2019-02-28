@@ -963,6 +963,16 @@ export class ConstantsService {
       search: true,
       searchValue: true,
     },
+    updated_at: {
+      originalKey: 'updated_at',
+      value: '',
+      type: 'time',
+      displayValue: 'Last Update',
+      search: false,
+      searchValue: true,
+      dateRange: true
+    },
+
 
   };
   SMART_TABLE_SESSION_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
@@ -972,7 +982,7 @@ export class ConstantsService {
       value: '',
       type: 'image',
       displayValue: 'Channels',
-      search: true,
+      search: false,//true,
       searchValue: true,
     },
     id: {
@@ -980,7 +990,7 @@ export class ConstantsService {
       value: '',
       type: 'number',
       displayValue: 'Room Id',
-      search: true,
+      search: false,//true,
       searchValue: true,
     },
     consumer_id: {
@@ -988,7 +998,7 @@ export class ConstantsService {
       value: '',
       type: 'number',
       displayValue: 'Consumer id',
-      search: true,
+      search: false,//true,
       searchValue: true,
     },
     // sendtoagent: {
@@ -1004,7 +1014,7 @@ export class ConstantsService {
       value: '',
       type: 'number',
       displayValue: 'Messages',
-      search: true,
+      search: false,//true,
       searchValue: true,
     },
     updated_at: {
@@ -1012,9 +1022,9 @@ export class ConstantsService {
       value: '',
       type: 'time',
       displayValue: 'Updated At',
-      search: false,
+      search: false,//true,
       searchValue: true,
-      dateRange: true
+      dateRange: false//true
     },
     actions: {
       originalKey: '',
@@ -1263,7 +1273,7 @@ export class ConstantsService {
       type: 'time',
       displayValue: 'Updated At',
       search: false,
-      searchValue: true,
+      searchValue: false,
       dateRange: true
     },
     actions: {
@@ -1274,7 +1284,7 @@ export class ConstantsService {
       custom: true,
       name: '',
       search: false,
-      searchValue: true,
+      searchValue: false,
     },
   };
 

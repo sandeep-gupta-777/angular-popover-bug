@@ -59,7 +59,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   filterData: ISessionFilterData;
   @Select() app$: Observable<IAppState>;
 
-  masterIntegrationList: IIntegrationMasterListItem[];
+  channels: IIntegrationMasterListItem[];
 
   constructor(
     private serverService: ServerService,
@@ -76,7 +76,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
     this.app$
       .subscribe((appState) => {
-        this.masterIntegrationList = appState.masterIntegrationList;
+        this.channels = appState.masterIntegrationList.filter(e=>e.integration_type==='channels');
       });
 
     this.headerData = {'bot-access-token': this.bot.bot_access_token};
@@ -381,12 +381,10 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         let sessionItem = val.objects[0];
         let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id});
         this.sessions[index] = sessionItem;
-        ;
         this.selectedRow_Session = sessionItem;
         this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
         this.tableData = [...this.tableData];
       });
-    //
   }
 
   performSearchInDbForSession(filterData: ISessionFilterData) {

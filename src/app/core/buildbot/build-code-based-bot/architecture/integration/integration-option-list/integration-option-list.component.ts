@@ -41,6 +41,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   @ViewChild('test') test_new: NgForm;
   @Select() botcreationstate$: Observable<IBotCreationState>;
   @Output() datachanged$ = new EventEmitter();
+  @Output() formDirty$ = new EventEmitter<Boolean>();
   @Select() app$: Observable<IAppState>;
   myObject = Object;
   routeParent;
@@ -155,6 +156,8 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
 
 
       this.datachanged$.emit({integrations: integrationInfo, ...formValidityObj});
+      this.formDirty$.emit(this.f_new.dirty);
+
       // if (this.routeParent['buildBot'])
       //   this.store.dispatch([
       //     new SaveBasicInfo({data: {integrations: integrationInfo}})

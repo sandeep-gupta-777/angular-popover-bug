@@ -84,6 +84,17 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
 
   initializeTableData(data: any, tableDataMetaDict: any): void {
     this.tableData = this.transformDataForMaterialTable(data, tableDataMetaDict);
+
+    this.tableData = this.tableData.map((row) => {
+      let additonalColumns: any = {};
+      /*Modifying Concept Key column*/
+      additonalColumns['Concept Key'] = row['Concept Key'];
+      additonalColumns['Concept Key'].value = `<strong>${additonalColumns['Concept Key'].value}</strong>`;
+
+      /*TODO: Modifying Last update*/
+
+      return {...row, ...additonalColumns};
+    });
     this.tableData = [...this.tableData];
   }
 

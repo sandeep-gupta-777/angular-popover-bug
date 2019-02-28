@@ -29,6 +29,7 @@ export class AdditionalInfoFormComponent implements OnInit {
   }
 
   @Output() datachanged$ = new EventEmitter<Partial<IBot>>();
+  @Output() formDirty$ = new EventEmitter<Boolean>();
 
   formData: any;
 
@@ -52,6 +53,8 @@ export class AdditionalInfoFormComponent implements OnInit {
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) { return; }
       this.formData = data;
       this.datachanged$.emit(data);
+      this.formDirty$.emit(this.formGroup.dirty);
+
     });
 
   }

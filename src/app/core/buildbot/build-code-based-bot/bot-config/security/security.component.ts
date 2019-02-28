@@ -28,6 +28,7 @@ export class SecurityComponent implements OnInit {
   }
 
   @Output() datachanged$ = new EventEmitter<Partial<IBot>>();
+  @Output() formDirty$ = new EventEmitter<Boolean>();
 
   formData: any;
 
@@ -64,6 +65,8 @@ export class SecurityComponent implements OnInit {
       setTimeout(()=>this.dataValid$.emit(this.formGroup.valid));
       this.formData = data;
       this.datachanged$.emit(data);
+      this.formDirty$.emit(this.formGroup.dirty);
+
     });
 
   }
