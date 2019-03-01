@@ -5,7 +5,7 @@
       <span title="Go to room list" class="hover-parent" (click)="navigate(myEChatFrame.CHAT_LIST)" [hidden]="frameEnabled===myEChatFrame.CHAT_LIST">
         <i  class="fa fa-angle-left cursor-pointer" style="font-size: 20px; margin-right: 10px"></i>
       </span>
-      <img [src]="currentBot.avatars[0].imageUrl" style="width: 32px; height: 32px; border-radius: 50%; background-color: #2b4f70; margin-right: 5px;" alt="">
+      <img [src]="currentBot.logo" style="width: 32px; height: 32px; border-radius: 50%; background-color: #2b4f70; margin-right: 5px;" alt="">
       <a class="text-white"
          [title]="'Open '+ chatWindowTitle"
          style="text-decoration: none"
@@ -43,6 +43,8 @@
                                   (saveConsumerDetails$)="saveConsumerDetails($event)"></app-chat-consumer-form>
         </div>
       </app-overlay>
+
+
 
 
       <!--<div class="btn-group hover-parent"-->
@@ -84,7 +86,18 @@
       <!--</div>-->
       <!--consumer dropdown ends-->
 
-      <i class="fa fa-minus cursor-pointer hover-parent" [title]="'Minimize preview window'" (click)="closeChatWindow()"></i>
+      <!--<i class="fa fa-minus cursor-pointer hover-parent" -->
+         <!--[title]="'Minimize preview window'" (click)="closeChatWindow()"></i>-->
+
+      <button mat-icon-button
+              (click)="closeChatWindow()"
+              [title]="'Minimize preview window'"
+              [class.active]="showOverlay" class="origin"
+              #overlayOrigin="cdkOverlayOrigin"
+              cdkOverlayOrigin>
+        <mat-icon>minimize</mat-icon>
+      </button>
+
     </div>
     <div class="body p-0 border-left border-right"
          [ngClass]="{'make-body-occupy-footer':frameEnabled!==myEChatFrame.CHAT_BOX}">

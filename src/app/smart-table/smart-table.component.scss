@@ -173,8 +173,9 @@ table {
     height: 44px !important;
   }
 
-  tr:hover:not(:first-child) {
-    background-color: rgba(0, 0, 0, .05);;
+  tr:hover {
+    //background-color: rgba(0, 0, 0, .05);;
+    background-color: white;
   }
   th{
     padding-right: 10px;

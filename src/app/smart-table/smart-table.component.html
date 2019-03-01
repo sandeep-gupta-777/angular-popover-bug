@@ -32,7 +32,7 @@
             <span [style.visibility]="(!(tableData[0][i].search || tableData[0][i].dateRange) || formDirty ===false  && headerHoverd.value ==='false') ? 'visible' : 'hidden'">{{i}}</span>
 
             <!--text search starts-->
-            <div *ngIf="headerHoverd.value === 'true'"
+            <div
                  style="position: absolute; top: 0px; left: -15px; right: 0 ; bottom: 0; display: flex; flex-direction: column">
               <i class="fa fa-caret-up"
                  title="Sort descending"
