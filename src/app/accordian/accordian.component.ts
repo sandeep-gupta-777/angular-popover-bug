@@ -11,6 +11,7 @@ export class AccordianComponent implements OnInit {
 
   show = false;
   _doExpand = false;
+  @Input() keyword:string;
   @Input() set doExpand(_doExpand){
     this._doExpand = _doExpand;
     this.show = _doExpand;
@@ -20,9 +21,9 @@ export class AccordianComponent implements OnInit {
 
   ngOnInit() {
     EventService.toggleAllPipeLineModules
-        .subscribe((show: any) => {
-          this.show = show;
-        });
+      .subscribe((show)=>{
+        this.show = show;
+      });
   }
 
 }

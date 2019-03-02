@@ -3,13 +3,13 @@
     flex-shrink: 0;
     display: flex;
     justify-content: center;"
-    (click)="show = !show"
+         (click)="show = !show"
     >
         <i class="fa" style="padding: 1px" [ngClass]="{'fa-angle-right': !show, 'fa-angle-down':show}"></i>
     </div>
     <section class="accordion-section" (click)="show = !show" style="margin-bottom: 15px; flex-grow: 1">
         <h6 class="accordion-section__heading">
-            {{data.display_values}} ({{data.pipeline_modules.length}})
+            {{data.display_values}} ({{(data.pipeline_modules|pipeineKeywordToPipelineModuleMatched:keyword).length}})
         </h6>
         <p class="accordion-section__description" style="margin-top: 7px">
             {{data.description}}

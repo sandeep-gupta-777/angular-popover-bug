@@ -159,6 +159,7 @@ import {ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from '@angular/material
     KnowledgeBaseComponent, //
     KnowledgeBasePresentationComponent,
     ChartComponent,
+    MsToHhMmPipe,
     HandsontableComponent,
     HighlightSessionTexts,
     FilterActiveBotPipe,

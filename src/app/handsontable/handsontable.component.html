@@ -1,15 +1,16 @@
 <header class="handsontable-header">
-  <!--<label for="uploadInput" class="handsontable-header__upload"-->
-         <!--[title]="'upload csv '+ (expectedCSVHeaders?('as: ' + expectedCSVHeaders):'')">-->
-    <!--<i class="fa fa-upload"></i>-->
-    <!--<input type="file"-->
-           <!--hidden-->
-           <!--id="uploadInput"-->
-           <!--(change)='openFile(uploadInput);uploadInput.value=null'-->
-           <!--accept='text/csv'-->
-           <!--#uploadInput>-->
-  <!--</label>-->
-  <!--<i class="fa fa-download" (click)="exportToCsv()"></i>-->
+  <label for="uploadInput1" class="handsontable-header__upload"
+         [title]="'upload csv '+ (expectedCSVHeaders?('as: ' + expectedCSVHeaders):'')">
+    <i class="fa fa-upload"></i>
+    <input type="file"
+           hidden
+           id="uploadInput1"
+           (change)='openFile(uploadInput);uploadInput.value=null'
+           accept='text/csv'
+           #uploadInput>
+  </label>
+  <!---->
+  <i class="fa fa-download" (click)="exportToCsv()"></i>
   <input type="text" class="" #handsontable_search_field placeholder="search table">
   <div class="handsontable-header__ng-content">
     <ng-content></ng-content>

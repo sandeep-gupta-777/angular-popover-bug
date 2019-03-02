@@ -8,7 +8,7 @@ import {NgForm} from '@angular/forms';
 import {EBotType, UtilityService} from '../../../../utility.service';
 import {TempVariableService} from '../../../../temp-variable.service';
 import {ServerService} from '../../../../server.service';
-import {ConstantsService} from '../../../../constants.service';
+import {ConstantsService, ERouteNames} from '../../../../constants.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ELogType, LoggingService} from '../../../../logging.service';
 import {debounceTime} from 'rxjs/operators';
@@ -23,7 +23,7 @@ declare var $: any;
   styleUrls: ['./report-controls.component.scss']
 })
 export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy {
-  start_time;
+  start_time = "10:00";
   isactive = false;
   @Select() botlist$: Observable<ViewBotStateModel>;
   datePickerConfig: any;
@@ -39,6 +39,32 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
   servervalue;
   deliveryMode = 'sftp';
   startdate = new Date();
+  timeRanges = [
+    '00:00',
+    '01:00',
+    '02:00',
+    '03:00',
+    '04:00',
+    '05:00',
+    '06:00',
+    '07:00',
+    '08:00',
+    '09:00',
+    '10:00',
+    '11:00',
+    '12:00',
+    '13:00',
+    '14:00',
+    '15:00',
+    '16:00',
+    '17:00',
+    '18:00',
+    '19:00',
+    '20:00',
+    '21:00',
+    '22:00',
+    '23:00',
+  ];
 // test = false;
   // start_date = new Date();
   isSftpReportEnabled = false;
@@ -60,12 +86,22 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   ngAfterViewInit() {
-    $(document).ready(function () {
-      $('input.time-input1').timepicker({defaultTime: '9', scrollbar: true, timeFormat: 'HH:mm'});
-    });
+    // $(document).ready(function () {
+    //   $('input.time-input1').timepicker({defaultTime: '9', scrollbar: true, timeFormat: 'HH:mm'});
+    //   setTimeout(()=>{
+    //     console.log('=========',$('input.time-input1'));
+    //     $($('input.time-input1')[0]).on('changeTime',  ($event)=>{
+    //       alert();
+    //       console.log($event);
+    //     });
+    //   },199)
+    // });
 
-    if (this.activatedRoute.snapshot.data['name'] === 'create_report') {
+
+
+    if (this.activatedRoute.snapshot.data['name'] === ERouteNames['Create Reports']) {
       setTimeout(() => {
+        debugger;;
         this.f.form.patchValue({bot_id: this.botlist[0].id, frequency: 'daily'});
       }, 0);
     }
@@ -119,7 +155,8 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
                 if (hh.length === 1) {
                   hh = '0' + hh;
                 }
-                (<any>document).getElementById('start_time').value = hh + ':' + mm;
+                this.start_time = hh + ':' + mm;
+                // (<any>document).getElementById('start_time').value = hh + ':' + mm;
               } catch (e) {
                 LoggingService.error(e);
               }
@@ -135,6 +172,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
 
 
     this.f.valueChanges.pipe(debounceTime(1000)).subscribe((data: any) => {
+      EventService.reportFormIsValid.emit(this.f.valid);
       // if (!this.f.dirty) return;
 
       /*TODO: VERY BAD FIX; USE REACTIVE FORM INSTEAD*/
@@ -160,8 +198,8 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.reportFormData.botName = this.botlist.find((bot) => bot.id == this.reportFormData.bot_id).name;
     this.reportFormData = {...this.reportFormData};
-    const start_time: string = (<any>document).getElementById('start_time').value;
-    const start_time_arr = start_time.split(':');
+    // const start_time: string = (<any>document).getElementById('start_time').value;
+    const start_time_arr = this.start_time.split(':');
     const hh = Number(start_time_arr[0]);
     const mm = Number(start_time_arr[1]);
     if (!this.reportFormData.filetype) {

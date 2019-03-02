@@ -62,7 +62,7 @@
             </div>
             <!--search input ends-->
             <div class="session-messages-container row m-0 my-2 p-1 align-items-start align-content-start">
-                <i class="fa fa-angle-down" *ngIf="sessionMessageDataCopy && sessionMessageDataCopy.length > 5"
+                <i class="fa" [ngClass]="{'fa-angle-down':scrollDown,'fa-angle-up':!scrollDown}" *ngIf="sessionMessageDataCopy && sessionMessageDataCopy.length >5"
                    (click)="scrollMessageList()"></i>
                 <div style="height: 100%;width: 100%; padding-right: 5px" class="session-messages-container-list">
                     <div class="col-12 px-0 border-hover-txn"
@@ -92,6 +92,12 @@
                        (click)="tabClicked('manager_bot')"><strong>TRANSACTION INFO</strong></a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link p-0"
+                       [title]="nlp?'':'NLP is disabled.'"
+                       [ngClass]="{'tab-active':activeTab==='nlp'}"
+                       (click)="tabClicked('nlp')"><strong>NLP</strong></a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link p-0" [ngClass]="{'tab-active':activeTab==='active_bot'}"
                        (click)="tabClicked('active_bot')" *ngIf="bot.is_manager"><strong>ACTIVE BOT</strong></a>
                 </li>
@@ -102,10 +108,6 @@
                 <li class="nav-item">
                     <a class="nav-link p-0 mr-2" [ngClass]="{'tab-active':activeTab==='datastore'}"
                        (click)="tabClicked('datastore')"><strong>DATASTORE</strong></a>
-                </li>
-                <li class="nav-item mr-2">
-                    <a class="nav-link p-0" [ngClass]="{'tab-active':activeTab==='nlp'}"
-                       (click)="tabClicked('nlp')"><strong>NLP</strong></a>
                 </li>
             </ul>
             <div *ngIf="!codeText" class="editor-container"

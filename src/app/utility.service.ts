@@ -539,9 +539,12 @@ export class UtilityService {
 
   }
 
-  doesStringIncludesSubstring(string, subString) {
+  doesStringIncludesSubstring(string:string, subString:string) {
     try {
-      return !string || !subString ? false : string.includes(subString);
+      if(!string || !subString){
+        throw 'invalid input';
+      }
+      return  string.toLowerCase().includes(subString.toLowerCase())?string:false;
     } catch (e) {
       return false;
     }
@@ -1087,6 +1090,22 @@ export class UtilityService {
     // columns = { name: '姓名', score: '分数' };
 
     downloadCsv(data, columns);
+  }
+
+  /**
+   * highlightText: case insensitive highlights
+   * @param string: text to be highlighted
+   * @param keyword keyword
+   */
+  static highlightText(string:string, keyword:string){
+    if(!string || !keyword){
+      return string;
+    }
+    /*
+    * Example usage of $1 to get capturing group
+    * "HELLO".replace(/(hell)o/i,`$1sdasdadas`);
+    * */
+    return string.replace(new RegExp(`(${keyword})`, "ig"),`<span class="text-highlight">$1</span>`);
   }
 
   areAllAvatorValesDefined(headerObj: object) {

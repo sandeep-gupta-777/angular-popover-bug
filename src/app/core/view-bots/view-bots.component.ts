@@ -26,7 +26,7 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
   showPopover = false;
   myEAllActions = EAllActions;
   disableCreateNewBotTooltip = true;
-
+  reloaded : boolean = false;/*TODO: shoaib...dont hide bot while reloading...let loading happen in background like it used to be*/
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
@@ -67,6 +67,7 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
     this.serverService.getNSetBotList()
       .subscribe(() => {
         LoggingService.log('bot list fetched from view bots page');
+        this.reloaded = true;
       });
     this.botlist$
       .subscribe((allBotListState) => {
@@ -96,7 +97,7 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
   }
 
   // doShowPopover(activeTab) {
-  //   return activeTab === EBotType.chatbot && this.codeBasedBotList && this.codeBasedBotList.length === 0
+  //   return activeTab === EBotType.chatbot && this.botList && this.botList.length === 0
   //     || (activeTab === EBotType.intelligent && this.pipelineBasedBotList && this.pipelineBasedBotList.length === 0);
   // }
 

@@ -35,7 +35,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   dialogRefWrapper = {ref: null};
 
   myESplashScreens = ESplashScreens;
-  @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
+  @Select(state => state.botlist.botList) codeBasedBotList$: Observable<IBot[]>;
   @Input() id: string;
   test = 'asdasdsd';
   @Input() bot: IBot;
@@ -447,6 +447,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     } else {
       url = this.constantsService.getRoomWithFilters({limit: 10});
     }
+    url = url.toLowerCase();//todo: this should be handled by backend;
     this.serverService.makeGetReq({url, headerData: this.headerData})
       .subscribe((value: { objects: ISessionItem[], meta: { total_count: number } }) => {
 

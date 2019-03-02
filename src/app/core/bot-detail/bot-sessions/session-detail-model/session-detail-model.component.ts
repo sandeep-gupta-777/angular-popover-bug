@@ -4,8 +4,6 @@ import {ConstantsService} from '../../../../constants.service';
 import {ServerService} from '../../../../server.service';
 import {IBot} from '../../../interfaces/IBot';
 import {Observable} from 'rxjs';
-
-import {element} from 'protractor';
 import {UtilityService} from '../../../../utility.service';
 import { ViewBotStateModel } from '../../../view-bots/ngxs/view-bot.state';
 import { Select } from '@ngxs/store';
@@ -123,15 +121,20 @@ export class SessionDetailModelComponent implements OnInit {
       'generatedDf': messageDataForGiveTxnId.generated_df,
       'generatedMsg': messageDataForGiveTxnId.generated_msg, /*bot message*/
       'message': messageDataForGiveTxnId.message, /*user message*/
-      'messageStore': botMessageDataForGiveTxnId.message_store
+      'messageStore': botMessageDataForGiveTxnId && botMessageDataForGiveTxnId.message_store
     };
-    const activeBotId = botMessageDataForGiveTxnId.message_store.activeBotId;
-    const activeBotRoomId = botMessageDataForGiveTxnId.message_store.activeBotRoomId;
-    this.activeBotPanelData = botMessageDataForGiveTxnId.message_store;
+    let activeBotId: any;
+    let activeBotRoomId: any;
+    if(botMessageDataForGiveTxnId){
+      activeBotId = botMessageDataForGiveTxnId.message_store.activeBotId;
+      activeBotRoomId = botMessageDataForGiveTxnId.message_store.activeBotRoomId;
+      this.activeBotPanelData = botMessageDataForGiveTxnId.message_store;
+    }
+
     let humanMessageDataForGiveTxnId = this.sessionMessageData.find((message) => {
       return (message.transaction_id === txnId && message.user_type === "human" ) ;
     });
-    this.nlp = humanMessageDataForGiveTxnId.nlp;
+    this.nlp = humanMessageDataForGiveTxnId && humanMessageDataForGiveTxnId.nlp;
     this.tabClicked(this.activeTab);
     if (activeBotId) {
       const activeBotAccessTokenId = this.allBotList.find(bot => bot.id === activeBotId).bot_access_token;
@@ -303,7 +306,7 @@ export class SessionDetailModelComponent implements OnInit {
     transactionsCount = this.scrollDown ? this.sessionMessageDataCopy.length - 1 : 0;
     let lastTransactionId = this.sessionMessageDataCopy[transactionsCount].transaction_id;
     let lastElement = document.getElementsByClassName(lastTransactionId);
-    this.scroll(lastTransactionId)
+    this.scroll(lastTransactionId);
     this.scrollDown = !this.scrollDown;
   }
 

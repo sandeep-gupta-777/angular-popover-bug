@@ -10,7 +10,7 @@
     <!--</select>-->
 
     <mat-form-field>
-      <mat-select placeholder="Bot" ngModel name="bot_id" [value]="codebasedBotList[0].id">
+      <mat-select required placeholder="Bot" ngModel name="bot_id" [value]="codebasedBotList[0].id">
         <mat-option *ngFor="let bot of codebasedBotList let i = index;" [value]="bot.id">
           {{bot.name}}
         </mat-option>
@@ -29,7 +29,7 @@
 
     <mat-form-field>
       <!--TODO: hardcoded messges since there is no other option as of now-->
-      <mat-select placeholder="Report type" name="single_match" value="single_match" [ngModel]="'messages'">
+      <mat-select required placeholder="Report type" name="single_match" value="single_match" [ngModel]="'messages'">
         <mat-option value="messages">
           Messages
         </mat-option>
@@ -71,7 +71,7 @@
       <!--</select>-->
 
       <mat-form-field>
-        <mat-select placeholder="Frequency" ngModel required name="frequency">
+        <mat-select  placeholder="Frequency" ngModel required name="frequency">
           <mat-option value="daily">Daily</mat-option>
           <mat-option value="weekly">Weekly</mat-option>
           <mat-option value="bi-weekly">Bi-weekly</mat-option>
@@ -82,16 +82,24 @@
   </div>
 
   <div class="col-5 mt-4">
-      <mat-form-field ngNativeValidate>
-        <input
-               matInput
-               placeholder="Timepicker"
-               autocomplete="off"
-               class="time-input1 date-input"
-               name="start_time"
-               id="start_time"
-               [(ngModel)]="start_time"
-        >
+      <!--<mat-form-field ngNativeValidate>-->
+          <!--<i>{{start_time}}</i>-->
+        <!--<input-->
+               <!--matInput-->
+               <!--required-->
+               <!--placeholder="Timepicker"-->
+               <!--autocomplete="off"-->
+               <!--class="time-input1 date-input"-->
+               <!--name="start_time"-->
+               <!--id="start_time"-->
+               <!--[(ngModel)]="start_time"-->
+        <!--&gt;-->
+      <!--</mat-form-field>-->
+
+      <mat-form-field>
+          <mat-select required [(ngModel)]="start_time" name="start_time"  placeholder="Frequency" required>
+              <mat-option *ngFor="let item of timeRanges" value="{{item}}">{{item}}</mat-option>
+          </mat-select>
       </mat-form-field>
 
   </div>
@@ -113,6 +121,7 @@
 
         <mat-form-field>
           <input
+                  required
             [(ngModel)]="startdate"
             [min]="today"
             name="startdate"
@@ -125,6 +134,7 @@
         </mat-form-field>
       </div>
     </div>
+
     <!---->
   </div>
 

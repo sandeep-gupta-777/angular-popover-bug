@@ -1,3 +1,4 @@
+
 import { Component, OnInit, Output, Input, EventEmitter, TemplateRef } from '@angular/core';
 import { ServerService } from 'src/app/server.service';
 import { ConstantsService } from 'src/app/constants.service';
@@ -10,6 +11,7 @@ import { EnterpriseRoleTabName } from '../enterpriseprofile.component';
 import { UtilityService } from 'src/app/utility.service';
 import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
 import { MatDialog } from '@angular/material';
+import { ESplashScreens } from 'src/app/splash-screen/splash-screen.component';
 
 @Component({
     selector: 'app-roles',
@@ -30,8 +32,10 @@ export class RolesComponent implements OnInit {
     selectedRoleBaseRole: number;
     serchedAction: string = "";
     serchedPermission: string = "";
+    myESplashScreens = ESplashScreens;
     @Output() backToRoles = new EventEmitter();
     show = false;
+    reloaded = false;
     panelOpenState = false;
     system_role: boolean = false;
     categoryList = [];
@@ -128,11 +132,16 @@ export class RolesComponent implements OnInit {
         this.serverService.makeDeleteReq<any>({ url: getRoleIdUrl })
           .subscribe((roles) => {
             this.utilityService.showSuccessToaster("Role deleted");
+// <<<<<<< HEAD
+// =======
+            this.roleListChanged.emit();
+// >>>>>>> staging
             this.navegateRole();
           });
       }
     ngOnInit() {
 
+        // this.system_role = false;
         if (!this.isNewRole) {
             let getRoleByIdUrl = this.constantsService.getRoleByIdUrl(this.selectedRole);
 
@@ -148,9 +157,19 @@ export class RolesComponent implements OnInit {
                             this.selectedPermissionIdList = value.masterProfilePermissions.map(permission => {
                                 return permission.id
                             });
+                        this.reloaded = true;
+                            
                         });
                     }
+                    else{
+                    this.reloaded = true;
+                    }
+                   
                 });
+        }
+        else{
+            this.system_role = false;
+            this.reloaded = true;
         }
         let getRoleUrl = this.constantsService.getRoleUrl();
         this.serverService.makeGetReq<IRoleResult>({ url: getRoleUrl })

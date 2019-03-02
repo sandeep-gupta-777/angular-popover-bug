@@ -358,7 +358,7 @@ export class ConstantsService {
   }
 
   getSessionsMessageUrl(room_id: number) {
-    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}&limit=1000&order_by=-updated_at`; //https://dev.imibot.ai/api/v1/message/?room_id=60
+    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}&limit=1000`; //https://dev.imibot.ai/api/v1/message/?room_id=60
   }
 
   getTotalMessagesUrl() {
@@ -448,7 +448,7 @@ export class ConstantsService {
   }
 
   getBotConsumerByIdUrl(id: number) {
-    return this.BACKEND_URL + `api/v1/consumer/${id}/`; //https://dev.imibot.ai/api/v1/consumer/2320/
+    return this.BACKEND_URL + `api/v1/consumer/?id=${id}`; //https://dev.imibot.ai/api/v1/consumer/2320/
   }
 
   getAllActionsUrl() {

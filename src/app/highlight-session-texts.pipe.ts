@@ -30,11 +30,18 @@ export class HighlightSessionTexts implements PipeTransform {
   }
 
   highlightMatchedTextInSessionMessageItem(sessionMessageItem: ISessionMessageItem, messageSearchKeyword: string): ISessionMessageItem {
-    if (this.utilityService.doesStringIncludesSubstring(sessionMessageItem.message,messageSearchKeyword)) {
-      sessionMessageItem.messageByHuman = sessionMessageItem.message.replace(messageSearchKeyword, `<span class="text-highlight">${messageSearchKeyword}</span>`);
+    debugger;
+    if (this.utilityService.doesStringIncludesSubstring(sessionMessageItem.message, messageSearchKeyword)) {
+      // sessionMessageItem.messageByHuman = sessionMessageItem.message.replace(messageSearchKeyword, `<span class="text-highlight">${messageSearchKeyword}</span>`);
+      sessionMessageItem.messageByHuman = UtilityService.highlightText(sessionMessageItem.message,messageSearchKeyword);
     }
-    if (sessionMessageItem.message && sessionMessageItem.message[0].text && sessionMessageItem.message[0].text.includes(messageSearchKeyword)) {
-      sessionMessageItem.message[0].text = sessionMessageItem.message[0].text.replace(messageSearchKeyword, `<span class="text-highlight">${messageSearchKeyword}</span>`);
+    // if (sessionMessageItem.message && sessionMessageItem.message[0].text && sessionMessageItem.message[0].text.includes(messageSearchKeyword)) {
+    if (sessionMessageItem.message && sessionMessageItem.message[0].text) {
+      let match = this.utilityService.doesStringIncludesSubstring(sessionMessageItem.message[0].text, messageSearchKeyword);
+      if(match){
+        // sessionMessageItem.message[0].text = sessionMessageItem.message[0].text.replace(match, `<span class="text-highlight">${match}</span>`);
+        sessionMessageItem.message[0].text = UtilityService.highlightText(sessionMessageItem.message[0].text, messageSearchKeyword);
+      }
     }
     return sessionMessageItem;
   }
