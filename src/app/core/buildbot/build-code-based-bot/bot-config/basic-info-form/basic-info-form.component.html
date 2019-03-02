@@ -32,6 +32,7 @@
             <div style="display: flex; align-items: center">
                 <img style="width: 72px; border-radius: 50%; height: 72px; margin-right: 10px"
                      [src]="formGroup.get('logo').value" alt="">
+                <!--TODO: app-bot-config-input is not used because we want to show custom errors-->
                 <!--<app-bot-config-input-->
                         <!--style="flex-grow: 1;"-->
                         <!--displayName="Bot Logo"-->
@@ -63,8 +64,8 @@
         <div class="col-12">
             <div style="font-size: 11px; margin-bottom: 10px">Default messages</div>
         </div>
-        <!---->
-        <div class="col-5">
+
+        <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
             <mat-form-field class="w-100">
                 <textarea matInput formControlName="first_message" type="text" class=""
                           cdkTextareaAutosize
@@ -73,9 +74,9 @@
                           placeholder="First Message"></textarea>
                 <mat-error>Invalid Input</mat-error>
             </mat-form-field>
-        </div>
+        </fieldset>
         <div class="col-1"></div>
-        <div class="col-5">
+        <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
             <mat-form-field class="w-100">
                 <textarea matInput formControlName="error_message" type="text"
                           cdkTextareaAutosize
@@ -84,7 +85,7 @@
                           placeholder="Default Platform Error Message "></textarea>
                 <mat-error>Invalid Input</mat-error>
             </mat-form-field>
-        </div>
+        </fieldset>
     </div>
 
 

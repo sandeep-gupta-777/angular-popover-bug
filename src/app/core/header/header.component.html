@@ -10,16 +10,17 @@
     <img class="box-logo__image" src="assets/img/dashboard-icon.svg" alt="website logo">
     <span class="header__nav--title">Bot Dashboard</span>
   </a>
-  <a class="header__nav" [routerLink]="'/core/customner/'" routerLinkActive="highlight-text-on-route-match">
+  <a *myIf="[myEAllActions['Get Enterprise Knowledge base']]" class="header__nav" [routerLink]="'/core/customner/'" routerLinkActive="highlight-text-on-route-match">
     <img class="box-logo__image" src="assets/img/knowledge-icon.svg" alt="website logo">
     <span class="header__nav--title">Knowledge</span>
   </a>
-  <a class="header__nav" [routerLink]="['/core','analytics2','overview']"
+
+  <a *myIf="[myEAllActions['Analytics']]" class="header__nav" [routerLink]="['/core','analytics2','overview']"
      routerLinkActive="highlight-text-on-route-match">
     <img class="box-logo__image" src="assets/img/anaytics.svg" alt="website logo">
     <span class="header__nav--title">Analytics</span>
   </a>
-  <a class="header__nav" [routerLink]="'/core/reports'" routerLinkActive="highlight-text-on-route-match">
+  <a *myIf="[myEAllActions['Get Reports']]" class="header__nav" [routerLink]="'/core/reports'" routerLinkActive="highlight-text-on-route-match">
     <img class="box-logo__image" src="assets/img/reports.svg" alt="website logo">
     <span class="header__nav--title">Reports</span>
   </a>

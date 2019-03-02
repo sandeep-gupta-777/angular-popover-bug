@@ -82,7 +82,6 @@ export class PermissionService {
     [EAllActions['Update Bot Knowledge base']]: true,
     [EAllActions['Delete Bot Knowledge base']]: true,
     [EAllActions['GET ModuleDetail']]: true,
-
   };
   forbiddenActionsToFrontEndMapping = {};
   allowedApiHttpVerbPPathToActionNamesMapping = {};

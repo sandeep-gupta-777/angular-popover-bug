@@ -1,18 +1,19 @@
 <!--<button (click)="log()">log</button>-->
-
 <div class="d-flex" style="margin-top: 10px">
-    <form #form="ngForm" class="refine-results"
+    <form *ngIf="(tableData && tableData.length>0) && !showSplashScreen" #form="ngForm" class="refine-results"
           style="background-color: white; width: 250px; flex-basis: 250px; flex-shrink: 0; border: 1px solid #e0e0e0; align-self: flex-start">
         <strong>Refine Results</strong>
         <hr style="margin: 10px -16px;">
         <mat-form-field class="example-full-width">
             <input matInput placeholder="Room Id"
                    ngModel
+                   type="number"
                    name="id">
         </mat-form-field>
         <mat-form-field class="example-full-width">
             <input matInput placeholder="Consumer Id"
                    ngModel
+                   type="number"
                    name="consumer_id">
         </mat-form-field>
 
@@ -54,13 +55,13 @@
 
         <ul>Room metadata
             <li>
-                <mat-checkbox color="primary">Agent handover happened</mat-checkbox>
+                <mat-checkbox name="meta" ngModel color="primary">Agent handover happened</mat-checkbox>
             </li>
             <li>
-                <mat-checkbox color="primary">Error occured</mat-checkbox>
+                <mat-checkbox name="meta" ngModel color="primary">Error occured</mat-checkbox>
             </li>
             <li>
-                <mat-checkbox color="primary">Downvoted</mat-checkbox>
+                <mat-checkbox name="meta" ngModel color="primary">Downvoted</mat-checkbox>
             </li>
         </ul>
 
@@ -84,12 +85,12 @@
 </div>
 
 
-<app-splash-screen *ngIf="showSplashScreen"
+<app-splash-screen *ngIf="showSplashScreen && !showLoader"
                    [imageHRef]="myESplashScreens.sessions"
                    [headingText]="'No sessions found'"
                    [descriptionText]="'Integrate or deploy your bot to see all conversations bot was involved in'"
                    class="d-flex justify-content-center align-items-center"
-                   style="position: absolute; left: 0; right: 0;bottom: 0; top: 0;"
+                   style="position: absolute; left: 0; right: 0;bottom: 0; top: 0;z-index: -1"
 ></app-splash-screen>
 
 <app-imi-loader *ngIf="showLoader "></app-imi-loader>

@@ -55,8 +55,8 @@
       </div>
       <i (click)="showVersionList= !showVersionList"
          *ngIf="bot.store_bot_versions && bot.store_bot_versions.length > 1"
-         class="fa py-2 px-3 text-white ml-auto cursor-pointer"
-         [ngClass]="{'fa-caret-up':showVersionList, 'fa-caret-down':!showVersionList, 'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-caret-inactive':selectedVersion?.id !== activeVersion?.id}"
+         class="fa py-2 px-3 ml-auto cursor-pointer bg-label-inactive"
+         [ngClass]="{'fa-caret-up':showVersionList, 'fa-caret-down':!showVersionList}"
          style="height: 100%"></i>
     </div>
   </div>

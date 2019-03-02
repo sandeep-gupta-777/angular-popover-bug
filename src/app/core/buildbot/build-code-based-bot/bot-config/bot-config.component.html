@@ -1,5 +1,6 @@
 <div class="card" style="border-radius: 0">
     <button class="mat-theme-button cursor-pointer" mat-button
+            *myIf="[myEAllActions['Update Bots']]"
             (click)="updateBotHandler()"
             style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; position: absolute; right: 0; margin-right: 10px; z-index: 20">
         <mat-icon>refresh</mat-icon>
@@ -27,16 +28,20 @@
             </ng-template>
             <app-security [formGroup]="securityForm"></app-security>
         </mat-tab>
-        <mat-tab *ngIf="!(bot_type===myEBotType.intelligent)">
-            <ng-template mat-tab-label>
-                <span [ngStyle]="{'color': !integrationForm.valid?'red':'#474747'}">Integrations</span>
-                <mat-icon style="color: red;font-size: 100%;" *ngIf="!integrationForm.valid" class="example-tab-icon">highlight_off</mat-icon>
-            </ng-template>
-            <!--TODO: convert integration forms to reactive forms in future-->
-            <app-integration-option-list
-                    (form$)="integrationFormInit($event)"
-                    [bot]="bot"></app-integration-option-list>
-        </mat-tab>
+        <ng-container *myIf="[myEAllActions['Get Integrations']]">
+            <mat-tab *ngIf="!(bot_type===myEBotType.intelligent)">
+                <ng-template mat-tab-label>
+                    <span [ngStyle]="{'color': !integrationForm.valid?'red':'#474747'}">Integrations</span>
+                    <mat-icon style="color: red;font-size: 100%;" *ngIf="!integrationForm.valid"
+                              class="example-tab-icon">highlight_off
+                    </mat-icon>
+                </ng-template>
+                <!--TODO: convert integration forms to reactive forms in future-->
+                <app-integration-option-list
+                        (form$)="integrationFormInit($event)"
+                        [bot]="bot"></app-integration-option-list>
+            </mat-tab>
+        </ng-container>
         <!--<mat-tab label="Avatars" *ngIf="!(bot_type===myEBotType.intelligent)">-->
             <!--<app-avator-form (datachanged$)="datachanged$.emit($event)" [bot]="bot"></app-avator-form>-->
         <!--</mat-tab>-->

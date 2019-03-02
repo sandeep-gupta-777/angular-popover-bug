@@ -78,12 +78,12 @@ export class CodeBasedBotDetailComponent implements OnInit {
     this.showConfig = roleName !== ERoleName.Admin; //if its admin don't expand bot config by default
     if (roleName === ERoleName.Admin || roleName === ERoleName['Bot Developer']) {
       this.sideBarTab1 = 'setting';
-    } else if (roleName === ERoleName.Tester) {
-      this.sideBarTab1 = 'testing';
-    } else {
-      this.sideBarTab1 = 'sessions';
     }
-    // });
+    // else if (roleName === ERoleName.Tester) {
+    //   this.sideBarTab1 = 'test';
+    // } else {
+    //   this.sideBarTab1 = 'chat';
+    // }
 
     const isArchitectureFullScreen = this.activatedRoute.snapshot.queryParamMap.get('isArchitectureFullScreen');
     this.isArchitectureFullScreen = isArchitectureFullScreen === 'true';
