@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, isDevMode, OnInit, ViewChild} from '@angular/core';
 import {NavigationEnd, RouteConfigLoadEnd, RouteConfigLoadStart, Router, RoutesRecognized} from '@angular/router';
-import {Select} from '@ngxs/store';
+import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {IAppState} from './ngxs/app.state';
 import {PermissionService} from './permission.service';
@@ -9,6 +9,7 @@ import {DebugBase} from './debug-base';
 import {EventService} from './event.service';
 import {UtilityService} from './utility.service';
 import {ServerService} from './server.service';
+import {StoreService} from './store.service';
 
 declare var CodeMirror: any;
 
@@ -25,6 +26,8 @@ export class AppComponent extends DebugBase implements OnInit {
 
   constructor(private router: Router,
               private eventService: EventService,
+              private store: Store,
+              private storeService: StoreService,
               private serverService: ServerService) {
     super();
   }
@@ -39,7 +42,13 @@ export class AppComponent extends DebugBase implements OnInit {
 
 
   ngOnInit() {
-
+    let storeSnapshot = this.store.snapshot();
+    let autoLogoutTime = storeSnapshot.app.autoLogoutTime;
+    if(Date.now() > autoLogoutTime){
+      localStorage.clear();
+      this.storeService.logout();
+      location.reload();
+    }
     /**
      * This is required here because if we set backend url in login page then anonymour chat page will be left out
      * */
@@ -65,6 +74,8 @@ export class AppComponent extends DebugBase implements OnInit {
       }
     });
     console.log('Testing reload: take1');
+
+
   }
 
 

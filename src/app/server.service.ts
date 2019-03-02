@@ -608,16 +608,15 @@ export class ServerService {
 
     // return this.makeGetReq({url: '/static/config.json', noValidateUser: true})
     //   .pipe(tap(((value: { 'backend_url': string, 'version': string }) => {
-    //
     //     this.store.dispatch([
     //       new SetBackendURlRoot({url: value.backend_url})
     //     ]);
     //   })));
-    debugger;
+    // debugger;
     return of(1)
       .pipe(tap(((value: any) => {
         this.store.dispatch([
-          new SetBackendURlRoot({url: 'https://staging.imibot.ai/'})
+          new SetBackendURlRoot({url: 'https://dev.imibot.ai/'})
         ]);
       })));
   }
