@@ -613,7 +613,7 @@ export class ServerService {
     return of(1)
       .pipe(tap(((value: any) => {
         this.store.dispatch([
-          new SetBackendURlRoot({url: 'https://dev.imibot.ai/'})
+          new SetBackendURlRoot({url: 'https://staging.imibot.ai/'})
         ]);
       })));
   }

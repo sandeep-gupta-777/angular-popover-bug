@@ -7,6 +7,7 @@
 <!--<label *ngIf="ngControl|errorDescription as errorObj"-->
 <!--[hidden]="!ngControl.hasError(errorObj.name)"-->
 <!--class="text-danger pl-1" for="alterEgo"><i>{{errorObj.description}}</i></label>-->
+
 <mat-form-field class="w-100">
     <input type="text" id="alterEgo"
            matInput
@@ -14,10 +15,10 @@
            [placeholder]="placeholder"
            [(ngModel)]="value"
            (keydown)="keyPressed($event)"
+           [errorStateMatcher]="myConfirmValidParentMatcher"
            [disabled]="isDisabled">
     <mat-error>Invalid input</mat-error>
-    <!--<mat-error>Invalid Extension</mat-error>-->
-    <mat-error></mat-error>
+    <!--<mat-error></mat-error>-->
     <!---->
     <!--<mat-error *ngIf="ngControl.hasError('Image Extension is not correct')">-->
     <!--<strong>Image Extension is not correct</strong>-->
@@ -26,7 +27,7 @@
     <!--<strong>Must be Https Url</strong>-->
     <!--</mat-error>-->
 </mat-form-field>
-<!--<i>{{ngControl.hasError('imageHttpsError')}}</i>-->
+<!--<i (click)="log()">{{ngControl.hasError('Must be Https Url')}}</i>-->
 <!--<i>{{ngControl.errors|json}}</i>-->
 <!--<br>-->
 <!--<i>{{myObject.keys(ngControl.errors)[0]}}</i>-->

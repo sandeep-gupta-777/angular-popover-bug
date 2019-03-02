@@ -24,7 +24,8 @@ export class ConfirmValidParentMatcher implements ErrorStateMatcher {
     provide: NG_VALUE_ACCESSOR,
     useExisting: BotConfigInputComponent,
     multi: true
-  }]
+  },
+  ]
 })
 export class BotConfigInputComponent implements OnInit, ControlValueAccessor {
   value;
@@ -77,6 +78,10 @@ export class BotConfigInputComponent implements OnInit, ControlValueAccessor {
     setTimeout(() => {
       this.valueChanged(this.value);
     });
+  }
+
+  log(){
+    console.log(this.ngControl);
   }
 
 }

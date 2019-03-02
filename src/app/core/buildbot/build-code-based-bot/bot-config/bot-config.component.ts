@@ -6,14 +6,26 @@ import {EBotType, UtilityService} from '../../../../utility.service';
 import {EAllActions} from '../../../../constants.service';
 import {EventService} from '../../../../event.service';
 import {BotConfigService} from './bot-config.service';
-import {FormGroup, NgForm} from '@angular/forms';
+import {FormControl, FormGroup, FormGroupDirective, NgForm} from '@angular/forms';
 import {combineLatest} from 'rxjs';
 import {ServerService} from '../../../../server.service';
+import {ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from '@angular/material';
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher1 implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid);
+  }
+}
 
 @Component({
   selector: 'app-bot-config',
   templateUrl: './bot-config.component.html',
-  styleUrls: ['./bot-config.component.scss']
+  styleUrls: ['./bot-config.component.scss'],
+  providers: [
+    {provide: ErrorStateMatcher, useClass: MyErrorStateMatcher1}
+  ]
 })
 export class BotConfigComponent implements OnInit {
 
@@ -90,7 +102,7 @@ export class BotConfigComponent implements OnInit {
 
   getInvalidForm() {
     let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.integrationForm];
-    return combinedForms.findIndex((form) => {
+    return combinedForms.filter(form=>!!form).findIndex((form) => {
       return form.invalid;
     });
   }

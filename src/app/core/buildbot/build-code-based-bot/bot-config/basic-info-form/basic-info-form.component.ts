@@ -36,6 +36,10 @@ export class BasicInfoFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {}
+
+  log(formGroup){
+    console.log(formGroup);
+  }
 }
 
 

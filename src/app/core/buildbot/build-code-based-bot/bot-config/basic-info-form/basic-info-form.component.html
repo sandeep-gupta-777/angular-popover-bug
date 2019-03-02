@@ -16,6 +16,9 @@
             <mat-form-field class="w-100" ngNativeValidate>
                 <textarea type="text" id="alterEgo"
                           matInput
+                          cdkTextareaAutosize
+                          cdkAutosizeMinRows="1"
+                          cdkAutosizeMaxRows="3"
                           formControlName="description"
                           placeholder="Description"
                           [disabled]="isDisabled"></textarea>
@@ -29,13 +32,28 @@
             <div style="display: flex; align-items: center">
                 <img style="width: 72px; border-radius: 50%; height: 72px; margin-right: 10px"
                      [src]="formGroup.get('logo').value" alt="">
-                <app-bot-config-input
-                        style="flex-grow: 1;"
-                        displayName="Bot Logo"
-                        formControlName="logo"
-                        [errors]="logoErrorObj"
-                        [isRequired]="true"
-                        placeholder="URL for the Bot Logo/Brand Image"></app-bot-config-input>
+                <!--<app-bot-config-input-->
+                        <!--style="flex-grow: 1;"-->
+                        <!--displayName="Bot Logo"-->
+                        <!--formControlName="logo"-->
+                        <!--[errors]="logoErrorObj"-->
+                        <!--[isRequired]="true"-->
+                        <!--placeholder="URL for the Bot Logo/Brand Image"></app-bot-config-input>-->
+
+                <mat-form-field class="w-100">
+                    <input type="text"
+                           matInput
+                           formControlName="logo"
+                           placeholder="URL for the Bot Logo/Brand Image">
+                    <mat-error *ngIf="formGroup.get('logo').hasError('Image Extension is not correct')">
+                        Image Extension is not correct
+                    </mat-error>
+
+                    <mat-error *ngIf="!formGroup.get('logo').hasError('Image Extension is not correct') && formGroup.get('logo').hasError('Must be Https Url')">
+                        Must be Https Url
+                    </mat-error>
+                </mat-form-field>
+
             </div>
 
         </fieldset>
@@ -49,14 +67,22 @@
         <div class="col-5">
             <mat-form-field class="w-100">
                 <textarea matInput formControlName="first_message" type="text" class=""
+                          cdkTextareaAutosize
+                          cdkAutosizeMinRows="1"
+                          cdkAutosizeMaxRows="3"
                           placeholder="First Message"></textarea>
+                <mat-error>Invalid Input</mat-error>
             </mat-form-field>
         </div>
         <div class="col-1"></div>
         <div class="col-5">
             <mat-form-field class="w-100">
-                <textarea matInput formControlName="error_message" type="text" class=""
+                <textarea matInput formControlName="error_message" type="text"
+                          cdkTextareaAutosize
+                          cdkAutosizeMinRows="1"
+                          cdkAutosizeMaxRows="3"
                           placeholder="Default Platform Error Message "></textarea>
+                <mat-error>Invalid Input</mat-error>
             </mat-form-field>
         </div>
     </div>
