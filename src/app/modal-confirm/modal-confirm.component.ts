@@ -22,7 +22,7 @@ export class ModalConfirmComponent{
 
 
   log(x){
-    debugger;
+
     console.log(x);
     this.dialogRef.close(x);
   }

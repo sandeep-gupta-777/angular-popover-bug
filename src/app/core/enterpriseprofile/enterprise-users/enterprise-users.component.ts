@@ -361,7 +361,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
             this.loggeduserenterpriseinfo = enterprise[0].loggeduserenterpriseinfo;
           });
           //
-          // this.formGroup.patchValue(<any>value);
+          // this.basicInfoForm.patchValue(<any>value);
         });
       if (this.role === 'Admin') {
         const enterpriseUsersUrl = this.constantsService.getEnterpriseUsersUrl();

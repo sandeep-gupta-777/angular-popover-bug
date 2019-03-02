@@ -15,6 +15,7 @@ export class CoreWrapperComponent implements OnInit {
 
   isFullScreenPreview: boolean;
   isBotDetail: boolean;
+  isBuildBot: boolean;
 
   constructor(
     private router: Router,
@@ -26,8 +27,10 @@ export class CoreWrapperComponent implements OnInit {
 
   ngOnInit() {
     this.isBotDetail = location.pathname && location.pathname.includes('/core/botdetail/');
+    this.isBuildBot = location.pathname && location.pathname.includes('/core/buildbot');
     this.router.events.subscribe((data) => {
       this.isBotDetail = location.pathname && location.pathname.includes('/core/botdetail/');
+      this.isBuildBot = location.pathname && location.pathname.includes('/core/buildbot');
       if (data instanceof RoutesRecognized) {
         this.isFullScreenPreview = data.state.root.firstChild.data.isFullScreenPreview;
 

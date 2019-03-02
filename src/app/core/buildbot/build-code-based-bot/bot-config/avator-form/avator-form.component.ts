@@ -58,7 +58,7 @@ export class AvatorFormComponent implements OnInit {
     this.initializeFormArray();
 
 
-    /*This line is here because this.formGroup.valueChanges is not being triggered automatically initially*/
+    /*This line is here because this.basicInfoForm.valueChanges is not being triggered automatically initially*/
     const avatarValidationObj = {};
     avatarValidationObj[EFormValidationErrors.form_validation_avator] = this.formGroup.valid && this._bot.avatars && this._bot.avatars.length > 0;
     this.datachanged$.emit({...this.formGroup.value, ...avatarValidationObj});

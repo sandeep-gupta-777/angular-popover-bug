@@ -53,7 +53,7 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
   }
 
   async showReportDeleteModel() {
-      debugger;
+
       await this.utilityService.openDialog({
         dialogRefWrapper: this.dialogRefWrapper,
         classStr: 'danger-modal-header-border',
@@ -67,7 +67,7 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
         dialog: this.matDialog,
         component: ModalConfirmComponent
       }).then((data) => {
-        debugger;
+
         if (data) {
           this.deleteReport();
         }

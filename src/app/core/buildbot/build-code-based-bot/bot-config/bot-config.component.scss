@@ -41,5 +41,11 @@ a{//bootstrap override
   .mat-tab-body-content{
     height:unset!important;
   }
+
+  .tab-text-danger{
+    .mat-tab-label{
+      color: red !important;
+    }
+  }
 }
 

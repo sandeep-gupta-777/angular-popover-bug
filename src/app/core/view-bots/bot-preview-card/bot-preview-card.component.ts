@@ -113,7 +113,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
   }
 
   async openDeleteModal() {
-    debugger;
+
     await this.utilityService.openDialog({
       dialogRefWrapper: this.dialogRefWrapper,
       classStr:'danger-modal-header-border',
@@ -128,10 +128,10 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
       dialog: this.matDialog,
       component:ModalConfirmComponent
     }).then((data)=>{
-      debugger;
+
       if(data){
         this.deleteBot();
-      } 
+      }
     })
     // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }

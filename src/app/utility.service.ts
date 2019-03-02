@@ -22,7 +22,7 @@ import { EBotMessageMediaType, IMessageData } from '../interfaces/chat-session-s
 import { IBotPreviewFirstMessage } from './chat/chat-wrapper.component';
 import { IGeneratedMessageItem } from '../interfaces/send-api-request-payload';
 import { StoreVariableService } from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl } from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl, NgForm} from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { ModalConfirmComponent } from './modal-confirm/modal-confirm.component';
 
@@ -995,6 +995,15 @@ export class UtilityService {
     return (!is_manager || is_manager && (child_bots.length > 0)) ? null : { 'isManagerError': true };
   }
 
+  static getCombinedBotData(forms:(FormGroup|NgForm)[]): IBot{
+    return forms.reduce((aggr, form)=>{
+      return{
+        ...aggr,
+        ...form.value
+      }
+    },{});
+  }
+
   pushFormControlItemInFormArray(formArray: FormArray, formBuilder: FormBuilder, item: any) {
     formArray.push(formBuilder.control(item));
   }
@@ -1273,7 +1282,7 @@ export class UtilityService {
   }
 
   openCloseWithoutSavingModal(dialogRefWrapper,matDialog) {
-    debugger;
+
     return this.openDialog({
       dialogRefWrapper: dialogRefWrapper,
       classStr:'danger-modal-header-border',

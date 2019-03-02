@@ -453,7 +453,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
               dialog: this.matDialog,
               component: ModalConfirmComponent
             }).then((data) => {
-              debugger;
+
               if (data) {
                 this.utilityService.showErrorToaster('Your code has error. But it will be saved as its not active');
                 this.selectedVersion.updated_fields = this.selectedVersion.changed_fields;

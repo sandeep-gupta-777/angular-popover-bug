@@ -602,13 +602,40 @@ export class ServerService {
 
   getNSetConfigData$() {
 
-    return this.makeGetReq({url: '/static/config.json', noValidateUser: true})
-      .pipe(tap(((value: { 'backend_url': string, 'version': string }) => {
-
+    // return this.makeGetReq({url: '/static/config.json', noValidateUser: true})
+    //   .pipe(tap(((value: { 'backend_url': string, 'version': string }) => {
+    //
+    //     this.store.dispatch([
+    //       new SetBackendURlRoot({url: value.backend_url})
+    //     ]);
+    //   })));
+    debugger;
+    return of(1)
+      .pipe(tap(((value: any) => {
         this.store.dispatch([
-          new SetBackendURlRoot({url: value.backend_url})
+          new SetBackendURlRoot({url: 'https://dev.imibot.ai/'})
         ]);
       })));
+  }
+
+
+  updateBot(bot:IBot){
+    const url = this.constantsService.updateBotUrl(bot.id);
+    const headerData: IHeaderData = {
+      'bot-access-token': bot.bot_access_token
+    };
+    this.makePutReq({url, body:bot, headerData})
+      .subscribe((updatedBot: IBot) => {
+          EventService.botUpdatedInServer.emit(updatedBot);
+          this.store.dispatch([
+            new UpdateBotInfoByIdInBotInBotList({botId: bot.id, data: updatedBot})
+          ]);
+          this.utilityService.showSuccessToaster('Bot updated');
+        },
+        err  => {
+          EventService.codeValidationErrorOnUpdate$.emit(err.error);
+          console.log("emited this :::::::::::::",err.error);
+        });
   }
 
   currentRoom: IRoomData;

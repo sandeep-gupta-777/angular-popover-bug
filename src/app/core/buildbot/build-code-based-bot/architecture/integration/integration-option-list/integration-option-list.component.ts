@@ -41,6 +41,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   @ViewChild('test') test_new: NgForm;
   @Select() botcreationstate$: Observable<IBotCreationState>;
   @Output() datachanged$ = new EventEmitter();
+  @Output() form$ = new EventEmitter();
   @Output() formDirty$ = new EventEmitter<Boolean>();
   @Select() app$: Observable<IAppState>;
   myObject = Object;
@@ -137,6 +138,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.f_new.form.patchValue(this.formValueFinal);
+      this.form$.emit(this.f_new);
     });
 
     try {

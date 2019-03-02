@@ -105,7 +105,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
   async openDeleteModal() {
     // this.modalRef = this.modalService.show(template);
-    debugger;
+
     await this.utilityService.openDialog({
       dialogRefWrapper: this.dialogRefWrapper,
       classStr: 'danger-modal-header-border',
@@ -120,7 +120,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       dialog: this.matDialog,
       component: ModalConfirmComponent
     }).then((data) => {
-      debugger;
+
       if (data) {
         this.deleteNer$.emit(this.ner_id);
       }

@@ -212,7 +212,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
 
   addPipelineItemToPipeline(pipelineItem: IPipelineItem) {
     console.log('=========>', pipelineItem);
-    debugger;
+
     let pipeLineTemp = this.pipeLine.filter(item => {
       return item.id !== pipelineItem.id
     });
@@ -221,7 +221,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   }
 
   removePipelineItemFromPipelineModal(index: number,aiModuleId: number) {
-    debugger;
+
     let displayNamePipeline = this.pipelineModulesV2List.find((wrapper)=>{
       return !!wrapper.pipeline_modules.find((module)=>{
         return module.id === aiModuleId;

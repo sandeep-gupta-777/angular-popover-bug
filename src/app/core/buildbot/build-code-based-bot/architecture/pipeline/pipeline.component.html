@@ -96,8 +96,15 @@ background-color: #f0f3f4;
                     <img [src]="aiModule.pipeLineSrc ||pipeLineSrc"
                          style="margin-right: 8px" alt="">
                     <div class="d-flex flex-column">
-                        <span class="module">{{(aiModule.id| pipeineIdToPipelineModuleWrapper).display_values}}</span>
-                        <span class="library">{{(aiModule.id|pipelineIdToPipelineModule).library}}</span>
+                        <ng-container
+                                *ngIf="(aiModule.id| pipeineIdToPipelineModuleWrapper) as pipelineModuleWrapper; else pipelineModuleWrapperNotFound">
+                            <span class="module">{{pipelineModuleWrapper.display_values}}</span>
+                            <span class="library">{{(aiModule.id|pipelineIdToPipelineModule)?.library}}</span>
+                        </ng-container>
+
+                        <ng-template #pipelineModuleWrapperNotFound>
+                            <span class="module">id: <i>{{aiModule.id}}</i> (Not found)</span>
+                        </ng-template>
                     </div>
                     <span class="ml-auto"></span>
                     <i *ngIf="aiModule && aiModule.input_params && myObject.keys(aiModule.input_params).length>0"
@@ -138,7 +145,7 @@ background-color: #f0f3f4;
         <div *ngFor="let Key of myObject.keys(selectedPipeline.display_values)" >
 
              <mat-form-field *ngIf="selectedPipeline.display_values[Key].type == 'dropdown'">
-              <mat-select [placeholder]="selectedPipeline.display_values[Key].display_value" name="{{Key}}" 
+              <mat-select [placeholder]="selectedPipeline.display_values[Key].display_value" name="{{Key}}"
               [ngModel]="selectedPipeline.input_params[Key] || selectedPipeline.display_values[Key].default">
                     <mat-option *ngFor="let dropi of selectedPipeline.display_values[Key].content" [value]="dropi"  >
                       {{dropi}}
@@ -147,7 +154,7 @@ background-color: #f0f3f4;
             </mat-form-field>
           <!-- <div class=""
                *ngIf="selectedPipeline.display_values[Key].type == 'dropdown'">
-               
+
             <label class="mb-0  w-50 "
                    style="text-align: left;">{{selectedPipeline.display_values[Key].display_value}}</label>
             <select class="w-50" style="color: #474747;"
@@ -159,7 +166,7 @@ background-color: #f0f3f4;
             </select>
           </div> -->
           <mat-form-field *ngIf="selectedPipeline.display_values[Key].type == 'text'" >
-            <input matInput [placeholder]="selectedPipeline.display_values[Key].display_value" 
+            <input matInput [placeholder]="selectedPipeline.display_values[Key].display_value"
             [ngModel]="selectedPipeline.input_params[Key]" name="{{Key}}">
           </mat-form-field>
           <!-- <div *ngIf="selectedPipeline.display_values[Key].type == 'text'">
@@ -179,7 +186,7 @@ background-color: #f0f3f4;
             (click)="submitPipeline(Pipelineform); dialogRefWrapper.ref.close(true)">Add&nbsp;>>
           </button>
         </div>
-        
+
       </form>
 
 
