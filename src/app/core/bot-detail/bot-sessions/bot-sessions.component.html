@@ -1,6 +1,5 @@
-<!--<button (click)="log()">log</button>-->
 <div class="d-flex" style="margin-top: 10px">
-    <form *ngIf="(tableData && tableData.length>0) && !showSplashScreen" #form="ngForm" class="refine-results"
+    <form *ngIf="showFilterForm" #form="ngForm" class="refine-results"
           style="background-color: white; width: 250px; flex-basis: 250px; flex-shrink: 0; border: 1px solid #e0e0e0; align-self: flex-start">
         <strong>Refine Results</strong>
         <hr style="margin: 10px -16px;">
@@ -36,7 +35,8 @@
         <div>Channel</div>
         <ul style="display: flex; flex-wrap: wrap" ngModelGroup="channels">
             <li *ngFor="let channel of channels" style="margin-top: 14px">
-                <mat-checkbox *ngIf="channel.integration_type=== 'channels'" color="primary" ngModel name="{{channel.unique_name}}" [title]="channel.unique_name">
+                <mat-checkbox *ngIf="channel.integration_type=== 'channels'" color="primary" ngModel
+                              name="{{channel.unique_name}}" [title]="channel.unique_name">
                     <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
                          [src]="channel.icon" [alt]="channel.unique_name">
                 </mat-checkbox>
@@ -55,23 +55,28 @@
 
         <ul>Room metadata
             <li>
-                <mat-checkbox name="meta" ngModel color="primary">Agent handover happened</mat-checkbox>
+                <mat-checkbox name="sendtoagent" ngModel color="primary">Agent handover happened</mat-checkbox>
             </li>
             <li>
-                <mat-checkbox name="meta" ngModel color="primary">Error occured</mat-checkbox>
+                <mat-checkbox name="error" ngModel color="primary">Error occured</mat-checkbox>
             </li>
             <li>
-                <mat-checkbox name="meta" ngModel color="primary">Downvoted</mat-checkbox>
+                <mat-checkbox name="feedback" ngModel color="primary">Downvoted</mat-checkbox>
             </li>
         </ul>
 
         <div class="d-flex justify-content-between mt-2">
             <button mat-flat-button class="mat-theme-button"
                     style="border-radius: 2px"
-                    color="primary" type="button" (click)="sessionFormSubmitted(form.value)">Submit</button>
-            <button mat-button style="border: 1px solid #e0e0e0; border-radius: 2px" class="mat-theme-button" (click)="resetSearchForm(form)">Clear</button>
+                    color="primary" type="button" (click)="sessionFormSubmitted(form.value)">Submit
+            </button>
+            <button mat-button style="border: 1px solid #e0e0e0; border-radius: 2px" class="mat-theme-button"
+                    (click)="resetSearchForm(form)">Clear
+            </button>
         </div>
     </form>
+<!---->
+
     <app-smart-table [data]="tableData"
                      *ngIf="tableData"
                      style="flex-grow: 1"
@@ -81,7 +86,12 @@
                      [showSearchInDbButton]="true"
                      [showRefreshButton]="true"
                      (refreshData$)="performSearchInDbForSession($event)"
-                     (performSearchInDB$)="performSearchInDbForSession($event)"></app-smart-table>
+                     (performSearchInDB$)="performSearchInDbForSession($event)">
+        <div *ngIf="bot.advanced_data_protection" style="border: 1px solid #e0e0e0; align-self: flex-end;padding: 0px 10px;margin-left: 10px;">
+            <i class="fa fa-lock" style="color: orange"></i>
+            All the sessions are encrypted, use the decryption key to view individual session of interest
+        </div>
+    </app-smart-table>
 </div>
 
 

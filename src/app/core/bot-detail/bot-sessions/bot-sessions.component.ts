@@ -18,6 +18,7 @@ import {IAppState} from '../../../ngxs/app.state';
 import {IIntegrationMasterListItem} from '../../../../interfaces/integration-option';
 import {NgForm} from '@angular/forms';
 import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
+import {EChatFeedback} from '../../../chat/chat-wrapper.component';
 
 interface ISessionFilterData {
   id: number,
@@ -56,6 +57,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   showPrevButton: boolean;
   pageNumberOfCurrentRowSelected = 1;
   indexOfCurrentRowSelected: number;
+  showFilterForm = false;/*filter form will be shown when if table has data when no filters are applied*/
   // decryptReason: string;
   filterData: ISessionFilterData;
   @Select() app$: Observable<IAppState>;
@@ -139,22 +141,32 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
       /*adding two additional columns 1) actions and 2)channels*/
       let additonalColumns: any = {
-        Actions: sessionsDataForTableItem['Actions'],
+        "Room Metadata": sessionsDataForTableItem['Room Metadata'],
         Channels: sessionsDataForTableItem['Channels'],
       };
 
-      additonalColumns['Actions'].value = additonalColumns['Actions'].value || [];
+      additonalColumns['Room Metadata'].value = additonalColumns['Room Metadata'].value || [];
       additonalColumns['Channels'].value = additonalColumns['Channels'].value || [];
       /*actions*/
-      additonalColumns['Actions'].value.push({show: true, name: 'download', class: 'fa fa-download'});
+      // additonalColumns['Room Metadata'].value.push({show: true, name: 'download', class: 'fa fa-download'});
 
       /*TODO: also check if the user has access to decrypt api*/
-      if (sessionsDataForTableItem['originalSessionData']['data_encrypted']) {
-        additonalColumns['Actions'].value.push({show: true, name: 'decrypt', class: 'fa fa-lock'});
+      if (sessionsDataForTableItem['originalSessionData']['sendtoagent']) {
+        additonalColumns['Room Metadata'].value.push({show: true, name: 'Sent to agent', class: 'fa fa-headphones'});
+      }if (sessionsDataForTableItem['originalSessionData']['error']) {
+        additonalColumns['Room Metadata'].value.push({show: true, name: 'Error', class: 'fa fa-exclamation-triangle'});
+      }if (sessionsDataForTableItem['originalSessionData']['feedback'] === EChatFeedback.POSITIVE) {
+        additonalColumns['Room Metadata'].value.push({show: true, name: 'Positive feedback', class: 'fa fa-thumbs-up'});
+      }if (sessionsDataForTableItem['originalSessionData']['feedback'] === EChatFeedback.NEGATIVE) {
+        additonalColumns['Room Metadata'].value.push({show: true, name: 'Negative feedback', class: 'fa fa-thumbs-down'});
+      }if (sessionsDataForTableItem['originalSessionData']['data_encrypted']) {
+        additonalColumns['Room Metadata'].value.push({show: true, name: 'Encrypted', class: 'fa fa-lock'});
       }
+
+      // additonalColumns['Room Metadata'].value = `<mat-icon>search</mat-icon>`;//TODO: in future do this but via dynamic components
+
       /*channels*/
       additonalColumns['Channels'].searchValue = sessionsDataForTableItem['Channels'].value.join();
-      ;
       additonalColumns['Channels'].value = (sessionsDataForTableItem.Channels['value'].map((channelName) => {
         return {
           name: channelName,
@@ -317,7 +329,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   }
 
   decryptSubmit(sessionTobeDecryptedId: number , decryptReason) {
-    
+
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
@@ -450,10 +462,13 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     url = url.toLowerCase();//todo: this should be handled by backend;
     this.serverService.makeGetReq({url, headerData: this.headerData})
       .subscribe((value: { objects: ISessionItem[], meta: { total_count: number } }) => {
-
           if (!filterData && value.objects.length === 0) {
             this.showSplashScreen = true;
           }
+        if (!filterData && value.objects.length !== 0) {
+          this.showFilterForm = true;
+        }
+
           this.sessions = value.objects;
           this.totalSessionRecords = value.meta.total_count;
           this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
