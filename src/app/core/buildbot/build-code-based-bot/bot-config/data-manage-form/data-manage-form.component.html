@@ -28,16 +28,16 @@
             </div>
 
 
-            <div class="switch-wrapper">
-                <div class="form-control d-flex flex-column">
-                    <label class="pr-2">Advanced Data Protection <app-info-icon></app-info-icon></label>
-                    <app-ui-switch
-                            formControlName="advanced_data_protection"
-                            [(ngModel)]="advanced_data_protection"
-                            [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
-                    ></app-ui-switch>
-                </div>
-            </div>
+            <!--<div class="switch-wrapper">-->
+                <!--<div class="form-control d-flex flex-column">-->
+                    <!--<label class="pr-2">Advanced Data Protection <app-info-icon></app-info-icon></label>-->
+                    <!--<app-ui-switch-->
+                            <!--formControlName="advanced_data_protection"-->
+                            <!--[(ngModel)]="advanced_data_protection"-->
+                            <!--[disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"-->
+                    <!--&gt;</app-ui-switch>-->
+                <!--</div>-->
+            <!--</div>-->
         </fieldset>
         <div class="col-1"></div>
         <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
@@ -75,7 +75,7 @@
         </fieldset>
 
 
-        <div class="col-6">
+        <div class="col-6" style="padding-left: 15px">
             <div class="" *ngIf="!(_bot.bot_type===myEBotType.intelligent)">
                 <div class="d-flex align-items-center">
                     <label class="pr-2 mb-0">Is Manager Bot? <app-info-icon></app-info-icon></label>
@@ -83,7 +83,7 @@
 
                 </div>
             </div>
-            <mat-form-field style="width: 100%">
+            <mat-form-field style="width: 100%" *ngIf="formGroup.get('is_manager').value">
                 <mat-select placeholder="Child Bots"
                             formControlName="child_bots"
                             multiple >
