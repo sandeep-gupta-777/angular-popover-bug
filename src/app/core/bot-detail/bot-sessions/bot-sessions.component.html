@@ -1,5 +1,5 @@
 <section class="bot-session-section">
-    <form *ngIf="showFilterForm" #form="ngForm" class="refine-results">
+    <form [hidden]="!showFilterForm" #form="ngForm" class="refine-results">
         <strong>Refine Results</strong>
         <hr class="refine-results__divider">
         <mat-form-field>
@@ -69,6 +69,7 @@
 
         <div class="refine-results__action">
             <button mat-flat-button class="mat-theme-button"
+                    [disabled]="!form.dirty"
                     color="primary" type="submit" (click)="sessionFormSubmitted(form.value)">Submit
             </button>
             <button mat-button class="mat-theme-button cancel"
@@ -86,8 +87,8 @@
                      (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate)"
                      [showSearchInDbButton]="true"
                      [showRefreshButton]="true"
-                     (refreshData$)="performSearchInDbForSession($event)"
-                     (performSearchInDB$)="performSearchInDbForSession($event)">
+                     (refreshData$)="performSearchInDbForSessionHandler($event)"
+                     (performSearchInDB$)="performSearchInDbForSessionHandler($event)">
         <!--ng-content starts-->
         <div *ngIf="bot.advanced_data_protection"
              style="border: 1px solid #e0e0e0; align-self: flex-end;padding: 0px 10px;margin-left: 10px;">

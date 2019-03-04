@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {ServerService} from '../../../server.service';
 import {Observable, of} from 'rxjs';
@@ -13,11 +13,11 @@ import {MaterialTableImplementer} from '../../../material-table-implementer';
 import {MatDialog} from '@angular/material';
 import {ObjectArrayCrudService} from '../../../object-array-crud.service';
 import {EventService} from '../../../event.service';
-import {catchError} from 'rxjs/internal/operators';
+import {catchError, distinctUntilChanged, skip, startWith, tap} from 'rxjs/internal/operators';
 import {IAppState} from '../../../ngxs/app.state';
 import {IIntegrationMasterListItem} from '../../../../interfaces/integration-option';
 import {NgForm} from '@angular/forms';
-import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
+import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
 import {EChatFeedback} from '../../../chat/chat-wrapper.component';
 
 interface ISessionFilterData {
@@ -32,7 +32,7 @@ interface ISessionFilterData {
   templateUrl: './bot-sessions.component.html',
   styleUrls: ['./bot-sessions.component.scss']
 })
-export class BotSessionsComponent extends MaterialTableImplementer implements OnInit {
+export class BotSessionsComponent extends MaterialTableImplementer implements OnInit, AfterViewInit {
   dialogRefWrapper = {ref: null};
 
   myESplashScreens = ESplashScreens;
@@ -58,6 +58,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   pageNumberOfCurrentRowSelected = 1;
   indexOfCurrentRowSelected: number;
   showFilterForm = false;/*filter form will be shown when if table has data when no filters are applied*/
+  @ViewChild('form') filterForm: NgForm;
   // decryptReason: string;
   filterDataFromTable: ISessionFilterData;
   filterFormData: ISessionFilterData;
@@ -76,17 +77,20 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     super();
   }
 
-  ngOnInit() {
+  filterFormDirty = false;
 
+  ngOnInit() {
     this.app$
       .subscribe((appState) => {
-        this.channels = appState.masterIntegrationList.filter(e=>e.integration_type==='channels');
+        this.channels = appState.masterIntegrationList.filter(e => e.integration_type === 'channels');
       });
 
     this.headerData = {'bot-access-token': this.bot.bot_access_token};
-    this.performSearchInDbForSession(null);
+    this.performSearchInDbForSession(null)
+      .subscribe();
     this.eventService.reloadSessionTable$.subscribe(() => {
-      this.performSearchInDbForSession(this.filterDataFromTable);
+      this.performSearchInDbForSession(this.filterDataFromTable)
+        .subscribe();
     });
   }
 
@@ -142,7 +146,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
       /*adding two additional columns 1) actions and 2)channels*/
       let additonalColumns: any = {
-        "Room Metadata": sessionsDataForTableItem['Room Metadata'],
+        'Room Metadata': sessionsDataForTableItem['Room Metadata'],
         Channels: sessionsDataForTableItem['Channels'],
       };
 
@@ -154,13 +158,17 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       /*TODO: also check if the user has access to decrypt api*/
       if (sessionsDataForTableItem['originalSessionData']['sendtoagent']) {
         additonalColumns['Room Metadata'].value.push({show: true, name: 'Sent to agent', class: 'fa fa-headphones'});
-      }if (sessionsDataForTableItem['originalSessionData']['error']) {
+      }
+      if (sessionsDataForTableItem['originalSessionData']['error']) {
         additonalColumns['Room Metadata'].value.push({show: true, name: 'Error', class: 'fa fa-exclamation-triangle'});
-      }if (sessionsDataForTableItem['originalSessionData']['feedback'] === EChatFeedback.POSITIVE) {
+      }
+      if (sessionsDataForTableItem['originalSessionData']['feedback'] === EChatFeedback.POSITIVE) {
         additonalColumns['Room Metadata'].value.push({show: true, name: 'Positive feedback', class: 'fa fa-thumbs-up'});
-      }if (sessionsDataForTableItem['originalSessionData']['feedback'] === EChatFeedback.NEGATIVE) {
+      }
+      if (sessionsDataForTableItem['originalSessionData']['feedback'] === EChatFeedback.NEGATIVE) {
         additonalColumns['Room Metadata'].value.push({show: true, name: 'Negative feedback', class: 'fa fa-thumbs-down'});
-      }if (sessionsDataForTableItem['originalSessionData']['data_encrypted']) {
+      }
+      if (sessionsDataForTableItem['originalSessionData']['data_encrypted']) {
         additonalColumns['Room Metadata'].value.push({show: true, name: 'Encrypted', class: 'fa fa-lock'});
       }
 
@@ -190,10 +198,10 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
     if (eventData.data.data_encrypted) {
 
-      this.openSessionRowDecryptModal( eventData.data);
+      this.openSessionRowDecryptModal(eventData.data);
     } else {
       this.loadSessionMessagesById(eventData.data.id)
-        .subscribe((value: {objects:ISessionItem[]}) => {
+        .subscribe((value: { objects: ISessionItem[] }) => {
 
           this.selectedRow_Session = this.sessions.find(session => session.id === eventData.data.id);
           // this.selectedRow_Session = value.objects.find(session => session.id === eventData.data.id);
@@ -234,6 +242,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     //
     //   });
   }
+
   @ViewChild('sessionDetailTemplate') sessionDetailTemplate: TemplateRef<any>;
 
   selectNextRow() {
@@ -329,12 +338,12 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     }
   }
 
-  decryptSubmit(sessionTobeDecryptedId: number , decryptReason) {
+  decryptSubmit(sessionTobeDecryptedId: number, decryptReason) {
 
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-    const body = {'room_id': sessionTobeDecryptedId, 'decrypt_audit_type': 'room', 'message':decryptReason};
+    const body = {'room_id': sessionTobeDecryptedId, 'decrypt_audit_type': 'room', 'message': decryptReason};
     const url = this.constantsService.getDecryptUrl();
     this.serverService.makePostReq({headerData, body, url})
       .subscribe(() => {
@@ -356,26 +365,26 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   }
 
-  openSessionRowDecryptModal( sessionToBeDecrypted: ISessionItem) {
+  openSessionRowDecryptModal(sessionToBeDecrypted: ISessionItem) {
     this.sessionItemToBeDecrypted = sessionToBeDecrypted;
     // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
     this.utilityService.openDialog({
       dialogRefWrapper: this.dialogRefWrapper,
-      classStr:'danger-modal-header-border',
-      data:{
-        actionButtonText:`Decrypt`,
+      classStr: 'danger-modal-header-border',
+      data: {
+        actionButtonText: `Decrypt`,
         message: 'Use the decryption key to see all the messages exchanged.',
-        title:`Decrypt session`,
-        isActionButtonDanger:false,
-        inputDescription: "Key"
+        title: `Decrypt session`,
+        isActionButtonDanger: false,
+        inputDescription: 'Key'
       },
       dialog: this.matDialog,
-      component:ModalConfirmComponent
-    }).then((data)=>{
-      if(data){
-        this.decryptSubmit(this.sessionItemToBeDecrypted.id , data);
+      component: ModalConfirmComponent
+    }).then((data) => {
+      if (data) {
+        this.decryptSubmit(this.sessionItemToBeDecrypted.id, data);
       }
-    })
+    });
 
     // this.utilityService.openDialog({
     //   component: template,
@@ -415,15 +424,20 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       });
   }
 
+  performSearchInDbForSessionHandler(filterData: ISessionFilterData){
+    this.performSearchInDbForSession(filterData)
+      .subscribe();
+  }
+
   performSearchInDbForSession(filterData: ISessionFilterData) {
 
     this.showLoader = true;
     let url: string;
-    this.filterDataFromTable = JSON.parse(JSON.stringify(filterData||{}));
-    let filterDataFromForm = JSON.parse(JSON.stringify(this.filterFormData||{}));
+    this.filterDataFromTable = JSON.parse(JSON.stringify(filterData || {}));
+    let filterDataFromForm = JSON.parse(JSON.stringify(this.filterFormData || {}));
     let combinedFilterData = {...filterDataFromForm, ...this.filterDataFromTable};
 
-    if (Object.keys(combinedFilterData).length>0) {
+    if (Object.keys(combinedFilterData).length > 0) {
       if (combinedFilterData.updated_at) {
         let x: any;
         /*
@@ -458,14 +472,15 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       url = this.constantsService.getRoomWithFilters({limit: 10});
     }
     url = url.toLowerCase();//todo: this should be handled by backend;
-    this.serverService.makeGetReq({url, headerData: this.headerData})
-      .subscribe((value: { objects: ISessionItem[], meta: { total_count: number } }) => {
+    return this.serverService.makeGetReq({url, headerData: this.headerData})
+      .pipe(
+        tap((value: { objects: ISessionItem[], meta: { total_count: number } }) => {
           if (!filterData && value.objects.length === 0) {
             this.showSplashScreen = true;
           }
-        if (Object.keys(combinedFilterData).length===0 && value.objects.length !== 0) {
-          this.showFilterForm = true;
-        }
+          if (Object.keys(combinedFilterData).length === 0 && value.objects.length !== 0) {
+            this.showFilterForm = true;
+          }
 
           this.sessions = value.objects;
           this.totalSessionRecords = value.meta.total_count;
@@ -474,22 +489,26 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
           this.showLoader = false;
         }, () => {
           this.showLoader = false;
-        }
+        })
       );
   }
 
-  sessionFormSubmitted(formData){
+  sessionFormSubmitted(formData) {
     let filterData = UtilityService.cloneObj(formData);
     this.filterFormData = filterData;
 
     let channelsObj = filterData.channels;
-    let channelStr = Object.keys(channelsObj).filter(key=>channelsObj[key]).join(",");
+    let channelStr = Object.keys(channelsObj).filter(key => channelsObj[key]).join(',');
     delete filterData.channels;
-    if(channelStr){
-      filterData.channels= channelStr.toLowerCase();
+    if (channelStr) {
+      filterData.channels = channelStr.toLowerCase();
     }
 
-    this.performSearchInDbForSession(filterData);
+    this.performSearchInDbForSession(filterData)
+      .subscribe(() => {
+        // this.filterFormDirty  = false;
+        this.filterForm.form.markAsPristine();/*Because we want to disable button when data is unchanged*/
+      });
   }
 
 
@@ -497,10 +516,26 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     console.log(this.headerData);
   }
 
-  resetSearchForm(form:NgForm){
+  resetSearchForm(form: NgForm) {
     form.resetForm();
     this.filterFormData = null;
-    this.performSearchInDbForSession(null);
+    this.performSearchInDbForSession(null)
+      .subscribe();
+  }
+
+  ngAfterViewInit(): void {
+    this.filterForm
+      .valueChanges
+      .pipe(
+        startWith(this.filterForm.value),
+        distinctUntilChanged((v1, v2) => {
+          return JSON.stringify(v1) === JSON.stringify(v2)
+        }),
+        skip(1)
+      )
+      .subscribe(() => {
+        this.filterFormDirty = true;
+      });
   }
 
 }

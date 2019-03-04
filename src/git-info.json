@@ -1,1 +1,1 @@
-{"currentBranch":"develop","lastCommit":"commit 401064603a2e8dff86e1dff8d89835ab4805c565\nMerge: 385cefbe 771d453c\nAuthor: Sandeep Kumar Gupta <sandeepkumar.g@imimobile.com>\nDate:   Sat Mar 2 20:21:45 2019 +0530\n\n    Merge branch 'staging' into develop"}
+{"currentBranch":"feature#BOT-888#Frontend-New-UI-Sessions","lastCommit":"commit 6a38578331dc10fba62e812b87a86a3987cbf23c\nAuthor: Sandeep Kumar Gupta <sandeepkumar.g@imimobile.com>\nDate:   Mon Mar 4 00:58:49 2019 +0530\n\n    feature: session reimplemented according to design doc"}
