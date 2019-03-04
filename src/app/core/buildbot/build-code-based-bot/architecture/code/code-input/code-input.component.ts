@@ -654,5 +654,9 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     zip.file(name, text);
   }
 
+  activateVersion(active_version_id:number){
+    this.serverService.updateBot({id: this.bot.id, active_version_id});
+  }
+
 
 }

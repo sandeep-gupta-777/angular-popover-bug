@@ -1,1 +1,1 @@
-{"currentBranch":"develop-environments","lastCommit":"commit c7a6dad5ab4f603ce65b1d5e559cc0939ad22ae4\nAuthor: Sandeep Kumar Gupta <sandeepkumar.g@imimobile.com>\nDate:   Mon Mar 4 13:25:39 2019 +0530\n\n    fix: burl set to dev"}
+{"currentBranch":"feature#BOT-888#Frontend-New-UI-Sessions","lastCommit":"commit 6a38578331dc10fba62e812b87a86a3987cbf23c\nAuthor: Sandeep Kumar Gupta <sandeepkumar.g@imimobile.com>\nDate:   Mon Mar 4 00:58:49 2019 +0530\n\n    feature: session reimplemented according to design doc"}
