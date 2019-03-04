@@ -21,7 +21,11 @@
     "heroku-nobuild": "cd heroku/imibotfe && git add . && git commit -m 'heroku-deploy' && git pull && git push",
     "build-old": "ng build --prod && ",
     "index": "node file-index-script.js",
-    "hmr": "ng serve --configuration hmr"
+    "hmr": "ng serve --configuration hmr",
+    "develop": "ng build --configuration develop --base-href /static/",
+    "staging": "ng build --configuration staging --base-href /static/",
+    "preProd": "ng build --configuration preProd --base-href /static/",
+    "prod": "ng build --configuration prod --base-href /static/"
   },
   "husky": {
     "hooks": {

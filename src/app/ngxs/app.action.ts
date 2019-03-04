@@ -71,6 +71,7 @@ export class SetBackendURlRoot {
   constructor(public payload: {
     url: string
   }) {
+    console.log("SetBackendURlRoot ACTION:", payload);
   }
 }
 

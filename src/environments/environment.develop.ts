@@ -1,4 +1,5 @@
 export const environment = {
-    production: false,
-    develop: true
+    production: true,
+    develop: true,
+    backend_root:'https://dev.imibot.ai/'
 };
