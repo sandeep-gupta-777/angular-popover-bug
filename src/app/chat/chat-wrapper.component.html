@@ -10,13 +10,14 @@
          [title]="'Open '+ chatWindowTitle"
          style="text-decoration: none"
          [routerLink]="['/core/botdetail/chatbot/', currentBot.id]"
-      >{{(chatWindowTitle| slice:0: 30) + (chatWindowTitle.length>30?"...":"")}}</a>
-      <a class="ml-auto hover-parent" [routerLink]="['/preview']"
+      >{{(chatWindowTitle| slice:0: 20) + (chatWindowTitle.length>20?"...":"")}}</a>
+      <!--TODO: create a limit char pipe-->
+      <a class="ml-auto hover-parent" [routerLink]="['l/preview']"
          title="Open bot preview in a new Tab"
          [queryParams]="{bot_unique_name:currentBot.bot_unique_name,enterprise_unique_name:enterprise_unique_name}"
          target="_blank">
-        <button mat-icon-button (click)="toggleOverlay(showOverlay)"
-                [class.active]="showOverlay" class="origin"
+        <button mat-icon-button
+                class="origin"
                 #overlayOrigin="cdkOverlayOrigin"
                 cdkOverlayOrigin>
           <mat-icon>tab</mat-icon>
