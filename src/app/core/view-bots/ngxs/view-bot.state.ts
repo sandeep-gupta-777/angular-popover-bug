@@ -158,18 +158,18 @@ export class ViewBotStateReducer {
   }
 
   // static getBotById(state){
-  //   let id = this.ac
+  //   let roomId = this.ac
   //   // return x.botlist.pipelineBasedBotList.;
   //   return x.botlist.pipelineBasedBotList.filter(timePeriod => timePeriod._id === )
   //
   //   for(let i=0; i< x.botlist.pipelineBasedBotList.length; ++i){
   //     let timePeriod = x.botlist.pipelineBasedBotList[i];
-  //     if(timePeriod._id === id) return timePeriod
+  //     if(timePeriod._id === roomId) return timePeriod
   //   }
   //
   //   for(let i=0; i< x.botlist.botList.length; ++i){
   //     let timePeriod = x.botlist.botList[i];
-  //     if(timePeriod._id === id) return timePeriod
+  //     if(timePeriod._id === roomId) return timePeriod
   //   }
   // }
 

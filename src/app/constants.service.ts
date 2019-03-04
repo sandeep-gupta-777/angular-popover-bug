@@ -528,14 +528,14 @@ export class ConstantsService {
   }
 
   getCustomNerById(id) {
-    return this.BACKEND_URL + `api/v1/customner/?id=${id}`; //dev.imibot.ai/api/v1/customner/?id=13
+    return this.BACKEND_URL + `api/v1/customner/?id=${id}`; //dev.imibot.ai/api/v1/customner/?roomId=13
   }
 
   getAnalyticsUrl() {
     return this.BACKEND_URL + 'api/v1/analytics/'; //https://dev.imibot.ai/api/v1/analytics/
   }
 
-  updateOrDeleteEnterpriseNer(id) {/*TODO: is it enterprise id??*/
+  updateOrDeleteEnterpriseNer(id) {/*TODO: is it enterprise roomId??*/
     return this.BACKEND_URL + `api/v1/customner/${id}/`; //https://dev.imibot.ai/api/v1/customner/12/
   }
 
@@ -997,7 +997,7 @@ export class ConstantsService {
       originalKey: '',
       value: '',
       type: 'number',
-      displayValue: 'Consumer id',
+      displayValue: 'Consumer roomId',
       search: false,//true,
       searchValue: true,
     },

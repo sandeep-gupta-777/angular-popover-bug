@@ -1163,7 +1163,7 @@ var timeStampInterval = 30000;//in milliseconds
                             //actions after update customerId
                             _imiconnect.iCDeviceProfile.customerId = customerId;
                             _db.set("customerId", customerId);
-                            //actions  need to do after customer id change
+                            //actions  need to do after customer roomId change
                             if (callback && callback.onSuccess) {
                                 callback.onSuccess(respObj);
                             }
@@ -2611,7 +2611,7 @@ var timeStampInterval = 30000;//in milliseconds
             self.updatedDate = undefined;
             self.group = undefined;
             self.title = undefined;
-            self.id = undefined;
+            self.roomId = undefined;
             self.subtitle = undefined;
 
         };

@@ -161,7 +161,7 @@
     <!-- <div class="enterprise-grid h-100">
       <div class = "enterprise-grid-item"
       *ngFor="let enterprise of  (enterpriseList | genericObjFilter:'enterprise_id.name':searchEnterprise)"
-      (click) = enterEnterprise(enterprise.enterprise_id.id,enterprise.role_id.id)>
+      (click) = enterEnterprise(enterprise.enterprise_id.roomId,enterprise.role_id.roomId)>
         <div class = "enterprise-image">
           <img src="{{enterprise.enterprise_id.logo}}" alt="">
         </div>

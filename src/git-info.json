@@ -1,1 +1,1 @@
-{"currentBranch":"feature#BOT-893#Frontend-Bot-creation","lastCommit":"commit fda393e9d0c305cf02b868ae98bae62873d61a30\nAuthor: Sandeep Kumar Gupta <sandeepkumar.g@imimobile.com>\nDate:   Sun Mar 3 00:38:22 2019 +0530\n\n    fix: app.component.ts: autologout after browser is closed"}
+{"currentBranch":"develop","lastCommit":"commit 36905d5199fdee8ecf2b1b70931ecf241ee40c27\nAuthor: Sandeep Kumar Gupta <sandeepkumar.g@imimobile.com>\nDate:   Mon Mar 4 14:26:45 2019 +0530\n\n    feature: angular.json: different build scripts for each environment"}

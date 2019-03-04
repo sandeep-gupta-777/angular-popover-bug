@@ -119,7 +119,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
           ner_id && this.updateSelectedRowDataByNer_Id(ner_id);
           // this.showTable = !ner_id;
           // this.selectedRowData = this._custumNerDataForSmartTable.find((custumNerData)=>{
-          //   return custumNerData.id === ner_id
+          //   return custumNerData.roomId === ner_id
           // });
           // if(this.selectedRowData)this.prepareData(this.selectedRowData);
         }
@@ -129,7 +129,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     // this.handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
     // if (this.bot) {
     //   /*this block should not run in case this component is called by parent component: view-customner.component*/
-    //   let url = this.constantsService.getCustomBotNER(this.bot.id);
+    //   let url = this.constantsService.getCustomBotNER(this.bot.roomId);
     //   let headerData: IHeaderData = {'bot-access-token': this.bot.bot_access_token};
     //   this.serverService.makeGetReq({url, headerData})
     //     .subscribe((value: { objects: [ICustomNerItem] }) => {
@@ -196,20 +196,20 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     }
 
     let output: ICustomNerItem;
-    if (this.selectedRowData && this.selectedRowData.id) {/*if there is not id, this means we are creating new customner*/
+    if (this.selectedRowData && this.selectedRowData.id) {/*if there is not roomId, this means we are creating new customner*/
       output = Object.assign(this.selectedRowData, body);
     } else {
       const bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
       const type = bot_id ? 'bot' : 'enterprise';
 
       const newRowData: ICustomNerItem = output = {
-        'bot_id': bot_id, //this.bot.id,
+        'bot_id': bot_id, //this.bot.roomId,
         // "column_headers": any[],
         'column_nermap': {},
         'conflict_policy': data.conflict_policy,
         /*change date format*/
         // 'created_at': new Date().toISOString(),
-        // 'created_by': this.loggeduser.user.id,
+        // 'created_by': this.loggeduser.user.roomId,
         'enterprise_id': this.loggeduser.user.enterprise_id,
         'key': data.key,
         'ner_type': data.ner_type,
@@ -231,9 +231,9 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     //   // this.custumNerDataForSmartTable.push(data);
     //   LoggingService.log(this.custumNerDataForSmartTable);
     //   let headerData: IHeaderData = {'bot-access-token': this.bot.bot_access_token};
-    //   if (this.selectedRowData && this.selectedRowData.id) {
+    //   if (this.selectedRowData && this.selectedRowData.roomId) {
     //     /*update customner*/
-    //     let url = this.constantsService.updateCustomBotNER(this.selectedRowData.id);
+    //     let url = this.constantsService.updateCustomBotNER(this.selectedRowData.roomId);
     //     this.serverService.makePutReq({url, body: body, headerData})
     //       .subscribe((value) => {
     //         LoggingService.log(value);
@@ -243,13 +243,13 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     //     /*create a new customner*/
     //     body = {
     //       ...body,
-    //       'bot_id': this.bot.id,
+    //       'bot_id': this.bot.roomId,
     //       // "column_headers": any[],
     //       'column_nermap': {},
     //       'conflict_policy': data.conflict_policy,
     //       /*change date format*/
     //       // 'created_at': new Date().toISOString(),
-    //       // 'created_by': this.loggeduser.user.id,
+    //       // 'created_by': this.loggeduser.user.roomId,
     //       'enterprise_id': this.loggeduser.user.enterprise_id,
     //       'key': data.key,
     //       'ner_type': data.ner_type,
@@ -267,9 +267,9 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     //   }
     // } else {
     //   // this.custumNerDataForSmartTable.push(data);//?????what is this line doing
-    //   if (this.selectedRowData && this.selectedRowData.id) {
+    //   if (this.selectedRowData && this.selectedRowData.roomId) {
     //     /*update customner*/
-    //     let url = this.constantsService.updateEnterpriseNer(this.selectedRowData.id);
+    //     let url = this.constantsService.updateEnterpriseNer(this.selectedRowData.roomId);
     //     this.serverService.makePutReq({url, body: body})
     //       .subscribe((value) => {
     //         this.utilityService.showSuccessToaster("Successfully saved");
@@ -278,13 +278,13 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     //     /*create a new customner*/
     //     body = {
     //       ...body,
-    //       // 'bot_id': this.bot.id,
+    //       // 'bot_id': this.bot.roomId,
     //       // "column_headers": any[],
     //       'column_nermap': {},
     //       'conflict_policy': data.conflict_policy,
     //       /*change date format*/
     //       'created_at': new Date().toISOString(),
-    //       'created_by': this.loggeduser.user.id,
+    //       'created_by': this.loggeduser.user.roomId,
     //       'enterprise_id': this.loggeduser.user.enterprise_id,
     //       'key': data.key,
     //       'ner_type': data.ner_type,

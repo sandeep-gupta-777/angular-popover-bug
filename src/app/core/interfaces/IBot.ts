@@ -65,7 +65,7 @@ export interface IBot {
   //     facebook: {
   //       enabled: true,
   //       'facebook-token':string,
-  //       id: string
+  //       roomId: string
   //     },
   //     skype: {
   //       client_id: string,
@@ -169,7 +169,7 @@ export interface IValidationTabItem {
 //   'allowAnonymization': boolean,
 //   'avatars': [
 //     {
-//       'id': number,
+//       'roomId': number,
 //       'imageUrl': string,
 //       'name': string
 //     }
@@ -182,7 +182,7 @@ export interface IValidationTabItem {
 //   'channels': {
 //     'facebook': {
 //       'facebook-token': string,
-//       'id': string
+//       'roomId': string
 //     }
 //   },
 //   'consentCategories': {
@@ -223,7 +223,7 @@ export interface IValidationTabItem {
 //   'name': string,
 //   'pipeline': [
 //     {
-//       'id': string,
+//       'roomId': string,
 //       'inputParams': {},
 //       'library': string,
 //       'module': string
@@ -236,7 +236,7 @@ export interface IValidationTabItem {
 //     {
 //       'contextual': boolean,
 //       'default': boolean,
-//       'id': string,
+//       'roomId': string,
 //       'inputParams': {},
 //       'library': string,
 //       'module': string

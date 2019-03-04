@@ -183,7 +183,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         .subscribe((value: {objects:ISessionItem[]}) => {
 
           this.selectedRow_Session = this.sessions.find(session => session.id === eventData.data.id);
-          // this.selectedRow_Session = value.objects.find(session => session.id === eventData.data.id);
+          // this.selectedRow_Session = value.objects.find(session => session.roomId === eventData.data.roomId);
           // (<any>this.selectedRow_Session).highlight = true;
           if (this.indexOfCurrentRowSelected !== undefined) {
             this.sessions[this.indexOfCurrentRowSelected].highlight = false;
@@ -232,7 +232,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     }
 
     let currentIndex = this.sessions.findIndex((session) => {/*old selected row index*/
-      // return this.selectedRow_Session.id === session.id;
+      // return this.selectedRow_Session.roomId === session.roomId;
       return this.selectedRow_Session.id === session.id;
     });
     if (currentIndex <= this.sessions.length - 2) {
@@ -317,7 +317,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   }
 
   decryptSubmit(sessionTobeDecryptedId: number , decryptReason) {
-    
+
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
@@ -381,7 +381,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   }
 
   loadSessionById(id) {
-    // this.url = this.constantsService.getSessionsMessageUrl(id);
+    // this.url = this.constantsService.getSessionsMessageUrl(roomId);
     this.url = this.constantsService.getSessionsByIdUrl(id);
     return this.serverService.makeGetReq<ISessionItem>({
       url: this.url,

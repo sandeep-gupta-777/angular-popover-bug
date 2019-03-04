@@ -17,6 +17,8 @@ import {ConstantsService} from './constants.service';
 import {IBot} from './core/interfaces/IBot';
 import {UtilityService} from './utility.service';
 import {IConsumerDetails} from './chat/ngxs/chat.state';
+import {catchError} from 'rxjs/internal/operators';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +32,8 @@ export class ChatService {
     private constantsService: ConstantsService) {
   }
 
-  sendHumanMessageToBotServer(botDetails: { id: number, bot_access_token: string }, consumerDetails: IConsumerDetails, messageByHuman: string, frameEnabled: EChatFrame) {
+  sendHumanMessageToBotServer(botDetails: { roomId: number, bot_access_token: string }, consumerDetails: IConsumerDetails, messageByHuman: string, frameEnabled: EChatFrame) {
+    debugger;
     const url = this.constantsService.getStartNewChatLoginUrl();
     const body /*: ISendApiRequestPayload */ = {
       'consumer': consumerDetails,
@@ -66,7 +69,13 @@ export class ChatService {
             new ChangeBotIsThinkingDisplayByRoomId({roomId: response.room.id, shouldShowBotIsThinking: false})
           ]);
           this.store.dispatch(new SetLastTemplateKeyToRoomByRoomId({lastTemplateKey: response.templateKey, room_id: response.room.id}));
-        }));
+        }),
+        catchError((e: any) => {
+          return this.store.dispatch([
+            new ChangeBotIsThinkingDisplayByRoomId({roomId: botDetails.roomId, shouldShowBotIsThinking: false})
+          ]);
+        })
+        );
   }
 
   navigate(frameEnabled: EChatFrame) {

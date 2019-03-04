@@ -774,7 +774,7 @@ var ConstantsService = /** @class */ (function () {
         return this.BACKEND_URL + ("api/v1/reports/" + report_id + "/"); //http://dev.imibot.ai/api/v1/reports/1/
     };
     ConstantsService.prototype.getDownloadReportHistoryByIdUrl = function (id) {
-        return this.BACKEND_URL + ("api/v1/reporthistory/downloadreports/?id=" + id); //http://localhost:8000/api/v1/reporthistory/downloadreports/?id=10
+        return this.BACKEND_URL + ("api/v1/reporthistory/downloadreports/?roomId=" + id); //http://localhost:8000/api/v1/reporthistory/downloadreports/?id=10
     };
     ConstantsService.prototype.geReportTypesUrl = function () {
         return this.BACKEND_URL + 'api/v1/reporttypes/'; // http://dev.imibot.ai/api/v1/reporttypes
@@ -822,7 +822,7 @@ var ConstantsService = /** @class */ (function () {
         return this.BACKEND_URL + "api/v1/bot/?limit=1000"; //https://dev.imibot.ai/api/v1/bot/
     };
     ConstantsService.prototype.getBotSessionsUrl = function (limit, offset) {
-        return this.BACKEND_URL + ("api/v1/room/?limit=" + limit + "&offset=" + offset + "&order_by=-id"); //https://dev.imibot.ai/aip/v1/room
+        return this.BACKEND_URL + ("api/v1/room/?limit=" + limit + "&offset=" + offset + "&order_by=-roomId"); //https://dev.imibot.ai/aip/v1/room
     };
     ConstantsService.prototype.getStartNewChatLoginUrl = function () {
         return this.BACKEND_URL + 'api/v1/webhook/web/'; //'send';
@@ -853,10 +853,10 @@ var ConstantsService = /** @class */ (function () {
         return this.BACKEND_URL + ("api/v1/customner/?type=enterprise&limit=" + limit + "&offset=" + offset); //https://dev.imibot.ai/api/v1/customner/
     };
     ConstantsService.prototype.getEnterpriseNerById = function (id) {
-        return this.BACKEND_URL + ("api/v1/customner/?type=enterprise&id=" + id); //https://dev.imibot.ai/api/v1/customner/
+        return this.BACKEND_URL + ("api/v1/customner/?type=enterprise&roomId=" + id); //https://dev.imibot.ai/api/v1/customner/
     };
     ConstantsService.prototype.getCustomNerById = function (id) {
-        return this.BACKEND_URL + ("api/v1/customner/?id=" + id); //dev.imibot.ai/api/v1/customner/?id=13
+        return this.BACKEND_URL + ("api/v1/customner/?roomId=" + id); //dev.imibot.ai/api/v1/customner/?roomId=13
     };
     ConstantsService.prototype.getAnalyticsUrl = function () {
         return this.BACKEND_URL + 'api/v1/analytics/'; //https://dev.imibot.ai/api/v1/analytics/

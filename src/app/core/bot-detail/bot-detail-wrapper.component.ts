@@ -32,10 +32,10 @@ export class BotDetailWrapperComponent implements OnInit {
     *THE WHOLE THINGS IS REQUIRED BECAUSE OF CYCLE
     *https://stackoverflow.com/questions/52245779/how-to-avoid-loops-in-ngrx-or-ngxs
     * */
-    // let botIdStr = this.activatedRoute.snapshot.firstChild.paramMap.get('id');
+    // let botIdStr = this.activatedRoute.snapshot.firstChild.paramMap.get('roomId');
     // if(botIdStr){
     //   this.botlist$.pipe(first()).subscribe((viewBotStateModel:ViewBotStateModel)=>{
-    //     let bot = viewBotStateModel.allBotList.find(bot=>bot.id === Number(botIdStr));
+    //     let bot = viewBotStateModel.allBotList.find(bot=>bot.roomId === Number(botIdStr));
     //     let url = this.constantsService.getSpecificBotByBotTokenUrl();
     //     let headerData:IHeaderData = {
     //       "bot-access-token": bot.bot_access_token
@@ -45,7 +45,7 @@ export class BotDetailWrapperComponent implements OnInit {
     //
     //           let updatedBot = value.objects[0];
     //           this.store.dispatch([
-    //             new UpdateBotInfoByIdInBotInBotList({data:updatedBot, botId:updatedBot.id})
+    //             new UpdateBotInfoByIdInBotInBotList({data:updatedBot, botId:updatedBot.roomId})
     //           ])
     //       });
     //   })

@@ -105,7 +105,7 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
     this.reportFormData = JSON.parse(JSON.stringify(this.reportControlsComponent.getReportControlFormData()));
     // let timeNow = (new Date()).toString();
     const _id_str = this.activatedRoute.snapshot.paramMap.get('_id');
-    this.reportFormData.id = _id_str ? Number(_id_str) : null;
+    this.reportFormData.roomId = _id_str ? Number(_id_str) : null;
     this.reportFormData.startdate = (new Date(this.reportFormData.startdate)).getTime();
 
 

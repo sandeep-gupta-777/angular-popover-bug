@@ -30,7 +30,7 @@ const x = {
   // 'created_at': '2018-07-26',
   // 'created_by': 0,
   // 'enterprise_unique_name': 'manjulaanalytics',
-  // 'id': 14,
+  // 'roomId': 14,
   // 'log_retention_period': 'PT180D',
   // 'logo': 'https://media.glassdoor.com/sqll/402111/imimobile-squarelogo-1517496212047.png',
   // 'name': 'Manjula Analytics Enterprise update',

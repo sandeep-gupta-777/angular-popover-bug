@@ -31,7 +31,7 @@
     <!--<img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async))"-->
          <!--[src]="integrationsMasterListItem?.icon"-->
          <!--class="logo-image " style="width: 16px;height: 16px" alt="">-->
-    <!--<img id="id" *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'no_channel'|async))"-->
+    <!--<img roomId="roomId" *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'no_channel'|async))"-->
          <!--[src]="integrationsMasterListItem?.icon" class="logo-image " style="width: 16px;height: 16px" alt="">-->
   <!--</span>-->
   <!--<span *ngIf="myObject.keys(bot.integrations).length>4" class="more">-->
@@ -43,13 +43,13 @@
       <!--<i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>-->
       <!--<span class="action">Preview</span>-->
     <!--</div>-->
-    <button (click)="openAnalyticsForBot()" class="mat-theme-button" mat-button style="border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 2px; margin-right: 10px">
+    <button (click)="openAnalyticsForBot()" class="mat-theme-button mat-theme-button-border" mat-button>
         <mat-icon>trending_up</mat-icon>
       Analytics
     </button>
-    <button class="mat-theme-button"
+    <button class="mat-theme-button mat-theme-button-border"
             (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'"
-            mat-button style="border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 2px">
+            mat-button>
         <mat-icon>chat_bubble_outline</mat-icon>
       Preview
     </button>

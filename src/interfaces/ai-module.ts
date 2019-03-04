@@ -2,7 +2,7 @@
 //   $$hashKey?: string,
 //   contextual?: boolean,
 //   default?: boolean
-//   id?: string,
+//   roomId?: string,
 //   inputParams?: { wit_access_token?: string },
 //   displayValues?: { wit_access_token?: string, filetype?: string, extra_info?: string, future?: string },
 //   library?: string,
@@ -36,7 +36,7 @@ export interface IPipelineItem {
 //   "created_at": "2018-07-17T10:47:10.965000",
 //   "default": false,
 //   "display_values": {},
-//   "id": 1,
+//   "roomId": 1,
 //   "input_params": {},
 //   "library": "spacy",
 //   "module": "ner",
