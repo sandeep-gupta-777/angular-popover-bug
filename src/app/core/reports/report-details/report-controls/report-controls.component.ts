@@ -101,7 +101,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
 
     if (this.activatedRoute.snapshot.data['name'] === ERouteNames['Create Reports']) {
       setTimeout(() => {
-        debugger;;
+        ;
         this.f.form.patchValue({bot_id: this.botlist[0].id, frequency: 'daily'});
       }, 0);
     }

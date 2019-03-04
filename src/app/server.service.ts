@@ -124,7 +124,7 @@ export class ServerService {
   }
 
   makeGetReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<any> {
-    debugger;
+
     const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
       console.log(`api access not allowed:${reqObj.url}`);
@@ -612,7 +612,7 @@ export class ServerService {
     //       new SetBackendURlRoot({url: value.backend_url})
     //     ]);
     //   })));
-    // debugger;
+    //
     return of(1)
       .pipe(tap(((value: any) => {
         this.store.dispatch([

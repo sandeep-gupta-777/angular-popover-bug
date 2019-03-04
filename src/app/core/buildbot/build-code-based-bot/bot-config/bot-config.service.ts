@@ -106,7 +106,7 @@ export class BotConfigService {
     /*nested form example: https://stackblitz.com/github/Josh-Hicks/NBA-team-app*/
     let formGroup = this.formBuilder.group({});
     let integrations = bot.integrations;
-    debugger;
+
     let x = this.integration_types.reduce((aggr, integration_type) => {
       let types: string[] = this.getTypesForIntegrationType(integration_type);
       let modalGroups = types.map((type: string) => {

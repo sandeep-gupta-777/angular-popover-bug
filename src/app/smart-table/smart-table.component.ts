@@ -29,11 +29,11 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     this.tableForm &&
     this.tableForm.valueChanges.pipe(
       map((obj) => this.removeEmptyKeyValues(UtilityService.cloneObj(obj))),
-      tap((obj)=>{
+      tap((obj) => {
         this.formDirty = Object.keys(obj).length > 0;
       }),
       distinctUntilChanged((obj1, obj2) => {
-        return JSON.stringify(obj1) === JSON.stringify(obj2)
+        return JSON.stringify(obj1) === JSON.stringify(obj2);
       }),
     ).subscribe((formData) => {
       this.formData = formData;
@@ -123,7 +123,11 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
       return dataValue[0][key].hasOwnProperty('value') && dataValue[0][key].hasOwnProperty('type');
     });
 
+
     this.tableData = dataValue;
+    if (this.sortedCol && this.sortDir) {
+      this.sort(this.sortedCol, this.sortDir);
+    }
     this.displayKeyOriginalKeyDict = this.createDisplayKeyOriginalKeyDict(dataValue);
 
     try {
@@ -149,8 +153,8 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild('tableForm') tableForm: NgForm;
   @Input() showSearchInDbButton = false;
-  _totalRecords:number;
-  @Input() set totalRecords(value:number) {
+  _totalRecords: number;
+  @Input() set totalRecords(value: number) {
 
     setTimeout(() => {
       this._totalRecords = value;
@@ -185,7 +189,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
   goToNextPage() {
     if (this.currentPage < this.totalPageCount) {
-      this.goToPage({pageIndex:Math.min(this.totalPageCount, this.currentPage + 1)});
+      this.goToPage({pageIndex: Math.min(this.totalPageCount, this.currentPage + 1)});
     }
   }
 
@@ -195,7 +199,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     }
   }
 
-  goToPage(pageData : {length?: number, pageIndex?: number, pageSize?: number, previousPageIndex?: number}) {
+  goToPage(pageData: { length?: number, pageIndex?: number, pageSize?: number, previousPageIndex?: number }) {
 
     let currentPage: number = pageData.pageIndex + 1;/*angular paginator starts from zero*/
 
@@ -275,8 +279,9 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
   sortDir = ESortDir.ASC;
   myESortDir = ESortDir;
-  sortedCol
-  sort(key, sorDirection:ESortDir) {
+  sortedCol;
+
+  sort(key, sorDirection: ESortDir) {
     this.sortedCol = key;
     this.sortDir = sorDirection;
     // this.sortDirAsc = sorDirection === ESortDir.DES? -1:1;
@@ -285,7 +290,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     this.tableData =
       tableData.sort((row1, row2) => {
         let sortAsc: number = row1[key].value > row2[key].value ? 1 : -1;
-        return sortAsc * (sorDirection === ESortDir.ASC? 1 : -1);
+        return sortAsc * (sorDirection === ESortDir.ASC ? 1 : -1);
       });
     // console.log(tableData);
     this.dataSource = new MatTableDataSource(tableData);
@@ -303,8 +308,8 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   }
 
 
-  refreshData(){
-    this.refreshData$.emit({...this.formData, page:this.currentPage});
+  refreshData() {
+    this.refreshData$.emit({...this.formData, page: this.currentPage});
   }
 
 

@@ -1,15 +1,14 @@
-<div class="d-flex" style="margin-top: 10px">
-    <form *ngIf="showFilterForm" #form="ngForm" class="refine-results"
-          style="background-color: white; width: 250px; flex-basis: 250px; flex-shrink: 0; border: 1px solid #e0e0e0; align-self: flex-start">
+<section class="bot-session-section">
+    <form *ngIf="showFilterForm" #form="ngForm" class="refine-results">
         <strong>Refine Results</strong>
-        <hr style="margin: 10px -16px;">
-        <mat-form-field class="example-full-width">
+        <hr class="refine-results__divider">
+        <mat-form-field>
             <input matInput placeholder="Room Id"
                    ngModel
                    type="number"
                    name="id">
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="">
             <input matInput placeholder="Consumer Id"
                    ngModel
                    type="number"
@@ -17,31 +16,34 @@
         </mat-form-field>
 
 
-        <div>Message</div>
-        <div class="d-flex justify-content-between">
-            <mat-form-field class="example-full-width input-no-label" style="width: 40%" floatLabel="never">
-                <input matInput placeholder="min" type="number"
-                       ngModel
-                       name="consumer_id">
-            </mat-form-field>
-            <span style="align-self: center; margin-bottom: 10px">to</span>
-            <mat-form-field class="example-full-width input-no-label" style="width: 40%" floatLabel="never">
-                <input matInput placeholder="max" type="number"
-                       ngModel
-                       name="total_message_count">
-            </mat-form-field>
+        <div class="refine-results__length">
+            <div>Message</div>
+            <div class="input-container">
+                <mat-form-field class="input-no-label" floatLabel="never">
+                    <input matInput placeholder="min" type="number"
+                           ngModel
+                           name="total_message_count__gte">
+                </mat-form-field>
+                <span>to</span>
+                <mat-form-field class="input-no-label" floatLabel="never">
+                    <input matInput placeholder="max" type="number"
+                           ngModel
+                           name="total_message_count__lte">
+                </mat-form-field>
+            </div>
         </div>
 
-        <div>Channel</div>
-        <ul style="display: flex; flex-wrap: wrap" ngModelGroup="channels">
-            <li *ngFor="let channel of channels" style="margin-top: 14px">
-                <mat-checkbox *ngIf="channel.integration_type=== 'channels'" color="primary" ngModel
-                              name="{{channel.unique_name}}" [title]="channel.unique_name">
-                    <img style="border-radius: 50%; width: 20px; height: 20px; margin-left: 2px"
-                         [src]="channel.icon" [alt]="channel.unique_name">
-                </mat-checkbox>
-            </li>
-        </ul>
+        <div class="refine-results__channel">
+            <div>Channel</div>
+            <ul ngModelGroup="channels">
+                <li *ngFor="let channel of channels">
+                    <mat-checkbox *ngIf="channel.integration_type=== 'channels'" color="primary" ngModel
+                                  name="{{channel.unique_name}}" [title]="channel.unique_name">
+                        <img [src]="channel.icon" [alt]="channel.unique_name">
+                    </mat-checkbox>
+                </li>
+            </ul>
+        </div>
 
         <mat-form-field floatLabel="never">
             <input matInput
@@ -65,21 +67,20 @@
             </li>
         </ul>
 
-        <div class="d-flex justify-content-between mt-2">
+        <div class="refine-results__action">
             <button mat-flat-button class="mat-theme-button"
-                    style="border-radius: 2px"
-                    color="primary" type="button" (click)="sessionFormSubmitted(form.value)">Submit
+                    color="primary" type="submit" (click)="sessionFormSubmitted(form.value)">Submit
             </button>
-            <button mat-button style="border: 1px solid #e0e0e0; border-radius: 2px" class="mat-theme-button"
+            <button mat-button class="mat-theme-button cancel"
+                    type="button"
                     (click)="resetSearchForm(form)">Clear
             </button>
         </div>
     </form>
-<!---->
+    <!---->
 
     <app-smart-table [data]="tableData"
                      *ngIf="tableData"
-                     style="flex-grow: 1"
                      [totalRecords]="totalSessionRecords"
                      (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
                      (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate)"
@@ -87,12 +88,15 @@
                      [showRefreshButton]="true"
                      (refreshData$)="performSearchInDbForSession($event)"
                      (performSearchInDB$)="performSearchInDbForSession($event)">
-        <div *ngIf="bot.advanced_data_protection" style="border: 1px solid #e0e0e0; align-self: flex-end;padding: 0px 10px;margin-left: 10px;">
+        <!--ng-content starts-->
+        <div *ngIf="bot.advanced_data_protection"
+             style="border: 1px solid #e0e0e0; align-self: flex-end;padding: 0px 10px;margin-left: 10px;">
             <i class="fa fa-lock" style="color: orange"></i>
             All the sessions are encrypted, use the decryption key to view individual session of interest
         </div>
+        <!--ng-content ends-->
     </app-smart-table>
-</div>
+</section>
 
 
 <app-splash-screen *ngIf="showSplashScreen && !showLoader"
@@ -100,15 +104,12 @@
                    [headingText]="'No sessions found'"
                    [descriptionText]="'Integrate or deploy your bot to see all conversations bot was involved in'"
                    class="d-flex justify-content-center align-items-center"
-                   style="position: absolute; left: 0; right: 0;bottom: 0; top: 0;z-index: -1"
 ></app-splash-screen>
 
 <app-imi-loader *ngIf="showLoader "></app-imi-loader>
 
 
 <ng-template #sessionDetailTemplate>
-    <!--<div class="row" style="width: 100%">-->
-    <!--<div class="col-12">-->
     <app-session-detail-model
             [session]="selectedRow_Session"
             [bot]="bot"

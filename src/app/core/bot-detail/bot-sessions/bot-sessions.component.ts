@@ -59,7 +59,8 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   indexOfCurrentRowSelected: number;
   showFilterForm = false;/*filter form will be shown when if table has data when no filters are applied*/
   // decryptReason: string;
-  filterData: ISessionFilterData;
+  filterDataFromTable: ISessionFilterData;
+  filterFormData: ISessionFilterData;
   @Select() app$: Observable<IAppState>;
 
   channels: IIntegrationMasterListItem[];
@@ -85,7 +86,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     this.headerData = {'bot-access-token': this.bot.bot_access_token};
     this.performSearchInDbForSession(null);
     this.eventService.reloadSessionTable$.subscribe(() => {
-      this.performSearchInDbForSession(this.filterData);
+      this.performSearchInDbForSession(this.filterDataFromTable);
     });
   }
 
@@ -418,44 +419,41 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
     this.showLoader = true;
     let url: string;
-    this.filterData = JSON.parse(JSON.stringify(filterData));
-    if (filterData) {
-      let dataCopy: any = this.utilityService.createDeepClone(filterData);
-      if (dataCopy.updated_at) {
+    this.filterDataFromTable = JSON.parse(JSON.stringify(filterData||{}));
+    let filterDataFromForm = JSON.parse(JSON.stringify(this.filterFormData||{}));
+    let combinedFilterData = {...filterDataFromForm, ...this.filterDataFromTable};
+
+    if (Object.keys(combinedFilterData).length>0) {
+      if (combinedFilterData.updated_at) {
         let x: any;
-
-        // dataCopy.updated_at =
-        //   this.utilityService.convertDateObjectStringToYYYYMMDD(new Date((<any>filterData).updated_at.begin).toUTCString(), '-') + ',';
-        // x = this.utilityService.convertDateObjectStringToYYYYMMDD(new Date((<any>filterData).updated_at.end).toUTCString(), '-') + " 23:59";
-
         /*
         * start and end refer to date 00:00
         * We want end to point to 23:59, so added a day
         * */
-        let begin = new Date((<any>filterData).updated_at.begin);
-        let end = new Date((<any>filterData).updated_at.end);
+        let begin = new Date((<any>combinedFilterData).updated_at.begin);
+        let end = new Date((<any>combinedFilterData).updated_at.end);
         end.setDate(end.getDate() + 1);
 
-        dataCopy.updated_at =
+        combinedFilterData.updated_at =
           `${begin.getFullYear()}-${begin.getUTCMonth() + 1}-${begin.getUTCDate()} ${begin.getUTCHours()}:${begin.getUTCMinutes()}` + ',' +
           `${end.getFullYear()}-${end.getUTCMonth() + 1}-${end.getUTCDate()} ${begin.getUTCHours()}:${begin.getUTCMinutes()}`;
 
         // dataCopy.updated_at += x;
-        dataCopy.updated_at__range = dataCopy.updated_at;
-        delete dataCopy.updated_at;
+        combinedFilterData.updated_at__range = combinedFilterData.updated_at;
+        delete combinedFilterData.updated_at;
       }
-      if (dataCopy.total_message_count) {
-        dataCopy.total_message_count__range = `${dataCopy.total_message_count},${dataCopy.total_message_count}`;
+      if (combinedFilterData.total_message_count) {
+        combinedFilterData.total_message_count__range = `${combinedFilterData.total_message_count},${combinedFilterData.total_message_count}`;
 
       }
-      dataCopy = {
-        ...dataCopy,
-        offset: dataCopy.page ? ((dataCopy.page - 1) * 10) : 0,
-        limit: dataCopy.limit ? dataCopy.limit : 10
+      combinedFilterData = {
+        ...combinedFilterData,
+        offset: combinedFilterData.page ? ((combinedFilterData.page - 1) * 10) : 0,
+        limit: combinedFilterData.limit ? combinedFilterData.limit : 10
       };
-      delete dataCopy.page;
-      UtilityService.removeAllNonDefinedKeysFromObject(dataCopy);
-      url = this.constantsService.getRoomWithFilters(dataCopy);
+      delete combinedFilterData.page;
+      UtilityService.removeAllNonDefinedKeysFromObject(combinedFilterData);
+      url = this.constantsService.getRoomWithFilters(combinedFilterData);
     } else {
       url = this.constantsService.getRoomWithFilters({limit: 10});
     }
@@ -465,7 +463,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
           if (!filterData && value.objects.length === 0) {
             this.showSplashScreen = true;
           }
-        if (!filterData && value.objects.length !== 0) {
+        if (Object.keys(combinedFilterData).length===0 && value.objects.length !== 0) {
           this.showFilterForm = true;
         }
 
@@ -482,12 +480,15 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   sessionFormSubmitted(formData){
     let filterData = UtilityService.cloneObj(formData);
+    this.filterFormData = filterData;
+
     let channelsObj = filterData.channels;
     let channelStr = Object.keys(channelsObj).filter(key=>channelsObj[key]).join(",");
     delete filterData.channels;
     if(channelStr){
       filterData.channels= channelStr.toLowerCase();
     }
+
     this.performSearchInDbForSession(filterData);
   }
 
@@ -498,6 +499,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   resetSearchForm(form:NgForm){
     form.resetForm();
+    this.filterFormData = null;
     this.performSearchInDbForSession(null);
   }
 
