@@ -1,9 +1,9 @@
 <div class="d-flex-column-last-child-flex-grow-1 create-concept-row" style="padding-left: 14px">
 
     <header>
-        <div style="position: relative;">
-            <i class="fa fa-angle-left cursor-pointer" title="Go back" style="position: absolute; left: -15px;  font-size: 19px"  (click)="goBack()"></i>
-            <h6 style="font-size: 16px; font-weight: bold; margin-bottom: 8px">Edit concept</h6>
+        <div style="position: relative;padding-bottom: 16px">
+            <i class="fa fa-angle-left cursor-pointer" title="Go back" style="position: absolute; left: -15px;  font-size: 19px;"  (click)="goBack()"></i>
+            <h6 style="font-size: 16px; font-weight: bold; margin-bottom: 8px">{{ner_id ? "Edit" : "Create" }} Concept</h6>
             <p style="color: #9e9e9e; font-size: 11px">Select from 5 concept types. ‘Single match’ which matches the phrase exactly said; ‘Partial Match’ which matches within a subset of the string;‘Regex’ to parse regular expressions; ‘Database’ for multiple values; ‘With metadata’ for additional accesible data.</p>
         </div>
     </header>
@@ -81,24 +81,29 @@
                 </button>
             </div>
 
-            <!--<button class="mat-theme-button"-->
-                    <!--mat-button-->
-                    <!--style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"-->
-                    <!--(click)="reinitialise()"-->
-                    <!--*myIf="myEAllActions['Create Bot Knowledge base']"-->
-            <!--&gt;-->
-                <!--+ New Concept-->
-            <!--</button>-->
-
             <!--update/create button ends-->
             <div *ngIf="ner_id && routeName===myERouteNames['Get Enterprise Knowledge base']">
-                <div *myIf="myEAllActions['Delete Enterprise Knowledge base']"
-                     (click)="openDeleteModal(deleteTemplate)"><i class="fa fa-trash cursor-pointer" style="color: #e0e0e0"></i></div>
+                <button mat-button
+                        *myIf="myEAllActions['Delete Enterprise Knowledge base']"
+                        class="mat-theme-button"
+                        style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
+                        [disabled]="!form.valid"
+                        (click)="openDeleteModal(deleteTemplate)">
+                    <mat-icon>delete</mat-icon>
+                </button>
             </div>
 
             <div *ngIf="ner_id && routeName!==myERouteNames['Get Enterprise Knowledge base']">
-                <div *myIf="myEAllActions['Delete Bot Knowledge base']"
-                     (click)="openDeleteModal(deleteTemplate)"><i style="color: #474747" class="fa fa-trash cursor-pointer"></i></div>
+                <!--<div *myIf="myEAllActions['Delete Bot Knowledge base']"-->
+                     <!--(click)="openDeleteModal(deleteTemplate)"><i style="color: #474747" class="fa fa-trash cursor-pointer"></i></div>-->
+                <button mat-button
+                        *myIf="myEAllActions['Delete Bot Knowledge base']"
+                        class="mat-theme-button"
+                        style="min-width: 16px!important; padding: 0"
+                        [disabled]="!form.valid"
+                        (click)="openDeleteModal(deleteTemplate)">
+                    <mat-icon>delete</mat-icon>
+                </button>
             </div>
         </form>
     </div>

@@ -11,6 +11,7 @@ import {IBot} from '../../../../interfaces/IBot';
 import {EBotType, UtilityService} from '../../../../../utility.service';
 import {KnowledgeBaseComponent} from '../knowledge-base/knowledge-base.component';
 import {ESplashScreens} from '../../../../../splash-screen/splash-screen.component';
+import {EventService} from '../../../../../event.service';
 
 @Component({
   selector: 'app-knowledge-base-wrapper',
@@ -156,6 +157,10 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
         if (indexToBeDeleted !== -1) { this.custumNerDataForSmartTable.splice(indexToBeDeleted, 1); }
         this.knowledgeBaseComponent.showNerSmartTable();
         this.custumNerDataForSmartTable = [...this.custumNerDataForSmartTable];
+        EventService
+          .createConceptFullScreen$
+          .emit(false);
       });
   }
+
 }
