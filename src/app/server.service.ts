@@ -718,6 +718,7 @@ export class ServerService {
 
 
   compareDeployDates(){
+    console.log("compareDeployDates");
     let lastDeployed_Cache = deploy_obj_botplateform_fe.lastDeploy;
     this.makeGetReq({url:'/static/deploy.json'})
       .subscribe((value:{"currentBranch":string,"lastDeploy":number})=>{
