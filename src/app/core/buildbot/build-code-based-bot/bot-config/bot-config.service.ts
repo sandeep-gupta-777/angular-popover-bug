@@ -46,9 +46,9 @@ export class BotConfigService {
       name: [bot.name, Validators.required],
       bot_unique_name: [bot.bot_unique_name, Validators.required],
       description: [bot.description, Validators.required],
-      logo: [bot.logo, [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
-      first_message: [bot.first_message, Validators.required],
-      error_message: [bot.error_message, Validators.required],
+      logo: [bot.logo || 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
+      first_message: [bot.first_message],
+      error_message: [bot.error_message],
     }, {validator: this.utilityService.isManagerValidator});
 
     return this.basicInfoForm;
@@ -56,26 +56,36 @@ export class BotConfigService {
 
   getDataManagementForm(bot: IBot) {
     return this.formBuilder.group({
-      consent_message: [bot.consent_message],
-      advanced_data_protection: [bot.advanced_data_protection],
-      allow_anonymization: [bot.allow_anonymization],
-      blanket_consent: [bot.blanket_consent],
-      room_persistence_time: [bot.room_persistence_time, Validators.required],
+      // consent_message: [bot.consent_message],
+      // advanced_data_protection: [bot.advanced_data_protection],
+      // allow_anonymization: [bot.allow_anonymization],
+      // blanket_consent: [bot.blanket_consent],
+      room_persistence_time: [bot.room_persistence_time || 240, Validators.required],
       room_close_callback: [bot.room_close_callback],
       allow_feedback: [bot.allow_feedback],
       transactions_per_pricing_unit: [bot.transactions_per_pricing_unit],
       is_manager: [bot.is_manager || false],
-      child_bots: [],
-    });
+      child_bots: [bot.child_bots],
+    },{validator: function checkPasswords(group: FormGroup) { // here we have the 'passwords' group
+      let is_manager = group.controls.is_manager.value;
+      let child_bot_control_val = group.controls.child_bots.value;
+      let child_bots_count = Array.isArray(child_bot_control_val) && child_bot_control_val.length;
+
+      if(is_manager && (!child_bots_count || child_bots_count ===0)){
+        return { "Child bots required": true }
+      }
+
+      return null;
+    } });
   }
 
-  getSecurityForm(bot: IBot) {
+  getSecurityForm(bot: IBot = {}) {
     return this.formBuilder.group({
       data_persistence_period: [bot.data_persistence_period, Validators.required],
-      heading: [bot.heading],
+      // heading: [bot.heading],
       advanced_data_protection: [bot.advanced_data_protection],
-      transactions_per_pricing_unit: [bot.transactions_per_pricing_unit],
-      error_message: [bot.error_message],
+      // transactions_per_pricing_unit: [bot.transactions_per_pricing_unit],
+      // error_message: [bot.error_message],
       consent_message: [bot.consent_message],
       blanket_consent: [bot.blanket_consent],
       allow_anonymization: [bot.allow_anonymization],
