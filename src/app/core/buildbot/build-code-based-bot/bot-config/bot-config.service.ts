@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Select, Store} from '@ngxs/store';
 import {UtilityService} from '../../../../utility.service';
 import {ConstantsService} from '../../../../constants.service';
@@ -63,7 +63,7 @@ export class BotConfigService {
       room_persistence_time: [bot.room_persistence_time || 240, Validators.required],
       room_close_callback: [bot.room_close_callback],
       allow_feedback: [bot.allow_feedback],
-      transactions_per_pricing_unit: [bot.transactions_per_pricing_unit],
+      transactions_per_pricing_unit: [bot.transactions_per_pricing_unit || 30],
       is_manager: [bot.is_manager || false],
       child_bots: [bot.child_bots],
     },{validator: function checkPasswords(group: FormGroup) { // here we have the 'passwords' group
@@ -81,9 +81,9 @@ export class BotConfigService {
 
   getSecurityForm(bot: IBot = {}) {
     return this.formBuilder.group({
-      data_persistence_period: [bot.data_persistence_period, Validators.required],
+      data_persistence_period: [bot.data_persistence_period || 30, Validators.required],
       // heading: [bot.heading],
-      advanced_data_protection: [bot.advanced_data_protection],
+      advanced_data_protection: new FormControl({value: bot.advanced_data_protection}, Validators.required),
       // transactions_per_pricing_unit: [bot.transactions_per_pricing_unit],
       // error_message: [bot.error_message],
       consent_message: [bot.consent_message],

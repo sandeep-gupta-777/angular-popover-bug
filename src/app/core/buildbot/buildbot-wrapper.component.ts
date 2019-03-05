@@ -74,6 +74,13 @@ export class BuildbotWrapperComponent implements OnInit {
     this.dataManagementForm = this.botConfigService.getDataManagementForm(this.bot);
     this.securityForm = this.botConfigService.getSecurityForm(this.bot);
 
+    this.stageValidObj = {
+      0:this.basicInfoForm.valid,
+      1:this.dataManagementForm.valid,
+      2:this.securityForm.valid,
+    };
+
+
     this.basicInfoForm.valueChanges.subscribe(()=>this.stageValidObj[0] = this.basicInfoForm.valid);
     this.dataManagementForm.valueChanges.subscribe(()=>this.stageValidObj[1] = this.dataManagementForm.valid);
     this.securityForm.valueChanges.subscribe(()=>this.stageValidObj[2] = this.securityForm.valid);

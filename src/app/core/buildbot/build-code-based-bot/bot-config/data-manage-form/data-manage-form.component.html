@@ -3,7 +3,7 @@
     <div class="row m-0">
         <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
 
-            <div class="switch-wrapper">
+            <div class="switch-wrapper" style="margin-bottom: 20px">
                 <div class="form-control d-flex flex-column">
                     <label class="pr-2">Room Close Callback <app-info-icon></app-info-icon></label>
 
@@ -15,7 +15,7 @@
                 </div>
             </div>
 
-            <div class="switch-wrapper">
+            <div class="switch-wrapper" style="margin-bottom: 20px">
                 <div class="form-control d-flex flex-column">
                     <label class="pr-2">Allow Feedback <app-info-icon></app-info-icon></label>
 
@@ -43,12 +43,13 @@
         <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
 
             <app-bot-config-input
+                    style="margin-bottom: 20px"
             displayName="Session Close Time [mins]"
             formControlName="room_persistence_time"
             [isRequired]="true"
             placeholder="Session Close Time [mins]"></app-bot-config-input>
 
-            <mat-form-field class="w-100">
+            <mat-form-field class="w-100" style="margin-bottom: 20px">
                 <input matInput formControlName="transactions_per_pricing_unit" type="number" class=""
                        placeholder="Transactions Per Billing Unit">
             </mat-form-field>
@@ -77,13 +78,13 @@
 
         <div class="col-6" style="padding-left: 15px">
             <div class="" *ngIf="!(_bot.bot_type===myEBotType.intelligent)">
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center" style="margin-bottom: 20px">
                     <label class="pr-2 mb-0">Is Manager Bot? <app-info-icon></app-info-icon></label>
                     <mat-slide-toggle formControlName="is_manager" color="primary"></mat-slide-toggle>
 
                 </div>
             </div>
-            <mat-form-field style="width: 100%" *ngIf="formGroup.get('is_manager').value">
+            <mat-form-field style="width: 100%; margin-bottom: 20px" *ngIf="formGroup.get('is_manager').value">
                 <mat-select placeholder="Child Bots"
                             formControlName="child_bots"
                             multiple >

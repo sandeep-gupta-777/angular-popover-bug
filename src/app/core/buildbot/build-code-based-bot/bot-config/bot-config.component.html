@@ -12,7 +12,7 @@
                 <span [ngStyle]="{'color': !basicInfoForm.valid? 'red':'#474747'}">Profile</span>
                 <mat-icon style="color: red;font-size: 100%;" *ngIf="!basicInfoForm.valid" class="example-tab-icon">highlight_off</mat-icon>
             </ng-template>
-            <app-basic-info-form [formGroup]="basicInfoForm"></app-basic-info-form>
+            <app-basic-info-form [botId]="bot?.id" [formGroup]="basicInfoForm"></app-basic-info-form>
         </mat-tab>
         <mat-tab *ngIf="!(bot_type===myEBotType.intelligent)">
             <ng-template mat-tab-label>
