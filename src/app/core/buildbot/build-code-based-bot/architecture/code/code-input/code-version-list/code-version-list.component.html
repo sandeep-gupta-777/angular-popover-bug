@@ -4,7 +4,7 @@
     <!--START :: code version details-->
     <div class="col-7 p-0 pr-1" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
         <div *ngIf="selectedVersion" class="d-flex align-items-center flex-bot-versioning-toaster"
-             style="border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0;">
+             style="border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0;border-right: 1px solid #e0e0e0;">
             <div class="version-active-label" *ngIf="selectedVersion"
                  style="padding:0 13px;"
                  [ngClass]="{'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-label-inactive':selectedVersion?.id !== activeVersion?.id}">
@@ -45,7 +45,7 @@
                *ngIf="bot.store_bot_versions && bot.store_bot_versions.length > 1"
                class="fa py-2 px-3 ml-auto cursor-pointer"
                [ngClass]="{'fa-caret-up':showVersionList, 'fa-caret-down':!showVersionList}"
-               style="height: 100%; border-right: 1px solid #e0e0e0;border-left: 1px solid #e0e0e0;"></i>
+               style="height: 100%; border-left: 1px solid #e0e0e0;"></i>
         </div>
     </div>
     <!--END :: code version details-->
@@ -71,7 +71,7 @@
             </button>
         </ng-container>
 
-        <ng-container *ngIf="selectedVersion">
+        <ng-container *ngIf="selectedVersion && selectedVersion.id !== activeVersion.id">
             <button [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
                     *myIf="myEAllActions['Create Bot Versioning']"
                     (click)="activateVersion$.emit(selectedVersion.id)"
