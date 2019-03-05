@@ -39,9 +39,10 @@
 }
 
 .btn-theme-secondary-outline {
-  @include set-background-focus-hover($color-white);
-  border: 1px solid $color-secondary;
-  color: $color-secondary !important;
+  // @include set-background-focus-hover($color-white);
+  background-color: transparent;
+  border: 1px solid #979797;
+  color: $color-text-normal !important;
 }
 
 .btn-theme-danger-outline {

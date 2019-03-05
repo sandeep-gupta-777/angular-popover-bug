@@ -52,6 +52,7 @@ export class SessionDetailModelComponent implements OnInit {
   codeText;
   totalMessagesCount: number;
   url: string;
+  messageTextSearchLength = 0;
   managerPanelData: {
     'generatedDf': {},
     'generatedMsg': Array<any>, /*bot message*/
@@ -78,7 +79,9 @@ export class SessionDetailModelComponent implements OnInit {
   }
 
   showSpinIcon = false;
-
+channelNameToImg(channel:string){
+  return this.constantsService.getIntegrationIconForChannelName(channel).icon
+}
   updateModal(id){
     this.loadSessionMessagesById(id);
     this.refreshSession$.emit(id);
@@ -242,7 +245,7 @@ export class SessionDetailModelComponent implements OnInit {
   }
 
   scrollToFirstKeywordMatch(messageSearchKeyword) {
-
+debugger;
     this.searchEnterPressedCount = 0;
     this.messageSearchKeyword = messageSearchKeyword = messageSearchKeyword.trim();
     if (messageSearchKeyword === '') { return; }
@@ -297,6 +300,7 @@ export class SessionDetailModelComponent implements OnInit {
 
 
     });
+    this.messageTextSearchLength = elementsDataToScroll.length;
     return elementsDataToScroll[index];
   }
 
