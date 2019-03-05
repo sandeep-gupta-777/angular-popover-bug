@@ -17,6 +17,9 @@ async function f() {
         JSON.stringify({currentBranch,lastDeploy: time}));
     fs.writeFileSync('D:\\nodebook\\DEVELOP\\bot_platform-fe\\src\\assets\\js\\deploy.js',
         `var deploy_obj_botplateform_fe = {"currentBranch":"develop","lastDeploy":${time}};`);
+    console.log("=========XGIT:START===========");
+    console.log(time)
+    console.log("=========XGIT:END===========");
 }
 f();
 
