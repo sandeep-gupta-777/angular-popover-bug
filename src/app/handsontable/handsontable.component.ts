@@ -4,6 +4,8 @@ import {ActivatedRoute} from '@angular/router';
 import {ELogType, LoggingService} from '../logging.service';
 import {EventService} from '../event.service';
 import {UtilityService} from '../utility.service';
+import { skip } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 // import * as Handsontable from 'handsontable';
 declare var Handsontable: any;
 
@@ -32,7 +34,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   @ViewChild('handsontable') hotTableComponentTest: ElementRef;
   @ViewChild('handsontable_search_field') hotTableSearchField: ElementRef;
   hot: any;
-
+  debouncer = new EventEmitter();
   // HandsontableComponent = this;
   @Input() set testData(value) {
     this._data = value;
@@ -75,6 +77,8 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
         }, 200);
       });
     });
+    this.debouncer.pipe(skip(1))
+        .subscribe(() => this.rowChanged$.emit());
   }
 
   setHeightAndWidthofHost() {
@@ -123,6 +127,9 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
         },
         afterCreateRow: () => {
           this.rowChanged$.emit();
+        },
+        afterChange: () => {
+          this.debouncer.next();
         },
         ...this.setting,
 
