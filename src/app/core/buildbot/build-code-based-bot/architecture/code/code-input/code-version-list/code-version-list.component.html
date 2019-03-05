@@ -6,6 +6,7 @@
         <div *ngIf="selectedVersion" class="d-flex align-items-center flex-bot-versioning-toaster"
              style="border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0;">
             <div class="version-active-label" *ngIf="selectedVersion"
+                 style="padding:0 13px;"
                  [ngClass]="{'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-label-inactive':selectedVersion?.id !== activeVersion?.id}">
                 <div>{{selectedVersion.id === (activeVersion && activeVersion.id) ? 'Active' : 'Inactive'}}</div>
             </div>
@@ -42,9 +43,9 @@
             </div>
             <i (click)="showVersionList= !showVersionList"
                *ngIf="bot.store_bot_versions && bot.store_bot_versions.length > 1"
-               class="fa py-2 px-3 ml-auto cursor-pointer bg-label-inactive"
+               class="fa py-2 px-3 ml-auto cursor-pointer"
                [ngClass]="{'fa-caret-up':showVersionList, 'fa-caret-down':!showVersionList}"
-               style="height: 100%"></i>
+               style="height: 100%; border-right: 1px solid #e0e0e0;border-left: 1px solid #e0e0e0;"></i>
         </div>
     </div>
     <!--END :: code version details-->
@@ -80,7 +81,8 @@
             </button>
         </ng-container>
 
-        <button class="mat-theme-button mat-theme-button-border" mat-button
+        <button class="mat-theme-button" mat-button
+                style="min-width: 20px !important;border: none !important;padding-left: 5px;"
                 (click)="downloadAll$.emit()">
             <mat-icon>get_app</mat-icon>
         </button>
