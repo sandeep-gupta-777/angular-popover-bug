@@ -5,6 +5,14 @@
   cursor: pointer;
   width: 100%;
   word-break: break-all;
+  .onParentHover{
+    opacity: 0;
+  }
+  &:hover{
+    .onParentHover{
+      opacity: 1;
+    }
+  }
 }
 
 .reverse-flex-row {
@@ -74,4 +82,24 @@
   }
 }
 
+.humanMessageProfilePic{
+  img{
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
+}
+.botMessageProfilePic{
+  img{
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+  }
+  top: 28px;
+  z-index: 100;
+  position: relative;
 
+}
+.mr-32{
+  margin-right: 32px
+}

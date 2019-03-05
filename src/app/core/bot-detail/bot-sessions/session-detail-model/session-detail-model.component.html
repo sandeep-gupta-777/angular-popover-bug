@@ -9,6 +9,9 @@
     </div> -->
 
 <!-- <<<<<<< HEAD -->
+<div class="session-modal-section__header--img">
+  <img [src]='channelNameToImg(sessionMessageData[0].platform)' >
+</div>
 <div class="session-modal-section__header--item">
     <div class="secondary">Room ID:</div>
     <div class="primary16 ">{{_session.id}}</div>
@@ -64,7 +67,8 @@
 
         <div class="session-modal-section__body--convo">
             <!--search input starts-->
-            <mat-form-field class="ml-3">
+            <div class = "d-flex" style = "align-items: center;">
+              <mat-form-field class="ml-3">
                 <input matInput 
                 [ngModel]="messageSearchKeyword"
                 (ngModelChange)="scrollToFirstKeywordMatch($event)"
@@ -74,6 +78,11 @@
                 placeholder="search">
                 <mat-icon matSuffix style="color : #9e9e9e; font-size: 16px;">search</mat-icon>
               </mat-form-field>
+              <div class ="found-result" *ngIf="messageSearchKeyword">{{searchEnterPressedCount}}/{{messageTextSearchLength}} messages found 
+                <i class ="fa fa-angle-up mx-1" (click)= "goToPreviousSearchResult(messageSearchKeyword)"></i> 
+                <i class ="fa fa-angle-down mx-1" (click) = "goToNextSearchResult(messageSearchKeyword)"></i></div>
+            </div>
+            
             <!-- <div class="search-theme-input-with-search">
                 <input [ngModel]="messageSearchKeyword"
                        (ngModelChange)="scrollToFirstKeywordMatch($event)"
@@ -95,6 +104,7 @@
 'border-unselected-txn':txnConversationItems.transaction_id !== transactionIdSelectedInModel}">
                         <!--<app-chat-feedback></app-chat-feedback>-->
                         <app-session-message [txnConversationItems]="txnConversationItems"
+                                             [bot]="bot"
                                              (messageClickedEvent$)="transactionIdChangedInModel($event)"></app-session-message>
                     </div>
                 </div>

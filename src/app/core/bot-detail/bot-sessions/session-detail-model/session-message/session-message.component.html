@@ -1,18 +1,21 @@
 <section class="session-message-section" [ngClass]="txnId" (click)="messageClickedEvent$.emit(txnId)">
-  <span class="meta-text cursor-pointer pl-1" (click)="utilityService.copyToClipboard(txnId)"
+  <span class="meta-text cursor-pointer pl-1 mb-1 " (click)="utilityService.copyToClipboard(txnId)"
      [innerHtml]="'Txn Id: '+ txnId_highlighting">
 </span>
 
   <div *ngFor="let sessionMessage of sessionMessageItems">
 
     <div *ngIf="sessionMessage && sessionMessage.user_type==='human'">
-      <div class="row my-1">
+      <div class="row mx-1 mt-1">
+        <div class ="humanMessageProfilePic mr-1">
+            <img src="assets/img/humanMessageProfile.svg">
+        </div>
         <div class="col-10 p-0">
           <div class="message p-2 bg-message-human" style="display: inline-block">
             <span class="message-text" [innerHtml]="sessionMessage.messageByHuman|| sessionMessage.message |linkify:'text-white'"></span>
             
           </div>
-          <div class="time">
+          <div class="time my-1">
             {{sessionMessage.created_at|msToHhmm}}, {{sessionMessage.created_at|date:'mediumDate'}}
           </div>
         </div>
@@ -20,18 +23,19 @@
     </div>
 
     <div *ngIf="sessionMessage && sessionMessage.user_type==='bot'">
-      <div *ngIf="myArray.isArray(sessionMessage.message); else messageIsStringNotObjectTemplate">
+      <div *ngIf="myArray.isArray(sessionMessage.message); else messageIsStringNotObjectTemplate" class ="d-flex flex-column">
         <!--TODO:HACK:: sometimes data from backend is not {text:"hi"} but just "hi"-->
-        <div class="row flex-row-reverse" *ngFor="let message of sessionMessage.message">
+        <div class ="botMessageProfilePic mx-1 ml-auto">
+            <img [src]="bot.logo">
+        </div>
+        <div class="row flex-row-reverse mr-32" *ngFor="let message of sessionMessage.message">
           <!--bot text reply starts-->
+          
           <div class="col-10 p-0 pb-1 d-flex flex-column justify-content-end" *ngIf="message.text">
             <div class="message p-2"
                  [ngStyle]="{'background-color': (!sessionMessage.feedback? '#e0e0e0' :(sessionMessage.feedback === myEChatFeedback.POSITIVE) ? '#5cd791' : '#ffc7cd') }"
                  >
               <span class="message-text" [innerHtml]="message.text|linkify:'text-dark'"></span>
-            </div>
-            <div class="time text-right">
-              {{sessionMessage.created_at|msToHhmm}}, {{sessionMessage.created_at|date:'mediumDate'}}
             </div>
           </div>
           <!--bot text reply ends-->
@@ -49,8 +53,10 @@
             *ngIf="message && message.quick_reply">
           </app-quick-reply>
           <!--bot rich media reply ends-->
-
         </div>
+        <div class="time text-right my-1 mr-32">
+            {{sessionMessage.created_at|msToHhmm}}, {{sessionMessage.created_at|date:'mediumDate'}}
+          </div>
       </div>
       <ng-template #messageIsStringNotObjectTemplate>
         <div class="col-12 p-1 text-right p-0">

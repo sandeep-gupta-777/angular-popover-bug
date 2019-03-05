@@ -222,11 +222,15 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
 
   removePipelineItemFromPipelineModal(index: number,aiModuleId: number) {
     debugger;
-    let displayNamePipeline = this.pipelineModulesV2List.find((wrapper)=>{
+    let pipelineModules = this.pipelineModulesV2List
+    let displayNamePipeline = pipelineModules.find((wrapper)=>{
       return !!wrapper.pipeline_modules.find((module)=>{
         return module.id === aiModuleId;
       })
     })
+    // let displayNamePipeline = displayNamePipelineArray.find((pipeline)=>{
+    //   return pipeline.id === aiModuleId;
+    // })
     this.utilityService.openDialog({
       dialogRefWrapper: this.dialogRefWrapper,
       classStr:'danger-modal-header-border',
@@ -245,7 +249,10 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
     })
   }
   removePipelineItemFromPipeline(index: number) {
+    console.log(this.pipeLine)
     this.pipeLine.splice(index, 1);
+    console.log(this.pipeLine)
+
   }
 
   toggleExpandAllModules() {

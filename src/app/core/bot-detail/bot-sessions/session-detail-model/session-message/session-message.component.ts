@@ -4,6 +4,7 @@ import {ITxnSessionMessagesItem} from '../../../../../serialize-session-message.
 import {UtilityService} from '../../../../../utility.service';
 import {LoggingService} from '../../../../../logging.service';
 import {EChatFeedback} from '../../../../../chat/chat-wrapper.component';
+import { IBot } from 'src/app/core/interfaces/IBot';
 
 @Component({
   selector: 'app-session-message',
@@ -19,6 +20,7 @@ export class SessionMessageComponent implements OnInit {
 
     this._txnConversationItems = txnConversationItemsValue;
   }
+  @Input() bot:IBot;
   @Output() messageClickedEvent$: EventEmitter<string> = new EventEmitter();
   myArray = Array;
   sessionMessageItems: ISessionMessageItem[];
