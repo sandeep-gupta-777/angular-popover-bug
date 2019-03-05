@@ -1,7 +1,12 @@
 <section class="session-message-section" [ngClass]="txnId" (click)="messageClickedEvent$.emit(txnId)">
-  <span class="meta-text cursor-pointer pl-1 mb-1 " (click)="utilityService.copyToClipboard(txnId)"
-     [innerHtml]="'Txn Id: '+ txnId_highlighting">
-</span>
+  <div class="d-flex txId-icons pl-1 mb-1 ">
+        <span class="meta-text cursor-pointer mb-2 " (click)="utilityService.copyToClipboard(txnId)"
+        [innerHtml]="'Txn Id: '+ txnId_highlighting">
+   </span>
+      <mat-icon class= "search-error ml-auto" *ngIf="hasError">error_outline</mat-icon>
+      <mat-icon class= "search-agent ml-1" *ngIf="hasAgentHandover">headset_mic</mat-icon>
+  </div>
+ 
 
   <div *ngFor="let sessionMessage of sessionMessageItems">
 
@@ -11,10 +16,14 @@
             <img src="assets/img/humanMessageProfile.svg">
         </div>
         <div class="col-10 p-0">
-          <div class="message p-2 bg-message-human" style="display: inline-block">
-            <span class="message-text" [innerHtml]="sessionMessage.messageByHuman|| sessionMessage.message |linkify:'text-white'"></span>
-            
+          <div class =" flex-row d-inline-flex align-items-center bg-message-human-wrapper">
+              <div class="message p-2 bg-message-human">
+                  <span class="message-text" [innerHtml]="sessionMessage.messageByHuman|| sessionMessage.message |linkify:'text-white'"></span>
+                </div>
+                <div class ="ml-3 onParentHover" style="color: #bebebe">
+                  <mat-icon class="material-icons" style = "font-size:21px"(click) ="copyMessageClicked(sessionMessage.message)">file_copy</mat-icon></div>
           </div>
+          
           <div class="time my-1">
             {{sessionMessage.created_at|msToHhmm}}, {{sessionMessage.created_at|date:'mediumDate'}}
           </div>

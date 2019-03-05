@@ -5,14 +5,6 @@
   cursor: pointer;
   width: 100%;
   word-break: break-all;
-  .onParentHover{
-    opacity: 0;
-  }
-  &:hover{
-    .onParentHover{
-      opacity: 1;
-    }
-  }
 }
 
 .reverse-flex-row {
@@ -23,7 +15,16 @@
 .row {
   margin: 0; /*overriding bootstrap*/
 }
-
+.bg-message-human-wrapper{
+  .onParentHover{
+    opacity: 0;
+  }
+  &:hover{
+    .onParentHover{
+      opacity: 1;
+    }
+  }
+}
 //.bg-message-bot {
 //  background-color: #f7f7f7;
 //  .time, .message-text {
@@ -102,4 +103,15 @@
 }
 .mr-32{
   margin-right: 32px
+}
+.txId-icons{
+  mat-icon{
+    font-size:16px;
+  }
+  .search-error{
+    color: $color-danger;
+  } 
+  .search-agent{
+    color: $color-primary-v2;
+  }
 }

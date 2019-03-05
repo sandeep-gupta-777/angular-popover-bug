@@ -27,15 +27,28 @@ export class SessionMessageComponent implements OnInit {
   txnId: string;
   myObject = Object;
   txnId_highlighting: string;
+  hasError:boolean = false;
+  hasAgentHandover:boolean=false;
   constructor(public utilityService: UtilityService) { }
 
+  copyMessageClicked(dataValue){
+    this.utilityService.copyToClipboard(dataValue);
+  }
   ngOnInit() {
-
+debugger;
     this.sessionMessageItems = this._txnConversationItems.convoList;
     LoggingService.log(this.sessionMessageItems);
 
     this.txnId = this._txnConversationItems.transaction_id;
     this.txnId_highlighting = this._txnConversationItems.transaction_id_highlighting || this.txnId;
+    this.sessionMessageItems.forEach(sessionMessage => {
+      if(sessionMessage.user_type == 'human'){
+        this.hasError = this.hasError || sessionMessage.error;
+      }
+      if(sessionMessage.user_type == 'bot'){
+        this.hasAgentHandover = this.hasAgentHandover || sessionMessage.message_store.sendtoagent
+      }
+    });
     // this.sessionMessageData.user_type;
   }
 
