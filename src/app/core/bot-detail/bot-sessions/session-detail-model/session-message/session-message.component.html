@@ -3,7 +3,8 @@
         <span class="meta-text cursor-pointer mb-2 " (click)="utilityService.copyToClipboard(txnId)"
         [innerHtml]="'Txn Id: '+ txnId_highlighting">
    </span>
-      <mat-icon class= "search-error ml-auto" *ngIf="hasError">error_outline</mat-icon>
+   <span class ="ml-auto"></span> 
+      <mat-icon class= "search-error ml-1" *ngIf="hasError">error_outline</mat-icon>
       <mat-icon class= "search-agent ml-1" *ngIf="hasAgentHandover">headset_mic</mat-icon>
   </div>
  
