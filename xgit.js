@@ -12,8 +12,11 @@ async function f() {
     let currentBranch = await runCommand(`git rev-parse --abbrev-ref HEAD`);
     console.log(currentBranch);
     let lastCommit = await runCommand(`git log -1 -s --format=%ct`);
+    let time = Date.now();
     fs.writeFileSync('D:\\nodebook\\DEVELOP\\bot_platform-fe\\src\\git-info.json',
-        JSON.stringify({currentBranch,lastCommit: Number(lastCommit)*1000}));
+        JSON.stringify({currentBranch,lastDeploy: time}));
+    fs.writeFileSync('D:\\nodebook\\DEVELOP\\bot_platform-fe\\src\\assets\\js\\deploy.js',
+        `var deploy_obj_botplateform_fe = {"currentBranch":"develop","lastDeploy":${time}};`);
 }
 f();
 

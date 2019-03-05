@@ -13,6 +13,7 @@ import {StoreService} from './store.service';
 
 declare var CodeMirror: any;
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -42,6 +43,9 @@ export class AppComponent extends DebugBase implements OnInit {
 
 
   ngOnInit() {
+
+    this.serverService.compareDeployDates();
+
     let storeSnapshot = this.store.snapshot();
     let autoLogoutTime = storeSnapshot.app.autoLogoutTime;
     if(Date.now() > autoLogoutTime){

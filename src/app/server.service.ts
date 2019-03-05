@@ -43,6 +43,7 @@ import {SetEnterpriseInfoAction, SetEnterpriseUsersAction} from './core/enterpri
 
 declare var IMI: any;
 declare var $: any;
+declare let deploy_obj_botplateform_fe;
 
 @Injectable({
   providedIn: 'root'
@@ -716,7 +717,17 @@ export class ServerService {
   }
 
 
-
+  compareDeployDates(){
+    let lastDeployed_Cache = deploy_obj_botplateform_fe.lastDeploy;
+    this.makeGetReq({url:'/deploy.json'})
+      .subscribe((value:{"currentBranch":string,"lastDeploy":number})=>{
+        let lastDeployed_api = value.lastDeploy;
+        debugger;
+        let days = this.utilityService.timeDifference(lastDeployed_api, lastDeployed_Cache);
+        if(lastDeployed_api>lastDeployed_Cache)this.utilityService.showErrorToaster(`your version is ${days} old. 
+        Please hard reload (Ctrl + shit + r). `);
+      })
+  }
 
 
 
