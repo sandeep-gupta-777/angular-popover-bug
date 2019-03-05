@@ -13,17 +13,22 @@ async function f() {
     console.log(currentBranch);
     let lastCommit = await runCommand(`git log -1 -s --format=%ct`);
     let time = Date.now();
+    console.log("=========XGIT:START===========");
+    console.log(`Writing variable time = ${time}`);
+
     try {
-        fs.writeFileSync('src\\deploy.json',
-            JSON.stringify({currentBranch,lastDeploy: time}));
+        fs.writeFileSync('src\\deploy.json', JSON.stringify({currentBranch,lastDeploy: time}));
+
         fs.writeFileSync('src\\assets\\js\\deploy.js',
             `var deploy_obj_botplateform_fe = {"currentBranch":"develop","lastDeploy":${time}};`);
+
+        console.log("deploy.json::",fs.readFileSync('src\\deploy.json').toString());
+        console.log("deploy.js::",fs.readFileSync('src\\assets\\js\\deploy.js').toString());
     }catch (e) {
         console.log(e);
     }
-    console.log("=========XGIT:START===========");
-    console.log(`Writing variable time = ${time}`);
     console.log("=========XGIT:END===========");
+
 }
 f();
 
