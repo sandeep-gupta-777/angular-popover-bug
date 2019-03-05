@@ -25,6 +25,7 @@
             <ng-container *ngIf="bot_type === myEBotType.chatbot">
             <div style="display: flex; align-items: center;">
                 <div class="circle"
+                     [ngStyle]="{'background-color': activeTab===0?'#00abd3':(activeTab>0?'#34bc6e':'#527a9e')}"
                      style="width: 40px; height: 40px; border-radius: 50%; background-color:#00abd3; margin-right: 40px"></div>
                 <div style="color: white">Profile</div>
             </div>
@@ -33,6 +34,7 @@
             <div style="width: 4px;height: 18px;background-color: white; margin-bottom: 14px;margin-left: 18px;border-radius: 2px; margin-right: 20px;"></div>
             <div style="display: flex; align-items: center;">
                 <div class="circle"
+                     [ngStyle]="{'background-color': activeTab===1?'#00abd3':(activeTab>1?'#34bc6e':'#527a9e')}"
                      style="width: 40px; height: 40px; border-radius: 50%; background-color:#527a9e; margin-right: 40px"></div>
                 <div style="color: white">Management</div>
             </div>
@@ -43,7 +45,8 @@
 
             <div style="display: flex; align-items: center;">
                 <div class="circle"
-                     style="width: 40px; height: 40px; border-radius: 50%; background-color:#527a9e; margin-right: 40px"></div>
+                     [ngStyle]="{'background-color': activeTab===2?'#00abd3':(activeTab>2?'#34bc6e':'#527a9e')}"
+                     style="width: 40px; height: 40px; border-radius: 50%; margin-right: 40px"></div>
                 <div style="color: white">Security and privacy</div>
             </div>
             </ng-container>

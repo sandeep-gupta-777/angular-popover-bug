@@ -21,6 +21,7 @@ export class BasicInfoFormComponent implements OnInit {
   _bot: Partial<IBot> = {};
   bot_type;
   formData: Partial<IBot>;
+  @Input() botId:number;
   myEAllActions = EAllActions;
   myEBotType = EBotType;
   @Input() formGroup: FormGroup;
@@ -35,7 +36,16 @@ export class BasicInfoFormComponent implements OnInit {
               public activatedRoute: ActivatedRoute,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if(!this.botId){/*only for new bots*/
+      this.formGroup.get('name').valueChanges.subscribe((value) => {
+        if(value){
+          const uniqueName = value.split('').join("").replace(" ", "");
+          this.formGroup.get('bot_unique_name').patchValue(uniqueName);
+        }
+      });
+    }
+  }
 
   log(formGroup){
     console.log(formGroup);

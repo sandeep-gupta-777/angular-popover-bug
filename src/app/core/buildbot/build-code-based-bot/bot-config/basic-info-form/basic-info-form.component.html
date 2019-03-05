@@ -1,7 +1,7 @@
 <form [formGroup]="formGroup" class="bot-creation-form">
     <div class="row m-0">
         <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
-            <div style="font-size: 11px; margin-bottom: 16px">Basic information</div>
+            <!--<div style="font-size: 11px; margiheight: 55px; */n-bottom: 16px">Basic information</div>-->
             <app-bot-config-input
                 displayName="Bot Name"
                 placeholder="Bot Name"
@@ -20,15 +20,16 @@
                           cdkAutosizeMinRows="1"
                           cdkAutosizeMaxRows="3"
                           formControlName="description"
-                          placeholder="Description"
+                          placeholder="Description*"
                           [disabled]="isDisabled"></textarea>
+                <mat-error>Invalid Input</mat-error>
             </mat-form-field>
 
 
         </fieldset>
         <div class="col-1"></div>
         <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
-            <div style="font-size: 11px; margin-bottom: 10px">Photo</div>
+            <!--<div style="font-size: 11px; margin-bottom: 10px">Photo</div>-->
             <div style="display: flex; align-items: center">
                 <img style="width: 72px; border-radius: 50%; height: 72px; margin-right: 10px"
                      [src]="formGroup.get('logo').value" alt="">
@@ -61,9 +62,9 @@
     </div>
 
     <div class="row" style="margin-top: 45px">
-        <div class="col-12">
-            <div style="font-size: 11px; margin-bottom: 10px">Default messages</div>
-        </div>
+        <!--<div class="col-12">-->
+            <!--<div style="font-size: 11px; margin-bottom: 10px">Default messages</div>-->
+        <!--</div>-->
 
         <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
             <mat-form-field class="w-100">
@@ -72,7 +73,7 @@
                           cdkAutosizeMinRows="1"
                           cdkAutosizeMaxRows="3"
                           placeholder="First Message"></textarea>
-                <mat-error>Invalid Input</mat-error>
+
             </mat-form-field>
         </fieldset>
         <div class="col-1"></div>
@@ -83,7 +84,6 @@
                           cdkAutosizeMinRows="1"
                           cdkAutosizeMaxRows="3"
                           placeholder="Default Platform Error Message "></textarea>
-                <mat-error>Invalid Input</mat-error>
             </mat-form-field>
         </fieldset>
     </div>

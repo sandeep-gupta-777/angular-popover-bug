@@ -59,7 +59,11 @@ ui-switch {
 
 
 :host /deep/ mat-form-field, .form-control{
-  height: 55px;/*Dont change this: this is done to keep height of all 4 components same, when tab is switched*/
+  //height: 55px;/*Dont change this: this is done to keep height of all 4 components same, when tab is switched*/
+  ::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+  }
 }
 
 :host /deep/ {
