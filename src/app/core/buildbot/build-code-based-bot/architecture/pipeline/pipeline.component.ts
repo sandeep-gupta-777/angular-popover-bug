@@ -212,7 +212,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
 
   addPipelineItemToPipeline(pipelineItem: IPipelineItem) {
     console.log('=========>', pipelineItem);
-    debugger;
+
     let pipeLineTemp = this.pipeLine.filter(item => {
       return item.id !== pipelineItem.id
     });
@@ -283,7 +283,9 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   }
 
   updateBot(){
-    EventService.updateBot$.emit();
+    // EventService.updateBot$.emit();
+    let bot:IBot = {pipelines:this.pipeLine, id: this._bot.id};
+    this.serverService.updateBot(bot);
   }
 
 

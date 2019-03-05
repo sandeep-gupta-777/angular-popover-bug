@@ -46,13 +46,15 @@
 
   .header {
     grid-area: h;
-    background-color: $color-primary-v2;
+    background-color: #407ab1;//$color-primary-v2;
     flex-shrink: 0;
     color: white;
     .user {
       height: 32px;
       //width: 32px;
       border-radius: 50%;
+      background-color: $color-primary-v2;
+      //margin-right: 5px;
       // background-color: #0291b2;
       display: flex;
       align-items: center;
@@ -163,10 +165,10 @@ form {
   justify-content: center;
   //width: 32px;
   height: 32px;
-  padding: 5px 10px ;
+  //padding: 5px 10px ;
   cursor: pointer;
   &:hover{
-    background-color: darken($color-primary,10%);
+    //background-color: #244769 ;
   }
 }
 
@@ -183,4 +185,5 @@ form {
 
 mat-icon{
   color: white;
+  font-size: 100%;
 }

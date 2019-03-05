@@ -893,6 +893,9 @@ progressbar {
 .CodeMirror {
   border: 1px solid #eee;
   height: auto;
+  *{
+    font-family: monospace !important;
+  }
   //max-height:250px;
   //max-height: 350px;
 }
@@ -1191,7 +1194,10 @@ mat-dialog-container{
   filter: grayscale(1);
 }
 
-
+.bg-danger-snackbar{
+  background-color: #c50000;
+  color: white !important;
+}
 .mat-theme-button {
   min-height: 32px !important;
   min-width: 46px !important;

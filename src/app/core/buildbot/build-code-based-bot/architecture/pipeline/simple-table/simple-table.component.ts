@@ -12,10 +12,16 @@ export class SimpleTableComponent implements OnInit {
   @Input() tableData: {pipeline_modules:IPipelineItem[]};
   pipeline_modules: IPipelineItem[];
   @Input() set searchKeyword(val){
-    if(!val) return;
+    if(!val) {
+      this.pipeline_modules = this.tableData && this.tableData.pipeline_modules;
+      return;
+    };
     this.pipeline_modules = this.tableData.pipeline_modules.filter((item)=>{
       return item.library.toLowerCase().includes(val.toLowerCase());
-    })
+    });
+    if(this.pipeline_modules.length===0){
+      this.pipeline_modules = this.tableData.pipeline_modules;
+    }
   }
   @Output() openInputParamModalBeforeAdd$ = new EventEmitter();
   @Output() add$ = new EventEmitter();

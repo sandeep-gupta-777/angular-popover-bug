@@ -4,18 +4,20 @@
       <a class="p-0 h4 cursor-pointer" [routerLink]="['/core','reports']" ><i class="fa fa-angle-left pr-2"></i></a>
       <a class="p-0 h4 ">Subscribe to Report</a>
       <button class="btn-theme btn-theme-primary-outline ml-auto mr-3" routerLink="/core/reports">Cancel</button>
-      <button class="btn-theme btn-theme-primary" *ngIf="!report_id" (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Create</button>
+      <button class="btn-theme btn-theme-primary" *ngIf="!report_id"
+              [disabled]="!(myEventService.reportFormIsValid|async)"
+              (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Create</button>
       <button class="btn-theme btn-theme-primary" *ngIf="report_id" (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Update</button>
       <i class="fa fa-trash cursor-pointer" *ngIf="report_id" (click)="showReportDeleteModel()"></i>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-5 pr-5 border-right">
+    <div class="col-12 pr-5 col-md-5">
       <!--<app-report-controls [reportFormData]="reportFormData"></app-report-controls>-->
       <app-report-controls ></app-report-controls>
     </div>
-    <div class="col-7 d-flex">
+    <div class="d-none d-flex col-md-7 border-left">
       <app-report-display class="d-flex" style="width: 100%"></app-report-display>
     </div>
   </div>

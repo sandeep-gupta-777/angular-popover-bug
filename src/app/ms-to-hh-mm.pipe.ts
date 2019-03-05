@@ -17,6 +17,7 @@ export class MsToHhMmPipe implements PipeTransform {
   }
 
   transform(time_ms: any, args?: any): any {
+
     return this.getCurrentTimeInHHMM(time_ms);
   }
 

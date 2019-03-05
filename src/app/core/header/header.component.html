@@ -10,16 +10,17 @@
     <img class="box-logo__image" src="assets/img/dashboard-icon.svg" alt="website logo">
     <span class="header__nav--title">Bot Dashboard</span>
   </a>
-  <a class="header__nav" [routerLink]="'/core/customner/'" routerLinkActive="highlight-text-on-route-match">
+  <a *myIf="[myEAllActions['Get Enterprise Knowledge base']]" class="header__nav" [routerLink]="'/core/customner/'" routerLinkActive="highlight-text-on-route-match">
     <img class="box-logo__image" src="assets/img/knowledge-icon.svg" alt="website logo">
     <span class="header__nav--title">Knowledge</span>
   </a>
-  <a class="header__nav" [routerLink]="['/core','analytics2','overview']"
+
+  <a *myIf="[myEAllActions['Analytics']]" class="header__nav" [routerLink]="['/core','analytics2','overview']"
      routerLinkActive="highlight-text-on-route-match">
     <img class="box-logo__image" src="assets/img/anaytics.svg" alt="website logo">
     <span class="header__nav--title">Analytics</span>
   </a>
-  <a class="header__nav" [routerLink]="'/core/reports'" routerLinkActive="highlight-text-on-route-match">
+  <a *myIf="[myEAllActions['Get Reports']]" class="header__nav" [routerLink]="'/core/reports'" routerLinkActive="highlight-text-on-route-match">
     <img class="box-logo__image" src="assets/img/reports.svg" alt="website logo">
     <span class="header__nav--title">Reports</span>
   </a>
@@ -41,17 +42,24 @@
       </button>
       <mat-menu class="cutom-md-menu" #appMenu="matMenu">
 
-        <a mat-menu-item disabled class="dropdown-item">
+        <a mat-menu-item disabled class="dropdown-item" style="line-height: 20px">
           {{userData.first_name + " " + userData.last_name}}
-          <!--todo: accomodate for email address according to design at this place-->
         </a>
+        <a mat-menu-item disabled class="dropdown-item" style="cursor: default !important; pointer-events: none"
+        [title]="userData.email"
+        >
+          {{userData.email | slice:0:22}}
+          {{userData.email.length>22?"...":''}}
+
+        </a>
+
         <mat-divider *myIf="myEAllActions['Get Enterprise']"></mat-divider>
         <a mat-menu-item class="dropdown-item" [routerLink]="['profile']"
            routerLinkActive="highlight-text-on-route-match">Profile</a>
         <a mat-menu-item class="dropdown-item cursor-pointer" (click)="logout()">Sign out</a>
         <a mat-menu-item class="dropdown-item" (click)=changeEnterprise(changeEnterpriseModal)
            *ngIf="enterpriseList && enterpriseList.length > 1">Switch enterprise</a>
-        <mat-divider *myIf="myEAllActions['Get Enterprise']"></mat-divider>
+        <!--<mat-divider *myIf="myEAllActions['Get Enterprise']"></mat-divider>-->
         <a mat-menu-item class="dropdown-item" *myIf="myEAllActions['Get Enterprise']"
            [routerLink]="['enterpriseprofile']"
            routerLinkActive="highlight-text-on-route-match">Enterprise Profile</a>

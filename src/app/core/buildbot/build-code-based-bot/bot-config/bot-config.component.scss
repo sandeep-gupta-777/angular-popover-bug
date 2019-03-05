@@ -32,7 +32,7 @@ a{//bootstrap override
 
 :host /deep/ {
   mat-tab-header{
-    margin-bottom: 10px;
+    margin-bottom: 16px;
   }
   .mat-tab-label{
     height: 30px;
@@ -40,6 +40,12 @@ a{//bootstrap override
 
   .mat-tab-body-content{
     height:unset!important;
+  }
+
+  .tab-text-danger{
+    .mat-tab-label{
+      color: red !important;
+    }
   }
 }
 

@@ -2,14 +2,20 @@
 
 .bot-detail-grid {
   display: grid;
-  //height: 100vh;
+  min-height: 100vh;
   //border: 1px solid red;
   grid-template-columns: 56px 1fr 100px;
   grid-template-rows: 56px 1fr;
   //grid-gap: 8px;
-  grid-template-areas: 'sidebar header header' 'sidebar architecture architecture';
+  grid-template-areas:
+          '. . .'
+          '. architecture architecture';
 
   .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 56px;
     grid-area: sidebar;
     background-color: white;
     margin: 0;
@@ -61,7 +67,12 @@
   }
 
   .header {
-    grid-area: header;
+    //grid-area: header;
+    position: fixed;
+    width: calc(100vw - 56px);;//56
+    top: 0;
+    left: 56px;
+    z-index: 100;
   }
 
   .config {
@@ -72,6 +83,8 @@
     grid-area: architecture;
     overflow-y: auto;
     padding-right: 56px;
+    display: flex;
+    flex-direction: column;
   }
 }
 

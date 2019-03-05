@@ -54,7 +54,7 @@ export class EnterpriseOverviewComponent  implements OnInit {
     this.logoError = logoErrorObj && Object.keys(logoErrorObj)[0] || null;
   }
   openNewServiceKeyModal() {
-    debugger;
+
     this.utilityService.openDialog({
       dialogRefWrapper: this.dialogRefWrapper,
       classStr:'primary-modal-header-border',
@@ -68,10 +68,10 @@ export class EnterpriseOverviewComponent  implements OnInit {
       dialog: this.matDialog,
       component:ModalConfirmComponent
     }).then((data)=>{
-      debugger;
+
       if(data){
         this.addNewServiceKey(data);
-      } 
+      }
     })
     // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
@@ -353,7 +353,7 @@ export class EnterpriseOverviewComponent  implements OnInit {
       }).then((data)=>{
         if(data){
           this.expireServiceKey();
-        } 
+        }
       })
       // this.utilityService.openDangerModal(expireServiceKeyModal, this.matDialog, this.dialogRefWrapper);
     }

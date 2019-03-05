@@ -1,14 +1,15 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
-import { ICustomNerItem } from '../../../../../../../interfaces/custom-ners';
-import { NgForm } from '@angular/forms';
-import { UtilityService } from '../../../../../../utility.service';
-import { ConstantsService, EAllActions, ERouteNames } from '../../../../../../constants.service';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { HandsontableComponent } from '../../../../../../handsontable/handsontable.component';
-import { ELogType, LoggingService } from '../../../../../../logging.service';
-import { ModalImplementer } from '../../../../../../modal-implementer';
-import { MatDialog } from '@angular/material';
-import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
+import {ICustomNerItem} from '../../../../../../../interfaces/custom-ners';
+import {NgForm} from '@angular/forms';
+import {UtilityService} from '../../../../../../utility.service';
+import {ConstantsService, EAllActions, ERouteNames} from '../../../../../../constants.service';
+import {ActivatedRoute, ParamMap} from '@angular/router';
+import {HandsontableComponent} from '../../../../../../handsontable/handsontable.component';
+import {ELogType, LoggingService} from '../../../../../../logging.service';
+import {ModalImplementer} from '../../../../../../modal-implementer';
+import {MatDialog} from '@angular/material';
+import {EventService} from '../../../../../../event.service';
+import {ModalConfirmComponent} from '../../../../../../modal-confirm/modal-confirm.component';
 
 @Component({
   selector: 'app-knowledge-base-presentation',
@@ -24,7 +25,9 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
   // @ViewChild(HandsontableComponent)handsontableComponent: HandsontableComponent;
   @Input() set selectedRowData(value: ICustomNerItem) {
-    if (!value) { return; }
+    if (!value) {
+      return;
+    }
     this._selectedRowData = value;
 
     this.key = value.key;
@@ -102,7 +105,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
   async openDeleteModal() {
     // this.modalRef = this.modalService.show(template);
-    debugger;
+
     await this.utilityService.openDialog({
       dialogRefWrapper: this.dialogRefWrapper,
       classStr: 'danger-modal-header-border',
@@ -117,7 +120,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       dialog: this.matDialog,
       component: ModalConfirmComponent
     }).then((data) => {
-      debugger;
+
       if (data) {
         this.deleteNer$.emit(this.ner_id);
       }
@@ -153,7 +156,6 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
           this.utilityService.showErrorToaster(`Syntax is not valid. ${this.ner_type} only accespts Array literal`);
           return;
         }
-
 
 
         codeTextFromEditor = JSON.parse(this.codeTextOutPutFromCodeEditor);
@@ -193,6 +195,12 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     return this.handsontableData && this.handsontableData.length > 2;
   }
 
+
+  goBack() {
+    this.showTable$.emit();
+    this._selectedRowData = {};
+    EventService.createConceptFullScreen$.emit(false);
+  }
 
 
 }

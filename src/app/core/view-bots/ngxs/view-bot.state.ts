@@ -45,7 +45,7 @@ export class ViewBotStateReducer {
 
 
     patchState({
-      // codeBasedBotList: payload.botList,
+      // botList: payload.botList,
       allBotList: newBotList
     });
   }
@@ -64,7 +64,7 @@ export class ViewBotStateReducer {
     const state = getState();
     patchState({
       codeBasedBotList: payload.botList,
-      // allBotList: [...(state.codeBasedBotList || []), ...(state.pipelineBasedBotList || []), ...payload.botList]
+      // allBotList: [...(state.botList || []), ...(state.pipelineBasedBotList || []), ...payload.botList]
     });
   }
 
@@ -73,7 +73,7 @@ export class ViewBotStateReducer {
     const state = getState();
     patchState({
       pipelineBasedBotList: payload.botList,
-      // allBotList: [...(state.codeBasedBotList || []), ...(state.pipelineBasedBotList || []), ...payload.botList]
+      // allBotList: [...(state.botList || []), ...(state.pipelineBasedBotList || []), ...payload.botList]
     });
   }
 
@@ -149,7 +149,7 @@ export class ViewBotStateReducer {
   }
 
   static getCodeBased(x) {
-    return x.botlist.codeBasedBotList;
+    return x.botlist.botList;
   }
 
   static getPipelineBased(x) {
@@ -167,8 +167,8 @@ export class ViewBotStateReducer {
   //     if(timePeriod._id === id) return timePeriod
   //   }
   //
-  //   for(let i=0; i< x.botlist.codeBasedBotList.length; ++i){
-  //     let timePeriod = x.botlist.codeBasedBotList[i];
+  //   for(let i=0; i< x.botlist.botList.length; ++i){
+  //     let timePeriod = x.botlist.botList[i];
   //     if(timePeriod._id === id) return timePeriod
   //   }
   // }

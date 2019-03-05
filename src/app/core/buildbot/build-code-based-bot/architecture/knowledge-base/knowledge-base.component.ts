@@ -38,7 +38,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
 
 
     this._custumNerDataForSmartTable = value;
-    setTimeout(()=>{
+    setTimeout(() => {
       this.initializeTableData(value, this.getTableDataMetaDict());
     });
 
@@ -84,6 +84,17 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
 
   initializeTableData(data: any, tableDataMetaDict: any): void {
     this.tableData = this.transformDataForMaterialTable(data, tableDataMetaDict);
+
+    this.tableData = this.tableData.map((row) => {
+      let additonalColumns: any = {};
+      /*Modifying Concept Key column*/
+      additonalColumns['Concept Key'] = row['Concept Key'];
+      additonalColumns['Concept Key'].value = `<strong>${additonalColumns['Concept Key'].value}</strong>`;
+
+      /*TODO: Modifying Last update*/
+
+      return {...row, ...additonalColumns};
+    });
     this.tableData = [...this.tableData];
   }
 
@@ -143,8 +154,8 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
       const handontableDataClone = JSON.parse(JSON.stringify(data.handsontableData));
       const column_headers = handontableDataClone[0];
       let areHeaderElementRepeated = UtilityService.areAllElementsInArrUnique(column_headers);
-      if(!areHeaderElementRepeated){
-        this.utilityService.showErrorToaster("Header values are not valid");
+      if (!areHeaderElementRepeated) {
+        this.utilityService.showErrorToaster('Header values are not valid');
         return;
       }
       handontableDataClone.shift();
@@ -171,13 +182,14 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
         // return obj;
       });
 
+      // console.log("shoaib sadas",handsontableDataSerialized);
       handsontableDataSerialized = handsontableDataSerialized.filter(function (el) {
 
-        return el !=null;
+        return el != null;
       });
 
-      if(!handsontableDataSerialized || handsontableDataSerialized.length===0){
-        this.utilityService.showErrorToaster("There must be atleast two rows in table");
+      if (!handsontableDataSerialized || handsontableDataSerialized.length === 0) {
+        this.utilityService.showErrorToaster('There must be atleast two rows in table');
         return;
       }
       body = {'column_headers': column_headers, values: handsontableDataSerialized, ...body};
@@ -300,7 +312,6 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
 
     EventService.createConceptFullScreen$.emit(true);
     this.selectedRowData = $event.data;
-    console.log(this.selectedRowData);
     this.prepareDataForDetailedViewAndChangeParams(this.selectedRowData);
   }
 
@@ -317,7 +328,9 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
       * column_headers is array which will keep the order of headers written by user
       * Object.keys(selectedRowData.values[0]) => will not keep order since its coming from dictionary
       * */
-      const valueKeys = selectedRowData.column_headers || Object.keys(selectedRowData.values[0]);
+      // const valueKeys = selectedRowData.column_headers || Object.keys(selectedRowData.values[0]);
+      let is_column_headers_valid = Array.isArray(selectedRowData.column_headers) && selectedRowData.column_headers.length > 0;
+      const valueKeys: string[] = is_column_headers_valid ? (selectedRowData.column_headers) : Object.keys(selectedRowData.values[0]);
       this.handontableData = selectedRowData.values.map((value) => {
         return valueKeys.map((valueKey) => {
           return value[valueKey];
@@ -357,7 +370,6 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
 
   log(selectedRowData) {
     console.log(selectedRowData);
-    console.log(this.selectedRowData);
   }
 
   tableData;

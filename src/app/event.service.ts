@@ -17,10 +17,12 @@ export class EventService {
   emitRemoveCodeMirrorHistoryEvent(source: string) {
     this.removeCodeMirrorHistory$.emit(source);
   }
+
   static progressBar$ = new EventEmitter<{loading: boolean, value: number }>();
   static disableSaveButton_codeInput$ = new EventEmitter<boolean>();
   static toggleAllPipeLineModules = new EventEmitter<boolean>();
   static botUpdatedInServer = new EventEmitter<IBot>();
+  static reportFormIsValid = new EventEmitter<Boolean>();
   static unsubscribeInComponent(component){
     for (const key in component) {
       try {

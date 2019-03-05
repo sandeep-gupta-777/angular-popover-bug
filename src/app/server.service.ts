@@ -33,12 +33,13 @@ import {
 import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 import {IProfilePermission} from '../interfaces/profile-action-permission';
 import {EHttpVerbs, PermissionService} from './permission.service';
-import {LoggingService} from './logging.service';
 import {EventService} from './event.service';
 import {IPipelineItemV2} from './core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
 import {IAppState} from './ngxs/app.state';
 import {take} from 'rxjs/internal/operators';
 import {IRoleInfo} from '../interfaces/role-info';
+import {ELogType, LoggingService} from './logging.service';
+import {SetEnterpriseInfoAction, SetEnterpriseUsersAction} from './core/enterpriseprofile/ngxs/enterpriseprofile.action';
 
 declare var IMI: any;
 declare var $: any;
@@ -123,6 +124,7 @@ export class ServerService {
   }
 
   makeGetReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<any> {
+    debugger;
     const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
       console.log(`api access not allowed:${reqObj.url}`);
@@ -297,15 +299,15 @@ export class ServerService {
     const headerData: IHeaderData = {'content-type': 'application/json'};
     return this.makeGetReq<IBotResult>({url, headerData, noValidateUser}).pipe(
       tap((botResult) => {
-        // let codeBasedBotList: IBot[] = [];
+        // let botList: IBot[] = [];
         // let pipelineBasedBotList: IBot[] = [];
 
         // botResult.objects.forEach((bot) => {
-        //   bot.bot_type !== 'genbot' ? codeBasedBotList.push(bot) : pipelineBasedBotList.push(bot);
+        //   bot.bot_type !== 'genbot' ? botList.push(bot) : pipelineBasedBotList.push(bot);
         // });
         this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
         // this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
-        // this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
+        // this.store.dispatch(new SetCodeBasedBotListAction({botList: botList}));
       }));
 
   }
@@ -320,8 +322,10 @@ export class ServerService {
         // this.user_first_name = bot.enterprise_name;
         // this.enterprise_logo = bot.enterprise_logo;
         // this.user_email =bot.enterprise_name;
+        debugger
         this.store.dispatch([
           new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({bot}),
+          // new SetEnterpriseInfoAction({enterpriseInfo:{logo:bot.logo}})
           // new ToggleChatWindow({open:true})
         ]);
       });
@@ -348,7 +352,7 @@ export class ServerService {
     return this.makeGetReq<{ meta: any, objects: IIntegrationMasterListItem[] }>({url}).pipe(
       tap((value) => {
         // this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
-        // this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
+        // this.store.dispatch(new SetCodeBasedBotListAction({botList: botList}));
       }))
       .pipe(map((value) => {
         this.store.dispatch([
@@ -602,13 +606,40 @@ export class ServerService {
 
   getNSetConfigData$() {
 
-    return this.makeGetReq({url: '/static/config.json', noValidateUser: true})
-      .pipe(tap(((value: { 'backend_url': string, 'version': string }) => {
-
+    // return this.makeGetReq({url: '/static/config.json', noValidateUser: true})
+    //   .pipe(tap(((value: { 'backend_url': string, 'version': string }) => {
+    //     this.store.dispatch([
+    //       new SetBackendURlRoot({url: value.backend_url})
+    //     ]);
+    //   })));
+    // debugger;
+    return of(1)
+      .pipe(tap(((value: any) => {
+        console.log("BURL SET")
         this.store.dispatch([
-          new SetBackendURlRoot({url: value.backend_url})
+          new SetBackendURlRoot({url: 'https://dev.imibot.ai/'})
         ]);
       })));
+  }
+
+
+  updateBot(bot:IBot){
+    const url = this.constantsService.updateBotUrl(bot.id);
+    const headerData: IHeaderData = {
+      'bot-access-token': bot.bot_access_token
+    };
+    this.makePutReq({url, body:bot, headerData})
+      .subscribe((updatedBot: IBot) => {
+          EventService.botUpdatedInServer.emit(updatedBot);
+          this.store.dispatch([
+            new UpdateBotInfoByIdInBotInBotList({botId: bot.id, data: updatedBot})
+          ]);
+          this.utilityService.showSuccessToaster('Bot updated');
+        },
+        err  => {
+          EventService.codeValidationErrorOnUpdate$.emit(err.error);
+          console.log("emited this :::::::::::::",err.error);
+        });
   }
 
   currentRoom: IRoomData;

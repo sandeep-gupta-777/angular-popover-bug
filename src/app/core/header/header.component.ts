@@ -72,7 +72,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
 
         this.enterpriseList = value.enterprises;
         // console.log("sadasdasdsad");
-        console.log(this.enterpriseList);
+        // console.log(this.enterpriseList);
       });
 
     /*this.app$Subscription = */this.app$.subscribe((app) => {
@@ -102,7 +102,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
           this.logout();
           // document.location.reload(); /*To destroy all timeouts just in case*/
         }, (autoLogOutTime-Date.now()));
-        console.log(`next logout time is: ${new Date(autoLogOutTime)}. ${(autoLogOutTime-Date.now())/1000} sec from now`);
+        // console.log(`next logout time is: ${new Date(autoLogOutTime)}. ${(autoLogOutTime-Date.now())/1000} sec from now`);
       }
     }
     );
@@ -197,14 +197,14 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
         this.store.dispatch([
           new SetUser({ user: value }),
         ]).subscribe((user) => {
-          const url = this.constantsService.getBotListUrl();
-          const headerData: IHeaderData = { 'content-type': 'application/json' };
-          return this.serverService.makeGetReq<IBotResult>({ url, headerData })
-            .subscribe((botResult) => {
-              this.store.dispatch(new SetAllBotListAction({ botList: botResult.objects }))
-                .subscribe(async () => {
-                this.router.navigate(['/']);;
-                  location.reload();
+          // const url = this.constantsService.getBotListUrl();
+          // const headerData: IHeaderData = { 'content-type': 'application/json' };
+          // return this.serverService.makeGetReq<IBotResult>({ url, headerData })
+          //   .subscribe((botResult) => {
+          //     this.store.dispatch(new SetAllBotListAction({ botList: botResult.objects }))
+          //       .subscribe(async () => {
+                      this.router.navigate(['/']);
+                      location.reload();
                   // const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(Enterprise.enterpriseId);
                   // this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
                   //   .subscribe((value: IEnterpriseProfileInfo) => {
@@ -214,9 +214,9 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
 
                   //     });
                   //   });
-                });
+            //     });
 
-            });
+            // });
 
         })
         // this.gotUserData$.emit(value);

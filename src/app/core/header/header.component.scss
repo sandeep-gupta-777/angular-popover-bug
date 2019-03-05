@@ -1,10 +1,5 @@
 @import '~src/sass/main';
 
-:host {
-  position: sticky;
-  z-index: 1000;
-  top: 0;
-}
 
 header {
   margin-bottom: 16px;
@@ -171,7 +166,12 @@ header {
 
 ::ng-deep{
   button{
-    padding-top: 2px !important;
+    //padding-top: 2px !important;
     font-size: 13px !important;
+  }
+
+  .mat-menu-panel{
+    width: 170px !important;
+    border-radius: 2px !important;
   }
 }

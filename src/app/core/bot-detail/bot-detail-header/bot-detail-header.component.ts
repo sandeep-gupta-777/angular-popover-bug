@@ -95,9 +95,6 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
       this.bot.active_version_id = this.bot.store_selected_version;
     }
     const body:any = this.constantsService.updateBotSerializer(this.bot);
-    if (!body.logo) {
-      body.logo = 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png';
-    }
 
     this.serverService.makePutReq({url, body, headerData})
       .subscribe((updatedBot: IBot) => {
@@ -186,7 +183,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
   }
 
   async openDeleteModal() {
-    debugger;
+
     await this.utilityService.openDialog({
       dialogRefWrapper: this.dialogRefWrapper,
       classStr:'danger-modal-header-border',
@@ -201,10 +198,10 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
       dialog: this.matDialog,
       component:ModalConfirmComponent
     }).then((data)=>{
-      debugger;
+
       if(data){
         this.deleteBot();
-      } 
+      }
     })
     // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }

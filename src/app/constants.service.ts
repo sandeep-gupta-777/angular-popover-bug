@@ -7,6 +7,7 @@ import { IBot } from './core/interfaces/IBot';
 import { IIntegrationOption } from '../interfaces/integration-option';
 import { IAuthState } from './auth/ngxs/auth.state';
 import { ITableColumn } from '../interfaces/sessions';
+import {environment} from '../environments/environment';
 
 declare var Handsontable: any;
 
@@ -164,7 +165,7 @@ export class ConstantsService {
   @Select() app$: Observable<IAppState>;
   @Select() loggeduser$: Observable<{ user: IUser }>;
 
-  public BACKEND_URL;// = environment.url;//'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
+  public BACKEND_URL = environment.backend_root;// = environment.url;//'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
   public BACKEND_URL_LOGIN = `${this.BACKEND_URL}` + 'api/v1/user/login/';
   private BACKEND_URL_ENTERPRISE_USERS = `${this.BACKEND_URL}` + 'users/enterprise/';
   private BACKEND_USER_UPDATE_URL = `${this.BACKEND_URL}` + 'user/'; //https://dev.imibot.ai/user/5a030aa9b050705bd0ca5a45
@@ -358,7 +359,7 @@ export class ConstantsService {
   }
 
   getSessionsMessageUrl(room_id: number) {
-    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}&limit=1000&order_by=-updated_at`; //https://dev.imibot.ai/api/v1/message/?room_id=60
+    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}&limit=1000`; //https://dev.imibot.ai/api/v1/message/?room_id=60
   }
 
   getTotalMessagesUrl() {
@@ -448,7 +449,7 @@ export class ConstantsService {
   }
 
   getBotConsumerByIdUrl(id: number) {
-    return this.BACKEND_URL + `api/v1/consumer/${id}/`; //https://dev.imibot.ai/api/v1/consumer/2320/
+    return this.BACKEND_URL + `api/v1/consumer/?id=${id}`; //https://dev.imibot.ai/api/v1/consumer/2320/
   }
 
   getAllActionsUrl() {
@@ -963,6 +964,16 @@ export class ConstantsService {
       search: true,
       searchValue: true,
     },
+    updated_at: {
+      originalKey: 'updated_at',
+      value: '',
+      type: 'time',
+      displayValue: 'Last Update',
+      search: false,
+      searchValue: true,
+      dateRange: true
+    },
+
 
   };
   SMART_TABLE_SESSION_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
@@ -972,7 +983,7 @@ export class ConstantsService {
       value: '',
       type: 'image',
       displayValue: 'Channels',
-      search: true,
+      search: false,//true,
       searchValue: true,
     },
     id: {
@@ -980,7 +991,7 @@ export class ConstantsService {
       value: '',
       type: 'number',
       displayValue: 'Room Id',
-      search: true,
+      search: false,//true,
       searchValue: true,
     },
     consumer_id: {
@@ -988,7 +999,7 @@ export class ConstantsService {
       value: '',
       type: 'number',
       displayValue: 'Consumer id',
-      search: true,
+      search: false,//true,
       searchValue: true,
     },
     // sendtoagent: {
@@ -1004,7 +1015,7 @@ export class ConstantsService {
       value: '',
       type: 'number',
       displayValue: 'Messages',
-      search: true,
+      search: false,//true,
       searchValue: true,
     },
     updated_at: {
@@ -1012,9 +1023,9 @@ export class ConstantsService {
       value: '',
       type: 'time',
       displayValue: 'Updated At',
-      search: false,
+      search: false,//true,
       searchValue: true,
-      dateRange: true
+      dateRange: false//true
     },
     actions: {
       originalKey: '',
@@ -1263,7 +1274,7 @@ export class ConstantsService {
       type: 'time',
       displayValue: 'Updated At',
       search: false,
-      searchValue: true,
+      searchValue: false,
       dateRange: true
     },
     actions: {
@@ -1274,7 +1285,7 @@ export class ConstantsService {
       custom: true,
       name: '',
       search: false,
-      searchValue: true,
+      searchValue: false,
     },
   };
 

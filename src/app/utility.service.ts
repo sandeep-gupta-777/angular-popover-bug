@@ -22,7 +22,7 @@ import { EBotMessageMediaType, IMessageData } from '../interfaces/chat-session-s
 import { IBotPreviewFirstMessage } from './chat/chat-wrapper.component';
 import { IGeneratedMessageItem } from '../interfaces/send-api-request-payload';
 import { StoreVariableService } from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl } from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl, NgForm} from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { ModalConfirmComponent } from './modal-confirm/modal-confirm.component';
 
@@ -539,9 +539,12 @@ export class UtilityService {
 
   }
 
-  doesStringIncludesSubstring(string, subString) {
+  doesStringIncludesSubstring(string:string, subString:string) {
     try {
-      return !string || !subString ? false : string.includes(subString);
+      if(!string || !subString){
+        throw 'invalid input';
+      }
+      return  string.toLowerCase().includes(subString.toLowerCase())?string:false;
     } catch (e) {
       return false;
     }
@@ -923,7 +926,7 @@ export class UtilityService {
     try {
       this.snackBar.open(message || "Some error occurred", '', {
         duration: (sec * 1000) || 2000,
-        panelClass: ['bg-danger'],
+        panelClass: ['bg-danger-snackbar'],
         verticalPosition: 'top',
         horizontalPosition: 'right'
       });
@@ -993,6 +996,15 @@ export class UtilityService {
     const child_bots = formValue['child_bots'];
     /*if is_manager = true, child_bots should have at least one value*/
     return (!is_manager || is_manager && (child_bots.length > 0)) ? null : { 'isManagerError': true };
+  }
+
+  static getCombinedBotData(forms:(FormGroup|NgForm)[]): IBot{
+    return forms.reduce((aggr, form)=>{
+      return{
+        ...aggr,
+        ...form.value
+      }
+    },{});
   }
 
   pushFormControlItemInFormArray(formArray: FormArray, formBuilder: FormBuilder, item: any) {
@@ -1078,6 +1090,22 @@ export class UtilityService {
     // columns = { name: '姓名', score: '分数' };
 
     downloadCsv(data, columns);
+  }
+
+  /**
+   * highlightText: case insensitive highlights
+   * @param string: text to be highlighted
+   * @param keyword keyword
+   */
+  static highlightText(string:string, keyword:string){
+    if(!string || !keyword){
+      return string;
+    }
+    /*
+    * Example usage of $1 to get capturing group
+    * "HELLO".replace(/(hell)o/i,`$1sdasdadas`);
+    * */
+    return string.replace(new RegExp(`(${keyword})`, "ig"),`<span class="text-highlight">$1</span>`);
   }
 
   areAllAvatorValesDefined(headerObj: object) {
@@ -1273,7 +1301,7 @@ export class UtilityService {
   }
 
   openCloseWithoutSavingModal(dialogRefWrapper,matDialog) {
-    debugger;
+
     return this.openDialog({
       dialogRefWrapper: dialogRefWrapper,
       classStr:'danger-modal-header-border',

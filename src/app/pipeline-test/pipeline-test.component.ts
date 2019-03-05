@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {LoggingService} from '../logging.service';
 
 @Component({
   selector: 'app-pipeline-test',
@@ -6,6 +7,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./pipeline-test.component.scss']
 })
 export class PipelineTestComponent implements OnInit {
+  constructor() {}
 
   ngOnInit() {
   }

@@ -35,7 +35,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   dialogRefWrapper = {ref: null};
 
   myESplashScreens = ESplashScreens;
-  @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
+  @Select(state => state.botlist.botList) codeBasedBotList$: Observable<IBot[]>;
   @Input() id: string;
   test = 'asdasdsd';
   @Input() bot: IBot;
@@ -60,7 +60,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   filterData: ISessionFilterData;
   @Select() app$: Observable<IAppState>;
 
-  masterIntegrationList: IIntegrationMasterListItem[];
+  channels: IIntegrationMasterListItem[];
 
   constructor(
     private serverService: ServerService,
@@ -77,7 +77,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
     this.app$
       .subscribe((appState) => {
-        this.masterIntegrationList = appState.masterIntegrationList;
+        this.channels = appState.masterIntegrationList.filter(e=>e.integration_type==='channels');
       });
 
     this.headerData = {'bot-access-token': this.bot.bot_access_token};
@@ -396,12 +396,10 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         let sessionItem = val.objects[0];
         let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id});
         this.sessions[index] = sessionItem;
-        ;
         this.selectedRow_Session = sessionItem;
         this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
         this.tableData = [...this.tableData];
       });
-    //
   }
 
   performSearchInDbForSession(filterData: ISessionFilterData) {
@@ -449,6 +447,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     } else {
       url = this.constantsService.getRoomWithFilters({limit: 10});
     }
+    url = url.toLowerCase();//todo: this should be handled by backend;
     this.serverService.makeGetReq({url, headerData: this.headerData})
       .subscribe((value: { objects: ISessionItem[], meta: { total_count: number } }) => {
 

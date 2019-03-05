@@ -61,6 +61,7 @@ import {BuildbotWrapperComponent} from './core/buildbot/buildbot-wrapper.compone
 import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
 import {RequiredIfOneFilledValidator} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/requiredIfOneFilledValidator.directive';
 import {InfoIconComponent} from './info-icon/info-icon.component';
+import {ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -158,6 +159,7 @@ import {InfoIconComponent} from './info-icon/info-icon.component';
     KnowledgeBaseComponent, //
     KnowledgeBasePresentationComponent,
     ChartComponent,
+    MsToHhMmPipe,
     HandsontableComponent,
     HighlightSessionTexts,
     FilterActiveBotPipe,

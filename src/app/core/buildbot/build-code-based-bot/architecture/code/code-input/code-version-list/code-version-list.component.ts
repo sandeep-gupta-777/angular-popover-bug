@@ -23,7 +23,6 @@ export class CodeVersionListComponent implements OnInit {
 
   ngOnInit() {
     EventService.disableSaveButton_codeInput$.subscribe((disableSave)=>{
-
       this.disableSave = disableSave;
     });
   }

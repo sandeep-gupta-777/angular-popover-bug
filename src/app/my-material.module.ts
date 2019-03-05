@@ -68,6 +68,7 @@ const materialModules = [
   MatSlideToggleModule,
   MatSnackBarModule,
   MatTableModule,
+  MatPaginatorModule,
   MatTabsModule,
 
   SatNativeDateModule,
@@ -87,7 +88,7 @@ const materialDeclarations = [
   ModalWrapperComponent,
   GentemplateEditKeyComponent,
 
-]
+];
 
 @NgModule({
   declarations:materialDeclarations,

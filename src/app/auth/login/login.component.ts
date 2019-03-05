@@ -107,9 +107,9 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
 
     /*TODO: remove it: we are doing in app.component.ts as well*/
     /*keep login button disabled till response comes*/
-    this.serverService.getNSetConfigData$().subscribe(
-      () => this.isConfigDataSet = true,
-      () => this.isConfigDataSet = true);
+    // this.serverService.getNSetConfigData$().subscribe(
+    //   () => this.isConfigDataSet = true,
+    //   () => this.isConfigDataSet = true);
 
     this.gotUserData$.pipe(
       map((value: IUser) => {

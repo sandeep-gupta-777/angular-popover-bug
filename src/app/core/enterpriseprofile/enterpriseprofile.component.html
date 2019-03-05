@@ -18,8 +18,8 @@
       (enterNewRole) = "isNewRole = true; currentRoleState = myEnterpriseRoleTabName.newRole "
       (roleListChanged) = "roleListChangedFunction()"
       ></app-enterprise-roles>
-
-      <app-roles *ngIf="currentRoleState == myEnterpriseRoleTabName.modifyRole || currentRoleState == myEnterpriseRoleTabName.newRole" 
+      <div></div>
+      <app-roles *ngIf="(currentRoleState == myEnterpriseRoleTabName.modifyRole || currentRoleState == myEnterpriseRoleTabName.newRole)" 
       [selectedRole] = "currentRoleId"
       (backToRoles) = "currentRoleState =  myEnterpriseRoleTabName.roles"
       [isNewRole] = "isNewRole"
