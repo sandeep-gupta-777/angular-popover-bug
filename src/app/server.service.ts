@@ -718,12 +718,11 @@ export class ServerService {
 
 
   compareDeployDates(){
-    console.log("compareDeployDates");
     let lastDeployed_Cache = deploy_obj_botplateform_fe.lastDeploy;
     this.makeGetReq({url:'/static/deploy.json'})
       .subscribe((value:{"currentBranch":string,"lastDeploy":number})=>{
         let lastDeployed_api = value.lastDeploy;
-        debugger;
+        console.log(`compareDeployDates::lastDeployed_api=${lastDeployed_api}, lastDeployed_api=${lastDeployed_api}`);
         let days = this.utilityService.timeDifference(lastDeployed_api, lastDeployed_Cache);
         if(lastDeployed_api>lastDeployed_Cache)this.utilityService.showErrorToaster(`your version is ${days} old. 
         Please hard reload (Ctrl + shit + r). `);
