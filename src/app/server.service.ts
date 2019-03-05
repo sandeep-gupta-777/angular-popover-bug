@@ -615,6 +615,7 @@ export class ServerService {
     //
     return of(1)
       .pipe(tap(((value: any) => {
+        console.log("BURL SET")
         this.store.dispatch([
           new SetBackendURlRoot({url: 'https://dev.imibot.ai/'})
         ]);

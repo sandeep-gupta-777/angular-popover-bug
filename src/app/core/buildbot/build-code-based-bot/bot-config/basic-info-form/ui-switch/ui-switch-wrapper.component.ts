@@ -34,7 +34,6 @@ export class UiSwitchWrapperComponent implements OnInit, ControlValueAccessor {
   }
 
   writeValue(isSwitchOn: boolean): void {
-
     this.isSwitchOn = !!isSwitchOn;
   }
 
@@ -42,7 +41,6 @@ export class UiSwitchWrapperComponent implements OnInit, ControlValueAccessor {
   }
 
   registerOnChange(fn: any): void {
-    //
     this.onChanges = fn;
   }
 

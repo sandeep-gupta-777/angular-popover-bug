@@ -61,12 +61,6 @@ export class BotConfigComponent implements OnInit {
     this.dataManagementForm = this.botConfigService.getDataManagementForm(this.bot);
     this.securityForm = this.botConfigService.getSecurityForm(this.bot);
 
-    this.basicInfoForm.get('name').valueChanges.subscribe((value) => {
-      if (this.bot.id) return;
-      const uniqueName = value.split('').join();
-      this.basicInfoForm.get('name').patchValue(uniqueName);
-    });
-
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('config') || 'basic';
     this.bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type') || this.activatedRoute.snapshot.data['bot_type'];
     this.id = this.activatedRoute.snapshot.queryParamMap.get('id');

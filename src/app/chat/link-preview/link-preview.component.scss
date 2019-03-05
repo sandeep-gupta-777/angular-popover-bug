@@ -39,7 +39,7 @@
 }
 
 .bg-message-human {
-  background-color: $color-primary;
+  background-color: $color-primary-v2;
 
   * {
     color: white !important;
@@ -47,7 +47,7 @@
 }
 
 .bg-message-bot {
-  background-color: #f7f7f7;
+  background-color: #e0e0e0;
 
   * {
     color: #474747 !important;

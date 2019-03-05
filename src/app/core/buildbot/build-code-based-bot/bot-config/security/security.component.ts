@@ -18,7 +18,7 @@ import {PermissionService} from '../../../../../permission.service';
                              placeholder="Data retention period((in days)">
                   </mat-form-field>
 
-                  <div class="switch-wrapper">
+                  <div class="switch-wrapper" style="margin-bottom: 20px">
                       <div class="form-control d-flex flex-column">
                           <label class="pr-2">Advanced Data Protection <app-info-icon></app-info-icon></label>
                           <app-ui-switch
@@ -29,6 +29,7 @@ import {PermissionService} from '../../../../../permission.service';
                   </div>
 
                   <app-bot-config-input
+                          style="margin-bottom: 20px"
                           displayName="Consent disclaimer message"
                           placeholder="Consent disclaimer message"
                           [isDisabled]="!formGroup.get('advanced_data_protection').value"
@@ -37,7 +38,7 @@ import {PermissionService} from '../../../../../permission.service';
               </fieldset>
               <div class="col-1"></div>
               <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
-                  <div class="switch-wrapper">
+                  <div class="switch-wrapper" style="margin-bottom: 20px">
                       <div class="form-control d-flex flex-column">
                           <label class="pr-2">Allow anonymization <app-info-icon></app-info-icon></label>
                           <app-ui-switch
@@ -47,7 +48,7 @@ import {PermissionService} from '../../../../../permission.service';
                       </div>
                   </div>
 
-                  <div class="switch-wrapper">
+                  <div class="switch-wrapper" *ngIf="formGroup.get('advanced_data_protection').value">
                       <div class="form-control d-flex flex-column">
                           <label class="pr-2">Blanket consent for all consumers</label>
                           <app-ui-switch

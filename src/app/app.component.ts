@@ -49,13 +49,13 @@ export class AppComponent extends DebugBase implements OnInit {
       this.storeService.logout();
       location.reload();
     }
-    /**
-     * This is required here because if we set backend url in login page then anonymour chat page will be left out
-     * */
-    if(!isDevMode()){
-      this.serverService.getNSetConfigData$().subscribe(() => {
-      });
-    }
+    // /**
+    //  * This is required here because if we set backend url in login page then anonymour chat page will be left out
+    //  * */
+    // if(!isDevMode()){
+    //   this.serverService.getNSetConfigData$().subscribe(() => {
+    //   });
+    // }
 
     this.initializeProgressBarSubscription();
 

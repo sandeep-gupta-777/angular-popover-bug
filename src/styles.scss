@@ -175,7 +175,7 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 }
 
 .tab-active {
-  border-bottom: 2px solid $color-primary !important;
+  border-bottom: 1px solid $color-primary !important;
   background-color: transparent; //important is required to override bootstrap active
   .nav-link {
     font-weight: 700;
@@ -864,7 +864,7 @@ progressbar {
 
 .modal-xlg {
   max-width: 1000px;
-  width: 70vw;
+  width: 80vw;
   .mat-dialog-container{
     padding: 0;
     border-radius: 4px;
@@ -1002,14 +1002,14 @@ progressbar {
 }
 
 .bg-message-bot {
-  background-color: #f7f7f7;
+  background-color: #e0e0e0;
   .time, .message-text {
     color: #474747 !important;
   }
 }
 
 .bg-message-human {
-  background-color: $color-primary;
+  background-color: $color-primary-v2;
   .time, .message-text {
     color: white !important;
   }
