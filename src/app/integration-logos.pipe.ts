@@ -54,10 +54,16 @@ export class IntegrationLogosPipe implements PipeTransform {
         const arr = Object.keys(integrations).map((key) => {
           const x =  integrationsMasterList.find((integrationsMasterListItem) => {
             // LoggingService.log(integrationsMasterListItem.unique_name.toUpperCase(), key.toUpperCase());
-            return integrationsMasterListItem.unique_name.toUpperCase() === key.toUpperCase();
-          });
+            return (integrationsMasterListItem.unique_name.toUpperCase() === key.toUpperCase()||
+              integrationsMasterListItem.key.toUpperCase() === key.toUpperCase()
+            )
+          });;
           return x;
         });
+        debugger;
+        if(!arr){
+          debugger;
+        }
         return arr;
       } catch (e) {
         LoggingService.error(e);

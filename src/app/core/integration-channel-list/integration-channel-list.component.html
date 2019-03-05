@@ -10,7 +10,7 @@
 <img
         *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'no_channel'|async)); let i = index"
         [src]="integrationsMasterListItem?.icon"
-        [ngStyle]="{'zIndex ':i}"
         [matTooltip]="integrationsMasterListItem && integrationsMasterListItem.key"
         (click)="test(integrationsMasterListItem.key)"
         class="logo-image no-channel-integrations" alt="">
+<!--<i>{{(bot.integrations|integrationLogos:'no_channel'|async)|json}}</i>-->
