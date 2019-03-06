@@ -97,6 +97,8 @@ export class PermissionService {
     '/api/v1/room/',
     '/api/v1/role/',
     '/static/config.json',
+    '/static/deploy.json',
+    '/deploy.json',
   ];
 
   constructor() {

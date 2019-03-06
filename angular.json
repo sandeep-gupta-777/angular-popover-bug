@@ -27,7 +27,9 @@
               "src/assets",
               "src/manifest.json",
               "src/git-info.json",
-              "src/config.json"
+              "src/config.json",
+              "src/deploy.json",
+              "src/config.js"
             ],
             "styles": [
               "src/styles.scss",

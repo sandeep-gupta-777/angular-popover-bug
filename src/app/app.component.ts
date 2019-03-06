@@ -13,6 +13,7 @@ import {StoreService} from './store.service';
 
 declare var CodeMirror: any;
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -42,6 +43,11 @@ export class AppComponent extends DebugBase implements OnInit {
 
 
   ngOnInit() {
+
+    console.log("app.component.ts");
+
+    this.serverService.compareDeployDates();
+
     let storeSnapshot = this.store.snapshot();
     let autoLogoutTime = storeSnapshot.app.autoLogoutTime;
     if(Date.now() > autoLogoutTime){
@@ -49,6 +55,7 @@ export class AppComponent extends DebugBase implements OnInit {
       this.storeService.logout();
       location.reload();
     }
+
     // /**
     //  * This is required here because if we set backend url in login page then anonymour chat page will be left out
     //  * */
