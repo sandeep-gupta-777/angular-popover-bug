@@ -1,1 +1,1 @@
-{"currentBranch":"develop","lastCommit":"commit 36905d5199fdee8ecf2b1b70931ecf241ee40c27\nAuthor: Sandeep Kumar Gupta <sandeepkumar.g@imimobile.com>\nDate:   Mon Mar 4 14:26:45 2019 +0530\n\n    feature: angular.json: different build scripts for each environment"}
+{"currentBranch":"feature#BOT-888#Frontend-New-UI-Sessions","lastCommit":"commit 6a38578331dc10fba62e812b87a86a3987cbf23c\nAuthor: Sandeep Kumar Gupta <sandeepkumar.g@imimobile.com>\nDate:   Mon Mar 4 00:58:49 2019 +0530\n\n    feature: session reimplemented according to design doc"}

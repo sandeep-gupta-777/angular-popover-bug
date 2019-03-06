@@ -1027,11 +1027,11 @@ export class ConstantsService {
       searchValue: true,
       dateRange: false//true
     },
-    actions: {
+    room_metadata: {
       originalKey: '',
       value: undefined,
       type: 'icon',
-      displayValue: 'Actions',
+      displayValue: 'Room Metadata',
       custom: true,
       name: '',
       search: false,

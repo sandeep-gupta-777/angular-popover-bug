@@ -30,7 +30,7 @@ export class HighlightSessionTexts implements PipeTransform {
   }
 
   highlightMatchedTextInSessionMessageItem(sessionMessageItem: ISessionMessageItem, messageSearchKeyword: string): ISessionMessageItem {
-    debugger;
+
     if (this.utilityService.doesStringIncludesSubstring(sessionMessageItem.message, messageSearchKeyword)) {
       // sessionMessageItem.messageByHuman = sessionMessageItem.message.replace(messageSearchKeyword, `<span class="text-highlight">${messageSearchKeyword}</span>`);
       sessionMessageItem.messageByHuman = UtilityService.highlightText(sessionMessageItem.message,messageSearchKeyword);
