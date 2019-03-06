@@ -447,35 +447,47 @@ export class UtilityService {
 
     // let regex = /e?l?if.+?:/g;
     // let regex = /e?l?s?e?if\s?.+?:/g;
-    const regex = /e?l?s?e?if[\s]*?\(\s?.+?:/g;
-
+    // const regex = /e?l?s?e?if[\s]*?\(\s?.+?:/g;
+    // simple
+    // const regex = /(e?l?if([\s]*?.+)==[\s]*?.+|else):/g;
+    // including line breakes
+    const regex = /(e?l?if[\s]*?.+==[\s]*?(.+)|else):(\n+)/g;
     let match = regex.exec(str);
 
     const templateKeys = [];
     while (match) {
-      let templateKey, matchedStr = match[0];
-      const matchedStrSplitArr = matchedStr.split('==');
-      if (matchedStrSplitArr[0].includes('variables')) {
-        templateKey = matchedStrSplitArr[1].replace(')', '').replace(':', '').trim();
-      } else {
-        templateKey = matchedStrSplitArr[0].replace(')', '').replace(':', '').trim();
+      debugger;
+      let templateKey;
+      if(match[2]){
+        templateKey = match[2].replace(/\)/g, '',).replace(/\'/g, '').trim();
       }
-      templateKeys.push(eval(templateKey));
+      else{
+        templateKey = match[1].replace(/\)/g, '',).replace(/\'/g, '').trim();
+      }
+      // let templateKey, matchedStr = match[0];
+      // const matchedStrSplitArr = matchedStr.split('==');
+      // if (matchedStrSplitArr[0].includes('variables')) {
+      //   templateKey = matchedStrSplitArr[1].replace(')', '').replace(':', '').trim();
+      // } else {
+      //   templateKey = matchedStrSplitArr[0].replace(')', '').replace(':', '').trim();
+      // }
+      templateKeys.push(templateKey);
       match = regex.exec(str);
     }
     return templateKeys;
   }
 
   createOutputArr(generation_templates) {
-    const str = generation_templates + 'elif'; // TODO: adding elif is a hack
+    const str = generation_templates; // TODO: adding elif is a hack
 
     // let regex = /output\s=\s([\s\S]*?)\selif/g;
     // let regex = /output[\s\S]*?]$/gm;
     //   let regex = /output\s=([\s\S]*?])$/gm;
     //   let regex = /output[\s]*=[\s]*([\s\S]*?[\s\S]$)/gm;//https://regex101.com/r/moAq3A/1/
     // let regex = /output[\s]*=([\s]*\[.*?\].*?\n|[\s\S]*?[\s\S]$)/gms;//https://regex101.com/r/WXGF5J/4
-    const regex = /output[\s]*?=[\s]*?([\s\S]*?)els?e?if/gm;
-
+    // const regex = /output[\s]*?=[\s]*?([\s\S]*?)els?e?if/gm;
+// more restricted with form of output and \n before output
+    let regex = /[\n].+output[\s]*?=[\s]*?(\[({.*})*\])/gm;
     let match = regex.exec(str);
 
     const outputsKeys = [];
@@ -518,9 +530,13 @@ export class UtilityService {
       Object.keys(uiDictionary).forEach((templateKey, index) => {
         // let templateKey = Object.keys(templateKeys);
         let elIfStr = '';
-        if (index === 0) {
+        if (index === 0 && templateKey != 'else') {
           elIfStr = `if(variables['templateKey'] == '${templateKey}'):\n`;
-        } else {
+        }
+        else if(index != 0 && templateKey == 'else'){
+          elIfStr = `\nelse:\n`;
+        }
+         else {
           elIfStr = `\nelif(variables['templateKey'] == '${templateKey}'):\n`;
         }
         const outputValues = uiDictionary[templateKey];

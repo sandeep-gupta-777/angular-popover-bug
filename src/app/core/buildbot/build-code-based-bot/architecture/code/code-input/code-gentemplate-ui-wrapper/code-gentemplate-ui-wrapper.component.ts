@@ -81,6 +81,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     try {
       this.templateKeyDictClone = this.utilityService.createDeepClone(this.templateKeyDict);
       this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
+      debugger;
       this.channelSelectorForm.form.patchValue({name: 'all'});
       this.channelNameList = this.channelList.map((channel) => {
         return channel.name;
@@ -276,6 +277,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     const isTemplateKeyUnique = !Object.keys(this.templateKeyDict).find((key) => key === this.newTemplateKey);
     if (!isTemplateKeyUnique || !this.newTemplateKey) {
       this.templateKeyCreationError = 'This template key already exists';
+      this.utilityService.showErrorToaster(this.templateKeyCreationError);
       return;
     }
     this.templateKeyCreationError = '';
@@ -309,9 +311,11 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     let doesNewKeyAlreadyExistsInTemplateKeyDict = Object.keys(this.templateKeyDict).find(key => new_key === key);
     if (doesNewKeyAlreadyExistsInTemplateKeyDict) {
       this.templateKeyCreationError = 'Template Key name already exists';
+      this.utilityService.showErrorToaster(this.templateKeyCreationError);
       return;
     } else if (!new_key.trim()) {
       this.templateKeyCreationError = 'Template Key can\'t be empty';
+      this.utilityService.showErrorToaster(this.templateKeyCreationError);
       return;
     }
     this.utilityService.renameKeyInObject(this.templateKeyDict, old_key, new_key);
@@ -346,21 +350,34 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   //   this.modalRefWrapper = this.modalService.show(EditTemplateKeyModal);
   // }
 
-  async openNewIntentModal(IntentModal) {
+  async openNewIntentModal() {
     let dialogRefWrapper = this.modalRefWrapper;
-    let dataPromise$ = this.utilityService.openDialog({
-      dialog: this.matDialog,
-      component: IntentModal,
-      data: null,
-      dialogRefWrapper,
-      classStr: 'primary-modal-header-border'
-    });
-
-    let data = await dataPromise$;
-
-    if (data) {
-      // this.editTemplateKey({old_key:tempKey, new_key:data});
-    }
+      // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+      this.utilityService.openDialog({
+        dialogRefWrapper: dialogRefWrapper,
+        classStr:'primary-modal-header-border',
+        data:{
+          actionButtonText:`Create`,
+          message: null,
+          title:`Create new template key`,
+          isActionButtonDanger:false,
+          inputDescription: "Template key name"
+        },
+        dialog: this.matDialog,
+        component:ModalConfirmComponent
+      }).then((data)=>{
+        if(data){
+          this.newTemplateKey = data;
+          this.createNewTemplatekey();
+        }
+      })
+  
+      // this.utilityService.openDialog({
+      //   component: template,
+      //   dialog: this.matDialog,
+      //   classStr: 'primary-modal-header-border',
+      //   dialogRefWrapper: this.dialogRefWrapper
+      // });
   }
 
   async openEditTemplateKeyModal(tempKey) {
