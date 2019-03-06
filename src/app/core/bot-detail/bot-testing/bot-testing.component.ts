@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, EventEmitter } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { ServerService } from '../../../server.service';
 import {ConstantsService, EAllActions} from '../../../constants.service';
@@ -11,6 +11,7 @@ import {LoggingService} from '../../../logging.service';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 import {ModalImplementer} from '../../../modal-implementer';
 import {MatDialog} from '@angular/material';
+import { skip } from 'rxjs/operators';
 
 @Component({
   selector: 'app-bot-testing',
@@ -91,6 +92,16 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
       });
     this.handontable_colHeaders = this.constantsService.HANDSON_TABLE_BOT_TESTING_colHeaders;
     this.handontable_column = this.constantsService.HANDSON_TABLE_BOT_TESTING_columns;
+  }
+  afterTabledataChange(data){
+    debugger;
+    if(data){
+      let didEditedableItemsChange = data.find((val)=>{return val[1]<=1} )
+      debugger;
+      if(didEditedableItemsChange){
+        this.tableChanged = true
+      }
+    }
   }
   onTableChange() {
     this.tableChanged = true;

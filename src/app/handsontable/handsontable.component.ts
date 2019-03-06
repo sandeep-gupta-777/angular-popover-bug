@@ -31,10 +31,10 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   @Input() setting = {};
   @Output() rowChanged$ = new EventEmitter();
   @Output() csvUploaded$ = new EventEmitter();
+  @Output() afterTabledataChange$ = new EventEmitter();
   @ViewChild('handsontable') hotTableComponentTest: ElementRef;
   @ViewChild('handsontable_search_field') hotTableSearchField: ElementRef;
   hot: any;
-  debouncer = new EventEmitter();
   // HandsontableComponent = this;
   @Input() set testData(value) {
     this._data = value;
@@ -77,8 +77,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
         }, 200);
       });
     });
-    this.debouncer.pipe(skip(1))
-        .subscribe(() => this.rowChanged$.emit());
+    
   }
 
   setHeightAndWidthofHost() {
@@ -128,8 +127,13 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
         afterCreateRow: () => {
           this.rowChanged$.emit();
         },
-        afterChange: () => {
-          this.debouncer.next();
+        afterChange: (data) => {
+          debugger;
+          this.afterTabledataChange$.emit(data);
+          // data of form [[row, prop, oldValue, newValue]]
+          // if(data && data[1] <= 1 ){
+          //   this.debouncer.next();
+          // }
         },
         ...this.setting,
 
