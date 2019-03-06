@@ -45,8 +45,9 @@
         <a mat-menu-item disabled class="dropdown-item" style="line-height: 20px">
           {{userData.first_name + " " + userData.last_name}}
         </a>
-        <a mat-menu-item disabled class="dropdown-item" style="cursor: default !important; pointer-events: none"
-        [title]="userData.email"
+        <a mat-menu-item disabled class="dropdown-item" style="cursor: pointer !important; background-color: white !important;"
+        [matTooltip]="userData.email"
+           [matTooltipPosition]="'left'"
         >
           {{userData.email | slice:0:22}}
           {{userData.email.length>22?"...":''}}
