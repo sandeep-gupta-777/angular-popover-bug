@@ -83,7 +83,7 @@ export class BotConfigService {
     return this.formBuilder.group({
       data_persistence_period: [bot.data_persistence_period || 30, Validators.required],
       // heading: [bot.heading],
-      advanced_data_protection: [bot.advanced_data_protection, Validators.required],//new FormControl({value: bot.advanced_data_protection}, Validators.required),
+      advanced_data_protection: [bot.advanced_data_protection||false],//new FormControl({value: bot.advanced_data_protection}, Validators.required),
       // transactions_per_pricing_unit: [bot.transactions_per_pricing_unit],
       // error_message: [bot.error_message],
       consent_message: [bot.consent_message],

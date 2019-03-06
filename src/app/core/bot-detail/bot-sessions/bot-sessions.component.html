@@ -90,7 +90,7 @@
                      (refreshData$)="performSearchInDbForSessionHandler($event)"
                      (performSearchInDB$)="performSearchInDbForSessionHandler($event)">
         <!--ng-content starts-->
-        <div *ngIf="bot.advanced_data_protection"
+        <div *ngIf="bot.advanced_data_protection && !showLoader && !showSplashScreen"
              style="border: 1px solid #e0e0e0; align-self: flex-end;padding: 0px 10px;margin-left: 10px;">
             <i class="fa fa-lock" style="color: orange"></i>
             All the sessions are encrypted, use the decryption key to view individual session of interest

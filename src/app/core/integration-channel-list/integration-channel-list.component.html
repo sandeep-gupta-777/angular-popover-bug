@@ -1,16 +1,18 @@
-<img
-        *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async)); let i = index"
-        [ngStyle]="{'zIndex':i}"
-        [src]="integrationsMasterListItem?.icon"
-        (click)="test(integrationsMasterListItem.key)"
-        [matTooltip]="integrationsMasterListItem && integrationsMasterListItem.key"
-        class="logo-image click-save-wrapper" alt="">
-<span style="margin-right: 15px"></span>
+<div class="d-flex overflow-hidden">
+    <img
+            *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async)); let i = index"
+            [ngStyle]="{'zIndex':i}"
+            [src]="integrationsMasterListItem?.icon"
+            (click)="test(integrationsMasterListItem.key)"
+            [matTooltip]="integrationsMasterListItem && integrationsMasterListItem.key"
+            class="logo-image click-save-wrapper" alt="">
+    <span style="margin-right: 15px"></span>
 
-<img
-        *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'no_channel'|async)); let i = index"
-        [src]="integrationsMasterListItem?.icon"
-        [ngStyle]="{'zIndex ':i}"
-        [matTooltip]="integrationsMasterListItem && integrationsMasterListItem.key"
-        (click)="test(integrationsMasterListItem.key)"
-        class="logo-image no-channel-integrations" alt="">
+    <img
+            *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'no_channel'|async)); let i = index"
+            [src]="integrationsMasterListItem?.icon"
+            [matTooltip]="integrationsMasterListItem && integrationsMasterListItem.key"
+            (click)="test(integrationsMasterListItem.key)"
+            class="logo-image no-channel-integrations" alt="">
+    <!--<i>{{(bot.integrations|integrationLogos:'no_channel'|async)|json}}</i>-->
+</div>
