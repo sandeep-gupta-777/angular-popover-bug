@@ -44,6 +44,8 @@ export class AppComponent extends DebugBase implements OnInit {
 
   ngOnInit() {
 
+    console.log("app.component.ts");
+
     this.serverService.compareDeployDates();
 
     let storeSnapshot = this.store.snapshot();
