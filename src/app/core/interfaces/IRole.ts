@@ -4,7 +4,7 @@ import { IMeta } from "./meta";
 //         "category" : string;
 //         "created_at" : string;
 //         "description" : string;
-//         "id": number,
+//         "roomId": number,
 //         "is_configurable_action": true,
 //         "is_default_action": false,
 //         "name" : string;
@@ -18,7 +18,7 @@ import { IMeta } from "./meta";
 //         },
 //         "resource_uri" : string;
 //         "updated_at" : string;
-    
+
 // }
 export interface IRole {
     "base_role": number,

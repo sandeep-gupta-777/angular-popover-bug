@@ -7,11 +7,11 @@
            [ngClass]="{'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-label-inactive':selectedVersion?.id !== activeVersion?.id}">
         <div>{{selectedVersion.id === (activeVersion && activeVersion.id)?'Active':'Inactive'}}</div>
       </div>
-      <!--<button *ngIf="selectedVersion?.id === activeVersion?.id" class="btn-theme btn-theme-primary mr-1"-->
+      <!--<button *ngIf="selectedVersion?.roomId === activeVersion?.roomId" class="btn-theme btn-theme-primary mr-1"-->
       <!--style="flex-basis: 56px">Active-->
       <!--</button>-->
       <!--<button-->
-      <!--*ngIf="selectedVersion?.id !== activeVersion?.id" class="btn-theme btn-theme-dark mr-1"-->
+      <!--*ngIf="selectedVersion?.roomId !== activeVersion?.roomId" class="btn-theme btn-theme-dark mr-1"-->
       <!--style="flex-basis: 56px">Inactive-->
       <!--</button>-->
       <div class="count mx-1 flex-shrink-0 flex-grow-0">{{selectedVersion.version}}</div>
@@ -107,7 +107,7 @@
                   [ngClass]="{'text-primary':version.id === (activeVersion && activeVersion.id)}"
           >{{version.id === (activeVersion && activeVersion.id)?'Active':'Inactive'}}</div>
         </div>
-        <!--<div class="active-label-text">{{version.id +""+activeVersion.id }}</div>-->
+        <!--<div class="active-label-text">{{version.roomId +""+activeVersion.roomId }}</div>-->
         <div class="count mx-1">{{version.version}}</div>
         <div class="forked mr-1 pl-1" *ngIf="version.forked_from !== 0">Forked from
           v{{version.forked_from}}

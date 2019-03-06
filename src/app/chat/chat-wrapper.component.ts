@@ -240,8 +240,8 @@ export class ChatWrapperComponent implements OnInit {
     /*========================Creation of chat room using Send API===============================*/
 
     /*FLOW:
-    * 1. Post send api to server with first message=> will get back consent message and room id
-    * 2. create a new room using room id
+    * 1. Post send api to server with first message=> will get back consent message and room roomId
+    * 2. create a new room using room roomId
     * */
     this.serverService.startANewChatUsingSendApi(startNewChatData)
       .subscribe((value: IBotPreviewFirstMessage) => {
@@ -251,7 +251,7 @@ export class ChatWrapperComponent implements OnInit {
         *initialize IMI Connect integration
         * */
         this.serverService.initializeIMIConnect(startNewChatData.bot, value.room.id);
-        /*1. create a new room with room id
+        /*1. create a new room with room roomId
          *2. add message to the room: consent message */
         const roomMessages = this.utilityService.serializeServerValueToChatRoomMessages(value);
 
@@ -334,7 +334,7 @@ export class ChatWrapperComponent implements OnInit {
         this.chatService.sendHumanMessageToBotServer(
           {
             bot_access_token: room.bot_access_token,
-            id: room.id
+            roomId: room.id
           },
           messageData.room.consumerDetails,
           messageByHuman,

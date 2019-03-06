@@ -89,7 +89,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
     let fileName = 'code.txt';
     const codeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab');
     const buildTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab');
-    const botId = this.activatedRoute.snapshot.params['id'];
+    const botId = this.activatedRoute.snapshot.params['roomId'];
     if (buildTab === 'code' && codeTab && botId) {
       fileName = `${codeTab} for bot id ${botId}.py`;
     }

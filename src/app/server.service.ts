@@ -416,7 +416,7 @@ export class ServerService {
   getAllVersionOfBotFromServerAndStoreInBotInBotList(botId, bot_access_token) {
 
     const url = this.constantsService.getAllVersionsByBotId();
-    // let botId = this.bot.id;
+    // let botId = this.bot.roomId;
     this.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': bot_access_token}})
       .subscribe((botVersionResult) => {
         botVersionResult.objects.forEach((version) => {
@@ -510,7 +510,7 @@ export class ServerService {
           messageList: serializedMessages
         }),
         new ChangeBotIsThinkingDisplayByRoomId({roomId: currentRoomId, shouldShowBotIsThinking: false}),
-        // new SetCurrentRoomID({id: 123456789.room.id})
+        // new SetCurrentRoomID({roomId: 123456789.room.roomId})
       ]);
     };
 

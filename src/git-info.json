@@ -1,1 +1,1 @@
-{"currentBranch":"develop","lastDeploy":1551810103623}
+{"currentBranch":"develop","lastCommit":"commit 36905d5199fdee8ecf2b1b70931ecf241ee40c27\nAuthor: Sandeep Kumar Gupta <sandeepkumar.g@imimobile.com>\nDate:   Mon Mar 4 14:26:45 2019 +0530\n\n    feature: angular.json: different build scripts for each environment"}

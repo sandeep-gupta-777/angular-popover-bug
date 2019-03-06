@@ -54,7 +54,7 @@ export interface ITestcases {
 //                   "passed"
 //               ]
 //           ],
-//           "id": 6,
+//           "roomId": 6,
 //           "resource_uri": "/api/v1/bottestcases/6/",
 //           "status": "ABORTED",
 //           "updated_at": "2018-08-14T11:07:28.928000",
@@ -75,7 +75,7 @@ export interface ITestcases {
 //     ""
 //   ]
 // ],
-//   "id": 2,
+//   "roomId": 2,
 //   "resource_uri": "/api/v1/bottestcases/2/",
 //   "status": "IDLE",
 //   "updated_at": "2018-08-10T07:39:12.222000",

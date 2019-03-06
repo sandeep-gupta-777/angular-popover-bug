@@ -28,9 +28,9 @@ export class AimService {
     return this.aiModules$;
   }
 
-  // getModuleById(id:string):IAIModule{
+  // getModuleById(roomId:string):IAIModule{
   //   for(let i=0; i< this.aiModules.length; ++i){
-  //     if(this.aiModules[i].id===id){
+  //     if(this.aiModules[i].roomId===roomId){
   //       return this.aiModules[i];
   //     }
   //   }

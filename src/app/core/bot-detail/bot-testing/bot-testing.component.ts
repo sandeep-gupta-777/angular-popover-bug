@@ -84,7 +84,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
 
           this.testCaseData =
             (testCaseDataForBot && testCaseDataForBot.data && testCaseDataForBot.data.length > 0) ? testCaseDataForBot.data : [['NO_TEST_DATA', 'NO_TEST_DATA', 'NO_TEST_DATA']];
-          // this.testCaseId = value.objects[0].id;
+          // this.testCaseId = value.objects[0].roomId;
           this.testCaseId = testCaseDataForBot && testCaseDataForBot.id;
           // }
         }
