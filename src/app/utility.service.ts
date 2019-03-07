@@ -525,18 +525,27 @@ export class UtilityService {
   }
 
   parseGenTemplateUiDictionaryToIfElseCode(uiDictionary: object) {
+    debugger;
     try {
       let genTemplateCodeStr = '';
-      Object.keys(uiDictionary).forEach((templateKey, index) => {
+      let uiDictionaryKeyArray = Object.keys(uiDictionary);
+      if(uiDictionary['else']){
+        var index = uiDictionaryKeyArray.indexOf('else');
+        if (index > -1) {
+          uiDictionaryKeyArray.splice(index, 1);
+        }
+        uiDictionaryKeyArray.push('else');
+      }
+      uiDictionaryKeyArray.forEach((templateKey, index) => {
         // let templateKey = Object.keys(templateKeys);
         let elIfStr = '';
         if (index === 0 && templateKey != 'else') {
           elIfStr = `if(variables['templateKey'] == '${templateKey}'):\n`;
         }
-        else if(index != 0 && templateKey == 'else'){
+        else if(templateKey == 'else'){
           elIfStr = `\nelse:\n`;
         }
-         else {
+         else if(index != 0 && templateKey != 'else'){
           elIfStr = `\nelif(variables['templateKey'] == '${templateKey}'):\n`;
         }
         const outputValues = uiDictionary[templateKey];

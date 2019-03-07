@@ -284,7 +284,6 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
   convertGenTemplateCodeStringIntoUiComponents() {
     try {
-      debugger;
       console.log('convertGenTemplateCodeStringIntoUiComponents');
       this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
       this.isGentemplateCodeParsable = this.isGentemplateCodeParsableCheck(this.selectedVersion[EBotVersionTabs.generation_templates]);

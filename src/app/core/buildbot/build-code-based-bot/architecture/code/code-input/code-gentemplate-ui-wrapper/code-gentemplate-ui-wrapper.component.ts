@@ -81,7 +81,6 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     try {
       this.templateKeyDictClone = this.utilityService.createDeepClone(this.templateKeyDict);
       this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
-      debugger;
       this.channelSelectorForm.form.patchValue({name: 'all'});
       this.channelNameList = this.channelList.map((channel) => {
         return channel.name;
@@ -280,6 +279,11 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
       this.utilityService.showErrorToaster(this.templateKeyCreationError);
       return;
     }
+    else if(Object.keys(this.templateKeyDict).length == 0 && this.newTemplateKey == 'else'){
+      this.templateKeyCreationError = 'Can not create ELSE template key now';
+      this.utilityService.showErrorToaster(this.templateKeyCreationError);
+      return;
+    }
     this.templateKeyCreationError = '';
     const intentUnit = {};
     intentUnit[this.newTemplateKey] = [{
@@ -403,6 +407,12 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   // }
 
   deleteTemplateKey(tempKey) {
+    let isELseTemplateKeyPresent = Object.keys(this.templateKeyDict).find(key => 'else' === key);
+    if(Object.keys(this.templateKeyDict).length == 2 && tempKey != 'else' && !!isELseTemplateKeyPresent){
+      this.templateKeyCreationError = 'Can delete this template because ELSE template key will only be remaining';
+      this.utilityService.showErrorToaster(this.templateKeyCreationError);
+      return;
+    }
     delete this.templateKeyDict[tempKey];
     this.utilityService.showSuccessToaster('Template key deleted!');
     this.modalRefWrapper.ref.close();
