@@ -24,21 +24,21 @@ export class ObjectArrayCrudService {
   }
 
 
-  // removeItemById(array:IAIModule[], id:string):IAIModule[]{
-  //   if(!array || !id ) return;
+  // removeItemById(array:IAIModule[], roomId:string):IAIModule[]{
+  //   if(!array || !roomId ) return;
   //   for(let i=0;i<array.length;++i){
-  //     if(array[i].id == id ){
+  //     if(array[i].roomId == roomId ){
   //       array.splice(i,1);
   //     }
   //   }
   // }
 
   // pushUniqueById(array:IAIModule[], obj:IAIModule):IAIModule[]{
-  //   if(!array || !obj || !obj.id ) return;
+  //   if(!array || !obj || !obj.roomId ) return;
   //
-  //   let objId = obj.id;
+  //   let objId = obj.roomId;
   //   for(let i=0;i<array.length;++i){
-  //     if(array[i].id === obj ){
+  //     if(array[i].roomId === obj ){
   //       return;
   //     }
   //   }

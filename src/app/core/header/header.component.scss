@@ -51,6 +51,13 @@ header {
     @include flexbox-centered();
     color: #ffffff;
     text-decoration: none;
+    margin-left: 4px;
+    &:hover{
+      @extend .highlight-text-on-route-match;
+      span{
+        font-weight: 300;
+      }
+    }
 
     img {
       margin-right: 8px;

@@ -116,7 +116,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
     //       new SetPipelineModuleMasterData({masterPipelineItems: value.objects})
     //     ]);
     //     this.pipeLine = this.pipeLine.map((pipelineItem: IPipelineItem) => {
-    //       let masterPipelineItem = masterPipelineItems.find(el => el.id === pipelineItem.id);
+    //       let masterPipelineItem = masterPipelineItems.find(el => el.roomId === pipelineItem.roomId);
     //       return {...masterPipelineItem, ...pipelineItem};
     //     });
     //   });
@@ -145,7 +145,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
       return;
     }
     // this.aiModules = this.aiModules.filter((aiModule) => {
-    //   const x = !this.pipeLine.find(pipelineItem => pipelineItem.id === aiModule.id);
+    //   const x = !this.pipeLine.find(pipelineItem => pipelineItem.roomId === aiModule.roomId);
     //   return x;
     // });
 

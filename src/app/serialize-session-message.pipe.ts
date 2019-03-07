@@ -12,7 +12,7 @@ export interface ITxnSessionMessagesItem {
 })
 export class SerializeSessionMessagePipe implements PipeTransform {
 
-  /*this pipe will create new array for each txn id which will be storing convo for that txn id*/
+  /*this pipe will create new array for each txn roomId which will be storing convo for that txn roomId*/
   transform(sessionMessages: ISessionMessageItem[], args?: any): ITxnSessionMessagesItem[] {
 
     if (!sessionMessages) { return; }

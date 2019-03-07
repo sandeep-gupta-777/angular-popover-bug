@@ -131,7 +131,7 @@ export class CodeBasedBotDetailComponent implements OnInit {
       .subscribe(() => {
         this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
       });
-    // this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
+    // this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.roomId, this.bot.bot_access_token);
 
 
     // let getBotByTokenUrl = this.constantsService.getSpecificBotByBotTokenUrl();
@@ -143,10 +143,10 @@ export class CodeBasedBotDetailComponent implements OnInit {
     //
     //     let bot: IBot = val.objects.find((bot) => {
     //
-    //       return bot.id === this.bot.id;
+    //       return bot.roomId === this.bot.roomId;
     //     });
     //     this.store.dispatch([
-    //       new UpdateBotInfoByIdInBotInBotList({data: bot, botId: this.bot.id})
+    //       new UpdateBotInfoByIdInBotInBotList({data: bot, botId: this.bot.roomId})
     //     ]);
     //   });
   }

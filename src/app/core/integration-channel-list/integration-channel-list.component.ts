@@ -18,4 +18,8 @@ export class IntegrationChannelListComponent implements OnInit {
     this.router.navigateByUrl(`core/botdetail/chatbot/${this.bot.id}?build-tab=integration&code-tab=df_template#${channelName}`);
   }
 
+  log(x){
+    console.log(x);
+  }
+
 }

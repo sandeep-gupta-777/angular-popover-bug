@@ -75,7 +75,7 @@ export class SessionDetailModelComponent implements OnInit {
     this.botlist$.subscribe((value) => {
       this.allBotList = value.allBotList;
     });
-    // this.loadSessionMessagesById(this._session.id);
+    // this.loadSessionMessagesById(this._session.roomId);
   }
 
   showSpinIcon = false;
@@ -250,7 +250,7 @@ debugger;
     this.messageSearchKeyword = messageSearchKeyword = messageSearchKeyword.trim();
     if (messageSearchKeyword === '') { return; }
     this.sessionMessageDataCopy = [...this.sessionMessageData];
-    /*find transaction id of first matched text*/
+    /*find transaction roomId of first matched text*/
     const elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, 0);
     setTimeout(()=>{
       let didScrollOccur = elementDataToScroll && this.scroll(elementDataToScroll.transaction_id);
@@ -269,7 +269,7 @@ debugger;
       LoggingService.log(this.messageSearchKeyword);
       let isMatch;
       try {
-        /*searching for txn id match*/
+        /*searching for txn roomId match*/
         isMatch = objItem.transaction_id.toUpperCase().includes(messageSearchKeyword.toUpperCase());
         if (isMatch) { return isMatch; }
       } catch (e) {}

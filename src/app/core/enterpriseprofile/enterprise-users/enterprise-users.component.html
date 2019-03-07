@@ -100,7 +100,7 @@
             <mat-option *ngFor="let role of roleMap; let i = index;" [value]="role.id">
               {{role.name}}
             </mat-option>
-            <!-- <mat-option [value]="role.id">
+            <!-- <mat-option [value]="role.roomId">
                   Admin
                 </mat-option> -->
             <!-- <mat-option [value]="12">
@@ -221,7 +221,7 @@
     <div class="modal-body" style="padding-top: 10px!important;">
       <div class="d-flex flex-column align-items-center justify-content-center m-2" id="checkboxes">
 
-        <!-- <form class="modelBotNames" id="modelGenTempNameForm" #modelGenTempNameForm="ngForm" (submit)="selectedListCopy(modelGenTempNameForm)" -->
+        <!-- <form class="modelBotNames" roomId="modelGenTempNameForm" #modelGenTempNameForm="ngForm" (submit)="selectedListCopy(modelGenTempNameForm)" -->
         <form class="modelBotNames" id="newBotList" #newBotList="ngForm" style="overflow-y: scroll;max-height: 185px;">
           <label class="container-chekbox text-dark" *ngFor="let bot of enterpriseUserBotList" [hidden]="!bot.name.toLowerCase().includes(searchBots.toLowerCase())">
             <div style="width: 120px;overflow-wrap: break-word;"> {{bot.name}}</div>

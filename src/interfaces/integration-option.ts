@@ -11,7 +11,7 @@
 //   "facebook"?: {
 //     "enabled"?: string,
 //     "facebook-token"?: string,
-//     "id"?: string
+//     "roomId"?: string
 //   },
 //   "skype"?: {
 //     "enabled"?: string,

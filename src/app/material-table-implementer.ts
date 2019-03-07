@@ -6,10 +6,10 @@ export abstract class MaterialTableImplementer {
   abstract initializeTableData(data:any, tableDataMetaDict:any):void;
 
   /*
-  * transformDataForMaterialTable(data) takes in raw data, for example [{id:1, show:false}]
+  * transformDataForMaterialTable(data) takes in raw data, for example [{roomId:1, show:false}]
   * and convert it to a form which is consumable by Material table, for example:
   * [{ID: {
-      originalKey: 'id',
+      originalKey: 'roomId',
       value: 1,
       type: 'number',
       displayValue: 'ID',

@@ -18,3 +18,11 @@ ul{
     display: none;
   }
 }
+
+
+::ng-deep{
+  .mat-button-wrapper{
+    display: flex;
+    align-items: center;
+  }
+}

@@ -5,6 +5,7 @@
 
             [selectedVersion]="selectedVersion"
             [activeVersion]="activeVersion"
+            (activateVersion$)="activateVersion($event)"
             [bot]="bot"
             (changeSelectedVersion$)="changeSelectedVersion($event)"
             (saveSelectedVersion$)="saveSelectedVersion()"
@@ -22,34 +23,34 @@
           <ul class="nav nav-tabs theme-tabbing">
             <li class="nav-item" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.df_template}">
               <i class="fa fa-exclamation-triangle color-danger"
-                *ngIf="!!selectedVersion.validation[myEBotVersionTabs.df_template].error"></i>
+                *ngIf="!!selectedVersion.validation[myEBotVersionTabs.df_template]?.error"></i>
               <a class="nav-link text-theme-normal d-inline-block"
                 (click)="tabClicked(myEBotVersionTabs.df_template)">DF
                 Template</a>
             </li>
             <li class="nav-item" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.df_rules}">
               <i class="fa fa-exclamation-triangle color-danger"
-                *ngIf="!!selectedVersion.validation[myEBotVersionTabs.df_rules].error"></i>
+                *ngIf="!!selectedVersion.validation[myEBotVersionTabs.df_rules]?.error"></i>
               <a class="nav-link text-theme-normal d-inline-block" (click)="tabClicked(myEBotVersionTabs.df_rules)">DF
                 Rules</a>
             </li>
             <li class="nav-item text-theme-normal"
               [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.generation_rules}">
               <i class="fa fa-exclamation-triangle color-danger"
-                *ngIf="!!selectedVersion.validation[myEBotVersionTabs.generation_rules].error"></i>
+                *ngIf="!!selectedVersion.validation[myEBotVersionTabs.generation_rules]?.error"></i>
               <a class="nav-link d-inline-block" (click)="tabClicked(myEBotVersionTabs.generation_rules)">Generation
                 Rules</a>
             </li>
             <li class="nav-item text-theme-normal"
               [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.generation_templates}">
               <i class="fa fa-exclamation-triangle color-danger"
-                *ngIf="!!selectedVersion.validation[myEBotVersionTabs.generation_templates].error"></i>
+                *ngIf="!!selectedVersion.validation[myEBotVersionTabs.generation_templates]?.error"></i>
               <a class="nav-link d-inline-block" (click)="tabClicked(myEBotVersionTabs.generation_templates)">Generation
                 Template</a>
             </li>
             <li class="nav-item text-theme-normal" [ngClass]="{'tab-active': activeTab===myEBotVersionTabs.workflow}">
               <i class="fa fa-exclamation-triangle color-danger"
-                *ngIf="!!selectedVersion.validation[myEBotVersionTabs.workflow].error"></i>
+                *ngIf="!!selectedVersion.validation[myEBotVersionTabs.workflow]?.error"></i>
               <a class="nav-link d-inline-block" (click)="tabClicked(myEBotVersionTabs.workflow)">Workflows</a>
             </li>
             <li>
@@ -126,8 +127,8 @@
     <div class="validation-bar"
       *ngIf="activeTab!==myEBotVersionTabs.generation_templates || showGenTempEditorAndHideGenTempUi">
       <div class="dot-indicator">
-        <i class="fa fa-check-circle color-primary" *ngIf="!selectedVersion.validation[activeTab].error"></i>
-        <i class="fa fa-exclamation-triangle color-danger" *ngIf="!!selectedVersion.validation[activeTab].error"></i>
+        <i class="fa fa-check-circle color-primary" *ngIf="!selectedVersion.validation[activeTab]?.error"></i>
+        <i class="fa fa-exclamation-triangle color-danger" *ngIf="!!selectedVersion.validation[activeTab]?.error"></i>
 
       </div>
       <div class="validation-toggle cursor-pointer" (click)="validationMessageToggle = !validationMessageToggle">
@@ -137,17 +138,17 @@
     </div>
     <div class="validation-message"
       *ngIf="validationMessageToggle &&(activeTab!==myEBotVersionTabs.generation_templates || showGenTempEditorAndHideGenTempUi)">
-      <div class="validation-message-heading" *ngIf="!!selectedVersion.validation[activeTab].error">
+      <div class="validation-message-heading" *ngIf="!!selectedVersion.validation[activeTab]?.error">
         Issue found
       </div>
-      <div class="validation-message-heading" *ngIf="!selectedVersion.validation[activeTab].error">
+      <div class="validation-message-heading" *ngIf="!selectedVersion.validation[activeTab]?.error">
         No issue found
       </div>
-      <div class="validation-message-data my-1" *ngIf="!!selectedVersion.validation[activeTab].error">
+      <div class="validation-message-data my-1" *ngIf="!!selectedVersion.validation[activeTab]?.error">
         Error = {{ selectedVersion.validation[activeTab].error_msg}} <br>
         Value = {{ selectedVersion.validation[activeTab].error_line}} <br>
       </div>
-      <div class="validation-message-data my-1" *ngIf="!selectedVersion.validation[activeTab].error">
+      <div class="validation-message-data my-1" *ngIf="!selectedVersion.validation[activeTab]?.error">
         Validation was successful. You can validate again if you need.
       </div>
     </div>

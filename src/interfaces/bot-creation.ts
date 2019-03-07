@@ -88,7 +88,7 @@ export interface IIntegration {
   'channels': IIntegrationOption;
   // 'channels': {
   //   'alexa': { 'enable': boolean, 'skillId': string },
-  //   'facebook': { 'enabled': boolean, 'facebook-token': string, 'facebooktoggle': boolean, 'id': string },
+  //   'facebook': { 'enabled': boolean, 'facebook-token': string, 'facebooktoggle': boolean, 'roomId': string },
   //   'imiconnect': { 'enabled': boolean },
   //   'skype': { 'client_id': string, 'client_secret': string, 'enabled': boolean },
   //   'web': { 'enabled': boolean }
@@ -116,7 +116,7 @@ let x = {
     'imichat': {'access-token': '', 'domain': '', 'enabled': false, 'imichattoggle': false, 'service-key': ''}
   },
   'allowAnonymization': false,
-  'avatars': [{'id': 1, 'imageUrl': 'https://robohash.org/StarBot.png', 'name': 'StarBot'}],
+  'avatars': [{'roomId': 1, 'imageUrl': 'https://robohash.org/StarBot.png', 'name': 'StarBot'}],
   'blanketConsent': false,
   'botLogo': 'http://www.irislink.com/Documents/Image/_IrisLink2.0/Mobile_Scanner/IRIScan_Mouse_wifi/image-translate.png',
   'botType': 'chatbot',
@@ -125,7 +125,7 @@ let x = {
   'callback': null,
   'channels': {
     'alexa': {'enable': false, 'skillId': ''},
-    'facebook': {'enabled': false, 'facebook-token': '', 'facebooktoggle': false, 'id': ''},
+    'facebook': {'enabled': false, 'facebook-token': '', 'facebooktoggle': false, 'roomId': ''},
     'imiconnect': {'enabled': false},
     'skype': {'client_id': '', 'client_secret': '', 'enabled': false},
     'web': {'enabled': false}
@@ -160,12 +160,12 @@ let x = {
   'pipeline': [{
     'default': false,
     'displayValues': {'output_language': 'Output language'},
-    'id': 'Google Translate',
+    'roomId': 'Google Translate',
     'inputParams': {'output_language': 'en'},
     'library': 'google',
     'module': 'language_translate',
     'type': 'item'
-  }, {'id': 'IMIbot Custom NER', 'inputParams': {}, 'library': 'botman', 'module': 'custom_ners', 'type': 'item'}],
+  }, {'roomId': 'IMIbot Custom NER', 'inputParams': {}, 'library': 'botman', 'module': 'custom_ners', 'type': 'item'}],
   'pipelineId': '59e055773b6219002b9873fa',
   'room_persistence_time': 240,
   'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYm90IiwiaWQiOiI1OWUwNTU3NzNiNjIxOTAwMGNhODI1YmEifQ.73aRHEJ_dookTtTTIUvpyDOXwGiWTmoDwpPO1TJl5e0',
@@ -174,7 +174,7 @@ let x = {
     {
     'contextual': false,
     'default': false,
-    'id': 'Spacy NER',
+    'roomId': 'Spacy NER',
     'inputParams': {},
     'library': 'spacy',
     'module': 'ner',
@@ -182,7 +182,7 @@ let x = {
   }, {
     'contextual': false,
     'default': false,
-    'id': 'Main Theme',
+    'roomId': 'Main Theme',
     'inputParams': {},
     'library': 'spacy',
     'module': 'maintheme',
@@ -190,7 +190,7 @@ let x = {
   }, {
     'contextual': false,
     'default': false,
-    'id': 'Dandelion NER',
+    'roomId': 'Dandelion NER',
     'inputParams': {},
     'library': 'dandelion',
     'module': 'ner',
@@ -199,7 +199,7 @@ let x = {
     'contextual': false,
     'default': false,
     'displayValues': {'image_type': 'Natural Image'},
-    'id': 'Google OCR',
+    'roomId': 'Google OCR',
     'inputParams': {'image_type': 'natural_image'},
     'library': 'google',
     'module': 'ocr',
@@ -207,7 +207,7 @@ let x = {
   }, {
     'contextual': false,
     'default': false,
-    'id': 'RASA CommonSense',
+    'roomId': 'RASA CommonSense',
     'inputParams': {'model_type': 'mitie_sklearn'},
     'library': 'smalltalk',
     'module': 'rasanlp',
@@ -215,7 +215,7 @@ let x = {
   }, {
     'contextual': false,
     'default': true,
-    'id': 'Spacy Parts of Speech',
+    'roomId': 'Spacy Parts of Speech',
     'inputParams': {},
     'library': 'spacy',
     'module': 'pos',
@@ -223,7 +223,7 @@ let x = {
   }, {
     'contextual': false,
     'default': false,
-    'id': 'Spacy Parse Tree',
+    'roomId': 'Spacy Parse Tree',
     'inputParams': {},
     'library': 'spacy',
     'module': 'parsetree',
@@ -231,7 +231,7 @@ let x = {
   }, {
     'contextual': false,
     'default': false,
-    'id': 'IMIbot Spell Check',
+    'roomId': 'IMIbot Spell Check',
     'inputParams': {},
     'library': 'botman',
     'module': 'spell_check',
@@ -240,7 +240,7 @@ let x = {
     'contextual': true,
     'default': false,
     'displayValues': {'wit_access_token': 'Wit Access token'},
-    'id': 'Wit.ai',
+    'roomId': 'Wit.ai',
     'inputParams': {'wit_access_token': ''},
     'library': 'wit',
     'module': 'witnlp',
@@ -248,7 +248,7 @@ let x = {
   }, {
     'contextual': false,
     'default': false,
-    'id': 'Spacy Word Tokenization',
+    'roomId': 'Spacy Word Tokenization',
     'inputParams': {},
     'library': 'spacy',
     'module': 'word_tokenization',
@@ -256,7 +256,7 @@ let x = {
   }, {
     'contextual': false,
     'default': true,
-    'id': 'NLTK Sentence Tokenization',
+    'roomId': 'NLTK Sentence Tokenization',
     'inputParams': {},
     'library': 'nltk',
     'module': 'sentence_tokenization',
@@ -264,7 +264,7 @@ let x = {
   }, {
     'contextual': false,
     'default': false,
-    'id': 'Spacy Sentence Tokenization',
+    'roomId': 'Spacy Sentence Tokenization',
     'inputParams': {},
     'library': 'spacy',
     'module': 'sentence_tokenization',
@@ -272,7 +272,7 @@ let x = {
   }, {
     'contextual': false,
     'default': false,
-    'id': 'Botman Lemmatization',
+    'roomId': 'Botman Lemmatization',
     'inputParams': {},
     'library': 'botman',
     'module': 'lemmatization',
@@ -280,7 +280,7 @@ let x = {
   }, {
     'contextual': false,
     'default': false,
-    'id': 'Spacy Lemmatization',
+    'roomId': 'Spacy Lemmatization',
     'inputParams': {},
     'library': 'spacy',
     'module': 'lemmatization',
@@ -288,7 +288,7 @@ let x = {
   }, {
     'contextual': false,
     'default': false,
-    'id': 'Google Lemmatization',
+    'roomId': 'Google Lemmatization',
     'inputParams': {},
     'library': 'google',
     'module': 'lemmatization',
@@ -296,7 +296,7 @@ let x = {
   }, {
     'contextual': false,
     'default': false,
-    'id': 'Spacy Chunking',
+    'roomId': 'Spacy Chunking',
     'inputParams': {},
     'library': 'spacy',
     'module': 'chunking',
@@ -304,7 +304,7 @@ let x = {
   }, {
     'contextual': false,
     'default': false,
-    'id': 'Google Sentiment Analysis',
+    'roomId': 'Google Sentiment Analysis',
     'inputParams': {},
     'library': 'google',
     'module': 'sentiment',
@@ -312,7 +312,7 @@ let x = {
   }, {
     'contextual': false,
     'default': false,
-    'id': ' IMIbot Sentiment Analysis',
+    'roomId': ' IMIbot Sentiment Analysis',
     'inputParams': {},
     'library': 'botman',
     'module': 'sentiment',
@@ -321,7 +321,7 @@ let x = {
     'contextual': false,
     'default': false,
     'displayValues': {'filetype': 'Output format'},
-    'id': 'Azure Text to Speech',
+    'roomId': 'Azure Text to Speech',
     'inputParams': {'filetype': ''},
     'library': 'azure',
     'module': 'texttospeech',
@@ -330,7 +330,7 @@ let x = {
     'contextual': false,
     'default': false,
     'displayValues': {'filetype': 'Output format'},
-    'id': 'Amazon Text to Speech',
+    'roomId': 'Amazon Text to Speech',
     'inputParams': {'filetype': ''},
     'library': 'amazon',
     'module': 'texttospeech',
@@ -339,7 +339,7 @@ let x = {
     'contextual': false,
     'default': false,
     'displayValues': {'filetype': 'Output format'},
-    'id': 'Google Text to Speech',
+    'roomId': 'Google Text to Speech',
     'inputParams': {'filetype': ''},
     'library': 'google',
     'module': 'texttospeech',
@@ -347,7 +347,7 @@ let x = {
   }, {
     'contextual': false,
     'default': false,
-    'id': 'Google Speech to Text',
+    'roomId': 'Google Speech to Text',
     'inputParams': {},
     'library': 'google',
     'module': 'speechtotext',
@@ -355,7 +355,7 @@ let x = {
   }, {
     'contextual': false,
     'default': true,
-    'id': 'Azure Spell Check',
+    'roomId': 'Azure Spell Check',
     'inputParams': {},
     'library': 'azure',
     'module': 'spell_check',
@@ -363,7 +363,7 @@ let x = {
   }, {
     'contextual': false,
     'default': true,
-    'id': 'NLTK Word Tokenization',
+    'roomId': 'NLTK Word Tokenization',
     'inputParams': {},
     'library': 'nltk',
     'module': 'word_tokenization',
@@ -371,7 +371,7 @@ let x = {
   }, {
     'contextual': false,
     'default': false,
-    'id': 'Google Parts of Speech',
+    'roomId': 'Google Parts of Speech',
     'inputParams': {},
     'library': 'google',
     'module': 'pos',
@@ -379,7 +379,7 @@ let x = {
   }, {
     'contextual': false,
     'default': false,
-    'id': 'Google Parse Tree',
+    'roomId': 'Google Parse Tree',
     'inputParams': {},
     'library': 'google',
     'module': 'parsetree',
@@ -388,7 +388,7 @@ let x = {
     'contextual': false,
     'default': false,
     'displayValues': {'extra_info': 'extra information', 'future': 'Future'},
-    'id': 'IMIbot Date Time Recognition',
+    'roomId': 'IMIbot Date Time Recognition',
     'inputParams': {'extra_info': false, 'future': true},
     'library': 'botman',
     'module': 'timedate',
@@ -396,7 +396,7 @@ let x = {
   }, {
     'contextual': false,
     'default': false,
-    'id': 'IMIbot Units Recognition',
+    'roomId': 'IMIbot Units Recognition',
     'inputParams': {},
     'library': 'botman',
     'module': 'units',
@@ -404,7 +404,7 @@ let x = {
   }, {
     'contextual': false,
     'default': false,
-    'id': 'IMIbot Numbers Recognition',
+    'roomId': 'IMIbot Numbers Recognition',
     'inputParams': {},
     'library': 'botman',
     'module': 'numbers',
@@ -412,7 +412,7 @@ let x = {
   }, {
     'contextual': false,
     'default': true,
-    'id': 'IMIbot Common Sense',
+    'roomId': 'IMIbot Common Sense',
     'inputParams': {},
     'library': 'botman',
     'module': 'commonsense',
@@ -420,7 +420,7 @@ let x = {
   }, {
     'contextual': false,
     'default': false,
-    'id': 'Spacy Question Detection',
+    'roomId': 'Spacy Question Detection',
     'inputParams': {},
     'library': 'spacy',
     'module': 'quesdetect',
@@ -429,7 +429,7 @@ let x = {
     'contextual': true,
     'default': false,
     'displayValues': {'api_ai_access_token': 'api.ai access token'},
-    'id': 'API.ai',
+    'roomId': 'API.ai',
     'inputParams': {'api_ai_access_token': ''},
     'library': 'apiai',
     'module': 'apiainlp',
@@ -441,12 +441,12 @@ let x = {
     'pipeline': [{
       'default': false,
       'displayValues': {'output_language': 'Output language'},
-      'id': 'Google Translate',
+      'roomId': 'Google Translate',
       'inputParams': {'output_language': 'en'},
       'library': 'google',
       'module': 'language_translate',
       'type': 'item'
-    }, {'id': 'IMIbot Custom NER', 'inputParams': {}, 'library': 'botman', 'module': 'custom_ners', 'type': 'item'}]
+    }, {'roomId': 'IMIbot Custom NER', 'inputParams': {}, 'library': 'botman', 'module': 'custom_ners', 'type': 'item'}]
   }
 };
 */

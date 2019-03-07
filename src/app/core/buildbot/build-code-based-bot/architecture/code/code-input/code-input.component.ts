@@ -320,7 +320,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
       this.selectedVersion[this.activeTab] = codeStr;
     } else {
       /*we are creating a new version*/
-      /*find bot version with id = -1*/
+      /*find bot version with roomId = -1*/
       let new_version: Partial<IBotVersionData> = this.bot.store_bot_versions && this.bot.store_bot_versions.find((version) => version.id === -1);
       if (!new_version) {
         new_version = this.constantsService.getNewBotVersionTemplate(this.bot.id);
@@ -405,7 +405,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
             delete body.id;
             delete body.resource_uri;
             delete body.forked_from;
-            /*remove version id = -1, from store*/
+            /*remove version roomId = -1, from store*/
             this.bot.store_bot_versions.length = 0;
             this.serverService.makePostReq({ url, body, headerData })
               .subscribe((forkedVersion: IBotVersionData) => {
@@ -483,7 +483,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
                   delete body.id;
                   delete body.resource_uri;
                   delete body.forked_from;
-                  /*remove version id = -1, from store*/
+                  /*remove version roomId = -1, from store*/
                   this.bot.store_bot_versions.length = 0;
                   this.serverService.makePostReq({ url, body, headerData })
                     .subscribe((forkedVersion: IBotVersionData) => {
@@ -526,7 +526,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   forkNewVersion() {
 
     if (!this.forked_version_number) {
-      this.flashErrorMessage('Please select version id');
+      this.flashErrorMessage('Please select version roomId');
       return;
     }
     this.dialogRefWrapper.ref.close();
@@ -652,6 +652,10 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
   addFileToZip(zip: any, name: string, text: string) {
     zip.file(name, text);
+  }
+
+  activateVersion(active_version_id:number){
+    this.serverService.updateBot({id: this.bot.id, active_version_id});
   }
 
 

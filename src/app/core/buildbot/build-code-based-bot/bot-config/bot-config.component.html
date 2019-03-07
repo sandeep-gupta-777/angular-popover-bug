@@ -31,8 +31,8 @@
         <ng-container *myIf="[myEAllActions['Get Integrations']]">
             <mat-tab *ngIf="!(bot_type===myEBotType.intelligent)">
                 <ng-template mat-tab-label>
-                    <span [ngStyle]="{'color': !integrationForm.valid?'red':'#474747'}">Integrations</span>
-                    <mat-icon style="color: red;font-size: 100%;" *ngIf="!integrationForm.valid"
+                    <span [ngStyle]="{'color': !integrationForm?.valid?'red':'#474747'}">Integrations</span>
+                    <mat-icon style="color: red;font-size: 100%;" *ngIf="!integrationForm?.valid"
                               class="example-tab-icon">highlight_off
                     </mat-icon>
                 </ng-template>

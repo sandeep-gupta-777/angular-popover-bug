@@ -78,7 +78,7 @@ export class BotConfigComponent implements OnInit {
     /**/
     let invalidFormIndex = this.getInvalidForm();
     if (invalidFormIndex >= 0) {
-      debugger;
+
       this.selectedTabIndex = invalidFormIndex;
       this.showFormInvalidError(invalidFormIndex);
       return;

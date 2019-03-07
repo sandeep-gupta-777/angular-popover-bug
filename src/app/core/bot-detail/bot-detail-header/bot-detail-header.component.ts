@@ -68,7 +68,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     //   new ToggleChatWindow({open: true}),
     //   // new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX})
     // ]).subscribe(()=>{
-    //   this.router.navigate(['/core/botdetail/chatbot/',this.bot.id], {
+    //   this.router.navigate(['/core/botdetail/chatbot/',this.bot.roomId], {
     //     queryParams: {preview: true, bot_unique_name: this.bot.bot_unique_name, enterprise_unique_name: this.enterprise_unique_name}
     //   });
     // })

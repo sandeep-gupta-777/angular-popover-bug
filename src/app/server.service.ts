@@ -43,6 +43,7 @@ import {SetEnterpriseInfoAction, SetEnterpriseUsersAction} from './core/enterpri
 
 declare var IMI: any;
 declare var $: any;
+declare let deploy_obj_botplateform_fe;
 
 @Injectable({
   providedIn: 'root'
@@ -124,7 +125,7 @@ export class ServerService {
   }
 
   makeGetReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<any> {
-    debugger;
+
     const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
       console.log(`api access not allowed:${reqObj.url}`);
@@ -415,7 +416,7 @@ export class ServerService {
   getAllVersionOfBotFromServerAndStoreInBotInBotList(botId, bot_access_token) {
 
     const url = this.constantsService.getAllVersionsByBotId();
-    // let botId = this.bot.id;
+    // let botId = this.bot.roomId;
     this.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': bot_access_token}})
       .subscribe((botVersionResult) => {
         botVersionResult.objects.forEach((version) => {
@@ -509,7 +510,7 @@ export class ServerService {
           messageList: serializedMessages
         }),
         new ChangeBotIsThinkingDisplayByRoomId({roomId: currentRoomId, shouldShowBotIsThinking: false}),
-        // new SetCurrentRoomID({id: 123456789.room.id})
+        // new SetCurrentRoomID({roomId: 123456789.room.roomId})
       ]);
     };
 
@@ -612,7 +613,7 @@ export class ServerService {
     //       new SetBackendURlRoot({url: value.backend_url})
     //     ]);
     //   })));
-    // debugger;
+    //
     return of(1)
       .pipe(tap(((value: any) => {
         console.log("BURL SET")
@@ -716,7 +717,17 @@ export class ServerService {
   }
 
 
-
+  compareDeployDates(){
+    let lastDeployed_Cache = deploy_obj_botplateform_fe.lastDeploy;
+    this.makeGetReq({url:`/static/deploy.json?time=${Date.now()}`})
+      .subscribe((value:{"currentBranch":string,"lastDeploy":number})=>{
+        let lastDeployed_api = value.lastDeploy;
+        console.log(`compareDeployDates::lastDeployed_api=${lastDeployed_api}, lastDeployed_api=${lastDeployed_api}`);
+        let days = this.utilityService.timeDifference(lastDeployed_api, lastDeployed_Cache);
+        if(lastDeployed_api>lastDeployed_Cache)this.utilityService.showErrorToaster(`your version is ${days} old. 
+        Please hard reload (Ctrl + shit + r). `);
+      })
+  }
 
 
 

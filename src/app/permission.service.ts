@@ -97,6 +97,8 @@ export class PermissionService {
     '/api/v1/room/',
     '/api/v1/role/',
     '/static/config.json',
+    '/static/deploy.json',
+    '/deploy.json',
   ];
 
   constructor() {
@@ -122,7 +124,7 @@ export class PermissionService {
         this.forbiddenActionsToFrontEndMapping = {...this.allBackEndActionsToFrontEndTabMapping2};
         /*remove all allowed perms*/
         this.loggedUser.role.permissions.actions.forEach((permId: number) => {
-          /*find action name for given permission id*/
+          /*find action name for given permission roomId*/
           if (!masterActionList) return;
           const actionName = masterActionList.find((action) => action.id === permId).name;
           const x = this.forbiddenActionsToFrontEndMapping[actionName];
@@ -147,8 +149,8 @@ export class PermissionService {
         this.allowedApiHttpVerbPPathToActionNamesMapping = {};
         /*add the explicit permissions */
         // this.loggeduser.role.permissions.actions.forEach((permId: number) => {
-        //   /*find action name for given permission id*/
-        //   const action = masterActionList.find((action) => action.id === permId);
+        //   /*find action name for given permission roomId*/
+        //   const action = masterActionList.find((action) => action.roomId === permId);
         //   const httpVerb = action.permissions.method;
         //   const path = action.permissions.endpoint;
         //   const httpVerbPPath = httpVerb + '+' + path;

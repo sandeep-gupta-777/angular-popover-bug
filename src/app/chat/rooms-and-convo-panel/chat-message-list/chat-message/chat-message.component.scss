@@ -17,6 +17,9 @@
     color: white !important;
   }
 }
+.time {
+  @include typography(9px, $line-height-normal, $font-weight-400, $color-text-normal);
+}
 
 .message {
   @include typography($font-size-normal, $line-height-lg, $font-weight-400, $color-text-normal);
@@ -25,9 +28,7 @@
   .message-text {
 
   }
-  .time {
-    @include typography(9px, $line-height-normal, $font-weight-400, $color-text-normal);
-  }
+
 }
 
 .session-expire-info-row {

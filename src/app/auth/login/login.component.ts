@@ -89,7 +89,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     //
     // }
     try {
-      /*replace with plateform.id*/
+      /*replace with plateform.roomId*/
       localStorage.clear();
 
     } catch (e) {
