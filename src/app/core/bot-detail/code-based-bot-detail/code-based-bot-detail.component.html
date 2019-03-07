@@ -26,7 +26,7 @@
                     [ngClass]="{'filter-black':sideBarTab1!=='input', 'selected-nav':sideBarTab1==='input'}"
                     (click)="sideBarTabChanged('input'); ">
                     <img  class="" src="assets/img/sidebar/funnel-copy.svg" alt="">
-                    <span style="color: #00ABD3">Input</span>
+                    <span style="color: #00ABD3">Input {{dirtySideBarTabs[myESideBarTab.input]?'*':""}}</span>
                 </li>
             </ng-container>
             <ng-container *myIf="[myEAllActions['Get Pipeline Module']]">

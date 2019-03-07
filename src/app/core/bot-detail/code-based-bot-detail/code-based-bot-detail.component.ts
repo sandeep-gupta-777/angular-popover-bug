@@ -66,7 +66,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   showLoader = false;
   noSuchBotMessage = '';
   iterableDiffer;
-
+  MyESideBarTab = ESideBarTab;
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -82,8 +82,20 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   goFullScreen;
   botConfigData;
   dirtySideBarTabs={
-
+      [ESideBarTab.setting]:false,
+      [ESideBarTab.input]:false,
+      [ESideBarTab.logic]:false,
+      [ESideBarTab.chat]:false,
+      [ESideBarTab.test]:false,
   };
+
+
+  changePipelineDirtyStatus(pipeline:boolean, kb:boolean){
+    this.dirtySideBarTabs[ESideBarTab.input] = pipeline || kb; 
+  }
+  pipeline:boolean;
+  kb:boolean;
+  KB_DATA;
 
   ngOnInit() {
 
@@ -91,6 +103,12 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
       .createConceptFullScreen$
       .subscribe((goFullScreen) => {
         this.goFullScreen = goFullScreen;
+      });
+
+      EventService.knowledgeBaseData$.subscribe((isKbDirty:boolean)=>{
+        this.kb =  isKbDirty;
+        debugger;
+        this.changePipelineDirtyStatus(this.pipeline, this.kb)
       });
 
     EventService.botDataDirty$.subscribe((value)=>{
@@ -246,10 +264,11 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
   }
+  
 
 
 
-  botConfigDataChangeHandler(basicInfoData:IBot){
+  botConfigDataChangeHandler(basicInfoData:IBot , tabName){
     let isDirty = !UtilityService.isObjectSubSet(this.bot, basicInfoData);
     this.dirtySideBarTabs[ESideBarTab.setting] = isDirty;
   }

@@ -107,7 +107,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
         if (!doesNerExistsInSmartTable) {
           (<any>this.custumNerDataForSmartTable).push({...value, highlight: true});
         }
-
+        EventService.knowledgeBaseData$.emit(false);
         this.custumNerDataForSmartTable = [...this.custumNerDataForSmartTable];
         this.addQueryParamsInCurrentRoute({ner_id: value.id});
         this.utilityService.showSuccessToaster('Customner saved');

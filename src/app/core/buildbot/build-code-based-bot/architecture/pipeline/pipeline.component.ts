@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, IterableDiffers, OnInit, Output, TemplateRef} from '@angular/core';
+import {Component, EventEmitter, Input, IterableDiffers, OnInit, Output, TemplateRef, OnDestroy} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {IBot} from '../../../../interfaces/IBot';
 import {IPipelineItem} from '../../../../../../interfaces/ai-module';
@@ -36,7 +36,7 @@ export interface IPipelineItemV2 {
   templateUrl: './pipeline.component.html',
   styleUrls: ['./pipeline.component.scss'],
 })
-export class PipelineComponent extends ModalImplementer implements OnInit {
+export class PipelineComponent extends ModalImplementer implements OnInit, OnDestroy {
 
   allMatExpansionExpanded = false;
   masterModuleCount: number;
@@ -60,7 +60,8 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   selectedPipeline: IPipelineItem;
   searchKeyword: string;
   buildBotType: any;
-  @Output() datachanged$ = new EventEmitter();
+  // @Output() datachanged$ = new EventEmitter();
+  @Output() botData$ = new EventEmitter();
   pipelineModulesV2List: IPipelineItemV2[];
 
   constructor(
@@ -187,7 +188,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
     isPipelineValidObj[EFormValidationErrors.form_validation_pipeline] = isAllPipelineModulesInputParamsArePopulated;
     /*if there is change: check if all settings are populated*/
 
-    this.datachanged$.emit({pipelines: this.pipeLine, isAllPipelineModulesInputParamsArePopulated, ...isPipelineValidObj});
+    // this.datachanged$.emit({pipelines: this.pipeLine, isAllPipelineModulesInputParamsArePopulated, ...isPipelineValidObj});
   }
 
   printArr() {
@@ -232,8 +233,12 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
     });
     this.pipeLine = pipeLineTemp;
     this.pipeLine.push(pipelineItem);
+    this.botData$.emit(this.pipeLine);
   }
-
+  ngOnDestroy(){
+    debugger;
+    this.botData$.emit(this._bot);
+  }
   removePipelineItemFromPipelineModal(index: number,aiModuleId: number) {
 
     let pipelineModules = this.pipelineModulesV2List
@@ -265,8 +270,9 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   removePipelineItemFromPipeline(index: number) {
     console.log(this.pipeLine)
     this.pipeLine.splice(index, 1);
+    this.botData$.emit({pipelines: this.pipeLine});
     console.log(this.pipeLine)
-
+    
   }
 
   toggleExpandAllModules() {
