@@ -18,8 +18,9 @@
                 [ngClass]="{'filter-black':sideBarTab1!=='setting', 'selected-nav':sideBarTab1==='setting'}"
                 (click)="sideBarTabChanged('setting')" class="cursor-pointer">
                 <img  class="" src="assets/img/sidebar/bot-config.svg" alt="">
-                <span style="color: #00ABD3">Settings</span>
+                <span style="color: #00ABD3">Settings {{dirtySideBarTabs[myESideBarTab.setting]?'*':""}}</span>
             </li>
+
             <ng-container *myIf="[myEAllActions['GET Bot Versioning']]">
                 <li style="cursor: pointer"
                     [ngClass]="{'filter-black':sideBarTab1!=='input', 'selected-nav':sideBarTab1==='input'}"
@@ -67,7 +68,9 @@
             </header>
             <div class="architecture py-3" *ngIf="sideBarTab1 ==='setting'">
                 <div class="d-flex-column-last-child-flex-grow-1 text-theme-normal justify-content-center">
-                    <app-bot-config (datachanged$)="datachanged($event)" [bot]="(bot)"></app-bot-config>
+                    <app-bot-config (datachanged$)="datachanged($event)"
+                                    (botData$)="botConfigDataChangeHandler($event)"
+                                    [bot]="(bot)"></app-bot-config>
                 </div>
             </div>
         </ng-container>

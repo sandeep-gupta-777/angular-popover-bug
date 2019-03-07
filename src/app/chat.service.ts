@@ -33,7 +33,7 @@ export class ChatService {
   }
 
   sendHumanMessageToBotServer(botDetails: { roomId: number, bot_access_token: string }, consumerDetails: IConsumerDetails, messageByHuman: string, frameEnabled: EChatFrame) {
-    debugger;
+
     const url = this.constantsService.getStartNewChatLoginUrl();
     const body /*: ISendApiRequestPayload */ = {
       'consumer': consumerDetails,

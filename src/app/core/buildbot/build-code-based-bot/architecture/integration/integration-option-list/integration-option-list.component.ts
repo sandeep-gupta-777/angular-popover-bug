@@ -32,10 +32,11 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   formValueFinal: IIntegrationOption;
   formDataClone = {};
   @Input() _bot: IBot;
-  @Input() set bot(bot: IBot) {
-    this._bot = bot;
-    this.generateIntegrationFormValue();
-  }
+  @Input() bot: IBot;
+  // @Input() set bot(bot: IBot) {
+  //   this._bot = bot;
+  //   this.generateIntegrationFormValue();
+  // }
   @ViewChild('form') f: NgForm;
   @ViewChild('form_new') f_new: NgForm;
   @ViewChild('test') test_new: NgForm;
@@ -59,6 +60,8 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+
+    this._bot = this.bot; //todo: we need to one...remove _bot
     this.app$.subscribe((value) => {
       this.masterIntegrationList = value.masterIntegrationList;
       if(!value.masterIntegrationList){
@@ -90,7 +93,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
         this.masterIntegrationListSerialized[integration_type_key] = {...tempObj};
       }
     });
-    this.formValue = this._bot.integrations;
+    this.formValue = UtilityService.cloneObj(this._bot.integrations);
     this.formValue =
       this.formValueFinal = {
         channels: {

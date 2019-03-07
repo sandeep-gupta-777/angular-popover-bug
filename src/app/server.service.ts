@@ -629,8 +629,8 @@ export class ServerService {
     const headerData: IHeaderData = {
       'bot-access-token': bot.bot_access_token
     };
-    this.makePutReq({url, body:bot, headerData})
-      .subscribe((updatedBot: IBot) => {
+    return this.makePutReq({url, body:bot, headerData})
+      .pipe(tap((updatedBot: IBot) => {
           EventService.botUpdatedInServer.emit(updatedBot);
           this.store.dispatch([
             new UpdateBotInfoByIdInBotInBotList({botId: bot.id, data: updatedBot})
@@ -640,7 +640,7 @@ export class ServerService {
         err  => {
           EventService.codeValidationErrorOnUpdate$.emit(err.error);
           console.log("emited this :::::::::::::",err.error);
-        });
+        }));
   }
 
   currentRoom: IRoomData;

@@ -60,9 +60,9 @@ export class IntegrationLogosPipe implements PipeTransform {
           });;
           return x;
         });
-        debugger;
+
         if(!arr){
-          debugger;
+
         }
         return arr;
       } catch (e) {

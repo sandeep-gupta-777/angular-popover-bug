@@ -35,7 +35,7 @@ export class SessionMessageComponent implements OnInit {
     this.utilityService.copyToClipboard(dataValue);
   }
   ngOnInit() {
-debugger;
+
     this.sessionMessageItems = this._txnConversationItems.convoList;
     LoggingService.log(this.sessionMessageItems);
 

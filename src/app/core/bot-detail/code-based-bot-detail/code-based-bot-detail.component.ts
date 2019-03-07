@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, IterableDiffers, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {ViewBotStateModel, ViewBotStateReducer} from '../../view-bots/ngxs/view-bot.state';
 import {Observable} from 'rxjs';
@@ -17,6 +17,14 @@ import {IAuthState} from '../../../auth/ngxs/auth.state';
 import {LoggingService} from '../../../logging.service';
 import {EventService} from '../../../event.service';
 
+export enum ESideBarTab {
+  setting = 'setting',
+  input = 'input',
+  logic = 'logic',
+  chat = 'chat',
+  test = 'test',
+}
+
 export enum EBotDetailTabs {
   pipeline,
   custom_ner,
@@ -29,10 +37,11 @@ export enum EBotDetailTabs {
   templateUrl: './code-based-bot-detail.component.html',
   styleUrls: ['./code-based-bot-detail.component.scss']
 })
-export class CodeBasedBotDetailComponent implements OnInit {
+export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
 
   myEAllActions = EAllActions;
   myEBotType = EBotType;
+  myESideBarTab = ESideBarTab;
   isArchitectureFullScreen = false;
   @Select() botlist$: Observable<ViewBotStateModel>;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
@@ -52,18 +61,25 @@ export class CodeBasedBotDetailComponent implements OnInit {
   bot: IBot;
   showLoader = false;
   noSuchBotMessage = '';
+  iterableDiffer;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private serverService: ServerService,
     private store: Store,
+    private _iterableDiffers: IterableDiffers,
     private constantsService: ConstantsService,
     public eventService: EventService,
     private utilityService: UtilityService) {
+    this.iterableDiffer = this._iterableDiffers.find([]).create(null);
   }
 
   goFullScreen;
+  botConfigData;
+  dirtySideBarTabs={
+
+  };
 
   ngOnInit() {
 
@@ -73,17 +89,18 @@ export class CodeBasedBotDetailComponent implements OnInit {
         this.goFullScreen = goFullScreen;
       });
 
+    EventService.botDataDirty$.subscribe((value)=>{
+
+      this.dirtySideBarTabs = {...this.dirtySideBarTabs, ...value};
+    });
+
+
     // this.loggeduser$.take(1).subscribe((loggedUserState:IAuthState)=>{
     const roleName = this.constantsService.loggedUser.role.name;
     this.showConfig = roleName !== ERoleName.Admin; //if its admin don't expand bot config by default
     if (roleName === ERoleName.Admin || roleName === ERoleName['Bot Developer']) {
       this.sideBarTab1 = 'setting';
     }
-    // else if (roleName === ERoleName.Tester) {
-    //   this.sideBarTab1 = 'test';
-    // } else {
-    //   this.sideBarTab1 = 'chat';
-    // }
 
     const isArchitectureFullScreen = this.activatedRoute.snapshot.queryParamMap.get('isArchitectureFullScreen');
     this.isArchitectureFullScreen = isArchitectureFullScreen === 'true';
@@ -115,10 +132,12 @@ export class CodeBasedBotDetailComponent implements OnInit {
     this.getOverviewInfo();
     this.activatedRoute.queryParams.subscribe((queryParams) => {
       this.sideBarTab1 = queryParams['build'] || this.sideBarTab1;
-      ;
       this.isArchitectureFullScreen = queryParams['isArchitectureFullScreen'] === 'true';
     });
   }
+
+
+
 
 
   refreshCodeEditor() {
@@ -216,5 +235,18 @@ export class CodeBasedBotDetailComponent implements OnInit {
     setTimeout(() => this.spinReloadSessionTableSpinner = false, 2000);
     this.eventService.reloadSessionTable$.emit();
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+  }
+
+
+
+  botConfigDataChangeHandler(basicInfoData:IBot){
+    let isDirty = !UtilityService.isObjectSubSet(this.bot, basicInfoData);
+    debugger;
+    this.dirtySideBarTabs[ESideBarTab.setting] = isDirty;
+  }
+
 
 }

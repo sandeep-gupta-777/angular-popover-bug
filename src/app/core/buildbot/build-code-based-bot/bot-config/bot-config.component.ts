@@ -7,9 +7,9 @@ import {EAllActions} from '../../../../constants.service';
 import {EventService} from '../../../../event.service';
 import {BotConfigService} from './bot-config.service';
 import {FormControl, FormGroup, FormGroupDirective, NgForm} from '@angular/forms';
-import {combineLatest} from 'rxjs';
 import {ServerService} from '../../../../server.service';
 import {ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from '@angular/material';
+import {ESideBarTab} from '../../../bot-detail/code-based-bot-detail/code-based-bot-detail.component';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher1 implements ErrorStateMatcher {
@@ -34,6 +34,7 @@ export class BotConfigComponent implements OnInit {
   activeTab = 'basic';
   myEAllActions = EAllActions;
   @Output() datachanged$ = new EventEmitter();
+  @Output() botData$ = new EventEmitter();
   basicInfoForm: FormGroup;
   dataManagementForm: FormGroup;
   securityForm: FormGroup;
@@ -42,6 +43,7 @@ export class BotConfigComponent implements OnInit {
   bot_type;
   id;
   formDirty = false;
+
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -53,6 +55,13 @@ export class BotConfigComponent implements OnInit {
 
   integrationFormInit(integrationForm: NgForm) {
     this.integrationForm = integrationForm;
+    this.integrationForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
+  }
+
+  emitBotDirtyEvent(isDirty){
+    EventService.botDataDirty$.emit({[ESideBarTab.setting]:isDirty});
+
+    this.botData$.emit(this.createBotData());
   }
 
 
@@ -64,11 +73,34 @@ export class BotConfigComponent implements OnInit {
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('config') || 'basic';
     this.bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type') || this.activatedRoute.snapshot.data['bot_type'];
     this.id = this.activatedRoute.snapshot.queryParamMap.get('id');
+
+    this.basicInfoForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
+    this.dataManagementForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
+    this.securityForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
+
+    /*TODO: forkjoin is not working*/
+  // let x = [this.basicInfoForm.valueChanges, this.dataManagementForm.valueChanges, this.securityForm.valueChanges];
+  //   forkJoin(...[x])
+  //     .subscribe((value)=>{
+  //       console.log(value);
+  //       alert();
+  //     })
   }
 
   tabClicked(activeTab: string) {
     this.activeTab = activeTab;
     LoggingService.log(this.activeTab);
+  }
+
+
+  createBotData(){
+    let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm];
+    combinedForms = combinedForms.filter(form => form);
+    let bot = UtilityService.getCombinedBotData(combinedForms);
+    if (this.integrationForm && this.integrationForm.value) {
+      bot.integrations = this.integrationForm.value;
+    }
+    return bot;
   }
 
   /*
@@ -84,14 +116,18 @@ export class BotConfigComponent implements OnInit {
       return;
     }
 
-    let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm];
-    combinedForms = combinedForms.filter(form => form);
-    let bot = UtilityService.getCombinedBotData(combinedForms);
-    if (this.integrationForm && this.integrationForm.value) {
-      bot.integrations = this.integrationForm.value;
-    }
+    let bot = this.createBotData();
+
+    // let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm];
+    // combinedForms = combinedForms.filter(form => form);
+    // let bot = UtilityService.getCombinedBotData(combinedForms);
+    // if (this.integrationForm && this.integrationForm.value) {
+    //   bot.integrations = this.integrationForm.value;
+    // }
     bot.id = this.bot.id;
-    this.serverService.updateBot(bot);
+    this.serverService.updateBot(bot).subscribe(()=>{
+      this.emitBotDirtyEvent(false);
+    });
   }
 
   getInvalidForm() {

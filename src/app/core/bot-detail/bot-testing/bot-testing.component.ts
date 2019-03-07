@@ -94,10 +94,10 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
     this.handontable_column = this.constantsService.HANDSON_TABLE_BOT_TESTING_columns;
   }
   afterTabledataChange(data){
-    debugger;
+
     if(data){
       let didEditedableItemsChange = data.find((val)=>{return val[1]<=1} )
-      debugger;
+
       if(didEditedableItemsChange){
         this.tableChanged = true
       }

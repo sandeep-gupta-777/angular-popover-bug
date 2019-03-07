@@ -1,6 +1,7 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {Subscriber} from 'rxjs';
 import {IBot} from './core/interfaces/IBot';
+import {ESideBarTab} from './core/bot-detail/code-based-bot-detail/code-based-bot-detail.component';
 
 @Injectable({
   providedIn: 'root'
@@ -46,4 +47,5 @@ export class EventService {
 
   static updateBot$ = new EventEmitter();
   static createConceptFullScreen$ = new EventEmitter();
+  static botDataDirty$ = new EventEmitter<{[index:string]:boolean}>();
 }

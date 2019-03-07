@@ -245,7 +245,7 @@ channelNameToImg(channel:string){
   }
 
   scrollToFirstKeywordMatch(messageSearchKeyword) {
-debugger;
+
     this.searchEnterPressedCount = 0;
     this.messageSearchKeyword = messageSearchKeyword = messageSearchKeyword.trim();
     if (messageSearchKeyword === '') { return; }

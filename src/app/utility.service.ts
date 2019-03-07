@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 
 export enum EBotType {
   chatbot = 'chatbot',
@@ -14,17 +14,17 @@ export enum EFormValidationErrors {
 }
 
 import downloadCsv from 'download-csv';
-import { ActivatedRoute, Router } from '@angular/router';
-import { IBot } from './core/interfaces/IBot';
-import { IPipelineItem } from '../interfaces/ai-module';
-import { IAnalysis2HeaderData } from '../interfaces/Analytics2/analytics2-header';
-import { EBotMessageMediaType, IMessageData } from '../interfaces/chat-session-state';
-import { IBotPreviewFirstMessage } from './chat/chat-wrapper.component';
-import { IGeneratedMessageItem } from '../interfaces/send-api-request-payload';
-import { StoreVariableService } from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {IBot} from './core/interfaces/IBot';
+import {IPipelineItem} from '../interfaces/ai-module';
+import {IAnalysis2HeaderData} from '../interfaces/Analytics2/analytics2-header';
+import {EBotMessageMediaType, IMessageData} from '../interfaces/chat-session-state';
+import {IBotPreviewFirstMessage} from './chat/chat-wrapper.component';
+import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
+import {StoreVariableService} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl, NgForm} from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
-import { ModalConfirmComponent } from './modal-confirm/modal-confirm.component';
+import {MatSnackBar} from '@angular/material';
+import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
 
 
 @Injectable({
@@ -41,16 +41,16 @@ export class UtilityService {
   ) {
   }
 
-  static removeAllNonDefinedKeysFromObject(obj:object){
-    for (let key in obj){
-      if(obj[key]=== undefined || obj[key]=== null || obj[key]=== ""){
+  static removeAllNonDefinedKeysFromObject(obj: object) {
+    for (let key in obj) {
+      if (obj[key] === undefined || obj[key] === null || obj[key] === '') {
         delete obj[key];
       }
     }
     return obj;
   }
 
-  static areAllElementsInArrUnique(arr:any[]): boolean{
+  static areAllElementsInArrUnique(arr: any[]): boolean {
     return (new Set(arr)).size === arr.length;
   }
 
@@ -75,6 +75,7 @@ export class UtilityService {
       classStr: 'primary-modal-header-border'
     });
   }
+
   openDangerModal(IntentModal, matDialog, dialogRefWrapper, classStr?: { class: string }) {
     return this.openDialog({
       dialog: matDialog,
@@ -115,7 +116,7 @@ export class UtilityService {
           accObj[currObj.param_name] = currObj.display_text;
           return accObj;
         }, {});
-        return { ...accumulator, ...x };
+        return {...accumulator, ...x};
       }, {});
     }
     return this.masterIntegration_IntegrationKeyDisplayNameMap[key];
@@ -166,36 +167,41 @@ export class UtilityService {
 
 
   // tslint:disable-next-line:member-ordering
-  public static convertCsvTextToArray(csv:string):string[][]{
-    let lines=csv.split('\n');
-    lines = lines.map((line)=> line.trim());
-    let arr:string[][] = [];
-    for (let i=0; i<lines.length; ++i){
+  public static convertCsvTextToArray(csv: string): string[][] {
+    let lines = csv.split('\n');
+    lines = lines.map((line) => line.trim());
+    let arr: string[][] = [];
+    for (let i = 0; i < lines.length; ++i) {
       arr.push(lines[i].split(','));
     }
     return arr;
   }
-  public static convertCsvToJson(csv){
-    var lines=csv.split('\n');
-    var result = [];
-    var headers = lines[0].split(",");
 
-    for(var i=1; i<lines.length; i++) {
+  public static convertCsvToJson(csv) {
+    var lines = csv.split('\n');
+    var result = [];
+    var headers = lines[0].split(',');
+
+    for (var i = 1; i < lines.length; i++) {
       let obj = {};
 
       var row = lines[i],
-          queryIdx = 0,
-          startValueIdx = 0,
-          idx = 0;
+        queryIdx = 0,
+        startValueIdx = 0,
+        idx = 0;
 
-      if (row.trim() === '') { continue; }
+      if (row.trim() === '') {
+        continue;
+      }
 
       while (idx < row.length) {
         /* if we meet a double quote we skip until the next one */
         var c = row[idx];
 
         if (c === '"') {
-          do { c = row[++idx]; } while (c !== '"' && idx < row.length - 1);
+          do {
+            c = row[++idx];
+          } while (c !== '"' && idx < row.length - 1);
         }
 
         if (c === ',' || /* handle end of line with no comma */ idx === row.length - 1) {
@@ -203,11 +209,17 @@ export class UtilityService {
           var value = row.substr(startValueIdx, idx - startValueIdx).trim();
 
           /* skip first double quote */
-          if (value[0] === '"') { value = value.substr(1); }
+          if (value[0] === '"') {
+            value = value.substr(1);
+          }
           /* skip last comma */
-          if (value[value.length - 1] === ',') { value = value.substr(0, value.length - 1); }
+          if (value[value.length - 1] === ',') {
+            value = value.substr(0, value.length - 1);
+          }
           /* skip last double quote */
-          if (value[value.length - 1] === '"') { value = value.substr(0, value.length - 1); }
+          if (value[value.length - 1] === '"') {
+            value = value.substr(0, value.length - 1);
+          }
 
           var key = headers[queryIdx++];
           obj[key] = value;
@@ -221,6 +233,7 @@ export class UtilityService {
     }
     return result;
   }
+
   readInputFileAsText(inputElement): Promise<any> {
     return new Promise((resolve, reject) => {
       const input = inputElement; // event.target;
@@ -339,7 +352,7 @@ export class UtilityService {
     }
   }
 
-  static cloneObj(obj){
+  static cloneObj(obj) {
     return JSON.parse(JSON.stringify(obj));
   }
 
@@ -352,7 +365,7 @@ export class UtilityService {
     return valClone;
   }
 
-  static trimAllObjValues(obj:object) {
+  static trimAllObjValues(obj: object) {
     for (let key in obj) {
       if (obj[key] && obj[key].trim) {
         obj[key] = obj[key].trim();
@@ -539,12 +552,12 @@ export class UtilityService {
 
   }
 
-  doesStringIncludesSubstring(string:string, subString:string) {
+  doesStringIncludesSubstring(string: string, subString: string) {
     try {
-      if(!string || !subString){
+      if (!string || !subString) {
         throw 'invalid input';
       }
-      return  string.toLowerCase().includes(subString.toLowerCase())?string:false;
+      return string.toLowerCase().includes(subString.toLowerCase()) ? string : false;
     } catch (e) {
       return false;
     }
@@ -562,13 +575,13 @@ export class UtilityService {
   convertDateTimeGraph(
     rawData: { activesessions: number, labels: string, totalsessions: number }[],
     xAxisLabel: string,
-// <<<<<<< HEAD
+    // <<<<<<< HEAD
     startTime_ms: number = Date.UTC(2010, 0, 2), //Date.UTC(2010, 0, 2),
     granularity: string = 'day',  // one day
-// =======
+    // =======
     // startTime_ms: number = Date.UTC(2010, 0, 2), // Date.UTC(2010, 0, 2),
     // granularity_Ms: number = 24 * 3600 * 1000,  // one day
-// >>>>>>> develop
+    // >>>>>>> develop
   ) {
 
 
@@ -577,17 +590,17 @@ export class UtilityService {
     }
 
     let intervalObj = {};
-    if(granularity === 'day' || granularity === 'month' || granularity === 'year'){
+    if (granularity === 'day' || granularity === 'month' || granularity === 'year') {
       intervalObj = {
         pointIntervalUnit: granularity,//24*3600*1000  // one day,
-      }
-    }else {
+      };
+    } else {
       /*pointIntervalUnit doesnt work for hour and week
       *https://api.highcharts.com/highstock/series.column.pointIntervalUnit
       * */
       intervalObj = {
         pointInterval: this.convertGranularityStrToMs(granularity),//24*3600*1000  // one day,
-      }
+      };
     }
 
     const template: any = {
@@ -924,7 +937,7 @@ export class UtilityService {
   showErrorToaster(message: string, sec = 4) {
 
     try {
-      this.snackBar.open(message || "Some error occurred", '', {
+      this.snackBar.open(message || 'Some error occurred', '', {
         duration: (sec * 1000) || 2000,
         panelClass: ['bg-danger-snackbar'],
         verticalPosition: 'top',
@@ -981,13 +994,13 @@ export class UtilityService {
     const url: string = formControl.value;
     const pattern = /^((https):\/\/)/;
 
-    return pattern.test(url) ? null : { 'Must be Https Url': true };
+    return pattern.test(url) ? null : {'Must be Https Url': true};
   }
 
   imageUrlHavingValidExtnError(formControl: FormControl) {
     const url: string = formControl.value;
     const pattern = /\.(gif|jpg|jpeg|tiff|png)$/i;
-    return pattern.test(url) ? null : { 'Image Extension is not correct': true };
+    return pattern.test(url) ? null : {'Image Extension is not correct': true};
   }
 
   isManagerValidator(formGroup: FormGroup) {
@@ -995,16 +1008,31 @@ export class UtilityService {
     const is_manager = formValue['is_manager'];
     const child_bots = formValue['child_bots'];
     /*if is_manager = true, child_bots should have at least one value*/
-    return (!is_manager || is_manager && (child_bots.length > 0)) ? null : { 'isManagerError': true };
+    return (!is_manager || is_manager && (child_bots.length > 0)) ? null : {'isManagerError': true};
   }
 
-  static getCombinedBotData(forms:(FormGroup|NgForm)[]): IBot{
-    return forms.reduce((aggr, form)=>{
-      return{
+  static getCombinedBotData(forms: (FormGroup | NgForm)[]): IBot {
+    return forms.reduce((aggr, form) => {
+      return {
         ...aggr,
         ...form.value
-      }
-    },{});
+      };
+    }, {});
+  }
+
+
+  /*
+  * isObjectSubSet:
+  * check if smaller object (obj2) is perfect subset of larger object (obj1)
+  * */
+  static isObjectSubSet(obj1, obj2) {
+    let obj1_temp = {};
+    for (let key in obj2) {
+      obj1_temp[key] = obj1[key];
+    }
+    let x=  UtilityService.deepCompare(obj1_temp, obj2);
+
+    return x;
   }
 
   pushFormControlItemInFormArray(formArray: FormArray, formBuilder: FormBuilder, item: any) {
@@ -1065,7 +1093,7 @@ export class UtilityService {
       document.body.appendChild(a);
       a.style = 'display: none';
       return function (data, fileName) {
-        const blob = new Blob([text], { type: 'octet/stream' }),
+        const blob = new Blob([text], {type: 'octet/stream'}),
           url = window.URL.createObjectURL(blob);
         a.href = url;
         a.download = fileName;
@@ -1097,15 +1125,15 @@ export class UtilityService {
    * @param string: text to be highlighted
    * @param keyword keyword
    */
-  static highlightText(string:string, keyword:string){
-    if(!string || !keyword){
+  static highlightText(string: string, keyword: string) {
+    if (!string || !keyword) {
       return string;
     }
     /*
     * Example usage of $1 to get capturing group
     * "HELLO".replace(/(hell)o/i,`$1sdasdadas`);
     * */
-    return string.replace(new RegExp(`(${keyword})`, "ig"),`<span class="text-highlight">$1</span>`);
+    return string.replace(new RegExp(`(${keyword})`, 'ig'), `<span class="text-highlight">$1</span>`);
   }
 
   areAllAvatorValesDefined(headerObj: object) {
@@ -1127,7 +1155,7 @@ export class UtilityService {
       'user-access-token': null,
       granularity: null
     };
-    headerObj = { ...headerDataTemplate, ...headerObj };
+    headerObj = {...headerDataTemplate, ...headerObj};
     for (const key in headerObj) {
       if (headerObj[key] == null || headerObj[key] === '') {// 0!==null but 0==""
         return false;
@@ -1137,13 +1165,17 @@ export class UtilityService {
   }
 
   addQueryParamsInCurrentRoute(queryParamObj: object) {
-    this.router.navigate(['.'], { queryParams: queryParamObj, relativeTo: this.activatedRoute });
+    this.router.navigate(['.'], {queryParams: queryParamObj, relativeTo: this.activatedRoute});
   }
 
   isAtleastOneValueIsDefined(obj) {
-    if (!obj) { return false; }
+    if (!obj) {
+      return false;
+    }
     for (const key in obj) {
-      if (obj[key]) { return true; }
+      if (obj[key]) {
+        return true;
+      }
     }
     return false;
   }
@@ -1203,7 +1235,7 @@ export class UtilityService {
   checkIfAllPipelineInputParamsArePopulated(pipeline: IPipelineItem[]): boolean {
 
     const inputParamsObj: object = pipeline.reduce((inputParamsObj, pipelineItem) => {
-      return { ...inputParamsObj, ...pipelineItem.input_params };
+      return {...inputParamsObj, ...pipelineItem.input_params};
     }, {});
 
     for (const param in inputParamsObj) {
@@ -1216,7 +1248,7 @@ export class UtilityService {
 
   performFormValidationBeforeSaving(obj: IBot): IBot {
 
-    const objShallowClone = { ...obj };
+    const objShallowClone = {...obj};
     const validation_Keys: string[] = Object.keys(objShallowClone).filter((key) => {
       return key.includes('form_validation_');
     });
@@ -1280,7 +1312,7 @@ export class UtilityService {
 
   openDialog(dialogOptions: { dialog, component, data?: any, classStr, dialogRefWrapper?: { ref: any } }): Promise<any> {
     // data: { message?: string, title?: string, actionButtonText?: string, isActionButtonDanger?:boolean }
-    const { dialog, component, data, classStr, dialogRefWrapper } = dialogOptions;
+    const {dialog, component, data, classStr, dialogRefWrapper} = dialogOptions;
     try {
       dialogRefWrapper.ref.close(); // closing any previous modals
     } catch (e) {
@@ -1300,22 +1332,22 @@ export class UtilityService {
 
   }
 
-  openCloseWithoutSavingModal(dialogRefWrapper,matDialog) {
+  openCloseWithoutSavingModal(dialogRefWrapper, matDialog) {
 
     return this.openDialog({
       dialogRefWrapper: dialogRefWrapper,
-      classStr:'danger-modal-header-border',
-      data:{
-        actionButtonText:"Close without saving",
-        message: "All your unsaved changes will be lost if you don’t save.",
-        title:`Close without saving?`,
-        isActionButtonDanger:true,
+      classStr: 'danger-modal-header-border',
+      data: {
+        actionButtonText: 'Close without saving',
+        message: 'All your unsaved changes will be lost if you don’t save.',
+        title: `Close without saving?`,
+        isActionButtonDanger: true,
         inputDescription: null,
-        closeButtonText:"Keep editing"
+        closeButtonText: 'Keep editing'
       },
       dialog: matDialog,
-      component:ModalConfirmComponent
-    })
+      component: ModalConfirmComponent
+    });
     // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
 
@@ -1341,7 +1373,9 @@ export class UtilityService {
 
 
   static replaceHrefWithAnchorTag(str) {
-    if (!str) { return; }
+    if (!str) {
+      return;
+    }
     const regex: RegExp = /http[s]?:\/\/[\w,.]+/gm;
     // str.replace(, "SO");
     regex.exec(str);
@@ -1397,27 +1431,135 @@ export class UtilityService {
     var elapsed = current - previous;
 
     if (elapsed < msPerMinute) {
-      return Math.round(elapsed/1000) + ' seconds ago';
+      return Math.round(elapsed / 1000) + ' seconds ago';
+    } else if (elapsed < msPerHour) {
+      return Math.round(elapsed / msPerMinute) + ' minutes ago';
+    } else if (elapsed < msPerDay) {
+      return Math.round(elapsed / msPerHour) + ' hours ago';
+    } else if (elapsed < msPerMonth) {
+      return 'approximately ' + Math.round(elapsed / msPerDay) + ' days ago';
+    } else if (elapsed < msPerYear) {
+      return 'approximately ' + Math.round(elapsed / msPerMonth) + ' months ago';
+    } else {
+      return 'approximately ' + Math.round(elapsed / msPerYear) + ' years ago';
+    }
+  }
+
+
+
+  static deepCompare (x,y) {
+
+    var i, l, leftChain, rightChain;
+
+    function compare2Objects (x, y) {
+      var p;
+
+      // remember that NaN === NaN returns false
+      // and isNaN(undefined) returns true
+      if (isNaN(x) && isNaN(y) && typeof x === 'number' && typeof y === 'number') {
+        return true;
+      }
+
+      // Compare primitives and functions.
+      // Check if both arguments link to the same object.
+      // Especially useful on the step where we compare prototypes
+      if (x === y) {
+        return true;
+      }
+
+      // Works in case when functions are created in constructor.
+      // Comparing dates is a common scenario. Another built-ins?
+      // We can even handle functions passed across iframes
+      if ((typeof x === 'function' && typeof y === 'function') ||
+        (x instanceof Date && y instanceof Date) ||
+        (x instanceof RegExp && y instanceof RegExp) ||
+        (x instanceof String && y instanceof String) ||
+        (x instanceof Number && y instanceof Number)) {
+        return x.toString() === y.toString();
+      }
+
+      // At last checking prototypes as good as we can
+      if (!(x instanceof Object && y instanceof Object)) {
+        return false;
+      }
+
+      if (x.isPrototypeOf(y) || y.isPrototypeOf(x)) {
+        return false;
+      }
+
+      if (x.constructor !== y.constructor) {
+        return false;
+      }
+
+      if (x.prototype !== y.prototype) {
+        return false;
+      }
+
+      // Check for infinitive linking loops
+      if (leftChain.indexOf(x) > -1 || rightChain.indexOf(y) > -1) {
+        return false;
+      }
+
+      // Quick checking of one object being a subset of another.
+      // todo: cache the structure of arguments[0] for performance
+      for (p in y) {
+        if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
+          return false;
+        }
+        else if (typeof y[p] !== typeof x[p]) {
+          return false;
+        }
+      }
+
+      for (p in x) {
+        if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
+          return false;
+        }
+        else if (typeof y[p] !== typeof x[p]) {
+          return false;
+        }
+
+        switch (typeof (x[p])) {
+          case 'object':
+          case 'function':
+
+            leftChain.push(x);
+            rightChain.push(y);
+
+            if (!compare2Objects (x[p], y[p])) {
+              return false;
+            }
+
+            leftChain.pop();
+            rightChain.pop();
+            break;
+
+          default:
+            if (x[p] !== y[p]) {
+              return false;
+            }
+            break;
+        }
+      }
+
+      return true;
     }
 
-    else if (elapsed < msPerHour) {
-      return Math.round(elapsed/msPerMinute) + ' minutes ago';
+    if (arguments.length < 1) {
+      return true; //Die silently? Don't know how to handle such case, please help...
+      // throw "Need two or more arguments to compare";
     }
 
-    else if (elapsed < msPerDay ) {
-      return Math.round(elapsed/msPerHour ) + ' hours ago';
+    for (i = 1, l = arguments.length; i < l; i++) {
+
+      leftChain = []; //Todo: this can be cached
+      rightChain = [];
+
+      if (!compare2Objects(arguments[0], arguments[i])) {
+        return false;
+      }
     }
 
-    else if (elapsed < msPerMonth) {
-      return 'approximately ' + Math.round(elapsed/msPerDay) + ' days ago';
-    }
-
-    else if (elapsed < msPerYear) {
-      return 'approximately ' + Math.round(elapsed/msPerMonth) + ' months ago';
-    }
-
-    else {
-      return 'approximately ' + Math.round(elapsed/msPerYear ) + ' years ago';
-    }
+    return true;
   }
 }

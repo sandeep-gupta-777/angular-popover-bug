@@ -77,7 +77,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
         }, 200);
       });
     });
-    
+
   }
 
   setHeightAndWidthofHost() {
@@ -128,7 +128,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
           this.rowChanged$.emit();
         },
         afterChange: (data) => {
-          debugger;
+
           this.afterTabledataChange$.emit(data);
           // data of form [[row, prop, oldValue, newValue]]
           // if(data && data[1] <= 1 ){

@@ -221,7 +221,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   }
 
   removePipelineItemFromPipelineModal(index: number,aiModuleId: number) {
-    debugger;
+
     let pipelineModules = this.pipelineModulesV2List
     let displayNamePipeline = pipelineModules.find((wrapper)=>{
       return !!wrapper.pipeline_modules.find((module)=>{
@@ -285,7 +285,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   updateBot(){
     // EventService.updateBot$.emit();
     let bot:IBot = {pipelines:this.pipeLine, id: this._bot.id};
-    this.serverService.updateBot(bot);
+    this.serverService.updateBot(bot).subscribe()
   }
 
 
