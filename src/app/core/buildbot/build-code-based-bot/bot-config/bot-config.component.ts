@@ -10,6 +10,7 @@ import {FormControl, FormGroup, FormGroupDirective, NgForm} from '@angular/forms
 import {ServerService} from '../../../../server.service';
 import {ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from '@angular/material';
 import {ESideBarTab} from '../../../bot-detail/code-based-bot-detail/code-based-bot-detail.component';
+import { Subscription } from 'rxjs';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher1 implements ErrorStateMatcher {
@@ -40,6 +41,7 @@ export class BotConfigComponent implements OnInit {
   securityForm: FormGroup;
   integrationForm: NgForm;
   myEBotType = EBotType;
+  intigrationFormSubcription : Subscription;
   bot_type;
   id;
   formDirty = false;
@@ -55,13 +57,15 @@ export class BotConfigComponent implements OnInit {
 
   integrationFormInit(integrationForm: NgForm) {
     this.integrationForm = integrationForm;
-    this.integrationForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
+    this.intigrationFormSubcription = this.integrationForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
+    this.emitBotDirtyEvent(false);
   }
 
   emitBotDirtyEvent(isDirty){
-    EventService.botDataDirty$.emit({[ESideBarTab.setting]:isDirty});
-
+    // EventService.botDataDirty$.emit({[ESideBarTab.setting]:isDirty});
+    debugger;
     this.botData$.emit(this.createBotData());
+    
   }
 
 
@@ -77,7 +81,7 @@ export class BotConfigComponent implements OnInit {
     this.basicInfoForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
     this.dataManagementForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
     this.securityForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
-
+    
     /*TODO: forkjoin is not working*/
   // let x = [this.basicInfoForm.valueChanges, this.dataManagementForm.valueChanges, this.securityForm.valueChanges];
   //   forkJoin(...[x])
@@ -86,10 +90,13 @@ export class BotConfigComponent implements OnInit {
   //       alert();
   //     })
   }
-
+  ngOnDestroy(){
+    this.botData$.emit(this.bot);
+  }
   tabClicked(activeTab: string) {
     this.activeTab = activeTab;
     LoggingService.log(this.activeTab);
+    if(this.intigrationFormSubcription) this.intigrationFormSubcription.unsubscribe();
   }
 
 
@@ -110,7 +117,6 @@ export class BotConfigComponent implements OnInit {
     /**/
     let invalidFormIndex = this.getInvalidForm();
     if (invalidFormIndex >= 0) {
-
       this.selectedTabIndex = invalidFormIndex;
       this.showFormInvalidError(invalidFormIndex);
       return;

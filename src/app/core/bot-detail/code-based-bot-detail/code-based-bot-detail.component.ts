@@ -16,6 +16,7 @@ import {IUser} from '../../interfaces/user';
 import {IAuthState} from '../../../auth/ngxs/auth.state';
 import {LoggingService} from '../../../logging.service';
 import {EventService} from '../../../event.service';
+import { IPipelineItem } from 'src/interfaces/ai-module';
 
 export enum ESideBarTab {
   setting = 'setting',
@@ -62,7 +63,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   showLoader = false;
   noSuchBotMessage = '';
   iterableDiffer;
-
+  MyESideBarTab = ESideBarTab;
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -78,8 +79,20 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   goFullScreen;
   botConfigData;
   dirtySideBarTabs={
-
+      [ESideBarTab.setting]:false,
+      [ESideBarTab.input]:false,
+      [ESideBarTab.logic]:false,
+      [ESideBarTab.chat]:false,
+      [ESideBarTab.test]:false,
   };
+
+
+  changePipelineDirtyStatus(pipeline:boolean, kb:boolean){
+    this.dirtySideBarTabs[ESideBarTab.input] = pipeline || kb; 
+  }
+  pipeline:boolean;
+  kb:boolean;
+  KB_DATA;
 
   ngOnInit() {
 
@@ -87,6 +100,12 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
       .createConceptFullScreen$
       .subscribe((goFullScreen) => {
         this.goFullScreen = goFullScreen;
+      });
+
+      EventService.knowledgeBaseData$.subscribe((isKbDirty:boolean)=>{
+        this.kb =  isKbDirty;
+        debugger;
+        this.changePipelineDirtyStatus(this.pipeline, this.kb)
       });
 
     EventService.botDataDirty$.subscribe((value)=>{
@@ -239,13 +258,20 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
   }
+  
 
 
 
-  botConfigDataChangeHandler(basicInfoData:IBot){
+  botConfigDataChangeHandler(basicInfoData:IBot , tabName){
     let isDirty = !UtilityService.isObjectSubSet(this.bot, basicInfoData);
     debugger;
-    this.dirtySideBarTabs[ESideBarTab.setting] = isDirty;
+    this.dirtySideBarTabs[tabName] = isDirty;
+  }
+
+  pipelineChangedHandler(pipelineData:IPipelineItem[]){
+    let isDirty = !UtilityService.isObjectSubSet(this.bot, pipelineData);
+    this.pipeline = isDirty;
+    this.changePipelineDirtyStatus(this.pipeline, this.kb);
   }
 
 

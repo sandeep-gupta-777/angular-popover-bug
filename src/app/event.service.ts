@@ -40,6 +40,7 @@ export class EventService {
 
 
   rerenderHandsonTable$ = new EventEmitter();
+  static knowledgeBaseData$ = new EventEmitter();
   reloadSessionTable$ = new EventEmitter();
 
   constructor() {

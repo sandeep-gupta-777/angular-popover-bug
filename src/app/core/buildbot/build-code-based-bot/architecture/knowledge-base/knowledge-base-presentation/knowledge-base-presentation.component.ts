@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild, OnDestroy} from '@angular/core';
 import {ICustomNerItem} from '../../../../../../../interfaces/custom-ners';
 import {NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../../utility.service';
@@ -17,7 +17,21 @@ import {ModalConfirmComponent} from '../../../../../../modal-confirm/modal-confi
   styleUrls: ['./knowledge-base-presentation.component.scss']
 })
 
-export class KnowledgeBasePresentationComponent extends ModalImplementer implements OnInit {
+export class KnowledgeBasePresentationComponent extends ModalImplementer implements OnInit, AfterViewInit, OnDestroy {
+  
+  ngOnDestroy(): void {
+    EventService.knowledgeBaseData$.emit(false);
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(()=>{
+      debugger;
+      this.form.valueChanges.subscribe(()=>{
+        debugger;
+        EventService.knowledgeBaseData$.emit(true);
+      })
+    },0);
+  }
   _selectedRowData: ICustomNerItem = {};
   process_raw_text = false;
   myEAllActions = EAllActions;

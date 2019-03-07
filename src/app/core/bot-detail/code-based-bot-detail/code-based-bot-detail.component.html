@@ -26,7 +26,7 @@
                     [ngClass]="{'filter-black':sideBarTab1!=='input', 'selected-nav':sideBarTab1==='input'}"
                     (click)="sideBarTabChanged('input'); ">
                     <img  class="" src="assets/img/sidebar/funnel-copy.svg" alt="">
-                    <span style="color: #00ABD3">Input</span>
+                    <span style="color: #00ABD3">Input {{dirtySideBarTabs[myESideBarTab.input]?'*':""}}</span>
                 </li>
             </ng-container>
             <ng-container *myIf="[myEAllActions['Get Pipeline Module']]">
@@ -69,7 +69,7 @@
             <div class="architecture py-3" *ngIf="sideBarTab1 ==='setting'">
                 <div class="d-flex-column-last-child-flex-grow-1 text-theme-normal justify-content-center">
                     <app-bot-config (datachanged$)="datachanged($event)"
-                                    (botData$)="botConfigDataChangeHandler($event)"
+                                    (botData$)="botConfigDataChangeHandler($event,MyESideBarTab.setting)"
                                     [bot]="(bot)"></app-bot-config>
                 </div>
             </div>
@@ -91,7 +91,8 @@
                 <mat-tab-group style="height: 100%" [ngClass]="{'hide-headers':goFullScreen}">
                     <mat-tab label="Pipeline" *myIf="[myEAllActions['Get Pipeline Module']]">
                         <app-pipeline
-                                (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"
+                                *ngIf="selectedSideBarTab==='pipeline'"
+                                (botData$)="pipelineChangedHandler($event)"
                                 [bot]="bot"></app-pipeline>
                     </mat-tab>
                     <mat-tab label="Knowledge base" *ngIf="!(bot.bot_type===myEBotType.intelligent)">
