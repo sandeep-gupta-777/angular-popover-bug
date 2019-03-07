@@ -7,8 +7,8 @@
 
 <div class="modal-body">
   
-    <div class="pb-2">
-      <p class="mb-1">{{dataCopy.message||'This action cannot be undone. Are you sure you wish to delete?'}}</p>
+    <div class="pb-2"  *ngIf="dataCopy.message">
+      <p class="mb-1">{{dataCopy.message}}</p>
     </div>
     <form class = "input-form pb-2" #inputForm="ngForm" [hidden]="!dataCopy.inputDescription">
       <mat-form-field class="example-full-width">

@@ -101,7 +101,7 @@
       <!--<p>{{selectedVersion|json}}</p>-->
       <ng-container *ngIf="activeTab===myEBotVersionTabs.generation_templates && isGentemplateCodeParsable; ">
         <app-code-gentemplate-ui-wrapper
-          *ngIf="buildTab==='code' && !showGenTempEditorAndHideGenTempUi; else cantParseGenTemplateCodeTemplate"
+          *ngIf="!showGenTempEditorAndHideGenTempUi; else cantParseGenTemplateCodeTemplate"
           class="row mx-0 px-0 child-expand" [activeTab]="activeTab" [channelList]="channelListClone" [bot]="bot"
           [templateKeyDict]="templateKeyDict"
           (convertUiDictToGenTemplateCode$)="convertUiDictToGenTemplateCode($event)"></app-code-gentemplate-ui-wrapper>

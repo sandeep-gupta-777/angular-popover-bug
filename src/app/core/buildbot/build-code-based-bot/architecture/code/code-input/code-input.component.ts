@@ -294,7 +294,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   }
 
   isGentemplateCodeParsableCheck(genTemplateCode) {
-    const countOf_templateKey_stringInGenTemplateCodeStr = genTemplateCode.split('templateKey').length - 1;
+    const countOf_templateKey_stringInGenTemplateCodeStr = (genTemplateCode.includes("else:")) ? genTemplateCode.split('templateKey').length : genTemplateCode.split('templateKey').length - 1;
     const countOf_output_stringInGenTemplateCodeStr = genTemplateCode.split('output').length - 1;
     const countOfTemplateKeyFoundByParser = Object.keys(this.templateKeyDict).length;
 

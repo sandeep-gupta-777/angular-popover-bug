@@ -119,7 +119,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
       classStr:'danger-modal-header-border',
       data:{
         actionButtonText:"Delete bot",
-        message: null,
+        message: "This action cannot be undone. Are you sure you wish to delete?",
         title:`Delete bot ${this.bot.name}?`,
         isActionButtonDanger:true,
         inputDescription: null,
