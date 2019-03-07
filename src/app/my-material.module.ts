@@ -70,12 +70,10 @@ const materialModules = [
   MatTableModule,
   MatPaginatorModule,
   MatTabsModule,
-
+  MatProgressSpinnerModule,
   SatNativeDateModule,
   SatDatepickerModule,
   MatExpansionModule,
-
-
   OverlayModule,
   PlatformModule,
   PortalModule,

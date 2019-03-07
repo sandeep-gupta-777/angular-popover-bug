@@ -13,10 +13,8 @@
                [matTooltip]="'Open bot preview in a new Tab'"
                [queryParams]="{bot_unique_name:currentBot.bot_unique_name,enterprise_unique_name:enterprise_unique_name}"
                target="_blank">
-                <button mat-icon-button (click)="toggleOverlay(showOverlay)"
-                        [class.active]="showOverlay" class="origin"
-                        #overlayOrigin="cdkOverlayOrigin"
-                        cdkOverlayOrigin>
+                <button mat-icon-button
+                        [class.active]="showOverlay">
                     <mat-icon>tab</mat-icon>
                 </button>
             </a>

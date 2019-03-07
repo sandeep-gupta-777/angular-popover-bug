@@ -38,10 +38,17 @@
 
     }
 
-    ul {
+    .sidebar__body {
+      width: 100%;
       list-style-type: none;
 
+      .selected-nav {
+        border-right: 2px solid $color-primary !important;
+      }
+
       li {
+        border-right: 2px solid transparent !important;
+        cursor: pointer;
         display: flex;
         flex-direction: column;
         margin-top: 24px;
@@ -50,6 +57,10 @@
         padding-top: 3px;
         padding-bottom: 3px;
         border-right: 1px solid transparent;
+
+        img{
+          width:50%;
+        }
 
         &:hover {
           filter: brightness(100%);
@@ -134,9 +145,6 @@
   filter: brightness(40%);
 }
 
-.selected-nav {
-  border-right: 1px solid $color-primary !important;
-}
 
 //
 //a{//bootstrap override

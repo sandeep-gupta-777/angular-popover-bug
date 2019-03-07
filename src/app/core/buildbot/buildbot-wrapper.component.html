@@ -77,10 +77,15 @@
                 <mat-icon>arrow_left</mat-icon>
                 Back
             </button>
+
+
+
             <button mat-raised-button [disabled]="stageValidObj[activeTab] === false || loading" color="primary" style="position: absolute;top: 90%;right: 0" (click)="nextStep(activeTab+1)" type="button">
                 {{activeTab< myObject.keys(stageValidObj).length-1?'Continue':'Done'}}
-                <mat-icon>arrow_right</mat-icon>
+                <mat-icon *ngIf="!loading">arrow_right</mat-icon>
+                <mat-spinner *ngIf="loading" style="margin-left: 5px" [diameter]="15"></mat-spinner>
             </button>
+
         </div>
     </div>
 </div>

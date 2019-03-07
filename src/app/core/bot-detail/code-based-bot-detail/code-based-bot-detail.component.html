@@ -13,18 +13,18 @@
         </a>
 
 
-        <ul style="width: 100%" class="sidebarNav">
-            <li style="cursor: pointer"
+        <ul class="sidebar__body">
+            <li
                 [ngClass]="{'filter-black':sideBarTab1!=='setting', 'selected-nav':sideBarTab1==='setting'}"
                 (click)="sideBarTabChanged('setting')" class="cursor-pointer">
-                <img style="width:60%" class="" src="assets/img/sidebar/bot-config.svg" alt="">
+                <img  class="" src="assets/img/sidebar/bot-config.svg" alt="">
                 <span style="color: #00ABD3">Settings</span>
             </li>
             <ng-container *myIf="[myEAllActions['GET Bot Versioning']]">
                 <li style="cursor: pointer"
                     [ngClass]="{'filter-black':sideBarTab1!=='input', 'selected-nav':sideBarTab1==='input'}"
                     (click)="sideBarTabChanged('input'); ">
-                    <img style="width:60%" class="" src="assets/img/sidebar/funnel-copy.svg" alt="">
+                    <img  class="" src="assets/img/sidebar/funnel-copy.svg" alt="">
                     <span style="color: #00ABD3">Input</span>
                 </li>
             </ng-container>
@@ -32,7 +32,7 @@
                 <li style="cursor: pointer" *ngIf="bot.bot_type === myEBotType.chatbot"
                     [ngClass]="{'filter-black':sideBarTab1!=='logic', 'selected-nav':sideBarTab1==='logic'}"
                     (click)="sideBarTabChanged('logic')">
-                    <img style="width:60%" class="" src="assets/img/sidebar/bot-logic.svg" alt="">
+                    <img  class="" src="assets/img/sidebar/bot-logic.svg" alt="">
                     <span style="color: #00ABD3">Logic</span>
                 </li>
             </ng-container>
@@ -40,7 +40,7 @@
                 <li style="cursor: pointer" *ngIf="bot.bot_type === myEBotType.chatbot"
                     [ngClass]="{'filter-black':sideBarTab1!=='chat', 'selected-nav':sideBarTab1==='chat'}"
                     (click)="sideBarTabChanged('chat')">
-                    <img style="width:60%" class="" src="assets/img/sidebar/conversations.svg" alt="">
+                    <img  class="" src="assets/img/sidebar/conversations.svg" alt="">
                     <span style="color: #00ABD3">Chat</span>
                 </li>
             </ng-container>
@@ -48,7 +48,7 @@
                 <li style="cursor: pointer" *ngIf="bot.bot_type === myEBotType.chatbot"
                     [ngClass]="{'filter-black':sideBarTab1!=='test', 'selected-nav':sideBarTab1==='test'}"
                     (click)="sideBarTabChanged('test')">
-                    <img style="width:60%" class="" src="assets/img/sidebar/testing.svg" alt="">
+                    <img  class="" src="assets/img/sidebar/testing.svg" alt="">
                     <span style="color: #00ABD3">Test</span>
                 </li>
             </ng-container>
