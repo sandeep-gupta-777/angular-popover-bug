@@ -68,7 +68,7 @@
             </header>
             <div class="architecture py-3" *ngIf="sideBarTab1 ==='setting'">
                 <div class="d-flex-column-last-child-flex-grow-1 text-theme-normal justify-content-center">
-                    <app-bot-config (datachanged$)="datachanged($event)"
+                    <app-bot-config (datachanged$)="pipelineDataChangeHandler($event)"
                                     (botData$)="botConfigDataChangeHandler($event)"
                                     [bot]="(bot)"></app-bot-config>
                 </div>
@@ -91,7 +91,7 @@
                 <mat-tab-group style="height: 100%" [ngClass]="{'hide-headers':goFullScreen}">
                     <mat-tab label="Pipeline" *myIf="[myEAllActions['Get Pipeline Module']]">
                         <app-pipeline
-                                (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"
+                                (datachanged$)="pipelineDataChangeHandler($event)" *ngIf="selectedSideBarTab==='pipeline'"
                                 [bot]="bot"></app-pipeline>
                     </mat-tab>
                     <mat-tab label="Knowledge base" *ngIf="!(bot.bot_type===myEBotType.intelligent)">
@@ -116,7 +116,7 @@
                 <app-code-input
                         style="height: 100%"
                         class=" d-flex-column-last-child-flex-grow-1"
-                        (datachanged$)="datachanged($event)"
+                        (datachanged$)="pipelineDataChangeHandler($event)"
                         [bot]="bot"></app-code-input>
             </ng-container>
         </ng-container>
@@ -275,7 +275,7 @@
 
     <!--<ng-container>-->
     <!--<app-pipeline-->
-    <!--(datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"-->
+    <!--(pipelineDataChangeHandler$)="pipelineDataChangeHandler($event)" *ngIf="selectedSideBarTab==='pipeline'"-->
     <!--[bot]="bot"></app-pipeline>-->
     <!--<app-knowledge-base-wrapper-->
     <!--[bot]="bot"-->
@@ -284,11 +284,11 @@
 
     <!--<app-code-input-->
     <!--class=" d-flex-column-last-child-flex-grow-1"-->
-    <!--(datachanged$)="datachanged($event)"-->
+    <!--(pipelineDataChangeHandler$)="pipelineDataChangeHandler($event)"-->
     <!--*ngIf="selectedSideBarTab==='code'"-->
     <!--[bot]="bot"></app-code-input>-->
     <!--<app-integration-option-list-->
-    <!--(datachanged$)="datachanged($event)"-->
+    <!--(pipelineDataChangeHandler$)="pipelineDataChangeHandler($event)"-->
     <!--*ngIf="selectedSideBarTab==='integration'"-->
     <!--[bot]="bot"></app-integration-option-list>-->
 
@@ -338,7 +338,7 @@
 
     <!--&lt;!&ndash;<div class="px-2 pt-2 pb-0 d-flex  w-100">&ndash;&gt;-->
     <!--&lt;!&ndash;<app-pipeline&ndash;&gt;-->
-    <!--&lt;!&ndash;(datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"&ndash;&gt;-->
+    <!--&lt;!&ndash;(pipelineDataChangeHandler$)="pipelineDataChangeHandler($event)" *ngIf="selectedSideBarTab==='pipeline'"&ndash;&gt;-->
     <!--&lt;!&ndash;[bot]="bot"></app-pipeline>&ndash;&gt;-->
     <!--&lt;!&ndash;<app-knowledge-base-wrapper&ndash;&gt;-->
     <!--&lt;!&ndash;[bot]="bot"&ndash;&gt;-->
@@ -346,11 +346,11 @@
 
     <!--&lt;!&ndash;<app-code-input&ndash;&gt;-->
     <!--&lt;!&ndash;class=" d-flex-column-last-child-flex-grow-1"&ndash;&gt;-->
-    <!--&lt;!&ndash;(datachanged$)="datachanged($event)"&ndash;&gt;-->
+    <!--&lt;!&ndash;(pipelineDataChangeHandler$)="pipelineDataChangeHandler($event)"&ndash;&gt;-->
     <!--&lt;!&ndash;*ngIf="selectedSideBarTab==='code'"&ndash;&gt;-->
     <!--&lt;!&ndash;[bot]="bot"></app-code-input>&ndash;&gt;-->
     <!--&lt;!&ndash;<app-integration-option-list&ndash;&gt;-->
-    <!--&lt;!&ndash;(datachanged$)="datachanged($event)"&ndash;&gt;-->
+    <!--&lt;!&ndash;(pipelineDataChangeHandler$)="pipelineDataChangeHandler($event)"&ndash;&gt;-->
     <!--&lt;!&ndash;*ngIf="selectedSideBarTab==='integration'"&ndash;&gt;-->
     <!--&lt;!&ndash;[bot]="bot"></app-integration-option-list>&ndash;&gt;-->
     <!--&lt;!&ndash;</div>&ndash;&gt;-->

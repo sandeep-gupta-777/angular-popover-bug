@@ -2,7 +2,7 @@
   <!--<h4 class="m-0">Create Bot</h4>-->
   <!--<button class="btn-theme btn-theme-primary" (click)="createBot()">Create Bot</button>-->
 <!--</div>-->
-<!--<app-bot-config (datachanged$)="datachanged($event)" [bot]="bot"></app-bot-config>-->
+<!--<app-bot-config (pipelineDataChangeHandler$)="pipelineDataChangeHandler($event)" [bot]="bot"></app-bot-config>-->
 
 <!--&lt;!&ndash;<div class="row m-0 mt-3 p-3 bg-white">&ndash;&gt;-->
   <!--&lt;!&ndash;<div class="col-12">&ndash;&gt;-->
@@ -56,7 +56,7 @@
       <!--&lt;!&ndash;</div>&ndash;&gt;-->
 
       <!--&lt;!&ndash;<div class="p-2" style="width: 85%; min-height: 250px">&ndash;&gt;-->
-        <!--&lt;!&ndash;<app-pipeline (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"></app-pipeline>&ndash;&gt;-->
+        <!--&lt;!&ndash;<app-pipeline (pipelineDataChangeHandler$)="pipelineDataChangeHandler($event)" *ngIf="selectedSideBarTab==='pipeline'"></app-pipeline>&ndash;&gt;-->
         <!--&lt;!&ndash;<app-knowledge-base *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base>&ndash;&gt;-->
         <!--&lt;!&ndash;&lt;!&ndash;<div class="d-flex justify-content-center align-items-center"&ndash;&gt;&ndash;&gt;-->
              <!--&lt;!&ndash;&lt;!&ndash;style="height: 100%"&ndash;&gt;&ndash;&gt;-->
@@ -65,7 +65,7 @@
         <!--&lt;!&ndash;&lt;!&ndash;</div>&ndash;&gt;&ndash;&gt;-->
 
         <!--&lt;!&ndash;&lt;!&ndash;<app-code-input *ngIf="selectedSideBarTab==='code'"></app-code-input>&ndash;&gt;&ndash;&gt;-->
-        <!--&lt;!&ndash;&lt;!&ndash;<app-integration-option-list (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='integration'"></app-integration-option-list>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<app-integration-option-list (pipelineDataChangeHandler$)="pipelineDataChangeHandler($event)" *ngIf="selectedSideBarTab==='integration'"></app-integration-option-list>&ndash;&gt;&ndash;&gt;-->
       <!--&lt;!&ndash;</div>&ndash;&gt;-->
 
     <!--&lt;!&ndash;</div>&ndash;&gt;-->

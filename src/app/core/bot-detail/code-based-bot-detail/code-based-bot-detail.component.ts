@@ -208,12 +208,11 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
     this.sideBarTab1 = tab;
   }
 
-  datachanged(data: IBot) {
-    /*TODO: dirty data check for pipeline*/
 
-    // this.store.dispatch([
-    //   new UpdateBotInfoByIdInBotInBotList({data, botId: this.bot_id})
-    // ]);
+  pipelineDataChangeHandler({pipelines}) {
+    let bot = {pipelines};
+    let isDirty = !UtilityService.isObjectSubSet(this.bot, bot);
+    this.dirtySideBarTabs[ESideBarTab.input] = isDirty;
   }
 
   togglePanel() {
@@ -244,7 +243,6 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
 
   botConfigDataChangeHandler(basicInfoData:IBot){
     let isDirty = !UtilityService.isObjectSubSet(this.bot, basicInfoData);
-    debugger;
     this.dirtySideBarTabs[ESideBarTab.setting] = isDirty;
   }
 

@@ -26,7 +26,7 @@
         <!--</div>-->
       <!--</div>-->
 
-      <!--<app-bot-config (datachanged$)="datachanged($event)" *ngIf="showConfig" [bot]="(bot)"></app-bot-config>-->
+      <!--<app-bot-config (pipelineDataChangeHandler$)="pipelineDataChangeHandler($event)" *ngIf="showConfig" [bot]="(bot)"></app-bot-config>-->
 
     <!--</div>-->
   <!--</div>-->
@@ -75,7 +75,7 @@
           <!--&lt;!&ndash;side bar ends&ndash;&gt;-->
 
           <!--<div class="px-2 pt-2 pb-0 d-flex  w-100">-->
-            <!--<app-pipeline (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"-->
+            <!--<app-pipeline (pipelineDataChangeHandler$)="pipelineDataChangeHandler($event)" *ngIf="selectedSideBarTab==='pipeline'"-->
                           <!--[bot]="bot"></app-pipeline>-->
             <!--<app-knowledge-base-wrapper [bot]="bot" *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base-wrapper>-->
           <!--</div>-->
@@ -231,14 +231,14 @@
             <app-pipeline
               (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='pipeline'"
               [bot]="bot"></app-pipeline>
-            <!--<app-knowledge-base (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='knowledge'"-->
+            <!--<app-knowledge-base (pipelineDataChangeHandler$)="pipelineDataChangeHandler($event)" *ngIf="selectedSideBarTab==='knowledge'"-->
             <!--[bot]="bot"></app-knowledge-base>-->
             <app-knowledge-base-wrapper [bot]="bot"
                                         *ngIf="selectedSideBarTab==='knowledge'"></app-knowledge-base-wrapper>
 
-            <!--<app-code-input (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='code'"-->
+            <!--<app-code-input (pipelineDataChangeHandler$)="pipelineDataChangeHandler($event)" *ngIf="selectedSideBarTab==='code'"-->
                             <!--[bot]="bot"></app-code-input>-->
-            <!--<app-integration-option-list (datachanged$)="datachanged($event)" *ngIf="selectedSideBarTab==='integration'"-->
+            <!--<app-integration-option-list (pipelineDataChangeHandler$)="pipelineDataChangeHandler($event)" *ngIf="selectedSideBarTab==='integration'"-->
                                          <!--[bot]="bot"></app-integration-option-list>-->
           </div>
 
