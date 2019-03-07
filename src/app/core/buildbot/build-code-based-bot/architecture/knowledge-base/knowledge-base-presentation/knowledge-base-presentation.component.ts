@@ -10,6 +10,7 @@ import {ModalImplementer} from '../../../../../../modal-implementer';
 import {MatDialog} from '@angular/material';
 import {EventService} from '../../../../../../event.service';
 import {ModalConfirmComponent} from '../../../../../../modal-confirm/modal-confirm.component';
+import {SideBarService} from '../../../../../../side-bar.service';
 
 @Component({
   selector: 'app-knowledge-base-presentation',
@@ -17,7 +18,7 @@ import {ModalConfirmComponent} from '../../../../../../modal-confirm/modal-confi
   styleUrls: ['./knowledge-base-presentation.component.scss']
 })
 
-export class KnowledgeBasePresentationComponent extends ModalImplementer implements OnInit {
+export class KnowledgeBasePresentationComponent extends ModalImplementer implements OnInit, AfterViewInit {
   _selectedRowData: ICustomNerItem = {};
   process_raw_text = false;
   myEAllActions = EAllActions;
@@ -35,7 +36,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       this.ner_type = value.ner_type;
     }
     this.conflict_policy = value.conflict_policy || this.conflict_policy;
-    this.process_raw_text = value.process_raw_text;
+    this.process_raw_text = !!value.process_raw_text;
     // this.codeTextInputToCodeEditor = value.values && value.values.join(',');
     // this.codeTextInputToCodeEditorObj.text = value.values && value.values.join(',');
     if (value.ner_type === 'regex') {
@@ -46,7 +47,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
     this.codeTextOutPutFromCodeEditor = this.codeTextInputToCodeEditorObj.text;
 
-    this.codeTextInputToCodeEditorObj = { ...this.codeTextInputToCodeEditorObj };
+    this.codeTextInputToCodeEditorObj = {...this.codeTextInputToCodeEditorObj};
     try {
       this.handontable_colHeaders = Object.keys(value.values[0]);
     } catch (e) {
@@ -72,7 +73,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   ner_type = 'double_match';
   conflict_policy = 'override';
   codeTextInputToCodeEditor: string;
-  codeTextInputToCodeEditorObj: { text: string } = { text: '' };
+  codeTextInputToCodeEditorObj: { text: string } = {text: ''};
   codeTextOutPutFromCodeEditor: string;
   // handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
   handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
@@ -100,7 +101,6 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     this.activatedRoute.queryParamMap.subscribe((queryParamMap: ParamMap) => {
       this.ner_id = (<any>queryParamMap).params['ner_id'];
     });
-
   }
 
   async openDeleteModal() {
@@ -110,12 +110,12 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       dialogRefWrapper: this.dialogRefWrapper,
       classStr: 'danger-modal-header-border',
       data: {
-        actionButtonText: "Delete",
-        message: "This action cannot be undone.Are you sure you wish to delete?",
+        actionButtonText: 'Delete',
+        message: 'This action cannot be undone.Are you sure you wish to delete?',
         title: `Delete Concept?`,
         isActionButtonDanger: true,
         inputDescription: null,
-        closeButtonText: "Keep editing"
+        closeButtonText: 'Keep editing'
       },
       dialog: this.matDialog,
       component: ModalConfirmComponent
@@ -124,7 +124,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       if (data) {
         this.deleteNer$.emit(this.ner_id);
       }
-    })
+    });
     // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
 
     // this.openDangerModal(template);
@@ -133,7 +133,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   async openFile(inputEl) {
 
     this.codeTextInputToCodeEditorObj.text = await this.utilityService.readInputFileAsText(inputEl);
-    this.codeTextInputToCodeEditorObj = { ...this.codeTextInputToCodeEditorObj };
+    this.codeTextInputToCodeEditorObj = {...this.codeTextInputToCodeEditorObj};
   }
 
   textChanged(codeText) {
@@ -141,24 +141,49 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   }
 
   updateOrSaveConcept() {
-
-
-    let codeTextFromEditor;
+    let outputData = this.createOutPutData();
+    let ner_type = outputData.ner_type;
+    let codeTextOutPutFromCodeEditor = outputData.codeTextOutPutFromCodeEditor;
     if (this.ner_type === 'regex') {
-      if (!this.codeTextOutPutFromCodeEditor) {
+      if (!codeTextOutPutFromCodeEditor) {
         this.utilityService.showErrorToaster(`Syntax is not valid. ${this.ner_type} only accepts String`);
         return;
       }
+    } else if (ner_type !== 'database') {
+
+      if (!codeTextOutPutFromCodeEditor) {
+        this.utilityService.showErrorToaster(`Syntax is not valid. ${this.ner_type} only accespts Array literal`);
+        return;
+      }
+
+      try {
+        outputData.codeTextOutPutFromCodeEditor = eval(codeTextOutPutFromCodeEditor);
+      } catch (e) {
+        this.utilityService.showErrorToaster('Syntax is not valid. Must be an an Array literal');
+        return;
+      }
+
+    }
+    this.updateOrSaveConcept$.emit(outputData);
+  }
+
+
+  createOutPutData() {
+    let codeTextFromEditor;
+    if (this.ner_type === 'regex') {
+      // if (!this.codeTextOutPutFromCodeEditor) {
+      //   this.utilityService.showErrorToaster(`Syntax is not valid. ${this.ner_type} only accepts String`);
+      //   return;
+      // }
       codeTextFromEditor = [this.codeTextOutPutFromCodeEditor];
     } else if (this.ner_type !== 'database') {
       try {
-        if (!this.codeTextOutPutFromCodeEditor) {
-          this.utilityService.showErrorToaster(`Syntax is not valid. ${this.ner_type} only accespts Array literal`);
-          return;
-        }
-
-
-        codeTextFromEditor = JSON.parse(this.codeTextOutPutFromCodeEditor);
+        // if (!this.codeTextOutPutFromCodeEditor) {
+        //   this.utilityService.showErrorToaster(`Syntax is not valid. ${this.ner_type} only accespts Array literal`);
+        //   return;
+        // }
+        // codeTextFromEditor = JSON.parse(this.codeTextOutPutFromCodeEditor);
+        codeTextFromEditor = this.codeTextOutPutFromCodeEditor;
       } catch (e) {
         // codeTextFromEditor = this.codeTextOutPutFromCodeEditor;
         try {
@@ -171,10 +196,10 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     }
     const outputData = {
       mode: this.ner_id ? 'Update' : 'Create',
-      key: this.key,
+      key: this.key || '',
       ner_type: this.ner_type,
       conflict_policy: this.conflict_policy,
-      codeTextOutPutFromCodeEditor: codeTextFromEditor,
+      codeTextOutPutFromCodeEditor: codeTextFromEditor || '',
       handsontableData: this.handsontableData,
       //   ...this.handsontableComponent.getHotTableData(),
       process_raw_text: this.process_raw_text
@@ -183,7 +208,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     if (ner_id_str) {
       outputData['id'] = Number(ner_id_str);
     }
-    this.updateOrSaveConcept$.emit(outputData);
+    return outputData;
   }
 
   click() {
@@ -197,9 +222,23 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
 
   goBack() {
+    let isDirty: boolean = SideBarService.isKnowledgeBaseDirty();
+    if (isDirty && !confirm('Data is dirty. Continue?')) {
+      return;
+    }
     this.showTable$.emit();
     this._selectedRowData = {};
     EventService.createConceptFullScreen$.emit(false);
+  }
+
+  ngAfterViewInit(): void {
+    this.initialiseSideBarService();
+  }
+
+  initialiseSideBarService() {
+    setTimeout(() => {
+      SideBarService.knowledgeBaseInit(this);
+    });
   }
 
 

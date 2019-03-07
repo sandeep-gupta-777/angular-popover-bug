@@ -18,7 +18,7 @@
                 [ngClass]="{'filter-black':sideBarTab1!=='setting', 'selected-nav':sideBarTab1==='setting'}"
                 (click)="sideBarTabChanged('setting')" class="cursor-pointer">
                 <img  class="" src="assets/img/sidebar/bot-config.svg" alt="">
-                <span style="color: #00ABD3">Settings {{dirtySideBarTabs[myESideBarTab.setting]?'*':""}}</span>
+                <span style="color: #00ABD3">Settings</span>
             </li>
 
             <ng-container *myIf="[myEAllActions['GET Bot Versioning']]">
@@ -69,7 +69,7 @@
             <div class="architecture py-3" *ngIf="sideBarTab1 ==='setting'">
                 <div class="d-flex-column-last-child-flex-grow-1 text-theme-normal justify-content-center">
                     <app-bot-config (datachanged$)="pipelineDataChangeHandler($event)"
-                                    (botData$)="botConfigDataChangeHandler($event)"
+                                    (initDone$)="mySideBarService.init($event)"
                                     [bot]="(bot)"></app-bot-config>
                 </div>
             </div>
@@ -92,10 +92,12 @@
                     <mat-tab label="Pipeline" *myIf="[myEAllActions['Get Pipeline Module']]">
                         <app-pipeline
                                 (datachanged$)="pipelineDataChangeHandler($event)" *ngIf="selectedSideBarTab==='pipeline'"
+                                (initDone$)="mySideBarService.init($event)"
                                 [bot]="bot"></app-pipeline>
                     </mat-tab>
                     <mat-tab label="Knowledge base" *ngIf="!(bot.bot_type===myEBotType.intelligent)">
                         <app-knowledge-base-wrapper style="height: 100%; padding-top: 20px"
+                                                    (initDone$)="mySideBarService.init($event)"
                                                     [bot]="bot"></app-knowledge-base-wrapper>
                     </mat-tab>
                 </mat-tab-group>
@@ -165,6 +167,7 @@
                     </div>
                 </header>
                 <app-bot-testing style="position: relative;"
+                                 (initDone$)="mySideBarService.init($event)"
                                  class="child-expand d-flex-column-custom flex-grow-1" [bot]="bot">
                 </app-bot-testing>
             </ng-container>

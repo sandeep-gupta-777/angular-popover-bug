@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {IUser} from '../../../../interfaces/user';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -29,7 +29,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
   currentPageNumber = 1;
   // custumNerDataForSmartTable = [];
   custumNerDataForSmartTable: ICustomNerItem[];
-
+  @Output() initDone$ = new EventEmitter();
   constructor(
     private store: Store,
     private serverService: ServerService,
@@ -71,6 +71,9 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
         const getNerByIdUrl = this.constantsService.getCustomNerById(selectedNerId);
         const doesSelectedNerExistsIn_custumNerDataForSmartTable =
           this.custumNerDataForSmartTable.find(item => item.id === Number(selectedNerId));
+        setTimeout(()=>{
+          this.initDone$.emit(this);
+        });
         if (doesSelectedNerExistsIn_custumNerDataForSmartTable) { return; }
         this.serverService.makeGetReq({url: getNerByIdUrl})
           .subscribe((values: ICustomNerItem[]) => {
@@ -108,6 +111,12 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
         this.custumNerDataForSmartTable = [...this.custumNerDataForSmartTable];
         this.addQueryParamsInCurrentRoute({ner_id: value.id});
         this.utilityService.showSuccessToaster('Customner saved');
+
+        if(this.knowledgeBaseComponent.KnowledgeBasePresentationComponent){
+          debugger;
+          this.knowledgeBaseComponent.KnowledgeBasePresentationComponent.initialiseSideBarService();
+        }
+
       });
   }
 

@@ -43,7 +43,7 @@ export class BotConfigComponent implements OnInit {
   bot_type;
   id;
   formDirty = false;
-
+  @Output() initDone$ = new EventEmitter<BotConfigComponent>();
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -56,6 +56,7 @@ export class BotConfigComponent implements OnInit {
   integrationFormInit(integrationForm: NgForm) {
     this.integrationForm = integrationForm;
     this.integrationForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
+    this.initDone$.emit(this);
   }
 
   emitBotDirtyEvent(isDirty){
@@ -66,6 +67,11 @@ export class BotConfigComponent implements OnInit {
 
 
   ngOnInit() {
+
+    EventService.botUpdatedInServer$.subscribe(()=>{
+      this.initDone$.emit(this);
+    });
+
     this.basicInfoForm = this.botConfigService.getBasicInfoForm(this.bot);
     this.dataManagementForm = this.botConfigService.getDataManagementForm(this.bot);
     this.securityForm = this.botConfigService.getSecurityForm(this.bot);
@@ -107,7 +113,6 @@ export class BotConfigComponent implements OnInit {
   * updateBotHandler: combine the data from various forms and update the bot
   * */
   updateBotHandler() {
-    /**/
     let invalidFormIndex = this.getInvalidForm();
     if (invalidFormIndex >= 0) {
 

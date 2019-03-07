@@ -14,6 +14,7 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {ESplashScreens} from '../../../../../splash-screen/splash-screen.component';
 import {MaterialTableImplementer} from '../../../../../material-table-implementer';
 import {EventService} from '../../../../../event.service';
+import {KnowledgeBasePresentationComponent} from './knowledge-base-presentation/knowledge-base-presentation.component';
 
 @Component({
   selector: 'app-knowledge-base',
@@ -23,7 +24,7 @@ import {EventService} from '../../../../../event.service';
 export class KnowledgeBaseComponent extends MaterialTableImplementer implements OnInit {
 
   // @Input() bot: IBot;
-
+  @ViewChild(KnowledgeBasePresentationComponent) KnowledgeBasePresentationComponent: KnowledgeBasePresentationComponent;
   myESplashScreens = ESplashScreens;
   @ViewChild('form') f1: NgForm;
   myEAllActions = EAllActions;

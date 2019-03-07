@@ -22,7 +22,7 @@ export class EventService {
   static progressBar$ = new EventEmitter<{loading: boolean, value: number }>();
   static disableSaveButton_codeInput$ = new EventEmitter<boolean>();
   static toggleAllPipeLineModules = new EventEmitter<boolean>();
-  static botUpdatedInServer = new EventEmitter<IBot>();
+  static botUpdatedInServer$ = new EventEmitter<IBot>();
   static reportFormIsValid = new EventEmitter<Boolean>();
   static unsubscribeInComponent(component){
     for (const key in component) {
@@ -45,7 +45,7 @@ export class EventService {
   constructor() {
   }
 
-  static updateBot$ = new EventEmitter();
+  static updateBotinit$ = new EventEmitter();
   static createConceptFullScreen$ = new EventEmitter();
   static botDataDirty$ = new EventEmitter<{[index:string]:boolean}>();
 }

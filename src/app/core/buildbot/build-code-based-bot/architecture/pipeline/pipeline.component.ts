@@ -44,11 +44,13 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   myObject = Object;
   pipeLineSrc: string = 'assets/img/pipeline-no-hover-drag.svg';
   _bot: IBot;
-  @Input() set bot(botData: IBot) {
-    this._bot = botData;
-    this.pipeLine = this._bot && this._bot.pipelines || [];
-    this.filterAiModules();
-  }
+  @Output() initDone$ = new EventEmitter<PipelineComponent>();
+  @Input() bot:IBot;
+  // @Input() set bot(botData: IBot) {
+  //   this._bot = botData;
+  //   this.pipeLine = this._bot && this._bot.pipelines || [];
+  //   this.filterAiModules();
+  // }
 
   @Select() botcreationstate$: Observable<IBotCreationState>;
   @Select() app$: Observable<IAppState>;
@@ -94,12 +96,24 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
     });
   }
 
+  botInitHandler(botData){
+    this._bot = botData;
+    this.pipeLine = this._bot && this._bot.pipelines || [];
+    this.initDone$.emit(this);
+    this.filterAiModules();
+  }
+
 // /pipeline.component.ts
   ngOnInit() {
+
+    this.botInitHandler(this.bot);
+    EventService.botUpdatedInServer$.subscribe((botData)=>{
+        this.botInitHandler(botData);
+    });
+
     this.buildBotType = this.activatedRoute.snapshot.data['buildBot'];
 
     this.pipeLine = this._bot.pipelines || [];
-
     let url = this.constantsService.getAllPipelineModuleUrl();
     this.app$.subscribe((appState: IAppState) => {
 
@@ -283,9 +297,9 @@ export class PipelineComponent extends ModalImplementer implements OnInit {
   }
 
   updateBot(){
-    // EventService.updateBot$.emit();
+    // EventService.updateBotinit$.emit();
     let bot:IBot = {pipelines:this.pipeLine, id: this._bot.id};
-    this.serverService.updateBot(bot).subscribe()
+    this.serverService.updateBot(bot).subscribe();
   }
 
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, TemplateRef, EventEmitter } from '@angular/core';
+import {Component, Input, OnInit, TemplateRef, EventEmitter, Output} from '@angular/core';
 import { Store } from '@ngxs/store';
 import { ServerService } from '../../../server.service';
 import {ConstantsService, EAllActions} from '../../../constants.service';
@@ -37,6 +37,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
   myESplashScreens = ESplashScreens;
   showSplashScreen = false;
   showLoader = false;
+  @Output() initDone$ = new EventEmitter<BotTestingComponent>();
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
@@ -57,6 +58,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
   }
 
   ngOnInit() {
+
     this.showLoader = true;
     this.serverService.makeGetReq<{ meta: any, objects: ITestcases[] }>(
       {
@@ -64,12 +66,8 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
         headerData: { 'bot-access-token': this.bot.bot_access_token }
       }
     )
-      // .map((value) => {
-      //   return value.objects.map((item: ITestcases) => {
-      //     return item.data[0];
-      //   });
-      // })
       .subscribe((value) => {
+        this.initDone$.emit(this);
         this.showLoader = false;
         if (value.objects.length === 0) {
           this.isData = false;
@@ -123,6 +121,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
         // })
       }
     }).subscribe((value) => {
+      this.initDone$.emit(this);
       this.utilityService.showSuccessToaster('Test cases created');
       this.isData = true;
       this.tableChanged = false;
@@ -131,7 +130,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
   }
 
   updateTC() {
-    // ;
+    debugger;
     this.serverService.makePutReq<{ meta: any, objects: ITestcases[] }>({
       url: this.testCasesUrl + `${this.testCaseId}/`,
       headerData: { 'bot-access-token': this.bot.bot_access_token },
@@ -140,6 +139,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
         'data': this.testCaseData
       }
     }).subscribe((value) => {
+      this.initDone$.emit(this);
       this.utilityService.showSuccessToaster('Test cases updated');
       this.isData = true;
       this.tableChanged = false;

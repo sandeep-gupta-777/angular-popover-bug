@@ -1447,7 +1447,7 @@ export class UtilityService {
 
 
 
-  static deepCompare (x,y) {
+  static deepCompare (x,y):boolean {
 
     var i, l, leftChain, rightChain;
 

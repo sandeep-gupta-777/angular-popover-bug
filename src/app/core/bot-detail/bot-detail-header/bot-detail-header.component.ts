@@ -48,7 +48,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
       this.enterprise_unique_name = enterpriseProfileInfo.enterprise_unique_name;
     });
 
-    EventService.updateBot$.subscribe(()=>{
+    EventService.updateBotinit$.subscribe(()=>{
       this.updateBot();
     })
   }
@@ -99,7 +99,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     this.serverService.makePutReq({url, body, headerData})
       .subscribe((updatedBot: IBot) => {
 
-        EventService.botUpdatedInServer.emit(updatedBot);
+        EventService.botUpdatedInServer$.emit(updatedBot);
         this.store.dispatch([
           new UpdateBotInfoByIdInBotInBotList({botId: this.bot.id, data: updatedBot})
         ]);

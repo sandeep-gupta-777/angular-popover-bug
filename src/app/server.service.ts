@@ -631,7 +631,7 @@ export class ServerService {
     };
     return this.makePutReq({url, body:bot, headerData})
       .pipe(tap((updatedBot: IBot) => {
-          EventService.botUpdatedInServer.emit(updatedBot);
+          EventService.botUpdatedInServer$.emit(updatedBot);
           this.store.dispatch([
             new UpdateBotInfoByIdInBotInBotList({botId: bot.id, data: updatedBot})
           ]);

@@ -16,6 +16,8 @@ import {IUser} from '../../interfaces/user';
 import {IAuthState} from '../../../auth/ngxs/auth.state';
 import {LoggingService} from '../../../logging.service';
 import {EventService} from '../../../event.service';
+import {SideBarService} from '../../../side-bar.service';
+import {PipelineComponent} from '../../buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
 
 export enum ESideBarTab {
   setting = 'setting',
@@ -39,14 +41,16 @@ export enum EBotDetailTabs {
 })
 export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
 
+  @ViewChild(PipelineComponent) PipelineComponent: PipelineComponent;
   myEAllActions = EAllActions;
   myEBotType = EBotType;
   myESideBarTab = ESideBarTab;
+  mySideBarService = SideBarService;
   isArchitectureFullScreen = false;
   @Select() botlist$: Observable<ViewBotStateModel>;
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
   @Select() loggeduser$: Observable<{ user: IUser }>;
-  sideBarTab1 = 'setting';
+  sideBarTab1:ESideBarTab = ESideBarTab.setting;
   bot$: Observable<IBot>;
   bot_id: number;
   showConfig = true;
@@ -99,7 +103,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
     const roleName = this.constantsService.loggedUser.role.name;
     this.showConfig = roleName !== ERoleName.Admin; //if its admin don't expand bot config by default
     if (roleName === ERoleName.Admin || roleName === ERoleName['Bot Developer']) {
-      this.sideBarTab1 = 'setting';
+      this.sideBarTab1 = ESideBarTab.setting;
     }
 
     const isArchitectureFullScreen = this.activatedRoute.snapshot.queryParamMap.get('isArchitectureFullScreen');
@@ -110,7 +114,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
     }
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
-    this.sideBarTab1 = this.activatedRoute.snapshot.queryParamMap.get('build') || this.sideBarTab1;
+    this.sideBarTab1 = <ESideBarTab>(this.activatedRoute.snapshot.queryParamMap.get('build') || this.sideBarTab1);
     /*this.bot$ = */
     this.botlist$.subscribe((botListState) => {
       if (botListState.allBotList) {
@@ -176,7 +180,11 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
     this.getOverviewInfo();
   }
 
-  sideBarTabChanged(sideBarTabChanged: string) {
+  sideBarTabChanged(sideBarTabChanged: ESideBarTab) {
+    if(SideBarService.isTabDirty(this.sideBarTab1) && !confirm("Data is dirty. Continue?")){
+      return;
+    }
+    SideBarService.reset();
     this.goFullScreen = false;
     this.sideBarTab1 = sideBarTabChanged;
     // core/botdetail/chatbot/398
@@ -204,7 +212,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
     this.sessionChild.refreshSession();
   }
 
-  tabChanged(tab: string) {
+  tabChanged(tab: ESideBarTab) {
     this.sideBarTab1 = tab;
   }
 

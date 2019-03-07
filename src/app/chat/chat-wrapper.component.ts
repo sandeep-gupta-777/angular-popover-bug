@@ -111,7 +111,7 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   ngOnInit() {
-    EventService.botUpdatedInServer.subscribe((bot:IBot)=>{
+    EventService.botUpdatedInServer$.subscribe((bot:IBot)=>{
       if(bot.id === this.currentBot.id && bot.allow_feedback !== this.currentBot.allow_feedback){
         this.store.dispatch([
             new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({bot:bot})
