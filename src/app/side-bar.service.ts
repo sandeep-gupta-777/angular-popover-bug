@@ -188,4 +188,8 @@ export class SideBarService {
     SideBarService.botTestingData_init = null;
 
   }
+static resetKB(){
+    SideBarService.knowledgeBasePresentationComponent = null;
+    SideBarService.kbPrezInit_Data = null;
+}
 }

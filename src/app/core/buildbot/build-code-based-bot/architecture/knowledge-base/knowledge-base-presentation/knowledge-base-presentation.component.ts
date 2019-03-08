@@ -221,26 +221,25 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   }
 
 
-  goBack() {
+  async goBack() {
     let isDirty: boolean = SideBarService.isKnowledgeBaseDirty();
     if(isDirty){
-      this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper,this.matDialog)
-        .then(data=>{
-          if(data){
-            this.showTable$.emit();
-            this._selectedRowData = {};
-            EventService.createConceptFullScreen$.emit(false);
-          }
-        })
+      let data =  await this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper,this.matDialog);
+      if(data){
+        this.showTable$.emit();
+        this._selectedRowData = {};
+        EventService.createConceptFullScreen$.emit(false);
+        SideBarService.resetKB();
+      }
     }
     else{
       this.showTable$.emit();
       this._selectedRowData = {};
-      EventService.createConceptFullScreen$.emit(false);
+      EventService.createConceptFullScreen$.emit(false);  
+      SideBarService.resetKB();   
     }
-    // if (isDirty && !confirm('Data is dirty. Continue?')) {
-    //   return;
-    // }
+    
+   
     
   }
 
