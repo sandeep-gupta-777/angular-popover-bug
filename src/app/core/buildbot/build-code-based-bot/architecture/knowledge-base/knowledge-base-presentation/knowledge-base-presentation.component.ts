@@ -223,12 +223,25 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
   goBack() {
     let isDirty: boolean = SideBarService.isKnowledgeBaseDirty();
-    if (isDirty && !confirm('Data is dirty. Continue?')) {
-      return;
+    if(isDirty){
+      this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper,this.matDialog)
+        .then(data=>{
+          if(data){
+            this.showTable$.emit();
+            this._selectedRowData = {};
+            EventService.createConceptFullScreen$.emit(false);
+          }
+        })
     }
-    this.showTable$.emit();
-    this._selectedRowData = {};
-    EventService.createConceptFullScreen$.emit(false);
+    else{
+      this.showTable$.emit();
+      this._selectedRowData = {};
+      EventService.createConceptFullScreen$.emit(false);
+    }
+    // if (isDirty && !confirm('Data is dirty. Continue?')) {
+    //   return;
+    // }
+    
   }
 
   ngAfterViewInit(): void {

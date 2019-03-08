@@ -11,7 +11,10 @@
   </label>
   <!---->
   <i class="fa fa-download" (click)="exportToCsv()"></i>
-  <input type="text" class="" #handsontable_search_field placeholder="search table">
+  <mat-form-field class="ml-1">
+    <input matInput #handsontable_search_field placeholder="search table" type="text">
+    <mat-icon matSuffix style="font-size:11px;color: #9e9e9e;">search</mat-icon>
+  </mat-form-field>
   <div class="handsontable-header__ng-content">
     <ng-content></ng-content>
   </div>

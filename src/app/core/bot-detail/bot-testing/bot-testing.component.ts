@@ -67,7 +67,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
       }
     )
       .subscribe((value) => {
-        this.initDone$.emit(this);
+        
         this.showLoader = false;
         if (value.objects.length === 0) {
           this.isData = false;
@@ -87,6 +87,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
           this.testCaseId = testCaseDataForBot && testCaseDataForBot.id;
           // }
         }
+        this.initDone$.emit(this);
       });
     this.handontable_colHeaders = this.constantsService.HANDSON_TABLE_BOT_TESTING_colHeaders;
     this.handontable_column = this.constantsService.HANDSON_TABLE_BOT_TESTING_columns;

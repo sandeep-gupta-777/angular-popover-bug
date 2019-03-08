@@ -37,6 +37,7 @@ export class SideBarService {
     }
 
     if (component instanceof BotTestingComponent) {
+      // setTimeout(()=>SideBarService.botTestingInit(<BotTestingComponent>component),0);
       SideBarService.botTestingInit(<BotTestingComponent>component);
     }
 
@@ -143,14 +144,28 @@ export class SideBarService {
 
   static botTestingInit(component: BotTestingComponent){
     SideBarService.botTestingComponent = component;
-    SideBarService.botTestingData_init = SideBarService.botTestingComponent.testCaseData;
+    debugger;
+    SideBarService.botTestingData_init = UtilityService.cloneObj(SideBarService.botTestingComponent.testCaseData);
   }
   static createBotTestingFinalData(){
+    debugger;
     return SideBarService.botTestingComponent.testCaseData;
   }
 
   static isBotTestingDirty(){
     let botTestingData_final = this.createBotTestingFinalData();
+    // let botTestingData_initial = SideBarService.botTestingData_init;
+    debugger;
+    //remove null
+    // for (let index = 0; index < botTestingData_initial.length; index++) {
+    //   let anyNotNull = false;
+    //   botTestingData_initial[index].forEach(element => {
+    //     anyNotNull = anyNotNull || !!element;
+    //   });
+    //   if(!anyNotNull){
+    //   delete botTestingData_initial[index]
+    //   }
+    // }
     let x = !UtilityService.deepCompare(SideBarService.botTestingData_init, botTestingData_final);
     return x;
   }

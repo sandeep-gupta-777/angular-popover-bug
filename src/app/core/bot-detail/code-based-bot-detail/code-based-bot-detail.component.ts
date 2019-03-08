@@ -18,6 +18,7 @@ import {LoggingService} from '../../../logging.service';
 import {EventService} from '../../../event.service';
 import {SideBarService} from '../../../side-bar.service';
 import {PipelineComponent} from '../../buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
+import { MatDialog } from '@angular/material';
 
 export enum ESideBarTab {
   setting = 'setting',
@@ -67,11 +68,13 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   noSuchBotMessage = '';
   iterableDiffer;
   MyESideBarTab = ESideBarTab;
+  dialogRefWrapper = {ref:null};
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private serverService: ServerService,
     private store: Store,
+    private matDialog: MatDialog,
     private _iterableDiffers: IterableDiffers,
     private constantsService: ConstantsService,
     public eventService: EventService,
@@ -199,14 +202,36 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   }
 
   sideBarTabChanged(sideBarTabChanged: ESideBarTab) {
-    if(SideBarService.isTabDirty(this.sideBarTab1) && !confirm("Data is dirty. Continue?")){
-      return;
+    if(sideBarTabChanged != this.sideBarTab1){
+      if(SideBarService.isTabDirty(this.sideBarTab1)){
+        this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper,this.matDialog)
+        .then((data)=>{
+          if(data){
+            SideBarService.reset();
+            this.goFullScreen = false;
+            this.sideBarTab1 = sideBarTabChanged;
+            // core/botdetail/chatbot/398
+            this.router.navigate(['core/botdetail/chatbot/', this.bot.id], {queryParams: {'build': sideBarTabChanged}});
+          }
+        })
+      }
+      else{
+        SideBarService.reset();
+        this.goFullScreen = false;
+        this.sideBarTab1 = sideBarTabChanged;
+        // core/botdetail/chatbot/398
+        this.router.navigate(['core/botdetail/chatbot/', this.bot.id], {queryParams: {'build': sideBarTabChanged}});
+      }
     }
-    SideBarService.reset();
-    this.goFullScreen = false;
-    this.sideBarTab1 = sideBarTabChanged;
-    // core/botdetail/chatbot/398
-    this.router.navigate(['core/botdetail/chatbot/', this.bot.id], {queryParams: {'build': sideBarTabChanged}});
+    
+    // if(SideBarService.isTabDirty(this.sideBarTab1) && !confirm("Data is dirty. Continue?")){
+    //   return;
+    // }
+    // SideBarService.reset();
+    // this.goFullScreen = false;
+    // this.sideBarTab1 = sideBarTabChanged;
+    // // core/botdetail/chatbot/398
+    // this.router.navigate(['core/botdetail/chatbot/', this.bot.id], {queryParams: {'build': sideBarTabChanged}});
   }
 
   selectedDurationChanged(priordays: number, name: string) {
