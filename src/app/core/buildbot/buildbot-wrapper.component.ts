@@ -12,7 +12,7 @@ import {AddNewBotInAllBotList, SetAllBotListAction} from '../view-bots/ngxs/view
 import {LoggingService} from '../../logging.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {BotConfigService} from './build-code-based-bot/bot-config/bot-config.service';
-
+import {MatDialog} from '@angular/material';
 @Component({
   selector: 'app-buildbot-wrapper',
   templateUrl: './buildbot-wrapper.component.html',
@@ -26,6 +26,7 @@ export class BuildbotWrapperComponent implements OnInit {
   bot: IBot = {};
   bot_type: string = EBotType.chatbot;
   formGroup: FormGroup;
+  dialogRefWrapper = {ref:null};
   @Output() datachanged$ = new EventEmitter();
   activeTab = 0;
   headings = [
@@ -49,7 +50,8 @@ export class BuildbotWrapperComponent implements OnInit {
     private constantsService: ConstantsService,
     private formBuilder: FormBuilder,
     private store: Store,
-    private botConfigService: BotConfigService
+    private botConfigService: BotConfigService,
+    private matDialog: MatDialog
   ) {
   }
 
@@ -170,6 +172,20 @@ export class BuildbotWrapperComponent implements OnInit {
     }
   }
 
+  goBack(){
+    // console.log(this.basicInfoForm.untouched , this.dataManagementForm.untouched , this.securityForm.untouched);
+    if(this.basicInfoForm.untouched && this.dataManagementForm.untouched && this.securityForm.untouched){
+      this.router.navigate(['/']);
+    }
+    else{
+      this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
+      .then((data)=>{
+        if(data){
+          this.router.navigate(['/']);
+        }
+      })
+    }
+  }
 
 
   updateFormValidNumber(formValidNumber, isValid: boolean) {
