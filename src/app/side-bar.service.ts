@@ -8,6 +8,7 @@ import {IPipelineItem} from '../interfaces/ai-module';
 import {BotConfigService} from './core/buildbot/build-code-based-bot/bot-config/bot-config.service';
 import {BotConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.component';
+import { BuildbotWrapperComponent } from './core/buildbot/buildbot-wrapper.component';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,9 @@ export class SideBarService {
   private static botTestingComponent: BotTestingComponent;
   private static botTestingData_init: any[];
 
+  public static buildbotWrapperComponent: BuildbotWrapperComponent;
+  public static buildbotData_init;
+
   static init(component) {
     debugger;
     if (component instanceof PipelineComponent) {
@@ -43,6 +47,10 @@ export class SideBarService {
 
     if (component instanceof KnowledgeBasePresentationComponent) {
       /*KnowledgeBasePresentationComponent is initialized manually from within KnowledgeBasePresentationComponent*/
+    }
+
+    if (component instanceof BuildbotWrapperComponent) {
+      SideBarService.buildBotInit(<BuildbotWrapperComponent>component);
     }
   }
 
@@ -170,6 +178,30 @@ export class SideBarService {
     return x;
   }
 
+  /*buildbot*/
+
+  static buildBotInit(buildBotComponent: BuildbotWrapperComponent) {
+    debugger;
+    SideBarService.buildbotWrapperComponent = buildBotComponent;
+    debugger;
+    SideBarService.buildbotData_init = UtilityService.cloneObj({
+      basicInfoForm : buildBotComponent.basicInfoForm,
+      dataManagementForm : buildBotComponent.dataManagementForm,
+      securityForm : buildBotComponent.securityForm
+    });
+  }
+
+  static isBuildBotDirty(): boolean {
+    if (!SideBarService.buildbotWrapperComponent) return false;
+    debugger;
+    let buildBotFinalData = this.buildBotFinalData();
+    let x = !UtilityService.deepCompare(SideBarService.buildbotData_init, buildBotFinalData);
+    return x;
+  }
+
+  private static buildBotFinalData() {
+    return SideBarService.buildbotWrapperComponent.putBuildBotFinalData();
+  }
 
   constructor() {
   }
@@ -187,6 +219,8 @@ export class SideBarService {
     SideBarService.botTestingComponent = null;
     SideBarService.botTestingData_init = null;
 
+    SideBarService.buildbotWrapperComponent = null;
+    SideBarService.buildbotData_init = null;
   }
 static resetKB(){
     SideBarService.knowledgeBasePresentationComponent = null;

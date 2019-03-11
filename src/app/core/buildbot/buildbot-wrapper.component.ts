@@ -13,6 +13,7 @@ import {LoggingService} from '../../logging.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {BotConfigService} from './build-code-based-bot/bot-config/bot-config.service';
 import {MatDialog} from '@angular/material';
+import { SideBarService } from 'src/app/side-bar.service';
 @Component({
   selector: 'app-buildbot-wrapper',
   templateUrl: './buildbot-wrapper.component.html',
@@ -174,6 +175,9 @@ export class BuildbotWrapperComponent implements OnInit {
 
   goBack(){
     // console.log(this.basicInfoForm.untouched , this.dataManagementForm.untouched , this.securityForm.untouched);
+    console.log(SideBarService.buildbotWrapperComponent);
+    debugger;
+    console.log(SideBarService.buildbotData_init);
     if(this.basicInfoForm.untouched && this.dataManagementForm.untouched && this.securityForm.untouched){
       this.router.navigate(['/']);
     }
@@ -187,6 +191,13 @@ export class BuildbotWrapperComponent implements OnInit {
     }
   }
 
+  putBuildBotFinalData(){
+    return {
+      basicInfoForm : this.basicInfoForm,
+      dataManagementForm : this.dataManagementForm,
+      securityForm : this.securityForm
+    }
+  }
 
   updateFormValidNumber(formValidNumber, isValid: boolean) {
     this.stageValidObj[formValidNumber] = isValid;
