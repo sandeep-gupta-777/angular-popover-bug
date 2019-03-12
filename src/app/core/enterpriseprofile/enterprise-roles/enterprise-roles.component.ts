@@ -35,6 +35,7 @@ export class EnterpriseRolesComponent implements OnInit {
   @Output() selectedRole = new EventEmitter();
   @Output() enterRole = new EventEmitter();
   @Output() enterNewRole = new EventEmitter();
+  notConfigtablePermissionIdList : number[] = [];
 
   navegateRole(id: number) {
 
@@ -84,8 +85,10 @@ export class EnterpriseRolesComponent implements OnInit {
         this.reloaded = true;
       });
       this.app$.subscribe((value) => {
-        this.allPermissionIdList  = value.masterProfilePermissions.map(permission =>{
-            return permission.id
+        this.allPermissionIdList = [];
+        value.masterProfilePermissions.forEach(permission => {
+          if(!permission.is_configurable_action) this.notConfigtablePermissionIdList.push(permission.id);
+          if(permission.is_configurable_action)  this.allPermissionIdList.push(permission.id);          
         });
     });
   }

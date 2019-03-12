@@ -27,7 +27,10 @@
       {{role.enterprise_id == 0 ? "System role" : role.created_by}}
     </div>
     <div>
-      {{role.id == 2 ?allPermissionIdList.length : role.permissions.actions.length}} permissions added
+      {{role.id == 2 ?
+        (allPermissionIdList| ListIfNotInThisList : notConfigtablePermissionIdList).length : 
+        (role.permissions.actions | ListIfNotInThisList : notConfigtablePermissionIdList).length}} 
+        permissions added
     </div>
     <div class="mt-auto d-flex" style="align-items: center;">
       <div class = "mr-auto cursor-pointer" (click) = "navegateRole(role.id)">

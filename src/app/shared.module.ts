@@ -62,6 +62,7 @@ import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
 import {RequiredIfOneFilledValidator} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/requiredIfOneFilledValidator.directive';
 import {InfoIconComponent} from './info-icon/info-icon.component';
 import {ErrorStateMatcher, MatProgressSpinnerModule, ShowOnDirtyErrorStateMatcher} from '@angular/material';
+import { ListIfNotInThisListPipe } from './core/enterpriseprofile/enterprise-roles/listIfNotInThisList.pipe';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import {ErrorStateMatcher, MatProgressSpinnerModule, ShowOnDirtyErrorStateMatche
     BotTestingComponent,
     BotIdToNamePipe,
     PipelineFilterPipe,
+    ListIfNotInThisListPipe,
     AdditionalInfoFormComponent,
     SmartTableComponent, //
     CodeEditorComponent, //
@@ -187,7 +189,8 @@ import {ErrorStateMatcher, MatProgressSpinnerModule, ShowOnDirtyErrorStateMatche
     IntegrationOptionListComponent,
     RequiredIfOneFilledValidator,
     DisplayNameForKeyIntegrationPipe,
-    BuildbotWrapperComponent
+    BuildbotWrapperComponent,
+    ListIfNotInThisListPipe
   ]
 })
 export class SharedModule {
