@@ -272,7 +272,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
     this.pipeLine.splice(index, 1);
     this.botData$.emit({pipelines: this.pipeLine});
     console.log(this.pipeLine)
-    
+
   }
 
   toggleExpandAllModules() {
@@ -304,7 +304,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
 
   updateBot(){
     // EventService.updateBotinit$.emit();
-    let bot:IBot = {pipelines:this.pipeLine, id: this._bot.id};
+    let bot:IBot = {pipelines:this.pipeLine, id: this._bot.id, bot_access_token:this.bot.bot_access_token};
     this.serverService.updateBot(bot).subscribe();
   }
 

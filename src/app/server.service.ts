@@ -629,6 +629,7 @@ export class ServerService {
     const headerData: IHeaderData = {
       'bot-access-token': bot.bot_access_token
     };
+    debugger;
     return this.makePutReq({url, body:bot, headerData})
       .pipe(tap((updatedBot: IBot) => {
           EventService.botUpdatedInServer$.emit(updatedBot);
