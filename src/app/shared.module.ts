@@ -63,6 +63,7 @@ import {RequiredIfOneFilledValidator} from './core/buildbot/build-code-based-bot
 import {InfoIconComponent} from './info-icon/info-icon.component';
 import {ErrorStateMatcher, MatProgressSpinnerModule, ShowOnDirtyErrorStateMatcher} from '@angular/material';
 import { ListIfNotInThisListPipe } from './core/enterpriseprofile/enterprise-roles/listIfNotInThisList.pipe';
+import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
 
 @NgModule({
   declarations: [
@@ -120,6 +121,7 @@ import { ListIfNotInThisListPipe } from './core/enterpriseprofile/enterprise-rol
     IntegrationOptionListComponent,
     RequiredIfOneFilledValidator,
     DisplayNameForKeyIntegrationPipe,
+    ConvertToUniqueArrayPipe
   ],
   imports: [
     MyMaterialModule,
@@ -190,7 +192,8 @@ import { ListIfNotInThisListPipe } from './core/enterpriseprofile/enterprise-rol
     RequiredIfOneFilledValidator,
     DisplayNameForKeyIntegrationPipe,
     BuildbotWrapperComponent,
-    ListIfNotInThisListPipe
+    ListIfNotInThisListPipe,
+    ConvertToUniqueArrayPipe
   ]
 })
 export class SharedModule {
