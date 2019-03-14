@@ -24,6 +24,7 @@
     "hmr": "ng serve --configuration hmr",
     "develop": "sudo npm run xgit && ng build --configuration develop --base-href /static/",
     "staging": "npm run xgit && ng build --configuration staging --base-href /static/",
+    "staging1": "npm run xgit && ng build --configuration staging",
     "preProd": "ng build --configuration preProd --base-href /static/",
     "prod": "ng build --configuration prod --base-href /static/"
   },
