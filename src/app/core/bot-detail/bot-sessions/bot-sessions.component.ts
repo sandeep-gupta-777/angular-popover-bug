@@ -19,6 +19,7 @@ import {IIntegrationMasterListItem} from '../../../../interfaces/integration-opt
 import {NgForm} from '@angular/forms';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
 import {EChatFeedback} from '../../../chat/chat-wrapper.component';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 interface ISessionFilterData {
   id: number,
@@ -421,6 +422,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         this.selectedRow_Session = sessionItem;
         this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
         this.tableData = [...this.tableData];
+        this.tableData = [...this.tableData];
       });
   }
 
@@ -430,6 +432,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   }
 
   performSearchInDbForSession(filterData: ISessionFilterData) {
+
 
     this.showLoader = true;
     let url: string;
@@ -487,6 +490,9 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
           this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
           this.tableData = [...this.tableData];
           this.showLoader = false;
+          this.filerFormInitalData = this.filterForm.value;
+          this.filterFormDirty = false;
+          // this.filterForm.form.patchValue(filterData);
         }, () => {
           this.showLoader = false;
         })
@@ -523,19 +529,45 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       .subscribe();
   }
 
+  filerFormInitalData;
+
   ngAfterViewInit(): void {
-    this.filterForm
-      .valueChanges
-      .pipe(
-        startWith(this.filterForm.value),
-        distinctUntilChanged((v1, v2) => {
-          return JSON.stringify(v1) === JSON.stringify(v2)
-        }),
-        skip(1)
-      )
-      .subscribe(() => {
-        this.filterFormDirty = true;
-      });
+    setTimeout(()=>{
+      this.filerFormInitalData = this.filterForm.value;
+      this.filterForm
+        .valueChanges
+        .subscribe((formData) => {
+          debugger;
+          // this.filterFormDirty = JSON.stringify(this.filerFormInitalData)!==JSON.stringify(formData);
+          this.filterFormDirty = this.test1(formData, this.filerFormInitalData);
+        });
+    },100);
+
+  }
+
+  test1(obj1, obj2){
+    let isDirty = false;
+    (function compareObj(obj1, obj2){
+      for (let key of Object.keys(obj1)){
+        let val1 = obj1[key];
+        let val2 = obj2[key];
+
+        if(val1 && !val2 || !val1 && val2){
+          isDirty = true;
+          return;
+        }
+
+        if (!(!val1 && !val2)) {
+          if (typeof val1 === 'object') {
+            compareObj(val1, val2)
+          }else if (val1 !== val2) {
+            isDirty = true;
+            return;
+          }
+        }
+      }
+    })(obj1, obj2);
+    return isDirty;
   }
 
 }

@@ -13,7 +13,7 @@
         <!--</button>-->
         <form ngNativeValidate class="options d-flex align-items-end w-100" #form="ngForm">
             <mat-form-field style="margin-bottom: -1.25em">
-                <input type="text" matInput placeholder="Concept Key" required [(ngModel)]="key" name="key">
+                <input type="text" matInput placeholder="Concept name" required [(ngModel)]="key" name="key">
             </mat-form-field>
             <div class="d-flex flex-column mx-2">
 
@@ -73,11 +73,18 @@
             <div *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']">
                 <button mat-button
                         class="mat-theme-button"
+                        style="margin-right: 10px;border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
+                        (click)="goBack()">
+                    <mat-icon>block</mat-icon>Cancel
+                </button>
+
+                <button mat-button
+                        class="mat-theme-button"
                         style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
                         [disabled]="!form.valid"
                         (click)="updateOrSaveConcept()"
                         *myIf="[myEAllActions['Create Bot Knowledge base'],myEAllActions['Update Bot Knowledge base']]">
-                    <mat-icon>refresh</mat-icon>{{ner_id ? "Update" : "Create" }}
+                    <mat-icon>note_add</mat-icon>{{ner_id ? "Update" : "Create" }}
                 </button>
             </div>
 

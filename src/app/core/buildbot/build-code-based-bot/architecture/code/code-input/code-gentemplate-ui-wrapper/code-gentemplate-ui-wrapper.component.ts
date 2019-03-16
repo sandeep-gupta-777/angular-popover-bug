@@ -337,7 +337,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
       component: ModalConfirmComponent,
       data: {
         title: `Delete template key: ${tempKey}?`,
-        message: 'This action cannot be undone.Are you sure you wish to delete?',
+        message: 'This action cannot be undone. Are you sure you wish to delete?',
         actionButtonText: 'Delete',
         isActionButtonDanger: true,
       },

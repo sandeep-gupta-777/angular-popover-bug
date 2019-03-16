@@ -4,7 +4,7 @@ import {ServerService} from '../../../server.service';
 import {Select, Store} from '@ngxs/store';
 import {ConstantsService, EAllActions} from '../../../constants.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
-import {UtilityService} from '../../../utility.service';
+import {EBotType, UtilityService} from '../../../utility.service';
 import {ChangeFrameAction, SetCurrentBotDetailsAndResetChatStateIfBotMismatch, ToggleChatWindow} from '../../../chat/ngxs/chat.action';
 import {EChatFrame} from '../../../../interfaces/chat-session-state';
 import {AddNewBotInAllBotList, UpdateBotInfoByIdInBotInBotList} from '../../view-bots/ngxs/view-bot.action';
@@ -25,6 +25,7 @@ import {EventService} from '../../../event.service';
 export class BotDetailHeaderComponent extends ModalImplementer implements OnInit {
 
   @Input() bot: IBot;
+  myEBotType = EBotType;
   myObject = Object;
   myEAllActions = EAllActions;
   showSpinIcon = false;

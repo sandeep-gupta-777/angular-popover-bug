@@ -1,7 +1,10 @@
 
 <div class="row-bot-detail-header d-flex align-items-center">
-  <a class="row-bot-detail-header__back" routerLink="/" style="text-decoration: none; padding: 0px 8px 0px 16px">
-    <i class="fa fa-angle-left" title="Go to Dashboard"></i>
+  <a class="row-bot-detail-header__back"
+     [routerLink]="['/core/viewbots']"
+     [queryParams]="{type:bot.bot_type}"
+     style="text-decoration: none; padding: 0px 8px 0px 16px">
+    <i class="fa fa-angle-left"></i>
   </a>
   <img class="row-bot-detail-header__bot-logo" style="margin:0 8px" [src]="bot.logo" alt="B">
   <div class="row-bot-detail-header__bot-details">
@@ -10,7 +13,7 @@
       <i class="fa fa-circle dark-green" style="margin-left: 2px; font-size: 6px"></i>
     </div>
     <div style="font-size: 11px">
-      <span>Last Update By </span>{{bot.updated_by}} on {{bot.updated_at|date}}
+      <span>Last Update By </span>{{bot.updated_by}} on {{bot.updated_at|date: 'd MMM, yy'}}
     </div>
   </div>
   <!--<i class="fa fa-users" *ngIf="bot && bot.is_manager" style="font-size: 16px"></i>-->
@@ -25,7 +28,9 @@
     <!--<span class="text-muted">Last Updated By :</span>{{bot.updated_by}} <span class="text-muted">on</span>{{bot.updated_at|date}}-->
   <!--</div>-->
   <div class="ml-auto"></div>
-  <app-integration-channel-list [bot]="bot" style="margin-right: 10px"></app-integration-channel-list>
+  <app-integration-channel-list
+          *ngIf="bot.bot_type === myEBotType.chatbot"
+          [bot]="bot" style="margin-right: 10px"></app-integration-channel-list>
 
   <!--<span *myIf="myEAllActions['Get Integrations']">-->
     <!--<img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async))"-->
@@ -43,7 +48,7 @@
       <!--<i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>-->
       <!--<span class="action">Preview</span>-->
     <!--</div>-->
-    <button (click)="openAnalyticsForBot()" class="mat-theme-button mat-theme-button-border" mat-button>
+    <button *ngIf="bot.bot_type === myEBotType.chatbot" (click)="openAnalyticsForBot()" class="mat-theme-button mat-theme-button-border" mat-button>
         <mat-icon>trending_up</mat-icon>
       Analytics
     </button>
@@ -89,7 +94,7 @@
     <div class="modal-body pt-0">
       <form #form="ngForm">
         <div class="text-center my-1">
-          <p class="mb-3">This action cannot be undone.Are you sure you wish to delete?</p>
+          <p class="mb-3">This action cannot be undone. Are you sure you wish to delete?</p>
 
         </div>
         <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>

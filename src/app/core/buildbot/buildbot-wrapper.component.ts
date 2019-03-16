@@ -170,6 +170,10 @@ export class BuildbotWrapperComponent implements OnInit {
     }
   }
 
+  goToDashBoard(){
+    this.router.navigate(['core/viewbots'], {queryParams:{type:this.bot_type}});
+  }
+
 
 
   updateFormValidNumber(formValidNumber, isValid: boolean) {

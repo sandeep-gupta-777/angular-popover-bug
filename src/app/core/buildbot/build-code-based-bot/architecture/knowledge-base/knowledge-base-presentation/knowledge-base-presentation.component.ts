@@ -111,7 +111,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       classStr: 'danger-modal-header-border',
       data: {
         actionButtonText: 'Delete',
-        message: 'This action cannot be undone.Are you sure you wish to delete?',
+        message: 'This action cannot be undone. Are you sure you wish to delete?',
         title: `Delete Concept?`,
         isActionButtonDanger: true,
         inputDescription: null,
@@ -235,12 +235,12 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     else{
       this.showTable$.emit();
       this._selectedRowData = {};
-      EventService.createConceptFullScreen$.emit(false);  
-      SideBarService.resetKB();   
+      EventService.createConceptFullScreen$.emit(false);
+      SideBarService.resetKB();
     }
-    
-   
-    
+
+
+
   }
 
   ngAfterViewInit(): void {

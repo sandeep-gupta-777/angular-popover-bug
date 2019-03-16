@@ -17,7 +17,7 @@
 
 
         <div class="refine-results__length">
-            <div>Message</div>
+            <div>Messages</div>
             <div class="input-container">
                 <mat-form-field class="input-no-label" floatLabel="never">
                     <input matInput placeholder="min" type="number"
@@ -34,10 +34,11 @@
         </div>
 
         <div class="refine-results__channel">
-            <div>Channel</div>
+            <div>Channels</div>
             <ul ngModelGroup="channels">
                 <li *ngFor="let channel of channels">
-                    <mat-checkbox *ngIf="channel.integration_type=== 'channels'" color="primary" ngModel
+                    <mat-checkbox *ngIf="channel.integration_type=== 'channels'" color="primary"
+                                  [ngModel]="false"
                                   name="{{channel.unique_name}}" [title]="channel.unique_name">
                         <img [src]="channel.icon" [alt]="channel.unique_name">
                     </mat-checkbox>
@@ -57,19 +58,19 @@
 
         <ul>Room metadata
             <li>
-                <mat-checkbox name="sendtoagent" ngModel color="primary">Agent handover happened</mat-checkbox>
+                <mat-checkbox name="sendtoagent" [ngModel]="false" color="primary">Agent handover happened</mat-checkbox>
             </li>
             <li>
-                <mat-checkbox name="error" ngModel color="primary">Error occured</mat-checkbox>
+                <mat-checkbox name="error" [ngModel]="false" color="primary">Error occured</mat-checkbox>
             </li>
             <li>
-                <mat-checkbox name="feedback" ngModel color="primary">Downvoted</mat-checkbox>
+                <mat-checkbox name="feedback" [ngModel]="false" color="primary">Downvoted</mat-checkbox>
             </li>
         </ul>
 
         <div class="refine-results__action">
             <button mat-flat-button class="mat-theme-button"
-                    [disabled]="!form.dirty"
+                    [disabled]="!filterFormDirty"
                     color="primary" type="submit" (click)="sessionFormSubmitted(form.value)">Submit
             </button>
             <button mat-button class="mat-theme-button cancel"

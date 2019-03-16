@@ -1,7 +1,8 @@
 <div class="row" *ngIf="showTable; else rowDetails">
   <div class="col-12 d-flex justify-content-between" *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']">
-    <div>Edit the existing concepts or create a new concept</div>
+    <div *ngIf="tableData && tableData?.length > 0">Edit the existing concepts or create a new concept</div>
     <button class="btn-theme btn-theme-primary"
+            style="margin-left: auto"
             (click)="reinitialise()"
             *myIf="myEAllActions['Create Enterprise Knowledge base']"
     >+ New Concept
@@ -9,10 +10,10 @@
   </div>
   <div class="col-12 d-flex justify-content-between"
        *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']">
-    <div>Edit the existing concepts or create a new concept</div>
+    <div *ngIf="tableData && tableData?.length > 0">Edit the existing concepts or create a new concept</div>
     <button class="mat-theme-button"
             mat-button
-            style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
+            style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px; margin-left: auto"
             (click)="reinitialise()"
             *myIf="myEAllActions['Create Bot Knowledge base']"
     >
@@ -58,8 +59,9 @@
 
 <!--</ng-template>-->
 
-<ng-template #rowDetails>
+<!--<ng-template #rowDetails>-->
   <app-knowledge-base-presentation
+          *ngIf="!showTable"
     class="h-100 d-flex-column-last-child-flex-grow-1"
     [selectedRowData]="selectedRowData"
     [handsontableData]="handontableData || [['', '', '']]"
@@ -67,4 +69,4 @@
     (deleteNer$)="deleteNer$.emit($event)"
     (updateOrSaveConcept$)="updateOrSaveConcept($event)"
   ></app-knowledge-base-presentation>
-</ng-template>
+<!--</ng-template>-->

@@ -53,7 +53,8 @@
         </div>
     </div>
     <div style="width: 64%; display: flex;color: #060606; justify-content: center; align-items: center; position: relative">
-        <div  style="width: 85%; height: 85%; position: relative" (keyup.enter)="enterKeyHandler()">
+        <!--<div  style="width: 85%; height: 85%; position: relative" (keyup.enter)="enterKeyHandler()">-->
+        <div  style="width: 85%; height: 85%; position: relative">
             <div style="font-size: 16px;margin-bottom: 8px">{{heading}}</div>
             <div style="margin-bottom: 16px">{{description}}</div>
             <mat-tab-group class="header-less-tabs"
@@ -70,9 +71,9 @@
                 </mat-tab>
             </mat-tab-group>
 
-            <a routerLink="/" style="margin: 0;width: 32px;height: 32px;position: absolute;top: 0;right: 0;border-radius: 50%;background: #e5e5e5;display: flex;justify-content: center;align-items: center;color: #4a4a4a; text-decoration: none">
+            <span (click)="goToDashBoard()" style="margin: 0;width: 32px;height: 32px;position: absolute;top: 0;right: 0;border-radius: 50%;background: #e5e5e5;display: flex;justify-content: center;align-items: center;color: #4a4a4a; text-decoration: none; cursor: pointer">
                 <i class="fa fa-times" style="margin: 0; color: #474747"></i>
-            </a>
+            </span>
             <button *ngIf="activeTab>0" mat-button style="position: absolute;top: 90%;left: 0" (click)="activeTab = activeTab>0?activeTab-1:activeTab">
                 <mat-icon>arrow_left</mat-icon>
                 Back

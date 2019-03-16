@@ -37,6 +37,7 @@ import { IUser } from '../../../../../interfaces/user';
 import { ModalImplementer } from '../../../../../../modal-implementer';
 import { MatDialog } from '@angular/material';
 import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
+import {delay} from 'rxjs/internal/operators';
 
 declare var zip;
 declare var JSZip;
@@ -154,7 +155,16 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
       this.selectedVersion.validation = data;
       this.validationMessageToggle = true;
     });
-    this.botlist$_sub = this.botlist$.subscribe(() => {
+
+    /*TODO:
+    * RACE CONDITION
+    * this.botlist$.subscribe runs before @Input bot is updated
+    * To avoid this => added 100ms delay.
+    * Refactor this
+    * */
+    this.botlist$_sub = this.botlist$
+      .pipe(delay(100))
+      .subscribe(() => {
 
       debugger;
       try {

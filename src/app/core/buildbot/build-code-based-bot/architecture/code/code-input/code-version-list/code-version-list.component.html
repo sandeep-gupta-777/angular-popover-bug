@@ -8,7 +8,6 @@
             <div class="version-active-label" *ngIf="selectedVersion"
                  style="padding:0 13px;"
                  [ngClass]="{'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-label-inactive':selectedVersion?.id !== activeVersion?.id}">
-                <i>{{activeVersion.id}}</i>
                 <div>{{selectedVersion.id === (activeVersion && activeVersion.id) ? 'Active' : 'Inactive'}}</div>
             </div>
 

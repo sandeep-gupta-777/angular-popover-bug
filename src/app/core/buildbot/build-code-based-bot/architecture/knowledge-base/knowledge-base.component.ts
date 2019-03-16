@@ -53,6 +53,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
   @Input() currentPageNumber = 1;
   @Input() totalRecords = 10;
   loggeduser: { user: IUser };
+  tableData;
   codeTextOutPutFromCodeEditor: string;
   codeTextInputToCodeEditor: string;
   showTable = true;
@@ -89,8 +90,8 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     this.tableData = this.tableData.map((row) => {
       let additonalColumns: any = {};
       /*Modifying Concept Key column*/
-      additonalColumns['Concept Key'] = row['Concept Key'];
-      additonalColumns['Concept Key'].value = `<strong>${additonalColumns['Concept Key'].value}</strong>`;
+      additonalColumns['Concept key'] = row['Concept key'];
+      additonalColumns['Concept key'].value = `<strong>${additonalColumns['Concept key'].value}</strong>`;
 
       /*TODO: Modifying Last update*/
 
@@ -361,6 +362,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
   }
 
   showNerSmartTable() {
+    debugger;
     this.showTable = true;
     this.router.navigate(['.'], {
       queryParams: {ner_id: null},
@@ -373,6 +375,6 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     console.log(selectedRowData);
   }
 
-  tableData;
+
 
 }
