@@ -8,7 +8,7 @@
               </span>
             <a [matTooltip]="'Open '+ chatWindowTitle" [routerLink]="['/core/botdetail/chatbot/', currentBot.id]">
                 <img [src]="currentBot.logo" class="chat-logo" alt="Bot logo">
-                {{(chatWindowTitle| slice:0: 20) + (chatWindowTitle.length > 20 ? "..." : "")}}</a>
+                {{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>
             <a class="ml-auto hover-parent" [routerLink]="['/preview']"
                [matTooltip]="'Open bot preview in a new Tab'"
                [queryParams]="{bot_unique_name:currentBot.bot_unique_name,enterprise_unique_name:enterprise_unique_name}"
@@ -156,7 +156,7 @@
              [src]="currentBot.logo||'https://image.flaticon.com/icons/svg/17/17004.svg'">
         <div *ngIf="currentBot" class="d-flex flex-column text-white">
             <div>{{currentBot.name}}</div>
-            <!--<div class="font-11">{{currentBot.description}}</div>-->
+            <!--<div class="font-11">{{bot.description}}</div>-->
         </div>
         <!---->
         <!--<div class="room-details ml-auto">-->
@@ -180,6 +180,7 @@
     <div class="chat-rooms">
         <app-chat-list class="mt-4"
                        (createCustomRoom$)="createCustomRoom()"
+                       [currentBot]="currentBot"
                        (createNewRoom$)="startNewChat($event)"></app-chat-list>
     </div>
     <div class="chat">

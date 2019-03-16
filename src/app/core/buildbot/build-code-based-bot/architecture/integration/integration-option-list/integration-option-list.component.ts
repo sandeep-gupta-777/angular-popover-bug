@@ -34,7 +34,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
   @Input() _bot: IBot;
   @Input() bot: IBot;
   // @Input() set bot(bot: IBot) {
-  //   this._bot = bot;
+  //   this.bot = bot;
   //   this.generateIntegrationFormValue();
   // }
   @ViewChild('form') f: NgForm;
@@ -61,7 +61,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
-    this._bot = this.bot; //todo: we need to one...remove _bot
+    this._bot = this.bot; //todo: we need to one...remove bot
     this.app$.subscribe((value) => {
       this.masterIntegrationList = value.masterIntegrationList;
       if(!value.masterIntegrationList){

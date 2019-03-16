@@ -74,7 +74,7 @@ const routes: Route[] = [
         path: 'analytics2', loadChildren: './analysis2/analysis2.module#Analysis2Module', canLoad: [AuthGaurdService]
       },
       {path: 'customner', component: ViewCustomnerComponent, data: {routeName: ERouteNames['Get Enterprise Knowledge base']}, canActivate: []},
-      {path: 'customner/create', component: CreateCustomnerComponent, data: {routeName: ERouteNames['Create Enterprise Knowledge base']}},      
+      {path: 'customner/create', component: CreateCustomnerComponent, data: {routeName: ERouteNames['Create Enterprise Knowledge base']}},
       {path: 'enterpriseprofile', component: EnterpriseprofileComponent, data: {routeName: ERouteNames['Get Enterprise']}, canActivate: []},
 
       {path: 'profile', component: ProfileComponent, data: {routeName: ERouteNames['Get User']}},

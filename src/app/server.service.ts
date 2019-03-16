@@ -314,7 +314,7 @@ export class ServerService {
   }
 
   getNSetChatPreviewBot(bot_unique_name: string, enterprise_unique_name: string) {
-    // if (!this.currentBot || (this.currentBot && this.currentBot.bot_unique_name !== this.bot_unique_name)) {
+    // if (!this.bot || (this.bot && this.bot.bot_unique_name !== this.bot_unique_name)) {
     //   let enterprise_unique_name = this.activatedRoute.snapshot.queryParams['enterprise_unique_name'];//testingbot
     //   if (!this.bot_unique_name) return;
     const url = this.constantsService.getNSetChatPreviewBotUrl(bot_unique_name, enterprise_unique_name);
@@ -629,7 +629,7 @@ export class ServerService {
     const headerData: IHeaderData = {
       'bot-access-token': bot.bot_access_token
     };
-    debugger;
+
     return this.makePutReq({url, body:bot, headerData})
       .pipe(tap((updatedBot: IBot) => {
           EventService.botUpdatedInServer$.emit(updatedBot);

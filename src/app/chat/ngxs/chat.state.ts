@@ -214,7 +214,7 @@ export class ChatSessionStateReducer {
     /*
     * As of now there can be only one current bot in the application.
     * The moment a new current bot is selected (via preview), all info of previous current bot is deleted
-    * This means if a bot is deleted, and if that bot is also "currentBot", we can just reset the whole state
+    * This means if a bot is deleted, and if that bot is also "bot", we can just reset the whole state
     * */
     if (botId === state.currentBotDetails.id) {
       dispatch([new ResetChatState()]);

@@ -156,14 +156,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     });
     this.botlist$_sub = this.botlist$.subscribe(() => {
 
-
-      // try {
-      //   let newTemplateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
-      //   if(this.utilityService.areTwoJSObjectSame(this.templateKeyDict, newTemplateKeyDict)) return;
-      // }catch (e) {
-      //   console.log(e);
-      // }
-
+      debugger;
       try {
         this.utilityService.getActiveVersionInBot(this.bot);
         if (this.bot.integrations && this.bot.integrations.channels) {

@@ -183,7 +183,7 @@ export class ChatWrapperComponent implements OnInit {
         this.currentBot = chatSessionState.currentBotDetails;
         if (this.currentBot) {
           this.enterprise_unique_name = this.currentBot.enterprise_unique_name;
-          this.bot_access_token = this.currentBot.bot_access_token; //this.currentRoom && this.currentRoom.bot_access_token || currentBot.bot_access_token;
+          this.bot_access_token = this.currentBot.bot_access_token; //this.currentRoom && this.currentRoom.bot_access_token || bot.bot_access_token;
           this.chatWindowTitle = chatSessionState.currentBotDetails.name;
         }
         if (chatSessionState.currentRoomId) {
@@ -261,6 +261,7 @@ export class ChatWrapperComponent implements OnInit {
             consumer_id: value.room.consumer_id,
             consumerDetails: startNewChatData.consumerDetails,
             messageList: roomMessages,
+            bot: this.currentBot,
             bot_access_token: this.currentBot.bot_access_token,
             uid: startNewChatData.consumerDetails.uid, //this.current_uid,
             selectedAvatar: value.room.selected_avatar,
@@ -312,7 +313,7 @@ export class ChatWrapperComponent implements OnInit {
     )
       .subscribe(() => {
         /*
-        * Before starting a new chat, we need to check if the currentBot has imiconnect
+        * Before starting a new chat, we need to check if the bot has imiconnect
         * integration is on or not, its not on=> use send API
         * if its on => use IMI connect
         * */

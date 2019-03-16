@@ -7,7 +7,7 @@
     (sendMessageToBotServer$)="sendMessageByHuman($event)"
     class="mx-2"
     style="margin-bottom: 16px; flex-shrink: 0"
-    [selectedAvatar]="selectedAvatar"
+    [bot]="room.bot"
     [messageData]="messageData">
   </app-chat-message>
   <div *ngIf="!_messageDataArray" class="w-100 h-100 d-flex align-items-center justify-content-center">
@@ -15,9 +15,9 @@
   </div>
   <div *ngIf="showBotIsThinking" class="mt-auto">
     <app-chat-message
+            [bot]="room.bot"
       (sendMessageToBotServer$)="sendMessageByHuman($event)"
       class="mx-2"
-      [selectedAvatar]="selectedAvatar"
       *ngFor="let messageData of botIsThinkingMessageDataArray"
       [messageData]="messageData">
     </app-chat-message>

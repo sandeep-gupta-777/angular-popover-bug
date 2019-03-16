@@ -3,11 +3,11 @@
         <span class="meta-text cursor-pointer mb-2 " (click)="utilityService.copyToClipboard(txnId)"
         [innerHtml]="'Txn Id: '+ txnId_highlighting">
    </span>
-   <span class ="ml-auto"></span> 
+   <span class ="ml-auto"></span>
       <mat-icon class= "search-error ml-1" *ngIf="hasError">error_outline</mat-icon>
       <mat-icon class= "search-agent ml-1" *ngIf="hasAgentHandover">headset_mic</mat-icon>
   </div>
- 
+
 
   <div *ngFor="let sessionMessage of sessionMessageItems">
 
@@ -24,7 +24,7 @@
                 <div class ="ml-3 onParentHover" style="color: #bebebe">
                   <mat-icon class="material-icons" style = "font-size:21px"(click) ="copyMessageClicked(sessionMessage.message)">file_copy</mat-icon></div>
           </div>
-          
+
           <div class="time my-1">
             {{sessionMessage.created_at|msToHhmm}}, {{sessionMessage.created_at|date:'mediumDate'}}
           </div>
@@ -58,7 +58,7 @@
         </div>
         <div class="row flex-row-reverse mr-32" *ngFor="let message of sessionMessage.message">
           <!--bot text reply starts-->
-          
+
           <div class="col-10 p-0 pb-1 d-flex flex-column justify-content-end" *ngIf="message.text">
             <div class="message p-2"
                  [ngStyle]="{'background-color': (!sessionMessage.feedback? '#e0e0e0' :(sessionMessage.feedback === myEChatFeedback.POSITIVE) ? '#5cd791' : '#ffc7cd') }"

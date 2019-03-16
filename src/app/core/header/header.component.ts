@@ -69,10 +69,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
 
     this.serverService.makeGetReq({ url: getAllEnterpriseUrl })
       .subscribe((value: any) => {
-
         this.enterpriseList = value.enterprises;
-        // console.log("sadasdasdsad");
-        // console.log(this.enterpriseList);
       });
 
     /*this.app$Subscription = */this.app$.subscribe((app) => {

@@ -375,7 +375,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
           this.createNewTemplatekey();
         }
       })
-  
+
       // this.utilityService.openDialog({
       //   component: template,
       //   dialog: this.matDialog,

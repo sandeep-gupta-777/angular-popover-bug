@@ -8,6 +8,7 @@
             <div class="version-active-label" *ngIf="selectedVersion"
                  style="padding:0 13px;"
                  [ngClass]="{'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-label-inactive':selectedVersion?.id !== activeVersion?.id}">
+                <i>{{activeVersion.id}}</i>
                 <div>{{selectedVersion.id === (activeVersion && activeVersion.id) ? 'Active' : 'Inactive'}}</div>
             </div>
 
@@ -71,8 +72,8 @@
             </button>
         </ng-container>
 
-        <ng-container *ngIf="selectedVersion && selectedVersion.id !== activeVersion.id">
-            <button [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
+        <ng-container>
+            <button [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0 || selectedVersion && selectedVersion.id === activeVersion.id"
                     *myIf="myEAllActions['Create Bot Versioning']"
                     (click)="activateVersion$.emit(selectedVersion.id)"
                     class="mat-theme-button mat-theme-button-border" mat-button>

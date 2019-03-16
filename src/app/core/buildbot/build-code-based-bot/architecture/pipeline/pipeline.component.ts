@@ -47,8 +47,8 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
   @Output() initDone$ = new EventEmitter<PipelineComponent>();
   @Input() bot:IBot;
   // @Input() set bot(botData: IBot) {
-  //   this._bot = botData;
-  //   this.pipeLine = this._bot && this._bot.pipelines || [];
+  //   this.bot = botData;
+  //   this.pipeLine = this.bot && this.bot.pipelines || [];
   //   this.filterAiModules();
   // }
 
@@ -236,7 +236,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
     this.botData$.emit(this.pipeLine);
   }
   ngOnDestroy(){
-    debugger;
+
     this.botData$.emit(this._bot);
   }
   removePipelineItemFromPipelineModal(index: number,aiModuleId: number) {

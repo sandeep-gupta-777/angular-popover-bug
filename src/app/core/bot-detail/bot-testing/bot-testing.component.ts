@@ -67,7 +67,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
       }
     )
       .subscribe((value) => {
-        
+
         this.showLoader = false;
         if (value.objects.length === 0) {
           this.isData = false;
@@ -131,7 +131,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
   }
 
   updateTC() {
-    debugger;
+
     this.serverService.makePutReq<{ meta: any, objects: ITestcases[] }>({
       url: this.testCasesUrl + `${this.testCaseId}/`,
       headerData: { 'bot-access-token': this.bot.bot_access_token },

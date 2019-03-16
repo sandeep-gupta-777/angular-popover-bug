@@ -27,7 +27,7 @@ export class SideBarService {
   private static botTestingData_init: any[];
 
   static init(component) {
-    debugger;
+
     if (component instanceof PipelineComponent) {
       SideBarService.pipelineInit(component);
     }
@@ -80,14 +80,14 @@ export class SideBarService {
   /*KNOWLEDGE BASE*/
 
   static knowledgeBaseInit(kbPrezComponent: KnowledgeBasePresentationComponent) {
-    debugger;
+
     SideBarService.knowledgeBasePresentationComponent = kbPrezComponent;
     SideBarService.kbPrezInit_Data = UtilityService.cloneObj(kbPrezComponent.createOutPutData());
   }
 
   static isKnowledgeBaseDirty(): boolean {
     if (!SideBarService.knowledgeBasePresentationComponent) return false;
-    debugger;
+
     let kbPrezFinalData = this.createKnowledgeBaseFinalData();
     let x = !UtilityService.deepCompare(SideBarService.kbPrezInit_Data, kbPrezFinalData);
     return x;
@@ -120,18 +120,18 @@ export class SideBarService {
 
 
   static isTabDirty(tab: ESideBarTab): boolean {
-    debugger;
+
     if (tab === ESideBarTab.input) {
       let x = this.isKnowledgeBaseDirty() || this.isPipelineDirty();
       return x;
     }
     if (tab === ESideBarTab.setting) {
-      debugger;
+
       let x = this.isBotConfigDirty();
       return x;
     }
     if (tab === ESideBarTab.test) {
-      debugger;
+
       let x = this.isBotTestingDirty();
       return x;
     }
@@ -144,18 +144,18 @@ export class SideBarService {
 
   static botTestingInit(component: BotTestingComponent){
     SideBarService.botTestingComponent = component;
-    debugger;
+
     SideBarService.botTestingData_init = UtilityService.cloneObj(SideBarService.botTestingComponent.testCaseData);
   }
   static createBotTestingFinalData(){
-    debugger;
+
     return SideBarService.botTestingComponent.testCaseData;
   }
 
   static isBotTestingDirty(){
     let botTestingData_final = this.createBotTestingFinalData();
     // let botTestingData_initial = SideBarService.botTestingData_init;
-    debugger;
+
     //remove null
     // for (let index = 0; index < botTestingData_initial.length; index++) {
     //   let anyNotNull = false;

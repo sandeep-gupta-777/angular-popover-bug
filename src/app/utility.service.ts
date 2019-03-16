@@ -469,7 +469,7 @@ export class UtilityService {
 
     const templateKeys = [];
     while (match) {
-      debugger;
+
       let templateKey;
       if(match[2]){
         templateKey = match[2].replace(/\)/g, '',).replace(/\'/g, '').trim();
@@ -538,7 +538,7 @@ export class UtilityService {
   }
 
   parseGenTemplateUiDictionaryToIfElseCode(uiDictionary: object) {
-    debugger;
+
     try {
       let genTemplateCodeStr = '';
       let uiDictionaryKeyArray = Object.keys(uiDictionary);
@@ -740,7 +740,7 @@ export class UtilityService {
       },
 
       series: [{
-        name: 'Handled by bot',
+        name: 'Handled by _bot',
         data: [5, 3, 4, 7, 2]
       }, {
         name: 'Handled by agent',

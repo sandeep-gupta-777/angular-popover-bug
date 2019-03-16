@@ -5,7 +5,7 @@
      *ngIf="messageData.messageMediatype === myEBotMessageMediaType.text && messageData.sourceType!=='session_expired'">
     <!--<div class="p-0 text-center" style="width: 40px">-->
     <!--<img class="rounded-circle"-->
-    <!--[src]="messageData?.sourceType==='bot'?selectedAvatar?.imageUrl:'https://image.flaticon.com/icons/svg/17/17004.svg'"-->
+    <!--[src]="messageData?.sourceType==='bot'?bot?.imageUrl:'https://image.flaticon.com/icons/svg/17/17004.svg'"-->
     <!--style="width: 32px;height: 32px" alt="">-->
     <!--</div>-->
     <div class="col-10 text-left p-0 flex-wrap" [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}">
@@ -57,11 +57,11 @@
          *ngIf="messageData.messageMediatype===myEBotMessageMediaType.bot_thinking">
         <div class="p-0 text-center" style="width: 40px">
         <img class="rounded-circle"
-        [src]="messageData?.sourceType==='bot'?selectedAvatar?.imageUrl:'https://image.flaticon.com/icons/svg/17/17004.svg'"
+        [src]="messageData?.sourceType==='bot'?bot.logo:'https://image.flaticon.com/icons/svg/17/17004.svg'"
         style="width: 32px;height: 32px" alt="">
         </div>
         <div class="bg-message-bot d-flex align-items-center px-2">
-            <app-bot-thinking-bubble [selectedAvatar]="selectedAvatar" class="d-block"></app-bot-thinking-bubble>
+            <app-bot-thinking-bubble [bot]="bot" class="d-block"></app-bot-thinking-bubble>
         </div>
     </div>
 
