@@ -1,4 +1,4 @@
-<div class="row" *ngIf="showTable; else rowDetails">
+<div class="row" *ngIf="showTable">
   <div class="col-12 d-flex justify-content-between" *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']">
     <div *ngIf="tableData && tableData?.length > 0">Edit the existing concepts or create a new concept</div>
     <button class="btn-theme btn-theme-primary"
