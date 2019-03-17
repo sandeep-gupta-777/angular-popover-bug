@@ -429,6 +429,25 @@ app-code-editor {
   }
 }
 
+:host /deep/ {
+  mat-tab-header{
+    margin-top: 0;
+  }
+  .mat-tab-label{
+    height: 30px;
+    padding: 0;
+  }
+
+  //.mat-tab-body-content{
+  //  height:unset!important;
+  //}
+
+  //.tab-text-danger{
+  //  .mat-tab-label{
+  //    color: red !important;
+  //  }
+  //}
+}
 
 #gentemplate-channel-selector{
   height: 26px;

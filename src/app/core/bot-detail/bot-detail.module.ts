@@ -1,7 +1,7 @@
 import {Route, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {AimService} from '../../aim.service';
 import {SharedModule} from '../../shared.module';
@@ -134,6 +134,7 @@ const routes: Route[] = [
     CommonModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,
+    ReactiveFormsModule,
     SharedModule,
     HttpClientModule,
     MyMaterialModule,

@@ -32,7 +32,7 @@ import { EventService } from '../../../../../../event.service';
 import { take } from 'rxjs/operators';
 import { LoggingService } from '../../../../../../logging.service';
 import { DebugBase } from '../../../../../../debug-base';
-import { NgForm } from '@angular/forms';
+import {FormGroup, NgForm} from '@angular/forms';
 import { IUser } from '../../../../../interfaces/user';
 import { ModalImplementer } from '../../../../../../modal-implementer';
 import { MatDialog } from '@angular/material';
@@ -129,8 +129,10 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   role: string;
   @Select() loggeduser$: Observable<{ user: IUser }>;
   showViewChangeToggle = true;
-
+  codeInputForm:FormGroup;
   ngOnInit() {
+
+    this.codeInputForm = this.utilityService.getCodeInputForm();
 
     this.loggeduser$.subscribe((loggeduserState) => {
       if (!loggeduserState.user) {
@@ -155,17 +157,9 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
       this.validationMessageToggle = true;
     });
     this.botlist$_sub = this.botlist$.subscribe(() => {
-
-
-      // try {
-      //   let newTemplateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
-      //   if(this.utilityService.areTwoJSObjectSame(this.templateKeyDict, newTemplateKeyDict)) return;
-      // }catch (e) {
-      //   console.log(e);
-      // }
-
       try {
-        this.utilityService.getActiveVersionInBot(this.bot);
+        let activeVersion:IBotVersionData = this.utilityService.getActiveVersionInBot(this.bot);
+        this.codeInputForm.patchValue(activeVersion);
         if (this.bot.integrations && this.bot.integrations.channels) {
           this.channelList = Object.keys(this.bot.integrations.channels)
             .map((integrationKey) => {
@@ -573,6 +567,9 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     * for old version => if view is UI view. covert ui view to code, if its code view don't do anything
     * for new version => if view is UI view. covert code to ui view, if its code view don't do anything
     * */
+
+    this.codeInputForm.patchValue(version);
+
     if (this.showGenTempEditorAndHideGenTempUi === false) {
       this.convertUiDictToGenTemplateCode(this.templateKeyDict);
     }

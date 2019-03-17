@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {UtilityService} from '../../../../../../utility.service';
 import {ActivatedRoute} from '@angular/router';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 declare var CodeMirror: any;
 
@@ -10,9 +11,15 @@ declare var CodeMirror: any;
   styleUrls: ['./code-editor.component.scss'],
   host: {
     '[class.d-flex-column-last-child-flex-grow-1]': 'true'
-  }
+  },
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: CodeEditorComponent,
+    multi: true
+  },
+  ]
 })
-export class CodeEditorComponent implements OnInit, AfterViewInit {
+export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueAccessor  {
 
   editor;
   _text;
@@ -76,6 +83,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
       setTimeout(() => {
         this.editorCodeObjRef.text = editor.getValue();
         this.textChangedEvent.emit(editor.getValue());
+        this.onChanges(editor.getValue());
       });
     });
     this._text && this.editor.setValue(this._text);
@@ -117,10 +125,21 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
 
 
   options: any = {maxLines: 20, printMargin: false};
+  onChanges: Function;
+  registerOnChange(fn: any): void {
+    this.onChanges = fn;
+  }
 
-  // onChange1(code) {
-  //   this.editorCodeObjRef
-  //   this.textChangedEvent.emit(code);
-  // }
+  registerOnTouched(fn: any): void {
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+  }
+
+  writeValue(text: any): void {
+    console.log(text);
+    this.editor.setValue(text);
+  }
+
 
 }

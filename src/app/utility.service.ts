@@ -22,7 +22,7 @@ import {EBotMessageMediaType, IMessageData} from '../interfaces/chat-session-sta
 import {IBotPreviewFirstMessage} from './chat/chat-wrapper.component';
 import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 import {StoreVariableService} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl, NgForm} from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl, NgForm, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material';
 import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
 
@@ -37,6 +37,7 @@ export class UtilityService {
     private router: Router,
     public snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,
     private storeVariableService: StoreVariableService,
   ) {
   }
@@ -354,6 +355,18 @@ export class UtilityService {
 
   static cloneObj(obj) {
     return JSON.parse(JSON.stringify(obj));
+  }
+
+  getCodeInputForm() {
+    let codeInputForm = this.formBuilder.group({
+      df_template: [""],
+      df_rules: [""],
+      generation_rules: [""],
+      generation_templates: [""],
+      workflow: [""],
+    });
+
+    return codeInputForm;
   }
 
   static removeEmptyKeyValues(valClone) {
