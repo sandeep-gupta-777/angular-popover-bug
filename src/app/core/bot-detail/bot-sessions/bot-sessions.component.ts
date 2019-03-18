@@ -158,19 +158,19 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
       /*TODO: also check if the user has access to decrypt api*/
       if (sessionsDataForTableItem['originalSessionData']['sendtoagent']) {
-        additonalColumns['Room Metadata'].value.push({show: true, name: 'Sent to agent', class: 'fa fa-headphones'});
+        additonalColumns['Room Metadata'].value.push({show: true, name: 'Sent to agent', iconName:'headset', class: 'headset-mic'});
       }
       if (sessionsDataForTableItem['originalSessionData']['error']) {
-        additonalColumns['Room Metadata'].value.push({show: true, name: 'Error', class: 'fa fa-exclamation-triangle'});
+        additonalColumns['Room Metadata'].value.push({show: true, name: 'Error', iconName:'error_outline', class:"error_outline"});
       }
       if (sessionsDataForTableItem['originalSessionData']['feedback'] === EChatFeedback.POSITIVE) {
-        additonalColumns['Room Metadata'].value.push({show: true, name: 'Positive feedback', class: 'fa fa-thumbs-up'});
+        additonalColumns['Room Metadata'].value.push({show: true, name: 'Positive feedback', iconName:'thumb_up', class: 'thumb_up'});
       }
       if (sessionsDataForTableItem['originalSessionData']['feedback'] === EChatFeedback.NEGATIVE) {
-        additonalColumns['Room Metadata'].value.push({show: true, name: 'Negative feedback', class: 'fa fa-thumbs-down'});
+        additonalColumns['Room Metadata'].value.push({show: true, name: 'Negative feedback', iconName:'thumb_down', class: 'thumb_down'});
       }
-      if (sessionsDataForTableItem['originalSessionData']['data_encrypted']) {
-        additonalColumns['Room Metadata'].value.push({show: true, name: 'Encrypted', class: 'fa fa-lock'});
+      if (!sessionsDataForTableItem['originalSessionData']['data_encrypted']) {
+        additonalColumns['Room Metadata'].value.push({show: true, name: 'Decrypted', iconName:'lock_open', class: 'lock_open'});
       }
 
       // additonalColumns['Room Metadata'].value = `<mat-icon>search</mat-icon>`;//TODO: in future do this but via dynamic components

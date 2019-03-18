@@ -4,13 +4,13 @@
 <!--<button (click)="log(tableForm)">log</button>-->
 
 <div style="display: flex;" *ngIf="showRefreshButton">
-    <ng-content></ng-content>
-    <button (click)="refreshData()"
-            class="mat-theme-button" mat-button
-            style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px; margin-left: auto">
-        <mat-icon>refresh</mat-icon>
-        Refresh
-    </button>
+  <ng-content></ng-content>
+  <button (click)="refreshData()"
+          class="mat-theme-button" mat-button
+          style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px; margin-left: auto">
+    <mat-icon>refresh</mat-icon>
+    Refresh
+  </button>
 </div>
 <input type="text" #headerHoverd value="false" hidden>
 <input type="text" #calenderOpened value="{{formDirty}}" hidden>
@@ -18,144 +18,156 @@
 <!--<i>{{sortedCol}}</i>-->
 <!--<i>{{sortDir === myESortDir.ASC && i===sortedCol}}</i>-->
 <form #tableForm="ngForm" *ngIf="tableData" (click)="handleDataValueClicked($event)">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        <!-- Symbol Column -->
-        <ng-container *ngFor="let i of displayedColumns">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- Symbol Column -->
+    <ng-container *ngFor="let i of displayedColumns">
 
-            <ng-container [matColumnDef]="i">
-                <!--table header starts-->
-                <th mat-header-cell class="pt-3"
-                    (mouseenter)="headerHoverd.value = 'true'"
-                    (mouseleave)="headerHoverd.value = 'false'"
-                    *matHeaderCellDef>
-                    <div
-                            class="cursor-pointer"
-                            style="font-size: 13px;color: #9e9e9e; position: relative">
-                        <span [style.visibility]="(!(tableData[0][i].search || tableData[0][i].dateRange) || formDirty ===false  && headerHoverd.value ==='false') ? 'visible' : 'hidden'">{{i}}</span>
+      <ng-container [matColumnDef]="i">
+        <!--table header starts-->
+        <th mat-header-cell class="pt-3"
+            (mouseenter)="headerHoverd.value = 'true'"
+            (mouseleave)="headerHoverd.value = 'false'"
+            *matHeaderCellDef>
+          <div
+            class="cursor-pointer"
+            style="font-size: 13px;color: #9e9e9e; position: relative">
+            <span
+              [style.visibility]="(!(tableData[0][i].search || tableData[0][i].dateRange) || formDirty ===false  && headerHoverd.value ==='false') ? 'visible' : 'hidden'">{{i}}</span>
 
-                        <!--text search starts-->
-                        <div
-                                style="position: absolute; top: 0px; left: -15px; right: 0 ; bottom: 0; display: flex; flex-direction: column">
-                            <i class="fa fa-caret-up"
-                               title="Sort descending"
-                               style="margin-bottom: 6px"
-                               [ngClass]="{'text-bold': sortDir === myESortDir.DES && i===sortedCol}"
-                               (click)="sort(i, myESortDir.DES)"></i>
-                            <i class="fa fa-caret-down"
-                               title="Sort Ascending"
-                               [ngClass]="{'text-bold': sortDir === myESortDir.ASC && i===sortedCol}"
-                               (click)="sort(i, myESortDir.ASC)"></i>
-                        </div>
+            <!--text search starts-->
+            <div
+              style="position: absolute; top: 0px; left: -15px; right: 0 ; bottom: 0; display: flex; flex-direction: column">
+              <i class="fa fa-caret-up"
+                 title="Sort descending"
+                 style="margin-bottom: 6px"
+                 [ngClass]="{'text-bold': sortDir === myESortDir.DES && i===sortedCol}"
+                 (click)="sort(i, myESortDir.DES)"></i>
+              <i class="fa fa-caret-down"
+                 title="Sort Ascending"
+                 [ngClass]="{'text-bold': sortDir === myESortDir.ASC && i===sortedCol}"
+                 (click)="sort(i, myESortDir.ASC)"></i>
+            </div>
 
-                        <div [hidden]="!(tableData && tableData[0][i].search && (headerHoverd.value ==='true' || formDirty))"
-                             style="position: absolute; top: -5px; left: 0; right: 0 ; bottom: 0;">
-                            <mat-form-field floatLabel="never">
-                                <input matInput
-                                       type="text"
-                                       [ngModel]="''"
-                                       [placeholder]="i"
-                                       [name]="i">
-                                <mat-icon matSuffix>search</mat-icon>
-                            </mat-form-field>
-                        </div>
-                        <!--text search ends-->
+            <div [hidden]="!(tableData && tableData[0][i].search && (headerHoverd.value ==='true' || formDirty))"
+                 style="position: absolute; top: -5px; left: 0; right: 0 ; bottom: 0;">
+              <mat-form-field floatLabel="never">
+                <input matInput
+                       type="text"
+                       [ngModel]="''"
+                       [placeholder]="i"
+                       [name]="i">
+                <mat-icon matSuffix>search</mat-icon>
+              </mat-form-field>
+            </div>
+            <!--text search ends-->
 
-                        <!--text search starts-->
-                        <div [hidden]="!(tableData && tableData[0][i].dateRange && (headerHoverd.value ==='true' || formDirty))"
-                             style="position: absolute; top: -5px; left: 0; right: 0 ; bottom: 0; display: flex">
-                            <!--<div style="display: flex; flex-direction: column; margin-right: 5px">-->
-                            <!--<i class="fa fa-caret-up" (click)="sort(i, myESortDir.DES)"></i>-->
-                            <!--<i class="fa fa-caret-down" (click)="sort(i, myESortDir.ASC)"></i>-->
-                            <!--</div>-->
+            <!--text search starts-->
+            <div [hidden]="!(tableData && tableData[0][i].dateRange && (headerHoverd.value ==='true' || formDirty))"
+                 style="position: absolute; top: -5px; left: 0; right: 0 ; bottom: 0; display: flex">
+              <!--<div style="display: flex; flex-direction: column; margin-right: 5px">-->
+              <!--<i class="fa fa-caret-up" (click)="sort(i, myESortDir.DES)"></i>-->
+              <!--<i class="fa fa-caret-down" (click)="sort(i, myESortDir.ASC)"></i>-->
+              <!--</div>-->
 
-                            <mat-form-field
-                                    [hidden]="!(tableData && tableData[0][i].dateRange)"
-                                    floatLabel="never">
-                                <input matInput
-                                       [name]="i"
-                                       [ngModel]="''"
-                                       [placeholder]="i"
-                                       (keyup.enter)="enterPressedOnFilters()"
+              <mat-form-field
+                [hidden]="!(tableData && tableData[0][i].dateRange)"
+                floatLabel="never">
+                <input matInput
+                       [name]="i"
+                       [ngModel]="''"
+                       [placeholder]="i"
+                       (keyup.enter)="enterPressedOnFilters()"
 
-                                       [satDatepicker]="picker">
-                                <sat-datepicker #picker [rangeMode]="true" (opened)="calenderOpened.value = 'true'"
-                                                (closed)="calenderOpened.value = 'false'"></sat-datepicker>
-                                <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
-                            </mat-form-field>
+                       [satDatepicker]="picker">
+                <sat-datepicker #picker [rangeMode]="true" (opened)="calenderOpened.value = 'true'"
+                                (closed)="calenderOpened.value = 'false'"></sat-datepicker>
+                <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+              </mat-form-field>
 
-                        </div>
-                        <!--text search ends-->
-                    </div>
+            </div>
+            <!--text search ends-->
+          </div>
 
-                </th>
-                <!--table header ends-->
+        </th>
+        <!--table header ends-->
 
-                <td mat-cell *matCellDef="let element">
-                    <span *ngIf="element[i].type==='button'"></span>
-                    <span *ngIf="element[i].type==='boolean'">
+        <td mat-cell *matCellDef="let element">
+          <span *ngIf="element[i].type==='button'"></span>
+          <span *ngIf="element[i].type==='boolean'">
           <!--<span class="badge-success">{{element[i].value}}</span>-->
           <mat-chip-list>
             <mat-chip>{{element[i].value}}</mat-chip>
           </mat-chip-list>
-                        <!---->
+            <!---->
         </span>
-                    <span *ngIf="element[i].type==='time'"><span
-                            class="">{{element[i].value|date:"d MMM yy, h:mma"}}</span></span>
-                    <span *ngIf="element[i].type==='icon'" class="cursor-pointer">
+          <span *ngIf="element[i].type==='time'">
+            <span class="">{{element[i].value|date:"d MMM yy, h:mma"}}</span>
+          </span>
+          <span *ngIf="element[i].type==='icon'" class="cursor-pointer">
             <i *ngFor="let i of  element[i].value" [matTooltip]="i.name" [class]="i.class + ' mr-1'"
                (click)="actionIconClicked(element.originalSessionData, i.name, $event)"></i>
           </span>
-                    <span *ngIf="element[i].type==='image'">
+          <span *ngIf="element[i].type==='mat-icon'" class="cursor-pointer">
+
+            <mat-icon *ngFor="let i of  element[i].value" [matTooltip]="i.name"
+                      [attr.name]="i.class"
+               (click)="actionIconClicked(element.originalSessionData, i.name, $event)">
+              {{i.iconName}}
+            </mat-icon>
+
+          </span>
+          <span *ngIf="element[i].type==='image'">
           <img style="width: 16px; height: 16px; margin-right: 2px;" [matTooltip]="item.name"
                *ngFor="let item of element[i].value" [src]="item.src" alt="">
         </span>
-                    <div style="position: relative" class="textval-wrapper">
-                        <div
-                                class="textVal"
-                                [innerHTML]="element[i].value|safeHtml"
-                                *ngIf="element[i].type!=='button' && element[i].type!=='icon' && element[i].type!=='image' && element[i].type!=='boolean' && element[i].type!=='time'">
-                            <!--{{element[i].value}}-->
-                        </div>
+          <div style="position: relative" class="textval-wrapper">
+            <div
+              class="textVal"
+              [innerHTML]="element[i].value|safeHtml"
+              *ngIf="element[i].type!=='button' && element[i].type!=='icon' && element[i].type!=='mat-icon' && element[i].type!=='image' && element[i].type!=='boolean' && element[i].type!=='time'">
+              <!--{{element[i].value}}-->
+            </div>
 
-                        <!--<div-->
-                        <!--class="textVal-hover" style="position: absolute; top: 0; z-index: 1000000000;"-->
-                        <!--*ngIf="element[i].type!=='button' && element[i].type!=='icon' && element[i].type!=='image' && element[i].type!=='boolean' && element[i].type!=='time'">-->
-                        <!--{{element[i].value}}-->
-                        <!--</div>-->
+            <!--<div-->
+            <!--class="textVal-hover" style="position: absolute; top: 0; z-index: 1000000000;"-->
+            <!--*ngIf="element[i].type!=='button' && element[i].type!=='icon' && element[i].type!=='image' && element[i].type!=='boolean' && element[i].type!=='time'">-->
+            <!--{{element[i].value}}-->
+            <!--</div>-->
 
-                    </div>
-                </td> <!-- element[i] =  { "value": 164026, "type": "number", "displayValue": "Room Id" }-->
-            </ng-container>
-        </ng-container>
-
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectRow(row)"></tr>
-    </table>
+          </div>
+        </td> <!-- element[i] =  { "value": 164026, "type": "number", "displayValue": "Room Id" }-->
+      </ng-container>
+    </ng-container>
 
 
-    <!--material table ends-->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectRow(row)"></tr>
+  </table>
 
 
-    <!--_data.length!==totalRows means that custom query has been used to filter rows-->
-    <!--<ul class="pagination pagination-sm justify-content-center my-2"-->
-    <!--*ngIf="paginationArr && paginationArr.length>1">-->
-    <!--<li class="page-item" [ngClass]="{'text-muted':currentPage<=1}"><a class="page-link"-->
-    <!--(click)="goToPrevPage()">Previous</a></li>-->
-    <!--<li class="page-item" *ngFor="let i of paginationArr"><a class="page-link"-->
-    <!--[ngClass]="{'bg-theme-primary':i===currentPage, 'text-white':i===currentPage}"-->
-    <!--(click)="goToPage(i)">{{i}}</a></li>-->
-    <!--<li class="page-item" [ngClass]="{'text-muted':currentPage>=totalPageCount}"><a class="page-link"-->
-    <!--(click)="goToNextPage()">Next</a>-->
-    <!--</li>-->
-    <!--</ul>-->
-    <mat-paginator [length]="_totalRecords"
-                   [pageSize]="10"
-                   [pageSizeOptions]="[10]"
-                   [pageIndex]="currentPage-1"
-                   [hidePageSize]="true"
-                   (page)="goToPage($event)">
-    </mat-paginator>
+  <!--material table ends-->
+
+
+  <!--_data.length!==totalRows means that custom query has been used to filter rows-->
+  <!--<ul class="pagination pagination-sm justify-content-center my-2"-->
+  <!--*ngIf="paginationArr && paginationArr.length>1">-->
+  <!--<li class="page-item" [ngClass]="{'text-muted':currentPage<=1}"><a class="page-link"-->
+  <!--(click)="goToPrevPage()">Previous</a></li>-->
+  <!--<li class="page-item" *ngFor="let i of paginationArr"><a class="page-link"-->
+  <!--[ngClass]="{'bg-theme-primary':i===currentPage, 'text-white':i===currentPage}"-->
+  <!--(click)="goToPage(i)">{{i}}</a></li>-->
+  <!--<li class="page-item" [ngClass]="{'text-muted':currentPage>=totalPageCount}"><a class="page-link"-->
+  <!--(click)="goToNextPage()">Next</a>-->
+  <!--</li>-->
+  <!--</ul>-->
+  <mat-paginator *ngIf="_totalRecords && _totalRecords >0" [length]="_totalRecords"
+                 [pageSize]="10"
+                 [pageSizeOptions]="[10]"
+                 [showFirstLastButtons]="true"
+                 [pageIndex]="currentPage-1"
+                 [hidePageSize]="true"
+                 (page)="goToPage($event)">
+  </mat-paginator>
 
 </form>
 
@@ -163,3 +175,9 @@
 <!--<div *ngIf="totalRows">-->
 <!--<label>Number of rows: {{totalRows}}</label>-->
 <!--</div>-->
+<ng-template #matIcon let-value="value">
+  <i>{{ value|json }}</i>
+  <mat-icon [ngClass]="value">
+    {{ value }}
+  </mat-icon>
+</ng-template>

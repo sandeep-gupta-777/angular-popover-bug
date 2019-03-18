@@ -1031,7 +1031,7 @@ export class ConstantsService {
     room_metadata: {
       originalKey: '',
       value: undefined,
-      type: 'icon',
+      type: 'mat-icon',
       displayValue: 'Room Metadata',
       custom: true,
       name: '',
