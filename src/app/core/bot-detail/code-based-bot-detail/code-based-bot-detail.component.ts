@@ -138,7 +138,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
     this.sideBarTab1 = <ESideBarTab>(this.activatedRoute.snapshot.queryParamMap.get('build') || this.sideBarTab1);
     /*this.bot$ = */
     this.botlist$.subscribe((botListState) => {
-      debugger;
+
       console.log(this.bot);
       if (botListState.allBotList) {
 

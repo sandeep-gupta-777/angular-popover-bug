@@ -76,7 +76,7 @@
         </fieldset>
 
 
-        <div class="col-6" style="padding-left: 15px">
+        <div class="col-9" style="padding-left: 15px">
             <div class="" *ngIf="!(_bot.bot_type===myEBotType.intelligent)">
                 <div class="d-flex align-items-center" style="margin-bottom: 20px">
                     <label class="pr-2 mb-0">Is Manager Bot? <app-info-icon></app-info-icon></label>
@@ -84,10 +84,21 @@
 
                 </div>
             </div>
+            <!--<i>hello{{formGroup.get('child_bots').value|slice:0:4}}</i>-->
             <mat-form-field style="width: 100%; margin-bottom: 20px" *ngIf="formGroup.get('is_manager').value">
                 <mat-select placeholder="Child Bots"
                             formControlName="child_bots"
                             multiple >
+
+
+                    <mat-select-trigger *ngIf="formGroup.get('child_bots') && formGroup.get('child_bots').value">
+                        <span *ngFor="let botId of formGroup.get('child_bots').value|slice:0:4; let last = last">
+                            {{(botId|botById|async).name}}<span *ngIf="!last">,</span>
+                        </span>
+                        <span style="opacity: 0.75;font-size: 0.75em;" *ngIf="formGroup.get('child_bots').value.length> 4 ">
+                            (+ {{formGroup.get('child_bots').value.length -4 }} more)
+                        </span>
+                    </mat-select-trigger>
                     <ng-container *ngFor="let bot of codebasedBotList; let i = index;">
                         <mat-option [value]="bot.id">
                             {{bot.name}}

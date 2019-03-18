@@ -15,6 +15,7 @@ import {ESplashScreens} from '../../../../../splash-screen/splash-screen.compone
 import {MaterialTableImplementer} from '../../../../../material-table-implementer';
 import {EventService} from '../../../../../event.service';
 import {KnowledgeBasePresentationComponent} from './knowledge-base-presentation/knowledge-base-presentation.component';
+import {ESortDir} from "../../../../../smart-table/smart-table.component";
 
 @Component({
   selector: 'app-knowledge-base',
@@ -60,6 +61,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
   key1;
   ner_type1;
   conflict_policy1;
+  myESortDir = ESortDir;
   type: string;
   handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
   handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
@@ -90,8 +92,18 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     this.tableData = this.tableData.map((row) => {
       let additonalColumns: any = {};
       /*Modifying Concept Key column*/
-      additonalColumns['Concept key'] = row['Concept key'];
-      additonalColumns['Concept key'].value = `<strong>${additonalColumns['Concept key'].value}</strong>`;
+      additonalColumns['Concept name'] = row['Concept name'];
+
+      additonalColumns['Concept name'].value = `<strong>${additonalColumns['Concept name'].value}</strong>`;
+      //
+      additonalColumns['Concept type'] = row['Concept type'];
+      let concept_type_val = UtilityService.spaceCase(additonalColumns['Concept type'].value, "_");
+      additonalColumns['Concept type'].value = `${concept_type_val}`;
+
+      additonalColumns['Override policy'] = row['Override policy'];
+      let override_type_val = UtilityService.spaceCase(additonalColumns['Override policy'].value, "_");
+      additonalColumns['Override policy'].value = `${override_type_val}`;
+
 
       /*TODO: Modifying Last update*/
 
@@ -362,7 +374,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
   }
 
   showNerSmartTable() {
-    debugger;
+
     this.showTable = true;
     this.router.navigate(['.'], {
       queryParams: {ner_id: null},

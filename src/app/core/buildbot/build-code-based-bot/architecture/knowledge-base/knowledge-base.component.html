@@ -33,6 +33,8 @@
       <app-smart-table *ngIf="tableData"
                        [data]="tableData"
                        [totalRecords]="totalRecords"
+                       [sortedCol]="'Last Update'"
+                       [sortDir]="myESortDir.DES"
                        [recordsPerPage]="recordsPerPage"
                        (pageChanged$)="pageChanged($event)"
                        [currentPage]="currentPageNumber"

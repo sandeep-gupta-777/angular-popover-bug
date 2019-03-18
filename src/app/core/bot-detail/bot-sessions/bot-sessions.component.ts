@@ -13,7 +13,7 @@ import {MaterialTableImplementer} from '../../../material-table-implementer';
 import {MatDialog} from '@angular/material';
 import {ObjectArrayCrudService} from '../../../object-array-crud.service';
 import {EventService} from '../../../event.service';
-import {catchError, distinctUntilChanged, skip, startWith, tap} from 'rxjs/internal/operators';
+import {catchError, count, distinctUntilChanged, skip, startWith, tap} from 'rxjs/internal/operators';
 import {IAppState} from '../../../ngxs/app.state';
 import {IIntegrationMasterListItem} from '../../../../interfaces/integration-option';
 import {NgForm} from '@angular/forms';
@@ -156,21 +156,41 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       /*actions*/
       // additonalColumns['Room Metadata'].value.push({show: true, name: 'download', class: 'fa fa-download'});
 
+      let originalSessionData = sessionsDataForTableItem['originalSessionData'];
       /*TODO: also check if the user has access to decrypt api*/
-      if (sessionsDataForTableItem['originalSessionData']['sendtoagent']) {
-        additonalColumns['Room Metadata'].value.push({show: true, name: 'Sent to agent', iconName:'headset', class: 'headset-mic'});
+      if (originalSessionData['sendtoagent']) {
+        additonalColumns['Room Metadata'].value.push({
+          show: true,
+          name: 'Sent to agent',
+          iconName: 'headset',
+          class: 'headset-mic'
+        });
       }
-      if (sessionsDataForTableItem['originalSessionData']['error']) {
-        additonalColumns['Room Metadata'].value.push({show: true, name: 'Error', iconName:'error_outline', class:"error_outline"});
+      if (originalSessionData['error']) {
+        additonalColumns['Room Metadata'].value.push({
+          show: true,
+          name: 'Error',
+          iconName: 'error_outline',
+          class: "error_outline"
+        });
       }
-      if (sessionsDataForTableItem['originalSessionData']['feedback'] === EChatFeedback.POSITIVE) {
-        additonalColumns['Room Metadata'].value.push({show: true, name: 'Positive feedback', iconName:'thumb_up', class: 'thumb_up'});
+      if (!originalSessionData['data_encrypted']) {
+        additonalColumns['Room Metadata'].value.push({
+          show: true,
+          name: 'Decrypted',
+          iconName: 'lock_open',
+          class: 'lock_open'
+        });
       }
-      if (sessionsDataForTableItem['originalSessionData']['feedback'] === EChatFeedback.NEGATIVE) {
-        additonalColumns['Room Metadata'].value.push({show: true, name: 'Negative feedback', iconName:'thumb_down', class: 'thumb_down'});
-      }
-      if (!sessionsDataForTableItem['originalSessionData']['data_encrypted']) {
-        additonalColumns['Room Metadata'].value.push({show: true, name: 'Decrypted', iconName:'lock_open', class: 'lock_open'});
+      let negativeFeedbackCount: number = originalSessionData['feedback_count'] && originalSessionData['feedback_count']['downvote'];
+      if (negativeFeedbackCount && negativeFeedbackCount > 0) {
+        let name = `${negativeFeedbackCount} downvote${negativeFeedbackCount > 1 ? 's' : ''}`;
+        additonalColumns['Room Metadata'].value.push({
+          show: true,
+          name: name,
+          iconName: 'thumb_down',
+          class: 'thumb_down'
+        });
       }
 
       // additonalColumns['Room Metadata'].value = `<mat-icon>search</mat-icon>`;//TODO: in future do this but via dynamic components
@@ -426,7 +446,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       });
   }
 
-  performSearchInDbForSessionHandler(filterData: ISessionFilterData){
+  performSearchInDbForSessionHandler(filterData: ISessionFilterData) {
     this.performSearchInDbForSession(filterData)
       .subscribe();
   }
@@ -436,6 +456,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
     this.showLoader = true;
     let url: string;
+    let page:number;
     this.filterDataFromTable = JSON.parse(JSON.stringify(filterData || {}));
     let filterDataFromForm = JSON.parse(JSON.stringify(this.filterFormData || {}));
     let combinedFilterData = {...filterDataFromForm, ...this.filterDataFromTable};
@@ -463,9 +484,11 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         combinedFilterData.total_message_count__range = `${combinedFilterData.total_message_count},${combinedFilterData.total_message_count}`;
 
       }
+
+      page = combinedFilterData.page = combinedFilterData.page || 1;
       combinedFilterData = {
         ...combinedFilterData,
-        offset: combinedFilterData.page ? ((combinedFilterData.page - 1) * 10) : 0,
+        offset: combinedFilterData.page - 1,
         limit: combinedFilterData.limit ? combinedFilterData.limit : 10
       };
       delete combinedFilterData.page;
@@ -473,11 +496,13 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       url = this.constantsService.getRoomWithFilters(combinedFilterData);
     } else {
       url = this.constantsService.getRoomWithFilters({limit: 10});
+      page = 1;
     }
     url = url.toLowerCase();//todo: this should be handled by backend;
     return this.serverService.makeGetReq({url, headerData: this.headerData})
       .pipe(
         tap((value: { objects: ISessionItem[], meta: { total_count: number } }) => {
+
           if (!filterData && value.objects.length === 0) {
             this.showSplashScreen = true;
           }
@@ -485,6 +510,10 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
             this.showFilterForm = true;
           }
 
+          if(page){
+
+            this.pageNumberOfCurrentRowSelected = page;
+          }
           this.sessions = value.objects;
           this.totalSessionRecords = value.meta.total_count;
           this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
@@ -532,27 +561,27 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   filerFormInitalData;
 
   ngAfterViewInit(): void {
-    setTimeout(()=>{
+    setTimeout(() => {
       this.filerFormInitalData = this.filterForm.value;
       this.filterForm
         .valueChanges
         .subscribe((formData) => {
-          debugger;
+
           // this.filterFormDirty = JSON.stringify(this.filerFormInitalData)!==JSON.stringify(formData);
           this.filterFormDirty = this.test1(formData, this.filerFormInitalData);
         });
-    },100);
+    }, 100);
 
   }
 
-  test1(obj1, obj2){
+  test1(obj1, obj2) {
     let isDirty = false;
-    (function compareObj(obj1, obj2){
-      for (let key of Object.keys(obj1)){
+    (function compareObj(obj1, obj2) {
+      for (let key of Object.keys(obj1)) {
         let val1 = obj1[key];
         let val2 = obj2[key];
 
-        if(val1 && !val2 || !val1 && val2){
+        if (val1 && !val2 || !val1 && val2) {
           isDirty = true;
           return;
         }
@@ -560,7 +589,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         if (!(!val1 && !val2)) {
           if (typeof val1 === 'object') {
             compareObj(val1, val2)
-          }else if (val1 !== val2) {
+          } else if (val1 !== val2) {
             isDirty = true;
             return;
           }

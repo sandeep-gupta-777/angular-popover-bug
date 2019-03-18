@@ -1,4 +1,14 @@
-import {AfterViewInit, Component, EventEmitter, Input, IterableDiffers, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  IterableDiffers,
+  OnChanges,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 // import {LocalDataSource} from 'ng2-smart-table';
 import {Observable} from 'rxjs';
 import {LoggingService} from '../logging.service';
@@ -125,9 +135,13 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
 
     this.tableData = dataValue;
-    if (this.sortedCol && this.sortDir) {
-      this.sort(this.sortedCol, this.sortDir);
-    }
+
+
+    setTimeout(() => {
+      if (this.sortedCol && this.sortDir !== undefined) {
+        this.sort(this.sortedCol, this.sortDir);;
+      }
+    });
     this.displayKeyOriginalKeyDict = this.createDisplayKeyOriginalKeyDict(dataValue);
 
     try {
@@ -168,11 +182,14 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   paginationArr = [];
   @Input() currentPage = 1;
   @Input() recordsPerPage = 10;
+  @Input() settings;
+  @Input() sortedCol;
+  @Input() sortDir = ESortDir.ASC;
   @Output() customActionEvents = new EventEmitter();
   totalPageCount;
-  @Input() settings;
   math = Math;
   formData;
+
 
   actionIconClicked(session, action: any, event) {
     this.customActionEvents.emit({data: session, action});
@@ -277,9 +294,8 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     return new Date(date.setDate(date.getDate() + 1));
   }
 
-  sortDir = ESortDir.ASC;
+
   myESortDir = ESortDir;
-  sortedCol;
 
   sort(key, sorDirection: ESortDir) {
     this.sortedCol = key;

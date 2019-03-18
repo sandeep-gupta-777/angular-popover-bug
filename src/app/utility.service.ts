@@ -25,6 +25,7 @@ import {StoreVariableService} from './core/buildbot/build-code-based-bot/archite
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl, NgForm} from '@angular/forms';
 import {MatSnackBar} from '@angular/material';
 import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
+import {el} from "@angular/platform-browser/testing/src/browser_util";
 
 
 @Injectable({
@@ -372,6 +373,22 @@ export class UtilityService {
       }
     }
     return obj;
+  }
+
+  static getEnabledIntegrations(bot:IBot){
+    let allIntegrations = {
+      ...bot.integrations.ccsp_details,
+      ...bot.integrations.channels,
+      ...bot.integrations.fulfillment_provider_details,
+    };
+
+    let x = Object.keys(allIntegrations).reduce((total, key)=>{
+      if(allIntegrations[key].enabled){
+        return {...total, [key]:allIntegrations[key]};
+      }
+      return total;
+    }, {})
+    return x;
   }
 
   findDataByName(convertedData, name) {
@@ -1026,6 +1043,18 @@ export class UtilityService {
     const url: string = formControl.value;
     const pattern = /\.(gif|jpg|jpeg|tiff|png)$/i;
     return pattern.test(url) ? null : {'Image Extension is not correct': true};
+  }
+
+
+  /*
+  * spaceCase:
+  * Example: sandeep_gupta => Sandeep Gupta
+  * */
+  static spaceCase(str:string, delimiter:string){
+    if(!str){
+      return "";
+    }
+    return str.split(delimiter).map((str)=>str[0].toUpperCase() + str.slice(1)).join(" ");
   }
 
   isManagerValidator(formGroup: FormGroup) {

@@ -1,5 +1,6 @@
 
-
+<!--<i>{{totalSessionRecords}}</i>-->
+<!--<i>{{pageNumberOfCurrentRowSelected}}</i>-->
 <section class="bot-session-section">
     <form [hidden]="!showFilterForm" #form="ngForm" class="refine-results">
         <strong>Refine Results</strong>
@@ -86,6 +87,7 @@
     <app-smart-table [data]="tableData"
                      *ngIf="tableData"
                      [totalRecords]="totalSessionRecords"
+                     [currentPage]="pageNumberOfCurrentRowSelected"
                      (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
                      (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate)"
                      [showSearchInDbButton]="true"

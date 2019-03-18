@@ -63,6 +63,7 @@ import {RequiredIfOneFilledValidator} from './core/buildbot/build-code-based-bot
 import {InfoIconComponent} from './info-icon/info-icon.component';
 import {ErrorStateMatcher, MatProgressSpinnerModule, ShowOnDirtyErrorStateMatcher} from '@angular/material';
 import {IntegrationItemByUnamePipe} from './integration-item-by-uname.pipe';
+import {BotByIdPipe} from "./core/buildbot/build-code-based-bot/bot-config/data-manage-form/bot-by-id.pipe";
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import {IntegrationItemByUnamePipe} from './integration-item-by-uname.pipe';
     SplashScreenComponent,
     MsToHhMmPipe,
     DataManageFormComponent,
+    BotByIdPipe,
     InfoIconComponent,
     BuildbotWrapperComponent,
     BasicInfoFormComponent,
@@ -144,6 +146,7 @@ import {IntegrationItemByUnamePipe} from './integration-item-by-uname.pipe';
     SafeUrlPipe,
     IntegrationLogosPipe,
     DataManageFormComponent,
+    BotByIdPipe,
     InfoIconComponent,
     BasicInfoFormComponent,
     BotConfigInputComponent,

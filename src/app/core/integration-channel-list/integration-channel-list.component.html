@@ -1,4 +1,4 @@
-<div class="d-flex overflow-hidden">
+<div class="d-flex overflow-hidden" *ngIf="!(limit && (enabledIntegrationCount > limit))">
     <img
             *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async)); let i = index"
             [ngStyle]="{'zIndex':i}"
@@ -16,5 +16,6 @@
             class="logo-image no-channel-integrations" alt="">
 
     <img *ngIf="'Web Speech'|integrationItemByUname|async as item" [matTooltip]="item?.key" [src]="item?.icon" alt="">
-    <!--<i>{{(bot.integrations|integrationLogos:'no_channel'|async)|json}}</i>-->
 </div>
+
+<i style="font-size: 11px" *ngIf="(limit && (enabledIntegrationCount > limit))">{{enabledIntegrationCount}} integrations</i>

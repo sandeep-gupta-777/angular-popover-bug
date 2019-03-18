@@ -99,7 +99,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
   }
 
   updateOrSaveCustomNer(selectedOrNewRowData: ICustomNerItem) {
-    debugger;
+
     let isNewConcept = !selectedOrNewRowData.id;
     try {
       /*TODO: this is temporary fix to remove copy paste from excel issue*/

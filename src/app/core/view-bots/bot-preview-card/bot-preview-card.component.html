@@ -16,8 +16,9 @@
                matTooltip="Last Update by {{bot.updated_by|personName}}
                 on {{bot.updated_at|date:'d MMM, yy'}}"
                style="letter-spacing: 0.1px">
-                Last Update by {{bot.updated_by|personName}}
+                Last Update
                 on {{bot.updated_at|date:'d MMM, yy'}}
+                by {{bot.updated_by|personName}}
             </p>
         </div>
 
@@ -40,7 +41,7 @@
                     </div>
                 </div>
                 <span class="ml-auto"></span>
-                <app-integration-channel-list [bot]="bot"></app-integration-channel-list>
+                <app-integration-channel-list [limit]="8" [bot]="bot"></app-integration-channel-list>
 
 
             </div>

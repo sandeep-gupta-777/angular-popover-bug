@@ -166,7 +166,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
       .pipe(delay(100))
       .subscribe(() => {
 
-      debugger;
+
       try {
         this.utilityService.getActiveVersionInBot(this.bot);
         if (this.bot.integrations && this.bot.integrations.channels) {

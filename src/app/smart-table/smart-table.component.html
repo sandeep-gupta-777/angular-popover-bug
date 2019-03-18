@@ -160,7 +160,7 @@
   <!--(click)="goToNextPage()">Next</a>-->
   <!--</li>-->
   <!--</ul>-->
-  <mat-paginator *ngIf="_totalRecords && _totalRecords >0" [length]="_totalRecords"
+  <mat-paginator *ngIf="_totalRecords && _totalRecords >10" [length]="_totalRecords"
                  [pageSize]="10"
                  [pageSizeOptions]="[10]"
                  [showFirstLastButtons]="true"

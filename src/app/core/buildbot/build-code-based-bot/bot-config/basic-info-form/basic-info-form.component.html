@@ -22,7 +22,7 @@
                           formControlName="description"
                           placeholder="Description*"
                           [disabled]="isDisabled"></textarea>
-                <mat-error>Invalid Input</mat-error>
+                <mat-error>Required</mat-error>
             </mat-form-field>
 
 
@@ -47,9 +47,9 @@
                            matInput
                            formControlName="logo"
                            placeholder="URL for the Bot Logo/Brand Image">
-
+<!---->
                     <mat-error *ngIf="formGroup.get('logo').hasError('required')">
-                        Invalid Input
+                        Required
                     </mat-error>
 
                     <mat-error *ngIf="!formGroup.get('logo').hasError('required') && formGroup.get('logo').hasError('Must be Https Url')">
@@ -67,7 +67,7 @@
         </fieldset>
     </div>
 
-    <div class="row" style="margin-top: 45px">
+    <div class="row" style="margin-top: 45px" *ngIf="bot_type === myEBotType.chatbot">
         <!--<div class="col-12">-->
             <!--<div style="font-size: 11px; margin-bottom: 10px">Default messages</div>-->
         <!--</div>-->

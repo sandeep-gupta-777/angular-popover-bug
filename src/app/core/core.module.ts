@@ -56,6 +56,7 @@ import { RolesComponent } from './enterpriseprofile/roles/roles.component';
 import { RoleaccordionComponent } from './enterpriseprofile/roles/roleaccordion/roleaccordion.component';
 import { IntegrationChannelListComponent } from './integration-channel-list/integration-channel-list.component';
 import { SecurityComponent } from './buildbot/build-code-based-bot/bot-config/security/security.component';
+import { BotByIdPipe } from './buildbot/build-code-based-bot/bot-config/data-manage-form/bot-by-id.pipe';
 const routes: Route[] = [
   {
 
