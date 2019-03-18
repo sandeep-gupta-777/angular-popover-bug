@@ -329,7 +329,9 @@ export class ConstantsService {
     // http://localhost:8000/api/v1/logout/;
     return this.BACKEND_URL + `api/v1/bot/preview/?bot_unique_name=${bot_unique_name}&enterprise_unique_name=${enterprise_unique_name}`;
   }
-
+  getCorpusForFAQBot(bot_id){
+    return this.BACKEND_URL + `api/v1/corpus/${bot_id}/`;
+  }
   getMasterIntegrationsList() {
     return this.BACKEND_URL + 'api/v1/integrations/';
   }

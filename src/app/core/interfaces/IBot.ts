@@ -106,6 +106,9 @@ export interface IBot {
   form_validation_data_management?: boolean;
   form_validation_avator?: boolean;
   form_validation_integration?: boolean;
+
+  // faq bots
+  corpus?: any
 }
 
 export interface IBotResult {

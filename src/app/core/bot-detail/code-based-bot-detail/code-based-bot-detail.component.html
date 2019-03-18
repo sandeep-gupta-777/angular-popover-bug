@@ -23,6 +23,7 @@
 
             <ng-container *myIf="[myEAllActions['GET Bot Versioning']]">
                 <li style="cursor: pointer"
+                    *ngIf="bot.bot_type != myEBotType.faqbot"
                     [ngClass]="{'filter-black':sideBarTab1!=='input', 'selected-nav':sideBarTab1==='input'}"
                     (click)="sideBarTabChanged('input'); ">
                     <img  class="" src="assets/img/sidebar/funnel-copy.svg" alt="">
@@ -37,8 +38,16 @@
                     <span style="color: #00ABD3">Logic</span>
                 </li>
             </ng-container>
+            <ng-container *myIf="bot.bot_type === myEBotType.faqbot">
+                <li style="cursor: pointer" *ngIf="bot.bot_type === myEBotType.faqbot"
+                    [ngClass]="{'filter-black':sideBarTab1!=='articles', 'selected-nav':sideBarTab1==='articles'}"
+                    (click)="sideBarTabChanged('articles')">
+                    <img  class="" src="assets/img/sidebar/bot-logic.svg" alt="">
+                    <span style="color: #00ABD3">Articles</span>
+                </li>
+            </ng-container>
             <ng-container *myIf="[myEAllActions['Get Sessions']]">
-                <li style="cursor: pointer" *ngIf="bot.bot_type === myEBotType.chatbot"
+                <li style="cursor: pointer" *ngIf="bot.bot_type != myEBotType.intelligent "
                     [ngClass]="{'filter-black':sideBarTab1!=='chat', 'selected-nav':sideBarTab1==='chat'}"
                     (click)="sideBarTabChanged('chat')">
                     <img  class="" src="assets/img/sidebar/conversations.svg" alt="">
@@ -46,11 +55,19 @@
                 </li>
             </ng-container>
             <ng-container *myIf="[myEAllActions['Get Bot Testcases']]">
-                <li style="cursor: pointer" *ngIf="bot.bot_type === myEBotType.chatbot"
+                <li style="cursor: pointer" *ngIf="bot.bot_type != myEBotType.intelligent"
                     [ngClass]="{'filter-black':sideBarTab1!=='test', 'selected-nav':sideBarTab1==='test'}"
                     (click)="sideBarTabChanged('test')">
                     <img  class="" src="assets/img/sidebar/testing.svg" alt="">
                     <span style="color: #00ABD3">Test</span>
+                </li>
+            </ng-container>
+            <ng-container *myIf="bot.bot_type === myEBotType.faqbot">
+                <li style="cursor: pointer" *ngIf="bot.bot_type === myEBotType.faqbot"
+                    [ngClass]="{'filter-black':sideBarTab1!=='History', 'selected-nav':sideBarTab1==='History'}"
+                    (click)="sideBarTabChanged('History')">
+                    <img  class="" src="assets/img/sidebar/bot-logic.svg" alt="">
+                    <span style="color: #00ABD3">History</span>
                 </li>
             </ng-container>
         </ul>
@@ -73,6 +90,9 @@
                                     [bot]="(bot)"></app-bot-config>
                 </div>
             </div>
+        </ng-container>
+        <ng-container *ngIf="sideBarTab1 === 'articles'">
+            <app-bot-articles [bot]="bot"></app-bot-articles>   
         </ng-container>
         <ng-container *myIf="[myEAllActions['Get Bot Knowledge base']]">
             <ng-container *ngIf="sideBarTab1 === 'input'">

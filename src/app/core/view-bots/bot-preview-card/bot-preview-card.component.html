@@ -19,7 +19,7 @@
             </p>
         </div>
 
-        <ng-container *ngIf="bot.bot_type == 'chatbot'">
+        <ng-container *ngIf="bot.bot_type == 'chatbot' || bot.bot_type == 'faqbot' ">
         <div class="d-flex justify-content-center align-items-center">
             <mat-icon class="icon2" *ngIf="bot.is_manager" [title]="bot.child_bots.length + ' children Bots'">
                 supervisor_account
@@ -53,29 +53,6 @@
 
 
 <!--Template for modal-->
-<ng-template #template>
-    <div class="danger-modal">
-        <div class="top-dec"></div>
-        <div class="modal-header">
-            <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete
-                bot&nbsp;{{bot.name}}&nbsp;?</h4>
-            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-
-        <div class="modal-body pt-0">
-            <form #form="ngForm">
-                <div class="text-center my-1">
-                    <p class="mb-3">This action cannot be undone.Are you sure you wish to delete?</p>
-
-                </div>
-                <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
-                <button class=" btn-theme btn-theme-danger" (click)="deleteBot()">Delete</button>
-            </form>
-        </div>
-    </div>
-</ng-template>
 
 
 <mat-menu class="more-menu" #appMenu="matMenu">
@@ -87,7 +64,7 @@
     </button>
     <button mat-menu-item
             *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]"
-            (click)="openDeleteModal(template)"><i class="fa fa-trash mr-1"></i>Delete
+            (click)="openDeleteModal()"><i class="fa fa-trash mr-1"></i>Delete
     </button>
     <button mat-menu-item *ngIf="!bot.store_isPinned" (click)="togglePinBotCard(bot, true)"><i
             class="fa fa-thumb-tack mr-1"></i>Pin

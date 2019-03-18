@@ -63,12 +63,14 @@ import {PipelineIdToPipelineModulePipe} from '../buildbot/build-code-based-bot/a
 import {PipeineIdToPipelineModuleWrapperPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/pipeine-id-to-pipeline-module-wrapper.pipe';
 import {SortObjectArrPipe} from '../../sort-object-arr.pipe';
 import {PipeineKeywordToPipelineModuleMatchedPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/pipeine-keyword-to-pipeline-module-matched.pipe';
+import { BotArticlesComponent } from './bot-articles/bot-articles.component';
 
 const routes: Route[] = [
   {
     path: '', component: BotDetailWrapperComponent, canActivateChild: [AuthGaurdService], children:
         [
           {path: `${EBotType.chatbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.chatbot}},
+          {path: `${EBotType.faqbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.faqbot}},
           {path: `${EBotType.intelligent}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.intelligent}},
           {path: ':roomId/consumer', component: ConsumerFullscreenWrapperComponent, data: {isFullscreen: true}},
         ]
@@ -125,6 +127,7 @@ const routes: Route[] = [
     // DisplayNameForKeyIntegrationPipe,
     LimitObjectArraysStringPipe,
     ConsumerFullscreenWrapperComponent,
+    BotArticlesComponent,
     /*after lazy loading*/
     // RequiredIfOneFilledValidator
   //

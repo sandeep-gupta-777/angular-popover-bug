@@ -41,6 +41,7 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
   @Select() botlist$: Observable<ViewBotStateModel>;
   codeBasedBotList: IBot[];
   pipelineBasedBotList: IBot[];
+  searchBasedBotList: IBot[];
 
   name = 'sadas';
   animal = 'horse';
@@ -75,6 +76,8 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
         if (!allBotListState.allBotList) return;
         this.codeBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.chatbot);
         this.pipelineBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.intelligent);
+        this.searchBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.faqbot);
+        
       });
   }
 

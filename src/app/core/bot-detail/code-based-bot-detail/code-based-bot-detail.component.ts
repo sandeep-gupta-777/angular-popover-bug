@@ -26,6 +26,8 @@ export enum ESideBarTab {
   logic = 'logic',
   chat = 'chat',
   test = 'test',
+  articles = 'articles',
+  history = 'history'
 }
 
 export enum EBotDetailTabs {
@@ -101,7 +103,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   KB_DATA;
 
   ngOnInit() {
-
+debugger;
     EventService
       .createConceptFullScreen$
       .subscribe((goFullScreen) => {

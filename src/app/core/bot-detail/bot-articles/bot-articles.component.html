@@ -1,0 +1,60 @@
+<header>
+    <div style="padding-bottom: 8px"><strong style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">
+            Knowledge base</strong>
+    </div>
+    <div style="color: #9e9e9e;font-size: 11px">These are your articles.
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col-9">
+            <div class="d-flex w-100 article flex-column pr-4">
+                <div class="d-flex article-heading">
+                    <div class="article-heading-label">All articles</div>
+                    <mat-form-field class="sort-dropdown">
+                        <mat-select placeholder="Sort by">
+                            <mat-option [value]="1">
+                                Last Update
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="d-flex article-item flex-column my-2"
+                    *ngFor="let section of myObject.keys(corpus.sections)">
+                    <div class="catagory">{{corpus.sections[section].category_id}}</div>
+                    <div class="d-flex flex-row">
+                        <div class="first_question mr-auto">{{corpus.sections[section].answers[0].text[0]}}</div>
+                        <div class="count">{{corpus.sections[section].answers.length}} variations</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="d-flex w-100  flex-column article-action-side-bar pl-4">
+                <div class="for-border"></div>
+                <div class="action-item py-1">+ Create new article</div>
+                <div class="action-item py-1">Import articles from csv/link</div>
+                <div class="action-item py-1">Export all articles to csv</div>
+            </div>
+            <div class="d-flex w-100  flex-column article-action-side-bar pl-4">
+                <div class="filter-categories-heading pb-1 pt-2">Filter Categories</div>
+                <div class="d-flex w-100  flex-column filter-categories-box">
+                    <mat-form-field class="search-input px-2">
+                        <input matInput placeholder="Search">
+                        <mat-icon matSuffix style="font-size: 15px;color:#e0e0e0">search</mat-icon>
+                    </mat-form-field>
+                    <section class="categories-section d-flex  flex-column px-2">
+                        <mat-checkbox *ngFor="let categorie_name of myObject.keys(corpus.sections)"
+                        color="primary">{{categorie_name}}
+                        </mat-checkbox>
+                    </section>
+                    <div class="d-flex flex-row mt-2 px-2 pb-2">
+                        <button  class="btn-theme btn-theme-primary filter-btn mr-auto">Filter</button>
+                        <button  class="btn-theme clear-btn">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
