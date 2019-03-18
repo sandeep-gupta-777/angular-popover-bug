@@ -100,7 +100,7 @@ export class ViewBotStateReducer {
     //   "workflows"?: boolean
     // }
     const versionList = payload.data;
-    // versionList.forEach(version => {
+    // versions.forEach(version => {
     //   version.store_updated_fields = {
     //     "df_template": false,
     //     "df_rules": false,
@@ -109,7 +109,7 @@ export class ViewBotStateReducer {
     //     "workflows": false
     //   }
     // });
-    // versionList = {...versionList}
+    // versions = {...versions}
 
     bot.store_bot_versions = versionList;
 

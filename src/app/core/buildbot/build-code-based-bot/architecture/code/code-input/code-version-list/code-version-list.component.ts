@@ -13,6 +13,7 @@ export class CodeVersionListComponent implements OnInit {
   @Input() selectedVersion;
   @Input() activeVersion;
   @Input() bot;
+  @Input() versions;
   @Output() changeSelectedVersion$ = new EventEmitter();
   @Output() activateVersion$ = new EventEmitter();
   @Output() downloadAll$ = new EventEmitter();

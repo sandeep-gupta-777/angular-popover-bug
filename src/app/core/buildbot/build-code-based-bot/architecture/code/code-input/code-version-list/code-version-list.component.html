@@ -7,8 +7,8 @@
              style="border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0;border-right: 1px solid #e0e0e0;">
             <div class="version-active-label" *ngIf="selectedVersion"
                  style="padding:0 13px;"
-                 [ngClass]="{'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-label-inactive':selectedVersion?.id !== activeVersion?.id}">
-                <div>{{selectedVersion.id === (activeVersion && activeVersion.id) ? 'Active' : 'Inactive'}}</div>
+                 [ngClass]="{'bg-label-active':selectedVersion?.id === bot.active_version_id,'bg-label-inactive':selectedVersion?.id !== bot.active_version_id}">
+                <div>{{selectedVersion.id === bot.active_version_id ? 'Active' : 'Inactive'}}</div>
             </div>
 
             <div class="count mx-1 flex-shrink-0 flex-grow-0">{{selectedVersion.version}}</div>
@@ -21,16 +21,16 @@
             <div class="update d-flex flex-column mr-2 justify-content-center">
 
                 <div class="d-flex justify-content-left py-1" *ngIf="selectedVersion">
-                    <i class="fa fa-circle"
-                       [ngClass]="{'text-danger':selectedVersion.changed_fields['df_template'], 'dark-green':selectedVersion.updated_fields['df_template']}"></i>
-                    <i class="fa fa-circle"
-                       [ngClass]="{'text-danger':selectedVersion.changed_fields['df_rules'], 'dark-green':selectedVersion.updated_fields['df_rules']}"></i>
-                    <i class="fa fa-circle"
-                       [ngClass]="{'text-danger':selectedVersion.changed_fields['generation_rules'], 'dark-green':selectedVersion.updated_fields['generation_rules']}"></i>
-                    <i class="fa fa-circle"
-                       [ngClass]="{'text-danger':selectedVersion.changed_fields['generation_templates'], 'dark-green':selectedVersion.updated_fields['generation_templates']}"></i>
-                    <i class="fa fa-circle"
-                       [ngClass]="{'text-danger':selectedVersion.changed_fields['workflow'], 'dark-green':selectedVersion.updated_fields['workflow']}"></i>
+                    <!--<i class="fa fa-circle"-->
+                       <!--[ngClass]="{'text-danger':selectedVersion.changed_fields['df_template'], 'dark-green':selectedVersion.updated_fields['df_template']}"></i>-->
+                    <!--<i class="fa fa-circle"-->
+                       <!--[ngClass]="{'text-danger':selectedVersion.changed_fields['df_rules'], 'dark-green':selectedVersion.updated_fields['df_rules']}"></i>-->
+                    <!--<i class="fa fa-circle"-->
+                       <!--[ngClass]="{'text-danger':selectedVersion.changed_fields['generation_rules'], 'dark-green':selectedVersion.updated_fields['generation_rules']}"></i>-->
+                    <!--<i class="fa fa-circle"-->
+                       <!--[ngClass]="{'text-danger':selectedVersion.changed_fields['generation_templates'], 'dark-green':selectedVersion.updated_fields['generation_templates']}"></i>-->
+                    <!--<i class="fa fa-circle"-->
+                       <!--[ngClass]="{'text-danger':selectedVersion.changed_fields['workflow'], 'dark-green':selectedVersion.updated_fields['workflow']}"></i>-->
                 </div>
                 <div class="version-time">
                     {{selectedVersion.updated_at | date:"MMM d"}}&nbsp;'{{selectedVersion.updated_at | date:"yy"}}&nbsp;{{selectedVersion.updated_at | date:"shortTime"}}
@@ -71,7 +71,7 @@
             </button>
         </ng-container>
 
-        <ng-container *ngIf="selectedVersion && selectedVersion.id !== activeVersion.id">
+        <ng-container *ngIf="selectedVersion && selectedVersion.id !== bot.active_version_id">
             <button [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
                     *myIf="myEAllActions['Create Bot Versioning']"
                     (click)="activateVersion$.emit(selectedVersion.id)"
@@ -92,14 +92,14 @@
     <div class="row row-flex-bot-versioning-toaster mx-0" *ngIf="showVersionList"
          style="max-height: 50vh; overflow-y: scroll; border: 1px solid #e0e0e0; border-top: none ">
         <div class="col-12 py-1 px-0 cursor-pointer hover-change-background"
-             *ngFor="let version of bot.store_bot_versions | filterActiveBot:selectedVersion.id | sortObjectArr: 'updated_at'">
+             *ngFor="let version of versions | filterActiveBot:selectedVersion.id | sortObjectArr: 'updated_at'">
             <div class="d-flex align-items-center flex-bot-versioning-toaster"
                  (click)="changeSelectedVersion$.emit(version); showVersionList = false; ">
 
                 <div class="version-active-label">
                     <div
-                            [ngClass]="{'text-primary':version.id === (activeVersion && activeVersion.id)}"
-                    >{{version.id === (activeVersion && activeVersion.id) ? 'Active' : 'Inactive'}}</div>
+                            [ngClass]="{'text-primary':version.id === bot.active_version_id}"
+                    >{{version.id === bot.active_version_id ? 'Active' : 'Inactive'}}</div>
                 </div>
                 <!--<div class="active-label-text">{{version.id +""+activeVersion.id }}</div>-->
                 <div class="count mx-1">{{version.version}}</div>

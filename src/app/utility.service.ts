@@ -123,10 +123,29 @@ export class UtilityService {
     return this.masterIntegration_IntegrationKeyDisplayNameMap[key];
   }
 
+  /**
+  *  getVersion
+  *  @deprecated: Use CodeInputService.getVersion instead
+  * */
   getActiveVersionInBot(bot: IBot) {
     return bot.store_bot_versions && bot.store_bot_versions.find((BotVersion) => {
       return bot.active_version_id === BotVersion.id;
     });
+  }
+
+
+  static getEnabledChannelsInBot(bot:IBot):{name:string, displayName:string}[]{
+    if(!bot || bot.integrations && bot.integrations.channels){
+      return [];
+    }
+    return Object.keys(bot.integrations.channels)
+      .map((integrationKey) => {
+        return {
+          name: integrationKey,
+          displayName: integrationKey
+        };
+      })
+      .filter((enabledIntegrations) => bot.integrations.channels[enabledIntegrations.name].enabled)
   }
 
   serializeGeneratedMessagesToPreviewMessages(generatedMessage: IGeneratedMessageItem[], bot_message_id: number): IMessageData[] {
