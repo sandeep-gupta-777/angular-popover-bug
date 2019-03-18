@@ -31,7 +31,6 @@ export class SideBarService {
   public static buildbotData_init;
 
   static init(component) {
-    debugger;
     if (component instanceof PipelineComponent) {
       SideBarService.pipelineInit(component);
     }
@@ -59,12 +58,13 @@ export class SideBarService {
     SideBarService.botConfigComponent = botConfigComponent;
     let combinedForm = [botConfigComponent.basicInfoForm, botConfigComponent.dataManagementForm, botConfigComponent.securityForm, botConfigComponent.integrationForm];
     SideBarService.botConfigComponent_init = this.createBasicInfoData();
+    SideBarService.activeTab = ESideBarTab.setting;
   }
 
   static createBasicInfoFinalData(){
     return SideBarService.createBasicInfoData();
   }
-
+  static activeTab : ESideBarTab;
   private static createBasicInfoData() {
     let botConfigComponent = SideBarService.botConfigComponent ;
     let combinedForm = [botConfigComponent.basicInfoForm, botConfigComponent.dataManagementForm, botConfigComponent.securityForm, botConfigComponent.integrationForm];
@@ -109,6 +109,7 @@ export class SideBarService {
   static pipelineInit(pipelineComponent: PipelineComponent) {
     SideBarService.pipelineComponent = pipelineComponent;
     SideBarService.pipelineData_init = pipelineComponent._bot.pipelines;
+    SideBarService.activeTab = ESideBarTab.input;
   }
 
   private static createPipelineFinalData() {
@@ -154,6 +155,7 @@ export class SideBarService {
     SideBarService.botTestingComponent = component;
     debugger;
     SideBarService.botTestingData_init = UtilityService.cloneObj(SideBarService.botTestingComponent.testCaseData);
+    SideBarService.activeTab = ESideBarTab.test
   }
   static createBotTestingFinalData(){
     debugger;
@@ -185,9 +187,9 @@ export class SideBarService {
     SideBarService.buildbotWrapperComponent = buildBotComponent;
     debugger;
     SideBarService.buildbotData_init = UtilityService.cloneObj({
-      basicInfoForm : buildBotComponent.basicInfoForm,
-      dataManagementForm : buildBotComponent.dataManagementForm,
-      securityForm : buildBotComponent.securityForm
+      basicInfoForm : buildBotComponent.basicInfoForm.value,
+      dataManagementForm : buildBotComponent.dataManagementForm.value,
+      securityForm : buildBotComponent.securityForm.value
     });
   }
 
