@@ -76,7 +76,7 @@ export class BuildbotWrapperComponent implements OnInit {
     this.basicInfoForm = this.botConfigService.getBasicInfoForm(this.bot);
     this.dataManagementForm = this.botConfigService.getDataManagementForm(this.bot);
     this.securityForm = this.botConfigService.getSecurityForm(this.bot);
-
+    SideBarService.init(this);
     this.stageValidObj = {
       0:this.basicInfoForm.valid,
       1:this.dataManagementForm.valid,
@@ -178,24 +178,25 @@ export class BuildbotWrapperComponent implements OnInit {
     console.log(SideBarService.buildbotWrapperComponent);
     debugger;
     console.log(SideBarService.buildbotData_init);
-    if(this.basicInfoForm.untouched && this.dataManagementForm.untouched && this.securityForm.untouched){
-      this.router.navigate(['/']);
-    }
-    else{
+    if(SideBarService.isBuildBotDirty()){
       this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
       .then((data)=>{
         if(data){
           this.router.navigate(['/']);
         }
       })
+      
+    }
+    else{
+      this.router.navigate(['/']);
     }
   }
 
   putBuildBotFinalData(){
     return {
-      basicInfoForm : this.basicInfoForm,
-      dataManagementForm : this.dataManagementForm,
-      securityForm : this.securityForm
+      basicInfoForm : this.basicInfoForm.value,
+      dataManagementForm : this.dataManagementForm.value,
+      securityForm : this.securityForm.value
     }
   }
 

@@ -16,6 +16,8 @@ import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.compon
 import {MatDialog} from '@angular/material';
 import {ModalImplementer} from '../../../modal-implementer';
 import {EventService} from '../../../event.service';
+import { SideBarService } from 'src/app/side-bar.service';
+import { ESideBarTab } from '../code-based-bot-detail/code-based-bot-detail.component';
 
 @Component({
   selector: 'app-bot-detail-header',
@@ -31,7 +33,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
   @Output() refreshBotDetails$ = new EventEmitter();
   enterprise_unique_name;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
-
+  myESideBarTab = ESideBarTab;
   constructor(
     private store: Store,
     private serverService: ServerService,
@@ -208,5 +210,20 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
 
   openAnalyticsForBot(){
     this.router.navigate(['/core/analytics2/overview'], {queryParams:{bot_id:this.bot.id}});
+  }
+  goBackToDashboard(){
+    if(SideBarService.isTabDirty(SideBarService.activeTab)){
+      this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
+      .then((data)=>{
+        if(data){
+          this.router.navigate(['/']);
+        }
+      })
+      
+    }
+    else{
+      this.router.navigate(['/']);
+    }
+    
   }
 }

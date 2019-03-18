@@ -1,8 +1,8 @@
 
 <div class="row-bot-detail-header d-flex align-items-center">
-  <a class="row-bot-detail-header__back" routerLink="/" style="text-decoration: none; padding: 0px 8px 0px 16px">
+  <div class="row-bot-detail-header__back" (click)="goBackToDashboard()" style="text-decoration: none; padding: 0px 8px 0px 16px">
     <i class="fa fa-angle-left" title="Go to Dashboard"></i>
-  </a>
+  </div>
   <img class="row-bot-detail-header__bot-logo" style="margin:0 8px" [src]="bot.logo" alt="B">
   <div class="row-bot-detail-header__bot-details">
     <div [title]="bot.name" style="display: flex">
