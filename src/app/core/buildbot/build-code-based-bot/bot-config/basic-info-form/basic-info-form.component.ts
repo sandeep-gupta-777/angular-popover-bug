@@ -22,9 +22,9 @@ export class BasicInfoFormComponent implements OnInit {
   bot_type;
   formData: Partial<IBot>;
   @Input() botId:number;
+  @Input() formGroup: FormGroup;
   myEAllActions = EAllActions;
   myEBotType = EBotType;
-  @Input() formGroup: FormGroup;
   isDisabled: boolean;
   logoErrorObj = [
     {name: 'imageExnError', description: 'Invalid Extension'},
@@ -37,6 +37,9 @@ export class BasicInfoFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    /*TODO: data for bot details and queryParamMap is for build bot*/
+    this.bot_type = this.activatedRoute.snapshot.data.bot_type || this.activatedRoute.snapshot.queryParamMap.get('bot_type');
+    debugger;
     /*todo: why is this here and not in parent?*/
     if(!this.botId){/*only for new bots*/
       this.formGroup.get('name').valueChanges.subscribe((value) => {

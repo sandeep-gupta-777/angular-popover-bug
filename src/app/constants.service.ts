@@ -104,6 +104,7 @@ export class ConstantsService {
   allowedPermissionIdsToCurrentRole: number[];
 
   constructor() {
+    console.log("environment=>>>", environment);
     this.app$.subscribe((appState) => {
       if (!appState) {
         return;

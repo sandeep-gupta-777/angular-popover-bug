@@ -17,9 +17,9 @@ export class BotByIdPipe implements PipeTransform {
 
   }
   transform(id: any, args?: any): any {
+    debugger;
     return this.botlist$.pipe(take(1),
       map((botListState)=>{
-        debugger;
         return botListState.allBotList.find((bot)=>bot.id === id);
       }));
   }

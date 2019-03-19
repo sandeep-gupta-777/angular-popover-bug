@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  backend_root:'https://dev.imibot.ai/'
+  backend_root:'https://imibot.ai/'
 };
