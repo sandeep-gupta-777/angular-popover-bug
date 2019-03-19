@@ -215,7 +215,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
             this.goFullScreen = false;
             this.sideBarTab1 = sideBarTabChanged;
             // core/botdetail/chatbot/398
-            this.router.navigate(['core/botdetail/chatbot/', this.bot.id], {queryParams: {'build': sideBarTabChanged}});
+            this.router.navigate([`core/botdetail/${this.bot.bot_type}/`, this.bot.id], {queryParams: {'build': sideBarTabChanged}});
           }
         })
       }
@@ -224,7 +224,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
         this.goFullScreen = false;
         this.sideBarTab1 = sideBarTabChanged;
         // core/botdetail/chatbot/398
-        this.router.navigate(['core/botdetail/chatbot/', this.bot.id], {queryParams: {'build': sideBarTabChanged}});
+        this.router.navigate([`core/botdetail/${this.bot.bot_type}/`, this.bot.id], {queryParams: {'build': sideBarTabChanged}});
       }
     }
 

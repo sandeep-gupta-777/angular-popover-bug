@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
 import {PipelineComponent} from './core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
 import {KnowledgeBasePresentationComponent} from './core/buildbot/build-code-based-bot/architecture/knowledge-base/knowledge-base-presentation/knowledge-base-presentation.component';
-import {UtilityService} from './utility.service';
+import {EBotType, UtilityService} from './utility.service';
 import {ESideBarTab} from './core/bot-detail/code-based-bot-detail/code-based-bot-detail.component';
 import {KnowledgeBaseWrapperComponent} from './core/buildbot/build-code-based-bot/architecture/knowledge-base-wrapper/knowledge-base-wrapper.component';
 import {IPipelineItem} from '../interfaces/ai-module';
 import {BotConfigService} from './core/buildbot/build-code-based-bot/bot-config/bot-config.service';
 import {BotConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.component';
+import {FormGroup, NgForm} from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +50,7 @@ export class SideBarService {
   /*BotConfig*/
   static botConfigInit(botConfigComponent: BotConfigComponent) {
     SideBarService.botConfigComponent = botConfigComponent;
-    let combinedForm = [botConfigComponent.basicInfoForm, botConfigComponent.dataManagementForm, botConfigComponent.securityForm, botConfigComponent.integrationForm];
+    // let combinedForm = [botConfigComponent.basicInfoForm, botConfigComponent.dataManagementForm, botConfigComponent.securityForm, botConfigComponent.integrationForm];
     SideBarService.botConfigComponent_init = this.createBasicInfoData();
   }
 
@@ -58,8 +59,14 @@ export class SideBarService {
   }
 
   private static createBasicInfoData() {
+    debugger;
     let botConfigComponent = SideBarService.botConfigComponent ;
-    let combinedForm = [botConfigComponent.basicInfoForm, botConfigComponent.dataManagementForm, botConfigComponent.securityForm, botConfigComponent.integrationForm];
+    let combinedForm: (FormGroup | NgForm)[];
+    if(botConfigComponent.bot_type === EBotType.chatbot){
+      combinedForm = [botConfigComponent.basicInfoForm, botConfigComponent.dataManagementForm, botConfigComponent.securityForm, botConfigComponent.integrationForm];
+    }else {
+      combinedForm = [botConfigComponent.basicInfoForm];
+    }
     return combinedForm.reduce((aggr, current) => {
       let val = (current && current.value) || {};
       return {

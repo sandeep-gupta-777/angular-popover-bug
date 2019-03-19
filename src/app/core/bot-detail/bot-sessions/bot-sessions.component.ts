@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {ServerService} from '../../../server.service';
 import {Observable, of} from 'rxjs';
@@ -13,13 +13,12 @@ import {MaterialTableImplementer} from '../../../material-table-implementer';
 import {MatDialog} from '@angular/material';
 import {ObjectArrayCrudService} from '../../../object-array-crud.service';
 import {EventService} from '../../../event.service';
-import {catchError, count, distinctUntilChanged, skip, startWith, tap} from 'rxjs/internal/operators';
+import {tap} from 'rxjs/internal/operators';
 import {IAppState} from '../../../ngxs/app.state';
 import {IIntegrationMasterListItem} from '../../../../interfaces/integration-option';
 import {NgForm} from '@angular/forms';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
 import {EChatFeedback} from '../../../chat/chat-wrapper.component';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 interface ISessionFilterData {
   id: number,
@@ -478,6 +477,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
         // dataCopy.updated_at += x;
         combinedFilterData.updated_at__range = combinedFilterData.updated_at;
+
         delete combinedFilterData.updated_at;
       }
       if (combinedFilterData.total_message_count) {
@@ -486,9 +486,18 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       }
 
       page = combinedFilterData.page = combinedFilterData.page || 1;
+      Object.keys(combinedFilterData).forEach((key)=>{
+          if(combinedFilterData[key]===false){
+            delete combinedFilterData[key];
+          }
+      });
+
+      if(combinedFilterData.feedback ===  true){
+        combinedFilterData.feedback = EChatFeedback.NEGATIVE;
+      }
       combinedFilterData = {
         ...combinedFilterData,
-        offset: combinedFilterData.page - 1,
+        offset: (combinedFilterData.page - 1)*10,
         limit: combinedFilterData.limit ? combinedFilterData.limit : 10
       };
       delete combinedFilterData.page;

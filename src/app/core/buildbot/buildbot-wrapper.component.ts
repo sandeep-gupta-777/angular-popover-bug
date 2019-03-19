@@ -72,6 +72,7 @@ export class BuildbotWrapperComponent implements OnInit {
 
   ngOnInit() {
     this.bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type') || this.bot_type;
+    debugger;;
     this.bot.logo = this.bot_type === EBotType.chatbot ? CODE_BASED_DEFAULT_ICON : PIPELINE_DEFAULT_ICON;
     this.basicInfoForm = this.botConfigService.getBasicInfoForm(this.bot);
     this.dataManagementForm = this.botConfigService.getDataManagementForm(this.bot);

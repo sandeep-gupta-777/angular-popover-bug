@@ -200,6 +200,10 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
   background-color: $color-primary;
 }
 
+.bg-theme-primary-v2 {
+  background-color: $color-primary-v2;
+}
+
 .bg-theme-secondary {
   background-color: #d7d7d7;
 }

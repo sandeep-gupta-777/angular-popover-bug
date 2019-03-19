@@ -6,12 +6,18 @@
                     [hidden]="frameEnabled===myEChatFrame.CHAT_LIST">
                 <i class="fa fa-angle-left"></i>
               </span>
-            <a [matTooltip]="'Open '+ chatWindowTitle" [routerLink]="['/core/botdetail/chatbot/', currentBot.id]">
+
+            <!--TODO: when clicked open the bot-->
+            <!--<a [matTooltip]="'Open '+ chatWindowTitle" [routerLink]="['/core/botdetail/chatbot/', currentBot.id]">-->
+                <!--<img [src]="currentBot.logo" class="chat-logo" alt="Bot logo">-->
+                <!--{{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>-->
+            <a>
                 <img [src]="currentBot.logo" class="chat-logo" alt="Bot logo">
                 {{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>
-            <a class="ml-auto hover-parent" [routerLink]="['/preview']"
-               [matTooltip]="'Open bot preview in a new Tab'"
+            <a class="ml-auto hover-parent"
+               [routerLink]="['/preview']"
                [queryParams]="{bot_unique_name:currentBot.bot_unique_name,enterprise_unique_name:enterprise_unique_name}"
+               [matTooltip]="'Open in new Tab'"
                target="_blank">
                 <button mat-icon-button
                         [class.active]="showOverlay">
@@ -41,7 +47,7 @@
 
             <button mat-icon-button
                     (click)="closeChatWindow()"
-                    [matTooltip]="'Minimize preview window'"
+                    [matTooltip]="'Minimize'"
                     [class.active]="showOverlay" class="origin"
                     #overlayOrigin="cdkOverlayOrigin"
                     cdkOverlayOrigin>
@@ -85,7 +91,7 @@
 
 <!--===============FULL SCREEN BELOW===================-->
 <div *ngIf="isFullScreenPreview" class="grid-chat-preview-full-screen">
-    <div class="header1 bg-theme-primary px-3 d-flex align-items-center">
+    <div class="header1 px-3 d-flex align-items-center">
         <img class="logo-md mr-2 rounded-circle"
              src="{{enterprise_logo||'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg'}}" alt=""
              style="border-radius: 50%;">

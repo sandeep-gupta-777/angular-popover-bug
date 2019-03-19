@@ -104,10 +104,12 @@ form {
 
   .header1 {
     grid-area: h1;
+    background-color: $color-primary-v2;
   }
 
   .header2 {
     grid-area: h2;
+    background-color: $color-primary-v2;
   }
 
   .chat {

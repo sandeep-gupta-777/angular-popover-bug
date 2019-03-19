@@ -70,30 +70,34 @@ export class BotConfigComponent implements OnInit {
 
 
   ngOnInit() {
+    this.bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type') || this.activatedRoute.snapshot.data['bot_type'];
+
+
+
+    debugger;
 
     EventService.botUpdatedInServer$.subscribe(()=>{
       this.initDone$.emit(this);
     });
-
+debugger;
     this.basicInfoForm = this.botConfigService.getBasicInfoForm(this.bot);
     this.dataManagementForm = this.botConfigService.getDataManagementForm(this.bot);
     this.securityForm = this.botConfigService.getSecurityForm(this.bot);
 
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('config') || 'basic';
-    this.bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type') || this.activatedRoute.snapshot.data['bot_type'];
     this.id = this.activatedRoute.snapshot.queryParamMap.get('id');
 
     this.basicInfoForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
     this.dataManagementForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
     this.securityForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
 
-    /*TODO: forkjoin is not working*/
-  // let x = [this.basicInfoForm.valueChanges, this.dataManagementForm.valueChanges, this.securityForm.valueChanges];
-  //   forkJoin(...[x])
-  //     .subscribe((value)=>{
-  //       console.log(value);
-  //       alert();
-  //     })
+
+    if(this.bot_type === EBotType.intelligent){
+      /**
+       * for type = chatbot, wait for integration form to init
+       * */
+      this.initDone$.emit(this);
+    }
   }
   ngOnDestroy(){
     this.botData$.emit(this.bot);
