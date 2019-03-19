@@ -11,6 +11,8 @@ export class CodeVersionListComponent implements OnInit {
 
   myEAllActions = EAllActions;
   @Input() selectedVersion;
+  @Input() changedFields;
+  @Input() versionDiffs;
   @Input() activeVersion;
   @Input() bot;
   @Input() versions;

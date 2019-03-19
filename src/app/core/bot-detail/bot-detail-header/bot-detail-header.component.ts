@@ -91,7 +91,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
       'bot-access-token': this.bot.bot_access_token
     };
     if (this.bot.store_selected_version && this.bot.store_selected_version !== this.bot.active_version_id) {
-      if (!confirm('active version has been changed')) { return; }
+      if (!confirm('active Versions has been changed')) { return; }
       this.bot.active_version_id = this.bot.store_selected_version;
     }
     const body:any = this.constantsService.updateBotSerializer(this.bot);
@@ -150,8 +150,8 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
           classStr:'danger-modal-header-border',
           data:{
             actionButtonText:"Activate with last saved data",
-            message: 'The version you are trying to make active contains unsaved changes.Do you want to use the last saved data of this version?',
-            title:'Activate code version',
+            message: 'The Versions you are trying to make active contains unsaved changes.Do you want to use the last saved data of this Versions?',
+            title:'Activate code Versions',
             isActionButtonDanger:true
           },
           dialog: this.matDialog,
@@ -166,8 +166,8 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
           classStr:'danger-modal-header-border',
           data:{
             actionButtonText:"Update",
-            message: 'If you update the bot your currently selected version will be the new Active version.',
-            title:'Active version changed',
+            message: 'If you update the bot your currently selected Versions will be the new Active Versions.',
+            title:'Active Versions changed',
             isActionButtonDanger:true
           },
           dialog: this.matDialog,

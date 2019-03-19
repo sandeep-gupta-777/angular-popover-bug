@@ -113,7 +113,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
         this.utilityService.showSuccessToaster('Customner saved');
 
         if(this.knowledgeBaseComponent.KnowledgeBasePresentationComponent){
-          debugger;
+
           this.knowledgeBaseComponent.KnowledgeBasePresentationComponent.initialiseSideBarService();
         }
 

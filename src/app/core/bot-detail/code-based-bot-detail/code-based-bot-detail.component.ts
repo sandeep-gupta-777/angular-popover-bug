@@ -94,7 +94,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
 
 
   changePipelineDirtyStatus(pipeline:boolean, kb:boolean){
-    this.dirtySideBarTabs[ESideBarTab.input] = pipeline || kb; 
+    this.dirtySideBarTabs[ESideBarTab.input] = pipeline || kb;
   }
   pipeline:boolean;
   kb:boolean;
@@ -110,7 +110,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
 
       EventService.knowledgeBaseData$.subscribe((isKbDirty:boolean)=>{
         this.kb =  isKbDirty;
-        debugger;
+
         this.changePipelineDirtyStatus(this.pipeline, this.kb)
       });
 
@@ -223,7 +223,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
         this.router.navigate(['core/botdetail/chatbot/', this.bot.id], {queryParams: {'build': sideBarTabChanged}});
       }
     }
-    
+
     // if(SideBarService.isTabDirty(this.sideBarTab1) && !confirm("Data is dirty. Continue?")){
     //   return;
     // }
@@ -289,7 +289,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
   }
-  
+
 
 
 

@@ -1,165 +1,164 @@
 <div class="p-1 d-flex-column-last-child-flex-grow-1">
-    <app-code-version-list
-            [selectedVersion]="selectedVersion"
-            [activeVersion]="activeVersion"
-            (activateVersion$)="activateVersion($event)"
+  <app-code-version-list
+    [selectedVersion]="selectedVersion_st"
+    [changedFields]="changedFields"
+    [versionDiffs]="versionDiffs"
+    [activeVersion]="activeVersion"
+    (activateVersion$)="activateVersion($event)"
+    [bot]="bot"
+    [versions]="versionsClone"
+    (changeSelectedVersion$)="changeSelectedVersion($event)"
+    (saveSelectedVersion$)="saveSelectedVersion()"
+    (downloadAll$)="downloadZipHandler()"
+    (openForkNewVersionModal$)="openForkNewVersionModal(forkVersionTemplate)"
+  ></app-code-version-list>
+
+  <form [formGroup]="codeInputForm" class="row" style="margin-bottom: 10px; flex-grow: 1; position: relative">
+    <mat-slide-toggle style="position: absolute; z-index: 10000000;right: 0;top: 5px;"
+                      [checked]="!showGenTempEditor"
+                      *ngIf="showViewChangeToggle" (change)="viewChanged($event.checked)"
+                       class="d-flex align-items-center mx-1 " color="primary"
+                      title="Toggle UI view"></mat-slide-toggle>
+    <mat-tab-group style="width: 100%; position: relative" (selectedIndexChange)="codeEditorTabChangedHandler($event)">
+      <mat-tab label="DF Template">
+        <app-code-editor class="child-expand"
+                         [formControlName]="myEBotVersionTabs.df_template"
+                         [doShowValidationsIcon]="true"
+        ></app-code-editor>
+      </mat-tab>
+      <mat-tab label="DF Rules">
+        <app-code-editor [formControlName]="myEBotVersionTabs.df_rules"
+                         (validateClick)="validateCodeTest($event)"></app-code-editor>
+      </mat-tab>
+      <mat-tab label="Generation Rules">
+        <app-code-editor [doShowValidationsIcon]="true"
+                         [formControlName]="myEBotVersionTabs.generation_rules"
+                         (validateClick)="validateCodeTest($event)"></app-code-editor>
+      </mat-tab>
+      <mat-tab label="Generation Template">
+        <app-code-editor
+          *ngIf="showGenTempEditor"
+          [formControlName]="myEBotVersionTabs.generation_templates"
+          (validateClick)="validateCodeTest($event)">
+        </app-code-editor>
+
+        <!--start:: gentemplate UI-->
+        <ng-container *ngIf="!showGenTempEditor">
+          <app-code-gentemplate-ui-wrapper
+            style="height: 100%"
+            *ngIf="isGentemplateCodeParsable; else cantParseGenTemplateCodeTemplate"
+            class="row mx-0 px-0 child-expand" [activeTab]="activeTab" [channelList]="channelListClone"
             [bot]="bot"
-            [versions]="version"
-            (changeSelectedVersion$)="changeSelectedVersion($event)"
-            (saveSelectedVersion$)="saveSelectedVersion()"
-            (downloadAll$)="downloadZipHandler()"
-            (openForkNewVersionModal$)="openForkNewVersionModal(forkVersionTemplate)"
-    ></app-code-version-list>
+            [templateKeyDict]="templateKeyDict"
+            (convertUiDictToGenTemplateCode$)="convertUiDictToGenTemplateCode($event)">
+          </app-code-gentemplate-ui-wrapper>
+        </ng-container>
+        <!--end:: gentemplate UI-->
 
-    <form [formGroup]="codeInputForm" class="row" style="margin-bottom: 10px; flex-grow: 1">
-        <mat-tab-group style="width: 100%" (selectedIndexChange)="codeEditorTabChangedHandler($event)">
-            <mat-tab label="DF Template">
-                <app-code-editor class="child-expand"
-                                 [formControlName]="myEBotVersionTabs.df_template"
-                                 [doShowValidationsIcon]="true"
-                ></app-code-editor>
-            </mat-tab>
-            <mat-tab label="DF Rules">
-                <app-code-editor [formControlName]="myEBotVersionTabs.df_rules"
-                                 (validateClick)="validateCodeTest($event)"></app-code-editor>
-            </mat-tab>
-            <mat-tab label="Generation Rules">
-                <app-code-editor [doShowValidationsIcon]="true"
-                                 [formControlName]="myEBotVersionTabs.generation_rules"
-                                 (textChangedEvent)="saveText($event)"
-                                 (validateClick)="validateCodeTest($event)"></app-code-editor>
-                <ng-container *ngIf="activeTab===myEBotVersionTabs.generation_templates && isGentemplateCodeParsable; ">
-                    <app-code-gentemplate-ui-wrapper
-                            *ngIf="!showGenTempEditorAndHideGenTempUi; else cantParseGenTemplateCodeTemplate"
-                            class="row mx-0 px-0 child-expand" [activeTab]="activeTab" [channelList]="channelListClone"
-                            [bot]="bot"
-                            [templateKeyDict]="templateKeyDict"
-                            (convertUiDictToGenTemplateCode$)="convertUiDictToGenTemplateCode($event)"></app-code-gentemplate-ui-wrapper>
-                </ng-container>
-            </mat-tab>
-            <mat-tab label="Generation Template">
-                <app-code-editor
-                        *ngIf="activeTab===myEBotVersionTabs.generation_templates && showGenTempEditorAndHideGenTempUi"
-                        [formControlName]="myEBotVersionTabs.generation_templates"
-                        (textChangedEvent)="saveText($event)"
-                        (validateClick)="validateCodeTest($event)">
-                </app-code-editor>
-            </mat-tab>
-            <mat-tab label="Workflows">
-                <app-code-editor
-                        [formControlName]="myEBotVersionTabs.workflow"
-                        (textChangedEvent)="saveText($event)"
-                        (validateClick)="validateCodeTest($event)"></app-code-editor>
-            </mat-tab>
-        </mat-tab-group>
-    </form>
+      </mat-tab>
+      <mat-tab label="Workflows">
+        <app-code-editor
+          [formControlName]="myEBotVersionTabs.workflow"
+          (validateClick)="validateCodeTest($event)"></app-code-editor>
+      </mat-tab>
+    </mat-tab-group>
+  </form>
 
 
-    <!--validation start here-->
-    <!--<div class="d-flex" style="height:100%">-->
-    <!--<div class="code-editor-row code-editor-row-max position-relative child-expand  d-flex-column-last-child-flex-grow-1">-->
-    <!--</div>-->
-    <!--<div class="validation-bar"-->
-    <!--*ngIf="activeTab!==myEBotVersionTabs.generation_templates || showGenTempEditorAndHideGenTempUi">-->
-    <!--<div class="dot-indicator">-->
-    <!--<i class="fa fa-check-circle color-primary" *ngIf="!selectedVersion.validation[activeTab]?.error"></i>-->
-    <!--<i class="fa fa-exclamation-triangle color-danger"-->
-    <!--*ngIf="!!selectedVersion.validation[activeTab]?.error"></i>-->
+  <!--validation start here-->
+  <!--<div class="d-flex" style="height:100%">-->
+  <!--<div class="code-editor-row code-editor-row-max position-relative child-expand  d-flex-column-last-child-flex-grow-1">-->
+  <!--</div>-->
+  <!--<div class="validation-bar"-->
+  <!--*ngIf="activeTab!==myEBotVersionTabs.generation_templates || showGenTempEditor">-->
+  <!--<div class="dot-indicator">-->
+  <!--<i class="fa fa-check-circle color-primary" *ngIf="!selectedVersion_st.validation[activeTab]?.error"></i>-->
+  <!--<i class="fa fa-exclamation-triangle color-danger"-->
+  <!--*ngIf="!!selectedVersion_st.validation[activeTab]?.error"></i>-->
 
-    <!--</div>-->
-    <!--<div class="validation-toggle cursor-pointer" (click)="validationMessageToggle = !validationMessageToggle">-->
-    <!--<i class="fa fa-angle-double-right" *ngIf='validationMessageToggle'></i>-->
-    <!--<i class="fa fa-angle-double-left" *ngIf='!validationMessageToggle'></i>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="validation-message"-->
-    <!--*ngIf="validationMessageToggle &&(activeTab!==myEBotVersionTabs.generation_templates || showGenTempEditorAndHideGenTempUi)">-->
-    <!--<div class="validation-message-heading" *ngIf="!!selectedVersion.validation[activeTab]?.error">-->
-    <!--Issue found-->
-    <!--</div>-->
-    <!--<div class="validation-message-heading" *ngIf="!selectedVersion.validation[activeTab]?.error">-->
-    <!--No issue found-->
-    <!--</div>-->
-    <!--<div class="validation-message-data my-1" *ngIf="!!selectedVersion.validation[activeTab]?.error">-->
-    <!--Error = {{ selectedVersion.validation[activeTab].error_msg}} <br>-->
-    <!--Value = {{ selectedVersion.validation[activeTab].error_line}} <br>-->
-    <!--</div>-->
-    <!--<div class="validation-message-data my-1" *ngIf="!selectedVersion.validation[activeTab]?.error">-->
-    <!--Validation was successful. You can validate again if you need.-->
-    <!--</div>-->
-    <!--</div>-->
+  <!--</div>-->
+  <!--<div class="validation-toggle cursor-pointer" (click)="validationMessageToggle = !validationMessageToggle">-->
+  <!--<i class="fa fa-angle-double-right" *ngIf='validationMessageToggle'></i>-->
+  <!--<i class="fa fa-angle-double-left" *ngIf='!validationMessageToggle'></i>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--<div class="validation-message"-->
+  <!--*ngIf="validationMessageToggle &&(activeTab!==myEBotVersionTabs.generation_templates || showGenTempEditor)">-->
+  <!--<div class="validation-message-heading" *ngIf="!!selectedVersion_st.validation[activeTab]?.error">-->
+  <!--Issue found-->
+  <!--</div>-->
+  <!--<div class="validation-message-heading" *ngIf="!selectedVersion_st.validation[activeTab]?.error">-->
+  <!--No issue found-->
+  <!--</div>-->
+  <!--<div class="validation-message-data my-1" *ngIf="!!selectedVersion_st.validation[activeTab]?.error">-->
+  <!--Error = {{ selectedVersion_st.validation[activeTab].error_msg}} <br>-->
+  <!--Value = {{ selectedVersion_st.validation[activeTab].error_line}} <br>-->
+  <!--</div>-->
+  <!--<div class="validation-message-data my-1" *ngIf="!selectedVersion_st.validation[activeTab]?.error">-->
+  <!--Validation was successful. You can validate again if you need.-->
+  <!--</div>-->
+  <!--</div>-->
 
-    <!--</div>-->
-    <!--validation end here-->
+  <!--</div>-->
+  <!--validation end here-->
 
-    <!--modals starts-->
-    <ng-template #ForkVersiontemplate>
-        <div class="primary-modal" style="width: 500px;">
-            <div class="modal-header" style="display: block!important;">
-                <div class="d-flex">
-                    <h4 class="modal-title mb-2">Fork to a new version</h4>
-                    <button type="button" class="close pull-right" aria-label="Close"
-                            (click)="dialogRefWrapper.ref.close()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <p class="pb-20">By default it will be saved and not be activated.</p>
-            </div>
+  <!--modals starts-->
+</div>
+<ng-template #ForkVersiontemplate>
+  <div class="primary-modal" style="width: 500px;">
+    <div class="modal-header" style="display: block!important;">
+      <div class="d-flex">
+        <h4 class="modal-title mb-2">Fork to a new version</h4>
+        <button type="button" class="close pull-right" aria-label="Close"
+                (click)="dialogRefWrapper.ref.close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <p class="pb-20">By default it will be saved and not be activated.</p>
+    </div>
 
-            <div class="modal-body">
-                <form class="d-flex flex-column" #fork_new_version_form="ngForm" style="align-items: start;">
-                    <div class="d-flex" style="align-items: center;">
-                        <div class="mr-4">
-                            <label for="">Fork from</label>
-                        </div>
-                        <mat-form-field style="width: 46px;">
-                            <mat-select placeholder="Version" [(ngModel)]="forked_version_number" required type="number"
-                                        name="version_id" #select>
-                                <mat-option *ngFor="let version of bot.store_bot_versions" [value]="version.version">
-                                    {{version.version}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-
-                    <!-- <div class="col-md-9 px-0 d-flex justify-content-start align-content-end">
-                      <div class="form-group m-0 mr-4">
-                      <select class="concept1" [(ngModel)]="forked_version_number" required type="number" name="version_id" #select>
-                        <option type="button" *ngFor="let version of bot.store_bot_versions">
-                          <button>{{version.version}}</button>
-                        </option>
-                      </select>
-                      </div>
-
-                    </div> -->
-
-                    <mat-form-field class="example-full-width" style="width: 85%;">
-                        <input matInput placeholder="Comments on the new version" [(ngModel)]="forked_comments"
-                               name="comment">
-                    </mat-form-field>
-                    <!-- <div class="col-md-9 px-0 d-flex justify-content-start my-2">
-                      <textarea type="text" style="width: 100%" [(ngModel)]="forked_comments" name="comment"></textarea>
-                    </div>
-                     -->
-                    <div class="ml-auto pt-4">
-                        <p *ngIf="errorMessage" class="text-danger">{{errorMessage}}</p>
-
-                        <button class="btn-theme btn-theme-primary-outline mr-1"
-                                (click)="dialogRefWrapper.ref.close()">Cancel
-                        </button>
-
-                        <button class="btn-theme btn-theme-primary" (click)="forkNewVersion()">
-                            Fork new version
-                        </button>
-                    </div>
-
-                </form>
-            </div>
+    <div class="modal-body">
+      <form class="d-flex flex-column" #fork_new_version_form="ngForm" style="align-items: start;">
+        <div class="d-flex" style="align-items: center;">
+          <div class="mr-4">
+            <label for="">Fork from</label>
+          </div>
+          <mat-form-field style="width: 46px;">
+            <mat-select placeholder="Version" [ngModel]="selectedVersion_st.version" required type="number"
+                        name="version_id" #select>
+              <mat-option *ngFor="let version of versionsClone" [value]="version.version">
+                {{version.version}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
-    </ng-template>
-    <ng-template #cantParseGenTemplateCodeTemplate>
-        <div class="d-flex justify-content-center align-items-center"
-             style="position:absolute; left: 0; right: 0; bottom: 0;top: 0">
-            <i>Can't parse gentemplate code</i>
+
+        <mat-form-field class="example-full-width" style="width: 85%;">
+          <input matInput placeholder="Comments on the new version" [(ngModel)]="forked_comments"
+                 required
+                 name="comment">
+        </mat-form-field>
+
+        <div class="ml-auto pt-4">
+          <p *ngIf="errorMessage" class="text-danger">{{errorMessage}}</p>
+
+          <button class="btn-theme btn-theme-primary-outline mr-1"
+                  (click)="dialogRefWrapper.ref.close()">Cancel
+          </button>
+
+          <button [disabled]="!fork_new_version_form.valid" class="btn-theme btn-theme-primary"
+                  (click)="forkNewVersion(fork_new_version_form.value)">
+            Fork new version
+          </button>
         </div>
-    </ng-template>
+
+      </form>
+    </div>
+  </div>
+</ng-template>
+<ng-template #cantParseGenTemplateCodeTemplate>
+  <div class="d-flex justify-content-center align-items-center"
+       style="position:absolute; left: 0; right: 0; bottom: 0;top: 0">
+    <i>Can't parse Gentemplate code</i>
+  </div>
+</ng-template>

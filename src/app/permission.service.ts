@@ -110,6 +110,10 @@ export class PermissionService {
     });
 
     this.app$.subscribe((appState) => {
+      ;
+      if(!appState){
+        return;
+      }
       try {
         const masterActionList = appState.masterProfilePermissions;
         if (!this.loggedUser || !masterActionList) {

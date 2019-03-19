@@ -63,7 +63,7 @@ export class BotConfigComponent implements OnInit {
 
   emitBotDirtyEvent(isDirty){
     // EventService.botDataDirty$.emit({[ESideBarTab.setting]:isDirty});
-    debugger;
+
     this.botData$.emit(this.createBotData());
 
   }

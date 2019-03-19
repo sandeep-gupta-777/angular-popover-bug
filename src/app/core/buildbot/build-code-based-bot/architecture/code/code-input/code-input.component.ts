@@ -11,7 +11,7 @@ import {
   ViewChild,
   ViewChildren
 } from '@angular/core';
-import {Store, Select} from '@ngxs/store';
+import {Store, Select, Actions, ofActionDispatched} from '@ngxs/store';
 import {IBot, IBotVersionData, IBotVersionResult, ICode} from '../../../../../interfaces/IBot';
 import {ServerService} from '../../../../../../server.service';
 import {ConstantsService, EAllActions, ERoleName} from '../../../../../../constants.service';
@@ -29,7 +29,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {IBotCreationState} from '../../../../ngxs/buildbot.state';
 import {CodeEditorComponent} from '../code-editor/code-editor.component';
 import {EventService} from '../../../../../../event.service';
-import {take} from 'rxjs/operators';
+import {debounce, debounceTime, take} from 'rxjs/operators';
 import {LoggingService} from '../../../../../../logging.service';
 import {DebugBase} from '../../../../../../debug-base';
 import {FormGroup, NgForm} from '@angular/forms';
@@ -40,7 +40,7 @@ import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.compone
 import {
   AddForkedVersion, CreateForkedVersion$,
   GetVersionsInit$,
-  SaveVersion$,
+  SaveVersion$, SaveVersionSuccess, SetSelectedVersion,
   UpdateVersion,
   ValidateCodeInit$
 } from "./ngxs/code-input.action";
@@ -59,6 +59,17 @@ export enum EBotVersionTabs {
   workflow = 'workflow'
 }
 
+export interface IVersionDiff {
+  df_template?: boolean,
+  df_rules?: boolean,
+  generation_rules?: boolean,
+  generation_templates?: boolean,
+  workflow?: boolean,
+}
+
+export interface IVersionDiffMap {
+  [index: string]: IVersionDiff
+}
 
 @Component({
   selector: 'app-code-input',
@@ -92,7 +103,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   selectedTemplateKeyInLeftSideBar = '';
   myObject = Object;
   newTemplateKey: string;
-  showGenTempEditorAndHideGenTempUi = false;
+  showGenTempEditor = false;
   selectedChannelOfGenTemplate: { name: string, displayName: string };
   validationMessageToggle = false;
   @ViewChild('ForkVersiontemplate') forkVersionTemplate: ElementRef;
@@ -119,7 +130,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   };
   showVersionList = false;
 
-  selectedVersion: IBotVersionData = null;
+  selectedVersion_st: IBotVersionData = null;
   code: ICode;
 
   constructor(
@@ -132,6 +143,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     private router: Router,
     public matDialog: MatDialog,
     private activatedRoute: ActivatedRoute,
+    private actions$: Actions
   ) {
     super(utilityService, matDialog);
   }
@@ -139,34 +151,69 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   role: string;
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() version$: Observable<ICodeInputState>;
-  version: IBotVersionData[];
+  @Select(state => state.version.selectedVersion) selectedVersion$: Observable<IBotVersionData>;
+  @Select(state => state.version.versions) version1$: Observable<any>;
+  versionsClone: IBotVersionData[];
+  versionDiffs: IVersionDiffMap = {};
 
   showViewChangeToggle = true;
   codeInputForm: FormGroup;
+  changedFields: {
+    df_template: boolean,
+    df_rules: boolean,
+    generation_rules: boolean,
+    generation_templates: boolean,
+    workflow: boolean,
+  } = {
+    'df_template': false,
+    'df_rules': false,
+    'generation_rules': false,
+    'generation_templates': false,
+    'workflow': false,
+  };
 
   ngOnInit() {
+
+    this.actions$
+      .pipe(ofActionDispatched(SaveVersionSuccess))/*Listening to successful version saved*/
+      .subscribe(({payload}) => {
+        this.versionDiffs[payload.version.id] = CodeInputService.initializeVersionDiff();
+        this.utilityService.showSuccessToaster('New Versions saved');
+      });
+
+    this.version1$.subscribe((versions) => {
+      if (!versions) {
+        return;
+      }
+      this.versionsClone = UtilityService.cloneObj(versions);
+    });
+
+    this.selectedVersion$.subscribe((selectedVersion) => {
+      if (!selectedVersion) return;
+      this.selectedVersion_st = selectedVersion;
+      if (this.codeInputForm) {
+        let localVersionClone = this.versionsClone.find(version => version.id === selectedVersion.id);
+        this.codeInputForm.patchValue(localVersionClone);
+      }
+      this.syncBotViews(true);
+    });
 
     CodeInputService.init(this.dialogRefWrapper, this.forkVersionTemplate, this.matDialog);
     this.codeInputForm = this.utilityService.getCodeInputForm();
     this.store.dispatch(new GetVersionsInit$({bot: this.bot, bot_access_token: this.bot.bot_access_token}));
 
-    this.version$.subscribe((versionsState) => {
-      let versions = this.version = versionsState.versions;
-      this.selectedVersion = versionsState.selectedVersion;
-      /*update active and selected version*/
-
-      /*TODO: channel related logic*/
-      // this.codeInputForm.patchValue(activeVersion);
-      // this.channelList = UtilityService.getEnabledChannelsInBot(this.bot);
-      // this.channelListClone = [...this.channelList];
-      // if (this.channelListClone.length > 0) {/*TODO: why do we need this check?*/
-      //   this.channelListClone.unshift({name: 'all', displayName: 'All'});
-      // }
-      // this.selectedChannelOfGenTemplate = {name: 'all', displayName: 'All'};
-      // this.channelNameList = this.channelList.map(channel => {
-      //   return channel.name;
-      // }).filter(e => e !== 'all');
-    });
+    this.codeInputForm.valueChanges
+      .pipe(debounceTime(200))
+      .subscribe((formData) => {
+        if (!this.versionsClone) return;
+        /*store data in local copy of version*/
+        let selectedVersion = this.versionsClone.find((e) => e.id === this.selectedVersion_st.id);
+        Object.assign(selectedVersion, UtilityService.cloneObj(formData));
+        this.versionDiffs = {
+          ...this.versionDiffs,
+          [this.selectedVersion_st.id]: CodeInputService.getChangedFields(formData, this.selectedVersion_st)
+        };
+      });
 
     this.loggeduser$.subscribe((loggeduserState) => {
       if (!loggeduserState.user) {
@@ -187,7 +234,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     }
 
     EventService.codeValidationErrorOnUpdate$.subscribe((data) => {
-      this.selectedVersion.validation = data;
+      this.selectedVersion_st.validation = data;
       this.validationMessageToggle = true;
     });
   }
@@ -204,9 +251,9 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   tabClicked(activeTab: string) {
 
     this.activeTab = activeTab;
-    /*TODO: We dont need code here... just replace it with selectedVersion. Also we dont need ICode interface*/
-    if (this.selectedVersion) {
-      this.editorCodeObj[this.activeTab].text = this.selectedVersion[this.activeTab];
+    /*TODO: We dont need code here... just replace it with selectedVersion_st. Also we dont need ICode interface*/
+    if (this.selectedVersion_st) {
+      this.editorCodeObj[this.activeTab].text = this.selectedVersion_st[this.activeTab];
       this.editorCodeObj[this.activeTab] = {...this.editorCodeObj[this.activeTab]};
     }
 
@@ -224,8 +271,8 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   convertGenTemplateCodeStringIntoUiComponents() {
     try {
       console.log('convertGenTemplateCodeStringIntoUiComponents');
-      this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
-      this.isGentemplateCodeParsable = this.isGentemplateCodeParsableCheck(this.selectedVersion[EBotVersionTabs.generation_templates]);
+      this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.codeInputForm.value[EBotVersionTabs.generation_templates]);
+      this.isGentemplateCodeParsable = this.isGentemplateCodeParsableCheck(this.codeInputForm.value[EBotVersionTabs.generation_templates]);
       this.templateKeyDictClone = {...this.templateKeyDict};
     } catch (e) {
       console.log(e);
@@ -257,37 +304,40 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     this.serverService.makePostReq<any>({headerData, body, url: codeValidationUrl})
       .subscribe((validationResult) => {
         console.log('validation resulted ');
-        this.selectedVersion.validation[this.activeTab] = validationResult[this.activeTab];
+        this.selectedVersion_st.validation[this.activeTab] = validationResult[this.activeTab];
       });
   }
 
 
   async saveSelectedVersion() {
-    if (this.showGenTempEditorAndHideGenTempUi === false && this.isGentemplateCodeParsable) {
-      this.convertUiDictToGenTemplateCode(this.templateKeyDict);
-    }
+    debugger;
+    this.syncBotViews(this.showGenTempEditor);
 
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
 
-    const validatinBody = {
-      ...this.codeInputForm.value,
-      'version': this.selectedVersion.version,
-    };
+    let id = this.selectedVersion_st.id;
+    let newDiff = UtilityService.cloneObj(this.versionDiffs[id]);
+    let oldDiff = this.selectedVersion_st.updated_fields;
 
-    let updatedVersion = {...this.selectedVersion, ...this.codeInputForm.value};/*todo: repeated line*/
-    this.store.dispatch([new ValidateCodeInit$({bot: this.bot, version: updatedVersion})]);
+    const body = {
+      ...this.selectedVersion_st,
+      updated_fields: CodeInputService.getUpdatedFields(oldDiff, newDiff),
+      ...this.codeInputForm.value,
+    };
+    this.store.dispatch([new ValidateCodeInit$({bot: this.bot, version: body})]);
   }
 
   convertUiDictToGenTemplateCode(templateKeyDict) {
     const parseUiDict = this.utilityService.parseGenTemplateUiDictionaryToIfElseCode(templateKeyDict);
     if (parseUiDict != undefined) {
-      this.selectedVersion.generation_templates = parseUiDict;
+      this.codeInputForm.patchValue({generation_templates:parseUiDict});
+      // this.selectedVersion_st.generation_templates = parseUiDict;
     }
     this.editorCodeObj = {
       ...this.editorCodeObj,
-      generation_templates: {text: this.selectedVersion.generation_templates}
+      generation_templates: {text: this.selectedVersion_st.generation_templates}
     };
   }
 
@@ -295,24 +345,16 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     this.openPrimaryModal(template);
   }
 
-  forkNewVersion() {
-    if (!this.forked_version_number) {
-      this.flashErrorMessage('Please select version roomId');
-      return;
-    }
+  forkNewVersion(value:{comment:string, version_id:number}) {
+    this.syncBotViews(this.showGenTempEditor);
     this.dialogRefWrapper.ref.close();
     let forkedVersionInfo = this.codeInputForm.value;
     forkedVersionInfo = {...forkedVersionInfo};
-    forkedVersionInfo.updated_fields = forkedVersionInfo.changed_fields;
-    forkedVersionInfo.changed_fields = {
-      'df_template': false,
-      'df_rules': false,
-      'generation_rules': false,
-      'generation_template': false,
-      'workflows': false
-    };
-    forkedVersionInfo.comment = this.forked_comments;
-    forkedVersionInfo.forked_from = this.forked_version_number;
+    forkedVersionInfo.updated_fields = forkedVersionInfo.changed_fields;/*TODO: what do i do here?*/
+    forkedVersionInfo.changed_fields = CodeInputService.initializeVersionDiff();
+    forkedVersionInfo.comment = value.comment;
+    // forkedVersionInfo.forked_from = this.forked_version_number;
+    forkedVersionInfo.forked_from = value.version_id;
     forkedVersionInfo.bot_id = this.bot.id;
 
     const headerData: IHeaderData = {
@@ -320,41 +362,29 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     };
 
     this.store.dispatch([new CreateForkedVersion$({bot: this.bot, version: forkedVersionInfo})]);
-
-    // this.codeInputService.createNewVersion(this.bot, forkedVersionInfo)
-    //   .subscribe((forkedVersion: IBotVersionData) => {
-    //     this.bot.store_bot_versions.push(forkedVersion);
-    //     this.utilityService.showSuccessToaster('New version forked');
-    //     this.forked_comments = '';
-    //     this.forked_version_number = null;
-    //     this.store.dispatch([
-    //       new UpdateVersionInfoByIdInBot({botId: this.bot.id, data: forkedVersion})/*not needed*/,
-    //       new AddForkedVersion({botId: this.bot.id, version: forkedVersion})
-    //     ]).subscribe(() => {
-    //       this.changeSelectedVersion(forkedVersion);
-    //     });
-    //   });
   }
 
   changeSelectedVersion(version) {
-    /*we are moving away from old version and going to new version
-    * for old version => if view is UI view. covert ui view to code, if its code view don't do anything
-    * for new version => if view is UI view. covert code to ui view, if its code view don't do anything
+
+    this.syncBotViews(this.showGenTempEditor);
+
+    /*we are moving away from old Versions and going to new Versions
+    * for old Versions => if view is UI view. covert ui view to code, if its code view don't do anything
+    * for new Versions => if view is UI view. covert code to ui view, if its code view don't do anything
     * */
+    this.store.dispatch([new SetSelectedVersion({id: version.id})]);
 
-    this.codeInputForm.patchValue(version);
-
-    if (this.showGenTempEditorAndHideGenTempUi === false) {
-      this.convertUiDictToGenTemplateCode(this.templateKeyDict);
-    }
-    console.log('selected version changed');
-    this.bot.store_selected_version = version.id;
-    this.selectedVersion = version;
-    this.forked_version_number = this.selectedVersion.version;
-    if (this.showGenTempEditorAndHideGenTempUi === false) {
-      this.convertGenTemplateCodeStringIntoUiComponents();
-    }
-    this.tabClicked(this.activeTab);
+    // if (this.showGenTempEditor === false) {
+    //   this.convertUiDictToGenTemplateCode(this._templateKeyDict);
+    // }
+    console.log('selected Versions changed');
+    // this.bot.store_selected_version = version.id;
+    // this.selectedVersion_st = version;
+    // this.forked_version_number = this.selectedVersion_st.version;
+    // if (this.showGenTempEditor === false) {
+    //   this.convertGenTemplateCodeStringIntoUiComponents();
+    // }
+    // this.tabClicked(this.activeTab);
   }
 
   toggleVersionList() {
@@ -385,22 +415,31 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
   isTemplateKeyOutputUnparsable() {
     return this.activeTab === this.myEBotVersionTabs.generation_templates &&
-      !this.showGenTempEditorAndHideGenTempUi &&
+      !this.showGenTempEditor &&
       this.templateKeyDict &&
       typeof this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar] === 'string';
   }
 
 
-  viewChanged(showGenTempEditorAndHideGenTempUi) {
-    if (showGenTempEditorAndHideGenTempUi === false) {
+  viewChanged(showGenTempUI:boolean) {
+    debugger;
+    this.showGenTempEditor = !showGenTempUI;
+    this.syncBotViews(showGenTempUI);
+  }
+
+  syncBotViews(isNextViewGenTempUI:boolean){
+    if (isNextViewGenTempUI) {
       this.convertGenTemplateCodeStringIntoUiComponents();
     } else {
-      this.convertGenTemplateCodeStringIntoUiComponents();
+      this.convertUiDictToGenTemplateCode(this.templateKeyDict);
+
+      // this.convertGenTemplateCodeStringIntoUiComponents();
+
     }
   }
 
   downloadZipHandler() {
-    CodeInputService.downloadZip(this.bot, this.selectedVersion);
+    CodeInputService.downloadZip(this.bot, this.selectedVersion_st);
   }
 
   activateVersion(active_version_id: number) {
@@ -408,10 +447,14 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
       .subscribe();
   }
 
-  codeEditorTabChangedHandler($event) {
+  codeEditorTabChangedHandler(tabCount:number) {
+    debugger;
     setTimeout(() => {/*reload all editors*/
       this.utilityService.refreshCodeEditor$.emit();
-    })
+    });
+    if(tabCount ===3){
+      this.syncBotViews(!this.showGenTempEditor);
+    }
   }
 
 }

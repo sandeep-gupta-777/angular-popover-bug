@@ -135,15 +135,15 @@ export interface IBotVersionData {
     'df_template'?: boolean,
     'df_rules'?: boolean,
     'generation_rules'?: boolean,
-    'generation_template'?: boolean,
-    'workflows'?: boolean
+    'generation_templates'?: boolean,
+    'workflow'?: boolean
   };
   'changed_fields'?: {
     'df_template'?: boolean,
     'df_rules'?: boolean,
     'generation_rules'?: boolean,
-    'generation_template'?: boolean,
-    'workflows'?: boolean
+    'generation_templates'?: boolean,
+    'workflow'?: boolean
   };
   'forked_from'?: number;
   'validation'?: {

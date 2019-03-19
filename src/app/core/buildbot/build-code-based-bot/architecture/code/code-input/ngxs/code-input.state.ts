@@ -6,7 +6,7 @@ import {
   GetVersionsSuccess$,
   UpdateVersion,
   AddForkedVersion,
-  SaveVersion$, SetSelectedVersion, ValidateCodeInit$, CreateForkedVersion$
+  SaveVersion$, SetSelectedVersion, ValidateCodeInit$, CreateForkedVersion$, SaveVersionSuccess
 } from "./code-input.action";
 import {SetStateFromLocalStorageAction} from "../../../../../../../ngxs/app.action";
 import {CodeInputService} from "../code-input.service";
@@ -51,7 +51,7 @@ export class VersionStateReducer {
           CodeInputService.getVersion(versions, bot.active_version_id);
           this.store.dispatch([
             new GetVersionsSuccess$({botId: bot.id, versions: versions}),
-            new SetSelectedVersion({version:selectedVersion})
+            new SetSelectedVersion({id:selectedVersion.id})
           ]);
         }, catchError((err) => {
           return this.store.dispatch(new GetVersionsFail({botId: bot.id, message: err.message}));
@@ -70,7 +70,7 @@ export class VersionStateReducer {
   @Action(GetVersionsFail)
   getVersionsFail({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: GetVersionsFail) {
     /*TODO: not implemented yet*/
-    // patchState({versions: payload.versions})
+    // patchState({Versions: payload.Versions})
   }
 
 
@@ -85,7 +85,7 @@ export class VersionStateReducer {
   @Action(AddForkedVersion)
   AddVersion({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: AddForkedVersion) {
     let state = getState();
-    debugger;
+
     patchState({versions: [...state.versions, payload.version]});
   }
 
@@ -93,8 +93,8 @@ export class VersionStateReducer {
   @Action(SetSelectedVersion)
   SetSelectedVersion({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: SetSelectedVersion) {
     let state = getState();
-    debugger;
-    patchState({selectedVersion: payload.version});
+
+    patchState({selectedVersion: state.versions.find(version => version.id === payload.id)});
   }
 
   @Action(SaveVersion$)
@@ -103,9 +103,10 @@ export class VersionStateReducer {
       .pipe(tap((updatedVersion: IBotVersionData) => {
         this.store.dispatch([
           new UpdateVersion({version: updatedVersion, botId: payload.bot.id}),
-          new SetSelectedVersion({version: updatedVersion})
+          new SetSelectedVersion({id: updatedVersion.id}),
+          new SaveVersionSuccess({bot: payload.bot, version: updatedVersion}),
         ]);
-        this.utilityService.showSuccessToaster('New version saved');
+
       }))
       .subscribe();
   }
@@ -116,9 +117,9 @@ export class VersionStateReducer {
       .pipe(tap((updatedVersion: IBotVersionData) => {
         this.store.dispatch([
           new AddForkedVersion({botId: payload.bot.id, version: updatedVersion}),
-          new SetSelectedVersion({version: updatedVersion})/*TODO: SetSelectedVersion: see changeSelectedVersion() in component */
+          new SetSelectedVersion({id: updatedVersion.id})/*TODO: SetSelectedVersion: see changeSelectedVersion() in component */
         ]);
-        this.utilityService.showSuccessToaster('New version forked');
+        this.utilityService.showSuccessToaster('New Versions forked');
       }))
       .subscribe();
   }
@@ -128,7 +129,7 @@ export class VersionStateReducer {
   ValidateCodeInit({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: ValidateCodeInit$) {
     let bot = payload.bot;
     let version = payload.version;
-    debugger;
+
     this.codeInputService.validateCode$(payload.bot, payload.version)
       .pipe(tap(async (validationResult: IBotVersionData) => {
 
@@ -147,8 +148,8 @@ export class VersionStateReducer {
 
             if (data) {
               setTimeout(() => this.utilityService.showErrorToaster('Your code has error. But it will be saved as its not active'), 2000);
-              // this.selectedVersion.updated_fields = this.selectedVersion.changed_fields;
-              // this.selectedVersion.changed_fields = {
+              // this.selectedVersion_st.updated_fields = this.selectedVersion_st.changed_fields;
+              // this.selectedVersion_st.changed_fields = {
               //   'df_template': false,
               //   'df_rules': false,
               //   'generation_rules': false,

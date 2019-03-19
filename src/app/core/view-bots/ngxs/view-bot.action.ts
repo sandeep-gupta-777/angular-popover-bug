@@ -27,14 +27,14 @@ export class ResetBotListAction {
 }
 
 export class SaveVersionInfoInBot {
-  static readonly type = '[build-bots] set version info in bot';
+  static readonly type = '[build-bots] set Versions info in bot';
   constructor(public payload: { data: IBotVersionData[], botId: number }) {
     console.log('SaveVersionInfoInBot');
   }
 }
 
 export class UpdateVersionInfoByIdInBot {
-  static readonly type = '[build-bots] update version info in bot';
+  static readonly type = '[build-bots] update Versions info in bot';
   constructor(public payload: { data: IBotVersionData, botId: number }) {
 
     console.log('UpdateVersionInfoByIdInBot');

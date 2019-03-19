@@ -364,7 +364,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
 
   // getNSetConfigData$() {
   //   return this.serverService.makeGetReq({url: '/static/config.json', noValidateUser: true})
-  //     .pipe(tap(((value: { 'backend_url': string, 'version': string }) => {
+  //     .pipe(tap(((value: { 'backend_url': string, 'Versions': string }) => {
   //       this.backend_url = value.backend_url;
   //       this.store.dispatch([
   //         new SetBackendURlRoot({url: value.backend_url})
