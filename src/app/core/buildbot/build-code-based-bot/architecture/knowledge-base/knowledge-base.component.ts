@@ -88,7 +88,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
 
   initializeTableData(data: any, tableDataMetaDict: any): void {
     this.tableData = this.transformDataForMaterialTable(data, tableDataMetaDict);
-
+    debugger;
     this.tableData = this.tableData.map((row) => {
       let additonalColumns: any = {};
       /*Modifying Concept Key column*/
@@ -99,10 +99,14 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
       additonalColumns['Concept type'] = row['Concept type'];
       let concept_type_val = UtilityService.spaceCase(additonalColumns['Concept type'].value, "_");
       additonalColumns['Concept type'].value = `${concept_type_val}`;
+      additonalColumns['Concept type'].searchValue = `${concept_type_val}`;
 
-      additonalColumns['Override policy'] = row['Override policy'];
-      let override_type_val = UtilityService.spaceCase(additonalColumns['Override policy'].value, "_");
-      additonalColumns['Override policy'].value = `${override_type_val}`;
+      if(row['Override policy']){
+        additonalColumns['Override policy'] = row['Override policy'];
+        let override_type_val = UtilityService.spaceCase(additonalColumns['Override policy'].value, "_");
+        additonalColumns['Override policy'].value = `${override_type_val}`;
+      }
+
 
 
       /*TODO: Modifying Last update*/

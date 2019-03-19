@@ -1256,8 +1256,25 @@ mat-dialog-container {
   background-color: transparent !important;
 }
 
+.dot-paid{
+  color: #f5a623;
+}
+.dot-free{
+  color: #34bc6e;
+}
+
 .mat-theme-button-border {
   border: 1px solid rgba(255, 255, 255, 0.4) !important;
   border-radius: 2px;
   margin-right: 10px !important;
+}
+
+.mat-header-custom{
+  & .mat-tab-nav-bar, .mat-tab-header {
+    border-bottom: 1px solid transparent;
+
+    .mat-tab-label{
+      height: 30px;
+    }
+  }
 }

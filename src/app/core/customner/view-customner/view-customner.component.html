@@ -1,9 +1,10 @@
 <!--<button (click)="test()">test</button>-->
-<div class="row m-0 mt-3 p-1 bg-white">
-  <div class="col-12 mt-4">
-    <h4> Enterprise Knowledge Base </h4>
+<div class="row" style="margin: 25px 50px ">
+  <div class="col-12" style="margin-bottom: 8px" *ngIf="showHeader">
+    <h4 style="margin-bottom: 8px;color: #474747; font-size: 16px"> Enterprise Knowledge Base </h4>
+    <span style="color: #9e9e9e">This can be used to define and manage concepts which will be shared across all bots</span>
   </div>
-  <div class="col-12" style="min-height: 450px">
+  <div class="col-12" style="min-height: 450px; padding-left: 25px">
     <app-knowledge-base
       *ngIf="custumNerDataForSmartTable && (!showLoader)"
       class="h-100"
@@ -15,7 +16,8 @@
       [totalRecords]="totalRecords"
       [recordsPerPage]="recordsPerPage"
       (deleteNer$)="deleteNer($event)"
-    ></app-knowledge-base>
+    >
+    </app-knowledge-base>
 
       <app-imi-loader *ngIf="showLoader"></app-imi-loader>
   </div>

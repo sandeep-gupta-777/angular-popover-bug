@@ -233,6 +233,12 @@ table {
 }
 
 :host /deep/ {
+  tr.mat-header-row{
+    height: 40px;
+    *{
+      color: #9e9e9e;
+    }
+  }
   .mat-chip-list-wrapper .mat-standard-chip, .mat-chip-list-wrapper input.mat-input-element {
     margin: 0px;
     padding: 1px 7px;
@@ -306,5 +312,5 @@ table {
 }
 
 .text-bold{
-  color: #474747;
+  color: #474747 !important;
 }

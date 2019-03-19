@@ -612,7 +612,14 @@ export class ConstantsService {
   ];
 
   readonly SMART_TABLE_REPORT_TABLE_DATA_META_DICT_TEMPLATE = {
-
+    isactive: {
+      originalKey: 'isactive',
+      value: '',
+      type: 'string',
+      displayValue: 'Active',
+      search: true,
+      searchValue: true,
+    },
     bot: {
       originalKey: 'bot',
       value: '',
@@ -638,13 +645,14 @@ export class ConstantsService {
       search: true,
       searchValue: true,
     },
-    last_jobId: {
-      originalKey: 'last_jobId',
+    lastreportgenerated: {
+      originalKey: 'lastreportgenerated',
       value: '',
       type: 'string',
-      displayValue: 'Last job run',
-      search: true,
-      searchValue: true,
+      displayValue: 'Last report generated',
+      search: false,
+      searchValue: "",
+      dateRange: true
     },
     nextreportgenerated: {
       originalKey: 'nextreportgenerated',
@@ -655,14 +663,6 @@ export class ConstantsService {
       searchValue: "",
       dateRange: true
     },
-    isactive: {
-      originalKey: 'isactive',
-      value: '',
-      type: 'boolean',
-      displayValue: 'Active',
-      search: true,
-      searchValue: true,
-    }
   };
   readonly SMART_TABLE_REPORT_HISTORY_TABLE_DATA_META_DICT_TEMPLATE = {
 
@@ -934,9 +934,18 @@ export class ConstantsService {
       originalKey: 'ner_type',
       value: '',
       type: 'string',
-      displayValue: 'Type',
+      displayValue: 'Concept type',
       search: true,
       searchValue: true,
+    },
+    updated_at: {
+      originalKey: 'updated_at',
+      value: '',
+      type: 'time',
+      displayValue: 'Last Update',
+      search: false,
+      searchValue: true,
+      dateRange: true
     },
 
   };
