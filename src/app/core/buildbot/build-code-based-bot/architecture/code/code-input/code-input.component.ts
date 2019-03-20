@@ -70,6 +70,9 @@ export interface IVersionDiff {
 export interface IVersionDiffMap {
   [index: string]: IVersionDiff
 }
+export interface IVersionErrorsMap {
+  [index: string]: any/*TODO: complete this interface*/
+}
 
 @Component({
   selector: 'app-code-input',
@@ -79,7 +82,10 @@ export interface IVersionDiffMap {
 })
 export class CodeInputComponent extends ModalImplementer implements OnInit, OnDestroy {
 
+  validation = {};
+  errorMap = {
 
+  };
   modalRefWrapper = {ref: null};
   showConfig = true;
   templateKeySearchKeyword = '';
@@ -292,7 +298,10 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar] = codeStr;
   }
 
+
+
   validateCodeTest(code: string) {
+    debugger;
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
@@ -303,8 +312,11 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
     this.serverService.makePostReq<any>({headerData, body, url: codeValidationUrl})
       .subscribe((validationResult) => {
+        debugger;
         console.log('validation resulted ');
-        this.selectedVersion_st.validation[this.activeTab] = validationResult[this.activeTab];
+        let validation = {};
+        validation[this.activeTab] = validationResult[this.activeTab];
+        this.errorMap[this.selectedVersion_st.id] = validation;
       });
   }
 
