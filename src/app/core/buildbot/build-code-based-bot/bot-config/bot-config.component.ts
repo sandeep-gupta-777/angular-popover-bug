@@ -65,7 +65,7 @@ export class BotConfigComponent implements OnInit {
     // EventService.botDataDirty$.emit({[ESideBarTab.setting]:isDirty});
     debugger;
     this.botData$.emit(this.createBotData());
-    
+
   }
 
 
@@ -86,7 +86,7 @@ export class BotConfigComponent implements OnInit {
     this.basicInfoForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
     this.dataManagementForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
     this.securityForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
-    
+
     /*TODO: forkjoin is not working*/
   // let x = [this.basicInfoForm.valueChanges, this.dataManagementForm.valueChanges, this.securityForm.valueChanges];
   //   forkJoin(...[x])
@@ -135,6 +135,7 @@ export class BotConfigComponent implements OnInit {
     //   bot.integrations = this.integrationForm.value;
     // }
     bot.id = this.bot.id;
+    bot.bot_access_token = this.bot.bot_access_token;
     this.serverService.updateBot(bot).subscribe(()=>{
       this.emitBotDirtyEvent(false);
     });

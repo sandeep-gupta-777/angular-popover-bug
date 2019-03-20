@@ -291,12 +291,12 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
         this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
         this.templateKeyDictClone = { ...this.templateKeyDict };
       }
-      
+
     } catch (e) {
       console.log(e);
     }
   }
-  
+
   convertUiDictToGenTemplateCode(templateKeyDict) {
     debugger;
     const parseUiDict = this.utilityService.parseGenTemplateUiDictionaryToIfElseCode(templateKeyDict);
@@ -310,7 +310,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     const countOf_templateKey_stringInGenTemplateCodeStr = (genTemplateCode.includes("else:")) ? genTemplateCode.split('templateKey').length : genTemplateCode.split('templateKey').length - 1;
     const countOf_output_stringInGenTemplateCodeStr = genTemplateCode.split('output').length - 1;
     // const countOfTemplateKeyFoundByParser = Object.keys(this.templateKeyDict).length;
-    // const countOfTemplateKeyFoundByParser = genTemplateCode.split(':\noutput').length; 
+    // const countOfTemplateKeyFoundByParser = genTemplateCode.split(':\noutput').length;
 
     // return countOf_templateKey_stringInGenTemplateCodeStr === countOfTemplateKeyFoundByParser &&
     //   countOf_output_stringInGenTemplateCodeStr === countOfTemplateKeyFoundByParser;
@@ -526,7 +526,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
   }
 
-  
+
 
   openForkNewVersionModal(template) {
     // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
@@ -625,7 +625,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
         }
       }
     }
-    
+
   }
 
   isTemplateKeyOutputUnparsable() {
@@ -671,7 +671,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   }
 
   activateVersion(active_version_id:number){
-    this.serverService.updateBot({id: this.bot.id, active_version_id})
+    this.serverService.updateBot({id: this.bot.id, active_version_id, bot_access_token: this.bot.bot_access_token})
       .subscribe();
   }
 
