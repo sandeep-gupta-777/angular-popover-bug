@@ -12,19 +12,23 @@
                 <div class="d-flex article-heading">
                     <div class="article-heading-label">All articles</div>
                     <mat-form-field class="sort-dropdown">
-                        <mat-select placeholder="Sort by">
-                            <mat-option [value]="1">
+                        <mat-select placeholder="Sort by" [(ngModel)]="sort_articals_by">
+                            <mat-option [value]="'updated_at'">
                                 Last Update
+                            </mat-option>
+                            <mat-option [value]="'category_id'">
+                                Category Name
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
+                
                 <div class="d-flex article-item flex-column my-2"
-                    *ngFor="let section of myObject.keys(corpus.sections)">
-                    <div class="catagory">{{corpus.sections[section].category_id}}</div>
+                    *ngFor="let section of corpus.sections | filterArticals : filter_categorie_id_list | sortArticals : sort_articals_by : corpus.category_mapping"> 
+                    <div class="catagory">{{section.category_id | categoryIdToName : corpus.category_mapping }}</div> 
                     <div class="d-flex flex-row">
-                        <div class="first_question mr-auto">{{corpus.sections[section].answers[0].text[0]}}</div>
-                        <div class="count">{{corpus.sections[section].answers.length}} variations</div>
+                        <div class="first_question mr-auto">{{section.answers[0].text[0]}}</div>
+                        <div class="count">{{section.answers.length}} variations</div>
                     </div>
                 </div>
 
@@ -38,20 +42,22 @@
                 <div class="action-item py-1"><mat-icon class="material-icons">folder</mat-icon>Export all articles to csv</div>
             </div>
             <div class="d-flex w-100  flex-column article-action-side-bar pl-4">
-                <div class="filter-categories-heading pb-1 pt-2">Filter Categories</div>
+                <div class="filter-categories-heading pb-1 pt-2">Filter Categories </div>
                 <div class="d-flex w-100  flex-column filter-categories-box">
                     <mat-form-field class="search-input px-2">
-                        <input matInput placeholder="Search">
+                        <input matInput placeholder="Search" [(ngModel)] = "filter_categorie_search">
                         <mat-icon matSuffix style="font-size: 15px;color:#e0e0e0">search</mat-icon>
                     </mat-form-field>
-                    <section class="categories-section d-flex  flex-column px-2">
-                        <mat-checkbox *ngFor="let categorie_name of myObject.keys(corpus.sections)"
-                        color="primary">{{categorie_name}}
-                        </mat-checkbox>
+                    <section class="px-2">
+                        <form #filter_categorie_form = "ngForm" class="categories-section d-flex flex-column">
+                            <mat-checkbox *ngFor="let categorie of corpus.category_mapping"  [hidden]="!categorie.name.includes(filter_categorie_search)" ngModel color="primary" name="{{categorie.category_id}}">{{categorie.name}}
+                            </mat-checkbox>
+                            {{filter_categorie_form.value | json}}
+                        </form>
                     </section>
                     <div class="d-flex flex-row mt-2 px-2 pb-2">
-                        <button  class="btn-theme btn-theme-primary filter-btn mr-auto">Filter</button>
-                        <button  class="btn-theme clear-btn">Clear</button>
+                        <button  class="btn-theme btn-theme-primary filter-btn mr-auto" (click) = "makeFilterList(filter_categorie_form.value)">Filter</button>
+                        <button  class="btn-theme clear-btn" (click) = "filter_categorie_id_list = [];filter_categorie_form.reset()">Clear</button>
                     </div>
                 </div>
             </div>

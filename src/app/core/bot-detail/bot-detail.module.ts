@@ -64,6 +64,9 @@ import {PipeineIdToPipelineModuleWrapperPipe} from '../buildbot/build-code-based
 import {SortObjectArrPipe} from '../../sort-object-arr.pipe';
 import {PipeineKeywordToPipelineModuleMatchedPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/pipeine-keyword-to-pipeline-module-matched.pipe';
 import { BotArticlesComponent } from './bot-articles/bot-articles.component';
+import { CategoryIdToNamePipe } from './bot-articles/category-id-to-name.pipe';
+import { SortArticalsPipe } from './bot-articles/sort-articals.pipe';
+import { FilterArticalsPipe } from './bot-articles/filter-articals.pipe';
 
 const routes: Route[] = [
   {
@@ -128,6 +131,9 @@ const routes: Route[] = [
     LimitObjectArraysStringPipe,
     ConsumerFullscreenWrapperComponent,
     BotArticlesComponent,
+    CategoryIdToNamePipe,
+    SortArticalsPipe,
+    FilterArticalsPipe,
     /*after lazy loading*/
     // RequiredIfOneFilledValidator
   //
