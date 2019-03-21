@@ -9,6 +9,11 @@ export class GetVersionsInit$ {
   constructor(public payload: { bot:IBot, bot_access_token:string }) {}
 }
 
+export class SetBotId {
+  static readonly type = '[code input] set bot id';
+  constructor(public payload: { bot:IBot }) {}
+}
+
 /*Action type: Event*/
 export class GetVersionsSuccess$ {
   static readonly type = '[code input] set bot Versions list';
@@ -59,6 +64,11 @@ export class SaveVersion$ {
 export class SaveVersionSuccess {
   static readonly type = '[code input] save bot Versions success';
   constructor(public payload: { bot:IBot, version: IBotVersionData}) {}
+}
+
+export class ResetVersionState {
+  static readonly type = '[code input] reset bot ResetVersionState';
+  constructor(public payload: {}) {}
 }
 
 export class ValidateCodeInit$ {

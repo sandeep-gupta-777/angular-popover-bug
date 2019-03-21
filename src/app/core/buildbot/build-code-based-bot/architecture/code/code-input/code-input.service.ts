@@ -64,6 +64,35 @@ export class CodeInputService {
     // });
   }
 
+  static createChannelList(bot:IBot){
+    let channelList = [], channelListClone = [];
+    try {
+      if (bot.integrations && bot.integrations.channels) {
+        channelList = Object.keys(bot.integrations.channels)
+          .map((integrationKey) => {
+            return {
+              name: integrationKey,
+              displayName: integrationKey
+            };
+          })
+          .filter((enabledIntegrations) => bot.integrations.channels[enabledIntegrations.name].enabled);
+        channelListClone = [...channelList];
+        if (channelListClone.length > 0) {
+          channelListClone.unshift({name: 'all', displayName: 'All'});
+        }
+      }
+      return channelListClone;
+
+      // this.selectedChannelOfGenTemplate = {name: 'all', displayName: 'All'};
+      // this.channelNameList = this.channelList.map(channel => {
+      //   return channel.name;
+      // }).filter(e => e !== 'all');
+
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
 
   saveVersion(bot: IBot, version: IBotVersionData) {
     const headerData: IHeaderData = {

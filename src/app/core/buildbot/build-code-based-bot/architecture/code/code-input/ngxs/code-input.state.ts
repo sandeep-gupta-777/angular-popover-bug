@@ -12,17 +12,19 @@ import {
   CreateForkedVersion$,
   SaveVersionSuccess,
   SetDiff,
-  UpdateVersionLocal
+  UpdateVersionLocal, SetBotId, ResetVersionState
 } from "./code-input.action";
 import {SetStateFromLocalStorageAction} from "../../../../../../../ngxs/app.action";
 import {CodeInputService} from "../code-input.service";
-import {IBotVersionData, IBotVersionResult} from "../../../../../../interfaces/IBot";
-import {catchError, map, tap} from "rxjs/operators";
+import {IBot, IBotVersionData, IBotVersionResult} from "../../../../../../interfaces/IBot";
+import {catchError, map, switchMap, tap} from "rxjs/operators";
 import {version} from "punycode";
 import {LoggingService} from "../../../../../../../logging.service";
 import {UpdateVersionInfoByIdInBot} from "../../../../../../view-bots/ngxs/view-bot.action";
 import {UtilityService} from "../../../../../../../utility.service";
 import {IVersionDiffMap} from "../../../../../../../../interfaces/code-input";
+import {SaveAvatorInfo} from "../../../../../ngxs/buildbot.action";
+import {of} from "rxjs";
 
 export interface ICodeInputState {
   versions_pristine: IBotVersionData[],
@@ -76,6 +78,7 @@ export class VersionStateReducer {
     /*TODO: if I dont clone they will be the same array
     * so any change in one will be reflected in other as well
     * */
+    debugger;
     patchState({
       versions: UtilityService.cloneObj(payload.versions),
       versions_pristine: UtilityService.cloneObj(payload.versions)
@@ -92,10 +95,12 @@ export class VersionStateReducer {
   SetDiff({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: SetDiff) {
     let state = getState();
     let id = payload.version.id;
+    debugger;
     let version_pristine = state.versions_pristine.find(v => v.id === id);
     let version = state.versions.find(v => v.id === id);
     let diff = CodeInputService.calculateDiff(version, version_pristine);
     patchState({diff: {...state.diff, [id]: diff}});
+    return of(1);
   }
 
   @Action(UpdateVersionLocal)
@@ -115,7 +120,6 @@ export class VersionStateReducer {
     let state = getState();
     let index = state.versions.findIndex((version) => version.id === payload.version.id);
     let index_pristine = state.versions_pristine.findIndex((version) => version.id === payload.version.id);
-    console.log('BEFORE::', state.versions[3].updated_fields);
     state.versions[index] = {
       ...payload.version
     };
@@ -125,7 +129,6 @@ export class VersionStateReducer {
 
     state.versions = [...state.versions];
     state.versions_pristine = [...state.versions_pristine];
-    console.log('AFTER::', state.versions[3].updated_fields);
     this.utilityService.showSuccessToaster('New Versions saved');
     patchState({...state});
   }
@@ -133,10 +136,13 @@ export class VersionStateReducer {
   @Action(AddForkedVersion)
   AddVersion({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: AddForkedVersion) {
     let state = getState();
-    patchState({
+    debugger;
+    let x = {
       versions: [...state.versions, payload.version],
-      versions_pristine: [...state.versions, payload.version]
-    });
+      versions_pristine: [...state.versions_pristine, payload.version]
+    };
+    console.log(x);
+    patchState(x);
   }
 
 
@@ -151,19 +157,43 @@ export class VersionStateReducer {
     patchState(state);
   }
 
+  @Action(SetBotId)
+  SetBotId({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: SetBotId) {
+    let state = getState();
+    /*SOME FUCKUP HERE*/
+    state = {
+      ...state,
+      botId: payload.bot.id
+    };
+    patchState(state);
+  }
+
+  @Action(ResetVersionState)
+  ResetVersionState({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: ResetVersionState) {
+    setState(codeInputState);
+  }
+
   @Action(SaveVersion$)
   SaveVersion$({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: SaveVersion$) {
-    this.codeInputService.saveVersion(payload.bot, payload.version)
-      .pipe(tap((updatedVersion: IBotVersionData) => {
-        this.store.dispatch([
-          new SaveVersionSuccess({bot: payload.bot, version: updatedVersion}),
-        ])
-          .subscribe(() => {
-            this.store.dispatch(new SetSelectedVersion({id: updatedVersion.id}));
-            this.store.dispatch(new SetDiff({version:updatedVersion}))
-          });
-      }))
-      .subscribe();
+    let updatedVersion;
+    return this.codeInputService.saveVersion(payload.bot, payload.version)
+      .pipe(switchMap((updatedVersion1: IBotVersionData) => {
+          updatedVersion = updatedVersion1;
+          debugger;
+          return this.store.dispatch([
+            new SaveVersionSuccess({bot: payload.bot, version: updatedVersion}),
+          ])
+        }),
+
+        switchMap((payload) => {
+          debugger;
+          return this.store.dispatch(
+            [
+              new SetDiff({version: updatedVersion}),
+              new SetSelectedVersion({id: updatedVersion.id})
+            ])
+            ;
+        }))
   }
 
   @Action(CreateForkedVersion$)
@@ -184,6 +214,8 @@ export class VersionStateReducer {
   ValidateCodeInit({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: ValidateCodeInit$) {
     let bot = payload.bot;
     let version = payload.version;
+
+    debugger;
 
     this.codeInputService.validateCode$(payload.bot, payload.version)
       .pipe(tap(async (validationResult: IBotVersionData) => {
