@@ -33,6 +33,7 @@ import {AuthModule} from './auth/auth.module';
 import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.component';
 import {SharedModule} from './shared.module';
 import {createInputTransfer, createNewHosts, removeNgStyles} from '@angularclass/hmr';
+import {VersionStateReducer} from "./core/buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.state";
 
 const routes: Route[] = [
   {path: 'dev', loadChildren: './dev/dev.module#DevModule',canLoad: []},
@@ -65,6 +66,7 @@ const routes: Route[] = [
       BotCreationStateReducer,
       AnalysisStateReducer2,
       ReportsStateReducer,
+      VersionStateReducer,
     ]),
     NgxsStoragePluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),//Comment this before pushing to git

@@ -78,7 +78,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
     private _iterableDiffers: IterableDiffers,
     private constantsService: ConstantsService,
     public eventService: EventService,
-    private utilityService: UtilityService) {
+    public utilityService: UtilityService) {
     this.iterableDiffer = this._iterableDiffers.find([]).create(null);
   }
 
@@ -171,7 +171,9 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
 
   refreshCodeEditor() {
     /*codemirror needs to be refreshed after being visible; otherwise its content wont show*/
-    setTimeout(() => this.utilityService.refreshCodeEditor$.emit());
+    setTimeout(() => {
+      this.utilityService.refreshCodeEditor$.emit();
+    },300);
   }
 
   refreshBotDetails() {
@@ -206,6 +208,11 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   }
 
   sideBarTabChanged(sideBarTabChanged: ESideBarTab) {
+    if(sideBarTabChanged === ESideBarTab.logic){
+      setTimeout(()=>{
+        this.refreshCodeEditor();
+      },0)
+    }
     if(sideBarTabChanged != this.sideBarTab1){
       if(SideBarService.isTabDirty(this.sideBarTab1)){
         this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper,this.matDialog)

@@ -104,7 +104,7 @@
             </ng-container>
         </ng-container>
         <ng-container *myIf="[myEAllActions['GET Bot Versioning']]">
-            <ng-container *ngIf="sideBarTab1 === 'logic' && bot.bot_type === myEBotType.chatbot">
+            <div style="height: 100%" [hidden]="!(sideBarTab1 === 'logic' && bot.bot_type === myEBotType.chatbot)">
                 <header>
                     <div style="padding-bottom: 8px"><strong
                             style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">
@@ -120,7 +120,7 @@
                         class=" d-flex-column-last-child-flex-grow-1"
                         (datachanged$)="pipelineDataChangeHandler($event)"
                         [bot]="bot"></app-code-input>
-            </ng-container>
+            </div>
         </ng-container>
         <ng-container *ngIf="sideBarTab1 === 'chat' && bot.bot_type === myEBotType.chatbot">
             <header>

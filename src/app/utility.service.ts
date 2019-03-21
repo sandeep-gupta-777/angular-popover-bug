@@ -22,7 +22,7 @@ import {EBotMessageMediaType, IMessageData} from '../interfaces/chat-session-sta
 import {IBotPreviewFirstMessage} from './chat/chat-wrapper.component';
 import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 import {StoreVariableService} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl, NgForm} from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl, NgForm, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material';
 import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
 import {el} from "@angular/platform-browser/testing/src/browser_util";
@@ -38,6 +38,7 @@ export class UtilityService {
     private router: Router,
     public snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,
     private storeVariableService: StoreVariableService,
   ) {
   }
@@ -123,10 +124,29 @@ export class UtilityService {
     return this.masterIntegration_IntegrationKeyDisplayNameMap[key];
   }
 
+  /**
+  *  getVersion
+  *  @deprecated: Use CodeInputService.getVersion instead
+  * */
   getActiveVersionInBot(bot: IBot) {
     return bot.store_bot_versions && bot.store_bot_versions.find((BotVersion) => {
       return bot.active_version_id === BotVersion.id;
     });
+  }
+
+
+  static getEnabledChannelsInBot(bot:IBot):{name:string, displayName:string}[]{
+    if(!bot || bot.integrations && bot.integrations.channels){
+      return [];
+    }
+    return Object.keys(bot.integrations.channels)
+      .map((integrationKey) => {
+        return {
+          name: integrationKey,
+          displayName: integrationKey
+        };
+      })
+      .filter((enabledIntegrations) => bot.integrations.channels[enabledIntegrations.name].enabled)
   }
 
   serializeGeneratedMessagesToPreviewMessages(generatedMessage: IGeneratedMessageItem[], bot_message_id: number): IMessageData[] {
@@ -355,6 +375,18 @@ export class UtilityService {
 
   static cloneObj(obj) {
     return JSON.parse(JSON.stringify(obj));
+  }
+
+  getCodeInputForm() {
+    let codeInputForm = this.formBuilder.group({
+      df_template: [""],
+      df_rules: [""],
+      generation_rules: [""],
+      generation_templates: [""],
+      workflow: [""],
+    });
+
+    return codeInputForm;
   }
 
   static removeEmptyKeyValues(valClone) {
@@ -972,6 +1004,9 @@ export class UtilityService {
     return convertedData;
   }
 
+  /*
+  * @deprecated Use UtilityService.cloneObj()
+  * */
   createDeepClone(obj) {
     return JSON.parse(JSON.stringify(obj));
   }
@@ -1079,12 +1114,12 @@ export class UtilityService {
   * isObjectSubSet:
   * check if smaller object (obj2) is perfect subset of larger object (obj1)
   * */
-  static isObjectSubSet(obj1, obj2) {
+  static isObjectSubSet(largeObj, smallObj) {
     let obj1_temp = {};
-    for (let key in obj2) {
-      obj1_temp[key] = obj1[key];
+    for (let key in smallObj) {
+      obj1_temp[key] = largeObj[key];
     }
-    let x=  UtilityService.deepCompare(obj1_temp, obj2);
+    let x=  UtilityService.deepCompare(obj1_temp, smallObj);
 
     return x;
   }

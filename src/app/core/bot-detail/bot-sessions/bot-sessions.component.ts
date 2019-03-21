@@ -492,9 +492,9 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
           }
       });
 
-      if(combinedFilterData.feedback ===  true){
-        combinedFilterData.feedback = EChatFeedback.NEGATIVE;
-      }
+      // if(combinedFilterData.feedback ===  true){
+      //   combinedFilterData.feedback = EChatFeedback.NEGATIVE;
+      // }
       combinedFilterData = {
         ...combinedFilterData,
         offset: (combinedFilterData.page - 1)*10,

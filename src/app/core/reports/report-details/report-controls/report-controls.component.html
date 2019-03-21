@@ -166,7 +166,7 @@
 
       </div>
       <fieldset class="col-12 ">
-        <div class="col-10 mt-2 border-left">
+        <div class="col-10 mt-2">
           <div class="text-report pb-2">Recipients</div>
           <textarea ngModel name="recipients" class="p-2" style="width: 100%; height: 90px"></textarea>
         </div>
@@ -181,8 +181,8 @@
 
       </div>
 
-      <fieldset [disabled]="!isSftpReportEnabled" class="col-12 ">
-        <div class="co-10 border-left pl-3 mt-2 sftp-grid">
+      <fieldset [disabled]="!isSftpReportEnabled" class="col-12 p-0">
+        <div class="co-10 mt-2 sftp-grid">
           <label for="" class=" m-0">IP Address</label>
           <label for="" class=" m-0">Port</label>
           <input class="input-material mb-3" type="text" ngModel name="ip">

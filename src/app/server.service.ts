@@ -323,7 +323,7 @@ export class ServerService {
         // this.user_first_name = bot.enterprise_name;
         // this.enterprise_logo = bot.enterprise_logo;
         // this.user_email =bot.enterprise_name;
-        debugger
+
         this.store.dispatch([
           new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({bot}),
           // new SetEnterpriseInfoAction({enterpriseInfo:{logo:bot.logo}})
@@ -608,7 +608,7 @@ export class ServerService {
   getNSetConfigData$() {
 
     // return this.makeGetReq({url: '/static/config.json', noValidateUser: true})
-    //   .pipe(tap(((value: { 'backend_url': string, 'version': string }) => {
+    //   .pipe(tap(((value: { 'backend_url': string, 'Versions': string }) => {
     //     this.store.dispatch([
     //       new SetBackendURlRoot({url: value.backend_url})
     //     ]);
@@ -719,6 +719,9 @@ export class ServerService {
 
 
   compareDeployDates(){
+    if(!deploy_obj_botplateform_fe){
+      return;
+    }
     let lastDeployed_Cache = deploy_obj_botplateform_fe.lastDeploy;
     this.makeGetReq({url:`/static/deploy.json?time=${Date.now()}`})
       .subscribe((value:{"currentBranch":string,"lastDeploy":number})=>{

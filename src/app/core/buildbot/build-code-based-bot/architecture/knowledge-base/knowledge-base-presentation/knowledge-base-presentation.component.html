@@ -70,7 +70,7 @@
                         mat-button
                         class="mat-theme-button"
                         style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
-                        [disabled]="!form.valid || (ner_type === 'database' && handsOnTableDataHasAtleastTwoRows())"
+                        [disabled]="!form.valid || (ner_type === 'database' && !handsOnTableDataHasAtleastTwoRows())"
                         (click)="updateOrSaveConcept()"
                         *myIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
                 >
