@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {EBotVersionTabs} from '../code-input.component';
 import {NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../../../utility.service';
 import {ModalConfirmComponent} from '../../../../../../../modal-confirm/modal-confirm.component';
 import {MatDialog} from '@angular/material';
 import {GentemplateEditKeyComponent} from '../code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
+import {EBotVersionTabs} from "../../../../../../../../interfaces/code-input";
 
 export interface ICarousalItem {
   'image_url': string;
@@ -58,7 +58,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   _templateKeyDict;
   @Input() set templateKeyDict(val){
     this._templateKeyDict = val;
-    debugger;
+
     if(Object.keys(this._templateKeyDict))
       this.selectedTemplateKeyInLeftSideBar = Object.keys(this._templateKeyDict)[0];
   }
@@ -85,7 +85,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     try {
-      this.templateKeyDictClone = this.utilityService.createDeepClone(this._templateKeyDict);
+      this.templateKeyDictClone = UtilityService.cloneObj(this._templateKeyDict);
 
       this.channelSelectorForm.form.patchValue({name: 'all'});
       this.channelNameList = this.channelList.map((channel) => {
@@ -94,6 +94,15 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     } catch (e) {
       console.log(e);
     }
+  }
+
+  /*
+  * getTemplateDict:
+  * TODO: temporary:
+  * will be called by parent
+  * */
+  getTemplateDict(){
+    return this._templateKeyDict;
   }
 
   isTemplateKeyOutputUnparsable() {

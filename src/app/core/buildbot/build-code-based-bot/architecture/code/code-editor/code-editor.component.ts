@@ -61,6 +61,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
     });
 
     const editor = this.codeEditor.nativeElement;
+    var currentHandle = null, currentLine;
     this.editor = new CodeMirror.fromTextArea(editor, {
       lineNumbers: true,
       lineWrapping: true,
@@ -69,8 +70,19 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
       rtlMoveVisually: false,
       direction: 'ltr',
       moveInputWithCursor: false,
+    //   onCursorActivity: function updateLineInfo(cm) {
+    //   var line = cm.getCursor().line, handle = cm.getLineHandle(line);
+    //   if (handle == currentHandle && line == currentLine) return;
+    //   if (currentHandle) {
+    //     cm.setLineClass(currentHandle, null, null);
+    //     cm.clearMarker(currentHandle);
+    //   }
+    //   currentHandle = handle; currentLine = line;
+    //   cm.setLineClass(currentHandle, null, "activeline");
+    //   cm.setMarker(currentHandle, String(line + 1));
+    // },
 
-      extraKeys: {
+    extraKeys: {
         'Ctrl-Q': function (cm) {
           cm.foldCode(cm.getCursor());
         },
@@ -79,6 +91,11 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
       foldGutter: true,
       gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
     });
+
+    // setTimeout(()=>{
+    //   this.editor.setLineClass(this.editor.getLineHandle(1), null, 'bg-white');
+    // },1000);
+
     this.editor.on('keydown', editor => {
       setTimeout(() => {
         this.editorCodeObjRef.text = editor.getValue();

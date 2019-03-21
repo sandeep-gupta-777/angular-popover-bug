@@ -1,3 +1,5 @@
+<!--<i>{{versionsClone|json}}</i>-->
+
 <div class="p-1 d-flex-column-last-child-flex-grow-1">
   <app-code-version-list
     [selectedVersion]="selectedVersion_st"
@@ -7,7 +9,7 @@
     (activateVersion$)="activateVersion($event)"
     [bot]="bot"
     [versions]="versionsClone"
-    (changeSelectedVersion$)="changeSelectedVersion($event)"
+    (changeSelectedVersion$)="changeSelectedVersionHandler($event)"
     (saveSelectedVersion$)="saveSelectedVersion()"
     (downloadAll$)="downloadZipHandler()"
     (openForkNewVersionModal$)="openForkNewVersionModal(forkVersionTemplate)"
@@ -20,7 +22,11 @@
                       class="d-flex align-items-center mx-1 " color="primary"
                       title="Toggle UI view"></mat-slide-toggle>
     <mat-tab-group style="width: 100%; position: relative" (selectedIndexChange)="codeEditorTabChangedHandler($event)">
-      <mat-tab label="DF Template">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span>DF Template</span>
+          <mat-icon *ngIf="errorMap[selectedVersion_st.id] && errorMap[selectedVersion_st.id][myEBotVersionTabs.df_template]" class="error-indication">error_outline</mat-icon>
+        </ng-template>
         <div class="d-flex" style="height: 100%">
           <app-code-editor class="child-expand"
                            [formControlName]="myEBotVersionTabs.df_template"
@@ -28,32 +34,47 @@
                            [doShowValidationsIcon]="true"
           ></app-code-editor>
           <ng-container
-            [ngTemplateOutlet]="validationTemplate">
+            [ngTemplateOutlet]="validationTemplate"
+            [ngTemplateOutletContext]="{activeTabName: activeTab}">
           </ng-container>
         </div>
 
       </mat-tab>
-      <mat-tab label="DF Rules">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span>DF Rules</span>
+          <mat-icon *ngIf="errorMap[selectedVersion_st.id] && errorMap[selectedVersion_st.id][myEBotVersionTabs.df_rules]" class="error-indication">error_outline</mat-icon>
+        </ng-template>
         <div class="d-flex" style="height: 100%">
           <app-code-editor [formControlName]="myEBotVersionTabs.df_rules"
                            [doShowValidationsIcon]="true"
                            (validateClick)="validateCodeTest($event)"></app-code-editor>
           <ng-container
-            [ngTemplateOutlet]="validationTemplate">
+            [ngTemplateOutlet]="validationTemplate"
+            [ngTemplateOutletContext]="{activeTabName: activeTab}">
           </ng-container>
         </div>
       </mat-tab>
-      <mat-tab label="Generation Rules">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span>Generation Rules</span>
+          <mat-icon *ngIf="errorMap[selectedVersion_st.id] && errorMap[selectedVersion_st.id][myEBotVersionTabs.generation_rules]" class="error-indication">error_outline</mat-icon>
+        </ng-template>
         <div class="d-flex" style="height: 100%">
           <app-code-editor [doShowValidationsIcon]="true"
                            [formControlName]="myEBotVersionTabs.generation_rules"
                            (validateClick)="validateCodeTest($event)"></app-code-editor>
           <ng-container
-            [ngTemplateOutlet]="validationTemplate">
+            [ngTemplateOutlet]="validationTemplate"
+            [ngTemplateOutletContext]="{activeTabName: activeTab}">
           </ng-container>
         </div>
       </mat-tab>
-      <mat-tab label="Generation Template">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span>Generation Template</span>
+          <mat-icon *ngIf="errorMap[selectedVersion_st.id] && errorMap[selectedVersion_st.id][myEBotVersionTabs.generation_templates]" class="error-indication">error_outline</mat-icon>
+        </ng-template>
         <div class="d-flex" style="height: 100%" *ngIf="showGenTempEditor">
           <app-code-editor
             [formControlName]="myEBotVersionTabs.generation_templates"
@@ -61,7 +82,8 @@
             (validateClick)="validateCodeTest($event)">
           </app-code-editor>
           <ng-container
-            [ngTemplateOutlet]="validationTemplate">
+            [ngTemplateOutlet]="validationTemplate"
+            [ngTemplateOutletContext]="{activeTabName: activeTab}">
           </ng-container>
         </div>
         <!--start:: gentemplate UI-->
@@ -78,14 +100,19 @@
         <!--end:: gentemplate UI-->
 
       </mat-tab>
-      <mat-tab label="Workflows">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span>Workflows</span>
+          <mat-icon *ngIf="errorMap[selectedVersion_st.id] && errorMap[selectedVersion_st.id][myEBotVersionTabs.workflow]" class="error-indication">error_outline</mat-icon>
+        </ng-template>
         <div class="d-flex" style="height: 100%">
           <app-code-editor
             [formControlName]="myEBotVersionTabs.workflow"
             [doShowValidationsIcon]="true"
             (validateClick)="validateCodeTest($event)"></app-code-editor>
           <ng-container
-            [ngTemplateOutlet]="validationTemplate">
+            [ngTemplateOutlet]="validationTemplate"
+            [ngTemplateOutletContext]="{activeTabName: activeTab}">
           </ng-container>
         </div>
       </mat-tab>
@@ -94,42 +121,45 @@
 
 
   <!--validation start here-->
-  <ng-template #validationTemplate>
-    <div class="d-flex" style="height:100%" *ngIf="(errorMap && errorMap[selectedVersion_st.id] && errorMap[selectedVersion_st.id][activeTab] || {}) as errorObj">
-      <div
-        class="code-editor-row code-editor-row-max position-relative child-expand  d-flex-column-last-child-flex-grow-1">
-      </div>
-      <div class="validation-bar"
-           *ngIf="activeTab!==myEBotVersionTabs.generation_templates || showGenTempEditor">
-        <div class="dot-indicator">
-          <i class="fa fa-check-circle color-primary" *ngIf="!errorObj?.error"></i>
-          <i class="fa fa-exclamation-triangle color-danger"
-             *ngIf="!!errorObj?.error"></i>
+  <ng-template #validationTemplate let-activeTabName="activeTabName">
+    <!--<i>{{errorMap[selectedVersion_st.id]|json}}</i>}}-->
+    <ng-container>
+      <div class="d-flex" style="height:100%"
+           *ngIf="(errorMap && errorMap[selectedVersion_st.id] && errorMap[selectedVersion_st.id][activeTabName] || {}) as errorObj">
+        <div
+          class="code-editor-row code-editor-row-max position-relative child-expand  d-flex-column-last-child-flex-grow-1">
+        </div>
+        <div class="validation-bar">
+          <div class="dot-indicator">
+            <i class="fa fa-check-circle color-primary" *ngIf="!errorObj?.error"></i>
+            <i class="fa fa-exclamation-triangle color-danger"
+               *ngIf="!!errorObj?.error"></i>
 
+          </div>
+          <div class="validation-toggle cursor-pointer" (click)="validationMessageToggle = !validationMessageToggle">
+            <i class="fa fa-angle-double-right" *ngIf='validationMessageToggle'></i>
+            <i class="fa fa-angle-double-left" *ngIf='!validationMessageToggle'></i>
+          </div>
         </div>
-        <div class="validation-toggle cursor-pointer" (click)="validationMessageToggle = !validationMessageToggle">
-          <i class="fa fa-angle-double-right" *ngIf='validationMessageToggle'></i>
-          <i class="fa fa-angle-double-left" *ngIf='!validationMessageToggle'></i>
+        <div class="validation-message"
+             *ngIf="validationMessageToggle">
+          <div class="validation-message-heading" *ngIf="!!errorObj?.error">
+            Issue found
+          </div>
+          <div class="validation-message-heading" *ngIf="!errorObj?.error">
+            No issue found
+          </div>
+          <div class="validation-message-data my-1" *ngIf="!!errorObj?.error">
+            Error = {{ errorObj.error_msg}} <br>
+            Value = {{ errorObj.error_line}} <br>
+          </div>
+          <div class="validation-message-data my-1" *ngIf="!errorObj?.error">
+            Validation was successful. You can validate again if you need.
+          </div>
         </div>
-      </div>
-      <div class="validation-message"
-           *ngIf="validationMessageToggle &&(activeTab!==myEBotVersionTabs.generation_templates || showGenTempEditor)">
-        <div class="validation-message-heading" *ngIf="!!errorObj?.error">
-          Issue found
-        </div>
-        <div class="validation-message-heading" *ngIf="!errorObj?.error">
-          No issue found
-        </div>
-        <div class="validation-message-data my-1" *ngIf="!!errorObj?.error">
-          Error = {{ errorObj.error_msg}} <br>
-          Value = {{ errorObj.error_line}} <br>
-        </div>
-        <div class="validation-message-data my-1" *ngIf="!errorObj?.error">
-          Validation was successful. You can validate again if you need.
-        </div>
-      </div>
 
-    </div>
+      </div>
+    </ng-container>
   </ng-template>
   <!--validation end here-->
 

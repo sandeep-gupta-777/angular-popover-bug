@@ -117,7 +117,7 @@ export class VersionStateReducer {
       .pipe(tap((updatedVersion: IBotVersionData) => {
         this.store.dispatch([
           new AddForkedVersion({botId: payload.bot.id, version: updatedVersion}),
-          new SetSelectedVersion({id: updatedVersion.id})/*TODO: SetSelectedVersion: see changeSelectedVersion() in component */
+          new SetSelectedVersion({id: updatedVersion.id})/*TODO: SetSelectedVersion: see changeSelectedVersionHandler() in component */
         ]);
         this.utilityService.showSuccessToaster('New Versions forked');
       }))

@@ -987,6 +987,9 @@ export class UtilityService {
     return convertedData;
   }
 
+  /*
+  * @deprecated Use UtilityService.cloneObj()
+  * */
   createDeepClone(obj) {
     return JSON.parse(JSON.stringify(obj));
   }

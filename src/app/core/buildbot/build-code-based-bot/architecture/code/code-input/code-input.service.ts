@@ -7,9 +7,7 @@ import {Observable} from "rxjs";
 import {IHeaderData} from "../../../../../../../interfaces/header-data";
 import {ModalConfirmComponent} from "../../../../../../modal-confirm/modal-confirm.component";
 import {UtilityService} from "../../../../../../utility.service";
-import {version} from "punycode";
-import {MatDialog} from "@angular/material";
-import {IVersionDiff} from "./code-input.component";
+import {EBotVersionTabs, IVersionDiff} from "../../../../../../../interfaces/code-input";
 
 declare var zip;
 declare var JSZip;
@@ -139,9 +137,13 @@ export class CodeInputService {
       'generation_templates': oldUpdatedFields['generation_templates'] || newUpdatedFields['generation_templates'],
       'workflow': oldUpdatedFields['workflow'] || newUpdatedFields['workflow'],
     };
-    debugger;
+
     return x
 
+  }
+
+  static getActiveTabNameByTabCount(tabCount: number):string {
+    return EBotVersionTabs[Object.keys(EBotVersionTabs)[tabCount]]
   }
 
   static initializeVersionDiff() {
