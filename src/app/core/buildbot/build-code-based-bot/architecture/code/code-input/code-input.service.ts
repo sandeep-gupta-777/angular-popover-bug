@@ -146,6 +146,19 @@ export class CodeInputService {
     return EBotVersionTabs[Object.keys(EBotVersionTabs)[tabCount]]
   }
 
+
+  static calculateDiff(version1, version2): IVersionDiff{
+    let x = {
+      'df_template': version1['df_template'] !== version2['df_template'],
+      'df_rules': version1['df_rules'] !== version2['df_rules'],
+      'generation_rules': version1['generation_rules'] !== version2['generation_rules'],
+      'generation_templates': version1['generation_templates'] !== version2['generation_templates'],
+      'workflow': version1['workflow'] !== version2['workflow'],
+    };
+
+    return x;
+  }
+
   static initializeVersionDiff() {
     return {
       'df_template': false,
@@ -214,8 +227,8 @@ export class CodeInputService {
   //     // Versions= activeVersion; /**Assuming there will always be an active Versions*/
   //     return Versions.find((Versions)=>Versions.id === bot.active_version_id)
   //   } else {
-  //     /*updating selected versionsClone*/
-  //     versionsClone= CodeInputService.getVersion(versionsClone, versionsClone.id);
+  //     /*updating selected versions_st*/
+  //     versions_st= CodeInputService.getVersion(versions_st, versions_st.id);
   //   }
   // }
 }

@@ -1,14 +1,13 @@
-<!--<i>{{versionsClone|json}}</i>-->
+<button (click)="test()"> Test</button>
 
 <div class="p-1 d-flex-column-last-child-flex-grow-1">
   <app-code-version-list
     [selectedVersion]="selectedVersion_st"
-    [changedFields]="changedFields"
-    [versionDiffs]="versionDiffs"
+    [versionDiffs]="diff$|async"
     [activeVersion]="activeVersion"
     (activateVersion$)="activateVersion($event)"
     [bot]="bot"
-    [versions]="versionsClone"
+    [versions]="versions_st"
     (changeSelectedVersion$)="changeSelectedVersionHandler($event)"
     (saveSelectedVersion$)="saveSelectedVersion()"
     (downloadAll$)="downloadZipHandler()"
@@ -125,7 +124,7 @@
     <!--<i>{{errorMap[selectedVersion_st.id]|json}}</i>}}-->
     <ng-container>
       <div class="d-flex" style="height:100%"
-           *ngIf="(errorMap && errorMap[selectedVersion_st.id] && errorMap[selectedVersion_st.id][activeTabName] || {}) as errorObj">
+           *ngIf="(errorMap && errorMap[selectedVersion_st?.id] && errorMap[selectedVersion_st?.id][activeTabName] || {}) as errorObj">
         <div
           class="code-editor-row code-editor-row-max position-relative child-expand  d-flex-column-last-child-flex-grow-1">
         </div>
@@ -187,7 +186,7 @@
           <mat-form-field style="width: 46px;">
             <mat-select placeholder="Version" [ngModel]="selectedVersion_st.version" required type="number"
                         name="version_id" #select>
-              <mat-option *ngFor="let version of versionsClone" [value]="version.version">
+              <mat-option *ngFor="let version of versions_st" [value]="version.version">
                 {{version.version}}
               </mat-option>
             </mat-select>

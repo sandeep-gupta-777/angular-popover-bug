@@ -1,7 +1,7 @@
 <div class="code-version-list-section row row-version my-2 m-0 child-no-expand-shrink"
      (clickOutside)="showVersionList = false">
 
-  <!--START :: code versionsClone details-->
+  <!--START :: code versions_st details-->
   <div class="col-7 p-0 pr-1" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
     <div *ngIf="selectedVersion" class="d-flex align-items-center flex-bot-versioning-toaster"
          style="border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0;border-right: 1px solid #e0e0e0;">
@@ -44,9 +44,9 @@
          style="height: 100%; border-left: 1px solid #e0e0e0;"></i>
     </div>
   </div>
-  <!--END :: code versionsClone details-->
+  <!--END :: code versions_st details-->
 
-  <!--START :: code versionsClone Buttons-->
+  <!--START :: code versions_st Buttons-->
   <div class="col-5">
     <button [disabled]="!selectedVersion || disableSave"
             *myIf="myEAllActions['Update Bot Versioning']"
@@ -83,7 +83,7 @@
       <mat-icon>get_app</mat-icon>
     </button>
   </div>
-  <!--END :: code versionsClone Buttons-->
+  <!--END :: code versions_st Buttons-->
 
   <div class="row row-flex-bot-versioning-toaster mx-0" *ngIf="showVersionList"
        style="max-height: 50vh; overflow-y: scroll; border: 1px solid #e0e0e0; border-top: none ">
@@ -97,7 +97,7 @@
             [ngClass]="{'text-primary':version.id === bot.active_version_id}"
           >{{version.id === bot.active_version_id ? 'Active' : 'Inactive'}}</div>
         </div>
-        <!--<div class="active-label-text">{{versionsClone.id +""+activeVersion.id }}</div>-->
+        <!--<div class="active-label-text">{{versions_st.id +""+activeVersion.id }}</div>-->
         <div class="count mx-1">{{version.version}}</div>
         <div class="forked mr-1 pl-1" *ngIf="version.forked_from !== 0">Forked from
           v{{version.forked_from}}

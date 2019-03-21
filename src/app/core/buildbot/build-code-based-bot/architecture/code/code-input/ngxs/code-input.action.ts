@@ -2,6 +2,7 @@
 
 /*Action type: Command*/
 import {IBot, IBotVersionData} from "../../../../../../interfaces/IBot";
+import {IVersionDiff, IVersionDiffMap} from "../../../../../../../../interfaces/code-input";
 
 export class GetVersionsInit$ {
   static readonly type = '[code input] get bot Versions list';
@@ -21,7 +22,7 @@ export class GetVersionsFail {
 }
 
 export class UpdateVersion {
-  static readonly type = '[code input] get bot Versions list FAIL';
+  static readonly type = '[code input] get bot UpdateVersion';
   constructor(public payload: { botId:number, version: IBotVersionData}) {}
 }
 
@@ -37,16 +38,26 @@ export class AddForkedVersion {
 
 export class CreateForkedVersion$ {
   static readonly type = '[code input] create forked bot Versions';
-  constructor(public payload: { bot:IBot, version: IBotVersionData}) {debugger}
+  constructor(public payload: { bot:IBot, version: IBotVersionData}) {}
+}
+
+export class UpdateVersionLocal {
+  static readonly type = '[code input] Update version locally';
+  constructor(public payload: { bot:IBot, version: IBotVersionData}) {}
+}
+
+export class SetDiff {
+  static readonly type = '[code input] set version diff$';
+  constructor(public payload: { version: IBotVersionData}) {}
 }
 
 export class SaveVersion$ {
-  static readonly type = '[code input] save forked bot Versions';
+  static readonly type = '[code input] save bot Versions';
   constructor(public payload: { bot:IBot, version: IBotVersionData}) {}
 }
 
 export class SaveVersionSuccess {
-  static readonly type = '[code input] save forked bot Versions success';
+  static readonly type = '[code input] save bot Versions success';
   constructor(public payload: { bot:IBot, version: IBotVersionData}) {}
 }
 

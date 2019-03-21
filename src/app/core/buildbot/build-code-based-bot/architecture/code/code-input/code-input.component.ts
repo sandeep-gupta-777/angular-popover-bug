@@ -40,8 +40,8 @@ import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.compone
 import {
   AddForkedVersion, CreateForkedVersion$,
   GetVersionsInit$,
-  SaveVersion$, SaveVersionSuccess, SetSelectedVersion,
-  UpdateVersion,
+  SaveVersion$, SaveVersionSuccess, SetDiff, SetSelectedVersion,
+  UpdateVersion, UpdateVersionLocal,
   ValidateCodeInit$
 } from "./ngxs/code-input.action";
 import {ICodeInputState} from "./ngxs/code-input.state";
@@ -88,9 +88,11 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   @Select() botcreationstate$: Observable<IBotCreationState>;
   @Select() botlist$: Observable<ViewBotStateModel>;
   @Select() loggeduser$: Observable<{ user: IUser }>;
+
   @Select() version$: Observable<ICodeInputState>;
+  @Select(state => state.version.versions) version1$: Observable<IBotVersionData[]>;
   @Select(state => state.version.selectedVersion) selectedVersion$: Observable<IBotVersionData>;
-  @Select(state => state.version.versions) version1$: Observable<any>;
+  @Select(state => state.version.diff) diff$: Observable<IVersionDiffMap>;
   @Input() bot: IBot;
   @Output() datachanged$ = new EventEmitter();
   // @ViewChild('scrollMe') private myScrollContainer: ElementRef;
@@ -135,26 +137,37 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
   role: string;
 
-  versionsClone: IBotVersionData[];
+  versions_st: IBotVersionData[];
   versionDiffs: IVersionDiffMap = {};
 
   showViewChangeToggle = true;
   codeInputForm: FormGroup;
-  changedFields: {
-    df_template: boolean,
-    df_rules: boolean,
-    generation_rules: boolean,
-    generation_templates: boolean,
-    workflow: boolean,
-  } = {
-    'df_template': false,
-    'df_rules': false,
-    'generation_rules': false,
-    'generation_templates': false,
-    'workflow': false,
-  };
 
   ngOnInit() {
+    // this.version$.subscribe((state)=>{
+    //   alert();
+    // });
+    this.version$.subscribe((versionState:ICodeInputState)=>{
+      ;
+      let versions = versionState.versions;
+      if (versions) {
+        this.versions_st = versions;
+        // this.selectedVersion_st = this.selectedVersion_st && versions.find(e=>e.id===this.selectedVersion_st.id);
+      }
+
+      let selectedVersion = versionState.selectedVersion;
+      if (selectedVersion){
+        this.selectedVersion_st = selectedVersion;
+        if (this.codeInputForm) {
+          let localVersionClone = this.versions_st.find(version => version.id === selectedVersion.id);
+          if(!UtilityService.isObjectSubSet(localVersionClone, this.codeInputForm.value)){
+            this.codeInputForm.patchValue(localVersionClone);
+          }
+        }
+        this.syncBotViews(true);
+      }
+
+    });
 
     try {
       if (this.bot.integrations && this.bot.integrations.channels) {
@@ -181,30 +194,6 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
       console.error(e);
     }
 
-    this.actions$
-      .pipe(ofActionDispatched(SaveVersionSuccess))/*Listening to successful version saved*/
-      .subscribe(({payload}) => {
-        this.versionDiffs[payload.version.id] = CodeInputService.initializeVersionDiff();
-        this.utilityService.showSuccessToaster('New Versions saved');
-      });
-
-    this.version1$.subscribe((versions) => {
-      if (!versions) {
-        return;
-      }
-      this.versionsClone = UtilityService.cloneObj(versions);
-    });
-
-    this.selectedVersion$.subscribe((selectedVersion) => {
-      if (!selectedVersion) return;
-      this.selectedVersion_st = selectedVersion;
-      if (this.codeInputForm) {
-        let localVersionClone = this.versionsClone.find(version => version.id === selectedVersion.id);
-        this.codeInputForm.patchValue(localVersionClone);
-      }
-      this.syncBotViews(true);
-    });
-
     CodeInputService.init(this.dialogRefWrapper, this.forkVersionTemplate, this.matDialog);
     this.codeInputForm = this.utilityService.getCodeInputForm();
     this.store.dispatch(new GetVersionsInit$({bot: this.bot, bot_access_token: this.bot.bot_access_token}));
@@ -212,15 +201,21 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     this.codeInputForm.valueChanges
       .pipe(debounceTime(200))
       .subscribe((formData) => {
-        debugger;
-        if (!this.versionsClone) return;
+        //
+        // if (!this.versions_st) return;
         /*store data in local copy of version*/
-        let selectedVersion = this.versionsClone.find((e) => e.id === this.selectedVersion_st.id);
-        Object.assign(selectedVersion, UtilityService.cloneObj(formData));
-        this.versionDiffs = {
-          ...this.versionDiffs,
-          [this.selectedVersion_st.id]: CodeInputService.getChangedFields(formData, this.selectedVersion_st)
+        // let selectedVersion = this.versions_st.find((e) => e.id === this.selectedVersion_st.id);
+        // Object.assign(selectedVersion, UtilityService.cloneObj(formData));
+        // this.versionDiffs = {
+        //   ...this.versionDiffs,
+        //   [this.selectedVersion_st.id]: CodeInputService.getChangedFields(formData, this.selectedVersion_st)
+        // };
+        let version = {
+          ...formData,
+          id: this.selectedVersion_st.id
         };
+        this.store.dispatch([new UpdateVersionLocal({version, bot: this.bot})]);
+        this.store.dispatch([new SetDiff({version:version})]);
       });
 
     this.loggeduser$.subscribe((loggeduserState) => {
@@ -326,21 +321,23 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   async saveSelectedVersion() {
 
     this.syncBotViews(this.showGenTempEditor);
-
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
 
     let id = this.selectedVersion_st.id;
-    let newDiff = UtilityService.cloneObj(this.versionDiffs[id]);
-    let oldDiff = this.selectedVersion_st.updated_fields;
 
-    const body = {
-      ...this.selectedVersion_st,
-      updated_fields: CodeInputService.getUpdatedFields(oldDiff, newDiff),
-      ...this.codeInputForm.value,
-    };
-    this.store.dispatch([new ValidateCodeInit$({bot: this.bot, version: body})]);
+    this.diff$.pipe(take(1)).subscribe((diffMap)=>{
+      let oldDiff = this.selectedVersion_st.updated_fields;
+      let newDiff = diffMap[this.selectedVersion_st.id];
+      const body = {
+        ...this.selectedVersion_st,
+        updated_fields: CodeInputService.getUpdatedFields(oldDiff, newDiff) ,
+        ...this.codeInputForm.value,
+      };
+      this.store.dispatch([new ValidateCodeInit$({bot: this.bot, version: body})]);
+    })
+
   }
 
   convertUiDictToGenTemplateCode(templateKeyDict:any) {
@@ -355,7 +352,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   }
 
   forkNewVersion(value:{comment:string, version_id:number}) {
-    debugger;
+
     this.syncBotViews(this.showGenTempEditor);
     this.dialogRefWrapper.ref.close();
     let forkedVersionInfo = this.codeInputForm.value;
@@ -457,5 +454,10 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     this.activeTabCount = tabCount;
     this.activeTab = CodeInputService.getActiveTabNameByTabCount(tabCount);
   }
+
+  test(){
+    this.store.dispatch([new SaveVersionSuccess({version:{id: this.selectedVersion_st.id, updated_fields:{workflow:true}}, bot:null})]);
+  }
+
 
 }

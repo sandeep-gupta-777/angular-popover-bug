@@ -1085,12 +1085,12 @@ export class UtilityService {
   * isObjectSubSet:
   * check if smaller object (obj2) is perfect subset of larger object (obj1)
   * */
-  static isObjectSubSet(obj1, obj2) {
+  static isObjectSubSet(largeObj, smallObj) {
     let obj1_temp = {};
-    for (let key in obj2) {
-      obj1_temp[key] = obj1[key];
+    for (let key in smallObj) {
+      obj1_temp[key] = largeObj[key];
     }
-    let x=  UtilityService.deepCompare(obj1_temp, obj2);
+    let x=  UtilityService.deepCompare(obj1_temp, smallObj);
 
     return x;
   }
