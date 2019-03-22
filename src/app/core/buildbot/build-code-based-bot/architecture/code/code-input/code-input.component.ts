@@ -12,7 +12,14 @@ import {
   ViewChildren
 } from '@angular/core';
 import {Store, Select, Actions, ofActionDispatched} from '@ngxs/store';
-import {IBot, IBotVersionData, IBotVersionResult, ICode} from '../../../../../interfaces/IBot';
+import {
+  IBot,
+  IBotVersionData,
+  IBotVersionResult,
+  ICode,
+  ICodeVersionValidation,
+  IValidationTabItem
+} from '../../../../../interfaces/IBot';
 import {ServerService} from '../../../../../../server.service';
 import {ConstantsService, EAllActions, ERoleName} from '../../../../../../constants.service';
 import {
@@ -40,13 +47,13 @@ import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.compone
 import {
   AddForkedVersion, CreateForkedVersion$,
   GetVersionsInit$, ResetVersionState,
-  SaveVersion$, SaveVersionSuccess, SetDiff, SetSelectedVersion,
+  SaveVersion$, SaveVersionSuccess, SetDiff, SetErrorMap, SetSelectedVersion,
   UpdateVersion, UpdateVersionLocal,
-  ValidateCodeInit$
+  ValidateCode_flow$, ValidateCodeText
 } from "./ngxs/code-input.action";
 import {ICodeInputState} from "./ngxs/code-input.state";
 import {CodeInputService} from './code-input.service';
-import {EBotVersionTabs, IVersionDiffMap} from "../../../../../../../interfaces/code-input";
+import {EBotVersionTabs, IBotVersionErrorMap, IVersionDiffMap} from "../../../../../../../interfaces/code-input";
 import {CodeGentemplateUiWrapperComponent} from "./code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component";
 
 @Component({
@@ -58,10 +65,10 @@ import {CodeGentemplateUiWrapperComponent} from "./code-gentemplate-ui-wrapper/c
 export class CodeInputComponent extends ModalImplementer implements OnInit, OnDestroy, AfterViewInit {
 
   validation = {};
-  errorMap = {};
+  errorMap: IBotVersionErrorMap = {};
   modalRefWrapper = {ref: null};
   myEBotVersionTabs = EBotVersionTabs;
-  activeTab:EBotVersionTabs = EBotVersionTabs.df_template;
+  activeTab: EBotVersionTabs = EBotVersionTabs.df_template;
   isGentemplateCodeParsable = false;
   myEAllActions = EAllActions;
   botlist$_sub: Subscription;
@@ -113,8 +120,8 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   ngOnInit() {
     CodeInputService.init(this.dialogRefWrapper, this.forkVersionTemplate, this.matDialog);
     this.channelListClone = CodeInputService.createChannelList(this.bot);
-    EventService.botUpdatedInServer$.subscribe((bot)=>{
-      this.channelListClone  = CodeInputService.createChannelList(bot);
+    EventService.botUpdatedInServer$.subscribe((bot) => {
+      this.channelListClone = CodeInputService.createChannelList(bot);
     });
 
     this.version$.subscribe((versionState: ICodeInputState) => {
@@ -122,6 +129,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
       if (versions) {
         this.versions_st = versions;
       }
+      this.errorMap = versionState.errorMap;
 
       let selectedVersion = versionState.selectedVersion;
       if (selectedVersion) {
@@ -138,7 +146,10 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     });
 
     this.codeInputForm = this.utilityService.getCodeInputForm();
-    this.store.dispatch(new GetVersionsInit$({bot: this.bot, bot_access_token: this.bot.bot_access_token}));
+    this.store.dispatch(new ResetVersionState())
+      .subscribe(()=>{
+        this.store.dispatch([new GetVersionsInit$({bot: this.bot, bot_access_token: this.bot.bot_access_token})]);
+      });
 
     this.codeInputForm.valueChanges
       .subscribe((formData) => {
@@ -181,15 +192,13 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   }
 
   validateCodeTest(code: string) {
-    this.codeInputService.validateCodeTest(this.bot, code, this.activeTab)
-      .subscribe((validationResult) => {
-        let validation = {};
-        validation[this.activeTab] = validationResult[this.activeTab];
-        this.errorMap[this.selectedVersion_st.id] = {
-          ...(this.errorMap[this.selectedVersion_st.id] || {}),
-          ...validation
-        };
-      });
+
+    let validation = {
+      id: this.selectedVersion_st.id,
+      [this.activeTab]: code
+    };
+
+    this.store.dispatch(new ValidateCodeText({version: validation, bot: this.bot}));
   }
 
   async saveSelectedVersion() {
@@ -205,7 +214,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     this.syncBotViews(false);
     setTimeout(() => {
       this.store.dispatch(new SetDiff({version: {...this.codeInputForm.value, id: this.selectedVersion_st.id}}))
-        .subscribe((val)=>{
+        .subscribe((val) => {
           debugger;
           this.diff$.pipe(take(1)).subscribe((diffMap) => {
             let oldDiff = this.selectedVersion_st.updated_fields;
@@ -215,7 +224,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
               updated_fields: CodeInputService.getUpdatedFields(oldDiff, newDiff),
               ...this.codeInputForm.value,
             };
-            this.store.dispatch([new ValidateCodeInit$({bot: this.bot, version: body})]);
+            this.store.dispatch([new ValidateCode_flow$({bot: this.bot, version: body})]);
           })
         })
     }, 100);
@@ -278,7 +287,6 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
   ngOnDestroy(): void {
     this.botlist$_sub && this.botlist$_sub.unsubscribe();
-    this.store.dispatch(ResetVersionState);
   }
 
   genTemplateViewChange(showGenTempEditorAndHideGenTempUi) {
@@ -323,7 +331,18 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
   activateVersion(active_version_id: number) {
     this.serverService.updateBot({id: this.bot.id, active_version_id, bot_access_token: this.bot.bot_access_token})
-      .subscribe();
+      .subscribe(
+        ()=>{},
+        (error:{error:ICodeVersionValidation})=>{
+          /*this means there is an error in code validation*/
+          let validation = CodeInputService.initializeValidationItem();
+          validation  = {
+            ...validation,
+            ...error.error
+          };
+          this.store.dispatch(new SetErrorMap({id: active_version_id, validation: validation}))
+        }
+        );
   }
 
   codeEditorTabChangedHandler(tabCount: number) {

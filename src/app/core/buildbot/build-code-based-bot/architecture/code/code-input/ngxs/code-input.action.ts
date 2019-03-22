@@ -1,8 +1,12 @@
 
 
 /*Action type: Command*/
-import {IBot, IBotVersionData} from "../../../../../../interfaces/IBot";
-import {IVersionDiff, IVersionDiffMap} from "../../../../../../../../interfaces/code-input";
+import {IBot, IBotVersionData, ICodeVersionValidation, IValidationTabItem} from "../../../../../../interfaces/IBot";
+import {
+  IVersionDiff,
+  IVersionDiffMap,
+  IVersionErrorsMap
+} from "../../../../../../../../interfaces/code-input";
 
 export class GetVersionsInit$ {
   static readonly type = '[code input] get bot Versions list';
@@ -12,6 +16,12 @@ export class GetVersionsInit$ {
 export class SetBotId {
   static readonly type = '[code input] set bot id';
   constructor(public payload: { bot:IBot }) {}
+}
+
+
+export class SetErrorMap {
+  static readonly type = '[code input] SetErrorMap';
+  constructor(public payload: { validation: ICodeVersionValidation, id: number}) {}
 }
 
 /*Action type: Event*/
@@ -68,11 +78,15 @@ export class SaveVersionSuccess {
 
 export class ResetVersionState {
   static readonly type = '[code input] reset bot ResetVersionState';
-  constructor(public payload: {}) {}
 }
 
-export class ValidateCodeInit$ {
-  static readonly type = '[code input] validate bot Versions code';
+export class ValidateCode_flow$ {
+  static readonly type = '[code input] initiate version save: validate bot Versions code';
+  constructor(public payload: { bot:IBot, version: IBotVersionData}) {}
+}
+
+export class ValidateCodeText {
+  static readonly type = '[code input] validate bot Versions code text: standalone';
   constructor(public payload: { bot:IBot, version: IBotVersionData}) {}
 }
 

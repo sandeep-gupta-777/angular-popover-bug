@@ -1,5 +1,11 @@
 import {Injectable} from '@angular/core';
-import {IBot, IBotVersionData, IBotVersionResult} from "../../../../../interfaces/IBot";
+import {
+  IBot,
+  IBotVersionData,
+  IBotVersionResult,
+  ICodeVersionValidation,
+  IValidationTabItem
+} from "../../../../../interfaces/IBot";
 import {SaveVersionInfoInBot} from "../../../../../view-bots/ngxs/view-bot.action";
 import {ConstantsService} from "../../../../../../constants.service";
 import {ServerService} from "../../../../../../server.service";
@@ -7,7 +13,7 @@ import {Observable} from "rxjs";
 import {IHeaderData} from "../../../../../../../interfaces/header-data";
 import {ModalConfirmComponent} from "../../../../../../modal-confirm/modal-confirm.component";
 import {UtilityService} from "../../../../../../utility.service";
-import {EBotVersionTabs, IVersionDiff} from "../../../../../../../interfaces/code-input";
+import {EBotVersionTabs, IVersionDiff, IVersionErrorsMap} from "../../../../../../../interfaces/code-input";
 
 declare var zip;
 declare var JSZip;
@@ -64,7 +70,7 @@ export class CodeInputService {
     // });
   }
 
-  static createChannelList(bot:IBot){
+  static createChannelList(bot: IBot) {
     let channelList = [], channelListClone = [];
     try {
       if (bot.integrations && bot.integrations.channels) {
@@ -171,12 +177,12 @@ export class CodeInputService {
 
   }
 
-  static getActiveTabNameByTabCount(tabCount: number):EBotVersionTabs {
+  static getActiveTabNameByTabCount(tabCount: number): EBotVersionTabs {
     return EBotVersionTabs[Object.keys(EBotVersionTabs)[tabCount]]
   }
 
 
-  static calculateDiff(version1, version2): IVersionDiff{
+  static calculateDiff(version1, version2): IVersionDiff {
     let x = {
       'df_template': version1['df_template'] !== version2['df_template'],
       'df_rules': version1['df_rules'] !== version2['df_rules'],
@@ -198,6 +204,16 @@ export class CodeInputService {
     };
   }
 
+  static initializeValidationItem(): ICodeVersionValidation{
+    return {
+      'df_rules': null,
+      'df_template': null,
+      'generation_rules': null,
+      'generation_templates': null,
+      'workflow': null,
+    }
+  }
+
 
   static getChangedFields(version_local: IBotVersionData, version_store: IBotVersionData) {
     return {
@@ -210,11 +226,12 @@ export class CodeInputService {
   }
 
   static validationPassed(validation) {
-    return !validation.df_template.error &&
-      !validation.df_rules.error &&
-      !validation.workflow.error &&
-      !validation.generation_rules.error &&
-      !validation.generation_templates.error
+    let isFailed = (validation.df_template && validation.df_template.error) ||
+      (validation.df_rules && validation.df_rules.error) ||
+      (validation.workflow && validation.workflow.error) ||
+      (validation.generation_rules && validation.generation_rules.error) ||
+      (validation.generation_templates && validation.generation_templates.error)
+    return !isFailed;
   }
 
   static downloadZip(bot: IBot, version: IBotVersionData) {
@@ -252,7 +269,7 @@ export class CodeInputService {
   }
 
 
-  validateCodeTest(bot:IBot, code: string, activeTab:EBotVersionTabs) {
+  validateCodeTest(bot: IBot, code: string, activeTab: EBotVersionTabs) {
     debugger;
     const headerData: IHeaderData = {
       'bot-access-token': bot.bot_access_token

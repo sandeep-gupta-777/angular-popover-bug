@@ -606,21 +606,6 @@ export class ServerService {
 
 
   getNSetConfigData$() {
-
-    // return this.makeGetReq({url: '/static/config.json', noValidateUser: true})
-    //   .pipe(tap(((value: { 'backend_url': string, 'Versions': string }) => {
-    //     this.store.dispatch([
-    //       new SetBackendURlRoot({url: value.backend_url})
-    //     ]);
-    //   })));
-    //
-    // return of(1)
-    //   .pipe(tap(((value: any) => {
-    //     console.log("BURL SET")
-    //     this.store.dispatch([
-    //       new SetBackendURlRoot({url: 'https://dev.imibot.ai/'})
-    //     ]);
-    //   })));
   }
 
 

@@ -123,7 +123,7 @@
 
   <!--validation start here-->
   <ng-template #validationTemplate let-activeTabName="activeTabName">
-    <!--<i>{{errorMap[selectedVersion_st.id]|json}}</i>}}-->
+    <!--<i>{{validation[selectedVersion_st.id]|json}}</i>}}-->
     <ng-container>
       <div class="d-flex" style="height:100%"
            *ngIf="(errorMap && errorMap[selectedVersion_st?.id] && errorMap[selectedVersion_st?.id][activeTabName] || {}) as errorObj">

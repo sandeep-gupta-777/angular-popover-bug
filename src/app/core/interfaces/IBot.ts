@@ -118,6 +118,8 @@ export interface IBotVersionResult {
   'objects': IBotVersionData[];
 }
 
+
+
 export interface IBotVersionData {
   'bot_id'?: number;
   'comment'?: string;
@@ -146,14 +148,16 @@ export interface IBotVersionData {
     'workflow'?: boolean
   };
   'forked_from'?: number;
-  'validation'?: {
-    'df_rules'?: IValidationTabItem,
-    'df_template'?: IValidationTabItem,
-    'generation_rules'?: IValidationTabItem,
-    'generation_templates'?: IValidationTabItem,
-    'workflow'?: IValidationTabItem,
-  };
+  'validation'?: ICodeVersionValidation
 
+}
+
+export interface ICodeVersionValidation {
+  'df_rules'?: IValidationTabItem,
+  'df_template'?: IValidationTabItem,
+  'generation_rules'?: IValidationTabItem,
+  'generation_templates'?: IValidationTabItem,
+  'workflow'?: IValidationTabItem,
 }
 export interface IValidationTabItem {
   error?: boolean;
