@@ -175,6 +175,7 @@ export class BuildbotWrapperComponent implements OnInit {
 
   goBack(){
     // console.log(this.basicInfoForm.untouched , this.dataManagementForm.untouched , this.securityForm.untouched);
+    if(this.loading) return;
     console.log(SideBarService.buildbotWrapperComponent);
     debugger;
     console.log(SideBarService.buildbotData_init);
