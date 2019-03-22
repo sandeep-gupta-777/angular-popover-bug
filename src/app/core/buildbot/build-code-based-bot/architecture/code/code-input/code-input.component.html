@@ -18,11 +18,13 @@
                       *ngIf="activeTab === myEBotVersionTabs.generation_templates" (change)="viewChanged($event.checked)"
                       class="d-flex align-items-center mx-1 " color="primary"
                       title="Toggle UI view"></mat-slide-toggle>
-    <mat-tab-group style="width: 100%; position: relative" (selectedIndexChange)="codeEditorTabChangedHandler($event)">
+    <mat-tab-group
+      *ngIf="errorMap[selectedVersion_st.id] && errorMap[selectedVersion_st.id] || {} as errorMapItem"
+      style="width: 100%; position: relative" (selectedIndexChange)="codeEditorTabChangedHandler($event)">
       <mat-tab>
         <ng-template mat-tab-label>
           <span>DF Template</span>
-          <mat-icon *ngIf="errorMap[selectedVersion_st.id] && errorMap[selectedVersion_st.id][myEBotVersionTabs.df_template] && errorMap[selectedVersion_st.id][myEBotVersionTabs.df_template]['error']" class="error-indication">error_outline</mat-icon>
+          <mat-icon *ngIf="errorMapItem?.df_template?.error" class="error-indication">error_outline</mat-icon>
         </ng-template>
         <div class="d-flex" style="height: 100%">
           <app-code-editor class="child-expand"
@@ -40,7 +42,7 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <span>DF Rules</span>
-          <mat-icon *ngIf="errorMap[selectedVersion_st.id] && errorMap[selectedVersion_st.id][myEBotVersionTabs.df_rules]" class="error-indication">error_outline</mat-icon>
+          <mat-icon *ngIf="errorMapItem?.df_rules?.error" class="error-indication">error_outline</mat-icon>
         </ng-template>
         <div class="d-flex" style="height: 100%">
           <app-code-editor [formControlName]="myEBotVersionTabs.df_rules"
@@ -55,7 +57,7 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <span>Generation Rules</span>
-          <mat-icon *ngIf="errorMap[selectedVersion_st.id] && errorMap[selectedVersion_st.id][myEBotVersionTabs.generation_rules]" class="error-indication">error_outline</mat-icon>
+          <mat-icon *ngIf="errorMapItem?.generation_rules?.error" class="error-indication">error_outline</mat-icon>
         </ng-template>
         <div class="d-flex" style="height: 100%">
           <app-code-editor [doShowValidationsIcon]="true"
@@ -70,7 +72,7 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <span>Generation Template</span>
-          <mat-icon *ngIf="errorMap[selectedVersion_st.id] && errorMap[selectedVersion_st.id][myEBotVersionTabs.generation_templates]" class="error-indication">error_outline</mat-icon>
+          <mat-icon *ngIf="errorMapItem?.generation_templates?.error" class="error-indication">error_outline</mat-icon>
         </ng-template>
         <div class="d-flex" style="height: 100%" *ngIf="showGenTempEditor">
           <app-code-editor
@@ -102,7 +104,7 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <span>Workflows</span>
-          <mat-icon *ngIf="errorMap[selectedVersion_st.id] && errorMap[selectedVersion_st.id][myEBotVersionTabs.workflow]" class="error-indication">error_outline</mat-icon>
+          <mat-icon *ngIf="errorMapItem?.workflow?.error" class="error-indication">error_outline</mat-icon>
         </ng-template>
         <div class="d-flex" style="height: 100%">
           <app-code-editor

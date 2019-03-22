@@ -60,25 +60,27 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   validation = {};
   errorMap = {};
   modalRefWrapper = {ref: null};
-  showConfig = true;
-  templateKeySearchKeyword = '';
   myEBotVersionTabs = EBotVersionTabs;
-  activeTab = 'df_template';
-  buildTab: string;
+  activeTab:EBotVersionTabs = EBotVersionTabs.df_template;
   isGentemplateCodeParsable = false;
   myEAllActions = EAllActions;
   botlist$_sub: Subscription;
-  forked_comments: string;
   errorMessage: string;
   activeVersion: IBotVersionData;
   activeTabCount: number = 0;
-  forked_version_number: number;
   selectedTemplateKeyInLeftSideBar = '';
   myObject = Object;
-  newTemplateKey: string;
   showGenTempEditor = false;
-  selectedChannelOfGenTemplate: { name: string, displayName: string };
   validationMessageToggle = false;
+  templateKeyDict;
+  channelListClone: { name: string, displayName: string }[] = []; // = ["facebook", "web", "imiconnect", "imichat", "skype"];
+  templateKeyDictClone = null;
+  showVersionList = false;
+  selectedVersion_st: IBotVersionData = {};
+  code: ICode;
+  versions_st: IBotVersionData[];
+  codeInputForm: FormGroup;
+
   @ViewChild('ForkVersiontemplate') forkVersionTemplate: ElementRef;
   @ViewChildren('gentemplateItem') private gentemplateItems: QueryList<ElementRef>;
   @ViewChild('modelGenTempNameForm') modelGenTempNameForm: NgForm;
@@ -96,53 +98,17 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   @Select(state => state.version.diff) diff$: Observable<IVersionDiffMap>;
   @Input() bot: IBot;
   @Output() datachanged$ = new EventEmitter();
-  // @ViewChild('scrollMe') private myScrollContainer: ElementRef;
-  templateKeyDict;
 
-  onSubmit(modelGridGenTempNames) {
-    console.log(modelGridGenTempNames);
-  }
-
-  copyModalTemplateSearchKeyword = '';
-  channelList: { name: string, displayName: string }[] = []; // = ["facebook", "web", "imiconnect", "imichat", "skype"];
-  channelListClone: { name: string, displayName: string }[] = []; // = ["facebook", "web", "imiconnect", "imichat", "skype"];
-  channelNameList: string[] = [];
-
-  templateKeyDictClone = null;
-  editorCodeObj = {
-    'df_template': {text: ''},
-    'df_rules': {text: ''},
-    'generation_rules': {text: ''},
-    'generation_templates': {text: ''},
-    'workflow': {text: ''},
-  };
-  showVersionList = false;
-
-  selectedVersion_st: IBotVersionData = {};
-  code: ICode;
 
   constructor(
     private store: Store,
     private serverService: ServerService,
-    private constantsService: ConstantsService,
-    private eventService: EventService,
     public utilityService: UtilityService,
     public codeInputService: CodeInputService,
-    private router: Router,
     public matDialog: MatDialog,
-    private activatedRoute: ActivatedRoute,
-    private actions$: Actions
   ) {
     super(utilityService, matDialog);
   }
-
-  role: string;
-
-  versions_st: IBotVersionData[];
-  versionDiffs: IVersionDiffMap = {};
-
-  showViewChangeToggle = true;
-  codeInputForm: FormGroup;
 
   ngOnInit() {
     CodeInputService.init(this.dialogRefWrapper, this.forkVersionTemplate, this.matDialog);
@@ -155,7 +121,6 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
       let versions = versionState.versions;
       if (versions) {
         this.versions_st = versions;
-        // this.selectedVersion_st = this.selectedVersion_st && versions.find(e=>e.id===this.selectedVersion_st.id);
       }
 
       let selectedVersion = versionState.selectedVersion;
@@ -185,53 +150,9 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
         this.store.dispatch([new SetDiff({version: version})]);
       });
 
-    this.loggeduser$.subscribe((loggeduserState) => {
-      if (!loggeduserState.user) {
-        return;
-      }
-      this.role = loggeduserState.user.role.name;
-      this.showViewChangeToggle = this.role === ERoleName.Admin || this.role === ERoleName['Bot Developer'];
-    });
-
-    this.activatedRoute.queryParams.subscribe((queryParam) => {
-      /*when upper panel minimizes or maximizes, change lower panel height accordingly*/
-      const showConfigStr = this.activatedRoute.snapshot.queryParamMap.get('show-config');
-      this.showConfig = (showConfigStr === 'true' || showConfigStr == undefined);
-    });
-
-    if (!this.bot.store_bot_versions) {
-      this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
-    }
-
     EventService.codeValidationErrorOnUpdate$.subscribe((data) => {
       this.selectedVersion_st.validation = data;
       this.validationMessageToggle = true;
-    });
-  }
-
-
-  async openFile(inputEl) {
-    this.editorCodeObj[this.activeTab].text = await this.utilityService.readInputFileAsText(inputEl);
-    this.editorCodeObj[this.activeTab] = {...this.editorCodeObj[this.activeTab]};
-  }
-
-  tabClicked(activeTab: string) {
-
-    this.activeTab = activeTab;
-    /*TODO: We dont need code here... just replace it with selectedVersion_st. Also we dont need ICode interface*/
-    if (this.selectedVersion_st) {
-      this.editorCodeObj[this.activeTab].text = this.selectedVersion_st[this.activeTab];
-      this.editorCodeObj[this.activeTab] = {...this.editorCodeObj[this.activeTab]};
-    }
-
-    if (activeTab === EBotVersionTabs.generation_templates) {
-      this.convertGenTemplateCodeStringIntoUiComponents();
-    }
-    this.router.navigate([`core/botdetail/${EBotType.chatbot}/`, this.bot.id], {
-      queryParams: {'code-tab': activeTab},
-      queryParamsHandling: 'merge',
-      preserveFragment: true,
-      replaceUrl: true
     });
   }
 
@@ -260,16 +181,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   }
 
   validateCodeTest(code: string) {
-    debugger;
-    const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
-    };
-    const body = {};
-    body[this.activeTab] = code;
-
-    const codeValidationUrl = this.constantsService.codeValidationUrl();
-
-    this.serverService.makePostReq<any>({headerData, body, url: codeValidationUrl})
+    this.codeInputService.validateCodeTest(this.bot, code, this.activeTab)
       .subscribe((validationResult) => {
         let validation = {};
         validation[this.activeTab] = validationResult[this.activeTab];
@@ -279,7 +191,6 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
         };
       });
   }
-
 
   async saveSelectedVersion() {
 
@@ -416,7 +327,6 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   }
 
   codeEditorTabChangedHandler(tabCount: number) {
-
     setTimeout(() => {/*reload all editors*/
       this.utilityService.refreshCodeEditor$.emit();
     });
@@ -425,15 +335,6 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     }
     this.activeTabCount = tabCount;
     this.activeTab = CodeInputService.getActiveTabNameByTabCount(tabCount);
-  }
-
-  test() {
-    this.store.dispatch([new SaveVersionSuccess({
-      version: {
-        id: this.selectedVersion_st.id,
-        updated_fields: {workflow: true}
-      }, bot: null
-    })]);
   }
 
   ngAfterViewInit(): void {

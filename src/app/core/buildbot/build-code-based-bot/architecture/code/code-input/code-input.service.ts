@@ -171,7 +171,7 @@ export class CodeInputService {
 
   }
 
-  static getActiveTabNameByTabCount(tabCount: number):string {
+  static getActiveTabNameByTabCount(tabCount: number):EBotVersionTabs {
     return EBotVersionTabs[Object.keys(EBotVersionTabs)[tabCount]]
   }
 
@@ -249,6 +249,21 @@ export class CodeInputService {
 
   openForkNewVersionModal() {
     this.openPrimaryModal(CodeInputService.forkVersionTemplate);
+  }
+
+
+  validateCodeTest(bot:IBot, code: string, activeTab:EBotVersionTabs) {
+    debugger;
+    const headerData: IHeaderData = {
+      'bot-access-token': bot.bot_access_token
+    };
+    const body = {};
+    body[activeTab] = code;
+
+    const codeValidationUrl = this.constantsService.codeValidationUrl();
+
+    return this.serverService.makePostReq<any>({headerData, body, url: codeValidationUrl})
+
   }
 
   // static getSelectedVersion(bot:IBot, Versions:IBotVersionData[]){
