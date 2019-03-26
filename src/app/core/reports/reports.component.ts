@@ -45,7 +45,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
 
   initializeTableData_report(data: any, tableDataMetaDict: any): void {
     this.tableData_report = this.transformDataForMaterialTable(data, this.getTableDataMetaDict_report());
-    debugger;;
+    ;
     this.tableData_report = this.tableData_report.map((sessionsDataForTableItem) => {
       let additonalColumns: any = {};
       additonalColumns['Active'] = sessionsDataForTableItem['Active'];
@@ -163,7 +163,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
 
             });
           });
-        debugger;
+
         this.initializeTableData_reportHistory(this.reportHistorySmartTableData, this.getTableDataMetaDict_reportHistory());
         }));
   }

@@ -8,7 +8,7 @@ export class LinkifyPipe implements PipeTransform {
 
   transform(value: any, className?: any): any {
     value = UtilityService.linkify(value, className);
-    console.log(value);
+
     return value;
   }
 

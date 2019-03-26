@@ -134,6 +134,7 @@ export class ServerService {
     }
     const headers = this.createHeaders(reqObj.headerData);
 
+
     this.changeProgressBar(true, 0);
     return this.httpClient.get<T>(reqObj.url, {headers: headers}).pipe(
       map((value: any) => {

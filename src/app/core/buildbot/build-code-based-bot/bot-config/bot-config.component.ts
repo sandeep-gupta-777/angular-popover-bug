@@ -74,12 +74,12 @@ export class BotConfigComponent implements OnInit {
 
 
 
-    debugger;
+
 
     EventService.botUpdatedInServer$.subscribe(()=>{
       this.initDone$.emit(this);
     });
-debugger;
+
     this.basicInfoForm = this.botConfigService.getBasicInfoForm(this.bot);
     this.dataManagementForm = this.botConfigService.getDataManagementForm(this.bot);
     this.securityForm = this.botConfigService.getSecurityForm(this.bot);

@@ -49,7 +49,7 @@ import {
   GetVersionsInit$, ResetVersionState,
   SaveVersion$, SaveVersionSuccess, SetDiff, SetErrorMap, SetSelectedVersion,
   UpdateVersion, UpdateVersionLocal,
-  ValidateCode_flow$, ValidateCodeText
+  ValidateCode_flow$, ValidateCode_flow_ActivateVersion$, ValidateCodeText
 } from "./ngxs/code-input.action";
 import {ICodeInputState} from "./ngxs/code-input.state";
 import {CodeInputService} from './code-input.service';
@@ -209,13 +209,13 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     };
 
     let id = this.selectedVersion_st.id;
-    debugger;
+
 
     this.syncBotViews(false);
     setTimeout(() => {
       this.store.dispatch(new SetDiff({version: {...this.codeInputForm.value, id: this.selectedVersion_st.id}}))
         .subscribe((val) => {
-          debugger;
+
           this.diff$.pipe(take(1)).subscribe((diffMap) => {
             let oldDiff = this.selectedVersion_st.updated_fields;
             let newDiff = diffMap[this.selectedVersion_st.id];
@@ -330,19 +330,35 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   }
 
   activateVersion(active_version_id: number) {
-    this.serverService.updateBot({id: this.bot.id, active_version_id, bot_access_token: this.bot.bot_access_token})
-      .subscribe(
-        ()=>{},
-        (error:{error:ICodeVersionValidation})=>{
-          /*this means there is an error in code validation*/
-          let validation = CodeInputService.initializeValidationItem();
-          validation  = {
-            ...validation,
-            ...error.error
-          };
-          this.store.dispatch(new SetErrorMap({id: active_version_id, validation: validation}))
-        }
-        );
+    // this.codeInputService.activateVersion();
+    // this.store.dispatch(new ValidateCode_flow_ActivateVersion$({version: this.selectedVersion_st, bot:this.bot}));
+    this.syncBotViews(this.showGenTempEditor);
+    const headerData: IHeaderData = {
+      'bot-access-token': this.bot.bot_access_token
+    };
+
+    let id = this.selectedVersion_st.id;
+
+
+    this.syncBotViews(false);
+    setTimeout(() => {
+      this.store.dispatch(new SetDiff({version: {...this.codeInputForm.value, id: this.selectedVersion_st.id}}))
+        .subscribe((val) => {
+
+          this.diff$.pipe(take(1)).subscribe((diffMap) => {
+            let oldDiff = this.selectedVersion_st.updated_fields;
+            let newDiff = diffMap[this.selectedVersion_st.id];
+            const body = {
+              ...this.selectedVersion_st,
+              updated_fields: CodeInputService.getUpdatedFields(oldDiff, newDiff),
+              ...this.codeInputForm.value,
+            };
+            // this.store.dispatch([new ValidateCode_flow$({bot: this.bot, version: body})]);
+            this.store.dispatch(new ValidateCode_flow_ActivateVersion$({version: body, bot:this.bot}));
+          })
+        })
+    }, 100);
+
   }
 
   codeEditorTabChangedHandler(tabCount: number) {

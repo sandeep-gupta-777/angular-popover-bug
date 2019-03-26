@@ -93,6 +93,7 @@ export class AppComponent extends DebugBase implements OnInit {
    * */
   initializeProgressBarSubscription() {
     EventService.progressBar$.subscribe(({loading, value}) => {
+
       if (loading) {/*if loading = true, slowly increase progressbar*/
         this.showProgressbar = true;
         this.currentIntervalRef && clearInterval(this.currentIntervalRef);

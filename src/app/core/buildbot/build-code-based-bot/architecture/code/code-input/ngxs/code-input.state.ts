@@ -12,7 +12,7 @@ import {
   CreateForkedVersion$,
   SaveVersionSuccess,
   SetDiff,
-  UpdateVersionLocal, SetBotId, ResetVersionState, SetErrorMap, ValidateCodeText
+  UpdateVersionLocal, SetBotId, ResetVersionState, SetErrorMap, ValidateCodeText, ValidateCode_flow_ActivateVersion$
 } from "./code-input.action";
 import {SetStateFromLocalStorageAction} from "../../../../../../../ngxs/app.action";
 import {CodeInputService} from "../code-input.service";
@@ -89,7 +89,7 @@ export class VersionStateReducer {
         }
       }
     };
-    debugger;
+
     patchState(x);
   }
 
@@ -98,7 +98,7 @@ export class VersionStateReducer {
     /*TODO: if I dont clone they will be the same array
     * so any change in one will be reflected in other as well
     * */
-    debugger;
+
     patchState({
       versions: UtilityService.cloneObj(payload.versions),
       versions_pristine: UtilityService.cloneObj(payload.versions)
@@ -115,7 +115,7 @@ export class VersionStateReducer {
   SetDiff({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: SetDiff) {
     let state = getState();
     let id = payload.version.id;
-    debugger;
+
     let version_pristine = state.versions_pristine.find(v => v.id === id);
     let version = state.versions.find(v => v.id === id);
     let diff = CodeInputService.calculateDiff(version, version_pristine);
@@ -156,7 +156,7 @@ export class VersionStateReducer {
   @Action(AddForkedVersion)
   AddVersion({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: AddForkedVersion) {
     let state = getState();
-    debugger;
+
     let x = {
       versions: [...state.versions, payload.version],
       versions_pristine: [...state.versions_pristine, payload.version]
@@ -199,14 +199,14 @@ export class VersionStateReducer {
     return this.codeInputService.saveVersion(payload.bot, payload.version)
       .pipe(switchMap((updatedVersion1: IBotVersionData) => {
           updatedVersion = updatedVersion1;
-          debugger;
+
           return this.store.dispatch([
             new SaveVersionSuccess({bot: payload.bot, version: updatedVersion}),
           ])
         }),
 
         switchMap((payload) => {
-          debugger;
+
           return this.store.dispatch(
             [
               new SetDiff({version: updatedVersion}),
@@ -232,7 +232,7 @@ export class VersionStateReducer {
 
   @Action(ValidateCodeText)
   validateCodeText({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: ValidateCodeText) {
-    debugger;
+
     return this.codeInputService.validateCode$(payload.bot, payload.version)
       .pipe(tap(async (validationResult: ICodeVersionValidation) => {
         let errorMapItem = CodeInputService.initializeValidationItem();
@@ -269,6 +269,30 @@ export class VersionStateReducer {
               this.store.dispatch([new SaveVersion$({bot, version})]);
             }
           }
+        }
+        let validation = CodeInputService.initializeValidationItem();
+        validation = {
+          ...validation,
+          ...validationResult
+        };
+        this.store.dispatch(new SetErrorMap({validation: validation, id: payload.version.id,}));
+      }))
+      .subscribe();
+  }
+
+
+  @Action(ValidateCode_flow_ActivateVersion$)
+  ValidateCode_flow_ActivateVersion$({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: ValidateCode_flow_ActivateVersion$) {
+    let bot = payload.bot;
+    let version = payload.version;
+    this.codeInputService.validateCode$(payload.bot, payload.version)
+      .pipe(tap(async (validationResult: ICodeVersionValidation) => {
+
+        if (CodeInputService.validationPassed(validationResult)) {
+          this.store.dispatch([new SaveVersion$({bot, version})]);
+          this.codeInputService.activateVersion(payload.bot, payload.version.id).subscribe();/*TODO:1.use switch map 2. make an action for this*/
+        } else {
+          setTimeout(() => this.utilityService.showErrorToaster('Plase correct errors in code before activating it'), 2000);
         }
         let validation = CodeInputService.initializeValidationItem();
         validation = {

@@ -85,8 +85,14 @@ export class ValidateCode_flow$ {
   constructor(public payload: { bot:IBot, version: IBotVersionData}) {}
 }
 
+export class ValidateCode_flow_ActivateVersion$ {
+  static readonly type = '[code input] initiate version save: validate bot Versions code ValidateCode_flow_ActivateVersion$';
+  constructor(public payload: { bot:IBot, version: IBotVersionData}) {}
+}
+
 export class ValidateCodeText {
   static readonly type = '[code input] validate bot Versions code text: standalone';
   constructor(public payload: { bot:IBot, version: IBotVersionData}) {}
 }
+
 

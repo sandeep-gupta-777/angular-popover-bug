@@ -14,6 +14,8 @@ import {IHeaderData} from "../../../../../../../interfaces/header-data";
 import {ModalConfirmComponent} from "../../../../../../modal-confirm/modal-confirm.component";
 import {UtilityService} from "../../../../../../utility.service";
 import {EBotVersionTabs, IVersionDiff, IVersionErrorsMap} from "../../../../../../../interfaces/code-input";
+import {SetErrorMap} from "./ngxs/code-input.action";
+import {map} from "rxjs/operators";
 
 declare var zip;
 declare var JSZip;
@@ -204,7 +206,7 @@ export class CodeInputService {
     };
   }
 
-  static initializeValidationItem(): ICodeVersionValidation{
+  static initializeValidationItem(): ICodeVersionValidation {
     return {
       'df_rules': null,
       'df_template': null,
@@ -270,7 +272,7 @@ export class CodeInputService {
 
 
   validateCodeTest(bot: IBot, code: string, activeTab: EBotVersionTabs) {
-    debugger;
+
     const headerData: IHeaderData = {
       'bot-access-token': bot.bot_access_token
     };
@@ -281,6 +283,25 @@ export class CodeInputService {
 
     return this.serverService.makePostReq<any>({headerData, body, url: codeValidationUrl})
 
+  }
+
+  activateVersion(bot: IBot, active_version_id) {
+    return this.serverService.updateBot({id: bot.id, active_version_id, bot_access_token: bot.bot_access_token})
+      // .pipe(map(
+      //   () => {
+      //   },
+      //   (error: { error: ICodeVersionValidation }) => {
+      //     /*
+      //        // this means there is an error in code validation
+      //       let validation = CodeInputService.initializeValidationItem();
+      //       validation  = {
+      //         ...validation,
+      //         ...error.error
+      //       };
+      //       this.store.dispatch(new SetErrorMap({id: active_version_id, validation: validation}))
+      //       */
+      //   }
+      // ));
   }
 
   // static getSelectedVersion(bot:IBot, Versions:IBotVersionData[]){

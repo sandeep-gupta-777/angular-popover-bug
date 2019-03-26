@@ -59,7 +59,7 @@ export class SideBarService {
   }
 
   private static createBasicInfoData() {
-    debugger;
+
     let botConfigComponent = SideBarService.botConfigComponent ;
     let combinedForm: (FormGroup | NgForm)[];
     if(botConfigComponent.bot_type === EBotType.chatbot){

@@ -8,9 +8,8 @@
          (click)="selectNextRow.emit()"></i>
     </div> -->
 
-    <!-- <<<<<<< HEAD -->
     <div class="session-modal-section__header--img">
-      <img [src]='channelNameToImg(sessionMessageData[0].platform)'>
+      <img [src]='channelNameToImg(sessionMessageData && sessionMessageData[0]?.platform)'>
     </div>
     <div class="session-modal-section__header--item">
       <div class="secondary">Room ID:</div>
@@ -71,7 +70,7 @@
       <!--search input starts-->
       <div class="d-flex" style="align-items: center;">
         <mat-form-field class="ml-3">
-          <input matInput [ngModel]="messageSearchKeyword"
+          <input matInput ngModel
           (ngModelChange)="scrollToFirstKeywordMatch($event)"
             (keyup.enter)="goToNextSearchResult(messageSearchKeyword)"
             (keyup.shift.enter)="goToPreviousSearchResult(messageSearchKeyword)"
@@ -82,7 +81,7 @@
         </mat-form-field>
         <mat-icon class= "search-error ml-3" *ngIf="_session.error">error_outline</mat-icon>
         <mat-icon class= "search-agent ml-3" *ngIf="_session.sendtoagent">headset_mic</mat-icon>
-        <div class="found-result" *ngIf="messageSearchKeyword && (messageTextSearchLength > 0)">{{searchEnterPressedCount}}/{{messageTextSearchLength}}
+        <div class="found-result" *ngIf="messageSearchKeyword && (messageTextSearchLength > 0)">{{searchEnterPressedCount+1}}/{{messageTextSearchLength}}
           messages found
           <i class="fa fa-angle-up mx-1" (click)="goToPreviousSearchResult(messageSearchKeyword)"></i>
           <i class="fa fa-angle-down mx-1" (click)="goToNextSearchResult(messageSearchKeyword)"></i>

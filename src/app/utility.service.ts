@@ -631,7 +631,8 @@ export class UtilityService {
       if (!string || !subString) {
         throw 'invalid input';
       }
-      return string.toLowerCase().includes(subString.toLowerCase()) ? string : false;
+      let x = string.toLowerCase().includes(subString.toLowerCase()) ? string : false;
+      return x;
     } catch (e) {
       return false;
     }
@@ -1005,7 +1006,7 @@ export class UtilityService {
   }
 
   /*
-  * @deprecated Use UtilityService.cloneObj()
+  * @deprecated Use UtilityService.cloneObj() instead
   * */
   createDeepClone(obj) {
     return JSON.parse(JSON.stringify(obj));

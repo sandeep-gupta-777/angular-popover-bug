@@ -1,6 +1,5 @@
 <!--chat bubbles for text message started-->
 <div class="row mt-1 style-children-scrollbar-x"
-     style="word-break: break-all"
      [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}"
      *ngIf="messageData.messageMediatype === myEBotMessageMediaType.text && messageData.sourceType!=='session_expired'">
     <!--<div class="p-0 text-center" style="width: 40px">-->
@@ -16,10 +15,10 @@
                   [innerHtml]="messageData?.text|linkify:'text-white'"></span>
             <span class="message-text" *ngIf="messageData?.sourceType==='bot'"
                   [innerHtml]="messageData?.text|linkify:'text-dark'"></span>
-            <div style="position: absolute; bottom: -17px;left: 0px;width: 32px; color: #9e9e9e !important;"
+            <div style="position: absolute; bottom: -17px;left: 0px; color: #9e9e9e !important; min-width: 35px"
                  [ngStyle]="{'left': messageData?.sourceType==='bot'? '0' : 'auto',
                   'right': messageData?.sourceType==='human'? '0' : 'auto' }"
-                 class="time text-right">{{(messageData?.time|msToHhmm) || 'no time info'}}</div>
+                 class="time text-right">{{(messageData?.time|date:'h:mm a') || 'no time info'}}</div>
         </div>
         <!--TODO: enable link preview in future-->
         <!--<app-link-preview style="display: block; order: 3;max-width: 100%; margin: 10px 0"-->
@@ -58,7 +57,8 @@
         <div class="p-0 text-center" style="width: 40px">
         <img class="rounded-circle"
         [src]="messageData?.sourceType==='bot'?bot.logo:'https://image.flaticon.com/icons/svg/17/17004.svg'"
-        style="width: 32px;height: 32px" alt="">
+        style="width: 32px;height: 32px; border-radius: 50%" alt="">
+            <!---->
         </div>
         <div class="bg-message-bot d-flex align-items-center px-2">
             <app-bot-thinking-bubble [bot]="bot" class="d-block"></app-bot-thinking-bubble>
@@ -67,10 +67,10 @@
 
     <div
             *ngIf="messageData.messageMediatype!==myEBotMessageMediaType.bot_thinking"
-            style="position: absolute; bottom: -17px;left: 0px;width: 32px; color: #9e9e9e !important;"
+            style="position: absolute; bottom: -17px;left: 0px;min-width: 32px; color: #9e9e9e !important;"
          [ngStyle]="{'left': messageData?.sourceType==='bot'? '0' : 'auto',
                   'right': messageData?.sourceType==='human'? '0' : 'auto' }"
-         class="time text-right">{{(messageData?.time|msToHhmm) || 'no time info'}}</div>
+         class="time text-right">{{(messageData?.time|date:'h:mm a') || 'no time info'}}</div>
 </div>
 
 <div class="row d-flex align-items-center session-expire-info-row" *ngIf="messageData.sourceType==='session_expired'">
