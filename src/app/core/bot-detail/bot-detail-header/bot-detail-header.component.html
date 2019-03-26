@@ -8,7 +8,7 @@
   </a>
   <img class="row-bot-detail-header__bot-logo" style="margin:0 8px" [src]="bot.logo" alt="B">
   <div class="row-bot-detail-header__bot-details">
-    <div [title]="bot.name" style="display: flex">
+    <div style="display: flex">
       {{(bot.name| slice:0: 50) + (bot.name.length>50?"...":"")}}
       <i class="fa fa-circle dark-green" style="margin-left: 2px; font-size: 6px"></i>
     </div>

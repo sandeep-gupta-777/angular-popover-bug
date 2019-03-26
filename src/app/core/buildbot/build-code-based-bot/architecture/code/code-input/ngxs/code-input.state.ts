@@ -149,7 +149,7 @@ export class VersionStateReducer {
 
     state.versions = [...state.versions];
     state.versions_pristine = [...state.versions_pristine];
-    this.utilityService.showSuccessToaster('New Versions saved');
+    this.utilityService.showSuccessToaster('New Version saved');
     patchState({...state});
   }
 
@@ -224,7 +224,7 @@ export class VersionStateReducer {
           new AddForkedVersion({botId: payload.bot.id, version: updatedVersion}),
           new SetSelectedVersion({id: updatedVersion.id})/*TODO: SetSelectedVersion: see changeSelectedVersionHandler() in component */
         ]);
-        this.utilityService.showSuccessToaster('New Versions forked');
+        this.utilityService.showSuccessToaster('New Version forked');
       }))
       .subscribe();
   }

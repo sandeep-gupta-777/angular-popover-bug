@@ -23,6 +23,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
 
   editor;
   _text;
+  @Input() downloadedFileName = 'code.py'
   editorCodeObjRef: { text: string } = {text: ''};
   @Output() validateClick = new EventEmitter();
   @ViewChild('f') codeEditor: ElementRef;
@@ -112,13 +113,13 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
 
   downloadCodeText() {
     /*todo: refactor this*/
-    let fileName = 'code.py';
+    let fileName = this.downloadedFileName;
     const codeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab');
     const buildTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab');
     const botId = this.activatedRoute.snapshot.params['roomId'];
-    if (buildTab === 'code' && codeTab && botId) {
-      fileName = `${codeTab} for bot id ${botId}.py`;
-    }
+    // if (buildTab === 'code' && codeTab && botId) {
+    //   fileName = `${codeTab} for bot id ${botId}.py`;
+    // }
 
     const nerId = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
     if (buildTab === 'knowledge' && botId && nerId) {

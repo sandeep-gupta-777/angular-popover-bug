@@ -30,6 +30,7 @@
           <app-code-editor class="child-expand"
                            [formControlName]="myEBotVersionTabs.df_template"
                            (validateClick)="validateCodeTest($event)"
+                           downloadedFileName="{{activeTab}} for bot id {{bot.id}}.py"
                            [doShowValidationsIcon]="true"
           ></app-code-editor>
           <ng-container
@@ -47,6 +48,7 @@
         <div class="d-flex" style="height: 100%">
           <app-code-editor [formControlName]="myEBotVersionTabs.df_rules"
                            [doShowValidationsIcon]="true"
+                           downloadedFileName="{{activeTab}} for bot id {{bot.id}}.py"
                            (validateClick)="validateCodeTest($event)"></app-code-editor>
           <ng-container
             [ngTemplateOutlet]="validationTemplate"
@@ -61,6 +63,7 @@
         </ng-template>
         <div class="d-flex" style="height: 100%">
           <app-code-editor [doShowValidationsIcon]="true"
+                           downloadedFileName="{{activeTab}} for bot id {{bot.id}}.py"
                            [formControlName]="myEBotVersionTabs.generation_rules"
                            (validateClick)="validateCodeTest($event)"></app-code-editor>
           <ng-container
@@ -78,6 +81,7 @@
           <app-code-editor
             [formControlName]="myEBotVersionTabs.generation_templates"
             [doShowValidationsIcon]="true"
+            downloadedFileName="{{activeTab}} for bot id {{bot.id}}.py"
             (validateClick)="validateCodeTest($event)">
           </app-code-editor>
           <ng-container
@@ -110,6 +114,7 @@
           <app-code-editor
             [formControlName]="myEBotVersionTabs.workflow"
             [doShowValidationsIcon]="true"
+            downloadedFileName="{{activeTab}} for bot id {{bot.id}}.py"
             (validateClick)="validateCodeTest($event)"></app-code-editor>
           <ng-container
             [ngTemplateOutlet]="validationTemplate"
