@@ -64,6 +64,7 @@ import {InfoIconComponent} from './info-icon/info-icon.component';
 import {ErrorStateMatcher, MatProgressSpinnerModule, ShowOnDirtyErrorStateMatcher} from '@angular/material';
 import { ListIfNotInThisListPipe } from './core/enterpriseprofile/enterprise-roles/listIfNotInThisList.pipe';
 import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
+import { FaqBotBasicInfoFormComponent } from './core/buildbot/build-code-based-bot/bot-config/faq-bot-basic-info-form/faq-bot-basic-info-form.component';
 
 @NgModule({
   declarations: [
@@ -121,7 +122,8 @@ import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
     IntegrationOptionListComponent,
     RequiredIfOneFilledValidator,
     DisplayNameForKeyIntegrationPipe,
-    ConvertToUniqueArrayPipe
+    ConvertToUniqueArrayPipe,
+    FaqBotBasicInfoFormComponent 
   ],
   imports: [
     MyMaterialModule,
@@ -193,7 +195,8 @@ import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
     DisplayNameForKeyIntegrationPipe,
     BuildbotWrapperComponent,
     ListIfNotInThisListPipe,
-    ConvertToUniqueArrayPipe
+    ConvertToUniqueArrayPipe,
+    FaqBotBasicInfoFormComponent 
   ]
 })
 export class SharedModule {

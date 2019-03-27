@@ -63,7 +63,7 @@ export class BuildbotWrapperComponent implements OnInit {
   stageValidObj:object = {
     0:false,
     1:false,
-    2:false,
+    2:false
   };
 
   myObject = Object;
@@ -71,8 +71,9 @@ export class BuildbotWrapperComponent implements OnInit {
   basicInfoForm: FormGroup;
   dataManagementForm: FormGroup;
   securityForm: FormGroup;
-
+  faqbotBuildForm: FormGroup;
   ngOnInit() {
+    this.faqbotBuildForm = this.botConfigService.getFaqbotBuildForm(this.bot);
     this.basicInfoForm = this.botConfigService.getBasicInfoForm(this.bot);
     this.dataManagementForm = this.botConfigService.getDataManagementForm(this.bot);
     this.securityForm = this.botConfigService.getSecurityForm(this.bot);
@@ -80,17 +81,21 @@ export class BuildbotWrapperComponent implements OnInit {
     this.stageValidObj = {
       0:this.basicInfoForm.valid,
       1:this.dataManagementForm.valid,
-      2:this.securityForm.valid,
+      2:this.securityForm.valid
     };
 
 
     this.basicInfoForm.valueChanges.subscribe(()=>this.stageValidObj[0] = this.basicInfoForm.valid);
     this.dataManagementForm.valueChanges.subscribe(()=>this.stageValidObj[1] = this.dataManagementForm.valid);
     this.securityForm.valueChanges.subscribe(()=>this.stageValidObj[2] = this.securityForm.valid);
+    this.faqbotBuildForm.valueChanges.subscribe(()=>this.stageValidObj[0] = this.faqbotBuildForm.valid);
 
     this.bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type') || this.bot_type;
     if(this.bot_type === EBotType.intelligent){
       this.stageValidObj = {0:false};
+    }
+    if(this.bot_type === EBotType.faqbot){      
+      this.stageValidObj = {0:this.faqbotBuildForm.valid};
     }
   }
 
@@ -100,7 +105,7 @@ export class BuildbotWrapperComponent implements OnInit {
   createBot() {
 
     this.loading = true;
-    let combinedForm = this.bot_type === EBotType.chatbot? [this.basicInfoForm, this.dataManagementForm, this.securityForm]: [this.basicInfoForm];
+    let combinedForm = this.bot_type === EBotType.chatbot? [this.basicInfoForm, this.dataManagementForm, this.securityForm]: this.bot_type === EBotType.faqbot? [this.faqbotBuildForm]:[this.basicInfoForm];
     const bot = UtilityService.getCombinedBotData(combinedForm);
     const url = this.constantsService.getCreateNewBot();
     bot.bot_type = this.bot_type;
@@ -196,7 +201,8 @@ export class BuildbotWrapperComponent implements OnInit {
     return {
       basicInfoForm : this.basicInfoForm.value,
       dataManagementForm : this.dataManagementForm.value,
-      securityForm : this.securityForm.value
+      securityForm : this.securityForm.value,
+      faqbotBuildForm : this.faqbotBuildForm.value
     }
   }
 

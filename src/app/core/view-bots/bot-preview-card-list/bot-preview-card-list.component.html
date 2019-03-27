@@ -5,7 +5,7 @@
 
   <app-splash-screen *ngIf="botList.length===0"
                      [imageHRef]="botType===myEBotType.chatbot? myESplashScreens.imageForCodeBots:myESplashScreens.pipeline_bots_empty"
-                     [headingText]="'There are no '+ (botType===myEBotType.chatbot? 'code based ': 'pipeline based') +' bots in your account'"
+                     [headingText]="'There are no '+ (botType===myEBotType.chatbot? 'code based ': botType===myEBotType.faqbot? 'search based':'pipeline based') +' bots in your account'"
                      [descriptionText]="isCreateBotAccessDenied?
                      'Please contact your enterprise administrator to add bots to your account':''"
                      class="d-flex justify-content-center align-items-center"

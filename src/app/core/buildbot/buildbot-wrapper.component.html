@@ -19,7 +19,7 @@
         <div style="width: 70%; height: 70%; position: relative; display: flex;flex-direction: column;justify-content: center;">
             <div style="position: absolute; top: -50px;">
                 <p style="color: white; font-size: 20px">Create Bot</p>
-                <div style="color: white;">{{bot_type === myEBotType.chatbot?'Code based':'Pipeline based'}}</div>
+                <div style="color: white;">{{bot_type === myEBotType.chatbot?'Code based':bot_type === myEBotType.faqbot?'Search based':'Pipeline based'}}</div>
             </div>
 
             <ng-container *ngIf="bot_type === myEBotType.chatbot">
@@ -60,7 +60,8 @@
                            [selectedIndex]="activeTab"
                            (selectedIndexChange)="selectedIndexChange($event)">
                 <mat-tab label="Tab 1">
-                    <app-basic-info-form [formGroup]="basicInfoForm"></app-basic-info-form>
+                    <app-basic-info-form [formGroup]="basicInfoForm" *ngIf="bot_type != myEBotType.faqbot"></app-basic-info-form>
+                    <app-faq-bot-basic-info-form [formGroup]="faqbotBuildForm" *ngIf="bot_type === myEBotType.faqbot"></app-faq-bot-basic-info-form>
                 </mat-tab>
                 <mat-tab label="Tab 2" *ngIf="bot_type === myEBotType.chatbot">
                     <app-data-manage-form [formGroup]="dataManagementForm"></app-data-manage-form>
@@ -82,8 +83,9 @@
 
             <button mat-raised-button [disabled]="stageValidObj[activeTab] === false || loading" color="primary" style="position: absolute;top: 90%;right: 0" (click)="nextStep(activeTab+1)" type="button">
                 {{activeTab< myObject.keys(stageValidObj).length-1?'Continue':'Done'}}
-                <mat-icon *ngIf="!loading">arrow_right</mat-icon>
-                <mat-spinner *ngIf="loading" style="margin-left: 5px" [diameter]="15"></mat-spinner>
+                <mat-icon *ngIf="!loading && activeTab < myObject.keys(stageValidObj).length-1">arrow_right</mat-icon>
+                <mat-icon class = "d-flex pl-1 align-items-center fs-16" *ngIf="!loading && activeTab >= myObject.keys(stageValidObj).length-1">check_circle_outline</mat-icon>
+                <mat-spinner *ngIf="loading" style="margin-left: 5px;" [diameter]="15"></mat-spinner>
             </button>
 
         </div>

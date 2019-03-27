@@ -3,7 +3,8 @@ import { ConstantsService } from 'src/app/constants.service';
 import { ServerService } from 'src/app/server.service';
 import { IHeaderData } from 'src/interfaces/header-data';
 import { IBot } from '../../interfaces/IBot';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, NgForm } from '@angular/forms';
+import { UtilityService } from 'src/app/utility.service';
 
 @Component({
   selector: 'app-bot-articles',
@@ -14,7 +15,8 @@ export class BotArticlesComponent implements OnInit {
 
   constructor(
     private constantsService:ConstantsService,
-    private serverService : ServerService
+    private serverService : ServerService,
+    private utilityService : UtilityService
   ) { }
   @Input() bot :IBot;
   corpus;
@@ -43,7 +45,6 @@ export class BotArticlesComponent implements OnInit {
     })
   }
   makeFilterList(filter_categorie_map){
-    debugger
     this.filter_categorie_id_list = [];
     for(let i of Object.keys(filter_categorie_map)){
       if(filter_categorie_map[i]){
@@ -51,4 +52,18 @@ export class BotArticlesComponent implements OnInit {
       }
     }
   }
+  removeFilterItemById(categorie_id , filter_categorie_form : NgForm){
+    filter_categorie_form.form.patchValue({[categorie_id]:false});
+    this.makeFilterList(filter_categorie_form.value);
+  }
+  exportArticalToCsv(){
+    let csvFormat = this.corpus.sections.map(element => {
+      return {
+        Answer : element.answers[0].text[0],
+        Questions : element.questions.toString()
+      }
+    });
+    this.utilityService.downloadArrayAsCSV(csvFormat,{});
+  }
+  
 }

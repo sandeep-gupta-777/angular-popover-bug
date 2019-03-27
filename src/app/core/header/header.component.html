@@ -43,7 +43,7 @@
       <mat-menu class="cutom-md-menu" #appMenu="matMenu">
 
         <a mat-menu-item disabled class="dropdown-item" style="line-height: 20px">
-          {{userData.first_name + " " + userData.last_name}}
+          {{userData.enterprise.name}}
         </a>
         <a mat-menu-item disabled class="dropdown-item" style="cursor: pointer !important; background-color: white !important;"
         [matTooltip]="userData.email"

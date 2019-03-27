@@ -189,7 +189,8 @@ export class SideBarService {
     SideBarService.buildbotData_init = UtilityService.cloneObj({
       basicInfoForm : buildBotComponent.basicInfoForm.value,
       dataManagementForm : buildBotComponent.dataManagementForm.value,
-      securityForm : buildBotComponent.securityForm.value
+      securityForm : buildBotComponent.securityForm.value,
+      faqbotBuildForm : buildBotComponent.faqbotBuildForm.value
     });
   }
 

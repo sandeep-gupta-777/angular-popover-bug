@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Select, Store} from '@ngxs/store';
-import {UtilityService} from '../../../../utility.service';
+import {UtilityService, EBotType} from '../../../../utility.service';
 import {ConstantsService} from '../../../../constants.service';
 import {PermissionService} from '../../../../permission.service';
 import {ActivatedRoute} from '@angular/router';
@@ -17,10 +17,11 @@ import {IIntegrationMasterListItem} from '../../../../../interfaces/integration-
 export class BotConfigService {
 
   basicInfoForm: FormGroup;
+  faqbotBuildForm: FormGroup;
   masterIntegrationList: IIntegrationMasterListItem[];
   @Select() app$: Observable<IAppState>;
   integration_types: string[];
-
+  myEBotType = EBotType;
   constructor(private store: Store,
               private utilityService: UtilityService,
               public constantsService: ConstantsService,
@@ -40,17 +41,29 @@ export class BotConfigService {
       this.integration_types = Array.from(new Set(this.masterIntegrationList.map(item => item.integration_type)));
     });
   }
-
-  getBasicInfoForm(bot: IBot) {
-    this.basicInfoForm = this.formBuilder.group({
+  getFaqbotBuildForm(bot: IBot){
+    this.faqbotBuildForm = this.formBuilder.group({
       name: [bot.name, Validators.required],
       bot_unique_name: [bot.bot_unique_name, Validators.required],
-      description: [bot.description, Validators.required],
+      room_close_callback: [bot.room_close_callback],
+      allow_feedback: [bot.allow_feedback],
       logo: [bot.logo || 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
-      first_message: [bot.first_message],
-      error_message: [bot.error_message],
-    }, {validator: this.utilityService.isManagerValidator});
+    },{validator: this.utilityService.isManagerValidator});
+    return this.faqbotBuildForm;
+  }
 
+  getBasicInfoForm(bot: IBot) {
+    
+      this.basicInfoForm = this.formBuilder.group({
+        name: [bot.name, Validators.required],
+        bot_unique_name: [bot.bot_unique_name, Validators.required],
+        description: [bot.description, Validators.required],
+        logo: [bot.logo || 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
+        first_message: [bot.first_message],
+        error_message: [bot.error_message],
+      }, {validator: this.utilityService.isManagerValidator});
+  
+    
     return this.basicInfoForm;
   }
 

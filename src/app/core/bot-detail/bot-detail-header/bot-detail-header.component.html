@@ -38,6 +38,10 @@
     <!--+{{myObject.keys(bot.integrations).length-4}} More-->
   <!--</span>-->
   <!--<div class="headerDivider mx-2"></div>-->
+  <div *ngIf = "bot.bot_type != 'faqbots'" class = "faq-search">
+    <i class="fa fa-search"></i>
+    <input placeholder="Search for questions or variants"> 
+  </div>
   <div *myIf="myEAllActions['Send API']">
     <!--<div class="d-flex preview-box align-items-center" (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'">-->
       <!--<i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>-->
@@ -48,7 +52,7 @@
       Analytics
     </button>
     <button class="mat-theme-button mat-theme-button-border"
-            (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'"
+            (click)="openBot()" *ngIf="bot.bot_type != 'intelligent'"
             mat-button>
         <mat-icon>chat_bubble_outline</mat-icon>
       Preview
@@ -73,31 +77,6 @@
     <button mat-menu-item *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]" (click)="openDeleteModal()"><i class="fa fa-trash mr-1"></i>Delete</button>
   </mat-menu>
 </div>
-
-
-<ng-template #template>
-  <div class="danger-modal center-modal">
-    <div class="top-dec"></div>
-    <div class="modal-header">
-      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete bot&nbsp;{{ bot.name}}&nbsp;
-        ?</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-    <div class="modal-body pt-0">
-      <form #form="ngForm">
-        <div class="text-center my-1">
-          <p class="mb-3">This action cannot be undone.Are you sure you wish to delete?</p>
-
-        </div>
-        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
-        <button class=" btn-theme btn-theme-danger" (click)="deleteBot()">Delete</button>
-      </form>
-    </div>
-  </div>
-</ng-template>
 
 
 <ng-template #activeVersionChangedTemplate>
