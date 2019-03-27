@@ -1,10 +1,9 @@
 
 <div class="row-bot-detail-header d-flex align-items-center">
   <div class="row-bot-detail-header__back"
-     [queryParams]="{type:bot.bot_type}"
      style="text-decoration: none; padding: 0px 8px 0px 16px"
      (click)="goBackToDashboard()">
-    <i class="fa fa-angle-left"></i>
+    <i class="fa fa-angle-left" title="Go to Dashboard"></i>
 </div>
   <img class="row-bot-detail-header__bot-logo" style="margin:0 8px" [src]="bot.logo" alt="B">
   <div class="row-bot-detail-header__bot-details">
