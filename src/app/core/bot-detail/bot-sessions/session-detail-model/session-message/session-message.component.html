@@ -26,7 +26,7 @@
           </div>
 
           <div class="time my-1">
-            {{sessionMessage.created_at|msToHhmm}}, {{sessionMessage.created_at|date:'mediumDate'}}
+              {{sessionMessage.created_at|date:'mediumTime'}}, {{sessionMessage.created_at|date:'mediumDate'}}
           </div>
       </div>
 </div>
@@ -93,7 +93,7 @@
           <!--bot rich media reply ends-->
         </div>
         <div class="time text-right my-1 mr-32">
-            {{sessionMessage.created_at|msToHhmm}}, {{sessionMessage.created_at|date:'mediumDate'}}
+            {{sessionMessage.created_at|date:'mediumTime'}}, {{sessionMessage.created_at|date:'mediumDate'}}
           </div>
       </div>
       <ng-template #messageIsStringNotObjectTemplate>
@@ -102,7 +102,7 @@
             <span class="message-text" [innerHtml]="sessionMessage.message||'EMPTY_MESSAGE'"></span>
             <div class="time text-right">
               <!--{{sessionMessage.created_at|msToHhmm}}-->
-                {{sessionMessage.created_at|date:'h:mm:ss a'}}
+              {{sessionMessage.created_at|date:'mediumTime'}}, {{sessionMessage.created_at|date:'mediumDate'}}
             </div>
           </div>
         </div>
