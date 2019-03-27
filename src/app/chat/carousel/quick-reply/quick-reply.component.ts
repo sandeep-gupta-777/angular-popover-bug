@@ -13,6 +13,7 @@ export class QuickReplyComponent implements OnInit {
   @Input() isFullScreenPreview = false;
   @Input() messageData: IMessageData;
   @Input() isParentSessionsModal = false;
+  @Input() feedback;
   myEBotMessageMediaType = EBotMessageMediaType;
   @Output() sendMessageToBotServer$ = new EventEmitter();
   carasolItemShownInOneScreen = 2;
