@@ -1,11 +1,10 @@
 
 <div class="row-bot-detail-header d-flex align-items-center">
-  <a class="row-bot-detail-header__back"
-     [routerLink]="['/core/viewbots']"
-     [queryParams]="{type:bot.bot_type}"
-     style="text-decoration: none; padding: 0px 8px 0px 16px">
-    <i class="fa fa-angle-left"></i>
-  </a>
+  <div class="row-bot-detail-header__back"
+     style="text-decoration: none; padding: 0px 8px 0px 16px"
+     (click)="goBackToDashboard()">
+    <i class="fa fa-angle-left" title="Go to Dashboard"></i>
+</div>
   <img class="row-bot-detail-header__bot-logo" style="margin:0 8px" [src]="bot.logo" alt="B">
   <div class="row-bot-detail-header__bot-details">
     <div style="display: flex">

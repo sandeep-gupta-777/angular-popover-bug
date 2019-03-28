@@ -46,12 +46,13 @@ export class SideBarService {
       /*KnowledgeBasePresentationComponent is initialized manually from within KnowledgeBasePresentationComponent*/
     }
   }
-
+  static activeTab : ESideBarTab;
   /*BotConfig*/
   static botConfigInit(botConfigComponent: BotConfigComponent) {
     SideBarService.botConfigComponent = botConfigComponent;
     // let combinedForm = [botConfigComponent.basicInfoForm, botConfigComponent.dataManagementForm, botConfigComponent.securityForm, botConfigComponent.integrationForm];
     SideBarService.botConfigComponent_init = this.createBasicInfoData();
+    SideBarService.activeTab = ESideBarTab.setting;
   }
 
   static createBasicInfoFinalData(){
@@ -108,6 +109,7 @@ export class SideBarService {
   static pipelineInit(pipelineComponent: PipelineComponent) {
     SideBarService.pipelineComponent = pipelineComponent;
     SideBarService.pipelineData_init = pipelineComponent._bot.pipelines;
+    SideBarService.activeTab = ESideBarTab.input;
   }
 
   private static createPipelineFinalData() {
@@ -153,6 +155,7 @@ export class SideBarService {
     SideBarService.botTestingComponent = component;
 
     SideBarService.botTestingData_init = UtilityService.cloneObj(SideBarService.botTestingComponent.testCaseData);
+    SideBarService.activeTab = ESideBarTab.test;
   }
   static createBotTestingFinalData(){
 

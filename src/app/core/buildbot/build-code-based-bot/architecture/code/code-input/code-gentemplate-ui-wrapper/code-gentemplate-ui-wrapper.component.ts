@@ -424,7 +424,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   deleteTemplateKey(tempKey) {
     let isELseTemplateKeyPresent = Object.keys(this._templateKeyDict).find(key => 'else' === key);
     if(Object.keys(this._templateKeyDict).length == 2 && tempKey != 'else' && !!isELseTemplateKeyPresent){
-      this.templateKeyCreationError = 'Can delete this template because ELSE template key will only be remaining';
+      this.templateKeyCreationError = 'Can\'t delete this template because ELSE template key will only be remaining';
       this.utilityService.showErrorToaster(this.templateKeyCreationError);
       return;
     }

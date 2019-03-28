@@ -16,6 +16,7 @@ import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.compon
 import {MatDialog} from '@angular/material';
 import {ModalImplementer} from '../../../modal-implementer';
 import {EventService} from '../../../event.service';
+import { SideBarService } from 'src/app/side-bar.service';
 
 @Component({
   selector: 'app-bot-detail-header',
@@ -206,8 +207,33 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     })
     // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
-
+  goBackToDashboard(){
+    if(SideBarService.isTabDirty(SideBarService.activeTab)){
+      this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
+      .then((data)=>{
+        if(data){
+          this.router.navigate(['/'], {queryParams:{type:this.bot.bot_type}});
+        }
+      })
+      
+    }
+    else{
+      this.router.navigate(['/'], {queryParams:{type:this.bot.bot_type}});
+    }
+    
+  }
   openAnalyticsForBot(){
-    this.router.navigate(['/core/analytics2/overview'], {queryParams:{bot_id:this.bot.id}});
+    if(SideBarService.isTabDirty(SideBarService.activeTab)){
+      this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
+      .then((data)=>{
+        if(data){
+          this.router.navigate(['/core/analytics2/overview'], {queryParams:{bot_id:this.bot.id}});          
+        }
+      })
+      
+    }
+    else{
+      this.router.navigate(['/core/analytics2/overview'], {queryParams:{bot_id:this.bot.id}});
+    }
   }
 }
