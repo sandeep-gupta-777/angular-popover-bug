@@ -104,7 +104,9 @@
             </ng-container>
         </ng-container>
         <ng-container *myIf="[myEAllActions['GET Bot Versioning']]">
-            <div style="height: 100%" [hidden]="!(sideBarTab1 === 'logic' && bot.bot_type === myEBotType.chatbot)">
+            <div style="height: 100%"
+                 *ngIf="logicTabClicked"
+                 [hidden]="!(sideBarTab1 === 'logic' && bot.bot_type === myEBotType.chatbot)">
                 <header>
                     <div style="padding-bottom: 8px"><strong
                             style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">

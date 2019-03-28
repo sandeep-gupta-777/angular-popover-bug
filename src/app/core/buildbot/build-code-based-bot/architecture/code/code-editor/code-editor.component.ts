@@ -125,7 +125,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
     if (buildTab === 'knowledge' && botId && nerId) {
       fileName = `code for nerid ${nerId} for bot id ${botId}.py`;
     }
-    this.utilityService.downloadText(this.editorCodeObjRef.text, fileName);
+    this.utilityService.downloadText(this.editor.getValue(), fileName);
   }
 
   validateCodeTest() {

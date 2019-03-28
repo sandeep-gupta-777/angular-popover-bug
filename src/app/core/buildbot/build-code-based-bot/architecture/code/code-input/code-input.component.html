@@ -19,6 +19,7 @@
                       class="d-flex align-items-center mx-1 " color="primary"
                       title="Toggle UI view"></mat-slide-toggle>
     <mat-tab-group
+      animationDuration="0ms"
       *ngIf="errorMap[selectedVersion_st.id] && errorMap[selectedVersion_st.id] || {} as errorMapItem"
       style="width: 100%; position: relative" (selectedIndexChange)="codeEditorTabChangedHandler($event)">
       <mat-tab>

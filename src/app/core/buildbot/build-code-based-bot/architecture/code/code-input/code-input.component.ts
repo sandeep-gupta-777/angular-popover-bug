@@ -290,6 +290,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   }
 
   genTemplateViewChange(showGenTempEditorAndHideGenTempUi) {
+    debugger;
     if (showGenTempEditorAndHideGenTempUi) {
       this.convertUiDictToGenTemplateCode(this.templateKeyDict);
     } else {

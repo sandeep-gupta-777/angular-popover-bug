@@ -52,6 +52,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   @ViewChild(BotSessionsComponent) sessionChild: BotSessionsComponent;
   @Select() loggeduser$: Observable<{ user: IUser }>;
   sideBarTab1:ESideBarTab = ESideBarTab.setting;
+  logicTabClicked = false;
   bot$: Observable<IBot>;
   bot_id: number;
   showConfig = true;
@@ -136,6 +137,9 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     /*TODO: replace this code by writing proper selector*/
     this.sideBarTab1 = <ESideBarTab>(this.activatedRoute.snapshot.queryParamMap.get('build') || this.sideBarTab1);
+    if(this.sideBarTab1 === ESideBarTab.logic){
+      this.logicTabClicked = true;
+    }
     /*this.bot$ = */
     this.botlist$.subscribe((botListState) => {
 
@@ -210,6 +214,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   sideBarTabChanged(sideBarTabChanged: ESideBarTab) {
     if(sideBarTabChanged === ESideBarTab.logic){
       setTimeout(()=>{
+        this.logicTabClicked = true;
         this.refreshCodeEditor();
       },0)
     }
