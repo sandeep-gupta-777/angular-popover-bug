@@ -178,6 +178,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       codeTextFromEditor = [this.codeTextOutPutFromCodeEditor];
     } else if (this.ner_type !== 'database') {
       try {
+        debugger;
         // if (!this.codeTextOutPutFromCodeEditor) {
         //   this.utilityService.showErrorToaster(`Syntax is not valid. ${this.ner_type} only accespts Array literal`);
         //   return;
@@ -194,13 +195,16 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
         }
       }
     }
+    let tableData = this.handsontableData.filter((array :any)=>{
+      return !!array.find(element => {return element != null})
+    })
     const outputData = {
       mode: this.ner_id ? 'Update' : 'Create',
       key: this.key || '',
       ner_type: this.ner_type,
       conflict_policy: this.conflict_policy,
       codeTextOutPutFromCodeEditor: codeTextFromEditor || '',
-      handsontableData: this.handsontableData,
+      handsontableData: tableData,
       //   ...this.handsontableComponent.getHotTableData(),
       process_raw_text: this.process_raw_text
     };
