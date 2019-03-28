@@ -314,5 +314,22 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
     this.dirtySideBarTabs[ESideBarTab.setting] = isDirty;
   }
 
+  goBackToDashboard(){
+    debugger;
+    if(SideBarService.isTabDirty(SideBarService.activeTab)){
+      this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
+      .then((data)=>{
+        if(data){
+          this.router.navigate(['/']);
+        }
+      })
+      
+    }
+    else{
+      this.router.navigate(['/']);
+    }
+    
+  }
+
 
 }

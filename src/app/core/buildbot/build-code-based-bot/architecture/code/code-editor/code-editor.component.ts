@@ -68,6 +68,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
       lineWrapping: true,
       mode: 'python',
       theme: 'cobalt',
+      pollInterval: 100000,
       rtlMoveVisually: false,
       direction: 'ltr',
       moveInputWithCursor: false,

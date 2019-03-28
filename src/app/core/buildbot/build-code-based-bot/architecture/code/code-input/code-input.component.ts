@@ -203,6 +203,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
   async saveSelectedVersion() {
 
+
     this.syncBotViews(this.showGenTempEditor);
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
@@ -211,7 +212,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     let id = this.selectedVersion_st.id;
 
 
-    this.syncBotViews(false);
+    // this.syncBotViews(false);
     setTimeout(() => {
       this.store.dispatch(new SetDiff({version: {...this.codeInputForm.value, id: this.selectedVersion_st.id}}))
         .subscribe((val) => {
