@@ -82,12 +82,14 @@
           <app-card-carousel
             [isParentSessionsModal]="true"
             style="width: 100%!important;"
+            [feedback]="sessionMessage.feedback"
             [messageData]="message"
             *ngIf="message && message.media">
           </app-card-carousel>
           <app-quick-reply
             [isParentSessionsModal]="true"
             [messageData]="message"
+            [feedback]="sessionMessage.feedback"
             *ngIf="message && message.quick_reply">
           </app-quick-reply>
           <!--bot rich media reply ends-->
