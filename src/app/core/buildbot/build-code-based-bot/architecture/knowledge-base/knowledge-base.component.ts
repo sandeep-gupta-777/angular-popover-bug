@@ -49,6 +49,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
   }
 
   @Output() pageChanged$ = new EventEmitter(); //
+  @Output() refreshTable$ = new EventEmitter(); //
   @Output() updateOrSaveParentNers$ = new EventEmitter(); //
   @Output() deleteNer$ = new EventEmitter(); //deleteNer$.emit()
   @Input() currentPageNumber = 1;

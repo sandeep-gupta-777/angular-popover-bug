@@ -15,12 +15,13 @@ import {PermissionService} from '../../../../../permission.service';
                   <mat-form-field class="w-100">
                       <input matInput formControlName="data_persistence_period" type="number" class=""
                              required
+                             onkeydown="return event.keyCode !== 69"
                              placeholder="Data retention period((in days)">
                   </mat-form-field>
 
                   <div class="switch-wrapper" style="margin-bottom: 20px">
                       <div class="form-control d-flex flex-column">
-                          <label class="pr-2">Advanced Data Protection <app-info-icon></app-info-icon></label>
+                          <label class="pr-2">Advanced Data Protection <app-info-icon [text]="'Encrypt sessions and consumer data and allow consent management'"></app-info-icon></label>
                           <app-ui-switch
                                   formControlName="advanced_data_protection"
                                   [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
@@ -40,7 +41,7 @@ import {PermissionService} from '../../../../../permission.service';
               <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
                   <div class="switch-wrapper" style="margin-bottom: 20px">
                       <div class="form-control d-flex flex-column">
-                          <label class="pr-2">Allow anonymization <app-info-icon></app-info-icon></label>
+                          <label class="pr-2">Allow anonymization <app-info-icon [text]="'Post data retention period should sessions data be anonymised'"></app-info-icon></label>
                           <app-ui-switch
                                   formControlName="allow_anonymization"
                                   [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"

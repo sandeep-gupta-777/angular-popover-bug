@@ -59,15 +59,19 @@
             </div>
 
             <div *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']" class="ml-auto">
-                <button mat-button
+                <button mat-flat-button
+                        color="primary"
                         class="mat-theme-button"
-                        style="margin-right: 10px;border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
+                        style="margin-right: 10px"
                         (click)="goBack()">
                     <mat-icon>block</mat-icon>Cancel
                 </button>
 <!---->
                 <button
-                        mat-button
+
+
+                        mat-flat-button
+                        color="primary"
                         class="mat-theme-button"
                         style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
                         [disabled]="!form.valid || (ner_type === 'database' && !handsOnTableDataHasAtleastTwoRows())"
@@ -86,9 +90,10 @@
                     <mat-icon>block</mat-icon>Cancel
                 </button>
 
-                <button mat-button
+                <button mat-flat-button
+                        color="primary"
                         class="mat-theme-button"
-                        style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
+                        style="margin-right: 10px"
                         [disabled]="!form.valid"
                         (click)="updateOrSaveConcept()"
                         *myIf="[myEAllActions['Create Bot Knowledge base'],myEAllActions['Update Bot Knowledge base']]">

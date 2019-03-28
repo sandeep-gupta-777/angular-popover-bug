@@ -49,6 +49,8 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
       .subscribe();
   }
 
+
+
   pageChanged(currentPageNumber):Observable<any> {
     this.router.navigate(['.'], {
       queryParams: {page: currentPageNumber},

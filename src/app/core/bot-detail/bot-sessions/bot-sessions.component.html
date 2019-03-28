@@ -88,6 +88,7 @@
                      *ngIf="tableData"
                      [totalRecords]="totalSessionRecords"
                      [currentPage]="pageNumberOfCurrentRowSelected"
+                     noResultsMessage="No sessions found. Search again."
                      (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
                      (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate)"
                      [showSearchInDbButton]="true"

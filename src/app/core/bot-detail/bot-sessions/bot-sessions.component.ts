@@ -548,6 +548,11 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       filterData.channels = channelStr.toLowerCase();
     }
 
+    /*date range*/
+    filterData.total_message_count__range = `${filterData.total_message_count__gte|| 0},${filterData.total_message_count__lte||10000}`;
+    delete filterData.total_message_count__lte;
+    delete filterData.total_message_count__gte;
+
     this.performSearchInDbForSession(filterData)
       .subscribe(() => {
         // this.filterFormDirty  = false;

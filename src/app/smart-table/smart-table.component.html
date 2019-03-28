@@ -13,11 +13,19 @@
   </button>
 </div>
 <input type="text" #headerHoverd value="false" hidden>
-<input type="text" #calenderOpened value="{{formDirty}}" hidden>
+<input type="text" #calenderOpened hidden>
+<!--<i>{{formDirty}}</i>-->
+
 <!--<i>{{sortDir}}</i>-->
 <!--<i>{{sortedCol}}</i>-->
 <!--<i>{{sortDir === myESortDir.ASC && i===sortedCol}}</i>-->
-<form #tableForm="ngForm" *ngIf="tableData" (click)="handleDataValueClicked($event)">
+<form #tableForm="ngForm" *ngIf="tableData" (click)="handleDataValueClicked($event)"
+      style="position: relative; min-height: 80%">
+  <app-splash-screen
+    *ngIf="isTableEmpty"
+    [imageHRef]="'baseline-search-24-px-6.svg'"
+    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%)"
+    [descriptionText]="noResultsMessage"></app-splash-screen>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <!-- Symbol Column -->
     <ng-container *ngFor="let i of displayedColumns">
@@ -25,59 +33,70 @@
       <ng-container [matColumnDef]="i">
         <!--table header starts-->
         <th mat-header-cell
+            [ngClass]="{'hide-matinput-underline':((headerHoverd.value === 'false') && !formDirty)}"
             (mouseenter)="headerHoverd.value = 'true'"
             (mouseleave)="headerHoverd.value = 'false'"
             *matHeaderCellDef>
           <div
             class="cursor-pointer"
             style="font-size: 13px;color: #9e9e9e; position: relative">
-            <span
-              [style.visibility]="(!(tableData[0][i].search || tableData[0][i].dateRange) || formDirty ===false  && headerHoverd.value ==='false') ? 'visible' : 'hidden'">{{i}}</span>
+            <!--<span-->
+            <!--[style.visibility]="(!(tableData[0][i].search || tableData[0][i].dateRange) || formDirty ===false  && headerHoverd.value ==='false') ? 'visible' : 'hidden'">{{i}}</span>-->
 
             <!--text search starts-->
             <div
-              style="position: absolute; top: 0px; left: -15px; right: 0 ; bottom: 0; display: flex; flex-direction: column">
-              <i class="fa fa-caret-up"
-                 title="Sort descending"
-                 style="margin-bottom: 6px"
-                 [ngClass]="{'text-bold': sortDir === myESortDir.DES && i===sortedCol}"
-                 (click)="sort(i, myESortDir.DES)"></i>
-              <i class="fa fa-caret-down"
-                 title="Sort Ascending"
-                 [ngClass]="{'text-bold': sortDir === myESortDir.ASC && i===sortedCol}"
-                 (click)="sort(i, myESortDir.ASC)"></i>
+              style="position: absolute; top: -8px; left: 0px; right: 0 ; bottom: 0; display: flex; flex-direction: column">
+              <div style="display: flex; flex-direction: column">
+                <i class="fa fa-caret-up"
+                   title="Sort descending"
+                   style="margin-bottom: 6px"
+                   [ngClass]="{'text-bold': sortDir === myESortDir.DES && i===sortedCol}"
+                   (click)="sort(i, myESortDir.DES)"></i>
+                <i class="fa fa-caret-down"
+                   title="Sort Ascending"
+                   [ngClass]="{'text-bold': sortDir === myESortDir.ASC && i===sortedCol}"
+                   (click)="sort(i, myESortDir.ASC)"></i>
+              </div>
+
+              <div
+                *ngIf="!(tableData && tableData[0][i].dateRange)"
+                [ngClass]="{'hide-matinput-underline pointer-events-none':!(tableData && tableData[0][i].search)}"
+                class="search-theme-input-with-search"
+                style="position: absolute;top: -3px;left: 10px;height: 35px;display: flex; align-items: center;">
+                <span class="fa fa-search"></span>
+                <input type="text" class="input-material" style="width: 100%" [name]="i" ngModel [placeholder]="i">
+                <!--<mat-form-field floatLabel="never" style="position: relative">-->
+                  <!--<input matInput-->
+                         <!--[readonly]="true"-->
+                         <!--type="text"-->
+                         <!--[ngModel]="''"-->
+                         <!--[placeholder]="i"-->
+                         <!--[name]="i">-->
+                  <!--<mat-icon style="" matSuffix>search-->
+                  <!--</mat-icon>-->
+                <!--</mat-form-field>-->
+              </div>
             </div>
 
-            <div [hidden]="!(tableData && tableData[0][i].search && (headerHoverd.value ==='true' || formDirty))"
-                 style="position: absolute; top: -5px; left: 0; right: 0 ; bottom: 0;">
-              <mat-form-field floatLabel="never">
-                <input matInput
-                       type="text"
-                       [ngModel]="''"
-                       [placeholder]="i"
-                       [name]="i">
-                <mat-icon matSuffix>search</mat-icon>
-              </mat-form-field>
-            </div>
+
             <!--text search ends-->
 
             <!--text search starts-->
-            <div [hidden]="!(tableData && tableData[0][i].dateRange && (headerHoverd.value ==='true' || formDirty))"
-                 style="position: absolute; top: -5px; left: 0; right: 0 ; bottom: 0; display: flex">
+            <div *ngIf="(tableData && tableData[0][i].dateRange)"
+                 style="position: absolute; top: -12px; left: 10px; right: 0 ; bottom: 0; display: flex">
+              <!---->
               <!--<div style="display: flex; flex-direction: column; margin-right: 5px">-->
               <!--<i class="fa fa-caret-up" (click)="sort(i, myESortDir.DES)"></i>-->
               <!--<i class="fa fa-caret-down" (click)="sort(i, myESortDir.ASC)"></i>-->
               <!--</div>-->
 
               <mat-form-field
-                [hidden]="!(tableData && tableData[0][i].dateRange)"
                 floatLabel="never">
                 <input matInput
                        [name]="i"
-                       [ngModel]="''"
+                       ngModel
                        [placeholder]="i"
                        (keyup.enter)="enterPressedOnFilters()"
-
                        [satDatepicker]="picker">
                 <sat-datepicker #picker [rangeMode]="true" (opened)="calenderOpened.value = 'true'"
                                 (closed)="calenderOpened.value = 'false'"></sat-datepicker>
@@ -111,7 +130,7 @@
 
             <mat-icon *ngFor="let i of  element[i].value" [matTooltip]="i.name"
                       [attr.name]="i.class"
-               (click)="actionIconClicked(element.originalSessionData, i.name, $event)">
+                      (click)="actionIconClicked(element.originalSessionData, i.name, $event)">
               {{i.iconName}}
             </mat-icon>
 
@@ -170,6 +189,9 @@
   </mat-paginator>
 
 </form>
+
+
+<!--<h5 *ngIf="!tableData">hello</h5>-->
 
 
 <!--<div *ngIf="totalRows">-->

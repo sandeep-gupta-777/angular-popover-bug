@@ -13,7 +13,7 @@
       <i class="fa fa-circle dark-green" style="margin-left: 2px; font-size: 6px"></i>
     </div>
     <div style="font-size: 11px">
-      <span>Last Update By </span>{{bot.updated_by}} on {{bot.updated_at|date: 'd MMM, yy'}}
+      <span>Update on </span>  {{bot.updated_at|date: 'd MMM, yy'}} on {{bot.updated_by}}
     </div>
   </div>
   <!--<i class="fa fa-users" *ngIf="bot && bot.is_manager" style="font-size: 16px"></i>-->
@@ -48,10 +48,13 @@
       <!--<i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>-->
       <!--<span class="action">Preview</span>-->
     <!--</div>-->
-    <button *ngIf="bot.bot_type === myEBotType.chatbot" (click)="openAnalyticsForBot()" class="mat-theme-button mat-theme-button-border" mat-button>
+    <ng-container *myIf="[myEAllActions['Analytics']]">
+      <button *ngIf="bot.bot_type === myEBotType.chatbot" (click)="openAnalyticsForBot()"
+              class="mat-theme-button mat-theme-button-border" mat-button>
         <mat-icon>trending_up</mat-icon>
-      Analytics
-    </button>
+        Analytics
+      </button>
+    </ng-container>
     <button class="mat-theme-button mat-theme-button-border"
             (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'"
             mat-button>
@@ -75,7 +78,9 @@
   <mat-menu class="cutom-md-menu" #appMenu="matMenu">
     <button mat-menu-item (click)="utilityService.copyToClipboard(bot.bot_access_token)"><i class="fa fa-copy mr-1"></i>Copy Access Token</button>
     <button mat-menu-item (click)="utilityService.copyToClipboard(bot.enterprise_id)"><i class="fa fa-copy mr-1"></i>Copy Enterprise ID</button>
-    <button mat-menu-item *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]" (click)="openDeleteModal()"><i class="fa fa-trash mr-1"></i>Delete</button>
+    <button mat-menu-item
+            *myIf="[myEAllActions['Delete Bots']]"
+            (click)="openDeleteModal()"><i class="fa fa-trash mr-1"></i>Delete</button>
   </mat-menu>
 </div>
 

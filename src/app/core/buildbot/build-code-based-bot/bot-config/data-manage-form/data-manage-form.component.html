@@ -17,7 +17,7 @@
 
             <div class="switch-wrapper" style="margin-bottom: 20px">
                 <div class="form-control d-flex flex-column">
-                    <label class="pr-2">Allow Feedback <app-info-icon></app-info-icon></label>
+                    <label class="pr-2">Allow Feedback <app-info-icon [text]="'Request feedback for every bot message in a session'"></app-info-icon></label>
 
                     <app-ui-switch
                             formControlName="allow_feedback"
@@ -42,15 +42,23 @@
         <div class="col-1"></div>
         <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
 
-            <app-bot-config-input
-                    style="margin-bottom: 20px"
-            displayName="Session Close Time [mins]"
-            formControlName="room_persistence_time"
-            [isRequired]="true"
-            placeholder="Session Close Time [mins]"></app-bot-config-input>
+            <!--<app-bot-config-input-->
+                    <!--style="margin-bottom: 20px"-->
+                    <!--onkeydown="return event.keyCode !== 69"-->
+            <!--displayName="Session Close Time [mins]"-->
+            <!--formControlName="room_persistence_time"-->
+            <!--[isRequired]="true"-->
+            <!--placeholder="Session Close Time [mins]"></app-bot-config-input>-->
+
+            <mat-form-field class="w-100" style="margin-bottom: 20px">
+                <input matInput formControlName="room_persistence_time" type="number" class=""
+                       onkeydown="return event.keyCode !== 69"
+                       placeholder="Session Close Time [mins]">
+            </mat-form-field>
 
             <mat-form-field class="w-100" style="margin-bottom: 20px">
                 <input matInput formControlName="transactions_per_pricing_unit" type="number" class=""
+                       onkeydown="return event.keyCode !== 69"
                        placeholder="Transactions Per Billing Unit">
             </mat-form-field>
 
@@ -79,7 +87,7 @@
         <div class="col-9" style="padding-left: 15px">
             <div class="" *ngIf="!(_bot.bot_type===myEBotType.intelligent)">
                 <div class="d-flex align-items-center" style="margin-bottom: 20px">
-                    <label class="pr-2 mb-0">Is Manager Bot? <app-info-icon></app-info-icon></label>
+                    <label class="pr-2 mb-0">Is Manager Bot? <app-info-icon [text]="'Will it orchestrate other bots?'"></app-info-icon></label>
                     <mat-slide-toggle formControlName="is_manager" color="primary"></mat-slide-toggle>
 
                 </div>

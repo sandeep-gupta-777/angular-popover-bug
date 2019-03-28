@@ -163,6 +163,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
           startdate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.startdate),
           enddate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.enddate),
         };
+        delete headerData.date_range;
         //asdas
         if (!this.utilityService.areAllValesDefined(headerData)) {
           return;
@@ -180,6 +181,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
             this.analytics2HeaderData = analytics2HeaderData;
 
             this.store.dispatch([new ResetAnalytics2GraphData()]);
+            debugger;
             // this.makeGetReqSub && this.makeGetReqSub.unsubscribe();//todo: better use .
             this.makeGetReqSub = this.serverService.makeGetReq({url, headerData})
               .pipe(take(1))

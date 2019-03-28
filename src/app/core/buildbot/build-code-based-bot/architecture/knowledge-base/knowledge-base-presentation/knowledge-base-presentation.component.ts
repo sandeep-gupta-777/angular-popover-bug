@@ -66,6 +66,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   @Output() updateOrSaveConcept$ = new EventEmitter();
   @Output() deleteNer$ = new EventEmitter();
   @Output() showTable$ = new EventEmitter();
+  @Output() refreshTable$ = new EventEmitter();
   @ViewChild('form') form: NgForm;
   ner_id: string;
   key: string;
@@ -222,6 +223,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
 
   async goBack() {
+    this.refreshTable$.emit();
     let isDirty: boolean = SideBarService.isKnowledgeBaseDirty();
     if(isDirty){
       let data =  await this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper,this.matDialog);

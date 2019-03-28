@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-12 py-3 d-flex align-items-center">
       <a class="p-0 h4 cursor-pointer" [routerLink]="['/core','reports']" ><i class="fa fa-angle-left pr-2"></i></a>
-      <a class="p-0 h4 ">Edit a report subscription</a>
+      <a class="p-0 h4 ">{{report_id?'Edit':'Create'}} a report subscription</a>
       <button class="btn-theme btn-theme-primary-outline bg-transparent ml-auto mr-3" routerLink="/core/reports">Cancel</button>
       <button class="btn-theme btn-theme-primary" *ngIf="!report_id"
               [disabled]="!(myEventService.reportFormIsValid|async)"

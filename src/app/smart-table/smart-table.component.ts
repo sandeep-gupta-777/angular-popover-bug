@@ -32,6 +32,7 @@ export enum ESortDir {
 export class SmartTableComponent implements OnInit, AfterViewInit {
 
   @Output() dataValue$ = new EventEmitter();
+  @Input() noResultsMessage = 'No results';
   formDirty = false;
 
   tableFormTouched = false;/*because this.tableForm.touched is showing weird behaviour; only works when console is opened*/
@@ -40,6 +41,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     this.tableForm.valueChanges.pipe(
       map((obj) => this.removeEmptyKeyValues(UtilityService.cloneObj(obj))),
       tap((obj) => {
+        debugger;
         this.formDirty = Object.keys(obj).length > 0;
       }),
       distinctUntilChanged((obj1, obj2) => {
@@ -117,8 +119,9 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   tableData;
   displayKeyOriginalKeyDict: any = {};
 
-
+  isTableEmpty;
   @Input() set data(dataValue: any[]) {
+    this.isTableEmpty = true;/*initialize*/
     if (!dataValue) {
       return;
     }
@@ -129,6 +132,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     if (dataValue.length === 0) {
       return;
     }
+    this.isTableEmpty = false;
     this.displayedColumns = Object.keys(dataValue[0]).filter((key) => {
       return dataValue[0][key].hasOwnProperty('value') && dataValue[0][key].hasOwnProperty('type');
     });
