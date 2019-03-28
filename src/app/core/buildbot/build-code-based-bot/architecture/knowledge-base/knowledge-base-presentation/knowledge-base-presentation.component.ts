@@ -222,6 +222,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
 
   async goBack() {
+    debugger;
     let isDirty: boolean = SideBarService.isKnowledgeBaseDirty();
     if(isDirty){
       let data =  await this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper,this.matDialog);
@@ -238,9 +239,10 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       EventService.createConceptFullScreen$.emit(false);
       SideBarService.resetKB();
     }
-
-
-
+  }
+  goBackWithoutModal(){
+      this.showTable$.emit();
+      this._selectedRowData = {};
   }
 
   ngAfterViewInit(): void {
