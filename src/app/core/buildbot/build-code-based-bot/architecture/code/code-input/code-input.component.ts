@@ -284,38 +284,22 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
   convertGenTemplateCodeStringIntoUiComponents() {
     try {
-      debugger;
       console.log('convertGenTemplateCodeStringIntoUiComponents');
+      this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
       this.isGentemplateCodeParsable = this.isGentemplateCodeParsableCheck(this.selectedVersion[EBotVersionTabs.generation_templates]);
-      if(this.isGentemplateCodeParsable){
-        this.templateKeyDict = this.utilityService.parseGenTemplateCodeStrToObject(this.selectedVersion[EBotVersionTabs.generation_templates]);
-        this.templateKeyDictClone = { ...this.templateKeyDict };
-      }
-
+      this.templateKeyDictClone = { ...this.templateKeyDict };
     } catch (e) {
       console.log(e);
     }
   }
 
-  convertUiDictToGenTemplateCode(templateKeyDict) {
-    debugger;
-    const parseUiDict = this.utilityService.parseGenTemplateUiDictionaryToIfElseCode(templateKeyDict);
-    if (parseUiDict != undefined) {
-      this.selectedVersion.generation_templates = parseUiDict;
-    }
-    this.editorCodeObj = { ...this.editorCodeObj, generation_templates: { text: this.selectedVersion.generation_templates } };
-  }
-
   isGentemplateCodeParsableCheck(genTemplateCode) {
     const countOf_templateKey_stringInGenTemplateCodeStr = (genTemplateCode.includes("else:")) ? genTemplateCode.split('templateKey').length : genTemplateCode.split('templateKey').length - 1;
     const countOf_output_stringInGenTemplateCodeStr = genTemplateCode.split('output').length - 1;
-    // const countOfTemplateKeyFoundByParser = Object.keys(this.templateKeyDict).length;
-    // const countOfTemplateKeyFoundByParser = genTemplateCode.split(':\noutput').length;
+    const countOfTemplateKeyFoundByParser = Object.keys(this.templateKeyDict).length;
 
-    // return countOf_templateKey_stringInGenTemplateCodeStr === countOfTemplateKeyFoundByParser &&
-    //   countOf_output_stringInGenTemplateCodeStr === countOfTemplateKeyFoundByParser;
-
-    return countOf_output_stringInGenTemplateCodeStr === countOf_templateKey_stringInGenTemplateCodeStr;
+    return countOf_templateKey_stringInGenTemplateCodeStr === countOfTemplateKeyFoundByParser &&
+      countOf_output_stringInGenTemplateCodeStr === countOfTemplateKeyFoundByParser;
   }
 
   updateSelectedTemplateKeyValue(codeStr: string) {
@@ -526,7 +510,13 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
   }
 
-
+  convertUiDictToGenTemplateCode(templateKeyDict) {
+    const parseUiDict = this.utilityService.parseGenTemplateUiDictionaryToIfElseCode(templateKeyDict);
+    if (parseUiDict != undefined) {
+      this.selectedVersion.generation_templates = parseUiDict;
+    }
+    this.editorCodeObj = { ...this.editorCodeObj, generation_templates: { text: this.selectedVersion.generation_templates } };
+  }
 
   openForkNewVersionModal(template) {
     // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
@@ -613,19 +603,14 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
 
   genTemplateViewChange(showGenTempEditorAndHideGenTempUi) {
-    debugger;
-    this.isGentemplateCodeParsable = this.isGentemplateCodeParsableCheck(this.selectedVersion[EBotVersionTabs.generation_templates]);
-    if(this.isGentemplateCodeParsable){
-      if (showGenTempEditorAndHideGenTempUi) {
-        this.convertUiDictToGenTemplateCode(this.templateKeyDict);
-      } else {
-        this.convertGenTemplateCodeStringIntoUiComponents();
-        if (!this.selectedTemplateKeyInLeftSideBar && this.templateKeyDict && Array.isArray(Object.keys(this.templateKeyDict))) {
-          this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
-        }
+    if (showGenTempEditorAndHideGenTempUi) {
+      this.convertUiDictToGenTemplateCode(this.templateKeyDict);
+    } else {
+      this.convertGenTemplateCodeStringIntoUiComponents();
+      if (!this.selectedTemplateKeyInLeftSideBar && this.templateKeyDict && Array.isArray(Object.keys(this.templateKeyDict))) {
+        this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
       }
     }
-
   }
 
   isTemplateKeyOutputUnparsable() {
@@ -642,7 +627,6 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   }
 
   viewChanged(showGenTempEditorAndHideGenTempUi) {
-    debugger;
     if (showGenTempEditorAndHideGenTempUi === false) {
       this.convertGenTemplateCodeStringIntoUiComponents();
     } else {
