@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, TemplateRef} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {ServerService} from '../../../server.service';
 import {Observable} from 'rxjs';
@@ -6,26 +6,25 @@ import {ConstantsService, EAllActions} from '../../../constants.service';
 import {IConsumerItem, IConsumerResultsFromServer} from '../../../../interfaces/consumer';
 import {IBot} from '../../interfaces/IBot';
 import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
-import {ActivatedRoute, Route, Router} from '@angular/router';
-import {ISessionItem, ITableColumn} from '../../../../interfaces/sessions';
+import {ActivatedRoute, Router} from '@angular/router';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {PermissionService} from '../../../permission.service';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
-import {map} from 'rxjs/operators';
 import {MaterialTableImplementer} from '../../../material-table-implementer';
 import {UtilityService} from '../../../utility.service';
 import {MatDialog} from '@angular/material';
-import {ObjectArrayCrudService} from '../../../object-array-crud.service';
-import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
+import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
+import {BotSessionSmartTableModal} from "../bot-sessions/bot-session-smart-table-modal";
+import {ConsumerSmartTableModal} from "./consumer-smart-table-modal";
 
 @Component({
   selector: 'app-consumers',
   templateUrl: './consumers.component.html',
   styleUrls: ['./consumers.component.scss']
 })
-export class ConsumersComponent extends MaterialTableImplementer implements OnInit {
+export class ConsumersComponent implements OnInit {
 
-  dialogRefWrapper = {ref:null};
+  dialogRefWrapper = {ref: null};
   @Select() botlist$: Observable<ViewBotStateModel>;
   @Input() id: string;
   @Input() bot: IBot;
@@ -40,42 +39,27 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
   consumerItemToBeDecrypted: IConsumerItem;
   // decryptReason: string;
   tableData;
+  sessionsSmartTableDataModal: ConsumerSmartTableModal;
 
   constructor(
     private serverService: ServerService,
-    private constantsService: ConstantsService,
+    public constantsService: ConstantsService,
     private router: Router,
     private permissionService: PermissionService,
     private activatedRoute: ActivatedRoute,
     private matDialog: MatDialog,
     private utilityService: UtilityService,
     private store: Store) {
-    super();
   }
 
-  initializeTableData(consumerTableData: IConsumerItem[], tableDataMetaDict) {
-    let tableData = this.transformDataForMaterialTable(consumerTableData, tableDataMetaDict);
-    tableData.map((tableRow)=>{
-      let additonalColumns: any = {
-        Actions:tableRow['Actions'],
-      };
-
-      additonalColumns['Actions'].value = additonalColumns['Actions'].value || [];
-      if(tableRow['originalSessionData']['data_encrypted']){
-        additonalColumns['Actions'].value.push({show: true, name: 'decrypt', class: 'fa fa-lock'});
-      }
-
-      return {...tableRow, ...additonalColumns};
-    });
-    return tableData;
-  }
-
-  getTableDataMetaDict() {
-    return this.constantsService.SMART_TABLE_CONSUMER_TABLE_DATA_META_DICT_TEMPLATE;
+  tableDataFactory() {
+    return new ConsumerSmartTableModal(this.consumerItems,
+      this.constantsService.SMART_TABLE_CONSUMER_TABLE_DATA_META_DICT_TEMPLATE,
+      {constantsService: this.constantsService, bot: this.bot});
   }
 
   ngOnInit() {
-
+    this.sessionsSmartTableDataModal = this.tableDataFactory();
     this.isDeCryptAuditAccessDenied = this.permissionService.isTabAccessDenied(EAllActions['Create Decrypt Audit']);
     this.bot_id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     this.isFullscreen = this.activatedRoute.snapshot.data['isFullscreen'];
@@ -86,7 +70,6 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
   }
 
   pageChanged({page}) {
-
     this.loadConsumerData(10, (page - 1) * 10);
   }
 
@@ -99,8 +82,7 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
         this.totalRecords = value.meta.total_count;
         this.showLoader = false;
         this.consumerItems = value.objects;
-        let tableDataMetaDict = this.getTableDataMetaDict();
-        this.tableData = this.initializeTableData(value.objects, tableDataMetaDict);
+        this.sessionsSmartTableDataModal.refreshData(value.objects);
       });
   }
 
@@ -111,18 +93,18 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
       this.consumerItemToBeDecrypted = data.data;
       this.utilityService.openDialog({
         dialogRefWrapper: this.dialogRefWrapper,
-        classStr:'danger-modal-header-border',
-        data:{
-          actionButtonText:`Decrypt`,
+        classStr: 'danger-modal-header-border',
+        data: {
+          actionButtonText: `Decrypt`,
           message: 'Use the decryption key to decrypt this consumer',
-          title:`Decrypt consumer`,
-          isActionButtonDanger:false,
+          title: `Decrypt consumer`,
+          isActionButtonDanger: false,
           inputDescription: "Key"
         },
         dialog: this.matDialog,
-        component:ModalConfirmComponent
-      }).then((data)=>{
-        if(data){
+        component: ModalConfirmComponent
+      }).then((data) => {
+        if (data) {
           // this.decryptSubmit()
           this.decryptSubmit(data);
         }
@@ -137,7 +119,11 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-    const body = {'consumer_id': this.consumerItemToBeDecrypted.id, 'decrypt_audit_type': 'consumer', 'message': decryptKey};
+    const body = {
+      'consumer_id': this.consumerItemToBeDecrypted.id,
+      'decrypt_audit_type': 'consumer',
+      'message': decryptKey
+    };
     const url = this.constantsService.getDecryptUrl();
     this.serverService.makePostReq({headerData, body, url})
       .subscribe(() => {
@@ -145,15 +131,11 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
         const url = this.constantsService.getBotConsumerByIdUrl(this.consumerItemToBeDecrypted.id);
         this.serverService
           .makeGetReq<IConsumerItem>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
-          // .pipe(map((result) => {
-          //   const modified_update_at = (new Date(result.updated_at)).toDateString();
-          //   return {...result, updated_at: modified_update_at};
-          // }))
-          .subscribe((value: {objects:IConsumerItem[]}) => {
+          .subscribe((value: { objects: IConsumerItem[] }) => {
             this.consumersDecrypted = value.objects[0];
             const index = this.consumerItems.findIndex((value) => value.id === this.consumerItemToBeDecrypted.id);
             this.consumerItems[index] = this.consumersDecrypted;
-            this.tableData = this.initializeTableData(this.consumerItems, this.getTableDataMetaDict());
+            this.sessionsSmartTableDataModal.refreshData(this.consumerItems);
           });
       });
 
@@ -161,9 +143,9 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
 
   performSearchInDbForConsumer(data) {
     debugger;
-    if(!data.id){
-      if(data.page){
-        this.loadConsumerData(10, (data.page-1)*10);
+    if (!data.id) {
+      if (data.page) {
+        this.loadConsumerData(10, (data.page - 1) * 10);
       }
       return;
     }
@@ -171,18 +153,10 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
     this.serverService
       .makeGetReq<IConsumerItem>({url, headerData: {'bot-access-token': this.bot.bot_access_token}})
       .subscribe(({objects, meta}) => {
-
-        // let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.consumerItems, {id: consumer.id});
-        // if(index >= 0){
-        //   this.consumerItems[index] = consumer;
-        // }else {
-        //   this.consumerItems.push(consumer);
-        // }
         this.totalRecords = meta.total_count;
-        this.tableData = this.initializeTableData(objects, this.getTableDataMetaDict());
+        this.sessionsSmartTableDataModal.refreshData(objects);
       });
   }
-
 
 
 }

@@ -1,18 +1,19 @@
-<app-smart-table *ngIf="consumerItems && consumerItems.length>0"
-                 [ngClass]="{'disable-decrypt-lock-icon':isDeCryptAuditAccessDenied}"
-                 class="d-flex-column-last-child-flex-grow-1"
-                 [totalRecords]="totalRecords"
-                 (pageChanged$)="pageChanged($event)"
-                 [data]="tableData"
-                 (refreshData$)="loadConsumerData()"
-                 (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
-                 [showSearchInDbButton]="true"
-                 (performSearchInDB$)="performSearchInDbForConsumer($event)">
-</app-smart-table>
-
+<ng-container *ngIf="sessionsSmartTableDataModal.tableData as tableData1">
+  <app-smart-table *ngIf="consumerItems && consumerItems.length>0"
+                   [ngClass]="{'disable-decrypt-lock-icon':isDeCryptAuditAccessDenied}"
+                   class="d-flex-column-last-child-flex-grow-1"
+                   [totalRecords]="totalRecords"
+                   (pageChanged$)="pageChanged($event)"
+                   [data]="tableData1"
+                   (refreshData$)="loadConsumerData()"
+                   (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
+                   [showSearchInDbButton]="true"
+                   (performSearchInDB$)="performSearchInDbForConsumer($event)">
+  </app-smart-table>
+</ng-container>
 <app-imi-loader *ngIf="showLoader "></app-imi-loader>
 
-<!-- 
+<!--
 <ng-template #Primarytemplat>
   <div class="primary-modal">
     <div class="modal-header">
