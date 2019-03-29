@@ -10,11 +10,11 @@
             (!system_role ? "Edit role" : selectedRoleName)}}
           </div>
           <div class="ml-auto">
-            <button class="btn-theme btn-theme-danger mr-2" (click)="deleteRole()" *ngIf="!isNewRole && !system_role">Delete
+            <button class="btn-theme btn-theme-danger mr-2" (click)="openDeletModal()" *ngIf="!isNewRole && !system_role">Delete
               role</button>
-            <button class="btn-theme btn-theme-primary" (click)="createNewRole()" *ngIf="isNewRole" [disabled]="!selectedRoleName || !selectedRoleBaseRole">Create
+            <button class="btn-theme btn-theme-primary" (click)="createNewRole()" *ngIf="isNewRole" [disabled]="!selectedRoleName || !selectedRoleBaseRole || selectedPermissionIdList.length == 0">Create
               role</button>
-            <button class="btn-theme btn-theme-primary" (click)="modifyRole()" *ngIf="!isNewRole && !system_role" [disabled]="!selectedRoleName">Update
+            <button class="btn-theme btn-theme-primary" (click)="modifyRole()" *ngIf="!isNewRole && !system_role" [disabled]="!selectedRoleName || selectedPermissionIdList.length == 0">Update
               role</button>
       
           </div>

@@ -45,6 +45,7 @@ export class RolesComponent implements OnInit {
     permissionList: IProfilePermission[];
     myEnterpriseRoleTabName = EnterpriseRoleTabName;
     allRolesList: IRole[];
+    notConfigtablePermissionIdList : number[] = [];
     dialogRefWrapper = { ref: null };
     @Output() roleListChanged = new EventEmitter();
 
@@ -105,7 +106,9 @@ export class RolesComponent implements OnInit {
 
         this.allRolesList;
         let thisRole = this.allRolesList.find(role => role.id == RoleId);
-        this.selectedPermissionIdList = thisRole.permissions.actions;
+        this.selectedPermissionIdList = thisRole.permissions.actions.filter(id => {
+            return !!!this.notConfigtablePermissionIdList.find(id1 => {return id1 == id});
+        });
     }
     openDeletModal() {
         this.utilityService.openDialog({
@@ -151,11 +154,14 @@ export class RolesComponent implements OnInit {
                     this.system_role = roles.objects[0].enterprise_id == 0;
                     this.selectedRoleName = roles.objects[0].name;
                     this.selectedRoleData = roles.objects[0];
-                    this.selectedPermissionIdList = roles.objects[0].permissions.actions;
+                    this.selectedPermissionIdList = roles.objects[0].permissions.actions.filter(id => {
+                        return !!!this.notConfigtablePermissionIdList.find(id1 => {return id1 == id});
+                    });
                     if (this.system_role && this.selectedRoleData.id == 2) {
                         this.app$.subscribe((value) => {
-                            this.selectedPermissionIdList = value.masterProfilePermissions.map(permission => {
-                                return permission.id
+                            this.selectedPermissionIdList = [];
+                            value.masterProfilePermissions.forEach(permission => {
+                                if(permission.is_configurable_action)  this.selectedPermissionIdList.push(permission.id);
                             });
                         this.reloaded = true;
                             
@@ -176,8 +182,14 @@ export class RolesComponent implements OnInit {
             .subscribe((roles: IRoleResult) => {
                 this.allRolesList = roles.objects;
             });
+            debugger;
         this.app$.subscribe((value) => {
-            this.permissionList = value.masterProfilePermissions;
+            value.masterProfilePermissions.forEach(permission => {
+                if(!permission.is_configurable_action) this.notConfigtablePermissionIdList.push(permission.id);
+            })
+            debugger;
+            this.permissionList = value.masterProfilePermissions.filter(d => d.is_configurable_action == true);
+            debugger;
             this.permissionList.forEach(permission => {
                 this.categoryList.push(permission.category);
             })

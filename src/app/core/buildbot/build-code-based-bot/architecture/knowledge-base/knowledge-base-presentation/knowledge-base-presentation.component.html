@@ -60,10 +60,9 @@
 
             <div *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']" class="ml-auto">
                 <button mat-flat-button
-                        color="primary"
                         class="mat-theme-button"
                         style="margin-right: 10px;border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
-                        (click)="goBack()">
+                        (click)="goBackWithoutModal()">
                     <mat-icon>block</mat-icon>Cancel
                 </button>
                 <button mat-flat-button
@@ -79,13 +78,12 @@
             </div>
 
             <div *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']">
-                <button mat-button
+                <button mat-flat-button
                         class="mat-theme-button"
                         style="margin-right: 10px;border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
-                        (click)="goBack()">
+                        (click)="goBackWithoutModal()">
                     <mat-icon>block</mat-icon>Cancel
                 </button>
-
                 <button mat-flat-button
                         color="primary"
                         class="mat-theme-button"

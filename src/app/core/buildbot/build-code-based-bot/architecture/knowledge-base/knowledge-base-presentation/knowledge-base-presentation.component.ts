@@ -246,8 +246,10 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     }
   }
   goBackWithoutModal(){
-      this.showTable$.emit();
-      this._selectedRowData = {};
+    this.showTable$.emit();
+    this._selectedRowData = {};
+    EventService.createConceptFullScreen$.emit(false);
+    SideBarService.resetKB();
   }
 
   ngAfterViewInit(): void {

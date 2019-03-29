@@ -14,6 +14,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {BotConfigService} from './build-code-based-bot/bot-config/bot-config.service';
 import {CODE_BASED_DEFAULT_ICON, PIPELINE_DEFAULT_ICON} from "../../asset.service";
 
+import {MatDialog} from '@angular/material';
+import { SideBarService } from 'src/app/side-bar.service';
 @Component({
   selector: 'app-buildbot-wrapper',
   templateUrl: './buildbot-wrapper.component.html',
@@ -27,6 +29,7 @@ export class BuildbotWrapperComponent implements OnInit {
   bot: IBot = {};
   bot_type: string = EBotType.chatbot;
   formGroup: FormGroup;
+  dialogRefWrapper = {ref:null};
   @Output() datachanged$ = new EventEmitter();
   activeTab = 0;
   headings = [
@@ -50,7 +53,8 @@ export class BuildbotWrapperComponent implements OnInit {
     private constantsService: ConstantsService,
     private formBuilder: FormBuilder,
     private store: Store,
-    private botConfigService: BotConfigService
+    private botConfigService: BotConfigService,
+    private matDialog: MatDialog
   ) {
   }
 
@@ -77,7 +81,7 @@ export class BuildbotWrapperComponent implements OnInit {
     this.basicInfoForm = this.botConfigService.getBasicInfoForm(this.bot);
     this.dataManagementForm = this.botConfigService.getDataManagementForm(this.bot);
     this.securityForm = this.botConfigService.getSecurityForm(this.bot);
-
+    SideBarService.init(this);
     this.stageValidObj = {
       0: this.basicInfoForm.valid,
       1: this.dataManagementForm.valid,
@@ -173,10 +177,33 @@ export class BuildbotWrapperComponent implements OnInit {
     }
   }
 
-  goToDashBoard() {
-    this.router.navigate(['core/viewbots'], {queryParams: {type: this.bot_type}});
+  goBack(){
+    // console.log(this.basicInfoForm.untouched , this.dataManagementForm.untouched , this.securityForm.untouched);
+    if(this.loading) return;
+    console.log(SideBarService.buildbotWrapperComponent);
+    debugger;
+    console.log(SideBarService.buildbotData_init);
+    if(SideBarService.isBuildBotDirty()){
+      this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
+      .then((data)=>{
+        if(data){
+          this.router.navigate(['/']);
+        }
+      })
+      
+    }
+    else{
+      this.router.navigate(['/']);
+    }
   }
 
+  putBuildBotFinalData(){
+    return {
+      basicInfoForm : this.basicInfoForm.value,
+      dataManagementForm : this.dataManagementForm.value,
+      securityForm : this.securityForm.value
+    }
+  }
 
   updateFormValidNumber(formValidNumber, isValid: boolean) {
     this.stageValidObj[formValidNumber] = isValid;

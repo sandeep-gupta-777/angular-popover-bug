@@ -9,6 +9,7 @@ import {BotConfigService} from './core/buildbot/build-code-based-bot/bot-config/
 import {BotConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.component';
 import {FormGroup, NgForm} from "@angular/forms";
+import { BuildbotWrapperComponent } from './core/buildbot/buildbot-wrapper.component';
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +28,10 @@ export class SideBarService {
   private static botTestingComponent: BotTestingComponent;
   private static botTestingData_init: any[];
 
-  static init(component) {
+  public static buildbotWrapperComponent: BuildbotWrapperComponent;
+  public static buildbotData_init;
 
+  static init(component) {
     if (component instanceof PipelineComponent) {
       SideBarService.pipelineInit(component);
     }
@@ -45,6 +48,10 @@ export class SideBarService {
     if (component instanceof KnowledgeBasePresentationComponent) {
       /*KnowledgeBasePresentationComponent is initialized manually from within KnowledgeBasePresentationComponent*/
     }
+
+    if (component instanceof BuildbotWrapperComponent) {
+      SideBarService.buildBotInit(<BuildbotWrapperComponent>component);
+    }
   }
   static activeTab : ESideBarTab;
   /*BotConfig*/
@@ -58,7 +65,6 @@ export class SideBarService {
   static createBasicInfoFinalData(){
     return SideBarService.createBasicInfoData();
   }
-
   private static createBasicInfoData() {
 
     let botConfigComponent = SideBarService.botConfigComponent ;
@@ -180,6 +186,30 @@ export class SideBarService {
     return x;
   }
 
+  /*buildbot*/
+
+  static buildBotInit(buildBotComponent: BuildbotWrapperComponent) {
+    debugger;
+    SideBarService.buildbotWrapperComponent = buildBotComponent;
+    debugger;
+    SideBarService.buildbotData_init = UtilityService.cloneObj({
+      basicInfoForm : buildBotComponent.basicInfoForm.value,
+      dataManagementForm : buildBotComponent.dataManagementForm.value,
+      securityForm : buildBotComponent.securityForm.value
+    });
+  }
+
+  static isBuildBotDirty(): boolean {
+    if (!SideBarService.buildbotWrapperComponent) return false;
+    debugger;
+    let buildBotFinalData = this.buildBotFinalData();
+    let x = !UtilityService.deepCompare(SideBarService.buildbotData_init, buildBotFinalData);
+    return x;
+  }
+
+  private static buildBotFinalData() {
+    return SideBarService.buildbotWrapperComponent.putBuildBotFinalData();
+  }
 
   constructor() {
   }
@@ -197,6 +227,8 @@ export class SideBarService {
     SideBarService.botTestingComponent = null;
     SideBarService.botTestingData_init = null;
 
+    SideBarService.buildbotWrapperComponent = null;
+    SideBarService.buildbotData_init = null;
   }
 static resetKB(){
     SideBarService.knowledgeBasePresentationComponent = null;

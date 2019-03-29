@@ -71,9 +71,9 @@
                 </mat-tab>
             </mat-tab-group>
 
-            <span (click)="goToDashBoard()" style="margin: 0;width: 32px;height: 32px;position: absolute;top: 0;right: 0;border-radius: 50%;background: #e5e5e5;display: flex;justify-content: center;align-items: center;color: #4a4a4a; text-decoration: none; cursor: pointer">
+            <div (click) = "goBack()" style="margin: 0;width: 32px;height: 32px;position: absolute;top: 0;right: 0;border-radius: 50%;background: #e5e5e5;display: flex;justify-content: center;align-items: center;color: #4a4a4a; text-decoration: none">
                 <i class="fa fa-times" style="margin: 0; color: #474747"></i>
-            </span>
+            </div>
             <button *ngIf="activeTab>0" mat-button style="position: absolute;top: 90%;left: 0" (click)="activeTab = activeTab>0?activeTab-1:activeTab">
                 <mat-icon>arrow_left</mat-icon>
                 Back

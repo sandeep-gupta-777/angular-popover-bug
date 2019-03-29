@@ -2,7 +2,8 @@ import {EventEmitter, Injectable} from '@angular/core';
 
 export enum EBotType {
   chatbot = 'chatbot',
-  intelligent = 'intelligent'
+  intelligent = 'intelligent',
+  faqbot = 'faqbot'
 }
 
 export enum EFormValidationErrors {

@@ -17,6 +17,7 @@ import {MatDialog} from '@angular/material';
 import {ModalImplementer} from '../../../modal-implementer';
 import {EventService} from '../../../event.service';
 import { SideBarService } from 'src/app/side-bar.service';
+import { ESideBarTab } from '../code-based-bot-detail/code-based-bot-detail.component';
 
 @Component({
   selector: 'app-bot-detail-header',
@@ -33,7 +34,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
   @Output() refreshBotDetails$ = new EventEmitter();
   enterprise_unique_name;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
-
+  myESideBarTab = ESideBarTab;
   constructor(
     private store: Store,
     private serverService: ServerService,

@@ -148,7 +148,7 @@ background-color: #f0f3f4;
              <mat-form-field *ngIf="selectedPipeline.display_values[Key].type == 'dropdown'">
               <mat-select [placeholder]="selectedPipeline.display_values[Key].display_value" name="{{Key}}"
               [ngModel]="selectedPipeline.input_params[Key] || selectedPipeline.display_values[Key].default">
-                    <mat-option *ngFor="let dropi of selectedPipeline.display_values[Key].content" [value]="dropi"  >
+                    <mat-option *ngFor="let dropi of selectedPipeline.display_values[Key].content | convertToUniqueArray" [value]="dropi"  >
                       {{dropi}}
                 </mat-option>
               </mat-select>

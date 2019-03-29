@@ -82,6 +82,7 @@
           <app-card-carousel
             [isParentSessionsModal]="true"
             style="width: 100%!important;"
+            [feedback]="sessionMessage.feedback"
             [messageData]="message"
             *ngIf="message && message.media">
           </app-card-carousel>
