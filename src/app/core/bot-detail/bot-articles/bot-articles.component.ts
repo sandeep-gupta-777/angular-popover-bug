@@ -32,16 +32,6 @@ export class BotArticlesComponent implements OnInit {
     this.serverService.makeGetReq<any>({url: getCorpusForFAQBot, headerData})
     .subscribe((val)=>{
       this.corpus = val;
-      let session_array = []
-      Object.keys(val.sections).forEach(section_id => {
-        session_array.push({...this.corpus.sections[section_id],section_id:section_id})
-      });
-      this.corpus.sections = session_array;
-      let category_mapping_array = []
-      Object.keys(val.category_mapping).forEach(category_id => {
-        category_mapping_array.push({...this.corpus.category_mapping[category_id],category_id:category_id})
-      });
-      this.corpus.category_mapping = category_mapping_array;
     })
   }
   makeFilterList(filter_categorie_map){
