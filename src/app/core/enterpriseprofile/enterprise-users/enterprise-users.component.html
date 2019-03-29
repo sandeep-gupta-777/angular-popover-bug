@@ -224,7 +224,7 @@
         <!-- <form class="modelBotNames" roomId="modelGenTempNameForm" #modelGenTempNameForm="ngForm" (submit)="selectedListCopy(modelGenTempNameForm)" -->
         <form class="modelBotNames" id="newBotList" #newBotList="ngForm" style="overflow-y: scroll;max-height: 185px;">
           <label class="container-chekbox text-dark" *ngFor="let bot of enterpriseUserBotList" [hidden]="!bot.name.toLowerCase().includes(searchBots.toLowerCase())">
-            <div style="width: 120px;overflow-wrap: break-word;"> {{bot.name}}</div>
+            <div style="width: 120px;overflow-wrap: break-word;padding-left: 16px;"> {{bot.name}}</div>
             <input type="checkbox" ngModel name="{{bot.id}}" [disabled]="isSelectedRoleAdmin">
             <span class="checkmark" [ngClass]="isSelectedRoleAdmin && 'opacity-less'"></span>
           </label>
