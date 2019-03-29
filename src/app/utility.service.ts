@@ -549,8 +549,10 @@ export class UtilityService {
     // let regex = /output[\s]*=([\s]*\[.*?\].*?\n|[\s\S]*?[\s\S]$)/gms;//https://regex101.com/r/WXGF5J/4
     // const regex = /output[\s]*?=[\s]*?([\s\S]*?)els?e?if/gm;
 // more restricted with form of output and \n before output
-    let regex = /[\n].+output[\s]*?=[\s]*?(\[({.*})*\])/gm;
+    // let regex = /[\n].+output[\s]*?=[\s]*?(\[({.*})*\])/gm; apprently shoaid made this parser so costraint heavy that its not working
+    let regex = /output[\s]*?=[\s]*?(\[[\s\S]*?])$/gm;
     let match = regex.exec(str);
+
 
     const outputsKeys = [];
     while (match) {
