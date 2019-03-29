@@ -20,6 +20,7 @@ export class BotArticlesComponent implements OnInit {
   ) { }
   @Input() bot :IBot;
   corpus;
+  loaded: boolean = false;
   myObject = Object;
   sort_articals_by: string = 'updated_at';
   filter_categorie_search:string = "";
@@ -32,6 +33,7 @@ export class BotArticlesComponent implements OnInit {
     this.serverService.makeGetReq<any>({url: getCorpusForFAQBot, headerData})
     .subscribe((val)=>{
       this.corpus = val;
+      this.loaded = true;
     })
   }
   makeFilterList(filter_categorie_map){
