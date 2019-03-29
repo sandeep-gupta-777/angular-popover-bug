@@ -146,19 +146,19 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
       /*adding two additional columns 1) actions and 2)channels*/
       let additonalColumns: any = {
-        'Room Metadata': sessionsDataForTableItem['Room Metadata'],
+        'Metadata': sessionsDataForTableItem['Metadata'],
         Channels: sessionsDataForTableItem['Channels'],
       };
 
-      additonalColumns['Room Metadata'].value = additonalColumns['Room Metadata'].value || [];
+      additonalColumns['Metadata'].value = additonalColumns['Metadata'].value || [];
       additonalColumns['Channels'].value = additonalColumns['Channels'].value || [];
       /*actions*/
-      // additonalColumns['Room Metadata'].value.push({show: true, name: 'download', class: 'fa fa-download'});
+      // additonalColumns['Metadata'].value.push({show: true, name: 'download', class: 'fa fa-download'});
 
       let originalSessionData = sessionsDataForTableItem['originalSessionData'];
       /*TODO: also check if the user has access to decrypt api*/
       if (originalSessionData['sendtoagent']) {
-        additonalColumns['Room Metadata'].value.push({
+        additonalColumns['Metadata'].value.push({
           show: true,
           name: 'Sent to agent',
           iconName: 'headset',
@@ -166,7 +166,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         });
       }
       if (originalSessionData['error']) {
-        additonalColumns['Room Metadata'].value.push({
+        additonalColumns['Metadata'].value.push({
           show: true,
           name: 'Error',
           iconName: 'error_outline',
@@ -174,7 +174,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         });
       }
       if (this.bot.advanced_data_protection && !originalSessionData['data_encrypted']) {
-        additonalColumns['Room Metadata'].value.push({
+        additonalColumns['Metadata'].value.push({
           show: true,
           name: 'Decrypted',
           iconName: 'lock_open',
@@ -184,7 +184,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       let negativeFeedbackCount: number = originalSessionData['feedback_count'] && originalSessionData['feedback_count']['downvote'];
       if (negativeFeedbackCount && negativeFeedbackCount > 0) {
         let name = `${negativeFeedbackCount} downvote${negativeFeedbackCount > 1 ? 's' : ''}`;
-        additonalColumns['Room Metadata'].value.push({
+        additonalColumns['Metadata'].value.push({
           show: true,
           name: name,
           iconName: 'thumb_down',
@@ -192,7 +192,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         });
       }
 
-      // additonalColumns['Room Metadata'].value = `<mat-icon>search</mat-icon>`;//TODO: in future do this but via dynamic components
+      // additonalColumns['Metadata'].value = `<mat-icon>search</mat-icon>`;//TODO: in future do this but via dynamic components
 
       /*channels*/
       additonalColumns['Channels'].searchValue = sessionsDataForTableItem['Channels'].value.join();

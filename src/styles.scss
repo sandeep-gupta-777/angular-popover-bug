@@ -1300,3 +1300,10 @@ mat-dialog-container {
 .pointer-events-none{
   pointer-events: none
 }
+
+
+
+.mat-input-element {
+  /*if input height is low, lower parts of g gets cut off*/
+  height: 17px;
+}

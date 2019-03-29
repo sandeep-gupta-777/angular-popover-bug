@@ -64,7 +64,9 @@
                 class="search-theme-input-with-search"
                 style="position: absolute;top: -3px;left: 10px;height: 35px;display: flex; align-items: center;">
                 <span class="fa fa-search"></span>
-                <input type="text" class="input-material" style="width: 100%" [name]="i" ngModel [placeholder]="i">
+                <input type="text" class="input-material" style="width: 100%"
+                       (keyup.enter)="enterPressedOnFilters()"
+                       [name]="i" ngModel [placeholder]="i">
                 <!--<mat-form-field floatLabel="never" style="position: relative">-->
                   <!--<input matInput-->
                          <!--[readonly]="true"-->
