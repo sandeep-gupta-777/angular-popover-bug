@@ -133,7 +133,7 @@ export class CodeInputService {
       classStr: 'danger-modal-header-border',
       data: {
         actionButtonText: "Fork an inactive Versions",
-        message: 'The current active versions has error which need to be rectified before saving the versions.You can resolve the errors in the active versions to save it right now.You can fork this versions to an inactive versions with these errors and you can save it, inactive versions can be saved with errors.',
+        message: 'This active version has errors, please rectify the errors before saving. You can also fork a new inactive version from this and save it with errors, but you cannot activate it.',
         title: 'Version save failed',
         isActionButtonDanger: true
       },

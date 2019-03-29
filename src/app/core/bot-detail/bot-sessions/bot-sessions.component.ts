@@ -173,7 +173,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
           class: "error_outline"
         });
       }
-      if (!originalSessionData['data_encrypted']) {
+      if (this.bot.advanced_data_protection && !originalSessionData['data_encrypted']) {
         additonalColumns['Room Metadata'].value.push({
           show: true,
           name: 'Decrypted',
