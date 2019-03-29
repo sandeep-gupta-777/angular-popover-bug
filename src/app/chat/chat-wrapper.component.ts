@@ -162,6 +162,10 @@ export class ChatWrapperComponent implements OnInit {
       }
     });
 
+    EventService.startANewChat$.subscribe((val)=>{
+      this.startNewChat(val);
+    });
+
     this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
       try {
         this.windowOpen = chatSessionState.opened;

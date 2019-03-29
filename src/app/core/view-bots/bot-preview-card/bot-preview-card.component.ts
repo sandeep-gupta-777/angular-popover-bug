@@ -26,6 +26,7 @@ import {CreateBotDialogComponent} from '../create-bot-dialog/create-bot-dialog.c
 import {MatDialog} from '@angular/material';
 import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
 import {ModalImplementer} from '../../../modal-implementer';
+import {EventService} from "../../../event.service";
 
 @Component({
   selector: 'app-bot-preview-card',
@@ -96,8 +97,12 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
         bot: {...this.bot, enterprise_unique_name: this.enterprise_unique_name}
       }),
       new ToggleChatWindow({open: true}),
-      new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX})
+      new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX})
     ]);
+
+    /*TODO: integrate this with store*/
+    EventService.startANewChat$.emit({bot:this.bot, consumerDetails: {uid: this.utilityService.createRandomUid()},
+    });
 
   }
 
