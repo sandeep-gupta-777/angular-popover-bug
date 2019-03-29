@@ -1,108 +1,108 @@
-
 <!--<i>{{totalSessionRecords}}</i>-->
 <!--<i>{{pageNumberOfCurrentRowSelected}}</i>-->
 <section class="bot-session-section">
-    <form [hidden]="!showFilterForm" #form="ngForm" class="refine-results">
-        <strong>Refine Results</strong>
-        <hr class="refine-results__divider">
-        <mat-form-field>
-            <input matInput placeholder="Room Id"
-                   ngModel
-                   type="number"
-                   name="id">
+  <form [hidden]="!showFilterForm" #form="ngForm" class="refine-results">
+    <strong>Refine Results</strong>
+    <hr class="refine-results__divider">
+    <mat-form-field>
+      <input matInput placeholder="Room Id"
+             ngModel
+             type="number"
+             name="id">
+    </mat-form-field>
+    <mat-form-field class="">
+      <input matInput placeholder="Consumer Id"
+             ngModel
+             type="number"
+             name="consumer_id">
+    </mat-form-field>
+
+
+    <div class="refine-results__length">
+      <div>Messages</div>
+      <div class="input-container">
+        <mat-form-field class="input-no-label" floatLabel="never">
+          <input matInput placeholder="min" type="number"
+                 ngModel
+                 name="total_message_count__gte">
         </mat-form-field>
-        <mat-form-field class="">
-            <input matInput placeholder="Consumer Id"
-                   ngModel
-                   type="number"
-                   name="consumer_id">
+        <span>to</span>
+        <mat-form-field class="input-no-label" floatLabel="never">
+          <input matInput placeholder="max" type="number"
+                 ngModel
+                 name="total_message_count__lte">
         </mat-form-field>
+      </div>
+    </div>
 
+    <div class="refine-results__channel">
+      <div>Channels</div>
+      <ul ngModelGroup="channels">
+        <li *ngFor="let channel of channels">
+          <mat-checkbox *ngIf="channel.integration_type=== 'channels'" color="primary"
+                        [ngModel]="false"
+                        name="{{channel.unique_name}}" [title]="channel.unique_name">
+            <img [src]="channel.icon" [alt]="channel.unique_name">
+          </mat-checkbox>
+        </li>
+      </ul>
+    </div>
 
-        <div class="refine-results__length">
-            <div>Messages</div>
-            <div class="input-container">
-                <mat-form-field class="input-no-label" floatLabel="never">
-                    <input matInput placeholder="min" type="number"
-                           ngModel
-                           name="total_message_count__gte">
-                </mat-form-field>
-                <span>to</span>
-                <mat-form-field class="input-no-label" floatLabel="never">
-                    <input matInput placeholder="max" type="number"
-                           ngModel
-                           name="total_message_count__lte">
-                </mat-form-field>
-            </div>
-        </div>
+    <mat-form-field floatLabel="never">
+      <input matInput
+             name="updated_at"
+             ngModel
+             placeholder="Last Updated"
+             [satDatepicker]="picker">
+      <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
+      <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+    </mat-form-field>
 
-        <div class="refine-results__channel">
-            <div>Channels</div>
-            <ul ngModelGroup="channels">
-                <li *ngFor="let channel of channels">
-                    <mat-checkbox *ngIf="channel.integration_type=== 'channels'" color="primary"
-                                  [ngModel]="false"
-                                  name="{{channel.unique_name}}" [title]="channel.unique_name">
-                        <img [src]="channel.icon" [alt]="channel.unique_name">
-                    </mat-checkbox>
-                </li>
-            </ul>
-        </div>
+    <ul>Room metadata
+      <li>
+        <mat-checkbox name="sendtoagent" [ngModel]="false" color="primary">Agent handover happened</mat-checkbox>
+      </li>
+      <li>
+        <mat-checkbox name="error" [ngModel]="false" color="primary">Error occured</mat-checkbox>
+      </li>
+      <li>
+        <mat-checkbox name="downvote" [ngModel]="false" color="primary">Downvoted</mat-checkbox>
+      </li>
+    </ul>
 
-        <mat-form-field floatLabel="never">
-            <input matInput
-                   name="updated_at"
-                   ngModel
-                   placeholder="Last Updated"
-                   [satDatepicker]="picker">
-            <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
-            <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
-        </mat-form-field>
+    <div class="refine-results__action">
+      <button mat-flat-button class="mat-theme-button"
+              [disabled]="!filterFormDirty"
+              color="primary" type="submit" (click)="sessionFormSubmitted(form.value)">Submit
+      </button>
+      <button mat-button class="mat-theme-button cancel"
+              type="button"
+              (click)="resetSearchForm(form)">Clear
+      </button>
+    </div>
+  </form>
+  <!---->
 
-        <ul>Room metadata
-            <li>
-                <mat-checkbox name="sendtoagent" [ngModel]="false" color="primary">Agent handover happened</mat-checkbox>
-            </li>
-            <li>
-                <mat-checkbox name="error" [ngModel]="false" color="primary">Error occured</mat-checkbox>
-            </li>
-            <li>
-                <mat-checkbox name="downvote" [ngModel]="false" color="primary">Downvoted</mat-checkbox>
-            </li>
-        </ul>
-
-        <div class="refine-results__action">
-            <button mat-flat-button class="mat-theme-button"
-                    [disabled]="!filterFormDirty"
-                    color="primary" type="submit" (click)="sessionFormSubmitted(form.value)">Submit
-            </button>
-            <button mat-button class="mat-theme-button cancel"
-                    type="button"
-                    (click)="resetSearchForm(form)">Clear
-            </button>
-        </div>
-    </form>
-    <!---->
-
-    <app-smart-table [data]="tableData"
-                     *ngIf="tableData"
-                     [totalRecords]="totalSessionRecords"
-                     [currentPage]="pageNumberOfCurrentRowSelected"
-                     noResultsMessage="No sessions found. Search again."
-                     (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
-                     (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate)"
-                     [showSearchInDbButton]="true"
-                     [showRefreshButton]="true"
-                     (refreshData$)="performSearchInDbForSessionHandler($event)"
-                     (performSearchInDB$)="performSearchInDbForSessionHandler($event)">
-        <!--ng-content starts-->
-        <div *ngIf="bot.advanced_data_protection && !showLoader && !showSplashScreen"
-             style="border: 1px solid #e0e0e0; align-self: flex-end;padding: 0px 10px;margin-left: 10px;">
-            <i class="fa fa-lock" style="color: orange"></i>
-            All the sessions are encrypted, use the decryption key to view individual session of interest
-        </div>
-        <!--ng-content ends-->
-    </app-smart-table>
+  <app-smart-table
+    *ngIf="sessionsSmartTableDataModal._tableData as tableData"
+    [data]="tableData"
+    [totalRecords]="totalSessionRecords"
+    [currentPage]="pageNumberOfCurrentRowSelected"
+    noResultsMessage="No sessions found. Search again."
+    (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
+    (rowClicked$)="sessionTableRowClicked($event, sessionDetailTemplate)"
+    [showSearchInDbButton]="true"
+    [showRefreshButton]="true"
+    (refreshData$)="performSearchInDbForSessionHandler($event)"
+    (performSearchInDB$)="performSearchInDbForSessionHandler($event)">
+    <!--ng-content starts-->
+    <div *ngIf="bot.advanced_data_protection && !showLoader && !showSplashScreen"
+         style="border: 1px solid #e0e0e0; align-self: flex-end;padding: 0px 10px;margin-left: 10px;">
+      <i class="fa fa-lock" style="color: orange"></i>
+      All the sessions are encrypted, use the decryption key to view individual session of interest
+    </div>
+    <!--ng-content ends-->
+  </app-smart-table>
 </section>
 
 
@@ -117,17 +117,17 @@
 
 
 <ng-template #sessionDetailTemplate>
-    <app-session-detail-model
-            [session]="selectedRow_Session"
-            [bot]="bot"
-            (selectNextRow)="selectNextRow()"
-            (closeModel$)="dialogRefWrapper.ref.close()"
-            (selectPrevRow)="selectPrevRow()"
-            [pageNumberOfCurrentRowSelected]="pageNumberOfCurrentRowSelected"
-            [indexOfCurrentRowSelected]="indexOfCurrentRowSelected"
-            [finalDfState]="selectedRow_Session.df_state"
-            (refreshSession$)="updateSessionById($event)"
-            [sessionDataStore]="selectedRow_Session.data_store">
-    </app-session-detail-model>
+  <app-session-detail-model
+    [session]="selectedRow_Session"
+    [bot]="bot"
+    (selectNextRow)="selectNextRow()"
+    (closeModel$)="dialogRefWrapper.ref.close()"
+    (selectPrevRow)="selectPrevRow()"
+    [pageNumberOfCurrentRowSelected]="pageNumberOfCurrentRowSelected"
+    [indexOfCurrentRowSelected]="indexOfCurrentRowSelected"
+    [finalDfState]="selectedRow_Session.df_state"
+    (refreshSession$)="updateSessionById($event)"
+    [sessionDataStore]="selectedRow_Session.data_store">
+  </app-session-detail-model>
 </ng-template>
 <!---->

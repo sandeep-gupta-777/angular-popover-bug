@@ -146,7 +146,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
         //
         //   this.loggeduserenterpriseinfo = enterprise[0].loggeduserenterpriseinfo;
         // });
-        // this.tableData = this.tableData.filter((user) => user.originalSessionData.roomId !== this.usertoDelete.roomId);
+        // this._tableData = this._tableData.filter((user) => user.originalSessionData.roomId !== this.usertoDelete.roomId);
       });
   }
 

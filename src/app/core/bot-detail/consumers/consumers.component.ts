@@ -160,7 +160,7 @@ export class ConsumersComponent extends MaterialTableImplementer implements OnIn
   }
 
   performSearchInDbForConsumer(data) {
-
+    debugger;
     if(!data.id){
       if(data.page){
         this.loadConsumerData(10, (data.page-1)*10);
