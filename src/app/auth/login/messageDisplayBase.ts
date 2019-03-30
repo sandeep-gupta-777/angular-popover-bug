@@ -1,5 +1,7 @@
 
 
+declare const Offline:any;
+
 export class MessageDisplayBase {
   errorMessage: string;
   infoMessage: string;
@@ -7,6 +9,13 @@ export class MessageDisplayBase {
   setIntervelRef;
 
   flashErrorMessage(message: string, time_ms: number = 3000) {
+    debugger;
+    if(Offline){
+      Offline.check();
+      if(Offline && Offline.state ==='down'){
+        message = "Internet connection lost";
+      }
+    }
     try {
       clearInterval(this.setIntervelRef);
     }catch (e) {
