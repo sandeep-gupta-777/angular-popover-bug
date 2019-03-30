@@ -179,7 +179,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       codeTextFromEditor = [this.codeTextOutPutFromCodeEditor];
     } else if (this.ner_type !== 'database') {
       try {
-        debugger;
+
         // if (!this.codeTextOutPutFromCodeEditor) {
         //   this.utilityService.showErrorToaster(`Syntax is not valid. ${this.ner_type} only accespts Array literal`);
         //   return;
@@ -227,7 +227,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
 
   async goBack() {
-    debugger;
+
     let isDirty: boolean = SideBarService.isKnowledgeBaseDirty();
     if(isDirty){
       let data =  await this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper,this.matDialog);
@@ -246,10 +246,12 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     }
   }
   goBackWithoutModal(){
+    EventService.kbRefresh$.emit();
     this.showTable$.emit();
     this._selectedRowData = {};
     EventService.createConceptFullScreen$.emit(false);
     SideBarService.resetKB();
+
   }
 
   ngAfterViewInit(): void {

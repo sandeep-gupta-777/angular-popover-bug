@@ -131,7 +131,7 @@ export class RolesComponent implements OnInit {
       }
     deleteRole() {
         let getRoleIdUrl = this.constantsService.getRoleIdUrl(this.selectedRole);
-    
+
         this.serverService.makeDeleteReq<any>({ url: getRoleIdUrl })
           .subscribe((roles) => {
             this.utilityService.showSuccessToaster("Role deleted");
@@ -164,13 +164,13 @@ export class RolesComponent implements OnInit {
                                 if(permission.is_configurable_action)  this.selectedPermissionIdList.push(permission.id);
                             });
                         this.reloaded = true;
-                            
+
                         });
                     }
                     else{
                     this.reloaded = true;
                     }
-                   
+
                 });
         }
         else{
@@ -182,14 +182,14 @@ export class RolesComponent implements OnInit {
             .subscribe((roles: IRoleResult) => {
                 this.allRolesList = roles.objects;
             });
-            debugger;
+
         this.app$.subscribe((value) => {
             value.masterProfilePermissions.forEach(permission => {
                 if(!permission.is_configurable_action) this.notConfigtablePermissionIdList.push(permission.id);
             })
-            debugger;
+
             this.permissionList = value.masterProfilePermissions.filter(d => d.is_configurable_action == true);
-            debugger;
+
             this.permissionList.forEach(permission => {
                 this.categoryList.push(permission.category);
             })

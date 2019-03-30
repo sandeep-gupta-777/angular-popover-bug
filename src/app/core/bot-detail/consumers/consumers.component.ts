@@ -142,7 +142,7 @@ export class ConsumersComponent implements OnInit {
   }
 
   performSearchInDbForConsumer(data) {
-    debugger;
+
     if (!data.id) {
       if (data.page) {
         this.loadConsumerData(10, (data.page - 1) * 10);

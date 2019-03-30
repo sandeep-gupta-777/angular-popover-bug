@@ -315,7 +315,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   }
 
   goBackToDashboard(){
-    debugger;
+
     if(SideBarService.isTabDirty(SideBarService.activeTab)){
       this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
       .then((data)=>{
@@ -323,12 +323,12 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
           this.router.navigate(['/']);
         }
       })
-      
+
     }
     else{
       this.router.navigate(['/']);
     }
-    
+
   }
 
 

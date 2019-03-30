@@ -340,7 +340,7 @@ channelNameToImg(channel:string){
           if (objItem.message && Array.isArray(objItem.message[1] && objItem.message[1].media)) {
             /*looking into the media items*/
             let media:any[] = objItem.message[1].media;
-            debugger;
+
             let isMatch = media.find((el:{buttons:{title:string}[], title:string})=>{
               let found = false;
               if(el.title){

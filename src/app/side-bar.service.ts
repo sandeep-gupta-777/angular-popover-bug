@@ -181,9 +181,9 @@ export class SideBarService {
   /*buildbot*/
 
   static buildBotInit(buildBotComponent: BuildbotWrapperComponent) {
-    debugger;
+
     SideBarService.buildbotWrapperComponent = buildBotComponent;
-    debugger;
+
     SideBarService.buildbotData_init = UtilityService.cloneObj({
       basicInfoForm : buildBotComponent.basicInfoForm.value,
       dataManagementForm : buildBotComponent.dataManagementForm.value,
@@ -193,7 +193,7 @@ export class SideBarService {
 
   static isBuildBotDirty(): boolean {
     if (!SideBarService.buildbotWrapperComponent) return false;
-    debugger;
+
     let buildBotFinalData = this.buildBotFinalData();
     let x = !UtilityService.deepCompare(SideBarService.buildbotData_init, buildBotFinalData);
     return x;

@@ -134,7 +134,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
 
 
   tableDataFactory() {
-    debugger;
+
     let tableDataModel = new BotSessionSmartTableModal(this.sessions,
       this.constantsService.SMART_TABLE_SESSION_TABLE_DATA_META_DICT_TEMPLATE,
       {constantsService: this.constantsService, bot: this.bot});

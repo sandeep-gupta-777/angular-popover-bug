@@ -9,7 +9,7 @@ export class MessageDisplayBase {
   setIntervelRef;
 
   flashErrorMessage(message: string, time_ms: number = 3000) {
-    debugger;
+
     if(Offline){
       Offline.check();
       if(Offline && Offline.state ==='down'){

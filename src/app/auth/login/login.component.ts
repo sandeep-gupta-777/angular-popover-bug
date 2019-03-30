@@ -99,7 +99,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
 
     this.gotUserData$.pipe(
       map((value: IUser) => {
-        debugger;
+
         this.userValue = userValue = value;
         this.serverService.X_AXIS_TOKEN = this.userValue.user_access_token;
         this.serverService.AUTH_TOKEN = this.userValue.auth_token;
@@ -195,6 +195,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   }
 
   loginSubmitHandler() {
+    this.flashInfoMessage('Connecting to the server', 10000);
     localStorage.clear();
     /*logging out so that only one use can login in at one time*/
     this.store.dispatch([
@@ -217,7 +218,6 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       return;
     }
     this.disabeLoginButton = true;
-    this.flashInfoMessage('Connecting to the server', 10000);
     const headerData: IHeaderData = {
       'auth-token': null,
       'user-access-token': null

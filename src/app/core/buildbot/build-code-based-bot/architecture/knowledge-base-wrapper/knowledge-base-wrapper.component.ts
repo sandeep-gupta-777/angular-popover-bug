@@ -47,6 +47,11 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
     this.currentPageNumber = Number(this.activatedRoute.snapshot.queryParamMap.get('page') || '1');
     this.fetchNers(10, this.currentPageNumber - 1)
       .subscribe();
+    EventService.kbRefresh$
+      .subscribe(()=>{
+        debugger;
+        this.pageChangedTrigger(this.currentPageNumber);
+      })
   }
 
 

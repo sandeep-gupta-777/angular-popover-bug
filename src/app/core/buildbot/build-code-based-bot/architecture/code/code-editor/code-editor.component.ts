@@ -102,7 +102,11 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
       setTimeout(() => {
         this.editorCodeObjRef.text = editor.getValue();
         this.textChangedEvent.emit(editor.getValue());
-        this.onChanges(editor.getValue());
+        try {
+          this.onChanges(editor.getValue());
+        }catch (e) {
+          console.log(e);
+        }
       });
     });
     this._text && this.editor.setValue(this._text);
