@@ -165,8 +165,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   }
 
   async openFile(inputEl) {
-    // alert();
-    //
+    debugger;
     try {
       let filePath = inputEl.value;
       if(!filePath || !filePath.endsWith('.csv')){

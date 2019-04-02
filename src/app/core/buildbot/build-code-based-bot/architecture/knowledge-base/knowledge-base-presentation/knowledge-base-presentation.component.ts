@@ -142,6 +142,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   }
 
   updateOrSaveConcept() {
+    debugger;
     let outputData = this.createOutPutData();
     let ner_type = outputData.ner_type;
     let codeTextOutPutFromCodeEditor = outputData.codeTextOutPutFromCodeEditor;
@@ -197,8 +198,8 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       }
     }
     let tableData = this.handsontableData.filter((array :any)=>{
-      return !!array.find(element => {return element != null})
-    })
+      return !!array.find(element => {return (element !== null) && (element !== undefined) && (element !== '')});
+    });
     const outputData = {
       mode: this.ner_id ? 'Update' : 'Create',
       key: this.key || '',

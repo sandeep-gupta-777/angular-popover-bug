@@ -240,6 +240,8 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
       }
     }
 
+    window.scroll({top: 0, left: 0, behavior: 'smooth' });
+
     // if(SideBarService.isTabDirty(this.sideBarTab1) && !confirm("Data is dirty. Continue?")){
     //   return;
     // }

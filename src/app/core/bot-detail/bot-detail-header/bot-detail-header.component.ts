@@ -56,25 +56,20 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     })
   }
 
-  openBot() {
+  previewBot() {
+    this.router.navigate(['', {outlets: {preview: 'preview'}}]);
     this.store.dispatch([
       new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
         bot: {...this.bot, enterprise_unique_name: this.enterprise_unique_name}
       }),
       new ToggleChatWindow({open: true}),
-      new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX})
+      new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX})
     ]);
-    // this.store.dispatch([
-    //   // new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
-    //   //   bot:this.bot
-    //   // }),
-    //   new ToggleChatWindow({open: true}),
-    //   // new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX})
-    // ]).subscribe(()=>{
-    //   this.router.navigate(['/core/botdetail/chatbot/',this.bot.roomId], {
-    //     queryParams: {preview: true, bot_unique_name: this.bot.bot_unique_name, enterprise_unique_name: this.enterprise_unique_name}
-    //   });
-    // })
+
+    /*TODO: integrate this with store*/
+    EventService.startANewChat$.emit({bot:this.bot, consumerDetails: {uid: this.utilityService.createRandomUid()},
+    });
+
   }
 
   /*TODO: remove it*/
@@ -216,22 +211,22 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
           this.router.navigate(['/'], {queryParams:{type:this.bot.bot_type}});
         }
       })
-      
+
     }
     else{
       this.router.navigate(['/'], {queryParams:{type:this.bot.bot_type}});
     }
-    
+
   }
   openAnalyticsForBot(){
     if(SideBarService.isTabDirty(SideBarService.activeTab)){
       this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
       .then((data)=>{
         if(data){
-          this.router.navigate(['/core/analytics2/overview'], {queryParams:{bot_id:this.bot.id}});          
+          this.router.navigate(['/core/analytics2/overview'], {queryParams:{bot_id:this.bot.id}});
         }
       })
-      
+
     }
     else{
       this.router.navigate(['/core/analytics2/overview'], {queryParams:{bot_id:this.bot.id}});

@@ -7,12 +7,14 @@
 </div>
   <img class="row-bot-detail-header__bot-logo" style="margin:0 8px" [src]="bot.logo" alt="B">
   <div class="row-bot-detail-header__bot-details">
-    <div style="display: flex">
-      {{(bot.name| slice:0: 50) + (bot.name.length>50?"...":"")}}
+    <div
+      [title]="bot.name.length>90?bot.name:''"
+      style="display: flex">
+      {{(bot.name| slice:0: 90) + (bot.name.length>90?"...":"")}}
       <i class="fa fa-circle dark-green" style="margin-left: 2px; font-size: 6px"></i>
     </div>
     <div style="font-size: 11px">
-      <span>Update on </span>  {{bot.updated_at|date: 'd MMM, yy'}} on {{bot.updated_by}}
+      <span>Update on </span>  {{bot.updated_at|date: 'd MMM, yy'}} by {{bot.updated_by}}
     </div>
   </div>
   <!--<i class="fa fa-users" *ngIf="bot && bot.is_manager" style="font-size: 16px"></i>-->
@@ -55,7 +57,7 @@
       </button>
     </ng-container>
     <button class="mat-theme-button mat-theme-button-border"
-            (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'"
+            (click)="previewBot()" *ngIf="bot.bot_type === 'chatbot'"
             mat-button>
         <mat-icon>chat_bubble_outline</mat-icon>
       Preview

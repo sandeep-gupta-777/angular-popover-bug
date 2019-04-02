@@ -24,6 +24,7 @@
     "hmr": "ng serve --configuration hmr",
     "develop": "sudo npm run xgit && ng build --configuration develop --base-href /static/",
     "staging": "sudo npm run xgit && ng build --configuration staging --base-href /static/",
+    "staging-local": "npm run xgit && ng build --configuration staging",
     "v1": "sudo npm run xgit && ng build --configuration staging --base-href /v1/",
     "v2": "sudo npm run xgit && ng build --configuration staging --base-href /v2/",
     "staging1": "npm run xgit && ng build --configuration staging",
