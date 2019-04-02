@@ -30,7 +30,7 @@
     "staging1": "npm run xgit && ng build --configuration staging",
     "preProd": "ng build --configuration preProd --base-href /static/",
     "prod": "ng build --configuration prod --base-href /static/",
-    "github-deploy": "git add --all && git commit -m 'deploy' && git remote add https://github.com/goodmite/imibot-fe.git && git push origin master"
+    "github-deploy": "npm run staging-github && cd dist/botPlateformFE && git add --all && git commit -m 'deploy' && git remote add origin https://github.com/goodmite/imibot-fe.git && git push origin master"
   },
   "husky": {
     "hooks": {
