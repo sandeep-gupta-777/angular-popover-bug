@@ -648,7 +648,7 @@ export class ConstantsService {
     lastreportgenerated: {
       originalKey: 'lastreportgenerated',
       value: '',
-      type: 'string',
+      type: 'time',
       displayValue: 'Last report generated',
       search: false,
       searchValue: "",
@@ -657,7 +657,7 @@ export class ConstantsService {
     nextreportgenerated: {
       originalKey: 'nextreportgenerated',
       value: '',
-      type: 'string',
+      type: 'time',
       displayValue: 'Next scheduled date',
       search: false,
       searchValue: "",
@@ -797,7 +797,7 @@ export class ConstantsService {
       searchValue: true,
     },
     id: {
-      originalKey: '',
+      originalKey: 'id',
       value: '',
       type: 'number',
       displayValue: 'ID',
@@ -805,10 +805,10 @@ export class ConstantsService {
       searchValue: true,
     },
     consumer_id: {
-      originalKey: '',
+      originalKey: 'consumer_id',
       value: '',
       type: 'number',
-      displayValue: 'ID',
+      displayValue: 'Consumer ID',
       search: false,//true,
       searchValue: true,
     },
