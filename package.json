@@ -24,13 +24,13 @@
     "hmr": "ng serve --configuration hmr",
     "develop": "sudo npm run xgit && ng build --configuration develop --base-href /static/",
     "staging": "sudo npm run xgit && ng build --configuration staging --base-href /static/",
-    "staging-github": "npm run xgit && ng build --configuration staging",
+    "staging-github": "npm run xgit && ng build --configuration staging --base-href /imibot-fe/",
     "v1": "sudo npm run xgit && ng build --configuration staging --base-href /v1/",
     "v2": "sudo npm run xgit && ng build --configuration staging --base-href /v2/",
     "staging1": "npm run xgit && ng build --configuration staging",
     "preProd": "ng build --configuration preProd --base-href /static/",
     "prod": "ng build --configuration prod --base-href /static/",
-    "github-deploy": "npm run staging-github && cd dist/botPlateformFE && git add --all && git commit -m 'deploy' && git remote add origin https://github.com/goodmite/imibot-fe.git && git push origin master"
+    "github-deploy": "npm run staging-github && cd dist/botPlateformFE && git init && git add --all && git commit -m 'deploy' && git remote add origin https://github.com/goodmite/imibot-fe.git && git push origin master -f"
   },
   "husky": {
     "hooks": {
