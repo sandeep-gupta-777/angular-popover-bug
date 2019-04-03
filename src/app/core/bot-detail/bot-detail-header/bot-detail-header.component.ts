@@ -228,13 +228,13 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
       this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
       .then((data)=>{
         if(data){
-          this.router.navigate(['/core/analytics2/overview'], {queryParams:{bot_id:this.bot.id}});          
+          this.router.navigate(['/core/analytics2/volume'], {queryParams:{bot_id:this.bot.id}});          
         }
       })
       
     }
     else{
-      this.router.navigate(['/core/analytics2/overview'], {queryParams:{bot_id:this.bot.id}});
+      this.router.navigate(['/core/analytics2/volume'], {queryParams:{bot_id:this.bot.id}});
     }
   }
 }

@@ -22,12 +22,21 @@ export class CodeVersionListComponent implements OnInit {
   @Output() openForkNewVersionModal$ = new EventEmitter();
   showVersionList = false;
   disableSave = false;
+  selectedVersionComment:string;
   constructor() { }
 
   ngOnInit() {
+    this.selectedVersionComment = this.selectedVersion.comment
     EventService.disableSaveButton_codeInput$.subscribe((disableSave)=>{
       this.disableSave = disableSave;
     });
   }
+  ngOnChanges() {
+
+    this.selectedVersionComment = this.selectedVersion.comment
+    // You can also use categoryId.previousValue and 
+    // categoryId.firstChange for comparing old and new values
+
+}
 
 }

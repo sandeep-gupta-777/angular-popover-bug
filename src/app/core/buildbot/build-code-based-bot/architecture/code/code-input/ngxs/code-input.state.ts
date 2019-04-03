@@ -265,7 +265,7 @@ export class VersionStateReducer {
             let data = await this.codeInputService.showSaveWithErrorDialog();
 
             if (data) {
-              setTimeout(() => this.utilityService.showErrorToaster('Your code has error. But it will be saved as its not active'), 2000);
+              // setTimeout(() => this.utilityService.showErrorToaster('Your code has error. But it will be saved as its not active'), 2000);
               this.store.dispatch([new SaveVersion$({bot, version})]);
             }
           }

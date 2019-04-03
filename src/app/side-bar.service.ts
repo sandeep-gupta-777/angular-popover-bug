@@ -159,13 +159,19 @@ export class SideBarService {
 
   static botTestingInit(component: BotTestingComponent){
     SideBarService.botTestingComponent = component;
-
+    debugger;
     SideBarService.botTestingData_init = UtilityService.cloneObj(SideBarService.botTestingComponent.testCaseData);
+    SideBarService.botTestingData_init = SideBarService.botTestingData_init.map((array)=>{
+      return array.slice(0, 2);
+    })
     SideBarService.activeTab = ESideBarTab.test;
   }
   static createBotTestingFinalData(){
-
-    return SideBarService.botTestingComponent.testCaseData;
+    debugger;
+    return SideBarService.botTestingComponent.testCaseData.map((array)=>{
+      return array.slice(0, 2);
+    })
+    // return SideBarService.botTestingComponent.testCaseData;
   }
 
   static isBotTestingDirty(){

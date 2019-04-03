@@ -554,7 +554,7 @@ export class UtilityService {
     let regex = /output[\s]*?=[\s]*?(\[[\s\S]*?])$/gm;
     let match = regex.exec(str);
 
-
+    
     const outputsKeys = [];
     while (match) {
       let output, matchedStr = match[1];
@@ -562,6 +562,7 @@ export class UtilityService {
       outputsKeys.push(matchedAndProcessedStr);
       match = regex.exec(str);
     }
+    debugger;
     return outputsKeys;
   }
 

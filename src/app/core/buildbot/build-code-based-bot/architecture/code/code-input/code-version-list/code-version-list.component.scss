@@ -332,6 +332,7 @@ button{
 
   .insert {
     @include typography(11px, 13px, $font-weight-300, $color-text-normal);
+    word-wrap: break-word;
   }
 
 }

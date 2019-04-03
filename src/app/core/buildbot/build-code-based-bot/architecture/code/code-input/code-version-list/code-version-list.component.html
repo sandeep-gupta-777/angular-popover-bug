@@ -32,8 +32,8 @@
           {{selectedVersion.updated_at | date:"MMM d"}}&nbsp;'{{selectedVersion.updated_at | date:"yy"}}&nbsp;{{selectedVersion.updated_at | date:"shortTime"}}
         </div>
       </div>
-      <div class="insert mr-1" *ngIf="selectedVersion && selectedVersion.comment">
-        {{selectedVersion.comment.length > 120 ? (((selectedVersion.comment)|slice:0:120)
+      <div class="insert mr-1" *ngIf="selectedVersion && selectedVersion.comment" matTooltip="{{selectedVersion.comment}}">
+        {{selectedVersion.comment.length > 70 ? (((selectedVersionComment)|slice:0:70)
 				+ "...") : selectedVersion?.comment}}
 
       </div>
@@ -123,7 +123,7 @@
         </div>
         <!--change dot end-->
 
-        <div class="insert mr-1">{{version.comment.length > 70 ? (((version.comment)|slice:0:100)
+        <div class="insert mr-1">{{version.comment.length > 70 ? (((version.comment)|slice:0:70)
 					+ "...") : version?.comment}}
         </div>
 
