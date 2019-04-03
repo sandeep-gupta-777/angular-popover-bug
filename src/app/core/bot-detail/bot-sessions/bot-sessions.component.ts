@@ -19,6 +19,7 @@ import {IIntegrationMasterListItem} from '../../../../interfaces/integration-opt
 import {NgForm} from '@angular/forms';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
 import {EChatFeedback} from '../../../chat/chat-wrapper.component';
+import {BotSessionSmartTableModal} from "./bot-session-smart-table-modal";
 
 interface ISessionFilterData {
   id: number,
@@ -32,7 +33,7 @@ interface ISessionFilterData {
   templateUrl: './bot-sessions.component.html',
   styleUrls: ['./bot-sessions.component.scss']
 })
-export class BotSessionsComponent extends MaterialTableImplementer implements OnInit, AfterViewInit {
+export class BotSessionsComponent implements OnInit, AfterViewInit {
   dialogRefWrapper = {ref: null};
 
   myESplashScreens = ESplashScreens;
@@ -51,8 +52,8 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   selectedRow_Session: ISessionItem;
   selectedRow_number = 0;
   totalSessionRecords = 0;
-  sessions: ISessionItem[];
-  tableData: any[];
+  sessions: ISessionItem[] = [];
+  tableData1: any[];
   showNextButton: boolean;
   showPrevButton: boolean;
   pageNumberOfCurrentRowSelected = 1;
@@ -64,6 +65,8 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   filterFormData: ISessionFilterData;
   @Select() app$: Observable<IAppState>;
 
+  sessionsSmartTableDataModal: BotSessionSmartTableModal;
+
   channels: IIntegrationMasterListItem[];
 
   constructor(
@@ -74,12 +77,14 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     private store: Store,
     private matDialog: MatDialog,
   ) {
-    super();
   }
 
   filterFormDirty = false;
 
   ngOnInit() {
+
+    this.sessionsSmartTableDataModal = this.tableDataFactory();
+
     this.app$
       .subscribe((appState) => {
         this.channels = appState.masterIntegrationList.filter(e => e.integration_type === 'channels');
@@ -126,87 +131,14 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     return this.constantsService.SMART_TABLE_SESSION_TABLE_DATA_META_DICT_TEMPLATE;
   }
 
-  initializeTableData(sessions: ISessionItem[], tableDataMetaDict: any): void {
-    this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
-
-  }
-
-  // loadSmartTableSessionData() {
-  // this.loadSessionTableDataForGivenPage({page: this.pageNumberOfCurrentRowSelected});
-  // this.performSearchInDbForSession({});
-  // }
-
-  transformSessionDataForMaterialTable(session: ISessionItem[]) {
 
 
-    let sessionsDataForTable = super.transformDataForMaterialTable(session, this.getTableDataMetaDict());
+  tableDataFactory() {
 
-
-    sessionsDataForTable = sessionsDataForTable.map((sessionsDataForTableItem) => {
-
-      /*adding two additional columns 1) actions and 2)channels*/
-      let additonalColumns: any = {
-        'Room Metadata': sessionsDataForTableItem['Room Metadata'],
-        Channels: sessionsDataForTableItem['Channels'],
-      };
-
-      additonalColumns['Room Metadata'].value = additonalColumns['Room Metadata'].value || [];
-      additonalColumns['Channels'].value = additonalColumns['Channels'].value || [];
-      /*actions*/
-      // additonalColumns['Room Metadata'].value.push({show: true, name: 'download', class: 'fa fa-download'});
-
-      let originalSessionData = sessionsDataForTableItem['originalSessionData'];
-      /*TODO: also check if the user has access to decrypt api*/
-      if (originalSessionData['sendtoagent']) {
-        additonalColumns['Room Metadata'].value.push({
-          show: true,
-          name: 'Sent to agent',
-          iconName: 'headset',
-          class: 'headset-mic'
-        });
-      }
-      if (originalSessionData['error']) {
-        additonalColumns['Room Metadata'].value.push({
-          show: true,
-          name: 'Error',
-          iconName: 'error_outline',
-          class: "error_outline"
-        });
-      }
-      if (this.bot.advanced_data_protection && !originalSessionData['data_encrypted']) {
-        additonalColumns['Room Metadata'].value.push({
-          show: true,
-          name: 'Decrypted',
-          iconName: 'lock_open',
-          class: 'lock_open'
-        });
-      }
-      let negativeFeedbackCount: number = originalSessionData['feedback_count'] && originalSessionData['feedback_count']['downvote'];
-      if (negativeFeedbackCount && negativeFeedbackCount > 0) {
-        let name = `${negativeFeedbackCount} downvote${negativeFeedbackCount > 1 ? 's' : ''}`;
-        additonalColumns['Room Metadata'].value.push({
-          show: true,
-          name: name,
-          iconName: 'thumb_down',
-          class: 'thumb_down'
-        });
-      }
-
-      // additonalColumns['Room Metadata'].value = `<mat-icon>search</mat-icon>`;//TODO: in future do this but via dynamic components
-
-      /*channels*/
-      additonalColumns['Channels'].searchValue = sessionsDataForTableItem['Channels'].value.join();
-      additonalColumns['Channels'].value = (sessionsDataForTableItem.Channels['value'].map((channelName) => {
-        return {
-          name: channelName,
-          src: this.constantsService.getIntegrationIconForChannelName(channelName).icon//'https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/web.png'
-        };
-      }));
-      return {...sessionsDataForTableItem, ...additonalColumns};
-    });
-
-
-    return sessionsDataForTable;
+    let tableDataModel = new BotSessionSmartTableModal(this.sessions,
+      this.constantsService.SMART_TABLE_SESSION_TABLE_DATA_META_DICT_TEMPLATE,
+      {constantsService: this.constantsService, bot: this.bot});
+    return tableDataModel;
   }
 
   sessionTableRowClicked(eventData: { data: ISessionItem }, template?) {
@@ -248,19 +180,6 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     this.showLoader = true;
     this.pageNumberOfCurrentRowSelected = filterData.page;
     this.performSearchInDbForSession(filterData);
-    // this.url = this.constantsService.getBotSessionsUrl(10, (data.page - 1) * 10);
-    // const headerData: IHeaderData = {
-    //   'bot-access-token': this.bot.bot_access_token
-    // };
-    // this.serverService.makeGetReq<ISessions>({url: this.url, headerData})
-    //   .subscribe((value) => {
-    //     this.showLoader = false;
-    //     this.totalSessionRecords = value.meta.total_count;
-    //     this.selectedRow_Session = value.objects[this.selectedRow_number || 0];
-    //     this.sessions = value.objects;
-    //     this.initializeTableData(this.sessions, this.getTableDataMetaDict());
-    //
-    //   });
   }
 
   @ViewChild('sessionDetailTemplate') sessionDetailTemplate: TemplateRef<any>;
@@ -375,7 +294,8 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
             const del = this.sessions.findIndex((session) => session.id === sessionTobeDecryptedId);
             this.sessions[del] = {...newSession};
             this.sessions = [...this.sessions];
-            this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
+            // this._tableData = this.transformSessionDataForMaterialTable(this.sessions);
+            this.sessionsSmartTableDataModal.refreshData(this.sessions);
 
             this.selectedRow_Session = newSession;
             this.openDeleteTemplateKeyModal(this.sessionDetailTemplate);
@@ -405,13 +325,6 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         this.decryptSubmit(this.sessionItemToBeDecrypted.id, data);
       }
     });
-
-    // this.utilityService.openDialog({
-    //   component: template,
-    //   dialog: this.matDialog,
-    //   classStr: 'primary-modal-header-border',
-    //   dialogRefWrapper: this.dialogRefWrapper
-    // });
   }
 
   loadSessionMessagesById(id) {
@@ -439,9 +352,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
         let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id});
         this.sessions[index] = sessionItem;
         this.selectedRow_Session = sessionItem;
-        this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
-        this.tableData = [...this.tableData];
-        this.tableData = [...this.tableData];
+        this.sessionsSmartTableDataModal.refreshData(this.sessions);
       });
   }
 
@@ -455,7 +366,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
     this.showLoader = true;
     let url: string;
-    let page:number;
+    let page: number;
     this.filterDataFromTable = JSON.parse(JSON.stringify(filterData || {}));
     let filterDataFromForm = JSON.parse(JSON.stringify(this.filterFormData || {}));
     let combinedFilterData = {...filterDataFromForm, ...this.filterDataFromTable};
@@ -486,10 +397,10 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       }
 
       page = combinedFilterData.page = combinedFilterData.page || 1;
-      Object.keys(combinedFilterData).forEach((key)=>{
-          if(combinedFilterData[key]===false){
-            delete combinedFilterData[key];
-          }
+      Object.keys(combinedFilterData).forEach((key) => {
+        if (combinedFilterData[key] === false) {
+          delete combinedFilterData[key];
+        }
       });
 
       // if(combinedFilterData.feedback ===  true){
@@ -497,7 +408,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       // }
       combinedFilterData = {
         ...combinedFilterData,
-        offset: (combinedFilterData.page - 1)*10,
+        offset: (combinedFilterData.page - 1) * 10,
         limit: combinedFilterData.limit ? combinedFilterData.limit : 10
       };
       delete combinedFilterData.page;
@@ -519,14 +430,14 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
             this.showFilterForm = true;
           }
 
-          if(page){
+          if (page) {
 
             this.pageNumberOfCurrentRowSelected = page;
           }
           this.sessions = value.objects;
           this.totalSessionRecords = value.meta.total_count;
-          this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
-          this.tableData = [...this.tableData];
+          // this._tableData = this.transformSessionDataForMaterialTable(this.sessions);
+          this.sessionsSmartTableDataModal.refreshData(this.sessions);
           this.showLoader = false;
           this.filerFormInitalData = this.filterForm.value;
           this.filterFormDirty = false;
@@ -549,7 +460,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     }
 
     /*date range*/
-    filterData.total_message_count__range = `${filterData.total_message_count__gte|| 0},${filterData.total_message_count__lte||10000}`;
+    filterData.total_message_count__range = `${filterData.total_message_count__gte || 0},${filterData.total_message_count__lte || 10000}`;
     delete filterData.total_message_count__lte;
     delete filterData.total_message_count__gte;
 

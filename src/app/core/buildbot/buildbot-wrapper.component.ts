@@ -181,7 +181,7 @@ export class BuildbotWrapperComponent implements OnInit {
     // console.log(this.basicInfoForm.untouched , this.dataManagementForm.untouched , this.securityForm.untouched);
     if(this.loading) return;
     console.log(SideBarService.buildbotWrapperComponent);
-    debugger;
+
     console.log(SideBarService.buildbotData_init);
     if(SideBarService.isBuildBotDirty()){
       this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
@@ -190,7 +190,7 @@ export class BuildbotWrapperComponent implements OnInit {
           this.router.navigate(['/']);
         }
       })
-      
+
     }
     else{
       this.router.navigate(['/']);

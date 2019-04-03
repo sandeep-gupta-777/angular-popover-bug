@@ -181,7 +181,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
             this.analytics2HeaderData = analytics2HeaderData;
 
             this.store.dispatch([new ResetAnalytics2GraphData()]);
-            debugger;
+
             // this.makeGetReqSub && this.makeGetReqSub.unsubscribe();//todo: better use .
 
             let newUrl = this.makeNewUrlFormHeaderData(url, headerData)
@@ -292,7 +292,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
 
   }
   makeNewUrlFormHeaderData(url:string, headerData:IAnalysis2HeaderData){
-    debugger;
+
     url = url + `?type=${headerData.type}&startdate=${headerData.startdate}&enddate=${headerData.enddate}&platform=${headerData.platform}&granularity=${headerData.granularity}&is_test=false`
     return url;
   }

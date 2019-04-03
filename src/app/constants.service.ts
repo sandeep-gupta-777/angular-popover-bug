@@ -648,7 +648,7 @@ export class ConstantsService {
     lastreportgenerated: {
       originalKey: 'lastreportgenerated',
       value: '',
-      type: 'string',
+      type: 'time',
       displayValue: 'Last report generated',
       search: false,
       searchValue: "",
@@ -657,7 +657,7 @@ export class ConstantsService {
     nextreportgenerated: {
       originalKey: 'nextreportgenerated',
       value: '',
-      type: 'string',
+      type: 'time',
       displayValue: 'Next scheduled date',
       search: false,
       searchValue: "",
@@ -704,49 +704,6 @@ export class ConstantsService {
     },
 
   };
-
-
-  readonly HIGHCHART_CHARTVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE = {
-    chart: {
-      type: 'column'
-    },
-    title: {
-      text: 'Session Handling'
-    },
-    xAxis: {
-      type: 'datetime'
-    },
-    yAxis: {
-      min: 0,
-      title: {
-        text: 'Percentage'
-      }
-    },
-    tooltip: {
-      pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
-      shared: true
-    },
-    plotOptions: {
-      column: {
-        stacking: 'percent'
-      },
-
-      series: {
-        pointStart: Date.UTC(2018, 6, 20),
-        pointInterval: 24 * 3600 * 1000
-      }
-    }
-  };
-
-  readonly HIGHCHART_THEMEVALUE_ANALYTICS_USER_LOYALTY = {
-    chart: {
-      style: {
-        fontFamily: 'helvetica'
-      }
-    },
-    colors: ['#5392ff', '#71cddd', '#34bc6e', '#95d13c', '#ffb000', '#fe8500', '#ff509e', '#9b82f3']
-  };
-
   readonly HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE = {
     chart: {
       style: {
@@ -755,40 +712,6 @@ export class ConstantsService {
     },
     colors: ['#5392ff', '#71cddd', '#34bc6e', '#95d13c', '#ffb000', '#fe8500', '#ff509e', '#9b82f3']
   };
-
-  readonly HIGHCHART_CHARTVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED = {
-    chart: {
-      type: 'column'
-    },
-    title: {
-      text: ''
-    },
-    xAxis: {
-      categories: ['Flow 1', 'Flow 2', 'Flow 3', 'Flow 4', 'Flow 5']
-    },
-    yAxis: {
-      min: 0,
-      title: {
-        text: ''
-      },
-      stackLabels: {
-        enabled: false,
-        style: {
-          fontWeight: 'bold',
-          color: 'gray'
-        }
-      }
-    },
-    tooltip: {
-      headerFormat: '<b>{point.x}</b><br/>'
-    },
-    plotOptions: {
-      column: {
-        stacking: 'normal'
-      }
-    }
-  };
-
   readonly HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED = {
     chart: {
       style: {
@@ -797,130 +720,6 @@ export class ConstantsService {
     },
     colors: ['#5392ff', '#71cddd', '#34bc6e', '#95d13c', '#ffb000', '#fe8500', '#ff509e', '#9b82f3']
   };
-
-  readonly HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT = {
-
-    title: {
-      text: ''
-    },
-
-    subtitle: {
-      text: ''
-    },
-    // xAxis: {
-    //   type: 'datetime'
-    // },
-
-    yAxis: {
-      title: {
-        text: '',
-        rotation: -90,
-        margin: 10,
-        style: {
-          fontWeight: 'bold'
-        }
-      }
-    },
-    legend: {
-      layout: 'horizontal',
-      align: 'right',
-      verticalAlign: 'bottom'
-    },
-    tooltip: {
-      shared: true
-    },
-
-    // plotOptions: {
-    //   series: {
-    //     pointStart: Date.UTC(2018, 6, 20),
-    //     pointInterval: 24 * 3600 * 1000, // one day
-    //     marker: {
-    //       symbol: 'circle',
-    //       /* fillColor: '#ffffff' , */
-    //       lineWidth: 0,
-    //       radius: 4,
-    //       lineColor: null, // inherit from series
-    //     },
-    //     lineWidth: 3,
-    //     label: {
-    //       enabled: false,
-    //       style: {
-    //         fontFamily: 'sans-serif',
-    //         fontWeight: 'regular',
-    //         fontSize: 11
-    //       }
-    //     }
-    //   }
-    // },
-    // responsive: {
-    //   rules: [{
-    //     condition: {
-    //       maxWidth: 1200
-    //     },
-    //     chartOptions: {
-    //       legend: {
-    //         layout: 'horizontal',
-    //         align: 'center',
-    //         verticalAlign: 'bottom'
-    //       }
-    //     }
-    //   }]
-    // }
-
-  };
-  readonly HIGHCHART_CHARTVALUE_USER_LOYALTY = {
-    chart: {
-      type: 'column'
-    },
-    title: {
-      text: 'Stacked column chart'
-    },
-    xAxis: {
-      categories: ['Apples1', 'Oranges', 'Pears', 'Grapes', 'Bananas']
-    },
-    yAxis: {
-      min: 0,
-      title: {
-        text: 'Total fruit consumption'
-      },
-      stackLabels: {
-        enabled: true,
-        style: {
-          fontWeight: 'bold',
-          color: 'gray'
-        }
-      }
-    },
-    legend: {
-      align: 'right',
-      x: -30,
-      verticalAlign: 'top',
-      y: 25,
-      floating: true,
-      backgroundColor: 'white',
-      borderColor: '#CCC',
-      borderWidth: 1,
-      shadow: false
-    },
-    tooltip: {
-      headerFormat: '<b>{point.x}</b><br/>',
-      pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
-    },
-    plotOptions: {
-      column: {
-        stacking: 'normal',
-        dataLabels: {
-          enabled: true,
-          color: 'white'
-        }
-      }
-    },
-    series: [{
-      name: 'John',
-      data: [5, 3, 4, 7, 2]
-    }]
-  };
-
   SMART_TABLE_ENTERPRISE_NER_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
     key: {
       originalKey: 'key',
@@ -998,18 +797,18 @@ export class ConstantsService {
       searchValue: true,
     },
     id: {
-      originalKey: '',
+      originalKey: 'id',
       value: '',
       type: 'number',
-      displayValue: 'Room Id',
+      displayValue: 'ID',
       search: false,//true,
       searchValue: true,
     },
     consumer_id: {
-      originalKey: '',
+      originalKey: 'consumer_id',
       value: '',
       type: 'number',
-      displayValue: 'Consumer roomId',
+      displayValue: 'Consumer ID',
       search: false,//true,
       searchValue: true,
     },
@@ -1042,7 +841,7 @@ export class ConstantsService {
       originalKey: '',
       value: undefined,
       type: 'mat-icon',
-      displayValue: 'Room Metadata',
+      displayValue: 'Metadata',
       custom: true,
       name: '',
       search: false,
@@ -1291,7 +1090,7 @@ export class ConstantsService {
     actions: {
       originalKey: '',
       value: undefined,
-      type: 'icon',
+      type: 'mat-icon',
       displayValue: 'Actions',
       custom: true,
       name: '',

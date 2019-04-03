@@ -31,12 +31,14 @@
       align-items: center;
       background-color: $color-primary-v2;
       width: 100%;
+      cursor: pointer;
       //border: 1px solid #1d4366;
       //box-shadow: 10px 0 #1d4366;
 
       .sidebar-logo__image {
         width: 24px;
         height: 24px;
+        cursor: pointer;
       }
 
     }

@@ -45,7 +45,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
 
   initializeTableData_report(data: any, tableDataMetaDict: any): void {
     this.tableData_report = this.transformDataForMaterialTable(data, this.getTableDataMetaDict_report());
-    ;
+    debugger;
     this.tableData_report = this.tableData_report.map((sessionsDataForTableItem) => {
       let additonalColumns: any = {};
       additonalColumns['Active'] = sessionsDataForTableItem['Active'];
@@ -216,8 +216,8 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
                 name: this.objectArrayCrudService.getObjectItemByKeyValuePair(this.reportTypes.objects, {id: report.reporttype_id}).name,
                 frequency: report.frequency,
                 last_jobId: report.last_job_id,
-                lastreportgenerated: (new Date(report.lastreportgenerated).toDateString()),
-                nextreportgenerated: (new Date(report.nextreportgenerated).toDateString()),
+                // lastreportgenerated: (new Date(report.lastreportgenerated).toDateString()),
+                // nextreportgenerated: (new Date(report.nextreportgenerated).toDateString()),
                 isactive: report.isactive
               });
               // this.initializeTableData_report(this.reportSmartTableData, this.getTableDataMetaDict_report());

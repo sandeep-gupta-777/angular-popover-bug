@@ -41,7 +41,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     this.tableForm.valueChanges.pipe(
       map((obj) => this.removeEmptyKeyValues(UtilityService.cloneObj(obj))),
       tap((obj) => {
-        debugger;
+
         this.formDirty = Object.keys(obj).length > 0;
       }),
       distinctUntilChanged((obj1, obj2) => {

@@ -1,12 +1,14 @@
-import {IConsumerItem} from '../interfaces/consumer';
 
-/**
-* @deprecated Use AbstractSmartTable. Example: BotSessionSmartTableModal
-* */
-export abstract class MaterialTableImplementer {
+
+
+export abstract class AbstractSmartTable {
+
   abstract tableData;
-  abstract getTableDataMetaDict():any;
   abstract initializeTableData(data:any, tableDataMetaDict:any):void;
+  abstract refreshData(rawData:any):void;
+
+  constructor(protected rawData, protected metaData, protected dependency) {}
+
 
   /*
   * transformDataForMaterialTable(data) takes in raw data, for example [{roomId:1, show:false}]

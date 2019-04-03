@@ -7,12 +7,15 @@ import {IHeaderData} from '../../../interfaces/header-data';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UtilityService} from '../../utility.service';
 import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
-import {ResetEnterpriseUsersAction, SetEnterpriseInfoAction} from '../../core/enterpriseprofile/ngxs/enterpriseprofile.action';
+import {
+  ResetEnterpriseUsersAction,
+  SetEnterpriseInfoAction
+} from '../../core/enterpriseprofile/ngxs/enterpriseprofile.action';
 import {ResetAppState, SetBackendURlRoot, SetRoleInfo} from '../../ngxs/app.action';
 import {ResetAuthToDefaultState, SetUser} from '../ngxs/auth.action';
 import {NgForm} from '@angular/forms';
 import {MessageDisplayBase} from './messageDisplayBase';
-import {observable, Observable, of} from 'rxjs';
+import {forkJoin, observable, Observable, of} from 'rxjs';
 import {IAuthState} from '../ngxs/auth.state';
 import {map} from 'rxjs/operators';
 import {ResetBotListAction} from '../../core/view-bots/ngxs/view-bot.action';
@@ -45,8 +48,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   changePasswordToken;
   changePasswordExpireTime;
   bc;
-  userValue:IUser;
-  headerData:IHeaderData;
+  userValue: IUser;
+  headerData: IHeaderData;
 
   enterpriseList: any[];
   userData: IUser;
@@ -78,16 +81,6 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   timestamp = new Date();
 
   ngOnInit() {
-    // this.bc = new BroadcastChannel('test_channel');
-    // this.bc.onmessage = (ev) => {
-    //   console.clear();
-    //   console.log(ev);
-    //
-    //   if(ev.data != this.timestamp){
-    //     location.reload();
-    //   }
-    //
-    // }
     try {
       /*replace with plateform.roomId*/
       localStorage.clear();
@@ -104,68 +97,38 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     }
     this.changePasswordExpireTime = this.activatedRoute.snapshot.queryParamMap.get('timestamp');
 
-
-    /*TODO: remove it: we are doing in app.component.ts as well*/
-    /*keep login button disabled till response comes*/
-    // this.serverService.getNSetConfigData$().subscribe(
-    //   () => this.isConfigDataSet = true,
-    //   () => this.isConfigDataSet = true);
-
     this.gotUserData$.pipe(
       map((value: IUser) => {
+
         this.userValue = userValue = value;
         this.serverService.X_AXIS_TOKEN = this.userValue.user_access_token;
         this.serverService.AUTH_TOKEN = this.userValue.auth_token;
         this.permissionService.loggedUser = this.userValue;
-        // this.headerData = {
-        //   'auth-token': this.userValue.auth_token,
-        //   'user-access-token': this.userValue.user_access_token,
-        // }
       }),
       switchMap(() => {
-        this.flashInfoMessage('Fetching permissions', 10000);
-        return this.serverService.getNSetMasterPermissionsList();
+        this.flashInfoMessage('Fetching configurations', 10000);
+        return forkJoin([
+            this.serverService.getNSetMasterPermissionsList(),
+            this.serverService.getNSetIntegrationList(),
+            this.serverService.getNSetPipelineModuleV2(),
+            this.serverService.getNSetRoleInfo()
+          ]
+        );
       }),
       switchMap(() => {
-        // this.constantsService.allowedPermissionIdsToCurrentRole
-        return of(1);
-      }),
-      switchMap(() => {
-
         const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(userValue.enterprise_id);
         return this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl});
       }),
       switchMap((value: IEnterpriseProfileInfo) => {
-        if(value){
+        if (value) {
           return this.store.dispatch([
             new SetEnterpriseInfoAction({enterpriseInfo: value})
-          ]);
-        }else {
-          return of(1);
+          ]).pipe(tap(() => {
+            return this.serverService.getNSetBotList()
+          }))
+        } else {
+          return this.serverService.getNSetBotList();
         }
-      }),
-      switchMap(() => {
-        this.flashInfoMessage('Fetching dashboard info', 10000);
-        return this.serverService.getNSetBotList();
-      }),
-      switchMap(() => {
-        this.flashInfoMessage('Fetching dashboard info.', 10000);
-        return this.serverService.getNSetIntegrationList();
-      }),
-      switchMap(() => {
-        this.flashInfoMessage('Fetching dashboard info..', 10000);
-        return this.serverService.getNSetPipelineModuleV2();
-      }),
-      switchMap(() => {
-        this.flashInfoMessage('Fetching dashboard info...', 10000);
-        let getRoleUrl = this.constantsService.getRoleUrl();
-        return this.serverService.makeGetReq({url: getRoleUrl});
-      }),
-      switchMap((val: { objects: IRoleInfo[] }) => {
-        this.flashInfoMessage('Fetching dashboard info....', 10000);
-        return this.store.dispatch([
-          new SetRoleInfo({roleInfoArr: val.objects})
-        ]);
       }),
       switchMap(() => {
         return this.store.dispatch([
@@ -232,6 +195,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   }
 
   loginSubmitHandler() {
+    this.flashInfoMessage('Connecting to the server', 10000);
     localStorage.clear();
     /*logging out so that only one use can login in at one time*/
     this.store.dispatch([
@@ -250,11 +214,10 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       body = this.loginForm.value;
     } else {
       this.flashErrorMessage('Details not valid');
-      this.disabeLoginButton = false;
+      this.disabeLoginButton = false;;
       return;
     }
     this.disabeLoginButton = true;
-    this.flashInfoMessage('Connecting to the server', 10000);
     const headerData: IHeaderData = {
       'auth-token': null,
       'user-access-token': null
@@ -278,14 +241,9 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
               return of();
             }
           }
-          // , () => {
-          //     this.disabeLoginButton = false;
-          //     this.flashErrorMessage('Login failed. Please try again', 100000);
-          //     return of();
-          //   }
         ),
       ), switchMap((value) => {
-        if(value){
+        if (value) {
           this.gotUserData$.emit(value);
         }
         return of();
@@ -293,13 +251,11 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
         this.loginFailedHandler();
         return of([]);
       }))
-      .subscribe(() => {
-        console.log('hi');
-      });
+      .subscribe();
 
   }
 
-  loginFailedHandler(){
+  loginFailedHandler() {
     this.disabeLoginButton = false;
     this.flashErrorMessage('Problem with login. Please try again', 10000);
     return this.store.dispatch([
@@ -337,9 +293,9 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
 
   }
 
-  clickedEnterprise(Enterprise){
+  clickedEnterprise(Enterprise) {
     this.enterEnterprise(Enterprise)
-      .subscribe((value)=>{
+      .subscribe((value) => {
         this.gotUserData$.emit(value);
       })
   }
@@ -362,13 +318,5 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
 
   }
 
-  // getNSetConfigData$() {
-  //   return this.serverService.makeGetReq({url: '/static/config.json', noValidateUser: true})
-  //     .pipe(tap(((value: { 'backend_url': string, 'Versions': string }) => {
-  //       this.backend_url = value.backend_url;
-  //       this.store.dispatch([
-  //         new SetBackendURlRoot({url: value.backend_url})
-  //       ]);
-  //     })));
-  // }
+
 }

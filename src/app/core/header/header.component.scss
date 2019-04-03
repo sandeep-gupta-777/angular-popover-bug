@@ -51,6 +51,7 @@ header {
   .box-logo { /*imi logo*/
     padding: 16px;
     @include flexbox-centered();
+    cursor: pointer;
 
     img {
       width: 24px;

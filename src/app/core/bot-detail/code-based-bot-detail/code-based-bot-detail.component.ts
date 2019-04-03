@@ -240,6 +240,8 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
       }
     }
 
+    window.scroll({top: 0, left: 0, behavior: 'smooth' });;
+
     // if(SideBarService.isTabDirty(this.sideBarTab1) && !confirm("Data is dirty. Continue?")){
     //   return;
     // }
@@ -315,7 +317,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   }
 
   goBackToDashboard(){
-    debugger;
+
     if(SideBarService.isTabDirty(SideBarService.activeTab)){
       this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
       .then((data)=>{
@@ -323,12 +325,12 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
           this.router.navigate(['/']);
         }
       })
-      
+
     }
     else{
       this.router.navigate(['/']);
     }
-    
+
   }
 
 

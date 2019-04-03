@@ -23,7 +23,7 @@ import {AuthGaurdService} from './auth-gaurd.service';
 import {DatePipe} from '@angular/common';
 import {NotAuthorisedComponent} from './not-authorised/not-authorised.component';
 import {FilterArrayPipe} from './filter-array.pipe';
-import {BackendDevComponent} from './backend-dev/backend-dev.component';;
+import {BackendDevComponent} from './backend-dev/backend-dev.component';
 import {
   MatProgressBarModule,
   MatSnackBarModule

@@ -3,9 +3,7 @@ import {PipelineComponent} from './core/buildbot/build-code-based-bot/architectu
 import {KnowledgeBasePresentationComponent} from './core/buildbot/build-code-based-bot/architecture/knowledge-base/knowledge-base-presentation/knowledge-base-presentation.component';
 import {EBotType, UtilityService} from './utility.service';
 import {ESideBarTab} from './core/bot-detail/code-based-bot-detail/code-based-bot-detail.component';
-import {KnowledgeBaseWrapperComponent} from './core/buildbot/build-code-based-bot/architecture/knowledge-base-wrapper/knowledge-base-wrapper.component';
 import {IPipelineItem} from '../interfaces/ai-module';
-import {BotConfigService} from './core/buildbot/build-code-based-bot/bot-config/bot-config.service';
 import {BotConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.component';
 import {FormGroup, NgForm} from "@angular/forms";
@@ -175,29 +173,23 @@ export class SideBarService {
   }
 
   static isBotTestingDirty(){
-    let botTestingData_final = this.createBotTestingFinalData();
-    // let botTestingData_initial = SideBarService.botTestingData_init;
-
-    //remove null
-    // for (let index = 0; index < botTestingData_initial.length; index++) {
-    //   let anyNotNull = false;
-    //   botTestingData_initial[index].forEach(element => {
-    //     anyNotNull = anyNotNull || !!element;
-    //   });
-    //   if(!anyNotNull){
-    //   delete botTestingData_initial[index]
-    //   }
-    // }
-    let x = !UtilityService.deepCompare(SideBarService.botTestingData_init, botTestingData_final);
-    return x;
+    try {
+      let botTestingData_final = this.createBotTestingFinalData();
+      return !UtilityService.deepCompare(SideBarService.botTestingData_init, botTestingData_final);
+    }catch (e) {
+      /*
+      * When user move away from testing tab even before it has been initiated, just return dirty = false
+      * */
+      return false;
+    }
   }
 
   /*buildbot*/
 
   static buildBotInit(buildBotComponent: BuildbotWrapperComponent) {
-    debugger;
+
     SideBarService.buildbotWrapperComponent = buildBotComponent;
-    debugger;
+
     SideBarService.buildbotData_init = UtilityService.cloneObj({
       basicInfoForm : buildBotComponent.basicInfoForm.value,
       dataManagementForm : buildBotComponent.dataManagementForm.value,
@@ -207,7 +199,7 @@ export class SideBarService {
 
   static isBuildBotDirty(): boolean {
     if (!SideBarService.buildbotWrapperComponent) return false;
-    debugger;
+
     let buildBotFinalData = this.buildBotFinalData();
     let x = !UtilityService.deepCompare(SideBarService.buildbotData_init, buildBotFinalData);
     return x;
