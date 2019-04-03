@@ -32,7 +32,7 @@
           {{selectedVersion.updated_at | date:"MMM d"}}&nbsp;'{{selectedVersion.updated_at | date:"yy"}}&nbsp;{{selectedVersion.updated_at | date:"shortTime"}}
         </div>
       </div>
-      <div class="insert mr-1" *ngIf="selectedVersion && selectedVersion.comment" matTooltip="{{selectedVersion.comment}}">
+      <div class="insert mr-1" style="word-break: break-all" *ngIf="selectedVersion && selectedVersion.comment" matTooltip="{{selectedVersion.comment}}">
         {{selectedVersion.comment.length > 70 ? (((selectedVersionComment)|slice:0:70)
 				+ "...") : selectedVersion?.comment}}
 
