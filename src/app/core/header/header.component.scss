@@ -61,6 +61,7 @@ header {
 
   .header__nav { /*navigation icons on left side*/
     padding: 16px;
+    height: 100%;
     @include flexbox-centered();
     color: #ffffff;
     text-decoration: none;

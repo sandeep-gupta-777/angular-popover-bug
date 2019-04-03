@@ -132,8 +132,13 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
               try {
                 this.deliveryMode = value.delivery[1].enabled ? "email" : "sftp";
                 this.router.navigate([], {queryParams: {deliveryMode: this.deliveryMode}});
-                let email: any = value.delivery.find((item: any) => item.delivery_type === 'email');
-                email.recipients = email.recipients.join(';');
+                let email;
+                try {
+                  email = value.delivery.find((item: any) => item.delivery_type === 'email');
+                  email.recipients = email.recipients.join(';');
+                }catch (e) {
+
+                }
                 const formDataSerialized = {
                   ...value,
                   delivery: {

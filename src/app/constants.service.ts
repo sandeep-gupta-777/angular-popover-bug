@@ -501,7 +501,7 @@ export class ConstantsService {
   }
 
   getCustomBotNER(limit, offset) {
-    return this.BACKEND_URL + `api/v1/customner/?limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/api/v1/customner/
+    return this.BACKEND_URL + `api/v1/customner/?limit=${limit}&offset=${offset}&order_by=-updated_at`; //https://dev.imibot.ai/api/v1/customner/
   }
 
   updateOrDeleteCustomBotNER(custom_ner_id) {
