@@ -208,9 +208,13 @@ export class ServerService {
     let getRoleUrl = this.constantsService.getRoleUrl();
     return this.makeGetReq({url: getRoleUrl})
       .pipe(switchMap((val)=>{
-        return this.store.dispatch([
-          new SetRoleInfo({roleInfoArr: val.objects})
-        ]);
+        if(val){
+          return this.store.dispatch([
+            new SetRoleInfo({roleInfoArr: val.objects})
+          ]);
+        }else {
+          return of(1);
+        }
       }))
   }
 
@@ -362,6 +366,8 @@ export class ServerService {
               data: value.objects
             })
           ]);
+        } else {
+          return of(1);
         }
       }));
   }
@@ -374,11 +380,15 @@ export class ServerService {
         // this.store.dispatch(new SetCodeBasedBotListAction({botList: botList}));
       }))
       .pipe(switchMap((value) => {
-        return this.store.dispatch([
-          new SetMasterIntegrationsList({
-            masterIntegrationList: value.objects
-          })
-        ]);
+        if(value){
+          return this.store.dispatch([
+            new SetMasterIntegrationsList({
+              masterIntegrationList: value.objects
+            })
+          ]);
+        }else {
+          return of(1);
+        }
       }));
   }
 
@@ -713,7 +723,6 @@ export class ServerService {
           return this.store.dispatch([
             new SetMasterProfilePermissions({masterProfilePermissions: value.objects})
           ]);
-          // this.constantsService.setPermissionsDeniedMap(value.objects)
         }));
   }
 
