@@ -29,42 +29,13 @@
         <div style="color: #9e9e9e;font-size: 11px">These are your {{corpus.sections? corpus.sections.length : ''}}  articles.
         </div>
     </header>
-    
         <div class="main-frame">
-            
-            <div class="d-flex w-100 article flex-column pr-4">
-                <div class="d-flex article-heading">
-                    <div class="article-heading-label">All articles</div>
-                    <mat-form-field class="sort-dropdown">
-                        <mat-select placeholder="Sort by" [(ngModel)]="sort_articals_by">
-                            <mat-option [value]="'updated_at'">
-                                Last Update
-                            </mat-option>
-                            <mat-option [value]="'category_id'">
-                                Category Name
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class = "d-flex article-filter-item-show">
-                    <div *ngFor = "let filter_categorie_id of filter_categorie_id_list">
-                        {{filter_categorie_id | categoryIdToName : corpus.category_mapping}}
-                        <i class="fa fa-times-circle cursor-pointer pl-1" (click) = "removeFilterItemById(filter_categorie_id, filter_categorie_form)"></i>
-                        
-                    </div>
-                </div>
-    
-                <div class="d-flex article-item flex-column my-2"
-                    *ngFor="let section of corpus.sections | filterArticals : filter_categorie_id_list | sortArticals : sort_articals_by : corpus.category_mapping">
-                    <div class="catagory">{{section.category_id | categoryIdToName : corpus.category_mapping }}</div>
-                    <div class="d-flex flex-row">
-                        <div class="first_question mr-auto">{{section.answers[0].text[0]}}</div>
-                        <div class="count">{{section.answers.length}} variations</div>
-                    </div>
-                </div>
-    
-            </div>
-            
+            <app-article-question-list-view
+            [corpus] = "corpus"
+            [filter_categorie_id_list]="filter_categorie_id_list"
+            (removeFilterItemByIdEvent) = "removeFilterItemById($event)"
+            >
+            </app-article-question-list-view>
             <div>
                 <div class="d-flex w-100  flex-column article-action-side-bar pl-4">
                     <div class="for-border"></div>
@@ -78,29 +49,11 @@
                         <mat-icon class="material-icons">folder</mat-icon>Modify existing categories
                     </div>
                 </div>
-                <div class="d-flex w-100  flex-column article-action-side-bar pl-4">
-                    <div class="filter-categories-heading pb-1 pt-2">Filter Categories </div>
-                    <div class="d-flex w-100  flex-column filter-categories-box">
-                        <mat-form-field class="search-input px-2">
-                            <input matInput placeholder="Search" [(ngModel)]="filter_categorie_search">
-                            <mat-icon matSuffix style="font-size: 15px;color:#e0e0e0">search</mat-icon>
-                        </mat-form-field>
-                        <section class="px-2">
-                            <form #filter_categorie_form="ngForm" class="categories-section d-flex flex-column">
-                                <mat-checkbox *ngFor="let categorie of corpus.category_mapping"
-                                    [hidden]="!categorie.name.includes(filter_categorie_search)" ngModel color="primary"
-                                    name="{{categorie.category_id}}">{{categorie.name}}
-                                </mat-checkbox>
-                            </form>
-                        </section>
-                        <div class="d-flex flex-row mt-2 px-2 pb-2">
-                            <button class="btn-theme btn-theme-primary filter-btn mr-auto"
-                                (click)="makeFilterList(filter_categorie_form.value)">Filter</button>
-                            <button class="btn-theme clear-btn"
-                                (click)="filter_categorie_id_list = [];filter_categorie_form.reset()">Clear</button>
-                        </div>
-                    </div>
-                </div>
+                <app-article-filter 
+                [categoryMapping] = "corpus.category_mapping"
+                [articleFilterForm] = "articleFilterForm"
+                (filterCategory) = "makeFilterList($event)"
+                ></app-article-filter>
             </div>
         </div>
 </div>

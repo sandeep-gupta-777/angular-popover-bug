@@ -1,0 +1,32 @@
+<div class="d-flex w-100 article flex-column pr-4">
+  <div class="d-flex article-heading">
+      <div class="article-heading-label">All articles</div>
+      <mat-form-field class="sort-dropdown">
+          <mat-select placeholder="Sort by" [(ngModel)]="sort_articals_by">
+              <mat-option [value]="'updated_at'">
+                  Last Update
+              </mat-option>
+              <mat-option [value]="'category_id'">
+                  Category Name
+              </mat-option>
+          </mat-select>
+      </mat-form-field>
+  </div>
+  <div class = "d-flex article-filter-item-show">
+      <div *ngFor = "let filter_categorie_id of filter_categorie_id_list">
+          {{filter_categorie_id | categoryIdToName : corpus.category_mapping}}
+          <i class="fa fa-times-circle cursor-pointer pl-1" (click) = "removeFilterItemById(filter_categorie_id)"></i>
+          
+      </div>
+  </div>
+
+  <div class="d-flex article-item flex-column my-2"
+      *ngFor="let section of corpus.sections | filterArticals : filter_categorie_id_list | sortArticals : sort_articals_by : corpus.category_mapping">
+      <div class="catagory">{{section.category_id | categoryIdToName : corpus.category_mapping }}</div>
+      <div class="d-flex flex-row">
+          <div class="first_question mr-auto">{{section.questions[0]}}</div>
+          <div class="count">{{section.questions.length}} variations</div>
+      </div>
+  </div>
+
+</div>

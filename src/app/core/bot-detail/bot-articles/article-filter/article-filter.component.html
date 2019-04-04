@@ -1,0 +1,23 @@
+<div class="d-flex w-100  flex-column article-action-side-bar pl-4">
+  <div class="filter-categories-heading pb-1 pt-2">Filter Categories </div>
+  <div class="d-flex w-100  flex-column filter-categories-box">
+      <mat-form-field class="search-input px-2">
+          <input matInput placeholder="Search" [(ngModel)]="filter_categorie_search">
+          <mat-icon matSuffix style="font-size: 15px;color:#e0e0e0">search</mat-icon>
+      </mat-form-field>
+      <section class="px-2">
+          <form  [formGroup] = "articleFilterForm" class="categories-section d-flex flex-column">
+              <mat-checkbox *ngFor="let categorie of categoryMapping"
+                  [hidden]="!categorie.name.includes(filter_categorie_search)" ngModel color="primary"
+                  formControlName="{{categorie.category_id}}">{{categorie.name}}
+              </mat-checkbox>
+          </form>
+      </section>
+      <div class="d-flex flex-row mt-2 px-2 pb-2">
+          <button class="btn-theme btn-theme-primary filter-btn mr-auto"
+              (click)="changedFilterList(articleFilterForm)">Filter</button>
+          <button class="btn-theme clear-btn"
+              (click)="filter_categorie_id_list = [];articleFilterForm.reset()">Clear</button>
+      </div>
+  </div>
+</div>

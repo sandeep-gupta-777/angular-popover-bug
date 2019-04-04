@@ -1,7 +1,7 @@
 import {Route, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {AimService} from '../../aim.service';
 import {SharedModule} from '../../shared.module';
@@ -67,6 +67,8 @@ import { BotArticlesComponent } from './bot-articles/bot-articles.component';
 import { CategoryIdToNamePipe } from './bot-articles/category-id-to-name.pipe';
 import { SortArticalsPipe } from './bot-articles/sort-articals.pipe';
 import { FilterArticalsPipe } from './bot-articles/filter-articals.pipe';
+import { ArticleFilterComponent } from './bot-articles/article-filter/article-filter.component';
+import { ArticleQuestionListViewComponent } from './bot-articles/article-question-list-view/article-question-list-view.component';
 
 const routes: Route[] = [
   {
@@ -131,9 +133,12 @@ const routes: Route[] = [
     LimitObjectArraysStringPipe,
     ConsumerFullscreenWrapperComponent,
     BotArticlesComponent,
+    ArticleQuestionListViewComponent,
     CategoryIdToNamePipe,
     SortArticalsPipe,
     FilterArticalsPipe,
+    ArticleFilterComponent,
+    ArticleQuestionListViewComponent,
     /*after lazy loading*/
     // RequiredIfOneFilledValidator
   //
@@ -146,7 +151,8 @@ const routes: Route[] = [
     SharedModule,
     HttpClientModule,
     MyMaterialModule,
-    DragDropModule
+    DragDropModule,
+    ReactiveFormsModule
   ],
   providers: [AimService]
 })
