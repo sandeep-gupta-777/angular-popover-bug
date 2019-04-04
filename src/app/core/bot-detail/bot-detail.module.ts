@@ -138,7 +138,6 @@ const routes: Route[] = [
     SortArticalsPipe,
     FilterArticalsPipe,
     ArticleFilterComponent,
-    ArticleQuestionListViewComponent,
     /*after lazy loading*/
     // RequiredIfOneFilledValidator
   //

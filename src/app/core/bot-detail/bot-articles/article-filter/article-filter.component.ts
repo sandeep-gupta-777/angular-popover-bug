@@ -13,9 +13,13 @@ export class ArticleFilterComponent implements OnInit {
   @Input() articleFilterForm: FormGroup;
   @Output() filterCategory = new EventEmitter();
   filter_categorie_search:string = "";
-  
+
   changedFilterList(value){
     this.filterCategory.emit(value);
+  }
+  clearFilterList(){
+    this.articleFilterForm.reset();
+    this.filterCategory.emit(this.articleFilterForm);
   }
   ngOnInit() {
   }
