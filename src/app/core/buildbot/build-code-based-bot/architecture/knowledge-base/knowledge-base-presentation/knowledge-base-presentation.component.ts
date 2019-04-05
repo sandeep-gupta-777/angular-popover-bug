@@ -233,17 +233,19 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
     if(isDirty){
       let data =  await this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper,this.matDialog);
       if(data){
-        this.showTable$.emit();
-        this._selectedRowData = {};
-        EventService.createConceptFullScreen$.emit(false);
-        SideBarService.resetKB();
+        // this.showTable$.emit();
+        // this._selectedRowData = {};
+        // EventService.createConceptFullScreen$.emit(false);
+        // SideBarService.resetKB();
+        this.goBackWithoutModal();
       }
     }
     else{
-      this.showTable$.emit();
-      this._selectedRowData = {};
-      EventService.createConceptFullScreen$.emit(false);
-      SideBarService.resetKB();
+      // this.showTable$.emit();
+      // this._selectedRowData = {};
+      // EventService.createConceptFullScreen$.emit(false);
+      // SideBarService.resetKB();
+      this.goBackWithoutModal();
     }
   }
   goBackWithoutModal(){

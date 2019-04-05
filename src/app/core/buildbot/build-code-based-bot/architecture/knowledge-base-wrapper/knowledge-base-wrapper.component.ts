@@ -180,6 +180,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
   deleteNer(ner_id: number) {
     this.serverService.deleteNer(ner_id, this.bot)
       .subscribe(() => {
+        this.pageChangedTrigger(this.currentPageNumber);
         this.totalRecords = this.totalRecords -1;
         this.utilityService.showSuccessToaster('Customner deleted');
         this.router.navigate([`/core/botdetail/${EBotType.chatbot}/${this.bot.id}`], {
@@ -207,9 +208,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
           this.knowledgeBaseComponent.showNerSmartTable();
         }
 
-        EventService
-          .createConceptFullScreen$
-          .emit(false);
+        EventService.createConceptFullScreen$.emit(false);
       });
   }
 
