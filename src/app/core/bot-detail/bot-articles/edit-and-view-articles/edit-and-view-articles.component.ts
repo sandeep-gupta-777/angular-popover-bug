@@ -22,12 +22,15 @@ export class EditAndViewArticlesComponent implements OnInit {
   ) { }
   @Input() bot :IBot;
   articleData ;
+  article_id : number;
+
   ngOnInit() {
     this.activatedRoute.queryParamMap
       .subscribe((value) => {
         if (value.get('article_id')) {
-          const ner_id = Number(value.get('ner_id'));
-          ner_id && this.sdasdasdasd(ner_id);
+          this.article_id = Number(value.get('article_id'));
+          if(this.article_id)
+          // ner_id && this.sdasdasdasd(ner_id);
           // this.showTable = !ner_id;
           // this.selectedRowData = this._custumNerDataForSmartTable.find((custumNerData)=>{
           //   return custumNerData.roomId === ner_id
@@ -52,6 +55,6 @@ export class EditAndViewArticlesComponent implements OnInit {
   //     formObj
   //     );
   // })
-  // }
+  }
 
 }
