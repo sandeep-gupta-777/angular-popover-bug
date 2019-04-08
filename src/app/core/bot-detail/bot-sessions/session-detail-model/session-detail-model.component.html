@@ -25,8 +25,9 @@
     </div>
     <div class="session-modal-section__header--item">
       <div class="secondary">Last updated at</div>
-      <div class="primary">
+      <div class="primary d-flex ">
         {{_session.updated_at | date:"MMM d"}}&nbsp;'{{_session.updated_at | date:"yy"}}&nbsp;{{_session.updated_at | date:"shortTime"}}
+        <mat-icon class="material-icons cursor-pointer ml-1" style = "font-size: 16px;"(click)="updateModal(_session.id);">refresh</mat-icon>
       </div>
     </div>
     <!-- <div class="session-modal-section__header--time"> -->
