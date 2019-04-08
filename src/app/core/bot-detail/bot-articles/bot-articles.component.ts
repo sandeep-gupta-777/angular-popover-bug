@@ -22,6 +22,7 @@ export class BotArticlesComponent implements OnInit {
   @Input() bot :IBot;
   corpus;
   loaded: boolean = false;
+  showEditAndViewArtical:boolean = false;
   myObject = Object;
   articleFilterForm: FormGroup;
   filter_categorie_id_list:string[];
