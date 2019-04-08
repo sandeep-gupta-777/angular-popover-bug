@@ -1,14 +1,21 @@
 .grid-container{
-  display: grid;
-  grid-template-columns: 1% repeat(12, 1fr) 1%;
-  grid-template-rows: 56px minmax(80vh, 1fr);//1fr
+  //display: grid;
+  position: relative;
+  //grid-template-columns: repeat(12, 1fr);
+  //grid-template-rows: 56px minmax(80vh, 1fr);//1fr
   //grid-template-rows: 56px 90vh;
+  //display: flex;
+  .grid-header{
+    position: sticky;
+    top: 0;
+    height: 56px;
+    display: block;
+    z-index: 1000;
+  }
 }
 
-.grid-header{
-  grid-column: 1 / -1;
-}
-.grid-body{
-  grid-row: 2 / 3;
-  grid-column: 2/-2;
-}
+
+//.grid-body{
+//  grid-row: 2 / 3;
+//  grid-column: 1/-1;
+//}

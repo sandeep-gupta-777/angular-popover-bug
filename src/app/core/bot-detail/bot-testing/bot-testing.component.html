@@ -18,7 +18,6 @@
   <!--</div>-->
 <!--</div>-->
 
-<!--<div [hidden]="!testCaseData" (change)="onTableChange()" class="d-flex-column-custom flex-grow-1">-->
 <app-handsontable
   *ngIf="testCaseData && !showSplashScreen && !showLoader"
   (change)="onTableChange($event)"
@@ -27,13 +26,14 @@
   [colHeaders]="handontable_colHeaders"
   [expectedCSVHeaders]="expectedCSVHeaders"
   (rowChanged$)="onTableChange()"
-  (csvUploaded$)="testCaseData = $event">
+  (csvUploaded$)="testCaseData = $event"
+  (afterTabledataChange$)="afterTabledataChange($event)">
   <!---->
   <div class="d-flex-column-custom justify-content-end my-1" *ngIf="!showSplashScreen && !showLoader">
     <div class="d-flex align-items-center justify-content-end">
       <!-- <i class="fa fa-plus pr-4"></i>
       <i class="fa fa-minus pr-4"></i> -->
-      <button class="btn-theme btn-theme-primary-outline mr-2" (click)="exportToCSV()">Export to CSV</button>
+      <!--<button class="btn-theme btn-theme-primary-outline mr-2" (click)="exportToCSV()">Export to CSV</button>-->
       <div *myIf="myEAllActions['Update Bot Testcases']" class="d-inline-block">
         <!--<button class="btn-theme btn-theme-primary mr-2" (click)="updateTC()" *ngIf="isData && tableChanged">Update Test</button>-->
         <!--TODO: removing *ngIf condition for now. Reason changes arent detected when cell data is deleted using del key-->

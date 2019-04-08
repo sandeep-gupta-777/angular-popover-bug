@@ -23,7 +23,6 @@ import {PipelineTestComponent} from '../pipeline-test/pipeline-test.component';
 import {ScrollerDirective} from '../scroller.directive';
 import {ReportDisplayComponent} from './reports/report-details/report-display/report-display.component';
 import {ReportControlsComponent} from './reports/report-details/report-controls/report-controls.component';
-import {TestComponent} from '../test/test.component';
 import {ChatPreviewNewPageComponent} from '../chat/chat-preview-new-page/chat-preview-new-page.component';
 import {FooterComponent} from '../footer/footer.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -53,6 +52,11 @@ import {SafeHtml} from '@angular/platform-browser';
 import {SafeHtmlPipe} from '../safe-html.pipe';
 import { PipelineIdToPipelineModulePipe } from './buildbot/build-code-based-bot/architecture/pipeline/pipeline-id-to-pipeline-module.pipe';
 import { PipeineIdToPipelineModuleWrapperPipe } from './buildbot/build-code-based-bot/architecture/pipeline/pipeine-id-to-pipeline-module-wrapper.pipe';
+import { RolesComponent } from './enterpriseprofile/roles/roles.component';
+import { RoleaccordionComponent } from './enterpriseprofile/roles/roleaccordion/roleaccordion.component';
+import { IntegrationChannelListComponent } from './integration-channel-list/integration-channel-list.component';
+import { SecurityComponent } from './buildbot/build-code-based-bot/bot-config/security/security.component';
+import { BotByIdPipe } from './buildbot/build-code-based-bot/bot-config/data-manage-form/bot-by-id.pipe';
 const routes: Route[] = [
   {
 
@@ -73,6 +77,7 @@ const routes: Route[] = [
       {path: 'customner', component: ViewCustomnerComponent, data: {routeName: ERouteNames['Get Enterprise Knowledge base']}, canActivate: []},
       {path: 'customner/create', component: CreateCustomnerComponent, data: {routeName: ERouteNames['Create Enterprise Knowledge base']}},
       {path: 'enterpriseprofile', component: EnterpriseprofileComponent, data: {routeName: ERouteNames['Get Enterprise']}, canActivate: []},
+
       {path: 'profile', component: ProfileComponent, data: {routeName: ERouteNames['Get User']}},
       {path: 'reports', component: ReportsComponent, data: {routeName: ERouteNames['Get Reports']}},
       {path: 'reports/edit/:_id', component: ReportDetailsComponent, data: {routeName: ERouteNames['Update Reports']}},
@@ -93,7 +98,6 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [
-    HeaderComponent,
     BuildCodeBasedBotComponent,
     BuildPipelineBasedBotComponent,
     RouterFragmentActiveDirective,
@@ -102,24 +106,29 @@ const routes: Route[] = [
     CreateCustomnerComponent,
     ProfileComponent,
     EnterpriseprofileComponent,
+    EnterpriseRolesComponent,
     EnterpriseOverviewComponent,
     ReportsComponent,
     CoreWrapperComponent,
-    BuildbotWrapperComponent,
+    // BuildbotWrapperComponent,
     SignupComponent,
     PipelineTestComponent,
+    RolesComponent,
+    RoleaccordionComponent,
+    HeaderComponent,
 
     ScrollerDirective,
     ReportDetailsComponent,
     // BotWelcomeComponent,
     ReportDisplayComponent,
     ReportControlsComponent,
-    TestComponent,
     ChatPreviewNewPageComponent,
     FooterComponent,
     EnterpriseOverviewComponent,
     EnterpriseUsersComponent,
     EnterpriseRolesComponent,
+    // SecurityComponent,
+    // IntegrationChannelListComponent,
     // PipeineIdToPipelineModuleWrapperPipe,
     // PipelineIdToPipelineModulePipe
     // DisplayNameForKeyIntegrationPipe,
@@ -138,6 +147,7 @@ const routes: Route[] = [
     CommonModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,
+    ReactiveFormsModule,
     // DragAndDropModule.forRoot(),
     HttpClientModule,
     SharedModule,

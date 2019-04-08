@@ -15,6 +15,8 @@ import {IBot} from '../../interfaces/IBot';
 import {UtilityService} from '../../../utility.service';
 import {ModalImplementer} from '../../../modal-implementer';
 import {MatDialog} from '@angular/material';
+import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
+import {EventService} from '../../../event.service';
 
 @Component({
   selector: 'app-report-details',
@@ -29,6 +31,8 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
   allBotList: IBot[];
   reportFormData: IReportItem;
   report_id: number;
+
+  myEventService = EventService;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -46,14 +50,29 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
     this.botlist$.subscribe((botListState) => {
       this.allBotList = botListState.allBotList;
     });
-    // this.reportItem$.subscribe((value)=>{
-    //   this.reportFormData = value.formData;
-    // })
+
   }
 
-  showReportDeleteModel(unsubscribeTemplate: TemplateRef<any>) {
-    // this.modalRef = this.modalService.show(unsubscribeTemplate, {class: 'center-modal'});
-    this.openDangerModal(unsubscribeTemplate);
+  async showReportDeleteModel() {
+
+      await this.utilityService.openDialog({
+        dialogRefWrapper: this.dialogRefWrapper,
+        classStr: 'danger-modal-header-border',
+        data: {
+          actionButtonText: "Delete",
+          message: "This will delete the report and all it’s instances from history will also be removed. Are you sure you want to delete it?",
+          title: `Delete Report?`,
+          isActionButtonDanger: true,
+          inputDescription: null
+        },
+        dialog: this.matDialog,
+        component: ModalConfirmComponent
+      }).then((data) => {
+
+        if (data) {
+          this.deleteReport();
+        }
+      })
   }
 
   deleteReport() {

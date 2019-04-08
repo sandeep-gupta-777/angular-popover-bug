@@ -15,6 +15,7 @@ import { IEnterpriseUser } from '../../interfaces/enterprise-users';
 import { map } from 'rxjs/operators';
 import { MaterialTableImplementer } from 'src/app/material-table-implementer';
 import {DomSanitizer} from '@angular/platform-browser';
+import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
 @Component({
   selector: 'app-enterprise-overview',
   templateUrl: './enterprise-overview.component.html',
@@ -39,7 +40,6 @@ export class EnterpriseOverviewComponent  implements OnInit {
   enterpriseUserBotList: number[];
   dialogRefWrapper = { ref: null };
   logdeletionsummary: [];
-  descriptionServiceKey: string;
   constructor(
     private store: Store,
     private constantsService: ConstantsService,
@@ -53,11 +53,26 @@ export class EnterpriseOverviewComponent  implements OnInit {
     const logoErrorObj = this.utilityService.imageUrlHttpsError(formControl) || this.utilityService.imageUrlHavingValidExtnError(formControl);
     this.logoError = logoErrorObj && Object.keys(logoErrorObj)[0] || null;
   }
-  openNewServiceKeyModal(template: TemplateRef<any>) {
+  openNewServiceKeyModal() {
 
-    // this.selectedPipeline = pipeline;
-    // this.modalRef = this.modalService.show(template, { class: 'modal-md' });
-    this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
+    this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr:'primary-modal-header-border',
+      data:{
+        actionButtonText:"Create",
+        message: `Provide a description for the new service key`,
+        title:'New service key',
+        isActionButtonDanger:false,
+        inputDescription:"Description"
+      },
+      dialog: this.matDialog,
+      component:ModalConfirmComponent
+    }).then((data)=>{
+
+      if(data){
+        this.addNewServiceKey(data);
+      }
+    })
     // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
   getTableDataMetaDictActive(): any {
@@ -88,9 +103,8 @@ export class EnterpriseOverviewComponent  implements OnInit {
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
             originalKey: key,
-            // value: consumerTableDataItem[key].substring(0, 50),
             value: `<div class="d-flex cursor-pointer">
-                        <i class="material-icons color-primary" style="position: absolute;left: -20px; font-size:13px" data-value="${consumerTableDataItem[key]}">file_copy_outline</i>
+                        <mat-icon class="material-icons color-primary" style="position: absolute;left: -20px; font-size:13px" data-value="${consumerTableDataItem[key]}">file_copy_outline</mat-icon>
                         <span>${consumerTableDataItem[key]}</span>
                      </div>`,
             searchValue: consumerTableDataItem[key]
@@ -99,7 +113,6 @@ export class EnterpriseOverviewComponent  implements OnInit {
           obj[tableDataMetaDict[key].displayValue] = {
             ...tableDataMetaDict[key],
             originalKey: key,
-            // value: consumerTableDataItem[key].substring(0, 50),
             value: consumerTableDataItem[key],
             searchValue: consumerTableDataItem[key]
           };
@@ -158,18 +171,16 @@ export class EnterpriseOverviewComponent  implements OnInit {
 
       }
       obj.originalSessionData = consumerTableDataItem;
-      // console.log("ttttttttt", obj);
       return obj;
     });
     //
     return x;
   }
-  addNewServiceKey() {
+  addNewServiceKey( description ) {
     // enterprise/generate_service_key/
     let generateServiceKeyUrl = this.constantsService.generateServiceKeyUrl();
-    let body = this.descriptionForm.value;
+    let body = {'description':description};
 
-    console.log("descriptionForm.value", this.descriptionForm.value)
     const headerData: IHeaderData = { 'content-type': 'application/json' };
 
     this.serverService.makePostReq<any>({ url: generateServiceKeyUrl, body, headerData })
@@ -178,7 +189,7 @@ export class EnterpriseOverviewComponent  implements OnInit {
 
         this.serviceKeys.push(value);
         this.serviceKeys = [...this.serviceKeys];
-
+        //
         this.utilityService.showSuccessToaster("New service key added successfully");
         this.store.dispatch([
           new SetEnterpriseServiceKeyAction({ service_key: this.serviceKeys })
@@ -250,7 +261,6 @@ export class EnterpriseOverviewComponent  implements OnInit {
 
         this.serviceKeys = enterprise.service_key;
 
-        //  if(this.serviceKeys.length > 0){
 
         let expiredTableData = enterprise.service_key.filter(data => data.enabled == true);
         expiredTableData = expiredTableData.filter(data => typeof data.description == "string");
@@ -263,7 +273,6 @@ export class EnterpriseOverviewComponent  implements OnInit {
           return -a.expired_at+b.expired_at
       })
         this.serviceKeyTableDataExpired = this.transformDataForMaterialTable(expiredTableData, this.getTableDataMetaDictActive());
-
         this.serviceKeyTableDataActive = this.transformDataForMaterialTable(activeTableData, this.getTableDataMetaDictExpired());
 
 
@@ -297,7 +306,7 @@ export class EnterpriseOverviewComponent  implements OnInit {
               this.store.dispatch([
                 new SetUser({ user: value }),
               ])
-              // this.gotUserData$.emit(value);
+
             });
         });
       });
@@ -312,7 +321,6 @@ export class EnterpriseOverviewComponent  implements OnInit {
       //
       this.serverService.makePostReq<any>({ url: disableServiceKeyUrl, body, headerData })
         .subscribe((value) => {
-
           this.serviceKeys = this.serviceKeys.map((item) => {
             if (item["key"] == body.service_key) {
               return value;
@@ -328,10 +336,26 @@ export class EnterpriseOverviewComponent  implements OnInit {
           ])
         });
   }
-  customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any },expireServiceKeyModal) {
+  customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }) {
     if (data.action === 'expire') {
       this.expireServicekeyData = data.data;
-      this.utilityService.openDangerModal(expireServiceKeyModal, this.matDialog, this.dialogRefWrapper);
+      this.utilityService.openDialog({
+        dialogRefWrapper: this.dialogRefWrapper,
+        classStr:'danger-modal-header-border',
+        data:{
+          actionButtonText:"Expire",
+          message: 'Do you want to expire the selected access token',
+          title:'Expire token?',
+          isActionButtonDanger:true
+        },
+        dialog: this.matDialog,
+        component:ModalConfirmComponent
+      }).then((data)=>{
+        if(data){
+          this.expireServiceKey();
+        }
+      })
+      // this.utilityService.openDangerModal(expireServiceKeyModal, this.matDialog, this.dialogRefWrapper);
     }
   }
 

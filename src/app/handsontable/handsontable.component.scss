@@ -27,12 +27,6 @@
   }
 }
 
-input {
-  @include hide-borders();
-  border: 1px solid #ced4da;
-  padding-left: 8px;
-}
-
 ::ng-deep td, th {
   //max-width: 100px;
   text-align: left;

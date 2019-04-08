@@ -26,6 +26,7 @@ import {CreateBotDialogComponent} from '../create-bot-dialog/create-bot-dialog.c
 import {MatDialog} from '@angular/material';
 import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
 import {ModalImplementer} from '../../../modal-implementer';
+import {EventService} from "../../../event.service";
 
 @Component({
   selector: 'app-bot-preview-card',
@@ -96,8 +97,12 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
         bot: {...this.bot, enterprise_unique_name: this.enterprise_unique_name}
       }),
       new ToggleChatWindow({open: true}),
-      new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX})
+      new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX})
     ]);
+
+    /*TODO: integrate this with store*/
+    EventService.startANewChat$.emit({bot:this.bot, consumerDetails: {uid: this.utilityService.createRandomUid()},
+    });
 
   }
 
@@ -113,18 +118,42 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
   }
 
   async openDeleteModal() {
-    let data = await this.utilityService.openDialog({
-      dialog: this.matDialog,
-      component: ModalConfirmComponent,
-      data: {title:`Delete bot ${this.bot.name}?`, message:null, actionButtonText:"Delete", isActionButtonDanger:true},
-      classStr: 'danger-modal-header-border',
-      dialogRefWrapper:this.dialogRefWrapper
-    });
 
-    if(data){
-      this.deleteBot();
-    }
+    await this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr:'danger-modal-header-border',
+      data:{
+        actionButtonText:"Delete bot",
+        message: "This action cannot be undone. Are you sure you wish to delete?",
+        title:`Delete bot ${this.bot.name}?`,
+        isActionButtonDanger:true,
+        inputDescription: null,
+        closeButtonText: "Keep bot"
+      },
+      dialog: this.matDialog,
+      component:ModalConfirmComponent
+    }).then((data)=>{
+
+      if(data){
+        this.deleteBot();
+      }
+    })
+    // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
+
+  // async openDeleteModal() {
+  //   let data = await this.utilityService.openDialog({
+  //     dialog: this.matDialog,
+  //     component: ModalConfirmComponent,
+  //     data: {title:`Delete bot ${this.bot.name}?`, message:null, actionButtonText:"Delete", isActionButtonDanger:true},
+  //     classStr: 'danger-modal-header-border',
+  //     dialogRefWrapper:this.dialogRefWrapper
+  //   });
+
+  //   if(data){
+  //     this.deleteBot();
+  //   }
+  // }
 
   deleteBot() {
     // this.modalRefWrapper.hide();
@@ -154,7 +183,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
       /*TODO:improve it*/
 
       if (ERoleName.Tester === this.role) {
-        // this.router.navigate(['/core/viewbots/chatbot'], {queryParams:{preview:this.bot.id,build:"testing"}});
+        // this.router.navigate(['/core/viewbots/chatbot'], {queryParams:{preview:this.bot.roomId,build:"testing"}});
         this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id], {
           queryParams: {
             preview: this.bot.id,
@@ -173,6 +202,8 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
   test(channelName) {
     this.router.navigateByUrl(`core/botdetail/chatbot/${this.bot.id}?build-tab=integration&code-tab=df_template#${channelName}`);
   }
+
+  menuOpened = false;
 
 
 }

@@ -3,6 +3,7 @@
   <div *ngIf="rooms">
     <app-chat-item
       *ngFor="let room of rooms;" [room]="room"
+      [bot]="room.bot"
       [currentUid]="chatsessionstate.currentUId">
     </app-chat-item>
   </div>

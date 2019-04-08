@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter, Output, Input} from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 
 @Component({
   selector: 'app-enterprise-list',
@@ -8,18 +8,18 @@ import {Component, OnInit, EventEmitter, Output, Input} from '@angular/core';
 export class EnterpriseListComponent implements OnInit {
 
   constructor() { }
-  @Input() enterpriseList : any[];
+  @Input() enterpriseList: any[];
   @Input() searchEnterprise: string;
-  @Input() currentEnterpriseId : number;
+  @Input() currentEnterpriseId: number;
   @Output() clickedEnterprise = new EventEmitter();
   ngOnInit() {
   }
-  clickEnterprise(enterpriseId,roleId,isActive){
-    let object = {
-      enterpriseId : enterpriseId,
-      roleId : roleId,
-      isActive : isActive
-    }
+  clickEnterprise(enterpriseId, roleId, isActive) {
+    const object = {
+      enterpriseId: enterpriseId,
+      roleId: roleId,
+      isActive: isActive
+    };
     this.clickedEnterprise.emit(object);
   }
 }

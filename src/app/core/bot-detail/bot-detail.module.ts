@@ -1,7 +1,7 @@
 import {Route, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {AimService} from '../../aim.service';
 import {SharedModule} from '../../shared.module';
@@ -26,7 +26,6 @@ import {LimitObjectArraysStringPipe} from './consumers/limit-object-arrays-strin
 import {ConsumerFullscreenWrapperComponent} from './consumers/consumer-fullscreen-wrapper/consumer-fullscreen-wrapper.component';
 import {AuthGaurdService} from '../../auth-gaurd.service';
 import {RequiredIfOneFilledValidator} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/requiredIfOneFilledValidator.directive';
-import {DragulaModule} from 'ng2-dragula';
 import {RichMediaModule} from '../../rich-media.module';
 import {SessionDataToRichMediaSerializerPipe} from '../../session-data-to-rich-media-serializer.pipe';
 import {DisplayNameForKeyIntegrationPipe} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/display-name-for-key-integration.pipe';
@@ -62,15 +61,16 @@ import {AccordianComponent} from '../../accordian/accordian.component';
 import {SortPipelinePipe} from '../buildbot/build-code-based-bot/architecture/pipeline/sort-pipeline.pipe';
 import {PipelineIdToPipelineModulePipe} from '../buildbot/build-code-based-bot/architecture/pipeline/pipeline-id-to-pipeline-module.pipe';
 import {PipeineIdToPipelineModuleWrapperPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/pipeine-id-to-pipeline-module-wrapper.pipe';
-import {PipeineKeywordToPipelineModuleMatchedPipe} from "../buildbot/build-code-based-bot/architecture/pipeline/pipeine-keyword-to-pipeline-module-matched.pipe";
+import {SortObjectArrPipe} from '../../sort-object-arr.pipe';
+import {PipeineKeywordToPipelineModuleMatchedPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/pipeine-keyword-to-pipeline-module-matched.pipe';
 
 const routes: Route[] = [
   {
     path: '', component: BotDetailWrapperComponent, canActivateChild: [AuthGaurdService], children:
         [
           {path: `${EBotType.chatbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.chatbot}},
-          {path: `${EBotType.intelligent}/:id`, component: PipelineBasedBotDetailComponent, data: {bot_type: EBotType.intelligent}},
-          {path: ':id/consumer', component: ConsumerFullscreenWrapperComponent, data: {isFullscreen: true}},
+          {path: `${EBotType.intelligent}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.intelligent}},
+          {path: ':roomId/consumer', component: ConsumerFullscreenWrapperComponent, data: {isFullscreen: true}},
         ]
   }
 ];
@@ -82,7 +82,7 @@ const routes: Route[] = [
     PipelineBasedBotDetailComponent,
     BotDetailHeaderComponent,
     BotDetailWrapperComponent,
-    BotTestingComponent,
+    // BotTestingComponent,
     BotSessionsComponent,
     SessionDetailModelComponent,
     ConsumersComponent,
@@ -92,12 +92,14 @@ const routes: Route[] = [
     PipelineIdToPipelineModulePipe,
     SortPipelinePipe,
     AccordianComponent,
+    PipeineKeywordToPipelineModuleMatchedPipe,
     SimpleTableComponent,
     StringIncludesPipe,
     UnderscroreToSpaceDelimitorPipe,
     CodeInputComponent,
     CodeGentemplateUiComponentWrapperComponent,
     CodeVersionListComponent,
+    SortObjectArrPipe,
     CodeGentemplateUiWrapperComponent,
     HasChannelPipe,
     TrimStringPipe,
@@ -117,25 +119,23 @@ const routes: Route[] = [
     LogosByIntegrationNamePipe,
     CodeGentemplateComponent,
     TextGentemplateComponent,
-    IntegrationOptionListComponent,
-    TypeForIntegrationTypePipe,
-    IntegrationItemForTypePipe,
-    IntegrationItemComponent,
+
     DraggableDirective,
     DropTargetDirective,
     KnowledgeBaseWrapperComponent,
-    DisplayNameForKeyIntegrationPipe,
+    // DisplayNameForKeyIntegrationPipe,
     LimitObjectArraysStringPipe,
     ConsumerFullscreenWrapperComponent,
     /*after lazy loading*/
-    RequiredIfOneFilledValidator
+    // RequiredIfOneFilledValidator
+  //
   ],
   imports: [
     RichMediaModule,
-    DragulaModule,
     CommonModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,
+    ReactiveFormsModule,
     SharedModule,
     HttpClientModule,
     MyMaterialModule,

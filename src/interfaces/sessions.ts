@@ -10,10 +10,12 @@ export interface ISessionMessageItem {
   'generated_msg': Array<any>;
   'generated_msg_string': string;
   'id': number;
+  'error':boolean;
   'message': any; //Array<any>| string,
   'message_store': {
     activeBotId?: any;
     activeBotRoomId?: any;
+    sendtoagent? : any;
   };
   'platform': string;
   'resource_uri': string;
@@ -22,6 +24,7 @@ export interface ISessionMessageItem {
   'updated_at': string;
   'user_type': string;
   feedback: EChatFeedback,
+  nlp:object;
   /*custom fields*/
   messageByHuman: string;
 }
@@ -68,6 +71,7 @@ export interface ISessionItem {
     'imageUrl': string,
     'name': string
   };
+  'error':boolean,
   'data_encrypted': boolean;
   'sendtoagent': boolean;
   'total_message_count': number;

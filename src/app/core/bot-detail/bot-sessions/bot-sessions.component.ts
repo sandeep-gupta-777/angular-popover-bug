@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {ServerService} from '../../../server.service';
 import {Observable, of} from 'rxjs';
@@ -13,7 +13,13 @@ import {MaterialTableImplementer} from '../../../material-table-implementer';
 import {MatDialog} from '@angular/material';
 import {ObjectArrayCrudService} from '../../../object-array-crud.service';
 import {EventService} from '../../../event.service';
-import {catchError} from 'rxjs/internal/operators';
+import {tap} from 'rxjs/internal/operators';
+import {IAppState} from '../../../ngxs/app.state';
+import {IIntegrationMasterListItem} from '../../../../interfaces/integration-option';
+import {NgForm} from '@angular/forms';
+import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
+import {EChatFeedback} from '../../../chat/chat-wrapper.component';
+import {BotSessionSmartTableModal} from "./bot-session-smart-table-modal";
 
 interface ISessionFilterData {
   id: number,
@@ -27,11 +33,11 @@ interface ISessionFilterData {
   templateUrl: './bot-sessions.component.html',
   styleUrls: ['./bot-sessions.component.scss']
 })
-export class BotSessionsComponent extends MaterialTableImplementer implements OnInit {
+export class BotSessionsComponent implements OnInit, AfterViewInit {
   dialogRefWrapper = {ref: null};
 
   myESplashScreens = ESplashScreens;
-  @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
+  @Select(state => state.botlist.botList) codeBasedBotList$: Observable<IBot[]>;
   @Input() id: string;
   test = 'asdasdsd';
   @Input() bot: IBot;
@@ -46,14 +52,22 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   selectedRow_Session: ISessionItem;
   selectedRow_number = 0;
   totalSessionRecords = 0;
-  sessions: ISessionItem[];
-  tableData: any[];
+  sessions: ISessionItem[] = [];
+  tableData1: any[];
   showNextButton: boolean;
   showPrevButton: boolean;
   pageNumberOfCurrentRowSelected = 1;
   indexOfCurrentRowSelected: number;
-  decryptReason: string;
-  filterData: ISessionFilterData;
+  showFilterForm = false;/*filter form will be shown when if table has data when no filters are applied*/
+  @ViewChild('form') filterForm: NgForm;
+  // decryptReason: string;
+  filterDataFromTable: ISessionFilterData;
+  filterFormData: ISessionFilterData;
+  @Select() app$: Observable<IAppState>;
+
+  sessionsSmartTableDataModal: BotSessionSmartTableModal;
+
+  channels: IIntegrationMasterListItem[];
 
   constructor(
     private serverService: ServerService,
@@ -63,14 +77,25 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     private store: Store,
     private matDialog: MatDialog,
   ) {
-    super();
   }
 
+  filterFormDirty = false;
+
   ngOnInit() {
+
+    this.sessionsSmartTableDataModal = this.tableDataFactory();
+
+    this.app$
+      .subscribe((appState) => {
+        this.channels = appState.masterIntegrationList.filter(e => e.integration_type === 'channels');
+      });
+
     this.headerData = {'bot-access-token': this.bot.bot_access_token};
-    this.performSearchInDbForSession(null);
+    this.performSearchInDbForSession(null)
+      .subscribe();
     this.eventService.reloadSessionTable$.subscribe(() => {
-      this.performSearchInDbForSession(this.filterData);
+      this.performSearchInDbForSession(this.filterDataFromTable)
+        .subscribe();
     });
   }
 
@@ -106,55 +131,17 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     return this.constantsService.SMART_TABLE_SESSION_TABLE_DATA_META_DICT_TEMPLATE;
   }
 
-  initializeTableData(sessions: ISessionItem[], tableDataMetaDict: any): void {
-    this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
 
+
+  tableDataFactory() {
+
+    let tableDataModel = new BotSessionSmartTableModal(this.sessions,
+      this.constantsService.SMART_TABLE_SESSION_TABLE_DATA_META_DICT_TEMPLATE,
+      {constantsService: this.constantsService, bot: this.bot});
+    return tableDataModel;
   }
 
-  // loadSmartTableSessionData() {
-  // this.loadSessionTableDataForGivenPage({page: this.pageNumberOfCurrentRowSelected});
-  // this.performSearchInDbForSession({});
-  // }
-
-  transformSessionDataForMaterialTable(session: ISessionItem[]) {
-
-
-    let sessionsDataForTable = super.transformDataForMaterialTable(session, this.getTableDataMetaDict());
-
-
-    sessionsDataForTable = sessionsDataForTable.map((sessionsDataForTableItem) => {
-
-      /*adding two additional columns 1) actions and 2)channels*/
-      let additonalColumns: any = {
-        Actions: sessionsDataForTableItem['Actions'],
-        Channels: sessionsDataForTableItem['Channels'],
-      };
-
-      additonalColumns['Actions'].value = additonalColumns['Actions'].value || [];
-      additonalColumns['Channels'].value = additonalColumns['Channels'].value || [];
-      /*actions*/
-      additonalColumns['Actions'].value.push({show: true, name: 'download', class: 'fa fa-download'});
-
-      /*TODO: also check if the user has access to decrypt api*/
-      if (sessionsDataForTableItem['originalSessionData']['data_encrypted']) {
-        additonalColumns['Actions'].value.push({show: true, name: 'decrypt', class: 'fa fa-lock'});
-      }
-      /*channels*/
-      additonalColumns['Channels'].searchValue = sessionsDataForTableItem['Channels'].value.join();
-      additonalColumns['Channels'].value = (sessionsDataForTableItem.Channels['value'].map((channelName) => {
-        return {
-          name: channelName,
-          src: this.constantsService.getIntegrationIconForChannelName(channelName).icon//'https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/web.png'
-        };
-      }));
-      return {...sessionsDataForTableItem, ...additonalColumns};
-    });
-
-
-    return sessionsDataForTable;
-  }
-
-  sessionTableRowClicked(eventData: { data: ISessionItem }, template?, reasonForDecryptionTemplate?) {
+  sessionTableRowClicked(eventData: { data: ISessionItem }, template?) {
     let isEncrypted: boolean;
     /*
       * TODO: there is a data_encrypted key it the row itself. Can we use it?
@@ -163,12 +150,13 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
     if (eventData.data.data_encrypted) {
 
-      this.openSessionRowDecryptModal(this.reasonForDecryptionTemplate, eventData.data);
+      this.openSessionRowDecryptModal(eventData.data);
     } else {
       this.loadSessionMessagesById(eventData.data.id)
-        .subscribe((value: any) => {
-          this.selectedRow_Session = this.sessions.find(session => session.id === eventData.data.id);
+        .subscribe((value: { objects: ISessionItem[] }) => {
 
+          this.selectedRow_Session = this.sessions.find(session => session.id === eventData.data.id);
+          // this.selectedRow_Session = value.objects.find(session => session.roomId === eventData.data.roomId);
           // (<any>this.selectedRow_Session).highlight = true;
           if (this.indexOfCurrentRowSelected !== undefined) {
             this.sessions[this.indexOfCurrentRowSelected].highlight = false;
@@ -192,22 +180,8 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     this.showLoader = true;
     this.pageNumberOfCurrentRowSelected = filterData.page;
     this.performSearchInDbForSession(filterData);
-    // this.url = this.constantsService.getBotSessionsUrl(10, (data.page - 1) * 10);
-    // const headerData: IHeaderData = {
-    //   'bot-access-token': this.bot.bot_access_token
-    // };
-    // this.serverService.makeGetReq<ISessions>({url: this.url, headerData})
-    //   .subscribe((value) => {
-    //     this.showLoader = false;
-    //     this.totalSessionRecords = value.meta.total_count;
-    //     this.selectedRow_Session = value.objects[this.selectedRow_number || 0];
-    //     this.sessions = value.objects;
-    //     this.initializeTableData(this.sessions, this.getTableDataMetaDict());
-    //
-    //   });
   }
 
-  @ViewChild('reasonForDecryptionTemplate') reasonForDecryptionTemplate: TemplateRef<any>;
   @ViewChild('sessionDetailTemplate') sessionDetailTemplate: TemplateRef<any>;
 
   selectNextRow() {
@@ -219,7 +193,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     }
 
     let currentIndex = this.sessions.findIndex((session) => {/*old selected row index*/
-      // return this.selectedRow_Session.id === session.id;
+      // return this.selectedRow_Session.roomId === session.roomId;
       return this.selectedRow_Session.id === session.id;
     });
     if (currentIndex <= this.sessions.length - 2) {
@@ -243,7 +217,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
     // this.modalRef.hide();
     this.dialogRefWrapper.ref.close();
     const sessionToBeDecrypted = this.sessions[this.indexOfCurrentRowSelected];
-    this.openSessionRowDecryptModal(this.reasonForDecryptionTemplate, sessionToBeDecrypted);
+    this.openSessionRowDecryptModal(sessionToBeDecrypted);
     return;
   }
 
@@ -298,31 +272,30 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
       /*use dcrypt api*/
 
       const sessionItemToBeDecrypted = data.data;
-      this.openSessionRowDecryptModal(Primarytemplate, sessionItemToBeDecrypted);
+      this.openSessionRowDecryptModal(sessionItemToBeDecrypted);
 
     }
   }
 
-  decryptSubmit(sessionTobeDecryptedId: number) {
-    this.decryptReason = "";
+  decryptSubmit(sessionTobeDecryptedId: number, decryptReason) {
+
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-    const body = {'room_id': sessionTobeDecryptedId, 'decrypt_audit_type': 'room', 'message': this.decryptReason};
+    const body = {'room_id': sessionTobeDecryptedId, 'decrypt_audit_type': 'room', 'message': decryptReason};
     const url = this.constantsService.getDecryptUrl();
     this.serverService.makePostReq({headerData, body, url})
       .subscribe(() => {
-
-        this.decryptReason = null;
         const surl = this.constantsService.getSessionsByIdUrl(sessionTobeDecryptedId);
         this.serverService.makeGetReq({url: surl, headerData})
-          .subscribe((value: {objects:ISessionItem[]}) => {
-          let newSession = value.objects[0];
-          /*todo: use perform search in db instead*/
+          .subscribe((value: { objects: ISessionItem[] }) => {
+            let newSession = value.objects[0];
+            /*todo: use perform search in db instead*/
             const del = this.sessions.findIndex((session) => session.id === sessionTobeDecryptedId);
             this.sessions[del] = {...newSession};
             this.sessions = [...this.sessions];
-            this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
+            // this._tableData = this.transformSessionDataForMaterialTable(this.sessions);
+            this.sessionsSmartTableDataModal.refreshData(this.sessions);
 
             this.selectedRow_Session = newSession;
             this.openDeleteTemplateKeyModal(this.sessionDetailTemplate);
@@ -332,14 +305,25 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   }
 
-  openSessionRowDecryptModal(template: TemplateRef<any>, sessionToBeDecrypted: ISessionItem) {
+  openSessionRowDecryptModal(sessionToBeDecrypted: ISessionItem) {
     this.sessionItemToBeDecrypted = sessionToBeDecrypted;
     // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
     this.utilityService.openDialog({
-      component: template,
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr: 'danger-modal-header-border',
+      data: {
+        actionButtonText: `Decrypt`,
+        message: 'Use the decryption key to see all the messages exchanged.',
+        title: `Decrypt session`,
+        isActionButtonDanger: false,
+        inputDescription: 'Key'
+      },
       dialog: this.matDialog,
-      classStr: 'primary-modal-header-border',
-      dialogRefWrapper: this.dialogRefWrapper
+      component: ModalConfirmComponent
+    }).then((data) => {
+      if (data) {
+        this.decryptSubmit(this.sessionItemToBeDecrypted.id, data);
+      }
     });
   }
 
@@ -352,7 +336,7 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
   }
 
   loadSessionById(id) {
-    // this.url = this.constantsService.getSessionsMessageUrl(id);
+    // this.url = this.constantsService.getSessionsMessageUrl(roomId);
     this.url = this.constantsService.getSessionsByIdUrl(id);
     return this.serverService.makeGetReq<ISessionItem>({
       url: this.url,
@@ -362,83 +346,182 @@ export class BotSessionsComponent extends MaterialTableImplementer implements On
 
   updateSessionById(id: number) {
     this.loadSessionById(id)
-      .subscribe((val:{objects:ISessionItem[]}) => {
-        debugger;
+      .subscribe((val: { objects: ISessionItem[] }) => {
+
         let sessionItem = val.objects[0];
         let index = ObjectArrayCrudService.getObjectIndexByKeyValuePairInObjectArray(this.sessions, {id});
-        this.sessions[index] = sessionItem;;
+        this.sessions[index] = sessionItem;
         this.selectedRow_Session = sessionItem;
-        this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
-        this.tableData = [...this.tableData];
+        this.sessionsSmartTableDataModal.refreshData(this.sessions);
       });
-    //
   }
 
-  performSearchInDbForSession(filterData:ISessionFilterData) {
+  performSearchInDbForSessionHandler(filterData: ISessionFilterData) {
+    this.performSearchInDbForSession(filterData)
+      .subscribe();
+  }
+
+  performSearchInDbForSession(filterData: ISessionFilterData) {
+
 
     this.showLoader = true;
     let url: string;
-    this.filterData = JSON.parse(JSON.stringify(filterData));
-    if (filterData) {
-      let dataCopy: any = this.utilityService.createDeepClone(filterData);
-      if (dataCopy.updated_at) {
+    let page: number;
+    this.filterDataFromTable = JSON.parse(JSON.stringify(filterData || {}));
+    let filterDataFromForm = JSON.parse(JSON.stringify(this.filterFormData || {}));
+    let combinedFilterData = {...filterDataFromForm, ...this.filterDataFromTable};
+
+    if (Object.keys(combinedFilterData).length > 0) {
+      if (combinedFilterData.updated_at) {
         let x: any;
-
-        // dataCopy.updated_at =
-        //   this.utilityService.convertDateObjectStringToYYYYMMDD(new Date((<any>filterData).updated_at.begin).toUTCString(), '-') + ',';
-        // x = this.utilityService.convertDateObjectStringToYYYYMMDD(new Date((<any>filterData).updated_at.end).toUTCString(), '-') + " 23:59";
-
         /*
         * start and end refer to date 00:00
         * We want end to point to 23:59, so added a day
         * */
-      let begin = new Date((<any>filterData).updated_at.begin);
-      let end = new Date((<any>filterData).updated_at.end);
-      end.setDate(end.getDate() + 1);
+        let begin = new Date((<any>combinedFilterData).updated_at.begin);
+        let end = new Date((<any>combinedFilterData).updated_at.end);
+        end.setDate(end.getDate() + 1);
 
-        dataCopy.updated_at =
-            `${begin.getFullYear()}-${begin.getUTCMonth()+1}-${begin.getUTCDate()} ${begin.getUTCHours()}:${begin.getUTCMinutes()}` + ',' +
-            `${end.getFullYear()}-${end.getUTCMonth()+1}-${end.getUTCDate()} ${begin.getUTCHours()}:${begin.getUTCMinutes()}` ;
+        combinedFilterData.updated_at =
+          `${begin.getFullYear()}-${begin.getUTCMonth() + 1}-${begin.getUTCDate()} ${begin.getUTCHours()}:${begin.getUTCMinutes()}` + ',' +
+          `${end.getFullYear()}-${end.getUTCMonth() + 1}-${end.getUTCDate()} ${begin.getUTCHours()}:${begin.getUTCMinutes()}`;
 
         // dataCopy.updated_at += x;
-        dataCopy.updated_at__range = dataCopy.updated_at;
-        delete dataCopy.updated_at;
+        combinedFilterData.updated_at__range = combinedFilterData.updated_at;
+
+        delete combinedFilterData.updated_at;
       }
-      if(dataCopy.total_message_count) {
-        dataCopy.total_message_count__range = `${dataCopy.total_message_count},${dataCopy.total_message_count}`;
+      if (combinedFilterData.total_message_count) {
+        combinedFilterData.total_message_count__range = `${combinedFilterData.total_message_count},${combinedFilterData.total_message_count}`;
 
       }
-      dataCopy = {
-        ...dataCopy,
-        offset: dataCopy.page ? ((dataCopy.page - 1) * 10) : 0,
-        limit: dataCopy.limit ? dataCopy.limit : 10
+
+      page = combinedFilterData.page = combinedFilterData.page || 1;
+      Object.keys(combinedFilterData).forEach((key) => {
+        if (combinedFilterData[key] === false) {
+          delete combinedFilterData[key];
+        }
+      });
+
+      // if(combinedFilterData.feedback ===  true){
+      //   combinedFilterData.feedback = EChatFeedback.NEGATIVE;
+      // }
+      combinedFilterData = {
+        ...combinedFilterData,
+        offset: (combinedFilterData.page - 1) * 10,
+        limit: combinedFilterData.limit ? combinedFilterData.limit : 10
       };
-      delete dataCopy.page;
-      UtilityService.removeAllNonDefinedKeysFromObject(dataCopy);
-      url = this.constantsService.getRoomWithFilters(dataCopy);
-    }else {
-      url = this.constantsService.getRoomWithFilters({limit:10});
+      delete combinedFilterData.page;
+      UtilityService.removeAllNonDefinedKeysFromObject(combinedFilterData);
+      url = this.constantsService.getRoomWithFilters(combinedFilterData);
+    } else {
+      url = this.constantsService.getRoomWithFilters({limit: 10});
+      page = 1;
     }
-    this.serverService.makeGetReq({url, headerData: this.headerData})
-      .subscribe((value: { objects: ISessionItem[], meta: { total_count: number } }) => {
+    url = url.toLowerCase();//todo: this should be handled by backend;
+    return this.serverService.makeGetReq({url, headerData: this.headerData})
+      .pipe(
+        tap((value: { objects: ISessionItem[], meta: { total_count: number } }) => {
 
-        if(!filterData && value.objects.length ===0 ){
-          this.showSplashScreen = true;
-        }
-        this.sessions = value.objects;
-        this.totalSessionRecords = value.meta.total_count;
-        this.tableData = this.transformSessionDataForMaterialTable(this.sessions);
-        this.tableData = [...this.tableData];
-        this.showLoader = false;
-      },()=>{
+          if (!filterData && value.objects.length === 0) {
+            this.showSplashScreen = true;
+          }
+          if (Object.keys(combinedFilterData).length === 0 && value.objects.length !== 0) {
+            this.showFilterForm = true;
+          }
+
+          if (page) {
+
+            this.pageNumberOfCurrentRowSelected = page;
+          }
+          this.sessions = value.objects;
+          this.totalSessionRecords = value.meta.total_count;
+          // this._tableData = this.transformSessionDataForMaterialTable(this.sessions);
+          this.sessionsSmartTableDataModal.refreshData(this.sessions);
           this.showLoader = false;
-        }
-        );
+          this.filerFormInitalData = this.filterForm.value;
+          this.filterFormDirty = false;
+          // this.filterForm.form.patchValue(filterData);
+        }, () => {
+          this.showLoader = false;
+        })
+      );
+  }
+
+  sessionFormSubmitted(formData) {
+    let filterData = UtilityService.cloneObj(formData);
+    this.filterFormData = filterData;
+
+    let channelsObj = filterData.channels;
+    let channelStr = Object.keys(channelsObj).filter(key => channelsObj[key]).join(',');
+    delete filterData.channels;
+    if (channelStr) {
+      filterData.channels = channelStr.toLowerCase();
+    }
+
+    /*date range*/
+    filterData.total_message_count__range = `${filterData.total_message_count__gte || 0},${filterData.total_message_count__lte || 10000}`;
+    delete filterData.total_message_count__lte;
+    delete filterData.total_message_count__gte;
+
+    this.performSearchInDbForSession(filterData)
+      .subscribe(() => {
+        // this.filterFormDirty  = false;
+        this.filterForm.form.markAsPristine();/*Because we want to disable button when data is unchanged*/
+      });
   }
 
 
   log() {
     console.log(this.headerData);
+  }
+
+  resetSearchForm(form: NgForm) {
+    form.resetForm();
+    this.filterFormData = null;
+    this.performSearchInDbForSession(null)
+      .subscribe();
+  }
+
+  filerFormInitalData;
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.filerFormInitalData = this.filterForm.value;
+      this.filterForm
+        .valueChanges
+        .subscribe((formData) => {
+
+          // this.filterFormDirty = JSON.stringify(this.filerFormInitalData)!==JSON.stringify(formData);
+          this.filterFormDirty = this.test1(formData, this.filerFormInitalData);
+        });
+    }, 100);
+
+  }
+
+  test1(obj1, obj2) {
+    let isDirty = false;
+    (function compareObj(obj1, obj2) {
+      for (let key of Object.keys(obj1)) {
+        let val1 = obj1[key];
+        let val2 = obj2[key];
+
+        if (val1 && !val2 || !val1 && val2) {
+          isDirty = true;
+          return;
+        }
+
+        if (!(!val1 && !val2)) {
+          if (typeof val1 === 'object') {
+            compareObj(val1, val2)
+          } else if (val1 !== val2) {
+            isDirty = true;
+            return;
+          }
+        }
+      }
+    })(obj1, obj2);
+    return isDirty;
   }
 
 }

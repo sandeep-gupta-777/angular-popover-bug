@@ -1,21 +1,23 @@
-<div class="container px-5 pb-5 my-3 bg-white shadow-theme">
+<div class="container px-5 pb-5 my-3">
   <div class="row">
-    <div class="col-12 mb-4 py-3 d-flex align-items-center " style="border-bottom: solid 2px #e0e0e0;">
+    <div class="col-12 py-3 d-flex align-items-center">
       <a class="p-0 h4 cursor-pointer" [routerLink]="['/core','reports']" ><i class="fa fa-angle-left pr-2"></i></a>
-      <a class="p-0 h4 ">Subscribe to Report</a>
-      <button class="btn-theme btn-theme-primary-outline ml-auto mr-3" routerLink="/core/reports">Cancel</button>
-      <button class="btn-theme btn-theme-primary" *ngIf="!report_id" (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Create</button>
+      <a class="p-0 h4 ">{{report_id?'Edit':'Create'}} a report subscription</a>
+      <button class="btn-theme btn-theme-primary-outline bg-transparent ml-auto mr-3" routerLink="/core/reports">Cancel</button>
+      <button class="btn-theme btn-theme-primary" *ngIf="!report_id"
+              [disabled]="!(myEventService.reportFormIsValid|async)"
+              (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Create</button>
       <button class="btn-theme btn-theme-primary" *ngIf="report_id" (click)="updateReport(Primarytemplate, unsubscribeTemplate)">Update</button>
-      <i class="fa fa-trash cursor-pointer" *ngIf="report_id" (click)="showReportDeleteModel(reportDeleteTemplate)"></i>
+      <i class="fa fa-trash cursor-pointer" *ngIf="report_id" (click)="showReportDeleteModel()"></i>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-5 pr-5 border-right">
+  <div class="row" style="margin-left: 20px; margin-right: 20px">
+    <div class="col-12 pr-5 col-md-5">
       <!--<app-report-controls [reportFormData]="reportFormData"></app-report-controls>-->
       <app-report-controls ></app-report-controls>
     </div>
-    <div class="col-7 d-flex">
+    <div class="d-none d-flex col-md-7 border-left">
       <app-report-display class="d-flex" style="width: 100%"></app-report-display>
     </div>
   </div>
@@ -55,7 +57,7 @@
 
 
 
-<ng-template #reportDeleteTemplate>
+<!-- <ng-template #reportDeleteTemplate>
 
   <div class="danger-modal center-modal">
     <div class="modal-header">
@@ -78,7 +80,7 @@
   </div>
 
 
-</ng-template>
+</ng-template> -->
 
 <ng-template #unsubscribeTemplate>
   <div class="danger-modal">

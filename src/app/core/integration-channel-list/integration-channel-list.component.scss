@@ -1,0 +1,28 @@
+@import '~src/sass/main';
+
+.no-channel-integrations:first-child {
+  border-left: $border-normal;
+  padding-left: 4px;
+}
+
+.logo-image {
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  margin-right: -7px;
+  margin-left: 0;
+
+  &:hover {
+    z-index: 100 !important;
+    transition: .6s;
+  }
+}
+
+.no-channel-integrations{
+  margin-right: 3px;/*override*/
+  margin-left: 3px;
+}
+
+img:last-child{
+  margin-right: 0;
+}

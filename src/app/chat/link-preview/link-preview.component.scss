@@ -1,0 +1,65 @@
+@import "~src/sass/main.scss";
+
+.link-preview-section {
+  display: flex;
+  max-height: 80px;
+  overflow: hidden;
+  border-radius: 2px;
+  cursor: pointer;
+  //background-color: #f7f7f7;
+  .link-preview-section__image-wrapper {
+    //height: 80%;
+    height: 80px;
+    max-width: 100px;
+    img{
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+
+  .link-preview-section__text {
+    padding: 5px 10px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    max-width: 65%;
+
+    .link-preview-section__text--description {
+      font-size: 11px;
+      margin: 0;
+    }
+
+    .link-preview-section__text--link {
+      margin-top: auto;
+      font-size: 11px;
+      color: #dbdbdb !important;
+      margin-left: auto;
+    }
+  }
+}
+
+.bg-message-human {
+  background-color: $color-primary-v2;
+
+  * {
+    color: white !important;
+  }
+}
+
+.bg-message-bot {
+  background-color: #e0e0e0;
+
+  * {
+    color: #474747 !important;
+  }
+}
+
+.limit-to-2-lines {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  line-height: 13px;        /* fallback */
+  max-height: 26px;       /* fallback */
+}

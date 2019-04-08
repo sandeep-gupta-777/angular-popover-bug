@@ -45,7 +45,7 @@ export class ViewBotStateReducer {
 
 
     patchState({
-      // codeBasedBotList: payload.botList,
+      // botList: payload.botList,
       allBotList: newBotList
     });
   }
@@ -64,7 +64,7 @@ export class ViewBotStateReducer {
     const state = getState();
     patchState({
       codeBasedBotList: payload.botList,
-      // allBotList: [...(state.codeBasedBotList || []), ...(state.pipelineBasedBotList || []), ...payload.botList]
+      // allBotList: [...(state.botList || []), ...(state.pipelineBasedBotList || []), ...payload.botList]
     });
   }
 
@@ -73,7 +73,7 @@ export class ViewBotStateReducer {
     const state = getState();
     patchState({
       pipelineBasedBotList: payload.botList,
-      // allBotList: [...(state.codeBasedBotList || []), ...(state.pipelineBasedBotList || []), ...payload.botList]
+      // allBotList: [...(state.botList || []), ...(state.pipelineBasedBotList || []), ...payload.botList]
     });
   }
 
@@ -100,8 +100,8 @@ export class ViewBotStateReducer {
     //   "workflows"?: boolean
     // }
     const versionList = payload.data;
-    // versionList.forEach(version => {
-    //   version.store_updated_fields = {
+    // Versions.forEach(Versions => {
+    //   Versions.store_updated_fields = {
     //     "df_template": false,
     //     "df_rules": false,
     //     "generation_rules": false,
@@ -109,7 +109,7 @@ export class ViewBotStateReducer {
     //     "workflows": false
     //   }
     // });
-    // versionList = {...versionList}
+    // Versions = {...Versions}
 
     bot.store_bot_versions = versionList;
 
@@ -149,7 +149,7 @@ export class ViewBotStateReducer {
   }
 
   static getCodeBased(x) {
-    return x.botlist.codeBasedBotList;
+    return x.botlist.botList;
   }
 
   static getPipelineBased(x) {
@@ -158,18 +158,18 @@ export class ViewBotStateReducer {
   }
 
   // static getBotById(state){
-  //   let id = this.ac
+  //   let roomId = this.ac
   //   // return x.botlist.pipelineBasedBotList.;
   //   return x.botlist.pipelineBasedBotList.filter(timePeriod => timePeriod._id === )
   //
   //   for(let i=0; i< x.botlist.pipelineBasedBotList.length; ++i){
   //     let timePeriod = x.botlist.pipelineBasedBotList[i];
-  //     if(timePeriod._id === id) return timePeriod
+  //     if(timePeriod._id === roomId) return timePeriod
   //   }
   //
-  //   for(let i=0; i< x.botlist.codeBasedBotList.length; ++i){
-  //     let timePeriod = x.botlist.codeBasedBotList[i];
-  //     if(timePeriod._id === id) return timePeriod
+  //   for(let i=0; i< x.botlist.botList.length; ++i){
+  //     let timePeriod = x.botlist.botList[i];
+  //     if(timePeriod._id === roomId) return timePeriod
   //   }
   // }
 

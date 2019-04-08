@@ -1,6 +1,7 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {Subscriber} from 'rxjs';
 import {IBot} from './core/interfaces/IBot';
+import {ESideBarTab} from './core/bot-detail/code-based-bot-detail/code-based-bot-detail.component';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +18,14 @@ export class EventService {
   emitRemoveCodeMirrorHistoryEvent(source: string) {
     this.removeCodeMirrorHistory$.emit(source);
   }
+
   static progressBar$ = new EventEmitter<{loading: boolean, value: number }>();
   static disableSaveButton_codeInput$ = new EventEmitter<boolean>();
   static toggleAllPipeLineModules = new EventEmitter<boolean>();
-  static botUpdatedInServer = new EventEmitter<IBot>();
+  static botUpdatedInServer$ = new EventEmitter<IBot>();
+  static kbRefresh$ = new EventEmitter<IBot>();
+  static startANewChat$ = new EventEmitter<{bot:IBot, consumerDetails:any}>();
+  static reportFormIsValid = new EventEmitter<Boolean>();
   static unsubscribeInComponent(component){
     for (const key in component) {
       try {
@@ -37,8 +42,13 @@ export class EventService {
 
 
   rerenderHandsonTable$ = new EventEmitter();
+  static knowledgeBaseData$ = new EventEmitter();
   reloadSessionTable$ = new EventEmitter();
 
   constructor() {
   }
+
+  static updateBotinit$ = new EventEmitter();
+  static createConceptFullScreen$ = new EventEmitter();
+  static botDataDirty$ = new EventEmitter<{[index:string]:boolean}>();
 }

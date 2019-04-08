@@ -187,7 +187,7 @@ Paho.MQTT = (function (global) {
 	/** CONNACK RC Meaning. */
 	var CONNACK_RC = {
 		0:"Connection Accepted",
-		1:"Connection Refused: unacceptable protocol version",
+		1:"Connection Refused: unacceptable protocol Versions",
 		2:"Connection Refused: identifier rejected",
 		3:"Connection Refused: server unavailable",
 		4:"Connection Refused: bad user name or password",
@@ -218,9 +218,9 @@ Paho.MQTT = (function (global) {
 		return text;
 	};
 
-	//MQTT protocol and version          6    M    Q    I    s    d    p    3
+	//MQTT protocol and Versions          6    M    Q    I    s    d    p    3
 	var MqttProtoIdentifierv3 = [0x00,0x06,0x4d,0x51,0x49,0x73,0x64,0x70,0x03];
-	//MQTT proto/version for 311         4    M    Q    T    T    4
+	//MQTT proto/Versions for 311         4    M    Q    T    T    4
 	var MqttProtoIdentifierv4 = [0x00,0x04,0x4d,0x51,0x54,0x54,0x04];
 
 	/**
@@ -358,7 +358,7 @@ Paho.MQTT = (function (global) {
 		// If this is a PUBLISH then the variable header starts with a topic
 		if (this.type == MESSAGE_TYPE.PUBLISH)
 			pos = writeString(this.payloadMessage.destinationName, destinationNameLength, byteStream, pos);
-		// If this is a CONNECT then the variable header contains the protocol name/version, flags and keepalive time
+		// If this is a CONNECT then the variable header contains the protocol name/Versions, flags and keepalive time
 
 		else if (this.type == MESSAGE_TYPE.CONNECT) {
 			switch (this.mqttVersion) {
@@ -791,7 +791,7 @@ Paho.MQTT = (function (global) {
 		this._sequence = 0;
 
 
-		// Load the local state, if any, from the saved version, only restore state relevant to this client.
+		// Load the local state, if any, from the saved Versions, only restore state relevant to this client.
 		for (var key in localStorage)
 			if (   key.indexOf("Sent:"+this._localKey) == 0
 				|| key.indexOf("Received:"+this._localKey) == 0)

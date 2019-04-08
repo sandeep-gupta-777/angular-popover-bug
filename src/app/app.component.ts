@@ -1,6 +1,6 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, isDevMode, OnInit, ViewChild} from '@angular/core';
 import {NavigationEnd, RouteConfigLoadEnd, RouteConfigLoadStart, Router, RoutesRecognized} from '@angular/router';
-import {Select} from '@ngxs/store';
+import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {IAppState} from './ngxs/app.state';
 import {PermissionService} from './permission.service';
@@ -8,8 +8,11 @@ import {ELogType, LoggingService} from './logging.service';
 import {DebugBase} from './debug-base';
 import {EventService} from './event.service';
 import {UtilityService} from './utility.service';
+import {ServerService} from './server.service';
+import {StoreService} from './store.service';
 
 declare var CodeMirror: any;
+
 
 @Component({
   selector: 'app-root',
@@ -24,7 +27,9 @@ export class AppComponent extends DebugBase implements OnInit {
 
   constructor(private router: Router,
               private eventService: EventService,
-              private permissionService: PermissionService) {
+              private store: Store,
+              private storeService: StoreService,
+              private serverService: ServerService) {
     super();
   }
 
@@ -38,6 +43,27 @@ export class AppComponent extends DebugBase implements OnInit {
 
 
   ngOnInit() {
+
+    console.log("app.component.ts");
+
+    this.serverService.compareDeployDates();
+
+    let storeSnapshot = this.store.snapshot();
+    let autoLogoutTime = storeSnapshot.app.autoLogoutTime;
+    if(Date.now() > autoLogoutTime){
+      localStorage.clear();
+      this.storeService.logout();
+      location.reload();
+    }
+
+    // /**
+    //  * This is required here because if we set backend url in login page then anonymour chat page will be left out
+    //  * */
+    // if(!isDevMode()){
+    //   this.serverService.getNSetConfigData$().subscribe(() => {
+    //   });
+    // }
+
     this.initializeProgressBarSubscription();
 
     this.router.events.subscribe((data) => {
@@ -54,6 +80,9 @@ export class AppComponent extends DebugBase implements OnInit {
         this.loadingRouteConfig = false;
       }
     });
+    console.log('Testing reload: take1');
+
+
   }
 
 
@@ -62,8 +91,9 @@ export class AppComponent extends DebugBase implements OnInit {
    * if loading = true, slowly increase progressbar
    * if loading = false, finish progressbar in 500ms
    * */
-  initializeProgressBarSubscription(){
+  initializeProgressBarSubscription() {
     EventService.progressBar$.subscribe(({loading, value}) => {
+
       if (loading) {/*if loading = true, slowly increase progressbar*/
         this.showProgressbar = true;
         this.currentIntervalRef && clearInterval(this.currentIntervalRef);
@@ -88,5 +118,9 @@ export class AppComponent extends DebugBase implements OnInit {
       }
     });
   }
+
+  // test(){
+  //   this.serverService.getLinkMetaData();
+  // }
 
 }

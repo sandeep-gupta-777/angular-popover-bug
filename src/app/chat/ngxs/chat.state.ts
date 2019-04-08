@@ -125,7 +125,7 @@ export class ChatSessionStateReducer {
     let rooms = state.rooms;
     const room = payload;
     if (!state.rooms) { state.rooms = rooms = []; }
-    /*first check if room id already */
+    /*first check if room roomId already */
     let doesRoomAlreadyExist_index;
     doesRoomAlreadyExist_index = rooms.findIndex(room => room.id === payload.id);
     if (!doesRoomAlreadyExist_index || doesRoomAlreadyExist_index === -1) {
@@ -139,13 +139,13 @@ export class ChatSessionStateReducer {
   // addMessagesToRoom({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: AddMessagesToRoomByUId) {
   //   let state = getState();
   //   let rooms = state.rooms;
-  //   let room_id =payload.id;
-  //   let room: IRoomData = (rooms && (rooms.find((room) => room.id === room_id)));
+  //   let room_id =payload.roomId;
+  //   let room: IRoomData = (rooms && (rooms.find((room) => room.roomId === room_id)));
   //
   //   room.messageList = [...room.messageList, ...payload.messageList];
   //   // state.currentBotDetails = {
   //   //   ...state.currentBotDetails,
-  //   //   id: payload.bot_id,
+  //   //   roomId: payload.bot_id,
   //   //   token: payload.bot_access_token,
   //   // };
   //   setState({...state});
@@ -160,7 +160,7 @@ export class ChatSessionStateReducer {
 
     let room: IRoomData = (rooms && (rooms.find((room) => room.id === room_id)));
     if (!room) {
-      /*room is not found, this means session is expired. So search by consumer id*/
+      /*room is not found, this means session is expired. So search by consumer roomId*/
       const consumer_id = payload.consumer_id;
       room = (rooms && (rooms.find((room) => room.consumer_id === consumer_id)));
       if (room) {
@@ -182,7 +182,7 @@ export class ChatSessionStateReducer {
   //   let rooms = state.rooms;
   //   let uId =payload.uid;
   //   let room: IRoomData = (rooms && (rooms.find((room) => room.uid === uId)));
-  //   room.id = payload.room_id;
+  //   room.roomId = payload.room_id;
   //   setState({...state});
   //
   // }
@@ -214,13 +214,13 @@ export class ChatSessionStateReducer {
     /*
     * As of now there can be only one current bot in the application.
     * The moment a new current bot is selected (via preview), all info of previous current bot is deleted
-    * This means if a bot is deleted, and if that bot is also "currentBot", we can just reset the whole state
+    * This means if a bot is deleted, and if that bot is also "bot", we can just reset the whole state
     * */
     if (botId === state.currentBotDetails.id) {
       dispatch([new ResetChatState()]);
     }
     // rooms && (rooms.forEach((room, index) => {
-    //   if (room.id === botId) {
+    //   if (room.roomId === botId) {
     //     rooms.splice(index, 1);
     //   }
     // }));

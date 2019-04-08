@@ -21,9 +21,9 @@ export class AccordianComponent implements OnInit {
 
   ngOnInit() {
     EventService.toggleAllPipeLineModules
-        .subscribe((show)=>{
-          this.show = show;
-        });
+      .subscribe((show)=>{
+        this.show = show;
+      });
   }
 
 }

@@ -1,21 +1,22 @@
 <!--<button (click)="openDialog()">test</button>-->
+<!--<app-header class="grid-header"></app-header>-->
 
-<div style="margin: 0px 80px; position: relative">
-  <mat-tab-group
+<div class="view-bots-container">
+  <mat-tab-group animationDuration="0ms"
     [selectedIndex]="activeTab===myEBotType.chatbot?0:1"
     (selectedTabChange)="tabClicked($event.index == 0?myEBotType.chatbot: myEBotType.intelligent)">
     <mat-tab label="Code Based">
-      <div class="px-4 mt-2">
+      <div class="pl-4 mt-2">
         <app-bot-preview-card-list
           [botType]="activeTab"
-          [codeBasedBotList]="codeBasedBotList"></app-bot-preview-card-list>
+          [botList]="codeBasedBotList"></app-bot-preview-card-list>
       </div>
     </mat-tab>
     <mat-tab label="Pipeline Based">
-      <div class="px-4 mt-2">
+      <div class="pl-4 mt-2">
         <app-bot-preview-card-list
           [botType]="activeTab"
-          [codeBasedBotList]="pipelineBasedBotList"></app-bot-preview-card-list>
+          [botList]="pipelineBasedBotList"></app-bot-preview-card-list>
       </div>
     </mat-tab>
 
@@ -38,12 +39,10 @@
 
   <button *myIf="myEAllActions['Create Bots']"
           mat-flat-button
-          mat-ripple
           color="primary"
-          class="btn-theme ml-auto"
-          style="position: absolute; right: 0; top: 10px; z-index: 100;"
+          class="mat-theme-button ml-auto new-bot-cta"
           (click)="openDialog()">
-    <i class="fa fa-plus pr-1"></i>New Bot
+    + New Bot
   </button>
 
 </div>

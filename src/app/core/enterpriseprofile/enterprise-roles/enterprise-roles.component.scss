@@ -7,15 +7,18 @@
     justify-content: start;
     align-items: center;
     grid-gap: 20px;
+    
     .rolePannelGridItem{
       background-color: #ffffff;
       height:120px;
       padding: 8px;
       display: flex;
       flex-direction: column;
+      color: #474747;
+      line-height: 1.7;
       .headding{
     font-size: 13px;
-    color: #474747;
+    // color: #474747;
     font-weight: bold;
       }
       .d-flex{
@@ -30,3 +33,32 @@
       }
     }
   }
+  
+.card-header{
+  padding: .5rem 1.25rem;
+  background-color: transparent;
+  @include typography($font-size-md, $line-height-normal, $font-weight-normal, $color-text-normal);
+}
+.card-header-description{
+  @include typography($font-size-xs, $line-height-normal, $font-weight-normal, $color-text-normal);
+}
+.form-control{
+  background-color: transparent;
+}
+.card{
+  background-color: #f0f3f4;
+}
+.bottom-border-line{
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 2rem;
+}
+.modal-header{
+  padding: 0;
+  .close{
+    padding: 0;
+    margin: 0;
+  }
+}
+.profile-row{
+  padding: .5rem 1.25rem;
+}

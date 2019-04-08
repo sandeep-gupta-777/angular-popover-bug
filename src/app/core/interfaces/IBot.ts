@@ -65,7 +65,7 @@ export interface IBot {
   //     facebook: {
   //       enabled: true,
   //       'facebook-token':string,
-  //       id: string
+  //       roomId: string
   //     },
   //     skype: {
   //       client_id: string,
@@ -91,7 +91,7 @@ export interface IBot {
   'room_persistence_time'?: number;
   'transactions_per_pricing_unit'?: number;
   'updated_at'?: string;
-  'updated_by'?: number;
+  'updated_by'?: string;
 
   enterprise_name?: string;
   enterprise_logo?: string;
@@ -118,6 +118,8 @@ export interface IBotVersionResult {
   'objects': IBotVersionData[];
 }
 
+
+
 export interface IBotVersionData {
   'bot_id'?: number;
   'comment'?: string;
@@ -135,25 +137,27 @@ export interface IBotVersionData {
     'df_template'?: boolean,
     'df_rules'?: boolean,
     'generation_rules'?: boolean,
-    'generation_template'?: boolean,
-    'workflows'?: boolean
+    'generation_templates'?: boolean,
+    'workflow'?: boolean
   };
   'changed_fields'?: {
     'df_template'?: boolean,
     'df_rules'?: boolean,
     'generation_rules'?: boolean,
-    'generation_template'?: boolean,
-    'workflows'?: boolean
+    'generation_templates'?: boolean,
+    'workflow'?: boolean
   };
   'forked_from'?: number;
-  'validation'?: {
-    'df_rules'?: IValidationTabItem,
-    'df_template'?: IValidationTabItem,
-    'generation_rules'?: IValidationTabItem,
-    'generation_templates'?: IValidationTabItem,
-    'workflow'?: IValidationTabItem,
-  };
+  'validation'?: ICodeVersionValidation
 
+}
+
+export interface ICodeVersionValidation {
+  'df_rules'?: IValidationTabItem,
+  'df_template'?: IValidationTabItem,
+  'generation_rules'?: IValidationTabItem,
+  'generation_templates'?: IValidationTabItem,
+  'workflow'?: IValidationTabItem,
 }
 export interface IValidationTabItem {
   error?: boolean;
@@ -169,7 +173,7 @@ export interface IValidationTabItem {
 //   'allowAnonymization': boolean,
 //   'avatars': [
 //     {
-//       'id': number,
+//       'roomId': number,
 //       'imageUrl': string,
 //       'name': string
 //     }
@@ -182,7 +186,7 @@ export interface IValidationTabItem {
 //   'channels': {
 //     'facebook': {
 //       'facebook-token': string,
-//       'id': string
+//       'roomId': string
 //     }
 //   },
 //   'consentCategories': {
@@ -223,7 +227,7 @@ export interface IValidationTabItem {
 //   'name': string,
 //   'pipeline': [
 //     {
-//       'id': string,
+//       'roomId': string,
 //       'inputParams': {},
 //       'library': string,
 //       'module': string
@@ -236,7 +240,7 @@ export interface IValidationTabItem {
 //     {
 //       'contextual': boolean,
 //       'default': boolean,
-//       'id': string,
+//       'roomId': string,
 //       'inputParams': {},
 //       'library': string,
 //       'module': string

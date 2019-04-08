@@ -23,7 +23,7 @@ import {AuthGaurdService} from './auth-gaurd.service';
 import {DatePipe} from '@angular/common';
 import {NotAuthorisedComponent} from './not-authorised/not-authorised.component';
 import {FilterArrayPipe} from './filter-array.pipe';
-import {BackendDevComponent} from './backend-dev/backend-dev.component';;
+import {BackendDevComponent} from './backend-dev/backend-dev.component';
 import {
   MatProgressBarModule,
   MatSnackBarModule
@@ -33,6 +33,7 @@ import {AuthModule} from './auth/auth.module';
 import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.component';
 import {SharedModule} from './shared.module';
 import {createInputTransfer, createNewHosts, removeNgStyles} from '@angularclass/hmr';
+import {VersionStateReducer} from "./core/buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.state";
 
 const routes: Route[] = [
   {path: 'dev', loadChildren: './dev/dev.module#DevModule',canLoad: []},
@@ -51,6 +52,7 @@ const routes: Route[] = [
     NotAuthorisedComponent,
     FilterArrayPipe,
     BackendDevComponent,
+
   ],
   imports: [
     RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
@@ -64,10 +66,11 @@ const routes: Route[] = [
       BotCreationStateReducer,
       AnalysisStateReducer2,
       ReportsStateReducer,
+      VersionStateReducer,
     ]),
     NgxsStoragePluginModule.forRoot(),
-    // NgxsReduxDevtoolsPluginModule.forRoot(),//Comment this before pushing to git
-    // NgxsLoggerPluginModule.forRoot({disabled: true}), //disable for prod mode
+    NgxsReduxDevtoolsPluginModule.forRoot(),//Comment this before pushing to git
+    NgxsLoggerPluginModule.forRoot({disabled: true}), //disable for prod mode
     HttpClientModule,
     MatSnackBarModule,
     MatProgressBarModule,

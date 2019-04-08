@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {EBotVersionTabs} from '../code-input.component';
 import {NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../../../utility.service';
 import {ModalConfirmComponent} from '../../../../../../../modal-confirm/modal-confirm.component';
 import {MatDialog} from '@angular/material';
 import {GentemplateEditKeyComponent} from '../code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
+import {EBotVersionTabs} from "../../../../../../../../interfaces/code-input";
 
 export interface ICarousalItem {
   'image_url': string;
@@ -55,7 +55,13 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   modalRefWrapper = {ref:null};
   selectedChannelOfGenTemplate;
   @Input() bot;
-  @Input() templateKeyDict;
+  _templateKeyDict;
+  @Input() set templateKeyDict(val){
+    this._templateKeyDict = val;
+
+    if(Object.keys(this._templateKeyDict))
+      this.selectedTemplateKeyInLeftSideBar = Object.keys(this._templateKeyDict)[0];
+  }
   channelNameList;
   // @Input() selectedTemplateKeyOutputIndex;
   selectedTemplateKeyOutputIndex = [];
@@ -79,8 +85,8 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     try {
-      this.templateKeyDictClone = this.utilityService.createDeepClone(this.templateKeyDict);
-      this.selectedTemplateKeyInLeftSideBar = Object.keys(this.templateKeyDict)[0];
+      this.templateKeyDictClone = UtilityService.cloneObj(this._templateKeyDict);
+
       this.channelSelectorForm.form.patchValue({name: 'all'});
       this.channelNameList = this.channelList.map((channel) => {
         return channel.name;
@@ -90,10 +96,19 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     }
   }
 
+  /*
+  * getTemplateDict:
+  * TODO: temporary:
+  * will be called by parent
+  * */
+  getTemplateDict(){
+    return this._templateKeyDict;
+  }
+
   isTemplateKeyOutputUnparsable() {
     return this.activeTab === this.myEBotVersionTabs.generation_templates &&
-      this.templateKeyDict &&
-      typeof this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar] === 'string';
+      this._templateKeyDict &&
+      typeof this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar] === 'string';
   }
 
 
@@ -125,7 +140,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
       'include': this.createIncludesArray(),
       'code': ['Write ur text here .....']
     };
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(codeUnit);
+    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(codeUnit);
     setTimeout(() => this.scrollToBottom());
   }
 
@@ -137,7 +152,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
         'quick_replies': []
       }]
     };
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(quickReplyUnit);
+    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(quickReplyUnit);
     setTimeout(() => this.scrollToBottom());
 
   }
@@ -160,7 +175,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
         }]
       }]
     };
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(caraosalUnit);
+    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(caraosalUnit);
     setTimeout(() => this.scrollToBottom());
 
   }
@@ -170,7 +185,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
       'include': this.createIncludesArray(),
       'text': ['']
     };
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(textUnit);
+    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(textUnit);
     setTimeout(() => this.scrollToBottom());
 
   }
@@ -205,7 +220,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   selectedListDelete() {
     this.selectedTemplateKeyOutputIndex.sort((a, b) => b - a);
     for (const i of this.selectedTemplateKeyOutputIndex) {
-      this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].splice(i, 1);
+      this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].splice(i, 1);
     }
     this.selectedTemplateKeyOutputIndex = [];
   }
@@ -217,13 +232,13 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
     /*Example: selectedTemplateKeyObject  = {A1:true, A2:false}*/
     const selectedGenTempObjList = [];
     for (const i of this.selectedTemplateKeyOutputIndex) {
-      selectedGenTempObjList.push(this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][i]);
+      selectedGenTempObjList.push(this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar][i]);
     }
 
     const selectedIntentDestinationKeys = Object.keys(selectedTemplateKeyObject).filter((key) => selectedTemplateKeyObject[key]);
     for (const key of selectedIntentDestinationKeys) {
-      // this.templateKeyDict[key].push(...selectedGenTempObjList);
-      this.templateKeyDict[key].push(...JSON.parse(JSON.stringify(selectedGenTempObjList)));
+      // this._templateKeyDict[key].push(...selectedGenTempObjList);
+      this._templateKeyDict[key].push(...JSON.parse(JSON.stringify(selectedGenTempObjList)));
     }
     this.selectedTemplateKeyOutputIndex = [];
     this.modalRefWrapper.ref.close();
@@ -233,7 +248,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   selectedListDuplicate() {
 
     for (let i of this.selectedTemplateKeyOutputIndex) {
-      this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(JSON.parse(JSON.stringify(this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][i])));
+      this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].push(JSON.parse(JSON.stringify(this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar][i])));
     }
     this.selectedTemplateKeyOutputIndex = [];
   }
@@ -249,32 +264,38 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   deleteGentemplate(e) {
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].splice(e, 1);
-    // console.log(this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar]);
+    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].splice(e, 1);
+    // console.log(this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar]);
   }
 
   moveUpGentempate(e) {
-    const temp = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e];
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e] = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e - 1];
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e - 1] = temp;
+    const temp = this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e];
+    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e] = this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e - 1];
+    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e - 1] = temp;
   }
 
   moveDownGentempate(e) {
-    if (this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar].length == e + 1) {
-      // console.log('just dot do that , U know Y');
+    if (this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar].length == e + 1) {
+      console.log('just dot do that , U know Y');
       return;
     }
-    const temp = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e];
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e] = this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e + 1];
-    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e + 1] = temp;
+    const temp = this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e];
+    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e] = this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e + 1];
+    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar][e + 1] = temp;
   }
 
   createNewTemplatekey() {
 
     this.newTemplateKey = this.newTemplateKey.trim();
-    const isTemplateKeyUnique = !Object.keys(this.templateKeyDict).find((key) => key === this.newTemplateKey);
+    const isTemplateKeyUnique = !Object.keys(this._templateKeyDict).find((key) => key === this.newTemplateKey);
     if (!isTemplateKeyUnique || !this.newTemplateKey) {
       this.templateKeyCreationError = 'This template key already exists';
+      this.utilityService.showErrorToaster(this.templateKeyCreationError);
+      return;
+    }
+    else if(Object.keys(this._templateKeyDict).length == 0 && this.newTemplateKey == 'else'){
+      this.templateKeyCreationError = 'Can not create ELSE template key now';
+      this.utilityService.showErrorToaster(this.templateKeyCreationError);
       return;
     }
     this.templateKeyCreationError = '';
@@ -283,8 +304,8 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
       'text': [''],
       'include': this.createIncludesArray(),
     }];
-    // this.templateKeyDict = {...this.templateKeyDict, ...intentUnit};
-    this.templateKeyDict = Object.assign(this.templateKeyDict, intentUnit);
+    // this._templateKeyDict = {...this._templateKeyDict, ...intentUnit};
+    this._templateKeyDict = Object.assign(this._templateKeyDict, intentUnit);
     this.modalRefWrapper.ref.close();
     this.selectedTemplateKeyInLeftSideBar = this.newTemplateKey;
     this.newTemplateKey = '';
@@ -305,15 +326,17 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
   editTemplateKey({old_key, new_key}) {
     // const new_key = templateKeyEditForm.value;
-    let doesNewKeyAlreadyExistsInTemplateKeyDict = Object.keys(this.templateKeyDict).find(key => new_key === key);
+    let doesNewKeyAlreadyExistsInTemplateKeyDict = Object.keys(this._templateKeyDict).find(key => new_key === key);
     if (doesNewKeyAlreadyExistsInTemplateKeyDict) {
       this.templateKeyCreationError = 'Template Key name already exists';
+      this.utilityService.showErrorToaster(this.templateKeyCreationError);
       return;
     } else if (!new_key.trim()) {
       this.templateKeyCreationError = 'Template Key can\'t be empty';
+      this.utilityService.showErrorToaster(this.templateKeyCreationError);
       return;
     }
-    this.utilityService.renameKeyInObject(this.templateKeyDict, old_key, new_key);
+    this.utilityService.renameKeyInObject(this._templateKeyDict, old_key, new_key);
     this.selectedTemplateKeyInLeftSideBar = new_key;
     this.modalRefWrapper.ref.close();
   }
@@ -328,7 +351,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
       component: ModalConfirmComponent,
       data: {
         title: `Delete template key: ${tempKey}?`,
-        message: 'This action cannot be undone.Are you sure you wish to delete?',
+        message: 'This action cannot be undone. Are you sure you wish to delete?',
         actionButtonText: 'Delete',
         isActionButtonDanger: true,
       },
@@ -345,21 +368,34 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   //   this.modalRefWrapper = this.modalService.show(EditTemplateKeyModal);
   // }
 
-  async openNewIntentModal(IntentModal) {
+  async openNewIntentModal() {
     let dialogRefWrapper = this.modalRefWrapper;
-    let dataPromise$ = this.utilityService.openDialog({
-      dialog: this.matDialog,
-      component: IntentModal,
-      data: null,
-      dialogRefWrapper,
-      classStr: 'primary-modal-header-border'
-    });
+      // this.modalRef = this.modalService.show(template, {class: 'modal-md'});
+      this.utilityService.openDialog({
+        dialogRefWrapper: dialogRefWrapper,
+        classStr:'primary-modal-header-border',
+        data:{
+          actionButtonText:`Create`,
+          message: null,
+          title:`Create new template key`,
+          isActionButtonDanger:false,
+          inputDescription: "Template key name"
+        },
+        dialog: this.matDialog,
+        component:ModalConfirmComponent
+      }).then((data)=>{
+        if(data){
+          this.newTemplateKey = data;
+          this.createNewTemplatekey();
+        }
+      })
 
-    let data = await dataPromise$;
-
-    if (data) {
-      // this.editTemplateKey({old_key:tempKey, new_key:data});
-    }
+      // this.utilityService.openDialog({
+      //   component: template,
+      //   dialog: this.matDialog,
+      //   classStr: 'primary-modal-header-border',
+      //   dialogRefWrapper: this.dialogRefWrapper
+      // });
   }
 
   async openEditTemplateKeyModal(tempKey) {
@@ -368,7 +404,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
       component: GentemplateEditKeyComponent,
       data: {
         old_key:tempKey,
-        templateKeyDict: this.templateKeyDict
+        templateKeyDict: this._templateKeyDict
       },
       dialogRefWrapper: this.modalRefWrapper,
       classStr: 'primary-modal-header-border'
@@ -385,13 +421,19 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   // }
 
   deleteTemplateKey(tempKey) {
-    delete this.templateKeyDict[tempKey];
+    let isELseTemplateKeyPresent = Object.keys(this._templateKeyDict).find(key => 'else' === key);
+    if(Object.keys(this._templateKeyDict).length == 2 && tempKey != 'else' && !!isELseTemplateKeyPresent){
+      this.templateKeyCreationError = 'Can\'t delete this template because ELSE template key will only be remaining';
+      this.utilityService.showErrorToaster(this.templateKeyCreationError);
+      return;
+    }
+    delete this._templateKeyDict[tempKey];
     this.utilityService.showSuccessToaster('Template key deleted!');
     this.modalRefWrapper.ref.close();
   }
 
   ngOnDestroy() {
-    this.convertUiDictToGenTemplateCode$.emit(this.templateKeyDict);
+    this.convertUiDictToGenTemplateCode$.emit(this._templateKeyDict);
     this.selectedTemplateKeyOutputIndex = [];
   }
 
@@ -402,8 +444,8 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
   }
 
   test() {
-    // console.log(this.selectedVersion);
+    // console.log(this.selectedVersion_st);
     // console.log(this.bot.store_bot_versions);
-    console.log(this.templateKeyDict);
+    console.log(this._templateKeyDict);
   }
 }

@@ -5,7 +5,7 @@ import {BasicInfoFormComponent} from './core/buildbot/build-code-based-bot/bot-c
 import {BotConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {BotArchitetureComponent} from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {CommonModule} from '@angular/common';
+import {CommonModule} from '@angular/common';;
 import {BotIdToNamePipe} from './bot-id-to-name.pipe';
 import {RouterModule} from '@angular/router';
 import {AdditionalInfoFormComponent} from './core/buildbot/build-code-based-bot/bot-config/additional-info-form/additional-info-form.component';
@@ -25,7 +25,6 @@ import {IntegrationInputKeysFilterPipe} from './integration-input-keys-filter.pi
 import {ProfilePermissionIdToNamePipe} from './core/profile/profile-permission-id-to-name.pipe';
 import {EnabledIntegrationsCountPipe} from './enabled-integrations-count.pipe';
 import {SerializeEnterpriseprofileDataPipe} from './core/enterpriseprofile/serialize-enterpriseprofile-data.pipe';
-import {DragulaModule} from 'ng2-dragula';
 import {SerializeSessionMessagePipe} from './serialize-session-message.pipe';
 import {IntegrationNameFormatterPipe} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-name-formatter.pipe';
 import {ClickOutsideModule} from 'ng-click-outside';
@@ -35,7 +34,6 @@ import {UiSwitchWrapperComponent} from './core/buildbot/build-code-based-bot/bot
 import {AvatorFormComponent} from './core/buildbot/build-code-based-bot/bot-config/avator-form/avator-form.component';
 import {MyIfDirective} from './ngIf-permission.directive';
 import {ErrorDescriptionPipe} from './core/buildbot/build-code-based-bot/bot-config/basic-info-form/bot-config-input/error-description.pipe';
-import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
 import {SplashScreenComponent} from './splash-screen/splash-screen.component';
 import {SafeUrlPipe} from './href-sanitizer.pipe';
 import {MyMaterialModule} from './my-material.module';
@@ -45,16 +43,43 @@ import {EnterpriseListComponent} from './auth/enterprise-list/enterprise-list.co
 import {GenericObjFilterPipe} from './generic-obj-filter.pipe';
 import {ChatFeedbackComponent} from './chat-feedback/chat-feedback.component';
 import {LinkifyPipe} from './linkify.pipe';
+
+import { ObjectWithCategoryNamePipe } from './core/enterpriseprofile/roles/object-with-category-name.pipe';
+
 import {MsToHhMmPipe} from './ms-to-hh-mm.pipe';
 import {SafeHtmlPipe} from './safe-html.pipe';
+import {LinksFromTextPipe} from './links-from-text.pipe';
+import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.component';
+
+import {IntegrationChannelListComponent} from './core/integration-channel-list/integration-channel-list.component';
+import {SecurityComponent} from './core/buildbot/build-code-based-bot/bot-config/security/security.component';
+import {IntegrationItemForTypePipe} from './integration-item-for-type.pipe';
+import {IntegrationItemComponent} from './core/buildbot/build-code-based-bot/architecture/integration/integration-item/integration-item.component';
+import {IntegrationOptionListComponent} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/integration-option-list.component';
+import {DisplayNameForKeyIntegrationPipe} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/display-name-for-key-integration.pipe';
+import {BuildbotWrapperComponent} from './core/buildbot/buildbot-wrapper.component';
+import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
+import {RequiredIfOneFilledValidator} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/requiredIfOneFilledValidator.directive';
+import {InfoIconComponent} from './info-icon/info-icon.component';
+import {ErrorStateMatcher, MatProgressSpinnerModule, ShowOnDirtyErrorStateMatcher} from '@angular/material';
+import {IntegrationItemByUnamePipe} from './integration-item-by-uname.pipe';
+import {BotByIdPipe} from "./core/buildbot/build-code-based-bot/bot-config/data-manage-form/bot-by-id.pipe";
+import { ListIfNotInThisListPipe } from './core/enterpriseprofile/enterprise-roles/listIfNotInThisList.pipe';
+import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
 
 @NgModule({
   declarations: [
+    IntegrationChannelListComponent,
     EnterpriseListComponent,
     GenericObjFilterPipe,
     IntegrationLogosPipe,
+    IntegrationItemByUnamePipe,
     SplashScreenComponent,
+    MsToHhMmPipe,
     DataManageFormComponent,
+    BotByIdPipe,
+    InfoIconComponent,
+    BuildbotWrapperComponent,
     BasicInfoFormComponent,
     BotConfigInputComponent,
     ErrorDescriptionPipe,
@@ -62,8 +87,10 @@ import {SafeHtmlPipe} from './safe-html.pipe';
     AvatorFormComponent,
     BotConfigComponent,
     BotArchitetureComponent,
+    BotTestingComponent,
     BotIdToNamePipe,
     PipelineFilterPipe,
+    ListIfNotInThisListPipe,
     AdditionalInfoFormComponent,
     SmartTableComponent, //
     CodeEditorComponent, //
@@ -76,6 +103,7 @@ import {SafeHtmlPipe} from './safe-html.pipe';
     IntegrationImageCountPipe,
     IntegrationInputKeysFilterPipe,
     ProfilePermissionIdToNamePipe,
+    ObjectWithCategoryNamePipe,
     EnabledIntegrationsCountPipe,
     SerializeEnterpriseprofileDataPipe,
     SerializeSessionMessagePipe,
@@ -87,7 +115,17 @@ import {SafeHtmlPipe} from './safe-html.pipe';
     ChatFeedbackComponent,
     LinkifyPipe,
     MsToHhMmPipe,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    LinksFromTextPipe,
+    MsToHhMmPipe,
+    SecurityComponent,
+    TypeForIntegrationTypePipe,
+    IntegrationItemForTypePipe,
+    IntegrationItemComponent,
+    IntegrationOptionListComponent,
+    RequiredIfOneFilledValidator,
+    DisplayNameForKeyIntegrationPipe,
+    ConvertToUniqueArrayPipe
   ],
   imports: [
     MyMaterialModule,
@@ -97,9 +135,12 @@ import {SafeHtmlPipe} from './safe-html.pipe';
     RouterModule,
     // ChartModule,
     ClickOutsideModule,
+    MatProgressSpinnerModule
+
   ],
   exports: [
     LinkifyPipe,
+    LinksFromTextPipe,
     MsToHhMmPipe,
     GenericObjFilterPipe,
     EnterpriseListComponent,
@@ -107,9 +148,10 @@ import {SafeHtmlPipe} from './safe-html.pipe';
     SplashScreenComponent,
     HighlightDirective,
     SafeUrlPipe,
-    // ChartModule,
     IntegrationLogosPipe,
     DataManageFormComponent,
+    BotByIdPipe,
+    InfoIconComponent,
     BasicInfoFormComponent,
     BotConfigInputComponent,
     PipelineFilterPipe,
@@ -135,15 +177,28 @@ import {SafeHtmlPipe} from './safe-html.pipe';
     IntegrationImageCountPipe,
     IntegrationInputKeysFilterPipe,
     ProfilePermissionIdToNamePipe,
+    ObjectWithCategoryNamePipe,
     EnabledIntegrationsCountPipe,
     SerializeEnterpriseprofileDataPipe,
-    DragulaModule,
     IntegrationNameFormatterPipe,
     ClickOutsideModule,
     MyMaterialModule,
     ImiLoaderComponent,
     ChatFeedbackComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    MsToHhMmPipe,
+    BotTestingComponent,
+    IntegrationChannelListComponent,
+    SecurityComponent,
+    TypeForIntegrationTypePipe,
+    IntegrationItemForTypePipe,
+    IntegrationItemComponent,
+    IntegrationOptionListComponent,
+    RequiredIfOneFilledValidator,
+    DisplayNameForKeyIntegrationPipe,
+    BuildbotWrapperComponent,
+    ListIfNotInThisListPipe,
+    ConvertToUniqueArrayPipe
   ]
 })
 export class SharedModule {

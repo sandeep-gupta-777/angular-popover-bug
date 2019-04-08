@@ -1,35 +1,5 @@
 @import "~src/sass/main.scss";
 
-.card {
-  //height: 500px;
-  //width: 320px;
-}
-
-.card-header {
-  background-color: $color-primary;
-  flex-shrink: 0;
-  color: white;
-}
-
-.card-body {
-  overflow-y: hidden;
-}
-
-.card-footer {
-  height: 45px;
-  border-top: 1px solid $color-primary;
-  position: relative;
-  input {
-    height: 80%;
-    width: 100%;
-    @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-secondary);
-    @include hide-borders();
-  }
-  .icon {
-    color: $color-primary;
-  }
-}
-
 /*NEW CSS BELOW*/
 
 .chat-grid {
@@ -40,31 +10,52 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 56px 1fr;
-  grid-template-areas:
-    'h'
-    'b';
+  grid-template-areas: 'h' 'b';
 
-  .header {
+  .chat-grid__header{
     grid-area: h;
-    background-color: $color-primary;
+    display:flex;
+    align-items: center;
+    padding: 0 16px;
+    position: relative;
+    background-color: #407ab1; //$color-primary-v2;
     flex-shrink: 0;
     color: white;
+
+    .fa-angle-left{
+      font-size: 20px; margin-right: 10px;
+      cursor: pointer;
+    }
+
+    a{
+      text-decoration: none;
+      color: white;
+    }
     .user {
       height: 32px;
       //width: 32px;
       border-radius: 50%;
+      background-color: $color-primary-v2;
+      //margin-right: 5px;
       // background-color: #0291b2;
       display: flex;
       align-items: center;
       justify-content: center;
     }
+
     .fa-times {
       font-size: 20px;
     }
+
     .fa {
       color: white;
     }
+
+    mat-icon:hover {
+      transform: scale(1.2);
+    }
   }
+
   .body {
     grid-area: b;
     background-color: white;
@@ -80,10 +71,12 @@
 
 form {
   border-radius: 2px;
+
   label {
     @include typography(11px, $line-height-normal, $font-weight-300, $color-secondary);
     margin: 0;
   }
+
   .form-control {
     @include hide-borders();
     border-bottom: $border-normal;
@@ -102,52 +95,35 @@ form {
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-template-rows: 60px 1fr;
-  grid-template-areas:
-    'h1 h2'
-    'room chat';
+  grid-template-areas: 'h1 h2' 'room chat';
 
   .chat-rooms {
     grid-area: room;
     max-width: 33vw !important
   }
+
   .header1 {
     grid-area: h1;
+    background-color: $color-primary-v2;
   }
+
   .header2 {
     grid-area: h2;
+    background-color: $color-primary-v2;
   }
+
   .chat {
     grid-area: chat;
-    // max-height: 90vh;
     overflow-y: hidden;
   }
-  //.footer {
-  //  grid-area: inputbox;
-  //  height: 100%;
-  //  background-color: rgba(200, 200, 200, 0.3);;
-  //  input {
-  //    height: 70%;
-  //    width: 95%;
-  //    @include typography(15px, $line-height-normal, $font-weight-400, $color-secondary);
-  //    @include hide-borders();
-  //    border-radius: 4px;
-  //    padding: 0 10px;
-  //  }
-  //  .icon {
-  //    font-size: 25px;
-  //    color: $color-primary;
-  //  }
-  //}
-
 }
 
 
-
-.make-body-occupy-footer{
+.make-body-occupy-footer {
   padding-bottom: 20px;
   overflow-y: hidden;
   grid-row: 2/-1 !important;
-  border-bottom: 9px solid $color-primary;
+  //border-bottom: 9px solid $color-primary-v2;
 }
 
 .font-11 {
@@ -156,22 +132,16 @@ form {
   margin-top: 4px;
 }
 
-.hover-parent{
-  //d-flex align-items-center justify-content-center
+.hover-parent {
   display: flex;
   align-items: center;
   justify-content: center;
-  //width: 32px;
   height: 32px;
-  padding: 5px 10px ;
   cursor: pointer;
-  &:hover{
-    background-color: darken($color-primary,10%);
-  }
 }
 
-.selected{
-  background-color: darken($color-primary,3%);
+.selected {
+  background-color: darken($color-primary-v2, 3%);
 }
 
 
@@ -181,6 +151,31 @@ form {
   box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.4);;
 }
 
-mat-icon{
+mat-icon {
   color: white;
+  font-size: 125%;
+}
+
+
+.chat-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: $color-primary-v2;
+  margin-right: 5px
+}
+
+.preview-tooltip {
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+  height: 45px;
+  width: 60px;
+  @extend %float-on-hover-animation;
+  img{
+    @extend .chat-logo;
+    width: 40px;
+    height: 40px;
+    background-color: white!important;
+  }
 }

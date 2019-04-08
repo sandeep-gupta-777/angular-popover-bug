@@ -1,8 +1,6 @@
 import {Action, Selector, State, StateContext} from '@ngxs/store';
-import {IBot} from '../../interfaces/IBot';
 import {IEnterpriseProfileInfo} from '../../../../interfaces/enterprise-profile';
 import {ResetEnterpriseUsersAction, SetEnterpriseInfoAction, SetEnterpriseUsersAction, SetEnterpriseServiceKeyAction} from './enterpriseprofile.action';
-import {IEnterpriseUser} from '../../interfaces/enterprise-users';
 
 const initialState = {
   'id': '',

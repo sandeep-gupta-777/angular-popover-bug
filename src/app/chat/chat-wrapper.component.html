@@ -1,247 +1,204 @@
-<!--corner chat box started-->
+<!--chat box started-->
 <div *ngIf="!isFullScreenPreview && currentBot">
-  <div class="chat-grid text-center" *ngIf="(windowOpen && (loggeduser$|async).user)">
-    <div class="header d-flex align-items-center px-3 position-relative">
-      <span title="Go to room list" class="hover-parent" (click)="navigate(myEChatFrame.CHAT_LIST)" [hidden]="frameEnabled===myEChatFrame.CHAT_LIST">
-        <i  class="fa fa-arrow-left cursor-pointer"></i>
-      </span>
-      <a class="center-absolute text-white hover-parent"
-         [title]="'Open '+ chatWindowTitle"
-         style="text-decoration: none"
-         [routerLink]="['/core/botdetail/chatbot/', currentBot.id]"
-         routerLinkActive="selected"
-      >{{(chatWindowTitle| slice:0: 16) + (chatWindowTitle.length>16?"...":"")}}</a>
-      <a class="ml-auto hover-parent" [routerLink]="['/preview']"
-         title="Open bot preview in a new Tab"
-         [queryParams]="{bot_unique_name:currentBot.bot_unique_name,enterprise_unique_name:enterprise_unique_name}"
-         target="_blank"><i
-        class="fa fa-external-link"></i></a>
+    <div class="chat-grid text-center" *ngIf="(windowOpen && (loggeduser$|async).user)">
+        <div class="chat-grid__header">
+              <span [matTooltip]="'Go to room list'" (click)="navigate(myEChatFrame.CHAT_LIST)"
+                    [hidden]="frameEnabled===myEChatFrame.CHAT_LIST">
+                <i class="fa fa-angle-left"></i>
+              </span>
 
-      <!--consumer dropdown starts-->
-      <!--overlay starts-->
+            <!--TODO: when clicked open the bot-->
+            <!--<a [matTooltip]="'Open '+ chatWindowTitle" [routerLink]="['/core/botdetail/chatbot/', currentBot.id]">-->
+                <!--<img [src]="currentBot.logo" class="chat-logo" alt="Bot logo">-->
+                <!--{{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>-->
+            <a>
+                <img [src]="currentBot.logo" class="chat-logo" alt="Bot logo">
+                {{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>
+            <a class="ml-auto hover-parent"
+               [routerLink]="['/preview']"
+               [queryParams]="{bot_unique_name:currentBot.bot_unique_name,enterprise_unique_name:enterprise_unique_name}"
+               [matTooltip]="'Open in new Tab'"
+               target="_blank">
+                <button mat-icon-button
+                        [class.active]="showOverlay">
+                    <mat-icon>tab</mat-icon>
+                </button>
+            </a>
 
-      <button mat-icon-button (click)="toggleOverlay(showOverlay)"
-              [class.active]="showOverlay" class="origin"
-              #overlayOrigin="cdkOverlayOrigin"
-              cdkOverlayOrigin>
-        <mat-icon>perm_contact_calendar</mat-icon>
-      </button>
+            <!--consumer dropdown starts-->
+            <button mat-icon-button (click)="toggleOverlay(showOverlay)"
+                    [class.active]="showOverlay" class="origin"
+                    #overlayOrigin="cdkOverlayOrigin"
+                    [matTooltip]="'New chat with custom data'"
+                    cdkOverlayOrigin>
+                <mat-icon>person_add</mat-icon>
+            </button>
 
-      <app-overlay
-        [overlayOrigin]="overlayOrigin"
-        [showOverlay]="showOverlay"
-        (backdropClick$)="showOverlay = false">
-        <div class="dialog-container" (clickOutside)="showOverlay=false">
-          <app-chat-consumer-form *ngIf="showOverlay"
-                                  [customConsumerDetails]="{}"
-                                  (saveConsumerDetails$)="saveConsumerDetails($event)"></app-chat-consumer-form>
+            <app-overlay
+                    [overlayOrigin]="overlayOrigin"
+                    [showOverlay]="showOverlay"
+                    (backdropClick$)="showOverlay = false">
+                <div class="dialog-container" (clickOutside)="showOverlay=false">
+                    <app-chat-consumer-form *ngIf="showOverlay"
+                                            [customConsumerDetails]="{}"
+                                            (saveConsumerDetails$)="saveConsumerDetails($event)"></app-chat-consumer-form>
+                </div>
+            </app-overlay>
+
+            <button mat-icon-button
+                    (click)="closeChatWindow()"
+                    [matTooltip]="'Minimize'"
+                    [class.active]="showOverlay" class="origin"
+                    #overlayOrigin="cdkOverlayOrigin"
+                    cdkOverlayOrigin>
+                <mat-icon>minimize</mat-icon>
+            </button>
+
         </div>
-      </app-overlay>
-
-
-      <!--<div class="btn-group hover-parent"-->
-           <!--title="Consumer options"-->
-           <!--#dropdown="bs-dropdown" [autoClose]="false" dropdown (clickOutside)="dropdown.hide()">-->
-        <!--<div dropdownToggle class="user cursor-pointer"><i class="fa fa-user"></i></div>-->
-
-        <!--<form *dro  pdownMenu class="dropdown-menu dropdown-menu-left p-3" role="menu" #form="ngForm"-->
-              <!--(ngSubmit)="saveConsumerDetails(form.value)"-->
-              <!--style="width: 240px">-->
-          <!--<p class="heading mb-2">Edit Customer</p>-->
-          <!--<div class="form-group">-->
-            <!--<label>Name</label>-->
-            <!--<input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.name"-->
-                   <!--name="name" aria-describedby="emailHelp">-->
-          <!--</div>-->
-          <!--<div class="form-group">-->
-            <!--<label>Phone</label>-->
-            <!--<input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.phone" name="phone"-->
-                   <!--aria-describedby="emailHelp">-->
-          <!--</div>-->
-          <!--<div class="form-group">-->
-            <!--<label>Email</label>-->
-            <!--<input type="email" required email class="form-control" [ngModel]="customConsumerDetails?.email"-->
-                   <!--name="email" aria-describedby="emailHelp">-->
-          <!--</div>-->
-          <!--<div class="form-group">-->
-            <!--<label>Facebook ID</label>-->
-            <!--<input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.facebook_id"-->
-                   <!--name="facebook_id" aria-describedby="emailHelp">-->
-          <!--</div>-->
-          <!--<div class="form-group">-->
-            <!--<label>UID</label>-->
-            <!--<input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.uid" name="uid"-->
-                   <!--aria-describedby="emailHelp">-->
-          <!--</div>-->
-          <!--<button type="submit" class="btn-block btn-theme-primary my-3" (click)="dropdown.hide()">Save Changes</button>-->
-        <!--</form>-->
-      <!--</div>-->
-      <!--consumer dropdown ends-->
-
-      <i class="fa fa-minus cursor-pointer hover-parent" [title]="'Minimize preview window'" (click)="closeChatWindow()"></i>
+        <div class="body p-0 border-left border-right"
+             [ngClass]="{'make-body-occupy-footer':frameEnabled!==myEChatFrame.CHAT_BOX}">
+            <app-bot-welcome
+                    [currentBot]="currentBot"
+                    (startnewchat$)="startNewChat($event)" [bot_id]="welcomeScreenBotId"
+                    *ngIf="frameEnabled === myEChatFrame.WELCOME_BOX"></app-bot-welcome>
+            <app-chat-list class="mt-4"
+                           [currentBot]="currentBot"
+                           *ngIf="frameEnabled===myEChatFrame.CHAT_LIST"
+                           (createCustomRoom$)="createCustomRoom()"
+                           (createNewRoom$)="startNewChat($event)"
+            ></app-chat-list>
+            <app-chat-window *ngIf="frameEnabled===myEChatFrame.CHAT_BOX && this.messageData"
+                             [allow_feedback]="currentBot.allow_feedback"
+                             [selectedAvatar]="selectedAvatar"
+                             [room]="currentRoom"
+                             [bot]="currentBot"
+                             [showBotIsThinking]="showBotIsThinking"
+                             (sendMessageByHuman$)="sendMessageByHuman($event)"
+                             (chatMessageFeedback$)="sendFeedback($event)"
+                             [messageDataArray]="messageData">
+            </app-chat-window>
+        </div>
     </div>
-    <div class="body p-0 border-left border-right"
-         [ngClass]="{'make-body-occupy-footer':frameEnabled!==myEChatFrame.CHAT_BOX}">
-      <!--<p>{{frameEnabled}}</p>-->
-      <app-bot-welcome
-        [currentBot]="currentBot"
-        (startnewchat$)="startNewChat($event)" [bot_id]="welcomeScreenBotId"
-        *ngIf="frameEnabled === myEChatFrame.WELCOME_BOX"></app-bot-welcome>
-      <app-chat-list class="mt-4"
-                     [currentBot]="currentBot"
-                     *ngIf="frameEnabled===myEChatFrame.CHAT_LIST"
-                     (createCustomRoom$)="createCustomRoom()"
-                     (createNewRoom$)="startNewChat($event)"
-      ></app-chat-list>
-      <app-chat-window *ngIf="frameEnabled===myEChatFrame.CHAT_BOX && this.messageData"
-                       [allow_feedback]="currentBot?.allow_feedback"
-                       [selectedAvatar]="selectedAvatar"
-                       [room]="currentRoom"
-                       [bot]="currentBot"
-                       [showBotIsThinking]="showBotIsThinking"
-                       (sendMessageByHuman$)="sendMessageByHuman($event)"
-                       (chatMessageFeedback$)="sendFeedback($event)"
-                       [messageDataArray]="messageData">
-      </app-chat-window>
-    </div>
-
-    <!--&lt;!&ndash;text input starts&ndash;&gt;-->
-    <!--<div class="footer px-3 d-flex align-items-center justify-content-between text-muted"-->
-    <!--*ngIf="frameEnabled===myEChatFrame.CHAT_BOX">-->
-    <!--<input class="px-2" placeholder="say something..." type="text" [(ngModel)]="messageByHuman" (keyup.enter)="sendMessageByHuman(messageByHuman)">-->
-    <!--<span class="icon"><i class="fa fa-send cursor-pointer" (click)="sendMessageByHuman(messageByHuman)"></i></span>-->
-    <!--</div>-->
-    <!--&lt;!&ndash;text input ends&ndash;&gt;-->
-  </div>
 
 </div>
-<!--corner chat box ends-->
+<!--chat box ends-->
 
 <!--tool tip starts-->
-<div class="d-flex justify-content-end cursor-pointer float-on-hover-animation" (click)="toggleChatWindow()"
-     style="height: 45px; width: 60px"
-     *ngIf="!windowOpen && currentBot">
-  <div class="speech-bubble">
-    <div class="stick-wrapper">
-      <div class="stick"></div>
-      <div class="stick"></div>
-      <div class="stick"></div>
-    </div>
-  </div>
+<div class="preview-tooltip" (click)="toggleChatWindow()" *ngIf="!windowOpen && currentBot">
+    <img [src]="currentBot.logo" alt="">
 </div>
 <!--tool tip ends-->
 
 <!--===============FULL SCREEN BELOW===================-->
 <div *ngIf="isFullScreenPreview" class="grid-chat-preview-full-screen">
-  <div class="header1 bg-theme-primary px-3 d-flex align-items-center">
-    <img class="logo-md mr-2 rounded-circle"
-         src="{{enterprise_logo||'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg'}}" alt=""
-         style="border-radius: 50%;">
-    <div class="d-flex flex-column text-white">
-      <div>{{user_first_name}}</div>
-      <div class="font-11">{{user_email}}</div>
-    </div>
+    <div class="header1 px-3 d-flex align-items-center">
+        <img class="logo-md mr-2 rounded-circle"
+             src="{{enterprise_logo||'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg'}}" alt=""
+             style="border-radius: 50%;">
+        <div class="d-flex flex-column text-white">
+            <div>{{user_first_name}}</div>
+            <div class="font-11">{{user_email}}</div>
+        </div>
 
-    <button mat-icon-button (click)="toggleOverlay(showOverlay)"
-            [class.active]="showOverlay" class="ml-auto"
-            #overlayOriginFullScreen="cdkOverlayOrigin"
-            cdkOverlayOrigin>
-      <mat-icon>perm_contact_calendar</mat-icon>
-    </button>
+        <button mat-icon-button (click)="toggleOverlay(showOverlay)"
+                [class.active]="showOverlay" class="ml-auto"
+                #overlayOriginFullScreen="cdkOverlayOrigin"
+                cdkOverlayOrigin>
+            <mat-icon>perm_contact_calendar</mat-icon>
+        </button>
 
-    <app-overlay
-      [overlayOrigin]="overlayOriginFullScreen"
-      [showOverlay]="showOverlay"
-      (backdropClick$)="showOverlay = false">
-      <div class="dialog-container" (clickOutside)="showOverlay=false">
-        <app-chat-consumer-form *ngIf="showOverlay"
-                                [customConsumerDetails]="{}"
-                                (saveConsumerDetails$)="saveConsumerDetails($event)"></app-chat-consumer-form>
-      </div>
-    </app-overlay>
+        <app-overlay
+                [overlayOrigin]="overlayOriginFullScreen"
+                [showOverlay]="showOverlay"
+                (backdropClick$)="showOverlay = false">
+            <div class="dialog-container" (clickOutside)="showOverlay=false">
+                <app-chat-consumer-form *ngIf="showOverlay"
+                                        [customConsumerDetails]="{}"
+                                        (saveConsumerDetails$)="saveConsumerDetails($event)"></app-chat-consumer-form>
+            </div>
+        </app-overlay>
 
-    <!--<div class="btn-group p-2 ml-auto" #dropdown="bs-dropdown" [autoClose]="false" dropdown-->
-      <!--<div dropdownToggle class="user cursor-pointer text-white"><i class="fa fa-user"></i></div>-->
+        <!--<div class="btn-group p-2 ml-auto" #dropdown="bs-dropdown" [autoClose]="false" dropdown-->
+        <!--<div dropdownToggle class="user cursor-pointer text-white"><i class="fa fa-user"></i></div>-->
 
 
-
-      <!--<form *dropdownMenu class="dropdown-menu dropdown-menu-left p-3" role="menu" #form="ngForm"-->
-            <!--(ngSubmit)="saveConsumerDetails(form.value)"-->
-            <!--style="width: 240px">-->
+        <!--<form *dropdownMenu class="dropdown-menu dropdown-menu-left p-3" role="menu" #form="ngForm"-->
+        <!--(ngSubmit)="saveConsumerDetails(form.value)"-->
+        <!--style="width: 240px">-->
         <!--<p class="heading mb-2">Edit Customer</p>-->
         <!--<div class="form-group">-->
-          <!--<label>Name</label>-->
-          <!--<input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.name"-->
-                 <!--name="name" aria-describedby="emailHelp">-->
+        <!--<label>Name</label>-->
+        <!--<input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.name"-->
+        <!--name="name" aria-describedby="emailHelp">-->
         <!--</div>-->
         <!--<div class="form-group">-->
-          <!--<label>Phone</label>-->
-          <!--<input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.phone" name="phone"-->
-                 <!--aria-describedby="emailHelp">-->
+        <!--<label>Phone</label>-->
+        <!--<input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.phone" name="phone"-->
+        <!--aria-describedby="emailHelp">-->
         <!--</div>-->
         <!--<div class="form-group">-->
-          <!--<label>Email</label>-->
-          <!--<input type="email" required email class="form-control" [ngModel]="customConsumerDetails?.email" name="email"-->
-                 <!--aria-describedby="emailHelp">-->
+        <!--<label>Email</label>-->
+        <!--<input type="email" required email class="form-control" [ngModel]="customConsumerDetails?.email" name="email"-->
+        <!--aria-describedby="emailHelp">-->
         <!--</div>-->
         <!--<div class="form-group">-->
-          <!--<label>Facebook ID</label>-->
-          <!--<input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.facebook_id"-->
-                 <!--name="facebook_id" aria-describedby="emailHelp">-->
+        <!--<label>Facebook ID</label>-->
+        <!--<input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.facebook_id"-->
+        <!--name="facebook_id" aria-describedby="emailHelp">-->
         <!--</div>-->
         <!--<div class="form-group">-->
-          <!--<label>UID</label>-->
-          <!--<input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.uid" name="uid"-->
-                 <!--aria-describedby="emailHelp">-->
+        <!--<label>UID</label>-->
+        <!--<input type="text" required email class="form-control" [ngModel]="customConsumerDetails?.uid" name="uid"-->
+        <!--aria-describedby="emailHelp">-->
         <!--</div>-->
         <!--<button type="submit" class="btn-block btn-theme-primary my-3" (click)="dropdown.hide()">Save Changes</button>-->
-      <!--</form>-->
-    <!--</div>-->
+        <!--</form>-->
+        <!--</div>-->
 
-  </div>
-  <div class="header2 px-3 bg-theme-primary d-flex align-items-center">
-    <!--<img class="logo-md" src="https://image.flaticon.com/icons/svg/17/17004.svg" alt="">-->
-    <img *ngIf="currentBot" class="logo-md mr-2 rounded-circle"
-         [src]="currentBot.logo||'https://image.flaticon.com/icons/svg/17/17004.svg'">
-    <div *ngIf="currentBot" class="d-flex flex-column text-white">
-      <div>{{currentBot.name}}</div>
-      <!--<div class="font-11">{{currentBot.description}}</div>-->
     </div>
-    <!---->
-    <!--<div class="room-details ml-auto">-->
-    <!--<div *ngIf="currentRoom" [style.visibility]="currentRoom.id?'visible':'hidden'"-->
-         <!--class="d-flex flex-column align-items-end ml-auto mr-4 text-white">-->
-      <!--<div>Room ID:</div>-->
-      <!--<div class="font-11">{{currentRoom.id}}</div>-->
-    <!--</div>-->
-    <div class="ml-auto"></div>
-    <div *ngIf="currentRoom && currentRoom.lastTemplateKey" class="d-flex mr-3 flex-column align-items-end text-white">
-      <div>Last template triggered:</div>
-      <div class="font-11">{{currentRoom.lastTemplateKey}}</div>
-    </div>
-    <div *ngIf="currentRoom && currentRoom.uid" class="d-flex  flex-column align-items-end text-white">
-      <div>Room UID:</div>
-      <div class="font-11">{{currentRoom.uid}}</div>
-    </div>
+    <div class="header2 px-3 bg-theme-primary d-flex align-items-center">
+        <!--<img class="logo-md" src="https://image.flaticon.com/icons/svg/17/17004.svg" alt="">-->
+        <img *ngIf="currentBot" class="logo-md mr-2 rounded-circle"
+             [src]="currentBot.logo||'https://image.flaticon.com/icons/svg/17/17004.svg'">
+        <div *ngIf="currentBot" class="d-flex flex-column text-white">
+            <div>{{currentBot.name}}</div>
+            <!--<div class="font-11">{{bot.description}}</div>-->
+        </div>
+        <!---->
+        <!--<div class="room-details ml-auto">-->
+        <!--<div *ngIf="currentRoom" [style.visibility]="currentRoom.roomId?'visible':'hidden'"-->
+        <!--class="d-flex flex-column align-items-end ml-auto mr-4 text-white">-->
+        <!--<div>Room ID:</div>-->
+        <!--<div class="font-11">{{currentRoom.roomId}}</div>-->
+        <!--</div>-->
+        <div class="ml-auto"></div>
+        <div *ngIf="currentRoom && currentRoom.lastTemplateKey"
+             class="d-flex mr-3 flex-column align-items-end text-white">
+            <div>Last template triggered:</div>
+            <div class="font-11">{{currentRoom.lastTemplateKey}}</div>
+        </div>
+        <div *ngIf="currentRoom && currentRoom.uid" class="d-flex  flex-column align-items-end text-white">
+            <div>Room UID:</div>
+            <div class="font-11">{{currentRoom.uid}}</div>
+        </div>
 
-  </div>
-  <div class="chat-rooms">
-    <app-chat-list class="mt-4"
-                   (createCustomRoom$)="createCustomRoom()"
-                   (createNewRoom$)="startNewChat($event)"></app-chat-list>
-  </div>
-  <div class="chat">
-    <app-chat-window
-      [selectedAvatar]="selectedAvatar"
-      [showBotIsThinking]="showBotIsThinking"
-      [room]="currentRoom"
-      [allow_feedback]="currentBot?.allow_feedback"
-      (sendMessageByHuman$)="sendMessageByHuman($event)"
-      (chatMessageFeedback$)="sendFeedback($event)"
-      [messageDataArray]="messageData">
-    </app-chat-window>
-  </div>
+    </div>
+    <div class="chat-rooms">
+        <app-chat-list class="mt-4"
+                       (createCustomRoom$)="createCustomRoom()"
+                       [currentBot]="currentBot"
+                       (createNewRoom$)="startNewChat($event)"></app-chat-list>
+    </div>
+    <div class="chat">
+        <app-chat-window
+                [selectedAvatar]="selectedAvatar"
+                [showBotIsThinking]="showBotIsThinking"
+                [room]="currentRoom"
+                [allow_feedback]="currentBot.allow_feedback"
+                (sendMessageByHuman$)="sendMessageByHuman($event)"
+                (chatMessageFeedback$)="sendFeedback($event)"
+                [messageDataArray]="messageData">
+        </app-chat-window>
+    </div>
 </div>
 
-
-<!---->

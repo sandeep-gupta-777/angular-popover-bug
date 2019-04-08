@@ -8,7 +8,7 @@ import {UtilityService} from 'src/app/utility.service';
 import {MatDialog} from '@angular/material';
 import {ServerService} from 'src/app/server.service';
 import {MaterialTableImplementer} from 'src/app/material-table-implementer';
-import {OnInit, ViewChild, Component, TemplateRef} from '@angular/core';
+import {OnInit, ViewChild, Component, TemplateRef, Input} from '@angular/core';
 import {Observable} from 'rxjs';
 import {IUser} from '../../interfaces/user';
 import {map} from 'rxjs/operators';
@@ -16,6 +16,8 @@ import {NgForm} from '@angular/forms';
 import {IHeaderData} from 'src/interfaces/header-data';
 import {IBotResult, IBot} from '../../interfaces/IBot';
 import {SetAllBotListAction} from '../../view-bots/ngxs/view-bot.action';
+import { IRole } from '../../interfaces/IRole';
+import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
 
 @Component({
   selector: 'app-enterprise-users',
@@ -26,7 +28,6 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
-  // loggeduserenterpriseinfoMap$: Observable<IEnterpriseProfileInfo>;
   @ViewChild('form') f: HTMLFormElement;
   @ViewChild('modifyBotList') modifyBotList: NgForm;
   @ViewChild('newBotList') newBotList: NgForm;
@@ -44,7 +45,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   logoError;
   enterpriseUserBotList: IBot[];//
   formGroup: FormGroup;
-  roleMap: any;
+  @Input() roleMap: any;
   usertoDelete: any;
   selectedUserModify: any;
   searchBots: string = '';
@@ -55,7 +56,6 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
   }
 
   roleIdToRoleName(roleId: number) {
-    //
     if (this.roleMap) {
       let thisRole = this.roleMap.find(role => role.id == roleId);
       if (thisRole) {
@@ -64,8 +64,6 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
         return 'Custom role';
       }
     }
-
-
   }
 
   transformDataForMaterialTable(data: any[], tableDataMetaDict: any) {
@@ -105,7 +103,6 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
   initializeTableData(data: any, tableDataMetaDict: any): void {
     this.tableData = this.transformDataForMaterialTable(data, this.getTableDataMetaDict());
-
     this.tableData = this.tableData.map((tableGataItem) => {
       let exclamationIconHTML = `<i class="fa fa-exclamation-triangle color-yellow" title="User not verified"></i>`;
       tableGataItem['Email ID'].value = `
@@ -149,7 +146,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
         //
         //   this.loggeduserenterpriseinfo = enterprise[0].loggeduserenterpriseinfo;
         // });
-        // this.tableData = this.tableData.filter((user) => user.originalSessionData.id !== this.usertoDelete.id);
+        // this._tableData = this._tableData.filter((user) => user.originalSessionData.roomId !== this.usertoDelete.roomId);
       });
   }
 
@@ -197,14 +194,10 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
 
     console.log(this.modifyBotRole);
-
-    // console.log(this.modifyBotList.value);
-    // Object.keys(this.modifyBotList.value).filter((v))
     let list = [];
     Object.keys(this.modifyBotList.value).forEach(element => {
       if (this.modifyBotList.value[element] == true) {
         list.push(Number(element));
-        // console.log(element);
       }
     });
     console.log(list);
@@ -256,15 +249,11 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     } else {
       // this.modifyBotList
       this.isSelectedRoleAdmin = false;
-      // this.newBotList.reset();
     }
   }
 
   openDeletModal(template: TemplateRef<any>) {
-    // this.selectedPipeline = pipeline;
-    // this.modalRef = this.modalService.show(template, { class: 'modal-md' });
     this.utilityService.openDangerModal(template, this.matDialog, this.dialogRefWrapper);
-    // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
 
   openUserEditModal(template: TemplateRef<any>) {
@@ -298,13 +287,26 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
   }
 
-  customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }, enterpriseDeleteModal, ModifyUserModal) {
+  customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }, ModifyUserModal) {
     if (data.action === 'remove') {
-      // console.log(data.data)
       this.usertoDelete = data.data;
-
-      this.openDeletModal(enterpriseDeleteModal);
-
+      this.utilityService.openDialog({
+        dialogRefWrapper: this.dialogRefWrapper,
+        classStr:'danger-modal-header-border',
+        data:{
+          actionButtonText:"Remove",
+          message: `Do you want to remove ${this.usertoDelete.first_name} ${this.usertoDelete.last_name} from ${this.loggeduserenterpriseinfo.name}?`,
+          title:'Remove user?',
+          isActionButtonDanger:true
+        },
+        dialog: this.matDialog,
+        component:ModalConfirmComponent
+      }).then((data)=>{
+        if(data){
+          this.deleteUser();
+        }
+      })
+      // this.openDeletModal(enterpriseDeleteModal);
     }
     if (data.action === 'modify') {
       //
@@ -320,7 +322,15 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     }
     form.form.patchValue(formVal);
   }
+  noOfTrues(arr){
 
+    let count = 0;
+    let  p = Object.keys(arr) ;
+    for (let x in p){
+      if(arr[x] = "true"){ count = count+1;}
+    }
+    return count;
+  }
   constructor(
     private store: Store,
     private constantsService: ConstantsService,
@@ -337,8 +347,6 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     const logoErrorObj = this.utilityService.imageUrlHttpsError(formControl) || this.utilityService.imageUrlHavingValidExtnError(formControl);
     this.logoError = logoErrorObj && Object.keys(logoErrorObj)[0] || null;
   }
-
-
   ngOnInit() {
     //
 
@@ -348,7 +356,6 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
       this.userid = user.id;
       this.role = user.role.name;
       this.enterpriseId = user.enterprise_id; //enterprise_id
-      //
       const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(this.enterpriseId);
       this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl})
         .subscribe((value: IEnterpriseProfileInfo) => {
@@ -358,7 +365,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
             this.loggeduserenterpriseinfo = enterprise[0].loggeduserenterpriseinfo;
           });
           //
-          // this.formGroup.patchValue(<any>value);
+          // this.basicInfoForm.patchValue(<any>value);
         });
       if (this.role === 'Admin') {
         const enterpriseUsersUrl = this.constantsService.getEnterpriseUsersUrl();
@@ -372,7 +379,6 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
             this.initializeTableData(value.objects, this.getTableDataMetaDict());
           });
       }
-
     });
 
 
@@ -395,12 +401,6 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
           this.loggeduserenterpriseinfo = enterprise;
         }
       }
-
-      // if (enterprise.enterpriseusers) {
-      //   this.initializeTableData(enterprise.enterpriseusers, this.getTableDataMetaDict());
-      //   this.loggeduserenterpriseinfo = enterprise;
-      // }
-
     });
 
     const url = this.constantsService.getBotListUrl();
@@ -409,16 +409,16 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
     this.serverService.makeGetReq<IBotResult>({url, headerData}).subscribe((botResult) => {
       //
-      // let codeBasedBotList: IBot[] = [];
+      // let botList: IBot[] = [];
       // let pipelineBasedBotList: IBot[] = [];
 
       // botResult.objects.forEach((bot) => {
-      //   bot.bot_type !== 'genbot' ? codeBasedBotList.push(bot) : pipelineBasedBotList.push(bot);
+      //   bot.bot_type !== 'genbot' ? botList.push(bot) : pipelineBasedBotList.push(bot);
       // });
       this.enterpriseUserBotList = botResult.objects;
       this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
       // this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
-      // this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
+      // this.store.dispatch(new SetCodeBasedBotListAction({botList: botList}));
     });
     // this.loggeduserenterpriseinfo$.pipe(
     //   map((value) => {

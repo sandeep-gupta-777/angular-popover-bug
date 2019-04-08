@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router, RoutesRecognized} from '@angular/router';
 import {IProfilePermission} from '../../interfaces/profile-action-permission';
 import {SetMasterProfilePermissions} from '../ngxs/app.action';
@@ -14,18 +14,26 @@ import {Store} from '@ngxs/store';
 export class CoreWrapperComponent implements OnInit {
 
   isFullScreenPreview: boolean;
+  isBotDetail: boolean;
+  isBuildBot: boolean;
+
   constructor(
     private router: Router,
     private serverService: ServerService,
     private store: Store,
     private constantsService: ConstantsService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
-
+    this.isBotDetail = location.pathname && location.pathname.includes('/core/botdetail/');
+    this.isBuildBot = location.pathname && location.pathname.includes('/core/buildbot');
     this.router.events.subscribe((data) => {
+      this.isBotDetail = location.pathname && location.pathname.includes('/core/botdetail/');
+      this.isBuildBot = location.pathname && location.pathname.includes('/core/buildbot');
       if (data instanceof RoutesRecognized) {
         this.isFullScreenPreview = data.state.root.firstChild.data.isFullScreenPreview;
+
       }
     });
   }

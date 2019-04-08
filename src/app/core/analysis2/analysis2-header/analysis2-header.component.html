@@ -9,11 +9,13 @@
   <div class="form-group m-0 mr-4 ml-auto">
     <!--<label for="">Bot</label>-->
     <!--<select ngModel required name="botId">-->
-    <!--<option *ngFor="let bot of codebasedBotList; let i = index;" [selected]="i===0" type="button" [value]="bot.id">{{bot.name}}</option>-->
+    <!--<option *ngFor="let bot of codebasedBotList; let i = index;" [selected]="i===0" type="button" [value]="bot.roomId">{{bot.name}}</option>-->
     <!--</select>-->
 
+    <!--<i>{{bot_id}}</i>-->
+    <!--<i (click)="log()">log</i>-->
     <mat-form-field>
-      <mat-select placeholder="Select bot" ngModel name="botId" [value]="codebasedBotList[0].id">
+      <mat-select placeholder="Select bot" [(ngModel)]="bot_id" name="botId">
         <mat-option *ngFor="let bot of codebasedBotList; let i = index;" [value]="bot.id">
           {{bot.name}}
         </mat-option>

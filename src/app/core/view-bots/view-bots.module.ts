@@ -13,6 +13,8 @@ import {RichMediaModule} from '../../rich-media.module';
 import {BotPreviewCardListComponent} from './bot-preview-card-list/bot-preview-card-list.component';
 import {MyMaterialModule} from '../../my-material.module';
 import { CreateBotDialogComponent } from './create-bot-dialog/create-bot-dialog.component';
+import {HeaderComponent} from '../header/header.component';
+import {PersonNamePipe} from '../../person-name.pipe';
 
 const routes: Route[] = [
   {path: '', component: ViewBotsComponent}
@@ -23,8 +25,10 @@ const routes: Route[] = [
     ViewBotsComponent,
     BotPreviewCardListComponent,
     BotPreviewCardComponent,
+    PersonNamePipe,
     SortBotsPipe,
     CreateBotDialogComponent,
+    // HeaderComponent
 
   ],
   entryComponents: [

@@ -68,7 +68,7 @@ export interface IReportHistory {
 //   "created_at": 1536232739000,
 //   "delivery": "[OrderedDict([('ip', ''), ('port', ''), ('username', 'ayeshreddy.k@imimobile.com'), ('privatekey', 'Botwoman@123!'), ('directory', ''), ('delivery_type', 'sftp')]), OrderedDict([('enabled', False), ('recipients', 'a@g.com'), ('delivery_type', 'email')])]",
 //   "enterprise_id": 4,
-//   "id": 8,
+//   "roomId": 8,
 //   "report_id": 15,
 //   "reporttype_id": 1,
 //   "resource_uri": "/api/v1/reporthistory/8/",

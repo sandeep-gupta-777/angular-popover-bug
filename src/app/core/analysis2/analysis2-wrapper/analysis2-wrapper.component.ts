@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
 import {IBot} from '../../interfaces/IBot';
 import {EBotType} from '../../../utility.service';
+import {take, takeUntil} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-analysis2-wrapper',
@@ -20,7 +21,10 @@ export class Analysis2WrapperComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.allCodeBasedBotList$ = this.botlist$.pipe(map(value => value.allBotList.filter(bot=> bot.bot_type === EBotType.chatbot)));
+    this.allCodeBasedBotList$ = this.botlist$
+      .pipe(
+        take(1),
+        map((value) => value.allBotList.filter(bot=> bot.bot_type === EBotType.chatbot)));
   }
 
 }

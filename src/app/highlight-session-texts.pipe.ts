@@ -30,11 +30,55 @@ export class HighlightSessionTexts implements PipeTransform {
   }
 
   highlightMatchedTextInSessionMessageItem(sessionMessageItem: ISessionMessageItem, messageSearchKeyword: string): ISessionMessageItem {
-    if (this.utilityService.doesStringIncludesSubstring(sessionMessageItem.message,messageSearchKeyword)) {
-      sessionMessageItem.messageByHuman = sessionMessageItem.message.replace(messageSearchKeyword, `<span class="text-highlight">${messageSearchKeyword}</span>`);
+
+    if (this.utilityService.doesStringIncludesSubstring(sessionMessageItem.message, messageSearchKeyword)) {
+      // sessionMessageItem.messageByHuman = sessionMessageItem.message.replace(messageSearchKeyword, `<span class="text-highlight">${messageSearchKeyword}</span>`);
+      sessionMessageItem.messageByHuman = UtilityService.highlightText(sessionMessageItem.message,messageSearchKeyword);
     }
-    if (sessionMessageItem.message && sessionMessageItem.message[0].text && sessionMessageItem.message[0].text.includes(messageSearchKeyword)) {
-      sessionMessageItem.message[0].text = sessionMessageItem.message[0].text.replace(messageSearchKeyword, `<span class="text-highlight">${messageSearchKeyword}</span>`);
+    // if (sessionMessageItem.message && sessionMessageItem.message[0].text && sessionMessageItem.message[0].text.includes(messageSearchKeyword)) {
+    console.log('=====>', sessionMessageItem);
+    if (sessionMessageItem.message && sessionMessageItem.message[0].text) {
+      let match = this.utilityService.doesStringIncludesSubstring(sessionMessageItem.message[0].text, messageSearchKeyword);
+      if(match){
+        sessionMessageItem.message[0].text = UtilityService.highlightText(sessionMessageItem.message[0].text, messageSearchKeyword);
+      }
+    }
+    if (sessionMessageItem.message && Array.isArray(sessionMessageItem.message[1] && sessionMessageItem.message[1].media)) {
+      /*looking into the media items*/
+      let media:any[] = sessionMessageItem.message[1].media;
+      media.forEach((el:{buttons:{title:string}[], title:string})=>{
+        if(el.title){
+          let target = el.title;
+          let match = this.utilityService.doesStringIncludesSubstring(target, messageSearchKeyword);
+          if(match){
+            el.title = UtilityService.highlightText(target, messageSearchKeyword);
+          }
+        }
+
+        if(el.buttons[0].title){
+          let target = el.buttons[0].title;
+          let match = this.utilityService.doesStringIncludesSubstring(target, messageSearchKeyword);
+          if(match){
+            el.buttons[0].title = UtilityService.highlightText(target, messageSearchKeyword);
+          }
+        }
+      });
+    }
+
+
+    if (sessionMessageItem.message && sessionMessageItem.message[0] && sessionMessageItem.message[0].quick_reply) {
+      /*looking into the media items*/
+      let media:any[] = sessionMessageItem.message[0].quick_reply.quick_replies;
+      media.forEach((el:{title:string})=>{
+        if(el.title){
+          let target = el.title;
+          let match = this.utilityService.doesStringIncludesSubstring(target, messageSearchKeyword);
+          if(match){
+            el.title = UtilityService.highlightText(target, messageSearchKeyword);
+          }
+        }
+      });
+      sessionMessageItem.message[0].quick_reply.text = UtilityService.highlightText(sessionMessageItem.message[0].quick_reply.text, messageSearchKeyword);
     }
     return sessionMessageItem;
   }

@@ -7,6 +7,7 @@ import { IBot } from './core/interfaces/IBot';
 import { IIntegrationOption } from '../interfaces/integration-option';
 import { IAuthState } from './auth/ngxs/auth.state';
 import { ITableColumn } from '../interfaces/sessions';
+import {environment} from '../environments/environment';
 
 declare var Handsontable: any;
 
@@ -103,13 +104,15 @@ export class ConstantsService {
   allowedPermissionIdsToCurrentRole: number[];
 
   constructor() {
+    console.log("environment=>>>", environment);
     this.app$.subscribe((appState) => {
       if (!appState) {
         return;
       }
 
       this.appState = appState;
-      this.BACKEND_URL = (appState && appState.backendUrlRoot);
+      /*TODO: uncomment this*/
+      // this.BACKEND_URL = (appState && appState.backendUrlRoot);
     });
     this.loggeduser$.subscribe((loggedUser: IAuthState) => {
       if (loggedUser && loggedUser.user) {
@@ -164,7 +167,7 @@ export class ConstantsService {
   @Select() app$: Observable<IAppState>;
   @Select() loggeduser$: Observable<{ user: IUser }>;
 
-  public BACKEND_URL;// = environment.url;//'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
+  public BACKEND_URL = environment.backend_root;// = environment.url;//'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
   public BACKEND_URL_LOGIN = `${this.BACKEND_URL}` + 'api/v1/user/login/';
   private BACKEND_URL_ENTERPRISE_USERS = `${this.BACKEND_URL}` + 'users/enterprise/';
   private BACKEND_USER_UPDATE_URL = `${this.BACKEND_URL}` + 'user/'; //https://dev.imibot.ai/user/5a030aa9b050705bd0ca5a45
@@ -276,6 +279,17 @@ export class ConstantsService {
     // return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`;// + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
     return this.BACKEND_URL + `api/v1/enterprise/${enterpriseId}/`; // + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
   }
+  // getRoleUrl(){
+  //   return this.BACKEND_URL + `api/v1/role/`; // + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
+  //
+  // }
+  getRoleByIdUrl(roleId : number){
+    return this.BACKEND_URL + `api/v1/role/?id=${roleId}`; // + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
+  }
+
+  getRoleIdUrl(roleId : number){
+    return this.BACKEND_URL + `api/v1/role/${roleId}/`; // + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
+  }
 
   stopTestUrl() {
     return this.BACKEND_URL + `api/v1/bottestcases/canceltesting/`; // https://dev.imibot.ai/api/v1/bottestcases/canceltesting/
@@ -382,7 +396,7 @@ export class ConstantsService {
   }
 
   getReportHistoryUrl(limit = 1, offset = 10, order_by) {
-    return this.BACKEND_URL + `api/v1/reporthistory?limit=${limit}&offset=${offset}&order_by=-created_at`;; //https://dev.imibot.ai/reporthistory?limit=1&offset=10
+    return this.BACKEND_URL + `api/v1/reporthistory/?limit=${limit}&offset=${offset}&order_by=-created_at`;; //https://dev.imibot.ai/reporthistory?limit=1&offset=10
   }
 
   getReportDeleteUrl(report_id: number) {
@@ -487,7 +501,7 @@ export class ConstantsService {
   }
 
   getCustomBotNER(limit, offset) {
-    return this.BACKEND_URL + `api/v1/customner/?limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/api/v1/customner/
+    return this.BACKEND_URL + `api/v1/customner/?limit=${limit}&offset=${offset}&order_by=-updated_at`; //https://dev.imibot.ai/api/v1/customner/
   }
 
   updateOrDeleteCustomBotNER(custom_ner_id) {
@@ -517,14 +531,14 @@ export class ConstantsService {
   }
 
   getCustomNerById(id) {
-    return this.BACKEND_URL + `api/v1/customner/?id=${id}`; //dev.imibot.ai/api/v1/customner/?id=13
+    return this.BACKEND_URL + `api/v1/customner/?id=${id}`; //dev.imibot.ai/api/v1/customner/?roomId=13
   }
 
   getAnalyticsUrl() {
     return this.BACKEND_URL + 'api/v1/analytics/'; //https://dev.imibot.ai/api/v1/analytics/
   }
 
-  updateOrDeleteEnterpriseNer(id) {/*TODO: is it enterprise id??*/
+  updateOrDeleteEnterpriseNer(id) {/*TODO: is it enterprise roomId??*/
     return this.BACKEND_URL + `api/v1/customner/${id}/`; //https://dev.imibot.ai/api/v1/customner/12/
   }
 
@@ -598,7 +612,14 @@ export class ConstantsService {
   ];
 
   readonly SMART_TABLE_REPORT_TABLE_DATA_META_DICT_TEMPLATE = {
-
+    isactive: {
+      originalKey: 'isactive',
+      value: '',
+      type: 'string',
+      displayValue: 'Active',
+      search: true,
+      searchValue: true,
+    },
     bot: {
       originalKey: 'bot',
       value: '',
@@ -624,31 +645,24 @@ export class ConstantsService {
       search: true,
       searchValue: true,
     },
-    last_jobId: {
-      originalKey: 'last_jobId',
+    lastreportgenerated: {
+      originalKey: 'lastreportgenerated',
       value: '',
-      type: 'string',
-      displayValue: 'Last job run',
-      search: true,
-      searchValue: true,
+      type: 'time',
+      displayValue: 'Last report generated',
+      search: false,
+      searchValue: "",
+      dateRange: true
     },
     nextreportgenerated: {
       originalKey: 'nextreportgenerated',
       value: '',
-      type: 'string',
+      type: 'time',
       displayValue: 'Next scheduled date',
       search: false,
       searchValue: "",
       dateRange: true
     },
-    isactive: {
-      originalKey: 'isactive',
-      value: '',
-      type: 'boolean',
-      displayValue: 'Active',
-      search: true,
-      searchValue: true,
-    }
   };
   readonly SMART_TABLE_REPORT_HISTORY_TABLE_DATA_META_DICT_TEMPLATE = {
 
@@ -690,49 +704,6 @@ export class ConstantsService {
     },
 
   };
-
-
-  readonly HIGHCHART_CHARTVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE = {
-    chart: {
-      type: 'column'
-    },
-    title: {
-      text: 'Session Handling'
-    },
-    xAxis: {
-      type: 'datetime'
-    },
-    yAxis: {
-      min: 0,
-      title: {
-        text: 'Percentage'
-      }
-    },
-    tooltip: {
-      pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
-      shared: true
-    },
-    plotOptions: {
-      column: {
-        stacking: 'percent'
-      },
-
-      series: {
-        pointStart: Date.UTC(2018, 6, 20),
-        pointInterval: 24 * 3600 * 1000
-      }
-    }
-  };
-
-  readonly HIGHCHART_THEMEVALUE_ANALYTICS_USER_LOYALTY = {
-    chart: {
-      style: {
-        fontFamily: 'helvetica'
-      }
-    },
-    colors: ['#5392ff', '#71cddd', '#34bc6e', '#95d13c', '#ffb000', '#fe8500', '#ff509e', '#9b82f3']
-  };
-
   readonly HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE = {
     chart: {
       style: {
@@ -741,40 +712,6 @@ export class ConstantsService {
     },
     colors: ['#5392ff', '#71cddd', '#34bc6e', '#95d13c', '#ffb000', '#fe8500', '#ff509e', '#9b82f3']
   };
-
-  readonly HIGHCHART_CHARTVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED = {
-    chart: {
-      type: 'column'
-    },
-    title: {
-      text: ''
-    },
-    xAxis: {
-      categories: ['Flow 1', 'Flow 2', 'Flow 3', 'Flow 4', 'Flow 5']
-    },
-    yAxis: {
-      min: 0,
-      title: {
-        text: ''
-      },
-      stackLabels: {
-        enabled: false,
-        style: {
-          fontWeight: 'bold',
-          color: 'gray'
-        }
-      }
-    },
-    tooltip: {
-      headerFormat: '<b>{point.x}</b><br/>'
-    },
-    plotOptions: {
-      column: {
-        stacking: 'normal'
-      }
-    }
-  };
-
   readonly HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED = {
     chart: {
       style: {
@@ -783,136 +720,12 @@ export class ConstantsService {
     },
     colors: ['#5392ff', '#71cddd', '#34bc6e', '#95d13c', '#ffb000', '#fe8500', '#ff509e', '#9b82f3']
   };
-
-  readonly HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT = {
-
-    title: {
-      text: ''
-    },
-
-    subtitle: {
-      text: ''
-    },
-    // xAxis: {
-    //   type: 'datetime'
-    // },
-
-    yAxis: {
-      title: {
-        text: '',
-        rotation: -90,
-        margin: 10,
-        style: {
-          fontWeight: 'bold'
-        }
-      }
-    },
-    legend: {
-      layout: 'horizontal',
-      align: 'right',
-      verticalAlign: 'bottom'
-    },
-    tooltip: {
-      shared: true
-    },
-
-    // plotOptions: {
-    //   series: {
-    //     pointStart: Date.UTC(2018, 6, 20),
-    //     pointInterval: 24 * 3600 * 1000, // one day
-    //     marker: {
-    //       symbol: 'circle',
-    //       /* fillColor: '#ffffff' , */
-    //       lineWidth: 0,
-    //       radius: 4,
-    //       lineColor: null, // inherit from series
-    //     },
-    //     lineWidth: 3,
-    //     label: {
-    //       enabled: false,
-    //       style: {
-    //         fontFamily: 'sans-serif',
-    //         fontWeight: 'regular',
-    //         fontSize: 11
-    //       }
-    //     }
-    //   }
-    // },
-    // responsive: {
-    //   rules: [{
-    //     condition: {
-    //       maxWidth: 1200
-    //     },
-    //     chartOptions: {
-    //       legend: {
-    //         layout: 'horizontal',
-    //         align: 'center',
-    //         verticalAlign: 'bottom'
-    //       }
-    //     }
-    //   }]
-    // }
-
-  };
-  readonly HIGHCHART_CHARTVALUE_USER_LOYALTY = {
-    chart: {
-      type: 'column'
-    },
-    title: {
-      text: 'Stacked column chart'
-    },
-    xAxis: {
-      categories: ['Apples1', 'Oranges', 'Pears', 'Grapes', 'Bananas']
-    },
-    yAxis: {
-      min: 0,
-      title: {
-        text: 'Total fruit consumption'
-      },
-      stackLabels: {
-        enabled: true,
-        style: {
-          fontWeight: 'bold',
-          color: 'gray'
-        }
-      }
-    },
-    legend: {
-      align: 'right',
-      x: -30,
-      verticalAlign: 'top',
-      y: 25,
-      floating: true,
-      backgroundColor: 'white',
-      borderColor: '#CCC',
-      borderWidth: 1,
-      shadow: false
-    },
-    tooltip: {
-      headerFormat: '<b>{point.x}</b><br/>',
-      pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
-    },
-    plotOptions: {
-      column: {
-        stacking: 'normal',
-        dataLabels: {
-          enabled: true,
-          color: 'white'
-        }
-      }
-    },
-    series: [{
-      name: 'John',
-      data: [5, 3, 4, 7, 2]
-    }]
-  };
-
   SMART_TABLE_ENTERPRISE_NER_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
     key: {
       originalKey: 'key',
       value: '',
       type: 'string',
-      displayValue: 'Concept Key',
+      displayValue: 'Concept name',
       search: true,
       searchValue: true,
     },
@@ -920,9 +733,18 @@ export class ConstantsService {
       originalKey: 'ner_type',
       value: '',
       type: 'string',
-      displayValue: 'Type',
+      displayValue: 'Concept type',
       search: true,
       searchValue: true,
+    },
+    updated_at: {
+      originalKey: 'updated_at',
+      value: '',
+      type: 'time',
+      displayValue: 'Last Update',
+      search: false,
+      searchValue: true,
+      dateRange: true
     },
 
   };
@@ -932,7 +754,7 @@ export class ConstantsService {
       originalKey: 'key',
       value: '',
       type: 'string',
-      displayValue: 'Concept Key',
+      displayValue: 'Concept name',
       search: true,
       searchValue: true,
     },
@@ -940,7 +762,7 @@ export class ConstantsService {
       originalKey: 'ner_type',
       value: '',
       type: 'string',
-      displayValue: 'Type',
+      displayValue: 'Concept type',
       search: true,
       searchValue: true,
     },
@@ -948,43 +770,62 @@ export class ConstantsService {
       originalKey: 'conflict_policy',
       value: '',
       type: 'string',
-      displayValue: 'Override Policy',
+      displayValue: 'Override policy',
       search: true,
       searchValue: true,
     },
+    updated_at: {
+      originalKey: 'updated_at',
+      value: '',
+      type: 'time',
+      displayValue: 'Last Update',
+      search: false,
+      searchValue: true,
+      dateRange: true
+    },
+
 
   };
   SMART_TABLE_SESSION_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
-    id: {
+
+    channels: {
       originalKey: '',
       value: '',
+      type: 'image',
+      displayValue: 'Channels',
+      search: false,//true,
+      searchValue: true,
+    },
+    id: {
+      originalKey: 'id',
+      value: '',
       type: 'number',
-      displayValue: 'Room Id',
-      search: true,
+      displayValue: 'ID',
+      search: false,//true,
       searchValue: true,
     },
     consumer_id: {
-      originalKey: '',
+      originalKey: 'consumer_id',
       value: '',
       type: 'number',
-      displayValue: 'Consumer id',
-      search: true,
+      displayValue: 'Consumer ID',
+      search: false,//true,
       searchValue: true,
     },
-    sendtoagent: {
-      originalKey: '',
-      value: '',
-      type: 'boolean',
-      displayValue: 'Send to agent',
-      search: true,
-      searchValue: true,
-    },
+    // sendtoagent: {
+    //   originalKey: '',
+    //   value: '',
+    //   type: 'boolean',
+    //   displayValue: 'Send to agent',
+    //   search: true,
+    //   searchValue: true,
+    // },
     total_message_count: {
       originalKey: '',
       value: '',
       type: 'number',
       displayValue: 'Messages',
-      search: true,
+      search: false,//true,
       searchValue: true,
     },
     updated_at: {
@@ -992,23 +833,15 @@ export class ConstantsService {
       value: '',
       type: 'time',
       displayValue: 'Updated At',
-      search: false,
+      search: false,//true,
       searchValue: true,
-      dateRange: true
+      dateRange: false//true
     },
-    channels: {
-      originalKey: '',
-      value: '',
-      type: 'image',
-      displayValue: 'Channels',
-      search: true,
-      searchValue: true,
-    },
-    actions: {
+    room_metadata: {
       originalKey: '',
       value: undefined,
-      type: 'icon',
-      displayValue: 'Actions',
+      type: 'mat-icon',
+      displayValue: 'Metadata',
       custom: true,
       name: '',
       search: false,
@@ -1251,18 +1084,18 @@ export class ConstantsService {
       type: 'time',
       displayValue: 'Updated At',
       search: false,
-      searchValue: true,
+      searchValue: false,
       dateRange: true
     },
     actions: {
       originalKey: '',
       value: undefined,
-      type: 'icon',
+      type: 'mat-icon',
       displayValue: 'Actions',
       custom: true,
       name: '',
       search: false,
-      searchValue: true,
+      searchValue: false,
     },
   };
 

@@ -10,3 +10,13 @@
 .danger-modal{
     @include classic-modal(#b14250);
   }
+
+::ng-deep{
+  table{
+    mat-icon{
+      line-height: 2 !important;
+      font-size: 150%!important;
+      color: orange;
+    }
+  }
+}

@@ -1,8 +1,9 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 
 export enum EBotType {
   chatbot = 'chatbot',
-  intelligent = 'intelligent'
+  intelligent = 'intelligent',
+  faqbot = 'faqbot'
 }
 
 export enum EFormValidationErrors {
@@ -14,16 +15,18 @@ export enum EFormValidationErrors {
 }
 
 import downloadCsv from 'download-csv';
-import { ActivatedRoute, Router } from '@angular/router';
-import { IBot } from './core/interfaces/IBot';
-import { IPipelineItem } from '../interfaces/ai-module';
-import { IAnalysis2HeaderData } from '../interfaces/Analytics2/analytics2-header';
-import { EBotMessageMediaType, IMessageData } from '../interfaces/chat-session-state';
-import { IBotPreviewFirstMessage } from './chat/chat-wrapper.component';
-import { IGeneratedMessageItem } from '../interfaces/send-api-request-payload';
-import { StoreVariableService } from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import {ActivatedRoute, Router} from '@angular/router';
+import {IBot} from './core/interfaces/IBot';
+import {IPipelineItem} from '../interfaces/ai-module';
+import {IAnalysis2HeaderData} from '../interfaces/Analytics2/analytics2-header';
+import {EBotMessageMediaType, IMessageData} from '../interfaces/chat-session-state';
+import {IBotPreviewFirstMessage} from './chat/chat-wrapper.component';
+import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
+import {StoreVariableService} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl, NgForm, Validators} from '@angular/forms';
+import {MatSnackBar} from '@angular/material';
+import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
+import {el} from "@angular/platform-browser/testing/src/browser_util";
 
 
 @Injectable({
@@ -36,20 +39,21 @@ export class UtilityService {
     private router: Router,
     public snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,
     private storeVariableService: StoreVariableService,
   ) {
   }
 
-  static removeAllNonDefinedKeysFromObject(obj:object){
-    for (let key in obj){
-      if(obj[key]=== undefined || obj[key]=== null || obj[key]=== ""){
+  static removeAllNonDefinedKeysFromObject(obj: object) {
+    for (let key in obj) {
+      if (obj[key] === undefined || obj[key] === null || obj[key] === '') {
         delete obj[key];
       }
     }
     return obj;
   }
 
-  static areAllElementsInArrUnique(arr:any[]): boolean{
+  static areAllElementsInArrUnique(arr: any[]): boolean {
     return (new Set(arr)).size === arr.length;
   }
 
@@ -74,6 +78,7 @@ export class UtilityService {
       classStr: 'primary-modal-header-border'
     });
   }
+
   openDangerModal(IntentModal, matDialog, dialogRefWrapper, classStr?: { class: string }) {
     return this.openDialog({
       dialog: matDialog,
@@ -114,16 +119,35 @@ export class UtilityService {
           accObj[currObj.param_name] = currObj.display_text;
           return accObj;
         }, {});
-        return { ...accumulator, ...x };
+        return {...accumulator, ...x};
       }, {});
     }
     return this.masterIntegration_IntegrationKeyDisplayNameMap[key];
   }
 
+  /**
+  *  getVersion
+  *  @deprecated: Use CodeInputService.getVersion instead
+  * */
   getActiveVersionInBot(bot: IBot) {
     return bot.store_bot_versions && bot.store_bot_versions.find((BotVersion) => {
       return bot.active_version_id === BotVersion.id;
     });
+  }
+
+
+  static getEnabledChannelsInBot(bot:IBot):{name:string, displayName:string}[]{
+    if(!bot || bot.integrations && bot.integrations.channels){
+      return [];
+    }
+    return Object.keys(bot.integrations.channels)
+      .map((integrationKey) => {
+        return {
+          name: integrationKey,
+          displayName: integrationKey
+        };
+      })
+      .filter((enabledIntegrations) => bot.integrations.channels[enabledIntegrations.name].enabled)
   }
 
   serializeGeneratedMessagesToPreviewMessages(generatedMessage: IGeneratedMessageItem[], bot_message_id: number): IMessageData[] {
@@ -164,39 +188,42 @@ export class UtilityService {
   }
 
 
-  public static convertCsvTextToArray(csv:string):string[][]{
-    let lines=csv.split("\n");
-
-    lines = lines.map((line)=>{
-      return line.trim();
-    });
-    let arr:string[][] = [];
-    for (let i=0; i<lines.length; ++i){
+  // tslint:disable-next-line:member-ordering
+  public static convertCsvTextToArray(csv: string): string[][] {
+    let lines = csv.split('\n');
+    lines = lines.map((line) => line.trim());
+    let arr: string[][] = [];
+    for (let i = 0; i < lines.length; ++i) {
       arr.push(lines[i].split(','));
     }
     return arr;
   }
-  public static convertCsvToJson(csv){
-    var lines=csv.split("\n");
-    var result = [];
-    var headers = lines[0].split(",");
 
-    for(var i=1; i<lines.length; i++) {
-      var obj = {};
+  public static convertCsvToJson(csv) {
+    var lines = csv.split('\n');
+    var result = [];
+    var headers = lines[0].split(',');
+
+    for (var i = 1; i < lines.length; i++) {
+      let obj = {};
 
       var row = lines[i],
-          queryIdx = 0,
-          startValueIdx = 0,
-          idx = 0;
+        queryIdx = 0,
+        startValueIdx = 0,
+        idx = 0;
 
-      if (row.trim() === '') { continue; }
+      if (row.trim() === '') {
+        continue;
+      }
 
       while (idx < row.length) {
         /* if we meet a double quote we skip until the next one */
         var c = row[idx];
 
         if (c === '"') {
-          do { c = row[++idx]; } while (c !== '"' && idx < row.length - 1);
+          do {
+            c = row[++idx];
+          } while (c !== '"' && idx < row.length - 1);
         }
 
         if (c === ',' || /* handle end of line with no comma */ idx === row.length - 1) {
@@ -204,11 +231,17 @@ export class UtilityService {
           var value = row.substr(startValueIdx, idx - startValueIdx).trim();
 
           /* skip first double quote */
-          if (value[0] === '"') { value = value.substr(1); }
+          if (value[0] === '"') {
+            value = value.substr(1);
+          }
           /* skip last comma */
-          if (value[value.length - 1] === ',') { value = value.substr(0, value.length - 1); }
+          if (value[value.length - 1] === ',') {
+            value = value.substr(0, value.length - 1);
+          }
           /* skip last double quote */
-          if (value[value.length - 1] === '"') { value = value.substr(0, value.length - 1); }
+          if (value[value.length - 1] === '"') {
+            value = value.substr(0, value.length - 1);
+          }
 
           var key = headers[queryIdx++];
           obj[key] = value;
@@ -222,9 +255,10 @@ export class UtilityService {
     }
     return result;
   }
+
   readInputFileAsText(inputElement): Promise<any> {
     return new Promise((resolve, reject) => {
-      const input = inputElement; //event.target;
+      const input = inputElement; // event.target;
       for (let index = 0; index < input.files.length; index++) {
         const reader = new FileReader();
         reader.onload = () => {
@@ -241,7 +275,7 @@ export class UtilityService {
   getPriorDate(days_before: number) {
     let today: any = new Date(Date.now() - days_before * 24 * 3600 * 1000);
     let dd: any = today.getDate();
-    let mm: any = today.getMonth() + 1; //January is 0!
+    let mm: any = today.getMonth() + 1; // January is 0!
     const yyyy: any = today.getFullYear();
 
     if (dd < 10) {
@@ -259,7 +293,7 @@ export class UtilityService {
     let today: any = dateStr ? new Date(dateStr) : new Date();
 
     let dd: any = today.getDate();
-    let mm: any = today.getMonth() + 1; //January is 0!
+    let mm: any = today.getMonth() + 1; // January is 0!
     const yyyy: any = today.getFullYear();
 
     if (dd < 10) {
@@ -278,7 +312,7 @@ export class UtilityService {
     let today: any = dateStr ? new Date(dateStr) : new Date();
 
     let dd: any = today.getDate();
-    let mm: any = today.getMonth() + 1; //January is 0!
+    let mm: any = today.getMonth() + 1; // January is 0!
     const yyyy: any = today.getFullYear();
 
     if (dd < 10) {
@@ -298,7 +332,7 @@ export class UtilityService {
     let today: any = new Date(dateStr);
 
     let dd: any = today.getDate();
-    let mm: any = today.getMonth() + 1; //January is 0!
+    let mm: any = today.getMonth() + 1; // January is 0!
     const yyyy: any = today.getFullYear();
 
     if (dd < 10) {
@@ -340,8 +374,20 @@ export class UtilityService {
     }
   }
 
-  static cloneObj(obj){
+  static cloneObj(obj) {
     return JSON.parse(JSON.stringify(obj));
+  }
+
+  getCodeInputForm() {
+    let codeInputForm = this.formBuilder.group({
+      df_template: [""],
+      df_rules: [""],
+      generation_rules: [""],
+      generation_templates: [""],
+      workflow: [""],
+    });
+
+    return codeInputForm;
   }
 
   static removeEmptyKeyValues(valClone) {
@@ -353,13 +399,29 @@ export class UtilityService {
     return valClone;
   }
 
-  static trimAllObjValues(obj:object) {
+  static trimAllObjValues(obj: object) {
     for (let key in obj) {
       if (obj[key] && obj[key].trim) {
         obj[key] = obj[key].trim();
       }
     }
     return obj;
+  }
+
+  static getEnabledIntegrations(bot:IBot){
+    let allIntegrations = {
+      ...bot.integrations.ccsp_details,
+      ...bot.integrations.channels,
+      ...bot.integrations.fulfillment_provider_details,
+    };
+
+    let x = Object.keys(allIntegrations).reduce((total, key)=>{
+      if(allIntegrations[key].enabled){
+        return {...total, [key]:allIntegrations[key]};
+      }
+      return total;
+    }, {})
+    return x;
   }
 
   findDataByName(convertedData, name) {
@@ -448,37 +510,51 @@ export class UtilityService {
 
     // let regex = /e?l?if.+?:/g;
     // let regex = /e?l?s?e?if\s?.+?:/g;
-    const regex = /e?l?s?e?if[\s]*?\(\s?.+?:/g;
-
+    // const regex = /e?l?s?e?if[\s]*?\(\s?.+?:/g;
+    // simple
+    // const regex = /(e?l?if([\s]*?.+)==[\s]*?.+|else):/g;
+    // including line breakes
+    const regex = /(e?l?if[\s]*?.+==[\s]*?(.+)|else):(\n+)/g;
     let match = regex.exec(str);
 
     const templateKeys = [];
     while (match) {
-      let templateKey, matchedStr = match[0];
-      const matchedStrSplitArr = matchedStr.split('==');
-      if (matchedStrSplitArr[0].includes('variables')) {
-        templateKey = matchedStrSplitArr[1].replace(')', '').replace(':', '').trim();
-      } else {
-        templateKey = matchedStrSplitArr[0].replace(')', '').replace(':', '').trim();
+
+      let templateKey;
+      if(match[2]){
+        templateKey = match[2].replace(/\)/g, '',).replace(/\'/g, '').trim();
       }
-      templateKeys.push(eval(templateKey));
+      else{
+        templateKey = match[1].replace(/\)/g, '',).replace(/\'/g, '').trim();
+      }
+      // let templateKey, matchedStr = match[0];
+      // const matchedStrSplitArr = matchedStr.split('==');
+      // if (matchedStrSplitArr[0].includes('variables')) {
+      //   templateKey = matchedStrSplitArr[1].replace(')', '').replace(':', '').trim();
+      // } else {
+      //   templateKey = matchedStrSplitArr[0].replace(')', '').replace(':', '').trim();
+      // }
+      templateKeys.push(templateKey);
       match = regex.exec(str);
     }
     return templateKeys;
   }
 
   createOutputArr(generation_templates) {
-    const str = generation_templates + 'elif'; //TODO: adding elif is a hack
+    const str = generation_templates; // TODO: adding elif is a hack
 
     // let regex = /output\s=\s([\s\S]*?)\selif/g;
     // let regex = /output[\s\S]*?]$/gm;
     //   let regex = /output\s=([\s\S]*?])$/gm;
     //   let regex = /output[\s]*=[\s]*([\s\S]*?[\s\S]$)/gm;//https://regex101.com/r/moAq3A/1/
     // let regex = /output[\s]*=([\s]*\[.*?\].*?\n|[\s\S]*?[\s\S]$)/gms;//https://regex101.com/r/WXGF5J/4
-    const regex = /output[\s]*?=[\s]*?([\s\S]*?)els?e?if/gm;
-
+    // const regex = /output[\s]*?=[\s]*?([\s\S]*?)els?e?if/gm;
+// more restricted with form of output and \n before output
+    // let regex = /[\n].+output[\s]*?=[\s]*?(\[({.*})*\])/gm; apprently shoaid made this parser so costraint heavy that its not working
+    let regex = /output[\s]*?=[\s]*?(\[[\s\S]*?])$/gm;
     let match = regex.exec(str);
 
+    
     const outputsKeys = [];
     while (match) {
       let output, matchedStr = match[1];
@@ -486,6 +562,7 @@ export class UtilityService {
       outputsKeys.push(matchedAndProcessedStr);
       match = regex.exec(str);
     }
+    debugger;
     return outputsKeys;
   }
 
@@ -514,14 +591,27 @@ export class UtilityService {
   }
 
   parseGenTemplateUiDictionaryToIfElseCode(uiDictionary: object) {
+
     try {
       let genTemplateCodeStr = '';
-      Object.keys(uiDictionary).forEach((templateKey, index) => {
+      let uiDictionaryKeyArray = Object.keys(uiDictionary);
+      if(uiDictionary['else']){
+        var index = uiDictionaryKeyArray.indexOf('else');
+        if (index > -1) {
+          uiDictionaryKeyArray.splice(index, 1);
+        }
+        uiDictionaryKeyArray.push('else');
+      }
+      uiDictionaryKeyArray.forEach((templateKey, index) => {
         // let templateKey = Object.keys(templateKeys);
         let elIfStr = '';
-        if (index === 0) {
+        if (index === 0 && templateKey != 'else') {
           elIfStr = `if(variables['templateKey'] == '${templateKey}'):\n`;
-        } else {
+        }
+        else if(templateKey == 'else'){
+          elIfStr = `\nelse:\n`;
+        }
+         else if(index != 0 && templateKey != 'else'){
           elIfStr = `\nelif(variables['templateKey'] == '${templateKey}'):\n`;
         }
         const outputValues = uiDictionary[templateKey];
@@ -540,9 +630,13 @@ export class UtilityService {
 
   }
 
-  doesStringIncludesSubstring(string, subString) {
+  doesStringIncludesSubstring(string: string, subString: string) {
     try {
-      return !string || !subString ? false : string.includes(subString);
+      if (!string || !subString) {
+        throw 'invalid input';
+      }
+      let x = string.toLowerCase().includes(subString.toLowerCase()) ? string : false;
+      return x;
     } catch (e) {
       return false;
     }
@@ -560,8 +654,13 @@ export class UtilityService {
   convertDateTimeGraph(
     rawData: { activesessions: number, labels: string, totalsessions: number }[],
     xAxisLabel: string,
+    // <<<<<<< HEAD
     startTime_ms: number = Date.UTC(2010, 0, 2), //Date.UTC(2010, 0, 2),
     granularity: string = 'day',  // one day
+    // =======
+    // startTime_ms: number = Date.UTC(2010, 0, 2), // Date.UTC(2010, 0, 2),
+    // granularity_Ms: number = 24 * 3600 * 1000,  // one day
+    // >>>>>>> develop
   ) {
 
 
@@ -570,17 +669,17 @@ export class UtilityService {
     }
 
     let intervalObj = {};
-    if(granularity === 'day' || granularity === 'month' || granularity === 'year'){
+    if (granularity === 'day' || granularity === 'month' || granularity === 'year') {
       intervalObj = {
         pointIntervalUnit: granularity,//24*3600*1000  // one day,
-      }
-    }else {
+      };
+    } else {
       /*pointIntervalUnit doesnt work for hour and week
       *https://api.highcharts.com/highstock/series.column.pointIntervalUnit
       * */
       intervalObj = {
         pointInterval: this.convertGranularityStrToMs(granularity),//24*3600*1000  // one day,
-      }
+      };
     }
 
     const template: any = {
@@ -597,9 +696,14 @@ export class UtilityService {
       //   },
       plotOptions: {
         series: {
+// <<<<<<< HEAD
           pointStart: startTime_ms, //Date.UTC(2010, 0, 2),
           ...intervalObj,
           // pointIntervalUnit: granularity,//24*3600*1000  // one day,
+// =======
+          // pointStart: startTime_ms, // Date.UTC(2010, 0, 2),
+          // pointInterval: granularity_Ms,// 24*3600*1000  // one day,
+// >>>>>>> develop
           label: {
             enabled: false
           }
@@ -623,8 +727,8 @@ export class UtilityService {
         return;
       }
       seriesArr.push({
-        name: value, //y1
-        data: []//[(xi,y1i)]
+        name: value, // y1
+        data: []// [(xi,y1i)]
       });
     });
     /*now loop over rawData and fill convertedData's data array*/
@@ -636,7 +740,7 @@ export class UtilityService {
         }
         const data = this.findDataByName(seriesArr, key);
         // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
-        data.push(obj[key]); //pushing a new coordinate
+        data.push(obj[key]); // pushing a new coordinate
       });
     });
     //
@@ -647,7 +751,7 @@ export class UtilityService {
   convertDateTimeTwoBarGraph(
     rawData: { activesessions: number, labels: string, totalsessions: number }[],
     xAxisLabel: string,
-    startTime_ms: number = Date.UTC(2010, 0, 2), //Date.UTC(2010, 0, 2),
+    startTime_ms: number = Date.UTC(2010, 0, 2), // Date.UTC(2010, 0, 2),
     granularity_Ms: number = 24 * 3600 * 1000,  // one day
   ) {
 
@@ -684,13 +788,13 @@ export class UtilityService {
           stacking: 'percent'
         },
         series: {
-          pointStart: startTime_ms, //Date.UTC(2010, 0, 2),
-          pointInterval: granularity_Ms//24*3600*1000  // one day
+          pointStart: startTime_ms, // Date.UTC(2010, 0, 2),
+          pointInterval: granularity_Ms// 24*3600*1000  // one day
         }
       },
 
       series: [{
-        name: 'Handled by bot',
+        name: 'Handled by _bot',
         data: [5, 3, 4, 7, 2]
       }, {
         name: 'Handled by agent',
@@ -708,8 +812,8 @@ export class UtilityService {
 
 
       seriesArr.push({
-        name: value, //y1
-        data: []//[(xi,y1i)]
+        name: value, // y1
+        data: []// [(xi,y1i)]
       });
     });
 
@@ -725,7 +829,7 @@ export class UtilityService {
 
         const data = this.findDataByName(seriesArr, key);
         // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
-        data.push(obj[key]); //pushing a new coordinate
+        data.push(obj[key]); // pushing a new coordinate
       });
     });
 
@@ -748,8 +852,8 @@ export class UtilityService {
         return;
       }
       seriesArr.push({
-        name: value, //y1
-        data: []//[(xi,y1i)]
+        name: value, // y1
+        data: []// [(xi,y1i)]
       });
     });
     /*now loop over rawData and fill convertedData's data array*/
@@ -762,7 +866,7 @@ export class UtilityService {
         }
         const data = this.findDataByName(seriesArr, key);
         // data.push([obj[xAxisLabel], obj[key]]);//pushing a new coordinate
-        data.push(obj[key]); //pushing a new coordinate
+        data.push(obj[key]); // pushing a new coordinate
       });
     });
     //     series: Array(1)
@@ -770,14 +874,14 @@ export class UtilityService {
     // length: 1
 
 
-    let lengthofcategoriesString = categoriesString.length;
-    let categoriesString5 = categoriesString.slice(0, 5);
+    const lengthofcategoriesString = categoriesString.length;
+    const categoriesString5 = categoriesString.slice(0, 5);
 
     categoriesString5.push('Others');
 
-    var totalValue = seriesArr[0]['data'].reduce((a, b) => a + b, 0);
+    const totalValue = seriesArr[0]['data'].reduce((a, b) => a + b, 0);
     seriesArr[0]['data'] = seriesArr[0]['data'].slice(0, 5);
-    var endValue = seriesArr[0]['data'].reduce((a, b) => a + b, 0);
+    const endValue = seriesArr[0]['data'].reduce((a, b) => a + b, 0);
 
     // seriesArr[0]['data'] = seriesArr5;
     seriesArr[0]['data'].push(totalValue - endValue);
@@ -789,7 +893,7 @@ export class UtilityService {
 
     const template = {
       xAxis: {
-        categories: categoriesString5, //['apple', 'orange', 'mango'],
+        categories: categoriesString5, // ['apple', 'orange', 'mango'],
         tickInterval: 1,
         labels: {
           enabled: true
@@ -840,8 +944,8 @@ export class UtilityService {
         return;
       }
       convertedData.push({
-        name: value, //y1
-        data: []//[(xi,y1i)]
+        name: value, // y1
+        data: []// [(xi,y1i)]
       });
     });
     if (labelType === 'Time') {
@@ -859,7 +963,7 @@ export class UtilityService {
           const ms = hh * 3600 * 1000 + mm * 60 * 1000;
           if (data) {/*This fix is done for new keys which were not in rawdata[0]. They will be ignored*/
             data.push([ms, obj[key]]);
-          }//pushing a new coordinate
+          }// pushing a new coordinate
         });
       });
     }
@@ -880,7 +984,7 @@ export class UtilityService {
           const ms = Date.parse(dateStr_mmddyyyy);
           if (data) {/*This fix is done for new keys which were not in rawdata[0]. They will be ignored*/
             data.push([ms, obj[key]]);
-          }//pushing a new coordinate
+          }// pushing a new coordinate
         });
       });
     }
@@ -898,23 +1002,26 @@ export class UtilityService {
           // let ms = hh*3600*1000 + mm*60*1000;
           if (data) {/*This fix is done for new keys which were not in rawdata[0]. They will be ignored*/
             data.push([obj[xAxisLabel], obj[key]]);
-          }//pushing a new coordinate
+          }// pushing a new coordinate
         });
       });
     }
     return convertedData;
   }
 
+  /*
+  * @deprecated Use UtilityService.cloneObj() instead
+  * */
   createDeepClone(obj) {
     return JSON.parse(JSON.stringify(obj));
   }
 
   showErrorToaster(message: string, sec = 4) {
-    debugger;
+
     try {
-      this.snackBar.open(message || "Some error occurred", '', {
+      this.snackBar.open(message || 'Some error occurred', '', {
         duration: (sec * 1000) || 2000,
-        panelClass: ['bg-danger'],
+        panelClass: ['bg-danger-snackbar'],
         verticalPosition: 'top',
         horizontalPosition: 'right'
       });
@@ -969,13 +1076,25 @@ export class UtilityService {
     const url: string = formControl.value;
     const pattern = /^((https):\/\/)/;
 
-    return pattern.test(url) ? null : { 'Must be Https Url': true };
+    return pattern.test(url) ? null : {'Must be Https Url': true};
   }
 
   imageUrlHavingValidExtnError(formControl: FormControl) {
     const url: string = formControl.value;
     const pattern = /\.(gif|jpg|jpeg|tiff|png)$/i;
-    return pattern.test(url) ? null : { 'Image Extension is not correct': true };
+    return pattern.test(url) ? null : {'Image Extension is not correct': true};
+  }
+
+
+  /*
+  * spaceCase:
+  * Example: sandeep_gupta => Sandeep Gupta
+  * */
+  static spaceCase(str:string, delimiter:string){
+    if(!str){
+      return "";
+    }
+    return str.split(delimiter).map((str)=>str[0].toUpperCase() + str.slice(1)).join(" ");
   }
 
   isManagerValidator(formGroup: FormGroup) {
@@ -983,7 +1102,31 @@ export class UtilityService {
     const is_manager = formValue['is_manager'];
     const child_bots = formValue['child_bots'];
     /*if is_manager = true, child_bots should have at least one value*/
-    return (!is_manager || is_manager && (child_bots.length > 0)) ? null : { 'isManagerError': true };
+    return (!is_manager || is_manager && (child_bots.length > 0)) ? null : {'isManagerError': true};
+  }
+
+  static getCombinedBotData(forms: (FormGroup | NgForm)[]): IBot {
+    return forms.reduce((aggr, form) => {
+      return {
+        ...aggr,
+        ...form.value
+      };
+    }, {});
+  }
+
+
+  /*
+  * isObjectSubSet:
+  * check if smaller object (obj2) is perfect subset of larger object (obj1)
+  * */
+  static isObjectSubSet(largeObj, smallObj) {
+    let obj1_temp = {};
+    for (let key in smallObj) {
+      obj1_temp[key] = largeObj[key];
+    }
+    let x=  UtilityService.deepCompare(obj1_temp, smallObj);
+
+    return x;
   }
 
   pushFormControlItemInFormArray(formArray: FormArray, formBuilder: FormBuilder, item: any) {
@@ -1044,7 +1187,7 @@ export class UtilityService {
       document.body.appendChild(a);
       a.style = 'display: none';
       return function (data, fileName) {
-        const blob = new Blob([text], { type: 'octet/stream' }),
+        const blob = new Blob([text], {type: 'octet/stream'}),
           url = window.URL.createObjectURL(blob);
         a.href = url;
         a.download = fileName;
@@ -1071,9 +1214,25 @@ export class UtilityService {
     downloadCsv(data, columns);
   }
 
+  /**
+   * highlightText: case insensitive highlights
+   * @param string: text to be highlighted
+   * @param keyword keyword
+   */
+  static highlightText(string: string, keyword: string) {
+    if (!string || !keyword) {
+      return string;
+    }
+    /*
+    * Example usage of $1 to get capturing group
+    * "HELLO".replace(/(hell)o/i,`$1sdasdadas`);
+    * */
+    return string.replace(new RegExp(`(${keyword})`, 'ig'), `<span class="text-highlight">$1</span>`);
+  }
+
   areAllAvatorValesDefined(headerObj: object) {
     for (const key in headerObj) {
-      if (headerObj[key] == null || headerObj[key] === '') {//0!==null but 0==""
+      if (headerObj[key] == null || headerObj[key] === '') {// 0!==null but 0==""
         return false;
       }
     }
@@ -1090,9 +1249,9 @@ export class UtilityService {
       'user-access-token': null,
       granularity: null
     };
-    headerObj = { ...headerDataTemplate, ...headerObj };
+    headerObj = {...headerDataTemplate, ...headerObj};
     for (const key in headerObj) {
-      if (headerObj[key] == null || headerObj[key] === '') {//0!==null but 0==""
+      if (headerObj[key] == null || headerObj[key] === '') {// 0!==null but 0==""
         return false;
       }
     }
@@ -1100,13 +1259,17 @@ export class UtilityService {
   }
 
   addQueryParamsInCurrentRoute(queryParamObj: object) {
-    this.router.navigate(['.'], { queryParams: queryParamObj, relativeTo: this.activatedRoute });
+    this.router.navigate(['.'], {queryParams: queryParamObj, relativeTo: this.activatedRoute});
   }
 
   isAtleastOneValueIsDefined(obj) {
-    if (!obj) return false;
-    for (let key in obj) {
-      if (obj[key]) return true;
+    if (!obj) {
+      return false;
+    }
+    for (const key in obj) {
+      if (obj[key]) {
+        return true;
+      }
     }
     return false;
   }
@@ -1166,7 +1329,7 @@ export class UtilityService {
   checkIfAllPipelineInputParamsArePopulated(pipeline: IPipelineItem[]): boolean {
 
     const inputParamsObj: object = pipeline.reduce((inputParamsObj, pipelineItem) => {
-      return { ...inputParamsObj, ...pipelineItem.input_params };
+      return {...inputParamsObj, ...pipelineItem.input_params};
     }, {});
 
     for (const param in inputParamsObj) {
@@ -1179,7 +1342,7 @@ export class UtilityService {
 
   performFormValidationBeforeSaving(obj: IBot): IBot {
 
-    const objShallowClone = { ...obj };
+    const objShallowClone = {...obj};
     const validation_Keys: string[] = Object.keys(objShallowClone).filter((key) => {
       return key.includes('form_validation_');
     });
@@ -1200,7 +1363,7 @@ export class UtilityService {
         text: item.text,
         sourceType: 'bot',
         messageMediatype: EBotMessageMediaType.text,
-        time: Date.now(),//this.getCurrentTimeInHHMM()/*todo: change it to real time*/
+        time: Date.now(), // this.getCurrentTimeInHHMM()/*todo: change it to real time*/
         bot_message_id: null,
       };
     });
@@ -1242,16 +1405,16 @@ export class UtilityService {
   }
 
   openDialog(dialogOptions: { dialog, component, data?: any, classStr, dialogRefWrapper?: { ref: any } }): Promise<any> {
-    //data: { message?: string, title?: string, actionButtonText?: string, isActionButtonDanger?:boolean }
-    let { dialog, component, data, classStr, dialogRefWrapper } = dialogOptions;
+    // data: { message?: string, title?: string, actionButtonText?: string, isActionButtonDanger?:boolean }
+    const {dialog, component, data, classStr, dialogRefWrapper} = dialogOptions;
     try {
-      dialogRefWrapper.ref.close();//closing any previous modals
+      dialogRefWrapper.ref.close(); // closing any previous modals
     } catch (e) {
       console.log(e);
     }
     const dialogRef = dialog.open(component, {
       data,
-      panelClass: classStr//'primary-modal-header-border'
+      panelClass: classStr// 'primary-modal-header-border'
     });
     dialogRefWrapper.ref = dialogRef;
 
@@ -1261,6 +1424,25 @@ export class UtilityService {
       });
     });
 
+  }
+
+  openCloseWithoutSavingModal(dialogRefWrapper, matDialog) {
+
+    return this.openDialog({
+      dialogRefWrapper: dialogRefWrapper,
+      classStr: 'danger-modal-header-border',
+      data: {
+        actionButtonText: 'Close without saving',
+        message: 'All your unsaved changes will be lost if you don’t save.',
+        title: `Close without saving?`,
+        isActionButtonDanger: true,
+        inputDescription: null,
+        closeButtonText: 'Keep editing'
+      },
+      dialog: matDialog,
+      component: ModalConfirmComponent
+    });
+    // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
 
   static hasRequiredField(abstractControl: NgControl): boolean {
@@ -1281,12 +1463,14 @@ export class UtilityService {
       }
     }
     return false;
-  };
+  }
 
 
-  static replaceHrefWithAnchorTag(str){
-    if(!str) return;
-    let regex:RegExp = /http[s]?:\/\/[\w,.]+/gm;
+  static replaceHrefWithAnchorTag(str) {
+    if (!str) {
+      return;
+    }
+    const regex: RegExp = /http[s]?:\/\/[\w,.]+/gm;
     // str.replace(, "SO");
     regex.exec(str);
   }
@@ -1296,13 +1480,13 @@ export class UtilityService {
   * linkify: replaces all texts to <a> links in a string
   * */
   static linkify(inputText, className) {
-    var replacedText, replacePattern1, replacePattern2, replacePattern3;
+    let replacedText, replacePattern1, replacePattern2, replacePattern3;
 
-    //URLs starting with http://, https://, or ftp://
+    // URLs starting with http://, https://, or ftp://
     replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
     replacedText = inputText.replace(replacePattern1, `<a href="$1" target="_blank" class="${className}">$1</a>`);
 
-    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+    // URLs starting with "www." (without // before it, or it'd re-link the ones done above).
     replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
     replacedText = replacedText.replace(replacePattern2, `$1<a href="http://$2" class="${className} target="_blank">$2</a>`);
 
@@ -1315,7 +1499,161 @@ export class UtilityService {
 
   }
 
+  static getLinksInText(str: string): string[] {
+    const replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+    let match = replacePattern1.exec(str);
+
+    const links = [];
+    while (match) {
+      let templateKey, matchedStr = match[0];
+      links.push(matchedStr);
+      match = replacePattern1.exec(str);
+    }
+    return links;
+
+  }
+
+
+  timeDifference(current, previous) {
+
+    var msPerMinute = 60 * 1000;
+    var msPerHour = msPerMinute * 60;
+    var msPerDay = msPerHour * 24;
+    var msPerMonth = msPerDay * 30;
+    var msPerYear = msPerDay * 365;
+
+    var elapsed = current - previous;
+
+    if (elapsed < msPerMinute) {
+      return Math.round(elapsed / 1000) + ' seconds ago';
+    } else if (elapsed < msPerHour) {
+      return Math.round(elapsed / msPerMinute) + ' minutes ago';
+    } else if (elapsed < msPerDay) {
+      return Math.round(elapsed / msPerHour) + ' hours ago';
+    } else if (elapsed < msPerMonth) {
+      return 'approximately ' + Math.round(elapsed / msPerDay) + ' days ago';
+    } else if (elapsed < msPerYear) {
+      return 'approximately ' + Math.round(elapsed / msPerMonth) + ' months ago';
+    } else {
+      return 'approximately ' + Math.round(elapsed / msPerYear) + ' years ago';
+    }
+  }
 
 
 
+  static deepCompare (x,y):boolean {
+
+    var i, l, leftChain, rightChain;
+
+    function compare2Objects (x, y) {
+      var p;
+
+      // remember that NaN === NaN returns false
+      // and isNaN(undefined) returns true
+      if (isNaN(x) && isNaN(y) && typeof x === 'number' && typeof y === 'number') {
+        return true;
+      }
+
+      // Compare primitives and functions.
+      // Check if both arguments link to the same object.
+      // Especially useful on the step where we compare prototypes
+      if (x === y) {
+        return true;
+      }
+
+      // Works in case when functions are created in constructor.
+      // Comparing dates is a common scenario. Another built-ins?
+      // We can even handle functions passed across iframes
+      if ((typeof x === 'function' && typeof y === 'function') ||
+        (x instanceof Date && y instanceof Date) ||
+        (x instanceof RegExp && y instanceof RegExp) ||
+        (x instanceof String && y instanceof String) ||
+        (x instanceof Number && y instanceof Number)) {
+        return x.toString() === y.toString();
+      }
+
+      // At last checking prototypes as good as we can
+      if (!(x instanceof Object && y instanceof Object)) {
+        return false;
+      }
+
+      if (x.isPrototypeOf(y) || y.isPrototypeOf(x)) {
+        return false;
+      }
+
+      if (x.constructor !== y.constructor) {
+        return false;
+      }
+
+      if (x.prototype !== y.prototype) {
+        return false;
+      }
+
+      // Check for infinitive linking loops
+      if (leftChain.indexOf(x) > -1 || rightChain.indexOf(y) > -1) {
+        return false;
+      }
+
+      // Quick checking of one object being a subset of another.
+      // todo: cache the structure of arguments[0] for performance
+      for (p in y) {
+        if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
+          return false;
+        }
+        else if (typeof y[p] !== typeof x[p]) {
+          return false;
+        }
+      }
+
+      for (p in x) {
+        if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
+          return false;
+        }
+        else if (typeof y[p] !== typeof x[p]) {
+          return false;
+        }
+
+        switch (typeof (x[p])) {
+          case 'object':
+          case 'function':
+
+            leftChain.push(x);
+            rightChain.push(y);
+
+            if (!compare2Objects (x[p], y[p])) {
+              return false;
+            }
+
+            leftChain.pop();
+            rightChain.pop();
+            break;
+
+          default:
+            if (x[p] !== y[p]) {
+              return false;
+            }
+            break;
+        }
+      }
+
+      return true;
+    }
+
+    if (arguments.length < 1) {
+      return true; //Die silently? Don't know how to handle such case, please help...
+      // throw "Need two or more arguments to compare";
+    }
+
+    for (i = 1, l = arguments.length; i < l; i++) {
+
+      leftChain = []; //Todo: this can be cached
+      rightChain = [];
+
+      if (!compare2Objects(arguments[0], arguments[i])) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 }

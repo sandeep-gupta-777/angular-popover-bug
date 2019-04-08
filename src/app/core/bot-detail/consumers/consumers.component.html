@@ -1,19 +1,19 @@
-<app-smart-table *ngIf="consumerItems && consumerItems.length>0"
-                 [ngClass]="{'disable-decrypt-lock-icon':isDeCryptAuditAccessDenied}"
-                 class="d-flex-column-last-child-flex-grow-1"
-                 [totalRecords]="totalRecords"
-                 (pageChanged$)="pageChanged($event)"
-                 [data]="tableData"
-                 [showRefreshButton]="true"
-                 (refreshData$)="loadConsumerData()"
-                 (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,Primarytemplat)"
-                 [showSearchInDbButton]="true"
-                 (performSearchInDB$)="performSearchInDbForConsumer($event)">
-</app-smart-table>
-
+<ng-container *ngIf="sessionsSmartTableDataModal.tableData as tableData1">
+  <app-smart-table *ngIf="consumerItems && consumerItems.length>0"
+                   [ngClass]="{'disable-decrypt-lock-icon':isDeCryptAuditAccessDenied}"
+                   class="d-flex-column-last-child-flex-grow-1"
+                   [totalRecords]="totalRecords"
+                   (pageChanged$)="pageChanged($event)"
+                   [data]="tableData1"
+                   (refreshData$)="loadConsumerData()"
+                   (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
+                   [showSearchInDbButton]="true"
+                   (performSearchInDB$)="performSearchInDbForConsumer($event)">
+  </app-smart-table>
+</ng-container>
 <app-imi-loader *ngIf="showLoader "></app-imi-loader>
 
-
+<!--
 <ng-template #Primarytemplat>
   <div class="primary-modal">
     <div class="modal-header">
@@ -21,14 +21,9 @@
       <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
-
     </div>
 
     <div class="modal-body pt-0">
-      <!-- <div>
-        <input type="text" [(ngModel)] = "decryptReason">
-        <button class="btn-theme btn-theme-primary" (click)="decryptSubmit();modalRefWrapper.hide()">Submit</button>
-      </div> -->
       <form #form="ngForm">
         <div class="text-center my-1">
           <label for="" class="mr-1">Reason</label>
@@ -41,7 +36,7 @@
       </form>
     </div>
   </div>
-</ng-template>
+</ng-template> -->
 
 
 <app-splash-screen *ngIf="consumerItems && consumerItems.length===0"

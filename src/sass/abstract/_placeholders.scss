@@ -4,7 +4,7 @@
   left: 0;
 }
 
-%centered-flex-row{
+%centered-flex{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,4 +15,26 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+
+%float-on-hover-animation {
+  //margin: 20px;
+  //padding: 3px;
+  //outline: 2px solid #DDD;
+  //border: #a1a1a1;
+  //float: left;
+  position: absolute;
+  //bottom: 0px;
+  //position: absolute;
+  bottom: -10px;
+  right: 0;
+  //-webkit-transition: margin 0.5s ease-out
+  -webkit-transition: margin 0.5s ease-out;
+  -moz-transition: margin 0.5s ease-out;
+  -o-transition: margin 0.5s ease-out;
+  &:hover {
+    cursor: pointer;
+    bottom: 0px;
+  }
 }

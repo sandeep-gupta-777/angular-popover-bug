@@ -9,3 +9,11 @@
   overflow-y: auto;
 }
 
+
+:host{
+  ::ng-deep{
+    app-handsontable{
+      z-index: 0;
+    }
+  }
+}

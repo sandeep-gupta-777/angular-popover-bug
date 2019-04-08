@@ -1,10 +1,22 @@
-<div class="d-flex-column-last-child-flex-grow-1 create-concept-row">
+<div class="d-flex-column-last-child-flex-grow-1 create-concept-row" style="padding-left: 14px">
+
+  <header>
+    <div style="position: relative;padding-bottom: 16px">
+      <i class="fa fa-angle-left cursor-pointer" title="Go back"
+         style="position: absolute; left: -15px;  font-size: 19px;" (click)="goBack()"></i>
+      <h6 style="font-size: 16px; font-weight: bold; margin-bottom: 8px">{{ner_id ? "Edit" : "Create" }} Concept</h6>
+      <p style="color: #9e9e9e; font-size: 11px">Select from 5 concept types. ‘Single match’ which matches the phrase
+        exactly said; ‘Partial Match’ which matches within a subset of the string;‘Regex’ to parse regular expressions;
+        ‘Database’ for multiple values; ‘With metadata’ for additional accesible data.</p>
+    </div>
+  </header>
+
   <div class="child d-flex justify-content-between">
-    <button class="btn-theme btn-theme-primary-outline" (click)="showTable$.emit(); _selectedRowData = {}">Go Back
-    </button>
-    <form ngNativeValidate class="options d-flex align-items-end" #form="ngForm">
+    <!--<button class="btn-theme btn-theme-primary-outline" (click)="showTable$.emit(); _selectedRowData = {}">Go Back-->
+    <!--</button>-->
+    <form ngNativeValidate class="options d-flex align-items-end w-100" #form="ngForm">
       <mat-form-field style="margin-bottom: -1.25em">
-        <input type="text" matInput placeholder="Concept Key" required [(ngModel)]="key" name="key">
+        <input type="text" matInput placeholder="Concept name" required [(ngModel)]="key" name="key">
       </mat-form-field>
       <div class="d-flex flex-column mx-2">
 
@@ -17,11 +29,10 @@
             <mat-option value="regex">Regex</mat-option>
           </mat-select>
         </mat-form-field>
-
       </div>
 
       <div class="d-flex flex-column mx-2">
-        <label for="" class="m-0 p-0 mb-1">Process Raw Text</label>
+        <label class="m-0 p-0 mb-1">Process Raw Text</label>
         <div style="height: 26px;">
           <mat-slide-toggle
             name="process_raw_text"
@@ -31,7 +42,7 @@
             [(ngModel)]="process_raw_text"></mat-slide-toggle>
         </div>
       </div>
-      <div class="d-flex flex-column mx-2" *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']">
+      <div class="d-flex flex-column mx-2 mr-auto" *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']">
         <span class="required p-0 mb-1 ">Override Policy</span>
         <div class="d-flex cursor-pointer" style="height: 26px;">
           <label
@@ -49,57 +60,71 @@
         </div>
 
       </div>
-<!--<<<<<<< HEAD-->
 
-      <!--<fieldset *ngIf="!routeName">-->
-      <!--<div>-->
-      <!--<span *ngIf="!routeName" class="requiredClass p-0">Override Policy</span>-->
-      <!--</div>-->
-      <!--<div class="label-wrapper d-flex" style="height: 26px">-->
-      <!--<label class="form-check-label" for="radio1">-->
-      <!--Override-->
-      <!--</label>-->
-      <!--<input hidden type="radio" class="form-check-input" id="radio1" requiredClass name="conflict_policy"-->
-      <!--[(ngModel)]="conflict_policy" value="override" checked>-->
-      <!--<label class="form-check-label" for="radio2">-->
-      <!--<input hidden type="radio" class="form-check-input" id="radio2" requiredClass name="conflict_policy"-->
-      <!--[(ngModel)]="conflict_policy" value="merge">Merge-->
-      <!--</label>-->
-      <!--</div>-->
-      <!--</fieldset>-->
-<!---->
-<!--=======-->
-
-      <!--update/create button starts-->
-      <div *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']">
-        <button
-          class="btn-theme btn-theme-primary mx-1"
-          [disabled]="!form.valid"
-          (click)="updateOrSaveConcept()"
+      <div *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']" class="ml-auto">
+        <button mat-flat-button
+                class="mat-theme-button"
+                style="margin-right: 10px;border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
+                (click)="goBackWithoutModal()">
+          <mat-icon>block</mat-icon>
+          Cancel
+        </button>
+        <button mat-flat-button
+                color="primary"
+                class="mat-theme-button"
+                style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
+                [disabled]="!form.valid || (ner_type === 'database' && !handsOnTableDataHasAtleastTwoRows())"
+                (click)="updateOrSaveConcept()"
                 *myIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
         >
-          {{ner_id?"Update": "Create" }}
+          <mat-icon>note_add</mat-icon>
+          {{ner_id ? "Update" : "Create" }}
         </button>
       </div>
 
       <div *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']">
-        <button class="btn-theme btn-theme-primary mx-1"
+        <button mat-flat-button
+                class="mat-theme-button"
+                style="background-color: transparent;color: #474747;margin-right: 10px;border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
+                (click)="goBackWithoutModal()">
+          <mat-icon>block</mat-icon>
+          Cancel
+        </button>
+        <button mat-flat-button
+                color="primary"
+                class="mat-theme-button"
+                style="margin-right: 10px"
                 [disabled]="!form.valid"
                 (click)="updateOrSaveConcept()"
-                *myIf="[myEAllActions['Create Bot Knowledge base'],myEAllActions['Update Bot Knowledge base']]"
-        >
-          {{ner_id?"Update": "Create" }}
+                *myIf="[myEAllActions['Create Bot Knowledge base'],myEAllActions['Update Bot Knowledge base']]">
+          <mat-icon>note_add</mat-icon>
+          {{ner_id ? "Update" : "Create" }}
         </button>
       </div>
-      <!--update/create button ends-->
 
+      <!--update/create button ends-->
       <div *ngIf="ner_id && routeName===myERouteNames['Get Enterprise Knowledge base']">
-        <div *myIf="myEAllActions['Delete Enterprise Knowledge base']"
-             (click)="openDeleteModal(deleteTemplate)"><i class="fa fa-trash cursor-pointer"></i></div>
+        <button mat-button
+                *myIf="myEAllActions['Delete Enterprise Knowledge base']"
+                class="mat-theme-button"
+                style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
+                [disabled]="!form.valid"
+                (click)="openDeleteModal(deleteTemplate)">
+          <mat-icon>delete</mat-icon>
+        </button>
       </div>
+
       <div *ngIf="ner_id && routeName!==myERouteNames['Get Enterprise Knowledge base']">
-        <div *myIf="myEAllActions['Delete Bot Knowledge base']"
-             (click)="openDeleteModal(deleteTemplate)"><i class="fa fa-trash cursor-pointer"></i></div>
+        <!--<div *myIf="myEAllActions['Delete Bot Knowledge base']"-->
+        <!--(click)="openDeleteModal(deleteTemplate)"><i style="color: #474747" class="fa fa-trash cursor-pointer"></i></div>-->
+        <button mat-button
+                *myIf="myEAllActions['Delete Bot Knowledge base']"
+                class="mat-theme-button"
+                style="min-width: 16px!important; padding: 0"
+                [disabled]="!form.valid"
+                (click)="openDeleteModal(deleteTemplate)">
+          <mat-icon>delete</mat-icon>
+        </button>
       </div>
     </form>
   </div>
@@ -135,8 +160,12 @@
         <div class="text-center my-1">
           <p class="mb-3">This action cannot be undone.Are you sure you wish to delete?</p>
         </div>
-        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
-        <button class=" btn-theme btn-theme-danger" (click)="deleteNer$.emit(ner_id);dialogRefWrapper.ref.close()">Delete</button>
+        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="dialogRefWrapper.ref.close()">
+          Cancel
+        </button>
+        <button class=" btn-theme btn-theme-danger"
+                (click)="deleteNer$.emit(ner_id);dialogRefWrapper.ref.close()">Delete
+        </button>
       </form>
     </div>
   </div>

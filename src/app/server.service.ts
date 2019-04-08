@@ -1,4 +1,4 @@
-import {catchError, map, tap} from 'rxjs/operators';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {Injectable, isDevMode} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, of, throwError, throwError as _throw} from 'rxjs';
@@ -9,7 +9,11 @@ import {IHeaderData} from '../interfaces/header-data';
 import {IOverviewInfoResponse} from '../interfaces/Analytics2/overview-info';
 
 import {UtilityService} from './utility.service';
-import {SaveVersionInfoInBot, SetAllBotListAction, UpdateBotInfoByIdInBotInBotList} from './core/view-bots/ngxs/view-bot.action';
+import {
+  SaveVersionInfoInBot,
+  SetAllBotListAction,
+  UpdateBotInfoByIdInBotInBotList
+} from './core/view-bots/ngxs/view-bot.action';
 import {IBot, IBotResult, IBotVersionResult} from './core/interfaces/IBot';
 import {Router} from '@angular/router';
 import {
@@ -17,7 +21,7 @@ import {
   SetBackendURlRoot,
   SetMasterIntegrationsList,
   SetMasterProfilePermissions,
-  SetPipelineItemsV2
+  SetPipelineItemsV2, SetRoleInfo
 } from './ngxs/app.action';
 import {IIntegrationMasterListItem} from '../interfaces/integration-option';
 import {ICustomNerItem} from '../interfaces/custom-ners';
@@ -33,15 +37,20 @@ import {
 import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 import {IProfilePermission} from '../interfaces/profile-action-permission';
 import {EHttpVerbs, PermissionService} from './permission.service';
-import {LoggingService} from './logging.service';
 import {EventService} from './event.service';
 import {IPipelineItemV2} from './core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
 import {IAppState} from './ngxs/app.state';
 import {take} from 'rxjs/internal/operators';
 import {IRoleInfo} from '../interfaces/role-info';
+import {ELogType, LoggingService} from './logging.service';
+import {
+  SetEnterpriseInfoAction,
+  SetEnterpriseUsersAction
+} from './core/enterpriseprofile/ngxs/enterpriseprofile.action';
 
 declare var IMI: any;
 declare var $: any;
+declare let deploy_obj_botplateform_fe;
 
 @Injectable({
   providedIn: 'root'
@@ -51,10 +60,10 @@ export class ServerService {
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() app$: Observable<IAppState>;
   public X_AXIS_TOKEN: string = null;
-  roleName:string;
+  roleName: string;
   public AUTH_TOKEN: string = null;
   private isLoggedIn = false;
-  roleInfo:IRoleInfo;
+  roleInfo: IRoleInfo;
 
   constructor(
     private httpClient: HttpClient,
@@ -70,20 +79,20 @@ export class ServerService {
       this.AUTH_TOKEN = value.user.auth_token && value.user.auth_token;
       this.X_AXIS_TOKEN = value.user.user_access_token && value.user.user_access_token;
       this.roleName = value.user.role.name;
-      this.app$.pipe(take(1)).subscribe((appState)=>{
-        if(!this.roleInfo && appState.roleInfoArr)
-        this.roleInfo = appState.roleInfoArr.find((role)=>{
-          return role.name === value.user.role.name
-        });
+      this.app$.pipe(take(1)).subscribe((appState) => {
+        if (!this.roleInfo && appState.roleInfoArr)
+          this.roleInfo = appState.roleInfoArr.find((role) => {
+            return role.name === value.user.role.name
+          });
       })
     });
 
-    this.app$.subscribe((appState)=>{/*todo: code repetition: this code should run after logged value has been set*/
-      if(this.roleName)
-      if(appState.roleInfoArr)
-        this.roleInfo = appState.roleInfoArr.find((role)=>{
-          return role.name === this.roleName;
-        });
+    this.app$.subscribe((appState) => {/*todo: code repetition: this code should run after logged value has been set*/
+      if (this.roleName)
+        if (appState.roleInfoArr)
+          this.roleInfo = appState.roleInfoArr.find((role) => {
+            return role.name === this.roleName;
+          });
     })
 
 
@@ -116,10 +125,14 @@ export class ServerService {
   }
 
   showErrorMessageForErrorTrue({error, message}) {
-    this.utilityService.showErrorToaster(message);
+    if (message) this.utilityService.showErrorToaster(message);
+    else {
+      console.error('error toaster called without error');
+    }
   }
 
   makeGetReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<any> {
+
     const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
       console.log(`api access not allowed:${reqObj.url}`);
@@ -127,6 +140,7 @@ export class ServerService {
       return of(null);
     }
     const headers = this.createHeaders(reqObj.headerData);
+
 
     this.changeProgressBar(true, 0);
     return this.httpClient.get<T>(reqObj.url, {headers: headers}).pipe(
@@ -149,10 +163,10 @@ export class ServerService {
 
   handleErrorFromServer(e) {
 
-    if(e.error && (e.error.error === true)){
+    if (e.error && (e.error.error === true)) {
       this.showErrorMessageForErrorTrue(e.error);
-    }else {
-      this.showErrorMessageForErrorTrue({error: true, message:"Some error occurred"});
+    } else {
+      this.showErrorMessageForErrorTrue({error: true, message: "Some error occurred"});
     }
     // let arg = (e.error && e.error.error) ? e.error : e;
     // this.showErrorMessageForErrorTrue(arg);
@@ -182,12 +196,26 @@ export class ServerService {
       }),);
   }
 
-  checkApiAccess(reqObj, verb:EHttpVerbs){
+  checkApiAccess(reqObj, verb: EHttpVerbs) {
     const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, verb);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
       console.log(`api access not allowed:${reqObj.url}`);
       return throwError(`api access not allowed:${reqObj.url}`);
     }
+  }
+
+  getNSetRoleInfo(){
+    let getRoleUrl = this.constantsService.getRoleUrl();
+    return this.makeGetReq({url: getRoleUrl})
+      .pipe(switchMap((val)=>{
+        if(val){
+          return this.store.dispatch([
+            new SetRoleInfo({roleInfoArr: val.objects})
+          ]);
+        }else {
+          return of(1);
+        }
+      }))
   }
 
   makeDeleteReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<any> {
@@ -248,7 +276,7 @@ export class ServerService {
   }
 
 
-  checkForErrorTrue(value){
+  checkForErrorTrue(value) {
     if (value && value.error === true) {
       throw new Error(value.message);
     } else {
@@ -280,8 +308,8 @@ export class ServerService {
   }
 
   increaseAutoLogoutTime() {
-    const autoLogoutInterval = (this.roleInfo && this.roleInfo.session_expiry_time*1000) || 3600 * 1000; //3600*1000
-    if(!this.roleInfo){
+    const autoLogoutInterval = (this.roleInfo && this.roleInfo.session_expiry_time * 1000) || 3600 * 1000; //3600*1000
+    if (!this.roleInfo) {
       // console.log("increaseAutoLogoutTime: ROLE IS NOT FOUND=====================")
     }
     this.store.dispatch([
@@ -294,21 +322,21 @@ export class ServerService {
     const headerData: IHeaderData = {'content-type': 'application/json'};
     return this.makeGetReq<IBotResult>({url, headerData, noValidateUser}).pipe(
       tap((botResult) => {
-        // let codeBasedBotList: IBot[] = [];
+        // let botList: IBot[] = [];
         // let pipelineBasedBotList: IBot[] = [];
 
         // botResult.objects.forEach((bot) => {
-        //   bot.bot_type !== 'genbot' ? codeBasedBotList.push(bot) : pipelineBasedBotList.push(bot);
+        //   bot.bot_type !== 'genbot' ? botList.push(bot) : pipelineBasedBotList.push(bot);
         // });
         this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
         // this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
-        // this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
+        // this.store.dispatch(new SetCodeBasedBotListAction({botList: botList}));
       }));
 
   }
 
   getNSetChatPreviewBot(bot_unique_name: string, enterprise_unique_name: string) {
-    // if (!this.currentBot || (this.currentBot && this.currentBot.bot_unique_name !== this.bot_unique_name)) {
+    // if (!this.bot || (this.bot && this.bot.bot_unique_name !== this.bot_unique_name)) {
     //   let enterprise_unique_name = this.activatedRoute.snapshot.queryParams['enterprise_unique_name'];//testingbot
     //   if (!this.bot_unique_name) return;
     const url = this.constantsService.getNSetChatPreviewBotUrl(bot_unique_name, enterprise_unique_name);
@@ -317,7 +345,7 @@ export class ServerService {
         // this.user_first_name = bot.enterprise_name;
         // this.enterprise_logo = bot.enterprise_logo;
         // this.user_email =bot.enterprise_name;
-        debugger
+
         this.store.dispatch([
           new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({bot}),
           // new SetEnterpriseInfoAction({enterpriseInfo:{logo:bot.logo}})
@@ -331,13 +359,15 @@ export class ServerService {
 
     const url = this.constantsService.getPipelineModuleV2();
     return this.makeGetReq<{ meta: any, objects: IPipelineItemV2[] }>({url})
-      .pipe(tap((value) => {
-        if(value){
-          this.store.dispatch([
+      .pipe(switchMap((value) => {
+        if (value) {
+          return this.store.dispatch([
             new SetPipelineItemsV2({
               data: value.objects
             })
           ]);
+        } else {
+          return of(1);
         }
       }));
   }
@@ -347,14 +377,18 @@ export class ServerService {
     return this.makeGetReq<{ meta: any, objects: IIntegrationMasterListItem[] }>({url}).pipe(
       tap((value) => {
         // this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
-        // this.store.dispatch(new SetCodeBasedBotListAction({botList: codeBasedBotList}));
+        // this.store.dispatch(new SetCodeBasedBotListAction({botList: botList}));
       }))
-      .pipe(map((value) => {
-        this.store.dispatch([
-          new SetMasterIntegrationsList({
-            masterIntegrationList: value.objects
-          })
-        ]);
+      .pipe(switchMap((value) => {
+        if(value){
+          return this.store.dispatch([
+            new SetMasterIntegrationsList({
+              masterIntegrationList: value.objects
+            })
+          ]);
+        }else {
+          return of(1);
+        }
       }));
   }
 
@@ -410,7 +444,7 @@ export class ServerService {
   getAllVersionOfBotFromServerAndStoreInBotInBotList(botId, bot_access_token) {
 
     const url = this.constantsService.getAllVersionsByBotId();
-    // let botId = this.bot.id;
+    // let botId = this.bot.roomId;
     this.makeGetReq<IBotVersionResult>({url, headerData: {'bot-access-token': bot_access_token}})
       .subscribe((botVersionResult) => {
         botVersionResult.objects.forEach((version) => {
@@ -504,7 +538,7 @@ export class ServerService {
           messageList: serializedMessages
         }),
         new ChangeBotIsThinkingDisplayByRoomId({roomId: currentRoomId, shouldShowBotIsThinking: false}),
-        // new SetCurrentRoomID({id: 123456789.room.id})
+        // new SetCurrentRoomID({roomId: 123456789.room.roomId})
       ]);
     };
 
@@ -600,12 +634,27 @@ export class ServerService {
 
 
   getNSetConfigData$() {
-    return this.makeGetReq({url: '/static/config.json', noValidateUser: true})
-      .pipe(tap(((value: { 'backend_url': string, 'version': string }) => {
-        this.store.dispatch([
-          new SetBackendURlRoot({url: value.backend_url})
-        ]);
-      })));
+  }
+
+
+  updateBot(bot: IBot) {
+    const url = this.constantsService.updateBotUrl(bot.id);
+    const headerData: IHeaderData = {
+      'bot-access-token': bot.bot_access_token
+    };
+
+    return this.makePutReq({url, body: bot, headerData})
+      .pipe(tap((updatedBot: IBot) => {
+          EventService.botUpdatedInServer$.emit(updatedBot);
+          this.store.dispatch([
+            new UpdateBotInfoByIdInBotInBotList({botId: bot.id, data: updatedBot})
+          ]);
+          this.utilityService.showSuccessToaster('Bot updated');
+        },
+        err => {
+          EventService.codeValidationErrorOnUpdate$.emit(err.error);
+          console.log("emited this :::::::::::::", err.error);
+        }));
   }
 
   currentRoom: IRoomData;
@@ -668,13 +717,34 @@ export class ServerService {
   getNSetMasterPermissionsList() {
 
     const allActionsUrl = this.constantsService.getAllActionsUrl();
-    return this.makeGetReq<{ meta: any, objects: IProfilePermission[] }>({url: allActionsUrl}).pipe(
-      map((value: { objects: IProfilePermission[] }) => {
-        this.store.dispatch([
-          new SetMasterProfilePermissions({masterProfilePermissions: value.objects})
-        ]);
-        // this.constantsService.setPermissionsDeniedMap(value.objects)
-      }));
+    return this.makeGetReq<{ meta: any, objects: IProfilePermission[] }>({url: allActionsUrl})
+      .pipe(
+        switchMap((value: { objects: IProfilePermission[] }) => {
+          return this.store.dispatch([
+            new SetMasterProfilePermissions({masterProfilePermissions: value.objects})
+          ]);
+        }));
   }
+
+  getLinkMetaData(link) {
+    return this.makeGetReq({url: 'http://api.linkpreview.net/?key=5c488da19fef97c0cb6a5fbc472a08d3def1842ea6ac3&q=' + link})
+  }
+
+
+  compareDeployDates() {
+    if (!deploy_obj_botplateform_fe) {
+      return;
+    }
+    let lastDeployed_Cache = deploy_obj_botplateform_fe.lastDeploy;
+    this.makeGetReq({url: `/static/deploy.json?time=${Date.now()}`})
+      .subscribe((value: { "currentBranch": string, "lastDeploy": number }) => {
+        let lastDeployed_api = value.lastDeploy;
+        console.log(`compareDeployDates::lastDeployed_api=${lastDeployed_api}, lastDeployed_api=${lastDeployed_api}`);
+        let days = this.utilityService.timeDifference(lastDeployed_api, lastDeployed_Cache);
+        if (lastDeployed_api > lastDeployed_Cache) this.utilityService.showErrorToaster(`your version is ${days} old. 
+        Please hard reload (Ctrl + shit + r). `);
+      })
+  }
+
 
 }

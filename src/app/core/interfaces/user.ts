@@ -46,7 +46,7 @@ export interface IUser {
 //   "enterpriseUniqueName": string,
 //   "first_name": string,
 //   "last_name": string,
-//   "id": string,
+//   "roomId": string,
 //   "ip": string,
 //   "permissions": [
 //     "overview_summary",
@@ -115,7 +115,7 @@ export interface IUser {
 //   "enterpriseId": "59f1bb5fd5db88000b8303e9",
 //   "enterpriseUniqueName": "demos",
 //   "firstname": "IMImobile Demos",
-//   "id": "5a0c4f28b050707aab3ddf07",
+//   "roomId": "5a0c4f28b050707aab3ddf07",
 //   "ip": "172.16.247.247",
 //   "permissions": [
 //   "overview_summary",

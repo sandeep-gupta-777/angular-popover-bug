@@ -4,7 +4,7 @@ import {ServerService} from '../../../server.service';
 import {Select, Store} from '@ngxs/store';
 import {ConstantsService, EAllActions} from '../../../constants.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
-import {UtilityService} from '../../../utility.service';
+import {EBotType, UtilityService} from '../../../utility.service';
 import {ChangeFrameAction, SetCurrentBotDetailsAndResetChatStateIfBotMismatch, ToggleChatWindow} from '../../../chat/ngxs/chat.action';
 import {EChatFrame} from '../../../../interfaces/chat-session-state';
 import {AddNewBotInAllBotList, UpdateBotInfoByIdInBotInBotList} from '../../view-bots/ngxs/view-bot.action';
@@ -16,6 +16,8 @@ import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.compon
 import {MatDialog} from '@angular/material';
 import {ModalImplementer} from '../../../modal-implementer';
 import {EventService} from '../../../event.service';
+import { SideBarService } from 'src/app/side-bar.service';
+import { ESideBarTab } from '../code-based-bot-detail/code-based-bot-detail.component';
 
 @Component({
   selector: 'app-bot-detail-header',
@@ -25,13 +27,14 @@ import {EventService} from '../../../event.service';
 export class BotDetailHeaderComponent extends ModalImplementer implements OnInit {
 
   @Input() bot: IBot;
+  myEBotType = EBotType;
   myObject = Object;
   myEAllActions = EAllActions;
   showSpinIcon = false;
   @Output() refreshBotDetails$ = new EventEmitter();
   enterprise_unique_name;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
-
+  myESideBarTab = ESideBarTab;
   constructor(
     private store: Store,
     private serverService: ServerService,
@@ -47,30 +50,31 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
       this.enterprise_unique_name = enterpriseProfileInfo.enterprise_unique_name;
     });
+
+    EventService.updateBotinit$.subscribe(()=>{
+      this.updateBot();
+    })
   }
 
-  openBot() {
+  previewBot() {
+    this.router.navigate(['', {outlets: {preview: 'preview'}}]);
     this.store.dispatch([
       new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
         bot: {...this.bot, enterprise_unique_name: this.enterprise_unique_name}
       }),
       new ToggleChatWindow({open: true}),
-      new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX})
+      new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX})
     ]);
-    // this.store.dispatch([
-    //   // new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
-    //   //   bot:this.bot
-    //   // }),
-    //   new ToggleChatWindow({open: true}),
-    //   // new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX})
-    // ]).subscribe(()=>{
-    //   this.router.navigate(['/core/botdetail/chatbot/',this.bot.id], {
-    //     queryParams: {preview: true, bot_unique_name: this.bot.bot_unique_name, enterprise_unique_name: this.enterprise_unique_name}
-    //   });
-    // })
+
+    /*TODO: integrate this with store*/
+    EventService.startANewChat$.emit({bot:this.bot, consumerDetails: {uid: this.utilityService.createRandomUid()},
+    });
+
   }
 
+  /*TODO: remove it*/
   updateBot() {
+
     try {
       this.dialogRefWrapper.ref.close();
     } catch (e) {
@@ -85,18 +89,15 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
       'bot-access-token': this.bot.bot_access_token
     };
     if (this.bot.store_selected_version && this.bot.store_selected_version !== this.bot.active_version_id) {
-      if (!confirm('active version has been changed')) { return; }
+      if (!confirm('active Versions has been changed')) { return; }
       this.bot.active_version_id = this.bot.store_selected_version;
     }
     const body:any = this.constantsService.updateBotSerializer(this.bot);
-    if (!body.logo) {
-      body.logo = 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png';
-    }
 
     this.serverService.makePutReq({url, body, headerData})
       .subscribe((updatedBot: IBot) => {
 
-        EventService.botUpdatedInServer.emit(updatedBot);
+        EventService.botUpdatedInServer$.emit(updatedBot);
         this.store.dispatch([
           new UpdateBotInfoByIdInBotInBotList({botId: this.bot.id, data: updatedBot})
         ]);
@@ -147,8 +148,8 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
           classStr:'danger-modal-header-border',
           data:{
             actionButtonText:"Activate with last saved data",
-            message: 'The version you are trying to make active contains unsaved changes.Do you want to use the last saved data of this version?',
-            title:'Activate code version',
+            message: 'The Versions you are trying to make active contains unsaved changes.Do you want to use the last saved data of this Versions?',
+            title:'Activate code Versions',
             isActionButtonDanger:true
           },
           dialog: this.matDialog,
@@ -163,8 +164,8 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
           classStr:'danger-modal-header-border',
           data:{
             actionButtonText:"Update",
-            message: 'If you update the bot your currently selected version will be the new Active version.',
-            title:'Active version changed',
+            message: 'If you update the bot your currently selected Versions will be the new Active Versions.',
+            title:'Active Versions changed',
             isActionButtonDanger:true
           },
           dialog: this.matDialog,
@@ -179,19 +180,57 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     }
   }
 
-
   async openDeleteModal() {
-    let data = await this.utilityService.openDialog({
+
+    await this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr:'danger-modal-header-border',
+      data:{
+        actionButtonText:"Delete bot",
+        message: "This action cannot be undone. Are you sure you wish to delete?",
+        title:`Delete ${this.bot.name}?`,
+        isActionButtonDanger:true,
+        inputDescription: null,
+        closeButtonText: "Keep bot"
+      },
       dialog: this.matDialog,
-      component: ModalConfirmComponent,
-      data: {title:`Delete bot ${this.bot.name}?`, message:null, actionButtonText:"Delete", isActionButtonDanger:true},
-      classStr: 'danger-modal-header-border',
-      dialogRefWrapper:this.dialogRefWrapper
-    });
+      component:ModalConfirmComponent
+    }).then((data)=>{
 
+      if(data){
+        this.deleteBot();
+      }
+    })
+    // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
+  }
+  goBackToDashboard(){
+    if(SideBarService.isTabDirty(SideBarService.activeTab)){
+      this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
+      .then((data)=>{
+        if(data){
+          this.router.navigate(['/'], {queryParams:{type:this.bot.bot_type}});
+        }
+      })
 
-    if(data){
-      this.deleteBot();
+    }
+    else{
+      this.router.navigate(['/'], {queryParams:{type:this.bot.bot_type}});
+    }
+
+  }
+  openAnalyticsForBot(){
+    if(SideBarService.isTabDirty(SideBarService.activeTab)){
+      this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
+      .then((data)=>{
+        if(data){
+          this.router.navigate(['/core/analytics2/volume'], {queryParams:{bot_id:this.bot.id}});          
+
+        }
+      })
+
+    }
+    else{
+      this.router.navigate(['/core/analytics2/volume'], {queryParams:{bot_id:this.bot.id}});
     }
   }
 }

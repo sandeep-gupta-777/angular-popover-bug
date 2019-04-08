@@ -17,16 +17,18 @@ export class IntegrationLogosPipe implements PipeTransform {
   constructor(){
 
   }
-
-  transform(integrationOption: IIntegrationOption, no_channel_or_only_channel: string): Observable<IIntegrationMasterListItem[]> {
+/**
+ * category = "no_channel" || "only_channel"
+ * */
+  transform(integrationOption: IIntegrationOption, category: string): Observable<IIntegrationMasterListItem[]> {
     let integrations;
-    if (no_channel_or_only_channel === 'no_channel') {
+    if (category === 'no_channel') {
       integrations = {
         // ...integrationOption.channels,
         ...integrationOption.fulfillment_provider_details,
         ...integrationOption.ccsp_details,
       };
-    } else if (no_channel_or_only_channel === 'only_channel') {
+    } else if (category === 'only_channel') {
       integrations = {
         ...integrationOption.channels,
       };
@@ -54,10 +56,16 @@ export class IntegrationLogosPipe implements PipeTransform {
         const arr = Object.keys(integrations).map((key) => {
           const x =  integrationsMasterList.find((integrationsMasterListItem) => {
             // LoggingService.log(integrationsMasterListItem.unique_name.toUpperCase(), key.toUpperCase());
-            return integrationsMasterListItem.unique_name.toUpperCase() === key.toUpperCase();
-          });
+            return (integrationsMasterListItem.unique_name.toUpperCase() === key.toUpperCase()||
+              integrationsMasterListItem.key.toUpperCase() === key.toUpperCase()
+            )
+          });;
           return x;
         });
+
+        if(!arr){
+
+        }
         return arr;
       } catch (e) {
         LoggingService.error(e);

@@ -1,9 +1,20 @@
 import {AfterViewInit, Component, EventEmitter, Injector, Input, OnInit, Output} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl} from '@angular/forms';
+import {ControlValueAccessor, FormControl, FormGroupDirective, NG_VALUE_ACCESSOR, NgControl, NgForm} from '@angular/forms';
 import {UiSwitchWrapperComponent} from '../ui-switch/ui-switch-wrapper.component';
-import {ObjectKeyMap} from '@ngxs/store/src/internals';
 import {LoggingService} from '../../../../../../logging.service';
 import {UtilityService} from '../../../../../../utility.service';
+import {ErrorStateMatcher} from '@angular/material';
+
+
+export class ConfirmValidParentMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    if(control.value === 's'){
+
+    }
+    return control.invalid && control.touched;
+  }
+}
+
 
 @Component({
   selector: 'app-bot-config-input',
@@ -13,10 +24,12 @@ import {UtilityService} from '../../../../../../utility.service';
     provide: NG_VALUE_ACCESSOR,
     useExisting: BotConfigInputComponent,
     multi: true
-  }]
+  },
+  ]
 })
 export class BotConfigInputComponent implements OnInit, ControlValueAccessor, AfterViewInit {
   value;
+  myConfirmValidParentMatcher = new ConfirmValidParentMatcher();
   @Input() displayName: string;
   @Input() placeholder: string;
   @Input() errors: {name: string, description: string}[] = [];
@@ -82,8 +95,8 @@ export class BotConfigInputComponent implements OnInit, ControlValueAccessor, Af
     });
   }
 
-
   log(){
     console.log(this.ngControl);
   }
+
 }

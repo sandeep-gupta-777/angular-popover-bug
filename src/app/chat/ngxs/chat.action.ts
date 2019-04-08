@@ -84,7 +84,7 @@ export class SetCurrentBotDetailsAndResetChatStateIfBotMismatch {
 
   constructor(public payload: {
     bot: IBot
-    // id: number,
+    // roomId: number,
     // bot_access_token?: string,
     // name?: string,
     // logo?: string,

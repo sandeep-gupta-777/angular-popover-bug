@@ -1,7 +1,7 @@
 <div class="container">
   <!--SOURCE: https://bootsnipp.com/snippets/zDQkr-->
   <div class="row">
-    <!--<div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel"  data-interval="1000">-->
+    <!--<div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" roomId="MultiCarousel"  data-interval="1000">-->
     <div #MultiCarousel class="MultiCarousel" data-items="2,2,2,2" data-slide="1" id="MultiCarousel" data-interval="1000">
       <!--TODO: ngclass below is a hack; improve it-->
       <div #MultiCarouselInner class="MultiCarousel-inner" [ngClass]="{'float-right':isParentSessionsModal && (totalItemsInCarasol<carasolItemShownInOneScreen)}">
@@ -18,9 +18,11 @@
             </div>
             <!--<div class="card-body"></div>-->
             <ul class="list-group list-group-flush">
-              <li class="list-group-item p-2 limit-three-lines cursor-pointer">{{mediaItem.title|| "No_Title"}}</li>
-              <li (click)="sendMessageToBotServer(mediaItem)" class="list-group-item p-2 cursor-pointer">
-                {{mediaItem.buttons && mediaItem.buttons[0].title || "No_Title"}}
+              <li class="list-group-item p-2 limit-three-lines cursor-pointer" [innerHTML]='mediaItem.title|| "No_Title"'>
+              </li>
+              <li (click)="sendMessageToBotServer(mediaItem)"
+                  [innerHTML]='mediaItem.buttons && mediaItem.buttons[0].title || "No_Title"'
+                  class="list-group-item p-2 cursor-pointer">
               </li>
             </ul>
           </div>

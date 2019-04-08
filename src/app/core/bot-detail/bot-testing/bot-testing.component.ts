@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import {Component, Input, OnInit, TemplateRef, EventEmitter, Output} from '@angular/core';
 import { Store } from '@ngxs/store';
 import { ServerService } from '../../../server.service';
 import {ConstantsService, EAllActions} from '../../../constants.service';
@@ -11,6 +11,7 @@ import {LoggingService} from '../../../logging.service';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 import {ModalImplementer} from '../../../modal-implementer';
 import {MatDialog} from '@angular/material';
+import { skip } from 'rxjs/operators';
 
 @Component({
   selector: 'app-bot-testing',
@@ -27,6 +28,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
   expectedCSVHeaders = ['Message', 'Expected Template'];
   testCaseData: [string, string, string][] = [['<The user message you wish to test for>','<The name of the template key you expect the bot to return>','']];
   testCasesUrl = this.constantsService.getBotTestingUrl();
+  // expectedCSVHeaders = ['Message', 'Expected Template'];
   stopTestUrl = this.constantsService.stopTestUrl();
   testCaseId: number;
   isData = false;
@@ -35,6 +37,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
   myESplashScreens = ESplashScreens;
   showSplashScreen = false;
   showLoader = false;
+  @Output() initDone$ = new EventEmitter<BotTestingComponent>();
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
@@ -55,6 +58,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
   }
 
   ngOnInit() {
+
     this.showLoader = true;
     this.serverService.makeGetReq<{ meta: any, objects: ITestcases[] }>(
       {
@@ -62,12 +66,8 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
         headerData: { 'bot-access-token': this.bot.bot_access_token }
       }
     )
-      // .map((value) => {
-      //   return value.objects.map((item: ITestcases) => {
-      //     return item.data[0];
-      //   });
-      // })
       .subscribe((value) => {
+
         this.showLoader = false;
         if (value.objects.length === 0) {
           this.isData = false;
@@ -83,17 +83,26 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
 
           this.testCaseData =
             (testCaseDataForBot && testCaseDataForBot.data && testCaseDataForBot.data.length > 0) ? testCaseDataForBot.data : [['NO_TEST_DATA', 'NO_TEST_DATA', 'NO_TEST_DATA']];
-          // this.testCaseId = value.objects[0].id;
+          // this.testCaseId = value.objects[0].roomId;
           this.testCaseId = testCaseDataForBot && testCaseDataForBot.id;
           // }
         }
+        this.initDone$.emit(this);
       });
     this.handontable_colHeaders = this.constantsService.HANDSON_TABLE_BOT_TESTING_colHeaders;
     this.handontable_column = this.constantsService.HANDSON_TABLE_BOT_TESTING_columns;
   }
-  onTableChange(data) {
-    // debugger;
-    // console.log(data);
+  afterTabledataChange(data){
+
+    if(data){
+      let didEditedableItemsChange = data.find((val)=>{return val[1]<=1} )
+
+      if(didEditedableItemsChange){
+        this.tableChanged = true
+      }
+    }
+  }
+  onTableChange() {
     this.tableChanged = true;
   }
   createTC() {
@@ -113,6 +122,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
         // })
       }
     }).subscribe((value) => {
+      this.initDone$.emit(this);
       this.utilityService.showSuccessToaster('Test cases created');
       this.isData = true;
       this.tableChanged = false;
@@ -121,7 +131,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
   }
 
   updateTC() {
-    // ;
+
     this.serverService.makePutReq<{ meta: any, objects: ITestcases[] }>({
       url: this.testCasesUrl + `${this.testCaseId}/`,
       headerData: { 'bot-access-token': this.bot.bot_access_token },
@@ -130,6 +140,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
         'data': this.testCaseData
       }
     }).subscribe((value) => {
+      this.initDone$.emit(this);
       this.utilityService.showSuccessToaster('Test cases updated');
       this.isData = true;
       this.tableChanged = false;

@@ -14,6 +14,12 @@
   line-height: $line-height;
   font-weight: $weight;
   color: $color;
-  font-family: "Helvetica", sans-serif;
+  //font-family: "Helvetica", sans-serif;//not needed
 }
 
+
+@mixin flexbox-centered(){
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
