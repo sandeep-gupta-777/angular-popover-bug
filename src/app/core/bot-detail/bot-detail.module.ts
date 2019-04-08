@@ -69,6 +69,7 @@ import { SortArticalsPipe } from './bot-articles/sort-articals.pipe';
 import { FilterArticalsPipe } from './bot-articles/filter-articals.pipe';
 import { ArticleFilterComponent } from './bot-articles/article-filter/article-filter.component';
 import { ArticleQuestionListViewComponent } from './bot-articles/article-question-list-view/article-question-list-view.component';
+import { ArticalHeaderComponent } from './bot-articles/artical-header/artical-header.component';
 
 const routes: Route[] = [
   {
@@ -138,6 +139,7 @@ const routes: Route[] = [
     SortArticalsPipe,
     FilterArticalsPipe,
     ArticleFilterComponent,
+    ArticalHeaderComponent,
     /*after lazy loading*/
     // RequiredIfOneFilledValidator
   //
