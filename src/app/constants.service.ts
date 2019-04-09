@@ -429,7 +429,7 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/botversioning/?limit=1000'; //"http://localhost:8000/api/v1/botversioning"
   }
 
-  getSaveVersionByBotId(id) {
+  getSaveVersionByVersionId(id) {
     return this.BACKEND_URL + `api/v1/botversioning/${id}/`; //https://dev.imibot.ai/api/v1/botversioning/9/
   }
 
