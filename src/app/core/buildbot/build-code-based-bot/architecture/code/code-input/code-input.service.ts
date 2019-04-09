@@ -106,7 +106,7 @@ export class CodeInputService {
     const headerData: IHeaderData = {
       'bot-access-token': bot.bot_access_token
     };
-    const url = this.constantsService.getSaveVersionByBotId(bot.id);
+    const url = this.constantsService.getSaveVersionByVersionId(version.id);
     return this.serverService.makePutReq({url, body: version, headerData})
   }
 
