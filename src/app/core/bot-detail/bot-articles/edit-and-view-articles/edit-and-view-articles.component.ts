@@ -23,13 +23,14 @@ export class EditAndViewArticlesComponent implements OnInit {
   @Input() bot :IBot;
   articleData ;
   article_id : number;
-
   ngOnInit() {
     this.activatedRoute.queryParamMap
       .subscribe((value) => {
         if (value.get('article_id')) {
           this.article_id = Number(value.get('article_id'));
-          if(this.article_id)
+          if(this.article_id){
+
+          }
           // ner_id && this.sdasdasdasd(ner_id);
           // this.showTable = !ner_id;
           // this.selectedRowData = this._custumNerDataForSmartTable.find((custumNerData)=>{

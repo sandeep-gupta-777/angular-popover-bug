@@ -10,11 +10,15 @@ export class ArticleQuestionListViewComponent implements OnInit {
   constructor() { }
   @Input() corpus ;
   @Output() removeFilterItemByIdEvent = new EventEmitter();
+  @Output() articleListItemClicked = new EventEmitter();
   @Input() filter_categorie_id_list:string[];
   sort_articals_by: string = 'updated_at';
   
   removeFilterItemById(id){
     this.removeFilterItemByIdEvent.emit(id);
+  }
+  listItemClicked(id){
+    this.articleListItemClicked.emit(id)
   }
   ngOnInit() {
   }

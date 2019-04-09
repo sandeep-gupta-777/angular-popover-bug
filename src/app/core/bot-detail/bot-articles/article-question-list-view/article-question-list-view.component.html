@@ -21,7 +21,8 @@
   </div>
 
   <div class="d-flex article-item flex-column my-2"
-      *ngFor="let section of corpus.sections | filterArticals : filter_categorie_id_list | sortArticals : sort_articals_by : corpus.category_mapping">
+      *ngFor="let section of corpus.sections | filterArticals : filter_categorie_id_list | sortArticals : sort_articals_by : corpus.category_mapping"
+      (click) = "listItemClicked(section.id)">
       <div class="catagory">{{section.category_id | categoryIdToName : corpus.category_mapping }}</div>
       <div class="d-flex flex-row">
           <div class="first_question mr-auto">{{section.questions[0]}}</div>
