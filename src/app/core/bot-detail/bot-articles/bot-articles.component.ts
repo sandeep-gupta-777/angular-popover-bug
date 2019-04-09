@@ -26,6 +26,7 @@ export class BotArticlesComponent implements OnInit {
   myObject = Object;
   articleFilterForm: FormGroup;
   filter_categorie_id_list:string[];
+  selectedArticle;
   ngOnInit() {
     let headerData: IHeaderData = {
         'bot-access-token': this.bot.bot_access_token
@@ -68,6 +69,11 @@ export class BotArticlesComponent implements OnInit {
       }
     });
     this.utilityService.downloadArrayAsCSV(csvFormat,{});
+  }
+  openArticleEditAndView(article:number){
+    // add qurey parems
+    this.showEditAndViewArtical = true;
+    this.selectedArticle = article;
   }
   
 }

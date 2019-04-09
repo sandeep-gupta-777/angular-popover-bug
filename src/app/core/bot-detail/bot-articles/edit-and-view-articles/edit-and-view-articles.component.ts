@@ -21,8 +21,10 @@ export class EditAndViewArticlesComponent implements OnInit {
     private router: Router,
   ) { }
   @Input() bot :IBot;
-  articleData ;
+  @Input() articleData;
+  @Input() category_mapping;
   article_id : number;
+
   ngOnInit() {
     this.activatedRoute.queryParamMap
       .subscribe((value) => {

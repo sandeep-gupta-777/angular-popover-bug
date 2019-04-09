@@ -17,8 +17,8 @@ export class ArticleQuestionListViewComponent implements OnInit {
   removeFilterItemById(id){
     this.removeFilterItemByIdEvent.emit(id);
   }
-  listItemClicked(id){
-    this.articleListItemClicked.emit(id)
+  listItemClicked(sectionData){
+    this.articleListItemClicked.emit(sectionData)
   }
   ngOnInit() {
   }

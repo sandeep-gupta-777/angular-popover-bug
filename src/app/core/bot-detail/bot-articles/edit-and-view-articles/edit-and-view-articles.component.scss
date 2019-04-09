@@ -1,0 +1,45 @@
+@import "~src/sass/main";
+header{
+    .heading-title{
+        font-size: 16px;
+        font-weight: bold;
+        color: #474747;
+        .fa-angle-left{
+            font-size: 19px;
+            font-weight: bold;
+        }
+    }
+}
+
+.category-edit{
+    display: flex;
+    flex-direction: column;
+    .category-label{
+
+    }
+    .category-name{
+        color : $color-primary;
+    }
+}
+
+.main-block{
+    display: grid;
+    grid-template-columns: 1fr 350px;
+
+    .questions-list{
+
+    }
+    .response{
+        .response-heading{
+            font-size: 13px;
+            font-weight: bold;
+            color: #474747;
+            padding-bottom: .25rem;
+        }
+        .response-items{
+            min-height: 150px;
+            border-radius : 4px;
+            border: solid 1px #d8d8d8;
+        }
+    }
+}

@@ -36,6 +36,8 @@
 <div *ngIf = "loaded && showEditAndViewArtical">
     <app-edit-and-view-articles
     [bot]="bot"
+    [articleData] = "selectedArticle"
+    [category_mapping] = "corpus.category_mapping"
     ></app-edit-and-view-articles>
 </div>
 
