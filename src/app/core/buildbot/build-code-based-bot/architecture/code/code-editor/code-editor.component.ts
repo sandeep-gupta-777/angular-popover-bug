@@ -29,7 +29,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
   @ViewChild('f') codeEditor: ElementRef;
   @Input() doShowUploadDownloadButton = true;
   @Input() doShowValidationsIcon = false;
-
+  @Input() readOnly = false;
   constructor(
     private utilityService: UtilityService,
     private activatedRoute: ActivatedRoute) {
@@ -72,6 +72,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
       rtlMoveVisually: false,
       direction: 'ltr',
       moveInputWithCursor: false,
+      readOnly : this.readOnly,
     //   onCursorActivity: function updateLineInfo(cm) {
     //   var line = cm.getCursor().line, handle = cm.getLineHandle(line);
     //   if (handle == currentHandle && line == currentLine) return;

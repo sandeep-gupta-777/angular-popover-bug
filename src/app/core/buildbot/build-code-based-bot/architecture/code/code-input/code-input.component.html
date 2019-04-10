@@ -15,7 +15,7 @@
   <form [formGroup]="codeInputForm" class="row" style="margin-bottom: 10px; flex-grow: 1; position: relative">
     <mat-slide-toggle style="position: absolute; z-index: 10000000;right: 0;top: 5px;"
                       [checked]="!showGenTempEditor"
-                      *ngIf="activeTab === myEBotVersionTabs.generation_templates" (change)="viewChanged($event.checked)"
+                      *ngIf="activeTab === myEBotVersionTabs.generation_templates && permanentlyShowUIViewFormBackend" (change)="viewChanged($event.checked)"
                       class="d-flex align-items-center mx-1 " color="primary"
                       title="Toggle UI view"></mat-slide-toggle>
     <mat-tab-group
@@ -83,7 +83,9 @@
             [formControlName]="myEBotVersionTabs.generation_templates"
             [doShowValidationsIcon]="true"
             downloadedFileName="{{activeTab}} for bot id {{bot.id}}.py"
-            (validateClick)="validateCodeTest($event)">
+            (validateClick)="validateCodeTest($event)"
+            [readOnly] = "permanentlyShowUIViewFormBackend"
+            >
           </app-code-editor>
           <ng-container
             [ngTemplateOutlet]="validationTemplate"

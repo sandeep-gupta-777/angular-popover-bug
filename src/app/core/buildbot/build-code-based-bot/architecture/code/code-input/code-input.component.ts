@@ -87,7 +87,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   code: ICode;
   versions_st: IBotVersionData[];
   codeInputForm: FormGroup;
-
+  permanentlyShowUIViewFormBackend : boolean;
   @ViewChild('ForkVersiontemplate') forkVersionTemplate: ElementRef;
   @ViewChildren('gentemplateItem') private gentemplateItems: QueryList<ElementRef>;
   @ViewChild('modelGenTempNameForm') modelGenTempNameForm: NgForm;
@@ -134,6 +134,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
       let selectedVersion = versionState.selectedVersion;
       if (selectedVersion) {
         this.selectedVersion_st = selectedVersion;
+        this.permanentlyShowUIViewFormBackend = selectedVersion.is_ui_view;
         if (this.codeInputForm) {
           let localVersionClone = this.versions_st.find(version => version.id === selectedVersion.id);
           if (!UtilityService.isObjectSubSet(localVersionClone, this.codeInputForm.value)) {
@@ -369,6 +370,12 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
       this.utilityService.refreshCodeEditor$.emit();
     });
     if (tabCount === 3) {
+      if(this.permanentlyShowUIViewFormBackend){
+        this.showGenTempEditor = false;
+      }
+      else{
+        this.showGenTempEditor = true;
+      }
       this.syncBotViews(!this.showGenTempEditor);
     }
     this.activeTabCount = tabCount;
@@ -377,6 +384,13 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
   ngAfterViewInit(): void {
     // this.que
+    debugger;
+    if(this.permanentlyShowUIViewFormBackend){
+      this.showGenTempEditor = false;
+    }
+    else{
+      this.showGenTempEditor = true;
+    }
   }
 
 
