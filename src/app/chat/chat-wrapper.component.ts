@@ -181,7 +181,7 @@ export class ChatWrapperComponent implements OnInit {
         this.showBotIsThinking = this.currentRoom && this.currentRoom.showBotIsThinking;
 
         if (hasPreviewRoomChanged || hasPreviewBotChanged) {
-          this.serverService.initializeIMIConnect(chatSessionState.currentBotDetails, chatSessionState.currentRoomId);
+          this.serverService.initializeIMIConnect(chatSessionState.currentBotDetails, chatSessionState.currentRoomId, chatSessionState);
         }
 
         this.currentBot = chatSessionState.currentBotDetails;
@@ -254,7 +254,7 @@ export class ChatWrapperComponent implements OnInit {
         *A new room has been created. Now if the room belongs to IMI Connect bot,
         *initialize IMI Connect integration
         * */
-        this.serverService.initializeIMIConnect(startNewChatData.bot, value.room.id);
+        this.serverService.initializeIMIConnect(startNewChatData.bot, value.room.id, startNewChatData);
         /*1. create a new room with room roomId
          *2. add message to the room: consent message */
         const roomMessages = this.utilityService.serializeServerValueToChatRoomMessages(value);
