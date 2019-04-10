@@ -13,6 +13,13 @@
   ></app-code-version-list>
 
   <form [formGroup]="codeInputForm" class="row" style="margin-bottom: 10px; flex-grow: 1; position: relative">
+    <!-- <button 
+              *myIf="myEAllActions['Create Bot Versioning']"
+              (click)="openForkNewVersionModal$.emit()"
+              class="mat-theme-button mat-theme-button-border" mat-button>
+        <mat-icon>call_split</mat-icon>
+        Fork
+      </button> -->
     <mat-slide-toggle style="position: absolute; z-index: 10000000;right: 0;top: 5px;"
                       [checked]="!showGenTempEditor"
                       *ngIf="activeTab === myEBotVersionTabs.generation_templates && permanentlyShowUIViewFormBackend" (change)="viewChanged($event.checked)"
