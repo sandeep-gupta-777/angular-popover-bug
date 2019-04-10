@@ -328,7 +328,29 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
     }
   }
-
+  openEditCodeModal(version: IBotVersionData) {
+    debugger;
+    this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr:'danger-modal-header-border',
+      data:{
+        actionButtonText:"Confirm",
+        message: `The interface view will be unavailable for this version permanently. Do you wish to continue? `,
+        title:'Edit code',
+        isActionButtonDanger:true
+      },
+      dialog: this.matDialog,
+      component:ModalConfirmComponent
+    }).then((data)=>{
+      if(data){
+        this.codeInputService.changeToCodeViewPermanently(this.bot,version)
+          .subscribe((value :IBotVersionData)=>{
+            this.store.dispatch([new SetSelectedVersion({id: value.id})]);
+          })
+      }
+    })
+    // this.utilityService.openDangerModal(template, this.matDialog, this.dialogRefWrapper);
+  }
   downloadZipHandler() {
     CodeInputService.downloadZip(this.bot, this.selectedVersion_st);
   }

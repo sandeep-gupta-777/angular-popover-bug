@@ -13,18 +13,24 @@
   ></app-code-version-list>
 
   <form [formGroup]="codeInputForm" class="row" style="margin-bottom: 10px; flex-grow: 1; position: relative">
-    <!-- <button 
-              *myIf="myEAllActions['Create Bot Versioning']"
-              (click)="openForkNewVersionModal$.emit()"
-              class="mat-theme-button mat-theme-button-border" mat-button>
-        <mat-icon>call_split</mat-icon>
-        Fork
-      </button> -->
-    <mat-slide-toggle style="position: absolute; z-index: 10000000;right: 0;top: 5px;"
+    <button class="mat-theme-button mat-theme-button-border to-code-view px-1"
+            *ngIf="activeTab === myEBotVersionTabs.generation_templates && permanentlyShowUIViewFormBackend" 
+            (click)="openEditCodeModal(selectedVersion_st)" mat-button>
+        Edit code
+      </button>
+      <span style="position: absolute; z-index: 10000000;right: 0;top: 5px;color:#474747;display: flex;align-items: center;"
+        *ngIf="activeTab === myEBotVersionTabs.generation_templates && permanentlyShowUIViewFormBackend">
+          Code<mat-slide-toggle 
+          [checked]="!showGenTempEditor"
+          (change)="viewChanged($event.checked)"
+          class="d-flex align-items-center mx-1 " color="primary"
+          title="Toggle UI view"></mat-slide-toggle>Interface
+      </span>
+    <!-- <mat-slide-toggle style="position: absolute; z-index: 10000000;right: 0;top: 5px;"
                       [checked]="!showGenTempEditor"
                       *ngIf="activeTab === myEBotVersionTabs.generation_templates && permanentlyShowUIViewFormBackend" (change)="viewChanged($event.checked)"
                       class="d-flex align-items-center mx-1 " color="primary"
-                      title="Toggle UI view"></mat-slide-toggle>
+                      title="Toggle UI view"></mat-slide-toggle> -->
     <mat-tab-group
       animationDuration="0ms"
       *ngIf="errorMap[selectedVersion_st.id] && errorMap[selectedVersion_st.id] || {} as errorMapItem"
