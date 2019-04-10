@@ -254,7 +254,7 @@ export class ChatWrapperComponent implements OnInit {
         *A new room has been created. Now if the room belongs to IMI Connect bot,
         *initialize IMI Connect integration
         * */
-        this.serverService.initializeIMIConnect(startNewChatData.bot, value.room.id, startNewChatData);
+        this.serverService.initializeIMIConnect(startNewChatData.bot, value.room.id);
         /*1. create a new room with room roomId
          *2. add message to the room: consent message */
         const roomMessages = this.utilityService.serializeServerValueToChatRoomMessages(value);
