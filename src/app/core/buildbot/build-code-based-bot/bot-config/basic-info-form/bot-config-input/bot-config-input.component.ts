@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Injector, Input, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Injector, Input, OnInit, Output} from '@angular/core';
 import {ControlValueAccessor, FormControl, FormGroupDirective, NG_VALUE_ACCESSOR, NgControl, NgForm} from '@angular/forms';
 import {UiSwitchWrapperComponent} from '../ui-switch/ui-switch-wrapper.component';
 import {LoggingService} from '../../../../../../logging.service';
@@ -27,7 +27,7 @@ export class ConfirmValidParentMatcher implements ErrorStateMatcher {
   },
   ]
 })
-export class BotConfigInputComponent implements OnInit, ControlValueAccessor {
+export class BotConfigInputComponent implements OnInit, ControlValueAccessor, AfterViewInit {
   value;
   myConfirmValidParentMatcher = new ConfirmValidParentMatcher();
   @Input() displayName: string;
@@ -40,11 +40,26 @@ export class BotConfigInputComponent implements OnInit, ControlValueAccessor {
   ngControl: NgControl;
   @Input() isRequired =false;
   constructor(private injector: Injector) {}
+  errorMessage="";
+  // myObject = Object;
 
   ngOnInit() {
     /*todo: detect required attribute in input here*/
     this.ngControl = this.injector && this.injector.get(NgControl);
     // this.isRequired  = UtilityService.hasRequiredField(this.ngControl);
+    debugger;
+  }
+
+  ngAfterViewInit(){
+    this.ngControl.valueChanges.subscribe(()=>{
+      debugger;
+      // this.errorMessage = this.ngControl.hasError()
+      if(this.ngControl.errors)
+        this.errorMessage = Object.keys(this.ngControl.errors)[0];
+      else {
+        this.errorMessage = ""
+      }
+    })
   }
 
   keyDown(data) {

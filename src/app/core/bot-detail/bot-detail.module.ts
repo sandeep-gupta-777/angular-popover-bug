@@ -104,6 +104,7 @@ const routes: Route[] = [
     HasChannelPipe,
     TrimStringPipe,
     PipeineIdToPipelineModuleWrapperPipe,
+    PipeineKeywordToPipelineModuleMatchedPipe,
     FilterTemplateLeyListPipe,
     CodeInputCaraosalComponent,
     UrlValidatorDirective,

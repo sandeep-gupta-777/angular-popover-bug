@@ -171,7 +171,12 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
       body = {values: data.codeTextOutPutFromCodeEditor, ...body};
     } else if (data.ner_type === 'database') {
       const handontableDataClone = JSON.parse(JSON.stringify(data.handsontableData));
-      const column_headers = handontableDataClone[0];
+      let column_headers:string[] = handontableDataClone[0];
+      column_headers = column_headers.filter((e)=>!!e);
+      if(column_headers.length===0){
+        this.utilityService.showErrorToaster("Headers are empty");
+        return;
+      }
       let areHeaderElementRepeated = UtilityService.areAllElementsInArrUnique(column_headers);
       if (!areHeaderElementRepeated) {
         this.utilityService.showErrorToaster('Header values are not valid');

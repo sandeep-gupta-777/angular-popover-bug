@@ -113,8 +113,7 @@ export class CodeGentemplateUiWrapperComponent implements OnInit, OnDestroy {
 
 
   updateSelectedTemplateKeyValue(codeStr: string) {
-    console.log('sadasads');
-    this._templateKeyDict[this.selectedTemplateKeyInLeftSideBar] = codeStr;
+    this.templateKeyDict[this.selectedTemplateKeyInLeftSideBar] = codeStr;
   }
 
   async selectedListCopyModel(IntentSelectionModal) {

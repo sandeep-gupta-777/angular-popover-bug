@@ -20,7 +20,7 @@
 
 <app-handsontable
   *ngIf="testCaseData && !showSplashScreen && !showLoader"
-  (change)="onTableChange()"
+  (change)="onTableChange($event)"
   [testData]="testCaseData"
   [columns]="handontable_column"
   [colHeaders]="handontable_colHeaders"
@@ -35,11 +35,12 @@
       <i class="fa fa-minus pr-4"></i> -->
       <!--<button class="btn-theme btn-theme-primary-outline mr-2" (click)="exportToCSV()">Export to CSV</button>-->
       <div *myIf="myEAllActions['Update Bot Testcases']" class="d-inline-block">
-        <button class="btn-theme btn-theme-primary mr-2" (click)="updateTC()" *ngIf="isData && tableChanged">Update Test
-        </button>
+        <!--<button class="btn-theme btn-theme-primary mr-2" (click)="updateTC()" *ngIf="isData && tableChanged">Update Test</button>-->
+        <!--TODO: removing *ngIf condition for now. Reason changes arent detected when cell data is deleted using del key-->
+        <button class="btn-theme btn-theme-primary mr-2" (click)="updateTC()" *ngIf="isData">Update Test</button>
       </div>
       <div *myIf="myEAllActions['Create Bot Testcases']" class="d-inline-block">
-        <button class="btn-theme btn-theme-primary mr-2" (click)="createTC()" *ngIf="!isData && tableChanged">Create Test
+        <button class="btn-theme btn-theme-primary mr-2" (click)="createTC()" *ngIf="!isData">Create Test
         </button>
       </div>
       <button class="btn-theme btn-theme-danger mr-2" (click)="beginTest(Primarytemplat)" *ngIf="cancelTestFlag">Cancel Test

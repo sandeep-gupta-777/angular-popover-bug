@@ -122,6 +122,10 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
         wordWrap: true,
         // autoRowSize: true,
         search: true,
+        // afterChange: ()=>{
+        //   /*TODO: implement this properly*/
+        //   this.rowChanged$.emit();
+        // },
         afterRemoveRow: () => {
           this.rowChanged$.emit();
         },
@@ -131,6 +135,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
         afterChange: (data) => {
 
           this.afterTabledataChange$.emit(data);
+          this.rowChanged$.emit();
           // data of form [[row, prop, oldValue, newValue]]
           // if(data && data[1] <= 1 ){
           //   this.debouncer.next();
