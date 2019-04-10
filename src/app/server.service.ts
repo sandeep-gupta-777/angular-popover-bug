@@ -476,7 +476,7 @@ export class ServerService {
   currentPreviewBot: IBot;
   currentRoomId: number;
 
-  initializeIMIConnect(previewBot: IBot, currentRoomId: number, obj : IChatSessionState) {
+  initializeIMIConnect(previewBot: IBot, currentRoomId: number, obj ?: IChatSessionState) {
     if (this.currentRoomId === currentRoomId && this.currentPreviewBot === previewBot) {
       return;
     } else {
