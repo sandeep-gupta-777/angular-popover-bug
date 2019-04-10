@@ -508,7 +508,7 @@ export class ServerService {
     // var streamName = "bot";
     const serviceKey = imiConnectIntegrationDetails.serviceKey; //'3b8f6470-5e56-11e8-bf0b-0213261164bb';//'f6e50f7b-2bfd-11e8-bf0b-0213261164bb';
     const userId = currentRoomId + '_hellothisissandeep1231312';
-
+    // startNewChatData.consumerDetails.uid
     const config = new IMI.ICConfig(appId, appSecret);
     const messaging = IMI.ICMessaging.getInstance();
 
@@ -708,7 +708,7 @@ export class ServerService {
       // 'consumer': {
       //   'uid': this.current_uid,
       // },
-      'consumer': startNewChatData.consumerDetails
+      'consumer': startNewChatData.consumerDetails,
     };
 
     return this.makePostReq({url, body, headerData});
