@@ -476,7 +476,7 @@ export class ServerService {
   currentPreviewBot: IBot;
   currentRoomId: number;
 
-  initializeIMIConnect(previewBot: IBot, currentRoomId: number, obj : IChatSessionState) {
+  initializeIMIConnect(previewBot: IBot, currentRoomId: number, obj : any) {
     if (this.currentRoomId === currentRoomId && this.currentPreviewBot === previewBot) {
       return;
     } else {
@@ -507,8 +507,10 @@ export class ServerService {
     const appSecret = imiConnectIntegrationDetails.appSecret; //'uZi6B5Zg';
     // var streamName = "bot";
     const serviceKey = imiConnectIntegrationDetails.serviceKey; //'3b8f6470-5e56-11e8-bf0b-0213261164bb';//'f6e50f7b-2bfd-11e8-bf0b-0213261164bb';
-    // const userId = currentRoomId + '_hellothisissandeep1231312';
-    const userId = obj.consumerDetails.uid;
+    let userId = currentRoomId + '_hellothisissandeep1231312';
+    if(obj && obj.consumerDetails){
+      userId = obj.consumerDetails.uid;
+    }
 
     // startNewChatData.consumerDetails.uid
     const config = new IMI.ICConfig(appId, appSecret);
