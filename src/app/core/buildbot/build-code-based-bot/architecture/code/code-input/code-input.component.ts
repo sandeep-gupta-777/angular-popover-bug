@@ -344,9 +344,11 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     }).then((data)=>{
       if(data){
         this.codeInputService.changeToCodeViewPermanently(this.bot,version)
-          .subscribe((value :IBotVersionData)=>{
-            this.store.dispatch([new SetSelectedVersion({id: value.id})]);
-          })
+          .subscribe(
+          //   (value :IBotVersionData)=>{
+          //   this.store.dispatch([new SetSelectedVersion({id: value.id})]);
+          // }
+          )
       }
     })
     // this.utilityService.openDangerModal(template, this.matDialog, this.dialogRefWrapper);
