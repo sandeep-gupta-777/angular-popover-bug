@@ -451,7 +451,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
   sessionFormSubmitted(formData) {
     let filterData = UtilityService.cloneObj(formData);
     this.filterFormData = filterData;
-
+debugger;
     let channelsObj = filterData.channels;
     let channelStr = Object.keys(channelsObj).filter(key => channelsObj[key]).join(',');
     delete filterData.channels;

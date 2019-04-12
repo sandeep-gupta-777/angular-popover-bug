@@ -97,7 +97,7 @@
       <!--</mat-form-field>-->
 
       <mat-form-field>
-          <mat-select required [(ngModel)]="start_time" name="start_time"  placeholder="Frequency" required>
+          <mat-select required [(ngModel)]="start_time" name="start_time"  placeholder="Time" required>
               <mat-option *ngFor="let item of timeRanges" value="{{item}}">{{item}}</mat-option>
           </mat-select>
       </mat-form-field>
@@ -128,7 +128,7 @@
             matInput
             autocomplete="off"
             [matDatepicker]="picker"
-            placeholder="Select Date">
+            placeholder="Start Date">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>

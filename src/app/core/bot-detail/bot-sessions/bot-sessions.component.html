@@ -41,7 +41,7 @@
         <li *ngFor="let channel of channels">
           <mat-checkbox *ngIf="channel.integration_type=== 'channels'" color="primary"
                         [ngModel]="false"
-                        name="{{channel.unique_name}}" [title]="channel.unique_name">
+                        name="{{channel.key}}" [title]="channel.unique_name">
             <img [src]="channel.icon" [alt]="channel.unique_name">
           </mat-checkbox>
         </li>
