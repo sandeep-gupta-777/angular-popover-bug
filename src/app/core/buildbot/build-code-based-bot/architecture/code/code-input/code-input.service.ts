@@ -109,6 +109,13 @@ export class CodeInputService {
     const url = this.constantsService.getSaveVersionByVersionId(version.id);
     return this.serverService.makePutReq({url, body: version, headerData})
   }
+  changeToCodeViewPermanently(bot: IBot, version: IBotVersionData) {
+    const headerData: IHeaderData = {
+      'bot-access-token': bot.bot_access_token
+    };
+    const url = this.constantsService.getSaveVersionByVersionId(version.id);
+    return this.serverService.makePutReq({url, body: {'is_ui_view': !version.is_ui_view}, headerData})
+  }
 
   createNewVersion(bot: IBot, version: IBotVersionData) {
     const headerData: IHeaderData = {
