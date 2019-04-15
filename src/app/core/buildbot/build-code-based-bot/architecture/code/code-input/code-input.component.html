@@ -97,7 +97,7 @@
             [doShowValidationsIcon]="true"
             downloadedFileName="{{activeTab}} for bot id {{bot.id}}.py"
             (validateClick)="validateCodeTest($event)"
-            [readOnly] = "permanentlyShowUIViewFormBackend"
+            [readOnly] = "codeInputForm.is_ui_view"
             >
           </app-code-editor>
           <ng-container

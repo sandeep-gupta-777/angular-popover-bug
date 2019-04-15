@@ -133,6 +133,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
       let selectedVersion = versionState.selectedVersion;
       if (selectedVersion) {
+        debugger;
         this.selectedVersion_st = selectedVersion;
         this.permanentlyShowUIViewFormBackend = selectedVersion.is_ui_view;
         if (this.codeInputForm) {
@@ -154,11 +155,12 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
     this.codeInputForm.valueChanges
       .subscribe((formData) => {
+        debugger;
         let version = {
           ...formData,
           id: this.selectedVersion_st.id
         };
-        this.store.dispatch([new UpdateVersionLocal({version, bot: this.bot})]);
+        this.store.dispatch([new UpdateVersionLocal({git asdasdasdasdasdasdasd, bot: this.bot})]);
         this.store.dispatch([new SetDiff({version: version})]);
       });
 
@@ -344,11 +346,13 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     }).then((data)=>{
       if(data){
         this.codeInputService.changeToCodeViewPermanently(this.bot,version)
-          .subscribe(
+          .subscribe((version :IBotVersionData)=>{
+            this.selectedVersion_st = version;
+            this.codeInputForm.patchValue({is_ui_view: version.is_ui_view});
           //   (value :IBotVersionData)=>{
           //   this.store.dispatch([new SetSelectedVersion({id: value.id})]);
           // }
-          )
+      })
       }
     })
     // this.utilityService.openDangerModal(template, this.matDialog, this.dialogRefWrapper);
