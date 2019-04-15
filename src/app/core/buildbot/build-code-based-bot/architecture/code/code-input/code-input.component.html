@@ -97,7 +97,17 @@
             [doShowValidationsIcon]="true"
             downloadedFileName="{{activeTab}} for bot id {{bot.id}}.py"
             (validateClick)="validateCodeTest($event)"
-            [readOnly] = "codeInputForm.is_ui_view"
+            [readOnly] = "false"
+            *ngIf="!permanentlyShowUIViewFormBackend"
+            >
+          </app-code-editor>
+          <app-code-editor
+            [formControlName]="myEBotVersionTabs.generation_templates"
+            [doShowValidationsIcon]="true"
+            downloadedFileName="{{activeTab}} for bot id {{bot.id}}.py"
+            (validateClick)="validateCodeTest($event)"
+            [readOnly] = "true"
+            *ngIf="permanentlyShowUIViewFormBackend"
             >
           </app-code-editor>
           <ng-container

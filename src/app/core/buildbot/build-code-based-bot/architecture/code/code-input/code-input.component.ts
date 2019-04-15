@@ -113,6 +113,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     public utilityService: UtilityService,
     public codeInputService: CodeInputService,
     public matDialog: MatDialog,
+    private router: Router,
   ) {
     super(utilityService, matDialog);
   }
@@ -160,7 +161,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
           ...formData,
           id: this.selectedVersion_st.id
         };
-        this.store.dispatch([new UpdateVersionLocal({git asdasdasdasdasdasdasd, bot: this.bot})]);
+        this.store.dispatch([new UpdateVersionLocal({version, bot: this.bot})]);
         this.store.dispatch([new SetDiff({version: version})]);
       });
 
@@ -270,10 +271,13 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   }
 
   changeSelectedVersionHandler(version) {
+    debugger;
     if (!this.showGenTempEditor && this.codeGentemplateUiWrapperComponent) {
       this.templateKeyDict = this.codeGentemplateUiWrapperComponent.getTemplateDict();
     }
     this.syncBotViews(this.showGenTempEditor);
+    this.showGenTempEditor = !version.is_ui_view;
+    this.permanentlyShowUIViewFormBackend = version.is_ui_view;
     setTimeout(() => {
       this.store.dispatch([new SetSelectedVersion({id: version.id})]);
     }, 400);
@@ -349,6 +353,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
           .subscribe((version :IBotVersionData)=>{
             this.selectedVersion_st = version;
             this.codeInputForm.patchValue({is_ui_view: version.is_ui_view});
+            location.reload();
           //   (value :IBotVersionData)=>{
           //   this.store.dispatch([new SetSelectedVersion({id: value.id})]);
           // }
