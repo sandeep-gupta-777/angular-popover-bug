@@ -405,7 +405,8 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     if (tabCount === 3) {
       if(this.permanentlyShowUIViewFormBackend){
         this.showGenTempEditor = false;
-        this.syncBotViews(!this.showGenTempEditor);
+        // this.syncBotViews(!this.showGenTempEditor);
+        this.syncBotViews(this.showGenTempEditor);
       }
       else{
         this.showGenTempEditor = true;
