@@ -14,7 +14,7 @@ export class HighlightSessionTexts implements PipeTransform {
 
   transform(txnSessionMessagesItems: ITxnSessionMessagesItem[], messageSearchKeyword: string): ITxnSessionMessagesItem[] {
     if (!Array.isArray(txnSessionMessagesItems) || txnSessionMessagesItems.length < 1 || !messageSearchKeyword) return txnSessionMessagesItems;
-
+debugger;
     messageSearchKeyword = messageSearchKeyword.trim();
 
     txnSessionMessagesItems = this.utilityService.createDeepClone(txnSessionMessagesItems);//JSON.parse(JSON.stringify(arr));
@@ -37,7 +37,7 @@ export class HighlightSessionTexts implements PipeTransform {
     }
     // if (sessionMessageItem.message && sessionMessageItem.message[0].text && sessionMessageItem.message[0].text.includes(messageSearchKeyword)) {
     console.log('=====>', sessionMessageItem);
-    if (sessionMessageItem.message && sessionMessageItem.message[0].text) {
+    if (sessionMessageItem.message && sessionMessageItem.message[0] && sessionMessageItem.message[0].text) {
       let match = this.utilityService.doesStringIncludesSubstring(sessionMessageItem.message[0].text, messageSearchKeyword);
       if(match){
         sessionMessageItem.message[0].text = UtilityService.highlightText(sessionMessageItem.message[0].text, messageSearchKeyword);
