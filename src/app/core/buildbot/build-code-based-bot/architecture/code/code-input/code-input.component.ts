@@ -369,7 +369,9 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   activateVersion(active_version_id: number) {
     // this.codeInputService.activateVersion();
     // this.store.dispatch(new ValidateCode_flow_ActivateVersion$({version: this.selectedVersion_st, bot:this.bot}));
-    this.syncBotViews(this.showGenTempEditor);
+    if(this.permanentlyShowUIViewFormBackend){
+      this.syncBotViews(!this.showGenTempEditor);
+    }
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
@@ -377,7 +379,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     let id = this.selectedVersion_st.id;
 
 
-    this.syncBotViews(false);
+    
     setTimeout(() => {
       this.store.dispatch(new SetDiff({version: {...this.codeInputForm.value, id: this.selectedVersion_st.id}}))
         .subscribe((val) => {
