@@ -106,9 +106,12 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
         this.permissionService.loggedUser = this.userValue;
       }),
       switchMap(() => {
+        return this.serverService.getNSetMasterPermissionsList();
+      }),
+      switchMap(() => {
         this.flashInfoMessage('Fetching configurations', 10000);
         return forkJoin([
-            this.serverService.getNSetMasterPermissionsList(),
+            // this.serverService.getNSetMasterPermissionsList(),
             this.serverService.getNSetIntegrationList(),
             this.serverService.getNSetPipelineModuleV2(),
             this.serverService.getNSetRoleInfo()
