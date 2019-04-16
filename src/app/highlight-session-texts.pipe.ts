@@ -18,7 +18,7 @@ export class HighlightSessionTexts implements PipeTransform {
     messageSearchKeyword = messageSearchKeyword.trim();
 
     txnSessionMessagesItems = this.utilityService.createDeepClone(txnSessionMessagesItems);//JSON.parse(JSON.stringify(arr));
-
+debugger;
     const modifiedarr = txnSessionMessagesItems.map((txnSessionMessagesItem: ITxnSessionMessagesItem) => {
       txnSessionMessagesItem.convoList = txnSessionMessagesItem.convoList.map((sessionMessageItem: ISessionMessageItem) => {
         return this.highlightMatchedTextInSessionMessageItem(sessionMessageItem, messageSearchKeyword);
