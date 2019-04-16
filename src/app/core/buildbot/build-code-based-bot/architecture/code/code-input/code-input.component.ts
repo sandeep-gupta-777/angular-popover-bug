@@ -87,7 +87,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   code: ICode;
   versions_st: IBotVersionData[];
   codeInputForm: FormGroup;
-
+  permanentlyShowUIViewFormBackend : boolean;
   @ViewChild('ForkVersiontemplate') forkVersionTemplate: ElementRef;
   @ViewChildren('gentemplateItem') private gentemplateItems: QueryList<ElementRef>;
   @ViewChild('modelGenTempNameForm') modelGenTempNameForm: NgForm;
@@ -113,6 +113,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     public utilityService: UtilityService,
     public codeInputService: CodeInputService,
     public matDialog: MatDialog,
+    private router: Router,
   ) {
     super(utilityService, matDialog);
   }
@@ -133,7 +134,9 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
       let selectedVersion = versionState.selectedVersion;
       if (selectedVersion) {
+        debugger;
         this.selectedVersion_st = selectedVersion;
+        this.permanentlyShowUIViewFormBackend = selectedVersion.is_ui_view;
         if (this.codeInputForm) {
           let localVersionClone = this.versions_st.find(version => version.id === selectedVersion.id);
           if (!UtilityService.isObjectSubSet(localVersionClone, this.codeInputForm.value)) {
@@ -153,6 +156,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
     this.codeInputForm.valueChanges
       .subscribe((formData) => {
+        debugger;
         let version = {
           ...formData,
           id: this.selectedVersion_st.id
@@ -267,10 +271,13 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   }
 
   changeSelectedVersionHandler(version) {
+    debugger;
     if (!this.showGenTempEditor && this.codeGentemplateUiWrapperComponent) {
       this.templateKeyDict = this.codeGentemplateUiWrapperComponent.getTemplateDict();
     }
     this.syncBotViews(this.showGenTempEditor);
+    this.showGenTempEditor = !version.is_ui_view;
+    this.permanentlyShowUIViewFormBackend = version.is_ui_view;
     setTimeout(() => {
       this.store.dispatch([new SetSelectedVersion({id: version.id})]);
     }, 400);
@@ -327,7 +334,34 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
     }
   }
-
+  openEditCodeModal(version: IBotVersionData) {
+    debugger;
+    this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr:'danger-modal-header-border',
+      data:{
+        actionButtonText:"Confirm",
+        message: `The interface view will be unavailable for this version permanently. Do you wish to continue? `,
+        title:'Edit code',
+        isActionButtonDanger:true
+      },
+      dialog: this.matDialog,
+      component:ModalConfirmComponent
+    }).then((data)=>{
+      if(data){
+        this.codeInputService.changeToCodeViewPermanently(this.bot,version)
+          .subscribe((version :IBotVersionData)=>{
+            this.selectedVersion_st = version;
+            this.codeInputForm.patchValue({is_ui_view: version.is_ui_view});
+            location.reload();
+          //   (value :IBotVersionData)=>{
+          //   this.store.dispatch([new SetSelectedVersion({id: value.id})]);
+          // }
+      })
+      }
+    })
+    // this.utilityService.openDangerModal(template, this.matDialog, this.dialogRefWrapper);
+  }
   downloadZipHandler() {
     CodeInputService.downloadZip(this.bot, this.selectedVersion_st);
   }
@@ -335,7 +369,9 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   activateVersion(active_version_id: number) {
     // this.codeInputService.activateVersion();
     // this.store.dispatch(new ValidateCode_flow_ActivateVersion$({version: this.selectedVersion_st, bot:this.bot}));
-    this.syncBotViews(this.showGenTempEditor);
+    if(this.permanentlyShowUIViewFormBackend){
+      this.syncBotViews(!this.showGenTempEditor);
+    }
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
@@ -343,7 +379,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     let id = this.selectedVersion_st.id;
 
 
-    this.syncBotViews(false);
+    
     setTimeout(() => {
       this.store.dispatch(new SetDiff({version: {...this.codeInputForm.value, id: this.selectedVersion_st.id}}))
         .subscribe((val) => {
@@ -369,7 +405,15 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
       this.utilityService.refreshCodeEditor$.emit();
     });
     if (tabCount === 3) {
-      this.syncBotViews(!this.showGenTempEditor);
+      if(this.permanentlyShowUIViewFormBackend){
+        this.showGenTempEditor = false;
+        // this.syncBotViews(!this.showGenTempEditor);
+        this.syncBotViews(this.showGenTempEditor);
+      }
+      else{
+        this.showGenTempEditor = true;
+      }
+      
     }
     this.activeTabCount = tabCount;
     this.activeTab = CodeInputService.getActiveTabNameByTabCount(tabCount);
@@ -377,6 +421,13 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
   ngAfterViewInit(): void {
     // this.que
+    debugger;
+    if(this.permanentlyShowUIViewFormBackend){
+      this.showGenTempEditor = false;
+    }
+    else{
+      this.showGenTempEditor = true;
+    }
   }
 
 

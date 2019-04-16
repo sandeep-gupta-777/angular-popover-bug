@@ -147,9 +147,9 @@ export interface IBotVersionData {
     'generation_templates'?: boolean,
     'workflow'?: boolean
   };
-  'forked_from'?: number;
-  'validation'?: ICodeVersionValidation
-
+  'forked_from'?: number,
+  'validation'?: ICodeVersionValidation,
+  'is_ui_view'?: boolean,
 }
 
 export interface ICodeVersionValidation {

@@ -385,6 +385,7 @@ export class UtilityService {
       generation_rules: [""],
       generation_templates: [""],
       workflow: [""],
+      is_ui_view:'',
     });
 
     return codeInputForm;

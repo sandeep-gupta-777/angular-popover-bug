@@ -23,7 +23,15 @@
     height: 100% !important;
   }
 }
-
+.to-code-view{
+  border: solid 1px #d8d8d8 !important;
+  border-radius: 2px !important;
+  position: absolute;
+  z-index: 10000000;
+  right: 130px;
+  top: 0px;
+  font-size: 11px !important;
+}
 .error-indication {
   color: red;
   font-size: 115%;

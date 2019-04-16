@@ -72,13 +72,13 @@
       <div class="d-flex" style="align-items: center;">
         <mat-form-field class="ml-3">
           <input matInput ngModel
-          (ngModelChange)="scrollToFirstKeywordMatch($event)"
+            (ngModelChange)="scrollToFirstKeywordMatch($event)"
             (keyup.enter)="goToNextSearchResult(messageSearchKeyword)"
             (keyup.shift.enter)="goToPreviousSearchResult(messageSearchKeyword)"
             id="search-session-model"
             type="search"
             placeholder="search">
-          <mat-icon matSuffix style="color : #9e9e9e; font-size: 16px;">search</mat-icon>
+          <mat-icon matSuffix style="color : #070707; font-size: 16px;">search</mat-icon>
         </mat-form-field>
         <mat-icon class= "search-error ml-3" *ngIf="_session.error">error_outline</mat-icon>
         <mat-icon class= "search-agent ml-3" *ngIf="_session.sendtoagent">headset_mic</mat-icon>
