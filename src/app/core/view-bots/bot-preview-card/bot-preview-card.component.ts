@@ -187,7 +187,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
         this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id], {
           queryParams: {
             preview: this.bot.id,
-            build: 'testing'
+            build: 'test'
           }
         });
         /*TODO:improve it*/

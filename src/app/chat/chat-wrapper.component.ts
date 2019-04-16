@@ -180,9 +180,7 @@ export class ChatWrapperComponent implements OnInit {
 
         this.showBotIsThinking = this.currentRoom && this.currentRoom.showBotIsThinking;
 
-        if (hasPreviewRoomChanged || hasPreviewBotChanged) {
-          this.serverService.initializeIMIConnect(chatSessionState.currentBotDetails, chatSessionState.currentRoomId, chatSessionState);
-        }
+        
 
         this.currentBot = chatSessionState.currentBotDetails;
         if (this.currentBot) {
@@ -190,10 +188,16 @@ export class ChatWrapperComponent implements OnInit {
           this.bot_access_token = this.currentBot.bot_access_token; //this.currentRoom && this.currentRoom.bot_access_token || bot.bot_access_token;
           this.chatWindowTitle = chatSessionState.currentBotDetails.name;
         }
+        
         if (chatSessionState.currentRoomId) {
           this.currentRoom = chatSessionState.rooms.find((room) => room.id === chatSessionState.currentRoomId);
+          chatSessionState.consumerDetails = this.currentRoom.consumerDetails;
           this.messageData = this.currentRoom && this.currentRoom.messageList;
           this.selectedAvatar = this.currentRoom && this.currentRoom.selectedAvatar;
+        }
+
+        if (hasPreviewRoomChanged || hasPreviewBotChanged) {
+          this.serverService.initializeIMIConnect(chatSessionState.currentBotDetails, chatSessionState.currentRoomId, chatSessionState);
         }
 
         this.frameEnabled = chatSessionState.frameEnabled;
