@@ -89,7 +89,7 @@
     Enterprise ID
   </button>
   <button mat-menu-item
-          *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]"
+          *myIf="[myEAllActions['Delete Bots']]"
           (click)="openDeleteModal(template)"><i class="fa fa-trash mr-1"></i>Delete
   </button>
   <button mat-menu-item *ngIf="!bot.store_isPinned" (click)="togglePinBotCard(bot, true)"><i
