@@ -60,4 +60,16 @@ export class EditAndViewArticlesComponent implements OnInit {
   // })
   }
 
+  trackByIndex(index: number, obj: any): any {
+    return index;
+  }
+  deleteQustionWithId(index: number){
+    if (index > -1) {
+      this.articleData.questions.splice(index, 1);
+    }
+  }
+  addNewQuestion(){
+    this.articleData.questions.push("");
+  }
+
 }
