@@ -1,8 +1,8 @@
 <header>
     <div class="d-flex flex-row heading align-items-center pb-3">
         <div class="heading-title">
-            <i class="fa fa-angle-left cursor-pointer p-1"></i>
-            {{articleData.questions[0].substr(0, 80)}}</div>
+            <i class="fa fa-angle-left cursor-pointer p-1" (click)="goBackToArticle()"></i>
+            {{articleData.questions[0].substr(0, 80)}}{{articleData.questions[0].length > 80 ? " . . .":""}}</div>
         <div class="mr-auto">
         </div>
         <!-- <button mat-flat-button color="primary" style="border-radius: 2px; line-height: 0px">
@@ -68,6 +68,8 @@
         <div class="response-heading">Response</div>
         <div class="response-items px-2">
             <mat-form-field class="question-list-item w-100"
+            appearance="outline"
+            color = basic
             *ngFor="let answer of articleData.answers; let index = index;trackBy:trackByIndex;">
             <textarea matInput 
                 name=a{{index}} 

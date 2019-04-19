@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ConstantsService } from 'src/app/constants.service';
 import { ServerService } from 'src/app/server.service';
 import { UtilityService } from 'src/app/utility.service';
@@ -21,11 +21,14 @@ export class EditAndViewArticlesComponent implements OnInit {
     private router: Router,
   ) { }
   @Input() bot :IBot;
-  @Input() articleData;
+  @Input() article;
   @Input() category_mapping;
+  articleData;
+  @Output() goBack = new EventEmitter();
   article_id : number;
 
   ngOnInit() {
+    this.articleData = this.utilityService.createDeepClone(this.article);
     this.activatedRoute.queryParamMap
       .subscribe((value) => {
         if (value.get('article_id')) {
@@ -70,6 +73,9 @@ export class EditAndViewArticlesComponent implements OnInit {
   }
   addNewQuestion(){
     this.articleData.questions.push("");
+  }
+  goBackToArticle(){
+    this.goBack.emit();
   }
 
 }
