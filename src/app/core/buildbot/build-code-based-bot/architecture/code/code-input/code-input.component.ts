@@ -389,7 +389,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
             'workflows': false
           };
           if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
-            const url = this.constantsService.getSaveVersionByBotId(this.bot.id);
+            const url = this.constantsService.getSaveVersionByVersionId(this.selectedVersion.id);
             this.serverService.makePutReq({ url, body: this.selectedVersion, headerData })
               .subscribe((value: IBotVersionData) => {
                 this.selectedVersion = Object.assign(this.selectedVersion, value);
@@ -465,7 +465,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
                   'workflows': false
                 };
                 if (this.selectedVersion.id && this.selectedVersion.id !== -1) {
-                  const url = this.constantsService.getSaveVersionByBotId(this.bot.id);
+                  const url = this.constantsService.getSaveVersionByVersionId(this.selectedVersion.id);
                   this.serverService.makePutReq({ url, body: this.selectedVersion, headerData })
                     .subscribe((value: IBotVersionData) => {
                       this.selectedVersion = Object.assign(this.selectedVersion, value);
