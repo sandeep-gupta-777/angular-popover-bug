@@ -549,6 +549,18 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/user/updatepassword/'; //https:dev.imibot.ai/api/v1/user/updatepassword///
   }
 
+  updateArticelUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/updatesection/`;
+  }
+  createArticalUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/createsection/`;
+  }
+  deleteArticelUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/removesection/`;
+  }
+  corpusTrainUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/train/`;
+  }
   updateBotSerializer(bot: IBot) {
     const clone = { ...bot };
     const not_keys = [

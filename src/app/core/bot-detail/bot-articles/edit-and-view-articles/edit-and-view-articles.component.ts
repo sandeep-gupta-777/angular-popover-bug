@@ -14,18 +14,20 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class EditAndViewArticlesComponent implements OnInit {
 
   constructor(
-    private constantsService:ConstantsService,
-    private serverService : ServerService,
-    private utilityService : UtilityService,
+    private constantsService: ConstantsService,
+    private serverService: ServerService,
+    private utilityService: UtilityService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
   ) { }
-  @Input() bot :IBot;
+  @Input() bot: IBot;
   @Input() article;
   @Input() category_mapping;
   articleData;
   @Output() goBack = new EventEmitter();
-  article_id : number;
+  @Output() corpusNeedsReload = new EventEmitter();
+  @Output() saveAndTrain = new EventEmitter();
+  article_id: number;
 
   ngOnInit() {
     this.articleData = this.utilityService.createDeepClone(this.article);
@@ -33,7 +35,7 @@ export class EditAndViewArticlesComponent implements OnInit {
       .subscribe((value) => {
         if (value.get('article_id')) {
           this.article_id = Number(value.get('article_id'));
-          if(this.article_id){
+          if (this.article_id) {
 
           }
           // ner_id && this.sdasdasdasd(ner_id);
@@ -47,35 +49,114 @@ export class EditAndViewArticlesComponent implements OnInit {
     let headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-  // let getSectionForFAQBotById = this.constantsService.getCorpusForFAQBot(this.bot.corpus.id);
-  
-  // this.serverService.makeGetReq<any>({url: getCorpusForFAQBot, headerData})
-  // .subscribe((val)=>{
-  //   this.corpus = val;
-  //   this.loaded = true;
-  //   let formObj = {};
-  //   val.category_mapping.forEach((categorie)=>{
-  //     formObj[categorie.category_id] = [false];
-  //   })
-  //   this.articleFilterForm = this.formBuilder.group(
-  //     formObj
-  //     );
-  // })
+    // let getSectionForFAQBotById = this.constantsService.getCorpusForFAQBot(this.bot.corpus.id);
+
+    // this.serverService.makeGetReq<any>({url: getCorpusForFAQBot, headerData})
+    // .subscribe((val)=>{
+    //   this.corpus = val;
+    //   this.loaded = true;
+    //   let formObj = {};
+    //   val.category_mapping.forEach((categorie)=>{
+    //     formObj[categorie.category_id] = [false];
+    //   })
+    //   this.articleFilterForm = this.formBuilder.group(
+    //     formObj
+    //     );
+    // })
   }
 
   trackByIndex(index: number, obj: any): any {
     return index;
   }
-  deleteQustionWithId(index: number){
+  deleteQustionWithId(index: number) {
     if (index > -1) {
       this.articleData.questions.splice(index, 1);
     }
   }
-  addNewQuestion(){
+  addNewQuestion() {
     this.articleData.questions.push("");
   }
-  goBackToArticle(){
+  goBackToArticle() {
     this.goBack.emit();
   }
+  updateArticle$() {
+    const headerData: IHeaderData = {
+      'bot-access-token': this.bot.bot_access_token
+    };
 
+    let body = {
+      "section_id": this.articleData.section_id,
+      "questions": this.articleData.questions,
+      "answers": this.articleData.answers,
+      "category_id": this.articleData.category_id
+
+    }
+
+    let url = this.constantsService.updateArticelUrl()
+    return this.serverService.makePostReq<any>({ headerData, body, url })
+  }
+  updateArticle(){
+    this.updateArticle$()
+    .subscribe((value)=>{
+      if(value){
+        this.corpusNeedsReload.emit();
+        // this.saveAndTrain.emit();
+      }
+     
+    })
+  }
+
+  updateAndTrain(){
+    this.updateArticle$()
+    .subscribe((value)=>{
+      if(value){
+        // this.corpusNeedsReload.emit();
+        this.saveAndTrain.emit();
+        this.goBackToArticle();
+      }
+     
+    })
+  }
+
+
+  createArticle() {
+    const headerData: IHeaderData = {
+      'bot-access-token': this.bot.bot_access_token
+    };
+
+    let body = {
+      "questions": this.articleData.questions,
+      "answers": this.articleData.answers,
+      "category_id": this.articleData.category_id
+
+    }
+
+    let url = this.constantsService.createArticalUrl()
+    this.serverService.makePostReq<any>({ headerData, body, url })
+      .subscribe((value)=>{
+        if(value){
+          this.corpusNeedsReload.emit()
+        }
+        
+      })
+  }
+
+  deleteArticle(){
+    const headerData: IHeaderData = {
+      'bot-access-token': this.bot.bot_access_token
+    };
+
+    let body = {
+      "section_id": this.articleData.section_id,
+      "category_id": this.articleData.category_id
+    }
+    let url = this.constantsService.deleteArticelUrl()
+    this.serverService.makePostReq<any>({ headerData, body, url })
+      .subscribe(value =>{
+        if(value) {
+          this.corpusNeedsReload.emit();
+          this.goBackToArticle();
+        }
+      })
+  }
 }

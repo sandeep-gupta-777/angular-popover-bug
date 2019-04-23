@@ -5,6 +5,7 @@ import { IHeaderData } from 'src/interfaces/header-data';
 import { IBot } from '../../interfaces/IBot';
 import { FormGroup, NgForm, FormBuilder } from '@angular/forms';
 import { UtilityService } from 'src/app/utility.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-bot-articles',
@@ -14,66 +15,101 @@ import { UtilityService } from 'src/app/utility.service';
 export class BotArticlesComponent implements OnInit {
 
   constructor(
-    private constantsService:ConstantsService,
-    private serverService : ServerService,
-    private utilityService : UtilityService,
+    private constantsService: ConstantsService,
+    private serverService: ServerService,
+    private utilityService: UtilityService,
     private formBuilder: FormBuilder
   ) { }
-  @Input() bot :IBot;
+  @Input() bot: IBot;
   corpus;
   loaded: boolean = false;
-  showEditAndViewArtical:boolean = false;
+  showEditAndViewArtical: boolean = false;
   myObject = Object;
   articleFilterForm: FormGroup;
-  filter_categorie_id_list:string[];
+  filter_categorie_id_list: string[];
   selectedArticle;
-  ngOnInit() {
-    let headerData: IHeaderData = {
-        'bot-access-token': this.bot.bot_access_token
-      };
-    let getCorpusForFAQBot = this.constantsService.getCorpusForFAQBot(this.bot.corpus.id);
-    
-    this.serverService.makeGetReq<any>({url: getCorpusForFAQBot, headerData})
-    .subscribe((val)=>{
-      this.corpus = val;
-      this.loaded = true;
-      let formObj = {};
-      val.category_mapping.forEach((categorie)=>{
-        formObj[categorie.category_id] = [false];
-      })
-      this.articleFilterForm = this.formBuilder.group(
-        formObj
-        );
-    })
 
-    
+
+  ngOnInit() {
+    this.getCorpusAndSetArticleFilterForm$()
+      .subscribe()
   }
-  makeFilterList(form : FormGroup){
+
+
+  getCorpusAndSetArticleFilterForm$() {
+    let headerData: IHeaderData = {
+      'bot-access-token': this.bot.bot_access_token
+    };
+    let getCorpusForFAQBot = this.constantsService.getCorpusForFAQBot(this.bot.corpus.id);
+
+    return this.serverService.makeGetReq<any>({ url: getCorpusForFAQBot, headerData })
+      .pipe(
+        map((val) => {
+          this.corpus = val;
+          this.loaded = true;
+          let formObj = {};
+          val.category_mapping.forEach((categorie) => {
+            formObj[categorie.category_id] = [false];
+          })
+          this.articleFilterForm = this.formBuilder.group(
+            formObj
+          );
+        })
+      )
+  }
+  trainCorpus$(){
+    const headerData: IHeaderData = {
+      'bot-access-token': this.bot.bot_access_token
+    };
+
+    let body = {
+      'bot_id': this.bot.id
+    }
+
+    let url = this.constantsService.corpusTrainUrl()
+    return this.serverService.makePostReq<any>({ headerData, body, url });
+      
+  }
+  getCorpusAndSetArticleFilterForm() {
+    this.getCorpusAndSetArticleFilterForm$()
+      .subscribe()
+  }
+  trainBotAndGetCorpus() {
+    this.trainCorpus$()
+      .subscribe((value) => {
+        if (value) {
+          this.getCorpusAndSetArticleFilterForm$()
+          .subscribe()
+        }
+      })
+  }
+
+  makeFilterList(form: FormGroup) {
     this.articleFilterForm = form
     this.filter_categorie_id_list = [];
-    for(let i of Object.keys(form.value)){
-      if(form.value[i]){
+    for (let i of Object.keys(form.value)) {
+      if (form.value[i]) {
         this.filter_categorie_id_list.push(i)
       }
     }
   }
-  removeFilterItemById(categorie_id){
-    this.articleFilterForm.patchValue({[categorie_id]:false});
+  removeFilterItemById(categorie_id) {
+    this.articleFilterForm.patchValue({ [categorie_id]: false });
     this.makeFilterList(this.articleFilterForm);
   }
-  exportArticalToCsv(){
+  exportArticalToCsv() {
     let csvFormat = this.corpus.sections.map(element => {
       return {
-        Answer : element.answers[0].text[0],
-        Questions : element.questions.toString()
+        Answer: element.answers[0].text[0],
+        Questions: element.questions.toString()
       }
     });
-    this.utilityService.downloadArrayAsCSV(csvFormat,{});
+    this.utilityService.downloadArrayAsCSV(csvFormat, {});
   }
-  openArticleEditAndView(article:number){
+  openArticleEditAndView(article: number) {
     // add qurey parems
     this.showEditAndViewArtical = true;
     this.selectedArticle = article;
   }
-  
+
 }

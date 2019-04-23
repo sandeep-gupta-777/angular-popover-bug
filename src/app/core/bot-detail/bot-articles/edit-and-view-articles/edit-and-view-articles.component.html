@@ -9,16 +9,19 @@
             <mat-icon>refresh</mat-icon> Save and train
         </button> -->
         <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer mr-2"
-            mat-button style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; ">
+            mat-button style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; "
+            (click) = "updateAndTrain()">
             <mat-icon>refresh</mat-icon>
             Save and train
         </button>
         <button class="mat-theme-button cursor-pointer mr-2" mat-button
-            style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; ">
+            (click) = "updateArticle()"
+            style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px;">
             <mat-icon>save</mat-icon>
             Save
         </button>
         <button class="mat-theme-button cursor-pointer mr-2" mat-button
+            (click)="deleteArticle()"
             style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; ">
             <mat-icon>delete</mat-icon>
             Delete
@@ -44,7 +47,7 @@
         <div class="questions-heading">Response</div>
         <mat-form-field class="question-list-item"
             *ngFor="let question of articleData.questions; let index = index;trackBy:trackByIndex;">
-            <textarea matInput 
+            <textarea matInput required
                 name=a{{index}} 
                 type="text" 
                 [(ngModel)]="articleData.questions[index]"
