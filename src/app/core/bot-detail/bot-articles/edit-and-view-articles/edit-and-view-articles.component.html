@@ -15,7 +15,7 @@
             Save and train
         </button>
         <button class="mat-theme-button cursor-pointer mr-2" mat-button
-            (click) = "updateArticle()"
+            (click) = "updateArticleClicked()"
             style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px;">
             <mat-icon>save</mat-icon>
             Save
@@ -44,7 +44,7 @@
 
 <div class="main-block p-2">
     <div class="questions-list px-2">
-        <div class="questions-heading">Response</div>
+        <div class="questions-heading">Questions</div>
         <mat-form-field class="question-list-item"
             *ngFor="let question of articleData.questions; let index = index;trackBy:trackByIndex;">
             <textarea matInput required
@@ -77,11 +77,11 @@
             <textarea matInput 
                 name=a{{index}} 
                 type="text" 
-                [(ngModel)]="articleData.answers[index].text"
+                [(ngModel)]="articleData.answers[index].text[0]"
                 #autosize="cdkTextareaAutosize" 
                 cdkTextareaAutosize
-                cdkAutosizeMinRows="10" 
-                cdkAutosizeMaxRows="10">
+                cdkAutosizeMinRows="20" 
+                cdkAutosizeMaxRows="20">
             </textarea>
             <!-- <input matInput name=a{{index}} type="text" [(ngModel)]="articleData.questions[index]"> -->
 

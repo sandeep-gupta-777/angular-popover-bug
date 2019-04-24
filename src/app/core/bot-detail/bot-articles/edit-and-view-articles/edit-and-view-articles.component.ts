@@ -27,6 +27,8 @@ export class EditAndViewArticlesComponent implements OnInit {
   @Output() goBack = new EventEmitter();
   @Output() corpusNeedsReload = new EventEmitter();
   @Output() saveAndTrain = new EventEmitter();
+  @Output() updateArticle = new EventEmitter();
+  @Output() trainAndUpdate = new EventEmitter();
   article_id: number;
 
   ngOnInit() {
@@ -79,84 +81,71 @@ export class EditAndViewArticlesComponent implements OnInit {
   goBackToArticle() {
     this.goBack.emit();
   }
-  updateArticle$() {
-    const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
-    };
-
-    let body = {
-      "section_id": this.articleData.section_id,
-      "questions": this.articleData.questions,
-      "answers": this.articleData.answers,
-      "category_id": this.articleData.category_id
-
-    }
-
-    let url = this.constantsService.updateArticelUrl()
-    return this.serverService.makePostReq<any>({ headerData, body, url })
+  
+  updateArticleClicked(){
+    this.updateArticle.emit(this.articleData);
   }
-  updateArticle(){
-    this.updateArticle$()
-    .subscribe((value)=>{
-      if(value){
-        this.corpusNeedsReload.emit();
-        // this.saveAndTrain.emit();
-      }
-     
-    })
+
+  creatArticleClicked(){
+    // this.updateArticle.emit(this.articleData);
+  }
+
+  deleteArticleClicked(){
+    // this.updateArticle.emit(this.articleData);
   }
 
   updateAndTrain(){
-    this.updateArticle$()
-    .subscribe((value)=>{
-      if(value){
-        // this.corpusNeedsReload.emit();
-        this.saveAndTrain.emit();
-        this.goBackToArticle();
-      }
+    this.trainAndUpdate.emit(this.articleData);
+    // this.updateArticle$()
+    // .subscribe((value)=>{
+    //   if(value){
+    //     // this.corpusNeedsReload.emit();
+    //     this.saveAndTrain.emit();
+    //     this.goBackToArticle();
+    //   }
      
-    })
+    // })
   }
 
 
-  createArticle() {
-    const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
-    };
+  // createArticle() {
+  //   const headerData: IHeaderData = {
+  //     'bot-access-token': this.bot.bot_access_token
+  //   };
 
-    let body = {
-      "questions": this.articleData.questions,
-      "answers": this.articleData.answers,
-      "category_id": this.articleData.category_id
+  //   let body = {
+  //     "questions": this.articleData.questions,
+  //     "answers": this.articleData.answers,
+  //     "category_id": this.articleData.category_id
 
-    }
+  //   }
 
-    let url = this.constantsService.createArticalUrl()
-    this.serverService.makePostReq<any>({ headerData, body, url })
-      .subscribe((value)=>{
-        if(value){
-          this.corpusNeedsReload.emit()
-        }
+  //   let url = this.constantsService.createArticalUrl()
+  //   this.serverService.makePostReq<any>({ headerData, body, url })
+  //     .subscribe((value)=>{
+  //       if(value){
+  //         this.corpusNeedsReload.emit()
+  //       }
         
-      })
-  }
+  //     })
+  // }
 
-  deleteArticle(){
-    const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
-    };
+  // deleteArticle(){
+  //   const headerData: IHeaderData = {
+  //     'bot-access-token': this.bot.bot_access_token
+  //   };
 
-    let body = {
-      "section_id": this.articleData.section_id,
-      "category_id": this.articleData.category_id
-    }
-    let url = this.constantsService.deleteArticelUrl()
-    this.serverService.makePostReq<any>({ headerData, body, url })
-      .subscribe(value =>{
-        if(value) {
-          this.corpusNeedsReload.emit();
-          this.goBackToArticle();
-        }
-      })
-  }
+  //   let body = {
+  //     "section_id": this.articleData.section_id,
+  //     "category_id": this.articleData.category_id
+  //   }
+  //   let url = this.constantsService.deleteArticelUrl()
+  //   this.serverService.makePostReq<any>({ headerData, body, url })
+  //     .subscribe(value =>{
+  //       if(value) {
+  //         this.corpusNeedsReload.emit();
+  //         this.goBackToArticle();
+  //       }
+  //     })
+  // }
 }

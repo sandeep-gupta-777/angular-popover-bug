@@ -332,6 +332,9 @@ export class ConstantsService {
   getCorpusForFAQBot(bot_id){
     return this.BACKEND_URL + `api/v1/corpus/${bot_id}/`;
   }
+  getDraftCorpusForFAQBot(){
+    return this.BACKEND_URL + `api/v1/corpus/getdefaultcorpus/`;
+  }
   getMasterIntegrationsList() {
     return this.BACKEND_URL + 'api/v1/integrations/';
   }
