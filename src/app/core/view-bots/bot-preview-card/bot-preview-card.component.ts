@@ -173,7 +173,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
       });
   }
 
-  navigateToBotDetailPage(event) {//preview-button
+  navigateToBotDetailPage(event,bot_type) {//preview-button
 
 
     if (!event.target.classList.contains('click-save-wrapper')) {
@@ -184,12 +184,18 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
 
       if (ERoleName.Tester === this.role) {
         // this.router.navigate(['/core/viewbots/chatbot'], {queryParams:{preview:this.bot.roomId,build:"testing"}});
-        this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id], {
-          queryParams: {
-            preview: this.bot.id,
-            build: 'test'
-          }
-        });
+        if(bot_type === 'chatbot'){
+          this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id], {
+            queryParams: {
+              preview: this.bot.id,
+              build: 'test'
+            }
+          });
+        }
+        else{
+          this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id]);
+        }
+        
         /*TODO:improve it*/
 
       } else {
