@@ -31,24 +31,6 @@
       </div>
 </div>
 </div>
-    <!--<div *ngIf="sessionMessage && sessionMessage.user_type==='human'">-->
-      <!--<div class="row my-1">-->
-        <!--<div class="col-10 p-0">-->
-          <!--<div class="message p-2 bg-message-human" style="display: inline-block">-->
-<!--&lt;!&ndash; <<<<<<< HEAD &ndash;&gt;-->
-            <!--<span class="message-text" [innerHtml]="sessionMessage.messageByHuman|| sessionMessage.message |linkify:'text-white'"></span>-->
-            <!--<div class="time text-right">-->
-              <!--{{sessionMessage.created_at|msToHhmm}}-->
-            <!--</div>-->
-<!--&lt;!&ndash; ======= &ndash;&gt;-->
-            <!--&lt;!&ndash;<span class="message-text ">{{sessionMessageData.message}}</span>&ndash;&gt;-->
-            <!--&lt;!&ndash; <span class="message-text" [innerHtml]="sessionMessage.message"></span> &ndash;&gt;-->
-            <!--&lt;!&ndash; <div class="time text-right">{{sessionMessage.created_at|msToHhmm}}</div> &ndash;&gt;-->
-<!--&lt;!&ndash; >>>>>>> master &ndash;&gt;-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
 
     <div *ngIf="sessionMessage && sessionMessage.user_type==='bot'">
       <div *ngIf="myArray.isArray(sessionMessage.message); else messageIsStringNotObjectTemplate" class ="d-flex flex-column">

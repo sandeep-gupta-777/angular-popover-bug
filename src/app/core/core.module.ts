@@ -57,6 +57,7 @@ import { RoleaccordionComponent } from './enterpriseprofile/roles/roleaccordion/
 import { IntegrationChannelListComponent } from './integration-channel-list/integration-channel-list.component';
 import { SecurityComponent } from './buildbot/build-code-based-bot/bot-config/security/security.component';
 import { BotByIdPipe } from './buildbot/build-code-based-bot/bot-config/data-manage-form/bot-by-id.pipe';
+import {ScrollDispatchModule} from "@angular/cdk/scrolling";
 const routes: Route[] = [
   {
 
@@ -152,8 +153,8 @@ const routes: Route[] = [
     HttpClientModule,
     SharedModule,
     ReactiveFormsModule,
-    MyMaterialModule
-
+    MyMaterialModule,
+    ScrollDispatchModule
   ],
   providers: [AimService]
 })

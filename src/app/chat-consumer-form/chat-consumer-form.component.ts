@@ -9,7 +9,9 @@ import {UtilityService} from '../utility.service';
 export class ChatConsumerFormComponent implements OnInit {
 
   @Input() customConsumerDetails;
+  @Input() readonly  = false;
   @Output() saveConsumerDetails$ = new EventEmitter();
+
   errorMessage = "";
   constructor(private utilityService:UtilityService) { }
 

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {ServerService} from '../../server.service';
 import {ConstantsService, EAllActions} from '../../constants.service';
@@ -16,7 +16,8 @@ import {ModalImplementer} from '../../modal-implementer';
 @Component({
   selector: 'app-view-bots',
   templateUrl: './view-bots.component.html',
-  styleUrls: ['./view-bots.component.scss']
+  styleUrls: ['./view-bots.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewBotsComponent extends ModalImplementer implements OnInit, AfterViewInit {
 
@@ -34,6 +35,7 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
     private activatedRoute: ActivatedRoute,
     public utilityService: UtilityService,
     public matDialog: MatDialog,
+    private changeDetectorRef:ChangeDetectorRef,
     private store: Store) {
     super(utilityService, matDialog);
   }
@@ -71,10 +73,12 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
       });
     this.botlist$
       .subscribe((allBotListState) => {
-
         if (!allBotListState.allBotList) return;
         this.codeBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.chatbot);
         this.pipelineBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.intelligent);
+        this.changeDetectorRef.detectChanges();
+        // this.searchBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.faqbot);
+
       });
   }
 

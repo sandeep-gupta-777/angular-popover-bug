@@ -30,39 +30,7 @@
         <mat-icon class="material-icons cursor-pointer ml-1" style = "font-size: 16px;"(click)="updateModal(_session.id);">refresh</mat-icon>
       </div>
     </div>
-    <!-- <div class="session-modal-section__header--time"> -->
-    <!-- <i class="fa fa-refresh" [ngClass]="{'fa-spin':showSpinIcon}"
-         (click)="updateModal(_session.id);"></i> -->
-    <!-- <div class="last-updated"> -->
-    <!-- ======= -->
-    <!-- <div class="d-flex  align-items-center justify-content-center"> -->
-    <!-- <i class="fa fa-refresh mr-2 cursor-pointer" [ngClass]="{'fa-spin':showSpinIcon}" -->
-    <!-- (click)="updateModal(_session.id);"></i> -->
-    <!-- <div class="d-flex  flex-column align-items-start align-content-start"> -->
-    <!-- >>>>>>> sprint-11 -->
-    <!-- <span class="secondary">Last updated at</span> -->
-    <!-- <span class="primary">{{_session.updated_at|date:'mediumDate'}}</span> -->
-    <!-- </div> -->
-    <!-- </div> -->
 
-
-
-    <!-- <div class="session-modal-section__header--agent">
-      <span class="secondary">Sent to agent</span>
-      <span class="primary16">false</span>
-    </div> -->
-
-    <!-- <div class="session-modal-section__header--last">
-      <div class="room">
-        <div class="secondary  font-weight-bold">Room ID:</div>
-        <div class="secondary ">{{_session.id}}</div>
-      </div>
-
-      <div class="consumer">
-        <div class="secondary font-weight-bold">Consumer ID:</div>
-        <div class="secondary">{{_session.consumer_id}}</div>
-      </div>
-    </div> -->
     <div (click)="closeModel$.emit()" class="ml-auto"><i class="fa fa-times cursor-pointer"></i></div>
   </div>
   <div class="session-modal-section__body ">

@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, OnInit, TemplateRef} from '@angular/core';
 import {Observable} from 'rxjs';
 import {IBot} from '../../interfaces/IBot';
-import {UtilityService} from '../../../utility.service';
+import {EBotType, UtilityService} from '../../../utility.service';
 import {ChatService} from '../../../chat.service';
 import {EChatFrame, IChatSessionState} from '../../../../interfaces/chat-session-state';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -175,6 +175,10 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
 
   navigateToBotDetailPage(event) {//preview-button
 
+    if(this.bot.bot_type !== EBotType.chatbot){
+      this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id]);
+      return;
+    }
 
     if (!event.target.classList.contains('click-save-wrapper')) {
       this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id]);
