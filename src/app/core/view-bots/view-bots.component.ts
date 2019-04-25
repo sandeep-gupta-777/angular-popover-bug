@@ -1,5 +1,5 @@
-import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
+import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {Observable, Subscription} from 'rxjs';
 import {ServerService} from '../../server.service';
 import {ConstantsService, EAllActions} from '../../constants.service';
 import {IBot} from '../interfaces/IBot';
@@ -19,7 +19,7 @@ import {ModalImplementer} from '../../modal-implementer';
   styleUrls: ['./view-bots.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ViewBotsComponent extends ModalImplementer implements OnInit, AfterViewInit {
+export class ViewBotsComponent extends ModalImplementer implements OnInit, AfterViewInit, OnDestroy {
 
   myEBotType = EBotType;
   botList$: Observable<IBot[]>;
@@ -28,6 +28,7 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
   myEAllActions = EAllActions;
   disableCreateNewBotTooltip = true;
   reloaded : boolean = false;/*TODO: shoaib...dont hide bot while reloading...let loading happen in background like it used to be*/
+  botListSub:Subscription;
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
@@ -71,7 +72,7 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
         LoggingService.log('bot list fetched from view bots page');
         this.reloaded = true;
       });
-    this.botlist$
+    this.botListSub = this.botlist$
       .subscribe((allBotListState) => {
         if (!allBotListState.allBotList) return;
         this.codeBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.chatbot);
@@ -107,5 +108,9 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
 
   test($event) {
     console.log($event);
+  }
+
+  ngOnDestroy(): void {
+    this.botListSub && this.botListSub.unsubscribe()
   }
 }

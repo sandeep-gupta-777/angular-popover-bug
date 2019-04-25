@@ -90,8 +90,9 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
   }
 
 
-  previewBot() {
-    this.router.navigate(['', {outlets: {preview: 'preview'}}]);
+  previewBot(event:Event) {
+    event.stopPropagation();
+    // this.router.navigate(['', {outlets: {preview: 'preview'}}]);
     this.store.dispatch([
       new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
         bot: {...this.bot, enterprise_unique_name: this.enterprise_unique_name}
@@ -174,7 +175,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
   }
 
   navigateToBotDetailPage(event) {//preview-button
-
+    this.showLoader = true;
     if(this.bot.bot_type !== EBotType.chatbot){
       this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id]);
       return;
@@ -182,7 +183,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
 
     if (!event.target.classList.contains('click-save-wrapper')) {
       this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id]);
-      this.showLoader = true;
+
 
       /*TODO:improve it*/
 

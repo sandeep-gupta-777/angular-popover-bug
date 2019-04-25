@@ -555,7 +555,7 @@ export class UtilityService {
     let regex = /output[\s]*?=[\s]*?(\[[\s\S]*?])$/gm;
     let match = regex.exec(str);
 
-    
+
     const outputsKeys = [];
     while (match) {
       let output, matchedStr = match[1];
@@ -1426,6 +1426,27 @@ export class UtilityService {
     });
 
   }
+
+
+  confirmActivateVersionModal(dialogRefWrapper, matDialog) {
+
+    return this.openDialog({
+      dialogRefWrapper: dialogRefWrapper,
+      classStr: 'danger-modal-header-border',
+      data: {
+        actionButtonText: 'Activate',
+        message: 'Are you sure you want to change Active version?',
+        title: `Active version`,
+        isActionButtonDanger: true,
+        inputDescription: null,
+        closeButtonText: 'Cancel'
+      },
+      dialog: matDialog,
+      component: ModalConfirmComponent
+    });
+    // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
+  }
+
 
   openCloseWithoutSavingModal(dialogRefWrapper, matDialog) {
 

@@ -15,7 +15,7 @@
                   [innerHtml]="messageData?.text|linkify:'text-white'"></span>
             <span class="message-text" *ngIf="messageData?.sourceType==='bot'"
                   [innerHtml]="messageData?.text|linkify:'text-dark'"></span>
-            <div style="position: absolute; bottom: -17px;left: 0px; color: #9e9e9e !important; min-width: 35px"
+            <div style="position: absolute; bottom: -17px;left: 0px; color: #9e9e9e !important; min-width: 60px"
                  [ngStyle]="{'left': messageData?.sourceType==='bot'? '0' : 'auto',
                   'right': messageData?.sourceType==='human'? '0' : 'auto' }"
                  class="time text-right">{{(messageData?.time|date:'h:mm a') || 'no time info'}}</div>

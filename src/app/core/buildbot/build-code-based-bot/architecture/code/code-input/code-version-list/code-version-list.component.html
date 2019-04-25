@@ -73,7 +73,7 @@
     <button
       [disabled]="!versions || versions.length===0 || (selectedVersion && selectedVersion.id === bot.active_version_id)"
       *myIf="myEAllActions['Create Bot Versioning']"
-      (click)="activateVersion$.emit(selectedVersion.id)"
+      (click)="confirmActivateVersionModal()"
       class="mat-theme-button mat-theme-button-border" mat-button>
       <mat-icon>play_circle_filled</mat-icon>
       Activate
@@ -88,7 +88,7 @@
   <!--END :: code versions_st Buttons-->
 
   <div class="row row-flex-bot-versioning-toaster mx-0" *ngIf="showVersionList"
-       style="max-height: 50vh; overflow-y: scroll; border: 1px solid #e0e0e0; border-top: none ">
+       style="max-height: 50vh; overflow-y: scroll; overflow-x: hidden; border: 1px solid #e0e0e0; border-top: none ">
     <div class="col-12 py-1 px-0 cursor-pointer hover-change-background"
          *ngFor="let version of versions | filterActiveBot:selectedVersion.id | sortObjectArr: 'updated_at'">
       <div class="d-flex align-items-center flex-bot-versioning-toaster"

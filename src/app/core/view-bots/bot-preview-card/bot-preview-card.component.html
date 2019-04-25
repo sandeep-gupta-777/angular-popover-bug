@@ -34,7 +34,7 @@
         <!-- <span *ngIf="(bot.integrations|integrationImageCount)>4" class="more ml-auto">+{{(bot.integrations|integrationImageCount)}} More</span> -->
 
 
-        <div *myIf="myEAllActions['Send API']" class="preview-button click-save-wrapper" (click)="previewBot()">
+        <div *myIf="myEAllActions['Send API']" class="preview-button click-save-wrapper" (click)="previewBot($event)">
           <div
             title="Click to open chat preview window"
             class="click-save-wrapper">Preview
