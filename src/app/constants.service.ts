@@ -335,6 +335,9 @@ export class ConstantsService {
   getDraftCorpusForFAQBot(){
     return this.BACKEND_URL + `api/v1/corpus/getdefaultcorpus/`;
   }
+  
+
+
   getMasterIntegrationsList() {
     return this.BACKEND_URL + 'api/v1/integrations/';
   }
@@ -555,12 +558,26 @@ export class ConstantsService {
   updateArticelUrl(){
     return this.BACKEND_URL + `api/v1/corpus/updatesection/`;
   }
-  createArticalUrl(){
+  createArticelUrl(){
     return this.BACKEND_URL + `api/v1/corpus/createsection/`;
   }
   deleteArticelUrl(){
     return this.BACKEND_URL + `api/v1/corpus/removesection/`;
   }
+
+  updateCategoryUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/updatecategory/`;
+  }
+  createCategoryUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/createcategory/`;
+  }
+  deleteCategoryUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/removecategory/`;
+  }
+
+
+
+
   corpusTrainUrl(){
     return this.BACKEND_URL + `api/v1/corpus/train/`;
   }

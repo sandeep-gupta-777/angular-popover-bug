@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ICorpus } from 'src/app/core/interfaces/faqbots';
 
 @Component({
   selector: 'app-artical-header',
@@ -8,7 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ArticalHeaderComponent implements OnInit {
 
   constructor() { }
-  @Input() corpus;
+  @Input() corpus : ICorpus;
   ngOnInit() {
   }
 

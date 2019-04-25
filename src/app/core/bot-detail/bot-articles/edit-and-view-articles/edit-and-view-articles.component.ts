@@ -5,6 +5,7 @@ import { UtilityService } from 'src/app/utility.service';
 import { IBot } from 'src/app/core/interfaces/IBot';
 import { IHeaderData } from 'src/interfaces/header-data';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IArticleItem, ICategoryMappingItem } from 'src/app/core/interfaces/faqbots';
 
 @Component({
   selector: 'app-edit-and-view-articles',
@@ -21,9 +22,9 @@ export class EditAndViewArticlesComponent implements OnInit {
     private router: Router,
   ) { }
   @Input() bot: IBot;
-  @Input() article;
-  @Input() category_mapping;
-  articleData;
+  @Input() article : IArticleItem;
+  @Input() category_mapping : ICategoryMappingItem[];
+  articleData : IArticleItem;
   @Output() goBack = new EventEmitter();
   @Output() corpusNeedsReload = new EventEmitter();
   @Output() saveAndTrain = new EventEmitter();
@@ -48,9 +49,9 @@ export class EditAndViewArticlesComponent implements OnInit {
           // if(this.selectedRowData)this.prepareData(this.selectedRowData);
         }
       });
-    let headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
-    };
+    // let headerData: IHeaderData = {
+    //   'bot-access-token': this.bot.bot_access_token
+    // };
     // let getSectionForFAQBotById = this.constantsService.getCorpusForFAQBot(this.bot.corpus.id);
 
     // this.serverService.makeGetReq<any>({url: getCorpusForFAQBot, headerData})

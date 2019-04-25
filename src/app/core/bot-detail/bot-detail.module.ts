@@ -71,6 +71,7 @@ import { ArticleFilterComponent } from './bot-articles/article-filter/article-fi
 import { ArticleQuestionListViewComponent } from './bot-articles/article-question-list-view/article-question-list-view.component';
 import { ArticalHeaderComponent } from './bot-articles/artical-header/artical-header.component';
 import { EditAndViewArticlesComponent } from './bot-articles/edit-and-view-articles/edit-and-view-articles.component';
+import { CategorieModalInputComponent } from './bot-articles/categorie-modal-input/categorie-modal-input.component';
 
 const routes: Route[] = [
   {
@@ -135,6 +136,7 @@ const routes: Route[] = [
     LimitObjectArraysStringPipe,
     ConsumerFullscreenWrapperComponent,
     BotArticlesComponent,
+    CategorieModalInputComponent,
     EditAndViewArticlesComponent,
     ArticleQuestionListViewComponent,
     CategoryIdToNamePipe,
