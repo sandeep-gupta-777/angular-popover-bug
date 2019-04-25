@@ -42,7 +42,7 @@ export class LoginGaurdService {
     }
 
     return this.loggeduser$.pipe(map((value: IAuthState) => {
-      if (value.user == null) {
+      if (!value || value.user == null) {
         return true;
       } else {
         this.router.navigate(['.']);

@@ -24,7 +24,7 @@ import {DropTargetDirective} from '../../drop-target.directive';
 import {KnowledgeBaseWrapperComponent} from '../buildbot/build-code-based-bot/architecture/knowledge-base-wrapper/knowledge-base-wrapper.component';
 import {LimitObjectArraysStringPipe} from './consumers/limit-object-arrays-string.pipe';
 import {ConsumerFullscreenWrapperComponent} from './consumers/consumer-fullscreen-wrapper/consumer-fullscreen-wrapper.component';
-import {AuthGaurdService} from '../../auth-gaurd.service';
+
 import {RequiredIfOneFilledValidator} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/requiredIfOneFilledValidator.directive';
 import {RichMediaModule} from '../../rich-media.module';
 import {SessionDataToRichMediaSerializerPipe} from '../../session-data-to-rich-media-serializer.pipe';
@@ -66,7 +66,7 @@ import {PipeineKeywordToPipelineModuleMatchedPipe} from '../buildbot/build-code-
 
 const routes: Route[] = [
   {
-    path: '', component: BotDetailWrapperComponent, canActivateChild: [AuthGaurdService], children:
+    path: '', component: BotDetailWrapperComponent, canActivateChild: [], children:
         [
           {path: `${EBotType.chatbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.chatbot}},
           {path: `${EBotType.intelligent}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.intelligent}},

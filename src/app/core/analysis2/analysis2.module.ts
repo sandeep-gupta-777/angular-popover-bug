@@ -20,12 +20,11 @@ import {Analysis2BodyComponent} from './analysis2-body/analysis2-body.component'
 // import { Analysis2EventsComponent } from './according-to-old-ui/analysis2-events/analysis2-events.component';
 // import { Analysis2UsageComponent } from './according-to-old-ui/analysis2-usage/analysis2-usage.component';
 // import { Analysis2Engagement1Component } from './according-to-old-ui/analysis2-engagement1/analysis2-engagement1.component';
-import {AuthGaurdService} from '../../auth-gaurd.service';
 import {Analysis2UsageComponent} from './analysis2-usage/analysis2-usage.component';
 
 const routes: Route[] = [
   {
-    path: '', component: Analysis2WrapperComponent, canActivateChild: [AuthGaurdService], children: [
+    path: '', component: Analysis2WrapperComponent, canActivateChild: [], children: [
       {path: '', redirectTo: 'users', pathMatch: 'full'},
       // {path: 'overview', component: Analysis2OverviewComponent},
       {path: 'overview', component: Analysis2OverviewComponent},

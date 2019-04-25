@@ -1,15 +1,10 @@
 import {AfterViewInit, Component, ElementRef, isDevMode, OnInit, ViewChild} from '@angular/core';
 import {NavigationEnd, RouteConfigLoadEnd, RouteConfigLoadStart, Router, RoutesRecognized} from '@angular/router';
-import {Select, Store} from '@ngxs/store';
+// import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {IAppState} from './ngxs/app.state';
-import {PermissionService} from './permission.service';
-import {ELogType, LoggingService} from './logging.service';
-import {DebugBase} from './debug-base';
-import {EventService} from './event.service';
-import {UtilityService} from './utility.service';
-import {ServerService} from './server.service';
-import {StoreService} from './store.service';
+// import {IAppState} from './ngxs/app.state';
+// import {EventService} from './event.service';
+// import {StoreService} from './store.service';
 
 declare var CodeMirror: any;
 
@@ -19,25 +14,22 @@ declare var CodeMirror: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent extends DebugBase implements OnInit {
+export class AppComponent implements OnInit {
 
   loadingRouteConfig;
-  @Select() app$: Observable<IAppState>;
+  // @Select() app$: Observable<IAppState>;
   @ViewChild('carousel') carousel: ElementRef;
 
   constructor(private router: Router,
-              private eventService: EventService,
-              private store: Store,
-              private storeService: StoreService,
-              private serverService: ServerService) {
-    super();
+              /*private eventService: EventService,*/) {
+    // super();
   }
 
   isFullScreenPreview: boolean;
   enterprise_unique_name: string;
   bot_unique_name: string;
-  progressVal = 0;
-  showProgressbar = false;
+  // progressVal = 0;
+  // showProgressbar = false;
   editor: any;
   currentIntervalRef;
 
@@ -46,8 +38,9 @@ export class AppComponent extends DebugBase implements OnInit {
 
     console.log("app.component.ts");
 
-    this.serverService.compareDeployDates();
+    // this.serverService.compareDeployDates();//TODO: after refactor
 
+    /*
     let storeSnapshot = this.store.snapshot();
     let autoLogoutTime = storeSnapshot.app.autoLogoutTime;
     if(Date.now() > autoLogoutTime){
@@ -55,6 +48,7 @@ export class AppComponent extends DebugBase implements OnInit {
       this.storeService.logout();
       location.reload();
     }
+    */
 
     // /**
     //  * This is required here because if we set backend url in login page then anonymour chat page will be left out
@@ -63,8 +57,6 @@ export class AppComponent extends DebugBase implements OnInit {
     //   this.serverService.getNSetConfigData$().subscribe(() => {
     //   });
     // }
-
-    this.initializeProgressBarSubscription();
 
     this.router.events.subscribe((data) => {
       if (data instanceof RoutesRecognized) {
@@ -91,33 +83,7 @@ export class AppComponent extends DebugBase implements OnInit {
    * if loading = true, slowly increase progressbar
    * if loading = false, finish progressbar in 500ms
    * */
-  initializeProgressBarSubscription() {
-    EventService.progressBar$.subscribe(({loading, value}) => {
 
-      if (loading) {/*if loading = true, slowly increase progressbar*/
-        this.showProgressbar = true;
-        this.currentIntervalRef && clearInterval(this.currentIntervalRef);
-        this.progressVal = value;
-        // this.progressVal = 0;
-        this.currentIntervalRef = setInterval(() => {
-          LoggingService.log('setInterval');
-          if (this.progressVal < 80) {
-            ++this.progressVal;
-          } else {
-            this.progressVal = this.progressVal + 0.2;
-          }
-        }, 300);
-      } else {
-        setTimeout(() => {
-          this.progressVal = 100;
-          this.currentIntervalRef && clearInterval(this.currentIntervalRef);
-          setTimeout(() => {
-            this.showProgressbar = false;
-          }, 500);
-        }, 0);
-      }
-    });
-  }
 
   // test(){
   //   this.serverService.getLinkMetaData();

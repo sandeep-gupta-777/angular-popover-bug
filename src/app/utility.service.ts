@@ -29,9 +29,7 @@ import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
 import {el} from "@angular/platform-browser/testing/src/browser_util";
 
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class UtilityService {
 
   constructor(

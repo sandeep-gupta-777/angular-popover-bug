@@ -52,9 +52,7 @@ declare var IMI: any;
 declare var $: any;
 declare let deploy_obj_botplateform_fe;
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ServerService {
 
   @Select() loggeduser$: Observable<{ user: IUser }>;

@@ -33,11 +33,11 @@ import {HeaderComponent} from './header/header.component';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from '../shared.module';
 import {ViewCustomnerComponent} from './customner/view-customner/view-customner.component';
-import {AuthGaurdService} from '../auth-gaurd.service';
+// import {} from '../auth-gaurd.service';
 import {AccessGaurdService} from '../access-gaurd.service';
 import {ERouteNames} from '../constants.service';
 import {ChatModule} from '../chat/chat.module';
-import {EBotType} from '../utility.service';
+import {EBotType, UtilityService} from '../utility.service';
 import { StringIncludesPipe } from './buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
 import {MyMaterialModule} from '../my-material.module';
 import {CreateBotDialogComponent} from './view-bots/create-bot-dialog/create-bot-dialog.component';
@@ -58,22 +58,24 @@ import { IntegrationChannelListComponent } from './integration-channel-list/inte
 import { SecurityComponent } from './buildbot/build-code-based-bot/bot-config/security/security.component';
 import { BotByIdPipe } from './buildbot/build-code-based-bot/bot-config/data-manage-form/bot-by-id.pipe';
 import {ScrollDispatchModule} from "@angular/cdk/scrolling";
+import {ServerService} from "../server.service";
+import {NgxsModule} from "@ngxs/store";
 const routes: Route[] = [
   {
 
     path: '',
     component: CoreWrapperComponent,
-    canActivate: [AuthGaurdService],
-    canActivateChild: [AuthGaurdService, AccessGaurdService],
+    canActivate: [],
+    canActivateChild: [AccessGaurdService],
     children: [
       {
-        path: 'viewbots', loadChildren: './view-bots/view-bots.module#ViewBotsModule', canLoad: [AuthGaurdService]
+        path: 'viewbots', loadChildren: './view-bots/view-bots.module#ViewBotsModule', canLoad: []
       },
       {
-        path: 'botdetail', loadChildren: './bot-detail/bot-detail.module#BotDetailModule', canLoad: [AuthGaurdService]
+        path: 'botdetail', loadChildren: './bot-detail/bot-detail.module#BotDetailModule', canLoad: []
       },
       {
-        path: 'analytics2', loadChildren: './analysis2/analysis2.module#Analysis2Module', canLoad: [AuthGaurdService]
+        path: 'analytics2', loadChildren: './analysis2/analysis2.module#Analysis2Module', canLoad: []
       },
       {path: 'customner', component: ViewCustomnerComponent, data: {routeName: ERouteNames['Get Enterprise Knowledge base']}, canActivate: []},
       {path: 'customner/create', component: CreateCustomnerComponent, data: {routeName: ERouteNames['Create Enterprise Knowledge base']}},
@@ -154,9 +156,10 @@ const routes: Route[] = [
     SharedModule,
     ReactiveFormsModule,
     MyMaterialModule,
+    NgxsModule.forFeature([]),
     ScrollDispatchModule
   ],
-  providers: [AimService]
+  providers: [AimService, UtilityService , ServerService]
 })
 export class CoreModule {
 }
