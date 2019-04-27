@@ -21,6 +21,12 @@ import {ChatConsumerFormComponent} from '../chat-consumer-form/chat-consumer-for
 import {SharedModule} from '../shared.module';
 import {ChatFeedbackComponent} from '../chat-feedback/chat-feedback.component';
 import { LinkPreviewComponent } from './link-preview/link-preview.component';
+import {NgxsModule} from "@ngxs/store";
+import {EnterpriseprofileStateReducer} from "../core/enterpriseprofile/ngxs/enterpriseprofile.state";
+import {ChatSessionStateReducer} from "./ngxs/chat.state";
+import {BotCreationStateReducer} from "../core/buildbot/ngxs/buildbot.state";
+import {AnalysisStateReducer2} from "../core/analysis2/ngxs/analysis.state";
+import {ReportsStateReducer} from "../core/reports/ngxs/reports.state";
 
 const routes: Route[] = [
   // {path: 'preview',outlet: 'preview', component: ChatWrapperComponent},
@@ -48,7 +54,10 @@ const routes: Route[] = [
     HttpClientModule,
     ClickOutsideModule,
     MyMaterialModule,
-    SharedModule//TODO: remove this later, this is here because of ChatFeedbackComponent and MsToHhMmPipe
+    SharedModule,//TODO: remove this later, this is here because of ChatFeedbackComponent and MsToHhMmPipe,
+    NgxsModule.forFeature([
+      ChatSessionStateReducer,
+    ]),
 
   ],
   exports: [

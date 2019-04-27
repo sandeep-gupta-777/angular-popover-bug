@@ -52,7 +52,7 @@ import {DebounceClickDirective} from '../../debounce-click.directive';
 import {CheckImageValidityPipe} from '../../check-image-validity.pipe';
 import {HasChannelPipe} from '../../has-channel.pipe';
 import {MyMaterialModule} from '../../my-material.module';
-import {EBotType} from '../../utility.service';
+import {EBotType, UtilityService} from '../../utility.service';
 import {StringIncludesPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
 import {SimpleTableComponent} from '../buildbot/build-code-based-bot/architecture/pipeline/simple-table/simple-table.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
@@ -141,7 +141,7 @@ const routes: Route[] = [
     MyMaterialModule,
     DragDropModule
   ],
-  providers: [AimService]
+  providers: [AimService, UtilityService]
 })
 export class BotDetailModule {
 

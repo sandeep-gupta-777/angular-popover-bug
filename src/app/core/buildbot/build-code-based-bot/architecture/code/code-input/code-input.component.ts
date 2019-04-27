@@ -134,7 +134,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
       let selectedVersion = versionState.selectedVersion;
       if (selectedVersion) {
-        debugger;
+
         this.selectedVersion_st = selectedVersion;
         this.permanentlyShowUIViewFormBackend = selectedVersion.is_ui_view;
         if (this.codeInputForm) {
@@ -156,7 +156,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
     this.codeInputForm.valueChanges
       .subscribe((formData) => {
-        debugger;
+
         let version = {
           ...formData,
           id: this.selectedVersion_st.id
@@ -271,7 +271,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   }
 
   changeSelectedVersionHandler(version) {
-    debugger;
+
     if (!this.showGenTempEditor && this.codeGentemplateUiWrapperComponent) {
       this.templateKeyDict = this.codeGentemplateUiWrapperComponent.getTemplateDict();
     }
@@ -335,7 +335,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     }
   }
   openEditCodeModal(version: IBotVersionData) {
-    debugger;
+
     this.utilityService.openDialog({
       dialogRefWrapper: this.dialogRefWrapper,
       classStr:'danger-modal-header-border',
@@ -379,7 +379,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     let id = this.selectedVersion_st.id;
 
 
-    
+
     setTimeout(() => {
       this.store.dispatch(new SetDiff({version: {...this.codeInputForm.value, id: this.selectedVersion_st.id}}))
         .subscribe((val) => {
@@ -413,7 +413,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
       else{
         this.showGenTempEditor = true;
       }
-      
+
     }
     this.activeTabCount = tabCount;
     this.activeTab = CodeInputService.getActiveTabNameByTabCount(tabCount);
@@ -421,7 +421,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
   ngAfterViewInit(): void {
     // this.que
-    debugger;
+
     if(this.permanentlyShowUIViewFormBackend){
       this.showGenTempEditor = false;
     }

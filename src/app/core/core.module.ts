@@ -60,6 +60,14 @@ import { BotByIdPipe } from './buildbot/build-code-based-bot/bot-config/data-man
 import {ScrollDispatchModule} from "@angular/cdk/scrolling";
 import {ServerService} from "../server.service";
 import {NgxsModule} from "@ngxs/store";
+import {AppStateReducer} from "../ngxs/app.state";
+import {EnterpriseprofileStateReducer} from "./enterpriseprofile/ngxs/enterpriseprofile.state";
+import {ViewBotStateReducer} from "./view-bots/ngxs/view-bot.state";
+import {ChatSessionStateReducer} from "../chat/ngxs/chat.state";
+import {BotCreationStateReducer} from "./buildbot/ngxs/buildbot.state";
+import {AnalysisStateReducer2} from "./analysis2/ngxs/analysis.state";
+import {ReportsStateReducer} from "./reports/ngxs/reports.state";
+import {VersionStateReducer} from "./buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.state";
 const routes: Route[] = [
   {
 
@@ -156,8 +164,17 @@ const routes: Route[] = [
     SharedModule,
     ReactiveFormsModule,
     MyMaterialModule,
-    NgxsModule.forFeature([]),
-    ScrollDispatchModule
+    ScrollDispatchModule,
+    // NgxsModule.forFeature([
+    //
+    //   EnterpriseprofileStateReducer,
+    //   // ViewBotStateReducer,
+    //   // ChatSessionStateReducer,
+    //   BotCreationStateReducer,
+    //   AnalysisStateReducer2,
+    //   ReportsStateReducer,
+    //   // VersionStateReducer,
+    // ]),
   ],
   providers: [AimService, UtilityService , ServerService]
 })

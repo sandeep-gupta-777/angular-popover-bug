@@ -142,7 +142,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   }
 
   updateOrSaveConcept() {
-    debugger;
+
     let outputData = this.createOutPutData();
     let ner_type = outputData.ner_type;
     let codeTextOutPutFromCodeEditor = outputData.codeTextOutPutFromCodeEditor;

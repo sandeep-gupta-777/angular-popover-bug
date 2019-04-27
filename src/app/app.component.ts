@@ -20,7 +20,8 @@ export class AppComponent implements OnInit {
   // @Select() app$: Observable<IAppState>;
   @ViewChild('carousel') carousel: ElementRef;
 
-  constructor(private router: Router,
+  constructor(
+    // private router: Router,
               /*private eventService: EventService,*/) {
     // super();
   }
@@ -58,21 +59,21 @@ export class AppComponent implements OnInit {
     //   });
     // }
 
-    this.router.events.subscribe((data) => {
-      if (data instanceof RoutesRecognized) {
-
-        this.isFullScreenPreview = data.state.root.firstChild.data.isFullScreenPreview;
-        this.bot_unique_name = data.state.root.firstChild.queryParamMap.get('bot_unique_name');
-        this.enterprise_unique_name = data.state.root.firstChild.queryParamMap.get('enterprise_unique_name');
-      }
-      if (data instanceof RouteConfigLoadStart) {
-        /*lazy loading*/
-        this.loadingRouteConfig = true;
-      } else if (event instanceof RouteConfigLoadEnd) {
-        this.loadingRouteConfig = false;
-      }
-    });
-    console.log('Testing reload: take1');
+    // this.router.events.subscribe((data) => {
+    //   if (data instanceof RoutesRecognized) {
+    //
+    //     this.isFullScreenPreview = data.state.root.firstChild.data.isFullScreenPreview;
+    //     this.bot_unique_name = data.state.root.firstChild.queryParamMap.get('bot_unique_name');
+    //     this.enterprise_unique_name = data.state.root.firstChild.queryParamMap.get('enterprise_unique_name');
+    //   }
+    //   if (data instanceof RouteConfigLoadStart) {
+    //     /*lazy loading*/
+    //     this.loadingRouteConfig = true;
+    //   } else if (event instanceof RouteConfigLoadEnd) {
+    //     this.loadingRouteConfig = false;
+    //   }
+    // });
+    // console.log('Testing reload: take1');
 
 
   }

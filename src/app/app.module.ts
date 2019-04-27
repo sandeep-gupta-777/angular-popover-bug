@@ -5,14 +5,22 @@ import {NotFoundComponent} from './core/not-found/not-found.component';
 import {NotAuthorisedComponent} from './not-authorised/not-authorised.component';
 import {FilterArrayPipe} from './filter-array.pipe';
 import {BrowserModule} from "@angular/platform-browser";
-// import {createInputTransfer, createNewHosts, removeNgStyles} from "@angularclass/hmr";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ServiceWorkerModule} from "@angular/service-worker";
+import {environment} from "../environments/environment";
+import {ModuleGaurdLoadService} from "./route-gaurds/module-gaurd-load.service";
+import {NgxsModule} from "@ngxs/store";
+import {LoginPageGaurdService} from "./route-gaurds/login-page.gaurd.service";
+import {NgxsStoragePluginModule} from "@ngxs/storage-plugin";
+import {NgxsReduxDevtoolsPluginModule} from "@ngxs/devtools-plugin";
 
 const routes: Route[] = [
-  {path: 'dev', loadChildren: './dev/dev.module#DevModule',canLoad: []},
-  {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
-  {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad: []},
+  {path: 'dev', loadChildren: './dev/dev.module#DevModule'},
+  {path: 'auth', loadChildren: './auth/auth.module#AuthModule', canLoad:[LoginPageGaurdService]},
+  {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad:[ModuleGaurdLoadService]},
   {path: 'preview', loadChildren: './chat/chat.module#ChatModule'},
   {path: 'denied', component: NotAuthorisedComponent},
+  {path: 'login', redirectTo: 'auth/login', pathMatch: 'full'},
   {path: '', redirectTo: 'core/viewbots', pathMatch: 'full'},
   {path: '**', component: NotFoundComponent}
 ];
@@ -27,10 +35,11 @@ const routes: Route[] = [
 
   ],
   imports: [
+    BrowserAnimationsModule,
+    NgxsModule.forRoot(),
+    // BrowserModule,
     RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
-    // BrowserAnimationsModule ,
-    BrowserModule,
-
+    // RouterModule,
     // NgxsModule.forRoot([
     //   AuthStateReducer,
     //   AppStateReducer,
@@ -43,12 +52,12 @@ const routes: Route[] = [
     //   VersionStateReducer,
     // ]),
 
-    // NgxsStoragePluginModule.forRoot(),
-    // NgxsReduxDevtoolsPluginModule.forRoot(),//Comment this before pushing to git
+    NgxsStoragePluginModule.forRoot(),
+    NgxsReduxDevtoolsPluginModule.forRoot(),//Comment this before pushing to git
     // NgxsLoggerPluginModule.forRoot({disabled: true}), //disable for prod mode
 
 
-    // ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
     // ServiceWorkerModule.register('/static/ngsw-worker.js'),
 
 

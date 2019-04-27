@@ -29,7 +29,7 @@ export class PipelineFilterPipe implements PipeTransform {
       }
       return found;
     });
-    // debugger;
+    //
     // let pipelineItemV2ListClone: IPipelineItemV2[] = UtilityService.cloneObj(pipelineItemV2List);
     //
     // pipelineItemV2ListClone = pipelineItemV2ListClone.filter((module) => {

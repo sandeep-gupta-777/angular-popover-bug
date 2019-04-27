@@ -47,12 +47,12 @@ export class BotConfigInputComponent implements OnInit, ControlValueAccessor, Af
     /*todo: detect required attribute in input here*/
     this.ngControl = this.injector && this.injector.get(NgControl);
     // this.isRequired  = UtilityService.hasRequiredField(this.ngControl);
-    debugger;
+
   }
 
   ngAfterViewInit(){
     this.ngControl.valueChanges.subscribe(()=>{
-      debugger;
+
       // this.errorMessage = this.ngControl.hasError()
       if(this.ngControl.errors)
         this.errorMessage = Object.keys(this.ngControl.errors)[0];

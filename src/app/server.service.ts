@@ -77,8 +77,8 @@ export class ServerService {
       this.AUTH_TOKEN = value.user.auth_token && value.user.auth_token;
       this.X_AXIS_TOKEN = value.user.user_access_token && value.user.user_access_token;
       this.roleName = value.user.role.name;
-      this.app$.pipe(take(1)).subscribe((appState) => {
-        if (!this.roleInfo && appState.roleInfoArr)
+      this.app$.subscribe((appState) => {
+        if (!this.roleInfo && appState && appState.roleInfoArr)
           this.roleInfo = appState.roleInfoArr.find((role) => {
             return role.name === value.user.role.name
           });

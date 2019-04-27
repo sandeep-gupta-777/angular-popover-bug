@@ -12,6 +12,9 @@ import {AimService} from "../aim.service";
 import {ServerService} from "../server.service";
 import {UtilityService} from "../utility.service";
 import {NgxsModule} from "@ngxs/store";
+import {AuthStateReducer} from "./ngxs/auth.state";
+import {AppStateReducer} from "../ngxs/app.state";
+import {ViewBotStateReducer} from "../core/view-bots/ngxs/view-bot.state";
 
 const routes: Route[] = [
       {path: 'login', component: LoginComponent, canActivate: [LoginGaurdService]},
@@ -28,7 +31,7 @@ const routes: Route[] = [
     MatCheckboxModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,
-    NgxsModule.forFeature([]),
+    NgxsModule.forFeature([AuthStateReducer, AppStateReducer, ViewBotStateReducer]),
     // NgxsModule.forFeature([
     //   AuthStateReducer,
     // ]),
