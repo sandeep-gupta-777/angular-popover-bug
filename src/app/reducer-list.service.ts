@@ -18,6 +18,5 @@ export class ReducerListService {
     BotCreationStateReducer,
     AnalysisStateReducer2,
     ReportsStateReducer,
-    VersionStateReducer,
   ]
 }

@@ -28,7 +28,8 @@ import {catchError, finalize, switchMap, tap} from 'rxjs/internal/operators';
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.scss']
+  styleUrls: ['./reports.component.scss'],
+  providers:[TempVariableService]
 })
 export class ReportsComponent extends MaterialTableImplementer implements OnInit {
   tableData;

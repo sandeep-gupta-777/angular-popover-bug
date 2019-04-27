@@ -37,7 +37,7 @@ export class UtilityService {
     private router: Router,
     public snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder,
+    // private formBuilder: FormBuilder,
     private storeVariableService: StoreVariableService,
   ) {
   }
@@ -376,18 +376,18 @@ export class UtilityService {
     return JSON.parse(JSON.stringify(obj));
   }
 
-  getCodeInputForm() {
-    let codeInputForm = this.formBuilder.group({
-      df_template: [""],
-      df_rules: [""],
-      generation_rules: [""],
-      generation_templates: [""],
-      workflow: [""],
-      is_ui_view:'',
-    });
-
-    return codeInputForm;
-  }
+  // getCodeInputForm() {
+  //   let codeInputForm = this.formBuilder.group({
+  //     df_template: [""],
+  //     df_rules: [""],
+  //     generation_rules: [""],
+  //     generation_templates: [""],
+  //     workflow: [""],
+  //     is_ui_view:'',
+  //   });
+  //
+  //   return codeInputForm;
+  // }
 
   static removeEmptyKeyValues(valClone) {
     for (let key in valClone) {
@@ -1128,13 +1128,13 @@ export class UtilityService {
     return x;
   }
 
-  pushFormControlItemInFormArray(formArray: FormArray, formBuilder: FormBuilder, item: any) {
-    formArray.push(formBuilder.control(item));
-  }
-
-  pushFormGroupItemInFormArray(formArray: FormArray, formBuilder: FormBuilder, item: any) {
-    formArray.push(formBuilder.group(item));
-  }
+  // pushFormControlItemInFormArray(formArray: FormArray, formBuilder: FormBuilder, item: any) {
+  //   formArray.push(formBuilder.control(item));
+  // }
+  //
+  // pushFormGroupItemInFormArray(formArray: FormArray, formBuilder: FormBuilder, item: any) {
+  //   formArray.push(formBuilder.group(item));
+  // }
 
   createRandomUid() {
     return Date.now().toString();
@@ -1534,30 +1534,7 @@ export class UtilityService {
   }
 
 
-  timeDifference(current, previous) {
 
-    var msPerMinute = 60 * 1000;
-    var msPerHour = msPerMinute * 60;
-    var msPerDay = msPerHour * 24;
-    var msPerMonth = msPerDay * 30;
-    var msPerYear = msPerDay * 365;
-
-    var elapsed = current - previous;
-
-    if (elapsed < msPerMinute) {
-      return Math.round(elapsed / 1000) + ' seconds ago';
-    } else if (elapsed < msPerHour) {
-      return Math.round(elapsed / msPerMinute) + ' minutes ago';
-    } else if (elapsed < msPerDay) {
-      return Math.round(elapsed / msPerHour) + ' hours ago';
-    } else if (elapsed < msPerMonth) {
-      return 'approximately ' + Math.round(elapsed / msPerDay) + ' days ago';
-    } else if (elapsed < msPerYear) {
-      return 'approximately ' + Math.round(elapsed / msPerMonth) + ' months ago';
-    } else {
-      return 'approximately ' + Math.round(elapsed / msPerYear) + ' years ago';
-    }
-  }
 
 
 

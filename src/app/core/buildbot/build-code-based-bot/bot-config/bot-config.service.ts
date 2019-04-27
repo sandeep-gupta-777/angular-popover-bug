@@ -2,13 +2,11 @@ import {Injectable} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Select, Store} from '@ngxs/store';
 import {UtilityService} from '../../../../utility.service';
-import {ConstantsService} from '../../../../constants.service';
 import {PermissionService} from '../../../../permission.service';
 import {ActivatedRoute} from '@angular/router';
 import {IBot} from '../../../interfaces/IBot';
 import {Observable} from 'rxjs';
 import {IAppState} from '../../../../ngxs/app.state';
-import {DatePipe} from '@angular/common';
 import {IIntegrationMasterListItem} from '../../../../../interfaces/integration-option';
 
 @Injectable()
@@ -21,8 +19,6 @@ export class BotConfigService {
 
   constructor(private store: Store,
               private utilityService: UtilityService,
-              public constantsService: ConstantsService,
-              public datePipe: DatePipe,
               public permissionService: PermissionService,
               public activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder

@@ -28,7 +28,6 @@ import {FooterComponent} from '../footer/footer.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 // import {DragAndDropModule} from 'angular-draggable-droppable';
 import {HttpClientModule} from '@angular/common/http';
-import {AimService} from '../aim.service';
 import {HeaderComponent} from './header/header.component';
 import {CommonModule, DatePipe} from '@angular/common';
 import {SharedModule} from '../shared.module';
@@ -38,17 +37,17 @@ import {AccessGaurdService} from '../access-gaurd.service';
 import {ConstantsService, ERouteNames} from '../constants.service';
 import {ChatModule} from '../chat/chat.module';
 import {EBotType, UtilityService} from '../utility.service';
-import { StringIncludesPipe } from './buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
+import {StringIncludesPipe} from './buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
 import {MyMaterialModule} from '../my-material.module';
 import {CreateBotDialogComponent} from './view-bots/create-bot-dialog/create-bot-dialog.component';
 import {ModalConfirmComponent} from '../modal-confirm/modal-confirm.component';
 import {GentemplateEditKeyComponent} from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
-import { UrlValidatorDirective } from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-input-caraosal/url-validator.directive';
-import { EnterpriseOverviewComponent } from './enterpriseprofile/enterprise-overview/enterprise-overview.component';
-import { EnterpriseUsersComponent } from './enterpriseprofile/enterprise-users/enterprise-users.component';
-import { EnterpriseRolesComponent } from './enterpriseprofile/enterprise-roles/enterprise-roles.component';
-import { RolesComponent } from './enterpriseprofile/roles/roles.component';
-import { RoleaccordionComponent } from './enterpriseprofile/roles/roleaccordion/roleaccordion.component';
+import {UrlValidatorDirective} from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-input-caraosal/url-validator.directive';
+import {EnterpriseOverviewComponent} from './enterpriseprofile/enterprise-overview/enterprise-overview.component';
+import {EnterpriseUsersComponent} from './enterpriseprofile/enterprise-users/enterprise-users.component';
+import {EnterpriseRolesComponent} from './enterpriseprofile/enterprise-roles/enterprise-roles.component';
+import {RolesComponent} from './enterpriseprofile/roles/roles.component';
+import {RoleaccordionComponent} from './enterpriseprofile/roles/roleaccordion/roleaccordion.component';
 import {ScrollDispatchModule} from "@angular/cdk/scrolling";
 import {ServerService} from "../server.service";
 import {NgxsModule} from "@ngxs/store";
@@ -56,6 +55,13 @@ import {ReducerListService} from "../reducer-list.service";
 import {CodeInputService} from "./buildbot/build-code-based-bot/architecture/code/code-input/code-input.service";
 import {PermissionService} from "../permission.service";
 import {SmartTableSettingsService} from "../smart-table-settings.service";
+import {VersionStateReducer} from "./buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.state";
+import {FormsService} from "../forms.service";
+import {MyToasterService} from "../my-toaster.service";
+import {StoreVariableService} from "./buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service";
+import {EventService} from "../event.service";
+import {ObjectArrayCrudService} from "../object-array-crud.service";
+
 const routes: Route[] = [
   {
 
@@ -73,9 +79,23 @@ const routes: Route[] = [
       {
         path: 'analytics2', loadChildren: './analysis2/analysis2.module#Analysis2Module', canLoad: []
       },
-      {path: 'customner', component: ViewCustomnerComponent, data: {routeName: ERouteNames['Get Enterprise Knowledge base']}, canActivate: []},
-      {path: 'customner/create', component: CreateCustomnerComponent, data: {routeName: ERouteNames['Create Enterprise Knowledge base']}},
-      {path: 'enterpriseprofile', component: EnterpriseprofileComponent, data: {routeName: ERouteNames['Get Enterprise']}, canActivate: []},
+      {
+        path: 'customner',
+        component: ViewCustomnerComponent,
+        data: {routeName: ERouteNames['Get Enterprise Knowledge base']},
+        canActivate: []
+      },
+      {
+        path: 'customner/create',
+        component: CreateCustomnerComponent,
+        data: {routeName: ERouteNames['Create Enterprise Knowledge base']}
+      },
+      {
+        path: 'enterpriseprofile',
+        component: EnterpriseprofileComponent,
+        data: {routeName: ERouteNames['Get Enterprise']},
+        canActivate: []
+      },
 
       {path: 'profile', component: ProfileComponent, data: {routeName: ERouteNames['Get User']}},
       {path: 'reports', component: ReportsComponent, data: {routeName: ERouteNames['Get Reports']}},
@@ -111,7 +131,6 @@ const routes: Route[] = [
     EnterpriseOverviewComponent,
     ReportsComponent,
     CoreWrapperComponent,
-    // BuildbotWrapperComponent,
     SignupComponent,
     PipelineTestComponent,
     RolesComponent,
@@ -128,16 +147,6 @@ const routes: Route[] = [
     EnterpriseOverviewComponent,
     EnterpriseUsersComponent,
     EnterpriseRolesComponent,
-    // SecurityComponent,
-    // IntegrationChannelListComponent,
-    // PipeineIdToPipelineModuleWrapperPipe,
-    // PipelineIdToPipelineModulePipe
-    // DisplayNameForKeyIntegrationPipe,
-
-    /*added after lazy loading*/
-
-    // HighlightDirective
-
   ],
   entryComponents: [
     ModalConfirmComponent,
@@ -149,32 +158,36 @@ const routes: Route[] = [
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,
     ReactiveFormsModule,
-    // DragAndDropModule.forRoot(),
     HttpClientModule,
     SharedModule,
     ReactiveFormsModule,
     MyMaterialModule,
     ScrollDispatchModule,
 
-    NgxsModule.forFeature((<any>window).areReducersRegistered?[]:[
-      ...ReducerListService.list
-    ]),
-
-    // NgxsModule.forFeature([
-    //
-    //   EnterpriseprofileStateReducer,
-    //   // ViewBotStateReducer,
-    //   // ChatSessionStateReducer,
-    //   BotCreationStateReducer,
-    //   AnalysisStateReducer2,
-    //   ReportsStateReducer,
-    //   // VersionStateReducer,
-    // ]),
+    NgxsModule.forFeature((<any>window).areReducersRegistered ? [VersionStateReducer] : [
+      ...ReducerListService.list,
+      VersionStateReducer,
+    ])
   ],
-  providers: [ConstantsService,AimService, PermissionService, UtilityService , ServerService, CodeInputService, DatePipe, SmartTableSettingsService]
+  providers: [
+    EventService,
+    ConstantsService,
+    ObjectArrayCrudService,
+    AccessGaurdService,
+    StoreVariableService,
+    MyToasterService,
+    FormsService,
+    PermissionService,
+    UtilityService,
+    ServerService,
+    CodeInputService,
+    DatePipe,
+    SmartTableSettingsService,
+    FormsService,
+  ]
 })
 export class CoreModule {
-  constructor(){
+  constructor() {
     // alert('core '+areReducersRegistered);
     (<any>window).areReducersRegistered = true;
 

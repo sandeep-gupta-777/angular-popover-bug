@@ -68,12 +68,12 @@ import { ListIfNotInThisListPipe } from './core/enterpriseprofile/enterprise-rol
 import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
 import {BotConfigService} from "./core/buildbot/build-code-based-bot/bot-config/bot-config.service";
 import {PermissionService} from "./permission.service";
+import {ConstantsService} from "./constants.service";
+import {SharedEnterpriseListModuleModule} from "./auth/shared-enterprise-list-module.module";
 
 @NgModule({
   declarations: [
     IntegrationChannelListComponent,
-    EnterpriseListComponent,
-    GenericObjFilterPipe,
     IntegrationLogosPipe,
     IntegrationItemByUnamePipe,
     SplashScreenComponent,
@@ -130,6 +130,7 @@ import {PermissionService} from "./permission.service";
     ConvertToUniqueArrayPipe
   ],
   imports: [
+    SharedEnterpriseListModuleModule,
     MyMaterialModule,
     FormsModule,
     ReactiveFormsModule,
@@ -141,11 +142,11 @@ import {PermissionService} from "./permission.service";
 
   ],
   exports: [
+    SharedEnterpriseListModuleModule,
     LinkifyPipe,
     LinksFromTextPipe,
     MsToHhMmPipe,
-    GenericObjFilterPipe,
-    EnterpriseListComponent,
+    // EnterpriseListComponent,
     MyIfDirective,
     SplashScreenComponent,
     HighlightDirective,
@@ -202,7 +203,7 @@ import {PermissionService} from "./permission.service";
     ListIfNotInThisListPipe,
     ConvertToUniqueArrayPipe
   ],
-  providers: [PermissionService, BotConfigService]
+  providers: [ConstantsService, PermissionService, BotConfigService]
 })
 export class SharedModule {
 

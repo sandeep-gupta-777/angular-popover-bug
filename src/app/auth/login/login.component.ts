@@ -26,6 +26,8 @@ import {catchError, switchMap} from 'rxjs/internal/operators';
 import {PermissionService} from '../../permission.service';
 import {tap} from 'rxjs/internal/operators';
 import {ERoleName} from "../../typings/enum";
+import {FormsService} from "../../forms.service";
+import {MyToasterService} from "../../my-toaster.service";
 
 enum ELoginPanels {
   set = 'set',
@@ -63,7 +65,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     private constantsService: ConstantsService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private utilityService: UtilityService,
+    private myToasterService: MyToasterService,
     private store: Store) {
     super();
   }
@@ -292,7 +294,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       //   })
       // );
     } else {
-      this.utilityService.showErrorToaster('Please verify this enterprise before trying to login.');
+      this.myToasterService.showErrorToaster('Please verify this enterprise before trying to login.');
       return of(null);
     }
 

@@ -63,6 +63,7 @@ import {PipelineIdToPipelineModulePipe} from '../buildbot/build-code-based-bot/a
 import {PipeineIdToPipelineModuleWrapperPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/pipeine-id-to-pipeline-module-wrapper.pipe';
 import {SortObjectArrPipe} from '../../sort-object-arr.pipe';
 import {PipeineKeywordToPipelineModuleMatchedPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/pipeine-keyword-to-pipeline-module-matched.pipe';
+import {ConstantsService} from "../../constants.service";
 
 const routes: Route[] = [
   {
@@ -141,7 +142,7 @@ const routes: Route[] = [
     MyMaterialModule,
     DragDropModule
   ],
-  providers: [AimService, UtilityService, DatePipe]
+  providers: [ConstantsService, AimService, UtilityService, DatePipe]
 })
 export class BotDetailModule {
 

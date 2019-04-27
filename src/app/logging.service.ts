@@ -9,9 +9,7 @@ export enum ELogType {
   group= 'group',
   warn= 'warn',
 }
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class LoggingService {
 
   constructor() { }

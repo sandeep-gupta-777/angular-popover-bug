@@ -46,6 +46,7 @@ import {CodeInputService} from './code-input.service';
 import {EBotVersionTabs, IBotVersionErrorMap, IVersionDiffMap} from "../../../../../../../interfaces/code-input";
 import {CodeGentemplateUiWrapperComponent} from "./code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component";
 import {EAllActions} from "../../../../../../typings/enum";
+import {FormsService} from "../../../../../../forms.service";
 
 @Component({
   selector: 'app-code-input',
@@ -102,6 +103,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     private store: Store,
     private serverService: ServerService,
     public utilityService: UtilityService,
+    public formsService: FormsService,
     public codeInputService: CodeInputService,
     public matDialog: MatDialog,
     private router: Router,
@@ -139,7 +141,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
     });
 
-    this.codeInputForm = this.utilityService.getCodeInputForm();
+    this.codeInputForm = this.formsService.getCodeInputForm();
     this.store.dispatch(new ResetVersionState())
       .subscribe(()=>{
         this.store.dispatch([new GetVersionsInit$({bot: this.bot, bot_access_token: this.bot.bot_access_token})]);

@@ -180,7 +180,7 @@ export class ChatWrapperComponent implements OnInit {
 
         this.showBotIsThinking = this.currentRoom && this.currentRoom.showBotIsThinking;
 
-        
+
 
         this.currentBot = chatSessionState.currentBotDetails;
         if (this.currentBot) {
@@ -188,7 +188,7 @@ export class ChatWrapperComponent implements OnInit {
           this.bot_access_token = this.currentBot.bot_access_token; //this.currentRoom && this.currentRoom.bot_access_token || bot.bot_access_token;
           this.chatWindowTitle = chatSessionState.currentBotDetails.name;
         }
-        
+
         if (chatSessionState.currentRoomId) {
           this.currentRoom = chatSessionState.rooms.find((room) => room.id === chatSessionState.currentRoomId);
           chatSessionState.consumerDetails = this.currentRoom.consumerDetails;
@@ -197,7 +197,7 @@ export class ChatWrapperComponent implements OnInit {
         }
 
         if (hasPreviewRoomChanged || hasPreviewBotChanged) {
-          this.serverService.initializeIMIConnect(chatSessionState.currentBotDetails, chatSessionState.currentRoomId, chatSessionState);
+          this.chatService.initializeIMIConnect(chatSessionState.currentBotDetails, chatSessionState.currentRoomId, chatSessionState);
         }
 
         this.frameEnabled = chatSessionState.frameEnabled;
@@ -251,14 +251,14 @@ export class ChatWrapperComponent implements OnInit {
     * 1. Post send api to server with first message=> will get back consent message and room roomId
     * 2. create a new room using room roomId
     * */
-    this.serverService.startANewChatUsingSendApi(startNewChatData)
+    this.chatService.startANewChatUsingSendApi(startNewChatData)
       .subscribe((value: IBotPreviewFirstMessage) => {
 
         /*
         *A new room has been created. Now if the room belongs to IMI Connect bot,
         *initialize IMI Connect integration
         * */
-        this.serverService.initializeIMIConnect(startNewChatData.bot, value.room.id, startNewChatData);
+        this.chatService.initializeIMIConnect(startNewChatData.bot, value.room.id, startNewChatData);
         /*1. create a new room with room roomId
          *2. add message to the room: consent message */
         const roomMessages = this.utilityService.serializeServerValueToChatRoomMessages(value);
@@ -337,7 +337,7 @@ export class ChatWrapperComponent implements OnInit {
 
         /*========================Creation of chat room using IMI CONNECT===============================*/
         if (shouldStartChatViaImiConnectSDK) {
-          this.serverService.sendHumanMessageViaImiConnect(this.currentRoom, this.currentBot, messageByHuman);
+          this.chatService.sendHumanMessageViaImiConnect(this.currentRoom, this.currentBot, messageByHuman);
           return;
         }
         this.chatService.sendHumanMessageToBotServer(

@@ -5,7 +5,6 @@ import {ViewBotsComponent} from './view-bots.component';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {DragService} from '../../drag.service';
-import {AimService} from '../../aim.service';
 import {SortBotsPipe} from '../../sort-bots.pipe';
 import {BotPreviewCardComponent} from './bot-preview-card/bot-preview-card.component';
 import {SharedModule} from '../../shared.module';
@@ -42,7 +41,7 @@ const routes: Route[] = [
     RichMediaModule,
     HttpClientModule,
   ],
-  providers: [DragService, AimService]
+  providers: [DragService]
 })
 export class ViewBotsModule {
 }

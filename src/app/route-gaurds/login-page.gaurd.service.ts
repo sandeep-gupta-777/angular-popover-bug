@@ -2,9 +2,7 @@ import {Injectable} from '@angular/core';
 import {CanActivate, CanActivateChild, CanLoad, Router} from '@angular/router';
 import {AuthGaurdService} from "./auth-gaurd.service";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class LoginPageGaurdService implements CanActivate, CanActivateChild, CanLoad {
   constructor(private router: Router) {}
   /*

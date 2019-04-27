@@ -7,6 +7,7 @@ import {FormArray, FormBuilder, FormGroup, NgForm, Validators} from '@angular/fo
 import {EFormValidationErrors, UtilityService} from '../../../../../utility.service';
 import {debounceTime} from 'rxjs/operators';
 import {EAllActions} from "../../../../../typings/enum";
+import {FormsService} from "../../../../../forms.service";
 
 @Component({
   selector: 'app-avator-form',
@@ -33,6 +34,7 @@ export class AvatorFormComponent implements OnInit {
     private _iterableDiffers: IterableDiffers,
     private store: Store,
     private formBuilder: FormBuilder,
+    private formsService: FormsService,
     private utilityService: UtilityService) {
     this.iterableDiffer = this._iterableDiffers.find([]).create(null);
   }
@@ -101,7 +103,7 @@ export class AvatorFormComponent implements OnInit {
       };
     }
     //
-    this.utilityService.pushFormGroupItemInFormArray(this.formArray, this.formBuilder, newAvator);
+    this.formsService.pushFormGroupItemInFormArray(this.formArray, this.formBuilder, newAvator);
   }
 
   deleteAvator(index: number) {

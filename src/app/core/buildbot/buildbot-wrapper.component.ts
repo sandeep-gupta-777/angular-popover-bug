@@ -9,7 +9,6 @@ import {ConstantsService} from '../../constants.service';
 import {ActivatedRoute, Route, Router} from '@angular/router';
 import {EBotType, UtilityService} from '../../utility.service';
 import {AddNewBotInAllBotList, SetAllBotListAction} from '../view-bots/ngxs/view-bot.action';
-import {LoggingService} from '../../logging.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {BotConfigService} from './build-code-based-bot/bot-config/bot-config.service';
 import {CODE_BASED_DEFAULT_ICON, PIPELINE_DEFAULT_ICON} from "../../asset.service";

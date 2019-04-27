@@ -9,9 +9,7 @@ import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.com
 import {FormGroup, NgForm} from "@angular/forms";
 import { BuildbotWrapperComponent } from './core/buildbot/buildbot-wrapper.component';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SideBarService {
 
   private static botConfigComponent: BotConfigComponent;

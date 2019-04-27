@@ -65,11 +65,11 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
   pipelineModulesV2List: IPipelineItemV2[];
 
   constructor(
-      private aimService: AimService,
       private objectArrayCrudService: ObjectArrayCrudService,
       private _iterableDiffers: IterableDiffers,
       private activatedRoute: ActivatedRoute,
       private constantsService: ConstantsService,
+      private aimService: AimService,
       private serverService: ServerService,
       public utilityService: UtilityService,
       public matDialog: MatDialog,

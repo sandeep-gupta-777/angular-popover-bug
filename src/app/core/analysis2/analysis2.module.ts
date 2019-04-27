@@ -4,7 +4,6 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {DragService} from '../../drag.service';
-import {AimService} from '../../aim.service';
 import {SharedModule} from '../../shared.module';
 import {Analysis2WrapperComponent} from './analysis2-wrapper/analysis2-wrapper.component';
 import {Analysis2VolumeComponent} from './analysis2-volume/analysis2-volume.component';
@@ -70,8 +69,7 @@ const routes: Route[] = [
     // ModalModule.forRoot(),
   ],
   providers: [
-    DragService,
-    AimService
+    DragService
   ]
 })
 export class Analysis2Module {
