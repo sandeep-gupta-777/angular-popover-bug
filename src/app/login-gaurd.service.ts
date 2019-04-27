@@ -6,9 +6,7 @@ import {RouteConfigLoadEnd, RouteConfigLoadStart, Router, RoutesRecognized} from
 import {Observable} from 'rxjs';
 import {Select} from '@ngxs/store';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class LoginGaurdService {
 
   token;

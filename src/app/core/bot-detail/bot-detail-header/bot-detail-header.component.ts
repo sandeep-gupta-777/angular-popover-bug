@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angu
 import {IBot} from '../../interfaces/IBot';
 import {ServerService} from '../../../server.service';
 import {Select, Store} from '@ngxs/store';
-import {ConstantsService, EAllActions} from '../../../constants.service';
+import {ConstantsService} from '../../../constants.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {EBotType, UtilityService} from '../../../utility.service';
 import {ChangeFrameAction, SetCurrentBotDetailsAndResetChatStateIfBotMismatch, ToggleChatWindow} from '../../../chat/ngxs/chat.action';
@@ -18,6 +18,7 @@ import {ModalImplementer} from '../../../modal-implementer';
 import {EventService} from '../../../event.service';
 import { SideBarService } from 'src/app/side-bar.service';
 import { ESideBarTab } from '../code-based-bot-detail/code-based-bot-detail.component';
+import {EAllActions} from "../../../typings/enum";
 
 @Component({
   selector: 'app-bot-detail-header',
@@ -223,7 +224,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
       this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
       .then((data)=>{
         if(data){
-          this.router.navigate(['/core/analytics2/volume'], {queryParams:{bot_id:this.bot.id}});          
+          this.router.navigate(['/core/analytics2/volume'], {queryParams:{bot_id:this.bot.id}});
 
         }
       })

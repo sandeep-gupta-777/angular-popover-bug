@@ -30,12 +30,12 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {AimService} from '../aim.service';
 import {HeaderComponent} from './header/header.component';
-import {CommonModule} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import {SharedModule} from '../shared.module';
 import {ViewCustomnerComponent} from './customner/view-customner/view-customner.component';
 // import {} from '../auth-gaurd.service';
 import {AccessGaurdService} from '../access-gaurd.service';
-import {ERouteNames} from '../constants.service';
+import {ConstantsService, ERouteNames} from '../constants.service';
 import {ChatModule} from '../chat/chat.module';
 import {EBotType, UtilityService} from '../utility.service';
 import { StringIncludesPipe } from './buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
@@ -47,27 +47,15 @@ import { UrlValidatorDirective } from './buildbot/build-code-based-bot/architect
 import { EnterpriseOverviewComponent } from './enterpriseprofile/enterprise-overview/enterprise-overview.component';
 import { EnterpriseUsersComponent } from './enterpriseprofile/enterprise-users/enterprise-users.component';
 import { EnterpriseRolesComponent } from './enterpriseprofile/enterprise-roles/enterprise-roles.component';
-import { SortPipelinePipe } from './buildbot/build-code-based-bot/architecture/pipeline/sort-pipeline.pipe';
-import {SafeHtml} from '@angular/platform-browser';
-import {SafeHtmlPipe} from '../safe-html.pipe';
-import { PipelineIdToPipelineModulePipe } from './buildbot/build-code-based-bot/architecture/pipeline/pipeline-id-to-pipeline-module.pipe';
-import { PipeineIdToPipelineModuleWrapperPipe } from './buildbot/build-code-based-bot/architecture/pipeline/pipeine-id-to-pipeline-module-wrapper.pipe';
 import { RolesComponent } from './enterpriseprofile/roles/roles.component';
 import { RoleaccordionComponent } from './enterpriseprofile/roles/roleaccordion/roleaccordion.component';
-import { IntegrationChannelListComponent } from './integration-channel-list/integration-channel-list.component';
-import { SecurityComponent } from './buildbot/build-code-based-bot/bot-config/security/security.component';
-import { BotByIdPipe } from './buildbot/build-code-based-bot/bot-config/data-manage-form/bot-by-id.pipe';
 import {ScrollDispatchModule} from "@angular/cdk/scrolling";
 import {ServerService} from "../server.service";
 import {NgxsModule} from "@ngxs/store";
-import {AppStateReducer} from "../ngxs/app.state";
-import {EnterpriseprofileStateReducer} from "./enterpriseprofile/ngxs/enterpriseprofile.state";
-import {ViewBotStateReducer} from "./view-bots/ngxs/view-bot.state";
-import {ChatSessionStateReducer} from "../chat/ngxs/chat.state";
-import {BotCreationStateReducer} from "./buildbot/ngxs/buildbot.state";
-import {AnalysisStateReducer2} from "./analysis2/ngxs/analysis.state";
-import {ReportsStateReducer} from "./reports/ngxs/reports.state";
-import {VersionStateReducer} from "./buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.state";
+import {ReducerListService} from "../reducer-list.service";
+import {CodeInputService} from "./buildbot/build-code-based-bot/architecture/code/code-input/code-input.service";
+import {PermissionService} from "../permission.service";
+import {SmartTableSettingsService} from "../smart-table-settings.service";
 const routes: Route[] = [
   {
 
@@ -106,6 +94,8 @@ const routes: Route[] = [
 
   {path: '', redirectTo: `core/viewbots/${EBotType.chatbot}`, pathMatch: 'full'},
 ];
+
+// declare let areReducersRegistered ;
 
 @NgModule({
   declarations: [
@@ -165,6 +155,11 @@ const routes: Route[] = [
     ReactiveFormsModule,
     MyMaterialModule,
     ScrollDispatchModule,
+
+    NgxsModule.forFeature((<any>window).areReducersRegistered?[]:[
+      ...ReducerListService.list
+    ]),
+
     // NgxsModule.forFeature([
     //
     //   EnterpriseprofileStateReducer,
@@ -176,7 +171,12 @@ const routes: Route[] = [
     //   // VersionStateReducer,
     // ]),
   ],
-  providers: [AimService, UtilityService , ServerService]
+  providers: [ConstantsService,AimService, PermissionService, UtilityService , ServerService, CodeInputService, DatePipe, SmartTableSettingsService]
 })
 export class CoreModule {
+  constructor(){
+    // alert('core '+areReducersRegistered);
+    (<any>window).areReducersRegistered = true;
+
+  }
 }

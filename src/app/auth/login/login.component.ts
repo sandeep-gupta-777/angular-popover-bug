@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild, Output, EventEmitter} from '@angular/core';
 import {ServerService} from '../../server.service';
-import {ConstantsService, ERoleName} from '../../constants.service';
+import {ConstantsService} from '../../constants.service';
 import {IUser} from '../../core/interfaces/user';
 import {Store} from '@ngxs/store';
 import {IHeaderData} from '../../../interfaces/header-data';
@@ -25,6 +25,7 @@ import {IRoleInfo} from '../../../interfaces/role-info';
 import {catchError, switchMap} from 'rxjs/internal/operators';
 import {PermissionService} from '../../permission.service';
 import {tap} from 'rxjs/internal/operators';
+import {ERoleName} from "../../typings/enum";
 
 enum ELoginPanels {
   set = 'set',

@@ -3,12 +3,10 @@ import {IAvatar, IAvatarList} from '../../../../../../interfaces/bot-creation';
 import {ObjectArrayCrudService} from '../../../../../object-array-crud.service';
 import {IBot} from '../../../../interfaces/IBot';
 import {Store} from '@ngxs/store';
-import {SaveAvatorInfo} from '../../../ngxs/buildbot.action';
 import {FormArray, FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
 import {EFormValidationErrors, UtilityService} from '../../../../../utility.service';
-import {EAllActions} from '../../../../../constants.service';
-import {LoggingService} from '../../../../../logging.service';
 import {debounceTime} from 'rxjs/operators';
+import {EAllActions} from "../../../../../typings/enum";
 
 @Component({
   selector: 'app-avator-form',

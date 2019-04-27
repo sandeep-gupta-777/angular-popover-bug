@@ -13,6 +13,23 @@ import {NgxsModule} from "@ngxs/store";
 import {LoginPageGaurdService} from "./route-gaurds/login-page.gaurd.service";
 import {NgxsStoragePluginModule} from "@ngxs/storage-plugin";
 import {NgxsReduxDevtoolsPluginModule} from "@ngxs/devtools-plugin";
+import {AuthStateReducer} from "./auth/ngxs/auth.state";
+import {AppStateReducer} from "./ngxs/app.state";
+import {EnterpriseprofileStateReducer} from "./core/enterpriseprofile/ngxs/enterpriseprofile.state";
+import {ViewBotStateReducer} from "./core/view-bots/ngxs/view-bot.state";
+import {ChatSessionStateReducer} from "./chat/ngxs/chat.state";
+import {BotCreationStateReducer} from "./core/buildbot/ngxs/buildbot.state";
+import {AnalysisStateReducer2} from "./core/analysis2/ngxs/analysis.state";
+import {ReportsStateReducer} from "./core/reports/ngxs/reports.state";
+import {VersionStateReducer} from "./core/buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.state";
+import {UtilityService} from "./utility.service";
+import {MatSnackBar, MatSnackBarModule} from "@angular/material";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ServerService} from "./server.service";
+import {HttpClientModule} from "@angular/common/http";
+import {CodeInputService} from "./core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.service";
+import {PermissionService} from "./permission.service";
+import {ConstantsService} from "./constants.service";
 
 const routes: Route[] = [
   {path: 'dev', loadChildren: './dev/dev.module#DevModule'},
@@ -35,36 +52,31 @@ const routes: Route[] = [
 
   ],
   imports: [
-    BrowserAnimationsModule,
-    NgxsModule.forRoot(),
-    // BrowserModule,
+    // BrowserAnimationsModule,
+    BrowserModule,
     RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     // RouterModule,
-    // NgxsModule.forRoot([
-    //   AuthStateReducer,
-    //   AppStateReducer,
-    //   EnterpriseprofileStateReducer,
-    //   ViewBotStateReducer,
-    //   ChatSessionStateReducer,
-    //   BotCreationStateReducer,
-    //   AnalysisStateReducer2,
-    //   ReportsStateReducer,
-    //   VersionStateReducer,
-    // ]),
+    NgxsModule.forRoot([
+
+    ]),
 
     NgxsStoragePluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),//Comment this before pushing to git
     // NgxsLoggerPluginModule.forRoot({disabled: true}), //disable for prod mode
 
 
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     // ServiceWorkerModule.register('/static/ngsw-worker.js'),
-
+  // MatSnackBarModule,
+  //   FormsModule,
+  //   ReactiveFormsModule,
+  //   HttpClientModule,
 
     /**/
     // ReactiveFormsModule,
     // FormsModule
   ],
+  providers:[PermissionService/*todo: removing it will throw static injectiom error, remove it*/],
   bootstrap: [AppComponent]
 })
 export class AppModule {

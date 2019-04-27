@@ -15,19 +15,9 @@ import {Store, Select, Actions, ofActionDispatched} from '@ngxs/store';
 import {
   IBot,
   IBotVersionData,
-  IBotVersionResult,
-  ICode,
-  ICodeVersionValidation,
-  IValidationTabItem
+  ICode
 } from '../../../../../interfaces/IBot';
 import {ServerService} from '../../../../../../server.service';
-import {ConstantsService, EAllActions, ERoleName} from '../../../../../../constants.service';
-import {
-  SaveVersionInfoInBot,
-  UpdateBotInfoByIdInBotInBotList,
-  UpdateVersionInfoByIdInBot
-} from '../../../../../view-bots/ngxs/view-bot.action';
-import {SaveCodeInfo} from '../../../../ngxs/buildbot.action';
 import {ViewBotStateModel} from '../../../../../view-bots/ngxs/view-bot.state';
 import {Observable, Subscription} from 'rxjs';
 import {IHeaderData} from '../../../../../../../interfaces/header-data';
@@ -55,6 +45,7 @@ import {ICodeInputState} from "./ngxs/code-input.state";
 import {CodeInputService} from './code-input.service';
 import {EBotVersionTabs, IBotVersionErrorMap, IVersionDiffMap} from "../../../../../../../interfaces/code-input";
 import {CodeGentemplateUiWrapperComponent} from "./code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component";
+import {EAllActions} from "../../../../../../typings/enum";
 
 @Component({
   selector: 'app-code-input',

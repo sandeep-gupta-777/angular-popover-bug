@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {Select, Store} from '@ngxs/store';
 import {IBot} from '../../../../interfaces/IBot';
 import {ServerService} from '../../../../../server.service';
-import {ConstantsService, EAllActions, ERouteNames} from '../../../../../constants.service';
+import {ConstantsService, ERouteNames,} from '../../../../../constants.service';
 import {UtilityService} from '../../../../../utility.service';
 import {IHeaderData} from '../../../../../../interfaces/header-data';
 import {ICustomNerItem} from '../../../../../../interfaces/custom-ners';
@@ -16,6 +16,7 @@ import {MaterialTableImplementer} from '../../../../../material-table-implemente
 import {EventService} from '../../../../../event.service';
 import {KnowledgeBasePresentationComponent} from './knowledge-base-presentation/knowledge-base-presentation.component';
 import {ESortDir} from "../../../../../smart-table/smart-table.component";
+import {EAllActions} from "../../../../../typings/enum";
 
 @Component({
   selector: 'app-knowledge-base',

@@ -7,7 +7,7 @@ import { ResetAppState, ResetStoreToDefault } from '../../ngxs/app.action';
 import { ResetChatState } from '../../chat/ngxs/chat.action';
 import { ResetBotListAction, SetAllBotListAction } from '../view-bots/ngxs/view-bot.action';
 import { ResetAuthToDefaultState, SetUser } from '../../auth/ngxs/auth.action';
-import { ConstantsService, EAllActions } from '../../constants.service';
+import { ConstantsService,  } from '../../constants.service';
 import { ServerService } from '../../server.service';
 import { ResetEnterpriseUsersAction, SetEnterpriseInfoAction } from '../enterpriseprofile/ngxs/enterpriseprofile.action';
 import { ResetBuildBotToDefault } from '../buildbot/ngxs/buildbot.action';
@@ -21,6 +21,7 @@ import { IBotResult } from '../interfaces/IBot';
 import { IAuthState } from '../../auth/ngxs/auth.state';
 import { ModalImplementer } from 'src/app/modal-implementer';
 import { MatDialog } from '@angular/material';
+import {EAllActions} from "../../typings/enum";
 
 @Component({
   selector: 'app-header',

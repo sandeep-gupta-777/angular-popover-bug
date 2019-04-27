@@ -2,9 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {IBot} from '../../interfaces/IBot';
 import {Store} from '@ngxs/store';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
-import {ConstantsService, EAllActions} from '../../../constants.service';
 import {PermissionService} from '../../../permission.service';
 import {EBotType} from '../../../utility.service';
+import {EAllActions} from "../../../typings/enum";
 
 @Component({
   selector: 'app-bot-preview-card-list',

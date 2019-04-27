@@ -1,6 +1,6 @@
 import {Route, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {AimService} from '../../aim.service';
@@ -141,7 +141,7 @@ const routes: Route[] = [
     MyMaterialModule,
     DragDropModule
   ],
-  providers: [AimService, UtilityService]
+  providers: [AimService, UtilityService, DatePipe]
 })
 export class BotDetailModule {
 

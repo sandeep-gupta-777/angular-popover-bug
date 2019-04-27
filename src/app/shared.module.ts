@@ -66,6 +66,8 @@ import {IntegrationItemByUnamePipe} from './integration-item-by-uname.pipe';
 import {BotByIdPipe} from "./core/buildbot/build-code-based-bot/bot-config/data-manage-form/bot-by-id.pipe";
 import { ListIfNotInThisListPipe } from './core/enterpriseprofile/enterprise-roles/listIfNotInThisList.pipe';
 import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
+import {BotConfigService} from "./core/buildbot/build-code-based-bot/bot-config/bot-config.service";
+import {PermissionService} from "./permission.service";
 
 @NgModule({
   declarations: [
@@ -199,7 +201,8 @@ import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
     BuildbotWrapperComponent,
     ListIfNotInThisListPipe,
     ConvertToUniqueArrayPipe
-  ]
+  ],
+  providers: [PermissionService, BotConfigService]
 })
 export class SharedModule {
 

@@ -1,7 +1,7 @@
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
 import {ServerService} from '../../server.service';
-import {ConstantsService, EAllActions} from '../../constants.service';
+import {ConstantsService, } from '../../constants.service';
 import {IBot} from '../interfaces/IBot';
 import {Select, Store} from '@ngxs/store';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -12,6 +12,7 @@ import {MatDialog} from '@angular/material';
 import {CreateBotDialogComponent} from './create-bot-dialog/create-bot-dialog.component';
 import {EBotType, UtilityService} from '../../utility.service';
 import {ModalImplementer} from '../../modal-implementer';
+import {EAllActions} from "../../typings/enum";
 
 @Component({
   selector: 'app-view-bots',

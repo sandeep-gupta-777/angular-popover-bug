@@ -11,9 +11,7 @@ import {IAppState} from '../../../../ngxs/app.state';
 import {DatePipe} from '@angular/common';
 import {IIntegrationMasterListItem} from '../../../../../interfaces/integration-option';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class BotConfigService {
 
   basicInfoForm: FormGroup;

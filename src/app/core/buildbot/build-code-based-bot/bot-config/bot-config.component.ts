@@ -3,7 +3,6 @@ import {IBot} from '../../../interfaces/IBot';
 import {ActivatedRoute} from '@angular/router';
 import {LoggingService} from '../../../../logging.service';
 import {EBotType, UtilityService} from '../../../../utility.service';
-import {EAllActions} from '../../../../constants.service';
 import {EventService} from '../../../../event.service';
 import {BotConfigService} from './bot-config.service';
 import {FormControl, FormGroup, FormGroupDirective, NgForm} from '@angular/forms';
@@ -11,6 +10,7 @@ import {ServerService} from '../../../../server.service';
 import {ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from '@angular/material';
 import {ESideBarTab} from '../../../bot-detail/code-based-bot-detail/code-based-bot-detail.component';
 import { Subscription } from 'rxjs';
+import {EAllActions} from "../../../../typings/enum";
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher1 implements ErrorStateMatcher {

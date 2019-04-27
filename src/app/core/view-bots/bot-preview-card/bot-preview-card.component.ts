@@ -13,7 +13,7 @@ import {
   SetCurrentBotDetailsAndResetChatStateIfBotMismatch, SetCurrentUId,
   ToggleChatWindow
 } from '../../../chat/ngxs/chat.action';
-import {ConstantsService, ERoleName, EAllActions} from '../../../constants.service';
+import {ConstantsService} from '../../../constants.service';
 import {ServerService} from '../../../server.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {IConsumerDetails} from '../../../chat/ngxs/chat.state';
@@ -27,6 +27,7 @@ import {MatDialog} from '@angular/material';
 import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
 import {ModalImplementer} from '../../../modal-implementer';
 import {EventService} from "../../../event.service";
+import {EAllActions, ERoleName} from "../../../typings/enum";
 
 @Component({
   selector: 'app-bot-preview-card',

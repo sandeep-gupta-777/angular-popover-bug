@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {EAllActions} from '../../../../../../../constants.service';
 import {EventService} from '../../../../../../../event.service';
 import {MatDialog} from "@angular/material";
 import {UtilityService} from "../../../../../../../utility.service";
+import {EAllActions} from "../../../../../../../typings/enum";
 
 @Component({
   selector: 'app-code-version-list',

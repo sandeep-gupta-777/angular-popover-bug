@@ -7,9 +7,10 @@ import {Observable} from 'rxjs';
 import {ViewBotStateModel} from '../../../../view-bots/ngxs/view-bot.state';
 import {ControlValueAccessor, FormArray, FormBuilder, FormControl, FormGroup, NgForm} from '@angular/forms';
 import {EBotType, UtilityService} from '../../../../../utility.service';
-import {ConstantsService, EAllActions} from '../../../../../constants.service';
+import {ConstantsService, } from '../../../../../constants.service';
 import {ActivatedRoute} from '@angular/router';
 import {PermissionService} from '../../../../../permission.service';
+import {EAllActions} from "../../../../../typings/enum";
 
 
 @Component({

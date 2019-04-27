@@ -15,10 +15,17 @@ import {NgxsModule} from "@ngxs/store";
 import {AuthStateReducer} from "./ngxs/auth.state";
 import {AppStateReducer} from "../ngxs/app.state";
 import {ViewBotStateReducer} from "../core/view-bots/ngxs/view-bot.state";
+import {ReducerListService} from "../reducer-list.service";
+import {PermissionService} from "../permission.service";
+import {CodeInputService} from "../core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.service";
+
+declare var areReducersRegistered:any ;
 
 const routes: Route[] = [
       {path: 'login', component: LoginComponent, canActivate: [LoginGaurdService]},
 ];
+
+
 
 @NgModule({
   declarations: [
@@ -31,16 +38,17 @@ const routes: Route[] = [
     MatCheckboxModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,
-    NgxsModule.forFeature([AuthStateReducer, AppStateReducer, ViewBotStateReducer]),
-    // NgxsModule.forFeature([
-    //   AuthStateReducer,
-    // ]),
+    NgxsModule.forFeature((<any>window).areReducersRegistered?[]:[
+      ...ReducerListService.list
+    ]),
     SharedModule,
     HttpClientModule,
 
   ],
-  providers:  [LoginGaurdService, UtilityService, ServerService ],
+  providers:  [PermissionService,LoginGaurdService, UtilityService, ServerService, CodeInputService],
 })
 export class AuthModule {
-
+  constructor(){
+    (<any>window).areReducersRegistered = true;
+  }
 }

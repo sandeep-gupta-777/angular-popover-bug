@@ -4,13 +4,14 @@ import {IBot} from '../../../../interfaces/IBot';
 import {ISaveDataManagment} from '../../../../../../interfaces/bot-creation';
 import {Select, Store} from '@ngxs/store';
 import {EBotType, UtilityService} from '../../../../../utility.service';
-import {ConstantsService, EAllActions} from '../../../../../constants.service';
+import {ConstantsService, } from '../../../../../constants.service';
 import {PermissionService} from '../../../../../permission.service';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {ViewBotStateModel} from '../../../../view-bots/ngxs/view-bot.state';
 import {distinctUntilChanged, map, skip, takeWhile} from 'rxjs/internal/operators';
 import {LoggingService} from '../../../../../logging.service';
+import {EAllActions} from "../../../../../typings/enum";
 
 @Component({
   selector: 'app-data-manage-form',
