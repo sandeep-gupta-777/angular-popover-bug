@@ -5,7 +5,7 @@ export class AuthGaurdService{
     try {/*TODO: implement it better*/
       return !!JSON.parse(localStorage.getItem('@@STATE')).loggeduser.user.auth_token;
     } catch (e) {
-      return false;
+      return false;;
     }
   }
 
