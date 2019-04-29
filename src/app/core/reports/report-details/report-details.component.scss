@@ -1,4 +1,10 @@
-@import '~src/sass/main';
+@import "./../../../../sass/main";
+
+
+:host{
+  display: flex;
+  justify-content: center;
+}
 
 .h4{
   @include typography($font-size-md, $line-height-normal, $font-weight-700, #474747);

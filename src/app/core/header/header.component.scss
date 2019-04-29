@@ -1,4 +1,17 @@
-@import '~src/sass/main';
+@import "./../../../sass/main";
+
+
+%header-highlighted-nav-item{
+  background-color: #26415b !important;
+  color: white;
+
+  span {
+    color: white;
+  }
+  a {
+    color: white;
+  }
+}
 
 
 header {
@@ -39,6 +52,7 @@ header {
   .box-logo { /*imi logo*/
     padding: 16px;
     @include flexbox-centered();
+    cursor: pointer;
 
     img {
       width: 24px;
@@ -48,12 +62,13 @@ header {
 
   .header__nav { /*navigation icons on left side*/
     padding: 16px;
+    height: 100%;
     @include flexbox-centered();
     color: #ffffff;
     text-decoration: none;
     margin-left: 4px;
     &:hover{
-      @extend .highlight-text-on-route-match;
+      @extend %header-highlighted-nav-item;
       span{
         font-weight: 300;
       }
@@ -138,30 +153,32 @@ header {
 }
 
 
-.highlight-text-on-route-match, .highlight-text-on-route-match:hover {
-  background-color: #26415b;
-  color: white;
-
-  span {
-    color: white;
-    font-weight: bold;
-  }
-
-  a {
-    color: white;
+.highlight-nav-item {
+  @extend %header-highlighted-nav-item;
+  span{
+    font-weight: bold !important;
   }
 }
 
 
-.dropdown-item {
+.header-dropdown-item {
   line-height: 30px;
   height: auto;
+  text-decoration: none!important;
+  font-size: 11px;
 
   &:first-child {/*first child is user's name*/
-    color: rgba(0, 0, 0, 0.87);
     cursor: default !important;
+
     background-color: white !important;
-    font-weight: bold
+    font-size: 13px;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.23;
+    letter-spacing: normal;
+    padding-top: 4px;
+    color: #474747;
+    padding-bottom: 10px;
   }
 }
 
@@ -181,4 +198,19 @@ header {
     width: 170px !important;
     border-radius: 2px !important;
   }
+
+  .cutom-md-menu {
+    //
+
+    .mat-menu-content {
+      //padding: 0;
+
+      //button {
+      //  height: 40px;
+      //  font-size: 13px;
+      //  line-height: 13px;
+      //}
+    }
+  }
 }
+

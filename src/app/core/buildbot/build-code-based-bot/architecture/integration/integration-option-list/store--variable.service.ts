@@ -15,9 +15,7 @@ export interface IStore {
   loggeduserenterpriseinfo: any;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class StoreVariableService {
   storeState: IStore = null;
 

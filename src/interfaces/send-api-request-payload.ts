@@ -114,7 +114,7 @@ export interface ISendApiResponsePayload {
   //   'created_at': string,
   //   'managerBotRoomId': null,
   //   'room_state_closed': false,
-  //   'selectedAvatar': {
+  //   'bot': {
   //     'roomId': 1,
   //     'imageUrl': string,
   //     'name': string

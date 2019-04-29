@@ -7,9 +7,10 @@ import {Observable} from 'rxjs';
 import {ViewBotStateModel} from '../../../../view-bots/ngxs/view-bot.state';
 import {ControlValueAccessor, FormArray, FormBuilder, FormControl, FormGroup, NgForm} from '@angular/forms';
 import {EBotType, UtilityService} from '../../../../../utility.service';
-import {ConstantsService, EAllActions} from '../../../../../constants.service';
+import {ConstantsService, } from '../../../../../constants.service';
 import {ActivatedRoute} from '@angular/router';
 import {PermissionService} from '../../../../../permission.service';
+import {EAllActions} from "../../../../../typings/enum";
 
 
 @Component({
@@ -22,9 +23,9 @@ export class BasicInfoFormComponent implements OnInit {
   bot_type;
   formData: Partial<IBot>;
   @Input() botId:number;
+  @Input() formGroup: FormGroup;
   myEAllActions = EAllActions;
   myEBotType = EBotType;
-  @Input() formGroup: FormGroup;
   isDisabled: boolean;
   logoErrorObj = [
     {name: 'imageExnError', description: 'Invalid Extension'},
@@ -37,11 +38,17 @@ export class BasicInfoFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    /*TODO: data for bot details and queryParamMap is for build bot*/
+    this.bot_type = this.activatedRoute.snapshot.data.bot_type || this.activatedRoute.snapshot.queryParamMap.get('bot_type');
+
+    /*todo: why is this here and not in parent?*/
     if(!this.botId){/*only for new bots*/
       this.formGroup.get('name').valueChanges.subscribe((value) => {
         if(value){
-          const uniqueName = value.split('').join("").replace(" ", "");
+          const uniqueName = value.replace(/\s/g, "");
           this.formGroup.get('bot_unique_name').patchValue(uniqueName);
+        }else {
+          this.formGroup.get('bot_unique_name').patchValue("");
         }
       });
     }

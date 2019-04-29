@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, OnInit, TemplateRef} from '@angular/core';
 import {Observable} from 'rxjs';
 import {IBot} from '../../interfaces/IBot';
-import {UtilityService} from '../../../utility.service';
+import {EBotType, UtilityService} from '../../../utility.service';
 import {ChatService} from '../../../chat.service';
 import {EChatFrame, IChatSessionState} from '../../../../interfaces/chat-session-state';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -13,7 +13,7 @@ import {
   SetCurrentBotDetailsAndResetChatStateIfBotMismatch, SetCurrentUId,
   ToggleChatWindow
 } from '../../../chat/ngxs/chat.action';
-import {ConstantsService, ERoleName, EAllActions} from '../../../constants.service';
+import {ConstantsService} from '../../../constants.service';
 import {ServerService} from '../../../server.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {IConsumerDetails} from '../../../chat/ngxs/chat.state';
@@ -26,6 +26,8 @@ import {CreateBotDialogComponent} from '../create-bot-dialog/create-bot-dialog.c
 import {MatDialog} from '@angular/material';
 import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
 import {ModalImplementer} from '../../../modal-implementer';
+import {EventService} from "../../../event.service";
+import {EAllActions, ERoleName} from "../../../typings/enum";
 
 @Component({
   selector: 'app-bot-preview-card',
@@ -89,15 +91,20 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
   }
 
 
-  previewBot() {
-    this.router.navigate(['', {outlets: {preview: 'preview'}}]);
+  previewBot(event:Event) {
+    event.stopPropagation();
+    // this.router.navigate(['', {outlets: {preview: 'preview'}}]);
     this.store.dispatch([
       new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
         bot: {...this.bot, enterprise_unique_name: this.enterprise_unique_name}
       }),
       new ToggleChatWindow({open: true}),
-      new ChangeFrameAction({frameEnabled: EChatFrame.WELCOME_BOX})
+      new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX})
     ]);
+
+    /*TODO: integrate this with store*/
+    EventService.startANewChat$.emit({bot:this.bot, consumerDetails: {uid: this.utilityService.createRandomUid()},
+    });
 
   }
 
@@ -129,7 +136,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
       component:ModalConfirmComponent
     }).then((data)=>{
 
-      if(data){
+      if(data === ""){/*todo: improve this*/
         this.deleteBot();
       }
     })
@@ -151,6 +158,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
   // }
 
   deleteBot() {
+    debugger;
     // this.modalRefWrapper.hide();
     const url = this.constantsService.getDeleteBotUrl(this.bot.id);
     const headerData: IHeaderData = {
@@ -169,7 +177,10 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
   }
 
   navigateToBotDetailPage(event) {//preview-button
-
+    if(this.bot.bot_type !== EBotType.chatbot){
+      this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id]);
+      return;
+    }
 
     if (!event.target.classList.contains('click-save-wrapper')) {
       this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id]);
@@ -182,7 +193,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
         this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id], {
           queryParams: {
             preview: this.bot.id,
-            build: 'testing'
+            build: 'test'
           }
         });
         /*TODO:improve it*/

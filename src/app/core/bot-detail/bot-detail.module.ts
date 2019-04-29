@@ -1,6 +1,6 @@
 import {Route, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {AimService} from '../../aim.service';
@@ -24,7 +24,7 @@ import {DropTargetDirective} from '../../drop-target.directive';
 import {KnowledgeBaseWrapperComponent} from '../buildbot/build-code-based-bot/architecture/knowledge-base-wrapper/knowledge-base-wrapper.component';
 import {LimitObjectArraysStringPipe} from './consumers/limit-object-arrays-string.pipe';
 import {ConsumerFullscreenWrapperComponent} from './consumers/consumer-fullscreen-wrapper/consumer-fullscreen-wrapper.component';
-import {AuthGaurdService} from '../../auth-gaurd.service';
+
 import {RequiredIfOneFilledValidator} from '../buildbot/build-code-based-bot/architecture/integration/integration-option-list/requiredIfOneFilledValidator.directive';
 import {RichMediaModule} from '../../rich-media.module';
 import {SessionDataToRichMediaSerializerPipe} from '../../session-data-to-rich-media-serializer.pipe';
@@ -52,7 +52,7 @@ import {DebounceClickDirective} from '../../debounce-click.directive';
 import {CheckImageValidityPipe} from '../../check-image-validity.pipe';
 import {HasChannelPipe} from '../../has-channel.pipe';
 import {MyMaterialModule} from '../../my-material.module';
-import {EBotType} from '../../utility.service';
+import {EBotType, UtilityService} from '../../utility.service';
 import {StringIncludesPipe} from '../buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
 import {SimpleTableComponent} from '../buildbot/build-code-based-bot/architecture/pipeline/simple-table/simple-table.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
@@ -69,10 +69,11 @@ import { SortArticalsPipe } from './bot-articles/sort-articals.pipe';
 import { FilterArticalsPipe } from './bot-articles/filter-articals.pipe';
 import { ArticleFilterComponent } from './bot-articles/article-filter/article-filter.component';
 import { ArticleQuestionListViewComponent } from './bot-articles/article-question-list-view/article-question-list-view.component';
+import {ConstantsService} from "../../constants.service";
 
 const routes: Route[] = [
   {
-    path: '', component: BotDetailWrapperComponent, canActivateChild: [AuthGaurdService], children:
+    path: '', component: BotDetailWrapperComponent, canActivateChild: [], children:
         [
           {path: `${EBotType.chatbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.chatbot}},
           {path: `${EBotType.faqbot}/:id`, component: CodeBasedBotDetailComponent, data: {bot_type: EBotType.faqbot}},
@@ -111,6 +112,7 @@ const routes: Route[] = [
     HasChannelPipe,
     TrimStringPipe,
     PipeineIdToPipelineModuleWrapperPipe,
+    PipeineKeywordToPipelineModuleMatchedPipe,
     FilterTemplateLeyListPipe,
     CodeInputCaraosalComponent,
     UrlValidatorDirective,
@@ -147,13 +149,14 @@ const routes: Route[] = [
     CommonModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,
+    ReactiveFormsModule,
     SharedModule,
     HttpClientModule,
     MyMaterialModule,
     DragDropModule,
     ReactiveFormsModule
   ],
-  providers: [AimService]
+  providers: [ConstantsService, AimService, UtilityService, DatePipe]
 })
 export class BotDetailModule {
 

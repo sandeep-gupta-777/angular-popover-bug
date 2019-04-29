@@ -6,9 +6,7 @@ import {RouteConfigLoadEnd, RouteConfigLoadStart, Router, RoutesRecognized} from
 import {Observable} from 'rxjs';
 import {Select} from '@ngxs/store';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class LoginGaurdService {
 
   token;
@@ -42,7 +40,7 @@ export class LoginGaurdService {
     }
 
     return this.loggeduser$.pipe(map((value: IAuthState) => {
-      if (value.user == null) {
+      if (!value || value.user == null) {
         return true;
       } else {
         this.router.navigate(['.']);

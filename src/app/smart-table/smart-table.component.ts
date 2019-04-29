@@ -1,4 +1,14 @@
-import {AfterViewInit, Component, EventEmitter, Input, IterableDiffers, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  IterableDiffers,
+  OnChanges,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 // import {LocalDataSource} from 'ng2-smart-table';
 import {Observable} from 'rxjs';
 import {LoggingService} from '../logging.service';
@@ -22,6 +32,7 @@ export enum ESortDir {
 export class SmartTableComponent implements OnInit, AfterViewInit {
 
   @Output() dataValue$ = new EventEmitter();
+  @Input() noResultsMessage = 'No results';
   formDirty = false;
 
   tableFormTouched = false;/*because this.tableForm.touched is showing weird behaviour; only works when console is opened*/
@@ -30,6 +41,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     this.tableForm.valueChanges.pipe(
       map((obj) => this.removeEmptyKeyValues(UtilityService.cloneObj(obj))),
       tap((obj) => {
+
         this.formDirty = Object.keys(obj).length > 0;
       }),
       distinctUntilChanged((obj1, obj2) => {
@@ -107,8 +119,9 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   tableData;
   displayKeyOriginalKeyDict: any = {};
 
-
+  isTableEmpty;
   @Input() set data(dataValue: any[]) {
+    this.isTableEmpty = true;/*initialize*/
     if (!dataValue) {
       return;
     }
@@ -119,15 +132,20 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     if (dataValue.length === 0) {
       return;
     }
+    this.isTableEmpty = false;
     this.displayedColumns = Object.keys(dataValue[0]).filter((key) => {
       return dataValue[0][key].hasOwnProperty('value') && dataValue[0][key].hasOwnProperty('type');
     });
 
 
     this.tableData = dataValue;
-    if (this.sortedCol && this.sortDir) {
-      this.sort(this.sortedCol, this.sortDir);
-    }
+
+
+    setTimeout(() => {
+      if (this.sortedCol && this.sortDir !== undefined) {
+        this.sort(this.sortedCol, this.sortDir);;
+      }
+    });
     this.displayKeyOriginalKeyDict = this.createDisplayKeyOriginalKeyDict(dataValue);
 
     try {
@@ -168,11 +186,14 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   paginationArr = [];
   @Input() currentPage = 1;
   @Input() recordsPerPage = 10;
+  @Input() settings;
+  @Input() sortedCol;
+  @Input() sortDir = ESortDir.ASC;
   @Output() customActionEvents = new EventEmitter();
   totalPageCount;
-  @Input() settings;
   math = Math;
   formData;
+
 
   actionIconClicked(session, action: any, event) {
     this.customActionEvents.emit({data: session, action});
@@ -277,9 +298,8 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     return new Date(date.setDate(date.getDate() + 1));
   }
 
-  sortDir = ESortDir.ASC;
+
   myESortDir = ESortDir;
-  sortedCol;
 
   sort(key, sorDirection: ESortDir) {
     this.sortedCol = key;

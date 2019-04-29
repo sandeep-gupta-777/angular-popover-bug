@@ -1,4 +1,4 @@
-@import '~src/sass/main';
+@import "./../../../../sass/main";
 
 .basic-row {
   @include center-vertical-horizontal();
@@ -20,7 +20,7 @@
     height:35px;
   }
   th.mat-header-cell{
-    
+
     padding-top:.25rem !important;
   }
   td:first-child, th:first-child {
@@ -31,13 +31,13 @@
     padding-top: 8px!important;
     padding-bottom: 8px!important;
     vertical-align: baseline;
-    
+
     &:nth-child(1), &:nth-child(2) {
 
       width: 40%;
       word-wrap: break-word !important;
       i{
-        margin-top: 4px;
+        margin-top: 0px;
         margin-right: 5px
       }
       span {
@@ -76,14 +76,14 @@ mat-button-toggle-group {
 }
 /deep/ .mat-button-toggle-checked .mat-button-toggle-focus-overlay{
   border-bottom: none !important;
-  
+
 }
 
 /deep/ .mat-button-toggle-appearance-standard .mat-button-toggle-label-content{
   line-height: 24px !important;
   font-size: 11px;
   padding: 0 5px !important;
-  
+
 }
 // .mat-button-toggle-checked .mat-button-toggle-focus-overlay {
 //   border-bottom: none !important;

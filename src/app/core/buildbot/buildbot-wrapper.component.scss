@@ -1,32 +1,56 @@
-.card, .card-header{
+.card, .card-header {
   border: none;
 }
 
 
-ul{
+ul {
   margin: 16px 0;
   font-size: 11px;
-  li{
+
+  li {
     padding-left: 20px;
     margin-left: 20px;
     width: 50%;
   }
 }
 
-.header-less-tabs /deep/{
-  .mat-tab-header{
+.header-less-tabs /deep/ {
+  .mat-tab-header {
     display: none;
   }
 }
 
 
-::ng-deep{
-  .mat-button-wrapper{
+::ng-deep {
+  .mat-button-wrapper {
     display: flex;
     align-items: center;
+    justify-content: center;
   }
 }
 
-.fs-16{
-  font-size: 16px;
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #527a9e;
+  margin-right: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    height: 50%;
+    width: 50%;
+  }
+}
+
+.vertical-line {
+  width: 4px;
+  height: 18px;
+  background-color: white;
+  //margin-bottom: 14px;
+  margin-left: 18px;
+  border-radius: 2px;
+  margin-top: 20px;
 }

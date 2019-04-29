@@ -3,11 +3,11 @@
         <span class="meta-text cursor-pointer mb-2 " (click)="utilityService.copyToClipboard(txnId)"
         [innerHtml]="'Txn Id: '+ txnId_highlighting">
    </span>
-   <span class ="ml-auto"></span> 
+   <span class ="ml-auto"></span>
       <mat-icon class= "search-error ml-1" *ngIf="hasError">error_outline</mat-icon>
       <mat-icon class= "search-agent ml-1" *ngIf="hasAgentHandover">headset_mic</mat-icon>
   </div>
- 
+
 
   <div *ngFor="let sessionMessage of sessionMessageItems">
 
@@ -24,31 +24,13 @@
                 <div class ="ml-3 onParentHover" style="color: #bebebe">
                   <mat-icon class="material-icons" style = "font-size:21px"(click) ="copyMessageClicked(sessionMessage.message)">file_copy</mat-icon></div>
           </div>
-          
+
           <div class="time my-1">
-            {{sessionMessage.created_at|msToHhmm}}, {{sessionMessage.created_at|date:'mediumDate'}}
+              {{sessionMessage.created_at|date:'mediumTime'}}, {{sessionMessage.created_at|date:'mediumDate'}}
           </div>
       </div>
 </div>
 </div>
-    <!--<div *ngIf="sessionMessage && sessionMessage.user_type==='human'">-->
-      <!--<div class="row my-1">-->
-        <!--<div class="col-10 p-0">-->
-          <!--<div class="message p-2 bg-message-human" style="display: inline-block">-->
-<!--&lt;!&ndash; <<<<<<< HEAD &ndash;&gt;-->
-            <!--<span class="message-text" [innerHtml]="sessionMessage.messageByHuman|| sessionMessage.message |linkify:'text-white'"></span>-->
-            <!--<div class="time text-right">-->
-              <!--{{sessionMessage.created_at|msToHhmm}}-->
-            <!--</div>-->
-<!--&lt;!&ndash; ======= &ndash;&gt;-->
-            <!--&lt;!&ndash;<span class="message-text ">{{sessionMessageData.message}}</span>&ndash;&gt;-->
-            <!--&lt;!&ndash; <span class="message-text" [innerHtml]="sessionMessage.message"></span> &ndash;&gt;-->
-            <!--&lt;!&ndash; <div class="time text-right">{{sessionMessage.created_at|msToHhmm}}</div> &ndash;&gt;-->
-<!--&lt;!&ndash; >>>>>>> master &ndash;&gt;-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
 
     <div *ngIf="sessionMessage && sessionMessage.user_type==='bot'">
       <div *ngIf="myArray.isArray(sessionMessage.message); else messageIsStringNotObjectTemplate" class ="d-flex flex-column">
@@ -58,7 +40,7 @@
         </div>
         <div class="row flex-row-reverse mr-32" *ngFor="let message of sessionMessage.message">
           <!--bot text reply starts-->
-          
+
           <div class="col-10 p-0 pb-1 d-flex flex-column justify-content-end" *ngIf="message.text">
             <div class="message p-2"
                  [ngStyle]="{'background-color': (!sessionMessage.feedback? '#e0e0e0' :(sessionMessage.feedback === myEChatFeedback.POSITIVE) ? '#5cd791' : '#ffc7cd') }"
@@ -90,12 +72,13 @@
             [isParentSessionsModal]="true"
             [messageData]="message"
             [feedback]="sessionMessage.feedback"
-            *ngIf="message && message.quick_reply">
+            *ngIf="message && message.quick_reply"
+            >
           </app-quick-reply>
           <!--bot rich media reply ends-->
         </div>
         <div class="time text-right my-1 mr-32">
-            {{sessionMessage.created_at|msToHhmm}}, {{sessionMessage.created_at|date:'mediumDate'}}
+            {{sessionMessage.created_at|date:'mediumTime'}}, {{sessionMessage.created_at|date:'mediumDate'}}
           </div>
       </div>
       <ng-template #messageIsStringNotObjectTemplate>
@@ -104,7 +87,7 @@
             <span class="message-text" [innerHtml]="sessionMessage.message||'EMPTY_MESSAGE'"></span>
             <div class="time text-right">
               <!--{{sessionMessage.created_at|msToHhmm}}-->
-                {{sessionMessage.created_at|date:'h:mm:ss a'}}
+              {{sessionMessage.created_at|date:'mediumTime'}}, {{sessionMessage.created_at|date:'mediumDate'}}
             </div>
           </div>
         </div>

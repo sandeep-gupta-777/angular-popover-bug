@@ -16,9 +16,10 @@ export class ChatMessageComponent implements OnInit {
 
   myEChatFeedback = EChatFeedback;
   myEBotMessageMediaType = EBotMessageMediaType;
-  @Input() isLastMessage: boolean;
-  @Input() selectedAvatar;
+  isFullScreenPreview = false;
   _allow_feedback:boolean = false;
+  @Input() isLastMessage: boolean;
+  @Input() bot;
   @Input() set allow_feedback(val){
    this._allow_feedback = val;
   }
@@ -29,7 +30,6 @@ export class ChatMessageComponent implements OnInit {
     messageMediatype: null,
     bot_message_id: null
   };
-  isFullScreenPreview = false;
   @Output() sendMessageToBotServer$ = new EventEmitter();
   @Output() chatMessageFeedback$ = new EventEmitter();
 

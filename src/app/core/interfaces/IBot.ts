@@ -121,6 +121,8 @@ export interface IBotVersionResult {
   'objects': IBotVersionData[];
 }
 
+
+
 export interface IBotVersionData {
   'bot_id'?: number;
   'comment'?: string;
@@ -138,25 +140,27 @@ export interface IBotVersionData {
     'df_template'?: boolean,
     'df_rules'?: boolean,
     'generation_rules'?: boolean,
-    'generation_template'?: boolean,
-    'workflows'?: boolean
+    'generation_templates'?: boolean,
+    'workflow'?: boolean
   };
   'changed_fields'?: {
     'df_template'?: boolean,
     'df_rules'?: boolean,
     'generation_rules'?: boolean,
-    'generation_template'?: boolean,
-    'workflows'?: boolean
+    'generation_templates'?: boolean,
+    'workflow'?: boolean
   };
-  'forked_from'?: number;
-  'validation'?: {
-    'df_rules'?: IValidationTabItem,
-    'df_template'?: IValidationTabItem,
-    'generation_rules'?: IValidationTabItem,
-    'generation_templates'?: IValidationTabItem,
-    'workflow'?: IValidationTabItem,
-  };
+  'forked_from'?: number,
+  'validation'?: ICodeVersionValidation,
+  'is_ui_view'?: boolean,
+}
 
+export interface ICodeVersionValidation {
+  'df_rules'?: IValidationTabItem,
+  'df_template'?: IValidationTabItem,
+  'generation_rules'?: IValidationTabItem,
+  'generation_templates'?: IValidationTabItem,
+  'workflow'?: IValidationTabItem,
 }
 export interface IValidationTabItem {
   error?: boolean;

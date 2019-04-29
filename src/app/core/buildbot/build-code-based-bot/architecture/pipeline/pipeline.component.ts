@@ -47,8 +47,8 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
   @Output() initDone$ = new EventEmitter<PipelineComponent>();
   @Input() bot:IBot;
   // @Input() set bot(botData: IBot) {
-  //   this._bot = botData;
-  //   this.pipeLine = this._bot && this._bot.pipelines || [];
+  //   this.bot = botData;
+  //   this.pipeLine = this.bot && this.bot.pipelines || [];
   //   this.filterAiModules();
   // }
 
@@ -65,11 +65,11 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
   pipelineModulesV2List: IPipelineItemV2[];
 
   constructor(
-      private aimService: AimService,
       private objectArrayCrudService: ObjectArrayCrudService,
       private _iterableDiffers: IterableDiffers,
       private activatedRoute: ActivatedRoute,
       private constantsService: ConstantsService,
+      private aimService: AimService,
       private serverService: ServerService,
       public utilityService: UtilityService,
       public matDialog: MatDialog,
@@ -236,7 +236,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
     this.botData$.emit(this.pipeLine);
   }
   ngOnDestroy(){
-    debugger;
+
     this.botData$.emit(this._bot);
   }
   removePipelineItemFromPipelineModal(index: number,aiModuleId: number) {
@@ -304,7 +304,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
 
   updateBot(){
     // EventService.updateBotinit$.emit();
-    let bot:IBot = {pipelines:this.pipeLine, id: this._bot.id, bot_access_token: this._bot.bot_access_token};
+    let bot:IBot = {pipelines:this.pipeLine, id: this._bot.id, bot_access_token:this.bot.bot_access_token};
     this.serverService.updateBot(bot).subscribe();
   }
 

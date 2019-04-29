@@ -1,6 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import set = Reflect.set;
 import {LoggingService} from '../../../logging.service';
+import {IBot} from '../../../core/interfaces/IBot';
 
 @Component({
   selector: 'app-bot-thinking-bubble',
@@ -11,11 +12,7 @@ export class BotThinkingBubbleComponent implements OnInit, OnDestroy {
 
   intervalRef;
   constructor() { }
-  @Input() selectedAvatar: {
-  'id': number,
-  'imageUrl': string,
-  'name': string
-};
+  @Input() bot:IBot;
   randomNumber = 1;
   ngOnInit() {
     this.intervalRef = setInterval(() => {

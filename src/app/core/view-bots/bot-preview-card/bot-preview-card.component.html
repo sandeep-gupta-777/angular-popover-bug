@@ -1,23 +1,26 @@
 <section class="card-section">
-    <div class="grid-bot-preview-two" [ngClass]="{'grid-pipeline-card':bot.bot_type === 'intelligent'}"
-         (click)="navigateToBotDetailPage($event)">
-        <button mat-icon-button [matMenuTriggerFor]="appMenu" (menuOpened)="menuOpened = true" (menuClosed)="menuOpened = false" class="more-button click-save-wrapper">
-            <mat-icon [ngClass]="{'show-on-parent-hover':!menuOpened}" class="click-save-wrapper">more_horiz</mat-icon>
-        </button>
+  <div class="grid-bot-preview-two" [ngClass]="{'grid-pipeline-card':bot.bot_type === 'intelligent'}"
+       (click)="navigateToBotDetailPage($event)">
+    <button mat-icon-button [matMenuTriggerFor]="appMenu" (menuOpened)="menuOpened = true"
+            (menuClosed)="menuOpened = false" class="more-button click-save-wrapper">
+      <mat-icon [ngClass]="{'show-on-parent-hover':!menuOpened}" class="click-save-wrapper">more_horiz</mat-icon>
+    </button>
 
-        <figure class="grid-bot-preview-img">
-            <img [src]="bot.logo" alt="">
-        </figure>
-        <div class="grid-bot-preview-name details1">
-            <h6 class="limit-oneline"
-                [matTooltip]="bot.name"
-                style="color: #474747; letter-spacing: 0.3px">{{(bot.name|slice:0:36) + (bot.name.length > 36 ? "..." : "")}}</h6>
-            <p class="description limit-oneline"
-               style="letter-spacing: 0.1px">
-                Last Update by {{bot.updated_by && bot.updated_by.split(" ")[0]}}
-                on {{bot.updated_at|date:'mediumDate'}}
-            </p>
-        </div>
+    <figure class="grid-bot-preview-img">
+      <img [src]="bot.logo" alt="">
+    </figure>
+    <div class="grid-bot-preview-name details1">
+      <h6 class="limit-oneline"
+          [matTooltip]="(bot.name && bot.name.length >24)?bot.name : ''"
+          style="color: #474747; letter-spacing: 0.3px">{{(bot.name|slice:0:36) + (bot.name.length > 36 ? "..." : "")}}</h6>
+      <p class="description limit-oneline"
+         matTooltip="Updated on {{bot.updated_at|date:'d MMM, yy'}} by {{bot.updated_by|personName}}"
+         style="letter-spacing: 0.1px">
+        Updated
+        on {{bot.updated_at|date:'d MMM, yy'}}
+        by {{bot.updated_by|personName}}
+      </p>
+    </div>
 
         <ng-container *ngIf="bot.bot_type == 'chatbot' || bot.bot_type == 'faqbot' ">
         <div class="d-flex justify-content-center align-items-center">
@@ -27,28 +30,28 @@
         </div>
 
 
-            <div class="grid-bot-preview-forth-row d-flex bot-strip align-items-center p-2 footer">
-                <!-- <span *ngIf="(bot.integrations|integrationImageCount)>4" class="more ml-auto">+{{(bot.integrations|integrationImageCount)}} More</span> -->
+      <div class="grid-bot-preview-forth-row d-flex bot-strip align-items-center p-2 footer">
+        <!-- <span *ngIf="(bot.integrations|integrationImageCount)>4" class="more ml-auto">+{{(bot.integrations|integrationImageCount)}} More</span> -->
 
 
-                <div *myIf="myEAllActions['Send API']" class="preview-button click-save-wrapper" (click)="previewBot()">
-                    <div
-                            title="Click to open chat preview window"
-                            class="click-save-wrapper">Preview
-                    </div>
-                </div>
-                <span class="ml-auto"></span>
-                <app-integration-channel-list [bot]="bot"></app-integration-channel-list>
+        <div *myIf="myEAllActions['Send API']" class="preview-button click-save-wrapper" (click)="previewBot($event)">
+          <div
+            title="Click to open chat preview window"
+            class="click-save-wrapper">Preview
+          </div>
+        </div>
+        <span class="ml-auto"></span>
+        <app-integration-channel-list [limit]="7" [bot]="bot"></app-integration-channel-list>
 
 
-            </div>
-        </ng-container>
-    </div>
+      </div>
+    </ng-container>
+  </div>
 
-    <div *ngIf="showLoader"
-         class="loader-overlay">
-        <i class="fa fa-gear fa-spin" style="font-size: 20px"></i>
-    </div>
+  <div *ngIf="showLoader"
+       class="loader-overlay">
+    <i class="fa fa-gear fa-spin" style="font-size: 20px"></i>
+  </div>
 </section>
 
 

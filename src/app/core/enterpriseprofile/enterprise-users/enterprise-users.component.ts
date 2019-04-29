@@ -132,7 +132,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
 
     this.serverService.makePostReq<any>({url: removeEnterpriseUserUrl, body, headerData})
       .subscribe((value) => {
-        console.log(value);
+        // console.log(value);
         let p = this.loggeduserenterpriseinfo.enterpriseusers.filter((user) => user.id !== this.usertoDelete.id);
         this.loggeduserenterpriseinfo.enterpriseusers = [...p];
         //shoaib
@@ -146,7 +146,7 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
         //
         //   this.loggeduserenterpriseinfo = enterprise[0].loggeduserenterpriseinfo;
         // });
-        // this.tableData = this.tableData.filter((user) => user.originalSessionData.roomId !== this.usertoDelete.roomId);
+        // this._tableData = this._tableData.filter((user) => user.originalSessionData.roomId !== this.usertoDelete.roomId);
       });
   }
 
@@ -348,7 +348,11 @@ export class EnterpriseUsersComponent extends MaterialTableImplementer implement
     this.logoError = logoErrorObj && Object.keys(logoErrorObj)[0] || null;
   }
   ngOnInit() {
-    this.loggeduser$.subscribe(({ user }) => {
+    //
+
+
+    this.loggeduser$.subscribe(({user}) => {
+      if(!user) return;
       this.userid = user.id;
       this.role = user.role.name;
       this.enterpriseId = user.enterprise_id; //enterprise_id

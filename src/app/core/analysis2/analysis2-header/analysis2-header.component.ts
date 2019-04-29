@@ -163,6 +163,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
           startdate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.startdate),
           enddate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.enddate),
         };
+        delete headerData.date_range;
         //asdas
         if (!this.utilityService.areAllValesDefined(headerData)) {
           return;
@@ -180,8 +181,17 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
             this.analytics2HeaderData = analytics2HeaderData;
 
             this.store.dispatch([new ResetAnalytics2GraphData()]);
+
             // this.makeGetReqSub && this.makeGetReqSub.unsubscribe();//todo: better use .
-            this.makeGetReqSub = this.serverService.makeGetReq({url, headerData})
+
+            let newUrl = this.makeNewUrlFormHeaderData(url, headerData)
+            let newheaderData = {
+              'auth-token': headerData['auth-token'],
+              'user-access-token': headerData['user-access-token'],
+              'bot-access-token': headerData['bot-access-token']
+            }
+
+            this.makeGetReqSub = this.serverService.makeGetReq({url : newUrl,headerData:newheaderData})
               .pipe(take(1))
               .subscribe((response: any) => {
                 if (headerData.type === EAnalysis2TypesEnum.overviewinfo) {
@@ -281,7 +291,11 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     });
 
   }
+  makeNewUrlFormHeaderData(url:string, headerData:IAnalysis2HeaderData){
 
+    url = url + `?type=${headerData.type}&startdate=${headerData.startdate}&enddate=${headerData.enddate}&platform=${headerData.platform}&granularity=${headerData.granularity}&is_test=false`
+    return url;
+  }
   isHeaderValid(startDate, endDate, granularity) {
     startDate = new Date(startDate);
     endDate = new Date(endDate);

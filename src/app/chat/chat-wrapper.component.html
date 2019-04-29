@@ -6,12 +6,18 @@
                     [hidden]="frameEnabled===myEChatFrame.CHAT_LIST">
                 <i class="fa fa-angle-left"></i>
               </span>
-            <a [matTooltip]="'Open '+ chatWindowTitle" [routerLink]="['/core/botdetail/chatbot/', currentBot.id]">
+
+            <!--TODO: when clicked open the bot-->
+            <!--<a [matTooltip]="'Open '+ chatWindowTitle" [routerLink]="['/core/botdetail/chatbot/', currentBot.id]">-->
+                <!--<img [src]="currentBot.logo" class="chat-logo" alt="Bot logo">-->
+                <!--{{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>-->
+            <a>
                 <img [src]="currentBot.logo" class="chat-logo" alt="Bot logo">
-                {{(chatWindowTitle| slice:0: 20) + (chatWindowTitle.length > 20 ? "..." : "")}}</a>
-            <a class="ml-auto hover-parent" [routerLink]="['/preview']"
-               [matTooltip]="'Open bot preview in a new Tab'"
+                {{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>
+            <a class="ml-auto hover-parent"
+               [routerLink]="['/preview']"
                [queryParams]="{bot_unique_name:currentBot.bot_unique_name,enterprise_unique_name:enterprise_unique_name}"
+               [matTooltip]="'Open in new Tab'"
                target="_blank">
                 <button mat-icon-button
                         [class.active]="showOverlay">
@@ -34,14 +40,15 @@
                     (backdropClick$)="showOverlay = false">
                 <div class="dialog-container" (clickOutside)="showOverlay=false">
                     <app-chat-consumer-form *ngIf="showOverlay"
-                                            [customConsumerDetails]="{}"
+                                            [customConsumerDetails]="frameEnabled === myEChatFrame.CHAT_BOX? currentRoom.consumerDetails:{}"
+                                            [readonly]="frameEnabled === myEChatFrame.CHAT_BOX"
                                             (saveConsumerDetails$)="saveConsumerDetails($event)"></app-chat-consumer-form>
                 </div>
             </app-overlay>
 
             <button mat-icon-button
                     (click)="closeChatWindow()"
-                    [matTooltip]="'Minimize preview window'"
+                    [matTooltip]="'Minimize'"
                     [class.active]="showOverlay" class="origin"
                     #overlayOrigin="cdkOverlayOrigin"
                     cdkOverlayOrigin>
@@ -85,7 +92,7 @@
 
 <!--===============FULL SCREEN BELOW===================-->
 <div *ngIf="isFullScreenPreview" class="grid-chat-preview-full-screen">
-    <div class="header1 bg-theme-primary px-3 d-flex align-items-center">
+    <div class="header1 px-3 d-flex align-items-center">
         <img class="logo-md mr-2 rounded-circle"
              src="{{enterprise_logo||'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg'}}" alt=""
              style="border-radius: 50%;">
@@ -156,7 +163,7 @@
              [src]="currentBot.logo||'https://image.flaticon.com/icons/svg/17/17004.svg'">
         <div *ngIf="currentBot" class="d-flex flex-column text-white">
             <div>{{currentBot.name}}</div>
-            <!--<div class="font-11">{{currentBot.description}}</div>-->
+            <!--<div class="font-11">{{bot.description}}</div>-->
         </div>
         <!---->
         <!--<div class="room-details ml-auto">-->
@@ -180,6 +187,7 @@
     <div class="chat-rooms">
         <app-chat-list class="mt-4"
                        (createCustomRoom$)="createCustomRoom()"
+                       [currentBot]="currentBot"
                        (createNewRoom$)="startNewChat($event)"></app-chat-list>
     </div>
     <div class="chat">

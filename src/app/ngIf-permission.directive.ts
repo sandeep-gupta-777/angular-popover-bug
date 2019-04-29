@@ -1,6 +1,4 @@
 import {Directive, Input, ElementRef, TemplateRef, ViewContainerRef} from '@angular/core';
-import {UtilityService} from './utility.service';
-import {ConstantsService, EAllActions} from './constants.service';
 import {PermissionService} from './permission.service';
 
 @Directive({

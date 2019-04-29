@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IBot } from 'src/app/core/interfaces/IBot';
 import { EBotType } from 'src/app/utility.service';
-import { EAllActions } from 'src/app/constants.service';
+import {EAllActions} from "../../../../../typings/enum";
 
 @Component({
   selector: 'app-faq-bot-basic-info-form',

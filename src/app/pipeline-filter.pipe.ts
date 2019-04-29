@@ -1,5 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {IPipelineItemV2} from './core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
+import {UtilityService} from "./utility.service";
 
 @Pipe({
   name: 'pipelineFilter'
@@ -28,6 +29,26 @@ export class PipelineFilterPipe implements PipeTransform {
       }
       return found;
     });
+    //
+    // let pipelineItemV2ListClone: IPipelineItemV2[] = UtilityService.cloneObj(pipelineItemV2List);
+    //
+    // pipelineItemV2ListClone = pipelineItemV2ListClone.filter((module) => {
+    //   return module.display_values && module.display_values.toLowerCase().includes(keyword.toLowerCase());
+    // });
+    //
+    // pipelineItemV2ListClone.forEach((value, index, array) => {
+    //   let matchingModuleList = value.pipeline_modules.filter((item) => {
+    //     // let searchStr = item.map(e => e.library).join(';') || '';
+    //     return item.display_values.toLowerCase().includes(keyword.toLowerCase());
+    //   });
+    //   if(matchingModuleList.length>0){
+    //     value.pipeline_modules = matchingModuleList;
+    //   }
+    // })
+    //
+    // return pipelineItemV2ListClone;
+    //
+
   }
 
 }
