@@ -218,20 +218,20 @@ export class ChatWrapperComponent implements OnInit {
     // window.open(`https://www.google.com`, "_blank");
   }
 
-  createCustomRoom() {
+  createCustomRoom(customConsumerDetails) {
     let doesAtleastOneConsumerKeyHasValue = false;
-    if (!this.customConsumerDetails) {
+    if (!customConsumerDetails) {
       this.utilityService.showErrorToaster('Please set custom Consumer details');
       return;
     }
-    for (const key in this.customConsumerDetails) {
-      doesAtleastOneConsumerKeyHasValue = doesAtleastOneConsumerKeyHasValue || this.customConsumerDetails[key];
+    for (const key in customConsumerDetails) {
+      doesAtleastOneConsumerKeyHasValue = doesAtleastOneConsumerKeyHasValue || customConsumerDetails[key];
     }
     if (!doesAtleastOneConsumerKeyHasValue) {
       this.utilityService.showErrorToaster('Please set custom Consumer details');
     } else {
       this.startNewChat({
-        consumerDetails: this.customConsumerDetails,
+        consumerDetails: customConsumerDetails,
         bot: this.currentBot,
         isCustomRoom: true
       });
@@ -370,12 +370,13 @@ export class ChatWrapperComponent implements OnInit {
     ]);
   }
 
-  saveConsumerDetails(value) {
+  saveConsumerDetails(value:IConsumerDetails) {
     this.showOverlay = false;
     this.store.dispatch([new SetConsumerDetail(value)])
       .subscribe(() => {
         this.utilityService.showSuccessToaster('Saved');
-        this.createCustomRoom();
+        debugger;
+        this.createCustomRoom(value);
       });
   }
 

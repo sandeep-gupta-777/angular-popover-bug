@@ -41,7 +41,7 @@
                 <div class="dialog-container" (clickOutside)="showOverlay=false">
                     <app-chat-consumer-form *ngIf="showOverlay"
                                             [customConsumerDetails]="frameEnabled === myEChatFrame.CHAT_BOX? currentRoom.consumerDetails:{}"
-                                            [readonly]="true"
+                                            [readonly]="frameEnabled === myEChatFrame.CHAT_BOX"
                                             (saveConsumerDetails$)="saveConsumerDetails($event)"></app-chat-consumer-form>
                 </div>
             </app-overlay>

@@ -22,9 +22,6 @@ export class RoleaccordionComponent implements OnInit {
   @Output() addPermission  = new EventEmitter();
 
   constructor(
-    private serverService: ServerService,
-    private constantsService: ConstantsService,
-    private routerService: RouterService
   ) { }
 
   isPermission( id: number):boolean{

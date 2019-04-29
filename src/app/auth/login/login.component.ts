@@ -113,7 +113,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       }),
       switchMap(() => {
         this.flashInfoMessage('Fetching configurations', 10000);
-        debugger;
+
         return forkJoin([
             // this.serverService.getNSetMasterPermissionsList(),
             this.serverService.getNSetIntegrationList(),

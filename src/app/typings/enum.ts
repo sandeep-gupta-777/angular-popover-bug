@@ -77,3 +77,12 @@ export enum EAllActions {
   'Delete Bot Knowledge base' = 'Delete Bot Knowledge base',
   'ModuleDetail' = 'ModuleDetail'
 }
+
+
+export enum ESideBarTab {
+  setting = 'setting',
+  input = 'input',
+  logic = 'logic',
+  chat = 'chat',
+  test = 'test',
+}

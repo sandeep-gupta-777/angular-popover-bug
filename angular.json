@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/botPlateformFE",
+            "outputPath": "dist/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -36,7 +36,6 @@
               "node_modules/codemirror/lib/codemirror.css",
               "node_modules/codemirror/addon/fold/foldgutter.css",
               "node_modules/codemirror/addon/dialog/dialog.css"
-
             ],
             "scripts": [
               "node_modules/codemirror/lib/codemirror.js",
@@ -48,14 +47,11 @@
               "node_modules/codemirror/addon/search/searchcursor.js",
               "node_modules/codemirror/addon/search/jump-to-line.js",
               "node_modules/codemirror/addon/dialog/dialog.js",
-
               "node_modules/codemirror/addon/dialog/dialog.js",
               "node_modules/codemirror/mode/python/python.js"
-
             ]
           },
           "configurations": {
-
             "develop": {
               "fileReplacements": [
                 {
@@ -74,7 +70,6 @@
               "buildOptimizer": true,
               "serviceWorker": true
             },
-
             "staging": {
               "fileReplacements": [
                 {
@@ -93,7 +88,6 @@
               "buildOptimizer": true,
               "serviceWorker": true
             },
-
             "preProd": {
               "fileReplacements": [
                 {
@@ -112,7 +106,6 @@
               "buildOptimizer": true,
               "serviceWorker": true
             },
-
             "prod": {
               "fileReplacements": [
                 {
@@ -131,7 +124,6 @@
               "buildOptimizer": true,
               "serviceWorker": true
             },
-
             "production": {
               "fileReplacements": [
                 {
@@ -150,7 +142,6 @@
               "buildOptimizer": true,
               "serviceWorker": true
             },
-
             "hmr": {
               "fileReplacements": [
                 {
@@ -211,6 +202,24 @@
             "exclude": [
               "**/node_modules/**"
             ]
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/server",
+            "main": "src/main.server.ts",
+            "tsConfig": "src/tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            }
           }
         }
       }

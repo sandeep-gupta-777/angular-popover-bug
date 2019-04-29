@@ -4,7 +4,7 @@ import {PreloadAllModules, Route, RouterModule} from '@angular/router';
 import {NotFoundComponent} from './core/not-found/not-found.component';
 import {NotAuthorisedComponent} from './not-authorised/not-authorised.component';
 import {FilterArrayPipe} from './filter-array.pipe';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {ServiceWorkerModule} from "@angular/service-worker";
 import {environment} from "../environments/environment";
 import {ModuleGaurdLoadService} from "./route-gaurds/module-gaurd-load.service";
@@ -15,6 +15,7 @@ import {NgxsReduxDevtoolsPluginModule} from "@ngxs/devtools-plugin";
 import {PermissionService} from "./permission.service";
 import {ConstantsService} from "./constants.service";
 import {AuthModule} from "./auth/auth.module";
+import {BrowserModule} from "@angular/platform-browser";
 
 const routes: Route[] = [
   {path: 'dev', loadChildren: './dev/dev.module#DevModule'},
@@ -38,7 +39,8 @@ const routes: Route[] = [
 
   ],
   imports: [
-    // BrowserAnimationsModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    // NoopAnimationsModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     // RouterModule,

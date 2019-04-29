@@ -1,30 +1,30 @@
 <form role="menu" #form="ngForm"
       (ngSubmit)="validateAndSubmit(form.value)"
       style="width: 200px">
-  <p class="heading mb-2">Edit Customer</p>
+  <p class="heading mb-3">{{readonly?'Customer Details':'Edit Customer'}}</p>
 
   <fieldset [disabled]="readonly">
-    <mat-form-field>
+    <mat-form-field *ngIf="!readonly || readonly && customConsumerDetails?.name">
       <input matInput placeholder="Name" type="text" [ngModel]="customConsumerDetails?.name"
              name="name" aria-describedby="emailHelp">
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field *ngIf="!readonly || readonly && customConsumerDetails?.phone">
       <input matInput placeholder="Phone" type="text" [ngModel]="customConsumerDetails?.phone" name="phone"
              aria-describedby="emailHelp">
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field *ngIf="!readonly || readonly && customConsumerDetails?.email">
       <input matInput placeholder="Email" type="email" email [ngModel]="customConsumerDetails?.email"
              name="email" aria-describedby="emailHelp">
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field *ngIf="!readonly || readonly && customConsumerDetails?.facebook_id">
       <input matInput placeholder="Facebook ID" type="text" [ngModel]="customConsumerDetails?.facebook_id"
              name="facebook_id" aria-describedby="emailHelp">
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field *ngIf="!readonly || readonly && customConsumerDetails?.uid">
       <input matInput placeholder="UID" type="text" [ngModel]="customConsumerDetails?.uid" name="uid"
              aria-describedby="emailHelp">
     </mat-form-field>

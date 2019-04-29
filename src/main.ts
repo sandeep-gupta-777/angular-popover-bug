@@ -1,9 +1,13 @@
-// import 'hammerjs';
+import './polyfills.ts';
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 //
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
+
+// import 'hammerjs';
+document.addEventListener('DOMContentLoaded', () => {
+
 // import { hmrModule } from '@angularclass/hmr';
 //
 if (environment.production) {
@@ -30,3 +34,4 @@ if ((<any>environment).hmr) {
 } else {
   bootstrap().catch(err => console.log(err));
 }
+});

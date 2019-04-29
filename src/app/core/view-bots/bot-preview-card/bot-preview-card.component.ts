@@ -136,7 +136,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
       component:ModalConfirmComponent
     }).then((data)=>{
 
-      if(data){
+      if(data === ""){/*todo: improve this*/
         this.deleteBot();
       }
     })
@@ -158,6 +158,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
   // }
 
   deleteBot() {
+    debugger;
     // this.modalRefWrapper.hide();
     const url = this.constantsService.getDeleteBotUrl(this.bot.id);
     const headerData: IHeaderData = {
@@ -176,7 +177,6 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
   }
 
   navigateToBotDetailPage(event) {//preview-button
-    this.showLoader = true;
     if(this.bot.bot_type !== EBotType.chatbot){
       this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id]);
       return;
@@ -184,7 +184,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
 
     if (!event.target.classList.contains('click-save-wrapper')) {
       this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id]);
-
+      this.showLoader = true;
 
       /*TODO:improve it*/
 

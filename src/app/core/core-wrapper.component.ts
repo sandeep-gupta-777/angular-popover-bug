@@ -20,6 +20,7 @@ export class CoreWrapperComponent implements OnInit {
   isBuildBot: boolean;
   progressVal = 0;
   showProgressbar = false;
+  currentIntervalRef;
 
   constructor(
     private router: Router,
@@ -30,7 +31,7 @@ export class CoreWrapperComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.initializeProgressBarSubscription();//todo: after refactor
+    this.initializeProgressBarSubscription();//todo: after refactor
     this.isBotDetail = location.pathname && location.pathname.includes('/core/botdetail/');
     this.isBuildBot = location.pathname && location.pathname.includes('/core/buildbot');
     this.router.events.subscribe((data) => {
@@ -44,32 +45,32 @@ export class CoreWrapperComponent implements OnInit {
   }
 
 
-  // initializeProgressBarSubscription() {
-  //   EventService.progressBar$.subscribe(({loading, value}) => {
-  //
-  //     if (loading) {/*if loading = true, slowly increase progressbar*/
-  //       this.showProgressbar = true;
-  //       this.currentIntervalRef && clearInterval(this.currentIntervalRef);
-  //       this.progressVal = value;
-  //       // this.progressVal = 0;
-  //       this.currentIntervalRef = setInterval(() => {
-  //         LoggingService.log('setInterval');
-  //         if (this.progressVal < 80) {
-  //           ++this.progressVal;
-  //         } else {
-  //           this.progressVal = this.progressVal + 0.2;
-  //         }
-  //       }, 300);
-  //     } else {
-  //       setTimeout(() => {
-  //         this.progressVal = 100;
-  //         this.currentIntervalRef && clearInterval(this.currentIntervalRef);
-  //         setTimeout(() => {
-  //           this.showProgressbar = false;
-  //         }, 500);
-  //       }, 0);
-  //     }
-  //   });
-  // }
+  initializeProgressBarSubscription() {
+    EventService.progressBar$.subscribe(({loading, value}) => {
+
+      if (loading) {/*if loading = true, slowly increase progressbar*/
+        this.showProgressbar = true;
+        this.currentIntervalRef && clearInterval(this.currentIntervalRef);
+        this.progressVal = value;
+        // this.progressVal = 0;
+        this.currentIntervalRef = setInterval(() => {
+          LoggingService.log('setInterval');
+          if (this.progressVal < 80) {
+            ++this.progressVal;
+          } else {
+            this.progressVal = this.progressVal + 0.2;
+          }
+        }, 200);
+      } else {
+        setTimeout(() => {
+          this.progressVal = 100;
+          this.currentIntervalRef && clearInterval(this.currentIntervalRef);
+          setTimeout(() => {
+            this.showProgressbar = false;
+          }, 500);
+        }, 0);
+      }
+    });
+  }
 
 }
