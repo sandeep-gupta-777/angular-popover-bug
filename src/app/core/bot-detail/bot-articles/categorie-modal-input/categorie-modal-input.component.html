@@ -4,16 +4,18 @@
     <input matInput [(ngModel)]="newCategorieName" *ngIf = "!typeIsEdit">
 
   </mat-form-field>
-  <div class="input-icon parentHover" *ngIf = "typeIsEdit && !editMode" (click) = "editMode = true">
+  <div class="input-icon parentHover cursor-pointer" 
+  *ngIf = "typeIsEdit && !editMode && !(categorieClone.category_id == 'unassigned' || categorieClone.category_id == 'default_articles' )" (click) = "editMode = true">
     <mat-icon class="color-primary" >edit</mat-icon> Edit
   </div>
-  <div class="input-icon parentHover" *ngIf = "typeIsEdit && !editMode" (click) = "categoryDeleteClicked()">
+  <div class="input-icon parentHover cursor-pointer" 
+  *ngIf = "typeIsEdit && !editMode && !(categorieClone.category_id == 'unassigned' || categorieClone.category_id == 'default_articles' )" (click) = "categoryDeleteClicked()">
     <mat-icon class="color-danger">delete</mat-icon> Delete
   </div>
-  <div class="input-icon" *ngIf = "editMode" [ngClass] = "{'opp':typeIsEdit && isNameChanged()}" (click) = "categoryUpdateClicked()">
+  <div class="input-icon cursor-pointer" *ngIf = "editMode" [ngClass] = "{'opp':typeIsEdit && isNameChanged()}" (click) = "categoryUpdateClicked()">
     <mat-icon class="color-primary">done</mat-icon> Save
   </div>
-  <div class="input-icon" *ngIf = "editMode" (click) = "cancelClicked()">
+  <div class="input-icon cursor-pointer" *ngIf = "editMode" (click) = "cancelClicked()">
     <mat-icon>close</mat-icon> Cancel
   </div>
 </div>

@@ -34,19 +34,22 @@ export class CategorieModalInputComponent implements OnInit {
   }
 
   categoryUpdateClicked() {
-    if (this.typeIsEdit) {
-      const body = {
-        'category_name': this.categorieClone.name,
-        'category_id': this.categorieClone.category_id
+    if(!(this.typeIsEdit && this.isNameChanged())){
+      if (this.typeIsEdit) {
+        const body = {
+          'category_name': this.categorieClone.name,
+          'category_id': this.categorieClone.category_id
+        }
+        this.categoryUpdate.emit(body);
       }
-      this.categoryUpdate.emit(body);
-    }
-    else {
-      const body = {
-        'category_name': this.newCategorieName,
+      else {
+        const body = {
+          'category_name': this.newCategorieName,
+        }
+        this.categoryCreate.emit(body);
       }
-      this.categoryCreate.emit(body);
     }
+    
 
   }
   categoryDeleteClicked() {

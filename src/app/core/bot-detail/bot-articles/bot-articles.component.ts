@@ -79,6 +79,10 @@ export class BotArticlesComponent implements OnInit {
       }
     }
   }
+  goBackToArticalList(){
+    this.getCorpusAndSetArticleFilterForm();
+    this.showEditAndViewArtical = false;
+  }
   removeFilterItemById(categorie_id) {
     this.articleFilterForm.patchValue({ [categorie_id]: false });
     this.makeFilterList(this.articleFilterForm);
@@ -151,6 +155,9 @@ export class BotArticlesComponent implements OnInit {
       if(value){
         this.getCorpusAndSetArticleFilterForm$().subscribe((v)=>{
           this.utilityService.showSuccessToaster("Article succesfully saved");
+          if(!articleData.section_id){
+            this.showEditAndViewArtical = false;
+          }
         })  
         // this.saveAndTrain.emit();
       }
@@ -178,7 +185,7 @@ export class BotArticlesComponent implements OnInit {
             this.showEditAndViewArtical = false;
           })
           
-      })
+      }})
   }
 
   // train stuff
@@ -193,7 +200,6 @@ export class BotArticlesComponent implements OnInit {
 
     let url = this.constantsService.corpusTrainUrl()
     return this.serverService.makePostReq<any>({ headerData, body, url });
-      
   }
 
   trainBotAndGetCorpus() {
@@ -265,8 +271,11 @@ export class BotArticlesComponent implements OnInit {
         this.corpus.category_mapping = [...this.corpus.category_mapping];
         this.corpus = {...this.corpus};
         this.showCreateNewCategoryInput = false;
+        this.categoryMappingClone.push(value.new_category);
+        this.categoryMappingClone = [...this.categoryMappingClone];
         this.utilityService.showSuccessToaster("Caregory succesfully created");
+
       })
   }
-
+  
 }

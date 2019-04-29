@@ -24,9 +24,9 @@ export class EditAndViewArticlesComponent implements OnInit {
     private matDialog: MatDialog,
   ) { }
   @Input() bot: IBot;
-  @Input() article : IArticleItem;
-  @Input() category_mapping : ICategoryMappingItem[];
-  articleData : IArticleItem;
+  @Input() article: IArticleItem;
+  @Input() category_mapping: ICategoryMappingItem[];
+  articleData: IArticleItem;
   @Output() goBack = new EventEmitter();
   @Output() corpusNeedsReload = new EventEmitter();
   @Output() saveAndTrain = new EventEmitter();
@@ -34,8 +34,8 @@ export class EditAndViewArticlesComponent implements OnInit {
   @Output() deleteArticle = new EventEmitter();
   @Output() trainAndUpdate = new EventEmitter();
   article_id: number;
-  dialogRefWrapper = {ref: null};
-  
+  dialogRefWrapper = { ref: null };
+
   ngOnInit() {
     this.articleData = this.utilityService.createDeepClone(this.article);
     this.activatedRoute.queryParamMap
@@ -86,20 +86,20 @@ export class EditAndViewArticlesComponent implements OnInit {
   goBackToArticle() {
     this.goBack.emit();
   }
-  
-  updateArticleClicked(){
+
+  updateArticleClicked() {
     this.updateArticle.emit(this.articleData);
   }
 
-  creatArticleClicked(){
+  creatArticleClicked() {
     // this.updateArticle.emit(this.articleData);
   }
 
-  deleteArticleClicked(){
+  deleteArticleClicked() {
     this.deleteArticle.emit(this.articleData);
   }
 
-  updateAndTrain(){
+  updateAndTrain() {
     this.trainAndUpdate.emit(this.articleData);
     // this.updateArticle$()
     // .subscribe((value)=>{
@@ -108,55 +108,72 @@ export class EditAndViewArticlesComponent implements OnInit {
     //     this.saveAndTrain.emit();
     //     this.goBackToArticle();
     //   }
-     
+
     // })
   }
 
+  changeArticalCategory(formValue) {
+    const headerData: IHeaderData = {
+      'bot-access-token': this.bot.bot_access_token
+    };
+    if (this.articleData.section_id) {
+      let body = {
+        "old_category": this.article.category_id,
+        "section_id": [this.articleData.section_id]
+      }
+      if (formValue.inputType == "existing") {
+        body["new_category"] = formValue.existingCategoryName;
+        const headerData: IHeaderData = {
+          'bot-access-token': this.bot.bot_access_token
+        };
+        const url = this.constantsService.changeSectionCategoryUrl();
+        this.serverService.makePostReq<any>({ headerData, body, url })
+          .subscribe((value) => {
+            this.category_mapping = value.category_mapping;
+            this.category_mapping = [...this.category_mapping];
+            this.article.category_id = value.new_category;
+            this.articleData.category_id = value.new_category;
+            this.utilityService.showSuccessToaster("Caregory succesfully updated");
+          })
+      }
 
-  // createArticle() {
-  //   const headerData: IHeaderData = {
-  //     'bot-access-token': this.bot.bot_access_token
-  //   };
+      if (formValue.inputType == "new") {
+        body['category_name'] = formValue.newCategoryName;
+        const headerData: IHeaderData = {
+          'bot-access-token': this.bot.bot_access_token
+        };
+        const url = this.constantsService.changeSectionCategoryWithNewCategoryUrl();
+        this.serverService.makePostReq<any>({ headerData, body, url })
+          .subscribe((value) => {
+            this.category_mapping = value.category_mapping;
+            this.category_mapping = [...this.category_mapping];
+            this.article.category_id = value.new_category;
+            this.articleData.category_id = value.new_category;
+            this.utilityService.showSuccessToaster("Caregory succesfully updated");
+          })
 
-  //   let body = {
-  //     "questions": this.articleData.questions,
-  //     "answers": this.articleData.answers,
-  //     "category_id": this.articleData.category_id
-
-  //   }
-
-  //   let url = this.constantsService.createArticalUrl()
-  //   this.serverService.makePostReq<any>({ headerData, body, url })
-  //     .subscribe((value)=>{
-  //       if(value){
-  //         this.corpusNeedsReload.emit()
-  //       }
-        
-  //     })
-  // }
-
-  // deleteArticle(){
-  //   const headerData: IHeaderData = {
-  //     'bot-access-token': this.bot.bot_access_token
-  //   };
-
-  //   let body = {
-  //     "section_id": this.articleData.section_id,
-  //     "category_id": this.articleData.category_id
-  //   }
-  //   let url = this.constantsService.deleteArticelUrl()
-  //   this.serverService.makePostReq<any>({ headerData, body, url })
-  //     .subscribe(value =>{
-  //       if(value) {
-  //         this.corpusNeedsReload.emit();
-  //         this.goBackToArticle();
-  //       }
-  //     })
-  // }
-
-  openCategoryModifyModal(template :TemplateRef<any>){
+      }
+    } else {
+      if (formValue.inputType == "existing") {
+        this.articleData['category_id'] = formValue.existingCategoryName;
+      }
+      if (formValue.inputType == "new") {
+        const body = {
+          "category_name": formValue.newCategoryName
+        }
+        const url = this.constantsService.createCategoryUrl();
+        this.serverService.makePostReq<any>({ headerData, body, url })
+          .subscribe((value) => {
+            this.articleData['category_id'] = value.new_category.category_id;
+            this.category_mapping.push(value.new_category);
+          })
+      }
+    }
+    debugger;
+  }
+  openCategoryModifyModal(template: TemplateRef<any>) {
 
     this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
 
-}
+  }
 }

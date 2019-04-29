@@ -36,7 +36,7 @@
 
 <div class="category-edit px-2 pb-2">
   <div class="category-lable px-2 ">Category</div>
-  <div class="category-name curser-pointer px-2" (click)="openCategoryModifyModal(categoriesTemplate)">
+  <div class="category-name cursor-pointer px-2" (click)="openCategoryModifyModal(categoriesTemplate)">
     {{articleData.category_id | categoryIdToName : category_mapping}}
   </div>
 </div>
@@ -96,7 +96,7 @@
     </div>
 
     <div class="modal-body pt-0 ">
-      <form role="menu" #form="ngForm" class="d-flex flex-column">
+      <form role="menu" #form="ngForm" class="d-flex flex-column" (ngSubmit) = "changeArticalCategory(form.value);dialogRefWrapper.ref.close()">
         <mat-radio-group name="inputType" ngModel class = "d-flex flex-column">
 
           <mat-radio-button value="existing" color = primary>Add to existing category</mat-radio-button>
@@ -123,12 +123,12 @@
 
         <div class="d-flex justify-content-center">
           <!--<button  mat-flat-button color="primary" class="btn-theme">Save Changes</button>-->
-          <button type="submit" class="btn-theme btn-theme-secondary-outline ml-auto mr-2" style= "font-size: 13px;"
-          (click)= "dialogRefWrapper.ref.close()">
+          <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2 cursor-pointer" style= "font-size: 13px;"
+          (click)= "dialogRefWrapper.ref.close(true)">
                 Clear 
               </button>
           
-          <button type="submit" class="btn-theme btn-theme-primary" style= "font-size: 13px;">
+          <button type="submit" class="btn-theme btn-theme-primary cursor-pointer" style= "font-size: 13px;">
             Change category
           </button>
           

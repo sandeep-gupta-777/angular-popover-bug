@@ -574,7 +574,12 @@ export class ConstantsService {
   deleteCategoryUrl(){
     return this.BACKEND_URL + `api/v1/corpus/removecategory/`;
   }
-
+  changeSectionCategoryUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/changesectioncategory/`;
+  }
+  changeSectionCategoryWithNewCategoryUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/createcategoryandmaptosection/`;
+  }
 
 
 

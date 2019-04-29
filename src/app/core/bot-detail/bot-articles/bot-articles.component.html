@@ -27,9 +27,9 @@
 </div>
 <div *ngIf="loaded && showEditAndViewArtical">
   <app-edit-and-view-articles [bot]="bot" [article]="selectedArticle" [category_mapping]="corpus.category_mapping"
-    (goBack)="showEditAndViewArtical = false" (corpusNeedsReload)="getCorpusAndSetArticleFilterForm()"
+    (goBack)="goBackToArticalList();" (corpusNeedsReload)="getCorpusAndSetArticleFilterForm()"
     (saveAndTrain)="trainBotAndGetCorpus()" (updateArticle)="updateArticle($event)" (deleteArticle)="deleteArticle($event)"
-    (trainAndUpdate)="trainAndUpdate($event)"></app-edit-and-view-articles>
+    (trainAndUpdate)="trainAndUpdate($event)" ></app-edit-and-view-articles>
 </div>
 
 <ng-template #categoriesTemplate>
@@ -57,19 +57,19 @@
           </button>
 
           <app-categorie-modal-input *ngIf = "showCreateNewCategoryInput"
-          [typeIsEdit] = 'false'
-            (categorycreate)="categoryUpdate($event)"
+            [typeIsEdit] = 'false'
+            (categoryUpdate)="categoryUpdate($event)"
             (makeShowCreateNewCategoryInputFalse) = "showCreateNewCategoryInput = false"
             (categoryCreate) = "categoryCreate($event)"
             >
           </app-categorie-modal-input>
 
-          <mat-form-field class="ml-auto">
+          <mat-form-field class="ml-auto" style="width: 150px;">
             <input matInput placeholder="Search" [(ngModel)]="searchCategorie">
             <mat-icon matSuffix>search</mat-icon>
           </mat-form-field>
         </div>
-        <p>{{corpus.category_mapping | json}}</p>
+        <!-- <p>{{corpus.category_mapping | json}}</p> -->
         <div class="d-flex flex-column" style="overflow-y: auto;max-height: 35vh;">
 
           <app-categorie-modal-input *ngFor="let categorie of categoryMappingClone"
