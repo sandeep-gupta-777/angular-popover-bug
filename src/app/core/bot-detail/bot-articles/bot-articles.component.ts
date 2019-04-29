@@ -34,6 +34,7 @@ export class BotArticlesComponent implements OnInit {
   dialogRefWrapper = {ref: null};
   searchCategorie = "";
   categoryMappingClone : ICategoryMappingItem[]; 
+  showCreateNewCategoryInput = false;
   ngOnInit() {
     this.getCorpusAndSetArticleFilterForm$()
       .subscribe()
@@ -96,38 +97,51 @@ export class BotArticlesComponent implements OnInit {
     this.showEditAndViewArtical = true;
     this.selectedArticle = article;
   }
+  openArticleCreate() {
+    let article = {
+      'answers':[{"text": [""]}],
+      'category_id':'unassigned',
+      'questions':[""]
+  }
+    // add qurey parems
+    this.showEditAndViewArtical = true;
+    this.selectedArticle = article;
+  }
   openCategoryModifyModal(template :TemplateRef<any>){
 
       this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
-      // setTimeout(() => {
-  
-      //   this.modifyBotRole = this.selectedUserModify.enterprises[0].role_id;
-      //   this.isSelectedRoleAdmin = this.modifyBotRole == 2 ? true : false;
-      //   let formlist = this.modifyBotList.value;
-      //   for (let key of this.selectedUserModify.enterprises[0].bots) {
-      //     formlist[key] = true;
-      //   }
-      //   this.modifyBotList.form.patchValue(formlist);
-      // }, 0);
+      setTimeout(() => {
+        this.showCreateNewCategoryInput = false;
+        this.categoryMappingClone = this.utilityService.createDeepClone(this.corpus.category_mapping);
+      }, 0);
   
   }
 
   // edit and view artical functions
-
+// update artical
   updateArticle$(articleData : IArticleItem) {
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
+    let create = !articleData.section_id;
 
     let body = {
-      "section_id": articleData.section_id,
-      "questions": articleData.questions,
-      "answers": articleData.answers,
-      "category_id": articleData.category_id
+      'questions': articleData.questions,
+      'answers': articleData.answers,
+      'category_id': articleData.category_id
 
     }
+    let url;
 
-    let url = this.constantsService.updateArticelUrl()
+    if (!create){
+      body['section_id'] = articleData.section_id;
+      url = this.constantsService.updateArticelUrl();
+    }
+    else{
+      url = this.constantsService.createArticelUrl();
+    }
+
+     
     return this.serverService.makePostReq<any>({ headerData, body, url })
   }
 
@@ -135,12 +149,39 @@ export class BotArticlesComponent implements OnInit {
     this.updateArticle$(articleData)
     .subscribe((value)=>{
       if(value){
-        this.getCorpusAndSetArticleFilterForm()
+        this.getCorpusAndSetArticleFilterForm$().subscribe((v)=>{
+          this.utilityService.showSuccessToaster("Article succesfully saved");
+        })  
         // this.saveAndTrain.emit();
       }
      
     })
   }
+
+  // delete artical
+
+  deleteArticle(article){
+    const headerData: IHeaderData = {
+      'bot-access-token': this.bot.bot_access_token
+    };
+
+    let body = {
+      "section_id":  article.section_id,
+      "category_id": article.category_id
+    }
+    let url = this.constantsService.deleteArticelUrl()
+    this.serverService.makePostReq<any>({ headerData, body, url })
+      .subscribe(value =>{
+        if(value) {
+          this.getCorpusAndSetArticleFilterForm$()
+          .subscribe(v=>{
+            this.showEditAndViewArtical = false;
+          })
+          
+      })
+  }
+
+  // train stuff
   trainCorpus$(){
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
@@ -159,6 +200,7 @@ export class BotArticlesComponent implements OnInit {
     this.trainCorpus$()
       .subscribe((value) => {
         if (value) {
+          // this.utilityService.showSuccessToaster("Caregory succesfully updated");
           this.getCorpusAndSetArticleFilterForm$()
           .subscribe()
         }
@@ -197,7 +239,34 @@ export class BotArticlesComponent implements OnInit {
              break;
           }
         }
+        this.utilityService.showSuccessToaster("Caregory succesfully updated");
       });
+  }
+  categoryDelete(body){
+    const headerData: IHeaderData = {
+      'bot-access-token': this.bot.bot_access_token
+    };
+    const url = this.constantsService.deleteCategoryUrl();
+    this.serverService.makePostReq<any>({ headerData, body, url })
+    .subscribe((value)=>{
+      this.getCorpusAndSetArticleFilterForm$()
+      .subscribe((v)=>
+      this.utilityService.showSuccessToaster("Caregory succesfully deleted"));
+    })
+  }
+  categoryCreate(body){
+    const headerData: IHeaderData = {
+      'bot-access-token': this.bot.bot_access_token
+    };
+    const url = this.constantsService.createCategoryUrl();
+    this.serverService.makePostReq<any>({ headerData, body, url })
+      .subscribe((value)=>{
+        this.corpus.category_mapping.push(value.new_category);
+        this.corpus.category_mapping = [...this.corpus.category_mapping];
+        this.corpus = {...this.corpus};
+        this.showCreateNewCategoryInput = false;
+        this.utilityService.showSuccessToaster("Caregory succesfully created");
+      })
   }
 
 }

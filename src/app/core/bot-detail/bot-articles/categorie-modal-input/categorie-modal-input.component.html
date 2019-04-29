@@ -1,17 +1,19 @@
 <div class="d-flex flex-row align-items-center categorie-modal-input-item">
   <mat-form-field>
-    <input matInput [(ngModel)]="categorieClone.name" [readonly]='!editMode'>
+    <input matInput [(ngModel)]="categorieClone.name" [readonly]='!editMode' *ngIf = "typeIsEdit">
+    <input matInput [(ngModel)]="newCategorieName" *ngIf = "!typeIsEdit">
+
   </mat-form-field>
-  <div class="input-icon parentHover" *ngIf = "!editMode" (click) = "editMode = true">
+  <div class="input-icon parentHover" *ngIf = "typeIsEdit && !editMode" (click) = "editMode = true">
     <mat-icon class="color-primary" >edit</mat-icon> Edit
   </div>
-  <div class="input-icon parentHover" *ngIf = "!editMode" >
+  <div class="input-icon parentHover" *ngIf = "typeIsEdit && !editMode" (click) = "categoryDeleteClicked()">
     <mat-icon class="color-danger">delete</mat-icon> Delete
   </div>
-  <div class="input-icon" *ngIf = "editMode" [ngClass] = "{'opp':isNameChanged()}" (click) = "categoryUpdateClicked()">
+  <div class="input-icon" *ngIf = "editMode" [ngClass] = "{'opp':typeIsEdit && isNameChanged()}" (click) = "categoryUpdateClicked()">
     <mat-icon class="color-primary">done</mat-icon> Save
   </div>
-  <div class="input-icon" *ngIf = "editMode" (click) = "editMode = false">
+  <div class="input-icon" *ngIf = "editMode" (click) = "cancelClicked()">
     <mat-icon>close</mat-icon> Cancel
   </div>
 </div>

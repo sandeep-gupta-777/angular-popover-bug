@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 import { ConstantsService } from 'src/app/constants.service';
 import { ServerService } from 'src/app/server.service';
 import { UtilityService } from 'src/app/utility.service';
@@ -6,6 +6,7 @@ import { IBot } from 'src/app/core/interfaces/IBot';
 import { IHeaderData } from 'src/interfaces/header-data';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IArticleItem, ICategoryMappingItem } from 'src/app/core/interfaces/faqbots';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-edit-and-view-articles',
@@ -20,6 +21,7 @@ export class EditAndViewArticlesComponent implements OnInit {
     private utilityService: UtilityService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private matDialog: MatDialog,
   ) { }
   @Input() bot: IBot;
   @Input() article : IArticleItem;
@@ -29,9 +31,11 @@ export class EditAndViewArticlesComponent implements OnInit {
   @Output() corpusNeedsReload = new EventEmitter();
   @Output() saveAndTrain = new EventEmitter();
   @Output() updateArticle = new EventEmitter();
+  @Output() deleteArticle = new EventEmitter();
   @Output() trainAndUpdate = new EventEmitter();
   article_id: number;
-
+  dialogRefWrapper = {ref: null};
+  
   ngOnInit() {
     this.articleData = this.utilityService.createDeepClone(this.article);
     this.activatedRoute.queryParamMap
@@ -92,7 +96,7 @@ export class EditAndViewArticlesComponent implements OnInit {
   }
 
   deleteArticleClicked(){
-    // this.updateArticle.emit(this.articleData);
+    this.deleteArticle.emit(this.articleData);
   }
 
   updateAndTrain(){
@@ -149,4 +153,10 @@ export class EditAndViewArticlesComponent implements OnInit {
   //       }
   //     })
   // }
+
+  openCategoryModifyModal(template :TemplateRef<any>){
+
+    this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
+
+}
 }

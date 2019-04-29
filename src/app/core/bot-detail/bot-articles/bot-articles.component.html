@@ -10,7 +10,7 @@
     <div>
       <div class="d-flex w-100  flex-column article-action-side-bar pl-4">
         <div class="for-border"></div>
-        <div class="action-item pt-2 pb-1 cursor-pointer" style="font-size:13px">
+        <div class="action-item pt-2 pb-1 cursor-pointer" style="font-size:13px" (click)="openArticleCreate()">
           <mat-icon class="material-icons">add</mat-icon> Create new article
         </div>
         <!-- <div class="action-item py-1 cursor-pointer">
@@ -28,7 +28,7 @@
 <div *ngIf="loaded && showEditAndViewArtical">
   <app-edit-and-view-articles [bot]="bot" [article]="selectedArticle" [category_mapping]="corpus.category_mapping"
     (goBack)="showEditAndViewArtical = false" (corpusNeedsReload)="getCorpusAndSetArticleFilterForm()"
-    (saveAndTrain)="trainBotAndGetCorpus()" (updateArticle)="updateArticle($event)"
+    (saveAndTrain)="trainBotAndGetCorpus()" (updateArticle)="updateArticle($event)" (deleteArticle)="deleteArticle($event)"
     (trainAndUpdate)="trainAndUpdate($event)"></app-edit-and-view-articles>
 </div>
 
@@ -50,10 +50,20 @@
     <div class="modal-body pt-0 ">
       <div class="d-flex flex-column">
         <div class="d-flex flex-row mb-2" style="height: 34px;">
-          <button class="mat-theme-button cursor-pointer mr-2" mat-button
-            style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;">
+          <button class="mat-theme-button cursor-pointer mr-2" mat-button *ngIf = "!showCreateNewCategoryInput"
+            style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"
+            (click)="showCreateNewCategoryInput = true">
             + Add category
           </button>
+
+          <app-categorie-modal-input *ngIf = "showCreateNewCategoryInput"
+          [typeIsEdit] = 'false'
+            (categorycreate)="categoryUpdate($event)"
+            (makeShowCreateNewCategoryInputFalse) = "showCreateNewCategoryInput = false"
+            (categoryCreate) = "categoryCreate($event)"
+            >
+          </app-categorie-modal-input>
+
           <mat-form-field class="ml-auto">
             <input matInput placeholder="Search" [(ngModel)]="searchCategorie">
             <mat-icon matSuffix>search</mat-icon>
@@ -65,7 +75,9 @@
           <app-categorie-modal-input *ngFor="let categorie of categoryMappingClone"
             [hidden]="!categorie.name.toLowerCase().includes(searchCategorie.toLowerCase())"
             [categorieClone]="categorie" [categorieMappingReal]="corpus.category_mapping"
-            (categoryUpdate)="categoryUpdate($event)">
+            [typeIsEdit] = "true"
+            (categoryUpdate)="categoryUpdate($event)"
+            (categoryDelete)= "categoryDelete($event)">
           </app-categorie-modal-input>
 
 
