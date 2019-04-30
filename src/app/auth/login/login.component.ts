@@ -25,7 +25,7 @@ import {IRoleInfo} from '../../../interfaces/role-info';
 import {catchError, switchMap} from 'rxjs/internal/operators';
 import {PermissionService} from '../../permission.service';
 import {tap} from 'rxjs/internal/operators';
-import {ERoleName} from "../../typings/enum";
+import {ENgxsStogareKey, ERoleName} from '../../typings/enum';
 import {FormsService} from "../../forms.service";
 import {MyToasterService} from "../../my-toaster.service";
 
@@ -86,7 +86,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   ngOnInit() {
     try {
       /*replace with plateform.roomId*/
-      localStorage.clear();
+      localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
 
     } catch (e) {
       console.log(e);
@@ -202,8 +202,9 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   }
 
   loginSubmitHandler() {
+    debugger;
     this.flashInfoMessage('Connecting to the server', 10000);
-    localStorage.clear();
+    localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
     /*logging out so that only one use can login in at one time*/
     this.store.dispatch([
       new ResetBotListAction(),

@@ -86,3 +86,8 @@ export enum ESideBarTab {
   chat = 'chat',
   test = 'test',
 }
+
+export enum ENgxsStogareKey {
+  /*https://stackoverflow.com/questions/53839884/how-to-change-the-default-state-key-for-storage-plugin*/
+  IMI_BOT_STORAGE_KEY = '@@STATE'
+}

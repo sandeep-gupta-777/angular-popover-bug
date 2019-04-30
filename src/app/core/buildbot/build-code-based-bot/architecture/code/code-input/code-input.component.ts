@@ -119,6 +119,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     });
 
     this.version$.subscribe((versionState: ICodeInputState) => {
+      if(!versionState) return;
       let versions = versionState.versions;
       if (versions) {
         this.versions_st = versions;

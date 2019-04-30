@@ -8,7 +8,7 @@ export class SortArticalsPipe implements PipeTransform {
   transform(value: any[], sort_by_key: any, category_mapping): any {
     if(!sort_by_key || !value || !category_mapping) return value;
     if(sort_by_key == 'updated_at') {
-      debugger;
+
       value.sort(function(a, b){return  - a.updated_at + b.updated_at});
     }
     else if(sort_by_key == 'category_id'){
@@ -28,7 +28,7 @@ export class SortArticalsPipe implements PipeTransform {
       })
     }
 
-  debugger;
+
   return value;
   }
 

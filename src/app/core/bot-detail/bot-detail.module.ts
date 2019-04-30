@@ -69,6 +69,9 @@ import { SortArticalsPipe } from './bot-articles/sort-articals.pipe';
 import { FilterArticalsPipe } from './bot-articles/filter-articals.pipe';
 import { ArticleFilterComponent } from './bot-articles/article-filter/article-filter.component';
 import { ArticleQuestionListViewComponent } from './bot-articles/article-question-list-view/article-question-list-view.component';
+import { ArticalHeaderComponent } from './bot-articles/artical-header/artical-header.component';
+import { EditAndViewArticlesComponent } from './bot-articles/edit-and-view-articles/edit-and-view-articles.component';
+import { CategorieModalInputComponent } from './bot-articles/categorie-modal-input/categorie-modal-input.component';
 import {ConstantsService} from "../../constants.service";
 
 const routes: Route[] = [
@@ -135,11 +138,14 @@ const routes: Route[] = [
     LimitObjectArraysStringPipe,
     ConsumerFullscreenWrapperComponent,
     BotArticlesComponent,
+    CategorieModalInputComponent,
+    EditAndViewArticlesComponent,
     ArticleQuestionListViewComponent,
     CategoryIdToNamePipe,
     SortArticalsPipe,
     FilterArticalsPipe,
     ArticleFilterComponent,
+    ArticalHeaderComponent,
     /*after lazy loading*/
     // RequiredIfOneFilledValidator
   //

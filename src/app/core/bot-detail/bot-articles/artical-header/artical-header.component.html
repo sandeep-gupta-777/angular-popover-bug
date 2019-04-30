@@ -1,0 +1,29 @@
+<header>
+  <div class = "d-flex flex-row heading">
+      <strong class = "heading-title">
+          Knowledge base {{ corpus.state}}</strong>
+      <div class="article-state"
+      [ngStyle]="{'background-color':  corpus.state == 'saved' ? '#fdc31c': 
+          corpus.state == 'training' ? '#f48a42' : 
+          corpus.state == 'trained' ? '#00abd3' : 
+          corpus.state == 'live' ? '#34bc6e' : '#00abd3' }">
+
+          {{ corpus.state == 'saved' ? 'Saved' : 
+          corpus.state == 'training' ? 'Training' : 
+          corpus.state == 'trained' ? 'Trained' : 
+          corpus.state == 'live' ? 'Live' : 'Trained' }}
+      </div>
+      <div class="mr-auto">
+      </div>
+      <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border" 
+      [hidden]=" corpus.state != 'saved' && corpus.state != 'trained'"
+      >
+          <mat-icon class = "mat-icon material-icons" *ngIf="corpus.state == 'saved'">sync</mat-icon>
+          <mat-icon class = "mat-icon material-icons" *ngIf="corpus.state == 'trained'">arrow_upward</mat-icon>
+          {{ corpus.state == 'saved' ? 'Train' : 
+          corpus.state == 'trained' ? 'Make Live' : 'Train'}}
+      </button>
+  </div>
+  <div style="color: #9e9e9e;font-size: 11px">These are your {{corpus.sections? corpus.sections.length : ''}}  articles.
+  </div>
+</header>

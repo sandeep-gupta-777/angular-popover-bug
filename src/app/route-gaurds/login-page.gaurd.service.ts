@@ -24,6 +24,7 @@ export class LoginPageGaurdService implements CanActivate, CanActivateChild, Can
   }
 
   canLoad() {
+    debugger;
     return this.canActivate();
   }
 
