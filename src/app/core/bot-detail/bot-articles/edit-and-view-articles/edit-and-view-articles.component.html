@@ -98,7 +98,14 @@
     </div>
     <div>
         <div class="questions-heading">Usage</div>
-        <div>This response will be used whenever the bot is unable to identify 
+        <div *ngIf = "articleData.section_id == 'first_message'">
+            Welcome message is the first message which will be shown across all 
+            platforms as soon as a new conversation with a bot is initiated. 
+            This message helps user know 
+            what the bot can and cannot do and acts as a crucial onboarding step.
+        </div>
+        <div *ngIf="articleData.section_id == 'fallback'">
+          This response will be used whenever the bot is unable to identify 
           the question which is asked by the user. 
           You can configure the response here and the confidence 
           below which score this should be triggered can be configured from inference settings.</div>

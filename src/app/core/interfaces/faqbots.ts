@@ -3,7 +3,7 @@ export interface IArticleItem {
     'category_id'?: string;
     'created_at'?: number;
     'questions'?: any[];
-    'section_id'?: string | number;
+    'section_id'?: string;
     'updated_at'?: number;
 }
 export interface ICategoryMappingItem {
