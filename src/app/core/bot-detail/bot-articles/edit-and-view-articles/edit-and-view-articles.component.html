@@ -1,0 +1,228 @@
+<header>
+  <div class="d-flex flex-row heading align-items-center pb-3">
+    <div class="heading-title">
+      <i class="fa fa-angle-left cursor-pointer p-1" (click)="goBackToArticle()"></i>
+      {{!articleData.section_id ?  'Create a new article' :
+        (
+          articleData.section_id == "first_message" ? "Welcome message" :
+          articleData.section_id == "fallback" ? "Fallback message" :
+          articleData.questions[0].substr(0, 80) + (articleData.questions[0].length > 80 ? " . . .":"") 
+        )
+         }}
+    </div>
+    <div class="mr-auto">
+    </div>
+    <!-- <button mat-flat-button color="primary" style="border-radius: 2px; line-height: 0px">
+            <mat-icon>refresh</mat-icon> Save and train
+        </button> -->
+    <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer mr-2" mat-button
+    *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
+      style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; " (click)="updateAndTrain()">
+      <mat-icon>refresh</mat-icon>
+      Save and train
+    </button>
+    <button class="mat-theme-button cursor-pointer mr-2" mat-button (click)="updateArticleClicked()"
+      style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px;">
+      <mat-icon>save</mat-icon>
+      Save
+    </button>
+    <button class="mat-theme-button cursor-pointer mr-2" mat-button (click)="deleteArticleClicked()"
+    *ngIf="!!articleData.section_id && !(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
+      style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; ">
+      <mat-icon>delete</mat-icon>
+      Delete
+    </button>
+  </div>
+
+</header>
+
+<div class="category-edit px-2 pb-2">
+  <div class="category-lable px-2 ">Category</div>
+  <div class="category-name cursor-pointer px-2" (click)="openCategoryModifyModal(categoriesTemplate)"
+  *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
+  >
+    {{articleData.category_id | categoryIdToName : category_mapping}}
+  </div>
+  <div class="px-2" *ngIf="(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
+  >
+    {{articleData.category_id | categoryIdToName : category_mapping}}
+  </div>
+</div>
+
+<div class="main-block p-2" *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')">
+  <div class="questions-list px-2">
+    <div class="questions-heading">Questions</div>
+    <mat-form-field class="question-list-item"
+      *ngFor="let question of articleData.questions; let index = index;trackBy:trackByIndex;">
+      <textarea matInput required name=a{{index}} type="text" [(ngModel)]="articleData.questions[index]"
+        #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3">
+            </textarea>
+      <!-- <input matInput name=a{{index}} type="text" [(ngModel)]="articleData.questions[index]"> -->
+      <mat-icon matSuffix class="onParentHover cursor-pointer" (click)="deleteQustionWithId(index)">close
+      </mat-icon>
+    </mat-form-field>
+    <button class="mat-theme-button cursor-pointer mr-2" mat-button
+      style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"
+      (click)="addNewQuestion()">
+      + Add question
+    </button>
+    <!-- <div *ngFor="let question of articleData.questions">{{question}}</div> -->
+  </div>
+  <div class="response">
+    <div class="response-heading">Response</div>
+    <div class="response-items px-2">
+      <mat-form-field class="question-list-item w-100" appearance="outline" color=basic
+        *ngFor="let answer of articleData.answers; let index = index;trackBy:trackByIndex;">
+        <textarea matInput name=a{{index}} type="text" [(ngModel)]="articleData.answers[index].text[0]"
+          #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="20" cdkAutosizeMaxRows="20">
+            </textarea>
+        <!-- <input matInput name=a{{index}} type="text" [(ngModel)]="articleData.questions[index]"> -->
+
+      </mat-form-field>
+      <!-- <div *ngFor="let answer of articleData.answers">
+                {{answer.text}}
+            </div> -->
+    </div>
+    <i>{{articleData.questions | json}}</i>
+    <hr>
+    <i>{{articleData.answers | json}}</i>
+  </div>
+
+</div>
+
+
+<div class="first-message-main-block p-2" *ngIf="(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')">
+  <div class="first-message-info pl-2 pr-3 mx-2 pt-1 pb-3 mb-3">
+    <div>
+      <mat-icon class ="icon">info</mat-icon>
+    </div>
+    <div>
+        <div class="questions-heading">Usage</div>
+        <div *ngIf = "articleData.section_id == 'first_message'">
+            Welcome message is the first message which will be shown across all 
+            platforms as soon as a new conversation with a bot is initiated. 
+            This message helps user know 
+            what the bot can and cannot do and acts as a crucial onboarding step.
+        </div>
+        <div *ngIf="articleData.section_id == 'fallback'">
+          This response will be used whenever the bot is unable to identify 
+          the question which is asked by the user. 
+          You can configure the response here and the confidence 
+          below which score this should be triggered can be configured from inference settings.</div>
+    </div>
+    
+    
+    <!-- <div *ngFor="let question of articleData.questions">{{question}}</div> -->
+  </div>
+  <div class="response">
+    <div class="response-heading">Response</div>
+    <div class="response-items px-2">
+      <mat-form-field class="question-list-item w-100" appearance="outline" color=basic
+        *ngFor="let answer of articleData.answers; let index = index;trackBy:trackByIndex;">
+        <textarea matInput name=a{{index}} type="text" [(ngModel)]="articleData.answers[index].text[0]"
+          #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="10">
+            </textarea>
+        <!-- <input matInput name=a{{index}} type="text" [(ngModel)]="articleData.questions[index]"> -->
+
+      </mat-form-field>
+      <!-- <div *ngFor="let answer of articleData.answers">
+                {{answer.text}}
+            </div> -->
+    </div>
+    <i>{{articleData.questions | json}}</i>
+    <hr>
+    <i>{{articleData.answers | json}}</i>
+  </div>
+
+</div>
+<ng-template #categoriesTemplate>
+  <div class="primary-modal" style="min-width: 24vw;">
+    <div class="modal-header">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;font-size: 16px;">Change article category
+      </h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="pb-2 ng-star-inserted">
+      <p class="mb-1">Add to an existing category or create new category</p>
+    </div>
+
+    <div class="modal-body pt-0 ">
+      <form role="menu" #form="ngForm" class="d-flex flex-column" (ngSubmit) = "changeArticalCategory(form.value);dialogRefWrapper.ref.close()">
+        <mat-radio-group name="inputType" ngModel class = "d-flex flex-column">
+
+          <mat-radio-button value="existing" color = primary>Add to existing category</mat-radio-button>
+          <mat-form-field style="width: 41%; padding-left: 26px;">
+                <mat-label>Existing Category</mat-label>
+                <mat-select name="existingCategoryName" ngModel [disabled]='!(form.value.inputType == "existing")'>
+                  <mat-option *ngFor="let categorie of category_mapping" [value]="categorie.category_id">
+                    {{categorie.name}}
+                  </mat-option>
+                </mat-select>
+             </mat-form-field>
+
+          <mat-radio-button value="new" color = primary>Add to new category</mat-radio-button>
+          <mat-form-field style="width: 41%; padding-left: 26px;">
+                <input matInput placeholder="Name" name="newCategoryName" ngModel
+                  [disabled]='!(form.value.inputType == "new")'>
+              </mat-form-field>
+        </mat-radio-group>
+       
+        
+
+        
+       
+
+        <div class="d-flex justify-content-center">
+          <!--<button  mat-flat-button color="primary" class="btn-theme">Save Changes</button>-->
+          <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2 cursor-pointer" style= "font-size: 13px;"
+          (click)= "dialogRefWrapper.ref.close(true)">
+                Clear 
+              </button>
+          
+          <button type="submit" class="btn-theme btn-theme-primary cursor-pointer" style= "font-size: 13px;">
+            Change category
+          </button>
+          
+          
+          <!-- <p>{{form.value | json}}</p> -->
+        </div>
+      </form>
+
+
+      <!-- <button class="mat-theme-button cursor-pointer mr-2" mat-button *ngIf = "!showCreateNewCategoryInput"
+              style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"
+              (click)="showCreateNewCategoryInput = true">
+              + Add category
+            </button>
+  
+            <app-categorie-modal-input *ngIf = "showCreateNewCategoryInput"
+            [typeIsEdit] = 'false'
+              (categorycreate)="categoryUpdate($event)"
+              (makeShowCreateNewCategoryInputFalse) = "showCreateNewCategoryInput = false"
+              (categoryCreate) = "categoryCreate($event)"
+              >
+            </app-categorie-modal-input>
+  
+            <mat-form-field class="ml-auto">
+              <input matInput placeholder="Search" [(ngModel)]="searchCategorie">
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+          <p>{{corpus.category_mapping | json}}</p>
+          <div class="d-flex flex-column" style="overflow-y: auto;max-height: 35vh;">
+  
+            <app-categorie-modal-input *ngFor="let categorie of categoryMappingClone"
+              [hidden]="!categorie.name.toLowerCase().includes(searchCategorie.toLowerCase())"
+              [categorieClone]="categorie" [categorieMappingReal]="corpus.category_mapping"
+              [typeIsEdit] = "true"
+              (categoryUpdate)="categoryUpdate($event)"
+              (categoryDelete)= "categoryDelete($event)">
+            </app-categorie-modal-input>
+  
+            -->
+
+    </div>
+  </div>
+</ng-template>

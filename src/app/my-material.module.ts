@@ -19,7 +19,6 @@ import {
   MatPaginatorModule,
   MatProgressBarModule,
   MatProgressSpinnerModule,
-  MatRadioModule,
   MatRippleModule,
   MatSelectModule,
   MatSidenavModule,
@@ -28,6 +27,7 @@ import {
   MatSnackBarModule,
   MatSortModule,
   MatStepperModule,
+  MatRadioModule,
   MatTableModule,
   MatTabsModule, MatToolbarModule, MatTooltipModule, MatTreeModule
 } from '@angular/material';
@@ -78,6 +78,7 @@ const materialModules = [
   OverlayModule,
   PlatformModule,
   PortalModule,
+  MatRadioModule,
   A11yModule,
 ];
 

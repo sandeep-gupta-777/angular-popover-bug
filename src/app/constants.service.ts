@@ -252,6 +252,12 @@ export class ConstantsService {
   getCorpusForFAQBot(bot_id){
     return this.BACKEND_URL + `api/v1/corpus/${bot_id}/`;
   }
+  getDraftCorpusForFAQBot(){
+    return this.BACKEND_URL + `api/v1/corpus/getdefaultcorpus/`;
+  }
+  
+
+
   getMasterIntegrationsList() {
     return this.BACKEND_URL + 'api/v1/integrations/';
   }
@@ -471,6 +477,37 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/user/updatepassword/'; //https:dev.imibot.ai/api/v1/user/updatepassword///
   }
 
+  updateArticelUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/updatesection/`;
+  }
+  createArticelUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/createsection/`;
+  }
+  deleteArticelUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/removesection/`;
+  }
+
+  updateCategoryUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/updatecategory/`;
+  }
+  createCategoryUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/createcategory/`;
+  }
+  deleteCategoryUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/removecategory/`;
+  }
+  changeSectionCategoryUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/changesectioncategory/`;
+  }
+  changeSectionCategoryWithNewCategoryUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/createcategoryandmaptosection/`;
+  }
+
+
+
+  corpusTrainUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/train/`;
+  }
   updateBotSerializer(bot: IBot) {
     const clone = { ...bot };
     const not_keys = [

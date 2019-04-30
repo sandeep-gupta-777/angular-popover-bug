@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ICategoryMappingItem } from 'src/app/core/interfaces/faqbots';
 
 @Component({
   selector: 'app-article-filter',
@@ -9,10 +10,10 @@ import { FormGroup } from '@angular/forms';
 export class ArticleFilterComponent implements OnInit {
 
   constructor() { }
-  @Input() categoryMapping;
+  @Input() categoryMapping : ICategoryMappingItem[];
   @Input() articleFilterForm: FormGroup;
   @Output() filterCategory = new EventEmitter();
-  filter_categorie_search:string = "";
+  filter_categorie_search:string = '';
 
   changedFilterList(value){
     this.filterCategory.emit(value);
