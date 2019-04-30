@@ -2,7 +2,13 @@
   <div class="d-flex flex-row heading align-items-center pb-3">
     <div class="heading-title">
       <i class="fa fa-angle-left cursor-pointer p-1" (click)="goBackToArticle()"></i>
-      {{!!articleData.section_id ? articleData.questions[0].substr(0, 80) + (articleData.questions[0].length > 80 ? " . . .":"") : 'Create a new article' }}
+      {{!articleData.section_id ?  'Create a new article' :
+        (
+          articleData.section_id == "first_message" ? "Welcome message" :
+          articleData.section_id == "fallback" ? "Fallback message" :
+          articleData.questions[0].substr(0, 80) + (articleData.questions[0].length > 80 ? " . . .":"") 
+        )
+         }}
     </div>
     <div class="mr-auto">
     </div>
@@ -10,6 +16,7 @@
             <mat-icon>refresh</mat-icon> Save and train
         </button> -->
     <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer mr-2" mat-button
+    *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
       style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; " (click)="updateAndTrain()">
       <mat-icon>refresh</mat-icon>
       Save and train
@@ -19,29 +26,30 @@
       <mat-icon>save</mat-icon>
       Save
     </button>
-    <button class="mat-theme-button cursor-pointer mr-2" mat-button (click)="deleteArticleClicked()" *ngIf="!!articleData.section_id"
+    <button class="mat-theme-button cursor-pointer mr-2" mat-button (click)="deleteArticleClicked()"
+    *ngIf="!!articleData.section_id && !(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
       style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; ">
       <mat-icon>delete</mat-icon>
       Delete
     </button>
-    <!-- <button mat-stroked-button style="border-radius: 2px; line-height: 0px">
-            <mat-icon>save</mat-icon> Save
-        </button>
-        <button mat-stroked-button style="border-radius: 2px; line-height: 0px">
-            <mat-icon>delete</mat-icon> Delete
-        </button> -->
   </div>
 
 </header>
 
 <div class="category-edit px-2 pb-2">
   <div class="category-lable px-2 ">Category</div>
-  <div class="category-name cursor-pointer px-2" (click)="openCategoryModifyModal(categoriesTemplate)">
+  <div class="category-name cursor-pointer px-2" (click)="openCategoryModifyModal(categoriesTemplate)"
+  *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
+  >
+    {{articleData.category_id | categoryIdToName : category_mapping}}
+  </div>
+  <div class="px-2" *ngIf="(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
+  >
     {{articleData.category_id | categoryIdToName : category_mapping}}
   </div>
 </div>
 
-<div class="main-block p-2">
+<div class="main-block p-2" *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')">
   <div class="questions-list px-2">
     <div class="questions-heading">Questions</div>
     <mat-form-field class="question-list-item"
@@ -82,6 +90,44 @@
 
 </div>
 
+
+<div class="first-message-main-block p-2" *ngIf="(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')">
+  <div class="first-message-info pl-2 pr-3 mx-2 pt-1 pb-3 mb-3">
+    <div>
+      <mat-icon class ="icon">info</mat-icon>
+    </div>
+    <div>
+        <div class="questions-heading">Usage</div>
+        <div>This response will be used whenever the bot is unable to identify 
+          the question which is asked by the user. 
+          You can configure the response here and the confidence 
+          below which score this should be triggered can be configured from inference settings.</div>
+    </div>
+    
+    
+    <!-- <div *ngFor="let question of articleData.questions">{{question}}</div> -->
+  </div>
+  <div class="response">
+    <div class="response-heading">Response</div>
+    <div class="response-items px-2">
+      <mat-form-field class="question-list-item w-100" appearance="outline" color=basic
+        *ngFor="let answer of articleData.answers; let index = index;trackBy:trackByIndex;">
+        <textarea matInput name=a{{index}} type="text" [(ngModel)]="articleData.answers[index].text[0]"
+          #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="10">
+            </textarea>
+        <!-- <input matInput name=a{{index}} type="text" [(ngModel)]="articleData.questions[index]"> -->
+
+      </mat-form-field>
+      <!-- <div *ngFor="let answer of articleData.answers">
+                {{answer.text}}
+            </div> -->
+    </div>
+    <i>{{articleData.questions | json}}</i>
+    <hr>
+    <i>{{articleData.answers | json}}</i>
+  </div>
+
+</div>
 <ng-template #categoriesTemplate>
   <div class="primary-modal" style="min-width: 24vw;">
     <div class="modal-header">
