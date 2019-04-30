@@ -14,12 +14,12 @@ export class AimService {
     private serverService: ServerService,
     private constantsService: ConstantsService
   ) {
-    const url = this.constantsService.getAllPipelineModuleUrl();
-    this.aiModules$ = this.serverService.makeGetReq<{objects: IPipelineItem[]}>({url}).pipe(
-      map(value => value.objects));
-    this.aiModules$
-      .subscribe((value) => {
-      });
+    // const url = this.constantsService.getAllPipelineModuleUrl();
+    // this.aiModules$ = this.serverService.makeGetReq<{objects: IPipelineItem[]}>({url}).pipe(
+    //   map(value => value.objects));
+    // this.aiModules$
+    //   .subscribe((value) => {
+    //   });
   }
 
   getModules(): Observable<IPipelineItem[]> {

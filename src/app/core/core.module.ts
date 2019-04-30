@@ -27,7 +27,7 @@ import {ChatPreviewNewPageComponent} from '../chat/chat-preview-new-page/chat-pr
 import {FooterComponent} from '../footer/footer.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 // import {DragAndDropModule} from 'angular-draggable-droppable';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {HeaderComponent} from './header/header.component';
 import {CommonModule, DatePipe} from '@angular/common';
 import {SharedModule} from '../shared.module';
@@ -61,6 +61,11 @@ import {MyToasterService} from "../my-toaster.service";
 import {StoreVariableService} from "./buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service";
 import {EventService} from "../event.service";
 import {ObjectArrayCrudService} from "../object-array-crud.service";
+import {LoginPageGaurdService} from '../route-gaurds/login-page.gaurd.service';
+import {ModuleGaurdLoadService} from '../route-gaurds/module-gaurd-load.service';
+import {environment} from '../../environments/environment';
+import {HttpMockRequestInterceptor} from '../interceptor.mock';
+import {HttpRequestInterceptor} from '../interceptor';
 
 const routes: Route[] = [
   {
@@ -184,6 +189,11 @@ const routes: Route[] = [
     DatePipe,
     SmartTableSettingsService,
     FormsService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,
+      multi: true
+    }
   ]
 })
 export class CoreModule {

@@ -17,6 +17,9 @@ import {ConstantsService} from "./constants.service";
 import {AuthModule} from "./auth/auth.module";
 import {BrowserModule} from "@angular/platform-browser";
 import {ENgxsStogareKey} from './typings/enum';
+import {HttpMockRequestInterceptor} from './interceptor.mock';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
+import {HttpRequestInterceptor} from './interceptor';
 
 const routes: Route[] = [
   {path: 'dev', loadChildren: './dev/dev.module#DevModule'},
@@ -48,6 +51,7 @@ const routes: Route[] = [
     NgxsModule.forRoot([
 
     ]),
+    HttpClientModule,
     // AuthModule,
 
     NgxsStoragePluginModule.forRoot({key: ENgxsStogareKey.IMI_BOT_STORAGE_KEY}),
@@ -66,7 +70,13 @@ const routes: Route[] = [
     // ReactiveFormsModule,
     // FormsModule
   ],
-  providers:[ LoginPageGaurdService, ModuleGaurdLoadService/*todo: removing it will throw static injectiom error, remove it*/],
+  providers:[ LoginPageGaurdService, ModuleGaurdLoadService,
+  //   {
+  //   provide: HTTP_INTERCEPTORS,
+  //   useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,
+  //   multi: true
+  // }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

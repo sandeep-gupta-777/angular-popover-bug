@@ -35,8 +35,8 @@
   <!--Right start-->
   <div class="header__right">
     <div class="box box-details-personal">
-      <span class="box-details-personal__name">{{(loggeduser$|async).user.enterprise.name}}</span>
-      <span class="box-details-personal__designation">{{(loggeduser$|async).user.role.name}}</span>
+      <span class="box-details-personal__name">{{(loggeduser$|async).user?.enterprise.name}}</span>
+      <span class="box-details-personal__designation">{{(loggeduser$|async)?.user.role.name}}</span>
     </div>
     <img [src]="logoSrc" alt="Enterprise logo">
     <div class="box">

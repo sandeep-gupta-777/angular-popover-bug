@@ -327,6 +327,7 @@ export class ServerService {
   getNSetBotList(noValidateUser?) {
     const url = this.constantsService.getBotListUrl();
     const headerData: IHeaderData = {'content-type': 'application/json'};
+
     return this.makeGetReq<IBotResult>({url, headerData, noValidateUser}).pipe(
       tap((botResult) => {
         // let botList: IBot[] = [];

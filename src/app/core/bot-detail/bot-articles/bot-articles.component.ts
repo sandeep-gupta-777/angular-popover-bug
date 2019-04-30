@@ -33,7 +33,7 @@ export class BotArticlesComponent implements OnInit {
   selectedArticle : IArticleItem;
   dialogRefWrapper = {ref: null};
   searchCategorie = "";
-  categoryMappingClone : ICategoryMappingItem[]; 
+  categoryMappingClone : ICategoryMappingItem[];
   showCreateNewCategoryInput = false;
   ngOnInit() {
     this.getCorpusAndSetArticleFilterForm$()
@@ -63,12 +63,12 @@ export class BotArticlesComponent implements OnInit {
         })
       )
   }
-  
+
   getCorpusAndSetArticleFilterForm() {
     this.getCorpusAndSetArticleFilterForm$()
       .subscribe()
   }
-  
+
 
   makeFilterList(form: FormGroup) {
     this.articleFilterForm = form
@@ -118,7 +118,7 @@ export class BotArticlesComponent implements OnInit {
         this.showCreateNewCategoryInput = false;
         this.categoryMappingClone = this.utilityService.createDeepClone(this.corpus.category_mapping);
       }, 0);
-  
+
   }
 
   // edit and view artical functions
@@ -145,7 +145,7 @@ export class BotArticlesComponent implements OnInit {
       url = this.constantsService.createArticelUrl();
     }
 
-     
+
     return this.serverService.makePostReq<any>({ headerData, body, url })
   }
 
@@ -158,10 +158,10 @@ export class BotArticlesComponent implements OnInit {
           if(!articleData.section_id){
             this.showEditAndViewArtical = false;
           }
-        })  
+        })
         // this.saveAndTrain.emit();
       }
-     
+
     })
   }
 
@@ -184,7 +184,7 @@ export class BotArticlesComponent implements OnInit {
           .subscribe(v=>{
             this.showEditAndViewArtical = false;
           })
-          
+
       }})
   }
 
@@ -222,7 +222,7 @@ export class BotArticlesComponent implements OnInit {
         // this.saveAndTrain.emit();
 
       }
-     
+
     })
   }
 
@@ -235,7 +235,7 @@ export class BotArticlesComponent implements OnInit {
     const url = this.constantsService.updateCategoryUrl();
     this.serverService.makePostReq<any>({ headerData, body, url })
       .subscribe((value)=>{
-        debugger;
+
         for (var i in this.corpus.category_mapping) {
           if (this.corpus.category_mapping[i].category_id == value.updated_category.category_id) {
             this.corpus.category_mapping[i] = value.updated_category;
@@ -277,5 +277,5 @@ export class BotArticlesComponent implements OnInit {
 
       })
   }
-  
+
 }

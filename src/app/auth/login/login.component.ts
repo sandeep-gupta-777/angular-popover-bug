@@ -205,7 +205,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   }
 
   loginSubmitHandler() {
-    debugger;
+
     this.flashInfoMessage('Connecting to the server', 10000);
     localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
     /*logging out so that only one use can login in at one time*/

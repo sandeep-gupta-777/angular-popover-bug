@@ -71,7 +71,7 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
     window.scrollTo(0, 0);
     this.serverService.getNSetBotList()
       .subscribe(() => {
-        LoggingService.log('bot list fetched from view bots page');
+        console.log('bot list fetched from view bots page');
         this.reloaded = true;
       });
     this.botListSub = this.botlist$
@@ -80,7 +80,7 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
         this.codeBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.chatbot);
         this.pipelineBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.intelligent);
         this.searchBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.faqbot);
-        
+
         this.changeDetectorRef.detectChanges();
         // this.searchBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.faqbot);
 

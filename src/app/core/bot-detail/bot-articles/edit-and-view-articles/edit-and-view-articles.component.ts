@@ -169,7 +169,7 @@ export class EditAndViewArticlesComponent implements OnInit {
           })
       }
     }
-    debugger;
+
   }
   openCategoryModifyModal(template: TemplateRef<any>) {
 

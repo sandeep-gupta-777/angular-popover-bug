@@ -22,6 +22,7 @@ import { IAuthState } from '../../auth/ngxs/auth.state';
 import { ModalImplementer } from 'src/app/modal-implementer';
 import { MatDialog } from '@angular/material';
 import {EAllActions, ENgxsStogareKey} from '../../typings/enum';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -139,19 +140,23 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   }
 
   logout() {
-    debugger;
+
     if(!this.userData){/*TODO: ring fancing: BAD*/
       return;
     }
 
     localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
-    this.bc.postMessage('This is a test message.');
+
     // this.store.reset({});
     this.url = this.constantsService.getLogoutUrl();
-    this.serverService.makeGetReq({ url: this.url })
-      .subscribe((v) => {
-        this.utilityService.showSuccessToaster('Logged Out');
-      });
+    /*if apis are being mocked, dont expire tokens*/
+    if(!environment.mock){
+      this.serverService.makeGetReq({ url: this.url })
+        .subscribe((v) => {
+          this.utilityService.showSuccessToaster('Logged Out');
+        });
+      this.bc.postMessage('This is a test message.');
+    }
     this.store.dispatch([
 
       new ResetBotListAction(),

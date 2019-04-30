@@ -20,7 +20,8 @@ declare var $: any;
 @Component({
   selector: 'app-report-controls',
   templateUrl: './report-controls.component.html',
-  styleUrls: ['./report-controls.component.scss']
+  styleUrls: ['./report-controls.component.scss'],
+  providers:[TempVariableService]
 })
 export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy {
   start_time = "10:00";
