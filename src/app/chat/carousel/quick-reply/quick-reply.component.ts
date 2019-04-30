@@ -25,7 +25,6 @@ export class QuickReplyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     LoggingService.log(this.messageData);
   }
 

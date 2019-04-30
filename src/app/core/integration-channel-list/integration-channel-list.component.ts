@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {UtilityService} from "../../utility.service";
 
 @Component({
   selector: 'app-integration-channel-list',
@@ -9,9 +10,12 @@ import {Router} from '@angular/router';
 export class IntegrationChannelListComponent implements OnInit {
 
   @Input() bot;
+  @Input() limit:number
+  enabledIntegrationCount
   constructor(private router:Router) { }
 
   ngOnInit() {
+    this.enabledIntegrationCount = Object.keys(UtilityService.getEnabledIntegrations(this.bot)).length;
   }
 
   test(channelName) {

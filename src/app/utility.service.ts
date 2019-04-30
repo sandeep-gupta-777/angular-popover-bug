@@ -23,14 +23,13 @@ import {EBotMessageMediaType, IMessageData} from '../interfaces/chat-session-sta
 import {IBotPreviewFirstMessage} from './chat/chat-wrapper.component';
 import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
 import {StoreVariableService} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl, NgForm} from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl, NgForm, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material';
 import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
+import {el} from "@angular/platform-browser/testing/src/browser_util";
 
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class UtilityService {
 
   constructor(
@@ -38,6 +37,7 @@ export class UtilityService {
     private router: Router,
     public snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
+    // private formBuilder: FormBuilder,
     private storeVariableService: StoreVariableService,
   ) {
   }
@@ -123,10 +123,29 @@ export class UtilityService {
     return this.masterIntegration_IntegrationKeyDisplayNameMap[key];
   }
 
+  /**
+  *  getVersion
+  *  @deprecated: Use CodeInputService.getVersion instead
+  * */
   getActiveVersionInBot(bot: IBot) {
     return bot.store_bot_versions && bot.store_bot_versions.find((BotVersion) => {
       return bot.active_version_id === BotVersion.id;
     });
+  }
+
+
+  static getEnabledChannelsInBot(bot:IBot):{name:string, displayName:string}[]{
+    if(!bot || bot.integrations && bot.integrations.channels){
+      return [];
+    }
+    return Object.keys(bot.integrations.channels)
+      .map((integrationKey) => {
+        return {
+          name: integrationKey,
+          displayName: integrationKey
+        };
+      })
+      .filter((enabledIntegrations) => bot.integrations.channels[enabledIntegrations.name].enabled)
   }
 
   serializeGeneratedMessagesToPreviewMessages(generatedMessage: IGeneratedMessageItem[], bot_message_id: number): IMessageData[] {
@@ -357,6 +376,19 @@ export class UtilityService {
     return JSON.parse(JSON.stringify(obj));
   }
 
+  // getCodeInputForm() {
+  //   let codeInputForm = this.formBuilder.group({
+  //     df_template: [""],
+  //     df_rules: [""],
+  //     generation_rules: [""],
+  //     generation_templates: [""],
+  //     workflow: [""],
+  //     is_ui_view:'',
+  //   });
+  //
+  //   return codeInputForm;
+  // }
+
   static removeEmptyKeyValues(valClone) {
     for (let key in valClone) {
       if (!valClone[key]) {/*if value is "" or undefined */
@@ -373,6 +405,22 @@ export class UtilityService {
       }
     }
     return obj;
+  }
+
+  static getEnabledIntegrations(bot:IBot){
+    let allIntegrations = {
+      ...bot.integrations.ccsp_details,
+      ...bot.integrations.channels,
+      ...bot.integrations.fulfillment_provider_details,
+    };
+
+    let x = Object.keys(allIntegrations).reduce((total, key)=>{
+      if(allIntegrations[key].enabled){
+        return {...total, [key]:allIntegrations[key]};
+      }
+      return total;
+    }, {})
+    return x;
   }
 
   findDataByName(convertedData, name) {
@@ -470,7 +518,7 @@ export class UtilityService {
 
     const templateKeys = [];
     while (match) {
-      debugger;
+
       let templateKey;
       if(match[2]){
         templateKey = match[2].replace(/\)/g, '',).replace(/\'/g, '').trim();
@@ -501,8 +549,10 @@ export class UtilityService {
     // let regex = /output[\s]*=([\s]*\[.*?\].*?\n|[\s\S]*?[\s\S]$)/gms;//https://regex101.com/r/WXGF5J/4
     // const regex = /output[\s]*?=[\s]*?([\s\S]*?)els?e?if/gm;
 // more restricted with form of output and \n before output
-    let regex = /[\n].+output[\s]*?=[\s]*?(\[({.*})*\])/gm;
+    // let regex = /[\n].+output[\s]*?=[\s]*?(\[({.*})*\])/gm; apprently shoaid made this parser so costraint heavy that its not working
+    let regex = /output[\s]*?=[\s]*?(\[[\s\S]*?])$/gm;
     let match = regex.exec(str);
+
 
     const outputsKeys = [];
     while (match) {
@@ -511,6 +561,7 @@ export class UtilityService {
       outputsKeys.push(matchedAndProcessedStr);
       match = regex.exec(str);
     }
+
     return outputsKeys;
   }
 
@@ -539,7 +590,7 @@ export class UtilityService {
   }
 
   parseGenTemplateUiDictionaryToIfElseCode(uiDictionary: object) {
-    debugger;
+
     try {
       let genTemplateCodeStr = '';
       let uiDictionaryKeyArray = Object.keys(uiDictionary);
@@ -583,7 +634,8 @@ export class UtilityService {
       if (!string || !subString) {
         throw 'invalid input';
       }
-      return string.toLowerCase().includes(subString.toLowerCase()) ? string : false;
+      let x = string.toLowerCase().includes(subString.toLowerCase()) ? string : false;
+      return x;
     } catch (e) {
       return false;
     }
@@ -741,7 +793,7 @@ export class UtilityService {
       },
 
       series: [{
-        name: 'Handled by bot',
+        name: 'Handled by _bot',
         data: [5, 3, 4, 7, 2]
       }, {
         name: 'Handled by agent',
@@ -956,6 +1008,9 @@ export class UtilityService {
     return convertedData;
   }
 
+  /*
+  * @deprecated Use UtilityService.cloneObj() instead
+  * */
   createDeepClone(obj) {
     return JSON.parse(JSON.stringify(obj));
   }
@@ -1029,6 +1084,18 @@ export class UtilityService {
     return pattern.test(url) ? null : {'Image Extension is not correct': true};
   }
 
+
+  /*
+  * spaceCase:
+  * Example: sandeep_gupta => Sandeep Gupta
+  * */
+  static spaceCase(str:string, delimiter:string){
+    if(!str){
+      return "";
+    }
+    return str.split(delimiter).map((str)=>str[0].toUpperCase() + str.slice(1)).join(" ");
+  }
+
   isManagerValidator(formGroup: FormGroup) {
     const formValue = formGroup.value;
     const is_manager = formValue['is_manager'];
@@ -1051,23 +1118,23 @@ export class UtilityService {
   * isObjectSubSet:
   * check if smaller object (obj2) is perfect subset of larger object (obj1)
   * */
-  static isObjectSubSet(obj1, obj2) {
+  static isObjectSubSet(largeObj, smallObj) {
     let obj1_temp = {};
-    for (let key in obj2) {
-      obj1_temp[key] = obj1[key];
+    for (let key in smallObj) {
+      obj1_temp[key] = largeObj[key];
     }
-    let x=  UtilityService.deepCompare(obj1_temp, obj2);
+    let x=  UtilityService.deepCompare(obj1_temp, smallObj);
 
     return x;
   }
 
-  pushFormControlItemInFormArray(formArray: FormArray, formBuilder: FormBuilder, item: any) {
-    formArray.push(formBuilder.control(item));
-  }
-
-  pushFormGroupItemInFormArray(formArray: FormArray, formBuilder: FormBuilder, item: any) {
-    formArray.push(formBuilder.group(item));
-  }
+  // pushFormControlItemInFormArray(formArray: FormArray, formBuilder: FormBuilder, item: any) {
+  //   formArray.push(formBuilder.control(item));
+  // }
+  //
+  // pushFormGroupItemInFormArray(formArray: FormArray, formBuilder: FormBuilder, item: any) {
+  //   formArray.push(formBuilder.group(item));
+  // }
 
   createRandomUid() {
     return Date.now().toString();
@@ -1358,6 +1425,27 @@ export class UtilityService {
 
   }
 
+
+  confirmActivateVersionModal(dialogRefWrapper, matDialog) {
+
+    return this.openDialog({
+      dialogRefWrapper: dialogRefWrapper,
+      classStr: 'danger-modal-header-border',
+      data: {
+        actionButtonText: 'Activate',
+        message: 'Are you sure you want to change Active version?',
+        title: `Active version`,
+        isActionButtonDanger: true,
+        inputDescription: null,
+        closeButtonText: 'Cancel'
+      },
+      dialog: matDialog,
+      component: ModalConfirmComponent
+    });
+    // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
+  }
+
+
   openCloseWithoutSavingModal(dialogRefWrapper, matDialog) {
 
     return this.openDialog({
@@ -1446,30 +1534,7 @@ export class UtilityService {
   }
 
 
-  timeDifference(current, previous) {
 
-    var msPerMinute = 60 * 1000;
-    var msPerHour = msPerMinute * 60;
-    var msPerDay = msPerHour * 24;
-    var msPerMonth = msPerDay * 30;
-    var msPerYear = msPerDay * 365;
-
-    var elapsed = current - previous;
-
-    if (elapsed < msPerMinute) {
-      return Math.round(elapsed / 1000) + ' seconds ago';
-    } else if (elapsed < msPerHour) {
-      return Math.round(elapsed / msPerMinute) + ' minutes ago';
-    } else if (elapsed < msPerDay) {
-      return Math.round(elapsed / msPerHour) + ' hours ago';
-    } else if (elapsed < msPerMonth) {
-      return 'approximately ' + Math.round(elapsed / msPerDay) + ' days ago';
-    } else if (elapsed < msPerYear) {
-      return 'approximately ' + Math.round(elapsed / msPerMonth) + ' months ago';
-    } else {
-      return 'approximately ' + Math.round(elapsed / msPerYear) + ' years ago';
-    }
-  }
 
 
 

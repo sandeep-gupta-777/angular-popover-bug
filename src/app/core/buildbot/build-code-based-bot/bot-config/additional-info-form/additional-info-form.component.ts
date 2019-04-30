@@ -1,13 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
 import {IBasicInfo} from '../../../../../../interfaces/bot-creation';
-import {SaveNewBotInfo_CodeBased} from '../../../ngxs/buildbot.action';
 import {Store} from '@ngxs/store';
 import {UtilityService} from '../../../../../utility.service';
-import {EAllActions} from '../../../../../constants.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {debounceTime} from 'rxjs/operators';
 import {PermissionService} from '../../../../../permission.service';
+import {EAllActions} from "../../../../../typings/enum";
 
 @Component({
   selector: 'app-additional-info-form',
@@ -45,9 +44,9 @@ export class AdditionalInfoFormComponent implements OnInit {
       heading: [this._bot.heading],
       transactions_per_pricing_unit: [this._bot.transactions_per_pricing_unit],
       error_message: [this._bot.error_message],
-      // first_message: [this._bot.first_message],
-      // room_close_callback: [this._bot.room_close_callback],
-      // allow_feedback: [this._bot.allow_feedback],
+      // first_message: [this.bot.first_message],
+      // room_close_callback: [this.bot.room_close_callback],
+      // allow_feedback: [this.bot.allow_feedback],
     });
     this.formGroup.valueChanges.pipe(debounceTime(200)).subscribe((data: IBasicInfo) => {
       if (this.utilityService.areTwoJSObjectSame(this.formData, data)) { return; }

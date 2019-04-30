@@ -8,12 +8,9 @@ import {ActivatedRoute} from '@angular/router';
 import {IBot} from '../../../interfaces/IBot';
 import {Observable} from 'rxjs';
 import {IAppState} from '../../../../ngxs/app.state';
-import {DatePipe} from '@angular/common';
 import {IIntegrationMasterListItem} from '../../../../../interfaces/integration-option';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class BotConfigService {
 
   basicInfoForm: FormGroup;
@@ -24,8 +21,6 @@ export class BotConfigService {
   myEBotType = EBotType;
   constructor(private store: Store,
               private utilityService: UtilityService,
-              public constantsService: ConstantsService,
-              public datePipe: DatePipe,
               public permissionService: PermissionService,
               public activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder

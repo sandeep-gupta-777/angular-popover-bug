@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {Select, Store} from '@ngxs/store';
 import {IBot} from '../../../../interfaces/IBot';
 import {ServerService} from '../../../../../server.service';
-import {ConstantsService, EAllActions, ERouteNames} from '../../../../../constants.service';
+import {ConstantsService, ERouteNames,} from '../../../../../constants.service';
 import {UtilityService} from '../../../../../utility.service';
 import {IHeaderData} from '../../../../../../interfaces/header-data';
 import {ICustomNerItem} from '../../../../../../interfaces/custom-ners';
@@ -15,6 +15,8 @@ import {ESplashScreens} from '../../../../../splash-screen/splash-screen.compone
 import {MaterialTableImplementer} from '../../../../../material-table-implementer';
 import {EventService} from '../../../../../event.service';
 import {KnowledgeBasePresentationComponent} from './knowledge-base-presentation/knowledge-base-presentation.component';
+import {ESortDir} from "../../../../../smart-table/smart-table.component";
+import {EAllActions} from "../../../../../typings/enum";
 
 @Component({
   selector: 'app-knowledge-base',
@@ -48,17 +50,20 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
   }
 
   @Output() pageChanged$ = new EventEmitter(); //
+  @Output() refreshTable$ = new EventEmitter(); //
   @Output() updateOrSaveParentNers$ = new EventEmitter(); //
   @Output() deleteNer$ = new EventEmitter(); //deleteNer$.emit()
   @Input() currentPageNumber = 1;
   @Input() totalRecords = 10;
   loggeduser: { user: IUser };
+  tableData;
   codeTextOutPutFromCodeEditor: string;
   codeTextInputToCodeEditor: string;
   showTable = true;
   key1;
   ner_type1;
   conflict_policy1;
+  myESortDir = ESortDir;
   type: string;
   handontable_column = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_columns;
   handontable_colHeaders = this.constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_colHeaders;
@@ -89,8 +94,22 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     this.tableData = this.tableData.map((row) => {
       let additonalColumns: any = {};
       /*Modifying Concept Key column*/
-      additonalColumns['Concept Key'] = row['Concept Key'];
-      additonalColumns['Concept Key'].value = `<strong>${additonalColumns['Concept Key'].value}</strong>`;
+      additonalColumns['Concept name'] = row['Concept name'];
+
+      additonalColumns['Concept name'].value = `<strong>${additonalColumns['Concept name'].value}</strong>`;
+      //
+      additonalColumns['Concept type'] = row['Concept type'];
+      let concept_type_val = UtilityService.spaceCase(additonalColumns['Concept type'].value, "_");
+      additonalColumns['Concept type'].value = `${concept_type_val}`;
+      additonalColumns['Concept type'].searchValue = `${concept_type_val}`;
+
+      if(row['Override policy']){
+        additonalColumns['Override policy'] = row['Override policy'];
+        let override_type_val = UtilityService.spaceCase(additonalColumns['Override policy'].value, "_");
+        additonalColumns['Override policy'].value = `${override_type_val}`;
+      }
+
+
 
       /*TODO: Modifying Last update*/
 
@@ -153,7 +172,12 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
       body = {values: data.codeTextOutPutFromCodeEditor, ...body};
     } else if (data.ner_type === 'database') {
       const handontableDataClone = JSON.parse(JSON.stringify(data.handsontableData));
-      const column_headers = handontableDataClone[0];
+      let column_headers:string[] = handontableDataClone[0];
+      column_headers = column_headers.filter((e)=>!!e);
+      if(column_headers.length===0){
+        this.utilityService.showErrorToaster("Headers are empty");
+        return;
+      }
       let areHeaderElementRepeated = UtilityService.areAllElementsInArrUnique(column_headers);
       if (!areHeaderElementRepeated) {
         this.utilityService.showErrorToaster('Header values are not valid');
@@ -361,6 +385,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
   }
 
   showNerSmartTable() {
+
     this.showTable = true;
     this.router.navigate(['.'], {
       queryParams: {ner_id: null},
@@ -369,10 +394,14 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     });
   }
 
+  test(){
+    alert();
+  }
+
   log(selectedRowData) {
     console.log(selectedRowData);
   }
 
-  tableData;
+
 
 }

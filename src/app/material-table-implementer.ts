@@ -1,5 +1,8 @@
 import {IConsumerItem} from '../interfaces/consumer';
 
+/**
+* @deprecated Use AbstractSmartTable. Example: BotSessionSmartTableModal
+* */
 export abstract class MaterialTableImplementer {
   abstract tableData;
   abstract getTableDataMetaDict():any;

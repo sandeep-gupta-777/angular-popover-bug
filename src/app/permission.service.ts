@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {EAllActions, ERoleName} from './constants.service';
 import {IAppState} from './ngxs/app.state';
 import {Observable} from 'rxjs';
 import {actionMatcher, Select} from '@ngxs/store';
@@ -8,10 +7,9 @@ import {IUser} from './core/interfaces/user';
 import {IAuthState} from './auth/ngxs/auth.state';
 
 import {ELogType, LoggingService} from './logging.service';
+import {EAllActions, ERoleName, EAPINames} from "./typings/enum";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class PermissionService {
   @Select() app$: Observable<IAppState>;
   @Select() loggeduser$: Observable<{ user: IUser }>;
@@ -110,6 +108,10 @@ export class PermissionService {
     });
 
     this.app$.subscribe((appState) => {
+      ;
+      if(!appState){
+        return;
+      }
       try {
         const masterActionList = appState.masterProfilePermissions;
         if (!this.loggedUser || !masterActionList) {

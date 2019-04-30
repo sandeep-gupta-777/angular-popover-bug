@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {UtilityService} from '../../../../../../utility.service';
 import {ActivatedRoute} from '@angular/router';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 declare var CodeMirror: any;
 
@@ -10,18 +11,25 @@ declare var CodeMirror: any;
   styleUrls: ['./code-editor.component.scss'],
   host: {
     '[class.d-flex-column-last-child-flex-grow-1]': 'true'
-  }
+  },
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: CodeEditorComponent,
+    multi: true
+  },
+  ]
 })
-export class CodeEditorComponent implements OnInit, AfterViewInit {
+export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueAccessor  {
 
   editor;
   _text;
+  @Input() downloadedFileName = 'code.py'
   editorCodeObjRef: { text: string } = {text: ''};
   @Output() validateClick = new EventEmitter();
   @ViewChild('f') codeEditor: ElementRef;
   @Input() doShowUploadDownloadButton = true;
   @Input() doShowValidationsIcon = false;
-
+  @Input() readOnly = false;
   constructor(
     private utilityService: UtilityService,
     private activatedRoute: ActivatedRoute) {
@@ -54,16 +62,30 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
     });
 
     const editor = this.codeEditor.nativeElement;
+    var currentHandle = null, currentLine;
     this.editor = new CodeMirror.fromTextArea(editor, {
       lineNumbers: true,
       lineWrapping: true,
       mode: 'python',
       theme: 'cobalt',
+      pollInterval: 100000,
       rtlMoveVisually: false,
       direction: 'ltr',
       moveInputWithCursor: false,
+      readOnly : this.readOnly,
+    //   onCursorActivity: function updateLineInfo(cm) {
+    //   var line = cm.getCursor().line, handle = cm.getLineHandle(line);
+    //   if (handle == currentHandle && line == currentLine) return;
+    //   if (currentHandle) {
+    //     cm.setLineClass(currentHandle, null, null);
+    //     cm.clearMarker(currentHandle);
+    //   }
+    //   currentHandle = handle; currentLine = line;
+    //   cm.setLineClass(currentHandle, null, "activeline");
+    //   cm.setMarker(currentHandle, String(line + 1));
+    // },
 
-      extraKeys: {
+    extraKeys: {
         'Ctrl-Q': function (cm) {
           cm.foldCode(cm.getCursor());
         },
@@ -72,10 +94,20 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
       foldGutter: true,
       gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
     });
+
+    // setTimeout(()=>{
+    //   this.editor.setLineClass(this.editor.getLineHandle(1), null, 'bg-white');
+    // },1000);
+
     this.editor.on('keydown', editor => {
       setTimeout(() => {
         this.editorCodeObjRef.text = editor.getValue();
         this.textChangedEvent.emit(editor.getValue());
+        try {
+          this.onChanges(editor.getValue());
+        }catch (e) {
+          console.log(e);
+        }
       });
     });
     this._text && this.editor.setValue(this._text);
@@ -86,19 +118,20 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
   }
 
   downloadCodeText() {
-    let fileName = 'code.txt';
+    /*todo: refactor this*/
+    let fileName = this.downloadedFileName;
     const codeTab = this.activatedRoute.snapshot.queryParamMap.get('code-tab');
     const buildTab = this.activatedRoute.snapshot.queryParamMap.get('build-tab');
     const botId = this.activatedRoute.snapshot.params['roomId'];
-    if (buildTab === 'code' && codeTab && botId) {
-      fileName = `${codeTab} for bot id ${botId}.py`;
-    }
+    // if (buildTab === 'code' && codeTab && botId) {
+    //   fileName = `${codeTab} for bot id ${botId}.py`;
+    // }
 
     const nerId = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
     if (buildTab === 'knowledge' && botId && nerId) {
       fileName = `code for nerid ${nerId} for bot id ${botId}.py`;
     }
-    this.utilityService.downloadText(this.editorCodeObjRef.text, fileName);
+    this.utilityService.downloadText(this.editor.getValue(), fileName);
   }
 
   validateCodeTest() {
@@ -117,10 +150,20 @@ export class CodeEditorComponent implements OnInit, AfterViewInit {
 
 
   options: any = {maxLines: 20, printMargin: false};
+  onChanges: Function;
+  registerOnChange(fn: any): void {
+    this.onChanges = fn;
+  }
 
-  // onChange1(code) {
-  //   this.editorCodeObjRef
-  //   this.textChangedEvent.emit(code);
-  // }
+  registerOnTouched(fn: any): void {
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+  }
+
+  writeValue(text: any): void {
+    this.editor.setValue(text);
+  }
+
 
 }

@@ -1,139 +1,153 @@
 <div class="code-version-list-section row row-version my-2 m-0 child-no-expand-shrink"
      (clickOutside)="showVersionList = false">
 
-    <!--START :: code version details-->
-    <div class="col-7 p-0 pr-1" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
-        <div *ngIf="selectedVersion" class="d-flex align-items-center flex-bot-versioning-toaster"
-             style="border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0;border-right: 1px solid #e0e0e0;">
-            <div class="version-active-label" *ngIf="selectedVersion"
-                 style="padding:0 13px;"
-                 [ngClass]="{'bg-label-active':selectedVersion?.id === activeVersion?.id,'bg-label-inactive':selectedVersion?.id !== activeVersion?.id}">
-                <div>{{selectedVersion.id === (activeVersion && activeVersion.id) ? 'Active' : 'Inactive'}}</div>
-            </div>
+  <!--START :: code versions_st details-->
+  <div class="col-7 p-0 pr-1" [ngClass]="{'bg-theme-secondary':!selectedVersion}">
+    <div *ngIf="selectedVersion" class="d-flex align-items-center flex-bot-versioning-toaster"
+         style="border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0;border-right: 1px solid #e0e0e0;">
+      <div class="version-active-label" *ngIf="selectedVersion"
+           style="padding:0 13px;"
+           [ngClass]="{'bg-label-active':selectedVersion?.id === bot.active_version_id,'bg-label-inactive':selectedVersion?.id !== bot.active_version_id}">
+        <div>{{selectedVersion.id === bot.active_version_id ? 'Active' : 'Inactive'}}</div>
+      </div>
 
-            <div class="count mx-1 flex-shrink-0 flex-grow-0">{{selectedVersion.version}}</div>
-            <div class="forked mr-1 pl-1" *ngIf="selectedVersion.forked_from !== 0">Forked from
-                v{{selectedVersion.forked_from}}
-            </div>
-            <div class="forked mr-1 pl-1" *ngIf="selectedVersion.forked_from === 0">Default version
-            </div>
-            <div class="forked mr-1 ">Last update</div>
-            <div class="update d-flex flex-column mr-2 justify-content-center">
+      <div class="count mx-1 flex-shrink-0 flex-grow-0">{{selectedVersion.version}}</div>
+      <div class="forked mr-1 pl-1" *ngIf="selectedVersion.forked_from !== 0">Forked from
+        v{{selectedVersion.forked_from}}
+      </div>
+      <div class="forked mr-1 pl-1" *ngIf="selectedVersion.forked_from === 0">Default version
+      </div>
+      <div class="forked mr-1 ">Last update</div>
+      <div class="update d-flex flex-column mr-2 justify-content-center">
 
-                <div class="d-flex justify-content-left py-1" *ngIf="selectedVersion">
-                    <i class="fa fa-circle"
-                       [ngClass]="{'text-danger':selectedVersion.changed_fields['df_template'], 'dark-green':selectedVersion.updated_fields['df_template']}"></i>
-                    <i class="fa fa-circle"
-                       [ngClass]="{'text-danger':selectedVersion.changed_fields['df_rules'], 'dark-green':selectedVersion.updated_fields['df_rules']}"></i>
-                    <i class="fa fa-circle"
-                       [ngClass]="{'text-danger':selectedVersion.changed_fields['generation_rules'], 'dark-green':selectedVersion.updated_fields['generation_rules']}"></i>
-                    <i class="fa fa-circle"
-                       [ngClass]="{'text-danger':selectedVersion.changed_fields['generation_templates'], 'dark-green':selectedVersion.updated_fields['generation_templates']}"></i>
-                    <i class="fa fa-circle"
-                       [ngClass]="{'text-danger':selectedVersion.changed_fields['workflow'], 'dark-green':selectedVersion.updated_fields['workflow']}"></i>
-                </div>
-                <div class="version-time">
-                    {{selectedVersion.updated_at | date:"MMM d"}}&nbsp;'{{selectedVersion.updated_at | date:"yy"}}&nbsp;{{selectedVersion.updated_at | date:"shortTime"}}
-                </div>
-            </div>
-            <div class="insert mr-1" *ngIf="selectedVersion && selectedVersion.comment">
-                {{selectedVersion.comment.length > 120 ? (((selectedVersion.comment)|slice:0:120)
-                + "...") : selectedVersion?.comment}}
-
-            </div>
-            <i (click)="showVersionList= !showVersionList"
-               *ngIf="bot.store_bot_versions && bot.store_bot_versions.length > 1"
-               class="fa py-2 px-3 ml-auto cursor-pointer"
-               [ngClass]="{'fa-caret-up':showVersionList, 'fa-caret-down':!showVersionList}"
-               style="height: 100%; border-left: 1px solid #e0e0e0;"></i>
-        </div>
-    </div>
-    <!--END :: code version details-->
-
-    <!--START :: code version Buttons-->
-    <div class="col-5">
-        <button [disabled]="!selectedVersion || disableSave"
-                *myIf="myEAllActions['Update Bot Versioning']"
-                (click)="saveSelectedVersion$.emit()"
-                class="mat-theme-button mat-theme-button-border" mat-button>
-            <mat-icon>save</mat-icon>
-            {{(!bot.store_bot_versions || !bot.store_bot_versions.length ||
-            bot.store_bot_versions.length > 0) ? "Save" : "Create"}}
-        </button>
-
-        <ng-container *ngIf="selectedVersion">
-            <button [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
-                    *myIf="myEAllActions['Create Bot Versioning']"
-                    (click)="openForkNewVersionModal$.emit()"
-                    class="mat-theme-button mat-theme-button-border" mat-button>
-                <mat-icon>call_split</mat-icon>
-                Fork
-            </button>
+        <!--START:: ditry data dots-->
+        <ng-container
+          [ngTemplateOutlet]="ditryDataTemplate"
+          [ngTemplateOutletContext]="{diff: (versionDiffs && versionDiffs[selectedVersion.id]||{}), server_diff:(selectedVersion.updated_fields||{})}">
         </ng-container>
+        <!--END:: ditry data dots-->
 
-        <ng-container *ngIf="selectedVersion && selectedVersion.id !== activeVersion.id">
-            <button [disabled]="!bot.store_bot_versions || bot.store_bot_versions.length===0"
-                    *myIf="myEAllActions['Create Bot Versioning']"
-                    (click)="activateVersion$.emit(selectedVersion.id)"
-                    class="mat-theme-button mat-theme-button-border" mat-button>
-                <mat-icon>play_circle_filled</mat-icon>
-                Activate
-            </button>
-        </ng-container>
 
-        <button class="mat-theme-button" mat-button
-                style="min-width: 20px !important;border: none !important;padding: 0"
-                (click)="downloadAll$.emit()">
-            <mat-icon>get_app</mat-icon>
-        </button>
-    </div>
-    <!--END :: code version Buttons-->
-
-    <div class="row row-flex-bot-versioning-toaster mx-0" *ngIf="showVersionList"
-         style="max-height: 50vh; overflow-y: scroll; border: 1px solid #e0e0e0; border-top: none ">
-        <div class="col-12 py-1 px-0 cursor-pointer hover-change-background"
-             *ngFor="let version of bot.store_bot_versions | filterActiveBot:selectedVersion.id | sortObjectArr: 'updated_at'">
-            <div class="d-flex align-items-center flex-bot-versioning-toaster"
-                 (click)="changeSelectedVersion$.emit(version); showVersionList = false; ">
-
-                <div class="version-active-label">
-                    <div
-                            [ngClass]="{'text-primary':version.id === (activeVersion && activeVersion.id)}"
-                    >{{version.id === (activeVersion && activeVersion.id) ? 'Active' : 'Inactive'}}</div>
-                </div>
-                <!--<div class="active-label-text">{{version.id +""+activeVersion.id }}</div>-->
-                <div class="count mx-1">{{version.version}}</div>
-                <div class="forked mr-1 pl-1" *ngIf="version.forked_from !== 0">Forked from
-                    v{{version.forked_from}}
-                </div>
-                <div class="forked mr-1 pl-1" *ngIf="version.forked_from === 0">Default version
-                </div>
-                <div class="forked mr-1">Last update</div>
-                <!--change dot start-->
-                <div class="update d-flex flex-column mr-2 justify-content-center" *ngIf="version">
-
-                    <div class="justify-content-left py-1">
-                        <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['df_template']}"></i>
-                        <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['df_rules']}"></i>
-                        <i class="fa fa-circle"
-                           [ngClass]="{'dark-green':version.updated_fields['generation_rules']}"></i>
-                        <i class="fa fa-circle"
-                           [ngClass]="{'dark-green':version.updated_fields['generation_templates']}"></i>
-                        <i class="fa fa-circle" [ngClass]="{'dark-green':version.updated_fields['workflow']}"></i>
-                    </div>
-                    <div style="font-weight: 500;font-size: 10px;">
-                        {{version.updated_at | date:"MMM d"}}&nbsp;'{{version.updated_at | date:"yy"}}&nbsp;{{version.updated_at | date:"shortTime"}}
-                    </div>
-                </div>
-                <!--change dot end-->
-
-                <div class="insert mr-1">{{version.comment.length > 70 ? (((version.comment)|slice:0:100)
-                    + "...") : version?.comment}}
-                </div>
-
-                <i class=" py-2 px-3 "></i>
-            </div>
+        <div class="version-time">
+          {{selectedVersion.updated_at | date:"MMM d"}}&nbsp;'{{selectedVersion.updated_at | date:"yy"}}&nbsp;{{selectedVersion.updated_at | date:"shortTime"}}
         </div>
+      </div>
+      <div class="insert mr-1" style="word-break: break-all" *ngIf="selectedVersion && selectedVersion.comment" matTooltip="{{selectedVersion.comment}}">
+        {{selectedVersion.comment.length > 70 ? (((selectedVersionComment)|slice:0:70)
+				+ "...") : selectedVersion?.comment}}
+
+      </div>
+      <i (click)="showVersionList= !showVersionList"
+         *ngIf="versions && versions.length > 1"
+         class="fa py-2 px-3 ml-auto cursor-pointer"
+         [ngClass]="{'fa-caret-up':showVersionList, 'fa-caret-down':!showVersionList}"
+         style="height: 100%; border-left: 1px solid #e0e0e0;"></i>
     </div>
+  </div>
+  <!--END :: code versions_st details-->
+
+  <!--START :: code versions_st Buttons-->
+  <div class="col-5">
+    <button [disabled]="!selectedVersion || disableSave"
+            *myIf="myEAllActions['Update Bot Versioning']"
+            (click)="saveSelectedVersion$.emit()"
+            mat-flat-button
+            color="primary"
+            class="mat-theme-button">
+      <mat-icon>save</mat-icon>
+      {{(!versions || !versions.length ||
+			versions.length > 0) ? "Save" : "Create"}}
+    </button>
+
+    <ng-container *ngIf="selectedVersion">
+      <button [disabled]="!versions || versions.length===0"
+              *myIf="myEAllActions['Create Bot Versioning']"
+              (click)="openForkNewVersionModal$.emit()"
+              class="mat-theme-button mat-theme-button-border" mat-button>
+        <mat-icon>call_split</mat-icon>
+        Fork
+      </button>
+    </ng-container>
+
+
+    <button
+      [disabled]="!versions || versions.length===0 || (selectedVersion && selectedVersion.id === bot.active_version_id)"
+      *myIf="myEAllActions['Create Bot Versioning']"
+      (click)="confirmActivateVersionModal()"
+      class="mat-theme-button mat-theme-button-border" mat-button>
+      <mat-icon>play_circle_filled</mat-icon>
+      Activate
+    </button>
+
+    <button class="mat-theme-button" mat-button
+            style="min-width: 20px !important;border: none !important;padding: 0"
+            (click)="downloadAll$.emit()">
+      <mat-icon>get_app</mat-icon>
+    </button>
+  </div>
+  <!--END :: code versions_st Buttons-->
+
+  <div class="row row-flex-bot-versioning-toaster mx-0" *ngIf="showVersionList"
+       style="max-height: 50vh; overflow-y: scroll; overflow-x: hidden; border: 1px solid #e0e0e0; border-top: none ">
+    <div class="col-12 py-1 px-0 cursor-pointer hover-change-background"
+         *ngFor="let version of versions | filterActiveBot:selectedVersion.id | sortObjectArr: 'updated_at'">
+      <div class="d-flex align-items-center flex-bot-versioning-toaster"
+           (click)="changeSelectedVersion$.emit(version); showVersionList = false; ">
+
+        <div class="version-active-label">
+          <div
+            [ngClass]="{'text-primary':version.id === bot.active_version_id}"
+          >{{version.id === bot.active_version_id ? 'Active' : 'Inactive'}}</div>
+        </div>
+        <!--<div class="active-label-text">{{versions_st.id +""+activeVersion.id }}</div>-->
+        <div class="count mx-1">{{version.version}}</div>
+        <div class="forked mr-1 pl-1" *ngIf="version.forked_from !== 0">Forked from
+          v{{version.forked_from}}
+        </div>
+        <div class="forked mr-1 pl-1" *ngIf="version.forked_from === 0">Default version
+        </div>
+        <div class="forked mr-1">Last update</div>
+        <!--change dot start-->
+        <div class="update d-flex flex-column mr-2 justify-content-center" *ngIf="version">
+
+          <!--START:: ditry data dots-->
+          <ng-container
+            [ngTemplateOutlet]="ditryDataTemplate"
+            [ngTemplateOutletContext]="{diff: (versionDiffs && versionDiffs[version.id]||{}), server_diff:(version.updated_fields||{})}">
+          </ng-container>
+          <!--END:: ditry data dots-->
+
+          <div style="font-weight: 500;font-size: 10px;">
+            {{version.updated_at | date:"MMM d"}}&nbsp;'{{version.updated_at | date:"yy"}}&nbsp;{{version.updated_at | date:"shortTime"}}
+          </div>
+        </div>
+        <!--change dot end-->
+
+        <div class="insert mr-1">{{version.comment.length > 70 ? (((version.comment)|slice:0:70)
+					+ "...") : version?.comment}}
+        </div>
+
+        <i class=" py-2 px-3 "></i>
+      </div>
+    </div>
+  </div>
 </div>
 <!---->
+
+
+<ng-template #ditryDataTemplate let-diff="diff" let-server_diff="server_diff">
+  <!--<ng-container *ngIf="(selectedVersion.updated_fields||{}) as server_diff ">-->
+    <div class="d-flex justify-content-left py-1">
+      <i class="fa fa-circle"
+         [ngClass]="{'text-danger':diff.df_template, 'dark-green':server_diff['df_template']}"></i>
+      <i class="fa fa-circle"
+         [ngClass]="{'text-danger':diff.df_rules, 'dark-green':server_diff['df_rules']}"></i>
+      <i class="fa fa-circle"
+         [ngClass]="{'text-danger':diff.generation_rules, 'dark-green':server_diff['generation_rules']}"></i>
+      <i class="fa fa-circle"
+         [ngClass]="{'text-danger':diff.generation_templates, 'dark-green':server_diff['generation_templates']}"></i>
+      <i class="fa fa-circle"
+         [ngClass]="{'text-danger':diff.workflow, 'dark-green':server_diff['workflow']}"></i>
+    </div>
+  <!--</ng-container>-->
+</ng-template>

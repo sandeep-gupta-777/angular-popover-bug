@@ -6,7 +6,7 @@
        ngModelGroup="{{integration_type}}">
     <!--integration_type: fulfillment_provider_details, channels-->
     <div class="grid-integration-groups" *ngFor="let type of integration_type|typeForIntegrationType">
-      <div class="integration-heading my-1">{{type|titlecase}}</div>
+      <div class="integration-heading">{{type|titlecase}}</div>
       <!--type = Fulfillment Platforms, Text Channels, Voice Channels, Chat Agent plateform, monitoring-->
       <div *ngFor="let integration_item of type|integrationItemForType" class="mb-3">
         <!--key  = facebook, skype, imiconnect etc-->

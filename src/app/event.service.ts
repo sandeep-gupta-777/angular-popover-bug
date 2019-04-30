@@ -1,11 +1,8 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {Subscriber} from 'rxjs';
 import {IBot} from './core/interfaces/IBot';
-import {ESideBarTab} from './core/bot-detail/code-based-bot-detail/code-based-bot-detail.component';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class EventService {
 
   private removeCodeMirrorHistory$ = new EventEmitter();
@@ -23,6 +20,8 @@ export class EventService {
   static disableSaveButton_codeInput$ = new EventEmitter<boolean>();
   static toggleAllPipeLineModules = new EventEmitter<boolean>();
   static botUpdatedInServer$ = new EventEmitter<IBot>();
+  static kbRefresh$ = new EventEmitter<IBot>();
+  static startANewChat$ = new EventEmitter<{bot:IBot, consumerDetails:any}>();
   static reportFormIsValid = new EventEmitter<Boolean>();
   static unsubscribeInComponent(component){
     for (const key in component) {

@@ -17,9 +17,7 @@ import {Select} from '@ngxs/store';
 import {ConstantsService} from './constants.service';
 import {PermissionService} from './permission.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AccessGaurdService implements CanActivate, CanActivateChild, CanLoad {
   constructor(
     private router: Router,

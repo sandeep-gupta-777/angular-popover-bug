@@ -3,12 +3,13 @@ import {IUser} from '../interfaces/user';
 import {Observable} from 'rxjs';
 import {Select, Store} from '@ngxs/store';
 import {ServerService} from '../../server.service';
-import {ConstantsService, EAllActions} from '../../constants.service';
+import {ConstantsService, } from '../../constants.service';
 import {SetUser} from '../../auth/ngxs/auth.action';
 import {UtilityService} from '../../utility.service';
 import {NgForm} from '@angular/forms';
 import {ModalImplementer} from '../../modal-implementer';
 import {MatDialog} from '@angular/material';
+import {EAllActions} from "../../typings/enum";
 
 @Component({
   selector: 'app-profile',
@@ -86,12 +87,12 @@ export class ProfileComponent extends ModalImplementer implements OnInit {
       };
       this.serverService.makePostReq({url: changePasswordUrl, body})
         .subscribe((value: { 'error': boolean, 'message': string }) => {
-            
+
           if (!value.error) {
-          this.showPasswordChangeForm = false; //show success message    
+          this.showPasswordChangeForm = false; //show success message
           }
           else{
-           
+
             // this.flashErrorMessage(value.message);
             this.showPasswordChangeForm = true; //show form again
             this.new_password_confirm = this.new_password = this.old_password = '';

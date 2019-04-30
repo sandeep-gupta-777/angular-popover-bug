@@ -6,21 +6,21 @@
     </a>
   </div>
 
-  <a class="header__nav" [routerLink]="'/core/viewbots/'" routerLinkActive="highlight-text-on-route-match">
+  <a class="header__nav" [routerLink]="'/core/viewbots/'" routerLinkActive="highlight-nav-item">
     <img class="box-logo__image" src="assets/img/dashboard-icon.svg" alt="website logo">
-    <span class="header__nav--title">Bot Dashboard</span>
+    <span class="header__nav--title">Dashboard</span>
   </a>
-  <a *myIf="[myEAllActions['Get Enterprise Knowledge base']]" class="header__nav" [routerLink]="'/core/customner/'" routerLinkActive="highlight-text-on-route-match">
+  <a *myIf="[myEAllActions['Get Enterprise Knowledge base']]" class="header__nav" [routerLink]="'/core/customner/'" routerLinkActive="highlight-nav-item">
     <img class="box-logo__image" src="assets/img/knowledge-icon.svg" alt="website logo">
     <span class="header__nav--title">Knowledge</span>
   </a>
 
-  <a *myIf="[myEAllActions['Analytics']]" class="header__nav" [routerLink]="['/core','analytics2','volume']"
-     routerLinkActive="highlight-text-on-route-match">
+  <a *myIf="[myEAllActions['Analytics']]" class="header__nav" [routerLink]="['/core','analytics2', 'volume']"
+     routerLinkActive="highlight-nav-item">
     <img class="box-logo__image" src="assets/img/anaytics.svg" alt="website logo">
     <span class="header__nav--title">Analytics</span>
   </a>
-  <a *myIf="[myEAllActions['Get Reports']]" class="header__nav" [routerLink]="'/core/reports'" routerLinkActive="highlight-text-on-route-match">
+  <a *myIf="[myEAllActions['Get Reports']]" class="header__nav" [routerLink]="'/core/reports'" routerLinkActive="highlight-nav-item">
     <img class="box-logo__image" src="assets/img/reports.svg" alt="website logo">
     <span class="header__nav--title">Reports</span>
   </a>
@@ -31,7 +31,7 @@
   <!--Right start-->
   <div class="header__right">
     <div class="box box-details-personal">
-      <span class="box-details-personal__name">{{(loggeduser$|async).user.first_name + " " + (loggeduser$|async).user.last_name}}</span>
+      <span class="box-details-personal__name">{{(loggeduser$|async).user.enterprise.name}}</span>
       <span class="box-details-personal__designation">{{(loggeduser$|async).user.role.name}}</span>
     </div>
     <img [src]="logoSrc" alt="Enterprise logo">
@@ -42,28 +42,20 @@
       </button>
       <mat-menu class="cutom-md-menu" #appMenu="matMenu">
 
-        <a mat-menu-item disabled class="dropdown-item" style="line-height: 20px">
-          {{userData.enterprise.name}}
-        </a>
-        <a mat-menu-item disabled class="dropdown-item" style="cursor: pointer !important; background-color: white !important;"
-        [matTooltip]="userData.email"
-           [matTooltipPosition]="'left'"
-        >
-          {{userData.email | slice:0:22}}
-          {{userData.email.length>22?"...":''}}
-
+        <a mat-menu-item disabled class="header-dropdown-item">
+          {{userData.first_name + " " + userData.last_name}}
         </a>
 
         <mat-divider *myIf="myEAllActions['Get Enterprise']"></mat-divider>
-        <a mat-menu-item class="dropdown-item" [routerLink]="['profile']"
-           routerLinkActive="highlight-text-on-route-match">Profile</a>
-        <a mat-menu-item class="dropdown-item cursor-pointer" (click)="logout()">Sign out</a>
-        <a mat-menu-item class="dropdown-item" (click)=changeEnterprise(changeEnterpriseModal)
+        <a mat-menu-item class="header-dropdown-item" [routerLink]="['profile']"
+           routerLinkActive="highlight-nav-item">Profile</a>
+        <a mat-menu-item class="header-dropdown-item cursor-pointer" (click)="logout()">Sign out</a>
+        <a mat-menu-item class="header-dropdown-item" (click)=changeEnterprise(changeEnterpriseModal)
            *ngIf="enterpriseList && enterpriseList.length > 1">Switch enterprise</a>
         <!--<mat-divider *myIf="myEAllActions['Get Enterprise']"></mat-divider>-->
-        <a mat-menu-item class="dropdown-item" *myIf="myEAllActions['Get Enterprise']"
+        <a mat-menu-item class="header-dropdown-item" *myIf="myEAllActions['Get Enterprise']"
            [routerLink]="['enterpriseprofile']"
-           routerLinkActive="highlight-text-on-route-match">Enterprise Profile</a>
+           routerLinkActive="highlight-nav-item">Enterprise Profile</a>
       </mat-menu>
     </div>
   </div>
@@ -73,17 +65,17 @@
 
   <div class="header_icon-row" *ngIf="showIconRow">
 
-    <a [routerLink]="'/core/viewbots/'" routerLinkActive="highlight-text-on-route-match">
+    <a [routerLink]="'/core/viewbots/'" routerLinkActive="highlight-nav-item">
       <img class="box-logo__image" src="assets/img/dashboard-icon.svg" alt="View Bot logo">
     </a>
-    <a [routerLink]="'/core/customner/'" routerLinkActive="highlight-text-on-route-match">
+    <a [routerLink]="'/core/customner/'" routerLinkActive="highlight-nav-item">
       <img class="box-logo__image" src="assets/img/knowledge-icon.svg" alt="Knowledge logo">
     </a>
     <a [routerLink]="['/core','analytics2','volume']"
        routerLinkActive="highlight-text-on-route-match">
       <img class="box-logo__image" src="assets/img/anaytics.svg" alt="Analytics logo">
     </a>
-    <a [routerLink]="'/core/reports'" routerLinkActive="highlight-text-on-route-match">
+    <a [routerLink]="'/core/reports'" routerLinkActive="highlight-nav-item">
       <img class="box-logo__image" src="assets/img/reports.svg" alt="Reports logo">
     </a>
 

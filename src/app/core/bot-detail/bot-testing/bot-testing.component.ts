@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, TemplateRef, EventEmitter, Output} from '@angular/core';
 import { Store } from '@ngxs/store';
 import { ServerService } from '../../../server.service';
-import {ConstantsService, EAllActions} from '../../../constants.service';
+import {ConstantsService} from '../../../constants.service';
 import { ITestcases } from '../../../../interfaces/testcases';
 import { Observable } from 'rxjs';
 import { IBot } from '../../interfaces/IBot';
@@ -12,6 +12,7 @@ import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 import {ModalImplementer} from '../../../modal-implementer';
 import {MatDialog} from '@angular/material';
 import { skip } from 'rxjs/operators';
+import {EAllActions} from "../../../typings/enum";
 
 @Component({
   selector: 'app-bot-testing',
@@ -67,7 +68,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
       }
     )
       .subscribe((value) => {
-        
+
         this.showLoader = false;
         if (value.objects.length === 0) {
           this.isData = false;
@@ -131,7 +132,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
   }
 
   updateTC() {
-    debugger;
+
     this.serverService.makePutReq<{ meta: any, objects: ITestcases[] }>({
       url: this.testCasesUrl + `${this.testCaseId}/`,
       headerData: { 'bot-access-token': this.bot.bot_access_token },

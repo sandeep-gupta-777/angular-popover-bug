@@ -1,62 +1,59 @@
 import {Injectable} from '@angular/core';
-import {PipelineComponent} from './core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
-import {KnowledgeBasePresentationComponent} from './core/buildbot/build-code-based-bot/architecture/knowledge-base/knowledge-base-presentation/knowledge-base-presentation.component';
-import {UtilityService} from './utility.service';
-import {ESideBarTab} from './core/bot-detail/code-based-bot-detail/code-based-bot-detail.component';
-import {KnowledgeBaseWrapperComponent} from './core/buildbot/build-code-based-bot/architecture/knowledge-base-wrapper/knowledge-base-wrapper.component';
-import {IPipelineItem} from '../interfaces/ai-module';
-import {BotConfigService} from './core/buildbot/build-code-based-bot/bot-config/bot-config.service';
-import {BotConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/bot-config.component';
-import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.component';
-import { BuildbotWrapperComponent } from './core/buildbot/buildbot-wrapper.component';
+// import {PipelineComponent} from './core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
+// import {KnowledgeBasePresentationComponent} from './core/buildbot/build-code-based-bot/architecture/knowledge-base/knowledge-base-presentation/knowledge-base-presentation.component';
+import {EBotType, UtilityService} from './utility.service';
+// import {IPipelineItem} from '../interfaces/ai-module';
+// import {BotConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/bot-config.component';
+// import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.component';
+import {FormGroup, NgForm} from "@angular/forms";
+import {ESideBarTab} from "./typings/enum";
+// import { BuildbotWrapperComponent } from './core/buildbot/buildbot-wrapper.component';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SideBarService {
 
-  private static botConfigComponent: BotConfigComponent;
+  private static botConfigComponent;//: BotConfigComponent;
   private static botConfigComponent_init;
 
-  private static knowledgeBasePresentationComponent: KnowledgeBasePresentationComponent;
+  private static knowledgeBasePresentationComponent;//: KnowledgeBasePresentationComponent;
   private static kbPrezInit_Data;
 
-  private static pipelineComponent: PipelineComponent;
-  private static pipelineData_init: IPipelineItem[];
+  private static pipelineComponent;//: PipelineComponent;
+  private static pipelineData_init;//: IPipelineItem[];
 
-  private static botTestingComponent: BotTestingComponent;
+  private static botTestingComponent;//: BotTestingComponent;
   private static botTestingData_init: any[];
 
-  public static buildbotWrapperComponent: BuildbotWrapperComponent;
+  public static buildbotWrapperComponent;//: BuildbotWrapperComponent;
   public static buildbotData_init;
 
   static init(component) {
-    if (component instanceof PipelineComponent) {
+    if (component.constructor.name === "PipelineComponent") {
       SideBarService.pipelineInit(component);
     }
 
-    if (component instanceof BotConfigComponent) {
-      SideBarService.botConfigInit(<BotConfigComponent>component);
+    if (component.constructor.name === "BotConfigComponent") {
+      SideBarService.botConfigInit(component);
     }
 
-    if (component instanceof BotTestingComponent) {
+    if (component.constructor.name === "BotTestingComponent") {
       // setTimeout(()=>SideBarService.botTestingInit(<BotTestingComponent>component),0);
-      SideBarService.botTestingInit(<BotTestingComponent>component);
+      SideBarService.botTestingInit(component);
     }
 
-    if (component instanceof KnowledgeBasePresentationComponent) {
+    if (component .constructor.name === "KnowledgeBasePresentationComponent") {
       /*KnowledgeBasePresentationComponent is initialized manually from within KnowledgeBasePresentationComponent*/
     }
 
-    if (component instanceof BuildbotWrapperComponent) {
-      SideBarService.buildBotInit(<BuildbotWrapperComponent>component);
+    if (component.constructor.name === "BuildbotWrapperComponent") {
+      SideBarService.buildBotInit(component);
     }
   }
-
+  static activeTab : ESideBarTab;
   /*BotConfig*/
-  static botConfigInit(botConfigComponent: BotConfigComponent) {
+  static botConfigInit(botConfigComponent) {
     SideBarService.botConfigComponent = botConfigComponent;
-    let combinedForm = [botConfigComponent.basicInfoForm, botConfigComponent.dataManagementForm, botConfigComponent.securityForm, botConfigComponent.integrationForm];
+    // let combinedForm = [botConfigComponent.basicInfoForm, botConfigComponent.dataManagementForm, botConfigComponent.securityForm, botConfigComponent.integrationForm];
     SideBarService.botConfigComponent_init = this.createBasicInfoData();
     SideBarService.activeTab = ESideBarTab.setting;
   }
@@ -64,10 +61,15 @@ export class SideBarService {
   static createBasicInfoFinalData(){
     return SideBarService.createBasicInfoData();
   }
-  static activeTab : ESideBarTab;
   private static createBasicInfoData() {
+
     let botConfigComponent = SideBarService.botConfigComponent ;
-    let combinedForm = [botConfigComponent.basicInfoForm, botConfigComponent.dataManagementForm, botConfigComponent.securityForm, botConfigComponent.integrationForm];
+    let combinedForm: (FormGroup | NgForm)[];
+    if(botConfigComponent.bot_type === EBotType.chatbot){
+      combinedForm = [botConfigComponent.basicInfoForm, botConfigComponent.dataManagementForm, botConfigComponent.securityForm, botConfigComponent.integrationForm];
+    }else {
+      combinedForm = [botConfigComponent.basicInfoForm];
+    }
     return combinedForm.reduce((aggr, current) => {
       let val = (current && current.value) || {};
       return {
@@ -87,15 +89,15 @@ export class SideBarService {
 
   /*KNOWLEDGE BASE*/
 
-  static knowledgeBaseInit(kbPrezComponent: KnowledgeBasePresentationComponent) {
-    debugger;
+  static knowledgeBaseInit(kbPrezComponent) {
+
     SideBarService.knowledgeBasePresentationComponent = kbPrezComponent;
     SideBarService.kbPrezInit_Data = UtilityService.cloneObj(kbPrezComponent.createOutPutData());
   }
 
   static isKnowledgeBaseDirty(): boolean {
     if (!SideBarService.knowledgeBasePresentationComponent) return false;
-    debugger;
+
     let kbPrezFinalData = this.createKnowledgeBaseFinalData();
     let x = !UtilityService.deepCompare(SideBarService.kbPrezInit_Data, kbPrezFinalData);
     return x;
@@ -106,7 +108,7 @@ export class SideBarService {
   }
 
   /*PIPELINE*/
-  static pipelineInit(pipelineComponent: PipelineComponent) {
+  static pipelineInit(pipelineComponent) {
     SideBarService.pipelineComponent = pipelineComponent;
     SideBarService.pipelineData_init = pipelineComponent._bot.pipelines;
     SideBarService.activeTab = ESideBarTab.input;
@@ -129,18 +131,18 @@ export class SideBarService {
 
 
   static isTabDirty(tab: ESideBarTab): boolean {
-    debugger;
+
     if (tab === ESideBarTab.input) {
       let x = this.isKnowledgeBaseDirty() || this.isPipelineDirty();
       return x;
     }
     if (tab === ESideBarTab.setting) {
-      debugger;
+
       let x = this.isBotConfigDirty();
       return x;
     }
     if (tab === ESideBarTab.test) {
-      debugger;
+
       let x = this.isBotTestingDirty();
       return x;
     }
@@ -151,41 +153,41 @@ export class SideBarService {
 
   /*Testing*/
 
-  static botTestingInit(component: BotTestingComponent){
+  static botTestingInit(component){
     SideBarService.botTestingComponent = component;
-    debugger;
+
     SideBarService.botTestingData_init = UtilityService.cloneObj(SideBarService.botTestingComponent.testCaseData);
-    SideBarService.activeTab = ESideBarTab.test
+    SideBarService.botTestingData_init = SideBarService.botTestingData_init.map((array)=>{
+      return array.slice(0, 2);
+    })
+    SideBarService.activeTab = ESideBarTab.test;
   }
   static createBotTestingFinalData(){
-    debugger;
-    return SideBarService.botTestingComponent.testCaseData;
+
+    return SideBarService.botTestingComponent.testCaseData.map((array)=>{
+      return array.slice(0, 2);
+    })
+    // return SideBarService.botTestingComponent.testCaseData;
   }
 
   static isBotTestingDirty(){
-    let botTestingData_final = this.createBotTestingFinalData();
-    // let botTestingData_initial = SideBarService.botTestingData_init;
-    debugger;
-    //remove null
-    // for (let index = 0; index < botTestingData_initial.length; index++) {
-    //   let anyNotNull = false;
-    //   botTestingData_initial[index].forEach(element => {
-    //     anyNotNull = anyNotNull || !!element;
-    //   });
-    //   if(!anyNotNull){
-    //   delete botTestingData_initial[index]
-    //   }
-    // }
-    let x = !UtilityService.deepCompare(SideBarService.botTestingData_init, botTestingData_final);
-    return x;
+    try {
+      let botTestingData_final = this.createBotTestingFinalData();
+      return !UtilityService.deepCompare(SideBarService.botTestingData_init, botTestingData_final);
+    }catch (e) {
+      /*
+      * When user move away from testing tab even before it has been initiated, just return dirty = false
+      * */
+      return false;
+    }
   }
 
   /*buildbot*/
 
-  static buildBotInit(buildBotComponent: BuildbotWrapperComponent) {
-    debugger;
+  static buildBotInit(buildBotComponent) {
+
     SideBarService.buildbotWrapperComponent = buildBotComponent;
-    debugger;
+
     SideBarService.buildbotData_init = UtilityService.cloneObj({
       basicInfoForm : buildBotComponent.basicInfoForm.value,
       dataManagementForm : buildBotComponent.dataManagementForm.value,
@@ -196,7 +198,7 @@ export class SideBarService {
 
   static isBuildBotDirty(): boolean {
     if (!SideBarService.buildbotWrapperComponent) return false;
-    debugger;
+
     let buildBotFinalData = this.buildBotFinalData();
     let x = !UtilityService.deepCompare(SideBarService.buildbotData_init, buildBotFinalData);
     return x;

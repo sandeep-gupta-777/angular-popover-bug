@@ -2,7 +2,7 @@ import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Outpu
 import {ICustomNerItem} from '../../../../../../../interfaces/custom-ners';
 import {NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../../utility.service';
-import {ConstantsService, EAllActions, ERouteNames} from '../../../../../../constants.service';
+import {ConstantsService, ERouteNames,} from '../../../../../../constants.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {HandsontableComponent} from '../../../../../../handsontable/handsontable.component';
 import {ELogType, LoggingService} from '../../../../../../logging.service';
@@ -11,6 +11,7 @@ import {MatDialog} from '@angular/material';
 import {EventService} from '../../../../../../event.service';
 import {ModalConfirmComponent} from '../../../../../../modal-confirm/modal-confirm.component';
 import {SideBarService} from '../../../../../../side-bar.service';
+import {EAllActions} from "../../../../../../typings/enum";
 
 @Component({
   selector: 'app-knowledge-base-presentation',
@@ -66,6 +67,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   @Output() updateOrSaveConcept$ = new EventEmitter();
   @Output() deleteNer$ = new EventEmitter();
   @Output() showTable$ = new EventEmitter();
+  @Output() refreshTable$ = new EventEmitter();
   @ViewChild('form') form: NgForm;
   ner_id: string;
   key: string;
@@ -111,7 +113,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       classStr: 'danger-modal-header-border',
       data: {
         actionButtonText: 'Delete',
-        message: 'This action cannot be undone.Are you sure you wish to delete?',
+        message: 'This action cannot be undone. Are you sure you wish to delete?',
         title: `Delete Concept?`,
         isActionButtonDanger: true,
         inputDescription: null,
@@ -141,6 +143,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   }
 
   updateOrSaveConcept() {
+
     let outputData = this.createOutPutData();
     let ner_type = outputData.ner_type;
     let codeTextOutPutFromCodeEditor = outputData.codeTextOutPutFromCodeEditor;
@@ -178,6 +181,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       codeTextFromEditor = [this.codeTextOutPutFromCodeEditor];
     } else if (this.ner_type !== 'database') {
       try {
+
         // if (!this.codeTextOutPutFromCodeEditor) {
         //   this.utilityService.showErrorToaster(`Syntax is not valid. ${this.ner_type} only accespts Array literal`);
         //   return;
@@ -194,13 +198,16 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
         }
       }
     }
+    let tableData = this.handsontableData.filter((array :any)=>{
+      return !!array.find(element => {return (element !== null) && (element !== undefined) && (element !== '')});
+    });
     const outputData = {
       mode: this.ner_id ? 'Update' : 'Create',
       key: this.key || '',
       ner_type: this.ner_type,
       conflict_policy: this.conflict_policy,
       codeTextOutPutFromCodeEditor: codeTextFromEditor || '',
-      handsontableData: this.handsontableData,
+      handsontableData: tableData,
       //   ...this.handsontableComponent.getHotTableData(),
       process_raw_text: this.process_raw_text
     };
@@ -222,25 +229,33 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
 
 
   async goBack() {
+
     let isDirty: boolean = SideBarService.isKnowledgeBaseDirty();
     if(isDirty){
       let data =  await this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper,this.matDialog);
       if(data){
-        this.showTable$.emit();
-        this._selectedRowData = {};
-        EventService.createConceptFullScreen$.emit(false);
-        SideBarService.resetKB();
+        // this.showTable$.emit();
+        // this._selectedRowData = {};
+        // EventService.createConceptFullScreen$.emit(false);
+        // SideBarService.resetKB();
+        this.goBackWithoutModal();
       }
     }
     else{
-      this.showTable$.emit();
-      this._selectedRowData = {};
-      EventService.createConceptFullScreen$.emit(false);  
-      SideBarService.resetKB();   
+      // this.showTable$.emit();
+      // this._selectedRowData = {};
+      // EventService.createConceptFullScreen$.emit(false);
+      // SideBarService.resetKB();
+      this.goBackWithoutModal();
     }
-    
-   
-    
+  }
+  goBackWithoutModal(){
+    EventService.kbRefresh$.emit();
+    this.showTable$.emit();
+    this._selectedRowData = {};
+    EventService.createConceptFullScreen$.emit(false);
+    SideBarService.resetKB();
+
   }
 
   ngAfterViewInit(): void {

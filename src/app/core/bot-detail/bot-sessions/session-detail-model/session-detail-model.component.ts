@@ -80,7 +80,8 @@ export class SessionDetailModelComponent implements OnInit {
 
   showSpinIcon = false;
 channelNameToImg(channel:string){
-  return this.constantsService.getIntegrationIconForChannelName(channel).icon
+  let iconObj = this.constantsService.getIntegrationIconForChannelName(channel);
+  return iconObj && iconObj.icon;
 }
   updateModal(id){
     this.loadSessionMessagesById(id);
@@ -209,14 +210,15 @@ channelNameToImg(channel:string){
   goToNextSearchResult(messageSearchKeyword) {
 
 
-    if (this.searchEnterPressedCount !== 0) {
-      ++this.searchEnterPressedCount;
-    }
+    // if (this.searchEnterPressedCount !== 0) {
+    //   ++this.searchEnterPressedCount;
+    // }
     if (this.searchEnterPressedCount < 0) { this.searchEnterPressedCount = 0; }
-    const elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, this.searchEnterPressedCount);
+    const elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, this.searchEnterPressedCount + 1);
     if (!elementDataToScroll) {
-      --this.searchEnterPressedCount;
       return;
+    }else {
+      ++this.searchEnterPressedCount;
     }
     const txnId = elementDataToScroll.transaction_id;
     if (elementDataToScroll) {
@@ -224,18 +226,18 @@ channelNameToImg(channel:string){
       if (!didScrollOccur) { --this.searchEnterPressedCount; }
       this.transactionIdChangedInModel(txnId);
     }
-    if (this.searchEnterPressedCount === 0) {
-      ++this.searchEnterPressedCount;
-    }
+    // if (this.searchEnterPressedCount === 0) {
+    //   ++this.searchEnterPressedCount;
+    // }
   }
 
   goToPreviousSearchResult(messageSearchKeyword) {
 
-    --this.searchEnterPressedCount;
-    const elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, this.searchEnterPressedCount);
+    const elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, this.searchEnterPressedCount -1);
     if (!elementDataToScroll) {
-      --this.searchEnterPressedCount;
       return;
+    }else {
+      --this.searchEnterPressedCount;
     }
     if (this.searchEnterPressedCount < 0) { this.searchEnterPressedCount = 0; }
     if (elementDataToScroll) {
@@ -244,25 +246,34 @@ channelNameToImg(channel:string){
     }
   }
 
-  scrollToFirstKeywordMatch(messageSearchKeyword) {
+  async scrollToFirstKeywordMatch(messageSearchKeyword) {
 
-    this.searchEnterPressedCount = 0;
+    await new Promise((resolve, reject)=>{
+      setTimeout(()=>resolve(), 500);
+    });
+
+    this.searchEnterPressedCount = -1;
     this.messageSearchKeyword = messageSearchKeyword = messageSearchKeyword.trim();
     if (messageSearchKeyword === '') { return; }
     this.sessionMessageDataCopy = [...this.sessionMessageData];
     /*find transaction roomId of first matched text*/
     const elementDataToScroll = this.findElementDataBySearchKeyWord(messageSearchKeyword, 0);
-    setTimeout(()=>{
+    // setTimeout(()=>{
       let didScrollOccur = elementDataToScroll && this.scroll(elementDataToScroll.transaction_id);
       if(didScrollOccur){
         this.transactionIdChangedInModel(elementDataToScroll.transaction_id);
-        this.searchEnterPressedCount++;
+        ++this.searchEnterPressedCount;
+        console.log(`messageSearchKeyword: ${messageSearchKeyword}, searchEnterPressedCount ${this.searchEnterPressedCount} `)
       }
-    },0);
+    // },0);
   }
 
+  searchCache = {};
 
   findElementDataBySearchKeyWord(messageSearchKeyword, index) {
+    if(Array.isArray(this.searchCache[messageSearchKeyword])){
+      return this.searchCache[messageSearchKeyword][index];
+    }
 
     const elementsDataToScroll = this.sessionMessageData.filter((objItem: ISessionMessageItem) => {
       /*find if messageSearchKeyword exists in message or message[0].text as substring */
@@ -289,6 +300,7 @@ channelNameToImg(channel:string){
           }
         } catch (e) {}
 
+
         try {
           /*searching for bot generated_msg match*/
           for (const msg of objItem.generated_msg) {
@@ -296,11 +308,66 @@ channelNameToImg(channel:string){
             if (isMatch) { return isMatch; }
           }
         } catch (e) {}
+
+        try {
+          if (objItem.message && objItem.message[0] && objItem.message[0].quick_reply) {
+            /*looking into the media items*/
+            let media:any[] = objItem.message[0].quick_reply.quick_replies;
+            let isMatch:boolean = media.find((el:{title:string})=>{
+              if(el.title){
+                let target = el.title;
+                return !!this.utilityService.doesStringIncludesSubstring(target, messageSearchKeyword);
+                // if(isMatch){
+                //   return isMatch;
+                // }
+              }
+            });
+            if(isMatch){
+              return isMatch;
+            }
+
+            try {
+              let target = objItem.message[0].quick_reply.text;
+              let isMatch = this.utilityService.doesStringIncludesSubstring(target, messageSearchKeyword);
+              if(isMatch){
+                return isMatch;
+              }
+            }catch (e) {}
+          }
+        } catch (e) {}
+
+        try {
+          if (objItem.message && Array.isArray(objItem.message[1] && objItem.message[1].media)) {
+            /*looking into the media items*/
+            let media:any[] = objItem.message[1].media;
+
+            let isMatch = media.find((el:{buttons:{title:string}[], title:string})=>{
+              let found = false;
+              if(el.title){
+                let target = el.title;
+                found =  !!this.utilityService.doesStringIncludesSubstring(target, messageSearchKeyword);
+
+              }
+
+              if(el.buttons[0].title){
+                let target = el.buttons[0].title;
+                found = found || !!this.utilityService.doesStringIncludesSubstring(target, messageSearchKeyword);
+
+              }
+              return found;
+            });
+            if(isMatch){
+              return isMatch
+            }
+          }
+        }catch (e) {}
+
       }
 
 
     });
     this.messageTextSearchLength = elementsDataToScroll.length;
+    this.searchCache[messageSearchKeyword] = elementsDataToScroll;
     return elementsDataToScroll[index];
   }
 

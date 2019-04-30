@@ -6,9 +6,7 @@ import {ServerService} from './server.service';
 import {ConstantsService} from './constants.service';
 import {Observable} from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AimService {
 
   public aiModules$: Observable<IPipelineItem[]>;

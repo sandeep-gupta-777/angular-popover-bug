@@ -1,4 +1,4 @@
-@import "~src/sass/main";
+@import "./../../../../../../../../sass/main";
 
 .code-version-list-section {
   position: relative;
@@ -332,6 +332,7 @@ button{
 
   .insert {
     @include typography(11px, 13px, $font-weight-300, $color-text-normal);
+    word-wrap: break-word;
   }
 
 }

@@ -4,7 +4,7 @@
 .session-message-section{
   cursor: pointer;
   width: 100%;
-  word-break: break-all;
+  //word-break: break-all;
 }
 
 .reverse-flex-row {
@@ -114,7 +114,7 @@
   }
   .search-error{
     color: $color-danger;
-  } 
+  }
   .search-agent{
     color: $color-primary-v2;
   }

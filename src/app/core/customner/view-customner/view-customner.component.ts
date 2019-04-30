@@ -12,6 +12,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {UtilityService} from '../../../utility.service';
 import {KnowledgeBaseComponent} from '../../buildbot/build-code-based-bot/architecture/knowledge-base/knowledge-base.component';
 import {MaterialTableImplementer} from '../../../material-table-implementer';
+import {EventService} from "../../../event.service";
 
 @Component({
   selector: 'app-view-customner',
@@ -69,9 +70,15 @@ export class ViewCustomnerComponent implements OnInit {
     public constantsService: ConstantsService) {
   }
 
-
+  showHeader = true;
 
   ngOnInit() {
+    EventService
+      .createConceptFullScreen$
+      .subscribe((isFullscreen:boolean)=>{
+        this.showHeader = !isFullscreen;
+      });
+
     this.currentPageNumber = Number(this.activatedRoute.snapshot.queryParamMap.get('page') || '1');
     this.app$.subscribe((value) => {
 

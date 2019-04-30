@@ -1,7 +1,12 @@
-<div class="row" *ngIf="showTable; else rowDetails">
+<div class="row" *ngIf="showTable">
   <div class="col-12 d-flex justify-content-between" *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']">
-    <div>Edit the existing concepts or create a new concept</div>
-    <button class="btn-theme btn-theme-primary"
+    <div *ngIf="tableData && tableData?.length > 0">
+      <!--TODO: ng content here-->
+    </div>
+    <button mat-flat-button
+            color="primary"
+            class="mat-theme-button ml-auto new-bot-cta"
+            style="margin-left: auto"
             (click)="reinitialise()"
             *myIf="myEAllActions['Create Enterprise Knowledge base']"
     >+ New Concept
@@ -9,10 +14,11 @@
   </div>
   <div class="col-12 d-flex justify-content-between"
        *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']">
-    <div>Edit the existing concepts or create a new concept</div>
-    <button class="mat-theme-button"
-            mat-button
-            style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
+    <div *ngIf="tableData && tableData?.length > 0">Edit the existing concepts or create a new concept</div>
+    <button mat-flat-button
+            color="primary"
+            class="mat-theme-button ml-auto new-bot-cta"
+            style="margin-right: 10px; margin-left: auto"
             (click)="reinitialise()"
             *myIf="myEAllActions['Create Bot Knowledge base']"
     >
@@ -21,7 +27,7 @@
 
     <!--<button-->
 
-      <!--Analytics-->
+    <!--Analytics-->
     <!--</button>-->
   </div>
 </div>
@@ -32,6 +38,8 @@
       <app-smart-table *ngIf="tableData"
                        [data]="tableData"
                        [totalRecords]="totalRecords"
+                       [sortedCol]="'Last Update'"
+                       [sortDir]="myESortDir.DES"
                        [recordsPerPage]="recordsPerPage"
                        (pageChanged$)="pageChanged($event)"
                        [currentPage]="currentPageNumber"
@@ -42,15 +50,17 @@
 
 <!--<ng-template #splash>-->
 
-<app-splash-screen *ngIf="_custumNerDataForSmartTable && _custumNerDataForSmartTable.length===0 && showTable && currentPageNumber===1"
-                   [imageHRef]="myESplashScreens.knowledge_base"
-                   [descriptionText]="'Knowledge Base concepts are collections which can be recognized by the bot in user messages. Different ways of capturing these concepts exists like exact match(single match), partial match(double match) regex parsers, database or entity access along with metadata'"
-                   [headingText]="'No concepts in knowledge Base'"
-                   class="d-flex justify-content-center align-items-center w-100 h-75"
+<app-splash-screen
+  *ngIf="_custumNerDataForSmartTable && _custumNerDataForSmartTable.length===0 && showTable && currentPageNumber===1"
+  [imageHRef]="myESplashScreens.knowledge_base"
+  [descriptionText]="'Knowledge Base concepts are collections which can be recognized by the bot in user messages. Different ways of capturing these concepts exists like exact match(single match), partial match(double match) regex parsers, database or entity access along with metadata'"
+  [headingText]="'No concepts in knowledge Base'"
+  class="d-flex justify-content-center align-items-center w-100 h-75"
 ></app-splash-screen>
 
 
-<div class="d-flex flex-column justify-content-center align-items-center h-75 w-100" *ngIf="currentPageNumber>1 && _custumNerDataForSmartTable && _custumNerDataForSmartTable.length===0 && showTable">
+<div class="d-flex flex-column justify-content-center align-items-center h-75 w-100"
+     *ngIf="currentPageNumber>1 && _custumNerDataForSmartTable && _custumNerDataForSmartTable.length===0 && showTable">
   <i>No concept for page = {{currentPageNumber}}</i>
   <button class="btn-theme mt-1" mat-flat-button color="primary" (click)="pageChanged$.emit(1)">Go to page = 1</button>
 
@@ -58,13 +68,15 @@
 
 <!--</ng-template>-->
 
-<ng-template #rowDetails>
-  <app-knowledge-base-presentation
-    class="h-100 d-flex-column-last-child-flex-grow-1"
-    [selectedRowData]="selectedRowData"
-    [handsontableData]="handontableData || [['', '', '']]"
-    (showTable$)="showNerSmartTable()"
-    (deleteNer$)="deleteNer$.emit($event)"
-    (updateOrSaveConcept$)="updateOrSaveConcept($event)"
-  ></app-knowledge-base-presentation>
-</ng-template>
+<!--<ng-template #rowDetails>-->
+
+<app-knowledge-base-presentation
+  *ngIf="!showTable"
+  class="h-100 d-flex-column-last-child-flex-grow-1"
+  [selectedRowData]="selectedRowData"
+  [handsontableData]="handontableData || [['', '', '']]"
+  (showTable$)="showNerSmartTable()"
+  (deleteNer$)="deleteNer$.emit($event)"
+  (updateOrSaveConcept$)="updateOrSaveConcept($event)"
+></app-knowledge-base-presentation>
+<!--</ng-template>-->

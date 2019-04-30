@@ -62,19 +62,25 @@ import {TypeForIntegrationTypePipe} from './type-for-integration-type.pipe';
 import {RequiredIfOneFilledValidator} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/requiredIfOneFilledValidator.directive';
 import {InfoIconComponent} from './info-icon/info-icon.component';
 import {ErrorStateMatcher, MatProgressSpinnerModule, ShowOnDirtyErrorStateMatcher} from '@angular/material';
+import {IntegrationItemByUnamePipe} from './integration-item-by-uname.pipe';
+import {BotByIdPipe} from "./core/buildbot/build-code-based-bot/bot-config/data-manage-form/bot-by-id.pipe";
 import { ListIfNotInThisListPipe } from './core/enterpriseprofile/enterprise-roles/listIfNotInThisList.pipe';
 import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
 import { FaqBotBasicInfoFormComponent } from './core/buildbot/build-code-based-bot/bot-config/faq-bot-basic-info-form/faq-bot-basic-info-form.component';
+import {BotConfigService} from "./core/buildbot/build-code-based-bot/bot-config/bot-config.service";
+import {PermissionService} from "./permission.service";
+import {ConstantsService} from "./constants.service";
+import {SharedEnterpriseListModuleModule} from "./auth/shared-enterprise-list-module.module";
 
 @NgModule({
   declarations: [
     IntegrationChannelListComponent,
-    EnterpriseListComponent,
-    GenericObjFilterPipe,
     IntegrationLogosPipe,
+    IntegrationItemByUnamePipe,
     SplashScreenComponent,
     MsToHhMmPipe,
     DataManageFormComponent,
+    BotByIdPipe,
     InfoIconComponent,
     BuildbotWrapperComponent,
     BasicInfoFormComponent,
@@ -126,6 +132,7 @@ import { FaqBotBasicInfoFormComponent } from './core/buildbot/build-code-based-b
     FaqBotBasicInfoFormComponent 
   ],
   imports: [
+    SharedEnterpriseListModuleModule,
     MyMaterialModule,
     FormsModule,
     ReactiveFormsModule,
@@ -137,17 +144,18 @@ import { FaqBotBasicInfoFormComponent } from './core/buildbot/build-code-based-b
 
   ],
   exports: [
+    SharedEnterpriseListModuleModule,
     LinkifyPipe,
     LinksFromTextPipe,
     MsToHhMmPipe,
-    GenericObjFilterPipe,
-    EnterpriseListComponent,
+    // EnterpriseListComponent,
     MyIfDirective,
     SplashScreenComponent,
     HighlightDirective,
     SafeUrlPipe,
     IntegrationLogosPipe,
     DataManageFormComponent,
+    BotByIdPipe,
     InfoIconComponent,
     BasicInfoFormComponent,
     BotConfigInputComponent,
@@ -196,8 +204,9 @@ import { FaqBotBasicInfoFormComponent } from './core/buildbot/build-code-based-b
     BuildbotWrapperComponent,
     ListIfNotInThisListPipe,
     ConvertToUniqueArrayPipe,
-    FaqBotBasicInfoFormComponent 
-  ]
+    FaqBotBasicInfoFormComponent
+  ],
+  providers: [ConstantsService, PermissionService, BotConfigService]
 })
 export class SharedModule {
 

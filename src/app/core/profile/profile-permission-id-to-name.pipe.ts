@@ -24,6 +24,7 @@ export class ProfilePermissionIdToNamePipe implements PipeTransform {
         });
       }
       return permissionIds.map((permissionId) => {
+
         const matchedPermissionObject = masterPermissions.find((permission) => permissionId === permission.id);
         return matchedPermissionObject ? matchedPermissionObject.name : `${permissionId}:not_in_backend`;
       });

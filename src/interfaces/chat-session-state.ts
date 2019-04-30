@@ -32,6 +32,7 @@ export interface IRoomData {
   consumerDetails?: IConsumerDetails;
   bot_id?: number;
   bot_access_token?: string;
+  bot?:IBot;
   'messageList': IMessageData[];
   uid?: string;
   'selectedAvatar'?: {

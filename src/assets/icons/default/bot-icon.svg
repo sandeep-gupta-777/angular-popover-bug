@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="72px" height="72px" viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>9F0712BD-E7ED-46AB-8259-D6BDEE2BA1BD</title>
+    <desc>Created with sketchtool.</desc>
+    <g id="Bot-creation" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Create-page-1" transform="translate(-564.000000, -611.000000)">
+            <g id="Group-19" transform="translate(564.000000, 579.000000)">
+                <g id="Group-18" transform="translate(0.000000, 32.000000)">
+                    <g id="botIcon">
+                        <g>
+                            <circle id="Oval" fill="#2B4F70" fill-rule="nonzero" cx="36" cy="36" r="36"></circle>
+                            <g id="Group-24" transform="translate(10.000000, 11.000000)" fill-rule="nonzero">
+                                <rect id="Rectangle" fill="#CBCBCB" x="0" y="21" width="6" height="13" rx="3"></rect>
+                                <rect id="Rectangle-Copy-3" fill="#CBCBCB" x="46" y="21" width="6" height="13" rx="3"></rect>
+                                <path d="M26,43.8536867 C38.5655556,43.8536867 49,43.7025492 49,31 C49,18.2974508 38.7025492,8 26,8 C13.2974508,8 3,18.2974508 3,31 C3,43.7025492 13.4344444,43.8536867 26,43.8536867 Z" id="Oval" fill="#FFFFFF"></path>
+                                <path d="M14,19 L38,19 C40.209139,19 42,20.790861 42,23 C42,27.999018 42,32.9980359 42,37.9970539 C40.985551,37.9882831 39.9260904,35.3537348 37.2640185,35.3537348 C29.5093456,35.3537348 21.7546728,35.3537348 14,35.3537348 L14,35.3537348 C11.790861,35.3537348 10,33.5628738 10,31.3537348 L10,23 C10,20.790861 11.790861,19 14,19 Z" id="Rectangle" fill="#00ABD3"></path>
+                                <rect id="Rectangle" fill="#FFFFFF" x="19" y="26" width="3" height="3" rx="1.5"></rect>
+                                <rect id="Rectangle-Copy-2" fill="#FFFFFF" x="30" y="26" width="3" height="3" rx="1.5"></rect>
+                                <path d="M27,5.82929429 L27,15 L25,15 L25,5.82929429 C23.8348076,5.41745788 23,4.30621883 23,3 C23,1.34314575 24.3431458,0 26,0 C27.6568542,0 29,1.34314575 29,3 C29,4.30621883 28.1651924,5.41745788 27,5.82929429 Z" id="Rectangle-5" fill="#FFFFFF"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

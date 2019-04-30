@@ -9,9 +9,10 @@ import {ConstantsService} from '../../constants.service';
 import {ActivatedRoute, Route, Router} from '@angular/router';
 import {EBotType, UtilityService} from '../../utility.service';
 import {AddNewBotInAllBotList, SetAllBotListAction} from '../view-bots/ngxs/view-bot.action';
-import {LoggingService} from '../../logging.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {BotConfigService} from './build-code-based-bot/bot-config/bot-config.service';
+import {CODE_BASED_DEFAULT_ICON, PIPELINE_DEFAULT_ICON} from "../../asset.service";
+
 import {MatDialog} from '@angular/material';
 import { SideBarService } from 'src/app/side-bar.service';
 @Component({
@@ -60,10 +61,10 @@ export class BuildbotWrapperComponent implements OnInit {
     {name: 'imageExnError', description: 'Invalid Extension'},
     {name: 'imageHttpsError', description: 'Only Https urls allowed'}];
 
-  stageValidObj:object = {
-    0:false,
-    1:false,
-    2:false
+  stageValidObj: object = {
+    0: false,
+    1: false,
+    2: false,
   };
 
   myObject = Object;
@@ -90,9 +91,8 @@ export class BuildbotWrapperComponent implements OnInit {
     this.securityForm.valueChanges.subscribe(()=>this.stageValidObj[2] = this.securityForm.valid);
     this.faqbotBuildForm.valueChanges.subscribe(()=>this.stageValidObj[0] = this.faqbotBuildForm.valid);
 
-    this.bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type') || this.bot_type;
-    if(this.bot_type === EBotType.intelligent){
-      this.stageValidObj = {0:false};
+    if (this.bot_type === EBotType.intelligent) {
+      this.stageValidObj = {0: false};
     }
     if(this.bot_type === EBotType.faqbot){      
       this.stageValidObj = {0:this.faqbotBuildForm.valid};
@@ -122,7 +122,7 @@ export class BuildbotWrapperComponent implements OnInit {
         });
         this.utilityService.showSuccessToaster('Bot Created');
         this.loading = false;
-      },()=>{
+      }, () => {
         this.loading = false;
       });
   }
@@ -160,21 +160,21 @@ export class BuildbotWrapperComponent implements OnInit {
   }
 
   nextStep(activeTab: number) {
-    if (activeTab > Object.keys(this.stageValidObj).length-1) {
-      let invalidIndex = Object.keys(this.stageValidObj).findIndex((key)=>!this.stageValidObj[key]);
-      if(invalidIndex === -1){
+    if (activeTab > Object.keys(this.stageValidObj).length - 1) {
+      let invalidIndex = Object.keys(this.stageValidObj).findIndex((key) => !this.stageValidObj[key]);
+      if (invalidIndex === -1) {
         this.createBot();
-      }else {
+      } else {
         this.activeTab = invalidIndex;
       }
-    }else {
+    } else {
       this.activeTab = activeTab;
     }
   }
 
-  enterKeyHandler(){
-    if(this.stageValidObj[this.activeTab]){
-      this.nextStep(this.activeTab+1);
+  enterKeyHandler() {
+    if (this.stageValidObj[this.activeTab]) {
+      this.nextStep(this.activeTab + 1);
     }
   }
 
@@ -182,7 +182,7 @@ export class BuildbotWrapperComponent implements OnInit {
     // console.log(this.basicInfoForm.untouched , this.dataManagementForm.untouched , this.securityForm.untouched);
     if(this.loading) return;
     console.log(SideBarService.buildbotWrapperComponent);
-    debugger;
+
     console.log(SideBarService.buildbotData_init);
     if(SideBarService.isBuildBotDirty()){
       this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
@@ -191,7 +191,7 @@ export class BuildbotWrapperComponent implements OnInit {
           this.router.navigate(['/']);
         }
       })
-      
+
     }
     else{
       this.router.navigate(['/']);

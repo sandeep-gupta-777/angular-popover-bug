@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 import {IOverviewInfoResponse} from '../../../../interfaces/Analytics2/overview-info';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
-import {EAllActions} from '../../../constants.service';
+import {EAllActions} from "../../../typings/enum";
 
 @Component({
   selector: 'app-pipeline-based-bot-detail',

@@ -1,22 +1,26 @@
 
 <div class="row-bot-detail-header d-flex align-items-center">
-  <div class="row-bot-detail-header__back" (click)="goBackToDashboard()" style="text-decoration: none; padding: 0px 8px 0px 16px">
+  <div class="row-bot-detail-header__back"
+     style="text-decoration: none; padding: 0px 8px 0px 16px"
+     (click)="goBackToDashboard()">
     <i class="fa fa-angle-left" title="Go to Dashboard"></i>
-  </div>
+</div>
   <img class="row-bot-detail-header__bot-logo" style="margin:0 8px" [src]="bot.logo" alt="B">
   <div class="row-bot-detail-header__bot-details">
-    <div [title]="bot.name" style="display: flex">
-      {{(bot.name| slice:0: 50) + (bot.name.length>50?"...":"")}}
+    <div
+      [title]="bot.name.length>90?bot.name:''"
+      style="display: flex">
+      {{(bot.name| slice:0: 90) + (bot.name.length>90?"...":"")}}
       <i class="fa fa-circle dark-green" style="margin-left: 2px; font-size: 6px"></i>
     </div>
     <div style="font-size: 11px">
-      <span>Last Update By </span>{{bot.updated_by}} on {{bot.updated_at|date}}
+      <span>Update on </span>  {{bot.updated_at|date: 'd MMM, yy'}} by {{bot.updated_by}}
     </div>
   </div>
   <!--<i class="fa fa-users" *ngIf="bot && bot.is_manager" style="font-size: 16px"></i>-->
   <!--<div class="d-flex align-items-center">-->
     <!--<i class="fa fa-circle dark-green"></i>-->
-    <!--<div>Active(v{{bot.active_version.version}})</div>-->
+    <!--<div>Active(v{{bot.active_version.Versions}})</div>-->
   <!--</div>-->
   <!--<div class="text-theme-normal mr-3 d-none d-md-block">-->
     <!--<span class="text-muted">Created by :</span>{{bot.created_by}} <span class="text-muted">on</span>{{bot.created_at|date}}-->
@@ -25,7 +29,9 @@
     <!--<span class="text-muted">Last Updated By :</span>{{bot.updated_by}} <span class="text-muted">on</span>{{bot.updated_at|date}}-->
   <!--</div>-->
   <div class="ml-auto"></div>
-  <app-integration-channel-list [bot]="bot" style="margin-right: 10px"></app-integration-channel-list>
+  <app-integration-channel-list
+          *ngIf="bot.bot_type === myEBotType.chatbot"
+          [bot]="bot" style="margin-right: 10px"></app-integration-channel-list>
 
   <!--<span *myIf="myEAllActions['Get Integrations']">-->
     <!--<img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async))"-->
@@ -47,12 +53,15 @@
       <!--<i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>-->
       <!--<span class="action">Preview</span>-->
     <!--</div>-->
-    <button (click)="openAnalyticsForBot()" class="mat-theme-button mat-theme-button-border" mat-button>
+    <ng-container *myIf="[myEAllActions['Analytics']]">
+      <button *ngIf="bot.bot_type === myEBotType.chatbot" (click)="openAnalyticsForBot()"
+              class="mat-theme-button mat-theme-button-border" mat-button>
         <mat-icon>trending_up</mat-icon>
-      Analytics
-    </button>
+        Analytics
+      </button>
+    </ng-container>
     <button class="mat-theme-button mat-theme-button-border"
-            (click)="openBot()" *ngIf="bot.bot_type != 'intelligent'"
+            (click)="previewBot()" *ngIf="bot.bot_type === 'chatbot'"
             mat-button>
         <mat-icon>chat_bubble_outline</mat-icon>
       Preview
@@ -74,9 +83,36 @@
   <mat-menu class="cutom-md-menu" #appMenu="matMenu">
     <button mat-menu-item (click)="utilityService.copyToClipboard(bot.bot_access_token)"><i class="fa fa-copy mr-1"></i>Copy Access Token</button>
     <button mat-menu-item (click)="utilityService.copyToClipboard(bot.enterprise_id)"><i class="fa fa-copy mr-1"></i>Copy Enterprise ID</button>
-    <button mat-menu-item *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]" (click)="openDeleteModal()"><i class="fa fa-trash mr-1"></i>Delete</button>
+    <button mat-menu-item
+            *myIf="[myEAllActions['Delete Bots']]"
+            (click)="openDeleteModal()"><i class="fa fa-trash mr-1"></i>Delete</button>
   </mat-menu>
 </div>
+
+
+<ng-template #template>
+  <div class="danger-modal center-modal">
+    <div class="top-dec"></div>
+    <div class="modal-header">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete bot&nbsp;{{ bot.name}}&nbsp;
+        ?</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body pt-0">
+      <form #form="ngForm">
+        <div class="text-center my-1">
+          <p class="mb-3">This action cannot be undone. Are you sure you wish to delete?</p>
+
+        </div>
+        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
+        <button class=" btn-theme btn-theme-danger" (click)="deleteBot()">Delete</button>
+      </form>
+    </div>
+  </div>
+</ng-template>
 
 
 <ng-template #activeVersionChangedTemplate>

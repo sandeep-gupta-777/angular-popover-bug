@@ -2,9 +2,7 @@ import {Injectable, isDevMode} from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class IsDevModeGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,

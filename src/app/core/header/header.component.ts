@@ -7,7 +7,7 @@ import { ResetAppState, ResetStoreToDefault } from '../../ngxs/app.action';
 import { ResetChatState } from '../../chat/ngxs/chat.action';
 import { ResetBotListAction, SetAllBotListAction } from '../view-bots/ngxs/view-bot.action';
 import { ResetAuthToDefaultState, SetUser } from '../../auth/ngxs/auth.action';
-import { ConstantsService, EAllActions } from '../../constants.service';
+import { ConstantsService,  } from '../../constants.service';
 import { ServerService } from '../../server.service';
 import { ResetEnterpriseUsersAction, SetEnterpriseInfoAction } from '../enterpriseprofile/ngxs/enterpriseprofile.action';
 import { ResetBuildBotToDefault } from '../buildbot/ngxs/buildbot.action';
@@ -21,6 +21,7 @@ import { IBotResult } from '../interfaces/IBot';
 import { IAuthState } from '../../auth/ngxs/auth.state';
 import { ModalImplementer } from 'src/app/modal-implementer';
 import { MatDialog } from '@angular/material';
+import {EAllActions} from "../../typings/enum";
 
 @Component({
   selector: 'app-header',
@@ -69,7 +70,6 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
 
     this.serverService.makeGetReq({ url: getAllEnterpriseUrl })
       .subscribe((value: any) => {
-
         this.enterpriseList = value.enterprises;
         // console.log("sadasdasdsad");
         // console.log(this.enterpriseList);
@@ -170,7 +170,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
 
         this.enterpriseList = value.enterprises;
         // console.log("sadasdasdsad");
-        console.log(this.enterpriseList);
+        // console.log(this.enterpriseList);
         // this.modalRef = this.modalService.show(template, { class: 'modal-lg' })
         this.openPrimaryModal(template);
       });
@@ -196,15 +196,16 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
 
         this.store.dispatch([
           new SetUser({ user: value }),
+          new SetAllBotListAction({ botList: [] })
         ]).subscribe((user) => {
+            this.router.navigate(['/']);
+            location.reload();
           // const url = this.constantsService.getBotListUrl();
           // const headerData: IHeaderData = { 'content-type': 'application/json' };
           // return this.serverService.makeGetReq<IBotResult>({ url, headerData })
           //   .subscribe((botResult) => {
           //     this.store.dispatch(new SetAllBotListAction({ botList: botResult.objects }))
           //       .subscribe(async () => {
-                      this.router.navigate(['/']);
-                      location.reload();
                   // const enterpriseProfileUrl = this.constantsService.getEnterpriseUrl(Enterprise.enterpriseId);
                   // this.serverService.makeGetReq<IEnterpriseProfileInfo>({ url: enterpriseProfileUrl })
                   //   .subscribe((value: IEnterpriseProfileInfo) => {

@@ -39,7 +39,7 @@ export class ChatListComponent implements OnInit {
       // this.bot_id = chatSessionState.currentBotDetails && chatSessionState.currentBotDetails.roomId;
       // if (!this.bot_id) return;
       // this.botlist$.subscribe((value) => {
-      //   this.currentBot = value.allBotList.find(value => value.roomId === this.bot_id);
+      //   this.bot = value.allBotList.find(value => value.roomId === this.bot_id);
       // });
     });
   }

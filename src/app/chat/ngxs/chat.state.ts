@@ -16,7 +16,7 @@ import {
   SetLastTemplateKeyToRoomByRoomId, SetConsumerDetail, ChangeBotIsThinkingDisplayByRoomId, UpdateBotMessage
 } from './chat.action';
 import {EChatFrame, IChatSessionState, IRoomData} from '../../../interfaces/chat-session-state';
-import {UtilityService} from '../../utility.service';
+import {MyToasterService} from "../../my-toaster.service";
 
 export const defaultChatState: IChatSessionState = {
   frameEnabled: EChatFrame.WELCOME_BOX,
@@ -46,7 +46,7 @@ export interface IConsumerDetails {
 export class ChatSessionStateReducer {
 
   constructor(private constantsService: ConstantsService,
-              private utilityService: UtilityService) {
+              private myToasterService: MyToasterService) {
   }
 
   @Action(ToggleChatWindow)
@@ -131,7 +131,7 @@ export class ChatSessionStateReducer {
     if (!doesRoomAlreadyExist_index || doesRoomAlreadyExist_index === -1) {
       state.rooms.push(room);
     } else {
-      this.utilityService.showErrorToaster(`Room with room id ${payload.id} already exists`);
+      this.myToasterService.showErrorToaster(`Room with room id ${payload.id} already exists`);
     }
   }
 
@@ -164,7 +164,7 @@ export class ChatSessionStateReducer {
       const consumer_id = payload.consumer_id;
       room = (rooms && (rooms.find((room) => room.consumer_id === consumer_id)));
       if (room) {
-        this.utilityService.showSuccessToaster('Previous session expired. New session created');
+        this.myToasterService.showSuccessToaster('Previous session expired. New session created');
         room.id = payload.id;
         dispatch([
           new SetCurrentRoomID({id: room.id})
@@ -214,7 +214,7 @@ export class ChatSessionStateReducer {
     /*
     * As of now there can be only one current bot in the application.
     * The moment a new current bot is selected (via preview), all info of previous current bot is deleted
-    * This means if a bot is deleted, and if that bot is also "currentBot", we can just reset the whole state
+    * This means if a bot is deleted, and if that bot is also "bot", we can just reset the whole state
     * */
     if (botId === state.currentBotDetails.id) {
       dispatch([new ResetChatState()]);

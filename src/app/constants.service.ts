@@ -8,95 +8,13 @@ import { IIntegrationOption } from '../interfaces/integration-option';
 import { IAuthState } from './auth/ngxs/auth.state';
 import { ITableColumn } from '../interfaces/sessions';
 import {environment} from '../environments/environment';
+import {EAllActions} from "./typings/enum";
 
 declare var Handsontable: any;
 
-
-export enum EAPINames {
-  integration_master = 'api/v1/integrations/',
-  enterprise = 'enterprise/',
-}
-
-
-export enum ERoleName {
-  Admin = 'Admin',
-  'Bot Developer' = 'Bot Developer',
-  Analyst = 'Analyst',
-  Tester = 'Tester',
-}
-
-export enum EAllActions {
-  'Get Bots' = 'Get Bots',
-  'Create Bots' = 'Create Bots',
-  'Update Bots' = 'Update Bots',
-  'Delete Bots' = 'Delete Bots',
-  'Get Bots Anonymous' = 'Get Bots Anonymous',
-  'Get Enterprise Knowledge base' = 'Get Enterprise Knowledge base', //Get Enterprise Knowledge base
-  'Create Enterprise Knowledge base' = 'Create Enterprise Knowledge base',
-  'Update Enterprise Knowledge base' = 'Update Enterprise Knowledge base',
-  'Delete Enterprise Knowledge base' = 'Delete Enterprise Knowledge base',
-  'Create Bot Versioning' = 'Create Bot Versioning',
-  'GET Bot Versioning' = 'GET Bot Versioning',
-  'Update Bot Versioning' = 'Update Bot Versioning',
-  'Delete Bot Versioning' = 'Delete Bot Versioning',
-  'Create Role' = 'Create Role',
-  'Get Role' = 'Get Role',
-  'Update Role' = 'Update Role',
-  'Delete Role' = 'Delete Role',
-  'Create User' = 'Create User',
-  'Get User' = 'Get User',
-  'Update User' = 'Update User',
-  'Get Consumers' = 'Get Consumers',
-  'Get Sessions' = 'Get Sessions',
-  'Analytics' = 'Analytics',
-  'Get Bot Testcases' = 'Get Bot Testcases',
-  'Create Bot Testcases' = 'Create Bot Testcases',
-  'Update Bot Testcases' = 'Update Bot Testcases',
-  'Delete Bot Testcases' = 'Delete Bot Testcases',
-  'Get Integrations' = 'Get Integrations',
-  'Get Pipeline Module' = 'Get Pipeline Module',
-  'Create Reports' = 'Create Reports',
-  'Get Reports' = 'Get Reports',
-  'Update Reports' = 'Update Reports',
-  'Delete Reports' = 'Delete Reports',
-  'Get Report History' = 'Get Report History',
-  'Get Enterprise' = 'Get Enterprise',
-  'Update Enterprise' = 'Update Enterprise',
-  'Delete User' = 'Delete User',
-  'Get Report Types' = 'Get Report Types',
-  'Send API' = 'Send API',
-  'Get Messages' = 'Get Messages',
-  'Get Actions' = 'Get Actions',
-  'Close Room' = 'Close Room',
-  'agent_close' = 'agent_close',
-  'Anonymize Conversation' = 'Anonymize Conversation',
-  'Post dfRules Debug' = 'Post dfRules Debug',
-  'Post genRules Debug' = 'Post genRules Debug',
-  'Post genTemplate Debug' = 'Post genTemplate Debug',
-  'Post Workflow Debug' = 'Post Workflow Debug',
-  'Workflow Webhook' = 'Workflow Webhook',
-  'Facebook Webhook' = 'Facebook Webhook',
-  'Backward Compatible Message API' = 'Backward Compatible Message API',
-  'Intelligence API Webhook' = 'Intelligence API Webhook',
-  'Delete Consumer' = 'Delete Consumer',
-  'Create Decrypt Audit' = 'Create Decrypt Audit',
-  'erase consumer' = 'erase consumer',
-  'Exec Reports' = 'Exec Reports',
-  'Download Reports' = 'Download Reports',
-  'Skype API' = 'Skype API',
-  'Update Password' = 'Update Password',
-  'Get Bot Knowledge base' = 'Get Bot Knowledge base',
-  'Create Bot Knowledge base' = 'Create Bot Knowledge base',
-  'Update Bot Knowledge base' = 'Update Bot Knowledge base',
-  'Delete Bot Knowledge base' = 'Delete Bot Knowledge base',
-  'ModuleDetail' = 'ModuleDetail'
-}
-
 export const ERouteNames = EAllActions;
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ConstantsService {
 
   forbiddenPermsDynamic: { id?: string, name?: number };
@@ -104,13 +22,15 @@ export class ConstantsService {
   allowedPermissionIdsToCurrentRole: number[];
 
   constructor() {
+    console.log("environment=>>>", environment);
     this.app$.subscribe((appState) => {
       if (!appState) {
         return;
       }
 
       this.appState = appState;
-      this.BACKEND_URL = (appState && appState.backendUrlRoot);
+      /*TODO: uncomment this*/
+      // this.BACKEND_URL = (appState && appState.backendUrlRoot);
     });
     this.loggeduser$.subscribe((loggedUser: IAuthState) => {
       if (loggedUser && loggedUser.user) {
@@ -402,7 +322,7 @@ export class ConstantsService {
   }
 
   getReportHistoryUrl(limit = 1, offset = 10, order_by) {
-    return this.BACKEND_URL + `api/v1/reporthistory?limit=${limit}&offset=${offset}&order_by=-created_at`;; //https://dev.imibot.ai/reporthistory?limit=1&offset=10
+    return this.BACKEND_URL + `api/v1/reporthistory/?limit=${limit}&offset=${offset}&order_by=-created_at`;; //https://dev.imibot.ai/reporthistory?limit=1&offset=10
   }
 
   getReportDeleteUrl(report_id: number) {
@@ -435,10 +355,12 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/botversioning/?limit=1000'; //"http://localhost:8000/api/v1/botversioning"
   }
 
+  getSaveVersionByVersionId(id) {
+    return this.BACKEND_URL + `api/v1/botversioning/${id}/`; //https://dev.imibot.ai/api/v1/botversioning/9/
+  }
   getSaveVersionByBotId(id) {
     return this.BACKEND_URL + `api/v1/botversioning/${id}/`; //https://dev.imibot.ai/api/v1/botversioning/9/
   }
-
   getCreateNewVersionByBotId(id) {
     return this.BACKEND_URL + `api/v1/botversioning/`; //https://dev.imibot.ai/api/v1/botversioning/9/
   }
@@ -507,7 +429,7 @@ export class ConstantsService {
   }
 
   getCustomBotNER(limit, offset) {
-    return this.BACKEND_URL + `api/v1/customner/?limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/api/v1/customner/
+    return this.BACKEND_URL + `api/v1/customner/?limit=${limit}&offset=${offset}&order_by=-updated_at`; //https://dev.imibot.ai/api/v1/customner/
   }
 
   updateOrDeleteCustomBotNER(custom_ner_id) {
@@ -649,7 +571,14 @@ export class ConstantsService {
   ];
 
   readonly SMART_TABLE_REPORT_TABLE_DATA_META_DICT_TEMPLATE = {
-
+    isactive: {
+      originalKey: 'isactive',
+      value: '',
+      type: 'string',
+      displayValue: 'Active',
+      search: true,
+      searchValue: true,
+    },
     bot: {
       originalKey: 'bot',
       value: '',
@@ -675,31 +604,24 @@ export class ConstantsService {
       search: true,
       searchValue: true,
     },
-    last_jobId: {
-      originalKey: 'last_jobId',
+    lastreportgenerated: {
+      originalKey: 'lastreportgenerated',
       value: '',
-      type: 'string',
-      displayValue: 'Last job run',
-      search: true,
-      searchValue: true,
+      type: 'time',
+      displayValue: 'Last report generated',
+      search: false,
+      searchValue: "",
+      dateRange: true
     },
     nextreportgenerated: {
       originalKey: 'nextreportgenerated',
       value: '',
-      type: 'string',
+      type: 'time',
       displayValue: 'Next scheduled date',
       search: false,
       searchValue: "",
       dateRange: true
     },
-    isactive: {
-      originalKey: 'isactive',
-      value: '',
-      type: 'boolean',
-      displayValue: 'Active',
-      search: true,
-      searchValue: true,
-    }
   };
   readonly SMART_TABLE_REPORT_HISTORY_TABLE_DATA_META_DICT_TEMPLATE = {
 
@@ -741,49 +663,6 @@ export class ConstantsService {
     },
 
   };
-
-
-  readonly HIGHCHART_CHARTVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE = {
-    chart: {
-      type: 'column'
-    },
-    title: {
-      text: 'Session Handling'
-    },
-    xAxis: {
-      type: 'datetime'
-    },
-    yAxis: {
-      min: 0,
-      title: {
-        text: 'Percentage'
-      }
-    },
-    tooltip: {
-      pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
-      shared: true
-    },
-    plotOptions: {
-      column: {
-        stacking: 'percent'
-      },
-
-      series: {
-        pointStart: Date.UTC(2018, 6, 20),
-        pointInterval: 24 * 3600 * 1000
-      }
-    }
-  };
-
-  readonly HIGHCHART_THEMEVALUE_ANALYTICS_USER_LOYALTY = {
-    chart: {
-      style: {
-        fontFamily: 'helvetica'
-      }
-    },
-    colors: ['#5392ff', '#71cddd', '#34bc6e', '#95d13c', '#ffb000', '#fe8500', '#ff509e', '#9b82f3']
-  };
-
   readonly HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_SESSION_WISE = {
     chart: {
       style: {
@@ -792,40 +671,6 @@ export class ConstantsService {
     },
     colors: ['#5392ff', '#71cddd', '#34bc6e', '#95d13c', '#ffb000', '#fe8500', '#ff509e', '#9b82f3']
   };
-
-  readonly HIGHCHART_CHARTVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED = {
-    chart: {
-      type: 'column'
-    },
-    title: {
-      text: ''
-    },
-    xAxis: {
-      categories: ['Flow 1', 'Flow 2', 'Flow 3', 'Flow 4', 'Flow 5']
-    },
-    yAxis: {
-      min: 0,
-      title: {
-        text: ''
-      },
-      stackLabels: {
-        enabled: false,
-        style: {
-          fontWeight: 'bold',
-          color: 'gray'
-        }
-      }
-    },
-    tooltip: {
-      headerFormat: '<b>{point.x}</b><br/>'
-    },
-    plotOptions: {
-      column: {
-        stacking: 'normal'
-      }
-    }
-  };
-
   readonly HIGHCHART_THEMEVALUE_ANALYTICS_PERFORMANCE_TEMPLATE_KEY_AND_FLOW_TRIGGERED = {
     chart: {
       style: {
@@ -834,136 +679,12 @@ export class ConstantsService {
     },
     colors: ['#5392ff', '#71cddd', '#34bc6e', '#95d13c', '#ffb000', '#fe8500', '#ff509e', '#9b82f3']
   };
-
-  readonly HIGHCHART_CHARTVALUE_ANALYTICS_ENGAGEMENT = {
-
-    title: {
-      text: ''
-    },
-
-    subtitle: {
-      text: ''
-    },
-    // xAxis: {
-    //   type: 'datetime'
-    // },
-
-    yAxis: {
-      title: {
-        text: '',
-        rotation: -90,
-        margin: 10,
-        style: {
-          fontWeight: 'bold'
-        }
-      }
-    },
-    legend: {
-      layout: 'horizontal',
-      align: 'right',
-      verticalAlign: 'bottom'
-    },
-    tooltip: {
-      shared: true
-    },
-
-    // plotOptions: {
-    //   series: {
-    //     pointStart: Date.UTC(2018, 6, 20),
-    //     pointInterval: 24 * 3600 * 1000, // one day
-    //     marker: {
-    //       symbol: 'circle',
-    //       /* fillColor: '#ffffff' , */
-    //       lineWidth: 0,
-    //       radius: 4,
-    //       lineColor: null, // inherit from series
-    //     },
-    //     lineWidth: 3,
-    //     label: {
-    //       enabled: false,
-    //       style: {
-    //         fontFamily: 'sans-serif',
-    //         fontWeight: 'regular',
-    //         fontSize: 11
-    //       }
-    //     }
-    //   }
-    // },
-    // responsive: {
-    //   rules: [{
-    //     condition: {
-    //       maxWidth: 1200
-    //     },
-    //     chartOptions: {
-    //       legend: {
-    //         layout: 'horizontal',
-    //         align: 'center',
-    //         verticalAlign: 'bottom'
-    //       }
-    //     }
-    //   }]
-    // }
-
-  };
-  readonly HIGHCHART_CHARTVALUE_USER_LOYALTY = {
-    chart: {
-      type: 'column'
-    },
-    title: {
-      text: 'Stacked column chart'
-    },
-    xAxis: {
-      categories: ['Apples1', 'Oranges', 'Pears', 'Grapes', 'Bananas']
-    },
-    yAxis: {
-      min: 0,
-      title: {
-        text: 'Total fruit consumption'
-      },
-      stackLabels: {
-        enabled: true,
-        style: {
-          fontWeight: 'bold',
-          color: 'gray'
-        }
-      }
-    },
-    legend: {
-      align: 'right',
-      x: -30,
-      verticalAlign: 'top',
-      y: 25,
-      floating: true,
-      backgroundColor: 'white',
-      borderColor: '#CCC',
-      borderWidth: 1,
-      shadow: false
-    },
-    tooltip: {
-      headerFormat: '<b>{point.x}</b><br/>',
-      pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
-    },
-    plotOptions: {
-      column: {
-        stacking: 'normal',
-        dataLabels: {
-          enabled: true,
-          color: 'white'
-        }
-      }
-    },
-    series: [{
-      name: 'John',
-      data: [5, 3, 4, 7, 2]
-    }]
-  };
-
   SMART_TABLE_ENTERPRISE_NER_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
     key: {
       originalKey: 'key',
       value: '',
       type: 'string',
-      displayValue: 'Concept Key',
+      displayValue: 'Concept name',
       search: true,
       searchValue: true,
     },
@@ -971,9 +692,18 @@ export class ConstantsService {
       originalKey: 'ner_type',
       value: '',
       type: 'string',
-      displayValue: 'Type',
+      displayValue: 'Concept type',
       search: true,
       searchValue: true,
+    },
+    updated_at: {
+      originalKey: 'updated_at',
+      value: '',
+      type: 'time',
+      displayValue: 'Last Update',
+      search: false,
+      searchValue: true,
+      dateRange: true
     },
 
   };
@@ -983,7 +713,7 @@ export class ConstantsService {
       originalKey: 'key',
       value: '',
       type: 'string',
-      displayValue: 'Concept Key',
+      displayValue: 'Concept name',
       search: true,
       searchValue: true,
     },
@@ -991,7 +721,7 @@ export class ConstantsService {
       originalKey: 'ner_type',
       value: '',
       type: 'string',
-      displayValue: 'Type',
+      displayValue: 'Concept type',
       search: true,
       searchValue: true,
     },
@@ -999,7 +729,7 @@ export class ConstantsService {
       originalKey: 'conflict_policy',
       value: '',
       type: 'string',
-      displayValue: 'Override Policy',
+      displayValue: 'Override policy',
       search: true,
       searchValue: true,
     },
@@ -1026,18 +756,18 @@ export class ConstantsService {
       searchValue: true,
     },
     id: {
-      originalKey: '',
+      originalKey: 'id',
       value: '',
       type: 'number',
-      displayValue: 'Room Id',
+      displayValue: 'ID',
       search: false,//true,
       searchValue: true,
     },
     consumer_id: {
-      originalKey: '',
+      originalKey: 'consumer_id',
       value: '',
       type: 'number',
-      displayValue: 'Consumer roomId',
+      displayValue: 'Consumer ID',
       search: false,//true,
       searchValue: true,
     },
@@ -1069,8 +799,8 @@ export class ConstantsService {
     room_metadata: {
       originalKey: '',
       value: undefined,
-      type: 'icon',
-      displayValue: 'Room Metadata',
+      type: 'mat-icon',
+      displayValue: 'Metadata',
       custom: true,
       name: '',
       search: false,
@@ -1319,7 +1049,7 @@ export class ConstantsService {
     actions: {
       originalKey: '',
       value: undefined,
-      type: 'icon',
+      type: 'mat-icon',
       displayValue: 'Actions',
       custom: true,
       name: '',

@@ -1,6 +1,5 @@
 import {Directive, ElementRef, Input} from '@angular/core';
-import {UtilityService} from './utility.service';
-import {ConstantsService, EAllActions} from './constants.service';
+import {ConstantsService, } from './constants.service';
 import {PermissionService} from './permission.service';
 
 @Directive({
@@ -14,7 +13,7 @@ export class HighlightDirective {
   ) {}
 
   @Input() set readonlyselectedroles(tabNameInfo: any/*EAllActions|EAllActions[]*/) {/*tabNameInfo can be one tabname string or array of tabname strings*/
-    
+
     if (!tabNameInfo) { console.error('tabNameInfo is null or undefined'); }
     let isDenied = true;
 

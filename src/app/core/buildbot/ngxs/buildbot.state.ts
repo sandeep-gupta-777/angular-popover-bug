@@ -18,8 +18,6 @@ import {
   SavePipeLineInfo, SaveNewBotInfo_PipelineBased, ResetBuildBotToDefault,
 } from './buildbot.action';
 import {ConstantsService} from '../../../constants.service';
-import {buildPath} from 'selenium-webdriver/http';
-import {IPipelineItem} from '../../../../interfaces/ai-module';
 import {IBot, IBotCreation} from '../../interfaces/IBot';
 import {EFormValidationErrors} from '../../../utility.service';
 

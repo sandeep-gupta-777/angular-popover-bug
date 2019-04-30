@@ -35,6 +35,13 @@
         }
       }
     }
+    ul{
+      //margin: 0;
+      padding: 0;
+      li{
+        //padding: 0;
+      }
+    }
 
     .refine-results__channel {
       ul {
@@ -124,4 +131,30 @@ app-splash-screen {
   bottom: 0;
   top: 0;
   z-index: -1
+}
+
+::ng-deep{
+  table{
+    mat-icon{
+      line-height: 2 !important;
+      font-size: 150%!important;
+      //color: red;
+    }
+    [name="headset-mic"]{
+      color: #407ab1;
+    }
+
+    [name="error_outline"]{
+      color: #f2a72c;
+    }
+    //[name="thumb_up"]{
+      //color: black;
+    //}
+    [name="thumb_down"]{
+      color: #ce606e;
+    }
+    [name="lock_open"]{
+      color: #00abd3;
+    }
+  }
 }

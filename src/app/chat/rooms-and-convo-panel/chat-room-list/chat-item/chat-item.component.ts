@@ -4,6 +4,7 @@ import {Select, Store} from '@ngxs/store';
 import {EChatFrame, IChatSessionState, IRoomData} from '../../../../../interfaces/chat-session-state';
 import {ChangeFrameAction, SetConsumerDetail, SetCurrentBotDetailsAndResetChatStateIfBotMismatch, SetCurrentRoomID, SetCurrentUId} from '../../../ngxs/chat.action';
 import {IConsumerDetails} from '../../../ngxs/chat.state';
+import {IBot} from '../../../../core/interfaces/IBot';
 
 @Component({
   selector: 'app-chat-item',
@@ -15,6 +16,7 @@ export class ChatItemComponent implements OnInit {
   myObject = Object;
   @Input() room: IRoomData;
   @Input() currentUid: string;
+  @Input() bot: IBot;
   @Input() currentRoomId: number;
   showOverlay:boolean;
   @Select() chatsessionstate$: Observable<IChatSessionState>;

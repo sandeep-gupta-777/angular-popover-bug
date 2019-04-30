@@ -162,6 +162,10 @@ export class ChatWrapperComponent implements OnInit {
       }
     });
 
+    EventService.startANewChat$.subscribe((val)=>{
+      this.startNewChat(val);
+    });
+
     this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
       try {
         this.windowOpen = chatSessionState.opened;
@@ -176,20 +180,24 @@ export class ChatWrapperComponent implements OnInit {
 
         this.showBotIsThinking = this.currentRoom && this.currentRoom.showBotIsThinking;
 
-        if (hasPreviewRoomChanged || hasPreviewBotChanged) {
-          this.serverService.initializeIMIConnect(chatSessionState.currentBotDetails, chatSessionState.currentRoomId);
-        }
+
 
         this.currentBot = chatSessionState.currentBotDetails;
         if (this.currentBot) {
           this.enterprise_unique_name = this.currentBot.enterprise_unique_name;
-          this.bot_access_token = this.currentBot.bot_access_token; //this.currentRoom && this.currentRoom.bot_access_token || currentBot.bot_access_token;
+          this.bot_access_token = this.currentBot.bot_access_token; //this.currentRoom && this.currentRoom.bot_access_token || bot.bot_access_token;
           this.chatWindowTitle = chatSessionState.currentBotDetails.name;
         }
+
         if (chatSessionState.currentRoomId) {
           this.currentRoom = chatSessionState.rooms.find((room) => room.id === chatSessionState.currentRoomId);
+          chatSessionState.consumerDetails = this.currentRoom.consumerDetails;
           this.messageData = this.currentRoom && this.currentRoom.messageList;
           this.selectedAvatar = this.currentRoom && this.currentRoom.selectedAvatar;
+        }
+
+        if (hasPreviewRoomChanged || hasPreviewBotChanged) {
+          this.chatService.initializeIMIConnect(chatSessionState.currentBotDetails, chatSessionState.currentRoomId, chatSessionState);
         }
 
         this.frameEnabled = chatSessionState.frameEnabled;
@@ -210,20 +218,20 @@ export class ChatWrapperComponent implements OnInit {
     // window.open(`https://www.google.com`, "_blank");
   }
 
-  createCustomRoom() {
+  createCustomRoom(customConsumerDetails) {
     let doesAtleastOneConsumerKeyHasValue = false;
-    if (!this.customConsumerDetails) {
+    if (!customConsumerDetails) {
       this.utilityService.showErrorToaster('Please set custom Consumer details');
       return;
     }
-    for (const key in this.customConsumerDetails) {
-      doesAtleastOneConsumerKeyHasValue = doesAtleastOneConsumerKeyHasValue || this.customConsumerDetails[key];
+    for (const key in customConsumerDetails) {
+      doesAtleastOneConsumerKeyHasValue = doesAtleastOneConsumerKeyHasValue || customConsumerDetails[key];
     }
     if (!doesAtleastOneConsumerKeyHasValue) {
       this.utilityService.showErrorToaster('Please set custom Consumer details');
     } else {
       this.startNewChat({
-        consumerDetails: this.customConsumerDetails,
+        consumerDetails: customConsumerDetails,
         bot: this.currentBot,
         isCustomRoom: true
       });
@@ -243,14 +251,14 @@ export class ChatWrapperComponent implements OnInit {
     * 1. Post send api to server with first message=> will get back consent message and room roomId
     * 2. create a new room using room roomId
     * */
-    this.serverService.startANewChatUsingSendApi(startNewChatData)
+    this.chatService.startANewChatUsingSendApi(startNewChatData)
       .subscribe((value: IBotPreviewFirstMessage) => {
 
         /*
         *A new room has been created. Now if the room belongs to IMI Connect bot,
         *initialize IMI Connect integration
         * */
-        this.serverService.initializeIMIConnect(startNewChatData.bot, value.room.id);
+        this.chatService.initializeIMIConnect(startNewChatData.bot, value.room.id, startNewChatData);
         /*1. create a new room with room roomId
          *2. add message to the room: consent message */
         const roomMessages = this.utilityService.serializeServerValueToChatRoomMessages(value);
@@ -261,6 +269,7 @@ export class ChatWrapperComponent implements OnInit {
             consumer_id: value.room.consumer_id,
             consumerDetails: startNewChatData.consumerDetails,
             messageList: roomMessages,
+            bot: this.currentBot,
             bot_access_token: this.currentBot.bot_access_token,
             uid: startNewChatData.consumerDetails.uid, //this.current_uid,
             selectedAvatar: value.room.selected_avatar,
@@ -312,7 +321,7 @@ export class ChatWrapperComponent implements OnInit {
     )
       .subscribe(() => {
         /*
-        * Before starting a new chat, we need to check if the currentBot has imiconnect
+        * Before starting a new chat, we need to check if the bot has imiconnect
         * integration is on or not, its not on=> use send API
         * if its on => use IMI connect
         * */
@@ -321,14 +330,14 @@ export class ChatWrapperComponent implements OnInit {
           const botImiConnectIntegrationInfo = this.currentBot.integrations.fulfillment_provider_details.imiconnect;
           shouldStartChatViaImiConnectSDK = botImiConnectIntegrationInfo &&
             botImiConnectIntegrationInfo.enabled &&
-            (botImiConnectIntegrationInfo.send_via_connect === 'true');
+            (botImiConnectIntegrationInfo.send_via_connect == 'true');
         } catch (e) {
           LoggingService.error(e);
         }
 
         /*========================Creation of chat room using IMI CONNECT===============================*/
         if (shouldStartChatViaImiConnectSDK) {
-          this.serverService.sendHumanMessageViaImiConnect(this.currentRoom, this.currentBot, messageByHuman);
+          this.chatService.sendHumanMessageViaImiConnect(this.currentRoom, this.currentBot, messageByHuman);
           return;
         }
         this.chatService.sendHumanMessageToBotServer(
@@ -361,12 +370,13 @@ export class ChatWrapperComponent implements OnInit {
     ]);
   }
 
-  saveConsumerDetails(value) {
+  saveConsumerDetails(value:IConsumerDetails) {
     this.showOverlay = false;
     this.store.dispatch([new SetConsumerDetail(value)])
       .subscribe(() => {
         this.utilityService.showSuccessToaster('Saved');
-        this.createCustomRoom();
+        debugger;
+        this.createCustomRoom(value);
       });
   }
 
