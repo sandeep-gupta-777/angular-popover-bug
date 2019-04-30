@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {CanActivate, CanActivateChild, CanLoad, Router} from '@angular/router';
 import {AuthGaurdService} from "./auth-gaurd.service";
+import {ENgxsStogareKey} from '../typings/enum';
 
 @Injectable()
 export class ModuleGaurdLoadService implements CanActivate, CanActivateChild, CanLoad {
@@ -10,7 +11,7 @@ export class ModuleGaurdLoadService implements CanActivate, CanActivateChild, Ca
   * */
   doesAuthTokenExists() {
     try {/*TODO: implement it better*/
-      return !!JSON.parse(localStorage.getItem('@@STATE')).loggeduser.user.auth_token;
+      return !!JSON.parse(localStorage.getItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY)).loggeduser.user.auth_token;
     } catch (e) {
       return false;
     }

@@ -16,6 +16,7 @@ import {PermissionService} from "./permission.service";
 import {ConstantsService} from "./constants.service";
 import {AuthModule} from "./auth/auth.module";
 import {BrowserModule} from "@angular/platform-browser";
+import {ENgxsStogareKey} from './typings/enum';
 
 const routes: Route[] = [
   {path: 'dev', loadChildren: './dev/dev.module#DevModule'},
@@ -49,8 +50,8 @@ const routes: Route[] = [
     ]),
     // AuthModule,
 
-    NgxsStoragePluginModule.forRoot(),
-    NgxsReduxDevtoolsPluginModule.forRoot(),//Comment this before pushing to git
+    NgxsStoragePluginModule.forRoot({key: ENgxsStogareKey.IMI_BOT_STORAGE_KEY}),
+    NgxsReduxDevtoolsPluginModule.forRoot({disabled:environment.production}),//Comment this before pushing to git
     // NgxsLoggerPluginModule.forRoot({disabled: true}), //disable for prod mode
 
 

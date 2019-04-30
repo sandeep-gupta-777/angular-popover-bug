@@ -21,7 +21,7 @@ import { IBotResult } from '../interfaces/IBot';
 import { IAuthState } from '../../auth/ngxs/auth.state';
 import { ModalImplementer } from 'src/app/modal-implementer';
 import { MatDialog } from '@angular/material';
-import {EAllActions} from "../../typings/enum";
+import {EAllActions, ENgxsStogareKey} from '../../typings/enum';
 
 @Component({
   selector: 'app-header',
@@ -144,7 +144,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
       return;
     }
 
-    localStorage.clear();
+    localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
     this.bc.postMessage('This is a test message.');
     // this.store.reset({});
     this.url = this.constantsService.getLogoutUrl();
