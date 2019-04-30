@@ -1,5 +1,4 @@
 {
-  "auth_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoidXNlciIsImlkIjoxMDgzNCwidXNlcl9pZCI6NCwiZW50ZXJwcmlzZV9pZCI6NC4wLCJyb2xlX2lkIjoyLjB9.r_ng-kwMaVkcV_HFuYuhqpJhgULpP-v3fl-hv2-QlDQ",
   "created_at": 1510167501000,
   "email": "ayeshreddy.k@imimobile.com",
   "enterprises": [
@@ -22,10 +21,9 @@
   "id": 4,
   "is_active": true,
   "is_superuser": false,
-  "last_login": 1556640802000,
+  "last_login": 1556641801000,
   "last_name": "Parrot",
   "old_id": "5a030675b050705bd0ca59cd",
   "resource_uri": "/api/v1/user/4/",
-  "updated_at": 1556542122000,
-  "user_access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoidXNlciIsImlkIjo0fQ.Q4zn6_iHYH4zc4WL0WUeRAFPCXqwdEzAmxv7KwO35J0"
+  "updated_at": 1556542122000
 }

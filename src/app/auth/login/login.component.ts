@@ -86,7 +86,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   ngOnInit() {
     try {
       /*replace with plateform.roomId*/
-      localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
+      // localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
 
     } catch (e) {
       console.log(e);
@@ -127,6 +127,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
         return this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl});
       }),
       switchMap((value: IEnterpriseProfileInfo) => {
+
         if (value) {
           return this.store.dispatch([
             new SetEnterpriseInfoAction({enterpriseInfo: value})
@@ -144,6 +145,8 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       }),
       switchMap(() => {
         this.flashInfoMessage('Loading your dashboard', 10000);
+        console.dir(localStorage);
+        debugger;
         if (userValue.role.name === ERoleName.Analyst) {
           this.router.navigate(['/core/analytics2/volume']);
         } else {

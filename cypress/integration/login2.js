@@ -2,6 +2,8 @@
 
 describe('Login', function() {
     it('checks if normal login works fine', function() {
-        cy.login_UI();
+        // console.log(cy.fixture('post-login-data.json'));
+        cy.login_localstorage();
+        // cy.reload();
     })
 });
