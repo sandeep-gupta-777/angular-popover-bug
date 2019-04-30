@@ -60,7 +60,7 @@ export class CoreWrapperComponent implements OnInit {
           } else {
             this.progressVal = this.progressVal + 0.2;
           }
-        }, 200);
+        }, 300);
       } else {
         setTimeout(() => {
           this.progressVal = 100;

@@ -76,9 +76,10 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
       });
 
     /*this.app$Subscription = */this.app$.subscribe((app) => {
+
       /*every time this callback runs remove all previous setTimeOuts*/
       const autoLogOutTime = app.autoLogoutTime;
-      if (autoLogOutTime) {
+      if (autoLogOutTime && autoLogOutTime!== Infinity) {
 
         /*If autoLogOutTime hasn't changed, return
         * else clear previous timeouts, and create a new one
@@ -98,10 +99,14 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
           } catch (e) {
             LoggingService.error(e); /*TODO: find out whats wrong with app$Subscription*/
           }
+          console.log(app);
+          console.log(autoLogOutTime);
           LoggingService.log('============================autologout============================');
           this.logout();
           // document.location.reload(); /*To destroy all timeouts just in case*/
         }, (autoLogOutTime-Date.now()));
+        console.log(autoLogOutTime);
+        console.log("new logout time:", (autoLogOutTime-Date.now()));
         // console.log(`next logout time is: ${new Date(autoLogOutTime)}. ${(autoLogOutTime-Date.now())/1000} sec from now`);
       }
     }
@@ -134,6 +139,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   }
 
   logout() {
+    debugger;
     if(!this.userData){/*TODO: ring fancing: BAD*/
       return;
     }

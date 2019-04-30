@@ -307,7 +307,15 @@ export class ServerService {
   }
 
   increaseAutoLogoutTime() {
-    const autoLogoutInterval = (this.roleInfo && this.roleInfo.session_expiry_time * 1000) || 3600 * 1000; //3600*1000
+    let autoLogoutInterval: number = Infinity;
+    if(this.roleInfo){
+
+      if(this.roleInfo.session_expiry_time===-1){
+        autoLogoutInterval = Infinity;
+      }else {
+        autoLogoutInterval = (this.roleInfo && this.roleInfo.session_expiry_time * 1000) || 3600 * 1000; //3600*1000
+      }
+    }
     if (!this.roleInfo) {
       // console.log("increaseAutoLogoutTime: ROLE IS NOT FOUND=====================")
     }

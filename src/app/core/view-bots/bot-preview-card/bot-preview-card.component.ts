@@ -158,7 +158,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
   // }
 
   deleteBot() {
-    debugger;
+
     // this.modalRefWrapper.hide();
     const url = this.constantsService.getDeleteBotUrl(this.bot.id);
     const headerData: IHeaderData = {

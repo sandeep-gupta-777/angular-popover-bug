@@ -126,7 +126,6 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    console.log(dataValue);
     this._data = dataValue;
     this.dataSource = new MatTableDataSource(dataValue);
     if (dataValue.length === 0) {

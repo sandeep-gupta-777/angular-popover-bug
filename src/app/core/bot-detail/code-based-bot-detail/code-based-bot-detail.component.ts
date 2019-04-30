@@ -107,7 +107,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   KB_DATA;
 
   ngOnInit() {
-debugger;
+
     EventService
       .createConceptFullScreen$
       .subscribe((goFullScreen) => {
