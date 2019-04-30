@@ -1,0 +1,31 @@
+{
+  "auth_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoidXNlciIsImlkIjo3MjY5LCJ1c2VyX2lkIjo0LCJlbnRlcnByaXNlX2lkIjo0LjAsInJvbGVfaWQiOjIuMH0.N4-hBkZwLmWD5W_2Qs5kTdIWo6sbD0555sEZs_4UcYI",
+  "created_at": 1510771284000,
+  "email": "ayeshreddy.k@imimobile.com",
+  "enterprises": [
+    {
+      "enterprise_id": {
+        "enterprise_unique_name": "ayeshreddy.k",
+        "id": 4,
+        "logo": "https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg",
+        "name": "Ayesh1"
+      },
+      "is_active": true,
+      "is_admin": true,
+      "role_id": {
+        "id": 2,
+        "name": "Admin"
+      }
+    }
+  ],
+  "first_name": "Ayesh",
+  "id": 4,
+  "is_active": true,
+  "is_superuser": false,
+  "last_login": 1556538866000,
+  "last_name": "Update",
+  "old_id": "5a0c3cfcb05070685ed1cdbb",
+  "resource_uri": "/api/v1/user/4/",
+  "updated_at": 1556527403000,
+  "user_access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoidXNlciIsImlkIjo0fQ.Q4zn6_iHYH4zc4WL0WUeRAFPCXqwdEzAmxv7KwO35J0"
+}

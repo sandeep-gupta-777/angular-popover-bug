@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "npm run hmr",
+    "start": "ng s",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -34,7 +34,8 @@
     "compile:server": "webpack --config webpack.server.config.js --progress --colors",
     "serve:ssr": "node dist/server",
     "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
-    "build:client-and-server-bundles": "ng build --prod && ng run botPlateformFE:server:production"
+    "build:client-and-server-bundles": "ng build --prod && ng run botPlateformFE:server:production",
+    "cypress:open": "cypress open"
   },
   "private": true,
   "dependencies": {
@@ -85,6 +86,7 @@
     "@types/node": "~8.9.4",
     "bootstrap": "^4.1.1",
     "codelyzer": "~4.2.1",
+    "cypress": "^3.2.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~1.7.1",
