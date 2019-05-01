@@ -13,11 +13,8 @@ import {Observable} from 'rxjs';
 import {IUser} from '../../interfaces/user';
 import {IEnterpriseUser} from '../../interfaces/enterprise-users';
 import {map} from 'rxjs/operators';
-import {MaterialTableImplementer} from 'src/app/material-table-implementer';
-import {DomSanitizer} from '@angular/platform-browser';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
 import {EnterpriseOverviewSmartTable} from './enterprise-overview-smart-table';
-import {ReportSmartTableModal} from '../../reports/report-smart-table';
 
 @Component({
   selector: 'app-enterprise-overview',
