@@ -167,7 +167,7 @@ export class ChatWrapperComponent implements OnInit {
     });
 
     this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
-      debugger;
+
       try {
         this.windowOpen = chatSessionState.opened;
         if (!chatSessionState) {
@@ -220,7 +220,7 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   createCustomRoom(customConsumerDetails) {
-    debugger;
+
     let doesAtleastOneConsumerKeyHasValue = false;
     if (!customConsumerDetails) {
       this.utilityService.showErrorToaster('Please set custom Consumer details');
@@ -244,7 +244,7 @@ export class ChatWrapperComponent implements OnInit {
 
   /*this is called when bot preview button or create a custom room button is clicked*/
   startNewChat(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot, isCustomRoom?: boolean }) {
-    debugger;
+
     startNewChatData.bot = startNewChatData.bot ? startNewChatData.bot : this.currentBot; //todo: is it really required?
 
     /*========================Creation of chat room using Send API===============================*/

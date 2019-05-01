@@ -11,7 +11,7 @@ export class LoginPageGaurdService implements CanActivate, CanActivateChild, Can
 
 
   canActivate() {
-    debugger;
+
     if (AuthGaurdService.doesAuthTokenExists()) {
       this.router.navigate(['/']);
     } else {

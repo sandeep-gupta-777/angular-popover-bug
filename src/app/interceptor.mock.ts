@@ -28,7 +28,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let apiDetails = this.getApiDetails();
-    debugger;
+
     if(environment.mock){
       for (const element of apiDetails) {
         let elementPath = new URL(element.url).pathname;

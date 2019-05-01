@@ -28,6 +28,7 @@ import {NgxsModule} from '@ngxs/store';
 import {VersionStateReducer} from '../core/buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.state';
 import {ReducerListService} from '../reducer-list.service';
 import {ChatSessionStateReducer} from './ngxs/chat.state';
+import {LayoutModule} from '@angular/cdk/layout';
 
 const routes: Route[] = [
   // {path: 'preview',outlet: 'preview', component: ChatWrapperComponent},
@@ -59,6 +60,7 @@ const routes: Route[] = [
       ChatSessionStateReducer
     ]),
     SharedModule,//TODO: remove this later, this is here because of ChatFeedbackComponent and MsToHhMmPipe,
+    LayoutModule
 
   ],
   exports: [

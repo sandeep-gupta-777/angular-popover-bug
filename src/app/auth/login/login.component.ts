@@ -146,7 +146,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       switchMap(() => {
         this.flashInfoMessage('Loading your dashboard', 10000);
         console.dir(localStorage);
-        debugger;
+
         if (userValue.role.name === ERoleName.Analyst) {
           this.router.navigate(['/core/analytics2/volume']);
         } else {
