@@ -21,10 +21,9 @@ export class ModalConfirmComponent{
   }
 
 
-  log(x){
-
-    console.log(x);
-    this.dialogRef.close(x);
+  closeDialog(data:any){
+    debugger;
+    this.dialogRef.close(data);
   }
 
   // ngOnDestroy(){

@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   hmr: false,
   backend_root: 'https://dev.imibot.ai/',
-  mock:true
+  mock:false
 };
 
 /*

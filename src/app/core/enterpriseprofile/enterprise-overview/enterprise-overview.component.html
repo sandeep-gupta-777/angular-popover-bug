@@ -142,9 +142,10 @@
     <div class="ml-auto color-primary cursor-pointer" *ngIf = "showActiveServiceKeysTable" (click)="openNewServiceKeyModal()"><i class="fa fa-plus pr-1 "></i> New token</div>
   </div>
 </div>
-<div class="row profile-row" *ngIf = "!!serviceKeyTableDataExpired && showActiveServiceKeysTable" >
+
+<div class="row profile-row" *ngIf = "serviceKeyExpiredTableModal?.tableData.length>0 && !showActiveServiceKeysTable" >
   <div class="col-12 p-0 m-0">
-    <app-smart-table  [data]="serviceKeyTableDataExpired"
+    <app-smart-table  [data]="serviceKeyExpiredTableModal?.tableData"
                       (dataValue$)="dataValueClicked($event)"
     (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
     >
@@ -152,9 +153,9 @@
   </div>
 </div>
 
-<div class="row profile-row" *ngIf = "!!serviceKeyTableDataActive && !showActiveServiceKeysTable ">
+<div class="row profile-row" *ngIf = "serviceKeyActiveTableModal?.tableData.length>0 && showActiveServiceKeysTable">
   <div class="col-12 p-0 m-0">
-    <app-smart-table [data]="serviceKeyTableDataActive"
+    <app-smart-table [data]="serviceKeyActiveTableModal?.tableData"
     (dataValue$)="dataValueClicked($event)"
     >
     </app-smart-table>
