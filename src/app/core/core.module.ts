@@ -66,6 +66,7 @@ import {ModuleGaurdLoadService} from '../route-gaurds/module-gaurd-load.service'
 import {environment} from '../../environments/environment';
 import {HttpMockRequestInterceptor} from '../interceptor.mock';
 import {HttpRequestInterceptor} from '../interceptor';
+import {MatSidenavModule} from '@angular/material';
 
 const routes: Route[] = [
   {
@@ -168,6 +169,7 @@ const routes: Route[] = [
     ReactiveFormsModule,
     MyMaterialModule,
     ScrollDispatchModule,
+    MatSidenavModule,
 
     NgxsModule.forFeature((<any>window).areReducersRegistered ? [VersionStateReducer] : [
       ...ReducerListService.list,

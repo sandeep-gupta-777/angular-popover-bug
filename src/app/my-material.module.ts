@@ -44,6 +44,7 @@ import {GentemplateEditKeyComponent} from './core/buildbot/build-code-based-bot/
 import {FormsModule} from '@angular/forms';
 import {SatDatepickerModule, SatNativeDateModule} from 'saturn-datepicker';
 import {A11yModule} from "@angular/cdk/a11y";
+import {LayoutModule} from '@angular/cdk/layout';
 
 const materialModules = [
   CommonModule,
@@ -80,6 +81,9 @@ const materialModules = [
   PortalModule,
   MatRadioModule,
   A11yModule,
+  LayoutModule,
+  MatGridListModule
+
 ];
 
 const materialDeclarations = [

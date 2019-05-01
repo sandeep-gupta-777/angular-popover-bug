@@ -73,6 +73,9 @@ import { ArticalHeaderComponent } from './bot-articles/artical-header/artical-he
 import { EditAndViewArticlesComponent } from './bot-articles/edit-and-view-articles/edit-and-view-articles.component';
 import { CategorieModalInputComponent } from './bot-articles/categorie-modal-input/categorie-modal-input.component';
 import {ConstantsService} from "../../constants.service";
+import {LayoutModule} from '@angular/cdk/layout';
+import {MatGridListModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
+import {BreakpointService} from '../breakpoint.service';
 
 const routes: Route[] = [
   {
@@ -160,9 +163,12 @@ const routes: Route[] = [
     HttpClientModule,
     MyMaterialModule,
     DragDropModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
   ],
-  providers: [ConstantsService, AimService, UtilityService, DatePipe]
+  providers: [BreakpointService, ConstantsService, AimService, UtilityService, DatePipe]
 })
 export class BotDetailModule {
 

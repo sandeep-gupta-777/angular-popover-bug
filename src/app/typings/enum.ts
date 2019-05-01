@@ -85,6 +85,7 @@ export enum ESideBarTab {
   logic = 'logic',
   chat = 'chat',
   test = 'test',
+  faqbot = 'faqbot'
 }
 
 export enum ENgxsStogareKey {
