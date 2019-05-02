@@ -45,31 +45,9 @@ export class EditAndViewArticlesComponent implements OnInit {
           if (this.article_id) {
 
           }
-          // ner_id && this.sdasdasdasd(ner_id);
-          // this.showTable = !ner_id;
-          // this.selectedRowData = this._custumNerDataForSmartTable.find((custumNerData)=>{
-          //   return custumNerData.roomId === ner_id
-          // });
-          // if(this.selectedRowData)this.prepareData(this.selectedRowData);
-        }
+          }
       });
-    // let headerData: IHeaderData = {
-    //   'bot-access-token': this.bot.bot_access_token
-    // };
-    // let getSectionForFAQBotById = this.constantsService.getCorpusForFAQBot(this.bot.corpus.id);
-
-    // this.serverService.makeGetReq<any>({url: getCorpusForFAQBot, headerData})
-    // .subscribe((val)=>{
-    //   this.corpus = val;
-    //   this.loaded = true;
-    //   let formObj = {};
-    //   val.category_mapping.forEach((categorie)=>{
-    //     formObj[categorie.category_id] = [false];
-    //   })
-    //   this.articleFilterForm = this.formBuilder.group(
-    //     formObj
-    //     );
-    // })
+   
   }
 
   trackByIndex(index: number, obj: any): any {
@@ -101,15 +79,6 @@ export class EditAndViewArticlesComponent implements OnInit {
 
   updateAndTrain() {
     this.trainAndUpdate.emit(this.articleData);
-    // this.updateArticle$()
-    // .subscribe((value)=>{
-    //   if(value){
-    //     // this.corpusNeedsReload.emit();
-    //     this.saveAndTrain.emit();
-    //     this.goBackToArticle();
-    //   }
-
-    // })
   }
 
   changeArticalCategory(formValue) {

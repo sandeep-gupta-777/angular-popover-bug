@@ -111,9 +111,7 @@
           below which score this should be triggered can be configured from inference settings.</div>
     </div>
     
-    
-    <!-- <div *ngFor="let question of articleData.questions">{{question}}</div> -->
-  </div>
+ </div>
   <div class="response">
     <div class="response-heading">Response</div>
     <div class="response-items px-2">
@@ -122,16 +120,8 @@
         <textarea matInput name=a{{index}} type="text" [(ngModel)]="articleData.answers[index].text[0]"
           #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="10">
             </textarea>
-        <!-- <input matInput name=a{{index}} type="text" [(ngModel)]="articleData.questions[index]"> -->
-
       </mat-form-field>
-      <!-- <div *ngFor="let answer of articleData.answers">
-                {{answer.text}}
-            </div> -->
     </div>
-    <i>{{articleData.questions | json}}</i>
-    <hr>
-    <i>{{articleData.answers | json}}</i>
   </div>
 
 </div>
@@ -175,7 +165,6 @@
        
 
         <div class="d-flex justify-content-center">
-          <!--<button  mat-flat-button color="primary" class="btn-theme">Save Changes</button>-->
           <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2 cursor-pointer" style= "font-size: 13px;"
           (click)= "dialogRefWrapper.ref.close(true)">
                 Clear 
@@ -184,45 +173,8 @@
           <button type="submit" class="btn-theme btn-theme-primary cursor-pointer" style= "font-size: 13px;">
             Change category
           </button>
-          
-          
-          <!-- <p>{{form.value | json}}</p> -->
         </div>
       </form>
-
-
-      <!-- <button class="mat-theme-button cursor-pointer mr-2" mat-button *ngIf = "!showCreateNewCategoryInput"
-              style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"
-              (click)="showCreateNewCategoryInput = true">
-              + Add category
-            </button>
-  
-            <app-categorie-modal-input *ngIf = "showCreateNewCategoryInput"
-            [typeIsEdit] = 'false'
-              (categorycreate)="categoryUpdate($event)"
-              (makeShowCreateNewCategoryInputFalse) = "showCreateNewCategoryInput = false"
-              (categoryCreate) = "categoryCreate($event)"
-              >
-            </app-categorie-modal-input>
-  
-            <mat-form-field class="ml-auto">
-              <input matInput placeholder="Search" [(ngModel)]="searchCategorie">
-              <mat-icon matSuffix>search</mat-icon>
-            </mat-form-field>
-          </div>
-          <p>{{corpus.category_mapping | json}}</p>
-          <div class="d-flex flex-column" style="overflow-y: auto;max-height: 35vh;">
-  
-            <app-categorie-modal-input *ngFor="let categorie of categoryMappingClone"
-              [hidden]="!categorie.name.toLowerCase().includes(searchCategorie.toLowerCase())"
-              [categorieClone]="categorie" [categorieMappingReal]="corpus.category_mapping"
-              [typeIsEdit] = "true"
-              (categoryUpdate)="categoryUpdate($event)"
-              (categoryDelete)= "categoryDelete($event)">
-            </app-categorie-modal-input>
-  
-            -->
-
     </div>
   </div>
 </ng-template>

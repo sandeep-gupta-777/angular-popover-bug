@@ -41,43 +41,11 @@
 <div class="row profile-row" *ngIf="role==='Admin'">
 
   <div class="col-12 p-0 m-0">
-    <app-smart-table *ngIf="tableData" [data]="tableData" (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,ModifyUserModal)">
+    <app-smart-table *ngIf="enterpriseUserModal.tableData" [data]="enterpriseUserModal.tableData" (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,ModifyUserModal)">
     </app-smart-table>
   </div>
 
 </div>
-
-
-
-<!-- <ng-template #enterpriseDeleteModal>
-  <div class="danger-modal" style="min-width: 500px;">
-    <div class="modal-header" style="border:none !important">
-      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Remove user?</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-    <div class="mx-3 mb-3" style="text-align: left !important;">
-      <form #form="ngForm">
-        <div class="my-1">
-          <p class="mb-3">Do you want to remove {{usertoDelete.first_name}} {{usertoDelete.last_name}} from
-            {{loggeduserenterpriseinfo.name}}?
-          </p>
-
-        </div>
-        <div class="d-flex" style="flex-direction: row-reverse">
-          <button class=" btn-theme btn-theme-danger mx-1 " (click)="deleteUser();dialogRefWrapper.ref.close();">Remove
-          </button>
-          <button class=" btn-theme btn-theme-danger-outline mx-1" (click)="dialogRefWrapper.ref.close();">Cancel
-          </button>
-
-        </div>
-      </form>
-    </div>
-  </div>
-</ng-template> -->
-
 
 <ng-template #ModifyUserModal>
   <div class="primary-modal">
