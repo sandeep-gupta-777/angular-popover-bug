@@ -6,13 +6,12 @@
     </div>
     <button class="btn-theme btn-theme-primary" (click)="navigateTocreateNewReport()">New Report</button>
   </div>
-<!---->
   <mat-tab-group (selectedIndexChange)="activeTab = $event ===0? 'configure': 'history'" class="mat-header-custom"
                  style="width: 100%; min-height: 50vh; position: relative" animationDuration="0ms">
     <mat-tab label="Configure">
       <app-smart-table
-        *ngIf="reportSmartTableData.length>0"
-        [data]="tableData_report"
+        *ngIf="reportTableModal?.tableData.length>0"
+        [data]="reportTableModal.tableData"
         (rowClicked$)="goToReportEditComponent($event)"
         [totalRecords]="totalReportRecords"
         [currentPage]="currentPage_reports"
@@ -29,9 +28,8 @@
       </div>
     </mat-tab>
     <mat-tab label="History">
-      <app-smart-table
-        *ngIf="reportHistorySmartTableData.length>0"
-        [data]="tableData_history"
+      <app-smart-table *ngIf="reportTableModal.tableData.length>0"
+        [data]="reportHistoryTableModal.tableData"
         (pageChanged$)="reportHistoryTablePageChanged($event)"
         [currentPage]="currentPage_reportsHistory"
         [totalRecords]="totalHistoryReportRecords"

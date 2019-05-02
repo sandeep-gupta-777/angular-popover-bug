@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {EAllActions} from '../../../../../constants.service';
 import {FormGroup} from '@angular/forms';
 import {PermissionService} from '../../../../../permission.service';
+import {EAllActions} from "../../../../../typings/enum";
 
 
 @Component({

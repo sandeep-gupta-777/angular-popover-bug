@@ -21,9 +21,7 @@ declare var zip;
 declare var JSZip;
 declare var saveAs;
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CodeInputService {
 
   constructor(

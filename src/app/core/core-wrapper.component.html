@@ -1,5 +1,12 @@
 <!--<app-modal-confirm></app-modal-confirm>-->
 
+<mat-progress-bar
+  [hidden]="!showProgressbar"
+  [value]="progressVal"
+  mode="determinate"
+  style="position: fixed; right: 0; top: 0;z-index:300000000"
+></mat-progress-bar>
+
 <div class="grid-container">
   <app-header *ngIf="!isBotDetail && !isBuildBot" class="grid-header"></app-header>
   <div class="grid-body" >

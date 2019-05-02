@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {ServerService} from '../../../server.service';
 import {Observable} from 'rxjs';
-import {ConstantsService, EAllActions} from '../../../constants.service';
+import {ConstantsService} from '../../../constants.service';
 import {IConsumerItem, IConsumerResultsFromServer} from '../../../../interfaces/consumer';
 import {IBot} from '../../interfaces/IBot';
 import {ViewBotStateModel} from '../../view-bots/ngxs/view-bot.state';
@@ -10,12 +10,12 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {PermissionService} from '../../../permission.service';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
-import {MaterialTableImplementer} from '../../../material-table-implementer';
 import {UtilityService} from '../../../utility.service';
 import {MatDialog} from '@angular/material';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
 import {BotSessionSmartTableModal} from "../bot-sessions/bot-session-smart-table-modal";
 import {ConsumerSmartTableModal} from "./consumer-smart-table-modal";
+import {EAllActions} from "../../../typings/enum";
 
 @Component({
   selector: 'app-consumers',

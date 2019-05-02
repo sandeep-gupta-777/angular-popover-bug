@@ -1,4 +1,4 @@
-@import '~src/sass/main';
+@import "./../../../../sass/main";
 
 .rolePannelGrid{
     font-family: Helvetica;
@@ -7,7 +7,7 @@
     justify-content: start;
     align-items: center;
     grid-gap: 20px;
-    
+
     .rolePannelGridItem{
       background-color: #ffffff;
       height:120px;
@@ -28,12 +28,12 @@
       }
       .fa-trash{
         color: $color-danger;
-        
+
       }
       }
     }
   }
-  
+
 .card-header{
   padding: .5rem 1.25rem;
   background-color: transparent;

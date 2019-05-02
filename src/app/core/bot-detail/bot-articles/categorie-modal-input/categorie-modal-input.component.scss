@@ -1,0 +1,53 @@
+@import "~src/sass/main";
+.categorie-modal-input-item{
+    .parentHover{
+        opacity: 0;
+    }
+    &:hover{
+        .parentHover{
+            opacity: 1;
+        }
+    }
+    .input-icon{
+        display: flex; 
+        align-items: center;
+        margin-right: 16px;
+        cursor: pointer;
+        .mat-icon{
+            display: flex;
+            align-items: center;
+            width: auto;
+            padding-right: 5px;
+            font-size: 13px;
+        }
+        
+
+    }
+    
+}
+
+.color-primary{
+    color:  $color-primary;
+}
+.color-danger{
+    color: $color-danger;
+}
+.opp{
+    opacity: .5;
+}
+// /* To remove the default underline */
+// ::ng-deep .mat-input-underline.mat-form-field-underline {
+// background: transparent !important;
+// }
+
+// /* To remove the underline ripple */
+// ::ng-deep .mat-input-ripple.mat-form-field-ripple{
+// background-color: transparent !important; 
+// }
+
+// ::ng-deep .mat-form-field-underline .mat-form-field-ripple {
+// background: orange !important;
+// }
+.cursor-pointer{
+    cursor: pointer;
+}

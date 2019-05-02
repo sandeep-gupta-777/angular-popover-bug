@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import {IPipelineItem} from '../interfaces/ai-module';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ObjectArrayCrudService {
 
   constructor() { }

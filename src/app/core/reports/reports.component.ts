@@ -24,11 +24,15 @@ import {UtilityService} from '../../utility.service';
 import {ELogType, LoggingService} from '../../logging.service';
 import {MaterialTableImplementer} from '../../material-table-implementer';
 import {catchError, finalize, switchMap, tap} from 'rxjs/internal/operators';
+import {ConsumerSmartTableModal} from '../bot-detail/consumers/consumer-smart-table-modal';
+import {ReportSmartTableModal} from './report-smart-table';
+import {ReportHistorySmartTable} from './report-history-smart-table';
 
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.scss']
+  styleUrls: ['./reports.component.scss'],
+  providers: [TempVariableService]
 })
 export class ReportsComponent extends MaterialTableImplementer implements OnInit {
   tableData;
@@ -39,20 +43,30 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   error_message;
   isLoading: boolean;
 
+  reportTableFactory() {
+    return new ReportSmartTableModal(this.tableData_report,
+      this.constantsService.SMART_TABLE_REPORT_TABLE_DATA_META_DICT_TEMPLATE,);
+  }
+
+  reportHistoryTableFactory() {
+    return new ReportHistorySmartTable(this.tableData_history,
+      this.constantsService.SMART_TABLE_REPORT_HISTORY_TABLE_DATA_META_DICT_TEMPLATE);
+  }
+
   getTableDataMetaDict_report(): any {
     return this.constantsService.SMART_TABLE_REPORT_TABLE_DATA_META_DICT_TEMPLATE;
   }
 
   initializeTableData_report(data: any, tableDataMetaDict: any): void {
     this.tableData_report = this.transformDataForMaterialTable(data, this.getTableDataMetaDict_report());
-    debugger;
+
     this.tableData_report = this.tableData_report.map((sessionsDataForTableItem) => {
       let additonalColumns: any = {};
       additonalColumns['Active'] = sessionsDataForTableItem['Active'];
       let isActive = additonalColumns['Active'].value;
       additonalColumns['Active'].value = `<div class="d-flex align-items-center">
-<i style="font-size: 8px" class="fa fa-circle mr-1 ${isActive? 'dot-free': 'dot-paid'}" ></i><span>${isActive? 'Active': 'Inactive'}</span>
-</div>`
+<i style="font-size: 8px" class="fa fa-circle mr-1 ${isActive ? 'dot-free' : 'dot-paid'}" ></i><span>${isActive ? 'Active' : 'Inactive'}</span>
+</div>`;
       return {...sessionsDataForTableItem, ...additonalColumns};
     });
   }
@@ -81,15 +95,15 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   @Select() botlist$: Observable<ViewBotStateModel>;
 
   constructor(
-      private constantsService: ConstantsService,
-      private serverService: ServerService,
-      private objectArrayCrudService: ObjectArrayCrudService,
-      private smartTableSettingsService: SmartTableSettingsService,
-      private tempVariableService: TempVariableService,
-      private router: Router,
-      private activatedRoute: ActivatedRoute,
-      private utilityService: UtilityService,
-      private store: Store,
+    private constantsService: ConstantsService,
+    private serverService: ServerService,
+    private objectArrayCrudService: ObjectArrayCrudService,
+    private smartTableSettingsService: SmartTableSettingsService,
+    private tempVariableService: TempVariableService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private utilityService: UtilityService,
+    private store: Store,
   ) {
     super();
   }
@@ -99,6 +113,8 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   totalHistoryReportRecords: number;
   reportTypes;
   botlist$_sub: Subscription;
+  reportTableModal: ReportSmartTableModal;
+  reportHistoryTableModal: ReportHistorySmartTable;
 
   ngOnInit() {
     this.error_message = 'Loading';
@@ -107,6 +123,8 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('activeTab') || this.activeTab;
     const reportTypeUrl = this.constantsService.geReportTypesUrl();
     this.isLoading = true;
+    this.reportTableModal = this.reportTableFactory();
+    this.reportHistoryTableModal = this.reportHistoryTableFactory();
     this.serverService.makeGetReq<{ meta: any, objects: IReportTypeItem[] }>({url: reportTypeUrl})
       .pipe(tap((reportTypes) => {
           this.reportTypes = reportTypes;
@@ -114,17 +132,17 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
         switchMap(() => {
           return this.loadReports(10, 0);
         }),
-        tap((val:{objects:any[]})=>{
+        tap((val: { objects: any[] }) => {
           this.reportsLoading = false;
-          this.reportsEmpty = val.objects.length===0;
+          this.reportsEmpty = val.objects.length === 0;
         }),
         switchMap(() => {
           return this.loadReportHistory(10, 0);
         }),
-        tap((val:IReportHistory)=>{
-          this.reportsHistoryEmpty = val.objects.length===0;
+        tap((val: IReportHistory) => {
+          this.reportsHistoryEmpty = val.objects.length === 0;
         }),
-        finalize(()=>{
+        finalize(() => {
           this.reportsLoading = false;
           this.reportHistoryLoading = false;
         })
@@ -133,11 +151,13 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
         this.error_message = '';
       });
   }
+
   //
   reportsLoading = false;
   reportsEmpty = false;
   reportHistoryLoading = false;
   reportsHistoryEmpty = false;
+
   loadReportHistory(limit: number, offset: number) {
 
     let order_by = -1;
@@ -158,14 +178,10 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
               name: this.objectArrayCrudService.getObjectItemByKeyValuePair(this.reportTypes.objects, {id: reportHistoryItem.reporttype_id}).name,
               created_at: reportHistoryItem.created_at
             });
-            //
-            // this.initializeTableData_reportHistory(this.reportHistorySmartTableData, this.getTableDataMetaDict_reportHistory());
-
-            });
           });
-
-        this.initializeTableData_reportHistory(this.reportHistorySmartTableData, this.getTableDataMetaDict_reportHistory());
-        }));
+        });
+        this.reportHistoryTableModal.refreshData(this.reportHistorySmartTableData);
+      }));
   }
 
   reportHistoryTablePageChanged({page}) {
@@ -173,7 +189,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
     this.currentPage_reportsHistory = page;
     // this.reportHistorySmartTableData = [];
     this.loadReportHistory(10, (page - 1) * 10)
-      .subscribe(()=>{
+      .subscribe(() => {
         this.reportHistoryLoading = false;
       });
   }
@@ -189,6 +205,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   }
 
   loadReports(limit: number, offset: number) {
+    debugger;
     this.error_message = 'Loading...';
     const reportUrl = this.constantsService.getReportUrl(limit, offset);
     return this.serverService.makeGetReq<IReportList>({url: reportUrl})
@@ -230,7 +247,9 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
             ];
           });
         });
-        this.initializeTableData_report(this.reportSmartTableData, this.getTableDataMetaDict_report());;
+        debugger;
+        // this.initializeTableData_report(this.reportSmartTableData, this.getTableDataMetaDict_report());;
+        this.reportTableModal.refreshData(this.reportSmartTableData);
       }));
 
   }
@@ -240,9 +259,9 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
     this.currentPage_reports = page;
     // this.reportSmartTableData = [];
     this.loadReports(10, (page - 1) * 10)
-      .subscribe(()=>{
+      .subscribe(() => {
         this.reportsLoading = false;
-      })
+      });
   }
 
   tabClicked(activeTab: string) {

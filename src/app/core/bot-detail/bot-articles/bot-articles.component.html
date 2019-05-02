@@ -1,0 +1,86 @@
+<app-imi-loader *ngIf="!loaded"></app-imi-loader>
+<div *ngIf="loaded && !showEditAndViewArtical">
+  <app-artical-header [corpus]="corpus">
+  </app-artical-header>
+  <div class="main-frame">
+    <app-article-question-list-view [corpus]="corpus" [filter_categorie_id_list]="filter_categorie_id_list"
+      (removeFilterItemByIdEvent)="removeFilterItemById($event)"
+      (articleListItemClicked)="openArticleEditAndView($event)">
+    </app-article-question-list-view>
+    <div>
+      <div class="d-flex w-100  flex-column article-action-side-bar pl-4">
+        <div class="for-border"></div>
+        <div class="action-item pt-2 pb-1 cursor-pointer" style="font-size:13px" (click)="openArticleCreate()">
+          <mat-icon class="material-icons">add</mat-icon> Create new article
+        </div>
+        <div class="action-item py-1 cursor-pointer" (click)="openCategoryModifyModal(categoriesTemplate)">
+          <mat-icon class="material-icons">folder</mat-icon>Modify categories
+        </div>
+      </div>
+      <app-article-filter [categoryMapping]="corpus.category_mapping" [articleFilterForm]="articleFilterForm"
+        (filterCategory)="makeFilterList($event)"></app-article-filter>
+    </div>
+  </div>
+</div>
+<div *ngIf="loaded && showEditAndViewArtical">
+  <app-edit-and-view-articles [bot]="bot" [article]="selectedArticle" [category_mapping]="corpus.category_mapping"
+    (goBack)="goBackToArticalList();" (corpusNeedsReload)="getCorpusAndSetArticleFilterForm()"
+    (saveAndTrain)="trainBotAndGetCorpus()" (updateArticle)="updateArticle($event)" (deleteArticle)="deleteArticle($event)"
+    (trainAndUpdate)="trainAndUpdate($event)" ></app-edit-and-view-articles>
+</div>
+
+<ng-template #categoriesTemplate>
+  <div class="primary-modal" style="max-width: 37vw;">
+    <div class="modal-header">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;font-size: 16px;">All categories
+      </h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="pb-2 ng-star-inserted">
+      <p class="mb-1">Add new categories or modify existing categories. Deleting a category with articles will
+        move the
+        articles to unassigned category.</p>
+    </div>
+
+    <div class="modal-body pt-0 ">
+      <div class="d-flex flex-column">
+        <div class="d-flex flex-row mb-2" style="height: 34px;">
+          <button class="mat-theme-button cursor-pointer mr-2" mat-button *ngIf = "!showCreateNewCategoryInput"
+            style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"
+            (click)="showCreateNewCategoryInput = true">
+            + Add category
+          </button>
+
+          <app-categorie-modal-input *ngIf = "showCreateNewCategoryInput"
+            [typeIsEdit] = 'false'
+            (categoryUpdate)="categoryUpdate($event)"
+            (makeShowCreateNewCategoryInputFalse) = "showCreateNewCategoryInput = false"
+            (categoryCreate) = "categoryCreate($event)"
+            >
+          </app-categorie-modal-input>
+
+          <mat-form-field class="ml-auto" style="width: 150px;">
+            <input matInput placeholder="Search" [(ngModel)]="searchCategorie">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+        <!-- <p>{{corpus.category_mapping | json}}</p> -->
+        <div class="d-flex flex-column" style="overflow-y: auto;max-height: 35vh;">
+
+          <app-categorie-modal-input *ngFor="let categorie of categoryMappingClone"
+            [hidden]="!categorie.name.toLowerCase().includes(searchCategorie.toLowerCase())"
+            [categorieClone]="categorie" [categorieMappingReal]="corpus.category_mapping"
+            [typeIsEdit] = "true"
+            (categoryUpdate)="categoryUpdate($event)"
+            (categoryDelete)= "categoryDelete($event)">
+          </app-categorie-modal-input>
+
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ng-template>

@@ -19,8 +19,16 @@ import {ChatService} from '../chat.service';
 import {MyMaterialModule} from '../my-material.module';
 import {ChatConsumerFormComponent} from '../chat-consumer-form/chat-consumer-form.component';
 import {SharedModule} from '../shared.module';
-import {ChatFeedbackComponent} from '../chat-feedback/chat-feedback.component';
 import { LinkPreviewComponent } from './link-preview/link-preview.component';
+import {ConstantsService} from '../constants.service';
+import {MyToasterService} from '../my-toaster.service';
+import {UtilityService} from '../utility.service';
+import {StoreVariableService} from '../core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
+import {NgxsModule} from '@ngxs/store';
+import {VersionStateReducer} from '../core/buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.state';
+import {ReducerListService} from '../reducer-list.service';
+import {ChatSessionStateReducer} from './ngxs/chat.state';
+import {LayoutModule} from '@angular/cdk/layout';
 
 const routes: Route[] = [
   // {path: 'preview',outlet: 'preview', component: ChatWrapperComponent},
@@ -48,7 +56,11 @@ const routes: Route[] = [
     HttpClientModule,
     ClickOutsideModule,
     MyMaterialModule,
-    SharedModule//TODO: remove this later, this is here because of ChatFeedbackComponent and MsToHhMmPipe
+    NgxsModule.forFeature((<any>window).areReducersRegistered ? [] : [
+      ChatSessionStateReducer
+    ]),
+    SharedModule,//TODO: remove this later, this is here because of ChatFeedbackComponent and MsToHhMmPipe,
+    LayoutModule
 
   ],
   exports: [
@@ -63,7 +75,7 @@ const routes: Route[] = [
     BotWelcomeComponent,
 
   ],
-  providers: [DatePipe, ChatService],
+  providers: [DatePipe,StoreVariableService, UtilityService, MyToasterService,ConstantsService, ServerService, ChatService],
 })
 export class ChatModule {
 

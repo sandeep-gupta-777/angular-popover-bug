@@ -1,13 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IBot} from '../../../../interfaces/IBot';
 import {IBasicInfo} from '../../../../../../interfaces/bot-creation';
-import {SaveNewBotInfo_CodeBased} from '../../../ngxs/buildbot.action';
 import {Store} from '@ngxs/store';
 import {UtilityService} from '../../../../../utility.service';
-import {EAllActions} from '../../../../../constants.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {debounceTime} from 'rxjs/operators';
 import {PermissionService} from '../../../../../permission.service';
+import {EAllActions} from "../../../../../typings/enum";
 
 @Component({
   selector: 'app-additional-info-form',

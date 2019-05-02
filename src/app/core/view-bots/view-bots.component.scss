@@ -3,6 +3,7 @@
 .view-bots-container {
   margin: 0px 10%; /*10% is suggested by dilip*/
   position: relative;
+  padding-right: 10px;
   @media screen and (max-width: 780px) {
     margin: 0;;
   }

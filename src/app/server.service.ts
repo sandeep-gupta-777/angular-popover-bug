@@ -47,14 +47,13 @@ import {
   SetEnterpriseInfoAction,
   SetEnterpriseUsersAction
 } from './core/enterpriseprofile/ngxs/enterpriseprofile.action';
+import {MyToasterService} from "./my-toaster.service";
 
-declare var IMI: any;
+
 declare var $: any;
 declare let deploy_obj_botplateform_fe;
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ServerService {
 
   @Select() loggeduser$: Observable<{ user: IUser }>;
@@ -67,7 +66,7 @@ export class ServerService {
 
   constructor(
     private httpClient: HttpClient,
-    private utilityService: UtilityService,
+    private myToasterService: MyToasterService,
     private store: Store,
     private router: Router,
     private permissionService: PermissionService,
@@ -79,8 +78,8 @@ export class ServerService {
       this.AUTH_TOKEN = value.user.auth_token && value.user.auth_token;
       this.X_AXIS_TOKEN = value.user.user_access_token && value.user.user_access_token;
       this.roleName = value.user.role.name;
-      this.app$.pipe(take(1)).subscribe((appState) => {
-        if (!this.roleInfo && appState.roleInfoArr)
+      this.app$.subscribe((appState) => {
+        if (!this.roleInfo && appState && appState.roleInfoArr)
           this.roleInfo = appState.roleInfoArr.find((role) => {
             return role.name === value.user.role.name
           });
@@ -125,7 +124,7 @@ export class ServerService {
   }
 
   showErrorMessageForErrorTrue({error, message}) {
-    if (message) this.utilityService.showErrorToaster(message);
+    if (message) this.myToasterService.showErrorToaster(message);
     else {
       console.error('error toaster called without error');
     }
@@ -308,7 +307,15 @@ export class ServerService {
   }
 
   increaseAutoLogoutTime() {
-    const autoLogoutInterval = (this.roleInfo && this.roleInfo.session_expiry_time * 1000) || 3600 * 1000; //3600*1000
+    let autoLogoutInterval: number = Infinity;
+    if(this.roleInfo){
+
+      if(this.roleInfo.session_expiry_time===-1){
+        autoLogoutInterval = Infinity;
+      }else {
+        autoLogoutInterval = (this.roleInfo && this.roleInfo.session_expiry_time * 1000) || 3600 * 1000; //3600*1000
+      }
+    }
     if (!this.roleInfo) {
       // console.log("increaseAutoLogoutTime: ROLE IS NOT FOUND=====================")
     }
@@ -320,6 +327,7 @@ export class ServerService {
   getNSetBotList(noValidateUser?) {
     const url = this.constantsService.getBotListUrl();
     const headerData: IHeaderData = {'content-type': 'application/json'};
+
     return this.makeGetReq<IBotResult>({url, headerData, noValidateUser}).pipe(
       tap((botResult) => {
         // let botList: IBot[] = [];
@@ -471,170 +479,169 @@ export class ServerService {
   }
 
 
-  messaging;
-
-  currentPreviewBot: IBot;
-  currentRoomId: number;
-
-  initializeIMIConnect(previewBot: IBot, currentRoomId: number, obj : any) {
-    if (this.currentRoomId === currentRoomId && this.currentPreviewBot === previewBot) {
-      return;
-    } else {
-      try {
-        IMI.IMIconnect.shutdown();
-      } catch (e) {
-        LoggingService.error(e);
-      }
-
-    }
-    this.currentRoomId = currentRoomId;
-    this.currentPreviewBot = previewBot;
-
-    // this.currentPreviewBot = previewBot;
-    /*TODO: make initialization happen only once*/
-    let imiConnectIntegrationDetails;
-    try {
-      imiConnectIntegrationDetails = previewBot.integrations.fulfillment_provider_details.imiconnect;
-      if (!imiConnectIntegrationDetails.enabled || !imiConnectIntegrationDetails.send_via_connect) {
-        LoggingService.log('this is not an imiconnect bot...');
-        return;
-      }
-    } catch (e) {
-      LoggingService.log('this is not an imiconnect bot');
-      return;
-    }
-    const appId = imiConnectIntegrationDetails.appId; //'GS23064017';
-    const appSecret = imiConnectIntegrationDetails.appSecret; //'uZi6B5Zg';
-    // var streamName = "bot";
-    const serviceKey = imiConnectIntegrationDetails.serviceKey; //'3b8f6470-5e56-11e8-bf0b-0213261164bb';//'f6e50f7b-2bfd-11e8-bf0b-0213261164bb';
-    let userId = currentRoomId + '_hellothisissandeep1231312';
-    if(obj && obj.consumerDetails){
-      userId = obj.consumerDetails.uid;
-    }
-
-    // startNewChatData.consumerDetails.uid
-    const config = new IMI.ICConfig(appId, appSecret);
-    const messaging = IMI.ICMessaging.getInstance();
-
-    console.info('========initializing connection with imiconnect with following details');
-    LoggingService.log(
-      'appId= ' + appId + '\n' +
-      'appSecret= ' + appSecret + '\n' +
-      'serviceKey= ' + serviceKey + '\n' +
-      'userId= ' + userId + '\n');
-
-
-    const prepareMessage = (messageObj) => {
-      console.info('============================message from IMICONNECT Has been recieved============================', messageObj);
-      const generatedMessagesStr = messageObj.message;
-      let generatedMessages: IGeneratedMessageItem[];
-      try {
-        generatedMessages = JSON.parse(generatedMessagesStr);
-      } catch (e) {
-        console.error('Unable to parse json from IMIConnect callback', generatedMessagesStr);
-        console.error('Assuming its a string');
-        generatedMessages = [{text: generatedMessagesStr, bot_message_id: null}];
-      }
-      const serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages, null);
-      this.store.dispatch([
-        new AddMessagesToRoomByRoomId({
-          id: currentRoomId,
-          messageList: serializedMessages
-        }),
-        new ChangeBotIsThinkingDisplayByRoomId({roomId: currentRoomId, shouldShowBotIsThinking: false}),
-        // new SetCurrentRoomID({roomId: 123456789.room.roomId})
-      ]);
-    };
-
-    const msgCallBack = {//messaging.setICMessagingReceiver(msgCallBack);
-      onConnectionStatusChanged: function (statuscode) {
-        LoggingService.log('msgCallBack,onConnectionStatusChanged', statuscode);
-        let statusMessage = null;
-        if (statuscode == 2) {
-          statusMessage = 'Connected';
-        } else if (statuscode == 6) {
-          statusMessage = 'Error while connecting';
-        } else {
-          statusMessage = 'Not Connected';
-        }
-
-      },
-      onMessageReceived: function (message) {
-
-
-        prepareMessage(message);
-
-        if (message.getType() === IMI.ICMessageType.Message) {
-          const callback = {
-            onFailure: function (err) {
-              LoggingService.log('failed to get topics:');
-
-              //handleFailure(err);
-            }
-          };
-          messaging.setMessageAsRead(message.getTransactionId(), callback);
-        }
-      }
-    };
-
-
-    messaging.setICMessagingReceiver(msgCallBack);
-    const deviceId = IMI.ICDeviceProfile.getDefaultDeviceId();
-    IMI.IMIconnect.startup(config);
-    IMI.IMIconnect.registerListener(
-      {
-        onFailure: function () {
-          LoggingService.log('token got expired...');
-        }
-      });
-
-
-    const regcallback = {
-      onSuccess: function (msg) {
-
-        try {
-          messaging.connect();
-          LoggingService.log('onSuccess: reg');
-        } catch (ex) {
-          LoggingService.log(ex);
-        }
-
-      },
-      onFailure: function (err) {
-        LoggingService.log('Registration failed');
-
-      }
-    };
-    const deviceProfile = new IMI.ICDeviceProfile(deviceId, userId);
-    LoggingService.log('IMI.IMIconnect.isRegistered()' + IMI.IMIconnect.isRegistered());
-    IMI.IMIconnect.register(deviceProfile, regcallback);
-
-
-    // //send message
-    //     var pubcallback = {
-    //       onSuccess: function () {
-    //         LoggingService.log("message sent");
-    //
-    //       },
-    //       onFailure: function (errormsg) {
-    //         LoggingService.log("failed to send message");
-    //       }
-    //
-    //     };
-    //
-    //     var message = new IMI.ICMessage();
-    //     message.setMessage("Hello this is sample message");
-    //
-    //     var thread = new IMI.ICThread();
-    //     thread.setId("bot");
-    //     thread.setTitle("bot");
-    //     thread.setStreamName(streamName);
-    //
-    //     message.setThread(thread);
-    //     messaging.publishMessage(message, pubcallback);
-
-    this.messaging = messaging;
-  }
+  // messaging;
+  // currentPreviewBot: IBot;
+  // currentRoomId: number;
+  //
+  // initializeIMIConnect(previewBot: IBot, currentRoomId: number, obj : any) {
+  //   if (this.currentRoomId === currentRoomId && this.currentPreviewBot === previewBot) {
+  //     return;
+  //   } else {
+  //     try {
+  //       IMI.IMIconnect.shutdown();
+  //     } catch (e) {
+  //       LoggingService.error(e);
+  //     }
+  //
+  //   }
+  //   this.currentRoomId = currentRoomId;
+  //   this.currentPreviewBot = previewBot;
+  //
+  //   // this.currentPreviewBot = previewBot;
+  //   /*TODO: make initialization happen only once*/
+  //   let imiConnectIntegrationDetails;
+  //   try {
+  //     imiConnectIntegrationDetails = previewBot.integrations.fulfillment_provider_details.imiconnect;
+  //     if (!imiConnectIntegrationDetails.enabled || !imiConnectIntegrationDetails.send_via_connect) {
+  //       LoggingService.log('this is not an imiconnect bot...');
+  //       return;
+  //     }
+  //   } catch (e) {
+  //     LoggingService.log('this is not an imiconnect bot');
+  //     return;
+  //   }
+  //   const appId = imiConnectIntegrationDetails.appId; //'GS23064017';
+  //   const appSecret = imiConnectIntegrationDetails.appSecret; //'uZi6B5Zg';
+  //   // var streamName = "bot";
+  //   const serviceKey = imiConnectIntegrationDetails.serviceKey; //'3b8f6470-5e56-11e8-bf0b-0213261164bb';//'f6e50f7b-2bfd-11e8-bf0b-0213261164bb';
+  //   let userId = currentRoomId + '_hellothisissandeep1231312';
+  //   if(obj && obj.consumerDetails){
+  //     userId = obj.consumerDetails.uid;
+  //   }
+  //
+  //   // startNewChatData.consumerDetails.uid
+  //   const config = new IMI.ICConfig(appId, appSecret);
+  //   const messaging = IMI.ICMessaging.getInstance();
+  //
+  //   console.info('========initializing connection with imiconnect with following details');
+  //   LoggingService.log(
+  //     'appId= ' + appId + '\n' +
+  //     'appSecret= ' + appSecret + '\n' +
+  //     'serviceKey= ' + serviceKey + '\n' +
+  //     'userId= ' + userId + '\n');
+  //
+  //
+  //   const prepareMessage = (messageObj) => {
+  //     console.info('============================message from IMICONNECT Has been recieved============================', messageObj);
+  //     const generatedMessagesStr = messageObj.message;
+  //     let generatedMessages: IGeneratedMessageItem[];
+  //     try {
+  //       generatedMessages = JSON.parse(generatedMessagesStr);
+  //     } catch (e) {
+  //       console.error('Unable to parse json from IMIConnect callback', generatedMessagesStr);
+  //       console.error('Assuming its a string');
+  //       generatedMessages = [{text: generatedMessagesStr, bot_message_id: null}];
+  //     }
+  //     const serializedMessages: IMessageData[] = this.utilityService.serializeGeneratedMessagesToPreviewMessages(generatedMessages, null);
+  //     this.store.dispatch([
+  //       new AddMessagesToRoomByRoomId({
+  //         id: currentRoomId,
+  //         messageList: serializedMessages
+  //       }),
+  //       new ChangeBotIsThinkingDisplayByRoomId({roomId: currentRoomId, shouldShowBotIsThinking: false}),
+  //       // new SetCurrentRoomID({roomId: 123456789.room.roomId})
+  //     ]);
+  //   };
+  //
+  //   const msgCallBack = {//messaging.setICMessagingReceiver(msgCallBack);
+  //     onConnectionStatusChanged: function (statuscode) {
+  //       LoggingService.log('msgCallBack,onConnectionStatusChanged', statuscode);
+  //       let statusMessage = null;
+  //       if (statuscode == 2) {
+  //         statusMessage = 'Connected';
+  //       } else if (statuscode == 6) {
+  //         statusMessage = 'Error while connecting';
+  //       } else {
+  //         statusMessage = 'Not Connected';
+  //       }
+  //
+  //     },
+  //     onMessageReceived: function (message) {
+  //
+  //
+  //       prepareMessage(message);
+  //
+  //       if (message.getType() === IMI.ICMessageType.Message) {
+  //         const callback = {
+  //           onFailure: function (err) {
+  //             LoggingService.log('failed to get topics:');
+  //
+  //             //handleFailure(err);
+  //           }
+  //         };
+  //         messaging.setMessageAsRead(message.getTransactionId(), callback);
+  //       }
+  //     }
+  //   };
+  //
+  //
+  //   messaging.setICMessagingReceiver(msgCallBack);
+  //   const deviceId = IMI.ICDeviceProfile.getDefaultDeviceId();
+  //   IMI.IMIconnect.startup(config);
+  //   IMI.IMIconnect.registerListener(
+  //     {
+  //       onFailure: function () {
+  //         LoggingService.log('token got expired...');
+  //       }
+  //     });
+  //
+  //
+  //   const regcallback = {
+  //     onSuccess: function (msg) {
+  //
+  //       try {
+  //         messaging.connect();
+  //         LoggingService.log('onSuccess: reg');
+  //       } catch (ex) {
+  //         LoggingService.log(ex);
+  //       }
+  //
+  //     },
+  //     onFailure: function (err) {
+  //       LoggingService.log('Registration failed');
+  //
+  //     }
+  //   };
+  //   const deviceProfile = new IMI.ICDeviceProfile(deviceId, userId);
+  //   LoggingService.log('IMI.IMIconnect.isRegistered()' + IMI.IMIconnect.isRegistered());
+  //   IMI.IMIconnect.register(deviceProfile, regcallback);
+  //
+  //
+  //   // //send message
+  //   //     var pubcallback = {
+  //   //       onSuccess: function () {
+  //   //         LoggingService.log("message sent");
+  //   //
+  //   //       },
+  //   //       onFailure: function (errormsg) {
+  //   //         LoggingService.log("failed to send message");
+  //   //       }
+  //   //
+  //   //     };
+  //   //
+  //   //     var message = new IMI.ICMessage();
+  //   //     message.setMessage("Hello this is sample message");
+  //   //
+  //   //     var thread = new IMI.ICThread();
+  //   //     thread.setId("bot");
+  //   //     thread.setTitle("bot");
+  //   //     thread.setStreamName(streamName);
+  //   //
+  //   //     message.setThread(thread);
+  //   //     messaging.publishMessage(message, pubcallback);
+  //
+  //   this.messaging = messaging;
+  // }
 
 
   getNSetConfigData$() {
@@ -653,7 +660,7 @@ export class ServerService {
           this.store.dispatch([
             new UpdateBotInfoByIdInBotInBotList({botId: bot.id, data: updatedBot})
           ]);
-          this.utilityService.showSuccessToaster('Bot updated');
+          this.myToasterService.showSuccessToaster('Bot updated');
         },
         err => {
           EventService.codeValidationErrorOnUpdate$.emit(err.error);
@@ -661,62 +668,12 @@ export class ServerService {
         }));
   }
 
-  currentRoom: IRoomData;
-
-  sendHumanMessageViaImiConnect(currentRoom, currentBot: IBot, messageByHuman: string) {
-
-    let streamName: string; //'gsureg';
-    try {
-      streamName = currentBot.integrations.fulfillment_provider_details.imiconnect.streamName;
-    } catch (e) {
-      LoggingService.log(e);
-    }
-    // this.currentRoom = currentRoom;
-    //send message
-    const pubcallback = {
-      onSuccess: function () {
-        LoggingService.log('message sent');
-
-      },
-      onFailure: function (errormsg) {
-        LoggingService.log('failed to send message');
-      }
-
-    };
-
-    const message = new IMI.ICMessage();
-    message.setMessage(messageByHuman);
-
-    const thread = new IMI.ICThread();
-    thread.setId('bot');
-    thread.setTitle('bot');
-    thread.setStreamName(streamName);
-
-    message.setThread(thread);
-    this.messaging.publishMessage(message, pubcallback);
-  }
 
 
-  startANewChatUsingSendApi(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot }) {
-    const url = this.constantsService.getStartNewChatLoginUrl();
-    const headerData: IHeaderData = {
-      'bot-access-token': startNewChatData.bot.bot_access_token,
-      'auth-token': null,
-      'user-access-token': null,
-      'content-type': 'application/json'
-    };
-    const body /*: ISendApiRequestPayload */ = {
-      'type': 'bot',
-      'msg': 'hi',
-      'platform': 'web',
-      // 'consumer': {
-      //   'uid': this.current_uid,
-      // },
-      'consumer': startNewChatData.consumerDetails,
-    };
 
-    return this.makePostReq({url, body, headerData});
-  }
+
+
+
 
   getNSetMasterPermissionsList() {
 
@@ -744,10 +701,35 @@ export class ServerService {
       .subscribe((value: { "currentBranch": string, "lastDeploy": number }) => {
         let lastDeployed_api = value.lastDeploy;
         console.log(`compareDeployDates::lastDeployed_api=${lastDeployed_api}, lastDeployed_api=${lastDeployed_api}`);
-        let days = this.utilityService.timeDifference(lastDeployed_api, lastDeployed_Cache);
-        if (lastDeployed_api > lastDeployed_Cache) this.utilityService.showErrorToaster(`your version is ${days} old. 
+        let days = this.timeDifference(lastDeployed_api, lastDeployed_Cache);
+        if (lastDeployed_api > lastDeployed_Cache) this.myToasterService.showErrorToaster(`your version is ${days} old. 
         Please hard reload (Ctrl + shit + r). `);
       })
+  }
+
+  timeDifference(current, previous) {
+
+    var msPerMinute = 60 * 1000;
+    var msPerHour = msPerMinute * 60;
+    var msPerDay = msPerHour * 24;
+    var msPerMonth = msPerDay * 30;
+    var msPerYear = msPerDay * 365;
+
+    var elapsed = current - previous;
+
+    if (elapsed < msPerMinute) {
+      return Math.round(elapsed / 1000) + ' seconds ago';
+    } else if (elapsed < msPerHour) {
+      return Math.round(elapsed / msPerMinute) + ' minutes ago';
+    } else if (elapsed < msPerDay) {
+      return Math.round(elapsed / msPerHour) + ' hours ago';
+    } else if (elapsed < msPerMonth) {
+      return 'approximately ' + Math.round(elapsed / msPerDay) + ' days ago';
+    } else if (elapsed < msPerYear) {
+      return 'approximately ' + Math.round(elapsed / msPerMonth) + ' months ago';
+    } else {
+      return 'approximately ' + Math.round(elapsed / msPerYear) + ' years ago';
+    }
   }
 
 

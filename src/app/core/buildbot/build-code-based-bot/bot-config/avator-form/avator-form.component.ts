@@ -3,12 +3,11 @@ import {IAvatar, IAvatarList} from '../../../../../../interfaces/bot-creation';
 import {ObjectArrayCrudService} from '../../../../../object-array-crud.service';
 import {IBot} from '../../../../interfaces/IBot';
 import {Store} from '@ngxs/store';
-import {SaveAvatorInfo} from '../../../ngxs/buildbot.action';
 import {FormArray, FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
 import {EFormValidationErrors, UtilityService} from '../../../../../utility.service';
-import {EAllActions} from '../../../../../constants.service';
-import {LoggingService} from '../../../../../logging.service';
 import {debounceTime} from 'rxjs/operators';
+import {EAllActions} from "../../../../../typings/enum";
+import {FormsService} from "../../../../../forms.service";
 
 @Component({
   selector: 'app-avator-form',
@@ -35,6 +34,7 @@ export class AvatorFormComponent implements OnInit {
     private _iterableDiffers: IterableDiffers,
     private store: Store,
     private formBuilder: FormBuilder,
+    private formsService: FormsService,
     private utilityService: UtilityService) {
     this.iterableDiffer = this._iterableDiffers.find([]).create(null);
   }
@@ -103,7 +103,7 @@ export class AvatorFormComponent implements OnInit {
       };
     }
     //
-    this.utilityService.pushFormGroupItemInFormArray(this.formArray, this.formBuilder, newAvator);
+    this.formsService.pushFormGroupItemInFormArray(this.formArray, this.formBuilder, newAvator);
   }
 
   deleteAvator(index: number) {

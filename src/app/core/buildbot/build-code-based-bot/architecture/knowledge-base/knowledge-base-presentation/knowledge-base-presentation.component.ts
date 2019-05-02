@@ -2,7 +2,7 @@ import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Outpu
 import {ICustomNerItem} from '../../../../../../../interfaces/custom-ners';
 import {NgForm} from '@angular/forms';
 import {UtilityService} from '../../../../../../utility.service';
-import {ConstantsService, EAllActions, ERouteNames} from '../../../../../../constants.service';
+import {ConstantsService, ERouteNames,} from '../../../../../../constants.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {HandsontableComponent} from '../../../../../../handsontable/handsontable.component';
 import {ELogType, LoggingService} from '../../../../../../logging.service';
@@ -11,6 +11,7 @@ import {MatDialog} from '@angular/material';
 import {EventService} from '../../../../../../event.service';
 import {ModalConfirmComponent} from '../../../../../../modal-confirm/modal-confirm.component';
 import {SideBarService} from '../../../../../../side-bar.service';
+import {EAllActions} from "../../../../../../typings/enum";
 
 @Component({
   selector: 'app-knowledge-base-presentation',
@@ -142,7 +143,7 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
   }
 
   updateOrSaveConcept() {
-    debugger;
+
     let outputData = this.createOutPutData();
     let ner_type = outputData.ner_type;
     let codeTextOutPutFromCodeEditor = outputData.codeTextOutPutFromCodeEditor;

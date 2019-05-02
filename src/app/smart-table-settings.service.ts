@@ -2,9 +2,7 @@ import {Injectable} from '@angular/core';
 import {IReportList} from '../interfaces/report';
 import {DatePipe} from '@angular/common';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SmartTableSettingsService {
 
   constructor(    private datePipe: DatePipe

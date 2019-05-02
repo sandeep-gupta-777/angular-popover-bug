@@ -10,7 +10,7 @@ import {ServerService} from '../../../server.service';
 import {EBotType, UtilityService} from '../../../utility.service';
 import {BotSessionsComponent} from '../bot-sessions/bot-sessions.component';
 import {UpdateBotInfoByIdInBotInBotList, SaveVersionInfoInBot} from '../../view-bots/ngxs/view-bot.action';
-import {ConstantsService, ERoleName, EAllActions} from '../../../constants.service';
+import {ConstantsService} from '../../../constants.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {IUser} from '../../interfaces/user';
 import {IAuthState} from '../../../auth/ngxs/auth.state';
@@ -19,14 +19,18 @@ import {EventService} from '../../../event.service';
 import {SideBarService} from '../../../side-bar.service';
 import {PipelineComponent} from '../../buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
 import { MatDialog } from '@angular/material';
+import {DatePipe} from "@angular/common";
+import {EAllActions, ERoleName, ESideBarTab} from "../../../typings/enum";
 
-export enum ESideBarTab {
-  setting = 'setting',
-  input = 'input',
-  logic = 'logic',
-  chat = 'chat',
-  test = 'test',
-}
+// export enum ESideBarTab {
+//   setting = 'setting',
+//   input = 'input',
+//   logic = 'logic',
+//   chat = 'chat',
+//   test = 'test',
+//   articles = 'articles',
+//   history = 'history'
+// }
 
 export enum EBotDetailTabs {
   pipeline,
@@ -38,7 +42,8 @@ export enum EBotDetailTabs {
 @Component({
   selector: 'app-code-based-bot-detail',
   templateUrl: './code-based-bot-detail.component.html',
-  styleUrls: ['./code-based-bot-detail.component.scss']
+  styleUrls: ['./code-based-bot-detail.component.scss'],
+  providers:[DatePipe]
 })
 export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
 

@@ -1,11 +1,8 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {Subscriber} from 'rxjs';
 import {IBot} from './core/interfaces/IBot';
-import {ESideBarTab} from './core/bot-detail/code-based-bot-detail/code-based-bot-detail.component';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class EventService {
 
   private removeCodeMirrorHistory$ = new EventEmitter();

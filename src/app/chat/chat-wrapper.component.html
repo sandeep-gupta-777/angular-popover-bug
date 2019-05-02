@@ -40,7 +40,8 @@
                     (backdropClick$)="showOverlay = false">
                 <div class="dialog-container" (clickOutside)="showOverlay=false">
                     <app-chat-consumer-form *ngIf="showOverlay"
-                                            [customConsumerDetails]="{}"
+                                            [customConsumerDetails]="frameEnabled === myEChatFrame.CHAT_BOX? currentRoom.consumerDetails:{}"
+                                            [readonly]="frameEnabled === myEChatFrame.CHAT_BOX"
                                             (saveConsumerDetails$)="saveConsumerDetails($event)"></app-chat-consumer-form>
                 </div>
             </app-overlay>
@@ -174,7 +175,7 @@
         <div class="ml-auto"></div>
         <div *ngIf="currentRoom && currentRoom.lastTemplateKey"
              class="d-flex mr-3 flex-column align-items-end text-white">
-            <div>Last template triggered:</div>
+            <div>Last template:</div>
             <div class="font-11">{{currentRoom.lastTemplateKey}}</div>
         </div>
         <div *ngIf="currentRoom && currentRoom.uid" class="d-flex  flex-column align-items-end text-white">
@@ -183,21 +184,37 @@
         </div>
 
     </div>
-    <div class="chat-rooms">
+    <div class="chat-rooms" style="overflow: hidden">
+        <!--<app-chat-list class="mt-4"-->
+                       <!--(createCustomRoom$)="createCustomRoom()"-->
+                       <!--[currentBot]="currentBot"-->
+                       <!--(createNewRoom$)="startNewChat($event)"></app-chat-list>-->
         <app-chat-list class="mt-4"
-                       (createCustomRoom$)="createCustomRoom()"
                        [currentBot]="currentBot"
-                       (createNewRoom$)="startNewChat($event)"></app-chat-list>
+                       (createCustomRoom$)="createCustomRoom()"
+                       (createNewRoom$)="startNewChat($event)"
+        ></app-chat-list>
     </div>
     <div class="chat">
-        <app-chat-window
-                [selectedAvatar]="selectedAvatar"
-                [showBotIsThinking]="showBotIsThinking"
-                [room]="currentRoom"
-                [allow_feedback]="currentBot.allow_feedback"
-                (sendMessageByHuman$)="sendMessageByHuman($event)"
-                (chatMessageFeedback$)="sendFeedback($event)"
-                [messageDataArray]="messageData">
+        <!--<app-chat-window-->
+                <!--[selectedAvatar]="selectedAvatar"-->
+                <!--[showBotIsThinking]="showBotIsThinking"-->
+                <!--[room]="currentRoom"-->
+                <!--[allow_feedback]="currentBot.allow_feedback"-->
+                <!--(sendMessageByHuman$)="sendMessageByHuman($event)"-->
+                <!--(chatMessageFeedback$)="sendFeedback($event)"-->
+                <!--[messageDataArray]="messageData">-->
+        <!--</app-chat-window>-->
+
+        <app-chat-window *ngIf="frameEnabled===myEChatFrame.CHAT_BOX && this.messageData"
+                         [allow_feedback]="currentBot.allow_feedback"
+                         [selectedAvatar]="selectedAvatar"
+                         [room]="currentRoom"
+                         [bot]="currentBot"
+                         [showBotIsThinking]="showBotIsThinking"
+                         (sendMessageByHuman$)="sendMessageByHuman($event)"
+                         (chatMessageFeedback$)="sendFeedback($event)"
+                         [messageDataArray]="messageData">
         </app-chat-window>
     </div>
 </div>

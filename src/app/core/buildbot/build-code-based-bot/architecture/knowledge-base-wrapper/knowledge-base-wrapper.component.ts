@@ -49,7 +49,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
       .subscribe();
     EventService.kbRefresh$
       .subscribe(()=>{
-        debugger;
+
         this.pageChangedTrigger(this.currentPageNumber);
       })
   }
