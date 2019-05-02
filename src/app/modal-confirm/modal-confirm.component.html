@@ -1,7 +1,7 @@
 <!--TODO: this button is automatically stealing focus-->
 <div class="modal-header">
   <h4 class="modal-title" style="display: flex;justify-content: start;">{{dataCopy.title}}</h4>
-  <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRef.close()">
+  <button type="button" class="close pull-right" aria-label="Close" (click)="closeDialog(false)">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -11,24 +11,25 @@
     <div class="pb-2"  *ngIf="dataCopy.message">
       <p class="mb-1">{{dataCopy.message}}</p>
     </div>
-    <form class = "input-form pb-2" #inputForm="ngForm" id="modalInputForm" *ngIf="dataCopy.inputDescription" (ngSubmit)="dialogRef.close(inputForm.value.inputData)">
+    <form class = "input-form pb-2" #inputForm="ngForm" id="modalInputForm" *ngIf="dataCopy.inputDescription" (ngSubmit)="dialogRef.close(inputForm?.value.inputData || true)">
       <mat-form-field class="example-full-width">
         <input autofocus matInput [placeholder]="dataCopy.inputDescription" ngModel name="inputData" required>
       </mat-form-field>
     </form>
     <div class="d-flex pt-2">
-      <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2 px-15" (click)="dialogRef.close()">{{dataCopy.closeButtonText ||  'Cancel'}}</button>
+      <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2 px-15" (click)="closeDialog(false)">{{dataCopy.closeButtonText ||  'Cancel'}}</button>
+
       <button class=" btn-theme px-15"
       *ngIf="!dataCopy.inputDescription"
+              (click)="closeDialog(inputForm?.value?.inputData|| true);"
       [ngClass]="{ 'btn-theme-danger': dataCopy.isActionButtonDanger ,  'btn-theme-primary': !dataCopy.isActionButtonDanger}"
-      type="submit" form="modalInputForm"
        >{{dataCopy.actionButtonText||'Continue'}}</button>
 
        <button class=" btn-theme px-15"
        *ngIf="dataCopy.inputDescription"
       [disabled]="inputForm && !inputForm.valid"
       [ngClass]="{ 'btn-theme-danger': dataCopy.isActionButtonDanger ,  'btn-theme-primary': !dataCopy.isActionButtonDanger}"
-      (click)="dialogRef.close(inputForm?.value.inputData|| true);"
+      (click)="closeDialog(inputForm?.value?.inputData|| true);"
        >{{dataCopy.actionButtonText||'Continue'}}</button>
     </div>
 </div>

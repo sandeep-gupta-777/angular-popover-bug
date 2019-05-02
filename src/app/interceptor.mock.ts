@@ -59,6 +59,12 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
         method:'GET',
         mock:true
       },{
+        url: this.constantsService.getAllActionsUrl(),
+        json: actions,
+        method:'GET',
+        mock:true
+      },
+      {
         url: this.constantsService.getEnterpriseLoginUrl(),
         json: enterprise_login,
         method:'POST',

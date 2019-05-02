@@ -206,7 +206,6 @@ export class BotArticlesComponent implements OnInit {
     this.trainCorpus$()
       .subscribe((value) => {
         if (value) {
-          // this.utilityService.showSuccessToaster("Caregory succesfully updated");
           this.getCorpusAndSetArticleFilterForm$()
           .subscribe()
         }
@@ -218,9 +217,6 @@ export class BotArticlesComponent implements OnInit {
     .subscribe((value) => {
       if(value){
         this.trainBotAndGetCorpus();
-        // this.getCorpusAndSetArticleFilterForm()
-        // this.saveAndTrain.emit();
-
       }
 
     })
