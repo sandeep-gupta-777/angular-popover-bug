@@ -1,13 +1,4 @@
-import {AfterViewInit, Component, ElementRef, isDevMode, OnInit, ViewChild} from '@angular/core';
-import {NavigationEnd, RouteConfigLoadEnd, RouteConfigLoadStart, Router, RoutesRecognized} from '@angular/router';
-// import {Select, Store} from '@ngxs/store';
-import {Observable} from 'rxjs';
-// import {IAppState} from './ngxs/app.state';
-// import {EventService} from './event.service';
-// import {StoreService} from './store.service';
-
-declare var CodeMirror: any;
-
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -16,29 +7,7 @@ declare var CodeMirror: any;
 })
 export class AppComponent implements OnInit {
 
-  loadingRouteConfig;
-  // @Select() app$: Observable<IAppState>;
-  @ViewChild('carousel') carousel: ElementRef;
-
-  constructor(
-    // private router: Router,
-              /*private eventService: EventService,*/) {
-    // super();
-  }
-
-  isFullScreenPreview: boolean;
-  enterprise_unique_name: string;
-  bot_unique_name: string;
-  // progressVal = 0;
-  // showProgressbar = false;
-  editor: any;
-  currentIntervalRef;
-
-
   ngOnInit() {
-
-    console.log("app.component.ts");
-
     // this.serverService.compareDeployDates();//TODO: after refactor
 
     /*

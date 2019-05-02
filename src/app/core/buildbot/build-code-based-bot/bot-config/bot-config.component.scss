@@ -1,50 +1,65 @@
 @import "./../../../../../sass/main";
 
+.card--update {
+  border: 1px solid #e0e0e0;
+  padding: 0 8px;
+  border-radius: 2px;
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
+  z-index: 20;
+  @media screen and (max-width: 780px) {
+    position: relative;
+    width: 35%;
+    margin-left: auto;
+  }
+}
+
 * {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
 }
-a{//bootstrap override
+
+a { //bootstrap override
   text-decoration: none !important;
   font-size: $font-size-sm;
   color: black;
-  @include typography($font-size-sm,$line-height-normal, $font-weight-300 , $color-text-grey)
+  @include typography($font-size-sm, $line-height-normal, $font-weight-300, $color-text-grey)
 }
-.card, .card-header{
+
+.card, .card-header {
   border: none;
 }
 
 //.customClass{
 //  background-color: black;
 //}
-.nav-link{
+.nav-link {
   border: none;
-  border-bottom:1px solid transparent ;
-  &:hover, &:hover{
+  border-bottom: 1px solid transparent;
+
+  &:hover, &:hover {
     border: none;
   }
 }
 
 
-
-
-
-
 :host /deep/ {
-  mat-tab-header{
+  mat-tab-header {
     margin-bottom: 16px;
   }
-  .mat-tab-label{
+
+  .mat-tab-label {
     height: 30px;
   }
 
-  .mat-tab-body-content{
-    height:unset!important;
+  .mat-tab-body-content {
+    height: unset !important;
   }
 
-  .tab-text-danger{
-    .mat-tab-label{
+  .tab-text-danger {
+    .mat-tab-label {
       color: red !important;
     }
   }

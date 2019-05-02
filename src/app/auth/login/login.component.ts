@@ -5,28 +5,24 @@ import {IUser} from '../../core/interfaces/user';
 import {Store} from '@ngxs/store';
 import {IHeaderData} from '../../../interfaces/header-data';
 import {ActivatedRoute, Router} from '@angular/router';
-import {UtilityService} from '../../utility.service';
 import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
 import {
   ResetEnterpriseUsersAction,
   SetEnterpriseInfoAction
 } from '../../core/enterpriseprofile/ngxs/enterpriseprofile.action';
-import {ResetAppState, SetBackendURlRoot, SetRoleInfo} from '../../ngxs/app.action';
+import {ResetAppState} from '../../ngxs/app.action';
 import {ResetAuthToDefaultState, SetUser} from '../ngxs/auth.action';
 import {NgForm} from '@angular/forms';
 import {MessageDisplayBase} from './messageDisplayBase';
-import {forkJoin, observable, Observable, of} from 'rxjs';
-import {IAuthState} from '../ngxs/auth.state';
+import {forkJoin, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {ResetBotListAction} from '../../core/view-bots/ngxs/view-bot.action';
 import {ResetBuildBotToDefault} from '../../core/buildbot/ngxs/buildbot.action';
 import {ResetAnalytics2GraphData, ResetAnalytics2HeaderData} from '../../core/analysis2/ngxs/analysis.action';
-import {IRoleInfo} from '../../../interfaces/role-info';
 import {catchError, switchMap} from 'rxjs/internal/operators';
 import {PermissionService} from '../../permission.service';
 import {tap} from 'rxjs/internal/operators';
 import {ENgxsStogareKey, ERoleName} from '../../typings/enum';
-import {FormsService} from "../../forms.service";
 import {MyToasterService} from "../../my-toaster.service";
 
 enum ELoginPanels {
@@ -50,14 +46,11 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   disabeLoginButton = false;
   changePasswordToken;
   changePasswordExpireTime;
-  bc;
   userValue: IUser;
   headerData: IHeaderData;
-
   enterpriseList: any[];
   userData: IUser;
   searchEnterprise: string;
-  backend_url;
 
   constructor(
     private serverService: ServerService,

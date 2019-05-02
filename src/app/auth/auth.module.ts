@@ -44,7 +44,7 @@ const routes: Route[] = [
     MatCheckboxModule,
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,
-    NgxsModule.forFeature((<any>window).areReducersRegistered ? [] : [
+    NgxsModule.forFeature([
       ...ReducerListService.list
     ]),
     MatSnackBarModule,
