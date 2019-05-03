@@ -136,7 +136,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
       component:ModalConfirmComponent
     }).then((data)=>{
 
-      if(data === ""){/*todo: improve this*/
+      if(data){
         this.deleteBot();
       }
     })
