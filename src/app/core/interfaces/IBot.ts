@@ -84,6 +84,8 @@ export interface IBot {
   //     }
   //   }
   // }
+  // for faq bots only
+  'allow_agent_handover'?: boolean;
   'logo'?: string;
   'name'?: string;
   'parent_bots'?: string;
