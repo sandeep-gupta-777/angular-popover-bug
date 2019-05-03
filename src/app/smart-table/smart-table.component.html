@@ -4,10 +4,11 @@
 <!--<button (click)="log(tableForm)">log</button>-->
 
 <div style="display: flex;" *ngIf="showRefreshButton">
-  <ng-content></ng-content>
+  <ng-content class="hide-phone"></ng-content>
+  <span style="margin-right: auto"></span>
   <button (click)="refreshData()"
           class="mat-theme-button" mat-button
-          style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px; margin-left: auto">
+          style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px;">
     <mat-icon>refresh</mat-icon>
     Refresh
   </button>

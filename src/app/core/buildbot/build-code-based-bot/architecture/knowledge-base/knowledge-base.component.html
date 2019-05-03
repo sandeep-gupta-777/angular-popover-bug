@@ -14,7 +14,7 @@
   </div>
   <div class="col-12 d-flex justify-content-between"
        *ngIf="routeName!==myERouteNames['Get Enterprise Knowledge base']">
-    <div *ngIf="tableData && tableData?.length > 0">Edit the existing concepts or create a new concept</div>
+    <div class="hide-phone" *ngIf="tableData && tableData?.length > 0">Edit the existing concepts or create a new concept</div>
     <button mat-flat-button
             color="primary"
             class="mat-theme-button ml-auto new-bot-cta"
@@ -24,11 +24,6 @@
     >
       + New Concept
     </button>
-
-    <!--<button-->
-
-    <!--Analytics-->
-    <!--</button>-->
   </div>
 </div>
 

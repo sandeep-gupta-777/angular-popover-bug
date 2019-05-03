@@ -1307,3 +1307,16 @@ mat-dialog-container {
   /*if input height is low, lower parts of g gets cut off*/
   height: 17px;
 }
+
+.hide-phone{
+  @media screen and (max-width: 780px) {
+    display: none !important;
+  }
+}
+
+.show-phone{
+  display: none !important;
+  @media screen and (max-width: 780px) {
+    display: initial !important;
+  }
+}

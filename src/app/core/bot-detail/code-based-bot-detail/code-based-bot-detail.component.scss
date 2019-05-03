@@ -105,6 +105,7 @@
 
   .architecture {
     grid-area: architecture;
+    height: 100%;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -288,6 +289,7 @@ mat-tab-group {
   }
 
   .app-container{
+    height: calc(100vh - 56px);
     padding: 16px 130px 16px 115px !important;
     @media screen and (max-width: 780px){
       padding: 10px !important;
