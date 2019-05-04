@@ -1,0 +1,64 @@
+<section class="theme-section">
+  <header class="theme-section__header" style="text-align: center">
+    <h4 style="line-height: 20px; font-size:15px;word-break: break-all">{{_apiDetails?.name || _apiDetails?.url || 'Make a request'}}</h4>
+  </header>
+  <form [formGroup]="postManForm" (ngSubmit)="makeHttpReq(httpForm)">
+
+    <div class="d-flex align-items-end">
+      <mat-form-field>
+        <mat-select placeholder="HTTP verb" formControlName="method" required>
+          <mat-option value="{{myEHttpVerb.GET}}">{{myEHttpVerb.GET}}</mat-option>
+          <mat-option value="{{myEHttpVerb.POST}}">{{myEHttpVerb.POST}}</mat-option>
+          <mat-option value="{{myEHttpVerb.PUT}}">{{myEHttpVerb.PUT}}</mat-option>
+          <mat-option value="{{myEHttpVerb.DELETE}}">{{myEHttpVerb.DELETE}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="flex-grow-1">
+        <input type="text" matInput placeholder="Enter full url" formControlName="url" required>
+      </mat-form-field>
+
+      <button mat-button color="primary" style="margin-bottom:  1.25em" [disabled]="!postManForm.valid">
+        <mat-icon *ngIf="!loading">send</mat-icon>
+        <mat-spinner *ngIf="loading" [diameter]="25"></mat-spinner>
+      </button>
+    </div>
+
+    <!--<div>-->
+    <!--<span (click)="utilityService.copyToClipboard(serverService.X_AXIS_TOKEN)">Copy user access token</span>-->
+    <!--<span (click)="utilityService.copyToClipboard(serverService.AUTH_TOKEN)">Copy auth access token </span>-->
+    <!--</div>-->
+
+    <mat-tab-group [animationDuration]="'0ms'" [(selectedIndex)]="selectedIndex">
+      <mat-tab label="Headers">
+        <ng-template matTabContent>
+          <app-code-editor formControlName="headers"></app-code-editor>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="Body" [disabled]="postManForm.get('method').value!==myEHttpVerb.POST && !postManForm.get('method').value!==myEHttpVerb.PUT">
+        <ng-template matTabContent>
+          <app-code-editor formControlName="body"></app-code-editor>
+        </ng-template>
+
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          Response
+        </ng-template>
+        <ng-template matTabContent>
+          <app-code-editor formControlName="response"></app-code-editor>
+        </ng-template>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          Headers
+          <mat-icon *ngIf="_apiDetails.response_code>=400" [matTooltip]="'Code: '+ _apiDetails.response_code" color="warn">error</mat-icon>
+          <mat-icon *ngIf="_apiDetails.response_code<=300" [matTooltip]="'Code: '+ _apiDetails.response_code" color="primary">done</mat-icon>
+        </ng-template>
+        <ng-template matTabContent>
+          <app-code-editor formControlName="response_headers"></app-code-editor>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+
+  </form>
+</section>

@@ -27,6 +27,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
   constructor(private injector: Injector, private constantsService:ConstantsService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
     let apiDetails = this.getApiDetails();
 
     if(environment.mock){

@@ -26,7 +26,7 @@ export class CoreWrapperComponent implements OnInit {
     private router: Router,
     private serverService: ServerService,
     private store: Store,
-    private constantsService: ConstantsService
+    private constantsService: ConstantsService,
   ) {
   }
 

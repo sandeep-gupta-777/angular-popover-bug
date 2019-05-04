@@ -205,7 +205,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   }
 
   loadReports(limit: number, offset: number) {
-    debugger;
+
     this.error_message = 'Loading...';
     const reportUrl = this.constantsService.getReportUrl(limit, offset);
     return this.serverService.makeGetReq<IReportList>({url: reportUrl})
@@ -247,7 +247,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
             ];
           });
         });
-        debugger;
+
         // this.initializeTableData_report(this.reportSmartTableData, this.getTableDataMetaDict_report());;
         this.reportTableModal.refreshData(this.reportSmartTableData);
       }));

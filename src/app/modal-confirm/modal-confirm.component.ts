@@ -22,7 +22,7 @@ export class ModalConfirmComponent{
 
 
   closeDialog(data:any){
-    debugger;
+
     this.dialogRef.close(data);
   }
 

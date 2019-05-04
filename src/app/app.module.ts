@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {ApplicationRef, NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {PreloadAllModules, Route, RouterModule} from '@angular/router';
 import {NotFoundComponent} from './core/not-found/not-found.component';
@@ -17,12 +17,11 @@ import {ConstantsService} from "./constants.service";
 import {AuthModule} from "./auth/auth.module";
 import {BrowserModule} from "@angular/platform-browser";
 import {ENgxsStogareKey} from './typings/enum';
-import {HttpMockRequestInterceptor} from './interceptor.mock';
-import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
-import {HttpRequestInterceptor} from './interceptor';
+import {HttpClientModule} from '@angular/common/http';
+import {createInputTransfer, createNewHosts, removeNgStyles} from '@angularclass/hmr';
 
 const routes: Route[] = [
-  {path: 'dev', loadChildren: './dev/dev.module#DevModule'},
+  {path: 'postman', loadChildren: './dev/dev.module#DevModule'},
   {path: 'auth', loadChildren: './auth/auth.module#AuthModule', canLoad:[LoginPageGaurdService]},
   // {path: 'login', loadChildren: './auth/auth.module#AuthModule', canLoad:[LoginPageGaurdService]},
   {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad:[ModuleGaurdLoadService]},
@@ -51,7 +50,6 @@ const routes: Route[] = [
     NgxsModule.forRoot([
 
     ]),
-    HttpClientModule,
     // AuthModule,
 
     NgxsStoragePluginModule.forRoot({key: ENgxsStogareKey.IMI_BOT_STORAGE_KEY}),
@@ -80,39 +78,39 @@ const routes: Route[] = [
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  //
-  // constructor(public appRef: ApplicationRef) {}
-  // hmrOnInit(store) {
-  //   if (!store || !store.state) return;
-  //   // console.log('HMR store', store);
-  //   // console.log('store.state.data:', store.state.data)
-  //   // inject AppStore here and update it
-  //   // this.AppStore.update(store.state)
-  //   if ('restoreInputValues' in store) {
-  //     store.restoreInputValues();
-  //   }
-  //   // change detection
-  //   this.appRef.tick();
-  //   delete store.state;
-  //   delete store.restoreInputValues;
-  // }
-  // hmrOnDestroy(store) {
-  //   var cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
-  //   // recreate elements
-  //   store.disposeOldHosts = createNewHosts(cmpLocation);
-  //   // inject your AppStore and grab state then set it on store
-  //   // var appState = this.AppStore.get()
-  //   store.state = {data: 'yolo'};
-  //   // store.state = Object.assign({}, appState)
-  //   // save input values
-  //   store.restoreInputValues  = createInputTransfer();
-  //   // remove styles
-  //   removeNgStyles();
-  // }
-  // hmrAfterDestroy(store) {
-  //   // display new elements
-  //   store.disposeOldHosts()
-  //   delete store.disposeOldHosts;
-  //   // anything you need done the component is removed
-  // }
+
+  constructor(public appRef: ApplicationRef) {}
+  hmrOnInit(store) {
+    if (!store || !store.state) return;
+    // console.log('HMR store', store);
+    // console.log('store.state.data:', store.state.data)
+    // inject AppStore here and update it
+    // this.AppStore.update(store.state)
+    if ('restoreInputValues' in store) {
+      store.restoreInputValues();
+    }
+    // change detection
+    this.appRef.tick();
+    delete store.state;
+    delete store.restoreInputValues;
+  }
+  hmrOnDestroy(store) {
+    var cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
+    // recreate elements
+    store.disposeOldHosts = createNewHosts(cmpLocation);
+    // inject your AppStore and grab state then set it on store
+    // var appState = this.AppStore.get()
+    store.state = {data: 'yolo'};
+    // store.state = Object.assign({}, appState)
+    // save input values
+    store.restoreInputValues  = createInputTransfer();
+    // remove styles
+    removeNgStyles();
+  }
+  hmrAfterDestroy(store) {
+    // display new elements
+    store.disposeOldHosts()
+    delete store.disposeOldHosts;
+    // anything you need done the component is removed
+  }
 }

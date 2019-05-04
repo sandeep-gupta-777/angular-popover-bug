@@ -75,7 +75,7 @@ export class ConstantsService {
 
   getNewBotVersionTemplate(botId: number) {
     this.NEW_BOT_VERSION_TEMPLATE.bot_id = botId;
-    return this.NEW_BOT_VERSION_TEMPLATE;
+    return this.NEW_BOT_VERSION_TEMPLATE;;
   }
 
   static state: any;

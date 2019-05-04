@@ -66,6 +66,7 @@ import {ModuleGaurdLoadService} from '../route-gaurds/module-gaurd-load.service'
 import {environment} from '../../environments/environment';
 import {HttpMockRequestInterceptor} from '../interceptor.mock';
 import {HttpRequestInterceptor} from '../interceptor';
+import {DevHttpInterceptorService} from "../dev/dev-http-interceptor.service";
 
 const routes: Route[] = [
   {
@@ -192,6 +193,11 @@ const routes: Route[] = [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: DevHttpInterceptorService,
       multi: true
     }
   ]

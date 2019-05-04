@@ -1,11 +1,4 @@
 import {AfterViewInit, Component, ElementRef, isDevMode, OnInit, ViewChild} from '@angular/core';
-import {NavigationEnd, RouteConfigLoadEnd, RouteConfigLoadStart, Router, RoutesRecognized} from '@angular/router';
-// import {Select, Store} from '@ngxs/store';
-import {Observable} from 'rxjs';
-// import {IAppState} from './ngxs/app.state';
-// import {EventService} from './event.service';
-// import {StoreService} from './store.service';
-
 declare var CodeMirror: any;
 
 
