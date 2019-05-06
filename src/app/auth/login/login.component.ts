@@ -28,6 +28,7 @@ import {tap} from 'rxjs/internal/operators';
 import {ENgxsStogareKey, ERoleName} from '../../typings/enum';
 import {FormsService} from "../../forms.service";
 import {MyToasterService} from "../../my-toaster.service";
+import {LoggingService} from '../../logging.service';
 
 enum ELoginPanels {
   set = 'set',
@@ -147,14 +148,16 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
         this.flashInfoMessage('Loading your dashboard', 10000);
         console.dir(localStorage);
 
-        if (userValue.role.name === ERoleName.Analyst) {
-          this.router.navigate(['/core/analytics2/volume']);
-        } else {
+        // if (userValue.role.name === ERoleName.Analyst) {
+        //   this.router.navigate(['/core/analytics2/volume']);
+        // } else {
           this.router.navigate(['/']);
-        }
+          // this.router.navigateByUrl('/')
+        // }
         return of();
       }),
       catchError((e) => {
+        LoggingService.error(e);
         return this.loginFailedHandler();
       })
     )
@@ -218,6 +221,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       new ResetAnalytics2HeaderData(),
       new ResetAppState()
     ]);
+    debugger;
     const loginData = this.loginForm.value;
     const loginUrl = this.constantsService.getLoginUrl();
     let body;

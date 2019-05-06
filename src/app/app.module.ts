@@ -45,7 +45,7 @@ const routes: Route[] = [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     // NoopAnimationsModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
+    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules, enableTracing: false}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     // RouterModule,
     NgxsModule.forRoot([
 
