@@ -74,6 +74,8 @@ export class BuildbotWrapperComponent implements OnInit {
   securityForm: FormGroup;
   faqbotBuildForm: FormGroup;
   ngOnInit() {
+    this.bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type') || this.bot_type;
+
     this.faqbotBuildForm = this.botConfigService.getFaqbotBuildForm(this.bot);
     this.basicInfoForm = this.botConfigService.getBasicInfoForm(this.bot);
     this.dataManagementForm = this.botConfigService.getDataManagementForm(this.bot);

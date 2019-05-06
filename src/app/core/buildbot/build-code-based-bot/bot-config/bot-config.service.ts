@@ -40,7 +40,7 @@ export class BotConfigService {
     this.faqbotBuildForm = this.formBuilder.group({
       name: [bot.name, Validators.required],
       bot_unique_name: [bot.bot_unique_name, Validators.required],
-      room_close_callback: [bot.room_close_callback],
+      allow_agent_handover: [bot.allow_agent_handover],
       allow_feedback: [bot.allow_feedback],
       logo: [bot.logo || 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
     },{validator: this.utilityService.isManagerValidator});

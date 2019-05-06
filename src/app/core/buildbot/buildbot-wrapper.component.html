@@ -49,7 +49,8 @@
                            [selectedIndex]="activeTab"
                            (selectedIndexChange)="selectedIndexChange($event)">
                 <mat-tab label="Tab 1">
-                    <app-basic-info-form [formGroup]="basicInfoForm"></app-basic-info-form>
+                    <app-basic-info-form [formGroup]="basicInfoForm" *ngIf="bot_type != myEBotType.faqbot"></app-basic-info-form>
+                    <app-faq-bot-basic-info-form [formGroup]="faqbotBuildForm" *ngIf="bot_type === myEBotType.faqbot"></app-faq-bot-basic-info-form>
                 </mat-tab>
                 <mat-tab label="Tab 2" *ngIf="bot_type === myEBotType.chatbot">
                     <app-data-manage-form [formGroup]="dataManagementForm"></app-data-manage-form>
