@@ -336,6 +336,7 @@ export class ServerService {
         // botResult.objects.forEach((bot) => {
         //   bot.bot_type !== 'genbot' ? botList.push(bot) : pipelineBasedBotList.push(bot);
         // });
+        if(botResult)
         this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
         // this.store.dispatch(new SetPipeLineBasedBotListAction({botList: pipelineBasedBotList}));
         // this.store.dispatch(new SetCodeBasedBotListAction({botList: botList}));

@@ -147,12 +147,12 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
         this.flashInfoMessage('Loading your dashboard', 10000);
         console.dir(localStorage);
 
-        if (userValue.role.name === ERoleName.Analyst) {
-          this.router.navigate(['/core/analytics2/volume']);
-        } else {
-          this.router.navigate(['/']);
-        }
-        return of();
+        // if (userValue.role.name === ERoleName.Analyst) {
+        //   this.router.navigate(['/core/analytics2/volume']);
+        // } else {
+        //   this.router.navigate(['/']);
+        // }
+        return of(this.router.navigate(['/']));
       }),
       catchError((e) => {
         return this.loginFailedHandler();
