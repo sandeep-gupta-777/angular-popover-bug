@@ -191,8 +191,17 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
     this.loadReportHistory(10, (page - 1) * 10)
       .subscribe(() => {
         this.reportHistoryLoading = false;
+        window.scrollTo({top: 0, behavior: 'smooth'});
       });
   }
+  scrollToTop(){
+    window.scrollTo({top: 0, behavior: 'smooth'});
+    // const c = document.documentElement.scrollTop || document.body.scrollTop;
+    // if (c > 0) {
+    //   window.requestAnimationFrame(<any>this.scrollToTop());
+    //   window.scrollTo(0, c - c / 8);
+    // }
+  };
 
   customActionEventsTriggeredInSessionsTable(smartTableCustomEventData: { action: string, data: IReportHistoryItem, source: any }) {
     const url = this.constantsService.getDownloadReportHistoryByIdUrl(smartTableCustomEventData.data.id);
@@ -261,6 +270,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
     this.loadReports(10, (page - 1) * 10)
       .subscribe(() => {
         this.reportsLoading = false;
+        window.scrollTo({top: 0, behavior: 'smooth'});
       });
   }
 
