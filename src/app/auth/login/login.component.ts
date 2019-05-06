@@ -28,6 +28,7 @@ import {tap} from 'rxjs/internal/operators';
 import {ENgxsStogareKey, ERoleName} from '../../typings/enum';
 import {FormsService} from "../../forms.service";
 import {MyToasterService} from "../../my-toaster.service";
+import {LoggingService} from '../../logging.service';
 
 enum ELoginPanels {
   set = 'set',
@@ -155,6 +156,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
         return of(this.router.navigate(['/']));
       }),
       catchError((e) => {
+        LoggingService.error(e);
         return this.loginFailedHandler();
       })
     )
