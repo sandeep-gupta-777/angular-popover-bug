@@ -503,11 +503,14 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/corpus/createcategoryandmaptosection/`;
   }
 
-
-
   corpusTrainUrl(){
     return this.BACKEND_URL + `api/v1/corpus/train/`;
   }
+
+  makeCorpusLiveUrl(){
+    return this.BACKEND_URL + `corpus/makecorpuslive/`;
+  }
+
   updateBotSerializer(bot: IBot) {
     const clone = { ...bot };
     const not_keys = [

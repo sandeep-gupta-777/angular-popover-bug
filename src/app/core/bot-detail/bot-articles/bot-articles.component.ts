@@ -221,6 +221,23 @@ export class BotArticlesComponent implements OnInit {
 
     })
   }
+  // make live stuff
+
+  makeLiveCorpus(){
+    const headerData: IHeaderData = {
+      'bot-access-token': this.bot.bot_access_token
+    };
+
+    let body = {
+      'corpus_id': this.corpus.id
+    }
+
+    let url = this.constantsService.makeCorpusLiveUrl()
+    this.serverService.makePostReq<any>({ headerData, body, url })
+    .subscribe(val=>{
+      this.utilityService.showSuccessToaster(val.message);
+    });
+  }
 
   // category handeling
 

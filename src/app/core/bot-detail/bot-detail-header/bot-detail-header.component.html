@@ -30,7 +30,7 @@
   <!--</div>-->
   <div class="ml-auto"></div>
   <app-integration-channel-list
-          *ngIf="bot.bot_type === myEBotType.chatbot"
+          *ngIf="bot.bot_type != myEBotType.intelligent"
           [bot]="bot" style="margin-right: 10px"></app-integration-channel-list>
 
   <!--<span *myIf="myEAllActions['Get Integrations']">-->
@@ -44,7 +44,7 @@
     <!--+{{myObject.keys(bot.integrations).length-4}} More-->
   <!--</span>-->
   <!--<div class="headerDivider mx-2"></div>-->
-  <div *ngIf = "bot.bot_type != 'faqbots'" class = "faq-search">
+  <div *ngIf = "bot.bot_type == 'faqbot'" class = "faq-search">
     <i class="fa fa-search"></i>
     <input placeholder="Search for questions or variants"> 
   </div>
@@ -61,7 +61,7 @@
       </button>
     </ng-container>
     <button class="mat-theme-button mat-theme-button-border"
-            (click)="previewBot()" *ngIf="bot.bot_type === 'chatbot'"
+            (click)="previewBot()" *ngIf="bot.bot_type != myEBotType.intelligent"
             mat-button>
         <mat-icon>chat_bubble_outline</mat-icon>
       Preview

@@ -5,7 +5,7 @@ import { UtilityService } from 'src/app/utility.service';
 import { IBot } from 'src/app/core/interfaces/IBot';
 import { IHeaderData } from 'src/interfaces/header-data';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IArticleItem, ICategoryMappingItem } from 'src/app/core/interfaces/faqbots';
+import { IArticleItem, ICategoryMappingItem, ICorpus } from 'src/app/core/interfaces/faqbots';
 import { MatDialog } from '@angular/material';
 
 @Component({
@@ -26,6 +26,7 @@ export class EditAndViewArticlesComponent implements OnInit {
   @Input() bot: IBot;
   @Input() article: IArticleItem;
   @Input() category_mapping: ICategoryMappingItem[];
+  @Input() corpus :ICorpus;
   articleData: IArticleItem;
   @Output() goBack = new EventEmitter();
   @Output() corpusNeedsReload = new EventEmitter();
@@ -66,19 +67,35 @@ export class EditAndViewArticlesComponent implements OnInit {
   }
 
   updateArticleClicked() {
-    this.updateArticle.emit(this.articleData);
+    if(this.corpus.state == "training"){
+      this.trainingIsGoingOn();
+    }
+    else{
+      this.updateArticle.emit(this.articleData);
+    }
   }
 
-  creatArticleClicked() {
-    // this.updateArticle.emit(this.articleData);
-  }
+ 
 
   deleteArticleClicked() {
+    if(this.corpus.state == "training"){
+      this.trainingIsGoingOn();
+    }
+    else{
+      
+    
     this.deleteArticle.emit(this.articleData);
+    }
   }
 
   updateAndTrain() {
+    if(this.corpus.state == "training"){
+      this.trainingIsGoingOn();
+    }
+    else{
+      
     this.trainAndUpdate.emit(this.articleData);
+    }
   }
 
   changeArticalCategory(formValue) {
@@ -141,8 +158,14 @@ export class EditAndViewArticlesComponent implements OnInit {
 
   }
   openCategoryModifyModal(template: TemplateRef<any>) {
-
-    this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
-
+    if(this.corpus.state == "training"){
+      this.trainingIsGoingOn();
+    }
+    else{
+      this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
+    }
+  }
+  trainingIsGoingOn(){
+    this.utilityService.showErrorToaster("Bot is training so the action can not be performed.");
   }
 }
