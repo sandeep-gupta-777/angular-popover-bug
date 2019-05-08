@@ -67,7 +67,7 @@
           </mat-form-field>
         </div>
         <!-- <p>{{corpus.category_mapping | json}}</p> -->
-        <div class="d-flex flex-column" style="overflow-y: auto;max-height: 35vh;">
+        <div class="d-flex flex-column" style="overflow-y: auto;height: 35vh;">
 
           <app-categorie-modal-input *ngFor="let categorie of categoryMappingClone"
             [hidden]="!categorie.name.toLowerCase().includes(searchCategorie.toLowerCase())"
