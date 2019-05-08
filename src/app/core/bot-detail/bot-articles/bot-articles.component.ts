@@ -207,7 +207,9 @@ export class BotArticlesComponent implements OnInit {
       .subscribe((value) => {
         if (value) {
           this.getCorpusAndSetArticleFilterForm$()
-          .subscribe()
+          .subscribe(()=>{
+            this.showEditAndViewArtical = false;
+          })
         }
       })
   }
