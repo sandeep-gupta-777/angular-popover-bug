@@ -40,7 +40,8 @@ export class BuildbotWrapperComponent implements OnInit {
   descriptions = [
     'Complete the bot details to go to the next space',
     'Complete the bot details to go to the next space',
-    'Compliance with regulations and data protection'
+    'Compliance with regulations and data protection',
+    'Provide the neccesary details to complete bot creation'
   ];
   description = this.descriptions[0];
 
@@ -75,7 +76,9 @@ export class BuildbotWrapperComponent implements OnInit {
   faqbotBuildForm: FormGroup;
   ngOnInit() {
     this.bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type') || this.bot_type;
-
+    if(this.bot_type === EBotType.faqbot){      
+      this.description = this.descriptions[3];
+    }
     this.faqbotBuildForm = this.botConfigService.getFaqbotBuildForm(this.bot);
     this.basicInfoForm = this.botConfigService.getBasicInfoForm(this.bot);
     this.dataManagementForm = this.botConfigService.getDataManagementForm(this.bot);
@@ -155,6 +158,8 @@ export class BuildbotWrapperComponent implements OnInit {
     this.activeTab = activeTab;
     this.heading = this.headings[activeTab];
     this.description = this.descriptions[activeTab];
+    
+    
   }
 
   updateBot(bot: IBot) {

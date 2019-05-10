@@ -44,10 +44,14 @@
     <!--+{{myObject.keys(bot.integrations).length-4}} More-->
   <!--</span>-->
   <!--<div class="headerDivider mx-2"></div>-->
-  <div *ngIf = "bot.bot_type == 'faqbot'" class = "faq-search">
+
+
+  <!-- <div *ngIf = "bot.bot_type == 'faqbot'" class = "faq-search">
     <i class="fa fa-search"></i>
     <input placeholder="Search for questions or variants"> 
-  </div>
+  </div> -->
+
+  
   <div *myIf="myEAllActions['Send API']">
     <!--<div class="d-flex preview-box align-items-center" (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'">-->
       <!--<i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>-->

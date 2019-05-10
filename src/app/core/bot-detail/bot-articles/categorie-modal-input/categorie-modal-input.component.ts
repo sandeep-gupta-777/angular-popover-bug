@@ -29,12 +29,11 @@ export class CategorieModalInputComponent implements OnInit {
 
   isNameChanged() {
     let name = this.categorieMappingReal.find((cat) => { return cat.category_id == this.categorieClone.category_id }).name;
-
-    return name == this.categorieClone.name;
+    return name == this.categorieClone.name ;
   }
 
   categoryUpdateClicked() {
-    if(!(this.typeIsEdit && this.isNameChanged())){
+    if(!(!!this.categorieClone.name && this.typeIsEdit && this.isNameChanged())){
       if (this.typeIsEdit) {
         const body = {
           'category_name': this.categorieClone.name,

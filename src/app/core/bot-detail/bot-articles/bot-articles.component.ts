@@ -289,7 +289,13 @@ export class BotArticlesComponent implements OnInit {
         this.categoryMappingClone.push(value.new_category);
         this.categoryMappingClone = [...this.categoryMappingClone];
         this.utilityService.showSuccessToaster("Caregory succesfully created");
-
+        let formObj = {};
+          this.categoryMappingClone.forEach((categorie) => {
+            formObj[categorie.category_id] = [false];
+          })
+          this.articleFilterForm = this.formBuilder.group(
+            formObj
+          );
       })
   }
 
