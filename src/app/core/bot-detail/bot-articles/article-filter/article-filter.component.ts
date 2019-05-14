@@ -24,7 +24,6 @@ export class ArticleFilterComponent implements OnInit {
   }
   isNothingSelected() {
     let i = true;
-    debugger;
     for (var key in this.articleFilterForm.value) {
       if (this.articleFilterForm.value[key] == true) {
         i = false;

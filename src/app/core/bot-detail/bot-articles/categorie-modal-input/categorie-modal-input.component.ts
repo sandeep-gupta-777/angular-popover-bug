@@ -16,8 +16,9 @@ export class CategorieModalInputComponent implements OnInit {
   @Output() categoryDelete = new EventEmitter();
   @Output() categoryCreate = new EventEmitter();
   @Output() makeShowCreateNewCategoryInputFalse = new EventEmitter();
+  @Output() cancelCategoryEditToUnchangedValue = new EventEmitter();
   editMode = false;
-  newCategorieName: string;
+  newCategorieName: string = "";
   ngOnInit() {
     if (this.typeIsEdit) {
       this.editMode = false;
@@ -33,19 +34,21 @@ export class CategorieModalInputComponent implements OnInit {
   }
 
   categoryUpdateClicked() {
-    if(!(!!this.categorieClone.name && this.typeIsEdit && this.isNameChanged())){
+    if(!( this.typeIsEdit && this.isNameChanged())){
       if (this.typeIsEdit) {
         const body = {
           'category_name': this.categorieClone.name,
           'category_id': this.categorieClone.category_id
         }
         this.categoryUpdate.emit(body);
+        this.cancelClicked(false)
       }
       else {
         const body = {
           'category_name': this.newCategorieName,
         }
         this.categoryCreate.emit(body);
+        this.cancelClicked(false)
       }
     }
     
@@ -57,9 +60,12 @@ export class CategorieModalInputComponent implements OnInit {
     }
     this.categoryDelete.emit(body);
   }
-  cancelClicked() {
+  cancelClicked(b) {
     if (this.categorieClone) {
       this.editMode = false;
+      if(b){
+        this.cancelCategoryEditToUnchangedValue.emit();
+      }
     }
     else {
       this.makeShowCreateNewCategoryInputFalse.emit();

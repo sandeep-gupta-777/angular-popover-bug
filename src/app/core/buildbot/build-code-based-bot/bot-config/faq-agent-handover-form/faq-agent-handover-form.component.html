@@ -1,0 +1,81 @@
+<form [formGroup]="formGroup" >
+  <div class="d-flex flex-column">
+      <fieldset class = "d-flex flex-column pb-4">
+            <mat-form-field [readonlyselectedroles]="myEAllActions['Update Bots']" class="w-50">
+                    <input matInput 
+                    displayName="Bot Name"
+                    placeholder="Bot Name"
+                    formControlName="name"
+                    required>
+                  </mat-form-field>
+            <mat-form-field class="w-50" [readonlyselectedroles]="myEAllActions['Update Bots']">
+                    <input matInput 
+                    displayName="Unique Name"
+                    formControlName="bot_unique_name"
+                    placeholder="Bot Unique Name"
+                    required>
+                      </mat-form-field>
+      </fieldset>
+      <!-- <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
+          <app-bot-config-input
+              displayName="Bot Name"
+              placeholder="Bot Name"
+              [isRequired]="true"
+              formControlName="name"></app-bot-config-input>
+          <app-bot-config-input
+                  displayName="Unique Name"
+                  formControlName="bot_unique_name"
+                  [isRequired]="true"
+                  placeholder="Bot Unique Name"></app-bot-config-input>
+      </fieldset> -->
+      <!-- <div class="col-1"></div> -->
+      <fieldset [readonlyselectedroles]="myEAllActions['Update Bots']" class = "pb-4">
+          <!--<div style="font-size: 11px; margin-bottom: 10px">Photo</div>-->
+          <div style="display: flex; align-items: center">
+              <img style="width: 72px; border-radius: 50%; height: 72px; margin-right: 10px"
+                   [src]="formGroup.get('logo').value" alt="">
+              <mat-form-field class="w-75">
+                  <input type="text"
+                         matInput
+                         formControlName="logo"
+                         placeholder="URL for the Bot Logo/Brand Image"
+                         >
+                         <mat-error *ngIf="formGroup.get('logo').hasError('required')">
+                            Required
+                        </mat-error>
+    
+                        <mat-error *ngIf="!formGroup.get('logo').hasError('required') && formGroup.get('logo').hasError('Must be Https Url')">
+                            Must be Https Url
+    
+                        </mat-error>
+    
+                        <mat-error *ngIf="!formGroup.get('logo').hasError('required')  && formGroup.get('logo').hasError('Image Extension is not correct')">
+                            Image Extension is not correct
+                        </mat-error>
+              </mat-form-field>
+
+          </div>
+
+      </fieldset>
+      <fieldset class = "pb-4">
+        
+            <div class="form-control d-flex flex-column">
+                <label class="py-1">Allow feedback <app-info-icon [text]="'Request feedback for message in a session'"></app-info-icon></label>
+                <mat-slide-toggle 
+                    formControlName="allow_feedback"
+                    color="primary"
+                >
+                </mat-slide-toggle>
+            </div>
+
+            <div class="form-control d-flex flex-column">
+                <label class="py-1">Allow agent handover <app-info-icon [text] = "'Transfer the message to an agent when bot fails'"></app-info-icon></label>
+                <mat-slide-toggle 
+                    formControlName="allow_agent_handover"
+                    color="primary"
+                >
+                </mat-slide-toggle>
+                </div>
+      </fieldset>
+  </div>
+</form>

@@ -74,7 +74,8 @@
             [categorieClone]="categorie" [categorieMappingReal]="corpus.category_mapping"
             [typeIsEdit] = "true"
             (categoryUpdate)="categoryUpdate($event)"
-            (categoryDelete)= "categoryDelete($event)">
+            (categoryDelete)= "categoryDelete($event)"
+            (cancelCategoryEditToUnchangedValue)="cancelCategoryEditToUnchangedValue()">
           </app-categorie-modal-input>
 
 

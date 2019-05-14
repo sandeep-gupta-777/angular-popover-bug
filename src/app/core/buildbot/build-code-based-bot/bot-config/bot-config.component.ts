@@ -38,6 +38,7 @@ export class BotConfigComponent implements OnInit {
   basicInfoForm: FormGroup;
   dataManagementForm: FormGroup;
   securityForm: FormGroup;
+  faqagentHandoverForm : FormGroup;
   integrationForm: NgForm;
   myEBotType = EBotType;
   intigrationFormSubcription : Subscription;

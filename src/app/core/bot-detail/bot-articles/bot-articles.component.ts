@@ -155,9 +155,7 @@ export class BotArticlesComponent implements OnInit {
       if(value){
         this.getCorpusAndSetArticleFilterForm$().subscribe((v)=>{
           this.utilityService.showSuccessToaster("Article succesfully saved");
-          if(!articleData.section_id){
-            this.showEditAndViewArtical = false;
-          }
+          this.showEditAndViewArtical = false;
         })
         // this.saveAndTrain.emit();
       }
@@ -297,6 +295,10 @@ export class BotArticlesComponent implements OnInit {
             formObj
           );
       })
+  }
+
+  cancelCategoryEditToUnchangedValue(){
+    this.categoryMappingClone = this.utilityService.createDeepClone(this.corpus.category_mapping);
   }
 
 }

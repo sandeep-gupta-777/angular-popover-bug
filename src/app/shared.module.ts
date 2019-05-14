@@ -71,6 +71,8 @@ import {BotConfigService} from "./core/buildbot/build-code-based-bot/bot-config/
 import {PermissionService} from "./permission.service";
 import {ConstantsService} from "./constants.service";
 import {SharedEnterpriseListModuleModule} from "./auth/shared-enterprise-list-module.module";
+import { FaqAgentHandoverFormComponent } from './core/buildbot/build-code-based-bot/bot-config/faq-agent-handover-form/faq-agent-handover-form.component';
+import { FaqMlModelFormComponent } from './core/buildbot/build-code-based-bot/bot-config/faq-ml-model-form/faq-ml-model-form.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +91,8 @@ import {SharedEnterpriseListModuleModule} from "./auth/shared-enterprise-list-mo
     UiSwitchWrapperComponent,
     AvatorFormComponent,
     BotConfigComponent,
+    FaqAgentHandoverFormComponent,
+    FaqMlModelFormComponent,
     BotArchitetureComponent,
     BotTestingComponent,
     BotIdToNamePipe,
@@ -164,6 +168,8 @@ import {SharedEnterpriseListModuleModule} from "./auth/shared-enterprise-list-mo
     UiSwitchWrapperComponent,
     AvatorFormComponent,
     BotConfigComponent,
+    FaqAgentHandoverFormComponent,
+    FaqMlModelFormComponent,
     BotArchitetureComponent,
     AdditionalInfoFormComponent,
     FormsModule,
