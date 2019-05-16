@@ -207,21 +207,45 @@ export class BotArticlesComponent implements OnInit {
   }
 
   // train stuff
-  trainCorpus$(){
+  openTrainModal(){
+    this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr: 'danger-modal-header-border',
+      data: {
+        actionButtonText: `Continue`,
+        message: 'Leave a comment about why you are training the bot so that it can be tracked in the bot’s history.',
+        title: `Train knowledge base`,
+        isActionButtonDanger: false,
+        inputDescription: "Comment"
+      },
+      dialog: this.matDialog,
+      component: ModalConfirmComponent
+    }).then((data) => {
+      if (data) {
+        // this.decryptSubmit()
+        debugger;
+        this.trainBotAndGetCorpus(data);
+      }
+    })
+  }
+
+
+  trainCorpus$(description){
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
 
     let body = {
-      'bot_id': this.bot.id
+      'bot_id': this.bot.id,
+      'description':description
     }
 
     let url = this.constantsService.corpusTrainUrl()
     return this.serverService.makePostReq<any>({ headerData, body, url });
   }
 
-  trainBotAndGetCorpus() {
-    this.trainCorpus$()
+  trainBotAndGetCorpus(description) {
+    this.trainCorpus$(description)
       .subscribe((value) => {
         if (value) {
           this.getCorpusAndSetArticleFilterForm$()
@@ -233,12 +257,13 @@ export class BotArticlesComponent implements OnInit {
   }
 
   trainAndUpdate(articleData : IArticleItem){
+    debugger;
     this.updateArticle$(articleData)
     .subscribe((value) => {
       if(value){
-        this.trainBotAndGetCorpus();
+        let description = articleData.questions[0] + " on " + new Date();
+        this.trainBotAndGetCorpus(description);
       }
-
     })
   }
   // make live stuff

@@ -1,6 +1,6 @@
 <app-imi-loader *ngIf="!loaded"></app-imi-loader>
 <div *ngIf="loaded && !showEditAndViewArtical">
-  <app-artical-header [corpus]="corpus" (train)="trainBotAndGetCorpus()" (makeLive)="makeLiveCorpus()">
+  <app-artical-header [corpus]="corpus" (train)="openTrainModal()" (makeLive)="makeLiveCorpus()">
   </app-artical-header>
   <div class="main-frame">
     <app-article-question-list-view [corpus]="corpus" [filter_categorie_id_list]="filter_categorie_id_list"
@@ -25,7 +25,7 @@
 <div *ngIf="loaded && showEditAndViewArtical">
   <app-edit-and-view-articles [bot]="bot" [article]="selectedArticle" [category_mapping]="corpus.category_mapping" [corpus] = "corpus"
     (goBack)="goBackToArticalList();" (corpusNeedsReload)="getCorpusAndSetArticleFilterForm()"
-    (saveAndTrain)="trainBotAndGetCorpus()" (updateArticle)="updateArticle($event)" (deleteArticle)="openDeleteArticle($event)"
+    (saveAndTrain)="trainBotAndGetCorpus('')" (updateArticle)="updateArticle($event)" (deleteArticle)="openDeleteArticle($event)"
     (trainAndUpdate)="trainAndUpdate($event)" ></app-edit-and-view-articles>
 </div>
 
