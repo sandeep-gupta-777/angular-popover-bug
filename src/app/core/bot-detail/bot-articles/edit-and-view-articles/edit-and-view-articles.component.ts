@@ -56,8 +56,14 @@ export class EditAndViewArticlesComponent implements OnInit {
   }
   deleteQustionWithId(index: number) {
     if (index > -1) {
-      this.articleData.questions.splice(index, 1);
+      if(this.articleData.questions.length == 1){
+        this.utilityService.showErrorToaster("Can't delete the only question");
+      }else{
+          this.articleData.questions.splice(index, 1);
+      }
     }
+    
+    
   }
   addNewQuestion() {
     this.articleData.questions.push("");
@@ -122,7 +128,6 @@ export class EditAndViewArticlesComponent implements OnInit {
             this.utilityService.showSuccessToaster("Caregory succesfully updated");
           })
       }
-
       if (formValue.inputType == "new") {
         body['category_name'] = formValue.newCategoryName;
         const headerData: IHeaderData = {

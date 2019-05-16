@@ -8,6 +8,7 @@ import { UtilityService } from 'src/app/utility.service';
 import { map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 import { ICorpus, IArticleItem, ICategoryMappingItem } from '../../interfaces/faqbots';
+import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
 
 @Component({
   selector: 'app-bot-articles',
@@ -164,7 +165,26 @@ export class BotArticlesComponent implements OnInit {
   }
 
   // delete artical
-
+  async openDeleteArticle(article){
+    await this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr:'danger-modal-header-border',
+      data:{
+        actionButtonText:"Delete article",
+        message: `Are you sure you want to delete the selected article? 
+          The corpus has to be trained again to preview the change.`,
+        title:`Delete article?`,
+        isActionButtonDanger:true,
+        inputDescription: null,
+      },
+      dialog: this.matDialog,
+      component:ModalConfirmComponent
+    }).then((data)=>{
+      if(data){
+        this.deleteArticle(article);
+      }
+    })
+  }
   deleteArticle(article){
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token

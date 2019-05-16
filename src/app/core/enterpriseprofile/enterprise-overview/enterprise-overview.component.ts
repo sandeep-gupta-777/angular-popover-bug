@@ -255,6 +255,7 @@ export class EnterpriseOverviewComponent implements OnInit {
   }
 
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }) {
+    debugger;
     if (data.action === 'expire') {
       this.expireServicekeyData = data.data;
       this.utilityService.openDialog({
