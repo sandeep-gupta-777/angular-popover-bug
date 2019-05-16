@@ -508,7 +508,7 @@ export class ConstantsService {
   }
 
   makeCorpusLiveUrl(){
-    return this.BACKEND_URL + `corpus/makecorpuslive/`;
+    return this.BACKEND_URL + `api/v1/corpus/makecorpuslive/`;
   }
 
   updateBotSerializer(bot: IBot) {

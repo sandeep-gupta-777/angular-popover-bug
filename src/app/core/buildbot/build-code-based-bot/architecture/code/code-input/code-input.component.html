@@ -14,11 +14,11 @@
 
   <form [formGroup]="codeInputForm" class="row" style="margin-bottom: 10px; flex-grow: 1; position: relative">
     <button class="mat-theme-button mat-theme-button-border to-code-view px-1"
-            *ngIf="activeTab === myEBotVersionTabs.generation_templates && permanentlyShowUIViewFormBackend" 
+            *ngIf="activeTab === myEBotVersionTabs.generation_templates && permanentlyShowUIViewFormBackend && showGenTempEditor" 
             (click)="openEditCodeModal(selectedVersion_st)" mat-button>
         Edit code
       </button>
-      <span style="position: absolute; z-index: 10000000;right: 0;top: 5px;color:#474747;display: flex;align-items: center;"
+      <span style="position: absolute;z-index: 10;right: 0;top: 5px;color:#474747;display: flex;align-items: center;"
         *ngIf="activeTab === myEBotVersionTabs.generation_templates && permanentlyShowUIViewFormBackend">
           Code<mat-slide-toggle 
           [checked]="!showGenTempEditor"
