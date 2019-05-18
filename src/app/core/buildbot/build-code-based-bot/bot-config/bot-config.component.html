@@ -29,17 +29,17 @@
             <app-security [formGroup]="securityForm"></app-security>
         </mat-tab>
         <!-- failed appempt on making forms -->
-        <!-- <mat-tab *ngIf="(bot_type===myEBotType.faqbot)">
+        <mat-tab *ngIf="(bot_type===myEBotType.faqbot)">
             <ng-template mat-tab-label>
-                <span [ngStyle]="{'color': !securityForm.valid?'red':'#474747'}">Security</span>
-                <mat-icon style="color: red;font-size: 100%;" *ngIf="!securityForm.valid" class="example-tab-icon">highlight_off</mat-icon>
+                <span [ngStyle]="{'color': !faqHandoverANdInterfaceForm.valid?'red':'#474747'}">Agent Handover</span>
+                <mat-icon style="color: red;font-size: 100%;" *ngIf="!faqHandoverANdInterfaceForm.valid" class="example-tab-icon">highlight_off</mat-icon>
             </ng-template>
-            <app-faq-agent-handover-form [formGroup]=""></app-faq-agent-handover-form>
-        </mat-tab> -->
+            <app-faq-handover-and-interface-form [formGroup]="faqHandoverANdInterfaceForm"></app-faq-handover-and-interface-form>
+        </mat-tab>
 
         <!-- <mat-tab *ngIf="(bot_type===myEBotType.faqbot)">
             <ng-template mat-tab-label>
-                <span [ngStyle]="{'color': !securityForm.valid?'red':'#474747'}">Security</span>
+                <span [ngStyle]="{'color': !securityForm.valid?'red':'#474747'}">Ml model</span>
                 <mat-icon style="color: red;font-size: 100%;" *ngIf="!securityForm.valid" class="example-tab-icon">highlight_off</mat-icon>
             </ng-template>
             <app-faq-ml-model-form [formGroup]="securityForm"></app-faq-ml-model-form>

@@ -38,7 +38,7 @@ export class BotConfigComponent implements OnInit {
   basicInfoForm: FormGroup;
   dataManagementForm: FormGroup;
   securityForm: FormGroup;
-  faqagentHandoverForm : FormGroup;
+  faqHandoverANdInterfaceForm : FormGroup;
   integrationForm: NgForm;
   myEBotType = EBotType;
   intigrationFormSubcription : Subscription;
@@ -83,7 +83,7 @@ export class BotConfigComponent implements OnInit {
     this.basicInfoForm = this.botConfigService.getBasicInfoForm(this.bot);
     this.dataManagementForm = this.botConfigService.getDataManagementForm(this.bot);
     this.securityForm = this.botConfigService.getSecurityForm(this.bot);
-
+    this.faqHandoverANdInterfaceForm = this.botConfigService.getFaqHandoverANdInterfaceForm(this.bot);
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('config') || 'basic';
     this.id = this.activatedRoute.snapshot.queryParamMap.get('id');
 

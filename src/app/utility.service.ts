@@ -1056,7 +1056,7 @@ export class UtilityService {
   showSuccessToaster(message) {
     // this.toastr.success(message, null, {positionClass: 'toast-top-right', timeOut: 2000});
     this.snackBar.open(message, '', {
-      duration: 2000,
+      duration: 2000000,
       panelClass: ['bg-success'],
       verticalPosition: 'top',
       horizontalPosition: 'right'

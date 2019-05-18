@@ -45,3 +45,16 @@
     }
     
 }
+
+::ng-deep{
+    .checkbox-filter{
+        span{
+            white-space: normal;
+            word-break: break-all;
+        }
+    }
+    .mat-checkbox-inner-container{
+        vertical-align: top !important;
+        margin-top: 8px !important; 
+    }
+}

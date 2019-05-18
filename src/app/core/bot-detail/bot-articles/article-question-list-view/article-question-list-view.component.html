@@ -34,12 +34,16 @@
           <div class="count">{{section.questions.length}} variations</div>
       </div>
   </div>
+  <!-- <button (click)="currentPage = currentPage+1" ></button> -->
+  {{currentPage}}
+  
   <mat-paginator *ngIf="corpus.sections && corpus.sections.length >10" 
     [length]="(corpus.sections | filterArticals : filter_categorie_id_list).length"
     [pageSize]="10"
     [pageSizeOptions]="[10]"
     [showFirstLastButtons]="true"
     [hidePageSize]="true"
+    [pageIndex]="currentPage"
     (page)="goToPage($event)"
     style="background-color: transparent;"
     >

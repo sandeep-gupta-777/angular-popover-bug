@@ -9,6 +9,7 @@
       <form [formGroup]="articleFilterForm" class="">
         <div class="categories-section d-flex flex-column">
           <mat-checkbox *ngFor="let categorie of categoryMapping"
+          class = "checkbox-filter"
             [hidden]="!categorie.name.includes(filter_categorie_search)" ngModel color="primary"
             formControlName="{{categorie.category_id}}">{{categorie.name}}
           </mat-checkbox>

@@ -66,13 +66,12 @@ import {IntegrationItemByUnamePipe} from './integration-item-by-uname.pipe';
 import {BotByIdPipe} from "./core/buildbot/build-code-based-bot/bot-config/data-manage-form/bot-by-id.pipe";
 import { ListIfNotInThisListPipe } from './core/enterpriseprofile/enterprise-roles/listIfNotInThisList.pipe';
 import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
-import { FaqBotBasicInfoFormComponent } from './core/buildbot/build-code-based-bot/bot-config/faq-bot-basic-info-form/faq-bot-basic-info-form.component';
 import {BotConfigService} from "./core/buildbot/build-code-based-bot/bot-config/bot-config.service";
 import {PermissionService} from "./permission.service";
 import {ConstantsService} from "./constants.service";
 import {SharedEnterpriseListModuleModule} from "./auth/shared-enterprise-list-module.module";
-import { FaqAgentHandoverFormComponent } from './core/buildbot/build-code-based-bot/bot-config/faq-agent-handover-form/faq-agent-handover-form.component';
-import { FaqMlModelFormComponent } from './core/buildbot/build-code-based-bot/bot-config/faq-ml-model-form/faq-ml-model-form.component';
+import { FaqHandoverAndInterfaceFormComponent } from './core/buildbot/build-code-based-bot/bot-config/faq-handover-and-interface-form/faq-handover-and-interface-form.component';
+import { FaqBotBasicInfoFormComponent } from './core/buildbot/build-code-based-bot/bot-config/faq-bot-basic-info-form/faq-bot-basic-info-form.component';
 
 @NgModule({
   declarations: [
@@ -91,8 +90,7 @@ import { FaqMlModelFormComponent } from './core/buildbot/build-code-based-bot/bo
     UiSwitchWrapperComponent,
     AvatorFormComponent,
     BotConfigComponent,
-    FaqAgentHandoverFormComponent,
-    FaqMlModelFormComponent,
+    
     BotArchitetureComponent,
     BotTestingComponent,
     BotIdToNamePipe,
@@ -133,7 +131,8 @@ import { FaqMlModelFormComponent } from './core/buildbot/build-code-based-bot/bo
     RequiredIfOneFilledValidator,
     DisplayNameForKeyIntegrationPipe,
     ConvertToUniqueArrayPipe,
-    FaqBotBasicInfoFormComponent 
+    FaqHandoverAndInterfaceFormComponent,
+    FaqBotBasicInfoFormComponent,
   ],
   imports: [
     SharedEnterpriseListModuleModule,
@@ -168,8 +167,7 @@ import { FaqMlModelFormComponent } from './core/buildbot/build-code-based-bot/bo
     UiSwitchWrapperComponent,
     AvatorFormComponent,
     BotConfigComponent,
-    FaqAgentHandoverFormComponent,
-    FaqMlModelFormComponent,
+    
     BotArchitetureComponent,
     AdditionalInfoFormComponent,
     FormsModule,
@@ -210,6 +208,7 @@ import { FaqMlModelFormComponent } from './core/buildbot/build-code-based-bot/bo
     BuildbotWrapperComponent,
     ListIfNotInThisListPipe,
     ConvertToUniqueArrayPipe,
+    FaqHandoverAndInterfaceFormComponent,
     FaqBotBasicInfoFormComponent
   ],
   providers: [ConstantsService, PermissionService, BotConfigService]

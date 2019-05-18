@@ -14,11 +14,12 @@ export class ArticleQuestionListViewComponent implements OnInit {
   @Output() removeFilterItemByIdEvent = new EventEmitter();
   @Output() articleListItemClicked = new EventEmitter();
   @Input() filter_categorie_id_list:string[];
-  currentPage = 0;
+  @Input() currentPage;
   sort_articals_by: string = 'updated_at';
   // paginator: MatPaginator;
 
   removeFilterItemById(id){
+    this.currentPage = 0;
     this.removeFilterItemByIdEvent.emit(id);
     // this.paginator.firstPage();
   }

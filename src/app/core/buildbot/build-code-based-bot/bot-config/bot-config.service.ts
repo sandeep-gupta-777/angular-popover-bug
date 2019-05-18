@@ -15,6 +15,7 @@ export class BotConfigService {
 
   basicInfoForm: FormGroup;
   faqbotBuildForm: FormGroup;
+  faqHandoverANdInterfaceForm: FormGroup;
   masterIntegrationList: IIntegrationMasterListItem[];
   @Select() app$: Observable<IAppState>;
   integration_types: string[];
@@ -42,11 +43,20 @@ export class BotConfigService {
       bot_unique_name: [bot.bot_unique_name, Validators.required],
       allow_agent_handover: [bot.allow_agent_handover],
       allow_feedback: [bot.allow_feedback],
-      logo: [bot.logo || 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
+      logo: [bot.logo || 'https://s3.eu-west-1.amazonaws.com/imibot-production/assets/search-bot-icon.svg', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
     },{validator: this.utilityService.isManagerValidator});
     return this.faqbotBuildForm;
   }
-
+  getFaqHandoverANdInterfaceForm(bot: IBot){
+    this.faqHandoverANdInterfaceForm = this.formBuilder.group({
+      allow_agent_handover: [bot.allow_agent_handover],
+      threshold_min_score:[bot.bot_metadata.threshold_min_score],
+      threshold_diff_score:[bot.bot_metadata.threshold_diff_score],
+      n_results:[bot.bot_metadata.n_results],
+      low_confidence_score:[bot.bot_metadata.low_confidence_score],
+    });
+    return this.faqHandoverANdInterfaceForm;
+  }
   getBasicInfoForm(bot: IBot) {
     
       this.basicInfoForm = this.formBuilder.group({

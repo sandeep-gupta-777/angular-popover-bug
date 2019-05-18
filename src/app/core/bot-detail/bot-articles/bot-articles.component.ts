@@ -36,6 +36,7 @@ export class BotArticlesComponent implements OnInit {
   searchCategorie = "";
   categoryMappingClone : ICategoryMappingItem[];
   showCreateNewCategoryInput = false;
+  currentPageOfArtcle = 0;
   ngOnInit() {
     this.getCorpusAndSetArticleFilterForm$()
       .subscribe()
@@ -72,7 +73,10 @@ export class BotArticlesComponent implements OnInit {
 
 
   makeFilterList(form: FormGroup) {
-    this.articleFilterForm = form
+    debugger;
+    // this.currentPageOfArtcle = 1;
+    this.currentPageOfArtcle = 0;
+    this.articleFilterForm = form;
     this.filter_categorie_id_list = [];
     for (let i of Object.keys(form.value)) {
       if (form.value[i]) {
@@ -85,6 +89,7 @@ export class BotArticlesComponent implements OnInit {
     this.showEditAndViewArtical = false;
   }
   removeFilterItemById(categorie_id) {
+    this.currentPageOfArtcle = 0;
     this.articleFilterForm.patchValue({ [categorie_id]: false });
     this.makeFilterList(this.articleFilterForm);
   }

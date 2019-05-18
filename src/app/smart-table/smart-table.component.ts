@@ -195,6 +195,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
 
 
   actionIconClicked(session, action: any, event) {
+    debugger;
     this.customActionEvents.emit({data: session, action});
     event.stopPropagation();
   }

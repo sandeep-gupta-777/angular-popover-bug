@@ -2,6 +2,7 @@ import { IMeta } from './meta';
 import { IAvatar } from '../../../interfaces/bot-creation';
 import { IPipelineItem } from '../../../interfaces/ai-module';
 import { IIntegrationOption } from '../../../interfaces/integration-option';
+import { ICorpus } from './faqbots';
 
 /*TODO: what is the key for industry*/
 export interface IBot {
@@ -110,7 +111,16 @@ export interface IBot {
   form_validation_integration?: boolean;
 
   // faq bots
-  corpus?: any
+  corpus?: ICorpus;
+  // faqbot meta data
+  bot_metadata?: {
+    live_corpus?: any;
+    low_confidence_score?: number;
+    n_results?: number;
+    preview_corpus?: any;
+    threshold_diff_score?: number;
+    threshold_min_score?: number;
+  },
 }
 
 export interface IBotResult {
