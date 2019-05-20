@@ -1,30 +1,34 @@
 <form [formGroup]="formGroup">
-  <div class="d-flex flex-column">
-    <fieldset class="d-flex flex-column pb-4">
-      <mat-form-field class="w-50">
-        <input matInput displayName="Score below which fallback is shown"
+    <fieldset class="interface-form-grid pb-4 pl-3" formGroupName="bot_metadata">
+      <div style="width: 100%" class = "py-2">Inference</div>
+      <mat-form-field >
+        <input matInput type = "number" displayName="Score below which fallback is shown"
           placeholder="Score below which fallback is shown" formControlName="threshold_min_score" required>
       </mat-form-field>
-      <mat-form-field class="w-50">
-        <input matInput displayName="Difference in score for partial match" formControlName="threshold_diff_score"
+      <mat-form-field >
+        <input matInput type = "number" displayName="Difference in score for partial match" formControlName="threshold_diff_score"
           placeholder="Difference in score for partial match" required>
       </mat-form-field>
-      <mat-form-field class="w-50">
-        <input matInput displayName="No. of results to store for each message" formControlName="n_results"
+      <mat-form-field >
+        <input matInput type = "number" displayName="No. of results to store for each message" formControlName="n_results"
           placeholder="No. of results to store for each message" required>
       </mat-form-field>
-      <mat-form-field class="w-50">
-        <input matInput displayName="Max low confidence score" formControlName="low_confidence_score"
+      <mat-form-field >
+        <input matInput type = "number" displayName="Max low confidence score" formControlName="low_confidence_score"
           placeholder="Max low confidence score" required>
       </mat-form-field>
     </fieldset>
-    <fieldset class="pb-4">
-      <div class="form-control d-flex flex-column">
-        <label class="py-1">Allow agent handover <app-info-icon
-            [text]="'Transfer the message to an agent when bot fails'"></app-info-icon></label>
-        <mat-slide-toggle formControlName="allow_agent_handover" color="primary">
-        </mat-slide-toggle>
-      </div>
-    </fieldset>
-  </div>
 </form>
+<fieldset class="pb-4">
+    <div style="width: 100%" class = "pl-3">Agent Handover</div>
+    <div class="form-control d-flex flex-column pl-3 " style="border: none;">
+      <label class="py-1 handover-toggle">Allow agent handover <app-info-icon
+          [text]="'Transfer the message to an agent when bot fails'"></app-info-icon></label>
+      <span>
+          <span (click)="openAgentHandover()">
+              <mat-slide-toggle disabled [(ngModel)]="agentHandover" style = "opacity:1;cursor: pointer;" color="primary">
+                </mat-slide-toggle>
+          </span> 
+      </span>
+    </div>
+  </fieldset>

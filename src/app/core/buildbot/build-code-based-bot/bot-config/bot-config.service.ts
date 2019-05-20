@@ -49,11 +49,7 @@ export class BotConfigService {
   }
   getFaqHandoverANdInterfaceForm(bot: IBot){
     this.faqHandoverANdInterfaceForm = this.formBuilder.group({
-      allow_agent_handover: [bot.allow_agent_handover],
-      threshold_min_score:[bot.bot_metadata.threshold_min_score],
-      threshold_diff_score:[bot.bot_metadata.threshold_diff_score],
-      n_results:[bot.bot_metadata.n_results],
-      low_confidence_score:[bot.bot_metadata.low_confidence_score],
+      bot_metadata: this.formBuilder.group(bot.bot_metadata),
     });
     return this.faqHandoverANdInterfaceForm;
   }
@@ -62,7 +58,7 @@ export class BotConfigService {
       this.basicInfoForm = this.formBuilder.group({
         name: [bot.name, Validators.required],
         bot_unique_name: [bot.bot_unique_name, Validators.required],
-        description: [bot.description, Validators.required],
+        description: [bot.description],
         logo: [bot.logo || 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
         first_message: [bot.first_message],
         error_message: [bot.error_message],

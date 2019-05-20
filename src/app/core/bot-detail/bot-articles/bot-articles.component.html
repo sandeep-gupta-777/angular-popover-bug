@@ -2,11 +2,12 @@
 <div *ngIf="loaded && !showEditAndViewArtical">
   <app-artical-header [corpus]="corpus" (train)="openTrainModal()" (makeLive)="makeLiveCorpus()">
   </app-artical-header>
+
   <div class="main-frame">
     <app-article-question-list-view [corpus]="corpus" [filter_categorie_id_list]="filter_categorie_id_list"
       (removeFilterItemByIdEvent)="removeFilterItemById($event)"
       (articleListItemClicked)="openArticleEditAndView($event)"
-      [currentPage]="currentPageOfArtcle">
+      [_currentPage]="currentPageOfArtcle||0">
     </app-article-question-list-view>
     <div>
       <div class="d-flex w-100  flex-column article-action-side-bar pl-4">

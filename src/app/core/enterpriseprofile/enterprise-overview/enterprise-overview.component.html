@@ -145,7 +145,6 @@
 
 <div class="row profile-row" *ngIf = "serviceKeyExpiredTableModal?.tableData.length>0 && !showActiveServiceKeysTable" >
   <div class="col-12 p-0 m-0">
-    <div>hello1</div>
     <app-smart-table  [data]="serviceKeyExpiredTableModal?.tableData"
                       (dataValue$)="dataValueClicked($event)"
   

@@ -35,8 +35,6 @@
       </div>
   </div>
   <!-- <button (click)="currentPage = currentPage+1" ></button> -->
-  {{currentPage}}
-  
   <mat-paginator *ngIf="corpus.sections && corpus.sections.length >10" 
     [length]="(corpus.sections | filterArticals : filter_categorie_id_list).length"
     [pageSize]="10"

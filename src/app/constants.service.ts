@@ -255,6 +255,9 @@ export class ConstantsService {
   getDraftCorpusForFAQBot(){
     return this.BACKEND_URL + `api/v1/corpus/getdefaultcorpus/`;
   }
+  getUpdateAgentHandoverUrl(){
+    return this.BACKEND_URL + `api/v1/bot/updateagenthandover/`;
+  }
 
 
 

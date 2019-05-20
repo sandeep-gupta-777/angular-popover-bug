@@ -99,8 +99,6 @@ export class EnterpriseOverviewComponent implements OnInit {
 
     this.serverService.makePostReq<any>({url: generateServiceKeyUrl, body, headerData})
       .subscribe((value) => {
-
-
         this.serviceKeys.push(value);
         this.serviceKeys = [...this.serviceKeys];
         //
@@ -179,12 +177,12 @@ export class EnterpriseOverviewComponent implements OnInit {
     this.loggeduserenterpriseinfo$
       .subscribe((enterprise) => {
         this.serviceKeys = enterprise.service_key;
-        let expiredTableData = enterprise.service_key.filter(data => data.enabled == true);
+        let expiredTableData = enterprise.service_key.filter(data => data.enabled != true);
         expiredTableData = expiredTableData.filter(data => typeof data.description == 'string');
         expiredTableData.sort(function (a, b) {
           return -a.created_at + b.created_at;
         });
-        let activeTableData = enterprise.service_key.filter(data => data.enabled != true);
+        let activeTableData = enterprise.service_key.filter(data => data.enabled == true);
         activeTableData = activeTableData.filter(data => typeof data.description == 'string');
         activeTableData.sort(function (a, b) {
           return -a.expired_at + b.expired_at;
@@ -255,7 +253,7 @@ export class EnterpriseOverviewComponent implements OnInit {
   }
 
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }) {
-    debugger;
+    
     if (data.action === 'expire') {
       this.expireServicekeyData = data.data;
       this.utilityService.openDialog({

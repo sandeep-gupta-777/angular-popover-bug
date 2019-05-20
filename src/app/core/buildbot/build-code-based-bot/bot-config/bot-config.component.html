@@ -34,7 +34,7 @@
                 <span [ngStyle]="{'color': !faqHandoverANdInterfaceForm.valid?'red':'#474747'}">Agent Handover</span>
                 <mat-icon style="color: red;font-size: 100%;" *ngIf="!faqHandoverANdInterfaceForm.valid" class="example-tab-icon">highlight_off</mat-icon>
             </ng-template>
-            <app-faq-handover-and-interface-form [formGroup]="faqHandoverANdInterfaceForm"></app-faq-handover-and-interface-form>
+            <app-faq-handover-and-interface-form [formGroup]="faqHandoverANdInterfaceForm" [bot]="bot"></app-faq-handover-and-interface-form>
         </mat-tab>
 
         <!-- <mat-tab *ngIf="(bot_type===myEBotType.faqbot)">
