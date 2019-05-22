@@ -68,12 +68,12 @@
     </div>
 
     <!--<i>{{bot_type}}</i>-->
-    <div class="row" style="margin-top: 45px" *ngIf="bot_type === myEBotType.chatbot">
+    <div class="row" style="margin-top: 45px" *ngIf="bot_type != myEBotType.intelligent">
         <!--<div class="col-12">-->
             <!--<div style="font-size: 11px; margin-bottom: 10px">Default messages</div>-->
         <!--</div>-->
 
-        <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
+        <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']" *ngIf="bot_type === myEBotType.chatbot">
             <mat-form-field class="w-100">
                 <textarea matInput formControlName="first_message" type="text" class=""
                           cdkTextareaAutosize
@@ -83,7 +83,7 @@
 
             </mat-form-field>
         </fieldset>
-        <div class="col-1"></div>
+        <div class="col-1" *ngIf="bot_type === myEBotType.chatbot"></div>
         <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
             <mat-form-field class="w-100">
                 <textarea matInput formControlName="error_message" type="text"
