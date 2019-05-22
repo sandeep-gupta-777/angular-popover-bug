@@ -1080,7 +1080,7 @@ export class UtilityService {
 
   imageUrlHavingValidExtnError(formControl: FormControl) {
     const url: string = formControl.value;
-    const pattern = /\.(gif|jpg|jpeg|tiff|png)$/i;
+    const pattern = /\.(gif|jpg|jpeg|tiff|png|svg)$/i;
     return pattern.test(url) ? null : {'Image Extension is not correct': true};
   }
 
