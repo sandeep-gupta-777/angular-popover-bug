@@ -3,7 +3,7 @@
     <div class="row m-0">
         <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
 
-            <div class="switch-wrapper" style="margin-bottom: 20px">
+            <div class="switch-wrapper" style="margin-bottom: 20px" *ngIf="(bot_type===myEBotType.chatbot)">
                 <div class="form-control d-flex flex-column">
                     <label class="pr-2">Room Close Callback <app-info-icon [text]="'Trigger callback api before a room is about to close'"></app-info-icon></label>
 
@@ -82,10 +82,8 @@
             <!--</div>-->
             <!--</div>-->
         </fieldset>
-
-
-        <div class="col-7" style="padding-left: 15px">
-            <div class="" *ngIf="!(_bot.bot_type===myEBotType.intelligent)">
+        <div class="col-7" style="padding-left: 15px" *ngIf="(bot_type===myEBotType.chatbot)">
+            <div class="" >
                 <div class="d-flex align-items-center" style="margin-bottom: 20px">
                     <label class="pr-2 mb-0">Is Manager Bot? <app-info-icon [text]="'Will it orchestrate other bots?'"></app-info-icon></label>
                     <mat-slide-toggle formControlName="is_manager" color="primary"></mat-slide-toggle>
