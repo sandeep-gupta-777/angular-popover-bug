@@ -46,6 +46,7 @@ export class FaqHandoverAndInterfaceFormComponent implements OnInit {
     if(data){
       this.makeAgentHandoverRequest()
         .subscribe(()=>{
+          debugger;
           this.agentHandover = !this.agentHandover;
         })
     }

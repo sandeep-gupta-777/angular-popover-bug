@@ -121,6 +121,22 @@ export interface IBot {
     threshold_diff_score?: number;
     threshold_min_score?: number;
   },
+
+  agent_handover_setting?: {
+    consecutive_count?:{  
+      enabled?:boolean,
+      value?:number
+   },
+   fallback_count?:{  
+      enabled?:boolean,
+      value?:number
+   },
+   partial_match_count?:{  
+      enabled?:boolean,
+      value?:number
+   },
+   response_flag?:boolean
+  }
 }
 
 export interface IBotResult {

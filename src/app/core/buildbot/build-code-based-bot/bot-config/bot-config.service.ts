@@ -50,6 +50,20 @@ export class BotConfigService {
   getFaqHandoverANdInterfaceForm(bot: IBot){
     this.faqHandoverANdInterfaceForm = this.formBuilder.group({
       bot_metadata: this.formBuilder.group(bot.bot_metadata),
+      agent_handover_setting: this.formBuilder.group({
+        consecutive_count: this.formBuilder.group({
+          "enabled":[bot.agent_handover_setting.consecutive_count.enabled],
+          "value":[bot.agent_handover_setting.consecutive_count.value]
+        }),
+        fallback_count: this.formBuilder.group({
+          "enabled":[bot.agent_handover_setting.fallback_count.enabled],
+          "value":[bot.agent_handover_setting.fallback_count.value]
+        }),
+        partial_match_count: this.formBuilder.group({
+          "enabled":[bot.agent_handover_setting.partial_match_count.enabled],
+          "value":[bot.agent_handover_setting.partial_match_count.value]
+        }),
+      })
     });
     return this.faqHandoverANdInterfaceForm;
   }
