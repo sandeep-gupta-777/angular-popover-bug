@@ -53,7 +53,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
         url: this.constantsService.getLoginUrl(),
         json: login,
         method:'POST',
-        mock:true
+        mock:false
       },{
         url: this.constantsService.getAllActionsUrl(),
         json: actions,
@@ -69,7 +69,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
         url: this.constantsService.getEnterpriseLoginUrl(),
         json: enterprise_login,
         method:'POST',
-        mock:true
+        mock:false
       },{
         url: this.constantsService.getAllEnterpriseUrl(),
         json: enterprises,
@@ -119,7 +119,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
         url: this.constantsService.getAllVersionsByBotId(),
         json: versions,
         method:'GET',
-        mock:true
+        mock:false
       },{
         url: this.constantsService.geReportTypesUrl(),
         json: reportTypes,

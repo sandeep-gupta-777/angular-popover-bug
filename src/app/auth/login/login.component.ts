@@ -219,7 +219,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       new ResetAnalytics2HeaderData(),
       new ResetAppState()
     ]);
-    debugger;
+
     const loginData = this.loginForm.value;
     const loginUrl = this.constantsService.getLoginUrl();
     let body;

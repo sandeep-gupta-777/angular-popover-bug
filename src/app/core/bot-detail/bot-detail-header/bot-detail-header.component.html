@@ -1,5 +1,5 @@
-
-<div class="row-bot-detail-header d-flex align-items-center">
+<!---->
+<div class="row-bot-detail-header d-flex align-items-center" *ngIf="bot && bot.name">
   <div class="row-bot-detail-header__back"
      style="text-decoration: none; padding: 0px 8px 0px 16px"
      (click)="goBackToDashboard()">
@@ -46,7 +46,7 @@
   <!--<div class="headerDivider mx-2"></div>-->
   <div *ngIf = "bot.bot_type != 'faqbots'" class = "faq-search">
     <i class="fa fa-search"></i>
-    <input placeholder="Search for questions or variants"> 
+    <input placeholder="Search for questions or variants">
   </div>
   <div *myIf="myEAllActions['Send API']">
     <!--<div class="d-flex preview-box align-items-center" (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'">-->

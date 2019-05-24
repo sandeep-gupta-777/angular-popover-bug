@@ -36,7 +36,7 @@
     "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
     "build:client-and-server-bundles": "ng build --prod && ng run botPlateformFE:server:production",
     "ng-test": "ng serve --live-reload false",
-    "cypress:open": "cypress open"
+    "cypress": "cypress open"
   },
   "private": true,
   "dependencies": {

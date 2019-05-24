@@ -1,7 +1,13 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {EBotMessageMediaType, EChatFrame, IChatSessionState, IMessageData, IRoomData} from '../../interfaces/chat-session-state';
+import {
+  EBotMessageMediaType,
+  EChatFrame,
+  IChatSessionState,
+  IMessageData,
+  IRoomData
+} from '../../interfaces/chat-session-state';
 import {
   // AddMessagesToRoomByUId,
   ChangeFrameAction,
@@ -87,7 +93,7 @@ export class ChatWrapperComponent implements OnInit {
   messageByHuman = '';
   isFullScreenPreview;
   welcomeScreenBotId: number;
-  enterprise_logo = "https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png" ;
+  enterprise_logo = "https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png";
   enterprise_unique_name: string;
   bot_unique_name: string;
   user_first_name;
@@ -111,12 +117,13 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   ngOnInit() {
-    EventService.botUpdatedInServer$.subscribe((bot:IBot)=>{
-      if(bot.id === this.currentBot.id && bot.allow_feedback !== this.currentBot.allow_feedback){
-        this.store.dispatch([
-            new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({bot:bot})
-        ]);
-      }
+    EventService.botUpdatedInServer$.subscribe((bot: IBot) => {
+      if (this.currentBot)
+        if (bot.id === this.currentBot.id && bot.allow_feedback !== this.currentBot.allow_feedback) {
+          this.store.dispatch([
+            new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({bot: bot})
+          ]);
+        }
     });
 
     LoggingService.log('inside chat-wrapper');
@@ -162,7 +169,7 @@ export class ChatWrapperComponent implements OnInit {
       }
     });
 
-    EventService.startANewChat$.subscribe((val)=>{
+    EventService.startANewChat$.subscribe((val) => {
       this.startNewChat(val);
     });
 
@@ -180,7 +187,6 @@ export class ChatWrapperComponent implements OnInit {
           (!this.currentRoom || (this.currentRoom.id !== chatSessionState.currentRoomId));
 
         this.showBotIsThinking = this.currentRoom && this.currentRoom.showBotIsThinking;
-
 
 
         this.currentBot = chatSessionState.currentBotDetails;
@@ -372,7 +378,7 @@ export class ChatWrapperComponent implements OnInit {
     ]);
   }
 
-  saveConsumerDetails(value:IConsumerDetails) {
+  saveConsumerDetails(value: IConsumerDetails) {
     this.showOverlay = false;
     this.store.dispatch([new SetConsumerDetail(value)])
       .subscribe(() => {
@@ -401,7 +407,7 @@ export class ChatWrapperComponent implements OnInit {
             bot_message_id: feedback.bot_message_id
           })
         ]);
-      },()=>{
+      }, () => {
 
         this.store.dispatch([
           new UpdateBotMessage({
