@@ -1,0 +1,16 @@
+.interface-form-grid{
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 10px;
+    mat-form-field{
+        width: 50%;
+    }
+}
+.handover-toggle{
+    font-size: 11px;
+    line-height: 1.45;
+    font-weight: 400;
+    color: #9e9e9e;
+    padding-bottom: 0;
+    margin-bottom: 4px;
+}

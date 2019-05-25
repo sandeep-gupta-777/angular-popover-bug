@@ -28,6 +28,23 @@
             </ng-template>
             <app-security [formGroup]="securityForm"></app-security>
         </mat-tab>
+        <!-- failed appempt on making forms -->
+        <mat-tab *ngIf="(bot_type===myEBotType.faqbot)">
+            <ng-template mat-tab-label>
+                <span [ngStyle]="{'color': !faqHandoverANdInterfaceForm.valid?'red':'#474747'}">Handover and Inference</span>
+                <mat-icon style="color: red;font-size: 100%;" *ngIf="!faqHandoverANdInterfaceForm.valid" class="example-tab-icon">highlight_off</mat-icon>
+            </ng-template>
+            <app-faq-handover-and-interface-form [formGroup]="faqHandoverANdInterfaceForm" [bot]="bot"></app-faq-handover-and-interface-form>
+        </mat-tab>
+
+        <!-- <mat-tab *ngIf="(bot_type===myEBotType.faqbot)">
+            <ng-template mat-tab-label>
+                <span [ngStyle]="{'color': !securityForm.valid?'red':'#474747'}">Ml model</span>
+                <mat-icon style="color: red;font-size: 100%;" *ngIf="!securityForm.valid" class="example-tab-icon">highlight_off</mat-icon>
+            </ng-template>
+            <app-faq-ml-model-form [formGroup]="securityForm"></app-faq-ml-model-form>
+        </mat-tab> -->
+
         <ng-container *myIf="[myEAllActions['Get Integrations']]">
             <mat-tab *ngIf="!(bot_type===myEBotType.intelligent)">
                 <ng-template mat-tab-label>

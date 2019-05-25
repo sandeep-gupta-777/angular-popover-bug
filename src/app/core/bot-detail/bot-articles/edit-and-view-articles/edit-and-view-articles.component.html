@@ -18,7 +18,7 @@
     <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer mr-2" mat-button
     *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
       style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; " (click)="updateAndTrain()">
-      <mat-icon>refresh</mat-icon>
+      <mat-icon>autorenew</mat-icon>
       Save and train
     </button>
     <button class="mat-theme-button cursor-pointer mr-2" mat-button (click)="updateArticleClicked()"
@@ -32,6 +32,12 @@
       <mat-icon>delete</mat-icon>
       Delete
     </button>
+    <button class="mat-theme-button cursor-pointer mr-2" mat-button (click)="goBackToArticle()"
+    *ngIf="!articleData.section_id || (articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
+      style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; ">
+      <mat-icon>close</mat-icon>
+      Cancel and close
+    </button>
   </div>
 
 </header>
@@ -39,11 +45,11 @@
 <div class="category-edit px-2 pb-2">
   <div class="category-lable px-2 ">Category</div>
   <div class="category-name cursor-pointer px-2" (click)="openCategoryModifyModal(categoriesTemplate)"
-  *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
-  >
+  *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' ||articleData.category_id == 'default_articles')"
+  ><mat-icon class="color-primary" style="font-size:12px;height:auto;width:auto;">edit</mat-icon>
     {{articleData.category_id | categoryIdToName : category_mapping}}
   </div>
-  <div class="px-2" *ngIf="(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
+  <div class="px-2" *ngIf="(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' ||articleData.category_id == 'default_articles')"
   >
     {{articleData.category_id | categoryIdToName : category_mapping}}
   </div>
@@ -57,7 +63,6 @@
       <textarea matInput required name=a{{index}} type="text" [(ngModel)]="articleData.questions[index]"
         #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3">
             </textarea>
-      <!-- <input matInput name=a{{index}} type="text" [(ngModel)]="articleData.questions[index]"> -->
       <mat-icon matSuffix class="onParentHover cursor-pointer" (click)="deleteQustionWithId(index)">close
       </mat-icon>
     </mat-form-field>
@@ -74,7 +79,7 @@
       <mat-form-field class="question-list-item w-100" appearance="outline" color=basic
         *ngFor="let answer of articleData.answers; let index = index;trackBy:trackByIndex;">
         <textarea matInput name=a{{index}} type="text" [(ngModel)]="articleData.answers[index].text[0]"
-          #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="20" cdkAutosizeMaxRows="20">
+          #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="20" cdkAutosizeMaxRows="20" required>
             </textarea>
         <!-- <input matInput name=a{{index}} type="text" [(ngModel)]="articleData.questions[index]"> -->
 
@@ -83,9 +88,9 @@
                 {{answer.text}}
             </div> -->
     </div>
-    <i>{{articleData.questions | json}}</i>
+    <!-- <i>{{articleData.questions | json}}</i>
     <hr>
-    <i>{{articleData.answers | json}}</i>
+    <i>{{articleData.answers | json}}</i> -->
   </div>
 
 </div>
@@ -139,38 +144,37 @@
     </div>
 
     <div class="modal-body pt-0 ">
-      <form role="menu" #form="ngForm" class="d-flex flex-column" (ngSubmit) = "changeArticalCategory(form.value);dialogRefWrapper.ref.close()">
+      <form role="menu" #form="ngForm" class="d-flex flex-column">
         <mat-radio-group name="inputType" ngModel class = "d-flex flex-column">
 
           <mat-radio-button value="existing" color = primary>Add to existing category</mat-radio-button>
-          <mat-form-field style="width: 41%; padding-left: 26px;">
+          <mat-form-field style="width: 55%; padding-left: 26px;">
                 <mat-label>Existing Category</mat-label>
                 <mat-select name="existingCategoryName" ngModel [disabled]='!(form.value.inputType == "existing")'>
-                  <mat-option *ngFor="let categorie of category_mapping" [value]="categorie.category_id">
-                    {{categorie.name}}
-                  </mat-option>
+                  <div *ngFor="let categorie of category_mapping">
+                      <mat-option  [value]="categorie.category_id" *ngIf = "!(categorie.category_id == 'unassigned' || categorie.category_id == 'default_articles' )">
+                          {{categorie.name}}
+                        </mat-option>
+                  </div>
                 </mat-select>
              </mat-form-field>
 
           <mat-radio-button value="new" color = primary>Add to new category</mat-radio-button>
-          <mat-form-field style="width: 41%; padding-left: 26px;">
+          <mat-form-field style="width: 55%; padding-left: 26px;">
                 <input matInput placeholder="Name" name="newCategoryName" ngModel
-                  [disabled]='!(form.value.inputType == "new")'>
+                  [disabled]='!(form.value.inputType == "new")' maxlength=40>
+                  <!-- <mat-hint align ="end" class = "ml-auto" style="font-size: 9px;">{{form.value.newCategorieName.length}} / 40</mat-hint> -->
               </mat-form-field>
         </mat-radio-group>
-       
-        
-
-        
-       
-
         <div class="d-flex justify-content-center">
           <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2 cursor-pointer" style= "font-size: 13px;"
-          (click)= "dialogRefWrapper.ref.close(true)">
-                Clear 
+          (click)= "dialogRefWrapper.ref.close()">
+                Cancel 
               </button>
           
-          <button type="submit" class="btn-theme btn-theme-primary cursor-pointer" style= "font-size: 13px;">
+          <button class="btn-theme btn-theme-primary cursor-pointer" style= "font-size: 13px;"
+          (click) = "changeArticalCategory(form.value);dialogRefWrapper.ref.close(true)"
+          [disabled]="!(form.value.inputType)">
             Change category
           </button>
         </div>

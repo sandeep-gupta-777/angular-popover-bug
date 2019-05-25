@@ -38,6 +38,7 @@ export class BotConfigComponent implements OnInit {
   basicInfoForm: FormGroup;
   dataManagementForm: FormGroup;
   securityForm: FormGroup;
+  faqHandoverANdInterfaceForm : FormGroup;
   integrationForm: NgForm;
   myEBotType = EBotType;
   intigrationFormSubcription : Subscription;
@@ -82,14 +83,14 @@ export class BotConfigComponent implements OnInit {
     this.basicInfoForm = this.botConfigService.getBasicInfoForm(this.bot);
     this.dataManagementForm = this.botConfigService.getDataManagementForm(this.bot);
     this.securityForm = this.botConfigService.getSecurityForm(this.bot);
-
+    this.faqHandoverANdInterfaceForm = this.botConfigService.getFaqHandoverANdInterfaceForm(this.bot);
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('config') || 'basic';
     this.id = this.activatedRoute.snapshot.queryParamMap.get('id');
 
     this.basicInfoForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
     this.dataManagementForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
     this.securityForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
-
+    this.faqHandoverANdInterfaceForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
 
     if(this.bot_type === EBotType.intelligent){
       /**
@@ -109,7 +110,7 @@ export class BotConfigComponent implements OnInit {
 
 
   createBotData(){
-    let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm];
+    let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.faqHandoverANdInterfaceForm ];
     combinedForms = combinedForms.filter(form => form);
     let bot = UtilityService.getCombinedBotData(combinedForms);
     if (this.integrationForm && this.integrationForm.value) {
@@ -145,7 +146,7 @@ export class BotConfigComponent implements OnInit {
   }
 
   getInvalidForm() {
-    let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.integrationForm];
+    let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.integrationForm, this.faqHandoverANdInterfaceForm];
     return combinedForms.filter(form=>!!form).findIndex((form) => {
       return form.invalid;
     });

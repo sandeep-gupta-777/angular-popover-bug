@@ -147,7 +147,7 @@
   <div class="col-12 p-0 m-0">
     <app-smart-table  [data]="serviceKeyExpiredTableModal?.tableData"
                       (dataValue$)="dataValueClicked($event)"
-    (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
+  
     >
     </app-smart-table>
   </div>
@@ -156,6 +156,7 @@
 <div class="row profile-row" *ngIf = "serviceKeyActiveTableModal?.tableData.length>0 && showActiveServiceKeysTable">
   <div class="col-12 p-0 m-0">
     <app-smart-table [data]="serviceKeyActiveTableModal?.tableData"
+    (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
     (dataValue$)="dataValueClicked($event)"
     >
     </app-smart-table>

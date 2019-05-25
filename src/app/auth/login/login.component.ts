@@ -150,7 +150,10 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
         //   this.router.navigate(['/core/analytics2/volume']);
         // } else {
 
-          // this.router.navigateByUrl('/')
+        // if (userValue.role.name === ERoleName.Analyst) {
+        //   this.router.navigate(['/core/analytics2/volume']);
+        // } else {
+        //   this.router.navigate(['/']);
         // }
         return of(this.router.navigate(['/']));
       }),

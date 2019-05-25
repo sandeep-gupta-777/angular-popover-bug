@@ -11,9 +11,9 @@
     <div class="pb-2"  *ngIf="dataCopy.message">
       <p class="mb-1">{{dataCopy.message}}</p>
     </div>
-    <form class = "input-form pb-2" #inputForm="ngForm" id="modalInputForm" *ngIf="dataCopy.inputDescription" (ngSubmit)="dialogRef.close(inputForm?.value.inputData || true)">
+    <form class = "input-form pb-2" id="modalInputForm" *ngIf="dataCopy.inputDescription" >
       <mat-form-field class="example-full-width">
-        <input autofocus matInput [placeholder]="dataCopy.inputDescription" ngModel name="inputData" required>
+        <input autofocus matInput required [placeholder]="dataCopy.inputDescription" [(ngModel)]="inputData" name="inputData" >
       </mat-form-field>
     </form>
     <div class="d-flex pt-2">
@@ -22,17 +22,18 @@
       <button class=" btn-theme px-15"
       *ngIf="!dataCopy.inputDescription"
               data-cy="modal-confirm-submit"
-              (click)="closeDialog(inputForm?.value?.inputData|| true);"
+              (click)="closeDialog(true);"
       [ngClass]="{ 'btn-theme-danger': dataCopy.isActionButtonDanger ,  'btn-theme-primary': !dataCopy.isActionButtonDanger}"
        >{{dataCopy.actionButtonText||'Continue'}}</button>
 
        <button class=" btn-theme px-15"
                data-cy="modal-confirm-submit"
        *ngIf="dataCopy.inputDescription"
-      [disabled]="inputForm && !inputForm.valid"
+      [disabled]="inputData.length == 0"
       [ngClass]="{ 'btn-theme-danger': dataCopy.isActionButtonDanger ,  'btn-theme-primary': !dataCopy.isActionButtonDanger}"
-      (click)="closeDialog(inputForm?.value?.inputData|| true);"
-       >{{dataCopy.actionButtonText||'Continue'}}</button>
+      (click)="closeDialog(inputData|| true);"
+       >{{dataCopy.actionButtonText||'Continue'}}
+      </button>
     </div>
 </div>
 

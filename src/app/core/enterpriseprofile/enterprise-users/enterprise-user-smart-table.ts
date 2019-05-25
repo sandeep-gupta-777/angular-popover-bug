@@ -32,9 +32,19 @@ export class EnterpriseUserSmartTable extends AbstractSmartTable {
     throw 'ConsumerSmartTableModal: use refreshData instead';
   }
 
+  updateDependency(dependency){
+    this.dependency = {...this.dependency, ...dependency}
+    this.roleMap = this.dependency.roleMap;
+    this.render()
+  }
+
   refreshData(eterpriseUserData:IEnterpriseUser[]) {
     this.rawData = eterpriseUserData;
     this._tableData = this.customTransformSessionDataForMaterialTable(eterpriseUserData);
+  }
+
+  render() {
+    this.refreshData(this.rawData);
   }
 
   roleIdToRoleName(roleId: number) {
@@ -57,6 +67,7 @@ export class EnterpriseUserSmartTable extends AbstractSmartTable {
     
 
       for (let key in tableDataMetaDict) {
+        
         if (key == 'role_id') {
           let roleName = this.roleIdToRoleName(thisUsersEnterperise[key]);
           obj[tableDataMetaDict[key].displayValue] = {

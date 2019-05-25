@@ -1,11 +1,13 @@
 <app-imi-loader *ngIf="!loaded"></app-imi-loader>
 <div *ngIf="loaded && !showEditAndViewArtical">
-  <app-artical-header [corpus]="corpus">
+  <app-artical-header [corpus]="corpus" (train)="openTrainModal()" (makeLive)="makeLiveCorpus()">
   </app-artical-header>
+
   <div class="main-frame">
     <app-article-question-list-view [corpus]="corpus" [filter_categorie_id_list]="filter_categorie_id_list"
       (removeFilterItemByIdEvent)="removeFilterItemById($event)"
-      (articleListItemClicked)="openArticleEditAndView($event)">
+      (articleListItemClicked)="openArticleEditAndView($event)"
+      [_currentPage]="currentPageOfArtcle||0">
     </app-article-question-list-view>
     <div>
       <div class="d-flex w-100  flex-column article-action-side-bar pl-4">
@@ -23,9 +25,9 @@
   </div>
 </div>
 <div *ngIf="loaded && showEditAndViewArtical">
-  <app-edit-and-view-articles [bot]="bot" [article]="selectedArticle" [category_mapping]="corpus.category_mapping"
+  <app-edit-and-view-articles [bot]="bot" [article]="selectedArticle" [category_mapping]="corpus.category_mapping" [corpus] = "corpus"
     (goBack)="goBackToArticalList();" (corpusNeedsReload)="getCorpusAndSetArticleFilterForm()"
-    (saveAndTrain)="trainBotAndGetCorpus()" (updateArticle)="updateArticle($event)" (deleteArticle)="deleteArticle($event)"
+    (saveAndTrain)="trainBotAndGetCorpus('')" (updateArticle)="updateArticle($event)" (deleteArticle)="openDeleteArticle($event)"
     (trainAndUpdate)="trainAndUpdate($event)" ></app-edit-and-view-articles>
 </div>
 
@@ -67,16 +69,16 @@
           </mat-form-field>
         </div>
         <!-- <p>{{corpus.category_mapping | json}}</p> -->
-        <div class="d-flex flex-column" style="overflow-y: auto;max-height: 35vh;">
-
+        <div class="d-flex flex-column" style="overflow-y: auto;height: 35vh;">
+          
           <app-categorie-modal-input *ngFor="let categorie of categoryMappingClone"
             [hidden]="!categorie.name.toLowerCase().includes(searchCategorie.toLowerCase())"
             [categorieClone]="categorie" [categorieMappingReal]="corpus.category_mapping"
             [typeIsEdit] = "true"
             (categoryUpdate)="categoryUpdate($event)"
-            (categoryDelete)= "categoryDelete($event)">
+            (categoryDelete)= "categoryDelete($event)"
+            (cancelCategoryEditToUnchangedValue)="cancelCategoryEditToUnchangedValue()">
           </app-categorie-modal-input>
-
 
         </div>
       </div>

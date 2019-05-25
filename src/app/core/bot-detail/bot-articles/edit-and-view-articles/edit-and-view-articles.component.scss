@@ -123,3 +123,10 @@ header{
 .cursor-pointer{
     cursor: pointer;
 }
+
+::-webkit-scrollbar {
+    /*width: 5px;*/
+    // width: 0px;
+    color: red !important;
+    cursor: pointer !important;
+  }
