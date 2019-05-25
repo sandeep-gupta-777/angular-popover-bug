@@ -11415,7 +11415,7 @@
   },
   "loggeduser": {
     "user": {
-      "auth_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoidXNlciIsImlkIjoxMDgzOSwidXNlcl9pZCI6NCwiZW50ZXJwcmlzZV9pZCI6NCwicm9sZV9pZCI6Mn0.IwdW0iYjAiJf1WUUAiduvJ06rXkJAhxFELilnocYoQc",
+      "auth_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoidXNlciIsImlkIjoxMTA3MiwidXNlcl9pZCI6NCwiZW50ZXJwcmlzZV9pZCI6NCwicm9sZV9pZCI6Mn0.oucZGMNTyu8mpG4xIevOS8SoJV3L43tMR61Th5M5ckk",
       "created_at": 1510167501000,
       "email": "ayeshreddy.k@imimobile.com",
       "enterprise": {

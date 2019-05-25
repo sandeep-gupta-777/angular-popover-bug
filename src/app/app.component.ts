@@ -1,4 +1,6 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, isDevMode, OnInit, ViewChild} from '@angular/core';
+declare var CodeMirror: any;
+
 
 @Component({
   selector: 'app-root',

@@ -8,14 +8,17 @@
 ></mat-progress-bar>
 
 <div class="grid-container">
-  <app-header *ngIf="!isBotDetail && !isBuildBot" class="grid-header"></app-header>
+  <div class="header-container">
+    <app-header *ngIf="!isBotDetail && !isBuildBot" class="grid-header"></app-header>
+  </div>
   <div class="grid-body" >
     <router-outlet></router-outlet>
+    <app-footer style="margin-top: 16px; display: block"></app-footer>
   </div>
 </div>
-<div class="mt-2" *ngIf="!isBotDetail && !isBuildBot">
-  <app-footer></app-footer>
-</div>
+<!--<div class="mt-2" *ngIf="!isBotDetail && !isBuildBot">-->
+  <!--<app-footer></app-footer>-->
+<!--</div>-->
 
 <!--<div style="position: fixed; right: 0px; bottom: 0px;z-index:102">-->
   <!--&lt;!&ndash;<router-outlet name="preview"></router-outlet>&ndash;&gt;-->
@@ -25,4 +28,9 @@
 
 <div *ngIf="!isFullScreenPreview" style="position: fixed; right: 0px; bottom: 0px;z-index:102">
   <app-chat-wrapper></app-chat-wrapper>
+</div>
+
+
+<div style="position: fixed; left: 40px; bottom: 40px; cursor: pointer; z-index: 10000000000000">
+  <a routerLink="/postman"><i class="fa fa-external-link"></i></a>
 </div>

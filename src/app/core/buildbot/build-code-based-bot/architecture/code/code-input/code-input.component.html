@@ -14,13 +14,13 @@
 
   <form [formGroup]="codeInputForm" class="row" style="margin-bottom: 10px; flex-grow: 1; position: relative">
     <button class="mat-theme-button mat-theme-button-border to-code-view px-1"
-            *ngIf="activeTab === myEBotVersionTabs.generation_templates && permanentlyShowUIViewFormBackend" 
+            *ngIf="activeTab === myEBotVersionTabs.generation_templates && permanentlyShowUIViewFormBackend"
             (click)="openEditCodeModal(selectedVersion_st)" mat-button>
         Edit code
       </button>
       <span style="position: absolute; z-index: 10000000;right: 0;top: 5px;color:#474747;display: flex;align-items: center;"
         *ngIf="activeTab === myEBotVersionTabs.generation_templates && permanentlyShowUIViewFormBackend">
-          Code<mat-slide-toggle 
+          Code<mat-slide-toggle
           [checked]="!showGenTempEditor"
           (change)="viewChanged($event.checked)"
           class="d-flex align-items-center mx-1 " color="primary"
@@ -169,8 +169,8 @@
 
           </div>
           <div class="validation-toggle cursor-pointer" (click)="validationMessageToggle = !validationMessageToggle">
-            <i class="fa fa-angle-double-right" *ngIf='validationMessageToggle'></i>
-            <i class="fa fa-angle-double-left" *ngIf='!validationMessageToggle'></i>
+            <i data-cy="version-validation-info-toggle" class="fa fa-angle-double-right" *ngIf='validationMessageToggle'></i>
+            <i data-cy="version-validation-info-toggle" class="fa fa-angle-double-left" *ngIf='!validationMessageToggle'></i>
           </div>
         </div>
         <div class="validation-message"
@@ -228,6 +228,7 @@
 
         <mat-form-field class="example-full-width" style="width: 85%;">
           <input matInput placeholder="Comments on the new version" ngModel
+                 data-cy="version-fork-comment"
                  required
                  name="comment">
         </mat-form-field>
@@ -240,6 +241,7 @@
           </button>
 
           <button [disabled]="!fork_new_version_form.valid" class="btn-theme btn-theme-primary"
+                  data-cy="version-fork-submit"
                   (click)="forkNewVersion(fork_new_version_form.value)">
             Fork new version
           </button>

@@ -50,7 +50,7 @@
                 </a>
             </mat-nav-list>
         </mat-sidenav>
-        <mat-sidenav-content>
+        <mat-sidenav-content style="display: flex; flex-direction: column">
             <mat-toolbar color="primary" style="height: 56px">
                 <button mat-icon-button (click)="left.toggle()" >
                     <mat-icon>menu</mat-icon>
@@ -60,7 +60,7 @@
                     <!---->
                 </div>
             </mat-toolbar>
-            <div class="app-container">
+            <div class="app-container" style="flex-grow: 1; overflow-y: auto">
                 <div class="architecture" style="">
                     <ng-container *ngIf="sideBarTab1 === 'setting'">
                         <header>
@@ -71,7 +71,7 @@
                                 integrations.
                             </div>
                         </header>
-                        <div class="architecture py-3" *ngIf="sideBarTab1 ==='setting'">
+                        <div class="architecture py-3 pr-1" *ngIf="sideBarTab1 ==='setting'">
                             <div class="d-flex-column-last-child-flex-grow-1 text-theme-normal">
                                 <app-bot-config (datachanged$)="pipelineDataChangeHandler($event)"
                                                 (initDone$)="mySideBarService.init($event)"
@@ -85,7 +85,7 @@
                     <ng-container *myIf="[myEAllActions['Get Bot Knowledge base']]">
                         <ng-container *ngIf="sideBarTab1 === 'input'">
                             <header *ngIf="!goFullScreen">
-                                <div style="padding-bottom: 8px"><strong
+                                <div style="padding-bottom: 8px; padding-top: 16px"><strong
                                         style="color: #474747; font-size: 16px; font-weight: bold;line-height: 1;">Input
                                     recognition</strong></div>
 
@@ -132,7 +132,7 @@
                                 </div>
                             </header>
                             <app-code-input
-                                    style="height: 100%"
+
                                     class=" d-flex-column-last-child-flex-grow-1"
                                     (datachanged$)="pipelineDataChangeHandler($event)"
                                     [bot]="bot"></app-code-input>

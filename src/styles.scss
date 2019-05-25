@@ -918,6 +918,7 @@ progressbar {
 //}
 
 //==========================
+
 .CodeMirror {
   border: 1px solid #eee;
   height: auto;
@@ -1319,4 +1320,9 @@ mat-dialog-container {
   @media screen and (max-width: 780px) {
     display: initial !important;
   }
+}
+
+.cdk-overlay-container {
+  position: fixed;
+  z-index: 10000000;
 }

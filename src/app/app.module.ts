@@ -12,18 +12,12 @@ import {NgxsModule} from "@ngxs/store";
 import {LoginPageGaurdService} from "./route-gaurds/login-page.gaurd.service";
 import {NgxsStoragePluginModule} from "@ngxs/storage-plugin";
 import {NgxsReduxDevtoolsPluginModule} from "@ngxs/devtools-plugin";
-import {PermissionService} from "./permission.service";
-import {ConstantsService} from "./constants.service";
-import {AuthModule} from "./auth/auth.module";
 import {BrowserModule} from "@angular/platform-browser";
 import {ENgxsStogareKey} from './typings/enum';
-import {HttpMockRequestInterceptor} from './interceptor.mock';
-import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
-import {HttpRequestInterceptor} from './interceptor';
 import {createInputTransfer, createNewHosts, removeNgStyles} from '@angularclass/hmr';
 
 const routes: Route[] = [
-  {path: 'dev', loadChildren: './dev/dev.module#DevModule'},
+  {path: 'postman', loadChildren: './dev/dev.module#DevModule'},
   {path: 'auth', loadChildren: './auth/auth.module#AuthModule', canLoad:[LoginPageGaurdService]},
   // {path: 'login', loadChildren: './auth/auth.module#AuthModule', canLoad:[LoginPageGaurdService]},
   {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad:[ModuleGaurdLoadService]},
@@ -47,12 +41,11 @@ const routes: Route[] = [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     // NoopAnimationsModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
+    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules, enableTracing: false}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     // RouterModule,
     NgxsModule.forRoot([
 
     ]),
-    HttpClientModule,
     // AuthModule,
 
     NgxsStoragePluginModule.forRoot({key: ENgxsStogareKey.IMI_BOT_STORAGE_KEY}),

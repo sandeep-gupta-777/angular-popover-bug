@@ -3,7 +3,7 @@
         <div class="hide-phone">Select the modules to add in the bot intelligence pipeline and save to update the pipeline</div>
         <button mat-flat-button style="margin-left: auto" class="mat-theme-button" color="primary" (click)="updateBot()">Update Pipeline</button>
     </header>
-    <div class="pipeline-section-body hide-phone">
+    <div class="pipeline-section-body hide-phone" style="overflow-y: auto">
         <div class="pipeline-section-body__header">
             <strong>Modules ({{pipelineModulesV2List.length}})</strong>
             <div class="d-inline-flex align-items-center ml-auto mr-3 cursor-pointer"
@@ -14,7 +14,7 @@
                    [ngClass]="{'fa-chevron-down':!allMatExpansionExpanded, 'fa-chevron-up':allMatExpansionExpanded}"></i>
             </div>
 
-            <mat-form-field class="hide-phone" style="margin-bottom: -20px">
+            <mat-form-field class="hide-phone" style="margin-bottom: -3px">
                 <input matInput placeholder="Libraries and Modules" [(ngModel)]="searchKeyword">
                 <button mat-button matSuffix mat-icon-button aria-label="Clear">
                     <mat-icon>search</mat-icon>
@@ -41,8 +41,8 @@
         </div>
 
     </div>
-    <div class="pipeline-wrapper">
-        <h4 class="heading p-2 m-1 px-0">
+    <div class="pipeline-wrapper" style="overflow-y: auto;height: calc(100% - 56px);">
+        <h4 class="heading p-2 m-1 px-0 m-0" style="background-color: #fafafa">
             Bot Intelligence Pipeline ({{pipeLine && pipeLine.length}})
         </h4>
         <div class="flex-grow-1" style="width: 100%">

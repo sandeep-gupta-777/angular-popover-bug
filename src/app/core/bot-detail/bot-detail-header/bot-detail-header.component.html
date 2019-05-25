@@ -1,5 +1,5 @@
-
-<div class="row-bot-detail-header d-flex align-items-center">
+<!---->
+<div class="row-bot-detail-header d-flex align-items-center" *ngIf="bot && bot.name">
   <div class="row-bot-detail-header__back"
      style="text-decoration: none; padding: 0px 8px 0px 16px"
      (click)="goBackToDashboard()">

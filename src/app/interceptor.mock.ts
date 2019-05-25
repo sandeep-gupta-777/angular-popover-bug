@@ -27,6 +27,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
   constructor(private injector: Injector, private constantsService:ConstantsService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
     let apiDetails = this.getApiDetails();
 
     if(environment.mock){
@@ -52,7 +53,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
         url: this.constantsService.getLoginUrl(),
         json: login,
         method:'POST',
-        mock:true
+        mock:false
       },{
         url: this.constantsService.getAllActionsUrl(),
         json: actions,
@@ -68,7 +69,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
         url: this.constantsService.getEnterpriseLoginUrl(),
         json: enterprise_login,
         method:'POST',
-        mock:true
+        mock:false
       },{
         url: this.constantsService.getAllEnterpriseUrl(),
         json: enterprises,
@@ -118,7 +119,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
         url: this.constantsService.getAllVersionsByBotId(),
         json: versions,
         method:'GET',
-        mock:true
+        mock:false
       },{
         url: this.constantsService.geReportTypesUrl(),
         json: reportTypes,

@@ -21,11 +21,13 @@
 
       <button class=" btn-theme px-15"
       *ngIf="!dataCopy.inputDescription"
+              data-cy="modal-confirm-submit"
               (click)="closeDialog(inputForm?.value?.inputData|| true);"
       [ngClass]="{ 'btn-theme-danger': dataCopy.isActionButtonDanger ,  'btn-theme-primary': !dataCopy.isActionButtonDanger}"
        >{{dataCopy.actionButtonText||'Continue'}}</button>
 
        <button class=" btn-theme px-15"
+               data-cy="modal-confirm-submit"
        *ngIf="dataCopy.inputDescription"
       [disabled]="inputForm && !inputForm.valid"
       [ngClass]="{ 'btn-theme-danger': dataCopy.isActionButtonDanger ,  'btn-theme-primary': !dataCopy.isActionButtonDanger}"

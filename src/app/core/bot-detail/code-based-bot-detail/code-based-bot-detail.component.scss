@@ -218,6 +218,10 @@ app-knowledge-base-wrapper, app-code-input, app-integration-option-list {
   display: flex;
 }
 
+app-code-input{
+  height: calc(100% - 50px);
+}
+
 //app-bot-testing {
 //  height: 100%;
 //  overflow-y: hidden;
@@ -289,7 +293,7 @@ mat-tab-group {
   }
 
   .app-container{
-    height: calc(100vh - 56px);
+    //height: calc(100vh - 56px);
     padding: 16px 130px 16px 115px !important;
     @media screen and (max-width: 780px){
       padding: 10px !important;

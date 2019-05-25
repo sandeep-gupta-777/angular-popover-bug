@@ -1,6 +1,7 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {Subscriber} from 'rxjs';
 import {IBot} from './core/interfaces/IBot';
+import {IApi} from "./dev/interfaces";
 
 @Injectable()
 export class EventService {
@@ -35,6 +36,7 @@ export class EventService {
       }
     }
   }
+  static selectedApiChanged$ = new EventEmitter<IApi>();
 
 
 

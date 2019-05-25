@@ -19,16 +19,18 @@
   }
 
   .pipeline-section-body {
-    height: 100%;
+    height: calc(100% - 38px);
+    //
     flex: 2;
     padding-right: 38px;
     position: relative;
     border-right: 1px solid #e0e0e0;
 
     .pipeline-section-body__header {
+      background-color: #fafafa;
       display: flex;
       justify-content: space-between;
-      align-items: end;
+      align-items: center;
       margin-bottom: 4px;
       padding: 0;
       height: 38px;

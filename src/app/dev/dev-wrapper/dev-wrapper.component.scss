@@ -1,0 +1,15 @@
+.dev-wrapper-section{
+  display: flex;
+  .api-list{
+    //flex: 1.5;
+  }
+  .api-list-history{
+    width: 350px;;
+  }
+  .api-list-doc{
+    width: 250px;
+  }
+  .app-postman-form{
+    //flex: 7;
+  }
+}

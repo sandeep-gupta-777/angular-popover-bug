@@ -1,0 +1,41 @@
+.api-item-section__details {
+  padding-left: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin: 0px 8px 4px 8px;
+
+  .verb {
+    color: orange;
+    font-size: 8px;
+    font-weight: bold;
+    margin-right: 10px;
+    width: 25px;
+    flex-shrink: 0;
+  }
+
+  .name {
+    word-break: break-all;
+  }
+}
+.text-danger{
+  *{
+    color: red;
+  }
+}
+
+.text-yellow{
+  *{
+    color: yellow;
+  }
+}
+
+.text-green{
+  *{
+    background-color: yellow;
+  }
+}
+
+.text-bold{
+  font-weight: bold!important;
+}
