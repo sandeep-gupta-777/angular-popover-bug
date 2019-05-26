@@ -9,10 +9,14 @@ describe('Chat window', function () {
 
 		cy.contains("this_is_bot_update").trigger('mouseover').click();
 		cy.wait(5000);
-		cy.contains("Preview").click();
-		cy.wait(10000);
+
 		// cy.wait(['@send'], {timeout:10000});
 	});
+
+	beforeEach(()=>{
+		cy.contains("Preview").click();
+		cy.wait(5000);
+	})
 
 	it('checks if user is able to chat and see the chat rooms', function () {
 		// cy.log(cy);
@@ -28,7 +32,8 @@ describe('Chat window', function () {
 	});
 
 	it('checks if chat rooms exists', function () {
-		// chat-room-new
+		cy.server();
+		cy.route('POST','https://staging.imibot.ai/api/v1/webhook/web/*').as('send');
 		cy.get('[data-cy=chat-back]').click();
 		cy.get('[data-cy=chat-room-new]').click();
 		cy.wait(['@send'], {timeout:10000});
