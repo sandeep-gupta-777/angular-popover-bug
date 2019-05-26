@@ -31,7 +31,11 @@ import {environment} from '../../../environments/environment';
 })
 export class HeaderComponent extends ModalImplementer implements OnInit {
 
-  bc
+  defaultImage = 'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg';
+  image = 'https://images.unsplash.com/photo-1443890923422-7819ed4101c0?fm=jpg';
+  // offset = 100;
+
+  bc;
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   @Select() app$: Observable<IAppState>;

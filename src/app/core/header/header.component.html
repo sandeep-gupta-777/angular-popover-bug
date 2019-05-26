@@ -2,7 +2,9 @@
 
   <div class="box-logo" style="position: relative">
     <a routerLink="/" style="">
-      <img class="box-logo__image" src="assets/img/connect-copy@2x.png" alt="website logo">
+      <!--<img class="box-logo__image" src="assets/img/connect-copy@2x.png" alt="website logo">-->
+      <img class="box-logo__image" [defaultImage]="defaultImage" [lazyLoad]="'assets/img/connect-copy@2x.png'" alt="website logo">
+
     </a>
   </div>
 
@@ -38,7 +40,8 @@
       <span class="box-details-personal__name">{{(loggeduser$|async).user?.enterprise.name}}</span>
       <span class="box-details-personal__designation">{{(loggeduser$|async)?.user.role.name}}</span>
     </div>
-    <img [src]="logoSrc" alt="Enterprise logo">
+    <img [defaultImage]="defaultImage" [lazyLoad]="logoSrc" alt="Enterprise logo">
+
     <div class="box">
       <div class="box_initials">{{userData?.first_name[0] + userData?.last_name[0]}}</div>
       <button mat-icon-button

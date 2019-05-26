@@ -73,9 +73,11 @@ import {SharedEnterpriseListModuleModule} from "./auth/shared-enterprise-list-mo
 import { FaqHandoverAndInterfaceFormComponent } from './core/buildbot/build-code-based-bot/bot-config/faq-handover-and-interface-form/faq-handover-and-interface-form.component';
 import { FaqBotBasicInfoFormComponent } from './core/buildbot/build-code-based-bot/bot-config/faq-bot-basic-info-form/faq-bot-basic-info-form.component';
 
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 @NgModule({
   declarations: [
     IntegrationChannelListComponent,
+
     IntegrationLogosPipe,
     IntegrationItemByUnamePipe,
     SplashScreenComponent,
@@ -90,7 +92,7 @@ import { FaqBotBasicInfoFormComponent } from './core/buildbot/build-code-based-b
     UiSwitchWrapperComponent,
     AvatorFormComponent,
     BotConfigComponent,
-    
+
     BotArchitetureComponent,
     BotTestingComponent,
     BotIdToNamePipe,
@@ -143,7 +145,8 @@ import { FaqBotBasicInfoFormComponent } from './core/buildbot/build-code-based-b
     RouterModule,
     // ChartModule,
     ClickOutsideModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    LazyLoadImageModule,
 
   ],
   exports: [
@@ -167,7 +170,7 @@ import { FaqBotBasicInfoFormComponent } from './core/buildbot/build-code-based-b
     UiSwitchWrapperComponent,
     AvatorFormComponent,
     BotConfigComponent,
-    
+
     BotArchitetureComponent,
     AdditionalInfoFormComponent,
     FormsModule,
@@ -209,7 +212,8 @@ import { FaqBotBasicInfoFormComponent } from './core/buildbot/build-code-based-b
     ListIfNotInThisListPipe,
     ConvertToUniqueArrayPipe,
     FaqHandoverAndInterfaceFormComponent,
-    FaqBotBasicInfoFormComponent
+    FaqBotBasicInfoFormComponent,
+    LazyLoadImageModule
   ],
   providers: [ConstantsService, PermissionService, BotConfigService]
 })

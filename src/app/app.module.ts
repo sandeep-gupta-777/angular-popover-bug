@@ -15,12 +15,14 @@ import {NgxsReduxDevtoolsPluginModule} from "@ngxs/devtools-plugin";
 import {BrowserModule} from "@angular/platform-browser";
 import {ENgxsStogareKey} from './typings/enum';
 import {createInputTransfer, createNewHosts, removeNgStyles} from '@angularclass/hmr';
+import {LazyLoadImageModule, intersectionObserverPreset} from 'ng-lazyload-image';
+import { SetErrorImageProps } from 'ng-lazyload-image';
 
 const routes: Route[] = [
   {path: 'postman', loadChildren: './dev/dev.module#DevModule'},
-  {path: 'auth', loadChildren: './auth/auth.module#AuthModule', canLoad:[LoginPageGaurdService]},
+  {path: 'auth', loadChildren: './auth/auth.module#AuthModule', canLoad: [LoginPageGaurdService]},
   // {path: 'login', loadChildren: './auth/auth.module#AuthModule', canLoad:[LoginPageGaurdService]},
-  {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad:[ModuleGaurdLoadService]},
+  {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad: [ModuleGaurdLoadService]},
   {path: 'preview', loadChildren: './chat/chat.module#ChatModule'},
   {path: 'denied', component: NotAuthorisedComponent},
   {path: 'login', redirectTo: 'auth/login', pathMatch: 'full'},
@@ -38,44 +40,53 @@ const routes: Route[] = [
 
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    BrowserModule.withServerTransition({appId: 'serverApp'}),
     // NoopAnimationsModule,
     BrowserAnimationsModule,
+    LazyLoadImageModule.forRoot({
+      setErrorImage: ({element, errorImagePath, useSrcset}: SetErrorImageProps) => {
+        (<any>element).src = "http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg";
+      },
+      // setLoadedImage:({element, errorImagePath, useSrcset}: any) => {
+      //   (<any>element).src = "http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg";
+      // },
+      preset: intersectionObserverPreset
+    }),
     RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules, enableTracing: false}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     // RouterModule,
-    NgxsModule.forRoot([
-
-    ]),
+    NgxsModule.forRoot([]),
     // AuthModule,
 
     NgxsStoragePluginModule.forRoot({key: ENgxsStogareKey.IMI_BOT_STORAGE_KEY}),
-    NgxsReduxDevtoolsPluginModule.forRoot({disabled:environment.production}),//Comment this before pushing to git
+    NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production}),//Comment this before pushing to git
     // NgxsLoggerPluginModule.forRoot({disabled: true}), //disable for prod mode
 
 
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
     // ServiceWorkerModule.register('/static/ngsw-worker.js'),
-  // MatSnackBarModule,
-  //   FormsModule,
-  //   ReactiveFormsModule,
-  //   HttpClientModule,
+    // MatSnackBarModule,
+    //   FormsModule,
+    //   ReactiveFormsModule,
+    //   HttpClientModule,
 
     /**/
     // ReactiveFormsModule,
     // FormsModule
   ],
-  providers:[ LoginPageGaurdService, ModuleGaurdLoadService,
-  //   {
-  //   provide: HTTP_INTERCEPTORS,
-  //   useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,
-  //   multi: true
-  // }
+  providers: [LoginPageGaurdService, ModuleGaurdLoadService,
+    //   {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,
+    //   multi: true
+    // }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
 
-  constructor(public appRef: ApplicationRef) {}
+  constructor(public appRef: ApplicationRef) {
+  }
+
   hmrOnInit(store) {
     if (!store || !store.state) return;
     // console.log('HMR store', store);
@@ -90,6 +101,7 @@ export class AppModule {
     delete store.state;
     delete store.restoreInputValues;
   }
+
   hmrOnDestroy(store) {
     var cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
     // recreate elements
@@ -99,10 +111,11 @@ export class AppModule {
     store.state = {data: 'yolo'};
     // store.state = Object.assign({}, appState)
     // save input values
-    store.restoreInputValues  = createInputTransfer();
+    store.restoreInputValues = createInputTransfer();
     // remove styles
     removeNgStyles();
   }
+
   hmrAfterDestroy(store) {
     // display new elements
     store.disposeOldHosts()

@@ -35,7 +35,7 @@ import {EAllActions, ERoleName} from "../../../typings/enum";
   styleUrls: ['./bot-preview-card.component.scss']
 })
 export class BotPreviewCardComponent extends ModalImplementer implements OnInit {
-
+  defaultImage = 'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg';
   @Input() bot: IBot;
   showLoader = false;
   @Select() loggeduser$: Observable<{ user: IUser }>;

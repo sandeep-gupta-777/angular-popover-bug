@@ -5,7 +5,9 @@
      (click)="goBackToDashboard()">
     <i class="fa fa-angle-left" title="Go to Dashboard"></i>
 </div>
-  <img class="row-bot-detail-header__bot-logo" style="margin:0 8px" [src]="bot.logo" alt="B">
+  <img class="row-bot-detail-header__bot-logo" style="margin:0 8px"
+       [defaultImage]="'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg'"
+       [lazyLoad]="bot.logo" alt="Bot logo">
   <div class="row-bot-detail-header__bot-details">
     <div
       [title]="bot.name.length>90?bot.name:''"
@@ -38,10 +40,10 @@
 
   <!-- <div *ngIf = "bot.bot_type == 'faqbot'" class = "faq-search">
     <i class="fa fa-search"></i>
-    <input placeholder="Search for questions or variants"> 
+    <input placeholder="Search for questions or variants">
   </div> -->
 
-  
+
   <div *myIf="myEAllActions['Send API']">
     <!--<div class="d-flex preview-box align-items-center" (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'">-->
       <!--<i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>-->
@@ -54,7 +56,7 @@
         Analytics
       </button>
     </ng-container>
-  
+
     <button class="mat-theme-button mat-theme-button-border hide-phone"
             (click)="previewBot()" *ngIf="bot.bot_type != myEBotType.intelligent"
             mat-button>
