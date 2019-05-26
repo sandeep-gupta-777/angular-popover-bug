@@ -277,20 +277,7 @@ mat-tab-group {
     padding: 0!important;
   }
 
-  .sidebar-nav-list-item{
-    width: 100%;
-    display: flex;
-    flex-direction: column !important;
-    justify-content: center;
-    align-items: center !important;
-    font-size: 11px;
-    padding: 4px 8px !important;
-    img{
-      margin-bottom: 6px;
-      width: 50%;;
-      height: 50%;
-    }
-  }
+
 
   .app-container{
     //height: calc(100vh - 56px);
@@ -312,4 +299,25 @@ mat-tab-group {
   width: 27px;
   height: 27px;
   cursor: pointer;
+}
+
+.mat-list-item-sidebar{
+  margin-bottom: 24px;
+//
+}
+
+.sidebar-nav-list-item{
+  width: 100%;
+  display: flex;
+  flex-direction: column !important;
+  justify-content: center;
+  align-items: center !important;
+  font-size: 11px;
+  padding: 0;
+  img{
+    margin-bottom: 6px;
+    padding: 0;
+    width: 27px;
+    height: 27px;
+  }
 }

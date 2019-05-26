@@ -313,6 +313,7 @@ export class EnterpriseUsersComponent implements OnInit {
         this.serverService.makeGetReq<any>({url: RoleMapUrl, headerData})
           .subscribe((value) => {
             this.roleMap = value.objects;
+            this.enterpriseUserModal.updateDependency({"roleMap" : this.roleMap});
             if (enterprise.enterpriseusers) {
                this.enterpriseUserModal.refreshData(enterprise.enterpriseusers);
               this.loggeduserenterpriseinfo = enterprise;

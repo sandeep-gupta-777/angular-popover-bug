@@ -255,6 +255,9 @@ export class ConstantsService {
   getDraftCorpusForFAQBot(){
     return this.BACKEND_URL + `api/v1/corpus/getdefaultcorpus/`;
   }
+  getUpdateAgentHandoverUrl(){
+    return this.BACKEND_URL + `api/v1/bot/updateagenthandover/`;
+  }
 
 
 
@@ -287,7 +290,7 @@ export class ConstantsService {
   }
 
   getSessionsMessageUrl(room_id: number) {
-    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}&limit=1000`; //https://dev.imibot.ai/api/v1/message/?room_id=60
+    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}&limit=1000&order_by=created_at`; //https://dev.imibot.ai/api/v1/message/?room_id=60
   }
 
   getTotalMessagesUrl() {
@@ -503,11 +506,14 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/corpus/createcategoryandmaptosection/`;
   }
 
-
-
   corpusTrainUrl(){
     return this.BACKEND_URL + `api/v1/corpus/train/`;
   }
+
+  makeCorpusLiveUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/makecorpuslive/`;
+  }
+
   updateBotSerializer(bot: IBot) {
     const clone = { ...bot };
     const not_keys = [

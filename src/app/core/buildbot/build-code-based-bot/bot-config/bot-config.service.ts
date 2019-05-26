@@ -15,6 +15,7 @@ export class BotConfigService {
 
   basicInfoForm: FormGroup;
   faqbotBuildForm: FormGroup;
+  faqHandoverANdInterfaceForm: FormGroup;
   masterIntegrationList: IIntegrationMasterListItem[];
   @Select() app$: Observable<IAppState>;
   integration_types: string[];
@@ -42,23 +43,48 @@ export class BotConfigService {
       bot_unique_name: [bot.bot_unique_name, Validators.required],
       allow_agent_handover: [bot.allow_agent_handover],
       allow_feedback: [bot.allow_feedback],
-      logo: [bot.logo || 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
+      logo: [bot.logo || 'https://s3.eu-west-1.amazonaws.com/imibot-production/assets/search-bot-icon.svg', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
     },{validator: this.utilityService.isManagerValidator});
     return this.faqbotBuildForm;
   }
+  getFaqHandoverANdInterfaceForm(bot: any){
 
+    let agent_handover_setting:any = bot.agent_handover_setting;
+    let fallback_count :any =  agent_handover_setting && agent_handover_setting.fallback_count;
+    let partial_match_coun:any=  agent_handover_setting &&  agent_handover_setting.partial_match_count;
+    let consecutive_count:any = agent_handover_setting && agent_handover_setting.consecutive_count && agent_handover_setting.consecutive_count.enabled;
+    let partial_match_count =  bot.partial_match_count;
+    this.faqHandoverANdInterfaceForm = this.formBuilder.group({
+      bot_metadata: this.formBuilder.group(bot.bot_metadata),
+      agent_handover_setting: this.formBuilder.group({
+        consecutive_count: this.formBuilder.group({
+          "enabled":[consecutive_count && consecutive_count.enabled],
+          "value":[consecutive_count && consecutive_count.value]
+        }),
+        fallback_count: this.formBuilder.group({
+          "enabled":[fallback_count && fallback_count.enabled],
+          "value":[fallback_count && fallback_count.value]
+        }),
+        partial_match_count: this.formBuilder.group({
+          "enabled":[partial_match_count && partial_match_count.enabled],
+          "value":[partial_match_count && partial_match_count.value]
+        }),
+      })
+    });
+    return this.faqHandoverANdInterfaceForm;
+  }
   getBasicInfoForm(bot: IBot) {
-    
+
       this.basicInfoForm = this.formBuilder.group({
         name: [bot.name, Validators.required],
         bot_unique_name: [bot.bot_unique_name, Validators.required],
-        description: [bot.description, Validators.required],
+        description: [bot.description],
         logo: [bot.logo || 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
         first_message: [bot.first_message],
         error_message: [bot.error_message],
       }, {validator: this.utilityService.isManagerValidator});
-  
-    
+
+
     return this.basicInfoForm;
   }
 

@@ -30,6 +30,9 @@ export class DevStateReducer {
     // LoggingService.log('resetting state', getState());
 
     let state = getState();
+    if(!state){
+      return
+    }
     let index = state.list.findIndex(el=>el.id===payload.api.id);
     if(index === -1){
       state.list = [...state.list, payload.api];

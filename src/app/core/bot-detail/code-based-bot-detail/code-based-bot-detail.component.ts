@@ -335,5 +335,11 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
 
   }
 
-
+  logoClickHandler(left){
+    if (this.bps.isMobile) {
+      left.close()
+    } else {
+      this.router.navigate(['/']);
+    }
+  }
 }

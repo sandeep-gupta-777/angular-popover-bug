@@ -330,6 +330,12 @@ export class ServerService {
 
     return this.makeGetReq<IBotResult>({url, headerData, noValidateUser}).pipe(
       tap((botResult) => {
+        // let botList: IBot[] = [];
+        // let pipelineBasedBotList: IBot[] = [];
+
+        // botResult.objects.forEach((bot) => {
+        //   bot.bot_type !== 'genbot' ? botList.push(bot) : pipelineBasedBotList.push(bot);
+        // });
         if(botResult)
         this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
       }));

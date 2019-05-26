@@ -12,6 +12,7 @@ import {ViewBotStateModel} from '../../../../view-bots/ngxs/view-bot.state';
 import {distinctUntilChanged, map, skip, takeWhile} from 'rxjs/internal/operators';
 import {LoggingService} from '../../../../../logging.service';
 import {EAllActions} from "../../../../../typings/enum";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-data-manage-form',
@@ -24,6 +25,7 @@ export class DataManageFormComponent implements OnInit {
   _bot: Partial<IBot> = {};
   myEBotType =  EBotType;
   myEAllActions = EAllActions;
+  bot_type;
   @Input() formGroup: FormGroup;
   @Output() dataValid$ = new EventEmitter();
   @Select() botlist$: Observable<ViewBotStateModel>;
@@ -35,12 +37,14 @@ export class DataManageFormComponent implements OnInit {
     public constantsService: ConstantsService,
     public permissionService: PermissionService,
     public formBuilder: FormBuilder,
+    public activatedRoute: ActivatedRoute,
     private utilityService: UtilityService) {
   }
 
   advanced_data_protection;
 
   ngOnInit() {
+    this.bot_type = this.activatedRoute.snapshot.data.bot_type || this.activatedRoute.snapshot.queryParamMap.get('bot_type');
 
     this.botlist$
       .pipe(

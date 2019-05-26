@@ -66,11 +66,12 @@ import {IntegrationItemByUnamePipe} from './integration-item-by-uname.pipe';
 import {BotByIdPipe} from "./core/buildbot/build-code-based-bot/bot-config/data-manage-form/bot-by-id.pipe";
 import { ListIfNotInThisListPipe } from './core/enterpriseprofile/enterprise-roles/listIfNotInThisList.pipe';
 import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
-import { FaqBotBasicInfoFormComponent } from './core/buildbot/build-code-based-bot/bot-config/faq-bot-basic-info-form/faq-bot-basic-info-form.component';
 import {BotConfigService} from "./core/buildbot/build-code-based-bot/bot-config/bot-config.service";
 import {PermissionService} from "./permission.service";
 import {ConstantsService} from "./constants.service";
 import {SharedEnterpriseListModuleModule} from "./auth/shared-enterprise-list-module.module";
+import { FaqHandoverAndInterfaceFormComponent } from './core/buildbot/build-code-based-bot/bot-config/faq-handover-and-interface-form/faq-handover-and-interface-form.component';
+import { FaqBotBasicInfoFormComponent } from './core/buildbot/build-code-based-bot/bot-config/faq-bot-basic-info-form/faq-bot-basic-info-form.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import {SharedEnterpriseListModuleModule} from "./auth/shared-enterprise-list-mo
     UiSwitchWrapperComponent,
     AvatorFormComponent,
     BotConfigComponent,
+    
     BotArchitetureComponent,
     BotTestingComponent,
     BotIdToNamePipe,
@@ -129,7 +131,8 @@ import {SharedEnterpriseListModuleModule} from "./auth/shared-enterprise-list-mo
     RequiredIfOneFilledValidator,
     DisplayNameForKeyIntegrationPipe,
     ConvertToUniqueArrayPipe,
-    FaqBotBasicInfoFormComponent 
+    FaqHandoverAndInterfaceFormComponent,
+    FaqBotBasicInfoFormComponent,
   ],
   imports: [
     SharedEnterpriseListModuleModule,
@@ -164,6 +167,7 @@ import {SharedEnterpriseListModuleModule} from "./auth/shared-enterprise-list-mo
     UiSwitchWrapperComponent,
     AvatorFormComponent,
     BotConfigComponent,
+    
     BotArchitetureComponent,
     AdditionalInfoFormComponent,
     FormsModule,
@@ -204,6 +208,7 @@ import {SharedEnterpriseListModuleModule} from "./auth/shared-enterprise-list-mo
     BuildbotWrapperComponent,
     ListIfNotInThisListPipe,
     ConvertToUniqueArrayPipe,
+    FaqHandoverAndInterfaceFormComponent,
     FaqBotBasicInfoFormComponent
   ],
   providers: [ConstantsService, PermissionService, BotConfigService]

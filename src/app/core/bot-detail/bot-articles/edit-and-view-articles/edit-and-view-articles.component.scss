@@ -26,6 +26,10 @@ header{
 .main-block{
     display: grid;
     grid-template-columns: 1fr 350px;
+    grid-column-gap: 10px;
+    height: 65vh;
+    grid-template-rows: 65vh;
+    overflow-y: auto;
 
     .questions-list{
     display: flex;
@@ -70,8 +74,8 @@ header{
                     background-color: transparent;
             }
             }
-            
-           
+
+
         }
     }
 }
@@ -95,7 +99,7 @@ header{
             padding-top: 3px;
             color:$color-primary;
         }
-        
+
     }
     .response{
         .response-heading{
@@ -123,3 +127,10 @@ header{
 .cursor-pointer{
     cursor: pointer;
 }
+
+::-webkit-scrollbar {
+    /*width: 5px;*/
+    // width: 0px;
+    color: red !important;
+    cursor: pointer !important;
+  }

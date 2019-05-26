@@ -141,7 +141,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
 
   logout() {
 
-    debugger;
+
     if(!this.userData){/*TODO: ring fancing: BAD*/
       return;
     }
@@ -171,7 +171,11 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
       this.store.dispatch([new ResetChatState()]);
     });
     this.serverService.removeTokens();
-    this.router.navigate(['login']);
+    this.router.navigate(['login'])
+      .then(()=>{
+        location.reload()
+      })
+
 
   }
   changeEnterprise(template: TemplateRef<any>) {

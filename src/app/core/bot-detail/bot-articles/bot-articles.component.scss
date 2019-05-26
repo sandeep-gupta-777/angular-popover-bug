@@ -2,6 +2,9 @@
 .main-frame{
     display: grid;
     grid-template-columns: 1fr 275px;
+    grid-template-rows: calc(100% - 58px);
+    height: calc(100% - 58px);
+    //overflow-y: auto;
 }
 
 
@@ -20,11 +23,11 @@
             font-size: 15px;
             height: auto;
             width: auto;
-            padding-right: 3px; 
+            padding-right: 3px;
         }
     }
-    
-    
+
+
 }
 
 .cursor-pointer{

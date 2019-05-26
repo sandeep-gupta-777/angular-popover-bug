@@ -24,8 +24,10 @@ export class FaqBotBasicInfoFormComponent implements OnInit {
     if(!this.botId){/*only for new bots*/
       this.formGroup.get('name').valueChanges.subscribe((value) => {
         if(value){
-          const uniqueName = value.split('').join("").replace(" ", "");
+          const uniqueName = value.replace(/\s/g, "");
           this.formGroup.get('bot_unique_name').patchValue(uniqueName);
+        }else {
+          this.formGroup.get('bot_unique_name').patchValue("");
         }
       });
     }

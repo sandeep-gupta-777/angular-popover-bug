@@ -16,7 +16,7 @@
       <div class="mr-auto">
       </div>
       <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border" 
-      [hidden]=" corpus.state != 'saved' && corpus.state != 'trained'"
+      [hidden]=" corpus.state != 'saved' && corpus.state != 'trained'" (click) = "trainOrMakeLive()"
       >
           <mat-icon class = "mat-icon material-icons" *ngIf="corpus.state == 'saved'">sync</mat-icon>
           <mat-icon class = "mat-icon material-icons" *ngIf="corpus.state == 'trained'">arrow_upward</mat-icon>
