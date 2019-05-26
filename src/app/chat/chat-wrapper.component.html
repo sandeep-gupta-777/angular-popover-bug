@@ -4,7 +4,7 @@
         <div class="chat-grid__header">
               <span [matTooltip]="'Go to room list'" (click)="navigate(myEChatFrame.CHAT_LIST)"
                     [hidden]="frameEnabled===myEChatFrame.CHAT_LIST">
-                <i class="fa fa-angle-left"></i>
+                <i data-cy="chat-back" class="fa fa-angle-left"></i>
               </span>
 
             <!--TODO: when clicked open the bot-->
@@ -32,6 +32,7 @@
             <button mat-icon-button (click)="toggleOverlay(showOverlay)"
                     [class.active]="showOverlay" class="origin"
                     #overlayOrigin="cdkOverlayOrigin"
+                    data-cy="custom-room-form-trigger"
                     [matTooltip]="'New chat with custom data'"
                     cdkOverlayOrigin>
                 <mat-icon>person_add</mat-icon>

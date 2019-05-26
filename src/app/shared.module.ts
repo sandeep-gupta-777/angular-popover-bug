@@ -75,6 +75,7 @@ import { FaqBotBasicInfoFormComponent } from './core/buildbot/build-code-based-b
 
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import {ButtonWrapperComponent} from "./button-wrapper/button-wrapper.component";
+import {BreakpointService} from "./core/breakpoint.service";
 @NgModule({
   declarations: [
     ButtonWrapperComponent,
@@ -217,7 +218,7 @@ import {ButtonWrapperComponent} from "./button-wrapper/button-wrapper.component"
     FaqHandoverAndInterfaceFormComponent,
     FaqBotBasicInfoFormComponent
   ],
-  providers: [ConstantsService, PermissionService, BotConfigService]
+  providers: [ConstantsService, PermissionService, BotConfigService, BreakpointService]
 })
 export class SharedModule {
 

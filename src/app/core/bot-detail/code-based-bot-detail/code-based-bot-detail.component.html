@@ -37,6 +37,7 @@
                    *ngIf="bot.bot_type === myEBotType.chatbot"
                    (click)="sideBarTabChanged(myESideBarTab.logic)">
                     <div class="sidebar-nav-list-item"
+                         data-cy="sidebar-logic"
                          [ngClass]="{'filter-black':sideBarTab1!=='logic', 'selected-nav':sideBarTab1==='logic'}"
                          (click)="sideBarTabChanged('logic')">
                         <img class="" src="assets/img/sidebar/logic-1.svg" alt="">

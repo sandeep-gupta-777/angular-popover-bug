@@ -25,14 +25,18 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="!readonly || readonly && customConsumerDetails?.uid">
-      <input matInput placeholder="UID" type="text" [ngModel]="customConsumerDetails?.uid" name="uid"
+      <input matInput placeholder="UID" type="text" [ngModel]="customConsumerDetails?.uid"
+             data-cy="edit-consumer-uid"
+             name="uid"
              aria-describedby="emailHelp">
     </mat-form-field>
 
   </fieldset>
   <div class="d-flex justify-content-center">
     <!--<button  mat-flat-button color="primary" class="btn-theme">Save Changes</button>-->
-    <button *ngIf="!readonly" type="submit" class="mat-theme-button mat-theme-button-border" mat-button>
+    <button *ngIf="!readonly"
+            data-cy="edit-consumer-submit"
+            type="submit" class="mat-theme-button mat-theme-button-border" mat-button>
       Save Changes
     </button>
   </div>

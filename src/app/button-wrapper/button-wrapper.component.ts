@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {BreakpointService} from "../core/breakpoint.service";
 
 export enum ELoadingStatus {
   default,
@@ -48,9 +49,10 @@ export class ButtonWrapperComponent implements OnInit {
       }, 3000)
     }
   }
-  constructor() { }
+  constructor(public breakpointService: BreakpointService) { }
 
   ngOnInit() {
+
   }
 
 }

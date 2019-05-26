@@ -41,5 +41,5 @@
     <mat-icon style="color: red" *ngIf="_status === myELoadingState.error"
               aria-label="Example icon-button with a heart icon">error</mat-icon>
   </span>
-  {{text}}
+  <span [hidden]="breakpointService.isMobile && icon">{{text}}</span>
 </ng-template>

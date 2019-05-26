@@ -1,7 +1,8 @@
 <div #scrollMe class="d-flex flex-column mb-1" style="overflow-y: scroll;overflow-x: hidden; height: calc(100% - 50px);position: relative">
   <app-chat-message
-    [allow_feedback]="_allow_feedback"
     *ngFor="let messageData of _messageDataArray; let isLast = last"
+    [allow_feedback]="_allow_feedback"
+    data-cy="chat-message"
     [isLastMessage]="isLast"
     (chatMessageFeedback$)="feedback(messageData, $event)"
     (sendMessageToBotServer$)="sendMessageByHuman($event)"
@@ -31,6 +32,7 @@
 <div *ngIf="_messageDataArray" class="footer d-flex align-items-center text-muted" style="height: 45px">
   <input class="chat-input px-2 flex-grow-1"
          cdkTrapFocus
+         data-cy="chat-input"
          placeholder="Write here and press enter to send" autofocus [(ngModel)]="messageByHuman" type="text"
          (keyup.enter)="sendMessageByHuman(messageByHuman)">
   <!--<div class="d-flex justify-content-center px-2">-->
