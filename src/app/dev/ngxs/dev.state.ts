@@ -18,6 +18,7 @@ const devDefaultState: IDevState = {
 export class DevStateReducer {
 
   constructor(private constantsService: ConstantsService, private store: Store) {
+    debugger;
   }
 
   @Action(ResetDevState)

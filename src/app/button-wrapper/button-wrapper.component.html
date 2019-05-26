@@ -1,0 +1,45 @@
+<!--https://stackblitz.com/edit/angular-daiupg-->
+<span [matTooltip]="toolTipText"
+      [matTooltipClass]="{'red-tooltip': _status === myELoadingState.error}"
+			#tooltip="matTooltip">
+  <ng-container
+    [ngTemplateOutlet]="isMatFlatButton?matFlatButton:matButton"
+    [ngTemplateOutletContext]="{value: 1}">
+</ng-container>
+</span>
+
+<ng-template #matFlatButton>
+  <button class="mat-theme-button"
+          (click)="btnClick.emit($event)"
+          mat-flat-button [color]="color||'primary'"
+          [disabled]="_status === myELoadingState.loading||disabled">
+    <ng-container [ngTemplateOutlet]="buttonBody"></ng-container>
+  </button>
+</ng-template>
+
+<ng-template #matButton>
+  <button class="mat-theme-button"
+          [ngStyle]="{'border':_status===myELoadingState.default?'1px solid #e0e0e0':'1px solid transparent'}"
+          [color]="color"
+          (click)="btnClick.emit($event)"
+          mat-button
+          [disabled]="_status === myELoadingState.loading||disabled"
+  >
+    <ng-container [ngTemplateOutlet]="buttonBody"></ng-container>
+  </button>
+</ng-template>
+
+<!--<i>_loading === myELoadingState.loading {{_status === myELoadingState.loading}}</i>-->
+<ng-template #buttonBody>
+  <mat-icon *ngIf="icon" aria-label="Example icon-button with a heart icon">{{icon}}</mat-icon>
+  <span *ngIf="_status !== myELoadingState.default" class="loading-overlay"
+        [ngStyle]="{'border':'1px solid '+ borderColor}"
+        [ngClass]="{'finally': _status !== myELoadingState.loading}">
+    <mat-spinner *ngIf="_status === myELoadingState.loading" color="accent" diameter="15"></mat-spinner>
+    <mat-icon style="color: green" *ngIf="_status === myELoadingState.success"
+              aria-label="Example icon-button with a heart icon">check_circle</mat-icon>
+    <mat-icon style="color: red" *ngIf="_status === myELoadingState.error"
+              aria-label="Example icon-button with a heart icon">error</mat-icon>
+  </span>
+  {{text}}
+</ng-template>

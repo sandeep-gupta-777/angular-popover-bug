@@ -34,6 +34,9 @@ export class DevWrapperComponent implements OnInit {
 
   ngOnInit() {
     this.dev$.subscribe((devState)=>{
+      if(!devState){
+        return
+      }
       this.appHistoryList = devState.list;
     });
     EventService.selectedApiChanged$.subscribe((api)=>{

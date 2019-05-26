@@ -11,6 +11,7 @@ import {Select} from "@ngxs/store";
 import {Observable} from "rxjs";
 import {IDevState} from "../ngxs/dev.state";
 import {DevVariableService} from "../dev-variable.service";
+import {removeErrorMarkup} from "tslint/lib/verify/parse";
 
 @Component({
   selector: 'app-postman-form',
@@ -56,6 +57,9 @@ export class PostmanFormComponent {
       // }
     });
     this.dev$.subscribe((devState)=>{
+      if(!devState){
+        return;
+      }
       /*patch form with latest value*/
       if(devState.list.length>1){
         this.apiDetails = devState.list[devState.list.length-1];

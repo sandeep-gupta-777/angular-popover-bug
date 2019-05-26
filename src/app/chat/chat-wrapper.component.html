@@ -12,7 +12,10 @@
                 <!--<img [src]="currentBot.logo" class="chat-logo" alt="Bot logo">-->
                 <!--{{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>-->
             <a>
-                <img [src]="currentBot.logo" class="chat-logo" alt="Bot logo">
+                <img
+                  [defaultImage]="'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg'"
+                  [lazyLoad]="currentBot.logo"
+                  [src]="currentBot.logo" class="chat-logo" alt="Bot logo">
                 {{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>
             <a class="ml-auto hover-parent"
                [routerLink]="['/preview']"
@@ -86,7 +89,9 @@
 
 <!--tool tip starts-->
 <div class="preview-tooltip" (click)="toggleChatWindow()" *ngIf="!windowOpen && currentBot">
-    <img [src]="currentBot.logo" alt="">
+    <img
+      [defaultImage]="'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg'"
+      [lazyLoad]="currentBot.logo" alt="">
 </div>
 <!--tool tip ends-->
 
@@ -94,7 +99,8 @@
 <div *ngIf="isFullScreenPreview" class="grid-chat-preview-full-screen">
     <div class="header1 px-3 d-flex align-items-center">
         <img class="logo-md mr-2 rounded-circle"
-             src="{{enterprise_logo||'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg'}}" alt=""
+             [defaultImage]="'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg'"
+             [lazyLoad]="enterprise_logo||'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg'"
              style="border-radius: 50%;">
         <div class="d-flex flex-column text-white">
             <div>{{user_first_name}}</div>
@@ -160,7 +166,8 @@
     <div class="header2 px-3 bg-theme-primary d-flex align-items-center">
         <!--<img class="logo-md" src="https://image.flaticon.com/icons/svg/17/17004.svg" alt="">-->
         <img *ngIf="currentBot" class="logo-md mr-2 rounded-circle"
-             [src]="currentBot.logo||'https://image.flaticon.com/icons/svg/17/17004.svg'">
+             [defaultImage]="'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg'"
+             [lazyLoad]="currentBot.logo||'https://image.flaticon.com/icons/svg/17/17004.svg'">
         <div *ngIf="currentBot" class="d-flex flex-column text-white">
             <div>{{currentBot.name}}</div>
             <!--<div class="font-11">{{bot.description}}</div>-->

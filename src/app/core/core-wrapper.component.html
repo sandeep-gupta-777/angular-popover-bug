@@ -7,11 +7,13 @@
   style="position: fixed; right: 0; top: 0;z-index:300000000"
 ></mat-progress-bar>
 
+
+
 <div class="grid-container">
-  <div class="header-container">
-    <app-header *ngIf="!isBotDetail && !isBuildBot" class="grid-header"></app-header>
+  <div class="header-container" *ngIf="!isBotDetail && !isBuildBot">
+    <app-header class="grid-header"></app-header>
   </div>
-  <div class="grid-body" >
+  <div class="grid-body" [ngStyle]="{'height': (!isBotDetail && !isBuildBot)? 'calc(100vh - 56px)': '100vh'}">
     <router-outlet></router-outlet>
     <app-footer style="margin-top: 16px; display: block"></app-footer>
   </div>

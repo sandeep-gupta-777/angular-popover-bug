@@ -1,17 +1,15 @@
-import {Component, EventEmitter, Input, IterableDiffers, OnInit, Output, TemplateRef, OnDestroy} from '@angular/core';
+import {Component, EventEmitter, Input, IterableDiffers, OnDestroy, OnInit, Output, TemplateRef} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {IBot} from '../../../../interfaces/IBot';
 import {IPipelineItem} from '../../../../../../interfaces/ai-module';
 import {AimService} from '../../../../../aim.service';
 import {ObjectArrayCrudService} from '../../../../../object-array-crud.service';
-import {SaveNewBotInfo_CodeBased, SavePipeLineInfo} from '../../../ngxs/buildbot.action';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
 import {IBotCreationState} from '../../../ngxs/buildbot.state';
 import {IAppState} from '../../../../../ngxs/app.state';
 import {ConstantsService} from '../../../../../constants.service';
 import {ServerService} from '../../../../../server.service';
-import {SetPipelineModuleMasterData} from '../../../../../ngxs/app.action';
 import {EFormValidationErrors, UtilityService} from '../../../../../utility.service';
 import {LoggingService} from '../../../../../logging.service';
 import {NgForm} from '@angular/forms';
@@ -19,8 +17,8 @@ import {ModalImplementer} from '../../../../../modal-implementer';
 import {MatDialog} from '@angular/material';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {EventService} from '../../../../../event.service';
-import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
-import { PipeineIdToPipelineModuleWrapperPipe } from './pipeine-id-to-pipeline-module-wrapper.pipe';
+import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
+import {ELoadingStatus} from "../../../../../button-wrapper/button-wrapper.component";
 
 
 export interface IPipelineItemV2 {
@@ -302,10 +300,16 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
     this._expandedPipelineModules = {...this._expandedPipelineModules};
   }
 
+  updateBotStatus: ELoadingStatus = ELoadingStatus.default;
+  updateBotStatusText = "";
   updateBot(){
     // EventService.updateBotinit$.emit();
     let bot:IBot = {pipelines:this.pipeLine, id: this._bot.id, bot_access_token:this.bot.bot_access_token};
-    this.serverService.updateBot(bot).subscribe();
+    this.updateBotStatus = ELoadingStatus.loading;
+    this.serverService.updateBot(bot).subscribe(()=>{
+      this.updateBotStatus = ELoadingStatus.success;
+      this.updateBotStatusText = "suceess";
+    });
   }
 
 

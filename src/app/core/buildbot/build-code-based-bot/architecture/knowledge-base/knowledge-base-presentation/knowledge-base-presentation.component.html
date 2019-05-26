@@ -66,7 +66,7 @@
                 class="mat-theme-button"
                 style="margin-right: 10px;border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
                 (click)="goBackWithoutModal()">
-          <mat-icon>block</mat-icon>
+          <mat-icon>cancel</mat-icon>
           Cancel
         </button>
         <button mat-flat-button
@@ -77,7 +77,7 @@
                 (click)="updateOrSaveConcept()"
                 *myIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
         >
-          <mat-icon>note_add</mat-icon>
+          <mat-icon>{{ner_id?'update':'add'}}</mat-icon>
           {{ner_id ? "Update" : "Create" }}
         </button>
       </div>
@@ -87,7 +87,7 @@
                 class="mat-theme-button"
                 style="background-color: transparent;color: #474747;margin-right: 10px;border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
                 (click)="goBackWithoutModal()">
-          <mat-icon>block</mat-icon>
+          <mat-icon>cancel</mat-icon>
           Cancel
         </button>
         <button mat-flat-button
@@ -97,7 +97,7 @@
                 [disabled]="!form.valid"
                 (click)="updateOrSaveConcept()"
                 *myIf="[myEAllActions['Create Bot Knowledge base'],myEAllActions['Update Bot Knowledge base']]">
-          <mat-icon>note_add</mat-icon>
+          <mat-icon>update</mat-icon>
           {{ner_id ? "Update" : "Create" }}
         </button>
       </div>
@@ -138,7 +138,7 @@
     <app-handsontable
       *ngIf="ner_type==='database'"
       class="d-flex-column-last-child-flex-grow-1"
-      style="overflow: scroll;"
+      style="overflow: auto;"
       [testData]="handsontableData"
       (csvUploaded$)="handsontableData = $event"
       [setting]="constantsService.HANDSON_TABLE_KNOWLEDGE_BASE_SETTING">

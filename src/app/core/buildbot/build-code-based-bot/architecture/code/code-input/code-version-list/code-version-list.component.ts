@@ -3,6 +3,7 @@ import {EventService} from '../../../../../../../event.service';
 import {MatDialog} from "@angular/material";
 import {UtilityService} from "../../../../../../../utility.service";
 import {EAllActions} from "../../../../../../../typings/enum";
+import {ELoadingStatus} from "../../../../../../../button-wrapper/button-wrapper.component";
 
 @Component({
   selector: 'app-code-version-list',
@@ -16,6 +17,7 @@ export class CodeVersionListComponent implements OnInit {
   @Input() versionDiffs;
   @Input() activeVersion;
   @Input() bot;
+  @Input() saveOrCreateStatus: ELoadingStatus;
   @Input() versions;
   @Output() changeSelectedVersion$ = new EventEmitter();
   @Output() activateVersion$ = new EventEmitter();

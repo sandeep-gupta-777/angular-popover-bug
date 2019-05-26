@@ -74,10 +74,11 @@ import { FaqHandoverAndInterfaceFormComponent } from './core/buildbot/build-code
 import { FaqBotBasicInfoFormComponent } from './core/buildbot/build-code-based-bot/bot-config/faq-bot-basic-info-form/faq-bot-basic-info-form.component';
 
 import { LazyLoadImageModule } from 'ng-lazyload-image';
+import {ButtonWrapperComponent} from "./button-wrapper/button-wrapper.component";
 @NgModule({
   declarations: [
+    ButtonWrapperComponent,
     IntegrationChannelListComponent,
-
     IntegrationLogosPipe,
     IntegrationItemByUnamePipe,
     SplashScreenComponent,
@@ -150,6 +151,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 
   ],
   exports: [
+    ButtonWrapperComponent,
     SharedEnterpriseListModuleModule,
     LinkifyPipe,
     LinksFromTextPipe,
@@ -201,6 +203,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     MsToHhMmPipe,
     BotTestingComponent,
     IntegrationChannelListComponent,
+    LazyLoadImageModule ,
     SecurityComponent,
     TypeForIntegrationTypePipe,
     IntegrationItemForTypePipe,
@@ -212,8 +215,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     ListIfNotInThisListPipe,
     ConvertToUniqueArrayPipe,
     FaqHandoverAndInterfaceFormComponent,
-    FaqBotBasicInfoFormComponent,
-    LazyLoadImageModule
+    FaqBotBasicInfoFormComponent
   ],
   providers: [ConstantsService, PermissionService, BotConfigService]
 })

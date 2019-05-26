@@ -10,7 +10,12 @@ export class ApiListFilterPipe implements PipeTransform {
     if (!keyword) return apiList;
 
     return apiList.filter((api) => {
-      return api.url.toString().toLowerCase().includes(keyword.toLowerCase());
+      try {
+        return api.url.toString().toLowerCase().includes(keyword.toLowerCase());
+      }catch (e) {
+        console.log(e);
+        return false;
+      }
     });
   }
 }

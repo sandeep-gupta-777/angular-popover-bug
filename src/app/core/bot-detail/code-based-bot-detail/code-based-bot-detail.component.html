@@ -76,9 +76,9 @@
             </mat-nav-list>
         </mat-sidenav>
         <mat-sidenav-content style="display: flex; flex-direction: column">
-            <mat-toolbar color="primary" style="height: 56px; flex-shrink:0 ">
+            <mat-toolbar  style="height: 56px; flex-shrink:0; background-color: #2b4f70">
                 <button mat-icon-button (click)="left.toggle()" >
-                    <mat-icon>menu</mat-icon>
+                    <mat-icon style="color: white">menu</mat-icon>
                 </button>
                 <div class="header">
                     <app-bot-detail-header [bot]="bot" (refreshBotDetails$)="refreshBotDetails()"></app-bot-detail-header>
@@ -125,7 +125,7 @@
                                     in the message.
                                 </div>
                             </header>
-                            <mat-tab-group style="height: 100%">
+                            <mat-tab-group style="height: 100%" [ngClass]="{'hide-headers':goFullScreen}">
                                 <mat-tab label="Pipeline" *myIf="[myEAllActions['Get Pipeline Module']]">
                                     <app-pipeline
                                             (datachanged$)="pipelineDataChangeHandler($event)"

@@ -68,6 +68,7 @@ import {HttpMockRequestInterceptor} from '../interceptor.mock';
 import {HttpRequestInterceptor} from '../interceptor';
 import {MatSidenavModule} from '@angular/material';
 import {DevHttpInterceptorService} from "../dev/dev-http-interceptor.service";
+import {LazyLoadImageModule} from "ng-lazyload-image";
 
 const routes: Route[] = [
   {
@@ -167,6 +168,7 @@ const routes: Route[] = [
     ReactiveFormsModule,
     HttpClientModule,
     SharedModule,
+    LazyLoadImageModule,
     ReactiveFormsModule,
     MyMaterialModule,
     ScrollDispatchModule,

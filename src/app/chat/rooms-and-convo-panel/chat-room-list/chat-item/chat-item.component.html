@@ -1,7 +1,8 @@
 <div class="row mb-1 mt-1 position-relative"
      [ngClass]="{'bg-theme-primary-v2':currentRoomId === room.id}">
   <div class="p-2 col-2" style="text-align: center">
-    <img [src]="bot?.logo"
+    <img [lazyLoad]="bot?.logo"
+         [defaultImage]="'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg'"
          class="rounded-circle"
          style="width: 36px;height: 36px" alt="">
   </div>

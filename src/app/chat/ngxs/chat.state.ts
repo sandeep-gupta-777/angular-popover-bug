@@ -47,6 +47,7 @@ export class ChatSessionStateReducer {
 
   constructor(private constantsService: ConstantsService,
               private myToasterService: MyToasterService) {
+    debugger;
   }
 
   @Action(ToggleChatWindow)

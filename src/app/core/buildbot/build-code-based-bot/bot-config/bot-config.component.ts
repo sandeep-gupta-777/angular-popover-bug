@@ -7,9 +7,10 @@ import {EventService} from '../../../../event.service';
 import {BotConfigService} from './bot-config.service';
 import {FormControl, FormGroup, FormGroupDirective, NgForm} from '@angular/forms';
 import {ServerService} from '../../../../server.service';
-import {ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from '@angular/material';
-import { Subscription } from 'rxjs';
+import {ErrorStateMatcher} from '@angular/material';
+import {Subscription} from 'rxjs';
 import {EAllActions} from "../../../../typings/enum";
+import {ELoadingStatus} from "../../../../button-wrapper/button-wrapper.component";
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher1 implements ErrorStateMatcher {
@@ -119,10 +120,13 @@ export class BotConfigComponent implements OnInit {
     return bot;
   }
 
+  updateBotLoading = ELoadingStatus.default;
+
   /*
   * updateBotHandler: combine the data from various forms and update the bot
   * */
   updateBotHandler() {
+    this.updateBotLoading = ELoadingStatus.loading;
     let invalidFormIndex = this.getInvalidForm();
     if (invalidFormIndex >= 0) {
       this.selectedTabIndex = invalidFormIndex;
@@ -141,7 +145,10 @@ export class BotConfigComponent implements OnInit {
     bot.id = this.bot.id;
     bot.bot_access_token = this.bot.bot_access_token;
     this.serverService.updateBot(bot).subscribe(()=>{
+      this.updateBotLoading = ELoadingStatus.success;
       this.emitBotDirtyEvent(false);
+    },()=>{
+      this.updateBotLoading = ELoadingStatus.error;
     });
   }
 

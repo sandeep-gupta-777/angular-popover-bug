@@ -1,10 +1,20 @@
 <div class="card" style="border-radius: 0">
-    <button class="mat-theme-button cursor-pointer card--update" mat-button
-            *myIf="[myEAllActions['Update Bots']]"
-            (click)="updateBotHandler()">
-        <mat-icon>refresh</mat-icon>
-        Update Bot
-    </button>
+    <!--<button class="mat-theme-button cursor-pointer" mat-button-->
+            <!--*myIf="[myEAllActions['Update Bots']]"-->
+            <!--(click)="updateBotHandler()">-->
+        <!--<mat-icon>refresh</mat-icon>-->
+        <!--Update Bot-->
+    <!--</button>-->
+
+    <app-button-wrapper
+      class="card--update"
+      *myIf="[myEAllActions['Update Bots']]"
+      [isMatFlatButton]="false"
+      [status]="updateBotLoading"
+      [text]="'Update Bot'"
+      [icon]="'refresh'"
+      (btnClick)="updateBotHandler()">
+    </app-button-wrapper>
     <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedIndexChange)="selectedTabIndex = $event" animationDuration="0ms">
         <mat-tab>
             <ng-template mat-tab-label>

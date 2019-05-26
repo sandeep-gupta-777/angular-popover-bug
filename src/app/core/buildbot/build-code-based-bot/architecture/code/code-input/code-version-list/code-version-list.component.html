@@ -49,17 +49,25 @@
 
   <!--START :: code versions_st Buttons-->
   <div class="col-5">
-    <button [disabled]="!selectedVersion || disableSave"
-            data-cy="version-save"
-            *myIf="myEAllActions['Update Bot Versioning']"
-            (click)="saveSelectedVersion$.emit()"
-            mat-flat-button
-            color="primary"
-            class="mat-theme-button">
-      <mat-icon>save</mat-icon>
-      {{(!versions || !versions.length ||
-			versions.length > 0) ? "Save" : "Create"}}
-    </button>
+    <!--<button [disabled]="!selectedVersion || disableSave"-->
+            <!--data-cy="version-save"-->
+            <!--*myIf="myEAllActions['Update Bot Versioning']"-->
+            <!--(click)="saveSelectedVersion$.emit()"-->
+            <!--mat-flat-button-->
+            <!--color="primary"-->
+            <!--class="mat-theme-button">-->
+      <!--<mat-icon>save</mat-icon>-->
+      <!--{{(!versions || !versions.length || versions.length > 0) ? "Save" : "Create"}}-->
+    <!--</button>-->
+
+    <app-button-wrapper
+      *myIf="myEAllActions['Update Bot Versioning']"
+      [disabled]="!selectedVersion || disableSave"
+      data-cy="version-save"
+      [status]="saveOrCreateStatus"
+      (btnClick)="saveSelectedVersion$.emit()"
+      [text]="(!versions || !versions.length || versions.length > 0) ? 'Save' : 'Create'"
+      [icon]="'save'"></app-button-wrapper>
 
     <ng-container *ngIf="selectedVersion">
       <button [disabled]="!versions || versions.length===0"
