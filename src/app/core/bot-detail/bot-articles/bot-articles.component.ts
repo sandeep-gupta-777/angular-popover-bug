@@ -90,7 +90,7 @@ export class BotArticlesComponent implements OnInit {
     this.getCorpusAndSetArticleFilterForm();
     this.showEditAndViewArtical = false;
     this.router.navigate(['.'], {
-      queryParams: {article_selected:false},
+      queryParams: {isArticle:false},
       relativeTo: this.activatedRoute,
       queryParamsHandling: 'merge'
     })
@@ -112,7 +112,7 @@ export class BotArticlesComponent implements OnInit {
   openArticleEditAndView(article: IArticleItem) {
     // add qurey parems
     this.router.navigate(['.'], {
-      queryParams: {article_selected:true},
+      queryParams: {isArticle:true},
       relativeTo: this.activatedRoute,
       queryParamsHandling: 'merge'
     })
@@ -126,7 +126,7 @@ export class BotArticlesComponent implements OnInit {
       'questions':[""]
   }
   this.router.navigate(['.'], {
-    queryParams: {article_selected:true},
+    queryParams: {isArticle:true},
     relativeTo: this.activatedRoute,
     queryParamsHandling: 'merge'
   })
@@ -179,7 +179,7 @@ export class BotArticlesComponent implements OnInit {
           this.utilityService.showSuccessToaster("Article succesfully saved");
           this.showEditAndViewArtical = false;
           this.router.navigate(['.'], {
-            queryParams: {article_selected:false},
+            queryParams: {isArticle:false},
             relativeTo: this.activatedRoute,
             queryParamsHandling: 'merge'
           })
@@ -228,7 +228,7 @@ export class BotArticlesComponent implements OnInit {
           .subscribe(v=>{
             this.showEditAndViewArtical = false;
             this.router.navigate(['.'], {
-              queryParams: {article_selected:false},
+              queryParams: {isArticle:false},
               relativeTo: this.activatedRoute,
               queryParamsHandling: 'merge'
             })
@@ -283,7 +283,7 @@ export class BotArticlesComponent implements OnInit {
           .subscribe(()=>{
             this.showEditAndViewArtical = false;
             this.router.navigate(['.'], {
-              queryParams: {article_selected:false},
+              queryParams: {isArticle:false},
               relativeTo: this.activatedRoute,
               queryParamsHandling: 'merge'
             })
