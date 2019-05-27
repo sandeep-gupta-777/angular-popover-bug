@@ -21,8 +21,14 @@ describe('faq-artical-tab', function () {
 
         cy.get('.category-lable')
             .contains('Category')
-        cy.get('Questions')
-        cy.get('Response')
+
+        cy.get('.questions-heading')
+            .contains('Questions')
+        cy.get('.response-heading') 
+            .contains('Response')
+
+        
+        
 
 
     })
