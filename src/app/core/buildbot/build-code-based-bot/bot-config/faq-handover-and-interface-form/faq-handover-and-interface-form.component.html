@@ -1,32 +1,38 @@
 <form [formGroup]="formGroup">
-  <fieldset class="interface-form-grid pb-4 pl-3" formGroupName="bot_metadata">
+  <fieldset class="pb-4 pl-3" formGroupName="bot_metadata">
     <div style="width: 100%" class="py-2">Inference</div>
-    <mat-form-field>
-      <input matInput type="number" displayName="Score below which fallback is shown"
-        placeholder="Score below which fallback is shown" formControlName="threshold_min_score" required>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput type="number" displayName="Difference in score for partial match"
-        formControlName="threshold_diff_score" placeholder="Difference in score for partial match" required>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput type="number" displayName="No. of results to store for each message" formControlName="n_results"
-        placeholder="No. of results to store for each message" required>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput type="number" displayName="Max low confidence score" formControlName="low_confidence_score"
-        placeholder="Max low confidence score" required>
-    </mat-form-field>
+    <div class="interface-form-grid">
+      <mat-form-field>
+        <input matInput type="number" displayName="Score below which fallback is shown"
+               placeholder="Score below which fallback is shown" formControlName="threshold_min_score" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="number" displayName="Difference in score for partial match"
+               formControlName="threshold_diff_score" placeholder="Difference in score for partial match" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="number" displayName="No. of results to store for each message" formControlName="n_results"
+               placeholder="No. of results to store for each message" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="number" displayName="Max low confidence score" formControlName="low_confidence_score"
+               placeholder="Max low confidence score" required>
+      </mat-form-field>
+    </div>
   </fieldset>
 
+    <!--<button (click)="agentHandover = !agentHandover">{{agentHandover}}</button>-->
   <fieldset class="pb-4">
     <div style="width: 100%" class="pl-3">Agent Handover</div>
     <div class="form-control d-flex flex-column pl-3 " style="border: none;">
-      <label class="py-1 handover-toggle">Allow agent handover <app-info-icon
-          [text]="'Transfer the message to an agent when bot fails'"></app-info-icon></label>
+      <label class="py-1 handover-toggle">Allow agent handover
+        <app-info-icon
+          [text]="'Transfer the message to an agent when bot fails'"></app-info-icon>
+      </label>
       <span>
         <span (click)="openAgentHandover()">
-          <mat-slide-toggle disabled [(ngModel)]="!!agentHandover" style="opacity:1;cursor: pointer;" color="primary">
+          <mat-slide-toggle [checked]="!!agentHandover" (toggleChange)="agentHandover = !!$event"
+                            style="opacity:1;cursor: pointer;" color="primary">
           </mat-slide-toggle>
         </span>
       </span>
@@ -34,44 +40,55 @@
   </fieldset>
 
   <fieldset class="interface-form-grid pb-4 " formGroupName="agent_handover_setting">
-    
-    <div formGroupName="fallback_count">
-      <div class="form-control d-flex flex-column" style="border: none;">
-        <label class="py-1 handover-toggle">Enable handover on fallback<app-info-icon
-            [text]="'Transfer the message to an agent when bot fails'"></app-info-icon></label>
-        <mat-slide-toggle formControlName="enabled" color="primary" [disabled] = "!agentHandover">
-        </mat-slide-toggle>
-      </div>
-      <mat-form-field class="pl-3">
-        <input matInput type="number" displayName="Score below which fallback is shown"
-          placeholder="No. of fallback messages before handover" formControlName="value" required [disabled] = "!agentHandover">
-      </mat-form-field>
-    </div>
+    <div class="interface-form-grid">
 
-    <div formGroupName="partial_match_count">
-      <div class="form-control d-flex flex-column" style="border: none;">
-        <label class="py-1 handover-toggle">Enable handover on partial match<app-info-icon
-            [text]="'Transfer the message to an agent when bot fails'"></app-info-icon></label>
-        <mat-slide-toggle formControlName="enabled" color="primary" [disabled] = "!agentHandover">
-        </mat-slide-toggle>
+      <div formGroupName="fallback_count">
+        <div class="form-control d-flex flex-column" style="border: none;">
+          <label class="py-1 handover-toggle">Enable handover on fallback
+            <app-info-icon
+              [text]="'Transfer the message to an agent when bot fails'"></app-info-icon>
+          </label>
+          <mat-slide-toggle formControlName="enabled" color="primary" [disabled]="!agentHandover">
+          </mat-slide-toggle>
+        </div>
+        <mat-form-field class="pl-3">
+          <input matInput type="number" displayName="Score below which fallback is shown"
+                 placeholder="No. of fallback messages before handover" formControlName="value" required
+                 [disabled]="!agentHandover">
+        </mat-form-field>
       </div>
-      <mat-form-field class="pl-3">
-        <input matInput type="number" displayName="Score below which fallback is shown"
-          placeholder="No. of partial matched messages before handover" formControlName="value" required [disabled] = "!agentHandover">
-      </mat-form-field>
-    </div>
 
-    <div formGroupName="consecutive_count">
-      <div class="form-control d-flex flex-column" style="border: none;">
-        <label class="py-1 handover-toggle">Enable handover for consecutive messages<app-info-icon
-            [text]="'Transfer the message to an agent when bot fails'"></app-info-icon></label>
-        <mat-slide-toggle formControlName="enabled" color="primary" [disabled] = "!agentHandover">
-        </mat-slide-toggle>
+      <div formGroupName="partial_match_count">
+        <div class="form-control d-flex flex-column" style="border: none;">
+          <label class="py-1 handover-toggle">Enable handover on partial match
+            <app-info-icon
+              [text]="'Transfer the message to an agent when bot fails'"></app-info-icon>
+          </label>
+          <mat-slide-toggle formControlName="enabled" color="primary" [disabled]="!agentHandover">
+          </mat-slide-toggle>
+        </div>
+        <mat-form-field class="pl-3">
+          <input matInput type="number" displayName="Score below which fallback is shown"
+                 placeholder="No. of partial matched messages before handover" formControlName="value" required
+                 [disabled]="!agentHandover">
+        </mat-form-field>
       </div>
-      <mat-form-field class="pl-3">
-        <input matInput type="number" displayName="Score below which fallback is shown"
-          placeholder="No. of consecutive messages before handover" formControlName="value" required [disabled] = "!agentHandover">
-      </mat-form-field>
+
+      <div formGroupName="consecutive_count">
+        <div class="form-control d-flex flex-column" style="border: none;">
+          <label class="py-1 handover-toggle mb-1">Enable handover for consecutive messages
+            <app-info-icon
+              [text]="'Transfer the message to an agent when bot fails'"></app-info-icon>
+          </label>
+          <mat-slide-toggle formControlName="enabled" color="primary" [disabled]="!agentHandover">
+          </mat-slide-toggle>
+        </div>
+        <mat-form-field class="pl-3">
+          <input matInput type="number" displayName="Score below which fallback is shown"
+                 placeholder="No. of consecutive messages before handover" formControlName="value" required
+                 [disabled]="!agentHandover">
+        </mat-form-field>
+      </div>
     </div>
 
   </fieldset>

@@ -15,18 +15,6 @@ import {EAllActions} from '../../../../../typings/enum';
                      placeholder="Data retention period((in days)">
           </mat-form-field>
 
-          <div class="switch-wrapper" style="margin-bottom: 20px">
-              <div class="form-control d-flex flex-column">
-                  <label class="pr-2">Advanced Data Protection
-                      <app-info-icon [text]="'Encrypt sessions and consumer data and allow consent management'"></app-info-icon>
-                  </label>
-                  <app-ui-switch
-                          formControlName="advanced_data_protection"
-                          [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
-                  ></app-ui-switch>
-              </div>
-          </div>
-
           <app-bot-config-input
                   style="margin-bottom: 20px"
                   displayName="Consent disclaimer message"
@@ -45,16 +33,29 @@ import {EAllActions} from '../../../../../typings/enum';
                   ></app-ui-switch>
               </div>
           </div>
+        
 
-          <div class="switch-wrapper" *ngIf="formGroup.get('advanced_data_protection').value">
-              <div class="form-control d-flex flex-column">
-                  <label class="pr-2">Blanket consent for all consumers</label>
-                  <app-ui-switch
-                          formControlName="blanket_consent"
-                          [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
-                  ></app-ui-switch>
-              </div>
+        <div class="switch-wrapper" style="margin-bottom: 20px">
+          <div class="form-control d-flex flex-column">
+            <label class="pr-2">Advanced Data Protection
+              <app-info-icon [text]="'Encrypt sessions and consumer data and allow consent management'"></app-info-icon>
+            </label>
+            <app-ui-switch
+              formControlName="advanced_data_protection"
+              [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
+            ></app-ui-switch>
           </div>
+        </div>
+
+        <div class="switch-wrapper" *ngIf="formGroup.get('advanced_data_protection').value">
+          <div class="form-control d-flex flex-column">
+            <label class="pr-2">Blanket consent for all consumers</label>
+            <app-ui-switch
+              formControlName="blanket_consent"
+              [disabled]="permissionService.isTabAccessDenied(myEAllActions['Update Bots'])"
+            ></app-ui-switch>
+          </div>
+        </div>
       </form>
   `,
   styleUrls: ['../basic-info-form/basic-info-form.component.scss']

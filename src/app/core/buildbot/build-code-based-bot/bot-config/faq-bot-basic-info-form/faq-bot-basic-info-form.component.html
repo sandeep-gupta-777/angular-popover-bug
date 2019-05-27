@@ -2,14 +2,14 @@
   <div class="d-flex flex-column">
       <fieldset class = "d-flex flex-column pb-4">
             <mat-form-field [readonlyselectedroles]="myEAllActions['Update Bots']" class="w-50">
-                    <input matInput 
+                    <input matInput
                     displayName="Bot Name"
                     placeholder="Bot Name"
                     formControlName="name"
                     required>
                   </mat-form-field>
             <mat-form-field class="w-50" [readonlyselectedroles]="myEAllActions['Update Bots']">
-                    <input matInput 
+                    <input matInput
                     displayName="Unique Name"
                     formControlName="bot_unique_name"
                     placeholder="Bot Unique Name"
@@ -43,12 +43,12 @@
                          <mat-error *ngIf="formGroup.get('logo').hasError('required')">
                             Required
                         </mat-error>
-    
+
                         <mat-error *ngIf="!formGroup.get('logo').hasError('required') && formGroup.get('logo').hasError('Must be Https Url')">
                             Must be Https Url
-    
+
                         </mat-error>
-    
+
                         <mat-error *ngIf="!formGroup.get('logo').hasError('required')  && formGroup.get('logo').hasError('Image Extension is not correct')">
                             Image Extension is not correct
                         </mat-error>
@@ -58,10 +58,10 @@
 
       </fieldset>
       <fieldset class = "pb-4">
-        
+
             <div class="form-control d-flex flex-column">
                 <label class="py-1">Allow feedback <app-info-icon [text]="'Request feedback for message in a session'"></app-info-icon></label>
-                <mat-slide-toggle 
+                <mat-slide-toggle
                     formControlName="allow_feedback"
                     color="primary"
                 >
@@ -70,7 +70,7 @@
 
             <div class="form-control d-flex flex-column">
                 <label class="py-1">Allow agent handover <app-info-icon [text] = "'Transfer the message to an agent when bot fails'"></app-info-icon></label>
-                <mat-slide-toggle 
+                <mat-slide-toggle
                     formControlName="allow_agent_handover"
                     color="primary"
                 >

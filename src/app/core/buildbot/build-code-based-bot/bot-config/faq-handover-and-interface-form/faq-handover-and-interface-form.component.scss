@@ -1,9 +1,9 @@
 .interface-form-grid{
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
     mat-form-field{
-        width: 50%;
+        width: 60%;
     }
 }
 .handover-toggle{

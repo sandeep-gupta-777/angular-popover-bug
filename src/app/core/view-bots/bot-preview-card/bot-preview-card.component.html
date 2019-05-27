@@ -2,6 +2,7 @@
   <div class="grid-bot-preview-two" [ngClass]="{'grid-pipeline-card':bot.bot_type === 'intelligent'}"
        (click)="navigateToBotDetailPage($event)">
     <button mat-icon-button [matMenuTriggerFor]="appMenu" (menuOpened)="menuOpened = true"
+            (click)="$event.stopPropagation()"
             (menuClosed)="menuOpened = false" class="more-button click-save-wrapper">
       <mat-icon [ngClass]="{'show-on-parent-hover':!menuOpened}" class="click-save-wrapper">more_horiz</mat-icon>
     </button>

@@ -26,7 +26,7 @@ export class BuildbotWrapperComponent implements OnInit {
   @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
   formValidNumber = -1;
   bot: IBot = {};
-  bot_type: string = EBotType.chatbot;
+  bot_type:EBotType = EBotType.chatbot;
   formGroup: FormGroup;
   dialogRefWrapper = {ref:null};
   @Output() datachanged$ = new EventEmitter();
@@ -75,8 +75,8 @@ export class BuildbotWrapperComponent implements OnInit {
   securityForm: FormGroup;
   faqbotBuildForm: FormGroup;
   ngOnInit() {
-    this.bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type') || this.bot_type;
-    if(this.bot_type === EBotType.faqbot){      
+    this.bot_type = (this.activatedRoute.snapshot.queryParamMap.get('bot_type') || this.bot_type) as EBotType;
+    if(this.bot_type === EBotType.faqbot){
       this.description = this.descriptions[3];
     }
     this.faqbotBuildForm = this.botConfigService.getFaqbotBuildForm(this.bot);
@@ -99,7 +99,7 @@ export class BuildbotWrapperComponent implements OnInit {
     if (this.bot_type === EBotType.intelligent) {
       this.stageValidObj = {0: false};
     }
-    if(this.bot_type === EBotType.faqbot){      
+    if(this.bot_type === EBotType.faqbot){
       this.stageValidObj = {0:this.faqbotBuildForm.valid};
     }
   }
@@ -158,8 +158,8 @@ export class BuildbotWrapperComponent implements OnInit {
     this.activeTab = activeTab;
     this.heading = this.headings[activeTab];
     this.description = this.descriptions[activeTab];
-    
-    
+
+
   }
 
   updateBot(bot: IBot) {

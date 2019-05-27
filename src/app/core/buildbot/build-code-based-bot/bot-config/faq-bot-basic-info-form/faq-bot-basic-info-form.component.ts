@@ -7,7 +7,7 @@ import {EAllActions} from "../../../../../typings/enum";
 @Component({
   selector: 'app-faq-bot-basic-info-form',
   templateUrl: './faq-bot-basic-info-form.component.html',
-  styleUrls: ['./faq-bot-basic-info-form.component.scss']
+  styleUrls: ['./faq-bot-basic-info-form.component.scss', '../basic-info-form/basic-info-form.component.scss']
 })
 export class FaqBotBasicInfoFormComponent implements OnInit {
 
