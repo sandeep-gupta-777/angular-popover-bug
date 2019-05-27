@@ -342,4 +342,10 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
       this.router.navigate(['/']);
     }
   }
+
+  isArticleListPage(){
+    let build = this.activatedRoute.snapshot.queryParamMap.get('build');
+    let is_article = this.activatedRoute.snapshot.queryParamMap.get('is_article');
+    return build && (is_article !== "true");
+  }
 }
