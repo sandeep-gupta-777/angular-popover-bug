@@ -18,7 +18,7 @@
                    [ngClass]="{'fa-chevron-down':!allMatExpansionExpanded, 'fa-chevron-up':allMatExpansionExpanded}"></i>
             </div>
 
-            <mat-form-field class="hide-phone" style="margin-bottom: -3px">
+            <mat-form-field class="hide-phone" style="margin-bottom: -3px" floatLabel="never">
                 <input matInput placeholder="Libraries and Modules" [(ngModel)]="searchKeyword">
                 <button mat-button matSuffix mat-icon-button aria-label="Clear">
                     <mat-icon>search</mat-icon>

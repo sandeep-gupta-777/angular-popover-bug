@@ -86,7 +86,7 @@
                     <!---->
                 </div>
             </mat-toolbar>
-            <div class="app-container" style="flex-grow: 1; overflow-y: auto">
+            <div class="app-container" style="flex-grow: 1;" [ngClass]="{'overflowYAuto':!isArticleListPage()}">
                 <div class="architecture" style="">
                     <ng-container *ngIf="sideBarTab1 === 'setting'">
                         <header>
