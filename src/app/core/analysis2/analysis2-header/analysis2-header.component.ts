@@ -152,6 +152,7 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
     });
 
     this.analytics2HeaderDataSub = this.analytics2HeaderData$.subscribe((analytics2HeaderData:any) => {
+      if(!analytics2HeaderData) return;
       /*move this code to dedicated service*/
       try {
         this.f.form.patchValue(analytics2HeaderData);

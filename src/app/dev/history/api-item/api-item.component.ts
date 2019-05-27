@@ -27,7 +27,7 @@ export class ApiItemComponent implements OnInit {
   ngOnInit() {
   }
 
-  apiClickHandler(i) {
+  apiClickHandler() {
     EventService.selectedApiChanged$.emit(this.api);
   }
 

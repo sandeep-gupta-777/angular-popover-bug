@@ -3,6 +3,7 @@ import { IAvatar } from '../../../interfaces/bot-creation';
 import { IPipelineItem } from '../../../interfaces/ai-module';
 import { IIntegrationOption } from '../../../interfaces/integration-option';
 import { ICorpus } from './faqbots';
+import {EBotType} from "../../utility.service";
 
 /*TODO: what is the key for industry*/
 export interface IBot {
@@ -26,7 +27,7 @@ export interface IBot {
   'avatars'?: IAvatar[];
   'blanket_consent'?: boolean;
   'bot_access_token'?: string;
-  'bot_type'?: string;
+  'bot_type'?: EBotType;
   'bot_unique_name'?: string;
   'child_bots'?: Array<number>;
   'consent_categories'?: string;
@@ -123,15 +124,15 @@ export interface IBot {
   },
 
   agent_handover_setting?: {
-    consecutive_count?:{  
+    consecutive_count?:{
       enabled?:boolean,
       value?:number
    },
-   fallback_count?:{  
+   fallback_count?:{
       enabled?:boolean,
       value?:number
    },
-   partial_match_count?:{  
+   partial_match_count?:{
       enabled?:boolean,
       value?:number
    },

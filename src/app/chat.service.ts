@@ -3,22 +3,20 @@ import {Injectable} from '@angular/core';
 import {Store} from '@ngxs/store';
 import {ServerService} from './server.service';
 import {IHeaderData} from '../interfaces/header-data';
-import {EBotMessageMediaType, EChatFrame, IMessageData, IRoomData} from '../interfaces/chat-session-state';
+import {EChatFrame, IMessageData, IRoomData} from '../interfaces/chat-session-state';
 import {
   AddMessagesToRoomByRoomId,
-  // AddMessagesToRoomByUId,
+  ChangeBotIsThinkingDisplayByRoomId,
   ChangeFrameAction,
-  SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
-  SetCurrentRoomID, SetLastTemplateKeyToRoomByRoomId, ChangeBotIsThinkingDisplayByRoomId,
+  SetLastTemplateKeyToRoomByRoomId,
   ToggleChatWindow
 } from './chat/ngxs/chat.action';
-import {IGeneratedMessageItem, ISendApiRequestPayload, ISendApiResponsePayload} from '../interfaces/send-api-request-payload';
+import {IGeneratedMessageItem, ISendApiResponsePayload} from '../interfaces/send-api-request-payload';
 import {ConstantsService} from './constants.service';
 import {IBot} from './core/interfaces/IBot';
-import {UtilityService} from './utility.service';
+import {EBotType, UtilityService} from './utility.service';
 import {IConsumerDetails} from './chat/ngxs/chat.state';
 import {catchError} from 'rxjs/internal/operators';
-import {Observable} from 'rxjs';
 import {LoggingService} from "./logging.service";
 
 declare var IMI: any;
@@ -33,14 +31,15 @@ export class ChatService {
     private constantsService: ConstantsService) {
   }
 
-  sendHumanMessageToBotServer(botDetails: { roomId: number, bot_access_token: string }, consumerDetails: IConsumerDetails, messageByHuman: string, frameEnabled: EChatFrame) {
+  sendHumanMessageToBotServer(botDetails: { roomId: number, bot_access_token: string,type:EBotType }, consumerDetails: IConsumerDetails, messageByHuman: string, frameEnabled: EChatFrame) {
 
     const url = this.constantsService.getStartNewChatLoginUrl();
     const body /*: ISendApiRequestPayload */ = {
       'consumer': consumerDetails,
       'type': 'human',
       'msg': messageByHuman || 'hi',
-      'platform': 'web'
+      'platform': 'web',
+      is_test: botDetails.type === EBotType.faqbot
     };
     const headerData: IHeaderData = {
       'bot-access-token': botDetails.bot_access_token,
@@ -293,6 +292,7 @@ export class ChatService {
       'type': 'bot',
       'msg': 'hi',
       'platform': 'web',
+      'is_test':startNewChatData.bot.bot_type === EBotType.faqbot,
       // 'consumer': {
       //   'uid': this.current_uid,
       // },

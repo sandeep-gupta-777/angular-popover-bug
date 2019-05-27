@@ -52,23 +52,25 @@
 
     <div class="spacer"></div>
 
-    <fieldset [readonlyselectedroles]="myEAllActions['Update Bots']">
-        <mat-form-field class="w-100">
+    <ng-container *ngIf="myEBotType.intelligent !== bot_type">
+        <fieldset [readonlyselectedroles]="myEAllActions['Update Bots']">
+            <mat-form-field class="w-100">
                 <textarea matInput formControlName="first_message" type="text" class=""
                           cdkTextareaAutosize
                           cdkAutosizeMinRows="1"
                           cdkAutosizeMaxRows="3"
                           placeholder="First Message"></textarea>
 
-        </mat-form-field>
-    </fieldset>
-    <fieldset [readonlyselectedroles]="myEAllActions['Update Bots']">
-        <mat-form-field class="w-100">
+            </mat-form-field>
+        </fieldset>
+        <fieldset [readonlyselectedroles]="myEAllActions['Update Bots']">
+            <mat-form-field class="w-100">
                 <textarea matInput formControlName="error_message" type="text"
                           cdkTextareaAutosize
                           cdkAutosizeMinRows="1"
                           cdkAutosizeMaxRows="3"
                           placeholder="Default Platform Error Message "></textarea>
-        </mat-form-field>
-    </fieldset>
+            </mat-form-field>
+        </fieldset>
+    </ng-container>
 </form>

@@ -262,6 +262,11 @@ export class ChatWrapperComponent implements OnInit {
     this.chatService.startANewChatUsingSendApi(startNewChatData)
       .subscribe((value: IBotPreviewFirstMessage) => {
 
+        if(!value.room || !value.room.id){
+          alert('api not supported. Maybe kill switch?');
+          return;
+        }
+
         /*
         *A new room has been created. Now if the room belongs to IMI Connect bot,
         *initialize IMI Connect integration
@@ -351,8 +356,10 @@ export class ChatWrapperComponent implements OnInit {
         this.chatService.sendHumanMessageToBotServer(
           {
             bot_access_token: room.bot_access_token,
-            roomId: room.id
+            roomId: room.id,
+            type:room.bot.bot_type
           },
+
           messageData.room.consumerDetails,
           messageByHuman,
           EChatFrame.CHAT_BOX)
