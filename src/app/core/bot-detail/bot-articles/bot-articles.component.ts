@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 import { ICorpus, IArticleItem, ICategoryMappingItem } from '../../interfaces/faqbots';
 import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
-
+import {ActivatedRoute, Router} from '@angular/router';
 @Component({
   selector: 'app-bot-articles',
   templateUrl: './bot-articles.component.html',
@@ -23,6 +23,8 @@ export class BotArticlesComponent implements OnInit {
     private utilityService: UtilityService,
     private formBuilder: FormBuilder,
     private matDialog: MatDialog,
+    private router : Router,
+    private activatedRoute: ActivatedRoute,
   ) { }
   @Input() bot: IBot;
   corpus : ICorpus;
@@ -87,6 +89,11 @@ export class BotArticlesComponent implements OnInit {
   goBackToArticalList(){
     this.getCorpusAndSetArticleFilterForm();
     this.showEditAndViewArtical = false;
+    this.router.navigate(['.'], {
+      queryParams: {article_selected:false},
+      relativeTo: this.activatedRoute,
+      queryParamsHandling: 'merge'
+    })
   }
   removeFilterItemById(categorie_id) {
     this.currentPageOfArtcle = 0;
@@ -104,6 +111,11 @@ export class BotArticlesComponent implements OnInit {
   }
   openArticleEditAndView(article: IArticleItem) {
     // add qurey parems
+    this.router.navigate(['.'], {
+      queryParams: {article_selected:true},
+      relativeTo: this.activatedRoute,
+      queryParamsHandling: 'merge'
+    })
     this.showEditAndViewArtical = true;
     this.selectedArticle = article;
   }
@@ -113,7 +125,11 @@ export class BotArticlesComponent implements OnInit {
       'category_id':'unassigned',
       'questions':[""]
   }
-    // add qurey parems
+  this.router.navigate(['.'], {
+    queryParams: {article_selected:true},
+    relativeTo: this.activatedRoute,
+    queryParamsHandling: 'merge'
+  })
     this.showEditAndViewArtical = true;
     this.selectedArticle = article;
   }
@@ -162,6 +178,11 @@ export class BotArticlesComponent implements OnInit {
         this.getCorpusAndSetArticleFilterForm$().subscribe((v)=>{
           this.utilityService.showSuccessToaster("Article succesfully saved");
           this.showEditAndViewArtical = false;
+          this.router.navigate(['.'], {
+            queryParams: {article_selected:false},
+            relativeTo: this.activatedRoute,
+            queryParamsHandling: 'merge'
+          })
         })
         // this.saveAndTrain.emit();
       }
@@ -206,6 +227,11 @@ export class BotArticlesComponent implements OnInit {
           this.getCorpusAndSetArticleFilterForm$()
           .subscribe(v=>{
             this.showEditAndViewArtical = false;
+            this.router.navigate(['.'], {
+              queryParams: {article_selected:false},
+              relativeTo: this.activatedRoute,
+              queryParamsHandling: 'merge'
+            })
           })
 
       }})
@@ -256,6 +282,11 @@ export class BotArticlesComponent implements OnInit {
           this.getCorpusAndSetArticleFilterForm$()
           .subscribe(()=>{
             this.showEditAndViewArtical = false;
+            this.router.navigate(['.'], {
+              queryParams: {article_selected:false},
+              relativeTo: this.activatedRoute,
+              queryParamsHandling: 'merge'
+            })
           })
         }
       })
