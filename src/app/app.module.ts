@@ -18,6 +18,19 @@ import {createInputTransfer, createNewHosts, removeNgStyles} from '@angularclass
 import {LazyLoadImageModule, intersectionObserverPreset} from 'ng-lazyload-image';
 import { SetErrorImageProps } from 'ng-lazyload-image';
 
+export const x = ({element, errorImagePath, useSrcset}: SetErrorImageProps) => {
+  (<any>element).src = "http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg";
+};
+export const lazyOption = {
+  // setErrorImage: x,
+    // setLoadedImage:({element, errorImagePath, useSrcset}: any) => {
+    //   (<any>element).src = "http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg";
+    // },
+    preset: intersectionObserverPreset
+}
+
+export const lazyOption1 = {lazyOption};
+
 const routes: Route[] = [
   {path: 'postman', loadChildren: './dev/dev.module#DevModule'},
   {path: 'auth', loadChildren: './auth/auth.module#AuthModule', canLoad: [LoginPageGaurdService]},
@@ -43,15 +56,7 @@ const routes: Route[] = [
     BrowserModule.withServerTransition({appId: 'serverApp'}),
     // NoopAnimationsModule,
     BrowserAnimationsModule,
-    LazyLoadImageModule.forRoot({
-      setErrorImage: ({element, errorImagePath, useSrcset}: SetErrorImageProps) => {
-        (<any>element).src = "http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg";
-      },
-      // setLoadedImage:({element, errorImagePath, useSrcset}: any) => {
-      //   (<any>element).src = "http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg";
-      // },
-      preset: intersectionObserverPreset
-    }),
+    LazyLoadImageModule.forRoot(lazyOption1.lazyOption),
     RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules, enableTracing: false}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     // RouterModule,
     NgxsModule.forRoot([]),

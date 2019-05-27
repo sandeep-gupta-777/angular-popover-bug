@@ -2,7 +2,7 @@
   <header class="theme-section__header" style="text-align: center">
     <h4 style="line-height: 20px; font-size:15px;word-break: break-all">{{_apiDetails?.name || _apiDetails?.url || 'Make a request'}}</h4>
   </header>
-  <form [formGroup]="postManForm" (ngSubmit)="makeHttpReq(httpForm)">
+  <form [formGroup]="postManForm" (ngSubmit)="makeHttpReq()">
 
     <div class="d-flex align-items-end">
       <mat-form-field>
@@ -34,7 +34,7 @@
           <app-code-editor formControlName="headers"></app-code-editor>
         </ng-template>
       </mat-tab>
-      <mat-tab label="Body" [disabled]="postManForm.get('method').value!==myEHttpVerb.POST && !postManForm.get('method').value!==myEHttpVerb.PUT">
+      <mat-tab label="Body" [disabled]="(postManForm.get('method').value!==myEHttpVerb.POST) && !(postManForm.get('method').value!==myEHttpVerb.PUT)">
         <ng-template matTabContent>
           <app-code-editor formControlName="body"></app-code-editor>
         </ng-template>
