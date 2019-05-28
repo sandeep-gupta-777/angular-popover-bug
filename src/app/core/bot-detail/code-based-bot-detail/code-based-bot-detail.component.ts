@@ -151,9 +151,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
     /*this.bot$ = */
     this.botlist$.subscribe((botListState) => {
 
-      console.log(this.bot);
       if (botListState.allBotList) {
-
         this.bot = botListState.allBotList.find((bot) => {
           return bot.id === this.bot_id;
         });
@@ -161,8 +159,6 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
           this.noSuchBotMessage = 'No such _bot exists in your account';
         }
       }
-      this.bot = {...this.bot};
-      console.log(this.bot);
       LoggingService.log('Bot Opened' + this.bot);
       return this.bot;
     });
@@ -217,12 +213,13 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   }
 
   sideBarTabChanged(sideBarTabChanged: ESideBarTab) {
-    if (sideBarTabChanged === ESideBarTab.logic) {
-      setTimeout(() => {
-        this.logicTabClicked = true;
-        this.refreshCodeEditor();
-      }, 0);
-    }
+    /*TODO: a lot code repetition here*/
+    // if (sideBarTabChanged === ESideBarTab.logic) {
+    //   setTimeout(() => {
+    //     this.logicTabClicked = true;
+    //     this.refreshCodeEditor();
+    //   }, 10000);
+    // }
     if (sideBarTabChanged != this.sideBarTab1) {
       if (SideBarService.isTabDirty(this.sideBarTab1)) {
         this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
@@ -232,7 +229,16 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
               this.goFullScreen = false;
               this.sideBarTab1 = sideBarTabChanged;
               // core/botdetail/chatbot/398
-              this.router.navigate([`core/botdetail/${this.bot.bot_type}/`, this.bot.id], {queryParams: {'build': sideBarTabChanged}});
+              setTimeout(()=>{
+                this.router.navigate([`core/botdetail/${this.bot.bot_type}/`, this.bot.id], {queryParams: {'build': sideBarTabChanged}}).then(()=>{
+                  if (sideBarTabChanged === ESideBarTab.logic) {
+                    setTimeout(() => {
+                      this.logicTabClicked = true;
+                      this.refreshCodeEditor();
+                    });
+                  }
+                })
+              },0);
             }
           });
       } else {
@@ -240,7 +246,17 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
         this.goFullScreen = false;
         this.sideBarTab1 = sideBarTabChanged;
         // core/botdetail/chatbot/398
-        this.router.navigate([`core/botdetail/${this.bot.bot_type}/`, this.bot.id], {queryParams: {'build': sideBarTabChanged}});
+        setTimeout(()=>{
+          this.router.navigate([`core/botdetail/${this.bot.bot_type}/`, this.bot.id], {queryParams: {'build': sideBarTabChanged}})
+            .then(()=>{
+              if (sideBarTabChanged === ESideBarTab.logic) {
+                setTimeout(() => {
+                  this.logicTabClicked = true;
+                  this.refreshCodeEditor();
+                });
+              }
+            })
+        },0);
       }
     }
 

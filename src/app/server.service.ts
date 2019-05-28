@@ -48,6 +48,7 @@ import {
   SetEnterpriseUsersAction
 } from './core/enterpriseprofile/ngxs/enterpriseprofile.action';
 import {MyToasterService} from "./my-toaster.service";
+import {environment} from "../environments/environment";
 
 
 declare var $: any;
@@ -692,7 +693,7 @@ export class ServerService {
 
 
   compareDeployDates() {
-    if (!deploy_obj_botplateform_fe) {
+    if (!deploy_obj_botplateform_fe || isDevMode() || environment.production) {
       return;
     }
     let lastDeployed_Cache = deploy_obj_botplateform_fe.lastDeploy;

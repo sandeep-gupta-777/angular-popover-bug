@@ -10,7 +10,8 @@ declare var CodeMirror: any;
 export class AppComponent implements OnInit {
 
   ngOnInit() {
-    // this.serverService.compareDeployDates();//TODO: after refactor
+    console.info("App bootstrap success!");
+
 
     /*
     let storeSnapshot = this.store.snapshot();

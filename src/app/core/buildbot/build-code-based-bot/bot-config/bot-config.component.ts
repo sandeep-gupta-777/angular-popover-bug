@@ -29,7 +29,7 @@ export class MyErrorStateMatcher1 implements ErrorStateMatcher {
   ]
 })
 export class BotConfigComponent implements OnInit {
-
+  tag = 'BotConfigComponent';
   @Input() bot: IBot;
   selectedTabIndex = 0;
   activeTab = 'basic';
@@ -149,7 +149,7 @@ export class BotConfigComponent implements OnInit {
     let combinedForms;
     if(this.bot.bot_type == EBotType.faqbot){
       combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm,this.faqHandoverANdInterfaceForm, this.integrationForm ];
-    } 
+    }
     else{
       combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.integrationForm ];
     }

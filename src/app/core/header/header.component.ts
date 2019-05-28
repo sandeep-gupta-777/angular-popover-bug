@@ -104,14 +104,12 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
           } catch (e) {
             LoggingService.error(e); /*TODO: find out whats wrong with app$Subscription*/
           }
-          console.log(app);
-          console.log(autoLogOutTime);
+
           LoggingService.log('============================autologout============================');
           this.logout();
           // document.location.reload(); /*To destroy all timeouts just in case*/
         }, (autoLogOutTime-Date.now()));
-        console.log(autoLogOutTime);
-        console.log("new logout time:", (autoLogOutTime-Date.now()));
+
         // console.log(`next logout time is: ${new Date(autoLogOutTime)}. ${(autoLogOutTime-Date.now())/1000} sec from now`);
       }
     }

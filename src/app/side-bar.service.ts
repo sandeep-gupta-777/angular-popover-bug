@@ -7,6 +7,7 @@ import {EBotType, UtilityService} from './utility.service';
 // import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.component';
 import {FormGroup, NgForm} from "@angular/forms";
 import {ESideBarTab} from "./typings/enum";
+
 // import { BuildbotWrapperComponent } from './core/buildbot/buildbot-wrapper.component';
 
 @Injectable()
@@ -28,28 +29,32 @@ export class SideBarService {
   public static buildbotData_init;
 
   static init(component) {
-    if (component.constructor.name === "PipelineComponent") {
+    debugger;
+    console.info('init')
+    if (component.tag === "PipelineComponent") {
       SideBarService.pipelineInit(component);
     }
 
-    if (component.constructor.name === "BotConfigComponent") {
+    if (component.tag === "BotConfigComponent") {
       SideBarService.botConfigInit(component);
     }
 
-    if (component.constructor.name === "BotTestingComponent") {
+    if (component.tag === "BotTestingComponent") {
       // setTimeout(()=>SideBarService.botTestingInit(<BotTestingComponent>component),0);
       SideBarService.botTestingInit(component);
     }
 
-    if (component .constructor.name === "KnowledgeBasePresentationComponent") {
+    if (component.tag === "KnowledgeBasePresentationComponent") {
       /*KnowledgeBasePresentationComponent is initialized manually from within KnowledgeBasePresentationComponent*/
     }
 
-    if (component.constructor.name === "BuildbotWrapperComponent") {
+    if (component.tag === "BuildbotWrapperComponent") {
       SideBarService.buildBotInit(component);
     }
   }
-  static activeTab : ESideBarTab;
+
+  static activeTab: ESideBarTab;
+
   /*BotConfig*/
   static botConfigInit(botConfigComponent) {
     SideBarService.botConfigComponent = botConfigComponent;
@@ -58,19 +63,19 @@ export class SideBarService {
     SideBarService.activeTab = ESideBarTab.setting;
   }
 
-  static createBasicInfoFinalData(){
+  static createBasicInfoFinalData() {
     return SideBarService.createBasicInfoData();
   }
+
   private static createBasicInfoData() {
 
-    let botConfigComponent = SideBarService.botConfigComponent ;
+    let botConfigComponent = SideBarService.botConfigComponent;
     let combinedForm: (FormGroup | NgForm)[];
-    if(botConfigComponent.bot_type === EBotType.chatbot){
-      combinedForm = [botConfigComponent.basicInfoForm, botConfigComponent.dataManagementForm, botConfigComponent.securityForm,botConfigComponent.integrationForm];
-    }else if(botConfigComponent.bot_type === EBotType.faqbot){
-      combinedForm = [botConfigComponent.basicInfoForm, botConfigComponent.dataManagementForm, botConfigComponent.securityForm,botConfigComponent.faqHandoverANdInterfaceForm, botConfigComponent.integrationForm];
-    }
-    else {
+    if (botConfigComponent.bot_type === EBotType.chatbot) {
+      combinedForm = [botConfigComponent.basicInfoForm, botConfigComponent.dataManagementForm, botConfigComponent.securityForm, botConfigComponent.integrationForm];
+    } else if (botConfigComponent.bot_type === EBotType.faqbot) {
+      combinedForm = [botConfigComponent.basicInfoForm, botConfigComponent.dataManagementForm, botConfigComponent.securityForm, botConfigComponent.faqHandoverANdInterfaceForm, botConfigComponent.integrationForm];
+    } else {
       combinedForm = [botConfigComponent.basicInfoForm];
     }
     return combinedForm.reduce((aggr, current) => {
@@ -83,6 +88,8 @@ export class SideBarService {
   }
 
   static isBotConfigDirty(): boolean {
+    debugger;
+    console.info('init', 'isBotConfigDirty');
     if (!SideBarService.botConfigComponent) return false;
     let botConfig_final = this.createBasicInfoData();
     let x = !UtilityService.deepCompare(SideBarService.botConfigComponent_init, botConfig_final);
@@ -132,7 +139,6 @@ export class SideBarService {
   /*TESTING*/
 
 
-
   static isTabDirty(tab: ESideBarTab): boolean {
 
     if (tab === ESideBarTab.input) {
@@ -156,28 +162,29 @@ export class SideBarService {
 
   /*Testing*/
 
-  static botTestingInit(component){
+  static botTestingInit(component) {
     SideBarService.botTestingComponent = component;
 
     SideBarService.botTestingData_init = UtilityService.cloneObj(SideBarService.botTestingComponent.testCaseData);
-    SideBarService.botTestingData_init = SideBarService.botTestingData_init.map((array)=>{
+    SideBarService.botTestingData_init = SideBarService.botTestingData_init.map((array) => {
       return array.slice(0, 2);
     })
     SideBarService.activeTab = ESideBarTab.test;
   }
-  static createBotTestingFinalData(){
 
-    return SideBarService.botTestingComponent.testCaseData.map((array)=>{
+  static createBotTestingFinalData() {
+
+    return SideBarService.botTestingComponent.testCaseData.map((array) => {
       return array.slice(0, 2);
     })
     // return SideBarService.botTestingComponent.testCaseData;
   }
 
-  static isBotTestingDirty(){
+  static isBotTestingDirty() {
     try {
       let botTestingData_final = this.createBotTestingFinalData();
       return !UtilityService.deepCompare(SideBarService.botTestingData_init, botTestingData_final);
-    }catch (e) {
+    } catch (e) {
       /*
       * When user move away from testing tab even before it has been initiated, just return dirty = false
       * */
@@ -192,10 +199,10 @@ export class SideBarService {
     SideBarService.buildbotWrapperComponent = buildBotComponent;
 
     SideBarService.buildbotData_init = UtilityService.cloneObj({
-      basicInfoForm : buildBotComponent.basicInfoForm.value,
-      dataManagementForm : buildBotComponent.dataManagementForm.value,
-      securityForm : buildBotComponent.securityForm.value,
-      faqbotBuildForm : buildBotComponent.faqbotBuildForm.value
+      basicInfoForm: buildBotComponent.basicInfoForm.value,
+      dataManagementForm: buildBotComponent.dataManagementForm.value,
+      securityForm: buildBotComponent.securityForm.value,
+      faqbotBuildForm: buildBotComponent.faqbotBuildForm.value
     });
   }
 
@@ -230,8 +237,9 @@ export class SideBarService {
     SideBarService.buildbotWrapperComponent = null;
     SideBarService.buildbotData_init = null;
   }
-static resetKB(){
+
+  static resetKB() {
     SideBarService.knowledgeBasePresentationComponent = null;
     SideBarService.kbPrezInit_Data = null;
-}
+  }
 }

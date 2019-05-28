@@ -71,7 +71,6 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
     window.scrollTo(0, 0);
     this.serverService.getNSetBotList()
       .subscribe(() => {
-        console.log('bot list fetched from view bots page');
         this.reloaded = true;
       });
     this.botListSub = this.botlist$

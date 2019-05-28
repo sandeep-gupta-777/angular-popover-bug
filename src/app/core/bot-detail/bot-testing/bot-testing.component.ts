@@ -1,17 +1,17 @@
 import {Component, Input, OnInit, TemplateRef, EventEmitter, Output} from '@angular/core';
-import { Store } from '@ngxs/store';
-import { ServerService } from '../../../server.service';
+import {Store} from '@ngxs/store';
+import {ServerService} from '../../../server.service';
 import {ConstantsService} from '../../../constants.service';
-import { ITestcases } from '../../../../interfaces/testcases';
-import { Observable } from 'rxjs';
-import { IBot } from '../../interfaces/IBot';
-import { IHeaderData } from '../../../../interfaces/header-data';
-import { UtilityService } from '../../../utility.service';
+import {ITestcases} from '../../../../interfaces/testcases';
+import {Observable} from 'rxjs';
+import {IBot} from '../../interfaces/IBot';
+import {IHeaderData} from '../../../../interfaces/header-data';
+import {UtilityService} from '../../../utility.service';
 import {LoggingService} from '../../../logging.service';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 import {ModalImplementer} from '../../../modal-implementer';
 import {MatDialog} from '@angular/material';
-import { skip } from 'rxjs/operators';
+import {skip} from 'rxjs/operators';
 import {EAllActions} from "../../../typings/enum";
 
 @Component({
@@ -20,14 +20,14 @@ import {EAllActions} from "../../../typings/enum";
   styleUrls: ['./bot-testing.component.scss']
 })
 export class BotTestingComponent extends ModalImplementer implements OnInit {
-
+  tag = "BotTestingComponent";
   @Input() bot: IBot;
   testCases$: Observable<[string, string, string][]>;
   myEAllActions = EAllActions;
   handontable_colHeaders;
   handontable_column;
   expectedCSVHeaders = ['Message', 'Expected Template'];
-  testCaseData: [string, string, string][] = [['<The user message you wish to test for>','<The name of the template key you expect the bot to return>','']];
+  testCaseData: [string, string, string][] = [['<The user message you wish to test for>', '<The name of the template key you expect the bot to return>', '']];
   testCasesUrl = this.constantsService.getBotTestingUrl();
   // expectedCSVHeaders = ['Message', 'Expected Template'];
   stopTestUrl = this.constantsService.stopTestUrl();
@@ -39,6 +39,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
   showSplashScreen = false;
   showLoader = false;
   @Output() initDone$ = new EventEmitter<BotTestingComponent>();
+
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
@@ -64,7 +65,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
     this.serverService.makeGetReq<{ meta: any, objects: ITestcases[] }>(
       {
         url: this.testCasesUrl,
-        headerData: { 'bot-access-token': this.bot.bot_access_token }
+        headerData: {'bot-access-token': this.bot.bot_access_token}
       }
     )
       .subscribe((value) => {
@@ -93,24 +94,29 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
     this.handontable_colHeaders = this.constantsService.HANDSON_TABLE_BOT_TESTING_colHeaders;
     this.handontable_column = this.constantsService.HANDSON_TABLE_BOT_TESTING_columns;
   }
-  afterTabledataChange(data){
 
-    if(data){
-      let didEditedableItemsChange = data.find((val)=>{return val[1]<=1} )
+  afterTabledataChange(data) {
 
-      if(didEditedableItemsChange){
+    if (data) {
+      let didEditedableItemsChange = data.find((val) => {
+        return val[1] <= 1
+      })
+
+      if (didEditedableItemsChange) {
         this.tableChanged = true
       }
     }
   }
+
   onTableChange() {
     this.tableChanged = true;
   }
+
   createTC() {
     LoggingService.log(this.testCaseData);
     this.serverService.makePostReq<{ meta: any, objects: ITestcases[] }>({
       url: this.testCasesUrl,
-      headerData: { 'bot-access-token': this.bot.bot_access_token },
+      headerData: {'bot-access-token': this.bot.bot_access_token},
       body: {
         'status': 'IDLE',
         'data': this.testCaseData
@@ -135,7 +141,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
 
     this.serverService.makePutReq<{ meta: any, objects: ITestcases[] }>({
       url: this.testCasesUrl + `${this.testCaseId}/`,
-      headerData: { 'bot-access-token': this.bot.bot_access_token },
+      headerData: {'bot-access-token': this.bot.bot_access_token},
       body: {
         'status': 'IDLE',
         'data': this.testCaseData
@@ -153,7 +159,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
     this.serverService.makeGetReq<{ meta: any, objects: ITestcases[] }>(
       {
         url: this.testCasesUrl,
-        headerData: { 'bot-access-token': this.bot.bot_access_token }
+        headerData: {'bot-access-token': this.bot.bot_access_token}
       }
     ).subscribe((value) => {
       if (value.objects[0].status === 'RUNNING') {
@@ -163,7 +169,7 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
         this.serverService.makeGetReq<any>(
           {
             url: this.testCasesUrl + 'oneclicktesting/',
-            headerData: { 'bot-access-token': this.bot.bot_access_token }
+            headerData: {'bot-access-token': this.bot.bot_access_token}
           }
         )
           .subscribe((value) => {
@@ -178,14 +184,16 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
 
   removeNullRowsFromTableData(arr: [string, string, string][]) {
   }
+
   openCreateBotModal(template: TemplateRef<any>) {
     this.openDangerModal(template);
   }
+
   stopTest() {
     this.serverService.makeGetReq<{ meta: any, objects: ITestcases[] }>(
       {
         url: this.stopTestUrl,
-        headerData: { 'bot-access-token': this.bot.bot_access_token }
+        headerData: {'bot-access-token': this.bot.bot_access_token}
       }
     )
       .subscribe((value) => {
