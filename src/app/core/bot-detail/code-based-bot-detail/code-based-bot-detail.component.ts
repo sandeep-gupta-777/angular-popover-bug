@@ -213,12 +213,12 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   }
 
   sideBarTabChanged(sideBarTabChanged: ESideBarTab) {
-    if (sideBarTabChanged === ESideBarTab.logic) {
-      setTimeout(() => {
-        this.logicTabClicked = true;
-        this.refreshCodeEditor();
-      }, 0);
-    }
+    // if (sideBarTabChanged === ESideBarTab.logic) {
+    //   setTimeout(() => {
+    //     this.logicTabClicked = true;
+    //     this.refreshCodeEditor();
+    //   }, 10000);
+    // }
     if (sideBarTabChanged != this.sideBarTab1) {
       if (SideBarService.isTabDirty(this.sideBarTab1)) {
         this.utilityService.openCloseWithoutSavingModal(this.dialogRefWrapper, this.matDialog)
@@ -228,7 +228,16 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
               this.goFullScreen = false;
               this.sideBarTab1 = sideBarTabChanged;
               // core/botdetail/chatbot/398
-              this.router.navigate([`core/botdetail/${this.bot.bot_type}/`, this.bot.id], {queryParams: {'build': sideBarTabChanged}});
+              setTimeout(()=>{
+                this.router.navigate([`core/botdetail/${this.bot.bot_type}/`, this.bot.id], {queryParams: {'build': sideBarTabChanged}}).then(()=>{
+                  if (sideBarTabChanged === ESideBarTab.logic) {
+                    setTimeout(() => {
+                      this.logicTabClicked = true;
+                      this.refreshCodeEditor();
+                    });
+                  }
+                })
+              },0);
             }
           });
       } else {
@@ -236,7 +245,17 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
         this.goFullScreen = false;
         this.sideBarTab1 = sideBarTabChanged;
         // core/botdetail/chatbot/398
-        this.router.navigate([`core/botdetail/${this.bot.bot_type}/`, this.bot.id], {queryParams: {'build': sideBarTabChanged}});
+        setTimeout(()=>{
+          this.router.navigate([`core/botdetail/${this.bot.bot_type}/`, this.bot.id], {queryParams: {'build': sideBarTabChanged}})
+            .then(()=>{
+              if (sideBarTabChanged === ESideBarTab.logic) {
+                setTimeout(() => {
+                  this.logicTabClicked = true;
+                  this.refreshCodeEditor();
+                });
+              }
+            })
+        },0);
       }
     }
 
