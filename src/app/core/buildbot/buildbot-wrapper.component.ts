@@ -21,7 +21,7 @@ import { SideBarService } from 'src/app/side-bar.service';
   styleUrls: ['./buildbot-wrapper.component.scss']
 })
 export class BuildbotWrapperComponent implements OnInit {
-
+  tag = "BuildbotWrapperComponent";
   @Select() botcreationstate$: Observable<IBotCreationState>;
   @Select(state => state.botlist.codeBasedBotList) codeBasedBotList$: Observable<IBot[]>;
   formValidNumber = -1;

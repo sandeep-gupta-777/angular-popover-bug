@@ -35,7 +35,7 @@ export interface IPipelineItemV2 {
   styleUrls: ['./pipeline.component.scss'],
 })
 export class PipelineComponent extends ModalImplementer implements OnInit, OnDestroy {
-
+  tag = "PipelineComponent";
   allMatExpansionExpanded = false;
   masterModuleCount: number;
   panelOpenState = false;

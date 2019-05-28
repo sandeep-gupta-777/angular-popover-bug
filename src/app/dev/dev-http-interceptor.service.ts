@@ -33,11 +33,8 @@ export class DevHttpInterceptorService implements HttpInterceptor {
     }));
 
     return next.handle(dupReq).pipe(tap(evt => {
-
+      console.log("http interceptor");
       if (evt instanceof HttpResponse) {
-        console.log('---> status:', evt.status);
-        console.log('---> filter:', request.params.get('filter'));
-        console.log('---> url:', evt.url);
         this.store.dispatch(new AddApi({
           api: {
             id: random,

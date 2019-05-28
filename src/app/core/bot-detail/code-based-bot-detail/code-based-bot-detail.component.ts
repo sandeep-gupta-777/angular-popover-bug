@@ -151,9 +151,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
     /*this.bot$ = */
     this.botlist$.subscribe((botListState) => {
 
-      console.log(this.bot);
       if (botListState.allBotList) {
-
         this.bot = botListState.allBotList.find((bot) => {
           return bot.id === this.bot_id;
         });
@@ -161,8 +159,6 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
           this.noSuchBotMessage = 'No such _bot exists in your account';
         }
       }
-      this.bot = {...this.bot};
-      console.log(this.bot);
       LoggingService.log('Bot Opened' + this.bot);
       return this.bot;
     });

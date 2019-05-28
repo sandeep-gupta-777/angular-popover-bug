@@ -28,24 +28,26 @@ export class SideBarService {
   public static buildbotData_init;
 
   static init(component) {
-    if (component.constructor.name === "PipelineComponent") {
+    debugger;
+    console.info('init')
+    if (component.tag === "PipelineComponent") {
       SideBarService.pipelineInit(component);
     }
 
-    if (component.constructor.name === "BotConfigComponent") {
+    if (component.tag === "BotConfigComponent") {
       SideBarService.botConfigInit(component);
     }
 
-    if (component.constructor.name === "BotTestingComponent") {
+    if (component.tag === "BotTestingComponent") {
       // setTimeout(()=>SideBarService.botTestingInit(<BotTestingComponent>component),0);
       SideBarService.botTestingInit(component);
     }
 
-    if (component .constructor.name === "KnowledgeBasePresentationComponent") {
+    if (component .tag === "KnowledgeBasePresentationComponent") {
       /*KnowledgeBasePresentationComponent is initialized manually from within KnowledgeBasePresentationComponent*/
     }
 
-    if (component.constructor.name === "BuildbotWrapperComponent") {
+    if (component.tag === "BuildbotWrapperComponent") {
       SideBarService.buildBotInit(component);
     }
   }
@@ -83,6 +85,8 @@ export class SideBarService {
   }
 
   static isBotConfigDirty(): boolean {
+    debugger;
+    console.info('init', 'isBotConfigDirty');
     if (!SideBarService.botConfigComponent) return false;
     let botConfig_final = this.createBasicInfoData();
     let x = !UtilityService.deepCompare(SideBarService.botConfigComponent_init, botConfig_final);

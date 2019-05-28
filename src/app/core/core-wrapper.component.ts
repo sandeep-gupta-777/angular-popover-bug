@@ -25,12 +25,11 @@ export class CoreWrapperComponent implements OnInit {
   constructor(
     private router: Router,
     private serverService: ServerService,
-    private store: Store,
-    private constantsService: ConstantsService,
   ) {
   }
 
   ngOnInit() {
+    this.serverService.compareDeployDates();//TODO: after refactor
     this.initializeProgressBarSubscription();//todo: after refactor
     this.isBotDetail = location.pathname && location.pathname.includes('/core/botdetail/');
     this.isBuildBot = location.pathname && location.pathname.includes('/core/buildbot');
