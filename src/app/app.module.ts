@@ -17,6 +17,7 @@ import {ENgxsStogareKey} from './typings/enum';
 import {createInputTransfer, createNewHosts, removeNgStyles} from '@angularclass/hmr';
 import {LazyLoadImageModule, intersectionObserverPreset} from 'ng-lazyload-image';
 import { SetErrorImageProps } from 'ng-lazyload-image';
+import {SpliceEllipsisPipe} from "./splice-ellipsis.pipe";
 
 export const x = ({element, errorImagePath, useSrcset}: SetErrorImageProps) => {
   (<any>element).src = "http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg";
@@ -49,6 +50,7 @@ const routes: Route[] = [
     NotFoundComponent,
     NotAuthorisedComponent,
     FilterArrayPipe,
+
     // BackendDevComponent,
 
   ],

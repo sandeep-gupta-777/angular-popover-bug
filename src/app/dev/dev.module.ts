@@ -54,7 +54,7 @@ const routes: Route[] = [{
     ReactiveFormsModule,
     SharedModule,
     HttpClientModule,
-    NgxsModule.forFeature([DevStateReducer])
+    NgxsModule.forFeature([/*DevStateReducer*/])
   ],
   providers: [IsDevModeGuard,
     DevService,

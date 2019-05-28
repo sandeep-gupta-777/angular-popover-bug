@@ -56,7 +56,7 @@ const routes: Route[] = [
     HttpClientModule,
     ClickOutsideModule,
     MyMaterialModule,
-    NgxsModule,
+    NgxsModule.forFeature([ChatSessionStateReducer]),
     SharedModule,//TODO: remove this later, this is here because of ChatFeedbackComponent and MsToHhMmPipe,
     LayoutModule
 

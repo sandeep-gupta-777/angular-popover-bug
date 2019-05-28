@@ -121,29 +121,22 @@ export class BotConfigComponent implements OnInit {
   }
 
   updateBotLoading = ELoadingStatus.default;
-
+  updateBotTooltipText="";
   /*
   * updateBotHandler: combine the data from various forms and update the bot
   * */
   updateBotHandler() {
-    this.updateBotLoading = ELoadingStatus.loading;
     let invalidFormIndex = this.getInvalidForm();
     if (invalidFormIndex >= 0) {
       this.selectedTabIndex = invalidFormIndex;
       this.showFormInvalidError(invalidFormIndex);
+      this.updateBotTooltipText = "test";
       return;
     }
-
     let bot = this.createBotData();
-
-    // let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm];
-    // combinedForms = combinedForms.filter(form => form);
-    // let bot = UtilityService.getCombinedBotData(combinedForms);
-    // if (this.integrationForm && this.integrationForm.value) {
-    //   bot.integrations = this.integrationForm.value;
-    // }
     bot.id = this.bot.id;
     bot.bot_access_token = this.bot.bot_access_token;
+    this.updateBotLoading = ELoadingStatus.loading;
     this.serverService.updateBot(bot).subscribe(()=>{
       this.updateBotLoading = ELoadingStatus.success;
       this.emitBotDirtyEvent(false);
