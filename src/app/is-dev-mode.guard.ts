@@ -7,6 +7,7 @@ export class IsDevModeGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return isDevMode();
+    // return isDevMode();
+    return true;
   }
 }
