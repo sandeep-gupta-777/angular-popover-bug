@@ -362,6 +362,7 @@ export class BotArticlesComponent implements OnInit {
     })
   }
   categoryCreate(body){
+    
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };

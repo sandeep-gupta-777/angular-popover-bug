@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ICategoryMappingItem } from 'src/app/core/interfaces/faqbots';
+import { UtilityService } from 'src/app/utility.service';
 
 @Component({
   selector: 'app-categorie-modal-input',
@@ -8,7 +9,7 @@ import { ICategoryMappingItem } from 'src/app/core/interfaces/faqbots';
 })
 export class CategorieModalInputComponent implements OnInit {
 
-  constructor() { }
+  constructor(private utilityService:UtilityService) { }
   @Input() typeIsEdit;
   @Input() categorieClone: ICategoryMappingItem;
   @Input() categorieMappingReal: ICategoryMappingItem[];
@@ -40,15 +41,28 @@ export class CategorieModalInputComponent implements OnInit {
           'category_name': this.categorieClone.name,
           'category_id': this.categorieClone.category_id
         }
-        this.categoryUpdate.emit(body);
-        this.cancelClicked(false)
+        if(body.category_name.trim().length == 0 ){
+          this.utilityService.showErrorToaster("Caregory name can not be empty");
+          this.cancelClicked(true)
+        }else{
+          this.categoryUpdate.emit(body);
+          this.cancelClicked(false)
+        }
+        
       }
       else {
         const body = {
           'category_name': this.newCategorieName,
         }
-        this.categoryCreate.emit(body);
-        this.cancelClicked(false)
+        if(body.category_name.trim().length == 0 ){
+          this.utilityService.showErrorToaster("Caregory name can not be empty");
+          this.cancelClicked(true)
+        }else{
+          this.categoryCreate.emit(body);
+          this.cancelClicked(false)
+        }
+        
+        
       }
     }
     
