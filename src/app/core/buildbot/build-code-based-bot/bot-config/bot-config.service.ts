@@ -58,15 +58,15 @@ export class BotConfigService {
       agent_handover_setting: this.formBuilder.group({
         consecutive_count: this.formBuilder.group({
           "enabled":[consecutive_count && consecutive_count.enabled ],
-          "value":[{value:consecutive_count && consecutive_count.value,disabled: !consecutive_count.enabled}, Validators.required]
+          "value":[{value:consecutive_count && consecutive_count.value}, Validators.required]
         }),
         fallback_count: this.formBuilder.group({
           "enabled":[fallback_count && fallback_count.enabled ],
-          "value":[{value:fallback_count && fallback_count.value,disabled: !fallback_count.enabled}, Validators.required]
+          "value":[{value:fallback_count && fallback_count.value}, Validators.required]
         }),
         partial_match_count: this.formBuilder.group({
           "enabled":[partial_match_count && partial_match_count.enabled ],
-          "value":[{value:partial_match_count && partial_match_count.value,disabled: !partial_match_count.enabled}, Validators.required]
+          "value":[{value:partial_match_count && partial_match_count.value}, Validators.required]
         }),
       })
     });
