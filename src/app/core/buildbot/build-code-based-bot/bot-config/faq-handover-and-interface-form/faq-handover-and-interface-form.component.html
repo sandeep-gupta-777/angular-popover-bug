@@ -31,14 +31,13 @@
       </label>
       <span>
         <span (click)="openAgentHandover()">
-          <mat-slide-toggle [checked]="!!agentHandover" (toggleChange)="agentHandover = !!$event"
+          <mat-slide-toggle [checked]="!!agentHandover" [(ngModel)] = "agentHandover" [disabled]="true"
                             style="opacity:1;cursor: pointer;" color="primary">
           </mat-slide-toggle>
         </span>
       </span>
     </div>
   </fieldset>
-
   <fieldset class="interface-form-grid pb-4 " formGroupName="agent_handover_setting">
     <div class="interface-form-grid">
 
@@ -48,13 +47,14 @@
             <app-info-icon
               [text]="'Enable handover on fallback'"></app-info-icon>
           </label>
-          <mat-slide-toggle formControlName="enabled" color="primary" [disabled]="!agentHandover">
+          <mat-slide-toggle formControlName="enabled" color="primary" [disabled]="!agentHandover"
+          (change)="disableAgentHandoverChildren('fallback_count',formGroup.value.agent_handover_setting.fallback_count.enabled)">   
           </mat-slide-toggle>
         </div>
         <mat-form-field class="pl-3">
           <input matInput type="number" displayName="Score below which fallback is shown"
-                 placeholder="No. of fallback messages before handover" formControlName="value" required
-                 [disabled]="!agentHandover">
+                 placeholder="No. of fallback messages before handover" formControlName="value" 
+                 >
         </mat-form-field>
       </div>
 
@@ -64,13 +64,14 @@
             <app-info-icon
               [text]="'Enable handover on partial match'"></app-info-icon>
           </label>
-          <mat-slide-toggle formControlName="enabled" color="primary" [disabled]="!agentHandover">
+          <mat-slide-toggle formControlName="enabled" color="primary" [disabled]="!agentHandover"
+          (change)="disableAgentHandoverChildren('partial_match_count',formGroup.value.agent_handover_setting.partial_match_count.enabled)"
+          >
           </mat-slide-toggle>
         </div>
         <mat-form-field class="pl-3">
           <input matInput type="number" displayName="Score below which fallback is shown"
-                 placeholder="No. of partial matched messages before handover" formControlName="value" required
-                 [disabled]="!agentHandover">
+                 placeholder="No. of partial matched messages before handover" formControlName="value">
         </mat-form-field>
       </div>
 
@@ -80,14 +81,15 @@
             <app-info-icon
               [text]="'Enable handover for consecutive messages'"></app-info-icon>
           </label>
-          <mat-slide-toggle formControlName="enabled" color="primary" [disabled]="!agentHandover">
+          <mat-slide-toggle formControlName="enabled" color="primary" [disabled]="!agentHandover"
+          (change)="disableAgentHandoverChildren('consecutive_count',formGroup.value.agent_handover_setting.consecutive_count.enabled)">
           </mat-slide-toggle>
         </div>
         <mat-form-field class="pl-3">
           <input matInput type="number" displayName="Score below which fallback is shown"
-                 placeholder="No. of consecutive messages before handover" formControlName="value" required
-                 [disabled]="!agentHandover">
-        </mat-form-field>
+                 placeholder="No. of consecutive messages before handover" formControlName="value" 
+                 >
+        </mat-form-field> 
       </div>
     </div>
 

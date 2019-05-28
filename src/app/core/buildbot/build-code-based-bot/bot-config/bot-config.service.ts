@@ -51,23 +51,22 @@ export class BotConfigService {
 
     let agent_handover_setting:any = bot.agent_handover_setting;
     let fallback_count :any =  agent_handover_setting && agent_handover_setting.fallback_count;
-    let partial_match_coun:any=  agent_handover_setting &&  agent_handover_setting.partial_match_count;
-    let consecutive_count:any = agent_handover_setting && agent_handover_setting.consecutive_count && agent_handover_setting.consecutive_count.enabled;
-    let partial_match_count =  bot.partial_match_count;
+    let partial_match_count:any=  agent_handover_setting &&  agent_handover_setting.partial_match_count;
+    let consecutive_count:any = agent_handover_setting && agent_handover_setting.consecutive_count;
     this.faqHandoverANdInterfaceForm = this.formBuilder.group({
       bot_metadata: this.formBuilder.group(bot.bot_metadata),
       agent_handover_setting: this.formBuilder.group({
         consecutive_count: this.formBuilder.group({
-          "enabled":[consecutive_count && consecutive_count.enabled],
-          "value":[consecutive_count && consecutive_count.value]
+          "enabled":[consecutive_count && consecutive_count.enabled ],
+          "value":[{value:consecutive_count && consecutive_count.value,disabled: !consecutive_count.enabled}, Validators.required]
         }),
         fallback_count: this.formBuilder.group({
-          "enabled":[fallback_count && fallback_count.enabled],
-          "value":[fallback_count && fallback_count.value]
+          "enabled":[fallback_count && fallback_count.enabled ],
+          "value":[{value:fallback_count && fallback_count.value,disabled: !fallback_count.enabled}, Validators.required]
         }),
         partial_match_count: this.formBuilder.group({
-          "enabled":[partial_match_count && partial_match_count.enabled],
-          "value":[partial_match_count && partial_match_count.value]
+          "enabled":[partial_match_count && partial_match_count.enabled ],
+          "value":[{value:partial_match_count && partial_match_count.value,disabled: !partial_match_count.enabled}, Validators.required]
         }),
       })
     });
@@ -87,6 +86,9 @@ export class BotConfigService {
 
     return this.basicInfoForm;
   }
+
+
+  
 
   getDataManagementForm(bot: IBot) {
     return this.formBuilder.group({
