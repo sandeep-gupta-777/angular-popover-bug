@@ -48,6 +48,7 @@ export class EditAndViewArticlesComponent implements OnInit {
   @Output() deleteArticle = new EventEmitter();
   @Output() trainAndUpdate = new EventEmitter();
   article_id: number;
+  JSON = JSON;
   dialogRefWrapper = { ref: null };
 
   ngOnInit() {
@@ -70,7 +71,7 @@ export class EditAndViewArticlesComponent implements OnInit {
   deleteQustionWithId(index: number) {
     if (index > -1) {
       if(this.articleData.questions.length == 1){
-        this.utilityService.showErrorToaster("Can't delete the only question");
+        this.utilityService.showErrorToaster("Atleast one question is needed for an article");
       }else{
           this.articleData.questions.splice(index, 1);
       }

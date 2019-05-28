@@ -255,7 +255,7 @@ export class BotArticlesComponent implements OnInit {
       if (data) {
         // this.decryptSubmit()
 
-        this.trainBotAndGetCorpus("Updated article: "+ data);
+        this.trainBotAndGetCorpus(data);
       }
     })
   }
@@ -297,7 +297,14 @@ export class BotArticlesComponent implements OnInit {
     this.updateArticle$(articleData)
     .subscribe((value) => {
       if(value){
-        let description = "Created article: "+articleData.questions[0];
+        let description;
+        if(!articleData.section_id){
+          description = "Created article: "+articleData.questions[0];
+        }
+        if(articleData.section_id){
+          description = "Updated article: "+articleData.questions[0];
+        }
+        
         this.trainBotAndGetCorpus(description);
       }
     })

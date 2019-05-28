@@ -17,11 +17,14 @@
         </button> -->
     <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer mr-2" mat-button
     *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
-      style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; " (click)="updateAndTrain()">
+      style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; " (click)="updateAndTrain()"
+      [disabled]="JSON.stringify(articleData) === JSON.stringify(article) "
+      >
       <mat-icon>autorenew</mat-icon>
       Save and train
     </button>
     <button class="mat-theme-button cursor-pointer mr-2" mat-button (click)="updateArticleClicked()"
+    [disabled]="JSON.stringify(articleData) === JSON.stringify(article)"
       style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px;">
       <mat-icon>save</mat-icon>
       Save
@@ -152,7 +155,7 @@
                 <mat-label>Existing Category</mat-label>
                 <mat-select name="existingCategoryName" ngModel [disabled]='!(form.value.inputType == "existing")'>
                   <div *ngFor="let categorie of category_mapping">
-                      <mat-option  [value]="categorie.category_id" *ngIf = "!(categorie.category_id == 'unassigned' || categorie.category_id == 'default_articles' )">
+                      <mat-option  [value]="categorie.category_id" *ngIf = "!(categorie.category_id == 'default_articles' )">
                           {{categorie.name}}
                         </mat-option>
                   </div>
