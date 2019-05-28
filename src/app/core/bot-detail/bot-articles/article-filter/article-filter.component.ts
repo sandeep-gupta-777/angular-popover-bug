@@ -19,6 +19,7 @@ export class ArticleFilterComponent implements OnInit {
     this.filterCategory.emit(value);
   }
   clearFilterList() {
+    this.filter_categorie_search="";
     this.articleFilterForm.reset();
     this.filterCategory.emit(this.articleFilterForm);
   }
