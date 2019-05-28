@@ -213,6 +213,7 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   }
 
   sideBarTabChanged(sideBarTabChanged: ESideBarTab) {
+    /*TODO: a lot code repetition here*/
     // if (sideBarTabChanged === ESideBarTab.logic) {
     //   setTimeout(() => {
     //     this.logicTabClicked = true;
