@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl, FormGroupName } from '@angular/forms';
 import { UtilityService } from 'src/app/utility.service';
 import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
 import { MatDialog } from '@angular/material';
@@ -7,6 +7,8 @@ import { ServerService } from 'src/app/server.service';
 import { IHeaderData } from 'src/interfaces/header-data';
 import { IBot } from 'src/app/core/interfaces/IBot';
 import { ConstantsService } from 'src/app/constants.service';
+import { UpdateBotInfoByIdInBotInBotList } from 'src/app/core/view-bots/ngxs/view-bot.action';
+import { Store } from '@ngxs/store';
 
 @Component({
   selector: 'app-faq-handover-and-interface-form',
@@ -19,13 +21,16 @@ export class FaqHandoverAndInterfaceFormComponent implements OnInit {
     private utilityService : UtilityService,
     public matDialog:MatDialog,
     public serverService:ServerService,
-    public constantsService:ConstantsService
+    public constantsService:ConstantsService,
+    private store: Store,
   ) { }
   @Input() formGroup: FormGroup;
   @Input() bot:IBot;
   agentHandover:boolean;
   ngOnInit() {
+    debugger;
     this.agentHandover = this.bot.allow_agent_handover;
+    this.disableOrEnableAll(this.agentHandover);
   }
   dialogRefWrapper = {ref:null};
   async openAgentHandover() {
@@ -46,14 +51,17 @@ export class FaqHandoverAndInterfaceFormComponent implements OnInit {
     if(data){
       this.makeAgentHandoverRequest()
         .subscribe(()=>{
-
+          debugger;
           this.agentHandover = !this.agentHandover;
+          this.disableOrEnableAll(this.agentHandover);
+          this.store.dispatch(new UpdateBotInfoByIdInBotInBotList( { data: {allow_agent_handover:this.agentHandover}, botId: this.bot.id }));
         })
     }
   })
     // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
   makeAgentHandoverRequest(){
+    debugger;
     const updateAgentHandoverUrl = this.constantsService.getUpdateAgentHandoverUrl()
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token,
@@ -62,5 +70,25 @@ export class FaqHandoverAndInterfaceFormComponent implements OnInit {
       "allow_agent_handover": !this.agentHandover
   };
     return this.serverService.makePostReq({url:updateAgentHandoverUrl, body, headerData})
+  }
+
+  disableAgentHandoverChildren(formName:string,enableValue:boolean){
+    let x:any =  this.formGroup.get('agent_handover_setting').get(formName);
+    this.toggleDisableFormControl(x.get('value'),enableValue);
+  }
+  disableOrEnableAll(enbleValue){
+    this.disableAgentHandoverChildren('consecutive_count',enbleValue && this.formGroup.get('agent_handover_setting').get('consecutive_count').value.enabled)
+    this.disableAgentHandoverChildren('partial_match_count',enbleValue&& this.formGroup.get('agent_handover_setting').get('partial_match_count').value.enabled)
+    this.disableAgentHandoverChildren('fallback_count',enbleValue&& this.formGroup.get('agent_handover_setting').get('fallback_count').value.enabled)    
+  }
+
+  toggleDisableFormControl(f:FormControl,enableValue:boolean){
+    if(!enableValue){
+      f.disable();
+    }
+    else{
+      f.enable();
+    }
+      
   }
 }
