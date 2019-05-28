@@ -1,4 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  TemplateRef,
+  ViewChild,
+  ElementRef,
+  QueryList, ViewChildren
+} from '@angular/core';
 import { ConstantsService } from 'src/app/constants.service';
 import { ServerService } from 'src/app/server.service';
 import { UtilityService } from 'src/app/utility.service';
@@ -7,6 +17,7 @@ import { IHeaderData } from 'src/interfaces/header-data';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IArticleItem, ICategoryMappingItem, ICorpus } from 'src/app/core/interfaces/faqbots';
 import { MatDialog } from '@angular/material';
+import {DomService} from "../../../../dom.service";
 
 @Component({
   selector: 'app-edit-and-view-articles',
@@ -15,6 +26,8 @@ import { MatDialog } from '@angular/material';
 })
 export class EditAndViewArticlesComponent implements OnInit {
 
+  @ViewChild('questionListContainer') questionListContainer: ElementRef;
+  @ViewChildren('questionTextArea') questionTextArea:QueryList<ElementRef>;
   constructor(
     private constantsService: ConstantsService,
     private serverService: ServerService,
@@ -48,7 +61,7 @@ export class EditAndViewArticlesComponent implements OnInit {
           }
           }
       });
-   
+
   }
 
   trackByIndex(index: number, obj: any): any {
@@ -62,11 +75,17 @@ export class EditAndViewArticlesComponent implements OnInit {
           this.articleData.questions.splice(index, 1);
       }
     }
-    
-    
+
+
   }
   addNewQuestion() {
     this.articleData.questions.push("");
+    setTimeout(()=>{
+      let textareaArr = this.questionTextArea.toArray();
+      let lastChild = textareaArr[textareaArr.length-1];
+      lastChild.nativeElement.focus();
+      DomService.scrollToTop(this.questionListContainer.nativeElement);
+    });
   }
   goBackToArticle() {
     this.goBack.emit();
@@ -81,15 +100,15 @@ export class EditAndViewArticlesComponent implements OnInit {
     }
   }
 
- 
+
 
   deleteArticleClicked() {
     if(this.corpus.state == "training"){
       this.trainingIsGoingOn();
     }
     else{
-      
-    
+
+
     this.deleteArticle.emit(this.articleData);
     }
   }
@@ -99,7 +118,7 @@ export class EditAndViewArticlesComponent implements OnInit {
       this.trainingIsGoingOn();
     }
     else{
-      
+
     this.trainAndUpdate.emit(this.articleData);
     }
   }

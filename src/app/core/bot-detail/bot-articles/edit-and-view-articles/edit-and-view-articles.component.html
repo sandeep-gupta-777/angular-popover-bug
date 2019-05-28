@@ -56,11 +56,11 @@
 </div>
 
 <div class="main-block" *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')">
-  <div class="questions-list px-2" style="overflow-y: auto; height: 100%">
+  <div #questionListContainer class="questions-list px-2" style="overflow-y: auto; height: 100%">
     <div class="questions-heading">Questions</div>
     <mat-form-field class="question-list-item"
       *ngFor="let question of articleData.questions; let index = index;trackBy:trackByIndex;">
-      <textarea matInput required name=a{{index}} type="text" [(ngModel)]="articleData.questions[index]"
+      <textarea #questionTextArea matInput required name=a{{index}} type="text" [(ngModel)]="articleData.questions[index]"
         #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3">
             </textarea>
       <mat-icon matSuffix class="onParentHover cursor-pointer" (click)="deleteQustionWithId(index)">close
