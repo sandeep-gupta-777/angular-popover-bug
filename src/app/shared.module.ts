@@ -76,6 +76,7 @@ import { FaqBotBasicInfoFormComponent } from './core/buildbot/build-code-based-b
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import {ButtonWrapperComponent} from "./button-wrapper/button-wrapper.component";
 import {BreakpointService} from "./core/breakpoint.service";
+import {SpliceEllipsisPipe} from "./splice-ellipsis.pipe";
 @NgModule({
   declarations: [
     ButtonWrapperComponent,
@@ -89,6 +90,7 @@ import {BreakpointService} from "./core/breakpoint.service";
     InfoIconComponent,
     BuildbotWrapperComponent,
     BasicInfoFormComponent,
+    SpliceEllipsisPipe,
     BotConfigInputComponent,
     ErrorDescriptionPipe,
     UiSwitchWrapperComponent,
@@ -165,6 +167,8 @@ import {BreakpointService} from "./core/breakpoint.service";
     IntegrationLogosPipe,
     DataManageFormComponent,
     BotByIdPipe,
+
+    SpliceEllipsisPipe,
     InfoIconComponent,
     BasicInfoFormComponent,
     BotConfigInputComponent,

@@ -14,7 +14,7 @@ export class ReducerListService {
     AppStateReducer,
     EnterpriseprofileStateReducer,
     ViewBotStateReducer,
-    ChatSessionStateReducer,
+    // ChatSessionStateReducer,
     BotCreationStateReducer,
     AnalysisStateReducer2,
     ReportsStateReducer,

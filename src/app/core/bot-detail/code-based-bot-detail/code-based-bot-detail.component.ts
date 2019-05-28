@@ -343,9 +343,11 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
     }
   }
 
-  isArticleListPage(){
+  shouldDisableGlobalScroll(){
+
     let build = this.activatedRoute.snapshot.queryParamMap.get('build');
     let is_article = this.activatedRoute.snapshot.queryParamMap.get('is_article');
-    return build === "articles" && (is_article !== "true");
+    if(build === 'input' || (build === "articles" && (is_article === "true"))) return false;
+    return true;
   }
 }

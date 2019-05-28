@@ -148,7 +148,7 @@ export class IntegrationOptionListComponent implements OnInit, AfterViewInit {
       const fragment = this.activatedRoute.snapshot.fragment;
       document.getElementById(fragment).scrollIntoView();
     } catch (e) {
-      console.log(e);
+      LoggingService.log(e);
     }
 
     this.f_new.valueChanges.pipe(debounceTime(200)).subscribe((integrationInfo: IIntegrationOption) => {
