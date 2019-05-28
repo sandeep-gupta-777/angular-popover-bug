@@ -153,7 +153,13 @@ export class BotConfigComponent implements OnInit {
   }
 
   getInvalidForm() {
-    let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.integrationForm, this.faqHandoverANdInterfaceForm];
+    let combinedForms;
+    if(this.bot.bot_type == EBotType.faqbot){
+      combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm,this.faqHandoverANdInterfaceForm, this.integrationForm ];
+    } 
+    else{
+      combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.integrationForm ];
+    }
     return combinedForms.filter(form=>!!form).findIndex((form) => {
       return form.invalid;
     });
@@ -169,8 +175,14 @@ export class BotConfigComponent implements OnInit {
     } else if (index === 2) {
       this.utilityService.showErrorToaster('Security form is not valid');
       return;
-    } else if (index === 3) {
+    } else if (index === 4) {
       this.utilityService.showErrorToaster('Integration form is not valid');
+      return;
+    }else if (index === 3 && this.bot.bot_type == EBotType.chatbot){
+      this.utilityService.showErrorToaster('Integration form is not valid');
+      return;
+    }else if (index === 3 && this.bot.bot_type == EBotType.faqbot){
+      this.utilityService.showErrorToaster('Handover and inference form is not valid');
       return;
     }
   }

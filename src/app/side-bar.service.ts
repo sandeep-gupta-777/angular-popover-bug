@@ -66,8 +66,11 @@ export class SideBarService {
     let botConfigComponent = SideBarService.botConfigComponent ;
     let combinedForm: (FormGroup | NgForm)[];
     if(botConfigComponent.bot_type === EBotType.chatbot){
-      combinedForm = [botConfigComponent.basicInfoForm, botConfigComponent.dataManagementForm, botConfigComponent.securityForm, botConfigComponent.integrationForm];
-    }else {
+      combinedForm = [botConfigComponent.basicInfoForm, botConfigComponent.dataManagementForm, botConfigComponent.securityForm,botConfigComponent.integrationForm];
+    }else if(botConfigComponent.bot_type === EBotType.faqbot){
+      combinedForm = [botConfigComponent.basicInfoForm, botConfigComponent.dataManagementForm, botConfigComponent.securityForm,botConfigComponent.faqHandoverANdInterfaceForm, botConfigComponent.integrationForm];
+    }
+    else {
       combinedForm = [botConfigComponent.basicInfoForm];
     }
     return combinedForm.reduce((aggr, current) => {
