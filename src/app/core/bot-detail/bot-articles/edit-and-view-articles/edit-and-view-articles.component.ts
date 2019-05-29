@@ -48,6 +48,7 @@ export class EditAndViewArticlesComponent implements OnInit {
   @Output() deleteArticle = new EventEmitter();
   @Output() trainAndUpdate = new EventEmitter();
   article_id: number;
+  currentModal : string;
   JSON = JSON;
   dialogRefWrapper = { ref: null };
 
@@ -76,9 +77,8 @@ export class EditAndViewArticlesComponent implements OnInit {
           this.articleData.questions.splice(index, 1);
       }
     }
-
-
   }
+
   addNewQuestion() {
     this.articleData.questions.push("");
     setTimeout(()=>{
@@ -125,61 +125,67 @@ export class EditAndViewArticlesComponent implements OnInit {
   }
 
   changeArticalCategory(formValue) {
-    const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
-    };
-    if (this.articleData.section_id) {
-      let body = {
-        "old_category": this.article.category_id,
-        "section_id": [this.articleData.section_id]
-      }
-      if (formValue.inputType == "existing") {
-        body["new_category"] = formValue.existingCategoryName;
-        const headerData: IHeaderData = {
-          'bot-access-token': this.bot.bot_access_token
-        };
-        const url = this.constantsService.changeSectionCategoryUrl();
-        this.serverService.makePostReq<any>({ headerData, body, url })
-          .subscribe((value) => {
-            this.category_mapping = value.category_mapping;
-            this.category_mapping = [...this.category_mapping];
-            this.article.category_id = value.new_category;
-            this.articleData.category_id = value.new_category;
-            this.utilityService.showSuccessToaster("Caregory succesfully updated");
-          })
-      }
-      if (formValue.inputType == "new") {
-        body['category_name'] = formValue.newCategoryName;
-        const headerData: IHeaderData = {
-          'bot-access-token': this.bot.bot_access_token
-        };
-        const url = this.constantsService.changeSectionCategoryWithNewCategoryUrl();
-        this.serverService.makePostReq<any>({ headerData, body, url })
-          .subscribe((value) => {
-            this.category_mapping = value.category_mapping;
-            this.category_mapping = [...this.category_mapping];
-            this.article.category_id = value.new_category;
-            this.articleData.category_id = value.new_category;
-            this.utilityService.showSuccessToaster("Caregory succesfully updated");
-          })
-
-      }
-    } else {
-      if (formValue.inputType == "existing") {
-        this.articleData['category_id'] = formValue.existingCategoryName;
-      }
-      if (formValue.inputType == "new") {
-        const body = {
-          "category_name": formValue.newCategoryName
+    return new Promise((resolve)=>{
+      const headerData: IHeaderData = {
+        'bot-access-token': this.bot.bot_access_token
+      };
+      if (this.articleData.section_id) {
+        let body = {
+          "old_category": this.article.category_id,
+          "section_id": [this.articleData.section_id]
         }
-        const url = this.constantsService.createCategoryUrl();
-        this.serverService.makePostReq<any>({ headerData, body, url })
-          .subscribe((value) => {
-            this.articleData['category_id'] = value.new_category.category_id;
-            this.category_mapping.push(value.new_category);
-          })
+        if (formValue.inputType == "existing") {
+          body["new_category"] = formValue.existingCategoryName;
+          const headerData: IHeaderData = {
+            'bot-access-token': this.bot.bot_access_token
+          };
+          const url = this.constantsService.changeSectionCategoryUrl();
+          this.serverService.makePostReq<any>({ headerData, body, url })
+            .subscribe((value) => {
+              this.category_mapping = value.category_mapping;
+              this.category_mapping = [...this.category_mapping];
+              this.article.category_id = value.new_category;
+              this.articleData.category_id = value.new_category;
+              this.utilityService.showSuccessToaster("Caregory succesfully updated");
+              resolve(value)
+            })
+        }
+        if (formValue.inputType == "new") {
+          body['category_name'] = formValue.newCategoryName;
+          const headerData: IHeaderData = {
+            'bot-access-token': this.bot.bot_access_token
+          };
+          const url = this.constantsService.changeSectionCategoryWithNewCategoryUrl();
+          this.serverService.makePostReq<any>({ headerData, body, url })
+            .subscribe((value) => {
+              this.category_mapping = value.category_mapping;
+              this.category_mapping = [...this.category_mapping];
+              this.article.category_id = value.new_category;
+              this.articleData.category_id = value.new_category;
+              this.utilityService.showSuccessToaster("Caregory succesfully updated");
+              resolve(value)
+            })
+  
+        }
+      } else {
+        if (formValue.inputType == "existing") {
+          this.articleData['category_id'] = formValue.existingCategoryName;
+          resolve()
+        }
+        if (formValue.inputType == "new") {
+          const body = {
+            "category_name": formValue.newCategoryName
+          }
+          const url = this.constantsService.createCategoryUrl();
+          this.serverService.makePostReq<any>({ headerData, body, url })
+            .subscribe((value) => {
+              this.articleData['category_id'] = value.new_category.category_id;
+              this.category_mapping.push(value.new_category);
+              resolve(value)
+            })
+        }
       }
-    }
+    })
 
   }
   openCategoryModifyModal(template: TemplateRef<any>) {
@@ -192,5 +198,65 @@ export class EditAndViewArticlesComponent implements OnInit {
   }
   trainingIsGoingOn(){
     this.utilityService.showErrorToaster("Bot is training so the action can not be performed.");
+  }
+
+  skipConformationModalSubmitted(){
+    if(this.currentModal == "saveNTrain"){
+      this.updateAndTrain();
+    }
+    if(this.currentModal == "save"){
+      this.updateArticleClicked();
+    }
+  }
+
+  globalConformationModalSubmitted(formValue){
+    debugger;
+    if(this.currentModal == "saveNTrain"){
+      this.updateAndTrainModalSubmitted(formValue)
+    }
+    if(this.currentModal == "save"){
+      this.updateArticleClickedModalsubmitted(formValue)
+    }
+  }
+  
+  updateArticleClickedModal(template: TemplateRef<any>){
+    debugger;
+    if(this.corpus.state == "training"){
+      this.trainingIsGoingOn();
+    }
+    else if(this.articleData.category_id == 'unassigned'){
+      this.currentModal = "save"
+      this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
+    }
+    else{
+      this.updateArticleClicked();
+    }
+  }
+  updateArticleClickedModalsubmitted(formValue){
+    debugger;
+    this.changeArticalCategory(formValue)
+      .then(()=>{
+        this.updateArticleClicked();
+      });
+    
+  }
+  updateAndTrainModal(template: TemplateRef<any>){
+    if(this.corpus.state == "training"){
+      this.trainingIsGoingOn();
+    }
+    else if (this.articleData.category_id == 'unassigned'){
+      this.currentModal = "saveNTrain"
+      this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
+    }
+    else{
+      this.updateAndTrain();
+    }
+  }
+  updateAndTrainModalSubmitted(formValue){
+    this.changeArticalCategory(formValue)
+    .then(()=>{
+      this.updateAndTrain();
+    });
+    
   }
 }
