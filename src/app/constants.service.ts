@@ -660,7 +660,7 @@ export class ConstantsService {
     actions: {
       originalKey: '',
       value: undefined,
-      type: 'icon',
+      type: 'mat-icon',
       displayValue: 'Actions',
       custom: true,
       name: '',
