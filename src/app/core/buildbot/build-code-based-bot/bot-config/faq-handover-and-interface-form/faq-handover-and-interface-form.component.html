@@ -30,22 +30,22 @@
           [text]="'Transfer the message to an agent when bot fails'"></app-info-icon>
       </label>
       <span>
-        <span (click)="openAgentHandover()">
-          <mat-slide-toggle [checked]="!!agentHandover" [(ngModel)] = "agentHandover" [disabled]="true"
-                            style="opacity:1;cursor: pointer;" color="primary">
+        <span (click)="openAgentHandover()" class ="disabled-slide-button">
+          <mat-slide-toggle [checked]="!!agentHandover" [disabled]="true" 
+                            style="opacity:1;cursor: pointer !important;" color="primary">
           </mat-slide-toggle>
         </span>
       </span>
     </div>
   </fieldset>
-  <fieldset class="interface-form-grid pb-4 " formGroupName="agent_handover_setting">
+  <fieldset class="pb-4" formGroupName="agent_handover_setting">
     <div class="interface-form-grid">
 
       <div formGroupName="fallback_count">
         <div class="form-control d-flex flex-column" style="border: none;">
           <label class="py-1 handover-toggle">Enable handover on fallback
             <app-info-icon
-              [text]="'Enable handover on fallback'"></app-info-icon>
+              [text]="'Fallback messages in a room can trigger handover'"></app-info-icon>
           </label>
           <mat-slide-toggle formControlName="enabled" color="primary" [disabled]="!agentHandover"
           (change)="disableAgentHandoverChildren('fallback_count',formGroup.value.agent_handover_setting.fallback_count.enabled)">   
@@ -62,7 +62,7 @@
         <div class="form-control d-flex flex-column" style="border: none;">
           <label class="py-1 handover-toggle">Enable handover on partial match
             <app-info-icon
-              [text]="'Enable handover on partial match'"></app-info-icon>
+              [text]="'Partially matched messages in a room can trigger handover'"></app-info-icon>
           </label>
           <mat-slide-toggle formControlName="enabled" color="primary" [disabled]="!agentHandover"
           (change)="disableAgentHandoverChildren('partial_match_count',formGroup.value.agent_handover_setting.partial_match_count.enabled)"
@@ -79,7 +79,7 @@
         <div class="form-control d-flex flex-column" style="border: none;">
           <label class="py-1 handover-toggle mb-1">Enable handover for consecutive messages
             <app-info-icon
-              [text]="'Enable handover for consecutive messages'"></app-info-icon>
+              [text]="'Consecutive same bot messages in a room can trigger handover'"></app-info-icon>
           </label>
           <mat-slide-toggle formControlName="enabled" color="primary" [disabled]="!agentHandover"
           (change)="disableAgentHandoverChildren('consecutive_count',formGroup.value.agent_handover_setting.consecutive_count.enabled)">
