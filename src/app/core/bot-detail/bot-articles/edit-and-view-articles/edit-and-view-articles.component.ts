@@ -146,7 +146,7 @@ export class EditAndViewArticlesComponent implements OnInit {
               this.category_mapping = [...this.category_mapping];
               this.article.category_id = value.new_category;
               this.articleData.category_id = value.new_category;
-              this.utilityService.showSuccessToaster("Caregory succesfully updated");
+              this.utilityService.showSuccessToaster("Category succesfully updated");
               resolve(value)
             })
         }
@@ -162,7 +162,7 @@ export class EditAndViewArticlesComponent implements OnInit {
               this.category_mapping = [...this.category_mapping];
               this.article.category_id = value.new_category;
               this.articleData.category_id = value.new_category;
-              this.utilityService.showSuccessToaster("Caregory succesfully updated");
+              this.utilityService.showSuccessToaster("Category succesfully updated");
               resolve(value)
             })
   
@@ -224,7 +224,7 @@ export class EditAndViewArticlesComponent implements OnInit {
     if(this.corpus.state == "training"){
       this.trainingIsGoingOn();
     }
-    else if(this.articleData.category_id == 'unassigned'){
+    else if(this.articleData.category_id == 'unassigned' && !this.articleData.section_id ){
       this.currentModal = "save"
       this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
     }
@@ -244,7 +244,7 @@ export class EditAndViewArticlesComponent implements OnInit {
     if(this.corpus.state == "training"){
       this.trainingIsGoingOn();
     }
-    else if (this.articleData.category_id == 'unassigned'){
+    else if (this.articleData.category_id == 'unassigned' && !this.articleData.section_id){
       this.currentModal = "saveNTrain"
       this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
     }

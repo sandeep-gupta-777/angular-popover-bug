@@ -123,7 +123,14 @@ export class BuildbotWrapperComponent implements OnInit {
           new AddNewBotInAllBotList({bot: createdBot}),
           new ResetBuildBotToDefault()
         ]).subscribe(() => {
-          this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`]);
+          debugger;
+          if(createdBot.bot_type == EBotType.faqbot){
+            this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`], {queryParams: {build:"articles"}});
+          }
+          else{
+            this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`]);
+          }
+          
         });
         this.utilityService.showSuccessToaster('Bot Created');
         this.loading = false;
@@ -131,7 +138,6 @@ export class BuildbotWrapperComponent implements OnInit {
         this.loading = false;
       });
   }
-
 
   datachanged(data: IBot) {
     const bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type');

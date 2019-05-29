@@ -346,7 +346,7 @@ export class BotArticlesComponent implements OnInit {
              break;
           }
         }
-        this.utilityService.showSuccessToaster("Caregory succesfully updated");
+        this.utilityService.showSuccessToaster("Category succesfully updated");
       });
   }
   categoryDelete(body){
@@ -358,7 +358,7 @@ export class BotArticlesComponent implements OnInit {
     .subscribe((value)=>{
       this.getCorpusAndSetArticleFilterForm$()
       .subscribe((v)=>
-      this.utilityService.showSuccessToaster("Caregory succesfully deleted"));
+      this.utilityService.showSuccessToaster("Category succesfully deleted"));
     })
   }
   categoryCreate(body){
@@ -375,7 +375,7 @@ export class BotArticlesComponent implements OnInit {
         this.showCreateNewCategoryInput = false;
         this.categoryMappingClone.push(value.new_category);
         this.categoryMappingClone = [...this.categoryMappingClone];
-        this.utilityService.showSuccessToaster("Caregory succesfully created");
+        this.utilityService.showSuccessToaster("Category succesfully created");
         let formObj = {};
           this.categoryMappingClone.forEach((categorie) => {
             formObj[categorie.category_id] = [false];
