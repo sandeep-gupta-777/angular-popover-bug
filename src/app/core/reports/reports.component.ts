@@ -170,11 +170,19 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
         /*Making reportItem$ history data*/
         reportHistory.objects.forEach((reportHistoryItem: IReportHistoryItem) => {
           this.botlist$.subscribe((botList) => {
+            let botName: any;
             const listOfAllBots = botList.allBotList;
+
+            try {
+              botName = this.objectArrayCrudService.getObjectItemByKeyValuePair(listOfAllBots, {id: reportHistoryItem.bot_id}).name;
+            }catch (e) {
+              console.log("couldn't find bot")
+              botName = "BOT_NOT_FOUND"
+            }
 
             this.reportHistorySmartTableData.push({
               ...reportHistoryItem,
-              bot: this.objectArrayCrudService.getObjectItemByKeyValuePair(listOfAllBots, {id: reportHistoryItem.bot_id}).name,
+              bot: botName,
               name: this.objectArrayCrudService.getObjectItemByKeyValuePair(this.reportTypes.objects, {id: reportHistoryItem.reporttype_id}).name,
               created_at: reportHistoryItem.created_at
             });

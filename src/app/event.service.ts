@@ -17,6 +17,8 @@ export class EventService {
     this.removeCodeMirrorHistory$.emit(source);
   }
 
+  static logout$ = new EventEmitter();
+
   static progressBar$ = new EventEmitter<{loading: boolean, value: number }>();
   static disableSaveButton_codeInput$ = new EventEmitter<boolean>();
   static toggleAllPipeLineModules = new EventEmitter<boolean>();

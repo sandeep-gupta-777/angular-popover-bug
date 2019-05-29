@@ -28,7 +28,7 @@ export class FaqHandoverAndInterfaceFormComponent implements OnInit {
   @Input() bot:IBot;
   agentHandover:boolean;
   ngOnInit() {
-    debugger;
+
     this.agentHandover = this.bot.allow_agent_handover;
     this.disableOrEnableAll(this.agentHandover);
   }
@@ -51,7 +51,7 @@ export class FaqHandoverAndInterfaceFormComponent implements OnInit {
     if(data){
       this.makeAgentHandoverRequest()
         .subscribe(()=>{
-          debugger;
+
           this.agentHandover = !this.agentHandover;
           this.disableOrEnableAll(this.agentHandover);
           this.store.dispatch(new UpdateBotInfoByIdInBotInBotList( { data: {allow_agent_handover:this.agentHandover}, botId: this.bot.id }));
@@ -61,7 +61,7 @@ export class FaqHandoverAndInterfaceFormComponent implements OnInit {
     // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
   makeAgentHandoverRequest(){
-    debugger;
+
     const updateAgentHandoverUrl = this.constantsService.getUpdateAgentHandoverUrl()
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token,
@@ -79,7 +79,7 @@ export class FaqHandoverAndInterfaceFormComponent implements OnInit {
   disableOrEnableAll(enbleValue){
     this.disableAgentHandoverChildren('consecutive_count',enbleValue && this.formGroup.get('agent_handover_setting').get('consecutive_count').value.enabled)
     this.disableAgentHandoverChildren('partial_match_count',enbleValue&& this.formGroup.get('agent_handover_setting').get('partial_match_count').value.enabled)
-    this.disableAgentHandoverChildren('fallback_count',enbleValue&& this.formGroup.get('agent_handover_setting').get('fallback_count').value.enabled)    
+    this.disableAgentHandoverChildren('fallback_count',enbleValue&& this.formGroup.get('agent_handover_setting').get('fallback_count').value.enabled)
   }
 
   toggleDisableFormControl(f:FormControl,enableValue:boolean){
@@ -89,6 +89,6 @@ export class FaqHandoverAndInterfaceFormComponent implements OnInit {
     else{
       f.enable();
     }
-      
+
   }
 }

@@ -321,7 +321,7 @@ export class ConstantsService {
   }
 
   getReportUrl(limit = 1, offset = 10) {//limit: number, offset: number
-    return this.BACKEND_URL + `api/v1/reports/?limit=${limit}&offset=${offset}`; //{{url}}/reports?limit=1&offset=10
+    return this.BACKEND_URL + `api/v1/reports/?limit=${limit}&offset=${offset}&order_by=-created_at`; //{{url}}/reports?limit=1&offset=10
   }
 
   getReportHistoryUrl(limit = 1, offset = 10, order_by?) {

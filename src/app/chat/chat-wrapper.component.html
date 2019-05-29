@@ -18,6 +18,7 @@
                   [src]="currentBot.logo" class="chat-logo" alt="Bot logo">
                 {{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>
             <a class="ml-auto hover-parent"
+               data-cy="chat-full-screen"
                [routerLink]="['/preview']"
                [queryParams]="{bot_unique_name:currentBot.bot_unique_name,enterprise_unique_name:enterprise_unique_name}"
                [matTooltip]="'Open in new Tab'"
@@ -51,6 +52,7 @@
             </app-overlay>
 
             <button mat-icon-button
+                    data-cy="chat-minimize"
                     (click)="closeChatWindow()"
                     [matTooltip]="'Minimize'"
                     [class.active]="showOverlay" class="origin"
@@ -89,7 +91,7 @@
 <!--chat box ends-->
 
 <!--tool tip starts-->
-<div class="preview-tooltip" (click)="toggleChatWindow()" *ngIf="!windowOpen && currentBot">
+<div class="preview-tooltip" data-cy="preview-tooltip" (click)="toggleChatWindow()" *ngIf="!windowOpen && currentBot">
     <img
       [defaultImage]="'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg'"
       [lazyLoad]="currentBot.logo" alt="">
@@ -100,6 +102,7 @@
 <div *ngIf="isFullScreenPreview" class="grid-chat-preview-full-screen">
     <div class="header1 px-3 d-flex align-items-center">
         <img class="logo-md mr-2 rounded-circle"
+             data-cy="chat-logo-enterprise"
              [defaultImage]="'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg'"
              [lazyLoad]="enterprise_logo||'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg'"
              style="border-radius: 50%;">
@@ -109,6 +112,7 @@
         </div>
 
         <button mat-icon-button (click)="toggleOverlay(showOverlay)"
+                data-cy="custom-room-form-trigger"
                 [class.active]="showOverlay" class="ml-auto"
                 #overlayOriginFullScreen="cdkOverlayOrigin"
                 cdkOverlayOrigin>
@@ -167,6 +171,7 @@
     <div class="header2 px-3 bg-theme-primary d-flex align-items-center">
         <!--<img class="logo-md" src="https://image.flaticon.com/icons/svg/17/17004.svg" alt="">-->
         <img *ngIf="currentBot" class="logo-md mr-2 rounded-circle"
+             data-cy="chat-logo-bot"
              [defaultImage]="'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg'"
              [lazyLoad]="currentBot.logo||'https://image.flaticon.com/icons/svg/17/17004.svg'">
         <div *ngIf="currentBot" class="d-flex flex-column text-white">
@@ -184,11 +189,11 @@
         <div *ngIf="currentRoom && currentRoom.lastTemplateKey"
              class="d-flex mr-3 flex-column align-items-end text-white">
             <div>Last template:</div>
-            <div class="font-11">{{currentRoom.lastTemplateKey}}</div>
+            <div class="font-11" data-cy="chat-room-lasttemplaykey">{{currentRoom.lastTemplateKey}}</div>
         </div>
         <div *ngIf="currentRoom && currentRoom.uid" class="d-flex  flex-column align-items-end text-white">
             <div>Room UID:</div>
-            <div class="font-11">{{currentRoom.uid}}</div>
+            <div class="font-11" data-cy="chat-room-uid">{{currentRoom.uid}}</div>
         </div>
 
     </div>

@@ -313,7 +313,7 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   sendMessageByHuman(messageData: { messageByHuman: string, room: IRoomData }) {
-    debugger;
+
     LoggingService.log('sending message by human');
     const messageByHuman = messageData.messageByHuman;
     const room: IRoomData = messageData.room;

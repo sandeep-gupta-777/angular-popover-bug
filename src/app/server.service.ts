@@ -124,7 +124,14 @@ export class ServerService {
     return headers;
   }
 
-  showErrorMessageForErrorTrue({error, message}) {
+  showErrorMessageForErrorTrue({error, message, action}) {
+
+    /*check for logout*/
+    if(error === true && action === "logout"){
+      EventService.logout$.emit();
+      return;
+    }
+
     if (message) this.myToasterService.showErrorToaster(message);
     else {
       console.error('error toaster called without error');
@@ -166,7 +173,7 @@ export class ServerService {
     if (e.error && (e.error.error === true)) {
       this.showErrorMessageForErrorTrue(e.error);
     } else {
-      this.showErrorMessageForErrorTrue({error: true, message: "Some error occurred"});
+      this.showErrorMessageForErrorTrue({error: true, message: "Some error occurred", action:null});
     }
     // let arg = (e.error && e.error.error) ? e.error : e;
     // this.showErrorMessageForErrorTrue(arg);
