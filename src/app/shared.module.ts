@@ -66,12 +66,21 @@ import {IntegrationItemByUnamePipe} from './integration-item-by-uname.pipe';
 import {BotByIdPipe} from "./core/buildbot/build-code-based-bot/bot-config/data-manage-form/bot-by-id.pipe";
 import { ListIfNotInThisListPipe } from './core/enterpriseprofile/enterprise-roles/listIfNotInThisList.pipe';
 import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
+import {BotConfigService} from "./core/buildbot/build-code-based-bot/bot-config/bot-config.service";
+import {PermissionService} from "./permission.service";
+import {ConstantsService} from "./constants.service";
+import {SharedEnterpriseListModuleModule} from "./auth/shared-enterprise-list-module.module";
+import { FaqHandoverAndInterfaceFormComponent } from './core/buildbot/build-code-based-bot/bot-config/faq-handover-and-interface-form/faq-handover-and-interface-form.component';
+import { FaqBotBasicInfoFormComponent } from './core/buildbot/build-code-based-bot/bot-config/faq-bot-basic-info-form/faq-bot-basic-info-form.component';
 
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import {ButtonWrapperComponent} from "./button-wrapper/button-wrapper.component";
+import {BreakpointService} from "./core/breakpoint.service";
+import {SpliceEllipsisPipe} from "./splice-ellipsis.pipe";
 @NgModule({
   declarations: [
+    ButtonWrapperComponent,
     IntegrationChannelListComponent,
-    EnterpriseListComponent,
-    GenericObjFilterPipe,
     IntegrationLogosPipe,
     IntegrationItemByUnamePipe,
     SplashScreenComponent,
@@ -81,11 +90,13 @@ import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
     InfoIconComponent,
     BuildbotWrapperComponent,
     BasicInfoFormComponent,
+    SpliceEllipsisPipe,
     BotConfigInputComponent,
     ErrorDescriptionPipe,
     UiSwitchWrapperComponent,
     AvatorFormComponent,
     BotConfigComponent,
+
     BotArchitetureComponent,
     BotTestingComponent,
     BotIdToNamePipe,
@@ -125,9 +136,12 @@ import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
     IntegrationOptionListComponent,
     RequiredIfOneFilledValidator,
     DisplayNameForKeyIntegrationPipe,
-    ConvertToUniqueArrayPipe
+    ConvertToUniqueArrayPipe,
+    FaqHandoverAndInterfaceFormComponent,
+    FaqBotBasicInfoFormComponent,
   ],
   imports: [
+    SharedEnterpriseListModuleModule,
     MyMaterialModule,
     FormsModule,
     ReactiveFormsModule,
@@ -135,15 +149,17 @@ import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
     RouterModule,
     // ChartModule,
     ClickOutsideModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    LazyLoadImageModule,
 
   ],
   exports: [
+    ButtonWrapperComponent,
+    SharedEnterpriseListModuleModule,
     LinkifyPipe,
     LinksFromTextPipe,
     MsToHhMmPipe,
-    GenericObjFilterPipe,
-    EnterpriseListComponent,
+    // EnterpriseListComponent,
     MyIfDirective,
     SplashScreenComponent,
     HighlightDirective,
@@ -151,6 +167,8 @@ import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
     IntegrationLogosPipe,
     DataManageFormComponent,
     BotByIdPipe,
+
+    SpliceEllipsisPipe,
     InfoIconComponent,
     BasicInfoFormComponent,
     BotConfigInputComponent,
@@ -159,6 +177,7 @@ import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
     UiSwitchWrapperComponent,
     AvatorFormComponent,
     BotConfigComponent,
+
     BotArchitetureComponent,
     AdditionalInfoFormComponent,
     FormsModule,
@@ -189,6 +208,7 @@ import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
     MsToHhMmPipe,
     BotTestingComponent,
     IntegrationChannelListComponent,
+    LazyLoadImageModule ,
     SecurityComponent,
     TypeForIntegrationTypePipe,
     IntegrationItemForTypePipe,
@@ -198,8 +218,11 @@ import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
     DisplayNameForKeyIntegrationPipe,
     BuildbotWrapperComponent,
     ListIfNotInThisListPipe,
-    ConvertToUniqueArrayPipe
-  ]
+    ConvertToUniqueArrayPipe,
+    FaqHandoverAndInterfaceFormComponent,
+    FaqBotBasicInfoFormComponent
+  ],
+  providers: [ConstantsService, PermissionService, BotConfigService, BreakpointService]
 })
 export class SharedModule {
 

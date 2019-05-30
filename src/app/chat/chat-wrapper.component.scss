@@ -116,6 +116,17 @@ form {
     grid-area: chat;
     overflow-y: hidden;
   }
+  @media screen and (max-width: 786px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 60px 1fr;
+    grid-template-areas: 'h2' 'chat';
+    .chat-rooms{
+      display: none !important;
+    }
+    .header1{
+      display: none !important;
+    }
+  }
 }
 
 

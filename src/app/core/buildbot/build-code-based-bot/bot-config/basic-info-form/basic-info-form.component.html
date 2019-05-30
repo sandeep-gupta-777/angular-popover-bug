@@ -1,19 +1,44 @@
-<form [formGroup]="formGroup" class="bot-creation-form">
-    <div class="row m-0">
-        <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
-            <!--<div style="font-size: 11px; margiheight: 55px; */n-bottom: 16px">Basic information</div>-->
-            <app-bot-config-input
-                displayName="Bot Name"
-                placeholder="Bot Name"
-                [isRequired]="true"
-                formControlName="name"></app-bot-config-input>
-            <app-bot-config-input
-                    displayName="Unique Name"
-                    formControlName="bot_unique_name"
-                    [isRequired]="true"
-                    placeholder="Bot Unique Name"></app-bot-config-input>
+<form [formGroup]="formGroup" class="bot-creation-form bot-creation-form-grid">
+    <app-bot-config-input
+            displayName="Bot Name"
+            placeholder="Bot Name"
+            [isRequired]="true"
+            formControlName="name"></app-bot-config-input>
+    <div class="logo-input">
+        <div class="logo-input-wrapper">
+            <img style="width: 72px; border-radius: 50%; height: 72px; margin-right: 10px"
+                 [src]="formGroup.get('logo').value" alt="">
+            <!--TODO: app-bot-config-input is not used because we want to show custom errors-->
+            <mat-form-field class="w-100">
+                <input type="text"
+                       matInput
+                       formControlName="logo"
+                       placeholder="URL for the Bot Logo/Brand Image">
+                <!---->
+                <mat-error *ngIf="formGroup.get('logo').hasError('required')">
+                    Required
+                </mat-error>
 
-            <mat-form-field class="w-100" ngNativeValidate>
+                <mat-error
+                        *ngIf="!formGroup.get('logo').hasError('required') && formGroup.get('logo').hasError('Must be Https Url')">
+                    Must be Https Url
+
+                </mat-error>
+
+                <mat-error
+                        *ngIf="!formGroup.get('logo').hasError('required')  && formGroup.get('logo').hasError('Image Extension is not correct')">
+                    Image Extension is not correct
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <app-bot-config-input
+            displayName="Unique Name"
+            formControlName="bot_unique_name"
+            [isRequired]="true"
+            placeholder="Bot Unique Name"></app-bot-config-input>
+    <mat-form-field class="w-100" ngNativeValidate>
                 <textarea type="text" id="alterEgo"
                           matInput
                           cdkTextareaAutosize
@@ -22,58 +47,13 @@
                           formControlName="description"
                           placeholder="Description*"
                           [disabled]="isDisabled"></textarea>
-                <mat-error>Required</mat-error>
-            </mat-form-field>
+        <mat-error>Required</mat-error>
+    </mat-form-field>
 
+    <div class="spacer"></div>
 
-        </fieldset>
-        <div class="col-1"></div>
-        <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
-            <!--<div style="font-size: 11px; margin-bottom: 10px">Photo</div>-->
-            <div style="display: flex; align-items: center">
-                <img style="width: 72px; border-radius: 50%; height: 72px; margin-right: 10px"
-                     [src]="formGroup.get('logo').value" alt="">
-                <!--TODO: app-bot-config-input is not used because we want to show custom errors-->
-                <!--<app-bot-config-input-->
-                        <!--style="flex-grow: 1;"-->
-                        <!--displayName="Bot Logo"-->
-                        <!--formControlName="logo"-->
-                        <!--[errors]="logoErrorObj"-->
-                        <!--[isRequired]="true"-->
-                        <!--placeholder="URL for the Bot Logo/Brand Image"></app-bot-config-input>-->
-
-                <mat-form-field class="w-100">
-                    <input type="text"
-                           matInput
-                           formControlName="logo"
-                           placeholder="URL for the Bot Logo/Brand Image">
-<!---->
-                    <mat-error *ngIf="formGroup.get('logo').hasError('required')">
-                        Required
-                    </mat-error>
-
-                    <mat-error *ngIf="!formGroup.get('logo').hasError('required') && formGroup.get('logo').hasError('Must be Https Url')">
-                        Must be Https Url
-
-                    </mat-error>
-
-                    <mat-error *ngIf="!formGroup.get('logo').hasError('required')  && formGroup.get('logo').hasError('Image Extension is not correct')">
-                        Image Extension is not correct
-                    </mat-error>
-                </mat-form-field>
-
-            </div>
-
-        </fieldset>
-    </div>
-
-    <!--<i>{{bot_type}}</i>-->
-    <div class="row" style="margin-top: 45px" *ngIf="bot_type === myEBotType.chatbot">
-        <!--<div class="col-12">-->
-            <!--<div style="font-size: 11px; margin-bottom: 10px">Default messages</div>-->
-        <!--</div>-->
-
-        <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
+    <ng-container *ngIf="myEBotType.intelligent !== bot_type">
+        <fieldset [readonlyselectedroles]="myEAllActions['Update Bots']">
             <mat-form-field class="w-100">
                 <textarea matInput formControlName="first_message" type="text" class=""
                           cdkTextareaAutosize
@@ -83,8 +63,7 @@
 
             </mat-form-field>
         </fieldset>
-        <div class="col-1"></div>
-        <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
+        <fieldset [readonlyselectedroles]="myEAllActions['Update Bots']">
             <mat-form-field class="w-100">
                 <textarea matInput formControlName="error_message" type="text"
                           cdkTextareaAutosize
@@ -93,7 +72,5 @@
                           placeholder="Default Platform Error Message "></textarea>
             </mat-form-field>
         </fieldset>
-    </div>
-
-
+    </ng-container>
 </form>

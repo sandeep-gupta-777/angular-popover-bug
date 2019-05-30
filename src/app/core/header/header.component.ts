@@ -7,7 +7,7 @@ import { ResetAppState, ResetStoreToDefault } from '../../ngxs/app.action';
 import { ResetChatState } from '../../chat/ngxs/chat.action';
 import { ResetBotListAction, SetAllBotListAction } from '../view-bots/ngxs/view-bot.action';
 import { ResetAuthToDefaultState, SetUser } from '../../auth/ngxs/auth.action';
-import { ConstantsService, EAllActions } from '../../constants.service';
+import { ConstantsService,  } from '../../constants.service';
 import { ServerService } from '../../server.service';
 import { ResetEnterpriseUsersAction, SetEnterpriseInfoAction } from '../enterpriseprofile/ngxs/enterpriseprofile.action';
 import { ResetBuildBotToDefault } from '../buildbot/ngxs/buildbot.action';
@@ -21,6 +21,9 @@ import { IBotResult } from '../interfaces/IBot';
 import { IAuthState } from '../../auth/ngxs/auth.state';
 import { ModalImplementer } from 'src/app/modal-implementer';
 import { MatDialog } from '@angular/material';
+import {EAllActions, ENgxsStogareKey} from '../../typings/enum';
+import {environment} from '../../../environments/environment';
+import {EventService} from "../../event.service";
 
 @Component({
   selector: 'app-header',
@@ -29,7 +32,11 @@ import { MatDialog } from '@angular/material';
 })
 export class HeaderComponent extends ModalImplementer implements OnInit {
 
-  bc
+  defaultImage = 'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg';
+  image = 'https://images.unsplash.com/photo-1443890923422-7819ed4101c0?fm=jpg';
+  // offset = 100;
+
+  bc;
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   @Select() app$: Observable<IAppState>;
@@ -67,6 +74,10 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     };
     let getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
 
+    EventService.logout$.subscribe(()=>{
+      this.logout();
+    });
+
     this.serverService.makeGetReq({ url: getAllEnterpriseUrl })
       .subscribe((value: any) => {
         this.enterpriseList = value.enterprises;
@@ -75,9 +86,10 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
       });
 
     /*this.app$Subscription = */this.app$.subscribe((app) => {
+
       /*every time this callback runs remove all previous setTimeOuts*/
       const autoLogOutTime = app.autoLogoutTime;
-      if (autoLogOutTime) {
+      if (autoLogOutTime && autoLogOutTime!== Infinity) {
 
         /*If autoLogOutTime hasn't changed, return
         * else clear previous timeouts, and create a new one
@@ -97,10 +109,12 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
           } catch (e) {
             LoggingService.error(e); /*TODO: find out whats wrong with app$Subscription*/
           }
+
           LoggingService.log('============================autologout============================');
           this.logout();
           // document.location.reload(); /*To destroy all timeouts just in case*/
         }, (autoLogOutTime-Date.now()));
+
         // console.log(`next logout time is: ${new Date(autoLogOutTime)}. ${(autoLogOutTime-Date.now())/1000} sec from now`);
       }
     }
@@ -133,18 +147,24 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
   }
 
   logout() {
+
+
     if(!this.userData){/*TODO: ring fancing: BAD*/
       return;
     }
 
-    localStorage.clear();
-    this.bc.postMessage('This is a test message.');
+    localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
+
     // this.store.reset({});
     this.url = this.constantsService.getLogoutUrl();
-    this.serverService.makeGetReq({ url: this.url })
-      .subscribe((v) => {
-        this.utilityService.showSuccessToaster('Logged Out');
-      });
+    /*if apis are being mocked, dont expire tokens*/
+    if(!environment.mock){
+      this.serverService.makeGetReq({ url: this.url })
+        .subscribe((v) => {
+          this.utilityService.showSuccessToaster('Logged Out');
+        });
+      this.bc.postMessage('This is a test message.');
+    }
     this.store.dispatch([
 
       new ResetBotListAction(),
@@ -158,7 +178,11 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
       this.store.dispatch([new ResetChatState()]);
     });
     this.serverService.removeTokens();
-    this.router.navigate(['login']);
+    this.router.navigate(['login'])
+      .then(()=>{
+        location.reload()
+      })
+
 
   }
   changeEnterprise(template: TemplateRef<any>) {

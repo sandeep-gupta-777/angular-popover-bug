@@ -2,81 +2,83 @@
 <div class="row mt-1 style-children-scrollbar-x"
      [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}"
      *ngIf="messageData.messageMediatype === myEBotMessageMediaType.text && messageData.sourceType!=='session_expired'">
-    <!--<div class="p-0 text-center" style="width: 40px">-->
-    <!--<img class="rounded-circle"-->
-    <!--[src]="messageData?.sourceType==='bot'?bot?.imageUrl:'https://image.flaticon.com/icons/svg/17/17004.svg'"-->
-    <!--style="width: 32px;height: 32px" alt="">-->
-    <!--</div>-->
-    <div class="col-10 text-left p-0 flex-wrap" [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}">
-        <div class="message p-2"
-             [ngClass]="{'bg-message-bot':messageData?.sourceType==='bot','bg-message-human':messageData?.sourceType==='human'}"
-             style="display: inline-block; overflow-x: visible; position: relative">
+  <!--<div class="p-0 text-center" style="width: 40px">-->
+  <!--<img class="rounded-circle"-->
+  <!--[src]="messageData?.sourceType==='bot'?bot?.imageUrl:'https://image.flaticon.com/icons/svg/17/17004.svg'"-->
+  <!--style="width: 32px;height: 32px" alt="">-->
+  <!--</div>-->
+  <div class="col-10 text-left p-0 flex-wrap" [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}">
+    <div class="message p-2"
+         [ngClass]="{'bg-message-bot':messageData?.sourceType==='bot','bg-message-human':messageData?.sourceType==='human'}"
+         style="display: inline-block; overflow-x: visible; position: relative">
             <span class="message-text" *ngIf="messageData?.sourceType==='human'"
                   [innerHtml]="messageData?.text|linkify:'text-white'"></span>
-            <span class="message-text" *ngIf="messageData?.sourceType==='bot'"
-                  [innerHtml]="messageData?.text|linkify:'text-dark'"></span>
-            <div style="position: absolute; bottom: -17px;left: 0px; color: #9e9e9e !important; min-width: 35px"
-                 [ngStyle]="{'left': messageData?.sourceType==='bot'? '0' : 'auto',
+      <span class="message-text" *ngIf="messageData?.sourceType==='bot'"
+            [innerHtml]="messageData?.text|linkify:'text-dark'"></span>
+      <div style="position: absolute; bottom: -17px;left: 0px; color: #9e9e9e !important; min-width: 60px"
+           [ngClass]="{'text-left': messageData?.sourceType==='bot', 'text-right': messageData?.sourceType==='human'}"
+           [ngStyle]="{'left': messageData?.sourceType==='bot'? '0' : 'auto',
                   'right': messageData?.sourceType==='human'? '0' : 'auto' }"
-                 class="time text-right">{{(messageData?.time|date:'h:mm a') || 'no time info'}}</div>
-        </div>
-        <!--TODO: enable link preview in future-->
-        <!--<app-link-preview style="display: block; order: 3;max-width: 100%; margin: 10px 0"-->
-                          <!--[link]="(messageData?.text|linksFromText)[0]"-->
-                          <!--[sourceType]="messageData.sourceType"-->
-        <!--&gt;</app-link-preview>-->
+           class="time">{{(messageData?.time|date:'h:mm a') || 'no time info'}}</div>
     </div>
-    <!--chat bubbles for text message ends-->
+    <!--TODO: enable link preview in future-->
+    <!--<app-link-preview style="display: block; order: 3;max-width: 100%; margin: 10px 0"-->
+    <!--[link]="(messageData?.text|linksFromText)[0]"-->
+    <!--[sourceType]="messageData.sourceType"-->
+    <!--&gt;</app-link-preview>-->
+  </div>
+  <!--chat bubbles for text message ends-->
 </div>
 <div class="row mt-1 style-children-scrollbar-x"
      style="position: relative"
      *ngIf="messageData.messageMediatype !== myEBotMessageMediaType.text && messageData.sourceType!=='session_expired'">
 
-    <div class="col-12 text-left p-0 "
-         style="overflow-x: auto"
-         *ngIf="messageData.messageMediatype===myEBotMessageMediaType.image">
-        <app-card-carousel
-                [isFullScreenPreview]="isFullScreenPreview"
-                [messageData]="messageData"
-                (sendMessageToBotServer$)="sendMessageToBotServer$.emit($event)"
-        ></app-card-carousel>
+  <div class="col-12 text-left p-0 "
+       style="overflow-x: auto"
+       *ngIf="messageData.messageMediatype===myEBotMessageMediaType.image">
+    <app-card-carousel
+      [isFullScreenPreview]="isFullScreenPreview"
+      [messageData]="messageData"
+      (sendMessageToBotServer$)="sendMessageToBotServer$.emit($event)"
+    ></app-card-carousel>
+  </div>
+  <div class="col-12 text-left px-0"
+       *ngIf="messageData.messageMediatype===myEBotMessageMediaType.quickReply">
+    <!--<div class="d-inline-block">-->
+    <app-quick-reply
+      style="overflow-x: auto; width: 100%"
+      [isFullScreenPreview]="isFullScreenPreview"
+      [messageData]="messageData"
+      (sendMessageToBotServer$)="sendMessageToBotServer$.emit($event)"
+    ></app-quick-reply>
+    <!--</div>-->
+  </div>
+  <div class="col-12 text-left p-0 d-flex"
+       *ngIf="messageData.messageMediatype===myEBotMessageMediaType.bot_thinking">
+    <div class="p-0 text-center" style="width: 40px">
+      <img class="rounded-circle"
+           [defaultImage]="'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg'"
+           [lazyLoad]="messageData?.sourceType==='bot'?bot.logo:'https://image.flaticon.com/icons/svg/17/17004.svg'"
+           style="width: 32px;height: 32px; border-radius: 50%" alt="">
+      <!---->
     </div>
-    <div class="col-12 text-left px-0"
-         *ngIf="messageData.messageMediatype===myEBotMessageMediaType.quickReply">
-        <!--<div class="d-inline-block">-->
-        <app-quick-reply
-                style="overflow-x: auto; width: 100%"
-                [isFullScreenPreview]="isFullScreenPreview"
-                [messageData]="messageData"
-                (sendMessageToBotServer$)="sendMessageToBotServer$.emit($event)"
-        ></app-quick-reply>
-        <!--</div>-->
+    <div class="bg-message-bot d-flex align-items-center px-2">
+      <app-bot-thinking-bubble [bot]="bot" class="d-block"></app-bot-thinking-bubble>
     </div>
-    <div class="col-12 text-left p-0 d-flex"
-         *ngIf="messageData.messageMediatype===myEBotMessageMediaType.bot_thinking">
-        <div class="p-0 text-center" style="width: 40px">
-        <img class="rounded-circle"
-        [src]="messageData?.sourceType==='bot'?bot.logo:'https://image.flaticon.com/icons/svg/17/17004.svg'"
-        style="width: 32px;height: 32px; border-radius: 50%" alt="">
-            <!---->
-        </div>
-        <div class="bg-message-bot d-flex align-items-center px-2">
-            <app-bot-thinking-bubble [bot]="bot" class="d-block"></app-bot-thinking-bubble>
-        </div>
-    </div>
+  </div>
 
-    <div
-            *ngIf="messageData.messageMediatype!==myEBotMessageMediaType.bot_thinking"
-            style="position: absolute; bottom: -17px;left: 0px;min-width: 32px; color: #9e9e9e !important;"
-         [ngStyle]="{'left': messageData?.sourceType==='bot'? '0' : 'auto',
+  <div
+    *ngIf="messageData.messageMediatype!==myEBotMessageMediaType.bot_thinking"
+    style="position: absolute; bottom: -17px;left: 0px;min-width: 32px; color: #9e9e9e !important;"
+    [ngStyle]="{'left': messageData?.sourceType==='bot'? '0' : 'auto',
                   'right': messageData?.sourceType==='human'? '0' : 'auto' }"
-         class="time text-right">{{(messageData?.time|date:'h:mm a') || 'no time info'}}</div>
+    class="time text-right">{{(messageData?.time|date:'h:mm a') || 'no time info'}}</div>
 </div>
 
 <div class="row d-flex align-items-center session-expire-info-row" *ngIf="messageData.sourceType==='session_expired'">
-    <hr>
-    <i class="px-2">New session started</i>
-    <hr>
+  <hr>
+  <i class="px-2">New session started</i>
+  <hr>
 </div>
 
 
@@ -85,8 +87,8 @@
 <!---->
 <!--TODO: hide if the first-->
 <app-chat-feedback
-        style="display: flex; align-items: flex-end"
-        *ngIf="_allow_feedback && messageData.sourceType === 'bot' && messageData.bot_message_id && (isLastMessage || messageData.feedback === myEChatFeedback.NEGATIVE || messageData.feedback === myEChatFeedback.POSITIVE)"
-        (chatMessageFeedback$)="feedback($event)"
-        [feedback]="messageData.feedback"
+  style="display: flex; align-items: flex-end"
+  *ngIf="_allow_feedback && messageData.sourceType === 'bot' && messageData.bot_message_id && (isLastMessage || messageData.feedback === myEChatFeedback.NEGATIVE || messageData.feedback === myEChatFeedback.POSITIVE)"
+  (chatMessageFeedback$)="feedback($event)"
+  [feedback]="messageData.feedback"
 ></app-chat-feedback>

@@ -1,0 +1,163 @@
+export const versions = {
+  "meta": {
+    "limit": 1000,
+    "next": null,
+    "offset": 0,
+    "previous": null,
+    "total_count": 6
+  },
+  "objects": [
+    {
+      "bot_id": 718,
+      "comment": "Default Active Version",
+      "created_at": 1346236702000,
+      "created_by": "Qwerty1 Parrot",
+      "df_rules": "\"\"\" write your code here \"\"\"\nnewdf = {\n  \"greeting\": \"Hello\"\n}\n\noutput = {\n  \"df\": newdf\n}",
+      "df_template": "\"\"\" write your dataframe here\"\"\"\n\ndf = {\n  \"greeting\": \"\"\n}\n\noutput = {\n  \"df\": df\n}\n",
+      "forked_from": 0,
+      "generation_rules": "\"\"\" write your template generation rules here \"\"\"\n\ntemplateKey = \"A1\"\nmessageStore = {\"endflow\": False}\noutput = {\n  \"templateKey\": templateKey,\n  \"messageStore\": messageStore\n}",
+      "generation_templates": "\"\"\"Write your template response here\"\"\"\n\nif variables['templateKey'] == 'A1':\n  output = [{\"include\":[\"web\"],\"text\":[\"Hi, please go to the architecture tab in edit bot page to start configuring your bot.\"]}]",
+      "id": 662,
+      "is_ui_view": false,
+      "resource_uri": "/api/v1/botversioning/662/",
+      "updated_at": 1547016145000,
+      "updated_by": "Qwerty1 Parrot",
+      "updated_fields": {
+        "df_rules": false,
+        "df_template": false,
+        "generation_rules": false,
+        "generation_template": false,
+        "generation_templates": false,
+        "workflows": false
+      },
+      "version": 1,
+      "workflow": ""
+    },
+    {
+      "bot_id": 718,
+      "comment": "testing\n",
+      "created_at": 1346236702000,
+      "created_by": "Qwerty1 Parrot",
+      "df_rules": "\"\"\" write your code here \"\"\"\nnewdf = {\n  \"greeting\": \"Hello\"\n}\n\noutput = {\n  \"df\": newdf\n}",
+      "df_template": "\"\"\" write your dataframe here\"\"\"\n\ndf = {\n  \"greeting\": \"\"\n}\n\noutput = {\n  \"df\": df\n}",
+      "forked_from": 1,
+      "generation_rules": "\"\"\" write your template generation rules here \"\"\"\nvariables[\"dataStore\"] = {\"latitude\":0,\"longitude\":0}\nmessageStore = {\"endflow\": False}\nif \"metadata\" in variables and \"msg_type\" in variables['metadata'] and variables['metadata']['msg_type']== 'location' and 'latitude' in variables['metadata'] and 'longitude' in variables['metadata'] :\n\ttemplateKey= 'location'\n\tvariables[\"dataStore\"][\"latitude\"]= variables['metadata']['latitude']\n\tvariables[\"dataStore\"][\"longitude\"]= variables['metadata']['longitude']\n\nelse:    \n\ttemplateKey = \"A2\"\noutput = {\n\t\"templateKey\": templateKey,\n\t\"messageStore\": messageStore,\n  \"dataStore\": variables[\"dataStore\"]\n}",
+      "generation_templates": "if(variables['templateKey'] == 'A1'):\n  output = [{\"text\":[\"Hi, please configure your response here.\"],\"include\":[\"web\",\"facebook\",\"line\"]},{\"include\":[\"web\",\"line\",\"facebook\"],\"generic_template\":[{\"elements\":[{\"image_url\":\"https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg\",\"button\":[{\"title\":\"Renew Now\",\"payload\":\"button1 is clicked\",\"type\":\"postback\"}],\"title\":\"Contract Renewal\"},{\"image_url\":\"https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg\",\"button\":[{\"title\":\"Renew Now\",\"payload\":\"button2 is clicked\",\"type\":\"postback\"}],\"title\":\"Contract Renewal is 1\"},{\"image_url\":\"https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg\",\"button\":[{\"title\":\"Renew Now\",\"payload\":\"button3 is clicked\",\"type\":\"postback\"}],\"title\":\"Contract Renewal\"}]}]}]\nelif(variables['templateKey'] == 'A2'):\n  output = [{\"include\":[\"web\",\"facebook\",\"line\"]},{\"button_template\":[{\"text\":\"button template\",\"button\":[{\"type\":\"postback\",\"title\":\"button 1\",\"payload\":\"button 1 clicked\"},{\"type\":\"postback\",\"title\":\"button 2\",\"payload\":\"button 2 clicked\"},{\"type\":\"postback\",\"title\":\"button 2\",\"payload\":\"button 2 clicked\"}]}]}]\nelif(variables['templateKey'] == 'location'):\n  output = [{\"text\":[str(variables[\"dataStore\"][\"latitude\"])+ ' '+ str(variables[\"dataStore\"][\"longitude\"])],\"include\":[\"web\",\"facebook\",\"line\"]}]",
+      "id": 663,
+      "is_ui_view": false,
+      "resource_uri": "/api/v1/botversioning/663/",
+      "updated_at": 1547017575000,
+      "updated_by": "Qwerty1 Parrot",
+      "updated_fields": {
+        "df_rules": false,
+        "df_template": true,
+        "generation_rules": true,
+        "generation_template": false,
+        "generation_templates": true,
+        "workflows": false
+      },
+      "version": 2,
+      "workflow": ""
+    },
+    {
+      "bot_id": 718,
+      "comment": "",
+      "created_at": 1346236702000,
+      "created_by": "Qwerty1 Parrot",
+      "df_rules": "\"\"\" write your code here \"\"\"\nnewdf = {\n  \"greeting\": \"Hello\"\n}\n\noutput = {\n  \"df\": newdf\n}",
+      "df_template": "\"\"\" write your dataframe here\"\"\"\n\ndf = {\n  \"greeting\": \"\"sadasdas\n}\n\noutput = {\n  \"df\": df\n}",
+      "forked_from": 2,
+      "generation_rules": "\"\"\" write your template generation rules here \"\"\"\nvariables[\"dataStore\"] = {\"latitude\":0,\"longitude\":0}\nmessageStore = {\"endflow\": False}\nif \"metadata\" in variables and \"msg_type\" in variables['metadata'] and variables['metadata']['msg_type']== 'location' and 'latitude' in variables['metadata'] and 'longitude' in variables['metadata'] :\n\ttemplateKey= 'location'\n\tvariables[\"dataStore\"][\"latitude\"]= variables['metadata']['latitude']\n\tvariables[\"dataStore\"][\"longitude\"]= variables['metadata']['longitude']\n\nelse:    \n\ttemplateKey = \"A2\"\noutput = {\n\t\"templateKey\": templateKey,\n\t\"messageStore\": messageStore,\n  \"dataStore\": variables[\"dataStore\"]\n}",
+      "generation_templates": "if(variables['templateKey'] == 'A1'):\n  output = [{\"text\":[\"Hi, please configure your response here.\"],\"include\":[\"web\",\"facebook\",\"line\"]},{\"include\":[\"web\",\"line\",\"facebook\"],\"generic_template\":[{\"elements\":[{\"image_url\":\"https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg\",\"button\":[{\"title\":\"Renew Now\",\"payload\":\"button1 is clicked\",\"type\":\"postback\"}],\"title\":\"Contract Renewal\"},{\"image_url\":\"https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg\",\"button\":[{\"title\":\"Renew Now\",\"payload\":\"button2 is clicked\",\"type\":\"postback\"}],\"title\":\"Contract Renewal is 1\"},{\"image_url\":\"https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg\",\"button\":[{\"title\":\"Renew Now\",\"payload\":\"button3 is clicked\",\"type\":\"postback\"}],\"title\":\"Contract Renewal\"}]}]}]\nelif(variables['templateKey'] == 'A2'):\n  output = [{\"include\":[\"web\",\"facebook\",\"line\"]},{\"button_template\":[{\"text\":\"button template\",\"button\":[{\"type\":\"postback\",\"title\":\"button 1\",\"payload\":\"button 1 clicked\"},{\"type\":\"postback\",\"title\":\"button 2\",\"payload\":\"button 2 clicked\"},{\"type\":\"postback\",\"title\":\"button 2\",\"payload\":\"button 2 clicked\"}]}]}]\nelif(variables['templateKey'] == 'location'):\n  output = [{\"text\":[str(variables[\"dataStore\"][\"latitude\"])+ ' '+ str(variables[\"dataStore\"][\"longitude\"])],\"include\":[\"web\",\"facebook\",\"line\"]}]",
+      "id": 674,
+      "is_ui_view": false,
+      "resource_uri": "/api/v1/botversioning/674/",
+      "updated_at": 1549253254000,
+      "updated_by": "Qwerty1 Parrot",
+      "updated_fields": {
+        "df_rules": false,
+        "df_template": false,
+        "generation_rules": false,
+        "generation_template": false,
+        "workflows": false
+      },
+      "version": 3,
+      "workflow": ""
+    },
+    {
+      "bot_id": 718,
+      "comment": "",
+      "created_at": 1346236702000,
+      "created_by": "Qwerty1 Parrot",
+      "df_rules": "\"\"\" write your code here \"\"\"\nnewdf = {\n  \"greeting\": \"Hello\"\n}\n\noutput = {\n  \"df\": newdf\n}",
+      "df_template": "\"\"\" write your dataframe here\"\"\"\n\ndf = {\n  \"greeting\": \"\"sadasdas\n}\n\noutput = {\n  \"df\": df\n}",
+      "forked_from": 2,
+      "generation_rules": "\"\"\" write your template generation rules here \"\"\"\nvariables[\"dataStore\"] = {\"latitude\":0,\"longitude\":0}\nmessageStore = {\"endflow\": False}\nif \"metadata\" in variables and \"msg_type\" in variables['metadata'] and variables['metadata']['msg_type']== 'location' and 'latitude' in variables['metadata'] and 'longitude' in variables['metadata'] :\n\ttemplateKey= 'location'\n\tvariables[\"dataStore\"][\"latitude\"]= variables['metadata']['latitude']\n\tvariables[\"dataStore\"][\"longitude\"]= variables['metadata']['longitude']\n\nelse:    \n\ttemplateKey = \"A2\"\noutput = {\n\t\"templateKey\": templateKey,\n\t\"messageStore\": messageStore,\n  \"dataStore\": variables[\"dataStore\"]\n}",
+      "generation_templates": "if(variables['templateKey'] == 'A1'):\n  output = [{\"text\":[\"Hi, please configure your response here.\"],\"include\":[\"web\",\"facebook\",\"line\"]},{\"include\":[\"web\",\"line\",\"facebook\"],\"generic_template\":[{\"elements\":[{\"image_url\":\"https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg\",\"button\":[{\"title\":\"Renew Now\",\"payload\":\"button1 is clicked\",\"type\":\"postback\"}],\"title\":\"Contract Renewal\"},{\"image_url\":\"https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg\",\"button\":[{\"title\":\"Renew Now\",\"payload\":\"button2 is clicked\",\"type\":\"postback\"}],\"title\":\"Contract Renewal is 1\"},{\"image_url\":\"https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg\",\"button\":[{\"title\":\"Renew Now\",\"payload\":\"button3 is clicked\",\"type\":\"postback\"}],\"title\":\"Contract Renewal\"}]}]}]\nelif(variables['templateKey'] == 'A2'):\n  output = [{\"include\":[\"web\",\"facebook\",\"line\"]},{\"button_template\":[{\"text\":\"button template\",\"button\":[{\"type\":\"postback\",\"title\":\"button 1\",\"payload\":\"button 1 clicked\"},{\"type\":\"postback\",\"title\":\"button 2\",\"payload\":\"button 2 clicked\"},{\"type\":\"postback\",\"title\":\"button 2\",\"payload\":\"button 2 clicked\"}]}]}]\nelif(variables['templateKey'] == 'location'):\n  output = [{\"text\":[str(variables[\"dataStore\"][\"latitude\"])+ ' '+ str(variables[\"dataStore\"][\"longitude\"])],\"include\":[\"web\",\"facebook\",\"line\"]}]",
+      "id": 675,
+      "is_ui_view": false,
+      "resource_uri": "/api/v1/botversioning/675/",
+      "updated_at": 1549253457000,
+      "updated_by": "Qwerty1 Parrot",
+      "updated_fields": {
+        "df_rules": false,
+        "df_template": false,
+        "generation_rules": false,
+        "generation_template": false,
+        "workflows": false
+      },
+      "version": 4,
+      "workflow": ""
+    },
+    {
+      "bot_id": 718,
+      "comment": "",
+      "created_at": 1549253594000,
+      "created_by": "Qwerty1 Parrot",
+      "df_rules": "\"\"\" write your code here \"\"\"\nnewdf = {\n  \"greeting\": \"Hello\"\n}\n\noutput = {\n  \"df\": newdf\n}",
+      "df_template": "\"\"\" write your dataframe here\"\"\"\n\ndf = {\n  \"greeting\": \"\"sadasdas\n}\n\noutput = {\n  \"df\": df\n}",
+      "forked_from": 2,
+      "generation_rules": "\"\"\" write your template generation rules here \"\"\"\nvariables[\"dataStore\"] = {\"latitude\":0,\"longitude\":0}\nmessageStore = {\"endflow\": False}\nif \"metadata\" in variables and \"msg_type\" in variables['metadata'] and variables['metadata']['msg_type']== 'location' and 'latitude' in variables['metadata'] and 'longitude' in variables['metadata'] :\n\ttemplateKey= 'location'\n\tvariables[\"dataStore\"][\"latitude\"]= variables['metadata']['latitude']\n\tvariables[\"dataStore\"][\"longitude\"]= variables['metadata']['longitude']\n\nelse:    \n\ttemplateKey = \"A2\"\noutput = {\n\t\"templateKey\": templateKey,\n\t\"messageStore\": messageStore,\n  \"dataStore\": variables[\"dataStore\"]\n}",
+      "generation_templates": "if(variables['templateKey'] == 'A1'):\n  output = [{\"text\":[\"Hi, please configure your response here.\"],\"include\":[\"web\",\"facebook\",\"line\"]},{\"include\":[\"web\",\"line\",\"facebook\"],\"generic_template\":[{\"elements\":[{\"image_url\":\"https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg\",\"button\":[{\"title\":\"Renew Now\",\"payload\":\"button1 is clicked\",\"type\":\"postback\"}],\"title\":\"Contract Renewal\"},{\"image_url\":\"https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg\",\"button\":[{\"title\":\"Renew Now\",\"payload\":\"button2 is clicked\",\"type\":\"postback\"}],\"title\":\"Contract Renewal is 1\"},{\"image_url\":\"https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg\",\"button\":[{\"title\":\"Renew Now\",\"payload\":\"button3 is clicked\",\"type\":\"postback\"}],\"title\":\"Contract Renewal\"}]}]}]\nelif(variables['templateKey'] == 'A2'):\n  output = [{\"include\":[\"web\",\"facebook\",\"line\"]},{\"button_template\":[{\"text\":\"button template\",\"button\":[{\"type\":\"postback\",\"title\":\"button 1\",\"payload\":\"button 1 clicked\"},{\"type\":\"postback\",\"title\":\"button 2\",\"payload\":\"button 2 clicked\"},{\"type\":\"postback\",\"title\":\"button 2\",\"payload\":\"button 2 clicked\"}]}]}]\nelif(variables['templateKey'] == 'location'):\n  output = [{\"text\":[str(variables[\"dataStore\"][\"latitude\"])+ ' '+ str(variables[\"dataStore\"][\"longitude\"])],\"include\":[\"web\",\"facebook\",\"line\"]}]",
+      "id": 676,
+      "is_ui_view": false,
+      "resource_uri": "/api/v1/botversioning/676/",
+      "updated_at": 1549253594000,
+      "updated_by": "Qwerty1 Parrot",
+      "updated_fields": {
+        "df_rules": false,
+        "df_template": true,
+        "generation_rules": false,
+        "generation_template": false,
+        "workflows": false
+      },
+      "version": 5,
+      "workflow": ""
+    },
+    {
+      "bot_id": 718,
+      "comment": "",
+      "created_at": 1346236702000,
+      "created_by": "Qwerty1 Parrot",
+      "df_rules": "\"\"\" write your code here \"\"\"\nnewdf = {\n  \"greeting\": \"Hello\"\n}\n\noutput = {\n  \"df\": newdf\n}",
+      "df_template": "\"\"\" write your dataframe here\"\"\"\n\ndf = {\n  \"greeting\": \"\"\n}\n\noutput = {\n  \"df\": df\n}",
+      "forked_from": 5,
+      "generation_rules": "\"\"\" write your template generation rules here \"\"\"\nvariables[\"dataStore\"] = {\"latitude\":0,\"longitude\":0}\nmessageStore = {\"endflow\": False}\nif \"metadata\" in variables and \"msg_type\" in variables['metadata'] and variables['metadata']['msg_type']== 'location' and 'latitude' in variables['metadata'] and 'longitude' in variables['metadata'] :\n\ttemplateKey= 'location'\n\tvariables[\"dataStore\"][\"latitude\"]= variables['metadata']['latitude']\n\tvariables[\"dataStore\"][\"longitude\"]= variables['metadata']['longitude']\n\nelse:    \n\ttemplateKey = \"A2\"\noutput = {\n\t\"templateKey\": templateKey,\n\t\"messageStore\": messageStore,\n  \"dataStore\": variables[\"dataStore\"]\n}",
+      "generation_templates": "if(variables['templateKey'] == 'A1'):\n  output = [{\"text\":[\"Hi, please configure your response here.\"],\"include\":[\"web\",\"facebook\",\"line\"]},{\"include\":[\"web\",\"line\",\"facebook\"],\"generic_template\":[{\"elements\":[{\"image_url\":\"https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg\",\"button\":[{\"title\":\"Renew Nowsadsadasd\",\"payload\":\"button1 is clicked\",\"type\":\"postback\"}],\"title\":\"sandeep\",\"subtitle\":\"hellosdasda\",\"url\":\"https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg\"},{\"image_url\":\"https://s3-us-west-2.amazonaws.com/o2bot/image/carousel_pay_bills.jpg\",\"button\":[{\"type\":\"postback\",\"title\":\"Renew Now\",\"payload\":\"expire\"}],\"title\":\"gupta\",\"subtitle\":\"hello\",\"url\":\"asdasdasd\"}]}]}]\nelif(variables['templateKey'] == 'location'):\n  output = [{\"text\":[str(variables[\"dataStore\"][\"latitude\"])+ ' '+ str(variables[\"dataStore\"][\"longitude\"])],\"include\":[\"web\",\"facebook\",\"line\"]}]",
+      "id": 677,
+      "is_ui_view": false,
+      "resource_uri": "/api/v1/botversioning/677/",
+      "updated_at": 1549257810000,
+      "updated_by": "Qwerty1 Parrot",
+      "updated_fields": {
+        "df_rules": false,
+        "df_template": false,
+        "generation_rules": false,
+        "generation_template": false,
+        "workflows": false
+      },
+      "version": 6,
+      "workflow": ""
+    }
+  ]
+}

@@ -27,56 +27,83 @@ import {ChatPreviewNewPageComponent} from '../chat/chat-preview-new-page/chat-pr
 import {FooterComponent} from '../footer/footer.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 // import {DragAndDropModule} from 'angular-draggable-droppable';
-import {HttpClientModule} from '@angular/common/http';
-import {AimService} from '../aim.service';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {HeaderComponent} from './header/header.component';
-import {CommonModule} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import {SharedModule} from '../shared.module';
 import {ViewCustomnerComponent} from './customner/view-customner/view-customner.component';
-import {AuthGaurdService} from '../auth-gaurd.service';
+// import {} from '../auth-gaurd.service';
 import {AccessGaurdService} from '../access-gaurd.service';
-import {ERouteNames} from '../constants.service';
+import {ConstantsService, ERouteNames} from '../constants.service';
 import {ChatModule} from '../chat/chat.module';
-import {EBotType} from '../utility.service';
-import { StringIncludesPipe } from './buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
+import {EBotType, UtilityService} from '../utility.service';
+import {StringIncludesPipe} from './buildbot/build-code-based-bot/architecture/pipeline/string-includes.pipe';
 import {MyMaterialModule} from '../my-material.module';
 import {CreateBotDialogComponent} from './view-bots/create-bot-dialog/create-bot-dialog.component';
 import {ModalConfirmComponent} from '../modal-confirm/modal-confirm.component';
 import {GentemplateEditKeyComponent} from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
-import { UrlValidatorDirective } from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-input-caraosal/url-validator.directive';
-import { EnterpriseOverviewComponent } from './enterpriseprofile/enterprise-overview/enterprise-overview.component';
-import { EnterpriseUsersComponent } from './enterpriseprofile/enterprise-users/enterprise-users.component';
-import { EnterpriseRolesComponent } from './enterpriseprofile/enterprise-roles/enterprise-roles.component';
-import { SortPipelinePipe } from './buildbot/build-code-based-bot/architecture/pipeline/sort-pipeline.pipe';
-import {SafeHtml} from '@angular/platform-browser';
-import {SafeHtmlPipe} from '../safe-html.pipe';
-import { PipelineIdToPipelineModulePipe } from './buildbot/build-code-based-bot/architecture/pipeline/pipeline-id-to-pipeline-module.pipe';
-import { PipeineIdToPipelineModuleWrapperPipe } from './buildbot/build-code-based-bot/architecture/pipeline/pipeine-id-to-pipeline-module-wrapper.pipe';
-import { RolesComponent } from './enterpriseprofile/roles/roles.component';
-import { RoleaccordionComponent } from './enterpriseprofile/roles/roleaccordion/roleaccordion.component';
-import { IntegrationChannelListComponent } from './integration-channel-list/integration-channel-list.component';
-import { SecurityComponent } from './buildbot/build-code-based-bot/bot-config/security/security.component';
-import { BotByIdPipe } from './buildbot/build-code-based-bot/bot-config/data-manage-form/bot-by-id.pipe';
+import {UrlValidatorDirective} from './buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/code-input-caraosal/url-validator.directive';
+import {EnterpriseOverviewComponent} from './enterpriseprofile/enterprise-overview/enterprise-overview.component';
+import {EnterpriseUsersComponent} from './enterpriseprofile/enterprise-users/enterprise-users.component';
+import {EnterpriseRolesComponent} from './enterpriseprofile/enterprise-roles/enterprise-roles.component';
+import {RolesComponent} from './enterpriseprofile/roles/roles.component';
+import {RoleaccordionComponent} from './enterpriseprofile/roles/roleaccordion/roleaccordion.component';
+import {ScrollDispatchModule} from "@angular/cdk/scrolling";
+import {ServerService} from "../server.service";
+import {NgxsModule} from "@ngxs/store";
+import {ReducerListService} from "../reducer-list.service";
+import {CodeInputService} from "./buildbot/build-code-based-bot/architecture/code/code-input/code-input.service";
+import {PermissionService} from "../permission.service";
+import {SmartTableSettingsService} from "../smart-table-settings.service";
+import {VersionStateReducer} from "./buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.state";
+import {FormsService} from "../forms.service";
+import {MyToasterService} from "../my-toaster.service";
+import {StoreVariableService} from "./buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service";
+import {EventService} from "../event.service";
+import {ObjectArrayCrudService} from "../object-array-crud.service";
+import {LoginPageGaurdService} from '../route-gaurds/login-page.gaurd.service';
+import {ModuleGaurdLoadService} from '../route-gaurds/module-gaurd-load.service';
+import {environment} from '../../environments/environment';
+import {HttpMockRequestInterceptor} from '../interceptor.mock';
+import {HttpRequestInterceptor} from '../interceptor';
+import {MatSidenavModule} from '@angular/material';
+import {DevHttpInterceptorService} from "../dev/dev-http-interceptor.service";
+import {LazyLoadImageModule} from "ng-lazyload-image";
+
 const routes: Route[] = [
   {
 
     path: '',
     component: CoreWrapperComponent,
-    canActivate: [AuthGaurdService],
-    canActivateChild: [AuthGaurdService, AccessGaurdService],
+    canActivate: [],
+    canActivateChild: [AccessGaurdService],
     children: [
       {
-        path: 'viewbots', loadChildren: './view-bots/view-bots.module#ViewBotsModule', canLoad: [AuthGaurdService]
+        path: 'viewbots', loadChildren: './view-bots/view-bots.module#ViewBotsModule', canLoad: []
       },
       {
-        path: 'botdetail', loadChildren: './bot-detail/bot-detail.module#BotDetailModule', canLoad: [AuthGaurdService]
+        path: 'botdetail', loadChildren: './bot-detail/bot-detail.module#BotDetailModule', canLoad: []
       },
       {
-        path: 'analytics2', loadChildren: './analysis2/analysis2.module#Analysis2Module', canLoad: [AuthGaurdService]
+        path: 'analytics2', loadChildren: './analysis2/analysis2.module#Analysis2Module', canLoad: []
       },
-      {path: 'customner', component: ViewCustomnerComponent, data: {routeName: ERouteNames['Get Enterprise Knowledge base']}, canActivate: []},
-      {path: 'customner/create', component: CreateCustomnerComponent, data: {routeName: ERouteNames['Create Enterprise Knowledge base']}},
-      {path: 'enterpriseprofile', component: EnterpriseprofileComponent, data: {routeName: ERouteNames['Get Enterprise']}, canActivate: []},
+      {
+        path: 'customner',
+        component: ViewCustomnerComponent,
+        data: {routeName: ERouteNames['Get Enterprise Knowledge base']},
+        canActivate: []
+      },
+      {
+        path: 'customner/create',
+        component: CreateCustomnerComponent,
+        data: {routeName: ERouteNames['Create Enterprise Knowledge base']}
+      },
+      {
+        path: 'enterpriseprofile',
+        component: EnterpriseprofileComponent,
+        data: {routeName: ERouteNames['Get Enterprise']},
+        canActivate: []
+      },
 
       {path: 'profile', component: ProfileComponent, data: {routeName: ERouteNames['Get User']}},
       {path: 'reports', component: ReportsComponent, data: {routeName: ERouteNames['Get Reports']}},
@@ -96,6 +123,8 @@ const routes: Route[] = [
   {path: '', redirectTo: `core/viewbots/${EBotType.chatbot}`, pathMatch: 'full'},
 ];
 
+// declare let areReducersRegistered ;
+
 @NgModule({
   declarations: [
     BuildCodeBasedBotComponent,
@@ -110,7 +139,6 @@ const routes: Route[] = [
     EnterpriseOverviewComponent,
     ReportsComponent,
     CoreWrapperComponent,
-    // BuildbotWrapperComponent,
     SignupComponent,
     PipelineTestComponent,
     RolesComponent,
@@ -127,16 +155,6 @@ const routes: Route[] = [
     EnterpriseOverviewComponent,
     EnterpriseUsersComponent,
     EnterpriseRolesComponent,
-    // SecurityComponent,
-    // IntegrationChannelListComponent,
-    // PipeineIdToPipelineModuleWrapperPipe,
-    // PipelineIdToPipelineModulePipe
-    // DisplayNameForKeyIntegrationPipe,
-
-    /*added after lazy loading*/
-
-    // HighlightDirective
-
   ],
   entryComponents: [
     ModalConfirmComponent,
@@ -148,14 +166,50 @@ const routes: Route[] = [
     RouterModule.forChild(routes), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
     FormsModule,
     ReactiveFormsModule,
-    // DragAndDropModule.forRoot(),
     HttpClientModule,
     SharedModule,
+    LazyLoadImageModule,
     ReactiveFormsModule,
-    MyMaterialModule
+    MyMaterialModule,
+    ScrollDispatchModule,
+    MatSidenavModule,
 
+    NgxsModule.forFeature((<any>window).areReducersRegistered ? [VersionStateReducer] : [
+      ...ReducerListService.list,
+      VersionStateReducer,
+    ])
   ],
-  providers: [AimService]
+  providers: [
+    EventService,
+    ConstantsService,
+    ObjectArrayCrudService,
+    AccessGaurdService,
+    StoreVariableService,
+    MyToasterService,
+    FormsService,
+    PermissionService,
+    UtilityService,
+    ServerService,
+    CodeInputService,
+    DatePipe,
+    SmartTableSettingsService,
+    FormsService,
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,
+    //   multi: true
+    // },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: DevHttpInterceptorService,
+    //   multi: true
+    // }
+  ]
 })
 export class CoreModule {
+  constructor() {
+    // alert('core '+areReducersRegistered);
+    (<any>window).areReducersRegistered = true;
+
+  }
 }

@@ -4,7 +4,7 @@
         <div class="chat-grid__header">
               <span [matTooltip]="'Go to room list'" (click)="navigate(myEChatFrame.CHAT_LIST)"
                     [hidden]="frameEnabled===myEChatFrame.CHAT_LIST">
-                <i class="fa fa-angle-left"></i>
+                <i data-cy="chat-back" class="fa fa-angle-left"></i>
               </span>
 
             <!--TODO: when clicked open the bot-->
@@ -12,9 +12,13 @@
                 <!--<img [src]="currentBot.logo" class="chat-logo" alt="Bot logo">-->
                 <!--{{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>-->
             <a>
-                <img [src]="currentBot.logo" class="chat-logo" alt="Bot logo">
+                <img
+                  [defaultImage]="'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg'"
+                  [lazyLoad]="currentBot.logo"
+                  [src]="currentBot.logo" class="chat-logo" alt="Bot logo">
                 {{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>
             <a class="ml-auto hover-parent"
+               data-cy="chat-full-screen"
                [routerLink]="['/preview']"
                [queryParams]="{bot_unique_name:currentBot.bot_unique_name,enterprise_unique_name:enterprise_unique_name}"
                [matTooltip]="'Open in new Tab'"
@@ -29,6 +33,7 @@
             <button mat-icon-button (click)="toggleOverlay(showOverlay)"
                     [class.active]="showOverlay" class="origin"
                     #overlayOrigin="cdkOverlayOrigin"
+                    data-cy="custom-room-form-trigger"
                     [matTooltip]="'New chat with custom data'"
                     cdkOverlayOrigin>
                 <mat-icon>person_add</mat-icon>
@@ -40,12 +45,14 @@
                     (backdropClick$)="showOverlay = false">
                 <div class="dialog-container" (clickOutside)="showOverlay=false">
                     <app-chat-consumer-form *ngIf="showOverlay"
-                                            [customConsumerDetails]="{}"
+                                            [customConsumerDetails]="frameEnabled === myEChatFrame.CHAT_BOX? currentRoom.consumerDetails:{}"
+                                            [readonly]="frameEnabled === myEChatFrame.CHAT_BOX"
                                             (saveConsumerDetails$)="saveConsumerDetails($event)"></app-chat-consumer-form>
                 </div>
             </app-overlay>
 
             <button mat-icon-button
+                    data-cy="chat-minimize"
                     (click)="closeChatWindow()"
                     [matTooltip]="'Minimize'"
                     [class.active]="showOverlay" class="origin"
@@ -84,8 +91,10 @@
 <!--chat box ends-->
 
 <!--tool tip starts-->
-<div class="preview-tooltip" (click)="toggleChatWindow()" *ngIf="!windowOpen && currentBot">
-    <img [src]="currentBot.logo" alt="">
+<div class="preview-tooltip" data-cy="preview-tooltip" (click)="toggleChatWindow()" *ngIf="!windowOpen && currentBot">
+    <img
+      [defaultImage]="'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg'"
+      [lazyLoad]="currentBot.logo" alt="">
 </div>
 <!--tool tip ends-->
 
@@ -93,7 +102,9 @@
 <div *ngIf="isFullScreenPreview" class="grid-chat-preview-full-screen">
     <div class="header1 px-3 d-flex align-items-center">
         <img class="logo-md mr-2 rounded-circle"
-             src="{{enterprise_logo||'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg'}}" alt=""
+             data-cy="chat-logo-enterprise"
+             [defaultImage]="'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg'"
+             [lazyLoad]="enterprise_logo||'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg'"
              style="border-radius: 50%;">
         <div class="d-flex flex-column text-white">
             <div>{{user_first_name}}</div>
@@ -101,6 +112,7 @@
         </div>
 
         <button mat-icon-button (click)="toggleOverlay(showOverlay)"
+                data-cy="custom-room-form-trigger"
                 [class.active]="showOverlay" class="ml-auto"
                 #overlayOriginFullScreen="cdkOverlayOrigin"
                 cdkOverlayOrigin>
@@ -159,7 +171,9 @@
     <div class="header2 px-3 bg-theme-primary d-flex align-items-center">
         <!--<img class="logo-md" src="https://image.flaticon.com/icons/svg/17/17004.svg" alt="">-->
         <img *ngIf="currentBot" class="logo-md mr-2 rounded-circle"
-             [src]="currentBot.logo||'https://image.flaticon.com/icons/svg/17/17004.svg'">
+             data-cy="chat-logo-bot"
+             [defaultImage]="'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg'"
+             [lazyLoad]="currentBot.logo||'https://image.flaticon.com/icons/svg/17/17004.svg'">
         <div *ngIf="currentBot" class="d-flex flex-column text-white">
             <div>{{currentBot.name}}</div>
             <!--<div class="font-11">{{bot.description}}</div>-->
@@ -174,30 +188,46 @@
         <div class="ml-auto"></div>
         <div *ngIf="currentRoom && currentRoom.lastTemplateKey"
              class="d-flex mr-3 flex-column align-items-end text-white">
-            <div>Last template triggered:</div>
-            <div class="font-11">{{currentRoom.lastTemplateKey}}</div>
+            <div>Last template:</div>
+            <div class="font-11" data-cy="chat-room-lasttemplaykey">{{currentRoom.lastTemplateKey}}</div>
         </div>
         <div *ngIf="currentRoom && currentRoom.uid" class="d-flex  flex-column align-items-end text-white">
             <div>Room UID:</div>
-            <div class="font-11">{{currentRoom.uid}}</div>
+            <div class="font-11" data-cy="chat-room-uid">{{currentRoom.uid}}</div>
         </div>
 
     </div>
-    <div class="chat-rooms">
+    <div class="chat-rooms" style="overflow: hidden">
+        <!--<app-chat-list class="mt-4"-->
+                       <!--(createCustomRoom$)="createCustomRoom()"-->
+                       <!--[currentBot]="currentBot"-->
+                       <!--(createNewRoom$)="startNewChat($event)"></app-chat-list>-->
         <app-chat-list class="mt-4"
-                       (createCustomRoom$)="createCustomRoom()"
                        [currentBot]="currentBot"
-                       (createNewRoom$)="startNewChat($event)"></app-chat-list>
+                       (createCustomRoom$)="createCustomRoom()"
+                       (createNewRoom$)="startNewChat($event)"
+        ></app-chat-list>
     </div>
     <div class="chat">
-        <app-chat-window
-                [selectedAvatar]="selectedAvatar"
-                [showBotIsThinking]="showBotIsThinking"
-                [room]="currentRoom"
-                [allow_feedback]="currentBot.allow_feedback"
-                (sendMessageByHuman$)="sendMessageByHuman($event)"
-                (chatMessageFeedback$)="sendFeedback($event)"
-                [messageDataArray]="messageData">
+        <!--<app-chat-window-->
+                <!--[selectedAvatar]="selectedAvatar"-->
+                <!--[showBotIsThinking]="showBotIsThinking"-->
+                <!--[room]="currentRoom"-->
+                <!--[allow_feedback]="currentBot.allow_feedback"-->
+                <!--(sendMessageByHuman$)="sendMessageByHuman($event)"-->
+                <!--(chatMessageFeedback$)="sendFeedback($event)"-->
+                <!--[messageDataArray]="messageData">-->
+        <!--</app-chat-window>-->
+
+        <app-chat-window *ngIf="frameEnabled===myEChatFrame.CHAT_BOX && this.messageData"
+                         [allow_feedback]="currentBot.allow_feedback"
+                         [selectedAvatar]="selectedAvatar"
+                         [room]="currentRoom"
+                         [bot]="currentBot"
+                         [showBotIsThinking]="showBotIsThinking"
+                         (sendMessageByHuman$)="sendMessageByHuman($event)"
+                         (chatMessageFeedback$)="sendFeedback($event)"
+                         [messageDataArray]="messageData">
         </app-chat-window>
     </div>
 </div>

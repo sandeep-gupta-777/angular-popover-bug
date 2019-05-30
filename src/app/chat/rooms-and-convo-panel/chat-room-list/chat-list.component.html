@@ -1,15 +1,16 @@
-<div
-  class="mb-2" style="overflow-y: scroll;overflow-x: hidden; height: 100%; position: relative">
-  <div *ngIf="rooms">
-    <app-chat-item
-      *ngFor="let room of rooms;" [room]="room"
-      [bot]="room.bot"
-      [currentUid]="chatsessionstate.currentUId">
-    </app-chat-item>
+<section
+  class="chat-room-list-section mb-2">
+  <div class="chat-room-list-section__items">
+    <ng-container *ngIf="rooms">
+      <app-chat-item
+        *ngFor="let room of rooms;" [room]="room" [currentUid]="chatsessionstate.currentUId" [bot]="room.bot">
+      </app-chat-item>
+    </ng-container>
   </div>
-  <div class="d-flex justify-content-center pb-1" style="position: absolute; bottom: 0; left: 0; right: 0;z-index: 10">
-    <!--<button class="btn-theme btn-theme-secondary-outline mr-1" (click)="createCustomRoom()" >Create Custom Room</button>-->
-    <button class="btn-theme btn-theme-secondary-outline" (click)="startNewRoom()">New Chat</button>
+  <div class="chat-room-list-section__newRoom">
+    <button
+      data-cy="chat-room-new"
+      class="btn-theme btn-theme-secondary-outline" (click)="startNewRoom()">New Chat</button>
   </div>
-</div>
+</section>
 

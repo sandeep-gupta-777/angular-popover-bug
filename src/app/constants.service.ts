@@ -8,95 +8,13 @@ import { IIntegrationOption } from '../interfaces/integration-option';
 import { IAuthState } from './auth/ngxs/auth.state';
 import { ITableColumn } from '../interfaces/sessions';
 import {environment} from '../environments/environment';
+import {EAllActions} from "./typings/enum";
 
 declare var Handsontable: any;
 
-
-export enum EAPINames {
-  integration_master = 'api/v1/integrations/',
-  enterprise = 'enterprise/',
-}
-
-
-export enum ERoleName {
-  Admin = 'Admin',
-  'Bot Developer' = 'Bot Developer',
-  Analyst = 'Analyst',
-  Tester = 'Tester',
-}
-
-export enum EAllActions {
-  'Get Bots' = 'Get Bots',
-  'Create Bots' = 'Create Bots',
-  'Update Bots' = 'Update Bots',
-  'Delete Bots' = 'Delete Bots',
-  'Get Bots Anonymous' = 'Get Bots Anonymous',
-  'Get Enterprise Knowledge base' = 'Get Enterprise Knowledge base', //Get Enterprise Knowledge base
-  'Create Enterprise Knowledge base' = 'Create Enterprise Knowledge base',
-  'Update Enterprise Knowledge base' = 'Update Enterprise Knowledge base',
-  'Delete Enterprise Knowledge base' = 'Delete Enterprise Knowledge base',
-  'Create Bot Versioning' = 'Create Bot Versioning',
-  'GET Bot Versioning' = 'GET Bot Versioning',
-  'Update Bot Versioning' = 'Update Bot Versioning',
-  'Delete Bot Versioning' = 'Delete Bot Versioning',
-  'Create Role' = 'Create Role',
-  'Get Role' = 'Get Role',
-  'Update Role' = 'Update Role',
-  'Delete Role' = 'Delete Role',
-  'Create User' = 'Create User',
-  'Get User' = 'Get User',
-  'Update User' = 'Update User',
-  'Get Consumers' = 'Get Consumers',
-  'Get Sessions' = 'Get Sessions',
-  'Analytics' = 'Analytics',
-  'Get Bot Testcases' = 'Get Bot Testcases',
-  'Create Bot Testcases' = 'Create Bot Testcases',
-  'Update Bot Testcases' = 'Update Bot Testcases',
-  'Delete Bot Testcases' = 'Delete Bot Testcases',
-  'Get Integrations' = 'Get Integrations',
-  'Get Pipeline Module' = 'Get Pipeline Module',
-  'Create Reports' = 'Create Reports',
-  'Get Reports' = 'Get Reports',
-  'Update Reports' = 'Update Reports',
-  'Delete Reports' = 'Delete Reports',
-  'Get Report History' = 'Get Report History',
-  'Get Enterprise' = 'Get Enterprise',
-  'Update Enterprise' = 'Update Enterprise',
-  'Delete User' = 'Delete User',
-  'Get Report Types' = 'Get Report Types',
-  'Send API' = 'Send API',
-  'Get Messages' = 'Get Messages',
-  'Get Actions' = 'Get Actions',
-  'Close Room' = 'Close Room',
-  'agent_close' = 'agent_close',
-  'Anonymize Conversation' = 'Anonymize Conversation',
-  'Post dfRules Debug' = 'Post dfRules Debug',
-  'Post genRules Debug' = 'Post genRules Debug',
-  'Post genTemplate Debug' = 'Post genTemplate Debug',
-  'Post Workflow Debug' = 'Post Workflow Debug',
-  'Workflow Webhook' = 'Workflow Webhook',
-  'Facebook Webhook' = 'Facebook Webhook',
-  'Backward Compatible Message API' = 'Backward Compatible Message API',
-  'Intelligence API Webhook' = 'Intelligence API Webhook',
-  'Delete Consumer' = 'Delete Consumer',
-  'Create Decrypt Audit' = 'Create Decrypt Audit',
-  'erase consumer' = 'erase consumer',
-  'Exec Reports' = 'Exec Reports',
-  'Download Reports' = 'Download Reports',
-  'Skype API' = 'Skype API',
-  'Update Password' = 'Update Password',
-  'Get Bot Knowledge base' = 'Get Bot Knowledge base',
-  'Create Bot Knowledge base' = 'Create Bot Knowledge base',
-  'Update Bot Knowledge base' = 'Update Bot Knowledge base',
-  'Delete Bot Knowledge base' = 'Delete Bot Knowledge base',
-  'ModuleDetail' = 'ModuleDetail'
-}
-
 export const ERouteNames = EAllActions;
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ConstantsService {
 
   forbiddenPermsDynamic: { id?: string, name?: number };
@@ -157,7 +75,7 @@ export class ConstantsService {
 
   getNewBotVersionTemplate(botId: number) {
     this.NEW_BOT_VERSION_TEMPLATE.bot_id = botId;
-    return this.NEW_BOT_VERSION_TEMPLATE;
+    return this.NEW_BOT_VERSION_TEMPLATE;;
   }
 
   static state: any;
@@ -331,6 +249,17 @@ export class ConstantsService {
     // http://localhost:8000/api/v1/logout/;
     return this.BACKEND_URL + `api/v1/bot/preview/?bot_unique_name=${bot_unique_name}&enterprise_unique_name=${enterprise_unique_name}`;
   }
+  getCorpusForFAQBot(bot_id){
+    return this.BACKEND_URL + `api/v1/corpus/${bot_id}/`;
+  }
+  getDraftCorpusForFAQBot(){
+    return this.BACKEND_URL + `api/v1/corpus/getdefaultcorpus/`;
+  }
+  getUpdateAgentHandoverUrl(){
+    return this.BACKEND_URL + `api/v1/bot/updateagenthandover/`;
+  }
+
+
 
   getMasterIntegrationsList() {
     return this.BACKEND_URL + 'api/v1/integrations/';
@@ -361,7 +290,7 @@ export class ConstantsService {
   }
 
   getSessionsMessageUrl(room_id: number) {
-    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}&limit=1000`; //https://dev.imibot.ai/api/v1/message/?room_id=60
+    return this.BACKEND_URL + `api/v1/message/?room_id=${room_id}&limit=1000&order_by=created_at`; //https://dev.imibot.ai/api/v1/message/?room_id=60
   }
 
   getTotalMessagesUrl() {
@@ -392,10 +321,10 @@ export class ConstantsService {
   }
 
   getReportUrl(limit = 1, offset = 10) {//limit: number, offset: number
-    return this.BACKEND_URL + `api/v1/reports/?limit=${limit}&offset=${offset}`; //{{url}}/reports?limit=1&offset=10
+    return this.BACKEND_URL + `api/v1/reports/?limit=${limit}&offset=${offset}&order_by=-created_at`; //{{url}}/reports?limit=1&offset=10
   }
 
-  getReportHistoryUrl(limit = 1, offset = 10, order_by) {
+  getReportHistoryUrl(limit = 1, offset = 10, order_by?) {
     return this.BACKEND_URL + `api/v1/reporthistory/?limit=${limit}&offset=${offset}&order_by=-created_at`;; //https://dev.imibot.ai/reporthistory?limit=1&offset=10
   }
 
@@ -432,7 +361,9 @@ export class ConstantsService {
   getSaveVersionByVersionId(id) {
     return this.BACKEND_URL + `api/v1/botversioning/${id}/`; //https://dev.imibot.ai/api/v1/botversioning/9/
   }
-
+  getSaveVersionByBotId(id) {
+    return this.BACKEND_URL + `api/v1/botversioning/${id}/`; //https://dev.imibot.ai/api/v1/botversioning/9/
+  }
   getCreateNewVersionByBotId(id) {
     return this.BACKEND_URL + `api/v1/botversioning/`; //https://dev.imibot.ai/api/v1/botversioning/9/
   }
@@ -547,6 +478,40 @@ export class ConstantsService {
 
   updatePassword() {
     return this.BACKEND_URL + 'api/v1/user/updatepassword/'; //https:dev.imibot.ai/api/v1/user/updatepassword///
+  }
+
+  updateArticelUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/updatesection/`;
+  }
+  createArticelUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/createsection/`;
+  }
+  deleteArticelUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/removesection/`;
+  }
+
+  updateCategoryUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/updatecategory/`;
+  }
+  createCategoryUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/createcategory/`;
+  }
+  deleteCategoryUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/removecategory/`;
+  }
+  changeSectionCategoryUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/changesectioncategory/`;
+  }
+  changeSectionCategoryWithNewCategoryUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/createcategoryandmaptosection/`;
+  }
+
+  corpusTrainUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/train/`;
+  }
+
+  makeCorpusLiveUrl(){
+    return this.BACKEND_URL + `api/v1/corpus/makecorpuslive/`;
   }
 
   updateBotSerializer(bot: IBot) {
@@ -695,7 +660,7 @@ export class ConstantsService {
     actions: {
       originalKey: '',
       value: undefined,
-      type: 'icon',
+      type: 'mat-icon',
       displayValue: 'Actions',
       custom: true,
       name: '',

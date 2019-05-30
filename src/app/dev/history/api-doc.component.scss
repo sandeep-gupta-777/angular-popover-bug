@@ -1,0 +1,23 @@
+.main{
+  margin: 8px;
+  margin-top: 0;
+  padding-top: 16px;
+  //padding-left: 8px;
+  //border-right: 1px solid crimson;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  //box-shadow: 1px 0 0px 0px #8888883b;
+  flex-direction: column;
+  .api-search-input{
+    //align-self: center;
+  }
+}
+
+.border-right{
+  border-right: 1px solid #8888883b;
+}
+
+.border-left{
+  border-right: 1px solid #8888883b;
+}

@@ -1,11 +1,15 @@
-<div class="card" style="border-radius: 0">
-    <button class="mat-theme-button cursor-pointer" mat-button
-            *myIf="[myEAllActions['Update Bots']]"
-            (click)="updateBotHandler()"
-            style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; position: absolute; right: 0; margin-right: 10px; z-index: 20">
-        <mat-icon>refresh</mat-icon>
-        Update Bot
-    </button>
+<div class="card bot-creation-form" style="border-radius: 0">
+
+    <app-button-wrapper
+      class="card--update"
+      *myIf="[myEAllActions['Update Bots']]"
+      [isMatFlatButton]="false"
+      [status]="updateBotLoading"
+      [text]="'Update Bot'"
+      [icon]="'refresh'"
+      [toolTipText]="updateBotTooltipText"
+      (btnClick)="updateBotHandler()">
+    </app-button-wrapper>
     <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedIndexChange)="selectedTabIndex = $event" animationDuration="0ms">
         <mat-tab>
             <ng-template mat-tab-label>
@@ -28,6 +32,23 @@
             </ng-template>
             <app-security [formGroup]="securityForm"></app-security>
         </mat-tab>
+        <!-- failed appempt on making forms -->
+        <mat-tab *ngIf="(bot_type===myEBotType.faqbot)">
+            <ng-template mat-tab-label>
+                <span [ngStyle]="{'color': !faqHandoverANdInterfaceForm.valid?'red':'#474747'}">Handover and Inference</span>
+                <mat-icon style="color: red;font-size: 100%;" *ngIf="!faqHandoverANdInterfaceForm.valid" class="example-tab-icon">highlight_off</mat-icon>
+            </ng-template>
+            <app-faq-handover-and-interface-form [formGroup]="faqHandoverANdInterfaceForm" [bot]="bot"></app-faq-handover-and-interface-form>
+        </mat-tab>
+
+        <!-- <mat-tab *ngIf="(bot_type===myEBotType.faqbot)">
+            <ng-template mat-tab-label>
+                <span [ngStyle]="{'color': !securityForm.valid?'red':'#474747'}">Ml model</span>
+                <mat-icon style="color: red;font-size: 100%;" *ngIf="!securityForm.valid" class="example-tab-icon">highlight_off</mat-icon>
+            </ng-template>
+            <app-faq-ml-model-form [formGroup]="securityForm"></app-faq-ml-model-form>
+        </mat-tab> -->
+
         <ng-container *myIf="[myEAllActions['Get Integrations']]">
             <mat-tab *ngIf="!(bot_type===myEBotType.intelligent)">
                 <ng-template mat-tab-label>

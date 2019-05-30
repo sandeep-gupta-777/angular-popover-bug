@@ -1,11 +1,9 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {Subscriber} from 'rxjs';
 import {IBot} from './core/interfaces/IBot';
-import {ESideBarTab} from './core/bot-detail/code-based-bot-detail/code-based-bot-detail.component';
+import {IApi} from "./dev/interfaces";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class EventService {
 
   private removeCodeMirrorHistory$ = new EventEmitter();
@@ -18,6 +16,8 @@ export class EventService {
   emitRemoveCodeMirrorHistoryEvent(source: string) {
     this.removeCodeMirrorHistory$.emit(source);
   }
+
+  static logout$ = new EventEmitter();
 
   static progressBar$ = new EventEmitter<{loading: boolean, value: number }>();
   static disableSaveButton_codeInput$ = new EventEmitter<boolean>();
@@ -38,6 +38,7 @@ export class EventService {
       }
     }
   }
+  static selectedApiChanged$ = new EventEmitter<IApi>();
 
 
 

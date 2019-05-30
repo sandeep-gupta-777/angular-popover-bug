@@ -79,6 +79,7 @@ export class ViewBotStateReducer {
 
   @Action(ResetBotListAction)
   resetBotList({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>) {
+
     setState({
       codeBasedBotList: null,
       pipelineBasedBotList: null,

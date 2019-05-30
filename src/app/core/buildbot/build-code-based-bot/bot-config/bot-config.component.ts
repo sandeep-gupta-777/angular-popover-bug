@@ -3,14 +3,14 @@ import {IBot} from '../../../interfaces/IBot';
 import {ActivatedRoute} from '@angular/router';
 import {LoggingService} from '../../../../logging.service';
 import {EBotType, UtilityService} from '../../../../utility.service';
-import {EAllActions} from '../../../../constants.service';
 import {EventService} from '../../../../event.service';
 import {BotConfigService} from './bot-config.service';
 import {FormControl, FormGroup, FormGroupDirective, NgForm} from '@angular/forms';
 import {ServerService} from '../../../../server.service';
-import {ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from '@angular/material';
-import {ESideBarTab} from '../../../bot-detail/code-based-bot-detail/code-based-bot-detail.component';
-import { Subscription } from 'rxjs';
+import {ErrorStateMatcher} from '@angular/material';
+import {Subscription} from 'rxjs';
+import {EAllActions} from "../../../../typings/enum";
+import {ELoadingStatus} from "../../../../button-wrapper/button-wrapper.component";
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher1 implements ErrorStateMatcher {
@@ -29,7 +29,7 @@ export class MyErrorStateMatcher1 implements ErrorStateMatcher {
   ]
 })
 export class BotConfigComponent implements OnInit {
-
+  tag = 'BotConfigComponent';
   @Input() bot: IBot;
   selectedTabIndex = 0;
   activeTab = 'basic';
@@ -39,6 +39,7 @@ export class BotConfigComponent implements OnInit {
   basicInfoForm: FormGroup;
   dataManagementForm: FormGroup;
   securityForm: FormGroup;
+  faqHandoverANdInterfaceForm : FormGroup;
   integrationForm: NgForm;
   myEBotType = EBotType;
   intigrationFormSubcription : Subscription;
@@ -83,14 +84,14 @@ export class BotConfigComponent implements OnInit {
     this.basicInfoForm = this.botConfigService.getBasicInfoForm(this.bot);
     this.dataManagementForm = this.botConfigService.getDataManagementForm(this.bot);
     this.securityForm = this.botConfigService.getSecurityForm(this.bot);
-
+    this.faqHandoverANdInterfaceForm = this.botConfigService.getFaqHandoverANdInterfaceForm(this.bot);
     this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('config') || 'basic';
     this.id = this.activatedRoute.snapshot.queryParamMap.get('id');
 
     this.basicInfoForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
     this.dataManagementForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
     this.securityForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
-
+    this.faqHandoverANdInterfaceForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
 
     if(this.bot_type === EBotType.intelligent){
       /**
@@ -110,7 +111,7 @@ export class BotConfigComponent implements OnInit {
 
 
   createBotData(){
-    let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm];
+    let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.faqHandoverANdInterfaceForm ];
     combinedForms = combinedForms.filter(form => form);
     let bot = UtilityService.getCombinedBotData(combinedForms);
     if (this.integrationForm && this.integrationForm.value) {
@@ -119,6 +120,8 @@ export class BotConfigComponent implements OnInit {
     return bot;
   }
 
+  updateBotLoading = ELoadingStatus.default;
+  updateBotTooltipText="";
   /*
   * updateBotHandler: combine the data from various forms and update the bot
   * */
@@ -127,26 +130,29 @@ export class BotConfigComponent implements OnInit {
     if (invalidFormIndex >= 0) {
       this.selectedTabIndex = invalidFormIndex;
       this.showFormInvalidError(invalidFormIndex);
+      this.updateBotTooltipText = "test";
       return;
     }
-
     let bot = this.createBotData();
-
-    // let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm];
-    // combinedForms = combinedForms.filter(form => form);
-    // let bot = UtilityService.getCombinedBotData(combinedForms);
-    // if (this.integrationForm && this.integrationForm.value) {
-    //   bot.integrations = this.integrationForm.value;
-    // }
     bot.id = this.bot.id;
     bot.bot_access_token = this.bot.bot_access_token;
+    this.updateBotLoading = ELoadingStatus.loading;
     this.serverService.updateBot(bot).subscribe(()=>{
+      this.updateBotLoading = ELoadingStatus.success;
       this.emitBotDirtyEvent(false);
+    },()=>{
+      this.updateBotLoading = ELoadingStatus.error;
     });
   }
 
   getInvalidForm() {
-    let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.integrationForm];
+    let combinedForms;
+    if(this.bot.bot_type == EBotType.faqbot){
+      combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm,this.faqHandoverANdInterfaceForm, this.integrationForm ];
+    }
+    else{
+      combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.integrationForm ];
+    }
     return combinedForms.filter(form=>!!form).findIndex((form) => {
       return form.invalid;
     });
@@ -162,8 +168,14 @@ export class BotConfigComponent implements OnInit {
     } else if (index === 2) {
       this.utilityService.showErrorToaster('Security form is not valid');
       return;
-    } else if (index === 3) {
+    } else if (index === 4) {
       this.utilityService.showErrorToaster('Integration form is not valid');
+      return;
+    }else if (index === 3 && this.bot.bot_type == EBotType.chatbot){
+      this.utilityService.showErrorToaster('Integration form is not valid');
+      return;
+    }else if (index === 3 && this.bot.bot_type == EBotType.faqbot){
+      this.utilityService.showErrorToaster('Handover and inference form is not valid');
       return;
     }
   }

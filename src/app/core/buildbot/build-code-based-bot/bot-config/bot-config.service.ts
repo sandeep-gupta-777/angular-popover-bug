@@ -1,30 +1,27 @@
 import {Injectable} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Select, Store} from '@ngxs/store';
-import {UtilityService} from '../../../../utility.service';
+import {UtilityService, EBotType} from '../../../../utility.service';
 import {ConstantsService} from '../../../../constants.service';
 import {PermissionService} from '../../../../permission.service';
 import {ActivatedRoute} from '@angular/router';
 import {IBot} from '../../../interfaces/IBot';
 import {Observable} from 'rxjs';
 import {IAppState} from '../../../../ngxs/app.state';
-import {DatePipe} from '@angular/common';
 import {IIntegrationMasterListItem} from '../../../../../interfaces/integration-option';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class BotConfigService {
 
   basicInfoForm: FormGroup;
+  faqbotBuildForm: FormGroup;
+  faqHandoverANdInterfaceForm: FormGroup;
   masterIntegrationList: IIntegrationMasterListItem[];
   @Select() app$: Observable<IAppState>;
   integration_types: string[];
-
+  myEBotType = EBotType;
   constructor(private store: Store,
               private utilityService: UtilityService,
-              public constantsService: ConstantsService,
-              public datePipe: DatePipe,
               public permissionService: PermissionService,
               public activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder
@@ -40,19 +37,58 @@ export class BotConfigService {
       this.integration_types = Array.from(new Set(this.masterIntegrationList.map(item => item.integration_type)));
     });
   }
-
-  getBasicInfoForm(bot: IBot) {
-    this.basicInfoForm = this.formBuilder.group({
+  getFaqbotBuildForm(bot: IBot){
+    this.faqbotBuildForm = this.formBuilder.group({
       name: [bot.name, Validators.required],
       bot_unique_name: [bot.bot_unique_name, Validators.required],
-      description: [bot.description, Validators.required],
-      logo: [bot.logo || 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
-      first_message: [bot.first_message],
-      error_message: [bot.error_message],
-    }, {validator: this.utilityService.isManagerValidator});
+      allow_agent_handover: [bot.allow_agent_handover],
+      allow_feedback: [bot.allow_feedback],
+      logo: [bot.logo || 'https://s3.eu-west-1.amazonaws.com/imibot-production/assets/search-bot-icon.svg', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
+    },{validator: this.utilityService.isManagerValidator});
+    return this.faqbotBuildForm;
+  }
+  getFaqHandoverANdInterfaceForm(bot: any){
+
+    let agent_handover_setting:any = bot.agent_handover_setting;
+    let fallback_count :any =  agent_handover_setting && agent_handover_setting.fallback_count;
+    let partial_match_count:any=  agent_handover_setting &&  agent_handover_setting.partial_match_count;
+    let consecutive_count:any = agent_handover_setting && agent_handover_setting.consecutive_count;
+    this.faqHandoverANdInterfaceForm = this.formBuilder.group({
+      bot_metadata: this.formBuilder.group(bot.bot_metadata),
+      agent_handover_setting: this.formBuilder.group({
+        consecutive_count: this.formBuilder.group({
+          "enabled":[consecutive_count && consecutive_count.enabled ],
+          "value":[consecutive_count && consecutive_count.value]
+        }),
+        fallback_count: this.formBuilder.group({
+          "enabled":[fallback_count && fallback_count.enabled ],
+          "value":[fallback_count && fallback_count.value]
+        }),
+        partial_match_count: this.formBuilder.group({
+          "enabled":[partial_match_count && partial_match_count.enabled ],
+          "value":[partial_match_count && partial_match_count.value]
+        }),
+      })
+    });
+    return this.faqHandoverANdInterfaceForm;
+  }
+  getBasicInfoForm(bot: IBot) {
+
+      this.basicInfoForm = this.formBuilder.group({
+        name: [bot.name, Validators.required],
+        bot_unique_name: [bot.bot_unique_name, Validators.required],
+        description: [bot.description],
+        logo: [bot.logo || 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
+        first_message: [bot.first_message],
+        error_message: [bot.error_message],
+      }, {validator: this.utilityService.isManagerValidator});
+
 
     return this.basicInfoForm;
   }
+
+
+  
 
   getDataManagementForm(bot: IBot) {
     return this.formBuilder.group({

@@ -193,7 +193,7 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 }
 
 .shadow-theme {
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2) !important;
 }
 
 .bg-theme-primary {
@@ -918,6 +918,7 @@ progressbar {
 //}
 
 //==========================
+
 .CodeMirror {
   border: 1px solid #eee;
   height: auto;
@@ -1306,4 +1307,22 @@ mat-dialog-container {
 .mat-input-element {
   /*if input height is low, lower parts of g gets cut off*/
   height: 17px;
+}
+
+.hide-phone{
+  @media screen and (max-width: 780px) {
+    display: none !important;
+  }
+}
+
+.show-phone{
+  display: none !important;
+  @media screen and (max-width: 780px) {
+    display: initial !important;
+  }
+}
+
+.cdk-overlay-container {
+  position: fixed;
+  z-index: 1000000000000000000000;
 }

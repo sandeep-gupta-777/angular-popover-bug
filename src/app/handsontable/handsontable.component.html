@@ -1,6 +1,7 @@
 <header class="handsontable-header">
-  <label for="uploadInput1" class="handsontable-header__upload"
-         [title]="'upload csv '+ (expectedCSVHeaders?('as: ' + expectedCSVHeaders):'')">
+  <span class="hide-phone">
+    <label for="uploadInput1" class="handsontable-header__upload"
+           [title]="'upload csv '+ (expectedCSVHeaders?('as: ' + expectedCSVHeaders):'')">
     <i class="fa fa-upload"></i>
     <input type="file"
            hidden
@@ -9,12 +10,12 @@
            accept='text/csv'
            #uploadInput>
   </label>
-  <!---->
   <i class="fa fa-download" (click)="exportToCsv()"></i>
   <mat-form-field class="ml-1">
     <input matInput #handsontable_search_field placeholder="search table" type="text">
     <mat-icon matSuffix style="font-size:11px;color: #9e9e9e;">search</mat-icon>
   </mat-form-field>
+  </span>
   <div class="handsontable-header__ng-content">
     <ng-content></ng-content>
   </div>

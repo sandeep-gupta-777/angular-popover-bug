@@ -19,7 +19,6 @@ import {
   MatPaginatorModule,
   MatProgressBarModule,
   MatProgressSpinnerModule,
-  MatRadioModule,
   MatRippleModule,
   MatSelectModule,
   MatSidenavModule,
@@ -28,6 +27,7 @@ import {
   MatSnackBarModule,
   MatSortModule,
   MatStepperModule,
+  MatRadioModule,
   MatTableModule,
   MatTabsModule, MatToolbarModule, MatTooltipModule, MatTreeModule
 } from '@angular/material';
@@ -43,6 +43,8 @@ import {CommonModule} from '@angular/common';
 import {GentemplateEditKeyComponent} from './core/buildbot/build-code-based-bot/architecture/code/code-input/code-gentemplate-ui-component-wrapper/gentemplate-edit-key/gentemplate-edit-key.component';
 import {FormsModule} from '@angular/forms';
 import {SatDatepickerModule, SatNativeDateModule} from 'saturn-datepicker';
+import {A11yModule} from "@angular/cdk/a11y";
+import {LayoutModule} from '@angular/cdk/layout';
 
 const materialModules = [
   CommonModule,
@@ -77,6 +79,11 @@ const materialModules = [
   OverlayModule,
   PlatformModule,
   PortalModule,
+  MatRadioModule,
+  A11yModule,
+  LayoutModule,
+  MatGridListModule
+
 ];
 
 const materialDeclarations = [

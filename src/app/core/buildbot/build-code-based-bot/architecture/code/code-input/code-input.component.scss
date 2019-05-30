@@ -1,4 +1,4 @@
-@import "~src/sass/main";
+@import "./../../../../../../../sass/main";
 
 :host {
   position: relative;
@@ -27,8 +27,8 @@
   border: solid 1px #d8d8d8 !important;
   border-radius: 2px !important;
   position: absolute;
-  z-index: 10000000;
   right: 130px;
+  z-index: 10;
   top: 0px;
   font-size: 11px !important;
 }

@@ -1,30 +1,30 @@
 import {Component, OnInit, ViewChild, Output, EventEmitter} from '@angular/core';
 import {ServerService} from '../../server.service';
-import {ConstantsService, ERoleName} from '../../constants.service';
+import {ConstantsService} from '../../constants.service';
 import {IUser} from '../../core/interfaces/user';
 import {Store} from '@ngxs/store';
 import {IHeaderData} from '../../../interfaces/header-data';
 import {ActivatedRoute, Router} from '@angular/router';
-import {UtilityService} from '../../utility.service';
 import {IEnterpriseProfileInfo} from '../../../interfaces/enterprise-profile';
 import {
   ResetEnterpriseUsersAction,
   SetEnterpriseInfoAction
 } from '../../core/enterpriseprofile/ngxs/enterpriseprofile.action';
-import {ResetAppState, SetBackendURlRoot, SetRoleInfo} from '../../ngxs/app.action';
+import {ResetAppState} from '../../ngxs/app.action';
 import {ResetAuthToDefaultState, SetUser} from '../ngxs/auth.action';
 import {NgForm} from '@angular/forms';
 import {MessageDisplayBase} from './messageDisplayBase';
-import {forkJoin, observable, Observable, of} from 'rxjs';
-import {IAuthState} from '../ngxs/auth.state';
+import {forkJoin, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {ResetBotListAction} from '../../core/view-bots/ngxs/view-bot.action';
 import {ResetBuildBotToDefault} from '../../core/buildbot/ngxs/buildbot.action';
 import {ResetAnalytics2GraphData, ResetAnalytics2HeaderData} from '../../core/analysis2/ngxs/analysis.action';
-import {IRoleInfo} from '../../../interfaces/role-info';
 import {catchError, switchMap} from 'rxjs/internal/operators';
 import {PermissionService} from '../../permission.service';
 import {tap} from 'rxjs/internal/operators';
+import {ENgxsStogareKey, ERoleName} from '../../typings/enum';
+import {MyToasterService} from "../../my-toaster.service";
+import {LoggingService} from '../../logging.service';
 
 enum ELoginPanels {
   set = 'set',
@@ -47,14 +47,11 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   disabeLoginButton = false;
   changePasswordToken;
   changePasswordExpireTime;
-  bc;
   userValue: IUser;
   headerData: IHeaderData;
-
   enterpriseList: any[];
   userData: IUser;
   searchEnterprise: string;
-  backend_url;
 
   constructor(
     private serverService: ServerService,
@@ -62,7 +59,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
     private constantsService: ConstantsService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private utilityService: UtilityService,
+    private myToasterService: MyToasterService,
     private store: Store) {
     super();
   }
@@ -83,7 +80,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   ngOnInit() {
     try {
       /*replace with plateform.roomId*/
-      localStorage.clear();
+      // localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
 
     } catch (e) {
       console.log(e);
@@ -110,6 +107,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       }),
       switchMap(() => {
         this.flashInfoMessage('Fetching configurations', 10000);
+
         return forkJoin([
             // this.serverService.getNSetMasterPermissionsList(),
             this.serverService.getNSetIntegrationList(),
@@ -123,6 +121,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
         return this.serverService.makeGetReq<IEnterpriseProfileInfo>({url: enterpriseProfileUrl});
       }),
       switchMap((value: IEnterpriseProfileInfo) => {
+
         if (value) {
           return this.store.dispatch([
             new SetEnterpriseInfoAction({enterpriseInfo: value})
@@ -140,20 +139,23 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       }),
       switchMap(() => {
         this.flashInfoMessage('Loading your dashboard', 10000);
-        if (userValue.role.name === ERoleName.Analyst) {
-          this.router.navigate(['/core/analytics2/volume']);
-        } else {
-          this.router.navigate(['/']);
-        }
-        return of();
+        // if (userValue.role.name === ERoleName.Analyst) {
+        //   this.router.navigate(['/core/analytics2/volume']);
+        // } else {
+
+        // if (userValue.role.name === ERoleName.Analyst) {
+        //   this.router.navigate(['/core/analytics2/volume']);
+        // } else {
+        //   this.router.navigate(['/']);
+        // }
+        return of(this.router.navigate(['/']));
       }),
       catchError((e) => {
+        LoggingService.error(e);
         return this.loginFailedHandler();
       })
     )
-      .subscribe(() => {
-        console.log('login pipe done');
-      });
+      .subscribe(() => {});
 
   }
 
@@ -198,8 +200,9 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
   }
 
   loginSubmitHandler() {
+
     this.flashInfoMessage('Connecting to the server', 10000);
-    localStorage.clear();
+    localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
     /*logging out so that only one use can login in at one time*/
     this.store.dispatch([
       new ResetBotListAction(),
@@ -210,6 +213,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       new ResetAnalytics2HeaderData(),
       new ResetAppState()
     ]);
+
     const loginData = this.loginForm.value;
     const loginUrl = this.constantsService.getLoginUrl();
     let body;
@@ -290,7 +294,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       //   })
       // );
     } else {
-      this.utilityService.showErrorToaster('Please verify this enterprise before trying to login.');
+      this.myToasterService.showErrorToaster('Please verify this enterprise before trying to login.');
       return of(null);
     }
 

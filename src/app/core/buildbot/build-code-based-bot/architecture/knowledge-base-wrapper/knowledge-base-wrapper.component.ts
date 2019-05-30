@@ -13,6 +13,7 @@ import {KnowledgeBaseComponent} from '../knowledge-base/knowledge-base.component
 import {ESplashScreens} from '../../../../../splash-screen/splash-screen.component';
 import {EventService} from '../../../../../event.service';
 import {map} from 'rxjs/internal/operators';
+import { SideBarService } from 'src/app/side-bar.service';
 
 @Component({
   selector: 'app-knowledge-base-wrapper',
@@ -49,7 +50,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
       .subscribe();
     EventService.kbRefresh$
       .subscribe(()=>{
-        debugger;
+
         this.pageChangedTrigger(this.currentPageNumber);
       })
   }
@@ -182,6 +183,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
       .subscribe(() => {
         this.totalRecords = this.totalRecords -1;
         this.utilityService.showSuccessToaster('Customner deleted');
+        SideBarService.resetKB();
         this.router.navigate([`/core/botdetail/${EBotType.chatbot}/${this.bot.id}`], {
           queryParams: {
             'build-tab': 'knowledge',

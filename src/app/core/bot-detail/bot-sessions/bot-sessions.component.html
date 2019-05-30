@@ -1,7 +1,7 @@
 <!--<i>{{totalSessionRecords}}</i>-->
 <!--<i>{{pageNumberOfCurrentRowSelected}}</i>-->
 <section class="bot-session-section">
-  <form [hidden]="!showFilterForm" #form="ngForm" class="refine-results">
+  <form [hidden]="!showFilterForm" #form="ngForm" class="refine-results hide-phone">
     <strong>Refine Results</strong>
     <hr class="refine-results__divider">
     <mat-form-field>
@@ -72,7 +72,6 @@
 
     <div class="refine-results__action">
       <button mat-flat-button class="mat-theme-button"
-              [disabled]="!filterFormDirty"
               color="primary" type="submit" (click)="sessionFormSubmitted(form.value)">Submit
       </button>
       <button mat-button class="mat-theme-button cancel"

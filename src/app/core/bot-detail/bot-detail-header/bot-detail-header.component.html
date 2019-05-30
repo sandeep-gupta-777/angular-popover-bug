@@ -1,11 +1,13 @@
-
-<div class="row-bot-detail-header d-flex align-items-center">
+<!---->
+<div class="row-bot-detail-header d-flex align-items-center" *ngIf="bot && bot.name">
   <div class="row-bot-detail-header__back"
      style="text-decoration: none; padding: 0px 8px 0px 16px"
      (click)="goBackToDashboard()">
     <i class="fa fa-angle-left" title="Go to Dashboard"></i>
 </div>
-  <img class="row-bot-detail-header__bot-logo" style="margin:0 8px" [src]="bot.logo" alt="B">
+  <img class="row-bot-detail-header__bot-logo" style="margin:0 8px"
+       [defaultImage]="'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg'"
+       [lazyLoad]="bot.logo" alt="Bot logo">
   <div class="row-bot-detail-header__bot-details">
     <div
       [title]="bot.name.length>90?bot.name:''"
@@ -17,20 +19,10 @@
       <span>Update on </span>  {{bot.updated_at|date: 'd MMM, yy'}} by {{bot.updated_by}}
     </div>
   </div>
-  <!--<i class="fa fa-users" *ngIf="bot && bot.is_manager" style="font-size: 16px"></i>-->
-  <!--<div class="d-flex align-items-center">-->
-    <!--<i class="fa fa-circle dark-green"></i>-->
-    <!--<div>Active(v{{bot.active_version.Versions}})</div>-->
-  <!--</div>-->
-  <!--<div class="text-theme-normal mr-3 d-none d-md-block">-->
-    <!--<span class="text-muted">Created by :</span>{{bot.created_by}} <span class="text-muted">on</span>{{bot.created_at|date}}-->
-  <!--</div>-->
-  <!--<div class="text-theme-normal d-none d-lg-block">-->
-    <!--<span class="text-muted">Last Updated By :</span>{{bot.updated_by}} <span class="text-muted">on</span>{{bot.updated_at|date}}-->
-  <!--</div>-->
   <div class="ml-auto"></div>
   <app-integration-channel-list
-          *ngIf="bot.bot_type === myEBotType.chatbot"
+          class="hide-phone"
+          *ngIf="bot.bot_type != myEBotType.intelligent"
           [bot]="bot" style="margin-right: 10px"></app-integration-channel-list>
 
   <!--<span *myIf="myEAllActions['Get Integrations']">-->
@@ -44,6 +36,14 @@
     <!--+{{myObject.keys(bot.integrations).length-4}} More-->
   <!--</span>-->
   <!--<div class="headerDivider mx-2"></div>-->
+
+
+  <!-- <div *ngIf = "bot.bot_type == 'faqbot'" class = "faq-search">
+    <i class="fa fa-search"></i>
+    <input placeholder="Search for questions or variants">
+  </div> -->
+
+
   <div *myIf="myEAllActions['Send API']">
     <!--<div class="d-flex preview-box align-items-center" (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'">-->
       <!--<i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>-->
@@ -56,23 +56,15 @@
         Analytics
       </button>
     </ng-container>
-    <button class="mat-theme-button mat-theme-button-border"
-            (click)="previewBot()" *ngIf="bot.bot_type === 'chatbot'"
+
+    <button class="mat-theme-button mat-theme-button-border hide-phone"
+            (click)="previewBot()" *ngIf="bot.bot_type != myEBotType.intelligent"
             mat-button>
         <mat-icon>chat_bubble_outline</mat-icon>
       Preview
     </button>
   </div>
 
-  <!--<div *myIf="myEAllActions['Update Bots']" class="d-flex preview-box align-items-center"-->
-       <!--(click)="refreshBotDetails()">-->
-    <!--<i class="fa fa-refresh cursor-pointer" style="font-size: 15px" [ngClass]="{'fa-spin':showSpinIcon}"></i>-->
-    <!--<span class="action">Cancel</span>-->
-  <!--</div>-->
-
-  <!--<button mat-flat-button color="primary" class="btn-theme text-white" (click)="openActiveBotChangedModal(activeVersionChangedTemplate)"-->
-          <!--*myIf="myEAllActions['Update Bots']">Update Bot-->
-  <!--</button>-->
   <button mat-icon-button [matMenuTriggerFor]="appMenu" class="click-save-wrapper">
     <mat-icon>more_vert</mat-icon>
   </button>

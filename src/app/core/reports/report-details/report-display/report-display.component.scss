@@ -1,4 +1,4 @@
-@import '~src/sass/main';
+@import "./../../../../../sass/main";
 
 .text-report{
   @include typography($font-size-xs, $line-height-normal, $font-weight-300, #474747);

@@ -5,9 +5,7 @@ declare const Chart:any
 import {IChartSetting, ISeriesDataItem} from '../interfaces/chart-setting';
 import {UtilityService} from './utility.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ChartSettingService {
 
   constructor(private utilityService: UtilityService) { }

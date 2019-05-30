@@ -11,50 +11,41 @@ import {
   ViewChild,
   ViewChildren
 } from '@angular/core';
-import {Store, Select, Actions, ofActionDispatched} from '@ngxs/store';
-import {
-  IBot,
-  IBotVersionData,
-  IBotVersionResult,
-  ICode,
-  ICodeVersionValidation,
-  IValidationTabItem
-} from '../../../../../interfaces/IBot';
+import {Select, Store} from '@ngxs/store';
+import {IBot, IBotVersionData, ICode} from '../../../../../interfaces/IBot';
 import {ServerService} from '../../../../../../server.service';
-import {ConstantsService, EAllActions, ERoleName} from '../../../../../../constants.service';
-import {
-  SaveVersionInfoInBot,
-  UpdateBotInfoByIdInBotInBotList,
-  UpdateVersionInfoByIdInBot
-} from '../../../../../view-bots/ngxs/view-bot.action';
-import {SaveCodeInfo} from '../../../../ngxs/buildbot.action';
 import {ViewBotStateModel} from '../../../../../view-bots/ngxs/view-bot.state';
 import {Observable, Subscription} from 'rxjs';
 import {IHeaderData} from '../../../../../../../interfaces/header-data';
-import {EBotType, UtilityService} from '../../../../../../utility.service';
-import {Router, ActivatedRoute} from '@angular/router';
+import {UtilityService} from '../../../../../../utility.service';
+import {Router} from '@angular/router';
 import {IBotCreationState} from '../../../../ngxs/buildbot.state';
 import {CodeEditorComponent} from '../code-editor/code-editor.component';
 import {EventService} from '../../../../../../event.service';
-import {debounce, debounceTime, take} from 'rxjs/operators';
-import {LoggingService} from '../../../../../../logging.service';
-import {DebugBase} from '../../../../../../debug-base';
+import {take} from 'rxjs/operators';
 import {FormGroup, NgForm} from '@angular/forms';
 import {IUser} from '../../../../../interfaces/user';
 import {ModalImplementer} from '../../../../../../modal-implementer';
 import {MatDialog} from '@angular/material';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
 import {
-  AddForkedVersion, CreateForkedVersion$,
-  GetVersionsInit$, ResetVersionState,
-  SaveVersion$, SaveVersionSuccess, SetDiff, SetErrorMap, SetSelectedVersion,
-  UpdateVersion, UpdateVersionLocal,
-  ValidateCode_flow$, ValidateCode_flow_ActivateVersion$, ValidateCodeText
+  CreateForkedVersion$,
+  GetVersionsInit$,
+  ResetVersionState,
+  SetDiff,
+  SetSelectedVersion,
+  UpdateVersionLocal,
+  ValidateCode_flow$,
+  ValidateCode_flow_ActivateVersion$,
+  ValidateCodeText
 } from "./ngxs/code-input.action";
 import {ICodeInputState} from "./ngxs/code-input.state";
 import {CodeInputService} from './code-input.service';
 import {EBotVersionTabs, IBotVersionErrorMap, IVersionDiffMap} from "../../../../../../../interfaces/code-input";
 import {CodeGentemplateUiWrapperComponent} from "./code-gentemplate-ui-wrapper/code-gentemplate-ui-wrapper.component";
+import {EAllActions} from "../../../../../../typings/enum";
+import {FormsService} from "../../../../../../forms.service";
+import {ELoadingStatus} from "../../../../../../button-wrapper/button-wrapper.component";
 
 @Component({
   selector: 'app-code-input',
@@ -73,6 +64,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   myEAllActions = EAllActions;
   botlist$_sub: Subscription;
   errorMessage: string;
+  saveOrCreateStatus: ELoadingStatus;
   activeVersion: IBotVersionData;
   activeTabCount: number = 0;
   selectedTemplateKeyInLeftSideBar = '';
@@ -111,6 +103,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     private store: Store,
     private serverService: ServerService,
     public utilityService: UtilityService,
+    public formsService: FormsService,
     public codeInputService: CodeInputService,
     public matDialog: MatDialog,
     private router: Router,
@@ -126,6 +119,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     });
 
     this.version$.subscribe((versionState: ICodeInputState) => {
+      if(!versionState) return;
       let versions = versionState.versions;
       if (versions) {
         this.versions_st = versions;
@@ -134,7 +128,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
       let selectedVersion = versionState.selectedVersion;
       if (selectedVersion) {
-        debugger;
+
         this.selectedVersion_st = selectedVersion;
         this.permanentlyShowUIViewFormBackend = selectedVersion.is_ui_view;
         if (this.codeInputForm) {
@@ -148,7 +142,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
     });
 
-    this.codeInputForm = this.utilityService.getCodeInputForm();
+    this.codeInputForm = this.formsService.getCodeInputForm();
     this.store.dispatch(new ResetVersionState())
       .subscribe(()=>{
         this.store.dispatch([new GetVersionsInit$({bot: this.bot, bot_access_token: this.bot.bot_access_token})]);
@@ -156,7 +150,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
     this.codeInputForm.valueChanges
       .subscribe((formData) => {
-        debugger;
+
         let version = {
           ...formData,
           id: this.selectedVersion_st.id
@@ -207,8 +201,6 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   }
 
   async saveSelectedVersion() {
-
-
     this.syncBotViews(this.showGenTempEditor);
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
@@ -221,7 +213,6 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     setTimeout(() => {
       this.store.dispatch(new SetDiff({version: {...this.codeInputForm.value, id: this.selectedVersion_st.id}}))
         .subscribe((val) => {
-
           this.diff$.pipe(take(1)).subscribe((diffMap) => {
             let oldDiff = this.selectedVersion_st.updated_fields;
             let newDiff = diffMap[this.selectedVersion_st.id];
@@ -271,7 +262,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   }
 
   changeSelectedVersionHandler(version) {
-    debugger;
+
     if (!this.showGenTempEditor && this.codeGentemplateUiWrapperComponent) {
       this.templateKeyDict = this.codeGentemplateUiWrapperComponent.getTemplateDict();
     }
@@ -335,7 +326,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     }
   }
   openEditCodeModal(version: IBotVersionData) {
-    debugger;
+
     this.utilityService.openDialog({
       dialogRefWrapper: this.dialogRefWrapper,
       classStr:'danger-modal-header-border',
@@ -379,7 +370,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     let id = this.selectedVersion_st.id;
 
 
-    
+
     setTimeout(() => {
       this.store.dispatch(new SetDiff({version: {...this.codeInputForm.value, id: this.selectedVersion_st.id}}))
         .subscribe((val) => {
@@ -413,7 +404,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
       else{
         this.showGenTempEditor = true;
       }
-      
+
     }
     this.activeTabCount = tabCount;
     this.activeTab = CodeInputService.getActiveTabNameByTabCount(tabCount);
@@ -421,7 +412,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
 
   ngAfterViewInit(): void {
     // this.que
-    debugger;
+
     if(this.permanentlyShowUIViewFormBackend){
       this.showGenTempEditor = false;
     }

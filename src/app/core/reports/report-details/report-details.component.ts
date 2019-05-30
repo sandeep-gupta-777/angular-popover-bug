@@ -50,7 +50,7 @@ export class ReportDetailsComponent extends ModalImplementer implements OnInit {
     this.botlist$.subscribe((botListState) => {
       this.allBotList = botListState.allBotList;
     });
-
+    window.scrollTo({top: 0, behavior: 'smooth'});
   }
 
   async showReportDeleteModel() {

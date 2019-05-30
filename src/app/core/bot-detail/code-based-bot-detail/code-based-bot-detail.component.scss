@@ -1,10 +1,17 @@
-@import "~src/sass/main";
+@import "./../../../../sass/main";
 
 .bot-detail-grid {
   display: grid;
   min-height: 100vh;
   //border: 1px solid red;
-  grid-template-columns: 56px 1fr 100px;
+  //grid-template-columns: 56px 1fr 100px;
+  padding-left: 56px;
+  padding-right: 100px;
+  @media screen and (max-width: 780px) {
+    //grid-template-columns: 10px 1fr 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
   grid-template-rows: 56px 1fr;
   //grid-gap: 8px;
   grid-template-areas:
@@ -98,8 +105,8 @@
 
   .architecture {
     grid-area: architecture;
+    height: 100%;
     overflow-y: auto;
-    padding-right: 56px;
     display: flex;
     flex-direction: column;
   }
@@ -211,6 +218,10 @@ app-knowledge-base-wrapper, app-code-input, app-integration-option-list {
   display: flex;
 }
 
+app-code-input{
+  height: calc(100% - 50px);
+}
+
 //app-bot-testing {
 //  height: 100%;
 //  overflow-y: hidden;
@@ -260,4 +271,57 @@ mat-tab-group {
       display: none !important;
     }
   }
+  .mat-list-item-content{
+
+    margin: 16px 0;
+    padding: 0!important;
+  }
+
+
+
+  .app-container{
+    //height: calc(100vh - 56px);
+    padding: 16px 130px 16px 115px !important;
+    @media screen and (max-width: 780px){
+      padding: 10px !important;
+    }
+  }
+}
+
+//::ng-deep{
+//  .site-sidenav, .site-sidenav.md-locked-open-add-active, .site-sidenav.md-locked-open {
+//    width: 100px;
+//    min-width: 100px;
+//    max-width: 100px;
+//  }
+//}
+.sidebar-logo__image {
+  width: 27px;
+  height: 27px;
+  cursor: pointer;
+}
+
+.mat-list-item-sidebar{
+  margin-bottom: 24px;
+//
+}
+
+.sidebar-nav-list-item{
+  width: 100%;
+  display: flex;
+  flex-direction: column !important;
+  justify-content: center;
+  align-items: center !important;
+  font-size: 11px;
+  padding: 0;
+  img{
+    margin-bottom: 6px;
+    padding: 0;
+    width: 27px;
+    height: 27px;
+  }
+}
+
+.overflowYAuto{
+  overflow-y: auto;
 }

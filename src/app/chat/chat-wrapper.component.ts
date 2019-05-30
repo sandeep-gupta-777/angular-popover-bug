@@ -1,7 +1,13 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {EBotMessageMediaType, EChatFrame, IChatSessionState, IMessageData, IRoomData} from '../../interfaces/chat-session-state';
+import {
+  EBotMessageMediaType,
+  EChatFrame,
+  IChatSessionState,
+  IMessageData,
+  IRoomData
+} from '../../interfaces/chat-session-state';
 import {
   // AddMessagesToRoomByUId,
   ChangeFrameAction,
@@ -87,7 +93,7 @@ export class ChatWrapperComponent implements OnInit {
   messageByHuman = '';
   isFullScreenPreview;
   welcomeScreenBotId: number;
-  enterprise_logo = "https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png" ;
+  enterprise_logo = "https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png";
   enterprise_unique_name: string;
   bot_unique_name: string;
   user_first_name;
@@ -111,12 +117,13 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   ngOnInit() {
-    EventService.botUpdatedInServer$.subscribe((bot:IBot)=>{
-      if(bot.id === this.currentBot.id && bot.allow_feedback !== this.currentBot.allow_feedback){
-        this.store.dispatch([
-            new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({bot:bot})
-        ]);
-      }
+    EventService.botUpdatedInServer$.subscribe((bot: IBot) => {
+      if (this.currentBot)
+        if (bot.id === this.currentBot.id && bot.allow_feedback !== this.currentBot.allow_feedback) {
+          this.store.dispatch([
+            new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({bot: bot})
+          ]);
+        }
     });
 
     LoggingService.log('inside chat-wrapper');
@@ -162,11 +169,12 @@ export class ChatWrapperComponent implements OnInit {
       }
     });
 
-    EventService.startANewChat$.subscribe((val)=>{
+    EventService.startANewChat$.subscribe((val) => {
       this.startNewChat(val);
     });
 
     this.chatsessionstate$.subscribe((chatSessionState: IChatSessionState) => {
+
       try {
         this.windowOpen = chatSessionState.opened;
         if (!chatSessionState) {
@@ -180,7 +188,6 @@ export class ChatWrapperComponent implements OnInit {
 
         this.showBotIsThinking = this.currentRoom && this.currentRoom.showBotIsThinking;
 
-        
 
         this.currentBot = chatSessionState.currentBotDetails;
         if (this.currentBot) {
@@ -188,7 +195,7 @@ export class ChatWrapperComponent implements OnInit {
           this.bot_access_token = this.currentBot.bot_access_token; //this.currentRoom && this.currentRoom.bot_access_token || bot.bot_access_token;
           this.chatWindowTitle = chatSessionState.currentBotDetails.name;
         }
-        
+
         if (chatSessionState.currentRoomId) {
           this.currentRoom = chatSessionState.rooms.find((room) => room.id === chatSessionState.currentRoomId);
           chatSessionState.consumerDetails = this.currentRoom.consumerDetails;
@@ -197,7 +204,7 @@ export class ChatWrapperComponent implements OnInit {
         }
 
         if (hasPreviewRoomChanged || hasPreviewBotChanged) {
-          this.serverService.initializeIMIConnect(chatSessionState.currentBotDetails, chatSessionState.currentRoomId, chatSessionState);
+          this.chatService.initializeIMIConnect(chatSessionState.currentBotDetails, chatSessionState.currentRoomId, chatSessionState);
         }
 
         this.frameEnabled = chatSessionState.frameEnabled;
@@ -218,20 +225,21 @@ export class ChatWrapperComponent implements OnInit {
     // window.open(`https://www.google.com`, "_blank");
   }
 
-  createCustomRoom() {
+  createCustomRoom(customConsumerDetails) {
+
     let doesAtleastOneConsumerKeyHasValue = false;
-    if (!this.customConsumerDetails) {
+    if (!customConsumerDetails) {
       this.utilityService.showErrorToaster('Please set custom Consumer details');
       return;
     }
-    for (const key in this.customConsumerDetails) {
-      doesAtleastOneConsumerKeyHasValue = doesAtleastOneConsumerKeyHasValue || this.customConsumerDetails[key];
+    for (const key in customConsumerDetails) {
+      doesAtleastOneConsumerKeyHasValue = doesAtleastOneConsumerKeyHasValue || customConsumerDetails[key];
     }
     if (!doesAtleastOneConsumerKeyHasValue) {
       this.utilityService.showErrorToaster('Please set custom Consumer details');
     } else {
       this.startNewChat({
-        consumerDetails: this.customConsumerDetails,
+        consumerDetails: customConsumerDetails,
         bot: this.currentBot,
         isCustomRoom: true
       });
@@ -251,14 +259,19 @@ export class ChatWrapperComponent implements OnInit {
     * 1. Post send api to server with first message=> will get back consent message and room roomId
     * 2. create a new room using room roomId
     * */
-    this.serverService.startANewChatUsingSendApi(startNewChatData)
+    this.chatService.startANewChatUsingSendApi(startNewChatData)
       .subscribe((value: IBotPreviewFirstMessage) => {
+
+        if(!value.room || !value.room.id){
+          alert('api not supported. Maybe kill switch?');
+          return;
+        }
 
         /*
         *A new room has been created. Now if the room belongs to IMI Connect bot,
         *initialize IMI Connect integration
         * */
-        this.serverService.initializeIMIConnect(startNewChatData.bot, value.room.id, startNewChatData);
+        this.chatService.initializeIMIConnect(startNewChatData.bot, value.room.id, startNewChatData);
         /*1. create a new room with room roomId
          *2. add message to the room: consent message */
         const roomMessages = this.utilityService.serializeServerValueToChatRoomMessages(value);
@@ -300,6 +313,7 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   sendMessageByHuman(messageData: { messageByHuman: string, room: IRoomData }) {
+
     LoggingService.log('sending message by human');
     const messageByHuman = messageData.messageByHuman;
     const room: IRoomData = messageData.room;
@@ -337,14 +351,16 @@ export class ChatWrapperComponent implements OnInit {
 
         /*========================Creation of chat room using IMI CONNECT===============================*/
         if (shouldStartChatViaImiConnectSDK) {
-          this.serverService.sendHumanMessageViaImiConnect(this.currentRoom, this.currentBot, messageByHuman);
+          this.chatService.sendHumanMessageViaImiConnect(this.currentRoom, this.currentBot, messageByHuman);
           return;
         }
         this.chatService.sendHumanMessageToBotServer(
           {
             bot_access_token: room.bot_access_token,
-            roomId: room.id
+            roomId: room.id,
+            type:room.bot.bot_type
           },
+
           messageData.room.consumerDetails,
           messageByHuman,
           EChatFrame.CHAT_BOX)
@@ -370,12 +386,13 @@ export class ChatWrapperComponent implements OnInit {
     ]);
   }
 
-  saveConsumerDetails(value) {
+  saveConsumerDetails(value: IConsumerDetails) {
     this.showOverlay = false;
     this.store.dispatch([new SetConsumerDetail(value)])
       .subscribe(() => {
         this.utilityService.showSuccessToaster('Saved');
-        this.createCustomRoom();
+
+        this.createCustomRoom(value);
       });
   }
 
@@ -398,7 +415,7 @@ export class ChatWrapperComponent implements OnInit {
             bot_message_id: feedback.bot_message_id
           })
         ]);
-      },()=>{
+      }, () => {
 
         this.store.dispatch([
           new UpdateBotMessage({

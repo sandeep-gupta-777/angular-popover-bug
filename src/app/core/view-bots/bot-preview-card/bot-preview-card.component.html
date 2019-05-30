@@ -2,12 +2,13 @@
   <div class="grid-bot-preview-two" [ngClass]="{'grid-pipeline-card':bot.bot_type === 'intelligent'}"
        (click)="navigateToBotDetailPage($event,bot.bot_type)">
     <button mat-icon-button [matMenuTriggerFor]="appMenu" (menuOpened)="menuOpened = true"
+            (click)="$event.stopPropagation()"
             (menuClosed)="menuOpened = false" class="more-button click-save-wrapper">
       <mat-icon [ngClass]="{'show-on-parent-hover':!menuOpened}" class="click-save-wrapper">more_horiz</mat-icon>
     </button>
 
     <figure class="grid-bot-preview-img">
-      <img [src]="bot.logo" alt="">
+      <img [defaultImage]="'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg'" [lazyLoad]="bot.logo" alt="">
     </figure>
     <div class="grid-bot-preview-name details1">
       <h6 class="limit-oneline"
@@ -22,19 +23,19 @@
       </p>
     </div>
 
-    <ng-container *ngIf="bot.bot_type == 'chatbot'">
-      <div class="d-flex justify-content-center align-items-center">
-        <mat-icon class="icon2" *ngIf="bot.is_manager" [title]="bot.child_bots.length + ' children Bots'">
-          supervisor_account
-        </mat-icon>
-      </div>
+        <ng-container *ngIf="bot.bot_type == 'chatbot' || bot.bot_type == 'faqbot' ">
+        <div class="d-flex justify-content-center align-items-center">
+            <mat-icon class="icon2" *ngIf="bot.is_manager" [title]="bot.child_bots.length + ' children Bots'">
+                supervisor_account
+            </mat-icon>
+        </div>
 
 
       <div class="grid-bot-preview-forth-row d-flex bot-strip align-items-center p-2 footer">
         <!-- <span *ngIf="(bot.integrations|integrationImageCount)>4" class="more ml-auto">+{{(bot.integrations|integrationImageCount)}} More</span> -->
 
 
-        <div *myIf="myEAllActions['Send API']" class="preview-button click-save-wrapper" (click)="previewBot()">
+        <div *myIf="myEAllActions['Send API']" class="preview-button click-save-wrapper" (click)="previewBot($event)">
           <div
             title="Click to open chat preview window"
             class="click-save-wrapper">Preview
@@ -56,29 +57,6 @@
 
 
 <!--Template for modal-->
-<ng-template #template>
-  <div class="danger-modal">
-    <div class="top-dec"></div>
-    <div class="modal-header">
-      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;">Delete
-        bot&nbsp;{{bot.name}}&nbsp;?</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-    <div class="modal-body pt-0">
-      <form #form="ngForm">
-        <div class="text-center my-1">
-          <p class="mb-3">This action cannot be undone. Are you sure you wish to delete?</p>
-
-        </div>
-        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="modalRef.hide()">Cancel</button>
-        <button class=" btn-theme btn-theme-danger" (click)="deleteBot()">Delete</button>
-      </form>
-    </div>
-  </div>
-</ng-template>
 
 
 <mat-menu class="more-menu" #appMenu="matMenu">

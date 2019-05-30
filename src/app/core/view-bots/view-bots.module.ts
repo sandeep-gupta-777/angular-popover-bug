@@ -5,7 +5,6 @@ import {ViewBotsComponent} from './view-bots.component';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {DragService} from '../../drag.service';
-import {AimService} from '../../aim.service';
 import {SortBotsPipe} from '../../sort-bots.pipe';
 import {BotPreviewCardComponent} from './bot-preview-card/bot-preview-card.component';
 import {SharedModule} from '../../shared.module';
@@ -13,7 +12,6 @@ import {RichMediaModule} from '../../rich-media.module';
 import {BotPreviewCardListComponent} from './bot-preview-card-list/bot-preview-card-list.component';
 import {MyMaterialModule} from '../../my-material.module';
 import { CreateBotDialogComponent } from './create-bot-dialog/create-bot-dialog.component';
-import {HeaderComponent} from '../header/header.component';
 import {PersonNamePipe} from '../../person-name.pipe';
 
 const routes: Route[] = [
@@ -43,7 +41,7 @@ const routes: Route[] = [
     RichMediaModule,
     HttpClientModule,
   ],
-  providers: [DragService, AimService]
+  providers: [DragService]
 })
 export class ViewBotsModule {
 }

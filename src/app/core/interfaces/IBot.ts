@@ -2,6 +2,8 @@ import { IMeta } from './meta';
 import { IAvatar } from '../../../interfaces/bot-creation';
 import { IPipelineItem } from '../../../interfaces/ai-module';
 import { IIntegrationOption } from '../../../interfaces/integration-option';
+import { ICorpus } from './faqbots';
+import {EBotType} from "../../utility.service";
 
 /*TODO: what is the key for industry*/
 export interface IBot {
@@ -25,7 +27,7 @@ export interface IBot {
   'avatars'?: IAvatar[];
   'blanket_consent'?: boolean;
   'bot_access_token'?: string;
-  'bot_type'?: string;
+  'bot_type'?: EBotType;
   'bot_unique_name'?: string;
   'child_bots'?: Array<number>;
   'consent_categories'?: string;
@@ -84,6 +86,8 @@ export interface IBot {
   //     }
   //   }
   // }
+  // for faq bots only
+  'allow_agent_handover'?: boolean;
   'logo'?: string;
   'name'?: string;
   'parent_bots'?: string;
@@ -106,6 +110,34 @@ export interface IBot {
   form_validation_data_management?: boolean;
   form_validation_avator?: boolean;
   form_validation_integration?: boolean;
+
+  // faq bots
+  corpus?: ICorpus;
+  // faqbot meta data
+  bot_metadata?: {
+    live_corpus?: any;
+    low_confidence_score?: number;
+    n_results?: number;
+    preview_corpus?: any;
+    threshold_diff_score?: number;
+    threshold_min_score?: number;
+  },
+
+  agent_handover_setting?: {
+    consecutive_count?:{
+      enabled?:boolean,
+      value?:number
+   },
+   fallback_count?:{
+      enabled?:boolean,
+      value?:number
+   },
+   partial_match_count?:{
+      enabled?:boolean,
+      value?:number
+   },
+   response_flag?:boolean
+  }
 }
 
 export interface IBotResult {

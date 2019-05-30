@@ -1,0 +1,35 @@
+@import "~src/sass/main";
+.main-frame{
+    display: grid;
+    grid-template-columns: 1fr 275px;
+    grid-template-rows: calc(100% - 58px);
+    height: calc(100% - 58px);
+    //overflow-y: auto;
+}
+
+
+
+.article-action-side-bar{
+    .for-border{
+        height: 45px;
+        border-bottom : solid 1px #e0e0e0;
+    }
+    .action-item{
+        display: flex;
+        align-items: center;
+        font-size: 11px;
+        color: #474747;
+        mat-icon{
+            font-size: 15px;
+            height: auto;
+            width: auto;
+            padding-right: 3px;
+        }
+    }
+
+
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}

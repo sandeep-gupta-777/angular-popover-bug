@@ -1,46 +1,45 @@
 import {ApplicationRef, NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {PreloadAllModules, Route, RouterModule} from '@angular/router';
-import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
-import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
-import {HttpClientModule} from '@angular/common/http';
-import {AppStateReducer} from './ngxs/app.state';
-import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
-import {ServerService} from './server.service';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {NgxsModule} from '@ngxs/store';
 import {NotFoundComponent} from './core/not-found/not-found.component';
-import {DragService} from './drag.service';
-import {AuthStateReducer} from './auth/ngxs/auth.state';
-import {EnterpriseprofileStateReducer} from './core/enterpriseprofile/ngxs/enterpriseprofile.state';
-import {ViewBotStateReducer} from './core/view-bots/ngxs/view-bot.state';
-import {ChatSessionStateReducer} from './chat/ngxs/chat.state';
-import {BotCreationStateReducer} from './core/buildbot/ngxs/buildbot.state';
-import {AnalysisStateReducer2} from './core/analysis2/ngxs/analysis.state';
-import {ReportsStateReducer} from './core/reports/ngxs/reports.state';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import {AuthGaurdService} from './auth-gaurd.service';
-import {DatePipe} from '@angular/common';
 import {NotAuthorisedComponent} from './not-authorised/not-authorised.component';
 import {FilterArrayPipe} from './filter-array.pipe';
-import {BackendDevComponent} from './backend-dev/backend-dev.component';
-import {
-  MatProgressBarModule,
-  MatSnackBarModule
-} from '@angular/material';
-import {FormsModule} from '@angular/forms';
-import {AuthModule} from './auth/auth.module';
-import {BotTestingComponent} from './core/bot-detail/bot-testing/bot-testing.component';
-import {SharedModule} from './shared.module';
+import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {ServiceWorkerModule} from "@angular/service-worker";
+import {environment} from "../environments/environment";
+import {ModuleGaurdLoadService} from "./route-gaurds/module-gaurd-load.service";
+import {NgxsModule} from "@ngxs/store";
+import {LoginPageGaurdService} from "./route-gaurds/login-page.gaurd.service";
+import {NgxsStoragePluginModule} from "@ngxs/storage-plugin";
+import {NgxsReduxDevtoolsPluginModule} from "@ngxs/devtools-plugin";
+import {BrowserModule} from "@angular/platform-browser";
+import {ENgxsStogareKey} from './typings/enum';
 import {createInputTransfer, createNewHosts, removeNgStyles} from '@angularclass/hmr';
-import {VersionStateReducer} from "./core/buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.state";
+import {LazyLoadImageModule, intersectionObserverPreset} from 'ng-lazyload-image';
+import { SetErrorImageProps } from 'ng-lazyload-image';
+import {SpliceEllipsisPipe} from "./splice-ellipsis.pipe";
+
+export const x = ({element, errorImagePath, useSrcset}: SetErrorImageProps) => {
+  (<any>element).src = "http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg";
+};
+export const lazyOption = {
+  // setErrorImage: x,
+    // setLoadedImage:({element, errorImagePath, useSrcset}: any) => {
+    //   (<any>element).src = "http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg";
+    // },
+    preset: intersectionObserverPreset
+}
+
+export const lazyOption1 = {lazyOption};
 
 const routes: Route[] = [
-  {path: 'dev', loadChildren: './dev/dev.module#DevModule',canLoad: []},
-  // {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
-  {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad: [AuthGaurdService]},
+  {path: 'postman', loadChildren: './dev/dev.module#DevModule'},
+  {path: 'auth', loadChildren: './auth/auth.module#AuthModule', canLoad: [LoginPageGaurdService]},
+  // {path: 'login', loadChildren: './auth/auth.module#AuthModule', canLoad:[LoginPageGaurdService]},
+  {path: 'core', loadChildren: './core/core.module#CoreModule', canLoad: [ModuleGaurdLoadService]},
   {path: 'preview', loadChildren: './chat/chat.module#ChatModule'},
   {path: 'denied', component: NotAuthorisedComponent},
+  {path: 'login', redirectTo: 'auth/login', pathMatch: 'full'},
   {path: '', redirectTo: 'core/viewbots', pathMatch: 'full'},
   {path: '**', component: NotFoundComponent}
 ];
@@ -51,43 +50,50 @@ const routes: Route[] = [
     NotFoundComponent,
     NotAuthorisedComponent,
     FilterArrayPipe,
-    BackendDevComponent,
+
+    // BackendDevComponent,
 
   ],
   imports: [
-    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
-    BrowserAnimationsModule ,
-    NgxsModule.forRoot([
-      AuthStateReducer,
-      AppStateReducer,
-      EnterpriseprofileStateReducer,
-      ViewBotStateReducer,
-      ChatSessionStateReducer,
-      BotCreationStateReducer,
-      AnalysisStateReducer2,
-      ReportsStateReducer,
-      VersionStateReducer,
-    ]),
-    NgxsStoragePluginModule.forRoot(),
-    NgxsReduxDevtoolsPluginModule.forRoot(),//Comment this before pushing to git
-    NgxsLoggerPluginModule.forRoot({disabled: true}), //disable for prod mode
-    HttpClientModule,
-    MatSnackBarModule,
-    MatProgressBarModule,
-    AuthModule,
-    // ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
-    ServiceWorkerModule.register('/static/ngsw-worker.js'),
+    BrowserModule.withServerTransition({appId: 'serverApp'}),
+    // NoopAnimationsModule,
+    BrowserAnimationsModule,
+    LazyLoadImageModule.forRoot(lazyOption1.lazyOption),
+    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules, enableTracing: false}), // RouterModule.forRoot(routes, { useHash: true }), if this is your app.module
+    // RouterModule,
+    NgxsModule.forRoot([]),
+    // AuthModule,
 
+    NgxsStoragePluginModule.forRoot({key: ENgxsStogareKey.IMI_BOT_STORAGE_KEY}),
+    NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production}),//Comment this before pushing to git
+    // NgxsLoggerPluginModule.forRoot({disabled: true}), //disable for prod mode
+
+
+    ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
+    // ServiceWorkerModule.register('/static/ngsw-worker.js'),
+    // MatSnackBarModule,
+    //   FormsModule,
+    //   ReactiveFormsModule,
+    //   HttpClientModule,
 
     /**/
-    FormsModule
+    // ReactiveFormsModule,
+    // FormsModule
   ],
-  providers: [ServerService, DragService, DatePipe],
+  providers: [LoginPageGaurdService, ModuleGaurdLoadService,
+    //   {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,
+    //   multi: true
+    // }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
 
-  constructor(public appRef: ApplicationRef) {}
+  constructor(public appRef: ApplicationRef) {
+  }
+
   hmrOnInit(store) {
     if (!store || !store.state) return;
     // console.log('HMR store', store);
@@ -102,6 +108,7 @@ export class AppModule {
     delete store.state;
     delete store.restoreInputValues;
   }
+
   hmrOnDestroy(store) {
     var cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
     // recreate elements
@@ -111,10 +118,11 @@ export class AppModule {
     store.state = {data: 'yolo'};
     // store.state = Object.assign({}, appState)
     // save input values
-    store.restoreInputValues  = createInputTransfer();
+    store.restoreInputValues = createInputTransfer();
     // remove styles
     removeNgStyles();
   }
+
   hmrAfterDestroy(store) {
     // display new elements
     store.disposeOldHosts()

@@ -13,6 +13,7 @@ import {UtilityService} from '../../../utility.service';
 import {KnowledgeBaseComponent} from '../../buildbot/build-code-based-bot/architecture/knowledge-base/knowledge-base.component';
 import {MaterialTableImplementer} from '../../../material-table-implementer';
 import {EventService} from "../../../event.service";
+import { SideBarService } from 'src/app/side-bar.service';
 
 @Component({
   selector: 'app-view-customner',
@@ -140,10 +141,11 @@ export class ViewCustomnerComponent implements OnInit {
         } else {
           this.custumNerDataForSmartTable.push({...value, highlight: true});
         }
-
+        
         this.custumNerDataForSmartTable = [...this.custumNerDataForSmartTable];
         this.changeDetectorRef.detectChanges();
         this.addQueryParamsInCurrentRoute({ner_id: value.id});
+        SideBarService.reset();
         this.utilityService.showSuccessToaster('Saved customner');
       });
   }

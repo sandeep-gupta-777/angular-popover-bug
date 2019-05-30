@@ -1,31 +1,24 @@
-<section class="d-flex flex-wrap h-100" *ngIf="pipelineModulesV2List">
-    <div class="w-100" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px">
-        <div>Select the modules to add in the bot intelligence pipeline and save to update the pipeline</div>
-        <button mat-flat-button class="mat-theme-button" color="primary" (click)="updateBot()">Update Pipeline</button>
-    </div>
-    <div style="height:100%; flex: 2; padding-right: 38px; position: relative; border-right: 1px solid #e0e0e0;">
-        <!--<div style="height: 32px"></div>-->
-        <div style="height: 38px; position: sticky; left: 24px; right: 10px; top: 0;z-index: 1000;
-background-color: #f0f3f4;
-"
-             class="mb-1 p-1 d-flex p-0 justify-content-between align-items-end">
+<section class="pipeline-section" *ngIf="pipelineModulesV2List">
+    <header>
+        <div class="hide-phone">Select the modules to add in the bot intelligence pipeline and save to update the pipeline</div>
+        <!--<button mat-flat-button style="margin-left: auto" class="mat-theme-button" color="primary" (click)="updateBot()">Update Pipeline</button>-->
+      <app-button-wrapper (btnClick)="updateBot()"
+                          [status]="updateBotStatus"
+                          [toolTipText]="updateBotStatusText"
+                          [text]="'Update Pipeline'" style="margin-left: auto"></app-button-wrapper>
+    </header>
+    <div class="pipeline-section-body hide-phone" style="overflow-y: auto">
+        <div class="pipeline-section-body__header">
             <strong>Modules ({{pipelineModulesV2List.length}})</strong>
-            <div class="d-inline-flex align-items-center ml-auto mr-1 cursor-pointer"
+            <div class="d-inline-flex align-items-center ml-auto mr-3 cursor-pointer"
                  (click)="toggleExpandAllModules()">
                 <span class="mr-1" style="font-size: 11px">{{allMatExpansionExpanded ? 'Collapse' : 'Expand'}}
                     All</span>
                 <i style="align-items: baseline;font-size: 9px" class="fa"
                    [ngClass]="{'fa-chevron-down':!allMatExpansionExpanded, 'fa-chevron-up':allMatExpansionExpanded}"></i>
             </div>
-            <!--<div class="search-theme-input-with-search">-->
-                <!--<span class="fa fa-search" style="font-size: 11px"></span>-->
-                <!--<input type="search" style="height: 24px; width: 170px; text-indent: 21px"-->
-                       <!---->
-                       <!---->
-                       <!--class="border">-->
-            <!--</div>-->
 
-            <mat-form-field style="margin-bottom: -20px">
+            <mat-form-field class="hide-phone" style="margin-bottom: -3px" floatLabel="never">
                 <input matInput placeholder="Libraries and Modules" [(ngModel)]="searchKeyword">
                 <button mat-button matSuffix mat-icon-button aria-label="Clear">
                     <mat-icon>search</mat-icon>
@@ -33,17 +26,14 @@ background-color: #f0f3f4;
             </mat-form-field>
         </div>
 
-        <div style="margin-top: 15px; padding-left: 15px; padding-right: 30px;">
+        <div class="pipeline-section-body__modules">
             <app-accordian
-                    style="width: 100%; display: block;"
                     *ngFor="let pipelineItem of pipelineModulesV2List|pipelineFilter:searchKeyword|sortPipeline; let i = index"
                     (click)="togglePipelineModule(pipelineItem.id)"
                     [doExpand]="_expandedPipelineModules[pipelineItem.id]"
                     [keyword]="searchKeyword"
                     [data]="pipelineItem">
-                <!--<i>{{_expandedPipelineModules[i]}}</i>-->
                 <app-simple-table
-                        style="width: 100%"
                         (click)="$event.stopPropagation()"
                         [searchKeyword]="searchKeyword"
                         [tableData]="pipelineItem"
@@ -54,39 +44,12 @@ background-color: #f0f3f4;
             </app-accordian>
         </div>
 
-        <!--<mat-expansion-panel *ngFor="let pipelineItem of pipelineModulesV2List|pipelineFilter:searchKeyword"-->
-        <!--[expanded]="allMatExpansionExpanded"-->
-        <!--class="mat-elevation-z0">-->
-        <!--<mat-expansion-panel-header>-->
-        <!--<mat-panel-title>-->
-        <!--{{pipelineItem.display_values}} ({{pipelineItem.pipeline_modules.length}})-->
-        <!--</mat-panel-title>-->
-        <!--<mat-panel-description class="limit-oneline" style="max-width: 800px" [matTooltip]="pipelineItem.description">-->
-        <!--{{pipelineItem.description}}-->
-        <!--</mat-panel-description>-->
-        <!--</mat-expansion-panel-header>-->
-
-        <!--<app-simple-table-->
-        <!--[_tableData]="pipelineItem"-->
-        <!--(settingsClicked$)="openInputParamModal(Primarytemplat,$event)"-->
-        <!--(openInputParamModalBeforeAdd$)="openInputParamModal(Primarytemplat,$event, true)"-->
-        <!--(add$)="addPipelineItemToPipeline($event)"-->
-        <!--&gt;</app-simple-table>-->
-
-        <!--</mat-expansion-panel>-->
-
-        <!--</mat-accordion>-->
     </div>
-    <div class="pipeline-wrapper d-flex flex-column" style="height: 95%;overflow-y: auto; flex: 1; padding-left: 16px">
-        <h4
-                class="heading p-2 m-1 px-0"
-                style="position: sticky; top: 0; left: 0; right: 0;">
+    <div class="pipeline-wrapper" style="overflow-y: auto;height: calc(100% - 56px);">
+        <h4 class="heading p-2 m-1 px-0 m-0" style="background-color: #fafafa">
             Bot Intelligence Pipeline ({{pipeLine && pipeLine.length}})
         </h4>
-        <div class="flex-grow-1" style="width: 300px">
-            <!--<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">-->
-            <!--<div class="example-box" *ngFor="let aiModule of pipeLine;let targetIndexNew = index" cdkDrag>{{aiModule.unique_name}}</div>-->
-            <!--</div>-->
+        <div class="flex-grow-1" style="width: 100%">
             <div cdkDropList (cdkDropListDropped)="drop($event)">
                 <div *ngFor="let aiModule of pipeLine;let targetIndexNew = index"
                      cdkDrag
@@ -114,12 +77,6 @@ background-color: #f0f3f4;
                     </i>
                     <i class="fa fa-minus-circle show-on-parent-hover" style="color: #b14250"
                        (click)="removePipelineItemFromPipelineModal(targetIndexNew,aiModule.id)"></i>
-
-                    <!--<div>-->
-                    <!--<i *ngIf=" aiModule && aiModule.input_params && myObject.keys(aiModule.input_params).length>0"-->
-                    <!--(click)="openInputParamModal(Primarytemplat,aiModule);"-->
-                    <!--class="fa fa-cog pl-1" aria-hidden="true"></i>-->
-                    <!--</div>-->
                 </div>
             </div>
         </div>

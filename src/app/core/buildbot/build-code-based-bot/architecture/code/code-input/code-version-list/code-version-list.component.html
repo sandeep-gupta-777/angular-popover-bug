@@ -8,7 +8,7 @@
       <div class="version-active-label" *ngIf="selectedVersion"
            style="padding:0 13px;"
            [ngClass]="{'bg-label-active':selectedVersion?.id === bot.active_version_id,'bg-label-inactive':selectedVersion?.id !== bot.active_version_id}">
-        <div>{{selectedVersion.id === bot.active_version_id ? 'Active' : 'Inactive'}}</div>
+        <div  data-cy="version-status">{{selectedVersion.id === bot.active_version_id ? 'Active' : 'Inactive'}}</div>
       </div>
 
       <div class="count mx-1 flex-shrink-0 flex-grow-0">{{selectedVersion.version}}</div>
@@ -38,6 +38,7 @@
 
       </div>
       <i (click)="showVersionList= !showVersionList"
+         data-cy="version-dropdown-toggle"
          *ngIf="versions && versions.length > 1"
          class="fa py-2 px-3 ml-auto cursor-pointer"
          [ngClass]="{'fa-caret-up':showVersionList, 'fa-caret-down':!showVersionList}"
@@ -48,19 +49,29 @@
 
   <!--START :: code versions_st Buttons-->
   <div class="col-5">
-    <button [disabled]="!selectedVersion || disableSave"
-            *myIf="myEAllActions['Update Bot Versioning']"
-            (click)="saveSelectedVersion$.emit()"
-            mat-flat-button
-            color="primary"
-            class="mat-theme-button">
-      <mat-icon>save</mat-icon>
-      {{(!versions || !versions.length ||
-			versions.length > 0) ? "Save" : "Create"}}
-    </button>
+    <!--<button [disabled]="!selectedVersion || disableSave"-->
+            <!--data-cy="version-save"-->
+            <!--*myIf="myEAllActions['Update Bot Versioning']"-->
+            <!--(click)="saveSelectedVersion$.emit()"-->
+            <!--mat-flat-button-->
+            <!--color="primary"-->
+            <!--class="mat-theme-button">-->
+      <!--<mat-icon>save</mat-icon>-->
+      <!--{{(!versions || !versions.length || versions.length > 0) ? "Save" : "Create"}}-->
+    <!--</button>-->
+
+    <app-button-wrapper
+      *myIf="myEAllActions['Update Bot Versioning']"
+      [disabled]="!selectedVersion || disableSave"
+      data-cy="version-save"
+      [status]="saveOrCreateStatus"
+      (btnClick)="saveSelectedVersion$.emit()"
+      [text]="(!versions || !versions.length || versions.length > 0) ? 'Save' : 'Create'"
+      [icon]="'save'"></app-button-wrapper>
 
     <ng-container *ngIf="selectedVersion">
       <button [disabled]="!versions || versions.length===0"
+              data-cy="version-fork"
               *myIf="myEAllActions['Create Bot Versioning']"
               (click)="openForkNewVersionModal$.emit()"
               class="mat-theme-button mat-theme-button-border" mat-button>
@@ -71,15 +82,17 @@
 
 
     <button
+      data-cy="version-activate"
       [disabled]="!versions || versions.length===0 || (selectedVersion && selectedVersion.id === bot.active_version_id)"
       *myIf="myEAllActions['Create Bot Versioning']"
-      (click)="activateVersion$.emit(selectedVersion.id)"
+      (click)="confirmActivateVersionModal()"
       class="mat-theme-button mat-theme-button-border" mat-button>
       <mat-icon>play_circle_filled</mat-icon>
       Activate
     </button>
 
     <button class="mat-theme-button" mat-button
+            data-cy="version-download"
             style="min-width: 20px !important;border: none !important;padding: 0"
             (click)="downloadAll$.emit()">
       <mat-icon>get_app</mat-icon>
@@ -87,8 +100,8 @@
   </div>
   <!--END :: code versions_st Buttons-->
 
-  <div class="row row-flex-bot-versioning-toaster mx-0" *ngIf="showVersionList"
-       style="max-height: 50vh; overflow-y: scroll; border: 1px solid #e0e0e0; border-top: none ">
+  <div data-cy="version-list-panel" class="row row-flex-bot-versioning-toaster mx-0" *ngIf="showVersionList"
+       style="max-height: 50vh; overflow-y: scroll; overflow-x: hidden; border: 1px solid #e0e0e0; border-top: none ">
     <div class="col-12 py-1 px-0 cursor-pointer hover-change-background"
          *ngFor="let version of versions | filterActiveBot:selectedVersion.id | sortObjectArr: 'updated_at'">
       <div class="d-flex align-items-center flex-bot-versioning-toaster"

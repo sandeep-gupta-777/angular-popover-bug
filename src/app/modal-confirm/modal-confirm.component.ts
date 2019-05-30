@@ -12,8 +12,9 @@ import { NgForm } from '@angular/forms';
 export class ModalConfirmComponent{
 
   dataCopy:any;
+  inputData:string = "";
   @Output() actionItemClicked$ = new EventEmitter();
-  @ViewChild('inputForm') Form: NgForm;
+  // @ViewChild('inputForm') Form: NgForm;
   constructor(
     public dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
@@ -21,10 +22,9 @@ export class ModalConfirmComponent{
   }
 
 
-  log(x){
+  closeDialog(data:any){
 
-    console.log(x);
-    this.dialogRef.close(x);
+    this.dialogRef.close(data);
   }
 
   // ngOnDestroy(){

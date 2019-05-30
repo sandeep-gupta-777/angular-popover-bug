@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ChatService} from '../../chat.service';
-import {ServerService} from '../../server.service';
-import {UtilityService} from '../../utility.service';
-import {Store} from '@ngxs/store';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ConstantsService} from '../../constants.service';
 import {LoggingService} from '../../logging.service';
 
 @Component({
