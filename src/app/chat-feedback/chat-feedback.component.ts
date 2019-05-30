@@ -1,17 +1,19 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {EChatFeedback} from '../chat/chat-wrapper.component';
+import {EChatFeedback, IChatFeedback} from '../chat/chat-wrapper.component';
 
 @Component({
   selector: 'app-chat-feedback',
   template: `
     <div class="chat-feedback-wrapper">
-      <div class="chat-feedback" (click)="chatFeedbackClicked(true)" *ngIf="feedback!==myEChatFeedback.NEGATIVE">
+      <i *ngIf="false">i am not visible</i>
+      <i>{{feedback|json}}</i>
+      <div id="test1" class="chat-feedback" data-cy="chat-upvote" (click)="chatFeedbackClicked(true)" *ngIf="feedback!==myEChatFeedback.NEGATIVE">
         <mat-icon
           [ngStyle]="{'color': feedback === myEChatFeedback.POSITIVE? '#34bc6e':'#bebebe'}"
           class="chat-feedback__icon user-feedback__icon--up">thumb_up</mat-icon>
         <span>Upvote</span>
       </div>
-      <div class="chat-feedback" (click)="chatFeedbackClicked(false)" *ngIf="feedback!==myEChatFeedback.POSITIVE">
+      <div class="chat-feedback" data-cy="chat-downvote" (click)="chatFeedbackClicked(false)" *ngIf="feedback!==myEChatFeedback.POSITIVE">
         <mat-icon
           [ngStyle]="{'color': feedback === myEChatFeedback.NEGATIVE? '#b14250':'#bebebe'}"
           class="chat-feedback__icon user-feedback__icon--down">thumb_down</mat-icon>
@@ -23,7 +25,7 @@ import {EChatFeedback} from '../chat/chat-wrapper.component';
 })
 export class ChatFeedbackComponent {
 
-  @Input() feedback;
+  @Input() feedback: EChatFeedback;
   @Output() chatMessageFeedback$ = new EventEmitter();
   myEChatFeedback = EChatFeedback;
 
@@ -31,9 +33,10 @@ export class ChatFeedbackComponent {
   * chatFeedbackClicked: feedback can't be changed once given
   * */
   chatFeedbackClicked(isFeedbackPositive: boolean) {
-
-    if (this.feedback == null) {
+    alert();
+    console.log("hello");
+    // if (this.feedback == null) {
       this.chatMessageFeedback$.emit(isFeedbackPositive);
-    }
+    // }
   }
 }
