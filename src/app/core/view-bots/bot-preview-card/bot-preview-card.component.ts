@@ -190,7 +190,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
 
       if (ERoleName.Tester === this.role) {
         // this.router.navigate(['/core/viewbots/chatbot'], {queryParams:{preview:this.bot.roomId,build:"testing"}});
-        if(bot_type === 'chatbot'){
+        if(this.bot.bot_type === 'chatbot'){
           this.router.navigate(['core/botdetail/' + this.parentRoute + '/' + this.bot.id], {
             queryParams: {
               preview: this.bot.id,
