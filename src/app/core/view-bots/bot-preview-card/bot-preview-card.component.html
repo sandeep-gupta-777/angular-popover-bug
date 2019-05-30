@@ -1,6 +1,6 @@
 <section class="card-section">
   <div class="grid-bot-preview-two" [ngClass]="{'grid-pipeline-card':bot.bot_type === 'intelligent'}"
-       (click)="navigateToBotDetailPage($event,bot.bot_type)">
+       (click)="navigateToBotDetailPage($event)">
     <button mat-icon-button [matMenuTriggerFor]="appMenu" (menuOpened)="menuOpened = true"
             (click)="$event.stopPropagation()"
             (menuClosed)="menuOpened = false" class="more-button click-save-wrapper">
