@@ -42,7 +42,7 @@ export class CategorieModalInputComponent implements OnInit {
           'category_id': this.categorieClone.category_id
         }
         if(body.category_name.trim().length == 0 ){
-          this.utilityService.showErrorToaster("Caregory name can not be empty");
+          this.utilityService.showErrorToaster("Category name can not be empty");
           this.cancelClicked(true)
         }else{
           this.categoryUpdate.emit(body);
@@ -55,7 +55,7 @@ export class CategorieModalInputComponent implements OnInit {
           'category_name': this.newCategorieName,
         }
         if(body.category_name.trim().length == 0 ){
-          this.utilityService.showErrorToaster("Caregory name can not be empty");
+          this.utilityService.showErrorToaster("Category name can not be empty");
           this.cancelClicked(true)
         }else{
           this.categoryCreate.emit(body);

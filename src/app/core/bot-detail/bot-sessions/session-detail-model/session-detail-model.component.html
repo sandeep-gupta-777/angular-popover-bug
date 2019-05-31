@@ -104,15 +104,15 @@
           <a class="nav-link p-0" [ngClass]="{'tab-active':activeTab==='active_bot'}" (click)="tabClicked('active_bot')"
             *ngIf="bot.is_manager"><strong>ACTIVE BOT</strong></a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="bot.bot_type == 'chatbot'">
           <a class="nav-link p-0" [ngClass]="{'tab-active':activeTab==='nlp'}"
             (click)="tabClicked('nlp')"><strong>NLP</strong></a>
         </li>
-        <li class="nav-item ml-auto">
+        <li class="nav-item ml-auto" *ngIf="bot.bot_type == 'chatbot'">
           <a class="nav-link p-0 mr-2" [ngClass]="{'tab-active':activeTab==='final_df'}"
             (click)="tabClicked('final_df')"><strong>FINAL DF</strong></a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="bot.bot_type == 'chatbot'">
           <a class="nav-link p-0 mr-2" [ngClass]="{'tab-active':activeTab==='datastore'}"
             (click)="tabClicked('datastore')"><strong>DATASTORE</strong></a>
         </li>
