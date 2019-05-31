@@ -1,12 +1,8 @@
 <!--chat bubbles for text message started-->
 <div class="row mt-1 style-children-scrollbar-x"
+     data-cy="chat-messageMediatype_text"
      [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}"
      *ngIf="messageData.messageMediatype === myEBotMessageMediaType.text && messageData.sourceType!=='session_expired'">
-  <!--<div class="p-0 text-center" style="width: 40px">-->
-  <!--<img class="rounded-circle"-->
-  <!--[src]="messageData?.sourceType==='bot'?bot?.imageUrl:'https://image.flaticon.com/icons/svg/17/17004.svg'"-->
-  <!--style="width: 32px;height: 32px" alt="">-->
-  <!--</div>-->
   <div class="col-10 text-left p-0 flex-wrap" [ngClass]="{'reverse-flex-row':messageData?.sourceType==='human'}">
     <div class="message p-2"
          [ngClass]="{'bg-message-bot':messageData?.sourceType==='bot','bg-message-human':messageData?.sourceType==='human'}"
@@ -22,10 +18,6 @@
            class="time">{{(messageData?.time|date:'h:mm a') || 'no time info'}}</div>
     </div>
     <!--TODO: enable link preview in future-->
-    <!--<app-link-preview style="display: block; order: 3;max-width: 100%; margin: 10px 0"-->
-    <!--[link]="(messageData?.text|linksFromText)[0]"-->
-    <!--[sourceType]="messageData.sourceType"-->
-    <!--&gt;</app-link-preview>-->
   </div>
   <!--chat bubbles for text message ends-->
 </div>
@@ -54,6 +46,7 @@
     <!--</div>-->
   </div>
   <div class="col-12 text-left p-0 d-flex"
+       data-cy="chat-bot-thinking"
        *ngIf="messageData.messageMediatype===myEBotMessageMediaType.bot_thinking">
     <div class="p-0 text-center" style="width: 40px">
       <img class="rounded-circle"
@@ -69,26 +62,27 @@
 
   <div
     *ngIf="messageData.messageMediatype!==myEBotMessageMediaType.bot_thinking"
+    data-cy="chat-bot_thinking"
     style="position: absolute; bottom: -17px;left: 0px;min-width: 32px; color: #9e9e9e !important;"
     [ngStyle]="{'left': messageData?.sourceType==='bot'? '0' : 'auto',
                   'right': messageData?.sourceType==='human'? '0' : 'auto' }"
     class="time text-right">{{(messageData?.time|date:'h:mm a') || 'no time info'}}</div>
 </div>
 
-<div class="row d-flex align-items-center session-expire-info-row" *ngIf="messageData.sourceType==='session_expired'">
+<div class="row d-flex align-items-center session-expire-info-row"
+     data-cy="chat-session_expired"
+     *ngIf="messageData.sourceType==='session_expired'">
   <hr>
   <i class="px-2">New session started</i>
   <hr>
 </div>
 
 
-<!--<i>{{messageData.feedback}}</i>-->
-<!--<i>{{!!isLastMessage}}</i>-->
-<!---->
 <!--TODO: hide if the first-->
 <app-chat-feedback
-  style="display: flex; align-items: flex-end"
   *ngIf="_allow_feedback && messageData.sourceType === 'bot' && messageData.bot_message_id && (isLastMessage || messageData.feedback === myEChatFeedback.NEGATIVE || messageData.feedback === myEChatFeedback.POSITIVE)"
+  data-cy="app-chat-feedback"
+  style="display: flex; align-items: flex-end"
   (chatMessageFeedback$)="feedback($event)"
   [feedback]="messageData.feedback"
 ></app-chat-feedback>

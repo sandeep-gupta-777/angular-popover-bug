@@ -1,15 +1,18 @@
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
 import {ChatFeedbackComponent} from "../app/chat-feedback/chat-feedback.component";
-import {MatIcon} from "@angular/material";
+import {MatIcon, MatIconModule} from "@angular/material";
+import {NO_ERRORS_SCHEMA} from "@angular/core";
+import {RouterModule} from "@angular/router";
 
-export function configure(HostComponent, TestComponent, modules:{modules:any[]}) {
+export function configure(modules:{imports:any[], declarations:any[], providers?:any[]}) {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [HostComponent, TestComponent],
-      imports:modules.modules
+      ...modules,
+      schemas: [NO_ERRORS_SCHEMA],
+      // imports:[MatIconModule,RouterModule]
     });
-  }));
 
+  }));
 }
 
 export function getTextContent(fixture) {

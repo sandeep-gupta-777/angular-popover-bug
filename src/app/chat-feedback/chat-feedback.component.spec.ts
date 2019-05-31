@@ -21,7 +21,8 @@ class HostComponent {
 fdescribe('ChatFeedbackComponent', () => {
   let component: ChatFeedbackComponent;
   let fixture: ComponentFixture<HostComponent>;
-  configure(HostComponent, ChatFeedbackComponent, {modules:[MatIconModule]});
+  configure({imports:[MatIconModule], declarations:[HostComponent, ChatFeedbackComponent]});
+  const oldResetTestingModule = TestBed.resetTestingModule;
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HostComponent);
@@ -32,33 +33,38 @@ fdescribe('ChatFeedbackComponent', () => {
     if (fixture) fixture.destroy();
   });
 
-  fit('should emit chatMessageFeedback$ true when clicked on like button', fakeAsync(() => {
+  fit('(@output)should emit chatMessageFeedback$ true when clicked on like button', fakeAsync(() => {
     spyOn(fixture.componentInstance, 'outputHandler');
     getElementByDataAttr(fixture,'chat-upvote').click();
     flushMicrotasks();
     expect(fixture.componentInstance.outputHandler).toHaveBeenCalledWith(true);
   }));
 
-  fit('should emit chatMessageFeedback$ false when clicked on downvote button', fakeAsync(() => {
+  fit('(@outputshould emit chatMessageFeedback$ false when clicked on downvote button', fakeAsync(() => {
     spyOn(fixture.componentInstance, 'outputHandler');
     getElementByDataAttr(fixture,'chat-downvote').click();
     flushMicrotasks();
     expect(fixture.componentInstance.outputHandler).toHaveBeenCalledWith(false);
   }));
 
-  fit('should show upvote button when feedback is positive', fakeAsync(() => {
+  fit('(@Input)should show upvote button when feedback is positive', fakeAsync(() => {
     fixture.componentInstance.feedback = EChatFeedback.POSITIVE;
     fixture.detectChanges();
     expect(getTextContent(fixture)).toContain('Upvote');
     expect(getTextContent(fixture)).not.toContain('Downvote');
   }));
 
-  fit('should show downvote button when feedback is negative', fakeAsync(() => {
+  fit('(@Input)should show downvote button when feedback is negative', fakeAsync(() => {
     fixture.componentInstance.feedback = EChatFeedback.NEGATIVE;
     fixture.detectChanges();
     expect(getTextContent(fixture)).toContain('Downvote');
     expect(getTextContent(fixture)).not.toContain('Upvote');
   }));
+
+  afterAll(() => {
+    TestBed.resetTestingModule = oldResetTestingModule;
+    TestBed.resetTestingModule();
+  });
 });
 
 
