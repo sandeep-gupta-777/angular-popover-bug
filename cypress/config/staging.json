@@ -1,6 +1,7 @@
 {
   "production": false,
   "hmr": false,
-  "backend_root": "https://staging.imibot.ai/static",
+  "backend_root": "http://localhost:4200",
+
   "mock":true
 }
