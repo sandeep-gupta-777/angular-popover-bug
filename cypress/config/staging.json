@@ -1,6 +1,5 @@
 {
   "production": false,
   "hmr": false,
-  "backend_root": "http://localhost:4200",
-  "mock":true
+  "backend_root": "http://localhost:4200"
 }

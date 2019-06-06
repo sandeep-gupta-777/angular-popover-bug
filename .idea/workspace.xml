@@ -12,10 +12,22 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-1474976673">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
   <component name="FavoritesManager">
     <favorites_list name="." />
   </component>
   <component name="FileEditorManager">
+<<<<<<< HEAD
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../src/environments/environment.hmr.ts">
@@ -108,6 +120,9 @@
         </entry>
       </file>
     </leaf>
+=======
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+>>>>>>> 642f5c816f747b5a7e750ce7dc75baedf4248652
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -153,7 +168,7 @@
     </replaceStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$/../.." value="develop" />
@@ -218,6 +233,20 @@
         <option value="$PROJECT_DIR$/../../cypress/fixtures/role-based-access/bot-config.json" />
       </list>
     </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/../../angular-test/node_modules" />
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/../../angular-test/package.json" />
+    </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-11" />
@@ -444,10 +473,10 @@
     </option>
   </component>
   <component name="RunManager" selected="npm.Angular CLI Server">
-    <configuration name="Angular Application" type="JavascriptDebugType" uri="http://localhost:4200">
+    <configuration name="Angular Application" type="JavascriptDebugType" factoryName="JavaScript Debug" uri="http://localhost:4200">
       <method v="2" />
     </configuration>
-    <configuration name="Angular CLI Server" type="js.build_tools.npm">
+    <configuration name="Angular CLI Server" type="js.build_tools.npm" factoryName="npm">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
@@ -457,7 +486,7 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="ng" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+    <configuration name="ng" type="js.build_tools.npm" factoryName="npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
@@ -467,6 +496,11 @@
       <envs />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="JavaScript Debug.Angular Application" />
+      <item itemvalue="npm.Angular CLI Server" />
+      <item itemvalue="npm.ng" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="npm.ng" />
@@ -557,16 +591,24 @@
       <workItem from="1559602666035" duration="42345000" />
       <workItem from="1559819023903" duration="12000" />
       <workItem from="1559819096310" duration="26000" />
+<<<<<<< HEAD
       <workItem from="1559819183646" duration="18443000" />
+=======
+      <workItem from="1559819183646" duration="1112000" />
+      <workItem from="1559820610799" duration="12000" />
+>>>>>>> 642f5c816f747b5a7e750ce7dc75baedf4248652
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="1092149000" />
+=======
+    <option name="totallyTimeSpent" value="1074830000" />
+>>>>>>> 642f5c816f747b5a7e750ce7dc75baedf4248652
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49440297" visible="true" weight="0.23052464" />
       <window_info id="Structure" order="1" sideWeight="0.50369006" side_tool="true" weight="0.2591415" />
@@ -583,7 +625,11 @@
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49841017" weight="0.83566433" />
       <window_info anchor="bottom" id="TypeScript" order="9" sideWeight="0.49761525" weight="0.3181818" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5055644" side_tool="true" weight="0.2744755" />
+<<<<<<< HEAD
       <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4944356" visible="true" weight="0.052447554" />
+=======
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4944356" visible="true" weight="0.34150943" />
+>>>>>>> 642f5c816f747b5a7e750ce7dc75baedf4248652
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -663,6 +709,7 @@
     <entry file="file://$PROJECT_DIR$/../../src/app/chat/chat-wrapper.component.html" />
     <entry file="file://$PROJECT_DIR$/../../src/app/chat/chat-wrapper.component.ts" />
     <entry file="file://$PROJECT_DIR$/../../src/app/chat.service.ts" />
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/../../src/testing/test-context.ts">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -906,5 +953,18 @@
         </state>
       </provider>
     </entry>
+=======
+    <entry file="file://$PROJECT_DIR$/../../src/testing/test-context.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/testing/spec-builder.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/testing/matchers.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/testing/init.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/enterpriseprofile/enterprise-overview/enterprise-overview.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../package-lock.json" />
+    <entry file="file://$PROJECT_DIR$/../../package.json" />
+    <entry file="file://$PROJECT_DIR$/../../src/environments/environment.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/environments/environment.hmr.ts" />
+>>>>>>> 642f5c816f747b5a7e750ce7dc75baedf4248652
   </component>
 </project>
