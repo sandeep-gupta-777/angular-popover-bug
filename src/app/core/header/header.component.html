@@ -37,8 +37,8 @@
   <!--Right start-->
   <div class="header__right">
     <div class="box box-details-personal">
-      <span class="box-details-personal__name">{{(loggeduser$|async).user?.enterprise.name}}</span>
-      <span class="box-details-personal__designation">{{(loggeduser$|async)?.user.role.name}}</span>
+      <span class="box-details-personal__name">{{(loggeduser$|async).user?.enterprise?.name}}</span>
+      <span class="box-details-personal__designation">{{(loggeduser$|async)?.user.role?.name}}</span>
     </div>
     <img [defaultImage]="defaultImage" [lazyLoad]="logoSrc" alt="Enterprise logo">
 
@@ -54,7 +54,7 @@
         <a mat-menu-item disabled class="header-dropdown-item">
           {{userData?.first_name + " " + userData?.last_name}}
         </a>
- 
+
         <mat-divider *myIf="myEAllActions['Get Enterprise']"></mat-divider>
         <a mat-menu-item class="header-dropdown-item" [routerLink]="['profile']"
            data-cy="header-profile"
