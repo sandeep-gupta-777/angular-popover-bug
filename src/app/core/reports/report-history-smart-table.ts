@@ -39,7 +39,20 @@ export class ReportHistorySmartTable extends AbstractSmartTable {
   }
 
   private customTransformSessionDataForMaterialTable(session: ISessionItem[]) {
-    return this.transformDataForMaterialTable(session, this.metaData);
+    let data =  this.transformDataForMaterialTable(session, this.metaData);
+
+    // this.tableData_history = this.transformDataForMaterialTable(data, this.getTableDataMetaDict_reportHistory());
+    return data.map((sessionsDataForTableItem) => {
+      let additonalColumns: any = {};
+      /*actions*/
+      additonalColumns['Actions'] = sessionsDataForTableItem['Actions'];
+      additonalColumns['Actions'].value = [];
+      additonalColumns['Actions'].value.push({show: true,
+        name: 'download',
+        iconName: 'save_alt'
+      });
+      return {...sessionsDataForTableItem, ...additonalColumns};
+    });
   }
 
 }

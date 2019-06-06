@@ -29,7 +29,7 @@ export class SideBarService {
   public static buildbotData_init;
 
   static init(component) {
-    debugger;
+
     console.info('init')
     if (component.tag === "PipelineComponent") {
       SideBarService.pipelineInit(component);
@@ -88,7 +88,7 @@ export class SideBarService {
   }
 
   static isBotConfigDirty(): boolean {
-    debugger;
+
     console.info('init', 'isBotConfigDirty');
     if (!SideBarService.botConfigComponent) return false;
     let botConfig_final = this.createBasicInfoData();

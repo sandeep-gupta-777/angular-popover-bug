@@ -194,16 +194,16 @@ const routes: Route[] = [
     DatePipe,
     SmartTableSettingsService,
     FormsService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: DevHttpInterceptorService,
-      multi: true
-    }
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,
+    //   multi: true
+    // },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: DevHttpInterceptorService,
+    //   multi: true
+    // }
   ]
 })
 export class CoreModule {

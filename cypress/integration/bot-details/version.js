@@ -3,7 +3,7 @@
 describe('Bot code version', function () {
 	before(() => {
 		cy.server();
-		cy.route('https://dev.imibot.ai/api/v1/botversioning/*').as('botversioning');
+		cy.route('https://staging.imibot.ai/api/v1/botversioning/*').as('botversioning');
 
 		cy.login_UI();
 

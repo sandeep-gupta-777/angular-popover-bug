@@ -155,9 +155,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
         return this.loginFailedHandler();
       })
     )
-      .subscribe(() => {
-        console.log('login pipe done');
-      });
+      .subscribe(() => {});
 
   }
 

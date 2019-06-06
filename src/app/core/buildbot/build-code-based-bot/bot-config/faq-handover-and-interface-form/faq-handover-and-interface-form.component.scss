@@ -14,3 +14,15 @@
     padding-bottom: 0;
     margin-bottom: 4px;
 }
+::ng-deep{
+    .disabled-slide-button{
+        mat-slide-toggle{
+            .mat-slide-toggle-label{
+                cursor: pointer !important;
+            }
+            .mat-slide-toggle-thumb-container{
+                cursor: pointer !important;
+            }
+        }
+    }  
+  }

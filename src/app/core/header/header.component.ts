@@ -23,6 +23,7 @@ import { ModalImplementer } from 'src/app/modal-implementer';
 import { MatDialog } from '@angular/material';
 import {EAllActions, ENgxsStogareKey} from '../../typings/enum';
 import {environment} from '../../../environments/environment';
+import {EventService} from "../../event.service";
 
 @Component({
   selector: 'app-header',
@@ -72,6 +73,10 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
       location.reload();
     };
     let getAllEnterpriseUrl = this.constantsService.getAllEnterpriseUrl();
+
+    EventService.logout$.subscribe(()=>{
+      this.logout();
+    });
 
     this.serverService.makeGetReq({ url: getAllEnterpriseUrl })
       .subscribe((value: any) => {

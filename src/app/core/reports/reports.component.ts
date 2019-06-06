@@ -170,11 +170,19 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
         /*Making reportItem$ history data*/
         reportHistory.objects.forEach((reportHistoryItem: IReportHistoryItem) => {
           this.botlist$.subscribe((botList) => {
+            let botName: any;
             const listOfAllBots = botList.allBotList;
+
+            try {
+              botName = this.objectArrayCrudService.getObjectItemByKeyValuePair(listOfAllBots, {id: reportHistoryItem.bot_id}).name;
+            }catch (e) {
+              console.log("couldn't find bot")
+              botName = "BOT_NOT_FOUND"
+            }
 
             this.reportHistorySmartTableData.push({
               ...reportHistoryItem,
-              bot: this.objectArrayCrudService.getObjectItemByKeyValuePair(listOfAllBots, {id: reportHistoryItem.bot_id}).name,
+              bot: botName,
               name: this.objectArrayCrudService.getObjectItemByKeyValuePair(this.reportTypes.objects, {id: reportHistoryItem.reporttype_id}).name,
               created_at: reportHistoryItem.created_at
             });
@@ -205,6 +213,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
 
   customActionEventsTriggeredInSessionsTable(smartTableCustomEventData: { action: string, data: IReportHistoryItem, source: any }) {
     const url = this.constantsService.getDownloadReportHistoryByIdUrl(smartTableCustomEventData.data.id);
+    debugger;
     this.serverService.makeGetReqToDownloadFiles({url})
       .subscribe((value: any) => {
         /*To download the blob: https://stackoverflow.com/questions/19327749/javascript-blob-filename-without-link*/

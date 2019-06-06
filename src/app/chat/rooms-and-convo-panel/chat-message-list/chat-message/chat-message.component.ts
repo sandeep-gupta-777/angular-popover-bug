@@ -34,9 +34,6 @@ export class ChatMessageComponent implements OnInit {
   @Output() chatMessageFeedback$ = new EventEmitter();
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private serverService: ServerService,
-    private constantsService: ConstantsService,
     private router: Router,
   ) {}
 

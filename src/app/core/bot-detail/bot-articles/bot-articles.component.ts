@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, TemplateRef, AfterViewInit } from '@angular/core';
 import { ConstantsService } from 'src/app/constants.service';
 import { ServerService } from 'src/app/server.service';
 import { IHeaderData } from 'src/interfaces/header-data';
@@ -10,12 +10,22 @@ import { MatDialog } from '@angular/material';
 import { ICorpus, IArticleItem, ICategoryMappingItem } from '../../interfaces/faqbots';
 import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
 import {ActivatedRoute, Router} from '@angular/router';
+import { ChatService } from 'src/app/chat.service';
+import { Observable } from 'rxjs';
+import { IEnterpriseProfileInfo } from 'src/interfaces/enterprise-profile';
+import { Select } from '@ngxs/store';
+import { RouteHelperService } from 'src/app/route-helper.service';
 @Component({
   selector: 'app-bot-articles',
   templateUrl: './bot-articles.component.html',
   styleUrls: ['./bot-articles.component.scss']
 })
-export class BotArticlesComponent implements OnInit {
+export class BotArticlesComponent implements OnInit ,AfterViewInit{
+  ngAfterViewInit(): void {
+      if(RouteHelperService.getQueryParams(this.activatedRoute, "openPreview" )){
+        this.chatService.openPreviewFormService(this.bot, this.enterprise_unique_name);
+      }
+  }
 
   constructor(
     private constantsService: ConstantsService,
@@ -25,6 +35,7 @@ export class BotArticlesComponent implements OnInit {
     private matDialog: MatDialog,
     private router : Router,
     private activatedRoute: ActivatedRoute,
+    private chatService: ChatService
   ) { }
   @Input() bot: IBot;
   corpus : ICorpus;
@@ -39,9 +50,15 @@ export class BotArticlesComponent implements OnInit {
   categoryMappingClone : ICategoryMappingItem[];
   showCreateNewCategoryInput = false;
   currentPageOfArtcle;
+  enterprise_unique_name;
+  @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   ngOnInit() {
     this.getCorpusAndSetArticleFilterForm$()
       .subscribe()
+    this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
+      this.enterprise_unique_name = enterpriseProfileInfo.enterprise_unique_name;
+    });
+  
   }
 
 
@@ -346,7 +363,7 @@ export class BotArticlesComponent implements OnInit {
              break;
           }
         }
-        this.utilityService.showSuccessToaster("Caregory succesfully updated");
+        this.utilityService.showSuccessToaster("Category succesfully updated");
       });
   }
   categoryDelete(body){
@@ -358,7 +375,7 @@ export class BotArticlesComponent implements OnInit {
     .subscribe((value)=>{
       this.getCorpusAndSetArticleFilterForm$()
       .subscribe((v)=>
-      this.utilityService.showSuccessToaster("Caregory succesfully deleted"));
+      this.utilityService.showSuccessToaster("Category succesfully deleted"));
     })
   }
   categoryCreate(body){
@@ -375,7 +392,7 @@ export class BotArticlesComponent implements OnInit {
         this.showCreateNewCategoryInput = false;
         this.categoryMappingClone.push(value.new_category);
         this.categoryMappingClone = [...this.categoryMappingClone];
-        this.utilityService.showSuccessToaster("Caregory succesfully created");
+        this.utilityService.showSuccessToaster("Category succesfully created");
         let formObj = {};
           this.categoryMappingClone.forEach((categorie) => {
             formObj[categorie.category_id] = [false];

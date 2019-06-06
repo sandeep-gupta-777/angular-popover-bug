@@ -27,15 +27,15 @@
 Cypress.Commands.add("login_UI", (email, password) => {
 
     cy.server();
-    cy.route('GET', 'https://dev.imibot.ai/api/v1/actions/?limit=100').as('actions');
-    cy.route('GET', 'https://dev.imibot.ai/api/v1/bot/?limit=1000').as('bot');
-    cy.route('POST', 'https://dev.imibot.ai/api/v1/user/enterprise_login/').as('enterprise_login');
-    cy.route('GET', 'https://dev.imibot.ai/api/v1/integrations/').as('integrations');
-    cy.route('POST', 'https://dev.imibot.ai/api/v1/user/login/' ).as('login');
-    cy.route('GET', 'https://dev.imibot.ai/api/v1/enterprise/*').as('enterprise');
-    cy.route('GET', 'https://dev.imibot.ai/api/v1/user/enterprises/').as('enterprises');
-    cy.route('GET', 'https://dev.imibot.ai/api/v1/moduledetails/?limit=1000').as('json');
-    cy.route('GET', 'https://dev.imibot.ai/api/v1/role/').as('role');
+    cy.route('GET', '*/api/v1/actions/?limit=100').as('actions');
+    cy.route('GET', '*/api/v1/bot/?limit=1000').as('bot');
+    cy.route('POST', '*/api/v1/user/enterprise_login/').as('enterprise_login');
+    cy.route('GET', '*/api/v1/integrations/').as('integrations');
+    cy.route('POST', '*/api/v1/user/login/' ).as('login');
+    cy.route('GET', '*/api/v1/enterprise/*').as('enterprise');
+    cy.route('GET', '*/api/v1/user/enterprises/').as('enterprises');
+    cy.route('GET', '*/api/v1/moduledetails/?limit=1000').as('json');
+    cy.route('GET', '*/api/v1/role/').as('role');
 
     cy.visit('http://localhost:4200/auth/login');
     cy.get('[data-cy=login-email]')
@@ -44,7 +44,7 @@ Cypress.Commands.add("login_UI", (email, password) => {
       .type('Botwoman@123!');
     cy.get('[data-cy=login-submit]').click();
 
-    cy.wait(['@login']);
+    // cy.wait(['@login']);
     cy.wait(10000);
     cy.url({timeout:3000}).should('include', '/core/viewbots');
 });
