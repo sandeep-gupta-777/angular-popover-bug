@@ -125,7 +125,7 @@ export class BuildbotWrapperComponent implements OnInit {
         ]).subscribe(() => {
           debugger;
           if(createdBot.bot_type == EBotType.faqbot){
-            this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`], {queryParams: {build:"articles"}});
+            this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`], {queryParams: {build:"articles",openPreview:true}});
           }
           else{
             this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`]);
