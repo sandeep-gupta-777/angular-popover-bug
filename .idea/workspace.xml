@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4fa2cae7-4156-44c3-97aa-acfecddc228f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="4fa2cae7-4156-44c3-97aa-acfecddc228f" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/dist/" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -17,9 +15,92 @@
   <component name="FavoritesManager">
     <favorites_list name="." />
   </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../src/testing/test-context.ts">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../src/testing/spec-builder.ts">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../src/testing/matchers.ts">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../src/testing/init.ts">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../src/app/core/enterpriseprofile/enterprise-overview/enterprise-overview.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="52">
+              <caret line="180" column="39" lean-forward="true" selection-start-line="180" selection-start-column="39" selection-end-line="180" selection-end-column="39" />
+              <folding>
+                <element signature="n#style#0;n#div#4;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="9" column="44" lean-forward="true" selection-start-line="9" selection-start-column="44" selection-end-line="9" selection-end-column="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="125" column="8" lean-forward="true" selection-start-line="125" selection-start-column="8" selection-end-line="125" selection-end-column="8" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#header#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="45">
+              <caret line="112" column="51" selection-start-line="112" selection-start-column="51" selection-end-line="112" selection-end-column="51" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../../src/environments/environment.hmr.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" column="47" lean-forward="true" selection-start-line="3" selection-start-column="47" selection-end-line="3" selection-end-column="47" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../src/environments/environment.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="11" column="2" lean-forward="true" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>tions['Delete</find>
       <find>trash</find>
       <find>Test</find>
       <find>integra</find>
@@ -48,6 +129,8 @@
       <find>.chat-feedback-wrapper</find>
       <find>left</find>
       <find>send</find>
+      <find>develop.</find>
+      <find>re</find>
     </findStrings>
     <replaceStrings>
       <replace>form-control d-flex f</replace>
@@ -60,7 +143,7 @@
     </replaceStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$/../.." value="develop" />
@@ -72,12 +155,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../src/testing/matchers.ts" />
-        <option value="$PROJECT_DIR$/../src/testing/test-context.ts" />
-        <option value="$PROJECT_DIR$/../src/testing/matcher-types.d.ts" />
-        <option value="$PROJECT_DIR$/../src/testing/init.ts" />
-        <option value="$PROJECT_DIR$/../src/testing/spec-builder.ts" />
-        <option value="$PROJECT_DIR$/../src/testing/configure-before-after.spec.ts" />
         <option value="$PROJECT_DIR$/../.ng-bubble-local" />
         <option value="$PROJECT_DIR$/../src/environments/environment.hmr.ts" />
         <option value="$PROJECT_DIR$/../src/app/constants.service.ts" />
@@ -123,6 +200,12 @@
         <option value="$PROJECT_DIR$/../cypress/integration/bot-details/version.js" />
         <option value="$PROJECT_DIR$/../src/app/chat-feedback/chat-feedback.component.ts" />
         <option value="$PROJECT_DIR$/../src/app/chat-feedback/chat-feedback.component.scss" />
+        <option value="$PROJECT_DIR$/../../src/testing/test-context.ts" />
+        <option value="$PROJECT_DIR$/../../src/testing/spec-builder.ts" />
+        <option value="$PROJECT_DIR$/../../src/testing/matchers.ts" />
+        <option value="$PROJECT_DIR$/../../src/testing/init.ts" />
+        <option value="$PROJECT_DIR$/../../src/app/core/header/header.component.ts" />
+        <option value="$PROJECT_DIR$/../../src/environments/environment.hmr.ts" />
       </list>
     </option>
   </component>
@@ -141,17 +224,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
-          <expand>
-            <path>
-              <item name="bot_platform-fe" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="D:\nodebook" type="442cc68d:ScopeViewTreeModel$RootNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -163,6 +235,72 @@
               <item name="." type="b2602c69:ProjectViewProjectNode" />
               <item name="DEVELOP" type="462c0819:PsiDirectoryNode" />
               <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
+            <path>
+              <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+            </path>
+            <path>
+              <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="enterpriseprofile" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="enterpriseprofile" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="enterprise-overview" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="header" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="environments" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="testing" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
           </expand>
           <select />
@@ -329,16 +467,18 @@
       <workItem from="1559602666035" duration="42345000" />
       <workItem from="1559819023903" duration="12000" />
       <workItem from="1559819096310" duration="26000" />
+      <workItem from="1559819183646" duration="1112000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1073706000" />
+    <option name="totallyTimeSpent" value="1074818000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="89" y="66" width="982" height="737" extended-state="0" />
+    <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49440297" visible="true" weight="0.25820106" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49440297" visible="true" weight="0.19395867" />
       <window_info id="Structure" order="1" sideWeight="0.50369006" side_tool="true" weight="0.2591415" />
       <window_info id="npm" order="2" sideWeight="0.506542" side_tool="true" weight="0.2591415" />
       <window_info id="Favorites" order="3" sideWeight="0.39044943" side_tool="true" weight="0.22257552" />
@@ -353,7 +493,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49841017" weight="0.83566433" />
       <window_info anchor="bottom" id="TypeScript" order="9" sideWeight="0.49761525" weight="0.3181818" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5055644" side_tool="true" weight="0.2744755" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4944356" weight="0.23776224" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4944356" visible="true" weight="0.34265736" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -419,56 +559,108 @@
     </ignored-roots>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/faq-handover-and-interface-form/faq-handover-and-interface-form.component.ts" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/faq-handover-and-interface-form/faq-handover-and-interface-form.component.scss" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/faq-handover-and-interface-form/faq-handover-and-interface-form.component.html" />
-    <entry file="file://$PROJECT_DIR$/../src/app/auth/login/messageDisplayBase.ts" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/view-bots/view-bots.component.html" />
-    <entry file="file://$PROJECT_DIR$/../src/app/permission.service.ts" />
-    <entry file="file://$PROJECT_DIR$/../src/app/auth/login/login.component.ts" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/architecture/knowledge-base/knowledge-base-presentation/knowledge-base-presentation.component.html" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/bot-detail/code-based-bot-detail/code-based-bot-detail.component.html" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.component.html" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/header/header.component.ts" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/bot-detail/consumers/consumers.component.scss" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/bot-detail/consumers/consumers.component.html" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/reports/reports.component.ts" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/reports/report-history-smart-table.ts" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/reports/reports.component.html" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/reports/reports.component.scss" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-version-list/code-version-list.component.html" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-version-list/code-version-list.component.ts" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.state.ts" />
-    <entry file="file://$PROJECT_DIR$/../src/app/utility.service.ts" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component.html" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.action.ts" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component.html" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component.ts" />
-    <entry file="file://$PROJECT_DIR$/../tsconfig.json" />
-    <entry file="file://$PROJECT_DIR$/../src/app/auth/login/login.component.html" />
-    <entry file="file://$PROJECT_DIR$/../cypress/screenshots/bot-details/version.js/Bot code version -- checks if user is able to update bot code version -- before all hook (failed).png" />
-    <entry file="file://$PROJECT_DIR$/../package.json" />
-    <entry file="file://$PROJECT_DIR$/../cypress/fixtures/actions.json" />
-    <entry file="file://$PROJECT_DIR$/../src/environments/environment.ts" />
-    <entry file="file://$PROJECT_DIR$/../cypress/plugins/index.js" />
-    <entry file="file://$PROJECT_DIR$/../src/environments/environment.staging.ts" />
-    <entry file="file://$PROJECT_DIR$/../cypress/integration/login2.js" />
-    <entry file="file://$PROJECT_DIR$/../cypress/integration/login.js" />
-    <entry file="file://$PROJECT_DIR$/../src/config.json" />
-    <entry file="file://$PROJECT_DIR$/../cypress/config/staging.json" />
-    <entry file="file://$PROJECT_DIR$/../cypress/integration/header.js" />
-    <entry file="file://$PROJECT_DIR$/../cypress/integration/side-bar/side-bar.js" />
-    <entry file="file://$PROJECT_DIR$/../cypress/integration/faq-bots/faq-bot-setting-tab.js" />
-    <entry file="file://$PROJECT_DIR$/../cypress/integration/faq-bots/faq-bot-section-test.js" />
-    <entry file="file://$PROJECT_DIR$/../cypress.json" />
-    <entry file="file://$PROJECT_DIR$/../cypress/support/commands.js" />
-    <entry file="file://$PROJECT_DIR$/../cypress/integration/chat/chat-fullscreen.js" />
-    <entry file="file://$PROJECT_DIR$/../cypress/integration/bot-details/version.js" />
-    <entry file="file://$PROJECT_DIR$/../src/app/chat-feedback/chat-feedback.component.ts" />
-    <entry file="file://$PROJECT_DIR$/../src/app/chat/rooms-and-convo-panel/chat-message-list/chat-message/chat-message.component.html" />
-    <entry file="file://$PROJECT_DIR$/../src/app/chat-feedback/chat-feedback.component.scss" />
-    <entry file="file://$PROJECT_DIR$/../src/app/chat/chat-wrapper.component.html" />
-    <entry file="file://$PROJECT_DIR$/../src/app/chat/chat-wrapper.component.ts" />
-    <entry file="file://$PROJECT_DIR$/../src/app/chat.service.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/bot-detail/code-based-bot-detail/code-based-bot-detail.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/bot-detail/consumers/consumers.component.scss" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/bot-detail/consumers/consumers.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/reports/reports.component.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/reports/report-history-smart-table.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/reports/reports.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/reports/reports.component.scss" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-version-list/code-version-list.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-version-list/code-version-list.component.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.state.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/utility.service.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.action.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component.ts" />
+    <entry file="file://$PROJECT_DIR$/../../tsconfig.json" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/auth/login/login.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../cypress/screenshots/bot-details/version.js/Bot code version -- checks if user is able to update bot code version -- before all hook (failed).png" />
+    <entry file="file://$PROJECT_DIR$/../../cypress/fixtures/actions.json" />
+    <entry file="file://$PROJECT_DIR$/../../cypress/plugins/index.js" />
+    <entry file="file://$PROJECT_DIR$/../../src/environments/environment.staging.ts" />
+    <entry file="file://$PROJECT_DIR$/../../cypress/integration/login2.js" />
+    <entry file="file://$PROJECT_DIR$/../../cypress/integration/login.js" />
+    <entry file="file://$PROJECT_DIR$/../../src/config.json" />
+    <entry file="file://$PROJECT_DIR$/../../cypress/config/staging.json" />
+    <entry file="file://$PROJECT_DIR$/../../cypress/integration/header.js" />
+    <entry file="file://$PROJECT_DIR$/../../cypress/integration/side-bar/side-bar.js" />
+    <entry file="file://$PROJECT_DIR$/../../cypress/integration/faq-bots/faq-bot-setting-tab.js" />
+    <entry file="file://$PROJECT_DIR$/../../cypress/integration/faq-bots/faq-bot-section-test.js" />
+    <entry file="file://$PROJECT_DIR$/../../cypress.json" />
+    <entry file="file://$PROJECT_DIR$/../../cypress/support/commands.js" />
+    <entry file="file://$PROJECT_DIR$/../../cypress/integration/chat/chat-fullscreen.js" />
+    <entry file="file://$PROJECT_DIR$/../../cypress/integration/bot-details/version.js" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/chat-feedback/chat-feedback.component.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/chat/rooms-and-convo-panel/chat-message-list/chat-message/chat-message.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/chat-feedback/chat-feedback.component.scss" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/chat/chat-wrapper.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/chat/chat-wrapper.component.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/chat.service.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/testing/test-context.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/testing/spec-builder.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/testing/matchers.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/testing/init.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/enterpriseprofile/enterprise-overview/enterprise-overview.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="52">
+          <caret line="180" column="39" lean-forward="true" selection-start-line="180" selection-start-column="39" selection-end-line="180" selection-end-column="39" />
+          <folding>
+            <element signature="n#style#0;n#div#4;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../package-lock.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="44" lean-forward="true" selection-start-line="9" selection-start-column="44" selection-end-line="9" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/environments/environment.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="11" column="2" lean-forward="true" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="125" column="8" lean-forward="true" selection-start-line="125" selection-start-column="8" selection-end-line="125" selection-end-column="8" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#header#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="112" column="51" selection-start-line="112" selection-start-column="51" selection-end-line="112" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/environments/environment.hmr.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="47" lean-forward="true" selection-start-line="3" selection-start-column="47" selection-end-line="3" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>
