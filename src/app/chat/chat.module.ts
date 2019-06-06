@@ -29,6 +29,7 @@ import {VersionStateReducer} from '../core/buildbot/build-code-based-bot/archite
 import {ReducerListService} from '../reducer-list.service';
 import {ChatSessionStateReducer} from './ngxs/chat.state';
 import {LayoutModule} from '@angular/cdk/layout';
+import { ChatBotThinkingComponent } from './rooms-and-convo-panel/chat-message-list/chat-message/chat-bot-thinking/chat-bot-thinking.component';
 
 const routes: Route[] = [
   // {path: 'preview',outlet: 'preview', component: ChatWrapperComponent},
@@ -47,6 +48,7 @@ const routes: Route[] = [
     BotThinkingBubbleComponent,
     BotWelcomeComponent,
     LinkPreviewComponent,
+    ChatBotThinkingComponent,
   ],
   imports: [
     CommonModule,

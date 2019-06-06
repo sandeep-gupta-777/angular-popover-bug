@@ -9,7 +9,8 @@ import {
   ChangeBotIsThinkingDisplayByRoomId,
   ChangeFrameAction,
   SetLastTemplateKeyToRoomByRoomId,
-  ToggleChatWindow
+  ToggleChatWindow,
+  SetCurrentBotDetailsAndResetChatStateIfBotMismatch
 } from './chat/ngxs/chat.action';
 import {IGeneratedMessageItem, ISendApiResponsePayload} from '../interfaces/send-api-request-payload';
 import {ConstantsService} from './constants.service';
@@ -18,6 +19,7 @@ import {EBotType, UtilityService} from './utility.service';
 import {IConsumerDetails} from './chat/ngxs/chat.state';
 import {catchError} from 'rxjs/internal/operators';
 import {LoggingService} from "./logging.service";
+import { EventService } from './event.service';
 
 declare var IMI: any;
 
@@ -304,6 +306,18 @@ export class ChatService {
     return this.serverService.makePostReq({url, body, headerData});
   }
 
+  openPreviewFormService(bot : IBot,enterprise_unique_name :string){
+    this.store.dispatch([
+      new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
+        bot: {...bot, enterprise_unique_name: enterprise_unique_name}
+      }),
+      new ToggleChatWindow({open: true}),
+      new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX})
+    ]);
 
+    /*TODO: integrate this with store*/
+    EventService.startANewChat$.emit({bot:bot, consumerDetails: {uid: this.utilityService.createRandomUid()},
+    });
+  }
 
 }

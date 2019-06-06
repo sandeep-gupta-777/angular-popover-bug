@@ -22,8 +22,8 @@ describe('Chat window', function () {
 	});
 
 	it('checks if user is able to chat and see the chat rooms', function () {
-		// cy.server();
-		// cy.route('POST','https://staging.imibot.ai/api/v1/webhook/web/*').as('send');
+		cy.server();
+		cy.route('POST','https://staging.imibot.ai/api/v1/webhook/web/*').as('send');
 		cy.get('[data-cy=chat-message]');
 		cy.get('[data-cy=chat-input]').type("this is e2e test {enter}");
 		cy.contains("this is e2e test").should('exist');

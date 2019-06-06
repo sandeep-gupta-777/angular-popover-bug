@@ -18,6 +18,7 @@ import {ModalImplementer} from '../../../modal-implementer';
 import {EventService} from '../../../event.service';
 import { SideBarService } from 'src/app/side-bar.service';
 import {EAllActions, ESideBarTab} from "../../../typings/enum";
+import { ChatService } from 'src/app/chat.service';
 
 @Component({
   selector: 'app-bot-detail-header',
@@ -42,6 +43,7 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     public matDialog:MatDialog,
     public  utilityService: UtilityService,
     private constantsService: ConstantsService,
+    private chatService: ChatService,
     ) {
     super(utilityService, matDialog);
   }
@@ -57,18 +59,18 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
   }
 
   previewBot() {
-    this.router.navigate(['', {outlets: {preview: 'preview'}}]);
-    this.store.dispatch([
-      new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
-        bot: {...this.bot, enterprise_unique_name: this.enterprise_unique_name}
-      }),
-      new ToggleChatWindow({open: true}),
-      new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX})
-    ]);
+    this.chatService.openPreviewFormService(this.bot,this.enterprise_unique_name)
+    // this.store.dispatch([
+    //   new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
+    //     bot: {...this.bot, enterprise_unique_name: this.enterprise_unique_name}
+    //   }),
+    //   new ToggleChatWindow({open: true}),
+    //   new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX})
+    // ]);
 
-    /*TODO: integrate this with store*/
-    EventService.startANewChat$.emit({bot:this.bot, consumerDetails: {uid: this.utilityService.createRandomUid()},
-    });
+    // /*TODO: integrate this with store*/
+    // EventService.startANewChat$.emit({bot:this.bot, consumerDetails: {uid: this.utilityService.createRandomUid()},
+    // });
 
   }
 
