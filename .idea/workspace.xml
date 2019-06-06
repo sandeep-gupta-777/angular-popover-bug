@@ -16,83 +16,93 @@
     <favorites_list name="." />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../src/testing/test-context.ts">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../src/testing/spec-builder.ts">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../src/testing/matchers.ts">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../src/testing/init.ts">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../src/app/core/enterpriseprofile/enterprise-overview/enterprise-overview.component.html">
+        <entry file="file://$PROJECT_DIR$/../../src/environments/environment.hmr.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="52">
-              <caret line="180" column="39" lean-forward="true" selection-start-line="180" selection-start-column="39" selection-end-line="180" selection-end-column="39" />
-              <folding>
-                <element signature="n#style#0;n#div#4;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="119">
+              <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../package.json">
+        <entry file="file://$PROJECT_DIR$/../../cypress/integration/role-based-acess/header.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="44" lean-forward="true" selection-start-line="9" selection-start-column="44" selection-end-line="9" selection-end-column="44" />
+            <state relative-caret-position="17">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.html">
+        <entry file="file://$PROJECT_DIR$/../../cypress/integration/role-based-acess/sidebar.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="125" column="8" lean-forward="true" selection-start-line="125" selection-start-column="8" selection-end-line="125" selection-end-column="8" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#header#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="112" column="51" selection-start-line="112" selection-start-column="51" selection-end-line="112" selection-end-column="51" />
+            <state relative-caret-position="238">
+              <caret line="14" column="6" lean-forward="true" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../../src/environments/environment.hmr.ts">
+        <entry file="file://$PROJECT_DIR$/../../cypress/auth/login.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="47" lean-forward="true" selection-start-line="3" selection-start-column="47" selection-end-line="3" selection-end-column="47" />
+            <state relative-caret-position="119">
+              <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../src/environments/environment.ts">
+        <entry file="file://$PROJECT_DIR$/../../cypress/fixtures/role-based-access/bot-config.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="11" column="2" lean-forward="true" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="2" />
+            <state>
+              <caret column="2" selection-start-column="2" selection-end-column="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../cypress/integration/helper/helper.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="291">
+              <caret line="20" column="48" lean-forward="true" selection-start-line="20" selection-start-column="48" selection-end-line="20" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../cypress/config/staging.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="1" lean-forward="true" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../cypress/fixtures/role-based-access/header.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="10" column="8" lean-forward="true" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../cypress/fixtures/role-based-access/sidebar.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="146">
+              <caret line="11" column="7" lean-forward="true" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../src/app/core/bot-detail/code-based-bot-detail/code-based-bot-detail.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="27" lean-forward="true" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -101,26 +111,8 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>trash</find>
-      <find>Test</find>
-      <find>integra</find>
-      <find>logout</find>
-      <find>logout(</find>
-      <find>color: orange;</find>
-      <find>histor</find>
-      <find>activa</find>
-      <find>activateVersion$</find>
-      <find>ValidateCode_flow_ActivateVersion$</find>
-      <find>(ValidateCode_flow_ActivateVersion$</find>
-      <find>e correct errors in code before</find>
-      <find>convertGenTemplateCodeStringIntoUiComponents</find>
-      <find>str</find>
-      <find>cypress/</find>
-      <find>login_localstorage(</find>
-      <find>login_UI&quot;</find>
       <find>owledge link takes to core/auth/login link</find>
       <find>ecks if faq bot has all sett</find>
-      <find>login_UI</find>
       <find>pageLoadTimeout</find>
       <find>40000)</find>
       <find>grid-bot-preview-name</find>
@@ -131,6 +123,24 @@
       <find>send</find>
       <find>develop.</find>
       <find>re</find>
+      <find>fixture</find>
+      <find>login_UI&quot;</find>
+      <find>fix</find>
+      <find>login_UI</find>
+      <find>before(</find>
+      <find>click</find>
+      <find>expect</find>
+      <find>expec</find>
+      <find>60000</find>
+      <find>ayes</find>
+      <find>creds.forEach</find>
+      <find>sidebar-logic</find>
+      <find>data-cy=&quot;</find>
+      <find>cy.contains(</find>
+      <find>cred</find>
+      <find>.first(</find>
+      <find>sidebar-sid</find>
+      <find>dashboard_analytics</find>
     </findStrings>
     <replaceStrings>
       <replace>form-control d-flex f</replace>
@@ -155,18 +165,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../.ng-bubble-local" />
-        <option value="$PROJECT_DIR$/../src/environments/environment.hmr.ts" />
-        <option value="$PROJECT_DIR$/../src/app/constants.service.ts" />
-        <option value="$PROJECT_DIR$/../src/app/smart-table/smart-table.component.ts" />
-        <option value="$PROJECT_DIR$/../src/app/core/enterpriseprofile/enterprise-overview/enterprise-overview.component.ts" />
-        <option value="$PROJECT_DIR$/../src/app/core/enterpriseprofile/enterprise-overview/enterprise-overview.component.html" />
-        <option value="$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.service.ts" />
-        <option value="$PROJECT_DIR$/../src/app/server.service.ts" />
-        <option value="$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component.html" />
-        <option value="$PROJECT_DIR$/../src/app/chat/chat-wrapper.component.ts" />
-        <option value="$PROJECT_DIR$/../src/app/core/header/header.component.html" />
-        <option value="$PROJECT_DIR$/../src/app/permission.service.ts" />
         <option value="$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/basic-info-form/basic-info-form.component.html" />
         <option value="$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/security/security.component.ts" />
         <option value="$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.component.ts" />
@@ -205,21 +203,32 @@
         <option value="$PROJECT_DIR$/../../src/testing/matchers.ts" />
         <option value="$PROJECT_DIR$/../../src/testing/init.ts" />
         <option value="$PROJECT_DIR$/../../src/app/core/header/header.component.ts" />
+        <option value="$PROJECT_DIR$/../../src/styles.scss" />
+        <option value="$PROJECT_DIR$/../../cypress/config/staging.json" />
         <option value="$PROJECT_DIR$/../../src/environments/environment.hmr.ts" />
+        <option value="$PROJECT_DIR$/../../cypress/support/commands.js" />
+        <option value="$PROJECT_DIR$/../../cypress/integration/role-based-acess/analyst.js" />
+        <option value="$PROJECT_DIR$/../../cypress/auth/login.js" />
+        <option value="$PROJECT_DIR$/../../cypress/fixtures/permissions.json" />
+        <option value="$PROJECT_DIR$/../../cypress/integration/role-based-acess/header.js" />
+        <option value="$PROJECT_DIR$/../../src/app/core/bot-detail/code-based-bot-detail/code-based-bot-detail.component.html" />
+        <option value="$PROJECT_DIR$/../../cypress/integration/helper/helper.js" />
+        <option value="$PROJECT_DIR$/../../cypress/integration/role-based-acess/sidebar.js" />
+        <option value="$PROJECT_DIR$/../../cypress/fixtures/role-based-access/sidebar.json" />
+        <option value="$PROJECT_DIR$/../../cypress/fixtures/role-based-access/bot-config.json" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="132" />
-    <option name="y" value="99" />
-    <option name="width" value="1473" />
-    <option name="height" value="1107" />
+    <option name="x" value="-11" />
+    <option name="width" value="980" />
+    <option name="height" value="1044" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="Scope" currentSubView="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope" proportions="" version="1">
+    <navigator proportions="" version="1">
       <autoscrollFromSource Scope="true" ProjectPane="true" />
       <foldersAlwaysOnTop value="true" />
     </navigator>
@@ -229,12 +238,105 @@
           <expand>
             <path>
               <item name="." type="b2602c69:ProjectViewProjectNode" />
-              <item name="DEVELOP" type="462c0819:PsiDirectoryNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="." type="b2602c69:ProjectViewProjectNode" />
-              <item name="DEVELOP" type="462c0819:PsiDirectoryNode" />
               <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="cypress" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="cypress" type="462c0819:PsiDirectoryNode" />
+              <item name="auth" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="cypress" type="462c0819:PsiDirectoryNode" />
+              <item name="fixtures" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="cypress" type="462c0819:PsiDirectoryNode" />
+              <item name="fixtures" type="462c0819:PsiDirectoryNode" />
+              <item name="role-based-access" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="cypress" type="462c0819:PsiDirectoryNode" />
+              <item name="integration" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="cypress" type="462c0819:PsiDirectoryNode" />
+              <item name="integration" type="462c0819:PsiDirectoryNode" />
+              <item name="helper" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="cypress" type="462c0819:PsiDirectoryNode" />
+              <item name="integration" type="462c0819:PsiDirectoryNode" />
+              <item name="role-based-acess" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="cypress" type="462c0819:PsiDirectoryNode" />
+              <item name="integration" type="462c0819:PsiDirectoryNode" />
+              <item name="side-bar" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="cypress" type="462c0819:PsiDirectoryNode" />
+              <item name="support" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="bot-detail" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="bot-detail" type="462c0819:PsiDirectoryNode" />
+              <item name="code-based-bot-detail" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="environments" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -250,6 +352,17 @@
             <path>
               <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="cypress" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="cypress" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="config" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
               <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
             <path>
@@ -271,36 +384,13 @@
               <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="enterpriseprofile" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="enterpriseprofile" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="enterprise-overview" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="header" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="bot-detail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
             <path>
               <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
               <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="environments" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="testing" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
           </expand>
           <select />
@@ -326,19 +416,19 @@
     <property name="ts.external.directory.path" value="D:\nodebook\DEVELOP\bot_platform-fe\node_modules\typescript\lib" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\cypress\fixtures\role-based-access" />
+      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\cypress\integration\role-based-acess" />
+      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\src\app\core\reports" />
+      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\src\app\fixtures" />
+      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\cypress\integration" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\cypress\fixtures\role-based-access" />
       <recent name="D:\nodebook\DEVELOP\bot_platform-fe\src\app\dev" />
       <recent name="D:\nodebook\DEVELOP\bot_platform-fe\cypress\integration" />
       <recent name="D:\nodebook\DEVELOP\bot_platform-fe\src\assets\js" />
       <recent name="D:\nodebook\DEVELOP\bot_platform-fe\src\assets\splashscreens" />
-      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\src" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\src\app\core\reports" />
-      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\src\app\fixtures" />
-      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\cypress\integration" />
-      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\cypress\fixtures" />
-      <recent name="D:\nodebook\DEVELOP\bot_platform-fe" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -467,18 +557,18 @@
       <workItem from="1559602666035" duration="42345000" />
       <workItem from="1559819023903" duration="12000" />
       <workItem from="1559819096310" duration="26000" />
-      <workItem from="1559819183646" duration="1112000" />
+      <workItem from="1559819183646" duration="18443000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1074818000" />
+    <option name="totallyTimeSpent" value="1092149000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49440297" visible="true" weight="0.19395867" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49440297" visible="true" weight="0.23052464" />
       <window_info id="Structure" order="1" sideWeight="0.50369006" side_tool="true" weight="0.2591415" />
       <window_info id="npm" order="2" sideWeight="0.506542" side_tool="true" weight="0.2591415" />
       <window_info id="Favorites" order="3" sideWeight="0.39044943" side_tool="true" weight="0.22257552" />
@@ -493,7 +583,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49841017" weight="0.83566433" />
       <window_info anchor="bottom" id="TypeScript" order="9" sideWeight="0.49761525" weight="0.3181818" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5055644" side_tool="true" weight="0.2744755" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4944356" visible="true" weight="0.34265736" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4944356" visible="true" weight="0.052447554" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -559,39 +649,13 @@
     </ignored-roots>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/bot-detail/code-based-bot-detail/code-based-bot-detail.component.html" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.component.html" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/bot-detail/consumers/consumers.component.scss" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/bot-detail/consumers/consumers.component.html" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/reports/reports.component.ts" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/reports/report-history-smart-table.ts" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/reports/reports.component.html" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/reports/reports.component.scss" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-version-list/code-version-list.component.html" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-version-list/code-version-list.component.ts" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.state.ts" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/utility.service.ts" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component.html" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.action.ts" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-editor/code-editor.component.html" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component.ts" />
-    <entry file="file://$PROJECT_DIR$/../../tsconfig.json" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/auth/login/login.component.html" />
-    <entry file="file://$PROJECT_DIR$/../../cypress/screenshots/bot-details/version.js/Bot code version -- checks if user is able to update bot code version -- before all hook (failed).png" />
-    <entry file="file://$PROJECT_DIR$/../../cypress/fixtures/actions.json" />
     <entry file="file://$PROJECT_DIR$/../../cypress/plugins/index.js" />
     <entry file="file://$PROJECT_DIR$/../../src/environments/environment.staging.ts" />
     <entry file="file://$PROJECT_DIR$/../../cypress/integration/login2.js" />
     <entry file="file://$PROJECT_DIR$/../../cypress/integration/login.js" />
-    <entry file="file://$PROJECT_DIR$/../../src/config.json" />
-    <entry file="file://$PROJECT_DIR$/../../cypress/config/staging.json" />
-    <entry file="file://$PROJECT_DIR$/../../cypress/integration/header.js" />
-    <entry file="file://$PROJECT_DIR$/../../cypress/integration/side-bar/side-bar.js" />
     <entry file="file://$PROJECT_DIR$/../../cypress/integration/faq-bots/faq-bot-setting-tab.js" />
     <entry file="file://$PROJECT_DIR$/../../cypress/integration/faq-bots/faq-bot-section-test.js" />
     <entry file="file://$PROJECT_DIR$/../../cypress.json" />
-    <entry file="file://$PROJECT_DIR$/../../cypress/support/commands.js" />
-    <entry file="file://$PROJECT_DIR$/../../cypress/integration/chat/chat-fullscreen.js" />
     <entry file="file://$PROJECT_DIR$/../../cypress/integration/bot-details/version.js" />
     <entry file="file://$PROJECT_DIR$/../../src/app/chat-feedback/chat-feedback.component.ts" />
     <entry file="file://$PROJECT_DIR$/../../src/app/chat/rooms-and-convo-panel/chat-message-list/chat-message/chat-message.component.html" />
@@ -613,11 +677,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../src/app/core/enterpriseprofile/enterprise-overview/enterprise-overview.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="52">
-          <caret line="180" column="39" lean-forward="true" selection-start-line="180" selection-start-column="39" selection-end-line="180" selection-end-column="39" />
-          <folding>
-            <element signature="n#style#0;n#div#4;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="-50">
+          <caret line="170" column="39" lean-forward="true" selection-start-line="170" selection-start-column="39" selection-end-line="170" selection-end-column="39" />
         </state>
       </provider>
     </entry>
@@ -655,10 +716,193 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/bot-detail/bot-sessions/session-detail-model/session-detail-model.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="51" selection-start-line="15" selection-start-column="51" selection-end-line="15" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="51" selection-start-line="12" selection-start-column="51" selection-end-line="12" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/bot-detail/bot-sessions/session-detail-model/session-message/session-message.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="40" selection-start-line="40" selection-end-line="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/bot-detail/bot-sessions/session-detail-model/session-message/session-message.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" column="14" selection-start-line="29" selection-start-column="14" selection-end-line="29" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-impl.jar!/resources/html5-schema/html5/common.rnc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2159">
+          <caret line="127" column="18" selection-start-line="127" selection-start-column="18" selection-end-line="127" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/bot-detail/bot-sessions/session-detail-model/session-detail-model.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4964">
+          <caret line="303" column="13" selection-start-line="303" selection-start-column="13" selection-end-line="303" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#77#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/constants.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5967">
+          <caret line="361" selection-start-line="361" selection-end-line="361" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../angular.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="782">
+          <caret line="46" column="48" selection-start-line="46" selection-start-column="48" selection-end-line="46" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/styles.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="11" column="19" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/bot-detail/bot-detail.module.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="55" column="34" lean-forward="true" selection-start-line="55" selection-start-column="34" selection-end-line="55" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cypress/fixtures/actions.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cypress/integration/chat/chat-fullscreen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="44" lean-forward="true" selection-start-line="15" selection-start-column="44" selection-end-line="15" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cypress/integration/header.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="29" column="8" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/server.service.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="31" selection-start-line="12" selection-start-column="31" selection-end-line="12" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#56#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cypress/integration/side-bar/side-bar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="20" column="8" selection-start-line="20" selection-start-column="8" selection-end-line="21" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/config.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cypress/support/commands.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="54" column="19" lean-forward="true" selection-start-line="54" selection-start-column="19" selection-end-line="54" selection-end-column="19" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cypress/config/staging.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="1" lean-forward="true" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../../src/environments/environment.hmr.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="47" lean-forward="true" selection-start-line="3" selection-start-column="47" selection-end-line="3" selection-end-column="47" />
+        <state relative-caret-position="119">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/bot-detail/code-based-bot-detail/code-based-bot-detail.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="27" lean-forward="true" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cypress/integration/helper/helper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="291">
+          <caret line="20" column="48" lean-forward="true" selection-start-line="20" selection-start-column="48" selection-end-line="20" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cypress/integration/role-based-acess/header.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cypress/integration/role-based-acess/sidebar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="6" lean-forward="true" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cypress/fixtures/role-based-access/header.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="8" lean-forward="true" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cypress/fixtures/role-based-access/sidebar.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="11" column="7" lean-forward="true" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cypress/fixtures/role-based-access/bot-config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="2" selection-start-column="2" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cypress/auth/login.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
         </state>
       </provider>
     </entry>

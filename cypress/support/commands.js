@@ -26,6 +26,9 @@
 
 Cypress.Commands.add("login_UI", (email, password) => {
 
+    email = email || "sandeepkgupta007@gmail.com";
+    password = password || "Dec@2019";
+
     cy.server();
     cy.route('GET', '*/api/v1/actions/?limit=100').as('actions');
     cy.route('GET', '*/api/v1/bot/?limit=1000').as('bot');
@@ -41,13 +44,15 @@ Cypress.Commands.add("login_UI", (email, password) => {
 
     cy.visit(`${BASE_URL}/auth/login`);
     cy.get('[data-cy=login-email]')
-      .type('ayeshreddy.k@imimobile.com');
+      // .type('ayeshreddy.k@imimobile.com');
+      .type(email);
     cy.get('[data-cy=login-password]')
-      .type('Botwoman@123!');
+      // .type('Botwoman@123!');
+      .type(password);
     cy.get('[data-cy=login-submit]').click();
 
     // cy.wait(['@login']);
-    cy.wait(60000);
+    cy.wait(15000);
     cy.url({timeout:40000}).should('include', '/core/viewbots');;
 });
 

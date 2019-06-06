@@ -1,0 +1,150 @@
+{
+  "header_nav_links": {
+    "admin": [
+      {
+        "data_cy": "dashboard_nav",
+        "should_exist": true
+      },
+      {
+        "data_cy": "dashboard_KB",
+        "should_exist": true
+      },
+      {
+        "data_cy": "dashboard_analytics",
+        "should_exist": true
+      },
+      {
+        "data_cy": "dashboard_reports",
+        "should_exist": true
+      }
+    ],
+    "developer": [
+      {
+        "data_cy": "dashboard_nav",
+        "should_exist": true
+      },
+      {
+        "data_cy": "dashboard_KB",
+        "should_exist": true
+      },
+      {
+        "data_cy": "dashboard_analytics",
+        "should_exist": true
+      },
+      {
+        "data_cy": "dashboard_reports",
+        "should_exist": true
+      }
+    ],
+    "analyst": [
+      {
+        "data_cy": "dashboard_nav",
+        "should_exist": true
+      },
+      {
+        "data_cy": "dashboard_KB",
+        "should_exist": false
+      },
+      {
+        "data_cy": "dashboard_analytics",
+        "should_exist": true
+      },
+      {
+        "data_cy": "dashboard_reports",
+        "should_exist": false
+      }
+    ],
+    "tester": [
+      {
+        "data_cy": "dashboard_nav",
+        "should_exist": true
+      },
+      {
+        "data_cy": "dashboard_KB",
+        "should_exist": false
+      },
+      {
+        "data_cy": "dashboard_analytics",
+        "should_exist": false
+      },
+      {
+        "data_cy": "dashboard_reports",
+        "should_exist": false
+      }
+    ]
+  },
+  "header_dropdown": {
+    "admin": [
+      {
+        "data_cy": "header-profile",
+        "should_exist": true
+      },
+      {
+        "data_cy": "dashboard_KB",
+        "should_exist": true
+      },
+      {
+        "data_cy": "header-sign-out",
+        "should_exist": true
+      },
+      {
+        "data_cy": "header-enterprise-profile",
+        "should_exist": true
+      }
+    ],
+    "developer": [
+      {
+        "data_cy": "header-profile",
+        "should_exist": true
+      },
+      {
+        "data_cy": "dashboard_KB",
+        "should_exist": true
+      },
+      {
+        "data_cy": "header-sign-out",
+        "should_exist": true
+      },
+      {
+        "data_cy": "header-enterprise-profile",
+        "should_exist": false
+      }
+    ],
+    "analyst": [
+      {
+        "data_cy": "header-profile",
+        "should_exist": true
+      },
+      {
+        "data_cy": "dashboard_KB",
+        "should_exist": false
+      },
+      {
+        "data_cy": "header-sign-out",
+        "should_exist": true
+      },
+      {
+        "data_cy": "header-enterprise-profile",
+        "should_exist": false
+      }
+    ],
+    "tester": [
+      {
+        "data_cy": "header-profile",
+        "should_exist": true
+      },
+      {
+        "data_cy": "dashboard_KB",
+        "should_exist": false
+      },
+      {
+        "data_cy": "header-sign-out",
+        "should_exist": true
+      },
+      {
+        "data_cy": "header-enterprise-profile",
+        "should_exist": false
+      }
+    ]
+  }
+}

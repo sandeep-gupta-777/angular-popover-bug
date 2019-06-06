@@ -11,6 +11,7 @@
             <mat-nav-list style="padding: 0" [disableRipple]="true">
                 <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.setting)">
                     <div class="sidebar-nav-list-item"
+                         data-cy="sidebar-setting"
                          [ngClass]="{'filter-black':sideBarTab1!=='setting', 'selected-nav':sideBarTab1==='setting'}"
                     >
                         <img class="" src="assets/img/sidebar/bot-config.svg" alt="">
@@ -21,6 +22,7 @@
                     <a mat-list-item class="mat-list-item-sidebar"
                       (click)="sideBarTabChanged(myESideBarTab.input)" *ngIf="bot.bot_type != myEBotType.faqbot">
                     <div class="sidebar-nav-list-item"
+                         data-cy="sidebar-NLP"
                          [ngClass]="{'filter-black':sideBarTab1!=='input', 'selected-nav':sideBarTab1==='input'}">
                         <img class="" src="assets/img/sidebar/nlp.svg" alt="">
                         <span style="color: #00ABD3">NLP {{dirtySideBarTabs[myESideBarTab.input] ? '*' : ""}}</span>
@@ -32,6 +34,7 @@
                     <a mat-list-item class="mat-list-item-sidebar" *ngIf="myEBotType.faqbot === bot.bot_type"
                       (click)="sideBarTabChanged('articles')">
                     <div class="sidebar-nav-list-item"
+                         data-cy="sidebar-articles"
                          [ngClass]="{'filter-black':sideBarTab1!=='articles', 'selected-nav':sideBarTab1==='articles'}">
                         <img class="" src="assets/img/sidebar/bot-logic.svg" alt="">
                         <span style="color: #00ABD3">Article {{dirtySideBarTabs[myESideBarTab.input] ? '*' : ""}}</span>
@@ -52,7 +55,9 @@
                     </div>
                 </a></ng-container>
                 <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.chat)">
-                    <div class="sidebar-nav-list-item" *ngIf="bot.bot_type != myEBotType.intelligent "
+                    <div class="sidebar-nav-list-item"
+                         *ngIf="bot.bot_type != myEBotType.intelligent"
+                         data-cy="sidebar-chat"
                         [ngClass]="{'filter-black':sideBarTab1!=='chat', 'selected-nav':sideBarTab1==='chat'}"
                         (click)="sideBarTabChanged('chat')">
                         <img  class="" src="assets/img/sidebar/chats.svg" alt="">
@@ -63,6 +68,7 @@
                     <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.test)">
                     <!--TODO: remove faq bot condition-->
                     <div class="sidebar-nav-list-item"
+                         data-cy="sidebar-test"
                          *ngIf="bot.bot_type != myEBotType.intelligent && bot.bot_type !== myEBotType.faqbot"
                          [ngClass]="{'filter-black':sideBarTab1!=='test', 'selected-nav':sideBarTab1==='test'}"
                          (click)="sideBarTabChanged('test')">
