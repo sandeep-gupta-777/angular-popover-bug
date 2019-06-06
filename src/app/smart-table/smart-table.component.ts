@@ -302,14 +302,30 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   myESortDir = ESortDir;
 
   sort(key, sorDirection: ESortDir) {
+    debugger;
     this.sortedCol = key;
     this.sortDir = sorDirection;
     // this.sortDirAsc = sorDirection === ESortDir.DES? -1:1;
 
     let tableData = this.tableData;
+    debugger;
     this.tableData =
       tableData.sort((row1, row2) => {
-        let sortAsc: number = row1[key].value > row2[key].value ? 1 : -1;
+        let originalKey1, originalValue1;
+        originalKey1 = row1[key]["originalKey"];
+        originalValue1 = row1.originalSessionData[originalKey1];
+
+        let originalKey2, originalValue2;
+        originalKey2 = row2[key]["originalKey"];
+        originalValue2 = row2.originalSessionData[originalKey2];
+
+        let sortAsc: number;
+
+        if(typeof originalKey1  === "number" && "number" === typeof originalValue2){
+          return sortAsc * (sorDirection === ESortDir.ASC ? 1 : -1);
+        }else {
+          sortAsc = originalValue1.toString().toLowerCase() > originalValue2.toString().toLowerCase() ? 1 : -1;
+        }
         return sortAsc * (sorDirection === ESortDir.ASC ? 1 : -1);
       });
     // console.log(tableData);

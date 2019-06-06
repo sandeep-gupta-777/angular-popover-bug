@@ -8,6 +8,7 @@ import {IAuthState} from './auth/ngxs/auth.state';
 
 import {ELogType, LoggingService} from './logging.service';
 import {EAllActions, ERoleName, EAPINames} from "./typings/enum";
+import {environment} from '../environments/environment';
 
 @Injectable()
 export class PermissionService {
@@ -125,14 +126,27 @@ export class PermissionService {
         /*for non admin roles*/
         this.forbiddenActionsToFrontEndMapping = {...this.allBackEndActionsToFrontEndTabMapping2};
         /*remove all allowed perms*/
-        this.loggedUser.role.permissions.actions.forEach((permId: number) => {
-          /*find action name for given permission roomId*/
-          if (!masterActionList) return;
-          const actionName = masterActionList.find((action) => action.id === permId).name;
-          const x = this.forbiddenActionsToFrontEndMapping[actionName];
-          const y = this.forbiddenActionsToFrontEndMapping;
-          delete this.forbiddenActionsToFrontEndMapping[actionName];
-        });
+       try{
+         this.loggedUser.role.permissions.actions.forEach((permId: number) => {
+           /*find action name for given permission roomId*/
+           if (!masterActionList) return;
+           let actionName;
+           try {
+              actionName = masterActionList.find((action) => action.id === permId).name;
+          }catch (e) {
+             if(!environment.production){
+               console.error(`can't find action id = ${permId} in masterActionList but its present in role > actions`);
+             }
+            console.log(e);
+          }
+           const x = this.forbiddenActionsToFrontEndMapping[actionName];
+           const y = this.forbiddenActionsToFrontEndMapping;
+           delete this.forbiddenActionsToFrontEndMapping[actionName];
+         });
+       }catch (e) {
+         debugger
+         console.log(e);
+       }
 
 
         /*
@@ -225,6 +239,7 @@ export class PermissionService {
       isAllowed = true;
     } else {
       httpVerbAndPathKey = httpVerb + '+' + pathName;
+      debugger;
       isAllowed = !!this.allowedApiHttpVerbPPathToActionNamesMapping[httpVerbAndPathKey];
     }
 

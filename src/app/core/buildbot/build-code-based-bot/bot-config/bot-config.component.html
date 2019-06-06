@@ -13,22 +13,22 @@
     <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedIndexChange)="selectedTabIndex = $event" animationDuration="0ms">
         <mat-tab>
             <ng-template mat-tab-label>
-                <span [ngStyle]="{'color': !basicInfoForm.valid? 'red':'#474747'}">Profile</span>
-                <mat-icon style="color: red;font-size: 100%;" *ngIf="!basicInfoForm.valid" class="example-tab-icon">highlight_off</mat-icon>
+                <span [ngStyle]="{'color': !basicInfoForm.valid && basicInfoForm.status !== 'DISABLED'? 'red':'#474747'}">Profile</span>
+                <mat-icon style="color: red;font-size: 100%;" *ngIf="!basicInfoForm.valid && basicInfoForm.status !== 'DISABLED'" class="example-tab-icon">highlight_off</mat-icon>
             </ng-template>
             <app-basic-info-form [botId]="bot?.id" [formGroup]="basicInfoForm"></app-basic-info-form>
         </mat-tab>
         <mat-tab *ngIf="!(bot_type===myEBotType.intelligent)">
             <ng-template mat-tab-label>
-                <span [ngStyle]="{'color': !dataManagementForm.valid?'red':'#474747'}">Management</span>
-                <mat-icon style="color: red;font-size: 100%;" *ngIf="!dataManagementForm.valid" class="example-tab-icon">highlight_off</mat-icon>
+                <span [ngStyle]="{'color': !dataManagementForm.valid && dataManagementForm.status !== 'DISABLED'?'red':'#474747'}">Management</span>
+                <mat-icon style="color: red;font-size: 100%;" *ngIf="!dataManagementForm.valid && dataManagementForm.status !== 'DISABLED'" class="example-tab-icon">highlight_off</mat-icon>
             </ng-template>
             <app-data-manage-form [formGroup]="dataManagementForm"></app-data-manage-form>
         </mat-tab>
         <mat-tab *ngIf="!(bot_type===myEBotType.intelligent)">
             <ng-template mat-tab-label>
-                <span [ngStyle]="{'color': !securityForm.valid?'red':'#474747'}">Security</span>
-                <mat-icon style="color: red;font-size: 100%;" *ngIf="!securityForm.valid" class="example-tab-icon">highlight_off</mat-icon>
+                <span [ngStyle]="{'color': !securityForm.valid && securityForm.status !== 'DISABLED'?'red':'#474747'}">Security</span>
+                <mat-icon style="color: red;font-size: 100%;" *ngIf="!securityForm.valid && securityForm.status !== 'DISABLED'" class="example-tab-icon">highlight_off</mat-icon>
             </ng-template>
             <app-security [formGroup]="securityForm"></app-security>
         </mat-tab>
@@ -38,7 +38,9 @@
                 <span [ngStyle]="{'color': !faqHandoverANdInterfaceForm.valid?'red':'#474747'}">Handover and Inference</span>
                 <mat-icon style="color: red;font-size: 100%;" *ngIf="!faqHandoverANdInterfaceForm.valid" class="example-tab-icon">highlight_off</mat-icon>
             </ng-template>
-            <app-faq-handover-and-interface-form [formGroup]="faqHandoverANdInterfaceForm" [bot]="bot"></app-faq-handover-and-interface-form>
+            <app-faq-handover-and-interface-form [formGroup]="faqHandoverANdInterfaceForm"
+                                                 [disableAgentToggleBAD]="disableAgentToggleBAD"
+                                                 [bot]="bot"></app-faq-handover-and-interface-form>
         </mat-tab>
 
         <!-- <mat-tab *ngIf="(bot_type===myEBotType.faqbot)">

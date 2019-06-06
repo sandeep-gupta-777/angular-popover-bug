@@ -14,13 +14,19 @@ import {EAllActions} from '../../../../../typings/enum';
                      onkeydown="return event.keyCode !== 69"
                      placeholder="Data retention period((in days)">
           </mat-form-field>
+          
+          <mat-form-field class="w-100">
+              <input matInput formControlName="consent_message"
+                     required
+                     placeholder="Consent disclaimer message">
+          </mat-form-field>
 
-          <app-bot-config-input
-                  style="margin-bottom: 20px"
-                  displayName="Consent disclaimer message"
-                  placeholder="Consent disclaimer message"
-                  [isDisabled]="!formGroup.get('advanced_data_protection').value"
-                  formControlName="consent_message"></app-bot-config-input>
+          <!--<app-bot-config-input-->
+                  <!--style="margin-bottom: 20px"-->
+                  <!--displayName="Consent disclaimer message"-->
+                  <!--placeholder="Consent disclaimer message"-->
+                  <!--[isDisabled]="!formGroup.get('advanced_data_protection').value"-->
+                  <!--formControlName="consent_message"></app-bot-config-input>-->
 
           <div class="switch-wrapper" style="margin-bottom: 20px">
               <div class="form-control d-flex flex-column">

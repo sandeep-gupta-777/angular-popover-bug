@@ -116,10 +116,10 @@ export class ConstantsService {
   }
 
   generateServiceKeyUrl() {
-    return this.BACKEND_URL + 'api/v1/enterprise/generate_service_key/';
+    return this.BACKEND_URL + 'api/v1/enterprise/generate_service_key/?order_by=created_at';
   }
   disableServiceKeyUrl(){
-    return this.BACKEND_URL + 'api/v1/enterprise/disable_service_key/';
+    return this.BACKEND_URL + 'api/v1/enterprise/disable_service_key/?order_by=created_at';
 
   }
   getAllEnterpriseUrl() {

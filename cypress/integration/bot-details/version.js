@@ -8,6 +8,7 @@ describe('Bot code version', function () {
 		cy.login_UI();
 
 		cy.contains("e2e (pls dont use)").click();
+		cy.wait(40000);
 		cy.get('[data-cy=sidebar-logic]').click();
 		cy.wait(['@botversioning'], {timeout: 10000});
 	});

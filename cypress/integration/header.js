@@ -2,7 +2,7 @@
 
 describe('header nav links', function () {
     beforeEach(() => {
-        cy.login_localstorage();
+        cy.login_UI();
     });
     it('checks if dashboard link takes to /core/viewbots link page', function () {
         cy.get('[data-cy=dashboard_nav]').click();
@@ -33,12 +33,14 @@ describe('header dropdown', function () {
         cy.get('[data-cy=header-profile]').click();
         cy.url().should('include', '/core/profile');
     });
-    it('checks if Knowledge link takes to core/auth/login link page', function () {
-        cy.get('[data-cy=header-sign-out]').click();
-        cy.url().should('include', 'auth/login');
-    });
+
     it('checks if enterprise-profile tab takes to enterpriseprofile link page', function () {
         cy.get('[data-cy=header-enterprise-profile]').click();
         cy.url().should('include', '/core/enterpriseprofile');
+    });
+
+    it('checks if Knowledge link takes to core/auth/login link page', function () {
+        cy.get('[data-cy=header-sign-out]').click();
+        cy.url().should('include', 'auth/login');
     });
 });

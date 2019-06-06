@@ -30,8 +30,11 @@
           [text]="'Transfer the message to an agent when bot fails'"></app-info-icon>
       </label>
       <span>
-        <span (click)="openAgentHandover()" class ="disabled-slide-button">
-          <mat-slide-toggle [checked]="!!agentHandover" [disabled]="true" 
+        <!--<i>{{!!formGroup.disabled}}</i>-->
+        <!--<i>{{disableAgentToggleBAD}}</i>-->
+        <span (click)="openAgentHandover()" class ="disabled-slide-button" [ngClass]="{'pointer-events-none':disableAgentToggleBAD}" >
+          <mat-slide-toggle [checked]="!!agentHandover"
+                            [disabled]="disableAgentToggleBAD"
                             style="opacity:1;cursor: pointer !important;" color="primary">
           </mat-slide-toggle>
         </span>
@@ -48,12 +51,12 @@
               [text]="'Fallback messages in a room can trigger handover'"></app-info-icon>
           </label>
           <mat-slide-toggle formControlName="enabled" color="primary" [disabled]="!agentHandover"
-          (change)="disableAgentHandoverChildren('fallback_count',formGroup.value.agent_handover_setting.fallback_count.enabled)">   
+          (change)="disableAgentHandoverChildren('fallback_count',formGroup.value.agent_handover_setting.fallback_count.enabled)">
           </mat-slide-toggle>
         </div>
         <mat-form-field class="pl-3">
           <input matInput type="number" displayName="Score below which fallback is shown" required
-                 placeholder="No. of fallback messages before handover" formControlName="value" 
+                 placeholder="No. of fallback messages before handover" formControlName="value"
                  >
         </mat-form-field>
       </div>
@@ -87,9 +90,9 @@
         </div>
         <mat-form-field class="pl-3">
           <input matInput type="number" displayName="Score below which fallback is shown" required
-                 placeholder="No. of consecutive messages before handover" formControlName="value" 
+                 placeholder="No. of consecutive messages before handover" formControlName="value"
                  >
-        </mat-form-field> 
+        </mat-form-field>
       </div>
     </div>
 

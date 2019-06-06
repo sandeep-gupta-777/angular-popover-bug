@@ -103,29 +103,32 @@
       </div>
 
       <!--update/create button ends-->
-      <div *ngIf="ner_id && routeName===myERouteNames['Get Enterprise Knowledge base']">
-        <button mat-button
-                *myIf="myEAllActions['Delete Enterprise Knowledge base']"
-                class="mat-theme-button"
-                style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
-                [disabled]="!form.valid"
-                (click)="openDeleteModal(deleteTemplate)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
+      <ng-container
+              *myIf="myEAllActions['Delete Enterprise Knowledge base']">
+        <div *ngIf="ner_id && routeName===myERouteNames['Get Enterprise Knowledge base']">
+          <button mat-button
+                  class="mat-theme-button"
+                  style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
+                  [disabled]="!form.valid"
+                  (click)="openDeleteModal(deleteTemplate)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </ng-container>
 
-      <div *ngIf="ner_id && routeName!==myERouteNames['Get Enterprise Knowledge base']">
-        <!--<div *myIf="myEAllActions['Delete Bot Knowledge base']"-->
-        <!--(click)="openDeleteModal(deleteTemplate)"><i style="color: #474747" class="fa fa-trash cursor-pointer"></i></div>-->
-        <button mat-button
-                *myIf="myEAllActions['Delete Bot Knowledge base']"
-                class="mat-theme-button"
-                style="min-width: 16px!important; padding: 0"
-                [disabled]="!form.valid"
-                (click)="openDeleteModal(deleteTemplate)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
+      <ng-container *myIf="myEAllActions['Delete Bot Knowledge base']">
+        <div *ngIf="ner_id && routeName!==myERouteNames['Get Enterprise Knowledge base']">
+          <!--<div *myIf="myEAllActions['Delete Bot Knowledge base']"-->
+          <!--(click)="openDeleteModal(deleteTemplate)"><i style="color: #474747" class="fa fa-trash cursor-pointer"></i></div>-->
+          <button mat-button
+                  class="mat-theme-button"
+                  style="min-width: 16px!important; padding: 0"
+                  [disabled]="!form.valid"
+                  (click)="openDeleteModal(deleteTemplate)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </ng-container>
     </form>
   </div>
   <!---->

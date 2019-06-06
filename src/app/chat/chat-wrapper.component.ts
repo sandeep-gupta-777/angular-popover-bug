@@ -263,7 +263,8 @@ export class ChatWrapperComponent implements OnInit {
       .subscribe((value: IBotPreviewFirstMessage) => {
 
         if(!value.room || !value.room.id){
-          alert('api not supported. Maybe kill switch?');
+          // alert('api not supported. Maybe kill switch?');
+          console.error('api not supported. Maybe kill switch?');
           return;
         }
 

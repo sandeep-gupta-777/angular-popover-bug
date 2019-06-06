@@ -1020,7 +1020,7 @@ export class UtilityService {
     try {
       this.snackBar.open(message || 'Some error occurred', '', {
         duration: (sec * 1000) || 2000,
-        panelClass: ['bg-danger-snackbar'],
+        // panelClass: ['bg-danger-snackbar'],
         verticalPosition: 'top',
         horizontalPosition: 'right'
       });

@@ -26,6 +26,7 @@ export class FaqHandoverAndInterfaceFormComponent implements OnInit {
   ) { }
   @Input() formGroup: FormGroup;
   @Input() bot:IBot;
+  @Input() disableAgentToggleBAD:boolean;
   agentHandover:boolean;
   ngOnInit() {
 

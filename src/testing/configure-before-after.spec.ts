@@ -3,7 +3,7 @@ import {ChatFeedbackComponent} from "../app/chat-feedback/chat-feedback.componen
 import {MatIcon, MatIconModule} from "@angular/material";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {RouterModule} from "@angular/router";
-
+//
 export function configure(modules:{imports:any[], declarations:any[], providers?:any[]}) {
   beforeEach(async(() => {
     TestBed.configureTestingModule({

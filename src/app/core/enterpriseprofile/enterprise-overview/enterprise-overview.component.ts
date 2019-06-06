@@ -15,6 +15,7 @@ import {IEnterpriseUser} from '../../interfaces/enterprise-users';
 import {map} from 'rxjs/operators';
 import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.component';
 import {EnterpriseOverviewSmartTable} from './enterprise-overview-smart-table';
+import {ESortDir} from '../../../smart-table/smart-table.component';
 
 @Component({
   selector: 'app-enterprise-overview',
@@ -42,6 +43,7 @@ export class EnterpriseOverviewComponent implements OnInit {
   logdeletionsummary: [];
   serviceKeyExpiredTableModal: EnterpriseOverviewSmartTable;
   serviceKeyActiveTableModal: EnterpriseOverviewSmartTable;
+  myESortDir = ESortDir;
 
   constructor(
     private store: Store,
@@ -253,7 +255,7 @@ export class EnterpriseOverviewComponent implements OnInit {
   }
 
   customActionEventsTriggeredInSessionsTable(data: { action: string, data: any, source: any }) {
-    
+
     if (data.action === 'expire') {
       this.expireServicekeyData = data.data;
       this.utilityService.openDialog({

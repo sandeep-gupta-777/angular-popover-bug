@@ -139,9 +139,10 @@ export class LoginComponent extends MessageDisplayBase implements OnInit {
       }),
       switchMap(() => {
         this.flashInfoMessage('Loading your dashboard', 10000);
-        // if (userValue.role.name === ERoleName.Analyst) {
-        //   this.router.navigate(['/core/analytics2/volume']);
-        // } else {
+        if (userValue.role.name === ERoleName.Analyst) {
+          this.router.navigate(['/core/analytics2/volume']);
+          return of();
+        }
 
         // if (userValue.role.name === ERoleName.Analyst) {
         //   this.router.navigate(['/core/analytics2/volume']);

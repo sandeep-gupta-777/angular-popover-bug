@@ -29,6 +29,7 @@
     </mat-tab>
     <mat-tab label="History">
       <app-smart-table *ngIf="reportTableModal.tableData.length>0"
+                       class="history-table"
         [data]="reportHistoryTableModal.tableData"
         (pageChanged$)="reportHistoryTablePageChanged($event)"
         [currentPage]="currentPage_reportsHistory"

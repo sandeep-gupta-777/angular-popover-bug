@@ -1,9 +1,17 @@
 <form [formGroup]="formGroup" class="bot-creation-form bot-creation-form-grid">
-    <app-bot-config-input
-            displayName="Bot Name"
-            placeholder="Bot Name"
-            [isRequired]="true"
-            formControlName="name"></app-bot-config-input>
+    <!--<app-bot-config-input-->
+            <!--displayName="Bot Name"-->
+            <!--placeholder="Bot Name"-->
+            <!--[isRequired]="true"-->
+            <!--formControlName="name"></app-bot-config-input>-->
+
+    <mat-form-field class="w-100">
+        <input type="text"
+               matInput
+               formControlName="name"
+               placeholder="Bot Name">
+    </mat-form-field>
+
     <div class="logo-input">
         <div class="logo-input-wrapper">
             <img style="width: 72px; border-radius: 50%; height: 72px; margin-right: 10px"
@@ -33,11 +41,20 @@
         </div>
     </div>
 
-    <app-bot-config-input
-            displayName="Unique Name"
-            formControlName="bot_unique_name"
-            [isRequired]="true"
-            placeholder="Bot Unique Name"></app-bot-config-input>
+    <!--<app-bot-config-input-->
+            <!--displayName="Unique Name"-->
+            <!--formControlName="bot_unique_name"-->
+            <!--[isRequired]="true"-->
+            <!--placeholder="Bot Unique Name"></app-bot-config-input>-->
+
+    <mat-form-field class="w-100">
+        <input type="text"
+               matInput
+               formControlName="bot_unique_name"
+               placeholder="Bot Unique Name">
+    </mat-form-field>
+
+
     <mat-form-field class="w-100" ngNativeValidate>
                 <textarea type="text" id="alterEgo"
                           matInput

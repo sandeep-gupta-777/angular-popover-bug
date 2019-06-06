@@ -1,3 +1,4 @@
+import {LoggingService} from '../../logging.service';
 
 
 declare const Offline:any;
@@ -9,13 +10,18 @@ export class MessageDisplayBase {
   setIntervelRef;
 
   flashErrorMessage(message: string, time_ms: number = 3000) {
+    //
+    // try {
+    //   if(Offline){
+    //     Offline.check();
+    //     if(Offline && Offline.state ==='down'){
+    //       message = "Internet connection lost";
+    //     }
+    //   }
+    // }catch (e) {
+    //   LoggingService.log("offline not defined");
+    // }
 
-    if(Offline){
-      Offline.check();
-      if(Offline && Offline.state ==='down'){
-        message = "Internet connection lost";
-      }
-    }
     try {
       clearInterval(this.setIntervelRef);
     }catch (e) {

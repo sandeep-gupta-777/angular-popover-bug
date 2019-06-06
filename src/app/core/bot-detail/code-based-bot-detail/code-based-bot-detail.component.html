@@ -17,15 +17,20 @@
                         <span style="color: #00ABD3">Settings</span>
                     </div>
                 </a>
-                <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.input)" *ngIf="bot.bot_type != myEBotType.faqbot">
+                <ng-container *myIf="[myEAllActions['Get Bot Knowledge base']]">
+                    <a mat-list-item class="mat-list-item-sidebar"
+                      (click)="sideBarTabChanged(myESideBarTab.input)" *ngIf="bot.bot_type != myEBotType.faqbot">
                     <div class="sidebar-nav-list-item"
                          [ngClass]="{'filter-black':sideBarTab1!=='input', 'selected-nav':sideBarTab1==='input'}">
                         <img class="" src="assets/img/sidebar/nlp.svg" alt="">
                         <span style="color: #00ABD3">NLP {{dirtySideBarTabs[myESideBarTab.input] ? '*' : ""}}</span>
                     </div>
 
-                </a>
-                <a mat-list-item class="mat-list-item-sidebar" *ngIf="myEBotType.faqbot === bot.bot_type" (click)="sideBarTabChanged('articles')">
+                </a></ng-container>
+                <!--TODO: I am using action for KB, since I dont know the action for article: Sandeep -->
+
+                    <a mat-list-item class="mat-list-item-sidebar" *ngIf="myEBotType.faqbot === bot.bot_type"
+                      (click)="sideBarTabChanged('articles')">
                     <div class="sidebar-nav-list-item"
                          [ngClass]="{'filter-black':sideBarTab1!=='articles', 'selected-nav':sideBarTab1==='articles'}">
                         <img class="" src="assets/img/sidebar/bot-logic.svg" alt="">
@@ -33,9 +38,11 @@
                     </div>
 
                 </a>
-                <a mat-list-item class="mat-list-item-sidebar"
-                   *ngIf="bot.bot_type === myEBotType.chatbot"
-                   (click)="sideBarTabChanged(myESideBarTab.logic)">
+                <ng-container *myIf="[myEAllActions['GET Bot Versioning']]">
+                    <!---->
+                    <a mat-list-item class="mat-list-item-sidebar"
+                      *ngIf="bot.bot_type === myEBotType.chatbot"
+                      (click)="sideBarTabChanged(myESideBarTab.logic)">
                     <div class="sidebar-nav-list-item"
                          data-cy="sidebar-logic"
                          [ngClass]="{'filter-black':sideBarTab1!=='logic', 'selected-nav':sideBarTab1==='logic'}"
@@ -43,7 +50,7 @@
                         <img class="" src="assets/img/sidebar/logic-1.svg" alt="">
                         <span style="color: #00ABD3">Logic</span>
                     </div>
-                </a>
+                </a></ng-container>
                 <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.chat)">
                     <div class="sidebar-nav-list-item" *ngIf="bot.bot_type != myEBotType.intelligent "
                         [ngClass]="{'filter-black':sideBarTab1!=='chat', 'selected-nav':sideBarTab1==='chat'}"
@@ -52,27 +59,30 @@
                         <span style="color: #00ABD3">Chat</span>
                     </div>
                 </a>
-                <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.test)">
-                    <div class="sidebar-nav-list-item" *ngIf="bot.bot_type != myEBotType.intelligent"
-                        [ngClass]="{'filter-black':sideBarTab1!=='test', 'selected-nav':sideBarTab1==='test'}"
-                        (click)="sideBarTabChanged('test')">
+                <ng-container *myIf="myEAllActions['Get Bot Testcases']">
+                    <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.test)">
+                    <!--TODO: remove faq bot condition-->
+                    <div class="sidebar-nav-list-item"
+                         *ngIf="bot.bot_type != myEBotType.intelligent && bot.bot_type !== myEBotType.faqbot"
+                         [ngClass]="{'filter-black':sideBarTab1!=='test', 'selected-nav':sideBarTab1==='test'}"
+                         (click)="sideBarTabChanged('test')">
                         <img class="" src="assets/img/sidebar/test.svg" alt=""
                              style="padding-right: 3px; padding-left: 3px;">
                         <span style="color: #00ABD3">Test</span>
                     </div>
-                </a>
+                </a></ng-container>
 
-                <a mat-list-item class="mat-list-item-sidebar"
-                   *ngIf="bot.bot_type === myEBotType.faqbot"
-                   (click)="sideBarTabChanged(myESideBarTab.History)">
-                    <div class="sidebar-nav-list-item"
-                         [ngClass]="{'filter-black':sideBarTab1!=='History', 'selected-nav':sideBarTab1==='History'}"
-                         (click)="sideBarTabChanged('History')">
-                        <img class="" src="assets/img/sidebar/clock-3.svg" alt=""
-                             style="padding-right: 3px; padding-left: 3px;">
-                        <span style="color: #00ABD3">History</span>
-                    </div>
-                </a>
+                <!--<a mat-list-item class="mat-list-item-sidebar"-->
+                   <!--*ngIf="bot.bot_type === myEBotType.faqbot"-->
+                   <!--(click)="sideBarTabChanged(myESideBarTab.History)">-->
+                    <!--<div class="sidebar-nav-list-item"-->
+                         <!--[ngClass]="{'filter-black':sideBarTab1!=='History', 'selected-nav':sideBarTab1==='History'}"-->
+                         <!--(click)="sideBarTabChanged('History')">-->
+                        <!--<img class="" src="assets/img/sidebar/clock-3.svg" alt=""-->
+                             <!--style="padding-right: 3px; padding-left: 3px;">-->
+                        <!--<span style="color: #00ABD3">History</span>-->
+                    <!--</div>-->
+                <!--</a>-->
 
             </mat-nav-list>
         </mat-sidenav>
@@ -134,7 +144,7 @@
                                             (initDone$)="mySideBarService.init($event)"
                                             [bot]="bot"></app-pipeline>
                                 </mat-tab>
-                                <mat-tab label="Knowledge base">
+                                <mat-tab label="Knowledge base" *myIf="[myEAllActions['Get Bot Knowledge base']]">
                                     <app-knowledge-base-wrapper style="height: 100%; padding-top: 20px"
                                                                 (initDone$)="mySideBarService.init($event)"
                                                                 [bot]="bot"></app-knowledge-base-wrapper>

@@ -180,7 +180,9 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
     this.serverService.removeTokens();
     this.router.navigate(['login'])
       .then(()=>{
-        location.reload()
+        setTimeout(()=>{
+          location.reload()
+        },1000)/*hack*/
       })
 
 

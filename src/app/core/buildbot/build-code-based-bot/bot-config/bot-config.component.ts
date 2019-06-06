@@ -8,9 +8,12 @@ import {BotConfigService} from './bot-config.service';
 import {FormControl, FormGroup, FormGroupDirective, NgForm} from '@angular/forms';
 import {ServerService} from '../../../../server.service';
 import {ErrorStateMatcher} from '@angular/material';
-import {Subscription} from 'rxjs';
-import {EAllActions} from "../../../../typings/enum";
-import {ELoadingStatus} from "../../../../button-wrapper/button-wrapper.component";
+import {Observable, Subscription} from 'rxjs';
+import {EAllActions, ERoleName} from '../../../../typings/enum';
+import {ELoadingStatus} from '../../../../button-wrapper/button-wrapper.component';
+import {IUser} from '../../../interfaces/user';
+import {Select} from '@ngxs/store';
+
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher1 implements ErrorStateMatcher {
@@ -45,8 +48,12 @@ export class BotConfigComponent implements OnInit {
   intigrationFormSubcription : Subscription;
   bot_type;
   id;
+  disableAgentToggleBAD = false;//todo: shoiab, remove it in prod
   formDirty = false;
+  role :ERoleName;
+  shouldDisableForm = false;
   @Output() initDone$ = new EventEmitter<BotConfigComponent>();
+  @Select() loggeduser$: Observable<{ user: IUser }>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -73,10 +80,6 @@ export class BotConfigComponent implements OnInit {
   ngOnInit() {
     this.bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type') || this.activatedRoute.snapshot.data['bot_type'];
 
-
-
-
-
     EventService.botUpdatedInServer$.subscribe(()=>{
       this.initDone$.emit(this);
     });
@@ -92,6 +95,20 @@ export class BotConfigComponent implements OnInit {
     this.dataManagementForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
     this.securityForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
     this.faqHandoverANdInterfaceForm.valueChanges.subscribe(()=>this.emitBotDirtyEvent(true));
+
+    this.loggeduser$.subscribe((loggedUserState)=>{
+      if(loggedUserState && loggedUserState.user && loggedUserState.user.role){
+        this.role = loggedUserState.user.role.name as ERoleName;
+        if(this.role === ERoleName.Tester || this.role === ERoleName.Analyst ){
+          this.basicInfoForm.disable();
+          this.dataManagementForm.disable();
+          this.securityForm.disable();
+          this.faqHandoverANdInterfaceForm.disable();
+          this.disableAgentToggleBAD = true;
+          debugger;
+        }
+      }
+    })
 
     if(this.bot_type === EBotType.intelligent){
       /**

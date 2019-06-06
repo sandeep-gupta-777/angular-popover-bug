@@ -3,7 +3,7 @@
 describe('Chat window', function () {
 	before(() => {
 		cy.server();
-		cy.route('POST','https://staging.imibot.ai/api/v1/webhook/web/*').as('send');
+		cy.route('POST','api/v1/webhook/web/*').as('send');
 
 		cy.login_UI();
 		cy.wait(10000);
@@ -23,7 +23,7 @@ describe('Chat window', function () {
 
 	it('checks if user is able to chat and see the chat rooms', function () {
 		cy.server();
-		cy.route('POST','https://staging.imibot.ai/api/v1/webhook/web/*').as('send');
+		cy.route('POST','/api/v1/webhook/web/*').as('send');
 		cy.get('[data-cy=chat-message]');
 		cy.get('[data-cy=chat-input]').type("this is e2e test {enter}");
 		cy.contains("this is e2e test").should('exist');
@@ -44,7 +44,7 @@ describe('Chat window', function () {
 
 	it('checks if user can create a new custom room', function () {
 		cy.server();
-		cy.route('POST','https://staging.imibot.ai/api/v1/webhook/web/*').as('send1');
+		cy.route('POST','/api/v1/webhook/web/*').as('send1');
 
 		cy.get('[data-cy=custom-room-form-trigger]').click();
 		cy.get('[data-cy=edit-consumer-uid]').type(Date.now());

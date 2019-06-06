@@ -8,9 +8,9 @@ declare var CodeMirror: any;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = "app";
+  title = 'app';
   ngOnInit() {
-    console.info("App bootstrap success!");
+    // console.info('App bootstrap success!');
   }
 
 }

@@ -37,7 +37,9 @@ Cypress.Commands.add("login_UI", (email, password) => {
     cy.route('GET', '*/api/v1/moduledetails/?limit=1000').as('json');
     cy.route('GET', '*/api/v1/role/').as('role');
 
-    cy.visit('http://localhost:4200/auth/login');
+    const BASE_URL = Cypress.config('backend_root');
+
+    cy.visit(`${BASE_URL}/auth/login`);
     cy.get('[data-cy=login-email]')
       .type('ayeshreddy.k@imimobile.com');
     cy.get('[data-cy=login-password]')
@@ -45,8 +47,8 @@ Cypress.Commands.add("login_UI", (email, password) => {
     cy.get('[data-cy=login-submit]').click();
 
     // cy.wait(['@login']);
-    cy.wait(10000);
-    cy.url({timeout:3000}).should('include', '/core/viewbots');
+    cy.wait(60000);
+    cy.url({timeout:40000}).should('include', '/core/viewbots');;
 });
 
 Cypress.Commands.add("login_stub", (email, password) => {

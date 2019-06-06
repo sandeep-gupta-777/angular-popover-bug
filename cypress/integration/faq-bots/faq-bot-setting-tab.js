@@ -18,8 +18,9 @@ describe('faq-test', function () {
         cy.contains('Search Based').click()
         cy.url().should('include', 'viewbots?type=faqbot')
         cy.get('.grid-bot-preview-name').first().click()
+        cy.wait(30000);
         cy.url().should('include', '/botdetail/faqbot/')
-        
+
 
         cy.get('.mat-tab-label-container')
             .contains('Handover and Inference')

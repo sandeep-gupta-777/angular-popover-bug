@@ -1,7 +1,7 @@
 <ng-container *ngIf="sessionsSmartTableDataModal.tableData as tableData1">
   <app-smart-table *ngIf="consumerItems && consumerItems.length>0"
                    [ngClass]="{'disable-decrypt-lock-icon':isDeCryptAuditAccessDenied}"
-                   class="d-flex-column-last-child-flex-grow-1"
+                   class="d-flex-column-last-child-flex-grow-1 consumer-table"
                    [totalRecords]="totalRecords"
                    (pageChanged$)="pageChanged($event)"
                    [data]="tableData1"

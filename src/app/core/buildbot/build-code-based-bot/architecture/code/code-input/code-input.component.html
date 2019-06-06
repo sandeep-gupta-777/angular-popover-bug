@@ -12,7 +12,6 @@
     (downloadAll$)="downloadZipHandler()"
     (openForkNewVersionModal$)="openForkNewVersionModal(forkVersionTemplate)"
   ></app-code-version-list>
-
   <form [formGroup]="codeInputForm" class="row" style="margin-bottom: 10px; flex-grow: 1; position: relative">
     <button class="mat-theme-button mat-theme-button-border to-code-view px-1"
             *ngIf="activeTab === myEBotVersionTabs.generation_templates && permanentlyShowUIViewFormBackend && showGenTempEditor"
