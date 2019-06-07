@@ -153,33 +153,41 @@
     </div>
 </div>
 
-<div class="row profile-row" *ngIf = "serviceKeyExpiredTableModal?.tableData &&serviceKeyExpiredTableModal?.tableData.length>0 && !showActiveServiceKeysTable" >
-  <div class="col-12 p-0 m-0">
-    <app-smart-table  [data]="serviceKeyExpiredTableModal?.tableData"
-                      (dataValue$)="dataValueClicked($event)"
-  
-    >
-    </app-smart-table>
-  </div>
+<div class="row profile-row"
+     *ngIf="serviceKeyExpiredTableModal?.tableData &&serviceKeyExpiredTableModal?.tableData.length>0 && !showActiveServiceKeysTable">
+    <div class="col-12 p-0 m-0">
+        <app-smart-table [data]="serviceKeyExpiredTableModal?.tableData"
+                         (dataValue$)="dataValueClicked($event)"
+                         [sortedCol]="'Created on'"
+                         [sortDir]="myESortDir.DES"
+
+        >
+        </app-smart-table>
+    </div>
 </div>
 
-  <div class="row profile-row" style="color: #666;" *ngIf="!(serviceKeyExpiredTableModal?.tableData &&serviceKeyExpiredTableModal?.tableData.length>0) && !showActiveServiceKeysTable">
+<div class="row profile-row" style="color: #666;"
+     *ngIf="!(serviceKeyExpiredTableModal?.tableData &&serviceKeyExpiredTableModal?.tableData.length>0) && !showActiveServiceKeysTable">
     No expired service keys available.
-  </div>
-
-<div class="row profile-row" *ngIf = "serviceKeyActiveTableModal?.tableData && serviceKeyActiveTableModal?.tableData.length>0 && showActiveServiceKeysTable">
-  <div class="col-12 p-0 m-0">
-    <app-smart-table [data]="serviceKeyActiveTableModal?.tableData"
-    (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
-    (dataValue$)="dataValueClicked($event)"
-    >
-    </app-smart-table>
-  </div>
 </div>
 
-  <div class="row profile-row" style="color: #666;" *ngIf = "!(serviceKeyActiveTableModal?.tableData && serviceKeyActiveTableModal?.tableData.length>0) && showActiveServiceKeysTable">
-      No active service keys available.
-  </div>
+<div class="row profile-row"
+     *ngIf="serviceKeyActiveTableModal?.tableData && serviceKeyActiveTableModal?.tableData.length>0 && showActiveServiceKeysTable">
+    <div class="col-12 p-0 m-0">
+        <app-smart-table [data]="serviceKeyActiveTableModal?.tableData"
+                         (customActionEvents)="customActionEventsTriggeredInSessionsTable($event)"
+                         (dataValue$)="dataValueClicked($event)"
+                         [sortedCol]="'Created on'"
+                         [sortDir]="myESortDir.DES"
+        >
+        </app-smart-table>
+    </div>
+</div>
+
+<div class="row profile-row" style="color: #666;"
+     *ngIf="!(serviceKeyActiveTableModal?.tableData && serviceKeyActiveTableModal?.tableData.length>0) && showActiveServiceKeysTable">
+    No active service keys available.
+</div>
 
 <!-- <ng-template #enterpriseNewServiceKeyModal>
     <div class="primary-modal" style="min-width: 500px;">
