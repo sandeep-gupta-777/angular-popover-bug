@@ -17,7 +17,6 @@ import {EAllActions} from '../../../../../typings/enum';
           
           <mat-form-field class="w-100">
               <input matInput formControlName="consent_message"
-                     required
                      placeholder="Consent disclaimer message">
           </mat-form-field>
 
