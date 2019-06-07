@@ -213,7 +213,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
 
   customActionEventsTriggeredInSessionsTable(smartTableCustomEventData: { action: string, data: IReportHistoryItem, source: any }) {
     const url = this.constantsService.getDownloadReportHistoryByIdUrl(smartTableCustomEventData.data.id);
-    debugger;
+
     this.serverService.makeGetReqToDownloadFiles({url})
       .subscribe((value: any) => {
         /*To download the blob: https://stackoverflow.com/questions/19327749/javascript-blob-filename-without-link*/

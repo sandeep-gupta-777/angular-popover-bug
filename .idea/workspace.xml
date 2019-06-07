@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4fa2cae7-4156-44c3-97aa-acfecddc228f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/security/security.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/security/security.component.ts" afterDir="false" />
-    </list>
+    <list default="true" id="4fa2cae7-4156-44c3-97aa-acfecddc228f" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/dist/" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -19,59 +16,21 @@
     <favorites_list name="." />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../src/app/core/enterpriseprofile/enterprise-overview/enterprise-overview.component.html">
+        <entry file="file://$PROJECT_DIR$/../../src/app/accordian/accordian.component.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="180" column="51" selection-start-line="180" selection-start-column="50" selection-end-line="180" selection-end-column="51" />
+            <state relative-caret-position="119">
+              <caret line="7" column="28" lean-forward="true" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/security/security.component.html">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/security/security.component.ts">
+        <entry file="file://$PROJECT_DIR$/../../src/app/permission.service.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="18" column="63" selection-start-line="18" selection-start-column="63" selection-end-line="18" selection-end-column="63" />
-              <folding>
-                <element signature="e#0#77#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.component.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="31" column="46" lean-forward="true" selection-start-line="31" selection-start-column="46" selection-end-line="31" selection-end-column="46" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.component.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="129">
-              <caret line="88" column="55" lean-forward="true" selection-start-line="88" selection-start-column="55" selection-end-line="88" selection-end-column="55" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.service.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="125" column="45" lean-forward="true" selection-start-line="125" selection-start-column="45" selection-end-line="125" selection-end-column="45" />
+            <state relative-caret-position="113">
+              <caret line="24" column="46" selection-start-line="24" selection-start-column="46" selection-end-line="24" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -80,10 +39,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>sandeepkgupta007@gmail.com</find>
-      <find>activateVer</find>
-      <find>active</find>
-      <find>@botve</find>
       <find>ValidateCode_flow_ActivateVersion$</find>
       <find>@botversioning</find>
       <find>event</find>
@@ -110,6 +65,10 @@
       <find>&lt;app-smart-table</find>
       <find>secur</find>
       <find>securityForm</find>
+      <find>consent_message</find>
+      <find>debugger;</find>
+      <find>Get Enterpise Knowledge base</find>
+      <find>allBackEndActionsToFrontEndTabMapping2</find>
     </findStrings>
     <replaceStrings>
       <replace>form-control d-flex f</replace>
@@ -122,7 +81,7 @@
     </replaceStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$/../.." value="staging" />
@@ -134,11 +93,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../src/app/utility.service.ts" />
-        <option value="$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.state.ts" />
-        <option value="$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component.html" />
-        <option value="$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component.ts" />
-        <option value="$PROJECT_DIR$/../tsconfig.json" />
         <option value="$PROJECT_DIR$/../cypress/plugins/index.js" />
         <option value="$PROJECT_DIR$/../cypress/config/staging.json" />
         <option value="$PROJECT_DIR$/../cypress/integration/header.js" />
@@ -185,6 +139,11 @@
         <option value="$PROJECT_DIR$/../../tsconfig.json" />
         <option value="$PROJECT_DIR$/../src/app/core/enterpriseprofile/enterprise-overview/enterprise-overview.component.html" />
         <option value="$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/security/security.component.ts" />
+        <option value="$PROJECT_DIR$/../src/environments/environment.hmr.ts" />
+        <option value="$PROJECT_DIR$/../src/app/ngIf-permission.directive.ts" />
+        <option value="$PROJECT_DIR$/../src/app/permission.service.ts" />
+        <option value="$PROJECT_DIR$/../src/app/constants.service.js" />
+        <option value="$PROJECT_DIR$/../../src/app/permission.service.ts" />
       </list>
     </option>
   </component>
@@ -207,75 +166,25 @@
           <expand>
             <path>
               <item name="." type="b2602c69:ProjectViewProjectNode" />
-              <item name="DEVELOP" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="." type="b2602c69:ProjectViewProjectNode" />
-              <item name="DEVELOP" type="462c0819:PsiDirectoryNode" />
               <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="." type="b2602c69:ProjectViewProjectNode" />
-              <item name="DEVELOP" type="462c0819:PsiDirectoryNode" />
               <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="." type="b2602c69:ProjectViewProjectNode" />
-              <item name="DEVELOP" type="462c0819:PsiDirectoryNode" />
               <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="." type="b2602c69:ProjectViewProjectNode" />
-              <item name="DEVELOP" type="462c0819:PsiDirectoryNode" />
               <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="." type="b2602c69:ProjectViewProjectNode" />
-              <item name="DEVELOP" type="462c0819:PsiDirectoryNode" />
-              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-              <item name="buildbot" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="." type="b2602c69:ProjectViewProjectNode" />
-              <item name="DEVELOP" type="462c0819:PsiDirectoryNode" />
-              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-              <item name="buildbot" type="462c0819:PsiDirectoryNode" />
-              <item name="build-code-based-bot" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="." type="b2602c69:ProjectViewProjectNode" />
-              <item name="DEVELOP" type="462c0819:PsiDirectoryNode" />
-              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-              <item name="buildbot" type="462c0819:PsiDirectoryNode" />
-              <item name="build-code-based-bot" type="462c0819:PsiDirectoryNode" />
-              <item name="bot-config" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="." type="b2602c69:ProjectViewProjectNode" />
-              <item name="DEVELOP" type="462c0819:PsiDirectoryNode" />
-              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-              <item name="buildbot" type="462c0819:PsiDirectoryNode" />
-              <item name="build-code-based-bot" type="462c0819:PsiDirectoryNode" />
-              <item name="bot-config" type="462c0819:PsiDirectoryNode" />
-              <item name="security" type="462c0819:PsiDirectoryNode" />
+              <item name="accordian" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -459,12 +368,14 @@
       <workItem from="1559819023903" duration="12000" />
       <workItem from="1559819096310" duration="26000" />
       <workItem from="1559819183646" duration="32156000" />
-      <workItem from="1559897638728" duration="614000" />
+      <workItem from="1559897638728" duration="3036000" />
+      <workItem from="1559906446379" duration="97000" />
+      <workItem from="1559906547837" duration="223000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1106476000" />
+    <option name="totallyTimeSpent" value="1109218000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
@@ -485,7 +396,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49841017" weight="0.83566433" />
       <window_info anchor="bottom" id="TypeScript" order="9" sideWeight="0.49761525" weight="0.3181818" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5055644" side_tool="true" weight="0.2744755" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4944356" weight="0.19055945" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4944356" visible="true" weight="0.17832167" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -582,15 +493,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../src/app/constants.service.ts" />
-    <entry file="file://$PROJECT_DIR$/../../angular.json" />
-    <entry file="file://$PROJECT_DIR$/../../src/styles.scss" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/bot-detail/bot-detail.module.ts" />
-    <entry file="file://$PROJECT_DIR$/../../cypress/fixtures/actions.json" />
-    <entry file="file://$PROJECT_DIR$/../../cypress/integration/header.js" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/server.service.spec.ts" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/bot-detail/code-based-bot-detail/code-based-bot-detail.component.html" />
-    <entry file="file://$PROJECT_DIR$/../../cypress/integration/helper/helper.js" />
     <entry file="file://$PROJECT_DIR$/../../cypress/integration/role-based-acess/header.js" />
     <entry file="file://$PROJECT_DIR$/../../cypress/integration/role-based-acess/sidebar.js" />
     <entry file="file://$PROJECT_DIR$/../../cypress/fixtures/role-based-access/header.json" />
@@ -627,47 +529,30 @@
     <entry file="file://$PROJECT_DIR$/../../package.json" />
     <entry file="file://$PROJECT_DIR$/../../README.md" />
     <entry file="file://$PROJECT_DIR$/../../tsconfig.json" />
-    <entry file="file://$PROJECT_DIR$/../src/app/core/enterpriseprofile/enterprise-overview/enterprise-overview.component.html">
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/enterpriseprofile/enterprise-overview/enterprise-overview.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.service.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.component.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/security/security.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/security/security.component.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/environments/environment.hmr.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/ngIf-permission.directive.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/auth/login/login.component.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/auth/login/login.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/constants.service.js" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/accordian/accordian.component.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="180" column="51" selection-start-line="180" selection-start-column="50" selection-end-line="180" selection-end-column="51" />
+        <state relative-caret-position="119">
+          <caret line="7" column="28" lean-forward="true" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.component.html">
+    <entry file="file://$PROJECT_DIR$/../../src/app/permission.service.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="31" column="46" lean-forward="true" selection-start-line="31" selection-start-column="46" selection-end-line="31" selection-end-column="46" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="125" column="45" lean-forward="true" selection-start-line="125" selection-start-column="45" selection-end-line="125" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
-          <caret line="88" column="55" lean-forward="true" selection-start-line="88" selection-start-column="55" selection-end-line="88" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/security/security.component.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/security/security.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="18" column="63" selection-start-line="18" selection-start-column="63" selection-end-line="18" selection-end-column="63" />
-          <folding>
-            <element signature="e#0#77#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="113">
+          <caret line="24" column="46" selection-start-line="24" selection-start-column="46" selection-end-line="24" selection-end-column="46" />
         </state>
       </provider>
     </entry>

@@ -165,7 +165,7 @@ export class EditAndViewArticlesComponent implements OnInit {
               this.utilityService.showSuccessToaster("Category succesfully updated");
               resolve(value)
             })
-  
+
         }
       } else {
         if (formValue.inputType == "existing") {
@@ -210,7 +210,7 @@ export class EditAndViewArticlesComponent implements OnInit {
   }
 
   globalConformationModalSubmitted(formValue){
-    debugger;
+
     if(this.currentModal == "saveNTrain"){
       this.updateAndTrainModalSubmitted(formValue)
     }
@@ -218,9 +218,9 @@ export class EditAndViewArticlesComponent implements OnInit {
       this.updateArticleClickedModalsubmitted(formValue)
     }
   }
-  
+
   updateArticleClickedModal(template: TemplateRef<any>){
-    debugger;
+
     if(this.corpus.state == "training"){
       this.trainingIsGoingOn();
     }
@@ -233,12 +233,12 @@ export class EditAndViewArticlesComponent implements OnInit {
     }
   }
   updateArticleClickedModalsubmitted(formValue){
-    debugger;
+
     this.changeArticalCategory(formValue)
       .then(()=>{
         this.updateArticleClicked();
       });
-    
+
   }
   updateAndTrainModal(template: TemplateRef<any>){
     if(this.corpus.state == "training"){
@@ -257,6 +257,6 @@ export class EditAndViewArticlesComponent implements OnInit {
     .then(()=>{
       this.updateAndTrain();
     });
-    
+
   }
 }

@@ -302,13 +302,13 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
   myESortDir = ESortDir;
 
   sort(key, sorDirection: ESortDir) {
-    debugger;
+
     this.sortedCol = key;
     this.sortDir = sorDirection;
     // this.sortDirAsc = sorDirection === ESortDir.DES? -1:1;
 
     let tableData = this.tableData;
-    debugger;
+
     this.tableData =
       tableData.sort((row1, row2) => {
         let originalKey1, originalValue1;
