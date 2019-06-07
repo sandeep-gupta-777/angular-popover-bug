@@ -4,19 +4,19 @@
     <div class="interface-form-grid">
       <mat-form-field>
         <input matInput type="number" displayName="Score below which fallback is shown" data-cy="faq-habdover-first-input"
-               placeholder="Score below which fallback is shown" formControlName="threshold_min_score" required>
+               placeholder="Score below which fallback is shown" formControlName="threshold_min_score" >
       </mat-form-field>
       <mat-form-field>
         <input matInput type="number" displayName="Difference in score for partial match"
-               formControlName="threshold_diff_score" placeholder="Difference in score for partial match" required>
+               formControlName="threshold_diff_score" placeholder="Difference in score for partial match" >
       </mat-form-field>
       <mat-form-field>
         <input matInput type="number" displayName="No. of results to store for each message" formControlName="n_results"
-               placeholder="No. of results to store for each message" required>
+               placeholder="No. of results to store for each message" >
       </mat-form-field>
       <mat-form-field>
         <input matInput type="number" displayName="Max low confidence score" formControlName="low_confidence_score"
-               placeholder="Max low confidence score" required>
+               placeholder="Max low confidence score" >
       </mat-form-field>
     </div>
   </fieldset>
@@ -55,7 +55,7 @@
           </mat-slide-toggle>
         </div>
         <mat-form-field class="pl-3">
-          <input matInput type="number" displayName="Score below which fallback is shown" required
+          <input matInput type="number" displayName="Score below which fallback is shown" 
                  placeholder="No. of fallback messages before handover" formControlName="value"
                  >
         </mat-form-field>
@@ -73,7 +73,7 @@
           </mat-slide-toggle>
         </div>
         <mat-form-field class="pl-3">
-          <input matInput type="number" displayName="Score below which fallback is shown" required
+          <input matInput type="number" displayName="Score below which fallback is shown" 
                  placeholder="No. of partial matched messages before handover" formControlName="value">
         </mat-form-field>
       </div>
@@ -89,7 +89,7 @@
           </mat-slide-toggle>
         </div>
         <mat-form-field class="pl-3">
-          <input matInput type="number" displayName="Score below which fallback is shown" required
+          <input matInput type="number" displayName="Score below which fallback is shown" 
                  placeholder="No. of consecutive messages before handover" formControlName="value"
                  >
         </mat-form-field>
