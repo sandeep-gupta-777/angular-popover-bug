@@ -26,11 +26,89 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../src/app/permission.service.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="113">
-              <caret line="24" column="46" selection-start-line="24" selection-start-column="46" selection-end-line="24" selection-end-column="46" />
+            <state relative-caret-position="157">
+              <caret line="96" column="20" lean-forward="true" selection-start-line="96" selection-start-column="20" selection-end-line="96" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../src/environments/environment.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="11" column="2" lean-forward="true" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="2" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../src/app/typings/enum.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="147">
+              <caret line="19" column="3" lean-forward="true" selection-start-line="19" selection-start-column="3" selection-end-line="19" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="199">
+              <caret line="42" column="18" lean-forward="true" selection-start-line="42" selection-start-column="18" selection-end-line="42" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../src/app/chat/chat-wrapper.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="223">
+              <caret line="343" column="13" lean-forward="true" selection-start-line="343" selection-start-column="13" selection-end-line="343" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#71#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../src/app/auth/login/login.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="16" column="28" lean-forward="true" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../src/app/auth/login/login.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="143">
+              <caret line="105" column="57" lean-forward="true" selection-start-line="105" selection-start-column="57" selection-end-line="105" selection-end-column="57" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../../src/app/server.service.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="77">
+              <caret line="644" column="47" lean-forward="true" selection-start-line="644" selection-start-column="47" selection-end-line="644" selection-end-column="47" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../src/app/constants.service.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="176">
+              <caret line="388" column="56" selection-start-line="388" selection-start-column="56" selection-end-line="388" selection-end-column="56" />
             </state>
           </provider>
         </entry>
@@ -39,12 +117,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ValidateCode_flow_ActivateVersion$</find>
-      <find>@botversioning</find>
-      <find>event</find>
-      <find>SaveVersion$</find>
-      <find>Checks if user is able to update bot code version</find>
-      <find>checks if user is able to save inactive version with errors</find>
       <find>checks if dirty data modal is comming or not</find>
       <find>mat-snack-bar-container</find>
       <find>e2e_</find>
@@ -67,8 +139,14 @@
       <find>securityForm</find>
       <find>consent_message</find>
       <find>debugger;</find>
-      <find>Get Enterpise Knowledge base</find>
       <find>allBackEndActionsToFrontEndTabMapping2</find>
+      <find>se Knowledge base</find>
+      <find>debugg</find>
+      <find>Get Enterpise Knowledge base</find>
+      <find>Get Enterprise Knowledge base</find>
+      <find>route</find>
+      <find>sendme</find>
+      <find>maste</find>
     </findStrings>
     <replaceStrings>
       <replace>form-control d-flex f</replace>
@@ -78,6 +156,7 @@
       <replace>highlight-nav-item</replace>
       <replace>action cannot be undone. Are you sure you wish to delete?</replace>
       <replace />
+      <replace>Get Enterpise Knowledge base</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -93,10 +172,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../cypress/plugins/index.js" />
-        <option value="$PROJECT_DIR$/../cypress/config/staging.json" />
-        <option value="$PROJECT_DIR$/../cypress/integration/header.js" />
-        <option value="$PROJECT_DIR$/../cypress/integration/side-bar/side-bar.js" />
         <option value="$PROJECT_DIR$/../cypress/integration/faq-bots/faq-bot-section-test.js" />
         <option value="$PROJECT_DIR$/../cypress/integration/faq-bots/faq-bot-setting-tab.js" />
         <option value="$PROJECT_DIR$/../cypress.json" />
@@ -121,7 +196,6 @@
         <option value="$PROJECT_DIR$/../../cypress/fixtures/role-based-access/sidebar.json" />
         <option value="$PROJECT_DIR$/../../cypress/fixtures/role-based-access/bot-config.json" />
         <option value="$PROJECT_DIR$/../../cypress/config/staging.json" />
-        <option value="$PROJECT_DIR$/../../src/environments/environment.hmr.ts" />
         <option value="$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.state.ts" />
         <option value="$PROJECT_DIR$/../../cypress/support/commands.js" />
         <option value="$PROJECT_DIR$/../../cypress/integration/side-bar/side-bar.js" />
@@ -144,6 +218,11 @@
         <option value="$PROJECT_DIR$/../src/app/permission.service.ts" />
         <option value="$PROJECT_DIR$/../src/app/constants.service.js" />
         <option value="$PROJECT_DIR$/../../src/app/permission.service.ts" />
+        <option value="$PROJECT_DIR$/../../src/app/typings/enum.ts" />
+        <option value="$PROJECT_DIR$/../../src/app/core/header/header.component.html" />
+        <option value="$PROJECT_DIR$/../../src/environments/environment.ts" />
+        <option value="$PROJECT_DIR$/../../src/environments/environment.hmr.ts" />
+        <option value="$PROJECT_DIR$/../../src/app/constants.service.ts" />
       </list>
     </option>
   </component>
@@ -185,6 +264,63 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="accordian" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="auth" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="auth" type="462c0819:PsiDirectoryNode" />
+              <item name="login" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="chat" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="header" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="typings" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="constants.service.ts" type="620a8d5e:NestingTreeNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="environments" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -370,16 +506,15 @@
       <workItem from="1559819183646" duration="32156000" />
       <workItem from="1559897638728" duration="3036000" />
       <workItem from="1559906446379" duration="97000" />
-      <workItem from="1559906547837" duration="223000" />
+      <workItem from="1559906547837" duration="7030000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1109218000" />
+    <option name="totallyTimeSpent" value="1116025000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49440297" visible="true" weight="0.23052464" />
       <window_info id="Structure" order="1" sideWeight="0.50369006" side_tool="true" weight="0.2591415" />
@@ -396,7 +531,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49841017" weight="0.83566433" />
       <window_info anchor="bottom" id="TypeScript" order="9" sideWeight="0.49761525" weight="0.3181818" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5055644" side_tool="true" weight="0.2744755" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4944356" visible="true" weight="0.17832167" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4944356" visible="true" weight="0.5506993" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -493,11 +628,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../cypress/integration/role-based-acess/header.js" />
-    <entry file="file://$PROJECT_DIR$/../../cypress/integration/role-based-acess/sidebar.js" />
-    <entry file="file://$PROJECT_DIR$/../../cypress/fixtures/role-based-access/header.json" />
-    <entry file="file://$PROJECT_DIR$/../../cypress/fixtures/role-based-access/sidebar.json" />
-    <entry file="file://$PROJECT_DIR$/../../cypress/fixtures/role-based-access/bot-config.json" />
     <entry file="file://$PROJECT_DIR$/../../cypress/config/staging.json" />
     <entry file="file://$PROJECT_DIR$/../../src/environments/environment.hmr.ts" />
     <entry file="file://$PROJECT_DIR$/../../cypress/auth/login.js" />
@@ -535,12 +665,8 @@
     <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.component.ts" />
     <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/security/security.component.html" />
     <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/security/security.component.ts" />
-    <entry file="file://$PROJECT_DIR$/../../src/environments/environment.hmr.ts" />
     <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.ts" />
     <entry file="file://$PROJECT_DIR$/../../src/app/ngIf-permission.directive.ts" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.html" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/auth/login/login.component.ts" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/auth/login/login.component.html" />
     <entry file="file://$PROJECT_DIR$/../../src/app/constants.service.js" />
     <entry file="file://$PROJECT_DIR$/../../src/app/accordian/accordian.component.scss">
       <provider selected="true" editor-type-id="text-editor">
@@ -549,10 +675,79 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/typings/enum.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="19" column="3" lean-forward="true" selection-start-line="19" selection-start-column="3" selection-end-line="19" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="42" column="18" lean-forward="true" selection-start-line="42" selection-start-column="18" selection-end-line="42" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/environments/environment.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="2" lean-forward="true" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="2" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../../src/app/permission.service.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="24" column="46" selection-start-line="24" selection-start-column="46" selection-end-line="24" selection-end-column="46" />
+        <state relative-caret-position="157">
+          <caret line="96" column="20" lean-forward="true" selection-start-line="96" selection-start-column="20" selection-end-line="96" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/chat/chat-wrapper.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="343" column="13" lean-forward="true" selection-start-line="343" selection-start-column="13" selection-end-line="343" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#71#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/environments/environment.hmr.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/auth/login/login.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="16" column="28" lean-forward="true" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/auth/login/login.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="105" column="57" lean-forward="true" selection-start-line="105" selection-start-column="57" selection-end-line="105" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/constants.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="388" column="56" selection-start-line="388" selection-start-column="56" selection-end-line="388" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/server.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="77">
+          <caret line="644" column="47" lean-forward="true" selection-start-line="644" selection-start-column="47" selection-end-line="644" selection-end-column="47" />
         </state>
       </provider>
     </entry>
