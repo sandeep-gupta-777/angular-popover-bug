@@ -292,7 +292,7 @@ export class VersionStateReducer {
           this.store.dispatch([new SaveVersion$({bot, version})]);
           this.codeInputService.activateVersion(payload.bot, payload.version.id).subscribe();/*TODO:1.use switch map 2. make an action for this*/
         } else {
-          debugger;
+
           setTimeout(() => this.utilityService.showErrorToaster('Plase correct errors in code before activating it'));;
         }
         let validation = CodeInputService.initializeValidationItem();

@@ -105,7 +105,7 @@ export class BotConfigComponent implements OnInit {
           this.securityForm.disable();
           this.faqHandoverANdInterfaceForm.disable();
           this.disableAgentToggleBAD = true;
-          debugger;
+
         }
       }
     })
