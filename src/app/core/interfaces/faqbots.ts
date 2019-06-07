@@ -1,3 +1,5 @@
+import { IMeta } from "./meta";
+
 export interface IArticleItem {
     'answers'?: any[];
     'category_id'?: string;
@@ -35,3 +37,9 @@ export interface ICorpus {
     'updated_by'?: number;
 
 }
+
+export interface IAllCorpusResult {
+    'meta': IMeta;
+    'objects': ICorpus[];
+  }
+

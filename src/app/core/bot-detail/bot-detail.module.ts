@@ -76,6 +76,7 @@ import {ConstantsService} from "../../constants.service";
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatGridListModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
 import {BreakpointService} from '../breakpoint.service';
+import { BotArticleHistoryComponent } from './bot-article-history/bot-article-history.component';
 
 const routes: Route[] = [
   {
@@ -141,6 +142,7 @@ const routes: Route[] = [
     LimitObjectArraysStringPipe,
     ConsumerFullscreenWrapperComponent,
     BotArticlesComponent,
+    BotArticleHistoryComponent,
     CategorieModalInputComponent,
     EditAndViewArticlesComponent,
     ArticleQuestionListViewComponent,

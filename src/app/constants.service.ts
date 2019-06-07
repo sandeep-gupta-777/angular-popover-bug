@@ -252,6 +252,9 @@ export class ConstantsService {
   getCorpusForFAQBot(bot_id){
     return this.BACKEND_URL + `api/v1/corpus/${bot_id}/`;
   }
+  getAllCorpusForFAQBot(){
+    return this.BACKEND_URL + `api/v1/corpus/`;
+  }
   getDraftCorpusForFAQBot(){
     return this.BACKEND_URL + `api/v1/corpus/getdefaultcorpus/`;
   }
@@ -1062,6 +1065,32 @@ export class ConstantsService {
       search: false,
       searchValue: false,
     },
+  };
+
+  SMART_TABLE_ARTICLE_HISTORY_TEMPLATE: ITableColumn = {
+    description: {
+      originalKey: 'description',
+      value: '',
+      type: 'string',
+      displayValue: 'Comment while training',
+
+    },
+    updated_at: {
+      originalKey: 'updated_at',
+      value: '',
+      type: 'srting',
+      displayValue: 'Updated on',
+
+    },
+    'actions': {
+      originalKey: '',
+      value: undefined,
+      type: 'icon',
+      displayValue: 'Actions',
+      custom: true,
+      name: '',
+
+    }
   };
 
 }
