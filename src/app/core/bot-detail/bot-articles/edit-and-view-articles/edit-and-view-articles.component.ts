@@ -18,6 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IArticleItem, ICategoryMappingItem, ICorpus } from 'src/app/core/interfaces/faqbots';
 import { MatDialog } from '@angular/material';
 import {DomService} from "../../../../dom.service";
+import { EAllActions } from 'src/app/typings/enum';
 
 @Component({
   selector: 'app-edit-and-view-articles',
@@ -47,6 +48,7 @@ export class EditAndViewArticlesComponent implements OnInit {
   @Output() updateArticle = new EventEmitter();
   @Output() deleteArticle = new EventEmitter();
   @Output() trainAndUpdate = new EventEmitter();
+  myEAllActions = EAllActions;
   article_id: number;
   currentModal : string;
   JSON = JSON;

@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
 import { IEnterpriseProfileInfo } from 'src/interfaces/enterprise-profile';
 import { Select } from '@ngxs/store';
 import { RouteHelperService } from 'src/app/route-helper.service';
+import { EAllActions } from 'src/app/typings/enum';
 @Component({
   selector: 'app-bot-articles',
   templateUrl: './bot-articles.component.html',
@@ -51,10 +52,13 @@ export class BotArticlesComponent implements OnInit ,AfterViewInit{
   showCreateNewCategoryInput = false;
   currentPageOfArtcle;
   enterprise_unique_name;
+  myEAllActions = EAllActions;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   ngOnInit() {
     this.getCorpusAndSetArticleFilterForm$()
-      .subscribe()
+      .subscribe(()=>{
+        debugger;
+      })
     this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
       this.enterprise_unique_name = enterpriseProfileInfo.enterprise_unique_name;
     });
@@ -67,7 +71,7 @@ export class BotArticlesComponent implements OnInit ,AfterViewInit{
       'bot-access-token': this.bot.bot_access_token
     };
     let getCorpusForFAQBot = this.constantsService.getDraftCorpusForFAQBot();
-
+debugger;
     return this.serverService.makeGetReq<any>({ url: getCorpusForFAQBot, headerData })
       .pipe(
         map((val) => {

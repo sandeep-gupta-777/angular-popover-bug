@@ -75,7 +75,22 @@ export enum EAllActions {
   'Create Bot Knowledge base' = 'Create Bot Knowledge base',
   'Update Bot Knowledge base' = 'Update Bot Knowledge base',
   'Delete Bot Knowledge base' = 'Delete Bot Knowledge base',
-  'ModuleDetail' = 'ModuleDetail'
+  'ModuleDetail' = 'ModuleDetail',
+  'Create Corpus' = 'Create Corpus' ,
+  'Update Corpus' = 'Update Corpus' ,
+  'Get Corpus' = 'Get Corpus' ,
+  'delete Corpus' = 'delete Corpus' ,
+  'Create Category' = 'Create Category' ,
+  'Update Category' = 'Update Category' ,
+  'Remove Category' = 'Remove Category' ,
+  'Section Category Change' = 'Section Category Change' ,
+  'Make Corpus Live' = 'Make Corpus Live' ,
+  'Create Section' = 'Create Section' ,
+  'Update Section' = 'Update Section' ,
+  'Remove Section' = 'Remove Section' ,
+  'Get Default Corpus' = 'Get Default Corpus' ,
+  'Train Corpus' = 'Train Corpus' ,
+  'Section Category Change with Category Creation' = 'Section Category Change with Category Creation',
 }
 
 
