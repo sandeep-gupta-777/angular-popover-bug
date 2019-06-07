@@ -26,8 +26,8 @@
 
 Cypress.Commands.add("login_UI", (email, password) => {
 
-    email = email || "sandeepkgupta007@gmail.com";
-    password = password || "Dec@2019";
+    email = email || "ayeshreddy.k@imimobile.com";
+    password = password || "Botwoman@123!";
 
     cy.server();
     cy.route('GET', '*/api/v1/actions/?limit=100').as('actions');
@@ -52,7 +52,7 @@ Cypress.Commands.add("login_UI", (email, password) => {
     cy.get('[data-cy=login-submit]').click();
 
     // cy.wait(['@login']);
-    cy.wait(15000);
+    cy.wait(60000);
     cy.url({timeout:40000}).should('include', '/core/viewbots');;
 });
 

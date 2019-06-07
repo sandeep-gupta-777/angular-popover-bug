@@ -7,7 +7,6 @@
       [status]="updateBotLoading"
       [text]="'Update Bot'"
       [icon]="'refresh'"
-      [toolTipText]="updateBotTooltipText"
       (btnClick)="updateBotHandler()">
     </app-button-wrapper>
     <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedIndexChange)="selectedTabIndex = $event" animationDuration="0ms">

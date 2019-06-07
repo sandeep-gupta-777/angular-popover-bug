@@ -147,7 +147,7 @@ export class BotConfigComponent implements OnInit {
     if (invalidFormIndex >= 0) {
       this.selectedTabIndex = invalidFormIndex;
       this.showFormInvalidError(invalidFormIndex);
-      this.updateBotTooltipText = "test";
+      this.updateBotTooltipText = "";
       return;
     }
     let bot = this.createBotData();

@@ -5,14 +5,17 @@ describe('faq-artical-tab', function () {
     beforeEach(() => {
         cy.login_UI();
     });
-    
+
     it('checks if artical is present or not',function(){
-        cy.contains('Search Based').click()
-        cy.url().should('include', 'viewbots?type=faqbot')
+        cy.contains('Search Based').click();
+        cy.url().should('include', 'viewbots?type=faqbot');
+        cy.wait(3000);
         cy.get('.grid-bot-preview-name').first().click()
+        cy.wait(3000);
         cy.url().should('include', '/botdetail/faqbot/')
-        
+
         cy.contains('Article').click()
+        cy.wait(30000);
         cy.url().should('include','build=articles')
         cy.contains('All articles')
         cy.contains('Knowledge base')
@@ -24,12 +27,8 @@ describe('faq-artical-tab', function () {
 
         cy.get('.questions-heading')
             .contains('Questions')
-        cy.get('.response-heading') 
+        cy.get('.response-heading')
             .contains('Response')
-
-        
-        
-
 
     })
 

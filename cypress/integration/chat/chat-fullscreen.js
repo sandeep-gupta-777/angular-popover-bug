@@ -27,7 +27,7 @@ describe('Chat window', function () {
 		cy.get('[data-cy=chat-message]');
 		cy.get('[data-cy=chat-input]').type("this is e2e test {enter}");
 		cy.contains("this is e2e test").should('exist');
-		cy.wait(['@send'], {timeout:10000});
+		// cy.wait(['@send'], {timeout:10000});
 		cy.get('[data-cy=chat-room]').should('exist');
 
 		/*check for header items*/
@@ -49,7 +49,7 @@ describe('Chat window', function () {
 		cy.get('[data-cy=custom-room-form-trigger]').click();
 		cy.get('[data-cy=edit-consumer-uid]').type(Date.now());
 		cy.get('[data-cy=edit-consumer-submit]').click();
-		cy.wait(['@send1'], {timeout:10000});
+		// cy.wait(['@send1'], {timeout:10000});
 	});
 
 

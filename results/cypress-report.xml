@@ -1,50 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Mocha Tests" time="0" tests="1" failures="1">
-  <testsuite name="Root Suite" timestamp="2019-06-05T14:46:24" tests="0" failures="0" time="0">
+<testsuites name="Mocha Tests" time="130.881" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2019-06-06T21:08:33" tests="0" failures="0" time="0">
   </testsuite>
-  <testsuite name="faq-test" timestamp="2019-06-05T14:46:24" tests="1" failures="1" time="0">
-    <testcase name="faq-test &quot;before all&quot; hook for &quot;checks if dirty data modal is comming or not&quot;" time="0" classname="&quot;before all&quot; hook for &quot;checks if dirty data modal is comming or not&quot;">
-      <failure message="Timed out retrying: cy.click() failed because this element:
-
-&lt;button _ngcontent-c1=&quot;&quot; class=&quot;btn-theme btn-theme-block mt-3 mb-2 mat-flat-button btn-theme-primary&quot; data-cy=&quot;login-submit&quot; mat-flat-button=&quot;&quot; type=&quot;submit&quot; ng-reflect-klass=&quot;btn-theme btn-theme-block mt-3&quot; ng-reflect-ng-class=&quot;[object Object]&quot; ng-reflect-disabled=&quot;false&quot;&gt;...&lt;/button&gt;
-
-is being covered by another element:
-
-&lt;js-bubble ng-version=&quot;7.1.4&quot;&gt;&lt;/js-bubble&gt;
-
-Fix this problem, or use {force: true} to disable error checking.
-
-https://on.cypress.io/element-cannot-be-interacted-with
-
-Because this error occurred during a &apos;before all&apos; hook we are skipping the remaining tests in the current suite: &apos;faq-test&apos;" type="CypressError"><![CDATA[CypressError: Timed out retrying: cy.click() failed because this element:
-
-<button _ngcontent-c1="" class="btn-theme btn-theme-block mt-3 mb-2 mat-flat-button btn-theme-primary" data-cy="login-submit" mat-flat-button="" type="submit" ng-reflect-klass="btn-theme btn-theme-block mt-3" ng-reflect-ng-class="[object Object]" ng-reflect-disabled="false">...</button>
-
-is being covered by another element:
-
-<js-bubble ng-version="7.1.4"></js-bubble>
-
-Fix this problem, or use {force: true} to disable error checking.
-
-https://on.cypress.io/element-cannot-be-interacted-with
-
-Because this error occurred during a 'before all' hook we are skipping the remaining tests in the current suite: 'faq-test'
-    at Object.cypressErr (http://localhost:4200/__cypress/runner/cypress_runner.js:82944:11)
-    at Object.throwErr (http://localhost:4200/__cypress/runner/cypress_runner.js:82909:18)
-    at Object.throwErrByPath (http://localhost:4200/__cypress/runner/cypress_runner.js:82936:17)
-    at Object.retry (http://localhost:4200/__cypress/runner/cypress_runner.js:76454:16)
-    at retryActionability (http://localhost:4200/__cypress/runner/cypress_runner.js:68200:19)
-    at tryCatcher (http://localhost:4200/__cypress/runner/cypress_runner.js:131381:23)
-    at Function.Promise.attempt.Promise.try (http://localhost:4200/__cypress/runner/cypress_runner.js:128755:29)
-    at tryFn (http://localhost:4200/__cypress/runner/cypress_runner.js:76690:24)
-    at whenStable (http://localhost:4200/__cypress/runner/cypress_runner.js:76718:12)
-    at http://localhost:4200/__cypress/runner/cypress_runner.js:76478:16
-    at tryCatcher (http://localhost:4200/__cypress/runner/cypress_runner.js:131381:23)
-    at Promise._settlePromiseFromHandler (http://localhost:4200/__cypress/runner/cypress_runner.js:129399:31)
-    at Promise._settlePromise (http://localhost:4200/__cypress/runner/cypress_runner.js:129456:18)
-    at Promise._settlePromise0 (http://localhost:4200/__cypress/runner/cypress_runner.js:129501:10)
-    at Promise._settlePromises (http://localhost:4200/__cypress/runner/cypress_runner.js:129580:18)
-    at Promise._fulfill (http://localhost:4200/__cypress/runner/cypress_runner.js:129525:18)]]></failure>
+  <testsuite name="faq-test" timestamp="2019-06-06T21:08:33" tests="1" failures="0" time="130.881">
+    <testcase name="faq-test checks if dirty data modal is comming or not" time="130.881" classname="checks if dirty data modal is comming or not">
     </testcase>
   </testsuite>
 </testsuites>

@@ -282,7 +282,7 @@ export class VersionStateReducer {
 
 
   @Action(ValidateCode_flow_ActivateVersion$)
-  ValidateCode_flow_ActivateVersion$({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: ValidateCode_flow_ActivateVersion$) {
+  validateCode_flow_ActivateVersion$({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: ValidateCode_flow_ActivateVersion$) {
     let bot = payload.bot;
     let version = payload.version;
     this.codeInputService.validateCode$(payload.bot, payload.version)
