@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {PermissionService} from '../../../../../permission.service';
-import {EAllActions} from '../../../../../typings/enum';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { PermissionService } from '../../../../../permission.service';
+import { EAllActions } from '../../../../../typings/enum';
 
 
 @Component({
@@ -73,5 +73,18 @@ export class SecurityComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.formGroup.get("advanced_data_protection").value) {
+      this.formGroup.get("consent_message").enable();
+    } else {
+      this.formGroup.get("consent_message").disable();
+    }
+    this.formGroup.get("advanced_data_protection").valueChanges.subscribe((data) => {
+      if (data) {
+        this.formGroup.get("consent_message").enable();
+      } else {
+        this.formGroup.get("consent_message").disable();
+      }
+
+    })
   }
 }
