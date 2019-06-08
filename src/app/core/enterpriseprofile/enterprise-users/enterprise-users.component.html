@@ -43,6 +43,9 @@
   <div class="col-12 p-0 m-0">
     <app-smart-table *ngIf="enterpriseUserModal.tableData" [data]="enterpriseUserModal.tableData" (customActionEvents)="customActionEventsTriggeredInSessionsTable($event,ModifyUserModal)">
     </app-smart-table>
+    <div *ngIf="!enterpriseUserModal.tableData">
+      No users found
+    </div>
   </div>
 
 </div>
