@@ -178,7 +178,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
       this.store.dispatch([new ResetChatState()]);
     });
     this.serverService.removeTokens();
-    this.router.navigate(['login'])
+    this.router.navigate(['auth', 'login'])
       .then(()=>{
         setTimeout(()=>{
           location.reload()
