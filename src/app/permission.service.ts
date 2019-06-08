@@ -22,7 +22,7 @@ export class PermissionService {
     [EAllActions['Update Bots']]: true,
     [EAllActions['Delete Bots']]: true,
     [EAllActions['Get Bots Anonymous']]: true,
-    [EAllActions['Get Enterpise Knowledge base']]: true,
+    [EAllActions['Get Enterprise Knowledge base']]: true,
     [EAllActions['Create Enterprise Knowledge base']]: true,
     [EAllActions['Update Enterprise Knowledge base']]: true,
     [EAllActions['Delete Enterprise Knowledge base']]: true,

@@ -75,7 +75,7 @@ var EAPermissionsDynamic;
     EAPermissionsDynamic["Update Bots"] = "Update Bots";
     EAPermissionsDynamic["Delete Bots"] = "Delete Bots";
     EAPermissionsDynamic["Get Bots Anonymous"] = "Get Bots Anonymous";
-    EAPermissionsDynamic["Get Enterpise Knowledge base"] = "Get Enterpise Knowledge base";
+    EAPermissionsDynamic["Get Enterprise Knowledge base"] = "Get Enterprise Knowledge base";
     EAPermissionsDynamic["Create Enterprise Knowledge base"] = "Create Enterprise Knowledge base";
     EAPermissionsDynamic["Update Enterprise Knowledge base"] = "Update Enterprise Knowledge base";
     EAPermissionsDynamic["Delete Enterprise Knowledge base"] = "Delete Enterprise Knowledge base";
@@ -146,7 +146,7 @@ var ConstantsService = /** @class */ (function () {
         //   'Update Bots',
         //   'Delete Bots',
         //   'Get Bots Anonymous',
-        //   'Get Enterpise Knowledge base',
+        //   'Get Enterprise Knowledge base',
         //   'Create Enterprise Knowledge base',
         //   'Update Enterprise Knowledge base',
         //   'Delete Enterprise Knowledge base',

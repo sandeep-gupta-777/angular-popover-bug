@@ -18,15 +18,6 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../src/app/permission.service.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="412">
-              <caret line="111" column="20" lean-forward="true" selection-start-line="111" selection-start-column="20" selection-end-line="111" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../src/environments/environment.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="187">
@@ -42,16 +33,16 @@
         <entry file="file://$PROJECT_DIR$/../../src/app/typings/enum.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="215">
-              <caret line="23" column="44" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
+              <caret line="23" column="45" lean-forward="true" selection-start-line="23" selection-start-column="45" selection-end-line="23" selection-end-column="45" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../src/app/chat.service.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="204" lean-forward="true" selection-start-line="204" selection-end-line="204" />
+            <state relative-caret-position="232">
+              <caret line="212" column="33" lean-forward="true" selection-start-line="212" selection-start-column="33" selection-end-line="212" selection-end-column="33" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -63,28 +54,36 @@
         <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="97">
-              <caret line="36" column="20" lean-forward="true" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="20" />
+              <caret line="36" column="20" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="20" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../src/app/chat/chat-wrapper.component.ts">
+        <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="223">
-              <caret line="343" column="13" lean-forward="true" selection-start-line="343" selection-start-column="13" selection-end-line="343" selection-end-column="13" />
+            <state relative-caret-position="221">
+              <caret line="175" column="20" lean-forward="true" selection-start-line="175" selection-start-column="20" selection-end-line="175" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../src/app/core/enterpriseprofile/enterprise-users/enterprise-users.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="324">
+              <caret line="34" column="6" selection-start-line="34" selection-start-column="6" selection-end-line="34" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../../src/app/core/enterpriseprofile/enterprise-users/enterprise-users.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
               <folding>
-                <element signature="e#0#71#0" expanded="true" />
+                <element signature="e#0#73#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../src/app/auth/login/login.component.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="16" column="28" lean-forward="true" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -120,11 +119,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>mat-snack-bar-container</find>
-      <find>e2e_</find>
-      <find>@send</find>
-      <find>update</find>
-      <find>error</find>
       <find>&quot;test&quot;</find>
       <find>checks if user is able to update bot code version</find>
       <find>checks if sidebar-setting exists</find>
@@ -150,6 +144,11 @@
       <find>sendme</find>
       <find>maste</find>
       <find>messaging</find>
+      <find>enterpise</find>
+      <find>Enterpise</find>
+      <find>logout</find>
+      <find>Manage users of your enterprise by adding</find>
+      <find>logout(</find>
     </findStrings>
     <replaceStrings>
       <replace>form-control d-flex f</replace>
@@ -160,6 +159,7 @@
       <replace>action cannot be undone. Are you sure you wish to delete?</replace>
       <replace />
       <replace>Get Enterpise Knowledge base</replace>
+      <replace>Enterprise</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -187,7 +187,6 @@
         <option value="$PROJECT_DIR$/../../src/testing/spec-builder.ts" />
         <option value="$PROJECT_DIR$/../../src/testing/matchers.ts" />
         <option value="$PROJECT_DIR$/../../src/testing/init.ts" />
-        <option value="$PROJECT_DIR$/../../src/app/core/header/header.component.ts" />
         <option value="$PROJECT_DIR$/../../src/styles.scss" />
         <option value="$PROJECT_DIR$/../../cypress/integration/role-based-acess/analyst.js" />
         <option value="$PROJECT_DIR$/../../cypress/auth/login.js" />
@@ -221,11 +220,12 @@
         <option value="$PROJECT_DIR$/../src/app/permission.service.ts" />
         <option value="$PROJECT_DIR$/../src/app/constants.service.js" />
         <option value="$PROJECT_DIR$/../../src/app/permission.service.ts" />
-        <option value="$PROJECT_DIR$/../../src/app/typings/enum.ts" />
         <option value="$PROJECT_DIR$/../../src/app/core/header/header.component.html" />
         <option value="$PROJECT_DIR$/../../src/environments/environment.ts" />
         <option value="$PROJECT_DIR$/../../src/environments/environment.hmr.ts" />
         <option value="$PROJECT_DIR$/../../src/app/constants.service.ts" />
+        <option value="$PROJECT_DIR$/../../src/app/typings/enum.ts" />
+        <option value="$PROJECT_DIR$/../../src/app/core/header/header.component.ts" />
       </list>
     </option>
   </component>
@@ -296,6 +296,23 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="core" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="enterpriseprofile" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="." type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="enterpriseprofile" type="462c0819:PsiDirectoryNode" />
+              <item name="enterprise-users" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="." type="b2602c69:ProjectViewProjectNode" />
@@ -509,18 +526,17 @@
       <workItem from="1559819183646" duration="32156000" />
       <workItem from="1559897638728" duration="3036000" />
       <workItem from="1559906446379" duration="97000" />
-      <workItem from="1559906547837" duration="8547000" />
+      <workItem from="1559906547837" duration="10444000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1117542000" />
+    <option name="totallyTimeSpent" value="1119439000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49440297" visible="true" weight="0.23052464" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49440297" visible="true" weight="0.23052464" />
       <window_info id="Structure" order="1" sideWeight="0.50369006" side_tool="true" weight="0.2591415" />
       <window_info id="npm" order="2" sideWeight="0.506542" side_tool="true" weight="0.2591415" />
       <window_info id="Favorites" order="3" sideWeight="0.39044943" side_tool="true" weight="0.22257552" />
@@ -535,7 +551,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49841017" weight="0.83566433" />
       <window_info anchor="bottom" id="TypeScript" order="9" sideWeight="0.49761525" weight="0.3181818" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5055644" side_tool="true" weight="0.2744755" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4944356" visible="true" weight="0.21328671" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4944356" visible="true" weight="0.052447554" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -632,8 +648,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../src/environments/environment.hmr.ts" />
-    <entry file="file://$PROJECT_DIR$/../../cypress/auth/login.js" />
     <entry file="file://$PROJECT_DIR$/../../cypress/support/commands.js" />
     <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component.html" />
     <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component.ts" />
@@ -668,7 +682,6 @@
     <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.component.ts" />
     <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/security/security.component.html" />
     <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/security/security.component.ts" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.ts" />
     <entry file="file://$PROJECT_DIR$/../../src/app/ngIf-permission.directive.ts" />
     <entry file="file://$PROJECT_DIR$/../../src/app/constants.service.js" />
     <entry file="file://$PROJECT_DIR$/../../src/app/accordian/accordian.component.scss">
@@ -730,13 +743,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="97">
-          <caret line="36" column="20" lean-forward="true" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../src/environments/environment.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -747,19 +753,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../src/app/typings/enum.ts">
+    <entry file="file://$PROJECT_DIR$/../../src/app/chat.service.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="23" column="44" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
+        <state relative-caret-position="232">
+          <caret line="212" column="33" lean-forward="true" selection-start-line="212" selection-start-column="33" selection-end-line="212" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../src/app/chat.service.ts">
+    <entry file="file://$PROJECT_DIR$/../../src/app/typings/enum.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="204" lean-forward="true" selection-start-line="204" selection-end-line="204" />
+        <state relative-caret-position="215">
+          <caret line="23" column="45" lean-forward="true" selection-start-line="23" selection-start-column="45" selection-end-line="23" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="97">
+          <caret line="36" column="20" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="175" column="20" lean-forward="true" selection-start-line="175" selection-start-column="20" selection-end-line="175" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/enterpriseprofile/enterprise-users/enterprise-users.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="34" column="6" selection-start-line="34" selection-start-column="6" selection-end-line="34" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/enterpriseprofile/enterprise-users/enterprise-users.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#0#73#0" expanded="true" />
           </folding>
         </state>
       </provider>
