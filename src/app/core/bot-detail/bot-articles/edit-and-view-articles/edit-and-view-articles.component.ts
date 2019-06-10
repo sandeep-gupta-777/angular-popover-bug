@@ -18,6 +18,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IArticleItem, ICategoryMappingItem, ICorpus } from 'src/app/core/interfaces/faqbots';
 import { MatDialog } from '@angular/material';
 import {DomService} from "../../../../dom.service";
+import { EAllActions, ERoleName } from 'src/app/typings/enum';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { IUser } from 'src/app/core/interfaces/user';
+import { IAuthState } from 'src/app/auth/ngxs/auth.state';
 
 @Component({
   selector: 'app-edit-and-view-articles',
@@ -41,12 +46,16 @@ export class EditAndViewArticlesComponent implements OnInit {
   @Input() category_mapping: ICategoryMappingItem[];
   @Input() corpus :ICorpus;
   articleData: IArticleItem;
+  @Select() loggeduser$: Observable<{ user: IUser }>;
   @Output() goBack = new EventEmitter();
   @Output() corpusNeedsReload = new EventEmitter();
   @Output() saveAndTrain = new EventEmitter();
   @Output() updateArticle = new EventEmitter();
   @Output() deleteArticle = new EventEmitter();
   @Output() trainAndUpdate = new EventEmitter();
+  userRole;
+  myEAllActions = EAllActions;
+  myERoleName = ERoleName;
   article_id: number;
   currentModal : string;
   JSON = JSON;
@@ -63,6 +72,13 @@ export class EditAndViewArticlesComponent implements OnInit {
           }
           }
       });
+      
+      this.loggeduser$
+        .subscribe((value: IAuthState) => {
+          if (value && value.user != null) {
+            this.userRole = value.user.role.name;
+          }
+        });
 
   }
 
@@ -70,11 +86,13 @@ export class EditAndViewArticlesComponent implements OnInit {
     return index;
   }
   deleteQustionWithId(index: number) {
-    if (index > -1) {
-      if(this.articleData.questions.length == 1){
-        this.utilityService.showErrorToaster("Atleast one question is needed for an article");
-      }else{
-          this.articleData.questions.splice(index, 1);
+    if( !(this.userRole === ERoleName.Analyst || this.userRole === ERoleName.Tester)){
+      if (index > -1) {
+        if(this.articleData.questions.length == 1){
+          this.utilityService.showErrorToaster("Atleast one question is needed for an article");
+        }else{
+            this.articleData.questions.splice(index, 1);
+        }
       }
     }
   }
@@ -165,7 +183,7 @@ export class EditAndViewArticlesComponent implements OnInit {
               this.utilityService.showSuccessToaster("Category succesfully updated");
               resolve(value)
             })
-  
+
         }
       } else {
         if (formValue.inputType == "existing") {
@@ -210,7 +228,7 @@ export class EditAndViewArticlesComponent implements OnInit {
   }
 
   globalConformationModalSubmitted(formValue){
-    debugger;
+
     if(this.currentModal == "saveNTrain"){
       this.updateAndTrainModalSubmitted(formValue)
     }
@@ -218,9 +236,9 @@ export class EditAndViewArticlesComponent implements OnInit {
       this.updateArticleClickedModalsubmitted(formValue)
     }
   }
-  
+
   updateArticleClickedModal(template: TemplateRef<any>){
-    debugger;
+
     if(this.corpus.state == "training"){
       this.trainingIsGoingOn();
     }
@@ -233,12 +251,12 @@ export class EditAndViewArticlesComponent implements OnInit {
     }
   }
   updateArticleClickedModalsubmitted(formValue){
-    debugger;
+
     this.changeArticalCategory(formValue)
       .then(()=>{
         this.updateArticleClicked();
       });
-    
+
   }
   updateAndTrainModal(template: TemplateRef<any>){
     if(this.corpus.state == "training"){
@@ -257,6 +275,6 @@ export class EditAndViewArticlesComponent implements OnInit {
     .then(()=>{
       this.updateAndTrain();
     });
-    
+
   }
 }

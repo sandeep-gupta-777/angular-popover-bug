@@ -21,6 +21,7 @@ export class MyIfDirective {
     let isDenied = true;
     // ;
 
+
     if (Array.isArray(tabNameInfo)) {
       tabNameInfo.forEach((tab) => {
         isDenied = isDenied && this.permissionService.isTabAccessDenied(tab);

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ICorpus } from 'src/app/core/interfaces/faqbots';
+import { EAllActions } from 'src/app/typings/enum';
 
 @Component({
   selector: 'app-artical-header',
@@ -9,6 +10,7 @@ import { ICorpus } from 'src/app/core/interfaces/faqbots';
 export class ArticalHeaderComponent implements OnInit {
 
   constructor() { }
+  myEAllActions = EAllActions;
   @Input() corpus : ICorpus;
   @Output() train = new EventEmitter();
   @Output() makeLive = new EventEmitter();

@@ -389,7 +389,7 @@ export class ConstantsService {
   }
 
   getAllActionsUrl() {
-    return this.BACKEND_URL + `api/v1/actions/?limit=100`; //https://dev.imibot.ai/api/v1/actions/
+    return this.BACKEND_URL + `api/v1/actions/?limit=1000`; //https://dev.imibot.ai/api/v1/actions/
   }
 
   getChatFeedbackUrl() {
