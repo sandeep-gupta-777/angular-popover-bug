@@ -147,6 +147,7 @@
       <mat-form-field class="question-list-item w-100" appearance="outline" color=basic
         *ngFor="let answer of articleData.answers; let index = index;trackBy:trackByIndex;">
         <textarea matInput name=a{{index}} type="text" [(ngModel)]="articleData.answers[index].text[0]"
+          [disabled]="userRole === myERoleName.Analyst || userRole === myERoleName.Tester"
           #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="10">
             </textarea>
       </mat-form-field>
