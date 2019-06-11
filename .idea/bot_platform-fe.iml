@@ -1,30 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$/../..">
-      <excludeFolder url="file://$MODULE_DIR$/../../.idea" />
+    <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
-      <excludeFolder url="file://$MODULE_DIR$/.vscode" />
+      <excludeFolder url="file://$MODULE_DIR$/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/node_modules1" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
-      <excludeFolder url="file://$MODULE_DIR$/../dist" />
-      <excludeFolder url="file://$MODULE_DIR$/../documentation" />
-      <excludeFolder url="file://$MODULE_DIR$/../node_modules" />
-      <excludeFolder url="file://$MODULE_DIR$/../node_modules1" />
-      <excludeFolder url="file://$MODULE_DIR$/../out-tsc" />
-      <excludeFolder url="file://$MODULE_DIR$/../../cordova-test/platforms" />
-      <excludeFolder url="file://$MODULE_DIR$/../../dist" />
-      <excludeFolder url="file://$MODULE_DIR$/../../documentation" />
-      <excludeFolder url="file://$MODULE_DIR$/../../e2e" />
-      <excludeFolder url="file://$MODULE_DIR$/../../ionic-demo/platforms" />
-      <excludeFolder url="file://$MODULE_DIR$/../../ionic-sample-v3/platforms" />
-      <excludeFolder url="file://$MODULE_DIR$/../../ionic3-ios/platforms" />
-      <excludeFolder url="file://$MODULE_DIR$/../../london-demo-v3-front-cam-bug/platforms" />
-      <excludeFolder url="file://$MODULE_DIR$/../../london-demo-v3/node_modules1/cordova-android/spec/e2e/fixtures/cordova-plugin-fake/platforms" />
-      <excludeFolder url="file://$MODULE_DIR$/../../london-demo-v3/platforms" />
-      <excludeFolder url="file://$MODULE_DIR$/../../node_modules" />
-      <excludeFolder url="file://$MODULE_DIR$/../../test-prod/platforms" />
-      <excludeFolder url="file://$MODULE_DIR$/../../test-prod/www" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
