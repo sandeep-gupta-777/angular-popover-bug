@@ -1084,8 +1084,8 @@ export class ConstantsService {
     },
     'actions': {
       originalKey: '',
-      value: undefined,
-      type: 'icon',
+      value: '',
+      type: 'mat-icon',
       displayValue: 'Actions',
       custom: true,
       name: '',

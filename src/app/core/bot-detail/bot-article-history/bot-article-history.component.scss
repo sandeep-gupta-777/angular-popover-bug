@@ -8,3 +8,16 @@
     color: #4a4a4a;
     padding-bottom: 8px
 }
+::ng-deep{
+    .history-table{
+        .textVal{
+            width: 100% !important;
+        }
+        table [name=icon-color] {
+            color: #d8d8d8;
+            }
+        .color-green{
+            color: #34bc6e;
+        }
+    }
+}
