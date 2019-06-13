@@ -76,6 +76,8 @@ import {ConstantsService} from "../../constants.service";
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatGridListModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
 import {BreakpointService} from '../breakpoint.service';
+import { SearchArticleByQuestionPipe } from './bot-detail-header/search-article-by-question.pipe';
+import { FaqSearchBoxComponent } from './bot-detail-header/faq-search-box/faq-search-box.component';
 
 const routes: Route[] = [
   {
@@ -149,6 +151,8 @@ const routes: Route[] = [
     FilterArticalsPipe,
     ArticleFilterComponent,
     ArticalHeaderComponent,
+    SearchArticleByQuestionPipe,
+    FaqSearchBoxComponent,
     /*after lazy loading*/
     // RequiredIfOneFilledValidator
   //

@@ -16,6 +16,7 @@ import { IEnterpriseProfileInfo } from 'src/interfaces/enterprise-profile';
 import { Select } from '@ngxs/store';
 import { RouteHelperService } from 'src/app/route-helper.service';
 import { EAllActions } from 'src/app/typings/enum';
+import { EventService } from 'src/app/event.service';
 @Component({
   selector: 'app-bot-articles',
   templateUrl: './bot-articles.component.html',
@@ -85,6 +86,7 @@ debugger;
           this.articleFilterForm = this.formBuilder.group(
             formObj
           );
+          EventService.faqHeaderSearchBarReloadData.emit(val);
         })
       )
   }
