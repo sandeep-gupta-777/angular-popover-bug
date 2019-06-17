@@ -1,4 +1,17 @@
 import {EventEmitter, Injectable} from '@angular/core';
+import downloadCsv from 'download-csv';
+import {ActivatedRoute, Router} from '@angular/router';
+import {IBot} from './core/interfaces/IBot';
+import {IPipelineItem} from '../interfaces/ai-module';
+import {IAnalysis2HeaderData} from '../interfaces/Analytics2/analytics2-header';
+import {EBotMessageMediaType, IMessageData} from '../interfaces/chat-session-state';
+import {IBotPreviewFirstMessage} from './chat/chat-wrapper.component';
+import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
+import {StoreVariableService} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
+import {AbstractControl, FormArray, FormControl, FormGroup, NgControl, NgForm} from '@angular/forms';
+import {MatSnackBar} from '@angular/material';
+import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
+const uuidv1 = require('uuid/v1');
 
 export enum EBotType {
   chatbot = 'chatbot',
@@ -14,23 +27,14 @@ export enum EFormValidationErrors {
   form_validation_data_management = 'form_validation_data_management',
 }
 
-import downloadCsv from 'download-csv';
-import {ActivatedRoute, Router} from '@angular/router';
-import {IBot} from './core/interfaces/IBot';
-import {IPipelineItem} from '../interfaces/ai-module';
-import {IAnalysis2HeaderData} from '../interfaces/Analytics2/analytics2-header';
-import {EBotMessageMediaType, IMessageData} from '../interfaces/chat-session-state';
-import {IBotPreviewFirstMessage} from './chat/chat-wrapper.component';
-import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
-import {StoreVariableService} from './core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NgControl, NgForm, Validators} from '@angular/forms';
-import {MatSnackBar} from '@angular/material';
-import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
-import {el} from "@angular/platform-browser/testing/src/browser_util";
-
 
 @Injectable()
 export class UtilityService {
+
+
+  static generateUUid() {
+    return uuidv1();
+  }
 
   constructor(
     // private toastr: ToastrService,
@@ -124,9 +128,9 @@ export class UtilityService {
   }
 
   /**
-  *  getVersion
-  *  @deprecated: Use CodeInputService.getVersion instead
-  * */
+   *  getVersion
+   *  @deprecated: Use CodeInputService.getVersion instead
+   * */
   getActiveVersionInBot(bot: IBot) {
     return bot.store_bot_versions && bot.store_bot_versions.find((BotVersion) => {
       return bot.active_version_id === BotVersion.id;
@@ -134,8 +138,8 @@ export class UtilityService {
   }
 
 
-  static getEnabledChannelsInBot(bot:IBot):{name:string, displayName:string}[]{
-    if(!bot || bot.integrations && bot.integrations.channels){
+  static getEnabledChannelsInBot(bot: IBot): { name: string, displayName: string }[] {
+    if (!bot || bot.integrations && bot.integrations.channels) {
       return [];
     }
     return Object.keys(bot.integrations.channels)
@@ -407,16 +411,16 @@ export class UtilityService {
     return obj;
   }
 
-  static getEnabledIntegrations(bot:IBot){
+  static getEnabledIntegrations(bot: IBot) {
     let allIntegrations = {
       ...bot.integrations.ccsp_details,
       ...bot.integrations.channels,
       ...bot.integrations.fulfillment_provider_details,
     };
 
-    let x = Object.keys(allIntegrations).reduce((total, key)=>{
-      if(allIntegrations[key].enabled){
-        return {...total, [key]:allIntegrations[key]};
+    let x = Object.keys(allIntegrations).reduce((total, key) => {
+      if (allIntegrations[key].enabled) {
+        return {...total, [key]: allIntegrations[key]};
       }
       return total;
     }, {})
@@ -520,10 +524,9 @@ export class UtilityService {
     while (match) {
 
       let templateKey;
-      if(match[2]){
+      if (match[2]) {
         templateKey = match[2].replace(/\)/g, '',).replace(/\'/g, '').trim();
-      }
-      else{
+      } else {
         templateKey = match[1].replace(/\)/g, '',).replace(/\'/g, '').trim();
       }
       // let templateKey, matchedStr = match[0];
@@ -594,7 +597,7 @@ export class UtilityService {
     try {
       let genTemplateCodeStr = '';
       let uiDictionaryKeyArray = Object.keys(uiDictionary);
-      if(uiDictionary['else']){
+      if (uiDictionary['else']) {
         var index = uiDictionaryKeyArray.indexOf('else');
         if (index > -1) {
           uiDictionaryKeyArray.splice(index, 1);
@@ -606,11 +609,9 @@ export class UtilityService {
         let elIfStr = '';
         if (index === 0 && templateKey != 'else') {
           elIfStr = `if(variables['templateKey'] == '${templateKey}'):\n`;
-        }
-        else if(templateKey == 'else'){
+        } else if (templateKey == 'else') {
           elIfStr = `\nelse:\n`;
-        }
-         else if(index != 0 && templateKey != 'else'){
+        } else if (index != 0 && templateKey != 'else') {
           elIfStr = `\nelif(variables['templateKey'] == '${templateKey}'):\n`;
         }
         const outputValues = uiDictionary[templateKey];
@@ -1089,11 +1090,11 @@ export class UtilityService {
   * spaceCase:
   * Example: sandeep_gupta => Sandeep Gupta
   * */
-  static spaceCase(str:string, delimiter:string){
-    if(!str){
+  static spaceCase(str: string, delimiter: string) {
+    if (!str) {
       return "";
     }
-    return str.split(delimiter).map((str)=>str[0].toUpperCase() + str.slice(1)).join(" ");
+    return str.split(delimiter).map((str) => str[0].toUpperCase() + str.slice(1)).join(" ");
   }
 
   isManagerValidator(formGroup: FormGroup) {
@@ -1123,7 +1124,7 @@ export class UtilityService {
     for (let key in smallObj) {
       obj1_temp[key] = largeObj[key];
     }
-    let x=  UtilityService.deepCompare(obj1_temp, smallObj);
+    let x = UtilityService.deepCompare(obj1_temp, smallObj);
 
     return x;
   }
@@ -1137,7 +1138,7 @@ export class UtilityService {
   // }
 
   createRandomUid() {
-    return Date.now().toString();
+    return UtilityService.generateUUid();
   }
 
   convertGranularityStrToMs(granularity: string): number {
@@ -1534,15 +1535,11 @@ export class UtilityService {
   }
 
 
-
-
-
-
-  static deepCompare (x,y):boolean {
+  static deepCompare(x, y): boolean {
 
     var i, l, leftChain, rightChain;
 
-    function compare2Objects (x, y) {
+    function compare2Objects(x, y) {
       var p;
 
       // remember that NaN === NaN returns false
@@ -1596,8 +1593,7 @@ export class UtilityService {
       for (p in y) {
         if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
           return false;
-        }
-        else if (typeof y[p] !== typeof x[p]) {
+        } else if (typeof y[p] !== typeof x[p]) {
           return false;
         }
       }
@@ -1605,8 +1601,7 @@ export class UtilityService {
       for (p in x) {
         if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
           return false;
-        }
-        else if (typeof y[p] !== typeof x[p]) {
+        } else if (typeof y[p] !== typeof x[p]) {
           return false;
         }
 
@@ -1617,7 +1612,7 @@ export class UtilityService {
             leftChain.push(x);
             rightChain.push(y);
 
-            if (!compare2Objects (x[p], y[p])) {
+            if (!compare2Objects(x[p], y[p])) {
               return false;
             }
 

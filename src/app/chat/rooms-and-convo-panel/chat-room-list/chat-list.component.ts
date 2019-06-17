@@ -5,6 +5,7 @@ import {IChatSessionState, IRoomData} from '../../../../interfaces/chat-session-
 import {IBot} from '../../../core/interfaces/IBot';
 import {ViewBotStateModel} from '../../../core/view-bots/ngxs/view-bot.state';
 import {IConsumerDetails} from '../../ngxs/chat.state';
+import {UtilityService} from "../../../utility.service";
 
 @Component({
   selector: 'app-chat-list',
@@ -50,7 +51,7 @@ export class ChatListComponent implements OnInit {
   startNewRoom() {
     const details: {consumerDetails: IConsumerDetails, bot: IBot} =  {
       consumerDetails: {
-        uid: Date.now().toString()
+        uid: UtilityService.generateUUid()
       },
       bot: this.currentBot
     };
