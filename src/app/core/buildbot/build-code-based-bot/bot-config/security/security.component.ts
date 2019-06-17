@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {PermissionService} from '../../../../../permission.service';
-import {EAllActions} from '../../../../../typings/enum';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { PermissionService } from '../../../../../permission.service';
+import { EAllActions } from '../../../../../typings/enum';
 
 
 @Component({
@@ -17,7 +17,6 @@ import {EAllActions} from '../../../../../typings/enum';
           
           <mat-form-field class="w-100">
               <input matInput formControlName="consent_message"
-                     required
                      placeholder="Consent disclaimer message">
           </mat-form-field>
 
@@ -74,5 +73,18 @@ export class SecurityComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.formGroup.get("advanced_data_protection").value) {
+      this.formGroup.get("consent_message").enable();
+    } else {
+      this.formGroup.get("consent_message").disable();
+    }
+    this.formGroup.get("advanced_data_protection").valueChanges.subscribe((data) => {
+      if (data) {
+        this.formGroup.get("consent_message").enable();
+      } else {
+        this.formGroup.get("consent_message").disable();
+      }
+
+    })
   }
 }

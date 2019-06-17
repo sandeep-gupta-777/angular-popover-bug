@@ -15,27 +15,37 @@
     <!-- <button mat-flat-button color="primary" style="border-radius: 2px; line-height: 0px">
             <mat-icon>refresh</mat-icon> Save and train
         </button> -->
-    <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer mr-2" mat-button
-    *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
-      style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; " (click)="updateAndTrainModal(unsignedCategoriesTemplate)"
-      [disabled]="JSON.stringify(articleData) === JSON.stringify(article) ">
-      <mat-icon>autorenew</mat-icon>
-      Save and train
-    </button>
-    <button class="mat-theme-button cursor-pointer mr-2" mat-button (click)="updateArticleClickedModal(unsignedCategoriesTemplate)"
-    [disabled]="JSON.stringify(articleData) === JSON.stringify(article)"
-      style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px;">
-      <mat-icon>save</mat-icon>
-      Save
-    </button>
-    <button class="mat-theme-button cursor-pointer mr-2" mat-button (click)="deleteArticleClicked()"
-    *ngIf="!!articleData.section_id && !(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
-      style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; ">
-      <mat-icon>delete</mat-icon>
-      Delete
-    </button>
+
+    <div *myIf="myEAllActions['Update Corpus']">
+      <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer mr-2"
+        mat-button *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
+        style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; "
+        (click)="updateAndTrainModal(unsignedCategoriesTemplate)"
+        [disabled]="JSON.stringify(articleData) === JSON.stringify(article) ">
+        <mat-icon>autorenew</mat-icon>
+        Save and train
+      </button>
+    </div>
+    <div *myIf="myEAllActions['Update Corpus']">
+      <button class="mat-theme-button cursor-pointer mr-2" mat-button
+        (click)="updateArticleClickedModal(unsignedCategoriesTemplate)"
+        [disabled]="JSON.stringify(articleData) === JSON.stringify(article)"
+        style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px;">
+        <mat-icon>save</mat-icon>
+        Save
+      </button>
+    </div>
+    <div *myIf="myEAllActions['delete Corpus']">
+      <button class="mat-theme-button cursor-pointer mr-2" mat-button (click)="deleteArticleClicked()"
+        *ngIf="!!articleData.section_id && !(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
+        style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; ">
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
+    </div>
+
     <button class="mat-theme-button cursor-pointer mr-2" mat-button (click)="goBackToArticle()"
-    *ngIf="!articleData.section_id || (articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
+      *ngIf="!articleData.section_id || (articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
       style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; ">
       <mat-icon>close</mat-icon>
       Cancel and close
@@ -46,15 +56,23 @@
 
 <div class="category-edit px-2 pb-2">
   <div class="category-lable px-2 ">Category</div>
-  <div class="category-name cursor-pointer px-2" (click)="openCategoryModifyModal(categoriesTemplate)"
-  *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' ||articleData.category_id == 'default_articles')"
-  ><mat-icon class="color-primary" style="font-size:12px;height:auto;width:auto;">edit</mat-icon>
-    {{articleData.category_id | categoryIdToName : category_mapping}}
+  <div *ngIf="userRole === myERoleName.Analyst || userRole === myERoleName.Tester">
+    <div class="px-2">
+      {{articleData.category_id | categoryIdToName : category_mapping}}
+    </div>
   </div>
-  <div class="px-2" *ngIf="(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' ||articleData.category_id == 'default_articles')"
-  >
-    {{articleData.category_id | categoryIdToName : category_mapping}}
+  <div *ngIf="!(userRole === myERoleName.Analyst || userRole === myERoleName.Tester)">
+    <div class="category-name cursor-pointer px-2" (click)="openCategoryModifyModal(categoriesTemplate)"
+      *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' ||articleData.category_id == 'default_articles')">
+      <mat-icon class="color-primary" style="font-size:12px;height:auto;width:auto;">edit</mat-icon>
+      {{articleData.category_id | categoryIdToName : category_mapping}}
+    </div>
+    <div class="px-2"
+      *ngIf="(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' ||articleData.category_id == 'default_articles')">
+      {{articleData.category_id | categoryIdToName : category_mapping}}
+    </div>
   </div>
+
 </div>
 
 <div class="main-block" *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')">
@@ -62,13 +80,15 @@
     <div class="questions-heading">Questions</div>
     <mat-form-field class="question-list-item"
       *ngFor="let question of articleData.questions; let index = index;trackBy:trackByIndex;">
-      <textarea #questionTextArea matInput required name=a{{index}} type="text" [(ngModel)]="articleData.questions[index]"
-        #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3">
+      <textarea #questionTextArea matInput required name=a{{index}} type="text"
+        [(ngModel)]="articleData.questions[index]"
+        [disabled]="userRole === myERoleName.Analyst || userRole === myERoleName.Tester" #autosize="cdkTextareaAutosize"
+        cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3">
             </textarea>
       <mat-icon matSuffix class="onParentHover cursor-pointer" (click)="deleteQustionWithId(index)">close
       </mat-icon>
     </mat-form-field>
-    <button class="mat-theme-button cursor-pointer mr-2" mat-button
+    <button class="mat-theme-button cursor-pointer mr-2" mat-button *myIf="myEAllActions['Update Corpus']"
       style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"
       (click)="addNewQuestion()">
       + Add question
@@ -81,6 +101,7 @@
       <mat-form-field class="question-list-item w-100" appearance="outline" color=basic
         *ngFor="let answer of articleData.answers; let index = index;trackBy:trackByIndex;">
         <textarea matInput name=a{{index}} type="text" [(ngModel)]="articleData.answers[index].text[0]"
+          [disabled]="userRole === myERoleName.Analyst || userRole === myERoleName.Tester"
           #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="10" required>
             </textarea>
         <!-- <input matInput name=a{{index}} type="text" [(ngModel)]="articleData.questions[index]"> -->
@@ -98,33 +119,35 @@
 </div>
 
 
-<div class="first-message-main-block" *ngIf="(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')">
+<div class="first-message-main-block"
+  *ngIf="(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')">
   <div class="first-message-info pl-2 pr-3 mx-2 pt-1 pb-3 mb-3">
     <div>
-      <mat-icon class ="icon">info</mat-icon>
+      <mat-icon class="icon">info</mat-icon>
     </div>
     <div>
-        <div class="questions-heading">Usage</div>
-        <div *ngIf = "articleData.section_id == 'first_message'">
-            Welcome message is the first message which will be shown across all
-            platforms as soon as a new conversation with a bot is initiated.
-            This message helps user know
-            what the bot can and cannot do and acts as a crucial onboarding step.
-        </div>
-        <div *ngIf="articleData.section_id == 'fallback'">
-          This response will be used whenever the bot is unable to identify
-          the question which is asked by the user.
-          You can configure the response here and the confidence
-          below which score this should be triggered can be configured from inference settings.</div>
+      <div class="questions-heading">Usage</div>
+      <div *ngIf="articleData.section_id == 'first_message'">
+        Welcome message is the first message which will be shown across all
+        platforms as soon as a new conversation with a bot is initiated.
+        This message helps user know
+        what the bot can and cannot do and acts as a crucial onboarding step.
+      </div>
+      <div *ngIf="articleData.section_id == 'fallback'">
+        This response will be used whenever the bot is unable to identify
+        the question which is asked by the user.
+        You can configure the response here and the confidence
+        below which score this should be triggered can be configured from inference settings.</div>
     </div>
 
- </div>
+  </div>
   <div class="response">
     <div class="response-heading">Response</div>
     <div class="response-items px-2">
       <mat-form-field class="question-list-item w-100" appearance="outline" color=basic
         *ngFor="let answer of articleData.answers; let index = index;trackBy:trackByIndex;">
         <textarea matInput name=a{{index}} type="text" [(ngModel)]="articleData.answers[index].text[0]"
+          [disabled]="userRole === myERoleName.Analyst || userRole === myERoleName.Tester"
           #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="10">
             </textarea>
       </mat-form-field>
@@ -147,36 +170,36 @@
 
     <div class="modal-body pt-0 ">
       <form role="menu" #form="ngForm" class="d-flex flex-column">
-        <mat-radio-group name="inputType" ngModel class = "d-flex flex-column">
+        <mat-radio-group name="inputType" ngModel class="d-flex flex-column">
 
-          <mat-radio-button value="existing" color = primary>Add to existing category</mat-radio-button>
+          <mat-radio-button value="existing" color=primary>Add to existing category</mat-radio-button>
           <mat-form-field style="width: 55%; padding-left: 26px;">
-                <mat-label>Existing Category</mat-label>
-                <mat-select name="existingCategoryName" ngModel [disabled]='!(form.value.inputType == "existing")'>
-                  <div *ngFor="let categorie of category_mapping">
-                      <mat-option  [value]="categorie.category_id" *ngIf = "!(categorie.category_id == 'default_articles' )">
-                          {{categorie.name}}
-                        </mat-option>
-                  </div>
-                </mat-select>
-             </mat-form-field>
+            <mat-label>Existing Category</mat-label>
+            <mat-select name="existingCategoryName" ngModel [disabled]='!(form.value.inputType == "existing")'>
+              <div *ngFor="let categorie of category_mapping">
+                <mat-option [value]="categorie.category_id" *ngIf="!(categorie.category_id == 'default_articles' )">
+                  {{categorie.name}}
+                </mat-option>
+              </div>
+            </mat-select>
+          </mat-form-field>
 
-          <mat-radio-button value="new" color = primary>Add to new category</mat-radio-button>
+          <mat-radio-button value="new" color=primary>Add to new category</mat-radio-button>
           <mat-form-field style="width: 55%; padding-left: 26px;">
-                <input matInput placeholder="Name" name="newCategoryName" ngModel
-                  [disabled]='!(form.value.inputType == "new")' maxlength=40>
-                  <!-- <mat-hint align ="end" class = "ml-auto" style="font-size: 9px;">{{form.value.newCategorieName.length}} / 40</mat-hint> -->
-              </mat-form-field>
+            <input matInput placeholder="Name" name="newCategoryName" ngModel
+              [disabled]='!(form.value.inputType == "new")' maxlength=40>
+            <!-- <mat-hint align ="end" class = "ml-auto" style="font-size: 9px;">{{form.value.newCategorieName.length}} / 40</mat-hint> -->
+          </mat-form-field>
         </mat-radio-group>
         <div class="d-flex justify-content-center">
-          <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2 cursor-pointer" style= "font-size: 13px;"
-          (click)= "dialogRefWrapper.ref.close()">
-                Cancel
-              </button>
+          <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2 cursor-pointer" style="font-size: 13px;"
+            (click)="dialogRefWrapper.ref.close()">
+            Cancel
+          </button>
 
-          <button class="btn-theme btn-theme-primary cursor-pointer" style= "font-size: 13px;"
-          (click) = "changeArticalCategory(form.value);dialogRefWrapper.ref.close(true)"
-          [disabled]="!(form.value.inputType)">
+          <button class="btn-theme btn-theme-primary cursor-pointer" style="font-size: 13px;"
+            (click)="changeArticalCategory(form.value);dialogRefWrapper.ref.close(true)"
+            [disabled]="!(form.value.inputType)">
             Change category
           </button>
         </div>
@@ -188,49 +211,51 @@
 <ng-template #unsignedCategoriesTemplate>
   <div class="primary-modal" style="min-width: 24vw;">
     <div class="modal-header">
-      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;font-size: 16px;">Article category unassigned
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;font-size: 16px;">Article category
+        unassigned
       </h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="pb-2 ng-star-inserted">
-      <p class="mb-1">This article has not been assigned to any category. Do you want to change it’s category or keep it unassigned?</p>
+      <p class="mb-1">This article has not been assigned to any category. Do you want to change it’s category or keep it
+        unassigned?</p>
     </div>
 
     <div class="modal-body pt-0 ">
       <form role="menu" #form="ngForm" class="d-flex flex-column">
-        <mat-radio-group name="inputType" ngModel class = "d-flex flex-column">
+        <mat-radio-group name="inputType" ngModel class="d-flex flex-column">
 
-          <mat-radio-button value="existing" color = primary>Add to existing category</mat-radio-button>
+          <mat-radio-button value="existing" color=primary>Add to existing category</mat-radio-button>
           <mat-form-field style="width: 55%; padding-left: 26px;">
-                <mat-label>Existing Category</mat-label>
-                <mat-select name="existingCategoryName" ngModel [disabled]='!(form.value.inputType == "existing")'>
-                  <div *ngFor="let categorie of category_mapping">
-                      <mat-option  [value]="categorie.category_id" *ngIf = "!(categorie.category_id == 'default_articles' )">
-                          {{categorie.name}}
-                        </mat-option>
-                  </div>
-                </mat-select>
-             </mat-form-field>
+            <mat-label>Existing Category</mat-label>
+            <mat-select name="existingCategoryName" ngModel [disabled]='!(form.value.inputType == "existing")'>
+              <div *ngFor="let categorie of category_mapping">
+                <mat-option [value]="categorie.category_id" *ngIf="!(categorie.category_id == 'default_articles' )">
+                  {{categorie.name}}
+                </mat-option>
+              </div>
+            </mat-select>
+          </mat-form-field>
 
-          <mat-radio-button value="new" color = primary>Add to new category</mat-radio-button>
+          <mat-radio-button value="new" color=primary>Add to new category</mat-radio-button>
           <mat-form-field style="width: 55%; padding-left: 26px;">
-                <input matInput placeholder="Name" name="newCategoryName" ngModel
-                  [disabled]='!(form.value.inputType == "new")' maxlength=40>
-                  <!-- <mat-hint align ="end" class = "ml-auto" style="font-size: 9px;">{{form.value.newCategorieName.length}} / 40</mat-hint> -->
-              </mat-form-field>
+            <input matInput placeholder="Name" name="newCategoryName" ngModel
+              [disabled]='!(form.value.inputType == "new")' maxlength=40>
+            <!-- <mat-hint align ="end" class = "ml-auto" style="font-size: 9px;">{{form.value.newCategorieName.length}} / 40</mat-hint> -->
+          </mat-form-field>
         </mat-radio-group>
         <div class="d-flex justify-content-center">
-          <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2 cursor-pointer" style= "font-size: 13px;"
-          (click)= "skipConformationModalSubmitted();dialogRefWrapper.ref.close()">
-          Skip and save
-              </button>
+          <button class="btn-theme btn-theme-secondary-outline ml-auto mr-2 cursor-pointer" style="font-size: 13px;"
+            (click)="skipConformationModalSubmitted();dialogRefWrapper.ref.close()">
+            Skip and save
+          </button>
 
-          <button class="btn-theme btn-theme-primary cursor-pointer" style= "font-size: 13px;"
-          (click) = "globalConformationModalSubmitted(form.value);dialogRefWrapper.ref.close(true)"
-          [disabled]="!(form.value.inputType)">
-          Change and save
+          <button class="btn-theme btn-theme-primary cursor-pointer" style="font-size: 13px;"
+            (click)="globalConformationModalSubmitted(form.value);dialogRefWrapper.ref.close(true)"
+            [disabled]="!(form.value.inputType)">
+            Change and save
           </button>
         </div>
       </form>

@@ -81,6 +81,21 @@ export class PermissionService {
     [EAllActions['Update Bot Knowledge base']]: true,
     [EAllActions['Delete Bot Knowledge base']]: true,
     [EAllActions['GET ModuleDetail']]: true,
+  [EAllActions['Create Corpus' ]]:true,
+  [EAllActions['Update Corpus' ]]:true,
+  [EAllActions['Get Corpus' ]]:true,
+  [EAllActions['delete Corpus' ]]:true,
+  [EAllActions['Create Category' ]]:true,
+  [EAllActions['Update Category' ]]:true,
+  [EAllActions['Remove Category' ]]:true,
+  [EAllActions['Section Category Change' ]]:true,
+  [EAllActions['Make Corpus Live' ]]:true,
+  [EAllActions['Create Section' ]]:true,
+  [EAllActions['Update Section' ]]:true,
+  [EAllActions['Remove Section' ]]:true,
+  [EAllActions['Get Default Corpus' ]]:true,
+  [EAllActions['Train Corpus' ]]:true,
+  [EAllActions['Section Category Change with Category Creation' ]]:true,
   };
   forbiddenActionsToFrontEndMapping = {};
   allowedApiHttpVerbPPathToActionNamesMapping = {};
@@ -95,9 +110,12 @@ export class PermissionService {
     '/api/v1/enterprise/',
     '/api/v1/room/',
     '/api/v1/role/',
+    '/api/v1/corpus/',
+    '/api/v1/corpus/getdefaultcorpus/',
     '/static/config.json',
     '/static/deploy.json',
     '/deploy.json',
+    ''
   ];
 
   constructor() {
@@ -122,7 +140,7 @@ export class PermissionService {
           this.forbiddenActionsToFrontEndMapping = [];
           return;
         }
-
+        debugger;
         /*for non admin roles*/
         this.forbiddenActionsToFrontEndMapping = {...this.allBackEndActionsToFrontEndTabMapping2};
         /*remove all allowed perms*/
@@ -239,7 +257,7 @@ export class PermissionService {
       isAllowed = true;
     } else {
       httpVerbAndPathKey = httpVerb + '+' + pathName;
-      debugger;
+
       isAllowed = !!this.allowedApiHttpVerbPPathToActionNamesMapping[httpVerbAndPathKey];
     }
 

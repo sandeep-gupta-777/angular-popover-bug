@@ -34,13 +34,11 @@ export class ArticleFilterComponent implements OnInit {
   }
   isAllHidden() {
     for (let index = 0; index < this.categoryMapping.length; index++) {
-     
       if(this.categoryMapping[index].name.toLowerCase().includes(this.filter_categorie_search.toLowerCase())){
         return false;
        }
-       return true;
     }
-    
+    return true; 
   }
   ngOnInit() {
   }

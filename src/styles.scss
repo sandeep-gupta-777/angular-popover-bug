@@ -6,6 +6,10 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 /*angular material theming starts*/
 @import '~@angular/material/theming';
 
+.htContextMenu {
+  z-index: 10000000000000 !important;/*temp fix for prod*/
+}
+
 /*typography*/
 
 // Define a custom typography config that overrides the font-family as well as the

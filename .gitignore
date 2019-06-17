@@ -11,6 +11,8 @@ node_modules1
 
 # IDEs and editors
 /.idea
+.idea/workspace.xml
+
 .ng-bubble-local
 .project
 .classpath

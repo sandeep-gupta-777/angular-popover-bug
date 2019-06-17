@@ -123,14 +123,14 @@ export class BuildbotWrapperComponent implements OnInit {
           new AddNewBotInAllBotList({bot: createdBot}),
           new ResetBuildBotToDefault()
         ]).subscribe(() => {
-          debugger;
+
           if(createdBot.bot_type == EBotType.faqbot){
             this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`], {queryParams: {build:"articles",openPreview:true}});
           }
           else{
             this.router.navigate([`/core/botdetail/${this.bot_type}/${createdBot.id}`]);
           }
-          
+
         });
         this.utilityService.showSuccessToaster('Bot Created');
         this.loading = false;
