@@ -57,12 +57,12 @@ export class BotArticlesComponent implements OnInit ,AfterViewInit{
   ngOnInit() {
     this.getCorpusAndSetArticleFilterForm$()
       .subscribe(()=>{
-        debugger;
+
       })
     this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
       this.enterprise_unique_name = enterpriseProfileInfo.enterprise_unique_name;
     });
-  
+
   }
 
 
@@ -71,7 +71,7 @@ export class BotArticlesComponent implements OnInit ,AfterViewInit{
       'bot-access-token': this.bot.bot_access_token
     };
     let getCorpusForFAQBot = this.constantsService.getDraftCorpusForFAQBot();
-debugger;
+
     return this.serverService.makeGetReq<any>({ url: getCorpusForFAQBot, headerData })
       .pipe(
         map((val) => {
@@ -325,7 +325,7 @@ debugger;
         if(articleData.section_id){
           description = "Updated article: "+articleData.questions[0];
         }
-        
+
         this.trainBotAndGetCorpus(description);
       }
     })
@@ -383,7 +383,7 @@ debugger;
     })
   }
   categoryCreate(body){
-    
+
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };

@@ -28,6 +28,7 @@ export class DataManageFormComponent implements OnInit {
   bot_type;
   @Input() formGroup: FormGroup;
   @Output() dataValid$ = new EventEmitter();
+  @Output() disableBot$ = new EventEmitter();
   @Select() botlist$: Observable<ViewBotStateModel>;
   @Input() formData: any;
   codebasedBotList: IBot[];

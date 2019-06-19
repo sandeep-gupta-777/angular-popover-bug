@@ -1,14 +1,13 @@
-import {Injectable} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Select, Store} from '@ngxs/store';
-import {UtilityService, EBotType} from '../../../../utility.service';
-import {ConstantsService} from '../../../../constants.service';
-import {PermissionService} from '../../../../permission.service';
-import {ActivatedRoute} from '@angular/router';
-import {IBot} from '../../../interfaces/IBot';
-import {Observable} from 'rxjs';
-import {IAppState} from '../../../../ngxs/app.state';
-import {IIntegrationMasterListItem} from '../../../../../interfaces/integration-option';
+import { Injectable } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Select, Store } from '@ngxs/store';
+import { EBotType, UtilityService } from '../../../../utility.service';
+import { PermissionService } from '../../../../permission.service';
+import { ActivatedRoute } from '@angular/router';
+import { IBot } from '../../../interfaces/IBot';
+import { Observable } from 'rxjs';
+import { IAppState } from '../../../../ngxs/app.state';
+import { IIntegrationMasterListItem } from '../../../../../interfaces/integration-option';
 
 @Injectable()
 export class BotConfigService {
@@ -20,6 +19,7 @@ export class BotConfigService {
   @Select() app$: Observable<IAppState>;
   integration_types: string[];
   myEBotType = EBotType;
+
   constructor(private store: Store,
               private utilityService: UtilityService,
               public permissionService: PermissionService,
@@ -37,60 +37,63 @@ export class BotConfigService {
       this.integration_types = Array.from(new Set(this.masterIntegrationList.map(item => item.integration_type)));
     });
   }
-  getFaqbotBuildForm(bot: IBot){
+
+  getFaqbotBuildForm(bot: IBot) {
     this.faqbotBuildForm = this.formBuilder.group({
       name: [bot.name, Validators.required],
       bot_unique_name: [bot.bot_unique_name, Validators.required],
       allow_agent_handover: [bot.allow_agent_handover],
       allow_feedback: [bot.allow_feedback],
-      logo: [bot.logo || 'https://s3.eu-west-1.amazonaws.com/imibot-production/assets/search-bot-icon.svg', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
-    },{validator: this.utilityService.isManagerValidator});
+      logo: [bot.logo || 'https://s3.eu-west-1.amazonaws.com/imibot-production/assets/search-bot-icon.svg', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]]
+    }, { validator: this.utilityService.isManagerValidator });
     return this.faqbotBuildForm;
   }
-  getFaqHandoverANdInterfaceForm(bot: any){
 
-    let agent_handover_setting:any = bot.agent_handover_setting;
-    let fallback_count :any =  agent_handover_setting && agent_handover_setting.fallback_count;
-    let partial_match_count:any=  agent_handover_setting &&  agent_handover_setting.partial_match_count;
-    let consecutive_count:any = agent_handover_setting && agent_handover_setting.consecutive_count;
+  getFaqHandoverANdInterfaceForm(bot: any) {
+
+    let agent_handover_setting: any = bot.agent_handover_setting;
+    let fallback_count: any = agent_handover_setting && agent_handover_setting.fallback_count;
+    let partial_match_count: any = agent_handover_setting && agent_handover_setting.partial_match_count;
+    let consecutive_count: any = agent_handover_setting && agent_handover_setting.consecutive_count;
     this.faqHandoverANdInterfaceForm = this.formBuilder.group({
       bot_metadata: this.formBuilder.group(bot.bot_metadata),
       agent_handover_setting: this.formBuilder.group({
         consecutive_count: this.formBuilder.group({
-          "enabled":[consecutive_count && consecutive_count.enabled ],
-          "value":[consecutive_count && consecutive_count.value]
+          'enabled': [consecutive_count && consecutive_count.enabled],
+          'value': [consecutive_count && consecutive_count.value]
         }),
         fallback_count: this.formBuilder.group({
-          "enabled":[fallback_count && fallback_count.enabled ],
-          "value":[fallback_count && fallback_count.value]
+          'enabled': [fallback_count && fallback_count.enabled],
+          'value': [fallback_count && fallback_count.value]
         }),
         partial_match_count: this.formBuilder.group({
-          "enabled":[partial_match_count && partial_match_count.enabled ],
-          "value":[partial_match_count && partial_match_count.value]
-        }),
+          'enabled': [partial_match_count && partial_match_count.enabled],
+          'value': [partial_match_count && partial_match_count.value]
+        })
       })
     });
     return this.faqHandoverANdInterfaceForm;
   }
+
   getBasicInfoForm(bot: IBot) {
 
-      this.basicInfoForm = this.formBuilder.group({
-        name: [bot.name, Validators.required],
-        bot_unique_name: [bot.bot_unique_name, Validators.required],
-        description: [bot.description],
-        logo: [bot.logo || 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
-        first_message: [bot.first_message],
-        error_message: [bot.error_message],
-      }, {validator: this.utilityService.isManagerValidator});
+    this.basicInfoForm = this.formBuilder.group({
+      name: [bot.name, Validators.required],
+      bot_unique_name: [bot.bot_unique_name, Validators.required],
+      description: [bot.description],
+      logo: [bot.logo || 'https://imibot-dev.s3.amazonaws.com/default/defaultbotlogo.png', [Validators.required, this.utilityService.imageUrlHavingValidExtnError, this.utilityService.imageUrlHttpsError]],
+      first_message: [bot.first_message],
+      error_message: [bot.error_message]
+    }, { validator: this.utilityService.isManagerValidator });
 
 
     return this.basicInfoForm;
   }
 
 
-  
-
   getDataManagementForm(bot: IBot) {
+
+    let bot_disabled_settings = bot.bot_disabled_settings;
     return this.formBuilder.group({
       // consent_message: [bot.consent_message],
       // advanced_data_protection: [bot.advanced_data_protection],
@@ -102,29 +105,36 @@ export class BotConfigService {
       transactions_per_pricing_unit: [bot.transactions_per_pricing_unit || 30],
       is_manager: [bot.is_manager || false],
       child_bots: [bot.child_bots],
-    },{validator: function checkPasswords(group: FormGroup) { // here we have the 'passwords' group
-      let is_manager = group.controls.is_manager.value;
-      let child_bot_control_val = group.controls.child_bots.value;
-      let child_bots_count = Array.isArray(child_bot_control_val) && child_bot_control_val.length;
+      bot_disabled_settings: this.formBuilder.group({
+        'bot_disabled':   bot_disabled_settings && bot_disabled_settings.bot_disabled,
+        'disabled_message':   bot_disabled_settings && bot_disabled_settings.disabled_message || 'Hey, this bot has been disabled',
+        'agent_handover':   bot_disabled_settings && bot_disabled_settings.agent_handover || false
+      })
+    }, {
+      validator: function checkPasswords(group: FormGroup) { // here we have the 'passwords' group
+        let is_manager = group.controls.is_manager.value;
+        let child_bot_control_val = group.controls.child_bots.value;
+        let child_bots_count = Array.isArray(child_bot_control_val) && child_bot_control_val.length;
 
-      if(is_manager && (!child_bots_count || child_bots_count ===0)){
-        return { "Child bots required": true }
+        if (is_manager && (!child_bots_count || child_bots_count === 0)) {
+          return { 'Child bots required': true };
+        }
+
+        return null;
       }
-
-      return null;
-    } });
+    });
   }
 
   getSecurityForm(bot: IBot = {}) {
     return this.formBuilder.group({
       data_persistence_period: [bot.data_persistence_period || 30, Validators.required],
       // heading: [bot.heading],
-      advanced_data_protection: [bot.advanced_data_protection||false],//new FormControl({value: bot.advanced_data_protection}, Validators.required),
+      advanced_data_protection: [bot.advanced_data_protection || false],//new FormControl({value: bot.advanced_data_protection}, Validators.required),
       // transactions_per_pricing_unit: [bot.transactions_per_pricing_unit],
       // error_message: [bot.error_message],
       consent_message: [bot.consent_message],
       blanket_consent: [bot.blanket_consent],
-      allow_anonymization: [bot.allow_anonymization],
+      allow_anonymization: [bot.allow_anonymization]
       // first_message: [bot.first_message],
       // room_close_callback: [bot.room_close_callback],
       // allow_feedback: [bot.allow_feedback],

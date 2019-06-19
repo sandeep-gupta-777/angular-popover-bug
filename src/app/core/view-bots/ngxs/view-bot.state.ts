@@ -29,6 +29,7 @@ export interface ViewBotStateModel {
 export class ViewBotStateReducer {
 
   constructor(private activatedRoute: ActivatedRoute) {
+    debugger;
   }
 
   @Action(SetAllBotListAction)
@@ -138,7 +139,8 @@ export class ViewBotStateReducer {
   updateBotInfoByIdInBotInBotList({patchState, setState, getState, dispatch}: StateContext<ViewBotStateModel>,
                                   {payload}: UpdateBotInfoByIdInBotInBotList) {
     const state: ViewBotStateModel = getState();
-    state.allBotList = state.allBotList.map((bot) => {
+    debugger;
+    let allBotList_new = state.allBotList.map((bot) => {
       if (bot.id === payload.botId) {
         return {...bot, ...payload.data};
       } else {
@@ -146,7 +148,8 @@ export class ViewBotStateReducer {
       }
       // return  ? {...bot, ...payload.data} : bot;
     });
-    setState({...state});
+
+    patchState({allBotList:allBotList_new});
   }
 
   static getCodeBased(x) {
