@@ -1,0 +1,19 @@
+.curation-wrapper-section{
+    display: flex;
+    justify-content: space-between;
+    app-curation-filter{
+        flex-basis: 30%;
+        flex-grow: 0;
+        border: 1px solid red;
+        display: block;
+        min-height: 60vh;
+
+    }
+    app-curation-issues-list{
+        flex-basis: 65%;
+        flex-grow: 0;
+        border: 1px solid green;
+        display: block;
+        min-height: 60vh;
+    }
+}

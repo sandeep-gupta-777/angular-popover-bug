@@ -10,12 +10,12 @@ export class MessageDisplayBase {
 
   flashErrorMessage(message: string, time_ms: number = 3000) {
 
-    if(Offline){
-      Offline.check();
-      if(Offline && Offline.state ==='down'){
-        message = "Internet connection lost";
-      }
-    }
+    // if(Offline){
+    //   Offline.check();
+    //   if(Offline && Offline.state ==='down'){
+    //     message = "Internet connection lost";
+    //   }
+    // }
     try {
       clearInterval(this.setIntervelRef);
     }catch (e) {
