@@ -46,6 +46,7 @@
         [overlayClass]="'bg-transparent'">
         <div class="dialog-container">
           <app-chat-consumer-form
+            *ngIf="showOverlay"
             [customConsumerDetails]="frameEnabled === myEChatFrame.CHAT_BOX? currentRoom.consumerDetails:{}"
             (hideOverlay$)="showOverlay = false"
             [readonly]="frameEnabled === myEChatFrame.CHAT_BOX"
@@ -212,6 +213,7 @@
       [overlayClass]="'bg-transparent'">
       <div class="dialog-container">
         <app-chat-consumer-form
+          *ngIf="showOverlay"
           [customConsumerDetails]="frameEnabled === myEChatFrame.CHAT_BOX? currentRoom.consumerDetails:{}"
           (hideOverlay$)="showOverlay = false"
           [readonly]="frameEnabled === myEChatFrame.CHAT_BOX"
