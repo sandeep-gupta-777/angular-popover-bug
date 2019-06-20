@@ -32,7 +32,7 @@ import {EventService} from "../../event.service";
 })
 export class HeaderComponent extends ModalImplementer implements OnInit {
 
-  defaultImage = 'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg';
+  defaultImage = 'assets/img/no image.svg';
   image = 'https://images.unsplash.com/photo-1443890923422-7819ed4101c0?fm=jpg';
   // offset = 100;
 
