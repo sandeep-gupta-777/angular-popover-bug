@@ -14,6 +14,7 @@ export class ChatConsumerFormComponent implements OnInit {
   @Output() hideOverlay$ = new EventEmitter();
   isEditMode = false;
   test = true;
+  uuid = UtilityService.generateUUid();
 
   errorMessage = "";
   constructor(private utilityService:UtilityService) { }

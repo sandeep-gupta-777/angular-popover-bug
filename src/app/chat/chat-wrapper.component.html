@@ -36,23 +36,17 @@
               data-cy="custom-room-form-trigger"
               [matTooltip]="'New chat with custom data'"
               cdkOverlayOrigin>
-        <mat-icon>person_add</mat-icon>
+        <mat-icon>{{frameEnabled === myEChatFrame.CHAT_LIST ? 'perm_contact_calendar' : 'person_add'}}</mat-icon>
       </button>
-
-      <app-overlay
-        [overlayOrigin]="overlayOrigin"
-        [showOverlay]="showOverlay"
-        (backdropClick$)="showOverlay = false"
-        [overlayClass]="'bg-transparent'">
-        <div class="dialog-container">
-          <app-chat-consumer-form
-            *ngIf="showOverlay"
-            [customConsumerDetails]="frameEnabled === myEChatFrame.CHAT_BOX? currentRoom.consumerDetails:{}"
-            (hideOverlay$)="showOverlay = false"
-            [readonly]="frameEnabled === myEChatFrame.CHAT_BOX"
-            (saveConsumerDetails$)="saveConsumerDetails($event)"></app-chat-consumer-form>
-        </div>
-      </app-overlay>
+      <ng-container
+        [ngTemplateOutlet]="validationTemplate"
+        [ngTemplateOutletContext]="{
+          overlayOrigin: overlayOrigin,
+          customConsumerDetails:frameEnabled === myEChatFrame.CHAT_BOX? currentRoom.consumerDetails:{},
+          createNewRoom: frameEnabled === myEChatFrame.CHAT_LIST,
+          showOverlay: showOverlay
+        }">
+      </ng-container>
 
       <button mat-icon-button
               data-cy="chat-minimize"
@@ -105,34 +99,53 @@
     <img class="logo-md mr-2 rounded-circle"
          data-cy="chat-logo-enterprise"
          [defaultImage]="'assets/img/no image.svg'"
-         [lazyLoad]="enterprise_logo||'https://hm.imimg.com/imhome_gifs/indiamart-og1.jpg'"
+         [lazyLoad]="enterprise_logo"
          style="border-radius: 50%;">
     <div class="d-flex flex-column text-white">
       <div>{{user_first_name}}</div>
       <div class="font-11">{{user_email}}</div>
     </div>
 
-    <!--<button mat-icon-button (click)="toggleOverlay(showOverlay)"-->
+    <button mat-icon-button (click)="showOverlay = true"
+            style="margin-left: auto"
+            [class.active]="showOverlay" class="origin"
+            #overlayOriginFullScreen1="cdkOverlayOrigin"
+            data-cy="custom-room-form-trigger"
+            [matTooltip]="'New chat with custom data'"
+            cdkOverlayOrigin>
+      <mat-icon>person_add</mat-icon>
+    </button>
+    <ng-container
+      [ngTemplateOutlet]="validationTemplate"
+      [ngTemplateOutletContext]="{
+          overlayOrigin: overlayOriginFullScreen1,
+          customConsumerDetails:{},
+          createNewRoom: true,
+          showOverlay: showOverlay
+        }">
+    </ng-container>
+
+    <!--<button mat-icon-button (click)="showOverlay_edit_fullscreen = true"-->
             <!--data-cy="custom-room-form-trigger"-->
-            <!--[class.active]="showOverlay" class="ml-auto"-->
-            <!--#overlayOriginFullScreen="cdkOverlayOrigin"-->
+            <!--[class.active]="showOverlay_edit_fullscreen" class="ml-auto"-->
+            <!--#overlayOriginFullScreen1="cdkOverlayOrigin"-->
             <!--cdkOverlayOrigin>-->
       <!--<mat-icon>perm_contact_calendar</mat-icon>-->
     <!--</button>-->
 
     <!--<app-overlay-->
-      <!--[overlayOrigin]="overlayOriginFullScreen"-->
-      <!--[showOverlay]="showOverlay"-->
+      <!--[overlayOrigin]="overlayOriginFullScreen1"-->
+      <!--[showOverlay]="showOverlay_edit_fullscreen"-->
       <!--[overlayClass]="'bg-transparent'"-->
-      <!--(backdropClick$)="showOverlay = false">-->
-      <!--<div class="dialog-container" (clickOutside)="showOverlay=false">-->
-        <!--<app-chat-consumer-form *ngIf="showOverlay"-->
-                                <!--[customConsumerDetails]="{}"-->
-                                <!--(hideOverlay$)="showOverlay = false"-->
-                                <!--(saveConsumerDetails$)="saveConsumerDetails($event)"></app-chat-consumer-form>-->
+      <!--(backdropClick$)="showOverlay_edit_fullscreen = false">-->
+      <!--<div class="dialog-container">-->
+        <!--<app-chat-consumer-form-->
+          <!--*ngIf="showOverlay_edit_fullscreen"-->
+          <!--[customConsumerDetails]="{}"-->
+          <!--(hideOverlay$)="showOverlay_edit_fullscreen = false"-->
+          <!--(saveConsumerDetails$)="startNewChat({consumerDetails: $event, bot:currentBot, isCustomRoom:true})"></app-chat-consumer-form>-->
       <!--</div>-->
     <!--</app-overlay>-->
-
 
 
     <!--<div class="btn-group p-2 ml-auto" #dropdown="bs-dropdown" [autoClose]="false" dropdown-->
@@ -197,32 +210,41 @@
       <div class="font-11" data-cy="chat-room-lasttemplaykey">{{currentRoom.lastTemplateKey}}</div>
     </div>
 
-    <button mat-icon-button (click)="showOverlay = true"
+    <button mat-icon-button (click)="showOverlay_edit_fullscreen = true"
             [class.active]="showOverlay" class="origin"
             #overlayOrigin="cdkOverlayOrigin"
             data-cy="custom-room-form-trigger"
-            [matTooltip]="'New chat with custom data'"
+            [matTooltip]="'Consumer info'"
             cdkOverlayOrigin>
-      <mat-icon>person_add</mat-icon>
+      <mat-icon>perm_contact_calendar</mat-icon>
     </button>
+    <ng-container
+      [ngTemplateOutlet]="validationTemplate"
+      [ngTemplateOutletContext]="{
+          overlayOrigin: overlayOrigin,
+          customConsumerDetails:currentRoom.consumerDetails,
+          createNewRoom: false,
+          showOverlay: showOverlay_edit_fullscreen
+        }">
+    </ng-container>
 
-    <app-overlay
-      [overlayOrigin]="overlayOrigin"
-      [showOverlay]="showOverlay"
-      (backdropClick$)="showOverlay = false"
-      [overlayClass]="'bg-transparent'">
-      <div class="dialog-container">
-        <app-chat-consumer-form
-          *ngIf="showOverlay"
-          [customConsumerDetails]="frameEnabled === myEChatFrame.CHAT_BOX? currentRoom.consumerDetails:{}"
-          (hideOverlay$)="showOverlay = false"
-          [readonly]="frameEnabled === myEChatFrame.CHAT_BOX"
-          (saveConsumerDetails$)="saveConsumerDetails($event)"></app-chat-consumer-form>
-      </div>
-    </app-overlay>
+    <!--<app-overlay-->
+      <!--[overlayOrigin]="overlayOrigin"-->
+      <!--[showOverlay]="showOverlay"-->
+      <!--(backdropClick$)="showOverlay = false"-->
+      <!--[overlayClass]="'bg-transparent'">-->
+      <!--<div class="dialog-container">-->
+        <!--<app-chat-consumer-form-->
+          <!--*ngIf="showOverlay"-->
+          <!--[customConsumerDetails]="frameEnabled === myEChatFrame.CHAT_BOX? currentRoom.consumerDetails:{}"-->
+          <!--(hideOverlay$)="showOverlay = false"-->
+          <!--[readonly]="frameEnabled === myEChatFrame.CHAT_BOX"-->
+          <!--(saveConsumerDetails$)="saveConsumerDetails($event)"></app-chat-consumer-form>-->
+      <!--</div>-->
+    <!--</app-overlay>-->
     <!--<div *ngIf="currentRoom && currentRoom.uid" class="d-flex  flex-column align-items-end text-white">-->
-      <!--<div>Room UID:</div>-->
-      <!--<div class="font-11" data-cy="chat-room-uid">{{currentRoom.uid}}</div>-->
+    <!--<div>Room UID:</div>-->
+    <!--<div class="font-11" data-cy="chat-room-uid">{{currentRoom.uid}}</div>-->
     <!--</div>-->
   </div>
   <div class="chat-rooms" style="overflow: hidden">
@@ -260,3 +282,24 @@
   </div>
 </div>
 
+
+<ng-template #validationTemplate
+             let-overlayOrigin="overlayOrigin"
+             let-customConsumerDetails="customConsumerDetails"
+             let-showOverlay="showOverlay"
+             let-createNewRoom="createNewRoom">
+  <app-overlay
+    [overlayOrigin]="overlayOrigin"
+    [showOverlay]="showOverlay"
+    (backdropClick$)="hideOverlay()"
+    [overlayClass]="'bg-transparent'">
+    <div class="dialog-container">
+      <app-chat-consumer-form
+        *ngIf="showOverlay"
+        [customConsumerDetails]="customConsumerDetails"
+        (hideOverlay$)="hideOverlay()"
+        [readonly]="!createNewRoom"
+        (saveConsumerDetails$)="consumerFormSubmitHandler($event, createNewRoom)"></app-chat-consumer-form>
+    </div>
+  </app-overlay>
+</ng-template>

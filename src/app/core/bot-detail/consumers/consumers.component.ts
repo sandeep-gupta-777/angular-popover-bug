@@ -16,6 +16,7 @@ import {ModalConfirmComponent} from 'src/app/modal-confirm/modal-confirm.compone
 import {BotSessionSmartTableModal} from "../bot-sessions/bot-session-smart-table-modal";
 import {ConsumerSmartTableModal} from "./consumer-smart-table-modal";
 import {EAllActions} from "../../../typings/enum";
+import { ESortDir } from '../../../smart-table/smart-table.component';
 
 @Component({
   selector: 'app-consumers',
@@ -24,6 +25,7 @@ import {EAllActions} from "../../../typings/enum";
 })
 export class ConsumersComponent implements OnInit {
 
+  myESortDir = ESortDir;
   dialogRefWrapper = {ref: null};
   @Select() botlist$: Observable<ViewBotStateModel>;
   @Input() id: string;
