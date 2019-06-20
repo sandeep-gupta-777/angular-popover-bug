@@ -9,6 +9,7 @@ import { ICurationItem } from 'src/app/core/interfaces/faqbots';
 export class CurationResolvedListComponent implements OnInit {
 
   constructor() { }
+  
   @Input() curationItemList : ICurationItem[];
   ngOnInit() {
   }

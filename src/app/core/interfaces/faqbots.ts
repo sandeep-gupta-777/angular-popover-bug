@@ -55,7 +55,12 @@ export interface ICurationItem{
         "generated_msg"?: object[],
         "id"?: number,
         "platform"?:string,
-        "resolved_section"?: object,
+        "resolved_section"?: {
+            "corpus_id"?: number,
+            "first_question"?: string,
+            "new_section"?: boolean,
+            "section_id"?: string
+        },
         "resource_uri"?:string,
         "room_id"?: number,
         "section_id"?:string,
@@ -71,5 +76,5 @@ export interface ICurationItem{
         "updated_at"?: number,
         "updated_by"?: number,
         "user_message"?:string,
-    
+      
 }

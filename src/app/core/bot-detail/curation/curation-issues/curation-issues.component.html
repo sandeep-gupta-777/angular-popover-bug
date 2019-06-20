@@ -9,19 +9,27 @@
             <!-- curationItemData && curationItemData.platform &&  -->
             <img [src]='channelNameToImg("web")'>
           </div>
-          <div class="room-id pl-3">
+          <div class="room-id pl-2">
             Room ID: {{curationItemData.room_id}}</div>
           <div class="logged-it pl-4">
-            Logged at {{curationItemData.updated_at | date}}</div>
+            Logged at
+            {{curationItemData.created_at | date:"MMM d"}}&nbsp;'{{curationItemData.created_at | date:"yy"}}&nbsp;{{curationItemData.created_at | date:"shortTime"}}
+          </div>
         </span>
 
         <span class="curation-card-header-icon-list">
-          <mat-icon style="color: #d94254;">thumb_down</mat-icon>
-          <mat-icon style="color: #fd901c;">sentiment_dissatisfied</mat-icon>
-          <mat-icon style="color: #00abd3;">question_answer</mat-icon>
-          <mat-icon style="color: #193a57;">list</mat-icon>
-          <mat-icon style="color: #000000;">headset_mic</mat-icon>
-          <mat-icon style="color: #ff8c41;">live_help</mat-icon>
+          <mat-icon style="color: #d94254;" title="downvoted" *ngIf="curationItemData.triggered_rules.downvoted">
+            thumb_down</mat-icon>
+          <mat-icon style="color: #fd901c;" title="fallback" *ngIf="curationItemData.triggered_rules.fallback">
+            sentiment_dissatisfied</mat-icon>
+          <mat-icon style="color: #00abd3;" title="from_session" *ngIf="curationItemData.triggered_rules.from_session">
+            question_answer</mat-icon>
+          <mat-icon style="color: #193a57;" title="partial_match"
+            *ngIf="curationItemData.triggered_rules.partial_match">list</mat-icon>
+          <mat-icon style="color: #000000;" title="agent_handover"
+            *ngIf="curationItemData.triggered_rules.agent_handover">headset_mic</mat-icon>
+          <mat-icon style="color: #ff8c41;" title="low_confidence"
+            *ngIf="curationItemData.triggered_rules.low_confidence">live_help</mat-icon>
         </span>
       </div>
     </mat-card-actions>
@@ -35,7 +43,6 @@
 
           </div>
         </div>
-        <div class="divider"></div>
         <div class='column'>
           <div class='column-2'>
             <p style="font-size: 11px">Bot understood it as</p>
@@ -46,30 +53,46 @@
 
     </mat-card-content>
 
-    <mat-card-actions class ="curation-footer">
-     
-        <div *ngIf="isResolved == false" class = "d-flex">
-            <button mat-button color=primary style="border: solid 1px #41c9e9;" class = "mat-theme-button">
-                <mat-icon style="transform:rotate(130deg);font-size: 18px;">insert_link</mat-icon>
-                Link to existing article
-              </button>
-    
-              <button mat-button style="border: solid 1px #d8d8d8;color: #4a4a4a;">
-                + Add to a new article</button>
-            
-              <div class="ml-auto"></div>
-    
-              <button mat-button style="border: solid 1px #d8d8d8;color: #4a4a4a;">
-                <mat-icon style="color: #4a4a4a;font-size: 16px;">remove_circle_outline</mat-icon>
-                Ignore query
-              </button>
+    <mat-card-actions class="curation-footer">
+
+      <div *ngIf="isResolved == false" class="d-flex w-100  not-resolved-footer">
+        <button mat-button color=primary style="border: solid 1px #41c9e9;" class="mat-theme-button footer-btn px-2">
+          <mat-icon style="transform:rotate(130deg);font-size: 18px;">insert_link</mat-icon>&nbsp;
+          Link to existing article
+        </button>
+
+        <button mat-button style="border: solid 1px #d8d8d8;" class="mat-theme-button footer-btn px-2">
+          <mat-icon>add</mat-icon>&nbsp; Add to a new article
+        </button>
+
+        <div class="ml-auto"></div>
+
+        <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button">
+          <mat-icon>remove_circle_outline</mat-icon>&nbsp;
+          Ignore query
+        </button>
+      </div>
+      <div *ngIf="isResolved == true" class="d-flex w-100 resolved-footer">
+
+        <div *ngIf="curationItemData.curation_state == 'ignored'" class="d-flex align-items-center mr-2">
+          <mat-icon>remove_circle_outline</mat-icon> &nbsp; Ignored query
         </div>
-        <div *ngIf="isResolved == true" class = "d-flex">
-            <div>display: flex;</div> 
-            <div class = "ml-auto">Linked to article: “Where do i book flights to asia?”</div>
+
+        <div *ngIf="curationItemData.curation_state == 'resolved' && curationItemData.resolved_section.new_section" class="d-flex align-items-center mr-2">
+          <mat-icon>add</mat-icon> &nbsp; Added to a new article:
+            “{{curationItemData.resolved_section.first_question}}”
         </div>
-        
-      
+        <div *ngIf="curationItemData.curation_state == 'resolved' && !curationItemData.resolved_section.new_section" class="d-flex align-items-center mr-2">
+              <mat-icon style="transform:rotate(130deg)">link</mat-icon> &nbsp; Linked to article:
+              “{{curationItemData.resolved_section.first_question}}”
+          </div>
+
+        <div class="ml-auto" style="min-width: 200px;">
+          Resolved at
+          {{curationItemData.updated_at | date:"MMM d"}}&nbsp;'{{curationItemData.updated_at | date:"yy"}}&nbsp;{{curationItemData.updated_at | date:"shortTime"}}
+          by {{curationItemData.updated_by}}
+        </div>
+      </div>
     </mat-card-actions>
   </mat-card>
 </div>

@@ -14,12 +14,13 @@ export class CurationComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private constantsService:ConstantsService,
-    private serverService:ServerService,
+    private constantsService: ConstantsService,
+    private serverService: ServerService,
   ) { }
-  curation_filter_form : FormGroup;
-  @Input() bot:IBot;
-  curationIssuesList:ICurationItem[];
+  curation_filter_form: FormGroup;
+  @Input() bot: IBot;
+  curationIssuesList: ICurationItem[];
+  curationResolvedAndIgnoredList: ICurationItem[];
   ngOnInit() {
     this.curation_filter_form = this.formBuilder.group({
       room_id: [""],
@@ -30,12 +31,24 @@ export class CurationComponent implements OnInit {
     this.serverService.makeGetReq<ICurationResult>(
       {
         url: curationIssuesListUrl,
-        headerData: {'bot-access-token': this.bot.bot_access_token}
+        headerData: { 'bot-access-token': this.bot.bot_access_token }
       }
     )
-      .subscribe((value:ICurationResult) => {
+      .subscribe((value: ICurationResult) => {
         this.curationIssuesList = value.objects;
       });
+
+    let curationResolvedAndIgnoredListUrl = this.constantsService.curationResolvedAndIgnoredListUrl()
+    this.serverService.makeGetReq<ICurationResult>(
+      {
+        url: curationResolvedAndIgnoredListUrl,
+        headerData: { 'bot-access-token': this.bot.bot_access_token }
+      }
+    )
+      .subscribe((value: ICurationResult) => {
+        this.curationResolvedAndIgnoredList = value.objects;
+      });
+
 
   }
 
