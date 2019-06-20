@@ -38,4 +38,26 @@ export class BotArticleHistoryComponent implements OnInit {
     return this.constantsService.SMART_TABLE_ARTICLE_HISTORY_TEMPLATE;
   }
 
+  tableClickHandler($event:Event){
+    $event.stopPropagation();
+    let {index, action} = this.getClickedActionDetails($event.target as HTMLElement);
+    if(!index || !action) return;
+    alert(`index is ${index}, action is ${action}`);
+  }
+
+  getClickedActionDetails(htmlEl:HTMLElement){
+    let dataCy = htmlEl.getAttribute('data-cy');
+    if(!dataCy || !dataCy.includes('dropdown')){
+      return {
+        index: null,
+        action:null,
+      }
+    }
+    let dataCySplit = dataCy.split('_');
+    return {
+      index: dataCySplit['2'],
+      action:dataCySplit['1']
+    }
+  }
+
 }

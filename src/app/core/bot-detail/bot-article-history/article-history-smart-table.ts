@@ -4,7 +4,7 @@ import { ICorpus } from "../../interfaces/faqbots";
 export class ArticleHistorySmartTable extends AbstractSmartTable {
     constructor(rawData, metaData, protected dependency) {
         super(rawData, metaData, dependency);
-        
+
     }
 
     tableData = [];
@@ -12,7 +12,7 @@ export class ArticleHistorySmartTable extends AbstractSmartTable {
         if (this.rawData) {
             this.rawData = corpusList;
             this.tableData = this.customTransformArticleHistoryDataForMaterialTable(this.rawData);
-            
+
         }
     }
     refreshData(corpusList: ICorpus[]) {
@@ -21,12 +21,10 @@ export class ArticleHistorySmartTable extends AbstractSmartTable {
     }
 
     customTransformArticleHistoryDataForMaterialTable(data: any[]) {
-        debugger;
         let tableDataMetaDict = this.metaData;
-        let modifiedTableData = data.map((corpusTableDataItem) => {
+        let modifiedTableData = data.map((corpusTableDataItem, index) => {
             let obj: any = {};
             for (let key in tableDataMetaDict) {
-                debugger;
                 if (key == 'description') {
                     let exclamationIconHTML = `<i class="fa fa-circle color-green" title="Corpus is live"></i>`;
                     obj[tableDataMetaDict[key].displayValue] = {
@@ -50,7 +48,16 @@ export class ArticleHistorySmartTable extends AbstractSmartTable {
                     obj[tableDataMetaDict[key].displayValue] = {
                         ...tableDataMetaDict[key],
                         originalKey: key,
-                        value: [{ show: true, iconName: 'arrow_drop_down_circle',class:'icon-color'}],
+                        value: `<div class="dropdown table-dropdown">
+  <i class="fa fa-angle-down arrow-circle"></i>
+  <div class="dropdown-content">
+    <p data-cy="dropdown_makelive_${index}"><i class="fa fa-upload"></i> Make live</p>
+    <p data-cy="dropdown_edit_${index}"><i class="fa fa-edit"></i> Edit</p>
+    <hr>
+    <p data-cy="dropdown_preview_${index}"> <i class="fa fa-edit"></i> Preview</p>
+    <p data-cy="dropdown_download_${index}"> <i class="fa fa-download"></i> Download</p>
+  </div>
+</div>`,
                         searchValue: ''
                     };
                 }
@@ -69,8 +76,8 @@ export class ArticleHistorySmartTable extends AbstractSmartTable {
         //     // tableGataItem.Actions.value = tableGataItem.Actions.value || [];
         //     // tableGataItem.Actions.value.push({show: true, name: 'modify', class: 'fa fa-edit mr-3 color-primary'});
         //     // tableGataItem.Actions.value.push({show: true, name: 'remove', class: 'fa fa-trash mr-3 color-danger'});
-    
-      
+
+
         //     return tableGataItem;
         //   });
         return modifiedTableData;

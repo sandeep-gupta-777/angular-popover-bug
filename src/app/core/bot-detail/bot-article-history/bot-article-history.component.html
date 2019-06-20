@@ -1,13 +1,17 @@
 <header>
-  <div class = "d-flex flex-row heading">
-      <strong class = "heading-title">
-          History</strong>
+  <div class="d-flex flex-row heading">
+    <strong class="heading-title">
+      History</strong>
   </div>
-  <div style="color: #9e9e9e;font-size: 11px">See all the instances when knowledge base was trained and revert to a previously created version
+  <div style="color: #9e9e9e;font-size: 11px">See all the instances when knowledge base was trained and revert to a
+    previously created version
   </div>
 </header>
 
-<app-smart-table class = "history-table "*ngIf="ArticleHistorySmartTableObj && ArticleHistorySmartTableObj.tableData" [data]="ArticleHistorySmartTableObj.tableData">
+<app-smart-table class="history-table"
+                 (click)="tableClickHandler($event)"
+                 *ngIf="ArticleHistorySmartTableObj && ArticleHistorySmartTableObj.tableData"
+                 [data]="ArticleHistorySmartTableObj.tableData">
 </app-smart-table>
 
 

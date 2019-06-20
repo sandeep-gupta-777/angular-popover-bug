@@ -1078,18 +1078,14 @@ export class ConstantsService {
     updated_at: {
       originalKey: 'updated_at',
       value: '',
-      type: 'srting',
+      type: 'string',
       displayValue: 'Updated on',
-
     },
     'actions': {
       originalKey: '',
       value: '',
-      type: 'mat-icon',
+      type: 'string',
       displayValue: 'Actions',
-      custom: true,
-      name: '',
-
     }
   };
 
