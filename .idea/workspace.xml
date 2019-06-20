@@ -1,0 +1,902 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4fa2cae7-4156-44c3-97aa-acfecddc228f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/chat-consumer-form/chat-consumer-form.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/chat-consumer-form/chat-consumer-form.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/chat-consumer-form/chat-consumer-form.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/chat-consumer-form/chat-consumer-form.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/chat/chat-wrapper.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/chat/chat-wrapper.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/chat/chat-wrapper.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/chat/chat-wrapper.component.ts" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/dist/" />
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/app/chat/chat-wrapper.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="224">
+              <caret line="299" column="38" lean-forward="true" selection-start-line="299" selection-start-column="38" selection-end-line="299" selection-end-column="38" />
+              <folding>
+                <element signature="n#style#0;n#img#0;n#div#0;n#div#2;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#0;n#div#0;n#div#2;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#2;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/chat-consumer-form/chat-consumer-form.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="12" column="52" lean-forward="true" selection-start-line="12" selection-start-column="52" selection-end-line="12" selection-end-column="52" />
+              <folding>
+                <element signature="e#0#77#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/chat-consumer-form/chat-consumer-form.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" column="63" lean-forward="true" selection-start-line="3" selection-start-column="63" selection-end-line="3" selection-end-column="63" />
+              <folding>
+                <element signature="n#style#0;n#form#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cypress/fixtures/bot.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="107542">
+              <caret line="6326" column="28" selection-start-line="6326" selection-start-column="28" selection-end-line="6326" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/chat/chat-wrapper.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2584">
+              <caret line="358" column="88" selection-start-line="358" selection-start-column="88" selection-end-line="358" selection-end-column="88" />
+              <folding>
+                <element signature="e#0#73#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/chat/chat-wrapper.component.scss">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/chat.service.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="288" column="41" lean-forward="true" selection-start-line="288" selection-start-column="41" selection-end-line="288" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/consumers/consumers.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="27" column="12" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/consumers/consumers.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/interfaces/chat-session-state.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="231">
+              <caret line="32" column="28" selection-start-line="32" selection-start-column="28" selection-end-line="32" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>6.0.</find>
+      <find>F</find>
+      <find>Enterprise access token</find>
+      <find>&lt;app-smart-table</find>
+      <find>secur</find>
+      <find>securityForm</find>
+      <find>consent_message</find>
+      <find>debugger;</find>
+      <find>allBackEndActionsToFrontEndTabMapping2</find>
+      <find>se Knowledge base</find>
+      <find>debugg</find>
+      <find>Get Enterpise Knowledge base</find>
+      <find>Get Enterprise Knowledge base</find>
+      <find>route</find>
+      <find>sendme</find>
+      <find>maste</find>
+      <find>messaging</find>
+      <find>enterpise</find>
+      <find>Enterpise</find>
+      <find>logout</find>
+      <find>Manage users of your enterprise by adding</find>
+      <find>logout(</find>
+      <find>uid</find>
+      <find>validation</find>
+      <find>this.chatService.sendHumanMessageToBotServer(</find>
+      <find>room.bot_access_token</find>
+      <find>sendMessageByHuman</find>
+      <find>person</find>
+      <find>Create room with new Consumer</find>
+      <find>form</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>form-control d-flex f</replace>
+      <replace>form-control d-flex flex-column</replace>
+      <replace>#e0e0e0</replace>
+      <replace>[matTooltip]</replace>
+      <replace>highlight-nav-item</replace>
+      <replace>action cannot be undone. Are you sure you wish to delete?</replace>
+      <replace />
+      <replace>Get Enterpise Knowledge base</replace>
+      <replace>Enterprise</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/../.." value="staging" />
+        <entry key="$PROJECT_DIR$/.." value="staging" />
+        <entry key="$PROJECT_DIR$" value="article-history" />
+      </map>
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/../cypress/support/commands.js" />
+        <option value="$PROJECT_DIR$/../cypress/integration/bot-details/version.js" />
+        <option value="$PROJECT_DIR$/../src/app/chat-feedback/chat-feedback.component.ts" />
+        <option value="$PROJECT_DIR$/../src/app/chat-feedback/chat-feedback.component.scss" />
+        <option value="$PROJECT_DIR$/../../src/testing/test-context.ts" />
+        <option value="$PROJECT_DIR$/../../src/testing/spec-builder.ts" />
+        <option value="$PROJECT_DIR$/../../src/testing/matchers.ts" />
+        <option value="$PROJECT_DIR$/../../src/testing/init.ts" />
+        <option value="$PROJECT_DIR$/../../src/styles.scss" />
+        <option value="$PROJECT_DIR$/../../cypress/integration/role-based-acess/analyst.js" />
+        <option value="$PROJECT_DIR$/../../cypress/auth/login.js" />
+        <option value="$PROJECT_DIR$/../../cypress/fixtures/permissions.json" />
+        <option value="$PROJECT_DIR$/../../cypress/integration/role-based-acess/header.js" />
+        <option value="$PROJECT_DIR$/../../src/app/core/bot-detail/code-based-bot-detail/code-based-bot-detail.component.html" />
+        <option value="$PROJECT_DIR$/../../cypress/integration/helper/helper.js" />
+        <option value="$PROJECT_DIR$/../../cypress/integration/role-based-acess/sidebar.js" />
+        <option value="$PROJECT_DIR$/../../cypress/fixtures/role-based-access/sidebar.json" />
+        <option value="$PROJECT_DIR$/../../cypress/fixtures/role-based-access/bot-config.json" />
+        <option value="$PROJECT_DIR$/../../cypress/config/staging.json" />
+        <option value="$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.state.ts" />
+        <option value="$PROJECT_DIR$/../../cypress/support/commands.js" />
+        <option value="$PROJECT_DIR$/../../cypress/integration/side-bar/side-bar.js" />
+        <option value="$PROJECT_DIR$/../../src/app/utility.service.ts" />
+        <option value="$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.component.ts" />
+        <option value="$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.component.html" />
+        <option value="$PROJECT_DIR$/../../cypress/integration/chat/chat-fullscreen.js" />
+        <option value="$PROJECT_DIR$/../../cypress/integration/faq-bots/faq-bot-artical-test.js" />
+        <option value="$PROJECT_DIR$/../../cypress/integration/login2.js" />
+        <option value="$PROJECT_DIR$/../../cypress/integration/z/z.js" />
+        <option value="$PROJECT_DIR$/../../cypress/integration/bot-details/version.js" />
+        <option value="$PROJECT_DIR$/../../src/config.json" />
+        <option value="$PROJECT_DIR$/../../src/main.ts" />
+        <option value="$PROJECT_DIR$/../../package.json" />
+        <option value="$PROJECT_DIR$/../../tsconfig.json" />
+        <option value="$PROJECT_DIR$/../src/app/core/enterpriseprofile/enterprise-overview/enterprise-overview.component.html" />
+        <option value="$PROJECT_DIR$/../src/app/core/buildbot/build-code-based-bot/bot-config/security/security.component.ts" />
+        <option value="$PROJECT_DIR$/../src/environments/environment.hmr.ts" />
+        <option value="$PROJECT_DIR$/../src/app/ngIf-permission.directive.ts" />
+        <option value="$PROJECT_DIR$/../src/app/permission.service.ts" />
+        <option value="$PROJECT_DIR$/../src/app/constants.service.js" />
+        <option value="$PROJECT_DIR$/../../src/app/permission.service.ts" />
+        <option value="$PROJECT_DIR$/../../src/app/core/header/header.component.html" />
+        <option value="$PROJECT_DIR$/../../src/environments/environment.ts" />
+        <option value="$PROJECT_DIR$/../../src/environments/environment.hmr.ts" />
+        <option value="$PROJECT_DIR$/../../src/app/constants.service.ts" />
+        <option value="$PROJECT_DIR$/../../src/app/typings/enum.ts" />
+        <option value="$PROJECT_DIR$/../../src/app/core/header/header.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/chat/chat-wrapper.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/chat-consumer-form/chat-consumer-form.component.html" />
+        <option value="$PROJECT_DIR$/src/app/chat-consumer-form/chat-consumer-form.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/chat/chat-wrapper.component.html" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-12" />
+    <option name="width" value="981" />
+    <option name="height" value="1044" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="Scope" currentSubView="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope" proportions="" version="1">
+      <autoscrollFromSource Scope="true" ProjectPane="true" />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane" />
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="auth" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="auth" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="login" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="chat" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="chat-consumer-form" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="bot-detail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="bot-detail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="bot-sessions" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="bot-detail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="code-based-bot-detail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="buildbot" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="buildbot" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="build-code-based-bot" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="buildbot" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="build-code-based-bot" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="bot-config" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="buildbot" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="build-code-based-bot" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="bot-config" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="basic-info-form" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="buildbot" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="build-code-based-bot" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="bot-config" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="basic-info-form" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="ui-switch" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="buildbot" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="build-code-based-bot" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="bot-config" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="data-manage-form" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="enterpriseprofile" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="enterpriseprofile" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="enterprise-overview" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="header" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="interfaces" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="profile" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="view-bots" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="view-bots" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="bot-preview-card" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="core" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="view-bots" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="ngxs" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="modal-confirm" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="route-gaurds" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="environments" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="interfaces" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="imi" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="sass" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="excluded.www.directory" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.stylelint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.stylelint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.stylelint" value="" />
+    <property name="node.js.selected.package.tslint" value="D:\nodebook\DEVELOP\bot_platform-fe\node_modules\tslint" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.general" />
+    <property name="ts.external.directory.path" value="D:\nodebook\DEVELOP\imi\node_modules\typescript\lib" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\cypress\integration" />
+      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\cypress\fixtures\role-based-access" />
+      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\src\app\dev" />
+      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\src\assets\js" />
+      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\src\assets\splashscreens" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\cypress\fixtures\role-based-access" />
+      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\cypress\integration\role-based-acess" />
+      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\src\app\core\reports" />
+      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\src\app\fixtures" />
+      <recent name="D:\nodebook\DEVELOP\bot_platform-fe\cypress\integration" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="npm.Angular CLI Server">
+    <configuration name="Tests" type="JavaScriptTestRunnerKarma">
+      <config-file value="$PROJECT_DIR$/src/karma.conf.js" />
+      <working-directory value="$PROJECT_DIR$" />
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="E2E Tests" type="JavaScriptTestRunnerProtractor">
+      <config-file value="$PROJECT_DIR$/e2e/protractor.conf.js" />
+      <node-interpreter value="project" />
+      <protractor-options value="" />
+      <envs />
+      <scope-kind value="ALL" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Angular Application" type="JavascriptDebugType" uri="http://localhost:4200">
+      <method v="2" />
+    </configuration>
+    <configuration name="Angular CLI Server" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="ng" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="ng" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.ng" />
+        <item itemvalue="npm.ng" />
+        <item itemvalue="npm.ng" />
+        <item itemvalue="npm.ng" />
+        <item itemvalue="npm.ng" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4fa2cae7-4156-44c3-97aa-acfecddc228f" name="Default Changelist" comment="" />
+      <created>1548498807754</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1548498807754</updated>
+      <workItem from="1548498808961" duration="12328000" />
+      <workItem from="1548525978611" duration="3800000" />
+      <workItem from="1548530064798" duration="5280000" />
+      <workItem from="1548579746897" duration="8495000" />
+      <workItem from="1548588866877" duration="3121000" />
+      <workItem from="1548593149797" duration="5419000" />
+      <workItem from="1548653415281" duration="17556000" />
+      <workItem from="1548712953254" duration="23761000" />
+      <workItem from="1548755950514" duration="14256000" />
+      <workItem from="1548833296026" duration="2515000" />
+      <workItem from="1548846805361" duration="4351000" />
+      <workItem from="1548925065704" duration="34344000" />
+      <workItem from="1549220529486" duration="93847000" />
+      <workItem from="1549480807459" duration="50291000" />
+      <workItem from="1549622040281" duration="28709000" />
+      <workItem from="1549866128016" duration="7085000" />
+      <workItem from="1549881160290" duration="17895000" />
+      <workItem from="1549990957849" duration="2909000" />
+      <workItem from="1550124711829" duration="35774000" />
+      <workItem from="1550321702719" duration="98329000" />
+      <workItem from="1550530437737" duration="14223000" />
+      <workItem from="1550573347469" duration="7518000" />
+      <workItem from="1550581113244" duration="24488000" />
+      <workItem from="1550637928788" duration="39000" />
+      <workItem from="1550638723603" duration="4355000" />
+      <workItem from="1550656204978" duration="4230000" />
+      <workItem from="1550673543794" duration="17273000" />
+      <workItem from="1550727707685" duration="11343000" />
+      <workItem from="1550771318886" duration="27179000" />
+      <workItem from="1550922867940" duration="2002000" />
+      <workItem from="1551087070684" duration="1165000" />
+      <workItem from="1551099699145" duration="198000" />
+      <workItem from="1551134464986" duration="475000" />
+      <workItem from="1551135836011" duration="27000" />
+      <workItem from="1551161318385" duration="53347000" />
+      <workItem from="1551429636241" duration="67251000" />
+      <workItem from="1551683847956" duration="28834000" />
+      <workItem from="1551780211775" duration="33939000" />
+      <workItem from="1551859965674" duration="36704000" />
+      <workItem from="1551951676804" duration="1378000" />
+      <workItem from="1551984180824" duration="20231000" />
+      <workItem from="1552049164691" duration="2336000" />
+      <workItem from="1552068362217" duration="8788000" />
+      <workItem from="1552307412651" duration="1055000" />
+      <workItem from="1552463034815" duration="2247000" />
+      <workItem from="1552470460254" duration="2632000" />
+      <workItem from="1552564217991" duration="1392000" />
+      <workItem from="1552565649842" duration="25072000" />
+      <workItem from="1552723805454" duration="1773000" />
+      <workItem from="1552728398863" duration="214000" />
+      <workItem from="1552728709012" duration="99000" />
+      <workItem from="1552728863559" duration="42503000" />
+      <workItem from="1553258875405" duration="22000" />
+      <workItem from="1553259020913" duration="1000" />
+      <workItem from="1553402804216" duration="5000" />
+      <workItem from="1553949090913" duration="442000" />
+      <workItem from="1556533770719" duration="4864000" />
+      <workItem from="1556569212873" duration="143000" />
+      <workItem from="1556569497044" duration="8999000" />
+      <workItem from="1556618406488" duration="59162000" />
+      <workItem from="1556805461628" duration="25233000" />
+      <workItem from="1557121681958" duration="518000" />
+      <workItem from="1557122744612" duration="17000" />
+      <workItem from="1557122770394" duration="15788000" />
+      <workItem from="1557228978417" duration="2000" />
+      <workItem from="1557230843508" duration="57000" />
+      <workItem from="1557230910569" duration="1657000" />
+      <workItem from="1559602666035" duration="42345000" />
+      <workItem from="1559819023903" duration="12000" />
+      <workItem from="1559819096310" duration="26000" />
+      <workItem from="1559819183646" duration="32156000" />
+      <workItem from="1559897638728" duration="3036000" />
+      <workItem from="1559906446379" duration="97000" />
+      <workItem from="1559906547837" duration="10444000" />
+      <workItem from="1561027210159" duration="1266000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="1121419000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49440297" visible="true" weight="0.16931638" />
+      <window_info id="Structure" order="1" sideWeight="0.50369006" side_tool="true" weight="0.2591415" />
+      <window_info id="npm" order="2" sideWeight="0.506542" side_tool="true" weight="0.2591415" />
+      <window_info id="Favorites" order="3" sideWeight="0.39044943" side_tool="true" weight="0.22257552" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.21678321" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32867134" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.43356642" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49841017" weight="0.83566433" />
+      <window_info anchor="bottom" id="TypeScript" order="9" sideWeight="0.49761525" weight="0.3181818" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5055644" side_tool="true" weight="0.2744755" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4944356" visible="true" weight="0.1486014" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="SHOW_DETAILS" value="true" />
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/../.." />
+    </ignored-roots>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../cypress/integration/chat/chat-fullscreen.js" />
+    <entry file="file://$PROJECT_DIR$/../../cypress/integration/faq-bots/faq-bot-artical-test.js" />
+    <entry file="file://$PROJECT_DIR$/../../cypress/integration/login2.js" />
+    <entry file="file://$PROJECT_DIR$/../../cypress/integration/z/z.js" />
+    <entry file="file://$PROJECT_DIR$/../../cypress/integration/bot-details/version.js" />
+    <entry file="file://D:/jgit/package.json" />
+    <entry file="file://D:/jgit/package-lock.json" />
+    <entry file="file://D:/jgit/.gitignore" />
+    <entry file="file://D:/jgit/LICENSE" />
+    <entry file="file://$PROJECT_DIR$/../../src/config.json" />
+    <entry file="file://$PROJECT_DIR$/../../src/main.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/tsconfig.app.json" />
+    <entry file="file://$PROJECT_DIR$/../../package.json" />
+    <entry file="file://$PROJECT_DIR$/../../README.md" />
+    <entry file="file://$PROJECT_DIR$/../../tsconfig.json" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/enterpriseprofile/enterprise-overview/enterprise-overview.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.service.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/bot-config.component.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/security/security.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/bot-config/security/security.component.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/ngIf-permission.directive.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/constants.service.js" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/accordian/accordian.component.scss" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/permission.service.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/chat/chat-wrapper.component.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/environments/environment.hmr.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/auth/login/login.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/auth/login/login.component.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/constants.service.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/server.service.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/environments/environment.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/chat.service.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/typings/enum.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.ts" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/enterpriseprofile/enterprise-users/enterprise-users.component.html" />
+    <entry file="file://$PROJECT_DIR$/../../src/app/core/enterpriseprofile/enterprise-users/enterprise-users.component.ts" />
+    <entry file="file://$PROJECT_DIR$/src/app/utility.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="13" column="34" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="884">
+          <caret line="52" column="25" selection-start-line="52" selection-start-column="25" selection-end-line="52" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cypress/fixtures/bot.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="107542">
+          <caret line="6326" column="28" selection-start-line="6326" selection-start-column="28" selection-end-line="6326" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/consumers/consumers.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="27" column="12" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/consumers/consumers.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/interfaces/chat-session-state.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="32" column="28" selection-start-line="32" selection-start-column="28" selection-end-line="32" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/chat.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="288" column="41" lean-forward="true" selection-start-line="288" selection-start-column="41" selection-end-line="288" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/chat/chat-wrapper.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2584">
+          <caret line="358" column="88" selection-start-line="358" selection-start-column="88" selection-end-line="358" selection-end-column="88" />
+          <folding>
+            <element signature="e#0#73#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/chat/chat-wrapper.component.scss">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/chat-consumer-form/chat-consumer-form.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="63" lean-forward="true" selection-start-line="3" selection-start-column="63" selection-end-line="3" selection-end-column="63" />
+          <folding>
+            <element signature="n#style#0;n#form#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/chat-consumer-form/chat-consumer-form.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="12" column="52" lean-forward="true" selection-start-line="12" selection-start-column="52" selection-end-line="12" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#77#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/chat/chat-wrapper.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="299" column="38" lean-forward="true" selection-start-line="299" selection-start-column="38" selection-end-line="299" selection-end-column="38" />
+          <folding>
+            <element signature="n#style#0;n#img#0;n#div#0;n#div#2;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#0;n#div#2;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#2;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

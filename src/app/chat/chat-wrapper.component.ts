@@ -356,7 +356,7 @@ export class ChatWrapperComponent implements OnInit {
         }
         this.chatService.sendHumanMessageToBotServer(
           {
-            bot_access_token: room.bot_access_token,
+            bot_access_token: room.bot_access_token || this.currentBot.bot_access_token,
             roomId: room.id,
             type: room.bot && room.bot.bot_type
           },
@@ -416,11 +416,12 @@ export class ChatWrapperComponent implements OnInit {
         ...value,
         id: this.currentRoom.consumer_id
       },
-      id: roomId || this.currentRoom.id
+      id: roomId || this.currentRoom.id,
+      bot: this.currentBot
     };
     this.sendMessageByHuman({ room, messageByHuman: '' });
   }
-
+  //
   sendFeedback(feedback: IChatFeedback) {
 
     let roomId = this.currentRoom.id;

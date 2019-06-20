@@ -36,7 +36,7 @@
               data-cy="custom-room-form-trigger"
               [matTooltip]="'New chat with custom data'"
               cdkOverlayOrigin>
-        <mat-icon>{{frameEnabled === myEChatFrame.CHAT_LIST ? 'perm_contact_calendar' : 'person_add'}}</mat-icon>
+        <mat-icon>{{frameEnabled === myEChatFrame.CHAT_LIST ? 'person_add' : 'perm_contact_calendar'}}</mat-icon>
       </button>
       <ng-container
         [ngTemplateOutlet]="validationTemplate"
@@ -297,6 +297,7 @@
       <app-chat-consumer-form
         *ngIf="showOverlay"
         [customConsumerDetails]="customConsumerDetails"
+        [title]="'Edit room consumer'"
         (hideOverlay$)="hideOverlay()"
         [readonly]="!createNewRoom"
         (saveConsumerDetails$)="consumerFormSubmitHandler($event, createNewRoom)"></app-chat-consumer-form>

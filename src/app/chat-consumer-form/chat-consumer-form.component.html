@@ -1,7 +1,7 @@
 <form role="menu" #form="ngForm"
       (ngSubmit)="validateAndSubmit(form.value)"
       style="width: 200px">
-  <p class="mb-3">{{readonly ? 'Consumer Details' : 'Create room with new Consumer'}}</p>
+  <p class="mb-3">{{readonly ? 'Consumer Details' : title}}</p>
 
   <fieldset [disabled]="readonly">
     <mat-form-field *ngIf="!readonly || readonly && customConsumerDetails?.name">
