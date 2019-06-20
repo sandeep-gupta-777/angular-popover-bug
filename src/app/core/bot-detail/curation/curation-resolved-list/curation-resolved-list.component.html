@@ -1,0 +1,6 @@
+<div class="curation-list-heading ">
+    <div class ="header-text">
+        240 issues resolved
+    </div>
+</div>
+<app-curation-issues *ngFor="let curationItem of curationItemList" [curationItemData]="curationItem" [isResolved] = true></app-curation-issues>

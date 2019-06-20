@@ -76,9 +76,6 @@ import {ConstantsService} from "../../constants.service";
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatGridListModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
 import {BreakpointService} from '../breakpoint.service';
-import { CurationComponent } from './curation/curation.component';
-import { CurationIssuesListComponent } from './curation/curation-issues-list/curation-issues-list.component';
-
 const routes: Route[] = [
   {
     path: '', component: BotDetailWrapperComponent, canActivateChild: [], children:
@@ -151,7 +148,6 @@ const routes: Route[] = [
     FilterArticalsPipe,
     ArticleFilterComponent,
     ArticalHeaderComponent,
-  
   
     /*after lazy loading*/
     // RequiredIfOneFilledValidator

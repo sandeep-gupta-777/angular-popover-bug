@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ConstantsService } from 'src/app/constants.service';
+import { ICurationItem } from 'src/app/core/interfaces/faqbots';
 
 @Component({
   selector: 'app-curation-issues',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CurationIssuesComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(
+    private constantsService : ConstantsService,
+    ) { }
+  @Input() isResolved:boolean;
+  @Input() curationItemData : ICurationItem;
   ngOnInit() {
   }
-
+  channelNameToImg(channel:string){
+    let iconObj = this.constantsService.getIntegrationIconForChannelName(channel);
+    return iconObj && iconObj.icon;
+  }
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ICurationItem } from 'src/app/core/interfaces/faqbots';
 
 @Component({
   selector: 'app-curation-issues-list',
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class CurationIssuesListComponent implements OnInit {
 
   constructor() { }
-
+  @Input() curationItemList:ICurationItem[]
   ngOnInit() {
   }
 

@@ -1,13 +1,20 @@
-<p>
-  1. issues component: app-curation-issues
-  2. filter (sessions: reuse code): app-curation-filter
-</p>
+
+ <mat-tab-group animationDuration="0ms">
+<mat-tab label="Issues">
+      <section class="curation-issues-wrapper-section">
+          <app-curation-filter></app-curation-filter>
+          <app-curation-issues-list [curationItemList]="curationIssuesList"></app-curation-issues-list>
+        </section>
+ </mat-tab>
+ <mat-tab label="Resolved">
+    <section class="curation-issues-wrapper-section">
+        <app-curation-filter></app-curation-filter>
+        <app-curation-resolved-list [curationItemList]="curationIssuesList"></app-curation-resolved-list>
+      </section>
+ </mat-tab>
+</mat-tab-group>
 
 
-<section class="curation-wrapper-section">
-  <app-curation-filter></app-curation-filter>
-  <app-curation-issues-list></app-curation-issues-list>
-</section>
 
 
 

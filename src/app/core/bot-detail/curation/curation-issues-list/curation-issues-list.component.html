@@ -1,1 +1,14 @@
-<app-curation-issues *ngFor="let i of [1,2,3,4,5]"></app-curation-issues>
+<div class="curation-list-heading ">
+    <div class ="header-text" >
+            85 issues remaining
+    </div>
+    <div class="header-text ml-auto mr-3">
+            Saved corpus
+    </div>
+    
+    <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer" mat-button>
+      <mat-icon>autorenew</mat-icon>
+      Train
+    </button>
+</div>
+<app-curation-issues *ngFor="let curationItem of curationItemList" [curationItemData]="curationItem" [isResolved]=false></app-curation-issues>

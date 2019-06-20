@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { FormGroup, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-curation-filter',
@@ -8,8 +9,24 @@ import { Component, OnInit } from '@angular/core';
 export class CurationFilterComponent implements OnInit {
 
   constructor() { }
-
+  @Input() triggered_rules : string[]; 
+  @ViewChild('filterForm') curationForm: NgForm;
+  maxDate = new Date();
+  date = {
+    begin: new Date(new Date().setDate(new Date().getDate() - 30)),
+    end: new Date()
+  };
   ngOnInit() {
+    if(!this.triggered_rules){
+      this.triggered_rules = [
+                "agent_handover",
+                "downvoted",
+                "fallback",
+                "from_session",
+                "low_confidence",
+                "partial_match"
+      ]
+    }
   }
 
 }

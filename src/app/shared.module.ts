@@ -81,6 +81,7 @@ import { CurationComponent } from './core/bot-detail/curation/curation.component
 import { CurationIssuesComponent } from './core/bot-detail/curation/curation-issues/curation-issues.component';
 import { CurationFilterComponent } from './core/bot-detail/curation/curation-filter/curation-filter.component';
 import { CurationIssuesListComponent } from './core/bot-detail/curation/curation-issues-list/curation-issues-list.component';
+import { CurationResolvedListComponent } from './core/bot-detail/curation/curation-resolved-list/curation-resolved-list.component';
 @NgModule({
   declarations: [
     ButtonWrapperComponent,
@@ -148,7 +149,8 @@ import { CurationIssuesListComponent } from './core/bot-detail/curation/curation
     CurationComponent,
     CurationFilterComponent,
     CurationIssuesComponent,
-    CurationIssuesListComponent
+    CurationIssuesListComponent,
+    CurationResolvedListComponent,
   ],
   imports: [
     SharedEnterpriseListModuleModule,
@@ -237,6 +239,7 @@ import { CurationIssuesListComponent } from './core/bot-detail/curation/curation
     CurationFilterComponent,
     CurationIssuesComponent,
     CurationIssuesListComponent,
+    CurationResolvedListComponent,
     MatCardModule
   ],
   providers: [ConstantsService, PermissionService, BotConfigService, BreakpointService]
