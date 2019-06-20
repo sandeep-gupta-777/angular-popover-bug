@@ -20,6 +20,7 @@ import {IConsumerDetails} from './chat/ngxs/chat.state';
 import {catchError} from 'rxjs/internal/operators';
 import {LoggingService} from "./logging.service";
 import { EventService } from './event.service';
+import { debug } from 'util';
 
 declare var IMI: any;
 
@@ -174,8 +175,8 @@ export class ChatService {
 
       },
       onMessageReceived: function (message) {
-
-
+        debugger;
+        alert();
         prepareMessage(message);
 
         if (message.getType() === IMI.ICMessageType.Message) {

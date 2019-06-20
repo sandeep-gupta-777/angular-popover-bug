@@ -1,6 +1,9 @@
 <ng-template
   cdkConnectedOverlay
+  cdkConnectedOverlayHasBackdrop
   [cdkConnectedOverlayOrigin]="overlayOrigin"
+  [cdkConnectedOverlayBackdropClass]="overlayClass"
+  (backdropClick)="backdropClick$.emit()"
   [cdkConnectedOverlayOpen]="showOverlay">
   <ng-content></ng-content>
 </ng-template>

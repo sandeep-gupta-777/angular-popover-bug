@@ -16,7 +16,7 @@ export class BotThinkingBubbleComponent implements OnInit, OnDestroy {
   randomNumber = 1;
   ngOnInit() {
     this.intervalRef = setInterval(() => {
-      LoggingService.log('setInterval');
+      // LoggingService.log('setInterval');
       this.randomNumber = this.randomNumber > 3 ? 1 : this.randomNumber + 1;
     }, 400);
   }

@@ -10,7 +10,12 @@ export class ChatConsumerFormComponent implements OnInit {
 
   @Input() customConsumerDetails;
   @Input() readonly  = false;
+  @Input() title  = 'Create room with new Consumer';
   @Output() saveConsumerDetails$ = new EventEmitter();
+  @Output() hideOverlay$ = new EventEmitter();
+  isEditMode = false;
+  test = true;
+  uuid = UtilityService.generateUUid();
 
   errorMessage = "";
   constructor(private utilityService:UtilityService) { }
@@ -19,7 +24,7 @@ export class ChatConsumerFormComponent implements OnInit {
   }
 
   validateAndSubmit(customConsumerDetails){
-
+    debugger;
     this.errorMessage="";
     let doesConsumerFomContainSomeDetail =  this.utilityService.isAtleastOneValueIsDefined(customConsumerDetails);
     if(doesConsumerFomContainSomeDetail){
