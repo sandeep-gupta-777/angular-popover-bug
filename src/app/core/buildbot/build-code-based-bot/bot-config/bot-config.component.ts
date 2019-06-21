@@ -148,8 +148,8 @@ export class BotConfigComponent implements OnInit {
   * updateBotHandler: combine the data from various forms and update the bot
   * */
   async updateBotHandler() {
-    if(this.bot.bot_disabled_settings
-      && this.bot.bot_disabled_settings.bot_disabled !== this.dataManagementForm.get('bot_disabled_settings').get('bot_disabled').value){
+    debugger;
+    if(!!(this.bot.bot_disabled_settings && this.bot.bot_disabled_settings.bot_disabled) !== !!this.dataManagementForm.get('bot_disabled_settings').get('bot_disabled').value){
       let shouldContinue = await this.openNewServiceKeyModal();
       if(!shouldContinue){
         return;
@@ -211,16 +211,16 @@ export class BotConfigComponent implements OnInit {
   dialogRefWrapper = { ref: null };
 
   openNewServiceKeyModal() {
-
+    let isBotDisabled = this.bot.bot_disabled_settings && this.bot.bot_disabled_settings.bot_disabled;
+    let title = `${isBotDisabled? 'Disable': 'Enable'} ${this.bot.name} `;
+    let message = `This bot will be ${isBotDisabled?'disabled':'enabled'} in all live instances and will send the disabled message instead. <br> You can ${isBotDisabled?'enable':'disable'} it again ${isBotDisabled?'':'for it to work'}</br>`;
     return this.utilityService.openDialog({
       dialogRefWrapper: this.dialogRefWrapper,
       classStr: 'primary-modal-header-border',
       data: {
         actionButtonText: 'Disable',
-        message: `This bot will be disabled in all live instances and will send the disabled message instead.
-        <br>Enable it again for it to work.
-        `,
-        title: `Disable ${this.bot.name}`,
+        message: message,
+        title,
         isActionButtonDanger: true
       },
       dialog: this.matDialog,

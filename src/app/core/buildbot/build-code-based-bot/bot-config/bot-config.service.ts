@@ -106,7 +106,7 @@ export class BotConfigService {
       is_manager: [bot.is_manager || false],
       child_bots: [bot.child_bots],
       bot_disabled_settings: this.formBuilder.group({
-        'bot_disabled':   bot_disabled_settings && bot_disabled_settings.bot_disabled,
+        'bot_disabled':   bot_disabled_settings && bot_disabled_settings.bot_disabled || false,
         'disabled_message':   bot_disabled_settings && bot_disabled_settings.disabled_message || 'Hey, this bot has been disabled',
         'agent_handover':   bot_disabled_settings && bot_disabled_settings.agent_handover || false
       })

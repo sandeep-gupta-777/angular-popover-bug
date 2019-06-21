@@ -20,8 +20,13 @@
     </div>
   </div>
   <div class="ml-auto"></div>
+
+  <mat-chip-list style="margin-right: 10px" aria-label="Disabled label" *ngIf="bot?.bot_disabled_settings?.bot_disabled">
+    <mat-chip color="accent" selected>Disabled</mat-chip>
+  </mat-chip-list>
   <app-integration-channel-list
           class="hide-phone"
+          [ngClass]="{'greyscale-1': bot?.bot_disabled_settings?.bot_disabled}"
           *ngIf="bot.bot_type != myEBotType.intelligent"
           [bot]="bot" style="margin-right: 10px"></app-integration-channel-list>
 

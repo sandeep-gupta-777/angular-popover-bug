@@ -42,7 +42,7 @@ export class ChatService {
       'type': 'human',
       'msg': messageByHuman || 'hi',
       'platform': 'web',
-      is_test: botDetails.type === EBotType.faqbot
+      is_test: true//botDetails.type === EBotType.faqbot
     };
     const headerData: IHeaderData = {
       'bot-access-token': botDetails.bot_access_token,
@@ -297,7 +297,7 @@ export class ChatService {
       'type': 'bot',
       'msg': 'hi',
       'platform': 'web',
-      'is_test':startNewChatData.bot.bot_type === EBotType.faqbot,
+      'is_test': true,//startNewChatData.bot.bot_type === EBotType.faqbot,
       // 'consumer': {
       //   'uid': this.current_uid,
       // },

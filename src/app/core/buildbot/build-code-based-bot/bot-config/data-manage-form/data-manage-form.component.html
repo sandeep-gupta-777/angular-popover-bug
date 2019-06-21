@@ -3,11 +3,10 @@
 
   <div class="full-width" formGroupName="bot_disabled_settings">
     <div class="bot-creation-form-grid" style="padding: 0">
-      <div class="switch-wrapper"
-           *ngIf="(bot_type===myEBotType.chatbot)">
+      <div class="switch-wrapper">
         <label>
-          Bot status
-          <app-info-icon [text]="'Trigger callback api before a room is about to close'"></app-info-icon>
+          Disable Bot
+          <app-info-icon [text]="'Disables all the live instances of the bot'"></app-info-icon>
         </label>
         <mat-slide-toggle color="primary" formControlName="bot_disabled"></mat-slide-toggle>
       </div>
@@ -19,14 +18,14 @@
                           cdkTextareaAutosize
                           cdkAutosizeMinRows="1"
                           cdkAutosizeMaxRows="3"
-                          placeholder="Description*"></textarea>
+                          placeholder="Disabled Message*"></textarea>
         <mat-error>Required</mat-error>
       </mat-form-field>
 
-      <div class="switch-wrapper small-dia-radio" *ngIf="(bot_type===myEBotType.chatbot)">
+      <div class="switch-wrapper small-dia-radio" >
         <label style="margin-bottom: 10px">
           Fallback action
-          <app-info-icon [text]="'Trigger callback api before a room is about to close'"></app-info-icon>
+          <app-info-icon [text]="'What should happen for incoming messages to the bot?'"></app-info-icon>
         </label>
         <mat-radio-group aria-label="Select an option" formControlName="agent_handover">
           <mat-radio-button color="primary" [value]="false">Do nothing</mat-radio-button>

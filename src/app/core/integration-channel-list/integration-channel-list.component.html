@@ -1,3 +1,4 @@
+
 <div class="d-flex align-items-center overflow-hidden" *ngIf="!(limit && (enabledIntegrationCount > limit))">
   <img
     *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async)); let i = index"

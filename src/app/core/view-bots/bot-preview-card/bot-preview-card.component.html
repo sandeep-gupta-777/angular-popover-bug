@@ -15,9 +15,11 @@
           [matTooltip]="(bot.name && bot.name.length >24)?bot.name : ''"
           style="color: #474747; letter-spacing: 0.3px">{{(bot.name|slice:0:36) + (bot.name.length > 36 ? "..." : "")}}</h6>
       <p class="description limit-oneline"
-         matTooltip="Updated on {{bot.updated_at|date:'d MMM, yy'}} by {{bot.updated_by|personName}}"
+         matTooltip="
+          {{bot?.bot_disabled_settings?.bot_disabled?'Disabled':'Updated'}}
+          on {{bot.updated_at|date:'d MMM, yy'}} by {{bot.updated_by|personName}}"
          style="letter-spacing: 0.1px">
-        Updated
+        {{bot?.bot_disabled_settings?.bot_disabled?'Disabled':'Updated'}}
         on {{bot.updated_at|date:'d MMM, yy'}}
         by {{bot.updated_by|personName}}
       </p>
