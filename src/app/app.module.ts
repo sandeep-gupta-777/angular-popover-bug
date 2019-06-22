@@ -69,8 +69,8 @@ const routes: Route[] = [
     // NgxsLoggerPluginModule.forRoot({disabled: true}), //disable for prod mode
 
 
-    ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
-    // ServiceWorkerModule.register('/static/ngsw-worker.js'),
+    // ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
+    ServiceWorkerModule.register('/static/ngsw-worker.js', {enabled: environment.production}),
     // MatSnackBarModule,
     //   FormsModule,
     //   ReactiveFormsModule,
