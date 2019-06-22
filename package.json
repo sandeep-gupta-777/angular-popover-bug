@@ -22,7 +22,7 @@
     "build-old": "ng build --prod && ",
     "index": "node file-index-script.js",
     "hmr": "ng serve --configuration hmr",
-    "develop": "sudo npm run xgit && ng build --configuration develop --base-href /static/",
+    "develop": "ng build --configuration develop --base-href /static/",
     "staging": "sudo npm run xgit && ng build --configuration staging --base-href /static/",
     "staging-github": "npm run xgit && ng build --configuration staging --base-href /imibot-fe/",
     "v1": "sudo npm run xgit && ng build --configuration staging --base-href /v1/",
