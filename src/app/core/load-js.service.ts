@@ -5,7 +5,7 @@ export class LoadJsService {
   static main = [
     {
       async: true,
-      url: "http://code.jquery.com/jquery-latest.min.js"
+      url: "https://code.jquery.com/jquery-latest.min.js"
     },
     {
       async: true,
