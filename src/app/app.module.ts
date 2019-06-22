@@ -18,6 +18,7 @@ import {createInputTransfer, createNewHosts, removeNgStyles} from '@angularclass
 import {LazyLoadImageModule, intersectionObserverPreset} from 'ng-lazyload-image';
 import { SetErrorImageProps } from 'ng-lazyload-image';
 import {SpliceEllipsisPipe} from "./splice-ellipsis.pipe";
+import {HnResolver} from "./core.resolver";
 
 export const x = ({element, errorImagePath, useSrcset}: SetErrorImageProps) => {
   (<any>element).src = "http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg";

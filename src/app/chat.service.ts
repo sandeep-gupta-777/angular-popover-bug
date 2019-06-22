@@ -175,7 +175,7 @@ export class ChatService {
 
       },
       onMessageReceived: function (message) {
-        debugger;
+
         alert();
         prepareMessage(message);
 

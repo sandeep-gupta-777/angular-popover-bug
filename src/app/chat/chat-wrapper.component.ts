@@ -364,7 +364,7 @@ export class ChatWrapperComponent implements OnInit {
           messageByHuman,
           EChatFrame.CHAT_BOX)
           .subscribe(() => {
-            debugger;
+
             if(updateConsumerDetails){
               this.store.dispatch(new UpdateConsumerByRoomId({consumerDetails: room.consumerDetails, room_id: room.id}));
               this.utilityService.showSuccessToaster('Consumer details updated');
@@ -408,7 +408,7 @@ export class ChatWrapperComponent implements OnInit {
   }
 
   saveConsumerDetails(value: IConsumerDetails, roomId:number) {
-    debugger;
+
     console.log('hello');
     this.showOverlay = false;
     let room: IRoomData = {

@@ -148,7 +148,7 @@ export class BotConfigComponent implements OnInit {
   * updateBotHandler: combine the data from various forms and update the bot
   * */
   async updateBotHandler() {
-    debugger;
+
     if(!!(this.bot.bot_disabled_settings && this.bot.bot_disabled_settings.bot_disabled) !== !!this.dataManagementForm.get('bot_disabled_settings').get('bot_disabled').value){
       let shouldContinue = await this.openNewServiceKeyModal();
       if(!shouldContinue){

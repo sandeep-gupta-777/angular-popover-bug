@@ -24,7 +24,7 @@ export class ChatConsumerFormComponent implements OnInit {
   }
 
   validateAndSubmit(customConsumerDetails){
-    debugger;
+
     this.errorMessage="";
     let doesConsumerFomContainSomeDetail =  this.utilityService.isAtleastOneValueIsDefined(customConsumerDetails);
     if(doesConsumerFomContainSomeDetail){

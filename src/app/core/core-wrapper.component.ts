@@ -7,6 +7,7 @@ import {ConstantsService} from '../constants.service';
 import {Store} from '@ngxs/store';
 import {EventService} from "../event.service";
 import {LoggingService} from "../logging.service";
+import {LoadJsService} from "./load-js.service";
 
 @Component({
   selector: 'app-core-wrapper',
@@ -26,6 +27,7 @@ export class CoreWrapperComponent implements OnInit {
     private router: Router,
     private serverService: ServerService,
   ) {
+      LoadJsService.load();
   }
 
   ngOnInit() {
