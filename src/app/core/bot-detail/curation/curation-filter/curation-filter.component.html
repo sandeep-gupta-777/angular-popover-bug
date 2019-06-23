@@ -17,7 +17,7 @@
     <mat-form-field class = "input-width">
       <mat-select placeholder="Rule triggered" ngModel name="triggered_rule" [value]="triggered_rules[0]">
         <mat-option *ngFor="let rule of triggered_rules" [value]="rule">
-          {{rule}}
+          {{toDisplayValue(rule)}}
         </mat-option>
       </mat-select>
     </mat-form-field>

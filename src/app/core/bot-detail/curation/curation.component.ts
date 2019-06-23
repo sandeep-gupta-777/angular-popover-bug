@@ -43,8 +43,7 @@ export class CurationComponent implements OnInit {
       {
         url: curationResolvedAndIgnoredListUrl,
         headerData: { 'bot-access-token': this.bot.bot_access_token }
-      }
-    )
+      })
       .subscribe((value: ICurationResult) => {
         this.curationResolvedAndIgnoredList = value.objects;
       });

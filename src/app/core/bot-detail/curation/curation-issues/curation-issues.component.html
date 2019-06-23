@@ -39,14 +39,14 @@
         <div class='column'>
           <div class='column-1'>
             <p style="font-size: 11px">User said</p>
-            <p style="font-size: 13px">“How can I book a flight to japan?”</p>
-
+            <p style="font-size: 13px">“{{curationItemData.first_question}}”</p>
+            <!-- curationItemData.resolved_section.first_question -->
           </div>
         </div>
         <div class='column'>
           <div class='column-2'>
             <p style="font-size: 11px">Bot understood it as</p>
-            <p style="font-size: 13px">“Are there cabs available in japan?”</p>
+            <p style="font-size: 13px">“{{curationItemData.generated_msg[0].text}}”</p>
           </div>
         </div>
       </div>
