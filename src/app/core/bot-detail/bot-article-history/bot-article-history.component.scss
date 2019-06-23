@@ -9,6 +9,12 @@
     padding-bottom: 8px
 }
 ::ng-deep{
+    .onHoverChangeColor{
+        &:hover{
+            background-color: #d8d8d8;
+            cursor: pointer;
+        }
+    }
     .history-table{
         .textVal{
             width: 100% !important;
@@ -18,6 +24,11 @@
             }
         .color-green{
             color: #34bc6e;
+        }
+        .icon-postion{
+            position: absolute;
+            left: -13px;
+            top: 4px;
         }
     }
 }

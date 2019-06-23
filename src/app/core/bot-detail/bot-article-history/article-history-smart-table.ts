@@ -26,7 +26,7 @@ export class ArticleHistorySmartTable extends AbstractSmartTable {
             let obj: any = {};
             for (let key in tableDataMetaDict) {
                 if (key == 'description') {
-                    let exclamationIconHTML = `<i class="fa fa-circle color-green" title="Corpus is live"></i>`;
+                    let exclamationIconHTML = `<i class="fa fa-circle color-green icon-postion" title="Corpus is live"></i>`;
                     obj[tableDataMetaDict[key].displayValue] = {
                         ...tableDataMetaDict[key],
                         originalKey: key,
@@ -50,12 +50,12 @@ export class ArticleHistorySmartTable extends AbstractSmartTable {
                         originalKey: key,
                         value: `<div class="dropdown table-dropdown">
   <i class="fa fa-angle-down arrow-circle"></i>
-  <div class="dropdown-content">
-    <p data-cy="dropdown_makelive_${index}"><i class="fa fa-upload"></i> Make live</p>
-    <p data-cy="dropdown_edit_${index}"><i class="fa fa-edit"></i> Edit</p>
+  <div class="dropdown-content px-0">
+    <p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_makelive_${index}_${corpusTableDataItem.id}"><i class="fa fa-upload"></i> Make live</p>
+    <p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_edit_${index}_${corpusTableDataItem.id}"><i class="fa fa-edit"></i> Edit</p>
     <hr>
-    <p data-cy="dropdown_preview_${index}"> <i class="fa fa-edit"></i> Preview</p>
-    <p data-cy="dropdown_download_${index}"> <i class="fa fa-download"></i> Download</p>
+    <p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_preview_${index}_${corpusTableDataItem.id}"> <i class="fa fa-edit"></i> Preview</p>
+    <p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_download_${index}_${corpusTableDataItem.id}"> <i class="fa fa-download"></i> Download</p>
   </div>
 </div>`,
                         searchValue: ''
