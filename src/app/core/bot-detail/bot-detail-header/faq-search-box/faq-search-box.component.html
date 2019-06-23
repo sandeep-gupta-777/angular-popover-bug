@@ -1,12 +1,14 @@
 <div >
     <div class="faq-search">
       <i class="fa fa-search icon-color" [ngClass]="{'input-foused':input_foused}"></i>
-      <input placeholder="Search for questions or variants"(focus)="input_foused = true" (blur)="input_foused = false" [(ngModel)]="searchAricleString">
+      <input placeholder="Search for questions or variants"(focus)="input_foused = true"  [(ngModel)]="searchAricleString">
+      <!-- (blur)="input_foused = false" -->
     </div>
     <div class = "searchBox"
-      *ngIf="corpus && corpus.sections && (corpus.sections | searchArticleByQuestion : searchAricleString) &&(corpus.sections | searchArticleByQuestion : searchAricleString).length > 0">
+      *ngIf="input_foused && corpus && corpus.sections && (corpus.sections | searchArticleByQuestion : searchAricleString) &&(corpus.sections | searchArticleByQuestion : searchAricleString).length > 0">
       <div class="d-flex article-item flex-column py-2 px-2 search-item" 
-        *ngFor="let section of corpus.sections | searchArticleByQuestion : searchAricleString , let i = index">
+        *ngFor="let section of corpus.sections | searchArticleByQuestion : searchAricleString , let i = index"
+        (click)="navigateToArticleById(section.section_id)">
         <div class="catagory">
             {{section.category_id | categoryIdToName : corpus.category_mapping }}
         </div>

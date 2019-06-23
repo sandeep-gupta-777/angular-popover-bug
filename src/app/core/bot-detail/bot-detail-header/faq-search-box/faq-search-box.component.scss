@@ -7,13 +7,17 @@
     overflow-y: auto;
     width: 300px;
     padding: 0;
+    
     .search-item{
         border-bottom: solid 1px #d8d8d8;
+        cursor: pointer;
         .catagory{
             color: #9b9b9b;
             font-size: 11px;
         }
-        
+        &:hover{
+          background-color: #d8d8d8;
+        }
     }
 }
 .question{

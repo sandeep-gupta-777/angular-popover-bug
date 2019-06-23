@@ -6,6 +6,7 @@ import { ServerService } from 'src/app/server.service';
 import { ConstantsService } from 'src/app/constants.service';
 import { map } from 'rxjs/operators';
 import { EventService } from 'src/app/event.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-faq-search-box',
@@ -16,7 +17,9 @@ export class FaqSearchBoxComponent implements OnInit {
 
   constructor(
     private serverService:ServerService,
-    private constantsService:ConstantsService
+    private constantsService:ConstantsService,
+    private router:Router,
+    private activatedRoute:ActivatedRoute
   ) { }
   @Input() bot : IBot;
   corpus : ICorpus;
@@ -28,6 +31,14 @@ export class FaqSearchBoxComponent implements OnInit {
       if(value){
         this.corpus = value;
       }
+    })
+  }
+  navigateToArticleById(section_id){
+    debugger;
+    this.router.navigate(['.'], {
+      queryParams: {build:'articles',isArticle:true,section_id},
+      relativeTo: this.activatedRoute,
+      queryParamsHandling: 'merge'
     })
   }
   getCorpusAndSetArticleFilterForm$() {
