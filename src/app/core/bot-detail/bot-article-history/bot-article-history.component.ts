@@ -8,6 +8,9 @@ import { IHeaderData } from 'src/interfaces/header-data';
 import { DatePipe } from '@angular/common';
 import { UtilityService } from 'src/app/utility.service';
 import { map } from 'rxjs/operators';
+import {MatDialog} from '@angular/material';
+import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
+import {ActivatedRoute, Route, Router} from '@angular/router';
 
 @Component({
   selector: 'app-bot-article-history',
@@ -20,7 +23,10 @@ export class BotArticleHistoryComponent implements OnInit {
     private constantsService: ConstantsService,
     private serverService: ServerService,
     private datePipe: DatePipe,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private matDialog :MatDialog,
+    private activatedRoute: ActivatedRoute,
+    private router:Router
   ) { }
   @Input() bot: IBot;
   corpusList : ICorpus[];
@@ -39,7 +45,7 @@ export class BotArticleHistoryComponent implements OnInit {
         map((Result) => {
         this.corpusList= Result.objects;
         this.corpusList = this.corpusList.filter((corpus)=>{
-          return corpus.description != 'Default corpus';
+          return corpus.description != 'cloned' &&  corpus.description != 'saved';
         })
         this.ArticleHistorySmartTableObj = new ArticleHistorySmartTable(this.corpusList, this.getTableDataMetaDict(), { datePipe: this.datePipe });
         this.ArticleHistorySmartTableObj.initializeTableData(this.corpusList);
@@ -103,9 +109,44 @@ export class BotArticleHistoryComponent implements OnInit {
           .subscribe()
       });
   }
-
+  public dialogRefWrapper = {ref:null};
   editCorpus(corpus_id: number) {
+    this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr:'primary-modal-header-border',
+      data:{
+        actionButtonText:"Continue",
+        message: "All your untrained changes will be lost and this knowledge base will be the new draft for editing. Do you wish to continue?",
+        title:`Edit knowledge base`,
+        isActionButtonDanger:false,
+        inputDescription: null,
+        closeButtonText: "Cancel"
+      },
+      dialog: this.matDialog,
+      component:ModalConfirmComponent
+    }).then((data)=>{
 
+      if(data){
+        // debugger;
+
+        const headerData: IHeaderData = {
+          'bot-access-token': this.bot.bot_access_token
+        };
+        let body = {
+          'parent_corpus': corpus_id
+        }
+        let url = this.constantsService.putCorpus();
+        this.serverService.makePostReq({url,body,headerData})
+          .subscribe((val)=>{
+            this.utilityService.showSuccessToaster("Knowledge base can be edited now");
+            this.router.navigate(['.'], {
+              queryParams: {build:'articles',isArticle:null,section_id:null},
+              relativeTo: this.activatedRoute,
+              queryParamsHandling: 'merge'
+            })
+          })
+      }
+    })
   }
   previewCorpus(corpus_id: number) {
     // sandeep_preview

@@ -252,6 +252,9 @@ export class ConstantsService {
   getCorpusForFAQBot(bot_id){
     return this.BACKEND_URL + `api/v1/corpus/${bot_id}/`;
   }
+  putCorpus(){
+    return this.BACKEND_URL + `api/v1/corpus/`;
+  }
   getAllCorpusForFAQBot(){
     return this.BACKEND_URL + `api/v1/corpus/`;
   }
@@ -261,9 +264,6 @@ export class ConstantsService {
   getUpdateAgentHandoverUrl(){
     return this.BACKEND_URL + `api/v1/bot/updateagenthandover/`;
   }
-
-
-
   getMasterIntegrationsList() {
     return this.BACKEND_URL + 'api/v1/integrations/';
   }

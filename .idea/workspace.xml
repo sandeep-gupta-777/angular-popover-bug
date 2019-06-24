@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4fa2cae7-4156-44c3-97aa-acfecddc228f" name="Default Changelist" comment="" />
+    <list default="true" id="4fa2cae7-4156-44c3-97aa-acfecddc228f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/bot_platform-fe.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bot_platform-fe.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/constants.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/constants.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/bot-article-history/bot-article-history.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/bot-article-history/bot-article-history.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/img/sidebar/clock-3.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/img/sidebar/clock-3.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/environments/environment.hmr.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/environments/environment.hmr.ts" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/dist/" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -12,15 +23,123 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-1474976673">
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="html" value="1" />
+          <entry key="json" value="1" />
+          <entry key="ts" value="5" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="HTML" value="1" />
+          <entry key="JSON" value="1" />
+          <entry key="TypeScript" value="5" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="ts" value="221" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="TypeScript" value="221" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="3" />
+          <entry key="project.open.time.5" value="1" />
+          <entry key="project.open.time.7" value="1" />
+          <entry key="project.open.time.8" value="1" />
+          <entry key="project.opened" value="3" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.js.language.service.starts">
+        <counts>
+          <entry key="Angular2LanguageService" value="2" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
   <component name="FavoritesManager">
     <favorites_list name="." />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-article-history/bot-article-history.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="47" column="35" selection-start-line="47" selection-start-column="24" selection-end-line="47" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/bot-articles.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="27" column="66" selection-start-line="27" selection-start-column="66" selection-end-line="27" selection-end-column="66" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/bot-articles.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="350">
+              <caret line="309" column="14" lean-forward="true" selection-start-line="305" selection-start-column="12" selection-end-line="309" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/constants.service.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="213">
+              <caret line="516" column="59" selection-start-line="516" selection-start-column="45" selection-end-line="516" selection-end-column="59" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/environments/environment.hmr.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="80">
+              <caret line="4" column="15" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/environments/environment.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="17" column="61" lean-forward="true" selection-start-line="17" selection-start-column="61" selection-end-line="17" selection-end-column="61" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package-lock.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="12" column="40" lean-forward="true" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>&quot;test&quot;</find>
       <find>checks if user is able to update bot code version</find>
       <find>checks if sidebar-setting exists</find>
       <find>ecks if user is able to chat and see the chat rooms</find>
@@ -50,6 +169,7 @@
       <find>logout</find>
       <find>Manage users of your enterprise by adding</find>
       <find>logout(</find>
+      <find>Sea</find>
     </findStrings>
     <replaceStrings>
       <replace>form-control d-flex f</replace>
@@ -76,8 +196,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../cypress/integration/faq-bots/faq-bot-section-test.js" />
-        <option value="$PROJECT_DIR$/../cypress/integration/faq-bots/faq-bot-setting-tab.js" />
         <option value="$PROJECT_DIR$/../cypress.json" />
         <option value="$PROJECT_DIR$/../cypress/integration/chat/chat-fullscreen.js" />
         <option value="$PROJECT_DIR$/../cypress/support/commands.js" />
@@ -127,13 +245,36 @@
         <option value="$PROJECT_DIR$/../../src/app/constants.service.ts" />
         <option value="$PROJECT_DIR$/../../src/app/typings/enum.ts" />
         <option value="$PROJECT_DIR$/../../src/app/core/header/header.component.ts" />
+        <option value="$PROJECT_DIR$/src/environments/environment.hmr.ts" />
+        <option value="$PROJECT_DIR$/src/app/core/bot-detail/bot-article-history/bot-article-history.component.ts" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-12" />
-    <option name="width" value="981" />
-    <option name="height" value="1044" />
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/package.json" />
+    </packageJsonPaths>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="2437" />
+    <option name="y" value="-8" />
+    <option name="width" value="982" />
+    <option name="height" value="737" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -148,8 +289,56 @@
         <subPane>
           <expand>
             <path>
-              <item name="imi" type="b2602c69:ProjectViewProjectNode" />
-              <item name="nodebook" type="462c0819:PsiDirectoryNode" />
+              <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="bot-detail" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="bot-detail" type="462c0819:PsiDirectoryNode" />
+              <item name="bot-article-history" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="constants.service.ts" type="620a8d5e:NestingTreeNode" />
+            </path>
+            <path>
+              <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="environments" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -175,6 +364,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
+    <property name="SearchEverywhereHistoryKey" value="histo&#9;null&#9;null&#10;packa&#9;FILE&#9;file://C:/Users/shoaib.m/Documents/ang-frontend/dev/bot_platform-fe/package-lock.json&#10;hmr.&#9;FILE&#9;file://C:/Users/shoaib.m/Documents/ang-frontend/dev/bot_platform-fe/src/environments/environment.hmr.ts" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="excluded.www.directory" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -184,11 +374,12 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.stylelint" value="" />
     <property name="node.js.selected.package.tslint" value="D:\nodebook\DEVELOP\bot_platform-fe\node_modules\tslint" />
+    <property name="nodejs.protractor.protractor_package" value="$PROJECT_DIR$/node_modules/protractor" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.general" />
-    <property name="ts.external.directory.path" value="D:\nodebook\DEVELOP\bot_platform-fe\node_modules\typescript\lib" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="ts.external.directory.path" value="C:\Users\shoaib.m\Documents\ang-frontend\dev\bot_platform-fe\node_modules\typescript\lib" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -218,11 +409,25 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.Angular Application">
-    <configuration name="Angular Application" type="JavascriptDebugType" uri="http://localhost:4200">
+  <component name="RunManager" selected="npm.Angular CLI Server">
+    <configuration name="Tests" type="JavaScriptTestRunnerKarma" factoryName="Karma">
+      <config-file value="$PROJECT_DIR$/src/karma.conf.js" />
+      <karma-package-dir value="$PROJECT_DIR$/node_modules/@angular/cli" />
+      <working-directory value="$PROJECT_DIR$" />
+      <node-interpreter value="project" />
+      <envs />
       <method v="2" />
     </configuration>
-    <configuration name="Angular CLI Server" type="js.build_tools.npm">
+    <configuration name="E2E Tests" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
+      <config-file value="$PROJECT_DIR$/e2e/protractor.conf.js" />
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="Angular Application" type="JavascriptDebugType" factoryName="JavaScript Debug" uri="http://localhost:4200">
+      <method v="2" />
+    </configuration>
+    <configuration name="Angular CLI Server" type="js.build_tools.npm" factoryName="npm">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
@@ -232,7 +437,7 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="ng" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+    <configuration name="ng" type="js.build_tools.npm" factoryName="npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
@@ -242,6 +447,13 @@
       <envs />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="JavaScript Debug.Angular Application" />
+      <item itemvalue="npm.Angular CLI Server" />
+      <item itemvalue="npm.ng" />
+      <item itemvalue="Karma.Tests" />
+      <item itemvalue="Protractor.E2E Tests" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="npm.ng" />
@@ -337,16 +549,20 @@
       <workItem from="1559906446379" duration="97000" />
       <workItem from="1559906547837" duration="10444000" />
       <workItem from="1561028714760" duration="1072000" />
+      <workItem from="1561375606493" duration="197000" />
+      <workItem from="1561375821548" duration="595000" />
+      <workItem from="1561376440785" duration="3406000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1120511000" />
+    <option name="totallyTimeSpent" value="1125738000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
+    <frame x="1912" y="-8" width="1936" height="1066" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49440297" visible="true" weight="0.23052464" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49440297" visible="true" weight="0.22339304" />
       <window_info id="Structure" order="1" sideWeight="0.50369006" side_tool="true" weight="0.2591415" />
       <window_info id="npm" order="2" sideWeight="0.506542" side_tool="true" weight="0.2591415" />
       <window_info id="Favorites" order="3" sideWeight="0.39044943" side_tool="true" weight="0.22257552" />
@@ -359,9 +575,9 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49841017" weight="0.83566433" />
-      <window_info anchor="bottom" id="TypeScript" order="9" sideWeight="0.49761525" weight="0.3181818" />
+      <window_info anchor="bottom" id="TypeScript" order="9" sideWeight="0.49761525" weight="0.31758243" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5055644" side_tool="true" weight="0.2744755" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4944356" visible="true" weight="0.6066434" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4944356" visible="true" weight="0.33186814" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -406,20 +622,9 @@
         </entry>
       </map>
     </option>
-    <option name="RECENT_FILTERS">
-      <map>
-        <entry key="Branch">
-          <value>
-            <list />
-          </value>
-        </entry>
-        <entry key="User">
-          <value>
-            <list />
-          </value>
-        </entry>
-      </map>
-    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
@@ -458,17 +663,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../cypress/support/commands.js" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component.html" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.component.ts" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/code-input.service.ts" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.action.ts" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.state.ts" />
-    <entry file="file://$PROJECT_DIR$/../../cypress/integration/side-bar/side-bar.js" />
-    <entry file="file://$PROJECT_DIR$/../../cypress/integration/chat/chat.js" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/utility.service.ts" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component.ts" />
-    <entry file="file://$PROJECT_DIR$/../../src/app/core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component.html" />
     <entry file="file://$PROJECT_DIR$/../../cypress/integration/chat/chat-fullscreen.js" />
     <entry file="file://$PROJECT_DIR$/../../cypress/integration/faq-bots/faq-bot-artical-test.js" />
     <entry file="file://$PROJECT_DIR$/../../cypress/integration/login2.js" />
@@ -507,5 +701,99 @@
     <entry file="file://$PROJECT_DIR$/../../src/app/core/header/header.component.ts" />
     <entry file="file://$PROJECT_DIR$/../../src/app/core/enterpriseprofile/enterprise-users/enterprise-users.component.html" />
     <entry file="file://$PROJECT_DIR$/../../src/app/core/enterpriseprofile/enterprise-users/enterprise-users.component.ts" />
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/edit-and-view-articles/edit-and-view-articles.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="47">
+          <caret line="45" column="29" selection-start-line="45" selection-start-column="29" selection-end-line="45" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/edit-and-view-articles/edit-and-view-articles.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="47" column="52" selection-start-line="47" selection-start-column="52" selection-end-line="47" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/edit-and-view-articles/edit-and-view-articles.component.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="9" column="36" selection-start-line="9" selection-start-column="36" selection-end-line="9" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-detail-header/bot-detail-header.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="39" column="25" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-detail-header/bot-detail-header.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="39" selection-start-line="39" selection-end-line="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/utility.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="185">
+          <caret line="1012" column="6" selection-start-line="1012" selection-start-column="6" selection-end-line="1012" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/environments/environment.hmr.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="4" column="15" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/environments/environment.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="17" column="61" lean-forward="true" selection-start-line="17" selection-start-column="61" selection-end-line="17" selection-end-column="61" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package-lock.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="12" column="40" lean-forward="true" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/constants.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="516" column="59" selection-start-line="516" selection-start-column="45" selection-end-line="516" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/bot-articles.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="27" column="66" selection-start-line="27" selection-start-column="66" selection-end-line="27" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/bot-articles.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="309" column="14" lean-forward="true" selection-start-line="305" selection-start-column="12" selection-end-line="309" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-article-history/bot-article-history.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="47" column="35" selection-start-line="47" selection-start-column="24" selection-end-line="47" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>
