@@ -33,6 +33,7 @@
       <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/edit-and-view-articles/edit-and-view-articles.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/edit-and-view-articles/edit-and-view-articles.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/edit-and-view-articles/edit-and-view-articles.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/edit-and-view-articles/edit-and-view-articles.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/bot-detail-header/faq-search-box/faq-search-box.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/bot-detail-header/faq-search-box/faq-search-box.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/bot-detail-header/faq-search-box/faq-search-box.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/bot-detail-header/faq-search-box/faq-search-box.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/bot-detail.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/bot-detail.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/code-based-bot-detail/code-based-bot-detail.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/code-based-bot-detail/code-based-bot-detail.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/core/buildbot/build-code-based-bot/bot-config/basic-info-form/basic-info-form.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/buildbot/build-code-based-bot/bot-config/basic-info-form/basic-info-form.component.html" afterDir="false" />
@@ -68,7 +69,7 @@
           <entry key="html" value="11" />
           <entry key="log" value="1" />
           <entry key="scss" value="6" />
-          <entry key="ts" value="19" />
+          <entry key="ts" value="20" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -76,7 +77,7 @@
           <entry key="HTML" value="11" />
           <entry key="PLAIN_TEXT" value="1" />
           <entry key="SCSS" value="6" />
-          <entry key="TypeScript" value="19" />
+          <entry key="TypeScript" value="20" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
@@ -89,7 +90,7 @@
           <entry key="dummy" value="1" />
           <entry key="html" value="149" />
           <entry key="scss" value="63" />
-          <entry key="ts" value="274" />
+          <entry key="ts" value="280" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
@@ -97,7 +98,7 @@
           <entry key="HTML" value="149" />
           <entry key="PLAIN_TEXT" value="1" />
           <entry key="SCSS" value="63" />
-          <entry key="TypeScript" value="274" />
+          <entry key="TypeScript" value="280" />
         </counts>
       </usages-collector>
     </session>
@@ -179,11 +180,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-detail-header/faq-search-box/faq-search-box.component.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="43" selection-start-column="43" selection-end-column="43" />
+            <state relative-caret-position="220">
+              <caret line="10" column="36" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-detail-header/faq-search-box/faq-search-box.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="117">
+              <caret line="37" column="29" lean-forward="true" selection-start-line="37" selection-start-column="29" selection-end-line="37" selection-end-column="29" />
+              <folding>
+                <element signature="e#0#57#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -195,17 +208,6 @@
               <caret line="1012" column="6" lean-forward="true" selection-start-line="1012" selection-start-column="6" selection-end-line="1012" selection-end-column="6" />
               <folding>
                 <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/bot-articles.component.spec.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-7">
-              <folding>
-                <element signature="e#0#73#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -271,7 +273,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../../src/testing/init.ts" />
         <option value="$PROJECT_DIR$/../../src/styles.scss" />
         <option value="$PROJECT_DIR$/../../cypress/integration/role-based-acess/analyst.js" />
         <option value="$PROJECT_DIR$/../../cypress/auth/login.js" />
@@ -322,6 +323,7 @@
         <option value="$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/bot-articles.component.html" />
         <option value="$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/edit-and-view-articles/edit-and-view-articles.component.ts" />
         <option value="$PROJECT_DIR$/src/app/core/bot-detail/bot-detail-header/faq-search-box/faq-search-box.component.html" />
+        <option value="$PROJECT_DIR$/src/app/core/bot-detail/bot-detail-header/faq-search-box/faq-search-box.component.ts" />
       </list>
     </option>
   </component>
@@ -2284,16 +2286,15 @@
       <workItem from="1559906446379" duration="97000" />
       <workItem from="1559906547837" duration="10444000" />
       <workItem from="1561361828261" duration="4149000" />
-      <workItem from="1561367430723" duration="6672000" />
+      <workItem from="1561367430723" duration="6954000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1130260000" />
+    <option name="totallyTimeSpent" value="1130542000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1066" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49440297" visible="true" weight="0.22339304" />
       <window_info id="Structure" order="1" sideWeight="0.50369006" side_tool="true" weight="0.2591415" />
@@ -2310,7 +2311,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49841017" weight="0.83566433" />
       <window_info anchor="bottom" id="TypeScript" order="9" sideWeight="0.49761525" weight="0.18855219" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5055644" side_tool="true" weight="0.2744755" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.50052685" side_tool="true" visible="true" weight="0.25925925" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.50052685" side_tool="true" visible="true" weight="0.59371495" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -2454,15 +2455,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret lean-forward="true" selection-end-line="21" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-detail-header/faq-search-box/faq-search-box.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-552">
-          <folding>
-            <element signature="e#0#57#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2629,8 +2621,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-detail-header/faq-search-box/faq-search-box.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="43" selection-start-column="43" selection-end-column="43" />
+        <state relative-caret-position="220">
+          <caret line="10" column="36" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-detail-header/faq-search-box/faq-search-box.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="117">
+          <caret line="37" column="29" lean-forward="true" selection-start-line="37" selection-start-column="29" selection-end-line="37" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#57#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
