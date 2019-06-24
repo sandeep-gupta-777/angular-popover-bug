@@ -11,6 +11,14 @@ import { map } from 'rxjs/operators';
 import {MatDialog} from '@angular/material';
 import {ModalConfirmComponent} from '../../../modal-confirm/modal-confirm.component';
 import {ActivatedRoute, Route, Router} from '@angular/router';
+import {
+  ChangeFrameAction,
+  SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
+  ToggleChatWindow
+} from "../../../chat/ngxs/chat.action";
+import {EChatFrame} from "../../../../interfaces/chat-session-state";
+import {EventService} from "../../../event.service";
+import {Store} from "@ngxs/store";
 
 @Component({
   selector: 'app-bot-article-history',
@@ -25,6 +33,7 @@ export class BotArticleHistoryComponent implements OnInit {
     private datePipe: DatePipe,
     private utilityService: UtilityService,
     private matDialog :MatDialog,
+    private store :Store,
     private activatedRoute: ActivatedRoute,
     private router:Router
   ) { }
@@ -50,7 +59,7 @@ export class BotArticleHistoryComponent implements OnInit {
         this.ArticleHistorySmartTableObj = new ArticleHistorySmartTable(this.corpusList, this.getTableDataMetaDict(), { datePipe: this.datePipe });
         this.ArticleHistorySmartTableObj.initializeTableData(this.corpusList);
         debugger;
-      }) 
+      })
       )
   }
 
@@ -149,13 +158,31 @@ export class BotArticleHistoryComponent implements OnInit {
     })
   }
   previewCorpus(corpus_id: number) {
-    // sandeep_preview
+    let corpus = this.corpusList.find(corpus => corpus_id === corpus.id);
+    let {model_version_id, model_id} = corpus;
+    this.previewBot({model_version_id, model_id});
   }
+  //todo: code repetition : sandeep
+  previewBot(corpusDetails:any) {
+    // this.router.navigate(['', {outlets: {preview: 'preview'}}]);
+    this.store.dispatch([
+      new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
+        bot: {...this.bot, ...corpusDetails}
+      }),
+      new ToggleChatWindow({open: true}),
+      new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX})
+    ]);
+
+    /*TODO: integrate this with store*/
+    EventService.startANewChat$.emit({bot: {...this.bot, ...corpusDetails}, consumerDetails: {uid: this.utilityService.createRandomUid()},
+    });
+  }
+
   downloadCorpus(corpus_id: number) {
       let toDownlodeSection = this.corpusList.find((corpus)=>{
         return corpus.id == corpus_id;
       }).sections;
-      
+
       let csvFormat = toDownlodeSection.map(element => {
         return {
           Answer: element.answers[0].text[0],
@@ -163,7 +190,7 @@ export class BotArticleHistoryComponent implements OnInit {
         }
       });
       this.utilityService.downloadArrayAsCSV(csvFormat, {});
-    
+
   }
 
 }
