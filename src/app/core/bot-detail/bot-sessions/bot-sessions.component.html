@@ -60,16 +60,19 @@
 
     <ul>Room metadata
       <li>
+        <mat-checkbox name="is_live" [ngModel]="false" color="primary">Hide test sessions</mat-checkbox>
+      </li>
+      <!--<li>-->
+        <!--<mat-checkbox name="is_test" [ngModel]="false" color="primary">Live Session</mat-checkbox>-->
+      <!--</li>-->
+      <li>
         <mat-checkbox name="sendtoagent" [ngModel]="false" color="primary">Agent handover happened</mat-checkbox>
       </li>
       <li>
-        <mat-checkbox name="error" [ngModel]="false" color="primary">Error occured</mat-checkbox>
+        <mat-checkbox name="error" [ngModel]="false" color="primary">Error occurred</mat-checkbox>
       </li>
       <li>
         <mat-checkbox name="downvote" [ngModel]="false" color="primary">Downvoted</mat-checkbox>
-      </li>
-      <li>
-        <mat-checkbox name="is_test" [ngModel]="false" color="primary">Is Test</mat-checkbox>
       </li>
     </ul>
 
