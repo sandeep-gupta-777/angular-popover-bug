@@ -1,17 +1,18 @@
-<form [formGroup]="formGroup" *ngIf="_bot" class="bot-creation-form-grid">
-  <p class="subheading full-width">Bot status</p>
+<form [formGroup]="formGroup" class="bot-creation-form-grid">
+  <ng-container *ngIf="!isBuildBot">
+    <p class="subheading full-width">Bot status</p>
 
-  <div class="full-width" formGroupName="bot_disabled_settings">
-    <div class="bot-creation-form-grid" style="padding: 0">
-      <div class="switch-wrapper">
-        <label>
-          Disable Bot
-          <app-info-icon [text]="'Disables all the live instances of the bot'"></app-info-icon>
-        </label>
-        <mat-slide-toggle color="primary" formControlName="bot_disabled"></mat-slide-toggle>
-      </div>
+    <div class="full-width" formGroupName="bot_disabled_settings">
+      <div class="bot-creation-form-grid" style="padding: 0">
+        <div class="switch-wrapper">
+          <label>
+            Disable Bot
+            <app-info-icon [text]="'Disables all the live instances of the bot'"></app-info-icon>
+          </label>
+          <mat-slide-toggle color="primary" formControlName="bot_disabled"></mat-slide-toggle>
+        </div>
 
-      <mat-form-field class="w-100" ngNativeValidate>
+        <mat-form-field class="w-100" ngNativeValidate>
                 <textarea type="text" id="alterEgo"
                           formControlName="disabled_message"
                           matInput
@@ -19,21 +20,22 @@
                           cdkAutosizeMinRows="1"
                           cdkAutosizeMaxRows="3"
                           placeholder="Disabled Message*"></textarea>
-        <mat-error>Required</mat-error>
-      </mat-form-field>
+          <mat-error>Required</mat-error>
+        </mat-form-field>
 
-      <div class="switch-wrapper small-dia-radio" >
-        <label style="margin-bottom: 10px">
-          Fallback action
-          <app-info-icon [text]="'What should happen for incoming messages to the bot?'"></app-info-icon>
-        </label>
-        <mat-radio-group aria-label="Select an option" formControlName="agent_handover">
-          <mat-radio-button color="primary" [value]="false">Do nothing</mat-radio-button>
-          <mat-radio-button color="primary" [value]="true">Send to Agent</mat-radio-button>
-        </mat-radio-group>
+        <div class="switch-wrapper small-dia-radio" >
+          <label style="margin-bottom: 10px">
+            Fallback action
+            <app-info-icon [text]="'What should happen for incoming messages to the bot?'"></app-info-icon>
+          </label>
+          <mat-radio-group aria-label="Select an option" formControlName="agent_handover">
+            <mat-radio-button color="primary" [value]="false">Do nothing</mat-radio-button>
+            <mat-radio-button color="primary" [value]="true">Send to Agent</mat-radio-button>
+          </mat-radio-group>
+        </div>
       </div>
     </div>
-  </div>
+  </ng-container>
 
 
   <p class="full-width subheading" style="margin-top: 30px">Session Management</p>

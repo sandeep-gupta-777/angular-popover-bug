@@ -70,6 +70,9 @@
   .dark-green {
     color: #8cd82f;
   }
+  .dark-orange {
+    color: #f48a42;
+  }
 
   .more {
     @include typography(13px, $line-height-normal, $font-weight-300, #00abd3);
@@ -163,8 +166,8 @@
     font-size: 17px;
     padding-top: 8px;
     padding-left: 10px;
-    color: rgba(247, 247, 247, 0.33) !important;  
-    
+    color: rgba(247, 247, 247, 0.33) !important;
+
   }
   input{
     height: 32px;
@@ -173,9 +176,9 @@
     margin-right: 11px;
     background-color: #203c55;
     width: 300px;
-    color: rgba(255, 255, 255, 0.33) !important;  
+    color: rgba(255, 255, 255, 0.33) !important;
     padding-left: 34px;
-    
+
   }
   input:focus{
     outline: none;

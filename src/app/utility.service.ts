@@ -1109,7 +1109,10 @@ export class UtilityService {
     return forms.reduce((aggr, form) => {
       return {
         ...aggr,
-        ...form.value
+        /*getRawValue vs value
+        * Value doesnt return disabled formcontrols
+        * */
+        ...((form as any).getRawValue?(form as any).getRawValue():form.value)
       };
     }, {});
   }

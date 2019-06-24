@@ -13,7 +13,9 @@
       [title]="bot.name.length>90?bot.name:''"
       style="display: flex">
       {{(bot.name| slice:0: 90) + (bot.name.length>90?"...":"")}}
-      <i class="fa fa-circle dark-green" style="margin-left: 2px; font-size: 6px"></i>
+      <i class="fa fa-circle"
+         [ngClass]="{'dark-green': !bot.bot_disabled_settings?.bot_disabled, 'dark-orange': bot.bot_disabled_settings?.bot_disabled}"
+         style="margin-left: 2px; font-size: 6px"></i>
     </div>
     <div style="font-size: 11px">
       <span>Update on </span>  {{bot.updated_at|date: 'd MMM, yy'}} by {{bot.updated_by}}
