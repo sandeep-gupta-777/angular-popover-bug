@@ -46,6 +46,9 @@ export class LoadJsService {
     url: "assets/mqttws31.js"
   }, {
     async: true,
+    url: "assets/IMIClient.js"
+  }, {
+    async: true,
     url: "assets/codemirror/addon/fold/foldcode.js",
   }, {
     async: true,

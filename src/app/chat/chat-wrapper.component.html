@@ -42,7 +42,7 @@
         [ngTemplateOutlet]="validationTemplate"
         [ngTemplateOutletContext]="{
           overlayOrigin: overlayOrigin,
-          customConsumerDetails:frameEnabled === myEChatFrame.CHAT_BOX? currentRoom.consumerDetails:{},
+          customConsumerDetails:frameEnabled === myEChatFrame.CHAT_BOX? currentRoom?.consumerDetails:{},
           createNewRoom: frameEnabled === myEChatFrame.CHAT_LIST,
           showOverlay: showOverlay,
           isEditMode:frameEnabled === myEChatFrame.CHAT_BOX
