@@ -514,6 +514,16 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/corpus/makecorpuslive/`;
   }
 
+  curationIssuesListUrl(limit,offset){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/?curation_state__in=in_curation&limit=${limit}&offset=${offset}`;
+  }
+  curationResolvedAndIgnoredListUrl(limit,offset){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/?curation_state__in=resolved,ignored&limit=${limit}&offset=${offset}`;
+  }
+  curationIssueIgnoreUrl(){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/ignore/`
+  }
+
   updateBotSerializer(bot: IBot) {
     const clone = { ...bot };
     const not_keys = [

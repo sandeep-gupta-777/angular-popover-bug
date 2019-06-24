@@ -41,11 +41,18 @@
                     </div>
 
                 </a>
+                <a mat-list-item class="mat-list-item-sidebar" *ngIf="myEBotType.faqbot === bot.bot_type" (click)="sideBarTabChanged('curation')">
+                    <div class="sidebar-nav-list-item"
+                         [ngClass]="{'filter-black':sideBarTab1!=='curation', 'selected-nav':sideBarTab1==='curation'}">
+                        <img class="" src="assets/img/sidebar/light-bulb.svg" alt="">
+                        <span style="color: #00ABD3">Curation</span>
+                    </div>
+
+                </a>
                 <ng-container *myIf="[myEAllActions['GET Bot Versioning']]">
-                    <!---->
-                    <a mat-list-item class="mat-list-item-sidebar"
-                      *ngIf="bot.bot_type === myEBotType.chatbot"
-                      (click)="sideBarTabChanged(myESideBarTab.logic)">
+                <a mat-list-item class="mat-list-item-sidebar"
+                   *ngIf="bot.bot_type === myEBotType.chatbot"
+                   (click)="sideBarTabChanged(myESideBarTab.logic)">
                     <div class="sidebar-nav-list-item"
                          data-cy="sidebar-logic"
                          [ngClass]="{'filter-black':sideBarTab1!=='logic', 'selected-nav':sideBarTab1==='logic'}"
@@ -124,6 +131,11 @@
                     <ng-container *ngIf="sideBarTab1 === 'articles' && myEBotType.faqbot === bot.bot_type">
                         <app-bot-articles style="display: block; height: 100%" [bot]="bot"></app-bot-articles>
                     </ng-container>
+
+                    <ng-container *ngIf="sideBarTab1 === 'curation' && myEBotType.faqbot === bot.bot_type">
+                        <app-curation style="display: block; height: 100%" [bot]="bot"></app-curation>
+                    </ng-container>
+
                     <ng-container *myIf="[myEAllActions['Get Bot Knowledge base']]">
                         <ng-container *ngIf="sideBarTab1 === 'input'">
                             <header *ngIf="!goFullScreen">

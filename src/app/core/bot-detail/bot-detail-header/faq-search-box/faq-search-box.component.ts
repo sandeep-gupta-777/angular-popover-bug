@@ -35,6 +35,7 @@ export class FaqSearchBoxComponent implements OnInit {
   }
   navigateToArticleById(section_id){
     debugger;
+    this.input_foused = false
     this.router.navigate(['.'], {
       queryParams: {build:'articles',isArticle:true,section_id},
       relativeTo: this.activatedRoute,

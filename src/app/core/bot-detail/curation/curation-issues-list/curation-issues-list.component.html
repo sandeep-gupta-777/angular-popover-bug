@@ -1,0 +1,15 @@
+<div class="curation-list-heading ">
+    <div class ="header-text" >
+            85 issues remaining
+    </div>
+    <div class="header-text ml-auto mr-3">
+            Saved corpus
+    </div>
+    
+    <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer" mat-button>
+      <mat-icon>autorenew</mat-icon>
+      Train
+    </button>
+</div>
+<app-curation-issues *ngFor="let curationItem of curationItemList" [curationItemData]="curationItem" [isResolved]=false (ignoreQueryEvent)="ignoreIt($event)" [bot]="bot"></app-curation-issues>
+<div class = "load-more" *ngIf = "isMorePresent" (click) = "load10More()">Load 10 more issues&nbsp;&nbsp;<i class ="fa fa-angle-down"></i></div>

@@ -60,6 +60,8 @@ export class BotArticlesComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.getCorpusAndSetArticleFilterForm$()
       .subscribe(() => {
+        let section_id = this.activatedRoute.snapshot.queryParamMap.get('section_id');
+        section_id && this.navigateToSection(section_id);
       })
     this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
       this.enterprise_unique_name = enterpriseProfileInfo.enterprise_unique_name;
@@ -69,16 +71,19 @@ export class BotArticlesComponent implements OnInit, AfterViewInit {
         debugger;
         if (params.section_id) {
           debugger;
-          if (this.corpus) {
-            let goingArticle = this.corpus.sections.find((section) => {
-              return section.section_id == params.section_id;
-            })
-            this.openArticleEditAndView(goingArticle);
-          }
+          this.navigateToSection(params.section_id);
         }
       })
   }
 
+  navigateToSection(section_id){
+    if (this.corpus) {
+      let goingArticle = this.corpus.sections.find((section) => {
+        return section.section_id == section_id;
+      })
+      this.openArticleEditAndView(goingArticle);
+    }
+  }
 
   getCorpusAndSetArticleFilterForm$() {
     let headerData: IHeaderData = {
@@ -123,10 +128,11 @@ export class BotArticlesComponent implements OnInit, AfterViewInit {
     }
   }
   goBackToArticalList() {
+    debugger;
     this.getCorpusAndSetArticleFilterForm();
     this.showEditAndViewArtical = false;
     this.router.navigate(['.'], {
-      queryParams: { isArticle: false },
+      queryParams: { isArticle: false , section_id:null},
       relativeTo: this.activatedRoute,
       queryParamsHandling: 'merge'
     })
@@ -215,7 +221,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit {
             this.utilityService.showSuccessToaster("Article succesfully saved");
             this.showEditAndViewArtical = false;
             this.router.navigate(['.'], {
-              queryParams: { isArticle: false },
+              queryParams: { isArticle: false , section_id:null },
               relativeTo: this.activatedRoute,
               queryParamsHandling: 'merge'
             })
@@ -264,7 +270,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit {
             .subscribe(v => {
               this.showEditAndViewArtical = false;
               this.router.navigate(['.'], {
-                queryParams: { isArticle: false },
+                queryParams: { isArticle: false , section_id:null},
                 relativeTo: this.activatedRoute,
                 queryParamsHandling: 'merge'
               })
@@ -320,7 +326,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit {
             .subscribe(() => {
               this.showEditAndViewArtical = false;
               this.router.navigate(['.'], {
-                queryParams: { isArticle: false },
+                queryParams: { isArticle: false, section_id:null },
                 relativeTo: this.activatedRoute,
                 queryParamsHandling: 'merge'
               })

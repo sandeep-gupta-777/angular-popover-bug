@@ -1,4 +1,4 @@
-<div >
+<div (clickOutside)="input_foused = false">
     <div class="faq-search">
       <i class="fa fa-search icon-color" [ngClass]="{'input-foused':input_foused}"></i>
       <input placeholder="Search for questions or variants"(focus)="input_foused = true"  [(ngModel)]="searchAricleString">

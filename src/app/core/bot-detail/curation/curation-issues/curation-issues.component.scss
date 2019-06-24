@@ -1,0 +1,166 @@
+@import '~src/sass/main';
+
+.curation-issues-wrapper {
+  display: flex;
+  flex-basis: 65%;
+  flex-grow: 0;
+  display: block;
+  margin-bottom: 15px;
+}
+
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 0;
+
+
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+  padding-left: 2em;
+}
+
+.column-1 {
+  height: 100px;
+  padding-top: 1em;
+  color: #4a4a4a;
+  overflow: auto;
+  border-right: solid 1px #d8d8d8;
+}
+
+.column-2 {
+  height: 100px;
+  padding-top: 1em;
+  color: #4a4a4a;
+  overflow: auto;
+
+}
+
+
+
+.curation-card-master {
+  padding: 0px;
+  border-radius: 2px;
+  border: solid 1px #d8d8d8;
+  background-color: #ffffff;
+  font-family: IBMPlexSans;
+  box-shadow: none;
+  color: #474747;
+  .curation-card-header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    border-bottom: 1px solid #d8d8d8;
+
+    .curation-card-header-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .logged-it {
+        color: #4a4a4a;
+        font-size: 13px;
+      }
+
+      .room-id {
+        color: #4a4a4a;
+        font-size: 13px;
+      }
+
+      .header--img {
+        display: flex;
+        flex-direction: column;
+
+        img {
+          width: 25px;
+          height: 25px;
+        }
+      }
+    }
+
+    .curation-card-header-icon-list {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+
+      mat-icon {
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  .curation-footer {
+    padding: 8px 13px !important;
+    min-height: 56px !important;
+    margin: 0 !important;
+    display: flex;
+    align-items: center;
+    color:#4a4a4a;
+    mat-icon {
+      width: auto;
+      height: auto;
+    }
+  
+    .resolved-footer {
+      display: flex;
+      justify-content: space-between;
+      mat-icon {
+        width: auto;
+        height: auto;
+        color: #07b117;
+        border-radius: 50%;
+        background-color: #deffe1;
+        font-size: 18px;
+        padding: 2px;
+      }
+    }
+    .not-resolved-footer{
+      display: flex;
+      align-items: center;
+      .footer-btn{
+        height: 32px;
+      }
+    }
+  }
+  
+}
+
+::ng-deep{
+  .searchForArticle{
+    .faq-search{
+      input {
+        border: solid 1px #d8d8d8 !important;
+        width: 500px !important;
+        color: #4a4a4a !important;
+        padding-left: 34px !important;
+        background-color: #f7f7f7 !important;
+      }
+      i{
+        color: #9b9b9b!important;
+      }
+    }
+    .searchBox{
+      width: 500px !important;
+    }
+  }
+  .footer-btn{
+    span{
+      display: flex;
+      align-items: center;
+    }
+  }
+}
