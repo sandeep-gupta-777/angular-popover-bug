@@ -3,6 +3,7 @@
                    [ngClass]="{'disable-decrypt-lock-icon':isDeCryptAuditAccessDenied}"
                    class="d-flex-column-last-child-flex-grow-1 consumer-table"
                    [totalRecords]="totalRecords"
+                   [showRefreshButton]="true"
                    [sortedCol]="'Updated At'"
                    [sortDir]="myESortDir.DES"
                    (pageChanged$)="pageChanged($event)"
