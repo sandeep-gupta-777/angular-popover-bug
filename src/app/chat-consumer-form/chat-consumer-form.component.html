@@ -15,7 +15,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="!readonly || readonly && customConsumerDetails?.email">
-      <input matInput placeholder="Email" type="email" email [ngModel]="customConsumerDetails?.email"
+      <input matInput placeholder="Email" type="text" [ngModel]="customConsumerDetails?.email"
              name="email" aria-describedby="emailHelp">
     </mat-form-field>
 
