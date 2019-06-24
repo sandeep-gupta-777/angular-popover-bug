@@ -99,7 +99,7 @@ export class BotSessionSmartTableModal extends AbstractSmartTable {
       if (is_test) {
         additonalColumns['Metadata'].value.push({
           show: true,
-          name: name,
+          name: 'Test session',
           iconName: 'bug_report',
           class: 'bug_report'
         });
