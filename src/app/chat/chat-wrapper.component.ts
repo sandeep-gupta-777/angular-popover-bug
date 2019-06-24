@@ -125,9 +125,10 @@ export class ChatWrapperComponent implements OnInit {
     LoggingService.log('inside chat-wrapper');
     this.loggeduser$.subscribe((loggeduser) => {
       try {
-        if (!this.loggeduser) {
+        if (!loggeduser) {
           return;
         }
+
         this.user_first_name = loggeduser.user.first_name || 'Anonymous User';
         this.user_email = loggeduser.user.email;
       } catch (e) {

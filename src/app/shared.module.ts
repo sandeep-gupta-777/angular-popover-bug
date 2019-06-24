@@ -77,6 +77,8 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import {ButtonWrapperComponent} from "./button-wrapper/button-wrapper.component";
 import {BreakpointService} from "./core/breakpoint.service";
 import {SpliceEllipsisPipe} from "./splice-ellipsis.pipe";
+import {FilePreviewOverlayService} from "./overlay.service";
+import {OverlayModule} from "@angular/cdk/overlay";
 @NgModule({
   declarations: [
     ButtonWrapperComponent,
@@ -151,7 +153,6 @@ import {SpliceEllipsisPipe} from "./splice-ellipsis.pipe";
     ClickOutsideModule,
     MatProgressSpinnerModule,
     LazyLoadImageModule,
-
   ],
   exports: [
     ButtonWrapperComponent,
@@ -220,7 +221,7 @@ import {SpliceEllipsisPipe} from "./splice-ellipsis.pipe";
     ListIfNotInThisListPipe,
     ConvertToUniqueArrayPipe,
     FaqHandoverAndInterfaceFormComponent,
-    FaqBotBasicInfoFormComponent
+    FaqBotBasicInfoFormComponent,
   ],
   providers: [ConstantsService, PermissionService, BotConfigService, BreakpointService]
 })

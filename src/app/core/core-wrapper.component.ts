@@ -55,7 +55,7 @@ export class CoreWrapperComponent implements OnInit {
         this.progressVal = value;
         // this.progressVal = 0;
         this.currentIntervalRef = setInterval(() => {
-          LoggingService.log('setInterval');
+          // LoggingService.log('setInterval');
           if (this.progressVal < 80) {
             ++this.progressVal;
           } else {

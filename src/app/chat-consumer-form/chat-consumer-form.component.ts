@@ -10,7 +10,8 @@ export class ChatConsumerFormComponent implements OnInit {
 
   @Input() customConsumerDetails;
   @Input() readonly  = false;
-  @Input() title  = 'Create room with new Consumer';
+  @Input() title  = 'Create room with consumer';
+  @Input() buttonText:string;
   @Output() saveConsumerDetails$ = new EventEmitter();
   @Output() hideOverlay$ = new EventEmitter();
   isEditMode = false;

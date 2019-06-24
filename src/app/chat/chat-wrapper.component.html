@@ -32,9 +32,9 @@
       <!--consumer dropdown starts-->
       <button mat-icon-button (click)="showOverlay = true"
               [class.active]="showOverlay" class="origin"
-              #overlayOrigin="cdkOverlayOrigin"
+							#overlayOrigin="cdkOverlayOrigin"
               data-cy="custom-room-form-trigger"
-              [matTooltip]="'New chat with custom data'"
+              [matTooltip]="frameEnabled === myEChatFrame.CHAT_LIST? 'New chat with custom consumer data': 'Update consumer data'"
               cdkOverlayOrigin>
         <mat-icon>{{frameEnabled === myEChatFrame.CHAT_LIST ? 'person_add' : 'perm_contact_calendar'}}</mat-icon>
       </button>
@@ -44,7 +44,8 @@
           overlayOrigin: overlayOrigin,
           customConsumerDetails:frameEnabled === myEChatFrame.CHAT_BOX? currentRoom.consumerDetails:{},
           createNewRoom: frameEnabled === myEChatFrame.CHAT_LIST,
-          showOverlay: showOverlay
+          showOverlay: showOverlay,
+          isEditMode:frameEnabled === myEChatFrame.CHAT_BOX
         }">
       </ng-container>
 
@@ -109,7 +110,7 @@
     <button mat-icon-button (click)="showOverlay = true"
             style="margin-left: auto"
             [class.active]="showOverlay" class="origin"
-            #overlayOriginFullScreen1="cdkOverlayOrigin"
+						#overlayOriginFullScreen1="cdkOverlayOrigin"
             data-cy="custom-room-form-trigger"
             [matTooltip]="'New chat with custom data'"
             cdkOverlayOrigin>
@@ -121,30 +122,31 @@
           overlayOrigin: overlayOriginFullScreen1,
           customConsumerDetails:{},
           createNewRoom: true,
-          showOverlay: showOverlay
+          showOverlay: showOverlay,
+          isEditMode: false
         }">
     </ng-container>
 
     <!--<button mat-icon-button (click)="showOverlay_edit_fullscreen = true"-->
-            <!--data-cy="custom-room-form-trigger"-->
-            <!--[class.active]="showOverlay_edit_fullscreen" class="ml-auto"-->
-            <!--#overlayOriginFullScreen1="cdkOverlayOrigin"-->
-            <!--cdkOverlayOrigin>-->
-      <!--<mat-icon>perm_contact_calendar</mat-icon>-->
+    <!--data-cy="custom-room-form-trigger"-->
+    <!--[class.active]="showOverlay_edit_fullscreen" class="ml-auto"-->
+    <!--#overlayOriginFullScreen1="cdkOverlayOrigin"-->
+    <!--cdkOverlayOrigin>-->
+    <!--<mat-icon>perm_contact_calendar</mat-icon>-->
     <!--</button>-->
 
     <!--<app-overlay-->
-      <!--[overlayOrigin]="overlayOriginFullScreen1"-->
-      <!--[showOverlay]="showOverlay_edit_fullscreen"-->
-      <!--[overlayClass]="'bg-transparent'"-->
-      <!--(backdropClick$)="showOverlay_edit_fullscreen = false">-->
-      <!--<div class="dialog-container">-->
-        <!--<app-chat-consumer-form-->
-          <!--*ngIf="showOverlay_edit_fullscreen"-->
-          <!--[customConsumerDetails]="{}"-->
-          <!--(hideOverlay$)="showOverlay_edit_fullscreen = false"-->
-          <!--(saveConsumerDetails$)="startNewChat({consumerDetails: $event, bot:currentBot, isCustomRoom:true})"></app-chat-consumer-form>-->
-      <!--</div>-->
+    <!--[overlayOrigin]="overlayOriginFullScreen1"-->
+    <!--[showOverlay]="showOverlay_edit_fullscreen"-->
+    <!--[overlayClass]="'bg-transparent'"-->
+    <!--(backdropClick$)="showOverlay_edit_fullscreen = false">-->
+    <!--<div class="dialog-container">-->
+    <!--<app-chat-consumer-form-->
+    <!--*ngIf="showOverlay_edit_fullscreen"-->
+    <!--[customConsumerDetails]="{}"-->
+    <!--(hideOverlay$)="showOverlay_edit_fullscreen = false"-->
+    <!--(saveConsumerDetails$)="startNewChat({consumerDetails: $event, bot:currentBot, isCustomRoom:true})"></app-chat-consumer-form>-->
+    <!--</div>-->
     <!--</app-overlay>-->
 
 
@@ -212,7 +214,7 @@
 
     <button mat-icon-button (click)="showOverlay_edit_fullscreen = true"
             [class.active]="showOverlay" class="origin"
-            #overlayOrigin="cdkOverlayOrigin"
+						#overlayOrigin="cdkOverlayOrigin"
             data-cy="custom-room-form-trigger"
             [matTooltip]="'Consumer info'"
             cdkOverlayOrigin>
@@ -224,23 +226,24 @@
           overlayOrigin: overlayOrigin,
           customConsumerDetails:currentRoom.consumerDetails,
           createNewRoom: false,
-          showOverlay: showOverlay_edit_fullscreen
+          showOverlay: showOverlay_edit_fullscreen,
+          isEditMode: true
         }">
     </ng-container>
 
     <!--<app-overlay-->
-      <!--[overlayOrigin]="overlayOrigin"-->
-      <!--[showOverlay]="showOverlay"-->
-      <!--(backdropClick$)="showOverlay = false"-->
-      <!--[overlayClass]="'bg-transparent'">-->
-      <!--<div class="dialog-container">-->
-        <!--<app-chat-consumer-form-->
-          <!--*ngIf="showOverlay"-->
-          <!--[customConsumerDetails]="frameEnabled === myEChatFrame.CHAT_BOX? currentRoom.consumerDetails:{}"-->
-          <!--(hideOverlay$)="showOverlay = false"-->
-          <!--[readonly]="frameEnabled === myEChatFrame.CHAT_BOX"-->
-          <!--(saveConsumerDetails$)="saveConsumerDetails($event)"></app-chat-consumer-form>-->
-      <!--</div>-->
+    <!--[overlayOrigin]="overlayOrigin"-->
+    <!--[showOverlay]="showOverlay"-->
+    <!--(backdropClick$)="showOverlay = false"-->
+    <!--[overlayClass]="'bg-transparent'">-->
+    <!--<div class="dialog-container">-->
+    <!--<app-chat-consumer-form-->
+    <!--*ngIf="showOverlay"-->
+    <!--[customConsumerDetails]="frameEnabled === myEChatFrame.CHAT_BOX? currentRoom.consumerDetails:{}"-->
+    <!--(hideOverlay$)="showOverlay = false"-->
+    <!--[readonly]="frameEnabled === myEChatFrame.CHAT_BOX"-->
+    <!--(saveConsumerDetails$)="saveConsumerDetails($event)"></app-chat-consumer-form>-->
+    <!--</div>-->
     <!--</app-overlay>-->
     <!--<div *ngIf="currentRoom && currentRoom.uid" class="d-flex  flex-column align-items-end text-white">-->
     <!--<div>Room UID:</div>-->
@@ -287,6 +290,7 @@
              let-overlayOrigin="overlayOrigin"
              let-customConsumerDetails="customConsumerDetails"
              let-showOverlay="showOverlay"
+             let-isEditMode="isEditMode"
              let-createNewRoom="createNewRoom">
   <app-overlay
     [overlayOrigin]="overlayOrigin"
@@ -297,7 +301,8 @@
       <app-chat-consumer-form
         *ngIf="showOverlay"
         [customConsumerDetails]="customConsumerDetails"
-        [title]="'Edit room consumer'"
+        [title]="isEditMode?'Edit consumer': 'Create room with consumer'"
+        [buttonText]="isEditMode?'Save': 'Create'"
         (hideOverlay$)="hideOverlay()"
         [readonly]="!createNewRoom"
         (saveConsumerDetails$)="consumerFormSubmitHandler($event, createNewRoom)"></app-chat-consumer-form>
