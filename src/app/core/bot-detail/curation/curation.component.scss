@@ -1,0 +1,11 @@
+.curation-issues-wrapper-section{
+    display: grid;
+    grid-template-columns: 255px 1fr;
+    grid-gap: 44px;
+    app-curation-filter{
+        display: block;
+    }
+    app-curation-issues-list{
+        display: block;
+    }
+}

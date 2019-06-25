@@ -26,9 +26,9 @@
 </div>
 <div style="height: 100%" *ngIf="loaded && showEditAndViewArtical">
   <app-edit-and-view-articles style="height: 100%" [bot]="bot" [article]="selectedArticle" [category_mapping]="corpus && corpus.category_mapping" [corpus] = "corpus"
-    (goBack)="goBackToArticalList();" (corpusNeedsReload)="getCorpusAndSetArticleFilterForm()"
-    (saveAndTrain)="trainBotAndGetCorpus('')" (updateArticle)="updateArticle($event)" (deleteArticle)="openDeleteArticle($event)"
-    (trainAndUpdate)="trainAndUpdate($event)" ></app-edit-and-view-articles>
+                              (goBack)="goBackToArticalList();" (corpusNeedsReload)="getCorpusAndSetArticleFilterForm()"
+                              (saveAndTrain)="trainBotAndGetCorpus('')" (updateArticle)="updateArticle($event)" (deleteArticle)="openDeleteArticle($event)"
+                              (trainAndUpdate)="trainAndUpdate($event)" ></app-edit-and-view-articles>
 </div>
 
 <ng-template #categoriesTemplate>

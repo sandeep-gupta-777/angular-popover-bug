@@ -7,7 +7,10 @@ export enum ESplashScreens {
   pipeline_bots_empty= 'pipeline_bots_empty.svg',
   sessions= 'sessions.svg',
   testing= 'testing.svg',
-  rolesCreate = 'rolesCreate.svg'
+  rolesCreate = 'rolesCreate.svg',
+  curation_all_resolved = 'curation-all-resolved.svg',
+  'Lode_More_Issues' = 'LodeMoreIssues.svg',
+  'search' = 'search.svg'
 }
 
 @Component({

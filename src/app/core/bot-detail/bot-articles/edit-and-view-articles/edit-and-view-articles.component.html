@@ -21,7 +21,7 @@
         mat-button *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
         style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; "
         (click)="updateAndTrainModal(unsignedCategoriesTemplate)"
-        [disabled]="JSON.stringify(articleData) === JSON.stringify(article) ">
+        [disabled]="JSON.stringify(articleData) === JSON.stringify(_article) ">
         <mat-icon>autorenew</mat-icon>
         Save and train
       </button>
@@ -29,7 +29,7 @@
     <div *myIf="myEAllActions['Update Corpus']">
       <button class="mat-theme-button cursor-pointer mr-2" mat-button
         (click)="updateArticleClickedModal(unsignedCategoriesTemplate)"
-        [disabled]="JSON.stringify(articleData) === JSON.stringify(article)"
+        [disabled]="JSON.stringify(articleData) === JSON.stringify(_article)"
         style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px;">
         <mat-icon>save</mat-icon>
         Save

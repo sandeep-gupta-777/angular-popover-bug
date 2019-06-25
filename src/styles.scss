@@ -1330,3 +1330,50 @@ mat-dialog-container {
   position: fixed;
   z-index: 1000000000000000000000;
 }
+
+//.dropdown {
+//  position: relative;
+//  display: inline-block;
+//}
+
+.table-dropdown{
+
+  position: relative;
+  display: inline-block;
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 60% !important;
+    background-color: white;
+    min-width: 120px;
+    border: 1px solid #d8d8d8;
+    padding: 10px;
+    z-index: 1;
+    p{
+      margin-bottom: 8px;
+    }
+    hr{
+      margin: 0px;
+      margin-bottom: 8px;
+    }
+    .fa{
+      color: #9e9e9e;
+    }
+  }
+
+  &:hover .dropdown-content {
+    display: block;
+  }
+
+  .arrow-circle{
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    background: #d8d8d8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+
+}

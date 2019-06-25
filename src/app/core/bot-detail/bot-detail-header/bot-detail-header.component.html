@@ -1,66 +1,56 @@
 <!---->
 <div class="row-bot-detail-header d-flex align-items-center" *ngIf="bot && bot.name">
-  <div class="row-bot-detail-header__back"
-     style="text-decoration: none; padding: 0px 8px 0px 16px"
-     (click)="goBackToDashboard()">
+  <div class="row-bot-detail-header__back" style="text-decoration: none; padding: 0px 8px 0px 16px"
+    (click)="goBackToDashboard()">
     <i class="fa fa-angle-left" title="Go to Dashboard"></i>
-</div>
+  </div>
   <img class="row-bot-detail-header__bot-logo" style="margin:0 8px"
-       [defaultImage]="'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg'"
-       [lazyLoad]="bot.logo" alt="Bot logo">
+    [defaultImage]="'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg'" [lazyLoad]="bot.logo"
+    alt="Bot logo">
   <div class="row-bot-detail-header__bot-details">
-    <div
-      [title]="bot.name.length>90?bot.name:''"
-      style="display: flex">
+    <div [title]="bot.name.length>90?bot.name:''" style="display: flex">
       {{(bot.name| slice:0: 90) + (bot.name.length>90?"...":"")}}
       <i class="fa fa-circle dark-green" style="margin-left: 2px; font-size: 6px"></i>
     </div>
     <div style="font-size: 11px">
-      <span>Update on </span>  {{bot.updated_at|date: 'd MMM, yy'}} by {{bot.updated_by}}
+      <span>Update on </span> {{bot.updated_at|date: 'd MMM, yy'}} by {{bot.updated_by}}
     </div>
   </div>
   <div class="ml-auto"></div>
-  <app-integration-channel-list
-          class="hide-phone"
-          *ngIf="bot.bot_type != myEBotType.intelligent"
-          [bot]="bot" style="margin-right: 10px"></app-integration-channel-list>
+  <app-integration-channel-list class="hide-phone" *ngIf="bot.bot_type != myEBotType.intelligent" [bot]="bot"
+    style="margin-right: 10px"></app-integration-channel-list>
 
   <!--<span *myIf="myEAllActions['Get Integrations']">-->
-    <!--<img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async))"-->
-         <!--[src]="integrationsMasterListItem?.icon"-->
-         <!--class="logo-image " style="width: 16px;height: 16px" alt="">-->
-    <!--<img roomId="roomId" *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'no_channel'|async))"-->
-         <!--[src]="integrationsMasterListItem?.icon" class="logo-image " style="width: 16px;height: 16px" alt="">-->
+  <!--<img *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'only_channel'|async))"-->
+  <!--[src]="integrationsMasterListItem?.icon"-->
+  <!--class="logo-image " style="width: 16px;height: 16px" alt="">-->
+  <!--<img roomId="roomId" *ngFor="let integrationsMasterListItem of ((bot.integrations|integrationLogos:'no_channel'|async))"-->
+  <!--[src]="integrationsMasterListItem?.icon" class="logo-image " style="width: 16px;height: 16px" alt="">-->
   <!--</span>-->
   <!--<span *ngIf="myObject.keys(bot.integrations).length>4" class="more">-->
-    <!--+{{myObject.keys(bot.integrations).length-4}} More-->
+  <!--+{{myObject.keys(bot.integrations).length-4}} More-->
   <!--</span>-->
   <!--<div class="headerDivider mx-2"></div>-->
 
-
-  <!-- <div *ngIf = "bot.bot_type == 'faqbot'" class = "faq-search">
-    <i class="fa fa-search"></i>
-    <input placeholder="Search for questions or variants">
-  </div> -->
+<app-faq-search-box *ngIf="bot.bot_type == 'faqbot'" [bot]="bot" [inCuration]="false"></app-faq-search-box>
 
 
   <div *myIf="myEAllActions['Send API']">
     <!--<div class="d-flex preview-box align-items-center" (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'">-->
-      <!--<i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>-->
-      <!--<span class="action">Preview</span>-->
+    <!--<i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>-->
+    <!--<span class="action">Preview</span>-->
     <!--</div>-->
     <ng-container *myIf="[myEAllActions['Analytics']]">
       <button *ngIf="bot.bot_type === myEBotType.chatbot" (click)="openAnalyticsForBot()"
-              class="mat-theme-button mat-theme-button-border" mat-button>
+        class="mat-theme-button mat-theme-button-border" mat-button>
         <mat-icon>trending_up</mat-icon>
         Analytics
       </button>
     </ng-container>
 
-    <button class="mat-theme-button mat-theme-button-border hide-phone"
-            (click)="previewBot()" *ngIf="bot.bot_type != myEBotType.intelligent"
-            mat-button>
-        <mat-icon>chat_bubble_outline</mat-icon>
+    <button class="mat-theme-button mat-theme-button-border hide-phone" (click)="previewBot()"
+      *ngIf="bot.bot_type != myEBotType.intelligent" mat-button>
+      <mat-icon>chat_bubble_outline</mat-icon>
       Preview
     </button>
   </div>
@@ -69,11 +59,12 @@
     <mat-icon>more_vert</mat-icon>
   </button>
   <mat-menu class="cutom-md-menu" #appMenu="matMenu">
-    <button mat-menu-item (click)="utilityService.copyToClipboard(bot.bot_access_token)"><i class="fa fa-copy mr-1"></i>Copy Access Token</button>
-    <button mat-menu-item (click)="utilityService.copyToClipboard(bot.enterprise_id)"><i class="fa fa-copy mr-1"></i>Copy Enterprise ID</button>
-    <button mat-menu-item
-            *myIf="[myEAllActions['Delete Bots']]"
-            (click)="openDeleteModal()"><i class="fa fa-trash mr-1"></i>Delete</button>
+    <button mat-menu-item (click)="utilityService.copyToClipboard(bot.bot_access_token)"><i
+        class="fa fa-copy mr-1"></i>Copy Access Token</button>
+    <button mat-menu-item (click)="utilityService.copyToClipboard(bot.enterprise_id)"><i
+        class="fa fa-copy mr-1"></i>Copy Enterprise ID</button>
+    <button mat-menu-item *myIf="[myEAllActions['Delete Bots']]" (click)="openDeleteModal()"><i
+        class="fa fa-trash mr-1"></i>Delete</button>
   </mat-menu>
 </div>
 
@@ -95,7 +86,8 @@
           <p class="mb-3">This action cannot be undone. Are you sure you wish to delete?</p>
 
         </div>
-        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
+        <button class="btn-theme btn-theme-secondary-outline mr-2"
+          (click)="dialogRefWrapper.ref.close()">Cancel</button>
         <button class=" btn-theme btn-theme-danger" (click)="deleteBot()">Delete</button>
       </form>
     </div>
@@ -119,10 +111,10 @@
           <p class="mb-3">If you update the bot your currently selected version will be the new Active version.</p>
 
         </div>
-        <button class="btn-theme btn-theme-secondary-outline mr-2" (click)="dialogRefWrapper.ref.close()">Cancel</button>
+        <button class="btn-theme btn-theme-secondary-outline mr-2"
+          (click)="dialogRefWrapper.ref.close()">Cancel</button>
         <button class=" btn-theme btn-theme-danger" (click)="updateBot()">Update</button>
       </form>
     </div>
   </div>
 </ng-template>
-
