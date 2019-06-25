@@ -24,7 +24,10 @@ describe('faq-history', function () {
         cy.get('.arrow-circle').first().trigger('mouseover')
         cy.contains('Preview').click({ force: true })
         cy.get('.chat-grid__header')
-        
+        cy.get('.arrow-circle').first().trigger('mouseover')
+        cy.contains('Edit').click({ force: true })
+        cy.contains('Continue').click()
+        cy.url().should('include', 'build=articles')
     })
 
 })
