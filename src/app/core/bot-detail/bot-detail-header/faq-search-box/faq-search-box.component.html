@@ -1,7 +1,7 @@
 <div (clickOutside)="input_foused = false">
     <div class="faq-search">
       <i class="fa fa-search icon-color" [ngClass]="{'input-foused':input_foused}"></i>
-      <input placeholder="Search for questions or variants"(focus)="input_foused = true"  [(ngModel)]="searchAricleString">
+      <input placeholder="Search for questions or variants"(focus)="input_foused = true"  [(ngModel)]="searchAricleString" data-cy="article-search">
       <!-- (blur)="input_foused = false" -->
     </div>
     <div class = "searchBox"
@@ -13,7 +13,7 @@
             {{section.category_id | categoryIdToName : corpus.category_mapping }}
         </div>
         <div class="d-flex flex-column" >
-          <p class="first_question mr-auto question" *ngFor="let question of section.questions , let i = index"
+          <p class="first_question mr-auto question" *ngFor="let question of section.questions , let i = index" data-cy="article-search-results"
             [innerHtml]="question"></p>
         </div>
       </div>
