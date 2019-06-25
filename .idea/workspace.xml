@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4fa2cae7-4156-44c3-97aa-acfecddc228f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cypress/integration/faq-bots/faq-bot-history-tset.js" beforeDir="false" afterPath="$PROJECT_DIR$/cypress/integration/faq-bots/faq-bot-history-tset.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/dist/" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -224,11 +224,11 @@
       <path value="$PROJECT_DIR$/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="2437" />
-    <option name="y" value="-8" />
-    <option name="width" value="982" />
-    <option name="height" value="737" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="2139" />
+    <option name="y" value="141" />
+    <option name="width" value="960" />
+    <option name="height" value="506" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -497,7 +497,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1127690000" />
+    <option name="totallyTimeSpent" value="1128396000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1066" extended-state="6" />

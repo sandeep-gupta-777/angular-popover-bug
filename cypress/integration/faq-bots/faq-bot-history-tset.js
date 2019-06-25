@@ -21,6 +21,10 @@ describe('faq-history', function () {
         cy.contains('See all the instances when knowledge base was trained and revert to a previously created version')
         cy.get('.arrow-circle').first().trigger('mouseover')
         cy.contains('Make live').click({ force: true })
+        cy.get('.arrow-circle').first().trigger('mouseover')
+        cy.contains('Preview').click({ force: true })
+        cy.get('.chat-grid__header')
+        
     })
 
 })
