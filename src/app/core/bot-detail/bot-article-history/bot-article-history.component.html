@@ -7,11 +7,11 @@
     previously created version
   </div>
 </header>
-
 <app-smart-table class="history-table"
                  (click)="tableClickHandler($event)"
                  *ngIf="ArticleHistorySmartTableObj && ArticleHistorySmartTableObj.tableData"
                  [data]="ArticleHistorySmartTableObj.tableData">
 </app-smart-table>
-
+<app-imi-loader *ngIf="!ArticleHistorySmartTableObj">
+</app-imi-loader>
 
