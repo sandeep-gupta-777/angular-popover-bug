@@ -2,6 +2,8 @@ import { Component, OnInit, Input,Output, EventEmitter } from '@angular/core';
 import { ConstantsService } from 'src/app/constants.service';
 import { ICurationItem } from 'src/app/core/interfaces/faqbots';
 import {IBot} from '../../../interfaces/IBot';
+import {TempVariableService} from '../../../../temp-variable.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-curation-issues',
@@ -12,6 +14,8 @@ export class CurationIssuesComponent implements OnInit {
 
   constructor(
     private constantsService : ConstantsService,
+    private router : Router,
+    private activatedRoute : ActivatedRoute
     ) { }
   @Input() bot: IBot;
   @Input() isResolved:boolean;
@@ -42,6 +46,15 @@ export class CurationIssuesComponent implements OnInit {
     if(section_id){
       this.selectedArticleToAddCuration = section_id;
     }
+  }
+  addIssueToNewArticle(){
+    TempVariableService.firstQuestionListForNewArticle = [this.curationItemData.first_question];
+    TempVariableService.curationIds = [this.curationItemData.id];
+    this.router.navigate(['.'], {
+      queryParams: { build:'articles' ,section_id:null},
+      relativeTo: this.activatedRoute,
+      queryParamsHandling: 'merge'
+  })
   }
   addIssueToThisArticle(){
 

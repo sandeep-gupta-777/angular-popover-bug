@@ -2,27 +2,67 @@
  <mat-tab-group animationDuration="0ms">
 <mat-tab label="Issues">
       <section class="curation-issues-wrapper-section">
-          <app-curation-filter></app-curation-filter>
+          <app-curation-filter (formSubmitted)="IssuesFormSubmitted($event)"></app-curation-filter>
           <app-curation-issues-list
                   [bot]=" bot"
-          [curationItemList]="curationIssuesList" 
-          [isMorePresent]="isMoreCurationIssuesListPresent" 
-          (loadMoreNext)="load10MoreCurationIssues()"
-          (ignoreCurationIssueById)="ignoreCurationIssueById($event)"
-          (addQueryToArticleByIds)="addQueryToArticleByIds($event)"></app-curation-issues-list>
-        </section>
+                  *ngIf="curationIssuesList"
+                  [curationItemList]="curationIssuesList"
+                  [isMorePresent]="isMoreCurationIssuesListPresent"
+                  (loadMoreNext)="load10MoreCurationIssues()"
+                  (ignoreCurationIssueById)="ignoreCurationIssueById($event)"
+                  [totallength]="totalLengthCurationIssue"
+                  (addQueryToArticleByIds)="addQueryToArticleByIds($event)"> 
+                </app-curation-issues-list>
+
+          <app-splash-screen
+                  *ngIf="curationIssuesList &&
+                  curationIssuesList.length == 0 &&
+                  !isMoreCurationIssuesListPresent"
+                  [imageHRef]="myESplashScreens.curation_all_resolved"
+                  class="d-flex justify-content-center align-items-center"
+                  [descriptionText]="'Congratulations, you have no more issues to resolve'"
+                  style="position: absolute; top: 0; left: 0; right: 0; bottom: 0"
+          >
+          </app-splash-screen>
+
+          <app-splash-screen
+                  *ngIf="curationIssuesList &&
+                   curationIssuesList.length == 0 &&
+                   isMoreCurationIssuesListPresent"
+                  [imageHRef]="myESplashScreens.Lode_More_Issues"
+                  class="d-flex justify-content-center align-items-center"
+                  [descriptionText]="'Congratulations, you have cleared current issues, load more to continue'"
+                  style="position: absolute; top: 0; left: 0; right: 0; bottom: 0"
+          >
+          </app-splash-screen>
+
+          <app-imi-loader *ngIf="!curationIssuesList"></app-imi-loader>
+      </section>
  </mat-tab>
  <mat-tab label="Resolved">
     <section class="curation-issues-wrapper-section">
-        <app-curation-filter></app-curation-filter>
+        <app-curation-filter  (formSubmitted)="ResolvedFormSubmitted($event)"></app-curation-filter>
         <app-curation-resolved-list 
         [curationItemList]="curationResolvedAndIgnoredList" 
         [isMorePresent]="isMoreCurationResolvedAndIgnoredListPresent"
-        (loadMoreNext)="load10MoreCurationResolvedAndIgnored()"></app-curation-resolved-list>
+        (loadMoreNext)="load10MoreCurationResolvedAndIgnored()"
+        [totallength]="totalLengthCurationResolvedAndIgnored"></app-curation-resolved-list>
+
+        <app-splash-screen
+                  *ngIf="curationResolvedAndIgnoredList &&
+                  curationResolvedAndIgnoredList.length == 0"
+                  [imageHRef]="myESplashScreens.curation_all_resolved"
+                  class="d-flex justify-content-center align-items-center"
+                  [descriptionText]="'You have no resolved issues'"
+                  style="position: absolute; top: 0; left: 0; right: 0; bottom: 0"
+          >
+          </app-splash-screen>
+
+          <app-imi-loader *ngIf="!curationResolvedAndIgnoredList"></app-imi-loader>
+
       </section>
  </mat-tab>
 </mat-tab-group>
-
 
 
 

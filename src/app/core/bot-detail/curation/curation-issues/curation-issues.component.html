@@ -39,14 +39,14 @@
         <div class='column'>
           <div class='column-1'>
             <p style="font-size: 11px">User said</p>
-            <p style="font-size: 13px">“{{curationItemData.first_question}}”</p>
+            <p style="font-size: 13px">“{{curationItemData.user_message}}”</p>
             <!-- curationItemData.resolved_section.first_question -->
           </div>
         </div>
         <div class='column'>
           <div class='column-2'>
             <p style="font-size: 11px">Bot understood it as</p>
-            <p style="font-size: 13px">“{{curationItemData.generated_msg[0].text}}”</p>
+            <p style="font-size: 13px">“{{curationItemData.first_question}}”</p>
           </div>
         </div>
       </div>
@@ -73,7 +73,7 @@
             Link to existing article
           </button>
 
-          <button mat-button style="border: solid 1px #d8d8d8;" class="mat-theme-button footer-btn px-2">
+          <button mat-button style="border: solid 1px #d8d8d8;" class="mat-theme-button footer-btn px-2" (click)="addIssueToNewArticle()">
             <mat-icon>add</mat-icon>&nbsp; Add to a new article
           </button>
 

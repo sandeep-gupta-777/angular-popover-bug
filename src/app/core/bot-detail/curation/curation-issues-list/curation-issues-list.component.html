@@ -1,12 +1,12 @@
 <div class="curation-list-heading ">
     <div class ="header-text" >
-            85 issues remaining
+            {{totallength}} issues remaining
     </div>
     <div class="header-text ml-auto mr-3">
-            Saved corpus
+            {{corpusState}} corpus
     </div>
     
-    <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer" mat-button>
+    <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer" mat-button (click)= "openTrainModal()">
       <mat-icon>autorenew</mat-icon>
       Train
     </button>

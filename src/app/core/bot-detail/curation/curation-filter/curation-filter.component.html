@@ -27,23 +27,23 @@
 
     <mat-form-field class = "input-width">
       <input matInput
-             required
              readonly
              placeholder="Choose a date range"
-             name="date_range"
-             [max]="maxDate"
+             name="created_at__range"
              [ngModel]="date"
-             [satDatepicker]="picker">
+             [satDatepicker]="picker"
+             type="text">
       <sat-datepicker #picker
                       [rangeMode]="true"></sat-datepicker>
       <sat-datepicker-toggle matSuffix [for]="picker" style="color: #b5b5b5"></sat-datepicker-toggle>
     </mat-form-field>
   </div>
+  {{filterForm.value | json}}
 <div class="w-100 top-border ">
     <div class="d-flex flex-row padding-input py-3">
         <button class="btn-theme btn-theme-primary filter-btn mr-auto"
-          type="submit">Apply</button>
-        <button class="btn-theme clear-btn">Clear</button>
+          type="button"  (click) = "submitedForm()">Apply</button>
+        <button class="btn-theme clear-btn" (click)="clearFormClicked()">Clear</button>
       </div>
 
 </div>

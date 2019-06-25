@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, TemplateRef, AfterViewInit } from '@angular/core';
+import {Component, OnInit, Input, TemplateRef, AfterViewInit, OnDestroy} from '@angular/core';
 import { ConstantsService } from 'src/app/constants.service';
 import { ServerService } from 'src/app/server.service';
 import { IHeaderData } from 'src/interfaces/header-data';
@@ -17,12 +17,13 @@ import { Select } from '@ngxs/store';
 import { RouteHelperService } from 'src/app/route-helper.service';
 import { EAllActions } from 'src/app/typings/enum';
 import { EventService } from 'src/app/event.service';
+import {TempVariableService} from '../../../temp-variable.service';
 @Component({
   selector: 'app-bot-articles',
   templateUrl: './bot-articles.component.html',
   styleUrls: ['./bot-articles.component.scss']
 })
-export class BotArticlesComponent implements OnInit, AfterViewInit {
+export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
   ngAfterViewInit(): void {
     if (RouteHelperService.getQueryParams(this.activatedRoute, "openPreview")) {
       this.chatService.openPreviewFormService(this.bot, this.enterprise_unique_name);
@@ -58,6 +59,11 @@ export class BotArticlesComponent implements OnInit, AfterViewInit {
   myEAllActions = EAllActions;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   ngOnInit() {
+    if(TempVariableService.firstQuestionListForNewArticle){
+      this.openArticleCreate();
+      this.selectedArticle.questions = TempVariableService.firstQuestionListForNewArticle;
+      TempVariableService.firstQuestionListForNewArticle = null;
+    }
     this.getCorpusAndSetArticleFilterForm$()
       .subscribe(() => {
         let section_id = this.activatedRoute.snapshot.queryParamMap.get('section_id');
@@ -206,6 +212,9 @@ export class BotArticlesComponent implements OnInit, AfterViewInit {
       url = this.constantsService.updateArticelUrl();
     }
     else {
+      if(TempVariableService.curationIds){
+        body["curation_id_list"] = TempVariableService.curationIds
+      }
       url = this.constantsService.createArticelUrl();
     }
 
@@ -217,6 +226,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit {
     this.updateArticle$(articleData)
       .subscribe((value) => {
         if (value) {
+          TempVariableService.curationIds = null;
           this.getCorpusAndSetArticleFilterForm$().subscribe((v) => {
             this.utilityService.showSuccessToaster("Article succesfully saved");
             this.showEditAndViewArtical = false;
@@ -432,5 +442,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit {
   cancelCategoryEditToUnchangedValue() {
     this.categoryMappingClone = this.utilityService.createDeepClone(this.corpus.category_mapping);
   }
-
+  ngOnDestroy(){
+    TempVariableService.curationIds = null;
+  }
 }

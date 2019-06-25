@@ -6,6 +6,7 @@ import { ConstantsService } from 'src/app/constants.service';
 import { ServerService } from 'src/app/server.service';
 import { map } from 'rxjs/operators';
 import {UtilityService} from '../../../utility.service';
+import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 @Component({
   selector: 'app-curation',
   templateUrl: './curation.component.html',
@@ -21,12 +22,17 @@ export class CurationComponent implements OnInit {
   ) { }
   curation_filter_form: FormGroup;
   @Input() bot: IBot;
+  myESplashScreens = ESplashScreens;
   curationIssuesList: ICurationItem[] = [];
   curationIssuesListLength:number = 0;
   isMoreCurationIssuesListPresent:boolean = false;
+  totalLengthCurationIssue:number;
+  IssuesFilterQueryParams : object = {};
   curationResolvedAndIgnoredList: ICurationItem[] = [];
   curationResolvedAndIgnoredListLength:number = 0;
   isMoreCurationResolvedAndIgnoredListPresent:boolean = false;
+  totalLengthCurationResolvedAndIgnored : number;
+  ResolvedFilterQueryParams : object = {};
   ngOnInit() {
     this.curation_filter_form = this.formBuilder.group({
       room_id: [""],
@@ -42,12 +48,13 @@ export class CurationComponent implements OnInit {
     let curationIssuesListUrl = this.constantsService.curationIssuesListUrl(10,this.curationIssuesListLength)
     return this.serverService.makeGetReq<ICurationResult>(
       {
-        url: curationIssuesListUrl,
+        url: curationIssuesListUrl + this.objToSrt(this.IssuesFilterQueryParams),
         headerData: { 'bot-access-token': this.bot.bot_access_token }
       }
     ).pipe(
       map((value: ICurationResult) => {
         this.curationIssuesList = [...this.curationIssuesList, ...value.objects];
+        this.totalLengthCurationIssue = value.meta.total_count;
         this.isMoreCurationIssuesListPresent = !!value.meta.next;
         this.curationIssuesListLength = this.curationIssuesListLength + value.objects.length;
         debugger;
@@ -57,15 +64,21 @@ export class CurationComponent implements OnInit {
   load10MoreCurationIssues(){
     this.load10MoreCurationIssues$().subscribe()
   }
+  reinnetalizeCurationIssues(){
+    this.curationIssuesListLength = 0;
+    this.curationIssuesList = [];
+    this.load10MoreCurationIssues();
+}
   load10MoreCurationResolvedAndIgnored$(){
     let curationResolvedAndIgnoredListUrl = this.constantsService.curationResolvedAndIgnoredListUrl(10,this.curationResolvedAndIgnoredListLength)
     return this.serverService.makeGetReq<ICurationResult>(
       {
-        url: curationResolvedAndIgnoredListUrl,
+        url: curationResolvedAndIgnoredListUrl + this.objToSrt(this.ResolvedFilterQueryParams),
         headerData: { 'bot-access-token': this.bot.bot_access_token }
       }).pipe(
         map((value: ICurationResult) => {
           this.curationResolvedAndIgnoredList = [...this.curationResolvedAndIgnoredList, ...value.objects];
+          this.totalLengthCurationResolvedAndIgnored = value.meta.total_count;
           this.isMoreCurationResolvedAndIgnoredListPresent = !!value.meta.next;
           this.curationResolvedAndIgnoredListLength = this.curationResolvedAndIgnoredListLength + value.objects.length;
         })
@@ -119,6 +132,28 @@ export class CurationComponent implements OnInit {
       this.reinnetalizeCurationResolvedAndIgnored()
     });
   }
+
+//  filter form ::
+
+  IssuesFormSubmitted(body){
+    this.IssuesFilterQueryParams = body;
+    this.isMoreCurationIssuesListPresent = false;
+    this.reinnetalizeCurationIssues();
+  }
+  
+  ResolvedFormSubmitted(body){
+    this.ResolvedFilterQueryParams = body;
+    this.isMoreCurationResolvedAndIgnoredListPresent = false;
+    this.reinnetalizeCurationResolvedAndIgnored();
+  }
   
 
+  objToSrt(obj){
+    let str :string = "";
+    for(let key in obj){
+      str = str + "&"+key+"="+obj[key];
+    }
+    debugger;
+    return str;
+  }
 }
