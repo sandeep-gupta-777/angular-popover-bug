@@ -23,12 +23,12 @@ export class CurationComponent implements OnInit {
   curation_filter_form: FormGroup;
   @Input() bot: IBot;
   myESplashScreens = ESplashScreens;
-  curationIssuesList: ICurationItem[] = [];
+  curationIssuesList: ICurationItem[];
   curationIssuesListLength:number = 0;
   isMoreCurationIssuesListPresent:boolean = false;
   totalLengthCurationIssue:number;
   IssuesFilterQueryParams : object = {};
-  curationResolvedAndIgnoredList: ICurationItem[] = [];
+  curationResolvedAndIgnoredList: ICurationItem[];
   curationResolvedAndIgnoredListLength:number = 0;
   isMoreCurationResolvedAndIgnoredListPresent:boolean = false;
   totalLengthCurationResolvedAndIgnored : number;
@@ -53,7 +53,12 @@ export class CurationComponent implements OnInit {
       }
     ).pipe(
       map((value: ICurationResult) => {
-        this.curationIssuesList = [...this.curationIssuesList, ...value.objects];
+        if(this.curationIssuesList){
+          this.curationIssuesList = [...this.curationIssuesList, ...value.objects];
+        }
+        else{
+          this.curationIssuesList = [...value.objects];
+        }
         this.totalLengthCurationIssue = value.meta.total_count;
         this.isMoreCurationIssuesListPresent = !!value.meta.next;
         this.curationIssuesListLength = this.curationIssuesListLength + value.objects.length;
@@ -66,7 +71,7 @@ export class CurationComponent implements OnInit {
   }
   reinnetalizeCurationIssues(){
     this.curationIssuesListLength = 0;
-    this.curationIssuesList = [];
+    this.curationIssuesList = null;
     this.load10MoreCurationIssues();
 }
   load10MoreCurationResolvedAndIgnored$(){
@@ -77,7 +82,11 @@ export class CurationComponent implements OnInit {
         headerData: { 'bot-access-token': this.bot.bot_access_token }
       }).pipe(
         map((value: ICurationResult) => {
-          this.curationResolvedAndIgnoredList = [...this.curationResolvedAndIgnoredList, ...value.objects];
+          if(this.curationResolvedAndIgnoredList){
+            this.curationResolvedAndIgnoredList = [...this.curationResolvedAndIgnoredList, ...value.objects];
+          }else{
+            this.curationResolvedAndIgnoredList = [...value.objects]
+          }
           this.totalLengthCurationResolvedAndIgnored = value.meta.total_count;
           this.isMoreCurationResolvedAndIgnoredListPresent = !!value.meta.next;
           this.curationResolvedAndIgnoredListLength = this.curationResolvedAndIgnoredListLength + value.objects.length;
@@ -89,7 +98,7 @@ export class CurationComponent implements OnInit {
   }
   reinnetalizeCurationResolvedAndIgnored(){
           this.curationResolvedAndIgnoredListLength = 0;
-          this.curationResolvedAndIgnoredList = [];
+          this.curationResolvedAndIgnoredList = null;
           this.load10MoreCurationResolvedAndIgnored();
   }
 // ignoring

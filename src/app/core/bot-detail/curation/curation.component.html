@@ -2,7 +2,7 @@
  <mat-tab-group animationDuration="0ms">
 <mat-tab label="Issues">
       <section class="curation-issues-wrapper-section">
-          <app-curation-filter (formSubmitted)="IssuesFormSubmitted($event)"></app-curation-filter>
+          <app-curation-filter (formSubmitted)="IssuesFormSubmitted($event)" *ngIf="curationIssuesList"></app-curation-filter>
           <app-curation-issues-list
                   [bot]=" bot"
                   *ngIf="curationIssuesList"
@@ -35,13 +35,12 @@
                   style="position: absolute; top: 0; left: 0; right: 0; bottom: 0"
           >
           </app-splash-screen>
-
-          <app-imi-loader *ngIf="!curationIssuesList"></app-imi-loader>
+          <app-imi-loader *ngIf="!curationIssuesList" style= "height: 68vh;"></app-imi-loader>
       </section>
  </mat-tab>
  <mat-tab label="Resolved">
     <section class="curation-issues-wrapper-section">
-        <app-curation-filter  (formSubmitted)="ResolvedFormSubmitted($event)"></app-curation-filter>
+        <app-curation-filter  (formSubmitted)="ResolvedFormSubmitted($event)" *ngIf="curationResolvedAndIgnoredList"></app-curation-filter>
         <app-curation-resolved-list 
         [curationItemList]="curationResolvedAndIgnoredList" 
         [isMorePresent]="isMoreCurationResolvedAndIgnoredListPresent"
@@ -58,7 +57,7 @@
           >
           </app-splash-screen>
 
-          <app-imi-loader *ngIf="!curationResolvedAndIgnoredList"></app-imi-loader>
+          <app-imi-loader *ngIf="!curationResolvedAndIgnoredList" style= "height: 68vh;"></app-imi-loader>
 
       </section>
  </mat-tab>
