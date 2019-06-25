@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4fa2cae7-4156-44c3-97aa-acfecddc228f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/bot_platform-fe.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bot_platform-fe.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/constants.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/constants.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/bot-article-history/bot-article-history.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/bot-article-history/bot-article-history.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/img/sidebar/clock-3.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/img/sidebar/clock-3.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/environments/environment.hmr.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/environments/environment.hmr.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/dist/" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -70,68 +61,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-article-history/bot-article-history.component.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="47" column="35" selection-start-line="47" selection-start-column="24" selection-end-line="47" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/bot-articles.component.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="27" column="66" selection-start-line="27" selection-start-column="66" selection-end-line="27" selection-end-column="66" />
+            <state relative-caret-position="151">
+              <caret line="52" column="101" selection-start-line="52" selection-start-column="101" selection-end-line="52" selection-end-column="101" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/bot-articles.component.ts">
+        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/bot-articles.component.spec.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="309" column="14" lean-forward="true" selection-start-line="305" selection-start-column="12" selection-end-line="309" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/constants.service.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
-              <caret line="516" column="59" selection-start-line="516" selection-start-column="45" selection-end-line="516" selection-end-column="59" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/environments/environment.hmr.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
-              <caret line="4" column="15" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/environments/environment.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="17" column="61" lean-forward="true" selection-start-line="17" selection-start-column="61" selection-end-line="17" selection-end-column="61" />
+            <state>
               <folding>
-                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#0#73#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/package-lock.json">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/bot-articles.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="12" column="40" lean-forward="true" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
+            <state relative-caret-position="131">
+              <caret line="309" column="14" selection-start-line="309" selection-start-column="14" selection-end-line="309" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -285,6 +239,22 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
+            <path>
+              <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+            </path>
+            <path>
+              <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -325,36 +295,7 @@
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="core" type="462c0819:PsiDirectoryNode" />
               <item name="bot-detail" type="462c0819:PsiDirectoryNode" />
-              <item name="bot-article-history" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
-              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="constants.service.ts" type="620a8d5e:NestingTreeNode" />
-            </path>
-            <path>
-              <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
-              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="environments" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
-          <expand>
-            <path>
-              <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
-            </path>
-            <path>
-              <item name="." type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="bot-articles" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -450,9 +391,9 @@
     <list>
       <item itemvalue="JavaScript Debug.Angular Application" />
       <item itemvalue="npm.Angular CLI Server" />
-      <item itemvalue="npm.ng" />
       <item itemvalue="Karma.Tests" />
       <item itemvalue="Protractor.E2E Tests" />
+      <item itemvalue="npm.ng" />
     </list>
     <recent_temporary>
       <list>
@@ -556,13 +497,12 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1125738000" />
+    <option name="totallyTimeSpent" value="1126979000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1066" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49440297" visible="true" weight="0.22339304" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49440297" visible="true" weight="0.21496312" />
       <window_info id="Structure" order="1" sideWeight="0.50369006" side_tool="true" weight="0.2591415" />
       <window_info id="npm" order="2" sideWeight="0.506542" side_tool="true" weight="0.2591415" />
       <window_info id="Favorites" order="3" sideWeight="0.39044943" side_tool="true" weight="0.22257552" />
@@ -577,7 +517,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49841017" weight="0.83566433" />
       <window_info anchor="bottom" id="TypeScript" order="9" sideWeight="0.49761525" weight="0.31758243" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5055644" side_tool="true" weight="0.2744755" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4944356" visible="true" weight="0.33186814" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4944356" visible="true" weight="0.40704072" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -776,15 +716,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/bot-articles.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="27" column="66" selection-start-line="27" selection-start-column="66" selection-end-line="27" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/bot-articles.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="309" column="14" lean-forward="true" selection-start-line="305" selection-start-column="12" selection-end-line="309" selection-end-column="14" />
+        <state relative-caret-position="151">
+          <caret line="52" column="101" selection-start-line="52" selection-start-column="101" selection-end-line="52" selection-end-column="101" />
         </state>
       </provider>
     </entry>
@@ -792,6 +725,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
           <caret line="47" column="35" selection-start-line="47" selection-start-column="24" selection-end-line="47" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-articles/bot-articles.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="309" column="14" selection-start-line="309" selection-start-column="14" selection-end-line="309" selection-end-column="14" />
         </state>
       </provider>
     </entry>
