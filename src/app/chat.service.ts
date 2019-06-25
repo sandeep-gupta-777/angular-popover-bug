@@ -8,9 +8,9 @@ import {
   AddMessagesToRoomByRoomId,
   ChangeBotIsThinkingDisplayByRoomId,
   ChangeFrameAction,
+  SetCurrentBotDetailsAndResetChatStateIfBotMismatch,
   SetLastTemplateKeyToRoomByRoomId,
-  ToggleChatWindow,
-  SetCurrentBotDetailsAndResetChatStateIfBotMismatch
+  ToggleChatWindow
 } from './chat/ngxs/chat.action';
 import {IGeneratedMessageItem, ISendApiResponsePayload} from '../interfaces/send-api-request-payload';
 import {ConstantsService} from './constants.service';
@@ -19,7 +19,7 @@ import {EBotType, UtilityService} from './utility.service';
 import {IConsumerDetails} from './chat/ngxs/chat.state';
 import {catchError} from 'rxjs/internal/operators';
 import {LoggingService} from "./logging.service";
-import { EventService } from './event.service';
+import {EventService} from './event.service';
 
 declare var IMI: any;
 
@@ -33,16 +33,26 @@ export class ChatService {
     private constantsService: ConstantsService) {
   }
 
-  sendHumanMessageToBotServer(botDetails: { roomId: number, bot_access_token: string,type:EBotType }, consumerDetails: IConsumerDetails, messageByHuman: string, frameEnabled: EChatFrame) {
+  sendHumanMessageToBotServer(botDetails: { roomId: number, bot_access_token: string, type: EBotType }, consumerDetails: IConsumerDetails, messageByHuman: string, frameEnabled: EChatFrame) {
 
     const url = this.constantsService.getStartNewChatLoginUrl();
-    const body /*: ISendApiRequestPayload */ = {
+    let body: any /*: ISendApiRequestPayload */ = {
       'consumer': consumerDetails,
       'type': 'human',
       'msg': messageByHuman || 'hi',
       'platform': 'web',
-      is_test: botDetails.type === EBotType.faqbot
+      is_test: true
     };
+    debugger;
+    let model_id = (this.currentPreviewBot as any).model_id;
+    let model_version_id = (this.currentPreviewBot as any).model_version_id;
+    if (model_id && model_version_id) {
+      body = {
+        ...body,
+        model_id,
+        model_version_id
+      }
+    }
     const headerData: IHeaderData = {
       'bot-access-token': botDetails.bot_access_token,
       'auth-token': null,
@@ -70,14 +80,17 @@ export class ChatService {
             }),
             new ChangeBotIsThinkingDisplayByRoomId({roomId: response.room.id, shouldShowBotIsThinking: false})
           ]);
-          this.store.dispatch(new SetLastTemplateKeyToRoomByRoomId({lastTemplateKey: response.templateKey, room_id: response.room.id}));
+          this.store.dispatch(new SetLastTemplateKeyToRoomByRoomId({
+            lastTemplateKey: response.templateKey,
+            room_id: response.room.id
+          }));
         }),
         catchError((e: any) => {
           return this.store.dispatch([
             new ChangeBotIsThinkingDisplayByRoomId({roomId: botDetails.roomId, shouldShowBotIsThinking: false})
           ]);
         })
-        );
+      );
   }
 
   navigate(frameEnabled: EChatFrame) {
@@ -88,7 +101,7 @@ export class ChatService {
   currentPreviewBot: IBot;
   currentRoomId: number;
 
-  initializeIMIConnect(previewBot: IBot, currentRoomId: number, startNewChatData : any) {
+  initializeIMIConnect(previewBot: IBot, currentRoomId: number, startNewChatData: any) {
 
     if (this.currentRoomId === currentRoomId && this.currentPreviewBot === previewBot) {
       return;
@@ -122,7 +135,7 @@ export class ChatService {
     const serviceKey = imiConnectIntegrationDetails.serviceKey; //'3b8f6470-5e56-11e8-bf0b-0213261164bb';//'f6e50f7b-2bfd-11e8-bf0b-0213261164bb';
     // let userId = currentRoomId + '_hellothisissandeep1231312';
     let userId = startNewChatData.consumerDetails.uid;
-    if(startNewChatData && startNewChatData.consumerDetails){
+    if (startNewChatData && startNewChatData.consumerDetails) {
       userId = startNewChatData.consumerDetails.uid;
     }
 
@@ -249,6 +262,7 @@ export class ChatService {
 
     this.messaging = messaging;
   }
+
   currentRoom: IRoomData;
 
   sendHumanMessageViaImiConnect(currentRoom, currentBot: IBot, messageByHuman: string) {
@@ -292,21 +306,31 @@ export class ChatService {
       'user-access-token': null,
       'content-type': 'application/json'
     };
-    const body /*: ISendApiRequestPayload */ = {
+    let body:any /*: ISendApiRequestPayload */ = {
       'type': 'bot',
       'msg': 'hi',
       'platform': 'web',
-      'is_test':startNewChatData.bot.bot_type === EBotType.faqbot,
+      'is_test': startNewChatData.bot.bot_type === EBotType.faqbot,
       // 'consumer': {
       //   'uid': this.current_uid,
       // },
       'consumer': startNewChatData.consumerDetails,
     };
 
+    let model_id = (this.currentPreviewBot as any).model_id;
+    let model_version_id = (this.currentPreviewBot as any).model_version_id;
+    if (model_id && model_version_id) {
+      body = {
+        ...body,
+        model_id,
+        model_version_id
+      }
+    }
+
     return this.serverService.makePostReq({url, body, headerData});
   }
 
-  openPreviewFormService(bot : IBot,enterprise_unique_name :string){
+  openPreviewFormService(bot: IBot, enterprise_unique_name: string) {
     this.store.dispatch([
       new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({
         bot: {...bot, enterprise_unique_name: enterprise_unique_name}
@@ -316,7 +340,8 @@ export class ChatService {
     ]);
 
     /*TODO: integrate this with store*/
-    EventService.startANewChat$.emit({bot:bot, consumerDetails: {uid: this.utilityService.createRandomUid()},
+    EventService.startANewChat$.emit({
+      bot: bot, consumerDetails: {uid: this.utilityService.createRandomUid()},
     });
   }
 

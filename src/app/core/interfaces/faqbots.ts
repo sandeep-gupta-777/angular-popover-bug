@@ -78,3 +78,9 @@ export interface ICurationItem{
         "user_message"?:string,
       
 }
+
+export interface IAllCorpusResult {
+    'meta': IMeta;
+    'objects': ICorpus[];
+  }
+

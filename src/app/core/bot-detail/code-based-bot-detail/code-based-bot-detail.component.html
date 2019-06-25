@@ -61,9 +61,8 @@
                         <span style="color: #00ABD3">Logic</span>
                     </div>
                 </a></ng-container>
-                <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.chat)">
+                <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.chat)" *ngIf="bot.bot_type != myEBotType.intelligent">
                     <div class="sidebar-nav-list-item"
-                         *ngIf="bot.bot_type != myEBotType.intelligent"
                          data-cy="sidebar-chat"
                         [ngClass]="{'filter-black':sideBarTab1!=='chat', 'selected-nav':sideBarTab1==='chat'}"
                         (click)="sideBarTabChanged('chat')">
@@ -72,11 +71,11 @@
                     </div>
                 </a>
                 <ng-container *myIf="myEAllActions['Get Bot Testcases']">
-                    <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.test)">
+                    <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.test)"
+                    *ngIf="bot.bot_type != myEBotType.intelligent && bot.bot_type !== myEBotType.faqbot">
                     <!--TODO: remove faq bot condition-->
                     <div class="sidebar-nav-list-item"
                          data-cy="sidebar-test"
-                         *ngIf="bot.bot_type != myEBotType.intelligent && bot.bot_type !== myEBotType.faqbot"
                          [ngClass]="{'filter-black':sideBarTab1!=='test', 'selected-nav':sideBarTab1==='test'}"
                          (click)="sideBarTabChanged('test')">
                         <img class="" src="assets/img/sidebar/test.svg" alt=""
@@ -85,17 +84,17 @@
                     </div>
                 </a></ng-container>
 
-                <!--<a mat-list-item class="mat-list-item-sidebar"-->
-                   <!--*ngIf="bot.bot_type === myEBotType.faqbot"-->
-                   <!--(click)="sideBarTabChanged(myESideBarTab.History)">-->
-                    <!--<div class="sidebar-nav-list-item"-->
-                         <!--[ngClass]="{'filter-black':sideBarTab1!=='History', 'selected-nav':sideBarTab1==='History'}"-->
-                         <!--(click)="sideBarTabChanged('History')">-->
-                        <!--<img class="" src="assets/img/sidebar/clock-3.svg" alt=""-->
-                             <!--style="padding-right: 3px; padding-left: 3px;">-->
-                        <!--<span style="color: #00ABD3">History</span>-->
-                    <!--</div>-->
-                <!--</a>-->
+                <a mat-list-item class="mat-list-item-sidebar"
+                   *ngIf="bot.bot_type === myEBotType.faqbot"
+                   (click)="sideBarTabChanged(myESideBarTab.History)">
+                    <div class="sidebar-nav-list-item"
+                         [ngClass]="{'filter-black':sideBarTab1!=='History', 'selected-nav':sideBarTab1==='History'}"
+                         (click)="sideBarTabChanged('History')">
+                        <img class="" src="assets/img/sidebar/clock-3.svg" alt=""
+                             style="padding-right: 3px; padding-left: 3px;">
+                        <span style="color: #00ABD3">History</span>
+                    </div>
+                </a>
 
             </mat-nav-list>
         </mat-sidenav>
@@ -132,8 +131,14 @@
                         <app-bot-articles style="display: block; height: 100%" [bot]="bot"></app-bot-articles>
                     </ng-container>
 
+
                     <ng-container *ngIf="sideBarTab1 === 'curation' && myEBotType.faqbot === bot.bot_type">
                         <app-curation style="display: block; height: 100%" [bot]="bot"></app-curation>
+                    </ng-container>
+
+
+                    <ng-container *ngIf="sideBarTab1 === 'History' && myEBotType.faqbot === bot.bot_type">
+                        <app-bot-article-history style="display: block; height: 100%" [bot]="bot"></app-bot-article-history>
                     </ng-container>
 
                     <ng-container *myIf="[myEAllActions['Get Bot Knowledge base']]">
