@@ -57,17 +57,18 @@
 
       <div *ngIf="isResolved == false" class = "w-100">
         <div *ngIf = "articleSearchMode" class="d-flex w-100  not-resolved-footer">
-          <app-faq-search-box class ="searchForArticle" [bot]="bot"></app-faq-search-box>
+          <app-faq-search-box class ="searchForArticle" [bot]="bot" [inCuration]="true"
+                              (clickedOnArticle)="clickedOnArticle($event)"></app-faq-search-box>
           <div class="ml-auto"></div>
-          <button mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2">
+          <button mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2" [disabled]="!selectedArticleToAddCuration" (click)="addIssueToThisArticle()">
             Link and save
           </button>
-          <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button">
+          <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button" (click)="articleSearchMode = false;selectedArticleToAddCuration = null;selectedArticleFirstQuestion=null">
             Cancel
           </button>
         </div>
         <div *ngIf="!articleSearchMode" class="d-flex w-100  not-resolved-footer">
-          <button mat-button color=primary style="border: solid 1px #41c9e9;" class="mat-theme-button footer-btn px-2">
+          <button mat-button color=primary style="border: solid 1px #41c9e9;" class="mat-theme-button footer-btn px-2" (click)="articleSearchMode = true">
             <mat-icon style="transform:rotate(130deg);font-size: 18px;">insert_link</mat-icon>&nbsp;
             Link to existing article
           </button>

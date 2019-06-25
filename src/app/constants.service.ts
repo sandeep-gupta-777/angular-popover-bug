@@ -523,6 +523,9 @@ export class ConstantsService {
   curationIssueIgnoreUrl(){
     return this.BACKEND_URL + `api/v1/faqbotcuration/ignore/`
   }
+  curationIssueLinkToExistingSectionUrl(){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/linktoexistingsection/`
+  }
 
   updateBotSerializer(bot: IBot) {
     const clone = { ...bot };

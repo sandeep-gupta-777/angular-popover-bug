@@ -17,7 +17,9 @@ export class CurationIssuesComponent implements OnInit {
   @Input() isResolved:boolean;
   @Input() curationItemData : ICurationItem;
   @Output() ignoreQueryEvent = new EventEmitter();
-  articleSearchMode = true;
+  @Output() addQueryToArticleEvent = new EventEmitter();
+  articleSearchMode = false;
+  selectedArticleToAddCuration : number;
   ngOnInit() {
   }
   channelNameToImg(channel:string){
@@ -35,5 +37,19 @@ export class CurationIssuesComponent implements OnInit {
   }
   ignoreQuery(curationItemId){
     this.ignoreQueryEvent.emit(curationItemId);
+  }
+  clickedOnArticle(section_id){
+    if(section_id){
+      this.selectedArticleToAddCuration = section_id;
+    }
+  }
+  addIssueToThisArticle(){
+
+    this.addQueryToArticleEvent.emit(
+      {
+        section_id: this.selectedArticleToAddCuration,
+        curationItemId: this.curationItemData.id,
+      }
+    )
   }
 }

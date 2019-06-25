@@ -98,6 +98,27 @@ export class CurationComponent implements OnInit {
         });
   }
 
+
+//  add to article
+  addQueryToArticleByIds(data){
+
+    let curationIssueLinkToExistingSectionUrl = this.constantsService.curationIssueLinkToExistingSectionUrl();
+    let body = {
+      "curation_id_list": [data.curationItemId],
+      "section_id":data.section_id
+    }
+    this.serverService.makePostReq<any>(
+      {
+        url: curationIssueLinkToExistingSectionUrl,
+        headerData: { 'bot-access-token': this.bot.bot_access_token },
+        body
+      }).subscribe((value) => {
+      this.utilityService.showSuccessToaster(value.message);
+      this.curationIssuesListLength = this.curationIssuesListLength - 1;
+      this.curationIssuesList = this.curationIssuesList.filter((item) => {return item.id != data.curationItemId});
+      this.reinnetalizeCurationResolvedAndIgnored()
+    });
+  }
   
 
 }

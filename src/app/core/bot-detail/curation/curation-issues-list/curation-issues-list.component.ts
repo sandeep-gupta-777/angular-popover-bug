@@ -15,6 +15,7 @@ export class CurationIssuesListComponent implements OnInit {
   @Input() bot: IBot;
   @Output() loadMoreNext = new EventEmitter();
   @Output() ignoreCurationIssueById = new EventEmitter();
+  @Output() addQueryToArticleByIds = new EventEmitter();
   ngOnInit() {
   }
   load10More(){
@@ -23,5 +24,8 @@ export class CurationIssuesListComponent implements OnInit {
   }
   ignoreIt(curationId){
     this.ignoreCurationIssueById.emit(curationId);
+  }
+  addQueryToArticle(body){
+    this.addQueryToArticleByIds.emit(body);
   }
 }

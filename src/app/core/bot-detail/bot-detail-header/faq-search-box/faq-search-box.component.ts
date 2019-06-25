@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { IBot } from 'src/app/core/interfaces/IBot';
 import { ICorpus } from 'src/app/core/interfaces/faqbots';
 import { IHeaderData } from 'src/interfaces/header-data';
@@ -22,6 +22,8 @@ export class FaqSearchBoxComponent implements OnInit {
     private activatedRoute:ActivatedRoute
   ) { }
   @Input() bot : IBot;
+  @Output() clickedOnArticle = new EventEmitter();
+  @Input() inCuration:boolean;
   corpus : ICorpus;
   searchAricleString:string;
   input_foused:boolean = false;
@@ -33,14 +35,21 @@ export class FaqSearchBoxComponent implements OnInit {
       }
     })
   }
-  navigateToArticleById(section_id){
+  navigateToArticleById(body){
     debugger;
     this.input_foused = false
-    this.router.navigate(['.'], {
-      queryParams: {build:'articles',isArticle:true,section_id},
-      relativeTo: this.activatedRoute,
-      queryParamsHandling: 'merge'
-    })
+    if(this.inCuration){
+      this.clickedOnArticle.emit(body.section_id);
+      this.searchAricleString = body.question.replace('<strong>', "").replace('</strong>', "");
+    }
+    if(!this.inCuration){
+      this.router.navigate(['.'], {
+        queryParams: {build:'articles',isArticle:true,section_id:body.section_id},
+        relativeTo: this.activatedRoute,
+        queryParamsHandling: 'merge'
+      })
+    }
+
   }
   getCorpusAndSetArticleFilterForm$() {
     let headerData: IHeaderData = {

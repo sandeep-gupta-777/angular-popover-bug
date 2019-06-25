@@ -32,7 +32,7 @@
   <!--</span>-->
   <!--<div class="headerDivider mx-2"></div>-->
 
-<app-faq-search-box *ngIf="bot.bot_type == 'faqbot'" [bot]="bot"></app-faq-search-box>
+<app-faq-search-box *ngIf="bot.bot_type == 'faqbot'" [bot]="bot" [inCuration]="false"></app-faq-search-box>
 
 
   <div *myIf="myEAllActions['Send API']">

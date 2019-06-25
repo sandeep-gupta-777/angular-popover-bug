@@ -8,7 +8,7 @@
       *ngIf="input_foused && corpus && corpus.sections && (corpus.sections | searchArticleByQuestion : searchAricleString) &&(corpus.sections | searchArticleByQuestion : searchAricleString).length > 0">
       <div class="d-flex article-item flex-column py-2 px-2 search-item" 
         *ngFor="let section of corpus.sections | searchArticleByQuestion : searchAricleString , let i = index"
-        (click)="navigateToArticleById(section.section_id)">
+        (click)="navigateToArticleById({section_id:section.section_id,question:section.questions[0]})">
         <div class="catagory">
             {{section.category_id | categoryIdToName : corpus.category_mapping }}
         </div>

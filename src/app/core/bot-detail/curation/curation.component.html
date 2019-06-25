@@ -8,7 +8,8 @@
           [curationItemList]="curationIssuesList" 
           [isMorePresent]="isMoreCurationIssuesListPresent" 
           (loadMoreNext)="load10MoreCurationIssues()"
-          (ignoreCurationIssueById)="ignoreCurationIssueById($event)"></app-curation-issues-list>
+          (ignoreCurationIssueById)="ignoreCurationIssueById($event)"
+          (addQueryToArticleByIds)="addQueryToArticleByIds($event)"></app-curation-issues-list>
         </section>
  </mat-tab>
  <mat-tab label="Resolved">
