@@ -39,6 +39,7 @@ export class BotArticleHistoryComponent implements OnInit {
   ) { }
   @Input() bot: IBot;
   corpusList : ICorpus[];
+  currentPage: number = 1;
   ArticleHistorySmartTableObj: ArticleHistorySmartTable;
   ngOnInit() {
     this.getAllCorpus$()
@@ -191,6 +192,10 @@ export class BotArticleHistoryComponent implements OnInit {
       });
       this.utilityService.downloadArrayAsCSV(csvFormat, {});
 
+  }
+
+  goToPage(val){
+    this.currentPage= val.page;
   }
 
 }
