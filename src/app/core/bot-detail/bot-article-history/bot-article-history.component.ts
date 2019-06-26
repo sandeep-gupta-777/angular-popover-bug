@@ -190,7 +190,7 @@ export class BotArticleHistoryComponent implements OnInit {
           Questions: element.questions.toString()
         }
       });
-      this.utilityService.downloadArrayAsCSV(csvFormat, {});
+      this.utilityService.downloadArrayAsCSV(csvFormat, {}, 'shoaib.csv');
 
   }
 
