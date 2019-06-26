@@ -8,27 +8,29 @@
     </button>
 
     <figure class="grid-bot-preview-img">
-      <img [defaultImage]="'https://images.pexels.com/photos/247676/pexels-photo-247676.jpeg'" [lazyLoad]="bot.logo" alt="">
+      <img [defaultImage]="'assets/img/no image.svg'" [lazyLoad]="bot.logo" alt="">
     </figure>
     <div class="grid-bot-preview-name details1">
       <h6 class="limit-oneline"
           [matTooltip]="(bot.name && bot.name.length >24)?bot.name : ''"
           style="color: #474747; letter-spacing: 0.3px">{{(bot.name|slice:0:36) + (bot.name.length > 36 ? "..." : "")}}</h6>
       <p class="description limit-oneline"
-         matTooltip="Updated on {{bot.updated_at|date:'d MMM, yy'}} by {{bot.updated_by|personName}}"
+         matTooltip="
+          {{bot?.bot_disabled_settings?.bot_disabled?'Disabled':'Updated'}}
+          on {{bot.updated_at|date:'d MMM, yy'}} by {{bot.updated_by|personName}}"
          style="letter-spacing: 0.1px">
-        Updated
+        {{bot?.bot_disabled_settings?.bot_disabled?'Disabled':'Updated'}}
         on {{bot.updated_at|date:'d MMM, yy'}}
         by {{bot.updated_by|personName}}
       </p>
     </div>
 
-        <ng-container *ngIf="bot.bot_type == 'chatbot' || bot.bot_type == 'faqbot' ">
-        <div class="d-flex justify-content-center align-items-center">
-            <mat-icon class="icon2" *ngIf="bot.is_manager" [title]="bot.child_bots.length + ' children Bots'">
-                supervisor_account
-            </mat-icon>
-        </div>
+    <ng-container *ngIf="bot.bot_type == 'chatbot' || bot.bot_type == 'faqbot' ">
+      <div class="d-flex justify-content-center align-items-center">
+        <mat-icon class="icon2" *ngIf="bot.is_manager" [title]="bot.child_bots.length + ' children Bots'">
+          supervisor_account
+        </mat-icon>
+      </div>
 
 
       <div class="grid-bot-preview-forth-row d-flex bot-strip align-items-center p-2 footer">
@@ -42,7 +44,13 @@
           </div>
         </div>
         <span class="ml-auto"></span>
-        <app-integration-channel-list [limit]="7" [bot]="bot"></app-integration-channel-list>
+        <app-integration-channel-list *ngIf="!bot?.bot_disabled_settings?.bot_disabled; else disabled" [limit]="7"
+                                      [bot]="bot"></app-integration-channel-list>
+        <ng-template #disabled>
+          <mat-chip-list aria-label="Disabled label">
+            <mat-chip color="accent" selected>Disabled</mat-chip>
+          </mat-chip-list>
+        </ng-template>
 
 
       </div>

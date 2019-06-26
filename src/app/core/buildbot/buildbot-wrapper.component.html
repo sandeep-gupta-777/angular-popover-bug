@@ -53,7 +53,7 @@
                     <app-faq-bot-basic-info-form [formGroup]="faqbotBuildForm" *ngIf="bot_type === myEBotType.faqbot"></app-faq-bot-basic-info-form>
                 </mat-tab>
                 <mat-tab label="Tab 2" *ngIf="bot_type === myEBotType.chatbot">
-                    <app-data-manage-form [formGroup]="dataManagementForm"></app-data-manage-form>
+                    <app-data-manage-form [formGroup]="dataManagementForm" [isBuildBot]="true"></app-data-manage-form>
                 </mat-tab>
                 <mat-tab label="Tab 3" *ngIf="bot_type === myEBotType.chatbot">
                     <app-security [formGroup]="securityForm"></app-security>

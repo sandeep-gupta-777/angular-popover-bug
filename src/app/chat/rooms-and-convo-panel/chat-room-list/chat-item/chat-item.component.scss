@@ -1,55 +1,75 @@
 @import "~src/sass/main.scss";
 
-.row{
+.row {
   margin: 0;
 }
-.message-wrapper{
-  background-color: #f7f7f7;
+
+.bg-theme-primary-v2 {
+  .message-wrapper {
+    background-color: #f7f7f7;
+  }
 }
-.message{
+
+.message-wrapper {
+  background-color: white;
+
+  &:hover {
+    background-color: #f7f7f7;
+  }
+}
+
+.message {
   @include typography($font-size-normal, $line-height-normal, $font-weight-400, $color-text-normal);
   border-radius: 1px;
-  .message-text{
-    font-size:11px;
+
+  .message-text {
+    font-size: 11px;
   }
-  .time{
+
+  .time {
     @include typography(9px, $line-height-normal, $font-weight-400, $color-text-normal);
   }
 }
 
 form {
-  .form-group{
+  .form-group {
     margin-bottom: 8px;
   }
+
   border-radius: 2px;
+
   label {
     @include typography(11px, $line-height-normal, $font-weight-300, $color-secondary);
     margin: 0;
   }
+
   .form-control {
     @include hide-borders();
     border-radius: 0;
     padding: 0 !important;
-    @include typography(13px, $line-height-normal, $font-weight-300,#474747);
+    @include typography(13px, $line-height-normal, $font-weight-300, #474747);
   }
 
 
-
 }
-.dropdown-menu{/*override*/
+
+.dropdown-menu { /*override*/
   left: auto !important;
   right: 0 !important;
-  top: 90%!important;
+  top: 90% !important;
 }
 
-.consumer-detail-hover{
+.consumer-detail-hover {
   line-height: 0;
   height: auto;
   width: auto;
-  mat-icon{
+
+  mat-icon {
     line-height: 0;
-  };
+  }
+;
 }
+
 .dialog-container {
   background-color: white;
   box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.4);;

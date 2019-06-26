@@ -82,6 +82,8 @@ import { CurationIssuesComponent } from './core/bot-detail/curation/curation-iss
 import { CurationFilterComponent } from './core/bot-detail/curation/curation-filter/curation-filter.component';
 import { CurationIssuesListComponent } from './core/bot-detail/curation/curation-issues-list/curation-issues-list.component';
 import { CurationResolvedListComponent } from './core/bot-detail/curation/curation-resolved-list/curation-resolved-list.component';
+import {FilePreviewOverlayService} from "./overlay.service";
+import {OverlayModule} from "@angular/cdk/overlay";
 @NgModule({
   declarations: [
     ButtonWrapperComponent,

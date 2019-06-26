@@ -13,10 +13,15 @@ import {
   // SetLastTemplateKeyToRoomByUId,
   DeleteChatRoomsByBotId,
   AddMessagesToRoomByRoomId,
-  SetLastTemplateKeyToRoomByRoomId, SetConsumerDetail, ChangeBotIsThinkingDisplayByRoomId, UpdateBotMessage
+  SetLastTemplateKeyToRoomByRoomId,
+  SetConsumerDetail,
+  ChangeBotIsThinkingDisplayByRoomId,
+  UpdateBotMessage,
+  UpdateConsumerByRoomId
 } from './chat.action';
 import {EChatFrame, IChatSessionState, IRoomData} from '../../../interfaces/chat-session-state';
 import {MyToasterService} from "../../my-toaster.service";
+import { el } from '@angular/platform-browser/testing/src/browser_util';
 
 export const defaultChatState: IChatSessionState = {
   frameEnabled: EChatFrame.WELCOME_BOX,
@@ -25,7 +30,7 @@ export const defaultChatState: IChatSessionState = {
   currentBotDetails: null,
   currentUId: null,
   rooms: null,
-  consumerDetails: null
+  consumerDetails: null,
 };
 
 export interface IConsumerDetails {
@@ -34,6 +39,7 @@ export interface IConsumerDetails {
   email?: string;
   facebook_id?: string;
   uid?: string;
+  id?:any
 }
 
 @State<IChatSessionState>({
@@ -134,6 +140,23 @@ export class ChatSessionStateReducer {
     } else {
       this.myToasterService.showErrorToaster(`Room with room id ${payload.id} already exists`);
     }
+  }
+
+  @Action(UpdateConsumerByRoomId)
+  updateConsumerByRoomId({patchState, setState, getState, dispatch}: StateContext<IChatSessionState>, {payload}: UpdateConsumerByRoomId) {
+    const state = getState();
+    /*first check if room roomId already */
+    let rooms = state.rooms.map(room => {
+      if(room.id === payload.room_id){
+        return {
+          ...room,
+          consumerDetails: payload.consumerDetails
+        }
+      }else {
+        return room;
+      }
+    });
+    patchState({rooms});
   }
 
   // @Action(AddMessagesToRoomByUId)

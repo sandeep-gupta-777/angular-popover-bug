@@ -66,3 +66,24 @@
 @function remy($pxsize) {
   @return ($pxsize/16)+rem;
 }
+
+@mixin radio-dia($dia) {
+  .mat-radio-container{
+    height: $dia;
+    width: $dia;
+  }
+  .mat-radio-outer-circle{
+    height: $dia;
+    width: $dia;
+  }
+  .mat-radio-inner-circle{
+    height: $dia;
+    width: $dia;
+  }
+  .mat-radio-button .mat-radio-ripple{
+    height: 20px; //double of your required circle radius
+    width: 20px;  //double of your required circle radius
+    left: calc(50% - 10px); //'10px'-same as your required circle radius
+    top: calc(50% - 10px); //'10px'-same as your required circle radius
+  }
+}

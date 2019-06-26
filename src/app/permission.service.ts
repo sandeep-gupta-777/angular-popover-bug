@@ -140,7 +140,7 @@ export class PermissionService {
           this.forbiddenActionsToFrontEndMapping = [];
           return;
         }
-        debugger;
+
         /*for non admin roles*/
         this.forbiddenActionsToFrontEndMapping = {...this.allBackEndActionsToFrontEndTabMapping2};
         /*remove all allowed perms*/
