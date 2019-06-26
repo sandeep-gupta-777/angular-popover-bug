@@ -2,7 +2,7 @@
  <mat-tab-group animationDuration="0ms">
 <mat-tab label="Issues">
       <section class="curation-issues-wrapper-section">
-          <app-curation-filter (formSubmitted)="IssuesFormSubmitted($event)" *ngIf="curationIssuesList"></app-curation-filter>
+          <app-curation-filter (formSubmitted)="IssuesFormSubmitted($event)"></app-curation-filter>
           <app-curation-issues-list
                   [bot]=" bot"
                   *ngIf="curationIssuesList"
@@ -40,7 +40,7 @@
  </mat-tab>
  <mat-tab label="Resolved">
     <section class="curation-issues-wrapper-section">
-        <app-curation-filter  (formSubmitted)="ResolvedFormSubmitted($event)" *ngIf="curationResolvedAndIgnoredList"></app-curation-filter>
+        <app-curation-filter  (formSubmitted)="ResolvedFormSubmitted($event)" ></app-curation-filter>
         <app-curation-resolved-list 
         [curationItemList]="curationResolvedAndIgnoredList" 
         [isMorePresent]="isMoreCurationResolvedAndIgnoredListPresent"

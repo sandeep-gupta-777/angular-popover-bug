@@ -186,7 +186,7 @@ const routes: Route[] = [
     MatToolbarModule,
     MatListModule,
   ],
-  providers: [BreakpointService, ConstantsService, AimService, UtilityService, DatePipe]
+  providers: [BreakpointService, ConstantsService, AimService, UtilityService, DatePipe,CategoryIdToNamePipe]
 })
 export class BotDetailModule {
 
