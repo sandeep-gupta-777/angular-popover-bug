@@ -8,6 +8,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class OverlayComponent implements OnInit {
 
   @Input() overlayOrigin;
+  @Input() overlayClass:string;
   @Input() showOverlay: boolean;
   @Output() backdropClick$ = new EventEmitter();
   constructor() { }

@@ -29,7 +29,12 @@
               "src/git-info.json",
               "src/config.json",
               "src/deploy.json",
-              "src/config.js"
+              "src/config.js",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/codemirror/",
+                "output": "./assets/codemirror"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -38,18 +43,17 @@
               "node_modules/codemirror/addon/dialog/dialog.css"
             ],
             "scripts": [
-              "node_modules/codemirror/lib/codemirror.js",
-              "node_modules/codemirror/addon/fold/foldcode.js",
-              "node_modules/codemirror/addon/fold/foldgutter.js",
-              "node_modules/codemirror/addon/fold/indent-fold.js",
-              "node_modules/codemirror/addon/fold/comment-fold.js",
-              "node_modules/codemirror/addon/search/search.js",
-              "node_modules/codemirror/addon/search/searchcursor.js",
-              "node_modules/codemirror/addon/search/jump-to-line.js",
-              "node_modules/codemirror/addon/dialog/dialog.js",
-              "node_modules/codemirror/addon/dialog/dialog.js",
-              "node_modules/codemirror/mode/python/python.js"
-            ]
+
+
+
+
+
+
+
+
+
+
+                          ]
           },
           "configurations": {
             "develop": {

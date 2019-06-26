@@ -1,6 +1,5 @@
 import {Component, OnInit, Input, ViewChild, EventEmitter, Output} from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
-import {forEach} from '../../../../../../node_modules1/@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-curation-filter',

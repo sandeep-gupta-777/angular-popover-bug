@@ -11,6 +11,7 @@ export class ModuleGaurdLoadService implements CanActivate, CanActivateChild, Ca
   * */
   doesAuthTokenExists() {
 
+
     try {/*TODO: implement it better*/
       return !!JSON.parse(localStorage.getItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY)).loggeduser.user.auth_token;
     } catch (e) {
@@ -19,19 +20,26 @@ export class ModuleGaurdLoadService implements CanActivate, CanActivateChild, Ca
   }
 
   canActivate() {
+
+
     if (AuthGaurdService.doesAuthTokenExists()) {
       return true;
     } else {
-      this.router.navigate(['auth', 'login']);
+      setTimeout(()=>{
+        this.router.navigate(['auth', 'login']);
+      },1000);
       return false;
     }
   }
 
   canActivateChild() {
+
+
     return this.canActivate();
   }
 
   canLoad() {
+
     return this.canActivate();
   }
 

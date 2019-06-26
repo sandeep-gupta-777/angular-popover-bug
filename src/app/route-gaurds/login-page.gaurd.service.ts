@@ -12,6 +12,7 @@ export class LoginPageGaurdService implements CanActivate, CanActivateChild, Can
 
   canActivate() {
 
+
     if (AuthGaurdService.doesAuthTokenExists()) {
       this.router.navigate(['/']);
     } else {
@@ -20,6 +21,7 @@ export class LoginPageGaurdService implements CanActivate, CanActivateChild, Can
   }
 
   canActivateChild() {
+
     return this.canActivate();
   }
 

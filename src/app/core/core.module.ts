@@ -69,6 +69,7 @@ import {HttpRequestInterceptor} from '../interceptor';
 import {MatSidenavModule} from '@angular/material';
 import {DevHttpInterceptorService} from "../dev/dev-http-interceptor.service";
 import {LazyLoadImageModule} from "ng-lazyload-image";
+import {HnResolver} from "../core.resolver";
 
 const routes: Route[] = [
   {
@@ -77,6 +78,7 @@ const routes: Route[] = [
     component: CoreWrapperComponent,
     canActivate: [],
     canActivateChild: [AccessGaurdService],
+    resolve:{ message: HnResolver },
     children: [
       {
         path: 'viewbots', loadChildren: './view-bots/view-bots.module#ViewBotsModule', canLoad: []
@@ -194,6 +196,7 @@ const routes: Route[] = [
     DatePipe,
     SmartTableSettingsService,
     FormsService,
+    HnResolver
     // {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,

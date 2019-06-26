@@ -9,7 +9,7 @@
 <div class="modal-body" >
 
     <div class="pb-2"  *ngIf="dataCopy.message">
-      <p class="mb-1">{{dataCopy.message}}</p>
+      <p class="mb-1" [innerHTML]="dataCopy.message"></p>
     </div>
     <form class = "input-form pb-2" id="modalInputForm" *ngIf="dataCopy.inputDescription" >
       <mat-form-field class="example-full-width">

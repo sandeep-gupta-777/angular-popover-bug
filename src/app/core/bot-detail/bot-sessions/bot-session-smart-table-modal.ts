@@ -95,6 +95,16 @@ export class BotSessionSmartTableModal extends AbstractSmartTable {
         });
       }
 
+      let is_test: number = originalSessionData['is_test'] && originalSessionData['is_test'];
+      if (is_test) {
+        additonalColumns['Metadata'].value.push({
+          show: true,
+          name: 'Test session',
+          iconName: 'bug_report',
+          class: 'bug_report'
+        });
+      }
+
       // additonalColumns['Metadata'].value = `<mat-icon>search</mat-icon>`;//TODO: in future do this but via dynamic components
 
       /*channels*/

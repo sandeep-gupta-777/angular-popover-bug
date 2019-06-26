@@ -11,7 +11,7 @@ import {StoreVariableService} from './core/buildbot/build-code-based-bot/archite
 import {AbstractControl, FormArray, FormControl, FormGroup, NgControl, NgForm} from '@angular/forms';
 import {MatSnackBar} from '@angular/material';
 import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
-const uuidv1 = require('uuid/v1');
+const uuidv1 = require('uuid/v4');
 
 export enum EBotType {
   chatbot = 'chatbot',
@@ -1109,7 +1109,10 @@ export class UtilityService {
     return forms.reduce((aggr, form) => {
       return {
         ...aggr,
-        ...form.value
+        /*getRawValue vs value
+        * Value doesnt return disabled formcontrols
+        * */
+        ...((form as any).getRawValue?(form as any).getRawValue():form.value)
       };
     }, {});
   }

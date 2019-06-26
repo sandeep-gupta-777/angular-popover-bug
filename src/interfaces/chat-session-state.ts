@@ -32,7 +32,7 @@ export interface IRoomData {
   bot_id?: number;
   bot_access_token?: string;
   bot?: IBot;
-  'messageList': IMessageData[];
+  messageList?: IMessageData[];
   uid?: string;
   'selectedAvatar'?: {
     'id'?: number,
@@ -79,4 +79,5 @@ export interface IChatSessionState {
   currentUId: string;
   rooms: IRoomData[];
   consumerDetails: IConsumerDetails;
+  id?:any
 }

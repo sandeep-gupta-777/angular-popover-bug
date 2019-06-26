@@ -41,7 +41,7 @@ export class ChatService {
       'type': 'human',
       'msg': messageByHuman || 'hi',
       'platform': 'web',
-      is_test: true
+      is_test: true//botDetails.type === EBotType.faqbot
     };
     debugger;
     let model_id = (this.currentPreviewBot as any).model_id;
@@ -188,7 +188,7 @@ export class ChatService {
       },
       onMessageReceived: function (message) {
 
-
+        alert();
         prepareMessage(message);
 
         if (message.getType() === IMI.ICMessageType.Message) {
@@ -310,7 +310,7 @@ export class ChatService {
       'type': 'bot',
       'msg': 'hi',
       'platform': 'web',
-      'is_test': startNewChatData.bot.bot_type === EBotType.faqbot,
+      'is_test': true,//startNewChatData.bot.bot_type === EBotType.faqbot,
       // 'consumer': {
       //   'uid': this.current_uid,
       // },

@@ -9,7 +9,6 @@ import {SmartTableComponent} from '../../../smart-table/smart-table.component';
 import {UtilityService} from '../../../utility.service';
 import {IHeaderData} from '../../../../interfaces/header-data';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
-import {MaterialTableImplementer} from '../../../material-table-implementer';
 import {MatDialog} from '@angular/material';
 import {ObjectArrayCrudService} from '../../../object-array-crud.service';
 import {EventService} from '../../../event.service';
@@ -362,7 +361,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
   }
 
   performSearchInDbForSession(filterData: ISessionFilterData) {
-
+    debugger;
 
     this.showLoader = true;
     let url: string;
@@ -398,7 +397,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
 
       page = combinedFilterData.page = combinedFilterData.page || 1;
       Object.keys(combinedFilterData).forEach((key) => {
-        if (combinedFilterData[key] === false) {
+        if (combinedFilterData[key] === false && key !== 'is_test') {
           delete combinedFilterData[key];
         }
       });
@@ -450,6 +449,9 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
 
   sessionFormSubmitted(formData) {
     let filterData = UtilityService.cloneObj(formData);
+    debugger;
+    filterData.is_test = !filterData.is_live;
+    delete filterData.is_live;
     this.filterFormData = filterData;
 
     let channelsObj = filterData.channels;
@@ -491,7 +493,6 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
       this.filterForm
         .valueChanges
         .subscribe((formData) => {
-
           // this.filterFormDirty = JSON.stringify(this.filerFormInitalData)!==JSON.stringify(formData);
           this.filterFormDirty = this.test1(formData, this.filerFormInitalData);
         });

@@ -13,10 +13,12 @@
 
 ::ng-deep{
   .consumer-table{
-    mat-icon{
-      line-height: 2 !important;
-      font-size: 150%!important;
-      color: orange;
+    tbody{
+      mat-icon{
+        line-height: 2 !important;
+        font-size: 150%!important;
+        color: orange;
+      }
     }
   }
 }
