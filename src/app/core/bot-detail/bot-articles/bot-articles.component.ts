@@ -377,6 +377,9 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
     this.serverService.makePostReq<any>({ headerData, body, url })
       .subscribe(val => {
         this.utilityService.showSuccessToaster(val.message);
+        if(this.corpus){
+          this.corpus.state = 'live';
+        }
       });
   }
 
