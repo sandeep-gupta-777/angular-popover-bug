@@ -9,13 +9,14 @@
             class ="input-width"
              placeholder="Room ID"
              name="room_id"
+             type="number"
              ngModel>
     </mat-form-field>
   </div>
 
   <div class="form-group m-0 padding-input">
     <mat-form-field class = "input-width">
-      <mat-select placeholder="Rule triggered" ngModel name="triggered_rule" [value]="triggered_rules[0]">
+      <mat-select placeholder="Rule triggered" ngModel name="triggered_rules" [value]="triggered_rules[0]">
         <mat-option *ngFor="let rule of triggered_rules" [value]="rule">
           {{toDisplayValue(rule)}}
         </mat-option>
