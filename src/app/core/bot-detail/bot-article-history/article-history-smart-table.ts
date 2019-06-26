@@ -51,7 +51,7 @@ export class ArticleHistorySmartTable extends AbstractSmartTable {
                         value: `<div class="dropdown table-dropdown">
   <i class="fa fa-angle-down arrow-circle"></i>
   <div class="dropdown-content px-0">
-    <p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_makelive_${index}_${corpusTableDataItem.id}"><i class="fa fa-upload"></i> Make live</p>
+    ${(corpusTableDataItem.state != 'live') ?`<p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_makelive_${index}_${corpusTableDataItem.id}"><i class="fa fa-upload"></i> Make live</p>`:''}
     <p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_edit_${index}_${corpusTableDataItem.id}"><i class="fa fa-edit"></i> Edit</p>
     <hr>
     <p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_preview_${index}_${corpusTableDataItem.id}"> <i class="fa fa-edit"></i> Preview</p>
