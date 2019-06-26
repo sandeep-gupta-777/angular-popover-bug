@@ -19,6 +19,7 @@ import {
 import {EChatFrame} from "../../../../interfaces/chat-session-state";
 import {EventService} from "../../../event.service";
 import {Store} from "@ngxs/store";
+import {CategoryIdToNamePipe} from '../bot-articles/category-id-to-name.pipe';
 
 @Component({
   selector: 'app-bot-article-history',
@@ -35,7 +36,8 @@ export class BotArticleHistoryComponent implements OnInit {
     private matDialog :MatDialog,
     private store :Store,
     private activatedRoute: ActivatedRoute,
-    private router:Router
+    private router:Router,
+    private categoryIdToNamePipe: CategoryIdToNamePipe,
   ) { }
   @Input() bot: IBot;
   corpusList : ICorpus[];
@@ -183,14 +185,20 @@ export class BotArticleHistoryComponent implements OnInit {
       let toDownlodeSection = this.corpusList.find((corpus)=>{
         return corpus.id == corpus_id;
       }).sections;
+      
+      let toDownlodeCategoryMapping = this.corpusList.find((corpus)=>{
+        return corpus.id == corpus_id;
+      }).category_mapping;
 
       let csvFormat = toDownlodeSection.map(element => {
         return {
+          Category: this.categoryIdToNamePipe.transform(element.category_id,toDownlodeCategoryMapping) ,
           Answer: element.answers[0].text[0],
-          Questions: element.questions.toString()
+          Questions: element.questions.toString(),
+
         }
       });
-      this.utilityService.downloadArrayAsCSV(csvFormat, {}, 'shoaib.csv');
+      this.utilityService.downloadArrayAsCSV(csvFormat, {}, `Corpus_id_${corpus_id}.csv`);
 
   }
 
