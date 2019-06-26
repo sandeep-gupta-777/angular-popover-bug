@@ -79,6 +79,13 @@ export class SetConsumerDetail {
   }
 }
 
+export class UpdateConsumerByRoomId {
+  static readonly type = '[chat-widdow] UpdateConsumerByRoomId';
+
+  constructor(public payload: {consumerDetails:IConsumerDetails, room_id: number}) {
+  }
+}
+
 export class SetCurrentBotDetailsAndResetChatStateIfBotMismatch {
   static readonly type = '[chat-widdow] set SetCurrentBotID';
 

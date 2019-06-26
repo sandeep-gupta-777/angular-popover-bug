@@ -3,7 +3,7 @@ import { IAvatar } from '../../../interfaces/bot-creation';
 import { IPipelineItem } from '../../../interfaces/ai-module';
 import { IIntegrationOption } from '../../../interfaces/integration-option';
 import { ICorpus } from './faqbots';
-import {EBotType} from "../../utility.service";
+import { EBotType } from '../../utility.service';
 
 /*TODO: what is the key for industry*/
 export interface IBot {
@@ -96,6 +96,11 @@ export interface IBot {
   'transactions_per_pricing_unit'?: number;
   'updated_at'?: string;
   'updated_by'?: string;
+  'bot_disabled_settings'?: {
+    'bot_disabled': true,
+    'disabled_message': 'bye',
+    'agent_handover': false
+  };
 
   enterprise_name?: string;
   enterprise_logo?: string;
@@ -124,19 +129,19 @@ export interface IBot {
   },
 
   agent_handover_setting?: {
-    consecutive_count?:{
-      enabled?:boolean,
-      value?:number
-   },
-   fallback_count?:{
-      enabled?:boolean,
-      value?:number
-   },
-   partial_match_count?:{
-      enabled?:boolean,
-      value?:number
-   },
-   response_flag?:boolean
+    consecutive_count?: {
+      enabled?: boolean,
+      value?: number
+    },
+    fallback_count?: {
+      enabled?: boolean,
+      value?: number
+    },
+    partial_match_count?: {
+      enabled?: boolean,
+      value?: number
+    },
+    response_flag?: boolean
   }
 }
 
@@ -149,7 +154,6 @@ export interface IBotVersionResult {
   'meta': IMeta;
   'objects': IBotVersionData[];
 }
-
 
 
 export interface IBotVersionData {
@@ -191,6 +195,7 @@ export interface ICodeVersionValidation {
   'generation_templates'?: IValidationTabItem,
   'workflow'?: IValidationTabItem,
 }
+
 export interface IValidationTabItem {
   error?: boolean;
   error_line?: string;
@@ -297,6 +302,7 @@ export interface ICode {
   'workflow'?: string;
 }
 
-export interface IBotCreation extends Partial<IBot>/*,ICodeData */ {
+export interface IBotCreation extends Partial<IBot>/*,ICodeData */
+{
 
 }

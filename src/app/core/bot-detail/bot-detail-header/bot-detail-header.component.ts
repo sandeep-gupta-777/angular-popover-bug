@@ -19,6 +19,8 @@ import {EventService} from '../../../event.service';
 import { SideBarService } from 'src/app/side-bar.service';
 import {EAllActions, ESideBarTab} from "../../../typings/enum";
 import { ChatService } from 'src/app/chat.service';
+import { map } from 'rxjs/operators';
+import { ICorpus } from '../../interfaces/faqbots';
 
 @Component({
   selector: 'app-bot-detail-header',
@@ -56,7 +58,10 @@ export class BotDetailHeaderComponent extends ModalImplementer implements OnInit
     EventService.updateBotinit$.subscribe(()=>{
       this.updateBot();
     })
+
   }
+
+  
 
   previewBot() {
     this.chatService.openPreviewFormService(this.bot,this.enterprise_unique_name)

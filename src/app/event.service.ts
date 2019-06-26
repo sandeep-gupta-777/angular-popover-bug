@@ -2,6 +2,7 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {Subscriber} from 'rxjs';
 import {IBot} from './core/interfaces/IBot';
 import {IApi} from "./dev/interfaces";
+import { ICorpus } from './core/interfaces/faqbots';
 
 @Injectable()
 export class EventService {
@@ -26,6 +27,7 @@ export class EventService {
   static kbRefresh$ = new EventEmitter<IBot>();
   static startANewChat$ = new EventEmitter<{bot:IBot, consumerDetails:any}>();
   static reportFormIsValid = new EventEmitter<Boolean>();
+  static faqHeaderSearchBarReloadData = new EventEmitter<ICorpus>();
   static unsubscribeInComponent(component){
     for (const key in component) {
       try {

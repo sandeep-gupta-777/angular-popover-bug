@@ -1,0 +1,30 @@
+@import "~src/sass/main";
+.curation-list-heading{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 8px;
+    height: 32px;
+    .header-text{
+        font-size: 13px;
+        color: #4a4a4a;
+        font-weight: bold;
+    }
+    button{
+        margin-right: 0 !important;
+    }
+}
+.load-more{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    border-radius: 2px;
+    border: solid 1px #d8d8d8;
+    background-color: #ffffff;
+    font-family: IBMPlexSans;
+    box-shadow: none;
+    color: #474747;
+    cursor: pointer;
+}

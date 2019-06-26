@@ -14,7 +14,7 @@
   <div *ngIf="!_messageDataArray" class="w-100 h-100 d-flex align-items-center justify-content-center">
     <p class="text-muted">Click 'New Chat' to start a conversation</p>
   </div>
-  <div *ngIf="showBotIsThinking" class="mt-auto">
+  <div [hidden]="!showBotIsThinking" class="mt-auto">
     <app-chat-message
             [bot]="room.bot"
       (sendMessageToBotServer$)="sendMessageByHuman($event)"

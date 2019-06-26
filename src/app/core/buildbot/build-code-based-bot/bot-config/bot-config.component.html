@@ -1,5 +1,4 @@
 <div class="card bot-creation-form" style="border-radius: 0">
-
     <app-button-wrapper
       class="card--update"
       *myIf="[myEAllActions['Update Bots']]"
@@ -23,6 +22,7 @@
                 <mat-icon style="color: red;font-size: 100%;" *ngIf="!dataManagementForm.valid && dataManagementForm.status !== 'DISABLED'" class="example-tab-icon">highlight_off</mat-icon>
             </ng-template>
             <app-data-manage-form [formGroup]="dataManagementForm"></app-data-manage-form>
+
         </mat-tab>
         <mat-tab *ngIf="!(bot_type===myEBotType.intelligent)">
             <ng-template mat-tab-label>

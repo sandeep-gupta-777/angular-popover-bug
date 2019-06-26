@@ -77,6 +77,16 @@ import {LayoutModule} from '@angular/cdk/layout';
 import {MatGridListModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
 import {BreakpointService} from '../breakpoint.service';
 
+import { SearchArticleByQuestionPipe } from './bot-detail-header/search-article-by-question.pipe';
+import { FaqSearchBoxComponent } from './bot-detail-header/faq-search-box/faq-search-box.component';
+import {CurationComponent} from './curation/curation.component';
+import {CurationFilterComponent} from './curation/curation-filter/curation-filter.component';
+import {CurationIssuesComponent} from './curation/curation-issues/curation-issues.component';
+import {CurationIssuesListComponent} from './curation/curation-issues-list/curation-issues-list.component';
+import {CurationResolvedListComponent} from './curation/curation-resolved-list/curation-resolved-list.component';
+import { BotArticleHistoryComponent } from './bot-article-history/bot-article-history.component';
+
+
 const routes: Route[] = [
   {
     path: '', component: BotDetailWrapperComponent, canActivateChild: [], children:
@@ -141,6 +151,7 @@ const routes: Route[] = [
     LimitObjectArraysStringPipe,
     ConsumerFullscreenWrapperComponent,
     BotArticlesComponent,
+    BotArticleHistoryComponent,
     CategorieModalInputComponent,
     EditAndViewArticlesComponent,
     ArticleQuestionListViewComponent,
@@ -149,6 +160,13 @@ const routes: Route[] = [
     FilterArticalsPipe,
     ArticleFilterComponent,
     ArticalHeaderComponent,
+    SearchArticleByQuestionPipe,
+    FaqSearchBoxComponent,
+    CurationComponent,
+    CurationFilterComponent,
+    CurationIssuesComponent,
+    CurationIssuesListComponent,
+    CurationResolvedListComponent,
     /*after lazy loading*/
     // RequiredIfOneFilledValidator
   //
