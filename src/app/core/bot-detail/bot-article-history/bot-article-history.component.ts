@@ -42,6 +42,9 @@ export class BotArticleHistoryComponent implements OnInit {
   @Input() bot: IBot;
   corpusList : ICorpus[];
   currentPage: number = 1;
+  pageSize = 10;
+  isReloading = false;
+  totalHistoryLength;
   ArticleHistorySmartTableObj: ArticleHistorySmartTable;
   ngOnInit() {
     this.getAllCorpus$()
@@ -51,14 +54,14 @@ export class BotArticleHistoryComponent implements OnInit {
     let headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-    let url = this.constantsService.getAllCorpusForFAQBot();
+    this.isReloading = true;
+    let url = this.constantsService.getAllCorpusForFAQBot(this.pageSize,this.pageSize*(this.currentPage - 1));
     return this.serverService.makeGetReq<IAllCorpusResult>({ url, headerData })
       .pipe(
         map((Result) => {
+        this.isReloading = false;
+        this.totalHistoryLength = Result.meta.total_count;
         this.corpusList= Result.objects;
-        this.corpusList = this.corpusList.filter((corpus)=>{
-          return corpus.state != 'cloned' &&  corpus.state != 'saved' && corpus.state != 'training';
-        })
         this.ArticleHistorySmartTableObj = new ArticleHistorySmartTable(this.corpusList, this.getTableDataMetaDict(), { datePipe: this.datePipe });
         this.ArticleHistorySmartTableObj.initializeTableData(this.corpusList);
         debugger;
@@ -204,6 +207,8 @@ export class BotArticleHistoryComponent implements OnInit {
 
   goToPage(val){
     this.currentPage= val.page;
+    this.getAllCorpus$()
+    .subscribe()
   }
 
 }

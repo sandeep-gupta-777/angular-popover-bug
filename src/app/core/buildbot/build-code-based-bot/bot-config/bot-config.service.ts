@@ -58,8 +58,7 @@ export class BotConfigService {
     let metaDataInnit = {
       threshold_diff_score: null,
       threshold_min_score: null,
-      n_results: null,
-      low_confidence_score : null
+      n_results: null
     }
     debugger;
     this.faqHandoverANdInterfaceForm = this.formBuilder.group({

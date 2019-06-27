@@ -255,8 +255,8 @@ export class ConstantsService {
   putCorpus(){
     return this.BACKEND_URL + `api/v1/corpus/`;
   }
-  getAllCorpusForFAQBot(){
-    return this.BACKEND_URL + `api/v1/corpus/`;
+  getAllCorpusForFAQBot(limit,offset){
+    return this.BACKEND_URL + `api/v1/corpus/?state__in=trained,live&limit=${limit}&offset=${offset}`;
   }
   getDraftCorpusForFAQBot(){
     return this.BACKEND_URL + `api/v1/corpus/getdefaultcorpus/`;

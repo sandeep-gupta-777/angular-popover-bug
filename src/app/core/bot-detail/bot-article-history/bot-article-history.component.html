@@ -8,13 +8,13 @@
   </div>
 </header>
 <app-smart-table class="history-table"
-                [currentPage]="currentPage"
-                  [totalRecords]="ArticleHistorySmartTableObj.tableData.length"
+                  [currentPage]="currentPage"
+                  [totalRecords]="totalHistoryLength"
                  (click)="tableClickHandler($event)"
                  *ngIf="ArticleHistorySmartTableObj && ArticleHistorySmartTableObj.tableData"
-                 [data]="ArticleHistorySmartTableObj.tableData | slice : (currentPage-1)*10:currentPage*10 "
+                 [data]="ArticleHistorySmartTableObj.tableData"
                  (performSearchInDB$)="goToPage($event)"  >
 </app-smart-table>
-<app-imi-loader *ngIf="!ArticleHistorySmartTableObj">
+<app-imi-loader *ngIf="isReloading">
 </app-imi-loader>
 
