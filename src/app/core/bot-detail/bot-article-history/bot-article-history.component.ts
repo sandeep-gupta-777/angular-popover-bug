@@ -195,10 +195,10 @@ export class BotArticleHistoryComponent implements OnInit {
 
       let csvFormat = toDownlodeSection.map(element => {
         return {
-          Category: this.categoryIdToNamePipe.transform(element.category_id,toDownlodeCategoryMapping) ,
+          "Category": this.categoryIdToNamePipe.transform(element.category_id,toDownlodeCategoryMapping) ,
           "First questions": element.questions[0],
-          Answer: element.answers[0].text[0],
-          Variants : element.questions.toString(),
+          "Answer": element.answers[0].text[0],
+          "Variants" : element.questions.toString(),
         }
       });
       console.log(csvFormat);
