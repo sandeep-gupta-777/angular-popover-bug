@@ -57,7 +57,7 @@ export class BotArticleHistoryComponent implements OnInit {
         map((Result) => {
         this.corpusList= Result.objects;
         this.corpusList = this.corpusList.filter((corpus)=>{
-          return corpus.description != 'cloned' &&  corpus.description != 'saved';
+          return corpus.state != 'cloned' &&  corpus.state != 'saved' && corpus.state != 'training';
         })
         this.ArticleHistorySmartTableObj = new ArticleHistorySmartTable(this.corpusList, this.getTableDataMetaDict(), { datePipe: this.datePipe });
         this.ArticleHistorySmartTableObj.initializeTableData(this.corpusList);
