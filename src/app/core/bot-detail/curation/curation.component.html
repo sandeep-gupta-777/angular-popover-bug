@@ -8,7 +8,7 @@
                   *ngIf="curationIssuesList"
                   [curationItemList]="curationIssuesList"
                   [isMorePresent]="isMoreCurationIssuesListPresent"
-                  (loadMoreNext)="load10MoreCurationIssues()"
+                  (loadMoreNext)="load10MoreCurationIssues(false)"
                   (ignoreCurationIssueById)="ignoreCurationIssueById($event)"
                   [totallength]="totalLengthCurationIssue"
                   (addQueryToArticleByIds)="addQueryToArticleByIds($event)"> 
@@ -67,7 +67,7 @@
         <app-curation-resolved-list 
         [curationItemList]="curationResolvedAndIgnoredList" 
         [isMorePresent]="isMoreCurationResolvedAndIgnoredListPresent"
-        (loadMoreNext)="load10MoreCurationResolvedAndIgnored()"
+        (loadMoreNext)="load10MoreCurationResolvedAndIgnored(false)"
         [totallength]="totalLengthCurationResolvedAndIgnored"></app-curation-resolved-list>
         <div *ngIf="!curationResolvedAndIgnoredListisReloading">
                 <app-splash-screen
