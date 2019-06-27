@@ -196,12 +196,12 @@ export class BotArticleHistoryComponent implements OnInit {
       let csvFormat = toDownlodeSection.map(element => {
         return {
           "Category": this.categoryIdToNamePipe.transform(element.category_id,toDownlodeCategoryMapping) ,
-          "First questions": element.questions[0],
-          "Answer": element.answers[0].text[0],
+          "First questions": element.questions[0].replace(',', ' '),
+          "Answer": element.answers[0].text[0].replace(',', ' '),
           "Variants" : element.questions.toString(),
         }
       });
-      console.log(csvFormat);
+      // console.log(csvFormat);
       this.utilityService.downloadArrayAsCSV(csvFormat, {}, `Corpus_id_${corpus_id}.csv`);
 
   }
