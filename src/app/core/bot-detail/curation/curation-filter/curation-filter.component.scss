@@ -1,22 +1,27 @@
-form{
+.analysis2-header-row {
+  background-color: #ffffff;
+  border: solid 1px #d8d8d8;
+  margin-top: 40px;
+  form {
     flex-direction: column;
     align-items: start;
-    background-color: #ffffff;
     padding: 15px;
-    margin-top: 40px;
-    border: solid 1px #d8d8d8;
-    .heading{
-        border-bottom: solid 1px #d8d8d8;
-        padding: 9px 15px;
-        width: 100%;
+
+    .heading {
+      border-bottom: solid 1px #d8d8d8;
+      padding: 9px 15px;
+      width: 100%;
     }
-    .padding-input{
-        padding: 9px 15px;
+
+    .input-width {
+      width: 217px;
     }
-    .input-width{
-        width:217px;
-    }
-    .top-border{
-        border-top: solid 1px #d8d8d8;
-    }
+
+  }
+  .top-border {
+    border-top: solid 1px #d8d8d8;
+  }
+  .padding-input {
+    padding: 9px 15px;
+  }
 }

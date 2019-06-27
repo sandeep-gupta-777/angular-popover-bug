@@ -127,6 +127,7 @@ export class CurationComponent implements OnInit {
         headerData: { 'bot-access-token': this.bot.bot_access_token },
         body
       }).subscribe((value) => {
+          this.totalLengthCurationIssue = this.totalLengthCurationIssue - 1 ;
           this.utilityService.showSuccessToaster(value.message);
           this.curationIssuesListLength = this.curationIssuesListLength - 1;
           this.curationIssuesList = this.curationIssuesList.filter((item) => {return item.id != curationId});
@@ -149,6 +150,7 @@ export class CurationComponent implements OnInit {
         headerData: { 'bot-access-token': this.bot.bot_access_token },
         body
       }).subscribe((value) => {
+      this.totalLengthCurationIssue = this.totalLengthCurationIssue -1;
       this.utilityService.showSuccessToaster(value.message);
       this.curationIssuesListLength = this.curationIssuesListLength - 1;
       this.curationIssuesList = this.curationIssuesList.filter((item) => {return item.id != data.curationItemId});
