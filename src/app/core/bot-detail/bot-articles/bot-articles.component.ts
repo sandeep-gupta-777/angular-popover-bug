@@ -182,7 +182,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
     this.selectedArticle = article;
   }
   openCategoryModifyModal(template: TemplateRef<any>) {
-
+    this.searchCategorie = "";
     this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
     setTimeout(() => {
       this.showCreateNewCategoryInput = false;
