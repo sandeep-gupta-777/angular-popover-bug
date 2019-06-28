@@ -529,6 +529,9 @@ export class ConstantsService {
   curationIssueLinkToExistingSectionUrl(){
     return this.BACKEND_URL + `api/v1/faqbotcuration/linktoexistingsection/`
   }
+  addCurationToNewSection(){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/addtonewsection/`
+  }
 
   updateBotSerializer(bot: IBot) {
     const clone = { ...bot };

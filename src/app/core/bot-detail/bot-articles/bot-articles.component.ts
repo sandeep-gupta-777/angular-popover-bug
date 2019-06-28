@@ -213,9 +213,12 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
     }
     else {
       if(TempVariableService.curationIds){
-        body["curation_id_list"] = TempVariableService.curationIds
+        body["curation_id_list"] = TempVariableService.curationIds;
+        url = this.constantsService.addCurationToNewSection();
+      }else{
+        url = this.constantsService.createArticelUrl();
       }
-      url = this.constantsService.createArticelUrl();
+      
     }
 
 
