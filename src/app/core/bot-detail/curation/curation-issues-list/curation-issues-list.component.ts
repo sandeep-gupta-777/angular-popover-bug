@@ -8,6 +8,7 @@ import {ConstantsService} from '../../../../constants.service';
 import {IHeaderData} from '../../../../../interfaces/header-data';
 import {MatDialog} from '@angular/material';
 import {map} from 'rxjs/internal/operators';
+import { ESplashScreens } from 'src/app/splash-screen/splash-screen.component';
 
 @Component({
   selector: 'app-curation-issues-list',
@@ -31,6 +32,7 @@ export class CurationIssuesListComponent implements OnInit {
   @Output() addQueryToArticleByIds = new EventEmitter();
   dialogRefWrapper = { ref: null };
   corpusState :string;
+  myESplashScreens = ESplashScreens;
   @Input() totallength:number;
   ngOnInit() {
     this.getCorpus$().subscribe()
