@@ -56,12 +56,12 @@
 
 <div class="category-edit px-2 pb-2">
   <div class="category-lable px-2 ">Category</div>
-  <div *ngIf="userRole === myERoleName.Analyst || userRole === myERoleName.Tester">
+  <div *ngIf="!isThisPermissionGiven(myEAllActions['Section Category Change'])" >
     <div class="px-2">
       {{articleData.category_id | categoryIdToName : category_mapping}}
     </div>
   </div>
-  <div *ngIf="!(userRole === myERoleName.Analyst || userRole === myERoleName.Tester)">
+  <div *myIf="myEAllActions['Section Category Change']" >
     <div class="category-name cursor-pointer px-2" (click)="openCategoryModifyModal(categoriesTemplate)"
       *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' ||articleData.category_id == 'default_articles')">
       <mat-icon class="color-primary" style="font-size:12px;height:auto;width:auto;">edit</mat-icon>
@@ -82,7 +82,7 @@
       *ngFor="let question of articleData.questions; let index = index;trackBy:trackByIndex;">
       <textarea #questionTextArea matInput required name=a{{index}} type="text"
         [(ngModel)]="articleData.questions[index]"
-        [disabled]="userRole === myERoleName.Analyst || userRole === myERoleName.Tester" #autosize="cdkTextareaAutosize"
+        [disabled]="!isThisPermissionGiven(myEAllActions['Section Category Change'])" #autosize="cdkTextareaAutosize"
         cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3">
             </textarea>
       <mat-icon matSuffix class="onParentHover cursor-pointer" (click)="deleteQustionWithId(index)">close
@@ -101,7 +101,7 @@
       <mat-form-field class="question-list-item w-100" appearance="outline" color=basic
         *ngFor="let answer of articleData.answers; let index = index;trackBy:trackByIndex;">
         <textarea matInput name=a{{index}} type="text" [(ngModel)]="articleData.answers[index].text[0]"
-          [disabled]="userRole === myERoleName.Analyst || userRole === myERoleName.Tester"
+          [disabled]="!isThisPermissionGiven(myEAllActions['Section Category Change'])"
           #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="10" required>
             </textarea>
         <!-- <input matInput name=a{{index}} type="text" [(ngModel)]="articleData.questions[index]"> -->
@@ -147,7 +147,7 @@
       <mat-form-field class="question-list-item w-100" appearance="outline" color=basic
         *ngFor="let answer of articleData.answers; let index = index;trackBy:trackByIndex;">
         <textarea matInput name=a{{index}} type="text" [(ngModel)]="articleData.answers[index].text[0]"
-          [disabled]="userRole === myERoleName.Analyst || userRole === myERoleName.Tester"
+          [disabled]="!isThisPermissionGiven(myEAllActions['Section Category Change'])"
           #autosize="cdkTextareaAutosize" cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="10">
             </textarea>
       </mat-form-field>

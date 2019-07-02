@@ -23,6 +23,7 @@ import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {IUser} from 'src/app/core/interfaces/user';
 import {IAuthState} from 'src/app/auth/ngxs/auth.state';
+import { PermissionService } from 'src/app/permission.service';
 
 @Component({
   selector: 'app-edit-and-view-articles',
@@ -38,6 +39,7 @@ export class EditAndViewArticlesComponent implements OnInit {
     private constantsService: ConstantsService,
     private serverService: ServerService,
     private utilityService: UtilityService,
+    private permissionService: PermissionService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private matDialog: MatDialog,
@@ -280,5 +282,26 @@ export class EditAndViewArticlesComponent implements OnInit {
         this.updateAndTrain();
       });
 
+  }
+
+  isThisPermissionGiven(tabNameInfo){
+    let isDenied = true;
+    // ;
+
+
+    if (Array.isArray(tabNameInfo)) {
+      tabNameInfo.forEach((tab) => {
+        isDenied = isDenied && this.permissionService.isTabAccessDenied(tab);
+      });
+    } else {
+      isDenied = this.permissionService.isTabAccessDenied(tabNameInfo); //false;//this.constantsService.isTabAccessDenied(tabName);
+
+    }
+    if (!isDenied) {
+      return true;
+    } else {
+      return false;
+    }
+  
   }
 }

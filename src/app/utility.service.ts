@@ -1204,7 +1204,7 @@ export class UtilityService {
     // LoggingService.log(value);
   }
 
-  downloadArrayAsCSV(data: any[] = [], columns: object = {}) {
+  downloadArrayAsCSV(data: any[] = [], columns: object = {}, filename?:string) {
     // data = [
     //  { name: 'test1', score: 1, level: 'Z' },
     //  { name: 'test2', score: 2 },
@@ -1213,8 +1213,9 @@ export class UtilityService {
     // ];
     //
     // columns = { name: '姓名', score: '分数' };
+    debugger;
 
-    downloadCsv(data, columns);
+    downloadCsv(data, columns, filename);
   }
 
   /**

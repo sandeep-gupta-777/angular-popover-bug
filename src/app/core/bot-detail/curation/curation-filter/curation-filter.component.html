@@ -1,6 +1,6 @@
-<form ngNativeValidate class=" d-flex analysis2-header-row position-relative p-0" #filterForm="ngForm">
+<div class = "analysis2-header-row">
 
-
+<form ngNativeValidate #filterForm="ngForm" class=" d-flex  position-relative p-0">
   <div class="heading">Refine issues</div>
 
   <div class="m-0 padding-input">
@@ -9,13 +9,15 @@
             class ="input-width"
              placeholder="Room ID"
              name="room_id"
+             type="number"
+             (keyup.enter)="submitedForm()"
              ngModel>
     </mat-form-field>
   </div>
 
   <div class="form-group m-0 padding-input">
     <mat-form-field class = "input-width">
-      <mat-select placeholder="Rule triggered" ngModel name="triggered_rule" [value]="triggered_rules[0]">
+      <mat-select placeholder="Rule triggered" ngModel name="triggered_rules" [value]="triggered_rules[0]">
         <mat-option *ngFor="let rule of triggered_rules" [value]="rule">
           {{toDisplayValue(rule)}}
         </mat-option>
@@ -38,16 +40,17 @@
       <sat-datepicker-toggle matSuffix [for]="picker" style="color: #b5b5b5"></sat-datepicker-toggle>
     </mat-form-field>
   </div>
-<div class="w-100 top-border ">
-    <div class="d-flex flex-row padding-input py-3">
-        <button class="btn-theme btn-theme-primary filter-btn mr-auto"
-          type="button"  (click) = "submitedForm()">Apply</button>
-        <button class="btn-theme clear-btn" (click)="clearFormClicked()">Clear</button>
-      </div>
-</div>
+
   <!-- <div class="text-right" style="position: absolute; left: 0;right: 0; bottom: 0">
     <i *ngIf="errorMessage" class="text-danger mr-4" style="font-size: 11px">{{errorMessage}}</i>
   </div> -->
 </form>
 
-
+<div class="w-100 top-border ">
+  <div class="d-flex flex-row padding-input py-3">
+      <button class="btn-theme btn-theme-primary filter-btn mr-auto"
+        type="button"  (click) = "submitedForm()">Apply</button>
+      <button class="btn-theme filter-btn-clear" (click)="clearFormClicked()">Clear</button>
+    </div>
+</div>
+</div>

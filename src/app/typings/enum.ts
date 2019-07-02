@@ -91,6 +91,13 @@ export enum EAllActions {
   'Get Default Corpus' = 'Get Default Corpus' ,
   'Train Corpus' = 'Train Corpus' ,
   'Section Category Change with Category Creation' = 'Section Category Change with Category Creation',
+  'Add message to curation' = 'Add message to curation',
+  'Get FAQbot curation issues' = 'Get FAQbot curation issues',
+  'Ignore curation issues' = 'Ignore curation issues',
+  'Link curation issues to an article' = 'Link curation issues to an article',
+  'Add curation issues to a new article' = 'Add curation issues to a new article',
+  'Faqbot curation overview counts' = 'Faqbot curation overview counts',
+  'Faqbot curation top sections' = 'Faqbot curation top sections',
 }
 
 

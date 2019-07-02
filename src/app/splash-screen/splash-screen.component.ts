@@ -9,8 +9,8 @@ export enum ESplashScreens {
   testing= 'testing.svg',
   rolesCreate = 'rolesCreate.svg',
   curation_all_resolved = 'curation-all-resolved.svg',
-  'Lode_More_Issues' = 'LodeMoreIssues.svg',
-  'search' = 'search.svg'
+  Lode_More_Issues = 'LodeMoreIssues.svg',
+  search = 'search.svg'
 }
 
 @Component({

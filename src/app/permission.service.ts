@@ -96,6 +96,13 @@ export class PermissionService {
   [EAllActions['Get Default Corpus' ]]:true,
   [EAllActions['Train Corpus' ]]:true,
   [EAllActions['Section Category Change with Category Creation' ]]:true,
+  [EAllActions['Add message to curation']]:true,
+  [EAllActions['Get FAQbot curation issues']]:true,
+  [EAllActions['Ignore curation issues']]:true,
+  [EAllActions['Link curation issues to an article']]:true,
+  [EAllActions['Add curation issues to a new article']]:true,
+  [EAllActions['Faqbot curation overview counts']]:true,
+  [EAllActions['Faqbot curation top sections']]:true,
   };
   forbiddenActionsToFrontEndMapping = {};
   allowedApiHttpVerbPPathToActionNamesMapping = {};

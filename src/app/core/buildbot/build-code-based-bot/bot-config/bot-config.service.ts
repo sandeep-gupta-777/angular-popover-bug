@@ -55,8 +55,14 @@ export class BotConfigService {
     let fallback_count: any = agent_handover_setting && agent_handover_setting.fallback_count;
     let partial_match_count: any = agent_handover_setting && agent_handover_setting.partial_match_count;
     let consecutive_count: any = agent_handover_setting && agent_handover_setting.consecutive_count;
+    let metaDataInnit = {
+      threshold_diff_score: null,
+      threshold_min_score: null,
+      n_results: null
+    }
+    debugger;
     this.faqHandoverANdInterfaceForm = this.formBuilder.group({
-      bot_metadata: this.formBuilder.group(bot.bot_metadata),
+      bot_metadata: this.formBuilder.group({ ...metaDataInnit,...bot.bot_metadata}),
       agent_handover_setting: this.formBuilder.group({
         consecutive_count: this.formBuilder.group({
           'enabled': [consecutive_count && consecutive_count.enabled],

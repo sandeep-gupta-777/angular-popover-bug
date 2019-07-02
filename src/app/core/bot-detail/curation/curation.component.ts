@@ -27,12 +27,14 @@ export class CurationComponent implements OnInit {
   curationIssuesListLength:number = 0;
   isMoreCurationIssuesListPresent:boolean = false;
   totalLengthCurationIssue:number;
+  curationIssuesListisReloading:boolean = false;
   IssuesFilterQueryParams : object = {};
   curationResolvedAndIgnoredList: ICurationItem[];
   curationResolvedAndIgnoredListLength:number = 0;
   isMoreCurationResolvedAndIgnoredListPresent:boolean = false;
   totalLengthCurationResolvedAndIgnored : number;
   ResolvedFilterQueryParams : object = {};
+  curationResolvedAndIgnoredListisReloading : boolean = false;
   ngOnInit() {
     this.curation_filter_form = this.formBuilder.group({
       room_id: [""],
@@ -40,11 +42,13 @@ export class CurationComponent implements OnInit {
       date_range: [""],
     });
 
-    this.load10MoreCurationIssues();
-    this.load10MoreCurationResolvedAndIgnored();
+    this.load10MoreCurationIssues(false);
+    this.load10MoreCurationResolvedAndIgnored(false);
   }
   // getting 10
-  load10MoreCurationIssues$(){
+  load10MoreCurationIssues$(innit:boolean){
+    this.curationIssuesListisReloading = true;
+    debugger;
     let curationIssuesListUrl = this.constantsService.curationIssuesListUrl(10,this.curationIssuesListLength)
     return this.serverService.makeGetReq<ICurationResult>(
       {
@@ -54,11 +58,17 @@ export class CurationComponent implements OnInit {
     ).pipe(
       map((value: ICurationResult) => {
         if(this.curationIssuesList){
-          this.curationIssuesList = [...this.curationIssuesList, ...value.objects];
+          if(innit){
+            this.curationIssuesList = [...value.objects];
+          }else{
+            this.curationIssuesList = [...this.curationIssuesList, ...value.objects];
+          }
+          
         }
         else{
           this.curationIssuesList = [...value.objects];
         }
+        this.curationIssuesListisReloading = false;
         this.totalLengthCurationIssue = value.meta.total_count;
         this.isMoreCurationIssuesListPresent = !!value.meta.next;
         this.curationIssuesListLength = this.curationIssuesListLength + value.objects.length;
@@ -66,15 +76,16 @@ export class CurationComponent implements OnInit {
       })
     );
   }
-  load10MoreCurationIssues(){
-    this.load10MoreCurationIssues$().subscribe()
+  load10MoreCurationIssues(innit:boolean){
+    this.load10MoreCurationIssues$(innit).subscribe()
   }
   reinnetalizeCurationIssues(){
     this.curationIssuesListLength = 0;
-    this.curationIssuesList = null;
-    this.load10MoreCurationIssues();
+    this.load10MoreCurationIssues(true);
 }
-  load10MoreCurationResolvedAndIgnored$(){
+  load10MoreCurationResolvedAndIgnored$(innit:boolean){
+    this.curationResolvedAndIgnoredListisReloading = true;
+    
     let curationResolvedAndIgnoredListUrl = this.constantsService.curationResolvedAndIgnoredListUrl(10,this.curationResolvedAndIgnoredListLength)
     return this.serverService.makeGetReq<ICurationResult>(
       {
@@ -83,23 +94,28 @@ export class CurationComponent implements OnInit {
       }).pipe(
         map((value: ICurationResult) => {
           if(this.curationResolvedAndIgnoredList){
-            this.curationResolvedAndIgnoredList = [...this.curationResolvedAndIgnoredList, ...value.objects];
+            if(innit){
+              this.curationResolvedAndIgnoredList = [...value.objects]
+            }else{
+              this.curationResolvedAndIgnoredList = [...this.curationResolvedAndIgnoredList, ...value.objects];
+            }
+            
           }else{
             this.curationResolvedAndIgnoredList = [...value.objects]
           }
+          this.curationResolvedAndIgnoredListisReloading = false;
           this.totalLengthCurationResolvedAndIgnored = value.meta.total_count;
           this.isMoreCurationResolvedAndIgnoredListPresent = !!value.meta.next;
           this.curationResolvedAndIgnoredListLength = this.curationResolvedAndIgnoredListLength + value.objects.length;
         })
       );
   }
-  load10MoreCurationResolvedAndIgnored(){
-    this.load10MoreCurationResolvedAndIgnored$().subscribe()
+  load10MoreCurationResolvedAndIgnored(innit:boolean){
+    this.load10MoreCurationResolvedAndIgnored$(innit).subscribe()
   }
   reinnetalizeCurationResolvedAndIgnored(){
           this.curationResolvedAndIgnoredListLength = 0;
-          this.curationResolvedAndIgnoredList = null;
-          this.load10MoreCurationResolvedAndIgnored();
+          this.load10MoreCurationResolvedAndIgnored(true);
   }
 // ignoring
   ignoreCurationIssueById(curationId){
@@ -113,6 +129,7 @@ export class CurationComponent implements OnInit {
         headerData: { 'bot-access-token': this.bot.bot_access_token },
         body
       }).subscribe((value) => {
+          this.totalLengthCurationIssue = this.totalLengthCurationIssue - 1 ;
           this.utilityService.showSuccessToaster(value.message);
           this.curationIssuesListLength = this.curationIssuesListLength - 1;
           this.curationIssuesList = this.curationIssuesList.filter((item) => {return item.id != curationId});
@@ -135,7 +152,8 @@ export class CurationComponent implements OnInit {
         headerData: { 'bot-access-token': this.bot.bot_access_token },
         body
       }).subscribe((value) => {
-      this.utilityService.showSuccessToaster(value.message);
+      this.totalLengthCurationIssue = this.totalLengthCurationIssue -1;
+      this.utilityService.showSuccessToaster("Issue has been successfully added to article.");
       this.curationIssuesListLength = this.curationIssuesListLength - 1;
       this.curationIssuesList = this.curationIssuesList.filter((item) => {return item.id != data.curationItemId});
       this.reinnetalizeCurationResolvedAndIgnored()

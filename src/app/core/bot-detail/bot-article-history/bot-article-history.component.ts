@@ -19,6 +19,7 @@ import {
 import {EChatFrame} from "../../../../interfaces/chat-session-state";
 import {EventService} from "../../../event.service";
 import {Store} from "@ngxs/store";
+import {CategoryIdToNamePipe} from '../bot-articles/category-id-to-name.pipe';
 
 @Component({
   selector: 'app-bot-article-history',
@@ -35,11 +36,15 @@ export class BotArticleHistoryComponent implements OnInit {
     private matDialog :MatDialog,
     private store :Store,
     private activatedRoute: ActivatedRoute,
-    private router:Router
+    private router:Router,
+    private categoryIdToNamePipe: CategoryIdToNamePipe,
   ) { }
   @Input() bot: IBot;
   corpusList : ICorpus[];
   currentPage: number = 1;
+  pageSize = 10;
+  isReloading = false;
+  totalHistoryLength;
   ArticleHistorySmartTableObj: ArticleHistorySmartTable;
   ngOnInit() {
     this.getAllCorpus$()
@@ -49,14 +54,14 @@ export class BotArticleHistoryComponent implements OnInit {
     let headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
-    let url = this.constantsService.getAllCorpusForFAQBot();
+    this.isReloading = true;
+    let url = this.constantsService.getAllCorpusForFAQBot(this.pageSize,this.pageSize*(this.currentPage - 1));
     return this.serverService.makeGetReq<IAllCorpusResult>({ url, headerData })
       .pipe(
         map((Result) => {
+        this.isReloading = false;
+        this.totalHistoryLength = Result.meta.total_count;
         this.corpusList= Result.objects;
-        this.corpusList = this.corpusList.filter((corpus)=>{
-          return corpus.description != 'cloned' &&  corpus.description != 'saved';
-        })
         this.ArticleHistorySmartTableObj = new ArticleHistorySmartTable(this.corpusList, this.getTableDataMetaDict(), { datePipe: this.datePipe });
         this.ArticleHistorySmartTableObj.initializeTableData(this.corpusList);
 
@@ -183,19 +188,28 @@ export class BotArticleHistoryComponent implements OnInit {
       let toDownlodeSection = this.corpusList.find((corpus)=>{
         return corpus.id == corpus_id;
       }).sections;
+      
+      let toDownlodeCategoryMapping = this.corpusList.find((corpus)=>{
+        return corpus.id == corpus_id;
+      }).category_mapping;
 
       let csvFormat = toDownlodeSection.map(element => {
         return {
-          Answer: element.answers[0].text[0],
-          Questions: element.questions.toString()
+          "Category": this.categoryIdToNamePipe.transform(element.category_id,toDownlodeCategoryMapping) ,
+          "First questions": element.questions[0].replace(',', ' '),
+          "Answer": element.answers[0].text[0].replace(',', ' '),
+          "Variants" : element.questions.toString(),
         }
       });
-      this.utilityService.downloadArrayAsCSV(csvFormat, {});
+      // console.log(csvFormat);
+      this.utilityService.downloadArrayAsCSV(csvFormat, {}, `Corpus_id_${corpus_id}.csv`);
 
   }
 
   goToPage(val){
     this.currentPage= val.page;
+    this.getAllCorpus$()
+    .subscribe()
   }
 
 }

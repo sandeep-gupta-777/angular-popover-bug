@@ -182,7 +182,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
     this.selectedArticle = article;
   }
   openCategoryModifyModal(template: TemplateRef<any>) {
-
+    this.searchCategorie = "";
     this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
     setTimeout(() => {
       this.showCreateNewCategoryInput = false;
@@ -213,9 +213,12 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
     }
     else {
       if(TempVariableService.curationIds){
-        body["curation_id_list"] = TempVariableService.curationIds
+        body["curation_id_list"] = TempVariableService.curationIds;
+        url = this.constantsService.addCurationToNewSection();
+      }else{
+        url = this.constantsService.createArticelUrl();
       }
-      url = this.constantsService.createArticelUrl();
+      
     }
 
 
@@ -377,6 +380,9 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
     this.serverService.makePostReq<any>({ headerData, body, url })
       .subscribe(val => {
         this.utilityService.showSuccessToaster(val.message);
+        if(this.corpus){
+          this.corpus.state = 'live';
+        }
       });
   }
 
