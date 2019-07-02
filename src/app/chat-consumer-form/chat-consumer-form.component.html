@@ -4,30 +4,33 @@
   <p class="mb-3">{{readonly ? 'Consumer details' : title}}</p>
 
   <fieldset [disabled]="readonly">
-    <mat-form-field *ngIf="!readonly || readonly && customConsumerDetails?.name">
+    <mat-form-field>
       <input matInput placeholder="Name" type="text" [ngModel]="customConsumerDetails?.name"
+             [disabled]="!(!readonly || readonly && customConsumerDetails?.name)"
              name="name" aria-describedby="emailHelp">
     </mat-form-field>
 
-    <mat-form-field *ngIf="!readonly || readonly && customConsumerDetails?.phone">
+    <mat-form-field >
       <input matInput placeholder="Phone" type="text" [ngModel]="customConsumerDetails?.phone" name="phone"
+             [disabled]="!(!readonly || readonly && customConsumerDetails?.name)"
              aria-describedby="emailHelp">
     </mat-form-field>
 
-    <mat-form-field *ngIf="!readonly || readonly && customConsumerDetails?.email">
+    <mat-form-field >
       <input matInput placeholder="Email" type="text" [ngModel]="customConsumerDetails?.email"
+             [disabled]="!(!readonly || readonly && customConsumerDetails?.name)"
              name="email" aria-describedby="emailHelp">
     </mat-form-field>
 
-    <mat-form-field *ngIf="!readonly || readonly && customConsumerDetails?.facebook_id">
+    <mat-form-field>
       <input matInput placeholder="Facebook ID" type="text" [ngModel]="customConsumerDetails?.facebook_id"
+             [disabled]="!(!readonly || readonly && customConsumerDetails?.name)"
              name="facebook_id" aria-describedby="emailHelp">
     </mat-form-field>
 
     <!--todo: disabled is not working on mat-form-field-->
-    <fieldset [disabled]="customConsumerDetails?.uid">
-      <mat-form-field
-        *ngIf="!readonly || readonly && customConsumerDetails?.uid">
+    <fieldset [disabled]="!(!readonly || readonly && customConsumerDetails?.name)">
+      <mat-form-field>
         <input matInput placeholder="UID" type="text" [ngModel]="customConsumerDetails?.uid||uuid"
                data-cy="edit-consumer-uid"
                name="uid"

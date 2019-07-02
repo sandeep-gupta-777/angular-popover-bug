@@ -36,7 +36,7 @@ export class FaqSearchBoxComponent implements OnInit {
     })
   }
   navigateToArticleById(body){
-    debugger;
+
     this.input_foused = false
     if(this.inCuration){
       this.clickedOnArticle.emit(body.section_id);

@@ -43,7 +43,7 @@ export class ChatService {
       'platform': 'web',
       is_test: true//botDetails.type === EBotType.faqbot
     };
-    debugger;
+
     let model_id = (this.currentPreviewBot as any).model_id;
     let model_version_id = (this.currentPreviewBot as any).model_version_id;
     if (model_id && model_version_id) {

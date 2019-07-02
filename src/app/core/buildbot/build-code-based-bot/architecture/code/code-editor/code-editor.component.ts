@@ -19,7 +19,7 @@ declare var CodeMirror: any;
   },
   ]
 })
-export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueAccessor  {
+export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueAccessor {
 
   editor;
   _text;
@@ -30,6 +30,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
   @Input() doShowUploadDownloadButton = true;
   @Input() doShowValidationsIcon = false;
   @Input() readOnly = false;
+
   constructor(
     private utilityService: UtilityService,
     private activatedRoute: ActivatedRoute) {
@@ -44,8 +45,11 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
     // if(this._text===editorCodeObj.text) return;
     this._text = editorCodeObj.text;
 
-    this.editor && this.editor.setValue(editorCodeObj.text);
-
+    try {
+      this.editor && this.editor.setValue(editorCodeObj.text);
+    } catch (e) {
+      console.log(e);
+    }
     setTimeout(() => {
       /*https://github.com/codemirror/CodeMirror/issues/2469*/
       this.editor && this.editor.refresh();
@@ -72,20 +76,20 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
       rtlMoveVisually: false,
       direction: 'ltr',
       moveInputWithCursor: false,
-      readOnly : this.readOnly,
-    //   onCursorActivity: function updateLineInfo(cm) {
-    //   var line = cm.getCursor().line, handle = cm.getLineHandle(line);
-    //   if (handle == currentHandle && line == currentLine) return;
-    //   if (currentHandle) {
-    //     cm.setLineClass(currentHandle, null, null);
-    //     cm.clearMarker(currentHandle);
-    //   }
-    //   currentHandle = handle; currentLine = line;
-    //   cm.setLineClass(currentHandle, null, "activeline");
-    //   cm.setMarker(currentHandle, String(line + 1));
-    // },
+      readOnly: this.readOnly,
+      //   onCursorActivity: function updateLineInfo(cm) {
+      //   var line = cm.getCursor().line, handle = cm.getLineHandle(line);
+      //   if (handle == currentHandle && line == currentLine) return;
+      //   if (currentHandle) {
+      //     cm.setLineClass(currentHandle, null, null);
+      //     cm.clearMarker(currentHandle);
+      //   }
+      //   currentHandle = handle; currentLine = line;
+      //   cm.setLineClass(currentHandle, null, "activeline");
+      //   cm.setMarker(currentHandle, String(line + 1));
+      // },
 
-    extraKeys: {
+      extraKeys: {
         'Ctrl-Q': function (cm) {
           cm.foldCode(cm.getCursor());
         },
@@ -105,7 +109,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
         this.textChangedEvent.emit(editor.getValue());
         try {
           this.onChanges(editor.getValue());
-        }catch (e) {
+        } catch (e) {
           console.log(e);
         }
       });
@@ -151,6 +155,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
 
   options: any = {maxLines: 20, printMargin: false};
   onChanges: Function;
+
   registerOnChange(fn: any): void {
     this.onChanges = fn;
   }
@@ -162,7 +167,7 @@ export class CodeEditorComponent implements OnInit, AfterViewInit, ControlValueA
   }
 
   writeValue(text: any): void {
-    if(text){
+    if (text) {
       this.editor.setValue(text);
     }
   }

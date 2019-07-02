@@ -59,7 +59,7 @@ export class BotArticleHistoryComponent implements OnInit {
         })
         this.ArticleHistorySmartTableObj = new ArticleHistorySmartTable(this.corpusList, this.getTableDataMetaDict(), { datePipe: this.datePipe });
         this.ArticleHistorySmartTableObj.initializeTableData(this.corpusList);
-        debugger;
+
       })
       )
   }
@@ -72,7 +72,7 @@ export class BotArticleHistoryComponent implements OnInit {
     $event.stopPropagation();
     let { index, action, corpus_id } = this.getClickedActionDetails($event.target as HTMLElement);
     if (!index || !action || !corpus_id) return;
-    debugger;
+
     // alert(`index is ${index}, action is ${action}, corpus_id is ${corpus_id}`);
     if (action == 'makelive') {
       this.makeCorpusLive(corpus_id);
@@ -137,7 +137,7 @@ export class BotArticleHistoryComponent implements OnInit {
     }).then((data)=>{
 
       if(data){
-        // debugger;
+        //
 
         const headerData: IHeaderData = {
           'bot-access-token': this.bot.bot_access_token

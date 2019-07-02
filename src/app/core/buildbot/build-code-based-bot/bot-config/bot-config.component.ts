@@ -213,7 +213,7 @@ export class BotConfigComponent implements OnInit {
   openNewServiceKeyModal() {
     let isBotDisabled = this.bot.bot_disabled_settings && this.bot.bot_disabled_settings.bot_disabled;
     let title = `${!isBotDisabled? 'Disable': 'Enable'} ${this.bot.name} `;
-    let message = `This bot will be ${!isBotDisabled?'disabled':'enabled'} in all live instances and will send the disabled message instead. <br> You can ${!isBotDisabled?'enable':'disable'} it again ${isBotDisabled?'':'for it to work'}</br>`;
+    let message = `This bot will be ${!isBotDisabled?'disabled':'enabled'} in all live instances and will send the ${!isBotDisabled?'disabled':'enabled'} message instead. <br> You can ${!isBotDisabled?'enable':'disable'} it again ${isBotDisabled?'':'for it to work'}</br>`;
     return this.utilityService.openDialog({
       dialogRefWrapper: this.dialogRefWrapper,
       classStr: 'primary-modal-header-border',
@@ -221,7 +221,7 @@ export class BotConfigComponent implements OnInit {
         actionButtonText: isBotDisabled?'Enable':'Disable',
         message: message,
         title,
-        isActionButtonDanger: true
+        isActionButtonDanger: !isBotDisabled
       },
       dialog: this.matDialog,
       component: ModalConfirmComponent

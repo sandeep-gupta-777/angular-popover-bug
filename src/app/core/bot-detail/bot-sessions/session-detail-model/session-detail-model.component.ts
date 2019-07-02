@@ -381,5 +381,9 @@ channelNameToImg(channel:string){
     this.scrollDown = !this.scrollDown;
   }
 
+  trackByIndex(index: number, obj: any): any {
+    return index;
+  }
+
 }
 
