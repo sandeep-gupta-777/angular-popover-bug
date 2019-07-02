@@ -10,6 +10,7 @@
              placeholder="Room ID"
              name="room_id"
              type="number"
+             (keyup.enter)="submitedForm()"
              ngModel>
     </mat-form-field>
   </div>
@@ -49,7 +50,7 @@
   <div class="d-flex flex-row padding-input py-3">
       <button class="btn-theme btn-theme-primary filter-btn mr-auto"
         type="button"  (click) = "submitedForm()">Apply</button>
-      <button class="btn-theme clear-btn" (click)="clearFormClicked()">Clear</button>
+      <button class="btn-theme filter-btn-clear" (click)="clearFormClicked()">Clear</button>
     </div>
 </div>
 </div>

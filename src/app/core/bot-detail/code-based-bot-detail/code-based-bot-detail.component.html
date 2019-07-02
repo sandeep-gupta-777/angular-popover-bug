@@ -41,6 +41,7 @@
                     </div>
 
                 </a>
+                <ng-container *myIf="[myEAllActions['Get FAQbot curation issues']]">
                 <a mat-list-item class="mat-list-item-sidebar" *ngIf="myEBotType.faqbot === bot.bot_type" (click)="sideBarTabChanged('curation')">
                     <div class="sidebar-nav-list-item"
                          [ngClass]="{'filter-black':sideBarTab1!=='curation', 'selected-nav':sideBarTab1==='curation'}">
@@ -49,6 +50,7 @@
                     </div>
 
                 </a>
+            </ng-container>
                 <ng-container *myIf="[myEAllActions['GET Bot Versioning']]">
                 <a mat-list-item class="mat-list-item-sidebar"
                    *ngIf="bot.bot_type === myEBotType.chatbot"

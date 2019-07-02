@@ -4,6 +4,7 @@ import { ICurationItem } from 'src/app/core/interfaces/faqbots';
 import {IBot} from '../../../interfaces/IBot';
 import {TempVariableService} from '../../../../temp-variable.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import { EAllActions } from 'src/app/typings/enum';
 
 @Component({
   selector: 'app-curation-issues',
@@ -22,6 +23,7 @@ export class CurationIssuesComponent implements OnInit {
   @Input() curationItemData : ICurationItem;
   @Output() ignoreQueryEvent = new EventEmitter();
   @Output() addQueryToArticleEvent = new EventEmitter();
+  myEAllActions = EAllActions;
   articleSearchMode = false;
   selectedArticleToAddCuration : number;
   ngOnInit() {
@@ -48,7 +50,7 @@ export class CurationIssuesComponent implements OnInit {
     }
   }
   addIssueToNewArticle(){
-    TempVariableService.firstQuestionListForNewArticle = [this.curationItemData.first_question];
+    TempVariableService.firstQuestionListForNewArticle = [this.curationItemData.user_message];
     TempVariableService.curationIds = [this.curationItemData.id];
     this.router.navigate(['.'], {
       queryParams: { build:'articles' ,section_id:null},

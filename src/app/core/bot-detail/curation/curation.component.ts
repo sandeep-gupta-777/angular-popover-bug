@@ -48,6 +48,7 @@ export class CurationComponent implements OnInit {
   // getting 10
   load10MoreCurationIssues$(innit:boolean){
     this.curationIssuesListisReloading = true;
+    debugger;
     let curationIssuesListUrl = this.constantsService.curationIssuesListUrl(10,this.curationIssuesListLength)
     return this.serverService.makeGetReq<ICurationResult>(
       {
@@ -84,6 +85,7 @@ export class CurationComponent implements OnInit {
 }
   load10MoreCurationResolvedAndIgnored$(innit:boolean){
     this.curationResolvedAndIgnoredListisReloading = true;
+    
     let curationResolvedAndIgnoredListUrl = this.constantsService.curationResolvedAndIgnoredListUrl(10,this.curationResolvedAndIgnoredListLength)
     return this.serverService.makeGetReq<ICurationResult>(
       {
@@ -151,7 +153,7 @@ export class CurationComponent implements OnInit {
         body
       }).subscribe((value) => {
       this.totalLengthCurationIssue = this.totalLengthCurationIssue -1;
-      this.utilityService.showSuccessToaster(value.message);
+      this.utilityService.showSuccessToaster("Issue has been successfully added to article.");
       this.curationIssuesListLength = this.curationIssuesListLength - 1;
       this.curationIssuesList = this.curationIssuesList.filter((item) => {return item.id != data.curationItemId});
       this.reinnetalizeCurationResolvedAndIgnored()

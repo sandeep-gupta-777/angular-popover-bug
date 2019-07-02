@@ -256,7 +256,7 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/corpus/`;
   }
   getAllCorpusForFAQBot(limit,offset){
-    return this.BACKEND_URL + `api/v1/corpus/?state__in=trained,live&limit=${limit}&offset=${offset}`;
+    return this.BACKEND_URL + `api/v1/corpus/?state__in=trained,live&limit=${limit}&offset=${offset}&order_by=-updated_at`;
   }
   getDraftCorpusForFAQBot(){
     return this.BACKEND_URL + `api/v1/corpus/getdefaultcorpus/`;
@@ -457,7 +457,7 @@ export class ConstantsService {
 
   /*Enterprise NER*/
   getEnterpriseNer(limit: number = 10, offset: number = 0) {
-    return this.BACKEND_URL + `api/v1/customner/?type=enterprise&limit=${limit}&offset=${offset}`; //https://dev.imibot.ai/api/v1/customner/
+    return this.BACKEND_URL + `api/v1/customner/?type=enterprise&limit=${limit}&offset=${offset}&order_by=-updated_at`; //https://dev.imibot.ai/api/v1/customner/
   }
 
   getEnterpriseNerById(id) {
