@@ -8,15 +8,18 @@
                   *ngIf="curationIssuesList"
                   [curationItemList]="curationIssuesList"
                   [isMorePresent]="isMoreCurationIssuesListPresent"
+                  [reloadingMore]="curationIssuesListisReloading"
                   (loadMoreNext)="load10MoreCurationIssues(false)"
                   (ignoreCurationIssueById)="ignoreCurationIssueById($event)"
                   [totallength]="totalLengthCurationIssue"
                   (addQueryToArticleByIds)="addQueryToArticleByIds($event)"> 
                 </app-curation-issues-list>
-        <div *ngIf="!curationIssuesListisReloading && objToSrt(IssuesFilterQueryParams) != ''">
+        <div *ngIf="
+        !curationIssuesListisReloading && 
+        objToSrt(IssuesFilterQueryParams) != '' &&
+        curationIssuesList &&
+        curationIssuesList.length == 0">
                 <app-splash-screen
-                  *ngIf="curationIssuesList &&
-                  curationIssuesList.length == 0 "
                   [imageHRef]="myESplashScreens.search"
                   class="d-flex justify-content-center align-items-center"
                   [descriptionText]=""
@@ -27,11 +30,13 @@
           >
           </app-splash-screen>
         </div>
-        <div *ngIf="!curationIssuesListisReloading && objToSrt(IssuesFilterQueryParams) == ''">
+        <div *ngIf="
+        !curationIssuesListisReloading && 
+        objToSrt(IssuesFilterQueryParams) == '' && 
+        curationIssuesList &&
+        curationIssuesList.length == 0 &&
+        !isMoreCurationIssuesListPresent">
                 <app-splash-screen
-                  *ngIf="curationIssuesList &&
-                  curationIssuesList.length == 0 &&
-                  !isMoreCurationIssuesListPresent"
                   [imageHRef]="myESplashScreens.curation_all_resolved"
                   class="d-flex justify-content-center align-items-center"
                   [descriptionText]="'Congratulations, you have no more issues to resolve'"
@@ -54,12 +59,14 @@
         [curationItemList]="curationResolvedAndIgnoredList" 
         [isMorePresent]="isMoreCurationResolvedAndIgnoredListPresent"
         (loadMoreNext)="load10MoreCurationResolvedAndIgnored(false)"
-        [totallength]="totalLengthCurationResolvedAndIgnored"></app-curation-resolved-list>
-        <div *ngIf="!curationResolvedAndIgnoredListisReloading">
+        [totallength]="totalLengthCurationResolvedAndIgnored"
+        [reloadingMore]="curationResolvedAndIgnoredListisReloading"></app-curation-resolved-list>
+        <div *ngIf="
+        !curationResolvedAndIgnoredListisReloading &&
+        curationResolvedAndIgnoredList &&
+        curationResolvedAndIgnoredList.length == 0 &&
+        objToSrt(ResolvedFilterQueryParams) == ''">
                 <app-splash-screen
-                *ngIf="curationResolvedAndIgnoredList &&
-                curationResolvedAndIgnoredList.length == 0 &&
-                objToSrt(ResolvedFilterQueryParams) == ''"
                 [imageHRef]="myESplashScreens.curation_all_resolved"
                 class="d-flex justify-content-center align-items-center"
                 [descriptionText]="'You have no resolved issues'"

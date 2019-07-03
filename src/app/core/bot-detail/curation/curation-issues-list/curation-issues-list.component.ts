@@ -30,6 +30,7 @@ export class CurationIssuesListComponent implements OnInit {
   @Output() loadMoreNext = new EventEmitter();
   @Output() ignoreCurationIssueById = new EventEmitter();
   @Output() addQueryToArticleByIds = new EventEmitter();
+  @Input() reloadingMore : boolean;
   dialogRefWrapper = { ref: null };
   corpusState :string;
   myESplashScreens = ESplashScreens;
