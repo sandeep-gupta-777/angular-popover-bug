@@ -74,9 +74,9 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
     });
     this.activatedRoute.queryParams.subscribe(
       (params: Params) => {
-        debugger;
+
         if (params.section_id) {
-          debugger;
+
           this.navigateToSection(params.section_id);
         }
       })
@@ -96,7 +96,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
       'bot-access-token': this.bot.bot_access_token
     };
     let getCorpusForFAQBot = this.constantsService.getDraftCorpusForFAQBot();
-    debugger;
+
     return this.serverService.makeGetReq<any>({ url: getCorpusForFAQBot, headerData })
       .pipe(
         map((val) => {
@@ -134,7 +134,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
     }
   }
   goBackToArticalList() {
-    debugger;
+
     this.getCorpusAndSetArticleFilterForm();
     this.showEditAndViewArtical = false;
     this.router.navigate(['.'], {

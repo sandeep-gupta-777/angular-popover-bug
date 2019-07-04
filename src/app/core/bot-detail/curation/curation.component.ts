@@ -72,7 +72,7 @@ export class CurationComponent implements OnInit {
         this.totalLengthCurationIssue = value.meta.total_count;
         this.isMoreCurationIssuesListPresent = !!value.meta.next;
         this.curationIssuesListLength = this.curationIssuesListLength + value.objects.length;
-        debugger;
+
       })
     );
   }
@@ -167,20 +167,20 @@ export class CurationComponent implements OnInit {
     this.isMoreCurationIssuesListPresent = false;
     this.reinnetalizeCurationIssues();
   }
-  
+
   ResolvedFormSubmitted(body){
     this.ResolvedFilterQueryParams = body;
     this.isMoreCurationResolvedAndIgnoredListPresent = false;
     this.reinnetalizeCurationResolvedAndIgnored();
   }
-  
+
 
   objToSrt(obj){
     let str :string = "";
     for(let key in obj){
       str = str + "&"+key+"="+obj[key];
     }
-    debugger;
+
     return str;
   }
 }

@@ -34,7 +34,7 @@
               [class.active]="showOverlay" class="origin"
 							#overlayOrigin="cdkOverlayOrigin"
               data-cy="custom-room-form-trigger"
-              [matTooltip]="frameEnabled === myEChatFrame.CHAT_LIST? 'New chat with custom consumer data': 'Update consumer data'"
+              [matTooltip]="frameEnabled === myEChatFrame.CHAT_LIST? 'New custom chat': 'Consumer data'"
               cdkOverlayOrigin>
         <mat-icon>{{frameEnabled === myEChatFrame.CHAT_LIST ? 'person_add' : 'perm_contact_calendar'}}</mat-icon>
       </button>
@@ -112,7 +112,7 @@
             [class.active]="showOverlay" class="origin"
 						#overlayOriginFullScreen1="cdkOverlayOrigin"
             data-cy="custom-room-form-trigger"
-            [matTooltip]="'New chat with custom data'"
+            [matTooltip]="'New custom chat'"
             cdkOverlayOrigin>
       <mat-icon>person_add</mat-icon>
     </button>
@@ -216,7 +216,7 @@
             [class.active]="showOverlay" class="origin"
 						#overlayOrigin="cdkOverlayOrigin"
             data-cy="custom-room-form-trigger"
-            [matTooltip]="'Consumer info'"
+            [matTooltip]="'Consumer data'"
             cdkOverlayOrigin>
       <mat-icon>perm_contact_calendar</mat-icon>
     </button>

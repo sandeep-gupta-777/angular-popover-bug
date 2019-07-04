@@ -39,7 +39,7 @@ export class CurationFilterComponent implements OnInit {
   }
   submitedForm(){
     let body = {};
-    debugger;
+
     for (var key in this.curationForm.value) {
       if (this.curationForm.value[key]) {
         body[key] = this.curationForm.value[key];

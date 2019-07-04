@@ -49,7 +49,7 @@ export class EditAndViewArticlesComponent implements OnInit {
   @Input() bot: IBot;
   _article:IArticleItem;
   @Input() set article(value: IArticleItem){
-    debugger;
+
     this.articleData = this.utilityService.createDeepClone(value);
     this._article = value;
   };

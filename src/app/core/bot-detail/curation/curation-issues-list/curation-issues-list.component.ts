@@ -39,7 +39,7 @@ export class CurationIssuesListComponent implements OnInit {
     this.getCorpus$().subscribe()
   }
   load10More(){
-    debugger;
+
     this.loadMoreNext.emit();
   }
   ignoreIt(curationId){
@@ -96,7 +96,7 @@ export class CurationIssuesListComponent implements OnInit {
       'bot-access-token': this.bot.bot_access_token
     };
     let getCorpusForFAQBot = this.constantsService.getDraftCorpusForFAQBot();
-    debugger;
+
     return this.serverService.makeGetReq<any>({ url: getCorpusForFAQBot, headerData })
       .pipe(
         map((val) => {

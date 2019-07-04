@@ -24,7 +24,9 @@ interface ISessionFilterData {
   id: number,
   updated_at: { begin: number, end: number },
   limit: number,
-  page: number
+  page: number,
+  is_test?:boolean,
+  is_live?:boolean
 }
 
 @Component({
@@ -361,7 +363,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
   }
 
   performSearchInDbForSession(filterData: ISessionFilterData) {
-    debugger;
+
 
     this.showLoader = true;
     let url: string;
@@ -397,10 +399,11 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
 
       page = combinedFilterData.page = combinedFilterData.page || 1;
       Object.keys(combinedFilterData).forEach((key) => {
-        if (combinedFilterData[key] === false && key !== 'is_test') {
+        if (combinedFilterData[key] === false) {
           delete combinedFilterData[key];
         }
       });
+
 
       // if(combinedFilterData.feedback ===  true){
       //   combinedFilterData.feedback = EChatFeedback.NEGATIVE;
@@ -410,6 +413,10 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
         offset: (combinedFilterData.page - 1) * 10,
         limit: combinedFilterData.limit ? combinedFilterData.limit : 10
       };
+      if(combinedFilterData.is_live){
+        (combinedFilterData as any).is_test = false;
+        delete combinedFilterData.is_live;
+      }
       delete combinedFilterData.page;
       UtilityService.removeAllNonDefinedKeysFromObject(combinedFilterData);
       url = this.constantsService.getRoomWithFilters(combinedFilterData);
@@ -449,9 +456,9 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
 
   sessionFormSubmitted(formData) {
     let filterData = UtilityService.cloneObj(formData);
-    debugger;
-    filterData.is_test = !filterData.is_live;
-    delete filterData.is_live;
+
+
+
     this.filterFormData = filterData;
 
     let channelsObj = filterData.channels;
