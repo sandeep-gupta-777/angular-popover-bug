@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {CanActivate, CanActivateChild, CanLoad, Router} from '@angular/router';
-import {AuthGaurdService} from "./auth-gaurd.service";
+import {AuthGaurdService} from './auth-gaurd.service';
 import {ENgxsStogareKey} from '../typings/enum';
 
 @Injectable()
@@ -25,9 +25,9 @@ export class ModuleGaurdLoadService implements CanActivate, CanActivateChild, Ca
     if (AuthGaurdService.doesAuthTokenExists()) {
       return true;
     } else {
-      setTimeout(()=>{
+      setTimeout(() => {
         this.router.navigate(['auth', 'login']);
-      },1000);
+      }, 1000);
       return false;
     }
   }

@@ -18,7 +18,7 @@ import {IBot} from './core/interfaces/IBot';
 import {EBotType, UtilityService} from './utility.service';
 import {IConsumerDetails} from './chat/ngxs/chat.state';
 import {catchError} from 'rxjs/internal/operators';
-import {LoggingService} from "./logging.service";
+import {LoggingService} from './logging.service';
 import {EventService} from './event.service';
 
 declare var IMI: any;
@@ -44,14 +44,14 @@ export class ChatService {
       is_test: true//botDetails.type === EBotType.faqbot
     };
 
-    let model_id = (this.currentPreviewBot as any).model_id;
-    let model_version_id = (this.currentPreviewBot as any).model_version_id;
+    const model_id = (this.currentPreviewBot as any).model_id;
+    const model_version_id = (this.currentPreviewBot as any).model_version_id;
     if (model_id && model_version_id) {
       body = {
         ...body,
         model_id,
         model_version_id
-      }
+      };
     }
     const headerData: IHeaderData = {
       'bot-access-token': botDetails.bot_access_token,
@@ -306,25 +306,25 @@ export class ChatService {
       'user-access-token': null,
       'content-type': 'application/json'
     };
-    let body:any /*: ISendApiRequestPayload */ = {
+    let body: any /*: ISendApiRequestPayload */ = {
       'type': 'bot',
       'msg': 'hi',
       'platform': 'web',
-      'is_test': true,//startNewChatData.bot.bot_type === EBotType.faqbot,
+      'is_test': true, //startNewChatData.bot.bot_type === EBotType.faqbot,
       // 'consumer': {
       //   'uid': this.current_uid,
       // },
       'consumer': startNewChatData.consumerDetails,
     };
 
-    let model_id = (this.currentPreviewBot as any).model_id;
-    let model_version_id = (this.currentPreviewBot as any).model_version_id;
+    const model_id = (this.currentPreviewBot as any).model_id;
+    const model_version_id = (this.currentPreviewBot as any).model_version_id;
     if (model_id && model_version_id) {
       body = {
         ...body,
         model_id,
         model_version_id
-      }
+      };
     }
 
     return this.serverService.makePostReq({url, body, headerData});

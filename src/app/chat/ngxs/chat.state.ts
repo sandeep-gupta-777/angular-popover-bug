@@ -147,12 +147,12 @@ export class ChatSessionStateReducer {
     const state = getState();
     /*first check if room roomId already */
     let rooms = state.rooms.map(room => {
-      if(room.id === payload.room_id){
+      if(room.id === payload.room_id) {
         return {
           ...room,
           consumerDetails: payload.consumerDetails
         }
-      }else {
+      } else {
         return room;
       }
     });

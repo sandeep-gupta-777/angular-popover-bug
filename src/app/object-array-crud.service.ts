@@ -7,16 +7,15 @@ export class ObjectArrayCrudService {
   constructor() { }
 
   static getObjectIndexByKeyValuePairInObjectArray(array: any[], obj: object) {
-    if(Array.isArray(array) && obj){
+    if (Array.isArray(array) && obj) {
       const key = Object.keys(obj)[0];
       const value =  obj[key];
       const x = array.findIndex(item => {
         return item[key] === value;
       });
       return x;
-    }
-    else {
-      console.error("getObjectIndexByKeyValuePairInObjectArray: invalid values");
+    } else {
+      console.error('getObjectIndexByKeyValuePairInObjectArray: invalid values');
       return null;
     }
   }

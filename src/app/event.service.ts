@@ -1,7 +1,7 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {Subscriber} from 'rxjs';
 import {IBot} from './core/interfaces/IBot';
-import {IApi} from "./dev/interfaces";
+import {IApi} from './dev/interfaces';
 import { ICorpus } from './core/interfaces/faqbots';
 
 @Injectable()
@@ -25,10 +25,10 @@ export class EventService {
   static toggleAllPipeLineModules = new EventEmitter<boolean>();
   static botUpdatedInServer$ = new EventEmitter<IBot>();
   static kbRefresh$ = new EventEmitter<IBot>();
-  static startANewChat$ = new EventEmitter<{bot:IBot, consumerDetails:any}>();
+  static startANewChat$ = new EventEmitter<{bot: IBot, consumerDetails: any}>();
   static reportFormIsValid = new EventEmitter<Boolean>();
   static faqHeaderSearchBarReloadData = new EventEmitter<ICorpus>();
-  static unsubscribeInComponent(component){
+  static unsubscribeInComponent(component) {
     for (const key in component) {
       try {
         if (component[key] instanceof Subscriber) {
@@ -53,5 +53,5 @@ export class EventService {
 
   static updateBotinit$ = new EventEmitter();
   static createConceptFullScreen$ = new EventEmitter();
-  static botDataDirty$ = new EventEmitter<{[index:string]:boolean}>();
+  static botDataDirty$ = new EventEmitter<{[index: string]: boolean}>();
 }

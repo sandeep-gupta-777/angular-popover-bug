@@ -47,8 +47,8 @@ import {
   SetEnterpriseInfoAction,
   SetEnterpriseUsersAction
 } from './core/enterpriseprofile/ngxs/enterpriseprofile.action';
-import {MyToasterService} from "./my-toaster.service";
-import {environment} from "../environments/environment";
+import {MyToasterService} from './my-toaster.service';
+import {environment} from '../environments/environment';
 
 
 declare var $: any;
@@ -80,20 +80,23 @@ export class ServerService {
       this.X_AXIS_TOKEN = value.user.user_access_token && value.user.user_access_token;
       this.roleName = value.user.role.name;
       this.app$.subscribe((appState) => {
-        if (!this.roleInfo && appState && appState.roleInfoArr)
+        if (!this.roleInfo && appState && appState.roleInfoArr) {
           this.roleInfo = appState.roleInfoArr.find((role) => {
-            return role.name === value.user.role.name
+            return role.name === value.user.role.name;
           });
-      })
+        }
+      });
     });
 
     this.app$.subscribe((appState) => {/*todo: code repetition: this code should run after logged value has been set*/
-      if (this.roleName)
-        if (appState.roleInfoArr)
+      if (this.roleName) {
+        if (appState.roleInfoArr) {
           this.roleInfo = appState.roleInfoArr.find((role) => {
             return role.name === this.roleName;
           });
-    })
+        }
+      }
+    });
 
 
   }
@@ -127,13 +130,12 @@ export class ServerService {
   showErrorMessageForErrorTrue({error, message, action}) {
 
     /*check for logout*/
-    if(error === true && action === "logout"){
+    if (error === true && action === 'logout') {
       EventService.logout$.emit();
       return;
     }
 
-    if (message) this.myToasterService.showErrorToaster(message);
-    else {
+    if (message) { this.myToasterService.showErrorToaster(message); } else {
       console.error('error toaster called without error');
     }
   }
@@ -165,7 +167,7 @@ debugger;
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
-      }),);
+      }), );
   }
 
   handleErrorFromServer(e) {
@@ -173,7 +175,7 @@ debugger;
     if (e.error && (e.error.error === true)) {
       this.showErrorMessageForErrorTrue(e.error);
     } else {
-      this.showErrorMessageForErrorTrue({error: true, message: "Some error occurred", action:null});
+      this.showErrorMessageForErrorTrue({error: true, message: 'Some error occurred', action: null});
     }
     // let arg = (e.error && e.error.error) ? e.error : e;
     // this.showErrorMessageForErrorTrue(arg);
@@ -200,7 +202,7 @@ debugger;
       }),
       catchError((e: any) => {
         return this.handleErrorFromServer(e);
-      }),);
+      }), );
   }
 
   checkApiAccess(reqObj, verb: EHttpVerbs) {
@@ -211,18 +213,18 @@ debugger;
     }
   }
 
-  getNSetRoleInfo(){
-    let getRoleUrl = this.constantsService.getRoleUrl();
+  getNSetRoleInfo() {
+    const getRoleUrl = this.constantsService.getRoleUrl();
     return this.makeGetReq({url: getRoleUrl})
-      .pipe(switchMap((val)=>{
-        if(val){
+      .pipe(switchMap((val) => {
+        if (val) {
           return this.store.dispatch([
             new SetRoleInfo({roleInfoArr: val.objects})
           ]);
-        }else {
+        } else {
           return of(1);
         }
-      }))
+      }));
   }
 
   makeDeleteReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<any> {
@@ -239,7 +241,7 @@ debugger;
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
-      }),);
+      }), );
   }
 
   makePostReq<T>(reqObj: { url: string, body: any, headerData?: any, dontShowProgressBar?: boolean, noValidateUser?: boolean }): Observable<any> {
@@ -260,7 +262,7 @@ debugger;
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
-      }),);
+      }), );
   }
 
   makePutReq<T>(reqObj: { url: string, body: any, headerData?: IHeaderData }): Observable<any> {
@@ -315,12 +317,12 @@ debugger;
   }
 
   increaseAutoLogoutTime() {
-    let autoLogoutInterval: number = Infinity;
-    if(this.roleInfo){
+    let autoLogoutInterval = Infinity;
+    if (this.roleInfo) {
 
-      if(this.roleInfo.session_expiry_time===-1){
+      if (this.roleInfo.session_expiry_time === -1) {
         autoLogoutInterval = Infinity;
-      }else {
+      } else {
         autoLogoutInterval = (this.roleInfo && this.roleInfo.session_expiry_time * 1000) || 3600 * 1000; //3600*1000
       }
     }
@@ -344,8 +346,9 @@ debugger;
         // botResult.objects.forEach((bot) => {
         //   bot.bot_type !== 'genbot' ? botList.push(bot) : pipelineBasedBotList.push(bot);
         // });
-        if(botResult)
+        if (botResult) {
         this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
+        }
       }));
 
   }
@@ -395,13 +398,13 @@ debugger;
         // this.store.dispatch(new SetCodeBasedBotListAction({botList: botList}));
       }))
       .pipe(switchMap((value) => {
-        if(value){
+        if (value) {
           return this.store.dispatch([
             new SetMasterIntegrationsList({
               masterIntegrationList: value.objects
             })
           ]);
-        }else {
+        } else {
           return of(1);
         }
       }));
@@ -671,7 +674,7 @@ debugger;
         },
         err => {
           EventService.codeValidationErrorOnUpdate$.emit(err.error);
-          console.log("emited this :::::::::::::", err.error);
+          console.log('emited this :::::::::::::', err.error);
         }));
   }
 
@@ -695,7 +698,7 @@ debugger;
   }
 
   getLinkMetaData(link) {
-    return this.makeGetReq({url: 'http://api.linkpreview.net/?key=5c488da19fef97c0cb6a5fbc472a08d3def1842ea6ac3&q=' + link})
+    return this.makeGetReq({url: 'http://api.linkpreview.net/?key=5c488da19fef97c0cb6a5fbc472a08d3def1842ea6ac3&q=' + link});
   }
 
 
@@ -703,26 +706,27 @@ debugger;
     if (!deploy_obj_botplateform_fe || isDevMode() || environment.production) {
       return;
     }
-    let lastDeployed_Cache = deploy_obj_botplateform_fe.lastDeploy;
+    const lastDeployed_Cache = deploy_obj_botplateform_fe.lastDeploy;
     this.makeGetReq({url: `/static/deploy.json?time=${Date.now()}`})
-      .subscribe((value: { "currentBranch": string, "lastDeploy": number }) => {
-        let lastDeployed_api = value.lastDeploy;
+      .subscribe((value: { 'currentBranch': string, 'lastDeploy': number }) => {
+        const lastDeployed_api = value.lastDeploy;
         console.log(`compareDeployDates::lastDeployed_api=${lastDeployed_api}, lastDeployed_api=${lastDeployed_api}`);
-        let days = this.timeDifference(lastDeployed_api, lastDeployed_Cache);
-        if (lastDeployed_api > lastDeployed_Cache) this.myToasterService.showErrorToaster(`your version is ${days} old. 
+        const days = this.timeDifference(lastDeployed_api, lastDeployed_Cache);
+        if (lastDeployed_api > lastDeployed_Cache) { this.myToasterService.showErrorToaster(`your version is ${days} old.
         Please hard reload (Ctrl + shit + r). `);
-      })
+        }
+      });
   }
 
   timeDifference(current, previous) {
 
-    var msPerMinute = 60 * 1000;
-    var msPerHour = msPerMinute * 60;
-    var msPerDay = msPerHour * 24;
-    var msPerMonth = msPerDay * 30;
-    var msPerYear = msPerDay * 365;
+    const msPerMinute = 60 * 1000;
+    const msPerHour = msPerMinute * 60;
+    const msPerDay = msPerHour * 24;
+    const msPerMonth = msPerDay * 30;
+    const msPerYear = msPerDay * 365;
 
-    var elapsed = current - previous;
+    const elapsed = current - previous;
 
     if (elapsed < msPerMinute) {
       return Math.round(elapsed / 1000) + ' seconds ago';

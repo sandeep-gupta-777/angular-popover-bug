@@ -3,18 +3,18 @@ import {IEnterpriseUser} from '../app/core/interfaces/enterprise-users';
 export interface IEnterpriseProfileInfo {
   'id': string;
   'created_at': string;
-    'enterprise_unique_name': string;//
-  'logo': string;//
-  'name': string;//
+    'enterprise_unique_name': string; //
+  'logo': string; //
+  'name': string; //
   'updated_at': string;
-  'updated_by': number;//
+  'updated_by': number; //
 
 
   //new fields
-  'created_by': number;//
-  'tier_group': number;//
-  'log_retention_period': string;//
-  'secret_key': string;//
+  'created_by': number; //
+  'tier_group': number; //
+  'log_retention_period': string; //
+  'secret_key': string; //
 
   //not in new
   'phone': string;
@@ -23,7 +23,7 @@ export interface IEnterpriseProfileInfo {
   'websiteUrl': string;
   'email': string;
   'industry': string;
-  'service_key':any[];
+  'service_key': any[];
 }
 
 const x = {

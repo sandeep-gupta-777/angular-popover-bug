@@ -54,9 +54,9 @@ export enum EChatFeedback {
 }
 
 export interface IChatFeedback {
-  'bot_message_id': number,
-  'consumer_id': number,
-  'feedback': EChatFeedback
+  'bot_message_id': number;
+  'consumer_id': number;
+  'feedback': EChatFeedback;
 }
 
 @Component({
@@ -114,12 +114,13 @@ export class ChatWrapperComponent implements OnInit {
 
   ngOnInit() {
     EventService.botUpdatedInServer$.subscribe((bot: IBot) => {
-      if (this.currentBot)
+      if (this.currentBot) {
         if (bot.id === this.currentBot.id && bot.allow_feedback !== this.currentBot.allow_feedback) {
           this.store.dispatch([
             new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({ bot: bot })
           ]);
         }
+      }
     });
 
     LoggingService.log('inside chat-wrapper');
@@ -325,7 +326,7 @@ export class ChatWrapperComponent implements OnInit {
             text: messageByHuman,
             sourceType: 'human',
             messageMediatype: EBotMessageMediaType.text,
-            time: Date.now(),//this.utilityService.getCurrentTimeInHHMM(),
+            time: Date.now(), //this.utilityService.getCurrentTimeInHHMM(),
             bot_message_id: null
           }]
         }),
@@ -366,10 +367,10 @@ export class ChatWrapperComponent implements OnInit {
           EChatFrame.CHAT_BOX)
           .subscribe(() => {
 
-            if(updateConsumerDetails){
+            if (updateConsumerDetails) {
               this.store.dispatch(new UpdateConsumerByRoomId({consumerDetails: room.consumerDetails, room_id: room.id}));
               this.utilityService.showSuccessToaster('Consumer details updated');
-            }else {
+            } else {
               this.showBotIsThinking = false;
             }
           }, (error) => {
@@ -393,26 +394,26 @@ export class ChatWrapperComponent implements OnInit {
   }
 
 
-  consumerFormSubmitHandler(consumerDetails: IConsumerDetails,createNewRoom:boolean){
-    if(createNewRoom){
-      this.startNewChat({consumerDetails, isCustomRoom: createNewRoom, bot: this.currentBot})
-    }else {
+  consumerFormSubmitHandler(consumerDetails: IConsumerDetails, createNewRoom: boolean) {
+    if (createNewRoom) {
+      this.startNewChat({consumerDetails, isCustomRoom: createNewRoom, bot: this.currentBot});
+    } else {
       this.saveConsumerDetails(consumerDetails, this.currentRoom.id);
     }
     this.showOverlay = false;
     this.showOverlay_edit_fullscreen = false;
   }
 
-  hideOverlay(){
+  hideOverlay() {
     this.showOverlay = false;
     this.showOverlay_edit_fullscreen = false;
   }
 
-  saveConsumerDetails(value: IConsumerDetails, roomId:number) {
+  saveConsumerDetails(value: IConsumerDetails, roomId: number) {
 
     console.log('hello');
     this.showOverlay = false;
-    let room: IRoomData = {
+    const room: IRoomData = {
       consumerDetails: {
         ...value,
         id: this.currentRoom.consumer_id
@@ -425,10 +426,10 @@ export class ChatWrapperComponent implements OnInit {
   //
   sendFeedback(feedback: IChatFeedback) {
 
-    let roomId = this.currentRoom.id;
+    const roomId = this.currentRoom.id;
     feedback.consumer_id = this.currentRoom.consumer_id;
-    let url = this.constantsService.getChatFeedbackUrl();
-    let headerData: IHeaderData = {
+    const url = this.constantsService.getChatFeedbackUrl();
+    const headerData: IHeaderData = {
       'bot-access-token': this.currentRoom.bot_access_token,
       'auth-token': null,
       'user-access-token': null

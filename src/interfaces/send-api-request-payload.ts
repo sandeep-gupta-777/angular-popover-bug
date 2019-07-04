@@ -27,7 +27,7 @@ export interface ISendApiRequestPayload {
 
 export interface IGeneratedMessageItem {
   'text'?: string;
-  bot_message_id: number,
+  bot_message_id: number;
   'media'?: [
     {
       'buttons': [

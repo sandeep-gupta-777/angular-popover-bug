@@ -8,7 +8,7 @@ import { IIntegrationOption } from '../interfaces/integration-option';
 import { IAuthState } from './auth/ngxs/auth.state';
 import { ITableColumn } from '../interfaces/sessions';
 import {environment} from '../environments/environment';
-import {EAllActions} from "./typings/enum";
+import {EAllActions} from './typings/enum';
 
 declare var Handsontable: any;
 
@@ -22,7 +22,7 @@ export class ConstantsService {
   allowedPermissionIdsToCurrentRole: number[];
 
   constructor() {
-    console.log("environment=>>>", environment);
+    console.log('environment=>>>', environment);
     this.app$.subscribe((appState) => {
       if (!appState) {
         return;
@@ -43,7 +43,7 @@ export class ConstantsService {
 
   getIntegrationIconForChannelName(channelName: string): any {
     let x;
-    let masterIntegrationList = this.appState.masterIntegrationList;
+    const masterIntegrationList = this.appState.masterIntegrationList;
     try {
       x = masterIntegrationList.find((integrationMasterListItem) => {
         return integrationMasterListItem.key.toUpperCase() === channelName.toUpperCase();
@@ -75,7 +75,7 @@ export class ConstantsService {
 
   getNewBotVersionTemplate(botId: number) {
     this.NEW_BOT_VERSION_TEMPLATE.bot_id = botId;
-    return this.NEW_BOT_VERSION_TEMPLATE;;
+    return this.NEW_BOT_VERSION_TEMPLATE;
   }
 
   static state: any;
@@ -85,7 +85,7 @@ export class ConstantsService {
   @Select() app$: Observable<IAppState>;
   @Select() loggeduser$: Observable<{ user: IUser }>;
 
-  public BACKEND_URL = environment.backend_root;// = environment.url;//'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
+  public BACKEND_URL = environment.backend_root; // = environment.url;//'https://dev.imibot.ai/';//'http://10.0.27.176:8000/';
   public BACKEND_URL_LOGIN = `${this.BACKEND_URL}` + 'api/v1/user/login/';
   private BACKEND_URL_ENTERPRISE_USERS = `${this.BACKEND_URL}` + 'users/enterprise/';
   private BACKEND_USER_UPDATE_URL = `${this.BACKEND_URL}` + 'user/'; //https://dev.imibot.ai/user/5a030aa9b050705bd0ca5a45
@@ -118,7 +118,7 @@ export class ConstantsService {
   generateServiceKeyUrl() {
     return this.BACKEND_URL + 'api/v1/enterprise/generate_service_key/?order_by=created_at';
   }
-  disableServiceKeyUrl(){
+  disableServiceKeyUrl() {
     return this.BACKEND_URL + 'api/v1/enterprise/disable_service_key/?order_by=created_at';
 
   }
@@ -201,11 +201,11 @@ export class ConstantsService {
   //   return this.BACKEND_URL + `api/v1/role/`; // + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
   //
   // }
-  getRoleByIdUrl(roleId : number){
+  getRoleByIdUrl(roleId: number) {
     return this.BACKEND_URL + `api/v1/role/?id=${roleId}`; // + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
   }
 
-  getRoleIdUrl(roleId : number){
+  getRoleIdUrl(roleId: number) {
     return this.BACKEND_URL + `api/v1/role/${roleId}/`; // + enterpriseId+'/'; //https://dev.imibot.ai/enterprise/59b0f043378feb000d7c9d13
   }
 
@@ -228,20 +228,20 @@ export class ConstantsService {
   getRoleUrl() {
     return this.BACKEND_URL + 'api/v1/role/';
   }
-  deleteUserUrl(id:number){
+  deleteUserUrl(id: number) {
     return this.BACKEND_URL + `api/v1/user/${id}/`;
   }
-  removeEnterpriseUserUrl(){
+  removeEnterpriseUserUrl() {
     return this.BACKEND_URL + `api/v1/user/removeenterpriseuser/`;
   }
-  createUserUrl(){
+  createUserUrl() {
     return this.BACKEND_URL + `api/v1/user/`;
   }
   getLogoutUrl() {
     // http://localhost:8000/api/v1/logout/;
     return this.BACKEND_URL + 'api/v1/logout/';
   }
-  updateUserUrl(user_id : number){
+  updateUserUrl(user_id: number) {
     return this.BACKEND_URL + `api/v1/user/${user_id}/`;
 
   }
@@ -249,19 +249,19 @@ export class ConstantsService {
     // http://localhost:8000/api/v1/logout/;
     return this.BACKEND_URL + `api/v1/bot/preview/?bot_unique_name=${bot_unique_name}&enterprise_unique_name=${enterprise_unique_name}`;
   }
-  getCorpusForFAQBot(bot_id){
+  getCorpusForFAQBot(bot_id) {
     return this.BACKEND_URL + `api/v1/corpus/${bot_id}/`;
   }
-  putCorpus(){
+  putCorpus() {
     return this.BACKEND_URL + `api/v1/corpus/`;
   }
-  getAllCorpusForFAQBot(limit,offset){
+  getAllCorpusForFAQBot(limit, offset) {
     return this.BACKEND_URL + `api/v1/corpus/?state__in=trained,live&limit=${limit}&offset=${offset}&order_by=-updated_at`;
   }
-  getDraftCorpusForFAQBot(){
+  getDraftCorpusForFAQBot() {
     return this.BACKEND_URL + `api/v1/corpus/getdefaultcorpus/`;
   }
-  getUpdateAgentHandoverUrl(){
+  getUpdateAgentHandoverUrl() {
     return this.BACKEND_URL + `api/v1/bot/updateagenthandover/`;
   }
   getMasterIntegrationsList() {
@@ -328,7 +328,7 @@ export class ConstantsService {
   }
 
   getReportHistoryUrl(limit = 1, offset = 10, order_by?) {
-    return this.BACKEND_URL + `api/v1/reporthistory/?limit=${limit}&offset=${offset}&order_by=-created_at`;; //https://dev.imibot.ai/reporthistory?limit=1&offset=10
+    return this.BACKEND_URL + `api/v1/reporthistory/?limit=${limit}&offset=${offset}&order_by=-created_at`; //https://dev.imibot.ai/reporthistory?limit=1&offset=10
   }
 
   getReportDeleteUrl(report_id: number) {
@@ -397,16 +397,16 @@ export class ConstantsService {
   }
 
   appendQueryParamsInUrl(url: string, queryParams: object) {
-    let urlObj = new URL(url);
-    for (let key in queryParams) {
+    const urlObj = new URL(url);
+    for (const key in queryParams) {
       urlObj.searchParams.append(key, queryParams[key]);
     }
-    return urlObj.href
+    return urlObj.href;
   }
 
   getRoomWithFilters(queryParams: object) {
-    let url = this.BACKEND_URL + 'api/v1/room/?order_by=-updated_at';
-    let urlWithQueryParams = this.appendQueryParamsInUrl(url, queryParams);
+    const url = this.BACKEND_URL + 'api/v1/room/?order_by=-updated_at';
+    const urlWithQueryParams = this.appendQueryParamsInUrl(url, queryParams);
     return urlWithQueryParams;
   }
 
@@ -483,54 +483,54 @@ export class ConstantsService {
     return this.BACKEND_URL + 'api/v1/user/updatepassword/'; //https:dev.imibot.ai/api/v1/user/updatepassword///
   }
 
-  updateArticelUrl(){
+  updateArticelUrl() {
     return this.BACKEND_URL + `api/v1/corpus/updatesection/`;
   }
-  createArticelUrl(){
+  createArticelUrl() {
     return this.BACKEND_URL + `api/v1/corpus/createsection/`;
   }
-  deleteArticelUrl(){
+  deleteArticelUrl() {
     return this.BACKEND_URL + `api/v1/corpus/removesection/`;
   }
 
-  updateCategoryUrl(){
+  updateCategoryUrl() {
     return this.BACKEND_URL + `api/v1/corpus/updatecategory/`;
   }
-  createCategoryUrl(){
+  createCategoryUrl() {
     return this.BACKEND_URL + `api/v1/corpus/createcategory/`;
   }
-  deleteCategoryUrl(){
+  deleteCategoryUrl() {
     return this.BACKEND_URL + `api/v1/corpus/removecategory/`;
   }
-  changeSectionCategoryUrl(){
+  changeSectionCategoryUrl() {
     return this.BACKEND_URL + `api/v1/corpus/changesectioncategory/`;
   }
-  changeSectionCategoryWithNewCategoryUrl(){
+  changeSectionCategoryWithNewCategoryUrl() {
     return this.BACKEND_URL + `api/v1/corpus/createcategoryandmaptosection/`;
   }
 
-  corpusTrainUrl(){
+  corpusTrainUrl() {
     return this.BACKEND_URL + `api/v1/corpus/train/`;
   }
 
-  makeCorpusLiveUrl(){
+  makeCorpusLiveUrl() {
     return this.BACKEND_URL + `api/v1/corpus/makecorpuslive/`;
   }
 
-  curationIssuesListUrl(limit,offset){
+  curationIssuesListUrl(limit, offset) {
     return this.BACKEND_URL + `api/v1/faqbotcuration/?curation_state__in=in_curation&order_by=-updated_at&limit=${limit}&offset=${offset}`;
   }
-  curationResolvedAndIgnoredListUrl(limit,offset){
+  curationResolvedAndIgnoredListUrl(limit, offset) {
     return this.BACKEND_URL + `api/v1/faqbotcuration/?curation_state__in=resolved,ignored&order_by=-updated_at&limit=${limit}&offset=${offset}`;
   }
-  curationIssueIgnoreUrl(){
-    return this.BACKEND_URL + `api/v1/faqbotcuration/ignore/`
+  curationIssueIgnoreUrl() {
+    return this.BACKEND_URL + `api/v1/faqbotcuration/ignore/`;
   }
-  curationIssueLinkToExistingSectionUrl(){
-    return this.BACKEND_URL + `api/v1/faqbotcuration/linktoexistingsection/`
+  curationIssueLinkToExistingSectionUrl() {
+    return this.BACKEND_URL + `api/v1/faqbotcuration/linktoexistingsection/`;
   }
-  addCurationToNewSection(){
-    return this.BACKEND_URL + `api/v1/faqbotcuration/addtonewsection/`
+  addCurationToNewSection() {
+    return this.BACKEND_URL + `api/v1/faqbotcuration/addtonewsection/`;
   }
 
   updateBotSerializer(bot: IBot) {
@@ -635,7 +635,7 @@ export class ConstantsService {
       type: 'time',
       displayValue: 'Last report generated',
       search: false,
-      searchValue: "",
+      searchValue: '',
       dateRange: true
     },
     nextreportgenerated: {
@@ -644,7 +644,7 @@ export class ConstantsService {
       type: 'time',
       displayValue: 'Next scheduled date',
       search: false,
-      searchValue: "",
+      searchValue: '',
       dateRange: true
     },
   };
@@ -673,7 +673,7 @@ export class ConstantsService {
       type: 'time',
       displayValue: 'Generated Date',
       search: false,
-      searchValue: "",
+      searchValue: '',
       dateRange: true
     },
     actions: {
@@ -777,7 +777,7 @@ export class ConstantsService {
       value: '',
       type: 'image',
       displayValue: 'Channels',
-      search: false,//true,
+      search: false, //true,
       searchValue: true,
     },
     id: {
@@ -785,7 +785,7 @@ export class ConstantsService {
       value: '',
       type: 'number',
       displayValue: 'ID',
-      search: false,//true,
+      search: false, //true,
       searchValue: true,
     },
     consumer_id: {
@@ -793,7 +793,7 @@ export class ConstantsService {
       value: '',
       type: 'number',
       displayValue: 'Consumer ID',
-      search: false,//true,
+      search: false, //true,
       searchValue: true,
     },
     // sendtoagent: {
@@ -809,7 +809,7 @@ export class ConstantsService {
       value: '',
       type: 'number',
       displayValue: 'Messages',
-      search: false,//true,
+      search: false, //true,
       searchValue: true,
     },
     updated_at: {
@@ -817,7 +817,7 @@ export class ConstantsService {
       value: '',
       type: 'time',
       displayValue: 'Updated At',
-      search: false,//true,
+      search: false, //true,
       searchValue: true,
       dateRange: false//true
     },
@@ -901,7 +901,7 @@ export class ConstantsService {
       displayValue: 'Expired by',
     }
 
-  }
+  };
 
   readonly SMART_TABLE_SERVICE_KEY_ACTIVE: any = {
     key: {
@@ -938,7 +938,7 @@ export class ConstantsService {
 
     }
 
-  }
+  };
 
   SMART_TABLE_USER_DICT_TEMPLATE: ITableColumn = {
     first_name: {

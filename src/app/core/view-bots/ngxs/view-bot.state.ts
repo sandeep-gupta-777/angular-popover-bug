@@ -140,7 +140,7 @@ export class ViewBotStateReducer {
                                   {payload}: UpdateBotInfoByIdInBotInBotList) {
     const state: ViewBotStateModel = getState();
 
-    let allBotList_new = state.allBotList.map((bot) => {
+    const allBotList_new = state.allBotList.map((bot) => {
       if (bot.id === payload.botId) {
         return {...bot, ...payload.data};
       } else {
@@ -149,7 +149,7 @@ export class ViewBotStateReducer {
       // return  ? {...bot, ...payload.data} : bot;
     });
 
-    patchState({allBotList:allBotList_new});
+    patchState({allBotList: allBotList_new});
   }
 
   static getCodeBased(x) {
