@@ -29,9 +29,11 @@
     </mat-form-field>
 
     <!--todo: disabled is not working on mat-form-field-->
-    <fieldset [disabled]="!(!readonly || readonly && customConsumerDetails?.name)">
+
+    <fieldset>
       <mat-form-field>
         <input matInput placeholder="UID" type="text" [ngModel]="customConsumerDetails?.uid||uuid"
+               [disabled]="readonly || customConsumerDetails?.uid"
                data-cy="edit-consumer-uid"
                name="uid"
                aria-describedby="emailHelp">
