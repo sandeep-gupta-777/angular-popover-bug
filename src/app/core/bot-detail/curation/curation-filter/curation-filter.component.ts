@@ -46,7 +46,7 @@ export class CurationFilterComponent implements OnInit {
       }
     }
     if(body['created_at__range'] && Object.keys(body['created_at__range']).length > 0 ){
-      body['created_at__range'] = body['created_at__range']["begin"].getTime()+','+body['created_at__range']["end"].getTime();
+      body['created_at__range'] = body['created_at__range']["begin"].getTime()+','+(body['created_at__range']["end"].getTime()+86340000);
     }else{
       delete body['created_at__range'];
     }
