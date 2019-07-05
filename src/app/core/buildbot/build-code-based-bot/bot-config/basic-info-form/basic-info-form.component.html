@@ -70,7 +70,7 @@
     <div class="spacer"></div>
 
     <ng-container *ngIf="myEBotType.intelligent !== bot_type">
-        <!-- <fieldset [readonlyselectedroles]="myEAllActions['Update Bots']">
+        <fieldset [readonlyselectedroles]="myEAllActions['Update Bots']" *ngIf="myEBotType.chatbot == bot_type" >
             <mat-form-field class="w-100">
                 <textarea matInput formControlName="first_message" type="text" class=""
                           cdkTextareaAutosize
@@ -79,7 +79,7 @@
                           placeholder="First Message"></textarea>
 
             </mat-form-field>
-        </fieldset> -->
+        </fieldset>
         <fieldset [readonlyselectedroles]="myEAllActions['Update Bots']">
             <mat-form-field class="w-100">
                 <textarea matInput formControlName="error_message" type="text"

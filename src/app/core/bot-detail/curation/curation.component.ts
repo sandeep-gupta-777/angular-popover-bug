@@ -35,7 +35,9 @@ export class CurationComponent implements OnInit {
   totalLengthCurationResolvedAndIgnored : number;
   ResolvedFilterQueryParams : object = {};
   curationResolvedAndIgnoredListisReloading : boolean = false;
+  reloading:boolean = true;
   ngOnInit() {
+    this.reloading = true;
     this.curation_filter_form = this.formBuilder.group({
       room_id: [""],
       rule_triggered: [""],
@@ -68,6 +70,7 @@ export class CurationComponent implements OnInit {
         else{
           this.curationIssuesList = [...value.objects];
         }
+        this.reloading = false;
         this.curationIssuesListisReloading = false;
         this.totalLengthCurationIssue = value.meta.total_count;
         this.isMoreCurationIssuesListPresent = !!value.meta.next;
