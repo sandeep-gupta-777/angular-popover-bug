@@ -54,17 +54,26 @@
         curationResolvedAndIgnoredList &&
         curationResolvedAndIgnoredList.length == 0 &&
         objToSrt(ResolvedFilterQueryParams) == ''">
-        <app-splash-screen [imageHRef]="myESplashScreens.curation_all_resolved"
-          class="d-flex justify-content-center align-items-center" [descriptionText]="'You have no resolved issues'"
-          style="    
+        <app-splash-screen 
+        [imageHRef]="myESplashScreens.curation_all_resolved"
+        class="d-flex justify-content-center align-items-center" 
+        [descriptionText]="'You have no resolved issues'"
+        style="    
                 position: absolute;
                 top: 43%;
                 left: 51%;">
         </app-splash-screen>
-        <app-splash-screen *ngIf="curationResolvedAndIgnoredList &&
-                curationResolvedAndIgnoredList.length == 0 &&
-                objToSrt(ResolvedFilterQueryParams) != ''" [imageHRef]="myESplashScreens.search"
-          class="d-flex justify-content-center align-items-center" [descriptionText]="" style="
+      </div>
+      <div *ngIf="
+      !curationResolvedAndIgnoredListisReloading &&
+      curationResolvedAndIgnoredList &&
+      curationResolvedAndIgnoredList.length == 0 &&
+      objToSrt(ResolvedFilterQueryParams) != ''">
+        <app-splash-screen 
+                [imageHRef]="myESplashScreens.search"
+                class="d-flex justify-content-center align-items-center" 
+                [descriptionText]="" 
+                style="
                 position: absolute;
                 top: 43%;
                 left: 51%;">
