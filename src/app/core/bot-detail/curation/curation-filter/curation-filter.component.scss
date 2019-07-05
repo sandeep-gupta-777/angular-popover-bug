@@ -6,9 +6,28 @@
     flex-direction: column;
     align-items: start;
     padding: 15px;
-
-    .heading {
+    .sort-radio-box{
+      display: flex;
+      flex-direction: column;
+      .sort-radio-item{
+        padding-bottom: 8px;
+      }
+    }
+    .count-sub-form{
+      display: flex;
+      flex-direction: row;
+      .count-input-width{
+        width: 36px;
+        padding-bottom: 3px;
+      }
+      .count-select{
+        width:150px;
+      }
+    }
+    .divider{
       border-bottom: solid 1px #d8d8d8;
+    }
+    .heading {
       padding: 9px 15px;
       width: 100%;
     }
