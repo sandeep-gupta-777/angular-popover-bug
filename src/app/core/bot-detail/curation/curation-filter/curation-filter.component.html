@@ -1,87 +1,81 @@
-<div class = "analysis2-header-row">
+<div class="analysis2-header-row">
 
-<form ngNativeValidate #filterForm="ngForm" class=" d-flex  position-relative p-0">
-  <div class="heading">Sort by</div>
-  <mat-radio-group name="sort_by" class ="sort-radio-box padding-input">
-      <mat-radio-button value="1" class = "sort-radio-item" color=primary >Latest Resolved </mat-radio-button>
-      <mat-radio-button value="2" class = "sort-radio-item" color=primary>Articles with most issues</mat-radio-button>
-      <mat-radio-button value="3" class = "sort-radio-item" color=primary>Issues in the same session</mat-radio-button>
+  <form ngNativeValidate #filterForm="ngForm" class=" d-flex  position-relative p-0">
+    <div class="heading">Sort by</div>
+    <mat-radio-group name="order_by" class="sort-radio-box padding-input" ngModel>
+      <mat-radio-button value="updated_at" class="sort-radio-item" color=primary>Latest Resolved </mat-radio-button>
+      <mat-radio-button value="room_id" class="sort-radio-item" color=primary>Articles with most issues
+      </mat-radio-button>
+      <mat-radio-button value="group_by_section" class="sort-radio-item" color=primary>Issues in the same session
+      </mat-radio-button>
     </mat-radio-group>
-  <div class = "divider w-100"></div> 
-  <div class="heading">Filter by</div>
+    <div class="divider w-100"></div>
+    <div class="heading">Filter by</div>
+    <div  class="m-0 padding-input" *ngIf="!unsolved">
+        <mat-checkbox name = "hideIgnored" color=primary ngModel >Hide ignored queries</mat-checkbox>
+    </div> 
+    <div class="m-0 padding-input">
+      <mat-form-field class=" input-width">
+        <input matInput class="input-width" placeholder="Room ID" name="room_id" type="number"
+          (keyup.enter)="submitedForm()" ngModel>
+      </mat-form-field>
+    </div>
 
-  <div class="m-0 padding-input">
-    <mat-form-field class = " input-width">
-      <input matInput
-            class ="input-width"
-             placeholder="Room ID"
-             name="room_id"
-             type="number"
-             (keyup.enter)="submitedForm()"
-             ngModel>
-    </mat-form-field>
-  </div>
+    <div class="form-group m-0 padding-input">
+      <mat-form-field class="input-width">
+        <mat-select placeholder="Rule triggered" ngModel name="triggered_rules" [value]="triggered_rules[0]">
+          <mat-option *ngFor="let rule of triggered_rules" [value]="rule">
+            {{toDisplayValue(rule)}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-  <div class="form-group m-0 padding-input">
-    <mat-form-field class = "input-width">
-      <mat-select placeholder="Rule triggered" ngModel name="triggered_rules" [value]="triggered_rules[0]">
-        <mat-option *ngFor="let rule of triggered_rules" [value]="rule">
-          {{toDisplayValue(rule)}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
+    <div class="m-0 padding-input ">
 
-  <div class="m-0 padding-input ">
-
-    <mat-form-field class = "input-width">
-      <input matInput
-             readonly
-             placeholder="Choose a date range"
-             name="created_at__range"
-             [ngModel]="date"
-             [satDatepicker]="picker"
-             type="text">
-      <sat-datepicker #picker
-                      [rangeMode]="true"></sat-datepicker>
-      <sat-datepicker-toggle matSuffix [for]="picker" style="color: #b5b5b5"></sat-datepicker-toggle>
-    </mat-form-field>
-  </div>
-  <div class = "m-0 padding-input count-sub-form">
-      <mat-form-field class = "count-select">
-          <mat-label>Articles with issues</mat-label>
-          <mat-select class = "count-type">
-            <mat-option  [value]="1">
-              1
-            </mat-option>
-            <mat-option  [value]="1">
-                1
-              </mat-option>
-              <mat-option  [value]="1">
-                  1
-                </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class = "count-input-width">
-            <input matInput
-                  class ="input-width"
-                   placeholder="count"
-                   name="count"
-                   type="number"
-                   (keyup.enter)="submitedForm()"
-                   ngModel>
-          </mat-form-field>
-  </div>
-  <!-- <div class="text-right" style="position: absolute; left: 0;right: 0; bottom: 0">
+      <mat-form-field class="input-width">
+        <input matInput readonly placeholder="Choose a date range" name="created_at__range" [ngModel]="date"
+          [satDatepicker]="picker" type="text">
+        <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
+        <sat-datepicker-toggle matSuffix [for]="picker" style="color: #b5b5b5"></sat-datepicker-toggle>
+      </mat-form-field>
+    </div>
+    <div class="m-0 padding-input count-sub-form">
+      <mat-form-field class="count-select">
+        <mat-label>Articles with issues</mat-label>
+        <mat-select class="count-type" name="issue_count_filter" ngModel>
+          <mat-option value="issue_count_per_section__gte">
+            greater than equals to
+          </mat-option>
+          <mat-option value="issue_count_per_section__lte">
+            less than equals to
+          </mat-option>
+          <mat-option value="issue_count_per_section">
+            equal to
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="count-input-width">
+        <input matInput class="input-width" 
+        [disabled]="!filterForm.value.issue_count_filter"
+        required
+        placeholder="count" 
+        name="count" 
+        type="number"
+        (keyup.enter)="submitedForm()"
+        ngModel>
+      </mat-form-field>
+    </div>
+    <!-- <div class="text-right" style="position: absolute; left: 0;right: 0; bottom: 0">
     <i *ngIf="errorMessage" class="text-danger mr-4" style="font-size: 11px">{{errorMessage}}</i>
   </div> -->
-</form>
+  </form>
 
-<div class="w-100 top-border ">
-  <div class="d-flex flex-row padding-input py-3">
-      <button class="btn-theme btn-theme-primary filter-btn mr-auto"
-        type="button"  (click) = "submitedForm()">Apply</button>
+  <div class="w-100 top-border ">
+    <div class="d-flex flex-row padding-input py-3">
+      <button class="btn-theme btn-theme-primary filter-btn mr-auto" type="button"
+        (click)="submitedForm()">Apply</button>
       <button class="btn-theme filter-btn-clear" (click)="clearFormClicked()">Clear</button>
     </div>
-</div>
+  </div>
 </div>

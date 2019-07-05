@@ -2,31 +2,40 @@
   background-color: #ffffff;
   border: solid 1px #d8d8d8;
   margin-top: 40px;
+
   form {
     flex-direction: column;
     align-items: start;
     padding: 15px;
-    .sort-radio-box{
+
+    .sort-radio-box {
       display: flex;
       flex-direction: column;
-      .sort-radio-item{
+
+      .sort-radio-item {
         padding-bottom: 8px;
       }
     }
-    .count-sub-form{
+
+    .count-sub-form {
       display: flex;
       flex-direction: row;
-      .count-input-width{
-        width: 36px;
-        padding-bottom: 3px;
+
+      .count-input-width {
+        width: 43px;
+
       }
-      .count-select{
-        width:150px;
+
+      .count-select {
+        width: 150px;
+        margin-right: 27px;
       }
     }
-    .divider{
+
+    .divider {
       border-bottom: solid 1px #d8d8d8;
     }
+
     .heading {
       padding: 9px 15px;
       width: 100%;
@@ -37,15 +46,18 @@
     }
 
   }
+
   .top-border {
     border-top: solid 1px #d8d8d8;
   }
+
   .padding-input {
     padding: 9px 15px;
   }
 }
-.filter-btn-clear{
-    color: #474747;
-    background-color: transparent;
-    border: solid 1px #e0e0e0;
+
+.filter-btn-clear {
+  color: #474747;
+  background-color: transparent;
+  border: solid 1px #e0e0e0;
 }
