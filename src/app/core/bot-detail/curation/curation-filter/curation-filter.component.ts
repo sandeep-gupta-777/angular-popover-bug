@@ -12,6 +12,7 @@ export class CurationFilterComponent implements OnInit {
   @Input() triggered_rules : string[];
   @Output() formSubmitted = new EventEmitter();
   @Output() clearForm = new EventEmitter();
+  @Input() unsolved : boolean;
   @ViewChild('filterForm') curationForm: NgForm;
   maxDate = new Date();
   date = {};
@@ -50,6 +51,33 @@ export class CurationFilterComponent implements OnInit {
     }else{
       delete body['created_at__range'];
     }
+
+    if(body['issue_count_filter'] && body['count']){
+      body[body['issue_count_filter']]  = body['count'];
+      delete body['issue_count_filter'];
+      delete body['count'];
+    }else{
+      delete body['issue_count_filter'];
+      delete body['count'];
+    }
+    
+    if(body['order_by']){
+      body['order_by'] = `-${body['order_by']}`;
+    }else{
+      body['order_by'] = `-updated_at`;
+    }
+    if(this.unsolved){
+      delete body['hideIgnored'];
+    }else{
+      if(body['hideIgnored']){
+        body['curation_state__in']="resolved";
+        delete body['hideIgnored'];
+      }else{
+        body['curation_state__in']="resolved,ignored";
+        delete body['hideIgnored'];
+      }
+    }
+    
     this.formSubmitted.emit(body);
   }
   clearFormClicked(){

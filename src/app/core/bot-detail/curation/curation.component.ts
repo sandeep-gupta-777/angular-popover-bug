@@ -28,12 +28,17 @@ export class CurationComponent implements OnInit {
   isMoreCurationIssuesListPresent:boolean = false;
   totalLengthCurationIssue:number;
   curationIssuesListisReloading:boolean = false;
-  IssuesFilterQueryParams : object = {};
+  IssuesFilterQueryParams : object = {
+    'order_by' : `-updated_at`
+  };
   curationResolvedAndIgnoredList: ICurationItem[];
   curationResolvedAndIgnoredListLength:number = 0;
   isMoreCurationResolvedAndIgnoredListPresent:boolean = false;
   totalLengthCurationResolvedAndIgnored : number;
-  ResolvedFilterQueryParams : object = {};
+  ResolvedFilterQueryParams : object = {
+    'curation_state__in':"resolved,ignored",
+    'order_by' : `-updated_at`
+  };
   curationResolvedAndIgnoredListisReloading : boolean = false;
   reloading:boolean = true;
   ngOnInit() {
