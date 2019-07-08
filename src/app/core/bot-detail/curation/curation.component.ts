@@ -1,12 +1,19 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ICorpus, ICurationResult, ICurationItem } from '../../interfaces/faqbots';
+import {
+  ICorpus,
+  ICurationResult,
+  ICurationItem,
+  IAllCorpusResult,
+  ICurationResolvedAggregation
+} from '../../interfaces/faqbots';
 import { IBot } from '../../interfaces/IBot';
 import { ConstantsService } from 'src/app/constants.service';
 import { ServerService } from 'src/app/server.service';
 import { map } from 'rxjs/operators';
 import {UtilityService} from '../../../utility.service';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
+import {IHeaderData} from "../../../../interfaces/header-data";
 @Component({
   selector: 'app-curation',
   templateUrl: './curation.component.html',
@@ -41,6 +48,8 @@ export class CurationComponent implements OnInit {
   };
   curationResolvedAndIgnoredListisReloading : boolean = false;
   reloading:boolean = true;
+  liveBotUpdatedAt: number;
+  aggregationResolvedData: ICurationResolvedAggregation;
   ngOnInit() {
     this.reloading = true;
     this.curation_filter_form = this.formBuilder.group({
@@ -51,11 +60,23 @@ export class CurationComponent implements OnInit {
 
     this.load10MoreCurationIssues(false);
     this.load10MoreCurationResolvedAndIgnored(false);
+    this.setLiveBotUpdatedAt();
+    this.getResolvedAggregationData();
+  }
+  // setLiveBotUpdatedAt
+  setLiveBotUpdatedAt(){
+      const headerData: IHeaderData = {
+        'bot-access-token': this.bot.bot_access_token
+      };
+      const url = this.constantsService.getLiveCorpus();
+      this.serverService.makeGetReq<IAllCorpusResult>({ url, headerData })
+          .subscribe((Result) => {
+          this.liveBotUpdatedAt = Result.objects[0].updated_at;
+        });
   }
   // getting 10
-  load10MoreCurationIssues$(innit:boolean){
+  load10MoreCurationIssues$(innit: boolean){
     this.curationIssuesListisReloading = true;
-    debugger;
     let curationIssuesListUrl = this.constantsService.curationIssuesListUrl(10,this.curationIssuesListLength)
     return this.serverService.makeGetReq<ICurationResult>(
       {
@@ -142,6 +163,7 @@ export class CurationComponent implements OnInit {
           this.curationIssuesListLength = this.curationIssuesListLength - 1;
           this.curationIssuesList = this.curationIssuesList.filter((item) => {return item.id != curationId});
           this.reinnetalizeCurationResolvedAndIgnored()
+          this.getResolvedAggregationData();
         });
   }
 
@@ -164,7 +186,8 @@ export class CurationComponent implements OnInit {
       this.utilityService.showSuccessToaster("Issue has been successfully added to article.");
       this.curationIssuesListLength = this.curationIssuesListLength - 1;
       this.curationIssuesList = this.curationIssuesList.filter((item) => {return item.id != data.curationItemId});
-      this.reinnetalizeCurationResolvedAndIgnored()
+      this.reinnetalizeCurationResolvedAndIgnored();
+      this.getResolvedAggregationData();
     });
   }
 
@@ -191,4 +214,18 @@ export class CurationComponent implements OnInit {
 
     return str;
   }
+
+
+  // get resolved issues
+  getResolvedAggregationData(){
+    const headerData: IHeaderData = {
+      'bot-access-token': this.bot.bot_access_token
+    };
+    const getAggregationResolvedUrl = this.constantsService.getAggregationResolved();
+    this.serverService.makeGetReq<IAllCorpusResult>({ url: getAggregationResolvedUrl, headerData })
+      .subscribe((Result) => {
+        this.aggregationResolvedData = Result;
+      });
+  }
+
 }

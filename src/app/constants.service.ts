@@ -255,6 +255,9 @@ export class ConstantsService {
   putCorpus(){
     return this.BACKEND_URL + `api/v1/corpus/`;
   }
+  getLiveCorpus(){
+    return this.BACKEND_URL + `api/v1/corpus/?state=live`;
+  }
   getAllCorpusForFAQBot(limit,offset){
     return this.BACKEND_URL + `api/v1/corpus/?state__in=trained,live&limit=${limit}&offset=${offset}&order_by=-updated_at`;
   }
@@ -524,15 +527,17 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/faqbotcuration/?limit=${limit}&offset=${offset}`;
   }
   curationIssueIgnoreUrl(){
-    return this.BACKEND_URL + `api/v1/faqbotcuration/ignore/`
+    return this.BACKEND_URL + `api/v1/faqbotcuration/ignore/`;
   }
   curationIssueLinkToExistingSectionUrl(){
-    return this.BACKEND_URL + `api/v1/faqbotcuration/linktoexistingsection/`
+    return this.BACKEND_URL + `api/v1/faqbotcuration/linktoexistingsection/`;
   }
   addCurationToNewSection(){
-    return this.BACKEND_URL + `api/v1/faqbotcuration/addtonewsection/`
+    return this.BACKEND_URL + `api/v1/faqbotcuration/addtonewsection/`;
   }
-
+  getAggregationResolved(){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/aggregationcounts/?curation_state=resolved,ignored`;
+  }
   updateBotSerializer(bot: IBot) {
     const clone = { ...bot };
     const not_keys = [
