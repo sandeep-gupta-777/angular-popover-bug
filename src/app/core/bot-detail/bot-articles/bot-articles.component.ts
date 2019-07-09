@@ -24,6 +24,8 @@ import {TempVariableService} from '../../../temp-variable.service';
   styleUrls: ['./bot-articles.component.scss']
 })
 export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
+  articleUpdatedToasterMessage: string;
+  
   ngAfterViewInit(): void {
     if (RouteHelperService.getQueryParams(this.activatedRoute, "openPreview")) {
       this.chatService.openPreviewFormService(this.bot, this.enterprise_unique_name);
@@ -210,13 +212,16 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
     if (!create) {
       body['section_id'] = articleData.section_id;
       url = this.constantsService.updateArticelUrl();
+      this.articleUpdatedToasterMessage="Article succesfully saved";
     }
     else {
       if(TempVariableService.curationIds){
         body["curation_id_list"] = TempVariableService.curationIds;
         url = this.constantsService.addCurationToNewSection();
+        this.articleUpdatedToasterMessage="Utterence added to article";
       }else{
         url = this.constantsService.createArticelUrl();
+        this.articleUpdatedToasterMessage="Article succesfully saved";
       }
       
     }
@@ -224,14 +229,17 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
 
     return this.serverService.makePostReq<any>({ headerData, body, url })
   }
+  
+  
 
   updateArticle(articleData: IArticleItem) {
     this.updateArticle$(articleData)
+    
       .subscribe((value) => {
         if (value) {
           TempVariableService.curationIds = null;
           this.getCorpusAndSetArticleFilterForm$().subscribe((v) => {
-            this.utilityService.showSuccessToaster("Article succesfully saved");
+            this.utilityService.showSuccessToaster(this.articleUpdatedToasterMessage);
             this.showEditAndViewArtical = false;
             this.router.navigate(['.'], {
               queryParams: { isArticle: false , section_id:null },
