@@ -1,11 +1,18 @@
-<mat-tab-group animationDuration="0ms">
+<mat-tab-group animationDuration="0ms" [selectedIndex]="activeTab">
   <mat-tab label="Overview">
-    <app-curation-overview></app-curation-overview>
+    <app-curation-overview
+      [TopArticlesWithIssues]="topArticlesWithIssues"
+      [issuesAggrigationData] = "issuesAggrigationData"
+      (resolveArticleWithTopIssues$) = "resolveArticleWithTopIssues($event)"
+    ></app-curation-overview>
   </mat-tab>
   <mat-tab label="Issues">
     <section class="curation-issues-wrapper-section">
-      <app-curation-filter (formSubmitted)="IssuesFormSubmitted($event)" [hidden]="!curationIssuesList"
-        [unsolved]="true" style="z-index: 100;"></app-curation-filter>
+      <app-curation-filter (formSubmitted)="IssuesFormSubmitted($event)" 
+      [hidden]="!curationIssuesList"
+        [unsolved]="true" 
+        [resolveIssuesOfArticleByCount]="resolveArticleWithTopIssuesFilterCount"
+        style="z-index: 100;"></app-curation-filter>
       <app-curation-issues-list [bot]=" bot" *ngIf="curationIssuesList" [curationItemList]="curationIssuesList"
         [isMorePresent]="isMoreCurationIssuesListPresent" [reloadingMore]="curationIssuesListisReloading"
         (loadMoreNext)="load10MoreCurationIssues(false)" (ignoreCurationIssueById)="ignoreCurationIssueById($event)"

@@ -13,6 +13,19 @@ export class CurationFilterComponent implements OnInit {
   @Output() formSubmitted = new EventEmitter();
   @Output() clearForm = new EventEmitter();
   @Input() unsolved : boolean;
+  @Input() set resolveIssuesOfArticleByCount(count:number){
+    debugger;
+    if(count){
+      this.curationForm.reset();
+      this.curationForm.form.patchValue({
+        "order_by": "room_id",
+        "issue_count_filter": "issue_count_per_section",
+        "count": count
+      })
+      
+      this.submitedForm();
+    }
+  }
   @ViewChild('filterForm') curationForm: NgForm;
   maxDate = new Date();
   date = {};
@@ -82,6 +95,17 @@ export class CurationFilterComponent implements OnInit {
   }
   clearFormClicked(){
     this.curationForm.reset();
-    this.formSubmitted.emit({});
+    if(this.unsolved){
+      this.formSubmitted.emit({
+        'order_by' : `-updated_at`
+      });
+    }
+    if(!this.unsolved){
+      this.formSubmitted.emit({
+        'curation_state__in':"resolved,ignored",
+        'order_by' : `-updated_at`
+      });
+    }
+    
   }
 }

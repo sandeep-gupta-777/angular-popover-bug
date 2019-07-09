@@ -5,7 +5,8 @@ import {
   ICurationResult,
   ICurationItem,
   IAllCorpusResult,
-  ICurationResolvedAggregation
+  ICurationResolvedAggregation,
+  ICurationIssuesAggregation
 } from '../../interfaces/faqbots';
 import { IBot } from '../../interfaces/IBot';
 import { ConstantsService } from 'src/app/constants.service';
@@ -50,6 +51,10 @@ export class CurationComponent implements OnInit {
   reloading:boolean = true;
   liveBotUpdatedAt: number;
   aggregationResolvedData: ICurationResolvedAggregation;
+  issuesAggrigationData : ICurationIssuesAggregation;
+  topArticlesWithIssues: any[];
+  resolveArticleWithTopIssuesFilterCount : number;
+  activeTab:number = 0;
   ngOnInit() {
     this.reloading = true;
     this.curation_filter_form = this.formBuilder.group({
@@ -62,6 +67,8 @@ export class CurationComponent implements OnInit {
     this.load10MoreCurationResolvedAndIgnored(false);
     this.setLiveBotUpdatedAt();
     this.getResolvedAggregationData();
+    this.getIssuesAggregationData();
+    this.setTopArticlesWithIssues();
   }
   // setLiveBotUpdatedAt
   setLiveBotUpdatedAt(){
@@ -228,4 +235,31 @@ export class CurationComponent implements OnInit {
       });
   }
 
+  getIssuesAggregationData(){
+    const headerData: IHeaderData = {
+      'bot-access-token': this.bot.bot_access_token
+    };
+    const getAggregationIssuesUrl = this.constantsService.getAggregationIssues();
+    this.serverService.makeGetReq<IAllCorpusResult>({ url: getAggregationIssuesUrl, headerData })
+      .subscribe((Result) => {
+        this.issuesAggrigationData = Result;
+      });
+  }
+
+  setTopArticlesWithIssues(){
+    
+    const headerData: IHeaderData = {
+      'bot-access-token': this.bot.bot_access_token
+    };
+    const url = this.constantsService.getTopArticlesWithIssues();
+    this.serverService.makeGetReq<IAllCorpusResult>({ url, headerData })
+        .subscribe((Result) => {
+          debugger;
+        this.topArticlesWithIssues = Result.objects;
+      });
+}
+  resolveArticleWithTopIssues(section){
+    this.resolveArticleWithTopIssuesFilterCount = section.count;
+    this.activeTab = 1;
+  }
 }

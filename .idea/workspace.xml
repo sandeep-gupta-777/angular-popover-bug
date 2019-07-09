@@ -2,19 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f76ca172-4889-4422-b271-11858abe3471" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/constants.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/constants.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/bot-detail.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/bot-detail.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-issues-list/curation-issues-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-issues-list/curation-issues-list.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-issues-list/curation-issues-list.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-issues-list/curation-issues-list.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-issues-list/curation-issues-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-issues-list/curation-issues-list.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-resolved-list/curation-resolved-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-resolved-list/curation-resolved-list.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-resolved-list/curation-resolved-list.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-resolved-list/curation-resolved-list.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-resolved-list/curation-resolved-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-resolved-list/curation-resolved-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-issues-aggregation-bar/curation-issues-aggregation-bar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-issues-aggregation-bar/curation-issues-aggregation-bar.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/core/interfaces/faqbots.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/interfaces/faqbots.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/server.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/server.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/core/enterpriseprofile/enterprise-users/enterprise-users.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/enterpriseprofile/enterprise-users/enterprise-users.component.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/dist/" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -30,78 +28,93 @@
     <session id="-1474976673">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.14" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="html" value="7" />
+          <entry key="html" value="11" />
           <entry key="scss" value="1" />
-          <entry key="ts" value="9" />
+          <entry key="ts" value="18" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="HTML" value="7" />
+          <entry key="HTML" value="11" />
           <entry key="SCSS" value="1" />
-          <entry key="TypeScript" value="9" />
+          <entry key="TypeScript" value="18" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
         <counts>
-          <entry key="Angular2LanguageService" value="1" />
-          <entry key="TsLintLanguageService" value="1" />
+          <entry key="Angular2LanguageService" value="2" />
+          <entry key="TsLintLanguageService" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="html" value="51" />
-          <entry key="ts" value="140" />
+          <entry key="html" value="93" />
+          <entry key="ts" value="394" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="51" />
-          <entry key="TypeScript" value="140" />
+          <entry key="HTML" value="93" />
+          <entry key="TypeScript" value="394" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.html">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="160">
+              <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-issues-aggregation-bar/curation-issues-aggregation-bar.component.ts">
+        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="8" column="57" selection-start-line="8" selection-start-column="57" selection-end-line="8" selection-end-column="57" />
+            <state relative-caret-position="240">
+              <caret line="13" column="40" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="100">
+              <caret line="5" column="74" selection-start-line="5" selection-start-column="74" selection-end-line="5" selection-end-column="74" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="111">
+              <caret line="237" column="37" lean-forward="true" selection-start-line="237" selection-start-column="37" selection-end-line="237" selection-end-column="37" />
               <folding>
-                <element signature="e#0#50#0" expanded="true" />
+                <element signature="e#0#57#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.ts">
+        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="11" column="51" selection-start-line="11" selection-start-column="51" selection-end-line="11" selection-end-column="51" />
-              <folding>
-                <element signature="e#0#50#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="360">
+              <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-issues-aggregation-bar/curation-issues-aggregation-bar.component.html">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -109,6 +122,10 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>faqbotcuration</find>
+      <find>table</find>
+      <find>enterpriseUserModal</find>
+      <find>loggeduserenterpriseinfo</find>
+      <find>new</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -118,13 +135,17 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/app/constants.service.ts" />
-        <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.html" />
-        <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.ts" />
         <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-resolved-aggrigation/curation-resolved-aggrigation.component.html" />
         <option value="$PROJECT_DIR$/src/app/server.service.ts" />
         <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-resolved-aggrigation/curation-resolved-aggrigation.component.ts" />
         <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-issues-aggregation-bar/curation-issues-aggregation-bar.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.html" />
+        <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview-smart-table.ts" />
+        <option value="$PROJECT_DIR$/src/app/core/enterpriseprofile/enterprise-users/enterprise-users.component.ts" />
         <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.html" />
+        <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.ts" />
       </list>
     </option>
   </component>
@@ -1734,14 +1755,15 @@
       <path value="$PROJECT_DIR$/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="43" />
-    <option name="y" value="-20" />
-    <option name="width" value="1440" />
-    <option name="height" value="759" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="2480" />
+    <option name="y" value="-38" />
+    <option name="width" value="427" />
+    <option name="height" value="225" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
+      <autoscrollFromSource ProjectPane="true" />
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
@@ -1795,6 +1817,16 @@
               <item name="core" type="462c0819:PsiDirectoryNode" />
               <item name="bot-detail" type="462c0819:PsiDirectoryNode" />
               <item name="curation" type="462c0819:PsiDirectoryNode" />
+              <item name="curation-filter" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="bot-detail" type="462c0819:PsiDirectoryNode" />
+              <item name="curation" type="462c0819:PsiDirectoryNode" />
               <item name="curation-overview" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -1823,6 +1855,32 @@
               <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="enterpriseprofile" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="enterpriseprofile" type="462c0819:PsiDirectoryNode" />
+              <item name="enterprise-overview" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="enterpriseprofile" type="462c0819:PsiDirectoryNode" />
+              <item name="enterprise-users" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bot_platform-fe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="constants.service.ts" type="620a8d5e:NestingTreeNode" />
             </path>
           </expand>
@@ -1833,7 +1891,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="curation list&#9;null&#9;null" />
+    <property name="SearchEverywhereHistoryKey" value="curation fil&#9;null&#9;null&#10;curationov&#9;FILE&#9;file://C:/Users/shoaib.m/Documents/ang-frontend/dev/bot_platform-fe/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.ts&#10;enter user&#9;null&#9;null&#10;enter smart&#9;null&#9;null&#10;curation list&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.tslint" value="project" />
@@ -1901,25 +1959,21 @@
       <option name="presentableId" value="Default" />
       <updated>1562580866970</updated>
       <workItem from="1562580872383" duration="3942000" />
+      <workItem from="1562657321890" duration="11244000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3942000" />
+    <option name="totallyTimeSpent" value="15186000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1295" height="704" extended-state="7" />
+    <frame x="1912" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="npm" side_tool="true" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26868045" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16227607" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="TypeScript" visible="true" weight="0.06934307" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info id="npm" order="2" side_tool="true" />
+      <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -1927,6 +1981,11 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="TypeScript" order="9" weight="0.026402641" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.1210121" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -2033,25 +2092,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="45" column="83" selection-start-line="45" selection-start-column="83" selection-end-line="45" selection-end-column="83" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-detail-wrapper.component.html">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="224" column="31" selection-start-line="224" selection-start-column="31" selection-end-line="224" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#57#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/server.service.ts">
       <provider selected="true" editor-type-id="text-editor">
@@ -2073,9 +2115,12 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-issues-aggregation-bar/curation-issues-aggregation-bar.component.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-resolved-aggrigation/curation-resolved-aggrigation.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="900">
+        <state relative-caret-position="840">
           <caret line="42" column="23" selection-start-line="42" selection-start-column="23" selection-end-line="42" selection-end-column="23" />
           <folding>
             <element signature="n#style#0;n#div#3;n#div#0;n#!!top" expanded="true" />
@@ -2083,29 +2128,84 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-issues-aggregation-bar/curation-issues-aggregation-bar.component.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-issues-aggregation-bar/curation-issues-aggregation-bar.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
+        <state relative-caret-position="140">
           <caret line="8" column="57" selection-start-line="8" selection-start-column="57" selection-end-line="8" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/enterpriseprofile/enterprise-overview/enterprise-overview-smart-table.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/enterpriseprofile/enterprise-overview/enterprise-overview.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2400">
           <folding>
-            <element signature="e#0#50#0" expanded="true" />
+            <element signature="e#0#72#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview-smart-table.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="5" column="21" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#71#0" expanded="true" />
+            <element signature="n#!!block;n#updateDependency#0;n#EnterpriseUserSmartTable#0" />
+            <element signature="n#!!block;n#render#0;n#EnterpriseUserSmartTable#0" />
+            <element signature="n#!!block;n#customTransformSessionDataForMaterialTable#0;n#EnterpriseUserSmartTable#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/enterpriseprofile/enterprise-users/enterprise-users.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-860">
+          <caret line="281" column="155" lean-forward="true" selection-start-line="281" selection-start-column="5" selection-end-line="281" selection-end-column="155" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="11" column="51" selection-start-line="11" selection-start-column="51" selection-end-line="11" selection-end-column="51" />
+        <state relative-caret-position="240">
+          <caret line="13" column="40" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="5" column="74" selection-start-line="5" selection-start-column="74" selection-end-line="5" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="111">
+          <caret line="237" column="37" lean-forward="true" selection-start-line="237" selection-start-column="37" selection-end-line="237" selection-end-column="37" />
           <folding>
-            <element signature="e#0#50#0" expanded="true" />
+            <element signature="e#0#57#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
         </state>
       </provider>
     </entry>

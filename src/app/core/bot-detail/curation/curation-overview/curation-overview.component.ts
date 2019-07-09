@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ICurationIssuesAggregation} from "../../../interfaces/faqbots";
 
 @Component({
@@ -9,20 +9,14 @@ import {ICurationIssuesAggregation} from "../../../interfaces/faqbots";
 export class CurationOverviewComponent implements OnInit {
 
   constructor() { }
-  issuesAggrigationData: ICurationIssuesAggregation;
+  @Input() issuesAggrigationData: ICurationIssuesAggregation;
+  @Input() TopArticlesWithIssues : any[];
+  @Output() resolveArticleWithTopIssues$ = new EventEmitter();
   ngOnInit() {
-    this.issuesAggrigationData= {
-      "aggregation_counts": {
-        "agent_handover": 45,
-        "downvoted": 20,
-        "fallback": 70,
-        "from_session": 10,
-        "low_confidence": 10,
-        "partial_match": 10
-      },
-      "today_count": 10,
-      "total_count": 130
-    }
+   
+  }
+  resolveArticleWithTopIssues(section){
+    this.resolveArticleWithTopIssues$.emit(section);
   }
 
 }

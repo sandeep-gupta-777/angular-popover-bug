@@ -1,4 +1,7 @@
-<div [ngClass]="aggrigationData.total_count > 0 ? 'issues-aggregation': 'issues-aggregation-zero' ">
+<div 
+[ngClass]="aggrigationData.total_count > 0 ? 'issues-aggregation': 'issues-aggregation-zero' "
+*ngIf="!!aggrigationData"
+>
   <div class="total-count">
     <div class="total">
       <img class="total-icon" src="assets/img/curation-issues-icon.svg" alt="">

@@ -538,6 +538,12 @@ export class ConstantsService {
   getAggregationResolved(){
     return this.BACKEND_URL + `api/v1/faqbotcuration/aggregationcounts/?curation_state=resolved,ignored`;
   }
+  getAggregationIssues(){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/aggregationcounts/?curation_state=in_curation`
+  }
+  getTopArticlesWithIssues(){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/topsectionissues/`;
+  }
   updateBotSerializer(bot: IBot) {
     const clone = { ...bot };
     const not_keys = [
@@ -1008,8 +1014,6 @@ export class ConstantsService {
     //   searchValue: true,
     // },
   };
-
-
   SMART_TABLE_CONSUMER_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
     id: {
       originalKey: 'id',
@@ -1088,6 +1092,7 @@ export class ConstantsService {
     },
   };
 
+  
   SMART_TABLE_ARTICLE_HISTORY_TEMPLATE: ITableColumn = {
     description: {
       originalKey: 'description',
