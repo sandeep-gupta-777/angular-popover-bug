@@ -19,6 +19,7 @@ export const enterprise_ner = {
       "key": "balance_types",
       "ner_type": "double_match",
       "process_raw_text": false,
+       
       "resource_uri": "/api/v1/customner/2751/",
       "type": "enterprise",
       "updated_at": 1537062728000,
@@ -41,6 +42,7 @@ export const enterprise_ner = {
       "key": "balance_types",
       "ner_type": "double_match",
       "process_raw_text": false,
+       
       "resource_uri": "/api/v1/customner/2751/",
       "type": "enterprise",
       "updated_at": 1537062728000,
@@ -63,6 +65,7 @@ export const enterprise_ner = {
       "key": "balance_types",
       "ner_type": "double_match",
       "process_raw_text": false,
+       
       "resource_uri": "/api/v1/customner/2751/",
       "type": "enterprise",
       "updated_at": 1537062728000,
@@ -85,6 +88,7 @@ export const enterprise_ner = {
       "key": "balance_types",
       "ner_type": "double_match",
       "process_raw_text": false,
+       
       "resource_uri": "/api/v1/customner/2751/",
       "type": "enterprise",
       "updated_at": 1537062728000,
@@ -107,6 +111,7 @@ export const enterprise_ner = {
       "key": "otp",
       "ner_type": "regex",
       "process_raw_text": false,
+       
       "resource_uri": "/api/v1/customner/2753/",
       "type": "enterprise",
       "updated_at": 1542956208000,
@@ -132,6 +137,7 @@ export const enterprise_ner = {
       "key": "santoshdb",
       "ner_type": "database",
       "process_raw_text": false,
+       
       "resource_uri": "/api/v1/customner/3056/",
       "type": "enterprise",
       "updated_at": 1537790350000,
@@ -175,6 +181,7 @@ export const enterprise_ner = {
       "key": "this_is_a_test",
       "ner_type": "double_match",
       "process_raw_text": false,
+       
       "resource_uri": "/api/v1/customner/3220/",
       "type": "enterprise",
       "updated_at": 1536433126000,
@@ -195,6 +202,7 @@ export const enterprise_ner = {
       "key": "alchemydata231",
       "ner_type": "double_match",
       "process_raw_text": false,
+       
       "resource_uri": "/api/v1/customner/3225/",
       "type": "enterprise",
       "updated_at": 1536433801000,
@@ -213,6 +221,7 @@ export const enterprise_ner = {
       "key": "",
       "ner_type": "double_match",
       "process_raw_text": false,
+       
       "resource_uri": "/api/v1/customner/3228/",
       "type": "enterprise",
       "updated_at": 1536439191000,
@@ -235,6 +244,7 @@ export const enterprise_ner = {
       "key": "santoshdbdasd",
       "ner_type": "double_match",
       "process_raw_text": false,
+       
       "resource_uri": "/api/v1/customner/3237/",
       "type": "enterprise",
       "updated_at": 1536604460000,

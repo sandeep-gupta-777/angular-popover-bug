@@ -11,10 +11,13 @@
     </app-article-question-list-view>
     <div>
       <div class="d-flex w-100  flex-column article-action-side-bar pl-4">
-        <div class="for-border"></div>
-        <div class="action-item pt-2 pb-1 cursor-pointer" style="font-size:13px" (click)="openArticleCreate()" *myIf="myEAllActions['Create Section']">
-          <mat-icon class="material-icons">add</mat-icon> Create new article
-        </div>
+        <!-- <div class="for-border"></div> -->
+        <div class="action-item pt-2 pb-2 cursor-pointer">
+          <button  class = "create-new-category-button btn-theme cursor-pointer" mat-stroked-button style="font-size:13px" (click)="openArticleCreate()" *myIf="myEAllActions['Create Section']">
+            <mat-icon class="material-icons">add</mat-icon>Create new article
+          </button>
+        </div> 
+        
         <div class="action-item py-1 cursor-pointer" (click)="openCategoryModifyModal(categoriesTemplate)" *myIf="myEAllActions['Update Category']">
           <mat-icon class="material-icons">folder</mat-icon>Modify categories
         </div>

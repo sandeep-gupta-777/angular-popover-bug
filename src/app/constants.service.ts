@@ -518,10 +518,10 @@ export class ConstantsService {
   }
 
   curationIssuesListUrl(limit,offset){
-    return this.BACKEND_URL + `api/v1/faqbotcuration/?curation_state__in=in_curation&order_by=-updated_at&limit=${limit}&offset=${offset}`;
+    return this.BACKEND_URL + `api/v1/faqbotcuration/?curation_state__in=in_curation&limit=${limit}&offset=${offset}`;
   }
   curationResolvedAndIgnoredListUrl(limit,offset){
-    return this.BACKEND_URL + `api/v1/faqbotcuration/?curation_state__in=resolved,ignored&order_by=-updated_at&limit=${limit}&offset=${offset}`;
+    return this.BACKEND_URL + `api/v1/faqbotcuration/?limit=${limit}&offset=${offset}`;
   }
   curationIssueIgnoreUrl(){
     return this.BACKEND_URL + `api/v1/faqbotcuration/ignore/`

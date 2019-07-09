@@ -44,9 +44,13 @@
           </div>
         </div>
         <div class='column'>
-          <div class='column-2'>
+          <div class='column-2' *ngIf="curationItemData.section_id != 'partial_match'">
             <p style="font-size: 11px">Bot understood it as</p>
             <p style="font-size: 13px" innerHTML=&#34;{{curationItemData.first_question}}&#34;></p>
+          </div>
+          <div class='column-2' *ngIf="curationItemData.section_id == 'partial_match'">
+            <p style="font-size: 11px" innerHTML={{curationItemData.generated_msg[0].text}}></p>
+            <p style="font-size: 13px" *ngFor="let t of curationItemData.generated_msg | slice : 1 " innerHTML={{t.text}}></p>
           </div>
         </div>
       </div>

@@ -10,6 +10,8 @@ export interface ICustomNerItem {
   'key'?: string; //"city1",
   'ner_type'?: string; //"double_match",
   'process_raw_text'?: false;
+  'is_sensitive'?: false;
+  'ignore_punctuation'?: false;
   'resource_uri'?: string; //"/api/v1/customner/17/",
   'type'?: string; //"bot",
   'updated_at'?: string; //"2018-07-31T10?:19?:59.597000",

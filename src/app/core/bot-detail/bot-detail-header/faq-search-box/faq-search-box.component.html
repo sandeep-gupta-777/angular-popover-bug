@@ -13,7 +13,7 @@
             {{section.category_id | categoryIdToName : corpus.category_mapping }}
         </div>
         <div class="d-flex flex-column" >
-          <p class="first_question mr-auto question" *ngFor="let question of section.questions , let i = index" data-cy="article-search-results"
+          <p class="first_question mr-auto question py-2" *ngFor="let question of section.questions , let i = index" data-cy="article-search-results"
             [innerHtml]="question"></p>
         </div>
       </div>
