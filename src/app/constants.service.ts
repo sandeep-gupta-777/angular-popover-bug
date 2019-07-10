@@ -532,7 +532,9 @@ export class ConstantsService {
   addCurationToNewSection(){
     return this.BACKEND_URL + `api/v1/faqbotcuration/addtonewsection/`
   }
-
+  addMessageToCurationFromSession(){
+    return this.BACKEND_URL + `api/v1/message/addmessagetofaqbotcuration/`
+  }
   updateBotSerializer(bot: IBot) {
     const clone = { ...bot };
     const not_keys = [

@@ -27,6 +27,7 @@ export interface ISessionMessageItem {
   nlp:object;
   /*custom fields*/
   messageByHuman: string;
+  curation_state: string;
 }
 
 export interface ISessionMessage {

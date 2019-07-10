@@ -5,6 +5,8 @@ import {UtilityService} from '../../../../../utility.service';
 import {LoggingService} from '../../../../../logging.service';
 import {EChatFeedback} from '../../../../../chat/chat-wrapper.component';
 import { IBot } from 'src/app/core/interfaces/IBot';
+import {ConstantsService} from "../../../../../constants.service";
+import {ServerService} from "../../../../../server.service";
 
 @Component({
   selector: 'app-session-message',
@@ -29,7 +31,13 @@ export class SessionMessageComponent implements OnInit {
   txnId_highlighting: string;
   hasError:boolean = false;
   hasAgentHandover:boolean=false;
-  constructor(public utilityService: UtilityService) { }
+  inCuration:boolean=false;
+  bot_message_id:number;
+  constructor(
+    public utilityService: UtilityService,
+    public constantsService: ConstantsService,
+    public serverService: ServerService
+    ) { }
 
   copyMessageClicked(dataValue){
     this.utilityService.copyToClipboard(dataValue);
@@ -43,13 +51,31 @@ export class SessionMessageComponent implements OnInit {
     this.txnId_highlighting = this._txnConversationItems.transaction_id_highlighting || this.txnId;
     this.sessionMessageItems.forEach(sessionMessage => {
       if(sessionMessage.user_type == 'human'){
+        debugger;
         this.hasError = this.hasError || sessionMessage.error;
+        this.bot_message_id = sessionMessage.id;
       }
       if(sessionMessage.user_type == 'bot'){
-        this.hasAgentHandover = this.hasAgentHandover || sessionMessage.message_store.sendtoagent
+        this.hasAgentHandover = this.hasAgentHandover || sessionMessage.message_store.sendtoagent;
+        this.inCuration = this.inCuration || (!!sessionMessage.curation_state);
+        this.bot_message_id = sessionMessage.id;
       }
     });
     // this.sessionMessageData.user_type;
   }
-
+  addMessageToCuration(){
+    const headerData = {
+      'bot-access-token': this.bot.bot_access_token
+    };
+    let body = {
+      'bot_message_id': this.bot_message_id
+    }
+    let url = this.constantsService.addMessageToCurationFromSession()
+    this.serverService.makePostReq<any>({ headerData, body, url })
+      .subscribe(val => {
+        this.utilityService.showSuccessToaster("Flagged for curation");
+        this.inCuration = true;
+      });
+  }
+  
 }
