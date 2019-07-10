@@ -18,17 +18,28 @@
         </span>
 
         <span class="curation-card-header-icon-list">
-          <mat-icon style="color: #d94254;" [title]="toDisplayValue('downvoted')" *ngIf="curationItemData.triggered_rules.downvoted">
+          <!--downvoted-->
+          <mat-icon style="color: #d94254;" [title]="toDisplayValue('bot’s_message_was_downvoted')" *ngIf="curationItemData.triggered_rules.downvoted">
             thumb_down</mat-icon>
-          <mat-icon style="color: #fd901c;" [title]="toDisplayValue('fallback')" *ngIf="curationItemData.triggered_rules.fallback">
+
+          <!--fallback-->
+          <mat-icon style="color: #fd901c;" [title]="toDisplayValue('bot_was_unable_to_understand')" *ngIf="curationItemData.triggered_rules.fallback">
             sentiment_dissatisfied</mat-icon>
-          <mat-icon style="color: #00abd3;" [title]="toDisplayValue('from_session')" *ngIf="curationItemData.triggered_rules.from_session">
+
+          <!-- from_session -->
+          <mat-icon style="color: #00abd3;" [title]="toDisplayValue('added_to_curation_from_session')" *ngIf="curationItemData.triggered_rules.from_session">
             question_answer</mat-icon>
-          <mat-icon style="color: #193a57;" [title]="toDisplayValue('partial_match')"
+
+          <!-- partial_match -->
+          <mat-icon style="color: #193a57;" [title]="toDisplayValue('bot_was_unable_to_disambiguate')"
             *ngIf="curationItemData.triggered_rules.partial_match">list</mat-icon>
-          <mat-icon style="color: #000000;" [title]="toDisplayValue('agent_handover')"
-            *ngIf="curationItemData.triggered_rules.agent_handover">headset_mic</mat-icon>
-          <mat-icon style="color: #ff8c41;" [title]="toDisplayValue('low_confidence')"
+
+          <!--agent_handover-->
+          <mat-icon style="color: #000000;" [title]="toDisplayValue('handed_over_to_agent')"
+            *ngIf="curationItemData.triggered_rules.agent_handover">headset_mic</mat-icon>  
+            
+          <!-- low_confidence -->
+          <mat-icon style="color: #ff8c41;" [title]="toDisplayValue('article_recognized_has_a_low_score')"
             *ngIf="curationItemData.triggered_rules.low_confidence">live_help</mat-icon>
         </span>
       </div>
@@ -74,7 +85,7 @@
         <div *ngIf="!articleSearchMode" class="d-flex w-100  not-resolved-footer">
           <button mat-button color=primary style="border: solid 1px #41c9e9;" class="mat-theme-button footer-btn px-2" (click)="articleSearchMode = true" *myIf="myEAllActions['Link curation issues to an article']">
             <mat-icon style="transform:rotate(130deg);font-size: 18px;">insert_link</mat-icon>&nbsp;
-            Link to existing article
+            Link to an existing article
           </button>
 
           <button mat-button style="border: solid 1px #d8d8d8;" class="mat-theme-button footer-btn px-2" (click)="addIssueToNewArticle()" *myIf="myEAllActions['Add curation issues to a new article']">

@@ -51,11 +51,11 @@ export class ArticleHistorySmartTable extends AbstractSmartTable {
                         value: `<div class="dropdown table-dropdown">
   <i class="fa fa-angle-down arrow-circle"></i>
   <div class="dropdown-content px-0">
-    ${(corpusTableDataItem.state != 'live') ?`<p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_makelive_${index}_${corpusTableDataItem.id}"><i class="fa fa-upload"></i> Make live</p>`:''}
-    <p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_edit_${index}_${corpusTableDataItem.id}"><i class="fa fa-edit"></i> Edit</p>
+    ${(corpusTableDataItem.state != 'live') ?`<p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_makelive_${index}_${corpusTableDataItem.id}"><mat-icon class = "mat-icon material-icons" >arrow_upward</mat-icon> Make live</p>`:''}
+    <p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_edit_${index}_${corpusTableDataItem.id}"><mat-icon class = "mat-icon material-icons">edit</mat-icon> Edit</p>
     <hr>
-    <p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_preview_${index}_${corpusTableDataItem.id}"> <i class="fa fa-edit"></i> Preview</p>
-    <p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_download_${index}_${corpusTableDataItem.id}"> <i class="fa fa-download"></i> Download</p>
+    <p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_preview_${index}_${corpusTableDataItem.id}"><mat-icon class = "mat-icon material-icons">chat_bubble</mat-icon> Preview</p>
+    <p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_download_${index}_${corpusTableDataItem.id}"><mat-icon class = "mat-icon material-icons pt-10">get_app</mat-icon> Download</p>
   </div>
 </div>`,
                         searchValue: ''

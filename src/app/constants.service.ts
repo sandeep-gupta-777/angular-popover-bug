@@ -9,6 +9,7 @@ import { IAuthState } from './auth/ngxs/auth.state';
 import { ITableColumn } from '../interfaces/sessions';
 import {environment} from '../environments/environment';
 import {EAllActions} from "./typings/enum";
+import { style } from '@angular/animations';
 
 declare var Handsontable: any;
 
@@ -1088,7 +1089,7 @@ export class ConstantsService {
       originalKey: 'description',
       value: '',
       type: 'string',
-      displayValue: 'Comment while training',
+      displayValue:'Description of trained knowledge base',
 
     },
     updated_at: {
