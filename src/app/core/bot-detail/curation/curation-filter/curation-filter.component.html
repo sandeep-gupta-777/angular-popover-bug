@@ -2,26 +2,35 @@
 
   <form ngNativeValidate #filterForm="ngForm" class=" d-flex  position-relative p-0">
     <div class="heading">Sort by</div>
-    <mat-radio-group name="order_by" class="sort-radio-box padding-input" ngModel>
+    <div class="form-group m-0 padding-input sort-decrease-height" >
+      <mat-form-field class="input-width">
+        <mat-select name="order_by" class ="input-width" [(ngModel)] = "tempOrderBy" (ngModelChange)="onSortByChange($event)">
+          <mat-option value="updated_at" class="sort-radio-item">Last Updated </mat-option>
+          <mat-option value="group_by_section" class="sort-radio-item">Articles with most issues </mat-option>
+          <mat-option value="room_id" class="sort-radio-item">Issues in the same session </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div> 
+    <!-- <mat-radio-group name="order_by" class="sort-radio-box padding-input" ngModel>
       <mat-radio-button value="updated_at" class="sort-radio-item" color=primary>Latest Updated </mat-radio-button>
       <mat-radio-button value="room_id" class="sort-radio-item" color=primary>Articles with most issues
       </mat-radio-button>
       <mat-radio-button value="group_by_section" class="sort-radio-item" color=primary>Issues in the same session
       </mat-radio-button>
-    </mat-radio-group>
+    </mat-radio-group> -->
     <div class="divider w-100"></div>
     <div class="heading">Filter by</div>
-    <div  class="m-0 padding-input" *ngIf="!unsolved">
+    <div  class="m-0 padding-input pt-2" *ngIf="!unsolved">
         <mat-checkbox name = "hideIgnored" color=primary ngModel >Hide ignored queries</mat-checkbox>
     </div> 
-    <div class="m-0 padding-input">
+    <div class="m-0 padding-input ">
       <mat-form-field class=" input-width">
         <input matInput class="input-width" placeholder="Room ID" name="room_id" type="number"
           (keyup.enter)="submitedForm()" ngModel>
       </mat-form-field>
     </div>
 
-    <div class="form-group m-0 padding-input">
+    <div class="form-group m-0 padding-input sort-decrease-height">
       <mat-form-field class="input-width">
         <mat-select placeholder="Rule triggered" ngModel name="triggered_rules" [value]="triggered_rules[0]">
           <mat-option *ngFor="let rule of triggered_rules" [value]="rule">
@@ -31,7 +40,7 @@
       </mat-form-field>
     </div>
 
-    <div class="m-0 padding-input ">
+    <div class="m-0 padding-input sort-decrease-height">
 
       <mat-form-field class="input-width">
         <input matInput readonly placeholder="Choose a date range" name="created_at__range" [ngModel]="date"
@@ -40,7 +49,7 @@
         <sat-datepicker-toggle matSuffix [for]="picker" style="color: #b5b5b5"></sat-datepicker-toggle>
       </mat-form-field>
     </div>
-    <div class="m-0 padding-input count-sub-form">
+    <div class="m-0 padding-input count-sub-form sort-decrease-height">
       <mat-form-field class="count-select">
         <mat-label>Articles with issues</mat-label>
         <mat-select class="count-type" name="issue_count_filter" ngModel>
@@ -68,10 +77,10 @@
     </div>
   </form>
 
-  <div class="w-100 top-border ">
+  <div class="w-100 ">
     <div class="d-flex flex-row padding-input py-3">
       <button class="btn-theme btn-theme-primary filter-btn mr-auto" type="button"
-        (click)="submitedForm()">Apply</button>
+        (click)="submitedForm()">Filter</button>
       <button class="btn-theme filter-btn-clear" (click)="clearFormClicked()">Clear</button>
     </div>
   </div>

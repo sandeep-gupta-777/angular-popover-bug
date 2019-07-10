@@ -1,5 +1,5 @@
-import {Component, OnInit, Input, ViewChild, EventEmitter, Output} from '@angular/core';
-import { FormGroup, NgForm } from '@angular/forms';
+import {Component, OnInit, Input, ViewChild, EventEmitter, Output, AfterViewInit, OnDestroy} from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-curation-filter',
@@ -19,17 +19,19 @@ export class CurationFilterComponent implements OnInit {
       this.curationForm.reset();
       this.curationForm.form.patchValue({
         "order_by": "room_id",
-        "issue_count_filter": "issue_count_per_section",
+        "issue_count_filter": 'issue_count_per_section',
         "count": count
       })
-      
       this.submitedForm();
     }
   }
   @ViewChild('filterForm') curationForm: NgForm;
   maxDate = new Date();
   date = {};
+  tempOrderBy = "updated_at";
+  formChangesSubscription;
   ngOnInit() {
+    
     if(!this.triggered_rules){
       this.triggered_rules = [
                 "agent_handover",
@@ -40,6 +42,7 @@ export class CurationFilterComponent implements OnInit {
                 "partial_match"
       ]
     }
+
   }
 
   toDisplayValue(value:string){
@@ -51,6 +54,7 @@ export class CurationFilterComponent implements OnInit {
     }
     return pieces.join(" ");
   }
+
   submitedForm(){
     let body = {};
 
@@ -93,6 +97,7 @@ export class CurationFilterComponent implements OnInit {
     
     this.formSubmitted.emit(body);
   }
+
   clearFormClicked(){
     this.curationForm.reset();
     if(this.unsolved){
@@ -108,4 +113,9 @@ export class CurationFilterComponent implements OnInit {
     }
     
   }
+
+  onSortByChange(val){
+    this.submitedForm();
+  }
+  
 }
