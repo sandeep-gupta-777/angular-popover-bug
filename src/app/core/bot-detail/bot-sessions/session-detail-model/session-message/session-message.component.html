@@ -6,10 +6,8 @@
    <span></span>
       <mat-icon class= "search-error ml-1" *ngIf="hasError">error_outline</mat-icon>
       <mat-icon class= "search-agent ml-1" *ngIf="hasAgentHandover">headset_mic</mat-icon>
-      <mat-icon class= "search-error ml-1" >error_outline</mat-icon>
-      <mat-icon class= "search-agent ml-1" >headset_mic</mat-icon>
-      <mat-icon class= "search-flag ml-1" *ngIf="inCuration">flag</mat-icon>
-      <mat-icon class= "notInCuration ml-1" *ngIf="!inCuration" (click)="addMessageToCuration()">flag</mat-icon>
+      <mat-icon class= "search-flag ml-1" *ngIf="bot.bot_type == 'faqbot' && inCuration" title="Message in curation">flag</mat-icon>
+      <mat-icon class= "notInCuration ml-1" *ngIf="bot.bot_type == 'faqbot' && !inCuration" (click)="addMessageToCuration()" title="Add to curation">flag</mat-icon>
   </div>
 
 
