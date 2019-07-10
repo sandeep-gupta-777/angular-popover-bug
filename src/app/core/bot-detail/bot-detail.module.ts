@@ -85,6 +85,7 @@ import {CurationIssuesComponent} from './curation/curation-issues/curation-issue
 import {CurationIssuesListComponent} from './curation/curation-issues-list/curation-issues-list.component';
 import {CurationResolvedListComponent} from './curation/curation-resolved-list/curation-resolved-list.component';
 import { BotArticleHistoryComponent } from './bot-article-history/bot-article-history.component';
+import { CurationSettingsComponent } from './curation/curation-settings/curation-settings.component';
 
 
 const routes: Route[] = [
@@ -167,6 +168,7 @@ const routes: Route[] = [
     CurationIssuesComponent,
     CurationIssuesListComponent,
     CurationResolvedListComponent,
+    CurationSettingsComponent,
     /*after lazy loading*/
     // RequiredIfOneFilledValidator
   //
