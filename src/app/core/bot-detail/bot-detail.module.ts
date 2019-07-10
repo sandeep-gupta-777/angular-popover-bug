@@ -86,6 +86,9 @@ import {CurationIssuesListComponent} from './curation/curation-issues-list/curat
 import {CurationResolvedListComponent} from './curation/curation-resolved-list/curation-resolved-list.component';
 import { BotArticleHistoryComponent } from './bot-article-history/bot-article-history.component';
 import { CurationSettingsComponent } from './curation/curation-settings/curation-settings.component';
+import { CurationResolvedAggrigationComponent } from './curation/curation-resolved-aggrigation/curation-resolved-aggrigation.component';
+import { CurationOverviewComponent } from './curation/curation-overview/curation-overview.component';
+import { CurationIssuesAggregationBarComponent } from './curation/curation-overview/curation-issues-aggregation-bar/curation-issues-aggregation-bar.component';
 
 
 const routes: Route[] = [
@@ -169,6 +172,9 @@ const routes: Route[] = [
     CurationIssuesListComponent,
     CurationResolvedListComponent,
     CurationSettingsComponent,
+    CurationResolvedAggrigationComponent,
+    CurationOverviewComponent,
+    CurationIssuesAggregationBarComponent,
     /*after lazy loading*/
     // RequiredIfOneFilledValidator
   //

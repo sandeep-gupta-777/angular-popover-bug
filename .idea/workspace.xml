@@ -2,10 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f76ca172-4889-4422-b271-11858abe3471" name="Default Changelist" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/bot-detail.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/bot-detail.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/core/interfaces/IBot.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/interfaces/IBot.ts" afterDir="false" />
     </list>
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-resolved-aggrigation/curation-resolved-aggrigation.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-resolved-aggrigation/curation-resolved-aggrigation.component.html" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/dist/" />
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+>>>>>>> develop
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,16 +38,28 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
+<<<<<<< HEAD
           <entry key="html" value="13" />
           <entry key="scss" value="1" />
           <entry key="ts" value="21" />
+=======
+          <entry key="html" value="12" />
+          <entry key="scss" value="1" />
+          <entry key="ts" value="18" />
+>>>>>>> develop
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
+<<<<<<< HEAD
           <entry key="HTML" value="13" />
           <entry key="SCSS" value="1" />
           <entry key="TypeScript" value="21" />
+=======
+          <entry key="HTML" value="12" />
+          <entry key="SCSS" value="1" />
+          <entry key="TypeScript" value="18" />
+>>>>>>> develop
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
@@ -44,14 +70,24 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
+<<<<<<< HEAD
           <entry key="html" value="95" />
           <entry key="ts" value="623" />
+=======
+          <entry key="html" value="93" />
+          <entry key="ts" value="414" />
+>>>>>>> develop
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
+<<<<<<< HEAD
           <entry key="HTML" value="95" />
           <entry key="TypeScript" value="623" />
+=======
+          <entry key="HTML" value="93" />
+          <entry key="TypeScript" value="414" />
+>>>>>>> develop
         </counts>
       </usages-collector>
     </session>
@@ -59,45 +95,76 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="182">
               <caret line="87" column="28" selection-start-line="87" selection-start-column="28" selection-end-line="87" selection-end-column="28" />
+=======
+        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="160">
+              <caret line="8" selection-start-line="8" selection-end-line="8" />
+>>>>>>> develop
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="140">
               <caret line="190" selection-start-line="190" selection-end-line="190" />
+=======
+        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="13" column="40" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="40" />
+>>>>>>> develop
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-119">
               <caret line="84" column="32" selection-start-line="84" selection-start-column="32" selection-end-line="84" selection-end-column="32" />
+=======
+        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="100">
+              <caret line="5" column="74" selection-start-line="5" selection-start-column="74" selection-end-line="5" selection-end-column="74" />
+>>>>>>> develop
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="140">
               <caret line="6" column="31" lean-forward="true" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="31" />
               <folding>
                 <element signature="n#style#0;n#sat-datepicker-toggle#0;n#mat-form-field#0;n#div#6;n#form#0;n#div#0;n#!!top" expanded="true" />
+=======
+        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4440">
+              <caret line="238" column="37" selection-start-line="238" selection-start-column="37" selection-end-line="238" selection-end-column="37" />
+              <folding>
+                <element signature="e#0#57#0" expanded="true" />
+>>>>>>> develop
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-settings/curation-settings.component.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="71">
@@ -105,11 +172,18 @@
               <folding>
                 <element signature="e#0#55#0" expanded="true" />
               </folding>
+=======
+        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="641">
+              <caret line="123" column="3" selection-start-line="123" selection-start-column="3" selection-end-line="123" selection-end-column="3" />
+>>>>>>> develop
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/src/app/core/interfaces/IBot.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="476">
@@ -132,6 +206,15 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="600">
               <caret line="82" column="7" selection-start-line="82" selection-start-column="7" selection-end-line="82" selection-end-column="7" />
+=======
+        <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
+              <folding>
+                <element signature="n#style#0;n#sat-datepicker-toggle#0;n#mat-form-field#0;n#div#7;n#form#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
+>>>>>>> develop
             </state>
           </provider>
         </entry>
@@ -140,8 +223,16 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
+<<<<<<< HEAD
       <find>curation</find>
       <find>curation_settings</find>
+=======
+      <find>faqbotcuration</find>
+      <find>table</find>
+      <find>enterpriseUserModal</find>
+      <find>loggeduserenterpriseinfo</find>
+      <find>new</find>
+>>>>>>> develop
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -150,19 +241,154 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.html" />
         <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-settings/curation-settings.component.html" />
         <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-settings/curation-settings.component.ts" />
         <option value="$PROJECT_DIR$/src/app/core/interfaces/IBot.ts" />
+=======
+        <option value="$PROJECT_DIR$/src/app/constants.service.ts" />
+        <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-resolved-aggrigation/curation-resolved-aggrigation.component.html" />
+        <option value="$PROJECT_DIR$/src/app/server.service.ts" />
+        <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-resolved-aggrigation/curation-resolved-aggrigation.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-issues-aggregation-bar/curation-issues-aggregation-bar.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.html" />
+        <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview-smart-table.ts" />
+        <option value="$PROJECT_DIR$/src/app/core/enterpriseprofile/enterprise-users/enterprise-users.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.html" />
+        <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.html" />
+>>>>>>> develop
       </list>
     </option>
   </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+<<<<<<< HEAD
   <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+=======
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER">
+    <package-json value="$PROJECT_DIR$/package.json" />
+  </component>
+>>>>>>> develop
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
+<<<<<<< HEAD
+=======
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/@angular-devkit/architect/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/@angular-devkit/build-angular/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/@angular-devkit/build-optimizer/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/@angular-devkit/build-webpack/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/@angular/cli/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/@angular/compiler-cli/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/@angular/pwa/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/@cypress/listr-verbose-renderer/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/@cypress/xvfb/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/@ngtools/webpack/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/@types/karma/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/babel-code-frame/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/base/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/braces/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/class-utils/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/clean-css/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/cosmiconfig/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/cypress/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/define-property/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/del/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/engine.io-client/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/engine.io/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/escodegen/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/eslint-scope/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/esrecurse/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/executable/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/expand-braces/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/expand-brackets/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/expand-range/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/extend-shallow/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/extglob/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/extract-zip/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/fill-range/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/findup-sync/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/follow-redirects/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/glob-base/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/glob-parent/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/has-binary/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/has-values/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/https-proxy-agent/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/import-local/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/is-accessor-descriptor/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/is-data-descriptor/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/is-descriptor/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/is-number/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/istanbul-instrumenter-loader/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/istanbul/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/jasmine/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/karma/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/less/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/listr-update-renderer/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/listr-verbose-renderer/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/listr/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/load-json-file/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/log-update/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/mixin-deep/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/mixin-object/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/node-gyp/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/node-libs-browser/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/node-sass/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/object-copy/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/object.omit/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/optimist/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/ora/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/parse-glob/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/postcss-loader/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/postcss/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/protractor/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/read-cache/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/read-pkg-up/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/read-pkg/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/regjsparser/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/scss-tokenizer/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/selenium-webdriver/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/set-value/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/shallow-clone/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/snapdragon-node/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/snapdragon-util/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/snapdragon/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/socket.io-adapter/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/socket.io-client/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/socket.io-parser/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/socket.io/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/sockjs-client/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/source-map-loader/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/static-extend/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/streamroller/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/style-loader/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/stylus/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/terser-webpack-plugin/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/terser/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/to-object-path/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/ts-node/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/uglifyjs-webpack-plugin/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/union-value/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/unset-value/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/url/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/webdriver-js-extender/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/webpack-bundle-analyzer/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/webpack-cli/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/webpack-core/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/webpack-dev-server/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/webpack-sources/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/webpack/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/xml2js/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/yargs-parser/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules1/yauzl/node_modules" />
+  </component>
+>>>>>>> develop
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths>
       <path value="$PROJECT_DIR$/node_modules1/@angular-devkit/architect/node_modules/@angular-devkit/core/package.json" />
@@ -1652,10 +1878,17 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
+<<<<<<< HEAD
     <option name="x" value="-12" />
     <option name="y" value="-12" />
     <option name="width" value="2904" />
     <option name="height" value="1644" />
+=======
+    <option name="x" value="2808" />
+    <option name="y" value="-29" />
+    <option name="width" value="427" />
+    <option name="height" value="225" />
+>>>>>>> develop
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -1723,7 +1956,11 @@
               <item name="core" type="462c0819:PsiDirectoryNode" />
               <item name="bot-detail" type="462c0819:PsiDirectoryNode" />
               <item name="curation" type="462c0819:PsiDirectoryNode" />
+<<<<<<< HEAD
               <item name="curation-settings" type="462c0819:PsiDirectoryNode" />
+=======
+              <item name="curation-overview" type="462c0819:PsiDirectoryNode" />
+>>>>>>> develop
             </path>
             <path>
               <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
@@ -1731,7 +1968,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="core" type="462c0819:PsiDirectoryNode" />
+<<<<<<< HEAD
               <item name="enterpriseprofile" type="462c0819:PsiDirectoryNode" />
+=======
+              <item name="bot-detail" type="462c0819:PsiDirectoryNode" />
+              <item name="curation" type="462c0819:PsiDirectoryNode" />
+              <item name="curation-overview" type="462c0819:PsiDirectoryNode" />
+              <item name="curation-issues-aggregation-bar" type="462c0819:PsiDirectoryNode" />
+>>>>>>> develop
             </path>
             <path>
               <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
@@ -1739,8 +1983,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="core" type="462c0819:PsiDirectoryNode" />
+<<<<<<< HEAD
               <item name="enterpriseprofile" type="462c0819:PsiDirectoryNode" />
               <item name="enterprise-overview" type="462c0819:PsiDirectoryNode" />
+=======
+              <item name="bot-detail" type="462c0819:PsiDirectoryNode" />
+              <item name="curation" type="462c0819:PsiDirectoryNode" />
+              <item name="curation-resolved-aggrigation" type="462c0819:PsiDirectoryNode" />
+>>>>>>> develop
             </path>
             <path>
               <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
@@ -1749,7 +1999,10 @@
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="core" type="462c0819:PsiDirectoryNode" />
               <item name="enterpriseprofile" type="462c0819:PsiDirectoryNode" />
+<<<<<<< HEAD
               <item name="enterprise-users" type="462c0819:PsiDirectoryNode" />
+=======
+>>>>>>> develop
             </path>
             <path>
               <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
@@ -1757,7 +2010,12 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="core" type="462c0819:PsiDirectoryNode" />
+<<<<<<< HEAD
               <item name="interfaces" type="462c0819:PsiDirectoryNode" />
+=======
+              <item name="enterpriseprofile" type="462c0819:PsiDirectoryNode" />
+              <item name="enterprise-overview" type="462c0819:PsiDirectoryNode" />
+>>>>>>> develop
             </path>
             <path>
               <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
@@ -1765,8 +2023,13 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="core" type="462c0819:PsiDirectoryNode" />
+<<<<<<< HEAD
               <item name="interfaces" type="462c0819:PsiDirectoryNode" />
               <item name="IBot.ts" type="620a8d5e:NestingTreeNode" />
+=======
+              <item name="enterpriseprofile" type="462c0819:PsiDirectoryNode" />
+              <item name="enterprise-users" type="462c0819:PsiDirectoryNode" />
+>>>>>>> develop
             </path>
             <path>
               <item name="bot_platform-fe" type="b2602c69:ProjectViewProjectNode" />
@@ -1783,9 +2046,20 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+<<<<<<< HEAD
     <property name="SearchEverywhereHistoryKey" value="curationse&#9;null&#9;null" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="C:\Users\shoaib.m\Documents\ang-frontend\dev\bot_platform-fe\node_modules\tslint" />
+=======
+    <property name="SearchEverywhereHistoryKey" value="curation fil&#9;null&#9;null&#10;curationov&#9;FILE&#9;file://C:/Users/shoaib.m/Documents/ang-frontend/dev/bot_platform-fe/src/app/core/bot-detail/curation/curation-overview/curation-overview.component.ts&#10;enter user&#9;null&#9;null&#10;enter smart&#9;null&#9;null&#10;curation list&#9;null&#9;null" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.tslint" value="C:\Users\shoaib.m\Documents\ang-frontend\dev\bot_platform-fe\node_modules\tslint" />
+    <property name="nodejs.protractor.protractor_package" value="$PROJECT_DIR$/node_modules/protractor" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+>>>>>>> develop
     <property name="ts.external.directory.path" value="C:\Users\shoaib.m\Documents\ang-frontend\dev\bot_platform-fe\node_modules\typescript\lib" />
   </component>
   <component name="RunDashboard">
@@ -1847,11 +2121,16 @@
       <updated>1562580866970</updated>
       <workItem from="1562580872383" duration="3942000" />
       <workItem from="1562657321890" duration="12202000" />
+<<<<<<< HEAD
       <workItem from="1562738386736" duration="5368000" />
+=======
+      <workItem from="1562738386736" duration="2341000" />
+>>>>>>> develop
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="21512000" />
   </component>
   <component name="ToolWindowManager">
@@ -1859,6 +2138,15 @@
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2535771" />
+=======
+    <option name="totallyTimeSpent" value="18485000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1912" y="-8" width="1936" height="1066" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16807166" />
+>>>>>>> develop
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -1873,12 +2161,102 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="TypeScript" order="9" weight="0.026402641" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+<<<<<<< HEAD
       <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.10218978" />
+=======
+      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.1760176" />
+>>>>>>> develop
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
   </component>
+<<<<<<< HEAD
+=======
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/src/environments/environment.prod.js" />
+        <option value="$PROJECT_DIR$/src/interfaces/custom-ners.js" />
+        <option value="$PROJECT_DIR$/src/interfaces/integration-option.js" />
+        <option value="$PROJECT_DIR$/src/interfaces/profile-action-permission.js" />
+        <option value="$PROJECT_DIR$/src/interfaces/bot-creation.js" />
+        <option value="$PROJECT_DIR$/src/interfaces/ai-module.js" />
+        <option value="$PROJECT_DIR$/src/app/ngxs/app.state.js" />
+        <option value="$PROJECT_DIR$/src/app/ngxs/app.action.js" />
+        <option value="$PROJECT_DIR$/src/app/core/interfaces/user.js" />
+        <option value="$PROJECT_DIR$/src/app/core/interfaces/meta.js" />
+        <option value="$PROJECT_DIR$/src/app/core/interfaces/IBot.js" />
+        <option value="$PROJECT_DIR$/src/app/core/view-bots/ngxs/view-bot.action.js" />
+        <option value="$PROJECT_DIR$/src/app/auth/ngxs/auth.state.js" />
+        <option value="$PROJECT_DIR$/src/app/auth/ngxs/auth.action.js" />
+        <option value="$PROJECT_DIR$/src/app/constants.service.js" />
+        <option value="$PROJECT_DIR$/node_modules1/karma/config.tpl.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/property-names.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/property-names.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/property-names.js.map" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/class-names.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/class-names.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/class-names.js.map" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/constructor-checks.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/constructor-checks.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/constructor-checks.js.map" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/input-names.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/input-names.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/input-names.js.map" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/output-names.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/output-names.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/output-names.js.map" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/element-selectors.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/element-selectors.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/element-selectors.js.map" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/method-call-checks.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/method-call-checks.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/method-call-checks.js.map" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/index.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/index.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/index.js.map" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/css-selectors.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/css-selectors.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/css-selectors.js.map" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/attribute-selectors.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/attribute-selectors.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/cdk/schematics/ng-update/data/attribute-selectors.js.map" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/property-names.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/property-names.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/property-names.js.map" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/class-names.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/class-names.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/class-names.js.map" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/constructor-checks.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/constructor-checks.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/constructor-checks.js.map" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/input-names.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/input-names.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/input-names.js.map" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/output-names.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/output-names.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/output-names.js.map" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/element-selectors.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/element-selectors.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/element-selectors.js.map" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/method-call-checks.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/method-call-checks.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/method-call-checks.js.map" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/index.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/index.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/index.js.map" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/css-selectors.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/css-selectors.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/css-selectors.js.map" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/attribute-selectors.js" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/attribute-selectors.d.ts" />
+        <option value="$PROJECT_DIR$/node_modules1/@angular/material/schematics/ng-update/data/attribute-selectors.js.map" />
+      </list>
+    </option>
+  </component>
+>>>>>>> develop
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
@@ -1890,6 +2268,16 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+=======
+    <entry file="file://$PROJECT_DIR$/src/app/constants.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="454">
+          <caret line="537" column="24" selection-start-line="537" selection-start-column="2" selection-end-line="537" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+>>>>>>> develop
     <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/bot-detail-wrapper.component.html">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1961,6 +2349,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-119">
@@ -1993,11 +2382,35 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="127">
           <caret line="420" column="2" selection-start-line="420" selection-start-column="2" selection-end-line="420" selection-end-column="2" />
+=======
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="5" column="74" selection-start-line="5" selection-start-column="74" selection-end-line="5" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4440">
+          <caret line="238" column="37" selection-start-line="238" selection-start-column="37" selection-end-line="238" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="641">
+          <caret line="123" column="3" selection-start-line="123" selection-start-column="3" selection-end-line="123" selection-end-column="3" />
+>>>>>>> develop
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/core/bot-detail/curation/curation-filter/curation-filter.component.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="140">
           <caret line="6" column="31" lean-forward="true" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="31" />
           <folding>
@@ -2012,10 +2425,17 @@
           <caret line="24" column="5" lean-forward="true" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
           <folding>
             <element signature="e#0#55#0" expanded="true" />
+=======
+        <state relative-caret-position="240">
+          <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
+          <folding>
+            <element signature="n#style#0;n#sat-datepicker-toggle#0;n#mat-form-field#0;n#div#7;n#form#0;n#div#0;n#!!top" expanded="true" />
+>>>>>>> develop
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/app/core/interfaces/IBot.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
@@ -2023,5 +2443,7 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> develop
   </component>
 </project>

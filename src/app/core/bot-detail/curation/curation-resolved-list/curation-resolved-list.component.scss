@@ -10,7 +10,13 @@
         font-weight: bold;
         height: 32px;
         display: flex;
+        flex-direction: row;
         align-items: center;
+        div{
+            border-right: solid 1px #d8d8d8;
+            padding-right: 8px;
+            margin-right: 8px;
+        }
     }
     button{
         margin-right: 0 !important;
