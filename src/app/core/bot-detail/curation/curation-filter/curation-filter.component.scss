@@ -37,7 +37,10 @@
     }
 
     .heading {
-      padding: 9px 15px;
+      // padding: 4px 15px;
+      padding-left: 15px;
+      padding-right: 15px;
+      padding-top: 9px;
       width: 100%;
     }
 
@@ -52,7 +55,7 @@
   }
 
   .padding-input {
-    padding: 9px 15px;
+    padding: 0px 15px;
   }
 }
 
@@ -60,4 +63,11 @@
   color: #474747;
   background-color: transparent;
   border: solid 1px #e0e0e0;
+}
+::ng-deep{
+  .sort-decrease-height{
+    .mat-form-field-infix{
+      border:none;
+    }
+  }
 }

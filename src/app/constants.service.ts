@@ -255,6 +255,9 @@ export class ConstantsService {
   putCorpus(){
     return this.BACKEND_URL + `api/v1/corpus/`;
   }
+  getLiveCorpus(){
+    return this.BACKEND_URL + `api/v1/corpus/?state=live`;
+  }
   getAllCorpusForFAQBot(limit,offset){
     return this.BACKEND_URL + `api/v1/corpus/?state__in=trained,live&limit=${limit}&offset=${offset}&order_by=-updated_at`;
   }
@@ -524,15 +527,23 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/faqbotcuration/?limit=${limit}&offset=${offset}`;
   }
   curationIssueIgnoreUrl(){
-    return this.BACKEND_URL + `api/v1/faqbotcuration/ignore/`
+    return this.BACKEND_URL + `api/v1/faqbotcuration/ignore/`;
   }
   curationIssueLinkToExistingSectionUrl(){
-    return this.BACKEND_URL + `api/v1/faqbotcuration/linktoexistingsection/`
+    return this.BACKEND_URL + `api/v1/faqbotcuration/linktoexistingsection/`;
   }
   addCurationToNewSection(){
-    return this.BACKEND_URL + `api/v1/faqbotcuration/addtonewsection/`
+    return this.BACKEND_URL + `api/v1/faqbotcuration/addtonewsection/`;
   }
-
+  getAggregationResolved(){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/aggregationcounts/?curation_state=resolved,ignored`;
+  }
+  getAggregationIssues(){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/aggregationcounts/?curation_state=in_curation`
+  }
+  getTopArticlesWithIssues(){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/topsectionissues/`;
+  }
   updateBotSerializer(bot: IBot) {
     const clone = { ...bot };
     const not_keys = [
@@ -1003,8 +1014,6 @@ export class ConstantsService {
     //   searchValue: true,
     // },
   };
-
-
   SMART_TABLE_CONSUMER_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
     id: {
       originalKey: 'id',
@@ -1083,6 +1092,7 @@ export class ConstantsService {
     },
   };
 
+  
   SMART_TABLE_ARTICLE_HISTORY_TEMPLATE: ITableColumn = {
     description: {
       originalKey: 'description',
