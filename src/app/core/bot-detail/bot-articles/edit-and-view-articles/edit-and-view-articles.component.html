@@ -1,7 +1,7 @@
 <header>
   <div class="d-flex flex-row heading align-items-center pb-3">
     <div class="heading-title">
-      <i class="fa fa-angle-left cursor-pointer p-1" (click)="goBackToArticle()"></i>
+      <i class="fa fa-angle-left cursor-pointer p-1" (click)="openCloseWithoutSavingModal()"></i>
       {{!articleData.section_id ?  'Create a new article' :
         (
           articleData.section_id == "first_message" ? "Welcome message" :
@@ -44,7 +44,7 @@
       </button>
     </div>
 
-    <button class="mat-theme-button cursor-pointer mr-2" mat-button (click)="goBackToArticle()"
+    <button class="mat-theme-button cursor-pointer mr-2" mat-button (click)="openCloseWithoutSavingModal()"
       *ngIf="!articleData.section_id || (articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
       style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; ">
       <mat-icon>close</mat-icon>

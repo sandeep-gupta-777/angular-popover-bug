@@ -6,6 +6,10 @@ import {TempVariableService} from '../../../../temp-variable.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import { EAllActions } from 'src/app/typings/enum';
 
+import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
+import {UtilityService} from 'src/app/utility.service';
+import {MatDialog} from '@angular/material';
+
 @Component({
   selector: 'app-curation-issues',
   templateUrl: './curation-issues.component.html',
@@ -13,10 +17,15 @@ import { EAllActions } from 'src/app/typings/enum';
 })
 export class CurationIssuesComponent implements OnInit {
 
+
+
   constructor(
     private constantsService : ConstantsService,
     private router : Router,
-    private activatedRoute : ActivatedRoute
+    private activatedRoute : ActivatedRoute,
+
+    private utilityService: UtilityService,
+    private matDialog: MatDialog,
     ) { }
   @Input() bot: IBot;
   @Input() isResolved:boolean;
@@ -26,6 +35,10 @@ export class CurationIssuesComponent implements OnInit {
   myEAllActions = EAllActions;
   articleSearchMode = false;
   selectedArticleToAddCuration : number;
+
+  selectedArticleFirstQuestion : number;
+  dialogRefWrapper = {ref: null};
+
   ngOnInit() {
   }
   channelNameToImg(channel:string){
@@ -67,4 +80,37 @@ export class CurationIssuesComponent implements OnInit {
       }
     )
   }
+
+
+
+
+
+
+  async openCloseWithoutSavingModal() {
+
+    await this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr:'danger-modal-header-border',
+      data:{
+        actionButtonText:"Close without saving",
+        message: "Selected issue is not yet resolved, do you wish to continue?",
+        title:`Close without saving?`,
+        isActionButtonDanger:true,
+        inputDescription: null,
+        closeButtonText: "Keep editing"
+      },
+      dialog: this.matDialog,
+      component:ModalConfirmComponent
+    }).then((data)=>{
+  
+      if(data){
+        this.articleSearchMode = false;
+        this.selectedArticleToAddCuration = null;
+        this.selectedArticleFirstQuestion=null;
+        
+      }
+    })
+  }
+
+
 }

@@ -78,7 +78,7 @@
           <button mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2" [disabled]="!selectedArticleToAddCuration" (click)="addIssueToThisArticle()">
             Link and save
           </button>
-          <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button" (click)="articleSearchMode = false;selectedArticleToAddCuration = null;selectedArticleFirstQuestion=null">
+          <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button" (click)="openCloseWithoutSavingModal()">
             Cancel
           </button>
         </div>
