@@ -33,6 +33,7 @@ export class SessionMessageComponent implements OnInit {
   hasAgentHandover:boolean=false;
   inCuration:boolean=false;
   bot_message_id:number;
+  isFirstMessage:boolean=false;
   constructor(
     public utilityService: UtilityService,
     public constantsService: ConstantsService,
@@ -59,6 +60,7 @@ export class SessionMessageComponent implements OnInit {
         this.hasAgentHandover = this.hasAgentHandover || sessionMessage.message_store.sendtoagent;
         this.inCuration = this.inCuration || (!!sessionMessage.curation_state);
         this.bot_message_id = sessionMessage.id;
+        this.isFirstMessage = sessionMessage.message_store.top_match_section.section_id == "first_message";
       }
     });
     // this.sessionMessageData.user_type;

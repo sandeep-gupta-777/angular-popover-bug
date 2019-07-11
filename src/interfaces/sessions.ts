@@ -16,6 +16,11 @@ export interface ISessionMessageItem {
     activeBotId?: any;
     activeBotRoomId?: any;
     sendtoagent? : any;
+    top_match_section?:{
+      first_question?: string;
+      score?: number;
+      section_id?: string;
+    };
   };
   'platform': string;
   'resource_uri': string;
