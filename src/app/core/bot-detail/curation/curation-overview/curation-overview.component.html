@@ -1,0 +1,34 @@
+<div>
+  <app-curation-issues-aggregation-bar [aggrigationData]="issuesAggrigationData"></app-curation-issues-aggregation-bar>
+</div>
+<div class="overview-heading">Top articles with most issues</div>
+<div class="d-flex w-100 article flex-column pr-4">
+
+  <div class="article-item-heading py-2 px-4" >
+    <div class="heading-first" style="color: #878787;">
+      Article
+    </div>
+    <div class="second" style="color: #878787;">
+      Issues logged
+    </div>
+    <div class="third" style="color: #878787;">
+      Action
+    </div>
+  </div>
+
+
+  <div class="article-item py-2 px-4" *ngFor="let section of TopArticlesWithIssues">
+    <div class="first">
+      <div class="catagory">{{section.category_name}}</div>
+      <div class="first_question" [innerHTML]="section.first_question"></div>
+    </div>
+    <div class="second">
+      {{section.count}}
+    </div>
+    <div class="third">
+      <div class="d-flex showNoParentHover" (click)="resolveArticleWithTopIssues(section)">
+        <mat-icon>build</mat-icon>Resolve
+      </div>
+    </div>
+  </div>
+</div>
