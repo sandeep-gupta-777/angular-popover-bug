@@ -63,10 +63,10 @@ export class CurationFilterComponent implements OnInit {
         body[key] = this.curationForm.value[key];
       }
     }
-    if(body['created_at__range'] && Object.keys(body['created_at__range']).length > 0 ){
-      body['created_at__range'] = body['created_at__range']["begin"].getTime()+','+(body['created_at__range']["end"].getTime()+86340000);
+    if(body['updated_at__range'] && Object.keys(body['updated_at__range']).length > 0 ){
+      body['updated_at__range'] = body['updated_at__range']["begin"].getTime()+','+(body['updated_at__range']["end"].getTime()+86340000);
     }else{
-      delete body['created_at__range'];
+      delete body['updated_at__range'];
     }
 
     if(body['issue_count_filter'] && body['count']){
