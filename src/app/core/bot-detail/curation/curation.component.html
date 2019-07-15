@@ -7,16 +7,27 @@
       [status]="updateSettingsLoading"
       (btnClick)="updateSettingsHandler()">
     </app-button-wrapper>
+<app-button-wrapper
+      *ngIf="activeTab != 3"
+      class="card--update"
+      [isMatFlatButton]="false"
+      [text]="'Refresh'"
+      [icon]="'refresh'"
+      (btnClick)="refershCurrentTabHandler()">
+    </app-button-wrapper>
+    <!-- [status]="updateSettingsLoading" -->
 <mat-tab-group animationDuration="0ms" [(selectedIndex)]="activeTab">
   <mat-tab label="Overview">
     <app-curation-overview
+      *ngIf = "topArticlesWithIssues"
+      [reloading]="topArticlesWithIssuesReloading"
       [TopArticlesWithIssues]="topArticlesWithIssues"
       [issuesAggrigationData] = "issuesAggrigationData"
       (resolveArticleWithTopIssues$) = "resolveArticleWithTopIssues($event)"
     ></app-curation-overview>
   </mat-tab>
   <mat-tab label="Issues">
-    <section class="curation-issues-wrapper-section">
+    <section class="curation-issues-wrapper-section" *ngIf="curationIssuesList">
       <app-curation-filter (formSubmitted)="IssuesFormSubmitted($event)" 
       [hidden]="!curationIssuesList"
         [unsolved]="true" 
@@ -59,8 +70,8 @@
     </section>
   </mat-tab>
   <mat-tab label="Resolved">
-    <app-curation-resolved-aggrigation [aggrigationData]="aggregationResolvedData"> </app-curation-resolved-aggrigation>
-    <section class="curation-issues-wrapper-section">
+    <app-curation-resolved-aggrigation [aggrigationData]="aggregationResolvedData" *ngIf="aggregationResolvedData"> </app-curation-resolved-aggrigation>
+    <section class="curation-issues-wrapper-section" *ngIf="curationResolvedAndIgnoredList">
       <app-curation-filter (formSubmitted)="ResolvedFormSubmitted($event)" [hidden]="!curationResolvedAndIgnoredList"
         [unsolved]="false" style="z-index: 100;"></app-curation-filter>
       <app-curation-resolved-list [curationItemList]="curationResolvedAndIgnoredList"
@@ -99,7 +110,7 @@
     </section>
   </mat-tab>
   <mat-tab label="Settings">
- <app-curation-settings [bot]="bot" [curationSettingsForm]="curationSettingsForm" ></app-curation-settings>
+ <app-curation-settings [bot]="bot" [curationSettingsForm]="curationSettingsForm"></app-curation-settings>
   </mat-tab>
 </mat-tab-group>
 

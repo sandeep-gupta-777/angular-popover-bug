@@ -54,6 +54,7 @@ export class CurationComponent implements OnInit {
   aggregationResolvedData: ICurationResolvedAggregation;
   issuesAggrigationData : ICurationIssuesAggregation;
   topArticlesWithIssues: any[];
+  topArticlesWithIssuesReloading:boolean = false;
   resolveArticleWithTopIssuesFilterCount : number;
   activeTab:number = 0;
   curationSettingsForm : FormGroup;
@@ -253,14 +254,14 @@ export class CurationComponent implements OnInit {
   }
 
   setTopArticlesWithIssues(){
-    
+    this.topArticlesWithIssuesReloading = true;
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
     const url = this.constantsService.getTopArticlesWithIssues();
     this.serverService.makeGetReq<IAllCorpusResult>({ url, headerData })
         .subscribe((Result) => {
-          debugger;
+        this.topArticlesWithIssuesReloading = false;
         this.topArticlesWithIssues = Result.objects;
       });
 }
@@ -305,5 +306,23 @@ export class CurationComponent implements OnInit {
         "partial_match": this.formBuilder.group({"enabled":[this.bot.curation_settings.partial_match.enabled]}),
       })
     });
+  }
+  refershCurrentTabHandler(){
+    if(this.activeTab == 0){
+      this.getIssuesAggregationData();
+      this.setTopArticlesWithIssues();
+    }
+    if(this.activeTab == 1){
+      this.IssuesFormSubmitted({
+        'order_by' : `-updated_at`
+      });
+    }
+    if(this.activeTab == 2){
+      this.getResolvedAggregationData();
+      this.ResolvedFormSubmitted({
+        'curation_state__in':"resolved,ignored",
+        'order_by' : `-updated_at`
+      })
+    }
   }
 }

@@ -11,6 +11,7 @@ export class CurationOverviewComponent implements OnInit {
   constructor() { }
   @Input() issuesAggrigationData: ICurationIssuesAggregation;
   @Input() TopArticlesWithIssues : any[];
+  @Input() reloading: boolean;
   @Output() resolveArticleWithTopIssues$ = new EventEmitter();
   ngOnInit() {
    
