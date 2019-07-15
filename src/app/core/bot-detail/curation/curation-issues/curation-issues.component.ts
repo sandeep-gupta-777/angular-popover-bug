@@ -21,6 +21,7 @@ export class CurationIssuesComponent implements OnInit {
   @Input() bot: IBot;
   @Input() isResolved:boolean;
   @Input() curationItemData : ICurationItem;
+  @Input() selected : boolean = false;
   @Output() ignoreQueryEvent = new EventEmitter();
   @Output() addQueryToArticleEvent = new EventEmitter();
   myEAllActions = EAllActions;

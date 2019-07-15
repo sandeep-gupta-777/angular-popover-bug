@@ -11,14 +11,18 @@
         font-weight: bold;
         display: flex;
         flex-direction: row;
+        align-items: center;
         div{
             border-right: solid 1px #d8d8d8;
             padding-right: 8px;
             margin-right: 8px;
         }
     }
-    button{
+    .train-button{
         margin-right: 0 !important;
+    }
+    button{
+        height: 32px;
     }
 }
 .load-more{
@@ -49,3 +53,9 @@
 //     height: 0px;//or anything you need
 //     transition: height 1s;
 // }
+.select-checkbox{
+    position: relative;
+    right: 21px;
+    top: 34px;
+    z-index: 1000000;
+}

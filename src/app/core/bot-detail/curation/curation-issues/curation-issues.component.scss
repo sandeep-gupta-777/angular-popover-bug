@@ -101,6 +101,27 @@
         align-items: center;
       }
     }
+  
+  }
+  .curation-card-header-wrapper-selected{
+    
+    border-bottom: 1px solid #d8d8d8;
+    background-color: #00abd3;
+
+    .curation-card-header-item {
+      .logged-it {
+        color: #ffffff;
+
+      }
+      .room-id {
+        color: #ffffff;
+      }
+    }
+    .curation-card-header-icon-list {
+      mat-icon {
+        color: #ffffff !important;
+      }
+    }
   }
 
   .curation-footer {

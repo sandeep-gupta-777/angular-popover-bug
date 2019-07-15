@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output,EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output,EventEmitter, ViewChild } from '@angular/core';
 import { ICurationItem } from 'src/app/core/interfaces/faqbots';
 import {IBot} from '../../../interfaces/IBot';
 import {UtilityService} from '../../../../utility.service';
@@ -9,6 +9,7 @@ import {IHeaderData} from '../../../../../interfaces/header-data';
 import {MatDialog} from '@angular/material';
 import {map} from 'rxjs/internal/operators';
 import { ESplashScreens } from 'src/app/splash-screen/splash-screen.component';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-curation-issues-list',
@@ -32,12 +33,27 @@ export class CurationIssuesListComponent implements OnInit {
   @Output() addQueryToArticleByIds = new EventEmitter();
   @Input() reloadingMore : boolean;
   @Input() liveBotUpdatedAt: number;
+  @ViewChild('issuesSelectedListForm')  SelectedListForm : NgForm;
+  IssuesSelectedSet = [];
+  articleSearchMode : boolean = false;
   dialogRefWrapper = { ref: null };
   corpusState :string;
   myESplashScreens = ESplashScreens;
   @Input() totallength:number;
   ngOnInit() {
     this.getCorpus$().subscribe()
+    this.SelectedListForm.form.valueChanges
+      .subscribe((val)=>{
+        let temArray = new Set();
+        let keys = Object.keys(val);
+        debugger;
+        for(let i of keys){
+          if(val[i] == true){
+            temArray.add(parseInt(i));
+          }
+        }
+        this.IssuesSelectedSet = Array.from(temArray);
+      })
   }
   load10More(){
 
