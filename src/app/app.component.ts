@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('../firebase-messaging-sw.js')
+      navigator.serviceWorker.register('assets/js/firebase-messaging-sw.js')
         .then(function(registration) {
           console.log('Registration successful, scope is:', registration.scope);
         }).catch(function(err) {

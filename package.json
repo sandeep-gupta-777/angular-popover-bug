@@ -40,7 +40,7 @@
     "cypress": "cypress open",
     "cypress:headless": "cypress run",
     "fcm": "concat dist/botPlateformFE/ngsw-worker.js firebase-messaging-sw.js -o dist/botPlateformFE/combined-worker.js",
-    "fcm1": "concat firebase-messaging-sw.js -o dist/botPlateformFE/firebase-messaging-sw.js"
+    "fcm1": "concat src/firebase-messaging-sw.js -o dist/botPlateformFE/firebase-messaging-sw.js"
   },
   "private": true,
   "dependencies": {
