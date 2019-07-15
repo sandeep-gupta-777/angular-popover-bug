@@ -19,6 +19,11 @@ import {LazyLoadImageModule, intersectionObserverPreset} from 'ng-lazyload-image
 import { SetErrorImageProps } from 'ng-lazyload-image';
 import {SpliceEllipsisPipe} from "./splice-ellipsis.pipe";
 import {HnResolver} from "./core.resolver";
+import {AngularFireDatabaseModule} from "@angular/fire/database";
+import {AngularFireAuthModule} from "@angular/fire/auth";
+import {AngularFireMessagingModule} from "@angular/fire/messaging";
+import {AngularFireModule} from "@angular/fire";
+import {MessagingService} from "../messaging.service";
 
 export const x = ({element, errorImagePath, useSrcset}: SetErrorImageProps) => {
   (<any>element).src = "http://chittagongit.com/images/error-image-icon/error-image-icon-23.jpg";
@@ -80,8 +85,14 @@ const routes: Route[] = [
     /**/
     // ReactiveFormsModule,
     // FormsModule
+
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFireMessagingModule,
+    AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [LoginPageGaurdService, ModuleGaurdLoadService,
+    MessagingService,
     //   {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: !environment.production ? HttpMockRequestInterceptor : HttpRequestInterceptor,

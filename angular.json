@@ -30,6 +30,7 @@
               "src/config.json",
               "src/deploy.json",
               "src/config.js",
+              "src/firebase-messaging-sw.js",
               {
                 "glob": "**/*",
                 "input": "./node_modules/codemirror/",
