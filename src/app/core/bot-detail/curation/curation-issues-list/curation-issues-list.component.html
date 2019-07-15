@@ -1,6 +1,6 @@
-<div class="curation-list-heading ">
+<div class="curation-list-heading">
   <div class="header-text">
-      <div>
+      <div *ngIf="liveBotUpdatedAt">
           Live bot updated at {{liveBotUpdatedAt| date:"shortTime"}},&nbsp;{{liveBotUpdatedAt| date:"MMM d"}}&nbsp;'{{liveBotUpdatedAt| date:"yy"}}
       </div> 
     {{totallength}} issues remaining

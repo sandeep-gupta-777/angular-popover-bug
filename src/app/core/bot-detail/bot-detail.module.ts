@@ -89,6 +89,7 @@ import { CurationSettingsComponent } from './curation/curation-settings/curation
 import { CurationResolvedAggrigationComponent } from './curation/curation-resolved-aggrigation/curation-resolved-aggrigation.component';
 import { CurationOverviewComponent } from './curation/curation-overview/curation-overview.component';
 import { CurationIssuesAggregationBarComponent } from './curation/curation-overview/curation-issues-aggregation-bar/curation-issues-aggregation-bar.component';
+import { RemoveTopAndBottomAndGetAsArrayPipe } from './curation/curation-issues/remove-top-and-bottom-and-get-as-array.pipe';
 
 
 const routes: Route[] = [
@@ -175,6 +176,7 @@ const routes: Route[] = [
     CurationResolvedAggrigationComponent,
     CurationOverviewComponent,
     CurationIssuesAggregationBarComponent,
+    RemoveTopAndBottomAndGetAsArrayPipe,
     /*after lazy loading*/
     // RequiredIfOneFilledValidator
   //

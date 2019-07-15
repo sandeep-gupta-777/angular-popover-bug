@@ -78,7 +78,9 @@ export class CurationComponent implements OnInit {
       const url = this.constantsService.getLiveCorpus();
       this.serverService.makeGetReq<IAllCorpusResult>({ url, headerData })
           .subscribe((Result) => {
-          this.liveBotUpdatedAt = Result.objects[0].updated_at;
+            if(Result.objects && Result.objects[0] && Result.objects[0].updated_at){
+              this.liveBotUpdatedAt = Result.objects[0].updated_at;
+            }
         });
   }
   // getting 10
