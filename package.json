@@ -22,6 +22,7 @@
     "build-old": "ng build --prod && ",
     "index": "node file-index-script.js",
     "hmr": "ng serve --port 4201 --configuration hmr",
+
     "develop": "ng build --configuration develop --base-href /static/ && npm run fcm",
     "staging": "sudo npm run xgit && ng build --configuration staging --base-href /static/",
     "staging-github": "npm run xgit && ng build --configuration staging --base-href /imibot-fe/",
@@ -38,7 +39,8 @@
     "ng-test": "ng serve --live-reload false",
     "cypress": "cypress open",
     "cypress:headless": "cypress run",
-    "fcm": "concat dist/botPlateformFE/ngsw-worker.js firebase-messaging-sw.js -o dist/botPlateformFE/combined-worker.js"
+    "fcm": "concat dist/botPlateformFE/ngsw-worker.js firebase-messaging-sw.js -o dist/botPlateformFE/combined-worker.js",
+    "fcm1": "concat firebase-messaging-sw.js -o dist/botPlateformFE/firebase-messaging-sw.js"
   },
   "private": true,
   "dependencies": {

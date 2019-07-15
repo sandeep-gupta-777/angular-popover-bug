@@ -62,9 +62,15 @@ export class MessagingService {
   receiveMessage() {
     this.angularFireMessaging.messages.subscribe(
       (payload) => {
-        alert('message received. check console.');
-        console.log("new message received. ", payload);
-        this.currentMessage.next(payload);
+        try {
+          alert('message received. check console.');
+          console.log("new message received. ", payload);
+          this.currentMessage.next(payload);
+        }catch (e) {
+          alert('');
+        }
+      }, ()=>{
+        alert('error registering service workers');
       })
   }
 }
