@@ -1,4 +1,13 @@
-<mat-tab-group animationDuration="0ms" [selectedIndex]="activeTab">
+<app-button-wrapper
+      *ngIf="activeTab == 3"
+      class="card--update"
+      [isMatFlatButton]="false"
+      [text]="'Update settings'"
+      [icon]="'refresh'"
+      [status]="updateSettingsLoading"
+      (btnClick)="updateSettingsHandler()">
+    </app-button-wrapper>
+<mat-tab-group animationDuration="0ms" [(selectedIndex)]="activeTab">
   <mat-tab label="Overview">
     <app-curation-overview
       [TopArticlesWithIssues]="topArticlesWithIssues"
@@ -90,7 +99,7 @@
     </section>
   </mat-tab>
   <mat-tab label="Settings">
- <app-curation-settings [bot]="bot"></app-curation-settings>
+ <app-curation-settings [bot]="bot" [curationSettingsForm]="curationSettingsForm" ></app-curation-settings>
   </mat-tab>
 </mat-tab-group>
 
