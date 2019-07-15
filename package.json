@@ -37,7 +37,8 @@
     "build:client-and-server-bundles": "ng build --prod && ng run botPlateformFE:server:production",
     "ng-test": "ng serve --live-reload false",
     "cypress": "cypress open",
-    "cypress:headless": "cypress run"
+    "cypress:headless": "cypress run",
+    "fcm": "concat dist/botPlateformFE/ngsw-worker.js firebase-messaging-sw.js -o dist/botPlateformFE/combined-worker.js"
   },
   "private": true,
   "dependencies": {
@@ -94,6 +95,7 @@
     "@types/node": "~8.9.4",
     "bootstrap": "^4.1.1",
     "codelyzer": "~4.2.1",
+    "concat": "^1.0.3",
     "cypress": "^3.2.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",

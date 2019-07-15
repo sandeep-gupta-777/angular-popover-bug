@@ -76,7 +76,7 @@ const routes: Route[] = [
 
 
     // ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
-    ServiceWorkerModule.register('/static/ngsw-worker.js', {enabled: environment.production}),
+    ServiceWorkerModule.register('/static/combined-worker.js', {enabled: environment.production}),
     // MatSnackBarModule,
     //   FormsModule,
     //   ReactiveFormsModule,
