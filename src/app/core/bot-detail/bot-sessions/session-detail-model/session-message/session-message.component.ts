@@ -65,7 +65,7 @@ export class SessionMessageComponent implements OnInit {
     });
     // this.sessionMessageData.user_type;
   }
-  addMessageToCuration(){
+  addMessageToCuration(event){
     const headerData = {
       'bot-access-token': this.bot.bot_access_token
     };
@@ -77,6 +77,7 @@ export class SessionMessageComponent implements OnInit {
       .subscribe(val => {
         this.utilityService.showSuccessToaster("Flagged for curation");
         this.inCuration = true;
+        event.stopPropagation();
       });
   }
   
