@@ -544,12 +544,9 @@ export class ConstantsService {
   getTopArticlesWithIssues(){
     return this.BACKEND_URL + `api/v1/faqbotcuration/topsectionissues/`;
   }
-<<<<<<< HEAD
-=======
   addMessageToCurationFromSession(){
     return this.BACKEND_URL + `api/v1/message/addmessagetofaqbotcuration/`
   }
->>>>>>> feature-BOT#1387-to-curation-from-settings
   updateBotSerializer(bot: IBot) {
     const clone = { ...bot };
     const not_keys = [
