@@ -43,7 +43,7 @@ export class CurationIssuesComponent implements OnInit {
     return pieces.join(" ");
   }
   ignoreQuery(curationItemId){
-    this.ignoreQueryEvent.emit(curationItemId);
+    this.ignoreQueryEvent.emit([curationItemId]);
   }
   clickedOnArticle(section_id){
     if(section_id){
@@ -64,7 +64,7 @@ export class CurationIssuesComponent implements OnInit {
     this.addQueryToArticleEvent.emit(
       {
         section_id: this.selectedArticleToAddCuration,
-        curationItemId: this.curationItemData.id,
+        curationItemId: [this.curationItemData.id],
       }
     )
   }

@@ -10,6 +10,8 @@ import {MatDialog} from '@angular/material';
 import {map} from 'rxjs/internal/operators';
 import { ESplashScreens } from 'src/app/splash-screen/splash-screen.component';
 import { NgForm } from '@angular/forms';
+import {ActivatedRoute, Router} from "@angular/router";
+import {TempVariableService} from "../../../../temp-variable.service";
 
 @Component({
   selector: 'app-curation-issues-list',
@@ -23,6 +25,8 @@ export class CurationIssuesListComponent implements OnInit {
     private constantsService : ConstantsService,
     private serverService : ServerService,
     private matDialog: MatDialog,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
 
   ) { }
   @Input() curationItemList:ICurationItem[];
@@ -39,6 +43,7 @@ export class CurationIssuesListComponent implements OnInit {
   dialogRefWrapper = { ref: null };
   corpusState :string;
   myESplashScreens = ESplashScreens;
+  selectedArticleToAddCuration : number;
   @Input() totallength:number;
   ngOnInit() {
     this.getCorpus$().subscribe()
@@ -59,8 +64,8 @@ export class CurationIssuesListComponent implements OnInit {
 
     this.loadMoreNext.emit();
   }
-  ignoreIt(curationId){
-    this.ignoreCurationIssueById.emit(curationId);
+  ignoreIt(curationIds){
+    this.ignoreCurationIssueById.emit(curationIds);
   }
   addQueryToArticle(body){
     this.addQueryToArticleByIds.emit(body);
@@ -122,5 +127,38 @@ export class CurationIssuesListComponent implements OnInit {
           this.corpusState = j + val.state.substr(1).toLowerCase();
         })
       )
+  }
+
+  // added multi to curation
+  ignoreMultiQuery(){
+    this.ignoreCurationIssueById.emit(this.IssuesSelectedSet);
+  }
+  clickedOnArticle(section_id){
+    if(section_id){
+      this.selectedArticleToAddCuration = section_id;
+    }
+  }
+  addMultiIssueToNewArticle(){
+    let user_message_list =  this.curationItemList.filter((item) => {
+      return !!(this.IssuesSelectedSet.find(c_id => {return c_id == item.id} ))
+    }).map(a => a.user_message);
+    user_message_list  = Array.from(new Set(user_message_list));
+    TempVariableService.firstQuestionListForNewArticle = user_message_list;
+    TempVariableService.curationIds = this.IssuesSelectedSet;
+    this.router.navigate(['.'], {
+      queryParams: { build:'articles' ,section_id:null},
+      relativeTo: this.activatedRoute,
+      queryParamsHandling: 'merge'
+  })
+  }
+  addMultiIssueToThisArticle(){
+    this.addQueryToArticleByIds.emit(
+      {
+        section_id: this.selectedArticleToAddCuration,
+        curationItemId: this.IssuesSelectedSet,
+      }
+    )
+    this.articleSearchMode = false;
+    this.selectedArticleToAddCuration = null;
   }
 }
