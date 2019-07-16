@@ -52,8 +52,8 @@
     </div>
   </div>
 <form #issuesSelectedListForm="ngForm">
-    <div *ngFor="let curationItem of curationItemList">
-        <mat-checkbox class="select-checkbox" ngModel [name] = "curationItem.id" color=primary ></mat-checkbox>
+    <div *ngFor="let curationItem of curationItemList" class = "curation-and-checkbox">
+        <mat-checkbox class="select-checkbox checkbox-in-curation" ngModel [name] = "curationItem.id" color=primary ></mat-checkbox>
         <app-curation-issues  
         [curationItemData]="curationItem" 
         [isResolved]=false
