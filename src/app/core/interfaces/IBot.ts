@@ -142,7 +142,32 @@ export interface IBot {
       value?: number
     },
     response_flag?: boolean
-  }
+  };
+
+//  curation
+  allow_curation?: boolean;
+
+  curation_settings?: {
+    agent_handover?: {
+      enabled?: boolean;
+    };
+    downvoted?: {
+      enabled?: boolean;
+    };
+    fallback?: {
+      enabled?: boolean;
+    };
+    from_session?: {
+      enabled?: boolean;
+    };
+    low_confidence?: {
+      enabled?: boolean;
+      low_confidence_score?: number;
+    };
+    partial_match?: {
+      enabled?: boolean;
+    }
+  };
 }
 
 export interface IBotResult {

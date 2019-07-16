@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   ICorpus,
   ICurationResult,
@@ -15,6 +15,7 @@ import { map } from 'rxjs/operators';
 import {UtilityService} from '../../../utility.service';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 import {IHeaderData} from "../../../../interfaces/header-data";
+import {ELoadingStatus} from "../../../button-wrapper/button-wrapper.component";
 @Component({
   selector: 'app-curation',
   templateUrl: './curation.component.html',
@@ -53,8 +54,11 @@ export class CurationComponent implements OnInit {
   aggregationResolvedData: ICurationResolvedAggregation;
   issuesAggrigationData : ICurationIssuesAggregation;
   topArticlesWithIssues: any[];
+  topArticlesWithIssuesReloading:boolean = false;
   resolveArticleWithTopIssuesFilterCount : number;
   activeTab:number = 0;
+  curationSettingsForm : FormGroup;
+  updateSettingsLoading = ELoadingStatus.default
   ngOnInit() {
     this.reloading = true;
     this.curation_filter_form = this.formBuilder.group({
@@ -69,6 +73,7 @@ export class CurationComponent implements OnInit {
     this.getResolvedAggregationData();
     this.getIssuesAggregationData();
     this.setTopArticlesWithIssues();
+    this.makeCurationSettingsForm();
   }
   // setLiveBotUpdatedAt
   setLiveBotUpdatedAt(){
@@ -249,19 +254,75 @@ export class CurationComponent implements OnInit {
   }
 
   setTopArticlesWithIssues(){
-    
+    this.topArticlesWithIssuesReloading = true;
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
     const url = this.constantsService.getTopArticlesWithIssues();
     this.serverService.makeGetReq<IAllCorpusResult>({ url, headerData })
         .subscribe((Result) => {
-          debugger;
+        this.topArticlesWithIssuesReloading = false;
         this.topArticlesWithIssues = Result.objects;
       });
 }
   resolveArticleWithTopIssues(section){
     this.resolveArticleWithTopIssuesFilterCount = section.count;
     this.activeTab = 1;
+  }
+  updateSettingsHandler(){
+    if(this.curationSettingsForm.valid){
+      let botImage : IBot; 
+    botImage = {...this.curationSettingsForm.value}
+    botImage.id = this.bot.id;
+    botImage.bot_access_token = this.bot.bot_access_token;
+    this.updateSettingsLoading = ELoadingStatus.loading;
+    this.serverService.updateBot(botImage).subscribe(() => {
+      this.updateSettingsLoading = ELoadingStatus.success;
+    }, (val) => {
+      this.updateSettingsLoading = ELoadingStatus.error;
+      if(val.error.error){
+        
+        this.utilityService.showErrorToaster(val.error.message);
+      }
+    });
+    }
+    else{
+      this.utilityService.showErrorToaster("Settings form is not valid");
+    }
+
+  }
+  makeCurationSettingsForm(){
+    this.curationSettingsForm = this.formBuilder.group({
+      "allow_curation" : [this.bot.allow_curation],
+      "curation_settings": this.formBuilder.group({
+        "agent_handover": this.formBuilder.group({"enabled":[this.bot.curation_settings.agent_handover.enabled]}),
+        "downvoted": this.formBuilder.group({"enabled":[this.bot.curation_settings.downvoted.enabled]}),
+        "fallback": this.formBuilder.group({"enabled":[this.bot.curation_settings.fallback.enabled]}),
+        "from_session": this.formBuilder.group({"enabled":[this.bot.curation_settings.from_session.enabled]}),
+        "low_confidence": this.formBuilder.group({
+          "enabled":[this.bot.curation_settings.low_confidence.enabled],
+          "low_confidence_score": [this.bot.curation_settings.low_confidence.low_confidence_score,Validators.max(1)]
+        }),
+        "partial_match": this.formBuilder.group({"enabled":[this.bot.curation_settings.partial_match.enabled]}),
+      })
+    });
+  }
+  refershCurrentTabHandler(){
+    if(this.activeTab == 0){
+      this.getIssuesAggregationData();
+      this.setTopArticlesWithIssues();
+    }
+    if(this.activeTab == 1){
+      this.IssuesFormSubmitted({
+        'order_by' : `-updated_at`
+      });
+    }
+    if(this.activeTab == 2){
+      this.getResolvedAggregationData();
+      this.ResolvedFormSubmitted({
+        'curation_state__in':"resolved,ignored",
+        'order_by' : `-updated_at`
+      })
+    }
   }
 }
