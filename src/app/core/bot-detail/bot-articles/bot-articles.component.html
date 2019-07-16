@@ -17,7 +17,12 @@
             <mat-icon class="material-icons">add</mat-icon>Create new article
           </button>
         </div> 
-        
+        <div class="action-item py-1 cursor-pointer"  *myIf="myEAllActions['Update Category']" (click) = "openCorpusImportModal(ImportArticlesTemplate)">
+          <mat-icon class="material-icons">cloud_upload</mat-icon>Import article from csv
+        </div>
+        <div class="action-item py-1 cursor-pointer" (click)="openCorpusExportModal()" >
+          <mat-icon class="material-icons">cloud_download</mat-icon>Export article from csv
+        </div>
         <div class="action-item py-1 cursor-pointer" (click)="openCategoryModifyModal(categoriesTemplate)" *myIf="myEAllActions['Update Category']">
           <mat-icon class="material-icons">folder</mat-icon>Modify categories
         </div>
@@ -86,6 +91,41 @@
         </div>
       </div>
 
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #ImportArticlesTemplate>
+  <div class="primary-modal" style="width: 37vw;">
+    <div class="modal-header">
+      <h4 class="modal-title mb-2" style="display: flex;justify-content: start;font-size: 16px;">Import articles from csv
+      </h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRefWrapper.ref.close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body pt-0 ">
+        <div class="pb-2">
+            <div>Criteria to check before importing</div>
+            <ul>
+              <li>Column headers should be present for all columns, specifically for question variants</li>
+              <li>Each article must have category name,anmwer and atleast one question</li>
+              <li>Default articles can be configured only in the articles page, no need to add them here</li>
+            </ul>
+          </div>
+      <form  #form="ngForm" >
+        <div class="d-flex flex-column">
+            <label for="avatar" class ="mb-1"> Csv File</label>
+            <input type="file" id="avatar" name="file" ngModel>
+            <div>{{form.value | json}}</div>
+        </div> 
+        <div  class="d-flex pt-2">
+            <button  class="btn-theme btn-theme-secondary-outline px-15">Download sample</button>
+          <button  class="btn-theme btn-theme-secondary-outline ml-auto mr-2 px-15">Cancel</button>
+           <button class="btn-theme px-15 btn-theme-primary" style="">Import</button>
+        </div>
+        </form>
     </div>
   </div>
 </ng-template>

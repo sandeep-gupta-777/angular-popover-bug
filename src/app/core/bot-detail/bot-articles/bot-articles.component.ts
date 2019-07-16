@@ -18,6 +18,8 @@ import { RouteHelperService } from 'src/app/route-helper.service';
 import { EAllActions } from 'src/app/typings/enum';
 import { EventService } from 'src/app/event.service';
 import {TempVariableService} from '../../../temp-variable.service';
+import downloadCsv from 'download-csv';
+import { CategoryIdToNamePipe } from './category-id-to-name.pipe';
 @Component({
   selector: 'app-bot-articles',
   templateUrl: './bot-articles.component.html',
@@ -40,7 +42,8 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
     private matDialog: MatDialog,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private categoryIdToNamePipe:CategoryIdToNamePipe
   ) { }
   @Input() bot: IBot;
   corpus: ICorpus;
@@ -447,6 +450,71 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
 
   cancelCategoryEditToUnchangedValue() {
     this.categoryMappingClone = this.utilityService.createDeepClone(this.corpus.category_mapping);
+  }
+
+  // import and export corpus
+  async openCorpusExportModal(){
+     
+      await this.utilityService.openDialog({
+        dialogRefWrapper: this.dialogRefWrapper,
+        classStr: 'primary-modal-header-border',
+        data: {
+          actionButtonText: "Export",
+          message: `Defalut articles for the corpus are non exportable and will need to configured in the articles pages only.Do you wish to export?`,
+          title: `Export articles to csv`,
+          isActionButtonDanger: false,
+          inputDescription: null,
+        },
+        dialog: this.matDialog,
+        component: ModalConfirmComponent
+      }).then((data) => {
+        if (data) {
+          this.exportCorpus();
+        }
+      })
+    
+  }
+  exportCorpus(){
+    let maxNoOfQuestions = 0;
+    const { Parser  } = require('json2csv');
+    let data = this.corpus.sections
+                  .map(corpusSection => {
+                    if(maxNoOfQuestions < corpusSection.questions.length){
+                      maxNoOfQuestions = corpusSection.questions.length
+                    }
+                    return {
+                      Answer:corpusSection.answers[0].text[0],
+                      Category:this.categoryIdToNamePipe.transform(corpusSection.category_id,this.categoryMappingClone),
+                      ...this.getVarientsObjFromQuestionArray(corpusSection.questions)
+                    } 
+                  })
+    const fields = ['Category', 'Answer' ];
+    for(let i=1 ; i <= maxNoOfQuestions;i++){
+      fields.push(`questions varient ${i}`);
+    }
+    try {
+      const json2csvParser = new Parser({ fields, unwind: 'field2',unwindBlank :true ,flatten :true});
+      const csv = json2csvParser.parse(data);
+      this.utilityService.downloadText(csv, `corpus_${this.corpus.id}.csv`);
+      console.log(csv);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  getVarientsObjFromQuestionArray(questions){
+    let obj = {};
+    let i = 1;
+    console.log(questions);
+    for(let x of questions){
+      obj[`questions varient ${i}`] = x;
+      i=i+1;
+    }
+    console.log(obj);
+    return obj;
+  }
+
+openCorpusImportModal(template: TemplateRef<any>){
+      this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
   ngOnDestroy(){
     TempVariableService.curationIds = null;
