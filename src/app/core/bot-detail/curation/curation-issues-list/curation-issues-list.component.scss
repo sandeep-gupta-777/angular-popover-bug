@@ -9,6 +9,13 @@
         font-size: 13px;
         color: #4a4a4a;
         font-weight: bold;
+        display: flex;
+        flex-direction: row;
+        div{
+            border-right: solid 1px #d8d8d8;
+            padding-right: 8px;
+            margin-right: 8px;
+        }
     }
     button{
         margin-right: 0 !important;
@@ -37,3 +44,8 @@
     align-items: center;
     margin-bottom: 12px;
 }
+// .animate
+// {
+//     height: 0px;//or anything you need
+//     transition: height 1s;
+// }
