@@ -15,8 +15,11 @@
       Action
     </div>
   </div>
-
-
+  <div *ngIf="TopArticlesWithIssues && TopArticlesWithIssues.length == 0">
+    <app-splash-screen [imageHRef]="myESplashScreens.search"
+          class="d-flex justify-content-center align-items-center mt-4" [descriptionText]="">
+                  </app-splash-screen>
+  </div> 
   <div class="article-item py-2 px-4" *ngFor="let section of TopArticlesWithIssues">
     <div class="first">
       <div class="catagory">{{section.category_name}}</div>
@@ -32,3 +35,4 @@
     </div>
   </div>
 </div>
+<app-imi-loader *ngIf="reloading"></app-imi-loader>
