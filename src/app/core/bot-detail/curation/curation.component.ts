@@ -186,7 +186,6 @@ export class CurationComponent implements OnInit {
 
 //  add to article
   addQueryToArticleByIds(data){
-    debugger;
     let curationIssueLinkToExistingSectionUrl = this.constantsService.curationIssueLinkToExistingSectionUrl();
     let body = {
       "curation_id_list": data.curationItemId,

@@ -50,8 +50,7 @@ export class CurationIssuesListComponent implements OnInit {
     this.SelectedListForm.form.valueChanges
       .subscribe((val)=>{
         let temArray = new Set();
-        let keys = Object.keys(val);
-        debugger;
+        let keys = Object.keys(val);     
         for(let i of keys){
           if(val[i] == true){
             temArray.add(parseInt(i));

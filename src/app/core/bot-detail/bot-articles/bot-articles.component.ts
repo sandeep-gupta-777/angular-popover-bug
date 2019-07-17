@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, TemplateRef, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, TemplateRef, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { ConstantsService } from 'src/app/constants.service';
 import { ServerService } from 'src/app/server.service';
 import { IHeaderData } from 'src/interfaces/header-data';
@@ -61,6 +61,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   currentPageOfArtcle;
   enterprise_unique_name;
   myEAllActions = EAllActions;
+  @ViewChild('Uplodeform') Uplodeform: NgForm;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   ngOnInit() {
     if (TempVariableService.firstQuestionListForNewArticle) {
@@ -525,7 +526,6 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.errorArticleMustHaveAnswer = false; 
     this.errorArticleMustHaveOneQuestion = false; 
     this.uploadingData =  ELoadingStatus.default;
-    this.file = null;
     this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
   fileChanged(e) {
@@ -540,13 +540,15 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     fileReader.onload = (e) => {
       console.log(fileReader.result);
       let array = this.csvToArray(fileReader.result);
-      this.errorCheckArticleMustHaveCategoryAnmwerOneQuestion(array)
+      this.errorCheckArticleMustHaveCategoryAnmwerOneQuestion(array);
+      array = this.removeNaN(array);
       if( !(this.errorArticleMustHaveCategory || this.errorArticleMustHaveAnswer || this.errorArticleMustHaveOneQuestion) ){
         let obj = this.ArrayToObject(array);
         this.uploadDocumentToDB(obj);
         console.log(obj);
       }else{
         this.uploadingData =  ELoadingStatus.error;
+        this.Uplodeform.form.reset();
       }
       console.log(array);
     }
@@ -594,16 +596,23 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         this.errorArticleMustHaveAnswer = false; 
         this.errorArticleMustHaveOneQuestion = false;
         
+      },(val)=>{
+        this.uploadingData =  ELoadingStatus.error;
       })
   }
   csvToArray(csv) {
     csv = csv.replace(/"/g, "");
     let rows = csv.split("\n");
-
+    rows.pop();
     return rows.map(function (row) {
-      return row.split(',').filter(str => { return str != ""});
+      return row.split(',').slice(0,-1);
     });
-  };
+  }
+  removeNaN(array){
+    return array.map(function (row) {
+      return row.filter(str => { return str != ""});
+    });
+  }
   ArrayToObject(array) {
     array = array.slice(1);
     return array.map(section => {
