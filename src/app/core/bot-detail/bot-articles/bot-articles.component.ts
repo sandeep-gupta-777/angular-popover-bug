@@ -26,13 +26,7 @@ import { ELoadingStatus } from 'src/app/button-wrapper/button-wrapper.component'
   templateUrl: './bot-articles.component.html',
   styleUrls: ['./bot-articles.component.scss']
 })
-<<<<<<< HEAD
-export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
-  // articleUpdatedToasterMessage: string;
-  
-=======
 export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
->>>>>>> develop
   ngAfterViewInit(): void {
     if (RouteHelperService.getQueryParams(this.activatedRoute, "openPreview")) {
       this.chatService.openPreviewFormService(this.bot, this.enterprise_unique_name);
@@ -227,12 +221,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
       if (TempVariableService.curationIds) {
         body["curation_id_list"] = TempVariableService.curationIds;
         url = this.constantsService.addCurationToNewSection();
-<<<<<<< HEAD
-        // this.articleUpdatedToasterMessage="Utterence added to article";
-      }else{
-=======
       } else {
->>>>>>> develop
         url = this.constantsService.createArticelUrl();
         // this.articleUpdatedToasterMessage="Article succesfully saved";
       }

@@ -197,19 +197,12 @@ export class CurationComponent implements OnInit {
         headerData: { 'bot-access-token': this.bot.bot_access_token },
         body
       }).subscribe((value) => {
-<<<<<<< HEAD
-      this.totalLengthCurationIssue = this.totalLengthCurationIssue -1;
-      this.utilityService.showSuccessToaster("Utterance linked to article.");
-      this.curationIssuesListLength = this.curationIssuesListLength - 1;
-      this.curationIssuesList = this.curationIssuesList.filter((item) => {return item.id != data.curationItemId});
-=======
       this.totalLengthCurationIssue = this.totalLengthCurationIssue - data.curationItemId.length;
       this.utilityService.showSuccessToaster("Issues has been successfully added to article.");
       this.curationIssuesListLength = this.curationIssuesListLength - data.curationItemId.length;
       this.curationIssuesList = this.curationIssuesList.filter((item) => {
         return !(data.curationItemId.find(c_id => {return c_id == item.id} ))
       });
->>>>>>> develop
       this.reinnetalizeCurationResolvedAndIgnored();
       this.getResolvedAggregationData();
     });
