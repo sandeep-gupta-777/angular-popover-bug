@@ -17,7 +17,6 @@ export class CurationFilterComponent implements OnInit {
   @Output() clearForm = new EventEmitter();
   @Input() unsolved : boolean;
   @Input() set resolveIssuesOfArticleByCount(count:number){
-    debugger;
     if(count){
       this.curationForm.reset();
       this.curationForm.form.patchValue({
