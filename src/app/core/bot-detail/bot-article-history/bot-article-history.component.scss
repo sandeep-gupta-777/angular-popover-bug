@@ -15,6 +15,10 @@
             cursor: pointer;
         }
     }
+    .table-dropdown .dropdown-content{
+        right: 0% !important;
+        top: -25% !important;
+    }
     .history-table{
         .textVal{
             width: 100% !important;

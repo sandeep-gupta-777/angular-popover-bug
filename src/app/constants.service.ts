@@ -53,7 +53,16 @@ export class ConstantsService {
     }
     return x;
   }
-
+  getDefaultTriggeredRulesForArticleFilter(){
+    return [
+      "agent_handover",
+      "downvoted",
+      "fallback",
+      "from_session",
+      "low_confidence",
+      "partial_match"
+    ];
+  }
   NEW_BOT_VERSION_TEMPLATE = {
     'bot_id': 0,
     'comment': '',

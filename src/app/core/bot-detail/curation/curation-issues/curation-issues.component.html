@@ -3,14 +3,16 @@
 
 
     <mat-card-actions style="margin: 0; padding: 0;">
-      <div class="curation-card-header-wrapper ">
+      <div 
+      [ngClass]="selected? 'curation-card-header-wrapper-selected': '' " 
+      class="curation-card-header-wrapper">
         <span class="curation-card-header-item">
           <div class="header--img">
             <!-- curationItemData && curationItemData.platform &&  -->
             <img [src]='channelNameToImg("web")'>
           </div>
           <div class="room-id pl-2">
-            Room ID: {{curationItemData.room_id}}</div>
+            Room ID: {{curationItemData.room_id}} {{selected}}</div>
           <div class="logged-it pl-4">
             Logged at
             {{curationItemData.created_at | date:"shortTime"}},&nbsp;{{curationItemData.created_at | date:"MMM d"}}&nbsp;'{{curationItemData.created_at | date:"yy"}}
