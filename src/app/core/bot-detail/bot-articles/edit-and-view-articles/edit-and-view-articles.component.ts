@@ -26,7 +26,7 @@ import { PermissionService } from 'src/app/permission.service';
 import {MatDialog} from '@angular/material';
 import {UtilityService} from 'src/app/utility.service';
 import { ModalConfirmComponent } from 'src/app/modal-confirm/modal-confirm.component';
-
+// [disabled]="JSON.stringify(articleData) === JSON.stringify(_article)"
 
 @Component({
   selector: 'app-edit-and-view-articles',
@@ -312,6 +312,15 @@ export class EditAndViewArticlesComponent implements OnInit {
 
 
 
+  showOpenCloseWithoutSavingModal() {
+    if(JSON.stringify(this.articleData) === JSON.stringify(this._article)){
+      this.goBackToArticle();
+    }
+    else{
+      this.openCloseWithoutSavingModal();
+    }
+    
+  }
 
 
   async openCloseWithoutSavingModal() {
