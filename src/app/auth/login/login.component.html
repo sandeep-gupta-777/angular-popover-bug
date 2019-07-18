@@ -26,7 +26,7 @@
             <mat-checkbox color="primary" class="text-muted" style="width: 17px; height: 20px"></mat-checkbox>
             <span class="text-muted ml-1" style="margin-top: 0.5px">Remember me</span>
           </span>
-          
+          <button (click) ="panelActive = myELoginPanels.set"></button>
           <a class="cursor-pointer text-muted" (click)="panelActive='reset-via-email'">Forgot password?</a>
         </div>
 
@@ -79,8 +79,8 @@
 
       <div [hidden]="panelActive!==myELoginPanels.set" style="display: flex;justify-content: center; align-items: center; position:absolute;top: -35%;left: -5%;right: -20%; height: 60px; background-color: #e5faff">
  
-              <img src="assets/img/baseline-how_to_reg-24px.svg" class="set-password-img"
-             style="width: 24px; height: 24px; margin: 0 15px; fill: #00ABD3"
+              <img src="assets/img/baseline-how_to_reg-24px.svg" 
+             style="width: 24px; height: 24px; margin: 0 15px; "
              alt="varified user">
              <div style="color: #474747">Please set your password to verify your account.</div>
       </div>
