@@ -36,6 +36,7 @@
                         (click)="$event.stopPropagation()"
                         [searchKeyword]="searchKeyword"
                         [tableData]="pipelineItem"
+                        [modalUpdateButtonText]=""
                         (settingsClicked$)="openInputParamModal(Primarytemplat,$event)"
                         (openInputParamModalBeforeAdd$)="openInputParamModal(Primarytemplat,$event, true)"
                         (add$)="addPipelineItemToPipeline($event)"
@@ -138,9 +139,9 @@
         <div class = "ml-auto">
             <button class="btn-theme btn-theme-primary-outline mr-1"
             (click)="dialogRefWrapper.ref.close()">Cancel</button>
-
+          <!--<i>{{selectedPipeline.is_added}}</i>-->
           <button class="btn-theme btn-theme-success-sm"
-            (click)="submitPipeline(Pipelineform); dialogRefWrapper.ref.close(true)">Add&nbsp;>>
+            (click)="submitPipeline(Pipelineform); dialogRefWrapper.ref.close(true)">{{selectedPipeline.is_added? 'Update': 'Add>>' }}
           </button>
         </div>
 
