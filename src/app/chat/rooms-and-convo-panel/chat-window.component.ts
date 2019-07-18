@@ -1,7 +1,6 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {EBotMessageMediaType, EChatFrame, IMessageData, IRoomData} from '../../../interfaces/chat-session-state';
 import {LoggingService} from '../../logging.service';
-import {ActivatedRoute, Router} from '@angular/router';
 import {ServerService} from '../../server.service';
 import {ConstantsService} from '../../constants.service';
 import {IBot} from '../../core/interfaces/IBot';
@@ -13,7 +12,7 @@ import {IBot} from '../../core/interfaces/IBot';
 })
 export class ChatWindowComponent implements OnInit {
   messageByHuman: string;
-  @Input() bot:IBot;
+  @Input() bot: IBot;
   @Output() chatMessageFeedback$ = new EventEmitter();
   botIsThinkingMessageDataArray: IMessageData[] = [{
     sourceType: 'bot',
@@ -22,8 +21,8 @@ export class ChatWindowComponent implements OnInit {
     bot_message_id: null,
   }];
 
-  _allow_feedback:boolean = false;
-  @Input() set allow_feedback(val){
+  _allow_feedback: boolean = false;
+  @Input() set allow_feedback(val) {
     this._allow_feedback = val;
   }
 
@@ -67,8 +66,10 @@ export class ChatWindowComponent implements OnInit {
   }
 
   sendMessageByHuman(message) {
-    this.sendMessageByHuman$.emit({messageByHuman: message, room: this.room});
-    this.messageByHuman = '';
+    if (message && message.trim()) {
+      this.sendMessageByHuman$.emit({messageByHuman: message, room: this.room});
+      this.messageByHuman = '';
+    }
   }
 
 }
