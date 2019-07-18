@@ -481,15 +481,18 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     const { Parser } = require('json2csv');
     let data = this.corpus.sections
       .map(corpusSection => {
-        if (maxNoOfQuestions < corpusSection.questions.length) {
+        if (maxNoOfQuestions < corpusSection.questions.length && corpusSection.category_id != 'default_articles') {
           maxNoOfQuestions = corpusSection.questions.length
         }
-        return {
-          Answer: corpusSection.answers[0].text[0],
-          Category: this.categoryIdToNamePipe.transform(corpusSection.category_id, this.categoryMappingClone),
-          ...this.getVarientsObjFromQuestionArray(corpusSection.questions)
+        if(corpusSection.category_id != 'default_articles'){
+          return {
+            Answer: corpusSection.answers[0].text[0],
+            Category: this.categoryIdToNamePipe.transform(corpusSection.category_id, this.categoryMappingClone),
+            ...this.getVarientsObjFromQuestionArray(corpusSection.questions)
+          }
         }
       })
+    data = data.filter(d => {return d != null})
     const fields = ['Category', 'Answer'];
     for (let i = 1; i <= maxNoOfQuestions; i++) {
       fields.push(`questions varient ${i}`);
@@ -520,11 +523,15 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   errorArticleMustHaveCategory  : boolean = false;
   errorArticleMustHaveAnswer  : boolean = false;
   errorArticleMustHaveOneQuestion  : boolean = false;
+  errorArticleMustNotHaveDefaultArticle  : boolean = false;
+  errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer : boolean = false;
   uploadingData =  ELoadingStatus.default;
   openCorpusImportModal(template: TemplateRef<any>) {
     this.errorArticleMustHaveCategory=false; 
     this.errorArticleMustHaveAnswer = false; 
     this.errorArticleMustHaveOneQuestion = false; 
+    this.errorArticleMustNotHaveDefaultArticle = false;
+    this.errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer = false;
     this.uploadingData =  ELoadingStatus.default;
     this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
@@ -533,6 +540,8 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.errorArticleMustHaveCategory = false;  
     this.errorArticleMustHaveAnswer = false;  
     this.errorArticleMustHaveOneQuestion = false;  
+    this.errorArticleMustNotHaveDefaultArticle = false;
+    this.errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer = false;
   }
   uploadDocument() {
     this.uploadingData =  ELoadingStatus.loading;
@@ -540,16 +549,23 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     fileReader.onload = (e) => {
       console.log(fileReader.result);
       let array = this.csvToArray(fileReader.result);
-      this.errorCheckArticleMustHaveCategoryAnmwerOneQuestion(array);
-      array = this.removeNaN(array);
-      if( !(this.errorArticleMustHaveCategory || this.errorArticleMustHaveAnswer || this.errorArticleMustHaveOneQuestion) ){
-        let obj = this.ArrayToObject(array);
-        this.uploadDocumentToDB(obj);
-        console.log(obj);
+      if(array[0][0].toLowerCase().includes('category') && array[0][1].toLowerCase().includes('answer')){
+        this.errorCheckArticleMustHaveCategoryAnmwerOneQuestion(array);
+        array = this.removeNaN(array);
+        if( !(this.errorArticleMustHaveCategory || this.errorArticleMustHaveAnswer || this.errorArticleMustHaveOneQuestion || this.errorArticleMustNotHaveDefaultArticle) ){
+          let obj = this.ArrayToObject(array);
+          this.uploadDocumentToDB(obj);
+          console.log(obj);
+        }else{
+          this.uploadingData =  ELoadingStatus.error;
+          this.Uplodeform.form.reset();
+        }
       }else{
+        this.errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer = true;    
         this.uploadingData =  ELoadingStatus.error;
-        this.Uplodeform.form.reset();
+        this.Uplodeform.form.reset();    
       }
+      
       console.log(array);
     }
     if(!this.file){
@@ -571,6 +587,11 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         this.errorArticleMustHaveOneQuestion = true; 
         return;
       } 
+      debugger;
+      if((array[i][0].toLowerCase() == 'default')){
+        this.errorArticleMustNotHaveDefaultArticle = true;
+        return;
+      }
     }
     return;
   }
@@ -595,6 +616,8 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         this.errorArticleMustHaveCategory=false; 
         this.errorArticleMustHaveAnswer = false; 
         this.errorArticleMustHaveOneQuestion = false;
+        this.errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer = false;
+
         
       },(val)=>{
         this.uploadingData =  ELoadingStatus.error;
@@ -628,6 +651,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.errorArticleMustHaveCategory=false; 
     this.errorArticleMustHaveAnswer = false; 
     this.errorArticleMustHaveOneQuestion = false; 
+    this.errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer = false;
     this.uploadingData =  ELoadingStatus.default;
   }
   ngOnDestroy() {

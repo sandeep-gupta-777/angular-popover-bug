@@ -123,6 +123,8 @@
           <div *ngIf="errorArticleMustHaveAnswer" class="errorText"> Answer is missing for one or more articles</div>
           <div *ngIf="errorArticleMustHaveOneQuestion" class="errorText">Question is missing for one or more articles
           </div>
+          <div *ngIf="errorArticleMustNotHaveDefaultArticle" class = "errorText">Category name is default for one or more articles</div>
+          <div *ngIf="errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer" class = "errorText">First column must be "Category" and second must be "answer"</div>
           <div *ngIf="!Uplodeform.valid" class="errorText">Please choose the file</div>
         </div>
         <div class="d-flex pt-2">
