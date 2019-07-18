@@ -350,22 +350,13 @@ export class ServerService {
   }
 
   getNSetChatPreviewBot(bot_unique_name: string, enterprise_unique_name: string) {
-    // if (!this.bot || (this.bot && this.bot.bot_unique_name !== this.bot_unique_name)) {
-    //   let enterprise_unique_name = this.activatedRoute.snapshot.queryParams['enterprise_unique_name'];//testingbot
-    //   if (!this.bot_unique_name) return;
     const url = this.constantsService.getNSetChatPreviewBotUrl(bot_unique_name, enterprise_unique_name);
-    this.makeGetReq({url, noValidateUser: true})
-      .subscribe((bot: IBot) => {
-        // this.user_first_name = bot.enterprise_name;
-        // this.enterprise_logo = bot.enterprise_logo;
-        // this.user_email =bot.enterprise_name;
-
-        this.store.dispatch([
+    return this.makeGetReq({url, noValidateUser: true})
+      .pipe(map((bot: IBot) => {
+        return this.store.dispatch([
           new SetCurrentBotDetailsAndResetChatStateIfBotMismatch({bot}),
-          // new SetEnterpriseInfoAction({enterpriseInfo:{logo:bot.logo}})
-          // new ToggleChatWindow({open:true})
         ]);
-      });
+      }));
   }
 
 

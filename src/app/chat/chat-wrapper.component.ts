@@ -67,6 +67,7 @@ export interface IChatFeedback {
 export class ChatWrapperComponent implements OnInit {
   showOverlay = false;
   showOverlay_edit_fullscreen = false;
+  is_logged_in = false;
   @Select() chatsessionstate$: Observable<IChatSessionState>;
   @Select() loggeduser$: Observable<IAuthState>;
   @Select() botlist$: Observable<ViewBotStateModel>;
@@ -95,6 +96,7 @@ export class ChatWrapperComponent implements OnInit {
   user_first_name;
   user_email;
   showBotIsThinking = false;
+  showChatImage = false;
 
   constructor(private store: Store,
               private serverService: ServerService,
@@ -128,7 +130,10 @@ export class ChatWrapperComponent implements OnInit {
         if (!loggeduser) {
           return;
         }
-
+        this.is_logged_in = !!(loggeduser.user && loggeduser.user.id);
+        if(!loggeduser.user){
+          return;
+        }
         this.user_first_name = loggeduser.user.first_name || 'Anonymous User';
         this.user_email = loggeduser.user.email;
       } catch (e) {
@@ -139,11 +144,15 @@ export class ChatWrapperComponent implements OnInit {
 
     /*hotfix: enterprise logo*/
     this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
-      this.enterprise_logo = enterpriseProfileInfo.logo || this.enterprise_logo;
+      if(enterpriseProfileInfo){
+        this.enterprise_logo = enterpriseProfileInfo.logo || this.enterprise_logo;
+      }
     });
 
     this.isFullScreenPreview = this.activatedRoute.snapshot.data.isFullScreenPreview;
+    debugger;
     if (this.isFullScreenPreview) {
+      debugger;
       this.activatedRoute.queryParamMap.subscribe((queryparam) => {
         const welcomeScreenBotIdStr = queryparam.get('preview');
         const enterprise_unique_name = queryparam.get('enterprise_unique_name');
@@ -153,7 +162,11 @@ export class ChatWrapperComponent implements OnInit {
         }
         this.enterprise_unique_name = enterprise_unique_name;
         if (enterprise_unique_name && bot_unique_name && bot_unique_name) {
-          this.serverService.getNSetChatPreviewBot(bot_unique_name, enterprise_unique_name);
+          this.serverService.getNSetChatPreviewBot(bot_unique_name, enterprise_unique_name)
+            .subscribe(()=>{
+              this.startNewChatForAnonUser();
+            })
+
         }
       });
     }
@@ -242,6 +255,14 @@ export class ChatWrapperComponent implements OnInit {
       });
     }
 
+  }
+
+  startNewChatForAnonUser(){
+    this.startNewChat({
+      consumerDetails: {uid: UtilityService.generateUUid()},
+      bot: this.currentBot,
+      isCustomRoom: false
+    });
   }
 
 
