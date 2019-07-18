@@ -33,7 +33,6 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       return;
     }
     this._selectedRowData = value;
-    debugger;
     this.key = value.key;
     if (value.ner_type) {
       this.ner_type = value.ner_type;
