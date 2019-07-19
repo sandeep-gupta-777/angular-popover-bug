@@ -1,5 +1,6 @@
 import {Component, OnInit, Input, ViewChild, EventEmitter, Output, AfterViewInit, OnDestroy} from '@angular/core';
 import { NgForm } from '@angular/forms';
+import {ConstantsService} from "../../../../constants.service";
 
 @Component({
   selector: 'app-curation-filter',
@@ -8,13 +9,14 @@ import { NgForm } from '@angular/forms';
 })
 export class CurationFilterComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private constantsService : ConstantsService,
+  ) { }
   @Input() triggered_rules : string[];
   @Output() formSubmitted = new EventEmitter();
   @Output() clearForm = new EventEmitter();
   @Input() unsolved : boolean;
   @Input() set resolveIssuesOfArticleByCount(count:number){
-    debugger;
     if(count){
       this.curationForm.reset();
       this.curationForm.form.patchValue({
@@ -33,14 +35,7 @@ export class CurationFilterComponent implements OnInit {
   ngOnInit() {
     
     if(!this.triggered_rules){
-      this.triggered_rules = [
-                "agent_handover",
-                "downvoted",
-                "fallback",
-                "from_session",
-                "low_confidence",
-                "partial_match"
-      ]
+      this.triggered_rules = this.constantsService.getDefaultTriggeredRulesForArticleFilter();
     }
 
   }

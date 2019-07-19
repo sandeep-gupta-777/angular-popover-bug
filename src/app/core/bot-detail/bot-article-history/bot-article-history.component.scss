@@ -24,6 +24,10 @@
           }
           display: flex;
     }
+    .table-dropdown .dropdown-content{
+        right: 0% !important;
+        top: -25% !important;
+    }
     .history-table{
         table{
             th, td{

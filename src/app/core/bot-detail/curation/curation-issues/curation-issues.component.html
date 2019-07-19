@@ -3,14 +3,16 @@
 
 
     <mat-card-actions style="margin: 0; padding: 0;">
-      <div class="curation-card-header-wrapper ">
+      <div 
+      [ngClass]="selected? 'curation-card-header-wrapper-selected': '' " 
+      class="curation-card-header-wrapper">
         <span class="curation-card-header-item">
           <div class="header--img">
             <!-- curationItemData && curationItemData.platform &&  -->
             <img [src]='channelNameToImg("web")'>
           </div>
           <div class="room-id pl-2">
-            Room ID: {{curationItemData.room_id}}</div>
+            Room ID: {{curationItemData.room_id}} {{selected}}</div>
           <div class="logged-it pl-4">
             Logged at
             {{curationItemData.created_at | date:"shortTime"}},&nbsp;{{curationItemData.created_at | date:"MMM d"}}&nbsp;'{{curationItemData.created_at | date:"yy"}}
@@ -18,6 +20,7 @@
         </span>
 
         <span class="curation-card-header-icon-list">
+<<<<<<< HEAD
           <!--downvoted-->
           <mat-icon style="color: #d94254;" [title]="toDisplayValue('bot’s_message_was_downvoted')" *ngIf="curationItemData.triggered_rules.downvoted">
             thumb_down</mat-icon>
@@ -40,6 +43,19 @@
             
           <!-- low_confidence -->
           <mat-icon style="color: #ff8c41;" [title]="toDisplayValue('article_recognized_has_a_low_score')"
+=======
+          <mat-icon style="color: #d94254;" [matTooltip]="toDisplayValue('bot’s_message_was_downvoted')" *ngIf="curationItemData.triggered_rules.downvoted">
+            thumb_down</mat-icon>
+          <mat-icon style="color: #fd901c;" [matTooltip]="toDisplayValue('bot_was_unable_to_understand')" *ngIf="curationItemData.triggered_rules.fallback">
+            sentiment_dissatisfied</mat-icon>
+          <mat-icon style="color: #00abd3;" [matTooltip]="toDisplayValue('added_to_curation_from_session')" *ngIf="curationItemData.triggered_rules.from_session">
+            question_answer</mat-icon>
+          <mat-icon style="color: #193a57;" [matTooltip]="toDisplayValue('bot_was_unable_to_disambiguate')"
+            *ngIf="curationItemData.triggered_rules.partial_match">list</mat-icon>
+          <mat-icon style="color: #000000;" [matTooltip]="toDisplayValue('handed_over_to_agent')"
+            *ngIf="curationItemData.triggered_rules.agent_handover">headset_mic</mat-icon>
+          <mat-icon style="color: #ff8c41;" [matTooltip]="toDisplayValue('article_recognized_has_a_low_score')"
+>>>>>>> staging
             *ngIf="curationItemData.triggered_rules.low_confidence">live_help</mat-icon>
         </span>
       </div>
