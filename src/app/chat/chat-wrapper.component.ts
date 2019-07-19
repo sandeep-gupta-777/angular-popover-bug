@@ -67,7 +67,7 @@ export interface IChatFeedback {
 export class ChatWrapperComponent implements OnInit {
   showOverlay = false;
   showOverlay_edit_fullscreen = false;
-  is_logged_in = false;
+  is_logged_in = location.pathname === '/preview-dev';
   @Select() chatsessionstate$: Observable<IChatSessionState>;
   @Select() loggeduser$: Observable<IAuthState>;
   @Select() botlist$: Observable<ViewBotStateModel>;
@@ -97,6 +97,7 @@ export class ChatWrapperComponent implements OnInit {
   user_email;
   showBotIsThinking = false;
   showChatImage = false;
+  knowMorePanelItems = this.chatService.knowMorePanelItems;
 
   constructor(private store: Store,
               private serverService: ServerService,
@@ -130,7 +131,7 @@ export class ChatWrapperComponent implements OnInit {
         if (!loggeduser) {
           return;
         }
-        this.is_logged_in = !!(loggeduser.user && loggeduser.user.id);
+        // this.is_logged_in = !!(loggeduser.user && loggeduser.user.id);
         if(!loggeduser.user){
           return;
         }

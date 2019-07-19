@@ -19,7 +19,7 @@
         {{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>
       <a class="ml-auto hover-parent"
          data-cy="chat-full-screen"
-         [routerLink]="['/preview']"
+         [routerLink]="['/preview-dev']"
          [queryParams]="{bot_unique_name:currentBot.bot_unique_name,enterprise_unique_name:enterprise_unique_name}"
          [matTooltip]="'Open in new Tab'"
          target="_blank">
@@ -146,7 +146,7 @@
     <ng-container *ngIf="!is_logged_in">
       <button (click)="startNewChatForAnonUser()"
               class="mat-theme-button mat-theme-button-border" mat-button>
-        <mat-icon>update</mat-icon>
+        <mat-icon>refresh</mat-icon>
         <span class="hide-mobile">Restart</span>
       </button>
       <button (click)="showChatImage = !showChatImage"
@@ -159,11 +159,24 @@
         (click)="showChatImage = false"
         class="chat-img-overlay">
         <i class="fa fa-times close-chat-img-overlay"></i>
-        <img
-          class="chat-img-overlay-img"
-            (click)="$event.stopPropagation()"
-             src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Qutb_Minar_tower.jpg/300px-Qutb_Minar_tower.jpg"
-             alt="">
+        <div class="chat-know-more-overlay" (click)="$event.stopPropagation()">
+
+          <header class="chat-know-more-overlay-header">
+            <div class="description-top" style="text-align: center">This bot was built using</div>
+            <div><img src="assets/img/IMI_logo.png" alt=""></div>
+            <strong class="description-bottom">The enterprise bot building platform to automate conversations</strong>
+          </header>
+
+          <div class="chat-know-more-overlay-item" *ngFor="let item of knowMorePanelItems">
+            <img [src]="item.imgUrl" alt="">
+            <div>
+              {{item.title}}
+            </div>
+          </div>
+
+          <a href="https://imimobile.com/products/ai-automation" target="_blank"><button mat-flat-button color="primary"> Know more</button></a>
+
+        </div>
       </div>
     </ng-container>
 
