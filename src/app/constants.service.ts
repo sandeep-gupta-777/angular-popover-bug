@@ -21,7 +21,8 @@ export class ConstantsService {
   forbiddenPermsDynamic: { id?: string, name?: number };
   appState: IAppState;
   allowedPermissionIdsToCurrentRole: number[];
-
+  static fullscreenchatpath_dev = (environment.production?'/static':'') + '/preview-dev';
+  static fullscreenchatpath_anon = (environment.production?'/static':'') + '/preview';
   constructor() {
     console.log("environment=>>>", environment);
     this.app$.subscribe((appState) => {
@@ -1105,7 +1106,7 @@ export class ConstantsService {
     },
   };
 
-  
+
   SMART_TABLE_ARTICLE_HISTORY_TEMPLATE: ITableColumn = {
     description: {
       originalKey: 'description',

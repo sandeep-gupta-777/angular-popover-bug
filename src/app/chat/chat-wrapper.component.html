@@ -19,7 +19,7 @@
         {{(chatWindowTitle| slice:0: 22) + (chatWindowTitle.length > 22 ? "..." : "")}}</a>
       <a class="ml-auto hover-parent"
          data-cy="chat-full-screen"
-         [routerLink]="['/preview-dev']"
+         [routerLink]="[dev_chat_path]"
          [queryParams]="{bot_unique_name:currentBot.bot_unique_name,enterprise_unique_name:enterprise_unique_name}"
          [matTooltip]="'Open in new Tab'"
          target="_blank">
