@@ -52,7 +52,6 @@ export class SessionMessageComponent implements OnInit {
     this.txnId_highlighting = this._txnConversationItems.transaction_id_highlighting || this.txnId;
     this.sessionMessageItems.forEach(sessionMessage => {
       if(sessionMessage.user_type == 'human'){
-        debugger;
         this.hasError = this.hasError || sessionMessage.error;
         this.bot_message_id = sessionMessage.id;
       }

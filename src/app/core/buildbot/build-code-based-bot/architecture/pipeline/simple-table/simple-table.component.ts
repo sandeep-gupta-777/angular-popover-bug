@@ -10,6 +10,7 @@ import {pipelineData} from '../../../../../../../interfaces/bot-creation';
 export class SimpleTableComponent implements OnInit {
 
   @Input() tableData: {pipeline_modules:IPipelineItem[]};
+  @Input() modalUpdateButtonText: string;
   pipeline_modules: IPipelineItem[];
   @Input() set searchKeyword(val){
     if(!val) {
