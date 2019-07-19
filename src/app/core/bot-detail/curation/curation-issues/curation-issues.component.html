@@ -20,42 +20,17 @@
         </span>
 
         <span class="curation-card-header-icon-list">
-<<<<<<< HEAD
-          <!--downvoted-->
-          <mat-icon style="color: #d94254;" [title]="toDisplayValue('bot’s_message_was_downvoted')" *ngIf="curationItemData.triggered_rules.downvoted">
+          <mat-icon style="color: #d94254;" [matTooltip]="toDisplayValue('bot’s_message_was_downvoted')" *ngIf="curationItemData.triggered_rules.downvoted">
             thumb_down</mat-icon>
-
-          <!--fallback-->
-          <mat-icon style="color: #fd901c;" [title]="toDisplayValue('bot_was_unable_to_understand')" *ngIf="curationItemData.triggered_rules.fallback">
+          <mat-icon style="color: #fd901c;" [matTooltip]="toDisplayValue('bot_was_unable_to_understand')" *ngIf="curationItemData.triggered_rules.fallback">
             sentiment_dissatisfied</mat-icon>
-
-          <!-- from_session -->
-          <mat-icon style="color: #00abd3;" [title]="toDisplayValue('added_to_curation_from_session')" *ngIf="curationItemData.triggered_rules.from_session">
+          <mat-icon style="color: #00abd3;" [matTooltip]="toDisplayValue('added_to_curation_from_session')" *ngIf="curationItemData.triggered_rules.from_session">
             question_answer</mat-icon>
-
-          <!-- partial_match -->
-          <mat-icon style="color: #193a57;" [title]="toDisplayValue('bot_was_unable_to_disambiguate')"
+          <mat-icon style="color: #193a57;" [matTooltip]="toDisplayValue('bot_was_unable_to_disambiguate')"
             *ngIf="curationItemData.triggered_rules.partial_match">list</mat-icon>
-
-          <!--agent_handover-->
-          <mat-icon style="color: #000000;" [title]="toDisplayValue('handed_over_to_agent')"
-            *ngIf="curationItemData.triggered_rules.agent_handover">headset_mic</mat-icon>  
-            
-          <!-- low_confidence -->
-          <mat-icon style="color: #ff8c41;" [title]="toDisplayValue('article_recognized_has_a_low_score')"
-=======
-          <mat-icon style="color: #d94254;" [matTooltip]="toDisplayValue('downvoted')" *ngIf="curationItemData.triggered_rules.downvoted">
-            thumb_down</mat-icon>
-          <mat-icon style="color: #fd901c;" [matTooltip]="toDisplayValue('fallback')" *ngIf="curationItemData.triggered_rules.fallback">
-            sentiment_dissatisfied</mat-icon>
-          <mat-icon style="color: #00abd3;" [matTooltip]="toDisplayValue('from_session')" *ngIf="curationItemData.triggered_rules.from_session">
-            question_answer</mat-icon>
-          <mat-icon style="color: #193a57;" [matTooltip]="toDisplayValue('partial_match')"
-            *ngIf="curationItemData.triggered_rules.partial_match">list</mat-icon>
-          <mat-icon style="color: #000000;" [matTooltip]="toDisplayValue('agent_handover')"
+          <mat-icon style="color: #000000;" [matTooltip]="toDisplayValue('handed_over_to_agent')"
             *ngIf="curationItemData.triggered_rules.agent_handover">headset_mic</mat-icon>
-          <mat-icon style="color: #ff8c41;" [matTooltip]="toDisplayValue('low_confidence')"
->>>>>>> c5acb88436b2fff440e02ed604cff2462b3b5091
+          <mat-icon style="color: #ff8c41;" [matTooltip]="toDisplayValue('article_recognized_has_a_low_score')"
             *ngIf="curationItemData.triggered_rules.low_confidence">live_help</mat-icon>
         </span>
       </div>
