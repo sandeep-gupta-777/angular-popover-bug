@@ -215,6 +215,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!create) {
       body['section_id'] = articleData.section_id;
       url = this.constantsService.updateArticelUrl();
+      // this.articleUpdatedToasterMessage="Article succesfully saved";
     }
     else {
       if (TempVariableService.curationIds) {
@@ -222,6 +223,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         url = this.constantsService.addCurationToNewSection();
       } else {
         url = this.constantsService.createArticelUrl();
+        // this.articleUpdatedToasterMessage="Article succesfully saved";
       }
 
     }
@@ -229,9 +231,12 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
 
     return this.serverService.makePostReq<any>({ headerData, body, url })
   }
+  
+  
 
   updateArticle(articleData: IArticleItem) {
     this.updateArticle$(articleData)
+    
       .subscribe((value) => {
         if (value) {
           TempVariableService.curationIds = null;
