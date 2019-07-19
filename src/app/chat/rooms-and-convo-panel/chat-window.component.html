@@ -1,4 +1,4 @@
-<div #scrollMe class="d-flex flex-column mb-1" style="overflow-y: scroll;overflow-x: hidden; height: calc(100% - 50px);position: relative">
+<div #scrollMe class="d-flex flex-column mb-1 chat-window-section">
   <app-chat-message
     *ngFor="let messageData of _messageDataArray; let isLast = last"
     [allow_feedback]="_allow_feedback"
@@ -34,7 +34,7 @@
          cdkTrapFocus
          data-cy="chat-input"
          placeholder="Write here and press enter to send" autofocus [(ngModel)]="messageByHuman" type="text"
-         (keyup.enter)="sendMessageByHuman(messageByHuman)">
+         (keyup.enter)="sendMessageByHuman(messageByHuman)" style="color:	#696969"> <!--dark grey-->
   <!--<div class="d-flex justify-content-center px-2">-->
     <!--<span class="icon"><i class="fa fa-send cursor-pointer" (click)="sendMessageByHuman(messageByHuman)"></i></span>-->
   <!--</div>-->

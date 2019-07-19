@@ -67,6 +67,7 @@ export interface IChatFeedback {
 export class ChatWrapperComponent implements OnInit {
   showOverlay = false;
   showOverlay_edit_fullscreen = false;
+  is_logged_in = location.pathname === '/preview-dev';
   @Select() chatsessionstate$: Observable<IChatSessionState>;
   @Select() loggeduser$: Observable<IAuthState>;
   @Select() botlist$: Observable<ViewBotStateModel>;
@@ -95,6 +96,8 @@ export class ChatWrapperComponent implements OnInit {
   user_first_name;
   user_email;
   showBotIsThinking = false;
+  showChatImage = false;
+  knowMorePanelItems = this.chatService.knowMorePanelItems;
 
   constructor(private store: Store,
               private serverService: ServerService,
@@ -128,7 +131,10 @@ export class ChatWrapperComponent implements OnInit {
         if (!loggeduser) {
           return;
         }
-
+        // this.is_logged_in = !!(loggeduser.user && loggeduser.user.id);
+        if(!loggeduser.user){
+          return;
+        }
         this.user_first_name = loggeduser.user.first_name || 'Anonymous User';
         this.user_email = loggeduser.user.email;
       } catch (e) {
@@ -139,11 +145,15 @@ export class ChatWrapperComponent implements OnInit {
 
     /*hotfix: enterprise logo*/
     this.loggeduserenterpriseinfo$.subscribe((enterpriseProfileInfo) => {
-      this.enterprise_logo = enterpriseProfileInfo.logo || this.enterprise_logo;
+      if(enterpriseProfileInfo){
+        this.enterprise_logo = enterpriseProfileInfo.logo || this.enterprise_logo;
+      }
     });
 
     this.isFullScreenPreview = this.activatedRoute.snapshot.data.isFullScreenPreview;
+    debugger;
     if (this.isFullScreenPreview) {
+      debugger;
       this.activatedRoute.queryParamMap.subscribe((queryparam) => {
         const welcomeScreenBotIdStr = queryparam.get('preview');
         const enterprise_unique_name = queryparam.get('enterprise_unique_name');
@@ -153,7 +163,11 @@ export class ChatWrapperComponent implements OnInit {
         }
         this.enterprise_unique_name = enterprise_unique_name;
         if (enterprise_unique_name && bot_unique_name && bot_unique_name) {
-          this.serverService.getNSetChatPreviewBot(bot_unique_name, enterprise_unique_name);
+          this.serverService.getNSetChatPreviewBot(bot_unique_name, enterprise_unique_name)
+            .subscribe(()=>{
+              this.startNewChatForAnonUser();
+            })
+
         }
       });
     }
@@ -244,6 +258,14 @@ export class ChatWrapperComponent implements OnInit {
 
   }
 
+  startNewChatForAnonUser(){
+    this.startNewChat({
+      consumerDetails: {uid: UtilityService.generateUUid()},
+      bot: this.currentBot,
+      isCustomRoom: false
+    });
+  }
+
 
   /*this is called when bot preview button or create a custom room button is clicked*/
   startNewChat(startNewChatData: { consumerDetails: IConsumerDetails, bot: IBot, isCustomRoom?: boolean }) {
@@ -310,15 +332,18 @@ export class ChatWrapperComponent implements OnInit {
     this.store.dispatch(new ToggleChatWindow({ open: false }));
   }
 
-  sendMessageByHuman(messageData: { messageByHuman: string, room: IRoomData }) {
-    const messageByHuman = messageData.messageByHuman;
+  sendMessageByHuman(messageData: { messageByHuman: string, room: IRoomData,updateConsumerInfo?:boolean }) {
+    const messageByHuman = messageData.messageByHuman && messageData.messageByHuman.trim();
+    if(!messageByHuman && !messageData.updateConsumerInfo){
+      return;
+    }
     const room: IRoomData = messageData.room;
     /*
     * Unfortunately currently send api is being used for updating consumer details
     * if message by human is empty,we will proceed to updated consumer details
     * */
     const updateConsumerDetails = !(messageByHuman && messageByHuman.trim());
-    if (!updateConsumerDetails) {
+    if (!messageData.updateConsumerInfo) {
       this.store.dispatch([new AddMessagesToRoomByRoomId({
           id: room.id,
           messageList: [{
@@ -366,7 +391,7 @@ export class ChatWrapperComponent implements OnInit {
           EChatFrame.CHAT_BOX)
           .subscribe(() => {
 
-            if(updateConsumerDetails){
+            if(messageData.updateConsumerInfo){
               this.store.dispatch(new UpdateConsumerByRoomId({consumerDetails: room.consumerDetails, room_id: room.id}));
               this.utilityService.showSuccessToaster('Consumer details updated');
             }else {
@@ -420,7 +445,7 @@ export class ChatWrapperComponent implements OnInit {
       id: roomId || this.currentRoom.id,
       bot: this.currentBot
     };
-    this.sendMessageByHuman({ room, messageByHuman: '' });
+    this.sendMessageByHuman({ room, messageByHuman: '', updateConsumerInfo:true });
   }
   //
   sendFeedback(feedback: IChatFeedback) {

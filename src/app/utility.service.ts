@@ -11,7 +11,7 @@ import {StoreVariableService} from './core/buildbot/build-code-based-bot/archite
 import {AbstractControl, FormArray, FormControl, FormGroup, NgControl, NgForm} from '@angular/forms';
 import {MatSnackBar} from '@angular/material';
 import {ModalConfirmComponent} from './modal-confirm/modal-confirm.component';
-const uuidv1 = require('uuid/v4');
+const uuidv4 = require('uuid/v4');
 
 export enum EBotType {
   chatbot = 'chatbot',
@@ -33,7 +33,7 @@ export class UtilityService {
 
 
   static generateUUid() {
-    return uuidv1();
+    return uuidv4();
   }
 
   constructor(
@@ -1213,7 +1213,6 @@ export class UtilityService {
     // ];
     //
     // columns = { name: '姓名', score: '分数' };
-    debugger;
 
     downloadCsv(data, columns, filename);
   }

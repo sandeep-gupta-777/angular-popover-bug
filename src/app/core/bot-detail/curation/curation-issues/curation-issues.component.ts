@@ -30,6 +30,7 @@ export class CurationIssuesComponent implements OnInit {
   @Input() bot: IBot;
   @Input() isResolved:boolean;
   @Input() curationItemData : ICurationItem;
+  @Input() selected : boolean = false;
   @Output() ignoreQueryEvent = new EventEmitter();
   @Output() addQueryToArticleEvent = new EventEmitter();
   myEAllActions = EAllActions;
@@ -55,7 +56,7 @@ export class CurationIssuesComponent implements OnInit {
     return pieces.join(" ");
   }
   ignoreQuery(curationItemId){
-    this.ignoreQueryEvent.emit(curationItemId);
+    this.ignoreQueryEvent.emit([curationItemId]);
   }
   clickedOnArticle(section_id){
     if(section_id){
@@ -76,7 +77,7 @@ export class CurationIssuesComponent implements OnInit {
     this.addQueryToArticleEvent.emit(
       {
         section_id: this.selectedArticleToAddCuration,
-        curationItemId: this.curationItemData.id,
+        curationItemId: [this.curationItemData.id],
       }
     )
   }
