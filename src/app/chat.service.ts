@@ -33,6 +33,22 @@ export class ChatService {
     private constantsService: ConstantsService) {
   }
 
+  knowMorePanelItems = [
+    {
+      imgUrl: 'assets/img/chat/bot.svg',
+      title: 'Contextualise bot interactions with artificial intelligence'
+    },{
+      imgUrl: 'assets/img/chat/group-5.svg',
+      title: 'Provide seamless omnichannel experience'
+    },{
+      imgUrl: 'assets/img/chat/browser.svg',
+      title: 'Orchestrate individual bots using a controller'
+    },{
+      imgUrl: 'assets/img/chat/group-2.svg',
+      title: 'Integrate various services within your flow to help user'
+    }
+  ];
+
   sendHumanMessageToBotServer(botDetails: { roomId: number, bot_access_token: string, type: EBotType }, consumerDetails: IConsumerDetails, messageByHuman: string, frameEnabled: EChatFrame) {
 
     const url = this.constantsService.getStartNewChatLoginUrl();
@@ -306,7 +322,7 @@ export class ChatService {
       'user-access-token': null,
       'content-type': 'application/json'
     };
-    let body:any /*: ISendApiRequestPayload */ = {
+    let body: any /*: ISendApiRequestPayload */ = {
       'type': 'bot',
       'msg': 'hi',
       'platform': 'web',
