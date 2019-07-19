@@ -554,9 +554,12 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     fileReader.onload = (e) => {
       console.log(fileReader.result);
       let array = this.csvToArray(fileReader.result);
+      console.log(array);
       if(array[0][0].toLowerCase().includes('category') && array[0][1].toLowerCase().includes('answer')){
         this.errorCheckArticleMustHaveCategoryAnmwerOneQuestion(array);
+        console.log(array);
         array = this.removeNaN(array);
+        console.log(array);
         if( !(this.errorArticleMustHaveCategory || this.errorArticleMustHaveAnswer || this.errorArticleMustHaveOneQuestion || this.errorArticleMustNotHaveDefaultArticle) ){
           let obj = this.ArrayToObject(array);
           this.uploadDocumentToDB(obj);
@@ -633,12 +636,12 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     let rows = csv.split("\n");
     rows.pop();
     return rows.map(function (row) {
-      return row.split(',').slice(0,-1);
+      return row.split(',');
     });
   }
   removeNaN(array){
     return array.map(function (row) {
-      return row.filter(str => { return str != ""});
+      return row.filter(str => { return (str != "" && str.charCodeAt(0) != 13) });
     });
   }
   ArrayToObject(array) {
@@ -646,8 +649,8 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
     return array.map(section => {
       return {
         questions: section.slice(2),
-        answers: [{ "text": [section[0]] }],
-        category_name: section[1]
+        answers: [{ "text": [section[1]] }],
+        category_name: section[0]
       }
     })
   }
