@@ -217,5 +217,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
 
   menuOpened = false;
 
-
+  copySharablePreviewLinkHandler(){
+    this.utilityService.copyToClipboard(`${location.origin}/preview?bot_unique_name=${this.bot.bot_unique_name}&enterprise_unique_name=${this.enterprise_unique_name}`)
+  }
 }
