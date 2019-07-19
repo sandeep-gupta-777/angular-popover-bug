@@ -40,7 +40,7 @@ export interface IGeneratedMessageItem {
       'title': 'this is sample text for image ,it is optional', //use this
       'type': EBotMessageMediaType//"image",//use this
       'url': 'https://wallpaperbrowse.com/media/images/soap-bubble-1958650_960_720.jpg'//use this
-    }
+      'video_url': string    }
     ];
   quick_reply?: {
     'quick_replies': [

@@ -162,12 +162,12 @@ export class UtilityService {
         messageMediatype: null,
         sourceType: 'bot'
       };
-
+      debugger;
       if (Object.keys(message)[0] === 'media') {
         messageData = {
           ...messageData,
-          messageMediatype: message.media[0].type,
-          text: EBotMessageMediaType.image, //this is for preview of last message in chat room list
+          messageMediatype: message.media[0] && message.media[0].type,
+          text: EBotMessageMediaType.image, //this is for preview of last message in chat room list,
         };
       } else if (Object.keys(message)[0] === 'quick_reply') {
         messageData = {
