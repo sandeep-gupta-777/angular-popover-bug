@@ -122,6 +122,7 @@ export class PermissionService {
     '/static/config.json',
     '/static/deploy.json',
     '/deploy.json',
+    '/api/v1/logout/',
     ''
   ];
 

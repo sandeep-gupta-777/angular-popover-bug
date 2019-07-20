@@ -148,7 +148,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
 
   logout() {
 
-
+    debugger;
     if(!this.userData){/*TODO: ring fancing: BAD*/
       return;
     }
@@ -162,11 +162,23 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
       this.serverService.makeGetReq({ url: this.url })
         .subscribe((v) => {
           this.utilityService.showSuccessToaster('Logged Out');
+          this.router.navigate(['auth', 'login'])
+            .then(()=>{
+              setTimeout(()=>{
+                location.reload()
+              },1000)/*hack*/
+            })
+        },()=>{
+          this.router.navigate(['auth', 'login'])
+            .then(()=>{
+              setTimeout(()=>{
+                location.reload()
+              },1000)/*hack*/
+            })
         });
       this.bc.postMessage('This is a test message.');
     }
     this.store.dispatch([
-
       new ResetBotListAction(),
       new ResetAuthToDefaultState(),
       new ResetEnterpriseUsersAction(),
@@ -178,13 +190,6 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
       this.store.dispatch([new ResetChatState()]);
     });
     this.serverService.removeTokens();
-    this.router.navigate(['auth', 'login'])
-      .then(()=>{
-        setTimeout(()=>{
-          location.reload()
-        },1000)/*hack*/
-      })
-
 
   }
   changeEnterprise(template: TemplateRef<any>) {

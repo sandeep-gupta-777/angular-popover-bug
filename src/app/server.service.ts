@@ -127,7 +127,7 @@ export class ServerService {
   showErrorMessageForErrorTrue({error, message, action}) {
 
     /*check for logout*/
-    if(error === true && action === "logout"){
+    if(action === "logout"){
       EventService.logout$.emit();
       return;
     }
@@ -139,6 +139,7 @@ export class ServerService {
   }
 
   makeGetReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<any> {
+    debugger;
     const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
       console.log(`api access not allowed:${reqObj.url}`);
@@ -161,6 +162,7 @@ export class ServerService {
       tap((value) => {
         this.changeProgressBar(false, 100);
         this.increaseAutoLogoutTime();
+        this.checkForLogoutAction(value);
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
@@ -196,6 +198,7 @@ export class ServerService {
       tap((value) => {
         this.changeProgressBar(false, 100);
         this.increaseAutoLogoutTime();
+        this.checkForLogoutAction(value);
       }),
       catchError((e: any) => {
         return this.handleErrorFromServer(e);
@@ -235,6 +238,7 @@ export class ServerService {
       tap((value) => {
         this.changeProgressBar(false, 100);
         this.increaseAutoLogoutTime();
+        this.checkForLogoutAction(value);
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
@@ -256,6 +260,7 @@ export class ServerService {
         if (!reqObj.dontShowProgressBar) {
           this.changeProgressBar(false, 100);
         }
+        this.checkForLogoutAction(value);
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
@@ -275,10 +280,19 @@ export class ServerService {
       tap((value) => {
         this.increaseAutoLogoutTime();
         this.changeProgressBar(false, 100);
+        this.checkForLogoutAction(value);
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
       }));
+  }
+
+  checkForLogoutAction({action}){
+    debugger;
+    if(action === "logout"){
+      EventService.logout$.emit();
+      return;
+    }
   }
 
 

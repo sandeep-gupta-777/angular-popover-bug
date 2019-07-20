@@ -1204,7 +1204,7 @@ export class UtilityService {
     // LoggingService.log(value);
   }
 
-  downloadArrayAsCSV(data: any[] = [], columns: object = {}, filename?:string) {
+  downloadArrayAsCSV(data: any[] = [], columns: object = {}, filename?:string, doSanitize = true) {
     // data = [
     //  { name: 'test1', score: 1, level: 'Z' },
     //  { name: 'test2', score: 2 },
@@ -1213,8 +1213,46 @@ export class UtilityService {
     // ];
     //
     // columns = { name: '姓名', score: '分数' };
-
+    debugger;
+    /*sa*/
+    if(doSanitize){
+      data = this.sanitizeCSVData(data);
+    }
     downloadCsv(data, columns, filename);
+  }
+
+  sanitizeCSVData(data){
+    let str:string;
+    debugger;
+    let removeChar = ['+',"-","@","="];
+    if(typeof data === "object"){
+      try {
+        str = JSON.stringify(data);
+      }catch (e) {
+        this.showErrorToaster('Could not sanitize csv data. Downloading anyway');
+        return data
+      }
+    }
+    if(typeof data === "string"){
+      str = data;
+    }
+
+    let removedChar:string[] = removeChar.filter(char => str.includes(char));
+
+    if(removedChar.length > 0){
+      this.showErrorToaster(`removed ${removedChar.length} characters from CSV: ${removedChar.join(', ')}`);
+      removedChar.forEach(char => str = str.replace(char, ''));
+    }
+
+    if(typeof data === "object"){
+      try {
+        return JSON.parse(str);
+      }catch (e) {
+        this.showErrorToaster('Could not sanitize csv data. Downloading anyway');
+        return data
+      }
+    }
+    return str;
   }
 
   /**
