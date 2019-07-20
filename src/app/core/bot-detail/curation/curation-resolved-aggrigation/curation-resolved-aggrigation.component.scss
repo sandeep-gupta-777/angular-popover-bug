@@ -1,0 +1,83 @@
+.resolved-aggregation{
+    height: 81px;
+    border-radius: 2px;
+    border: solid 1px #d8d8d8;
+    background-color: #ffffff;
+    display: grid;
+    grid-template-columns: 3fr 2fr 2fr 2fr;
+    align-items: center;
+    .total-count{
+        height: 100%;
+        display: grid;
+        grid-template-rows: 2fr 1fr;
+        grid-template-columns: 1fr;
+        justify-content: center;
+        align-items: center;
+        border-right: solid 1px #d8d8d8;
+        padding: 10px 12px;
+        .total{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            .total-icon{
+                width: 32px;
+                height: 32px;
+                color: #07b117;
+                border-radius: 50%;
+                margin-right: 9px; 
+                
+            }
+            .total-title{
+                font-size: 16px;
+            }
+            .total-number{
+                margin-left: auto;
+                font-size: 20px;
+                font-weight: bold;
+                color: #34bc6e;
+                margin-right:30px;
+
+            }
+        }
+        .today{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            .today-text{
+                font-size: 13px;
+                margin-left: 42px;
+            }
+            .today-number{
+                margin-left: auto;
+                font-size: 13px;
+                font-weight: bold;
+                color: #4a4a4a;
+                margin-right:30px;
+            }
+        }
+    }
+    .count{
+        display: flex;
+        flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            border-right: solid 1px #d8d8d8;
+            .count-icon{
+                margin-right: 5px;
+                width: 16px;
+                height: 16px;
+            }
+            .count-text{
+                font-size: 13px;
+                color: #4a4a4a;
+            }
+            .count-number{
+                font-size: 16px;
+                font-weight: bold;
+                margin-left: auto;
+            }
+    }
+}
+

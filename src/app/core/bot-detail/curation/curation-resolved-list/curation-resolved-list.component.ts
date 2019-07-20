@@ -14,6 +14,8 @@ export class CurationResolvedListComponent implements OnInit {
   @Input() isMorePresent:boolean;
   @Output() loadMoreNext = new EventEmitter();
   @Input() totallength: number;
+  @Input() reloadingMore: boolean;
+  @Input() liveBotUpdatedAt: number;
   ngOnInit() {
   }
   load10More(){

@@ -15,7 +15,12 @@ export interface ISessionMessageItem {
   'message_store': {
     activeBotId?: any;
     activeBotRoomId?: any;
-    sendtoagent?: any;
+    sendtoagent? : any;
+    top_match_section?:{
+      first_question?: string;
+      score?: number;
+      section_id?: string;
+    };
   };
   'platform': string;
   'resource_uri': string;
@@ -27,6 +32,7 @@ export interface ISessionMessageItem {
   nlp: object;
   /*custom fields*/
   messageByHuman: string;
+  curation_state: string;
 }
 
 export interface ISessionMessage {

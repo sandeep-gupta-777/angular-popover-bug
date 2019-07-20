@@ -1,30 +1,82 @@
-<div class="curation-list-heading ">
-    <div class ="header-text" >
-            {{totallength}} issues remaining
-    </div>
-    <div class="header-text ml-auto mr-3">
-            {{corpusState}} {{!!corpusState ? "corpus" : ""}}
-    </div>
-    
-    <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer" 
-    mat-button (click)= "openTrainModal()" *ngIf="corpusState == 'Saved'">
-      <mat-icon>autorenew</mat-icon>
-      Train
-    </button>
+<div class="curation-list-heading" *ngIf="!(IssuesSelectedSet.length > 0)">
+  <div class="header-text">
+      <div *ngIf="liveBotUpdatedAt">
+          Live bot updated at {{liveBotUpdatedAt| date:"shortTime"}},&nbsp;{{liveBotUpdatedAt| date:"MMM d"}}&nbsp;'{{liveBotUpdatedAt| date:"yy"}}
+      </div> 
+    {{totallength}} issues remaining
+  </div>
+  <div class="header-text ml-auto mr-3">
+    {{corpusState}} {{!!corpusState ? "corpus" : ""}}
+  </div>
+
+  <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer train-button" mat-button
+    (click)="openTrainModal()" *ngIf="corpusState == 'Saved'">
+    <mat-icon>autorenew</mat-icon>
+    Train
+  </button>
 </div>
-<app-curation-issues *ngFor="let curationItem of curationItemList"
-                     [curationItemData]="curationItem"
-                     [isResolved]=false
-                     (ignoreQueryEvent)="ignoreIt($event)"
-                     [bot]="bot"
-                     (addQueryToArticleEvent)="addQueryToArticle($event)"></app-curation-issues>
-<div class ="splash-load-more" *ngIf = "curationItemList && isMorePresent && curationItemList.length == 0">
-        <app-splash-screen
-                  [imageHRef]="myESplashScreens.Lode_More_Issues"
-                  style="width: 300px;"
-                  class="d-flex justify-content-center align-items-center"
-                  [descriptionText]="'Congratulations, you have cleared current issues, load more to continue'"
-          >
-          </app-splash-screen>
-</div>     
-<div class = "load-more" *ngIf = "isMorePresent" (click) = "load10More()">Load 10 more issues&nbsp;&nbsp;<i class ="fa fa-angle-down"></i></div>
+<div class = "curation-list-heading" *ngIf="IssuesSelectedSet.length > 0">
+    
+    <div *ngIf = "articleSearchMode" class="d-flex w-100  not-resolved-footer">
+        <div class="header-text mr-2">{{IssuesSelectedSet.length}} selected</div>
+      <app-faq-search-box class ="searchForArticle" [bot]="bot" [inCuration]="true"
+      (clickedOnArticle)="clickedOnArticle($event)"></app-faq-search-box>
+                          <!-- (clickedOnArticle)="clickedOnArticle($event)" -->
+      <div class="ml-auto"></div>
+      <button mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2 mr-2" [disabled]="!selectedArticleToAddCuration"(click)="addMultiIssueToThisArticle()">
+        Link and save
+      </button>
+      <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button" (click)="articleSearchMode = false;selectedArticleToAddCuration = null;">
+        Cancel
+      </button>
+    </div>
+    <div *ngIf="!articleSearchMode" class="d-flex w-100  not-resolved-footer">
+      <div class="header-text mr-2">{{IssuesSelectedSet.length}} selected</div>
+
+      <button mat-button color=primary class="btn-theme btn-theme-primary footer-btn px-2 mr-2" (click)="articleSearchMode = true" >
+        Add to article
+      </button>
+
+      <button mat-button style="border: solid 1px #d8d8d8;" class="mat-theme-button footer-btn px-2 " (click)="addMultiIssueToNewArticle()" >
+        Create article
+      </button>
+
+      <div class="ml-auto"></div>
+
+      <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button mr-2"  (click)="ignoreMultiQuery()">
+        Ignore query
+      </button>
+      <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button" (click)="SelectedListForm.reset()">
+          Deselect all
+        </button>
+    </div>
+  </div>
+<form #issuesSelectedListForm="ngForm">
+    <div *ngFor="let curationItem of curationItemList" class = "curation-and-checkbox">
+        <mat-checkbox class="select-checkbox checkbox-in-curation" ngModel [name] = "curationItem.id" color=primary ></mat-checkbox>
+        <app-curation-issues  
+        [curationItemData]="curationItem" 
+        [isResolved]=false
+        (ignoreQueryEvent)="ignoreIt($event)" 
+        [bot]="bot" 
+        [selected] = "!!issuesSelectedListForm.value[curationItem.id]"
+        (addQueryToArticleEvent)="addQueryToArticle($event)">
+      </app-curation-issues>
+      </div>
+</form>
+ 
+
+<div class="splash-load-more" *ngIf="curationItemList && isMorePresent && curationItemList.length == 0">
+  <app-splash-screen [imageHRef]="myESplashScreens.Lode_More_Issues" style="width: 300px;"
+    class="d-flex justify-content-center align-items-center"
+    [descriptionText]="'Congratulations, you have cleared current issues, load more to continue'">
+  </app-splash-screen>
+</div>
+<div class="load-more" *ngIf="isMorePresent" (click)="load10More()">
+  <div *ngIf="!reloadingMore" class = "d-flex align-items-center" >
+    Load more issues&nbsp;&nbsp;<i class="fa fa-angle-down"></i>
+  </div>
+  <div *ngIf="reloadingMore" class = "d-flex align-items-center">
+    <i class="fa fa-spinner fa-spin"></i>
+  </div>
+</div>

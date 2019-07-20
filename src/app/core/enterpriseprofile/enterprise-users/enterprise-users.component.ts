@@ -269,7 +269,7 @@ export class EnterpriseUsersComponent implements OnInit {
     this.logoError = logoErrorObj && Object.keys(logoErrorObj)[0] || null;
   }
 
-  enterpriseUserModal : EnterpriseUserSmartTable;
+  enterpriseUserModal: EnterpriseUserSmartTable;
   ngOnInit() {
     
 

@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, TemplateRef, AfterViewInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, Input, TemplateRef, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { ConstantsService } from 'src/app/constants.service';
 import { ServerService } from 'src/app/server.service';
 import { IHeaderData } from 'src/interfaces/header-data';
@@ -17,13 +17,16 @@ import { Select } from '@ngxs/store';
 import { RouteHelperService } from 'src/app/route-helper.service';
 import { EAllActions } from 'src/app/typings/enum';
 import { EventService } from 'src/app/event.service';
-import {TempVariableService} from '../../../temp-variable.service';
+import { TempVariableService } from '../../../temp-variable.service';
+import downloadCsv from 'download-csv';
+import { CategoryIdToNamePipe } from './category-id-to-name.pipe';
+import { ELoadingStatus } from 'src/app/button-wrapper/button-wrapper.component';
 @Component({
   selector: 'app-bot-articles',
   templateUrl: './bot-articles.component.html',
   styleUrls: ['./bot-articles.component.scss']
 })
-export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
+export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     if (RouteHelperService.getQueryParams(this.activatedRoute, "openPreview")) {
       this.chatService.openPreviewFormService(this.bot, this.enterprise_unique_name);
@@ -40,7 +43,8 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
     private matDialog: MatDialog,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private categoryIdToNamePipe: CategoryIdToNamePipe
   ) { }
   @Input() bot: IBot;
   corpus: ICorpus;
@@ -57,9 +61,10 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
   currentPageOfArtcle;
   enterprise_unique_name;
   myEAllActions = EAllActions;
+  @ViewChild('Uplodeform') Uplodeform: NgForm;
   @Select() loggeduserenterpriseinfo$: Observable<IEnterpriseProfileInfo>;
   ngOnInit() {
-    if(TempVariableService.firstQuestionListForNewArticle){
+    if (TempVariableService.firstQuestionListForNewArticle) {
       this.openArticleCreate();
       this.selectedArticle.questions = TempVariableService.firstQuestionListForNewArticle;
       TempVariableService.firstQuestionListForNewArticle = null;
@@ -82,7 +87,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
       })
   }
 
-  navigateToSection(section_id){
+  navigateToSection(section_id) {
     if (this.corpus) {
       let goingArticle = this.corpus.sections.find((section) => {
         return section.section_id == section_id;
@@ -138,7 +143,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
     this.getCorpusAndSetArticleFilterForm();
     this.showEditAndViewArtical = false;
     this.router.navigate(['.'], {
-      queryParams: { isArticle: false , section_id:null},
+      queryParams: { isArticle: false, section_id: null },
       relativeTo: this.activatedRoute,
       queryParamsHandling: 'merge'
     })
@@ -210,23 +215,28 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
     if (!create) {
       body['section_id'] = articleData.section_id;
       url = this.constantsService.updateArticelUrl();
+      // this.articleUpdatedToasterMessage="Article succesfully saved";
     }
     else {
-      if(TempVariableService.curationIds){
+      if (TempVariableService.curationIds) {
         body["curation_id_list"] = TempVariableService.curationIds;
         url = this.constantsService.addCurationToNewSection();
-      }else{
+      } else {
         url = this.constantsService.createArticelUrl();
+        // this.articleUpdatedToasterMessage="Article succesfully saved";
       }
-      
+
     }
 
 
     return this.serverService.makePostReq<any>({ headerData, body, url })
   }
+  
+  
 
   updateArticle(articleData: IArticleItem) {
     this.updateArticle$(articleData)
+    
       .subscribe((value) => {
         if (value) {
           TempVariableService.curationIds = null;
@@ -234,7 +244,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
             this.utilityService.showSuccessToaster("Article succesfully saved");
             this.showEditAndViewArtical = false;
             this.router.navigate(['.'], {
-              queryParams: { isArticle: false , section_id:null },
+              queryParams: { isArticle: false, section_id: null },
               relativeTo: this.activatedRoute,
               queryParamsHandling: 'merge'
             })
@@ -283,7 +293,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
             .subscribe(v => {
               this.showEditAndViewArtical = false;
               this.router.navigate(['.'], {
-                queryParams: { isArticle: false , section_id:null},
+                queryParams: { isArticle: false, section_id: null },
                 relativeTo: this.activatedRoute,
                 queryParamsHandling: 'merge'
               })
@@ -339,7 +349,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
             .subscribe(() => {
               this.showEditAndViewArtical = false;
               this.router.navigate(['.'], {
-                queryParams: { isArticle: false, section_id:null },
+                queryParams: { isArticle: false, section_id: null },
                 relativeTo: this.activatedRoute,
                 queryParamsHandling: 'merge'
               })
@@ -380,7 +390,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
     this.serverService.makePostReq<any>({ headerData, body, url })
       .subscribe(val => {
         this.utilityService.showSuccessToaster(val.message);
-        if(this.corpus){
+        if (this.corpus) {
           this.corpus.state = 'live';
         }
       });
@@ -448,7 +458,211 @@ export class BotArticlesComponent implements OnInit, AfterViewInit,OnDestroy {
   cancelCategoryEditToUnchangedValue() {
     this.categoryMappingClone = this.utilityService.createDeepClone(this.corpus.category_mapping);
   }
-  ngOnDestroy(){
+
+  // import and export corpus
+  async openCorpusExportModal() {
+
+    await this.utilityService.openDialog({
+      dialogRefWrapper: this.dialogRefWrapper,
+      classStr: 'primary-modal-header-border',
+      data: {
+        actionButtonText: "Export",
+        message: `Defalut articles for the corpus are non exportable and will need to configured in the articles pages only.Do you wish to export?`,
+        title: `Export articles to csv`,
+        isActionButtonDanger: false,
+        inputDescription: null,
+      },
+      dialog: this.matDialog,
+      component: ModalConfirmComponent
+    }).then((data) => {
+      if (data) {
+        this.exportCorpus();
+      }
+    })
+
+  }
+  exportCorpus() {
+    let maxNoOfQuestions = 0;
+    const { Parser } = require('json2csv');
+    let data = this.corpus.sections
+      .map(corpusSection => {
+        if (maxNoOfQuestions < corpusSection.questions.length && corpusSection.category_id != 'default_articles') {
+          maxNoOfQuestions = corpusSection.questions.length
+        }
+        if(corpusSection.category_id != 'default_articles'){
+          return {
+            Answer: corpusSection.answers[0].text[0],
+            Category: this.categoryIdToNamePipe.transform(corpusSection.category_id, this.categoryMappingClone),
+            ...this.getVarientsObjFromQuestionArray(corpusSection.questions)
+          }
+        }
+      })
+    data = data.filter(d => {return d != null})
+    const fields = ['Category', 'Answer'];
+    for (let i = 1; i <= maxNoOfQuestions; i++) {
+      fields.push(`questions varient ${i}`);
+    }
+    try {
+      const json2csvParser = new Parser({ fields, unwind: 'field2', unwindBlank: true, flatten: true });
+      const csv = json2csvParser.parse(data);
+      this.utilityService.downloadText(csv, `corpus_${this.corpus.id}.csv`);
+      console.log(csv);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  getVarientsObjFromQuestionArray(questions) {
+    let obj = {};
+    let i = 1;
+    console.log(questions);
+    for (let x of questions) {
+      obj[`questions varient ${i}`] = x;
+      i = i + 1;
+    }
+    console.log(obj);
+    return obj;
+  }
+
+  
+  file: Blob;
+  errorArticleMustHaveCategory  : boolean = false;
+  errorArticleMustHaveAnswer  : boolean = false;
+  errorArticleMustHaveOneQuestion  : boolean = false;
+  errorArticleMustNotHaveDefaultArticle  : boolean = false;
+  errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer : boolean = false;
+  uploadingData =  ELoadingStatus.default;
+  openCorpusImportModal(template: TemplateRef<any>) {
+    this.errorArticleMustHaveCategory=false; 
+    this.errorArticleMustHaveAnswer = false; 
+    this.errorArticleMustHaveOneQuestion = false; 
+    this.errorArticleMustNotHaveDefaultArticle = false;
+    this.errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer = false;
+    this.uploadingData =  ELoadingStatus.default;
+    this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
+  }
+  fileChanged(e) {
+    this.file = e.target.files[0];
+    this.errorArticleMustHaveCategory = false;  
+    this.errorArticleMustHaveAnswer = false;  
+    this.errorArticleMustHaveOneQuestion = false;  
+    this.errorArticleMustNotHaveDefaultArticle = false;
+    this.errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer = false;
+  }
+  uploadDocument() {
+    this.uploadingData =  ELoadingStatus.loading;
+    let fileReader = new FileReader();
+    fileReader.onload = (e) => {
+      console.log(fileReader.result);
+      let array = this.csvToArray(fileReader.result);
+      console.log(array);
+      if(array[0][0].toLowerCase().includes('category') && array[0][1].toLowerCase().includes('answer')){
+        this.errorCheckArticleMustHaveCategoryAnmwerOneQuestion(array);
+        console.log(array);
+        array = this.removeNaN(array);
+        console.log(array);
+        if( !(this.errorArticleMustHaveCategory || this.errorArticleMustHaveAnswer || this.errorArticleMustHaveOneQuestion || this.errorArticleMustNotHaveDefaultArticle) ){
+          let obj = this.ArrayToObject(array);
+          this.uploadDocumentToDB(obj);
+          console.log(obj);
+        }else{
+          this.uploadingData =  ELoadingStatus.error;
+          this.Uplodeform.form.reset();
+        }
+      }else{
+        this.errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer = true;    
+        this.uploadingData =  ELoadingStatus.error;
+        this.Uplodeform.form.reset();    
+      }
+      
+      console.log(array);
+    }
+    if(!this.file){
+      this.uploadingData =  ELoadingStatus.error;
+    }
+    fileReader.readAsText(this.file);
+  }
+  errorCheckArticleMustHaveCategoryAnmwerOneQuestion(array){
+    for(let i  = 0; i< array.length ; i++){
+      if(!array[i][0]){
+        this.errorArticleMustHaveCategory = true; 
+        return;
+      } 
+      if(!array[i][1]){
+        this.errorArticleMustHaveAnswer = true; 
+        return;
+      } 
+      if(!array[i][2]){
+        this.errorArticleMustHaveOneQuestion = true; 
+        return;
+      } 
+      debugger;
+      if((array[i][0].toLowerCase() == 'default')){
+        this.errorArticleMustNotHaveDefaultArticle = true;
+        return;
+      }
+    }
+    return;
+  }
+  uploadDocumentToDB(obj){
+    this.serverService.makePostReq
+    const headerData: IHeaderData = {
+      'bot-access-token': this.bot.bot_access_token
+    };
+
+    let body = {
+      "sections":obj
+    }
+    let url = this.constantsService.putCorpus();
+    this.serverService.makePostReq<any>({ headerData, body, url })
+      .subscribe((val)=>{
+        this.utilityService.showSuccessToaster("uploded to corpus")
+        this.uploadingData =  ELoadingStatus.success;
+        this.getCorpusAndSetArticleFilterForm$().subscribe((v)=>{
+          this.dialogRefWrapper.ref.close();
+          this.uploadingData =  ELoadingStatus.default;
+        });
+        this.errorArticleMustHaveCategory=false; 
+        this.errorArticleMustHaveAnswer = false; 
+        this.errorArticleMustHaveOneQuestion = false;
+        this.errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer = false;
+
+        
+      },(val)=>{
+        this.uploadingData =  ELoadingStatus.error;
+      })
+  }
+  csvToArray(csv) {
+    csv = csv.replace(/"/g, "");
+    let rows = csv.split("\n");
+    rows.pop();
+    return rows.map(function (row) {
+      return row.split(',');
+    });
+  }
+  removeNaN(array){
+    return array.map(function (row) {
+      return row.filter(str => { return (str != "" && str.charCodeAt(0) != 13) });
+    });
+  }
+  ArrayToObject(array) {
+    array = array.slice(1);
+    return array.map(section => {
+      return {
+        questions: section.slice(2),
+        answers: [{ "text": [section[1]] }],
+        category_name: section[0]
+      }
+    })
+  }
+  closeUploadModal(){
+    this.dialogRefWrapper.ref.close();
+    this.errorArticleMustHaveCategory=false; 
+    this.errorArticleMustHaveAnswer = false; 
+    this.errorArticleMustHaveOneQuestion = false; 
+    this.errorArticleMustHaveFirstColumnAsCategoryAndSecondAsAnswer = false;
+    this.uploadingData =  ELoadingStatus.default;
+  }
+  ngOnDestroy() {
     TempVariableService.curationIds = null;
   }
 }

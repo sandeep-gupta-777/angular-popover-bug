@@ -1,4 +1,5 @@
 .heading-title{
+ 
     font-size: 16px;
     font-weight: bold;
     font-style: normal;
@@ -6,7 +7,9 @@
     line-height: normal;
     letter-spacing: normal;
     color: #4a4a4a;
-    padding-bottom: 8px
+    padding-bottom: 8px;
+
+    
 }
 ::ng-deep{
     .onHoverChangeColor{
@@ -14,21 +17,66 @@
             background-color: #d8d8d8;
             cursor: pointer;
         }
+        mat-icon {
+            font-size:18px;
+            display: flex;
+            color :#4a4a4a;
+          }
+          display: flex;
+    }
+    .table-dropdown .dropdown-content{
+        right: 0% !important;
+        top: -25% !important;
     }
     .history-table{
+        table{
+            th, td{
+                padding-top: 8px;
+                padding-bottom: 8px;
+                padding-right: 24px !important;
+                // display: flex;
+
+                word-wrap:break-word !important;
+             
+                // word-wrap:break-word;
+                // table-layout: fixed;
+            }
+
+
+            
+
+
+        }
+
+
+
         .textVal{
             width: 100% !important;
+
         }
         table [name=icon-color] {
             color: #d8d8d8;
             }
+        
+    
+        
         .color-green{
             color: #34bc6e;
         }
         .icon-postion{
             position: absolute;
+            
             left: -13px;
             top: 4px;
         }
+
+        .table-dropdown{
+            padding-left: 12px;
+        }
+
+        .arrow-circle{
+            padding: 8px;
+        }
+
     }
 }

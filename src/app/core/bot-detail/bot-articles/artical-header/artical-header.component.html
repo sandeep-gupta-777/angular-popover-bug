@@ -6,7 +6,7 @@
       [ngStyle]="{'background-color':  corpus.state == 'saved' ? '#fdc31c': 
           corpus.state == 'training' ? '#f48a42' : 
           corpus.state == 'trained' ? '#00abd3' : 
-          corpus.state == 'live' ? '#34bc6e' : '#00abd3' }">
+          corpus.state == 'live' ? '#34bc6e' : '#00abd3', 'color': corpus.state == 'saved' ? '#474747' : '#ffffff' }">
 
           {{ corpus.state == 'saved' ? 'Saved' : 
           corpus.state == 'training' ? 'Training' : 

@@ -1,5 +1,5 @@
 <form role="menu" #form="ngForm"
-      (ngSubmit)="validateAndSubmit(form.value)"
+      (ngSubmit)="validateAndSubmit(form)"
       style="width: 200px">
   <p class="mb-3">{{readonly ? 'Consumer details' : title}}</p>
 
@@ -29,11 +29,10 @@
     </mat-form-field>
 
     <!--todo: disabled is not working on mat-form-field-->
-
     <fieldset>
       <mat-form-field>
         <input matInput placeholder="UID" type="text" [ngModel]="customConsumerDetails?.uid||uuid"
-               [disabled]="readonly || customConsumerDetails?.uid"
+               [disabled]="true"
                data-cy="edit-consumer-uid"
                name="uid"
                aria-describedby="emailHelp">

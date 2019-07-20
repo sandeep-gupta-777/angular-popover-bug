@@ -13,6 +13,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   loading;
   constructor(private router: Router) {}
   ngOnInit() {
+    console.info('App bootstrap success!');
   }
 
   ngAfterViewInit() {

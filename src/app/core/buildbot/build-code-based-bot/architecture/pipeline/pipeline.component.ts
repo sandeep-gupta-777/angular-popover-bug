@@ -216,7 +216,12 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
     if (Pipelineform.valid) {
       console.log(Pipelineform.value);
       this.selectedPipeline.input_params = Pipelineform.value;
-      this.addPipelineItemToPipeline(this.selectedPipeline);
+      let index = this.pipeLine.findIndex(item => item.id === this.selectedPipeline.id)
+      if (index === -1) {
+        this.addPipelineItemToPipeline(this.selectedPipeline);
+      } else {
+        this.pipeLine[index] =  this.selectedPipeline;
+      }
     }
   }
 

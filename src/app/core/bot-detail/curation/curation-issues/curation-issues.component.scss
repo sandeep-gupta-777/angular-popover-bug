@@ -101,6 +101,27 @@
         align-items: center;
       }
     }
+  
+  }
+  .curation-card-header-wrapper-selected{
+    
+    border-bottom: 1px solid #d8d8d8;
+    background-color: #00abd3;
+
+    .curation-card-header-item {
+      .logged-it {
+        color: #ffffff;
+
+      }
+      .room-id {
+        color: #ffffff;
+      }
+    }
+    .curation-card-header-icon-list {
+      mat-icon {
+        color: #ffffff !important;
+      }
+    }
   }
 
   .curation-footer {
@@ -144,7 +165,7 @@
     .faq-search{
       input {
         border: solid 1px #d8d8d8 !important;
-        width: 450px !important;
+        width: 610px !important;
         color: #4a4a4a !important;
         padding-left: 34px !important;
         background-color: #f7f7f7 !important;

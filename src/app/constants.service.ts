@@ -8,7 +8,7 @@ import { IIntegrationOption } from '../interfaces/integration-option';
 import { IAuthState } from './auth/ngxs/auth.state';
 import { ITableColumn } from '../interfaces/sessions';
 import {environment} from '../environments/environment';
-import {EAllActions} from './typings/enum';
+import {EAllActions} from "./typings/enum";
 
 declare var Handsontable: any;
 
@@ -53,7 +53,16 @@ export class ConstantsService {
     }
     return x;
   }
-
+  getDefaultTriggeredRulesForArticleFilter(){
+    return [
+      "agent_handover",
+      "downvoted",
+      "fallback",
+      "from_session",
+      "low_confidence",
+      "partial_match"
+    ];
+  }
   NEW_BOT_VERSION_TEMPLATE = {
     'bot_id': 0,
     'comment': '',
@@ -255,7 +264,10 @@ export class ConstantsService {
   putCorpus() {
     return this.BACKEND_URL + `api/v1/corpus/`;
   }
-  getAllCorpusForFAQBot(limit, offset) {
+  getLiveCorpus(){
+    return this.BACKEND_URL + `api/v1/corpus/?state=live`;
+  }
+  getAllCorpusForFAQBot(limit,offset){
     return this.BACKEND_URL + `api/v1/corpus/?state__in=trained,live&limit=${limit}&offset=${offset}&order_by=-updated_at`;
   }
   getDraftCorpusForFAQBot() {
@@ -517,22 +529,33 @@ export class ConstantsService {
     return this.BACKEND_URL + `api/v1/corpus/makecorpuslive/`;
   }
 
-  curationIssuesListUrl(limit, offset) {
-    return this.BACKEND_URL + `api/v1/faqbotcuration/?curation_state__in=in_curation&order_by=-updated_at&limit=${limit}&offset=${offset}`;
+  curationIssuesListUrl(limit,offset){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/?curation_state__in=in_curation&limit=${limit}&offset=${offset}`;
   }
-  curationResolvedAndIgnoredListUrl(limit, offset) {
-    return this.BACKEND_URL + `api/v1/faqbotcuration/?curation_state__in=resolved,ignored&order_by=-updated_at&limit=${limit}&offset=${offset}`;
+  curationResolvedAndIgnoredListUrl(limit,offset){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/?limit=${limit}&offset=${offset}`;
   }
-  curationIssueIgnoreUrl() {
+  curationIssueIgnoreUrl(){
     return this.BACKEND_URL + `api/v1/faqbotcuration/ignore/`;
   }
-  curationIssueLinkToExistingSectionUrl() {
+  curationIssueLinkToExistingSectionUrl(){
     return this.BACKEND_URL + `api/v1/faqbotcuration/linktoexistingsection/`;
   }
-  addCurationToNewSection() {
+  addCurationToNewSection(){
     return this.BACKEND_URL + `api/v1/faqbotcuration/addtonewsection/`;
   }
-
+  getAggregationResolved(){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/aggregationcounts/?curation_state=resolved,ignored`;
+  }
+  getAggregationIssues(){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/aggregationcounts/?curation_state=in_curation`
+  }
+  getTopArticlesWithIssues(){
+    return this.BACKEND_URL + `api/v1/faqbotcuration/topsectionissues/`;
+  }
+  addMessageToCurationFromSession(){
+    return this.BACKEND_URL + `api/v1/message/addmessagetofaqbotcuration/`
+  }
   updateBotSerializer(bot: IBot) {
     const clone = { ...bot };
     const not_keys = [
@@ -1003,8 +1026,6 @@ export class ConstantsService {
     //   searchValue: true,
     // },
   };
-
-
   SMART_TABLE_CONSUMER_TABLE_DATA_META_DICT_TEMPLATE: ITableColumn = {
     id: {
       originalKey: 'id',
@@ -1083,12 +1104,13 @@ export class ConstantsService {
     },
   };
 
+  
   SMART_TABLE_ARTICLE_HISTORY_TEMPLATE: ITableColumn = {
     description: {
       originalKey: 'description',
       value: '',
       type: 'string',
-      displayValue: 'Comment while training',
+      displayValue:'Description of trained knowledge base',
 
     },
     updated_at: {

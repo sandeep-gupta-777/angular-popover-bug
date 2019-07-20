@@ -59,8 +59,7 @@ export class BotConfigService {
       threshold_diff_score: null,
       threshold_min_score: null,
       n_results: null
-    }
-    debugger;
+    } 
     this.faqHandoverANdInterfaceForm = this.formBuilder.group({
       bot_metadata: this.formBuilder.group({ ...metaDataInnit,...bot.bot_metadata}),
       agent_handover_setting: this.formBuilder.group({
@@ -109,7 +108,7 @@ export class BotConfigService {
       room_close_callback: [bot.room_close_callback],
       allow_feedback: [bot.allow_feedback],
       transactions_per_pricing_unit: [bot.transactions_per_pricing_unit || 30],
-      first_message: [bot.first_message],
+      // first_message: [bot.first_message],
       is_manager: [bot.is_manager || false],
 
       child_bots: [bot.child_bots],

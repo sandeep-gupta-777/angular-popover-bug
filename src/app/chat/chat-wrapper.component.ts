@@ -311,15 +311,18 @@ export class ChatWrapperComponent implements OnInit {
     this.store.dispatch(new ToggleChatWindow({ open: false }));
   }
 
-  sendMessageByHuman(messageData: { messageByHuman: string, room: IRoomData }) {
-    const messageByHuman = messageData.messageByHuman;
+  sendMessageByHuman(messageData: { messageByHuman: string, room: IRoomData,updateConsumerInfo?:boolean }) {
+    const messageByHuman = messageData.messageByHuman && messageData.messageByHuman.trim();
+    if(!messageByHuman && !messageData.updateConsumerInfo){
+      return;
+    }
     const room: IRoomData = messageData.room;
     /*
     * Unfortunately currently send api is being used for updating consumer details
     * if message by human is empty,we will proceed to updated consumer details
     * */
     const updateConsumerDetails = !(messageByHuman && messageByHuman.trim());
-    if (!updateConsumerDetails) {
+    if (!messageData.updateConsumerInfo) {
       this.store.dispatch([new AddMessagesToRoomByRoomId({
           id: room.id,
           messageList: [{
@@ -367,7 +370,7 @@ export class ChatWrapperComponent implements OnInit {
           EChatFrame.CHAT_BOX)
           .subscribe(() => {
 
-            if (updateConsumerDetails) {
+            if(messageData.updateConsumerInfo){
               this.store.dispatch(new UpdateConsumerByRoomId({consumerDetails: room.consumerDetails, room_id: room.id}));
               this.utilityService.showSuccessToaster('Consumer details updated');
             } else {
@@ -394,10 +397,11 @@ export class ChatWrapperComponent implements OnInit {
   }
 
 
-  consumerFormSubmitHandler(consumerDetails: IConsumerDetails, createNewRoom: boolean) {
-    if (createNewRoom) {
-      this.startNewChat({consumerDetails, isCustomRoom: createNewRoom, bot: this.currentBot});
-    } else {
+  consumerFormSubmitHandler(consumerDetails: IConsumerDetails,createNewRoom:boolean){
+      debugger;
+    if(createNewRoom){
+      this.startNewChat({consumerDetails, isCustomRoom: createNewRoom, bot: this.currentBot})
+    }else {
       this.saveConsumerDetails(consumerDetails, this.currentRoom.id);
     }
     this.showOverlay = false;
@@ -421,7 +425,7 @@ export class ChatWrapperComponent implements OnInit {
       id: roomId || this.currentRoom.id,
       bot: this.currentBot
     };
-    this.sendMessageByHuman({ room, messageByHuman: '' });
+    this.sendMessageByHuman({ room, messageByHuman: '', updateConsumerInfo:true });
   }
   //
   sendFeedback(feedback: IChatFeedback) {
