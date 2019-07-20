@@ -50,7 +50,7 @@ export class CurationComponent implements OnInit {
   // getting 10
   load10MoreCurationIssues$(innit:boolean){
     this.curationIssuesListisReloading = true;
-    debugger;
+
     let curationIssuesListUrl = this.constantsService.curationIssuesListUrl(10,this.curationIssuesListLength)
     return this.serverService.makeGetReq<ICurationResult>(
       {
@@ -65,7 +65,7 @@ export class CurationComponent implements OnInit {
           }else{
             this.curationIssuesList = [...this.curationIssuesList, ...value.objects];
           }
-          
+
         }
         else{
           this.curationIssuesList = [...value.objects];
@@ -88,7 +88,7 @@ export class CurationComponent implements OnInit {
 }
   load10MoreCurationResolvedAndIgnored$(innit:boolean){
     this.curationResolvedAndIgnoredListisReloading = true;
-    
+
     let curationResolvedAndIgnoredListUrl = this.constantsService.curationResolvedAndIgnoredListUrl(10,this.curationResolvedAndIgnoredListLength)
     return this.serverService.makeGetReq<ICurationResult>(
       {
@@ -102,7 +102,7 @@ export class CurationComponent implements OnInit {
             }else{
               this.curationResolvedAndIgnoredList = [...this.curationResolvedAndIgnoredList, ...value.objects];
             }
-            
+
           }else{
             this.curationResolvedAndIgnoredList = [...value.objects]
           }

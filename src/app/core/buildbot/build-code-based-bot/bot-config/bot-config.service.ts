@@ -60,7 +60,7 @@ export class BotConfigService {
       threshold_min_score: null,
       n_results: null
     }
-    debugger;
+
     this.faqHandoverANdInterfaceForm = this.formBuilder.group({
       bot_metadata: this.formBuilder.group({ ...metaDataInnit,...bot.bot_metadata}),
       agent_handover_setting: this.formBuilder.group({
