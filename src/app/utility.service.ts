@@ -1214,7 +1214,6 @@ export class UtilityService {
     //
     // columns = { name: '姓名', score: '分数' };
 
-
     downloadCsv(data, columns, filename);
   }
 

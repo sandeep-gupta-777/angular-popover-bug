@@ -45,9 +45,9 @@
     ></app-quick-reply>
     <!--</div>-->
   </div>
-  <div class="col-12 text-left p-0 d-flex"
-       data-cy="chat-bot-thinking"
-       [hidden]="messageData.messageMediatype!==myEBotMessageMediaType.bot_thinking">
+  <span [hidden]="messageData.messageMediatype!==myEBotMessageMediaType.bot_thinking">
+    <div class="col-12 text-left p-0 d-flex"
+         data-cy="chat-bot-thinking">
     <div class="p-0 text-center" style="width: 40px">
       <img class="rounded-circle"
            [defaultImage]="'assets/img/no image.svg'"
@@ -58,6 +58,7 @@
       <app-bot-thinking-bubble [bot]="bot" class="d-block"></app-bot-thinking-bubble>
     </div>
   </div>
+  </span>
 
   <div
     *ngIf="messageData.messageMediatype!==myEBotMessageMediaType.bot_thinking"

@@ -1,0 +1,78 @@
+<div  class="issues-aggregation " *ngIf="!!aggrigationData"
+>
+  <div class="total-count">
+    <div class="total">
+      <img class="total-icon" src="assets/img/curation-issues-icon.svg" alt="">
+      <div class="total-title">Unresolved issues</div>
+      <div class="total-number">{{aggrigationData.total_count}}</div>
+    </div>
+    <div class="today">
+      <div class="today-text">
+        Today
+      </div>
+      <div class="today-number">
+        {{aggrigationData.today_count}}
+      </div>
+    </div>
+  </div>
+  <div class="count py-1 px-3" *ngIf="aggrigationData">
+    <div class="count-item">
+      <mat-icon style="color: #d94254;" class="count-icon">thumb_down</mat-icon>
+      <div class="count-text">
+        Downvoted
+      </div>
+      <div class="count-number">
+        {{aggrigationData.total_count > 0 ? (aggrigationData.aggregation_counts.downvoted * 100 / aggrigationData.total_count).toFixed(1) : 0.0}}%
+      </div>
+    </div>
+    <div class="count-item">
+      <mat-icon style="color: #fd901c;" class="count-icon">sentiment_dissatisfied</mat-icon>
+      <div class="count-text">
+        Fallback
+      </div>
+      <div class="count-number">
+        {{aggrigationData.total_count > 0 ? (aggrigationData.aggregation_counts.fallback * 100 / aggrigationData.total_count).toFixed(1) : 0.0}}%
+      </div>
+    </div>
+  </div>
+  <div class="count py-1 px-3" *ngIf="aggrigationData">
+    <div class="count-item">
+      <mat-icon style="color: #193a57;" class="count-icon">list</mat-icon>
+      <div class="count-text">
+        Partial match
+      </div>
+      <div class="count-number">
+        {{aggrigationData.total_count > 0 ? (aggrigationData.aggregation_counts.partial_match * 100 / aggrigationData.total_count).toFixed(1) : 0.0}}%
+      </div>
+    </div>
+    <div class="count-item">
+      <mat-icon style="color: #000000;" class="count-icon">headset_mic</mat-icon>
+      <div class="count-text">
+        Auto handover
+      </div>
+      <div class="count-number">
+        {{aggrigationData.total_count > 0 ? (aggrigationData.aggregation_counts.agent_handover * 100 / aggrigationData.total_count).toFixed(1) : 0.0}}%
+      </div>
+    </div>
+  </div>
+  <div class="count py-1 px-3" *ngIf="aggrigationData">
+    <div class="count-item" style="border:none;">
+      <mat-icon style="color: #ff8c41;" class="count-icon">live_help</mat-icon>
+      <div class="count-text">
+        Low confidence
+      </div>
+      <div class="count-number">
+        {{aggrigationData.total_count > 0 ? (aggrigationData.aggregation_counts.low_confidence * 100 / aggrigationData.total_count).toFixed(1) : 0.0}}%
+      </div>
+    </div>
+    <div class="count-item" style="border:none;">
+      <mat-icon style="color: #00abd3;" class="count-icon">question_answer</mat-icon>
+      <div class="count-text">
+        From sessions
+      </div>
+      <div class="count-number">
+        {{aggrigationData.total_count > 0 ? (aggrigationData.aggregation_counts.from_session * 100 / aggrigationData.total_count).toFixed(1) : 0.0}}%
+      </div>
+    </div>
+  </div>
+</div>

@@ -22,6 +22,8 @@ import {EAllActions} from "../../../../../../typings/enum";
 export class KnowledgeBasePresentationComponent extends ModalImplementer implements OnInit, AfterViewInit {
   _selectedRowData: ICustomNerItem = {};
   process_raw_text = false;
+  is_sensitive = false;
+  ignore_punctuation = false;
   myEAllActions = EAllActions;
   myERouteNames = ERouteNames;
 
@@ -31,13 +33,15 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       return;
     }
     this._selectedRowData = value;
-
     this.key = value.key;
     if (value.ner_type) {
       this.ner_type = value.ner_type;
     }
     this.conflict_policy = value.conflict_policy || this.conflict_policy;
     this.process_raw_text = !!value.process_raw_text;
+    this.is_sensitive = !!value.is_sensitive;
+    this.ignore_punctuation = !!value.ignore_punctuation;
+    
     // this.codeTextInputToCodeEditor = value.values && value.values.join(',');
     // this.codeTextInputToCodeEditorObj.text = value.values && value.values.join(',');
     if (value.ner_type === 'regex') {
@@ -209,7 +213,9 @@ export class KnowledgeBasePresentationComponent extends ModalImplementer impleme
       codeTextOutPutFromCodeEditor: codeTextFromEditor || '',
       handsontableData: tableData,
       //   ...this.handsontableComponent.getHotTableData(),
-      process_raw_text: this.process_raw_text
+      process_raw_text: this.process_raw_text,
+      is_sensitive: this.is_sensitive,
+      ignore_punctuation: this.ignore_punctuation
     };
     const ner_id_str = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
     if (ner_id_str) {

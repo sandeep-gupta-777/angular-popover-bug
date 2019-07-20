@@ -2,14 +2,45 @@
   background-color: #ffffff;
   border: solid 1px #d8d8d8;
   margin-top: 40px;
+
   form {
     flex-direction: column;
     align-items: start;
     padding: 15px;
 
-    .heading {
+    .sort-radio-box {
+      display: flex;
+      flex-direction: column;
+
+      .sort-radio-item {
+        padding-bottom: 8px;
+      }
+    }
+
+    .count-sub-form {
+      display: flex;
+      flex-direction: row;
+
+      .count-input-width {
+        width: 43px;
+
+      }
+
+      .count-select {
+        width: 150px;
+        margin-right: 27px;
+      }
+    }
+
+    .divider {
       border-bottom: solid 1px #d8d8d8;
-      padding: 9px 15px;
+    }
+
+    .heading {
+      // padding: 4px 15px;
+      padding-left: 15px;
+      padding-right: 15px;
+      padding-top: 9px;
       width: 100%;
     }
 
@@ -18,15 +49,25 @@
     }
 
   }
+
   .top-border {
     border-top: solid 1px #d8d8d8;
   }
+
   .padding-input {
-    padding: 9px 15px;
+    padding: 0px 15px;
   }
 }
-.filter-btn-clear{
-    color: #474747;
-    background-color: transparent;
-    border: solid 1px #e0e0e0;
+
+.filter-btn-clear {
+  color: #474747;
+  background-color: transparent;
+  border: solid 1px #e0e0e0;
+}
+::ng-deep{
+  .sort-decrease-height{
+    .mat-form-field-infix{
+      border:none;
+    }
+  }
 }
