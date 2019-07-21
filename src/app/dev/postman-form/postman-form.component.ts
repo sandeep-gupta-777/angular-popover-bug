@@ -46,7 +46,7 @@ export class PostmanFormComponent {
 
   ngOnInit() {
     let header:IHeaderData = {
-      "user-access-token": this.serverService.X_AXIS_TOKEN,
+      "user-access-token": this.serverService.USER_ACCESS_TOKEN,
       "auth-token": this.serverService.AUTH_TOKEN
     };
     this._apiDetails.headers = header;

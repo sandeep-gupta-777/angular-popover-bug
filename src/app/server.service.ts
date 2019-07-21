@@ -7,8 +7,6 @@ import {Select, Store} from '@ngxs/store';
 import {IUser} from './core/interfaces/user';
 import {IHeaderData} from '../interfaces/header-data';
 import {IOverviewInfoResponse} from '../interfaces/Analytics2/overview-info';
-
-import {UtilityService} from './utility.service';
 import {
   SaveVersionInfoInBot,
   SetAllBotListAction,
@@ -18,37 +16,23 @@ import {IBot, IBotResult, IBotVersionResult} from './core/interfaces/IBot';
 import {Router} from '@angular/router';
 import {
   SetAutoLogoutTime,
-  SetBackendURlRoot,
   SetMasterIntegrationsList,
   SetMasterProfilePermissions,
-  SetPipelineItemsV2, SetRoleInfo
+  SetPipelineItemsV2,
+  SetRoleInfo
 } from './ngxs/app.action';
 import {IIntegrationMasterListItem} from '../interfaces/integration-option';
 import {ICustomNerItem} from '../interfaces/custom-ners';
-
-
-import {IConsumerDetails} from './chat/ngxs/chat.state';
-import {IMessageData, IRoomData, IChatSessionState} from '../interfaces/chat-session-state';
-import {
-  AddMessagesToRoomByRoomId,
-  ChangeBotIsThinkingDisplayByRoomId,
-  SetCurrentBotDetailsAndResetChatStateIfBotMismatch
-} from './chat/ngxs/chat.action';
-import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
+import {SetCurrentBotDetailsAndResetChatStateIfBotMismatch} from './chat/ngxs/chat.action';
 import {IProfilePermission} from '../interfaces/profile-action-permission';
 import {EHttpVerbs, PermissionService} from './permission.service';
 import {EventService} from './event.service';
 import {IPipelineItemV2} from './core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
 import {IAppState} from './ngxs/app.state';
-import {take} from 'rxjs/internal/operators';
 import {IRoleInfo} from '../interfaces/role-info';
-import {ELogType, LoggingService} from './logging.service';
-import {
-  SetEnterpriseInfoAction,
-  SetEnterpriseUsersAction
-} from './core/enterpriseprofile/ngxs/enterpriseprofile.action';
-import {MyToasterService} from "./my-toaster.service";
-import {environment} from "../environments/environment";
+import {LoggingService} from './logging.service';
+import {MyToasterService} from './my-toaster.service';
+import {environment} from '../environments/environment';
 
 
 declare var $: any;
@@ -57,9 +41,35 @@ declare let deploy_obj_botplateform_fe;
 @Injectable()
 export class ServerService {
 
+  static getCookie(name) {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    if (match) {
+      return match[2];
+    }
+  }
+
+  static setCookie(name, value) {
+    document.cookie = `${name}=${value}`;
+  }
+
+  static resetCookie() {
+    const cookies = document.cookie.split(';');
+
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i];
+      const eqPos = cookie.indexOf('=');
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    }
+  }
+
+  static isUserLoggedIn() {
+    return ServerService.getCookie('auth-token');
+  }
+
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() app$: Observable<IAppState>;
-  public X_AXIS_TOKEN: string = null;
+  public USER_ACCESS_TOKEN: string = null;
   roleName: string;
   public AUTH_TOKEN: string = null;
   private isLoggedIn = false;
@@ -72,12 +82,17 @@ export class ServerService {
     private router: Router,
     private permissionService: PermissionService,
     private constantsService: ConstantsService) {
+
+    this.AUTH_TOKEN = ServerService.getCookie('auth-token');
+    this.USER_ACCESS_TOKEN = ServerService.getCookie('user-access-token');
+
     this.loggeduser$.subscribe((value) => {
+
       if (!value || !value.user) {
         return;
       }
-      this.AUTH_TOKEN = value.user.auth_token && value.user.auth_token;
-      this.X_AXIS_TOKEN = value.user.user_access_token && value.user.user_access_token;
+      // this.AUTH_TOKEN = value.user.auth_token && value.user.auth_token;
+      // this.USER_ACCESS_TOKEN = value.user.user_access_token && value.user.user_access_token;
       this.roleName = value.user.role.name;
       this.app$.subscribe((appState) => {
         if (!this.roleInfo && appState && appState.roleInfoArr)
@@ -99,14 +114,22 @@ export class ServerService {
   }
 
   removeTokens() {
-    this.X_AXIS_TOKEN = null;
+    this.USER_ACCESS_TOKEN = null;
     this.AUTH_TOKEN = null;
   }
 
   createHeaders(headerData?: any): HttpHeaders {
     let headers = new HttpHeaders();
     let tokenData: IHeaderData = {};
-    tokenData = {'user-access-token': this.X_AXIS_TOKEN};
+    console.log(this.USER_ACCESS_TOKEN);
+    console.log(this.AUTH_TOKEN);
+    if (!this.USER_ACCESS_TOKEN) {
+      debugger;
+    }
+    if (!this.AUTH_TOKEN) {
+      debugger;
+    }
+    tokenData = {'user-access-token': this.USER_ACCESS_TOKEN};
     tokenData = {...tokenData, 'auth-token': this.AUTH_TOKEN};
     tokenData = {...tokenData, 'content-type': 'application/json'};
 
@@ -127,7 +150,7 @@ export class ServerService {
   showErrorMessageForErrorTrue({error, message, action}) {
 
     /*check for logout*/
-    if(action === "logout"){
+    if (action === "logout") {
       EventService.logout$.emit();
       return;
     }
@@ -174,7 +197,7 @@ export class ServerService {
     if (e.error && (e.error.error === true)) {
       this.showErrorMessageForErrorTrue(e.error);
     } else {
-      this.showErrorMessageForErrorTrue({error: true, message: "Some error occurred", action:null});
+      this.showErrorMessageForErrorTrue({error: true, message: "Some error occurred", action: null});
     }
     // let arg = (e.error && e.error.error) ? e.error : e;
     // this.showErrorMessageForErrorTrue(arg);
@@ -213,15 +236,15 @@ export class ServerService {
     }
   }
 
-  getNSetRoleInfo(){
+  getNSetRoleInfo() {
     let getRoleUrl = this.constantsService.getRoleUrl();
     return this.makeGetReq({url: getRoleUrl})
-      .pipe(switchMap((val)=>{
-        if(val){
+      .pipe(switchMap((val) => {
+        if (val) {
           return this.store.dispatch([
             new SetRoleInfo({roleInfoArr: val.objects})
           ]);
-        }else {
+        } else {
           return of(1);
         }
       }))
@@ -287,9 +310,9 @@ export class ServerService {
       }));
   }
 
-  checkForLogoutAction({action}){
+  checkForLogoutAction({action}) {
     debugger;
-    if(action === "logout"){
+    if (action === "logout") {
       EventService.logout$.emit();
       return;
     }
@@ -329,11 +352,11 @@ export class ServerService {
 
   increaseAutoLogoutTime() {
     let autoLogoutInterval: number = Infinity;
-    if(this.roleInfo){
+    if (this.roleInfo) {
 
-      if(this.roleInfo.session_expiry_time===-1){
+      if (this.roleInfo.session_expiry_time === -1) {
         autoLogoutInterval = Infinity;
-      }else {
+      } else {
         autoLogoutInterval = (this.roleInfo && this.roleInfo.session_expiry_time * 1000) || 3600 * 1000; //3600*1000
       }
     }
@@ -357,8 +380,8 @@ export class ServerService {
         // botResult.objects.forEach((bot) => {
         //   bot.bot_type !== 'genbot' ? botList.push(bot) : pipelineBasedBotList.push(bot);
         // });
-        if(botResult)
-        this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
+        if (botResult)
+          this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
       }));
 
   }
@@ -399,13 +422,13 @@ export class ServerService {
         // this.store.dispatch(new SetCodeBasedBotListAction({botList: botList}));
       }))
       .pipe(switchMap((value) => {
-        if(value){
+        if (value) {
           return this.store.dispatch([
             new SetMasterIntegrationsList({
               masterIntegrationList: value.objects
             })
           ]);
-        }else {
+        } else {
           return of(1);
         }
       }));
@@ -678,12 +701,6 @@ export class ServerService {
           console.log("emited this :::::::::::::", err.error);
         }));
   }
-
-
-
-
-
-
 
 
   getNSetMasterPermissionsList() {

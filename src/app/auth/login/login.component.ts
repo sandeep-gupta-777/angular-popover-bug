@@ -99,7 +99,7 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
       map((value: IUser) => {
 
         this.userValue = userValue = value;
-        this.serverService.X_AXIS_TOKEN = this.userValue.user_access_token;
+        this.serverService.USER_ACCESS_TOKEN = this.userValue.user_access_token;
         this.serverService.AUTH_TOKEN = this.userValue.auth_token;
         this.permissionService.loggedUser = this.userValue;
       }),
@@ -134,6 +134,14 @@ export class LoginComponent extends MessageDisplayBase implements OnInit, AfterV
         }
       }),
       switchMap(() => {
+        // document.cookie = `user-access-token-test=${this.userData.user_access_token}`;
+        // document.cookie = `auth-token=${this.userData.auth_token};`;
+        // document.cookie = `user-access-token=${this.userData.user_access_token}`;
+        // ServerService.setCookie('user-access-token-test', this.userData.user_access_token);
+        ServerService.setCookie('auth-token', this.userData.auth_token);
+        ServerService.setCookie('user-access-token', this.userData.user_access_token);
+        delete this.userValue.user_access_token;
+        delete this.userValue.auth_token;
         return this.store.dispatch([
           new SetUser({user: this.userValue}),
         ]);

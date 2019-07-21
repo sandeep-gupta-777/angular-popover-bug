@@ -13,7 +13,7 @@ export class ModuleGaurdLoadService implements CanActivate, CanActivateChild, Ca
 
 
     try {/*TODO: implement it better*/
-      return !!JSON.parse(localStorage.getItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY)).loggeduser.user.auth_token;
+      return !!JSON.parse(localStorage.getItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY)).loggeduser.user;
     } catch (e) {
       return false;
     }

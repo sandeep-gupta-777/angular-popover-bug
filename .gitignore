@@ -12,6 +12,7 @@ node_modules1
 # IDEs and editors
 /.idea
 .idea/workspace.xml
+.scannerwork/
 
 .ng-bubble-local
 .project

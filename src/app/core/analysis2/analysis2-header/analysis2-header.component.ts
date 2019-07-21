@@ -159,8 +159,8 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
         const url = this.constantsService.getAnalyticsUrl();
         const headerData: any/*IAnalysis2HeaderData*/ = {
           ...analytics2HeaderData,
-          'auth-token': this.loggeduser.user.auth_token,
-          'user-access-token': this.loggeduser.user.user_access_token,
+          // 'auth-token': this.loggeduser.user.auth_token,
+          // 'user-access-token': this.loggeduser.user.user_access_token,
           startdate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.startdate),
           enddate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.enddate),
         };
