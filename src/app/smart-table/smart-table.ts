@@ -34,7 +34,7 @@ export abstract class AbstractSmartTable {
   transformDataForMaterialTable(data: any[], tableDataMetaDict) {
     return data.map((consumerTableDataItem) => {
       const obj: any = {};
-      for (const key in tableDataMetaDict) {
+      for (const key of Object.keys(tableDataMetaDict)) {
         obj[tableDataMetaDict[key].displayValue] = {
           ...tableDataMetaDict[key],
           originalKey: key,

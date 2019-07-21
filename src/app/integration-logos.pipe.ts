@@ -35,7 +35,7 @@ export class IntegrationLogosPipe implements PipeTransform {
     }
 
     /*remove the integration key if its not enabled*/
-    for (const key in integrations) {
+    for (const key of Object.keys(integrations)) {
 
         try {
           if (!integrations[key].enabled) {

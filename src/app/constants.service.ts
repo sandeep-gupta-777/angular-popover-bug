@@ -963,7 +963,7 @@ export class ConstantsService {
 
   appendQueryParamsInUrl(url: string, queryParams: object) {
     const urlObj = new URL(url);
-    for (const key in queryParams) {
+    for (const key of Object.keys(queryParams)) {
       urlObj.searchParams.append(key, queryParams[key]);
     }
     return urlObj.href;

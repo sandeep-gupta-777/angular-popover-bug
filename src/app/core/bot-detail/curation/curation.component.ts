@@ -224,7 +224,7 @@ export class CurationComponent implements OnInit {
 
   objToSrt(obj) {
     let str = '';
-    for (const key in obj) {
+    for (const key of Object.keys(obj)) {
       str = str + '&' + key + '=' + obj[key];
     }
 

@@ -35,7 +35,7 @@ export class EventService {
   rerenderHandsonTable$ = new EventEmitter();
   reloadSessionTable$ = new EventEmitter();
   static unsubscribeInComponent(component) {
-    for (const key in component) {
+    for (const key of Object.keys(component)) {
       try {
         if (component[key] instanceof Subscriber) {
           component[key].unsubscribe();

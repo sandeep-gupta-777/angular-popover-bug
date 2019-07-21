@@ -260,7 +260,7 @@ export class SmartTableComponent implements OnInit, AfterViewInit {
     const searchDataClone = this.removeEmptyKeyValues(formData);
     return tableData.filter((rowDataObj) => {
       let shouldInclude = true;
-      for (const searchKey in searchDataClone) {
+      for (const searchKey of Object.keys(searchDataClone)) {
         const x = this.isValidValue(rowDataObj[searchKey]) && rowDataObj[searchKey]['search'];
         if (x) {
           shouldInclude = shouldInclude &&

@@ -113,7 +113,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
       /*TODO: this is temporary fix to remove copy paste from excel issue*/
       selectedOrNewRowData.values.forEach((obj, index, array) => {
         if (obj) {
-          for (const key in obj) {
+          for (const key of Object.keys(obj)) {
             obj[key] = obj[key] && obj[key].trim();
           }
         }

@@ -63,7 +63,7 @@ export class UtilityService {
   }
 
   static removeAllNonDefinedKeysFromObject(obj: object) {
-    for (const key in obj) {
+    for (const key of Object.keys(obj)) {
       if (obj[key] === undefined || obj[key] === null || obj[key] === '') {
         delete obj[key];
       }
@@ -240,7 +240,7 @@ export class UtilityService {
   * */
   static isObjectSubSet(largeObj, smallObj) {
     const obj1_temp = {};
-    for (const key in smallObj) {
+    for (const key of Object.keys(smallObj)) {
       obj1_temp[key] = largeObj[key];
     }
     const x = UtilityService.deepCompare(obj1_temp, smallObj);
@@ -388,7 +388,7 @@ export class UtilityService {
 
       // Quick checking of one object being a subset of another.
       // todo: cache the structure of arguments[0] for performance
-      for (p in y_temp) {
+      for (p of Object.keys(y_temp)) {
         if (y_temp.hasOwnProperty(p) !== x_temp.hasOwnProperty(p)) {
           return false;
         } else if (typeof y_temp[p] !== typeof x_temp[p]) {
@@ -396,7 +396,7 @@ export class UtilityService {
         }
       }
 
-      for (p in x_temp) {
+      for (p of Object.keys(x_temp)) {
         if (y_temp.hasOwnProperty(p) !== x_temp.hasOwnProperty(p)) {
           return false;
         } else if (typeof y_temp[p] !== typeof x_temp[p]) {
@@ -1492,7 +1492,7 @@ export class UtilityService {
 
   emptyObjectWithoutChaningRef(obj) {
     try {
-      for (const key in obj) {
+      for (const key of Object.keys(obj)) {
         delete obj[key];
       }
     } catch (e) {

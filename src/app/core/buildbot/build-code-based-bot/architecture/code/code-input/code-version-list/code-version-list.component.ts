@@ -39,7 +39,7 @@ export class CodeVersionListComponent implements OnInit, OnChanges {
 
   confirmActivateVersionModal() {
     this.activateVersion$.emit(this.selectedVersion.id);
-    //TODO: implement modal below
+    // TODO: implement modal below
     // this.utilityService.confirmActivateVersionModal(this.dialogRefWrapper, this.matDialog)
     //   .then((data)=>{
     //     this.dialogRefWrapper.ref.close();

@@ -52,7 +52,7 @@ export class CodeQuickReplyComponent implements OnInit, AfterViewInit {
   }
 
   removeAllKeysFromObjectUnlessMentioned(newQuickReplyFormValue, excludedKeys: string[]) {
-    for (const key in newQuickReplyFormValue) {
+    for (const key of Object.keys(newQuickReplyFormValue)) {
       const doesKeyExistsInExcludedArr = excludedKeys.findIndex(value => key === value) !== -1;
       if (!doesKeyExistsInExcludedArr ) {
         delete newQuickReplyFormValue[key];

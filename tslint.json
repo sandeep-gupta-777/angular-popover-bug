@@ -10,6 +10,7 @@
       true,
       "check-space"
     ],
+    "ordered-imports":false,
     "curly": true,
     "deprecation": {
       "severity": "warn"

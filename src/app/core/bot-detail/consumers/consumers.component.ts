@@ -133,8 +133,8 @@ export class ConsumersComponent implements OnInit {
         const url_temp = this.constantsService.getBotConsumerByIdUrl(this.consumerItemToBeDecrypted.id);
         this.serverService
           .makeGetReq<IConsumerItem>({url: url_temp, headerData: {'bot-access-token': this.bot.bot_access_token}})
-          .subscribe((value: { objects: IConsumerItem[] }) => {
-            this.consumersDecrypted = value.objects[0];
+          .subscribe((value_temp: { objects: IConsumerItem[] }) => {
+            this.consumersDecrypted = value_temp.objects[0];
             const index_temp = this.consumerItems.findIndex((value) => value.id === this.consumerItemToBeDecrypted.id);
             this.consumerItems[index_temp] = this.consumersDecrypted;
             this.sessionsSmartTableDataModal.refreshData(this.consumerItems);
