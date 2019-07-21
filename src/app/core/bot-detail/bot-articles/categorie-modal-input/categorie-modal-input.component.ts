@@ -9,7 +9,7 @@ import { UtilityService } from 'src/app/utility.service';
 })
 export class CategorieModalInputComponent implements OnInit {
 
-  constructor(private utilityService:UtilityService) { }
+  constructor(private utilityService: UtilityService) { }
   @Input() typeIsEdit;
   @Input() categorieClone: ICategoryMappingItem;
   @Input() categorieMappingReal: ICategoryMappingItem[];
@@ -19,69 +19,66 @@ export class CategorieModalInputComponent implements OnInit {
   @Output() makeShowCreateNewCategoryInputFalse = new EventEmitter();
   @Output() cancelCategoryEditToUnchangedValue = new EventEmitter();
   editMode = false;
-  newCategorieName: string = "";
+  newCategorieName = '';
   ngOnInit() {
     if (this.typeIsEdit) {
       this.editMode = false;
-    }
-    else {
+    } else {
       this.editMode = true;
     }
   }
 
   isNameChanged() {
-    let name = this.categorieMappingReal.find((cat) => { return cat.category_id == this.categorieClone.category_id }).name;
-    return name == this.categorieClone.name ;
+    const name = this.categorieMappingReal.find((cat) => cat.category_id === this.categorieClone.category_id).name;
+    return name === this.categorieClone.name ;
   }
 
   categoryUpdateClicked() {
-    if(!( this.typeIsEdit && this.isNameChanged())){
+    if (!( this.typeIsEdit && this.isNameChanged())) {
       if (this.typeIsEdit) {
         const body = {
           'category_name': this.categorieClone.name,
           'category_id': this.categorieClone.category_id
-        }
-        if(body.category_name.trim().length == 0 ){
-          this.utilityService.showErrorToaster("Category name can not be empty");
-          this.cancelClicked(true)
-        }else{
+        };
+        if (body.category_name.trim().length === 0 ) {
+          this.utilityService.showErrorToaster('Category name can not be empty');
+          this.cancelClicked(true);
+        } else {
           this.categoryUpdate.emit(body);
-          this.cancelClicked(false)
+          this.cancelClicked(false);
         }
-        
-      }
-      else {
+
+      } else {
         const body = {
           'category_name': this.newCategorieName,
-        }
-        if(body.category_name.trim().length == 0 ){
-          this.utilityService.showErrorToaster("Category name can not be empty");
-          this.cancelClicked(true)
-        }else{
+        };
+        if (body.category_name.trim().length === 0 ) {
+          this.utilityService.showErrorToaster('Category name can not be empty');
+          this.cancelClicked(true);
+        } else {
           this.categoryCreate.emit(body);
-          this.cancelClicked(false)
+          this.cancelClicked(false);
         }
-        
-        
+
+
       }
     }
-    
+
 
   }
   categoryDeleteClicked() {
     const body = {
       'category_id': this.categorieClone.category_id
-    }
+    };
     this.categoryDelete.emit(body);
   }
   cancelClicked(b) {
     if (this.categorieClone) {
       this.editMode = false;
-      if(b){
+      if (b) {
         this.cancelCategoryEditToUnchangedValue.emit();
       }
-    }
-    else {
+    } else {
       this.makeShowCreateNewCategoryInputFalse.emit();
     }
   }

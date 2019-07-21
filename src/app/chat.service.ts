@@ -33,6 +33,12 @@ export class ChatService {
     private constantsService: ConstantsService) {
   }
 
+  messaging;
+  currentPreviewBot: IBot;
+  currentRoomId: number;
+
+  currentRoom: IRoomData;
+
   sendHumanMessageToBotServer(botDetails: { roomId: number, bot_access_token: string, type: EBotType }, consumerDetails: IConsumerDetails, messageByHuman: string, frameEnabled: EChatFrame) {
 
     const url = this.constantsService.getStartNewChatLoginUrl();
@@ -41,7 +47,7 @@ export class ChatService {
       'type': 'human',
       'msg': messageByHuman || 'hi',
       'platform': 'web',
-      is_test: true//botDetails.type === EBotType.faqbot
+      is_test: true// botDetails.type === EBotType.faqbot
     };
 
     const model_id = (this.currentPreviewBot as any).model_id;
@@ -97,10 +103,6 @@ export class ChatService {
     this.store.dispatch(new ChangeFrameAction({frameEnabled: frameEnabled}));
   }
 
-  messaging;
-  currentPreviewBot: IBot;
-  currentRoomId: number;
-
   initializeIMIConnect(previewBot: IBot, currentRoomId: number, startNewChatData: any) {
 
     if (this.currentRoomId === currentRoomId && this.currentPreviewBot === previewBot) {
@@ -129,10 +131,10 @@ export class ChatService {
       LoggingService.log('this is not an imiconnect bot');
       return;
     }
-    const appId = imiConnectIntegrationDetails.appId; //'GS23064017';
-    const appSecret = imiConnectIntegrationDetails.appSecret; //'uZi6B5Zg';
+    const appId = imiConnectIntegrationDetails.appId; // 'GS23064017';
+    const appSecret = imiConnectIntegrationDetails.appSecret; // 'uZi6B5Zg';
     // var streamName = "bot";
-    const serviceKey = imiConnectIntegrationDetails.serviceKey; //'3b8f6470-5e56-11e8-bf0b-0213261164bb';//'f6e50f7b-2bfd-11e8-bf0b-0213261164bb';
+    const serviceKey = imiConnectIntegrationDetails.serviceKey; // '3b8f6470-5e56-11e8-bf0b-0213261164bb';//'f6e50f7b-2bfd-11e8-bf0b-0213261164bb';
     // let userId = currentRoomId + '_hellothisissandeep1231312';
     let userId = startNewChatData.consumerDetails.uid;
     if (startNewChatData && startNewChatData.consumerDetails) {
@@ -173,13 +175,13 @@ export class ChatService {
       ]);
     };
 
-    const msgCallBack = {//messaging.setICMessagingReceiver(msgCallBack);
+    const msgCallBack = {// messaging.setICMessagingReceiver(msgCallBack);
       onConnectionStatusChanged: function (statuscode) {
         LoggingService.log('msgCallBack,onConnectionStatusChanged', statuscode);
         let statusMessage = null;
-        if (statuscode == 2) {
+        if (statuscode === 2) {
           statusMessage = 'Connected';
-        } else if (statuscode == 6) {
+        } else if (statuscode === 6) {
           statusMessage = 'Error while connecting';
         } else {
           statusMessage = 'Not Connected';
@@ -196,7 +198,7 @@ export class ChatService {
             onFailure: function (err) {
               LoggingService.log('failed to get topics:');
 
-              //handleFailure(err);
+              // handleFailure(err);
             }
           };
           messaging.setMessageAsRead(message.getTransactionId(), callback);
@@ -263,18 +265,16 @@ export class ChatService {
     this.messaging = messaging;
   }
 
-  currentRoom: IRoomData;
-
   sendHumanMessageViaImiConnect(currentRoom, currentBot: IBot, messageByHuman: string) {
 
-    let streamName: string; //'gsureg';
+    let streamName: string; // 'gsureg';
     try {
       streamName = currentBot.integrations.fulfillment_provider_details.imiconnect.streamName;
     } catch (e) {
       LoggingService.log(e);
     }
     // this.currentRoom = currentRoom;
-    //send message
+    // send message
     const pubcallback = {
       onSuccess: function () {
         LoggingService.log('message sent');
@@ -310,7 +310,7 @@ export class ChatService {
       'type': 'bot',
       'msg': 'hi',
       'platform': 'web',
-      'is_test': true, //startNewChatData.bot.bot_type === EBotType.faqbot,
+      'is_test': true, // startNewChatData.bot.bot_type === EBotType.faqbot,
       // 'consumer': {
       //   'uid': this.current_uid,
       // },

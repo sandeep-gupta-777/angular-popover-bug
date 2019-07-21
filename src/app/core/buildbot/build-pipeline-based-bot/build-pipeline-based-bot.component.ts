@@ -47,7 +47,7 @@ export class BuildPipelineBasedBotComponent implements OnInit {
 
   ngOnInit() {
     // ;
-    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('tab') || 'basic'; //todo: not a robust code
+    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('tab') || 'basic'; // todo: not a robust code
     this.botcreationstate$.subscribe((value) => {
       // LoggingService.log('test');
       if (!value || !value.pipeLineBased) { return; }

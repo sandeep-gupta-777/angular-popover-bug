@@ -8,7 +8,7 @@ import {ErrorStateMatcher} from '@angular/material';
 
 export class ConfirmValidParentMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    if(control.value === 's'){
+    if ('s' === control.value) {
 
     }
     return control.invalid && control.touched;
@@ -38,9 +38,9 @@ export class BotConfigInputComponent implements OnInit, ControlValueAccessor, Af
   @Input() isDisabled = false;
   onChanges: Function;
   ngControl: NgControl;
-  @Input() isRequired =false;
+  @Input() isRequired = false;
   constructor(private injector: Injector) {}
-  errorMessage="";
+  errorMessage = '';
   // myObject = Object;
 
   ngOnInit() {
@@ -50,16 +50,16 @@ export class BotConfigInputComponent implements OnInit, ControlValueAccessor, Af
 
   }
 
-  ngAfterViewInit(){
-    this.ngControl.valueChanges.subscribe(()=>{
+  ngAfterViewInit() {
+    this.ngControl.valueChanges.subscribe(() => {
 
       // this.errorMessage = this.ngControl.hasError()
-      if(this.ngControl.errors)
+      if (this.ngControl.errors) {
         this.errorMessage = Object.keys(this.ngControl.errors)[0];
-      else {
-        this.errorMessage = ""
+      } else {
+        this.errorMessage = '';
       }
-    })
+    });
   }
 
   keyDown(data) {
@@ -95,7 +95,7 @@ export class BotConfigInputComponent implements OnInit, ControlValueAccessor, Af
     });
   }
 
-  log(){
+  log() {
     console.log(this.ngControl);
   }
 

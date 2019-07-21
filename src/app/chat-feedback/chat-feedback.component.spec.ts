@@ -1,9 +1,9 @@
 import {ComponentFixture, fakeAsync, flushMicrotasks, TestBed, tick} from '@angular/core/testing';
 import {ChatFeedbackComponent} from './chat-feedback.component';
-import {Component} from "@angular/core";
-import {configure, getElementByDataAttr, getTextContent} from "../../testing/configure-before-after.spec";
-import {EChatFeedback} from "../chat/chat-wrapper.component";
-import {MatIcon, MatIconModule} from "@angular/material";
+import {Component} from '@angular/core';
+import {configure, getElementByDataAttr, getTextContent} from '../../testing/configure-before-after.spec';
+import {EChatFeedback} from '../chat/chat-wrapper.component';
+import {MatIcon, MatIconModule} from '@angular/material';
 
 @Component({
   template: `
@@ -11,7 +11,7 @@ import {MatIcon, MatIconModule} from "@angular/material";
 })
 class HostComponent {
 
-  feedback:EChatFeedback;
+  feedback: EChatFeedback;
   outputHandler(data) {
     alert();
   }
@@ -19,9 +19,8 @@ class HostComponent {
 
 
 fdescribe('ChatFeedbackComponent', () => {
-  let component: ChatFeedbackComponent;
   let fixture: ComponentFixture<HostComponent>;
-  configure({imports:[MatIconModule], declarations:[HostComponent, ChatFeedbackComponent]});
+  configure({imports: [MatIconModule], declarations: [HostComponent, ChatFeedbackComponent]});
   const oldResetTestingModule = TestBed.resetTestingModule;
 
   beforeEach(() => {
@@ -30,19 +29,19 @@ fdescribe('ChatFeedbackComponent', () => {
   });
 
   afterEach(() => {
-    if (fixture) fixture.destroy();
+    if (fixture) { fixture.destroy(); }
   });
 
   fit('(@output)should emit chatMessageFeedback$ true when clicked on like button', fakeAsync(() => {
     spyOn(fixture.componentInstance, 'outputHandler');
-    getElementByDataAttr(fixture,'chat-upvote').click();
+    getElementByDataAttr(fixture, 'chat-upvote').click();
     flushMicrotasks();
     expect(fixture.componentInstance.outputHandler).toHaveBeenCalledWith(true);
   }));
 
   fit('(@outputshould emit chatMessageFeedback$ false when clicked on downvote button', fakeAsync(() => {
     spyOn(fixture.componentInstance, 'outputHandler');
-    getElementByDataAttr(fixture,'chat-downvote').click();
+    getElementByDataAttr(fixture, 'chat-downvote').click();
     flushMicrotasks();
     expect(fixture.componentInstance.outputHandler).toHaveBeenCalledWith(false);
   }));

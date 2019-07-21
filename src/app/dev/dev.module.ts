@@ -12,23 +12,23 @@ import {UtilityService} from '../utility.service';
 import {StoreVariableService} from '../core/buildbot/build-code-based-bot/architecture/integration/integration-option-list/store--variable.service';
 import {DevWrapperComponent} from './dev-wrapper/dev-wrapper.component';
 import {ApiItemComponent} from './history/api-item/api-item.component';
-import {ApiDocComponent} from "./history/api-doc.component";
+import {ApiDocComponent} from './history/api-doc.component';
 import {ApiFolderComponent} from './history/api-item/api-folder.component';
 import {ApiFilterPipe} from './history/api-filer.pipe';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {DevService} from "./dev.service";
-import {SharedModule} from "../shared.module";
-import {DevHttpInterceptorService} from "./dev-http-interceptor.service";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {environment} from "../../environments/environment";
-import {HttpMockRequestInterceptor} from "../interceptor.mock";
-import {HttpRequestInterceptor} from "../interceptor";
-import {NgxsModule} from "@ngxs/store";
-import {VersionStateReducer} from "../core/buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.state";
-import {ReducerListService} from "../reducer-list.service";
-import {DevStateReducer} from "./ngxs/dev.state";
-import {ApiListFilterPipe} from "./history/api-list-filter.pipe";
-import {ReverseArrayPipe} from "./array-reverse.pipe";
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {DevService} from './dev.service';
+import {SharedModule} from '../shared.module';
+import {DevHttpInterceptorService} from './dev-http-interceptor.service';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {environment} from '../../environments/environment';
+import {HttpMockRequestInterceptor} from '../interceptor.mock';
+import {HttpRequestInterceptor} from '../interceptor';
+import {NgxsModule} from '@ngxs/store';
+import {VersionStateReducer} from '../core/buildbot/build-code-based-bot/architecture/code/code-input/ngxs/code-input.state';
+import {ReducerListService} from '../reducer-list.service';
+import {DevStateReducer} from './ngxs/dev.state';
+import {ApiListFilterPipe} from './history/api-list-filter.pipe';
+import {ReverseArrayPipe} from './array-reverse.pipe';
 
 const routes: Route[] = [{
   path: '', component: DevWrapperComponent, canActivate: [IsDevModeGuard]

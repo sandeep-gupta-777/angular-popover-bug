@@ -14,7 +14,7 @@ export class IntegrationLogosPipe implements PipeTransform {
 
   @Select() app$: Observable<IAppState>;
 
-  constructor(){
+  constructor() {
 
   }
 /**
@@ -50,20 +50,20 @@ export class IntegrationLogosPipe implements PipeTransform {
     return this.app$.pipe(map((value) => {
       try {
         const integrationsMasterList = value.masterIntegrationList;
-        if(!integrationsMasterList){
+        if (!integrationsMasterList) {
           return;
         }
         const arr = Object.keys(integrations).map((key) => {
           const x =  integrationsMasterList.find((integrationsMasterListItem) => {
             // LoggingService.log(integrationsMasterListItem.unique_name.toUpperCase(), key.toUpperCase());
-            return (integrationsMasterListItem.unique_name.toUpperCase() === key.toUpperCase()||
+            return (integrationsMasterListItem.unique_name.toUpperCase() === key.toUpperCase() ||
               integrationsMasterListItem.key.toUpperCase() === key.toUpperCase()
-            )
-          });;
+            );
+          });
           return x;
         });
 
-        if(!arr){
+        if (!arr) {
 
         }
         return arr;

@@ -33,13 +33,13 @@ export interface IGeneratedMessageItem {
       'buttons': [
         {
           'title': 'URL Button',
-          'type': 'web_url', //title
+          'type': 'web_url', // title
           'url': 'https://www.messenger.com/'/*TODO: we are not getting payload*/
         }
         ],
-      'title': 'this is sample text for image ,it is optional', //use this
-      'type': EBotMessageMediaType//"image",//use this
-      'url': 'https://wallpaperbrowse.com/media/images/soap-bubble-1958650_960_720.jpg'//use this
+      'title': 'this is sample text for image ,it is optional', // use this
+      'type': EBotMessageMediaType// "image",//use this
+      'url': 'https://wallpaperbrowse.com/media/images/soap-bubble-1958650_960_720.jpg'// use this
     }
     ];
   quick_reply?: {
@@ -63,9 +63,9 @@ export interface ISendApiResponsePayload {
   'room': {
     'agent_handover': false,
     'allow_anonymization': false,
-    'bot_id': number//1,
+    'bot_id': number// 1,
     'consent_permissions': any[],
-    'consumer_id': number, //43,
+    'consumer_id': number, // 43,
     'cross_retention_period': false,
     'data_store': {},
     'df_state': {

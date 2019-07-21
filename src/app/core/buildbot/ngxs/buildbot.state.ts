@@ -1,14 +1,5 @@
 import {Action, State, StateContext} from '@ngxs/store';
 import {
-  IAvatar,
-  IAvatarList, IBasicInfo,
-  IBotConfig,
-  ICustomners,
-  IIntegration,
-  IPipeline, IUnselectedPipeline,
-  pipelineData
-} from '../../../../interfaces/bot-creation';
-import {
   SaveAvatorInfo,
   SaveNewBotInfo_CodeBased,
   SaveDataManagment,

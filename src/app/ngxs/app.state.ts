@@ -45,7 +45,7 @@ const appDefaultState: IAppState = {
   },
   masterIntegrationList: null,
   masterProfilePermissions: null,
-  backendUrlRoot: 'https://imibot.ai/', ////'https://staging.imibot.ai/',//'https://dev.imibot.ai/'////
+  backendUrlRoot: 'https://imibot.ai/', //// 'https://staging.imibot.ai/',//'https://dev.imibot.ai/'////
   showBackendUrlRootButton: false,
   enterpriseNerData: [],
   masterPipelineItems: null,
@@ -57,7 +57,7 @@ const appDefaultState: IAppState = {
 @State<IAppState>({
   name: 'app',
   defaults: appDefaultState
-})//same as reducer
+})// same as reducer
 export class AppStateReducer {
 
   constructor(private constantsService: ConstantsService, private store: Store) {

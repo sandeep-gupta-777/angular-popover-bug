@@ -5,8 +5,8 @@ import {IConsumerItem} from '../interfaces/consumer';
 * */
 export abstract class MaterialTableImplementer {
   abstract tableData;
-  abstract getTableDataMetaDict():any;
-  abstract initializeTableData(data:any, tableDataMetaDict:any):void;
+  abstract getTableDataMetaDict(): any;
+  abstract initializeTableData(data: any, tableDataMetaDict: any): void;
 
   /*
   * transformDataForMaterialTable(data) takes in raw data, for example [{roomId:1, show:false}]
@@ -31,11 +31,11 @@ export abstract class MaterialTableImplementer {
   * */
   transformDataForMaterialTable(data: any[], tableDataMetaDict) {
     return data.map((consumerTableDataItem) => {
-      let obj:any = {};
-      for (let key in tableDataMetaDict) {
+      const obj: any = {};
+      for (const key in tableDataMetaDict) {
         obj[tableDataMetaDict[key].displayValue] = {
           ...tableDataMetaDict[key],
-          originalKey:key,
+          originalKey: key,
           value: consumerTableDataItem[key],
           searchValue: consumerTableDataItem[key]
         };

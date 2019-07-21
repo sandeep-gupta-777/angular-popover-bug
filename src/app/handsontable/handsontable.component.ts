@@ -1,11 +1,9 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, Output, EventEmitter} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ConstantsService} from '../constants.service';
 import {ActivatedRoute} from '@angular/router';
 import {ELogType, LoggingService} from '../logging.service';
 import {EventService} from '../event.service';
 import {UtilityService} from '../utility.service';
-import { skip } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 // import * as Handsontable from 'handsontable';
 declare var Handsontable: any;
 
@@ -14,7 +12,7 @@ declare var Handsontable: any;
   templateUrl: './handsontable.component.html',
   styleUrls: ['./handsontable.component.scss'],
   host: {
-    //https://stackoverflow.com/questions/34636661/how-do-i-change-the-body-class-via-a-typescript-class-angular2
+    // https://stackoverflow.com/questions/34636661/how-do-i-change-the-body-class-via-a-typescript-class-angular2
     '[class.d-flex-column-last-child-flex-grow-1]': 'true'
   }
 })
@@ -35,6 +33,7 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   @ViewChild('handsontable') hotTableComponentTest: ElementRef;
   @ViewChild('handsontable_search_field') hotTableSearchField: ElementRef;
   hot: any;
+
   // HandsontableComponent = this;
   @Input() set testData(value) {
     this._data = value;
@@ -82,13 +81,13 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
 
   setHeightAndWidthofHost() {
     // console.log(this.elementRef.nativeElement.clientHeight);
-    this.height = (this.elementRef.nativeElement.clientHeight - 70) + 'px';//-70 is to compensate for input
+    this.height = (this.elementRef.nativeElement.clientHeight - 70) + 'px'; // -70 is to compensate for input
     // console.log(this.elementRef.nativeElement.clientWidth);
     this.width = this.elementRef.nativeElement.clientWidth + 'px';
   }
 
   ngAfterViewInit(): void {
-    console.log(this);////
+    console.log(this);
 
     this.setHeightAndWidthofHost();
 
@@ -172,20 +171,22 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
   async openFile(inputEl) {
 
     try {
-      let filePath = inputEl.value;
-      if(!filePath || !filePath.endsWith('.csv')){
+      const filePath = inputEl.value;
+      if (!filePath || !filePath.endsWith('.csv')) {
         this.utilityService.showErrorToaster('Error: File is not CSV');
         return;
       }
 
-      let data:string = await this.utilityService.readInputFileAsText(inputEl);
-      if(!data) return;
+      let data: string = await this.utilityService.readInputFileAsText(inputEl);
+      if (!data) {
+        return;
+      }
       data = data.trim();
-      let value = UtilityService.convertCsvTextToArray(data);
+      const value = UtilityService.convertCsvTextToArray(data);
       this._data = value;
       let filteredTableData: string[][] = this._data;
-      if (!value || !value.length || value.length == 0) {
-        throw 'some error parsing file';
+      if (!value || !value.length || value.length === 0) {
+        throw new Error('some error parsing file');
       }
 
       // if(!this.expectedCSVHeaders && location.search.includes('build=testing')){
@@ -195,29 +196,29 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
       // this.expectedCSVHeaders = ['DateTime'];//todo: remove this
       if (this.expectedCSVHeaders) {
         /*check if this.expectedCSVHeaders is same as headers in csv*/
-        let commonHeadersIndex: number[] = [];
-        this._data[0].forEach((header,index) => {
-          if(this.expectedCSVHeaders.find(csvHeader => csvHeader.trim() === header.trim())){
-            commonHeadersIndex.push(index)
+        const commonHeadersIndex: number[] = [];
+        this._data[0].forEach((header, index) => {
+          if (this.expectedCSVHeaders.find(csvHeader => csvHeader.trim() === header.trim())) {
+            commonHeadersIndex.push(index);
           }
         });
 
         /*remove headers*/
-        this._data.splice(0,1);
+        this._data.splice(0, 1);
 
         filteredTableData = [];
-        this._data.forEach((row:string[])=>{
-          let x =row.filter((el,index)=>{
+        this._data.forEach((row: string[]) => {
+          const x = row.filter((el, index) => {
             return commonHeadersIndex.find((commonIndex) => commonIndex === index) != null;
           });
-          if(Array.isArray(x) && x.length > 0){
+          if (Array.isArray(x) && x.length > 0) {
             filteredTableData.push(x);
           }
         });
 
       }
 
-      if(value && value.length > 0 && filteredTableData.length === 0){
+      if (value && value.length > 0 && filteredTableData.length === 0) {
         this.utilityService.showErrorToaster('Could not find any useful data in file. Make sure CSV headers are correct.');
         return;
       }
@@ -238,13 +239,13 @@ export class HandsontableComponent implements OnInit, AfterViewInit {
     const csvData = JSON.parse(JSON.stringify(this._data));
 
     console.log(csvData);
-    if(this.expectedCSVHeaders){
+    if (this.expectedCSVHeaders) {
       csvData.unshift(this.expectedCSVHeaders);
     }
     this.utilityService.downloadArrayAsCSV(csvData, []);
   }
 
-  log(){
+  log() {
     console.log(this);
   }
 }

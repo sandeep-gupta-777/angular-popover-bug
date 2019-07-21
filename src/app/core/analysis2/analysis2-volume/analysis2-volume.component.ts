@@ -45,7 +45,7 @@ export class Analysis2VolumeComponent implements OnInit {
         analysisHeaderData: {type: EAnalysis2TypesEnum.totalTimeOfRooms}
       }));
     }
-    //adding new now
+    // adding new now
     if (this.activeTab === 'totalSessions') {
       this.store.dispatch(new SetAnalysis2HeaderData({
         analysisHeaderData: {type: EAnalysis2TypesEnum.totalSessions}

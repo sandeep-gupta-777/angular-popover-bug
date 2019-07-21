@@ -84,29 +84,29 @@ export interface IAllCorpusResult {
     'objects': ICorpus[];
   }
 
-export interface ICurationResolvedAggregation{
+export interface ICurationResolvedAggregation {
 
- "aggregation_counts"?: {
-    "ignored"?:number,
-    "section_added"?:number,
-    "section_updated"?:number
-},
-"today_count"?:number,
-"total_count"?:number
+ 'aggregation_counts'?: {
+    'ignored'?: number,
+    'section_added'?: number,
+    'section_updated'?: number
+};
+'today_count'?: number;
+'total_count'?: number;
 
 }
 
-export interface ICurationIssuesAggregation{
+export interface ICurationIssuesAggregation {
 
-    "aggregation_counts"?: {
-        "agent_handover"?:number,
-        "downvoted"?:number,
-        "fallback"?:number,
-        "from_session"?:number,
-        "low_confidence"?:number,
-        "partial_match"?:number
-    },
-    "today_count"?:number,
-    "total_count"?:number
+    'aggregation_counts'?: {
+        'agent_handover'?: number,
+        'downvoted'?: number,
+        'fallback'?: number,
+        'from_session'?: number,
+        'low_confidence'?: number,
+        'partial_match'?: number
+    };
+    'today_count'?: number;
+    'total_count'?: number;
 
 }

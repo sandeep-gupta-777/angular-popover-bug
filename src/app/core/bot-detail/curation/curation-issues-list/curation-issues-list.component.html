@@ -2,7 +2,7 @@
   <div class="header-text">
       <div *ngIf="liveBotUpdatedAt">
           Live bot updated at {{liveBotUpdatedAt| date:"shortTime"}},&nbsp;{{liveBotUpdatedAt| date:"MMM d"}}&nbsp;'{{liveBotUpdatedAt| date:"yy"}}
-      </div> 
+      </div>
     {{totallength}} issues remaining
   </div>
   <div class="header-text ml-auto mr-3">
@@ -10,13 +10,13 @@
   </div>
 
   <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer train-button" mat-button
-    (click)="openTrainModal()" *ngIf="corpusState == 'Saved'">
+    (click)="openTrainModal()" *ngIf="corpusState === 'Saved'">
     <mat-icon>autorenew</mat-icon>
     Train
   </button>
 </div>
 <div class = "curation-list-heading" *ngIf="IssuesSelectedSet.length > 0">
-    
+
     <div *ngIf = "articleSearchMode" class="d-flex w-100  not-resolved-footer">
         <div class="header-text mr-2">{{IssuesSelectedSet.length}} selected</div>
       <app-faq-search-box class ="searchForArticle" [bot]="bot" [inCuration]="true"
@@ -54,19 +54,19 @@
 <form #issuesSelectedListForm="ngForm">
     <div *ngFor="let curationItem of curationItemList" class = "curation-and-checkbox">
         <mat-checkbox class="select-checkbox checkbox-in-curation" ngModel [name] = "curationItem.id" color=primary ></mat-checkbox>
-        <app-curation-issues  
-        [curationItemData]="curationItem" 
+        <app-curation-issues
+        [curationItemData]="curationItem"
         [isResolved]=false
-        (ignoreQueryEvent)="ignoreIt($event)" 
-        [bot]="bot" 
+        (ignoreQueryEvent)="ignoreIt($event)"
+        [bot]="bot"
         [selected] = "!!issuesSelectedListForm.value[curationItem.id]"
         (addQueryToArticleEvent)="addQueryToArticle($event)">
       </app-curation-issues>
       </div>
 </form>
- 
 
-<div class="splash-load-more" *ngIf="curationItemList && isMorePresent && curationItemList.length == 0">
+
+<div class="splash-load-more" *ngIf="curationItemList && isMorePresent && curationItemList.length === 0">
   <app-splash-screen [imageHRef]="myESplashScreens.Lode_More_Issues" style="width: 300px;"
     class="d-flex justify-content-center align-items-center"
     [descriptionText]="'Congratulations, you have cleared current issues, load more to continue'">

@@ -29,9 +29,9 @@ export class GentemplateEditKeyComponent implements OnInit {
   }
 
   editTemplateKey() {
-    let old_key = this.data['old_key'];
-    let new_key = this.newTemplateKey;
-    let doesNewKeyAlreadyExistsInTemplateKeyDict = Object.keys(this.templateKeyDict).find(key => new_key === key);
+    const old_key = this.data['old_key'];
+    const new_key = this.newTemplateKey;
+    const doesNewKeyAlreadyExistsInTemplateKeyDict = Object.keys(this.templateKeyDict).find(key => new_key === key);
     if (doesNewKeyAlreadyExistsInTemplateKeyDict) {
       this.templateKeyCreationError = 'Template Key name already exists';
       return;

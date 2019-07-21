@@ -13,7 +13,6 @@ export class ModalWrapperComponent {
 
   constructor(
     public dialogRef: MatDialogRef<any>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData)
-  {}
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
 }

@@ -5,7 +5,7 @@ import {BasicInfoFormComponent} from './core/buildbot/build-code-based-bot/bot-c
 import {BotConfigComponent} from './core/buildbot/build-code-based-bot/bot-config/bot-config.component';
 import {BotArchitetureComponent} from './core/buildbot/build-code-based-bot/architecture/bot-architeture.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {CommonModule} from '@angular/common';;
+import {CommonModule} from '@angular/common';
 import {BotIdToNamePipe} from './bot-id-to-name.pipe';
 import {RouterModule} from '@angular/router';
 import {AdditionalInfoFormComponent} from './core/buildbot/build-code-based-bot/bot-config/additional-info-form/additional-info-form.component';
@@ -63,27 +63,27 @@ import {RequiredIfOneFilledValidator} from './core/buildbot/build-code-based-bot
 import {InfoIconComponent} from './info-icon/info-icon.component';
 import {ErrorStateMatcher, MatProgressSpinnerModule, ShowOnDirtyErrorStateMatcher, MatCardModule} from '@angular/material';
 import {IntegrationItemByUnamePipe} from './integration-item-by-uname.pipe';
-import {BotByIdPipe} from "./core/buildbot/build-code-based-bot/bot-config/data-manage-form/bot-by-id.pipe";
+import {BotByIdPipe} from './core/buildbot/build-code-based-bot/bot-config/data-manage-form/bot-by-id.pipe';
 import { ListIfNotInThisListPipe } from './core/enterpriseprofile/enterprise-roles/listIfNotInThisList.pipe';
 import { ConvertToUniqueArrayPipe } from './convert-to-unique-array.pipe';
-import {BotConfigService} from "./core/buildbot/build-code-based-bot/bot-config/bot-config.service";
-import {PermissionService} from "./permission.service";
-import {ConstantsService} from "./constants.service";
-import {SharedEnterpriseListModuleModule} from "./auth/shared-enterprise-list-module.module";
+import {BotConfigService} from './core/buildbot/build-code-based-bot/bot-config/bot-config.service';
+import {PermissionService} from './permission.service';
+import {ConstantsService} from './constants.service';
+import {SharedEnterpriseListModuleModule} from './auth/shared-enterprise-list-module.module';
 import { FaqHandoverAndInterfaceFormComponent } from './core/buildbot/build-code-based-bot/bot-config/faq-handover-and-interface-form/faq-handover-and-interface-form.component';
 import { FaqBotBasicInfoFormComponent } from './core/buildbot/build-code-based-bot/bot-config/faq-bot-basic-info-form/faq-bot-basic-info-form.component';
 
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import {ButtonWrapperComponent} from "./button-wrapper/button-wrapper.component";
-import {BreakpointService} from "./core/breakpoint.service";
-import {SpliceEllipsisPipe} from "./splice-ellipsis.pipe";
+import {ButtonWrapperComponent} from './button-wrapper/button-wrapper.component';
+import {BreakpointService} from './core/breakpoint.service';
+import {SpliceEllipsisPipe} from './splice-ellipsis.pipe';
 import { CurationComponent } from './core/bot-detail/curation/curation.component';
 import { CurationIssuesComponent } from './core/bot-detail/curation/curation-issues/curation-issues.component';
 import { CurationFilterComponent } from './core/bot-detail/curation/curation-filter/curation-filter.component';
 import { CurationIssuesListComponent } from './core/bot-detail/curation/curation-issues-list/curation-issues-list.component';
 import { CurationResolvedListComponent } from './core/bot-detail/curation/curation-resolved-list/curation-resolved-list.component';
-import {FilePreviewOverlayService} from "./overlay.service";
-import {OverlayModule} from "@angular/cdk/overlay";
+import {FilePreviewOverlayService} from './overlay.service';
+import {OverlayModule} from '@angular/cdk/overlay';
 @NgModule({
   declarations: [
     ButtonWrapperComponent,
@@ -148,7 +148,7 @@ import {OverlayModule} from "@angular/cdk/overlay";
     FaqBotBasicInfoFormComponent,
 
     // todo: put it inside view bot details moduel
-    
+
   ],
   imports: [
     SharedEnterpriseListModuleModule,

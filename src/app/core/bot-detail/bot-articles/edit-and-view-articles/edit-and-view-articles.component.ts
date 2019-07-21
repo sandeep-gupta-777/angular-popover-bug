@@ -34,25 +34,12 @@ export class EditAndViewArticlesComponent implements OnInit {
 
   @ViewChild('questionListContainer') questionListContainer: ElementRef;
   @ViewChildren('questionTextArea') questionTextArea: QueryList<ElementRef>;
-
-  constructor(
-    private constantsService: ConstantsService,
-    private serverService: ServerService,
-    private utilityService: UtilityService,
-    private permissionService: PermissionService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private matDialog: MatDialog,
-  ) {
-  }
-
   @Input() bot: IBot;
-  _article:IArticleItem;
-  @Input() set article(value: IArticleItem){
-
+  _article: IArticleItem;
+  @Input() set article(value: IArticleItem) {
     this.articleData = this.utilityService.createDeepClone(value);
     this._article = value;
-  };
+  }
   @Input() category_mapping: ICategoryMappingItem[];
   @Input() corpus: ICorpus;
   articleData: IArticleItem;
@@ -71,11 +58,22 @@ export class EditAndViewArticlesComponent implements OnInit {
   JSON = JSON;
   dialogRefWrapper = {ref: null};
 
+  constructor(
+    private constantsService: ConstantsService,
+    private serverService: ServerService,
+    private utilityService: UtilityService,
+    private permissionService: PermissionService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private matDialog: MatDialog,
+  ) {
+  }
+
   ngOnInit() {
 
     this.loggeduser$
       .subscribe((value: IAuthState) => {
-        if (value && value.user != null) {
+        if (value && value.user !== null) {
           this.userRole = value.user.role.name;
         }
       });
@@ -89,7 +87,7 @@ export class EditAndViewArticlesComponent implements OnInit {
   deleteQustionWithId(index: number) {
     if (!(this.userRole === ERoleName.Analyst || this.userRole === ERoleName.Tester)) {
       if (index > -1) {
-        if (this.articleData.questions.length == 1) {
+        if (this.articleData.questions.length === 1) {
           this.utilityService.showErrorToaster('Atleast one question is needed for an article');
         } else {
           this.articleData.questions.splice(index, 1);
@@ -101,8 +99,8 @@ export class EditAndViewArticlesComponent implements OnInit {
   addNewQuestion() {
     this.articleData.questions.push('');
     setTimeout(() => {
-      let textareaArr = this.questionTextArea.toArray();
-      let lastChild = textareaArr[textareaArr.length - 1];
+      const textareaArr = this.questionTextArea.toArray();
+      const lastChild = textareaArr[textareaArr.length - 1];
       lastChild.nativeElement.focus();
       DomService.scrollToTop(this.questionListContainer.nativeElement);
     });
@@ -113,20 +111,18 @@ export class EditAndViewArticlesComponent implements OnInit {
   }
 
   updateArticleClicked() {
-    if (this.corpus.state == 'training') {
+    if (this.corpus.state === 'training') {
       this.trainingIsGoingOn();
-    }
-    else {
+    } else {
       this.updateArticle.emit(this.articleData);
     }
   }
 
 
   deleteArticleClicked() {
-    if (this.corpus.state == 'training') {
+    if (this.corpus.state === 'training') {
       this.trainingIsGoingOn();
-    }
-    else {
+    } else {
 
 
       this.deleteArticle.emit(this.articleData);
@@ -134,10 +130,9 @@ export class EditAndViewArticlesComponent implements OnInit {
   }
 
   updateAndTrain() {
-    if (this.corpus.state == 'training') {
+    if (this.corpus.state === 'training') {
       this.trainingIsGoingOn();
-    }
-    else {
+    } else {
 
       this.trainAndUpdate.emit(this.articleData);
     }
@@ -149,17 +144,17 @@ export class EditAndViewArticlesComponent implements OnInit {
         'bot-access-token': this.bot.bot_access_token
       };
       if (this.articleData.section_id) {
-        let body = {
+        const body = {
           'old_category': this._article.category_id,
           'section_id': [this.articleData.section_id]
         };
-        if (formValue.inputType == 'existing') {
+        if (formValue.inputType === 'existing') {
           body['new_category'] = formValue.existingCategoryName;
-          const headerData: IHeaderData = {
+          const headerData_temp: IHeaderData = {
             'bot-access-token': this.bot.bot_access_token
           };
           const url = this.constantsService.changeSectionCategoryUrl();
-          this.serverService.makePostReq<any>({headerData, body, url})
+          this.serverService.makePostReq<any>({headerData: headerData_temp, body, url})
             .subscribe((value) => {
               this.category_mapping = value.category_mapping;
               this.category_mapping = [...this.category_mapping];
@@ -169,13 +164,13 @@ export class EditAndViewArticlesComponent implements OnInit {
               resolve(value);
             });
         }
-        if (formValue.inputType == 'new') {
+        if ('new' === formValue.inputType) {
           body['category_name'] = formValue.newCategoryName;
-          const headerData: IHeaderData = {
+          const headerData_temp: IHeaderData = {
             'bot-access-token': this.bot.bot_access_token
           };
           const url = this.constantsService.changeSectionCategoryWithNewCategoryUrl();
-          this.serverService.makePostReq<any>({headerData, body, url})
+          this.serverService.makePostReq<any>({headerData: headerData_temp, body, url})
             .subscribe((value) => {
               this.category_mapping = value.category_mapping;
               this.category_mapping = [...this.category_mapping];
@@ -187,11 +182,11 @@ export class EditAndViewArticlesComponent implements OnInit {
 
         }
       } else {
-        if (formValue.inputType == 'existing') {
+        if (formValue.inputType === 'existing') {
           this.articleData['category_id'] = formValue.existingCategoryName;
           resolve();
         }
-        if (formValue.inputType == 'new') {
+        if (formValue.inputType === 'new') {
           const body = {
             'category_name': formValue.newCategoryName
           };
@@ -209,10 +204,9 @@ export class EditAndViewArticlesComponent implements OnInit {
   }
 
   openCategoryModifyModal(template: TemplateRef<any>) {
-    if (this.corpus.state == 'training') {
+    if (this.corpus.state === 'training') {
       this.trainingIsGoingOn();
-    }
-    else {
+    } else {
       this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
     }
   }
@@ -222,34 +216,32 @@ export class EditAndViewArticlesComponent implements OnInit {
   }
 
   skipConformationModalSubmitted() {
-    if (this.currentModal == 'saveNTrain') {
+    if (this.currentModal === 'saveNTrain') {
       this.updateAndTrain();
     }
-    if (this.currentModal == 'save') {
+    if (this.currentModal === 'save') {
       this.updateArticleClicked();
     }
   }
 
   globalConformationModalSubmitted(formValue) {
 
-    if (this.currentModal == 'saveNTrain') {
+    if (this.currentModal === 'saveNTrain') {
       this.updateAndTrainModalSubmitted(formValue);
     }
-    if (this.currentModal == 'save') {
+    if (this.currentModal === 'save') {
       this.updateArticleClickedModalsubmitted(formValue);
     }
   }
 
   updateArticleClickedModal(template: TemplateRef<any>) {
 
-    if (this.corpus.state == 'training') {
+    if (this.corpus.state === 'training') {
       this.trainingIsGoingOn();
-    }
-    else if (this.articleData.category_id == 'unassigned' && !this.articleData.section_id) {
+    } else if (this.articleData.category_id === 'unassigned' && !this.articleData.section_id) {
       this.currentModal = 'save';
       this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
-    }
-    else {
+    } else {
       this.updateArticleClicked();
     }
   }
@@ -264,14 +256,12 @@ export class EditAndViewArticlesComponent implements OnInit {
   }
 
   updateAndTrainModal(template: TemplateRef<any>) {
-    if (this.corpus.state == 'training') {
+    if (this.corpus.state === 'training') {
       this.trainingIsGoingOn();
-    }
-    else if (this.articleData.category_id == 'unassigned' && !this.articleData.section_id) {
+    } else if (this.articleData.category_id === 'unassigned' && !this.articleData.section_id) {
       this.currentModal = 'saveNTrain';
       this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
-    }
-    else {
+    } else {
       this.updateAndTrain();
     }
   }
@@ -284,7 +274,7 @@ export class EditAndViewArticlesComponent implements OnInit {
 
   }
 
-  isThisPermissionGiven(tabNameInfo){
+  isThisPermissionGiven(tabNameInfo) {
     let isDenied = true;
     // ;
 
@@ -294,14 +284,10 @@ export class EditAndViewArticlesComponent implements OnInit {
         isDenied = isDenied && this.permissionService.isTabAccessDenied(tab);
       });
     } else {
-      isDenied = this.permissionService.isTabAccessDenied(tabNameInfo); //false;//this.constantsService.isTabAccessDenied(tabName);
+      isDenied = this.permissionService.isTabAccessDenied(tabNameInfo); // false;//this.constantsService.isTabAccessDenied(tabName);
 
     }
-    if (!isDenied) {
-      return true;
-    } else {
-      return false;
-    }
-  
+    return !isDenied;
+
   }
 }

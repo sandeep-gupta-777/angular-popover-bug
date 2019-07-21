@@ -1,5 +1,5 @@
-import { AbstractSmartTable } from "src/app/smart-table/smart-table";
-import { ICorpus } from "../../interfaces/faqbots";
+import { AbstractSmartTable } from 'src/app/smart-table/smart-table';
+import { ICorpus } from '../../interfaces/faqbots';
 
 export class ArticleHistorySmartTable extends AbstractSmartTable {
     constructor(rawData, metaData, protected dependency) {
@@ -21,37 +21,37 @@ export class ArticleHistorySmartTable extends AbstractSmartTable {
     }
 
     customTransformArticleHistoryDataForMaterialTable(data: any[]) {
-        let tableDataMetaDict = this.metaData;
-        let modifiedTableData = data.map((corpusTableDataItem, index) => {
-            let obj: any = {};
-            for (let key in tableDataMetaDict) {
-                if (key == 'description') {
-                    let exclamationIconHTML = `<i class="fa fa-circle color-green icon-postion" title="Corpus is live"></i>`;
+        const tableDataMetaDict = this.metaData;
+        const modifiedTableData = data.map((corpusTableDataItem, index) => {
+            const obj: any = {};
+            for (const key in tableDataMetaDict) {
+                if (key === 'description') {
+                    const exclamationIconHTML = `<i class="fa fa-circle color-green icon-postion" title="Corpus is live"></i>`;
                     obj[tableDataMetaDict[key].displayValue] = {
                         ...tableDataMetaDict[key],
                         originalKey: key,
                         value: `<span class="email-wrapper">
-                        ${(corpusTableDataItem.state == 'live') ?exclamationIconHTML:''}
+                        ${(corpusTableDataItem.state === 'live') ? exclamationIconHTML : ''}
                         <span>${corpusTableDataItem[key]}</span>
                     </span>`,
                         searchValue: corpusTableDataItem[key]
                     };
-                } else if (key == 'updated_at') {
+                } else if (key === 'updated_at') {
                     const date = new Date(corpusTableDataItem[key]);
                     obj[tableDataMetaDict[key].displayValue] = {
                         ...tableDataMetaDict[key],
                         originalKey: key,
-                        value: this.dependency.datePipe.transform(date,'d MMM')+'\' '+this.dependency.datePipe.transform(date,'yy')+', '+ this.dependency.datePipe.transform(date,'shortTime') + ' by '+ corpusTableDataItem['updated_by'],
-                        searchValue: this.dependency.datePipe.transform(date,'date')+ corpusTableDataItem['updated_by']
+                        value: this.dependency.datePipe.transform(date, 'd MMM') + '\' ' + this.dependency.datePipe.transform(date, 'yy') + ', ' + this.dependency.datePipe.transform(date, 'shortTime') + ' by ' + corpusTableDataItem['updated_by'],
+                        searchValue: this.dependency.datePipe.transform(date, 'date') + corpusTableDataItem['updated_by']
                     };
-                } else if (key == 'actions') {
+                } else if (key === 'actions') {
                     obj[tableDataMetaDict[key].displayValue] = {
                         ...tableDataMetaDict[key],
                         originalKey: key,
                         value: `<div class="dropdown table-dropdown">
   <i class="fa fa-angle-down arrow-circle"></i>
   <div class="dropdown-content px-0">
-    ${(corpusTableDataItem.state != 'live') ?`<p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_makelive_${index}_${corpusTableDataItem.id}"><mat-icon class = "mat-icon material-icons" >arrow_upward</mat-icon> Make live</p>`:''}
+    ${(corpusTableDataItem.state !== 'live') ? `<p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_makelive_${index}_${corpusTableDataItem.id}"><mat-icon class = "mat-icon material-icons" >arrow_upward</mat-icon> Make live</p>` : ''}
     <p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_edit_${index}_${corpusTableDataItem.id}"><mat-icon class = "mat-icon material-icons">edit</mat-icon> Edit</p>
     <hr>
     <p class = "onHoverChangeColor m-0 px-2 py-1" data-cy="dropdown_preview_${index}_${corpusTableDataItem.id}"><mat-icon class = "mat-icon material-icons">chat_bubble</mat-icon> Preview</p>

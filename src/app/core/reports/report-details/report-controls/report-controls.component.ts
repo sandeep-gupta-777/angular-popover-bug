@@ -21,10 +21,10 @@ declare var $: any;
   selector: 'app-report-controls',
   templateUrl: './report-controls.component.html',
   styleUrls: ['./report-controls.component.scss'],
-  providers:[TempVariableService]
+  providers: [TempVariableService]
 })
 export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy {
-  start_time = "10:00";
+  start_time = '10:00';
   isactive = false;
   @Select() botlist$: Observable<ViewBotStateModel>;
   datePickerConfig: any;
@@ -33,6 +33,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
   selectedBot: IBot;
   codebasedBotList: IBot[];
   today = new Date();
+  privateKey;
   reportItem: IReportItem;
   filetype = 'csv';
   // @Input()
@@ -70,6 +71,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
   // start_date = new Date();
   isSftpReportEnabled = false;
   report_id;
+  botlistSub;
 
   constructor(
     private store: Store,
@@ -87,28 +89,14 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   ngAfterViewInit() {
-    // $(document).ready(function () {
-    //   $('input.time-input1').timepicker({defaultTime: '9', scrollbar: true, timeFormat: 'HH:mm'});
-    //   setTimeout(()=>{
-    //     console.log('=========',$('input.time-input1'));
-    //     $($('input.time-input1')[0]).on('changeTime',  ($event)=>{
-    //       alert();
-    //       console.log($event);
-    //     });
-    //   },199)
-    // });
-
-
-
     if (this.activatedRoute.snapshot.data['name'] === ERouteNames['Create Reports']) {
       setTimeout(() => {
-        ;
+
         this.f.form.patchValue({bot_id: this.botlist[0].id, frequency: 'daily'});
       }, 0);
     }
   }
 
-  botlistSub;
 
   ngOnInit() {
 
@@ -129,32 +117,32 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
         if (_id && _id !== 'new') {
           const url = this.constantsService.getReportsEditInfo(_id);
           this.serverService.makeGetReq<IReportItem>({url})
-            .subscribe((value: IReportItem) => {
+            .subscribe((value_report: IReportItem) => {
               try {
-                this.deliveryMode = value.delivery[1].enabled ? "email" : "sftp";
+                this.deliveryMode = value_report.delivery[1].enabled ? 'email' : 'sftp';
                 this.router.navigate([], {queryParams: {deliveryMode: this.deliveryMode}});
                 let email;
                 try {
-                  email = value.delivery.find((item: any) => item.delivery_type === 'email');
+                  email = value_report.delivery.find((item: any) => item.delivery_type === 'email');
                   email.recipients = email.recipients.join(';');
-                }catch (e) {
-
+                } catch (e) {
+                  LoggingService.error(e);
                 }
                 const formDataSerialized = {
-                  ...value,
+                  ...value_report,
                   delivery: {
-                    sftp: value.delivery.find((item: any) => item.delivery_type === 'sftp'),
+                    sftp: value_report.delivery.find((item: any) => item.delivery_type === 'sftp'),
                     email: email
                   }
                 };
                 // delete value.startdate;
-                if (value) {
+                if (value_report) {
                   this.f.form.patchValue(formDataSerialized);
                 }
-                this.startdate = new Date(value.startdate);
+                this.startdate = new Date(value_report.startdate);
                 // let start_time:string  = (<any>document).getElementById("start_time").value;
-                let hh: string = new Date(value.startdate).getHours().toString();
-                let mm: string = new Date(value.startdate).getMinutes().toString();
+                let hh: string = new Date(value_report.startdate).getHours().toString();
+                let mm: string = new Date(value_report.startdate).getMinutes().toString();
                 if (mm.length === 1) {
                   mm = '0' + mm;
                 }
@@ -202,7 +190,7 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
 
   getReportControlFormData() {/*to be called by parent*/
 
-    this.reportFormData.botName = this.botlist.find((bot) => bot.id == this.reportFormData.bot_id).name;
+    this.reportFormData.botName = this.botlist.find((bot) => bot.id === this.reportFormData.bot_id).name;
     this.reportFormData = {...this.reportFormData};
     // const start_time: string = (<any>document).getElementById('start_time').value;
     const start_time_arr = this.start_time.split(':');
@@ -222,7 +210,6 @@ export class ReportControlsComponent implements OnInit, AfterViewInit, OnDestroy
   click() {
   }
 
-  privateKey;
 
   async openFile(inputEl) {
 

@@ -169,7 +169,7 @@ export class PermissionService {
            delete this.forbiddenActionsToFrontEndMapping[actionName];
          });
        } catch (e) {
-         debugger;
+
          console.log(e);
        }
 
@@ -230,11 +230,11 @@ export class PermissionService {
       console.error('non valid arguments for findKeyForValueInObject()');
       return;
     }
-    const key = Object.keys(obj).find((key) => obj[key] === value);
+    const key = Object.keys(obj).find((key_temp) => obj[key_temp] === value);
     return key;
   }
 
-  isTabAccessDenied(tabName: string, accessType = '') {//route,tab
+  isTabAccessDenied(tabName: string, accessType = '') {// route,tab
     if (!tabName) {
       return false;
     }
@@ -249,7 +249,8 @@ export class PermissionService {
 
   isApiAccessDenied(url: string, httpVerb: EHttpVerbs) {
 
-    let isAllowed: boolean, httpVerbAndPathKey: string, logMessage = '', pathName = this.getPathNameFromUrl(url);
+    let isAllowed: boolean, httpVerbAndPathKey: string, logMessage = '';
+    const pathName = this.getPathNameFromUrl(url);
     const roleName = this.loggedUser && this.loggedUser.role.name;
     if (!url || !httpVerb) {
       console.error('invalid args for isApiAccessDenied');

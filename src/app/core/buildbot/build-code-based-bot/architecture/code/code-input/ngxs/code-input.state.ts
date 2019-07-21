@@ -1,5 +1,5 @@
-import {Action, State, StateContext, Store} from "@ngxs/store";
-import {ConstantsService} from "../../../../../../../constants.service";
+import {Action, State, StateContext, Store} from '@ngxs/store';
+import {ConstantsService} from '../../../../../../../constants.service';
 import {
   GetVersionsFail,
   GetVersionsInit$,
@@ -13,27 +13,26 @@ import {
   SaveVersionSuccess,
   SetDiff,
   UpdateVersionLocal, SetBotId, ResetVersionState, SetErrorMap, ValidateCodeText, ValidateCode_flow_ActivateVersion$
-} from "./code-input.action";
-import {SetStateFromLocalStorageAction} from "../../../../../../../ngxs/app.action";
-import {CodeInputService} from "../code-input.service";
-import {IBot, IBotVersionData, IBotVersionResult, ICodeVersionValidation} from "../../../../../../interfaces/IBot";
-import {catchError, map, switchMap, tap} from "rxjs/operators";
-import {version} from "punycode";
-import {LoggingService} from "../../../../../../../logging.service";
-import {UpdateVersionInfoByIdInBot} from "../../../../../../view-bots/ngxs/view-bot.action";
-import {UtilityService} from "../../../../../../../utility.service";
-import {IBotVersionErrorMap, IVersionDiffMap} from "../../../../../../../../interfaces/code-input";
-import {SaveAvatorInfo} from "../../../../../ngxs/buildbot.action";
-import {of} from "rxjs";
-import {store} from "@angular/core/src/render3";
+} from './code-input.action';
+import {SetStateFromLocalStorageAction} from '../../../../../../../ngxs/app.action';
+import {CodeInputService} from '../code-input.service';
+import {IBot, IBotVersionData, IBotVersionResult, ICodeVersionValidation} from '../../../../../../interfaces/IBot';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
+import {version} from 'punycode';
+import {LoggingService} from '../../../../../../../logging.service';
+import {UpdateVersionInfoByIdInBot} from '../../../../../../view-bots/ngxs/view-bot.action';
+import {UtilityService} from '../../../../../../../utility.service';
+import {IBotVersionErrorMap, IVersionDiffMap} from '../../../../../../../../interfaces/code-input';
+import {SaveAvatorInfo} from '../../../../../ngxs/buildbot.action';
+import {of} from 'rxjs';
 
 export interface ICodeInputState {
-  versions_pristine: IBotVersionData[],
-  versions: IBotVersionData[],
-  diff: IVersionDiffMap
-  botId: number,
-  selectedVersion: IBotVersionData,
-  errorMap: IBotVersionErrorMap
+  versions_pristine: IBotVersionData[];
+  versions: IBotVersionData[];
+  diff: IVersionDiffMap;
+  botId: number;
+  selectedVersion: IBotVersionData;
+  errorMap: IBotVersionErrorMap;
 }
 
 const codeInputState: ICodeInputState = {
@@ -55,13 +54,13 @@ export class VersionStateReducer {
   }
 
   @Action(GetVersionsInit$)
-  getVersionListInit({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: GetVersionsInit$) {
-    let bot = payload.bot;
+  getVersionListInit({patchState, setState, getState, dispatch, }: StateContext<ICodeInputState>, {payload}: GetVersionsInit$) {
+    const bot = payload.bot;
 
     this.codeInputService.getAllVersions(bot.id, payload.bot_access_token)
       .pipe(tap((versionResults) => {
-          let versions = versionResults.objects;
-          let selectedVersion = CodeInputService.getVersion(versions, bot.active_version_id) || versions[0];
+          const versions = versionResults.objects;
+          const selectedVersion = CodeInputService.getVersion(versions, bot.active_version_id) || versions[0];
           CodeInputService.getVersion(versions, bot.active_version_id);
           this.store.dispatch([
             new GetVersionsSuccess$({botId: bot.id, versions: versions}),
@@ -72,14 +71,14 @@ export class VersionStateReducer {
         })
         )
       )
-      .subscribe()
+      .subscribe();
   }
 
   @Action(SetErrorMap)
-  SetErrorMap({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: SetErrorMap) {
-    let state = getState();
-    let versionId = payload.id;
-    let x  = {
+  SetErrorMap({patchState, setState, getState, dispatch, }: StateContext<ICodeInputState>, {payload}: SetErrorMap) {
+    const state = getState();
+    const versionId = payload.id;
+    const x  = {
       ...state,
       errorMap: {
         ...state.errorMap,
@@ -94,7 +93,7 @@ export class VersionStateReducer {
   }
 
   @Action(GetVersionsSuccess$)
-  getVersionListSuccess({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: GetVersionsSuccess$) {
+  getVersionListSuccess({patchState, setState, getState, dispatch, }: StateContext<ICodeInputState>, {payload}: GetVersionsSuccess$) {
     /*TODO: if I dont clone they will be the same array
     * so any change in one will be reflected in other as well
     * */
@@ -106,27 +105,27 @@ export class VersionStateReducer {
   }
 
   @Action(GetVersionsFail)
-  getVersionsFail({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: GetVersionsFail) {
+  getVersionsFail({patchState, setState, getState, dispatch, }: StateContext<ICodeInputState>, {payload}: GetVersionsFail) {
     /*TODO: not implemented yet*/
     // patchState({Versions: payload.Versions})
   }
 
   @Action(SetDiff)
-  SetDiff({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: SetDiff) {
-    let state = getState();
-    let id = payload.version.id;
+  SetDiff({patchState, setState, getState, dispatch, }: StateContext<ICodeInputState>, {payload}: SetDiff) {
+    const state = getState();
+    const id = payload.version.id;
 
-    let version_pristine = state.versions_pristine.find(v => v.id === id);
-    let version = state.versions.find(v => v.id === id);
-    let diff = CodeInputService.calculateDiff(version, version_pristine);
+    const version_pristine = state.versions_pristine.find(v => v.id === id);
+    const version_temp = state.versions.find(v => v.id === id);
+    const diff = CodeInputService.calculateDiff(version_temp, version_pristine);
     patchState({diff: {...state.diff, [id]: diff}});
     return of(1);
   }
 
   @Action(UpdateVersionLocal)
-  UpdateVersionLocal({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: UpdateVersionLocal) {
-    let state = getState();
-    let index = state.versions.findIndex((version) => version.id === payload.version.id);
+  UpdateVersionLocal({patchState, setState, getState, dispatch, }: StateContext<ICodeInputState>, {payload}: UpdateVersionLocal) {
+    const state = getState();
+    const index = state.versions.findIndex((version_temp) => version_temp.id === payload.version.id);
     state.versions[index] = {
       ...(state.versions[index] || {}),
       ...payload.version
@@ -136,10 +135,10 @@ export class VersionStateReducer {
 
 
   @Action(SaveVersionSuccess)
-  SaveVersionSuccess({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: SaveVersionSuccess) {
-    let state = getState();
-    let index = state.versions.findIndex((version) => version.id === payload.version.id);
-    let index_pristine = state.versions_pristine.findIndex((version) => version.id === payload.version.id);
+  SaveVersionSuccess({patchState, setState, getState, dispatch, }: StateContext<ICodeInputState>, {payload}: SaveVersionSuccess) {
+    const state = getState();
+    const index = state.versions.findIndex((version_temp) => version_temp.id === payload.version.id);
+    const index_pristine = state.versions_pristine.findIndex((version_temp) => version_temp.id === payload.version.id);
     state.versions[index] = {
       ...payload.version
     };
@@ -154,10 +153,10 @@ export class VersionStateReducer {
   }
 
   @Action(AddForkedVersion)
-  AddVersion({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: AddForkedVersion) {
-    let state = getState();
+  AddVersion({patchState, setState, getState, dispatch, }: StateContext<ICodeInputState>, {payload}: AddForkedVersion) {
+    const state = getState();
 
-    let x = {
+    const x = {
       versions: [...state.versions, payload.version],
       versions_pristine: [...state.versions_pristine, payload.version]
     };
@@ -167,18 +166,18 @@ export class VersionStateReducer {
 
 
   @Action(SetSelectedVersion)
-  SetSelectedVersion({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: SetSelectedVersion) {
-    let state = getState();
+  SetSelectedVersion({patchState, setState, getState, dispatch, }: StateContext<ICodeInputState>, {payload}: SetSelectedVersion) {
+    const state = getState();
     /*SOME FUCKUP HERE*/
     state.selectedVersion = {
       ...(state.selectedVersion || {}),
-      ...state.versions.find(version => version.id === payload.id)
+      ...state.versions.find(version_temp => version_temp.id === payload.id)
     };
     patchState(state);
   }
 
   @Action(SetBotId)
-  SetBotId({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: SetBotId) {
+  SetBotId({patchState, setState, getState, dispatch, }: StateContext<ICodeInputState>, {payload}: SetBotId) {
     let state = getState();
     /*SOME FUCKUP HERE*/
     state = {
@@ -189,12 +188,12 @@ export class VersionStateReducer {
   }
 
   @Action(ResetVersionState)
-  ResetVersionState({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>) {
+  ResetVersionState({patchState, setState, getState, dispatch, }: StateContext<ICodeInputState>) {
     setState(codeInputState);
   }
 
   @Action(SaveVersion$)
-  SaveVersion$({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: SaveVersion$) {
+  SaveVersion$({patchState, setState, getState, dispatch, }: StateContext<ICodeInputState>, {payload}: SaveVersion$) {
     let updatedVersion;
     return this.codeInputService.saveVersion(payload.bot, payload.version)
       .pipe(switchMap((updatedVersion1: IBotVersionData) => {
@@ -202,10 +201,10 @@ export class VersionStateReducer {
 
           return this.store.dispatch([
             new SaveVersionSuccess({bot: payload.bot, version: updatedVersion}),
-          ])
+          ]);
         }),
 
-        switchMap((payload) => {
+        switchMap((payload_temp) => {
 
           return this.store.dispatch(
             [
@@ -213,11 +212,11 @@ export class VersionStateReducer {
               new SetSelectedVersion({id: updatedVersion.id})
             ])
             ;
-        }))
+        }));
   }
 
   @Action(CreateForkedVersion$)
-  CreateForkedVersion$({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: CreateForkedVersion$) {
+  CreateForkedVersion$({patchState, setState, getState, dispatch, }: StateContext<ICodeInputState>, {payload}: CreateForkedVersion$) {
     this.codeInputService.createNewVersion(payload.bot, payload.version)
       .pipe(tap((updatedVersion: IBotVersionData) => {
         this.store.dispatch([
@@ -231,7 +230,7 @@ export class VersionStateReducer {
 
 
   @Action(ValidateCodeText)
-  validateCodeText({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: ValidateCodeText) {
+  validateCodeText({patchState, setState, getState, dispatch, }: StateContext<ICodeInputState>, {payload}: ValidateCodeText) {
 
     return this.codeInputService.validateCode$(payload.bot, payload.version)
       .pipe(tap(async (validationResult: ICodeVersionValidation) => {
@@ -239,34 +238,34 @@ export class VersionStateReducer {
         if (!CodeInputService.validationPassed(validationResult)) {
           errorMapItem = {...errorMapItem, ...validationResult};
         }
-        this.store.dispatch(new SetErrorMap({validation: errorMapItem, id: payload.version.id}))
-      }))
+        this.store.dispatch(new SetErrorMap({validation: errorMapItem, id: payload.version.id}));
+      }));
   }
 
 
   @Action(ValidateCode_flow$)
-  ValidateCodeInit({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: ValidateCode_flow$) {
-    let bot = payload.bot;
-    let version = payload.version;
+  ValidateCodeInit({patchState, setState, getState, dispatch, }: StateContext<ICodeInputState>, {payload}: ValidateCode_flow$) {
+    const bot = payload.bot;
+    const version_temp = payload.version;
     this.codeInputService.validateCode$(payload.bot, payload.version)
       .pipe(tap(async (validationResult: ICodeVersionValidation) => {
 
         if (CodeInputService.validationPassed(validationResult)) {
-          this.store.dispatch([new SaveVersion$({bot, version})]);
+          this.store.dispatch([new SaveVersion$({bot, version: version_temp})]);
         } else {
-          if (bot.active_version_id === version.id) {
+          if (bot.active_version_id === version_temp.id) {
             this.codeInputService.showForkDialog()
               .then((data) => {
                 if (data) {
                   this.codeInputService.openForkNewVersionModal();
                 }
-              })
+              });
           } else {
-            let data = await this.codeInputService.showSaveWithErrorDialog();
+            const data = await this.codeInputService.showSaveWithErrorDialog();
 
             if (data) {
               // setTimeout(() => this.utilityService.showErrorToaster('Your code has error. But it will be saved as its not active'), 2000);
-              this.store.dispatch([new SaveVersion$({bot, version})]);
+              this.store.dispatch([new SaveVersion$({bot, version: version_temp})]);
             }
           }
         }
@@ -275,32 +274,32 @@ export class VersionStateReducer {
           ...validation,
           ...validationResult
         };
-        this.store.dispatch(new SetErrorMap({validation: validation, id: payload.version.id,}));
+        this.store.dispatch(new SetErrorMap({validation: validation, id: payload.version.id, }));
       }))
       .subscribe();
   }
 
 
   @Action(ValidateCode_flow_ActivateVersion$)
-  validateCode_flow_ActivateVersion$({patchState, setState, getState, dispatch,}: StateContext<ICodeInputState>, {payload}: ValidateCode_flow_ActivateVersion$) {
-    let bot = payload.bot;
-    let version = payload.version;
+  validateCode_flow_ActivateVersion$({patchState, setState, getState, dispatch, }: StateContext<ICodeInputState>, {payload}: ValidateCode_flow_ActivateVersion$) {
+    const bot = payload.bot;
+    const version_temp = payload.version;
     this.codeInputService.validateCode$(payload.bot, payload.version)
       .pipe(tap(async (validationResult: ICodeVersionValidation) => {
 
         if (CodeInputService.validationPassed(validationResult)) {
-          this.store.dispatch([new SaveVersion$({bot, version})]);
-          this.codeInputService.activateVersion(payload.bot, payload.version.id).subscribe();/*TODO:1.use switch map 2. make an action for this*/
+          this.store.dispatch([new SaveVersion$({bot, version: version_temp})]);
+          this.codeInputService.activateVersion(payload.bot, payload.version.id).subscribe(); /*TODO:1.use switch map 2. make an action for this*/
         } else {
 
-          setTimeout(() => this.utilityService.showErrorToaster('Plase correct errors in code before activating it'));;
+          setTimeout(() => this.utilityService.showErrorToaster('Plase correct errors in code before activating it'));
         }
         let validation = CodeInputService.initializeValidationItem();
         validation = {
           ...validation,
           ...validationResult
         };
-        this.store.dispatch(new SetErrorMap({validation: validation, id: payload.version.id,}));
+        this.store.dispatch(new SetErrorMap({validation: validation, id: payload.version.id, }));
       }))
       .subscribe();
   }

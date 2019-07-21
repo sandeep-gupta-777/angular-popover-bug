@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {IApi, IApiCollection} from "../../interfaces";
+import {IApi, IApiCollection} from '../../interfaces';
 
 @Component({
   selector: 'app-api-folder',

@@ -9,7 +9,7 @@ import {UtilityService} from '../../utility.service';
 import {NgForm} from '@angular/forms';
 import {ModalImplementer} from '../../modal-implementer';
 import {MatDialog} from '@angular/material';
-import {EAllActions} from "../../typings/enum";
+import {EAllActions} from '../../typings/enum';
 
 @Component({
   selector: 'app-profile',
@@ -34,7 +34,7 @@ export class ProfileComponent extends ModalImplementer implements OnInit {
     private serverService: ServerService,
     private constantsService: ConstantsService,
     public utilityService: UtilityService,
-    public matDialog:MatDialog,
+    public matDialog: MatDialog,
     private store: Store) {
     super(utilityService, matDialog);
   }
@@ -52,8 +52,8 @@ export class ProfileComponent extends ModalImplementer implements OnInit {
       return;
     }
     const url: string = this.constantsService.getUserUpdateUrl(this.loggeduser.id);
-    // ;
-    // let body = {...this.loggeduser, ...this.f.value};
+    //  ;
+    //  let body = {...this.loggeduser, ...this.f.value};
     const body = this.f.value;
     this.serverService.makePutReq({url, body})
       .subscribe((value: IUser) => {
@@ -68,18 +68,18 @@ export class ProfileComponent extends ModalImplementer implements OnInit {
   openChangePasswordModal(template: TemplateRef<any>) {
     this.showPasswordChangeForm = true;
     this.openPrimaryModal(template)
-      .then(()=>{
+      .then(() => {
         this.old_password = this.new_password = this.new_password_confirm = '';
-      })
+      });
   }
 
   changePassword() {
-    //TODO: make use of forms here instead
-    // ;
-    // if(this.passwordForm.valid){
+    // TODO: make use of forms here instead
+    //  ;
+    //  if(this.passwordForm.valid){
     const changePasswordUrl = this.constantsService.updatePassword();
-    //   let formData =  this.passwordForm.value;
-    //   formData.new_password_confirm && delete formData.new_password_confirm;
+    //    let formData =  this.passwordForm.value;
+    //    formData.new_password_confirm && delete formData.new_password_confirm;
     if (this.old_password && this.new_password && this.new_password === this.new_password_confirm) {
       const body = {
         old_password: this.old_password,
@@ -89,19 +89,18 @@ export class ProfileComponent extends ModalImplementer implements OnInit {
         .subscribe((value: { 'error': boolean, 'message': string }) => {
 
           if (!value.error) {
-          this.showPasswordChangeForm = false; //show success message
-          }
-          else{
+          this.showPasswordChangeForm = false; // show success message
+          } else {
 
-            // this.flashErrorMessage(value.message);
-            this.showPasswordChangeForm = true; //show form again
+            //  this.flashErrorMessage(value.message);
+            this.showPasswordChangeForm = true; // show form again
             this.new_password_confirm = this.new_password = this.old_password = '';
-            // return;
+            //  return;
           }
-          // setTimeout(() => {
-          //   this.showPasswordChangeForm = true; //show form again
-          //   this.new_password_confirm = this.new_password = this.old_password = '';
-          // }, 3000);
+          //  setTimeout(() => {
+          //    this.showPasswordChangeForm = true; // show form again
+          //    this.new_password_confirm = this.new_password = this.old_password = '';
+          //  }, 3000);
         });
     } else if (this.new_password !== this.new_password_confirm) {
       this.flashErrorMessage('passwords dont match');
@@ -110,7 +109,7 @@ export class ProfileComponent extends ModalImplementer implements OnInit {
       this.flashErrorMessage('form not valid');
     }
 
-    // }
+    //  }
   }
 
   flashErrorMessage(message) {

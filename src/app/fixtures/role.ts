@@ -1,38 +1,38 @@
 export const role = {
-  "meta": {
-    "limit": 20,
-    "next": null,
-    "offset": 0,
-    "previous": null,
-    "total_count": 8
+  'meta': {
+    'limit': 20,
+    'next': null,
+    'offset': 0,
+    'previous': null,
+    'total_count': 8
   },
-  "objects": [
+  'objects': [
     {
-      "base_role": 0,
-      "created_at": 1535705344000,
-      "created_by": "unknown",
-      "enterprise_id": 0,
-      "id": 2,
-      "is_system_role": true,
-      "name": "Admin",
-      "permissions": {
-        "actions": []
+      'base_role': 0,
+      'created_at': 1535705344000,
+      'created_by': 'unknown',
+      'enterprise_id': 0,
+      'id': 2,
+      'is_system_role': true,
+      'name': 'Admin',
+      'permissions': {
+        'actions': []
       },
-      "resource_uri": "/api/v1/role/2/",
-      "session_expiry_time": -1,
-      "updated_at": 1535705344000,
-      "updated_by": "unknown"
+      'resource_uri': '/api/v1/role/2/',
+      'session_expiry_time': -1,
+      'updated_at': 1535705344000,
+      'updated_by': 'unknown'
     },
     {
-      "base_role": 0,
-      "created_at": 1535705344000,
-      "created_by": "unknown",
-      "enterprise_id": 0,
-      "id": 4,
-      "is_system_role": true,
-      "name": "Analyst",
-      "permissions": {
-        "actions": [
+      'base_role': 0,
+      'created_at': 1535705344000,
+      'created_by': 'unknown',
+      'enterprise_id': 0,
+      'id': 4,
+      'is_system_role': true,
+      'name': 'Analyst',
+      'permissions': {
+        'actions': [
           1,
           19,
           20,
@@ -49,21 +49,21 @@ export const role = {
           71
         ]
       },
-      "resource_uri": "/api/v1/role/4/",
-      "session_expiry_time": 10,
-      "updated_at": 1535705344000,
-      "updated_by": "unknown"
+      'resource_uri': '/api/v1/role/4/',
+      'session_expiry_time': 10,
+      'updated_at': 1535705344000,
+      'updated_by': 'unknown'
     },
     {
-      "base_role": 0,
-      "created_at": 1535705344000,
-      "created_by": "unknown",
-      "enterprise_id": 0,
-      "id": 3,
-      "is_system_role": true,
-      "name": "Bot Developer",
-      "permissions": {
-        "actions": [
+      'base_role': 0,
+      'created_at': 1535705344000,
+      'created_by': 'unknown',
+      'enterprise_id': 0,
+      'id': 3,
+      'is_system_role': true,
+      'name': 'Bot Developer',
+      'permissions': {
+        'actions': [
           1,
           2,
           3,
@@ -101,21 +101,21 @@ export const role = {
           79
         ]
       },
-      "resource_uri": "/api/v1/role/3/",
-      "session_expiry_time": 1800,
-      "updated_at": 1535705344000,
-      "updated_by": "unknown"
+      'resource_uri': '/api/v1/role/3/',
+      'session_expiry_time': 1800,
+      'updated_at': 1535705344000,
+      'updated_by': 'unknown'
     },
     {
-      "base_role": 0,
-      "created_at": 1535705344000,
-      "created_by": "unknown",
-      "enterprise_id": 0,
-      "id": 5,
-      "is_system_role": true,
-      "name": "Tester",
-      "permissions": {
-        "actions": [
+      'base_role': 0,
+      'created_at': 1535705344000,
+      'created_by': 'unknown',
+      'enterprise_id': 0,
+      'id': 5,
+      'is_system_role': true,
+      'name': 'Tester',
+      'permissions': {
+        'actions': [
           1,
           19,
           20,
@@ -137,21 +137,21 @@ export const role = {
           79
         ]
       },
-      "resource_uri": "/api/v1/role/5/",
-      "session_expiry_time": 1800,
-      "updated_at": 1535705344000,
-      "updated_by": "unknown"
+      'resource_uri': '/api/v1/role/5/',
+      'session_expiry_time': 1800,
+      'updated_at': 1535705344000,
+      'updated_by': 'unknown'
     },
     {
-      "base_role": 3,
-      "created_at": 1553082244000,
-      "created_by": "Qwerty1 Parrot",
-      "enterprise_id": 4,
-      "id": 27,
-      "is_system_role": false,
-      "name": "Dev based",
-      "permissions": {
-        "actions": [
+      'base_role': 3,
+      'created_at': 1553082244000,
+      'created_by': 'Qwerty1 Parrot',
+      'enterprise_id': 4,
+      'id': 27,
+      'is_system_role': false,
+      'name': 'Dev based',
+      'permissions': {
+        'actions': [
           1,
           2,
           3,
@@ -191,21 +191,21 @@ export const role = {
           79
         ]
       },
-      "resource_uri": "/api/v1/role/27/",
-      "session_expiry_time": 1800,
-      "updated_at": 1553083007000,
-      "updated_by": "Qwerty1 Parrot"
+      'resource_uri': '/api/v1/role/27/',
+      'session_expiry_time': 1800,
+      'updated_at': 1553083007000,
+      'updated_by': 'Qwerty1 Parrot'
     },
     {
-      "base_role": 3,
-      "created_at": 1551695781000,
-      "created_by": "Qwerty1 Parrot",
-      "enterprise_id": 4,
-      "id": 20,
-      "is_system_role": false,
-      "name": "Test",
-      "permissions": {
-        "actions": [
+      'base_role': 3,
+      'created_at': 1551695781000,
+      'created_by': 'Qwerty1 Parrot',
+      'enterprise_id': 4,
+      'id': 20,
+      'is_system_role': false,
+      'name': 'Test',
+      'permissions': {
+        'actions': [
           1,
           2,
           3,
@@ -244,21 +244,21 @@ export const role = {
           79
         ]
       },
-      "resource_uri": "/api/v1/role/20/",
-      "session_expiry_time": 1800,
-      "updated_at": 1551695781000,
-      "updated_by": "Qwerty1 Parrot"
+      'resource_uri': '/api/v1/role/20/',
+      'session_expiry_time': 1800,
+      'updated_at': 1551695781000,
+      'updated_by': 'Qwerty1 Parrot'
     },
     {
-      "base_role": 5,
-      "created_at": 1553079075000,
-      "created_by": "Qwerty1 Parrot",
-      "enterprise_id": 4,
-      "id": 26,
-      "is_system_role": false,
-      "name": "Tester based",
-      "permissions": {
-        "actions": [
+      'base_role': 5,
+      'created_at': 1553079075000,
+      'created_by': 'Qwerty1 Parrot',
+      'enterprise_id': 4,
+      'id': 26,
+      'is_system_role': false,
+      'name': 'Tester based',
+      'permissions': {
+        'actions': [
           1,
           2,
           3,
@@ -275,21 +275,21 @@ export const role = {
           79
         ]
       },
-      "resource_uri": "/api/v1/role/26/",
-      "session_expiry_time": 1800,
-      "updated_at": 1553079075000,
-      "updated_by": "Qwerty1 Parrot"
+      'resource_uri': '/api/v1/role/26/',
+      'session_expiry_time': 1800,
+      'updated_at': 1553079075000,
+      'updated_by': 'Qwerty1 Parrot'
     },
     {
-      "base_role": 4,
-      "created_at": 1546458696000,
-      "created_by": "Qwerty1 Parrot",
-      "enterprise_id": 4,
-      "id": 10,
-      "is_system_role": true,
-      "name": "ayesh enterprise role",
-      "permissions": {
-        "actions": [
+      'base_role': 4,
+      'created_at': 1546458696000,
+      'created_by': 'Qwerty1 Parrot',
+      'enterprise_id': 4,
+      'id': 10,
+      'is_system_role': true,
+      'name': 'ayesh enterprise role',
+      'permissions': {
+        'actions': [
           1,
           3,
           19,
@@ -304,10 +304,10 @@ export const role = {
           66
         ]
       },
-      "resource_uri": "/api/v1/role/10/",
-      "session_expiry_time": 1800,
-      "updated_at": 1548396867000,
-      "updated_by": "Qwerty1 Parrot"
+      'resource_uri': '/api/v1/role/10/',
+      'session_expiry_time': 1800,
+      'updated_at': 1548396867000,
+      'updated_by': 'Qwerty1 Parrot'
     }
   ]
-}
+};

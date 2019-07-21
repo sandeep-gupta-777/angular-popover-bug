@@ -5,7 +5,7 @@ import {IChatSessionState, IRoomData} from '../../../../interfaces/chat-session-
 import {IBot} from '../../../core/interfaces/IBot';
 import {ViewBotStateModel} from '../../../core/view-bots/ngxs/view-bot.state';
 import {IConsumerDetails} from '../../ngxs/chat.state';
-import {UtilityService} from "../../../utility.service";
+import {UtilityService} from '../../../utility.service';
 
 @Component({
   selector: 'app-chat-list',

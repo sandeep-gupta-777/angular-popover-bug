@@ -7,16 +7,9 @@ import { ICorpus } from './core/interfaces/faqbots';
 @Injectable()
 export class EventService {
 
-  private removeCodeMirrorHistory$ = new EventEmitter();
+  constructor() {
+  }
   public static codeValidationErrorOnUpdate$ = new EventEmitter();
-
-  getRemoveCodeMirrorHistory$() {
-    return this.removeCodeMirrorHistory$;
-  }
-
-  emitRemoveCodeMirrorHistoryEvent(source: string) {
-    this.removeCodeMirrorHistory$.emit(source);
-  }
 
   static logout$ = new EventEmitter();
 
@@ -28,6 +21,19 @@ export class EventService {
   static startANewChat$ = new EventEmitter<{bot: IBot, consumerDetails: any}>();
   static reportFormIsValid = new EventEmitter<Boolean>();
   static faqHeaderSearchBarReloadData = new EventEmitter<ICorpus>();
+  static selectedApiChanged$ = new EventEmitter<IApi>();
+  static knowledgeBaseData$ = new EventEmitter();
+
+  static updateBotinit$ = new EventEmitter();
+  static createConceptFullScreen$ = new EventEmitter();
+  static botDataDirty$ = new EventEmitter<{[index: string]: boolean}>();
+
+  private removeCodeMirrorHistory$ = new EventEmitter();
+
+
+
+  rerenderHandsonTable$ = new EventEmitter();
+  reloadSessionTable$ = new EventEmitter();
   static unsubscribeInComponent(component) {
     for (const key in component) {
       try {
@@ -40,18 +46,12 @@ export class EventService {
       }
     }
   }
-  static selectedApiChanged$ = new EventEmitter<IApi>();
 
-
-
-  rerenderHandsonTable$ = new EventEmitter();
-  static knowledgeBaseData$ = new EventEmitter();
-  reloadSessionTable$ = new EventEmitter();
-
-  constructor() {
+  getRemoveCodeMirrorHistory$() {
+    return this.removeCodeMirrorHistory$;
   }
 
-  static updateBotinit$ = new EventEmitter();
-  static createConceptFullScreen$ = new EventEmitter();
-  static botDataDirty$ = new EventEmitter<{[index: string]: boolean}>();
+  emitRemoveCodeMirrorHistoryEvent(source: string) {
+    this.removeCodeMirrorHistory$.emit(source);
+  }
 }

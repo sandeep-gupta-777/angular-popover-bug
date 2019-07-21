@@ -7,8 +7,6 @@ import {Select, Store} from '@ngxs/store';
 import {IUser} from './core/interfaces/user';
 import {IHeaderData} from '../interfaces/header-data';
 import {IOverviewInfoResponse} from '../interfaces/Analytics2/overview-info';
-
-import {UtilityService} from './utility.service';
 import {
   SaveVersionInfoInBot,
   SetAllBotListAction,
@@ -18,35 +16,21 @@ import {IBot, IBotResult, IBotVersionResult} from './core/interfaces/IBot';
 import {Router} from '@angular/router';
 import {
   SetAutoLogoutTime,
-  SetBackendURlRoot,
   SetMasterIntegrationsList,
   SetMasterProfilePermissions,
-  SetPipelineItemsV2, SetRoleInfo
+  SetPipelineItemsV2,
+  SetRoleInfo
 } from './ngxs/app.action';
 import {IIntegrationMasterListItem} from '../interfaces/integration-option';
 import {ICustomNerItem} from '../interfaces/custom-ners';
-
-
-import {IConsumerDetails} from './chat/ngxs/chat.state';
-import {IMessageData, IRoomData, IChatSessionState} from '../interfaces/chat-session-state';
-import {
-  AddMessagesToRoomByRoomId,
-  ChangeBotIsThinkingDisplayByRoomId,
-  SetCurrentBotDetailsAndResetChatStateIfBotMismatch
-} from './chat/ngxs/chat.action';
-import {IGeneratedMessageItem} from '../interfaces/send-api-request-payload';
+import {SetCurrentBotDetailsAndResetChatStateIfBotMismatch} from './chat/ngxs/chat.action';
 import {IProfilePermission} from '../interfaces/profile-action-permission';
 import {EHttpVerbs, PermissionService} from './permission.service';
 import {EventService} from './event.service';
 import {IPipelineItemV2} from './core/buildbot/build-code-based-bot/architecture/pipeline/pipeline.component';
 import {IAppState} from './ngxs/app.state';
-import {take} from 'rxjs/internal/operators';
 import {IRoleInfo} from '../interfaces/role-info';
-import {ELogType, LoggingService} from './logging.service';
-import {
-  SetEnterpriseInfoAction,
-  SetEnterpriseUsersAction
-} from './core/enterpriseprofile/ngxs/enterpriseprofile.action';
+import {LoggingService} from './logging.service';
 import {MyToasterService} from './my-toaster.service';
 import {environment} from '../environments/environment';
 
@@ -121,7 +105,9 @@ export class ServerService {
     if (headerData) {
       for (const key in headerData) {
         /*don't set header data for undefined values*/
-        headerData[key] && (headers = headers.set(key, headerData[key]));
+        if (headerData[key]) {
+          (headers = headers.set(key, headerData[key]));
+        }
       }
     }
     return headers;
@@ -135,7 +121,9 @@ export class ServerService {
       return;
     }
 
-    if (message) { this.myToasterService.showErrorToaster(message); } else {
+    if (message) {
+      this.myToasterService.showErrorToaster(message);
+    } else {
       console.error('error toaster called without error');
     }
   }
@@ -166,7 +154,7 @@ export class ServerService {
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
-      }), );
+      }));
   }
 
   handleErrorFromServer(e) {
@@ -201,7 +189,7 @@ export class ServerService {
       }),
       catchError((e: any) => {
         return this.handleErrorFromServer(e);
-      }), );
+      }));
   }
 
   checkApiAccess(reqObj, verb: EHttpVerbs) {
@@ -240,12 +228,13 @@ export class ServerService {
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
-      }), );
+      }));
   }
 
   makePostReq<T>(reqObj: { url: string, body: any, headerData?: any, dontShowProgressBar?: boolean, noValidateUser?: boolean }): Observable<any> {
+    let headers: HttpHeaders;
     this.checkApiAccess(reqObj, EHttpVerbs.POST);
-    const headers = this.createHeaders(reqObj.headerData);
+    headers = this.createHeaders(reqObj.headerData);
     if (!reqObj.dontShowProgressBar) {
       this.changeProgressBar(true, 0);
     }
@@ -261,7 +250,7 @@ export class ServerService {
       }),
       catchError((e: any, caught: Observable<T>) => {
         return this.handleErrorFromServer(e);
-      }), );
+      }));
   }
 
   makePutReq<T>(reqObj: { url: string, body: any, headerData?: IHeaderData }): Observable<any> {
@@ -300,12 +289,12 @@ export class ServerService {
     return this.makeGetReq<{ objects: IBot[] }>({url: getBotByTokenUrl, headerData}).pipe(
       map((val) => {
 
-        const bot: IBot = val.objects.find((bot) => {
+        const updated_bot: IBot = val.objects.find((bot_item) => {
 
-          return bot.id === bot.id;
+          return bot_item.id === bot_item.id;
         });
         return this.store.dispatch([
-          new UpdateBotInfoByIdInBotInBotList({data: bot, botId: bot.id})
+          new UpdateBotInfoByIdInBotInBotList({data: updated_bot, botId: updated_bot.id})
         ]);
       }));
   }
@@ -322,7 +311,7 @@ export class ServerService {
       if (this.roleInfo.session_expiry_time === -1) {
         autoLogoutInterval = Infinity;
       } else {
-        autoLogoutInterval = (this.roleInfo && this.roleInfo.session_expiry_time * 1000) || 3600 * 1000; //3600*1000
+        autoLogoutInterval = (this.roleInfo && this.roleInfo.session_expiry_time * 1000) || 3600 * 1000; // 3600*1000
       }
     }
     if (!this.roleInfo) {
@@ -346,7 +335,7 @@ export class ServerService {
         //   bot.bot_type !== 'genbot' ? botList.push(bot) : pipelineBasedBotList.push(bot);
         // });
         if (botResult) {
-        this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
+          this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
         }
       }));
 
@@ -445,7 +434,6 @@ export class ServerService {
   }
 
   deleteNer(ner_id: number, bot?: IBot) {
-    let body: ICustomNerItem;
     let url, headerData: IHeaderData;
     if (bot) {
       url = this.constantsService.updateOrDeleteCustomBotNER(ner_id);
@@ -566,9 +554,9 @@ export class ServerService {
   //     onConnectionStatusChanged: function (statuscode) {
   //       LoggingService.log('msgCallBack,onConnectionStatusChanged', statuscode);
   //       let statusMessage = null;
-  //       if (statuscode == 2) {
+  //       if (statuscode === 2) {
   //         statusMessage = 'Connected';
-  //       } else if (statuscode == 6) {
+  //       } else if (statuscode === 6) {
   //         statusMessage = 'Error while connecting';
   //       } else {
   //         statusMessage = 'Not Connected';
@@ -678,12 +666,6 @@ export class ServerService {
   }
 
 
-
-
-
-
-
-
   getNSetMasterPermissionsList() {
 
     const allActionsUrl = this.constantsService.getAllActionsUrl();
@@ -711,7 +693,8 @@ export class ServerService {
         const lastDeployed_api = value.lastDeploy;
         console.log(`compareDeployDates::lastDeployed_api=${lastDeployed_api}, lastDeployed_api=${lastDeployed_api}`);
         const days = this.timeDifference(lastDeployed_api, lastDeployed_Cache);
-        if (lastDeployed_api > lastDeployed_Cache) { this.myToasterService.showErrorToaster(`your version is ${days} old.
+        if (lastDeployed_api > lastDeployed_Cache) {
+          this.myToasterService.showErrorToaster(`your version is ${days} old.
         Please hard reload (Ctrl + shit + r). `);
         }
       });

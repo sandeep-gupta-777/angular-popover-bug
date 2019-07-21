@@ -8,7 +8,7 @@ export class ObjectWithCategoryNamePipe implements PipeTransform {
   transform(arr: any[], key: string): any {
 
     return arr.filter((obj) => {
-      return obj["category"] == key;
+      return obj['category'] === key;
     });
   }
 

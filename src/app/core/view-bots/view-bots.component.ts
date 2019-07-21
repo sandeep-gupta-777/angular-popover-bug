@@ -1,18 +1,17 @@
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
 import {ServerService} from '../../server.service';
-import {ConstantsService, } from '../../constants.service';
+import {ConstantsService} from '../../constants.service';
 import {IBot} from '../interfaces/IBot';
 import {Select, Store} from '@ngxs/store';
 import {ActivatedRoute, Router} from '@angular/router';
-import {LoggingService} from '../../logging.service';
 import {ViewBotStateModel} from './ngxs/view-bot.state';
 import {RouteHelperService} from '../../route-helper.service';
 import {MatDialog} from '@angular/material';
 import {CreateBotDialogComponent} from './create-bot-dialog/create-bot-dialog.component';
 import {EBotType, UtilityService} from '../../utility.service';
 import {ModalImplementer} from '../../modal-implementer';
-import {EAllActions} from "../../typings/enum";
+import {EAllActions} from '../../typings/enum';
 
 @Component({
   selector: 'app-view-bots',
@@ -28,8 +27,9 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
   showPopover = false;
   myEAllActions = EAllActions;
   disableCreateNewBotTooltip = true;
-  reloaded : boolean = false;/*TODO: shoaib...dont hide bot while reloading...let loading happen in background like it used to be*/
-  botListSub:Subscription;
+  reloaded = false; /* TODO: shoaib...dont hide bot while reloading...let loading happen in background like it used to be*/
+  botListSub: Subscription;
+
   constructor(
     private serverService: ServerService,
     private constantsService: ConstantsService,
@@ -37,7 +37,7 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
     private activatedRoute: ActivatedRoute,
     public utilityService: UtilityService,
     public matDialog: MatDialog,
-    private changeDetectorRef:ChangeDetectorRef,
+    private changeDetectorRef: ChangeDetectorRef,
     private store: Store) {
     super(utilityService, matDialog);
   }
@@ -59,7 +59,9 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
     // })
     this.openPrimaryModal(CreateBotDialogComponent)
       .then((botType) => {
-        if (!botType) return;
+        if (!botType) {
+          return;
+        }
         this.router.navigate([`/core/buildbot`], {queryParams: {bot_type: botType}});
       });
   }
@@ -75,7 +77,9 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
       });
     this.botListSub = this.botlist$
       .subscribe((allBotListState) => {
-        if (!allBotListState.allBotList) return;
+        if (!allBotListState.allBotList) {
+          return;
+        }
         this.codeBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.chatbot);
         this.pipelineBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.intelligent);
         this.searchBasedBotList = allBotListState.allBotList.filter(bot => bot.bot_type === EBotType.faqbot);
@@ -104,16 +108,13 @@ export class ViewBotsComponent extends ModalImplementer implements OnInit, After
   ngAfterViewInit() {
   }
 
-  // doShowPopover(activeTab) {
-  //   return activeTab === EBotType.chatbot && this.botList && this.botList.length === 0
-  //     || (activeTab === EBotType.intelligent && this.pipelineBasedBotList && this.pipelineBasedBotList.length === 0);
-  // }
-
   test($event) {
     console.log($event);
   }
 
   ngOnDestroy(): void {
-    this.botListSub && this.botListSub.unsubscribe()
+    if (this.botListSub) {
+      this.botListSub.unsubscribe();
+    }
   }
 }

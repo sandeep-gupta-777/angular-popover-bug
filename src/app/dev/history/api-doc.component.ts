@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {IApi, IApiCollection} from "../interfaces";
+import {IApi, IApiCollection} from '../interfaces';
 
 @Component({
   selector: 'app-api-doc',
@@ -13,7 +13,7 @@ import {IApi, IApiCollection} from "../interfaces";
         <input matInput placeholder="Search" #search>
         <button mat-button matSuffix>
           <mat-icon>search</mat-icon>
-        </button> 
+        </button>
       </mat-form-field>
       <ng-container *ngIf="showDoc">
         <div *ngFor="let api of (apiList|apiFilter: search.value)">
@@ -42,7 +42,7 @@ export class ApiDocComponent implements OnInit {
   ngOnInit() {
 
   }
-  deleteHistoryHandler(){
+  deleteHistoryHandler() {
     this.deleteHistory$.emit();
   }
 }

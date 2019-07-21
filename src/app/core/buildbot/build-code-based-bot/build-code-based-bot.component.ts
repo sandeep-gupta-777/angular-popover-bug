@@ -48,7 +48,7 @@ export class BuildCodeBasedBotComponent implements OnInit {
   @Input() bot = {};
 
   ngOnInit() {
-    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('tab') || 'basic'; //todo: not a robust code
+    this.activeTab = this.activatedRoute.snapshot.queryParamMap.get('tab') || 'basic'; // todo: not a robust code
     this.botcreationstate$.subscribe((value) => {
       if (!value || !value.codeBased) { return; }
       this.bot = value.codeBased;

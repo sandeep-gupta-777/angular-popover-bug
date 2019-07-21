@@ -24,7 +24,7 @@ export class ObjectArrayCrudService {
   // removeItemById(array:IAIModule[], roomId:string):IAIModule[]{
   //   if(!array || !roomId ) return;
   //   for(let i=0;i<array.length;++i){
-  //     if(array[i].roomId == roomId ){
+  //     if(array[i].roomId === roomId ){
   //       array.splice(i,1);
   //     }
   //   }

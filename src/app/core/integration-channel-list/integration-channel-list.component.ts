@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {UtilityService} from "../../utility.service";
+import {UtilityService} from '../../utility.service';
 
 @Component({
   selector: 'app-integration-channel-list',
@@ -10,9 +10,9 @@ import {UtilityService} from "../../utility.service";
 export class IntegrationChannelListComponent implements OnInit {
 
   @Input() bot;
-  @Input() limit:number
-  enabledIntegrationCount
-  constructor(private router:Router) { }
+  @Input() limit: number;
+  enabledIntegrationCount;
+  constructor(private router: Router) { }
 
   ngOnInit() {
     this.enabledIntegrationCount = Object.keys(UtilityService.getEnabledIntegrations(this.bot)).length;
@@ -22,7 +22,7 @@ export class IntegrationChannelListComponent implements OnInit {
     this.router.navigateByUrl(`core/botdetail/chatbot/${this.bot.id}?build-tab=integration&code-tab=df_template#${channelName}`);
   }
 
-  log(x){
+  log(x) {
     console.log(x);
   }
 

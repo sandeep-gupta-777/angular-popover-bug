@@ -4,7 +4,7 @@ import {Store} from '@ngxs/store';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 import {PermissionService} from '../../../permission.service';
 import {EBotType} from '../../../utility.service';
-import {EAllActions} from "../../../typings/enum";
+import {EAllActions} from '../../../typings/enum';
 
 @Component({
   selector: 'app-bot-preview-card-list',
@@ -14,11 +14,11 @@ import {EAllActions} from "../../../typings/enum";
 export class BotPreviewCardListComponent implements OnInit {
 
   myEBotType = EBotType;
-  isCreateBotAccessDenied:boolean = true;
+  isCreateBotAccessDenied = true;
   @Input() botType;
   myESplashScreens = ESplashScreens;
-  @Input() botList:IBot[];
-  constructor(private store: Store, private isTabAccessDenied:PermissionService) {
+  @Input() botList: IBot[];
+  constructor(private store: Store, private isTabAccessDenied: PermissionService) {
   }
 
   ngOnInit() {

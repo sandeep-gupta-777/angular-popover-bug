@@ -12,7 +12,7 @@ export class BotThinkingBubbleComponent implements OnInit, OnDestroy {
 
   intervalRef;
   constructor() { }
-  @Input() bot:IBot;
+  @Input() bot: IBot;
   randomNumber = 1;
   ngOnInit() {
     this.intervalRef = setInterval(() => {

@@ -126,7 +126,7 @@ export interface IBot {
     preview_corpus?: any;
     threshold_diff_score?: number;
     threshold_min_score?: number;
-  },
+  };
 
   agent_handover_setting?: {
     consecutive_count?: {
@@ -208,17 +208,17 @@ export interface IBotVersionData {
     'generation_templates'?: boolean,
     'workflow'?: boolean
   };
-  'forked_from'?: number,
-  'validation'?: ICodeVersionValidation,
-  'is_ui_view'?: boolean,
+  'forked_from'?: number;
+  'validation'?: ICodeVersionValidation;
+  'is_ui_view'?: boolean;
 }
 
 export interface ICodeVersionValidation {
-  'df_rules'?: IValidationTabItem,
-  'df_template'?: IValidationTabItem,
-  'generation_rules'?: IValidationTabItem,
-  'generation_templates'?: IValidationTabItem,
-  'workflow'?: IValidationTabItem,
+  'df_rules'?: IValidationTabItem;
+  'df_template'?: IValidationTabItem;
+  'generation_rules'?: IValidationTabItem;
+  'generation_templates'?: IValidationTabItem;
+  'workflow'?: IValidationTabItem;
 }
 
 export interface IValidationTabItem {
@@ -327,7 +327,6 @@ export interface ICode {
   'workflow'?: string;
 }
 
-export interface IBotCreation extends Partial<IBot>/*,ICodeData */
-{
+export interface IBotCreation extends Partial<IBot> {
 
 }

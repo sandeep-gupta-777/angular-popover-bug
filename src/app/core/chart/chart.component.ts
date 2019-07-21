@@ -54,7 +54,7 @@ export class ChartComponent implements OnInit {
     * */
     //
 
-    var options = Highcharts.getOptions().exporting.buttons.contextButton.menuItems;
+    const options = Highcharts.getOptions().exporting.buttons.contextButton.menuItems;
     // options = options.filter((el)=>{
     //   return (
     //       el === "printChart" ||
@@ -109,9 +109,9 @@ export class ChartComponent implements OnInit {
             enabled: true,
             // menuItems: ["printChart", "separator", "downloadPNG", "downloadJPEG", "downloadPDF", "downloadSVG"]
 
-            buttons: {//http://jsfiddle.net/9qsdgjt8/1/ almost saved life
+            buttons: {// http://jsfiddle.net/9qsdgjt8/1/ almost saved life
               contextButton: {
-                menuItems: ["printChart", "separator", "downloadPNG", "downloadJPEG", "downloadPDF", "downloadSVG", "downloadCSV"]
+                menuItems: ['printChart', 'separator', 'downloadPNG', 'downloadJPEG', 'downloadPDF', 'downloadSVG', 'downloadCSV']
               }
             }
           }
@@ -121,4 +121,4 @@ export class ChartComponent implements OnInit {
   }
 
 }
-//
+

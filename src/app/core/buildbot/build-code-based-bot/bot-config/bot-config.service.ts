@@ -29,7 +29,7 @@ export class BotConfigService {
 
 
     this.app$.subscribe((value) => {
-      /*TODO: implement takeWhile*/
+      /* TODO: implement takeWhile*/
       this.masterIntegrationList = value.masterIntegrationList;
       if (!value.masterIntegrationList) {
         return;
@@ -51,17 +51,17 @@ export class BotConfigService {
 
   getFaqHandoverANdInterfaceForm(bot: any) {
 
-    let agent_handover_setting: any = bot.agent_handover_setting;
-    let fallback_count: any = agent_handover_setting && agent_handover_setting.fallback_count;
-    let partial_match_count: any = agent_handover_setting && agent_handover_setting.partial_match_count;
-    let consecutive_count: any = agent_handover_setting && agent_handover_setting.consecutive_count;
-    let metaDataInnit = {
+    const agent_handover_setting: any = bot.agent_handover_setting;
+    const fallback_count: any = agent_handover_setting && agent_handover_setting.fallback_count;
+    const partial_match_count: any = agent_handover_setting && agent_handover_setting.partial_match_count;
+    const consecutive_count: any = agent_handover_setting && agent_handover_setting.consecutive_count;
+    const metaDataInnit = {
       threshold_diff_score: null,
       threshold_min_score: null,
       n_results: null
-    } 
+    };
     this.faqHandoverANdInterfaceForm = this.formBuilder.group({
-      bot_metadata: this.formBuilder.group({ ...metaDataInnit,...bot.bot_metadata}),
+      bot_metadata: this.formBuilder.group({ ...metaDataInnit, ...bot.bot_metadata}),
       agent_handover_setting: this.formBuilder.group({
         consecutive_count: this.formBuilder.group({
           'enabled': [consecutive_count && consecutive_count.enabled],
@@ -98,7 +98,7 @@ export class BotConfigService {
 
   getDataManagementForm(bot: IBot) {
 
-    let bot_disabled_settings = bot.bot_disabled_settings;
+    const bot_disabled_settings = bot.bot_disabled_settings;
     return this.formBuilder.group({
       // consent_message: [bot.consent_message],
       // advanced_data_protection: [bot.advanced_data_protection],
@@ -119,9 +119,9 @@ export class BotConfigService {
       })
     }, {
       validator: function checkPasswords(group: FormGroup) { // here we have the 'passwords' group
-        let is_manager = group.controls.is_manager.value;
-        let child_bot_control_val = group.controls.child_bots.value;
-        let child_bots_count = Array.isArray(child_bot_control_val) && child_bot_control_val.length;
+        const is_manager = group.controls.is_manager.value;
+        const child_bot_control_val = group.controls.child_bots.value;
+        const child_bots_count = Array.isArray(child_bot_control_val) && child_bot_control_val.length;
 
         if (is_manager && (!child_bots_count || child_bots_count === 0)) {
           return { 'Child bots required': true };
@@ -136,7 +136,7 @@ export class BotConfigService {
     return this.formBuilder.group({
       data_persistence_period: [bot.data_persistence_period || 30, Validators.required],
       // heading: [bot.heading],
-      advanced_data_protection: [bot.advanced_data_protection || false],//new FormControl({value: bot.advanced_data_protection}, Validators.required),
+      advanced_data_protection: [bot.advanced_data_protection || false], // new FormControl({value: bot.advanced_data_protection}, Validators.required),
       // transactions_per_pricing_unit: [bot.transactions_per_pricing_unit],
       // error_message: [bot.error_message],
       consent_message: [bot.consent_message],
@@ -167,17 +167,17 @@ export class BotConfigService {
 
   getIntegrationForm(bot: IBot) {
     /*nested form example: https://stackblitz.com/github/Josh-Hicks/NBA-team-app*/
-    let formGroup = this.formBuilder.group({});
-    let integrations = bot.integrations;
+    const formGroup = this.formBuilder.group({});
+    const integrations = bot.integrations;
 
-    let x = this.integration_types.reduce((aggr, integration_type) => {
-      let types: string[] = this.getTypesForIntegrationType(integration_type);
-      let modalGroups = types.map((type: string) => {
-        let integrationItems: IIntegrationMasterListItem[] = this.getIntegrationItemForType(type);
+    const x = this.integration_types.reduce((aggr_temp, integration_type) => {
+      const types: string[] = this.getTypesForIntegrationType(integration_type);
+      const modalGroups = types.map((type: string) => {
+        const integrationItems: IIntegrationMasterListItem[] = this.getIntegrationItemForType(type);
         return integrationItems.reduce((aggr, integrationItem) => {
-          let inputs = Object.keys(integrationItem).reduce((aggr, key) => {
+          const inputs = Object.keys(integrationItem).reduce((aggr_temp1, key) => {
             return {
-              ...aggr,
+              ...aggr_temp1,
               [key]: [integrationItems[key]]
             };
           }, {});
@@ -189,12 +189,12 @@ export class BotConfigService {
       });
 
       return {
-        ...aggr,
+        ...aggr_temp,
         [integration_type]: this.formBuilder.array(modalGroups)
       };
     }, {});
 
-    let y = this.formBuilder.group(x);
+    const y = this.formBuilder.group(x);
     console.log(y);
     return y;
 

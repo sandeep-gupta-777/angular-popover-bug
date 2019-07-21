@@ -18,7 +18,7 @@ export class ChatItemComponent implements OnInit {
   @Input() currentUid: string;
   @Input() bot: IBot;
   @Input() currentRoomId: number;
-  showOverlay:boolean;
+  showOverlay: boolean;
   @Select() chatsessionstate$: Observable<IChatSessionState>;
   customConsumerDetails: IConsumerDetails;
   constructor(private store: Store) {
@@ -39,8 +39,8 @@ export class ChatItemComponent implements OnInit {
       new ChangeFrameAction({frameEnabled: EChatFrame.CHAT_BOX})]);
   }
 
-  toggleOverlay(showOverlay, event){
-    setTimeout(()=>{
+  toggleOverlay(showOverlay, event) {
+    setTimeout(() => {
       this.showOverlay = !this.showOverlay;
     });
 

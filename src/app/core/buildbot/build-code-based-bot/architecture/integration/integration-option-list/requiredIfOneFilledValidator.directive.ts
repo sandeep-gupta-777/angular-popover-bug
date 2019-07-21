@@ -10,7 +10,7 @@ import { Validator, FormGroup, NG_VALIDATORS, AbstractControl, ValidationErrors 
   }]
 })
 export class RequiredIfOneFilledValidator implements Validator {
-  constructor(){
+  constructor() {
   }
   validate(group: AbstractControl): ValidationErrors | null {
 

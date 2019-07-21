@@ -1,13 +1,12 @@
-import {AfterViewInit, Component, EventEmitter, Input, IterableDiffers, OnInit, Output, ViewChild} from '@angular/core';
-import {IAvatar, IAvatarList} from '../../../../../../interfaces/bot-creation';
-import {ObjectArrayCrudService} from '../../../../../object-array-crud.service';
+import {Component, EventEmitter, Input, IterableDiffers, OnInit, Output, ViewChild} from '@angular/core';
+import {IAvatar} from '../../../../../../interfaces/bot-creation';
 import {IBot} from '../../../../interfaces/IBot';
 import {Store} from '@ngxs/store';
 import {FormArray, FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
 import {EFormValidationErrors, UtilityService} from '../../../../../utility.service';
 import {debounceTime} from 'rxjs/operators';
-import {EAllActions} from "../../../../../typings/enum";
-import {FormsService} from "../../../../../forms.service";
+import {EAllActions} from '../../../../../typings/enum';
+import {FormsService} from '../../../../../forms.service';
 
 @Component({
   selector: 'app-avator-form',
@@ -69,21 +68,23 @@ export class AvatorFormComponent implements OnInit {
         return;
       }
       this.formData = this.formGroup.value;
-      const avatarValidationObj = {};
-      avatarValidationObj[EFormValidationErrors.form_validation_avator] = this.formGroup.valid && data.avatars && data.avatars.length > 0;
-      this.datachanged$.emit({...this.formGroup.value, ...avatarValidationObj});
+      const avatarValidationObj_temp = {};
+      avatarValidationObj_temp[EFormValidationErrors.form_validation_avator] = this.formGroup.valid && data.avatars && data.avatars.length > 0;
+      this.datachanged$.emit({...this.formGroup.value, ...avatarValidationObj_temp});
     });
   }
 
 
   initializeFormArray() {
 
-    this._bot.avatars && this._bot.avatars.forEach((avatar) => {
-      this.formArray.push(this.formBuilder.group({
-        'name': [avatar.name, Validators.required],
-        'imageUrl': [avatar.imageUrl, Validators.required],
-      }));
-    });
+    if (this._bot.avatars) {
+      this._bot.avatars.forEach((avatar) => {
+        this.formArray.push(this.formBuilder.group({
+          'name': [avatar.name, Validators.required],
+          'imageUrl': [avatar.imageUrl, Validators.required],
+        }));
+      });
+    }
   }
 
   createPrebuiltAvatarRow(empty?: boolean) {

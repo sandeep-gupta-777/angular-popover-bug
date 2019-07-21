@@ -21,7 +21,7 @@ export class UiSwitchWrapperComponent implements OnInit, ControlValueAccessor {
   }
 
   valueChanged(matSlideToggleChange: MatSlideToggleChange) {
-    let isOn = matSlideToggleChange.checked;
+    const isOn = matSlideToggleChange.checked;
     try {
       this.onChanges(isOn);
     } catch (e) {

@@ -49,25 +49,25 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
     this.fetchNers(10, this.currentPageNumber - 1)
       .subscribe();
     EventService.kbRefresh$
-      .subscribe(()=>{
+      .subscribe(() => {
 
         this.pageChangedTrigger(this.currentPageNumber);
-      })
+      });
   }
 
 
 
-  pageChanged(currentPageNumber):Observable<any> {
+  pageChanged(currentPageNumber): Observable<any> {
     this.router.navigate(['.'], {
       queryParams: {page: currentPageNumber},
       queryParamsHandling: 'merge',
       relativeTo: this.activatedRoute
     });
     this.currentPageNumber = currentPageNumber;
-    return this.fetchNers(10, currentPageNumber - 1)
+    return this.fetchNers(10, currentPageNumber - 1);
   }
 
-  pageChangedTrigger(page){
+  pageChangedTrigger(page) {
     this.pageChanged(page).subscribe();
   }
 
@@ -108,7 +108,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
 
   updateOrSaveCustomNer(selectedOrNewRowData: ICustomNerItem) {
 
-    let isNewConcept = !selectedOrNewRowData.id;
+    const isNewConcept = !selectedOrNewRowData.id;
     try {
       /*TODO: this is temporary fix to remove copy paste from excel issue*/
       selectedOrNewRowData.values.forEach((obj, index, array) => {
@@ -137,7 +137,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
         EventService.knowledgeBaseData$.emit(false);
         this.custumNerDataForSmartTable = [...this.custumNerDataForSmartTable];
         this.addQueryParamsInCurrentRoute({ner_id: value.id});
-        let message = isNewConcept?'Customner created':'Customner updated';
+        const message = isNewConcept ? 'Customner created' : 'Customner updated';
         this.utilityService.showSuccessToaster(message);
 
         if (this.knowledgeBaseComponent.KnowledgeBasePresentationComponent) {
@@ -181,7 +181,7 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
   deleteNer(ner_id: number) {
     this.serverService.deleteNer(ner_id, this.bot)
       .subscribe(() => {
-        this.totalRecords = this.totalRecords -1;
+        this.totalRecords = this.totalRecords - 1;
         this.utilityService.showSuccessToaster('Customner deleted');
         SideBarService.resetKB();
         this.router.navigate([`/core/botdetail/${EBotType.chatbot}/${this.bot.id}`], {
@@ -191,23 +191,23 @@ export class KnowledgeBaseWrapperComponent implements OnInit {
           }
         });
 
-        const indexToBeDeleted = this.custumNerDataForSmartTable.findIndex((nerObj) => nerObj.id == ner_id);
+        const indexToBeDeleted = this.custumNerDataForSmartTable.findIndex((nerObj) => nerObj.id === ner_id);
         if (indexToBeDeleted !== -1) {
           this.custumNerDataForSmartTable.splice(indexToBeDeleted, 1);
         }
 
         this.custumNerDataForSmartTable = [...this.custumNerDataForSmartTable];
-        let knowledgeBaseComponent = this.knowledgeBaseComponent;
-        if(this.currentPageNumber>1 && this.custumNerDataForSmartTable.length ===0){
+        const knowledgeBaseComponent = this.knowledgeBaseComponent;
+        if (this.currentPageNumber > 1 && this.custumNerDataForSmartTable.length === 0) {
           /*load previous page*/
-          this.pageChanged(this.currentPageNumber-1)
-            .subscribe(()=>{
+          this.pageChanged(this.currentPageNumber - 1)
+            .subscribe(() => {
               /*Caching knowledgeBaseComponent. For some reason this.knowledgeBaseComponent becomes undefined here*/
               knowledgeBaseComponent.showNerSmartTable();
-            })
-        }else {
+            });
+        } else {
           // this.pageChangedTrigger(this.currentPageNumber);
-          this.pageChanged(this.currentPageNumber).subscribe(()=>{
+          this.pageChanged(this.currentPageNumber).subscribe(() => {
             knowledgeBaseComponent.showNerSmartTable();
           });
         }

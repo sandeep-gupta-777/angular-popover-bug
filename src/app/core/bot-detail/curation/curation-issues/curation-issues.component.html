@@ -3,8 +3,8 @@
 
 
     <mat-card-actions style="margin: 0; padding: 0;">
-      <div 
-      [ngClass]="selected? 'curation-card-header-wrapper-selected': '' " 
+      <div
+      [ngClass]="selected? 'curation-card-header-wrapper-selected': '' "
       class="curation-card-header-wrapper">
         <span class="curation-card-header-item">
           <div class="header--img">
@@ -50,7 +50,7 @@
             <p style="font-size: 11px">Bot understood it as</p>
             <p style="font-size: 13px" innerHTML=&#34;{{curationItemData.first_question}}&#34;></p>
           </div>
-          <div class='column-2' *ngIf="curationItemData.section_id == 'partial_match'">
+          <div class='column-2' *ngIf="curationItemData.section_id === 'partial_match'">
             <!-- <p style="font-size: 11px" innerHTML={{curationItemData.generated_msg[0].text}}></p> -->
             <p style="font-size: 11px">Bot understood it partially as</p>
             <!-- {{curationItemData.generated_msg[0].text | removeTopAndBottomAndGetAsArray | json}} -->
@@ -64,7 +64,7 @@
 
     <mat-card-actions class="curation-footer">
 
-      <div *ngIf="isResolved == false" class = "w-100">
+      <div *ngIf="isResolved === false" class = "w-100">
         <div *ngIf = "articleSearchMode" class="d-flex w-100  not-resolved-footer">
           <app-faq-search-box class ="searchForArticle" [bot]="bot" [inCuration]="true"
                               (clickedOnArticle)="clickedOnArticle($event)"></app-faq-search-box>
@@ -94,17 +94,17 @@
           </button>
         </div>
       </div>
-      <div *ngIf="isResolved == true" class="d-flex w-100 resolved-footer">
+      <div *ngIf="isResolved === true" class="d-flex w-100 resolved-footer">
 
-        <div *ngIf="curationItemData.curation_state == 'ignored'" class="d-flex align-items-center mr-2">
+        <div *ngIf="curationItemData.curation_state === 'ignored'" class="d-flex align-items-center mr-2">
           <mat-icon>remove_circle_outline</mat-icon> &nbsp; Ignored query
         </div>
 
-        <div *ngIf="curationItemData.curation_state == 'resolved' && curationItemData.resolved_section.new_section" class="d-flex align-items-center mr-2">
+        <div *ngIf="curationItemData.curation_state === 'resolved' && curationItemData.resolved_section.new_section" class="d-flex align-items-center mr-2">
           <mat-icon>add</mat-icon> &nbsp; Added to a new article:
             “{{curationItemData.resolved_section.first_question}}”
         </div>
-        <div *ngIf="curationItemData.curation_state == 'resolved' && !curationItemData.resolved_section.new_section" class="d-flex align-items-center mr-2">
+        <div *ngIf="curationItemData.curation_state === 'resolved' && !curationItemData.resolved_section.new_section" class="d-flex align-items-center mr-2">
               <mat-icon style="transform:rotate(130deg)">link</mat-icon> &nbsp; Linked to article:
               “{{curationItemData.resolved_section.first_question}}”
           </div>

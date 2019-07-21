@@ -10,13 +10,13 @@ export interface IEnterpriseProfileInfo {
   'updated_by': number; //
 
 
-  //new fields
+  // new fields
   'created_by': number; //
   'tier_group': number; //
   'log_retention_period': string; //
   'secret_key': string; //
 
-  //not in new
+  // not in new
   'phone': string;
   'enterpriseusers': IEnterpriseUser[];
   'tier': string;

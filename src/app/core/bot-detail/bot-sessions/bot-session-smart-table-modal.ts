@@ -1,7 +1,7 @@
-import {ISessionItem} from "../../../../interfaces/sessions";
-import {IBot} from "../../interfaces/IBot";
-import {ConstantsService} from "../../../constants.service";
-import {AbstractSmartTable} from "../../../smart-table/smart-table";
+import {ISessionItem} from '../../../../interfaces/sessions';
+import {IBot} from '../../interfaces/IBot';
+import {ConstantsService} from '../../../constants.service';
+import {AbstractSmartTable} from '../../../smart-table/smart-table';
 
 export class BotSessionSmartTableModal extends AbstractSmartTable {
 
@@ -29,7 +29,7 @@ export class BotSessionSmartTableModal extends AbstractSmartTable {
 
   set tableData(val) {
     alert('BotSessionSmartTableModal: use refreshData instead');
-    throw 'BotSessionSmartTableModal: use refreshData instead';
+    throw new Error('BotSessionSmartTableModal: use refreshData instead');
   }
 
   initializeTableData(data: any, tableDataMetaDict: any): void {
@@ -48,7 +48,7 @@ export class BotSessionSmartTableModal extends AbstractSmartTable {
     sessionsDataForTable = sessionsDataForTable.map((sessionsDataForTableItem) => {
 
       /*adding two additional columns 1) actions and 2)channels*/
-      let additonalColumns: any = {
+      const additonalColumns: any = {
         'Metadata': sessionsDataForTableItem['Metadata'],
         Channels: sessionsDataForTableItem['Channels'],
       };
@@ -58,7 +58,7 @@ export class BotSessionSmartTableModal extends AbstractSmartTable {
       /*actions*/
       // additonalColumns['Metadata'].value.push({show: true, name: 'download', class: 'fa fa-download'});
 
-      let originalSessionData = sessionsDataForTableItem['originalSessionData'];
+      const originalSessionData = sessionsDataForTableItem['originalSessionData'];
       /*TODO: also check if the user has access to decrypt api*/
       if (originalSessionData['sendtoagent']) {
         additonalColumns['Metadata'].value.push({
@@ -73,7 +73,7 @@ export class BotSessionSmartTableModal extends AbstractSmartTable {
           show: true,
           name: 'Error',
           iconName: 'error_outline',
-          class: "error_outline"
+          class: 'error_outline'
         });
       }
       if (this.bot.advanced_data_protection && !originalSessionData['data_encrypted']) {
@@ -84,9 +84,9 @@ export class BotSessionSmartTableModal extends AbstractSmartTable {
           class: 'lock_open'
         });
       }
-      let negativeFeedbackCount: number = originalSessionData['feedback_count'] && originalSessionData['feedback_count']['downvote'];
+      const negativeFeedbackCount: number = originalSessionData['feedback_count'] && originalSessionData['feedback_count']['downvote'];
       if (negativeFeedbackCount && negativeFeedbackCount > 0) {
-        let name = `${negativeFeedbackCount} downvote${negativeFeedbackCount > 1 ? 's' : ''}`;
+        const name = `${negativeFeedbackCount} downvote${negativeFeedbackCount > 1 ? 's' : ''}`;
         additonalColumns['Metadata'].value.push({
           show: true,
           name: name,
@@ -95,7 +95,7 @@ export class BotSessionSmartTableModal extends AbstractSmartTable {
         });
       }
 
-      let is_test: number = originalSessionData['is_test'] && originalSessionData['is_test'];
+      const is_test: number = originalSessionData['is_test'] && originalSessionData['is_test'];
       if (is_test) {
         additonalColumns['Metadata'].value.push({
           show: true,
@@ -112,7 +112,7 @@ export class BotSessionSmartTableModal extends AbstractSmartTable {
       additonalColumns['Channels'].value = (sessionsDataForTableItem.Channels['value'].map((channelName) => {
         return {
           name: channelName,
-          src: this.dependency.constantsService.getIntegrationIconForChannelName(channelName).icon//'https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/web.png'
+          src: this.dependency.constantsService.getIntegrationIconForChannelName(channelName).icon// 'https://s3-eu-west-1.amazonaws.com/imibot-dev/integrations/web.png'
         };
       }));
       return {...sessionsDataForTableItem, ...additonalColumns};

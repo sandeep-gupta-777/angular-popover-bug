@@ -1,19 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IBot } from '../../../interfaces/IBot';
-import { ActivatedRoute } from '@angular/router';
-import { LoggingService } from '../../../../logging.service';
-import { EBotType, UtilityService } from '../../../../utility.service';
-import { EventService } from '../../../../event.service';
-import { BotConfigService } from './bot-config.service';
-import { FormControl, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
-import { ServerService } from '../../../../server.service';
-import { ErrorStateMatcher, MatDialog } from '@angular/material';
-import { Observable, Subscription } from 'rxjs';
-import { EAllActions, ERoleName } from '../../../../typings/enum';
-import { ELoadingStatus } from '../../../../button-wrapper/button-wrapper.component';
-import { IUser } from '../../../interfaces/user';
-import { Select } from '@ngxs/store';
-import { ModalConfirmComponent } from '../../../../modal-confirm/modal-confirm.component';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {IBot} from '../../../interfaces/IBot';
+import {ActivatedRoute} from '@angular/router';
+import {LoggingService} from '../../../../logging.service';
+import {EBotType, UtilityService} from '../../../../utility.service';
+import {EventService} from '../../../../event.service';
+import {BotConfigService} from './bot-config.service';
+import {FormControl, FormGroup, FormGroupDirective, NgForm} from '@angular/forms';
+import {ServerService} from '../../../../server.service';
+import {ErrorStateMatcher, MatDialog} from '@angular/material';
+import {Observable, Subscription} from 'rxjs';
+import {EAllActions, ERoleName} from '../../../../typings/enum';
+import {ELoadingStatus} from '../../../../button-wrapper/button-wrapper.component';
+import {IUser} from '../../../interfaces/user';
+import {Select} from '@ngxs/store';
+import {ModalConfirmComponent} from '../../../../modal-confirm/modal-confirm.component';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -29,10 +29,10 @@ export class MyErrorStateMatcher1 implements ErrorStateMatcher {
   templateUrl: './bot-config.component.html',
   styleUrls: ['./bot-config.component.scss'],
   providers: [
-    { provide: ErrorStateMatcher, useClass: MyErrorStateMatcher1 }
+    {provide: ErrorStateMatcher, useClass: MyErrorStateMatcher1}
   ]
 })
-export class BotConfigComponent implements OnInit {
+export class BotConfigComponent implements OnInit, OnDestroy {
   tag = 'BotConfigComponent';
   @Input() bot: IBot;
   selectedTabIndex = 0;
@@ -41,6 +41,7 @@ export class BotConfigComponent implements OnInit {
   @Output() datachanged$ = new EventEmitter();
   @Output() botData$ = new EventEmitter();
   basicInfoForm: FormGroup;
+  dialogRefWrapper = {ref: null};
   dataManagementForm: FormGroup;
   securityForm: FormGroup;
   faqHandoverANdInterfaceForm: FormGroup;
@@ -49,12 +50,14 @@ export class BotConfigComponent implements OnInit {
   intigrationFormSubcription: Subscription;
   bot_type;
   id;
-  disableAgentToggleBAD = false;//todo: shoiab, remove it in prod
+  disableAgentToggleBAD = false; // todo: shoiab, remove it in prod
   formDirty = false;
   role: ERoleName;
   shouldDisableForm = false;
   @Output() initDone$ = new EventEmitter<BotConfigComponent>();
   @Select() loggeduser$: Observable<{ user: IUser }>;
+  updateBotLoading = ELoadingStatus.default;
+  updateBotTooltipText = '';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -127,42 +130,41 @@ export class BotConfigComponent implements OnInit {
   tabClicked(activeTab: string) {
     this.activeTab = activeTab;
     LoggingService.log(this.activeTab);
-    if (this.intigrationFormSubcription) this.intigrationFormSubcription.unsubscribe();
+    if (this.intigrationFormSubcription) {
+      this.intigrationFormSubcription.unsubscribe();
+    }
   }
 
 
   createBotData() {
     let combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.faqHandoverANdInterfaceForm];
     combinedForms = combinedForms.filter(form => form);
-    let bot = UtilityService.getCombinedBotData(combinedForms);
+    const bot = UtilityService.getCombinedBotData(combinedForms);
     if (this.integrationForm && this.integrationForm.value) {
       bot.integrations = this.integrationForm.value;
     }
     return bot;
   }
 
-  updateBotLoading = ELoadingStatus.default;
-  updateBotTooltipText = '';
-
   /*
   * updateBotHandler: combine the data from various forms and update the bot
   * */
   async updateBotHandler() {
 
-    if(!!(this.bot.bot_disabled_settings && this.bot.bot_disabled_settings.bot_disabled) !== !!this.dataManagementForm.get('bot_disabled_settings').get('bot_disabled').value){
-      let shouldContinue = await this.openNewServiceKeyModal();
-      if(!shouldContinue){
+    if (!!(this.bot.bot_disabled_settings && this.bot.bot_disabled_settings.bot_disabled) !== !!this.dataManagementForm.get('bot_disabled_settings').get('bot_disabled').value) {
+      const shouldContinue = await this.openNewServiceKeyModal();
+      if (!shouldContinue) {
         return;
       }
     }
-    let invalidFormIndex = this.getInvalidForm();
+    const invalidFormIndex = this.getInvalidForm();
     if (invalidFormIndex >= 0) {
       this.selectedTabIndex = invalidFormIndex;
       this.showFormInvalidError(invalidFormIndex);
       this.updateBotTooltipText = '';
       return;
     }
-    let bot = this.createBotData();
+    const bot = this.createBotData();
     bot.id = this.bot.id;
     bot.bot_access_token = this.bot.bot_access_token;
     this.updateBotLoading = ELoadingStatus.loading;
@@ -176,7 +178,7 @@ export class BotConfigComponent implements OnInit {
 
   getInvalidForm() {
     let combinedForms;
-    if (this.bot.bot_type == EBotType.faqbot) {
+    if (this.bot.bot_type === EBotType.faqbot) {
       combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.faqHandoverANdInterfaceForm, this.integrationForm];
     } else {
       combinedForms = [this.basicInfoForm, this.dataManagementForm, this.securityForm, this.integrationForm];
@@ -199,33 +201,32 @@ export class BotConfigComponent implements OnInit {
     } else if (index === 4) {
       this.utilityService.showErrorToaster('Integration form is not valid');
       return;
-    } else if (index === 3 && this.bot.bot_type == EBotType.chatbot) {
+    } else if (index === 3 && this.bot.bot_type === EBotType.chatbot) {
       this.utilityService.showErrorToaster('Integration form is not valid');
       return;
-    } else if (index === 3 && this.bot.bot_type == EBotType.faqbot) {
+    } else if (index === 3 && this.bot.bot_type === EBotType.faqbot) {
       this.utilityService.showErrorToaster('Handover and inference form is not valid');
       return;
     }
   }
 
-  dialogRefWrapper = { ref: null };
 
   openNewServiceKeyModal() {
-    let isBotDisabled = this.bot.bot_disabled_settings && this.bot.bot_disabled_settings.bot_disabled;
-    let title = `${!isBotDisabled? 'Disable': 'Enable'} ${this.bot.name} `;
-    let message = `This bot will be ${!isBotDisabled?'disabled':'enabled'} in all live instances and will send the ${!isBotDisabled?'disabled':'enabled'} message instead. <br> You can ${!isBotDisabled?'enable':'disable'} it again ${isBotDisabled?'':'for it to work'}</br>`;
+    const isBotDisabled = this.bot.bot_disabled_settings && this.bot.bot_disabled_settings.bot_disabled;
+    const title = `${!isBotDisabled ? 'Disable' : 'Enable'} ${this.bot.name} `;
+    const message = `This bot will be ${!isBotDisabled ? 'disabled' : 'enabled'} in all live instances and will send the ${!isBotDisabled ? 'disabled' : 'enabled'} message instead. <br> You can ${!isBotDisabled ? 'enable' : 'disable'} it again ${isBotDisabled ? '' : 'for it to work'}</br>`;
     return this.utilityService.openDialog({
       dialogRefWrapper: this.dialogRefWrapper,
       classStr: 'primary-modal-header-border',
       data: {
-        actionButtonText: isBotDisabled?'Enable':'Disable',
+        actionButtonText: isBotDisabled ? 'Enable' : 'Disable',
         message: message,
         title,
         isActionButtonDanger: !isBotDisabled
       },
       dialog: this.matDialog,
       component: ModalConfirmComponent
-    })
+    });
     // this.utilityService.openPrimaryModal(template, this.matDialog, this.dialogRefWrapper);
   }
 

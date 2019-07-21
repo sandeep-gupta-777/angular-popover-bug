@@ -12,7 +12,7 @@ export class ReportSmartTableModal extends AbstractSmartTable {
 
   constructor(rawData, metaData, dependency?: { constantsService: ConstantsService, bot: IBot }) {
     super(rawData, metaData, dependency);
-    if(dependency){
+    if (dependency) {
       this.bot = dependency.bot;
       this.constantsService = dependency.constantsService;
     }
@@ -24,7 +24,7 @@ export class ReportSmartTableModal extends AbstractSmartTable {
 
   set tableData(val) {
     alert('ConsumerSmartTableModal: use refreshData instead');
-    throw 'ConsumerSmartTableModal: use refreshData instead';
+    throw new Error('ConsumerSmartTableModal: use refreshData instead');
   }
 
   initializeTableData(data: any, tableDataMetaDict: any): void {

@@ -1,282 +1,282 @@
 export const integrations = {
-  "meta": {
-    "limit": 20,
-    "next": null,
-    "offset": 0,
-    "previous": null,
-    "total_count": 12
+  'meta': {
+    'limit': 20,
+    'next': null,
+    'offset': 0,
+    'previous': null,
+    'total_count': 12
   },
-  "objects": [
+  'objects': [
     {
-      "created_at": 1535705344000,
-      "icon": "https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/connect.svg",
-      "id": 1,
-      "inputs": [
+      'created_at': 1535705344000,
+      'icon': 'https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/connect.svg',
+      'id': 1,
+      'inputs': [
         {
-          "display_text": "App Id",
-          "param_name": "appId"
+          'display_text': 'App Id',
+          'param_name': 'appId'
         },
         {
-          "display_text": "App Secret",
-          "param_name": "appSecret"
+          'display_text': 'App Secret',
+          'param_name': 'appSecret'
         },
         {
-          "display_text": "Stream Name",
-          "param_name": "streamName"
+          'display_text': 'Stream Name',
+          'param_name': 'streamName'
         },
         {
-          "display_text": "Service Key",
-          "param_name": "serviceKey"
+          'display_text': 'Service Key',
+          'param_name': 'serviceKey'
         },
         {
-          "display_text": "Send request via Connect",
-          "param_name": "send_via_connect"
+          'display_text': 'Send request via Connect',
+          'param_name': 'send_via_connect'
         }
       ],
-      "integration_type": "fulfillment_provider_details",
-      "key": "imiconnect",
-      "resource_uri": "/api/v1/integrations/1/",
-      "type": "Fulfillment Platforms",
-      "unique_name": "IMIconnect",
-      "updated_at": 1535705344000
+      'integration_type': 'fulfillment_provider_details',
+      'key': 'imiconnect',
+      'resource_uri': '/api/v1/integrations/1/',
+      'type': 'Fulfillment Platforms',
+      'unique_name': 'IMIconnect',
+      'updated_at': 1535705344000
     },
     {
-      "created_at": 1535705344000,
-      "icon": "https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/facebook.svg",
-      "id": 2,
-      "inputs": [
+      'created_at': 1535705344000,
+      'icon': 'https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/facebook.svg',
+      'id': 2,
+      'inputs': [
         {
-          "display_text": "PageId",
-          "param_name": "id"
+          'display_text': 'PageId',
+          'param_name': 'id'
         },
         {
-          "display_text": "Facebook Token",
-          "param_name": "facebook-token"
+          'display_text': 'Facebook Token',
+          'param_name': 'facebook-token'
         }
       ],
-      "integration_type": "channels",
-      "key": "facebook",
-      "resource_uri": "/api/v1/integrations/2/",
-      "type": "Text Channels",
-      "unique_name": "Facebook",
-      "updated_at": 1535705344000
+      'integration_type': 'channels',
+      'key': 'facebook',
+      'resource_uri': '/api/v1/integrations/2/',
+      'type': 'Text Channels',
+      'unique_name': 'Facebook',
+      'updated_at': 1535705344000
     },
     {
-      "created_at": 1535705344000,
-      "icon": "https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/skype.svg",
-      "id": 3,
-      "inputs": [
+      'created_at': 1535705344000,
+      'icon': 'https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/skype.svg',
+      'id': 3,
+      'inputs': [
         {
-          "display_text": "Client Id",
-          "param_name": "client_id"
+          'display_text': 'Client Id',
+          'param_name': 'client_id'
         },
         {
-          "display_text": "Client Secret Key",
-          "param_name": "client_secret"
+          'display_text': 'Client Secret Key',
+          'param_name': 'client_secret'
         },
         {
-          "display_text": "Skype Page Name",
-          "param_name": "skype-page-name"
+          'display_text': 'Skype Page Name',
+          'param_name': 'skype-page-name'
         }
       ],
-      "integration_type": "channels",
-      "key": "skype",
-      "resource_uri": "/api/v1/integrations/3/",
-      "type": "Text Channels",
-      "unique_name": "Skype",
-      "updated_at": 1535705344000
+      'integration_type': 'channels',
+      'key': 'skype',
+      'resource_uri': '/api/v1/integrations/3/',
+      'type': 'Text Channels',
+      'unique_name': 'Skype',
+      'updated_at': 1535705344000
     },
     {
-      "created_at": 1535705344000,
-      "icon": "https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/line.svg",
-      "id": 4,
-      "inputs": [
+      'created_at': 1535705344000,
+      'icon': 'https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/line.svg',
+      'id': 4,
+      'inputs': [
         {
-          "display_text": "Channel access token",
-          "param_name": "channel_access_token"
+          'display_text': 'Channel access token',
+          'param_name': 'channel_access_token'
         },
         {
-          "display_text": "Channel Secret",
-          "param_name": "channel_secret"
+          'display_text': 'Channel Secret',
+          'param_name': 'channel_secret'
         },
         {
-          "display_text": "Channel Id",
-          "param_name": "channel_id"
+          'display_text': 'Channel Id',
+          'param_name': 'channel_id'
         }
       ],
-      "integration_type": "channels",
-      "key": "line",
-      "resource_uri": "/api/v1/integrations/4/",
-      "type": "Text Channels",
-      "unique_name": "Line",
-      "updated_at": 1535705344000
+      'integration_type': 'channels',
+      'key': 'line',
+      'resource_uri': '/api/v1/integrations/4/',
+      'type': 'Text Channels',
+      'unique_name': 'Line',
+      'updated_at': 1535705344000
     },
     {
-      "created_at": 1535705344000,
-      "icon": "https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/viber.svg",
-      "id": 5,
-      "inputs": [
+      'created_at': 1535705344000,
+      'icon': 'https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/viber.svg',
+      'id': 5,
+      'inputs': [
         {
-          "display_text": "bot-name",
-          "param_name": "bot_name"
+          'display_text': 'bot-name',
+          'param_name': 'bot_name'
         },
         {
-          "display_text": "Bot-auth-token",
-          "param_name": "bot_auth_token"
+          'display_text': 'Bot-auth-token',
+          'param_name': 'bot_auth_token'
         },
         {
-          "display_text": "Bot Avatar",
-          "param_name": "bot_avatar"
+          'display_text': 'Bot Avatar',
+          'param_name': 'bot_avatar'
         }
       ],
-      "integration_type": "channels",
-      "key": "viber",
-      "resource_uri": "/api/v1/integrations/5/",
-      "type": "Text Channels",
-      "unique_name": "Viber",
-      "updated_at": 1535705344000
+      'integration_type': 'channels',
+      'key': 'viber',
+      'resource_uri': '/api/v1/integrations/5/',
+      'type': 'Text Channels',
+      'unique_name': 'Viber',
+      'updated_at': 1535705344000
     },
     {
-      "created_at": 1535705344000,
-      "icon": "https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/chat.svg",
-      "id": 6,
-      "inputs": [
+      'created_at': 1535705344000,
+      'icon': 'https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/chat.svg',
+      'id': 6,
+      'inputs': [
         {
-          "display_text": "Service Key",
-          "param_name": "service-key"
+          'display_text': 'Service Key',
+          'param_name': 'service-key'
         },
         {
-          "display_text": "Access Token",
-          "param_name": "access-token"
+          'display_text': 'Access Token',
+          'param_name': 'access-token'
         },
         {
-          "display_text": "Domain",
-          "param_name": "domain"
+          'display_text': 'Domain',
+          'param_name': 'domain'
         }
       ],
-      "integration_type": "ccsp_details",
-      "key": "imichat",
-      "resource_uri": "/api/v1/integrations/6/",
-      "type": "Chat Agent Platforms",
-      "unique_name": "IMIchat",
-      "updated_at": 1535705344000
+      'integration_type': 'ccsp_details',
+      'key': 'imichat',
+      'resource_uri': '/api/v1/integrations/6/',
+      'type': 'Chat Agent Platforms',
+      'unique_name': 'IMIchat',
+      'updated_at': 1535705344000
     },
     {
-      "created_at": 1535705344000,
-      "icon": "https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/debug.svg",
-      "id": 7,
-      "inputs": [
+      'created_at': 1535705344000,
+      'icon': 'https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/debug.svg',
+      'id': 7,
+      'inputs': [
         {
-          "display_text": "Debug Url",
-          "param_name": "debugurl"
+          'display_text': 'Debug Url',
+          'param_name': 'debugurl'
         }
       ],
-      "integration_type": "ccsp_details",
-      "key": "debug",
-      "resource_uri": "/api/v1/integrations/7/",
-      "type": "monitoring",
-      "unique_name": "Local Debug",
-      "updated_at": 1535705344000
+      'integration_type': 'ccsp_details',
+      'key': 'debug',
+      'resource_uri': '/api/v1/integrations/7/',
+      'type': 'monitoring',
+      'unique_name': 'Local Debug',
+      'updated_at': 1535705344000
     },
     {
-      "created_at": 1535705344000,
-      "icon": "https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/alexa.svg",
-      "id": 8,
-      "inputs": [
+      'created_at': 1535705344000,
+      'icon': 'https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/alexa.svg',
+      'id': 8,
+      'inputs': [
         {
-          "display_text": "Skill Id",
-          "param_name": "skillId"
+          'display_text': 'Skill Id',
+          'param_name': 'skillId'
         },
         {
-          "display_text": "async",
-          "param_name": "asyncFlag"
+          'display_text': 'async',
+          'param_name': 'asyncFlag'
         }
       ],
-      "integration_type": "channels",
-      "key": "alexa",
-      "resource_uri": "/api/v1/integrations/8/",
-      "type": "Voice Channels",
-      "unique_name": "Alexa",
-      "updated_at": 1535705344000
+      'integration_type': 'channels',
+      'key': 'alexa',
+      'resource_uri': '/api/v1/integrations/8/',
+      'type': 'Voice Channels',
+      'unique_name': 'Alexa',
+      'updated_at': 1535705344000
     },
     {
-      "created_at": 1535705344000,
-      "icon": "https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/WebSpeech.svg",
-      "id": 9,
-      "inputs": [
+      'created_at': 1535705344000,
+      'icon': 'https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/WebSpeech.svg',
+      'id': 9,
+      'inputs': [
         {
-          "display_text": "Speech Model",
-          "param_name": "speech_model"
+          'display_text': 'Speech Model',
+          'param_name': 'speech_model'
         },
         {
-          "display_text": "Enable TTS",
-          "param_name": "speech_tts"
+          'display_text': 'Enable TTS',
+          'param_name': 'speech_tts'
         },
         {
-          "display_text": "Speech Integration URL",
-          "param_name": "speech_url"
+          'display_text': 'Speech Integration URL',
+          'param_name': 'speech_url'
         }
       ],
-      "integration_type": "channels",
-      "key": "web",
-      "resource_uri": "/api/v1/integrations/9/",
-      "type": "Voice Channels",
-      "unique_name": "Web Speech",
-      "updated_at": 1535705344000
+      'integration_type': 'channels',
+      'key': 'web',
+      'resource_uri': '/api/v1/integrations/9/',
+      'type': 'Voice Channels',
+      'unique_name': 'Web Speech',
+      'updated_at': 1535705344000
     },
     {
-      "created_at": 1536651185000,
-      "icon": "https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/GoogleHome.svg",
-      "id": 10,
-      "inputs": [
+      'created_at': 1536651185000,
+      'icon': 'https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/GoogleHome.svg',
+      'id': 10,
+      'inputs': [
         {
-          "display_text": "Project",
-          "param_name": "project"
+          'display_text': 'Project',
+          'param_name': 'project'
         },
         {
-          "display_text": "async",
-          "param_name": "asyncFlag"
+          'display_text': 'async',
+          'param_name': 'asyncFlag'
         }
       ],
-      "integration_type": "channels",
-      "key": "googlehome",
-      "resource_uri": "/api/v1/integrations/10/",
-      "type": "Voice Channels",
-      "unique_name": "Google Home",
-      "updated_at": 1536651185000
+      'integration_type': 'channels',
+      'key': 'googlehome',
+      'resource_uri': '/api/v1/integrations/10/',
+      'type': 'Voice Channels',
+      'unique_name': 'Google Home',
+      'updated_at': 1536651185000
     },
     {
-      "created_at": 1536651185000,
-      "icon": "https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/Slack.svg",
-      "id": 11,
-      "inputs": [
+      'created_at': 1536651185000,
+      'icon': 'https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/Slack.svg',
+      'id': 11,
+      'inputs': [
         {
-          "display_text": "Slack Token",
-          "param_name": "slack-token"
+          'display_text': 'Slack Token',
+          'param_name': 'slack-token'
         },
         {
-          "display_text": "App Verification Token",
-          "param_name": "verification-token"
+          'display_text': 'App Verification Token',
+          'param_name': 'verification-token'
         }
       ],
-      "integration_type": "channels",
-      "key": "slack",
-      "resource_uri": "/api/v1/integrations/11/",
-      "type": "Text Channels",
-      "unique_name": "Slack",
-      "updated_at": 1536651185000
+      'integration_type': 'channels',
+      'key': 'slack',
+      'resource_uri': '/api/v1/integrations/11/',
+      'type': 'Text Channels',
+      'unique_name': 'Slack',
+      'updated_at': 1536651185000
     },
     {
-      "created_at": 1554017585000,
-      "icon": "https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/WebSpeech.svg",
-      "id": 12,
-      "inputs": [],
-      "integration_type": "channels",
-      "key": "generic",
-      "resource_uri": "/api/v1/integrations/12/",
-      "type": "Text Channels",
-      "unique_name": "Generic",
-      "updated_at": 1554017585000
+      'created_at': 1554017585000,
+      'icon': 'https://s3-eu-west-1.amazonaws.com/imibot-production/integrations/v2/WebSpeech.svg',
+      'id': 12,
+      'inputs': [],
+      'integration_type': 'channels',
+      'key': 'generic',
+      'resource_uri': '/api/v1/integrations/12/',
+      'type': 'Text Channels',
+      'unique_name': 'Generic',
+      'updated_at': 1554017585000
     }
   ]
-}
+};

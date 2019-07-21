@@ -65,7 +65,7 @@ export class Analysis2PerformanceComponent implements OnInit {
       .subscribe((value: IAnalysis2State) => {
         try {
 
-          const granularity:string = value.analysisHeaderData.granularity;
+          const granularity: string = value.analysisHeaderData.granularity;
           const granularity_ms: number = this.u.convertGranularityStrToMs(granularity);
 
           this.chartValue =

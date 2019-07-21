@@ -66,7 +66,7 @@ const routes: Route[] = [
     // AuthModule,
 
     NgxsStoragePluginModule.forRoot({key: ENgxsStogareKey.IMI_BOT_STORAGE_KEY}),
-    NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production}), //Comment this before pushing to git
+    NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production}), // Comment this before pushing to git
     // NgxsLoggerPluginModule.forRoot({disabled: true}), //disable for prod mode
 
 

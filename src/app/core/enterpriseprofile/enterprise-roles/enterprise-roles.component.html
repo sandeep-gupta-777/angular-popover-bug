@@ -24,19 +24,19 @@
       {{role.name}}
     </div>
     <div>
-      {{role.enterprise_id == 0 ? "System role" : role.created_by}}
+      {{role.enterprise_id === 0 ? "System role" : role.created_by}}
     </div>
     <div>
-      {{role.id == 2 ?
-        (allPermissionIdList| ListIfNotInThisList : notConfigtablePermissionIdList).length : 
-        (role.permissions.actions | ListIfNotInThisList : notConfigtablePermissionIdList).length}} 
+      {{role.id === 2 ?
+        (allPermissionIdList| ListIfNotInThisList : notConfigtablePermissionIdList).length :
+        (role.permissions.actions | ListIfNotInThisList : notConfigtablePermissionIdList).length}}
         permissions added
     </div>
     <div class="mt-auto d-flex" style="align-items: center;">
       <div class = "mr-auto cursor-pointer" (click) = "navegateRole(role.id)">
-          <i class="fa fa-cog mr-1"></i>{{role.enterprise_id == 0 ? "View" : "Modify"}}
+          <i class="fa fa-cog mr-1"></i>{{role.enterprise_id === 0 ? "View" : "Modify"}}
       </div>
-      <div class= "cursor-pointer" (click) = "openDeletModal(role)" *ngIf="!(role.enterprise_id == 0)">
+      <div class= "cursor-pointer" (click) = "openDeletModal(role)" *ngIf="!(role.enterprise_id === 0)">
           <i class="fa fa-trash mr-1"></i>Delete
       </div>
     </div>
@@ -56,7 +56,7 @@
     <div class="mx-3 mb-3" style="text-align: left !important;">
       <form #form="ngForm">
         <div class="my-1">
-          <p class="mb-3">Do you want to remove {{deleteRole.name}} ? 
+          <p class="mb-3">Do you want to remove {{deleteRole.name}} ?
           </p>
         </div>
         <div class="d-flex" style="flex-direction: row-reverse">

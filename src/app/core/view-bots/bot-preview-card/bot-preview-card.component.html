@@ -25,7 +25,7 @@
       </p>
     </div>
 
-    <ng-container *ngIf="bot.bot_type == 'chatbot' || bot.bot_type == 'faqbot' ">
+    <ng-container *ngIf="bot.bot_type === 'chatbot' || bot.bot_type === 'faqbot' ">
       <div class="d-flex justify-content-center align-items-center">
         <mat-icon class="icon2" *ngIf="bot.is_manager" [title]="bot.child_bots.length + ' children Bots'">
           supervisor_account

@@ -12,7 +12,7 @@ import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
 import {ModalImplementer} from '../../../modal-implementer';
 import {MatDialog} from '@angular/material';
 import {skip} from 'rxjs/operators';
-import {EAllActions} from "../../../typings/enum";
+import {EAllActions} from '../../../typings/enum';
 
 @Component({
   selector: 'app-bot-testing',
@@ -20,7 +20,7 @@ import {EAllActions} from "../../../typings/enum";
   styleUrls: ['./bot-testing.component.scss']
 })
 export class BotTestingComponent extends ModalImplementer implements OnInit {
-  tag = "BotTestingComponent";
+  tag = 'BotTestingComponent';
   @Input() bot: IBot;
   testCases$: Observable<[string, string, string][]>;
   myEAllActions = EAllActions;
@@ -98,12 +98,12 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
   afterTabledataChange(data) {
 
     if (data) {
-      let didEditedableItemsChange = data.find((val) => {
-        return val[1] <= 1
-      })
+      const didEditedableItemsChange = data.find((val) => {
+        return val[1] <= 1;
+      });
 
       if (didEditedableItemsChange) {
-        this.tableChanged = true
+        this.tableChanged = true;
       }
     }
   }
@@ -172,8 +172,8 @@ export class BotTestingComponent extends ModalImplementer implements OnInit {
             headerData: {'bot-access-token': this.bot.bot_access_token}
           }
         )
-          .subscribe((value) => {
-            this.testCaseData = value.data;
+          .subscribe((value_temp) => {
+            this.testCaseData = value_temp.data;
             this.cancelTestFlag = false;
           });
       }

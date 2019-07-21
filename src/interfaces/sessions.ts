@@ -11,12 +11,12 @@ export interface ISessionMessageItem {
   'generated_msg_string': string;
   'id': number;
   'error': boolean;
-  'message': any; //Array<any>| string,
+  'message': any; // Array<any>| string,
   'message_store': {
     activeBotId?: any;
     activeBotRoomId?: any;
-    sendtoagent? : any;
-    top_match_section?:{
+    sendtoagent?: any;
+    top_match_section?: {
       first_question?: string;
       score?: number;
       section_id?: string;
@@ -44,7 +44,7 @@ export interface ITableColumn {
   [key: string]: {
     originalKey: string,
     displayValue: string,
-    type: string, //date, button, badge,
+    type: string, // date, button, badge,
     value: any
     classList?: string,
     name?: string,

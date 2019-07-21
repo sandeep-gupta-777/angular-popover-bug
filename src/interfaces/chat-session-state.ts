@@ -79,5 +79,5 @@ export interface IChatSessionState {
   currentUId: string;
   rooms: IRoomData[];
   consumerDetails: IConsumerDetails;
-  id?:any
+  id?: any;
 }

@@ -14,8 +14,8 @@ import { ServerService } from 'src/app/server.service';
 import { map } from 'rxjs/operators';
 import {UtilityService} from '../../../utility.service';
 import {ESplashScreens} from '../../../splash-screen/splash-screen.component';
-import {IHeaderData} from "../../../../interfaces/header-data";
-import {ELoadingStatus} from "../../../button-wrapper/button-wrapper.component";
+import {IHeaderData} from '../../../../interfaces/header-data';
+import {ELoadingStatus} from '../../../button-wrapper/button-wrapper.component';
 @Component({
   selector: 'app-curation',
   templateUrl: './curation.component.html',
@@ -33,38 +33,38 @@ export class CurationComponent implements OnInit {
   @Input() bot: IBot;
   myESplashScreens = ESplashScreens;
   curationIssuesList: ICurationItem[];
-  curationIssuesListLength:number = 0;
-  isMoreCurationIssuesListPresent:boolean = false;
-  totalLengthCurationIssue:number;
-  curationIssuesListisReloading:boolean = false;
-  IssuesFilterQueryParams : object = {
+  curationIssuesListLength = 0;
+  isMoreCurationIssuesListPresent = false;
+  totalLengthCurationIssue: number;
+  curationIssuesListisReloading = false;
+  IssuesFilterQueryParams: object = {
     'order_by' : `-updated_at`
   };
   curationResolvedAndIgnoredList: ICurationItem[];
-  curationResolvedAndIgnoredListLength:number = 0;
-  isMoreCurationResolvedAndIgnoredListPresent:boolean = false;
-  totalLengthCurationResolvedAndIgnored : number;
-  ResolvedFilterQueryParams : object = {
-    'curation_state__in':"resolved,ignored",
+  curationResolvedAndIgnoredListLength = 0;
+  isMoreCurationResolvedAndIgnoredListPresent = false;
+  totalLengthCurationResolvedAndIgnored: number;
+  ResolvedFilterQueryParams: object = {
+    'curation_state__in': 'resolved,ignored',
     'order_by' : `-updated_at`
   };
-  curationResolvedAndIgnoredListisReloading : boolean = false;
-  reloading:boolean = true;
+  curationResolvedAndIgnoredListisReloading = false;
+  reloading = true;
   liveBotUpdatedAt: number;
   aggregationResolvedData: ICurationResolvedAggregation;
-  issuesAggrigationData : ICurationIssuesAggregation;
+  issuesAggrigationData: ICurationIssuesAggregation;
   topArticlesWithIssues: any[];
-  topArticlesWithIssuesReloading:boolean = false;
-  resolveArticleWithTopIssuesFilterCount : number;
-  activeTab:number = 0;
-  curationSettingsForm : FormGroup;
-  updateSettingsLoading = ELoadingStatus.default
+  topArticlesWithIssuesReloading = false;
+  resolveArticleWithTopIssuesFilterCount: number;
+  activeTab = 0;
+  curationSettingsForm: FormGroup;
+  updateSettingsLoading = ELoadingStatus.default;
   ngOnInit() {
     this.reloading = true;
     this.curation_filter_form = this.formBuilder.group({
-      room_id: [""],
-      rule_triggered: [""],
-      date_range: [""],
+      room_id: [''],
+      rule_triggered: [''],
+      date_range: [''],
     });
 
     this.load10MoreCurationIssues(false);
@@ -76,22 +76,22 @@ export class CurationComponent implements OnInit {
     this.makeCurationSettingsForm();
   }
   // setLiveBotUpdatedAt
-  setLiveBotUpdatedAt(){
+  setLiveBotUpdatedAt() {
       const headerData: IHeaderData = {
         'bot-access-token': this.bot.bot_access_token
       };
       const url = this.constantsService.getLiveCorpus();
       this.serverService.makeGetReq<IAllCorpusResult>({ url, headerData })
           .subscribe((Result) => {
-            if(Result.objects && Result.objects[0] && Result.objects[0].updated_at){
+            if (Result.objects && Result.objects[0] && Result.objects[0].updated_at) {
               this.liveBotUpdatedAt = Result.objects[0].updated_at;
             }
         });
   }
   // getting 10
-  load10MoreCurationIssues$(innit: boolean){
+  load10MoreCurationIssues$(innit: boolean) {
     this.curationIssuesListisReloading = true;
-    let curationIssuesListUrl = this.constantsService.curationIssuesListUrl(10,this.curationIssuesListLength)
+    const curationIssuesListUrl = this.constantsService.curationIssuesListUrl(10, this.curationIssuesListLength);
     return this.serverService.makeGetReq<ICurationResult>(
       {
         url: curationIssuesListUrl + this.objToSrt(this.IssuesFilterQueryParams),
@@ -99,15 +99,14 @@ export class CurationComponent implements OnInit {
       }
     ).pipe(
       map((value: ICurationResult) => {
-        if(this.curationIssuesList){
-          if(innit){
+        if (this.curationIssuesList) {
+          if (innit) {
             this.curationIssuesList = [...value.objects];
-          }else{
+          } else {
             this.curationIssuesList = [...this.curationIssuesList, ...value.objects];
           }
 
-        }
-        else{
+        } else {
           this.curationIssuesList = [...value.objects];
         }
         this.reloading = false;
@@ -119,32 +118,32 @@ export class CurationComponent implements OnInit {
       })
     );
   }
-  load10MoreCurationIssues(innit:boolean){
-    this.load10MoreCurationIssues$(innit).subscribe()
+  load10MoreCurationIssues(innit: boolean) {
+    this.load10MoreCurationIssues$(innit).subscribe();
   }
-  reinnetalizeCurationIssues(){
+  reinnetalizeCurationIssues() {
     this.curationIssuesListLength = 0;
     this.load10MoreCurationIssues(true);
 }
-  load10MoreCurationResolvedAndIgnored$(innit:boolean){
+  load10MoreCurationResolvedAndIgnored$(innit: boolean) {
     this.curationResolvedAndIgnoredListisReloading = true;
 
-    let curationResolvedAndIgnoredListUrl = this.constantsService.curationResolvedAndIgnoredListUrl(10,this.curationResolvedAndIgnoredListLength)
+    const curationResolvedAndIgnoredListUrl = this.constantsService.curationResolvedAndIgnoredListUrl(10, this.curationResolvedAndIgnoredListLength);
     return this.serverService.makeGetReq<ICurationResult>(
       {
         url: curationResolvedAndIgnoredListUrl + this.objToSrt(this.ResolvedFilterQueryParams),
         headerData: { 'bot-access-token': this.bot.bot_access_token }
       }).pipe(
         map((value: ICurationResult) => {
-          if(this.curationResolvedAndIgnoredList){
-            if(innit){
-              this.curationResolvedAndIgnoredList = [...value.objects]
-            }else{
+          if (this.curationResolvedAndIgnoredList) {
+            if (innit) {
+              this.curationResolvedAndIgnoredList = [...value.objects];
+            } else {
               this.curationResolvedAndIgnoredList = [...this.curationResolvedAndIgnoredList, ...value.objects];
             }
 
-          }else{
-            this.curationResolvedAndIgnoredList = [...value.objects]
+          } else {
+            this.curationResolvedAndIgnoredList = [...value.objects];
           }
           this.curationResolvedAndIgnoredListisReloading = false;
           this.totalLengthCurationResolvedAndIgnored = value.meta.total_count;
@@ -153,19 +152,19 @@ export class CurationComponent implements OnInit {
         })
       );
   }
-  load10MoreCurationResolvedAndIgnored(innit:boolean){
-    this.load10MoreCurationResolvedAndIgnored$(innit).subscribe()
+  load10MoreCurationResolvedAndIgnored(innit: boolean) {
+    this.load10MoreCurationResolvedAndIgnored$(innit).subscribe();
   }
-  reinnetalizeCurationResolvedAndIgnored(){
+  reinnetalizeCurationResolvedAndIgnored() {
           this.curationResolvedAndIgnoredListLength = 0;
           this.load10MoreCurationResolvedAndIgnored(true);
   }
 // ignoring
-  ignoreCurationIssueById(curationIds){
-    let curationIssueIgnoreUrl = this.constantsService.curationIssueIgnoreUrl();
-    let body = {
-      "curation_id_list": curationIds
-    }
+  ignoreCurationIssueById(curationIds) {
+    const curationIssueIgnoreUrl = this.constantsService.curationIssueIgnoreUrl();
+    const body = {
+      'curation_id_list': curationIds
+    };
     this.serverService.makePostReq<any>(
       {
         url: curationIssueIgnoreUrl,
@@ -176,21 +175,21 @@ export class CurationComponent implements OnInit {
           this.utilityService.showSuccessToaster(value.message);
           this.curationIssuesListLength = this.curationIssuesListLength - curationIds.length ;
           this.curationIssuesList = this.curationIssuesList.filter((item) => {
-            return !(curationIds.find(c_id => {return c_id == item.id} ))
+            return !(curationIds.find(c_id => c_id === item.id ));
           });
-          this.reinnetalizeCurationResolvedAndIgnored()
+          this.reinnetalizeCurationResolvedAndIgnored();
           this.getResolvedAggregationData();
         });
   }
 
 
 //  add to article
-  addQueryToArticleByIds(data){
-    let curationIssueLinkToExistingSectionUrl = this.constantsService.curationIssueLinkToExistingSectionUrl();
-    let body = {
-      "curation_id_list": data.curationItemId,
-      "section_id":data.section_id
-    }
+  addQueryToArticleByIds(data) {
+    const curationIssueLinkToExistingSectionUrl = this.constantsService.curationIssueLinkToExistingSectionUrl();
+    const body = {
+      'curation_id_list': data.curationItemId,
+      'section_id': data.section_id
+    };
     this.serverService.makePostReq<any>(
       {
         url: curationIssueLinkToExistingSectionUrl,
@@ -198,10 +197,10 @@ export class CurationComponent implements OnInit {
         body
       }).subscribe((value) => {
       this.totalLengthCurationIssue = this.totalLengthCurationIssue - data.curationItemId.length;
-      this.utilityService.showSuccessToaster("Issues has been successfully added to article.");
+      this.utilityService.showSuccessToaster('Issues has been successfully added to article.');
       this.curationIssuesListLength = this.curationIssuesListLength - data.curationItemId.length;
       this.curationIssuesList = this.curationIssuesList.filter((item) => {
-        return !(data.curationItemId.find(c_id => {return c_id == item.id} ))
+        return !(data.curationItemId.find(c_id => c_id === item.id ));
       });
       this.reinnetalizeCurationResolvedAndIgnored();
       this.getResolvedAggregationData();
@@ -210,23 +209,23 @@ export class CurationComponent implements OnInit {
 
 //  filter form ::
 
-  IssuesFormSubmitted(body){
+  IssuesFormSubmitted(body) {
     this.IssuesFilterQueryParams = body;
     this.isMoreCurationIssuesListPresent = false;
     this.reinnetalizeCurationIssues();
   }
 
-  ResolvedFormSubmitted(body){
+  ResolvedFormSubmitted(body) {
     this.ResolvedFilterQueryParams = body;
     this.isMoreCurationResolvedAndIgnoredListPresent = false;
     this.reinnetalizeCurationResolvedAndIgnored();
   }
 
 
-  objToSrt(obj){
-    let str :string = "";
-    for(let key in obj){
-      str = str + "&"+key+"="+obj[key];
+  objToSrt(obj) {
+    let str = '';
+    for (const key in obj) {
+      str = str + '&' + key + '=' + obj[key];
     }
 
     return str;
@@ -234,7 +233,7 @@ export class CurationComponent implements OnInit {
 
 
   // get resolved issues
-  getResolvedAggregationData(){
+  getResolvedAggregationData() {
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
@@ -245,7 +244,7 @@ export class CurationComponent implements OnInit {
       });
   }
 
-  getIssuesAggregationData(){
+  getIssuesAggregationData() {
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
     };
@@ -256,7 +255,7 @@ export class CurationComponent implements OnInit {
       });
   }
 
-  setTopArticlesWithIssues(){
+  setTopArticlesWithIssues() {
     this.topArticlesWithIssuesReloading = true;
     const headerData: IHeaderData = {
       'bot-access-token': this.bot.bot_access_token
@@ -268,14 +267,14 @@ export class CurationComponent implements OnInit {
         this.topArticlesWithIssues = Result.objects;
       });
 }
-  resolveArticleWithTopIssues(section){
+  resolveArticleWithTopIssues(section) {
     this.resolveArticleWithTopIssuesFilterCount = section.count;
     this.activeTab = 1;
   }
-  updateSettingsHandler(){
-    if(this.curationSettingsForm.valid){
-      let botImage : IBot; 
-    botImage = {...this.curationSettingsForm.value}
+  updateSettingsHandler() {
+    if (this.curationSettingsForm.valid) {
+      let botImage: IBot;
+    botImage = {...this.curationSettingsForm.value};
     botImage.id = this.bot.id;
     botImage.bot_access_token = this.bot.bot_access_token;
     this.updateSettingsLoading = ELoadingStatus.loading;
@@ -283,49 +282,48 @@ export class CurationComponent implements OnInit {
       this.updateSettingsLoading = ELoadingStatus.success;
     }, (val) => {
       this.updateSettingsLoading = ELoadingStatus.error;
-      if(val.error.error){
-        
+      if (val.error.error) {
+
         this.utilityService.showErrorToaster(val.error.message);
       }
     });
-    }
-    else{
-      this.utilityService.showErrorToaster("Settings form is not valid");
+    } else {
+      this.utilityService.showErrorToaster('Settings form is not valid');
     }
 
   }
-  makeCurationSettingsForm(){
+  makeCurationSettingsForm() {
     this.curationSettingsForm = this.formBuilder.group({
-      "allow_curation" : [this.bot.allow_curation],
-      "curation_settings": this.formBuilder.group({
-        "agent_handover": this.formBuilder.group({"enabled":[this.bot.curation_settings.agent_handover.enabled]}),
-        "downvoted": this.formBuilder.group({"enabled":[this.bot.curation_settings.downvoted.enabled]}),
-        "fallback": this.formBuilder.group({"enabled":[this.bot.curation_settings.fallback.enabled]}),
-        "from_session": this.formBuilder.group({"enabled":[this.bot.curation_settings.from_session.enabled]}),
-        "low_confidence": this.formBuilder.group({
-          "enabled":[this.bot.curation_settings.low_confidence.enabled],
-          "low_confidence_score": [this.bot.curation_settings.low_confidence.low_confidence_score,Validators.max(1)]
+      'allow_curation' : [this.bot.allow_curation],
+      'curation_settings': this.formBuilder.group({
+        'agent_handover': this.formBuilder.group({'enabled': [this.bot.curation_settings.agent_handover.enabled]}),
+        'downvoted': this.formBuilder.group({'enabled': [this.bot.curation_settings.downvoted.enabled]}),
+        'fallback': this.formBuilder.group({'enabled': [this.bot.curation_settings.fallback.enabled]}),
+        'from_session': this.formBuilder.group({'enabled': [this.bot.curation_settings.from_session.enabled]}),
+        'low_confidence': this.formBuilder.group({
+          'enabled': [this.bot.curation_settings.low_confidence.enabled],
+          'low_confidence_score': [this.bot.curation_settings.low_confidence.low_confidence_score, Validators.max(1)]
         }),
-        "partial_match": this.formBuilder.group({"enabled":[this.bot.curation_settings.partial_match.enabled]}),
+        'partial_match': this.formBuilder.group({'enabled': [this.bot.curation_settings.partial_match.enabled]}),
       })
     });
   }
-  refershCurrentTabHandler(){
-    if(this.activeTab == 0){
+  refershCurrentTabHandler() {
+    if (this.activeTab === 0) {
       this.getIssuesAggregationData();
       this.setTopArticlesWithIssues();
     }
-    if(this.activeTab == 1){
+    if (this.activeTab === 1) {
       this.IssuesFormSubmitted({
         'order_by' : `-updated_at`
       });
     }
-    if(this.activeTab == 2){
+    if (this.activeTab === 2) {
       this.getResolvedAggregationData();
       this.ResolvedFormSubmitted({
-        'curation_state__in':"resolved,ignored",
+        'curation_state__in': 'resolved,ignored',
         'order_by' : `-updated_at`
-      })
+      });
     }
   }
 }

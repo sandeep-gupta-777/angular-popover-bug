@@ -1,4 +1,14 @@
-import {Component, EventEmitter, Input, IterableDiffers, OnDestroy, OnInit, Output, TemplateRef} from '@angular/core';
+import {
+  Component,
+  DoCheck,
+  EventEmitter,
+  Input,
+  IterableDiffers,
+  OnDestroy,
+  OnInit,
+  Output,
+  TemplateRef
+} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {IBot} from '../../../../interfaces/IBot';
 import {IPipelineItem} from '../../../../../../interfaces/ai-module';
@@ -34,7 +44,21 @@ export interface IPipelineItemV2 {
   templateUrl: './pipeline.component.html',
   styleUrls: ['./pipeline.component.scss'],
 })
-export class PipelineComponent extends ModalImplementer implements OnInit, OnDestroy {
+export class PipelineComponent extends ModalImplementer implements OnInit, OnDestroy, DoCheck {
+
+  constructor(
+    private objectArrayCrudService: ObjectArrayCrudService,
+    private _iterableDiffers: IterableDiffers,
+    private activatedRoute: ActivatedRoute,
+    private constantsService: ConstantsService,
+    private aimService: AimService,
+    private serverService: ServerService,
+    public utilityService: UtilityService,
+    public matDialog: MatDialog,
+    private store: Store) {
+    super(utilityService, matDialog);
+    this.iterableDiffer = this._iterableDiffers.find([]).create(null);
+  }
   tag = 'PipelineComponent';
   allMatExpansionExpanded = false;
   masterModuleCount: number;
@@ -62,19 +86,10 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
   @Output() botData$ = new EventEmitter();
   pipelineModulesV2List: IPipelineItemV2[];
 
-  constructor(
-    private objectArrayCrudService: ObjectArrayCrudService,
-    private _iterableDiffers: IterableDiffers,
-    private activatedRoute: ActivatedRoute,
-    private constantsService: ConstantsService,
-    private aimService: AimService,
-    private serverService: ServerService,
-    public utilityService: UtilityService,
-    public matDialog: MatDialog,
-    private store: Store) {
-    super(utilityService, matDialog);
-    this.iterableDiffer = this._iterableDiffers.find([]).create(null);
-  }
+  _expandedPipelineModules = {};
+
+  updateBotStatus: ELoadingStatus = ELoadingStatus.default;
+  updateBotStatusText = '';
 
   countMasterModules(pipelineModulesV2List: IPipelineItemV2[]) {
 
@@ -216,7 +231,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
     if (Pipelineform.valid) {
       console.log(Pipelineform.value);
       this.selectedPipeline.input_params = Pipelineform.value;
-      let index = this.pipeLine.findIndex(item => item.id === this.selectedPipeline.id)
+      const index = this.pipeLine.findIndex(item => item.id === this.selectedPipeline.id);
       if (index === -1) {
         this.addPipelineItemToPipeline(this.selectedPipeline);
       } else {
@@ -284,11 +299,11 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
 
   toggleExpandAllModules() {
 
-    if (!this.allMatExpansionExpanded) {//collapse all
+    if (!this.allMatExpansionExpanded) {// collapse all
       this.pipelineModulesV2List.forEach((value, index) => {
         this._expandedPipelineModules[value.id] = true;
       });
-    } else {//collapse all
+    } else {// collapse all
       this._expandedPipelineModules = {};
     }
     this._expandedPipelineModules = {...this._expandedPipelineModules};
@@ -299,8 +314,6 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
   log() {
     console.log(this.pipeLine);
   }
-
-  _expandedPipelineModules = {};
   // get expandedPipelineModules (){
   //   return this._expandedPipelineModules;
   // }
@@ -308,9 +321,6 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
     this._expandedPipelineModules[i] = !this._expandedPipelineModules[i];
     this._expandedPipelineModules = {...this._expandedPipelineModules};
   }
-
-  updateBotStatus: ELoadingStatus = ELoadingStatus.default;
-  updateBotStatusText = '';
 
   updateBot() {
     // EventService.updateBotinit$.emit();

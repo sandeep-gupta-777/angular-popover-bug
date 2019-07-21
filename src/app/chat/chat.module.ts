@@ -4,7 +4,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {CommonModule, DatePipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ClickOutsideModule} from 'ng-click-outside';
-import {ChatWrapperComponent} from './chat-wrapper.component';;
+import {ChatWrapperComponent} from './chat-wrapper.component';
 import {MsToHhMmPipe} from '../ms-to-hh-mm.pipe';
 import {ChatWindowComponent} from './rooms-and-convo-panel/chat-window.component';
 import {ChatMessageComponent} from './rooms-and-convo-panel/chat-message-list/chat-message/chat-message.component';
@@ -30,8 +30,8 @@ import {ReducerListService} from '../reducer-list.service';
 import {ChatSessionStateReducer} from './ngxs/chat.state';
 import {LayoutModule} from '@angular/cdk/layout';
 import { ChatBotThinkingComponent } from './rooms-and-convo-panel/chat-message-list/chat-message/chat-bot-thinking/chat-bot-thinking.component';
-import {FilePreviewOverlayService} from "../overlay.service";
-import {OverlayModule} from "@angular/cdk/overlay";
+import {FilePreviewOverlayService} from '../overlay.service';
+import {OverlayModule} from '@angular/cdk/overlay';
 
 const routes: Route[] = [
   // {path: 'preview',outlet: 'preview', component: ChatWrapperComponent},
@@ -64,7 +64,7 @@ const routes: Route[] = [
     ClickOutsideModule,
     MyMaterialModule,
     NgxsModule.forFeature([ChatSessionStateReducer]),
-    SharedModule,//TODO: remove this later, this is here because of ChatFeedbackComponent and MsToHhMmPipe,
+    SharedModule, // TODO: remove this later, this is here because of ChatFeedbackComponent and MsToHhMmPipe,
     LayoutModule,
     OverlayModule
 

@@ -30,55 +30,55 @@ export class EnterpriseRolesComponent implements OnInit {
 
   @Select() app$: Observable<IAppState>;
   @Output() roleListChanged = new EventEmitter();
-  allPermissionIdList:number[];
-  reloaded :boolean=  false;
+  allPermissionIdList: number[];
+  reloaded =  false;
   @Output() selectedRole = new EventEmitter();
   @Output() enterRole = new EventEmitter();
   @Output() enterNewRole = new EventEmitter();
-  notConfigtablePermissionIdList : number[] = [];
+  notConfigtablePermissionIdList: number[] = [];
 
   navegateRole(id: number) {
 
-    this.selectedRole.emit({ "roleId": id });
+    this.selectedRole.emit({ 'roleId': id });
     this.enterRole.emit();
   }
   openDeletModal(role: IRole) {
     this.deleteRole = role;
     this.utilityService.openDialog({
       dialogRefWrapper: this.dialogRefWrapper,
-      classStr:'danger-modal-header-border',
-      data:{
-        actionButtonText:"Remove",
+      classStr: 'danger-modal-header-border',
+      data: {
+        actionButtonText: 'Remove',
         message: `Do you want to remove ${this.deleteRole.name} ? `,
-        title:'Delete role?',
-        isActionButtonDanger:true
+        title: 'Delete role?',
+        isActionButtonDanger: true
       },
       dialog: this.matDialog,
-      component:ModalConfirmComponent
-    }).then((data)=>{
-      if(data){
+      component: ModalConfirmComponent
+    }).then((data) => {
+      if (data) {
         this.deleteRoleClicked();
       }
-    })
+    });
   }
   deleteRoleClicked() {
-    let getRoleIdUrl = this.constantsService.getRoleIdUrl(this.deleteRole.id);
+    const getRoleIdUrl = this.constantsService.getRoleIdUrl(this.deleteRole.id);
 
     this.serverService.makeDeleteReq<any>({ url: getRoleIdUrl })
       .subscribe((roles) => {
-        let getRoleUrl = this.constantsService.getRoleUrl();
+        const getRoleUrl = this.constantsService.getRoleUrl();
         this.serverService.makeGetReq<IRoleResult>({ url: getRoleUrl })
-          .subscribe((roles: IRoleResult) => {
-            this.roleList = roles.objects;
+          .subscribe((roles_temp: IRoleResult) => {
+            this.roleList = roles_temp.objects;
             this.roleListChanged.emit();
-            this.utilityService.showSuccessToaster("Role deleted");
+            this.utilityService.showSuccessToaster('Role deleted');
             this.roleListChanged.emit();
           });
       });
   }
 
   ngOnInit() {
-    let getRoleUrl = this.constantsService.getRoleUrl();
+    const getRoleUrl = this.constantsService.getRoleUrl();
     this.serverService.makeGetReq<IRoleResult>({ url: getRoleUrl })
       .subscribe((roles: IRoleResult) => {
         this.roleList = roles.objects;
@@ -87,8 +87,8 @@ export class EnterpriseRolesComponent implements OnInit {
       this.app$.subscribe((value) => {
         this.allPermissionIdList = [];
         value.masterProfilePermissions.forEach(permission => {
-          if(!permission.is_configurable_action) this.notConfigtablePermissionIdList.push(permission.id);
-          if(permission.is_configurable_action)  this.allPermissionIdList.push(permission.id);          
+          if (!permission.is_configurable_action) { this.notConfigtablePermissionIdList.push(permission.id); }
+          if (permission.is_configurable_action) {  this.allPermissionIdList.push(permission.id); }
         });
     });
   }

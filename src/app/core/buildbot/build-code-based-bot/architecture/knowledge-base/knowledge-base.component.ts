@@ -1,13 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
-import {IBot} from '../../../../interfaces/IBot';
 import {ServerService} from '../../../../../server.service';
-import {ConstantsService, ERouteNames,} from '../../../../../constants.service';
+import {ConstantsService, ERouteNames} from '../../../../../constants.service';
 import {UtilityService} from '../../../../../utility.service';
-import {IHeaderData} from '../../../../../../interfaces/header-data';
 import {ICustomNerItem} from '../../../../../../interfaces/custom-ners';
 import {NgForm} from '@angular/forms';
-import {ICustomners} from '../../../../../../interfaces/bot-creation';
 import {Observable} from 'rxjs';
 import {IUser} from '../../../../interfaces/user';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
@@ -15,8 +12,8 @@ import {ESplashScreens} from '../../../../../splash-screen/splash-screen.compone
 import {MaterialTableImplementer} from '../../../../../material-table-implementer';
 import {EventService} from '../../../../../event.service';
 import {KnowledgeBasePresentationComponent} from './knowledge-base-presentation/knowledge-base-presentation.component';
-import {ESortDir} from "../../../../../smart-table/smart-table.component";
-import {EAllActions} from "../../../../../typings/enum";
+import {ESortDir} from '../../../../../smart-table/smart-table.component';
+import {EAllActions} from '../../../../../typings/enum';
 
 @Component({
   selector: 'app-knowledge-base',
@@ -38,21 +35,21 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
   // @Input() _custumNerDataForSmartTable = [];
   _custumNerDataForSmartTable: any[] = [];
   @Input() set custumNerDataForSmartTable(value: ICustomNerItem[]) {
-
-
     this._custumNerDataForSmartTable = value;
     setTimeout(() => {
       this.initializeTableData(value, this.getTableDataMetaDict());
     });
 
     const ner_id = this.activatedRoute.snapshot.queryParamMap.get('ner_id');
-    ner_id && this.updateSelectedRowDataByNer_Id(Number(ner_id));
+    if (ner_id) {
+      this.updateSelectedRowDataByNer_Id(Number(ner_id));
+    }
   }
 
-  @Output() pageChanged$ = new EventEmitter(); //
-  @Output() refreshTable$ = new EventEmitter(); //
-  @Output() updateOrSaveParentNers$ = new EventEmitter(); //
-  @Output() deleteNer$ = new EventEmitter(); //deleteNer$.emit()
+  @Output() pageChanged$ = new EventEmitter();
+  @Output() refreshTable$ = new EventEmitter();
+  @Output() updateOrSaveParentNers$ = new EventEmitter();
+  @Output() deleteNer$ = new EventEmitter();
   @Input() currentPageNumber = 1;
   @Input() totalRecords = 10;
   loggeduser: { user: IUser };
@@ -92,23 +89,22 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     this.tableData = this.transformDataForMaterialTable(data, tableDataMetaDict);
 
     this.tableData = this.tableData.map((row) => {
-      let additonalColumns: any = {};
+      const additonalColumns: any = {};
       /*Modifying Concept Key column*/
       additonalColumns['Concept name'] = row['Concept name'];
 
       additonalColumns['Concept name'].value = `<strong>${additonalColumns['Concept name'].value}</strong>`;
       //
       additonalColumns['Concept type'] = row['Concept type'];
-      let concept_type_val = UtilityService.spaceCase(additonalColumns['Concept type'].value, "_");
+      const concept_type_val = UtilityService.spaceCase(additonalColumns['Concept type'].value, '_');
       additonalColumns['Concept type'].value = `${concept_type_val}`;
       additonalColumns['Concept type'].searchValue = `${concept_type_val}`;
 
-      if(row['Override policy']){
+      if (row['Override policy']) {
         additonalColumns['Override policy'] = row['Override policy'];
-        let override_type_val = UtilityService.spaceCase(additonalColumns['Override policy'].value, "_");
+        const override_type_val = UtilityService.spaceCase(additonalColumns['Override policy'].value, '_');
         additonalColumns['Override policy'].value = `${override_type_val}`;
       }
-
 
 
       /*TODO: Modifying Last update*/
@@ -136,7 +132,9 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
       .subscribe((value: ParamMap) => {
         if (value.get('ner_id')) {
           const ner_id = Number(value.get('ner_id'));
-          ner_id && this.updateSelectedRowDataByNer_Id(ner_id);
+          if (ner_id) {
+            this.updateSelectedRowDataByNer_Id(ner_id);
+          }
           // this.showTable = !ner_id;
           // this.selectedRowData = this._custumNerDataForSmartTable.find((custumNerData)=>{
           //   return custumNerData.roomId === ner_id
@@ -172,13 +170,13 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
       body = {values: data.codeTextOutPutFromCodeEditor, ...body};
     } else if (data.ner_type === 'database') {
       const handontableDataClone = JSON.parse(JSON.stringify(data.handsontableData));
-      let column_headers:string[] = handontableDataClone[0];
-      column_headers = column_headers.filter((e)=>!!e);
-      if(column_headers.length===0){
-        this.utilityService.showErrorToaster("Headers are empty");
+      let column_headers: string[] = handontableDataClone[0];
+      column_headers = column_headers.filter((e) => !!e);
+      if (column_headers.length === 0) {
+        this.utilityService.showErrorToaster('Headers are empty');
         return;
       }
-      let areHeaderElementRepeated = UtilityService.areAllElementsInArrUnique(column_headers);
+      const areHeaderElementRepeated = UtilityService.areAllElementsInArrUnique(column_headers);
       if (!areHeaderElementRepeated) {
         this.utilityService.showErrorToaster('Header values are not valid');
         return;
@@ -228,7 +226,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
       const type = bot_id ? 'bot' : 'enterprise';
 
       const newRowData: ICustomNerItem = output = {
-        'bot_id': bot_id, //this.bot.roomId,
+        'bot_id': bot_id,
         // "column_headers": any[],
         'column_nermap': {},
         'conflict_policy': data.conflict_policy,
@@ -354,7 +352,7 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
       * Object.keys(selectedRowData.values[0]) => will not keep order since its coming from dictionary
       * */
       // const valueKeys = selectedRowData.column_headers || Object.keys(selectedRowData.values[0]);
-      let is_column_headers_valid = Array.isArray(selectedRowData.column_headers) && selectedRowData.column_headers.length > 0;
+      const is_column_headers_valid = Array.isArray(selectedRowData.column_headers) && selectedRowData.column_headers.length > 0;
       const valueKeys: string[] = is_column_headers_valid ? (selectedRowData.column_headers) : Object.keys(selectedRowData.values[0]);
       this.handontableData = selectedRowData.values.map((value) => {
         return valueKeys.map((valueKey) => {
@@ -394,14 +392,13 @@ export class KnowledgeBaseComponent extends MaterialTableImplementer implements 
     });
   }
 
-  test(){
+  test() {
     alert();
   }
 
   log(selectedRowData) {
     console.log(selectedRowData);
   }
-
 
 
 }

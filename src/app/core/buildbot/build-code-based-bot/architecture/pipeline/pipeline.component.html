@@ -102,7 +102,7 @@
         <div class="pb-2">Library configuration</div>
         <div *ngFor="let Key of myObject.keys(selectedPipeline.display_values)" >
 
-             <mat-form-field *ngIf="selectedPipeline.display_values[Key].type == 'dropdown'">
+             <mat-form-field *ngIf="selectedPipeline.display_values[Key].type === 'dropdown'">
               <mat-select [placeholder]="selectedPipeline.display_values[Key].display_value" name="{{Key}}"
               [ngModel]="selectedPipeline.input_params[Key] || selectedPipeline.display_values[Key].default">
                     <mat-option *ngFor="let dropi of selectedPipeline.display_values[Key].content | convertToUniqueArray" [value]="dropi"  >
@@ -111,7 +111,7 @@
               </mat-select>
             </mat-form-field>
           <!-- <div class=""
-               *ngIf="selectedPipeline.display_values[Key].type == 'dropdown'">
+               *ngIf="selectedPipeline.display_values[Key].type === 'dropdown'">
 
             <label class="mb-0  w-50 "
                    style="text-align: left;">{{selectedPipeline.display_values[Key].display_value}}</label>
@@ -123,11 +123,11 @@
               </option>
             </select>
           </div> -->
-          <mat-form-field *ngIf="selectedPipeline.display_values[Key].type == 'text'" >
+          <mat-form-field *ngIf="selectedPipeline.display_values[Key].type === 'text'" >
             <input matInput [placeholder]="selectedPipeline.display_values[Key].display_value"
             [ngModel]="selectedPipeline.input_params[Key]" name="{{Key}}">
           </mat-form-field>
-          <!-- <div *ngIf="selectedPipeline.display_values[Key].type == 'text'">
+          <!-- <div *ngIf="selectedPipeline.display_values[Key].type === 'text'">
             <label class="mb-0 w-50"
                    style="text-align: left;">{{selectedPipeline.display_values[Key].display_value}}</label>
             <input type="text" class="input-material flex-grow-1 w-50" style="color: #474747;"
