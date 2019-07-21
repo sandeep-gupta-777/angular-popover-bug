@@ -12,20 +12,20 @@
     <img class="box-logo__image" src="assets/img/dashboard-icon.svg" alt="website logo">
     <span class="header__nav--title">Dashboard</span>
   </a>
-  <a *myIf="[myEAllActions['Get Enterprise Knowledge base']]"
+  <a *appMyIf="[myEAllActions['Get Enterprise Knowledge base']]"
      data-cy="dashboard_KB"
      class="header__nav" [routerLink]="'/core/customner/'" routerLinkActive="highlight-nav-item">
     <img class="box-logo__image" src="assets/img/knowledge-icon.svg" alt="website logo">
     <span class="header__nav--title">Knowledge</span>
   </a>
 
-  <a *myIf="[myEAllActions['Analytics']]" class="header__nav" [routerLink]="['/core','analytics2', 'volume']"
+  <a *appMyIf="[myEAllActions['Analytics']]" class="header__nav" [routerLink]="['/core','analytics2', 'volume']"
      data-cy="dashboard_analytics"
      routerLinkActive="highlight-nav-item">
     <img class="box-logo__image" src="assets/img/anaytics.svg" alt="website logo">
     <span class="header__nav--title">Analytics</span>
   </a>
-  <a *myIf="[myEAllActions['Get Reports']]" class="header__nav" [routerLink]="'/core/reports'"
+  <a *appMyIf="[myEAllActions['Get Reports']]" class="header__nav" [routerLink]="'/core/reports'"
      data-cy="dashboard_reports" routerLinkActive="highlight-nav-item">
     <img class="box-logo__image" src="assets/img/reports.svg" alt="website logo">
     <span class="header__nav--title">Reports</span>
@@ -55,7 +55,7 @@
           {{userData?.first_name + " " + userData?.last_name}}
         </a>
 
-        <mat-divider *myIf="myEAllActions['Get Enterprise']"></mat-divider>
+        <mat-divider *appMyIf="myEAllActions['Get Enterprise']"></mat-divider>
         <a mat-menu-item class="header-dropdown-item" [routerLink]="['profile']"
            data-cy="header-profile"
            routerLinkActive="highlight-nav-item">Profile</a>
@@ -69,7 +69,7 @@
         <!--<mat-divider *myIf="myEAllActions['Get Enterprise']"></mat-divider>-->
         <a mat-menu-item class="header-dropdown-item"
            data-cy="header-enterprise-profile"
-           *myIf="myEAllActions['Get Enterprise']"
+           *appMyIf="myEAllActions['Get Enterprise']"
            [routerLink]="['enterpriseprofile']"
            routerLinkActive="highlight-nav-item">Enterprise Profile</a>
       </mat-menu>

@@ -242,7 +242,7 @@ export class EnterpriseUsersComponent implements OnInit {
 
   selectAll(form: NgForm) {
     const formVal = form.value;
-    for (const key in formVal) {
+    for (const key of Object.keys(formVal)) {
       formVal[key] = true;
     }
     form.form.patchValue(formVal);

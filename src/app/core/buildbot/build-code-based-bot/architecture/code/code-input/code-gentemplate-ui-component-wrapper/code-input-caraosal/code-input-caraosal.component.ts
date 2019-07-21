@@ -1,4 +1,5 @@
 import {
+  AfterViewChecked,
   AfterViewInit,
   Component,
   ElementRef,
@@ -30,7 +31,7 @@ enum ECarasoulMoveDirection {
   templateUrl: './code-input-caraosal.component.html',
   styleUrls: ['./code-input-caraosal.component.scss']
 })
-export class CodeInputCaraosalComponent implements OnInit, OnDestroy, AfterViewInit {
+export class CodeInputCaraosalComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked {
 
   showOverlay: boolean;
   @ViewChild('mainInput') mainInput: ElementRef;
@@ -52,7 +53,7 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy, AfterViewI
   @ViewChild('MultiCarousel') MultiCarousel: ElementRef;
   @ViewChild('MultiCarouselInner') MultiCarouselInner: ElementRef;
   @ViewChild('addNewCarasolPlaceholder') addNewCarasolPlaceholder: ElementRef;
-
+  @Output() disableSaveButton$ = new EventEmitter();
   //  @ViewChild('carauoselForm') caraoselForm: NgForm;
   @ViewChild('carausalForm') carausalForm: NgForm;
   slideCarousel: Function;
@@ -113,8 +114,6 @@ export class CodeInputCaraosalComponent implements OnInit, OnDestroy, AfterViewI
   moveDown(i) {
     this.moveTempDown.emit(i);
   }
-
-  @Output() disableSaveButton$ = new EventEmitter();
 
   ngOnInit() {
     //  co

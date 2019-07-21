@@ -92,7 +92,7 @@
 
 
 
-      
+
       <div *ngIf="routeName===myERouteNames['Get Enterprise Knowledge base']" class="ml-auto">
         <button mat-flat-button
                 class="mat-theme-button"
@@ -107,7 +107,7 @@
                 style="border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 2px; margin-right: 10px"
                 [disabled]="!form.valid || (ner_type === 'database' && !handsOnTableDataHasAtleastTwoRows())"
                 (click)="updateOrSaveConcept()"
-                *myIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
+                *appMyIf="[myEAllActions['Create Enterprise Knowledge base'],myEAllActions['Update Enterprise Knowledge base']]"
         >
           <mat-icon>{{ner_id?'update':'add'}}</mat-icon>
           {{ner_id ? "Update" : "Create" }}
@@ -128,7 +128,7 @@
                 style="margin-right: 10px"
                 [disabled]="!form.valid"
                 (click)="updateOrSaveConcept()"
-                *myIf="[myEAllActions['Create Bot Knowledge base'],myEAllActions['Update Bot Knowledge base']]">
+                *appMyIf="[myEAllActions['Create Bot Knowledge base'],myEAllActions['Update Bot Knowledge base']]">
           <mat-icon>update</mat-icon>
           {{ner_id ? "Update" : "Create" }}
         </button>
@@ -136,7 +136,7 @@
 
       <!--update/create button ends-->
       <ng-container
-              *myIf="myEAllActions['Delete Enterprise Knowledge base']">
+        *appMyIf="myEAllActions['Delete Enterprise Knowledge base']">
         <div *ngIf="ner_id && routeName===myERouteNames['Get Enterprise Knowledge base']">
           <button mat-button
                   class="mat-theme-button"
@@ -148,7 +148,7 @@
         </div>
       </ng-container>
 
-      <ng-container *myIf="myEAllActions['Delete Bot Knowledge base']">
+      <ng-container *appMyIf="myEAllActions['Delete Bot Knowledge base']">
         <div *ngIf="ner_id && routeName!==myERouteNames['Get Enterprise Knowledge base']">
           <!--<div *myIf="myEAllActions['Delete Bot Knowledge base']"-->
           <!--(click)="openDeleteModal(deleteTemplate)"><i style="color: #474747" class="fa fa-trash cursor-pointer"></i></div>-->

@@ -162,7 +162,7 @@
   <!--============= REDESIGN=================-->
 
   <div class="flex-column shadow-theme architecture bg-white p-1 px-2 my align-content-start"
-       *myIf="[
+       *appMyIf="[
        myEAllActions['Get Pipeline Module'],
        myEAllActions['Get Integrations'],
        myEAllActions['Get Bot Knowledge base'],
@@ -172,8 +172,10 @@
     <!--tabs start-->
     <div class="px-2">
       <ul class="nav nav-tabs border-none theme-tabbing mb-1 bg-white">
-        <li *myIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]" class="nav-item"
-            [ngClass]="{'tab-active':selectedTab==='architecture'}">
+        <li
+          *appMyIf="[myEAllActions['Get Pipeline Module'],myEAllActions['Get Integrations'],myEAllActions['Get Bot Knowledge base']]"
+          class="nav-item"
+          [ngClass]="{'tab-active':selectedTab==='architecture'}">
           <a class="nav-link heading" [routerLink]="['.']"
              queryParamsHandling="merge"
              replaceUrl="true"
@@ -197,7 +199,7 @@
     <!---->
     <!--architeture starts-->
     <div class="col-12 p-0" style="height: 85%" *ngIf="selectedTab==='architecture' &&  bot ">
-      <div class="col-12 architeture-body" style="overflow-y: auto;height: 100%" *myIf="[
+      <div class="col-12 architeture-body" style="overflow-y: auto;height: 100%" *appMyIf="[
        myEAllActions['Get Pipeline Module'],
        myEAllActions['Get Integrations'],
        myEAllActions['Get Bot Knowledge base'],

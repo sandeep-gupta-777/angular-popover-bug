@@ -1,4 +1,14 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {ConstantsService} from '../constants.service';
 import {ActivatedRoute} from '@angular/router';
 import {ELogType, LoggingService} from '../logging.service';
@@ -11,13 +21,15 @@ declare var Handsontable: any;
   selector: 'app-handsontable',
   templateUrl: './handsontable.component.html',
   styleUrls: ['./handsontable.component.scss'],
-  host: {
+  // host: {
     // https://stackoverflow.com/questions/34636661/how-do-i-change-the-body-class-via-a-typescript-class-angular2
-    '[class.d-flex-column-last-child-flex-grow-1]': 'true'
-  }
+    // '[class.d-flex-column-last-child-flex-grow-1]': 'true',
+    // '[class]': '"d-flex-column-last-child-flex-grow-1"'
+  // }
 })
 export class HandsontableComponent implements OnInit, AfterViewInit {
-
+  /* https://github.com/angular/angular.io/issues/1763*/
+  @HostBinding('class') hostClass = 'd-flex-column-last-child-flex-grow-1';
   public data: any[];
 
   renderHandsontable = true;

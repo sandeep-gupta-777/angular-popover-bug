@@ -1,7 +1,7 @@
 <div class="card bot-creation-form" style="border-radius: 0">
     <app-button-wrapper
       class="card--update"
-      *myIf="[myEAllActions['Update Bots']]"
+      *appMyIf="[myEAllActions['Update Bots']]"
       [isMatFlatButton]="false"
       [status]="updateBotLoading"
       [text]="'Update Bot'"
@@ -50,7 +50,7 @@
             <app-faq-ml-model-form [formGroup]="securityForm"></app-faq-ml-model-form>
         </mat-tab> -->
 
-        <ng-container *myIf="[myEAllActions['Get Integrations']]">
+        <ng-container *appMyIf="[myEAllActions['Get Integrations']]">
             <mat-tab *ngIf="!(bot_type===myEBotType.intelligent)">
                 <ng-template mat-tab-label>
                     <span [ngStyle]="{'color': !integrationForm?.valid?'red':'#474747'}">Integrations</span>

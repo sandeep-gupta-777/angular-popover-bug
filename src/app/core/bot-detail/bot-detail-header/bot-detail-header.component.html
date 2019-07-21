@@ -44,12 +44,12 @@
 <app-faq-search-box *ngIf="bot.bot_type == 'faqbot'" [bot]="bot" [inCuration]="false"></app-faq-search-box>
 
 
-  <div *myIf="myEAllActions['Send API']">
+  <div *appMyIf="myEAllActions['Send API']">
     <!--<div class="d-flex preview-box align-items-center" (click)="openBot()" *ngIf="bot.bot_type === 'chatbot'">-->
     <!--<i class="fa fa-comment-o cursor-pointer" style="font-size: 15px"></i>-->
     <!--<span class="action">Preview</span>-->
     <!--</div>-->
-    <ng-container *myIf="[myEAllActions['Analytics']]">
+    <ng-container *appMyIf="[myEAllActions['Analytics']]">
       <button *ngIf="bot.bot_type === myEBotType.chatbot" (click)="openAnalyticsForBot()"
         class="mat-theme-button mat-theme-button-border" mat-button>
         <mat-icon>trending_up</mat-icon>
@@ -72,7 +72,7 @@
         class="fa fa-copy mr-1"></i>Copy Access Token</button>
     <button mat-menu-item (click)="utilityService.copyToClipboard(bot.enterprise_id)"><i
         class="fa fa-copy mr-1"></i>Copy Enterprise ID</button>
-    <button mat-menu-item *myIf="[myEAllActions['Delete Bots']]" (click)="openDeleteModal()"><i
+    <button mat-menu-item *appMyIf="[myEAllActions['Delete Bots']]" (click)="openDeleteModal()"><i
         class="fa fa-trash mr-1"></i>Delete</button>
   </mat-menu>
 </div>

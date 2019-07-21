@@ -30,7 +30,7 @@ import {ReportHistorySmartTable} from './report-history-smart-table';
   styleUrls: ['./reports.component.scss'],
   providers: [TempVariableService]
 })
-export class ReportsComponent extends MaterialTableImplementer implements OnInit, OnDestroy {
+export class ReportsComponent  implements OnInit, OnDestroy {
   tableData;
   tableData_report;
   tableData_history;
@@ -73,7 +73,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   }
 
   initializeTableData_report(data: any, tableDataMetaDict: any): void {
-    this.tableData_report = this.transformDataForMaterialTable(data, this.getTableDataMetaDict_report());
+    // this.tableData_report = this.transformDataForMaterialTable(data, this.getTableDataMetaDict_report());
 
     this.tableData_report = this.tableData_report.map((sessionsDataForTableItem) => {
       const additonalColumns: any = {};
@@ -91,7 +91,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
   }
 
   initializeTableData_reportHistory(data: any, tableDataMetaDict: any): void {
-    this.tableData_history = this.transformDataForMaterialTable(data, this.getTableDataMetaDict_reportHistory());
+    // this.tableData_history = this.transformDataForMaterialTable(data, this.getTableDataMetaDict_reportHistory());
     this.tableData_history = this.tableData_history.map((sessionsDataForTableItem) => {
       const additonalColumns: any = {};
       /*actions*/
@@ -113,7 +113,7 @@ export class ReportsComponent extends MaterialTableImplementer implements OnInit
     private utilityService: UtilityService,
     private store: Store,
   ) {
-    super();
+    // super();
   }
 
 

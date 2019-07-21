@@ -169,7 +169,7 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
         const values = divStyle.match(/-?[\d\.]+/g);
         const xds: any = Math.abs(values[4]);
         if (e === 0) {
-          translateXval = parseInt(xds) - (<any>parseInt)(itemWidth * s);
+          translateXval = parseInt(xds, 10) - (<any>parseInt)(itemWidth * s);
           $(rightBtn).removeClass('over');
           //  $(self.rightLstElementRef.nativeElement).removeClass('over');
 
@@ -180,7 +180,7 @@ export class CardCarouselComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         } else if (e === 1) {
           const itemsCondition = $(MultiCarouselInner).width() - $(MultiCarousel).width();
-          translateXval = parseInt(xds) + (<any>parseInt)(itemWidth * s);
+          translateXval = parseInt(xds, 10) + (<any>parseInt)(itemWidth * s);
           $(leftBtn).removeClass('over');
           //  $(self.leftLstElementRef.nativeElement).removeClass('over');
 

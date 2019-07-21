@@ -109,7 +109,7 @@ export class BotArticleHistoryComponent implements OnInit {
     }
     const dataCySplit = dataCy.split('_');
     return {
-      corpus_id: parseInt(dataCySplit['3']),
+      corpus_id: parseInt(dataCySplit['3'], 10),
       index: dataCySplit['2'],
       action: dataCySplit['1']
     };

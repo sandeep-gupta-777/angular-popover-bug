@@ -13,19 +13,19 @@
         <!-- <div class="for-border"></div> -->
         <div class="action-item pt-2 pb-2 cursor-pointer">
           <button class="create-new-category-button btn-theme cursor-pointer" mat-stroked-button style="font-size:13px"
-            (click)="openArticleCreate()" *myIf="myEAllActions['Create Section']">
+                  (click)="openArticleCreate()" *appMyIf="myEAllActions['Create Section']">
             <mat-icon class="material-icons">add</mat-icon>Create new article
           </button>
         </div>
-        <div class="action-item py-1 cursor-pointer" *myIf="myEAllActions['Update Category']"
-          (click)="openCorpusImportModal(ImportArticlesTemplate)">
+        <div class="action-item py-1 cursor-pointer" *appMyIf="myEAllActions['Update Category']"
+             (click)="openCorpusImportModal(ImportArticlesTemplate)">
           <mat-icon class="material-icons">cloud_upload</mat-icon>Import article from csv
         </div>
         <div class="action-item py-1 cursor-pointer" (click)="openCorpusExportModal()">
           <mat-icon class="material-icons">cloud_download</mat-icon>Export article from csv
         </div>
         <div class="action-item py-1 cursor-pointer" (click)="openCategoryModifyModal(categoriesTemplate)"
-          *myIf="myEAllActions['Update Category']">
+             *appMyIf="myEAllActions['Update Category']">
           <mat-icon class="material-icons">folder</mat-icon>Modify categories
         </div>
       </div>
@@ -134,7 +134,7 @@
             <app-button-wrapper
             [disabled]="!Uplodeform.valid"
             class="card--update"
-            *myIf="[myEAllActions['Update Bots']]"
+            *appMyIf="[myEAllActions['Update Bots']]"
             [isMatFlatButton]="true"
             [status]="uploadingData"
             [text]="'Import'"

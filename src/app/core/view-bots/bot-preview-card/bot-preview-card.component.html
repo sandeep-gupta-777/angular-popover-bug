@@ -37,7 +37,7 @@
         <!-- <span *ngIf="(bot.integrations|integrationImageCount)>4" class="more ml-auto">+{{(bot.integrations|integrationImageCount)}} More</span> -->
 
 
-        <div *myIf="myEAllActions['Send API']" class="preview-button click-save-wrapper" (click)="previewBot($event)">
+        <div *appMyIf="myEAllActions['Send API']" class="preview-button click-save-wrapper" (click)="previewBot($event)">
           <div
             title="Click to open chat preview window"
             class="click-save-wrapper">Preview
@@ -75,7 +75,7 @@
     Enterprise ID
   </button>
   <button mat-menu-item
-          *myIf="[myEAllActions['Delete Bots']]"
+          *appMyIf="[myEAllActions['Delete Bots']]"
           (click)="openDeleteModal(template)"><i class="fa fa-trash mr-1"></i>Delete
   </button>
   <button mat-menu-item *ngIf="!bot.store_isPinned" (click)="togglePinBotCard(bot, true)"><i

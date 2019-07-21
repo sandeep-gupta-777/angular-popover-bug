@@ -1,7 +1,7 @@
 <form [formGroup]="formGroup" >
   <div class="d-flex flex-column">
       <fieldset class = "d-flex flex-column pb-4">
-            <mat-form-field [readonlyselectedroles]="myEAllActions['Update Bots']" class="w-50">
+            <mat-form-field [appReadonlySelectedRoles]="myEAllActions['Update Bots']" class="w-50">
                     <input matInput
                     displayName="Bot Name"
                     placeholder="Bot Name"
@@ -9,7 +9,7 @@
                     data-cy="bot_name_faq_creation"
                     required>
                   </mat-form-field>
-            <mat-form-field class="w-50" [readonlyselectedroles]="myEAllActions['Update Bots']">
+            <mat-form-field class="w-50" [appReadonlySelectedRoles]="myEAllActions['Update Bots']">
                     <input matInput
                     displayName="Unique Name"
                     formControlName="bot_unique_name"
@@ -17,7 +17,7 @@
                     required>
                       </mat-form-field>
       </fieldset>
-      <!-- <fieldset class="col-5" [readonlyselectedroles]="myEAllActions['Update Bots']">
+      <!-- <fieldset class="col-5" [appReadonlySelectedRoles]="myEAllActions['Update Bots']">
           <app-bot-config-input
               displayName="Bot Name"
               placeholder="Bot Name"
@@ -30,7 +30,7 @@
                   placeholder="Bot Unique Name"></app-bot-config-input>
       </fieldset> -->
       <!-- <div class="col-1"></div> -->
-      <fieldset [readonlyselectedroles]="myEAllActions['Update Bots']" class = "pb-4">
+      <fieldset [appReadonlySelectedRoles]="myEAllActions['Update Bots']" class = "pb-4">
           <!--<div style="font-size: 11px; margin-bottom: 10px">Photo</div>-->
           <div style="display: flex; align-items: center">
               <img style="width: 72px; border-radius: 50%; height: 72px; margin-right: 10px"

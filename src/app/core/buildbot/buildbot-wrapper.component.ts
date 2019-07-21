@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {ResetBuildBotToDefault, SaveNewBotInfo_CodeBased, SaveNewBotInfo_PipelineBased} from './ngxs/buildbot.action';
+import {ResetBuildBotToDefault, SaveNewBotInfoCodeBased, SaveNewBotInfoPipelineBased} from './ngxs/buildbot.action';
 import {IBot} from '../interfaces/IBot';
 import {IBotCreationState} from './ngxs/buildbot.state';
 import {Select, Store} from '@ngxs/store';
@@ -140,11 +140,11 @@ export class BuildbotWrapperComponent implements OnInit {
     const bot_type = this.activatedRoute.snapshot.queryParamMap.get('bot_type');
     if (bot_type === EBotType.chatbot) {
       this.store.dispatch([
-        new SaveNewBotInfo_CodeBased({data: data})
+        new SaveNewBotInfoCodeBased({data: data})
       ]);
     } else {
       this.store.dispatch([
-        new SaveNewBotInfo_PipelineBased({data: data})
+        new SaveNewBotInfoPipelineBased({data: data})
       ]);
     }
   }

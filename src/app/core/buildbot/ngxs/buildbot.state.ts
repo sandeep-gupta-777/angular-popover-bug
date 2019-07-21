@@ -1,12 +1,12 @@
 import {Action, State, StateContext} from '@ngxs/store';
 import {
   SaveAvatorInfo,
-  SaveNewBotInfo_CodeBased,
-  SaveDataManagment,
+  SaveNewBotInfoCodeBased,
+  SaveDataManagement,
   SaveCodeInfo,
   SaveCustomnersInfo,
   SaveIntegrationInfo,
-  SavePipeLineInfo, SaveNewBotInfo_PipelineBased, ResetBuildBotToDefault,
+  SavePipeLineInfo, SaveNewBotInfoPipelineBased, ResetBuildBotToDefault,
 } from './buildbot.action';
 import {ConstantsService} from '../../../constants.service';
 import {IBot, IBotCreation} from '../../interfaces/IBot';
@@ -44,8 +44,8 @@ export class BotCreationStateReducer {
   constructor(private constantsService: ConstantsService) {
   }
 
-  @Action(SaveNewBotInfo_CodeBased)
-  saveBasicInfo({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveNewBotInfo_CodeBased) {
+  @Action(SaveNewBotInfoCodeBased)
+  saveBasicInfo({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveNewBotInfoCodeBased) {
     const state: IBotCreationState = getState();
     const x = {
       ...state,
@@ -57,8 +57,8 @@ export class BotCreationStateReducer {
     setState(x);
   }
 
-  @Action(SaveNewBotInfo_PipelineBased)
-  saveNewBotInfoPipelineBased({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveNewBotInfo_PipelineBased) {
+  @Action(SaveNewBotInfoPipelineBased)
+  saveNewBotInfoPipelineBased({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveNewBotInfoPipelineBased) {
     const state: IBotCreationState = getState();
     const x = {
       ...state,
@@ -70,8 +70,8 @@ export class BotCreationStateReducer {
     setState(x);
   }
 
-  @Action(SaveDataManagment)
-  saveDataManagment({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveDataManagment) {
+  @Action(SaveDataManagement)
+  saveDataManagment({patchState, setState, getState, dispatch}: StateContext<IBotCreationState>, {payload}: SaveDataManagement) {
     const state: IBotCreationState = getState();
     if (!state) { return; }
     // TODO: Later

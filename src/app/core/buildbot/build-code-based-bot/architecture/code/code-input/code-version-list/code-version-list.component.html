@@ -61,7 +61,7 @@
     <!--</button>-->
 
     <app-button-wrapper
-      *myIf="myEAllActions['Update Bot Versioning']"
+      *appMyIf="myEAllActions['Update Bot Versioning']"
       [disabled]="!selectedVersion || disableSave"
       data-cy="version-save"
       [status]="saveOrCreateStatus"
@@ -72,7 +72,7 @@
     <ng-container *ngIf="selectedVersion">
       <button [disabled]="!versions || versions.length===0"
               data-cy="version-fork"
-              *myIf="myEAllActions['Create Bot Versioning']"
+              *appMyIf="myEAllActions['Create Bot Versioning']"
               (click)="openForkNewVersionModal$.emit()"
               class="mat-theme-button mat-theme-button-border" mat-button>
         <mat-icon>call_split</mat-icon>
@@ -84,7 +84,7 @@
     <button
       data-cy="version-activate"
       [disabled]="!versions || versions.length===0 || (selectedVersion && selectedVersion.id === bot.active_version_id)"
-      *myIf="myEAllActions['Create Bot Versioning']"
+      *appMyIf="myEAllActions['Create Bot Versioning']"
       (click)="confirmActivateVersionModal()"
       class="mat-theme-button mat-theme-button-border" mat-button>
       <mat-icon>play_circle_filled</mat-icon>

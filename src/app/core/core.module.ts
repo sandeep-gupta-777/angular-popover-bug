@@ -35,7 +35,7 @@ import {EnterpriseUsersComponent} from './enterpriseprofile/enterprise-users/ent
 import {EnterpriseRolesComponent} from './enterpriseprofile/enterprise-roles/enterprise-roles.component';
 import {RolesComponent} from './enterpriseprofile/roles/roles.component';
 import {RoleaccordionComponent} from './enterpriseprofile/roles/roleaccordion/roleaccordion.component';
-import {ScrollDispatchModule} from '@angular/cdk/scrolling';
+import {ScrollDispatchModule, ScrollingModule} from '@angular/cdk/scrolling';
 import {ServerService} from '../server.service';
 import {NgxsModule} from '@ngxs/store';
 import {ReducerListService} from '../reducer-list.service';
@@ -160,7 +160,8 @@ const routes: Route[] = [
     LazyLoadImageModule,
     ReactiveFormsModule,
     MyMaterialModule,
-    ScrollDispatchModule,
+    // ScrollDispatchModule,
+    ScrollingModule,
     MatSidenavModule,
 
     NgxsModule.forFeature((<any>window).areReducersRegistered ? [VersionStateReducer] : [

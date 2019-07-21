@@ -16,7 +16,7 @@
             <mat-icon>refresh</mat-icon> Save and train
         </button> -->
 
-    <div *myIf="myEAllActions['Update Corpus']">
+    <div *appMyIf="myEAllActions['Update Corpus']">
       <button class="btn-theme btn-theme-primary mat-theme-button mat-theme-button-border cursor-pointer mr-2"
         mat-button *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
         style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; "
@@ -26,7 +26,7 @@
         Save and train
       </button>
     </div>
-    <div *myIf="myEAllActions['Update Corpus']">
+    <div *appMyIf="myEAllActions['Update Corpus']">
       <button class="mat-theme-button cursor-pointer mr-2" mat-button
         (click)="updateArticleClickedModal(unsignedCategoriesTemplate)"
         [disabled]="JSON.stringify(articleData) === JSON.stringify(_article)"
@@ -35,7 +35,7 @@
         Save
       </button>
     </div>
-    <div *myIf="myEAllActions['delete Corpus']">
+    <div *appMyIf="myEAllActions['delete Corpus']">
       <button class="mat-theme-button cursor-pointer mr-2" mat-button (click)="deleteArticleClicked()"
         *ngIf="!!articleData.section_id && !(articleData.section_id == 'first_message' || articleData.section_id == 'fallback')"
         style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; ">
@@ -61,7 +61,7 @@
       {{articleData.category_id | categoryIdToName : category_mapping}}
     </div>
   </div>
-  <div *myIf="myEAllActions['Section Category Change']" >
+  <div *appMyIf="myEAllActions['Section Category Change']">
     <div class="category-name cursor-pointer px-2" (click)="openCategoryModifyModal(categoriesTemplate)"
       *ngIf="!(articleData.section_id == 'first_message' || articleData.section_id == 'fallback' ||articleData.category_id == 'default_articles')">
       <mat-icon class="color-primary" style="font-size:12px;height:auto;width:auto;">edit</mat-icon>
@@ -88,9 +88,9 @@
       <mat-icon matSuffix class="onParentHover cursor-pointer" (click)="deleteQustionWithId(index)">close
       </mat-icon>
     </mat-form-field>
-    <button class="mat-theme-button cursor-pointer mr-2" mat-button *myIf="myEAllActions['Update Corpus']"
-      style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"
-      (click)="addNewQuestion()">
+    <button class="mat-theme-button cursor-pointer mr-2" mat-button *appMyIf="myEAllActions['Update Corpus']"
+            style="border: 1px solid #e0e0e0;padding: 0 8px; border-radius: 2px; width: max-content;"
+            (click)="addNewQuestion()">
       + Add question
     </button>
     <!-- <div *ngFor="let question of articleData.questions">{{question}}</div> -->

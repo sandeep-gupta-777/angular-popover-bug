@@ -2,7 +2,7 @@ import {AfterContentInit, AfterViewInit, Component, EventEmitter, Input, OnInit,
 import {Select, Selector, Store} from '@ngxs/store';
 import {IBot, IBotVersionResult} from '../../../../../interfaces/IBot';
 import {IIntegrationMasterListItem, IIntegrationOption} from '../../../../../../../interfaces/integration-option';
-import {SaveNewBotInfo_CodeBased, SaveIntegrationInfo} from '../../../../ngxs/buildbot.action';
+import {SaveNewBotInfoCodeBased, SaveIntegrationInfo} from '../../../../ngxs/buildbot.action';
 import {NgForm} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {ConstantsService} from '../../../../../../constants.service';

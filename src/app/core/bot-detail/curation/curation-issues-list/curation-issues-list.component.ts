@@ -55,7 +55,7 @@ export class CurationIssuesListComponent implements OnInit {
         const keys = Object.keys(val);
         for (const i of keys) {
           if (val[i] === true) {
-            temArray.add(parseInt(i));
+            temArray.add(parseInt(i, 10));
           }
         }
         this.IssuesSelectedSet = Array.from(temArray);

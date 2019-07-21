@@ -177,7 +177,6 @@ export class Analysis2HeaderComponent implements OnInit, AfterViewInit, OnDestro
           enddate: this.utilityService.convertDateObjectStringToDDMMYY(analytics2HeaderData.enddate),
         };
         delete headerData.date_range;
-        //asdas
         if (!this.utilityService.areAllValesDefined(headerData)) {
           return;
         }

@@ -77,18 +77,21 @@
           </button>
         </div>
         <div *ngIf="!articleSearchMode" class="d-flex w-100  not-resolved-footer">
-          <button mat-button color=primary style="border: solid 1px #41c9e9;" class="mat-theme-button footer-btn px-2" (click)="articleSearchMode = true" *myIf="myEAllActions['Link curation issues to an article']">
+          <button mat-button color=primary style="border: solid 1px #41c9e9;" class="mat-theme-button footer-btn px-2" (click)="articleSearchMode = true"
+                  *appMyIf="myEAllActions['Link curation issues to an article']">
             <mat-icon style="transform:rotate(130deg);font-size: 18px;">insert_link</mat-icon>&nbsp;
             Link to an existing article
           </button>
 
-          <button mat-button style="border: solid 1px #d8d8d8;" class="mat-theme-button footer-btn px-2" (click)="addIssueToNewArticle()" *myIf="myEAllActions['Add curation issues to a new article']">
+          <button mat-button style="border: solid 1px #d8d8d8;" class="mat-theme-button footer-btn px-2" (click)="addIssueToNewArticle()"
+                  *appMyIf="myEAllActions['Add curation issues to a new article']">
             <mat-icon>add</mat-icon>&nbsp; Add to a new article
           </button>
 
           <div class="ml-auto"></div>
 
-          <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button" (click)="ignoreQuery(curationItemData.id)" *myIf="myEAllActions['Ignore curation issues']">
+          <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button" (click)="ignoreQuery(curationItemData.id)"
+                  *appMyIf="myEAllActions['Ignore curation issues']">
             <mat-icon>remove_circle_outline</mat-icon>&nbsp;
             Ignore query
           </button>

@@ -18,7 +18,7 @@
                         <span style="color: #00ABD3">Settings</span>
                     </div>
                 </a>
-                <ng-container *myIf="[myEAllActions['Get Bot Knowledge base']]">
+                <ng-container *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
                     <a mat-list-item class="mat-list-item-sidebar"
                       (click)="sideBarTabChanged(myESideBarTab.input)" *ngIf="bot.bot_type != myEBotType.faqbot">
                     <div class="sidebar-nav-list-item"
@@ -41,7 +41,7 @@
                     </div>
 
                 </a>
-                <ng-container *myIf="[myEAllActions['Get FAQbot curation issues']]">
+                <ng-container *appMyIf="[myEAllActions['Get FAQbot curation issues']]">
                 <a mat-list-item class="mat-list-item-sidebar" *ngIf="myEBotType.faqbot === bot.bot_type" (click)="sideBarTabChanged('curation')">
                     <div class="sidebar-nav-list-item"
                          [ngClass]="{'filter-black':sideBarTab1!=='curation', 'selected-nav':sideBarTab1==='curation'}">
@@ -51,7 +51,7 @@
 
                 </a>
             </ng-container>
-                <ng-container *myIf="[myEAllActions['GET Bot Versioning']]">
+                <ng-container *appMyIf="[myEAllActions['GET Bot Versioning']]">
                 <a mat-list-item class="mat-list-item-sidebar"
                    *ngIf="bot.bot_type === myEBotType.chatbot"
                    (click)="sideBarTabChanged(myESideBarTab.logic)">
@@ -72,7 +72,7 @@
                         <span style="color: #00ABD3">Sessions</span>
                     </div>
                 </a>
-                <ng-container *myIf="myEAllActions['Get Bot Testcases']">
+                <ng-container *appMyIf="myEAllActions['Get Bot Testcases']">
                     <a mat-list-item class="mat-list-item-sidebar" (click)="sideBarTabChanged(myESideBarTab.test)"
                     *ngIf="bot.bot_type != myEBotType.intelligent && bot.bot_type !== myEBotType.faqbot">
                     <!--TODO: remove faq bot condition-->
@@ -143,7 +143,7 @@
                         <app-bot-article-history style="display: block; height: 100%" [bot]="bot"></app-bot-article-history>
                     </ng-container>
 
-                    <ng-container *myIf="[myEAllActions['Get Bot Knowledge base']]">
+                    <ng-container *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
                         <ng-container *ngIf="sideBarTab1 === 'input'">
                             <header *ngIf="!goFullScreen">
                                 <div style="padding-bottom: 8px"><strong
@@ -162,14 +162,14 @@
                                 </div>
                             </header>
                             <mat-tab-group style="height: 100%" [ngClass]="{'hide-headers':goFullScreen}">
-                                <mat-tab label="Pipeline" *myIf="[myEAllActions['Get Pipeline Module']]">
+                                <mat-tab label="Pipeline" *appMyIf="[myEAllActions['Get Pipeline Module']]">
                                     <app-pipeline
                                             (datachanged$)="pipelineDataChangeHandler($event)"
                                             *ngIf="selectedSideBarTab==='pipeline'"
                                             (initDone$)="mySideBarService.init($event)"
                                             [bot]="bot"></app-pipeline>
                                 </mat-tab>
-                                <mat-tab label="Knowledge base" *myIf="[myEAllActions['Get Bot Knowledge base']]">
+                                <mat-tab label="Knowledge base" *appMyIf="[myEAllActions['Get Bot Knowledge base']]">
                                     <app-knowledge-base-wrapper style="height: 100%; padding-top: 20px"
                                                                 (initDone$)="mySideBarService.init($event)"
                                                                 [bot]="bot"></app-knowledge-base-wrapper>
@@ -177,7 +177,7 @@
                             </mat-tab-group>
                         </ng-container>
                     </ng-container>
-                    <ng-container *myIf="[myEAllActions['GET Bot Versioning']]">
+                    <ng-container *appMyIf="[myEAllActions['GET Bot Versioning']]">
                         <div style="height: 100%"
                              *ngIf="logicTabClicked"
                              [hidden]="!(sideBarTab1 === 'logic' && bot.bot_type === myEBotType.chatbot)">
@@ -209,7 +209,7 @@
                         </header>
                         <mat-tab-group style="height: 100%">
                             <mat-tab label="Sessions"
-                                     *myIf="[myEAllActions['Get Sessions']]"
+                                     *appMyIf="[myEAllActions['Get Sessions']]"
 
                             >
                                 <div class="scroll-wrapper d-flex-column-last-child-flex-grow-1" style="height: 100%">
@@ -219,7 +219,7 @@
                                 </div>
                             </mat-tab>
                             <mat-tab label="Consumers"
-                                     *myIf="[myEAllActions['Get Consumers']]"
+                                     *appMyIf="[myEAllActions['Get Consumers']]"
 
                             >
                                 <div class="d-flex-column-last-child-flex-grow-1 scroll-wrapper"
@@ -233,7 +233,7 @@
                         <!---->
 
                     </ng-container>
-                    <ng-container *myIf="[myEAllActions['Get Bot Testcases']]">
+                    <ng-container *appMyIf="[myEAllActions['Get Bot Testcases']]">
                         <ng-container *ngIf="sideBarTab1 === 'test' && bot.bot_type !== myEBotType.intelligent"
 
                         >
