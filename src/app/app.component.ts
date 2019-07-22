@@ -32,6 +32,8 @@ export class AppComponent implements OnInit {
     }
 //
     console.info('App bootstrap success!');
+    console.info(document.cookie);
+
 
 
   }

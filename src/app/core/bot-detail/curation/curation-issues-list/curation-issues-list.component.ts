@@ -94,7 +94,7 @@ export class CurationIssuesListComponent implements OnInit {
 
   trainCorpus$(description) {
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
 
     let body = {
@@ -114,7 +114,7 @@ export class CurationIssuesListComponent implements OnInit {
 
   getCorpus$() {
     let headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     let getCorpusForFAQBot = this.constantsService.getDraftCorpusForFAQBot();
 

@@ -313,7 +313,7 @@ export class PipelineComponent extends ModalImplementer implements OnInit, OnDes
 
   updateBot() {
     // EventService.updateBotinit$.emit();
-    let bot: IBot = {pipelines: this.pipeLine, id: this._bot.id, bot_access_token: this.bot.bot_access_token};
+    let bot: IBot = {pipelines: this.pipeLine, id: this._bot.id, bot_access_token: ServerService.getBotTokenById(this.bot.id)};
     this.updateBotStatus = ELoadingStatus.loading;
     this.serverService.updateBot(bot).subscribe(() => {
       this.updateBotStatus = ELoadingStatus.success;

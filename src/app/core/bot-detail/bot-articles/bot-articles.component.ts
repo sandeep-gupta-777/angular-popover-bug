@@ -98,7 +98,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getCorpusAndSetArticleFilterForm$() {
     let headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     let getCorpusForFAQBot = this.constantsService.getDraftCorpusForFAQBot();
 
@@ -200,7 +200,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   // update artical
   updateArticle$(articleData: IArticleItem) {
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     let create = !articleData.section_id;
 
@@ -278,7 +278,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   deleteArticle(article) {
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
 
     let body = {
@@ -329,7 +329,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   trainCorpus$(description) {
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
 
     let body = {
@@ -379,7 +379,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   makeLiveCorpus() {
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
 
     let body = {
@@ -400,7 +400,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   categoryUpdate(body) {
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     const url = this.constantsService.updateCategoryUrl();
     this.serverService.makePostReq<any>({ headerData, body, url })
@@ -420,7 +420,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   categoryDelete(body) {
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     const url = this.constantsService.deleteCategoryUrl();
     this.serverService.makePostReq<any>({ headerData, body, url })
@@ -433,7 +433,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   categoryCreate(body) {
 
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     const url = this.constantsService.createCategoryUrl();
     this.serverService.makePostReq<any>({ headerData, body, url })
@@ -603,7 +603,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
   uploadDocumentToDB(obj){
     this.serverService.makePostReq
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
 
     let body = {

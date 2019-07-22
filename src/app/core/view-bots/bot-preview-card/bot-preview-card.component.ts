@@ -162,7 +162,7 @@ export class BotPreviewCardComponent extends ModalImplementer implements OnInit 
     // this.modalRefWrapper.hide();
     const url = this.constantsService.getDeleteBotUrl(this.bot.id);
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     this.serverService.makeDeleteReq({url, headerData})
       .subscribe((value) => {

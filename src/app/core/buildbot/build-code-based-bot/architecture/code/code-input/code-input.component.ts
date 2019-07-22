@@ -145,7 +145,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     this.codeInputForm = this.formsService.getCodeInputForm();
     this.store.dispatch(new ResetVersionState())
       .subscribe(()=>{
-        this.store.dispatch([new GetVersionsInit$({bot: this.bot, bot_access_token: this.bot.bot_access_token})]);
+        this.store.dispatch([new GetVersionsInit$({bot: this.bot, bot_access_token: ServerService.getBotTokenById(this.bot.id)})]);
       });
 
     this.codeInputForm.valueChanges
@@ -203,7 +203,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
   async saveSelectedVersion() {
     this.syncBotViews(this.showGenTempEditor);
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
 
     let id = this.selectedVersion_st.id;
@@ -253,7 +253,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
     forkedVersionInfo.bot_id = this.bot.id;
 
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
 
     setTimeout(() => {
@@ -364,7 +364,7 @@ export class CodeInputComponent extends ModalImplementer implements OnInit, OnDe
       this.syncBotViews(!this.showGenTempEditor);
     }
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
 
     let id = this.selectedVersion_st.id;

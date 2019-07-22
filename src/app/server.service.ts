@@ -33,6 +33,7 @@ import {IRoleInfo} from '../interfaces/role-info';
 import {LoggingService} from './logging.service';
 import {MyToasterService} from './my-toaster.service';
 import {environment} from '../environments/environment';
+import {ENgxsStogareKey} from "./typings/enum";
 
 
 declare var $: any;
@@ -42,18 +43,25 @@ declare let deploy_obj_botplateform_fe;
 export class ServerService {
 
   static idTokenMap;
+
   static getCookie(name) {
     const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
     if (match) {
       return match[2];
     }
   }
-  static getBotTokenById(id:string){
-    return ServerService.idTokenMap[id];
+
+  static getBotTokenById(id: number) {
+    let bot_access_token = ServerService.idTokenMap && ServerService.idTokenMap[id];
+    if (!bot_access_token) {
+      throw new Error("Bot access token is not set in ServerService. Please see below");
+      console.log('ServerService data: ', ServerService);
+    }
+    return bot_access_token;
   }
 
   static setCookie(name, value) {
-    document.cookie = `${name}=${value}`;
+    document.cookie = `${name}=${value}; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT`;
   }
 
   static resetCookie() {
@@ -90,9 +98,11 @@ export class ServerService {
     this.USER_ACCESS_TOKEN = ServerService.getCookie('user-access-token');
 
     try {
-      const idTokenMapStr = sessionStorage.getItem('idTokenMap');
+      debugger;
+      const idTokenMapStr = sessionStorage.getItem(ENgxsStogareKey.idTokenMap);
       ServerService.idTokenMap = JSON.parse(idTokenMapStr);
-    }catch (e) {
+      console.log('server service idTokenMapStr init', idTokenMapStr);
+    } catch (e) {
       LoggingService.error(e);
     }
 
@@ -340,7 +350,7 @@ export class ServerService {
   fetchSpecificBotFromServerAndUpdateBotList(bot) {
     const getBotByTokenUrl = this.constantsService.getSpecificBotByBotTokenUrl();
     const headerData: IHeaderData = {
-      'bot-access-token': bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(bot.id)
     };
     return this.makeGetReq<{ objects: IBot[] }>({url: getBotByTokenUrl, headerData}).pipe(
       map((val) => {
@@ -383,7 +393,7 @@ export class ServerService {
     const headerData: IHeaderData = {'content-type': 'application/json'};
 
     return this.makeGetReq<IBotResult>({url, headerData, noValidateUser}).pipe(
-      tap((botResult:{objects:IBot[]}) => {
+      tap((botResult: { objects: IBot[] }) => {
         // let botList: IBot[] = [];
         // let pipelineBasedBotList: IBot[] = [];
 
@@ -391,8 +401,14 @@ export class ServerService {
         //   bot.bot_type !== 'genbot' ? botList.push(bot) : pipelineBasedBotList.push(bot);
         // });
         if (botResult) {
-          const idTokenMap = botResult.objects.map((bot)=>({[bot.id]: bot.bot_access_token}));
-          sessionStorage.setItem('botToken', JSON.stringify(idTokenMap));
+          debugger;
+          const idTokenMap = botResult.objects.reduce((total, bot) => {
+            return {
+              ...total,
+              [bot.id]: (bot.bot_access_token)
+            }
+          }, {});
+          sessionStorage.setItem(ENgxsStogareKey.idTokenMap, JSON.stringify(idTokenMap));
           ServerService.idTokenMap = idTokenMap;
           this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
         }
@@ -465,7 +481,7 @@ export class ServerService {
 
   updateOrSaveCustomNer(selectedOrNewRowData: ICustomNerItem, bot?: IBot) {
     let body: ICustomNerItem;
-    const headerData: IHeaderData = {'bot-access-token': bot && bot.bot_access_token};
+    const headerData: IHeaderData = {'bot-access-token': bot && ServerService.getBotTokenById(bot.id)};
     let url, methodStr;
     if (selectedOrNewRowData && selectedOrNewRowData.id) {/*update customner*/
       url = this.constantsService.updateOrDeleteCustomBotNER(selectedOrNewRowData.id);
@@ -489,7 +505,7 @@ export class ServerService {
     if (bot) {
       url = this.constantsService.updateOrDeleteCustomBotNER(ner_id);
       headerData = {
-        'bot-access-token': (bot && bot.bot_access_token) || null
+        'bot-access-token': (bot && ServerService.getBotTokenById(bot.id)) || null
       };
     } else {
       url = this.constantsService.updateOrDeleteEnterpriseNer(ner_id);
@@ -699,7 +715,7 @@ export class ServerService {
   updateBot(bot: IBot) {
     const url = this.constantsService.updateBotUrl(bot.id);
     const headerData: IHeaderData = {
-      'bot-access-token': bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(bot.id)
     };
 
     return this.makePutReq({url, body: bot, headerData})

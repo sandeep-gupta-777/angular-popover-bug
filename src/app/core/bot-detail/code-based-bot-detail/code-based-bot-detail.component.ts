@@ -185,14 +185,14 @@ export class CodeBasedBotDetailComponent implements OnInit, OnChanges {
   refreshBotDetails() {
     this.serverService.fetchSpecificBotFromServerAndUpdateBotList(this.bot)
       .subscribe(() => {
-        this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, this.bot.bot_access_token);
+        this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.id, ServerService.getBotTokenById(this.bot.id));
       });
-    // this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.roomId, this.bot.bot_access_token);
+    // this.serverService.getAllVersionOfBotFromServerAndStoreInBotInBotList(this.bot.roomId, ServerService.getBotTokenById(this.bot.id));
 
 
     // let getBotByTokenUrl = this.constantsService.getSpecificBotByBotTokenUrl();
     // let headerData: IHeaderData = {
-    //   'bot-access-token': this.bot.bot_access_token
+    //   'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     // };
     // this.serverService.makeGetReq<{ objects: IBot[] }>({url: getBotByTokenUrl, headerData})
     //   .subscribe((val) => {

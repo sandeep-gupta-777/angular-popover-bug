@@ -102,14 +102,14 @@ export class CodeInputService {
 
   saveVersion(bot: IBot, version: IBotVersionData) {
     const headerData: IHeaderData = {
-      'bot-access-token': bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(bot.id)
     };
     const url = this.constantsService.getSaveVersionByVersionId(version.id);
     return this.serverService.makePutReq({url, body: version, headerData})
   }
   changeToCodeViewPermanently(bot: IBot, version: IBotVersionData) {
     const headerData: IHeaderData = {
-      'bot-access-token': bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(bot.id)
     };
     const url = this.constantsService.getSaveVersionByVersionId(version.id);
     return this.serverService.makePutReq({url, body: {'is_ui_view': !version.is_ui_view}, headerData})
@@ -117,7 +117,7 @@ export class CodeInputService {
 
   createNewVersion(bot: IBot, version: IBotVersionData) {
     const headerData: IHeaderData = {
-      'bot-access-token': bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(bot.id)
     };
     const url = this.constantsService.getCreateNewVersionByBotId(bot.id);
     return this.serverService.makePostReq({url, body: version, headerData})
@@ -125,7 +125,7 @@ export class CodeInputService {
 
   validateCode$(bot: IBot, version: IBotVersionData) {
     const headerData: IHeaderData = {
-      'bot-access-token': bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(bot.id)
     };
     const codeValidationUrl = this.constantsService.codeValidationUrl();
     return this.serverService.makePostReq<any>({headerData, body: version, url: codeValidationUrl})
@@ -279,7 +279,7 @@ export class CodeInputService {
   validateCodeTest(bot: IBot, code: string, activeTab: EBotVersionTabs) {
 
     const headerData: IHeaderData = {
-      'bot-access-token': bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(bot.id)
     };
     const body = {};
     body[activeTab] = code;
@@ -291,7 +291,7 @@ export class CodeInputService {
   }
 
   activateVersion(bot: IBot, active_version_id) {
-    return this.serverService.updateBot({id: bot.id, active_version_id, bot_access_token: bot.bot_access_token})
+    return this.serverService.updateBot({id: bot.id, active_version_id, bot_access_token: ServerService.getBotTokenById(bot.id)})
       // .pipe(map(
       //   () => {
       //   },

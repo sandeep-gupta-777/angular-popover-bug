@@ -91,7 +91,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
         this.channels = appState.masterIntegrationList.filter(e => e.integration_type === 'channels');
       });
 
-    this.headerData = {'bot-access-token': this.bot.bot_access_token};
+    this.headerData = {'bot-access-token': ServerService.getBotTokenById(this.bot.id)};
     this.performSearchInDbForSession(null)
       .subscribe();
     this.eventService.reloadSessionTable$.subscribe(() => {
@@ -281,7 +281,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
   decryptSubmit(sessionTobeDecryptedId: number, decryptReason) {
 
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id)
     };
     const body = {'room_id': sessionTobeDecryptedId, 'decrypt_audit_type': 'room', 'message': decryptReason};
     const url = this.constantsService.getDecryptUrl();
@@ -332,7 +332,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
     this.url = this.constantsService.getSessionsMessageUrl(id);
     return this.serverService.makeGetReq<ISessionItem>({
       url: this.url,
-      headerData: {'bot-access-token': this.bot.bot_access_token}
+      headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)}
     });
   }
 
@@ -341,7 +341,7 @@ export class BotSessionsComponent implements OnInit, AfterViewInit {
     this.url = this.constantsService.getSessionsByIdUrl(id);
     return this.serverService.makeGetReq<ISessionItem>({
       url: this.url,
-      headerData: {'bot-access-token': this.bot.bot_access_token}
+      headerData: {'bot-access-token': ServerService.getBotTokenById(this.bot.id)}
     });
   }
 

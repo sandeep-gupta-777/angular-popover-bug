@@ -150,7 +150,7 @@ export class EditAndViewArticlesComponent implements OnInit {
   changeArticalCategory(formValue) {
     return new Promise((resolve) => {
       const headerData: IHeaderData = {
-        'bot-access-token': this.bot.bot_access_token
+        'bot-access-token': ServerService.getBotTokenById(this.bot.id)
       };
       if (this.articleData.section_id) {
         let body = {
@@ -160,7 +160,7 @@ export class EditAndViewArticlesComponent implements OnInit {
         if (formValue.inputType == 'existing') {
           body['new_category'] = formValue.existingCategoryName;
           const headerData: IHeaderData = {
-            'bot-access-token': this.bot.bot_access_token
+            'bot-access-token': ServerService.getBotTokenById(this.bot.id)
           };
           const url = this.constantsService.changeSectionCategoryUrl();
           this.serverService.makePostReq<any>({headerData, body, url})
@@ -176,7 +176,7 @@ export class EditAndViewArticlesComponent implements OnInit {
         if (formValue.inputType == 'new') {
           body['category_name'] = formValue.newCategoryName;
           const headerData: IHeaderData = {
-            'bot-access-token': this.bot.bot_access_token
+            'bot-access-token': ServerService.getBotTokenById(this.bot.id)
           };
           const url = this.constantsService.changeSectionCategoryWithNewCategoryUrl();
           this.serverService.makePostReq<any>({headerData, body, url})

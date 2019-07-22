@@ -22,6 +22,7 @@ import {MatDialog} from '@angular/material';
 import {EAllActions, ENgxsStogareKey} from '../../typings/enum';
 import {environment} from '../../../environments/environment';
 import {EventService} from "../../event.service";
+import {Session} from "inspector";
 
 @Component({
   selector: 'app-header',
@@ -157,6 +158,7 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
 
     localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
     ServerService.resetCookie();
+    sessionStorage.clear();
 
     // this.store.reset({});
     this.url = this.constantsService.getLogoutUrl();

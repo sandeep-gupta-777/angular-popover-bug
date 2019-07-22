@@ -65,7 +65,7 @@ export class FaqHandoverAndInterfaceFormComponent implements OnInit {
 
     const updateAgentHandoverUrl = this.constantsService.getUpdateAgentHandoverUrl()
     const headerData: IHeaderData = {
-      'bot-access-token': this.bot.bot_access_token,
+      'bot-access-token': ServerService.getBotTokenById(this.bot.id),
     };
     const body = {
       "allow_agent_handover": !this.agentHandover

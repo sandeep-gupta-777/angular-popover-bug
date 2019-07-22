@@ -206,7 +206,7 @@ export class ChatWrapperComponent implements OnInit {
         this.currentBot = chatSessionState.currentBotDetails;
         if (this.currentBot) {
           this.enterprise_unique_name = this.currentBot.enterprise_unique_name;
-          this.bot_access_token = this.currentBot.bot_access_token; //this.currentRoom && this.currentRoom.bot_access_token || bot.bot_access_token;
+          this.bot_access_token = ServerService.getBotTokenById(this.currentBot.id); //this.currentRoom && this.currentRoom.bot_access_token || ServerService.getBotTokenById(bot.id);
           this.chatWindowTitle = chatSessionState.currentBotDetails.name;
         }
 
@@ -306,7 +306,7 @@ export class ChatWrapperComponent implements OnInit {
             consumerDetails: startNewChatData.consumerDetails,
             messageList: roomMessages,
             bot: this.currentBot,
-            bot_access_token: this.currentBot.bot_access_token,
+            bot_access_token: ServerService.getBotTokenById(this.currentBot.id),
             uid: startNewChatData.consumerDetails.uid, //this.current_uid,
             selectedAvatar: value.room.selected_avatar,
             bot_id: this.currentBot.id,
@@ -385,7 +385,7 @@ export class ChatWrapperComponent implements OnInit {
         }
         this.chatService.sendHumanMessageToBotServer(
           {
-            bot_access_token: room.bot_access_token || this.currentBot.bot_access_token,
+            bot_access_token: room.bot_access_token || ServerService.getBotTokenById(this.currentBot.id),
             roomId: room.id,
             type: room.bot && room.bot.bot_type
           },
