@@ -162,7 +162,7 @@ export class UtilityService {
         messageMediatype: null,
         sourceType: 'bot'
       };
-      debugger;
+
       if (Object.keys(message)[0] === 'media') {
         messageData = {
           ...messageData,
@@ -1213,7 +1213,7 @@ export class UtilityService {
     // ];
     //
     // columns = { name: '姓名', score: '分数' };
-    debugger;
+
     /*sa*/
     if(doSanitize){
       data = this.sanitizeCSVData(data);
@@ -1223,7 +1223,7 @@ export class UtilityService {
 
   sanitizeCSVData(data){
     let str:string;
-    debugger;
+
     let removeChar = ['+',"-","@","="];
     if(typeof data === "object"){
       try {

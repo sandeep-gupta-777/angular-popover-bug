@@ -20,7 +20,7 @@ export class CurationSettingsComponent implements OnInit {
   @Input() bot: IBot;
   @Input() curationSettingsForm : FormGroup;
   ngOnInit() {    
-    debugger;
+
     if(!this.curationSettingsForm.get('allow_curation').value){
       this.curationSettingsForm.get('curation_settings').disable()
     }

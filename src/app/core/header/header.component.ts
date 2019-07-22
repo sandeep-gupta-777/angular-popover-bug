@@ -150,14 +150,14 @@ export class HeaderComponent extends ModalImplementer implements OnInit {
 
   logout() {
 
-    debugger;
+
     if (!this.userData) {/*TODO: ring fancing: BAD*/
       return;
     }
 
     localStorage.setItem(ENgxsStogareKey.IMI_BOT_STORAGE_KEY, null);
     ServerService.resetCookie();
-    debugger;
+
     // this.store.reset({});
     this.url = this.constantsService.getLogoutUrl();
     /*if apis are being mocked, dont expire tokens*/

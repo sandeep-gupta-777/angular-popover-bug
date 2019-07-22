@@ -41,11 +41,15 @@ declare let deploy_obj_botplateform_fe;
 @Injectable()
 export class ServerService {
 
+  static idTokenMap;
   static getCookie(name) {
     const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
     if (match) {
       return match[2];
     }
+  }
+  static getBotTokenById(id:string){
+    return ServerService.idTokenMap[id];
   }
 
   static setCookie(name, value) {
@@ -82,9 +86,15 @@ export class ServerService {
     private router: Router,
     private permissionService: PermissionService,
     private constantsService: ConstantsService) {
-
     this.AUTH_TOKEN = ServerService.getCookie('auth-token');
     this.USER_ACCESS_TOKEN = ServerService.getCookie('user-access-token');
+
+    try {
+      const idTokenMapStr = sessionStorage.getItem('idTokenMap');
+      ServerService.idTokenMap = JSON.parse(idTokenMapStr);
+    }catch (e) {
+      LoggingService.error(e);
+    }
 
     this.loggeduser$.subscribe((value) => {
 
@@ -124,10 +134,10 @@ export class ServerService {
     console.log(this.USER_ACCESS_TOKEN);
     console.log(this.AUTH_TOKEN);
     if (!this.USER_ACCESS_TOKEN) {
-      debugger;
+
     }
     if (!this.AUTH_TOKEN) {
-      debugger;
+
     }
     tokenData = {'user-access-token': this.USER_ACCESS_TOKEN};
     tokenData = {...tokenData, 'auth-token': this.AUTH_TOKEN};
@@ -162,7 +172,7 @@ export class ServerService {
   }
 
   makeGetReq<T>(reqObj: { url: string, headerData?: any, noValidateUser?: boolean }): Observable<any> {
-    debugger;
+
     const isApiAccessDenied = this.permissionService.isApiAccessDenied(reqObj.url, EHttpVerbs.GET);
     if (!reqObj.noValidateUser && isApiAccessDenied) {
       console.log(`api access not allowed:${reqObj.url}`);
@@ -311,7 +321,7 @@ export class ServerService {
   }
 
   checkForLogoutAction({action}) {
-    debugger;
+
     if (action === "logout") {
       EventService.logout$.emit();
       return;
@@ -373,15 +383,19 @@ export class ServerService {
     const headerData: IHeaderData = {'content-type': 'application/json'};
 
     return this.makeGetReq<IBotResult>({url, headerData, noValidateUser}).pipe(
-      tap((botResult) => {
+      tap((botResult:{objects:IBot[]}) => {
         // let botList: IBot[] = [];
         // let pipelineBasedBotList: IBot[] = [];
 
         // botResult.objects.forEach((bot) => {
         //   bot.bot_type !== 'genbot' ? botList.push(bot) : pipelineBasedBotList.push(bot);
         // });
-        if (botResult)
+        if (botResult) {
+          const idTokenMap = botResult.objects.map((bot)=>({[bot.id]: bot.bot_access_token}));
+          sessionStorage.setItem('botToken', JSON.stringify(idTokenMap));
+          ServerService.idTokenMap = idTokenMap;
           this.store.dispatch(new SetAllBotListAction({botList: botResult.objects}));
+        }
       }));
 
   }

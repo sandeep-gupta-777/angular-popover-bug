@@ -592,7 +592,7 @@ export class BotArticlesComponent implements OnInit, AfterViewInit, OnDestroy {
         this.errorArticleMustHaveOneQuestion = true; 
         return;
       } 
-      debugger;
+
       if((array[i][0].toLowerCase() == 'default')){
         this.errorArticleMustNotHaveDefaultArticle = true;
         return;
