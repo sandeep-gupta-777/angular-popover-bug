@@ -1,11 +1,12 @@
 .issues-aggregation{
     height: 112px;
     border-radius: 2px;
-    border: solid 1px #d8d8d8;
+    border: solid 1px #eaeaea;
     background-color: #ffffff;
     display: grid;
     grid-template-columns: 6fr 5fr 5fr 5fr;
     align-items: center;
+    margin-top:16px;
     .total-count{
         height: 100%;
         display: grid;
@@ -13,7 +14,7 @@
         grid-template-columns: 1fr;
         justify-content: center;
         align-items: center;
-        border-right: solid 1px #d8d8d8;
+        border-right: solid 1px #eaeaea;
         padding: 12px 12px;
         .total{
             display: flex;
@@ -36,7 +37,7 @@
                 font-size: 20px;
                 font-weight: bold;
                 color: #d94254;
-                margin-right:30px;
+                margin-right:32px;
 
             }
         }
@@ -52,9 +53,9 @@
             .today-number{
                 margin-left: auto;
                 font-size: 13px;
-                font-weight: bold;
+                font-weight: 400;
                 color: #4a4a4a;
-                margin-right:30px;
+                margin-right:32px;
             }
         }
     }
@@ -73,7 +74,7 @@
                 padding: 0px 16px;
                 font-size: 13px;
                 color: #4a4a4a;
-                border-right: solid 1px #d8d8d8;
+                border-right: solid 1px #eaeaea;
                 height: 100%;
                 .count-icon{
                     font-size: 16px;
@@ -87,7 +88,7 @@
                 }
                 .count-number{
                     font-size: 16px;
-                    font-weight: bold;
+                    font-weight: 400;
                     margin-left: auto;
                 }
             }

@@ -12,7 +12,7 @@
             <img [src]='channelNameToImg("web")'>
           </div>
           <div class="room-id pl-2">
-            Room ID: {{curationItemData.room_id}} {{selected}}</div>
+            Room ID: {{curationItemData.room_id}} </div>
           <div class="logged-it pl-4">
             Logged at
             {{curationItemData.created_at | date:"shortTime"}},&nbsp;{{curationItemData.created_at | date:"MMM d"}}&nbsp;'{{curationItemData.created_at | date:"yy"}}
@@ -36,7 +36,7 @@
       </div>
     </mat-card-actions>
 
-    <mat-card-content style="margin: 0;border-bottom: 1px solid  #d8d8d8;">
+    <mat-card-content style="margin: 0;border-bottom: 1px solid  #eaeaea;">
       <div class='row'>
         <div class='column'>
           <div class='column-1'>
@@ -65,34 +65,41 @@
     <mat-card-actions class="curation-footer">
 
       <div *ngIf="isResolved == false" class = "w-100">
-        <div *ngIf = "articleSearchMode" class="d-flex w-100  not-resolved-footer">
-          <app-faq-search-box class ="searchForArticle" [bot]="bot" [inCuration]="true"
-                              (clickedOnArticle)="clickedOnArticle($event)"></app-faq-search-box>
-          <div class="ml-auto"></div>
-          <button mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2" [disabled]="!selectedArticleToAddCuration" (click)="addIssueToThisArticle()">
-            Link and save
-          </button>
-          <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button" (click)="articleSearchMode = false;selectedArticleToAddCuration = null;selectedArticleFirstQuestion=null">
-            Cancel
-          </button>
-        </div>
-        <div *ngIf="!articleSearchMode" class="d-flex w-100  not-resolved-footer">
-          <button mat-button color=primary style="border: solid 1px #41c9e9;" class="mat-theme-button footer-btn px-2" (click)="articleSearchMode = true" *myIf="myEAllActions['Link curation issues to an article']">
-            <mat-icon style="transform:rotate(130deg);font-size: 18px;">insert_link</mat-icon>&nbsp;
-            Link to an existing article
-          </button>
-
-          <button mat-button style="border: solid 1px #d8d8d8;" class="mat-theme-button footer-btn px-2" (click)="addIssueToNewArticle()" *myIf="myEAllActions['Add curation issues to a new article']">
-            <mat-icon>add</mat-icon>&nbsp; Add to a new article
-          </button>
-
-          <div class="ml-auto"></div>
-
-          <button mat-button style="border: solid 1px #d8d8d8;" class="footer-btn px-2 mat-theme-button" (click)="ignoreQuery(curationItemData.id)" *myIf="myEAllActions['Ignore curation issues']">
-            <mat-icon>remove_circle_outline</mat-icon>&nbsp;
-            Ignore query
-          </button>
-        </div>
+        <div *ngIf="selected">
+          <div class ="d-flex w-100">
+              Query is selected. Deselect to take action on this specific query.
+          </div> 
+        </div> 
+        <div *ngIf="!selected">
+            <div *ngIf = "articleSearchMode" class="d-flex w-100  not-resolved-footer">
+                <app-faq-search-box class ="searchForArticle" [bot]="bot" [inCuration]="true"
+                                    (clickedOnArticle)="clickedOnArticle($event)"></app-faq-search-box>
+                <div class="ml-auto"></div>
+                <button mat-flat-button  color=primary  class="mat-theme-button footer-btn px-2" [disabled]="!selectedArticleToAddCuration" (click)="addIssueToThisArticle()">
+                  Link and save
+                </button>
+                <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button" (click)="articleSearchMode = false;selectedArticleToAddCuration = null;selectedArticleFirstQuestion=null">
+                  Cancel
+                </button>
+              </div>
+              <div *ngIf="!articleSearchMode" class="d-flex w-100  not-resolved-footer">
+                <button mat-button color=primary style="border: solid 1px #41c9e9;" class="mat-theme-button footer-btn px-2" (click)="articleSearchMode = true" *myIf="myEAllActions['Link curation issues to an article']">
+                  <mat-icon style="transform:rotate(130deg);font-size: 18px;">insert_link</mat-icon>&nbsp;
+                  Link to an existing article
+                </button>
+      
+                <button mat-button style="border: solid 1px #eaeaea;" class="mat-theme-button footer-btn px-2" (click)="addIssueToNewArticle()" *myIf="myEAllActions['Add curation issues to a new article']">
+                  <mat-icon>add</mat-icon>&nbsp; Add to a new article
+                </button>
+      
+                <div class="ml-auto"></div>
+      
+                <button mat-button style="border: solid 1px #eaeaea;" class="footer-btn px-2 mat-theme-button" (click)="ignoreQuery(curationItemData.id)" *myIf="myEAllActions['Ignore curation issues']">
+                  <mat-icon>remove_circle_outline</mat-icon>&nbsp;
+                  Ignore query
+                </button>
+              </div>
+          </div> 
       </div>
       <div *ngIf="isResolved == true" class="d-flex w-100 resolved-footer">
 
