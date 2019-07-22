@@ -37,6 +37,7 @@ import {EAllActions, ERoleName} from "../../../typings/enum";
 export class BotPreviewCardComponent extends ModalImplementer implements OnInit {
   defaultImage = 'assets/img/no image.svg';
   @Input() bot: IBot;
+  ServerService = ServerService;
   showLoader = false;
   @Select() loggeduser$: Observable<{ user: IUser }>;
   @Select() chatsessionstate$: Observable<IChatSessionState>;
